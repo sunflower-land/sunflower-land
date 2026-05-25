@@ -1,4 +1,9 @@
-import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
+import React, {
+  type ChangeEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import useSWR from "swr";
 import { useLocation, useNavigate } from "react-router";
 
@@ -11,8 +16,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   getEconomyData,
-  EconomyDataResponse,
-  EconomyDataRequest,
+  type EconomyDataResponse,
+  type EconomyDataRequest,
 } from "./actions/getEconomyData";
 import { useAuth } from "features/auth/lib/Provider";
 import { ResourceSection } from "./components/ResourceSection";

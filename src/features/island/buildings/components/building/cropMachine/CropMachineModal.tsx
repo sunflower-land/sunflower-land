@@ -2,14 +2,14 @@ import React, { useContext, useLayoutEffect, useMemo, useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";
-import {
+import type {
   Bumpkin,
   CropMachineQueueItem,
   Inventory,
 } from "features/game/types/game";
 import {
-  CropMachineState,
-  MachineInterpreter,
+  type CropMachineState,
+  type MachineInterpreter,
   isCropPackReady,
   useCropMachineLiveNow,
 } from "./lib/cropMachine";
@@ -20,7 +20,7 @@ import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { millisecondsToString, secondsToString } from "lib/utils/time";
 import {
-  AddSeedsInput,
+  type AddSeedsInput,
   BASIC_CROP_MACHINE_SEEDS,
   CROP_EXTENSION_MOD_III_SEEDS,
   CROP_EXTENSION_MOD_II_SEEDS,
@@ -39,11 +39,11 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import oilBarrel from "assets/icons/oil_barrel.webp";
 import { Button } from "components/ui/Button";
 import Decimal from "decimal.js-light";
-import { CROP_SEEDS, CropSeedName } from "features/game/types/crops";
+import { CROP_SEEDS, type CropSeedName } from "features/game/types/crops";
 import { useSelector } from "@xstate/react";
 import { _paused, _running, _idle } from "./CropMachine";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import lightning from "assets/icons/lightning.png";
 import { PackGrowthProgressBar } from "./components/PackGrowthProgressBar";

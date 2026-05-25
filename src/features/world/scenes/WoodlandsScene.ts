@@ -3,11 +3,11 @@ import rabbitJson from "assets/map/rabbit_woodlands.json";
 import rabbitTileset from "assets/map/rabbit-tileset.json";
 import seasonal_tileset from "assets/map/seasonal_tileset.json";
 
-import { SceneId } from "../mmoMachine";
-import { BaseScene, NPCBumpkin } from "./BaseScene";
+import type { SceneId } from "../mmoMachine";
+import { BaseScene, type NPCBumpkin } from "./BaseScene";
 import { npcModalManager } from "../ui/NPCModals";
 import { interactableModalManager } from "../ui/InteractableModals";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
 import { capitalize } from "lib/utils/capitalize";
 

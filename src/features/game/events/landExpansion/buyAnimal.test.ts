@@ -1,7 +1,7 @@
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { buyAnimal, getBoostedAnimalCapacity } from "./buyAnimal";
-import { Animal } from "features/game/types/game";
-import { AnimalType } from "features/game/types/animals";
+import type { Animal } from "features/game/types/game";
+import type { AnimalType } from "features/game/types/animals";
 
 export function makeAnimals(count: number, type: AnimalType) {
   return new Array(count)

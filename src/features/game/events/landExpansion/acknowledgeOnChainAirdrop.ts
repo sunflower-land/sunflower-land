@@ -1,4 +1,4 @@
-import { Chain, GameState } from "features/game/types/game";
+import type { Chain, GameState } from "features/game/types/game";
 import { produce } from "immer";
 
 export type AcknowledgeOnChainAirdropAction = {

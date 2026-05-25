@@ -1,8 +1,8 @@
-import { CropName } from "./crops";
-import { PatchFruitName } from "./fruits";
+import type { CropName } from "./crops";
+import type { PatchFruitName } from "./fruits";
 import { translate } from "lib/i18n/translate";
-import { ResourceName } from "./resources";
-import { SeedName } from "./seeds";
+import type { ResourceName } from "./resources";
+import type { SeedName } from "./seeds";
 
 type PansyName =
   | "Red Pansy"

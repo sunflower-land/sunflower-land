@@ -1,5 +1,5 @@
-import Decimal from "decimal.js-light";
-import { GameState } from "../types/game";
+import type Decimal from "decimal.js-light";
+import type { GameState } from "../types/game";
 import { hasVipAccess } from "./vipAccess";
 import { CHAPTERS } from "../types/chapters";
 

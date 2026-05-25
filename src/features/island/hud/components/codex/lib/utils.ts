@@ -1,16 +1,16 @@
 import { CONFIG } from "lib/config";
 import {
   FISH,
-  FishName,
-  FishType,
-  MarineMarvelName,
+  type FishName,
+  type FishType,
+  type MarineMarvelName,
 } from "features/game/types/fishing";
 import { getKeys } from "lib/object";
-import { AssetType } from "features/game/types/codex";
+import type { AssetType } from "features/game/types/codex";
 import {
   FLOWERS,
-  FlowerName,
-  FlowerSeedName,
+  type FlowerName,
+  type FlowerSeedName,
 } from "features/game/types/flowers";
 import { getObjectEntries } from "lib/object";
 

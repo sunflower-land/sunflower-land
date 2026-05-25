@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
-import { Bumpkin, GameState } from "../types/game";
+import type { Bumpkin, GameState } from "../types/game";
 import { LEVEL_EXPERIENCE } from "./level";
-import { BumpkinLevel } from "features/game/lib/level";
+import type { BumpkinLevel } from "features/game/lib/level";
 import { INITIAL_BUMPKIN_LEVEL, INITIAL_EXPANSIONS } from "./bumpkinData";
 import { getEnabledNodeCount } from "../expansion/lib/expansionNodes";
 import { TEST_BUMPKIN } from "./bumpkinData";

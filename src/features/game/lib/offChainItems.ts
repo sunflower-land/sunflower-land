@@ -1,10 +1,10 @@
 import { CLUTTER } from "../types/clutter";
 import { TOOLS } from "../types/craftables";
-import { InventoryItemName } from "../types/game";
+import type { InventoryItemName } from "../types/game";
 import {
   CHAPTER_RAFFLE_TICKET_NAME,
   CHAPTER_TICKET_NAME,
-  ChapterRaffleTicket,
+  type ChapterRaffleTicket,
 } from "../types/chapters";
 import { SEEDS } from "../types/seeds";
 import {

@@ -1,14 +1,14 @@
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import {
   makeUpgradableBuildingKey,
-  UpgradableBuildingType,
+  type UpgradableBuildingType,
 } from "./upgradeBuilding";
 import { produce } from "immer";
 import {
   chargeCoinsForSpeedUp,
   getInstantGems,
   makeGemHistory,
-  SpeedUpPaymentMethod,
+  type SpeedUpPaymentMethod,
 } from "features/game/lib/getInstantGems";
 import Decimal from "decimal.js-light";
 

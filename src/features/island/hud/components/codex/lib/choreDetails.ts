@@ -1,5 +1,5 @@
 import { SUNNYSIDE } from "assets/sunnyside";
-import { ChoreName } from "features/game/types/choreBoard";
+import type { ChoreName } from "features/game/types/choreBoard";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { translate } from "lib/i18n/translate";
 

@@ -17,8 +17,8 @@ import {
   types as BUD_TYPES,
 } from "lib/buds/types";
 import {
-  BudTrait,
-  PetTrait,
+  type BudTrait,
+  type PetTrait,
   PET_LEVEL_FILTERS,
   toTraitValueId,
 } from "./marketplaceFilters";

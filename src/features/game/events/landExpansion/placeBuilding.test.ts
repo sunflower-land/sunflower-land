@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
 import { createInitialAgingShed } from "../../lib/agingShed";
-import { GameState } from "../../types/game";
+import type { GameState } from "../../types/game";
 import { placeBuilding } from "./placeBuilding";
 import { RECIPES } from "features/game/lib/crafting";
 

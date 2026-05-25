@@ -1,7 +1,7 @@
 import React, { type JSX } from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 /**
  * The props for the details for items.

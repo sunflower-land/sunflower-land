@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { BoostName, GameState } from "features/game/types/game";
+import type { BoostName, GameState } from "features/game/types/game";
 import {
   DEFAULT_HONEY_PRODUCTION_TIME,
   updateBeehives,

@@ -1,9 +1,9 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "../../lib/constants";
-import { CollectibleName } from "../../types/craftables";
-import { GameState, PlacedItem, ShakeItem } from "../../types/game";
+import type { CollectibleName } from "../../types/craftables";
+import type { GameState, PlacedItem, ShakeItem } from "../../types/game";
 import { placeCollectible } from "./placeCollectible";
-import { Pet, PetName } from "features/game/types/pets";
+import type { Pet, PetName } from "features/game/types/pets";
 
 const date = Date.now();
 const GAME_STATE: GameState = TEST_FARM;

@@ -1,6 +1,6 @@
 import React from "react";
 import { Box } from "components/ui/Box";
-import { RecipeIngredient } from "features/game/lib/crafting";
+import type { RecipeIngredient } from "features/game/lib/crafting";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_IDS } from "features/game/types/bumpkin";

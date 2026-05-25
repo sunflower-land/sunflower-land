@@ -1,6 +1,6 @@
 import useSWRInfinite from "swr/infinite";
 import { getChatInteractions } from "../actions/getChatInteractions";
-import { Interaction } from "../types/types";
+import type { Interaction } from "../types/types";
 
 const PAGE_SIZE = 20;
 

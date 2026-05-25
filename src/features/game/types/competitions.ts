@@ -1,8 +1,8 @@
 import levelupIcon from "assets/icons/level_up.png";
 import choreIcon from "assets/icons/chores.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { GameState, InventoryItemName, Wardrobe } from "./game";
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import type { GameState, InventoryItemName, Wardrobe } from "./game";
+import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { ITEM_DETAILS } from "./images";
 import { hasVipAccess } from "../lib/vipAccess";
 import helpedIcon from "assets/icons/helped.webp";

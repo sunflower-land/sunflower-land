@@ -1,23 +1,23 @@
 import React, { useContext, useEffect, useState } from "react";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { requestForToken } from "lib/messaging";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { useSelector } from "@xstate/react";
 import {
   subscribeToNotifications,
   DEFAULT_SUBSCRIPTIONS,
-  Subscriptions,
-  SubscriptionName,
+  type Subscriptions,
+  type SubscriptionName,
 } from "features/game/actions/subscriptions";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import useSWR from "swr";
-import { SettingMenuId, subscriptionsFetcher } from "../GameOptions";
+import { type SettingMenuId, subscriptionsFetcher } from "../GameOptions";
 import { getKeys } from "lib/object";
 import Switch from "components/ui/Switch";
 import { Button } from "components/ui/Button";
 import { useGetDeviceType } from "lib/utils/hooks/useGetDeviceType";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 
 export const convertToTitleCase = (str: string) => {
   return str.replace(/-/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());

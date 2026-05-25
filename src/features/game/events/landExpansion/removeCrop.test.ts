@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 
 import { TEST_FARM } from "../../lib/constants";
-import { GameState, CropPlot } from "../../types/game";
+import type { GameState, CropPlot } from "../../types/game";
 import { removeCrop, REMOVE_CROP_ERRORS } from "./removeCrop";
 
 const GAME_STATE: GameState = {

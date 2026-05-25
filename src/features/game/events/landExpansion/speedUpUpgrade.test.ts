@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { speedUpUpgrade } from "./speedUpUpgrade";
 
 const GAME_STATE: GameState = {

@@ -1,8 +1,8 @@
-import { GameState, Rock } from "features/game/types/game";
+import type { GameState, Rock } from "features/game/types/game";
 import {
-  IronRockName,
+  type IronRockName,
   RESOURCE_MULTIPLIER,
-  UpgradedResourceName,
+  type UpgradedResourceName,
   ADVANCED_RESOURCES,
 } from "features/game/types/resources";
 import { produce } from "immer";
@@ -10,7 +10,7 @@ import {
   findExistingUnplacedNode,
   getAvailableNodes,
 } from "features/game/lib/resourceNodes";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export type PlaceIronAction = {
   type: "iron.placed";

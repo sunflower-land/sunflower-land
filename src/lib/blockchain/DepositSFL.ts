@@ -5,7 +5,7 @@ import {
   writeContract,
 } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
-import { NetworkOption } from "features/island/hud/components/deposit/DepositFlower";
+import type { NetworkOption } from "features/island/hud/components/deposit/DepositFlower";
 import SFLABI from "lib/blockchain/abis/Token";
 
 const SFL_ADDRESS =

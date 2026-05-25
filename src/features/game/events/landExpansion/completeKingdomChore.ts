@@ -4,8 +4,8 @@ import {
   getFactionWearableBoostAmount,
   getWeekKey,
 } from "features/game/lib/factions";
-import { BoostType, BoostValue } from "features/game/types/boosts";
-import { GameState, KingdomChores } from "features/game/types/game";
+import type { BoostType, BoostValue } from "features/game/types/boosts";
+import type { GameState, KingdomChores } from "features/game/types/game";
 import { produce } from "immer";
 import cloneDeep from "lodash.clonedeep";
 

@@ -11,7 +11,7 @@ import type {
   AgedFishName,
   PrimeAgedFishName,
 } from "features/game/types/fishing";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { hasPlacedAgingShed } from "./hasPlacedAgingShed";
 import { prngChance } from "lib/prng";

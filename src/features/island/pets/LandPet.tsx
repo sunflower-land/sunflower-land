@@ -3,7 +3,7 @@ import {
   getPetType,
   isPetNapping,
   isPetNeglected,
-  PetName,
+  type PetName,
 } from "features/game/types/pets";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";

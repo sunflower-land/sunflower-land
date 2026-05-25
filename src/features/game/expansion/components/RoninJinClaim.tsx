@@ -1,8 +1,8 @@
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useGame } from "features/game/GameProvider";
 import React from "react";
 import { useSelector } from "@xstate/react";
-import { Airdrop } from "features/game/types/game";
+import type { Airdrop } from "features/game/types/game";
 import { ClaimReward } from "./ClaimReward";
 import { Button } from "components/ui/Button";
 import { useTranslation } from "react-i18next";

@@ -1,7 +1,7 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
 import { getObjectEntries } from "lib/object";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import type { GameState, InventoryItemName } from "features/game/types/game";
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
 

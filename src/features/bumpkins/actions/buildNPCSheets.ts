@@ -1,4 +1,4 @@
-import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
+import { type BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 
 type Request = {
   parts: BumpkinParts;

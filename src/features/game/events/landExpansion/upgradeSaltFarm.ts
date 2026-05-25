@@ -1,7 +1,7 @@
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { getObjectEntries } from "lib/object";
 import {
   getSaltChargeGenerationTime,

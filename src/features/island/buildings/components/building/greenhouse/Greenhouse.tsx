@@ -1,16 +1,16 @@
 import React, { useContext } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { BuildingProps } from "../Building";
+import type { BuildingProps } from "../Building";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { useNavigate } from "react-router";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { getKeys } from "lib/object";
 import { getReadyAt } from "features/game/events/landExpansion/harvestGreenHouse";
-import { GreenHouseCropName } from "features/game/types/crops";
-import { GreenHouseFruitName } from "features/game/types/fruits";
+import type { GreenHouseCropName } from "features/game/types/crops";
+import type { GreenHouseFruitName } from "features/game/types/fruits";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GREENHOUSE_VARIANTS } from "features/island/lib/alternateArt";
 import { SUNNYSIDE } from "assets/sunnyside";

@@ -6,7 +6,7 @@ import { getKeys } from "lib/object";
 import { translate } from "lib/i18n/translate";
 import { getPetImage } from "features/island/pets/lib/petShared";
 import { getBudImage } from "lib/buds/types";
-import { RafflePrize } from "features/retreat/components/auctioneer/types";
+import type { RafflePrize } from "features/retreat/components/auctioneer/types";
 
 export const getPrizeDisplay = ({ prize }: { prize: RafflePrize }) => {
   const fallbackPrizeDisplay = () => {

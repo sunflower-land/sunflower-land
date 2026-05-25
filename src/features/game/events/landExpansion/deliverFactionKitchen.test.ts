@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { Faction, GameState } from "features/game/types/game";
+import type { Faction, GameState } from "features/game/types/game";
 import { deliverFactionKitchen } from "./deliverFactionKitchen";
 import { getFactionWeekday, START_DATE } from "features/game/lib/factions";
 

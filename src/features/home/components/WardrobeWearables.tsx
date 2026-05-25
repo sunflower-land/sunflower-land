@@ -9,14 +9,14 @@ import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
-import { BumpkinItem } from "features/game/types/bumpkin";
+import type { BumpkinItem } from "features/game/types/bumpkin";
 import { getKeys } from "lib/object";
-import { GameState, Inventory } from "features/game/types/game";
+import type { GameState, Inventory } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getChapterTicket } from "features/game/types/chapters";
 import {
   STYLIST_WEARABLES,
-  StylistWearable,
+  type StylistWearable,
 } from "features/game/types/stylist";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

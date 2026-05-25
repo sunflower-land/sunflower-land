@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { feedMixed } from "./feedMixed";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { AnimalFoodName } from "features/game/types/game";
+import type { AnimalFoodName } from "features/game/types/game";
 
 describe("feedMixed", () => {
   it("throws an error if item is not a feed", () => {

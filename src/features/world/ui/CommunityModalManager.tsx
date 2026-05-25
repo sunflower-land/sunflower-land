@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
-import { Message, SpeakingModal } from "features/game/components/SpeakingModal";
+import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import {
+  type Message,
+  SpeakingModal,
+} from "features/game/components/SpeakingModal";
 import { Panel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";

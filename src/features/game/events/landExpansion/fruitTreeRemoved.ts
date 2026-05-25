@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import {
+import type {
   BoostName,
   GameState,
   Inventory,

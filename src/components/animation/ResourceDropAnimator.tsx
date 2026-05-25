@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { setImageWidth } from "lib/images";
 import { formatNumber } from "lib/utils/formatNumber";

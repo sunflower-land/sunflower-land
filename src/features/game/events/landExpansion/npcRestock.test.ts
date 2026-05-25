@@ -1,7 +1,7 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { npcRestock } from "./npcRestock";
 import Decimal from "decimal.js-light";
-import { PlacedItem } from "features/game/types/game";
+import type { PlacedItem } from "features/game/types/game";
 
 describe("npcRestock", () => {
   it("throws an error if player doesn't have enough gems for restock", () => {

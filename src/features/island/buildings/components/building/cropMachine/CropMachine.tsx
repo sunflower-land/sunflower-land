@@ -4,16 +4,16 @@ import { CropMachineModal } from "./CropMachineModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useInterpret, useSelector } from "@xstate/react";
 import {
-  Context as CropMachineContext,
-  MachineInterpreter,
+  type Context as CropMachineContext,
+  type MachineInterpreter,
   cropStateMachine,
   findGrowingCropPackIndex,
   hasReadyCrops,
-  CropMachineState,
+  type CropMachineState,
   isCropPackReady,
   useCropMachineLiveNow,
 } from "./lib/cropMachine";
@@ -21,9 +21,9 @@ import { Planting } from "./components/Planting";
 import { Sprouting } from "./components/Sprouting";
 import { Maturing } from "./components/Maturing";
 import { Harvesting } from "./components/Harvesting";
-import { CropMachineBuilding } from "features/game/types/game";
+import type { CropMachineBuilding } from "features/game/types/game";
 
-import { AddSeedsInput } from "features/game/events/landExpansion/supplyCropMachine";
+import type { AddSeedsInput } from "features/game/events/landExpansion/supplyCropMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 const _cropMachine = (id: string) => (state: MachineState) => {

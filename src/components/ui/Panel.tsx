@@ -12,11 +12,11 @@ import cardButton from "assets/ui/card_button.png";
 import selectedButton from "assets/ui/selected_button.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Equipped } from "features/game/types/bumpkin";
+import type { Equipped } from "features/game/types/bumpkin";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useIsDarkMode } from "lib/utils/hooks/useIsDarkMode";
-import { LABEL_STYLES, LabelType } from "./Label";
+import { LABEL_STYLES, type LabelType } from "./Label";
 
 export interface PanelProps extends React.HTMLAttributes<HTMLDivElement> {
   hasTabs?: boolean;

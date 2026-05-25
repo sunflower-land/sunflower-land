@@ -1,6 +1,6 @@
-import { GameState } from "../types/game";
-import { RecipeCollectibleName } from "./crafting";
-import { BumpkinItem } from "../types/bumpkin";
+import type { GameState } from "../types/game";
+import type { RecipeCollectibleName } from "./crafting";
+import type { BumpkinItem } from "../types/bumpkin";
 
 export function getCraftingBoxCurrent(box: GameState["craftingBox"]) {
   const first = box?.queue?.[0];

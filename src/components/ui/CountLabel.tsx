@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import classNames from "classnames";
-import Decimal from "decimal.js-light";
-import { Label, LabelType } from "./Label";
+import type Decimal from "decimal.js-light";
+import { Label, type LabelType } from "./Label";
 import { setPrecision, shortenCount } from "lib/utils/formatNumber";
 
 interface CountLabelProps {

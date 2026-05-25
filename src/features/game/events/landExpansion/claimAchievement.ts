@@ -1,10 +1,10 @@
 import Decimal from "decimal.js-light";
 import {
-  AchievementName,
+  type AchievementName,
   ACHIEVEMENTS,
 } from "features/game/types/achievements";
 import { getKeys } from "lib/object";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { translate } from "lib/i18n/translate";
 import { produce } from "immer";

@@ -8,28 +8,28 @@ import { MilestoneTracker } from "../components/MilestoneTracker";
 import {
   FISH_MILESTONES,
   MILESTONES,
-  MilestoneName,
+  type MilestoneName,
 } from "features/game/types/milestones";
 import { getFishByType, getFishSection } from "../lib/utils";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {
   CHAPTER_FISH,
-  ChapterFish,
+  type ChapterFish,
   FISH,
-  FishName,
+  type FishName,
   MAP_PIECE_CHAPTERS,
   MAP_PIECE_MARVELS,
-  MarineMarvelName,
+  type MarineMarvelName,
 } from "features/game/types/fishing";
 import {
   CRUSTACEANS,
   CRUSTACEANS_LOOKUP,
-  CrustaceanName,
-  CrustaceanChum,
-  WaterTrapName,
+  type CrustaceanName,
+  type CrustaceanChum,
+  type WaterTrapName,
 } from "features/game/types/crustaceans";
 import { Detail } from "../components/Detail";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 

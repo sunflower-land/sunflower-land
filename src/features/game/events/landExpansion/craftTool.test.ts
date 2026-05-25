@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { WORKBENCH_TOOLS } from "features/game/types/tools";
 import { TEST_FARM } from "../../lib/constants";
-import { GameState } from "../../types/game";
+import type { GameState } from "../../types/game";
 import { craftTool } from "./craftTool";
 
 const GAME_STATE: GameState = TEST_FARM;

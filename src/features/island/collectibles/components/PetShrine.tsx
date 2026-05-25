@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { CollectibleProps } from "../Collectible";
+import type { CollectibleProps } from "../Collectible";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Context } from "features/game/GameProvider";
@@ -16,7 +16,7 @@ import { secondsToString } from "lib/utils/time";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
-import { PetShrineName } from "features/game/types/pets";
+import type { PetShrineName } from "features/game/types/pets";
 import { getObjectEntries } from "lib/object";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { RenewPetShrine } from "features/game/components/RenewPetShrine";

@@ -4,19 +4,19 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { Button } from "components/ui/Button";
 import { getKeys } from "lib/object";
 import {
-  AnimalBuildingType,
+  type AnimalBuildingType,
   ANIMALS,
-  AnimalType,
+  type AnimalType,
 } from "features/game/types/animals";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { AnimalBounty, AnimalBuildingKey } from "features/game/types/game";
+import type { AnimalBounty, AnimalBuildingKey } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getBoostedAnimalCapacity } from "features/game/events/landExpansion/buyAnimal";

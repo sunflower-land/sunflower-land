@@ -9,7 +9,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PeteHelp } from "./PeteHelp";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { MapPlacement } from "./MapPlacement";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -18,7 +18,7 @@ import { getKeys } from "lib/object";
 import { CROPS } from "features/game/types/crops";
 import { translate } from "lib/i18n/translate";
 import { Guide } from "features/helios/components/hayseedHank/components/Guide";
-import { GuidePath } from "features/helios/components/hayseedHank/lib/guide";
+import type { GuidePath } from "features/helios/components/hayseedHank/lib/guide";
 
 const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 0;

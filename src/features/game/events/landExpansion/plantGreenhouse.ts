@@ -1,15 +1,15 @@
-import { BoostName, GameState } from "features/game/types/game";
-import { GreenhouseCompostName } from "features/game/types/composters";
+import type { BoostName, GameState } from "features/game/types/game";
+import type { GreenhouseCompostName } from "features/game/types/composters";
 
 import {
   GREENHOUSE_CROPS,
-  GreenHouseCropName,
-  GreenHouseCropSeedName,
+  type GreenHouseCropName,
+  type GreenHouseCropSeedName,
 } from "features/game/types/crops";
 import {
   GREENHOUSE_FRUIT,
-  GreenHouseFruitName,
-  GreenHouseFruitSeedName,
+  type GreenHouseFruitName,
+  type GreenHouseFruitSeedName,
 } from "features/game/types/fruits";
 import Decimal from "decimal.js-light";
 
@@ -20,11 +20,11 @@ import {
 } from "features/game/lib/collectibleBuilt";
 import { getCropTime } from "./plant";
 import { getFruitTime } from "./fruitPlanted";
-import { Resource } from "features/game/lib/getBudYieldBoosts";
+import type { Resource } from "features/game/lib/getBudYieldBoosts";
 import { produce } from "immer";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import {
-  FarmActivityName,
+  type FarmActivityName,
   trackFarmActivity,
 } from "features/game/types/farmActivity";
 

@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import {
   SALT_SCULPTURE_MAX_LEVEL,
   SALT_SCULPTURE_UPGRADES,

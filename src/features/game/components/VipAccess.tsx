@@ -1,7 +1,7 @@
 import React from "react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Label, LabelType } from "components/ui/Label";
+import { Label, type LabelType } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import vipIcon from "assets/icons/vip.webp";

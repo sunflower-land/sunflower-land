@@ -4,9 +4,13 @@ import { produce } from "immer";
 import {
   ADVANCED_RESOURCES,
   RESOURCE_MULTIPLIER,
-  RockName,
+  type RockName,
 } from "features/game/types/resources";
-import { GameState, InventoryItemName, Rock } from "features/game/types/game";
+import type {
+  GameState,
+  InventoryItemName,
+  Rock,
+} from "features/game/types/game";
 import { getObjectEntries } from "lib/object";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import {

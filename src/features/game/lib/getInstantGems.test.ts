@@ -8,7 +8,7 @@ import {
   hasDinoEggTrophyBoost,
   makeGemHistory,
 } from "features/game/lib/getInstantGems";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 const THIRTY_MIN_MS = 30 * 60 * 1000;
 const ONE_HOUR_MS = 60 * 60 * 1000;

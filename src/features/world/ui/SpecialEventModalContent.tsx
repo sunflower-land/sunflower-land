@@ -1,11 +1,11 @@
-import { NPCName } from "lib/npcs";
+import type { NPCName } from "lib/npcs";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import walletIcon from "assets/icons/wallet.png";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { Airdrop } from "features/game/types/game";
+import type { Airdrop } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 import gift from "assets/icons/gift.png";
 import token from "assets/icons/flower_token.webp";
@@ -18,7 +18,7 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { formatDateTime, secondsToString } from "lib/utils/time";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import {
+import type {
   SpecialEvent,
   SpecialEventName,
   Task,

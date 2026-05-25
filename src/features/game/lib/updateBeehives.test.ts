@@ -1,5 +1,5 @@
 import { FLOWER_SEEDS } from "../types/flowers";
-import {
+import type {
   Beehive,
   Beehives,
   FlowerBed,

@@ -15,11 +15,11 @@ import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
 import { useActor, useSelector } from "@xstate/react";
 import { ISLAND_UPGRADE } from "features/game/events/landExpansion/upgradeFarm";
-import { CollectibleName } from "features/game/types/craftables";
+import type { CollectibleName } from "features/game/types/craftables";
 import { getKeys } from "lib/object";
 import { createPortal } from "react-dom";
 import confetti from "canvas-confetti";
-import { IslandType } from "features/game/types/game";
+import type { IslandType } from "features/game/types/game";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Transition } from "@headlessui/react";
@@ -27,7 +27,7 @@ import { formatDateTime } from "lib/utils/time";
 import { translate } from "lib/i18n/translate";
 import { Loading } from "features/auth/components";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useNow } from "lib/utils/hooks/useNow";
 
 const UPGRADE_DATES: Record<IslandType, number | null> = {

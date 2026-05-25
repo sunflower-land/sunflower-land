@@ -1,7 +1,7 @@
-import { NPCName } from "lib/npcs";
-import { BB_TO_GEM_RATIO, InventoryItemName, Wardrobe } from "./game";
-import { FlowerName } from "./flowers";
-import { RecipeCollectibleName } from "../lib/crafting";
+import type { NPCName } from "lib/npcs";
+import { BB_TO_GEM_RATIO, type InventoryItemName, type Wardrobe } from "./game";
+import type { FlowerName } from "./flowers";
+import type { RecipeCollectibleName } from "../lib/crafting";
 
 type GiftPoints = Partial<Record<FlowerName, number>>;
 

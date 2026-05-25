@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { BuildingProduct } from "features/game/types/game";
+import type { BuildingProduct } from "features/game/types/game";
 import { useQueueState } from "./useQueueState";
 
 export function useCookingState(building: { crafting?: BuildingProduct[] }) {

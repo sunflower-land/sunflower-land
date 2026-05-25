@@ -1,5 +1,5 @@
-import { BuffName } from "./buffs";
-import { BoostName, GameState, InventoryItemName } from "./game";
+import type { BuffName } from "./buffs";
+import type { BoostName, GameState, InventoryItemName } from "./game";
 import { getBumpkinLevel, getExperienceToNextLevel } from "../lib/level";
 import {
   CHAPTER_ORDER,

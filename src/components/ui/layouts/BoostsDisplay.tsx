@@ -1,13 +1,13 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { KNOWN_IDS } from "features/game/types";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import {
-  BumpkinRevampSkillName,
+  type BumpkinRevampSkillName,
   BUMPKIN_REVAMP_SKILL_TREE,
-  BumpkinSkillRevamp,
+  type BumpkinSkillRevamp,
 } from "features/game/types/bumpkinSkills";
-import { BoostName, InventoryItemName } from "features/game/types/game";
-import { GameState } from "features/game/types/game";
+import type { BoostName, InventoryItemName } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 import { AnimatedPanel } from "features/world/ui/AnimatedPanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -16,12 +16,12 @@ import { createPortal } from "react-dom";
 import { Label } from "../Label";
 import {
   CALENDAR_EVENT_ICONS,
-  SeasonalEventName,
+  type SeasonalEventName,
 } from "features/game/types/calendar";
 import { getSkillImage } from "features/bumpkins/components/revamp/SkillPathDetails";
 import { startCase } from "lodash";
-import { BudNFTName } from "features/game/types/marketplace";
-import { TranslationKeys } from "lib/i18n/dictionaries/types";
+import type { BudNFTName } from "features/game/types/marketplace";
+import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import classNames from "classnames";
 import { getBudImage } from "lib/buds/types";
 

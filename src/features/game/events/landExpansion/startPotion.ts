@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { PotionName, GameState } from "features/game/types/game";
+import type { PotionName, GameState } from "features/game/types/game";
 import { produce } from "immer";
 
 export type Potions = [PotionName, PotionName, PotionName, PotionName];

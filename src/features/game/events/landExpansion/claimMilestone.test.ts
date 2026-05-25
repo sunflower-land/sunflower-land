@@ -1,5 +1,5 @@
 import { TEST_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { getFishByType } from "features/island/hud/components/codex/lib/utils";
 import { claimMilestone } from "./claimMilestone";
 import { getKeys } from "lib/object";

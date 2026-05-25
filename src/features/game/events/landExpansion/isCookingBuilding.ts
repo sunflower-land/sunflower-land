@@ -1,4 +1,4 @@
-import {
+import type {
   BuildingName,
   CookingBuildingName,
 } from "features/game/types/buildings";

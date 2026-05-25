@@ -1,15 +1,15 @@
 import Decimal from "decimal.js-light";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import type { GameState, InventoryItemName } from "features/game/types/game";
 
 import { produce } from "immer";
 
 import { trackFarmActivity } from "features/game/types/farmActivity";
 
-import { BumpkinItem } from "features/game/types/bumpkin";
+import type { BumpkinItem } from "features/game/types/bumpkin";
 import {
   FLOATING_ISLAND_SHOP_ITEMS,
-  FloatingShopCollectible,
-  FloatingShopItem,
+  type FloatingShopCollectible,
+  type FloatingShopItem,
 } from "features/game/types/floatingIsland";
 
 export const isFloatingShopCollectible = (

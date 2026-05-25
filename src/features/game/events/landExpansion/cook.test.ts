@@ -5,7 +5,7 @@ import {
   TEST_FARM,
 } from "features/game/lib/constants";
 import { COOKABLES } from "features/game/types/consumables";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import {
   cook,
   getCookingOilBoost,

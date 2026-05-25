@@ -9,7 +9,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import {
+import type {
   Bounties,
   BountyRequest,
   InventoryItemName,

@@ -1,11 +1,11 @@
 import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { BuildingName, BUILDINGS } from "../../types/buildings";
-import { GameState, PlacedItem } from "../../types/game";
+import { type BuildingName, BUILDINGS } from "../../types/buildings";
+import type { GameState, PlacedItem } from "../../types/game";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { produce } from "immer";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { getObjectEntries } from "lib/object";
 
 export enum CONSTRUCT_BUILDING_ERRORS {

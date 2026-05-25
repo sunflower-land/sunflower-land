@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "../../lib/constants";
-import { GameState } from "../../types/game";
+import type { GameState } from "../../types/game";
 import { placeNFT } from "./placeNFT";
 
 const GAME_STATE: GameState = TEST_FARM;

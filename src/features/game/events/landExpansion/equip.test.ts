@@ -1,7 +1,7 @@
-import { Equipped } from "features/game/types/bumpkin";
-import { EquipBumpkinAction, availableWardrobe, equip } from "./equip";
+import type { Equipped } from "features/game/types/bumpkin";
+import { type EquipBumpkinAction, availableWardrobe, equip } from "./equip";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 describe("equip", () => {
   const TEST_PARTS: Equipped = {

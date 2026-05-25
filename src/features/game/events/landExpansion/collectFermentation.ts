@@ -2,7 +2,7 @@ import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
 import { hasPlacedAgingShed } from "./hasPlacedAgingShed";
 import { grantFermentationRecipeOutputs } from "./grantFermentationRecipeOutputs";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 export type CollectFermentationAction = {
   type: "fermentation.collected";

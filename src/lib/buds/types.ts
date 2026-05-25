@@ -1,5 +1,5 @@
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { PlaceableLocation } from "features/game/types/collectibles";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 import { CONFIG } from "lib/config";
 
 export type Trait<T> = {

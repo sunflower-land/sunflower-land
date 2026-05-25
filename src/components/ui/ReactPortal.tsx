@@ -1,4 +1,5 @@
-import React, { useLayoutEffect, useState } from "react";
+import type React from "react";
+import { useLayoutEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 type Props = {

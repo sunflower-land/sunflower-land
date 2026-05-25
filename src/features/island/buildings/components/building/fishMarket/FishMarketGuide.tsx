@@ -4,7 +4,7 @@ import { Label } from "components/ui/Label";
 import {
   GUARANTEED_BAIT,
   GUARANTEED_CATCH_BY_BAIT,
-  FishName,
+  type FishName,
 } from "features/game/types/fishing";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

@@ -1,4 +1,4 @@
-import { BuildingName } from "features/game/types/buildings";
+import type { BuildingName } from "features/game/types/buildings";
 
 const TUTORIAL_ACKNOWLEDGEMENT_KEY = "sunflower_isles_tutorials";
 

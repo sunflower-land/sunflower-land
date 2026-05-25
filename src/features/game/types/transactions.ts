@@ -1,15 +1,15 @@
-import { syncProgress, SyncProgressParams } from "lib/blockchain/Game";
-import { GameState, InventoryItemName, Wardrobe } from "./game";
+import { syncProgress, type SyncProgressParams } from "lib/blockchain/Game";
+import type { GameState, InventoryItemName, Wardrobe } from "./game";
 import {
-  WithdrawBudsParams,
+  type WithdrawBudsParams,
   withdrawBudsTransaction,
-  WithdrawFlowerParams,
+  type WithdrawFlowerParams,
   withdrawFlowerTransaction,
-  WithdrawItemsParams,
+  type WithdrawItemsParams,
   withdrawItemsTransaction,
-  WithdrawPetsParams,
+  type WithdrawPetsParams,
   withdrawPetsTransaction,
-  WithdrawWearablesParams,
+  type WithdrawWearablesParams,
   withdrawWearablesTransaction,
 } from "lib/blockchain/Withdrawals";
 import { sync } from "../actions/sync";

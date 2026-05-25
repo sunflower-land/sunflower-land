@@ -1,5 +1,5 @@
-import { ChapterName } from "./chapters";
-import { InventoryItemName, Wardrobe } from "./game";
+import type { ChapterName } from "./chapters";
+import type { InventoryItemName, Wardrobe } from "./game";
 
 export type MilestoneRewards = {
   items?: Partial<Record<InventoryItemName, number>>;

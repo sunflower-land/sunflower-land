@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { CraftingQueueItem, GameState } from "features/game/types/game";
+import type { CraftingQueueItem, GameState } from "features/game/types/game";
 import { useNow } from "lib/utils/hooks/useNow";
 
 const DEFAULT_QUEUE_ITEM: CraftingQueueItem = {

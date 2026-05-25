@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {
   fetchSocialLeaderboardData,
-  RankData,
+  type RankData,
 } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
@@ -14,7 +14,7 @@ import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {
   playerModalManager,
-  PlayerModalPlayer,
+  type PlayerModalPlayer,
 } from "../lib/playerModalManager";
 import { LastUpdatedAt } from "components/LastUpdatedAt";
 

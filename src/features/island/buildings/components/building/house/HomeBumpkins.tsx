@@ -1,5 +1,5 @@
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
-import { Bumpkin, GameState, IslandType } from "features/game/types/game";
+import type { Bumpkin, GameState, IslandType } from "features/game/types/game";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import React, { useContext, useState } from "react";
 import { Modal } from "components/ui/Modal";
@@ -13,8 +13,8 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import classNames from "classnames";
 import { useVisiting } from "lib/utils/visitUtils";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
-import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
+import type { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
 
 interface Props {
   game: GameState;

@@ -1,13 +1,13 @@
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
 import {
   chargeCoinsForSpeedUp,
   getInstantGems,
   makeGemHistory,
-  SpeedUpPaymentMethod,
+  type SpeedUpPaymentMethod,
 } from "features/game/lib/getInstantGems";
-import { BuildingName } from "features/game/types/buildings";
+import type { BuildingName } from "features/game/types/buildings";
 
 export type SpeedUpBuilding = {
   type: "building.spedUp";

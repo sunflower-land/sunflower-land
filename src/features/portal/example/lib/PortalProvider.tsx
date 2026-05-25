@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useInterpret } from "@xstate/react";
-import { MachineInterpreter, portalMachine } from "./portalMachine";
+import { type MachineInterpreter, portalMachine } from "./portalMachine";
 
 interface PortalContext {
   portalService: MachineInterpreter;

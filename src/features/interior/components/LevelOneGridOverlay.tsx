@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import { HomeExpansionTier } from "features/game/types/game";
+import type { HomeExpansionTier } from "features/game/types/game";
 import {
   INTERIOR_CANVAS,
   HOME_EXPANSION_LAYOUTS,

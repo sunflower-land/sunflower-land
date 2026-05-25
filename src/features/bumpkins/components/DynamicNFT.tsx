@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import silhouette from "assets/bumpkins/silhouette.png";
 
-import { Equipped as BumpkinParts } from "features/game/types/bumpkin";
+import type { Equipped as BumpkinParts } from "features/game/types/bumpkin";
 import { getBumpkinImageURL } from "../actions/buildImage";
 import classNames from "classnames";
 import cloneDeep from "lodash.clonedeep";

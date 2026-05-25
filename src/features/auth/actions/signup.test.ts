@@ -1,4 +1,4 @@
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { signUp } from "./signup";
 
 describe("signUp", () => {

@@ -3,7 +3,10 @@ import { InnerPanel } from "components/ui/Panel";
 import React, { useEffect, useState } from "react";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { FETCHES_BY_CATEGORY, PetResourceName } from "features/game/types/pets";
+import {
+  FETCHES_BY_CATEGORY,
+  type PetResourceName,
+} from "features/game/types/pets";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

@@ -18,15 +18,15 @@ import { randomID } from "lib/utils/random";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
 import { loadRaffles } from "./actions/loadRaffles";
-import { RaffleDefinition } from "../../../retreat/components/auctioneer/types";
+import type { RaffleDefinition } from "../../../retreat/components/auctioneer/types";
 import { getKeys } from "lib/object";
 import { toOrdinalSuffix } from "../../../retreat/components/auctioneer/AuctionLeaderboardTable";
 import { Box } from "components/ui/Box";
-import { InventoryItemName, Wardrobe } from "features/game/types/game";
-import { PetNFTName } from "features/game/types/pets";
+import type { InventoryItemName, Wardrobe } from "features/game/types/game";
+import type { PetNFTName } from "features/game/types/pets";
 import { ChapterRaffleResult } from "./ChapterRaffleResult";
 import { RafflePrizeTable } from "features/retreat/components/auctioneer/RaffleLeaderboardTable";
-import { BudNFTName } from "features/game/types/marketplace";
+import type { BudNFTName } from "features/game/types/marketplace";
 import { getPrizeDisplay } from "./prizeDisplay";
 
 export const UpcomingRaffles: React.FC = () => {

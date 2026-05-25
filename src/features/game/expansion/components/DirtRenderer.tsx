@@ -9,8 +9,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
  * 0_1_1_0 = No top border, right border, bottom border and no bottom border
  */
 
-import { GameGrid } from "../placeable/lib/makeGrid";
-import { LandBiomeName } from "features/island/biomes/biomes";
+import type { GameGrid } from "../placeable/lib/makeGrid";
+import type { LandBiomeName } from "features/island/biomes/biomes";
 
 type CropAlternateArt = Record<LandBiomeName, string>;
 

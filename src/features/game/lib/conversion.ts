@@ -1,4 +1,4 @@
-import { FERTILISERS, InventoryItemName } from "../types/game";
+import { FERTILISERS, type InventoryItemName } from "../types/game";
 import { SHOVELS, TOOLS } from "../types/craftables";
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS } from "../types/crops";
 

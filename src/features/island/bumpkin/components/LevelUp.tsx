@@ -11,7 +11,7 @@ import {
 
 import React from "react";
 import { Button } from "components/ui/Button";
-import { Equipped } from "features/game/types/bumpkin";
+import type { Equipped } from "features/game/types/bumpkin";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
@@ -22,7 +22,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { translate } from "lib/i18n/translate";
 import {
   EXPANSION_REQUIREMENTS,
-  Land,
+  type Land,
 } from "features/game/expansion/lib/expansionRequirements";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SEEDS } from "features/game/types/seeds";

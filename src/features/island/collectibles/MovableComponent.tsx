@@ -11,7 +11,7 @@ import { InnerPanel } from "components/ui/Panel";
 
 import {
   COLLECTIBLES_DIMENSIONS,
-  CollectibleName,
+  type CollectibleName,
 } from "features/game/types/craftables";
 
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
@@ -19,29 +19,29 @@ import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import Draggable from "react-draggable";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 import { useSelector } from "@xstate/react";
-import {
+import type {
   LandscapingPlaceable,
   MachineInterpreter,
   MachineState,
 } from "features/game/expansion/placeable/landscapingMachine";
 import {
   BUILDINGS_DIMENSIONS,
-  Dimensions,
+  type Dimensions,
 } from "features/game/types/buildings";
-import { GameEventName, PlacementEvent } from "features/game/events";
-import { RESOURCES, ResourceName } from "features/game/types/resources";
-import { GameState, PlacedItem } from "features/game/types/game";
+import type { GameEventName, PlacementEvent } from "features/game/events";
+import { RESOURCES, type ResourceName } from "features/game/types/resources";
+import type { GameState, PlacedItem } from "features/game/types/game";
 import { removePlaceable } from "./lib/placing";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { isMobile } from "mobile-device-detect";
 import { ZoomContext } from "components/ZoomProvider";
 import { RemoveKuebikoModal } from "./RemoveKuebikoModal";
-import { PlaceableLocation } from "features/game/types/collectibles";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 import { RemoveHungryCaterpillarModal } from "./RemoveHungryCaterpillarModal";
 import flipped from "assets/icons/flipped.webp";
 import flipIcon from "assets/icons/flip.webp";
@@ -51,9 +51,9 @@ import { LIMITED_ITEMS } from "features/game/events/landExpansion/burnCollectibl
 import { PET_SHRINES } from "features/game/types/pets";
 import {
   EXPIRY_COOLDOWNS,
-  TemporaryCollectibleName,
+  type TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
-import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
+import type { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import { getObjectEntries } from "lib/object";
 import { getPetImage } from "../pets/lib/petShared";
 import { useNow } from "lib/utils/hooks/useNow";

@@ -1,12 +1,12 @@
 import React, { useContext, useState } from "react";
-import { Equipped } from "features/game/types/bumpkin";
+import type { Equipped } from "features/game/types/bumpkin";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Label } from "components/ui/Label";
 import { SplitScreenView } from "components/ui/SplitScreenView";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import { Faction, ResourceRequest } from "features/game/types/game";
+import type { Faction, ResourceRequest } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SquareIcon } from "components/ui/SquareIcon";
 import {

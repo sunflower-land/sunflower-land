@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import classNames from "classnames";
-import Decimal from "decimal.js-light";
+import type Decimal from "decimal.js-light";
 
-import { LabelType } from "./Label";
+import type { LabelType } from "./Label";
 import { useLongPress } from "lib/utils/hooks/useLongPress";
 import { setPrecision } from "lib/utils/formatNumber";
 import { isMobile } from "mobile-device-detect";
@@ -10,7 +10,7 @@ import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SquareIcon } from "./SquareIcon";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { ProgressType, ResizableBar } from "./ProgressBar";
+import { type ProgressType, ResizableBar } from "./ProgressBar";
 import { CountLabel } from "./CountLabel";
 
 const LABEL_RIGHT_SHIFT_PX = -5 * PIXEL_SCALE;

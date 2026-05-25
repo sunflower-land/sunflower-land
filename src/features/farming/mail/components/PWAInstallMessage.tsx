@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { useSelector } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
-import { Message as IMessage } from "features/game/types/announcements";
+import type { MachineState } from "features/game/lib/gameMachine";
+import type { Message as IMessage } from "features/game/types/announcements";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import * as AuthProvider from "features/auth/lib/Provider";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { usePWAInstall } from "features/pwa/PWAInstallProvider";
 import {
   isMobile,

@@ -12,20 +12,20 @@ import { useConnection, useWaitForTransactionReceipt } from "wagmi";
 import {
   DEADLINE_BUFFER_MS,
   DEADLINE_MS,
-  FlowerWithdrawnTransaction,
-  GameTransaction,
+  type FlowerWithdrawnTransaction,
+  type GameTransaction,
   loadActiveTxHash,
   ONCHAIN_TRANSACTIONS,
-  TransactionName,
+  type TransactionName,
 } from "features/game/types/transactions";
-import { GameWallet, WalletAction } from "features/wallet/Wallet";
+import { GameWallet, type WalletAction } from "features/wallet/Wallet";
 
 import walletIcon from "assets/icons/wallet.png";
 import lockIcon from "assets/icons/lock.png";
 
 import { Loading } from "features/auth/components";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { useNow } from "lib/utils/hooks/useNow";
 

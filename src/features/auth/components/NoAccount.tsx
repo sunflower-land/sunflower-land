@@ -23,9 +23,9 @@ import {
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { TextInput } from "components/ui/TextInput";
 import debounce from "lodash.debounce";
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { SignupBumpkinEquip } from "features/bumpkins/components/SignupBumpkinEquip";
-import { CreateFarmEvent } from "../lib/authMachine";
+import type { CreateFarmEvent } from "../lib/authMachine";
 
 type ValidationState = "notFound" | "checking" | "valid" | "error";
 

@@ -8,10 +8,10 @@ import { ITEM_DETAILS } from "features/game/types/images";
 
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { InnerPanel } from "components/ui/Panel";
 import { SquareIcon } from "components/ui/SquareIcon";
-import { KingdomChore, KingdomChores } from "features/game/types/game";
+import type { KingdomChore, KingdomChores } from "features/game/types/game";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
@@ -25,7 +25,7 @@ import levelup from "assets/icons/level_up.png";
 import chefsHat from "assets/icons/chef_hat.png";
 import lightning from "assets/icons/lightning.png";
 
-import { FarmActivityName } from "features/game/types/farmActivity";
+import type { FarmActivityName } from "features/game/types/farmActivity";
 import { getKingdomChoreBoost } from "features/game/events/landExpansion/completeKingdomChore";
 import { formatNumber } from "lib/utils/formatNumber";
 import { BoostInfoPanel } from "../BoostInfoPanel";

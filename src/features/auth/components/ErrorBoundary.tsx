@@ -1,5 +1,5 @@
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import React, { Component, ReactNode } from "react";
+import React, { Component, type ReactNode } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { BoundaryError } from "./SomethingWentWrong";
 import { Modal } from "components/ui/Modal";

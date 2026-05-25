@@ -6,7 +6,7 @@ import loadingIcon from "assets/icons/timer.gif";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { RoundButton } from "components/ui/RoundButton";
 import classNames from "classnames";
 

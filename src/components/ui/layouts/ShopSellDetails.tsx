@@ -1,4 +1,4 @@
-import {
+import type {
   Inventory,
   InventoryItemName,
   TemperateSeasonName,
@@ -7,18 +7,18 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import React, { type JSX } from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
-import Decimal from "decimal.js-light";
+import type Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { formatDateRange } from "lib/utils/time";
 import { Label } from "../Label";
-import { BumpkinItem } from "features/game/types/bumpkin";
+import type { BumpkinItem } from "features/game/types/bumpkin";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
 import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
-import { SeedName } from "features/game/types/seeds";
+import type { SeedName } from "features/game/types/seeds";
 import fullMoon from "assets/icons/full_moon.png";
-import { ClutterName } from "features/game/types/clutter";
+import type { ClutterName } from "features/game/types/clutter";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 
 /**

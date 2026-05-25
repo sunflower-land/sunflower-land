@@ -1,4 +1,4 @@
-import { GameState, BoostName, BoostUsedAt } from "./game";
+import type { GameState, BoostName, BoostUsedAt } from "./game";
 
 export function updateBoostUsed({
   game,

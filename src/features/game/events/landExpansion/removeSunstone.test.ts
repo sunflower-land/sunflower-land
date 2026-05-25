@@ -1,5 +1,5 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { removeSunstone, REMOVE_SUNSTONE_ERRORS } from "./removeSunstone";
 
 const GAME_STATE: GameState = {

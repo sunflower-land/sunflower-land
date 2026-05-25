@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { CropPlot, GameState, Skills } from "features/game/types/game";
+import type { CropPlot, GameState, Skills } from "features/game/types/game";
 import { harvest } from "./harvest";
 import { CROPS } from "features/game/types/crops";
 import { prngChance } from "lib/prng";

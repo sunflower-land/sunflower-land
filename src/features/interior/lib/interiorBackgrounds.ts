@@ -1,4 +1,4 @@
-import { HomeExpansionTier, IslandType } from "features/game/types/game";
+import type { HomeExpansionTier, IslandType } from "features/game/types/game";
 
 import tent from "assets/buildings/tent.webp";
 import home from "assets/buildings/home.webp";

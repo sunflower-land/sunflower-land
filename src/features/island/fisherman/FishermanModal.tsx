@@ -5,22 +5,22 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import powerup from "assets/icons/level_up.png";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { SpeakingText } from "features/game/components/SpeakingModal";
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
 import {
-  FishName,
-  FishingBait,
+  type FishName,
+  type FishingBait,
   MAP_PIECE_MARVELS,
 } from "features/game/types/fishing";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { NPCName, NPC_WEARABLES } from "lib/npcs";
+import { type NPCName, NPC_WEARABLES } from "lib/npcs";
 import { FishingGuide } from "./FishingGuide";
 import { getDailyFishingCount } from "features/game/types/fishing";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
 import { capitalizeFirstLetters } from "lib/utils/capitalize";
 import { FishermanExtras } from "./FishermanExtras";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { MarvelHunt } from "./MarvelHunt";
 import { BaitSelection } from "./BaitSelection";
 

@@ -2,17 +2,17 @@ import React from "react";
 import { SimpleBox } from "../SimpleBox";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import type { GameState, InventoryItemName } from "features/game/types/game";
 import { InnerPanel } from "components/ui/Panel";
 import {
-  ChapterBanner,
-  ChapterName,
+  type ChapterBanner,
+  type ChapterName,
   CHAPTERS,
   hasChapterStarted,
 } from "features/game/types/chapters";
 import { useNow } from "lib/utils/hooks/useNow";
 import { getKeys } from "lib/object";
-import { BumpkinItem } from "features/game/types/bumpkin";
+import type { BumpkinItem } from "features/game/types/bumpkin";
 import { CHAPTER_BANNER_IMAGES } from "features/game/types/chapters";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 import { getWearableImage } from "features/game/lib/getWearableImage";

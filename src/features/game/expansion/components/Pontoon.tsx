@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { ExpansionConstruction } from "features/game/types/game";
+import type { ExpansionConstruction } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
@@ -10,7 +10,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { Panel } from "components/ui/Panel";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 
 const _state = (state: MachineState) => state.context.state;
 

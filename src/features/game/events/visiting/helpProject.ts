@@ -1,6 +1,9 @@
 import { produce } from "immer";
-import { GameState } from "features/game/types/game";
-import { hasHitHelpLimit, MonumentName } from "features/game/types/monuments";
+import type { GameState } from "features/game/types/game";
+import {
+  hasHitHelpLimit,
+  type MonumentName,
+} from "features/game/types/monuments";
 
 export type HelpProjectAction = {
   type: "project.helped";

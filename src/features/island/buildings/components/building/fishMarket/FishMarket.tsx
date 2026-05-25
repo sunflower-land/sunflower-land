@@ -3,11 +3,11 @@ import { useSelector } from "@xstate/react";
 
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { BuildingProps } from "../Building";
+import type { BuildingProps } from "../Building";
 import { FISH_MARKET_VARIANTS } from "features/island/lib/alternateArt";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
-import { ProcessedResource } from "features/game/types/processedFood";
+import type { MachineState } from "features/game/lib/gameMachine";
+import type { ProcessedResource } from "features/game/types/processedFood";
 import { FishMarketModal } from "./FishMarketModal";
 import { useProcessingState } from "features/island/buildings/lib/useProcessingState";
 import { ReadyProcessed } from "../ReadyProcessed";

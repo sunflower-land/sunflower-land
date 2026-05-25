@@ -1,9 +1,9 @@
 import {
   PATCH_FRUIT,
   PATCH_FRUIT_SEEDS,
-  PatchFruit,
+  type PatchFruit,
 } from "features/game/types/fruits";
-import { PlantedFruit } from "features/game/types/game";
+import type { PlantedFruit } from "features/game/types/game";
 
 export const isFruitReadyToHarvest = (
   createdAt: number,

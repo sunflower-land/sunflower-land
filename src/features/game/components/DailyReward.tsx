@@ -1,5 +1,5 @@
 import { Button } from "components/ui/Button";
-import { Label, LabelType } from "components/ui/Label";
+import { Label, type LabelType } from "components/ui/Label";
 import React, { useState } from "react";
 import { useGame } from "../GameProvider";
 import { ButtonPanel } from "components/ui/Panel";
@@ -8,14 +8,17 @@ import {
   getDailyRewardStreak,
   isDailyRewardReady,
 } from "../events/landExpansion/claimDailyReward";
-import { DailyRewardName, getRewardsForStreak } from "../types/dailyRewards";
-import { InventoryItemName } from "../types/game";
+import {
+  type DailyRewardName,
+  getRewardsForStreak,
+} from "../types/dailyRewards";
+import type { InventoryItemName } from "../types/game";
 import { getKeys } from "lib/object";
 import { ClaimReward } from "../expansion/components/ClaimReward";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsTillReset, secondsToString } from "lib/utils/time";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { MachineState } from "../lib/gameMachine";
+import type { MachineState } from "../lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { useNow } from "lib/utils/hooks/useNow";
 import { gameAnalytics } from "lib/gameAnalytics";
@@ -26,7 +29,7 @@ import basicResourceBox from "assets/rewardBoxes/basic_resource_box.png";
 import basicFishingBox from "assets/rewardBoxes/basic_fishing_box.png";
 import basicBuffBox from "assets/rewardBoxes/basic_buff_box.png";
 import basicXPBox from "assets/rewardBoxes/basic_xp_box.png";
-import { BuffName } from "../types/buffs";
+import type { BuffName } from "../types/buffs";
 import coinsIcon from "assets/icons/coins_stack.webp";
 import vipIcon from "assets/icons/vip.webp";
 import { getBumpkinLevel } from "../lib/level";

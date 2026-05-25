@@ -2,7 +2,7 @@ import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { completeKingdomChore } from "./completeKingdomChore";
 import Decimal from "decimal.js-light";
 import { getWeekKey } from "features/game/lib/factions";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 const state: GameState = {
   ...TEST_FARM,

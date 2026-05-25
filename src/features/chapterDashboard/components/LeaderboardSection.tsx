@@ -5,7 +5,7 @@ import { InnerPanel } from "components/ui/Panel";
 import { TicketsLeaderboard } from "features/island/hud/components/codex/pages/TicketsLeaderboard";
 import {
   getLeaderboard,
-  TicketLeaderboard,
+  type TicketLeaderboard,
 } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { CONFIG } from "lib/config";
 import { Loading } from "features/auth/components";

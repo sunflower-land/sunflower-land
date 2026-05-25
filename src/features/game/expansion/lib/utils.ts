@@ -1,4 +1,4 @@
-import { Collectibles, Rock } from "features/game/types/game";
+import type { Collectibles, Rock } from "features/game/types/game";
 import isEqual from "lodash.isequal";
 import { getObjectEntries } from "lib/object";
 

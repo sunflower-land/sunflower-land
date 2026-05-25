@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import { IslandType } from "features/game/types/game";
+import type { IslandType } from "features/game/types/game";
 import {
   INTERIOR_CANVAS,
   INTERIOR_LAYOUTS,

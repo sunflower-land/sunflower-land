@@ -3,11 +3,11 @@ import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { sanitizeHTTPResponse } from "lib/network";
 import { makeGame } from "../lib/transforms";
-import { GameState, Purchase } from "../types/game";
-import { Announcements } from "../types/announcements";
+import type { GameState, Purchase } from "../types/game";
+import type { Announcements } from "../types/announcements";
 import { getSignupMethod } from "features/auth/actions/createAccount";
-import { Moderation } from "../lib/gameMachine";
-import { LanguageCode } from "lib/i18n/dictionaries/language";
+import type { Moderation } from "../lib/gameMachine";
+import type { LanguageCode } from "lib/i18n/dictionaries/language";
 
 type Request = {
   token: string;

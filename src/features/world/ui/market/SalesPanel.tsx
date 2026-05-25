@@ -11,8 +11,8 @@ import { getKeys } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { Loading } from "features/auth/components";
-import { MarketPrices } from "features/game/actions/getMarketPrices";
-import { TradeableName } from "features/game/actions/sellMarketResource";
+import type { MarketPrices } from "features/game/actions/getMarketPrices";
+import type { TradeableName } from "features/game/actions/sellMarketResource";
 import { Button } from "components/ui/Button";
 import classNames from "classnames";
 import { formatNumber } from "lib/utils/formatNumber";
@@ -24,7 +24,7 @@ import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import {
   isAccountTradedWithin90Days,
-  MachineState,
+  type MachineState,
 } from "features/game/lib/gameMachine";
 import { LastUpdatedAt } from "components/LastUpdatedAt";
 import { useNow } from "lib/utils/hooks/useNow";

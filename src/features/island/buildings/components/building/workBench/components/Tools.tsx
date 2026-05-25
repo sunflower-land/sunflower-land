@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useContext, useState } from "react";
+import React, { type SyntheticEvent, useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 
@@ -8,10 +8,10 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import {
-  WorkbenchToolName,
+  type WorkbenchToolName,
   WORKBENCH_TOOLS,
   LOVE_ANIMAL_TOOLS,
-  Tool,
+  type Tool,
 } from "features/game/types/tools";
 import { getKeys } from "lib/object";
 import { SplitScreenView } from "components/ui/SplitScreenView";
@@ -24,7 +24,7 @@ import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandE
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { capitalize } from "lib/utils/capitalize";
-import { IslandType, LoveAnimalItem } from "features/game/types/game";
+import type { IslandType, LoveAnimalItem } from "features/game/types/game";
 import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 import { Restock } from "../../market/restock/Restock";
 import { getObjectEntries } from "lib/object";

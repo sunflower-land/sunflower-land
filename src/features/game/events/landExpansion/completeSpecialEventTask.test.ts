@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { completeSpecialEventTask } from "./completeSpecialEventTask";
 import { TEST_FARM } from "features/game/lib/constants";
-import { SpecialEventName } from "features/game/types/specialEvents";
+import type { SpecialEventName } from "features/game/types/specialEvents";
 
 describe("completeEventTask", () => {
   const now = Date.now();

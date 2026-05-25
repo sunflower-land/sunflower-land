@@ -1,5 +1,5 @@
 import React from "react";
-import Decimal from "decimal.js-light";
+import type Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
 import coins from "assets/icons/coins.webp";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -7,7 +7,7 @@ import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { NumberInput } from "./NumberInput";
 import { setPrecision } from "lib/utils/formatNumber";
-import { Equipped } from "features/game/types/bumpkin";
+import type { Equipped } from "features/game/types/bumpkin";
 
 interface BulkSellProps {
   show: boolean;

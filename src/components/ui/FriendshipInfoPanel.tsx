@@ -6,7 +6,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import coinsIcon from "assets/icons/coins.webp";
 import recipeIcon from "assets/decorations/page.png";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { BumpkinGift } from "features/game/types/gifts";
+import type { BumpkinGift } from "features/game/types/gifts";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 import { getObjectEntries } from "lib/object";
 

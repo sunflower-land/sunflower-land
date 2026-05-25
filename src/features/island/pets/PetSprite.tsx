@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { PetName, PetNFTType } from "features/game/types/pets";
+import type { PetName, PetNFTType } from "features/game/types/pets";
 import { getPetImage, PET_PIXEL_STYLES } from "./lib/petShared";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 

@@ -7,7 +7,7 @@ import giftIcon from "assets/icons/chapter_icon_3.webp";
 import { useLocation, useNavigate } from "react-router";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useNow } from "lib/utils/hooks/useNow";
 import { CHAPTERS, getCurrentChapter } from "features/game/types/chapters";

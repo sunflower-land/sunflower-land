@@ -1,8 +1,8 @@
 import { KNOWN_IDS } from "features/game/types";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getKeys } from "lib/object";
-import { InventoryItemName, TradeListing } from "features/game/types/game";
-import { CollectionName } from "features/game/types/marketplace";
+import type { InventoryItemName, TradeListing } from "features/game/types/game";
+import type { CollectionName } from "features/game/types/marketplace";
 import { getCollectionName } from "./getCollectionName";
 
 function listingCollectionAsName(

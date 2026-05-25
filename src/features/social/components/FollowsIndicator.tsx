@@ -1,7 +1,7 @@
 import React from "react";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { useTranslation } from "react-i18next";
-import {
+import type {
   BumpkinBody,
   BumpkinHair,
   BumpkinBackground,

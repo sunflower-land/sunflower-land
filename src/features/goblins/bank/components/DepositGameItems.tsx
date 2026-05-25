@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useSelector } from "@xstate/react";
 
-import {
+import type {
   Inventory,
   InventoryItemName,
   Wardrobe,
@@ -21,10 +21,10 @@ import { Box } from "components/ui/Box";
 import { KNOWN_IDS } from "features/game/types";
 import { Button } from "components/ui/Button";
 import { Loading } from "features/auth/components";
-import { DepositArgs } from "lib/blockchain/Deposit";
+import type { DepositArgs } from "lib/blockchain/Deposit";
 import { CopyAddress } from "components/ui/CopyAddress";
 import { getItemUnit } from "features/game/lib/conversion";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { loadWardrobe } from "lib/blockchain/BumpkinItems";
 import { getBudsBalance } from "lib/blockchain/Buds";
 import { Label } from "components/ui/Label";
@@ -33,7 +33,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getImageUrl } from "lib/utils/getImageURLS";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Context as GameContext } from "features/game/GameProvider";
 import { GameWallet } from "features/wallet/Wallet";
 import { getPetsBalance } from "lib/blockchain/Pets";

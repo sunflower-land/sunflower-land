@@ -1,7 +1,7 @@
 import {
   BUMPKIN_ITEM_PART,
-  BumpkinItem,
-  BumpkinPart,
+  type BumpkinItem,
+  type BumpkinPart,
 } from "features/game/types/bumpkin";
 import React, { useContext, useState } from "react";
 import { DynamicNFT } from "./DynamicNFT";
@@ -21,7 +21,7 @@ import {
   BUMPKIN_ITEM_BUFF_LABELS,
   SPECIAL_ITEM_LABELS,
 } from "features/game/types/bumpkinItemBuffs";
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
@@ -30,7 +30,7 @@ import {
   pixelVibrantBorderStyle,
 } from "features/game/lib/style";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { getWearableImage } from "features/game/lib/getWearableImage";

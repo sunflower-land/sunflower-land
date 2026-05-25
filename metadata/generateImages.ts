@@ -4,7 +4,7 @@ import path from "path";
 import https from "https";
 import sharp from "sharp";
 
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 import { KNOWN_IDS } from "features/game/types";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "lib/object";

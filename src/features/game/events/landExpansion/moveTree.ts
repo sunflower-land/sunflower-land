@@ -1,5 +1,5 @@
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { GameState } from "features/game/types/game";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
 
 export enum MOVE_TREE_ERRORS {

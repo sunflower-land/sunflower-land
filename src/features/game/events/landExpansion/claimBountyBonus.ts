@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { getWeekKey, weekResetsAt } from "features/game/lib/factions";
 import { ANIMALS } from "features/game/types/animals";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { getChapterTicket } from "features/game/types/chapters";
 import { produce } from "immer";
 import { trackFarmActivity } from "features/game/types/farmActivity";

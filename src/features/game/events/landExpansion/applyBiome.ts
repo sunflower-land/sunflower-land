@@ -1,7 +1,7 @@
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import {
-  LandBiomeName,
+  type LandBiomeName,
   LAND_BIOMES,
   getCurrentBiome,
 } from "features/island/biomes/biomes";

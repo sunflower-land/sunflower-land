@@ -10,7 +10,7 @@ import { InlineDialogue } from "../TypingMessage";
 import { isMinigameComplete } from "features/game/events/minigames/claimMinigamePrize";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { MinigamePrizeUI } from "./MinigamePrizeUI";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 
 interface Props {
   onClose: () => void;

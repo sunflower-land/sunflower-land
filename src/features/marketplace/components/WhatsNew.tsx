@@ -3,7 +3,7 @@ import { getTradeableDisplay } from "../lib/tradeables";
 import { useLocation, useNavigate } from "react-router";
 import { Loading } from "features/auth/components";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import {
   WEARABLE_RELEASES,
@@ -16,11 +16,11 @@ import * as Auth from "features/auth/lib/Provider";
 import useSWR from "swr";
 import { collectionFetcher } from "./Collection";
 import Decimal from "decimal.js-light";
-import { Tradeable } from "features/game/types/marketplace";
+import type { Tradeable } from "features/game/types/marketplace";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 
 const _state = (state: MachineState) => state.context.state;
 const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;

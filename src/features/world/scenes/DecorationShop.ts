@@ -1,8 +1,8 @@
 import decorationShopJSON from "assets/map/decorations.json";
 
-import { SceneId } from "../mmoMachine";
-import { BaseScene, NPCBumpkin } from "./BaseScene";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { SceneId } from "../mmoMachine";
+import { BaseScene, type NPCBumpkin } from "./BaseScene";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 const BUMPKINS: NPCBumpkin[] = [
   {

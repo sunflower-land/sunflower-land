@@ -3,7 +3,7 @@ import {
   getExpansionCoinCostWithVip,
   hasVipAccess,
 } from "features/game/lib/vipAccess";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { useNow } from "./useNow";
 
 export const useVipAccess = ({

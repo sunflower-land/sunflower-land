@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { CROPS } from "features/game/types/crops";
 import { PATCH_FRUIT } from "features/game/types/fruits";
-import {
+import type {
   GameState,
   Inventory,
   InventoryItemName,

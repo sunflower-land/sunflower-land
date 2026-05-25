@@ -18,13 +18,13 @@ import barrelIcon from "assets/resources/oil_barrel.webp";
 import powerup from "assets/icons/level_up.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import {
+import type {
   GreenHouseCropName,
   GreenHouseCropSeedName,
 } from "features/game/types/crops";
-import { GreenHouseFruitName } from "features/game/types/fruits";
+import type { GreenHouseFruitName } from "features/game/types/fruits";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { ProgressBar } from "components/ui/ProgressBar";
 import {
@@ -45,9 +45,9 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { useNow } from "lib/utils/hooks/useNow";
 import {
   GREENHOUSE_COMPOST,
-  GreenhouseCompostName,
+  type GreenhouseCompostName,
 } from "features/game/types/composters";
-import {
+import type {
   GreenhouseFertiliser,
   InventoryItemName,
 } from "features/game/types/game";

@@ -5,7 +5,7 @@ import { SomethingWentWrong } from "./components/SomethingWentWrong";
 import { DuplicateUser } from "./components/DuplicateUser";
 import { Congestion } from "./components/Congestion";
 import { SessionExpired } from "./components/SessionExpired";
-import { ErrorCode, ERRORS } from "lib/errors";
+import { type ErrorCode, ERRORS } from "lib/errors";
 import { TooManyRequests } from "./components/TooManyRequests";
 import { Maintenance } from "./components/Maintenance";
 import { MultipleDevices } from "./components/MultipleDevices";

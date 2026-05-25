@@ -1,18 +1,18 @@
 import Decimal from "decimal.js-light";
 import {
-  Bumpkin,
-  GameState,
-  ExpansionConstruction,
-  PlacedItem,
+  type Bumpkin,
+  type GameState,
+  type ExpansionConstruction,
+  type PlacedItem,
   BB_TO_GEM_RATIO,
-  InventoryItemName,
+  type InventoryItemName,
 } from "../types/game";
 import { getKeys } from "lib/object";
-import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
-import { Equipped } from "../types/bumpkin";
-import { isSeed, SeedName } from "../types/seeds";
+import { type BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
+import type { Equipped } from "../types/bumpkin";
+import { isSeed, type SeedName } from "../types/seeds";
 import { makeAnimalBuilding } from "./animals";
-import { ChoreBoard } from "../types/choreBoard";
+import type { ChoreBoard } from "../types/choreBoard";
 import { getChapterTicket } from "../types/chapters";
 import { getObjectEntries } from "lib/object";
 import {
@@ -24,11 +24,11 @@ import {
   isAdvancedFruitSeed,
   isBasicFruitSeed,
 } from "../events/landExpansion/fruitPlanted";
-import { PatchFruitSeedName } from "../types/fruits";
+import type { PatchFruitSeedName } from "../types/fruits";
 import {
-  TreasureToolName,
+  type TreasureToolName,
   WORKBENCH_TOOLS,
-  WorkbenchToolName,
+  type WorkbenchToolName,
 } from "../types/tools";
 import { createInitialAgingShed } from "./agingShed";
 

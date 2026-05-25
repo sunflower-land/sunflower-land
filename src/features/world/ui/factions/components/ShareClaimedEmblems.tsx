@@ -12,7 +12,7 @@ import {
 } from "react-share";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { Faction } from "features/game/types/game";
+import type { Faction } from "features/game/types/game";
 import { Label } from "components/ui/Label";
 import { capitalize } from "lib/utils/capitalize";
 

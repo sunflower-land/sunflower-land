@@ -7,7 +7,7 @@ import bubbleBottomRight from "assets/ui/feed_bubble_btm_right.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { LABEL_STYLES } from "components/ui/Label";
 import classNames from "classnames";
-import { InteractionType } from "../types/types";
+import type { InteractionType } from "../types/types";
 
 type Props = {
   children: React.ReactNode;

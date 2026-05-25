@@ -1,9 +1,9 @@
 import {
   EXPANSION_REQUIREMENTS,
-  Land,
+  type Land,
 } from "features/game/expansion/lib/expansionRequirements";
-import { BumpkinLevel } from "features/game/lib/level";
-import { IslandType } from "features/game/types/game";
+import type { BumpkinLevel } from "features/game/lib/level";
+import type { IslandType } from "features/game/types/game";
 
 export interface Nodes {
   "Crop Plot": number;

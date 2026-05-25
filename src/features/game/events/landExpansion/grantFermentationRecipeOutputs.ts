@@ -1,12 +1,12 @@
 import Decimal from "decimal.js-light";
 import {
-  FermentationCollectedActivity,
+  type FermentationCollectedActivity,
   getFermentationRecipe,
   type FermentationRecipeName,
 } from "features/game/types/fermentation";
 import { getObjectEntries } from "lib/object";
 import { KNOWN_IDS } from "features/game/types";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { getAgingOutput } from "features/game/types/agingFormulas";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 

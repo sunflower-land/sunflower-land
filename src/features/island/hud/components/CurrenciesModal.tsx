@@ -15,15 +15,15 @@ import { XsollaLoading } from "features/game/components/modal/components/XsollaL
 import { XsollaIFrame } from "features/game/components/modal/components/XsollaIFrame";
 import {
   BuyGems,
-  Price,
+  type Price,
   STARTER_PACK,
   STARTER_PACK_COINS,
   STARTER_PACK_GEMS,
 } from "features/game/components/modal/components/BuyGems";
 import { randomID } from "lib/utils/random";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
-import { AuthMachineState } from "features/auth/lib/authMachine";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { buyBlockBucksXsolla as buyGemsXsolla } from "features/game/actions/buyGems";
 

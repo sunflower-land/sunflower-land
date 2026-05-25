@@ -1,4 +1,4 @@
-import { Bud } from "../types/buds";
+import type { Bud } from "../types/buds";
 import { getBudExperienceBoosts } from "./getBudExperienceBoosts";
 import { CONSUMABLES } from "../types/consumables";
 

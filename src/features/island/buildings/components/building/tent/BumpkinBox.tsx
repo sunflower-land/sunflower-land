@@ -3,7 +3,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { SelectBox } from "components/ui/SelectBox";
 import { CONFIG } from "lib/config";
-import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
+import { type BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 
 interface BumpkinBoxProps {
   bumpkin: { equipped: BumpkinParts; id: number };

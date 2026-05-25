@@ -1,12 +1,12 @@
-import React, { useMemo, CSSProperties } from "react";
+import React, { useMemo, type CSSProperties } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import tier1Book from "src/assets/icons/tier1_book.webp";
 import tier2Book from "src/assets/icons/tier2_book.webp";
 import tier3Book from "src/assets/icons/tier3_book.webp";
-import { NPC_WEARABLES, NPCName } from "lib/npcs";
+import { NPC_WEARABLES, type NPCName } from "lib/npcs";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
-import { BumpkinSkillTier } from "features/game/types/bumpkinSkills";
+import type { BumpkinSkillTier } from "features/game/types/bumpkinSkills";
 
 interface Props {
   icon?: string;

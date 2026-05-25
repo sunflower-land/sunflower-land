@@ -1,8 +1,8 @@
 import Decimal from "decimal.js-light";
 import { getKeys } from "lib/object";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import {
-  MilestoneName,
+  type MilestoneName,
   MILESTONES,
   isInventoryItemReward,
 } from "features/game/types/milestones";

@@ -5,10 +5,10 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import Spritesheet, {
-  SpriteSheetInstance,
+  type SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 import { ZoomContext } from "components/ZoomProvider";
-import { MushroomName } from "features/game/types/resources";
+import type { MushroomName } from "features/game/types/resources";
 import { useSound } from "lib/utils/hooks/useSound";
 import { useMathRandom } from "lib/utils/hooks/useMathRandom";
 

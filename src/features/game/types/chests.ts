@@ -1,6 +1,6 @@
-import { BB_TO_GEM_RATIO, InventoryItemName } from "./game";
-import { RewardBoxReward } from "./rewardBoxes";
-import { BumpkinItem } from "./bumpkin";
+import { BB_TO_GEM_RATIO, type InventoryItemName } from "./game";
+import type { RewardBoxReward } from "./rewardBoxes";
+import type { BumpkinItem } from "./bumpkin";
 import { CHAPTERS, getCurrentChapter } from "./chapters";
 import { MEGASTORE } from "./megastore";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "../events/landExpansion/completeNPCChore";

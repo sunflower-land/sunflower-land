@@ -1,7 +1,7 @@
 import { DeliveryOrders } from "features/island/delivery/components/Orders";
 import React, { useState } from "react";
 
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { isMobile } from "mobile-device-detect";
 
 export const Deliveries: React.FC<{

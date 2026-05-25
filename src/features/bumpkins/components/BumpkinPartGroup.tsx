@@ -6,8 +6,8 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { SUNNYSIDE } from "assets/sunnyside";
 import lightning from "assets/icons/lightning.png";
 
-import { BumpkinPart } from "features/game/types/bumpkin";
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import type { BumpkinPart } from "features/game/types/bumpkin";
+import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import {
   BUMPKIN_ITEM_BUFF_LABELS,
   SPECIAL_ITEM_LABELS,

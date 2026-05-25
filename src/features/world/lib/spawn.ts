@@ -1,5 +1,5 @@
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { SceneId } from "../mmoMachine";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { SceneId } from "../mmoMachine";
 
 // `"default"` is a sentinel WorldMap callers use to mean "always use the
 // scene's `default` spawn", overriding the auto-derived previous scene.

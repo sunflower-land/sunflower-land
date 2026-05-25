@@ -1,6 +1,6 @@
 import { Label } from "components/ui/Label";
 import React from "react";
-import { FeedFilter, FeedFilterOption } from "../Feed";
+import type { FeedFilter, FeedFilterOption } from "../Feed";
 
 type Props = {
   options: FeedFilterOption[];

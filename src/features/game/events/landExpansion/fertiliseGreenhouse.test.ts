@@ -5,7 +5,7 @@ import {
 } from "./fertiliseGreenhouse";
 import { plantGreenhouse } from "./plantGreenhouse";
 import Decimal from "decimal.js-light";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { getReadyAt, getGreenhouseCropYieldAmount } from "./harvestGreenHouse";
 
 const farm: GameState = {

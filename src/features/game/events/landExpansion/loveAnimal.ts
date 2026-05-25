@@ -4,8 +4,16 @@ import {
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import { AnimalLevel, ANIMALS, AnimalType } from "features/game/types/animals";
-import { Animal, GameState, LoveAnimalItem } from "features/game/types/game";
+import {
+  type AnimalLevel,
+  ANIMALS,
+  type AnimalType,
+} from "features/game/types/animals";
+import type {
+  Animal,
+  GameState,
+  LoveAnimalItem,
+} from "features/game/types/game";
 import { produce } from "immer";
 
 /**

@@ -4,7 +4,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import socialPointsIcon from "assets/icons/social_score.webp";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SocialLeaderboard } from "features/social/components/SocialLeaderboard";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { discoveryModalManager } from "./lib/discoveryModalManager";

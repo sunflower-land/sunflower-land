@@ -1,5 +1,5 @@
-import { GameState } from "features/game/types/game";
-import { RewardBoxName } from "features/game/types/rewardBoxes";
+import type { GameState } from "features/game/types/game";
+import type { RewardBoxName } from "features/game/types/rewardBoxes";
 import { produce } from "immer";
 
 export type AcknowledgeRewardBoxAction = {

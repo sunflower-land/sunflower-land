@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_STOCK } from "features/game/lib/constants";
-import { BB_TO_GEM_RATIO, GameState } from "features/game/types/game";
+import { BB_TO_GEM_RATIO, type GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 

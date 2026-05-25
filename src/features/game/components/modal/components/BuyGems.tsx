@@ -19,7 +19,7 @@ import { Loading } from "features/auth/components";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { ITEM_DETAILS } from "features/game/types/images";
 import flowerIcon from "assets/icons/flower_token.webp";
 import Decimal from "decimal.js-light";

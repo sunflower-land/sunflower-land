@@ -14,9 +14,9 @@ import { Context, useGame } from "features/game/GameProvider";
 import { getAnimalLevel } from "features/game/lib/animals";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { weekResetsAt } from "features/game/lib/factions";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { getKeys } from "lib/object";
-import {
+import type {
   Animal,
   AnimalBounty,
   BountyRequest,

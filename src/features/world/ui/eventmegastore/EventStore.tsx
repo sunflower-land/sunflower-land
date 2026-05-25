@@ -4,10 +4,10 @@ import { ModalOverlay } from "components/ui/ModalOverlay";
 import React, { useState } from "react";
 import {
   APRIL_FOOLS_EVENT_ITEMS,
-  EventStoreCollectible,
-  EventStoreItem,
-  EventStoreTier,
-  EventStoreWearable,
+  type EventStoreCollectible,
+  type EventStoreItem,
+  type EventStoreTier,
+  type EventStoreWearable,
 } from "features/game/types/aprilFoolsEventShop";
 
 import { ItemsList } from "./eventmegastore_components/ItemsList";
@@ -15,12 +15,12 @@ import { ItemDetail } from "./eventmegastore_components/ItemDetail";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getImageUrl } from "lib/utils/getImageURLS";
-import { BuffLabel } from "features/game/types";
+import type { BuffLabel } from "features/game/types";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { FACTION_SHOP_KEYS } from "features/game/types/factionShop";
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 interface Props {
   onClose?: () => void;
   readonly?: boolean;

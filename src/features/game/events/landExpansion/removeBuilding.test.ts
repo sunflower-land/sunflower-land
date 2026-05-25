@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
-import { Chicken, GameState } from "features/game/types/game";
+import type { Chicken, GameState } from "features/game/types/game";
 import { removeBuilding, REMOVE_BUILDING_ERRORS } from "./removeBuilding";
 
 const GAME_STATE: GameState = {

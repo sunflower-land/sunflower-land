@@ -1,11 +1,11 @@
-import { ResourceName } from "features/game/types/resources";
-import { GameState, InventoryItemName } from "../../types/game";
+import type { ResourceName } from "features/game/types/resources";
+import type { GameState, InventoryItemName } from "../../types/game";
 
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { getObjectEntries } from "lib/object";
-import { IslandType } from "features/game/types/game";
+import type { IslandType } from "features/game/types/game";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 
 export type ResourceBoughtAction = {

@@ -1,4 +1,4 @@
-import { Bud } from "../types/buds";
+import type { Bud } from "../types/buds";
 import { getBudYieldBoosts } from "./getBudYieldBoosts";
 
 const NON_BOOSTED_TRAITS: Omit<Bud, "type"> = {

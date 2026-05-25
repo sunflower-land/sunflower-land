@@ -5,7 +5,7 @@ import { Button } from "components/ui/Button";
 import SoundOffIcon from "assets/icons/sound_off.png";
 // import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { ContentComponentProps } from "../types";
+import type { ContentComponentProps } from "../types";
 
 export const PlazaSettings: React.FC<ContentComponentProps> = ({
   onSubMenuClick,

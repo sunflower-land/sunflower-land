@@ -1,5 +1,5 @@
-import { BumpkinItem } from "../types/bumpkin";
-import { GameState } from "../types/game";
+import type { BumpkinItem } from "../types/bumpkin";
+import type { GameState } from "../types/game";
 
 export function isWearableActive({
   game,

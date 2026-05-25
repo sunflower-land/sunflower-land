@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Decimal } from "decimal.js-light";
+import type { Decimal } from "decimal.js-light";
 
-import {
+import type {
   CropName,
   CropSeedName,
   GreenHouseCropName,
   GreenHouseCropSeedName,
 } from "./crops";
 
-import { CollectibleName, CraftableName, Food } from "./craftables";
-import {
+import type { CollectibleName, CraftableName, Food } from "./craftables";
+import type {
   UpgradedResourceName,
   CommodityName,
   MushroomName,
@@ -17,25 +17,30 @@ import {
   ResourceTier,
   TreeName,
 } from "./resources";
-import { LegacyBadgeName } from "./skills";
-import { BuildingName } from "./buildings";
-import { GameEvent } from "../events";
-import { BumpkinItem, Equipped as BumpkinParts } from "./bumpkin";
-import { ConsumableName, CookableName } from "./consumables";
-import { ProcessedResource } from "./processedFood";
-import { BumpkinSkillName, BumpkinRevampSkillName } from "./bumpkinSkills";
-import { AchievementName } from "./achievements";
-import { DecorationName } from "./decorations";
-import { BeanName, ExoticCropName, GiantFruit, MutantCropName } from "./beans";
-import {
+import type { LegacyBadgeName } from "./skills";
+import type { BuildingName } from "./buildings";
+import type { GameEvent } from "../events";
+import type { BumpkinItem, Equipped as BumpkinParts } from "./bumpkin";
+import type { ConsumableName, CookableName } from "./consumables";
+import type { ProcessedResource } from "./processedFood";
+import type { BumpkinSkillName, BumpkinRevampSkillName } from "./bumpkinSkills";
+import type { AchievementName } from "./achievements";
+import type { DecorationName } from "./decorations";
+import type {
+  BeanName,
+  ExoticCropName,
+  GiantFruit,
+  MutantCropName,
+} from "./beans";
+import type {
   FullMoonFruit,
   GreenHouseFruitName,
   GreenHouseFruitSeedName,
   PatchFruitName,
   PatchFruitSeedName,
 } from "./fruits";
-import { BeachBountyTreasure, TreasureName } from "./treasure";
-import {
+import type { BeachBountyTreasure, TreasureName } from "./treasure";
+import type {
   GoblinBlacksmithItemName,
   GoblinPirateItemName,
   HeliosBlacksmithItem,
@@ -46,26 +51,26 @@ import {
   SoldOutCollectibleName,
   TreasureCollectibleItem,
 } from "./collectibles";
-import { TreasureToolName, WorkbenchToolName } from "./tools";
-import { ConversationName } from "./announcements";
-import { NPCName } from "lib/npcs";
-import {
+import type { TreasureToolName, WorkbenchToolName } from "./tools";
+import type { ConversationName } from "./announcements";
+import type { NPCName } from "lib/npcs";
+import type {
   ChapterBanner,
   ChapterTicket,
   ChapterName,
   ChapterRaffleTicket,
 } from "./chapters";
-import { Bud } from "./buds";
-import {
+import type { Bud } from "./buds";
+import type {
   CompostName,
   CropCompostName,
   FruitCompostName,
   GreenhouseCompostName,
   Worm,
 } from "./composters";
-import { FarmActivityName } from "./farmActivity";
-import { MilestoneName } from "./milestones";
-import {
+import type { FarmActivityName } from "./farmActivity";
+import type { MilestoneName } from "./milestones";
+import type {
   AgedFishName,
   PrimeAgedFishName,
   FishName,
@@ -73,59 +78,69 @@ import {
   MarineMarvelName,
   OldFishName,
 } from "./fishing";
-import { MinigameName } from "./minigames";
-import {
+import type { MinigameName } from "./minigames";
+import type {
   FlowerCrossBreedName,
   FlowerName,
   FlowerSeedName,
   MutantFlowerName,
 } from "./flowers";
-import { FermentationProductName } from "./fermentationProducts";
-import { SpiceRackProductName } from "./spiceRackProducts";
-import { PickledCropName } from "./pickled";
+import type { FermentationProductName } from "./fermentationProducts";
+import type { SpiceRackProductName } from "./spiceRackProducts";
+import type { PickledCropName } from "./pickled";
 import { translate } from "lib/i18n/translate";
-import { SpecialEvents } from "./specialEvents";
-import { TradeableName } from "../actions/sellMarketResource";
-import { MinigameCurrency } from "../events/minigames/purchaseMinigameItem";
-import { FactionShopCollectibleName, FactionShopFoodName } from "./factionShop";
-import { DiggingFormationName } from "./desert";
-import {
+import type { SpecialEvents } from "./specialEvents";
+import type { TradeableName } from "../actions/sellMarketResource";
+import type { MinigameCurrency } from "../events/minigames/purchaseMinigameItem";
+import type {
+  FactionShopCollectibleName,
+  FactionShopFoodName,
+} from "./factionShop";
+import type { DiggingFormationName } from "./desert";
+import type {
   BudNFTName,
   CollectionName,
   MarketplaceTradeableName,
 } from "./marketplace";
-import { GameTransaction } from "./transactions";
-import { CompetitionName, CompetitionProgress } from "./competitions";
-import { AnimalType } from "./animals";
-import { ChoreBoard } from "./choreBoard";
-import { DollName, RecipeCollectibleName, Recipes } from "../lib/crafting";
+import type { GameTransaction } from "./transactions";
+import type { CompetitionName, CompetitionProgress } from "./competitions";
+import type { AnimalType } from "./animals";
+import type { ChoreBoard } from "./choreBoard";
+import type { DollName, RecipeCollectibleName, Recipes } from "../lib/crafting";
 
-import { ChapterCollectibleName, ChapterTierItemName } from "./megastore";
-import { TradeFood } from "../events/landExpansion/redeemTradeReward";
-import {
+import type { ChapterCollectibleName, ChapterTierItemName } from "./megastore";
+import type { TradeFood } from "../events/landExpansion/redeemTradeReward";
+import type {
   CalendarEvent,
   CalendarEventName,
   SeasonalEventName,
 } from "./calendar";
-import { VipBundle } from "../lib/vipAccess";
-import { InGameTaskName } from "../events/landExpansion/completeSocialTask";
-import { TwitterPost, TwitterPostName } from "./social";
-import { NetworkName } from "../events/landExpansion/updateNetwork";
-import { RewardBoxes, RewardBoxName } from "./rewardBoxes";
-import { FloatingIslandShop, FloatingShopItemName } from "./floatingIsland";
-import { Blessing } from "../lib/blessings";
-import { LandBiomeName } from "features/island/biomes/biomes";
-import { MonumentName } from "./monuments";
-import { AOEItemName } from "../expansion/placeable/lib/collisionDetection";
-import { Coordinates } from "../expansion/components/MapPlacement";
-import { ClutterName } from "./clutter";
-import { PetName, PetResourceName, Pets } from "./pets";
-import { RockName } from "./resources";
-import { PetShopItemName } from "./petShop";
-import { League } from "features/leagues/leagues";
-import { Buff, BuffName } from "./buffs";
-import { CrustaceanChum, CrustaceanName, WaterTrapName } from "./crustaceans";
-import { SaltFarm } from "./salt";
+import type { VipBundle } from "../lib/vipAccess";
+import type { InGameTaskName } from "../events/landExpansion/completeSocialTask";
+import type { TwitterPost, TwitterPostName } from "./social";
+import type { NetworkName } from "../events/landExpansion/updateNetwork";
+import type { RewardBoxes, RewardBoxName } from "./rewardBoxes";
+import type {
+  FloatingIslandShop,
+  FloatingShopItemName,
+} from "./floatingIsland";
+import type { Blessing } from "../lib/blessings";
+import type { LandBiomeName } from "features/island/biomes/biomes";
+import type { MonumentName } from "./monuments";
+import type { AOEItemName } from "../expansion/placeable/lib/collisionDetection";
+import type { Coordinates } from "../expansion/components/MapPlacement";
+import type { ClutterName } from "./clutter";
+import type { PetName, PetResourceName, Pets } from "./pets";
+import type { RockName } from "./resources";
+import type { PetShopItemName } from "./petShop";
+import type { League } from "features/leagues/leagues";
+import type { Buff, BuffName } from "./buffs";
+import type {
+  CrustaceanChum,
+  CrustaceanName,
+  WaterTrapName,
+} from "./crustaceans";
+import type { SaltFarm } from "./salt";
 import type { AgingShed } from "../lib/agingShed";
 import type { SculptureName } from "./saltSculpture";
 

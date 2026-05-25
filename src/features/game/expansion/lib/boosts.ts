@@ -1,12 +1,12 @@
 import Decimal from "decimal.js-light";
 
-import { BoostName, GameState, Inventory } from "../../types/game";
+import type { BoostName, GameState, Inventory } from "../../types/game";
 import { CROPS } from "../../types/crops";
 import {
   COOKABLES,
   COOKABLE_CAKES,
-  Consumable,
-  CookableName,
+  type Consumable,
+  type CookableName,
   FISH_CONSUMABLES,
   isCookable,
 } from "features/game/types/consumables";
@@ -18,7 +18,7 @@ import {
 import { getBudExperienceBoosts } from "features/game/lib/getBudExperienceBoosts";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { isWearableActive } from "features/game/lib/wearables";
-import { SellableItem } from "features/game/events/landExpansion/sellCrop";
+import type { SellableItem } from "features/game/events/landExpansion/sellCrop";
 import {
   FACTION_ITEMS,
   getFactionPetBoostMultiplier,

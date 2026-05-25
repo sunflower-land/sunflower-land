@@ -23,7 +23,7 @@ import autumnGuardian from "assets/sfts/autumn_guardian.webp";
 import springGuardian from "assets/sfts/spring_guardian.webp";
 import summerGuardian from "assets/sfts/summer_guardian.webp";
 import winterGuardian from "assets/sfts/winter_guardian.webp";
-import {
+import type {
   InventoryItemName,
   TemperateSeasonName,
 } from "features/game/types/game";

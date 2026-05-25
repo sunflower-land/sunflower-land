@@ -1,4 +1,4 @@
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { populateKingdomChores } from "./completeKingdomChore";
 import { produce } from "immer";
 

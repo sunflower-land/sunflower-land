@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "../lib/level";
-import { GameState, Inventory } from "./game";
-import { CookEvent, CraftedEvent, HarvestEvent } from "./farmActivity";
+import type { GameState, Inventory } from "./game";
+import type { CookEvent, CraftedEvent, HarvestEvent } from "./farmActivity";
 import { COOKABLES, COOKABLE_CAKES } from "./consumables";
 import { TOOLS } from "./craftables";
 import { getKeys } from "lib/object";

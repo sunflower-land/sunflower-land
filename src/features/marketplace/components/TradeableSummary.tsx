@@ -3,7 +3,7 @@ import React from "react";
 import sflIcon from "assets/icons/flower_token.webp";
 import bg from "assets/ui/3x3_bg.png";
 
-import { TradeableDisplay } from "../lib/tradeables";
+import type { TradeableDisplay } from "../lib/tradeables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { formatNumber } from "lib/utils/formatNumber";
 import Decimal from "decimal.js-light";

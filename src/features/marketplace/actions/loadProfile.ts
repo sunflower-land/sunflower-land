@@ -1,4 +1,4 @@
-import { MarketplaceProfile } from "features/game/types/marketplace";
+import type { MarketplaceProfile } from "features/game/types/marketplace";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 

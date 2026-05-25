@@ -3,11 +3,11 @@ import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { INITIAL_FARM, TREE_RECOVERY_TIME } from "features/game/lib/constants";
 import { KNOWN_IDS } from "features/game/types";
-import { GameState, Tree } from "features/game/types/game";
+import type { GameState, Tree } from "features/game/types/game";
 import { prngChance } from "lib/prng";
 import {
   chop,
-  LandExpansionChopAction,
+  type LandExpansionChopAction,
   getWoodDropAmount,
   getChoppedAt,
 } from "./chop";

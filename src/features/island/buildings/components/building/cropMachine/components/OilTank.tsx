@@ -2,7 +2,7 @@ import React from "react";
 import { Label } from "components/ui/Label";
 import { MAX_OIL_CAPACITY_IN_MILLIS } from "features/game/events/landExpansion/supplyCropMachine";
 import { getTotalOilMillisInMachine } from "features/game/events/landExpansion/supplyCropMachineOil";
-import { CropMachineQueueItem, GameState } from "features/game/types/game";
+import type { CropMachineQueueItem, GameState } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 import { secondsToString } from "lib/utils/time";
 import { ResizableBar } from "components/ui/ProgressBar";

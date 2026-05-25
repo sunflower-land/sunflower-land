@@ -1,6 +1,6 @@
 import debounce from "lodash.debounce";
 import { SpeechBubble } from "./SpeechBubble";
-import { Label } from "./Label";
+import type { Label } from "./Label";
 
 export class DogContainer extends Phaser.GameObjects.Container {
   public sprite: Phaser.GameObjects.Sprite | undefined;

@@ -1,8 +1,8 @@
-import {
+import type {
   BuildingName,
   CookingBuildingName,
 } from "features/game/types/buildings";
-import {
+import type {
   BuildingProduct,
   GameState,
   InventoryItemName,
@@ -17,7 +17,7 @@ import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import {
   assertCookableName,
-  CookableName,
+  type CookableName,
   COOKABLES,
 } from "features/game/types/consumables";
 import { getCookingTime } from "features/game/expansion/lib/boosts";

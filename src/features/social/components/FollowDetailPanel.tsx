@@ -4,7 +4,7 @@ import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { OnlineStatus } from "./OnlineStatus";
 import { getRelativeTime } from "lib/utils/time";
 import { useTranslation } from "react-i18next";
-import { Equipped } from "features/game/types/bumpkin";
+import type { Equipped } from "features/game/types/bumpkin";
 import { Label } from "components/ui/Label";
 import socialPointsIcon from "assets/icons/social_score.webp";
 import potIcon from "assets/icons/pot.png";

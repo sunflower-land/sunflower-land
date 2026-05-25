@@ -1,16 +1,16 @@
-import { GameState, Tree } from "features/game/types/game";
+import type { GameState, Tree } from "features/game/types/game";
 import {
   ADVANCED_RESOURCES,
   RESOURCE_MULTIPLIER,
-  TreeName,
-  UpgradedResourceName,
+  type TreeName,
+  type UpgradedResourceName,
 } from "features/game/types/resources";
 import { produce } from "immer";
 import {
   findExistingUnplacedNode,
   getAvailableNodes,
 } from "features/game/lib/resourceNodes";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export type PlaceTreeAction = {
   type: "tree.placed";

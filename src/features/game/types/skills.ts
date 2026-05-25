@@ -1,8 +1,8 @@
-import Decimal from "decimal.js-light";
+import type Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
 import powerup from "assets/icons/level_up.png";
 import { ITEM_DETAILS } from "./images";
-import { BuffLabel } from ".";
+import type { BuffLabel } from ".";
 
 export type LegacyBadgeName =
   | "Green Thumb"

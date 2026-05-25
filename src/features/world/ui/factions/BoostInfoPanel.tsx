@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 
-import { MachineState } from "features/game/lib/gameMachine";
-import { GameState } from "features/game/types/game";
+import type { MachineState } from "features/game/lib/gameMachine";
+import type { GameState } from "features/game/types/game";
 import lightning from "assets/icons/lightning.png";
 import { getKeys } from "lib/object";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

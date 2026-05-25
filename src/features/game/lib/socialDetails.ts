@@ -1,4 +1,4 @@
-import { SocialDetails } from "../actions/loadSession";
+import type { SocialDetails } from "../actions/loadSession";
 
 /**
  * Resolves the next `socialDetails` value from an effect response.

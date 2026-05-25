@@ -1,7 +1,11 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM, INITIAL_BUMPKIN } from "../../lib/constants";
-import { GameState } from "../../types/game";
-import { EVENT_ERRORS, MineSunstoneAction, mineSunstone } from "./mineSunstone";
+import type { GameState } from "../../types/game";
+import {
+  EVENT_ERRORS,
+  type MineSunstoneAction,
+  mineSunstone,
+} from "./mineSunstone";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,

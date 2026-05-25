@@ -10,7 +10,7 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Hud } from "features/island/hud/Hud";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import { getKeys } from "lib/object";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
@@ -25,7 +25,7 @@ import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "components/ui/Modal";
 import { BumpkinPainting } from "./components/BumpkinPainting";
-import { Bumpkin, IslandType } from "features/game/types/game";
+import type { Bumpkin, IslandType } from "features/game/types/game";
 import {
   HOME_BOUNDS,
   NON_COLLIDING_OBJECTS,
@@ -43,7 +43,7 @@ import { VisitingHud } from "features/island/hud/VisitingHud";
 import { getObjectEntries } from "lib/object";
 import { PlayerModal } from "features/social/PlayerModal";
 import { hasFeatureAccess } from "lib/flags";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import { PetNFT } from "features/island/pets/PetNFT";
 import { FarmHand } from "features/island/farmhand/FarmHand";

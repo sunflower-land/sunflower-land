@@ -1,12 +1,12 @@
 import React, { useContext, useState } from "react";
 import { InfoPopover } from "../common/InfoPopover";
 import { PATCH_FRUIT_LIFECYCLE } from "./fruits";
-import { PATCH_FRUIT, PatchFruitName } from "features/game/types/fruits";
+import { PATCH_FRUIT, type PatchFruitName } from "features/game/types/fruits";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { getCurrentBiome } from "../biomes/biomes";

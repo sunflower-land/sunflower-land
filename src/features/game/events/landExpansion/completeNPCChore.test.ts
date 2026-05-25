@@ -1,8 +1,8 @@
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { completeNPCChore } from "./completeNPCChore";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import Decimal from "decimal.js-light";
-import { NpcChore } from "features/game/types/choreBoard";
+import type { NpcChore } from "features/game/types/choreBoard";
 
 describe("completeNPCChore", () => {
   const CHORE: NpcChore = {

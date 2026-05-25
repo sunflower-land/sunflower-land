@@ -4,7 +4,7 @@ import { TREE_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
 import { getTimeLeft } from "lib/utils/time";
-import {
+import type {
   GameState,
   InventoryItemName,
   Reward,
@@ -17,12 +17,12 @@ import {
   getWoodDropAmount,
 } from "features/game/events/landExpansion/chop";
 import { KNOWN_IDS } from "features/game/types";
-import { TreeName } from "features/game/types/resources";
+import type { TreeName } from "features/game/types/resources";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { ChestReward } from "features/island/common/chest-reward/ChestReward";
 import { useSelector } from "@xstate/react";
 import {
-  MachineState,
+  type MachineState,
   selectGameState,
   selectVerified,
 } from "features/game/lib/gameMachine";
@@ -38,7 +38,7 @@ import { setPrecision } from "lib/utils/formatNumber";
 import { Transition } from "@headlessui/react";
 import lightning from "assets/icons/lightning.png";
 import { useNow } from "lib/utils/hooks/useNow";
-import { FarmActivityName } from "features/game/types/farmActivity";
+import type { FarmActivityName } from "features/game/types/farmActivity";
 
 const HITS = 3;
 const tool = "Axe";

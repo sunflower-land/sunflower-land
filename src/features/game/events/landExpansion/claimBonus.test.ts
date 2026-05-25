@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { claimBonus } from "./claimBonus";
 import { TEST_FARM } from "features/game/lib/constants";
-import { BonusName } from "features/game/types/bonuses";
+import type { BonusName } from "features/game/types/bonuses";
 
 describe("claimBonus", () => {
   const dateNow = Date.now();

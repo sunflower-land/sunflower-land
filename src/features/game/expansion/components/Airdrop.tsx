@@ -7,7 +7,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Airdrop as IAirdrop } from "features/game/types/game";
+import type { Airdrop as IAirdrop } from "features/game/types/game";
 import { ClaimReward } from "./ClaimReward";
 
 export const AirdropModal: React.FC<{

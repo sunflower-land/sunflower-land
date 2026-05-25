@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
 import { Button } from "components/ui/Button";
-import { Bid } from "features/game/types/game";
+import type { Bid } from "features/game/types/game";
 
 import { AuctionLeaderboardTable } from "./AuctionLeaderboardTable";
-import { AuctionResults } from "features/game/lib/auctionMachine";
+import type { AuctionResults } from "features/game/lib/auctionMachine";
 import { Label } from "components/ui/Label";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "./AuctionDetails";

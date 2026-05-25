@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { OuterPanel } from "components/ui/Panel";
-import { NPCName, NPC_WEARABLES } from "lib/npcs";
+import { type NPCName, NPC_WEARABLES } from "lib/npcs";
 import React from "react";
 import { DeliveryPanelContent } from "./DeliveryPanelContent";
 

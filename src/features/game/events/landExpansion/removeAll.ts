@@ -16,8 +16,8 @@ import { removeSunstone } from "./removeSunstone";
 import { removeTree } from "./removeTree";
 import { removeNFT } from "./removeNFT";
 import { getObjectEntries } from "lib/object";
-import { PlaceableLocation } from "features/game/types/collectibles";
-import { GameState } from "features/game/types/game";
+import type { PlaceableLocation } from "features/game/types/collectibles";
+import type { GameState } from "features/game/types/game";
 
 export type RemoveAllAction = {
   type: "items.removed";

@@ -1,22 +1,22 @@
 import Decimal from "decimal.js-light";
-import {
+import type {
   BuildingName,
   CookingBuildingName,
 } from "features/game/types/buildings";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { getCurrentCookingItem, recalculateQueue } from "./cancelQueuedRecipe";
 import {
   assertCookableName,
-  CookableName,
+  type CookableName,
 } from "features/game/types/consumables";
 import { getCookingAmount } from "./collectRecipe";
 import {
   chargeCoinsForSpeedUp,
   getInstantGems,
   makeGemHistory,
-  SpeedUpPaymentMethod,
+  type SpeedUpPaymentMethod,
 } from "features/game/lib/getInstantGems";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 

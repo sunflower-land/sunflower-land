@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 
-import { Consumable } from "features/game/types/consumables";
+import type { Consumable } from "features/game/types/consumables";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { Feed } from "./Feed";
@@ -9,11 +9,11 @@ import foodIcon from "assets/food/chicken_drumstick.png";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { LevelUp } from "./LevelUp";
-import { Equipped } from "features/game/types/bumpkin";
+import type { Equipped } from "features/game/types/bumpkin";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { OuterPanel } from "components/ui/Panel";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { getAvailableFood } from "features/game/lib/availableFood";
 
 interface Props {

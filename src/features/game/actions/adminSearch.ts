@@ -1,5 +1,5 @@
 import { CONFIG } from "lib/config";
-import { VisitGameState } from "./loadGameStateForVisit";
+import type { VisitGameState } from "./loadGameStateForVisit";
 
 const API_URL = CONFIG.API_URL;
 

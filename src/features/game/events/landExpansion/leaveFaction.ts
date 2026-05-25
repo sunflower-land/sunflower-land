@@ -1,6 +1,6 @@
 import { produce } from "immer";
 import { FACTION_BANNERS, FACTION_EMBLEMS } from "./joinFaction";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 export type LeaveFactionAction = {
   type: "faction.left";

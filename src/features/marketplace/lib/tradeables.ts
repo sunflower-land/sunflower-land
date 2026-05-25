@@ -1,16 +1,16 @@
-import { BuffLabel, KNOWN_ITEMS } from "features/game/types";
+import { type BuffLabel, KNOWN_ITEMS } from "features/game/types";
 import { ITEM_NAMES } from "features/game/types/bumpkin";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { getItemBuffs } from "features/game/types/getItemBuffs";
 import { ITEM_DETAILS } from "features/game/types/images";
-import {
+import type {
   BudNFTName,
   CollectionName,
   MarketplaceTradeableName,
 } from "features/game/types/marketplace";
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
 import { translate } from "lib/i18n/translate";
-import { PetNFTName } from "features/game/types/pets";
+import type { PetNFTName } from "features/game/types/pets";
 import { getPetImageForMarketplace } from "features/island/pets/lib/petShared";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 import { getBudImage } from "lib/buds/types";

@@ -4,7 +4,7 @@ import { Label } from "components/ui/Label";
 import { Modal } from "components/ui/Modal";
 import { Panel, InnerPanel } from "components/ui/Panel";
 import { Loading } from "features/auth/components";
-import {
+import type {
   Listing,
   Tradeable,
   TradeableDetails,
@@ -15,7 +15,7 @@ import { ListingTable } from "./TradeTable";
 import { Context } from "features/game/GameProvider";
 
 import tradeIcon from "assets/icons/trade.png";
-import {
+import type {
   Context as ContextType,
   BlockchainEvent,
   MachineState,
@@ -26,15 +26,15 @@ import { ResourceTable } from "./ResourceTable";
 import { formatNumber } from "lib/utils/formatNumber";
 import { useParams } from "react-router";
 import { PurchaseModalContent } from "./PurchaseModalContent";
-import { TradeableDisplay } from "../lib/tradeables";
+import type { TradeableDisplay } from "../lib/tradeables";
 import { KNOWN_ITEMS } from "features/game/types";
-import { KeyedMutator } from "swr";
+import type { KeyedMutator } from "swr";
 import { isTradeResource } from "features/game/actions/tradeLimits";
 import { MAX_LIMITED_SALES } from "./Tradeable";
 import { ResourceTaxes } from "./TradeableInfo";
 import { Button } from "components/ui/Button";
 import { BulkBuyInterface } from "./BulkBuyInterface";
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import debounce from "lodash.debounce";
 import { BulkPurchaseModalContent } from "./BulkPurchaseModalContent";

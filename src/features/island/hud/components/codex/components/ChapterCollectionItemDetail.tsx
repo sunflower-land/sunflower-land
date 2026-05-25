@@ -9,14 +9,17 @@ import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import {
-  ChapterItemSourceKey,
+  type ChapterItemSourceKey,
   getChapterItemSource,
 } from "features/game/types/collections";
-import { ChapterName, hasChapterEnded } from "features/game/types/chapters";
+import {
+  type ChapterName,
+  hasChapterEnded,
+} from "features/game/types/chapters";
 import { useNow } from "lib/utils/hooks/useNow";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import type { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { KNOWN_IDS } from "features/game/types";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 import {

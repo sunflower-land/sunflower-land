@@ -13,7 +13,7 @@ import { GoogleButton } from "features/auth/components/buttons/GoogleButton";
 import { useGoogleLinkPopup } from "features/auth/lib/useGoogleLinkPopup";
 import { Loading } from "features/auth/components";
 import { ErrorMessage } from "features/auth/ErrorMessage";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import type { ContentComponentProps } from "../../island/hud/components/settings-menu/GameOptions";
 
 const _linkingWallet = (state: MachineState) => state.matches("linkingWallet");

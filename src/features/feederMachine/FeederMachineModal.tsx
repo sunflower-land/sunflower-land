@@ -4,7 +4,10 @@ import { Modal } from "components/ui/Modal";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
-import { AnimalFoodName, AnimalMedicineName } from "features/game/types/game";
+import type {
+  AnimalFoodName,
+  AnimalMedicineName,
+} from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useState } from "react";
 import { getKeys } from "lib/object";
@@ -12,7 +15,11 @@ import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
-import { ANIMAL_FOODS, Feed, FeedType } from "features/game/types/animals";
+import {
+  ANIMAL_FOODS,
+  type Feed,
+  type FeedType,
+} from "features/game/types/animals";
 import { Label } from "components/ui/Label";
 import { getIngredients } from "./feedMixed";
 

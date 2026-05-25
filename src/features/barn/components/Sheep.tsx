@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useInterpret, useSelector } from "@xstate/react";
 import { capitalize } from "lib/utils/capitalize";
 import {
   animalMachine,
-  AnimalMachineInterpreter,
-  TState as AnimalMachineState,
+  type AnimalMachineInterpreter,
+  type TState as AnimalMachineState,
 } from "features/game/lib/animalMachine";
 import {
   getAnimalFavoriteFood,
@@ -20,7 +20,7 @@ import classNames from "classnames";
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
 import { ANIMAL_EMOTION_ICONS } from "./Cow";
-import {
+import type {
   AnimalFeedBuffName,
   AnimalFoodName,
   AnimalMedicineName,

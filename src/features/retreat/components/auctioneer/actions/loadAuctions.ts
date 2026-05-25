@@ -1,4 +1,4 @@
-import { Auction } from "features/game/lib/auctionMachine";
+import type { Auction } from "features/game/lib/auctionMachine";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 

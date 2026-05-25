@@ -5,8 +5,8 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { HOURGLASSES } from "features/game/events/landExpansion/burnCollectible";
-import { HourglassType } from "features/island/collectibles/components/Hourglass";
-import { TranslationKeys } from "lib/i18n/dictionaries/types";
+import type { HourglassType } from "features/island/collectibles/components/Hourglass";
+import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 
 type TimeBasedConsumables = HourglassType | "Time Warp Totem" | "Super Totem";
 

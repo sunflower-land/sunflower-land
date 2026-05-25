@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { Room, Client } from "colyseus.js";
+import { type Room, Client } from "colyseus.js";
 import { CONFIG } from "lib/config";
-import { Interaction, Milestone, PlayerUpdate } from "../types/types";
+import type { Interaction, Milestone, PlayerUpdate } from "../types/types";
 
 const MAX_RETRY_INTERVAL = 15 * 60 * 1000;
 

@@ -1,6 +1,6 @@
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
-import { GameState, Inventory } from "features/game/types/game";
+import type { GameState, Inventory } from "features/game/types/game";
 
 export type IncreaseHelpLimitAction = {
   type: "helpLimit.increased";

@@ -1,5 +1,5 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { removeTree, REMOVE_TREE_ERRORS } from "./removeTree";
 
 const GAME_STATE: GameState = {

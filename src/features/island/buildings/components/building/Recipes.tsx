@@ -1,4 +1,9 @@
-import React, { Dispatch, SetStateAction, useContext, useState } from "react";
+import React, {
+  type Dispatch,
+  type SetStateAction,
+  useContext,
+  useState,
+} from "react";
 import { useSelector } from "@xstate/react";
 
 import { Box } from "components/ui/Box";
@@ -8,8 +13,8 @@ import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   COOKABLES,
-  Cookable,
-  CookableName,
+  type Cookable,
+  type CookableName,
 } from "features/game/types/consumables";
 
 import { InProgressInfo } from "./InProgressInfo";
@@ -22,12 +27,15 @@ import {
   getReadyAt,
   MAX_COOKING_SLOTS,
 } from "features/game/events/landExpansion/cook";
-import { CookingBuildingName } from "features/game/types/buildings";
+import type { CookingBuildingName } from "features/game/types/buildings";
 import { BuildingOilTank } from "./BuildingOilTank";
 import pumpkinSoup from "assets/food/pumpkin_soup.png";
 import powerup from "assets/icons/level_up.png";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { BuildingProduct, InventoryItemName } from "features/game/types/game";
+import type {
+  BuildingProduct,
+  InventoryItemName,
+} from "features/game/types/game";
 import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 import { Queue } from "./Queue";
 import vipIcon from "assets/icons/vip.webp";

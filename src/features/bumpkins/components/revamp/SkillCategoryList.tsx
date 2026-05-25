@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import {
-  BumpkinRevampSkillTree,
+  type BumpkinRevampSkillTree,
   getRevampSkills,
   getRevampSkillTreeCategoriesByIsland,
 } from "features/game/types/bumpkinSkills";
@@ -20,12 +20,12 @@ import { ISLAND_EXPANSIONS } from "features/game/types/game";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import classNames from "classnames";
 import { SquareIcon } from "components/ui/SquareIcon";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { gameAnalytics } from "lib/gameAnalytics";
 import {
   canResetForFree,
   getGemCost,
-  PaymentType,
+  type PaymentType,
   getTimeUntilNextFreeReset,
 } from "features/game/events/landExpansion/resetSkills";
 import { SkillReset } from "./SkillReset";

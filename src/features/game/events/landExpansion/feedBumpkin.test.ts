@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { CONSUMABLES } from "features/game/types/consumables";
 import { FEED_BUMPKIN_ERRORS, feedBumpkin } from "./feedBumpkin";
 

@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import {
   CloseButtonPanel,
-  PanelTabs,
+  type PanelTabs,
 } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

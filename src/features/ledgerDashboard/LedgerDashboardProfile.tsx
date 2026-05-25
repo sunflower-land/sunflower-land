@@ -3,7 +3,7 @@ import { Panel } from "components/ui/Panel";
 import { useContext } from "react";
 import * as AuthProvider from "features/auth/lib/Provider";
 import useSWR from "swr";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { useSelector } from "@xstate/react";
 import { useParams } from "react-router";
 import { getLedgerDashboardProfile } from "./actions/getLedgerDashboardProfile";

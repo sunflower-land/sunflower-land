@@ -1,7 +1,7 @@
-import { GameState, OilReserve } from "features/game/types/game";
+import type { GameState, OilReserve } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export type PlaceOilReserveAction = {
   type: "oilReserve.placed";

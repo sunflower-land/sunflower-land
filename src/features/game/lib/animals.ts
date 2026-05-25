@@ -3,14 +3,14 @@ import {
   ANIMAL_FOOD_EXPERIENCE,
   ANIMAL_FOODS,
   ANIMAL_LEVELS,
-  AnimalBuildingType,
-  AnimalLevel,
+  type AnimalBuildingType,
+  type AnimalLevel,
   ANIMALS,
-  AnimalType,
+  type AnimalType,
 } from "../types/animals";
-import { BuildingName } from "../types/buildings";
+import type { BuildingName } from "../types/buildings";
 import { getKeys } from "lib/object";
-import {
+import type {
   Animal,
   AnimalBuilding,
   AnimalBuildingKey,

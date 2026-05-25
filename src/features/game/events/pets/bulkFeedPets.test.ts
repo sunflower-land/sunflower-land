@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
-import { bulkFeedPets, BulkFeedPetsAction } from "./bulkFeedPets";
+import type { GameState } from "features/game/types/game";
+import { bulkFeedPets, type BulkFeedPetsAction } from "./bulkFeedPets";
 
 describe("bulkFeedPets", () => {
   const now = Date.now();

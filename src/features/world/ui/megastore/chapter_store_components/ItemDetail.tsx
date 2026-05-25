@@ -2,7 +2,7 @@ import React, { useContext, useLayoutEffect, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import Decimal from "decimal.js-light";
-import { InventoryItemName, Keys } from "features/game/types/game";
+import type { InventoryItemName, Keys } from "features/game/types/game";
 
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
@@ -10,10 +10,10 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { Button } from "components/ui/Button";
-import { BuffLabel } from "features/game/types";
+import type { BuffLabel } from "features/game/types";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import {
   getCurrentChapter,
   getChapterTicket,
@@ -23,9 +23,9 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
 import {
   MEGASTORE,
-  ChapterStoreCollectible,
-  ChapterStoreItem,
-  ChapterStoreWearable,
+  type ChapterStoreCollectible,
+  type ChapterStoreItem,
+  type ChapterStoreWearable,
 } from "features/game/types/megastore";
 import { getItemDescription } from "../ChapterStore";
 import { getKeys } from "lib/object";

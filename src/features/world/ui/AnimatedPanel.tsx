@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react";
+import React, { type PropsWithChildren } from "react";
 import { Transition } from "@headlessui/react";
 import { InnerPanel } from "components/ui/Panel";
 

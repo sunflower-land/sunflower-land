@@ -1,6 +1,6 @@
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { PetType } from "features/game/types/pets";
+import type { PetType } from "features/game/types/pets";
 import React from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { InnerPanel } from "components/ui/Panel";

@@ -1,9 +1,9 @@
 import Decimal from "decimal.js-light";
 import {
-  ComposterName,
+  type ComposterName,
   composterDetails,
 } from "features/game/types/composters";
-import { CompostBuilding, GameState } from "features/game/types/game";
+import type { CompostBuilding, GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
 

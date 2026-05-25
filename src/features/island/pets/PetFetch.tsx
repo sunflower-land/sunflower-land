@@ -12,13 +12,13 @@ import {
   isPetNapping,
   isPetNeglected,
   isPetNFT,
-  Pet,
+  type Pet,
   PET_RESOURCES,
-  PetNFT,
-  PetResourceName,
+  type PetNFT,
+  type PetResourceName,
 } from "features/game/types/pets";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";

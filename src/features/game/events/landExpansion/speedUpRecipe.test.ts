@@ -15,7 +15,7 @@ import { INITIAL_FARM } from "features/game/lib/constants";
 import { speedUpRecipe } from "./speedUpRecipe";
 import Decimal from "decimal.js-light";
 import { BAKERY_COOKABLES, COOKABLES } from "features/game/types/consumables";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { supplyCookingOil } from "./supplyCookingOil";
 import { cook, getCookingOilBoost } from "./cook";
 

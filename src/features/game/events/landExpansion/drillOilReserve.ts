@@ -5,7 +5,11 @@ import {
 } from "features/game/lib/collectibleBuilt";
 import { isWearableActive } from "features/game/lib/wearables";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { BoostName, GameState, OilReserve } from "features/game/types/game";
+import type {
+  BoostName,
+  GameState,
+  OilReserve,
+} from "features/game/types/game";
 import { produce } from "immer";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 

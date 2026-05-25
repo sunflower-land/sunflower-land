@@ -1,10 +1,10 @@
-import { Schema, MapSchema, ArraySchema } from "@colyseus/schema";
-import { NPCName } from "lib/npcs";
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
-import { SceneId } from "../mmoMachine";
-import { Moderation } from "features/game/lib/gameMachine";
-import { FactionName } from "features/game/types/game";
-import { PetNFTType } from "features/game/types/pets";
+import type { Schema, MapSchema, ArraySchema } from "@colyseus/schema";
+import type { NPCName } from "lib/npcs";
+import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import type { SceneId } from "../mmoMachine";
+import type { Moderation } from "features/game/lib/gameMachine";
+import type { FactionName } from "features/game/types/game";
+import type { PetNFTType } from "features/game/types/pets";
 
 export interface InputData {
   x: number;

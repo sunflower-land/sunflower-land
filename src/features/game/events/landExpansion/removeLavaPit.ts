@@ -1,5 +1,5 @@
 import { produce } from "immer";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 export enum REMOVE_LAVA_PIT_ERRORS {
   LAVA_PIT_NOT_FOUND = "Lava pit not found",

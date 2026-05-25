@@ -1,4 +1,4 @@
-import { BumpkinLevel } from "features/game/lib/level";
+import type { BumpkinLevel } from "features/game/lib/level";
 
 export type Land = 3 | 4 | 5 | 6 | 7 | 8 | 9;
 

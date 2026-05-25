@@ -1,5 +1,5 @@
 import { CONFIG } from "lib/config";
-import { Detail } from "./getFollowNetworkDetails";
+import type { Detail } from "./getFollowNetworkDetails";
 
 type Request = {
   token: string;

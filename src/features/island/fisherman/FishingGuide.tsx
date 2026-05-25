@@ -10,11 +10,11 @@ import { Label } from "components/ui/Label";
 import { getKeys } from "lib/object";
 import {
   FISH,
-  FishingBait,
+  type FishingBait,
   getFermentationBaitsForFishBaits,
 } from "features/game/types/fishing";
 import { SEASON_ICONS } from "../buildings/components/building/market/SeasonalSeeds";
-import { TemperateSeasonName } from "features/game/types/game";
+import type { TemperateSeasonName } from "features/game/types/game";
 import { useGame } from "features/game/GameProvider";
 
 interface Props {

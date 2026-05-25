@@ -1,11 +1,14 @@
 /* eslint-disable no-var */
 import Decimal from "decimal.js-light";
-import { GameState, InventoryItemName } from "features/game/types/game";
-import { startCrafting, StartCraftingAction } from "./startCrafting";
+import type { GameState, InventoryItemName } from "features/game/types/game";
+import { startCrafting, type StartCraftingAction } from "./startCrafting";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { KNOWN_IDS } from "features/game/types";
 import { prngChance } from "lib/prng";
-import { RecipeCollectibleName, RECIPES } from "features/game/lib/crafting";
+import {
+  type RecipeCollectibleName,
+  RECIPES,
+} from "features/game/lib/crafting";
 
 describe("startCrafting", () => {
   const farmId = 1;

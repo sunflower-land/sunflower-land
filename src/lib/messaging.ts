@@ -3,7 +3,7 @@ import {
   getMessaging,
   getToken,
   isSupported,
-  Messaging,
+  type Messaging,
   onMessage,
 } from "firebase/messaging";
 import { CONFIG } from "lib/config";

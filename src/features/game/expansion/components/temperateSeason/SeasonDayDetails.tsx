@@ -3,15 +3,15 @@ import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import {
   CALENDAR_EVENT_ICONS,
-  CalendarEventName,
+  type CalendarEventName,
   SEASON_DETAILS,
 } from "features/game/types/calendar";
-import {
+import type {
   CalendarEventDetails,
   InventoryItemName,
   TemperateSeasonName,
 } from "features/game/types/game";
-import { TranslationKeys } from "lib/i18n/dictionaries/types";
+import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getRelativeTime } from "lib/utils/time";
 import React, { useState } from "react";

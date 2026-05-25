@@ -13,7 +13,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Label } from "components/ui/Label";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -22,7 +22,7 @@ import { RequiredReputation } from "features/island/hud/components/reputation/Re
 import { hasBoostRestriction } from "features/game/types/withdrawRestrictions";
 import { InfoPopover } from "features/island/common/InfoPopover";
 import { secondsToString } from "lib/utils/time";
-import { BoostName } from "features/game/types/game";
+import type { BoostName } from "features/game/types/game";
 import { getPetImage } from "features/island/pets/lib/petShared";
 import {
   getPetNFTReleaseDate,

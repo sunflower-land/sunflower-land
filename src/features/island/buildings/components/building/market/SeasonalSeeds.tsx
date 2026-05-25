@@ -5,10 +5,10 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import {
   CROP_SEEDS,
-  CropName,
-  CropSeedName,
+  type CropName,
+  type CropSeedName,
   GREENHOUSE_SEEDS,
-  GreenHouseCropSeedName,
+  type GreenHouseCropSeedName,
 } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Decimal } from "decimal.js-light";
@@ -21,13 +21,17 @@ import { getCropPlotTime } from "features/game/events/landExpansion/plant";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { makeBulkBuySeeds } from "./lib/makeBulkBuyAmount";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { SEASONAL_SEEDS, SEEDS, SeedName } from "features/game/types/seeds";
+import {
+  SEASONAL_SEEDS,
+  SEEDS,
+  type SeedName,
+} from "features/game/types/seeds";
 import {
   GREENHOUSE_FRUIT_SEEDS,
-  GreenHouseFruitSeedName,
+  type GreenHouseFruitSeedName,
   PATCH_FRUIT,
   PATCH_FRUIT_SEEDS,
-  PatchFruitSeedName,
+  type PatchFruitSeedName,
 } from "features/game/types/fruits";
 import { getFruitHarvests } from "features/game/events/landExpansion/utils";
 import { SplitScreenView } from "components/ui/SplitScreenView";
@@ -36,7 +40,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { FLOWER_SEEDS, FlowerSeedName } from "features/game/types/flowers";
+import { FLOWER_SEEDS, type FlowerSeedName } from "features/game/types/flowers";
 import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
 import {
   SEED_TO_PLANT,
@@ -47,7 +51,7 @@ import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 
 import { Restock } from "./restock/Restock";
-import { BoostName, TemperateSeasonName } from "features/game/types/game";
+import type { BoostName, TemperateSeasonName } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
 import { secondsTillWeekReset } from "features/game/lib/factions";
 
@@ -58,7 +62,7 @@ import winterIcon from "assets/icons/winter.webp";
 import fullMoon from "assets/icons/full_moon.png";
 import { SeedRequirements } from "components/ui/layouts/SeedRequirements";
 import { getKeys } from "lib/object";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import {
   BASIC_CROP_MACHINE_SEEDS,
   CROP_EXTENSION_MOD_I_SEEDS,

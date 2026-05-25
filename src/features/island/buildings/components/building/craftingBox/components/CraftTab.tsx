@@ -1,15 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useState, useEffect, useMemo, useRef } from "react";
 import { useSelector } from "@xstate/react";
-import {
+import type {
   MachineInterpreter,
   MachineState,
 } from "features/game/lib/gameMachine";
-import { CraftingQueueItem } from "features/game/types/game";
+import type { CraftingQueueItem } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { RecipeIngredient, RECIPES } from "features/game/lib/crafting";
+import { type RecipeIngredient, RECIPES } from "features/game/lib/crafting";
 import { getCurrentChapter } from "features/game/types/chapters";
 import {
   getRecipeIngredientsForName,

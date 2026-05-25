@@ -1,5 +1,5 @@
-import { Bumpkin } from "../types/game";
-import { BumpkinLevel } from "features/game/lib/level";
+import type { Bumpkin } from "../types/game";
+import type { BumpkinLevel } from "features/game/lib/level";
 import { getLandLimit } from "../expansion/lib/expansionRequirements";
 
 export const INITIAL_BUMPKIN_LEVEL = 1;

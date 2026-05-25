@@ -2,13 +2,13 @@ import React from "react";
 import { animated, config, useSpring } from "react-spring";
 import bee from "assets/icons/bee.webp";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
-import {
+import type {
   MachineInterpreter,
   MachineState,
 } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
-import { FlowerBed } from "features/game/types/game";
+import type { FlowerBed } from "features/game/types/game";
 
 interface Props {
   hiveX: number;

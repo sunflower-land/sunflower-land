@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { collectCompost } from "./collectCompost";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { CompostBuilding, GameState } from "features/game/types/game";
+import type { CompostBuilding, GameState } from "features/game/types/game";
 
 const GAME_STATE: GameState = { ...TEST_FARM, bumpkin: INITIAL_BUMPKIN };
 

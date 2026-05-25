@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NetworkOption } from "./DepositFlower";
+import type { NetworkOption } from "./DepositFlower";
 import { useTranslation } from "react-i18next";
 import { CopySvg } from "components/ui/CopyField";
 import { Label } from "components/ui/Label";

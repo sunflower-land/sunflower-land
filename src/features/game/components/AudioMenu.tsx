@@ -5,7 +5,7 @@ import arrow_next from "assets/icons/arrow_next.png";
 import arrow_previous from "assets/icons/arrow_previous.png";
 import sound_on from "assets/icons/sound_on.png";
 import sound_off from "assets/icons/sound_off.png";
-import { Song } from "assets/songs/playlist";
+import type { Song } from "assets/songs/playlist";
 import { PIXEL_SCALE } from "../lib/constants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useIsAudioMuted } from "lib/utils/hooks/useIsAudioMuted";

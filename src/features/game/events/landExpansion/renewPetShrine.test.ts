@@ -3,7 +3,7 @@ import {
   isTemporaryCollectibleActive,
 } from "features/game/lib/collectibleBuilt";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { PET_SHRINES } from "features/game/types/pets";
 import { renewPetShrine } from "./renewPetShrine";
 

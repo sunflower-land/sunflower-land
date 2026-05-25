@@ -18,7 +18,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { NumberInput } from "components/ui/NumberInput";
 import { Decimal } from "decimal.js-light";
 import { setPrecision } from "lib/utils/formatNumber";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import {
   DAILY_LIMIT,
   EXCHANGE_FLOWER_PRICE,

@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { CropMachineQueueItem, GameState } from "features/game/types/game";
+import type { CropMachineQueueItem, GameState } from "features/game/types/game";
 import { produce } from "immer";
 import {
   getOilTimeInMillis,

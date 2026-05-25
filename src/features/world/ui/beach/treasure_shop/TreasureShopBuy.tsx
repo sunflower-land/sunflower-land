@@ -1,4 +1,9 @@
-import React, { SyntheticEvent, useContext, useRef, useState } from "react";
+import React, {
+  type SyntheticEvent,
+  useContext,
+  useRef,
+  useState,
+} from "react";
 import { useActor, useSelector } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -8,12 +13,15 @@ import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";
 import { getKeys, getObjectEntries } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { TREASURE_TOOLS, TreasureToolName } from "features/game/types/tools";
+import {
+  TREASURE_TOOLS,
+  type TreasureToolName,
+} from "features/game/types/tools";
 import { makeBulkBuyTools } from "features/island/buildings/components/building/market/lib/makeBulkBuyAmount";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   TREASURE_COLLECTIBLE_ITEM,
-  TreasureCollectibleItem,
+  type TreasureCollectibleItem,
   ARTEFACT_SHOP_KEYS,
 } from "features/game/types/collectibles";
 import { gameAnalytics } from "lib/gameAnalytics";
@@ -21,21 +29,21 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {
   ARTEFACT_SHOP_WEARABLES,
-  ArtefactShopWearables,
+  type ArtefactShopWearables,
 } from "features/game/types/artefactShop";
 import { getChapterTicket } from "features/game/types/chapters";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 
 import lightning from "assets/icons/lightning.png";
 import { getToolPrice } from "features/game/events/landExpansion/craftTool";
-import { Keys } from "features/game/types/game";
+import type { Keys } from "features/game/types/game";
 import { isMobile } from "mobile-device-detect";
 import { Restock } from "features/island/buildings/components/building/market/restock/Restock";
 import { useNow } from "lib/utils/hooks/useNow";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 
 interface ToolContentProps {
   selectedName: TreasureToolName;

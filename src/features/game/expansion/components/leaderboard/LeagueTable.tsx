@@ -1,6 +1,6 @@
 import React from "react";
 import classNames from "classnames";
-import { RankData } from "./actions/leaderboard";
+import type { RankData } from "./actions/leaderboard";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { toOrdinalSuffix } from "features/retreat/components/auctioneer/AuctionLeaderboardTable";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";

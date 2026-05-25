@@ -2,12 +2,12 @@ import React, { useContext, useState } from "react";
 import {
   isPetNeglected,
   isPetNapping,
-  PetName,
+  type PetName,
 } from "features/game/types/pets";
 import { _petData, isPetExcludedByMissingPetHouse } from "./lib/petShared";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { isHelpComplete } from "features/game/types/monuments";
 import { Modal } from "components/ui/Modal";

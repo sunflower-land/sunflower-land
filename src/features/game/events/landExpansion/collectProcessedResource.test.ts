@@ -2,13 +2,15 @@ import Decimal from "decimal.js-light";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { FISH_PROCESSING_TIME_SECONDS } from "features/game/types/fishProcessing";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import {
   collectProcessedResource,
-  CollectProcessedResourceAction,
+  type CollectProcessedResourceAction,
   getProcessedResourceAmount,
 } from "./collectProcessedResource";
-import { ProcessingBuildingName } from "features/game/types/buildings";
+import type { ProcessingBuildingName } from "features/game/types/buildings";
+import type * as PrngModule from "lib/prng";
+import type * as GameTypesModule from "features/game/types";
 
 const createdAt = Date.now();
 
@@ -203,10 +205,10 @@ describe("collectProcessedFood", () => {
     it("yields 2 when the prng roll passes (deterministic hit counter)", () => {
       const { prngChance } = jest.requireActual(
         "lib/prng",
-      ) as typeof import("lib/prng");
+      ) as typeof PrngModule;
       const { KNOWN_IDS } = jest.requireActual(
         "features/game/types",
-      ) as typeof import("features/game/types");
+      ) as typeof GameTypesModule;
       const farmId = 42;
       let hitCounter = -1;
       for (let counter = 0; counter < 200; counter++) {
@@ -244,10 +246,10 @@ describe("collectProcessedFood", () => {
     it("yields 1 when the prng roll fails (deterministic miss counter)", () => {
       const { prngChance } = jest.requireActual(
         "lib/prng",
-      ) as typeof import("lib/prng");
+      ) as typeof PrngModule;
       const { KNOWN_IDS } = jest.requireActual(
         "features/game/types",
-      ) as typeof import("features/game/types");
+      ) as typeof GameTypesModule;
       const farmId = 42;
       let missCounter = -1;
       for (let counter = 0; counter < 200; counter++) {
@@ -301,10 +303,10 @@ describe("collectProcessedFood", () => {
     it("uses the explicit counter so adjacent values can produce different rolls", () => {
       const { prngChance } = jest.requireActual(
         "lib/prng",
-      ) as typeof import("lib/prng");
+      ) as typeof PrngModule;
       const { KNOWN_IDS } = jest.requireActual(
         "features/game/types",
-      ) as typeof import("features/game/types");
+      ) as typeof GameTypesModule;
       const farmId = 42;
 
       let hitCounter = -1;
@@ -346,10 +348,10 @@ describe("collectProcessedFood", () => {
     it("ignores farmActivity when an explicit counter is passed", () => {
       const { prngChance } = jest.requireActual(
         "lib/prng",
-      ) as typeof import("lib/prng");
+      ) as typeof PrngModule;
       const { KNOWN_IDS } = jest.requireActual(
         "features/game/types",
-      ) as typeof import("features/game/types");
+      ) as typeof GameTypesModule;
       const farmId = 42;
 
       let hitCounter = -1;

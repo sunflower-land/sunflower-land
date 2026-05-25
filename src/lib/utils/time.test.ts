@@ -1,7 +1,7 @@
 import {
   secondsToString as t,
   getTimeLeft,
-  TimeFormatOptions,
+  type TimeFormatOptions,
   ONE_DAY,
   ONE_HR,
   ONE_MIN,

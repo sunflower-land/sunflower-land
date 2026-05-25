@@ -1,49 +1,49 @@
 import {
   createMachine,
-  Interpreter,
+  type Interpreter,
   assign,
-  TransitionsConfig,
-  State,
+  type TransitionsConfig,
+  type State,
   send,
-  DoneInvokeEvent,
+  type DoneInvokeEvent,
 } from "xstate";
 import {
   PLAYING_EVENTS,
-  PlacementEvent,
+  type PlacementEvent,
   PLACEMENT_EVENTS,
-  GameEvent,
-  PlayingEvent,
-  GameEventName,
+  type GameEvent,
+  type PlayingEvent,
+  type GameEventName,
   VISITING_EVENTS,
-  VisitingEvent,
+  type VisitingEvent,
   LOCAL_VISITING_EVENTS,
 } from "../events";
 
 import {
   ART_MODE,
-  Context as AuthContext,
+  type Context as AuthContext,
 } from "features/auth/lib/authMachine";
 import { wallet } from "../../../lib/blockchain/wallet";
 
-import {
+import type {
   GameState,
   Inventory,
   InventoryItemName,
   PlacedLamp,
   Purchase,
 } from "../types/game";
-import { loadSession, SocialDetails } from "../actions/loadSession";
+import { loadSession, type SocialDetails } from "../actions/loadSession";
 import { resolveSocialDetails } from "./socialDetails";
 import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
-import { ErrorCode, ERRORS } from "lib/errors";
+import { type ErrorCode, ERRORS } from "lib/errors";
 import { makeGame } from "./transforms";
 import { reset } from "features/farming/hud/actions/reset";
 import { checkProgress, processEvent } from "./processEvent";
 import {
   landscapingMachine,
-  LandscapingPlaceableType,
-  SaveEvent,
+  type LandscapingPlaceableType,
+  type SaveEvent,
 } from "../expansion/placeable/landscapingMachine";
 import { isSwarming } from "../events/detectBot";
 import { generateTestLand } from "../expansion/actions/generateLand";
@@ -52,7 +52,7 @@ import { loadGameStateForVisit } from "../actions/loadGameStateForVisit";
 import { randomID } from "lib/utils/random";
 
 import { buySFL } from "../actions/buySFL";
-import { PlaceableLocation } from "../types/collectibles";
+import type { PlaceableLocation } from "../types/collectibles";
 import {
   getIntroductionRead,
   getReferralsAnnouncementLastRead,
@@ -62,15 +62,15 @@ import { getStarterOfferShown } from "./starterOfferStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
 import { setOnboardingComplete } from "features/auth/actions/onboardingComplete";
-import { Announcements } from "../types/announcements";
+import type { Announcements } from "../types/announcements";
 import {
-  Currency,
+  type Currency,
   buyBlockBucks,
   buyBlockBucksMATIC,
 } from "../actions/buyGems";
-import { BumpkinItem } from "../types/bumpkin";
+import type { BumpkinItem } from "../types/bumpkin";
 import { getAuctionResults } from "../actions/getAuctionResults";
-import { AuctionResults } from "./auctionMachine";
+import type { AuctionResults } from "./auctionMachine";
 import type { RaffleSnapshotWinner } from "features/world/ui/chapterRaffles/actions/loadRaffleResults";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { gameAnalytics } from "lib/gameAnalytics";
@@ -78,39 +78,45 @@ import { portal } from "features/world/ui/community/actions/portal";
 
 import { CONFIG } from "lib/config";
 import {
-  TradeableName,
+  type TradeableName,
   sellMarketResourceRequest,
 } from "../actions/sellMarketResource";
 import { setCachedMarketPrices } from "features/world/ui/market/lib/marketCache";
 import { OFFLINE_FARM } from "./landData";
 import { isValidRedirect } from "features/portal/lib/portalUtil";
 import {
-  Effect,
+  type Effect,
   STATE_MACHINE_EFFECTS,
   postEffect,
-  StateMachineStateName,
-  StateNameWithStatus,
+  type StateMachineStateName,
+  type StateNameWithStatus,
   STATE_MACHINE_VISIT_EFFECTS,
-  StateMachineVisitStateName,
-  StateMachineVisitEffectName,
+  type StateMachineVisitStateName,
+  type StateMachineVisitEffectName,
   sanitizeEffectForBackend,
 } from "../actions/effect";
-import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
+import {
+  TRANSACTION_SIGNATURES,
+  type TransactionName,
+} from "../types/transactions";
 import { getKeys } from "lib/object";
 import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow";
 import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
 import { hasLifetimeFarmerBanner, hasVipAccess } from "./vipAccess";
-import { getActiveCalendarEvent, SeasonalEventName } from "../types/calendar";
+import {
+  getActiveCalendarEvent,
+  type SeasonalEventName,
+} from "../types/calendar";
 import { getConnection, getChainId } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { depositFlower } from "lib/blockchain/DepositFlower";
-import { NetworkOption } from "features/island/hud/components/deposit/DepositFlower";
+import type { NetworkOption } from "features/island/hud/components/deposit/DepositFlower";
 import { blessingIsReady } from "./blessings";
 import { depositSFL } from "lib/blockchain/DepositSFL";
 import { hasFeatureAccess } from "lib/flags";
 import { isDailyRewardReady } from "../events/landExpansion/claimDailyReward";
 import { getDailyRewardLastAcknowledged } from "../components/DailyReward";
-import { LanguageCode } from "lib/i18n/dictionaries/language";
+import type { LanguageCode } from "lib/i18n/dictionaries/language";
 import { getBumpkinLevel } from "./level";
 
 // Run at startup in case removed from query params

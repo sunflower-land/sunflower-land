@@ -1,11 +1,11 @@
 import React from "react";
-import { CraftingQueueItem } from "features/game/types/game";
+import type { CraftingQueueItem } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Box } from "components/ui/Box";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getImageUrl } from "lib/utils/getImageURLS";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
-import { InventoryItemName } from "features/game/types/game";
+import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import type { InventoryItemName } from "features/game/types/game";
 
 interface CraftingQueueSlotProps {
   item?: CraftingQueueItem;

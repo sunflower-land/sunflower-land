@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { InnerPanel, Panel } from "components/ui/Panel";
-import { Offer, TradeableDetails } from "features/game/types/marketplace";
+import type { Offer, TradeableDetails } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import sflIcon from "assets/icons/flower_token.webp";
@@ -13,8 +13,8 @@ import { OfferTable } from "./TradeTable";
 import { Loading } from "features/auth/components";
 import { Modal } from "components/ui/Modal";
 import { useSelector } from "@xstate/react";
-import { TradeableDisplay } from "../lib/tradeables";
-import {
+import type { TradeableDisplay } from "../lib/tradeables";
+import type {
   BlockchainEvent,
   Context as ContextType,
   MachineState,
@@ -24,7 +24,7 @@ import { Context } from "features/game/GameProvider";
 import { MakeOffer } from "./MakeOffer";
 import * as Auth from "features/auth/lib/Provider";
 import { AcceptOffer } from "./AcceptOffer";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 import confetti from "canvas-confetti";
 import { ResourceTable } from "./ResourceTable";
 import { formatNumber } from "lib/utils/formatNumber";
@@ -34,7 +34,7 @@ import { isTradeResource } from "features/game/actions/tradeLimits";
 
 import Decimal from "decimal.js-light";
 import { useParams } from "react-router";
-import { KeyedMutator } from "swr";
+import type { KeyedMutator } from "swr";
 import { getMaxPurchases } from "./Tradeable";
 import { ResourceTaxes } from "./TradeableInfo";
 import { useVipAccess } from "lib/utils/hooks/useVipAccess";

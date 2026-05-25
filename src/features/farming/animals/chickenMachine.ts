@@ -1,6 +1,6 @@
 import { CHICKEN_TIME_TO_EGG } from "features/game/lib/constants";
 import { randomInt } from "lib/utils/random";
-import { assign, createMachine, Interpreter, State } from "xstate";
+import { assign, createMachine, type Interpreter, type State } from "xstate";
 
 export interface ChickenContext {
   timeElapsed: number;

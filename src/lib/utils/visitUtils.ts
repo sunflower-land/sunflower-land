@@ -1,12 +1,12 @@
 import Decimal from "decimal.js-light";
 import { fromWei } from "web3-utils";
 
-import { Inventory, InventoryItemName } from "features/game/types/game";
+import type { Inventory, InventoryItemName } from "features/game/types/game";
 import { KNOWN_IDS } from "features/game/types";
 import { getItemUnit } from "features/game/lib/conversion";
 import { Context } from "features/game/GameProvider";
 import { useContext } from "react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 
 export function balancesToInventory(balances: Array<any>) {

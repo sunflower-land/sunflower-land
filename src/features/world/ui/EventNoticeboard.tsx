@@ -7,7 +7,7 @@ import shop from "assets/icons/shop.png";
 import calendar from "assets/icons/calendar.webp";
 import eventToken from "assets/icons/april_fools_token_2026.webp";
 import flowerToken from "assets/icons/flower_token.webp";
-import { BuffLabel } from "features/game/types";
+import type { BuffLabel } from "features/game/types";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import {
-  DiscordChannelName,
+  type DiscordChannelName,
   getDiscordNewsDataCached,
   storeDiscordNewsReadAt,
 } from "../actions/discordNews";
@@ -19,7 +19,7 @@ import { getRelativeTime } from "lib/utils/time";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { marked } from "marked";
 

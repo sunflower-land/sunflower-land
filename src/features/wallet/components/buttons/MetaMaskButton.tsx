@@ -2,7 +2,7 @@ import React from "react";
 
 import { Button } from "components/ui/Button";
 import metamaskIcon from "assets/icons/metamask_pixel.png";
-import { Connector, CreateConnectorFn } from "wagmi";
+import type { Connector, CreateConnectorFn } from "wagmi";
 import { metaMaskConnector } from "features/wallet/WalletProvider";
 
 export const MetaMaskButton = ({

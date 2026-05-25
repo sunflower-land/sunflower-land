@@ -1,8 +1,8 @@
-import { SeasonWeek } from "features/game/types/game";
+import type { SeasonWeek } from "features/game/types/game";
 import {
   CHAPTERS,
   CHAPTER_ORDER,
-  ChapterName,
+  type ChapterName,
   getCurrentChapter,
 } from "features/game/types/chapters";
 import { ADMIN_IDS } from "lib/access";

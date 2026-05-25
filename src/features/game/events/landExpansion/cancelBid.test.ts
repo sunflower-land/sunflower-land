@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { cancelBid } from "./cancelBid";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 describe("cancelBid", () => {
   const GAME_STATE: GameState = {

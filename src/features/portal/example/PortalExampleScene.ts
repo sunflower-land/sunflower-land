@@ -1,7 +1,7 @@
 import mapJson from "assets/map/plaza.json";
-import { SceneId } from "features/world/mmoMachine";
-import { BaseScene, NPCBumpkin } from "features/world/scenes/BaseScene";
-import { MachineInterpreter } from "./lib/portalMachine";
+import type { SceneId } from "features/world/mmoMachine";
+import { BaseScene, type NPCBumpkin } from "features/world/scenes/BaseScene";
+import type { MachineInterpreter } from "./lib/portalMachine";
 
 export const NPCS: NPCBumpkin[] = [
   {

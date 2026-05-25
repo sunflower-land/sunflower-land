@@ -1,6 +1,6 @@
 import React from "react";
 
-import { CollectibleName } from "features/game/types/craftables";
+import type { CollectibleName } from "features/game/types/craftables";
 import { setImageWidth } from "lib/images";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SFTDetailPopover } from "components/ui/SFTDetailPopover";

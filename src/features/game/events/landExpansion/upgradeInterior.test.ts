@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { UPGRADE_INTERIOR_ERRORS, upgradeInterior } from "./upgradeInterior";
 import { HOME_EXPANSION_UPGRADE_REQUIREMENTS } from "features/interior/lib/upgradeRequirements";
 

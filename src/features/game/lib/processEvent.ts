@@ -1,20 +1,20 @@
 import Decimal from "decimal.js-light";
-import { EVENTS, GameEvent } from "../events";
+import { EVENTS, type GameEvent } from "../events";
 import { getKeys } from "lib/object";
-import {
+import type {
   GameState,
   Inventory,
   InventoryItemName,
   Wardrobe,
 } from "../types/game";
 import { LEGACY_BADGE_TREE } from "../types/skills";
-import { Announcements } from "../types/announcements";
+import type { Announcements } from "../types/announcements";
 import {
   LANDSCAPING_DECORATIONS,
-  LandscapingDecorationName,
+  type LandscapingDecorationName,
 } from "../types/decorations";
-import { BumpkinItem } from "../types/bumpkin";
-import { MaxedItem } from "./gameMachine";
+import type { BumpkinItem } from "../types/bumpkin";
+import type { MaxedItem } from "./gameMachine";
 import { OFFCHAIN_ITEMS } from "./offChainItems";
 
 export const MAX_INVENTORY_ITEMS: Inventory = {

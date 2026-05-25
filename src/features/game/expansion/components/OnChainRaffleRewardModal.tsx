@@ -5,8 +5,8 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ClaimReward } from "./ClaimReward";
 import { OnChainRafflePetModal } from "./OnChainRafflePetModal";
 import { OnChainRaffleBudModal } from "./OnChainRaffleBudModal";
-import { Airdrop } from "features/game/types/game";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { Airdrop } from "features/game/types/game";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 
 const _reward = (state: MachineState) => state.context.onChainRaffleReward;

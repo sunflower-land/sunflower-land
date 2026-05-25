@@ -1,10 +1,10 @@
 import Decimal from "decimal.js-light";
-import { GameState, InventoryItemName } from "../types/game";
+import type { GameState, InventoryItemName } from "../types/game";
 import { produce } from "immer";
 import { getKeys } from "lib/object";
 import { MARKETPLACE_TAX } from "../types/marketplace";
 import { addTradePoints } from "./landExpansion/addTradePoints";
-import { BumpkinItem } from "../types/bumpkin";
+import type { BumpkinItem } from "../types/bumpkin";
 import { getListingItem } from "features/marketplace/lib/listings";
 
 export type ClaimPurchaseAction = {

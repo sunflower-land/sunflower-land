@@ -5,7 +5,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 import giant_flower_petal from "public/world/giant_flower_petal.webp";
 import tier3_book from "src/assets/icons/tier3_book.webp";
-import { Label, LabelType } from "components/ui/Label";
+import { Label, type LabelType } from "components/ui/Label";
 import { NPC_WEARABLES } from "lib/npcs";
 import { NoticeboardItems } from "../kingdom/KingdomNoticeboard";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";

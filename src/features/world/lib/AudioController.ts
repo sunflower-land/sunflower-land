@@ -1,4 +1,4 @@
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import Phaser from "phaser";
 
 export type Sound =

@@ -9,7 +9,7 @@ import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 
 const _island = (state: MachineState) => state.context.state.island;

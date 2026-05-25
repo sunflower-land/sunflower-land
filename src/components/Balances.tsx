@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Decimal from "decimal.js-light";
+import type Decimal from "decimal.js-light";
 
 import flowerIcon from "assets/icons/flower_token.webp";
 import coinsIcon from "assets/icons/coins.webp";

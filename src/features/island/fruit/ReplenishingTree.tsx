@@ -7,12 +7,12 @@ import { TimerPopover } from "../common/TimerPopover";
 import {
   PATCH_FRUIT,
   PATCH_FRUIT_SEEDS,
-  PatchFruitName,
+  type PatchFruitName,
 } from "features/game/types/fruits";
 import { PATCH_FRUIT_LIFECYCLE } from "./fruits";
 import classNames from "classnames";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { getCurrentBiome } from "../biomes/biomes";
 
 const pluralisedNames: Record<PatchFruitName, string> = {

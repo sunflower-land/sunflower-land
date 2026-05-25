@@ -2,7 +2,7 @@ import React from "react";
 
 import { Button } from "components/ui/Button";
 import { walletConnectConnector } from "features/wallet/WalletProvider";
-import { Connector, CreateConnectorFn } from "wagmi";
+import type { Connector, CreateConnectorFn } from "wagmi";
 
 export const WalletConnectButton = ({
   onConnect,

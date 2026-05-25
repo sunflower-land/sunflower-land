@@ -6,8 +6,8 @@ import chefHat from "assets/icons/chef_hat.png";
 
 import { Recipes } from "../Recipes";
 import {
-  Cookable,
-  CookableName,
+  type Cookable,
+  type CookableName,
   FIRE_PIT_COOKABLES,
   isFishCookable,
 } from "features/game/types/consumables";
@@ -16,12 +16,12 @@ import { OuterPanel, Panel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { BuildingProduct } from "features/game/types/game";
+import type { BuildingProduct } from "features/game/types/game";
 import { CHAPTERS, getCurrentChapter } from "features/game/types/chapters";
 import { useNow } from "lib/utils/hooks/useNow";
 import { Context } from "features/game/GameProvider";
 import { getCookingRequirements } from "features/game/events/landExpansion/cook";
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `bruce-read.${host}-${window.location.pathname}`;

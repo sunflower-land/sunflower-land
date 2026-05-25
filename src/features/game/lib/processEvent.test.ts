@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "./constants";
-import { GameState, TradeListing } from "../types/game";
+import type { GameState, TradeListing } from "../types/game";
 import { checkProgress } from "./processEvent";
 
 describe("processEvent", () => {

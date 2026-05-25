@@ -1,4 +1,4 @@
-import { NPCName } from "lib/npcs";
+import type { NPCName } from "lib/npcs";
 import { translate } from "lib/i18n/translate";
 
 interface DeliveryNPCDialogue {

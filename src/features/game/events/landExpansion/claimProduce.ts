@@ -3,9 +3,9 @@ import { produce } from "immer";
 import {
   ANIMAL_RESOURCE_DROP,
   ANIMALS,
-  AnimalType,
+  type AnimalType,
 } from "features/game/types/animals";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import {
   getAnimalLevel,
   getBoostedAwakeAt,

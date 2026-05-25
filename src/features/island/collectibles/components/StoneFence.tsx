@@ -1,7 +1,7 @@
 import React from "react";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
+import type { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 

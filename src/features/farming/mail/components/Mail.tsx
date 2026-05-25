@@ -3,16 +3,16 @@ import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import React, { useContext } from "react";
 import { NPCFixed } from "features/island/bumpkin/components/NPC";
-import { NPCName, NPC_WEARABLES } from "lib/npcs";
+import { type NPCName, NPC_WEARABLES } from "lib/npcs";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "lib/object";
 import giftIcon from "assets/icons/gift.png";
 import letter from "assets/icons/letter.png";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { Announcements } from "features/game/types/announcements";
+import type { Announcements } from "features/game/types/announcements";
 import classNames from "classnames";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 
 const _mailboxRead = (state: MachineState) => state.context.state.mailbox.read;
 

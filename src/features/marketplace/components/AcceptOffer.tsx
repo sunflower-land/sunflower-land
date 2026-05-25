@@ -5,20 +5,20 @@ import { Label } from "components/ui/Label";
 import {
   getResourceTax,
   MARKETPLACE_TAX,
-  Offer,
+  type Offer,
 } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import { useSelector } from "@xstate/react";
 import { GameWallet } from "features/wallet/Wallet";
-import { TradeableDisplay } from "../lib/tradeables";
+import type { TradeableDisplay } from "../lib/tradeables";
 import confetti from "canvas-confetti";
 import { getBasketItems } from "features/island/hud/components/inventory/utils/inventory";
 import { KNOWN_ITEMS } from "features/game/types";
 import { ITEM_NAMES } from "features/game/types/bumpkin";
 import {
-  BlockchainEvent,
-  Context as ContextType,
+  type BlockchainEvent,
+  type Context as ContextType,
   isAccountTradedWithin90Days,
   selectGameState,
 } from "features/game/lib/gameMachine";
@@ -26,7 +26,7 @@ import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import { Context } from "features/game/GameProvider";
 import { TradeableSummary } from "./TradeableSummary";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";

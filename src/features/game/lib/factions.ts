@@ -1,8 +1,8 @@
-import { KingdomLeaderboard } from "../expansion/components/leaderboard/actions/leaderboard";
+import type { KingdomLeaderboard } from "../expansion/components/leaderboard/actions/leaderboard";
 import { getKeys } from "lib/object";
-import { BoostType, BoostValue } from "../types/boosts";
-import { BumpkinItem } from "../types/bumpkin";
-import {
+import type { BoostType, BoostValue } from "../types/boosts";
+import type { BumpkinItem } from "../types/bumpkin";
+import type {
   FactionBanner,
   FactionName,
   FactionPrize,

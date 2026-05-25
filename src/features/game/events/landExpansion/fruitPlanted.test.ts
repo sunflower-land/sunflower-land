@@ -2,9 +2,9 @@ import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import {
   PATCH_FRUIT_SEEDS,
-  PatchFruitSeedName,
+  type PatchFruitSeedName,
 } from "features/game/types/fruits";
-import { FruitPatch, GameState } from "features/game/types/game";
+import type { FruitPatch, GameState } from "features/game/types/game";
 import { getFruitPatchTime, getPlantedAt, plantFruit } from "./fruitPlanted";
 
 const dateNow = Date.now();

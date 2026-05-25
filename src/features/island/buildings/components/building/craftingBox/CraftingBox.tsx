@@ -5,7 +5,7 @@ import { Modal } from "components/ui/Modal";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useTranslation } from "react-i18next";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { CraftingBoxModalContent } from "./components/CraftingBoxModalContent";

@@ -1,14 +1,17 @@
 import React, { useContext, useEffect } from "react";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { CRUSTACEANS, CrustaceanName } from "features/game/types/crustaceans";
+import {
+  CRUSTACEANS,
+  type CrustaceanName,
+} from "features/game/types/crustaceans";
 import confetti from "canvas-confetti";
 
 const _state = (state: MachineState) => state.context.state;

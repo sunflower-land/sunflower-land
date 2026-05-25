@@ -1,7 +1,7 @@
 import React, { useContext, useMemo, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
-import { BuildingProps } from "../Building";
+import type { BuildingProps } from "../Building";
 import { AgingShedModal } from "./AgingShedModal";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";

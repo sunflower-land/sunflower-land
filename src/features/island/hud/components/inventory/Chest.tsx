@@ -1,12 +1,12 @@
 import React, { useRef } from "react";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
-import {
+import type {
   GameState,
   InventoryItemName,
   TemperateSeasonName,
 } from "features/game/types/game";
-import { CollectibleName } from "features/game/types/craftables";
+import type { CollectibleName } from "features/game/types/craftables";
 import { getKeys } from "lib/object";
 import {
   getChestBuds,
@@ -14,7 +14,7 @@ import {
   getChestItems,
   getChestPets,
 } from "./utils/inventory";
-import Decimal from "decimal.js-light";
+import type Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
 
 import lightning from "assets/icons/lightning.png";
@@ -24,11 +24,11 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
 import { isEmpty } from "lodash";
 
-import { Bud } from "features/game/types/buds";
+import type { Bud } from "features/game/types/buds";
 import { BudDetails } from "components/ui/layouts/BudDetails";
 import classNames from "classnames";
 import { RESOURCES } from "features/game/types/resources";
-import { BuildingName, BUILDINGS } from "features/game/types/buildings";
+import { type BuildingName, BUILDINGS } from "features/game/types/buildings";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
@@ -42,28 +42,32 @@ import {
 } from "features/island/lib/alternateArt";
 import { BANNERS } from "features/game/types/banners";
 import { InnerPanel } from "components/ui/Panel";
-import { TranslationKeys } from "lib/i18n/dictionaries/types";
+import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { BED_FARMHAND_COUNT } from "features/game/types/beds";
 import { WEATHER_SHOP_ITEM_COSTS } from "features/game/types/calendar";
 import {
   isBuildingUpgradable,
   makeUpgradableBuildingKey,
-  UpgradableBuildingType,
+  type UpgradableBuildingType,
 } from "features/game/events/landExpansion/upgradeBuilding";
-import { LandBiomeName } from "features/island/biomes/biomes";
+import type { LandBiomeName } from "features/island/biomes/biomes";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { DOLLS } from "features/game/lib/crafting";
-import { isPetNFTRevealed, PET_TYPES, PetNFTs } from "features/game/types/pets";
 import {
+  isPetNFTRevealed,
+  PET_TYPES,
+  type PetNFTs,
+} from "features/game/types/pets";
+import type {
   LandscapingPlaceable,
   LandscapingPlaceableType,
 } from "features/game/expansion/placeable/landscapingMachine";
 import { PetNFTDetails } from "components/ui/layouts/PetNFTDetails";
 import { getPetImage } from "features/island/pets/lib/petShared";
-import { NFTName } from "features/game/events/landExpansion/placeNFT";
+import type { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { MONUMENTS, REWARD_ITEMS } from "features/game/types/monuments";
 import { useNow } from "lib/utils/hooks/useNow";
-import { PlaceableLocation } from "features/game/types/collectibles";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { FarmHandDetails } from "components/ui/layouts/FarmHandDetails";
 import { getBudImage } from "lib/buds/types";

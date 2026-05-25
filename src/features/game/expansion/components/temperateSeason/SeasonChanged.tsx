@@ -6,7 +6,7 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import {
   getHasReadTemperateSeasonTutorial,
   setHasReadTemperateSeasonTutorial,
@@ -20,7 +20,7 @@ import { SeasonDayDetails } from "./SeasonDayDetails";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { DateCard } from "./DateCard";
-import { getCalendarDays, LocalCalendarDetails } from "./GameCalendar";
+import { getCalendarDays, type LocalCalendarDetails } from "./GameCalendar";
 
 const _calendar = (state: MachineState) => state.context.state.calendar;
 

@@ -4,14 +4,14 @@ import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
 import {
   NoticeboardItems,
-  NoticeboardItemsElements,
+  type NoticeboardItemsElements,
 } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useMemo, useState } from "react";
-import { SeasonalEventName } from "features/game/types/calendar";
+import type { SeasonalEventName } from "features/game/types/calendar";
 import { useSelector } from "@xstate/react";
 import { useGame } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { getRelativeTime } from "lib/utils/time";
 import { useNow } from "lib/utils/hooks/useNow";
 import { useWhenTime } from "lib/utils/hooks/useWhenTime";

@@ -3,11 +3,11 @@ import { useTranslation } from "react-i18next";
 import { Label } from "components/ui/Label";
 import { FollowDetailPanel } from "./FollowDetailPanel";
 import { Button } from "components/ui/Button";
-import { Equipped } from "features/game/types/bumpkin";
+import type { Equipped } from "features/game/types/bumpkin";
 import { useFollowNetwork } from "../hooks/useFollowNetwork";
 import { useInView } from "react-intersection-observer";
 import { Loading } from "features/auth/components";
-import { Detail } from "../actions/getFollowNetworkDetails";
+import type { Detail } from "../actions/getFollowNetworkDetails";
 
 type Props = {
   loggedInFarmId: number;

@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
-import { InventoryItemName } from "./game";
-import { BumpkinItem } from "./bumpkin";
+import type { InventoryItemName } from "./game";
+import type { BumpkinItem } from "./bumpkin";
 import { CHAPTERS } from "./chapters";
 
 export type ArtefactWearables = {

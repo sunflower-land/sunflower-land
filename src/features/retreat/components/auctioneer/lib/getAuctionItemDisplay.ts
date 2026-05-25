@@ -1,9 +1,9 @@
-import { Auction, NFTAuction } from "features/game/lib/auctionMachine";
-import { BuffLabel } from "features/game/types";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import type { Auction, NFTAuction } from "features/game/lib/auctionMachine";
+import type { BuffLabel } from "features/game/types";
+import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
-import {
+import type {
   AuctionNFT,
   GameState,
   InventoryItemName,

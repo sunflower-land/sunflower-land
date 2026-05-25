@@ -6,7 +6,7 @@ import oilIcon from "assets/resources/oil.webp";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 
 import { Label } from "components/ui/Label";
 

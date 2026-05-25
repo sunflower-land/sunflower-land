@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { InnerPanel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useNow } from "lib/utils/hooks/useNow";

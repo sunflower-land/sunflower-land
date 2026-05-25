@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import Decimal from "decimal.js-light";
+import type Decimal from "decimal.js-light";
 
 import Spritesheet, {
-  SpriteSheetInstance,
+  type SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -15,9 +15,9 @@ import { ZoomContext } from "components/ZoomProvider";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
-import { IronRockName } from "features/game/types/resources";
+import type { IronRockName } from "features/game/types/resources";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
-import {
+import type {
   GameState,
   InventoryItemName,
   TemperateSeasonName,

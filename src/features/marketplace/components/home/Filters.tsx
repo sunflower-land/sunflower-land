@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { FilterOption, FilterOptionProps } from "./FilterOption";
+import { FilterOption, type FilterOptionProps } from "./FilterOption";
 import tradeIcon from "assets/icons/trade.png";
 import trade_point from "src/assets/icons/trade_points_coupon.webp";
 import lightning from "assets/icons/lightning.png";
@@ -10,21 +10,21 @@ import wearableIcon from "assets/icons/wearables.webp";
 import budIcon from "assets/icons/bud.png";
 import {
   useTraitFilters,
-  TraitCollection,
-  TraitKey,
+  type TraitCollection,
+  type TraitKey,
   getTraitParamKeys,
   toTraitValueId,
 } from "features/marketplace/lib/marketplaceFilters";
 import {
   BUD_TRAIT_GROUPS,
   PET_TRAIT_GROUPS,
-  TraitGroupDefinition,
+  type TraitGroupDefinition,
 } from "features/marketplace/lib/traitOptions";
 import { getKeys, getValues } from "lib/object";
 import { Button } from "components/ui/Button";
 import {
   CHAPTER_BANNER_IMAGES,
-  ChapterBanner,
+  type ChapterBanner,
   hasChapterEnded,
 } from "features/game/types/chapters";
 import { CHAPTER_COLLECTIONS } from "features/game/types/collections";

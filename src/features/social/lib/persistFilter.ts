@@ -1,4 +1,4 @@
-import { FeedFilter } from "../Feed";
+import type { FeedFilter } from "../Feed";
 
 const storeFilter = (filter: string) => {
   localStorage.setItem("socialFeedFilter", filter);

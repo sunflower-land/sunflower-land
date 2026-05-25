@@ -1,9 +1,9 @@
 import React, { type JSX } from "react";
 
-import { CropName } from "features/game/types/crops";
+import type { CropName } from "features/game/types/crops";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CROP_LIFECYCLE, SOIL_IMAGES } from "../lib/plant";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 
 export type GrowthStage = "seedling" | "halfway" | "almost" | "ready";

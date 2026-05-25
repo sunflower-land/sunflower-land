@@ -8,7 +8,7 @@ import { Loading } from "features/auth/components/Loading";
 import { getPlayerLiquidity } from "./actions/getPlayerLiquidity";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { useSelector } from "@xstate/react";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { postEffect } from "features/game/actions/effect";
 import { randomID } from "lib/utils/random";
 import { useGame } from "features/game/GameProvider";

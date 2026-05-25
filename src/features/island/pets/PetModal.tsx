@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
   isPetNFT,
-  Pet,
-  PetNFT,
-  PetType,
+  type Pet,
+  type PetNFT,
+  type PetType,
   getPetType,
   PET_CATEGORIES,
   getPetLevel,
-  PetResourceName,
+  type PetResourceName,
 } from "features/game/types/pets";
 import { Modal } from "components/ui/Modal";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
@@ -20,9 +20,9 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
-import { CookableName } from "features/game/types/consumables";
+import type { CookableName } from "features/game/types/consumables";
 import { ResetFoodRequests } from "./ResetFoodRequests";
 import { PetFeed } from "./PetFeed";
 import { PetFetch } from "./PetFetch";
@@ -43,7 +43,7 @@ import { useNow } from "lib/utils/hooks/useNow";
 import { isWearableActive } from "features/game/lib/wearables";
 import { getPetFoodRequests } from "features/game/events/pets/feedPet";
 import * as Auth from "features/auth/lib/Provider";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 
 interface Props {
   show: boolean;

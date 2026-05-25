@@ -1,7 +1,7 @@
-import { Dimensions } from "./craftables";
+import type { Dimensions } from "./craftables";
 import { translate } from "lib/i18n/translate";
-import { AnimalResource } from "./game";
-import {
+import type { AnimalResource } from "./game";
+import type {
   GameState,
   Tree,
   Rock,
@@ -13,7 +13,7 @@ import {
   OilReserve,
   LavaPit,
 } from "features/game/types/game";
-import { Tool } from "./tools";
+import type { Tool } from "./tools";
 import { Decimal } from "decimal.js-light";
 
 export type CommodityName =

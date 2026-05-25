@@ -1,6 +1,6 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { CommunityIsland } from "features/game/types/game";
+import type { CommunityIsland } from "features/game/types/game";
 
 type Request = {
   islandId: string;

@@ -5,7 +5,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES } from "lib/npcs";
 import React, { useContext } from "react";
 import { FACTION_RECRUITERS } from "./JoinFaction";
-import { FactionName } from "features/game/types/game";
+import type { FactionName } from "features/game/types/game";
 
 export function hasReadFactionIntro() {
   return !!localStorage.getItem("faction.intro");

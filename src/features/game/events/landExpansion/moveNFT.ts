@@ -1,8 +1,8 @@
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { GameState } from "features/game/types/game";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
-import { NFTName } from "./placeNFT";
-import { PlaceableLocation } from "features/game/types/collectibles";
+import type { NFTName } from "./placeNFT";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 
 export enum MOVE_NFT_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",

@@ -6,24 +6,24 @@ import { Context } from "features/game/GameProvider";
 import { Settings } from "./components/Settings";
 import { Inventory } from "./components/inventory/Inventory";
 import { Save } from "./components/Save";
-import { DepositArgs } from "lib/blockchain/Deposit";
+import type { DepositArgs } from "lib/blockchain/Deposit";
 import { DepositGameItemsModal } from "features/goblins/bank/components/DepositGameItems";
 import { placeEvent } from "features/game/expansion/placeable/landscapingMachine";
 import { TravelButton } from "./components/deliveries/TravelButton";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
 import { VIPExpiryWidget } from "./components/VIPExpiryWidget";
 import { VersionUpdateWidget } from "./components/VersionUpdateWidget";
-import { PlaceableLocation } from "features/game/types/collectibles";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 import { HudContainer } from "components/ui/HudContainer";
 import Decimal from "decimal.js-light";
 import { CurrenciesModal } from "./components/CurrenciesModal";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSound } from "lib/utils/hooks/useSound";
 import { TransactionCountdown } from "./Transaction";
 import { MarketplaceButton } from "./components/MarketplaceButton";
 import { PowerSkillsButton } from "./components/PowerSkillsButton";
 import {
-  BumpkinRevampSkillName,
+  type BumpkinRevampSkillName,
   getPowerSkills,
 } from "features/game/types/bumpkinSkills";
 import { LandscapeButton } from "./components/LandscapeButton";

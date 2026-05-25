@@ -3,7 +3,7 @@ import sflIcon from "assets/icons/flower_token.webp";
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { SaleHistory as ISaleHistory } from "features/game/types/marketplace";
+import type { SaleHistory as ISaleHistory } from "features/game/types/marketplace";
 import { Loading } from "features/auth/components";
 import classNames from "classnames";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";

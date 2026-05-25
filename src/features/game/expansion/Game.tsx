@@ -6,16 +6,16 @@ import { useInterval } from "lib/utils/hooks/useInterval";
 import * as AuthProvider from "features/auth/lib/Provider";
 
 import { Loading } from "features/auth/components";
-import { ErrorCode } from "lib/errors";
+import type { ErrorCode } from "lib/errors";
 import { ErrorMessage } from "features/auth/ErrorMessage";
 import { Refreshing } from "features/auth/components/Refreshing";
 import { AddingSFL } from "features/auth/components/AddingSFL";
 import { Context } from "../GameProvider";
 import {
-  BlockchainState,
+  type BlockchainState,
   INITIAL_SESSION,
-  MachineState,
-  StateValues,
+  type MachineState,
+  type StateValues,
 } from "../lib/gameMachine";
 import { ToastProvider } from "../toast/ToastProvider";
 import { ToastPanel } from "../toast/ToastPanel";
@@ -50,7 +50,7 @@ import { Home } from "features/home/Home";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Listed } from "../components/Listed";
 import { ListingDeleted } from "../components/listingDeleted";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { usePWAInstall } from "features/pwa/PWAInstallProvider";
 import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
 import { hasFeatureAccess } from "lib/flags";
@@ -72,8 +72,8 @@ import {
   STATE_MACHINE_EFFECTS,
   STATE_MACHINE_VISIT_EFFECTS,
 } from "../actions/effect";
-import { TranslationKeys } from "lib/i18n/dictionaries/types";
-import { GameState } from "../types/game";
+import type { TranslationKeys } from "lib/i18n/dictionaries/types";
+import type { GameState } from "../types/game";
 import { Ocean } from "features/world/ui/Ocean";
 import { OffersAcceptedPopup } from "./components/OffersAcceptedPopup";
 import { Marketplace } from "features/marketplace/Marketplace";

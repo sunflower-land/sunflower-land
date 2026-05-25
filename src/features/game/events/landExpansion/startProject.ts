@@ -1,10 +1,10 @@
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { getKeys } from "lib/object";
 import {
   REQUIRED_CHEERS,
-  VillageProjectName,
+  type VillageProjectName,
   WORKBENCH_MONUMENTS,
 } from "features/game/types/monuments";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";

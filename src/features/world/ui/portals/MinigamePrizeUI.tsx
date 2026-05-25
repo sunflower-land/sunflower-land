@@ -7,7 +7,7 @@ import coins from "assets/icons/coins.webp";
 import giftIcon from "assets/icons/gift.png";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import {
+import type {
   InventoryItemName,
   MinigameHistory,
   MinigamePrize,

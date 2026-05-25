@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
-import { MutantAnimal } from "features/game/types/game";
+import type { MutantAnimal } from "features/game/types/game";
 
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 
@@ -12,7 +12,7 @@ import chest from "assets/icons/chest.png";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 
 interface Props {

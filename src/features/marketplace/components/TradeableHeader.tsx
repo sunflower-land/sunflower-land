@@ -3,7 +3,7 @@ import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { Modal } from "components/ui/Modal";
 import { Panel, InnerPanel } from "components/ui/Panel";
-import {
+import type {
   CollectionName,
   TradeableDetails,
   Tradeable,
@@ -15,9 +15,9 @@ import { GameWallet } from "features/wallet/Wallet";
 import { Context } from "features/game/GameProvider";
 import confetti from "canvas-confetti";
 import {
-  BlockchainEvent,
-  Context as ContextType,
-  MachineState,
+  type BlockchainEvent,
+  type Context as ContextType,
+  type MachineState,
   selectGameState,
 } from "features/game/lib/gameMachine";
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
@@ -36,7 +36,7 @@ import {
   Reputation,
 } from "features/game/lib/reputation";
 import { useVipAccess } from "lib/utils/hooks/useVipAccess";
-import { TradeableDisplay } from "../lib/tradeables";
+import type { TradeableDisplay } from "../lib/tradeables";
 import { useNow } from "lib/utils/hooks/useNow";
 
 type TradeableHeaderProps = {

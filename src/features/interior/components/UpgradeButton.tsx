@@ -4,11 +4,14 @@ import { useNavigate } from "react-router";
 import Decimal from "decimal.js-light";
 
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Button } from "components/ui/Button";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { HomeExpansionTier, InventoryItemName } from "features/game/types/game";
+import type {
+  HomeExpansionTier,
+  InventoryItemName,
+} from "features/game/types/game";
 import { nextHomeExpansionTier } from "features/game/expansion/placeable/lib/interiorLayouts";
 import { HOME_EXPANSION_UPGRADE_REQUIREMENTS } from "../lib/upgradeRequirements";
 import { getKeys } from "lib/object";

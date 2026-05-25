@@ -5,10 +5,10 @@ import { InnerPanel } from "components/ui/Panel";
 import {
   getMarketPrice,
   getResourceTax,
-  TradeableDetails,
+  type TradeableDetails,
 } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { TradeableDisplay } from "../lib/tradeables";
+import type { TradeableDisplay } from "../lib/tradeables";
 
 import grassBg from "assets/ui/3x3_bg.png";
 import brownBg from "assets/brand/brown_background.png";
@@ -16,7 +16,7 @@ import lockIcon from "assets/icons/lock.png";
 import crownIcon from "assets/icons/vip.webp";
 import petNFTEggMarketplace from "assets/pets/pet-nft-egg-marketplace.webp";
 
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 import { isTradeResource } from "features/game/actions/tradeLimits";
 import { useParams } from "react-router";
 import { TradeableStats } from "./TradeableStats";
@@ -26,7 +26,10 @@ import {
   INVENTORY_RELEASES,
   getPetReleases,
 } from "features/game/types/withdrawables";
-import { BUMPKIN_ITEM_PART, BumpkinItem } from "features/game/types/bumpkin";
+import {
+  BUMPKIN_ITEM_PART,
+  type BumpkinItem,
+} from "features/game/types/bumpkin";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -38,11 +41,11 @@ import {
   getPetLevel,
   getPetNFTReleaseDate,
   PET_CATEGORIES,
-  PetCategory,
+  type PetCategory,
 } from "features/game/types/pets";
 import { getPetTraits } from "features/pets/data/getPetTraits";
-import { PetTraits } from "features/pets/data/types";
-import { Bud } from "lib/buds/types";
+import type { PetTraits } from "features/pets/data/types";
+import type { Bud } from "lib/buds/types";
 import { getBudTraits } from "features/game/types/budBuffs";
 import { setPrecision } from "lib/utils/formatNumber";
 import { useNow } from "lib/utils/hooks/useNow";

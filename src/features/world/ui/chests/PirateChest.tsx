@@ -17,7 +17,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { Modal } from "components/ui/Modal";
 import { ChestRewardsList } from "components/ui/ChestRewardsList";
 import rewardsIcon from "assets/icons/stock.webp";
-import { PanelTabs } from "features/game/components/CloseablePanel";
+import type { PanelTabs } from "features/game/components/CloseablePanel";
 
 interface PirateChestContentProps {
   setIsLoading?: (isLoading: boolean) => void;

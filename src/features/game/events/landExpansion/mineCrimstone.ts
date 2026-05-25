@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { canMine } from "features/game/lib/resourceNodes";
-import { BoostName, FiniteResource, GameState } from "../../types/game";
+import type { BoostName, FiniteResource, GameState } from "../../types/game";
 import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
 import {

@@ -1,11 +1,11 @@
 import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import {
+import type {
   CraftingQueueItem,
   GameState,
   InventoryItemName,
 } from "features/game/types/game";
-import { BumpkinItem } from "features/game/types/bumpkin";
+import type { BumpkinItem } from "features/game/types/bumpkin";
 import { produce } from "immer";
 
 export type CollectCraftingAction = {

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
   CloseButtonPanel,
-  PanelTabs,
+  type PanelTabs,
 } from "features/game/components/CloseablePanel";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
@@ -25,7 +25,7 @@ import { postEffect } from "features/game/actions/effect";
 import { randomID } from "lib/utils/random";
 import { FollowerFeed } from "./components/FollowerFeed";
 import { FollowList } from "./components/FollowList";
-import { Player } from "./types/types";
+import type { Player } from "./types/types";
 import { usePlayerNavigation } from "./hooks/usePlayerNavigation";
 import { CheersGuide } from "./components/CheersGuide";
 

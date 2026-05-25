@@ -8,7 +8,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Loading } from "features/auth/components";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-import { Tradeable } from "features/game/types/marketplace";
+import type { Tradeable } from "features/game/types/marketplace";
 import { MinigamesLeaderboard } from "features/marketplace/components/MinigamesLeaderboard";
 import { resolveMarketplaceMinigameItemImage } from "features/marketplace/lib/resolveMinigameMarketplaceImage";
 import { MINIGAME_TOKEN_IMAGE_FALLBACK } from "features/minigame/lib/minigameTokenIcons";

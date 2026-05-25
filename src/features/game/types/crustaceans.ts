@@ -1,4 +1,4 @@
-import { InventoryItemName } from "./game";
+import type { InventoryItemName } from "./game";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { translate } from "lib/i18n/translate";
 import { getKeys } from "lib/object";

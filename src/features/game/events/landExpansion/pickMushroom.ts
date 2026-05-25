@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { GameState } from "../../types/game";
+import type { GameState } from "../../types/game";
 import { produce } from "immer";
 
 export type PickMushroomAction = {

@@ -1,8 +1,8 @@
-import { FiniteResource, GameState } from "features/game/types/game";
-import { ResourceName } from "features/game/types/resources";
+import type { FiniteResource, GameState } from "features/game/types/game";
+import type { ResourceName } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export type PlaceSunstoneAction = {
   type: "sunstone.placed";

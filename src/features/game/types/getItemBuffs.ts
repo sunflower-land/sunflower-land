@@ -1,13 +1,13 @@
-import { BuffLabel } from ".";
+import type { BuffLabel } from ".";
 import { getBudBuffs } from "./budBuffs";
-import { BudName } from "./buds";
-import { BumpkinItem } from "./bumpkin";
+import type { BudName } from "./buds";
+import type { BumpkinItem } from "./bumpkin";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "./bumpkinItemBuffs";
 import { COLLECTIBLE_BUFF_LABELS } from "./collectibleItemBuffs";
-import { GameState, InventoryItemName } from "./game";
+import type { GameState, InventoryItemName } from "./game";
 import { getPetBuffs } from "./getPetBuffs";
-import { CollectionName, MarketplaceTradeableName } from "./marketplace";
-import { isPetNFTRevealed, PetNFTName } from "./pets";
+import type { CollectionName, MarketplaceTradeableName } from "./marketplace";
+import { isPetNFTRevealed, type PetNFTName } from "./pets";
 
 export function getItemBuffs({
   state,

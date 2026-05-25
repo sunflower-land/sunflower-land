@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { useState } from "react";
-import { NPCPlaceable, NPCProps } from "./NPC";
+import { NPCPlaceable, type NPCProps } from "./NPC";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -11,15 +11,15 @@ import { useVisiting } from "lib/utils/visitUtils";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import {
   playerModalManager,
-  PlayerModalPlayer,
+  type PlayerModalPlayer,
 } from "features/social/lib/playerModalManager";
 import { hasFeatureAccess } from "lib/flags";
 import { PlayerModal } from "features/social/PlayerModal";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { Discovery } from "features/social/Discovery";
 import { Modal } from "components/ui/Modal";
 import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
-import { Bumpkin } from "features/game/types/game";
+import type { Bumpkin } from "features/game/types/game";
 
 const _showHelper = (state: MachineState) =>
   // First Rhubarb Tart

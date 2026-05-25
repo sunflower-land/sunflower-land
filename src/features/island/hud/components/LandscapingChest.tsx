@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import chest from "assets/icons/chest.png";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";
@@ -12,13 +12,13 @@ import { Biomes } from "./inventory/Biomes";
 import { LAND_BIOMES } from "features/island/biomes/biomes";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import {
+import type {
   LandscapingPlaceable,
   LandscapingPlaceableType,
 } from "features/game/expansion/placeable/landscapingMachine";
-import { NFTName } from "features/game/events/landExpansion/placeNFT";
-import { PanelTabs } from "features/game/components/CloseablePanel";
-import { PlaceableLocation } from "features/game/types/collectibles";
+import type { NFTName } from "features/game/events/landExpansion/placeNFT";
+import type { PanelTabs } from "features/game/components/CloseablePanel";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 
 interface Props {
   show: boolean;

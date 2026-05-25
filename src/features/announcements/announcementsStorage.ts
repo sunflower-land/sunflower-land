@@ -1,6 +1,6 @@
-import { Announcements } from "features/game/types/announcements";
+import type { Announcements } from "features/game/types/announcements";
 import { getKeys } from "lib/object";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 export function getFLOWERTeaserLastRead(): Date | null {
   const value = localStorage.getItem("FLOWERTeaserLastRead");

@@ -1,6 +1,6 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
-import { BumpkinItem } from "./bumpkin";
+import type { BumpkinItem } from "./bumpkin";
 
 import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
@@ -12,10 +12,10 @@ import { translate } from "lib/i18n/translate";
 import { getChapterTicket, CHAPTERS, getCurrentChapter } from "./chapters";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
 import { isCollectible } from "../events/landExpansion/garbageSold";
-import { TranslationKeys } from "lib/i18n/dictionaries/types";
+import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "../events/landExpansion/completeNPCChore";
 import { getObjectEntries } from "lib/object";
-import { BuffLabel } from ".";
+import type { BuffLabel } from ".";
 
 export const SPECIAL_ITEM_LABELS: Partial<Record<BumpkinItem, BuffLabel[]>> = {
   Halo: [

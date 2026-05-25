@@ -1,10 +1,10 @@
-import { BumpkinItem } from "features/game/types/bumpkin";
-import { InventoryItemName } from "../src/features/game/types/game";
-import { Attribute } from "./models";
+import type { BumpkinItem } from "features/game/types/bumpkin";
+import type { InventoryItemName } from "../src/features/game/types/game";
+import type { Attribute } from "./models";
 import { getKeys } from "lib/object";
 import {
   DECORATION_TEMPLATES,
-  TemplateDecorationName,
+  type TemplateDecorationName,
 } from "features/game/types/decorations";
 
 // `image` is intentionally NOT part of the authored shape. The output URL is

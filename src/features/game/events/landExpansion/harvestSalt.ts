@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { BoostName, GameState } from "features/game/types/game";
+import type { BoostName, GameState } from "features/game/types/game";
 import {
   SEA_BLESSED_CHANCE,
   SEA_BLESSED_NODE_COUNT,
@@ -10,7 +10,7 @@ import {
   materializeSaltRegen,
   syncSaltNode,
   getMaxStoredSaltCharges,
-  SaltSyncOptions,
+  type SaltSyncOptions,
 } from "features/game/types/salt";
 import { produce } from "immer";
 import { prngChance } from "lib/prng";

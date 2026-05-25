@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
-import { SpecialEventName } from "features/game/types/specialEvents";
-import { NPCName } from "lib/npcs";
+import type { SpecialEventName } from "features/game/types/specialEvents";
+import type { NPCName } from "lib/npcs";
 import { SpecialEventModalContent } from "./SpecialEventModalContent";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";

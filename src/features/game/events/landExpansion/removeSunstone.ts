@@ -1,5 +1,5 @@
 import { produce } from "immer";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 export enum REMOVE_SUNSTONE_ERRORS {
   SUNSTONE_NOT_FOUND = "Sunstone not found",

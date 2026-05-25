@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import type { GameState, InventoryItemName } from "features/game/types/game";
 import { produce } from "immer";
 
 const VALID_BEARS: InventoryItemName[] = [

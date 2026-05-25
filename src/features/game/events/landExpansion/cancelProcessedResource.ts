@@ -2,18 +2,18 @@ import Decimal from "decimal.js-light";
 import { produce } from "immer";
 
 import { getFishProcessingRequirements } from "features/game/types/fishProcessing";
-import {
+import type {
   BuildingProduct,
   GameState,
   InventoryItemName,
 } from "features/game/types/game";
 import {
-  ProcessingBuildingName,
+  type ProcessingBuildingName,
   isProcessingBuilding,
 } from "features/game/types/buildings";
 import {
   PROCESSED_RESOURCES,
-  ProcessedResource,
+  type ProcessedResource,
 } from "features/game/types/processedFood";
 import { getFishProcessingTime } from "./processResource";
 

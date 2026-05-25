@@ -3,10 +3,10 @@ import React, { useContext } from "react";
 import sign from "assets/decorations/woodsign.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
-import { CollectibleProps } from "../Collectible";
+import type { CollectibleProps } from "../Collectible";
 import { shortAddress } from "lib/utils/shortAddress";
 
 const _username = (state: MachineState) => state.context.state.username;

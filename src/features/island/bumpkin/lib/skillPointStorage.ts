@@ -1,5 +1,5 @@
 import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/choseSkill";
-import { Bumpkin } from "features/game/types/game";
+import type { Bumpkin } from "features/game/types/game";
 
 export function getAcknowledgedSkillPoints() {
   const value = localStorage.getItem("acknowledgedSkillPoints");

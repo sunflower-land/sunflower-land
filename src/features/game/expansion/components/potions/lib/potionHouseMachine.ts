@@ -1,11 +1,11 @@
-import { Interpreter, State, assign, createMachine } from "xstate";
+import { type Interpreter, type State, assign, createMachine } from "xstate";
 import {
   acknowledgePotionHouseIntro,
   getPotionHouseIntroRead,
 } from "./introStorage";
 import { POTIONS } from "./potions";
-import { PotionName } from "features/game/types/game";
-import { DesiredAnimation } from "../MixingPotion";
+import type { PotionName } from "features/game/types/game";
+import type { DesiredAnimation } from "../MixingPotion";
 import { getFeedbackText } from "./helpers";
 import { translate } from "lib/i18n/translate";
 

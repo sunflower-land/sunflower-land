@@ -1,4 +1,4 @@
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { populateOrders } from "./deliver";
 import { getDayOfYear } from "lib/utils/time";
 import { produce } from "immer";

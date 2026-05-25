@@ -5,16 +5,16 @@ import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { KingdomChoresTimer } from "./KingdomChoresContent";
-import {
+import type {
   MachineInterpreter,
   MachineState,
 } from "features/game/lib/gameMachine";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { getKingdomChoreBoost } from "features/game/events/landExpansion/completeKingdomChore";
-import { FactionName, KingdomChore } from "features/game/types/game";
+import type { FactionName, KingdomChore } from "features/game/types/game";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
-import { NPC_WEARABLES, NPCName } from "lib/npcs";
+import { NPC_WEARABLES, type NPCName } from "lib/npcs";
 import { formatNumber } from "lib/utils/formatNumber";
 import mark from "assets/icons/faction_mark.webp";
 

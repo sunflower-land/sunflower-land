@@ -1,28 +1,28 @@
 import Decimal from "decimal.js-light";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import type { GameState, InventoryItemName } from "features/game/types/game";
 import {
   getChoreProgress,
   NPC_CHORES,
-  NpcChore,
+  type NpcChore,
 } from "features/game/types/choreBoard";
 import { produce } from "immer";
-import { NPCName } from "lib/npcs";
+import type { NPCName } from "lib/npcs";
 import {
   getCurrentChapter,
   getChapterTicket,
-  ChapterName,
+  type ChapterName,
 } from "features/game/types/chapters";
 import { isWearableActive } from "features/game/lib/wearables";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import {
+import type {
   ChapterTierItemName,
   MegastoreKeys,
 } from "features/game/types/megastore";
 import { isCollectible } from "./garbageSold";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { getChapterTaskPoints } from "features/game/types/tracks";
-import { FlowerBox } from "../landExpansion/buyChapterItem";
+import type { FlowerBox } from "../landExpansion/buyChapterItem";
 import { handleChapterAnalytics } from "features/game/lib/trackAnalytics";
 
 export type CompleteNPCChoreAction = {

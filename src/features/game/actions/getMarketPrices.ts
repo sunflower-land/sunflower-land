@@ -1,6 +1,6 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { TradeableName } from "./sellMarketResource";
+import type { TradeableName } from "./sellMarketResource";
 
 const API_URL = CONFIG.API_URL;
 

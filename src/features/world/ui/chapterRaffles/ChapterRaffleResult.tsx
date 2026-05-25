@@ -8,7 +8,10 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { useGame } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { randomID } from "lib/utils/random";
-import { loadRaffleResults, RaffleResults } from "./actions/loadRaffleResults";
+import {
+  loadRaffleResults,
+  type RaffleResults,
+} from "./actions/loadRaffleResults";
 import { RaffleLeaderboardTable } from "../../../retreat/components/auctioneer/RaffleLeaderboardTable";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

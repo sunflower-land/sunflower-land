@@ -3,9 +3,9 @@ import {
   getActiveBeehives,
   updateBeehives,
 } from "features/game/lib/updateBeehives";
-import { Beehive, GameState } from "features/game/types/game";
+import type { Beehive, GameState } from "features/game/types/game";
 import { produce } from "immer";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export type PlaceBeehiveAction = {
   type: "beehive.placed";

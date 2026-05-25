@@ -1,5 +1,5 @@
 import { produce } from "immer";
-import { GameState } from "../../types/game";
+import type { GameState } from "../../types/game";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 
 export type RetryFishAction = {

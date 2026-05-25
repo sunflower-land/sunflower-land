@@ -11,12 +11,12 @@ import classNames from "classnames";
 
 import { Context } from "features/game/GameProvider";
 import {
-  LandscapingPlaceable,
-  LandscapingPlaceableType,
-  MachineInterpreter,
+  type LandscapingPlaceable,
+  type LandscapingPlaceableType,
+  type MachineInterpreter,
   placeEvent,
 } from "features/game/expansion/placeable/landscapingMachine";
-import { PlaceableLocation } from "features/game/types/collectibles";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 import { getKeys } from "lib/object";
 import {
   getChestBuds,
@@ -24,11 +24,11 @@ import {
   getChestItems,
   getChestPets,
 } from "./inventory/utils/inventory";
-import { RESOURCES, ResourceName } from "features/game/types/resources";
+import { RESOURCES, type ResourceName } from "features/game/types/resources";
 import {
   BUILDINGS,
   BUILDINGS_DIMENSIONS,
-  BuildingName,
+  type BuildingName,
 } from "features/game/types/buildings";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { BANNERS } from "features/game/types/banners";
@@ -37,7 +37,7 @@ import { MONUMENTS, REWARD_ITEMS } from "features/game/types/monuments";
 import { DOLLS } from "features/game/lib/crafting";
 import { PET_TYPES, isPetNFTRevealed } from "features/game/types/pets";
 import { WEATHER_SHOP_ITEM_COSTS } from "features/game/types/calendar";
-import { Box, BoxProps } from "components/ui/Box";
+import { Box, type BoxProps } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import lightning from "assets/icons/lightning.png";
@@ -47,10 +47,10 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import {
   isBuildingUpgradable,
   makeUpgradableBuildingKey,
-  UpgradableBuildingType,
+  type UpgradableBuildingType,
 } from "features/game/events/landExpansion/upgradeBuilding";
 import {
-  CollectibleName,
+  type CollectibleName,
   COLLECTIBLES_DIMENSIONS,
 } from "features/game/types/craftables";
 import { getBudImage } from "lib/buds/types";
@@ -60,7 +60,7 @@ import {
   PlacementConfirmationModal,
 } from "features/game/expansion/placeable/PlacementConfirmationModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { NFTName } from "features/game/events/landExpansion/placeNFT";
+import type { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { PIXEL_SCALE, GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";

@@ -1,7 +1,7 @@
-import { FlowerBox } from "../events/landExpansion/buyChapterItem";
-import { BumpkinItem } from "./bumpkin";
-import { InventoryItemName } from "./game";
-import { ChapterName } from "./chapters";
+import type { FlowerBox } from "../events/landExpansion/buyChapterItem";
+import type { BumpkinItem } from "./bumpkin";
+import type { InventoryItemName } from "./game";
+import type { ChapterName } from "./chapters";
 import type { HourglassType } from "features/island/collectibles/components/Hourglass";
 
 export type ChapterTierItemName =

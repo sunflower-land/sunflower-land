@@ -1,6 +1,6 @@
 import React from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { CollectibleProps } from "../Collectible";
+import type { CollectibleProps } from "../Collectible";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ImageStyle } from "./template/ImageStyle";
 

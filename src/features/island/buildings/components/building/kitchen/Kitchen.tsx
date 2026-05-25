@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { CookableName, COOKABLES } from "features/game/types/consumables";
+import { type CookableName, COOKABLES } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { KitchenModal } from "./KitchenModal";
@@ -11,10 +11,10 @@ import { KITCHEN_VARIANTS } from "features/island/lib/alternateArt";
 import shadow from "assets/npcs/shadow.png";
 import { useSound } from "lib/utils/hooks/useSound";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useCookingState } from "features/island/buildings/lib/useCookingState";
 import { useSelector } from "@xstate/react";
-import { GameState, TemperateSeasonName } from "features/game/types/game";
+import type { GameState, TemperateSeasonName } from "features/game/types/game";
 import { ReadyRecipes } from "../ReadyRecipes";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 

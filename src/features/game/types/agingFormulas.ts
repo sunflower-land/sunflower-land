@@ -1,7 +1,7 @@
-import Decimal from "decimal.js-light";
+import type Decimal from "decimal.js-light";
 import { prngChance } from "lib/prng";
 import type { GameState, InventoryItemName } from "./game";
-import { FermentationBait } from "./fishing";
+import type { FermentationBait } from "./fishing";
 
 const BAIT_ITEMS = new Set<FermentationBait>([
   "Capsule Bait",

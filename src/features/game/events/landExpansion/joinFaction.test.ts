@@ -1,5 +1,5 @@
 import { TEST_FARM } from "features/game/lib/constants";
-import { FactionName } from "features/game/types/game";
+import type { FactionName } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { FACTION_BOOST_COOLDOWN, joinFaction } from "./joinFaction";
 import { leaveFaction } from "./leaveFaction";

@@ -1,5 +1,5 @@
 import React from "react";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { FACTION_EMBLEMS } from "features/game/events/landExpansion/joinFaction";
 import { Label } from "components/ui/Label";

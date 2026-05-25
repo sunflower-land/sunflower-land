@@ -6,7 +6,7 @@ import ScrollContainer from "react-indiana-drag-scroll";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import { getKeys, getObjectEntries } from "lib/object";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
@@ -33,7 +33,7 @@ import { PetNFT } from "features/island/pets/PetNFT";
 import { FarmHand } from "features/island/farmhand/FarmHand";
 import { PlacedBumpkin } from "features/island/bumpkin/components/PlacedBumpkin";
 import { Button } from "components/ui/Button";
-import { Collectibles, HomeExpansionTier } from "features/game/types/game";
+import type { Collectibles, HomeExpansionTier } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 const _landscaping = (state: MachineState) => state.matches("landscaping");

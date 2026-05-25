@@ -3,8 +3,8 @@ import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext } from "react";
-import { MachineState } from "features/game/lib/gameMachine";
-import { StateMachineStateName } from "features/game/actions/effect";
+import type { MachineState } from "features/game/lib/gameMachine";
+import type { StateMachineStateName } from "features/game/actions/effect";
 import { useSelector } from "@xstate/react";
 
 const _cancellingData =

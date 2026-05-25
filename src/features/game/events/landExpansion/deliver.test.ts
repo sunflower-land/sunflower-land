@@ -14,12 +14,15 @@ import {
   getBumpkinHoliday,
   getCurrentChapterHolidayPeriod,
 } from "lib/utils/getSeasonWeek";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { getChapterTaskPoints } from "features/game/types/tracks";
 import { CONFIG } from "lib/config";
+import type * as FlagsModule from "lib/flags";
+import type * as DeliverModule from "./deliver";
+import type { QuestNPCName } from "./deliver";
 
 jest.mock("lib/flags", () => {
-  const actual = jest.requireActual<typeof import("lib/flags")>("lib/flags");
+  const actual = jest.requireActual<typeof FlagsModule>("lib/flags");
   return {
     ...actual,
     hasTimeBasedFeatureAccess: jest.fn(actual.hasTimeBasedFeatureAccess),
@@ -29,7 +32,7 @@ jest.mock("lib/flags", () => {
 // esbuild-runner/jest does not hoist `jest.mock` above imports. Load the
 // flags module and the SUT via require *after* the mock is registered so
 // the SUT binds the jest.fn wrapper rather than the real function.
-const flags = require("lib/flags") as typeof import("lib/flags") & {
+const flags = require("lib/flags") as typeof FlagsModule & {
   hasTimeBasedFeatureAccess: jest.Mock;
 };
 const {
@@ -37,8 +40,7 @@ const {
   TICKET_REWARDS,
   deliverOrder,
   generateDeliveryTickets,
-} = require("./deliver") as typeof import("./deliver");
-type QuestNPCName = import("./deliver").QuestNPCName;
+} = require("./deliver") as typeof DeliverModule;
 
 const FIRST_DAY_OF_SEASON = new Date("2024-11-01T16:00:00Z").getTime();
 const MID_SEASON = new Date("2023-08-15T15:00:00Z").getTime();
@@ -69,7 +71,7 @@ describe("deliver", () => {
   afterEach(() => {
     CONFIG.NETWORK = previousNetwork;
     flags.hasTimeBasedFeatureAccess.mockImplementation(
-      jest.requireActual<typeof import("lib/flags")>("lib/flags")
+      jest.requireActual<typeof FlagsModule>("lib/flags")
         .hasTimeBasedFeatureAccess,
     );
   });

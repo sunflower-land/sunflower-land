@@ -1,5 +1,5 @@
-import { InventoryItemName } from "./game";
-import { NPCName } from "lib/npcs";
+import type { InventoryItemName } from "./game";
+import type { NPCName } from "lib/npcs";
 
 export type ConversationName = string;
 

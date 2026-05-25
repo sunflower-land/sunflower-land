@@ -1,8 +1,8 @@
 import { makeGame } from "features/game/lib/transforms";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { Font } from "lib/utils/fonts";
+import type { Font } from "lib/utils/fonts";
 
 type Request = {
   portalId: string;

@@ -2,10 +2,10 @@ import React, { useMemo, useState } from "react";
 
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { ChapterName } from "features/game/types/chapters";
+import type { ChapterName } from "features/game/types/chapters";
 import {
   CHAPTER_MUTANTS,
-  MutantsChapterName,
+  type MutantsChapterName,
 } from "features/game/types/chapterMutants";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

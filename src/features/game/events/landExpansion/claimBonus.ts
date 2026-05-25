@@ -1,8 +1,8 @@
 import Decimal from "decimal.js-light";
-import { BONUSES, BonusName } from "features/game/types/bonuses";
+import { BONUSES, type BonusName } from "features/game/types/bonuses";
 import { getKeys } from "lib/object";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
 
 export type ClaimBonusAction = {

@@ -14,7 +14,7 @@ import { canAttemptShopPurchase } from "../lib/minigameShopAvailability";
 import { canAttemptFlowerPurchase } from "../lib/minigameShopAvailability";
 import { MinigameShopDetailBody } from "./MinigameShopDetailBody";
 import { MinigameFlowerPurchaseDetailBody } from "./MinigameFlowerPurchaseDetailBody";
-import Decimal from "decimal.js-light";
+import type Decimal from "decimal.js-light";
 import { Label } from "components/ui/Label";
 
 export type MinigameMobileShopPhase = "list" | "detail";

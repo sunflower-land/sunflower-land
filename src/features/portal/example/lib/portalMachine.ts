@@ -1,6 +1,6 @@
 import { OFFLINE_FARM } from "features/game/lib/landData";
-import { GameState } from "features/game/types/game";
-import { assign, createMachine, Interpreter, State } from "xstate";
+import type { GameState } from "features/game/types/game";
+import { assign, createMachine, type Interpreter, type State } from "xstate";
 import { getJwt, getUrl, loadPortal } from "../../actions/loadPortal";
 import { CONFIG } from "lib/config";
 import { decodeToken } from "features/auth/actions/login";

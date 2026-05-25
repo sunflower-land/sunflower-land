@@ -5,8 +5,8 @@ import {
   INVENTORY_LIMIT,
   TEST_FARM,
 } from "features/game/lib/constants";
-import { CropSeedName, CROP_SEEDS } from "features/game/types/crops";
-import { GameState } from "features/game/types/game";
+import { type CropSeedName, CROP_SEEDS } from "features/game/types/crops";
+import type { GameState } from "features/game/types/game";
 
 import { seedBought } from "./seedBought";
 import { SEEDS } from "features/game/types/seeds";

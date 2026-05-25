@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { claimProduce } from "./claimProduce";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { ANIMAL_SLEEP_DURATION } from "./feedAnimal";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 describe("claimProduce", () => {
   const now = Date.now();

@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 
-import { AuctionResults } from "features/game/lib/auctionMachine";
+import type { AuctionResults } from "features/game/lib/auctionMachine";
 import { Context } from "features/game/GameProvider";
 import { AuctionLeaderboardTable } from "./AuctionLeaderboardTable";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

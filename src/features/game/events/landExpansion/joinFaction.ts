@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import {
+import type {
   FactionBanner,
   FactionEmblem,
   FactionName,

@@ -8,7 +8,7 @@ import codex from "assets/icons/codex.webp";
 import { Codex } from "./Codex";
 import { hasNewOrders } from "features/island/delivery/lib/delivery";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSelector } from "@xstate/react";
