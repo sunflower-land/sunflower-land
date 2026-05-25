@@ -233,7 +233,9 @@ export const WithdrawPets: React.FC<Props> = ({
       )}
       <div className="p-2 mb-2">
         <Label type="warning" className="mb-2">
-          <span className="text-xs">{t("withdraw.restricted")}</span>
+          <span className="text-xs">
+            {t("withdraw.restricted.description")}
+          </span>
         </Label>
         <Label type="default" className="mb-2">
           {t("withdraw.pets")}
