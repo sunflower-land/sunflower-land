@@ -2013,9 +2013,17 @@ export const getTradeType = ({
   if (collection === "buds") return "onchain";
   if (collection === "pets") return "onchain";
   if (collection === "economies") return "instant";
-  if (collection === "wearables") {
-    return ITEM_TRADE_TYPES.wearables[ITEM_NAMES[id]];
+
+  const tradeType =
+    collection === "wearables"
+      ? ITEM_TRADE_TYPES.wearables[ITEM_NAMES[id]]
+      : ITEM_TRADE_TYPES.collectibles[KNOWN_ITEMS[id]];
+
+  if (!tradeType) {
+    throw new Error(
+      `getTradeType: no ITEM_TRADE_TYPES entry for collection=${collection} id=${id}`,
+    );
   }
 
-  return ITEM_TRADE_TYPES.collectibles[KNOWN_ITEMS[id]];
+  return tradeType;
 };

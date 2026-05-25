@@ -208,6 +208,8 @@ const WALLET_ACTIONS: Record<TransactionName, WalletAction> = {
   "transaction.wearablesWithdrawn": "withdrawItems",
   "transaction.budWithdrawn": "withdrawItems",
   "transaction.petWithdrawn": "withdrawItems",
+  // @deprecated supports legacy in-flight syncs only.
+  "transaction.progressSynced": "sync",
 };
 
 interface Props {
@@ -261,6 +263,8 @@ const EVENT_TO_NAME: Record<TransactionName, string> = {
   "transaction.itemsWithdrawn": "Withdraw items",
   "transaction.wearablesWithdrawn": "Withdraw wearables",
   "transaction.flowerWithdrawn": "Withdraw flower",
+  // @deprecated supports legacy in-flight syncs only.
+  "transaction.progressSynced": "Store on chain",
 };
 
 const _farmId = (state: MachineState) => state.context.farmId;

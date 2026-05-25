@@ -11,6 +11,7 @@ import {
   type WithdrawWearablesParams,
   withdrawWearablesTransaction,
 } from "lib/blockchain/Withdrawals";
+import { syncProgress, type SyncProgressParams } from "lib/blockchain/Game";
 import { postEffect } from "../actions/effect";
 
 export type BudWithdrawnTransaction = {
@@ -58,12 +59,27 @@ export type FlowerWithdrawnTransaction = {
   };
 };
 
+/**
+ * @deprecated Sync-to-chain was removed; this type is kept so persisted
+ * in-flight `transaction.progressSynced` records from before the deploy can
+ * still be loaded by the Transaction HUD and submitted on-chain. No new
+ * syncs are produced server-side.
+ */
+export type ProgressSyncedTransaction = {
+  event: "transaction.progressSynced";
+  createdAt: number;
+  data: {
+    params: SyncProgressParams;
+  };
+};
+
 export type GameTransaction =
   | WearablesWithdrawnTransaction
   | ItemsWithdrawnTransaction
   | BudWithdrawnTransaction
   | PetWithdrawnTransaction
-  | FlowerWithdrawnTransaction;
+  | FlowerWithdrawnTransaction
+  | ProgressSyncedTransaction;
 
 export type TransactionName = Extract<
   GameTransaction,
@@ -169,6 +185,9 @@ export const ONCHAIN_TRANSACTIONS: TransactionHandler = {
     withdrawWearablesTransaction(data.params),
   "transaction.flowerWithdrawn": (data) =>
     withdrawFlowerTransaction(data.params),
+  // @deprecated lets a player with an in-flight sync (started before the
+  // hoard-limits PR) still submit it on-chain. No new syncs are created.
+  "transaction.progressSynced": (data) => syncProgress(data.params),
 };
 
 export type SignatureHandler = {
@@ -188,4 +207,8 @@ export const TRANSACTION_SIGNATURES: TransactionRequest = {
   "transaction.itemsWithdrawn": postEffect,
   "transaction.wearablesWithdrawn": postEffect,
   "transaction.flowerWithdrawn": postEffect,
+  // @deprecated no FE entry point creates new syncs; this is registered only
+  // so the TRANSACTION_SIGNATURES record is complete for the union type.
+  "transaction.progressSynced": () =>
+    Promise.reject(new Error("Sync-to-chain has been removed")),
 };

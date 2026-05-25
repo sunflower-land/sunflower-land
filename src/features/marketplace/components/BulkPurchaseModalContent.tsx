@@ -64,7 +64,9 @@ export const BulkPurchaseModalContent: React.FC<
     <>
       <div className="p-2">
         <div className="flex justify-between">
-          <Label type="default" className="mb-2 -ml-1">{`Purchase`}</Label>
+          <Label type="default" className="mb-2 -ml-1">
+            {t("marketplace.purchase")}
+          </Label>
         </div>
         <p className="mb-3">{t("marketplace.areYouSureBulkBuy")}</p>
         <TradeableItemDetails

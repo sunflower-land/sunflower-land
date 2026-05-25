@@ -3140,6 +3140,7 @@
   "marketplace.youOwn": "You own: {{count}}",
   "marketplace.pricePerUnit": "{{price}}/unit",
   "marketplace.available": "In your inventory: {{count}}",
+  "marketplace.purchase": "Purchase",
   "marketplace.areYouSureYouWantToBuy": "Are you sure you want to buy this item?",
   "marketplace.areYouSureBulkBuy": "Are you sure you want to make this bulk purchase?",
   "marketplace.successfulPurchase": "You just successfully bought this item!",
