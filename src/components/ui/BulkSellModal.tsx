@@ -44,7 +44,15 @@ export const BulkSellModal: React.FC<BulkSellProps> = ({
     maxDecimalPlaces,
   );
 
-  const isHalfDisabled = itemAmount.lessThan(minValid.mul(2));
+  const safeHalf = Decimal.min(
+    Decimal.max(
+      setPrecision(itemAmount.mul(0.5), maxDecimalPlaces),
+      minValid,
+    ),
+    itemAmount,
+  );
+
+  const isHalfDisabled = safeHalf.lessThanOrEqualTo(0);
 
   return (
     <Modal show={show} onHide={onHide}>
@@ -62,17 +70,7 @@ export const BulkSellModal: React.FC<BulkSellProps> = ({
             />
             <Button
               disabled={isHalfDisabled}
-              onClick={() => {
-                const half = setPrecision(
-                  itemAmount.mul(0.5),
-                  maxDecimalPlaces,
-                );
-                const safeValue = Decimal.min(
-                  Decimal.max(half, minValid),
-                  itemAmount,
-                );
-                setCustomAmount(safeValue);
-              }}
+              onClick={() => setCustomAmount(safeHalf)}
               className="ml-2 px-1 py-1 w-auto"
             >
               {`50%`}
