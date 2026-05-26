@@ -1,6 +1,6 @@
 import React from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { CollectibleProps } from "../Collectible";
+import type { CollectibleProps } from "../Collectible";
 import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 import trophy from "assets/fish/pink_dolphin_trophy.webp";
 

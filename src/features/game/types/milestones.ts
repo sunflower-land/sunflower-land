@@ -3,16 +3,16 @@ import {
   getFishByType,
 } from "features/island/hud/components/codex/lib/utils";
 import { KNOWN_IDS } from ".";
-import { BumpkinItem } from "./bumpkin";
+import type { BumpkinItem } from "./bumpkin";
 import { getKeys } from "lib/object";
 import {
-  FishType,
-  FishName,
+  type FishType,
+  type FishName,
   FISH,
-  MarineMarvelName,
+  type MarineMarvelName,
   CHAPTER_FISH,
 } from "./fishing";
-import { InventoryItemName, GameState } from "./game";
+import type { InventoryItemName, GameState } from "./game";
 import { FLOWERS } from "./flowers";
 import { translate } from "lib/i18n/translate";
 

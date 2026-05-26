@@ -1,6 +1,6 @@
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Bumpkin } from "features/game/types/game";
+import type { Bumpkin } from "features/game/types/game";
 import React from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 

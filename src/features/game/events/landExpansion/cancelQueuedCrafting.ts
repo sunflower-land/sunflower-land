@@ -1,12 +1,12 @@
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import {
+import type {
   CraftingQueueItem,
   GameState,
   InventoryItemName,
 } from "features/game/types/game";
-import { Recipe, RECIPES } from "features/game/lib/crafting";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { type Recipe, RECIPES } from "features/game/lib/crafting";
+import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { KNOWN_IDS } from "features/game/types";
 import { getBoostedCraftingTime } from "./startCrafting";
 import { trackFarmActivity } from "features/game/types/farmActivity";

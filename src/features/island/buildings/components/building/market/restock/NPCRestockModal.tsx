@@ -11,10 +11,10 @@ import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDeta
 import { Label } from "components/ui/Label";
 import confetti from "canvas-confetti";
 import { Box } from "components/ui/Box";
-import { INITIAL_STOCK, StockableName } from "features/game/lib/constants";
+import { INITIAL_STOCK, type StockableName } from "features/game/lib/constants";
 import {
   RestockItems,
-  RestockNPC,
+  type RestockNPC,
 } from "features/game/events/landExpansion/npcRestock";
 import { capitalize } from "lodash";
 import { getObjectEntries } from "lib/object";

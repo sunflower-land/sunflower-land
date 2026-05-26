@@ -1,9 +1,9 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "../../lib/constants";
-import { GameState } from "../../types/game";
+import type { GameState } from "../../types/game";
 import { bulkHarvest, getCropsToHarvest } from "./bulkHarvest";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
-import { CropName } from "../../types/crops";
+import type { CropName } from "../../types/crops";
 import dictionary from "lib/i18n/dictionaries/dictionary.json";
 
 const FARM_WITH_PLOTS: GameState = {

@@ -1,4 +1,4 @@
-import { FactionName } from "features/game/types/game";
+import type { FactionName } from "features/game/types/game";
 
 import sunflorianPointIcon from "assets/icons/sunflorians_point.webp";
 import goblinsPointIcon from "assets/icons/goblins_point.webp";

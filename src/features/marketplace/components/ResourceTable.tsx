@@ -1,8 +1,8 @@
 import React from "react";
-import { Decimal } from "decimal.js-light";
-import { TradeableDisplay } from "../lib/tradeables";
+import type { Decimal } from "decimal.js-light";
+import type { TradeableDisplay } from "../lib/tradeables";
 import { TableRow } from "./TableRow";
-import { TableItem } from "./TableRow";
+import type { TableItem } from "./TableRow";
 
 type Props = {
   details: TradeableDisplay;

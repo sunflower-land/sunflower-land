@@ -1,4 +1,4 @@
-import { Bud } from "lib/buds/types";
+import type { Bud } from "lib/buds/types";
 
 export const BUD_BOOST_FILTER_OPTIONS = [
   "Basic Crops",

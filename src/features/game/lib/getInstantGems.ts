@@ -1,4 +1,4 @@
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { useNow } from "lib/utils/hooks/useNow";
 import { trackFarmActivity } from "../types/farmActivity";
 import Decimal from "decimal.js-light";

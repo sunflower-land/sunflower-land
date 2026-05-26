@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import { NetworkOption } from "./DepositFlower";
+import type { NetworkOption } from "./DepositFlower";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { useTranslation } from "react-i18next";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { shortAddress } from "lib/utils/shortAddress";
 import { Button } from "components/ui/Button";
 import flowerIcon from "assets/icons/flower_token.webp";

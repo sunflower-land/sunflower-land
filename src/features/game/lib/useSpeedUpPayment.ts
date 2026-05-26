@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { useNow } from "lib/utils/hooks/useNow";
 import {
   COINS_PER_GEM,
   DAILY_COIN_SPEEDUP_LIMIT,
   getCoinsSpentOnSpeedUpsToday,
   hasDinoEggTrophyBoost,
-  SpeedUpPaymentMethod,
+  type SpeedUpPaymentMethod,
   useRealTimeInstantGems,
 } from "./getInstantGems";
 

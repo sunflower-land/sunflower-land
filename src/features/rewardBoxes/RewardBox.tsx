@@ -2,7 +2,10 @@ import React, { useContext, useState } from "react";
 
 import { Label } from "components/ui/Label";
 import { Context, useGame } from "features/game/GameProvider";
-import { RewardBoxName, REWARD_BOXES } from "features/game/types/rewardBoxes";
+import {
+  type RewardBoxName,
+  REWARD_BOXES,
+} from "features/game/types/rewardBoxes";
 import { useActor, useSelector } from "@xstate/react";
 
 import { getKeys } from "lib/object";
@@ -12,7 +15,7 @@ import classNames from "classnames";
 import { Panel } from "components/ui/Panel";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 import coinsIcon from "assets/icons/coins.webp";
 import vipIcon from "assets/icons/vip.webp";
 import flowerTokenIcon from "assets/icons/flower_token.webp";

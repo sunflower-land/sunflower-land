@@ -1275,10 +1275,15 @@ import saltCrystalBed from "assets/sfts/salt_crystal_bed.webp";
 import worldMapRug from "assets/sfts/world_map_rug.webp";
 import rippedSaltBag from "assets/sfts/ripped_salt_bag.webp";
 
-import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
+import {
+  COUPONS,
+  EASTER_EGG,
+  FERTILISERS,
+  type InventoryItemName,
+} from "./game";
 
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
-import { AchievementName, ACHIEVEMENTS } from "./achievements";
+import { type AchievementName, ACHIEVEMENTS } from "./achievements";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
@@ -1310,7 +1315,6 @@ import { LOVE_ANIMAL_TOOLS, TREASURE_TOOLS, WORKBENCH_TOOLS } from "./tools";
 import { translate } from "lib/i18n/translate";
 import { LANDSCAPING_DECORATIONS } from "./decorations";
 import { SELLABLE_TREASURES } from "./treasure";
-import { TREASURE_COLLECTIBLE_ITEM } from "./collectibles";
 import { ANIMAL_FOODS } from "./animals";
 import { PROCESSED_RESOURCES } from "./processedFood";
 
@@ -5848,15 +5852,15 @@ export const ITEM_DETAILS: Items = {
   },
   "Adrift Ark": {
     image: adriftArk,
-    description: TREASURE_COLLECTIBLE_ITEM["Adrift Ark"].description,
+    description: translate("description.adrift.ark"),
   },
   Castellan: {
     image: castellan,
-    description: TREASURE_COLLECTIBLE_ITEM.Castellan.description,
+    description: translate("description.castellan"),
   },
   "Sunlit Citadel": {
     image: sunlitCitadel,
-    description: TREASURE_COLLECTIBLE_ITEM["Sunlit Citadel"].description,
+    description: translate("description.sunlit.citadel"),
   },
   "Pharaoh Gnome": {
     image: pharaohGnome,
@@ -5884,11 +5888,11 @@ export const ITEM_DETAILS: Items = {
   },
   "Baobab Tree": {
     image: baobabTree,
-    description: TREASURE_COLLECTIBLE_ITEM["Baobab Tree"].description,
+    description: translate("description.baobab.tree"),
   },
   Camel: {
     image: camel,
-    description: TREASURE_COLLECTIBLE_ITEM.Camel.description,
+    description: translate("description.camel"),
   },
   "Tomato Bombard": {
     image: tomatoBombard,

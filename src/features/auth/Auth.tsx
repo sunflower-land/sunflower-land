@@ -8,7 +8,7 @@ import { ErrorMessage } from "./ErrorMessage";
 import { Panel } from "components/ui/Panel";
 import { Loading } from "./components";
 
-import { ErrorCode } from "lib/errors";
+import type { ErrorCode } from "lib/errors";
 import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
 import { Verifying } from "./components/Verifying";
 import { Welcome } from "./components/Welcome";

@@ -1,5 +1,5 @@
 import { Modal } from "components/ui/Modal";
-import { SpecialEvent } from "features/game/types/specialEvents";
+import type { SpecialEvent } from "features/game/types/specialEvents";
 import { SpecialEventModalContent } from "features/world/ui/SpecialEventModalContent";
 import React, { useState } from "react";
 

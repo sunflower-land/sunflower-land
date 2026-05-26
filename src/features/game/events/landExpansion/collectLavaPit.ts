@@ -1,6 +1,6 @@
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
-import { BoostName, GameState } from "features/game/types/game";
+import type { BoostName, GameState } from "features/game/types/game";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getLavaPitTime } from "./startLavaPit";

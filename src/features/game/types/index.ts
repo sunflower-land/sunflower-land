@@ -1,5 +1,5 @@
-import { InventoryItemName } from "./game";
-import { LabelType } from "components/ui/Label";
+import type { InventoryItemName } from "./game";
+import type { LabelType } from "components/ui/Label";
 
 export enum LimitedItemType {
   BlacksmithItem = "BlacksmithItem",

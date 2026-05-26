@@ -1,7 +1,11 @@
 import { getKeys } from "lib/object";
-import { BumpkinItem } from "../types/bumpkin";
-import { BedName, InventoryItemName, RecipeCraftableName } from "../types/game";
-import { ChapterName } from "../types/chapters";
+import type { BumpkinItem } from "../types/bumpkin";
+import type {
+  BedName,
+  InventoryItemName,
+  RecipeCraftableName,
+} from "../types/game";
+import type { ChapterName } from "../types/chapters";
 
 export type DollName =
   | "Doll"

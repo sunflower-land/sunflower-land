@@ -8,14 +8,14 @@ import { getKeys } from "lib/object";
 import { Box } from "components/ui/Box";
 import { ResourcePlacer, getResources } from "./components/ResourcePlacer";
 import {
-  Coordinates,
+  type Coordinates,
   MapPlacement,
 } from "features/game/expansion/components/MapPlacement";
 import { Button } from "components/ui/Button";
 import { InnerPanel } from "components/ui/Panel";
-import { INITIAL_LAYOUTS, Layout } from "./lib/layouts";
+import { INITIAL_LAYOUTS, type Layout } from "./lib/layouts";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 
 /**

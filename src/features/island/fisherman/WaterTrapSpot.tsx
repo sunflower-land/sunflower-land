@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "components/ui/Modal";
 import { WaterTrapModal } from "./WaterTrapModal";
@@ -13,10 +13,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 import {
   CRUSTACEAN_CHUM_AMOUNTS,
-  CrustaceanChum,
-  CrustaceanName,
+  type CrustaceanChum,
+  type CrustaceanName,
   WATER_TRAP_ANIMATIONS,
-  WaterTrapName,
+  type WaterTrapName,
   CRUSTACEANS,
   caughtCrustacean,
 } from "features/game/types/crustaceans";

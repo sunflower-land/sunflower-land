@@ -1,5 +1,5 @@
-import { ChapterName } from "features/game/types/chapters";
-import { BuffLabel } from ".";
+import type { ChapterName } from "features/game/types/chapters";
+import type { BuffLabel } from ".";
 
 export type CodexCategoryName =
   | "Fish"

@@ -12,7 +12,7 @@ import { Portal } from "./Portal";
 import { InlineDialogue } from "../TypingMessage";
 import { isMinigameComplete } from "features/game/events/minigames/claimMinigamePrize";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { MinigamePrizeUI } from "./MinigamePrizeUI";
 
 interface Props {

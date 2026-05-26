@@ -1,12 +1,12 @@
 import { getKeys } from "lib/object";
-import {
+import type {
   Inventory,
   InventoryItemName,
   TemperateSeasonName,
   Wardrobe,
 } from "./game";
-import { isPet, PET_TYPES, PetType } from "./pets";
-import { SEASONAL_SEEDS, SeedName } from "./seeds";
+import { isPet, PET_TYPES, type PetType } from "./pets";
+import { SEASONAL_SEEDS, type SeedName } from "./seeds";
 
 export type RewardBox = {
   spunAt?: number;

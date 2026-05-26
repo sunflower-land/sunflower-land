@@ -1,4 +1,4 @@
-import { GameState, InventoryItemName, TemperateSeasonName } from "./game";
+import type { GameState, InventoryItemName, TemperateSeasonName } from "./game";
 import { translate } from "lib/i18n/translate";
 
 export type Worm = "Earthworm" | "Grub" | "Red Wiggler";

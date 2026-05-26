@@ -1,6 +1,6 @@
 import { CONFIG } from "lib/config";
-import { Interaction } from "../types/types";
-import { FeedFilter } from "../Feed";
+import type { Interaction } from "../types/types";
+import type { FeedFilter } from "../Feed";
 
 type Request = {
   token: string;

@@ -1,7 +1,7 @@
 import clothesShopJson from "assets/map/clothe_shop.json";
 
-import { SceneId } from "../mmoMachine";
-import { BaseScene, NPCBumpkin } from "./BaseScene";
+import type { SceneId } from "../mmoMachine";
+import { BaseScene, type NPCBumpkin } from "./BaseScene";
 
 const BUMPKINS: NPCBumpkin[] = [
   {

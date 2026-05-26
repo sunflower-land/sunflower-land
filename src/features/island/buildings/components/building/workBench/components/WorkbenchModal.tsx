@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState } from "react";
+import React, { type SyntheticEvent, useState } from "react";
 
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";

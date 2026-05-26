@@ -1,7 +1,7 @@
 import React, { useContext, useRef } from "react";
 
 import Spritesheet, {
-  SpriteSheetInstance,
+  type SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
 import golemSheet from "assets/sfts/rock_golem.png";

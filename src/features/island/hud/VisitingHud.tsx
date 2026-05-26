@@ -14,7 +14,7 @@ import { RoundButton } from "components/ui/RoundButton";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { HudContainer } from "components/ui/HudContainer";
 import { useNavigate } from "react-router";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { NPCIcon } from "../bumpkin/components/NPC";
 import { Label } from "components/ui/Label";
 

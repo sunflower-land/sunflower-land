@@ -1,10 +1,10 @@
 import {
-  BumpkinRevampSkillName,
+  type BumpkinRevampSkillName,
   BUMPKIN_REVAMP_SKILL_TREE,
-  BumpkinSkillRevamp,
+  type BumpkinSkillRevamp,
 } from "features/game/types/bumpkinSkills";
 import { getKeys } from "lib/object";
-import {
+import type {
   GameState,
   CropPlot,
   Tree,
@@ -24,7 +24,7 @@ import { canChop } from "./chop";
 import { canDrillOilReserve } from "./drillOilReserve";
 import { isReadyToHarvest } from "./harvest";
 import { getCurrentCookingItem, recalculateQueue } from "./cancelQueuedRecipe";
-import { AOEItemName } from "features/game/expansion/placeable/lib/collisionDetection";
+import type { AOEItemName } from "features/game/expansion/placeable/lib/collisionDetection";
 import { FLOWER_SEEDS, FLOWERS } from "features/game/types/flowers";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import { isWearableActive } from "features/game/lib/wearables";

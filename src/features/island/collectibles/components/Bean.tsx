@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { CollectibleProps } from "../Collectible";
-import { BeanName, BEANS } from "features/game/types/beans";
+import type { CollectibleProps } from "../Collectible";
+import { type BeanName, BEANS } from "features/game/types/beans";
 import { Context } from "features/game/GameProvider";
 import { Modal } from "components/ui/Modal";
 import { secondsToString } from "lib/utils/time";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useActor } from "@xstate/react";
 import { Revealing } from "features/game/components/Revealing";

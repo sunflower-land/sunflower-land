@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef } from "react";
 
 import Spritesheet, {
-  SpriteSheetInstance,
+  type SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
 import wickerManFire from "assets/sfts/wicker_man_fire.png";

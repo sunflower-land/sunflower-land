@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 
-import { GameState } from "features/game/types/game";
-import { sellBounty, SellBountyAction } from "./sellBounty";
+import type { GameState } from "features/game/types/game";
+import { sellBounty, type SellBountyAction } from "./sellBounty";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { getChapterTicket } from "features/game/types/chapters";
 

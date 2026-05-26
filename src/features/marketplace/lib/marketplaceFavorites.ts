@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { CollectionName } from "features/game/types/marketplace";
+import type { CollectionName } from "features/game/types/marketplace";
 import { readLocalStorageJSON, writeLocalStorageJSON } from "lib/localStorage";
 
 export type MarketplaceFavoriteItem = {

@@ -1,4 +1,4 @@
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { accelerateComposter } from "./accelerateComposter";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import Decimal from "decimal.js-light";

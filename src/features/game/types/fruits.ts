@@ -4,8 +4,8 @@
 
 import { getKeys } from "lib/object";
 import { translate } from "lib/i18n/translate";
-import { ResourceName } from "./resources";
-import { SeedName } from "./seeds";
+import type { ResourceName } from "./resources";
+import type { SeedName } from "./seeds";
 
 export type PatchFruitName =
   | "Apple"

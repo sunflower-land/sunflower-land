@@ -1,7 +1,7 @@
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { mixPotion } from "./mixPotion";
 import Decimal from "decimal.js-light";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 describe("mixPotion", () => {
   const now = Date.now();

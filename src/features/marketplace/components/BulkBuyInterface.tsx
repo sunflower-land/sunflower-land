@@ -4,7 +4,7 @@ import { NumberInput } from "components/ui/NumberInput";
 import token from "assets/icons/flower_token.webp";
 import Decimal from "decimal.js-light";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { isMobile } from "mobile-device-detect";
 import { formatNumber } from "lib/utils/formatNumber";

@@ -3,7 +3,7 @@ import { useSelector } from "@xstate/react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { UpgradeSaltFarm } from "./UpgradeSaltFarm";
 import { OuterPanel } from "components/ui/Panel";

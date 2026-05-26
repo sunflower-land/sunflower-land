@@ -5,12 +5,12 @@ import { Context } from "../GameProvider";
 import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "../types/images";
-import { InventoryItemName } from "../types/game";
+import type { InventoryItemName } from "../types/game";
 import { PIXEL_SCALE } from "../lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ModalContext } from "./modal/ModalProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { BumpkinItem } from "../types/bumpkin";
+import type { BumpkinItem } from "../types/bumpkin";
 import { isCollectible } from "../events/landExpansion/garbageSold";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 

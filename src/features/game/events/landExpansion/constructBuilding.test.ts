@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { BUILDINGS } from "features/game/types/buildings";
 import { TEST_FARM } from "../../lib/constants";
-import { GameState } from "../../types/game";
+import type { GameState } from "../../types/game";
 import {
   constructBuilding,
   CONSTRUCT_BUILDING_ERRORS,

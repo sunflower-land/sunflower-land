@@ -1,5 +1,5 @@
-import { FactionName } from "features/game/types/game";
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import type { FactionName } from "features/game/types/game";
+import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 export type RewardModalPlayer = {
   farmId: number;

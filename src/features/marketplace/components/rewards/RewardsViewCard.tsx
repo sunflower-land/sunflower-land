@@ -1,5 +1,5 @@
 import { ButtonPanel } from "components/ui/Panel";
-import { TradeReward } from "features/game/events/landExpansion/redeemTradeReward";
+import type { TradeReward } from "features/game/events/landExpansion/redeemTradeReward";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React from "react";
 

@@ -2,8 +2,8 @@ import { Decimal } from "decimal.js-light";
 import { INITIAL_FARM } from "../lib/constants";
 import {
   buyOptionPurchaseItem,
-  OptionPurchaseItemName,
-  PurchaseType,
+  type OptionPurchaseItemName,
+  type PurchaseType,
 } from "./buyOptionPurchaseItem";
 
 describe("buyOptionPurchaseItem", () => {

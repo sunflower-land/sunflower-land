@@ -7,7 +7,7 @@ import { Label } from "components/ui/Label";
 import { getWalletIcon } from "features/wallet/lib/getWalletIcon";
 import { shortAddress } from "lib/utils/shortAddress";
 import { Button } from "components/ui/Button";
-import { SignMessageErrorType } from "@wagmi/core";
+import type { SignMessageErrorType } from "@wagmi/core";
 import { useEffect } from "react";
 import { base, baseSepolia } from "viem/chains";
 import { CONFIG } from "lib/config";

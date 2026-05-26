@@ -6,32 +6,32 @@ import { useActor, useSelector } from "@xstate/react";
 import { useLocation, useNavigate, useSearchParams } from "react-router";
 import { ListViewCard } from "./ListViewCard";
 import Decimal from "decimal.js-light";
-import { getTradeableDisplay, TradeableDisplay } from "../lib/tradeables";
+import { getTradeableDisplay, type TradeableDisplay } from "../lib/tradeables";
 import { InnerPanel } from "components/ui/Panel";
 import useSWR, { preload } from "swr";
 import { CONFIG } from "lib/config";
 import { FixedSizeGrid as Grid } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
-import { Tradeable } from "features/game/types/marketplace";
-import { InventoryItemName } from "features/game/types/game";
+import type { MachineState } from "features/game/lib/gameMachine";
+import type { Tradeable } from "features/game/types/marketplace";
+import type { InventoryItemName } from "features/game/types/game";
 import {
   PET_FETCHES,
-  PetCategory,
+  type PetCategory,
   getPetLevel,
 } from "features/game/types/pets";
 import { getNFTTraits } from "./TradeableInfo";
-import { PetTraits } from "features/pets/data/types";
-import { Bud } from "lib/buds/types";
+import type { PetTraits } from "features/pets/data/types";
+import type { Bud } from "lib/buds/types";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {
-  BudTrait,
+  type BudTrait,
   getLevelFilterByValue,
   groupTraitFilters,
-  PetTrait,
-  TraitCollection,
-  TraitFilter,
+  type PetTrait,
+  type TraitCollection,
+  type TraitFilter,
   toTraitValueId,
   useTraitFilters,
 } from "../lib/marketplaceFilters";
@@ -40,7 +40,7 @@ import {
   getChapterCollectionForDisplay,
 } from "features/game/types/collections";
 import { getKeys } from "lib/object";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { KNOWN_IDS } from "features/game/types";
 import {
   BUD_TRAIT_GROUPS,

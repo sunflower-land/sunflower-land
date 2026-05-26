@@ -1,6 +1,6 @@
 import { retryFish } from "./retryFish";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 describe("retryFish", () => {
   const now = Date.now();

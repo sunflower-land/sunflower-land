@@ -6402,6 +6402,8 @@
   "portal.memory.description": "Flip cards, find matches and try to beat the clock in this memory challenge!",
   "portal.chaacsTemple.title": "Chaac's Temple",
   "portal.chaacsTemple.description": "Enter the temple, defy the odds and solve Chaac's memory challenge.",
+  "portal.economyMinigames.banner": "New player minigames have just launched! This is in beta mode",
+  "portal.economyMinigames.disclaimer": "These games are not maintained or supported by the SFL team - proceed at your own risk.",
   "recipes.upNext": "Up Next",
   "recipes.addToQueue": "Add to queue",
   "recipes.queue": "Queue",

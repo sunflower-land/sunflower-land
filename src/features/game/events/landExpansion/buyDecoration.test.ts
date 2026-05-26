@@ -2,9 +2,9 @@ import Decimal from "decimal.js-light";
 import { TEST_FARM } from "../../lib/constants";
 import {
   LANDSCAPING_DECORATIONS,
-  ShopDecorationName,
+  type ShopDecorationName,
 } from "../../types/decorations";
-import { GameState } from "../../types/game";
+import type { GameState } from "../../types/game";
 import { buyDecoration } from "./buyDecoration";
 
 const GAME_STATE: GameState = TEST_FARM;

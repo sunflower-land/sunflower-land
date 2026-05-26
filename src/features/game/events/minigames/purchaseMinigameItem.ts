@@ -1,13 +1,13 @@
 import Decimal from "decimal.js-light";
 import { getKeys } from "lib/object";
-import { CROPS, CropName } from "features/game/types/crops";
-import { PATCH_FRUIT, PatchFruitName } from "features/game/types/fruits";
-import { GameState } from "features/game/types/game";
+import { CROPS, type CropName } from "features/game/types/crops";
+import { PATCH_FRUIT, type PatchFruitName } from "features/game/types/fruits";
+import type { GameState } from "features/game/types/game";
 import {
-  MinigameName,
+  type MinigameName,
   SUPPORTED_MINIGAMES,
 } from "features/game/types/minigames";
-import { COMMODITIES, CommodityName } from "features/game/types/resources";
+import { COMMODITIES, type CommodityName } from "features/game/types/resources";
 import { produce } from "immer";
 
 export type MinigameCurrency = CropName | PatchFruitName | CommodityName;

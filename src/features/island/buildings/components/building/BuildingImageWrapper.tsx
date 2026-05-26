@@ -8,8 +8,8 @@ import {
   getBuildingBumpkinLevelRequired,
   isBuildingEnabled,
 } from "features/game/expansion/lib/buildingRequirements";
-import { BuildingName } from "features/game/types/buildings";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { BuildingName } from "features/game/types/buildings";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Context } from "features/game/GameProvider";
 import { Modal } from "components/ui/Modal";

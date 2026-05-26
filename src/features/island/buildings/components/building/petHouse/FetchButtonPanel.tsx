@@ -1,13 +1,13 @@
 import React from "react";
 import { ButtonPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
-import { PetResourceName } from "features/game/types/pets";
+import type { PetResourceName } from "features/game/types/pets";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { formatFetchYield } from "features/game/lib/formatFetchYield";
 import classNames from "classnames";
-import Decimal from "decimal.js-light";
+import type Decimal from "decimal.js-light";
 
 const INNER_CANVAS_WIDTH = 12;
 

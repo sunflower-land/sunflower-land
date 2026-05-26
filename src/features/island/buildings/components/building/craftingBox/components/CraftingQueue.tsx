@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { CraftingQueueItem } from "features/game/types/game";
+import type { CraftingQueueItem } from "features/game/types/game";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { CraftingQueueSlot } from "./CraftingQueueSlot";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

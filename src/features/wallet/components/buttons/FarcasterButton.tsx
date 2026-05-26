@@ -2,7 +2,7 @@ import { Button } from "components/ui/Button";
 import { FARCASTER_ICON } from "features/wallet/lib/getWalletIcon";
 import { farcasterConnector } from "features/wallet/WalletProvider";
 import React from "react";
-import { Connector, CreateConnectorFn, useConnectors } from "wagmi";
+import { type Connector, type CreateConnectorFn, useConnectors } from "wagmi";
 
 export const FarcasterButton: React.FC<{
   onConnect: (connector: Connector | CreateConnectorFn) => void;

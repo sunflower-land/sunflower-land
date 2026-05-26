@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { type FC } from "react";
 import { useNavigate } from "react-router";
 import { NPC_WEARABLES } from "lib/npcs";
 import { translate } from "lib/i18n/translate";

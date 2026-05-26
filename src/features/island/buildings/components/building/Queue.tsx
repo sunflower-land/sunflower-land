@@ -4,14 +4,14 @@ import React, { useContext } from "react";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useTranslation } from "react-i18next";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { BuildingProduct } from "features/game/types/game";
+import type { BuildingProduct } from "features/game/types/game";
 import { VIPAccess } from "features/game/components/VipAccess";
-import { BuildingName } from "features/game/types/buildings";
+import type { BuildingName } from "features/game/types/buildings";
 
 type Props = {
   product?: BuildingProduct;

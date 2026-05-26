@@ -13,7 +13,7 @@ import {
 import { walletConnect, metaMask, coinbaseWallet } from "@wagmi/connectors";
 import { sequenceWallet } from "@0xsequence/wagmi-connector";
 import { WaypointProvider } from "@sky-mavis/waypoint";
-import { EIP1193Provider } from "viem";
+import type { EIP1193Provider } from "viem";
 import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 

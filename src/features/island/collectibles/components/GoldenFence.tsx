@@ -4,7 +4,7 @@ import React from "react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 
-import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
+import type { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
 import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 const IMAGE_PATHS: Record<string, string> = {

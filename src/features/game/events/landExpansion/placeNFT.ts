@@ -1,13 +1,13 @@
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { PlaceableLocation } from "features/game/types/collectibles";
-import { GameState } from "features/game/types/game";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { PlaceableLocation } from "features/game/types/collectibles";
+import type { GameState } from "features/game/types/game";
 import {
   getPetType,
   getPlacedNFTPetTypesInPetHouse,
   getPlacedNFTPetsCount,
   isPetNFTRevealed,
   PET_HOUSE_CAPACITY,
-  PetNFT,
+  type PetNFT,
 } from "features/game/types/pets";
 import { produce } from "immer";
 

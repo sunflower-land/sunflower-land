@@ -3,7 +3,7 @@ import { useSelector } from "@xstate/react";
 import { useLocation, useNavigate } from "react-router";
 
 import { Context } from "features/game/GameProvider";
-import { CollectionName } from "features/game/types/marketplace";
+import type { CollectionName } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { KNOWN_IDS } from "features/game/types";
@@ -23,8 +23,8 @@ import {
   WEARABLE_RELEASES,
   getPetReleases,
 } from "features/game/types/withdrawables";
-import { MachineState } from "features/game/lib/gameMachine";
-import { GameState } from "features/game/types/game";
+import type { MachineState } from "features/game/lib/gameMachine";
+import type { GameState } from "features/game/types/game";
 import { useNow } from "lib/utils/hooks/useNow";
 
 type CollectionItem = {

@@ -1,6 +1,6 @@
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
-import {
+import type {
   BoostName,
   GameState,
   Inventory,

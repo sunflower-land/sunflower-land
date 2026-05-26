@@ -1,4 +1,4 @@
-import { FactionName, GameState } from "../types/game";
+import type { FactionName, GameState } from "../types/game";
 
 import sunflorians_chevron_zero from "assets/icons/factions/sunflorians/chevron_zero.webp";
 import sunflorians_chevron_one from "assets/icons/factions/sunflorians/chevron_one.webp";
@@ -33,7 +33,7 @@ import goblins_chevron_five from "assets/icons/factions/goblins/chevron_five.web
 import goblins_chevron_six from "assets/icons/factions/goblins/chevron_six.webp";
 import { FACTION_EMBLEMS } from "../events/landExpansion/joinFaction";
 import Decimal from "decimal.js-light";
-import { BoostType, BoostValue } from "../types/boosts";
+import type { BoostType, BoostValue } from "../types/boosts";
 import { getKeys } from "lib/object";
 
 type BumpkinRank =

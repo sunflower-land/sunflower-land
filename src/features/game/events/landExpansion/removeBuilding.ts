@@ -1,6 +1,6 @@
-import { BuildingName } from "features/game/types/buildings";
+import type { BuildingName } from "features/game/types/buildings";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { CropMachineBuilding, GameState } from "features/game/types/game";
+import type { CropMachineBuilding, GameState } from "features/game/types/game";
 import { produce } from "immer";
 export enum REMOVE_BUILDING_ERRORS {
   INVALID_BUILDING = "This building does not exist",

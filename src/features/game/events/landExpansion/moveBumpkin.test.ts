@@ -1,5 +1,5 @@
 import { TEST_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { moveBumpkin } from "./moveBumpkin";
 
 const GAME_STATE: GameState = {

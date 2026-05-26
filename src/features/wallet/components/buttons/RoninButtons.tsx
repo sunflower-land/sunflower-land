@@ -8,7 +8,7 @@ import {
   waypointConnector,
 } from "features/wallet/WalletProvider";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
-import { Connector, CreateConnectorFn, useConnectors } from "wagmi";
+import { type Connector, type CreateConnectorFn, useConnectors } from "wagmi";
 
 export const RoninButtons: React.FC<{
   onConnect: (connector: Connector | CreateConnectorFn) => void;

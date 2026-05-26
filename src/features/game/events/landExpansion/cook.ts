@@ -1,10 +1,10 @@
 import Decimal from "decimal.js-light";
 import {
-  CookableName,
+  type CookableName,
   COOKABLES,
   isInstantFishRecipe,
 } from "features/game/types/consumables";
-import {
+import type {
   BuildingProduct,
   GameState,
   Inventory,
@@ -14,7 +14,7 @@ import {
 import { getCookingTime } from "features/game/expansion/lib/boosts";
 import { setPrecision } from "lib/utils/formatNumber";
 import { translate } from "lib/i18n/translate";
-import { CookingBuildingName } from "features/game/types/buildings";
+import type { CookingBuildingName } from "features/game/types/buildings";
 import { produce } from "immer";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";

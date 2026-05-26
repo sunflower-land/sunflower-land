@@ -1,5 +1,5 @@
 import { produce } from "immer";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 export enum REMOVE_CRIMSTONE_ERRORS {
   CRIMSTONE_NOT_FOUND = "Crimstone not found",

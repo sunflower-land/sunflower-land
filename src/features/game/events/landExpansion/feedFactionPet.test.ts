@@ -5,7 +5,7 @@ import {
   getWeekKey,
   getFactionWeekday,
 } from "features/game/lib/factions";
-import { Faction, GameState } from "features/game/types/game";
+import type { Faction, GameState } from "features/game/types/game";
 import { feedFactionPet } from "./feedFactionPet";
 import { CONSUMABLES } from "features/game/types/consumables";
 

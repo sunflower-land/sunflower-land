@@ -1,11 +1,15 @@
 import Decimal from "decimal.js-light";
-import { BumpkinItem } from "features/game/types/bumpkin";
+import type { BumpkinItem } from "features/game/types/bumpkin";
 import {
-  FactionShopItemName,
+  type FactionShopItemName,
   FACTION_SHOP_ITEMS,
   FACTION_SHOP_KEYS,
 } from "features/game/types/factionShop";
-import { GameState, InventoryItemName, Keys } from "features/game/types/game";
+import type {
+  GameState,
+  InventoryItemName,
+  Keys,
+} from "features/game/types/game";
 import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
 import { trackFarmActivity } from "features/game/types/farmActivity";

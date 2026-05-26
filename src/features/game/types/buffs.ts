@@ -1,5 +1,5 @@
 import cloneDeep from "lodash.clonedeep";
-import { GameState } from "./game";
+import type { GameState } from "./game";
 import { getKeys } from "lib/object";
 import { CROPS } from "./crops";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -69,7 +69,30 @@ export function applyBuff({
         const readyAt =
           plot.crop.plantedAt + CROPS[plot.crop.name].harvestSeconds * 1000;
         const remainingTime = readyAt - now;
-        plot.crop.plantedAt -= remainingTime / 2;
+
+        if (remainingTime > 0) {
+          const timeReduction = remainingTime / 2;
+          plot.crop.plantedAt -= timeReduction;
+          plot.crop.boostedTime = (plot.crop.boostedTime ?? 0) + timeReduction;
+
+          const basicScarecrow = gameClone.collectibles["Basic Scarecrow"]?.[0];
+          if (
+            basicScarecrow?.coordinates &&
+            plot.x !== undefined &&
+            plot.y !== undefined
+          ) {
+            const dx = plot.x - basicScarecrow.coordinates.x;
+            const dy = plot.y - basicScarecrow.coordinates.y;
+            const availableAt = gameClone.aoe["Basic Scarecrow"]?.[dx]?.[dy];
+
+            if (availableAt) {
+              gameClone.aoe["Basic Scarecrow"]![dx]![dy] = Math.max(
+                now,
+                availableAt - timeReduction,
+              );
+            }
+          }
+        }
       }
     });
 

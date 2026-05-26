@@ -1,11 +1,12 @@
 import Decimal from "decimal.js-light";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { CropPlot, GameState, Skills } from "features/game/types/game";
+import type { CropPlot, GameState, Skills } from "features/game/types/game";
 import { harvest } from "./harvest";
 import { CROPS } from "features/game/types/crops";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
+import { applyBuff } from "features/game/types/buffs";
 
 const dateNow = Date.now();
 const GAME_STATE: GameState = {
@@ -1551,6 +1552,64 @@ describe("harvest", () => {
       expect(state.inventory.Cabbage).toEqual(new Decimal(1.2));
     });
 
+    it("stacks Power hour, Bee Swarm, Sprout Mix and Scary Mike after Power hour speeds up an existing crop", () => {
+      const cropTime = CROPS["Cabbage"].harvestSeconds * 1000;
+      const remainingTime = 30 * 60 * 1000;
+      const plantedAt = dateNow + remainingTime - cropTime;
+      const stateWithPowerHour = applyBuff({
+        buff: "Power hour",
+        game: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { "Cabbage Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          collectibles: {
+            "Scary Mike": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                coordinates: { x: 0, y: 0 },
+                readyAt: dateNow - 12 * 60 * 1000,
+              },
+            ],
+          },
+          aoe: {
+            "Scary Mike": {
+              0: {
+                "-2": plantedAt,
+              },
+            },
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              x: 0,
+              y: -2,
+              crop: {
+                name: "Cabbage",
+                plantedAt,
+              },
+              fertiliser: {
+                name: "Sprout Mix",
+                fertilisedAt: dateNow - 1000,
+              },
+              beeSwarm: { count: 1, swarmActivatedAt: dateNow - 1000 },
+            },
+          },
+        },
+        now: dateNow,
+      });
+
+      const state = harvest({
+        state: stateWithPowerHour,
+        createdAt: dateNow + remainingTime / 2,
+        action: { type: "crop.harvested", index: firstId },
+      });
+
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Cabbage?.toNumber()).toBeCloseTo(1.8);
+    });
+
     it("applies the bud boost", () => {
       const state = harvest({
         state: {
@@ -2835,6 +2894,64 @@ describe("harvest", () => {
       });
       expect(state.crops[firstId].crop).toBeUndefined();
       expect(state.inventory.Eggplant).toEqual(new Decimal(1.2));
+    });
+
+    it("stacks Power hour, Bee Swarm, Sprout Mix and Laurie the Chuckle Crow after Power hour speeds up an existing crop", () => {
+      const cropTime = CROPS["Eggplant"].harvestSeconds * 1000;
+      const remainingTime = 30 * 60 * 1000;
+      const plantedAt = dateNow + remainingTime - cropTime;
+      const stateWithPowerHour = applyBuff({
+        buff: "Power hour",
+        game: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: { "Eggplant Seed": new Decimal(1) },
+          season: { season: "summer", startedAt: 0 },
+          collectibles: {
+            "Laurie the Chuckle Crow": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                coordinates: { x: 0, y: 0 },
+                readyAt: dateNow - 12 * 60 * 1000,
+              },
+            ],
+          },
+          aoe: {
+            "Laurie the Chuckle Crow": {
+              0: {
+                "-2": plantedAt,
+              },
+            },
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              x: 0,
+              y: -2,
+              crop: {
+                name: "Eggplant",
+                plantedAt,
+              },
+              fertiliser: {
+                name: "Sprout Mix",
+                fertilisedAt: dateNow - 1000,
+              },
+              beeSwarm: { count: 1, swarmActivatedAt: dateNow - 1000 },
+            },
+          },
+        },
+        now: dateNow,
+      });
+
+      const state = harvest({
+        state: stateWithPowerHour,
+        createdAt: dateNow + remainingTime / 2,
+        action: { type: "crop.harvested", index: firstId },
+      });
+
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Eggplant?.toNumber()).toBeCloseTo(1.8);
     });
 
     it("gives +1 to Corn in AOE when Queen Cornelia is placed and ready", () => {

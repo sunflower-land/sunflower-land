@@ -9,9 +9,9 @@ import lunaraBush from "assets/fruit/lunara/lunara_bush.webp";
 import celestineBush from "assets/fruit/celestine/celestine_bush.webp";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import { PatchFruitName } from "features/game/types/fruits";
+import type { PatchFruitName } from "features/game/types/fruits";
 import { CROP_LIFECYCLE } from "../plots/lib/plant";
-import { LandBiomeName } from "../biomes/biomes";
+import type { LandBiomeName } from "../biomes/biomes";
 
 export type PatchFruitLifecycle = {
   seedling: string;

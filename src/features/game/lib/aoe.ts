@@ -1,6 +1,6 @@
-import { AOEItemName } from "../expansion/placeable/lib/collisionDetection";
-import { CollectibleName } from "../types/craftables";
-import { AOE, GameState } from "../types/game";
+import type { AOEItemName } from "../expansion/placeable/lib/collisionDetection";
+import type { CollectibleName } from "../types/craftables";
+import type { AOE, GameState } from "../types/game";
 
 /**
  * Important: for yield boosts, the gameState.aoe object contains when the boost was last used.

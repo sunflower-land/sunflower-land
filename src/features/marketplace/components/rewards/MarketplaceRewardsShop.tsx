@@ -3,8 +3,8 @@ import { InnerPanel } from "components/ui/Panel";
 import {
   TRADE_REWARDS_ITEMS,
   TRADE_REWARDS_PACKS,
-  TradeRewardPacks,
-  TradeRewardsItem,
+  type TradeRewardPacks,
+  type TradeRewardsItem,
 } from "features/game/events/landExpansion/redeemTradeReward";
 import { getKeys } from "lib/object";
 import React, { useContext, useState } from "react";
@@ -13,7 +13,7 @@ import { Context } from "features/game/GameProvider";
 import { ItemDetail } from "./ItemDetail";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Modal } from "components/ui/Modal";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 
 const _state = (state: MachineState) => state.context.state;

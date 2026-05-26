@@ -12,14 +12,14 @@ import lightning from "assets/icons/lightning.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useInterpret, useSelector } from "@xstate/react";
 import { Bar } from "components/ui/ProgressBar";
-import { Beehive as IBeehive } from "features/game/types/game";
+import type { Beehive as IBeehive } from "features/game/types/game";
 import {
-  BeehiveContext,
-  BeehiveMachineState,
-  MachineInterpreter,
+  type BeehiveContext,
+  type BeehiveMachineState,
+  type MachineInterpreter,
   beehiveMachine,
 } from "./beehiveMachine";
 import { Bee } from "./Bee";

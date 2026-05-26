@@ -12,7 +12,7 @@ import { Context } from "features/game/GameProvider";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { NumberInput } from "components/ui/NumberInput";
 import { Label } from "components/ui/Label";
 import { hasReputation, Reputation } from "features/game/lib/reputation";

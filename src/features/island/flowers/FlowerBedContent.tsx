@@ -13,9 +13,9 @@ import {
   FLOWER_CROSS_BREED_AMOUNTS,
   FLOWER_CROSS_BREED_DETAILS,
   FLOWER_SEEDS,
-  FlowerCrossBreedName,
-  FlowerName,
-  FlowerSeedName,
+  type FlowerCrossBreedName,
+  type FlowerName,
+  type FlowerSeedName,
 } from "features/game/types/flowers";
 import { getKeys } from "lib/object";
 import { Context } from "features/game/GameProvider";

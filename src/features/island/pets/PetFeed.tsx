@@ -12,15 +12,15 @@ import {
   getRequiredFeedAmount,
 } from "features/game/events/pets/feedPet";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
-import { CookableName } from "features/game/types/consumables";
+import type { MachineState } from "features/game/lib/gameMachine";
+import type { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getPetLevel,
   getPetRequestXP,
   isPetNFT,
-  Pet,
-  PetNFT,
+  type Pet,
+  type PetNFT,
 } from "features/game/types/pets";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 

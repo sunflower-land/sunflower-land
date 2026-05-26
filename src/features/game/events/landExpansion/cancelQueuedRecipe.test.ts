@@ -3,13 +3,13 @@ import {
   cancelQueuedRecipe,
   getCurrentCookingItem,
 } from "./cancelQueuedRecipe";
-import {
+import type {
   BuildingProduct,
   GameState,
   Inventory,
   PlacedItem,
 } from "features/game/types/game";
-import { CookableName, COOKABLES } from "features/game/types/consumables";
+import { type CookableName, COOKABLES } from "features/game/types/consumables";
 import { cook, getOilConsumption } from "./cook";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { choseSkill } from "./choseSkill";

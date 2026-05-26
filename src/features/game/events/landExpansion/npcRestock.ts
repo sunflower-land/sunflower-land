@@ -2,13 +2,13 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
 import { INITIAL_STOCK } from "features/game/lib/constants";
 import { getKeys } from "lib/object";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { SEEDS } from "features/game/types/seeds";
 import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
-import { NPCName } from "lib/npcs";
+import type { NPCName } from "lib/npcs";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 
 export type RestockNPC = Extract<NPCName, "betty" | "jafar" | "blacksmith">;

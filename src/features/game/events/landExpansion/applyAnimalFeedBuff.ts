@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import { ANIMALS, AnimalType } from "features/game/types/animals";
-import {
+import { ANIMALS, type AnimalType } from "features/game/types/animals";
+import type {
   Animal,
   AnimalFeedBuffName,
   GameState,

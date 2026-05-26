@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getKeys } from "lib/object";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 
 import { expansionRequirements } from "./revealLand";

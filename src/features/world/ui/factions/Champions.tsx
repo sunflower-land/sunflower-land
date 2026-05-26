@@ -7,7 +7,7 @@ import { Loading } from "features/auth/components";
 import { Context } from "features/game/GameProvider";
 import {
   getChampionsLeaderboard,
-  KingdomLeaderboard,
+  type KingdomLeaderboard,
 } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import {
   FACTION_PRIZES,
@@ -26,7 +26,7 @@ import coins from "assets/icons/coins.webp";
 import sfl from "assets/icons/flower_token.webp";
 
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import {
+import type {
   FactionName,
   FactionPrize,
   InventoryItemName,

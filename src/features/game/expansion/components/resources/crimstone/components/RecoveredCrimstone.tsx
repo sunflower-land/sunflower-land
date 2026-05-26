@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 
 import Spritesheet, {
-  SpriteSheetInstance,
+  type SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
 import strikeSheet from "assets/resources/crimstone/crimstone_rock_spark.png";
@@ -18,7 +18,7 @@ import crimstone_4 from "assets/resources/crimstone/crimstone_rock_4.webp";
 import crimstone_5 from "assets/resources/crimstone/crimstone_rock_5.webp";
 import { ZoomContext } from "components/ZoomProvider";
 
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getCrimstoneStage } from "../Crimstone";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

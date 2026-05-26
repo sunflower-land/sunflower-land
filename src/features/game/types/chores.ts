@@ -1,5 +1,5 @@
-import { FarmActivityName } from "./farmActivity";
-import { InventoryItemName } from "./game";
+import type { FarmActivityName } from "./farmActivity";
+import type { InventoryItemName } from "./game";
 
 export type Chore = {
   // Challenges

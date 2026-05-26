@@ -1,7 +1,7 @@
 import { getObjectEntries } from "lib/object";
-import { CookableName } from "features/game/types/consumables";
-import { GameState } from "features/game/types/game";
-import { PetName } from "features/game/types/pets";
+import type { CookableName } from "features/game/types/consumables";
+import type { GameState } from "features/game/types/game";
+import type { PetName } from "features/game/types/pets";
 import { produce } from "immer";
 import { feedPet, getRequiredFeedAmount } from "./feedPet";
 

@@ -2,25 +2,25 @@ import React, { useRef, useState } from "react";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
-  InventoryItemName,
+  type InventoryItemName,
   FERTILISERS,
   COUPONS,
-  GameState,
+  type GameState,
   EASTER_EGG,
 } from "features/game/types/game";
 import {
   CROP_SEEDS,
-  CropName,
+  type CropName,
   CROPS,
   GREENHOUSE_CROPS,
   GREENHOUSE_SEEDS,
-  GreenHouseCropSeedName,
+  type GreenHouseCropSeedName,
 } from "features/game/types/crops";
 import { getCropPlotTime } from "features/game/events/landExpansion/plant";
 import { getKeys } from "lib/object";
 import { getBasketItems } from "./utils/inventory";
 import {
-  ConsumableName,
+  type ConsumableName,
   CONSUMABLES,
   COOKABLES,
   PIRATE_CAKE,
@@ -34,12 +34,16 @@ import {
   GREENHOUSE_FRUIT,
   PATCH_FRUIT,
   PATCH_FRUIT_SEEDS,
-  PatchFruitSeedName,
+  type PatchFruitSeedName,
 } from "features/game/types/fruits";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
-import { SEASONAL_SEEDS, SeedName, SEEDS } from "features/game/types/seeds";
+import {
+  SEASONAL_SEEDS,
+  type SeedName,
+  SEEDS,
+} from "features/game/types/seeds";
 import { getFruitHarvests } from "features/game/events/landExpansion/utils";
 import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -56,7 +60,7 @@ import {
   FRUIT_COMPOST,
 } from "features/game/types/composters";
 import {
-  FermentationBait,
+  type FermentationBait,
   FISH,
   PURCHASEABLE_BAIT,
 } from "features/game/types/fishing";
@@ -82,10 +86,13 @@ import { useNow } from "lib/utils/hooks/useNow";
 import { PROCESSED_RESOURCES } from "features/game/types/processedFood";
 import { CRUSTACEANS_DESCRIPTIONS } from "features/game/types/crustaceans";
 import { FERMENTATION_PRODUCTS } from "features/game/types/fermentationProducts";
-import { PICKLED_CROPS, PickledCropName } from "features/game/types/pickled";
+import {
+  PICKLED_CROPS,
+  type PickledCropName,
+} from "features/game/types/pickled";
 import {
   SPICE_RACK_PRODUCTS,
-  SpiceRackProductName,
+  type SpiceRackProductName,
 } from "features/game/types/spiceRackProducts";
 import { ANIMAL_FEED_BUFF_ITEMS } from "features/game/events/landExpansion/applyAnimalFeedBuff";
 

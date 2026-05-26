@@ -1,4 +1,4 @@
-import { MarketPrices } from "features/game/actions/getMarketPrices";
+import type { MarketPrices } from "features/game/actions/getMarketPrices";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `market-prices.${host}-${window.location.pathname}`;

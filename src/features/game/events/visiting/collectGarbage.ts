@@ -1,5 +1,5 @@
 import { produce } from "immer";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import {
   hasHitHelpLimit,

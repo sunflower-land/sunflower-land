@@ -19,28 +19,31 @@ import { PlazaScene } from "./scenes/PlazaScene";
 import { InteractableModals } from "./ui/InteractableModals";
 import { NPCModals } from "./ui/NPCModals";
 import {
-  MachineInterpreter,
-  MachineState,
+  type MachineInterpreter,
+  type MachineState,
   mmoBus,
-  SceneId,
+  type SceneId,
 } from "./mmoMachine";
 import { Context } from "features/game/GameProvider";
 import { Modal } from "components/ui/Modal";
 import { InnerPanel, Panel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Preloader } from "./scenes/Preloader";
-import { EquipBumpkinAction } from "features/game/events/landExpansion/equip";
+import type { EquipBumpkinAction } from "features/game/events/landExpansion/equip";
 import { Label } from "components/ui/Label";
 import { CommunityModals } from "./ui/CommunityModalManager";
 import { CommunityToasts } from "./ui/CommunityToastManager";
 import { useLocation, useNavigate } from "react-router";
 import { prepareAPI } from "features/community/lib/CommunitySDK";
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 import SoundOffIcon from "assets/icons/sound_off.png";
-import { Moderation, UpdateUsernameEvent } from "features/game/lib/gameMachine";
+import type {
+  Moderation,
+  UpdateUsernameEvent,
+} from "features/game/lib/gameMachine";
 import { BeachScene } from "./scenes/BeachScene";
-import { Inventory } from "features/game/types/game";
+import type { Inventory } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { HudContainer } from "components/ui/HudContainer";
 import { RetreatScene } from "./scenes/RetreatScene";
@@ -52,9 +55,9 @@ import { NightshadeHouseScene } from "./scenes/NightshadeHouseScene";
 import { BumpkinHouseScene } from "./scenes/BumpkinHouseScene";
 import { ExampleAnimationScene } from "./scenes/examples/AnimationScene";
 import { ExampleRPGScene } from "./scenes/examples/RPGScene";
-import { EventObject } from "xstate";
+import type { EventObject } from "xstate";
 import { ToastContext } from "features/game/toast/ToastProvider";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { InfernosScene } from "./scenes/InferniaScene";
 import { PlayerSelectionList } from "./ui/PlayerSelectionList";
 import { StreamScene } from "./scenes/StreamScene";
@@ -62,11 +65,11 @@ import { LoveIslandScene } from "./scenes/LoveIslandScene";
 import { hasFeatureAccess } from "lib/flags";
 import { WorldHud } from "features/island/hud/WorldHud";
 import { PlayerModal } from "features/social/PlayerModal";
-import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
+import type { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import { RewardModal } from "features/social/RewardModal";
 import { WaveModal } from "features/social/WaveModal";
 import { Discovery } from "features/social/Discovery";
-import { SPAWNS, SpawnFromId } from "./lib/spawn";
+import { SPAWNS, type SpawnFromId } from "./lib/spawn";
 import { PlayerInteractionMenu } from "./ui/player/PlayerInteractionMenu";
 
 const _roomState = (state: MachineState) => state.value;

@@ -1,7 +1,7 @@
 import { produce } from "immer";
-import { CollectibleName } from "features/game/types/craftables";
-import { GameState } from "features/game/types/game";
-import { PlaceableLocation } from "features/game/types/collectibles";
+import type { CollectibleName } from "features/game/types/craftables";
+import type { GameState } from "features/game/types/game";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 import { isPetCollectible } from "./placeCollectible";
 
 export interface FlipCollectibleAction {

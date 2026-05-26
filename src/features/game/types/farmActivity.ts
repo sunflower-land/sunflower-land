@@ -1,20 +1,24 @@
-import { GameState, InventoryItemName, RecipeCraftableName } from "./game";
-import { DollName, RecipeCollectibleName } from "../lib/crafting";
-import {
+import type { GameState, InventoryItemName, RecipeCraftableName } from "./game";
+import type { DollName, RecipeCollectibleName } from "../lib/crafting";
+import type {
   ResourceName,
   RockName,
   TreeName,
   UpgradedResourceName,
 } from "./resources";
-import { FishName, MarineMarvelName } from "./fishing";
-import { FullMoonFruit } from "./fruits";
-import { LandBiomeName } from "features/island/biomes/biomes";
-import { PetResourceName } from "./pets";
+import type { FishName, MarineMarvelName } from "./fishing";
+import type { FullMoonFruit } from "./fruits";
+import type { LandBiomeName } from "features/island/biomes/biomes";
+import type { PetResourceName } from "./pets";
 import Decimal from "decimal.js-light";
-import { ConsumableName, CookableName } from "./consumables";
-import { Animal, Food, ToolName } from "./craftables";
-import { CropName, GreenHouseCropName, GreenHouseCropSeedName } from "./crops";
-import {
+import type { ConsumableName, CookableName } from "./consumables";
+import type { Animal, Food, ToolName } from "./craftables";
+import type {
+  CropName,
+  GreenHouseCropName,
+  GreenHouseCropSeedName,
+} from "./crops";
+import type {
   AnimalFoodName,
   AnimalMedicineName,
   AnimalResource,
@@ -22,38 +26,42 @@ import {
   LanternName,
   MegaStoreItemName,
 } from "./game";
-import { BeanName, ExoticCropName } from "./beans";
-import {
+import type { BeanName, ExoticCropName } from "./beans";
+import type {
   HeliosBlacksmithItem,
   PotionHouseItemName,
   TreasureCollectibleItem,
 } from "./collectibles";
-import {
+import type {
   GreenHouseFruitName,
   GreenHouseFruitSeedName,
   PatchFruitName,
   PatchFruitSeedName,
 } from "./fruits";
-import { GarbageName } from "./garbage";
-import { SeedName } from "./seeds";
-import { TreasureToolName, WorkbenchToolName } from "./tools";
-import { BeachBountyTreasure, TreasureName } from "./treasure";
-import { CompostName, ComposterName, Worm } from "./composters";
-import { PurchaseableBait } from "./fishing";
-import { FlowerName, FlowerSeedName } from "./flowers";
-import { FactionShopItemName } from "./factionShop";
-import { ShopDecorationName, ChapterDecorationName } from "./decorations";
-import { AnimalType } from "./animals";
-import { ChapterTierItemName } from "./megastore";
-import { WeatherShopItem } from "./calendar";
-import { PetShopItemName } from "./petShop";
-import { MonumentName } from "./monuments";
-import { BumpkinItem } from "./bumpkin";
-import { CrustaceanChum, CrustaceanName, WaterTrapName } from "./crustaceans";
-import { ProcessedResource } from "./processedFood";
-import { ChapterName, ChapterTicket } from "./chapters";
-import { TrackName } from "./tracks";
-import { BonusName } from "./bonuses";
+import type { GarbageName } from "./garbage";
+import type { SeedName } from "./seeds";
+import type { TreasureToolName, WorkbenchToolName } from "./tools";
+import type { BeachBountyTreasure, TreasureName } from "./treasure";
+import type { CompostName, ComposterName, Worm } from "./composters";
+import type { PurchaseableBait } from "./fishing";
+import type { FlowerName, FlowerSeedName } from "./flowers";
+import type { FactionShopItemName } from "./factionShop";
+import type { ShopDecorationName, ChapterDecorationName } from "./decorations";
+import type { AnimalType } from "./animals";
+import type { ChapterTierItemName } from "./megastore";
+import type { WeatherShopItem } from "./calendar";
+import type { PetShopItemName } from "./petShop";
+import type { MonumentName } from "./monuments";
+import type { BumpkinItem } from "./bumpkin";
+import type {
+  CrustaceanChum,
+  CrustaceanName,
+  WaterTrapName,
+} from "./crustaceans";
+import type { ProcessedResource } from "./processedFood";
+import type { ChapterName, ChapterTicket } from "./chapters";
+import type { TrackName } from "./tracks";
+import type { BonusName } from "./bonuses";
 import type { FermentationCollectedActivity } from "./fermentation";
 import type { SpiceRackCollectedActivity } from "./spiceRack";
 import type { AgedFishName, PrimeAgedFishName } from "./fishing";

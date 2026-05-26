@@ -1,8 +1,8 @@
 import Decimal from "decimal.js-light";
-import { MutantsChapterName } from "./chapterMutants";
-import { ChapterName } from "./chapters";
-import { BuildingName } from "./buildings";
-import {
+import type { MutantsChapterName } from "./chapterMutants";
+import type { ChapterName } from "./chapters";
+import type { BuildingName } from "./buildings";
+import type {
   AnimalFoodName,
   AnimalMedicineName,
   AnimalResource,

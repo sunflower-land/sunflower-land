@@ -1,10 +1,10 @@
 import { GameAnalytics } from "gameanalytics";
 import { CONFIG } from "./config";
-import { Currency, InventoryItemName } from "features/game/types/game";
-import { BumpkinItem } from "features/game/types/bumpkin";
-import { DigAnalytics } from "features/world/scenes/BeachScene";
-import { VipBundle } from "features/game/lib/vipAccess";
-import { ChapterTask } from "features/game/types/tracks";
+import type { Currency, InventoryItemName } from "features/game/types/game";
+import type { BumpkinItem } from "features/game/types/bumpkin";
+import type { DigAnalytics } from "features/world/scenes/BeachScene";
+import type { VipBundle } from "features/game/lib/vipAccess";
+import type { ChapterTask } from "features/game/types/tracks";
 
 // Their type definition has some issues, extract to here
 enum EGAResourceFlowType {

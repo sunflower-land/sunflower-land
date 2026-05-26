@@ -1,17 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
   getLeaguesLeaderboard,
-  LeaguesLeaderboard,
+  type LeaguesLeaderboard,
 } from "./leaderboard/actions/leaderboard";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { LeagueLeaderboard } from "features/island/hud/components/codex/pages/LeaguesLeaderboard";
 import * as AuthProvider from "features/auth/lib/Provider";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 
 const _farmId = (state: MachineState) => state.context.farmId;
 const _leagues = (state: MachineState) =>

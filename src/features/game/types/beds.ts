@@ -1,4 +1,4 @@
-import { BedName } from "./game";
+import type { BedName } from "./game";
 
 export const BED_FARMHAND_COUNT: Record<BedName, number> = {
   "Basic Bed": 1,

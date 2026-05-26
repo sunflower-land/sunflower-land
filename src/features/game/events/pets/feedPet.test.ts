@@ -1,9 +1,9 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { CookableName } from "features/game/types/consumables";
+import type { CookableName } from "features/game/types/consumables";
 import { feedPet, getPetFoodRequests } from "./feedPet";
-import { getPetLevel, Pet } from "features/game/types/pets";
-import { GameState } from "features/game/types/game";
+import { getPetLevel, type Pet } from "features/game/types/pets";
+import type { GameState } from "features/game/types/game";
 import { CHAPTERS } from "features/game/types/chapters";
 
 describe("feedPet", () => {

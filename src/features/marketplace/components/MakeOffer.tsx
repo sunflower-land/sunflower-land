@@ -3,11 +3,14 @@ import { useSelector } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { NumberInput } from "components/ui/NumberInput";
-import { MachineState, selectGameState } from "features/game/lib/gameMachine";
+import {
+  type MachineState,
+  selectGameState,
+} from "features/game/lib/gameMachine";
 import { GameWallet } from "features/wallet/Wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-import { TradeableDisplay } from "../lib/tradeables";
+import type { TradeableDisplay } from "../lib/tradeables";
 import { Context } from "features/game/GameProvider";
 
 import sflIcon from "assets/icons/flower_token.webp";
@@ -17,7 +20,7 @@ import { getTradeType } from "../lib/getTradeType";
 import { ResourceOffer } from "./ResourceOffer";
 import {
   isTradeResource,
-  TradeResource,
+  type TradeResource,
 } from "features/game/actions/tradeLimits";
 import { KNOWN_ITEMS } from "features/game/types";
 import Decimal from "decimal.js-light";

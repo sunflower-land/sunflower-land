@@ -4,14 +4,14 @@ import { STONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
 import { getTimeLeft } from "lib/utils/time";
-import {
+import type {
   GameState,
   InventoryItemName,
   Rock,
   Skills,
 } from "features/game/types/game";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
 import { DepletedStone } from "./components/DepletedStone";
 import { DepletingStone } from "./components/DepletingStone";
@@ -23,7 +23,7 @@ import {
   getRequiredPickaxeAmount,
   getStoneDropAmount,
 } from "features/game/events/landExpansion/stoneMine";
-import { RockName, StoneRockName } from "features/game/types/resources";
+import type { RockName, StoneRockName } from "features/game/types/resources";
 import { useNow } from "lib/utils/hooks/useNow";
 import { KNOWN_IDS } from "features/game/types";
 

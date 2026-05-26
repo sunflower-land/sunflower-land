@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { InnerPanel } from "components/ui/Panel";
 import { createPortal } from "react-dom";
 import { ITEM_DETAILS } from "../../game/types/images";
-import { InventoryItemName } from "../../game/types/game";
+import type { InventoryItemName } from "../../game/types/game";
 import { translate } from "lib/i18n/translate";
 
 const PIXEL_SCALE = 2.625;

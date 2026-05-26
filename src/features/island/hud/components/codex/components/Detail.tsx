@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import type { GameState, InventoryItemName } from "features/game/types/game";
 
 import { getOpenSeaLink } from "../lib/utils";
 import { KNOWN_IDS } from "features/game/types";

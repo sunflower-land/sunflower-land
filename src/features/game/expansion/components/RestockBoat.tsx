@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react";
 import boat from "assets/decorations/restock_boat.png";
-import { Coordinates, MapPlacement } from "./MapPlacement";
+import { type Coordinates, MapPlacement } from "./MapPlacement";
 import {
   INITIAL_STOCK,
   PIXEL_SCALE,
-  StockableName,
+  type StockableName,
 } from "features/game/lib/constants";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import {
   canRestockShipment,
   SHIPMENT_STOCK,

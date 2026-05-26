@@ -1,8 +1,8 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { NPC_WEARABLES } from "lib/npcs";
-import { RaffleRewards } from "features/retreat/components/auctioneer/types";
+import type { RaffleRewards } from "features/retreat/components/auctioneer/types";
 
 export type RaffleSnapshotWinner = {
   farmId: number;

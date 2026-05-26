@@ -4,12 +4,12 @@ import { Button } from "components/ui/Button";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { CollectionName } from "features/game/types/marketplace";
+import type { CollectionName } from "features/game/types/marketplace";
 
 import sflIcon from "assets/icons/flower_token.webp";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { formatNumber } from "lib/utils/formatNumber";
 
 type MyTableRowProps = {

@@ -1,11 +1,11 @@
 import Decimal from "decimal.js-light";
-import {
+import type {
   DailyRewards,
   GameState,
   InventoryItemName,
 } from "features/game/types/game";
 import {
-  DailyRewardDefinition,
+  type DailyRewardDefinition,
   getRewardsForStreak,
 } from "features/game/types/dailyRewards";
 import { produce } from "immer";

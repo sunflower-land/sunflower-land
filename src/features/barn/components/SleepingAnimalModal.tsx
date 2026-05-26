@@ -12,7 +12,7 @@ import { InnerPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { getAnimalToy } from "features/game/events/landExpansion/wakeUpAnimal";
-import { Animal } from "features/game/types/game";
+import type { Animal } from "features/game/types/game";
 import {
   getAnimalFavoriteFood,
   getAnimalLevel,

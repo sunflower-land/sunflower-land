@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState, type JSX } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { Reward, CropPlot } from "features/game/types/game";
+import type { Reward, CropPlot } from "features/game/types/game";
 import { CROPS } from "features/game/types/crops";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import {
@@ -21,7 +21,7 @@ import { ChestReward } from "../common/chest-reward/ChestReward";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import {
-  MachineState,
+  type MachineState,
   selectGameState,
   selectVerified,
 } from "features/game/lib/gameMachine";
@@ -33,7 +33,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import {
   isCropSeed,
   SEASONAL_SEEDS,
-  SeedName,
+  type SeedName,
 } from "features/game/types/seeds";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getKeys } from "lib/object";

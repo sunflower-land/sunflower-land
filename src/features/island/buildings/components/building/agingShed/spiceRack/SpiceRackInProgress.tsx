@@ -10,7 +10,7 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import type { SpiceRackJob } from "features/game/lib/agingShed";
 import {
   getSpiceRackRecipe,
-  SpiceRackRecipeName,
+  type SpiceRackRecipeName,
 } from "features/game/types/spiceRack";
 import type { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";

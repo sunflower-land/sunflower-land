@@ -2,7 +2,7 @@ import BumpkinItemsJSON from "./abis/BumpkinItems";
 import { CONFIG } from "lib/config";
 import { parseMetamaskError } from "./utils";
 import { IDS, ITEM_NAMES } from "features/game/types/bumpkin";
-import { Wardrobe } from "features/game/types/game";
+import type { Wardrobe } from "features/game/types/game";
 import { readContract } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { polygon, polygonAmoy } from "viem/chains";

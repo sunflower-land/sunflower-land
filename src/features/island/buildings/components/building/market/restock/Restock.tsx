@@ -2,7 +2,7 @@ import { Button } from "components/ui/Button";
 import { Modal } from "components/ui/Modal";
 import {
   RestockItems,
-  RestockNPC,
+  type RestockNPC,
 } from "features/game/events/landExpansion/npcRestock";
 import {
   nextShipmentAt,
@@ -27,7 +27,7 @@ import { ShipmentRestockModal } from "./ShipmentRestockModal";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { capitalize } from "lodash";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { ButtonPanel } from "components/ui/Panel";
 import { getCurrentBiome } from "features/island/biomes/biomes";

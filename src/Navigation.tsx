@@ -10,7 +10,7 @@ import { Forbidden } from "features/auth/components/Forbidden";
 import { LandExpansion } from "features/game/expansion/LandExpansion";
 import { CONFIG } from "lib/config";
 import { Builder } from "features/builder/Builder";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { ZoomProvider } from "components/ZoomProvider";
 import { LoadingFallback } from "./LoadingFallback";
 import { Panel } from "components/ui/Panel";

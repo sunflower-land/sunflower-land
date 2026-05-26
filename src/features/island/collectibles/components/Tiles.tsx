@@ -1,7 +1,7 @@
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import React from "react";
 
-import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
+import type { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
 import blackTile from "assets/decorations/tiles/black_tile.webp";
 import blueTile from "assets/decorations/tiles/blue_tile.webp";
 import greenTile from "assets/decorations/tiles/green_tile.webp";
@@ -15,7 +15,7 @@ import greenTileConnected from "assets/decorations/tiles/connectedTile/green_til
 import purpleTileConnected from "assets/decorations/tiles/connectedTile/purple_tile.webp";
 import redTileConnected from "assets/decorations/tiles/connectedTile/red_tile.webp";
 import yellowTileConnected from "assets/decorations/tiles/connectedTile/yellow_tile.webp";
-import { TileName } from "features/game/types/decorations";
+import type { TileName } from "features/game/types/decorations";
 import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 const TILES: Record<TileName, string> = {

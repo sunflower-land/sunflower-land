@@ -5,7 +5,7 @@ import { useSound } from "lib/utils/hooks/useSound";
 import React, { useContext } from "react";
 import { RoundButton } from "components/ui/RoundButton";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 
 const needsHelp = (state: MachineState) => {
   const missingScarecrow =

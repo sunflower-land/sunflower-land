@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Modal } from "components/ui/Modal";
 
 import { EXPANSION_ORIGINS, LAND_SIZE } from "../lib/constants";
-import { Coordinates, MapPlacement } from "./MapPlacement";
+import { type Coordinates, MapPlacement } from "./MapPlacement";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Pontoon } from "./Pontoon";
 
@@ -19,7 +19,7 @@ import { Label } from "components/ui/Label";
 import { NPC_WEARABLES } from "lib/npcs";
 import { craftingRequirementsMet } from "features/game/lib/craftingRequirement";
 import classNames from "classnames";
-import {
+import type {
   ExpansionRequirements as IExpansionRequirements,
   GameState,
   Inventory,

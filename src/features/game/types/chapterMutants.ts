@@ -1,11 +1,11 @@
-import {
+import type {
   MutantChicken,
   MutantCow,
   MutantSheep,
 } from "features/game/types/game";
-import { ChapterName } from "features/game/types/chapters";
-import { ChapterFish } from "features/game/types/fishing";
-import { MutantFlowerName } from "features/game/types/flowers";
+import type { ChapterName } from "features/game/types/chapters";
+import type { ChapterFish } from "features/game/types/fishing";
+import type { MutantFlowerName } from "features/game/types/flowers";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 export type ChapterMutantsData = {

@@ -4,7 +4,7 @@ import goldEgg from "assets/sfts/gold_egg.png";
 import goldenCockerel from "assets/animals/chickens/golden_cockerel.webp";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { CollectibleProps } from "../Collectible";
+import type { CollectibleProps } from "../Collectible";
 import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 import { useNow } from "lib/utils/hooks/useNow";
 

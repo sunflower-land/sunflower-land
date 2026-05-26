@@ -1,4 +1,4 @@
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 
 export function makeListingType(
   items: Partial<Record<InventoryItemName, number>>,

@@ -2,19 +2,19 @@ import React, { useContext } from "react";
 import { useNow } from "lib/utils/hooks/useNow";
 import {
   CHEST_LOOT,
-  ChestRewardType,
+  type ChestRewardType,
 } from "features/world/ui/chests/ChestRevealing";
 import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { formatNumber } from "lib/utils/formatNumber";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
-import { InventoryItemName } from "features/game/types/game";
+import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import type { InventoryItemName } from "features/game/types/game";
 import { Label } from "./Label";
 
 import {
   NoticeboardItems,
-  NoticeboardItemsElements,
+  type NoticeboardItemsElements,
 } from "features/world/ui/kingdom/KingdomNoticeboard";
 import chestIcon from "assets/icons/chest.png";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
@@ -26,8 +26,8 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSelector } from "@xstate/react";
 import {
   REWARD_BOXES,
-  RewardBoxName,
-  RewardBoxReward,
+  type RewardBoxName,
+  type RewardBoxReward,
 } from "features/game/types/rewardBoxes";
 
 const RewardRow: React.FC<{

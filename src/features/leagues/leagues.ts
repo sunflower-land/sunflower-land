@@ -1,14 +1,14 @@
 import Decimal from "decimal.js-light";
-import { RecipeCollectibleName } from "features/game/lib/crafting";
+import type { RecipeCollectibleName } from "features/game/lib/crafting";
 import { getKeys } from "lib/object";
-import {
+import type {
   HarvestEvent,
   CookEvent,
   AnimalResourceEvent,
   OrderDeliveredEvent,
   FarmActivityName,
 } from "features/game/types/farmActivity";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { setPrecision } from "lib/utils/formatNumber";
 import cloneDeep from "lodash.clonedeep";
 

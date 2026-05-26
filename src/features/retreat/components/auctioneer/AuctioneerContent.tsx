@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
-import { Bid, GameState } from "features/game/types/game";
-import {
+import type { Bid, GameState } from "features/game/types/game";
+import type {
   AuctionResults,
   MachineInterpreter,
   Auction as IAuction,

@@ -1,14 +1,14 @@
 import Decimal from "decimal.js-light";
-import { ProcessedResource } from "features/game/types/processedFood";
+import type { ProcessedResource } from "features/game/types/processedFood";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import {
+import type {
   BoostName,
   BuildingProduct,
   GameState,
 } from "features/game/types/game";
 import { produce } from "immer";
 import {
-  ProcessingBuildingName,
+  type ProcessingBuildingName,
   isProcessingBuilding,
 } from "features/game/types/buildings";
 import { isWearableActive } from "features/game/lib/wearables";

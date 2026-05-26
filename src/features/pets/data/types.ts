@@ -1,4 +1,4 @@
-import { PetNFTType } from "features/game/types/pets";
+import type { PetNFTType } from "features/game/types/pets";
 
 export type Trait<T> = {
   name: T;

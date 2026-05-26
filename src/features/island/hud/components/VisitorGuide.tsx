@@ -16,7 +16,7 @@ import { HELP_LIMIT_COST } from "features/game/events/landExpansion/increaseHelp
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { secondsTillReset, secondsToString } from "lib/utils/time";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "lib/object";

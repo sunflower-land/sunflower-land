@@ -1,5 +1,5 @@
-import { GameState, InventoryItemName, IslandType } from "./game";
-import { Coordinates } from "../expansion/components/MapPlacement";
+import type { GameState, InventoryItemName, IslandType } from "./game";
+import type { Coordinates } from "../expansion/components/MapPlacement";
 import { TOTAL_EXPANSION_NODES } from "../expansion/lib/expansionNodes";
 import { getKeys } from "lib/object";
 import {
@@ -7,8 +7,8 @@ import {
   REQUIRED_NODES_TO_FORGE,
   RESOURCES,
   RESOURCES_UPGRADES_TO,
-  ResourceName,
-  UpgradedResourceName,
+  type ResourceName,
+  type UpgradedResourceName,
 } from "./resources";
 
 export type ExpandLandAction = {

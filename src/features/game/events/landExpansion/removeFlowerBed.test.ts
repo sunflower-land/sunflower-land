@@ -1,5 +1,5 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { Beehive, GameState } from "features/game/types/game";
+import type { Beehive, GameState } from "features/game/types/game";
 import { REMOVE_FLOWER_BED_ERRORS, removeFlowerBed } from "./removeFlowerBed";
 const now = Date.now();
 

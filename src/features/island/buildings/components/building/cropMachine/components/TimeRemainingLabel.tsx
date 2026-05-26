@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { calculateCropProgress } from "../lib/calculateCropProgress";
-import { ProgressProps } from "./PackGrowthProgressBar";
+import type { ProgressProps } from "./PackGrowthProgressBar";
 import { secondsToString } from "lib/utils/time";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";

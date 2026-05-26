@@ -10,7 +10,7 @@ import sflIcon from "assets/icons/flower_token.webp";
 import tradeIcon from "assets/icons/trade.png";
 import whaleIcon from "assets/icons/whale.webp";
 import walletIcon from "assets/icons/wallet.png";
-import { MarketplaceTrends } from "features/game/types/marketplace";
+import type { MarketplaceTrends } from "features/game/types/marketplace";
 import { Loading } from "features/auth/components";
 import { loadTrends } from "../actions/loadTrends";
 import * as Auth from "features/auth/lib/Provider";

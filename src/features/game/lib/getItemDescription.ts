@@ -1,7 +1,7 @@
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import { BumpkinRevampSkillName } from "features/game/types/bumpkinSkills";
-import { CollectibleName } from "features/game/types/craftables";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import type { BumpkinRevampSkillName } from "features/game/types/bumpkinSkills";
+import type { CollectibleName } from "features/game/types/craftables";
+import type { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 export function getItemDescription({

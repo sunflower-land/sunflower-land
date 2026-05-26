@@ -15,8 +15,10 @@ import { INITIAL_FARM } from "features/game/lib/constants";
 import { speedUpProcessing } from "./speedUpProcessing";
 import Decimal from "decimal.js-light";
 import { FISH_PROCESSING_TIME_SECONDS } from "features/game/types/fishProcessing";
-import { ProcessedResource } from "features/game/types/processedFood";
-import { GameState } from "features/game/types/game";
+import type { ProcessedResource } from "features/game/types/processedFood";
+import type { GameState } from "features/game/types/game";
+import type * as PrngModule from "lib/prng";
+import type * as GameTypesModule from "features/game/types";
 
 describe("instantProcessing", () => {
   beforeEach(() => {
@@ -351,10 +353,10 @@ describe("instantProcessing", () => {
     const rollFishFlake = (counter: number): boolean => {
       const { prngChance } = jest.requireActual(
         "lib/prng",
-      ) as typeof import("lib/prng");
+      ) as typeof PrngModule;
       const { KNOWN_IDS } = jest.requireActual(
         "features/game/types",
-      ) as typeof import("features/game/types");
+      ) as typeof GameTypesModule;
       return prngChance({
         farmId,
         itemId: KNOWN_IDS["Fish Flake"],

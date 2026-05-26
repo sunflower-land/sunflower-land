@@ -5,8 +5,8 @@ import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
-import { BuffLabel } from "features/game/types";
-import {
+import type { BuffLabel } from "features/game/types";
+import type {
   WearablesItem,
   CollectiblesItem,
   GameState,
@@ -14,7 +14,7 @@ import {
 
 import shopIcon from "assets/icons/shop.png";
 import { getImageUrl } from "lib/utils/getImageURLS";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { EventStore } from "./EventStore";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";

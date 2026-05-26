@@ -1,6 +1,6 @@
 import { getDayOfYear } from "lib/utils/time";
 import { getKeys } from "lib/object";
-import { GameState } from "../types/game";
+import type { GameState } from "../types/game";
 import { getBumpkinLevel } from "./level";
 import { hasVipAccess } from "./vipAccess";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";

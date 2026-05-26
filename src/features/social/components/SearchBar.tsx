@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { useEffect, useRef, useState } from "react";
-import { MachineState } from "features/game/lib/gameMachine";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import * as AuthProvider from "features/auth/lib/Provider";
-import { Detail } from "../actions/getFollowNetworkDetails";
+import type { Detail } from "../actions/getFollowNetworkDetails";
 import { searchPlayerByUsername } from "../actions/searchPlayerByUsername";
 import { TextInput } from "components/ui/TextInput";
 

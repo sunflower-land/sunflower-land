@@ -13,7 +13,7 @@ import { capitalize } from "lib/utils/capitalize";
 import { getPetBuffs } from "features/game/types/getPetBuffs";
 import { useImagePreload } from "lib/utils/hooks/useImagePreload";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
-import { PetTraits } from "features/pets/data/types";
+import type { PetTraits } from "features/pets/data/types";
 import petNFTEgg from "assets/icons/pet_nft_egg.png";
 import powerup from "assets/icons/level_up.png";
 
@@ -24,7 +24,7 @@ import blankGriffinBackground from "assets/pets/backgrounds/blank-griffin.webp";
 import blankWarthogBackground from "assets/pets/backgrounds/blank-warthog.webp";
 import blankWolfBackground from "assets/pets/backgrounds/blank-wolf.webp";
 import blankRamBackground from "assets/pets/backgrounds/blank-ram.webp";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 
 const BLANK_BACKGROUNDS: Record<PetTraits["type"], string> = {

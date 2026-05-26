@@ -1,13 +1,13 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { sanitizeHTTPResponse } from "lib/network";
-import { GameEvent, GameEventName } from "../events";
-import { PastAction } from "../lib/gameMachine";
+import type { GameEvent, GameEventName } from "../events";
+import type { PastAction } from "../lib/gameMachine";
 import { makeGame } from "../lib/transforms";
 import { getSessionId } from "./loadSession";
 import Decimal from "decimal.js-light";
-import { SeedBoughtAction } from "../events/landExpansion/seedBought";
-import { GameState } from "../types/game";
+import type { SeedBoughtAction } from "../events/landExpansion/seedBought";
+import type { GameState } from "../types/game";
 import { AUTO_SAVE_INTERVAL } from "../expansion/Game";
 import { flushMetrics } from "../lib/interactionMetrics";
 import { getRecordHash } from "lib/stateHash";

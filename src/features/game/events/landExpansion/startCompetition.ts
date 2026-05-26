@@ -1,8 +1,8 @@
 import {
   COMPETITION_POINTS,
-  CompetitionName,
+  type CompetitionName,
 } from "features/game/types/competitions";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 import { produce } from "immer";
 

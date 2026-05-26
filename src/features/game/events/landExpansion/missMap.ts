@@ -1,5 +1,5 @@
 import { produce } from "immer";
-import { GameState } from "../../types/game";
+import type { GameState } from "../../types/game";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";

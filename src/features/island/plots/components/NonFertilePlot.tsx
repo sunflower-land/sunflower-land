@@ -7,7 +7,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SOIL_IMAGES } from "../lib/plant";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { getCurrentBiome } from "features/island/biomes/biomes";

@@ -6,7 +6,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC_WEARABLES } from "lib/npcs";
 
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
-import { BuffLabel } from "features/game/types";
+import type { BuffLabel } from "features/game/types";
 import { ItemDetail } from "./components/ItemDetail";
 
 import shopIcon from "assets/icons/shop.png";
@@ -17,17 +17,17 @@ import { getImageUrl } from "lib/utils/getImageURLS";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import {
   FACTION_SHOP_ITEMS,
-  FactionShopFood,
-  FactionShopWearable,
-  FactionShopItem,
-  FactionShopKeys,
+  type FactionShopFood,
+  type FactionShopWearable,
+  type FactionShopItem,
+  type FactionShopKeys,
   FACTION_SHOP_KEYS,
 } from "features/game/types/factionShop";
 import { ItemsList } from "./components/ItemList";
 import { CONSUMABLES, FACTION_FOOD } from "features/game/types/consumables";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 interface Props {
   onClose: () => void;

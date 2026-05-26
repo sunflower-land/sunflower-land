@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 import { SearchBar } from "./SearchBar";
-import { Detail } from "../actions/getFollowNetworkDetails";
+import type { Detail } from "../actions/getFollowNetworkDetails";
 import { FollowDetailPanel } from "./FollowDetailPanel";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { playerModalManager } from "../lib/playerModalManager";

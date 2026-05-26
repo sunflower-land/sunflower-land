@@ -1,4 +1,4 @@
-import { Beehive, CropPlot, FlowerBed } from "features/game/types/game";
+import type { Beehive, CropPlot, FlowerBed } from "features/game/types/game";
 import { HARVEST_BEEHIVE_ERRORS, harvestBeehive } from "./harvestBeehive";
 import {
   TEST_FARM,

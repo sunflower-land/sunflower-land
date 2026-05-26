@@ -1,9 +1,9 @@
 import { app } from "./firebase";
 import {
-  Analytics,
-  AnalyticsCallOptions,
-  CustomEventName,
-  EventNameString,
+  type Analytics,
+  type AnalyticsCallOptions,
+  type CustomEventName,
+  type EventNameString,
   getAnalytics,
   logEvent,
   setUserId,

@@ -5,8 +5,8 @@ import {
 } from "features/game/lib/collectibleBuilt";
 import { isWearableActive } from "features/game/lib/wearables";
 import { hasVipAccess } from "features/game/lib/vipAccess";
-import { CookableName } from "features/game/types/consumables";
-import { GameState } from "features/game/types/game";
+import type { CookableName } from "features/game/types/consumables";
+import type { GameState } from "features/game/types/game";
 import {
   getPetLevel,
   getPetRequestXP,
@@ -14,14 +14,14 @@ import {
   isPetNeglected,
   isPetNFT as isPetNFTData,
   isPetOfTypeFed,
-  Pet,
+  type Pet,
   PET_REQUESTS,
-  PetName,
-  PetNFT,
-  PetRequestDifficulty,
+  type PetName,
+  type PetNFT,
+  type PetRequestDifficulty,
 } from "features/game/types/pets";
 import { getCurrentChapter } from "features/game/types/chapters";
-import { AuraTrait, BibTrait } from "features/pets/data/types";
+import type { AuraTrait, BibTrait } from "features/pets/data/types";
 import { produce } from "immer";
 import { setPrecision } from "lib/utils/formatNumber";
 import Decimal from "decimal.js-light";

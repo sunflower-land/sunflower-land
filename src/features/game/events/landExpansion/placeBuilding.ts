@@ -1,17 +1,17 @@
 import Decimal from "decimal.js-light";
 // import { randomUUID } from "crypto";
-import { BuildingName } from "../../types/buildings";
-import {
+import type { BuildingName } from "../../types/buildings";
+import type {
   CompostBuilding,
   CropMachineBuilding,
   GameState,
   PlacedItem,
 } from "../../types/game";
 import { produce } from "immer";
-import { ComposterName } from "features/game/types/composters";
+import type { ComposterName } from "features/game/types/composters";
 import { createInitialAgingShed } from "features/game/lib/agingShed";
 import { getReadyAt } from "./startComposter";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export enum PLACE_BUILDING_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",

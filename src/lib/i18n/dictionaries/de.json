@@ -9016,5 +9016,7 @@
   "linkedAccounts.subtext.discordPartial": "Zum Entsperren auf dem Server verifizieren",
   "linkedAccounts.subtext.discordLinked": "Verbunden",
   "referral.package": "Empfehlungspaket",
-  "referral.starterPackage": "Empfehlen Sie Ihre Freunde und sie erhalten das folgende Starterpaket!"
+  "referral.starterPackage": "Empfehlen Sie Ihre Freunde und sie erhalten das folgende Starterpaket!",
+  "portal.economyMinigames.banner": "Minispiele für neue Spieler wurden gerade veröffentlicht! Das ist im Betamodus",
+  "portal.economyMinigames.disclaimer": "Diese Spiele werden nicht vom SFL-Team betreut oder unterstützt. Spielen Sie auf eigenes Risiko weiter."
 }

@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getKeys } from "lib/object";
-import {
+import type {
   Bumpkin,
   GameState,
   ExpansionRequirements as IExpansionRequirements,

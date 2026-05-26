@@ -3,7 +3,7 @@ import React from "react";
 import { Button } from "components/ui/Button";
 import { SEQUENCE_ICON } from "features/wallet/lib/getWalletIcon";
 import { sequenceConnector } from "features/wallet/WalletProvider";
-import { Connector, CreateConnectorFn } from "wagmi";
+import type { Connector, CreateConnectorFn } from "wagmi";
 
 export const SequenceButton = ({
   onConnect,

@@ -9,7 +9,7 @@ import { OuterPanel, Panel } from "components/ui/Panel";
 import { NyeButton } from "./NyeButton";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { TreasureChest } from "./chests/TreasureChest";
-import { SceneId } from "../mmoMachine";
+import type { SceneId } from "../mmoMachine";
 import { BudBox } from "./chests/BudBox";
 import { Raffle } from "./chests/Raffle";
 import { FanArt } from "./FanArt";

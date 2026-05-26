@@ -1,7 +1,7 @@
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
-import { NFTName } from "./placeNFT";
-import { PlaceableLocation } from "features/game/types/collectibles";
+import type { NFTName } from "./placeNFT";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 
 export enum REMOVE_NFT_ERRORS {
   INVALID_NFT = "This NFT does not exist",

@@ -1,9 +1,13 @@
 import Decimal from "decimal.js-light";
 import {
   FRUIT_COMPOST,
-  FruitCompostName,
+  type FruitCompostName,
 } from "features/game/types/composters";
-import { BoostName, GameState, PlantedFruit } from "features/game/types/game";
+import type {
+  BoostName,
+  GameState,
+  PlantedFruit,
+} from "features/game/types/game";
 import { PATCH_FRUIT, PATCH_FRUIT_SEEDS } from "features/game/types/fruits";
 import { produce } from "immer";
 import { isFruitReadyToHarvest } from "./fruitPatchReadiness";

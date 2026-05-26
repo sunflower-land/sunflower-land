@@ -6,10 +6,13 @@ import { ANIMALS } from "features/game/types/animals";
 import { EXOTIC_CROPS } from "features/game/types/beans";
 import { getKeys } from "lib/object";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { FISH, FishName } from "features/game/types/fishing";
-import { FLOWERS, FlowerName } from "features/game/types/flowers";
-import { FULL_MOON_FRUITS, FullMoonFruit } from "features/game/types/fruits";
+import { FISH, type FishName } from "features/game/types/fishing";
+import { FLOWERS, type FlowerName } from "features/game/types/flowers";
 import {
+  FULL_MOON_FRUITS,
+  type FullMoonFruit,
+} from "features/game/types/fruits";
+import type {
   BountyRequest,
   DollBounty,
   ExoticBounty,
@@ -27,7 +30,7 @@ import {
 } from "features/game/types/chapters";
 import {
   SELLABLE_TREASURES,
-  BeachBountyTreasure,
+  type BeachBountyTreasure,
 } from "features/game/types/treasure";
 import { produce } from "immer";
 import { isCollectible } from "./garbageSold";
@@ -35,7 +38,10 @@ import { CHAPTER_TICKET_BOOST_ITEMS } from "./completeNPCChore";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { getChapterTaskPoints } from "features/game/types/tracks";
 import { handleChapterAnalytics } from "features/game/lib/trackAnalytics";
-import { CRUSTACEANS, CrustaceanName } from "features/game/types/crustaceans";
+import {
+  CRUSTACEANS,
+  type CrustaceanName,
+} from "features/game/types/crustaceans";
 
 export const BOUNTY_CATEGORIES = {
   "Flower Bounties": (bounty: BountyRequest): bounty is FlowerBounty =>

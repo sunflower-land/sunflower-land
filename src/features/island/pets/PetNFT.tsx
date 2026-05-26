@@ -1,10 +1,10 @@
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/world/mmoMachine";
+import type { MachineState } from "features/world/mmoMachine";
 import React, { useContext } from "react";
 import { MoveableComponent } from "../collectibles/MovableComponent";
 import { Context } from "features/game/GameProvider";
 import { PetNFT as _PetNFT } from "../collectibles/components/petNFT/PetNFT";
-import { PlaceableLocation } from "features/game/types/collectibles";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 
 export interface PetNFTProps {
   id: string;

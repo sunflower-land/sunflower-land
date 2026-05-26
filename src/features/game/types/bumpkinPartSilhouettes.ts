@@ -1,4 +1,4 @@
-import { BumpkinPart } from "features/game/types/bumpkin";
+import type { BumpkinPart } from "features/game/types/bumpkin";
 
 import hatSilhouette from "assets/bumpkins/hat_silhouette.png";
 import shirtSilhouette from "assets/bumpkins/shirt_silhouette.png";

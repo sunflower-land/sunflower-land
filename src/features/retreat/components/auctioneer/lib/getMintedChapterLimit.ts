@@ -1,6 +1,6 @@
-import { Auction } from "features/game/lib/auctionMachine";
-import { BumpkinItem } from "features/game/types/bumpkin";
-import {
+import type { Auction } from "features/game/lib/auctionMachine";
+import type { BumpkinItem } from "features/game/types/bumpkin";
+import type {
   InventoryItemName,
   Auctioneer,
   AuctionNFT,

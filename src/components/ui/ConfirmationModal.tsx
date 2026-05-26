@@ -2,7 +2,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 import { Button } from "./Button";
 import { Panel } from "./Panel";
-import { Equipped } from "features/game/types/bumpkin";
+import type { Equipped } from "features/game/types/bumpkin";
 import { Modal } from "./Modal";
 
 /**

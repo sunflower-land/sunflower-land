@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable unused-imports/no-unused-vars */
 import Decimal from "decimal.js-light";
-import { GameState } from "../types/game";
+import type { GameState } from "../types/game";
 
 import { INITIAL_FARM } from "./constants";
 

@@ -6,12 +6,12 @@ import chefHat from "assets/icons/chef_hat.png";
 import { Recipes } from "../Recipes";
 import {
   BAKERY_COOKABLES,
-  Cookable,
-  CookableName,
+  type Cookable,
+  type CookableName,
 } from "features/game/types/consumables";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
-import { BuildingProduct } from "features/game/types/game";
+import type { BuildingProduct } from "features/game/types/game";
 
 interface Props {
   isOpen: boolean;

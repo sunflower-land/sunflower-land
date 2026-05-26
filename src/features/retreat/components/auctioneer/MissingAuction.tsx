@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import { MachineInterpreter } from "features/game/lib/auctionMachine";
+import type { MachineInterpreter } from "features/game/lib/auctionMachine";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 

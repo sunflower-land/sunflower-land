@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { CROPS } from "features/game/types/crops";
-import { GameState, CropPlot } from "features/game/types/game";
+import type { GameState, CropPlot } from "features/game/types/game";
 import { fertilisePlot, FERTILISE_CROP_ERRORS } from "./fertilisePlot";
 
 const GAME_STATE: GameState = {

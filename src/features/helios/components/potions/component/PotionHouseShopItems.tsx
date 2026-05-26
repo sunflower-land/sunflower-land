@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { PanelTabs } from "features/game/components/CloseablePanel";
+import type { PanelTabs } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { PotionHouseItems } from "./PotionHouseItems";
 import { OuterPanel } from "components/ui/Panel";

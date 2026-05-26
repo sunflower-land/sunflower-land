@@ -1,6 +1,6 @@
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { createInitialAgingShed } from "features/game/lib/agingShed";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 /** Fixed epoch for reproducible fermentation tests. */
 export const FERMENTATION_TEST_NOW = 1_700_000_000_000;

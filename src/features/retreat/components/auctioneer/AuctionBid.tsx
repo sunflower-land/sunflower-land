@@ -4,9 +4,12 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import token from "assets/icons/flower_token.webp";
 
 import { Button } from "components/ui/Button";
-import { Bid } from "features/game/types/game";
+import type { Bid } from "features/game/types/game";
 
-import { Auction, MachineInterpreter } from "features/game/lib/auctionMachine";
+import type {
+  Auction,
+  MachineInterpreter,
+} from "features/game/lib/auctionMachine";
 import { getKeys } from "lib/object";
 import { TimerDisplay } from "./AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";

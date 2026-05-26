@@ -6,7 +6,7 @@ import { Label } from "components/ui/Label";
 import Decimal from "decimal.js-light";
 import { SHIPMENT_STOCK } from "features/game/events/landExpansion/shipmentRestocked";
 import { Context } from "features/game/GameProvider";
-import { StockableName, INITIAL_STOCK } from "features/game/lib/constants";
+import { type StockableName, INITIAL_STOCK } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SEEDS } from "features/game/types/seeds";
 import { WORKBENCH_TOOLS, TREASURE_TOOLS } from "features/game/types/tools";

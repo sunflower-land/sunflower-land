@@ -2,18 +2,18 @@ import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import {
   collectProcessedResource,
-  CollectProcessedResourceAction,
+  type CollectProcessedResourceAction,
 } from "./collectProcessedResource";
 import {
   FISH_PROCESSING_TIME_SECONDS,
   getFishProcessingRequirements,
 } from "features/game/types/fishProcessing";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import {
   processProcessedResource,
-  ProcessProcessedResourceAction,
+  type ProcessProcessedResourceAction,
 } from "./processResource";
-import { ProcessingBuildingName } from "features/game/types/buildings";
+import type { ProcessingBuildingName } from "features/game/types/buildings";
 
 const createdAt = Date.now();
 

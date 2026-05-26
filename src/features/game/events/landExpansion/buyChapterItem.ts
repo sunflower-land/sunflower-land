@@ -1,21 +1,21 @@
 import Decimal from "decimal.js-light";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import type { GameState, InventoryItemName } from "features/game/types/game";
 
 import { produce } from "immer";
 import {
   getCurrentChapter,
   CHAPTERS,
-  ChapterName,
+  type ChapterName,
 } from "features/game/types/chapters";
-import { BumpkinItem } from "features/game/types/bumpkin";
+import type { BumpkinItem } from "features/game/types/bumpkin";
 import {
   MEGASTORE,
-  ChapterStore,
-  ChapterStoreCollectible,
-  ChapterStoreItem,
-  ChapterStoreTier,
-  ChapterStoreWearable,
-  ChapterTierItemName,
+  type ChapterStore,
+  type ChapterStoreCollectible,
+  type ChapterStoreItem,
+  type ChapterStoreTier,
+  type ChapterStoreWearable,
+  type ChapterTierItemName,
 } from "features/game/types/megastore";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import { trackFarmActivity } from "features/game/types/farmActivity";

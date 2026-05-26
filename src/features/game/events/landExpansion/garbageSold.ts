@@ -1,8 +1,8 @@
 import Decimal from "decimal.js-light";
-import { BumpkinItem } from "features/game/types/bumpkin";
+import type { BumpkinItem } from "features/game/types/bumpkin";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { GameState, InventoryItemName } from "features/game/types/game";
-import { GARBAGE, GarbageName } from "features/game/types/garbage";
+import type { GameState, InventoryItemName } from "features/game/types/game";
+import { GARBAGE, type GarbageName } from "features/game/types/garbage";
 import { produce } from "immer";
 import { KNOWN_IDS } from "features/game/types";
 import { availableWardrobe } from "./equip";

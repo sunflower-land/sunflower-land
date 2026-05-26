@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { type FC, useState } from "react";
 import { createContext } from "react";
 import { Modal } from "components/ui/Modal";
 import { StoreOnChainModal } from "./components/StoreOnChainModal";

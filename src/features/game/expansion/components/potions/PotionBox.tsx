@@ -5,7 +5,7 @@ import { POTIONS } from "./lib/potions";
 import { FeedbackIcons } from "./lib/types";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import { PotionName, PotionStatus } from "features/game/types/game";
+import type { PotionName, PotionStatus } from "features/game/types/game";
 
 const INNER_CANVAS_WIDTH = 14;
 

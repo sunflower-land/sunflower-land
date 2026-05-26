@@ -5,10 +5,10 @@ import {
   isPetNapping,
   isPetNeglected,
   PET_RESOURCES,
-  PetName,
-  PetResourceName,
+  type PetName,
+  type PetResourceName,
 } from "features/game/types/pets";
-import { BoostName, GameState } from "features/game/types/game";
+import type { BoostName, GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { isWearableActive } from "features/game/lib/wearables";

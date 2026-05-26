@@ -2,21 +2,21 @@ import Decimal from "decimal.js-light";
 
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
-import { BoostName, GameState } from "features/game/types/game";
+import type { BoostName, GameState } from "features/game/types/game";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { SeedName, SEEDS } from "features/game/types/seeds";
+import { type SeedName, SEEDS } from "features/game/types/seeds";
 import { isWearableActive } from "features/game/lib/wearables";
 import { FLOWER_SEEDS } from "features/game/types/flowers";
 import { produce } from "immer";
 import {
   GREENHOUSE_FRUIT_SEEDS,
-  GreenHouseFruitSeedName,
+  type GreenHouseFruitSeedName,
   isPatchFruitSeed,
 } from "features/game/types/fruits";
 import {
   GREENHOUSE_SEEDS,
-  GreenHouseCropSeedName,
+  type GreenHouseCropSeedName,
 } from "features/game/types/crops";
 import { isFullMoon } from "features/game/types/calendar";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";

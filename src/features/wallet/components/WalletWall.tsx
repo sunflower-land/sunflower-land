@@ -7,15 +7,15 @@ import { useIsPWA } from "lib/utils/hooks/useIsPWA";
 import { isMobile } from "mobile-device-detect";
 import { useContext, useEffect, useState } from "react";
 import {
-  Connector,
-  CreateConnectorFn,
+  type Connector,
+  type CreateConnectorFn,
   useConnect,
   useConnection,
   useConnections,
   useDisconnect,
   useConnectors,
 } from "wagmi";
-import { ConnectErrorType } from "wagmi/actions";
+import type { ConnectErrorType } from "wagmi/actions";
 import { RoninButtons } from "./buttons/RoninButtons";
 import { OtherWalletsButton } from "./buttons/OtherWalletsButton";
 import { InjectedProviderButtons } from "./buttons/InjectedProviderButtons";

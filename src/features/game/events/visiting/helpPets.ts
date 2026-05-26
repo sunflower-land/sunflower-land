@@ -1,8 +1,8 @@
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { hasHitHelpLimit } from "features/game/types/monuments";
 import {
   hasHitSocialPetLimit,
-  PetName,
+  type PetName,
   SOCIAL_PET_XP_PER_HELP,
 } from "features/game/types/pets";
 import { isPetExcludedByMissingPetHouse } from "features/island/pets/lib/petShared";

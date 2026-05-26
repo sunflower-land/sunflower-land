@@ -1,7 +1,7 @@
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
-import { Message as IMessage } from "features/game/types/announcements";
+import type { Message as IMessage } from "features/game/types/announcements";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useState } from "react";
 

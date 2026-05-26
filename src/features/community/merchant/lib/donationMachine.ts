@@ -1,6 +1,6 @@
-import { createMachine, Interpreter, assign } from "xstate";
+import { createMachine, type Interpreter, assign } from "xstate";
 
-import { ErrorCode } from "lib/errors";
+import type { ErrorCode } from "lib/errors";
 import { CONFIG } from "lib/config";
 import { wallet } from "lib/blockchain/wallet";
 

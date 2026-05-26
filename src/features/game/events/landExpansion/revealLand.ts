@@ -7,14 +7,14 @@ import {
 import {
   EXPANSION_REQUIREMENTS,
   getLand,
-  Requirements,
+  type Requirements,
 } from "features/game/types/expansions";
-import { Airdrop, BoostName, GameState } from "features/game/types/game";
+import type { Airdrop, BoostName, GameState } from "features/game/types/game";
 
 import { getKeys } from "lib/object";
 import { pickEmptyPosition } from "features/game/expansion/placeable/lib/collisionDetection";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import { CropName } from "features/game/types/crops";
+import type { CropName } from "features/game/types/crops";
 import { produce } from "immer";
 import {
   CRIMSTONE_RECOVERY_TIME,

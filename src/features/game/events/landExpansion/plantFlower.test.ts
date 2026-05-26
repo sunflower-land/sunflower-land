@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { getFlowerTime, plantFlower } from "./plantFlower";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { TEST_FARM } from "features/game/lib/constants";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import {

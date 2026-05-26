@@ -1,5 +1,5 @@
 import { produce } from "immer";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 export enum REMOVE_OIL_RESERVE_ERRORS {
   OIL_RESERVE_NOT_FOUND = "Oil reserve not found",

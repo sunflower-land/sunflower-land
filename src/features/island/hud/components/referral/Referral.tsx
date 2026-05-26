@@ -13,7 +13,7 @@ import vipIcon from "assets/icons/vip.webp";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import chest from "assets/icons/chest.png";
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 import { getObjectEntries } from "lib/object";
 import { useSound } from "lib/utils/hooks/useSound";
 import clipboard from "clipboard";

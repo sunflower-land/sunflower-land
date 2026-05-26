@@ -1,10 +1,10 @@
-import { FlowerBox } from "../events/landExpansion/buyChapterItem";
-import { BumpkinItem } from "./bumpkin";
-import { InventoryItemName } from "./game";
+import type { FlowerBox } from "../events/landExpansion/buyChapterItem";
+import type { BumpkinItem } from "./bumpkin";
+import type { InventoryItemName } from "./game";
 import {
   HALLOWEEN_STORE,
-  FestivalOfColorsShopWearableName,
-  FestivalOfColorsShopItemName,
+  type FestivalOfColorsShopWearableName,
+  type FestivalOfColorsShopItemName,
 } from "./minigameShop";
 
 export type EventTierItemName =

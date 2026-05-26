@@ -2,11 +2,11 @@ import Decimal from "decimal.js-light";
 import { v4 as uuidv4 } from "uuid";
 import { produce } from "immer";
 
-import { CropName } from "../../types/crops";
-import { GameState, InventoryItemName } from "../../types/game";
-import { SEASONAL_SEEDS, SeedName, SEEDS } from "../../types/seeds";
+import type { CropName } from "../../types/crops";
+import type { GameState, InventoryItemName } from "../../types/game";
+import { SEASONAL_SEEDS, type SeedName, SEEDS } from "../../types/seeds";
 import { updateBoostUsed } from "../../types/updateBoostUsed";
-import { BoostName } from "../../types/game";
+import type { BoostName } from "../../types/game";
 import { getAffectedWeather, plantCropOnPlot } from "./plant";
 
 export type BulkPlantAction = {

@@ -1,4 +1,4 @@
-import { LimitedItem } from "./craftables";
+import type { LimitedItem } from "./craftables";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { LimitedItemType } from ".";
 

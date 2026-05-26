@@ -2,10 +2,10 @@
 import { Button } from "components/ui/Button";
 import React, { useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { ContentComponentProps } from "../types";
+import type { ContentComponentProps } from "../types";
 import { Loading } from "features/auth/components";
 import { NumberInput } from "components/ui/NumberInput";
-import { VisitGameState } from "features/game/actions/loadGameStateForVisit";
+import type { VisitGameState } from "features/game/actions/loadGameStateForVisit";
 import { useAuth } from "features/auth/lib/Provider";
 import { CopyAddress } from "components/ui/CopyAddress";
 import { loadGameStateForAdmin } from "features/game/actions/adminSearch";

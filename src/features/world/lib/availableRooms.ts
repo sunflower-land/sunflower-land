@@ -1,4 +1,4 @@
-import { Server, ServerId } from "../mmoMachine";
+import type { Server, ServerId } from "../mmoMachine";
 
 export const MAX_PLAYERS = 125;
 

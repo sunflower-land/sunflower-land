@@ -1,10 +1,10 @@
-import {
+import type {
   GameState,
   InventoryItemName,
   IslandType,
   TemperateSeasonName,
 } from "./game";
-import { Tool } from "./tools";
+import type { Tool } from "./tools";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { translate } from "lib/i18n/translate";
 

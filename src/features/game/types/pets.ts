@@ -1,11 +1,11 @@
 import Decimal from "decimal.js-light";
-import { Decoration } from "./decorations";
-import { CraftableCollectible, PlaceableLocation } from "./collectibles";
-import { CookableName } from "./consumables";
+import type { Decoration } from "./decorations";
+import type { CraftableCollectible, PlaceableLocation } from "./collectibles";
+import type { CookableName } from "./consumables";
 import { getObjectEntries } from "lib/object";
-import { GameState, InventoryItemName } from "./game";
-import { Coordinates } from "../expansion/components/MapPlacement";
-import { PetTraits } from "features/pets/data/types";
+import type { GameState, InventoryItemName } from "./game";
+import type { Coordinates } from "../expansion/components/MapPlacement";
+import type { PetTraits } from "features/pets/data/types";
 import { getPetNFTRevealConfig } from "./petRevealConfig";
 
 export const SOCIAL_PET_XP_PER_HELP = 5;

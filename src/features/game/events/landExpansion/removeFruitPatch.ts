@@ -1,5 +1,5 @@
 import { produce } from "immer";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 export enum REMOVE_FRUIT_PATCH_ERRORS {
   FRUIT_PATCH_NOT_FOUND = "Fruit patch not found",

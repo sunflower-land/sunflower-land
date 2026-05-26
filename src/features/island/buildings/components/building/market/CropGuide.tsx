@@ -9,17 +9,17 @@ import lightningIcon from "assets/icons/lightning.png";
 import { getKeys } from "lib/object";
 import {
   CROP_SEEDS,
-  CropName,
+  type CropName,
   CROPS,
   getCropCategory,
   GREENHOUSE_SEEDS,
-  GreenHouseCropName,
-  ProduceName,
+  type GreenHouseCropName,
+  type ProduceName,
 } from "features/game/types/crops";
-import { SEASONAL_SEEDS, SeedName } from "features/game/types/seeds";
-import { EXOTIC_CROPS, ExoticCropName } from "features/game/types/beans";
+import { SEASONAL_SEEDS, type SeedName } from "features/game/types/seeds";
+import { EXOTIC_CROPS, type ExoticCropName } from "features/game/types/beans";
 import { Label } from "components/ui/Label";
-import { FLOWER_SEEDS, FlowerSeedName } from "features/game/types/flowers";
+import { FLOWER_SEEDS, type FlowerSeedName } from "features/game/types/flowers";
 import {
   GREENHOUSE_FRUIT_SEEDS,
   PATCH_FRUIT,
@@ -33,7 +33,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
 import fullMoon from "assets/icons/full_moon.png";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
-import { BoostName, GameState } from "features/game/types/game";
+import type { BoostName, GameState } from "features/game/types/game";
 import { getCropPlotTime } from "features/game/events/landExpansion/plant";
 import { getFruitPatchTime } from "features/game/events/landExpansion/fruitPlanted";
 import {

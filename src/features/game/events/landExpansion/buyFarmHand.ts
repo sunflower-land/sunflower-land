@@ -1,12 +1,12 @@
 import Decimal from "decimal.js-light";
 import {
   BB_TO_GEM_RATIO,
-  GameState,
-  IslandType,
-  Wardrobe,
+  type GameState,
+  type IslandType,
+  type Wardrobe,
 } from "features/game/types/game";
 import { produce } from "immer";
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 export type BuyFarmHandAction = {
   type: "farmHand.bought";

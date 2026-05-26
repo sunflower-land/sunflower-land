@@ -1,4 +1,4 @@
-import {
+import type {
   BoostName,
   CriticalHitName,
   GameState,
@@ -6,11 +6,11 @@ import {
 import { isGreenhouseCrop, MAX_POTS } from "./plantGreenhouse";
 import {
   GREENHOUSE_CROPS,
-  GreenHouseCropName,
+  type GreenHouseCropName,
 } from "features/game/types/crops";
 import {
   GREENHOUSE_FRUIT_SEEDS,
-  GreenHouseFruitName,
+  type GreenHouseFruitName,
 } from "features/game/types/fruits";
 import Decimal from "decimal.js-light";
 
@@ -19,14 +19,14 @@ import { getFruitYield } from "./fruitHarvested";
 import { getCropYieldAmount } from "./harvest";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import {
-  FarmActivityName,
+  type FarmActivityName,
   trackFarmActivity,
 } from "features/game/types/farmActivity";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { isWearableActive } from "features/game/lib/wearables";
-import { GreenhouseCompostName } from "features/game/types/composters";
+import type { GreenhouseCompostName } from "features/game/types/composters";
 
 export const GREENHOUSE_CROP_TIME_SECONDS: Record<
   GreenHouseCropName | GreenHouseFruitName,

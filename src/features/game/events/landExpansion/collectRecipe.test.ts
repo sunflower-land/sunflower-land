@@ -1,5 +1,5 @@
 import { TEST_FARM } from "features/game/lib/constants";
-import {
+import type {
   CriticalHitName,
   GameState,
   PlacedItem,
@@ -7,7 +7,7 @@ import {
 import { collectRecipe } from "./collectRecipe";
 import Decimal from "decimal.js-light";
 import { KNOWN_IDS } from "features/game/types";
-import { CookableName } from "features/game/types/consumables";
+import type { CookableName } from "features/game/types/consumables";
 import { prngChance } from "lib/prng";
 
 const GAME_STATE: GameState = {

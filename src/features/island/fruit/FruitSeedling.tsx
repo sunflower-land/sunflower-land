@@ -5,13 +5,13 @@ import { Context } from "features/game/GameProvider";
 import {
   PATCH_FRUIT,
   PATCH_FRUIT_SEEDS,
-  PatchFruitName,
+  type PatchFruitName,
 } from "features/game/types/fruits";
 import { PATCH_FRUIT_LIFECYCLE } from "./fruits";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { TimerPopover } from "../common/TimerPopover";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { getCurrentBiome } from "../biomes/biomes";
 
 interface Props {

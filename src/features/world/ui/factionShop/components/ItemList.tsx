@@ -8,17 +8,17 @@ import { shortenCount } from "lib/utils/formatNumber";
 import lightning from "assets/icons/lightning.png";
 
 import { ITEM_DETAILS } from "features/game/types/images";
-import { FactionName, InventoryItemName } from "features/game/types/game";
+import type { FactionName, InventoryItemName } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
-import { BumpkinItem } from "features/game/types/bumpkin";
+import type { BumpkinItem } from "features/game/types/bumpkin";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getItemBuffLabel, getItemImage } from "../FactionShop";
 
 import { capitalize } from "lib/utils/capitalize";
-import { FactionShopItem } from "features/game/types/factionShop";
+import type { FactionShopItem } from "features/game/types/factionShop";
 
 interface Props {
   itemsLabel: string;

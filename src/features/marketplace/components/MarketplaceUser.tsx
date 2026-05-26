@@ -5,7 +5,7 @@ import { useParams } from "react-router";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import sflIcon from "assets/icons/flower_token.webp";
 import tradeIcon from "assets/icons/trade.png";
-import { MarketplaceProfile } from "features/game/types/marketplace";
+import type { MarketplaceProfile } from "features/game/types/marketplace";
 import { Loading } from "features/auth/components";
 import * as Auth from "features/auth/lib/Provider";
 import { useSelector } from "@xstate/react";
@@ -13,7 +13,7 @@ import { loadProfile } from "../actions/loadProfile";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { Sales } from "./PriceHistory";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { playerModalManager } from "features/social/lib/playerModalManager";
 
 const _token = (state: AuthMachineState) =>

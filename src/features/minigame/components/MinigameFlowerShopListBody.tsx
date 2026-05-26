@@ -4,7 +4,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ButtonPanel } from "components/ui/Panel";
 import flowerIcon from "assets/icons/flower_token.webp";
 import type { MinigameFlowerPurchaseItemUi } from "../lib/minigameDashboardTypes";
-import Decimal from "decimal.js-light";
+import type Decimal from "decimal.js-light";
 import { canAttemptFlowerPurchase } from "../lib/minigameShopAvailability";
 
 type Props = {

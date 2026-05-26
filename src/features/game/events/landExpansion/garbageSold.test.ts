@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
-import { GARBAGE, GarbageName } from "features/game/types/garbage";
+import type { GameState } from "features/game/types/game";
+import { GARBAGE, type GarbageName } from "features/game/types/garbage";
 import { sellGarbage } from "./garbageSold";
 
 const GAME_STATE: GameState = {

@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import flowerIcon from "assets/icons/flower_token.webp";
 import type { MinigameFlowerPurchaseItemUi } from "../lib/minigameDashboardTypes";
-import Decimal from "decimal.js-light";
+import type Decimal from "decimal.js-light";
 import { canAttemptFlowerPurchase } from "../lib/minigameShopAvailability";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { tokenDisplayName } from "../lib/minigameConfigHelpers";

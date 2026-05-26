@@ -1,7 +1,7 @@
 import useSWRInfinite from "swr/infinite";
 import { getFeedInteractions } from "../actions/getFeedInteractions";
-import { Interaction } from "../types/types";
-import { FeedFilter } from "../Feed";
+import type { Interaction } from "../types/types";
+import type { FeedFilter } from "../Feed";
 import { useEffect, useState } from "react";
 import isEqual from "lodash.isequal";
 

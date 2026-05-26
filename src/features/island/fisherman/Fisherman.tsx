@@ -5,17 +5,17 @@ import frozen_wharf from "assets/decorations/frozen_wharf.png";
 import fishSilhoutte from "assets/decorations/fish_silhouette.png";
 import { Context } from "features/game/GameProvider";
 import {
-  Coordinates,
+  type Coordinates,
   MapPlacement,
 } from "features/game/expansion/components/MapPlacement";
 import { PIXEL_SCALE, GRID_WIDTH_PX } from "features/game/lib/constants";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import React, { useContext, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import { FishermanModal } from "./FishermanModal";
 import { FishermanNPC } from "./FishermanNPC";
-import { InventoryItemName, IslandType } from "features/game/types/game";
-import { FishName, FishingBait } from "features/game/types/fishing";
+import type { InventoryItemName, IslandType } from "features/game/types/game";
+import type { FishName, FishingBait } from "features/game/types/fishing";
 import classNames from "classnames";
 import springWharf from "assets/wharf/spring_wharf.png";
 import desertWharf from "assets/wharf/desert_wharf.png";

@@ -1,4 +1,4 @@
-import Decimal from "decimal.js-light";
+import type Decimal from "decimal.js-light";
 
 export type TadpoleName =
   | "healthy"

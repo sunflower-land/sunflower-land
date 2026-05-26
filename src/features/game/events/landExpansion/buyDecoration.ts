@@ -1,15 +1,15 @@
 import Decimal from "decimal.js-light";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import {
   DECORATIONS,
-  LandscapingDecorationName,
-  ShopDecorationName,
+  type LandscapingDecorationName,
+  type ShopDecorationName,
 } from "features/game/types/decorations";
-import { GameState } from "features/game/types/game";
-import { PlaceableLocation } from "features/game/types/collectibles";
+import type { GameState } from "features/game/types/game";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 import { produce } from "immer";
 import { getKeys } from "lib/object";
 

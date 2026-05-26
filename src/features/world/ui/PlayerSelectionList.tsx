@@ -4,7 +4,7 @@ import { Modal } from "components/ui/Modal";
 
 import {
   playerModalManager,
-  PlayerModalPlayer,
+  type PlayerModalPlayer,
 } from "features/social/lib/playerModalManager";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { ButtonPanel } from "components/ui/Panel";
@@ -13,7 +13,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import giftIcon from "assets/icons/gift.png";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { rewardModalManager } from "features/social/lib/rewardModalManager";

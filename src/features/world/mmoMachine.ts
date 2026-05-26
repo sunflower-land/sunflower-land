@@ -1,17 +1,21 @@
-import { Room, Client } from "colyseus.js";
+import { type Room, Client } from "colyseus.js";
 
-import { assign, createMachine, Interpreter, State } from "xstate";
-import { PlazaRoomState } from "./types/Room";
+import { assign, createMachine, type Interpreter, type State } from "xstate";
+import type { PlazaRoomState } from "./types/Room";
 
 import { CONFIG } from "lib/config";
-import { Bumpkin, FactionName, IslandType } from "features/game/types/game";
-import { Pets } from "features/game/types/pets";
+import type {
+  Bumpkin,
+  FactionName,
+  IslandType,
+} from "features/game/types/game";
+import type { Pets } from "features/game/types/pets";
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { SPAWNS } from "./lib/spawn";
-import { Moderation } from "features/game/lib/gameMachine";
+import type { Moderation } from "features/game/lib/gameMachine";
 import { MAX_PLAYERS } from "./lib/availableRooms";
-import { NPCName } from "lib/npcs";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import type { NPCName } from "lib/npcs";
+import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export type Scenes = {
   plaza: Room<PlazaRoomState> | undefined;

@@ -1,8 +1,8 @@
 import Decimal from "decimal.js-light";
 import { collectWaterTrap } from "./collectWaterTrap";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { CrustaceanName } from "features/game/types/crustaceans";
+import type { CrustaceanName } from "features/game/types/crustaceans";
 import { KNOWN_IDS } from "features/game/types";
 import { prngChance } from "lib/prng";
 

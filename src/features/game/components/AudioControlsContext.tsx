@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect } from "react";
 import { Howler } from "howler";
-import { Song } from "assets/songs/playlist";
+import type { Song } from "assets/songs/playlist";
 import { useIsAudioMuted } from "lib/utils/hooks/useIsAudioMuted";
 import { useIsMusicPaused } from "lib/utils/hooks/useIsMusicPaused";
 

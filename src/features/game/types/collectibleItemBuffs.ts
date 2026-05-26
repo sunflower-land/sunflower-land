@@ -1,5 +1,5 @@
-import { BedName, GameState, InventoryItemName } from "./game";
-import { BuffLabel } from ".";
+import type { BedName, GameState, InventoryItemName } from "./game";
+import type { BuffLabel } from ".";
 import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
 import helpIcon from "assets/icons/help.webp";
@@ -12,7 +12,7 @@ import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
 import { getChapterTicket, CHAPTERS, getCurrentChapter } from "./chapters";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "../events/landExpansion/completeNPCChore";
-import { TranslationKeys } from "lib/i18n/dictionaries/types";
+import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { isCollectible } from "../events/landExpansion/garbageSold";
 import { getKeys, getObjectEntries } from "lib/object";
 import { BED_FARMHAND_COUNT } from "./beds";

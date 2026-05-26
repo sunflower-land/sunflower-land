@@ -1,7 +1,7 @@
 import windmillFloorJSON from "assets/map/windmill_floor.json";
 
-import { SceneId } from "../mmoMachine";
-import { BaseScene, NPCBumpkin } from "./BaseScene";
+import type { SceneId } from "../mmoMachine";
+import { BaseScene, type NPCBumpkin } from "./BaseScene";
 
 const BUMPKINS: NPCBumpkin[] = [];
 

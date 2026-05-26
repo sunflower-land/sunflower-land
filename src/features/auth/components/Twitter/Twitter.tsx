@@ -13,11 +13,11 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import {
   TWITTER_HASHTAGS,
   TWITTER_REWARDS,
-  TwitterPostName,
+  type TwitterPostName,
 } from "features/game/types/social";
 import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { TranslationKeys } from "lib/i18n/dictionaries/types";
+import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import saveIcon from "assets/icons/save.webp";
 import { getBumpkinBanner } from "./actions/getBumpkinBanner";
 import { Loading } from "../Loading";
@@ -56,25 +56,6 @@ export const TwitterRewards: React.FC = () => {
 
   return (
     <>
-      {twitter?.isAuthorised && (
-        <ButtonPanel variant="card" className="mb-2">
-          <div className="flex items-start gap-2">
-            <img src={SUNNYSIDE.icons.x} alt="X" className="w-8 h-8 mt-1" />
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center justify-between gap-2">
-                <span className="text-sm font-semibold">
-                  {t("linkedAccounts.twitter")}
-                </span>
-                <Label type="success">{t("linkedAccounts.linked")}</Label>
-              </div>
-              {twitter.username && (
-                <p className="text-xs break-all mt-1">{`@${twitter.username}`}</p>
-              )}
-            </div>
-          </div>
-        </ButtonPanel>
-      )}
-
       <div className="flex gap-1 items-center mb-2">
         <Label type="default">{t("twitter.share.earn")}</Label>
       </div>

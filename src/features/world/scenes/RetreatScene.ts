@@ -1,7 +1,7 @@
 import mapJSON from "assets/map/retreat.json";
 
-import { SceneId } from "../mmoMachine";
-import { BaseScene, NPCBumpkin } from "./BaseScene";
+import type { SceneId } from "../mmoMachine";
+import { BaseScene, type NPCBumpkin } from "./BaseScene";
 import { interactableModalManager } from "../ui/InteractableModals";
 import {
   getCachedMarketPrices,

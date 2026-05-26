@@ -1,22 +1,22 @@
 /* eslint-disable react-hooks/refs */
 import React, { useContext, useState, useEffect, useRef } from "react";
-import { Toast, ToastContext, ToastItem } from "./ToastProvider";
+import { type Toast, ToastContext, type ToastItem } from "./ToastProvider";
 import { Context } from "../GameProvider";
 import { INITIAL_FARM, PIXEL_SCALE } from "../lib/constants";
 import { InnerPanel } from "components/ui/Panel";
-import { FactionName, InventoryItemName } from "../types/game";
+import type { FactionName, InventoryItemName } from "../types/game";
 import Decimal from "decimal.js-light";
 import { formatNumber } from "lib/utils/formatNumber";
 import { HudContainer } from "components/ui/HudContainer";
 import { FACTION_POINT_ICONS } from "features/world/ui/factions/FactionDonationPanel";
-import { MachineState } from "../lib/gameMachine";
+import type { MachineState } from "../lib/gameMachine";
 import { useSelector } from "@xstate/react";
-import { BumpkinItem, ITEM_IDS } from "../types/bumpkin";
-import { Bud } from "../types/buds";
+import { type BumpkinItem, ITEM_IDS } from "../types/bumpkin";
+import type { Bud } from "../types/buds";
 import { KNOWN_IDS } from "../types";
 import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 import { useVisiting } from "lib/utils/visitUtils";
-import { PetNFT } from "../types/pets";
+import type { PetNFT } from "../types/pets";
 
 import token from "assets/icons/flower_token.webp";
 import levelup from "assets/icons/level_up.png";

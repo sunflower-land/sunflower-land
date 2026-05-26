@@ -4,7 +4,7 @@ import {
   makeBulkBuyTools,
   MAX_BULK_BUY_AMOUNT,
 } from "./makeBulkBuyAmount";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { INVENTORY_LIMIT, TEST_FARM } from "features/game/lib/constants";
 
 const state: GameState = { ...TEST_FARM };

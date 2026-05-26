@@ -50,14 +50,14 @@ import { DEV_HoarderCheck } from "./developer-options/DEV_HoardingCheck";
 import { PickServer } from "./plaza-settings/PickServer";
 import { PlazaShaderSettings } from "./plaza-settings/PlazaShaderSettings";
 import { Preferences } from "./general-settings/Preferences";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 import {
   getSubscriptionsForFarmId,
-  Subscriptions,
+  type Subscriptions,
 } from "features/game/actions/subscriptions";
 import { preload } from "swr";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { ReferralWidget } from "features/announcements/AnnouncementWidgets";
 import { AirdropPlayer } from "./general-settings/AirdropPlayer";
 import { FaceRecognitionSettings } from "features/retreat/components/personhood/FaceRecognition";

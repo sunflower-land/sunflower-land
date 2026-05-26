@@ -1,6 +1,6 @@
 import i18n from "lib/i18n";
-import { TOptions } from "i18next";
-import { TranslationKeys } from "./dictionaries/types";
+import type { TOptions } from "i18next";
+import type { TranslationKeys } from "./dictionaries/types";
 
 export const translate = (
   key: TranslationKeys,

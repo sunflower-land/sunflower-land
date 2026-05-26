@@ -1,7 +1,7 @@
 import { TEST_FARM } from "features/game/lib/constants";
 import { exchangeObsidian } from "./exchangeObsidian";
 import Decimal from "decimal.js-light";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 describe("exchangeObsidian", () => {
   it("requires player has obsidian", () => {

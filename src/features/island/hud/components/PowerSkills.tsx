@@ -8,13 +8,13 @@ import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import {
-  BumpkinRevampSkillName,
-  BumpkinSkillRevamp,
+  type BumpkinRevampSkillName,
+  type BumpkinSkillRevamp,
   getPowerSkills,
 } from "features/game/types/bumpkinSkills";
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useState } from "react";
 import {

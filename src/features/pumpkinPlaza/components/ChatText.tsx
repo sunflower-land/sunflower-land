@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import React, { type ChangeEvent, useEffect, useRef, useState } from "react";
 import { Label } from "components/ui/Label";
 import Filter from "bad-words";
 import classNames from "classnames";

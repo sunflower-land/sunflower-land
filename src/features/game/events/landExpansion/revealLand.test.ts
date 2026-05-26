@@ -15,10 +15,10 @@ import {
   getBasicLand,
 } from "features/game/types/expansions";
 import {
-  Nodes,
+  type Nodes,
   TOTAL_EXPANSION_NODES,
 } from "features/game/expansion/lib/expansionNodes";
-import { BB_TO_GEM_RATIO, FiniteResource } from "features/game/types/game";
+import { BB_TO_GEM_RATIO, type FiniteResource } from "features/game/types/game";
 import { OIL_RESERVE_RECOVERY_TIME } from "./drillOilReserve";
 
 describe("expansionRequirements", () => {

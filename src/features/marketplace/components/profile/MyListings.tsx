@@ -11,17 +11,17 @@ import { getKeys } from "lib/object";
 import { getTradeableDisplay } from "../../lib/tradeables";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 import { Modal } from "components/ui/Modal";
 import { ClaimPurchase } from "./ClaimPurchase";
-import { MachineState } from "features/game/lib/gameMachine";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { RemoveListing } from "../RemoveListing";
 import { tradeToId } from "features/marketplace/lib/offers";
 import { isTradeResource } from "features/game/actions/tradeLimits";
 import { MyTableRow } from "./MyTableRow";
 import {
-  CollectionName,
+  type CollectionName,
   MARKETPLACE_TAX,
 } from "features/game/types/marketplace";
 import { Button } from "components/ui/Button";

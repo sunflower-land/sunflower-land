@@ -1,7 +1,12 @@
-import { CropMachineQueueItem } from "features/game/types/game";
+import type { CropMachineQueueItem } from "features/game/types/game";
 import { useNow } from "lib/utils/hooks/useNow";
 import { useMemo } from "react";
-import { Interpreter, State as IState, createMachine, assign } from "xstate";
+import {
+  type Interpreter,
+  type State as IState,
+  createMachine,
+  assign,
+} from "xstate";
 
 export interface Context {
   queue: CropMachineQueueItem[];

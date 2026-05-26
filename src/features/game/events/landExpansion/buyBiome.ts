@@ -2,8 +2,8 @@ import Decimal from "decimal.js-light";
 import { getObjectEntries } from "lib/object";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { GameState } from "features/game/types/game";
-import { LandBiomeName, LAND_BIOMES } from "features/island/biomes/biomes";
+import type { GameState } from "features/game/types/game";
+import { type LandBiomeName, LAND_BIOMES } from "features/island/biomes/biomes";
 import { produce } from "immer";
 
 export interface BuyBiomeAction {

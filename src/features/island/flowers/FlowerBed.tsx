@@ -9,8 +9,8 @@ import { useSelector } from "@xstate/react";
 import {
   FLOWERS,
   FLOWER_SEEDS,
-  FlowerName,
-  FlowerGrowthStage,
+  type FlowerName,
+  type FlowerGrowthStage,
 } from "features/game/types/flowers";
 import { TimerPopover } from "../common/TimerPopover";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -33,8 +33,8 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { calculateInstaGrowCost } from "features/game/events/landExpansion/instaGrowFlower";
 import { Panel } from "components/ui/Panel";
 import { secondsToString } from "lib/utils/time";
-import { PlantedFlower } from "features/game/types/game";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { PlantedFlower } from "features/game/types/game";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 interface Props {

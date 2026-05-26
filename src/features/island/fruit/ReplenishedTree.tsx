@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { PATCH_FRUIT, PatchFruitName } from "features/game/types/fruits";
+import { PATCH_FRUIT, type PatchFruitName } from "features/game/types/fruits";
 import { PATCH_FRUIT_LIFECYCLE } from "./fruits";
 
 import { Context } from "features/game/GameProvider";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { getCurrentBiome } from "../biomes/biomes";
 
 interface Props {

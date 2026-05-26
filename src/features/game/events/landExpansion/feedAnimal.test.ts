@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { ANIMAL_SLEEP_DURATION, feedAnimal, handleFoodXP } from "./feedAnimal";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { ANIMAL_LEVELS } from "features/game/types/animals";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 describe("feedAnimal", () => {
   const now = Date.now();

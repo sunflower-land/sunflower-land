@@ -1,7 +1,10 @@
 import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
-import { GameState } from "features/game/types/game";
+import {
+  type ConsumableName,
+  CONSUMABLES,
+} from "features/game/types/consumables";
+import type { GameState } from "features/game/types/game";
 import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { produce } from "immer";

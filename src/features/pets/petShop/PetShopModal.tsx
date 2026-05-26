@@ -10,9 +10,12 @@ import { getKeys, getObjectEntries } from "lib/object";
 import { Context } from "features/game/GameProvider";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
-import { GameState, Inventory } from "features/game/types/game";
+import type { GameState, Inventory } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { PET_SHOP_ITEMS, PetShopItemName } from "features/game/types/petShop";
+import {
+  PET_SHOP_ITEMS,
+  type PetShopItemName,
+} from "features/game/types/petShop";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { secondsToString } from "lib/utils/time";
 import React, { useContext, useState } from "react";

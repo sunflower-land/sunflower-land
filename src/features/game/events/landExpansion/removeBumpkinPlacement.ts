@@ -1,6 +1,6 @@
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
-import { PlaceableLocation } from "features/game/types/collectibles";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 
 export type RemoveBumpkinPlacementAction = {
   type: "bumpkin.removedPlacement";

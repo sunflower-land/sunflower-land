@@ -1,4 +1,4 @@
-import { GameState, InventoryItemName } from "../types/game";
+import type { GameState, InventoryItemName } from "../types/game";
 
 export type Blessing = {
   offering: {

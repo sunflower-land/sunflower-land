@@ -5,7 +5,7 @@ import { ACHIEVEMENTS } from "features/game/types/achievements";
 import { getKeys } from "lib/object";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { GUIDE_PATHS, GuidePath } from "../lib/guide";
+import { GUIDE_PATHS, type GuidePath } from "../lib/guide";
 import { GuideTask } from "./Task";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 

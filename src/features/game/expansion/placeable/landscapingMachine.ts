@@ -1,24 +1,30 @@
 import { v4 as uuidv4 } from "uuid";
-import { GameEventName, PlacementEvent } from "features/game/events";
+import type { GameEventName, PlacementEvent } from "features/game/events";
 import {
   BUILDINGS_DIMENSIONS,
-  BuildingName,
+  type BuildingName,
 } from "features/game/types/buildings";
-import { CollectibleName } from "features/game/types/craftables";
-import { assign, createMachine, Interpreter, sendParent, State } from "xstate";
-import { Coordinates } from "../components/MapPlacement";
-import { Inventory } from "features/game/types/game";
+import type { CollectibleName } from "features/game/types/craftables";
 import {
-  Context as GameMachineContext,
+  assign,
+  createMachine,
+  type Interpreter,
+  sendParent,
+  type State,
+} from "xstate";
+import type { Coordinates } from "../components/MapPlacement";
+import type { Inventory } from "features/game/types/game";
+import {
+  type Context as GameMachineContext,
   saveGame,
 } from "features/game/lib/gameMachine";
-import { RESOURCES, ResourceName } from "features/game/types/resources";
+import { RESOURCES, type ResourceName } from "features/game/types/resources";
 import {
   RESOURCE_MOVE_EVENTS,
   RESOURCES_REMOVE_ACTIONS,
 } from "features/island/collectibles/MovableComponent";
-import { PlaceableLocation } from "features/game/types/collectibles";
-import { NFTName } from "features/game/events/landExpansion/placeNFT";
+import type { PlaceableLocation } from "features/game/types/collectibles";
+import type { NFTName } from "features/game/events/landExpansion/placeNFT";
 
 export const RESOURCE_PLACE_EVENTS: Partial<
   Record<ResourceName, GameEventName<PlacementEvent>>

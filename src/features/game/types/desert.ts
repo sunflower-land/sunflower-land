@@ -1,7 +1,7 @@
 import { getKeys } from "lib/object";
-import { GameState, InventoryItemName } from "./game";
-import { ChapterName, getCurrentChapter } from "./chapters";
-import { BeachBountyChapterArtefact } from "./treasure";
+import type { GameState, InventoryItemName } from "./game";
+import { type ChapterName, getCurrentChapter } from "./chapters";
+import type { BeachBountyChapterArtefact } from "./treasure";
 
 export const DESERT_GRID_HEIGHT = 10;
 export const DESERT_GRID_WIDTH = 10;

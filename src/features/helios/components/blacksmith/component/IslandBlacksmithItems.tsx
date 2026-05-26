@@ -9,9 +9,9 @@ import { ITEM_DETAILS } from "features/game/types/images";
 
 import { Button } from "components/ui/Button";
 import {
-  CraftableCollectible,
+  type CraftableCollectible,
   HELIOS_BLACKSMITH_ITEMS,
-  HeliosBlacksmithItem,
+  type HeliosBlacksmithItem,
 } from "features/game/types/collectibles";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
@@ -23,20 +23,20 @@ import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import {
-  MonumentName,
+  type MonumentName,
   REQUIRED_CHEERS,
   REWARD_ITEMS,
-  VillageProjectName,
+  type VillageProjectName,
   WORKBENCH_MONUMENTS,
-  WorkbenchMonumentName,
+  type WorkbenchMonumentName,
 } from "features/game/types/monuments";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { Label } from "components/ui/Label";
 import helpIcon from "assets/icons/help.webp";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useNow } from "lib/utils/hooks/useNow";
-import { MachineState } from "features/game/lib/gameMachine";
-import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
+import type { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
 
 const PROJECTS: WorkbenchMonumentName[] = [
   "Basic Cooking Pot",

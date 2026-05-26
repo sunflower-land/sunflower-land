@@ -8,9 +8,9 @@ import { useGame } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "../auctioneer/AuctionDetails";
-import { TranslationKeys } from "lib/i18n/dictionaries/types";
+import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { FaceRecognitionEvent, GameState } from "features/game/types/game";
+import type { FaceRecognitionEvent, GameState } from "features/game/types/game";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {

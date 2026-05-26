@@ -1,5 +1,5 @@
 import { CONFIG } from "lib/config";
-import { Player } from "../types/types";
+import type { Player } from "../types/types";
 
 type Request = {
   token: string;

@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { getKeys } from "lib/object";
 import { produce } from "immer";
 

@@ -1,4 +1,4 @@
-import { InventoryItemName, GameState } from "./game";
+import type { InventoryItemName, GameState } from "./game";
 
 type DailyReward = {
   id: string;

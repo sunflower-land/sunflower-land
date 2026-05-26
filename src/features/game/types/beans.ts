@@ -1,4 +1,4 @@
-import { InventoryItemName } from "./game";
+import type { InventoryItemName } from "./game";
 import { translate } from "lib/i18n/translate";
 
 export type BeanName = "Magic Bean";

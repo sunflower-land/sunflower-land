@@ -6,7 +6,7 @@ import { Panel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import {
   CloseButtonPanel,
-  PanelTabs,
+  type PanelTabs,
 } from "features/game/components/CloseablePanel";
 import { Revealed } from "features/game/components/Revealed";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -15,7 +15,7 @@ import React, { useContext, useState } from "react";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ChestRevealing } from "./ChestRevealing";
-import { Keys } from "features/game/types/game";
+import type { Keys } from "features/game/types/game";
 import { ChestRewardsList } from "components/ui/ChestRewardsList";
 import rewardsIcon from "assets/icons/stock.webp";
 import basicChest from "public/world/basic_chest.png";

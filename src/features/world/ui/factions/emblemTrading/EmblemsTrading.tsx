@@ -4,7 +4,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 
-import { FactionEmblem, FactionName } from "features/game/types/game";
+import type { FactionEmblem, FactionName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Emblems } from "./Emblems";
 import { SpeakingModal } from "features/game/components/SpeakingModal";

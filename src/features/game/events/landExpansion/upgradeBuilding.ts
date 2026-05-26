@@ -1,16 +1,19 @@
 import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { AnimalBuildingType } from "features/game/types/animals";
-import { BuildingName } from "features/game/types/buildings";
+import type { AnimalBuildingType } from "features/game/types/animals";
+import type { BuildingName } from "features/game/types/buildings";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { getKeys } from "lib/object";
-import {
+import type {
   GameState,
   InventoryItemName,
   UpgradableBuildingKey,
 } from "features/game/types/game";
 import { produce } from "immer";
-import { FETCHES_BY_CATEGORY, PetResourceName } from "features/game/types/pets";
+import {
+  FETCHES_BY_CATEGORY,
+  type PetResourceName,
+} from "features/game/types/pets";
 
 export type UpgradeBuildingAction = {
   type: "building.upgraded";

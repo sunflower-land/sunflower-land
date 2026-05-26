@@ -3,12 +3,12 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
-import { GameState } from "features/game/types/game";
+import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import type { GameState } from "features/game/types/game";
 
 import chest from "assets/icons/chest.png";
 import { Button } from "components/ui/Button";
-import { Milestone as MilestoneDetail } from "features/game/types/milestones";
+import type { Milestone as MilestoneDetail } from "features/game/types/milestones";
 import { getKeys } from "lib/object";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

@@ -1,12 +1,15 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 
-import { TemperateSeasonName } from "features/game/types/game";
-import { FlowerGrowthStage, FlowerName } from "features/game/types/flowers";
+import type { TemperateSeasonName } from "features/game/types/game";
+import type {
+  FlowerGrowthStage,
+  FlowerName,
+} from "features/game/types/flowers";
 import { CONFIG } from "lib/config";
 import cactiStump from "assets/resources/tree/cacti_stump.webp";
 import autumnCactiStump from "assets/resources/tree/autumn_cacti_stump.webp";
-import { LandBiomeName } from "../biomes/biomes";
-import { TreeName } from "features/game/types/resources";
+import type { LandBiomeName } from "../biomes/biomes";
+import type { TreeName } from "features/game/types/resources";
 
 const BIOME_NAME_KEYS: Record<
   LandBiomeName,

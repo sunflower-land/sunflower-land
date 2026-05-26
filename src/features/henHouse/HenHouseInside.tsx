@@ -6,7 +6,7 @@ import { Button } from "components/ui/Button";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { useNavigate } from "react-router";
 import { Hud } from "features/island/hud/Hud";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { getKeys, getValues } from "lib/object";
@@ -22,7 +22,7 @@ import {
   AnimalDeal,
   ExchangeHud,
 } from "features/barn/components/AnimalBounties";
-import { Animal, AnimalBounty } from "features/game/types/game";
+import type { Animal, AnimalBounty } from "features/game/types/game";
 import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
 import classNames from "classnames";
 import { EXTERIOR_ISLAND_BG } from "features/barn/BarnInside";
@@ -31,7 +31,7 @@ import { hasReadGuide } from "features/game/expansion/components/animals/AnimalB
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { PlayerModal } from "features/social/PlayerModal";
 import { hasFeatureAccess } from "lib/flags";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 
 const _henHouse = (state: MachineState) => state.context.state.henHouse;

@@ -3,7 +3,7 @@ import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext } from "react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { TradeableItemDetails } from "features/marketplace/components/TradeableSummary";
 import { getTradeableDisplay } from "features/marketplace/lib/tradeables";

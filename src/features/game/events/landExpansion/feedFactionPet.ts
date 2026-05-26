@@ -8,9 +8,12 @@ import {
   getFactionWeekday,
 } from "features/game/lib/factions";
 import { isWearableActive } from "features/game/lib/wearables";
-import { BoostType, BoostValue } from "features/game/types/boosts";
-import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
+import type { BoostType, BoostValue } from "features/game/types/boosts";
 import {
+  type ConsumableName,
+  CONSUMABLES,
+} from "features/game/types/consumables";
+import type {
   BoostName,
   FactionPetRequest,
   GameState,

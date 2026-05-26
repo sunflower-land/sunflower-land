@@ -9,14 +9,14 @@ import {
 } from "features/game/events/pets/feedPet";
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "lib/object";
-import { CookableName } from "features/game/types/consumables";
+import type { CookableName } from "features/game/types/consumables";
 import {
   PET_CATEGORIES,
-  Pet,
-  PetNFT,
-  PetName,
-  PetResourceName,
-  PetType,
+  type Pet,
+  type PetNFT,
+  type PetName,
+  type PetResourceName,
+  type PetType,
   getPetLevel,
   getPetType,
   isPetNapping,
@@ -30,7 +30,7 @@ import { PetInfo } from "./PetInfo";
 import { PetCard } from "./PetCard";
 import { isWearableActive } from "features/game/lib/wearables";
 import * as Auth from "features/auth/lib/Provider";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;

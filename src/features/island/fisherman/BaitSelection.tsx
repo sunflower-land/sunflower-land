@@ -11,7 +11,7 @@ import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { InnerPanel, Panel } from "components/ui/Panel";
-import {
+import type {
   GameState,
   Inventory,
   InventoryItemName,
@@ -22,9 +22,9 @@ import {
 } from "features/game/types/images";
 import {
   CHUM_AMOUNTS,
-  Chum,
-  FishName,
-  FishingBait,
+  type Chum,
+  type FishName,
+  type FishingBait,
   getSeasonalGuaranteedCatch,
   isGuaranteedBait,
 } from "features/game/types/fishing";

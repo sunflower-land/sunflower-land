@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
-import { CropSeedName } from "features/game/types/crops";
-import { GameState } from "features/game/types/game";
+import type { CropSeedName } from "features/game/types/crops";
+import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { updateCropMachine } from "./supplyCropMachine";
 

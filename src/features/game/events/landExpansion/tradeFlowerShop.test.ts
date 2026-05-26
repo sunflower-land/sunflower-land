@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { tradeFlowerShop } from "./tradeFlowerShop";
 import { CHAPTERS, getChapterTicket } from "features/game/types/chapters";
 import { TEST_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 describe("tradeFlowerShop", () => {
   const sevenDays = 7 * 24 * 60 * 60 * 1000;

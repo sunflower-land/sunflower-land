@@ -3,7 +3,7 @@ import {
   DEFAULT_HONEY_PRODUCTION_TIME,
   updateBeehives,
 } from "features/game/lib/updateBeehives";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
 
 export enum REMOVE_BEEHIVE_ERRORS {

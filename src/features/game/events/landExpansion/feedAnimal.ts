@@ -3,11 +3,11 @@ import Decimal from "decimal.js-light";
 import {
   ANIMAL_FOOD_EXPERIENCE,
   ANIMAL_LEVELS,
-  AnimalLevel,
+  type AnimalLevel,
   ANIMALS,
-  AnimalType,
+  type AnimalType,
 } from "features/game/types/animals";
-import {
+import type {
   Animal,
   AnimalFoodName,
   AnimalMedicineName,

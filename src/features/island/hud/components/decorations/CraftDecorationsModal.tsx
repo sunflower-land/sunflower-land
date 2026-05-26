@@ -11,7 +11,7 @@ import { IslandBlacksmithItems } from "features/helios/components/blacksmith/com
 import { Buildings } from "../buildings/Buildings";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 
 const needsHelp = (state: MachineState) => {
   const missingScarecrow =

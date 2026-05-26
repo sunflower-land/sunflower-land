@@ -1,8 +1,8 @@
-import { Equipped } from "features/game/types/bumpkin";
+import type { Equipped } from "features/game/types/bumpkin";
 import { getKeys } from "lib/object";
-import { Bumpkin, GameState, Wardrobe } from "features/game/types/game";
+import type { Bumpkin, GameState, Wardrobe } from "features/game/types/game";
 import { produce } from "immer";
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { populateSaltFarm } from "features/game/types/salt";
 
 export type EquipBumpkinAction = {

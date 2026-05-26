@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {
-  BumpkinSkillRevamp,
-  BumpkinRevampSkillTree,
+  type BumpkinSkillRevamp,
+  type BumpkinRevampSkillTree,
   getRevampSkills,
 } from "features/game/types/bumpkinSkills";
 

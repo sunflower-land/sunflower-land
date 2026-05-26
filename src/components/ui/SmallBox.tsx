@@ -1,7 +1,7 @@
 import React from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
-import Decimal from "decimal.js-light";
+import type Decimal from "decimal.js-light";
 import { CountLabel } from "./CountLabel";
 
 type Props = {

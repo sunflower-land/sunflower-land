@@ -1,5 +1,5 @@
 import { SUNNYSIDE } from "assets/sunnyside";
-import { PotionName, PotionStatus } from "features/game/types/game";
+import type { PotionName, PotionStatus } from "features/game/types/game";
 
 export type Potion = {
   name: PotionName;

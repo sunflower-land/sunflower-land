@@ -1,7 +1,7 @@
 import mainnetBuds from "lib/buds/buds";
 import testnetBuds from "lib/buds/testnet-buds";
 
-import { BuffLabel } from ".";
+import type { BuffLabel } from ".";
 import { translate } from "lib/i18n/translate";
 
 import powerup from "assets/icons/level_up.png";

@@ -14,7 +14,7 @@ import vipIcon from "assets/icons/vip.webp";
 
 import { secondsToString } from "lib/utils/time";
 import { useNow } from "lib/utils/hooks/useNow";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 
 function acknowledgeVipExpiry() {
   localStorage.setItem("vipExpiryAcknowledged", new Date().toISOString());

@@ -15,11 +15,11 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { IngredientsPopover } from "components/ui/IngredientsPopover";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 import { getKeys, getObjectEntries } from "lib/object";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { SALT_SCULPTURE_VARIANTS } from "features/island/lib/alternateArt";
-import { TranslationKeys } from "lib/i18n/dictionaries/types";
+import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 
 const _sculptureLevel = (state: MachineState) =>
   state.context.state.sculptures?.["Salt Sculpture"]?.level ?? 1;

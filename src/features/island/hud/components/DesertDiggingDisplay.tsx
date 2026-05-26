@@ -3,7 +3,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { Modal } from "components/ui/Modal";
 import { Digby } from "features/world/ui/beach/Digby";

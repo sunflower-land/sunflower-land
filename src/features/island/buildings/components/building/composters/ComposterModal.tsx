@@ -10,10 +10,10 @@ import compost from "assets/composters/compost.png";
 
 import {
   WORM,
-  ComposterName,
+  type ComposterName,
   composterDetails,
   SEASON_COMPOST_REQUIREMENTS,
-  CompostName,
+  type CompostName,
 } from "features/game/types/composters";
 import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";
@@ -21,7 +21,7 @@ import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { getKeys } from "lib/object";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { SquareIcon } from "components/ui/SquareIcon";

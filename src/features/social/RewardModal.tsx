@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
   CloseButtonPanel,
-  PanelTabs,
+  type PanelTabs,
 } from "features/game/components/CloseablePanel";
 import React, { useCallback, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
@@ -12,12 +12,12 @@ import { OuterPanel } from "components/ui/Panel";
 import { StreamReward } from "features/world/ui/player/StreamReward";
 import { PlayerGift } from "features/world/ui/player/PlayerGift";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { Equipped } from "features/game/types/bumpkin";
+import type { Equipped } from "features/game/types/bumpkin";
 import {
   rewardModalManager,
-  RewardModalPlayer,
+  type RewardModalPlayer,
 } from "./lib/rewardModalManager";
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 type Tab = "Reward" | "Stream";
 

@@ -3,9 +3,9 @@ import { Transition } from "@headlessui/react";
 import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { RecipeIngredient } from "features/game/lib/crafting";
-import { InventoryItemName } from "features/game/types/game";
-import { BumpkinItem } from "features/game/types/bumpkin";
+import type { RecipeIngredient } from "features/game/lib/crafting";
+import type { InventoryItemName } from "features/game/types/game";
+import type { BumpkinItem } from "features/game/types/bumpkin";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 interface Props {

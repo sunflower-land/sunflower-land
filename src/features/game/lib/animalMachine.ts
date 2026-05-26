@@ -1,5 +1,5 @@
-import { assign, createMachine, Interpreter, State } from "xstate";
-import { Animal } from "../types/game";
+import { assign, createMachine, type Interpreter, type State } from "xstate";
+import type { Animal } from "../types/game";
 import { getNextLoveAvailableAt } from "../events/landExpansion/loveAnimal";
 
 interface TContext {

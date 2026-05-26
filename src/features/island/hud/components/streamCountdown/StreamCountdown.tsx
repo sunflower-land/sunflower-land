@@ -5,7 +5,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   getStream,
-  StreamNotification,
+  type StreamNotification,
 } from "features/game/components/modal/components/Streams";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { ButtonPanel } from "components/ui/Panel";

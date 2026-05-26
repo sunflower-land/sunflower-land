@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import {
+import type {
   Animal,
   AnimalResource,
   InventoryItemName,
@@ -7,13 +7,13 @@ import {
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   ANIMAL_RESOURCE_DROP,
-  AnimalLevel,
-  AnimalType,
+  type AnimalLevel,
+  type AnimalType,
 } from "features/game/types/animals";
 import { getResourceDropAmount } from "features/game/lib/animals";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { formatNumber } from "lib/utils/formatNumber";
 
 interface Props {

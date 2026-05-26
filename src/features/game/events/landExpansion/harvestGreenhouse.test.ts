@@ -2,7 +2,7 @@ import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { fertiliseGreenhouse } from "./fertiliseGreenhouse";
 import { harvestGreenHouse, getReadyAt } from "./harvestGreenHouse";
 import { plantGreenhouse } from "./plantGreenhouse";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 
 const farm: GameState = {

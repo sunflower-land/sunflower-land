@@ -1,4 +1,4 @@
-import { CriticalHitName } from "features/game/types/game";
+import type { CriticalHitName } from "features/game/types/game";
 import { stringToInteger } from "./utils/stringToInteger";
 
 /**

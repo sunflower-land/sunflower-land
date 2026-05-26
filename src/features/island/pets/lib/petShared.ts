@@ -1,9 +1,9 @@
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getObjectEntries } from "lib/object";
-import { PetName, isPetNFTRevealed } from "features/game/types/pets";
-import { MachineState } from "features/game/lib/gameMachine";
-import { GameState } from "features/game/types/game";
+import { type PetName, isPetNFTRevealed } from "features/game/types/pets";
+import type { MachineState } from "features/game/lib/gameMachine";
+import type { GameState } from "features/game/types/game";
 
 import barkleyAsleep from "assets/sfts/pets/dogs/barkley_asleep.webp";
 import biscuitAsleep from "assets/sfts/pets/dogs/biscuit_asleep.webp";

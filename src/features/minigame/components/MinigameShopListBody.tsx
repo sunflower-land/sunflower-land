@@ -32,6 +32,13 @@ export const MinigameShopListBody: React.FC<Props> = ({
   className,
 }) => {
   const { t } = useAppTranslation();
+
+  const sortedItems = [...items].sort((a, b) => {
+    const aReached = isShopItemMaxCallsReached(a) ? 1 : 0;
+    const bReached = isShopItemMaxCallsReached(b) ? 1 : 0;
+    return aReached - bReached;
+  });
+
   return (
     <div
       className={
@@ -39,7 +46,7 @@ export const MinigameShopListBody: React.FC<Props> = ({
         "flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto md:max-h-none"
       }
     >
-      {items.map((item) => {
+      {sortedItems.map((item) => {
         const maxCallsReached = isShopItemMaxCallsReached(item);
         const supplyBlocked = item.supplyBlocked === true;
         const canAfford = canAffordShopItem(item, balances);
@@ -68,11 +75,11 @@ export const MinigameShopListBody: React.FC<Props> = ({
                 style={{ imageRendering: "pixelated" }}
               />
             </div>
-            <div className="min-w-0 flex-1 self-center py-0.5">
+            <div className="min-w-0 flex-1 self-center py-0.5 overflow-hidden">
               <div className="truncate text-sm leading-snug">{item.name}</div>
               <div
                 className={classNames(
-                  "mt-1 flex flex-wrap items-center gap-x-1 gap-y-0.5 text-xs leading-normal",
+                  "mt-1 flex flex-wrap items-center gap-x-1 gap-y-0.5 text-xs leading-normal max-h-10 overflow-hidden",
                   !maxCallsReached &&
                     !supplyBlocked &&
                     !canAfford &&

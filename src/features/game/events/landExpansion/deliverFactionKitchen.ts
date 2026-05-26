@@ -7,8 +7,8 @@ import {
   getWeekKey,
   getFactionWeekday,
 } from "features/game/lib/factions";
-import { BoostType, BoostValue } from "features/game/types/boosts";
-import { GameState } from "features/game/types/game";
+import type { BoostType, BoostValue } from "features/game/types/boosts";
+import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
 
 export enum DELIVER_FACTION_KITCHEN_ERRORS {

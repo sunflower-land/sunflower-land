@@ -16,7 +16,7 @@ import {
 import { ModalContext } from "../ModalProvider";
 import { secondsToString } from "lib/utils/time";
 import { setStarterOfferShown } from "features/game/lib/starterOfferStorage";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 
 const farmIdSelector = (state: MachineState) => state.context.farmId;
 

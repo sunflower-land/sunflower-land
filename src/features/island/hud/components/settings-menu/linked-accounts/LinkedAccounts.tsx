@@ -1,7 +1,7 @@
-import React, { PropsWithChildren, useContext, useState } from "react";
+import React, { type PropsWithChildren, useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
 
-import { Label, LabelType } from "components/ui/Label";
+import { Label, type LabelType } from "components/ui/Label";
 import { ButtonPanel } from "components/ui/Panel";
 import walletIcon from "assets/icons/wallet.png";
 import fslIcon from "assets/icons/fsl_id.svg";
@@ -10,10 +10,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { Context as GameContext } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { maskEmail } from "lib/utils/maskEmail";
 import { connectToFSL } from "features/auth/actions/oauth";
-import { ContentComponentProps } from "../types";
+import type { ContentComponentProps } from "../types";
 
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
 const _socialDetails = (state: MachineState) => state.context.socialDetails;
@@ -232,11 +232,7 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
       ? t("linkedAccounts.subtext.twitterNotLinked")
       : twitterStatus === "partial"
         ? t("linkedAccounts.subtext.twitterPartial")
-        : // Fully linked — surface the connected handle when present,
-          // fall back to the rationale only if the username is missing.
-          twitter?.username
-          ? `@${twitter.username}`
-          : t("linkedAccounts.rationale.twitter");
+        : t("linkedAccounts.rationale.twitter");
 
   const telegramSubtext =
     telegramStatus === "notLinked"

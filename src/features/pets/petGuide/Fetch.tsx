@@ -6,7 +6,10 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Label } from "components/ui/Label";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
-import { FETCHES_BY_CATEGORY, PetResourceName } from "features/game/types/pets";
+import {
+  FETCHES_BY_CATEGORY,
+  type PetResourceName,
+} from "features/game/types/pets";
 import { getObjectEntries } from "lib/object";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 

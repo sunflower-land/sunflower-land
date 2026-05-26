@@ -1,21 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "components/ui/Button";
 import { KNOWN_IDS } from "features/game/types";
-import React, { ChangeEvent, useContext, useState } from "react";
+import React, { type ChangeEvent, useContext, useState } from "react";
 import GameABI from "lib/blockchain/abis/SunflowerLandGame";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { ContentComponentProps } from "../types";
+import type { ContentComponentProps } from "../types";
 import { readContract } from "viem/actions";
 import { createPublicClient, encodePacked, http, keccak256 } from "viem";
 import { polygon, polygonAmoy } from "viem/chains";
 import { CONFIG } from "lib/config";
 import { Loading } from "features/auth/components";
 import { OFFCHAIN_ITEMS } from "features/game/lib/offChainItems";
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { getKeys } from "lib/object";
 
 const _apiKey = (state: MachineState) => state.context.apiKey;

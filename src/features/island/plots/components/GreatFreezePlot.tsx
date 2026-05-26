@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 import greatFreezeIcon from "assets/icons/great-freeze.webp";
 import { SOIL_IMAGES } from "../lib/plant";

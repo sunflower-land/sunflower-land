@@ -1,9 +1,9 @@
 import React, { useContext, useMemo, useState, type JSX } from "react";
 
-import { CROPS, CropName } from "features/game/types/crops";
+import { CROPS, type CropName } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { GrowthStage, Soil } from "features/island/plots/components/Soil";
+import { type GrowthStage, Soil } from "features/island/plots/components/Soil";
 import { Bar, ProgressBar } from "components/ui/ProgressBar";
 
 import powerup from "assets/icons/level_up.png";
@@ -13,10 +13,10 @@ import bee from "assets/icons/bee.webp";
 
 import { TimerPopover } from "../../common/TimerPopover";
 import classNames from "classnames";
-import { CropFertiliser, CropPlot } from "features/game/types/game";
+import type { CropFertiliser, CropPlot } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { useNow } from "lib/utils/hooks/useNow";

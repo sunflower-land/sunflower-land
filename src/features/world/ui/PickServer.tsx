@@ -8,7 +8,7 @@ import {
   isServerFull,
   serverCurrentPopulation,
 } from "../lib/availableRooms";
-import { MachineInterpreter } from "../mmoMachine";
+import type { MachineInterpreter } from "../mmoMachine";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
@@ -19,7 +19,7 @@ import { useNavigate } from "react-router";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { PanelTabs } from "features/game/components/CloseablePanel";
+import type { PanelTabs } from "features/game/components/CloseablePanel";
 
 interface Props {
   mmoService: MachineInterpreter;

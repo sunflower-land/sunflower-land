@@ -4,10 +4,10 @@ import React, {
   useEffect,
   useRef,
   useContext,
-  ReactNode,
+  type ReactNode,
 } from "react";
 import PWAInstall from "@khmyznikov/pwa-install/dist/pwa-install.react.js";
-import { PWAInstallElement } from "@khmyznikov/pwa-install";
+import type { PWAInstallElement } from "@khmyznikov/pwa-install";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 
 type PWAInstallContextType = React.MutableRefObject<PWAInstallElement | null>;

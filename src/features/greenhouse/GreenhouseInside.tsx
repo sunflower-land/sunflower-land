@@ -15,7 +15,7 @@ import { EXTERIOR_ISLAND_BG } from "features/barn/BarnInside";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { PlayerModal } from "features/social/PlayerModal";
 import { hasFeatureAccess } from "lib/flags";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import { useSelector } from "@xstate/react";
 import { isBuildingDestroyed } from "features/island/buildings/components/building/Building";

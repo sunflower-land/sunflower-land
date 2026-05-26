@@ -1,8 +1,8 @@
 import Decimal from "decimal.js-light";
 
-import { Inventory, TemperateSeasonName } from "./game";
-import { ProcessedResource } from "./processedFood";
-import { InstantProcessedRecipeName } from "./consumables";
+import type { Inventory, TemperateSeasonName } from "./game";
+import type { ProcessedResource } from "./processedFood";
+import type { InstantProcessedRecipeName } from "./consumables";
 
 export const FISH_PROCESSING_TIME_SECONDS: Record<ProcessedResource, number> = {
   "Fish Flake": 1 * 60 * 60,

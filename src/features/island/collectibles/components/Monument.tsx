@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ImageStyle } from "./template/ImageStyle";
+import type { ImageStyle } from "./template/ImageStyle";
 import { useVisiting } from "lib/utils/visitUtils";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -11,13 +11,13 @@ import { Modal } from "components/ui/Modal";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
 import {
   isHelpComplete,
-  MonumentName,
+  type MonumentName,
   REQUIRED_CHEERS,
 } from "features/game/types/monuments";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
@@ -31,7 +31,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { FarmHelped } from "features/island/hud/components/FarmHelped";
 import helpIcon from "assets/icons/help.webp";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 const ProjectModal: React.FC<{
   project: MonumentName;

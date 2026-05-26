@@ -1,7 +1,7 @@
 import { useActor } from "@xstate/react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
-import { NPCName, NPC_WEARABLES, acknowledgeNPC } from "lib/npcs";
+import { type NPCName, NPC_WEARABLES, acknowledgeNPC } from "lib/npcs";
 import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import { DeliveryPanel } from "./deliveries/DeliveryPanel";

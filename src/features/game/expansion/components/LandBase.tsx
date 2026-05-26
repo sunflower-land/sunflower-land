@@ -4,9 +4,9 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
-import { GameState, TemperateSeasonName } from "features/game/types/game";
+import type { GameState, TemperateSeasonName } from "features/game/types/game";
 import { getCurrentBiome } from "features/island/biomes/biomes";
-import { LandBiomeName } from "features/island/biomes/biomes";
+import type { LandBiomeName } from "features/island/biomes/biomes";
 
 const IMAGE_GRID_WIDTH = 36;
 const VOLCANO_IMAGE_GRID_WIDTH = 48;

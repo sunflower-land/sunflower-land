@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { getKeys } from "lib/object";
-import { GameState } from "../types/game";
+import type { GameState } from "../types/game";
 
 import cloneDeep from "lodash.clonedeep";
 import { getObjectEntries } from "lib/object";
@@ -14,13 +14,13 @@ import {
   isUpgradableResource,
 } from "features/island/hud/components/inventory/utils/inventory";
 import { PLACEABLE_LOCATIONS } from "../types/collectibles";
-import { ResourceItem } from "../expansion/placeable/lib/collisionDetection";
+import type { ResourceItem } from "../expansion/placeable/lib/collisionDetection";
 import { isPetCollectible } from "./landExpansion/placeCollectible";
 import {
   RESOURCE_STATE_ACCESSORS,
   RESOURCE_MULTIPLIER,
 } from "../types/resources";
-import { BUMPKIN_ITEM_PART, BumpkinItem } from "../types/bumpkin";
+import { BUMPKIN_ITEM_PART, type BumpkinItem } from "../types/bumpkin";
 
 export function addVipDays({
   game,

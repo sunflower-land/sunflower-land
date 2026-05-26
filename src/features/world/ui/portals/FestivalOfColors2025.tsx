@@ -12,7 +12,7 @@ import { isMinigameComplete } from "features/game/events/minigames/claimMinigame
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { PortalLeaderboard } from "./PortalLeaderboard";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { MinigamePrizeUI } from "./MinigamePrizeUI";
 
 const PORTAL_NAME = "festival-of-colors-2025";

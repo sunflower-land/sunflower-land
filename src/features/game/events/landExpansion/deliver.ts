@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { CONSUMABLES, COOKABLE_CAKES } from "features/game/types/consumables";
 import { getKeys } from "lib/object";
-import {
+import type {
   BoostName,
   GameState,
   Inventory,
@@ -15,13 +15,13 @@ import {
   getCurrentChapter,
   getChapterTicket,
 } from "features/game/types/chapters";
-import { NPCName } from "lib/npcs";
+import type { NPCName } from "lib/npcs";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { isWearableActive } from "features/game/lib/wearables";
 import { FACTION_OUTFITS } from "features/game/lib/factions";
-import { PATCH_FRUIT, PatchFruitName } from "features/game/types/fruits";
+import { PATCH_FRUIT, type PatchFruitName } from "features/game/types/fruits";
 import { produce } from "immer";
-import { BumpkinItem } from "features/game/types/bumpkin";
+import type { BumpkinItem } from "features/game/types/bumpkin";
 import { FISH } from "features/game/types/fishing";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { getActiveCalendarEvent } from "features/game/types/calendar";

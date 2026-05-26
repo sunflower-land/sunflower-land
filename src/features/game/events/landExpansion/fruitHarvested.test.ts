@@ -6,7 +6,7 @@ import {
 } from "features/game/lib/constants";
 import { prngChance } from "lib/prng";
 import { PATCH_FRUIT, PATCH_FRUIT_SEEDS } from "features/game/types/fruits";
-import { GameState, FruitPatch } from "features/game/types/game";
+import type { GameState, FruitPatch } from "features/game/types/game";
 import { KNOWN_IDS } from "features/game/types";
 import {
   getFruitYield,

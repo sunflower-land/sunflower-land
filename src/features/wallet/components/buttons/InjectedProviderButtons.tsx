@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Connector, CreateConnectorFn, useConnectors } from "wagmi";
+import { type Connector, type CreateConnectorFn, useConnectors } from "wagmi";
 import { InjectedProviderButton } from "./InjectedProviderButton";
 import { fallbackConnector } from "features/wallet/WalletProvider";
 import { EIP6963Button } from "./EIP6963Button";

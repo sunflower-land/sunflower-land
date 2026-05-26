@@ -5,8 +5,8 @@ import {
 } from "features/game/lib/constants";
 import { castRod, getReelsPackGemPrice } from "./castRod";
 import Decimal from "decimal.js-light";
-import { Bumpkin } from "features/game/types/game";
-import { Chum, getDailyFishingLimit } from "features/game/types/fishing";
+import type { Bumpkin } from "features/game/types/game";
+import { type Chum, getDailyFishingLimit } from "features/game/types/fishing";
 import { CHAPTERS } from "features/game/types/chapters";
 
 const farm = { ...TEST_FARM };

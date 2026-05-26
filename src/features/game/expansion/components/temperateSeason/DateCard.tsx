@@ -1,7 +1,7 @@
 import React from "react";
 import { SEASON_DETAILS } from "features/game/types/calendar";
 import { CALENDAR_EVENT_ICONS } from "features/game/types/calendar";
-import { LocalCalendarDetails } from "./GameCalendar";
+import type { LocalCalendarDetails } from "./GameCalendar";
 import classNames from "classnames";
 import { ButtonPanel } from "components/ui/Panel";
 

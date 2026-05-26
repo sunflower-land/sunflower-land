@@ -1,5 +1,5 @@
 import { hasVipAccess } from "../lib/vipAccess";
-import { GameState, InventoryItemName } from "./game";
+import type { GameState, InventoryItemName } from "./game";
 
 export type TwitterPostName = `WEEKLY` | `FARM`;
 

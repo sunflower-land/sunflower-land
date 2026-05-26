@@ -11,7 +11,7 @@ import chapterPointsIcon from "assets/icons/red_medal_short.webp";
 
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import {
-  QuestNPCName,
+  type QuestNPCName,
   TICKET_REWARDS,
   areBumpkinsOnHoliday,
   generateDeliveryTickets,
@@ -19,10 +19,10 @@ import {
 } from "features/game/events/landExpansion/deliver";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "lib/object";
-import { GameState, Order } from "features/game/types/game";
+import type { GameState, Order } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 
-import { NPCName, NPC_WEARABLES } from "lib/npcs";
+import { type NPCName, NPC_WEARABLES } from "lib/npcs";
 import {
   getDayOfYear,
   secondsTillReset,
@@ -30,7 +30,7 @@ import {
 } from "lib/utils/time";
 import {
   NPC_DELIVERY_LEVELS,
-  DeliveryNpcName,
+  type DeliveryNpcName,
   acknowledgeOrders,
   generateDeliveryMessage,
   isCoinNPC,

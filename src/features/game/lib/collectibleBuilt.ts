@@ -1,8 +1,8 @@
-import { HourglassType } from "features/island/collectibles/components/Hourglass";
-import { CollectibleName } from "../types/craftables";
+import type { HourglassType } from "features/island/collectibles/components/Hourglass";
+import type { CollectibleName } from "../types/craftables";
 import { getKeys } from "lib/object";
-import { GameState } from "../types/game";
-import { PET_SHRINES, PetShrineName } from "../types/pets";
+import type { GameState } from "../types/game";
+import { PET_SHRINES, type PetShrineName } from "../types/pets";
 import { isPetCollectible } from "../events/landExpansion/placeCollectible";
 
 export function isCollectibleBuilt({

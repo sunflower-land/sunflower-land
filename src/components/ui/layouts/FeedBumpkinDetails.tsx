@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
-import { ConsumableName } from "features/game/types/consumables";
-import { BoostName } from "features/game/types/game";
-import { GameState } from "features/game/types/game";
+import type { ConsumableName } from "features/game/types/consumables";
+import type { BoostName } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { type JSX } from "react";
 import { BoostsDisplay } from "./BoostsDisplay";

@@ -5,7 +5,7 @@ import { Modal } from "components/ui/Modal";
 import { LavaPitModalContent } from "./LavaPitModalContent";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import animatedLavaPit from "assets/resources/lava/lava_pit_animation.webp";

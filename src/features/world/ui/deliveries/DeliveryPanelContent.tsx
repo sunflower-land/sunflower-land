@@ -1,5 +1,5 @@
 import React from "react";
-import { NPCName } from "lib/npcs";
+import type { NPCName } from "lib/npcs";
 
 import { BumpkinDelivery } from "./BumpkinDelivery";
 

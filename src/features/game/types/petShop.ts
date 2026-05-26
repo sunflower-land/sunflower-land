@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
-import { PET_SHRINES, PetShrineName } from "./pets";
-import { CraftableCollectible } from "./collectibles";
+import { PET_SHRINES, type PetShrineName } from "./pets";
+import type { CraftableCollectible } from "./collectibles";
 
 export type PetShopItemName = "Pet Egg" | "Obsidian Shrine" | PetShrineName;
 

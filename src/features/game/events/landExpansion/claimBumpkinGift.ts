@@ -1,10 +1,13 @@
-import { GameState } from "features/game/types/game";
-import { NPCName } from "lib/npcs";
-import { BUMPKIN_GIFTS, BumpkinGift } from "features/game/types/gifts";
+import type { GameState } from "features/game/types/game";
+import type { NPCName } from "lib/npcs";
+import { BUMPKIN_GIFTS, type BumpkinGift } from "features/game/types/gifts";
 import { getKeys } from "lib/object";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import { RecipeCollectibleName, RECIPES } from "features/game/lib/crafting";
+import {
+  type RecipeCollectibleName,
+  RECIPES,
+} from "features/game/lib/crafting";
 
 export type ClaimGiftAction = {
   type: "gift.claimed";

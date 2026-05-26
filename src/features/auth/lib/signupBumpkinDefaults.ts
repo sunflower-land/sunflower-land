@@ -1,6 +1,6 @@
 import { ALLOWED_BUMPKIN_ITEMS } from "features/game/types/bumpkin";
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
-import { Wardrobe } from "features/game/types/game";
+import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import type { Wardrobe } from "features/game/types/game";
 
 /**
  * Default signup wardrobe: one of each allowed item (mirrors API allowed set).

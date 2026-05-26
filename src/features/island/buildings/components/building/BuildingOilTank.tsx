@@ -8,7 +8,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import oilBarrel from "assets/icons/oil_barrel.webp";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import {
+import type {
   BuildingName,
   CookingBuildingName,
 } from "features/game/types/buildings";

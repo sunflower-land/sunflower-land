@@ -7,15 +7,15 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
 import { Loading } from "features/auth/components";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { getKeys } from "lib/object";
-import { BedName } from "features/game/types/game";
+import type { BedName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BED_FARMHAND_COUNT } from "features/game/types/beds";
 import { NaturalImage } from "components/ui/NaturalImage";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
-import { Equipped } from "features/game/types/bumpkin";
+import type { Equipped } from "features/game/types/bumpkin";
 
 interface BedProps {
   name: BedName;

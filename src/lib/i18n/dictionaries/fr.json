@@ -9016,5 +9016,7 @@
   "linkedAccounts.subtext.discordPartial": "Vérifiez sur le serveur pour le déverrouiller",
   "linkedAccounts.subtext.discordLinked": "Connecté",
   "referral.package": "Package de recommandation",
-  "referral.starterPackage": "Recommandez à vos amis et ils recevront le package de démarrage suivant !"
+  "referral.starterPackage": "Recommandez à vos amis et ils recevront le package de démarrage suivant !",
+  "portal.economyMinigames.banner": "Des mini-jeux pour nouveaux joueurs viennent d'être lancés ! Ceci est en mode bêta",
+  "portal.economyMinigames.disclaimer": "Ces jeux ne sont ni maintenus ni pris en charge par l'équipe de la SFL. Vous le faites à vos risques et périls."
 }

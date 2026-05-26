@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 
-import { Auction } from "features/game/lib/auctionMachine";
-import {
+import type { Auction } from "features/game/lib/auctionMachine";
+import type {
   AuctionNFT,
   GameState,
   InventoryItemName,
 } from "features/game/types/game";
-import { BumpkinItem } from "features/game/types/bumpkin";
+import type { BumpkinItem } from "features/game/types/bumpkin";
 import { getKeys } from "lib/object";
 import {
-  ChapterName,
+  type ChapterName,
   secondsLeftInChapter,
 } from "features/game/types/chapters";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";

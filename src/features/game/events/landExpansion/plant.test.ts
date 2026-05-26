@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { CROPS } from "features/game/types/crops";
 import { INITIAL_FARM } from "../../lib/constants";
-import { GameState, CropPlot } from "../../types/game";
+import type { GameState, CropPlot } from "../../types/game";
 import { getCropPlotTime, plant } from "./plant";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";

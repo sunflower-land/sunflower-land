@@ -16,7 +16,7 @@ import { TradeCooldownWidget } from "features/game/components/TradeCooldownWidge
 import {
   getAccountTradedRestrictionSecondsLeft,
   isAccountTradedWithin90Days,
-  MachineState,
+  type MachineState,
 } from "features/game/lib/gameMachine";
 import { translate } from "lib/i18n/translate";
 import { Transaction } from "features/island/hud/Transaction";

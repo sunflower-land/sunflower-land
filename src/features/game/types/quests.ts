@@ -1,5 +1,5 @@
-import { BumpkinItem } from "./bumpkin";
-import { GameState } from "./game";
+import type { BumpkinItem } from "./bumpkin";
+import type { GameState } from "./game";
 import { translate } from "lib/i18n/translate";
 
 export type QuestName =

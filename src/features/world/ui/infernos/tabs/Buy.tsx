@@ -11,8 +11,8 @@ import {
 import { getKeys } from "lib/object";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { ResourceName } from "features/game/types/resources";
-import { GameState } from "features/game/types/game";
+import type { ResourceName } from "features/game/types/resources";
+import type { GameState } from "features/game/types/game";
 import { useGame } from "features/game/GameProvider";
 import upIcon from "assets/icons/level_up.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

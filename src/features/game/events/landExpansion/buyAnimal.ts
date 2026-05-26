@@ -3,13 +3,17 @@ import { makeAnimalBuildingKey } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { getBumpkinLevel } from "features/game/lib/level";
 import {
-  AnimalBuildingType,
+  type AnimalBuildingType,
   ANIMALS,
-  AnimalType,
+  type AnimalType,
 } from "features/game/types/animals";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { getKeys } from "lib/object";
-import { AnimalBuilding, BoostName, GameState } from "features/game/types/game";
+import type {
+  AnimalBuilding,
+  BoostName,
+  GameState,
+} from "features/game/types/game";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { produce } from "immer";
 

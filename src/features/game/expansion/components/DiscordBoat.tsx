@@ -12,7 +12,7 @@ import { discordOAuth } from "features/auth/actions/oauth";
 import { ClaimReward } from "./ClaimReward";
 import { BONUSES } from "features/game/types/bonuses";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import classNames from "classnames";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ModalContext } from "features/game/components/modal/ModalProvider";

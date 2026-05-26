@@ -6,13 +6,13 @@ import { ButtonPanel, Panel } from "components/ui/Panel";
 
 import { Context } from "features/game/GameProvider";
 
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 import {
   loadRaffleResults,
-  RaffleResults,
+  type RaffleResults,
 } from "features/world/ui/chapterRaffles/actions/loadRaffleResults";
 import { randomID } from "lib/utils/random";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import trophyIcon from "assets/icons/trophy.png";
 import { ChapterRaffleResult } from "features/world/ui/chapterRaffles/ChapterRaffleResult";
 import { Modal } from "components/ui/Modal";

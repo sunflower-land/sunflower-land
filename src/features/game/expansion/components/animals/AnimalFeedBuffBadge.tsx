@@ -1,6 +1,9 @@
 import React from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { AnimalFeedBuff, AnimalFeedBuffName } from "features/game/types/game";
+import type {
+  AnimalFeedBuff,
+  AnimalFeedBuffName,
+} from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
 import powerup from "assets/icons/level_up.png";
 

@@ -1,7 +1,7 @@
 import {
-  CollectionName,
+  type CollectionName,
   getMarketPrice,
-  MarketplaceTradeableName,
+  type MarketplaceTradeableName,
 } from "features/game/types/marketplace";
 import React, { useContext, useState } from "react";
 import * as Auth from "features/auth/lib/Provider";
@@ -31,7 +31,7 @@ import { getKeys } from "lib/object";
 import { tradeToId } from "../lib/offers";
 import useSWR from "swr";
 import { getWeekKey } from "features/game/lib/factions";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
 import { Button } from "components/ui/Button";

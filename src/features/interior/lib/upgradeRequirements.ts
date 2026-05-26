@@ -1,5 +1,8 @@
 import Decimal from "decimal.js-light";
-import { HomeExpansionTier, InventoryItemName } from "features/game/types/game";
+import type {
+  HomeExpansionTier,
+  InventoryItemName,
+} from "features/game/types/game";
 
 /**
  * Cost the player pays to UNLOCK a given home-expansion tier.

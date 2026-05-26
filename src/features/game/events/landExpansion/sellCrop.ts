@@ -1,24 +1,24 @@
 import Decimal from "decimal.js-light";
 import {
-  Crop,
-  CropName,
+  type Crop,
+  type CropName,
   CROPS,
   GREENHOUSE_CROPS,
-  GreenHouseCrop,
+  type GreenHouseCrop,
 } from "../../types/crops";
-import { GameState } from "../../types/game";
+import type { GameState } from "../../types/game";
 import { getSellPrice } from "features/game/expansion/lib/boosts";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { setPrecision } from "lib/utils/formatNumber";
 import {
   GREENHOUSE_FRUIT,
-  GreenHouseFruit,
+  type GreenHouseFruit,
   PATCH_FRUIT,
-  PatchFruit,
-  PatchFruitName,
+  type PatchFruit,
+  type PatchFruitName,
 } from "features/game/types/fruits";
 import { produce } from "immer";
-import { ExoticCrop } from "features/game/types/beans";
+import type { ExoticCrop } from "features/game/types/beans";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 

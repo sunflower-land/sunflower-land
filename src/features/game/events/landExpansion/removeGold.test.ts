@@ -1,5 +1,5 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { removeGold, REMOVE_GOLD_ERRORS } from "./removeGold";
 
 const GAME_STATE: GameState = {

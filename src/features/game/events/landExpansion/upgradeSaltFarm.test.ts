@@ -1,11 +1,11 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { InventoryItemName } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 import {
   getPendingSaltNodeIdsForUpgrade,
   getSaltChargeGenerationTime,
   SALT_CHARGE_GENERATION_TIME,
   MAX_STORED_SALT_CHARGES_PER_NODE,
-  SaltNode,
+  type SaltNode,
 } from "features/game/types/salt";
 import { upgradeSaltFarm } from "./upgradeSaltFarm";
 import Decimal from "decimal.js-light";

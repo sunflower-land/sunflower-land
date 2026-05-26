@@ -1,4 +1,4 @@
-import { InventoryItemName, Wardrobe } from "./game";
+import type { InventoryItemName, Wardrobe } from "./game";
 
 export type SpecialEventName =
   | "Lunar New Year"

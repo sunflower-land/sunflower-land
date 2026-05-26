@@ -1,6 +1,6 @@
-import { BumpkinItem } from "./bumpkin";
-import { InventoryItemName } from "./game";
-import { MinigameName } from "./minigames";
+import type { BumpkinItem } from "./bumpkin";
+import type { InventoryItemName } from "./game";
+import type { MinigameName } from "./minigames";
 
 export type EventShopItemName =
   | EasterShopCollectibleName

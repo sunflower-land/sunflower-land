@@ -1,14 +1,14 @@
-import { GameState, InventoryItemName } from "features/game/types/game";
+import type { GameState, InventoryItemName } from "features/game/types/game";
 import {
-  RewardBoxName,
-  RewardBoxReward,
+  type RewardBoxName,
+  type RewardBoxReward,
   REWARD_BOXES,
   getPetRewardPool,
 } from "features/game/types/rewardBoxes";
 import { produce } from "immer";
 import { CONFIG } from "lib/config";
 import Decimal from "decimal.js-light";
-import { BumpkinItem } from "features/game/types/bumpkin";
+import type { BumpkinItem } from "features/game/types/bumpkin";
 import { addVipDays } from "../claimAirdrop";
 
 function getReward({

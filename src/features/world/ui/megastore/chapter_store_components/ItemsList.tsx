@@ -18,26 +18,26 @@ import lightning from "assets/icons/lightning.png";
 import lock from "assets/icons/lock.png";
 
 import { ITEM_DETAILS } from "features/game/types/images";
-import { InventoryItemName, Keys } from "features/game/types/game";
+import type { InventoryItemName, Keys } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { BumpkinItem } from "features/game/types/bumpkin";
+import type { BumpkinItem } from "features/game/types/bumpkin";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   MEGASTORE,
-  ChapterStoreCollectible,
-  ChapterStoreItem,
-  ChapterStoreTier,
-  ChapterStoreWearable,
-  ChapterTierItemName,
+  type ChapterStoreCollectible,
+  type ChapterStoreItem,
+  type ChapterStoreTier,
+  type ChapterStoreWearable,
+  type ChapterTierItemName,
 } from "features/game/types/megastore";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import {
   FLOWER_BOXES,
-  FlowerBox,
+  type FlowerBox,
   getChapterItemsCrafted,
   getChapterPurchaseCount,
   getStore,

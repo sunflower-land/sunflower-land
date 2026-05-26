@@ -1,7 +1,7 @@
 import { Box } from "components/ui/Box";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { CookableName, COOKABLES } from "features/game/types/consumables";
+import { type CookableName, COOKABLES } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { secondsToString } from "lib/utils/time";
 import React, { useState } from "react";
@@ -11,12 +11,12 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { useSpeedUpPayment } from "features/game/lib/useSpeedUpPayment";
 import { SpeedUpPaymentSelector } from "features/game/components/SpeedUpPaymentSelector";
-import { BuildingProduct, GameState } from "features/game/types/game";
+import type { BuildingProduct, GameState } from "features/game/types/game";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import fastForward from "assets/icons/fast_forward.png";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { getFishProcessingTime } from "features/game/events/landExpansion/processResource";
-import { ProcessedResource } from "features/game/types/processedFood";
+import type { ProcessedResource } from "features/game/types/processedFood";
 
 interface Props {
   product: BuildingProduct;

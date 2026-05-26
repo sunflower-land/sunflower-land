@@ -1,12 +1,12 @@
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 
-import { CropName, CROPS } from "../../types/crops";
-import { CropPlot, GameState } from "../../types/game";
+import { type CropName, CROPS } from "../../types/crops";
+import type { CropPlot, GameState } from "../../types/game";
 import { getAffectedWeather } from "./plant";
 import { harvestCropFromPlot, isReadyToHarvest } from "./harvest";
 import { updateBoostUsed } from "../../types/updateBoostUsed";
-import { BoostName } from "../../types/game";
+import type { BoostName } from "../../types/game";
 
 export type BulkHarvestAction = {
   type: "crops.bulkHarvested";

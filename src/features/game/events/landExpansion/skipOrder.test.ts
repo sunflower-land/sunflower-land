@@ -1,4 +1,4 @@
-import { GameState, Order } from "features/game/types/game";
+import type { GameState, Order } from "features/game/types/game";
 import { skipOrder } from "./skipOrder";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 

@@ -2,7 +2,7 @@ import React from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import {
   MILESTONE_MESSAGES,
-  MilestoneName,
+  type MilestoneName,
 } from "features/game/types/milestones";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import {

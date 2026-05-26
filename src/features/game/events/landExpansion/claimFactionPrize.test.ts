@@ -1,6 +1,6 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { claimFactionPrize } from "./claimFactionPrize";
-import { Faction, GameState } from "features/game/types/game";
+import type { Faction, GameState } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 
 const FARM: GameState = {

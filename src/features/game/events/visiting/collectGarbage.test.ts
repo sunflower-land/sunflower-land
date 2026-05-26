@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { collectGarbage } from "./collectGarbage";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 describe("collectGarbage", () => {
   const now = Date.now();

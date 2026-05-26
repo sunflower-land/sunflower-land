@@ -2,7 +2,7 @@ import { useSelector } from "@xstate/react";
 import React, { useContext, useState } from "react";
 import Decimal from "decimal.js-light";
 
-import {
+import type {
   BoostName,
   Inventory,
   InventoryItemName,
@@ -27,7 +27,7 @@ import { Context } from "features/game/GameProvider";
 import { Label } from "components/ui/Label";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";

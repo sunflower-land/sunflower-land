@@ -1,6 +1,6 @@
 import React from "react";
 import { getKeys } from "lib/object";
-import { Bumpkin } from "features/game/types/game";
+import type { Bumpkin } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { setImageWidth } from "lib/images";

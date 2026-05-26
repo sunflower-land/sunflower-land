@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { MOVE_COLLECTIBLE_ERRORS, moveCollectible } from "./moveCollectible";
 
 const GAME_STATE: GameState = {

@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { buyChapterItem } from "./buyChapterItem";
 import { TEST_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 
 describe("buyChapterItem", () => {
   const mockState: GameState = {

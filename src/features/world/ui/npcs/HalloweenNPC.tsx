@@ -7,10 +7,10 @@ import React, { useContext, useRef, useState } from "react";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { getActiveListedItems } from "features/island/hud/components/inventory/utils/inventory";
-import { CollectibleName } from "features/game/types/craftables";
+import type { CollectibleName } from "features/game/types/craftables";
 import { getKeys } from "lib/object";
 import Decimal from "decimal.js-light";
-import {
+import type {
   GameState,
   Inventory,
   InventoryItemName,

@@ -1,4 +1,4 @@
-import { resources } from "lib/i18n/dictionaries/language";
+import type { resources } from "lib/i18n/dictionaries/language";
 
 declare module "i18next" {
   interface CustomTypeOptions {
