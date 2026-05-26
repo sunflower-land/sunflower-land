@@ -37,6 +37,7 @@ export type ItemsWithdrawnTransaction = {
   createdAt: number;
   data: {
     items: Partial<Record<InventoryItemName, number>>;
+    mintedItems: Partial<Record<InventoryItemName, number>>;
     params: WithdrawItemsParams;
   };
 };
@@ -46,6 +47,7 @@ export type WearablesWithdrawnTransaction = {
   createdAt: number;
   data: {
     wearables: Wardrobe;
+    mintedWearables: Wardrobe;
     params: WithdrawWearablesParams;
   };
 };

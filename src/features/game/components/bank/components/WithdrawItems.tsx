@@ -36,7 +36,7 @@ import { hasBoostRestriction } from "features/game/types/withdrawRestrictions";
 import { InfoPopover } from "features/island/common/InfoPopover";
 import { secondsToString } from "lib/utils/time";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
-import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
+import { MAX_MINT_AMOUNT } from "lib/blockchain/Withdrawals";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: string[]) => void;
@@ -87,7 +87,22 @@ export const WithdrawItems: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
 
-  const [inventory, setInventory] = useState<Inventory>(getBankItems(state));
+  // The contract mints up to MAX_MINT_AMOUNT per item per call, and the
+  // backend rejects any per-item amount above that — cap selectable counts
+  // here so the UI matches the on-chain limit. Players with more than the
+  // cap in storage can withdraw the rest in subsequent calls.
+  const capToMintLimit = (items: Inventory): Inventory =>
+    getKeys(items).reduce((acc, name) => {
+      const count = items[name] ?? new Decimal(0);
+      acc[name] = count.gt(MAX_MINT_AMOUNT)
+        ? new Decimal(MAX_MINT_AMOUNT)
+        : count;
+      return acc;
+    }, {} as Inventory);
+
+  const [inventory, setInventory] = useState<Inventory>(
+    capToMintLimit(getBankItems(state)),
+  );
   const [selected, setSelected] = useState<Inventory>({});
 
   const [showInfo, setShowInfo] = useState("");
@@ -120,15 +135,6 @@ export const WithdrawItems: React.FC<Props> = ({
     };
   };
 
-  const hasMoreOffChainItems = (itemName: InventoryItemName) => {
-    const inventoryCount = inventory[itemName] ?? new Decimal(0);
-    const currentAmount = getChestItems(state)[itemName] ?? new Decimal(0);
-    const onChainAmount = state.previousInventory[itemName] ?? new Decimal(0);
-
-    // No items available to select, but there are more off-chain items
-    return inventoryCount.lessThanOrEqualTo(0) && currentAmount > onChainAmount;
-  };
-
   const getRestrictionStatus = (itemName: BoostName) => {
     const { isRestricted, cooldownTimeLeft } = hasBoostRestriction({
       boostUsedAt: state.boostsUsedAt,
@@ -141,13 +147,11 @@ export const WithdrawItems: React.FC<Props> = ({
     (cache, itemName) => {
       const { cooldownTimeLeft } = getRestrictionStatus(itemName);
       const isOnCooldown = cooldownTimeLeft > 0;
-      const hasMoreOffChain = hasMoreOffChainItems(itemName);
       const hasBuff = !!COLLECTIBLE_BUFF_LABELS[itemName]?.(state)?.length;
 
       cache[itemName] = {
         cooldownMs: cooldownTimeLeft,
         isOnCooldown,
-        hasMoreOffChain,
         hasBuff,
       };
       return cache;
@@ -156,7 +160,6 @@ export const WithdrawItems: React.FC<Props> = ({
       [key in InventoryItemName]?: {
         cooldownMs: number;
         isOnCooldown: boolean;
-        hasMoreOffChain: boolean;
         hasBuff: boolean;
       };
     },
@@ -182,17 +185,12 @@ export const WithdrawItems: React.FC<Props> = ({
       return a.isOnCooldown ? -1 : 1;
     }
 
-    // 2. Items that have more off-chain than on-chain copies
-    if (a.hasMoreOffChain !== b.hasMoreOffChain) {
-      return a.hasMoreOffChain ? -1 : 1;
-    }
-
-    // 3. Boosted items come before non-boosted items
+    // 2. Boosted items come before non-boosted items
     if (a.hasBuff !== b.hasBuff) {
       return a.hasBuff ? -1 : 1;
     }
 
-    // 4. Otherwise, sort by item IDs
+    // 3. Otherwise, sort by item IDs
     return KNOWN_IDS[itemA] - KNOWN_IDS[itemB];
   };
 
@@ -201,10 +199,7 @@ export const WithdrawItems: React.FC<Props> = ({
       const withdrawAt = INVENTORY_RELEASES[itemName]?.withdrawAt;
       return !!withdrawAt && withdrawAt <= new Date(now);
     })
-    .filter(
-      (itemName) =>
-        hasMoreOffChainItems(itemName) || inventory[itemName]?.gt(0),
-    )
+    .filter((itemName) => inventory[itemName]?.gt(0))
     .sort((a, b) => sortWithdrawableItems(a, b) as number);
 
   const selectedItems = getKeys(selected)
@@ -250,11 +245,8 @@ export const WithdrawItems: React.FC<Props> = ({
             const isLocked =
               isRestricted || inventoryCount.lessThanOrEqualTo(0);
 
-            const shouldShowPopover =
-              isRestricted || hasMoreOffChainItems(itemName);
-
             const handleBoxClick = () => {
-              if (shouldShowPopover) {
+              if (isRestricted) {
                 setShowInfo((prev) => (prev === itemName ? "" : itemName));
               }
             };
@@ -269,16 +261,14 @@ export const WithdrawItems: React.FC<Props> = ({
                   className="absolute top-14 text-xxs sm:text-xs"
                   showPopover={showInfo === itemName}
                 >
-                  {hasMoreOffChainItems(itemName)
-                    ? t("withdraw.restricted")
-                    : isRestricted &&
-                      t("withdraw.boostedItem.timeLeft", {
-                        time: secondsToString(RestrictionCooldown, {
-                          length: "medium",
-                          isShortFormat: true,
-                          removeTrailingZeros: true,
-                        }),
-                      })}
+                  {isRestricted &&
+                    t("withdraw.boostedItem.timeLeft", {
+                      time: secondsToString(RestrictionCooldown, {
+                        length: "medium",
+                        isShortFormat: true,
+                        removeTrailingZeros: true,
+                      }),
+                    })}
                 </InfoPopover>
 
                 <Box
@@ -288,7 +278,7 @@ export const WithdrawItems: React.FC<Props> = ({
                   onClick={() => onAdd(itemName)}
                   image={details.image}
                   secondaryImage={
-                    shouldShowPopover ? SUNNYSIDE.icons.lock : undefined
+                    isRestricted ? SUNNYSIDE.icons.lock : undefined
                   }
                 />
               </div>

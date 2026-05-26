@@ -24,6 +24,11 @@ const WITHDRAW_FLOWER_ADDRESS: Record<number, `0x${string}`> = {
 };
 const petWithdrawAddress = CONFIG.WITHDRAW_PET_CONTRACT as `0x${string}`;
 
+// Per-item cap the backend enforces on a single withdraw call. Items above the
+// on-chain balance are minted on demand by the contract, but only up to this
+// amount per item per call.
+export const MAX_MINT_AMOUNT = 10;
+
 export type WithdrawItemsParams = {
   signature: string;
   sessionId: string;
@@ -33,6 +38,8 @@ export type WithdrawItemsParams = {
   deadline: number;
   ids: number[];
   amounts: string[];
+  mintIds: number[];
+  mintAmounts: string[];
 };
 
 export async function withdrawItemsTransaction({
@@ -81,6 +88,8 @@ export type WithdrawWearablesParams = {
   farmId: number;
   ids: number[];
   amounts: number[];
+  mintIds: number[];
+  mintAmounts: number[];
   sender: string;
   deadline: number;
 };

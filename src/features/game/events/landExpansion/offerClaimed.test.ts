@@ -307,6 +307,7 @@ describe("offer.claimed", () => {
             createdAt: Date.now(),
             data: {
               items: {},
+              mintedItems: {},
               params: {
                 signature: "123",
                 sessionId: "123",
@@ -316,6 +317,8 @@ describe("offer.claimed", () => {
                 deadline: 123,
                 ids: [],
                 amounts: [],
+                mintIds: [],
+                mintAmounts: [],
               },
             },
           },
