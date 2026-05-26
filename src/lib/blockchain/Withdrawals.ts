@@ -51,6 +51,8 @@ export async function withdrawItemsTransaction({
   farmId,
   ids,
   amounts,
+  mintIds,
+  mintAmounts,
 }: WithdrawItemsParams): Promise<string> {
   const oldSessionId = sessionId;
 
@@ -67,6 +69,8 @@ export async function withdrawItemsTransaction({
       BigInt(farmId),
       ids.map(BigInt),
       amounts.map(BigInt),
+      mintIds.map(BigInt),
+      mintAmounts.map(BigInt),
     ],
     account: sender as `0x${string}`,
   });
@@ -103,6 +107,8 @@ export async function withdrawWearablesTransaction({
   farmId,
   ids,
   amounts,
+  mintIds,
+  mintAmounts,
 }: WithdrawWearablesParams): Promise<string> {
   const oldSessionId = await getSessionId(farmId);
 
@@ -119,6 +125,8 @@ export async function withdrawWearablesTransaction({
       BigInt(farmId),
       ids.map(BigInt),
       amounts.map(BigInt),
+      mintIds.map(BigInt),
+      mintAmounts.map(BigInt),
     ],
     account: sender as `0x${string}`,
   });
