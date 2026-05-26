@@ -20,7 +20,7 @@ function formatSiteIndexTime(iso: string): string {
   });
 }
 
-const MAX_FILES = 200;
+const MAX_FILES = 300;
 
 /** Browser `file.type` is often empty; map common extensions when guessing. */
 const EXT_TO_MIME: Record<string, string> = {

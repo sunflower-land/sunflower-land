@@ -73,7 +73,9 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showItemInUseWarning, setShowItemInUseWarning] = useState(false);
   const [price, setPrice] = useState(0);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(
+    display.type === "economies" ? 1 : 0,
+  );
   /** Number of identical listings to create (1–20). Only for resources */
   const [multiple, setMultiple] = useState(1);
 
@@ -113,6 +115,9 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   const isResource =
     isTradeResource(display.name as InventoryItemName) &&
     display.type === "collectibles";
+
+  const isEconomyToken = display.type === "economies";
+  const ECONOMY_MAX_QUANTITY = 1000;
 
   const hasReputationOrDailyQuota = hasTradeReputation || dailyListings < 1;
 
@@ -344,6 +349,28 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
       ) : (
         <>
           <div className="flex flex-col p-2">
+            {isEconomyToken && (
+              <>
+                <Label type="default" className="mb-1">
+                  {t("marketplace.quantity")}
+                </Label>
+                <div className="my-2 -mx-2">
+                  <NumberInput
+                    value={quantity}
+                    onValueChange={(decimal) =>
+                      setQuantity(
+                        Math.min(
+                          ECONOMY_MAX_QUANTITY,
+                          Math.max(1, Math.floor(decimal.toNumber())),
+                        ),
+                      )
+                    }
+                    maxDecimalPlaces={0}
+                    isOutOfRange={quantity > available || quantity < 1}
+                  />
+                </div>
+              </>
+            )}
             <Label type="default" icon={sflIcon}>
               {t("bumpkinTrade.price")}
             </Label>
@@ -433,7 +460,11 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
           <div className="flex space-x-1">
             <Button onClick={onClose}>{t("close")}</Button>
             <Button
-              disabled={!price || accountTradedRecently}
+              disabled={
+                !price ||
+                accountTradedRecently ||
+                (isEconomyToken && (quantity < 1 || quantity > available))
+              }
               onClick={submitListing}
               className="relative"
             >

@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useMemo } from "react";
+import React, { useCallback, useContext, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
 import useSWR from "swr";
 import { useActor, useSelector } from "@xstate/react";
@@ -26,11 +26,8 @@ import {
   marketplaceEconomiesPageSwrKey,
 } from "features/marketplace/actions/loadEconomiesMarketplaceData";
 
-import { RewardsWidget } from "./components/RewardsWidget";
-import { CreateEconomyWidget } from "./components/CreateEconomyWidget";
 import { TopTradeablesWidget } from "./components/TopTradeablesWidget";
 import { MinigameList } from "./components/MinigameList";
-import { mapEconomyOfferToExchangeRow } from "./lib/mapEconomyOffers";
 
 const _state = (state: MachineState) => state.context.state;
 const _farmId = (state: MachineState) => Number(state.context.farmId);
@@ -97,21 +94,6 @@ export const EconomyHub: React.FC = () => {
   const items = tradeablesData?.items ?? [];
   const economies = economiesData?.economies ?? [];
 
-  const labelBySlug = useMemo(
-    () => Object.fromEntries(economies.map((e) => [e.slug, e.label])),
-    [economies],
-  );
-
-  const exchanges = useMemo(() => {
-    const offers = economiesData?.exchanges ?? [];
-    return offers.map((offer) =>
-      mapEconomyOfferToExchangeRow(
-        offer,
-        labelBySlug[offer.slug] ?? offer.slug,
-      ),
-    );
-  }, [economiesData?.exchanges, labelBySlug]);
-
   // When the player returns to the hub (e.g. after closing a minigame
   // iframe), force-refetch so counters and leaderboards reflect any
   // changes that happened while they were playing.
@@ -177,8 +159,6 @@ export const EconomyHub: React.FC = () => {
         {/* Body: skinny left column + wide right column. */}
         <div className="flex flex-col lg:flex-row gap-2 pb-4">
           <div className="w-full lg:w-1/5">
-            <RewardsWidget exchanges={exchanges} />
-            <CreateEconomyWidget />
             <TopTradeablesWidget items={items} isLoading={tradeablesLoading} />
           </div>
 
