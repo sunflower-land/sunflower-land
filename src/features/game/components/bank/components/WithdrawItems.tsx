@@ -18,7 +18,7 @@ import { toWei } from "web3-utils";
 import { wallet } from "lib/blockchain/wallet";
 
 import { getKeys } from "lib/object";
-import { getBankItems } from "features/goblins/storageHouse/lib/storageItems";
+import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { INVENTORY_RELEASES } from "features/game/types/withdrawables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -87,21 +87,22 @@ export const WithdrawItems: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
 
-  // The contract mints up to MAX_MINT_AMOUNT per item per call, and the
-  // backend rejects any per-item amount above that — cap selectable counts
-  // here so the UI matches the on-chain limit. Players with more than the
-  // cap in storage can withdraw the rest in subsequent calls.
-  const capToMintLimit = (items: Inventory): Inventory =>
+  // The backend allows withdrawing up to `previousInventory + MAX_MINT_AMOUNT`
+  // per item per call (items already on-chain pass through; up to
+  // MAX_MINT_AMOUNT extra are minted on demand). Cap selectable counts here
+  // so the UI matches that limit. Players with more off-chain than the
+  // minting cap can withdraw the rest in subsequent calls.
+  const capToWithdrawableLimit = (items: Inventory): Inventory =>
     getKeys(items).reduce((acc, name) => {
       const count = items[name] ?? new Decimal(0);
-      acc[name] = count.gt(MAX_MINT_AMOUNT)
-        ? new Decimal(MAX_MINT_AMOUNT)
-        : count;
+      const onChain = state.previousInventory[name] ?? new Decimal(0);
+      const ceiling = onChain.add(MAX_MINT_AMOUNT);
+      acc[name] = count.gt(ceiling) ? ceiling : count;
       return acc;
     }, {} as Inventory);
 
-  const [inventory, setInventory] = useState<Inventory>(
-    capToMintLimit(getBankItems(state)),
+  const [inventory, setInventory] = useState<Inventory>(() =>
+    capToWithdrawableLimit(getChestItems(state)),
   );
   const [selected, setSelected] = useState<Inventory>({});
 

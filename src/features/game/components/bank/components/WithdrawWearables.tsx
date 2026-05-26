@@ -48,20 +48,22 @@ export const WithdrawWearables: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
 
-  // The contract mints up to MAX_MINT_AMOUNT per item per call, and the
-  // backend rejects any per-item amount above that — cap selectable counts
-  // here so the UI matches the on-chain limit.
+  // The backend allows withdrawing up to `previousWardrobe + MAX_MINT_AMOUNT`
+  // per item per call (items already on-chain pass through; up to
+  // MAX_MINT_AMOUNT extra are minted on demand). Cap selectable counts here
+  // so the UI matches that limit.
   const getTrueAvailableWardrobe = () => {
     const available = availableWardrobe(state);
 
     return getKeys(available).reduce((acc, key) => {
       const currentAmount = available[key] ?? 0;
-      acc[key] = Math.min(currentAmount, MAX_MINT_AMOUNT);
+      const onChain = state.previousWardrobe[key] ?? 0;
+      acc[key] = Math.min(currentAmount, onChain + MAX_MINT_AMOUNT);
       return acc;
     }, {} as Wardrobe);
   };
 
-  const [wardrobe, setWardrobe] = useState<Wardrobe>(
+  const [wardrobe, setWardrobe] = useState<Wardrobe>(() =>
     getTrueAvailableWardrobe(),
   );
   const [selected, setSelected] = useState<Wardrobe>({});
