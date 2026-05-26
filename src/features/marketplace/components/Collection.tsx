@@ -714,7 +714,7 @@ export const Collection: React.FC<{
       )}
       {favoritesOnly && items.length === 0 ? (
         <div className="flex min-h-0 flex-1 flex-col items-center justify-center p-4 text-center">
-          <img src={bwHeart} className="mb-2 h-10" />
+          <img src={bwHeart} className="mb-2 h-10" alt="" />
           <p className="mb-1 text-sm">
             {favorites.length === 0
               ? t("marketplace.noFavorites")
