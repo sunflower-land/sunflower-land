@@ -182,9 +182,12 @@ export const PortalChooser: React.FC<{ onClose: () => void }> = ({
               className="shrink-0"
               style={{ width: "20px", height: "20px" }}
             />
-            <p className="text-xs flex-1 leading-tight">
-              {t("portal.economyMinigames.banner")}
-            </p>
+            <div className="flex-1">
+              <p className="text-xs leading-tight">
+                {t("portal.economyMinigames.banner")}
+              </p>
+              <p className="text-xs underline mt-0.5">{"View more"}</p>
+            </div>
           </ColorPanel>
         </div>
       </CloseButtonPanel>
