@@ -9016,5 +9016,7 @@
   "linkedAccounts.subtext.discordPartial": "Verify on server to unlock",
   "linkedAccounts.subtext.discordLinked": "Connected",
   "referral.package": "Referral Package",
-  "referral.starterPackage": "Refer your friends and they will receive the following starter package!"
+  "referral.starterPackage": "Refer your friends and they will receive the following starter package!",
+  "portal.economyMinigames.banner": "New player minigames have just launched! This is in beta mode",
+  "portal.economyMinigames.disclaimer": "These games are not maintained or supported by the SFL team - proceed at your own risk."
 }

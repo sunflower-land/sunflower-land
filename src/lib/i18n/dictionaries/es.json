@@ -9016,5 +9016,7 @@
   "linkedAccounts.subtext.discordPartial": "Verificar en el servidor para desbloquear",
   "linkedAccounts.subtext.discordLinked": "Conectado",
   "referral.package": "Paquete de recomendación",
-  "referral.starterPackage": "¡Invita a tus amigos y recibirán el siguiente paquete de inicio!"
+  "referral.starterPackage": "¡Invita a tus amigos y recibirán el siguiente paquete de inicio!",
+  "portal.economyMinigames.banner": "¡Acaban de lanzarse minijuegos para nuevos jugadores! ¡Esto está en modo beta",
+  "portal.economyMinigames.disclaimer": "El equipo de SFL no mantiene ni apoya estos juegos; proceda bajo su propio riesgo."
 }

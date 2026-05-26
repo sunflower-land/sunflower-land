@@ -9016,5 +9016,7 @@
   "linkedAccounts.subtext.discordPartial": "在服务器上验证解锁",
   "linkedAccounts.subtext.discordLinked": "已连接",
   "referral.package": "推荐套餐",
-  "referral.starterPackage": "推荐您的朋友，他们将获得以下新手包！"
+  "referral.starterPackage": "推荐您的朋友，他们将获得以下新手包！",
+  "portal.economyMinigames.banner": "新的玩家小游戏刚刚推出！这是测试模式",
+  "portal.economyMinigames.disclaimer": "这些游戏不由 SFL 团队维护或支持，风险自负。"
 }

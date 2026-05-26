@@ -9016,5 +9016,7 @@
   "linkedAccounts.subtext.discordPartial": "サーバー上で確認してロック解除",
   "linkedAccounts.subtext.discordLinked": "接続済み",
   "referral.package": "紹介パッケージ",
-  "referral.starterPackage": "友達を紹介すると、次のスターターパッケージが届きます！"
+  "referral.starterPackage": "友達を紹介すると、次のスターターパッケージが届きます！",
+  "portal.economyMinigames.banner": "新しいプレイヤーのミニゲームがリリースされました！これはベータモードです。",
+  "portal.economyMinigames.disclaimer": "これらのゲームはSFLチームによって管理またはサポートされていません。ご自身の責任で進めてください。"
 }

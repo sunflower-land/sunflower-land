@@ -9016,5 +9016,7 @@
   "linkedAccounts.subtext.discordPartial": "Kilidi açmak için sunucuda doğrulayın",
   "linkedAccounts.subtext.discordLinked": "Bağlı",
   "referral.package": "Tavsiye Paketi",
-  "referral.starterPackage": "Arkadaşlarınızı tavsiye edin ve aşağıdaki başlangıç paketini alacaklar!"
+  "referral.starterPackage": "Arkadaşlarınızı tavsiye edin ve aşağıdaki başlangıç paketini alacaklar!",
+  "portal.economyMinigames.banner": "Yeni oyuncu mini oyunları yeni piyasaya sürüldü! Bu beta modunda",
+  "portal.economyMinigames.disclaimer": "Bu oyunlar SFL ekibi tarafından sürdürülmez veya desteklenmez - devam edin kendi sorumluluğunuzdadır."
 }
