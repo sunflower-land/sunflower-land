@@ -147,7 +147,7 @@ export const WithdrawPets: React.FC<Props> = ({
     const aIsOnCooldown = aCooldownMs > 0;
     const bIsOnCooldown = bCooldownMs > 0;
 
-    // 1. Buds on cooldown come first
+    // 1. Pets on cooldown come first
     if (aIsOnCooldown && bIsOnCooldown) {
       // 2. Among those, sort by most cooldown time left
       return bCooldownMs - aCooldownMs;
