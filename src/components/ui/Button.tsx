@@ -14,6 +14,7 @@ interface Props {
   disabled?: boolean;
   className?: string;
   type?: "button" | "submit" | undefined;
+  "aria-label"?: string;
 
   // Word for primary or secondary
   variant?: "primary" | "secondary";
@@ -32,6 +33,7 @@ export const Button: React.FC<React.PropsWithChildren<Props>> = ({
   longPressInterval = 50,
   variant = "primary",
   contentAlign = "center",
+  "aria-label": ariaLabel,
 }) => {
   const longPressEvents = useLongPress(
     (e) =>
@@ -76,6 +78,7 @@ export const Button: React.FC<React.PropsWithChildren<Props>> = ({
           className,
           { "cursor-not-allowed": disabled },
         )}
+        aria-label={ariaLabel}
         type={type}
         disabled={disabled}
         style={{

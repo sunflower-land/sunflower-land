@@ -42,6 +42,7 @@ export const FavoriteToggle: React.FC<Props> = ({
           "h-8 rounded-none",
           showLabel ? "relative w-fit pr-5" : "w-8",
         )}
+        aria-label={!showLabel ? label : undefined}
         onClick={handleToggle}
       >
         <div className="flex items-center justify-center gap-1">
