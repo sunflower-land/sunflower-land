@@ -303,6 +303,16 @@ export const Filters: React.FC<{
       onClick: () => navigateTo({ path: "hot" }),
       isActive: pathname === `${baseUrl}/hot`,
     },
+    // Favorites
+    {
+      icon: SUNNYSIDE.icons.heart,
+      label: t("marketplace.favorites"),
+      onClick: () => {
+        setExpandedTraitGroups({});
+        navigateTo({ path: "favorites" });
+      },
+      isActive: pathname === `${baseUrl}/favorites`,
+    },
     // Power ups
     {
       icon: lightning,
@@ -374,7 +384,7 @@ export const Filters: React.FC<{
       : []),
     // Cosmetics
     {
-      icon: SUNNYSIDE.icons.heart,
+      icon: ITEM_DETAILS["Basic Bear"].image,
       label: t("marketplace.cosmetics"),
       onClick: () => {
         setExpandedTraitGroups({});

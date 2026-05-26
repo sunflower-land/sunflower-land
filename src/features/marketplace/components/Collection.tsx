@@ -14,6 +14,7 @@ import { FixedSizeGrid as Grid } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
+import { Tradeable } from "features/game/types/marketplace";
 import { InventoryItemName } from "features/game/types/game";
 import {
   PET_FETCHES,
@@ -50,6 +51,13 @@ import { useTranslation } from "react-i18next";
 import { Label } from "components/ui/Label";
 import { marketplaceMinigameItemPath } from "../lib/minigameTradePath";
 import { getBudBoostFilterLabels } from "../lib/budBoostFilters";
+import {
+  getMarketplaceFavoriteKey,
+  useMarketplaceFavorites,
+} from "../lib/marketplaceFavorites";
+import { Button } from "components/ui/Button";
+import { isTradeResource } from "features/game/actions/tradeLimits";
+import bwHeart from "assets/icons/bw_heart.png";
 
 const budTraitLabels = createTraitLabelLookup(BUD_TRAIT_GROUPS);
 const petTraitLabels = createTraitLabelLookup(PET_TRAIT_GROUPS);
@@ -98,21 +106,86 @@ export const preloadCollections = (token: string, showLimited: boolean) => {
 };
 
 const _state = (state: MachineState) => state.context.state;
+const _farmId = (state: MachineState) => state.context.farmId ?? 0;
+
+const getFavoriteCategoryRank = (
+  item: Tradeable,
+  display: TradeableDisplay,
+) => {
+  const isResourceFavorite =
+    item.collection === "collectibles" &&
+    (isTradeResource(display.name as InventoryItemName) ||
+      display.name === "CluckCoin");
+  const isPowerUpFavorite =
+    (item.collection === "collectibles" || item.collection === "wearables") &&
+    display.buffs.length > 0 &&
+    !isResourceFavorite;
+  const isCosmeticFavorite =
+    (item.collection === "collectibles" || item.collection === "wearables") &&
+    display.buffs.length === 0 &&
+    !isResourceFavorite;
+
+  if (isResourceFavorite) return 0;
+  if (item.expiresAt) return 1;
+  if (isPowerUpFavorite) return 2;
+  if (isCosmeticFavorite) return 3;
+  if (item.collection === "buds") return 4;
+  if (item.collection === "pets") return 5;
+
+  return 6;
+};
+
+const getTradeableKey = (item: Tradeable) =>
+  getMarketplaceFavoriteKey({
+    collection: item.collection,
+    id: item.id,
+    economy: item.collection === "economies" ? item.economy : undefined,
+  });
+
+const dedupeTradeables = (items: Tradeable[]) =>
+  Array.from(
+    items
+      .reduce<Map<string, Tradeable>>((uniqueItems, item) => {
+        const key = getTradeableKey(item);
+        const existing = uniqueItems.get(key);
+
+        uniqueItems.set(key, existing ? { ...existing, ...item } : item);
+
+        return uniqueItems;
+      }, new Map())
+      .values(),
+  );
 
 export const Collection: React.FC<{
   search?: string;
   hideLimited?: boolean;
   onNavigated?: () => void;
-}> = ({ search, hideLimited, onNavigated }) => {
+  favoritesOnly?: boolean;
+}> = ({ search, hideLimited, onNavigated, favoritesOnly = false }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
+  const farmId = useSelector(gameService, _farmId);
+  const { favoriteKeys, favorites } = useMarketplaceFavorites(farmId);
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
   const { t } = useTranslation();
   const isWorldRoute = useLocation().pathname.includes("/world");
   // Get query string params
-  const [queryParams, setSearchParams] = useSearchParams();
+  const [queryParams] = useSearchParams();
   let filters = queryParams.get("filters") ?? "";
+
+  if (favoritesOnly) {
+    filters = favorites.length
+      ? [
+          "resources",
+          "collectibles",
+          "wearables",
+          "buds",
+          "pets",
+          ...(!hideLimited ? ["temporary"] : []),
+        ].join(",")
+      : "";
+  }
 
   const chapterFilter = queryParams.get("chapter") ?? "";
   const chapterKey = toTraitValueId(chapterFilter);
@@ -214,14 +287,14 @@ export const Collection: React.FC<{
     collectionFetcher,
   );
   const data = {
-    items: [
+    items: dedupeTradeables([
       ...(resources?.items || []),
       ...(collectibles?.items || []),
       ...(wearables?.items || []),
       ...(buds?.items || []),
       ...(!hideLimited ? limited?.items || [] : []),
       ...(pets?.items || []),
-    ],
+    ]),
   };
 
   if (!filters.includes("resources")) {
@@ -364,6 +437,18 @@ export const Collection: React.FC<{
         type: item.collection,
         state,
       });
+
+      if (favoritesOnly) {
+        const key = getMarketplaceFavoriteKey({
+          collection: item.collection,
+          id: item.id,
+          economy: item.collection === "economies" ? item.economy : undefined,
+        });
+
+        if (!favoriteKeys.has(key)) {
+          return false;
+        }
+      }
 
       if (filters.includes("utility") && display.buffs.length === 0) {
         return false;
@@ -550,7 +635,41 @@ export const Collection: React.FC<{
       return matchesSearchCriteria(display, search ?? "");
     }) ?? [];
 
+  if (favoritesOnly) {
+    items.sort((a, b) => {
+      const aDisplay = getTradeableDisplay({
+        id: a.id,
+        type: a.collection,
+        state,
+        experience: a.collection === "pets" ? a.experience : undefined,
+        marketplaceItem: a,
+      });
+      const bDisplay = getTradeableDisplay({
+        id: b.id,
+        type: b.collection,
+        state,
+        experience: b.collection === "pets" ? b.experience : undefined,
+        marketplaceItem: b,
+      });
+      const rankDifference =
+        getFavoriteCategoryRank(a, aDisplay) -
+        getFavoriteCategoryRank(b, bDisplay);
+
+      if (rankDifference !== 0) return rankDifference;
+
+      const nameDifference = (aDisplay.translatedName ?? aDisplay.name)
+        .toLowerCase()
+        .localeCompare(
+          (bDisplay.translatedName ?? bDisplay.name).toLowerCase(),
+        );
+
+      return nameDifference || a.id - b.id;
+    });
+  }
+
   const getRowHeight = () => {
+    if (favoritesOnly) return 250;
+
     if (filters === "resources") return 150;
     if (filters.includes("buds") || filters.includes("pets")) return 250;
     return 180;
@@ -593,102 +712,128 @@ export const Collection: React.FC<{
           </div>
         </div>
       )}
-      <div className="h-full w-full flex-1">
-        <AutoSizer>
-          {({ height, width }) => {
-            const SCROLLBAR_WIDTH = 10;
+      {favoritesOnly && items.length === 0 ? (
+        <div className="flex min-h-0 flex-1 flex-col items-center justify-center p-4 text-center">
+          <img src={bwHeart} className="mb-2 h-10" />
+          <p className="mb-1 text-sm">
+            {favorites.length === 0
+              ? t("marketplace.noFavorites")
+              : t("marketplace.noFavoritesInCategories")}
+          </p>
+          <p className="mb-3 max-w-xs text-xs">
+            {favorites.length === 0
+              ? t("marketplace.noFavorites.description")
+              : t("marketplace.noFavoritesInCategories.description")}
+          </p>
+          {favorites.length === 0 && (
+            <Button
+              onClick={() =>
+                navigate(`${isWorldRoute ? "/world" : ""}/marketplace/hot`)
+              }
+            >
+              {t("marketplace.browseMarketplace")}
+            </Button>
+          )}
+        </div>
+      ) : (
+        <div className="min-h-0 w-full flex-1">
+          <AutoSizer>
+            {({ height, width }) => {
+              const SCROLLBAR_WIDTH = 10;
 
-            // Function to determine number of columns based on width
-            const getColumnCount = (width: number) => {
-              if (width >= 1280) return 7; // xl
-              if (width >= 1024) return 5; // lg
-              if (width >= 768) return 4; // md
-              if (width >= 640) return 3; // sm
-              return 2; // default
-            };
+              // Function to determine number of columns based on width
+              const getColumnCount = (width: number) => {
+                if (width >= 1280) return 7; // xl
+                if (width >= 1024) return 5; // lg
+                if (width >= 768) return 4; // md
+                if (width >= 640) return 3; // sm
+                return 2; // default
+              };
 
-            const columnCount = getColumnCount(width);
-            const rowCount = Math.ceil(items.length / columnCount);
-            const adjustedWidth = width - SCROLLBAR_WIDTH;
-            const columnWidth = adjustedWidth / columnCount;
+              const columnCount = getColumnCount(width);
+              const rowCount = Math.ceil(items.length / columnCount);
+              const adjustedWidth = width - SCROLLBAR_WIDTH;
+              const columnWidth = adjustedWidth / columnCount;
 
-            const Cell = ({
-              columnIndex,
-              rowIndex,
-              style,
-            }: {
-              columnIndex: number;
-              rowIndex: number;
-              style: React.CSSProperties;
-            }) => {
-              const itemIndex = rowIndex * columnCount + columnIndex;
-              const item = items[itemIndex];
+              const Cell = ({
+                columnIndex,
+                rowIndex,
+                style,
+              }: {
+                columnIndex: number;
+                rowIndex: number;
+                style: React.CSSProperties;
+              }) => {
+                const itemIndex = rowIndex * columnCount + columnIndex;
+                const item = items[itemIndex];
 
-              if (!item) return null;
+                if (!item) return null;
 
-              const display = getTradeableDisplay({
-                type: item.collection,
-                id: item.id,
-                state,
-                experience:
-                  item.collection === "pets" ? item.experience : undefined,
-                marketplaceItem: item,
-              });
+                const display = getTradeableDisplay({
+                  type: item.collection,
+                  id: item.id,
+                  state,
+                  experience:
+                    item.collection === "pets" ? item.experience : undefined,
+                  marketplaceItem: item,
+                });
 
-              const marketplaceBase = `${isWorldRoute ? "/world" : ""}/marketplace`;
-              const detailPath =
-                item.collection === "economies"
-                  ? marketplaceMinigameItemPath(
-                      marketplaceBase,
-                      item.economy,
-                      item.id,
-                    )
-                  : `${marketplaceBase}/${item.collection}/${item.id}`;
+                const marketplaceBase = `${isWorldRoute ? "/world" : ""}/marketplace`;
+                const detailPath =
+                  item.collection === "economies"
+                    ? marketplaceMinigameItemPath(
+                        marketplaceBase,
+                        item.economy,
+                        item.id,
+                      )
+                    : `${marketplaceBase}/${item.collection}/${item.id}`;
 
-              const rowKey = String(item.id);
+                const rowKey = String(item.id);
+
+                return (
+                  <div key={rowKey} style={style} className="pr-1 pb-1">
+                    <ListViewCard
+                      details={display}
+                      price={new Decimal(item.floor)}
+                      lastSalePrice={new Decimal(item.lastSalePrice)}
+                      onClick={() => {
+                        const scrollPosition =
+                          gridRef.current?._outerRef.scrollTop;
+                        navigate(detailPath, {
+                          state: {
+                            scrollPosition,
+                            route: backRoute,
+                          },
+                        });
+                        onNavigated?.();
+                      }}
+                      expiresAt={item.expiresAt}
+                      variant={favoritesOnly ? "favorites" : "default"}
+                    />
+                  </div>
+                );
+              };
 
               return (
-                <div key={rowKey} style={style} className="pr-1 pb-1">
-                  <ListViewCard
-                    details={display}
-                    price={new Decimal(item.floor)}
-                    lastSalePrice={new Decimal(item.lastSalePrice)}
-                    onClick={() => {
-                      const scrollPosition =
-                        gridRef.current?._outerRef.scrollTop;
-                      navigate(detailPath, {
-                        state: {
-                          scrollPosition,
-                          route: backRoute,
-                        },
-                      });
-                      onNavigated?.();
-                    }}
-                    expiresAt={item.expiresAt}
-                  />
-                </div>
+                <Grid
+                  ref={gridRef}
+                  columnCount={columnCount}
+                  columnWidth={columnWidth}
+                  height={height}
+                  rowCount={rowCount}
+                  rowHeight={getRowHeight()}
+                  width={width}
+                  className="scrollable"
+                  initialScrollTop={savedScrollPosition}
+                  itemData={{ width }}
+                >
+                  {Cell}
+                </Grid>
               );
-            };
-
-            return (
-              <Grid
-                ref={gridRef}
-                columnCount={columnCount}
-                columnWidth={columnWidth}
-                height={height}
-                rowCount={rowCount}
-                rowHeight={getRowHeight()}
-                width={width}
-                className="scrollable"
-                initialScrollTop={savedScrollPosition}
-                itemData={{ width }}
-              >
-                {Cell}
-              </Grid>
-            );
-          }}
-        </AutoSizer>
-      </div>
+            }}
+          </AutoSizer>
+        </div>
+      )}
     </InnerPanel>
   );
 };

@@ -51,6 +51,7 @@ import {
   showsMinigameCurrencyDisclaimer,
 } from "./MinigameCurrencyDisclaimerPanel";
 import { MINIGAME_TOKEN_IMAGE_FALLBACK } from "features/minigame/lib/minigameTokenIcons";
+import { FavoriteToggle } from "./FavoriteToggle";
 
 const formatDate = (date: Date) => {
   return date.toLocaleDateString("en-US", {
@@ -115,7 +116,9 @@ export const getNFTTraits = (
 export const TradeableImage: React.FC<{
   display: TradeableDisplay;
   supply?: number;
-}> = ({ display, supply }) => {
+  isFavorite?: boolean;
+  onToggleFavorite?: () => void;
+}> = ({ display, supply, isFavorite = false, onToggleFavorite }) => {
   const { t } = useAppTranslation();
   const params = useParams();
   const isTradeResourceItem = isTradeResource(
@@ -166,7 +169,6 @@ export const TradeableImage: React.FC<{
           <Label type="default">{t("marketplace.supply", { supply })}</Label>
         ) : null}
       </div>
-
       <img
         src={showFullImage ? imageSrc : background}
         className="w-full rounded-sm"
@@ -206,6 +208,14 @@ export const TradeableImage: React.FC<{
               }
             }
           }}
+        />
+      )}
+      {onToggleFavorite && (
+        <FavoriteToggle
+          isFavorite={isFavorite}
+          onToggle={onToggleFavorite}
+          showLabel
+          className="absolute bottom-2 left-2 z-10"
         />
       )}
     </InnerPanel>
@@ -411,10 +421,17 @@ export const TradeableInfo: React.FC<{
   display: TradeableDisplay;
   tradeable?: TradeableDetails;
   hideLimited?: boolean;
-}> = ({ display, tradeable, hideLimited }) => {
+  isFavorite?: boolean;
+  onToggleFavorite?: () => void;
+}> = ({ display, tradeable, hideLimited, isFavorite, onToggleFavorite }) => {
   return (
     <>
-      <TradeableImage display={display} supply={tradeable?.supply} />
+      <TradeableImage
+        display={display}
+        supply={tradeable?.supply}
+        isFavorite={isFavorite}
+        onToggleFavorite={onToggleFavorite}
+      />
       <TradeableDescription
         display={display}
         tradeable={tradeable}
@@ -430,12 +447,19 @@ export const TradeableMobileInfo: React.FC<{
   display: TradeableDisplay;
   tradeable?: TradeableDetails;
   hideLimited?: boolean;
-}> = ({ display, tradeable, hideLimited }) => {
+  isFavorite?: boolean;
+  onToggleFavorite?: () => void;
+}> = ({ display, tradeable, hideLimited, isFavorite, onToggleFavorite }) => {
   const marketPrice = getMarketPrice({ tradeable });
   return (
     <>
       <div className="flex justify-between gap-1 items-center">
-        <TradeableImage display={display} supply={tradeable?.supply} />
+        <TradeableImage
+          display={display}
+          supply={tradeable?.supply}
+          isFavorite={isFavorite}
+          onToggleFavorite={onToggleFavorite}
+        />
         <TradeableStats
           history={tradeable?.history}
           marketPrice={marketPrice}

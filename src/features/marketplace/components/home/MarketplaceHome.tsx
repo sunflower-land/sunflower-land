@@ -220,6 +220,10 @@ export const MarketplaceNavigation: React.FC = () => {
               <Route path="/profile" element={<MarketplaceProfile />} />
               <Route path="/hot" element={<MarketplaceHotNow />} />
               <Route
+                path="/favorites"
+                element={<Collection hideLimited={hideLimited} favoritesOnly />}
+              />
+              <Route
                 path="/economies/:economy/:id"
                 element={<Tradeable hideLimited={hideLimited} />}
               />
