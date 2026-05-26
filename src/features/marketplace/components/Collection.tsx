@@ -47,7 +47,7 @@ import {
   createTraitLabelLookup,
   PET_TRAIT_GROUPS,
 } from "../lib/traitOptions";
-import { useTranslation } from "react-i18next";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { marketplaceMinigameItemPath } from "../lib/minigameTradePath";
 import { getBudBoostFilterLabels } from "../lib/budBoostFilters";
@@ -168,7 +168,7 @@ export const Collection: React.FC<{
   const { favoriteKeys, favorites } = useMarketplaceFavorites(farmId);
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
-  const { t } = useTranslation();
+  const { t } = useAppTranslation();
   const isWorldRoute = useLocation().pathname.includes("/world");
   // Get query string params
   const [queryParams] = useSearchParams();
