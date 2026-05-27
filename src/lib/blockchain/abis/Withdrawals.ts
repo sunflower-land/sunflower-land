@@ -12,19 +12,8 @@ export default [
         type: "address",
       },
       {
-        internalType: "contract SunflowerLandToken",
-        name: "_token",
-        type: "address",
-      },
-      {
         internalType: "contract SunflowerLand",
         name: "_farm",
-        type: "address",
-      },
-      { internalType: "contract Bumpkin", name: "_bumpkin", type: "address" },
-      {
-        internalType: "contract BumpkinDetails",
-        name: "_bumpkinDetails",
         type: "address",
       },
       {
@@ -33,10 +22,8 @@ export default [
         type: "address",
       },
       { internalType: "contract Buds", name: "_buds", type: "address" },
-      { internalType: "address", name: "_wishingWell", type: "address" },
-      { internalType: "address", name: "_withdrawFeeWallet", type: "address" },
-      { internalType: "address", name: "_communityTreasury", type: "address" },
       { internalType: "address", name: "_signer", type: "address" },
+      { internalType: "uint256", name: "_mintLimit", type: "uint256" },
     ],
     stateMutability: "nonpayable",
     type: "constructor",
@@ -71,22 +58,6 @@ export default [
     inputs: [],
     name: "buds",
     outputs: [{ internalType: "contract Buds", name: "", type: "address" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "bumpkin",
-    outputs: [{ internalType: "contract Bumpkin", name: "", type: "address" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "bumpkinDetails",
-    outputs: [
-      { internalType: "contract BumpkinDetails", name: "", type: "address" },
-    ],
     stateMutability: "view",
     type: "function",
   },
@@ -144,13 +115,6 @@ export default [
     type: "function",
   },
   {
-    inputs: [{ internalType: "uint256[]", name: "_ids", type: "uint256[]" }],
-    name: "getResourceTaxes",
-    outputs: [{ internalType: "uint256[]", name: "", type: "uint256[]" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [],
     name: "inventory",
     outputs: [
@@ -160,6 +124,13 @@ export default [
         type: "address",
       },
     ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "mintLimit",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
@@ -185,34 +156,8 @@ export default [
     type: "function",
   },
   {
-    inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    name: "resourceTax",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "address", name: "_communityTreasury", type: "address" },
-    ],
-    name: "setCommunityTreasuy",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "bool", name: "_liquify", type: "bool" }],
-    name: "setLiquify",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "uint256[]", name: "_ids", type: "uint256[]" },
-      { internalType: "uint256[]", name: "_amounts", type: "uint256[]" },
-    ],
-    name: "setResourceTaxes",
+    inputs: [{ internalType: "uint256", name: "_mintLimit", type: "uint256" }],
+    name: "setMintLimit",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -231,35 +176,6 @@ export default [
     type: "function",
   },
   {
-    inputs: [{ internalType: "uint256", name: "_minimum", type: "uint256" }],
-    name: "setTeamWithrawalMinimum",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "address", name: "_wishingWell", type: "address" },
-    ],
-    name: "setWishingWell",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "token",
-    outputs: [
-      {
-        internalType: "contract SunflowerLandToken",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
     name: "transferOwnership",
     outputs: [],
@@ -274,26 +190,6 @@ export default [
     type: "function",
   },
   {
-    inputs: [{ internalType: "address", name: "_team", type: "address" }],
-    name: "transferWithdrawFeeWallet",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "uniswapV2Router",
-    outputs: [
-      {
-        internalType: "contract IUniswapV2Router02",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       { internalType: "bytes", name: "signature", type: "bytes" },
       { internalType: "bytes32", name: "sessionId", type: "bytes32" },
@@ -303,23 +199,6 @@ export default [
       { internalType: "uint256[]", name: "budIds", type: "uint256[]" },
     ],
     name: "withdrawBuds",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "bytes", name: "signature", type: "bytes" },
-      { internalType: "bytes32", name: "sessionId", type: "bytes32" },
-      { internalType: "bytes32", name: "nextSessionId", type: "bytes32" },
-      { internalType: "uint256", name: "deadline", type: "uint256" },
-      { internalType: "uint256", name: "farmId", type: "uint256" },
-      { internalType: "uint256", name: "bumpkinId", type: "uint256" },
-      { internalType: "uint256[]", name: "wearableIds", type: "uint256[]" },
-      { internalType: "uint256[]", name: "wearableAmounts", type: "uint256[]" },
-      { internalType: "string", name: "tokenUri", type: "string" },
-    ],
-    name: "withdrawBumpkin",
     outputs: [{ internalType: "bool", name: "", type: "bool" }],
     stateMutability: "nonpayable",
     type: "function",
