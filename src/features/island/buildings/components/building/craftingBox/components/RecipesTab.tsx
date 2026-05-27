@@ -56,6 +56,13 @@ type DiscoveredRecipeSection = {
   recipes: Recipe[];
 };
 
+const DISCOVERED_RECIPE_SECTION_ORDER: DiscoveredRecipeSectionId[] = [
+  "instant",
+  "dolls",
+  "beds",
+  "other",
+];
+
 const getDiscoveredRecipeSectionId = (
   recipe: Recipe,
 ): DiscoveredRecipeSectionId => {
@@ -75,24 +82,38 @@ const getDiscoveredRecipeSectionLabel = (
   return undefined;
 };
 
-const getDiscoveredRecipeSections = (recipes: Recipe[]) =>
-  recipes.reduce<DiscoveredRecipeSection[]>((sections, recipe) => {
-    const sectionId = getDiscoveredRecipeSectionId(recipe);
-    const section = sections.find(({ id }) => id === sectionId);
+const getDiscoveredRecipeSections = (recipes: Recipe[]) => {
+  const sections = recipes.reduce<DiscoveredRecipeSection[]>(
+    (sections, recipe) => {
+      const sectionId = getDiscoveredRecipeSectionId(recipe);
+      const section = sections.find(({ id }) => id === sectionId);
 
-    if (section) {
-      section.recipes.push(recipe);
+      if (section) {
+        section.recipes.push(recipe);
+        return sections;
+      }
+
+      sections.push({
+        id: sectionId,
+        label: getDiscoveredRecipeSectionLabel(sectionId),
+        recipes: [recipe],
+      });
+
       return sections;
-    }
+    },
+    [],
+  );
 
-    sections.push({
-      id: sectionId,
-      label: getDiscoveredRecipeSectionLabel(sectionId),
-      recipes: [recipe],
-    });
+  return sections.sort((a, b) => {
+    const aIndex = DISCOVERED_RECIPE_SECTION_ORDER.indexOf(a.id);
+    const bIndex = DISCOVERED_RECIPE_SECTION_ORDER.indexOf(b.id);
 
-    return sections;
-  }, []);
+    return (
+      (aIndex === -1 ? Number.MAX_SAFE_INTEGER : aIndex) -
+      (bIndex === -1 ? Number.MAX_SAFE_INTEGER : bIndex)
+    );
+  });
+};
 
 interface Props {
   handleSetupRecipe: (recipe: Recipe, targetSlot?: number) => void;
