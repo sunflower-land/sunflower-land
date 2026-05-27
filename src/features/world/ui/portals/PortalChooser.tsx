@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { ButtonPanel, ColorPanel, Panel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
@@ -17,8 +17,6 @@ import { translate } from "lib/i18n/translate";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { MineWhack } from "./MineWhack";
 import { Memory } from "./Memory";
-import { Context as GameContext } from "features/game/GameProvider";
-import { hasFeatureAccess } from "lib/flags";
 import { ChaacsTemple } from "./ChaacsTemple";
 
 const host = window.location.host.replace(/^www\./, "");
@@ -86,6 +84,13 @@ export const PORTAL_OPTIONS: PortalOption[] = [
     description: translate("portal.memory.description"),
     component: Memory,
   },
+  {
+    id: "chaacs-temple",
+    npc: "chaac",
+    title: translate("portal.chaacsTemple.title"),
+    description: translate("portal.chaacsTemple.description"),
+    component: ChaacsTemple,
+  },
 ];
 
 export const PortalChooser: React.FC<{ onClose: () => void }> = ({
@@ -96,23 +101,6 @@ export const PortalChooser: React.FC<{ onClose: () => void }> = ({
   const [selectedGame, setSelectedGame] = useState<MinigameName>();
   const [showIntro, setShowIntro] = useState(!hasReadIntro());
   const [showEconomyConfirm, setShowEconomyConfirm] = useState(false);
-  const { gameService } = useContext(GameContext);
-
-  if (
-    hasFeatureAccess(
-      gameService.getSnapshot().context.state,
-      "CHAACS_TEMPLE_BETA",
-    ) &&
-    PORTAL_OPTIONS.find((portal) => portal.id === "chaacs-temple") == undefined
-  ) {
-    PORTAL_OPTIONS.push({
-      id: "chaacs-temple",
-      npc: "chaac",
-      title: translate("portal.chaacsTemple.title"),
-      description: translate("portal.chaacsTemple.description"),
-      component: ChaacsTemple,
-    });
-  }
 
   if (showIntro) {
     return (
