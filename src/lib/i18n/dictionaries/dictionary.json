@@ -4417,6 +4417,7 @@
   "withdraw.flower.limited": "During the initial launch of $FLOWER, the amount of $FLOWER you can withdraw is limited.",
   "withdraw.flower.minimumWithdrawal": "Minimum withdrawal amount is 5 FLOWER.",
   "withdraw.boostedItem.timeLeft": "Withdrawable in {{time}}",
+  "withdraw.requires.storeOnChain": "Store on Chain Required",
   "withdraw.restricted": "Withdrawal restricted",
   "withdraw.pet.notRevealed": "Pet will be revealed on {{date}}",
   "withdraw.pet.withdrawableFrom": "Withdrawable from {{date}}",

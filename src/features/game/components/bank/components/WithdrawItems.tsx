@@ -304,7 +304,7 @@ export const WithdrawItems: React.FC<Props> = ({
                   showPopover={showInfo === itemName}
                 >
                   {hasMoreOffChainItems(itemName)
-                    ? t("withdraw.notOnChain")
+                    ? t("withdraw.requires.storeOnChain")
                     : isRestricted &&
                       t("withdraw.boostedItem.timeLeft", {
                         time: secondsToString(RestrictionCooldown, {
