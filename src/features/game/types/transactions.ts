@@ -53,11 +53,7 @@ export type WearablesWithdrawnTransaction = {
   };
 };
 
-/**
- * @deprecated Kept live behind the `MINT_ON_DEMAND_WITHDRAWS` flag so non-beta
- * players can still sync items on-chain while the new mint-on-demand withdraw
- * flow is in beta. Will be removed once the new flow ships to all players.
- */
+/** @deprecated Gated behind `MINT_ON_DEMAND_WITHDRAWS`. Remove once flag flips. */
 export type ProgressSyncedTransaction = {
   event: "transaction.progressSynced";
   createdAt: number;
@@ -187,9 +183,7 @@ export const ONCHAIN_TRANSACTIONS: TransactionHandler = {
     withdrawWearablesTransaction(data.params),
   "transaction.flowerWithdrawn": (data) =>
     withdrawFlowerTransaction(data.params),
-  // @deprecated kept live behind the `MINT_ON_DEMAND_WITHDRAWS` flag so
-  // non-beta players can still sync items on-chain while the new
-  // mint-on-demand withdraw flow is in beta.
+  // @deprecated Gated behind `MINT_ON_DEMAND_WITHDRAWS`. Remove once flag flips.
   "transaction.progressSynced": (data) => syncProgress(data.params),
 };
 
@@ -210,8 +204,6 @@ export const TRANSACTION_SIGNATURES: TransactionRequest = {
   "transaction.itemsWithdrawn": postEffect,
   "transaction.wearablesWithdrawn": postEffect,
   "transaction.flowerWithdrawn": postEffect,
-  // @deprecated kept live behind the `MINT_ON_DEMAND_WITHDRAWS` flag so
-  // non-beta players can still sync items on-chain while the new
-  // mint-on-demand withdraw flow is in beta.
+  // @deprecated Gated behind `MINT_ON_DEMAND_WITHDRAWS`. Remove once flag flips.
   "transaction.progressSynced": sync,
 };

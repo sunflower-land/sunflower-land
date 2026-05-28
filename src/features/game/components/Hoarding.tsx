@@ -14,6 +14,7 @@ import type { BumpkinItem } from "../types/bumpkin";
 import { isCollectible } from "../events/landExpansion/garbageSold";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 
+/** @deprecated Gated behind `MINT_ON_DEMAND_WITHDRAWS`. Remove once flag flips. */
 export const Hoarding: React.FC = () => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);

@@ -10,6 +10,7 @@ import { KNOWN_ITEMS } from "features/game/types";
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { hasMaxItems } from "features/game/lib/processEvent";
+import { hasFeatureAccess } from "lib/flags";
 import Decimal from "decimal.js-light";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
@@ -64,12 +65,17 @@ export const BulkPurchaseModalContent: React.FC<
     ).add(quantity),
   };
 
-  const hasMax = hasMaxItems({
-    currentInventory: updatedInventory,
-    oldInventory: previousInventory,
-    currentWardrobe: wardrobe,
-    oldWardrobe: previousWardrobe,
-  });
+  // @deprecated: hoard caps gated behind `MINT_ON_DEMAND_WITHDRAWS`. Beta
+  // players skip the legacy "Store on Chain" warning — the new mint-on-demand
+  // withdraw flow handles excess.
+  const hasMax =
+    !hasFeatureAccess(state, "MINT_ON_DEMAND_WITHDRAWS") &&
+    hasMaxItems({
+      currentInventory: updatedInventory,
+      oldInventory: previousInventory,
+      currentWardrobe: wardrobe,
+      oldWardrobe: previousWardrobe,
+    });
 
   const confirm = async () => {
     gameService.send("marketplace.buyBulkResources", {

@@ -9,11 +9,7 @@ import { polygonAmoy } from "viem/chains";
 
 const address = CONFIG.GAME_CONTRACT;
 
-/**
- * @deprecated Kept live behind the `MINT_ON_DEMAND_WITHDRAWS` flag so non-beta
- * players can still sync items on-chain while the new mint-on-demand withdraw
- * flow is in beta. Will be removed once the new flow ships to all players.
- */
+/** @deprecated Gated behind `MINT_ON_DEMAND_WITHDRAWS`. Remove once flag flips. */
 export type SyncProgressParams = {
   signature: string;
   sessionId: string;
@@ -35,10 +31,7 @@ export type SyncProgressParams = {
   };
 };
 
-/**
- * @deprecated See {@link SyncProgressParams}. Will be removed once the
- * mint-on-demand withdraw flow ships to all players.
- */
+/** @deprecated See {@link SyncProgressParams}. */
 export async function syncProgress({
   sender,
   signature,

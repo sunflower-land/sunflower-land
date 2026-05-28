@@ -4401,6 +4401,8 @@
   "withdraw.taxFree": "Goblins tax you on FLOWER earned in-game. This excludes deposits & the marketplace.",
   "withdraw.select.item": "Select items to withdraw",
   "withdraw.opensea": "Once withdrawn, you will be able to view your items on OpenSea.",
+  "withdraw.sync": "You can only withdraw items that you have synced to the blockchain.",
+  "withdraw.notOnChain": "This item isn't on-chain yet. On-demand withdraw is coming soon.",
   "withdraw.restricted.description": "Some items cannot be withdrawn. Other items may be restricted when in use or still being built.",
   "accountRecentlyTraded.title": "Account recently traded",
   "accountRecentlyTraded.description": "This account was traded within the last 90 days. Withdrawals, selling items and accepting offers are temporarily disabled. You can still buy items and make offers.",

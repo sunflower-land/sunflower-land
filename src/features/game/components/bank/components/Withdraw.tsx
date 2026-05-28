@@ -19,6 +19,7 @@ import {
   type MachineState,
 } from "features/game/lib/gameMachine";
 import { translate } from "lib/i18n/translate";
+import { hasFeatureAccess } from "lib/flags";
 import { Transaction } from "features/island/hud/Transaction";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { GameWallet } from "features/wallet/Wallet";
@@ -78,9 +79,19 @@ type Page =
   | "verify"
   | "pets";
 
-const MainMenu: React.FC<{ setPage: (page: Page) => void }> = ({ setPage }) => {
+const MainMenu: React.FC<{
+  setPage: (page: Page) => void;
+  showSyncWarning: boolean;
+}> = ({ setPage, showSyncWarning }) => {
   return (
     <div className="flex flex-col justify-center space-y-1">
+      {/* @deprecated: gated behind `MINT_ON_DEMAND_WITHDRAWS`. Beta players
+          don't see this warning — the new mint-on-demand withdraw flow makes
+          syncing redundant. */}
+      {showSyncWarning && (
+        <span className="p-2 mb-1">{translate("withdraw.sync")}</span>
+      )}
+
       <div className="flex space-x-1">
         <Button onClick={() => setPage("tokens")}>
           <div className="flex items-center">
@@ -158,10 +169,15 @@ interface Props {
 }
 
 const _farmId = (state: MachineState) => state.context.farmId;
+const _state = (state: MachineState) => state.context.state;
 
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const farmId = useSelector(gameService, _farmId);
+  const state = useSelector(gameService, _state);
+  // @deprecated: gated behind `MINT_ON_DEMAND_WITHDRAWS`. Beta players skip
+  // the legacy sync warning — the new mint-on-demand flow makes sync redundant.
+  const showSyncWarning = !hasFeatureAccess(state, "MINT_ON_DEMAND_WITHDRAWS");
 
   const accountTradedRecently = useSelector(gameService, (s) =>
     isAccountTradedWithin90Days(s.context),
@@ -236,7 +252,9 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
 
   return (
     <>
-      {page === "main" && <MainMenu setPage={setPage} />}
+      {page === "main" && (
+        <MainMenu setPage={setPage} showSyncWarning={showSyncWarning} />
+      )}
       {page !== "main" && <NavigationMenu page={page} setPage={setPage} />}
       {page === "tokens" && (
         <GameWallet action="withdrawFlower">

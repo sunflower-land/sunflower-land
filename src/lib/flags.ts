@@ -150,6 +150,16 @@ const FEATURE_FLAGS = {
    */
   HOME_EXPANSIONS: betaFeatureFlag,
 
+  /**
+   * Gates the mint-on-demand withdraw flow. Beta-pass / testnet players see
+   * the full off-chain inventory in the withdraw modal and can withdraw items
+   * that aren't yet on-chain (the contract mints them up to `MAX_MINT_AMOUNT`
+   * per item per call). Non-beta players see the pre-mint behaviour: only
+   * items already in `previousInventory` are selectable; off-chain items
+   * appear locked with a "not on-chain yet" popover.
+   */
+  MINT_ON_DEMAND_WITHDRAWS: betaFeatureFlag,
+
   BOOSTS_DISPLAY: betaFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 

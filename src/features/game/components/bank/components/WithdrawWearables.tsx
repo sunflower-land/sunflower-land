@@ -31,6 +31,7 @@ import { secondsToString } from "lib/utils/time";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { useNow } from "lib/utils/hooks/useNow";
 import { MAX_MINT_AMOUNT } from "lib/blockchain/Withdrawals";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: number[]) => void;
@@ -48,17 +49,24 @@ export const WithdrawWearables: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
 
-  // The backend allows withdrawing up to `previousWardrobe + MAX_MINT_AMOUNT`
-  // per item per call (items already on-chain pass through; up to
-  // MAX_MINT_AMOUNT extra are minted on demand). Cap selectable counts here
-  // so the UI matches that limit.
+  // Beta-only gate. When on, the backend mints any shortfall up to
+  // `MAX_MINT_AMOUNT` per item per call, so the UI shows the full wardrobe
+  // capped at `previousWardrobe + MAX_MINT_AMOUNT`. When off, the UI is
+  // clamped to items already on-chain; off-chain stock surfaces as a
+  // locked, popover-explained row.
+  const hasMintOnDemand = hasFeatureAccess(state, "MINT_ON_DEMAND_WITHDRAWS");
+
+  // Beta: cap at `previousWardrobe + MAX_MINT_AMOUNT` (matches BE mint cap).
+  // Non-beta: clamp to what's already on-chain.
   const getTrueAvailableWardrobe = () => {
     const available = availableWardrobe(state);
 
     return getKeys(available).reduce((acc, key) => {
       const currentAmount = available[key] ?? 0;
       const onChain = state.previousWardrobe[key] ?? 0;
-      acc[key] = Math.min(currentAmount, onChain + MAX_MINT_AMOUNT);
+      acc[key] = hasMintOnDemand
+        ? Math.min(currentAmount, onChain + MAX_MINT_AMOUNT)
+        : Math.min(currentAmount, onChain);
       return acc;
     }, {} as Wardrobe);
   };
@@ -116,16 +124,33 @@ export const WithdrawWearables: React.FC<Props> = ({
     return { isRestricted, cooldownTimeLeft };
   };
 
+  // Beta-flag-off only: surface wearables the player has off-chain but no
+  // on-chain backing for, so the row appears locked with a popover
+  // explaining that on-demand withdraw is coming soon. Collapses to
+  // `false` for beta because the inventory source already includes
+  // off-chain items.
+  const hasMoreOffChainItems = (itemName: BumpkinItem) => {
+    if (hasMintOnDemand) return false;
+
+    const wardrobeCount = wardrobe[itemName] ?? 0;
+    const currentAmount = availableWardrobe(state)[itemName] ?? 0;
+    const onChainAmount = state.previousWardrobe[itemName] ?? 0;
+
+    return wardrobeCount <= 0 && currentAmount > onChainAmount;
+  };
+
   // Precompute/cached values for sorting to avoid repeated expensive calls
   const withdrawableItemCache = getKeys(wardrobe).reduce(
     (cache, itemName) => {
       const { cooldownTimeLeft } = getRestrictionStatus(itemName);
       const isOnCooldown = cooldownTimeLeft > 0;
+      const hasMoreOffChain = hasMoreOffChainItems(itemName);
       const hasBuff = !!BUMPKIN_ITEM_BUFF_LABELS[itemName]?.length;
 
       cache[itemName] = {
         cooldownMs: cooldownTimeLeft,
         isOnCooldown,
+        hasMoreOffChain,
         hasBuff,
       };
 
@@ -135,6 +160,7 @@ export const WithdrawWearables: React.FC<Props> = ({
       [key in BumpkinItem]?: {
         cooldownMs: number;
         isOnCooldown: boolean;
+        hasMoreOffChain: boolean;
         hasBuff: boolean;
       };
     },
@@ -157,12 +183,18 @@ export const WithdrawWearables: React.FC<Props> = ({
       return a.isOnCooldown ? -1 : 1;
     }
 
-    // 2. Boosted items come before non-boosted items
+    // 2. Items that have more off-chain than on-chain copies (only set when
+    //    the mint-on-demand flag is off; collapses to no-op for beta).
+    if (a.hasMoreOffChain !== b.hasMoreOffChain) {
+      return a.hasMoreOffChain ? -1 : 1;
+    }
+
+    // 3. Boosted items come before non-boosted items
     if (a.hasBuff !== b.hasBuff) {
       return a.hasBuff ? -1 : 1;
     }
 
-    // 3. Otherwise, sort by item IDs
+    // 4. Otherwise, sort by item IDs
     return ITEM_IDS[itemA] - ITEM_IDS[itemB];
   };
 
@@ -172,7 +204,10 @@ export const WithdrawWearables: React.FC<Props> = ({
       const canWithdraw = !!withdrawAt && withdrawAt <= new Date(now);
       return canWithdraw;
     })
-    .filter((itemName) => (wardrobe[itemName] ?? 0) > 0)
+    .filter(
+      (itemName) =>
+        hasMoreOffChainItems(itemName) || (wardrobe[itemName] ?? 0) > 0,
+    )
     .sort((a, b) => sortWithdrawableItems(a, b));
 
   const selectedItems = getKeys(selected)
@@ -214,8 +249,11 @@ export const WithdrawWearables: React.FC<Props> = ({
             const RestrictionCooldown = cooldownTimeLeft / 1000;
             const isLocked = isRestricted || wardrobeCount <= 0;
 
+            const shouldShowPopover =
+              isRestricted || hasMoreOffChainItems(itemName);
+
             const handleBoxClick = () => {
-              if (isRestricted) {
+              if (shouldShowPopover) {
                 setShowInfo((prev) => (prev === itemName ? "" : itemName));
               }
             };
@@ -230,14 +268,16 @@ export const WithdrawWearables: React.FC<Props> = ({
                   className="absolute top-14 text-xxs sm:text-xs"
                   showPopover={showInfo === itemName}
                 >
-                  {isRestricted &&
-                    t("withdraw.boostedItem.timeLeft", {
-                      time: secondsToString(RestrictionCooldown, {
-                        length: "medium",
-                        isShortFormat: true,
-                        removeTrailingZeros: true,
-                      }),
-                    })}
+                  {hasMoreOffChainItems(itemName)
+                    ? t("withdraw.notOnChain")
+                    : isRestricted &&
+                      t("withdraw.boostedItem.timeLeft", {
+                        time: secondsToString(RestrictionCooldown, {
+                          length: "medium",
+                          isShortFormat: true,
+                          removeTrailingZeros: true,
+                        }),
+                      })}
                 </InfoPopover>
 
                 <Box
@@ -247,7 +287,7 @@ export const WithdrawWearables: React.FC<Props> = ({
                   disabled={isLocked}
                   image={getImageUrl(ITEM_IDS[itemName])}
                   secondaryImage={
-                    isRestricted ? SUNNYSIDE.icons.lock : undefined
+                    shouldShowPopover ? SUNNYSIDE.icons.lock : undefined
                   }
                 />
               </div>

@@ -19,7 +19,9 @@ import { wallet } from "lib/blockchain/wallet";
 
 import { getKeys } from "lib/object";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
+import { getBankItems } from "features/goblins/storageHouse/lib/storageItems";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { hasFeatureAccess } from "lib/flags";
 import { INVENTORY_RELEASES } from "features/game/types/withdrawables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -87,11 +89,16 @@ export const WithdrawItems: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
 
-  // The backend allows withdrawing up to `previousInventory + MAX_MINT_AMOUNT`
-  // per item per call (items already on-chain pass through; up to
-  // MAX_MINT_AMOUNT extra are minted on demand). Cap selectable counts here
-  // so the UI matches that limit. Players with more off-chain than the
-  // minting cap can withdraw the rest in subsequent calls.
+  // Beta-only gate. When on, the backend mints any shortfall up to
+  // `MAX_MINT_AMOUNT` per item per call, so the UI shows the full chest
+  // capped at `previousInventory + MAX_MINT_AMOUNT`. When off, the UI
+  // falls back to `getBankItems` (only items already on-chain), and any
+  // off-chain stock is surfaced as a locked, popover-explained row.
+  const hasMintOnDemand = hasFeatureAccess(state, "MINT_ON_DEMAND_WITHDRAWS");
+
+  // Cap selectable counts at `previousInventory + MAX_MINT_AMOUNT` so the
+  // UI matches the backend's per-call mint cap. Players with more off-chain
+  // than the cap can withdraw the rest in subsequent calls.
   const capToWithdrawableLimit = (items: Inventory): Inventory =>
     getKeys(items).reduce((acc, name) => {
       const count = items[name] ?? new Decimal(0);
@@ -102,7 +109,9 @@ export const WithdrawItems: React.FC<Props> = ({
     }, {} as Inventory);
 
   const [inventory, setInventory] = useState<Inventory>(() =>
-    capToWithdrawableLimit(getChestItems(state)),
+    hasMintOnDemand
+      ? capToWithdrawableLimit(getChestItems(state))
+      : getBankItems(state),
   );
   const [selected, setSelected] = useState<Inventory>({});
 
@@ -144,15 +153,34 @@ export const WithdrawItems: React.FC<Props> = ({
     return { isRestricted, cooldownTimeLeft };
   };
 
+  // Beta-flag-off only: surface items the player has off-chain but no
+  // on-chain backing for, so the row appears locked with a popover
+  // explaining that on-demand withdraw is coming soon. When the flag is
+  // on this always returns false (the inventory source already includes
+  // off-chain items as selectable).
+  const hasMoreOffChainItems = (itemName: InventoryItemName) => {
+    if (hasMintOnDemand) return false;
+
+    const inventoryCount = inventory[itemName] ?? new Decimal(0);
+    const currentAmount = getChestItems(state)[itemName] ?? new Decimal(0);
+    const onChainAmount = state.previousInventory[itemName] ?? new Decimal(0);
+
+    return (
+      inventoryCount.lessThanOrEqualTo(0) && currentAmount.gt(onChainAmount)
+    );
+  };
+
   const withdrawableItemCache = getKeys(inventory).reduce(
     (cache, itemName) => {
       const { cooldownTimeLeft } = getRestrictionStatus(itemName);
       const isOnCooldown = cooldownTimeLeft > 0;
+      const hasMoreOffChain = hasMoreOffChainItems(itemName);
       const hasBuff = !!COLLECTIBLE_BUFF_LABELS[itemName]?.(state)?.length;
 
       cache[itemName] = {
         cooldownMs: cooldownTimeLeft,
         isOnCooldown,
+        hasMoreOffChain,
         hasBuff,
       };
       return cache;
@@ -161,6 +189,7 @@ export const WithdrawItems: React.FC<Props> = ({
       [key in InventoryItemName]?: {
         cooldownMs: number;
         isOnCooldown: boolean;
+        hasMoreOffChain: boolean;
         hasBuff: boolean;
       };
     },
@@ -186,12 +215,18 @@ export const WithdrawItems: React.FC<Props> = ({
       return a.isOnCooldown ? -1 : 1;
     }
 
-    // 2. Boosted items come before non-boosted items
+    // 2. Items that have more off-chain than on-chain copies (only set when
+    //    the mint-on-demand flag is off; collapses to no-op for beta).
+    if (a.hasMoreOffChain !== b.hasMoreOffChain) {
+      return a.hasMoreOffChain ? -1 : 1;
+    }
+
+    // 3. Boosted items come before non-boosted items
     if (a.hasBuff !== b.hasBuff) {
       return a.hasBuff ? -1 : 1;
     }
 
-    // 3. Otherwise, sort by item IDs
+    // 4. Otherwise, sort by item IDs
     return KNOWN_IDS[itemA] - KNOWN_IDS[itemB];
   };
 
@@ -200,7 +235,10 @@ export const WithdrawItems: React.FC<Props> = ({
       const withdrawAt = INVENTORY_RELEASES[itemName]?.withdrawAt;
       return !!withdrawAt && withdrawAt <= new Date(now);
     })
-    .filter((itemName) => inventory[itemName]?.gt(0))
+    .filter(
+      (itemName) =>
+        hasMoreOffChainItems(itemName) || inventory[itemName]?.gt(0),
+    )
     .sort((a, b) => sortWithdrawableItems(a, b) as number);
 
   const selectedItems = getKeys(selected)
@@ -246,8 +284,11 @@ export const WithdrawItems: React.FC<Props> = ({
             const isLocked =
               isRestricted || inventoryCount.lessThanOrEqualTo(0);
 
+            const shouldShowPopover =
+              isRestricted || hasMoreOffChainItems(itemName);
+
             const handleBoxClick = () => {
-              if (isRestricted) {
+              if (shouldShowPopover) {
                 setShowInfo((prev) => (prev === itemName ? "" : itemName));
               }
             };
@@ -262,14 +303,16 @@ export const WithdrawItems: React.FC<Props> = ({
                   className="absolute top-14 text-xxs sm:text-xs"
                   showPopover={showInfo === itemName}
                 >
-                  {isRestricted &&
-                    t("withdraw.boostedItem.timeLeft", {
-                      time: secondsToString(RestrictionCooldown, {
-                        length: "medium",
-                        isShortFormat: true,
-                        removeTrailingZeros: true,
-                      }),
-                    })}
+                  {hasMoreOffChainItems(itemName)
+                    ? t("withdraw.notOnChain")
+                    : isRestricted &&
+                      t("withdraw.boostedItem.timeLeft", {
+                        time: secondsToString(RestrictionCooldown, {
+                          length: "medium",
+                          isShortFormat: true,
+                          removeTrailingZeros: true,
+                        }),
+                      })}
                 </InfoPopover>
 
                 <Box
@@ -279,7 +322,7 @@ export const WithdrawItems: React.FC<Props> = ({
                   onClick={() => onAdd(itemName)}
                   image={details.image}
                   secondaryImage={
-                    isRestricted ? SUNNYSIDE.icons.lock : undefined
+                    shouldShowPopover ? SUNNYSIDE.icons.lock : undefined
                   }
                 />
               </div>

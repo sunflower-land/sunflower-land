@@ -394,6 +394,18 @@ const playingEventHandler = (
       {
         target: "hoarding",
         cond: (context: Context, event: PlayingEvent | VisitingEvent) => {
+          // @deprecated: hoard caps gated behind `MINT_ON_DEMAND_WITHDRAWS`.
+          // Beta players (testnet + Beta Pass) bypass the legacy hoarding
+          // transition — the new mint-on-demand withdraw flow handles excess.
+          if (
+            hasFeatureAccess(
+              context.state as GameState,
+              "MINT_ON_DEMAND_WITHDRAWS",
+            )
+          ) {
+            return false;
+          }
+
           const { valid } = checkProgress({
             state: context.state as GameState,
             action: event,
