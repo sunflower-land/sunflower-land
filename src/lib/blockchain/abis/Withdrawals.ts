@@ -115,6 +115,20 @@ export default [
     type: "function",
   },
   {
+    inputs: [{ internalType: "uint256[]", name: "_ids", type: "uint256[]" }],
+    name: "getMintableItems",
+    outputs: [{ internalType: "bool[]", name: "", type: "bool[]" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256[]", name: "_ids", type: "uint256[]" }],
+    name: "getMintableWearables",
+    outputs: [{ internalType: "bool[]", name: "", type: "bool[]" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "inventory",
     outputs: [
@@ -131,6 +145,20 @@ export default [
     inputs: [],
     name: "mintLimit",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    name: "mintableItems",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    name: "mintableWearables",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
     stateMutability: "view",
     type: "function",
   },
@@ -158,6 +186,26 @@ export default [
   {
     inputs: [{ internalType: "uint256", name: "_mintLimit", type: "uint256" }],
     name: "setMintLimit",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256[]", name: "_ids", type: "uint256[]" },
+      { internalType: "bool[]", name: "_mintable", type: "bool[]" },
+    ],
+    name: "setMintableItems",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256[]", name: "_ids", type: "uint256[]" },
+      { internalType: "bool[]", name: "_mintable", type: "bool[]" },
+    ],
+    name: "setMintableWearables",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
