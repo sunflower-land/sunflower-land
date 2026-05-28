@@ -81,8 +81,6 @@ type Page =
 const MainMenu: React.FC<{ setPage: (page: Page) => void }> = ({ setPage }) => {
   return (
     <div className="flex flex-col justify-center space-y-1">
-      <span className="p-2 mb-1">{translate("withdraw.sync")}</span>
-
       <div className="flex space-x-1">
         <Button onClick={() => setPage("tokens")}>
           <div className="flex items-center">
