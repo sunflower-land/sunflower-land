@@ -208,7 +208,9 @@ const WALLET_ACTIONS: Record<TransactionName, WalletAction> = {
   "transaction.wearablesWithdrawn": "withdrawItems",
   "transaction.budWithdrawn": "withdrawItems",
   "transaction.petWithdrawn": "withdrawItems",
-  // @deprecated supports legacy in-flight syncs only.
+  // @deprecated kept live behind the `MINT_ON_DEMAND_WITHDRAWS` flag so
+  // non-beta players can still sync items on-chain while the new
+  // mint-on-demand withdraw flow is in beta.
   "transaction.progressSynced": "sync",
 };
 
@@ -263,7 +265,9 @@ const EVENT_TO_NAME: Record<TransactionName, string> = {
   "transaction.itemsWithdrawn": "Withdraw items",
   "transaction.wearablesWithdrawn": "Withdraw wearables",
   "transaction.flowerWithdrawn": "Withdraw flower",
-  // @deprecated supports legacy in-flight syncs only.
+  // @deprecated kept live behind the `MINT_ON_DEMAND_WITHDRAWS` flag so
+  // non-beta players can still sync items on-chain while the new
+  // mint-on-demand withdraw flow is in beta.
   "transaction.progressSynced": "Store on chain",
 };
 

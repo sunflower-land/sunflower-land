@@ -29,6 +29,7 @@ export const DeveloperOptions: React.FC<ContentComponentProps> = ({
   };
 
   const hasAirdrop = hasFeatureAccess(game, "AIRDROP_PLAYER");
+  const hasHoardingCheck = hasFeatureAccess(game, "HOARDING_CHECK");
   const isModerator = hasFeatureAccess(game, "MODERATOR");
 
   return (
@@ -43,6 +44,14 @@ export const DeveloperOptions: React.FC<ContentComponentProps> = ({
         {hasAirdrop && (
           <Button className="p-1" onClick={() => onSubMenuClick("admin")}>
             <span>{`Airdrop Player`}</span>
+          </Button>
+        )}
+        {hasHoardingCheck && (
+          <Button
+            onClick={() => onSubMenuClick("hoardingCheck")}
+            className="p-1"
+          >
+            {`Hoarding Check`}
           </Button>
         )}
         {isModerator && (

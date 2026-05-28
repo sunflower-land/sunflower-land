@@ -39,7 +39,7 @@ import { autosave } from "../actions/autosave";
 import { type ErrorCode, ERRORS } from "lib/errors";
 import { makeGame } from "./transforms";
 import { reset } from "features/farming/hud/actions/reset";
-import { processEvent } from "./processEvent";
+import { checkProgress, processEvent } from "./processEvent";
 import {
   landscapingMachine,
   type LandscapingPlaceableType,
@@ -154,6 +154,8 @@ export type PastAction = GameEvent & {
   createdAt: Date;
 };
 
+export type MaxedItem = InventoryItemName | BumpkinItem | "SFL";
+
 export interface Context {
   farmId: number;
   state: GameState;
@@ -163,6 +165,7 @@ export interface Context {
   errorCode?: ErrorCode;
   transactionId?: string;
   fingerprint?: string;
+  maxedItem?: MaxedItem;
   goblinSwarm?: Date;
   deviceTrackerId?: string;
   revealed?: {
@@ -388,6 +391,31 @@ const playingEventHandler = (
   const immediateSave = options?.immediateSave === true;
   return {
     [eventName]: [
+      {
+        target: "hoarding",
+        cond: (context: Context, event: PlayingEvent | VisitingEvent) => {
+          const { valid } = checkProgress({
+            state: context.state as GameState,
+            action: event,
+            farmId: context.farmId,
+            createdAt: Date.now(),
+          });
+
+          return !valid;
+        },
+        actions: assign(
+          (context: Context, event: PlayingEvent | VisitingEvent) => {
+            const { maxedItem } = checkProgress({
+              state: context.state as GameState,
+              action: event,
+              farmId: context.farmId,
+              createdAt: Date.now(),
+            });
+
+            return { maxedItem };
+          },
+        ),
+      },
       {
         ...(immediateSave ? { target: "autosaving" as const } : {}),
         actions: assign(
@@ -839,6 +867,7 @@ export type BlockchainState = {
     | "error"
     | "refreshing"
     | "swarming"
+    | "hoarding"
     | "mailbox"
     | "transacting"
     | "depositing"
@@ -2500,6 +2529,16 @@ export function startGame(authContext: AuthContext) {
             CONTINUE: "playing",
             REFRESH: {
               target: "loading",
+            },
+          },
+        },
+        hoarding: {
+          on: {
+            TRANSACT: {
+              target: "transacting",
+            },
+            ACKNOWLEDGE: {
+              target: "playing",
             },
           },
         },

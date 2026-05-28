@@ -10,9 +10,9 @@ import { polygonAmoy } from "viem/chains";
 const address = CONFIG.GAME_CONTRACT;
 
 /**
- * @deprecated Sync-to-chain was removed; this type is kept so persisted
- * in-flight `transaction.progressSynced` records can still be submitted by
- * the player. No FE entry point creates new syncs.
+ * @deprecated Kept live behind the `MINT_ON_DEMAND_WITHDRAWS` flag so non-beta
+ * players can still sync items on-chain while the new mint-on-demand withdraw
+ * flow is in beta. Will be removed once the new flow ships to all players.
  */
 export type SyncProgressParams = {
   signature: string;
@@ -36,9 +36,8 @@ export type SyncProgressParams = {
 };
 
 /**
- * @deprecated kept so a player who started "Store on Chain" before the
- * hoard-limits PR can still submit their pending sync on-chain. No new
- * syncs are produced server-side.
+ * @deprecated See {@link SyncProgressParams}. Will be removed once the
+ * mint-on-demand withdraw flow ships to all players.
  */
 export async function syncProgress({
   sender,

@@ -159,6 +159,8 @@ export const Plot: React.FC<Props> = ({ id }) => {
     if (!plot.crop) return;
     const newState = gameService.send("crop.harvested", { index: id });
 
+    if (newState.matches("hoarding")) return;
+
     harvestAudio();
     const cropAmount =
       plot.crop.amount ??

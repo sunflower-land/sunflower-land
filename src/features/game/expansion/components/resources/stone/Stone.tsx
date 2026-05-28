@@ -161,21 +161,23 @@ export const Stone: React.FC<Props> = ({ id }) => {
         }).amount,
     );
 
-    gameService.send("stoneRock.mined", {
+    const newState = gameService.send("stoneRock.mined", {
       index: id,
     });
 
-    if (showAnimations) {
-      setCollecting(true);
-      harvested.current = stoneMined.toNumber();
-    }
+    if (!newState.matches("hoarding")) {
+      if (showAnimations) {
+        setCollecting(true);
+        harvested.current = stoneMined.toNumber();
+      }
 
-    miningFallAudio();
+      miningFallAudio();
 
-    if (showAnimations) {
-      await new Promise((res) => setTimeout(res, 3000));
-      setCollecting(false);
-      harvested.current = 0;
+      if (showAnimations) {
+        await new Promise((res) => setTimeout(res, 3000));
+        setCollecting(false);
+        harvested.current = 0;
+      }
     }
   };
 

@@ -9,6 +9,7 @@ import ticket from "assets/icons/ticket.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context as GameContext } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 import type { ContentComponentProps } from "../types";
 import { Label } from "components/ui/Label";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -26,11 +27,16 @@ export const BlockchainSettings: React.FC<ContentComponentProps> = ({
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(GameContext);
+  const { openModal } = useContext(ModalContext);
   const nftId = useSelector(gameService, _nftId);
   const linkedWallet = useSelector(gameService, _linkedWallet);
 
   const farmAddress = useSelector(gameService, _farmAddress);
   const isFullUser = farmAddress !== "";
+  const storeOnChain = async () => {
+    openModal("STORE_ON_CHAIN");
+    onClose();
+  };
 
   const [showNftId, setShowNftId] = useState(false);
   const copypaste = useSound("copypaste");
@@ -68,6 +74,11 @@ export const BlockchainSettings: React.FC<ContentComponentProps> = ({
         <Button onClick={() => onSubMenuClick("deposit")}>
           {t("deposit.items")}
         </Button>
+        {isFullUser && (
+          <Button onClick={storeOnChain}>
+            {t("gameOptions.blockchainSettings.storeOnChain")}
+          </Button>
+        )}
         {isFullUser && (
           <Button onClick={() => onSubMenuClick("dequip")}>
             {t("dequipper.dequip")}
