@@ -8,9 +8,9 @@ import type { GameState } from "features/game/types/game";
 // missed ticks. Removing a point that is not absorbed by the balance costs
 // GEM_COST_PER_POINT gems.
 export const REGEN_AMOUNT = 50;
-export const MAX_FREE_POINTS = 75;
+export const MAX_FREE_POINTS = 100;
 export const REGEN_MS = 90 * 24 * 60 * 60 * 1000;
-export const GEM_COST_PER_POINT = 3;
+export const GEM_COST_PER_POINT = 5;
 
 // Saves written before this feature have no balance field. We treat them as
 // "one regen-worth at launch" so existing players are not stranded with 0.

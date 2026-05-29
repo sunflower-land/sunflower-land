@@ -143,6 +143,16 @@ const FEATURE_FLAGS = {
   CHAACS_TEMPLE_BETA: betaFeatureFlag,
 
   BOOSTS_DISPLAY: betaFeatureFlag,
+
+  /**
+   * Gates the FEAT-Edit-skillset flow: draft-mode skill editor, the
+   * skills.updated + skillResetTicket.used events, and the chargeSkillEdit
+   * pricing model (3 gems/pt, regen-50-every-90-days balance, manual
+   * ticket grants +50). Non-beta players keep the classic skills.reset
+   * modal. Remove this flag (and the Legacy* UI files) when the feature
+   * ships to all players.
+   */
+  EDIT_SKILLSET: betaFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

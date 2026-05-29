@@ -11,6 +11,8 @@ import {
 
 import { AchievementsModal } from "./Achievements";
 import { Skills } from "./revamp/Skills";
+import { LegacySkills } from "./revamp/LegacySkills";
+import { hasFeatureAccess } from "lib/flags";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import type { Bumpkin, GameState, Inventory } from "features/game/types/game";
@@ -104,6 +106,10 @@ interface Props {
   inventory: Inventory;
   readonly: boolean;
   gameState: GameState;
+  // Fires when the Skills tab enters / leaves draft mode so the wrapping
+  // outer Modal can gate its own onHide and prevent backdrop-dismiss while
+  // there are unsaved skill changes.
+  onEditingChange?: (editing: boolean) => void;
 }
 
 export const BumpkinModal: React.FC<Props> = ({
@@ -113,6 +119,7 @@ export const BumpkinModal: React.FC<Props> = ({
   inventory,
   readonly,
   gameState,
+  onEditingChange,
 }) => {
   const { gameService } = useContext(Context);
   const { openModal } = useContext(ModalContext);
@@ -121,6 +128,9 @@ export const BumpkinModal: React.FC<Props> = ({
   const currentBumpkinLevel = level;
   const maxLevel = isMaxLevel(experience);
   const [view, setView] = useState<ViewState>("home");
+  // Skills.tsx flips this while the player is mid-draft so we can suppress
+  // the close button and prevent accidental dismissal of unsaved changes.
+  const [isSkillsEditing, setIsSkillsEditing] = useState(false);
   const [tab, setTab] = useState<Tab>(() => {
     if (initialTab !== "feed" || readonly) return initialTab;
     const stored = localStorage.getItem("bumpkinModalTab") as Tab | null;
@@ -218,6 +228,18 @@ export const BumpkinModal: React.FC<Props> = ({
       ];
     }
 
+    // While the player is mid-edit on the Skills tab, suppress the other tabs
+    // so they can't navigate away and lose the draft.
+    if (isSkillsEditing) {
+      return [
+        {
+          id: "skills",
+          icon: SUNNYSIDE.badges.seedSpecialist,
+          name: t("skills"),
+        },
+      ];
+    }
+
     return [
       {
         id: "feed",
@@ -246,7 +268,7 @@ export const BumpkinModal: React.FC<Props> = ({
     <CloseButtonPanel
       currentTab={tab}
       setCurrentTab={setTab}
-      onClose={onClose}
+      onClose={isSkillsEditing && tab === "skills" ? undefined : onClose}
       tabs={renderTabs()}
       container={tab === "skills" || tab === "feed" ? OuterPanel : undefined}
     >
@@ -303,7 +325,18 @@ export const BumpkinModal: React.FC<Props> = ({
             }}
           />
         )}
-        {tab === "skills" && <Skills readonly={readonly} />}
+        {tab === "skills" &&
+          (hasFeatureAccess(gameState, "EDIT_SKILLSET") ? (
+            <Skills
+              readonly={readonly}
+              onEditingChange={(editing) => {
+                setIsSkillsEditing(editing);
+                onEditingChange?.(editing);
+              }}
+            />
+          ) : (
+            <LegacySkills readonly={readonly} />
+          ))}
         {tab === "feed" && (
           <>
             {hasLeveledUp ? (

@@ -526,6 +526,10 @@ export type Skills = Partial<
   Record<BumpkinSkillName, number> & Record<BumpkinRevampSkillName, number>
 >;
 
+export type SkillLastChangedAt = Partial<
+  Record<BumpkinRevampSkillName, number>
+>;
+
 export type Bumpkin = {
   id: number;
   equipped: BumpkinParts;
@@ -535,8 +539,24 @@ export type Bumpkin = {
   achievements?: Partial<Record<AchievementName, number>>;
   activity?: Partial<Record<FarmActivityName, number>>;
   previousPowerUseAt?: Partial<Record<BumpkinRevampSkillName, number>>;
+  /**
+   * @deprecated Legacy skills.reset accounting. Read/written only by the
+   * non-EDIT_SKILLSET cohort. Remove with the EDIT_SKILLSET flag.
+   */
+  previousFreeSkillResetAt?: number;
+  /**
+   * @deprecated Legacy skills.reset accounting. Read/written only by the
+   * non-EDIT_SKILLSET cohort. Remove with the EDIT_SKILLSET flag.
+   */
+  paidSkillResets?: number;
+  // EDIT_SKILLSET cohort only.
   freeSkillPoints?: number;
   lastFreeSkillPointsRegenAt?: number;
+  // Per-skill 7-day cooldown anchor. Stamped whenever a skill transitions
+  // (added or removed) via skills.updated / skill.chosen in the EDIT_SKILLSET
+  // cohort. Entries are pruned once their cooldown elapses, so the map stays
+  // bounded by "skills touched in the last week."
+  skillLastChangedAt?: SkillLastChangedAt;
   coordinates?: Coordinates;
   location?: Exclude<PlaceableLocation, "petHouse">;
 };
