@@ -11,10 +11,10 @@ import {
   getSkillSelectionErrorMessage,
   SkillPathDetails,
 } from "./SkillPathDetails";
-import { Skills as BumpkinSkills } from "features/game/types/game";
+import type { Skills as BumpkinSkills } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { validateSkillSelection } from "features/game/events/landExpansion/choseSkill";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 

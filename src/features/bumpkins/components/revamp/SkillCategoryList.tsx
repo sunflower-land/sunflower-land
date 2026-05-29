@@ -17,7 +17,6 @@ import {
   getAvailableBumpkinSkillPoints,
   getAvailableBumpkinSkillPointsForSkills,
   getPointsRemoved,
-  getSkillPointsForSkills,
 } from "features/game/events/landExpansion/choseSkill";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -27,9 +26,11 @@ import classNames from "classnames";
 import { SquareIcon } from "components/ui/SquareIcon";
 import type { MachineState } from "features/game/lib/gameMachine";
 import {
-  getEffectiveSkillPointsUsed,
+  MAX_FREE_POINTS,
+  REGEN_MS,
+  getEffectiveFreeSkillPoints,
   getSkillEditCost,
-} from "features/game/events/landExpansion/resetSkills";
+} from "features/game/events/landExpansion/chargeSkillEdit";
 import { useNow } from "lib/utils/hooks/useNow";
 import fruits from "assets/fruit/fruits.png";
 import { capitalize } from "lib/utils/capitalize";
@@ -79,37 +80,47 @@ export const SkillCategoryList: React.FC<{
   const [showEditSkillsModal, setShowEditSkillsModal] = useState(false);
   const [showApplyChangesConfirmation, setShowApplyChangesConfirmation] =
     useState(false);
+  const [showUseTicketConfirmation, setShowUseTicketConfirmation] =
+    useState(false);
 
   const { bumpkin, inventory } = state;
-  const { previousFreeSkillResetAt = 0, skills } = bumpkin;
+  const { skills } = bumpkin;
 
-  const nextFreeResetAt = previousFreeSkillResetAt + 180 * 24 * 60 * 60 * 1000;
-  const now = useNow({ live: true, autoEndAt: nextFreeResetAt });
-  // Auto-reset means the stored counter is effectively 0 once the 180-day
-  // window has elapsed — mirror that here so cost/UI reflect the player's
-  // upcoming experience without waiting for the next save.
-  const skillPointsUsed = getEffectiveSkillPointsUsed(bumpkin, now);
+  // Anchor for the live regen countdown — once we cross the anchor, the
+  // effective balance ticks up. useNow stops at the boundary so the rest of
+  // the UI doesn't keep re-rendering. Pre-migration saves have no anchor
+  // yet; in that case run useNow live without an end (rare and short-lived).
+  const nextRegenAnchor =
+    bumpkin.lastFreeSkillPointsRegenAt != null
+      ? bumpkin.lastFreeSkillPointsRegenAt + REGEN_MS
+      : undefined;
+  const now = useNow({ live: true, autoEndAt: nextRegenAnchor });
+  const { balance: freeSkillPoints, lastRegenAt } = getEffectiveFreeSkillPoints(
+    bumpkin,
+    now,
+  );
+  const nextRegenAt = lastRegenAt + REGEN_MS;
 
   const availableSkillPoints = isEditing
     ? getAvailableBumpkinSkillPointsForSkills(bumpkin, displayedSkills)
     : getAvailableBumpkinSkillPoints(bumpkin);
 
-  const hasSkills = getKeys(skills).length > 0;
-
+  // Only the draft diff drives the cost preview. Outside edit mode the player
+  // is not removing anything, so points removed is 0 and the header label
+  // shows the live (regen-aware) balance unchanged.
   const pointsRemoved = isEditing
     ? getPointsRemoved(skills, displayedSkills)
-    : getSkillPointsForSkills(skills);
+    : 0;
 
-  const getNextResetDateAndTime = () => {
-    const nextResetDate = new Date(nextFreeResetAt);
-
+  const formatDateTime = (timestamp: number) => {
+    const date = new Date(timestamp);
     return {
-      date: nextResetDate.toLocaleDateString(navigator.language, {
+      date: date.toLocaleDateString(navigator.language, {
         day: "2-digit",
         month: "short",
         year: "numeric",
       }),
-      time: nextResetDate.toLocaleTimeString(navigator.language, {
+      time: date.toLocaleTimeString(navigator.language, {
         hour: "numeric",
         minute: "numeric",
         hour12: false,
@@ -117,36 +128,35 @@ export const SkillCategoryList: React.FC<{
     };
   };
 
-  const ticketBalance = inventory["Skill Reset Ticket"]?.toNumber() ?? 0;
-  const { gemCost, ticketsToUse } = getSkillEditCost(
+  const { gemCost, freePointsConsumed } = getSkillEditCost(
     pointsRemoved,
-    skillPointsUsed,
-    ticketBalance,
+    freeSkillPoints,
   );
+  // Live preview of the balance the player would land on if they applied
+  // their current draft right now — drives the live-decrementing header label.
+  const projectedFreeBalance = freeSkillPoints - freePointsConsumed;
 
   const hasEnoughGems = inventory.Gem?.gte(gemCost) ?? false;
   const hasDisplayedSkills = getKeys(displayedSkills).length > 0;
-
-  const ticketCostLabel =
-    ticketsToUse === 1 ? t("skillEdit.cost.ticket") : `${ticketsToUse} Tickets`;
-  const gemsCostLabel = t("skillEdit.cost.gems", { gemCost });
+  const ticketBalance = inventory["Skill Reset Ticket"]?.toNumber() ?? 0;
+  const hasTicket = ticketBalance > 0;
 
   const canApplySkillChanges = () => gemCost === 0 || hasEnoughGems;
 
   const renderEditCostLabels = () => {
-    if (gemCost === 0 && ticketsToUse === 0) {
+    if (gemCost === 0 && freePointsConsumed === 0) {
       return <Label type="success">{t("skillEdit.cost.free")}</Label>;
     }
     return (
       <>
-        {ticketsToUse > 0 && (
-          <Label type="success" icon={ITEM_DETAILS["Skill Reset Ticket"].image}>
-            {ticketCostLabel}
+        {freePointsConsumed > 0 && (
+          <Label type="success">
+            {t("skillEdit.cost.freePoints", { count: freePointsConsumed })}
           </Label>
         )}
         {gemCost > 0 && (
           <Label type="vibrant" icon={ITEM_DETAILS.Gem.image}>
-            {gemsCostLabel}
+            {t("skillEdit.cost.gems", { gemCost })}
           </Label>
         )}
       </>
@@ -168,17 +178,34 @@ export const SkillCategoryList: React.FC<{
     setShowApplyChangesConfirmation(false);
   };
 
+  const handleUseTicket = () => {
+    gameService.send("skillResetTicket.used");
+    setShowUseTicketConfirmation(false);
+  };
+
   return (
     <>
       <InnerPanel className="flex flex-col h-full overflow-y-auto scrollable max-h-96">
         <div className="flex flex-row flex-wrap mt-2 mb-1 items-center gap-1">
           <Label type="default">{`${t("skillPts")} ${availableSkillPoints}`}</Label>
-          {skillPointsUsed > 0 && (
-            <Label type="default">
-              {t("skillReset.pointsRemovedSinceLastFree", {
-                count: skillPointsUsed,
-              })}
+          <Label type="success" icon={ITEM_DETAILS["Skill Reset Ticket"].image}>
+            {t("skillEdit.freeBalance", {
+              balance: projectedFreeBalance,
+              cap: MAX_FREE_POINTS,
+            })}
+          </Label>
+          {isEditing && gemCost > 0 && (
+            <Label type="vibrant" icon={ITEM_DETAILS.Gem.image}>
+              {t("skillEdit.cost.gems", { gemCost })}
             </Label>
+          )}
+          {hasTicket && (
+            <p
+              className="text-xs cursor-pointer underline py-1"
+              onClick={() => setShowUseTicketConfirmation(true)}
+            >
+              {t("skillEdit.useTicket")}
+            </p>
           )}
           {isEditing && (
             <>
@@ -311,7 +338,6 @@ export const SkillCategoryList: React.FC<{
                   >
                     {t("skillEdit.applyChanges")}
                   </p>
-                  {renderEditCostLabels()}
                 </div>
               </>
             )}
@@ -330,14 +356,7 @@ export const SkillCategoryList: React.FC<{
               <p className="text-xs text-center">
                 {t("skillEdit.description")}
               </p>
-              {!hasSkills && (
-                <Label type="danger">{t("skillEdit.cannotEditYet")}</Label>
-              )}
-              <Button
-                className="w-full"
-                disabled={!hasSkills}
-                onClick={handleStartEditing}
-              >
+              <Button className="w-full" onClick={handleStartEditing}>
                 {t("skillEdit.startEditing")}
               </Button>
             </div>
@@ -356,13 +375,10 @@ export const SkillCategoryList: React.FC<{
               <p className="text-xs text-center">
                 {t("skillEdit.applyConfirmation")}
               </p>
-              {gemCost > 0 && (
-                <Label type="warning">{t("skillReset.costDoubles")}</Label>
-              )}
               <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-                {t("skillReset.nextFreeReset", {
-                  date: getNextResetDateAndTime().date,
-                  time: getNextResetDateAndTime().time,
+                {t("skillEdit.nextRegen", {
+                  date: formatDateTime(nextRegenAt).date,
+                  time: formatDateTime(nextRegenAt).time,
                 })}
               </Label>
               {!canApplySkillChanges() && (
@@ -382,6 +398,45 @@ export const SkillCategoryList: React.FC<{
                     !hasChanges || !!validationError || !canApplySkillChanges()
                   }
                 >
+                  {t("confirm")}
+                </Button>
+              </div>
+            </div>
+          </InnerPanel>
+        </OuterPanel>
+      </Modal>
+      <Modal
+        show={showUseTicketConfirmation}
+        onHide={() => setShowUseTicketConfirmation(false)}
+      >
+        <OuterPanel>
+          <InnerPanel className="flex flex-col items-center">
+            <div className="flex flex-col items-center w-full gap-2 my-1">
+              <Label
+                type="default"
+                icon={ITEM_DETAILS["Skill Reset Ticket"].image}
+              >
+                {t("skillEdit.useTicket")}
+              </Label>
+              <p className="text-xs text-center">
+                {t("skillEdit.useTicketConfirmation", {
+                  amount: 50,
+                  cap: MAX_FREE_POINTS,
+                })}
+              </p>
+              {freeSkillPoints >= MAX_FREE_POINTS && (
+                <Label type="warning">
+                  {t("skillEdit.useTicketAtCapWarning")}
+                </Label>
+              )}
+              <div className="flex justify-between gap-2 w-full">
+                <Button
+                  className="w-full"
+                  onClick={() => setShowUseTicketConfirmation(false)}
+                >
+                  {t("cancel")}
+                </Button>
+                <Button className="w-full" onClick={handleUseTicket}>
                   {t("confirm")}
                 </Button>
               </div>
