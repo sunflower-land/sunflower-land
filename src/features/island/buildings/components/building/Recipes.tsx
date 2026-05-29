@@ -173,7 +173,8 @@ export const Recipes: React.FC<Props> = ({
   );
   const hasDoubleNom = !!bumpkin.skills["Double Nom"];
   const isVIP = useVipAccess({ game: state });
-  const isQueueFull = [...readyRecipes, ...queue].length >= availableSlots;
+  const isQueueFull =
+    [...readyRecipes, ...queue].length + (cooking ? 1 : 0) >= availableSlots;
 
   return (
     <>
