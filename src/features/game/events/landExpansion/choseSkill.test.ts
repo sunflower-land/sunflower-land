@@ -1,6 +1,7 @@
 import { TEST_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { choseSkill, getAvailableBumpkinSkillPoints } from "./choseSkill";
+import { CONFIG } from "lib/config";
 
 describe("choseSkill", () => {
   const dateNow = Date.now();
@@ -266,6 +267,82 @@ describe("choseSkill", () => {
       });
 
       expect(result).toBe(4);
+    });
+  });
+
+  describe("skill cooldown (EDIT_SKILLSET cohort)", () => {
+    const DAY = 24 * 60 * 60 * 1000;
+
+    it("blocks picking a skill that was just removed via skills.updated", () => {
+      const threeDaysAgo = dateNow - 3 * DAY;
+      expect(() =>
+        choseSkill({
+          state: {
+            ...TEST_FARM,
+            bumpkin: {
+              ...INITIAL_BUMPKIN,
+              experience: LEVEL_EXPERIENCE[4],
+              skills: {},
+              skillLastChangedAt: { "Green Thumb": threeDaysAgo },
+            },
+          },
+          action: { type: "skill.chosen", skill: "Green Thumb" },
+          createdAt: dateNow,
+        }),
+      ).toThrow("on cooldown");
+    });
+
+    it("allows the pick once the 7-day window has elapsed", () => {
+      const eightDaysAgo = dateNow - 8 * DAY;
+      const result = choseSkill({
+        state: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            experience: LEVEL_EXPERIENCE[4],
+            skills: {},
+            skillLastChangedAt: { "Green Thumb": eightDaysAgo },
+          },
+        },
+        action: { type: "skill.chosen", skill: "Green Thumb" },
+        createdAt: dateNow,
+      });
+
+      expect(result.bumpkin?.skills?.["Green Thumb"]).toEqual(1);
+      expect(result.bumpkin?.skillLastChangedAt?.["Green Thumb"]).toEqual(
+        dateNow,
+      );
+    });
+
+    it("legacy cohort ignores the cooldown map entirely", () => {
+      const previousNetwork = CONFIG.NETWORK;
+      CONFIG.NETWORK = "mainnet";
+      try {
+        const threeDaysAgo = dateNow - 3 * DAY;
+        const result = choseSkill({
+          state: {
+            ...TEST_FARM,
+            bumpkin: {
+              ...INITIAL_BUMPKIN,
+              experience: LEVEL_EXPERIENCE[4],
+              skills: {},
+              // Pre-existing stamp from when the player was in beta. The
+              // legacy cohort doesn't read it, so the pick still goes through
+              // and no new stamp is written.
+              skillLastChangedAt: { "Green Thumb": threeDaysAgo },
+            },
+          },
+          action: { type: "skill.chosen", skill: "Green Thumb" },
+          createdAt: dateNow,
+        });
+
+        expect(result.bumpkin?.skills?.["Green Thumb"]).toEqual(1);
+        expect(result.bumpkin?.skillLastChangedAt?.["Green Thumb"]).toEqual(
+          threeDaysAgo,
+        );
+      } finally {
+        CONFIG.NETWORK = previousNetwork;
+      }
     });
   });
 });

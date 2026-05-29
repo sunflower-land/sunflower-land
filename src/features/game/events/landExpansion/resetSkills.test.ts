@@ -1,0 +1,370 @@
+import Decimal from "decimal.js-light";
+import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
+import { INITIAL_FARM } from "features/game/lib/constants";
+import { getTimeUntilNextFreeReset, resetSkills } from "./resetSkills";
+import { CONFIG } from "lib/config";
+
+describe("resetSkills", () => {
+  const dateNow = Date.now();
+
+  // Default test env is `amoy`, which makes betaFeatureFlag true and the
+  // EDIT_SKILLSET gate trigger — pin to mainnet so the legacy flow runs.
+  let previousNetwork: (typeof CONFIG)["NETWORK"];
+
+  beforeEach(() => {
+    previousNetwork = CONFIG.NETWORK;
+    CONFIG.NETWORK = "mainnet";
+  });
+
+  afterEach(() => {
+    CONFIG.NETWORK = previousNetwork;
+  });
+
+  it("requires Bumpkin to have skills", () => {
+    expect(() => {
+      resetSkills({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: {},
+          },
+        },
+        action: { type: "skills.reset", paymentType: "free" },
+        createdAt: dateNow,
+      });
+    }).toThrow("You do not have any skills to reset");
+  });
+
+  describe("free reset", () => {
+    it("requires Bumpkin to wait 180 days before free reset", () => {
+      const oneSeventyDaysAgo = new Date(dateNow);
+      oneSeventyDaysAgo.setDate(oneSeventyDaysAgo.getDate() - 170);
+
+      const timeUntilNextReset = getTimeUntilNextFreeReset(
+        oneSeventyDaysAgo.getTime(),
+        dateNow,
+      );
+      const daysRemaining = Math.ceil(
+        timeUntilNextReset / (1000 * 60 * 60 * 24),
+      );
+
+      expect(() => {
+        resetSkills({
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...TEST_BUMPKIN,
+              skills: { "Green Thumb": 1 },
+              previousFreeSkillResetAt: oneSeventyDaysAgo.getTime(),
+            },
+          },
+          action: { type: "skills.reset", paymentType: "free" },
+          createdAt: dateNow,
+        });
+      }).toThrow(`Wait ${daysRemaining} more days for free reset or use gems`);
+    });
+
+    it("resets Bumpkin skills after 6 months for free", () => {
+      const sixMonthsAgo = new Date(dateNow);
+      sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+      const state = resetSkills({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { "Green Thumb": 1 },
+            previousFreeSkillResetAt: sixMonthsAgo.getTime(),
+            paidSkillResets: 2, // Should be cleared after free reset
+          },
+        },
+        action: { type: "skills.reset", paymentType: "free" },
+        createdAt: dateNow,
+      });
+
+      expect(state.bumpkin?.skills).toEqual({});
+      expect(state.bumpkin?.previousFreeSkillResetAt).toEqual(dateNow);
+      expect(state.bumpkin?.paidSkillResets ?? 0).toEqual(0);
+    });
+  });
+
+  describe("gem reset", () => {
+    it("requires enough gems for first reset", () => {
+      expect(() => {
+        resetSkills({
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...TEST_BUMPKIN,
+              skills: { "Green Thumb": 1 },
+            },
+            inventory: {
+              Gem: new Decimal(100),
+            },
+          },
+          action: { type: "skills.reset", paymentType: "gems" },
+          createdAt: dateNow,
+        });
+      }).toThrow("Not enough gems. Cost: 200 gems");
+    });
+
+    it("doubles gem cost for each reset within 4 months", () => {
+      const state = {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          skills: { "Green Thumb": 1 },
+          paidSkillResets: 1, // One previous reset
+        },
+        inventory: {
+          Gem: new Decimal(400),
+        },
+      };
+
+      const result = resetSkills({
+        state,
+        action: { type: "skills.reset", paymentType: "gems" },
+        createdAt: dateNow,
+      });
+
+      expect(result.bumpkin?.paidSkillResets).toEqual(2);
+      expect(result.inventory.Gem?.toNumber()).toEqual(0);
+      expect(result.bumpkin?.skills).toEqual({});
+    });
+
+    it("successfully resets skills with gems", () => {
+      const state = resetSkills({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { "Green Thumb": 1 },
+          },
+          inventory: {
+            Gem: new Decimal(300),
+          },
+        },
+        action: { type: "skills.reset", paymentType: "gems" },
+        createdAt: dateNow,
+      });
+
+      expect(state.bumpkin?.skills).toEqual({});
+      expect(state.bumpkin?.paidSkillResets).toEqual(1);
+      expect(state.inventory.Gem?.toNumber()).toEqual(100);
+      expect(state.bumpkin?.previousFreeSkillResetAt).toBeUndefined();
+    });
+  });
+
+  describe("ticket reset", () => {
+    it("throws when the player has no Skill Reset Ticket", () => {
+      expect(() => {
+        resetSkills({
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...TEST_BUMPKIN,
+              skills: { "Green Thumb": 1 },
+            },
+            inventory: {},
+          },
+          action: { type: "skills.reset", paymentType: "ticket" },
+          createdAt: dateNow,
+        });
+      }).toThrow("You do not have a Skill Reset Ticket");
+    });
+
+    it("throws when the ticket balance is below 1", () => {
+      expect(() => {
+        resetSkills({
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...TEST_BUMPKIN,
+              skills: { "Green Thumb": 1 },
+            },
+            inventory: {
+              "Skill Reset Ticket": new Decimal(0),
+            },
+          },
+          action: { type: "skills.reset", paymentType: "ticket" },
+          createdAt: dateNow,
+        });
+      }).toThrow("You do not have a Skill Reset Ticket");
+    });
+
+    it("consumes exactly 1 Skill Reset Ticket", () => {
+      const state = resetSkills({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { "Green Thumb": 1 },
+          },
+          inventory: {
+            "Skill Reset Ticket": new Decimal(3),
+          },
+        },
+        action: { type: "skills.reset", paymentType: "ticket" },
+        createdAt: dateNow,
+      });
+
+      expect(state.inventory["Skill Reset Ticket"]?.toNumber()).toEqual(2);
+      expect(state.bumpkin?.skills).toEqual({});
+    });
+
+    it("increments paidSkillResets when using a ticket", () => {
+      const state = resetSkills({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { "Green Thumb": 1 },
+            paidSkillResets: 1,
+          },
+          inventory: {
+            "Skill Reset Ticket": new Decimal(1),
+          },
+        },
+        action: { type: "skills.reset", paymentType: "ticket" },
+        createdAt: dateNow,
+      });
+
+      expect(state.bumpkin?.paidSkillResets).toEqual(2);
+    });
+
+    it("does not touch previousFreeSkillResetAt when using a ticket", () => {
+      const threeMonthsAgo = new Date(dateNow);
+      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+
+      const state = resetSkills({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { "Green Thumb": 1 },
+            previousFreeSkillResetAt: threeMonthsAgo.getTime(),
+          },
+          inventory: {
+            "Skill Reset Ticket": new Decimal(1),
+          },
+        },
+        action: { type: "skills.reset", paymentType: "ticket" },
+        createdAt: dateNow,
+      });
+
+      expect(state.bumpkin?.previousFreeSkillResetAt).toEqual(
+        threeMonthsAgo.getTime(),
+      );
+    });
+
+    it("does not deduct gems when using a ticket", () => {
+      const state = resetSkills({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { "Green Thumb": 1 },
+          },
+          inventory: {
+            "Skill Reset Ticket": new Decimal(1),
+            Gem: new Decimal(500),
+          },
+        },
+        action: { type: "skills.reset", paymentType: "ticket" },
+        createdAt: dateNow,
+      });
+
+      expect(state.inventory.Gem?.toNumber()).toEqual(500);
+    });
+  });
+
+  describe("validation checks", () => {
+    it("succeeds reset with crops in additional slots (post-split no restriction)", () => {
+      const state = resetSkills({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: {
+              "Green Thumb": 1,
+              "Field Expansion Module": 1,
+            },
+          },
+          buildings: {
+            "Crop Machine": [
+              {
+                id: "123",
+                coordinates: { x: 0, y: 0 },
+                readyAt: 0,
+                createdAt: 0,
+                queue: new Array(6).fill({}), // 6 crops (more than 5)
+              },
+            ],
+          },
+          inventory: {
+            Gem: new Decimal(300),
+          },
+        },
+        action: { type: "skills.reset", paymentType: "gems" },
+        createdAt: dateNow,
+      });
+
+      expect(state.bumpkin?.skills).toEqual({});
+    });
+
+    it("succeeds reset with excess oil in tank (post-split no restriction)", () => {
+      const state = resetSkills({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: {
+              "Green Thumb": 1,
+              "Leak-Proof Tank": 1,
+            },
+          },
+          buildings: {
+            "Crop Machine": [
+              {
+                unallocatedOilTime: 49 * 60 * 60 * 1000, // 49 hours (more than 48)
+                id: "123",
+                coordinates: { x: 0, y: 0 },
+                readyAt: 0,
+                createdAt: 0,
+              },
+            ],
+          },
+          inventory: {
+            Gem: new Decimal(300),
+          },
+        },
+        action: { type: "skills.reset", paymentType: "gems" },
+        createdAt: dateNow,
+      });
+
+      expect(state.bumpkin?.skills).toEqual({});
+    });
+  });
+
+  describe("EDIT_SKILLSET gate", () => {
+    it("throws when the cohort has EDIT_SKILLSET access", () => {
+      CONFIG.NETWORK = "amoy";
+      expect(() =>
+        resetSkills({
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...TEST_BUMPKIN,
+              skills: { "Green Thumb": 1 },
+            },
+          },
+          action: { type: "skills.reset", paymentType: "free" },
+          createdAt: dateNow,
+        }),
+      ).toThrow(
+        "skills.reset is unavailable for the EDIT_SKILLSET cohort; use skills.updated",
+      );
+    });
+  });
+});

@@ -13,11 +13,8 @@ import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import {
-  getAvailableBumpkinSkillPoints,
-  getAvailableBumpkinSkillPointsForSkills,
-  getPointsRemoved,
-} from "features/game/events/landExpansion/choseSkill";
+import { getPointsRemoved } from "features/game/events/landExpansion/choseSkill";
+import { SkillsEditHeader } from "./SkillsEditHeader";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ISLAND_EXPANSIONS, type Skills } from "features/game/types/game";
@@ -27,6 +24,7 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import type { MachineState } from "features/game/lib/gameMachine";
 import {
   MAX_FREE_POINTS,
+  REGEN_AMOUNT,
   REGEN_MS,
   getEffectiveFreeSkillPoints,
   getSkillEditCost,
@@ -61,7 +59,7 @@ export const SkillCategoryList: React.FC<{
   onStartEditing: () => void;
   onCancelEditing: () => void;
   onRemoveAllSkills: () => void;
-  onApplyEditing: () => void;
+  onApplyEditing: (options: { useTicket: boolean }) => void;
 }> = ({
   onClick,
   skills: displayedSkills,
@@ -80,8 +78,9 @@ export const SkillCategoryList: React.FC<{
   const [showEditSkillsModal, setShowEditSkillsModal] = useState(false);
   const [showApplyChangesConfirmation, setShowApplyChangesConfirmation] =
     useState(false);
-  const [showUseTicketConfirmation, setShowUseTicketConfirmation] =
-    useState(false);
+  // Inline toggle on the Apply Changes modal. Resets to false whenever the
+  // modal closes so the next apply starts from a clean state.
+  const [useTicketInApply, setUseTicketInApply] = useState(false);
 
   const { bumpkin, inventory } = state;
   const { skills } = bumpkin;
@@ -100,10 +99,6 @@ export const SkillCategoryList: React.FC<{
     now,
   );
   const nextRegenAt = lastRegenAt + REGEN_MS;
-
-  const availableSkillPoints = isEditing
-    ? getAvailableBumpkinSkillPointsForSkills(bumpkin, displayedSkills)
-    : getAvailableBumpkinSkillPoints(bumpkin);
 
   // Only the draft diff drives the cost preview. Outside edit mode the player
   // is not removing anything, so points removed is 0 and the header label
@@ -132,31 +127,47 @@ export const SkillCategoryList: React.FC<{
     pointsRemoved,
     freeSkillPoints,
   );
-  // Live preview of the balance the player would land on if they applied
-  // their current draft right now — drives the live-decrementing header label.
-  const projectedFreeBalance = freeSkillPoints - freePointsConsumed;
 
-  const hasEnoughGems = inventory.Gem?.gte(gemCost) ?? false;
   const hasDisplayedSkills = getKeys(displayedSkills).length > 0;
   const ticketBalance = inventory["Skill Reset Ticket"]?.toNumber() ?? 0;
   const hasTicket = ticketBalance > 0;
 
-  const canApplySkillChanges = () => gemCost === 0 || hasEnoughGems;
+  // Simulate the post-ticket cost the player would face if they toggle
+  // "Use Skill Reset Ticket" on inside the Apply Changes modal. Ticket grants
+  // +REGEN_AMOUNT to the free balance (capped at MAX_FREE_POINTS) before the
+  // edit consumes from it.
+  const balanceWithTicket = Math.min(
+    MAX_FREE_POINTS,
+    freeSkillPoints + REGEN_AMOUNT,
+  );
+  const { gemCost: gemCostWithTicket, freePointsConsumed: freeWithTicket } =
+    getSkillEditCost(pointsRemoved, balanceWithTicket);
+  const ticketSavesGems =
+    hasTicket && gemCost > 0 && gemCostWithTicket < gemCost;
+
+  // Effective cost the modal renders, depending on the toggle state.
+  const effectiveGemCost = useTicketInApply ? gemCostWithTicket : gemCost;
+  const effectiveFreeConsumed = useTicketInApply
+    ? freeWithTicket
+    : freePointsConsumed;
+
+  const hasEnoughGems = inventory.Gem?.gte(effectiveGemCost) ?? false;
+  const canApplySkillChanges = () => effectiveGemCost === 0 || hasEnoughGems;
 
   const renderEditCostLabels = () => {
-    if (gemCost === 0 && freePointsConsumed === 0) {
+    if (effectiveGemCost === 0 && effectiveFreeConsumed === 0) {
       return <Label type="success">{t("skillEdit.cost.free")}</Label>;
     }
     return (
       <>
-        {freePointsConsumed > 0 && (
+        {effectiveFreeConsumed > 0 && (
           <Label type="success">
-            {t("skillEdit.cost.freePoints", { count: freePointsConsumed })}
+            {t("skillEdit.cost.freePoints", { count: effectiveFreeConsumed })}
           </Label>
         )}
-        {gemCost > 0 && (
+        {effectiveGemCost > 0 && (
           <Label type="vibrant" icon={ITEM_DETAILS.Gem.image}>
-            {t("skillEdit.cost.gems", { gemCost })}
+            {t("skillEdit.cost.gems", { gemCost: effectiveGemCost })}
           </Label>
         )}
       </>
@@ -171,52 +182,29 @@ export const SkillCategoryList: React.FC<{
   const handleCancelEditing = () => {
     onCancelEditing();
     setShowApplyChangesConfirmation(false);
+    setUseTicketInApply(false);
   };
 
   const handleApplyEditing = () => {
-    onApplyEditing();
+    onApplyEditing({ useTicket: useTicketInApply });
     setShowApplyChangesConfirmation(false);
+    setUseTicketInApply(false);
   };
 
-  const handleUseTicket = () => {
-    gameService.send("skillResetTicket.used");
-    setShowUseTicketConfirmation(false);
+  const closeApplyModal = () => {
+    setShowApplyChangesConfirmation(false);
+    setUseTicketInApply(false);
   };
 
   return (
     <>
       <InnerPanel className="flex flex-col h-full overflow-y-auto scrollable max-h-96">
-        <div className="flex flex-row flex-wrap mt-2 mb-1 items-center gap-1">
-          <Label type="default">{`${t("skillPts")} ${availableSkillPoints}`}</Label>
-          <Label type="success" icon={ITEM_DETAILS["Skill Reset Ticket"].image}>
-            {t("skillEdit.freeBalance", {
-              balance: projectedFreeBalance,
-              cap: MAX_FREE_POINTS,
-            })}
-          </Label>
-          {isEditing && gemCost > 0 && (
-            <Label type="vibrant" icon={ITEM_DETAILS.Gem.image}>
-              {t("skillEdit.cost.gems", { gemCost })}
-            </Label>
-          )}
-          {hasTicket && (
-            <p
-              className="text-xs cursor-pointer underline py-1"
-              onClick={() => setShowUseTicketConfirmation(true)}
-            >
-              {t("skillEdit.useTicket")}
-            </p>
-          )}
-          {isEditing && (
-            <>
-              <Label type={validationError ? "danger" : "info"}>
-                {validationError ?? t("skillEdit.draftSkillBuild")}
-              </Label>
-              {!hasChanges && (
-                <Label type="warning">{t("skillEdit.noChanges")}</Label>
-              )}
-            </>
-          )}
+        <div className="mt-2 mb-1">
+          <SkillsEditHeader
+            displayedSkills={displayedSkills}
+            isEditing={isEditing}
+            validationError={validationError}
+          />
         </div>
         {ISLAND_EXPANSIONS.map((islandType) => {
           const hasUnlockedIslandCategory = hasRequiredIslandExpansion(
@@ -363,10 +351,7 @@ export const SkillCategoryList: React.FC<{
           </InnerPanel>
         </OuterPanel>
       </Modal>
-      <Modal
-        show={showApplyChangesConfirmation}
-        onHide={() => setShowApplyChangesConfirmation(false)}
-      >
+      <Modal show={showApplyChangesConfirmation} onHide={closeApplyModal}>
         <OuterPanel>
           <InnerPanel className="flex flex-col items-center">
             <div className="flex flex-col items-center w-full gap-2 my-1">
@@ -385,12 +370,26 @@ export const SkillCategoryList: React.FC<{
                 <Label type="danger">{t("skillEdit.cannotApplyChanges")}</Label>
               )}
               <div className="flex justify-between gap-2 w-full">
-                <Button
-                  className="w-full"
-                  onClick={() => setShowApplyChangesConfirmation(false)}
-                >
-                  {t("cancel")}
-                </Button>
+                {ticketSavesGems ? (
+                  <Button
+                    className="w-full relative"
+                    onClick={() => setUseTicketInApply((prev) => !prev)}
+                  >
+                    <img
+                      src={ITEM_DETAILS["Skill Reset Ticket"].image}
+                      alt="Skill Reset Ticket"
+                      className="absolute top-1 right-1"
+                      style={{ width: "16px" }}
+                    />
+                    {useTicketInApply
+                      ? t("skillEdit.useTicketOn")
+                      : t("skillEdit.useTicketOff")}
+                  </Button>
+                ) : (
+                  <Button className="w-full" onClick={closeApplyModal}>
+                    {t("cancel")}
+                  </Button>
+                )}
                 <Button
                   className="w-full"
                   onClick={handleApplyEditing}
@@ -398,45 +397,6 @@ export const SkillCategoryList: React.FC<{
                     !hasChanges || !!validationError || !canApplySkillChanges()
                   }
                 >
-                  {t("confirm")}
-                </Button>
-              </div>
-            </div>
-          </InnerPanel>
-        </OuterPanel>
-      </Modal>
-      <Modal
-        show={showUseTicketConfirmation}
-        onHide={() => setShowUseTicketConfirmation(false)}
-      >
-        <OuterPanel>
-          <InnerPanel className="flex flex-col items-center">
-            <div className="flex flex-col items-center w-full gap-2 my-1">
-              <Label
-                type="default"
-                icon={ITEM_DETAILS["Skill Reset Ticket"].image}
-              >
-                {t("skillEdit.useTicket")}
-              </Label>
-              <p className="text-xs text-center">
-                {t("skillEdit.useTicketConfirmation", {
-                  amount: 50,
-                  cap: MAX_FREE_POINTS,
-                })}
-              </p>
-              {freeSkillPoints >= MAX_FREE_POINTS && (
-                <Label type="warning">
-                  {t("skillEdit.useTicketAtCapWarning")}
-                </Label>
-              )}
-              <div className="flex justify-between gap-2 w-full">
-                <Button
-                  className="w-full"
-                  onClick={() => setShowUseTicketConfirmation(false)}
-                >
-                  {t("cancel")}
-                </Button>
-                <Button className="w-full" onClick={handleUseTicket}>
                   {t("confirm")}
                 </Button>
               </div>

@@ -20,6 +20,10 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   readonly: boolean;
+  // Signals draft-mode transitions so the host (BumpkinModal / its outer
+  // Modal) can suppress dismiss handlers and prevent accidental loss of
+  // unsaved skill edits.
+  onEditingChange?: (editing: boolean) => void;
 }
 
 const _state = (state: MachineState) => state.context.state;
@@ -30,7 +34,7 @@ const getSkillKey = (skills: BumpkinSkills) =>
     .sort()
     .join("|");
 
-export const Skills: React.FC<Props> = ({ readonly }) => {
+export const Skills: React.FC<Props> = ({ readonly, onEditingChange }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
@@ -69,10 +73,12 @@ export const Skills: React.FC<Props> = ({ readonly }) => {
 
   const startEditing = () => {
     setDraftSkills({ ...state.bumpkin.skills });
+    onEditingChange?.(true);
   };
 
   const cancelEditing = () => {
     setDraftSkills(null);
+    onEditingChange?.(false);
   };
 
   const removeAllDraftSkills = () => {
@@ -97,11 +103,12 @@ export const Skills: React.FC<Props> = ({ readonly }) => {
     });
   };
 
-  const applyEditing = () => {
+  const applyEditing = ({ useTicket }: { useTicket: boolean }) => {
     if (!draftSkills || validationError || !hasChanges) return;
 
-    gameService.send("skills.updated", { skills: draftSkills });
+    gameService.send("skills.updated", { skills: draftSkills, useTicket });
     setDraftSkills(null);
+    onEditingChange?.(false);
   };
 
   const toggleDraftSkill = (skillName: BumpkinRevampSkillName) => {
