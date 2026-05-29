@@ -33,8 +33,6 @@ import useSWR from "swr";
 import { getWeekKey } from "features/game/lib/factions";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { hasFeatureAccess } from "lib/flags";
-import { Button } from "components/ui/Button";
 import { useMarketplaceFavorites } from "../lib/marketplaceFavorites";
 
 const _trades = (state: MachineState) => state.context.state.trades;
