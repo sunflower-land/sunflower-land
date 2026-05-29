@@ -60,7 +60,6 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
   const authToken = authState.context.user.rawToken as string;
   const state = useSelector(gameService, _state);
   const trades = useSelector(gameService, _trades);
-  const playerEconomiesAllowed = hasFeatureAccess(state, "PLAYER_ECONOMIES");
 
   const params = useParams<{
     collection?: CollectionName;
@@ -91,7 +90,7 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
     mutate: reload,
   } = useSWR(
     collection === "economies"
-      ? economy && playerEconomiesAllowed
+      ? economy
         ? [collection, id, authState.context.user.rawToken as string, economy]
         : null
       : [collection, id, authState.context.user.rawToken as string],
@@ -122,21 +121,6 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
     return (
       <InnerPanel className="m-2 p-4">
         <p className="text-sm">{t("marketplace.tradeable.invalidLink")}</p>
-      </InnerPanel>
-    );
-  }
-
-  if (collection === "economies" && !playerEconomiesAllowed) {
-    const isWorldRoute = location.pathname.includes("/world");
-    const base = `${isWorldRoute ? "/world" : ""}/marketplace`;
-    return (
-      <InnerPanel className="m-2 p-4 flex flex-col gap-2">
-        <p className="text-sm">
-          {t("minigame.dashboard.playerEconomiesNotAvailable")}
-        </p>
-        <Button onClick={() => navigate(base)}>
-          {t("marketplace.backToMarketplace")}
-        </Button>
       </InnerPanel>
     );
   }

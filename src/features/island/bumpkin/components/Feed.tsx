@@ -5,7 +5,11 @@ import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { type Consumable, isJuice } from "features/game/types/consumables";
+import {
+  type Consumable,
+  type ConsumableName,
+  isJuice,
+} from "features/game/types/consumables";
 import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -23,14 +27,19 @@ import { useNow } from "lib/utils/hooks/useNow";
 
 interface Props {
   food: Consumable[];
+  selectedName: ConsumableName | undefined;
+  setSelectedName: (name: ConsumableName) => void;
 }
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _game = (state: MachineState) => state.context.state;
 
-export const Feed: React.FC<Props> = ({ food }) => {
-  const [selected, setSelected] = useState<Consumable | undefined>(food[0]);
+export const Feed: React.FC<Props> = ({
+  food,
+  selectedName,
+  setSelectedName,
+}) => {
   const [showBoosts, setShowBoosts] = useState(false);
   const { gameService } = useContext(Context);
   const now = useNow({ live: true });
@@ -41,7 +50,7 @@ export const Feed: React.FC<Props> = ({ food }) => {
   // Derive the "active" selected food from the current props so that
   // we never point at a food item that is no longer available.
   const activeSelected =
-    food.find((item) => item.name === selected?.name) ?? food[0];
+    food.find((item) => item.name === selectedName) ?? food[0];
 
   const inventoryFoodCount = activeSelected
     ? (inventory[activeSelected.name] ?? new Decimal(0))
@@ -151,7 +160,7 @@ export const Feed: React.FC<Props> = ({ food }) => {
               isSelected={activeSelected?.name === item.name}
               key={item.name}
               onClick={() => {
-                setSelected(item);
+                setSelectedName(item.name);
                 setShowBoosts(false);
               }}
               image={ITEM_DETAILS[item.name].image}
