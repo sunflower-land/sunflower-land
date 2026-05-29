@@ -85,7 +85,19 @@ export function updateSkills({
       }
     }
 
+    const pointsRemoved = getPointsRemoved(stateCopy.bumpkin.skills, skills);
+
     if (action.useTicket) {
+      // A ticket is intended to offset gem cost of *removing* skills. A
+      // pure-addition edit has no cost to offset, so the ticket would just
+      // grant +50 free balance without anything to consume it — reject
+      // defensively. The UI never offers the toggle in this case anyway.
+      if (pointsRemoved === 0) {
+        throw new Error(
+          "Skill Reset Ticket can only be used when removing skills",
+        );
+      }
+
       const ticketBalance =
         stateCopy.inventory["Skill Reset Ticket"] ?? new Decimal(0);
       if (ticketBalance.lt(1)) {
@@ -108,7 +120,7 @@ export function updateSkills({
 
     chargeSkillEdit({
       game: stateCopy,
-      pointsRemoved: getPointsRemoved(stateCopy.bumpkin.skills, skills),
+      pointsRemoved,
       createdAt,
     });
 

@@ -531,6 +531,33 @@ describe("updateSkills", () => {
         }),
       ).toThrow("You do not have a Skill Reset Ticket");
     });
+
+    it("rejects useTicket on a pure-addition apply (no removal to offset)", () => {
+      expect(() =>
+        updateSkills({
+          state: {
+            ...TEST_FARM,
+            inventory: {
+              ...TEST_FARM.inventory,
+              "Skill Reset Ticket": new Decimal(1),
+            },
+            bumpkin: {
+              ...INITIAL_BUMPKIN,
+              experience: LEVEL_EXPERIENCE[3],
+              skills: {},
+              freeSkillPoints: 0,
+              lastFreeSkillPointsRegenAt: dateNow,
+            },
+          },
+          action: {
+            type: "skills.updated",
+            skills: { "Green Thumb": 1 },
+            useTicket: true,
+          },
+          createdAt: dateNow,
+        }),
+      ).toThrow("Skill Reset Ticket can only be used when removing skills");
+    });
   });
 
   describe("skill cooldown", () => {
