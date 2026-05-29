@@ -36,6 +36,7 @@ import type { Equipped } from "features/game/types/bumpkin";
 import { Feed } from "features/island/bumpkin/components/Feed";
 import { LevelUp } from "features/island/bumpkin/components/LevelUp";
 import { getAvailableFood } from "features/game/lib/availableFood";
+import type { ConsumableName } from "features/game/types/consumables";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import {
   getPowerSkills,
@@ -168,6 +169,10 @@ export const BumpkinModal: React.FC<Props> = ({
     useState(currentBumpkinLevel);
   const hasLeveledUp = currentBumpkinLevel > acknowledgedLevel;
   const acknowledgeLevelUp = () => setAcknowledgedLevel(currentBumpkinLevel);
+
+  const [selectedFoodName, setSelectedFoodName] = useState<
+    ConsumableName | undefined
+  >(undefined);
 
   const availableFood = getAvailableFood(inventory);
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
@@ -306,17 +311,23 @@ export const BumpkinModal: React.FC<Props> = ({
                 <LevelUp
                   level={currentBumpkinLevel}
                   onClose={() => {
-                    onClose();
                     if (currentBumpkinLevel === 2) {
+                      onClose();
                       openModal("SECOND_LEVEL");
+                      setTimeout(() => acknowledgeLevelUp(), 500);
+                    } else {
+                      acknowledgeLevelUp();
                     }
-                    setTimeout(() => acknowledgeLevelUp(), 500);
                   }}
                   wearables={bumpkin.equipped as Equipped}
                 />
               </InnerPanel>
             ) : (
-              <Feed food={availableFood} />
+              <Feed
+                food={availableFood}
+                selectedName={selectedFoodName}
+                setSelectedName={setSelectedFoodName}
+              />
             )}
           </>
         )}
