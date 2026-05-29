@@ -108,7 +108,7 @@ export const TableRow: React.FC<RowProps> = ({
             }}
           />
           <p className="py-0.5 text-xxs sm:text-sm">
-            {`${isResource ? quantity : details.name}`}
+            {`${isResource || details.type === "economies" ? quantity : details.name}`}
           </p>
         </div>
       </div>

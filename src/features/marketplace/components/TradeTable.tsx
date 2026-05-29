@@ -70,7 +70,7 @@ export const ListingTable: React.FC<{
                 id: listing.id,
                 price: listing.sfl,
                 usd,
-                quantity: 1,
+                quantity: listing.quantity,
                 createdBy: listing.listedBy,
               }}
               isResource={isResource}

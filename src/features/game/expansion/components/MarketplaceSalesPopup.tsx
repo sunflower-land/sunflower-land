@@ -20,6 +20,7 @@ import { calculateTradePoints } from "features/game/events/landExpansion/addTrad
 import { ITEM_DETAILS } from "features/game/types/images";
 import { isTradeResource } from "features/game/actions/tradeLimits";
 import { KNOWN_ITEMS } from "features/game/types";
+import { fallbackDisplayNameForMinigameCurrencyKey } from "features/marketplace/lib/minigameMarketplaceCopy";
 
 /**
  * Display listings that have been fulfilled
@@ -71,6 +72,10 @@ export const MarketplaceSalesPopup: React.FC = () => {
               state: state.context.state,
             });
             const amount = listing.items[itemName as InventoryItemName];
+            const displayItemName =
+              listing.collection === "economies" && listing.economy
+                ? fallbackDisplayNameForMinigameCurrencyKey(listing.economy)
+                : (itemName as string);
 
             const tax = listing.tax ?? listing.sfl * MARKETPLACE_TAX;
             const sfl = new Decimal(listing.sfl).sub(tax);
@@ -88,7 +93,7 @@ export const MarketplaceSalesPopup: React.FC = () => {
                     <Box image={details.image} />
                     <div className="flex flex-col">
                       <div>
-                        <p className="text-xs mt-0.5">{`${amount} x ${itemName}`}</p>
+                        <p className="text-xs mt-0.5">{`${amount} x ${displayItemName}`}</p>
                       </div>
                       <div className="flex items-center space-x-1">
                         <p className="text-xs mt-0.5">{`${formatNumber(sfl, {
