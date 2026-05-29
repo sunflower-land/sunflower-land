@@ -15,7 +15,7 @@ import type {
   MachineState,
   BlockchainEvent,
 } from "features/game/lib/gameMachine";
-import { hasFeatureAccess } from "lib/flags";
+
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 
 import {
@@ -53,19 +53,12 @@ export const EconomyHub: React.FC = () => {
   const [authState] = useActor(authService);
   const token = authState.context.user.rawToken as string;
 
-  // In offline/dev mode (no `CONFIG.API_URL`) we skip the feature flag and
-  // farm-id gates entirely — the loaders short-circuit to mock data, so we
-  // want SWR to run regardless of the live game settings.
   const offline = isEconomyHubOffline();
-  const playerEconomiesAllowed =
-    offline || hasFeatureAccess(state, "PLAYER_ECONOMIES");
 
-  const tradeablesSwrKey = playerEconomiesAllowed
-    ? marketplaceEconomiesPageSwrKey(token ?? "")
-    : null;
+  const tradeablesSwrKey = marketplaceEconomiesPageSwrKey(token ?? "");
 
   const economiesSwrKey =
-    playerEconomiesAllowed && (offline || farmId > 0)
+    offline || farmId > 0
       ? economiesListPageSwrKey(token ?? "", farmId || 0)
       : null;
 
@@ -88,7 +81,6 @@ export const EconomyHub: React.FC = () => {
     () => {
       void mutateEconomies();
     },
-    playerEconomiesAllowed,
   );
 
   const items = tradeablesData?.items ?? [];

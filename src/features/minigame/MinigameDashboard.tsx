@@ -50,7 +50,7 @@ import { MinigameInventoryModal } from "./components/MinigameInventoryModal";
 import { MinigameTrophySection } from "./components/MinigameTrophySection";
 import { MinigameTrophyDetailModal } from "./components/MinigameTrophyDetailModal";
 import { clonePlayerEconomyRuntimeState } from "./lib/processPlayerEconomyAction";
-import { hasFeatureAccess } from "lib/flags";
+
 import { MinigameCurrencyWidget } from "./components/MinigameCurrencyWidget";
 import { MinigameHighscoreWidget } from "./components/MinigameHighscoreWidget";
 import { MinigameLeaderboardWidget } from "./components/MinigameLeaderboardWidget";
@@ -107,11 +107,6 @@ export const MinigameDashboard: React.FC = () => {
   const [authState] = useActor(authService);
   const farmId = gameState.context.farmId;
   const userToken = authState.context.user.rawToken as string | undefined;
-  const playerEconomiesBlocked = !hasFeatureAccess(
-    gameState.context.state,
-    "PLAYER_ECONOMIES",
-  );
-
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<MinigameLoadError | null>(null);
   const [payload, setPayload] = useState<MinigameDashboardData | null>(null);
@@ -185,9 +180,6 @@ export const MinigameDashboard: React.FC = () => {
   }, [slug, runtime?.activity]);
 
   useEffect(() => {
-    if (playerEconomiesBlocked) {
-      return;
-    }
     let cancelled = false;
     (async () => {
       setLoading(true);
@@ -210,14 +202,7 @@ export const MinigameDashboard: React.FC = () => {
     return () => {
       cancelled = true;
     };
-  }, [
-    slug,
-    userToken,
-    farmId,
-    applyRuntime,
-    dashboardReloadKey,
-    playerEconomiesBlocked,
-  ]);
+  }, [slug, userToken, farmId, applyRuntime, dashboardReloadKey]);
 
   /**
    * Leaderboard is best-effort: it never blocks the dashboard render and failures are
@@ -225,7 +210,6 @@ export const MinigameDashboard: React.FC = () => {
    * `dashboardReloadKey` bump so the list updates after a fresh minigame attempt.
    */
   useEffect(() => {
-    if (playerEconomiesBlocked) return;
     if (!slug) return;
     let cancelled = false;
     setLeaderboardLoading(true);
@@ -244,7 +228,7 @@ export const MinigameDashboard: React.FC = () => {
     return () => {
       cancelled = true;
     };
-  }, [slug, userToken, dashboardReloadKey, playerEconomiesBlocked]);
+  }, [slug, userToken, dashboardReloadKey]);
 
   const handleClose = useCallback(() => {
     navigate("/");
@@ -630,25 +614,6 @@ export const MinigameDashboard: React.FC = () => {
               slug: loadError.slug,
             })
           : t("minigame.dashboard.signInToLoad");
-
-  if (playerEconomiesBlocked) {
-    return (
-      <div
-        className="relative flex min-h-screen flex-col items-center justify-center gap-2 p-4"
-        style={{ paddingTop: safeTop }}
-      >
-        <MinigameDashboardBackdrop />
-        <div className="relative z-10 flex flex-col items-center justify-center gap-2">
-          <p className="text-sm text-center text-white px-2">
-            {t("minigame.dashboard.playerEconomiesNotAvailable")}
-          </p>
-          <Button onClick={handleClose}>
-            {t("minigame.dashboard.goBack")}
-          </Button>
-        </div>
-      </div>
-    );
-  }
 
   // While the adventure iframe is open, keep rendering the dashboard shell + Portal so
   // background refetches (token rotation, etc.) do not unmount the iframe and reload it.
