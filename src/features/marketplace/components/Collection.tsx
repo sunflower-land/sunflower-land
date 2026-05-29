@@ -51,13 +51,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { marketplaceMinigameItemPath } from "../lib/minigameTradePath";
 import { getBudBoostFilterLabels } from "../lib/budBoostFilters";
-import {
-  getMarketplaceFavoriteKey,
-  useMarketplaceFavorites,
-} from "../lib/marketplaceFavorites";
-import { Button } from "components/ui/Button";
-import { isTradeResource } from "features/game/actions/tradeLimits";
-import bwHeart from "assets/icons/bw_heart.png";
 
 const budTraitLabels = createTraitLabelLookup(BUD_TRAIT_GROUPS);
 const petTraitLabels = createTraitLabelLookup(PET_TRAIT_GROUPS);
@@ -106,41 +99,21 @@ export const preloadCollections = (token: string, showLimited: boolean) => {
 };
 
 const _state = (state: MachineState) => state.context.state;
-const _farmId = (state: MachineState) => state.context.farmId ?? 0;
 
-const getFavoriteCategoryRank = (
+type CollectionCardVariant = "default" | "favorites";
+
+type CollectionItemFilter = (
   item: Tradeable,
   display: TradeableDisplay,
-) => {
-  const isResourceFavorite =
-    item.collection === "collectibles" &&
-    (isTradeResource(display.name as InventoryItemName) ||
-      display.name === "CluckCoin");
-  const isPowerUpFavorite =
-    (item.collection === "collectibles" || item.collection === "wearables") &&
-    display.buffs.length > 0 &&
-    !isResourceFavorite;
-  const isCosmeticFavorite =
-    (item.collection === "collectibles" || item.collection === "wearables") &&
-    display.buffs.length === 0 &&
-    !isResourceFavorite;
+) => boolean;
 
-  if (isResourceFavorite) return 0;
-  if (item.expiresAt) return 1;
-  if (isPowerUpFavorite) return 2;
-  if (isCosmeticFavorite) return 3;
-  if (item.collection === "buds") return 4;
-  if (item.collection === "pets") return 5;
-
-  return 6;
-};
+type CollectionItemsSort = (
+  items: Tradeable[],
+  getDisplay: (item: Tradeable) => TradeableDisplay,
+) => void;
 
 const getTradeableKey = (item: Tradeable) =>
-  getMarketplaceFavoriteKey({
-    collection: item.collection,
-    id: item.id,
-    economy: item.collection === "economies" ? item.economy : undefined,
-  });
+  `${item.collection}:${item.collection === "economies" ? `${item.economy}:` : ""}${item.id}`;
 
 const dedupeTradeables = (items: Tradeable[]) =>
   Array.from(
@@ -160,32 +133,34 @@ export const Collection: React.FC<{
   search?: string;
   hideLimited?: boolean;
   onNavigated?: () => void;
-  favoritesOnly?: boolean;
-}> = ({ search, hideLimited, onNavigated, favoritesOnly = false }) => {
+  filtersOverride?: string;
+  filterItem?: CollectionItemFilter;
+  sortItems?: CollectionItemsSort;
+  rowHeight?: number;
+  cardVariant?: CollectionCardVariant;
+  emptyState?: React.ReactNode;
+  topContent?: React.ReactNode;
+}> = ({
+  search,
+  hideLimited,
+  onNavigated,
+  filtersOverride,
+  filterItem,
+  sortItems,
+  rowHeight,
+  cardVariant = "default",
+  emptyState,
+  topContent,
+}) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const farmId = useSelector(gameService, _farmId);
-  const { favoriteKeys, favorites } = useMarketplaceFavorites(farmId);
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
   const { t } = useAppTranslation();
   const isWorldRoute = useLocation().pathname.includes("/world");
   // Get query string params
   const [queryParams] = useSearchParams();
-  let filters = queryParams.get("filters") ?? "";
-
-  if (favoritesOnly) {
-    filters = favorites.length
-      ? [
-          "resources",
-          "collectibles",
-          "wearables",
-          "buds",
-          "pets",
-          ...(!hideLimited ? ["temporary"] : []),
-        ].join(",")
-      : "";
-  }
+  let filters = filtersOverride ?? queryParams.get("filters") ?? "";
 
   const chapterFilter = queryParams.get("chapter") ?? "";
   const chapterKey = toTraitValueId(chapterFilter);
@@ -353,6 +328,15 @@ export const Collection: React.FC<{
     );
   }
 
+  const getItemDisplay = (item: Tradeable) =>
+    getTradeableDisplay({
+      id: item.id,
+      type: item.collection,
+      state,
+      experience: item.collection === "pets" ? item.experience : undefined,
+      marketplaceItem: item,
+    });
+
   // Determines if an item matches the search criteria
   const matchesSearchCriteria = (
     display: TradeableDisplay,
@@ -432,22 +416,10 @@ export const Collection: React.FC<{
 
   const items =
     data?.items.filter((item) => {
-      const display = getTradeableDisplay({
-        id: item.id,
-        type: item.collection,
-        state,
-      });
+      const display = getItemDisplay(item);
 
-      if (favoritesOnly) {
-        const key = getMarketplaceFavoriteKey({
-          collection: item.collection,
-          id: item.id,
-          economy: item.collection === "economies" ? item.economy : undefined,
-        });
-
-        if (!favoriteKeys.has(key)) {
-          return false;
-        }
+      if (filterItem && !filterItem(item, display)) {
+        return false;
       }
 
       if (filters.includes("utility") && display.buffs.length === 0) {
@@ -635,40 +607,10 @@ export const Collection: React.FC<{
       return matchesSearchCriteria(display, search ?? "");
     }) ?? [];
 
-  if (favoritesOnly) {
-    items.sort((a, b) => {
-      const aDisplay = getTradeableDisplay({
-        id: a.id,
-        type: a.collection,
-        state,
-        experience: a.collection === "pets" ? a.experience : undefined,
-        marketplaceItem: a,
-      });
-      const bDisplay = getTradeableDisplay({
-        id: b.id,
-        type: b.collection,
-        state,
-        experience: b.collection === "pets" ? b.experience : undefined,
-        marketplaceItem: b,
-      });
-      const rankDifference =
-        getFavoriteCategoryRank(a, aDisplay) -
-        getFavoriteCategoryRank(b, bDisplay);
-
-      if (rankDifference !== 0) return rankDifference;
-
-      const nameDifference = (aDisplay.translatedName ?? aDisplay.name)
-        .toLowerCase()
-        .localeCompare(
-          (bDisplay.translatedName ?? bDisplay.name).toLowerCase(),
-        );
-
-      return nameDifference || a.id - b.id;
-    });
-  }
+  sortItems?.(items, getItemDisplay);
 
   const getRowHeight = () => {
-    if (favoritesOnly) return 250;
+    if (rowHeight) return rowHeight;
 
     if (filters === "resources") return 150;
     if (filters.includes("buds") || filters.includes("pets")) return 250;
@@ -677,6 +619,7 @@ export const Collection: React.FC<{
 
   return (
     <InnerPanel className="h-full flex flex-col">
+      {topContent}
       {activeTraitFilters.length > 0 && (
         <div className="flex flex-col gap-2 border-b border-brown-300 p-2 pt-0.5 pb-1">
           <div className="flex items-center gap-2">
@@ -712,29 +655,8 @@ export const Collection: React.FC<{
           </div>
         </div>
       )}
-      {favoritesOnly && items.length === 0 ? (
-        <div className="flex min-h-0 flex-1 flex-col items-center justify-center p-4 text-center">
-          <img src={bwHeart} className="mb-2 h-10" alt="" />
-          <p className="mb-1 text-sm">
-            {favorites.length === 0
-              ? t("marketplace.noFavorites")
-              : t("marketplace.noFavoritesInCategories")}
-          </p>
-          <p className="mb-3 max-w-xs text-xs">
-            {favorites.length === 0
-              ? t("marketplace.noFavorites.description")
-              : t("marketplace.noFavoritesInCategories.description")}
-          </p>
-          {favorites.length === 0 && (
-            <Button
-              onClick={() =>
-                navigate(`${isWorldRoute ? "/world" : ""}/marketplace/hot`)
-              }
-            >
-              {t("marketplace.browseMarketplace")}
-            </Button>
-          )}
-        </div>
+      {items.length === 0 && emptyState ? (
+        emptyState
       ) : (
         <div className="min-h-0 w-full flex-1">
           <AutoSizer>
@@ -769,14 +691,7 @@ export const Collection: React.FC<{
 
                 if (!item) return null;
 
-                const display = getTradeableDisplay({
-                  type: item.collection,
-                  id: item.id,
-                  state,
-                  experience:
-                    item.collection === "pets" ? item.experience : undefined,
-                  marketplaceItem: item,
-                });
+                const display = getItemDisplay(item);
 
                 const marketplaceBase = `${isWorldRoute ? "/world" : ""}/marketplace`;
                 const detailPath =
@@ -808,7 +723,7 @@ export const Collection: React.FC<{
                         onNavigated?.();
                       }}
                       expiresAt={item.expiresAt}
-                      variant={favoritesOnly ? "favorites" : "default"}
+                      variant={cardVariant}
                     />
                   </div>
                 );

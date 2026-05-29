@@ -5,6 +5,7 @@ import flowerIcon from "assets/icons/flower_token.webp";
 import crownIcon from "assets/icons/vip.webp";
 import { Route, Routes, useNavigate } from "react-router";
 import { Collection, preloadCollections } from "../Collection";
+import { Favourites } from "../Favourites";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { MarketplaceProfile } from "../MarketplaceProfile";
@@ -221,7 +222,7 @@ export const MarketplaceNavigation: React.FC = () => {
               <Route path="/hot" element={<MarketplaceHotNow />} />
               <Route
                 path="/favorites"
-                element={<Collection hideLimited={hideLimited} favoritesOnly />}
+                element={<Favourites hideLimited={hideLimited} />}
               />
               <Route
                 path="/economies/:economy/:id"

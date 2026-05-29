@@ -5926,6 +5926,7 @@
   "marketplace.cosmeticsDescription": "Decorate your farm with rare items",
   "marketplace.collections": "Collections",
   "marketplace.favorites": "Favorites",
+  "marketplace.favorites.beta": "This is in beta mode. Favourites are stored locally on your device - switching devices will change this list",
   "marketplace.addToFavorites": "add to favorites",
   "marketplace.addToFavoriteIcon": "Add to",
   "marketplace.removeFromFavorites": "remove from favorites",
