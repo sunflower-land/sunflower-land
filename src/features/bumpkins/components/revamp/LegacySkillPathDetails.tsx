@@ -282,7 +282,9 @@ export const LegacySkillPathDetails: React.FC<Props> = ({
                       </Label>
                       {!tierUnlocked && (
                         <Label type="default" className="ml-1">
-                          {`Points to unlock: ${totalUsedSkillPoints}/${pointsRequired}`}
+                          {t("skillTier.pointsToUnlock", {
+                            points: `${totalUsedSkillPoints}/${pointsRequired}`,
+                          })}
                         </Label>
                       )}
                     </div>
