@@ -1,4 +1,4 @@
-import { GameState, Skills } from "features/game/types/game";
+import type { GameState, Skills } from "features/game/types/game";
 import { populateSaltFarm } from "features/game/types/salt";
 import { produce } from "immer";
 import {
@@ -6,7 +6,7 @@ import {
   sanitizeSkillSelection,
   validateSkillSelection,
 } from "./choseSkill";
-import { chargeSkillEdit } from "./resetSkills";
+import { chargeSkillEdit } from "./chargeSkillEdit";
 
 export type UpdateSkillsAction = {
   type: "skills.updated";

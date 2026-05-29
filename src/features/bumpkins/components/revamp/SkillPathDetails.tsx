@@ -35,7 +35,7 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import { SKILL_TREE_ICONS } from "./SkillCategoryList";
 import tradeOffs from "src/assets/icons/tradeOffs.png";
 import { getSkillCooldown } from "features/game/events/landExpansion/skillUsed";
-import { Skills } from "features/game/types/game";
+import type { Skills } from "features/game/types/game";
 import classNames from "classnames";
 
 interface Props {

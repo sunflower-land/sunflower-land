@@ -97,9 +97,9 @@ import {
 } from "./landExpansion/updateSkills";
 
 import {
-  resetSkills,
-  type ResetSkillsAction,
-} from "./landExpansion/resetSkills";
+  useSkillResetTicket,
+  type SkillResetTicketUsedAction,
+} from "./landExpansion/useSkillResetTicket";
 import { seedBought, type SeedBoughtAction } from "./landExpansion/seedBought";
 import {
   claimAchievement,
@@ -828,7 +828,7 @@ export type PlayingEvent =
   | DetectBotAction
   | ChoseSkillAction
   | UpdateSkillsAction
-  | ResetSkillsAction
+  | SkillResetTicketUsedAction
   | SeedBoughtAction
   | ClaimAchievementAction
   | CraftToolAction
@@ -1120,7 +1120,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "trackMilestone.claimed": claimTrackMilestone,
   "skill.chosen": choseSkill,
   "skills.updated": updateSkills,
-  "skills.reset": resetSkills,
+  "skillResetTicket.used": useSkillResetTicket,
   "seed.bought": seedBought,
   "achievement.claimed": claimAchievement,
   "tool.crafted": craftTool,

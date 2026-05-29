@@ -1,8 +1,9 @@
 import { TEST_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
 import Decimal from "decimal.js-light";
-import { Skills } from "features/game/types/game";
+import type { Skills } from "features/game/types/game";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { updateSkills } from "./updateSkills";
+import { REGEN_MS } from "./chargeSkillEdit";
 
 describe("updateSkills", () => {
   const dateNow = Date.now();
@@ -15,7 +16,8 @@ describe("updateSkills", () => {
           ...INITIAL_BUMPKIN,
           experience: LEVEL_EXPERIENCE[3],
           skills: { "Green Thumb": 1 },
-          previousFreeSkillResetAt: dateNow,
+          freeSkillPoints: 50,
+          lastFreeSkillPointsRegenAt: dateNow,
         },
       },
       action: {
@@ -72,7 +74,8 @@ describe("updateSkills", () => {
           ...INITIAL_BUMPKIN,
           experience: LEVEL_EXPERIENCE[3],
           skills: { "Green Thumb": 1 },
-          previousFreeSkillResetAt: dateNow,
+          freeSkillPoints: 50,
+          lastFreeSkillPointsRegenAt: dateNow,
         },
       },
       action: {
@@ -189,7 +192,7 @@ describe("updateSkills", () => {
     ).toThrow("You do not have enough skill points");
   });
 
-  it("prevents the edit when gems are missing past the free window", () => {
+  it("prevents the edit when free balance is empty and gems are missing", () => {
     expect(() =>
       updateSkills({
         state: {
@@ -202,8 +205,8 @@ describe("updateSkills", () => {
             ...INITIAL_BUMPKIN,
             experience: LEVEL_EXPERIENCE[3],
             skills: { "Green Thumb": 1 },
-            skillPointsUsed: 200,
-            previousFreeSkillResetAt: dateNow,
+            freeSkillPoints: 0,
+            lastFreeSkillPointsRegenAt: dateNow,
           },
         },
         action: {
@@ -215,7 +218,7 @@ describe("updateSkills", () => {
     ).toThrow("Not enough gems");
   });
 
-  it("does not charge while skillPointsUsed is still inside the free window", () => {
+  it("absorbs the removal with the free balance when sufficient", () => {
     const result = updateSkills({
       state: {
         ...TEST_FARM,
@@ -227,7 +230,8 @@ describe("updateSkills", () => {
           ...INITIAL_BUMPKIN,
           experience: LEVEL_EXPERIENCE[3],
           skills: { "Green Thumb": 1 },
-          previousFreeSkillResetAt: dateNow,
+          freeSkillPoints: 10,
+          lastFreeSkillPointsRegenAt: dateNow,
         },
       },
       action: {
@@ -239,10 +243,10 @@ describe("updateSkills", () => {
 
     expect(result.bumpkin?.skills).toEqual({ "Young Farmer": 1 });
     expect(result.inventory.Gem?.toNumber()).toEqual(10);
-    expect(result.bumpkin?.skillPointsUsed).toEqual(1);
+    expect(result.bumpkin?.freeSkillPoints).toEqual(9);
   });
 
-  it("charges 1 gem per point once history passes the free 200", () => {
+  it("charges 3 gems per point once the free balance is exhausted", () => {
     const result = updateSkills({
       state: {
         ...TEST_FARM,
@@ -254,8 +258,8 @@ describe("updateSkills", () => {
           ...INITIAL_BUMPKIN,
           experience: LEVEL_EXPERIENCE[3],
           skills: { "Green Thumb": 1 },
-          skillPointsUsed: 200,
-          previousFreeSkillResetAt: dateNow,
+          freeSkillPoints: 0,
+          lastFreeSkillPointsRegenAt: dateNow,
         },
       },
       action: {
@@ -265,35 +269,40 @@ describe("updateSkills", () => {
       createdAt: dateNow,
     });
 
-    expect(result.inventory.Gem?.toNumber()).toEqual(9);
-    expect(result.bumpkin?.skillPointsUsed).toEqual(201);
+    expect(result.inventory.Gem?.toNumber()).toEqual(7);
+    expect(result.bumpkin?.freeSkillPoints).toEqual(0);
   });
 
-  it("doubles the gem rate every 200 points past the free window", () => {
+  it("splits cost across free balance and gems on the boundary", () => {
     const result = updateSkills({
       state: {
         ...TEST_FARM,
         inventory: {
           ...TEST_FARM.inventory,
-          Gem: new Decimal(10),
+          Gem: new Decimal(100),
         },
         bumpkin: {
           ...INITIAL_BUMPKIN,
-          experience: LEVEL_EXPERIENCE[3],
-          skills: { "Green Thumb": 1 },
-          skillPointsUsed: 400,
-          previousFreeSkillResetAt: dateNow,
+          experience: LEVEL_EXPERIENCE[20],
+          skills: {
+            "Green Thumb": 1,
+            "Young Farmer": 1,
+            "Experienced Farmer": 1,
+          },
+          freeSkillPoints: 2,
+          lastFreeSkillPointsRegenAt: dateNow,
         },
       },
       action: {
         type: "skills.updated",
-        skills: { "Young Farmer": 1 },
+        skills: {},
       },
       createdAt: dateNow,
     });
 
-    expect(result.inventory.Gem?.toNumber()).toEqual(8);
-    expect(result.bumpkin?.skillPointsUsed).toEqual(401);
+    // 3 points removed, 2 absorbed by free balance, 1 paid at 3 gems.
+    expect(result.inventory.Gem?.toNumber()).toEqual(97);
+    expect(result.bumpkin?.freeSkillPoints).toEqual(0);
   });
 
   it("does not charge or burn anything for pure additions", () => {
@@ -309,8 +318,8 @@ describe("updateSkills", () => {
           ...INITIAL_BUMPKIN,
           experience: LEVEL_EXPERIENCE[3],
           skills: { "Green Thumb": 1 },
-          skillPointsUsed: 50,
-          previousFreeSkillResetAt: dateNow,
+          freeSkillPoints: 10,
+          lastFreeSkillPointsRegenAt: dateNow,
         },
       },
       action: {
@@ -324,14 +333,12 @@ describe("updateSkills", () => {
       "Green Thumb": 1,
       "Young Farmer": 1,
     });
-    expect(result.bumpkin?.skillPointsUsed).toEqual(50);
-    expect(result.bumpkin?.previousFreeSkillResetAt).toEqual(dateNow);
+    expect(result.bumpkin?.freeSkillPoints).toEqual(10);
     expect(result.inventory["Skill Reset Ticket"]?.toNumber()).toEqual(1);
   });
 
-  it("auto-resets skillPointsUsed and stamps the timer after the 180-day window expires", () => {
-    const sixMonthsAgo = new Date(dateNow);
-    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+  it("regenerates a single +50 tick once the 90-day window has elapsed", () => {
+    const ninetyOneDaysAgo = dateNow - REGEN_MS - 24 * 60 * 60 * 1000;
 
     const result = updateSkills({
       state: {
@@ -340,8 +347,8 @@ describe("updateSkills", () => {
           ...INITIAL_BUMPKIN,
           experience: LEVEL_EXPERIENCE[3],
           skills: { "Green Thumb": 1 },
-          skillPointsUsed: 500,
-          previousFreeSkillResetAt: sixMonthsAgo.getTime(),
+          freeSkillPoints: 10,
+          lastFreeSkillPointsRegenAt: ninetyOneDaysAgo,
         },
       },
       action: {
@@ -351,38 +358,88 @@ describe("updateSkills", () => {
       createdAt: dateNow,
     });
 
-    // 1 point removed inside the fresh free window — no gem cost.
-    expect(result.bumpkin?.skillPointsUsed).toEqual(1);
-    expect(result.bumpkin?.previousFreeSkillResetAt).toEqual(dateNow);
+    // Started with 10, tick added 50 (cap 75 not hit), removed 1 = 59.
+    expect(result.bumpkin?.freeSkillPoints).toEqual(59);
+    expect(result.bumpkin?.lastFreeSkillPointsRegenAt).toEqual(dateNow);
   });
 
-  it("auto-consumes a ticket to absorb paid points instead of charging gems", () => {
+  it("caps the regen tick at MAX_FREE_POINTS even if dormant for years", () => {
+    const yearsAgo = dateNow - 10 * REGEN_MS;
+
+    const result = updateSkills({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: LEVEL_EXPERIENCE[3],
+          skills: { "Green Thumb": 1 },
+          freeSkillPoints: 60,
+          lastFreeSkillPointsRegenAt: yearsAgo,
+        },
+      },
+      action: {
+        type: "skills.updated",
+        skills: { "Young Farmer": 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    // 60 + 50 = 110, capped at 75, then -1 for the removal = 74.
+    expect(result.bumpkin?.freeSkillPoints).toEqual(74);
+  });
+
+  it("treats saves without freeSkillPoints as 50 (migration default)", () => {
+    const result = updateSkills({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: LEVEL_EXPERIENCE[3],
+          skills: { "Green Thumb": 1 },
+        },
+      },
+      action: {
+        type: "skills.updated",
+        skills: { "Young Farmer": 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(result.bumpkin?.freeSkillPoints).toEqual(49);
+    expect(result.bumpkin?.lastFreeSkillPointsRegenAt).toEqual(dateNow);
+  });
+
+  it("clears all skills when handed an empty skills payload (replacing the old reset event)", () => {
     const result = updateSkills({
       state: {
         ...TEST_FARM,
         inventory: {
           ...TEST_FARM.inventory,
-          "Skill Reset Ticket": new Decimal(1),
-          Gem: new Decimal(0),
+          Gem: new Decimal(100),
         },
         bumpkin: {
           ...INITIAL_BUMPKIN,
-          experience: LEVEL_EXPERIENCE[3],
-          skills: { "Green Thumb": 1 },
-          skillPointsUsed: 200,
-          previousFreeSkillResetAt: dateNow,
+          experience: LEVEL_EXPERIENCE[10],
+          skills: {
+            "Green Thumb": 1,
+            "Young Farmer": 1,
+            "Experienced Farmer": 1,
+            "Old Farmer": 1,
+          },
+          freeSkillPoints: 75,
+          lastFreeSkillPointsRegenAt: dateNow,
         },
       },
       action: {
         type: "skills.updated",
-        skills: { "Young Farmer": 1 },
+        skills: {},
       },
       createdAt: dateNow,
     });
 
-    // 1 paid point at history 200 → ticket absorbs it, no gems charged.
-    expect(result.inventory["Skill Reset Ticket"]?.toNumber()).toEqual(0);
-    expect(result.inventory.Gem?.toNumber()).toEqual(0);
-    expect(result.bumpkin?.skillPointsUsed).toEqual(201);
+    expect(result.bumpkin?.skills).toEqual({});
+    // 4 points removed, all absorbed by the 75-point free balance.
+    expect(result.bumpkin?.freeSkillPoints).toEqual(71);
+    expect(result.inventory.Gem?.toNumber()).toEqual(100);
   });
 });
