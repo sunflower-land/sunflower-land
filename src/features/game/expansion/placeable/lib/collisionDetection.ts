@@ -825,14 +825,15 @@ function detectInteriorCollision({
     return true;
   }
 
-  // Decorations (everything except utility NPCs) can be stacked freely on
-  // any valid interior tile — players should be able to pixel-perfect arrange
-  // collectibles without collision getting in the way.
-  if (name !== "FarmHand" && name !== "Bumpkin") {
+  // 2. Overlap check — interior placements must not overlap any other
+  // collectible already placed in the room. Existing overlaps in saved
+  // state are left alone; this only blocks new placements/moves that
+  // would land on top of something. Rugs / tiles (NON_COLLIDING_OBJECTS)
+  // are still free to overlap anything.
+  if (NON_COLLIDING_OBJECTS.includes(name as InventoryItemName)) {
     return false;
   }
 
-  // Utility NPCs (FarmHand, Bumpkin) still check against each other.
   const placed = state.interior.ground.collectibles;
   const collidingItems = getKeys(placed).filter(
     (itemName) => !NON_COLLIDING_OBJECTS.includes(itemName),
@@ -889,9 +890,9 @@ function detectLevelOneCollision({
     return true;
   }
 
-  // Same decoration-first policy as the ground floor: only FarmHand and
-  // Bumpkin are utility items that need to avoid overlapping each other.
-  if (name !== "FarmHand" && name !== "Bumpkin") {
+  // Same overlap policy as the ground floor — see detectInteriorCollision
+  // for rationale. Rugs / tiles can still stack freely.
+  if (NON_COLLIDING_OBJECTS.includes(name as InventoryItemName)) {
     return false;
   }
 

@@ -17,6 +17,7 @@ import { Hud } from "features/island/hud/Hud";
 import { LandscapingHud } from "features/island/hud/LandscapingHud";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { hasFeatureAccess } from "lib/flags";
+import { LandscapingGrid } from "features/island/landscaping/LandscapingGrid";
 import {
   NON_COLLIDING_OBJECTS,
   FURNITURE_OBJECTS,
@@ -352,21 +353,7 @@ export const LevelOne: React.FC = () => {
 
               {debug && <LevelOneGridOverlay tier={expansion} />}
 
-              <div
-                className={classNames(
-                  "absolute inset-0 pointer-events-none transition-opacity z-10",
-                  {
-                    "opacity-0": !landscaping,
-                    "opacity-100": landscaping,
-                  },
-                )}
-                style={{
-                  backgroundSize: `${GRID_WIDTH_PX}px ${GRID_WIDTH_PX}px`,
-                  backgroundImage: `
-                    linear-gradient(to right, rgb(255 255 255 / 17%) 1px, transparent 1px),
-                    linear-gradient(to bottom, rgb(255 255 255 / 17%) 1px, transparent 1px)`,
-                }}
-              />
+              <LandscapingGrid />
 
               {landscaping && <Placeable location="level_one" />}
 

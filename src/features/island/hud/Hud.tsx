@@ -27,6 +27,8 @@ import {
   getPowerSkills,
 } from "features/game/types/bumpkinSkills";
 import { LandscapeButton } from "./components/LandscapeButton";
+import { InteriorFloorNav } from "features/interior/components/InteriorFloorNav";
+import { InteriorBedsButton } from "features/interior/components/InteriorBedsButton";
 import { StreamCountdown } from "./components/streamCountdown/StreamCountdown";
 import { HudBumpkin } from "./components/bumpkinProfile/HudBumpkin";
 import { WorldFeedButton } from "features/social/components/WorldFeedButton";
@@ -110,6 +112,8 @@ const HudComponent: React.FC<{
         <WorldFeedButton showFeed={showFeed} setShowFeed={setShowFeed} />
         {hasPowerSkills && <PowerSkillsButton />}
         <MarketplaceButton />
+        {location === "interior" && <InteriorFloorNav floor="ground" />}
+        {location === "level_one" && <InteriorFloorNav floor="level_one" />}
         <TravelButton location={location} />
       </div>
       <div className="absolute bottom-0 pb-2 pl-3 left-16 flex flex-col space-y-2.5">
@@ -164,6 +168,9 @@ const HudComponent: React.FC<{
           hideActions={false}
           location={location}
         />
+        {(location === "interior" || location === "level_one") && (
+          <InteriorBedsButton />
+        )}
       </div>
 
       <div className="absolute bottom-0 p-2 right-0 flex flex-col space-y-2.5">

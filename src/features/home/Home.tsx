@@ -34,6 +34,7 @@ import {
 import { Bud } from "features/island/buds/Bud";
 import { InteriorBumpkins } from "./components/InteriorBumpkins";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useLandscapingGridBackgroundImage } from "features/island/landscaping/LandscapingGrid";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { EXTERIOR_ISLAND_BG } from "features/barn/BarnInside";
@@ -121,6 +122,7 @@ export const Home: React.FC = () => {
   const buds = useSelector(gameService, _buds);
   const petNFTs = useSelector(gameService, _petNFTs);
   const island = useSelector(gameService, _island);
+  const gridBackgroundImage = useLandscapingGridBackgroundImage();
   const homeFarmHands = useSelector(gameService, _homeFarmHands);
   const { collectibles, positions: homeCollectiblePositions } = useSelector(
     gameService,
@@ -343,9 +345,7 @@ export const Home: React.FC = () => {
                   width: `${bounds.height * GRID_WIDTH_PX}px`,
 
                   backgroundSize: `${GRID_WIDTH_PX}px ${GRID_WIDTH_PX}px`,
-                  backgroundImage: `
-            linear-gradient(to right, rgb(255 255 255 / 17%) 1px, transparent 1px),
-            linear-gradient(to bottom, rgb(255 255 255 / 17%) 1px, transparent 1px)`,
+                  backgroundImage: gridBackgroundImage,
                 }}
               />
 

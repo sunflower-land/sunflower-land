@@ -112,6 +112,13 @@ export interface Context {
   moving?: { id: string; name: LandscapingPlaceable };
 
   maximum?: number;
+
+  /**
+   * Bulk-removal mode. When true, the landscaping HUD collapses to a single
+   * "exit" button and a red banner, and any click on a placed item dispatches
+   * the matching `*.removed` event directly instead of selecting the item.
+   */
+  removalMode?: boolean;
 }
 
 type SelectEvent = {
@@ -193,6 +200,7 @@ export type BlockchainEvent =
   | RemoveEvent
   | RemoveAllEvent
   | FlipEvent
+  | { type: "TOGGLE_REMOVAL_MODE" }
   | { type: "CANCEL" }
   | { type: "BACK" };
 
@@ -314,6 +322,14 @@ export const landscapingMachine = createMachine<
             },
             BUILD: {
               target: "idle",
+            },
+            TOGGLE_REMOVAL_MODE: {
+              actions: assign({
+                removalMode: (context) => !context.removalMode,
+                // Entering removal mode should also clear any current
+                // selection so the floating action row goes away.
+                moving: (_) => undefined,
+              }),
             },
             REMOVE_ALL: {
               target: "idle",

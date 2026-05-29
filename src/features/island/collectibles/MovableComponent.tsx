@@ -455,6 +455,20 @@ export const MoveableComponent: React.FC<
     state.matches({ editing: "placing" }),
   );
 
+  const isRemovalMode = useSelector(
+    landscapingMachine,
+    (state) => !!state.context.removalMode,
+  );
+
+  // Exiting removal mode should clear any in-flight warning modal for this
+  // item, otherwise the dialog could resurface the next time the player
+  // selects this same item in normal mode.
+  useEffect(() => {
+    if (!isRemovalMode) {
+      setShowRemoveConfirmation(false);
+    }
+  }, [isRemovalMode]);
+
   const isSelected = movingItem?.id === id && movingItem?.name === name;
 
   // Elevate the nearest MapPlacement ancestor when selected so the disc panel
@@ -695,6 +709,26 @@ export const MoveableComponent: React.FC<
     } else {
       setShowRemoveConfirmation(true);
     }
+  };
+
+  // Mobile-safe finalise-removal path used by the Kuebiko / Hungry Caterpillar
+  // warning modals. Bypasses `remove()`'s `!isMobile && removeAction` gate so
+  // the modal's Remove button works in bulk removal mode on touch devices.
+  const confirmRemoveFromModal = () => {
+    const action = getRemoveAction(
+      name,
+      Date.now(),
+      selectedCollectible,
+      location,
+    );
+    setShowRemoveConfirmation(false);
+    if (!action) return;
+    landscapingMachine.send("REMOVE", {
+      event: action,
+      id,
+      name,
+      location,
+    });
   };
 
   useEffect(() => {
@@ -1106,11 +1140,46 @@ export const MoveableComponent: React.FC<
       // Also disable if there are overlaps and this item isn't selected
       // Disable while pixel-perfect mode is active so on-screen arrows aren't fighting the drag
       disabled={
-        (isMobile && !isSelected) || shouldDisableDrag || isPixelPerfectMode
+        (isMobile && !isSelected) ||
+        shouldDisableDrag ||
+        isPixelPerfectMode ||
+        isRemovalMode
       }
       onMouseDown={() => {
         // Mobile must click first, before dragging
         if (closeCurrentOverlapMenu) closeCurrentOverlapMenu();
+
+        // Bulk-removal mode: clicking a placed item dispatches its remove
+        // event directly and skips selection. The HUD stays in removal mode
+        // afterwards so the player can keep tapping to clear items.
+        if (isRemovalMode) {
+          const action = getRemoveAction(
+            name,
+            Date.now(),
+            selectedCollectible,
+            location,
+          );
+          // Restricted items (Manor, Town Center, House, Mansion, locked
+          // limited items in cooldown) — getRemoveAction returns null and the
+          // click is a no-op.
+          if (!action) {
+            return;
+          }
+          // Kuebiko and Hungry Caterpillar carry a warning about the gameplay
+          // side-effect of removing them — surface the same modal here so the
+          // bulk flow doesn't silently lose them.
+          if (name === "Kuebiko" || name === "Hungry Caterpillar") {
+            setShowRemoveConfirmation(true);
+            return;
+          }
+          landscapingMachine.send("REMOVE", {
+            event: action,
+            id,
+            name,
+            location,
+          });
+          return;
+        }
 
         if (isMobile && !isActive.current) {
           isActive.current = true;
@@ -1301,8 +1370,12 @@ export const MoveableComponent: React.FC<
           <div
             className="absolute z-20 flex"
             style={{
-              right: `${PIXEL_SCALE * -(hasRemovalAction ? 34 : 12)}px`,
-              bottom: `calc(100% + ${PIXEL_SCALE * 2}px)`,
+              // Anchor the action row's bottom-left to the item's top-right
+              // corner so the buttons start at the item's right edge and
+              // flow further right, never overlapping the item's footprint.
+              left: "100%",
+              bottom: "100%",
+              transform: `translate(0, ${PIXEL_SCALE * -2}px)`,
             }}
           >
             <div
@@ -1384,18 +1457,6 @@ export const MoveableComponent: React.FC<
                 />
               </div>
             )}
-            {showRemoveConfirmation && name === "Kuebiko" && (
-              <RemoveKuebikoModal
-                onClose={() => setShowRemoveConfirmation(false)}
-                onRemove={() => remove()}
-              />
-            )}
-            {showRemoveConfirmation && name === "Hungry Caterpillar" && (
-              <RemoveHungryCaterpillarModal
-                onClose={() => setShowRemoveConfirmation(false)}
-                onRemove={() => remove()}
-              />
-            )}
             {hasRemovalAction && (
               <div
                 className="group relative cursor-pointer"
@@ -1434,6 +1495,23 @@ export const MoveableComponent: React.FC<
               </div>
             )}
           </div>
+        )}
+        {/*
+          Warning modals for items with gameplay side-effects when removed.
+          Rendered outside the `isSelected` action-row above so they also
+          appear in bulk-removal mode, where there is no selection.
+        */}
+        {showRemoveConfirmation && name === "Kuebiko" && (
+          <RemoveKuebikoModal
+            onClose={() => setShowRemoveConfirmation(false)}
+            onRemove={isRemovalMode ? confirmRemoveFromModal : remove}
+          />
+        )}
+        {showRemoveConfirmation && name === "Hungry Caterpillar" && (
+          <RemoveHungryCaterpillarModal
+            onClose={() => setShowRemoveConfirmation(false)}
+            onRemove={isRemovalMode ? confirmRemoveFromModal : remove}
+          />
         )}
         {/*
           Selection tint anchored to the integer collision tile. The entity can
