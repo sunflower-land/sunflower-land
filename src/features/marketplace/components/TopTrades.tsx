@@ -53,7 +53,10 @@ export const TopTrades: React.FC<{
               <div className="flex flex-wrap items-center flex-1">
                 <div className="mr-2 text-left  flex items-center sm:w-1/2 w-full">
                   <div className="h-8 w-8 mr-2">
-                    <img src={details.image} className="h-full object-fit" />
+                    <img
+                      src={details.image}
+                      className="h-full w-full object-contain"
+                    />
                   </div>
                   <p className="text-sm py-0.5">{`${details.name}`}</p>
                 </div>
