@@ -14,6 +14,7 @@ import {
   DESERT_GRID_HEIGHT,
   DESERT_GRID_WIDTH,
   getArtefactsFound,
+  getRemainingDigs,
   hasClaimedReward,
   secondsTillDesertStorm,
 } from "features/game/types/desert";
@@ -23,7 +24,6 @@ import { hasReadDesertNotice as hasReadDesertNotice } from "../ui/beach/DesertNo
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import Decimal from "decimal.js-light";
 import { isTouchDevice } from "../lib/device";
-import { getRemainingDigs } from "features/island/hud/components/DesertDiggingDisplay";
 import { hasReadDigbyIntro } from "../ui/beach/Digby";
 import { isWearableActive } from "features/game/lib/wearables";
 import type { EventObject } from "xstate/lib/types";

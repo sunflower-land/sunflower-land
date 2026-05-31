@@ -3,57 +3,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import type { GameState } from "features/game/types/game";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { Modal } from "components/ui/Modal";
 import { Digby } from "features/world/ui/beach/Digby";
 import { useTranslation } from "react-i18next";
-import { isWearableActive } from "features/game/lib/wearables";
-
-export const getRegularMaxDigs = (game: GameState) => {
-  let maxDigs = 25;
-
-  if (isCollectibleBuilt({ name: "Heart of Davy Jones", game })) {
-    maxDigs += 20;
-  }
-
-  if (
-    isCollectibleBuilt({
-      name: "Pharaoh Chicken",
-      game,
-    })
-  ) {
-    maxDigs += 1;
-  }
-
-  if (isWearableActive({ name: "Bionic Drill", game })) {
-    maxDigs += 5;
-  }
-
-  if (isCollectibleBuilt({ name: "Meerkat", game })) {
-    maxDigs += 5;
-  }
-
-  return maxDigs;
-};
-
-export const getRemainingDigs = (game: GameState) => {
-  const { desert } = game;
-  const dugCount = desert.digging.grid.length;
-  const extraDigs = desert.digging.extraDigs ?? 0;
-  const regularMaxDigs = getRegularMaxDigs(game);
-  let digsLeft = regularMaxDigs - dugCount;
-
-  // This is the case where a player has bought and used extra digs
-  // The dug count is higher than the regular max digs
-  if (digsLeft < 0) {
-    digsLeft = 0;
-  }
-
-  digsLeft += extraDigs;
-
-  return digsLeft;
-};
+import { getRemainingDigs } from "features/game/types/desert";
 
 export const DesertDiggingDisplay = () => {
   const { gameService } = useContext(Context);

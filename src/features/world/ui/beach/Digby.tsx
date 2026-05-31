@@ -6,6 +6,7 @@ import {
   type DiggingFormation,
   DIGGING_FORMATIONS,
   getArtefactsFound,
+  getRemainingDigs,
   CHAPTER_ARTEFACT,
   hasClaimedReward,
   type DiggingFormationName,
@@ -32,7 +33,6 @@ import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import type { CollectibleName } from "features/game/types/craftables";
 import Decimal from "decimal.js-light";
-import { getRemainingDigs } from "features/island/hud/components/DesertDiggingDisplay";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { Revealed } from "features/game/components/Revealed";
