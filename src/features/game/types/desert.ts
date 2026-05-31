@@ -2,6 +2,8 @@ import { getKeys } from "lib/object";
 import type { GameState, InventoryItemName } from "./game";
 import { type ChapterName, getCurrentChapter } from "./chapters";
 import type { BeachBountyChapterArtefact } from "./treasure";
+import { isCollectibleBuilt } from "../lib/collectibleBuilt";
+import { isWearableActive } from "../lib/wearables";
 
 export const DESERT_GRID_HEIGHT = 10;
 export const DESERT_GRID_WIDTH = 10;
@@ -389,3 +391,56 @@ export function getTreasureCount({ game }: { game: GameState }) {
 
   return count;
 }
+
+/**
+ * The base number of digs available per day, before today's `extraDigs`,
+ * including the boosts granted by placed collectibles and active wearables.
+ */
+export const getRegularMaxDigs = (game: GameState) => {
+  let maxDigs = 25;
+
+  if (isCollectibleBuilt({ name: "Heart of Davy Jones", game })) {
+    maxDigs += 20;
+  }
+
+  if (
+    isCollectibleBuilt({
+      name: "Pharaoh Chicken",
+      game,
+    })
+  ) {
+    maxDigs += 1;
+  }
+
+  if (isWearableActive({ name: "Bionic Drill", game })) {
+    maxDigs += 5;
+  }
+
+  if (isCollectibleBuilt({ name: "Meerkat", game })) {
+    maxDigs += 5;
+  }
+
+  return maxDigs;
+};
+
+/**
+ * How many digs the player has left today: their boosted daily max minus
+ * holes already dug, plus any purchased `extraDigs`.
+ */
+export const getRemainingDigs = (game: GameState) => {
+  const { desert } = game;
+  const dugCount = desert.digging.grid.length;
+  const extraDigs = desert.digging.extraDigs ?? 0;
+  const regularMaxDigs = getRegularMaxDigs(game);
+  let digsLeft = regularMaxDigs - dugCount;
+
+  // This is the case where a player has bought and used extra digs
+  // The dug count is higher than the regular max digs
+  if (digsLeft < 0) {
+    digsLeft = 0;
+  }
+
+  digsLeft += extraDigs;
+
+  return digsLeft;
+};
