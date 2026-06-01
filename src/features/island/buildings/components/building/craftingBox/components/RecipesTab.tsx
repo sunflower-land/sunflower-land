@@ -12,6 +12,7 @@ import classNames from "classnames";
 import { SquareIcon } from "components/ui/SquareIcon";
 import {
   CHAPTER_CRAFTING_ITEMS,
+  DOLLS,
   type Recipe,
   type RecipeCollectibleName,
   type RecipeIngredient,
@@ -46,6 +47,73 @@ import { padRecipeIngredients } from "./craftingBoxUtils";
 const _state = (state: MachineState) => state.context.state;
 
 const MAX_CRAFTING_SLOTS = 4;
+
+type DiscoveredRecipeSectionId = "instant" | "dolls" | "beds" | "other";
+
+type DiscoveredRecipeSection = {
+  id: DiscoveredRecipeSectionId;
+  label?: "instant" | "dolls" | "beds";
+  recipes: Recipe[];
+};
+
+const DISCOVERED_RECIPE_SECTION_ORDER: DiscoveredRecipeSectionId[] = [
+  "instant",
+  "dolls",
+  "beds",
+  "other",
+];
+
+const getDiscoveredRecipeSectionId = (
+  recipe: Recipe,
+): DiscoveredRecipeSectionId => {
+  if (recipe.time === 0) return "instant";
+  if (recipe.name in DOLLS) return "dolls";
+  if (recipe.name.endsWith(" Bed")) return "beds";
+
+  return "other";
+};
+
+const getDiscoveredRecipeSectionLabel = (
+  sectionId: DiscoveredRecipeSectionId,
+): DiscoveredRecipeSection["label"] => {
+  if (sectionId === "instant" || sectionId === "dolls" || sectionId === "beds")
+    return sectionId;
+
+  return undefined;
+};
+
+const getDiscoveredRecipeSections = (recipes: Recipe[]) => {
+  const sections = recipes.reduce<DiscoveredRecipeSection[]>(
+    (sections, recipe) => {
+      const sectionId = getDiscoveredRecipeSectionId(recipe);
+      const section = sections.find(({ id }) => id === sectionId);
+
+      if (section) {
+        section.recipes.push(recipe);
+        return sections;
+      }
+
+      sections.push({
+        id: sectionId,
+        label: getDiscoveredRecipeSectionLabel(sectionId),
+        recipes: [recipe],
+      });
+
+      return sections;
+    },
+    [],
+  );
+
+  return sections.sort((a, b) => {
+    const aIndex = DISCOVERED_RECIPE_SECTION_ORDER.indexOf(a.id);
+    const bIndex = DISCOVERED_RECIPE_SECTION_ORDER.indexOf(b.id);
+
+    return (
+      (aIndex === -1 ? Number.MAX_SAFE_INTEGER : aIndex) -
+      (bIndex === -1 ? Number.MAX_SAFE_INTEGER : bIndex)
+    );
+  });
+};
 
 interface Props {
   handleSetupRecipe: (recipe: Recipe, targetSlot?: number) => void;
@@ -147,6 +215,10 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
         {},
       );
 
+  const discoveredRecipeSections = getDiscoveredRecipeSections(
+    Object.values(filteredRecipes || {}),
+  );
+
   const sillhouetteRecipes = getObjectEntries(RECIPES).reduce<Partial<Recipes>>(
     (acc, [name, recipe]) => {
       // Always exclude chapter items — they render in their own section
@@ -235,210 +307,224 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
         className="mb-2"
       />
       <div className="overflow-y-auto max-h-96 scrollable">
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-          {Object.values(filteredRecipes || {}).map((recipe) => {
-            const canCraft = hasRequiredIngredients(recipe);
-            const isCraftButtonDisabled = isRecipeCraftButtonDisabled({
-              recipe,
-              canCraft,
-            });
-            const { seconds: boostedCraftTime, boostsUsed } =
-              getBoostedCraftingTime({
-                game: state,
-                time: recipe.time,
-              });
+        {discoveredRecipeSections.map((section) => (
+          <React.Fragment key={section.id}>
+            {section.label && (
+              <Label type="default" className="my-2">
+                {t(section.label)}
+              </Label>
+            )}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {section.recipes.map((recipe) => {
+                const canCraft = hasRequiredIngredients(recipe);
+                const isCraftButtonDisabled = isRecipeCraftButtonDisabled({
+                  recipe,
+                  canCraft,
+                });
+                const { seconds: boostedCraftTime, boostsUsed } =
+                  getBoostedCraftingTime({
+                    game: state,
+                    time: recipe.time,
+                  });
 
-            return (
-              <div
-                onClick={() => setSelectedRecipe(recipe)}
-                key={recipe.name}
-                className="relative flex flex-col p-2 bg-brown-200 rounded-lg border border-brown-400 cursor-pointer"
-              >
-                <RecipeInfoPanel
-                  show={!!selectedRecipe && selectedRecipe.name === recipe.name}
-                  ingredients={
-                    selectedRecipe?.ingredients.filter(
-                      (ingredient) => ingredient !== null,
-                    ) as RecipeIngredient[]
-                  }
-                  onClick={() => setSelectedRecipe(null)}
-                />
-                <div className="flex justify-between">
-                  <Label type="transparent" className="mb-1">
-                    {recipe.name}
-                  </Label>
-                  <div>
-                    <ButtonPanel
-                      className={classNames(
-                        "flex items-center relative mb-1 cursor-pointer !p-0",
-                        {
-                          "cursor-not-allowed": isCraftButtonDisabled,
-                        },
-                      )}
-                      onClick={
-                        isCraftButtonDisabled
-                          ? undefined
-                          : (e) => {
-                              e.stopPropagation();
-                              handleRecipeCraft(recipe, targetSlot);
-                            }
+                return (
+                  <div
+                    onClick={() => setSelectedRecipe(recipe)}
+                    key={recipe.name}
+                    className="relative flex flex-col p-2 bg-brown-200 rounded-lg border border-brown-400 cursor-pointer"
+                  >
+                    <RecipeInfoPanel
+                      show={
+                        !!selectedRecipe && selectedRecipe.name === recipe.name
                       }
-                      disabled={isCraftButtonDisabled}
-                    >
-                      <SquareIcon icon={SUNNYSIDE.icons.hammer} width={5} />
-                    </ButtonPanel>
-                  </div>
-                </div>
-                <div className="flex items-start justify-between">
-                  <div className="flex flex-col mr-2">
-                    <div className="flex">
-                      <ButtonPanel
-                        onClick={
-                          isCraftButtonDisabled
-                            ? undefined
-                            : (e) => {
-                                e.stopPropagation();
-                                handleRecipeCraft(recipe, targetSlot);
-                              }
-                        }
-                        className={classNames("!p-0", {
-                          "cursor-not-allowed": isCraftButtonDisabled,
-                          "opacity-50": !canCraft,
-                        })}
-                        disabled={isCraftButtonDisabled}
-                      >
-                        {recipe.type === "collectible" && (
-                          <img
-                            src={ITEM_DETAILS[recipe.name]?.image}
-                            alt={recipe.name}
-                            className="w-6 h-6 object-contain"
-                          />
-                        )}
-                        {recipe.type === "wearable" && (
-                          <img
-                            src={getImageUrl(ITEM_IDS[recipe.name])}
-                            className="w-6 h-6 object-contain"
-                          />
-                        )}
-                        {recipeAmount(recipe.name as RecipeCollectibleName).gt(
-                          0,
-                        ) && (
-                          <div className="absolute -top-4 -right-4">
-                            <Label type="default">
-                              <p className="text-xxs">{`${recipeAmount(recipe.name as RecipeCollectibleName)}`}</p>
-                            </Label>
-                          </div>
-                        )}
-                      </ButtonPanel>
-                    </div>
-                    <div className="flex flex-col mt-1">
-                      {boostsUsed.length > 0 ? (
-                        <div
-                          className="flex flex-col items-start cursor-pointer"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setShowBoostsRecipeName(
-                              showBoostsRecipeName === recipe.name
-                                ? null
-                                : recipe.name,
-                            );
-                          }}
+                      ingredients={
+                        selectedRecipe?.ingredients.filter(
+                          (ingredient) => ingredient !== null,
+                        ) as RecipeIngredient[]
+                      }
+                      onClick={() => setSelectedRecipe(null)}
+                    />
+                    <div className="flex justify-between">
+                      <Label type="transparent" className="mb-1">
+                        {recipe.name}
+                      </Label>
+                      <div>
+                        <ButtonPanel
+                          className={classNames(
+                            "flex items-center relative mb-1 cursor-pointer !p-0",
+                            {
+                              "cursor-not-allowed": isCraftButtonDisabled,
+                            },
+                          )}
+                          onClick={
+                            isCraftButtonDisabled
+                              ? undefined
+                              : (e) => {
+                                  e.stopPropagation();
+                                  handleRecipeCraft(recipe, targetSlot);
+                                }
+                          }
+                          disabled={isCraftButtonDisabled}
                         >
-                          <div className="flex">
-                            <img
-                              src={SUNNYSIDE.icons.lightning}
-                              className="w-3 h-3 mr-1"
-                              alt="Crafting time"
-                            />
-                            <span className="text-xxs">
-                              {boostedCraftTime
-                                ? secondsToString(boostedCraftTime / 1000, {
-                                    length: "medium",
-                                    isShortFormat: true,
-                                  })
-                                : "Instant"}
-                            </span>
-                          </div>
-                          {recipe.time > 0 && (
+                          <SquareIcon icon={SUNNYSIDE.icons.hammer} width={5} />
+                        </ButtonPanel>
+                      </div>
+                    </div>
+                    <div className="flex items-start justify-between">
+                      <div className="flex flex-col mr-2">
+                        <div className="flex">
+                          <ButtonPanel
+                            onClick={
+                              isCraftButtonDisabled
+                                ? undefined
+                                : (e) => {
+                                    e.stopPropagation();
+                                    handleRecipeCraft(recipe, targetSlot);
+                                  }
+                            }
+                            className={classNames("!p-0", {
+                              "cursor-not-allowed": isCraftButtonDisabled,
+                              "opacity-50": !canCraft,
+                            })}
+                            disabled={isCraftButtonDisabled}
+                          >
+                            {recipe.type === "collectible" && (
+                              <img
+                                src={ITEM_DETAILS[recipe.name]?.image}
+                                alt={recipe.name}
+                                className="w-6 h-6 object-contain"
+                              />
+                            )}
+                            {recipe.type === "wearable" && (
+                              <img
+                                src={getImageUrl(ITEM_IDS[recipe.name])}
+                                className="w-6 h-6 object-contain"
+                              />
+                            )}
+                            {recipeAmount(
+                              recipe.name as RecipeCollectibleName,
+                            ).gt(0) && (
+                              <div className="absolute -top-4 -right-4">
+                                <Label type="default">
+                                  <p className="text-xxs">{`${recipeAmount(recipe.name as RecipeCollectibleName)}`}</p>
+                                </Label>
+                              </div>
+                            )}
+                          </ButtonPanel>
+                        </div>
+                        <div className="flex flex-col mt-1">
+                          {boostsUsed.length > 0 ? (
+                            <div
+                              className="flex flex-col items-start cursor-pointer"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setShowBoostsRecipeName(
+                                  showBoostsRecipeName === recipe.name
+                                    ? null
+                                    : recipe.name,
+                                );
+                              }}
+                            >
+                              <div className="flex">
+                                <img
+                                  src={SUNNYSIDE.icons.lightning}
+                                  className="w-3 h-3 mr-1"
+                                  alt="Crafting time"
+                                />
+                                <span className="text-xxs">
+                                  {boostedCraftTime
+                                    ? secondsToString(boostedCraftTime / 1000, {
+                                        length: "medium",
+                                        isShortFormat: true,
+                                      })
+                                    : "Instant"}
+                                </span>
+                              </div>
+                              {recipe.time > 0 && (
+                                <div className="flex">
+                                  <img
+                                    src={SUNNYSIDE.icons.stopwatch}
+                                    className="w-3 h-3 mr-1"
+                                    alt="Crafting time"
+                                  />
+                                  <span className="text-xxs line-through">
+                                    {secondsToString(recipe.time / 1000, {
+                                      length: "medium",
+                                      isShortFormat: true,
+                                    })}
+                                  </span>
+                                </div>
+                              )}
+                              <BoostsDisplay
+                                boosts={boostsUsed}
+                                show={showBoostsRecipeName === recipe.name}
+                                state={state}
+                                onClick={() =>
+                                  setShowBoostsRecipeName(
+                                    showBoostsRecipeName === recipe.name
+                                      ? null
+                                      : recipe.name,
+                                  )
+                                }
+                              />
+                            </div>
+                          ) : (
                             <div className="flex">
                               <img
                                 src={SUNNYSIDE.icons.stopwatch}
                                 className="w-3 h-3 mr-1"
                                 alt="Crafting time"
                               />
-                              <span className="text-xxs line-through">
-                                {secondsToString(recipe.time / 1000, {
-                                  length: "medium",
-                                  isShortFormat: true,
-                                })}
+                              <span className="text-xxs">
+                                {boostedCraftTime
+                                  ? secondsToString(boostedCraftTime / 1000, {
+                                      length: "medium",
+                                      isShortFormat: true,
+                                    })
+                                  : "Instant"}
                               </span>
                             </div>
                           )}
-                          <BoostsDisplay
-                            boosts={boostsUsed}
-                            show={showBoostsRecipeName === recipe.name}
-                            state={state}
-                            onClick={() =>
-                              setShowBoostsRecipeName(
-                                showBoostsRecipeName === recipe.name
-                                  ? null
-                                  : recipe.name,
-                              )
-                            }
-                          />
                         </div>
-                      ) : (
-                        <div className="flex">
-                          <img
-                            src={SUNNYSIDE.icons.stopwatch}
-                            className="w-3 h-3 mr-1"
-                            alt="Crafting time"
-                          />
-                          <span className="text-xxs">
-                            {boostedCraftTime
-                              ? secondsToString(boostedCraftTime / 1000, {
-                                  length: "medium",
-                                  isShortFormat: true,
-                                })
-                              : "Instant"}
-                          </span>
-                        </div>
-                      )}
+                      </div>
+                      <div className="grid grid-cols-3 gap-0.5">
+                        {Array(9)
+                          .fill(null)
+                          .map((_, index) => {
+                            const ingredient = recipe.ingredients[index];
+                            return (
+                              <div
+                                key={index}
+                                className="w-6 h-6 bg-brown-600 rounded border border-brown-700 flex items-center justify-center"
+                              >
+                                {ingredient?.collectible && (
+                                  <img
+                                    src={
+                                      ITEM_DETAILS[ingredient.collectible]
+                                        ?.image
+                                    }
+                                    className="w-5 h-5 object-contain"
+                                  />
+                                )}
+                                {ingredient?.wearable && (
+                                  <img
+                                    src={getImageUrl(
+                                      ITEM_IDS[ingredient.wearable],
+                                    )}
+                                    className="w-5 h-5 object-contain"
+                                  />
+                                )}
+                              </div>
+                            );
+                          })}
+                      </div>
                     </div>
                   </div>
-                  <div className="grid grid-cols-3 gap-0.5">
-                    {Array(9)
-                      .fill(null)
-                      .map((_, index) => {
-                        const ingredient = recipe.ingredients[index];
-                        return (
-                          <div
-                            key={index}
-                            className="w-6 h-6 bg-brown-600 rounded border border-brown-700 flex items-center justify-center"
-                          >
-                            {ingredient?.collectible && (
-                              <img
-                                src={
-                                  ITEM_DETAILS[ingredient.collectible]?.image
-                                }
-                                className="w-5 h-5 object-contain"
-                              />
-                            )}
-                            {ingredient?.wearable && (
-                              <img
-                                src={getImageUrl(ITEM_IDS[ingredient.wearable])}
-                                className="w-5 h-5 object-contain"
-                              />
-                            )}
-                          </div>
-                        );
-                      })}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+                );
+              })}
+            </div>
+          </React.Fragment>
+        ))}
 
         {!searchTerm.trim() &&
           Object.keys(sillhouetteRecipes || {}).length > 0 && (
