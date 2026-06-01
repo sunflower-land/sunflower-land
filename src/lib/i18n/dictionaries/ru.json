@@ -9033,5 +9033,6 @@
   "marketplace.purchase": "Purchase",
   "withdraw.notOnChain": "This item isn't on-chain yet. On-demand withdraw is coming soon.",
   "withdraw.restricted.description": "Some items cannot be withdrawn. Other items may be restricted when in use or still being built.",
-  "withdraw.restricted": "Withdrawal restricted"
+  "withdraw.restricted": "Withdrawal restricted",
+  "landscaping.quickPanel.empty.flowers": "No flowers available."
 }

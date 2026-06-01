@@ -9033,5 +9033,6 @@
   "marketplace.purchase": "Acheter",
   "withdraw.notOnChain": "Cet article n'est pas encore en chaîne. Le retrait à la demande sera bientôt disponible.",
   "withdraw.restricted.description": "Certains articles ne peuvent pas être retirés. D'autres objets peuvent être soumis à des restrictions lorsqu'ils sont en cours d'utilisation ou en cours de construction.",
-  "withdraw.restricted": "Retrait restreint"
+  "withdraw.restricted": "Retrait restreint",
+  "landscaping.quickPanel.empty.flowers": "Aucune fleur n'est disponible."
 }

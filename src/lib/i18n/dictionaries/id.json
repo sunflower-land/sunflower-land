@@ -9033,5 +9033,6 @@
   "marketplace.purchase": "Pembelian",
   "withdraw.notOnChain": "Item ini belum di-chain. Penarikan sesuai permintaan akan segera hadir.",
   "withdraw.restricted.description": "Beberapa item tidak dapat ditarik. Item lain mungkin dibatasi saat digunakan atau masih dibangun.",
-  "withdraw.restricted": "Penarikan dibatasi"
+  "withdraw.restricted": "Penarikan dibatasi",
+  "landscaping.quickPanel.empty.flowers": "Tidak ada bunga yang tersedia."
 }

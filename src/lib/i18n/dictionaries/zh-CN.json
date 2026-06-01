@@ -9033,5 +9033,6 @@
   "marketplace.purchase": "购买",
   "withdraw.notOnChain": "这件商品还没有上链。按需提款即将推出。",
   "withdraw.restricted.description": "有些物品无法撤回。其他物品在使用或仍在建造时可能会受到限制。",
-  "withdraw.restricted": "提款受限"
+  "withdraw.restricted": "提款受限",
+  "landscaping.quickPanel.empty.flowers": "没有鲜花可用。"
 }

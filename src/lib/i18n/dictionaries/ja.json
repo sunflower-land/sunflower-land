@@ -9033,5 +9033,6 @@
   "marketplace.purchase": "購入",
   "withdraw.notOnChain": "この商品はまだチェーンに入っていません。オンデマンドでの出金は間もなく開始されます。",
   "withdraw.restricted.description": "一部のアイテムは出金できません。その他のアイテムは、使用中または製造中に制限される場合があります。",
-  "withdraw.restricted": "出金制限あり"
+  "withdraw.restricted": "出金制限あり",
+  "landscaping.quickPanel.empty.flowers": "花はありません。"
 }

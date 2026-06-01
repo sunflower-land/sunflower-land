@@ -9033,5 +9033,6 @@
   "marketplace.purchase": "Kauf",
   "withdraw.notOnChain": "Dieser Artikel ist noch nicht in der Kette. Die Auszahlung auf Abruf erfolgt bald.",
   "withdraw.restricted.description": "Einige Artikel können nicht zurückgezogen werden. Andere Artikel können eingeschränkt sein, wenn sie verwendet werden oder sich noch im Bau befinden.",
-  "withdraw.restricted": "Auszahlung eingeschränkt"
+  "withdraw.restricted": "Auszahlung eingeschränkt",
+  "landscaping.quickPanel.empty.flowers": "Keine Blumen verfügbar."
 }
