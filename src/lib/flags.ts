@@ -158,7 +158,7 @@ const FEATURE_FLAGS = {
    * items already in `previousInventory` are selectable; off-chain items
    * appear locked with a "not on-chain yet" popover.
    */
-  MINT_ON_DEMAND_WITHDRAWS: betaFeatureFlag,
+  MINT_ON_DEMAND_WITHDRAWS: usernameFeatureFlag,
 
   BOOSTS_DISPLAY: betaFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
