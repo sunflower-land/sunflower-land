@@ -42,6 +42,7 @@ import {
   REQUIRED_FOOD_QTY,
 } from "features/game/events/landExpansion/feedAnimal";
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
+import { isAnimalFeedable } from "features/game/events/landExpansion/buyAnimal";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
 import { isWearableActive } from "features/game/lib/wearables";
@@ -148,6 +149,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const [showAnimalDetails, setShowAnimalDetails] = useState(false);
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
   const [showNoMedicine, setShowNoMedicine] = useState(false);
+  const [showOverCapacity, setShowOverCapacity] = useState(false);
   const [showFeedXP, setShowFeedXP] = useState(false);
   const [showNoFoodSelected, setShowNoFoodSelected] = useState(false);
   const [showLoveItem, setShowLoveItem] = useState<LoveAnimalItem>();
@@ -159,6 +161,9 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const ready = chickenMachineState === "ready";
   const idle = chickenMachineState === "idle";
   const sick = chickenMachineState === "sick" || chicken.state === "sick";
+  // Over-capacity animals (e.g. the Chicken Coop was removed/sold after buying
+  // animals) cannot be fed, but can still be cured and sold to bounties.
+  const isLocked = !isAnimalFeedable("henHouse", game, id);
 
   // Sounds
   const { play: playFeedAnimal } = useSound("feed_animal");
@@ -369,6 +374,13 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       return onReadyClick();
     }
 
+    if (isLocked) {
+      setShowOverCapacity(true);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setShowOverCapacity(false);
+      return;
+    }
+
     const hasFoodSelected = selectedItem && isAnimalFood(selectedItem);
 
     if (hasGoldEgg) {
@@ -398,6 +410,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     if (showNoMedicine) return t("animal.noMedicine");
     if (showNotEnoughFood)
       return t("animal.notEnoughFood", { amount: requiredFoodQty });
+    if (showOverCapacity) return t("animal.overCapacity");
   };
 
   const getAnimalXPEarned = () => {
@@ -444,7 +457,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     if (needsLove) return chicken.item;
     return favFood;
   };
-  const showRequestBubble = sick || needsLove || idle;
+  const showRequestBubble = sick || needsLove || (idle && !isLocked);
 
   if (chickenMachineState === "initial") return null;
 
@@ -554,10 +567,26 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
               request={requestBubbleRequest()}
             />
           )}
+          {/* Over-capacity lock */}
+          {isLocked && (
+            <img
+              src={SUNNYSIDE.icons.lock}
+              alt={t("animal.overCapacity")}
+              className="absolute z-20 pointer-events-none"
+              style={{
+                width: `${PIXEL_SCALE * 7}px`,
+                top: `${PIXEL_SCALE * 1}px`,
+                right: `${PIXEL_SCALE * 1}px`,
+              }}
+            />
+          )}
         </div>
         <InfoPopover
           showPopover={
-            showNoFoodSelected || showNoMedicine || showNotEnoughFood
+            showNoFoodSelected ||
+            showNoMedicine ||
+            showNotEnoughFood ||
+            showOverCapacity
           }
           className="-top-10 left-1/2 transform -translate-x-1/2 z-20"
         >

@@ -84,6 +84,41 @@ export const getBoostedAnimalCapacity = (
   return { capacity: baseCapacity, boostsUsed };
 };
 
+/**
+ * IDs of animals that exceed the building's current capacity and therefore
+ * cannot be fed. This happens when a player buys animals while a capacity
+ * boosting collectible (Chicken Coop / Barn Blueprint) is placed, then removes
+ * or sells that collectible. The OLDEST animals beyond the current capacity are
+ * locked; the newest `capacity` animals remain feedable. Locked animals can
+ * still be cured and sold to bounties.
+ */
+export const getOverCapacityAnimalIds = (
+  buildingKey: keyof GameState,
+  game: GameState,
+): Set<string> => {
+  const building = game[buildingKey] as AnimalBuilding;
+  const animals = Object.values(building.animals);
+  const { capacity } = getBoostedAnimalCapacity(buildingKey, game);
+
+  if (animals.length <= capacity) return new Set();
+
+  // Sort oldest first so the newest `capacity` animals remain feedable.
+  const oldestFirst = [...animals].sort((a, b) => {
+    if (a.createdAt !== b.createdAt) return a.createdAt - b.createdAt;
+    return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
+  });
+
+  const lockedCount = animals.length - capacity;
+
+  return new Set(oldestFirst.slice(0, lockedCount).map((animal) => animal.id));
+};
+
+export const isAnimalFeedable = (
+  buildingKey: keyof GameState,
+  game: GameState,
+  animalId: string,
+): boolean => !getOverCapacityAnimalIds(buildingKey, game).has(animalId);
+
 export function buyAnimal({
   state,
   action,
