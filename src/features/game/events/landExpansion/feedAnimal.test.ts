@@ -2307,5 +2307,62 @@ describe("feedAnimal", () => {
 
       expect(state.henHouse.animals["chicken-0"].state).toBe("idle");
     });
+
+    it("breaks createdAt ties by purchase (insertion) order, not id", () => {
+      // 11 chickens all created at the same time -> exactly 1 is locked.
+      // Insert the oldest (by purchase order) first, giving it an id that is
+      // NOT the lexicographically smallest, so an id-based tie-break would lock
+      // a different animal.
+      const makeChicken = (id: string): Animal => ({
+        id,
+        type: "Chicken",
+        state: "idle",
+        createdAt: 1000,
+        experience: 0,
+        asleepAt: 0,
+        awakeAt: 0,
+        lovedAt: 0,
+        item: "Petting Hand",
+      });
+
+      const animals: Record<string, Animal> = {
+        "m-first": makeChicken("m-first"),
+      };
+      for (let i = 0; i < 10; i++) {
+        animals[`a-${i}`] = makeChicken(`a-${i}`);
+      }
+
+      const state: GameState = {
+        ...overCapacityState,
+        henHouse: { ...overCapacityState.henHouse, animals },
+      };
+
+      // The first-inserted animal is locked, even though its id sorts last.
+      expect(() =>
+        feedAnimal({
+          createdAt: now,
+          state,
+          action: {
+            type: "animal.fed",
+            animal: "Chicken",
+            id: "m-first",
+            item: "Hay",
+          },
+        }),
+      ).toThrow("Animal exceeds building capacity and cannot be fed");
+
+      // A later-purchased animal with a smaller id stays feedable.
+      const fed = feedAnimal({
+        createdAt: now,
+        state,
+        action: {
+          type: "animal.fed",
+          animal: "Chicken",
+          id: "a-0",
+          item: "Hay",
+        },
+      });
+      expect(fed.henHouse.animals["a-0"].experience).toBe(10);
+    });
   });
 });

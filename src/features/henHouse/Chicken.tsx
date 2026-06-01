@@ -374,7 +374,9 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       return onReadyClick();
     }
 
-    if (isLocked) {
+    // Defensive: never let the capacity lock block curing a sick animal
+    // (sick is handled above via onSickClick); only normal feeding is gated.
+    if (isLocked && !sick) {
       setShowOverCapacity(true);
       await new Promise((resolve) => setTimeout(resolve, 1000));
       setShowOverCapacity(false);
