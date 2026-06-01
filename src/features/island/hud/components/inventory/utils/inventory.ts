@@ -1,8 +1,9 @@
 import Decimal from "decimal.js-light";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
-import { getObjectEntries } from "lib/object";
+import { getObjectEntries, getValues } from "lib/object";
 import type { ResourceItem } from "features/game/expansion/placeable/lib/collisionDetection";
+import { CHAPTER_MUTANTS } from "features/game/types/chapterMutants";
 import {
   type BuildingName,
   BUILDINGS_DIMENSIONS,
@@ -12,7 +13,7 @@ import {
   type CollectibleName,
   COLLECTIBLES_DIMENSIONS,
 } from "features/game/types/craftables";
-import { FLOWERS } from "features/game/types/flowers";
+import { FLOWERS, type MutantFlowerName } from "features/game/types/flowers";
 import { getKeys } from "lib/object";
 import type {
   FarmHands,
@@ -47,23 +48,24 @@ const PLACEABLE_DIMENSIONS = {
   ...RESOURCE_DIMENSIONS,
 };
 
-export const DECORATIVE_FLOWER_NAMES: CollectibleName[] = [
+const DECORATIVE_FLOWER_NAMES: CollectibleName[] = [
   "Dawn Flower",
   "Rainbow Flower",
   "Definitely not a Flower",
-  "Desert Rose",
-  "Chicory",
-  "Chamomile",
-  "Lunalist",
-  "Venus Bumpkin Trap",
-  "Black Hole Flower",
-  "Anemone Flower",
-  "Salt Crystal Flower",
+];
+
+export const MUTANT_FLOWER_NAMES: MutantFlowerName[] = getValues(
+  CHAPTER_MUTANTS,
+).map(({ Flower }) => Flower);
+
+export const CHEST_FLOWER_NAMES: CollectibleName[] = [
+  ...DECORATIVE_FLOWER_NAMES,
+  ...MUTANT_FLOWER_NAMES,
 ];
 
 const sortChestFlowers = (a: CollectibleName, b: CollectibleName) => {
-  const decorativeA = DECORATIVE_FLOWER_NAMES.indexOf(a);
-  const decorativeB = DECORATIVE_FLOWER_NAMES.indexOf(b);
+  const decorativeA = CHEST_FLOWER_NAMES.indexOf(a);
+  const decorativeB = CHEST_FLOWER_NAMES.indexOf(b);
   const isDecorativeA = decorativeA !== -1;
   const isDecorativeB = decorativeB !== -1;
 
@@ -78,8 +80,7 @@ export const getChestFlowers = (items: InventoryItemName[]) =>
   items
     .filter(
       (name): name is CollectibleName =>
-        name in FLOWERS ||
-        DECORATIVE_FLOWER_NAMES.includes(name as CollectibleName),
+        name in FLOWERS || CHEST_FLOWER_NAMES.includes(name as CollectibleName),
     )
     .sort(sortChestFlowers);
 
