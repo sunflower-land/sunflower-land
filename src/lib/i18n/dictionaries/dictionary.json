@@ -5534,7 +5534,7 @@
   "unlock.farmhandRevealing": "Unlocking farmhand...",
   "unlock.farmhandSuccess": "Farmhand unlocked! Your new helper is ready to work.",
   "bedsMigration.bedsNeeded": "Beds Needed!",
-  "bedsMigration.bedsNeededDescription": "Farm hands need beds in order to work on the farm.",
+  "bedsMigration.bedsNeededDescription": "Unlock extra Bumpkins for your farm by crafting beds at the Crafting Box.",
   "bedsMigration.bedsNeededDescription2": "Each unique bed can sleep one farm hand.",
   "bedsMigration.bedsNeededDescription3": "Place beds to hire more farmhands!",
   "bedsMigration.status.occupied": "Occupied",

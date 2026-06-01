@@ -51,6 +51,7 @@ import type { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { LandscapingChest } from "./components/LandscapingChest";
 import classNames from "classnames";
 import { LandscapingQuickPanel } from "./components/LandscapingQuickPanel";
+import { InteriorFloorNav } from "features/interior/components/InteriorFloorNav";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -76,6 +77,7 @@ const needsHelp = (state: GameMachineState) => {
 
 const selectMovingItem = (state: MachineState) => state.context.moving;
 const isIdle = (state: MachineState) => state.matches({ editing: "idle" });
+const selectRemovalMode = (state: MachineState) => !!state.context.removalMode;
 
 const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   location,
@@ -122,6 +124,12 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
 
   const selectedItem = useSelector(child, selectMovingItem);
   const idle = useSelector(child, isIdle);
+  const removalMode = useSelector(child, selectRemovalMode);
+
+  const toggleRemovalMode = () => {
+    button.play();
+    child.send("TOGGLE_REMOVAL_MODE");
+  };
   const gameState = useSelector(gameService, (state) => state.context.state);
   const farmHandIds = getKeys(gameState.farmHands.bumpkins);
   const hasNoBuildings = !gameState.buildings["Water Well"];
@@ -215,8 +223,52 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
         <Balances sfl={balance} coins={coins} gems={gems ?? new Decimal(0)} />
       </div>
 
+      {removalMode && (
+        <>
+          <div className="absolute left-1/2 -translate-x-1/2 top-2.5 z-50">
+            <Label type="danger">{"Removal mode"}</Label>
+          </div>
+          <div
+            className="absolute flex z-50 flex-col"
+            style={{
+              width: `${PIXEL_SCALE * 22}px`,
+              right: `${PIXEL_SCALE * 3}px`,
+              top: `${PIXEL_SCALE * 31}px`,
+            }}
+          >
+            <RoundButton onClick={toggleRemovalMode}>
+              <img
+                src={SUNNYSIDE.icons.cancel}
+                className="absolute group-active:translate-y-[2px]"
+                style={{
+                  top: `${PIXEL_SCALE * 5.5}px`,
+                  left: `${PIXEL_SCALE * 5.5}px`,
+                  width: `${PIXEL_SCALE * 11}px`,
+                }}
+              />
+            </RoundButton>
+          </div>
+        </>
+      )}
+
+      {!removalMode &&
+        (location === "interior" || location === "level_one") && (
+          <div
+            className="absolute z-50 flex flex-col space-y-3.5"
+            style={{
+              left: `${PIXEL_SCALE * 3}px`,
+              bottom: `${PIXEL_SCALE * 3}px`,
+              width: `${PIXEL_SCALE * 22}px`,
+            }}
+          >
+            <InteriorFloorNav
+              floor={location === "level_one" ? "level_one" : "ground"}
+            />
+          </div>
+        )}
+
       <>
-        {idle && (
+        {idle && !removalMode && (
           <>
             <div
               className="absolute flex z-50 flex-col"
@@ -373,6 +425,18 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                 />
               </RoundButton>
 
+              <RoundButton className="mb-3.5" onClick={toggleRemovalMode}>
+                <img
+                  src={ITEM_DETAILS["Rusty Shovel"].image}
+                  className="absolute group-active:translate-y-[2px]"
+                  style={{
+                    top: `${PIXEL_SCALE * 4}px`,
+                    left: `${PIXEL_SCALE * 4}px`,
+                    width: `${PIXEL_SCALE * 14}px`,
+                  }}
+                />
+              </RoundButton>
+
               {/* {farmHandIds.length > 0 && (
                 <>
                   {farmHandIds.map((id) => (
@@ -519,12 +583,16 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
         </div>
       )}
 
-      <LandscapingQuickPanel
-        location={location}
-        onQuickDragChange={setQuickDragging}
-      />
+      {!removalMode && (
+        <LandscapingQuickPanel
+          location={location}
+          onQuickDragChange={setQuickDragging}
+        />
+      )}
 
-      {!quickDragging && <PlaceableController location={location} />}
+      {!removalMode && !quickDragging && (
+        <PlaceableController location={location} />
+      )}
     </HudContainer>
   );
 };

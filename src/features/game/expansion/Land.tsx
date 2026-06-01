@@ -10,6 +10,7 @@ import { COLLECTIBLES_DIMENSIONS } from "../types/craftables";
 import { getKeys } from "lib/object";
 import { LandBase } from "./components/LandBase";
 import { UpcomingExpansion } from "./components/UpcomingExpansion";
+import { useLandscapingGridBackgroundImage } from "features/island/landscaping/LandscapingGrid";
 import { BUILDINGS_DIMENSIONS, type Home } from "../types/buildings";
 import { Building } from "features/island/buildings/components/building/Building";
 import { Collectible } from "features/island/collectibles/Collectible";
@@ -315,6 +316,7 @@ export const LandComponent: React.FC = () => {
   const island = useSelector(gameService, _island);
   const season = useSelector(gameService, _season);
   const expansionCount = useSelector(gameService, _expansionCount);
+  const gridBackgroundImage = useLandscapingGridBackgroundImage();
   const { crops, positions: cropPositions } = useSelector(
     gameService,
     _cropPositions,
@@ -1226,9 +1228,7 @@ export const LandComponent: React.FC = () => {
               )}
               style={{
                 backgroundSize: `${GRID_WIDTH_PX}px ${GRID_WIDTH_PX}px`,
-                backgroundImage: `
-            linear-gradient(to right, rgb(255 255 255 / 17%) 1px, transparent 1px),
-            linear-gradient(to bottom, rgb(255 255 255 / 17%) 1px, transparent 1px)`,
+                backgroundImage: gridBackgroundImage,
               }}
             />
 
