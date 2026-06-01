@@ -1,5 +1,5 @@
 import React from "react";
-import type Decimal from "decimal.js-light";
+import Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
 import coins from "assets/icons/coins.webp";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
