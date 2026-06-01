@@ -3456,7 +3456,6 @@
   "unlock.farmhand": "Sblocca Farmhand",
   "description.unlockFarmhand": "Questo {{name}} ti consente di sbloccare un nuovo bracciante che ti aiuti nella tua fattoria.",
   "bedsMigration.bedsNeeded": "Letti necessari!",
-  "bedsMigration.bedsNeededDescription": "I braccianti hanno bisogno di letti per lavorare nella fattoria.",
   "farmHand": "Mano della fattoria",
   "description.petting.hand": "Animali domestici. Usalo per mostrare affetto ai tuoi animali.",
   "animal.toolRequired": "{{tool}} Obbligatorio",
@@ -9034,5 +9033,6 @@
   "withdraw.notOnChain": "Questo articolo non è ancora in catena. Il prelievo su richiesta sarà presto disponibile.",
   "withdraw.restricted.description": "Alcuni articoli non possono essere ritirati. Altri articoli potrebbero essere soggetti a restrizioni quando sono in uso o sono ancora in costruzione.",
   "withdraw.restricted": "Ritiro limitato",
-  "landscaping.quickPanel.empty.flowers": "Non ci sono fiori disponibili."
+  "landscaping.quickPanel.empty.flowers": "Non ci sono fiori disponibili.",
+  "bedsMigration.bedsNeededDescription": "Sblocca altri Bumpkins per la tua fattoria creando letti nella Crafting Box."
 }

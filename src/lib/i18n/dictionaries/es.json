@@ -3456,7 +3456,6 @@
   "unlock.farmhand": "Desbloquea Ayudante",
   "description.unlockFarmhand": "Este {{name}} te permite desbloquear un nuevo ayudante para ayudarte en tu granja.",
   "bedsMigration.bedsNeeded": "¡Se necesitan camas!",
-  "bedsMigration.bedsNeededDescription": "Los ayudantes necesitan camas para poder trabajar en la granja.",
   "farmHand": "Ayudante",
   "description.petting.hand": "Animales de compañía. Utilízalo para mostrar afecto a tus animales.",
   "animal.toolRequired": "{{tool}} Obligatorio",
@@ -9034,5 +9033,6 @@
   "withdraw.notOnChain": "Este artículo aún no está en la cadena. El retiro bajo demanda llegará pronto.",
   "withdraw.restricted.description": "Algunos artículos no se pueden retirar. Es posible que otros artículos estén restringidos mientras estén en uso o aún se estén fabricando.",
   "withdraw.restricted": "Retiro restringido",
-  "landscaping.quickPanel.empty.flowers": "No hay flores disponibles."
+  "landscaping.quickPanel.empty.flowers": "No hay flores disponibles.",
+  "bedsMigration.bedsNeededDescription": "Desbloquea más Bumpkins para tu granja creando camas en la Caja de Artesanía."
 }

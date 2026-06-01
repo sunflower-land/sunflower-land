@@ -3456,7 +3456,6 @@
   "unlock.farmhand": "Desbloqueie Farmhand",
   "description.unlockFarmhand": "Isso {{name}} permite que você desbloqueie um novo fazendeiro para ajudar na sua fazenda.",
   "bedsMigration.bedsNeeded": "Camas necessárias!",
-  "bedsMigration.bedsNeededDescription": "Os fazendeiros precisam de camas para trabalhar na fazenda.",
   "farmHand": "Farm Hand",
   "description.petting.hand": "Animais de estimação. Use isso para mostrar afeto aos seus animais.",
   "animal.toolRequired": "{{tool}} Obrigatório",
@@ -9034,5 +9033,6 @@
   "withdraw.notOnChain": "Este item ainda não está na cadeia. A retirada sob demanda ocorrerá em breve.",
   "withdraw.restricted.description": "Alguns itens não podem ser retirados. Outros itens podem ser restritos quando em uso ou ainda estão sendo construídos.",
   "withdraw.restricted": "Retirada restrita",
-  "landscaping.quickPanel.empty.flowers": "Não há flores disponíveis."
+  "landscaping.quickPanel.empty.flowers": "Não há flores disponíveis.",
+  "bedsMigration.bedsNeededDescription": "Desbloqueie Bumpkins extras para sua fazenda criando camas na Crafting Box."
 }

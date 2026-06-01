@@ -3456,7 +3456,6 @@
   "unlock.farmhand": "Buka kunci Farmhand",
   "description.unlockFarmhand": "{{name}} ini memungkinkan Anda membuka kunci petani baru untuk membantu pertanian Anda.",
   "bedsMigration.bedsNeeded": "Tempat Tidur Dibutuhkan!",
-  "bedsMigration.bedsNeededDescription": "Tangan petani membutuhkan tempat tidur untuk bekerja di pertanian.",
   "farmHand": "Tangan Pertanian",
   "description.petting.hand": "Hewan peliharaan. Gunakan ini untuk menunjukkan kasih sayang kepada hewan Anda.",
   "animal.toolRequired": "{{tool}} Diperlukan",
@@ -9034,5 +9033,6 @@
   "withdraw.notOnChain": "Item ini belum di-chain. Penarikan sesuai permintaan akan segera hadir.",
   "withdraw.restricted.description": "Beberapa item tidak dapat ditarik. Item lain mungkin dibatasi saat digunakan atau masih dibangun.",
   "withdraw.restricted": "Penarikan dibatasi",
-  "landscaping.quickPanel.empty.flowers": "Tidak ada bunga yang tersedia."
+  "landscaping.quickPanel.empty.flowers": "Tidak ada bunga yang tersedia.",
+  "bedsMigration.bedsNeededDescription": "Buka Bumpkins ekstra untuk pertanian Anda dengan membuat tempat tidur di Kotak Kerajinan."
 }

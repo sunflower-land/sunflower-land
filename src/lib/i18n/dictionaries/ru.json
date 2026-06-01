@@ -4804,7 +4804,6 @@
   "unlock.farmhand": "Разблокируйте дополнительно помощника",
   "description.unlockFarmhand": "Это {{name}} позволит вам найти нового фермера, который поможет вам на ферме.",
   "bedsMigration.bedsNeeded": "Нужны кровати!",
-  "bedsMigration.bedsNeededDescription": "Работникам фермы нужны кровати для работы на ферме.",
   "bedsMigration.bedsNeededDescription2": "На каждой уникальной кровати может разместиться один фермер.",
   "bedsMigration.bedsNeededDescription3": "Разместите кровати, чтобы нанять больше фермеров!",
   "bedsMigration.status.occupied": "Занято",
@@ -9034,5 +9033,6 @@
   "withdraw.notOnChain": "This item isn't on-chain yet. On-demand withdraw is coming soon.",
   "withdraw.restricted.description": "Some items cannot be withdrawn. Other items may be restricted when in use or still being built.",
   "withdraw.restricted": "Withdrawal restricted",
-  "landscaping.quickPanel.empty.flowers": "No flowers available."
+  "landscaping.quickPanel.empty.flowers": "No flowers available.",
+  "bedsMigration.bedsNeededDescription": "Unlock extra Bumpkins for your farm by crafting beds at the Crafting Box."
 }

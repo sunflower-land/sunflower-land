@@ -3456,7 +3456,6 @@
   "unlock.farmhand": "Débloquez Farmhand",
   "description.unlockFarmhand": "Ce {{name}} vous permet de débloquer un nouvel ouvrier agricole pour vous aider dans votre ferme.",
   "bedsMigration.bedsNeeded": "Des lits sont nécessaires !",
-  "bedsMigration.bedsNeededDescription": "Les ouvriers agricoles ont besoin de lits pour travailler à la ferme.",
   "farmHand": "Farm Hand",
   "description.petting.hand": "Animaux de compagnie. Utilisez-le pour montrer de l'affection à vos animaux.",
   "animal.toolRequired": "{{tool}} Obligatoire",
@@ -9034,5 +9033,6 @@
   "withdraw.notOnChain": "Cet article n'est pas encore en chaîne. Le retrait à la demande sera bientôt disponible.",
   "withdraw.restricted.description": "Certains articles ne peuvent pas être retirés. D'autres objets peuvent être soumis à des restrictions lorsqu'ils sont en cours d'utilisation ou en cours de construction.",
   "withdraw.restricted": "Retrait restreint",
-  "landscaping.quickPanel.empty.flowers": "Aucune fleur n'est disponible."
+  "landscaping.quickPanel.empty.flowers": "Aucune fleur n'est disponible.",
+  "bedsMigration.bedsNeededDescription": "Débloquez des Bumpkins supplémentaires pour votre ferme en fabriquant des lits dans la Crafting Box."
 }

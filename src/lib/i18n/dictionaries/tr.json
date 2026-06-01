@@ -3456,7 +3456,6 @@
   "unlock.farmhand": "Farmhand'ın kilidini açın",
   "description.unlockFarmhand": "Bu {{name}}, çiftliğinize yardımcı olmak için yeni bir çiftlik işçisinin kilidini açmanıza olanak tanır.",
   "bedsMigration.bedsNeeded": "Yataklar Gerekli!",
-  "bedsMigration.bedsNeededDescription": "Çiftlik ellerinin çiftlikte çalışmak için yataklara ihtiyacı var.",
   "farmHand": "Çiftlik El",
   "description.petting.hand": "Evcil hayvanlar. Bunu hayvanlarınıza şefkat göstermek için kullanın.",
   "animal.toolRequired": "{{tool}} Gerekli",
@@ -9034,5 +9033,6 @@
   "withdraw.notOnChain": "Bu ürün henüz zincirde değil. İsteğe bağlı para çekme yakında geliyor.",
   "withdraw.restricted.description": "Bazı öğeler geri çekilemez. Diğer öğeler kullanımdayken veya hala inşa edilirken kısıtlanabilir.",
   "withdraw.restricted": "Para çekme kısıtlandı",
-  "landscaping.quickPanel.empty.flowers": "Çiçek yok."
+  "landscaping.quickPanel.empty.flowers": "Çiçek yok.",
+  "bedsMigration.bedsNeededDescription": "Crafting Box'ta yataklar hazırlayarak çiftliğiniz için ekstra Bumpkins'in kilidini açın."
 }

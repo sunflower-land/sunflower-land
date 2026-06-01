@@ -3456,7 +3456,6 @@
   "unlock.farmhand": "Farmhand freischalten",
   "description.unlockFarmhand": "Mit {{name}} kannst du einen neuen Farmarbeiter freischalten, der auf deiner Farm hilft.",
   "bedsMigration.bedsNeeded": "Betten werden benötigt!",
-  "bedsMigration.bedsNeededDescription": "Farmarbeiter brauchen Betten, um auf dem Hof arbeiten zu können.",
   "farmHand": "Landarbeiter",
   "description.petting.hand": "Haustiere Tiere. Verwenden Sie dies, um Ihren Tieren Zuneigung zu zeigen.",
   "animal.toolRequired": "{{tool}} Erforderlich",
@@ -9034,5 +9033,6 @@
   "withdraw.notOnChain": "Dieser Artikel ist noch nicht in der Kette. Die Auszahlung auf Abruf erfolgt bald.",
   "withdraw.restricted.description": "Einige Artikel können nicht zurückgezogen werden. Andere Artikel können eingeschränkt sein, wenn sie verwendet werden oder sich noch im Bau befinden.",
   "withdraw.restricted": "Auszahlung eingeschränkt",
-  "landscaping.quickPanel.empty.flowers": "Keine Blumen verfügbar."
+  "landscaping.quickPanel.empty.flowers": "Keine Blumen verfügbar.",
+  "bedsMigration.bedsNeededDescription": "Schalte zusätzliche Bumpkins für deine Farm frei, indem du Betten in der Bastelkiste herstellst."
 }

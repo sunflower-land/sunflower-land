@@ -3456,7 +3456,6 @@
   "unlock.farmhand": "解锁雇农",
   "description.unlockFarmhand": "此 {{name}} 允许您解锁一个新的雇农来帮助您的农场。",
   "bedsMigration.bedsNeeded": "需要张床！",
-  "bedsMigration.bedsNeededDescription": "雇农需要张床才能在农场工作。",
   "farmHand": "雇农",
   "description.petting.hand": "爱抚手套。用它来表达对动物的爱意。",
   "animal.toolRequired": "需要 {{tool}}",
@@ -9034,5 +9033,6 @@
   "withdraw.notOnChain": "这件商品还没有上链。按需提款即将推出。",
   "withdraw.restricted.description": "有些物品无法撤回。其他物品在使用或仍在建造时可能会受到限制。",
   "withdraw.restricted": "提款受限",
-  "landscaping.quickPanel.empty.flowers": "没有鲜花可用。"
+  "landscaping.quickPanel.empty.flowers": "没有鲜花可用。",
+  "bedsMigration.bedsNeededDescription": "在制作箱中制作床铺，为你的农场解锁额外的 Bumpkins。"
 }
