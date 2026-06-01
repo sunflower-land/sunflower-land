@@ -64,14 +64,14 @@ export const CHEST_FLOWER_NAMES: CollectibleName[] = [
 ];
 
 const sortChestFlowers = (a: CollectibleName, b: CollectibleName) => {
-  const decorativeA = CHEST_FLOWER_NAMES.indexOf(a);
-  const decorativeB = CHEST_FLOWER_NAMES.indexOf(b);
-  const isDecorativeA = decorativeA !== -1;
-  const isDecorativeB = decorativeB !== -1;
+  const orderA = CHEST_FLOWER_NAMES.indexOf(a);
+  const orderB = CHEST_FLOWER_NAMES.indexOf(b);
+  const isOrderedA = orderA !== -1;
+  const isOrderedB = orderB !== -1;
 
-  if (isDecorativeA && isDecorativeB) return decorativeA - decorativeB;
-  if (isDecorativeA) return -1;
-  if (isDecorativeB) return 1;
+  if (isOrderedA && isOrderedB) return orderA - orderB;
+  if (isOrderedA) return -1;
+  if (isOrderedB) return 1;
 
   return a.localeCompare(b);
 };
