@@ -19,7 +19,7 @@ import {
   type MachineState,
 } from "features/game/lib/gameMachine";
 import { translate } from "lib/i18n/translate";
-import { hasFeatureAccess } from "lib/flags";
+import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import { Transaction } from "features/island/hud/Transaction";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { GameWallet } from "features/wallet/Wallet";
@@ -177,7 +177,10 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const state = useSelector(gameService, _state);
   // @deprecated: gated behind `MINT_ON_DEMAND_WITHDRAWS`. Beta players skip
   // the legacy sync warning — the new mint-on-demand flow makes sync redundant.
-  const showSyncWarning = !hasFeatureAccess(state, "MINT_ON_DEMAND_WITHDRAWS");
+  const showSyncWarning = !useTimeBasedFeatureAccess({
+    featureName: "MINT_ON_DEMAND_WITHDRAWS",
+    game: state,
+  });
 
   const accountTradedRecently = useSelector(gameService, (s) =>
     isAccountTradedWithin90Days(s.context),

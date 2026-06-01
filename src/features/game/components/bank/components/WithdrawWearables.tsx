@@ -31,7 +31,7 @@ import { secondsToString } from "lib/utils/time";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { useNow } from "lib/utils/hooks/useNow";
 import { MAX_MINT_AMOUNT } from "lib/blockchain/Withdrawals";
-import { hasFeatureAccess } from "lib/flags";
+import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: number[]) => void;
@@ -54,7 +54,10 @@ export const WithdrawWearables: React.FC<Props> = ({
   // capped at `previousWardrobe + MAX_MINT_AMOUNT`. When off, the UI is
   // clamped to items already on-chain; off-chain stock surfaces as a
   // locked, popover-explained row.
-  const hasMintOnDemand = hasFeatureAccess(state, "MINT_ON_DEMAND_WITHDRAWS");
+  const hasMintOnDemand = useTimeBasedFeatureAccess({
+    featureName: "MINT_ON_DEMAND_WITHDRAWS",
+    game: state,
+  });
 
   // Beta: cap at `previousWardrobe + MAX_MINT_AMOUNT` (matches BE mint cap).
   // Non-beta: clamp to what's already on-chain.

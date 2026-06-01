@@ -10,7 +10,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context as GameContext } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { hasFeatureAccess } from "lib/flags";
+import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import type { ContentComponentProps } from "../types";
 import { Label } from "components/ui/Label";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -38,7 +38,10 @@ export const BlockchainSettings: React.FC<ContentComponentProps> = ({
   const isFullUser = farmAddress !== "";
   // @deprecated: gated behind `MINT_ON_DEMAND_WITHDRAWS`. Beta players see no
   // "Store on Chain" CTA — the new mint-on-demand withdraw flow replaces it.
-  const showStoreOnChain = !hasFeatureAccess(state, "MINT_ON_DEMAND_WITHDRAWS");
+  const showStoreOnChain = !useTimeBasedFeatureAccess({
+    featureName: "MINT_ON_DEMAND_WITHDRAWS",
+    game: state,
+  });
   const storeOnChain = async () => {
     openModal("STORE_ON_CHAIN");
     onClose();

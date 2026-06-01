@@ -21,7 +21,7 @@ import { getKeys } from "lib/object";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { getBankItems } from "features/goblins/storageHouse/lib/storageItems";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { hasFeatureAccess } from "lib/flags";
+import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import { INVENTORY_RELEASES } from "features/game/types/withdrawables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -94,7 +94,10 @@ export const WithdrawItems: React.FC<Props> = ({
   // capped at `previousInventory + MAX_MINT_AMOUNT`. When off, the UI
   // falls back to `getBankItems` (only items already on-chain), and any
   // off-chain stock is surfaced as a locked, popover-explained row.
-  const hasMintOnDemand = hasFeatureAccess(state, "MINT_ON_DEMAND_WITHDRAWS");
+  const hasMintOnDemand = useTimeBasedFeatureAccess({
+    featureName: "MINT_ON_DEMAND_WITHDRAWS",
+    game: state,
+  });
 
   // Cap selectable counts at `previousInventory + MAX_MINT_AMOUNT` so the
   // UI matches the backend's per-call mint cap. Players with more off-chain

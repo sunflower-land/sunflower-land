@@ -73,6 +73,10 @@ export const TIME_BASED_FEATURE_FLAG_WINDOWS = {
     start: new Date("2026-04-01T00:00:00Z"),
     end: new Date("2026-04-08T00:00:00Z"),
   },
+  MINT_ON_DEMAND_WITHDRAWS: {
+    start: new Date("2026-06-02T00:00:00Z"),
+    end: null,
+  },
 } satisfies Record<string, TimeBasedFeatureWindow>;
 
 /** All time-based flags receive the full window; start-only helpers ignore `end`. */
@@ -89,6 +93,7 @@ export const TIME_BASED_FEATURE_FLAGS: Record<
   TICKETS_FROM_COIN_NPC: timePeriodFeatureFlag,
   TICKETS_FROM_FLOWER_NPC: timePeriodFeatureFlag,
   APRIL_FOOLS_EVENT_FLAG: betaTimePeriodFeatureFlag,
+  MINT_ON_DEMAND_WITHDRAWS: timePeriodFeatureFlag,
 };
 
 /**
@@ -158,7 +163,6 @@ const FEATURE_FLAGS = {
    * items already in `previousInventory` are selectable; off-chain items
    * appear locked with a "not on-chain yet" popover.
    */
-  MINT_ON_DEMAND_WITHDRAWS: usernameFeatureFlag,
 
   BOOSTS_DISPLAY: betaFeatureFlag,
 } satisfies Record<string, FeatureFlag>;

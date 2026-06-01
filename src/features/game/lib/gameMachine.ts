@@ -113,7 +113,7 @@ import { depositFlower } from "lib/blockchain/DepositFlower";
 import type { NetworkOption } from "features/island/hud/components/deposit/DepositFlower";
 import { blessingIsReady } from "./blessings";
 import { depositSFL } from "lib/blockchain/DepositSFL";
-import { hasFeatureAccess } from "lib/flags";
+import { hasFeatureAccess, hasTimeBasedFeatureAccess } from "lib/flags";
 import { isDailyRewardReady } from "../events/landExpansion/claimDailyReward";
 import { getDailyRewardLastAcknowledged } from "../components/DailyReward";
 import type { LanguageCode } from "lib/i18n/dictionaries/language";
@@ -398,10 +398,11 @@ const playingEventHandler = (
           // Beta players (testnet + Beta Pass) bypass the legacy hoarding
           // transition — the new mint-on-demand withdraw flow handles excess.
           if (
-            hasFeatureAccess(
-              context.state as GameState,
-              "MINT_ON_DEMAND_WITHDRAWS",
-            )
+            hasTimeBasedFeatureAccess({
+              featureName: "MINT_ON_DEMAND_WITHDRAWS",
+              game: context.state as GameState,
+              now: Date.now(),
+            })
           ) {
             return false;
           }
