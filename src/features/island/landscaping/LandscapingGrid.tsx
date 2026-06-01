@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useSyncExternalStore } from "react";
 import classNames from "classnames";
 import { useSelector } from "@xstate/react";
 
@@ -7,46 +7,49 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import type { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import type { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
 
-const _landscaping = (state: GameMachineState) =>
-  state.matches("landscaping");
+const _landscaping = (state: GameMachineState) => state.matches("landscaping");
 
 export const GRID_LINE_DEFAULT = "rgb(255 255 255 / 17%)";
 export const GRID_LINE_REMOVAL = "rgb(220 38 38 / 55%)";
+
+const NOOP_UNSUBSCRIBE = () => {};
 
 /**
  * Subscribes to the spawned `landscaping` child machine's `removalMode`
  * context flag. Returns false whenever the player is not currently in
  * landscaping (so callers can safely render even outside landscaping mode).
  *
- * Uses a manual subscription rather than `useSelector(child, …)` because the
+ * Uses `useSyncExternalStore` rather than `useSelector(child, …)` because the
  * child actor only exists while the parent gameMachine is in the landscaping
  * state — useSelector would throw if the actor is undefined.
  */
 export function useLandscapingRemovalMode(): boolean {
   const { gameService } = useContext(Context);
   const landscaping = useSelector(gameService, _landscaping);
-  const [removalMode, setRemovalMode] = useState(false);
 
-  useEffect(() => {
-    if (!landscaping) {
-      setRemovalMode(false);
-      return;
-    }
+  const subscribe = useCallback(
+    (notify: () => void) => {
+      if (!landscaping) return NOOP_UNSUBSCRIBE;
+      const child = gameService.getSnapshot().children.landscaping as
+        | MachineInterpreter
+        | undefined;
+      if (!child) return NOOP_UNSUBSCRIBE;
+      const sub = child.subscribe(notify);
+      return () => sub.unsubscribe();
+    },
+    [landscaping, gameService],
+  );
+
+  const getSnapshot = useCallback(() => {
+    if (!landscaping) return false;
     const child = gameService.getSnapshot().children.landscaping as
       | MachineInterpreter
       | undefined;
-    if (!child) {
-      setRemovalMode(false);
-      return;
-    }
-    setRemovalMode(!!child.getSnapshot()?.context.removalMode);
-    const sub = child.subscribe((state) => {
-      setRemovalMode(!!state.context.removalMode);
-    });
-    return () => sub.unsubscribe();
+    if (!child) return false;
+    return !!child.getSnapshot()?.context.removalMode;
   }, [landscaping, gameService]);
 
-  return removalMode;
+  return useSyncExternalStore(subscribe, getSnapshot, () => false);
 }
 
 /**

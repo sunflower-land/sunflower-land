@@ -85,12 +85,7 @@ export const BedsMigrationModal: React.FC<Props> = ({ show, onHide }) => {
                 (f) => f.equipped,
               )[i];
               return (
-                <BedCell
-                  bed={bed}
-                  equipment={equipment}
-                  isPlaced
-                  key={bed}
-                />
+                <BedCell bed={bed} equipment={equipment} isPlaced key={bed} />
               );
             })}
             {getKeys(BED_FARMHAND_COUNT)

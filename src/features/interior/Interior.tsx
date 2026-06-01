@@ -1,5 +1,4 @@
 import React, { useContext, useLayoutEffect, useMemo, type JSX } from "react";
-import classNames from "classnames";
 import { useSelector } from "@xstate/react";
 import { useNavigate, useSearchParams } from "react-router";
 import ScrollContainer from "react-indiana-drag-scroll";
