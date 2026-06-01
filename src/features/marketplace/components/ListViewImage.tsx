@@ -7,6 +7,7 @@ interface Props {
   type: string;
   fallbackImage?: string;
   isResources?: boolean;
+  variant?: "default" | "favorites";
 }
 
 export const ListViewImage = ({
@@ -15,6 +16,7 @@ export const ListViewImage = ({
   type,
   fallbackImage,
   isResources,
+  variant = "default",
 }: Props) => {
   const [imageUrl, setImageUrl] = useState<string>(image);
 
@@ -45,7 +47,8 @@ export const ListViewImage = ({
       alt={name}
       src={imageUrl}
       className={classNames("object-contain h-[80%] mt-1", {
-        "h-[55%] mt-3": isResources,
+        "h-[55%] mt-3": isResources && variant === "default",
+        "h-[60%] mt-4": isResources && variant === "favorites",
       })}
       loading="lazy"
       decoding="async"

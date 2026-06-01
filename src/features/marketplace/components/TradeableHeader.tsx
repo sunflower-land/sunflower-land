@@ -4,7 +4,6 @@ import { Label } from "components/ui/Label";
 import { Modal } from "components/ui/Modal";
 import { Panel, InnerPanel } from "components/ui/Panel";
 import type {
-  CollectionName,
   TradeableDetails,
   Tradeable,
 } from "features/game/types/marketplace";
@@ -43,7 +42,6 @@ type TradeableHeaderProps = {
   authToken: string;
   farmId: number;
   limitedTradesLeft: number;
-  collection: CollectionName;
   tradeable?: TradeableDetails;
   count: number;
   pricePerUnit?: number;
@@ -155,7 +153,6 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
     limitedPurchasesLeft > 0;
 
   const isTutorialBuy = canBuy && isTutorialItem && count === 0;
-
   return (
     <>
       {cheapestListing && (

@@ -33,6 +33,7 @@ import useSWR from "swr";
 import { getWeekKey } from "features/game/lib/factions";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useMarketplaceFavorites } from "../lib/marketplaceFavorites";
 
 const _trades = (state: MachineState) => state.context.state.trades;
 const _farmId = (state: MachineState) => state.context.farmId;
@@ -53,6 +54,7 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
   const location = useLocation();
 
   const farmId = useSelector(gameService, _farmId);
+  const { isFavorite, toggleFavorite } = useMarketplaceFavorites(farmId);
   const authToken = authState.context.user.rawToken as string;
   const state = useSelector(gameService, _state);
   const trades = useSelector(gameService, _trades);
@@ -215,6 +217,14 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
   const marketPrice = getMarketPrice({ tradeable });
 
   const isStoneBeetle = collection === "collectibles" && Number(id) === 2129;
+  const favoriteItem =
+    collection === "economies"
+      ? undefined
+      : {
+          collection: collection as CollectionName,
+          id: Number(id),
+        };
+  const isFavorited = favoriteItem ? isFavorite(favoriteItem) : false;
 
   return (
     <div className="flex sm:flex-row flex-col w-full scrollable overflow-y-auto h-[calc(100vh-112px)] pr-1 pb-8">
@@ -237,12 +247,20 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
             hideLimited={hideLimited}
             display={display}
             tradeable={tradeable}
+            isFavorite={isFavorited}
+            onToggleFavorite={
+              favoriteItem ? () => toggleFavorite(favoriteItem) : undefined
+            }
           />
         ) : (
           <TradeableInfo
             display={display}
             tradeable={tradeable}
             hideLimited={hideLimited}
+            isFavorite={isFavorited}
+            onToggleFavorite={
+              favoriteItem ? () => toggleFavorite(favoriteItem) : undefined
+            }
           />
         )}
       </div>
@@ -252,7 +270,6 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
           farmId={farmId}
           limitedTradesLeft={limitedTradesLeft}
           limitedPurchasesLeft={limitedPurchasesLeft}
-          collection={collection as CollectionName}
           count={count}
           tradeable={tradeable}
           display={display}

@@ -374,7 +374,7 @@ export const Filters: React.FC<{
       : []),
     // Cosmetics
     {
-      icon: SUNNYSIDE.icons.heart,
+      icon: ITEM_DETAILS["Basic Bear"].image,
       label: t("marketplace.cosmetics"),
       onClick: () => {
         setExpandedTraitGroups({});
@@ -503,6 +503,16 @@ export const Filters: React.FC<{
             },
           ]
         : undefined,
+    },
+    // Favorites
+    {
+      icon: SUNNYSIDE.icons.heart,
+      label: t("marketplace.favorites"),
+      onClick: () => {
+        setExpandedTraitGroups({});
+        navigateTo({ path: "favorites" });
+      },
+      isActive: pathname === `${baseUrl}/favorites`,
     },
   ];
 

@@ -14,6 +14,7 @@ import { FixedSizeGrid as Grid } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
+import type { Tradeable } from "features/game/types/marketplace";
 import type { InventoryItemName } from "features/game/types/game";
 import {
   PET_FETCHES,
@@ -46,7 +47,7 @@ import {
   createTraitLabelLookup,
   PET_TRAIT_GROUPS,
 } from "../lib/traitOptions";
-import { useTranslation } from "react-i18next";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { marketplaceMinigameItemPath } from "../lib/minigameTradePath";
 import { getBudBoostFilterLabels } from "../lib/budBoostFilters";
@@ -99,20 +100,67 @@ export const preloadCollections = (token: string, showLimited: boolean) => {
 
 const _state = (state: MachineState) => state.context.state;
 
+type CollectionCardVariant = "default" | "favorites";
+
+type CollectionItemFilter = (
+  item: Tradeable,
+  display: TradeableDisplay,
+) => boolean;
+
+type CollectionItemsSort = (
+  items: Tradeable[],
+  getDisplay: (item: Tradeable) => TradeableDisplay,
+) => void;
+
+const getTradeableKey = (item: Tradeable) =>
+  `${item.collection}:${item.collection === "economies" ? `${item.economy}:` : ""}${item.id}`;
+
+const dedupeTradeables = (items: Tradeable[]) =>
+  Array.from(
+    items
+      .reduce<Map<string, Tradeable>>((uniqueItems, item) => {
+        const key = getTradeableKey(item);
+        const existing = uniqueItems.get(key);
+
+        uniqueItems.set(key, existing ? { ...existing, ...item } : item);
+
+        return uniqueItems;
+      }, new Map())
+      .values(),
+  );
+
 export const Collection: React.FC<{
   search?: string;
   hideLimited?: boolean;
   onNavigated?: () => void;
-}> = ({ search, hideLimited, onNavigated }) => {
+  filtersOverride?: string;
+  filterItem?: CollectionItemFilter;
+  sortItems?: CollectionItemsSort;
+  rowHeight?: number;
+  cardVariant?: CollectionCardVariant;
+  emptyState?: React.ReactNode;
+  topContent?: React.ReactNode;
+}> = ({
+  search,
+  hideLimited,
+  onNavigated,
+  filtersOverride,
+  filterItem,
+  sortItems,
+  rowHeight,
+  cardVariant = "default",
+  emptyState,
+  topContent,
+}) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
-  const { t } = useTranslation();
+  const { t } = useAppTranslation();
   const isWorldRoute = useLocation().pathname.includes("/world");
   // Get query string params
-  const [queryParams, setSearchParams] = useSearchParams();
-  let filters = queryParams.get("filters") ?? "";
+  const [queryParams] = useSearchParams();
+  let filters = filtersOverride ?? queryParams.get("filters") ?? "";
 
   const chapterFilter = queryParams.get("chapter") ?? "";
   const chapterKey = toTraitValueId(chapterFilter);
@@ -214,14 +262,14 @@ export const Collection: React.FC<{
     collectionFetcher,
   );
   const data = {
-    items: [
+    items: dedupeTradeables([
       ...(resources?.items || []),
       ...(collectibles?.items || []),
       ...(wearables?.items || []),
       ...(buds?.items || []),
       ...(!hideLimited ? limited?.items || [] : []),
       ...(pets?.items || []),
-    ],
+    ]),
   };
 
   if (!filters.includes("resources")) {
@@ -279,6 +327,15 @@ export const Collection: React.FC<{
       </InnerPanel>
     );
   }
+
+  const getItemDisplay = (item: Tradeable) =>
+    getTradeableDisplay({
+      id: item.id,
+      type: item.collection,
+      state,
+      experience: item.collection === "pets" ? item.experience : undefined,
+      marketplaceItem: item,
+    });
 
   // Determines if an item matches the search criteria
   const matchesSearchCriteria = (
@@ -359,11 +416,11 @@ export const Collection: React.FC<{
 
   const items =
     data?.items.filter((item) => {
-      const display = getTradeableDisplay({
-        id: item.id,
-        type: item.collection,
-        state,
-      });
+      const display = getItemDisplay(item);
+
+      if (filterItem && !filterItem(item, display)) {
+        return false;
+      }
 
       if (filters.includes("utility") && display.buffs.length === 0) {
         return false;
@@ -550,7 +607,11 @@ export const Collection: React.FC<{
       return matchesSearchCriteria(display, search ?? "");
     }) ?? [];
 
+  sortItems?.(items, getItemDisplay);
+
   const getRowHeight = () => {
+    if (rowHeight) return rowHeight;
+
     if (filters === "resources") return 150;
     if (filters.includes("buds") || filters.includes("pets")) return 250;
     return 180;
@@ -558,6 +619,7 @@ export const Collection: React.FC<{
 
   return (
     <InnerPanel className="h-full flex flex-col">
+      {topContent}
       {activeTraitFilters.length > 0 && (
         <div className="flex flex-col gap-2 border-b border-brown-300 p-2 pt-0.5 pb-1">
           <div className="flex items-center gap-2">
@@ -593,102 +655,100 @@ export const Collection: React.FC<{
           </div>
         </div>
       )}
-      <div className="h-full w-full flex-1">
-        <AutoSizer>
-          {({ height, width }) => {
-            const SCROLLBAR_WIDTH = 10;
+      {items.length === 0 && emptyState ? (
+        emptyState
+      ) : (
+        <div className="min-h-0 w-full flex-1">
+          <AutoSizer>
+            {({ height, width }) => {
+              const SCROLLBAR_WIDTH = 10;
 
-            // Function to determine number of columns based on width
-            const getColumnCount = (width: number) => {
-              if (width >= 1280) return 7; // xl
-              if (width >= 1024) return 5; // lg
-              if (width >= 768) return 4; // md
-              if (width >= 640) return 3; // sm
-              return 2; // default
-            };
+              // Function to determine number of columns based on width
+              const getColumnCount = (width: number) => {
+                if (width >= 1280) return 7; // xl
+                if (width >= 1024) return 5; // lg
+                if (width >= 768) return 4; // md
+                if (width >= 640) return 3; // sm
+                return 2; // default
+              };
 
-            const columnCount = getColumnCount(width);
-            const rowCount = Math.ceil(items.length / columnCount);
-            const adjustedWidth = width - SCROLLBAR_WIDTH;
-            const columnWidth = adjustedWidth / columnCount;
+              const columnCount = getColumnCount(width);
+              const rowCount = Math.ceil(items.length / columnCount);
+              const adjustedWidth = width - SCROLLBAR_WIDTH;
+              const columnWidth = adjustedWidth / columnCount;
 
-            const Cell = ({
-              columnIndex,
-              rowIndex,
-              style,
-            }: {
-              columnIndex: number;
-              rowIndex: number;
-              style: React.CSSProperties;
-            }) => {
-              const itemIndex = rowIndex * columnCount + columnIndex;
-              const item = items[itemIndex];
+              const Cell = ({
+                columnIndex,
+                rowIndex,
+                style,
+              }: {
+                columnIndex: number;
+                rowIndex: number;
+                style: React.CSSProperties;
+              }) => {
+                const itemIndex = rowIndex * columnCount + columnIndex;
+                const item = items[itemIndex];
 
-              if (!item) return null;
+                if (!item) return null;
 
-              const display = getTradeableDisplay({
-                type: item.collection,
-                id: item.id,
-                state,
-                experience:
-                  item.collection === "pets" ? item.experience : undefined,
-                marketplaceItem: item,
-              });
+                const display = getItemDisplay(item);
 
-              const marketplaceBase = `${isWorldRoute ? "/world" : ""}/marketplace`;
-              const detailPath =
-                item.collection === "economies"
-                  ? marketplaceMinigameItemPath(
-                      marketplaceBase,
-                      item.economy,
-                      item.id,
-                    )
-                  : `${marketplaceBase}/${item.collection}/${item.id}`;
+                const marketplaceBase = `${isWorldRoute ? "/world" : ""}/marketplace`;
+                const detailPath =
+                  item.collection === "economies"
+                    ? marketplaceMinigameItemPath(
+                        marketplaceBase,
+                        item.economy,
+                        item.id,
+                      )
+                    : `${marketplaceBase}/${item.collection}/${item.id}`;
 
-              const rowKey = String(item.id);
+                const rowKey = String(item.id);
+
+                return (
+                  <div key={rowKey} style={style} className="pr-1 pb-1">
+                    <ListViewCard
+                      details={display}
+                      price={new Decimal(item.floor)}
+                      lastSalePrice={new Decimal(item.lastSalePrice)}
+                      onClick={() => {
+                        const scrollPosition =
+                          gridRef.current?._outerRef.scrollTop;
+                        navigate(detailPath, {
+                          state: {
+                            scrollPosition,
+                            route: backRoute,
+                          },
+                        });
+                        onNavigated?.();
+                      }}
+                      expiresAt={item.expiresAt}
+                      variant={cardVariant}
+                    />
+                  </div>
+                );
+              };
 
               return (
-                <div key={rowKey} style={style} className="pr-1 pb-1">
-                  <ListViewCard
-                    details={display}
-                    price={new Decimal(item.floor)}
-                    lastSalePrice={new Decimal(item.lastSalePrice)}
-                    onClick={() => {
-                      const scrollPosition =
-                        gridRef.current?._outerRef.scrollTop;
-                      navigate(detailPath, {
-                        state: {
-                          scrollPosition,
-                          route: backRoute,
-                        },
-                      });
-                      onNavigated?.();
-                    }}
-                    expiresAt={item.expiresAt}
-                  />
-                </div>
+                <Grid
+                  ref={gridRef}
+                  columnCount={columnCount}
+                  columnWidth={columnWidth}
+                  height={height}
+                  rowCount={rowCount}
+                  rowHeight={getRowHeight()}
+                  width={width}
+                  className="scrollable"
+                  initialScrollTop={savedScrollPosition}
+                  itemData={{ width }}
+                >
+                  {Cell}
+                </Grid>
               );
-            };
-
-            return (
-              <Grid
-                ref={gridRef}
-                columnCount={columnCount}
-                columnWidth={columnWidth}
-                height={height}
-                rowCount={rowCount}
-                rowHeight={getRowHeight()}
-                width={width}
-                className="scrollable"
-                initialScrollTop={savedScrollPosition}
-                itemData={{ width }}
-              >
-                {Cell}
-              </Grid>
-            );
-          }}
-        </AutoSizer>
-      </div>
+            }}
+          </AutoSizer>
+        </div>
+      )}
     </InnerPanel>
   );
 };
