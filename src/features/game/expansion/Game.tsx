@@ -90,7 +90,6 @@ import { ClaimReferralRewards } from "./components/ClaimReferralRewards";
 import { ReferralsAnnouncement } from "./components/ReferralsAnnouncement";
 import { SoftBan } from "features/retreat/components/personhood/SoftBan";
 import { RewardBox } from "features/rewardBoxes/RewardBox";
-import { ClaimBlessingReward } from "features/loveIsland/blessings/ClaimBlessing";
 import { SystemMessageWidget } from "features/announcements/SystemMessageWidget";
 import { TradesCleared } from "./components/TradesCleared";
 import { RevealPet } from "features/island/pets/RevealPet";
@@ -232,7 +231,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   seasonChanged: false,
   jinAirdrop: true,
   investigating: true,
-  blessing: true,
   leagueResults: false,
   linkWallet: true,
   dailyReward: true,
@@ -294,7 +292,6 @@ const hasAirdrop = (state: MachineState) => state.matches("airdrop");
 const isOnChainRaffleAcknowledgment = (state: MachineState) =>
   state.matches("onChainRaffleAcknowledgment");
 const isInvestigating = (state: MachineState) => state.matches("investigating");
-const isBlessing = (state: MachineState) => state.matches("blessing");
 const hasFulfilledOffers = (state: MachineState) => state.matches("offers");
 const hasVipNotification = (state: MachineState) => state.matches("vip");
 const isPlaying = (state: MachineState) => state.matches("playing");
@@ -515,7 +512,6 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const jinAirdrop = useSelector(gameService, isJinAirdrop);
   const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
   const investigating = useSelector(gameService, isInvestigating);
-  const blessing = useSelector(gameService, isBlessing);
   const linkWallet = useSelector(gameService, isLinkWallet);
   const tradesCleared = useSelector(gameService, isTradesCleared);
   const isVisiting = useSelector(gameService, _isVisiting);
@@ -728,11 +724,6 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             {jinAirdrop && <RoninJinClaim />}
             {showReferralRewards && <ClaimReferralRewards />}
             {investigating && <SoftBan />}
-            {blessing && (
-              <ClaimBlessingReward
-                onClose={() => gameService.send("ACKNOWLEDGE")}
-              />
-            )}
             {linkWallet && <MigrateToLinkedWallet />}
           </Panel>
         </Modal>

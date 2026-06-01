@@ -127,14 +127,8 @@ export class LoveIslandScene extends BaseScene {
       }
     });
 
-    const guardian = this.add.sprite(310, 556, "guardian");
-    guardian.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      if (this.checkDistanceToSprite(guardian, 40)) {
-        interactableModalManager.open("guardian");
-      } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
-      }
-    });
+    // Decorative seasonal guardian sprite (no interaction).
+    this.add.sprite(310, 556, "guardian");
 
     this.setupPopup();
   }

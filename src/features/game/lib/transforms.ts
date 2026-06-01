@@ -142,7 +142,6 @@ export function makeGame(farm: any): GameState {
     ban: farm.ban,
     rewardBoxes: farm.rewardBoxes,
     withdrawals: farm.withdrawals,
-    blessing: farm.blessing,
     aoe: farm.aoe,
     boostsUsedAt: farm.boostsUsedAt,
     socialFarming: farm.socialFarming,

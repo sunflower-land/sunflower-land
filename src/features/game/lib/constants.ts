@@ -675,12 +675,6 @@ export const INITIAL_FARM: GameState = {
     status: "ok",
     isSocialVerified: false,
   },
-  blessing: {
-    offering: {
-      item: "Potato",
-      prize: "Potato",
-    },
-  },
   aoe: {},
   socialFarming: {
     weeklyPoints: {
@@ -1014,12 +1008,6 @@ export const TEST_FARM: GameState = {
     isSocialVerified: false,
     status: "ok",
   },
-  blessing: {
-    offering: {
-      item: "Potato",
-      prize: "Potato",
-    },
-  },
   aoe: {},
   socialFarming: {
     weeklyPoints: {
@@ -1201,12 +1189,6 @@ export const EMPTY: GameState = {
   ban: {
     isSocialVerified: false,
     status: "ok",
-  },
-  blessing: {
-    offering: {
-      item: "Potato",
-      prize: "Potato",
-    },
   },
   aoe: {},
   socialFarming: {

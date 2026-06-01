@@ -38,8 +38,6 @@ type EffectName =
   | "moderation.kicked"
   | "moderation.muted"
   | "moderation.unmuted"
-  | "blessing.offered"
-  | "blessing.seeked"
   | "nft.assigned"
   | "admin.NFTAssigned"
   | "marketplace.bulkListingsCancelled"
@@ -106,8 +104,6 @@ export type StateMachineStateName =
   | "changingUsername"
   | "claimingStreamReward"
   | "claimingBlockchainBox"
-  | "offeringBlessing"
-  | "seekingBlessing"
   | "marketplaceBulkListingsCancelling"
   | "marketplaceBulkOffersCancelling"
   | "linkingWallet"
@@ -169,8 +165,6 @@ export const STATE_MACHINE_EFFECTS: Record<
   "username.changed": "changingUsername",
   "streamReward.claimed": "claimingStreamReward",
   "blockchainBox.claimed": "claimingBlockchainBox",
-  "blessing.offered": "offeringBlessing",
-  "blessing.seeked": "seekingBlessing",
   "marketplace.bulkListingsCancelled": "marketplaceBulkListingsCancelling",
   "marketplace.bulkOffersCancelled": "marketplaceBulkOffersCancelling",
   "wallet.linked": "linkingWallet",

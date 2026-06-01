@@ -28,7 +28,6 @@ import {
 import { hasReadKingdomNotice } from "../ui/kingdom/KingdomNoticeboard";
 import type { EventObject } from "xstate";
 import { capitalize } from "lib/utils/capitalize";
-import { Label } from "../containers/Label";
 
 const GUARDIAN_MAP: Record<TemperateSeasonName, string> = {
   autumn: "autumn_guardian",
@@ -351,19 +350,8 @@ export class KingdomScene extends BaseScene {
       nature1.play({ loop: true, volume: 0.3 });
     }
 
-    const guardian = this.add.sprite(192, 324, "guardian");
-    guardian.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      if (this.checkDistanceToSprite(guardian, 40)) {
-        interactableModalManager.open("guardian");
-      } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
-      }
-    });
-
-    const guardianLabel = new Label(this, "TRIBUTE", "grey");
-    guardianLabel.setPosition(192, 294);
-    guardianLabel.setDepth(10000000);
-    this.add.existing(guardianLabel);
+    // Decorative seasonal guardian sprite (no interaction).
+    this.add.sprite(192, 324, "guardian");
 
     // Shut down the sound when the scene changes
     this.events.once("shutdown", () => {
