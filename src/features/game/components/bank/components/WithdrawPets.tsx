@@ -147,7 +147,7 @@ export const WithdrawPets: React.FC<Props> = ({
     const aIsOnCooldown = aCooldownMs > 0;
     const bIsOnCooldown = bCooldownMs > 0;
 
-    // 1. Buds on cooldown come first
+    // 1. Pets on cooldown come first
     if (aIsOnCooldown && bIsOnCooldown) {
       // 2. Among those, sort by most cooldown time left
       return bCooldownMs - aCooldownMs;
@@ -233,7 +233,9 @@ export const WithdrawPets: React.FC<Props> = ({
       )}
       <div className="p-2 mb-2">
         <Label type="warning" className="mb-2">
-          <span className="text-xs">{t("withdraw.restricted")}</span>
+          <span className="text-xs">
+            {t("withdraw.restricted.description")}
+          </span>
         </Label>
         <Label type="default" className="mb-2">
           {t("withdraw.pets")}

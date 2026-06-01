@@ -18,8 +18,10 @@ import { toWei } from "web3-utils";
 import { wallet } from "lib/blockchain/wallet";
 
 import { getKeys } from "lib/object";
+import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { getBankItems } from "features/goblins/storageHouse/lib/storageItems";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import { INVENTORY_RELEASES } from "features/game/types/withdrawables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -36,7 +38,7 @@ import { hasBoostRestriction } from "features/game/types/withdrawRestrictions";
 import { InfoPopover } from "features/island/common/InfoPopover";
 import { secondsToString } from "lib/utils/time";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
-import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
+import { MAX_MINT_AMOUNT } from "lib/blockchain/Withdrawals";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: string[]) => void;
@@ -87,7 +89,33 @@ export const WithdrawItems: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
 
-  const [inventory, setInventory] = useState<Inventory>(getBankItems(state));
+  // Beta-only gate. When on, the backend mints any shortfall up to
+  // `MAX_MINT_AMOUNT` per item per call, so the UI shows the full chest
+  // capped at `previousInventory + MAX_MINT_AMOUNT`. When off, the UI
+  // falls back to `getBankItems` (only items already on-chain), and any
+  // off-chain stock is surfaced as a locked, popover-explained row.
+  const hasMintOnDemand = useTimeBasedFeatureAccess({
+    featureName: "MINT_ON_DEMAND_WITHDRAWS",
+    game: state,
+  });
+
+  // Cap selectable counts at `previousInventory + MAX_MINT_AMOUNT` so the
+  // UI matches the backend's per-call mint cap. Players with more off-chain
+  // than the cap can withdraw the rest in subsequent calls.
+  const capToWithdrawableLimit = (items: Inventory): Inventory =>
+    getKeys(items).reduce((acc, name) => {
+      const count = items[name] ?? new Decimal(0);
+      const onChain = state.previousInventory[name] ?? new Decimal(0);
+      const ceiling = onChain.add(MAX_MINT_AMOUNT);
+      acc[name] = count.gt(ceiling) ? ceiling : count;
+      return acc;
+    }, {} as Inventory);
+
+  const [inventory, setInventory] = useState<Inventory>(() =>
+    hasMintOnDemand
+      ? capToWithdrawableLimit(getChestItems(state))
+      : getBankItems(state),
+  );
   const [selected, setSelected] = useState<Inventory>({});
 
   const [showInfo, setShowInfo] = useState("");
@@ -120,21 +148,29 @@ export const WithdrawItems: React.FC<Props> = ({
     };
   };
 
-  const hasMoreOffChainItems = (itemName: InventoryItemName) => {
-    const inventoryCount = inventory[itemName] ?? new Decimal(0);
-    const currentAmount = getChestItems(state)[itemName] ?? new Decimal(0);
-    const onChainAmount = state.previousInventory[itemName] ?? new Decimal(0);
-
-    // No items available to select, but there are more off-chain items
-    return inventoryCount.lessThanOrEqualTo(0) && currentAmount > onChainAmount;
-  };
-
   const getRestrictionStatus = (itemName: BoostName) => {
     const { isRestricted, cooldownTimeLeft } = hasBoostRestriction({
       boostUsedAt: state.boostsUsedAt,
       item: itemName,
     });
     return { isRestricted, cooldownTimeLeft };
+  };
+
+  // Beta-flag-off only: surface items the player has off-chain but no
+  // on-chain backing for, so the row appears locked with a popover
+  // explaining that on-demand withdraw is coming soon. When the flag is
+  // on this always returns false (the inventory source already includes
+  // off-chain items as selectable).
+  const hasMoreOffChainItems = (itemName: InventoryItemName) => {
+    if (hasMintOnDemand) return false;
+
+    const inventoryCount = inventory[itemName] ?? new Decimal(0);
+    const currentAmount = getChestItems(state)[itemName] ?? new Decimal(0);
+    const onChainAmount = state.previousInventory[itemName] ?? new Decimal(0);
+
+    return (
+      inventoryCount.lessThanOrEqualTo(0) && currentAmount.gt(onChainAmount)
+    );
   };
 
   const withdrawableItemCache = getKeys(inventory).reduce(
@@ -182,7 +218,8 @@ export const WithdrawItems: React.FC<Props> = ({
       return a.isOnCooldown ? -1 : 1;
     }
 
-    // 2. Items that have more off-chain than on-chain copies
+    // 2. Items that have more off-chain than on-chain copies (only set when
+    //    the mint-on-demand flag is off; collapses to no-op for beta).
     if (a.hasMoreOffChain !== b.hasMoreOffChain) {
       return a.hasMoreOffChain ? -1 : 1;
     }
@@ -229,7 +266,9 @@ export const WithdrawItems: React.FC<Props> = ({
     <>
       <div className="p-2 mb-2">
         <Label type="warning" className="mb-2">
-          <span className="text-xs">{t("withdraw.restricted")}</span>
+          <span className="text-xs">
+            {t("withdraw.restricted.description")}
+          </span>
         </Label>
         <Label type="default" className="mb-2">
           {t("withdraw.select.item")}

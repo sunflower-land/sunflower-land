@@ -11,6 +11,7 @@ import { Panel } from "components/ui/Panel";
 interface Props {
   onClose: () => void;
 }
+/** @deprecated Gated behind `MINT_ON_DEMAND_WITHDRAWS`. Remove once flag flips. */
 export const StoreOnChainModal: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();

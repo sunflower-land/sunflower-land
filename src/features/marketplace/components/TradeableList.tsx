@@ -107,9 +107,6 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   const tradeType = getTradeType({
     collection: display.type,
     id,
-    trade: {
-      sfl: price,
-    },
   });
 
   const isResource =

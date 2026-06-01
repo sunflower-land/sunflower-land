@@ -10,6 +10,7 @@ import { KNOWN_ITEMS } from "features/game/types";
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { hasMaxItems } from "features/game/lib/processEvent";
+import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import Decimal from "decimal.js-light";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
@@ -72,12 +73,21 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
     };
   }
 
-  const hasMax = hasMaxItems({
-    currentInventory: updatedInventory,
-    oldInventory: previousInventory,
-    currentWardrobe: wardrobe,
-    oldWardrobe: previousWardrobe,
+  // @deprecated: hoard caps gated behind `MINT_ON_DEMAND_WITHDRAWS`. Beta
+  // players skip the legacy "Store on Chain" warning — the new mint-on-demand
+  // withdraw flow handles excess.
+  const hasMintOnDemand = useTimeBasedFeatureAccess({
+    featureName: "MINT_ON_DEMAND_WITHDRAWS",
+    game: state,
   });
+  const hasMax =
+    !hasMintOnDemand &&
+    hasMaxItems({
+      currentInventory: updatedInventory,
+      oldInventory: previousInventory,
+      currentWardrobe: wardrobe,
+      oldWardrobe: previousWardrobe,
+    });
 
   const confirm = async () => {
     gameService.send("marketplace.listingPurchased", {
@@ -140,7 +150,9 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
     <>
       <div className="p-2">
         <div className="flex justify-between">
-          <Label type="default" className="mb-2 -ml-1">{`Purchase`}</Label>
+          <Label type="default" className="mb-2 -ml-1">
+            {t("marketplace.purchase")}
+          </Label>
         </div>
         <p className="mb-3">{t("marketplace.areYouSureYouWantToBuy")}</p>
         <TradeableItemDetails

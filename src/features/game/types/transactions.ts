@@ -1,4 +1,3 @@
-import { syncProgress, type SyncProgressParams } from "lib/blockchain/Game";
 import type { GameState, InventoryItemName, Wardrobe } from "./game";
 import {
   type WithdrawBudsParams,
@@ -12,6 +11,7 @@ import {
   type WithdrawWearablesParams,
   withdrawWearablesTransaction,
 } from "lib/blockchain/Withdrawals";
+import { syncProgress, type SyncProgressParams } from "lib/blockchain/Game";
 import { sync } from "../actions/sync";
 import { postEffect } from "../actions/effect";
 
@@ -38,6 +38,7 @@ export type ItemsWithdrawnTransaction = {
   createdAt: number;
   data: {
     items: Partial<Record<InventoryItemName, number>>;
+    mintedItems: Partial<Record<InventoryItemName, number>>;
     params: WithdrawItemsParams;
   };
 };
@@ -47,10 +48,12 @@ export type WearablesWithdrawnTransaction = {
   createdAt: number;
   data: {
     wearables: Wardrobe;
+    mintedWearables: Wardrobe;
     params: WithdrawWearablesParams;
   };
 };
 
+/** @deprecated Gated behind `MINT_ON_DEMAND_WITHDRAWS`. Remove once flag flips. */
 export type ProgressSyncedTransaction = {
   event: "transaction.progressSynced";
   createdAt: number;
@@ -176,11 +179,12 @@ export const ONCHAIN_TRANSACTIONS: TransactionHandler = {
   "transaction.budWithdrawn": (data) => withdrawBudsTransaction(data.params),
   "transaction.petWithdrawn": (data) => withdrawPetsTransaction(data.params),
   "transaction.itemsWithdrawn": (data) => withdrawItemsTransaction(data.params),
-  "transaction.progressSynced": (data) => syncProgress(data.params),
   "transaction.wearablesWithdrawn": (data) =>
     withdrawWearablesTransaction(data.params),
   "transaction.flowerWithdrawn": (data) =>
     withdrawFlowerTransaction(data.params),
+  // @deprecated Gated behind `MINT_ON_DEMAND_WITHDRAWS`. Remove once flag flips.
+  "transaction.progressSynced": (data) => syncProgress(data.params),
 };
 
 export type SignatureHandler = {
@@ -195,10 +199,11 @@ type TransactionRequest = Record<
 >;
 
 export const TRANSACTION_SIGNATURES: TransactionRequest = {
-  "transaction.progressSynced": sync,
   "transaction.budWithdrawn": postEffect,
   "transaction.petWithdrawn": postEffect,
   "transaction.itemsWithdrawn": postEffect,
   "transaction.wearablesWithdrawn": postEffect,
   "transaction.flowerWithdrawn": postEffect,
+  // @deprecated Gated behind `MINT_ON_DEMAND_WITHDRAWS`. Remove once flag flips.
+  "transaction.progressSynced": sync,
 };

@@ -1236,8 +1236,8 @@ export const ITEM_TRADE_TYPES: {
     "Purple Tile": "instant",
     "Red Tile": "instant",
     "Yellow Tile": "instant",
-    "Easter Token 2025": "onchain",
-    "Easter Ticket 2025": "onchain",
+    "Easter Token 2025": "instant",
+    "Easter Ticket 2025": "instant",
     Cheer: "instant",
     "Carrot House": "instant",
     "Orange Bunny Lantern": "instant",
@@ -1259,8 +1259,8 @@ export const ITEM_TRADE_TYPES: {
     "Giant Zucchini": "instant",
     "Giant Kale": "instant",
     "Mini Floating Island": "instant",
-    "Colors Token 2025": "onchain",
-    "Colors Ticket 2025": "onchain",
+    "Colors Token 2025": "instant",
+    "Colors Ticket 2025": "instant",
     "Paint Buckets": "instant",
     "Rainbow Well": "instant",
     "Floating Toy": "instant",
@@ -1978,8 +1978,8 @@ export const ITEM_TRADE_TYPES: {
     "404 Chic Boots": "instant",
     "Aether Specs": "instant",
     "Faulty Barrier Background": "instant",
-    "Cardboard Wings": "onchain",
-    "Glitch Aura": "onchain",
+    "Cardboard Wings": "instant",
+    "Glitch Aura": "instant",
     "Bumpkin Eyes": "instant",
     "Big Wink Eyes": "instant",
     "Fun Eyes": "instant",
@@ -2003,35 +2003,27 @@ export const ITEM_TRADE_TYPES: {
   },
 };
 
-export const MAX_INSTANT_SFL_TRADE = 250;
-
 export const getTradeType = ({
   collection,
   id,
-  trade,
 }: {
   collection: CollectionName;
   id: number;
-  trade: {
-    sfl: number;
-  };
 }) => {
   if (collection === "buds") return "onchain";
   if (collection === "pets") return "onchain";
   if (collection === "economies") return "instant";
-  if (collection === "wearables") {
-    const item = ITEM_NAMES[id];
 
-    if (trade.sfl > MAX_INSTANT_SFL_TRADE) {
-      return "onchain";
-    }
+  const tradeType =
+    collection === "wearables"
+      ? ITEM_TRADE_TYPES.wearables[ITEM_NAMES[id]]
+      : ITEM_TRADE_TYPES.collectibles[KNOWN_ITEMS[id]];
 
-    return ITEM_TRADE_TYPES.wearables[item];
+  if (!tradeType) {
+    throw new Error(
+      `getTradeType: no ITEM_TRADE_TYPES entry for collection=${collection} id=${id}`,
+    );
   }
 
-  if (trade.sfl > MAX_INSTANT_SFL_TRADE) {
-    return "onchain";
-  }
-
-  return ITEM_TRADE_TYPES.collectibles[KNOWN_ITEMS[id]];
+  return tradeType;
 };

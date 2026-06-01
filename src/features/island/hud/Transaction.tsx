@@ -208,6 +208,7 @@ const WALLET_ACTIONS: Record<TransactionName, WalletAction> = {
   "transaction.wearablesWithdrawn": "withdrawItems",
   "transaction.budWithdrawn": "withdrawItems",
   "transaction.petWithdrawn": "withdrawItems",
+  // @deprecated Gated behind `MINT_ON_DEMAND_WITHDRAWS`. Remove once flag flips.
   "transaction.progressSynced": "sync",
 };
 
@@ -260,9 +261,10 @@ const EVENT_TO_NAME: Record<TransactionName, string> = {
   "transaction.budWithdrawn": "Withdraw bud",
   "transaction.petWithdrawn": "Withdraw pet",
   "transaction.itemsWithdrawn": "Withdraw items",
-  "transaction.progressSynced": "Store on chain",
   "transaction.wearablesWithdrawn": "Withdraw wearables",
   "transaction.flowerWithdrawn": "Withdraw flower",
+  // @deprecated Gated behind `MINT_ON_DEMAND_WITHDRAWS`. Remove once flag flips.
+  "transaction.progressSynced": "Store on chain",
 };
 
 const _farmId = (state: MachineState) => state.context.farmId;

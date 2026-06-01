@@ -73,6 +73,10 @@ export const TIME_BASED_FEATURE_FLAG_WINDOWS = {
     start: new Date("2026-04-01T00:00:00Z"),
     end: new Date("2026-04-08T00:00:00Z"),
   },
+  MINT_ON_DEMAND_WITHDRAWS: {
+    start: new Date("2026-06-02T00:00:00Z"),
+    end: null,
+  },
 } satisfies Record<string, TimeBasedFeatureWindow>;
 
 /** All time-based flags receive the full window; start-only helpers ignore `end`. */
@@ -89,6 +93,7 @@ export const TIME_BASED_FEATURE_FLAGS: Record<
   TICKETS_FROM_COIN_NPC: timePeriodFeatureFlag,
   TICKETS_FROM_FLOWER_NPC: timePeriodFeatureFlag,
   APRIL_FOOLS_EVENT_FLAG: betaTimePeriodFeatureFlag,
+  MINT_ON_DEMAND_WITHDRAWS: timePeriodFeatureFlag,
 };
 
 /**
@@ -149,6 +154,15 @@ const FEATURE_FLAGS = {
    * testnet only until the feature ships to all players.
    */
   HOME_EXPANSIONS: betaFeatureFlag,
+
+  /**
+   * Gates the mint-on-demand withdraw flow. Beta-pass / testnet players see
+   * the full off-chain inventory in the withdraw modal and can withdraw items
+   * that aren't yet on-chain (the contract mints them up to `MAX_MINT_AMOUNT`
+   * per item per call). Non-beta players see the pre-mint behaviour: only
+   * items already in `previousInventory` are selectable; off-chain items
+   * appear locked with a "not on-chain yet" popover.
+   */
 
   BOOSTS_DISPLAY: betaFeatureFlag,
 } satisfies Record<string, FeatureFlag>;

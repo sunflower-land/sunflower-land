@@ -30,6 +30,8 @@ import { InfoPopover } from "features/island/common/InfoPopover";
 import { secondsToString } from "lib/utils/time";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { useNow } from "lib/utils/hooks/useNow";
+import { MAX_MINT_AMOUNT } from "lib/blockchain/Withdrawals";
+import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: number[]) => void;
@@ -47,22 +49,32 @@ export const WithdrawWearables: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
 
+  // Beta-only gate. When on, the backend mints any shortfall up to
+  // `MAX_MINT_AMOUNT` per item per call, so the UI shows the full wardrobe
+  // capped at `previousWardrobe + MAX_MINT_AMOUNT`. When off, the UI is
+  // clamped to items already on-chain; off-chain stock surfaces as a
+  // locked, popover-explained row.
+  const hasMintOnDemand = useTimeBasedFeatureAccess({
+    featureName: "MINT_ON_DEMAND_WITHDRAWS",
+    game: state,
+  });
+
+  // Beta: cap at `previousWardrobe + MAX_MINT_AMOUNT` (matches BE mint cap).
+  // Non-beta: clamp to what's already on-chain.
   const getTrueAvailableWardrobe = () => {
-    let available = availableWardrobe(state);
+    const available = availableWardrobe(state);
 
-    available = getKeys(available).reduce((acc, key) => {
+    return getKeys(available).reduce((acc, key) => {
       const currentAmount = available[key] ?? 0;
-      const onChainAmount = state.previousWardrobe[key] ?? 0;
-      return {
-        ...acc,
-        [key]: Math.min(currentAmount, onChainAmount),
-      };
+      const onChain = state.previousWardrobe[key] ?? 0;
+      acc[key] = hasMintOnDemand
+        ? Math.min(currentAmount, onChain + MAX_MINT_AMOUNT)
+        : Math.min(currentAmount, onChain);
+      return acc;
     }, {} as Wardrobe);
-
-    return available;
   };
 
-  const [wardrobe, setWardrobe] = useState<Wardrobe>(
+  const [wardrobe, setWardrobe] = useState<Wardrobe>(() =>
     getTrueAvailableWardrobe(),
   );
   const [selected, setSelected] = useState<Wardrobe>({});
@@ -115,12 +127,18 @@ export const WithdrawWearables: React.FC<Props> = ({
     return { isRestricted, cooldownTimeLeft };
   };
 
+  // Beta-flag-off only: surface wearables the player has off-chain but no
+  // on-chain backing for, so the row appears locked with a popover
+  // explaining that on-demand withdraw is coming soon. Collapses to
+  // `false` for beta because the inventory source already includes
+  // off-chain items.
   const hasMoreOffChainItems = (itemName: BumpkinItem) => {
+    if (hasMintOnDemand) return false;
+
     const wardrobeCount = wardrobe[itemName] ?? 0;
     const currentAmount = availableWardrobe(state)[itemName] ?? 0;
     const onChainAmount = state.previousWardrobe[itemName] ?? 0;
 
-    // No items available to select, but there are more off-chain items
     return wardrobeCount <= 0 && currentAmount > onChainAmount;
   };
 
@@ -168,7 +186,8 @@ export const WithdrawWearables: React.FC<Props> = ({
       return a.isOnCooldown ? -1 : 1;
     }
 
-    // 2. Items that have more off-chain than on-chain copies
+    // 2. Items that have more off-chain than on-chain copies (only set when
+    //    the mint-on-demand flag is off; collapses to no-op for beta).
     if (a.hasMoreOffChain !== b.hasMoreOffChain) {
       return a.hasMoreOffChain ? -1 : 1;
     }
@@ -216,7 +235,9 @@ export const WithdrawWearables: React.FC<Props> = ({
     <>
       <div className="p-2 mb-2">
         <Label type="warning" className="mb-2">
-          <span className="text-xs">{t("withdraw.restricted")}</span>
+          <span className="text-xs">
+            {t("withdraw.restricted.description")}
+          </span>
         </Label>
         <Label type="default" className="mb-2">
           {t("withdraw.select.item")}
@@ -251,7 +272,7 @@ export const WithdrawWearables: React.FC<Props> = ({
                   showPopover={showInfo === itemName}
                 >
                   {hasMoreOffChainItems(itemName)
-                    ? t("withdraw.requires.storeOnChain")
+                    ? t("withdraw.notOnChain")
                     : isRestricted &&
                       t("withdraw.boostedItem.timeLeft", {
                         time: secondsToString(RestrictionCooldown, {

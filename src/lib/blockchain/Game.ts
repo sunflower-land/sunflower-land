@@ -9,6 +9,7 @@ import { polygonAmoy } from "viem/chains";
 
 const address = CONFIG.GAME_CONTRACT;
 
+/** @deprecated Gated behind `MINT_ON_DEMAND_WITHDRAWS`. Remove once flag flips. */
 export type SyncProgressParams = {
   signature: string;
   sessionId: string;
@@ -30,6 +31,7 @@ export type SyncProgressParams = {
   };
 };
 
+/** @deprecated See {@link SyncProgressParams}. */
 export async function syncProgress({
   sender,
   signature,

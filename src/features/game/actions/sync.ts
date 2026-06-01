@@ -11,6 +11,7 @@ export type SyncSignatureRequest = {
   transactionId: string;
 };
 
+/** @deprecated Gated behind `MINT_ON_DEMAND_WITHDRAWS`. Remove once flag flips. */
 export async function sync({
   farmId,
   token,
