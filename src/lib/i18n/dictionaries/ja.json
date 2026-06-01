@@ -1624,7 +1624,6 @@
   "submitting": "送信中",
   "success": "成功!",
   "swapping": "スワッピング",
-  "syncing": "同期中",
   "task": "タスク",
   "test": "テスト",
   "thank.you": "ありがとう!",
@@ -2816,7 +2815,6 @@
   "statements.potionRule.seven": "おっと、間違ったポーション",
   "statements.sflLim.two": "プレイを続けることはできますが、再び同期するには明日まで待つ必要があります。",
   "statements.sniped": "ああ、いや！あなたより先に他のプレイヤーがそのトレードを買いました。",
-  "statements.sync": "チェーン上のすべてのデータを同期しますので、ご容赦ください。",
   "statements.tapCont": "タップして続行",
   "statements.price.change": "ああ、いや！価格が変更されたようです。もう一度試してください。",
   "statements.tutorial.one": "ボートで島々を行き来し、新しい土地やエキサイティングな冒険を発見できます。",
@@ -3024,7 +3022,6 @@
   "withdraw.choose": "引き出す金額を選択してください",
   "withdraw.select.item": "撤回するアイテムを選択してください",
   "withdraw.opensea": "出金が完了すると、OpenSeaでアイテムを表示できるようになります。",
-  "withdraw.restricted": "一部のアイテムは出金できません。その他のアイテムは、使用中または製造中に制限される場合があります。",
   "withdraw.bumpkin.wearing": "あなたのバンプキンが現在着用しているアイテムは下記のものですが、これらは撤回できません。退会する前に装備を解除する必要があります。",
   "withdraw.buds": "出金するイヤホンを選択",
   "withdraw.budRestricted": "今日のバッドボックスで使われています",
@@ -9032,5 +9029,9 @@
   "marketplace.noFavorites.description": "マーケットプレイスの商品ページにあるハートマークを使って、気になる項目の簡単なリストを作成しましょう。",
   "marketplace.noFavoritesInCategories": "これらのカテゴリにはお気に入りはありません",
   "marketplace.noFavoritesInCategories.description": "別のカテゴリをオンにすると、保存されているマーケットプレイス商品がさらに表示されます。",
-  "marketplace.browseMarketplace": "マーケットプレイスを閲覧"
+  "marketplace.browseMarketplace": "マーケットプレイスを閲覧",
+  "marketplace.purchase": "購入",
+  "withdraw.notOnChain": "この商品はまだチェーンに入っていません。オンデマンドでの出金は間もなく開始されます。",
+  "withdraw.restricted.description": "一部のアイテムは出金できません。その他のアイテムは、使用中または製造中に制限される場合があります。",
+  "withdraw.restricted": "出金制限あり"
 }

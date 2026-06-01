@@ -1119,7 +1119,6 @@
   "submitting": "Soumission",
   "success": "Succès!",
   "swapping": "Échange",
-  "syncing": "Synchronisation",
   "task": "Tâche",
   "thank.you": "Merci!",
   "tools": "Outils",
@@ -1981,7 +1980,6 @@
   "statements.potionRule.seven": "Oops, mauvaise potion",
   "statements.sflLim.two": "Vous pouvez continuer à jouer, mais vous devrez attendre demain pour vous resynchroniser.",
   "statements.sniped": "Oh non ! Un autre joueur a acheté ce trade avant vous.",
-  "statements.sync": "Veuillez patienter pendant que nous synchronisons toutes vos données sur la chaîne.",
   "statements.tapCont": "Appuyez pour continuer",
   "statements.price.change": "Oh non ! Il semble que le prix ait changé. Veuillez réessayer !",
   "statements.tutorial.one": "Le bateau vous emmènera entre les îles où vous pourrez découvrir de nouveaux territoires et des aventures passionnantes.",
@@ -2993,7 +2991,6 @@
   "username.tooLong": "Le nom d'utilisateur est trop long (12 caractères maximum)",
   "username.invalidChar": "Le nom d'utilisateur contient des caractères non valides",
   "username.startWithLetter": "Le nom d'utilisateur doit commencer par une lettre",
-  "withdraw.restricted": "Certains articles ne peuvent pas être retirés. D'autres objets peuvent être soumis à des restrictions lorsqu'ils sont en cours d'utilisation ou en cours de construction.",
   "world.newArea": "Nouveau",
   "world.intro.missingDelivery": "Hmmm, il semblerait que vous n'ayez pas encore rassemblé de ressources pour une livraison. Vous pouvez toujours explorer en attendant.",
   "world.intro.delivery": "Super, il semblerait que vous ayez les ressources nécessaires pour une livraison !",
@@ -9032,5 +9029,9 @@
   "marketplace.noFavorites.description": "Utilisez le cœur sur les pages d'articles de la place de marché pour créer une liste rapide des choses qui vous intéressent.",
   "marketplace.noFavoritesInCategories": "Aucun favori dans ces catégories",
   "marketplace.noFavoritesInCategories.description": "Activez une autre catégorie pour afficher davantage d'articles enregistrés sur le site de vente.",
-  "marketplace.browseMarketplace": "Parcourir la place de marché"
+  "marketplace.browseMarketplace": "Parcourir la place de marché",
+  "marketplace.purchase": "Acheter",
+  "withdraw.notOnChain": "Cet article n'est pas encore en chaîne. Le retrait à la demande sera bientôt disponible.",
+  "withdraw.restricted.description": "Certains articles ne peuvent pas être retirés. D'autres objets peuvent être soumis à des restrictions lorsqu'ils sont en cours d'utilisation ou en cours de construction.",
+  "withdraw.restricted": "Retrait restreint"
 }

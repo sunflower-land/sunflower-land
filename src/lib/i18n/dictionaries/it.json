@@ -1606,7 +1606,6 @@
   "submitting": "Inviando",
   "success": "Successo!",
   "swapping": "Scambio",
-  "syncing": "Sincronizzazione",
   "task": "Compito",
   "test": "Test",
   "thank.you": "Grazie!",
@@ -2780,7 +2779,6 @@
   "statements.potionRule.seven": "Ops, pozione sbagliata",
   "statements.sflLim.two": "Puoi continuare a giocare, ma dovrai aspettare fino a domani per eseguire nuovamente la sincronizzazione.",
   "statements.sniped": "Oh no! Un altro giocatore ha acquistato quella transazione prima di te.",
-  "statements.sync": "Per favore, abbi pazienza mentre sincronizziamo tutti i tuoi dati sulla catena.",
   "statements.tapCont": "Tocca per continuare",
   "statements.price.change": "Oh no! Sembra che il prezzo sia cambiato, riprova!",
   "statements.tutorial.one": "La barca ti porterà tra le isole dove potrai scoprire nuove terre ed emozionanti avventure.",
@@ -2988,7 +2986,6 @@
   "withdraw.choose": "Scegli l'importo da prelevare",
   "withdraw.select.item": "Seleziona gli articoli da ritirare",
   "withdraw.opensea": "Una volta ritirati, potrai visualizzare i tuoi articoli su OpenSea.",
-  "withdraw.restricted": "Alcuni articoli non possono essere ritirati. Altri articoli potrebbero essere soggetti a restrizioni quando sono in uso o sono ancora in costruzione.",
   "withdraw.bumpkin.wearing": "Il tuo Bumpkin indossa attualmente i seguenti articoli che non possono essere ritirati. Dovrai disequipaggiarli prima di poterti ritirare.",
   "withdraw.buds": "Seleziona Buds da prelevare",
   "withdraw.budRestricted": "Usato nella scatola dei boccioli di oggi",
@@ -9032,5 +9029,9 @@
   "marketplace.noFavorites.description": "Usa il cuore sulle pagine degli articoli del marketplace per creare un breve elenco delle cose che ti interessano.",
   "marketplace.noFavoritesInCategories": "Nessun preferito in queste categorie",
   "marketplace.noFavoritesInCategories.description": "Attiva un'altra categoria per mostrare più articoli salvati sul marketplace.",
-  "marketplace.browseMarketplace": "Esplora il marketplace"
+  "marketplace.browseMarketplace": "Esplora il marketplace",
+  "marketplace.purchase": "Acquisto",
+  "withdraw.notOnChain": "Questo articolo non è ancora in catena. Il prelievo su richiesta sarà presto disponibile.",
+  "withdraw.restricted.description": "Alcuni articoli non possono essere ritirati. Altri articoli potrebbero essere soggetti a restrizioni quando sono in uso o sono ancora in costruzione.",
+  "withdraw.restricted": "Ritiro limitato"
 }

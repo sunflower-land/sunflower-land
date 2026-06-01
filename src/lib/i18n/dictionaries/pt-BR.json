@@ -1051,7 +1051,6 @@
   "submitting": "Enviando",
   "success": "Sucesso!",
   "swapping": "Trocando",
-  "syncing": "Sincronizando",
   "task": "Tarefa",
   "thank.you": "Obrigado!",
   "tools": "Ferramentas",
@@ -1927,7 +1926,6 @@
   "statements.potionRule.seven": "Ops, poção errada",
   "statements.sflLim.two": "Você pode continuar jogando, mas precisará esperar até amanhã para sincronizar novamente.",
   "statements.sniped": "Oh não! Outro jogador comprou esse comércio antes de você.",
-  "statements.sync": "Por favor, tenha paciência enquanto sincronizamos todos os seus dados na cadeia.",
   "statements.tapCont": "Toque para continuar",
   "statements.price.change": "Oh não! O preço mudou, tente novamente.",
   "statements.tutorial.one": "O barco o levará entre as ilhas onde você pode descobrir novas terras e aventuras emocionantes.",
@@ -2992,7 +2990,6 @@
   "welcome.login": "Login",
   "welcome.offline": "Olá, Bumpkin, parece que você não está online. Verifique sua conexão de rede.",
   "wishingWell.wish.comeBackAfter": "Volte em {{nextWishTime}} para ver o quão sortudo você teve!",
-  "withdraw.restricted": "Alguns itens não podem ser retirados. Outros itens podem ser restritos quando em uso ou ainda estão sendo construídos.",
   "withdraw.budRestricted": "Usado na caixa de botões de hoje",
   "world.newArea": "Novo",
   "world.intro.missingDelivery": "Hmmm, parece que você ainda não reuniu recursos para uma entrega. Enquanto isso, você ainda pode explorar.",
@@ -9032,5 +9029,9 @@
   "marketplace.noFavorites.description": "Use o coração nas páginas de itens do Marketplace para criar uma lista rápida das coisas que lhe interessam.",
   "marketplace.noFavoritesInCategories": "Não há favoritos nessas categorias",
   "marketplace.noFavoritesInCategories.description": "Ative outra categoria para mostrar mais itens salvos do marketplace.",
-  "marketplace.browseMarketplace": "Navegue pelo mercado"
+  "marketplace.browseMarketplace": "Navegue pelo mercado",
+  "marketplace.purchase": "Compra",
+  "withdraw.notOnChain": "Este item ainda não está na cadeia. A retirada sob demanda ocorrerá em breve.",
+  "withdraw.restricted.description": "Alguns itens não podem ser retirados. Outros itens podem ser restritos quando em uso ou ainda estão sendo construídos.",
+  "withdraw.restricted": "Retirada restrita"
 }

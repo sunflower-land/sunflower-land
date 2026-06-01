@@ -1374,7 +1374,6 @@
   "submitting": "提交中",
   "success": "成功！",
   "swapping": "兑换中",
-  "syncing": "储存中",
   "task": "任务",
   "thank.you": "谢谢你！",
   "tools": "工具",
@@ -1708,7 +1707,6 @@
   "betty.buySeeds": "购买种子",
   "betty.sellCrops": "卖出庄稼",
   "statements.dontRefresh": "请勿刷新浏览器！",
-  "statements.sync": "请耐心等待，我们会将您的进度存储在区块链上。",
   "statements.tapCont": "点击继续",
   "statements.visit.firePit": "访问 Fire Pit 做饭并喂你的乡包佬。",
   "statements.feed.bumpkin.two": "您需要烹饪食物来喂养您的乡包佬。",
@@ -3024,7 +3022,6 @@
   "wishingWell.wish.warning.two": "如果您在这段时间内移除流动性，您将不会获得任何奖励。",
   "wishingWell.info.two": "愿望会向在游戏中提供流动性的农民发放。",
   "wishingWell.info.three": "看来您的钱包里有那些神奇的 LP 代币！",
-  "withdraw.restricted": "有些物品无法提取。其他物品的提取在使用时或仍在建造时可能会受到限制。",
   "world.newArea": "全新",
   "world.intro.missingDelivery": "嗯，看来你还没有为送货收集资源。在此期间你仍然可以探索。",
   "world.intro.delivery": "哦太棒了，看来你有足够的资源去送货！",
@@ -9032,5 +9029,9 @@
   "marketplace.noFavorites.description": "使用商城物品页面上的心脏来快速列出你关心的事物。",
   "marketplace.noFavoritesInCategories": "这些类别中没有收藏夹",
   "marketplace.noFavoritesInCategories.description": "开启另一个类别以显示更多已保存的商城商品。",
-  "marketplace.browseMarketplace": "浏览市场"
+  "marketplace.browseMarketplace": "浏览市场",
+  "marketplace.purchase": "购买",
+  "withdraw.notOnChain": "这件商品还没有上链。按需提款即将推出。",
+  "withdraw.restricted.description": "有些物品无法撤回。其他物品在使用或仍在建造时可能会受到限制。",
+  "withdraw.restricted": "提款受限"
 }

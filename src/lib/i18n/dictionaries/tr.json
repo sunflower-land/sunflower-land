@@ -1097,7 +1097,6 @@
   "submitting": "Gönderiliyor",
   "success": "Başarılı!",
   "swapping": "Değiştiriliyor",
-  "syncing": "Senkronizasyon",
   "task": "Görev",
   "test": "Deneme",
   "thank.you": "Teşekkür ederim!",
@@ -1985,7 +1984,6 @@
   "statements.potionRule.seven": "Hata, yanlış iksir",
   "statements.sflLim.two": "Oynamaya devam edebilirsiniz ancak tekrar senkronizasyon için yarına kadar beklemeniz gerekecektir.",
   "statements.sniped": "Oh hayır! Bu takası sizden önce başka bir oyuncu satın aldı.",
-  "statements.sync": "Zincirdeki tüm verilerinizi senkronize ederken lütfen sabırlı olun.",
   "statements.tapCont": "Devam etmek için dokunun",
   "statements.tutorial.one": "Tekne sizi yeni topraklar ve heyecan verici maceralar keşfedebileceğiniz adalar arasında götürecek.",
   "statements.tutorial.two": "Pek çok ülke çok uzaktadır ve onları ziyaret edebilmeniz için deneyimli bir Bumpkin'e ihtiyacınız olacaktır.",
@@ -2993,7 +2991,6 @@
   "warning.hoarding.indefiniteArticle.an": "bir",
   "welcome.offline": "Merhaba Bumpkin, Görünüşe göre çevrimiçi değilsin. Lütfen ağ bağlantınızı kontrol edin.",
   "wishingWell.wish.comeBackAfter": "Ne kadar şanslı olduğunuzu görmek için {{nextWishTime}} geri gelin!",
-  "withdraw.restricted": "Bazı öğeler geri çekilemez. Diğer öğeler kullanımdayken veya hala inşa edilirken kısıtlanabilir.",
   "world.newArea": "Yeni",
   "world.intro.missingDelivery": "Hmmm, görünüşe göre henüz bir teslimat için kaynak toplamamışsınız. Bu arada hala keşfedebilirsiniz.",
   "world.intro.delivery": "Oh harika, teslimat için kaynaklara sahipsiniz gibi görünüyor!",
@@ -9032,5 +9029,9 @@
   "marketplace.noFavorites.description": "Değer verdiğiniz şeylerin hızlı bir listesini oluşturmak için pazar yeri öğe sayfalarındaki kalbi kullanın.",
   "marketplace.noFavoritesInCategories": "Bu kategorilerde favori yok",
   "marketplace.noFavoritesInCategories.description": "Daha fazla kaydedilmiş pazar yeri öğesini göstermek için başka bir kategoriyi açın.",
-  "marketplace.browseMarketplace": "Pazara göz atın"
+  "marketplace.browseMarketplace": "Pazara göz atın",
+  "marketplace.purchase": "Satın alma",
+  "withdraw.notOnChain": "Bu ürün henüz zincirde değil. İsteğe bağlı para çekme yakında geliyor.",
+  "withdraw.restricted.description": "Bazı öğeler geri çekilemez. Diğer öğeler kullanımdayken veya hala inşa edilirken kısıtlanabilir.",
+  "withdraw.restricted": "Para çekme kısıtlandı"
 }

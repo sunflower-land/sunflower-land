@@ -1624,7 +1624,6 @@
   "submitting": "Mengirimkan",
   "success": "Sukses!",
   "swapping": "Bertukar",
-  "syncing": "Sinkronisasi",
   "task": "Tugas",
   "test": "Uji",
   "thank.you": "Terima kasih!",
@@ -2816,7 +2815,6 @@
   "statements.potionRule.seven": "Ups, ramuan yang salah",
   "statements.sflLim.two": "Anda dapat terus bermain, tetapi harus menunggu sampai besok untuk menyinkronkan lagi.",
   "statements.sniped": "Oh tidak! Pemain lain membeli perdagangan itu sebelum Anda.",
-  "statements.sync": "Harap bersabar dengan kami saat kami menyinkronkan semua data Anda di rantai.",
   "statements.tapCont": "Ketuk untuk melanjutkan",
   "statements.price.change": "Oh tidak! Sepertinya harganya telah berubah, silakan coba lagi!",
   "statements.tutorial.one": "Perahu akan membawa Anda di antara pulau-pulau di mana Anda dapat menemukan tanah baru dan petualangan yang mengasyikkan.",
@@ -3024,7 +3022,6 @@
   "withdraw.choose": "Pilih jumlah yang akan ditarik",
   "withdraw.select.item": "Pilih item untuk ditarik",
   "withdraw.opensea": "Setelah ditarik, Anda akan dapat melihat item Anda di OpenSea.",
-  "withdraw.restricted": "Beberapa item tidak dapat ditarik. Item lain mungkin dibatasi saat digunakan atau masih dibangun.",
   "withdraw.bumpkin.wearing": "Bumpkin Anda saat ini mengenakan item berikut yang tidak dapat ditarik. Anda harus melepaskan mereka sebelum Anda dapat menarik diri.",
   "withdraw.buds": "Pilih Buds untuk ditarik",
   "withdraw.budRestricted": "Digunakan dalam kotak kuncup hari ini",
@@ -9032,5 +9029,9 @@
   "marketplace.noFavorites.description": "Gunakan hati di halaman item pasar untuk membuat daftar singkat hal-hal yang Anda pedulikan.",
   "marketplace.noFavoritesInCategories": "Tidak ada favorit dalam kategori ini",
   "marketplace.noFavoritesInCategories.description": "Aktifkan kategori lain untuk menampilkan lebih banyak item pasar yang disimpan.",
-  "marketplace.browseMarketplace": "Jelajahi pasar"
+  "marketplace.browseMarketplace": "Jelajahi pasar",
+  "marketplace.purchase": "Pembelian",
+  "withdraw.notOnChain": "Item ini belum di-chain. Penarikan sesuai permintaan akan segera hadir.",
+  "withdraw.restricted.description": "Beberapa item tidak dapat ditarik. Item lain mungkin dibatasi saat digunakan atau masih dibangun.",
+  "withdraw.restricted": "Penarikan dibatasi"
 }

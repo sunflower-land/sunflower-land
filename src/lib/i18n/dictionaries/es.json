@@ -1607,7 +1607,6 @@
   "submitting": "Enviando",
   "success": "Éxito!",
   "swapping": "Intercambiando",
-  "syncing": "Sincronizando",
   "task": "Tarea",
   "test": "Prueba",
   "thank.you": "Gracias!",
@@ -2782,7 +2781,6 @@
   "statements.potionRule.seven": "Vaya, poción equivocada",
   "statements.sflLim.two": "Puedes seguir jugando, pero tendrás que esperar hasta mañana para volver a sincronizarlo.",
   "statements.sniped": "Oh, no! Otro jugador compró esa operación antes que tú.",
-  "statements.sync": "Tenga paciencia con nosotros mientras sincronizamos todos sus datos en cadena.",
   "statements.tapCont": "Pulsa para continuar",
   "statements.price.change": "Oh, no! Parece que el precio ha cambiado, inténtalo de nuevo!",
   "statements.tutorial.one": "El barco te llevará entre islas donde podrás descubrir nuevas tierras y emocionantes aventuras.",
@@ -2990,7 +2988,6 @@
   "withdraw.choose": "Elige la cantidad a retirar",
   "withdraw.select.item": "Selecciona los artículos que deseas retirar",
   "withdraw.opensea": "Una vez retirado, podrás ver tus artículos en OpenSea.",
-  "withdraw.restricted": "Algunos artículos no se pueden retirar. Es posible que otros artículos estén restringidos mientras estén en uso o aún se estén fabricando.",
   "withdraw.bumpkin.wearing": "Tu Bumpkin lleva puesto actualmente los siguientes artículos que no se pueden retirar. Tendrás que desequiparlos antes de poder retirarlos.",
   "withdraw.buds": "Selecciona Buds para retirar",
   "withdraw.budRestricted": "Utilizado en la caja de Buds de hoy",
@@ -9032,5 +9029,9 @@
   "marketplace.noFavorites.description": "Usa el corazón de las páginas de artículos del mercado para crear una lista rápida de las cosas que te interesan.",
   "marketplace.noFavoritesInCategories": "No hay favoritos en estas categorías",
   "marketplace.noFavoritesInCategories.description": "Activa otra categoría para mostrar más artículos guardados del mercado.",
-  "marketplace.browseMarketplace": "Navega por el mercado"
+  "marketplace.browseMarketplace": "Navega por el mercado",
+  "marketplace.purchase": "Adquirir",
+  "withdraw.notOnChain": "Este artículo aún no está en la cadena. El retiro bajo demanda llegará pronto.",
+  "withdraw.restricted.description": "Algunos artículos no se pueden retirar. Es posible que otros artículos estén restringidos mientras estén en uso o aún se estén fabricando.",
+  "withdraw.restricted": "Retiro restringido"
 }

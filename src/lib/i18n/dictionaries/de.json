@@ -1624,7 +1624,6 @@
   "submitting": "Einreichen",
   "success": "Erfolg!",
   "swapping": "Tauschen",
-  "syncing": "Synchronisieren",
   "task": "Aufgabe",
   "test": "Testen",
   "thank.you": "Danke!",
@@ -2811,7 +2810,6 @@
   "statements.potionRule.seven": "Ups, falscher Trank",
   "statements.sflLim.two": "Du kannst weiterspielen, musst aber bis morgen warten, um erneut zu synchronisieren.",
   "statements.sniped": "Oh nein! Ein anderer Spieler hat diesen Trade vor dir gekauft.",
-  "statements.sync": "Bitte haben Sie Geduld mit uns, während wir alle Ihre Daten in der Kette synchronisieren.",
   "statements.tapCont": "Tippe, um fortzufahren",
   "statements.price.change": "Oh nein! Sieht so aus, als hätte sich der Preis geändert, bitte versuche es erneut!",
   "statements.tutorial.one": "Das Boot bringt Sie zwischen Inseln, auf denen Sie neue Länder und aufregende Abenteuer entdecken können.",
@@ -3019,7 +3017,6 @@
   "withdraw.choose": "Wählen Sie den Betrag für die Auszahlung",
   "withdraw.select.item": "Wählen Sie Artikel zum Abheben aus",
   "withdraw.opensea": "Nach der Auszahlung können Sie Ihre Artikel auf OpenSea einsehen.",
-  "withdraw.restricted": "Einige Artikel können nicht zurückgezogen werden. Andere Artikel können eingeschränkt sein, wenn sie verwendet werden oder sich noch im Bau befinden.",
   "withdraw.bumpkin.wearing": "Dein Bumpkin trägt derzeit die folgenden Artikel, die nicht zurückgezogen werden können. Du musst sie ausrüsten, bevor du sie abheben kannst.",
   "withdraw.buds": "Wähle Buds zum Abheben",
   "withdraw.budRestricted": "Wird in der heutigen Bud Box verwendet",
@@ -9032,5 +9029,9 @@
   "marketplace.noFavorites.description": "Verwende das Herz auf den Artikelseiten des Marktplatzes, um eine kurze Liste der Dinge zu erstellen, die dir wichtig sind.",
   "marketplace.noFavoritesInCategories": "Keine Favoriten in diesen Kategorien",
   "marketplace.noFavoritesInCategories.description": "Aktiviere eine andere Kategorie, um mehr gespeicherte Marketplace-Artikel anzuzeigen.",
-  "marketplace.browseMarketplace": "Marktplatz durchsuchen"
+  "marketplace.browseMarketplace": "Marktplatz durchsuchen",
+  "marketplace.purchase": "Kauf",
+  "withdraw.notOnChain": "Dieser Artikel ist noch nicht in der Kette. Die Auszahlung auf Abruf erfolgt bald.",
+  "withdraw.restricted.description": "Einige Artikel können nicht zurückgezogen werden. Andere Artikel können eingeschränkt sein, wenn sie verwendet werden oder sich noch im Bau befinden.",
+  "withdraw.restricted": "Auszahlung eingeschränkt"
 }

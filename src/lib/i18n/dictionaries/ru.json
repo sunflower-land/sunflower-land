@@ -2135,7 +2135,6 @@
   "submitting": "Отправляем",
   "success": "Успешно!",
   "swapping": "Меняем",
-  "syncing": "Синхронизируем",
   "task": "Задание",
   "test": "Тест",
   "thank.you": "Спасибо!",
@@ -3509,7 +3508,6 @@
   "statements.sflLim.two": "Ты можешь продолжить игру, но тебе придется подождать до завтра, чтобы снова синхронизироваться.",
   "statements.sniped": "О нет! Другой игрок увел эту сделку у тебя из под носа.",
   "statements.switchToPolygon": "Переключиться на многоугольник",
-  "statements.sync": "Пожалуйста, наберись терпения, пока мы синхронизируем все данные в блокчейне.",
   "statements.tapCont": "Нажми, чтобы продолжить",
   "statements.price.change": "О нет! Кажется, цена изменилась, попробуй еще раз!",
   "statements.tutorial.one": "Лодка прокатит тебя между островами, где ты сможешь открыть для себя новые земли и захватывающие приключения.",
@@ -3757,7 +3755,6 @@
   "withdraw.taxFree": "Гоблины облагают тебя налогом с FLOWER, заработанных в игре. Сюда не входят депозиты и заработок с торговой площадки.",
   "withdraw.select.item": "Выбери товары для вывода",
   "withdraw.opensea": "После вывода ты сможешь просматривать свои товары на OpenSea.",
-  "withdraw.restricted": "Некоторые предметы не могут быть выведены. Это может быть из-за того что они используются или все еще строятся.",
   "withdraw.bumpkin.wearing": "Твой бампкин в настоящее время носит следующие предметы, и поэтому их нельзя вывести. Сначала тебе нужно их снять, а только потом вывести.",
   "withdraw.buds": "Выбери бада для вывода",
   "withdraw.pets": "Выбери питомца для вывода",
@@ -9032,5 +9029,9 @@
   "marketplace.noFavorites.description": "Use the heart on marketplace item pages to build a quick list of the things you care about.",
   "marketplace.noFavoritesInCategories": "No favorites in these categories",
   "marketplace.noFavoritesInCategories.description": "Turn on another category to show more saved marketplace items.",
-  "marketplace.browseMarketplace": "Browse marketplace"
+  "marketplace.browseMarketplace": "Browse marketplace",
+  "marketplace.purchase": "Purchase",
+  "withdraw.notOnChain": "This item isn't on-chain yet. On-demand withdraw is coming soon.",
+  "withdraw.restricted.description": "Some items cannot be withdrawn. Other items may be restricted when in use or still being built.",
+  "withdraw.restricted": "Withdrawal restricted"
 }
