@@ -9018,5 +9018,19 @@
   "referral.package": "推荐套餐",
   "referral.starterPackage": "推荐您的朋友，他们将获得以下新手包！",
   "portal.economyMinigames.banner": "新的玩家小游戏刚刚推出！这是测试模式",
-  "portal.economyMinigames.disclaimer": "这些游戏不由 SFL 团队维护或支持，风险自负。"
+  "portal.economyMinigames.disclaimer": "这些游戏不由 SFL 团队维护或支持，风险自负。",
+  "marketplace.favorites": "最爱",
+  "marketplace.favorites.beta": "这是测试模式。收藏夹存储在本地设备上-切换设备将更改此列表",
+  "marketplace.addToFavorites": "添加到收藏夹",
+  "marketplace.addToFavoriteIcon": "添加到",
+  "marketplace.addedToFavourites": "已添加到收藏夹",
+  "marketplace.removeFromFavorites": "从收藏夹中移除",
+  "marketplace.removeFromFavoriteIcon": "从中移除",
+  "marketplace.removedFromFavourites": "已从收藏夹中移除",
+  "marketplace.favoriteCategories": "类别",
+  "marketplace.noFavorites": "还没有最爱",
+  "marketplace.noFavorites.description": "使用商城物品页面上的心脏来快速列出你关心的事物。",
+  "marketplace.noFavoritesInCategories": "这些类别中没有收藏夹",
+  "marketplace.noFavoritesInCategories.description": "开启另一个类别以显示更多已保存的商城商品。",
+  "marketplace.browseMarketplace": "浏览市场"
 }

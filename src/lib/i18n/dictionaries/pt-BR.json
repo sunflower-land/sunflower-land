@@ -9018,5 +9018,19 @@
   "referral.package": "Pacote de referência",
   "referral.starterPackage": "Indique seus amigos e eles receberão o seguinte pacote inicial!",
   "portal.economyMinigames.banner": "Os minijogos para novos jogadores acabam de ser lançados! Isso está no modo beta",
-  "portal.economyMinigames.disclaimer": "Esses jogos não são mantidos ou suportados pela equipe da SFL - prossiga por sua conta e risco."
+  "portal.economyMinigames.disclaimer": "Esses jogos não são mantidos ou suportados pela equipe da SFL - prossiga por sua conta e risco.",
+  "marketplace.favorites": "Preferidos",
+  "marketplace.favorites.beta": "Isso está no modo beta. Os favoritos são armazenados localmente no seu dispositivo - a troca de dispositivos mudará essa lista",
+  "marketplace.addToFavorites": "Adicionar aos favoritos",
+  "marketplace.addToFavoriteIcon": "Adicionar a",
+  "marketplace.addedToFavourites": "Adicionado aos favoritos",
+  "marketplace.removeFromFavorites": "Remover dos favoritos",
+  "marketplace.removeFromFavoriteIcon": "Remover de",
+  "marketplace.removedFromFavourites": "Removido dos favoritos",
+  "marketplace.favoriteCategories": "Categorias",
+  "marketplace.noFavorites": "Ainda não há favoritos",
+  "marketplace.noFavorites.description": "Use o coração nas páginas de itens do Marketplace para criar uma lista rápida das coisas que lhe interessam.",
+  "marketplace.noFavoritesInCategories": "Não há favoritos nessas categorias",
+  "marketplace.noFavoritesInCategories.description": "Ative outra categoria para mostrar mais itens salvos do marketplace.",
+  "marketplace.browseMarketplace": "Navegue pelo mercado"
 }

@@ -9018,5 +9018,19 @@
   "referral.package": "Tavsiye Paketi",
   "referral.starterPackage": "Arkadaşlarınızı tavsiye edin ve aşağıdaki başlangıç paketini alacaklar!",
   "portal.economyMinigames.banner": "Yeni oyuncu mini oyunları yeni piyasaya sürüldü! Bu beta modunda",
-  "portal.economyMinigames.disclaimer": "Bu oyunlar SFL ekibi tarafından sürdürülmez veya desteklenmez - devam edin kendi sorumluluğunuzdadır."
+  "portal.economyMinigames.disclaimer": "Bu oyunlar SFL ekibi tarafından sürdürülmez veya desteklenmez - devam edin kendi sorumluluğunuzdadır.",
+  "marketplace.favorites": "Favoriler",
+  "marketplace.favorites.beta": "Bu beta modundadır. Sık Kullanılanlar cihazınızda yerel olarak saklanır - cihaz değiştirme bu listeyi değiştirir",
+  "marketplace.addToFavorites": "Favorilere ekle",
+  "marketplace.addToFavoriteIcon": "Şuraya ekle",
+  "marketplace.addedToFavourites": "Favorilere eklendi",
+  "marketplace.removeFromFavorites": "Favorilerden kaldır",
+  "marketplace.removeFromFavoriteIcon": "Şuradan kaldır",
+  "marketplace.removedFromFavourites": "Favorilerden kaldırıldı",
+  "marketplace.favoriteCategories": "Kategoriler",
+  "marketplace.noFavorites": "Henüz favori yok",
+  "marketplace.noFavorites.description": "Değer verdiğiniz şeylerin hızlı bir listesini oluşturmak için pazar yeri öğe sayfalarındaki kalbi kullanın.",
+  "marketplace.noFavoritesInCategories": "Bu kategorilerde favori yok",
+  "marketplace.noFavoritesInCategories.description": "Daha fazla kaydedilmiş pazar yeri öğesini göstermek için başka bir kategoriyi açın.",
+  "marketplace.browseMarketplace": "Pazara göz atın"
 }

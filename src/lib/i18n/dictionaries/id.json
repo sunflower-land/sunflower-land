@@ -9018,5 +9018,19 @@
   "referral.package": "Paket Referral",
   "referral.starterPackage": "Referensikan teman Anda dan mereka akan menerima paket starter berikut!",
   "portal.economyMinigames.banner": "Minigame pemain baru saja diluncurkan! Ini dalam mode beta",
-  "portal.economyMinigames.disclaimer": "Permainan ini tidak dikelola atau didukung oleh tim SFL - lanjutkan dengan risiko Anda sendiri."
+  "portal.economyMinigames.disclaimer": "Permainan ini tidak dikelola atau didukung oleh tim SFL - lanjutkan dengan risiko Anda sendiri.",
+  "marketplace.favorites": "Favorit",
+  "marketplace.favorites.beta": "Ini dalam mode beta. Favorit disimpan secara lokal di perangkat Anda - mengganti perangkat akan mengubah daftar ini",
+  "marketplace.addToFavorites": "Tambahkan ke favorit",
+  "marketplace.addToFavoriteIcon": "Tambahkan ke",
+  "marketplace.addedToFavourites": "Ditambahkan ke favorit",
+  "marketplace.removeFromFavorites": "Hapus dari favorit",
+  "marketplace.removeFromFavoriteIcon": "Hapus dari",
+  "marketplace.removedFromFavourites": "Dihapus dari favorit",
+  "marketplace.favoriteCategories": "Kategori",
+  "marketplace.noFavorites": "Belum ada favorit",
+  "marketplace.noFavorites.description": "Gunakan hati di halaman item pasar untuk membuat daftar singkat hal-hal yang Anda pedulikan.",
+  "marketplace.noFavoritesInCategories": "Tidak ada favorit dalam kategori ini",
+  "marketplace.noFavoritesInCategories.description": "Aktifkan kategori lain untuk menampilkan lebih banyak item pasar yang disimpan.",
+  "marketplace.browseMarketplace": "Jelajahi pasar"
 }

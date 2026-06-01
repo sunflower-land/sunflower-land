@@ -9018,5 +9018,19 @@
   "referral.package": "紹介パッケージ",
   "referral.starterPackage": "友達を紹介すると、次のスターターパッケージが届きます！",
   "portal.economyMinigames.banner": "新しいプレイヤーのミニゲームがリリースされました！これはベータモードです。",
-  "portal.economyMinigames.disclaimer": "これらのゲームはSFLチームによって管理またはサポートされていません。ご自身の責任で進めてください。"
+  "portal.economyMinigames.disclaimer": "これらのゲームはSFLチームによって管理またはサポートされていません。ご自身の責任で進めてください。",
+  "marketplace.favorites": "お気に入り",
+  "marketplace.favorites.beta": "これはベータモードです。お気に入りはデバイスのローカルに保存されます。デバイスを切り替えるとこのリストも変更されます",
+  "marketplace.addToFavorites": "お気に入りに追加",
+  "marketplace.addToFavoriteIcon": "に追加",
+  "marketplace.addedToFavourites": "お気に入りに追加しました",
+  "marketplace.removeFromFavorites": "お気に入りから削除",
+  "marketplace.removeFromFavoriteIcon": "から削除",
+  "marketplace.removedFromFavourites": "お気に入りから削除されました",
+  "marketplace.favoriteCategories": "カテゴリー",
+  "marketplace.noFavorites": "お気に入りはまだありません",
+  "marketplace.noFavorites.description": "マーケットプレイスの商品ページにあるハートマークを使って、気になる項目の簡単なリストを作成しましょう。",
+  "marketplace.noFavoritesInCategories": "これらのカテゴリにはお気に入りはありません",
+  "marketplace.noFavoritesInCategories.description": "別のカテゴリをオンにすると、保存されているマーケットプレイス商品がさらに表示されます。",
+  "marketplace.browseMarketplace": "マーケットプレイスを閲覧"
 }

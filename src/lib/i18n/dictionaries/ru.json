@@ -9018,5 +9018,19 @@
   "referral.package": "Referral Package",
   "referral.starterPackage": "Refer your friends and they will receive the following starter package!",
   "portal.economyMinigames.banner": "New player minigames have just launched! This is in beta mode",
-  "portal.economyMinigames.disclaimer": "These games are not maintained or supported by the SFL team - proceed at your own risk."
+  "portal.economyMinigames.disclaimer": "These games are not maintained or supported by the SFL team - proceed at your own risk.",
+  "marketplace.favorites": "Favorites",
+  "marketplace.favorites.beta": "This is in beta mode. Favourites are stored locally on your device - switching devices will change this list",
+  "marketplace.addToFavorites": "Add to favorites",
+  "marketplace.addToFavoriteIcon": "Add to",
+  "marketplace.addedToFavourites": "Added to favourites",
+  "marketplace.removeFromFavorites": "Remove from favorites",
+  "marketplace.removeFromFavoriteIcon": "Remove from",
+  "marketplace.removedFromFavourites": "Removed from favourites",
+  "marketplace.favoriteCategories": "Categories",
+  "marketplace.noFavorites": "No favorites yet",
+  "marketplace.noFavorites.description": "Use the heart on marketplace item pages to build a quick list of the things you care about.",
+  "marketplace.noFavoritesInCategories": "No favorites in these categories",
+  "marketplace.noFavoritesInCategories.description": "Turn on another category to show more saved marketplace items.",
+  "marketplace.browseMarketplace": "Browse marketplace"
 }

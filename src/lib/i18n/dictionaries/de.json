@@ -9018,5 +9018,19 @@
   "referral.package": "Empfehlungspaket",
   "referral.starterPackage": "Empfehlen Sie Ihre Freunde und sie erhalten das folgende Starterpaket!",
   "portal.economyMinigames.banner": "Minispiele für neue Spieler wurden gerade veröffentlicht! Das ist im Betamodus",
-  "portal.economyMinigames.disclaimer": "Diese Spiele werden nicht vom SFL-Team betreut oder unterstützt. Spielen Sie auf eigenes Risiko weiter."
+  "portal.economyMinigames.disclaimer": "Diese Spiele werden nicht vom SFL-Team betreut oder unterstützt. Spielen Sie auf eigenes Risiko weiter.",
+  "marketplace.favorites": "Favoriten",
+  "marketplace.favorites.beta": "Dies ist im Beta-Modus. Die Favoriten werden lokal auf Ihrem Gerät gespeichert. Wenn Sie das Gerät wechseln, ändert sich diese Liste",
+  "marketplace.addToFavorites": "Zu den Favoriten hinzufügen",
+  "marketplace.addToFavoriteIcon": "Hinzufügen zu",
+  "marketplace.addedToFavourites": "Zu den Favoriten hinzugefügt",
+  "marketplace.removeFromFavorites": "Aus den Favoriten entfernen",
+  "marketplace.removeFromFavoriteIcon": "Entfernen von",
+  "marketplace.removedFromFavourites": "Aus den Favoriten entfernt",
+  "marketplace.favoriteCategories": "Kategorien",
+  "marketplace.noFavorites": "Noch keine Favoriten",
+  "marketplace.noFavorites.description": "Verwende das Herz auf den Artikelseiten des Marktplatzes, um eine kurze Liste der Dinge zu erstellen, die dir wichtig sind.",
+  "marketplace.noFavoritesInCategories": "Keine Favoriten in diesen Kategorien",
+  "marketplace.noFavoritesInCategories.description": "Aktiviere eine andere Kategorie, um mehr gespeicherte Marketplace-Artikel anzuzeigen.",
+  "marketplace.browseMarketplace": "Marktplatz durchsuchen"
 }
