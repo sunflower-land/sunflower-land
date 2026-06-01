@@ -12,12 +12,6 @@ export const SUNFLORIAN_HOUSE_NPCS: NPCBumpkin[] = [
     direction: "left",
   },
   {
-    x: 390,
-    y: 223,
-    npc: "flora",
-    direction: "left",
-  },
-  {
     x: 94,
     y: 212,
     npc: "chef lumen",

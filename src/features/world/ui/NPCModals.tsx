@@ -18,7 +18,6 @@ import { GarbageCollectorModal } from "features/helios/components/garbageCollect
 import { Hopper } from "./npcs/Hopper";
 import { JoinFactionModal } from "./factions/JoinFactionModal";
 import { EmblemsTrading } from "./factions/emblemTrading/EmblemsTrading";
-import { KingdomChoresPanel } from "./factions/chores/KingdomChoresPanel";
 import { SecretMinigamesHubModal } from "./kingdom/SecretMinigamesHubModal";
 import { OuterPanel } from "components/ui/Panel";
 import { FactionKitchenPanel } from "./factions/FactionKitchenPanel";
@@ -271,19 +270,6 @@ export const NPCModals: React.FC<Props> = ({ id }) => {
         )}
         {npc === "haymitch" && (
           <EmblemsTrading onClose={closeModal} emblem="Bumpkin Emblem" />
-        )}
-        {/* Faction Chores */}
-        {npc === "grizzle" && (
-          <KingdomChoresPanel onClose={closeModal} npc={npc} />
-        )}
-        {npc === "buttercup" && (
-          <KingdomChoresPanel onClose={closeModal} npc={npc} />
-        )}
-        {npc === "shadow" && (
-          <KingdomChoresPanel onClose={closeModal} npc={npc} />
-        )}
-        {npc === "flora" && (
-          <KingdomChoresPanel onClose={closeModal} npc={npc} />
         )}
         {npc === "chef ebon" && (
           <FactionKitchenPanel bumpkinParts={NPC_WEARABLES["chef ebon"]} />
