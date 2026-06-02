@@ -132,7 +132,7 @@ const MainMenu: React.FC<{
         <div className="flex items-center gap-2">
           <img src={flowerIcon} className="w-8 h-8" />
           <div className="flex flex-col">
-            <span className="text-sm">FLOWER</span>
+            <span className="text-sm">{`FLOWER`}</span>
             <span className="text-xxs">
               {t("withdraw.menu.flower.subtitle")}
             </span>

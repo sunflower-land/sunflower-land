@@ -113,7 +113,10 @@ export const WithdrawBuds: React.FC<Props> = ({
 
   // Selected buds remain visible in the grid (with a selected badge)
   // alongside the still-available ones.
-  const budIds = [...unselected.slice().sort(sortWithdrawableItems), ...selected];
+  const budIds = [
+    ...unselected.slice().sort(sortWithdrawableItems),
+    ...selected,
+  ];
 
   const entries: WithdrawEntry[] = budIds.map((budId) => {
     const budName = getBudName(budId);

@@ -7,7 +7,10 @@ import type {
   Inventory,
   InventoryItemName,
 } from "features/game/types/game";
-import { getTranslatedItemName, ITEM_DETAILS } from "features/game/types/images";
+import {
+  getTranslatedItemName,
+  ITEM_DETAILS,
+} from "features/game/types/images";
 import { KNOWN_IDS } from "features/game/types";
 import { getItemUnit } from "features/game/lib/conversion";
 

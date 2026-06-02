@@ -229,8 +229,7 @@ export const WithdrawPets: React.FC<Props> = ({
     const isRevealedButNotWithdrawable =
       row?.isRevealedButNotWithdrawable ?? false;
 
-    const locked =
-      isRestricted || !isRevealed || isRevealedButNotWithdrawable;
+    const locked = isRestricted || !isRevealed || isRevealedButNotWithdrawable;
 
     const cooldownText = secondsToString(cooldownTimeLeft / 1000, {
       length: "medium",
