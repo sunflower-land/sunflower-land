@@ -9021,5 +9021,9 @@
   "withdraw.menu.collectibles.subtitle": "Patung, penguat, dekorasi",
   "withdraw.menu.wearables.subtitle": "Peralatan Bumpkin",
   "withdraw.menu.buds.subtitle": "NFT Bud",
-  "withdraw.menu.pets.subtitle": "NFT pendamping"
+  "withdraw.menu.pets.subtitle": "NFT pendamping",
+  "gameOptions.experiments.interiors": "Interior baru",
+  "gameOptions.experiments.interiorsDescription": "Coba pengalaman interior baru. Saat diaktifkan, mengklik rumah Anda membawa Anda ke interior yang dapat diupgrade alih-alih rumah klasik.",
+  "gameOptions.experiments.interiorsToggle": "Aktifkan interior baru",
+  "gameOptions.experiments.interiorsDisclaimer": "Fitur eksperimental saja. Data dan kemajuan dapat diatur ulang atau hilang tanpa pemberitahuan. Dengan mengaktifkan ini, Anda menerima risiko ini dan melanjutkan dengan risiko Anda sendiri."
 }

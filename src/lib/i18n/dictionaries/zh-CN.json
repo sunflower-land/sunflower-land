@@ -9021,5 +9021,9 @@
   "withdraw.menu.collectibles.subtitle": "雕像、助推器、装饰",
   "withdraw.menu.wearables.subtitle": "Bumpkin 装备",
   "withdraw.menu.buds.subtitle": "巴德 NFT",
-  "withdraw.menu.pets.subtitle": "伴侣 NFT"
+  "withdraw.menu.pets.subtitle": "伴侣 NFT",
+  "gameOptions.experiments.interiors": "全新内饰",
+  "gameOptions.experiments.interiorsDescription": "尝试全新的内饰体验。启用后，单击您的主页将带您进入可升级的内部，而不是经典住宅。",
+  "gameOptions.experiments.interiorsToggle": "启用全新内饰",
+  "gameOptions.experiments.interiorsDisclaimer": "仅限实验功能。数据和进度可能会被重置或丢失，恕不另行通知。启用此功能即表示您接受这些风险，并自担风险。"
 }

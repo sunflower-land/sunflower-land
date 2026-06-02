@@ -9021,5 +9021,9 @@
   "withdraw.menu.collectibles.subtitle": "Estatuas, refuerzos, decoración",
   "withdraw.menu.wearables.subtitle": "Equipo Bumpkin",
   "withdraw.menu.buds.subtitle": "Bud NFT",
-  "withdraw.menu.pets.subtitle": "NFT complementarios"
+  "withdraw.menu.pets.subtitle": "NFT complementarios",
+  "gameOptions.experiments.interiors": "Nuevos interiores",
+  "gameOptions.experiments.interiorsDescription": "Prueba la nueva experiencia de interiores. Cuando está habilitada, al hacer clic en tu casa, accederás a un interior que se puede mejorar en lugar de a la casa clásica.",
+  "gameOptions.experiments.interiorsToggle": "Habilitar nuevos interiores",
+  "gameOptions.experiments.interiorsDisclaimer": "Solo función experimental. Los datos y el progreso pueden restablecerse o perderse sin previo aviso. Al habilitar esta opción, usted acepta estos riesgos y procede bajo su propio riesgo."
 }

@@ -9021,5 +9021,9 @@
   "withdraw.menu.collectibles.subtitle": "彫像、ブースター、装飾",
   "withdraw.menu.wearables.subtitle": "バンプキン機器",
   "withdraw.menu.buds.subtitle": "バッドNFT",
-  "withdraw.menu.pets.subtitle": "コンパニオンNFT"
+  "withdraw.menu.pets.subtitle": "コンパニオンNFT",
+  "gameOptions.experiments.interiors": "新しいインテリア",
+  "gameOptions.experiments.interiorsDescription": "新しいインテリア体験をお試しください。有効にすると、ホームをクリックすると、クラシックホームの代わりにアップグレード可能なインテリアに移動します。",
+  "gameOptions.experiments.interiorsToggle": "新しいインテリアを有効にする",
+  "gameOptions.experiments.interiorsDisclaimer": "実験的機能のみ。データや進行状況は予告なしにリセットまたは失われる可能性があります。これを有効にすると、これらのリスクを受け入れ、自己責任で続行することになります。"
 }

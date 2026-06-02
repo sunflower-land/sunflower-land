@@ -9021,5 +9021,9 @@
   "withdraw.menu.collectibles.subtitle": "Heykeller, güçlendiriciler, dekor",
   "withdraw.menu.wearables.subtitle": "Bumpkin ekipmanları",
   "withdraw.menu.buds.subtitle": "Tomurcuk NFT'leri",
-  "withdraw.menu.pets.subtitle": "Tamamlayıcı NFT'ler"
+  "withdraw.menu.pets.subtitle": "Tamamlayıcı NFT'ler",
+  "gameOptions.experiments.interiors": "Yeni iç mekanlar",
+  "gameOptions.experiments.interiorsDescription": "Yeni iç mekan deneyimini deneyin. Etkinleştirildiğinde, evinize tıklamak sizi klasik ev yerine yükseltilebilir iç mekana götürür.",
+  "gameOptions.experiments.interiorsToggle": "Yeni iç mekanları etkinleştirin",
+  "gameOptions.experiments.interiorsDisclaimer": "Yalnızca deneysel özellik. Veriler ve ilerleme önceden haber verilmeksizin sıfırlanabilir veya kaybolabilir. Bunu etkinleştirerek bu riskleri kabul edersiniz ve kendi sorumluluğunuzda ilerlersiniz."
 }
