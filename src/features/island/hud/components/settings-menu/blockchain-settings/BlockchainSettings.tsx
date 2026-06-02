@@ -54,42 +54,43 @@ export const BlockchainSettings: React.FC<ContentComponentProps> = ({
   const copypaste = useSound("copypaste");
 
   return (
-    <div className="flex flex-col gap-2 p-1 mt-1">
-      <div className="flex justify-between">
-        {nftId !== undefined && (
-          <Label
-            type="default"
-            icon={ticket}
-            popup={showNftId}
-            className="mb-1 mr-4 ml-2"
-            onClick={() => {
-              setShowNftId(true);
-              setTimeout(() => {
-                setShowNftId(false);
-              }, 2000);
-              copypaste.play();
-              clipboard.copy(String(nftId));
-            }}
-          >
-            {`NFT ID #${nftId}`}
-          </Label>
-        )}
-        {linkedWallet && (
-          <WalletAddressLabel
-            walletAddress={linkedWallet}
-            showLabelTitle={false}
-          />
-        )}
+    <>
+      <div className="flex flex-col gap-2 p-1 mt-1">
+        <div className="flex justify-between">
+          {nftId !== undefined && (
+            <Label
+              type="default"
+              icon={ticket}
+              popup={showNftId}
+              className="mb-1 mr-4 ml-2"
+              onClick={() => {
+                setShowNftId(true);
+                setTimeout(() => {
+                  setShowNftId(false);
+                }, 2000);
+                copypaste.play();
+                clipboard.copy(String(nftId));
+              }}
+            >
+              {`NFT ID #${nftId}`}
+            </Label>
+          )}
+          {linkedWallet && (
+            <WalletAddressLabel
+              walletAddress={linkedWallet}
+              showLabelTitle={false}
+            />
+          )}
+        </div>
+
+        <p className="text-sm">
+          {t(
+            isFullUser
+              ? "gameOptions.blockchainSettings.movedToBank.fullUsers"
+              : "gameOptions.blockchainSettings.movedToBank",
+          )}
+        </p>
       </div>
-
-      <p className="text-sm">
-        {t(
-          isFullUser
-            ? "gameOptions.blockchainSettings.movedToBank.fullUsers"
-            : "gameOptions.blockchainSettings.movedToBank",
-        )}
-      </p>
-
       <Button onClick={goToGoblinRetreat} disabled={!canAccessRetreat}>
         <div className="flex items-center justify-center">
           {!canAccessRetreat && (
@@ -100,6 +101,6 @@ export const BlockchainSettings: React.FC<ContentComponentProps> = ({
             : t("world.lvl.requirement", { lvl: GOBLIN_RETREAT_LEVEL })}
         </div>
       </Button>
-    </div>
+    </>
   );
 };
