@@ -26,8 +26,6 @@ export type SettingMenuId =
   | "economyEditor"
   | "admin"
   | "faceRecognition"
-  // Blockchain Settings
-  | "swapSFL"
 
   // Account / Preferences
   | "changeLanguage"

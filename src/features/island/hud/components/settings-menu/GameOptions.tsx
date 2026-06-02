@@ -30,7 +30,6 @@ import {
   isAndroid,
   isChrome,
 } from "mobile-device-detect";
-import { AddSFL } from "../AddSFL";
 import { Account } from "./account/Account";
 import { Advanced } from "./advanced/Advanced";
 import { InstallAppModal } from "./general-settings/InstallAppModal";
@@ -375,13 +374,6 @@ export const SETTING_MENUS: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.experiments.economyEditor"),
     parent: "experiments",
     content: EconomyEditorExperimentSettings,
-  },
-
-  // Blockchain Settings
-  swapSFL: {
-    title: translate("gameOptions.blockchainSettings.swapPOLForSFL"),
-    parent: "blockchain",
-    content: AddSFL,
   },
 
   // Account
