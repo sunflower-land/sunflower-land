@@ -15,6 +15,7 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import { getHelpRequired } from "features/game/types/monuments";
 import { HomeBumpkins } from "../house/HomeBumpkins";
 import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
+import { getHomeRoute } from "features/island/buildings/lib/getHomeRoute";
 
 const _game = (state: MachineState) => state.context.state;
 const _farmId = (state: MachineState) => state.context.farmId;
@@ -30,11 +31,7 @@ export const Manor: React.FC<BuildingProps> = ({ isBuilt, season }) => {
 
   const handleClick = () => {
     if (isBuilt) {
-      if (isVisiting) {
-        navigate(`/visit/${farmId}/home`);
-      } else {
-        navigate("/home");
-      }
+      navigate(getHomeRoute({ game, isVisiting, farmId }));
       return;
     }
   };

@@ -4,12 +4,12 @@ import type { GameState } from "features/game/types/game";
 import { UPGRADE_INTERIOR_ERRORS, upgradeInterior } from "./upgradeInterior";
 import { HOME_EXPANSION_UPGRADE_REQUIREMENTS } from "features/interior/lib/upgradeRequirements";
 
-// HOME_EXPANSIONS is a betaFeatureFlag — testnet OR Beta Pass. Tests assume
-// testnet (`CONFIG.NETWORK === "amoy"`) is true, so the flag passes for these
-// volcano-island fixtures without needing a Beta Pass in inventory.
+// Interior upgrades are gated by the `interiors` experiment toggle
+// (`settings.interiorsEnabled`), set on the fixtures below.
 const richVolcanoState = (): GameState => ({
   ...TEST_FARM,
   island: { ...TEST_FARM.island, type: "volcano" },
+  settings: { ...TEST_FARM.settings, interiorsEnabled: true },
   coins: 1_000_000,
   inventory: {
     ...TEST_FARM.inventory,
@@ -19,7 +19,6 @@ const richVolcanoState = (): GameState => ({
     Gold: new Decimal(10_000),
     Crimstone: new Decimal(10_000),
     Obsidian: new Decimal(10_000),
-    "Beta Pass": new Decimal(1),
   },
 });
 

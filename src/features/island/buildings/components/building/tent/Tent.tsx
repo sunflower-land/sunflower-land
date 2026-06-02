@@ -18,6 +18,7 @@ import type { PlacedItem } from "features/game/types/game";
 import type { OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
 import { useVisiting } from "lib/utils/visitUtils";
 import { useNavigate } from "react-router";
+import { getHomeRoute } from "features/island/buildings/lib/getHomeRoute";
 
 const selectBuildings = (state: MachineState) => state.context.state.buildings;
 
@@ -47,11 +48,8 @@ export const Tent: React.FC<BuildingProps> = ({ buildingId, isBuilt }) => {
 
   const handleClick = () => {
     if (isBuilt && bumpkin) {
-      if (isVisiting) {
-        navigate(`/visit/${gameService.getSnapshot().context.farmId}/home`);
-      } else {
-        navigate("/home");
-      }
+      const { state, farmId } = gameService.getSnapshot().context;
+      navigate(getHomeRoute({ game: state, isVisiting, farmId }));
       setShowModal(true);
     }
   };

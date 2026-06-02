@@ -24,6 +24,7 @@ export type SettingMenuId =
   | "plaza"
   | "experiments"
   | "economyEditor"
+  | "interiorExperiment"
   | "admin"
   | "faceRecognition"
   // Blockchain Settings

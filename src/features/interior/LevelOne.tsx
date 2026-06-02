@@ -15,7 +15,6 @@ import { Placeable } from "features/game/expansion/placeable/Placeable";
 import { Hud } from "features/island/hud/Hud";
 import { LandscapingHud } from "features/island/hud/LandscapingHud";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import { hasFeatureAccess } from "lib/flags";
 import { LandscapingGrid } from "features/island/landscaping/LandscapingGrid";
 import {
   NON_COLLIDING_OBJECTS,
@@ -45,7 +44,7 @@ const _levelOne = (state: MachineState) =>
 const _expansion = (state: MachineState) =>
   state.context.state.interior.expansion;
 const _hasInteriorAccess = (state: MachineState) =>
-  hasFeatureAccess(state.context.state, "HOME_EXPANSIONS");
+  !!state.context.state.settings.interiorsEnabled;
 
 const EMPTY_COLLECTIBLES: Collectibles = {};
 

@@ -142,13 +142,6 @@ const FEATURE_FLAGS = {
 
   CHAACS_TEMPLE_BETA: betaFeatureFlag,
 
-  /**
-   * Gates the new home-interior placement system: the /interior route, the
-   * /level_one upgrade route, and the `interior.upgrade` event. Beta-pass /
-   * testnet only until the feature ships to all players.
-   */
-  HOME_EXPANSIONS: betaFeatureFlag,
-
   BOOSTS_DISPLAY: betaFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
