@@ -7,6 +7,7 @@ import { wallet } from "lib/blockchain/wallet";
 
 import { getKeys } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { WEARABLE_RELEASES } from "features/game/types/withdrawables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -205,22 +206,10 @@ export const WithdrawWearables: React.FC<Props> = ({
     ...selectedItems.filter((name) => !withdrawableItems.includes(name)),
   ];
 
-  // Count how many of each wearable are currently equipped across the Bumpkin
-  // and all farmhands — withdrawing beyond the unequipped (spare) count will
-  // unequip them.
-  const equippedCounts = [
-    state.bumpkin?.equipped ?? {},
-    ...Object.values(state.farmHands?.bumpkins ?? {}).map((f) => f.equipped),
-  ].reduce(
-    (acc, equipped) => {
-      Object.values(equipped).forEach((name) => {
-        if (!name) return;
-        acc[name] = (acc[name] ?? 0) + 1;
-      });
-      return acc;
-    },
-    {} as Record<string, number>,
-  );
+  // `availableWardrobe` is the project's source of truth for the unequipped
+  // (spare) count — reuse it rather than recomputing equipped counts here, so
+  // the warning threshold can't drift from equip rules.
+  const available = availableWardrobe(state);
 
   const entries: WithdrawEntry[] = entryNames.map((itemName) => {
     const wardrobeCount = wardrobe[itemName] ?? 0;
@@ -228,10 +217,10 @@ export const WithdrawWearables: React.FC<Props> = ({
     const { isRestricted, cooldownTimeLeft } = getRestrictionStatus(itemName);
     const buffs = BUMPKIN_ITEM_BUFF_LABELS[itemName];
 
-    // Unequipped (spare) count — withdrawing beyond this unequips copies.
-    const equippedCount = equippedCounts[itemName] ?? 0;
-    const freeCount = Math.max(
-      (state.wardrobe[itemName] ?? 0) - equippedCount,
+    // Withdrawing beyond the unequipped (spare) count will unequip copies.
+    const safeWithdrawCount = available[itemName] ?? 0;
+    const equippedCount = Math.max(
+      (state.wardrobe[itemName] ?? 0) - safeWithdrawCount,
       0,
     );
 
@@ -247,7 +236,7 @@ export const WithdrawWearables: React.FC<Props> = ({
       name: itemName,
       image: getImageUrl(ITEM_IDS[itemName]),
       total: wardrobeCount + selectedCount,
-      freeCount,
+      safeWithdrawCount,
       inUseWarning:
         equippedCount > 0 ? t("withdraw.equipped.warning") : undefined,
       locked: isRestricted,

@@ -95,8 +95,8 @@ export const WithdrawItemDetail: React.FC<Props> = ({
             />
           </div>
           {entry.inUseWarning &&
-            entry.freeCount !== undefined &&
-            selectedQty > entry.freeCount && (
+            entry.safeWithdrawCount !== undefined &&
+            selectedQty > entry.safeWithdrawCount && (
               <Label type="warning" icon={SUNNYSIDE.icons.expression_alerted}>
                 {entry.inUseWarning}
               </Label>

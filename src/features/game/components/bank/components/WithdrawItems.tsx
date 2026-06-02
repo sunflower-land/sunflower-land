@@ -248,9 +248,9 @@ export const WithdrawItems: React.FC<Props> = ({
     });
 
     // Unplaced (chest) count — withdrawing beyond this removes placed copies.
-    const freeCount = getChestItemCount(state, itemName).toNumber();
+    const safeWithdrawCount = getChestItemCount(state, itemName).toNumber();
     const placedCount =
-      (state.inventory[itemName]?.toNumber() ?? 0) - freeCount;
+      (state.inventory[itemName]?.toNumber() ?? 0) - safeWithdrawCount;
 
     return {
       key: itemName,
@@ -258,7 +258,7 @@ export const WithdrawItems: React.FC<Props> = ({
       name: getTranslatedItemName(itemName),
       image: ITEM_DETAILS[itemName].image,
       total: inventoryCount + selectedCount,
-      freeCount,
+      safeWithdrawCount,
       inUseWarning: placedCount > 0 ? t("withdraw.placed.warning") : undefined,
       locked: isRestricted,
       lockReason: isRestricted

@@ -41,15 +41,15 @@ export interface WithdrawEntry {
   /** Boost labels to surface in the detail panel. */
   buffs?: BuffLabel[];
   /**
-   * How many can be withdrawn without removing an in-use copy — i.e. the
-   * unplaced (collectibles) or unequipped (wearables) count. When the selected
-   * quantity exceeds this, withdrawing will remove placed collectibles from the
-   * farm/home/interior or unequip wearables from the Bumpkin/farmhands.
+   * How many can be withdrawn without affecting an in-use copy — i.e. the
+   * unplaced (collectibles) or unequipped (wearables) count, or 0 for a placed
+   * Bud/Pet. When the selected quantity exceeds this, withdrawing will remove
+   * placed collectibles/Buds/Pets from the farm or unequip wearables.
    */
-  freeCount?: number;
+  safeWithdrawCount?: number;
   /**
-   * Red warning shown in the detail panel when the selected quantity exceeds
-   * `freeCount` (e.g. "…will unequip it from your Bumpkin").
+   * Warning shown in the detail panel when the selected quantity exceeds
+   * `safeWithdrawCount` (e.g. "…will unequip it from your Bumpkin").
    */
   inUseWarning?: string;
 }

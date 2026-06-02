@@ -130,6 +130,9 @@ export const WithdrawBuds: React.FC<Props> = ({
       removeTrailingZeros: true,
     });
 
+    // A placed Bud is removed from the farm when withdrawn — warn on select.
+    const isPlaced = !!buds[budId]?.coordinates;
+
     return {
       key: `bud-${budId}`,
       id: budId,
@@ -138,6 +141,8 @@ export const WithdrawBuds: React.FC<Props> = ({
       iconClassName: BUD_ICON_CLASS,
       total: 1,
       unique: true,
+      safeWithdrawCount: isPlaced ? 0 : 1,
+      inUseWarning: isPlaced ? t("withdraw.placedBud.warning") : undefined,
       locked: isRestricted,
       lockReason: isRestricted
         ? t("withdraw.boostedItem.timeLeft", { time: cooldownText })
