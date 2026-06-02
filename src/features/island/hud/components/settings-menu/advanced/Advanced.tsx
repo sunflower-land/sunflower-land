@@ -33,6 +33,9 @@ export const Advanced: React.FC<ContentComponentProps> = ({
       <Button onClick={() => onSubMenuClick("amoy")}>
         <span>{t("gameOptions.developerOptions")}</span>
       </Button>
+      <Button onClick={() => onSubMenuClick("experiments")}>
+        <span>{t("experiments")}</span>
+      </Button>
       {!hideRefresh && (
         <Button
           onClick={refreshSession}

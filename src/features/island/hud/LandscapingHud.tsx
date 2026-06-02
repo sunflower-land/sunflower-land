@@ -51,7 +51,6 @@ import type { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { LandscapingChest } from "./components/LandscapingChest";
 import classNames from "classnames";
 import { LandscapingQuickPanel } from "./components/LandscapingQuickPanel";
-import { InteriorFloorNav } from "features/interior/components/InteriorFloorNav";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -250,22 +249,6 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
           </div>
         </>
       )}
-
-      {!removalMode &&
-        (location === "interior" || location === "level_one") && (
-          <div
-            className="absolute z-50 flex flex-col space-y-3.5"
-            style={{
-              left: `${PIXEL_SCALE * 3}px`,
-              bottom: `${PIXEL_SCALE * 3}px`,
-              width: `${PIXEL_SCALE * 22}px`,
-            }}
-          >
-            <InteriorFloorNav
-              floor={location === "level_one" ? "level_one" : "ground"}
-            />
-          </div>
-        )}
 
       <>
         {idle && !removalMode && (

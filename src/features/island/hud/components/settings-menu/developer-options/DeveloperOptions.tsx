@@ -34,9 +34,6 @@ export const DeveloperOptions: React.FC<ContentComponentProps> = ({
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
-        <Button className="p-1" onClick={() => onSubMenuClick("experiments")}>
-          <span>{t("experiments")}</span>
-        </Button>
         <Button className="p-1" onClick={() => onSubMenuClick("apiKey")}>
           <span>{t("share.apiKey")}</span>
         </Button>

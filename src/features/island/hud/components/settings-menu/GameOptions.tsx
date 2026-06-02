@@ -372,7 +372,7 @@ export const SETTING_MENUS: Record<SettingMenuId, SettingMenu> = {
   },
   experiments: {
     title: "Experiments",
-    parent: "amoy",
+    parent: "advanced",
     content: ExperimentsSettings,
   },
   economyEditor: {
