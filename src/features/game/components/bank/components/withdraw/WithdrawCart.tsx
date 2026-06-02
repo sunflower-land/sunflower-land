@@ -21,11 +21,22 @@ interface Props {
   /** Show the wallet destination + withdraw button (hidden in desktop rail
    *  when the action lives below, shown on the mobile cart screen). */
   showFooter?: boolean;
+  /** Heading above the cart list (defaults to the withdraw wording). */
+  title?: string;
+  /** Copy for the empty cart (defaults to the withdraw wording). */
+  emptyText?: string;
+  /** Label for the confirm button (defaults to the withdraw wording). */
+  actionText?: (count: number) => string;
+  /** Replaces the default "sent to your wallet" destination block (e.g. so the
+   *  deposit flow can show the farm as the destination instead). */
+  footer?: React.ReactNode;
 }
 
 /**
  * The "Your withdrawal" cart: the running list of selected items with a
- * per-row stepper, the destination wallet and the withdraw action.
+ * per-row stepper, the destination and the confirm action. Copy + destination
+ * default to the withdraw flow but can be overridden so the deposit flow can
+ * reuse the same layout.
  */
 export const WithdrawCart: React.FC<Props> = ({
   entries,
@@ -35,6 +46,10 @@ export const WithdrawCart: React.FC<Props> = ({
   withdrawDisabled,
   walletAddress,
   showFooter = true,
+  title,
+  emptyText,
+  actionText,
+  footer,
 }) => {
   const { t } = useAppTranslation();
 
@@ -54,7 +69,7 @@ export const WithdrawCart: React.FC<Props> = ({
   return (
     <div className="flex flex-col gap-2 h-full min-h-0 w-full">
       <div className="flex items-center justify-between">
-        <span className="text-sm">{t("withdraw.yourWithdrawal")}</span>
+        <span className="text-sm">{title ?? t("withdraw.yourWithdrawal")}</span>
         <Label type={totalSelected > 0 ? "success" : "default"}>
           {t("withdraw.itemsSelected", { count: totalSelected })}
         </Label>
@@ -62,7 +77,9 @@ export const WithdrawCart: React.FC<Props> = ({
 
       <div className="scrollable flex flex-col gap-1 flex-1 min-h-[50px] overflow-y-auto">
         {cartEntries.length === 0 && (
-          <span className="text-xs">{t("withdraw.cart.empty")}</span>
+          <span className="text-xs">
+            {emptyText ?? t("withdraw.cart.empty")}
+          </span>
         )}
         {cartEntries.map((entry) => (
           <div key={entry.key} className="flex items-center gap-1">
@@ -80,26 +97,30 @@ export const WithdrawCart: React.FC<Props> = ({
       {showFooter && (
         <>
           <div className="w-full border-t border-white" />
-          <div className="flex items-center text-xs">
-            <img
-              src={SUNNYSIDE.icons.player}
-              className="mr-3"
-              style={{ width: `${PIXEL_SCALE * 13}px` }}
-            />
-            <div className="flex flex-col gap-1">
-              <p>{t("withdraw.send.wallet")}</p>
-              <WalletAddressLabel walletAddress={walletAddress} />
+          {footer ?? (
+            <div className="flex items-center text-xs">
+              <img
+                src={SUNNYSIDE.icons.player}
+                className="mr-3"
+                style={{ width: `${PIXEL_SCALE * 13}px` }}
+              />
+              <div className="flex flex-col gap-1">
+                <p>{t("withdraw.send.wallet")}</p>
+                <WalletAddressLabel walletAddress={walletAddress} />
+              </div>
             </div>
-          </div>
+          )}
           <Button
             onClick={onWithdraw}
             disabled={totalSelected <= 0 || withdrawDisabled}
           >
             <div className="flex items-center justify-center">
               <img src={SUNNYSIDE.icons.confirm} className="h-4 mr-1" />
-              {totalSelected > 0
-                ? t("withdraw.withdrawCount", { count: totalSelected })
-                : t("withdraw")}
+              {actionText
+                ? actionText(totalSelected)
+                : totalSelected > 0
+                  ? t("withdraw.withdrawCount", { count: totalSelected })
+                  : t("withdraw")}
             </div>
           </Button>
         </>

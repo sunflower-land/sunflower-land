@@ -13,17 +13,24 @@ interface Props {
   entry?: WithdrawEntry;
   selectedQty: number;
   onSetQty: (entry: WithdrawEntry, qty: number) => void;
+  /** Copy shown in the empty state (defaults to the withdraw wording). */
+  emptyText?: string;
+  /** Label next to the stepper (defaults to the withdraw wording). */
+  inCartText?: string;
 }
 
 /**
  * Shared item-detail body used in both the desktop docked rail and the mobile
  * detail screen. Shows the item, its status, description and boosts, plus the
- * lock reason or the quantity stepper.
+ * lock reason or the quantity stepper. Copy defaults to the withdraw flow but
+ * can be overridden so the deposit flow can reuse the same layout.
  */
 export const WithdrawItemDetail: React.FC<Props> = ({
   entry,
   selectedQty,
   onSetQty,
+  emptyText,
+  inCartText,
 }) => {
   const { t } = useAppTranslation();
 
@@ -31,7 +38,9 @@ export const WithdrawItemDetail: React.FC<Props> = ({
     return (
       <div className="flex flex-col items-center justify-center text-center gap-2 p-4 min-h-[120px]">
         <img src={chest} className="w-8 opacity-50" />
-        <span className="text-xs">{t("withdraw.detail.empty")}</span>
+        <span className="text-xs">
+          {emptyText ?? t("withdraw.detail.empty")}
+        </span>
       </div>
     );
   }
@@ -75,7 +84,9 @@ export const WithdrawItemDetail: React.FC<Props> = ({
         </Label>
       ) : (
         <div className="flex items-center justify-between">
-          <span className="text-xs">{t("withdraw.inYourWithdrawal")}</span>
+          <span className="text-xs">
+            {inCartText ?? t("withdraw.inYourWithdrawal")}
+          </span>
           <Stepper
             value={selectedQty}
             max={entry.total}

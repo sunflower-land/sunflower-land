@@ -27,10 +27,8 @@ export type SettingMenuId =
   | "admin"
   | "faceRecognition"
   // Blockchain Settings
-  | "deposit"
   | "swapSFL"
   | "dequip"
-  | "transfer"
 
   // Account / Preferences
   | "changeLanguage"

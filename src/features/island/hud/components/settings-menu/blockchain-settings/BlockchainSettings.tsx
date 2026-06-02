@@ -64,17 +64,9 @@ export const BlockchainSettings: React.FC<ContentComponentProps> = ({
           )}
         </div>
 
-        <Button onClick={() => onSubMenuClick("deposit")}>
-          {t("deposit.items")}
-        </Button>
         {isFullUser && (
           <Button onClick={() => onSubMenuClick("dequip")}>
             {t("dequipper.dequip")}
-          </Button>
-        )}
-        {isFullUser && (
-          <Button onClick={() => onSubMenuClick("transfer")}>
-            {t("gameOptions.blockchainSettings.transferOwnership")}
           </Button>
         )}
       </div>

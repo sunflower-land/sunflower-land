@@ -44,7 +44,6 @@ import { LinkGoogle } from "features/auth/components/LinkGoogle";
 import { LinkedGooglePanel } from "features/auth/components/LinkedGooglePanel";
 import { StreamsContent } from "features/game/components/modal/components/Streams";
 import { ReferralInfo } from "features/island/hud/components/referral/Referral";
-import { DepositWrapper } from "features/goblins/bank/components/DepositGameItems";
 import { useSound } from "lib/utils/hooks/useSound";
 import { PickServer } from "./plaza-settings/PickServer";
 import { PlazaShaderSettings } from "./plaza-settings/PlazaShaderSettings";
@@ -60,7 +59,6 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import { ReferralWidget } from "features/announcements/AnnouncementWidgets";
 import { AirdropPlayer } from "./general-settings/AirdropPlayer";
 import { FaceRecognitionSettings } from "features/retreat/components/personhood/FaceRecognition";
-import { TransferAccountWrapper } from "./blockchain-settings/TransferAccount";
 import { DEV_PlayerSearch } from "./developer-options/DEV_PlayerSearch";
 import { DEV_ErrorSearch } from "./developer-options/DEV_ErrorSearch";
 import { ApiKey } from "./general-settings/ApiKey";
@@ -381,20 +379,10 @@ export const SETTING_MENUS: Record<SettingMenuId, SettingMenu> = {
   },
 
   // Blockchain Settings
-  deposit: {
-    title: translate("deposit"),
-    parent: "blockchain",
-    content: DepositWrapper,
-  },
   dequip: {
     title: translate("dequipper.dequip"),
     parent: "blockchain",
     content: DequipBumpkin,
-  },
-  transfer: {
-    title: translate("gameOptions.blockchainSettings.transferOwnership"),
-    parent: "blockchain",
-    content: TransferAccountWrapper,
   },
   swapSFL: {
     title: translate("gameOptions.blockchainSettings.swapPOLForSFL"),
