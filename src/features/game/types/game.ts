@@ -1928,6 +1928,7 @@ export interface GameState {
     };
     network?: NetworkName;
     economiesEnabled?: boolean;
+    interiorsEnabled?: boolean;
   };
   coins: number;
   balance: Decimal;

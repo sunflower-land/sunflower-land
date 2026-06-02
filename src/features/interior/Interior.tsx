@@ -15,7 +15,6 @@ import { Placeable } from "features/game/expansion/placeable/Placeable";
 import { Hud } from "features/island/hud/Hud";
 import { LandscapingHud } from "features/island/hud/LandscapingHud";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import { hasFeatureAccess } from "lib/flags";
 import { Button } from "components/ui/Button";
 import { LandscapingGrid } from "features/island/landscaping/LandscapingGrid";
 import {
@@ -41,7 +40,7 @@ const _buds = (state: MachineState) => state.context.state.buds ?? {};
 const _petNFTs = (state: MachineState) => state.context.state.pets?.nfts ?? {};
 const _island = (state: MachineState) => state.context.state.island;
 const _hasInteriorAccess = (state: MachineState) =>
-  hasFeatureAccess(state.context.state, "HOME_EXPANSIONS");
+  !!state.context.state.settings.interiorsEnabled;
 const _expansion = (state: MachineState) =>
   state.context.state.interior.expansion;
 
@@ -125,8 +124,8 @@ export const Interior: React.FC = () => {
     [interiorPositions],
   );
 
-  // Beta-only feature. Render an empty-state with a back-to-mainland button
-  // for any player without HOME_EXPANSIONS access.
+  // Experimental feature. Render an empty-state with a back-to-mainland button
+  // for any player without the `interiors` experiment enabled.
   if (!hasAccess) {
     return (
       <div className="absolute inset-0 bg-[#181425] flex items-center justify-center">
