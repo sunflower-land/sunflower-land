@@ -30,7 +30,6 @@ import {
   isAndroid,
   isChrome,
 } from "mobile-device-detect";
-import { DequipBumpkin } from "./blockchain-settings/DequipBumpkin";
 import { AddSFL } from "../AddSFL";
 import { Account } from "./account/Account";
 import { Advanced } from "./advanced/Advanced";
@@ -379,11 +378,6 @@ export const SETTING_MENUS: Record<SettingMenuId, SettingMenu> = {
   },
 
   // Blockchain Settings
-  dequip: {
-    title: translate("dequipper.dequip"),
-    parent: "blockchain",
-    content: DequipBumpkin,
-  },
   swapSFL: {
     title: translate("gameOptions.blockchainSettings.swapPOLForSFL"),
     parent: "blockchain",

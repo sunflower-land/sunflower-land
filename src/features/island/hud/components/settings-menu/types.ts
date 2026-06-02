@@ -28,7 +28,6 @@ export type SettingMenuId =
   | "faceRecognition"
   // Blockchain Settings
   | "swapSFL"
-  | "dequip"
 
   // Account / Preferences
   | "changeLanguage"
