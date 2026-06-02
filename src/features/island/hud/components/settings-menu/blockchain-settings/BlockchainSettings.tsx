@@ -22,6 +22,7 @@ const GOBLIN_RETREAT_LEVEL = 5;
 
 const _nftId = (state: MachineState) => state.context.nftId;
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
+const _farmAddress = (state: MachineState) => state.context.farmAddress ?? "";
 const _experience = (state: MachineState) =>
   state.context.state.bumpkin?.experience ?? 0;
 
@@ -36,7 +37,11 @@ export const BlockchainSettings: React.FC<ContentComponentProps> = ({
   const nftId = useSelector(gameService, _nftId);
   const linkedWallet = useSelector(gameService, _linkedWallet);
   const experience = useSelector(gameService, _experience);
+  const farmAddress = useSelector(gameService, _farmAddress);
 
+  // Only full (NFT-farm) users have the transfer option, so only they see
+  // "transfer" mentioned in the moved-to-bank notice.
+  const isFullUser = farmAddress !== "";
   const canAccessRetreat = getBumpkinLevel(experience) >= GOBLIN_RETREAT_LEVEL;
 
   const goToGoblinRetreat = () => {
@@ -78,7 +83,11 @@ export const BlockchainSettings: React.FC<ContentComponentProps> = ({
       </div>
 
       <p className="text-sm">
-        {t("gameOptions.blockchainSettings.movedToBank")}
+        {t(
+          isFullUser
+            ? "gameOptions.blockchainSettings.movedToBank.fullUsers"
+            : "gameOptions.blockchainSettings.movedToBank",
+        )}
       </p>
 
       <Button onClick={goToGoblinRetreat} disabled={!canAccessRetreat}>

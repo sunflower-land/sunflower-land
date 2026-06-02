@@ -125,10 +125,14 @@ const DepositContent: React.FC<Props> = ({ onClose }) => {
   useEffect(() => {
     if (status !== "loading") return;
 
+    // Guard against a stale load resolving after unmount or a newer load,
+    // which would otherwise apply outdated balances.
+    let cancelled = false;
+
     const loadBalances = async () => {
       const account = wallet.getConnection();
       if (!account) {
-        setStatus("error");
+        if (!cancelled) setStatus("error");
         return;
       }
 
@@ -140,17 +144,23 @@ const DepositContent: React.FC<Props> = ({ onClose }) => {
           getPetsBalance(account),
         ]);
 
+        if (cancelled) return;
+
         setInventoryBalance(balancesToInventory(inventory));
         setWardrobeBalance(wardrobe);
         setBudBalance(buds);
         setPetsBalance(pets);
         setStatus("loaded");
       } catch {
-        setStatus("error");
+        if (!cancelled) setStatus("error");
       }
     };
 
     loadBalances();
+
+    return () => {
+      cancelled = true;
+    };
   }, [status]);
 
   /* ---------------- selection mutations ---------------- */
@@ -543,27 +553,33 @@ const DepositContent: React.FC<Props> = ({ onClose }) => {
     />
   );
 
-  const sectionedGrid = (
-    <div className="flex flex-col gap-2 w-full">
-      {sections.map((section) => (
-        <div key={section.category}>
-          <Label
-            type="default"
-            icon={CATEGORY_META[section.category].icon}
-            className="mb-1"
-          >
-            {t(CATEGORY_META[section.category].titleKey)}
-          </Label>
-          <WithdrawItemGrid
-            entries={section.entries}
-            selected={selected}
-            focusedKey={isMobile ? undefined : focusedKey}
-            onPick={onPick}
-          />
-        </div>
-      ))}
-    </div>
-  );
+  const sectionedGrid =
+    sections.length === 0 ? (
+      <div className="flex flex-col items-center justify-center text-center gap-2 p-4 w-full min-h-[120px]">
+        <img src={SUNNYSIDE.icons.search} className="w-8 opacity-50" />
+        <span className="text-xs">{t("deposit.search.noResults")}</span>
+      </div>
+    ) : (
+      <div className="flex flex-col gap-2 w-full">
+        {sections.map((section) => (
+          <div key={section.category}>
+            <Label
+              type="default"
+              icon={CATEGORY_META[section.category].icon}
+              className="mb-1"
+            >
+              {t(CATEGORY_META[section.category].titleKey)}
+            </Label>
+            <WithdrawItemGrid
+              entries={section.entries}
+              selected={selected}
+              focusedKey={isMobile ? undefined : focusedKey}
+              onPick={onPick}
+            />
+          </div>
+        ))}
+      </div>
+    );
 
   // Mobile item-detail screen
   if (isMobile && mobileScreen === "detail") {
