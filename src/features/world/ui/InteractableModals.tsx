@@ -475,7 +475,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       <Modal show={interactable === "raffle"} onHide={closeModal}>
         <Raffle onClose={closeModal} />
       </Modal>
-      <Modal show={interactable === "bank"} onHide={closeModal}>
+      <Modal show={interactable === "bank"} onHide={closeModal} size="lg">
         <BankModal onClose={closeModal} farmAddress="?" />
       </Modal>
       <Modal show={interactable === "garbage_collector"} onHide={closeModal}>
