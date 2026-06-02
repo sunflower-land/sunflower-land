@@ -27,11 +27,6 @@ export type SettingMenuId =
   | "interiorExperiment"
   | "admin"
   | "faceRecognition"
-  // Blockchain Settings
-  | "deposit"
-  | "swapSFL"
-  | "dequip"
-  | "transfer"
 
   // Account / Preferences
   | "changeLanguage"
