@@ -6093,6 +6093,7 @@
   "marketplace.tradeInitiated": "Great news! It looks like someone is fulfilling your trade. Please wait for the trade to complete.",
   "marketplace.rewards": "Rewards",
   "marketplace.trades": "Trades",
+  "marketplace.activeTrades": "Active Trades",
   "marketplace.stats": "Stats",
   "marketplace.wearables": "Wearables",
   "marketplace.limited": "Limited",

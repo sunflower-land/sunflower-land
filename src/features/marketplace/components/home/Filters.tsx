@@ -33,8 +33,8 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
 import { Context } from "features/game/GameProvider";
 import * as Auth from "features/auth/lib/Provider";
-import { MachineState } from "features/game/lib/gameMachine";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { loadProfile } from "features/marketplace/actions/loadProfile";
 
 const _trades = (state: MachineState) => state.context.state.trades;
@@ -80,7 +80,7 @@ export const Filters: React.FC<{
     getKeys(trades.listings ?? {}).length > 0;
 
   useEffect(() => {
-    if (!pathname.includes("/profile")) return;
+    if (!pathname.includes("/profile") && !userProfileExpanded) return;
 
     let cancelled = false;
 
@@ -100,7 +100,7 @@ export const Filters: React.FC<{
     return () => {
       cancelled = true;
     };
-  }, [farmId, pathname, token]);
+  }, [farmId, pathname, token, userProfileExpanded]);
 
   const isChapterExpanded = !!chapterParam || userChapterExpanded;
   const isProfileExpanded =
@@ -351,7 +351,7 @@ export const Filters: React.FC<{
       ? [
           {
             icon: tradeIcon,
-            label: `${t("active")} ${t("marketplace.trades")}`,
+            label: t("marketplace.activeTrades"),
             onClick: () =>
               navigateTo({
                 path: profilePath("/trades"),
