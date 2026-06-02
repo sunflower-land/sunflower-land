@@ -148,14 +148,12 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    const newState = gameService.send("fruit.planted", {
+    gameService.send("fruit.planted", {
       index: id,
       seed: item,
     });
 
-    if (!newState.matches("hoarding")) {
-      plantAudio();
-    }
+    plantAudio();
   };
 
   const fertilise = () => {
@@ -176,25 +174,23 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
         prngArgs: { farmId, counter: activityCount },
       }).amount;
 
-    const newState = gameService.send("fruit.harvested", {
+    gameService.send("fruit.harvested", {
       index: id,
     });
 
-    if (!newState.matches("hoarding")) {
-      setCollectingFruit(true);
-      setCollectedFruitName(fruit?.name);
-      fruitHarvested.current += amount;
+    setCollectingFruit(true);
+    setCollectedFruitName(fruit?.name);
+    fruitHarvested.current += amount;
 
-      harvestAudio();
-      setPlayShakingAnimation(true);
+    harvestAudio();
+    setPlayShakingAnimation(true);
 
-      await new Promise((res) => setTimeout(res, 3000));
+    await new Promise((res) => setTimeout(res, 3000));
 
-      setCollectingFruit(false);
-      setCollectedFruitName(undefined);
-      fruitHarvested.current = 0;
-      setPlayShakingAnimation(false);
-    }
+    setCollectingFruit(false);
+    setCollectedFruitName(undefined);
+    fruitHarvested.current = 0;
+    setPlayShakingAnimation(false);
   };
 
   const removeTree = async () => {
@@ -206,23 +202,21 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
     )
       shortcutItem("Axe");
 
-    const newState = gameService.send("fruitTree.removed", {
+    gameService.send("fruitTree.removed", {
       index: id,
       selectedItem: "Axe",
     });
 
-    if (!newState.matches("hoarding")) {
-      const { woodReward } = getWoodReward({ state: game });
-      setCollectingWood(true);
-      setCollectedWoodAmount(woodReward);
+    const { woodReward } = getWoodReward({ state: game });
+    setCollectingWood(true);
+    setCollectedWoodAmount(woodReward);
 
-      treeFallAudio();
+    treeFallAudio();
 
-      await new Promise((res) => setTimeout(res, 3000));
+    await new Promise((res) => setTimeout(res, 3000));
 
-      setCollectingWood(false);
-      setCollectedWoodAmount(undefined);
-    }
+    setCollectingWood(false);
+    setCollectedWoodAmount(undefined);
   };
 
   return (

@@ -42,7 +42,6 @@ export type SettingMenuId =
   | "apiKey"
 
   // Amoy Testnet Actions
-  | "hoardingCheck"
   | "playerSearch"
   | "errorSearch"
   // Plaza Settings
