@@ -1055,7 +1055,7 @@
   "memory.portal.rewardMessage": "Congratulations, you completed the mission! Here is your reward.",
   "chaacsTemple.portal.title": "Minigame - Chaac's Temple",
   "chaacsTemple.portal.description": "Do you dare to enter Chaac's Temple?",
-  "chaacsTemple.portal.missionObjective": "Mission: Reach the increasing score threshold {{targetScore}} times. The threshold starts at {{start}}.",
+  "chaacsTemple.portal.missionObjective": "Mission: Repeat the light sequence 5 times. The length starts at {{start}}.",
   "chaacsTemple.portal.rewardMessage": "Congratulations, you have defied the odds and solved Chaac's challenge. Here is your reward.",
   "description.wicker.man": "Join hands and make a chain, the shadow of the Wicker Man will rise up again",
   "description.golden bonsai": "Goblins love bonsai too",
