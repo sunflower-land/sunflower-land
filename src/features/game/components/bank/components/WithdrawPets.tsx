@@ -137,6 +137,28 @@ export const WithdrawPets: React.FC<Props> = ({
     return `Pet #${petId}`;
   };
 
+  const sortWithdrawableItems = (a: number, b: number) => {
+    const aCooldownMs = getRestrictionStatus(
+      getPetName(a) as BoostName,
+    ).cooldownTimeLeft;
+    const bCooldownMs = getRestrictionStatus(
+      getPetName(b) as BoostName,
+    ).cooldownTimeLeft;
+
+    const aIsOnCooldown = aCooldownMs > 0;
+    const bIsOnCooldown = bCooldownMs > 0;
+
+    // 1. Pets on cooldown come first, by most cooldown time left
+    if (aIsOnCooldown && bIsOnCooldown) {
+      return bCooldownMs - aCooldownMs;
+    }
+    if (aIsOnCooldown !== bIsOnCooldown) {
+      return aIsOnCooldown ? -1 : 1;
+    }
+    // 2. Otherwise, sort by pet ID
+    return a - b;
+  };
+
   const confirmationConfig = {
     1: {
       labelType: "warning" as const,
@@ -190,8 +212,9 @@ export const WithdrawPets: React.FC<Props> = ({
     if (qty <= 0 && isSelected) onRemove(petId);
   };
 
-  // Selected pets remain visible in the grid alongside the available ones.
-  const petIds = [...petsToShow, ...selected];
+  // Cooldown-restricted pets first (longest first), then by ID — matching the
+  // previous behaviour. Selected pets stay visible, appended after.
+  const petIds = [...petsToShow].sort(sortWithdrawableItems).concat(selected);
 
   const entries: WithdrawEntry[] = petIds.map((petId) => {
     const petName = getPetName(petId);

@@ -4416,6 +4416,8 @@
   "withdraw.readyCount": "{{count}} withdrawable",
   "withdraw.itemsSelected": "{{count}} selected",
   "withdraw.withdrawCount": "Withdraw {{count}}",
+  "withdraw.stepper.decrease": "Decrease quantity",
+  "withdraw.stepper.increase": "Increase quantity",
   "withdraw.status.withdrawable": "Withdrawable",
   "withdraw.status.inUse": "In use",
   "withdraw.status.soon": "Soon",

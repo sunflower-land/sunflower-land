@@ -68,7 +68,11 @@ export const WithdrawCollection: React.FC<Props> = ({
     : entries;
 
   const readyCount = entries.filter((entry) => !entry.locked).length;
-  const totalSelected = Object.values(selected).reduce((a, b) => a + b, 0);
+  // Sum over the rendered entries so the count matches the cart's own total.
+  const totalSelected = entries.reduce(
+    (sum, entry) => sum + (selected[entry.key] ?? 0),
+    0,
+  );
 
   const focusedEntry = entries.find((entry) => entry.key === focusedKey);
   const focusedQty = focusedKey ? (selected[focusedKey] ?? 0) : 0;
@@ -128,7 +132,7 @@ export const WithdrawCollection: React.FC<Props> = ({
         src={SUNNYSIDE.icons.arrow_left}
         className="cursor-pointer"
         style={{ width: `${PIXEL_SCALE * 11}px` }}
-        alt="back"
+        alt={t("back")}
         onClick={handleBack}
       />
       <Label type="default" icon={headerIcon}>

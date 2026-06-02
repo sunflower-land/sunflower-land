@@ -44,7 +44,12 @@ export const WithdrawCart: React.FC<Props> = ({
     .map((key) => entriesByKey.get(key))
     .filter((entry): entry is WithdrawEntry => !!entry);
 
-  const totalSelected = Object.values(selected).reduce((a, b) => a + b, 0);
+  // Sum over the rendered cart rows so the header count and button state can
+  // never disagree with the list actually shown.
+  const totalSelected = cartEntries.reduce(
+    (sum, entry) => sum + (selected[entry.key] ?? 0),
+    0,
+  );
 
   return (
     <div className="flex flex-col gap-2 h-full min-h-0 w-full">
