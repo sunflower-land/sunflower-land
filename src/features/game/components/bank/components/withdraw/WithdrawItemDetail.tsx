@@ -83,16 +83,25 @@ export const WithdrawItemDetail: React.FC<Props> = ({
           {entry.lockReason}
         </Label>
       ) : (
-        <div className="flex items-center justify-between">
-          <span className="text-xs">
-            {inCartText ?? t("withdraw.inYourWithdrawal")}
-          </span>
-          <Stepper
-            value={selectedQty}
-            max={entry.total}
-            onChange={(value) => onSetQty(entry, value)}
-          />
-        </div>
+        <>
+          <div className="flex items-center justify-between">
+            <span className="text-xs">
+              {inCartText ?? t("withdraw.inYourWithdrawal")}
+            </span>
+            <Stepper
+              value={selectedQty}
+              max={entry.total}
+              onChange={(value) => onSetQty(entry, value)}
+            />
+          </div>
+          {entry.inUseWarning &&
+            entry.freeCount !== undefined &&
+            selectedQty > entry.freeCount && (
+              <Label type="warning" icon={SUNNYSIDE.icons.expression_alerted}>
+                {entry.inUseWarning}
+              </Label>
+            )}
+        </>
       )}
     </div>
   );

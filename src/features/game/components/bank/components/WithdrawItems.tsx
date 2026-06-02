@@ -24,6 +24,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
+import { getChestItemCount } from "features/island/hud/components/inventory/utils/inventory";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
@@ -246,12 +247,19 @@ export const WithdrawItems: React.FC<Props> = ({
       removeTrailingZeros: true,
     });
 
+    // Unplaced (chest) count — withdrawing beyond this removes placed copies.
+    const freeCount = getChestItemCount(state, itemName).toNumber();
+    const placedCount =
+      (state.inventory[itemName]?.toNumber() ?? 0) - freeCount;
+
     return {
       key: itemName,
       id: KNOWN_IDS[itemName],
       name: getTranslatedItemName(itemName),
       image: ITEM_DETAILS[itemName].image,
       total: inventoryCount + selectedCount,
+      freeCount,
+      inUseWarning: placedCount > 0 ? t("withdraw.placed.warning") : undefined,
       locked: isRestricted,
       lockReason: isRestricted
         ? t("withdraw.boostedItem.timeLeft", { time: cooldownText })
@@ -290,9 +298,7 @@ export const WithdrawItems: React.FC<Props> = ({
       withdrawDisabled={withdrawDisabled}
       walletAddress={wallet.getConnection() || "XXXX"}
       onBack={onBack}
-      intro={`${t("withdraw.restricted.description")} ${t(
-        "withdraw.placed.warning",
-      )}`}
+      intro={t("withdraw.restricted.description")}
     />
   );
 };

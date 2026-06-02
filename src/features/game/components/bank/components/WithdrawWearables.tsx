@@ -205,11 +205,35 @@ export const WithdrawWearables: React.FC<Props> = ({
     ...selectedItems.filter((name) => !withdrawableItems.includes(name)),
   ];
 
+  // Count how many of each wearable are currently equipped across the Bumpkin
+  // and all farmhands — withdrawing beyond the unequipped (spare) count will
+  // unequip them.
+  const equippedCounts = [
+    state.bumpkin?.equipped ?? {},
+    ...Object.values(state.farmHands?.bumpkins ?? {}).map((f) => f.equipped),
+  ].reduce(
+    (acc, equipped) => {
+      Object.values(equipped).forEach((name) => {
+        if (!name) return;
+        acc[name] = (acc[name] ?? 0) + 1;
+      });
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
+
   const entries: WithdrawEntry[] = entryNames.map((itemName) => {
     const wardrobeCount = wardrobe[itemName] ?? 0;
     const selectedCount = selected[itemName] ?? 0;
     const { isRestricted, cooldownTimeLeft } = getRestrictionStatus(itemName);
     const buffs = BUMPKIN_ITEM_BUFF_LABELS[itemName];
+
+    // Unequipped (spare) count — withdrawing beyond this unequips copies.
+    const equippedCount = equippedCounts[itemName] ?? 0;
+    const freeCount = Math.max(
+      (state.wardrobe[itemName] ?? 0) - equippedCount,
+      0,
+    );
 
     const cooldownText = secondsToString(cooldownTimeLeft / 1000, {
       length: "medium",
@@ -223,6 +247,9 @@ export const WithdrawWearables: React.FC<Props> = ({
       name: itemName,
       image: getImageUrl(ITEM_IDS[itemName]),
       total: wardrobeCount + selectedCount,
+      freeCount,
+      inUseWarning:
+        equippedCount > 0 ? t("withdraw.equipped.warning") : undefined,
       locked: isRestricted,
       lockReason: isRestricted
         ? t("withdraw.boostedItem.timeLeft", { time: cooldownText })
@@ -260,9 +287,7 @@ export const WithdrawWearables: React.FC<Props> = ({
       withdrawDisabled={withdrawDisabled}
       walletAddress={wallet.getConnection() || "XXXX"}
       onBack={onBack}
-      intro={`${t("withdraw.restricted.description")} ${t(
-        "withdraw.equipped.warning",
-      )}`}
+      intro={t("withdraw.restricted.description")}
     />
   );
 };
