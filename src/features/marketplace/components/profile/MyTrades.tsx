@@ -3,7 +3,7 @@ import { InnerPanel } from "components/ui/Panel";
 import React, { useContext } from "react";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { getKeys } from "lib/object";
 import { MyListings } from "./MyListings";
 import { MyOffers } from "./MyOffers";
@@ -24,7 +24,7 @@ export const MyTrades: React.FC = () => {
     return (
       <InnerPanel className="m-1">
         <Label type="default" icon={tradeIcon}>
-          {`${t("active")} ${t("marketplace.trades")}`}
+          {t("marketplace.activeTrades")}
         </Label>
         <div className="text-sm p-2">
           <p>{t("marketplace.noMyOffers")}</p>
