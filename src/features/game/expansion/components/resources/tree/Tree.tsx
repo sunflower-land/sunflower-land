@@ -233,19 +233,17 @@ export const Tree: React.FC<Props> = ({ id }) => {
       item: "Axe",
     });
 
-    if (!newState.matches("hoarding")) {
-      if (showAnimations) {
-        setCollecting(true);
-        harvested.current = setPrecision(woodDropAmount, 2).toNumber();
-      }
+    if (showAnimations) {
+      setCollecting(true);
+      harvested.current = setPrecision(woodDropAmount, 2).toNumber();
+    }
 
-      treeFallAudio();
+    treeFallAudio();
 
-      if (showAnimations) {
-        await new Promise((res) => setTimeout(res, 3000));
-        setCollecting(false);
-        harvested.current = 0;
-      }
+    if (showAnimations) {
+      await new Promise((res) => setTimeout(res, 3000));
+      setCollecting(false);
+      harvested.current = 0;
     }
 
     if (newState.context.state.farmActivity["Tree Chopped"] === 1) {

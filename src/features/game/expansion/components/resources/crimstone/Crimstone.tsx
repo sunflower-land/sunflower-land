@@ -176,23 +176,21 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
         ...{ minesLeft: crimstoneStage === 1 ? 5 : resource.minesLeft },
       },
     });
-    const newState = gameService.send("crimstoneRock.mined", {
+    gameService.send("crimstoneRock.mined", {
       index: id,
     });
 
-    if (!newState.matches("hoarding")) {
-      if (showAnimations) {
-        setCollecting(true);
-        harvested.current = crimstoneMined.toNumber();
-      }
+    if (showAnimations) {
+      setCollecting(true);
+      harvested.current = crimstoneMined.toNumber();
+    }
 
-      miningFallAudio();
+    miningFallAudio();
 
-      if (showAnimations) {
-        await new Promise((res) => setTimeout(res, 3000));
-        setCollecting(false);
-        harvested.current = 0;
-      }
+    if (showAnimations) {
+      await new Promise((res) => setTimeout(res, 3000));
+      setCollecting(false);
+      harvested.current = 0;
     }
   };
 

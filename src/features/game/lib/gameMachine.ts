@@ -39,7 +39,7 @@ import { autosave } from "../actions/autosave";
 import { type ErrorCode, ERRORS } from "lib/errors";
 import { makeGame } from "./transforms";
 import { reset } from "features/farming/hud/actions/reset";
-import { checkProgress, processEvent } from "./processEvent";
+import { processEvent } from "./processEvent";
 import {
   landscapingMachine,
   type LandscapingPlaceableType,
@@ -113,7 +113,7 @@ import { depositFlower } from "lib/blockchain/DepositFlower";
 import type { NetworkOption } from "features/island/hud/components/deposit/DepositFlower";
 import { blessingIsReady } from "./blessings";
 import { depositSFL } from "lib/blockchain/DepositSFL";
-import { hasFeatureAccess, hasTimeBasedFeatureAccess } from "lib/flags";
+import { hasFeatureAccess } from "lib/flags";
 import { isDailyRewardReady } from "../events/landExpansion/claimDailyReward";
 import { getDailyRewardLastAcknowledged } from "../components/DailyReward";
 import type { LanguageCode } from "lib/i18n/dictionaries/language";
@@ -154,8 +154,6 @@ export type PastAction = GameEvent & {
   createdAt: Date;
 };
 
-export type MaxedItem = InventoryItemName | BumpkinItem | "SFL";
-
 export interface Context {
   farmId: number;
   state: GameState;
@@ -165,7 +163,6 @@ export interface Context {
   errorCode?: ErrorCode;
   transactionId?: string;
   fingerprint?: string;
-  maxedItem?: MaxedItem;
   goblinSwarm?: Date;
   deviceTrackerId?: string;
   revealed?: {
@@ -391,44 +388,6 @@ const playingEventHandler = (
   const immediateSave = options?.immediateSave === true;
   return {
     [eventName]: [
-      {
-        target: "hoarding",
-        cond: (context: Context, event: PlayingEvent | VisitingEvent) => {
-          // @deprecated: hoard caps gated behind `MINT_ON_DEMAND_WITHDRAWS`.
-          // Beta players (testnet + Beta Pass) bypass the legacy hoarding
-          // transition — the new mint-on-demand withdraw flow handles excess.
-          if (
-            hasTimeBasedFeatureAccess({
-              featureName: "MINT_ON_DEMAND_WITHDRAWS",
-              game: context.state as GameState,
-              now: Date.now(),
-            })
-          ) {
-            return false;
-          }
-
-          const { valid } = checkProgress({
-            state: context.state as GameState,
-            action: event,
-            farmId: context.farmId,
-            createdAt: Date.now(),
-          });
-
-          return !valid;
-        },
-        actions: assign(
-          (context: Context, event: PlayingEvent | VisitingEvent) => {
-            const { maxedItem } = checkProgress({
-              state: context.state as GameState,
-              action: event,
-              farmId: context.farmId,
-              createdAt: Date.now(),
-            });
-
-            return { maxedItem };
-          },
-        ),
-      },
       {
         ...(immediateSave ? { target: "autosaving" as const } : {}),
         actions: assign(
@@ -880,7 +839,6 @@ export type BlockchainState = {
     | "error"
     | "refreshing"
     | "swarming"
-    | "hoarding"
     | "mailbox"
     | "transacting"
     | "depositing"
@@ -2542,16 +2500,6 @@ export function startGame(authContext: AuthContext) {
             CONTINUE: "playing",
             REFRESH: {
               target: "loading",
-            },
-          },
-        },
-        hoarding: {
-          on: {
-            TRANSACT: {
-              target: "transacting",
-            },
-            ACKNOWLEDGE: {
-              target: "playing",
             },
           },
         },

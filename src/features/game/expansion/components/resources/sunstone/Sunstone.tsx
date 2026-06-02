@@ -116,23 +116,21 @@ export const Sunstone: React.FC<Props> = ({ id, index }) => {
   };
 
   const mine = async () => {
-    const newState = gameService.send("sunstoneRock.mined", {
+    gameService.send("sunstoneRock.mined", {
       index: id,
     });
 
-    if (!newState.matches("hoarding")) {
-      if (showAnimations) {
-        setCollecting(true);
-        harvested.current = 1;
-      }
+    if (showAnimations) {
+      setCollecting(true);
+      harvested.current = 1;
+    }
 
-      miningFallAudio();
+    miningFallAudio();
 
-      if (showAnimations) {
-        await new Promise((res) => setTimeout(res, 3000));
-        setCollecting(false);
-        harvested.current = 0;
-      }
+    if (showAnimations) {
+      await new Promise((res) => setTimeout(res, 3000));
+      setCollecting(false);
+      harvested.current = 0;
     }
   };
 

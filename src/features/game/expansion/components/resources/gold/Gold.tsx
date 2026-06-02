@@ -174,23 +174,21 @@ export const Gold: React.FC<Props> = ({ id }) => {
           counter: currentCounter,
         }).amount,
     );
-    const newState = gameService.send("goldRock.mined", {
+    gameService.send("goldRock.mined", {
       index: id,
     });
 
-    if (!newState.matches("hoarding")) {
-      if (showAnimations) {
-        setCollecting(true);
-        harvested.current = goldMined.toNumber();
-      }
+    if (showAnimations) {
+      setCollecting(true);
+      harvested.current = goldMined.toNumber();
+    }
 
-      miningFallAudio();
+    miningFallAudio();
 
-      if (showAnimations) {
-        await new Promise((res) => setTimeout(res, 3000));
-        setCollecting(false);
-        harvested.current = 0;
-      }
+    if (showAnimations) {
+      await new Promise((res) => setTimeout(res, 3000));
+      setCollecting(false);
+      harvested.current = 0;
     }
   };
 

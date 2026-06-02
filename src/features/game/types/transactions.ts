@@ -11,8 +11,6 @@ import {
   type WithdrawWearablesParams,
   withdrawWearablesTransaction,
 } from "lib/blockchain/Withdrawals";
-import { syncProgress, type SyncProgressParams } from "lib/blockchain/Game";
-import { sync } from "../actions/sync";
 import { postEffect } from "../actions/effect";
 
 export type BudWithdrawnTransaction = {
@@ -53,15 +51,6 @@ export type WearablesWithdrawnTransaction = {
   };
 };
 
-/** @deprecated Gated behind `MINT_ON_DEMAND_WITHDRAWS`. Remove once flag flips. */
-export type ProgressSyncedTransaction = {
-  event: "transaction.progressSynced";
-  createdAt: number;
-  data: {
-    params: SyncProgressParams;
-  };
-};
-
 export type FlowerWithdrawnTransaction = {
   event: "transaction.flowerWithdrawn";
   createdAt: number;
@@ -72,7 +61,6 @@ export type FlowerWithdrawnTransaction = {
 };
 
 export type GameTransaction =
-  | ProgressSyncedTransaction
   | WearablesWithdrawnTransaction
   | ItemsWithdrawnTransaction
   | BudWithdrawnTransaction
@@ -183,8 +171,6 @@ export const ONCHAIN_TRANSACTIONS: TransactionHandler = {
     withdrawWearablesTransaction(data.params),
   "transaction.flowerWithdrawn": (data) =>
     withdrawFlowerTransaction(data.params),
-  // @deprecated Gated behind `MINT_ON_DEMAND_WITHDRAWS`. Remove once flag flips.
-  "transaction.progressSynced": (data) => syncProgress(data.params),
 };
 
 export type SignatureHandler = {
@@ -204,6 +190,4 @@ export const TRANSACTION_SIGNATURES: TransactionRequest = {
   "transaction.itemsWithdrawn": postEffect,
   "transaction.wearablesWithdrawn": postEffect,
   "transaction.flowerWithdrawn": postEffect,
-  // @deprecated Gated behind `MINT_ON_DEMAND_WITHDRAWS`. Remove once flag flips.
-  "transaction.progressSynced": sync,
 };

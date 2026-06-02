@@ -1,7 +1,6 @@
 import React, { type FC, useState } from "react";
 import { createContext } from "react";
 import { Modal } from "components/ui/Modal";
-import { StoreOnChainModal } from "./components/StoreOnChainModal";
 import { SpeakingModal } from "../SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { translate } from "lib/i18n/translate";
@@ -22,7 +21,6 @@ type GlobalModal =
   | "BUY_GEMS"
   | "DISCORD"
   | "BUY_BANNER"
-  | "STORE_ON_CHAIN"
   | "FIRST_EXPANSION"
   | "CHAPTER_TRACKS"
   | "NEXT_EXPANSION"
@@ -101,10 +99,6 @@ export const ModalProvider: FC<React.PropsWithChildren> = ({ children }) => {
         <OuterPanel>
           <ChapterTracks />
         </OuterPanel>
-      </Modal>
-
-      <Modal show={opened === "STORE_ON_CHAIN"} onHide={handleClose}>
-        <StoreOnChainModal onClose={handleClose} />
       </Modal>
 
       <Modal show={opened === "REPUTATION"} onHide={handleClose}>
