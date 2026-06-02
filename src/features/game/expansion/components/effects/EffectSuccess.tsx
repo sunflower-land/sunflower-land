@@ -46,7 +46,6 @@ export const EFFECT_SUCCESS_COMPONENTS: Partial<
     <BulkRemoveSuccess type="offers" effect="marketplaceBulkOffersCancelling" />
   ),
   marketplaceBuyingBulkResourcesSuccess: <BulkPurchaseSuccess />,
-  seekingBlessingSuccess: <SuccessSkip />,
   claimingAuctionRaffleSuccess: <SuccessSkip />,
 };
 

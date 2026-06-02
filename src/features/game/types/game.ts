@@ -124,7 +124,6 @@ import type {
   FloatingIslandShop,
   FloatingShopItemName,
 } from "./floatingIsland";
-import type { Blessing } from "../lib/blessings";
 import type { LandBiomeName } from "features/island/biomes/biomes";
 import type { MonumentName } from "./monuments";
 import type { AOEItemName } from "../expansion/placeable/lib/collisionDetection";
@@ -2186,7 +2185,6 @@ export interface GameState {
   withdrawals?: {
     amount: number;
   };
-  blessing: Blessing;
 
   aoe: AOE;
   socialFarming: SocialFarming;

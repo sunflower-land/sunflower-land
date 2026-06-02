@@ -111,7 +111,6 @@ import { getConnection, getChainId } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { depositFlower } from "lib/blockchain/DepositFlower";
 import type { NetworkOption } from "features/island/hud/components/deposit/DepositFlower";
-import { blessingIsReady } from "./blessings";
 import { depositSFL } from "lib/blockchain/DepositSFL";
 import { hasFeatureAccess } from "lib/flags";
 import { isDailyRewardReady } from "../events/landExpansion/claimDailyReward";
@@ -818,7 +817,6 @@ export type BlockchainState = {
     | "landToVisitNotFound"
     | "visiting"
     | "gameRules"
-    | "blessing"
     | "portalling"
     | "introduction"
     | "welcome"
@@ -1339,18 +1337,6 @@ export function startGame(authContext: AuthContext) {
               cond: () => isSwarming(),
             },
             {
-              target: "blessing",
-              cond: (context) => {
-                const { offered, reward } = context.state.blessing;
-
-                if (reward) return true;
-
-                if (!offered) return false;
-
-                return blessingIsReady({ game: context.state });
-              },
-            },
-            {
               target: "vip",
               cond: (context) => {
                 const isNew = context.state.bumpkin.experience < 100;
@@ -1632,19 +1618,6 @@ export function startGame(authContext: AuthContext) {
           },
         },
 
-        blessing: {
-          on: {
-            "blessing.claimed": (GAME_EVENT_HANDLERS as any)[
-              "blessing.claimed"
-            ],
-            "blessing.seeked": {
-              target: STATE_MACHINE_EFFECTS["blessing.seeked"],
-            },
-            ACKNOWLEDGE: {
-              target: "notifying",
-            },
-          },
-        },
         mailbox: {
           on: {
             "message.read": (GAME_EVENT_HANDLERS as any)["message.read"],
