@@ -1,11 +1,7 @@
 import { useSelector } from "@xstate/react";
 import React, { useContext, useState } from "react";
-import Decimal from "decimal.js-light";
 
 import type { BoostName, Wardrobe } from "features/game/types/game";
-
-import { Button } from "components/ui/Button";
-import { Box } from "components/ui/Box";
 
 import { wallet } from "lib/blockchain/wallet";
 
@@ -18,22 +14,22 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import type { MachineState } from "features/game/lib/gameMachine";
-import { Label } from "components/ui/Label";
-import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { hasBoostRestriction } from "features/game/types/withdrawRestrictions";
-import { InfoPopover } from "features/island/common/InfoPopover";
 import { secondsToString } from "lib/utils/time";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { useNow } from "lib/utils/hooks/useNow";
 import { MAX_MINT_AMOUNT } from "lib/blockchain/Withdrawals";
 
+import { WithdrawCollection } from "./withdraw/WithdrawCollection";
+import type { WithdrawEntry } from "./withdraw/types";
+
 interface Props {
   onWithdraw: (ids: number[], amounts: number[]) => void;
+  onBack: () => void;
   withdrawDisabled?: boolean;
 }
 
@@ -41,6 +37,7 @@ const _state = (state: MachineState) => state.context.state;
 
 export const WithdrawWearables: React.FC<Props> = ({
   onWithdraw,
+  onBack,
   withdrawDisabled,
 }) => {
   const { t } = useAppTranslation();
@@ -66,8 +63,6 @@ export const WithdrawWearables: React.FC<Props> = ({
     getTrueAvailableWardrobe(),
   );
   const [selected, setSelected] = useState<Wardrobe>({});
-
-  const [showInfo, setShowInfo] = useState("");
 
   const now = useNow();
 
@@ -105,6 +100,21 @@ export const WithdrawWearables: React.FC<Props> = ({
       }
       return newSelected;
     });
+  };
+
+  // Translate a target quantity from the stepper into the existing
+  // one-at-a-time transfer model.
+  const onSetQty = (entry: WithdrawEntry, qty: number) => {
+    const itemName = entry.key as BumpkinItem;
+    let diff = qty - (selected[itemName] ?? 0);
+    while (diff > 0) {
+      onAdd(itemName);
+      diff--;
+    }
+    while (diff < 0) {
+      onRemove(itemName);
+      diff++;
+    }
   };
 
   const getRestrictionStatus = (itemName: BoostName) => {
@@ -174,9 +184,7 @@ export const WithdrawWearables: React.FC<Props> = ({
     .filter((itemName) => (wardrobe[itemName] ?? 0) > 0)
     .sort((a, b) => sortWithdrawableItems(a, b));
 
-  const selectedItems = getKeys(selected)
-    .filter((item) => !!selected[item])
-    .sort((a, b) => ITEM_IDS[a] - ITEM_IDS[b]);
+  const selectedItems = getKeys(selected).filter((item) => !!selected[item]);
 
   const hasAccess = hasReputation({
     game: state,
@@ -192,134 +200,69 @@ export const WithdrawWearables: React.FC<Props> = ({
     return <FaceRecognition />;
   }
 
+  // Keep fully-selected wearables visible in the grid alongside the still
+  // available ones.
+  const entryNames = [
+    ...withdrawableItems,
+    ...selectedItems.filter((name) => !withdrawableItems.includes(name)),
+  ];
+
+  const entries: WithdrawEntry[] = entryNames.map((itemName) => {
+    const wardrobeCount = wardrobe[itemName] ?? 0;
+    const selectedCount = selected[itemName] ?? 0;
+    const { isRestricted, cooldownTimeLeft } = getRestrictionStatus(itemName);
+    const buffs = BUMPKIN_ITEM_BUFF_LABELS[itemName];
+
+    const cooldownText = secondsToString(cooldownTimeLeft / 1000, {
+      length: "medium",
+      isShortFormat: true,
+      removeTrailingZeros: true,
+    });
+
+    return {
+      key: itemName,
+      id: ITEM_IDS[itemName],
+      name: itemName,
+      image: getImageUrl(ITEM_IDS[itemName]),
+      total: wardrobeCount + selectedCount,
+      locked: isRestricted,
+      lockReason: isRestricted
+        ? t("withdraw.boostedItem.timeLeft", { time: cooldownText })
+        : undefined,
+      status: isRestricted
+        ? {
+            type: "warning" as const,
+            icon: SUNNYSIDE.icons.timer,
+            text: t("withdraw.status.cooldown", { time: cooldownText }),
+          }
+        : {
+            type: "success" as const,
+            text: t("withdraw.status.withdrawable"),
+          },
+      buffs: buffs?.length ? buffs : undefined,
+    };
+  });
+
+  const selectedMap = selectedItems.reduce(
+    (acc, itemName) => {
+      acc[itemName] = selected[itemName] ?? 0;
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
+
   return (
-    <>
-      <div className="p-2 mb-2">
-        <Label type="warning" className="mb-2">
-          <span className="text-xs">
-            {t("withdraw.restricted.description")}
-          </span>
-        </Label>
-        <Label type="default" className="mb-2">
-          {t("withdraw.select.item")}
-        </Label>
-        <div className="flex flex-wrap h-fit -ml-1.5">
-          {withdrawableItems.map((itemName) => {
-            const wardrobeCount = wardrobe[itemName] ?? 0;
-
-            const { isRestricted, cooldownTimeLeft } =
-              getRestrictionStatus(itemName);
-
-            const RestrictionCooldown = cooldownTimeLeft / 1000;
-            const isLocked = isRestricted || wardrobeCount <= 0;
-
-            const shouldShowPopover = isRestricted;
-
-            const handleBoxClick = () => {
-              if (shouldShowPopover) {
-                setShowInfo((prev) => (prev === itemName ? "" : itemName));
-              }
-            };
-
-            return (
-              <div
-                key={itemName}
-                onClick={handleBoxClick}
-                className="flex relative text-center"
-              >
-                <InfoPopover
-                  className="absolute top-14 text-xxs sm:text-xs"
-                  showPopover={showInfo === itemName}
-                >
-                  {isRestricted &&
-                    t("withdraw.boostedItem.timeLeft", {
-                      time: secondsToString(RestrictionCooldown, {
-                        length: "medium",
-                        isShortFormat: true,
-                        removeTrailingZeros: true,
-                      }),
-                    })}
-                </InfoPopover>
-
-                <Box
-                  count={new Decimal(wardrobeCount ?? 0)}
-                  key={itemName}
-                  onClick={() => onAdd(itemName)}
-                  disabled={isLocked}
-                  image={getImageUrl(ITEM_IDS[itemName])}
-                  secondaryImage={
-                    shouldShowPopover ? SUNNYSIDE.icons.lock : undefined
-                  }
-                />
-              </div>
-            );
-          })}
-          {/* Pad with empty boxes */}
-          {withdrawableItems.length < 4 &&
-            new Array(4 - withdrawableItems.length)
-              .fill(null)
-              .map((_, index) => <Box disabled key={index} />)}
-        </div>
-
-        <div className="mt-4">
-          <Label type="default" className="mb-2">
-            {t("selected")}
-          </Label>
-          <div className="flex flex-wrap h-fit mt-2 -ml-1.5">
-            {selectedItems.map((itemName) => {
-              return (
-                <Box
-                  count={new Decimal(selected[itemName] ?? 0)}
-                  key={itemName}
-                  onClick={() => onRemove(itemName)}
-                  image={getImageUrl(ITEM_IDS[itemName])}
-                />
-              );
-            })}
-            {/* Pad with empty boxes */}
-            {selectedItems.length < 4 &&
-              new Array(4 - selectedItems.length)
-                .fill(null)
-                .map((_, index) => <Box disabled key={index} />)}
-          </div>
-        </div>
-
-        <div className="w-full my-3 border-t border-white" />
-        <div className="flex items-center mb-2 text-xs">
-          <img
-            src={SUNNYSIDE.icons.player}
-            className="mr-3"
-            style={{
-              width: `${PIXEL_SCALE * 13}px`,
-            }}
-          />
-          <div className="flex flex-col gap-1">
-            <p>{t("withdraw.send.wallet")}</p>
-            <WalletAddressLabel
-              walletAddress={wallet.getConnection() || "XXXX"}
-            />
-          </div>
-        </div>
-
-        <p className="text-xs">
-          {t("withdraw.opensea")}{" "}
-          <a
-            className="underline hover:text-blue-500"
-            href="https://docs.sunflower-land.com/getting-started/crypto-and-digital-collectibles"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {t("read.more")}
-          </a>
-        </p>
-      </div>
-
-      <Button
-        onClick={withdraw}
-        disabled={selectedItems.length <= 0 || withdrawDisabled}
-      >
-        {t("withdraw")}
-      </Button>
-    </>
+    <WithdrawCollection
+      title={t("wearables")}
+      icon={SUNNYSIDE.icons.wardrobe}
+      entries={entries}
+      selected={selectedMap}
+      onSetQty={onSetQty}
+      onWithdraw={withdraw}
+      withdrawDisabled={withdrawDisabled}
+      walletAddress={wallet.getConnection() || "XXXX"}
+      onBack={onBack}
+      intro={t("withdraw.restricted.description")}
+    />
   );
 };
