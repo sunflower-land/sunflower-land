@@ -290,7 +290,9 @@ export const WithdrawItems: React.FC<Props> = ({
       withdrawDisabled={withdrawDisabled}
       walletAddress={wallet.getConnection() || "XXXX"}
       onBack={onBack}
-      intro={t("withdraw.restricted.description")}
+      intro={`${t("withdraw.restricted.description")} ${t(
+        "withdraw.placed.warning",
+      )}`}
     />
   );
 };
