@@ -51,10 +51,10 @@ export const WithdrawPets: React.FC<Props> = ({
 
   const nfts = state.pets?.nfts ?? {};
 
+  // Placed pets can now be withdrawn (the backend removes the pet NFT
+  // entirely), so they are no longer filtered out here.
   const [unselected, setUnselected] = useState<number[]>(
-    getKeys(nfts)
-      .filter((nftId) => !nfts[nftId].coordinates)
-      .map(Number),
+    getKeys(nfts).map(Number),
   );
   const [selected, setSelected] = useState<number[]>([]);
   const [confirmationStep, setConfirmationStep] = useState<1 | 2 | null>(null);

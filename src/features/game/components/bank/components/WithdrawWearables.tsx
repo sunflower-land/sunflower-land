@@ -8,7 +8,6 @@ import { wallet } from "lib/blockchain/wallet";
 import { getKeys } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
-import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { WEARABLE_RELEASES } from "features/game/types/withdrawables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
@@ -45,14 +44,13 @@ export const WithdrawWearables: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
 
-  // Cap at `previousWardrobe + MAX_MINT_AMOUNT` to match the BE per-call
-  // mint cap. The backend mints any shortfall up to `MAX_MINT_AMOUNT` per
-  // item per call.
+  // Equipped wearables can now be withdrawn (the backend unequips them), so
+  // the ceiling is the full wardrobe count rather than the unequipped count.
+  // Cap at `previousWardrobe + MAX_MINT_AMOUNT` to match the BE per-call mint
+  // cap. The backend mints any shortfall up to `MAX_MINT_AMOUNT` per item.
   const getTrueAvailableWardrobe = () => {
-    const available = availableWardrobe(state);
-
-    return getKeys(available).reduce((acc, key) => {
-      const currentAmount = available[key] ?? 0;
+    return getKeys(state.wardrobe).reduce((acc, key) => {
+      const currentAmount = state.wardrobe[key] ?? 0;
       const onChain = state.previousWardrobe[key] ?? 0;
       acc[key] = Math.min(currentAmount, onChain + MAX_MINT_AMOUNT);
       return acc;

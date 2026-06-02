@@ -42,10 +42,10 @@ export const WithdrawBuds: React.FC<Props> = ({
 
   const buds = state.buds ?? {};
 
+  // Placed buds can now be withdrawn (the backend removes the bud entirely),
+  // so they are no longer filtered out here.
   const [unselected, setUnselected] = useState<number[]>(
-    getKeys(buds)
-      .filter((budId) => !buds[budId].coordinates)
-      .map(Number),
+    getKeys(buds).map(Number),
   );
   const [selected, setSelected] = useState<number[]>([]);
 

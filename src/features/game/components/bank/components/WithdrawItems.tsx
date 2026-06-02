@@ -18,7 +18,6 @@ import { toWei } from "web3-utils";
 import { wallet } from "lib/blockchain/wallet";
 
 import { getKeys } from "lib/object";
-import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { INVENTORY_RELEASES } from "features/game/types/withdrawables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -100,8 +99,11 @@ export const WithdrawItems: React.FC<Props> = ({
       return acc;
     }, {} as Inventory);
 
+  // Placed collectibles can now be withdrawn (the backend trims placed
+  // instances to the inventory count on save), so the ceiling is the full
+  // inventory rather than the unplaced "chest" count.
   const [inventory, setInventory] = useState<Inventory>(() =>
-    capToWithdrawableLimit(getChestItems(state)),
+    capToWithdrawableLimit(state.inventory),
   );
   const [selected, setSelected] = useState<Inventory>({});
 
