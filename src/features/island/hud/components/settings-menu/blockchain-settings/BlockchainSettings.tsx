@@ -1,26 +1,49 @@
 import clipboard from "clipboard";
 import React, { useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
+import { useNavigate } from "react-router";
 
 import ticket from "assets/icons/ticket.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context as GameContext } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
+import { getBumpkinLevel } from "features/game/lib/level";
 import type { ContentComponentProps } from "../types";
+import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { useSound } from "lib/utils/hooks/useSound";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 
+// Minimum Bumpkin level required to travel to the Goblin Retreat
+// (matches the gate on the world travel map).
+const GOBLIN_RETREAT_LEVEL = 5;
+
 const _nftId = (state: MachineState) => state.context.nftId;
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
+const _experience = (state: MachineState) =>
+  state.context.state.bumpkin?.experience ?? 0;
 
-export const BlockchainSettings: React.FC<ContentComponentProps> = () => {
+export const BlockchainSettings: React.FC<ContentComponentProps> = ({
+  onClose,
+}) => {
   const { t } = useAppTranslation();
+  const navigate = useNavigate();
+  const travel = useSound("travel");
 
   const { gameService } = useContext(GameContext);
   const nftId = useSelector(gameService, _nftId);
   const linkedWallet = useSelector(gameService, _linkedWallet);
+  const experience = useSelector(gameService, _experience);
+
+  const canAccessRetreat = getBumpkinLevel(experience) >= GOBLIN_RETREAT_LEVEL;
+
+  const goToGoblinRetreat = () => {
+    travel.play();
+    navigate("/world/retreat");
+    onClose();
+  };
 
   const [showNftId, setShowNftId] = useState(false);
   const copypaste = useSound("copypaste");
@@ -54,9 +77,20 @@ export const BlockchainSettings: React.FC<ContentComponentProps> = () => {
         )}
       </div>
 
-      <p className="text-xs">
+      <p className="text-sm">
         {t("gameOptions.blockchainSettings.movedToBank")}
       </p>
+
+      <Button onClick={goToGoblinRetreat} disabled={!canAccessRetreat}>
+        <div className="flex items-center justify-center">
+          {!canAccessRetreat && (
+            <img src={SUNNYSIDE.icons.lock} className="h-4 mr-1" />
+          )}
+          {canAccessRetreat
+            ? t("gameOptions.blockchainSettings.goToBank")
+            : t("world.lvl.requirement", { lvl: GOBLIN_RETREAT_LEVEL })}
+        </div>
+      </Button>
     </div>
   );
 };

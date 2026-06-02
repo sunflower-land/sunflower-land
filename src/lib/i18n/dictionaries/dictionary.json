@@ -2082,6 +2082,7 @@
   "gameOptions.developerOptions.timeMachine": "Time Machine",
   "gameOptions.blockchainSettings": "Blockchain Settings",
   "gameOptions.blockchainSettings.movedToBank": "Deposit, withdraw and transfer have moved to the Goblin Bank in the Goblin Retreat.",
+  "gameOptions.blockchainSettings.goToBank": "Go to the Goblin Bank",
   "gameOptions.linkedAccounts": "Linked Accounts",
   "linkedAccounts.title": "Linked Accounts",
   "linkedAccounts.description": "Sign in to this Farm with a wallet, Google, or both.",
