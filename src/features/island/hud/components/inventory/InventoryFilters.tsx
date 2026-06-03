@@ -73,10 +73,11 @@ export const InventoryFilters: React.FC<Props> = ({
           />
         </div>
       </div>
-      <div className="flex flex-wrap gap-1">
+      <div className="flex overflow-x-auto scrollable sm:flex-wrap gap-1">
         <Label
           type={activeCategories.length === 0 ? "warning" : "default"}
           onClick={onClearCategories}
+          className="whitespace-nowrap sm:whitespace-normal mb-1 sm:mb-0"
         >
           {t("inventory.all")}
         </Label>
@@ -88,6 +89,7 @@ export const InventoryFilters: React.FC<Props> = ({
             }
             icon={category.icon}
             onClick={() => onToggleCategory(category.id)}
+            className="whitespace-nowrap sm:whitespace-normal mb-1 sm:mb-0"
           >
             {category.label}
           </Label>
