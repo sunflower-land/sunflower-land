@@ -9023,5 +9023,11 @@
   "deposit.search.noResults": "Aucun article ne correspond à votre recherche.",
   "gameOptions.blockchainSettings.movedToBank": "Les dépôts et les retraits ont été transférés à la Banque des gobelins, dans la retraite des gobelins.",
   "gameOptions.blockchainSettings.movedToBank.fullUsers": "Les dépôts, les retraits et les transferts ont été transférés à la Goblin Bank, dans le Goblin Retreat.",
-  "gameOptions.blockchainSettings.goToBank": "Allez à la Goblin Bank"
+  "gameOptions.blockchainSettings.goToBank": "Allez à la Goblin Bank",
+  "inventory.all": "Tous",
+  "inventory.sort.default": "Catégorie",
+  "inventory.sort.amount": "Montant",
+  "inventory.sort.name": "Nom (A à Z)",
+  "inventory.noResults": "Aucun article ne correspond à votre recherche.",
+  "farmHands": "Farm Hands"
 }

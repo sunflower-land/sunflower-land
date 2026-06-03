@@ -9023,5 +9023,11 @@
   "deposit.search.noResults": "No hay ningún artículo que coincida con tu búsqueda.",
   "gameOptions.blockchainSettings.movedToBank": "Los depósitos y retiros se han trasladado al Banco de los Duendes en el Retiro de los Duendes.",
   "gameOptions.blockchainSettings.movedToBank.fullUsers": "Los depósitos, retiros y transferencias se han trasladado al Goblin Bank en el Goblin Retreat.",
-  "gameOptions.blockchainSettings.goToBank": "Ve al Banco Goblin"
+  "gameOptions.blockchainSettings.goToBank": "Ve al Banco Goblin",
+  "inventory.all": "Todas",
+  "inventory.sort.default": "Categoría",
+  "inventory.sort.amount": "Monto",
+  "inventory.sort.name": "Nombre (A-Z)",
+  "inventory.noResults": "No hay ningún artículo que coincida con tu búsqueda.",
+  "farmHands": "Manos de granja"
 }

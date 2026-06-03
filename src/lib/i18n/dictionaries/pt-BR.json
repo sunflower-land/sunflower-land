@@ -9023,5 +9023,11 @@
   "deposit.search.noResults": "Nenhum item corresponde à sua pesquisa.",
   "gameOptions.blockchainSettings.movedToBank": "O depósito e o saque foram transferidos para o Goblin Bank no Goblin Retreat.",
   "gameOptions.blockchainSettings.movedToBank.fullUsers": "O depósito, o saque e a transferência foram transferidos para o Goblin Bank no Goblin Retreat.",
-  "gameOptions.blockchainSettings.goToBank": "Vá para o Goblin Bank"
+  "gameOptions.blockchainSettings.goToBank": "Vá para o Goblin Bank",
+  "inventory.all": "Todos",
+  "inventory.sort.default": "Categoria",
+  "inventory.sort.amount": "Quantia",
+  "inventory.sort.name": "Nome (A-Z)",
+  "inventory.noResults": "Nenhum item corresponde à sua pesquisa.",
+  "farmHands": "Mãos da fazenda"
 }

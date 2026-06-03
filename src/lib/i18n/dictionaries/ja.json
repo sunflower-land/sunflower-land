@@ -9023,5 +9023,11 @@
   "deposit.search.noResults": "検索条件に一致する商品はありません。",
   "gameOptions.blockchainSettings.movedToBank": "入出金はゴブリンリトリートのゴブリンバンクに移動しました。",
   "gameOptions.blockchainSettings.movedToBank.fullUsers": "入金、出金、送金はゴブリンリトリートのゴブリンバンクに移動しました。",
-  "gameOptions.blockchainSettings.goToBank": "ゴブリンバンクに行く"
+  "gameOptions.blockchainSettings.goToBank": "ゴブリンバンクに行く",
+  "inventory.all": "[すべて]",
+  "inventory.sort.default": "カテゴリー",
+  "inventory.sort.amount": "金額",
+  "inventory.sort.name": "名前 (アルファベット順)",
+  "inventory.noResults": "検索条件に一致する商品はありません。",
+  "farmHands": "ファームハンズ"
 }

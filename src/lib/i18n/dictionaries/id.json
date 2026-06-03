@@ -9023,5 +9023,11 @@
   "deposit.search.noResults": "Tidak ada item yang cocok dengan pencarian Anda.",
   "gameOptions.blockchainSettings.movedToBank": "Setoran dan penarikan telah dipindahkan ke Bank Goblin di Goblin Retreat.",
   "gameOptions.blockchainSettings.movedToBank.fullUsers": "Setoran, penarikan dan transfer telah dipindahkan ke Bank Goblin di Goblin Retreat.",
-  "gameOptions.blockchainSettings.goToBank": "Pergi ke Bank Goblin"
+  "gameOptions.blockchainSettings.goToBank": "Pergi ke Bank Goblin",
+  "inventory.all": "Semua",
+  "inventory.sort.default": "Kategori",
+  "inventory.sort.amount": "Jumlah",
+  "inventory.sort.name": "Nama (A-Z)",
+  "inventory.noResults": "Tidak ada item yang cocok dengan pencarian Anda.",
+  "farmHands": "Tangan Pertanian"
 }

@@ -9023,5 +9023,11 @@
   "deposit.search.noResults": "没有与您的搜索条件相匹配的商品。",
   "gameOptions.blockchainSettings.movedToBank": "存款和提款已转移到哥布林度假村的哥布林银行。",
   "gameOptions.blockchainSettings.movedToBank.fullUsers": "存款、提款和转账已转移到哥布林度假村的哥布林银行。",
-  "gameOptions.blockchainSettings.goToBank": "去哥布林银行"
+  "gameOptions.blockchainSettings.goToBank": "去哥布林银行",
+  "inventory.all": "全部",
+  "inventory.sort.default": "类别",
+  "inventory.sort.amount": "金额",
+  "inventory.sort.name": "姓名 (A-Z)",
+  "inventory.noResults": "没有与您的搜索条件相匹配的商品。",
+  "farmHands": "农场之手"
 }

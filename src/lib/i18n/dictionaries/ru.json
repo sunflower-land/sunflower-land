@@ -9023,5 +9023,11 @@
   "deposit.search.noResults": "No items match your search.",
   "gameOptions.blockchainSettings.movedToBank": "Deposit and withdraw have moved to the Goblin Bank in the Goblin Retreat.",
   "gameOptions.blockchainSettings.movedToBank.fullUsers": "Deposit, withdraw and transfer have moved to the Goblin Bank in the Goblin Retreat.",
-  "gameOptions.blockchainSettings.goToBank": "Go to the Goblin Bank"
+  "gameOptions.blockchainSettings.goToBank": "Go to the Goblin Bank",
+  "inventory.all": "All",
+  "inventory.sort.default": "Category",
+  "inventory.sort.amount": "Amount",
+  "inventory.sort.name": "Name (A-Z)",
+  "inventory.noResults": "No items match your search.",
+  "farmHands": "Farm Hands"
 }

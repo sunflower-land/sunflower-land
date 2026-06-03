@@ -9023,5 +9023,11 @@
   "deposit.search.noResults": "Keine Artikel entsprechen Ihrer Suche.",
   "gameOptions.blockchainSettings.movedToBank": "Ein- und Auszahlungen wurden auf die Goblinbank im Goblin-Retreat verschoben.",
   "gameOptions.blockchainSettings.movedToBank.fullUsers": "Einzahlung, Auszahlung und Überweisung sind auf die Goblinbank im Goblin-Retreat umgezogen.",
-  "gameOptions.blockchainSettings.goToBank": "Gehe zur Goblinbank"
+  "gameOptions.blockchainSettings.goToBank": "Gehe zur Goblinbank",
+  "inventory.all": "Alle",
+  "inventory.sort.default": "Kategorie",
+  "inventory.sort.amount": "Betrag",
+  "inventory.sort.name": "Name (A-Z)",
+  "inventory.noResults": "Keine Artikel entsprechen Ihrer Suche.",
+  "farmHands": "Farmarbeiter"
 }
