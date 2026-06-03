@@ -524,14 +524,14 @@ export const Chest: React.FC<Props> = ({
   if (hasPetNFTs) {
     filterCategories.push({
       id: "petNFTs",
-      label: "Pet NFTs",
+      label: t("petNFTs"),
       icon: SUNNYSIDE.icons.heart,
     });
   }
   if (hasFarmHands) {
     filterCategories.push({
       id: "farmHands",
-      label: "Farm Hands",
+      label: t("farmHands"),
       icon: SUNNYSIDE.achievement.farmHand,
     });
   }
@@ -641,7 +641,7 @@ export const Chest: React.FC<Props> = ({
                   className="my-1"
                   icon={SUNNYSIDE.icons.heart}
                 >
-                  {`Pet NFTs`}
+                  {t("petNFTs")}
                 </Label>
                 <div className="flex mb-2 flex-wrap -ml-1.5">
                   {getKeys(petsNFTs).map((petId) => {
@@ -670,7 +670,7 @@ export const Chest: React.FC<Props> = ({
                   className="my-1"
                   icon={SUNNYSIDE.achievement.farmHand}
                 >
-                  {`Farm Hands`}
+                  {t("farmHands")}
                 </Label>
                 <div className="flex mb-2 flex-wrap -ml-1.5">
                   {Object.keys(farmHands).map((id) => (
@@ -694,23 +694,6 @@ export const Chest: React.FC<Props> = ({
                 </div>
               </div>
             )}
-            {/* {Object.values(collectibles) && (
-            <div className="flex flex-col pl-2 mb-2 w-full" key="Collectibles">
-              <p className="mb-2">Collectibles</p>
-              <div className="flex mb-2 flex-wrap -ml-1.5">
-                {getKeys(collectibles).map((item) => (
-                  <Box
-                    count={chestMap[item]}
-                    isSelected={selectedChestItem === item}
-                    key={item}
-                    onClick={() => handleItemClick(item)}
-                    image={ITEM_ICONS[item] ?? ITEM_DETAILS[item].image}
-                    parentDivRef={divRef}
-                  />
-                ))}
-              </div>
-            </div>
-          )} */}
             {visibleGroups.map(({ items, label, icon }) => (
               <ItemGroup
                 key={label}

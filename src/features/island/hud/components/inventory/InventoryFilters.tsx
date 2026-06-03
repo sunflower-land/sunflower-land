@@ -4,6 +4,7 @@ import { Dropdown } from "components/ui/Dropdown";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { InnerPanel } from "components/ui/Panel";
 
 export type InventorySortKey = "default" | "amount" | "name";
 
@@ -50,7 +51,7 @@ export const InventoryFilters: React.FC<Props> = ({
   };
 
   return (
-    <div className="flex flex-col gap-1 px-1 pb-1">
+    <InnerPanel className="flex flex-col gap-1 px-1 pb-1 mb-1">
       <div className="flex gap-1 items-center">
         <div className="flex-1">
           <TextInput
@@ -88,6 +89,6 @@ export const InventoryFilters: React.FC<Props> = ({
           </Label>
         ))}
       </div>
-    </div>
+    </InnerPanel>
   );
 };
