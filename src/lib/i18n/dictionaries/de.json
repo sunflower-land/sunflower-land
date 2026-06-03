@@ -9033,5 +9033,6 @@
   "withdraw.placed.warning": "Wenn du ein platziertes Sammlerstück zurückziehst, wird es von deiner Farm, deinem Zuhause oder deiner Inneneinrichtung entfernt.",
   "withdraw.equipped.warning": "Wenn du ein ausgerüstetes Wearable zurückziehst, wird es deinem Bumpkin und den Farmarbeitern entzogen.",
   "withdraw.placedBud.warning": "Diese Knospe wird auf deiner Farm platziert und entfernt, wenn sie entfernt wird.",
-  "withdraw.placedPet.warning": "Dieses Haustier wird auf deiner Farm platziert und entfernt, wenn es zurückgezogen wird."
+  "withdraw.placedPet.warning": "Dieses Haustier wird auf deiner Farm platziert und entfernt, wenn es zurückgezogen wird.",
+  "marketplace.favoritesDescription": "Greifen Sie schnell auf Ihre Lieblingsartikel zu"
 }

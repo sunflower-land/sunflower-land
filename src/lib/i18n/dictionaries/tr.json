@@ -9033,5 +9033,6 @@
   "withdraw.placed.warning": "Yerleştirilen bir koleksiyon parçasını geri çekmek, onu çiftliğinizden, evinizden veya iç mekanınızdan kaldıracaktır.",
   "withdraw.equipped.warning": "Donanımlı bir giyilebilir cihazı geri çekmek, onu Bumpkin\"inizden ve çiftçilerinizden kurtaracaktır..",
   "withdraw.placedBud.warning": "Bu Tomurcuk çiftliğinize yerleştirilir ve geri çekildiğinde kaldırılacaktır.",
-  "withdraw.placedPet.warning": "Bu evcil hayvan çiftliğinize yerleştirilir ve geri çekildiğinde çıkarılır."
+  "withdraw.placedPet.warning": "Bu evcil hayvan çiftliğinize yerleştirilir ve geri çekildiğinde çıkarılır.",
+  "marketplace.favoritesDescription": "Favori öğelerinize hızlı bir şekilde erişin"
 }

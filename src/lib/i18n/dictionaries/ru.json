@@ -9033,5 +9033,6 @@
   "withdraw.placed.warning": "Withdrawing a placed collectible will remove it from your farm, home or interior.",
   "withdraw.equipped.warning": "Withdrawing an equipped wearable will unequip it from your Bumpkin and farmhands.",
   "withdraw.placedBud.warning": "This Bud is placed on your farm and will be removed when withdrawn.",
-  "withdraw.placedPet.warning": "This pet is placed on your farm and will be removed when withdrawn."
+  "withdraw.placedPet.warning": "This pet is placed on your farm and will be removed when withdrawn.",
+  "marketplace.favoritesDescription": "Quickly access your favorite items"
 }

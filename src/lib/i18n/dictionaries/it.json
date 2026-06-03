@@ -9033,5 +9033,6 @@
   "withdraw.placed.warning": "Il ritiro di un oggetto da collezione piazzato lo rimuoverà dalla tua fattoria, dalla tua casa o dai tuoi interni.",
   "withdraw.equipped.warning": "Il ritiro di un dispositivo indossabile equipaggiato lo disequipaggerà dai tuoi Bumpkin e dai tuoi braccianti.",
   "withdraw.placedBud.warning": "Questa gemma viene posizionata nella tua fattoria e verrà rimossa una volta ritirata.",
-  "withdraw.placedPet.warning": "Questo animale domestico viene collocato nella tua fattoria e verrà rimosso una volta ritirato."
+  "withdraw.placedPet.warning": "Questo animale domestico viene collocato nella tua fattoria e verrà rimosso una volta ritirato.",
+  "marketplace.favoritesDescription": "Accedi rapidamente ai tuoi articoli preferiti"
 }

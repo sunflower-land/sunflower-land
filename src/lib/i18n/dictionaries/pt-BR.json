@@ -9033,5 +9033,6 @@
   "withdraw.placed.warning": "Retirar um item colecionável colocado o removerá de sua fazenda, casa ou interior.",
   "withdraw.equipped.warning": "Retirar um dispositivo vestível equipado o desequipará de seu caipira e de seus fazendeiros.",
   "withdraw.placedBud.warning": "Este Bud é colocado em sua fazenda e será removido quando retirado.",
-  "withdraw.placedPet.warning": "Este animal de estimação é colocado em sua fazenda e será removido quando retirado."
+  "withdraw.placedPet.warning": "Este animal de estimação é colocado em sua fazenda e será removido quando retirado.",
+  "marketplace.favoritesDescription": "Acesse rapidamente seus itens favoritos"
 }

@@ -9033,5 +9033,6 @@
   "withdraw.placed.warning": "Retirar un objeto coleccionable colocado lo eliminará de tu granja, casa o interior.",
   "withdraw.equipped.warning": "Si retiras un objeto portátil equipado, lo desequiparás de tus jornaleros y cobardes.",
   "withdraw.placedBud.warning": "Este capullo se coloca en tu granja y se eliminará cuando lo retires.",
-  "withdraw.placedPet.warning": "Esta mascota se coloca en tu granja y se retirará cuando la retires."
+  "withdraw.placedPet.warning": "Esta mascota se coloca en tu granja y se retirará cuando la retires.",
+  "marketplace.favoritesDescription": "Accede rápidamente a tus artículos favoritos"
 }
