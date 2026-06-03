@@ -18,13 +18,13 @@ import { toWei } from "web3-utils";
 import { wallet } from "lib/blockchain/wallet";
 
 import { getKeys } from "lib/object";
-import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { INVENTORY_RELEASES } from "features/game/types/withdrawables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
+import { getChestItemCount } from "features/island/hud/components/inventory/utils/inventory";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
@@ -100,8 +100,11 @@ export const WithdrawItems: React.FC<Props> = ({
       return acc;
     }, {} as Inventory);
 
+  // Placed collectibles can now be withdrawn (the backend trims placed
+  // instances to the inventory count on save), so the ceiling is the full
+  // inventory rather than the unplaced "chest" count.
   const [inventory, setInventory] = useState<Inventory>(() =>
-    capToWithdrawableLimit(getChestItems(state)),
+    capToWithdrawableLimit(state.inventory),
   );
   const [selected, setSelected] = useState<Inventory>({});
 
@@ -244,12 +247,19 @@ export const WithdrawItems: React.FC<Props> = ({
       removeTrailingZeros: true,
     });
 
+    // Unplaced (chest) count — withdrawing beyond this removes placed copies.
+    const safeWithdrawCount = getChestItemCount(state, itemName).toNumber();
+    const placedCount =
+      (state.inventory[itemName]?.toNumber() ?? 0) - safeWithdrawCount;
+
     return {
       key: itemName,
       id: KNOWN_IDS[itemName],
       name: getTranslatedItemName(itemName),
       image: ITEM_DETAILS[itemName].image,
       total: inventoryCount + selectedCount,
+      safeWithdrawCount,
+      inUseWarning: placedCount > 0 ? t("withdraw.placed.warning") : undefined,
       locked: isRestricted,
       lockReason: isRestricted
         ? t("withdraw.boostedItem.timeLeft", { time: cooldownText })
