@@ -48,6 +48,7 @@ import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { isWearableActive } from "features/game/lib/wearables";
 import { Modal } from "components/ui/Modal";
 import { SleepingAnimalModal } from "./SleepingAnimalModal";
+import { LockedAnimalModal } from "./LockedAnimalModal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
 import glow from "public/world/glow.png";
@@ -83,7 +84,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const [showAnimalDetails, setShowAnimalDetails] = useState(false);
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
   const [showNoMedicine, setShowNoMedicine] = useState(false);
-  const [showOverCapacity, setShowOverCapacity] = useState(false);
+  const [showLockedDetails, setShowLockedDetails] = useState(false);
   const [showFeedXP, setShowFeedXP] = useState(false);
   const [showLoveItem, setShowLoveItem] = useState<LoveAnimalItem>();
   const [showMutantAnimalModal, setShowMutantAnimalModal] = useState(false);
@@ -103,7 +104,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const sick = sheepState === "sick" || sheep.state === "sick";
   const idle = sheepState === "idle";
   // Over-capacity animals (e.g. the Barn Blueprint was removed/sold after
-  // buying animals) cannot be fed, but can still be cured and sold to bounties.
+  // buying animals) cannot be fed. They go dormant (rendered like a sleeping
+  // animal) but can still be cured and sold to bounties.
   const isLocked = !isAnimalFeedable("barn", game, id);
 
   const { foodQuantity: requiredFoodQty } = getBoostedFoodQuantity({
@@ -330,10 +332,9 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
 
     // Defensive: never let the capacity lock block curing a sick animal
     // (sick is handled above via onSickClick); only normal feeding is gated.
+    // Locked animals behave like sleeping ones: clicking opens an info modal.
     if (isLocked && !sick) {
-      setShowOverCapacity(true);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      setShowOverCapacity(false);
+      setShowLockedDetails(true);
       return;
     }
 
@@ -366,7 +367,6 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     if (showNoMedicine) return t("animal.noMedicine");
     if (showNotEnoughFood)
       return t("animal.notEnoughFood", { amount: requiredFoodQty });
-    if (showOverCapacity) return t("animal.overCapacity");
   };
 
   const getAnimalXPEarned = () => {
@@ -399,6 +399,14 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       return {
         image: SUNNYSIDE.animals.sheepSick,
         width: PIXEL_SCALE * 11,
+      };
+    }
+
+    // Locked (over-capacity) animals are dormant - show them sleeping.
+    if (isLocked) {
+      return {
+        image: SUNNYSIDE.animals.sheepSleeping,
+        width: PIXEL_SCALE * 13,
       };
     }
 
@@ -544,12 +552,20 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
               />
             </CloseButtonPanel>
           </Modal>
+          <Modal
+            show={showLockedDetails}
+            onHide={() => setShowLockedDetails(false)}
+          >
+            <CloseButtonPanel
+              container={OuterPanel}
+              onClose={() => setShowLockedDetails(false)}
+            >
+              <LockedAnimalModal animal={sheep} />
+            </CloseButtonPanel>
+          </Modal>
           <InfoPopover
             showPopover={
-              showNoFoodSelected ||
-              showNoMedicine ||
-              showNotEnoughFood ||
-              showOverCapacity
+              showNoFoodSelected || showNoMedicine || showNotEnoughFood
             }
             className="-top-10 left-1/2 transform -translate-x-1/2 z-20"
           >
