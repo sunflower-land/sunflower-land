@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { ANIMAL_SLEEP_DURATION, feedAnimal, handleFoodXP } from "./feedAnimal";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { ANIMAL_LEVELS } from "features/game/types/animals";
-import type { GameState } from "features/game/types/game";
+import type { Animal, GameState } from "features/game/types/game";
 
 describe("feedAnimal", () => {
   const now = Date.now();
@@ -2167,5 +2167,202 @@ describe("feedAnimal", () => {
     });
 
     expect(state.boostsUsedAt?.["Gold Egg"]).toEqual(now);
+  });
+
+  describe("when over the building's capacity", () => {
+    // Hen House level 1 has a base capacity of 10 animals (no Chicken Coop).
+    const makeChickens = (count: number): Record<string, Animal> => {
+      const animals: Record<string, Animal> = {};
+      for (let i = 0; i < count; i++) {
+        const id = `chicken-${i}`;
+        animals[id] = {
+          id,
+          type: "Chicken",
+          state: "idle",
+          // Oldest first: chicken-0 has the smallest createdAt.
+          createdAt: i + 1,
+          experience: 0,
+          asleepAt: 0,
+          awakeAt: 0,
+          lovedAt: 0,
+          item: "Petting Hand",
+        };
+      }
+      return animals;
+    };
+
+    const overCapacityState: GameState = {
+      ...GAME_STATE,
+      inventory: {
+        ...GAME_STATE.inventory,
+        Hay: new Decimal(10),
+        "Barn Delight": new Decimal(10),
+      },
+      henHouse: {
+        ...GAME_STATE.henHouse,
+        level: 1,
+        animals: makeChickens(11),
+      },
+    };
+
+    it("throws when feeding an animal beyond capacity (oldest are locked)", () => {
+      expect(() =>
+        feedAnimal({
+          createdAt: now,
+          state: overCapacityState,
+          action: {
+            type: "animal.fed",
+            animal: "Chicken",
+            id: "chicken-0", // oldest -> locked
+            item: "Hay",
+          },
+        }),
+      ).toThrow("Animal exceeds building capacity and cannot be fed");
+    });
+
+    it("allows feeding the newest animals that remain within capacity", () => {
+      const state = feedAnimal({
+        createdAt: now,
+        state: overCapacityState,
+        action: {
+          type: "animal.fed",
+          animal: "Chicken",
+          id: "chicken-10", // newest -> feedable
+          item: "Hay",
+        },
+      });
+
+      expect(state.henHouse.animals["chicken-10"].experience).toBe(10);
+    });
+
+    it("does not lock any animals when exactly at capacity", () => {
+      const state = feedAnimal({
+        createdAt: now,
+        state: {
+          ...overCapacityState,
+          henHouse: {
+            ...overCapacityState.henHouse,
+            animals: makeChickens(10), // exactly at capacity
+          },
+        },
+        action: {
+          type: "animal.fed",
+          animal: "Chicken",
+          id: "chicken-0",
+          item: "Hay",
+        },
+      });
+
+      expect(state.henHouse.animals["chicken-0"].experience).toBe(10);
+    });
+
+    it("unlocks all animals when the capacity collectible is placed", () => {
+      const state = feedAnimal({
+        createdAt: now,
+        state: {
+          ...overCapacityState,
+          collectibles: {
+            ...overCapacityState.collectibles,
+            "Chicken Coop": [
+              {
+                id: "1",
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+              },
+            ],
+          },
+        },
+        action: {
+          type: "animal.fed",
+          animal: "Chicken",
+          id: "chicken-0", // would be locked without the Chicken Coop
+          item: "Hay",
+        },
+      });
+
+      expect(state.henHouse.animals["chicken-0"].experience).toBe(10);
+    });
+
+    it("still allows curing a sick over-capacity animal", () => {
+      const sickChickens = makeChickens(11);
+      sickChickens["chicken-0"].state = "sick"; // oldest -> locked
+
+      const state = feedAnimal({
+        createdAt: now,
+        state: {
+          ...overCapacityState,
+          henHouse: {
+            ...overCapacityState.henHouse,
+            animals: sickChickens,
+          },
+        },
+        action: {
+          type: "animal.fed",
+          animal: "Chicken",
+          id: "chicken-0",
+          item: "Barn Delight",
+        },
+      });
+
+      expect(state.henHouse.animals["chicken-0"].state).toBe("idle");
+    });
+
+    it("breaks createdAt ties by purchase (insertion) order, not id", () => {
+      // 11 chickens all created at the same time -> exactly 1 is locked.
+      // Insert the oldest (by purchase order) first, giving it an id that is
+      // NOT the lexicographically smallest, so an id-based tie-break would lock
+      // a different animal.
+      const makeChicken = (id: string): Animal => ({
+        id,
+        type: "Chicken",
+        state: "idle",
+        createdAt: 1000,
+        experience: 0,
+        asleepAt: 0,
+        awakeAt: 0,
+        lovedAt: 0,
+        item: "Petting Hand",
+      });
+
+      const animals: Record<string, Animal> = {
+        "m-first": makeChicken("m-first"),
+      };
+      for (let i = 0; i < 10; i++) {
+        animals[`a-${i}`] = makeChicken(`a-${i}`);
+      }
+
+      const state: GameState = {
+        ...overCapacityState,
+        henHouse: { ...overCapacityState.henHouse, animals },
+      };
+
+      // The first-inserted animal is locked, even though its id sorts last.
+      expect(() =>
+        feedAnimal({
+          createdAt: now,
+          state,
+          action: {
+            type: "animal.fed",
+            animal: "Chicken",
+            id: "m-first",
+            item: "Hay",
+          },
+        }),
+      ).toThrow("Animal exceeds building capacity and cannot be fed");
+
+      // A later-purchased animal with a smaller id stays feedable.
+      const fed = feedAnimal({
+        createdAt: now,
+        state,
+        action: {
+          type: "animal.fed",
+          animal: "Chicken",
+          id: "a-0",
+          item: "Hay",
+        },
+      });
+      expect(fed.henHouse.animals["a-0"].experience).toBe(10);
+    });
   });
 });

@@ -11,6 +11,7 @@ import { trackFarmActivity } from "features/game/types/farmActivity";
 import { getKeys } from "lib/object";
 import type {
   AnimalBuilding,
+  AnimalBuildingKey,
   BoostName,
   GameState,
 } from "features/game/types/game";
@@ -83,6 +84,71 @@ export const getBoostedAnimalCapacity = (
 
   return { capacity: baseCapacity, boostsUsed };
 };
+
+// Memoizes the most recent over-capacity result. The UI calls
+// getOverCapacityAnimalIds once per animal per render, so without this each
+// animal would re-sort the whole building. Keyed on the animals object and
+// capacity — the only inputs that change the result.
+let overCapacityCache: {
+  animals: AnimalBuilding["animals"];
+  capacity: number;
+  ids: Set<string>;
+} | null = null;
+
+/**
+ * IDs of animals that exceed the building's current capacity and therefore
+ * cannot be fed. This happens when a player buys animals while a capacity
+ * boosting collectible (Chicken Coop / Barn Blueprint) is placed, then removes
+ * or sells that collectible. The OLDEST animals beyond the current capacity are
+ * locked; the newest `capacity` animals remain feedable. Locked animals can
+ * still be cured and sold to bounties.
+ */
+export const getOverCapacityAnimalIds = (
+  buildingKey: AnimalBuildingKey,
+  game: GameState,
+): Set<string> => {
+  const building = game[buildingKey];
+  const { capacity } = getBoostedAnimalCapacity(buildingKey, game);
+
+  if (
+    overCapacityCache &&
+    overCapacityCache.animals === building.animals &&
+    overCapacityCache.capacity === capacity
+  ) {
+    return overCapacityCache.ids;
+  }
+
+  const animals = Object.values(building.animals);
+
+  let ids: Set<string>;
+  if (animals.length <= capacity) {
+    ids = new Set();
+  } else {
+    const lockedCount = animals.length - capacity;
+
+    // Oldest first so the newest `capacity` animals remain feedable. Ties on
+    // createdAt fall back to purchase (insertion) order rather than id.
+    const oldestFirst = animals
+      .map((animal, index) => ({ animal, index }))
+      .sort((a, b) =>
+        a.animal.createdAt !== b.animal.createdAt
+          ? a.animal.createdAt - b.animal.createdAt
+          : a.index - b.index,
+      )
+      .map((entry) => entry.animal);
+
+    ids = new Set(oldestFirst.slice(0, lockedCount).map((animal) => animal.id));
+  }
+
+  overCapacityCache = { animals: building.animals, capacity, ids };
+  return ids;
+};
+
+export const isAnimalFeedable = (
+  buildingKey: AnimalBuildingKey,
+  game: GameState,
+  animalId: string,
+): boolean => !getOverCapacityAnimalIds(buildingKey, game).has(animalId);
 
 export function buyAnimal({
   state,
