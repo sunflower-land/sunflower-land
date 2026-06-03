@@ -72,11 +72,7 @@ import type { PlaceableLocation } from "features/game/types/collectibles";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { FarmHandDetails } from "components/ui/layouts/FarmHandDetails";
 import { getBudImage } from "lib/buds/types";
-import {
-  ALL_CATEGORY,
-  InventoryFilters,
-  type InventorySortKey,
-} from "./InventoryFilters";
+import { InventoryFilters, type InventorySortKey } from "./InventoryFilters";
 
 export const ITEM_ICONS: (
   season: TemperateSeasonName,
@@ -255,8 +251,13 @@ export const Chest: React.FC<Props> = ({
 }: Props) => {
   const divRef = useRef<HTMLDivElement>(null);
   const [search, setSearch] = useState("");
-  const [activeCategory, setActiveCategory] = useState<string>(ALL_CATEGORY);
+  const [activeCategories, setActiveCategories] = useState<string[]>([]);
   const [sort, setSort] = useState<InventorySortKey>("default");
+
+  const toggleCategory = (id: string) =>
+    setActiveCategories((prev) =>
+      prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id],
+    );
   // For petHouse, only show buds and petNFTs (no regular buds for petHouse)
   const buds = location === "petHouse" ? {} : getChestBuds(state);
   const petsNFTs = getChestPets(state.pets?.nfts ?? {});
@@ -546,7 +547,7 @@ export const Chest: React.FC<Props> = ({
   const visibleGroups = ITEM_GROUPS.filter((group) => group.items.length > 0)
     .filter(
       (group) =>
-        activeCategory === ALL_CATEGORY || activeCategory === group.label,
+        activeCategories.length === 0 || activeCategories.includes(group.label),
     )
     .map((group) => ({
       ...group,
@@ -557,7 +558,8 @@ export const Chest: React.FC<Props> = ({
   // Buds, Pet NFTs and Farm Hands have no searchable name, so they are hidden
   // while a search query is active.
   const inCategory = (id: string) =>
-    query === "" && (activeCategory === ALL_CATEGORY || activeCategory === id);
+    query === "" &&
+    (activeCategories.length === 0 || activeCategories.includes(id));
   const showBuds = hasBuds && inCategory("buds");
   const showPetNFTs = hasPetNFTs && inCategory("petNFTs");
   const showFarmHands = hasFarmHands && inCategory("farmHands");
@@ -571,8 +573,9 @@ export const Chest: React.FC<Props> = ({
         search={search}
         onSearchChange={setSearch}
         categories={filterCategories}
-        activeCategory={activeCategory}
-        onCategoryChange={setActiveCategory}
+        activeCategories={activeCategories}
+        onToggleCategory={toggleCategory}
+        onClearCategories={() => setActiveCategories([])}
         sort={sort}
         onSortChange={setSort}
       />

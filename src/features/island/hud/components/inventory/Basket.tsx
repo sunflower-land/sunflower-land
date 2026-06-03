@@ -95,11 +95,7 @@ import {
   type SpiceRackProductName,
 } from "features/game/types/spiceRackProducts";
 import { ANIMAL_FEED_BUFF_ITEMS } from "features/game/events/landExpansion/applyAnimalFeedBuff";
-import {
-  ALL_CATEGORY,
-  InventoryFilters,
-  type InventorySortKey,
-} from "./InventoryFilters";
+import { InventoryFilters, type InventorySortKey } from "./InventoryFilters";
 
 interface Prop {
   gameState: GameState;
@@ -112,8 +108,13 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const now = useNow({ live: true });
   const [showBoosts, setShowBoosts] = useState(false);
   const [search, setSearch] = useState("");
-  const [activeCategory, setActiveCategory] = useState<string>(ALL_CATEGORY);
+  const [activeCategories, setActiveCategories] = useState<string[]>([]);
   const [sort, setSort] = useState<InventorySortKey>("default");
+
+  const toggleCategory = (id: string) =>
+    setActiveCategories((prev) =>
+      prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id],
+    );
 
   const { t } = useAppTranslation();
 
@@ -476,7 +477,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const filteredSections = visibleSections
     .filter(
       (section) =>
-        activeCategory === ALL_CATEGORY || section.id === activeCategory,
+        activeCategories.length === 0 || activeCategories.includes(section.id),
     )
     .map((section) => ({
       ...section,
@@ -497,13 +498,17 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     return items;
   };
 
-  const grouped =
-    sort === "default" && activeCategory === ALL_CATEGORY && !query;
+  const grouped = sort === "default" && !query;
   const flatItems = sortItems(
     filteredSections.flatMap((section) => section.items),
   );
 
-  const activeSection = visibleSections.find((s) => s.id === activeCategory);
+  // The flat header only names a single section; with several categories
+  // selected we fall back to the generic "All" label.
+  const activeSection =
+    activeCategories.length === 1
+      ? visibleSections.find((s) => s.id === activeCategories[0])
+      : undefined;
 
   return (
     <>
@@ -515,8 +520,9 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
           label,
           icon,
         }))}
-        activeCategory={activeCategory}
-        onCategoryChange={setActiveCategory}
+        activeCategories={activeCategories}
+        onToggleCategory={toggleCategory}
+        onClearCategories={() => setActiveCategories([])}
         sort={sort}
         onSortChange={setSort}
       />
