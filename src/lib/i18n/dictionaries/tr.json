@@ -9029,5 +9029,9 @@
   "inventory.sort.amount": "Miktar",
   "inventory.sort.name": "İsim (A-Z)",
   "inventory.noResults": "Aramanızla eşleşen öğe yok.",
-  "farmHands": "Çiftlik Elleri"
+  "farmHands": "Çiftlik Elleri",
+  "withdraw.placed.warning": "Yerleştirilen bir koleksiyon parçasını geri çekmek, onu çiftliğinizden, evinizden veya iç mekanınızdan kaldıracaktır.",
+  "withdraw.equipped.warning": "Donanımlı bir giyilebilir cihazı geri çekmek, onu Bumpkin\"inizden ve çiftçilerinizden kurtaracaktır..",
+  "withdraw.placedBud.warning": "Bu Tomurcuk çiftliğinize yerleştirilir ve geri çekildiğinde kaldırılacaktır.",
+  "withdraw.placedPet.warning": "Bu evcil hayvan çiftliğinize yerleştirilir ve geri çekildiğinde çıkarılır."
 }

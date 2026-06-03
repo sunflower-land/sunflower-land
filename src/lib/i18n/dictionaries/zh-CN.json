@@ -9029,5 +9029,9 @@
   "inventory.sort.amount": "金额",
   "inventory.sort.name": "姓名 (A-Z)",
   "inventory.noResults": "没有与您的搜索条件相匹配的商品。",
-  "farmHands": "农场之手"
+  "farmHands": "农场之手",
+  "withdraw.placed.warning": "撤回已放置的收藏品会将其从您的农场、家中或室内移走。",
+  "withdraw.equipped.warning": "撤回装备好的可穿戴设备会使它无法从你的 Bumpkin 和农民手中夺走装备。",
+  "withdraw.placedBud.warning": "此花蕾已放置在您的农场中，撤回后将被移除。",
+  "withdraw.placedPet.warning": "这只宠物被放置在你的农场里，撤回后将被移除。"
 }

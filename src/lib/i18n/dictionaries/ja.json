@@ -9029,5 +9029,9 @@
   "inventory.sort.amount": "金額",
   "inventory.sort.name": "名前 (アルファベット順)",
   "inventory.noResults": "検索条件に一致する商品はありません。",
-  "farmHands": "ファームハンズ"
+  "farmHands": "ファームハンズ",
+  "withdraw.placed.warning": "置いた収集品を引き出すと、農場、家、またはインテリアから削除されます。",
+  "withdraw.equipped.warning": "装備しているウェアラブルを撤回すると、バンプキンや農家の手から装備が解除されます。",
+  "withdraw.placedBud.warning": "このつぼみはあなたの農場に置かれ、引き出すと削除されます。",
+  "withdraw.placedPet.warning": "このペットは農場に置かれ、退去時に削除されます。"
 }

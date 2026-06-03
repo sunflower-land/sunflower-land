@@ -9029,5 +9029,9 @@
   "inventory.sort.amount": "Betrag",
   "inventory.sort.name": "Name (A-Z)",
   "inventory.noResults": "Keine Artikel entsprechen Ihrer Suche.",
-  "farmHands": "Farmarbeiter"
+  "farmHands": "Farmarbeiter",
+  "withdraw.placed.warning": "Wenn du ein platziertes Sammlerstück zurückziehst, wird es von deiner Farm, deinem Zuhause oder deiner Inneneinrichtung entfernt.",
+  "withdraw.equipped.warning": "Wenn du ein ausgerüstetes Wearable zurückziehst, wird es deinem Bumpkin und den Farmarbeitern entzogen.",
+  "withdraw.placedBud.warning": "Diese Knospe wird auf deiner Farm platziert und entfernt, wenn sie entfernt wird.",
+  "withdraw.placedPet.warning": "Dieses Haustier wird auf deiner Farm platziert und entfernt, wenn es zurückgezogen wird."
 }

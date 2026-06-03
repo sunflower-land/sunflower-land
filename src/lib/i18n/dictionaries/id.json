@@ -9029,5 +9029,9 @@
   "inventory.sort.amount": "Jumlah",
   "inventory.sort.name": "Nama (A-Z)",
   "inventory.noResults": "Tidak ada item yang cocok dengan pencarian Anda.",
-  "farmHands": "Tangan Pertanian"
+  "farmHands": "Tangan Pertanian",
+  "withdraw.placed.warning": "Menarik barang koleksi yang ditempatkan akan menghapusnya dari pertanian, rumah, atau interior Anda.",
+  "withdraw.equipped.warning": "Menarik perangkat yang dapat dikenakan yang dilengkapi akan melepaskannya dari Bumpkin dan petani Anda.",
+  "withdraw.placedBud.warning": "Tunas ini ditempatkan di peternakan Anda dan akan dihapus saat ditarik.",
+  "withdraw.placedPet.warning": "Hewan peliharaan ini ditempatkan di peternakan Anda dan akan dihapus saat ditarik."
 }
