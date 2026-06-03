@@ -8981,7 +8981,7 @@
   "marketplace.browseMarketplace": "浏览市场",
   "marketplace.purchase": "购买",
   "withdraw.notOnChain": "该物品尚未上链。按需提取功能即将推出。",
-  "withdraw.restricted.description": "部分物品无法提取。其他物品在使用中或建造中时可能会受到提取限制。制。",
+  "withdraw.restricted.description": "部分物品无法提取。其他物品在使用中或建造中时可能会受到提取限制。",
   "withdraw.restricted": "提取受限",
   "landscaping.quickPanel.empty.flowers": "暂无可用花卉。",
   "bedsMigration.bedsNeededDescription": "在锻打箱制作床铺，为您的农场解锁额外的雇农。",
@@ -9022,6 +9022,6 @@
   "deposit.detail.empty": "选择一件物品以查看其详情以及是否可以存入。",
   "deposit.search.noResults": "没有符合您搜索条件的物品。",
   "gameOptions.blockchainSettings.movedToBank": "存入与提取功能已移至哥布林聚居地的哥布林银行。",
-  "gameOptions.blockchainSettings.movedToBank.fullUsers": "存入、提取与转账功能已移至布林聚居地的哥布林银行。",
+  "gameOptions.blockchainSettings.movedToBank.fullUsers": "存入、提取与转账功能已移至哥布林聚居地的哥布林银行。",
   "gameOptions.blockchainSettings.goToBank": "前往哥布林银行"
 }
