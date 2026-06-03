@@ -9034,5 +9034,10 @@
   "withdraw.equipped.warning": "Si vous retirez un appareil portable équipé, vous le déséquiperez de votre Bumpkin et de vos ouvriers agricoles.",
   "withdraw.placedBud.warning": "Ce bourgeon est placé dans votre ferme et sera retiré une fois retiré.",
   "withdraw.placedPet.warning": "Cet animal est placé dans votre ferme et sera retiré une fois retiré.",
-  "marketplace.favoritesDescription": "Accédez rapidement à vos articles préférés"
+  "marketplace.favoritesDescription": "Accédez rapidement à vos articles préférés",
+  "animal.overCapacity": "Surcapacité ! Votre animal ne veut pas être nourri.",
+  "lockedAnimal.title": "Surcapacité",
+  "lockedAnimal.locked": "Verrouillé",
+  "lockedAnimal.description": "Ce {{animal}} est supérieur à la capacité de votre bâtiment, il est donc devenu inactif et ne peut pas être alimenté. Il peut encore être guéri et vendu à des primes.",
+  "lockedAnimal.howToUnlock": "Replacez l'objet de collection qui augmente les capacités ou améliorez le bâtiment pour le déverrouiller à nouveau."
 }

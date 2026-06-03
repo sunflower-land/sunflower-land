@@ -9034,5 +9034,10 @@
   "withdraw.equipped.warning": "装備しているウェアラブルを撤回すると、バンプキンや農家の手から装備が解除されます。",
   "withdraw.placedBud.warning": "このつぼみはあなたの農場に置かれ、引き出すと削除されます。",
   "withdraw.placedPet.warning": "このペットは農場に置かれ、退去時に削除されます。",
-  "marketplace.favoritesDescription": "お気に入りのアイテムにすばやくアクセス"
+  "marketplace.favoritesDescription": "お気に入りのアイテムにすばやくアクセス",
+  "animal.overCapacity": "容量オーバーです！あなたの動物はエサをもらいたくないのです。",
+  "lockedAnimal.title": "オーバーキャパシティ",
+  "lockedAnimal.locked": "ロック済み",
+  "lockedAnimal.description": "この {{animal}} は建物の容量を超えているため、休眠状態になり、給餌できません。それでも修復して報奨金に売ることはできます。",
+  "lockedAnimal.howToUnlock": "キャパシティブーストコレクションを再配置するか、建物をレベルアップして再びロックを解除してください。"
 }

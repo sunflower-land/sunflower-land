@@ -9034,5 +9034,10 @@
   "withdraw.equipped.warning": "Donanımlı bir giyilebilir cihazı geri çekmek, onu Bumpkin\"inizden ve çiftçilerinizden kurtaracaktır..",
   "withdraw.placedBud.warning": "Bu Tomurcuk çiftliğinize yerleştirilir ve geri çekildiğinde kaldırılacaktır.",
   "withdraw.placedPet.warning": "Bu evcil hayvan çiftliğinize yerleştirilir ve geri çekildiğinde çıkarılır.",
-  "marketplace.favoritesDescription": "Favori öğelerinize hızlı bir şekilde erişin"
+  "marketplace.favoritesDescription": "Favori öğelerinize hızlı bir şekilde erişin",
+  "animal.overCapacity": "Aşırı kapasite! Hayvanınız beslenmek istemiyor.",
+  "lockedAnimal.title": "Aşırı Kapasite",
+  "lockedAnimal.locked": "Kilitli",
+  "lockedAnimal.description": "Bu {{animal}} binanızın kapasitesinin üzerindedir, bu nedenle uykuda kaldı ve beslenemiyor. Hala tedavi edilebilir ve ödüllere satılabilir.",
+  "lockedAnimal.howToUnlock": "Kapasite artırıcı koleksiyon parçasını yeniden yerleştirin veya tekrar kilidini açmak için binanın seviyesini yükseltin."
 }

@@ -9034,5 +9034,10 @@
   "withdraw.equipped.warning": "Menarik perangkat yang dapat dikenakan yang dilengkapi akan melepaskannya dari Bumpkin dan petani Anda.",
   "withdraw.placedBud.warning": "Tunas ini ditempatkan di peternakan Anda dan akan dihapus saat ditarik.",
   "withdraw.placedPet.warning": "Hewan peliharaan ini ditempatkan di peternakan Anda dan akan dihapus saat ditarik.",
-  "marketplace.favoritesDescription": "Akses item favorit Anda dengan cepat"
+  "marketplace.favoritesDescription": "Akses item favorit Anda dengan cepat",
+  "animal.overCapacity": "Kapasitas berlebih! Hewan Anda tidak ingin diberi makan.",
+  "lockedAnimal.title": "Kapasitas Berlebih",
+  "lockedAnimal.locked": "Terkunci",
+  "lockedAnimal.description": "{{animal}} ini melebihi kapasitas bangunan Anda, jadi sudah tidak aktif dan tidak dapat diberi makan. Itu masih bisa disembuhkan dan dijual ke hadiah.",
+  "lockedAnimal.howToUnlock": "Tempatkan kembali barang koleksi penambah kapasitas, atau naikkan level bangunan untuk membukanya lagi."
 }

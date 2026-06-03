@@ -9034,5 +9034,10 @@
   "withdraw.equipped.warning": "撤回装备好的可穿戴设备会使它无法从你的 Bumpkin 和农民手中夺走装备。",
   "withdraw.placedBud.warning": "此花蕾已放置在您的农场中，撤回后将被移除。",
   "withdraw.placedPet.warning": "这只宠物被放置在你的农场里，撤回后将被移除。",
-  "marketplace.favoritesDescription": "快速访问你最喜欢的物品"
+  "marketplace.favoritesDescription": "快速访问你最喜欢的物品",
+  "animal.overCapacity": "容量过大！你的动物不想被喂食。",
+  "lockedAnimal.title": "容量过大",
+  "lockedAnimal.locked": "已锁定",
+  "lockedAnimal.description": "这 {{animal}} 已超出建筑物的容量，因此它已进入休眠状态，无法喂食。它仍然可以治愈并出售给赏金。",
+  "lockedAnimal.howToUnlock": "更换容量提升收藏品，或者升级建筑物以再次将其解锁。"
 }

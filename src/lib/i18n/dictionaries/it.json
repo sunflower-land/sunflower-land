@@ -9034,5 +9034,10 @@
   "withdraw.equipped.warning": "Il ritiro di un dispositivo indossabile equipaggiato lo disequipaggerà dai tuoi Bumpkin e dai tuoi braccianti.",
   "withdraw.placedBud.warning": "Questa gemma viene posizionata nella tua fattoria e verrà rimossa una volta ritirata.",
   "withdraw.placedPet.warning": "Questo animale domestico viene collocato nella tua fattoria e verrà rimosso una volta ritirato.",
-  "marketplace.favoritesDescription": "Accedi rapidamente ai tuoi articoli preferiti"
+  "marketplace.favoritesDescription": "Accedi rapidamente ai tuoi articoli preferiti",
+  "animal.overCapacity": "Sovraccapacità! Il tuo animale non vuole essere nutrito.",
+  "lockedAnimal.title": "Capacità eccessiva",
+  "lockedAnimal.locked": "Bloccato",
+  "lockedAnimal.description": "Questo {{animal}} ha superato la capacità del tuo edificio, quindi è inattivo e non può essere alimentato. Può ancora essere curato e venduto in cambio di ricompense.",
+  "lockedAnimal.howToUnlock": "Riposiziona il collezionabile che aumenta la capacità o fai salire di livello l'edificio per sbloccarlo nuovamente."
 }

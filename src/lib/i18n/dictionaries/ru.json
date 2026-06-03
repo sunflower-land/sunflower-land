@@ -9034,5 +9034,10 @@
   "withdraw.equipped.warning": "Withdrawing an equipped wearable will unequip it from your Bumpkin and farmhands.",
   "withdraw.placedBud.warning": "This Bud is placed on your farm and will be removed when withdrawn.",
   "withdraw.placedPet.warning": "This pet is placed on your farm and will be removed when withdrawn.",
-  "marketplace.favoritesDescription": "Quickly access your favorite items"
+  "marketplace.favoritesDescription": "Quickly access your favorite items",
+  "animal.overCapacity": "Over capacity! Your animal doesn't want to be fed.",
+  "lockedAnimal.title": "Over Capacity",
+  "lockedAnimal.locked": "Locked",
+  "lockedAnimal.description": "This {{animal}} is over your building's capacity, so it has gone dormant and can't be fed. It can still be cured and sold to bounties.",
+  "lockedAnimal.howToUnlock": "Re-place the capacity boosting collectible, or level up the building to unlock it again."
 }
