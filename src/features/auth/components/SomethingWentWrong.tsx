@@ -198,9 +198,7 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
           {t("error.connection.two")}
         </p>
       </div>
-      {onAcknowledge && (
-        <Button onClick={onAcknowledge}>{t("try.again")}</Button>
-      )}
+      {onAcknowledge && <Button onClick={onAcknowledge}>{t("refresh")}</Button>}
 
       <SystemMessageWidget />
     </>
