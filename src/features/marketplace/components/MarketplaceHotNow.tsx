@@ -143,6 +143,33 @@ export const MarketplaceHotNow: React.FC = () => {
                 </div>
               </ButtonPanel>
             </div>
+
+            <div className="w-full sm:w-1/3 xl:w-1/4 pr-1">
+              <ButtonPanel
+                className="w-full h-full"
+                onClick={() =>
+                  navigate(
+                    `${isWorldRoute ? "/world" : ""}/marketplace/favorites`,
+                  )
+                }
+              >
+                <div className="flex items-center">
+                  <img src={SUNNYSIDE.icons.heart} className="w-10 mr-2" />
+                  <div className="flex-1">
+                    <div className="flex justify-between items-center">
+                      <p>{t("marketplace.favorites")}</p>
+                      <img
+                        src={SUNNYSIDE.icons.chevron_right}
+                        className="h-4"
+                      />
+                    </div>
+                    <p className="text-xs">
+                      {t("marketplace.favoritesDescription")}
+                    </p>
+                  </div>
+                </div>
+              </ButtonPanel>
+            </div>
           </div>
         </div>
       </InnerPanel>
