@@ -43,6 +43,7 @@ import {
 } from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
+import { getDayOfYear, secondsTillReset } from "lib/utils/time";
 import {
   BUMPKIN_FLOWER_BONUSES,
   DEFAULT_FLOWER_POINTS,
@@ -733,9 +734,21 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   const game = gameState.context.state;
   const [showFlowers, setShowFlowers] = useState(false);
+  const [showSkipDialog, setShowSkipDialog] = useState(false);
   const [gift, setGift] = useState<Airdrop>();
 
   const delivery = game.delivery.orders.find((order) => order.from === npc);
+
+  const canSkip =
+    !!delivery &&
+    getDayOfYear(new Date(now)) !== getDayOfYear(new Date(delivery.createdAt));
+
+  const skip = () => {
+    setShowSkipDialog(false);
+    gameService.send("order.skipped", { id: delivery?.id });
+    gameService.send("SAVE");
+    onClose?.();
+  };
 
   const { holiday } = getBumpkinHoliday({ now });
 
@@ -847,6 +860,41 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     );
   }
 
+  if (showSkipDialog) {
+    return (
+      <InnerPanel>
+        <div className="flex-1 space-y-2 p-1">
+          <p className="text-xs">{t("orderhelp.Skip.hour")}</p>
+          {canSkip && <p className="text-xs">{t("choose.wisely")}</p>}
+          {!canSkip && (
+            <>
+              <p className="text-xs font-secondary">
+                {`${t("orderhelp.SkipIn")}:`}
+              </p>
+              <div className="flex-1">
+                <RequirementLabel
+                  type="time"
+                  waitSeconds={secondsTillReset()}
+                />
+              </div>
+            </>
+          )}
+        </div>
+        {canSkip && (
+          <div className="flex flex-col gap-1">
+            <Button onClick={() => setShowSkipDialog(false)}>
+              {t("orderhelp.NoRight")}
+            </Button>
+            <Button onClick={skip}>{t("skip.order")}</Button>
+          </div>
+        )}
+        {!canSkip && (
+          <Button onClick={() => setShowSkipDialog(false)}>{t("back")}</Button>
+        )}
+      </InnerPanel>
+    );
+  }
+
   return (
     <>
       {showFlowers && (
@@ -950,6 +998,18 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                     hasRequirementsCheck={() => true}
                     onDeliver={deliver}
                   />
+                  {!delivery.completedAt &&
+                    !isLocked &&
+                    !missingRequiredReputation &&
+                    delivery.readyAt <= now && (
+                      <p
+                        className="underline font-secondary text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
+                        onClick={() => setShowSkipDialog(true)}
+                      >
+                        {t("skip.order")}
+                        {"?"}
+                      </p>
+                    )}
                 </>
               )}
               {deliveryFrozen && (

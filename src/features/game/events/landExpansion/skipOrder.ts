@@ -24,6 +24,11 @@ export function skipOrder({
 
     if (!order) throw new Error(`Order ${action.id} not found`);
 
+    if (order.completedAt) throw new Error(`Order already completed`);
+
+    if (order.readyAt > createdAt)
+      throw new Error(`Order ${action.id} is not ready yet`);
+
     if (
       getDayOfYear(new Date(createdAt)) ===
         getDayOfYear(new Date(order.createdAt)) &&
@@ -42,7 +47,16 @@ export function skipOrder({
     game.delivery.orders = populateOrders(game, createdAt, true);
 
     game.delivery.skippedAt = createdAt;
-    game.delivery.skippedCount = game.delivery.skippedCount ?? 0 + 1;
+    game.delivery.skippedCount = (game.delivery.skippedCount ?? 0) + 1;
+
+    const npcs = game.npcs ?? {};
+    const npc = npcs[order.from] ?? { deliveryCount: 0 };
+    npc.skippedCount = (npc.skippedCount ?? 0) + 1;
+
+    game.npcs = {
+      ...npcs,
+      [order.from]: npc,
+    };
 
     return game;
   });
