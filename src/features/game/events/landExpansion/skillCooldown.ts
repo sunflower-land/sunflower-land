@@ -15,13 +15,16 @@ export function isCooldownSkill(skill: BumpkinRevampSkillName): boolean {
   return COOLDOWN_SKILLS.includes(skill);
 }
 
-// Milliseconds until `skill` can be removed again, or 0 if it's free now. Only
-// meaningful for cooldown skills — callers gate on isCooldownSkill first.
+// Milliseconds until `skill` can be removed again, or 0 if it's free now.
+// Non-cooldown skills are never on cooldown, so a stale stamp left in the map
+// (e.g. from the old symmetric behaviour) is ignored rather than honored until
+// pruneExpiredSkillCooldowns runs.
 export function getRemainingSkillCooldownMs(
   map: SkillLastChangedAt | undefined,
   skill: BumpkinRevampSkillName,
   now: number,
 ): number {
+  if (!isCooldownSkill(skill)) return 0;
   const stamp = map?.[skill];
   if (stamp == null) return 0;
   const remaining = stamp + SKILL_COOLDOWN_MS - now;

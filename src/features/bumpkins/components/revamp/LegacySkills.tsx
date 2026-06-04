@@ -42,6 +42,7 @@ export const LegacySkills: React.FC<Props> = ({ readonly }) => {
     >
       {!selectedSkillPath && (
         <LegacySkillCategoryList
+          readonly={readonly}
           onClick={(category) => onSkillCategoryClickHandler(category)}
         />
       )}

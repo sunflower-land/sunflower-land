@@ -143,6 +143,7 @@ export const Skills: React.FC<Props> = ({ readonly, onEditingChange }) => {
           isEditing={isEditing}
           hasChanges={hasChanges}
           validationError={validationError}
+          readonly={readonly}
           onStartEditing={startEditing}
           onCancelEditing={cancelEditing}
           onRemoveAllSkills={removeAllDraftSkills}

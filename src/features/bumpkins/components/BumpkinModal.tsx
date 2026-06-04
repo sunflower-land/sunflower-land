@@ -140,6 +140,16 @@ export const BumpkinModal: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const now = useNow();
 
+  // Editing only locks the modal while the editable Skills UI is actually
+  // mounted. If we navigate away, switch to a read-only view, or lose
+  // EDIT_SKILLSET access mid-edit, drop the lock — otherwise onClose stays
+  // suppressed and the modal can no longer be closed.
+  const skillsEditingLocked =
+    isSkillsEditing &&
+    tab === "skills" &&
+    !readonly &&
+    hasFeatureAccess(gameState, "EDIT_SKILLSET");
+
   useEffect(() => {
     if (!readonly) {
       localStorage.setItem("bumpkinModalTab", tab);
@@ -230,7 +240,7 @@ export const BumpkinModal: React.FC<Props> = ({
 
     // While the player is mid-edit on the Skills tab, suppress the other tabs
     // so they can't navigate away and lose the draft.
-    if (isSkillsEditing) {
+    if (skillsEditingLocked) {
       return [
         {
           id: "skills",
@@ -268,7 +278,7 @@ export const BumpkinModal: React.FC<Props> = ({
     <CloseButtonPanel
       currentTab={tab}
       setCurrentTab={setTab}
-      onClose={isSkillsEditing && tab === "skills" ? undefined : onClose}
+      onClose={skillsEditingLocked ? undefined : onClose}
       tabs={renderTabs()}
       container={tab === "skills" || tab === "feed" ? OuterPanel : undefined}
     >
