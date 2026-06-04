@@ -28,6 +28,7 @@ import { buyBlockBucksXsolla as buyGemsXsolla } from "features/game/actions/buyG
 import { useNavigate } from "react-router";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { GOBLIN_RETREAT_LEVEL } from "./settings-menu/blockchain-settings/BlockchainSettings";
 
 import flowerIcon from "assets/icons/flower_token.webp";
 import vipIcon from "assets/icons/vip.webp";
@@ -63,10 +64,6 @@ type Props = {
   initialPage?: TransactionPage;
   onClose: () => void;
 };
-
-// Minimum Bumpkin level required to travel to the Goblin Retreat
-// (matches the gate on the world travel map).
-const GOBLIN_RETREAT_LEVEL = 5;
 
 const _token = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
@@ -266,6 +263,7 @@ export const CurrenciesModal: React.FC<Props> = ({
                     <img
                       src={SUNNYSIDE.icons.arrow_left}
                       className="w-6 cursor-pointer mr-2"
+                      alt={t("back")}
                       onClick={() => setPage("menu")}
                     />
                     <Label type="default" icon={flowerIcon}>
