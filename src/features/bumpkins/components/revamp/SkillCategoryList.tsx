@@ -56,6 +56,7 @@ export const SkillCategoryList: React.FC<{
   isEditing: boolean;
   hasChanges: boolean;
   validationError?: string;
+  readonly: boolean;
   onStartEditing: () => void;
   onCancelEditing: () => void;
   onRemoveAllSkills: () => void;
@@ -66,6 +67,7 @@ export const SkillCategoryList: React.FC<{
   isEditing,
   hasChanges,
   validationError,
+  readonly,
   onStartEditing,
   onCancelEditing,
   onRemoveAllSkills,
@@ -280,57 +282,59 @@ export const SkillCategoryList: React.FC<{
             </div>
           );
         })}
-        <div className="flex flex-col m-1">
-          <div className="flex flex-row items-center justify-between gap-3">
-            {!isEditing ? (
-              <p
-                className="text-xs cursor-pointer underline py-1"
-                onClick={() => setShowEditSkillsModal(true)}
-              >
-                {t("skillEdit.editSkills")}
-              </p>
-            ) : (
-              <>
+        {!readonly && (
+          <div className="flex flex-col m-1">
+            <div className="flex flex-row items-center justify-between gap-3">
+              {!isEditing ? (
                 <p
-                  className={classNames("text-xs underline py-1", {
-                    "cursor-pointer":
-                      hasDisplayedSkills && !showApplyChangesConfirmation,
-                    "opacity-50 cursor-not-allowed": !hasDisplayedSkills,
-                  })}
-                  onClick={
-                    hasDisplayedSkills && !showApplyChangesConfirmation
-                      ? onRemoveAllSkills
-                      : undefined
-                  }
+                  className="text-xs cursor-pointer underline py-1"
+                  onClick={() => setShowEditSkillsModal(true)}
                 >
-                  {t("skillEdit.removeAllSkills")}
+                  {t("skillEdit.editSkills")}
                 </p>
-                <div className="flex flex-row items-center gap-3">
-                  <p
-                    className="text-xs cursor-pointer underline py-1"
-                    onClick={handleCancelEditing}
-                  >
-                    {t("cancel")}
-                  </p>
+              ) : (
+                <>
                   <p
                     className={classNames("text-xs underline py-1", {
-                      "cursor-pointer": hasChanges && !validationError,
-                      "opacity-50 cursor-not-allowed":
-                        !hasChanges || !!validationError,
+                      "cursor-pointer":
+                        hasDisplayedSkills && !showApplyChangesConfirmation,
+                      "opacity-50 cursor-not-allowed": !hasDisplayedSkills,
                     })}
                     onClick={
-                      hasChanges && !validationError
-                        ? () => setShowApplyChangesConfirmation(true)
+                      hasDisplayedSkills && !showApplyChangesConfirmation
+                        ? onRemoveAllSkills
                         : undefined
                     }
                   >
-                    {t("skillEdit.applyChanges")}
+                    {t("skillEdit.removeAllSkills")}
                   </p>
-                </div>
-              </>
-            )}
+                  <div className="flex flex-row items-center gap-3">
+                    <p
+                      className="text-xs cursor-pointer underline py-1"
+                      onClick={handleCancelEditing}
+                    >
+                      {t("cancel")}
+                    </p>
+                    <p
+                      className={classNames("text-xs underline py-1", {
+                        "cursor-pointer": hasChanges && !validationError,
+                        "opacity-50 cursor-not-allowed":
+                          !hasChanges || !!validationError,
+                      })}
+                      onClick={
+                        hasChanges && !validationError
+                          ? () => setShowApplyChangesConfirmation(true)
+                          : undefined
+                      }
+                    >
+                      {t("skillEdit.applyChanges")}
+                    </p>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </InnerPanel>
 
       <Modal

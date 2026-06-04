@@ -54,7 +54,8 @@ const _state = (state: MachineState) => state.context.state;
 
 export const LegacySkillCategoryList: React.FC<{
   onClick: (category: BumpkinRevampSkillTree) => void;
-}> = ({ onClick }) => {
+  readonly: boolean;
+}> = ({ onClick, readonly }) => {
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
@@ -107,6 +108,8 @@ export const LegacySkillCategoryList: React.FC<{
       paymentType: resetType,
     });
     setShowSkillsResetModal(false);
+    // Reset the confirmation step so the modal reopens at the initial view.
+    setShowSkillsResetConfirmation(false);
 
     if (resetType === "gems") {
       gameAnalytics.trackSink({
@@ -208,14 +211,16 @@ export const LegacySkillCategoryList: React.FC<{
             </div>
           );
         })}
-        <div className="flex flex-row items-center m-1">
-          <p
-            className="text-xs cursor-pointer underline py-1"
-            onClick={() => setShowSkillsResetModal(true)}
-          >
-            {t("skillReset.resetSkills")}
-          </p>
-        </div>
+        {!readonly && (
+          <div className="flex flex-row items-center m-1">
+            <p
+              className="text-xs cursor-pointer underline py-1"
+              onClick={() => setShowSkillsResetModal(true)}
+            >
+              {t("skillReset.resetSkills")}
+            </p>
+          </div>
+        )}
       </InnerPanel>
 
       <Modal
