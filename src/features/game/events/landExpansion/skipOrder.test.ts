@@ -134,7 +134,67 @@ describe("skipOrder", () => {
     ).toBeDefined();
   });
 
-  it("increments the skippedAt count", async () => {
+  it("throws an error if the order is already completed", () => {
+    const id = "ORDER";
+
+    const order: Order = {
+      from: "betty",
+      createdAt: 0,
+      id,
+      items: {},
+      readyAt: 0,
+      reward: {},
+      completedAt: 123,
+    };
+
+    expect(() =>
+      skipOrder({
+        state: {
+          ...GAME_STATE,
+          delivery: {
+            ...GAME_STATE.delivery,
+            orders: [order],
+          },
+        },
+        action: {
+          type: "order.skipped",
+          id,
+        },
+      }),
+    ).toThrow(`Order already completed`);
+  });
+
+  it("throws an error if the order is not ready yet", () => {
+    const id = "ORDER";
+
+    const order: Order = {
+      from: "betty",
+      createdAt: 0,
+      id,
+      items: {},
+      readyAt: 2000,
+      reward: {},
+    };
+
+    expect(() =>
+      skipOrder({
+        state: {
+          ...GAME_STATE,
+          delivery: {
+            ...GAME_STATE.delivery,
+            orders: [order],
+          },
+        },
+        action: {
+          type: "order.skipped",
+          id,
+        },
+        createdAt: 1000,
+      }),
+    ).toThrow(`Order ${id} is not ready yet`);
+  });
+
+  it("increments the existing skipped count", async () => {
     const id = "ORDER";
 
     const order: Order = {
@@ -151,6 +211,7 @@ describe("skipOrder", () => {
         ...GAME_STATE,
         delivery: {
           ...GAME_STATE.delivery,
+          skippedCount: 2,
           orders: [order],
         },
       },
@@ -160,6 +221,38 @@ describe("skipOrder", () => {
       },
     });
 
-    expect(state.delivery.skippedCount).toBe(1);
+    expect(state.delivery.skippedCount).toBe(3);
+  });
+
+  it("increments the per-NPC skipped count", async () => {
+    const id = "ORDER";
+
+    const order: Order = {
+      from: "betty",
+      createdAt: 0,
+      id,
+      items: {},
+      readyAt: 0,
+      reward: {},
+    };
+
+    const state = skipOrder({
+      state: {
+        ...GAME_STATE,
+        npcs: {
+          betty: { deliveryCount: 5, skippedCount: 1 },
+        },
+        delivery: {
+          ...GAME_STATE.delivery,
+          orders: [order],
+        },
+      },
+      action: {
+        type: "order.skipped",
+        id,
+      },
+    });
+
+    expect(state.npcs?.betty?.skippedCount).toBe(2);
   });
 });
