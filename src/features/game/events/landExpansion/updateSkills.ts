@@ -1,4 +1,3 @@
-import Decimal from "decimal.js-light";
 import type { GameState, Skills } from "features/game/types/game";
 import { populateSaltFarm } from "features/game/types/salt";
 import { produce } from "immer";
@@ -7,14 +6,10 @@ import {
   sanitizeSkillSelection,
   validateSkillSelection,
 } from "./choseSkill";
-import {
-  MAX_FREE_POINTS,
-  REGEN_AMOUNT,
-  chargeSkillEdit,
-  getEffectiveFreeSkillPoints,
-} from "./chargeSkillEdit";
+import { chargeSkillEdit } from "./chargeSkillEdit";
 import {
   getRemainingSkillCooldownMs,
+  isCooldownSkill,
   pruneExpiredSkillCooldowns,
 } from "./skillCooldown";
 import type { BumpkinRevampSkillName } from "features/game/types/bumpkinSkills";
@@ -23,9 +18,9 @@ import { hasFeatureAccess } from "lib/flags";
 export type UpdateSkillsAction = {
   type: "skills.updated";
   skills: Skills;
-  // Optional: consume 1 Skill Reset Ticket as part of this apply. Granted
-  // +REGEN_AMOUNT to the free balance (capped at MAX_FREE_POINTS) before the
-  // edit is charged, atomically. Throws if the player has no ticket.
+  // Optional: offer 1 Skill Reset Ticket toward this apply. The ticket grants
+  // +REGEN_AMOUNT free balance (capped at MAX_FREE_POINTS) and is consumed only
+  // when that actually lowers the gem cost — see chargeSkillEdit.
   useTicket?: boolean;
 };
 
@@ -67,14 +62,19 @@ export function updateSkills({
       throw new Error("No skill changes to apply");
     }
 
-    // Every skill whose on/off state flipped — either being added or being
-    // removed — is subject to the 7-day per-skill cooldown.
-    const transitioned = [...new Set([...currentKeys, ...newKeys])].filter(
-      (key) => !currentKeys.includes(key) || !newKeys.includes(key),
+    const addedSkills = newKeys.filter(
+      (key) => !currentKeys.includes(key),
+    ) as BumpkinRevampSkillName[];
+    const removedSkills = currentKeys.filter(
+      (key) => !newKeys.includes(key),
     ) as BumpkinRevampSkillName[];
 
+    // Double Nom and Ager can't be removed until SKILL_COOLDOWN_MS after they
+    // were picked. Adding any skill is always allowed and every other skill is
+    // freely removable, so clearing a build never gets stuck.
     const cooldownMap = stateCopy.bumpkin.skillLastChangedAt;
-    for (const skill of transitioned) {
+    for (const skill of removedSkills) {
+      if (!isCooldownSkill(skill)) continue;
       const remaining = getRemainingSkillCooldownMs(
         cooldownMap,
         skill,
@@ -87,49 +87,24 @@ export function updateSkills({
 
     const pointsRemoved = getPointsRemoved(stateCopy.bumpkin.skills, skills);
 
-    if (action.useTicket) {
-      // A ticket is intended to offset gem cost of *removing* skills. A
-      // pure-addition edit has no cost to offset, so the ticket would just
-      // grant +50 free balance without anything to consume it — reject
-      // defensively. The UI never offers the toggle in this case anyway.
-      if (pointsRemoved === 0) {
-        throw new Error(
-          "Skill Reset Ticket can only be used when removing skills",
-        );
-      }
-
-      const ticketBalance =
-        stateCopy.inventory["Skill Reset Ticket"] ?? new Decimal(0);
-      if (ticketBalance.lt(1)) {
-        throw new Error("You do not have a Skill Reset Ticket");
-      }
-
-      // Apply pending regen before bumping so the cap is honored against an
-      // up-to-date balance. Surplus past MAX_FREE_POINTS is wasted by design.
-      const { balance, lastRegenAt } = getEffectiveFreeSkillPoints(
-        stateCopy.bumpkin,
-        createdAt,
-      );
-      stateCopy.bumpkin.freeSkillPoints = Math.min(
-        MAX_FREE_POINTS,
-        balance + REGEN_AMOUNT,
-      );
-      stateCopy.bumpkin.lastFreeSkillPointsRegenAt = lastRegenAt;
-      stateCopy.inventory["Skill Reset Ticket"] = ticketBalance.minus(1);
-    }
-
     chargeSkillEdit({
       game: stateCopy,
       pointsRemoved,
+      useTicket: action.useTicket,
       createdAt,
     });
 
     stateCopy.bumpkin.skills = skills;
 
-    // Stamp the cooldown clock for every skill that transitioned, then drop
-    // any expired entries so the map stays bounded.
+    // Stamp the pick time for any cooldown skill just added, clear it for any
+    // just removed, then prune so the map stays bounded.
     const nextCooldown = { ...(stateCopy.bumpkin.skillLastChangedAt ?? {}) };
-    for (const skill of transitioned) nextCooldown[skill] = createdAt;
+    for (const skill of addedSkills) {
+      if (isCooldownSkill(skill)) nextCooldown[skill] = createdAt;
+    }
+    for (const skill of removedSkills) {
+      if (isCooldownSkill(skill)) delete nextCooldown[skill];
+    }
     pruneExpiredSkillCooldowns(nextCooldown, createdAt);
     stateCopy.bumpkin.skillLastChangedAt = nextCooldown;
 

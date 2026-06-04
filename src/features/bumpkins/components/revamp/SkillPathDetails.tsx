@@ -36,7 +36,10 @@ import { SKILL_TREE_ICONS } from "./SkillCategoryList";
 import { SkillsEditHeader } from "./SkillsEditHeader";
 import tradeOffs from "src/assets/icons/tradeOffs.png";
 import { getSkillCooldown } from "features/game/events/landExpansion/skillUsed";
-import { getRemainingSkillCooldownMs } from "features/game/events/landExpansion/skillCooldown";
+import {
+  getRemainingSkillCooldownMs,
+  isCooldownSkill,
+} from "features/game/events/landExpansion/skillCooldown";
 import { useNow } from "lib/utils/hooks/useNow";
 import type { Skills } from "features/game/types/game";
 import classNames from "classnames";
@@ -161,16 +164,19 @@ export const SkillPathDetails: React.FC<Props> = ({
       nextSkills[skillName as keyof Skills] = 1;
     }
 
-    // Block both directions when the skill is still inside its 7-day cooldown.
-    const cooldownRemaining = getRemainingSkillCooldownMs(
-      bumpkin.skillLastChangedAt,
-      skillName,
-      now,
-    );
-    if (cooldownRemaining > 0) {
-      return t("skillEdit.cooldown", {
-        time: formatCooldown(cooldownRemaining),
-      });
+    // Double Nom / Ager can't be removed until their cooldown elapses. Adding
+    // is always allowed and every other skill is freely changeable.
+    if (hasSkill && isCooldownSkill(skillName)) {
+      const cooldownRemaining = getRemainingSkillCooldownMs(
+        bumpkin.skillLastChangedAt,
+        skillName,
+        now,
+      );
+      if (cooldownRemaining > 0) {
+        return t("skillEdit.cooldown", {
+          time: formatCooldown(cooldownRemaining),
+        });
+      }
     }
 
     try {
@@ -192,21 +198,13 @@ export const SkillPathDetails: React.FC<Props> = ({
     }
   };
   const editDisabledReason = getEditDisabledReason(selectedSkill);
-  // Cooldown also blocks the non-edit Claim button so a player can't bypass
-  // it by exiting edit mode and re-picking the skill via skill.chosen.
-  const selectedSkillCooldownRemaining = getRemainingSkillCooldownMs(
-    bumpkin.skillLastChangedAt,
-    name as BumpkinRevampSkillName,
-    now,
-  );
   const isClaimDisabled = isEditing
     ? (disabled && !hasSelectedSkill) || readonly || !!editDisabledReason
     : hasSelectedSkill ||
       missingPointRequirement ||
       missingSkillsRequirement ||
       disabled ||
-      readonly ||
-      selectedSkillCooldownRemaining > 0;
+      readonly;
 
   const handleClaim = () => {
     if (isEditing) {
@@ -330,15 +328,6 @@ export const SkillPathDetails: React.FC<Props> = ({
           {/* Claim/Claimed/Use Button */}
           {!readonly && (
             <div className="flex flex-col w-full">
-              {!isEditing &&
-                !hasSelectedSkill &&
-                selectedSkillCooldownRemaining > 0 && (
-                  <Label type="warning" className="mb-1">
-                    {t("skillEdit.cooldown", {
-                      time: formatCooldown(selectedSkillCooldownRemaining),
-                    })}
-                  </Label>
-                )}
               {isEditing ? (
                 <div className="flex flex-col w-full">
                   <Button disabled={isClaimDisabled} onClick={handleClaim}>

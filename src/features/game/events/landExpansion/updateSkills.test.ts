@@ -476,13 +476,14 @@ describe("updateSkills", () => {
       expect(result.inventory.Gem?.toNumber()).toEqual(0);
     });
 
-    it("caps the ticket bump at MAX_FREE_POINTS even with surplus", () => {
+    it("does not consume the ticket when the free balance already covers the cost", () => {
       const result = updateSkills({
         state: {
           ...TEST_FARM,
           inventory: {
             ...TEST_FARM.inventory,
             "Skill Reset Ticket": new Decimal(1),
+            Gem: new Decimal(100),
           },
           bumpkin: {
             ...INITIAL_BUMPKIN,
@@ -500,9 +501,44 @@ describe("updateSkills", () => {
         createdAt: dateNow,
       });
 
-      // 70 + 50 = 120, capped at 100, edit consumed 1, leaving 99.
-      expect(result.bumpkin?.freeSkillPoints).toEqual(99);
-      expect(result.inventory["Skill Reset Ticket"]?.toNumber()).toEqual(0);
+      // Removing 1 point against a 70-point balance is already free, so the
+      // ticket grant has nothing to offset — it must be preserved, not burned.
+      expect(result.bumpkin?.freeSkillPoints).toEqual(69);
+      expect(result.inventory["Skill Reset Ticket"]?.toNumber()).toEqual(1);
+      expect(result.inventory.Gem?.toNumber()).toEqual(100);
+    });
+
+    it("applies the regen tick only once, skipping the ticket when regen already covers the cost", () => {
+      const ninetyOneDaysAgo = dateNow - REGEN_MS - 24 * 60 * 60 * 1000;
+      const result = updateSkills({
+        state: {
+          ...TEST_FARM,
+          inventory: {
+            ...TEST_FARM.inventory,
+            "Skill Reset Ticket": new Decimal(1),
+            Gem: new Decimal(0),
+          },
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            experience: LEVEL_EXPERIENCE[3],
+            skills: { "Green Thumb": 1 },
+            freeSkillPoints: 0,
+            lastFreeSkillPointsRegenAt: ninetyOneDaysAgo,
+          },
+        },
+        action: {
+          type: "skills.updated",
+          skills: { "Young Farmer": 1 },
+          useTicket: true,
+        },
+        createdAt: dateNow,
+      });
+
+      // One regen tick (0 -> 50) makes removing 1 point free, so the ticket is
+      // left untouched. A double-applied tick would read 99 here instead of 49.
+      expect(result.bumpkin?.freeSkillPoints).toEqual(49);
+      expect(result.bumpkin?.lastFreeSkillPointsRegenAt).toEqual(dateNow);
+      expect(result.inventory["Skill Reset Ticket"]?.toNumber()).toEqual(1);
     });
 
     it("throws if the player has no ticket", () => {
@@ -563,11 +599,23 @@ describe("updateSkills", () => {
   describe("skill cooldown", () => {
     const DAY = 24 * 60 * 60 * 1000;
 
-    it("stamps the cooldown for every transitioned skill on apply", () => {
+    // A valid Cooking build that unlocks tier 3, with and without Double Nom
+    // (a removal-cooldown skill).
+    const COOKING_BASE: Skills = {
+      "Fast Feasts": 1,
+      "Nom Nom": 1,
+      "Munching Mastery": 1,
+      "Frosted Cakes": 1,
+    };
+    const COOKING_WITH_DOUBLE_NOM: Skills = {
+      ...COOKING_BASE,
+      "Double Nom": 1,
+    };
+
+    it("leaves ordinary skills out of the cooldown map", () => {
       const result = updateSkills({
         state: {
           ...TEST_FARM,
-          inventory: { ...TEST_FARM.inventory, Gem: new Decimal(100) },
           bumpkin: {
             ...INITIAL_BUMPKIN,
             experience: LEVEL_EXPERIENCE[3],
@@ -576,47 +624,39 @@ describe("updateSkills", () => {
             lastFreeSkillPointsRegenAt: dateNow,
           },
         },
+        action: { type: "skills.updated", skills: { "Young Farmer": 1 } },
+        createdAt: dateNow,
+      });
+
+      expect(result.bumpkin?.skillLastChangedAt).toEqual({});
+    });
+
+    it("stamps the pick time when a restricted skill is added", () => {
+      const result = updateSkills({
+        state: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            experience: LEVEL_EXPERIENCE[10],
+            skills: COOKING_BASE,
+            freeSkillPoints: 50,
+            lastFreeSkillPointsRegenAt: dateNow,
+          },
+        },
         action: {
           type: "skills.updated",
-          skills: { "Young Farmer": 1 },
+          skills: COOKING_WITH_DOUBLE_NOM,
         },
         createdAt: dateNow,
       });
 
-      expect(result.bumpkin?.skillLastChangedAt?.["Green Thumb"]).toEqual(
-        dateNow,
-      );
-      expect(result.bumpkin?.skillLastChangedAt?.["Young Farmer"]).toEqual(
-        dateNow,
-      );
+      expect(result.bumpkin?.skills).toEqual(COOKING_WITH_DOUBLE_NOM);
+      expect(result.bumpkin?.skillLastChangedAt).toEqual({
+        "Double Nom": dateNow,
+      });
     });
 
-    it("rejects re-picking a skill within 7 days of removal", () => {
-      const threeDaysAgo = dateNow - 3 * DAY;
-      expect(() =>
-        updateSkills({
-          state: {
-            ...TEST_FARM,
-            inventory: { ...TEST_FARM.inventory, Gem: new Decimal(100) },
-            bumpkin: {
-              ...INITIAL_BUMPKIN,
-              experience: LEVEL_EXPERIENCE[3],
-              skills: {},
-              freeSkillPoints: 50,
-              lastFreeSkillPointsRegenAt: dateNow,
-              skillLastChangedAt: { "Green Thumb": threeDaysAgo },
-            },
-          },
-          action: {
-            type: "skills.updated",
-            skills: { "Green Thumb": 1 },
-          },
-          createdAt: dateNow,
-        }),
-      ).toThrow("on cooldown");
-    });
-
-    it("rejects removing a skill within 7 days of picking it", () => {
+    it("rejects removing a restricted skill within the cooldown window", () => {
       const oneDayAgo = dateNow - DAY;
       expect(() =>
         updateSkills({
@@ -625,52 +665,44 @@ describe("updateSkills", () => {
             inventory: { ...TEST_FARM.inventory, Gem: new Decimal(100) },
             bumpkin: {
               ...INITIAL_BUMPKIN,
-              experience: LEVEL_EXPERIENCE[3],
-              skills: { "Green Thumb": 1 },
+              experience: LEVEL_EXPERIENCE[10],
+              skills: COOKING_WITH_DOUBLE_NOM,
               freeSkillPoints: 50,
               lastFreeSkillPointsRegenAt: dateNow,
-              skillLastChangedAt: { "Green Thumb": oneDayAgo },
+              skillLastChangedAt: { "Double Nom": oneDayAgo },
             },
           },
-          action: {
-            type: "skills.updated",
-            skills: {},
-          },
+          action: { type: "skills.updated", skills: COOKING_BASE },
           createdAt: dateNow,
         }),
       ).toThrow("on cooldown");
     });
 
-    it("allows the transition once the 7-day window has elapsed", () => {
-      const eightDaysAgo = dateNow - 8 * DAY;
+    it("allows removing a restricted skill once the window elapses and clears its stamp", () => {
+      const fifteenDaysAgo = dateNow - 15 * DAY;
       const result = updateSkills({
         state: {
           ...TEST_FARM,
           inventory: { ...TEST_FARM.inventory, Gem: new Decimal(100) },
           bumpkin: {
             ...INITIAL_BUMPKIN,
-            experience: LEVEL_EXPERIENCE[3],
-            skills: {},
+            experience: LEVEL_EXPERIENCE[10],
+            skills: COOKING_WITH_DOUBLE_NOM,
             freeSkillPoints: 50,
             lastFreeSkillPointsRegenAt: dateNow,
-            skillLastChangedAt: { "Green Thumb": eightDaysAgo },
+            skillLastChangedAt: { "Double Nom": fifteenDaysAgo },
           },
         },
-        action: {
-          type: "skills.updated",
-          skills: { "Green Thumb": 1 },
-        },
+        action: { type: "skills.updated", skills: COOKING_BASE },
         createdAt: dateNow,
       });
 
-      expect(result.bumpkin?.skills).toEqual({ "Green Thumb": 1 });
-      expect(result.bumpkin?.skillLastChangedAt?.["Green Thumb"]).toEqual(
-        dateNow,
-      );
+      expect(result.bumpkin?.skills).toEqual(COOKING_BASE);
+      expect(result.bumpkin?.skillLastChangedAt).toEqual({});
     });
 
-    it("prunes expired entries so the map stays bounded", () => {
-      const eightDaysAgo = dateNow - 8 * DAY;
+    it("freely removes ordinary skills and prunes any stale stamp", () => {
+      const oneDayAgo = dateNow - DAY;
       const result = updateSkills({
         state: {
           ...TEST_FARM,
@@ -681,28 +713,37 @@ describe("updateSkills", () => {
             skills: { "Green Thumb": 1 },
             freeSkillPoints: 50,
             lastFreeSkillPointsRegenAt: dateNow,
-            skillLastChangedAt: {
-              "Old Farmer": eightDaysAgo,
-              "Green Thumb": eightDaysAgo,
-            },
+            // Stale stamp left over from the old symmetric-cooldown behaviour.
+            skillLastChangedAt: { "Green Thumb": oneDayAgo },
           },
         },
-        action: {
-          type: "skills.updated",
-          skills: { "Young Farmer": 1 },
-        },
+        action: { type: "skills.updated", skills: { "Young Farmer": 1 } },
         createdAt: dateNow,
       });
 
-      expect(
-        result.bumpkin?.skillLastChangedAt?.["Old Farmer"],
-      ).toBeUndefined();
-      expect(result.bumpkin?.skillLastChangedAt?.["Green Thumb"]).toEqual(
-        dateNow,
-      );
-      expect(result.bumpkin?.skillLastChangedAt?.["Young Farmer"]).toEqual(
-        dateNow,
-      );
+      expect(result.bumpkin?.skills).toEqual({ "Young Farmer": 1 });
+      expect(result.bumpkin?.skillLastChangedAt).toEqual({});
+    });
+
+    it("lets a player clear an all-ordinary build in one edit", () => {
+      const result = updateSkills({
+        state: {
+          ...TEST_FARM,
+          inventory: { ...TEST_FARM.inventory, Gem: new Decimal(100) },
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            experience: LEVEL_EXPERIENCE[3],
+            skills: { "Green Thumb": 1, "Young Farmer": 1 },
+            freeSkillPoints: 50,
+            lastFreeSkillPointsRegenAt: dateNow,
+          },
+        },
+        action: { type: "skills.updated", skills: {} },
+        createdAt: dateNow,
+      });
+
+      expect(result.bumpkin?.skills).toEqual({});
+      expect(result.bumpkin?.skillLastChangedAt).toEqual({});
     });
   });
 

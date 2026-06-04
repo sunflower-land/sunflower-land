@@ -60,10 +60,15 @@ export function getSkillEditCost(
 export function chargeSkillEdit({
   game,
   pointsRemoved,
+  useTicket = false,
   createdAt,
 }: {
   game: Draft<GameState>;
   pointsRemoved: number;
+  // Consume 1 Skill Reset Ticket to grant +REGEN_AMOUNT free balance, but only
+  // when doing so actually lowers the gem cost. Throws if requested with no
+  // removal to offset, or if it would help but the player has no ticket.
+  useTicket?: boolean;
   createdAt: number;
 }) {
   const { bumpkin } = game;
@@ -72,8 +77,9 @@ export function chargeSkillEdit({
     throw new Error("You do not have a Bumpkin!");
   }
 
-  // Always run the regen tick so additions-only edits still keep the player's
-  // balance and anchor in sync with wall-clock time.
+  // Apply the regen tick exactly once so balance + anchor track wall-clock
+  // time even for additions-only edits. All later free-point math reads this
+  // single up-to-date value — never re-derive it, or the tick double-applies.
   const { balance, lastRegenAt } = getEffectiveFreeSkillPoints(
     bumpkin,
     createdAt,
@@ -81,12 +87,42 @@ export function chargeSkillEdit({
   bumpkin.freeSkillPoints = balance;
   bumpkin.lastFreeSkillPointsRegenAt = lastRegenAt;
 
-  if (pointsRemoved <= 0) return;
+  if (pointsRemoved <= 0) {
+    // Nothing is being removed, so there is no cost for a ticket to offset.
+    if (useTicket) {
+      throw new Error(
+        "Skill Reset Ticket can only be used when removing skills",
+      );
+    }
+    return;
+  }
 
-  const { gemCost, freePointsConsumed } = getSkillEditCost(
+  let { gemCost, freePointsConsumed } = getSkillEditCost(
     pointsRemoved,
     bumpkin.freeSkillPoints,
   );
+
+  // A ticket grants +REGEN_AMOUNT to the free balance (capped) before the edit
+  // consumes from it. Only spend it when it genuinely reduces the gem cost —
+  // otherwise the grant has nothing to absorb and the ticket would be wasted.
+  if (useTicket && gemCost > 0) {
+    const balanceWithTicket = Math.min(
+      MAX_FREE_POINTS,
+      bumpkin.freeSkillPoints + REGEN_AMOUNT,
+    );
+    const withTicket = getSkillEditCost(pointsRemoved, balanceWithTicket);
+
+    if (withTicket.gemCost < gemCost) {
+      const ticketBalance =
+        game.inventory["Skill Reset Ticket"] ?? new Decimal(0);
+      if (ticketBalance.lt(1)) {
+        throw new Error("You do not have a Skill Reset Ticket");
+      }
+      game.inventory["Skill Reset Ticket"] = ticketBalance.minus(1);
+      bumpkin.freeSkillPoints = balanceWithTicket;
+      ({ gemCost, freePointsConsumed } = withTicket);
+    }
+  }
 
   if (gemCost > 0) {
     const gemBalance = game.inventory.Gem ?? new Decimal(0);

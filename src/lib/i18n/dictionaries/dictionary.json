@@ -5066,7 +5066,7 @@
   "skillEdit.notEnoughSkillPoints": "You do not have enough skill points",
   "skillEdit.wrongIsland": "You are not at the correct island!",
   "skillEdit.unlockTierFirst": "You need to unlock tier {{tier}} first",
-  "skillEdit.cooldown": "Wait {{time}} to change this skill",
+  "skillEdit.cooldown": "Wait {{time}} to remove this skill",
   "skillCategory.islands": "{{island}} Skills",
   "skillCategory.reachIsland": "Reach {{island}} to unlock",
   "npcDialogues.sheep.intro3": "Oh, you received a gift for today, come back in {{timeLeft}} and I will give you one more gift.",

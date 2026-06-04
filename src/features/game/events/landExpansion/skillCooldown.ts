@@ -1,14 +1,22 @@
 import type { BumpkinRevampSkillName } from "features/game/types/bumpkinSkills";
 import type { SkillLastChangedAt } from "features/game/types/game";
 
-// Once a skill is added or removed, the player can't reverse the transition
-// for SKILL_COOLDOWN_MS. Per-skill (each skill has its own clock), and
-// enforced in both directions: can't pick a just-removed skill, can't remove
-// a just-picked skill. Only applies to the EDIT_SKILLSET cohort (skills.updated
-// + skill.chosen); the legacy skills.reset path is unaffected.
-export const SKILL_COOLDOWN_MS = 7 * 24 * 60 * 60 * 1000;
+// A small set of high-impact skills can't be removed for SKILL_COOLDOWN_MS
+// after they're picked, to stop players cycling them on and off around timed
+// activities. Every other skill is freely changeable in either direction, and
+// picking a skill is never blocked. Only applies to the EDIT_SKILLSET cohort
+// (skills.updated + skill.chosen); the legacy skills.reset path is unaffected.
+export const SKILL_COOLDOWN_MS = 14 * 24 * 60 * 60 * 1000;
 
-// Milliseconds until `skill` can be transitioned again, or 0 if it's free now.
+// The only skills subject to the removal cooldown.
+export const COOLDOWN_SKILLS: BumpkinRevampSkillName[] = ["Double Nom", "Ager"];
+
+export function isCooldownSkill(skill: BumpkinRevampSkillName): boolean {
+  return COOLDOWN_SKILLS.includes(skill);
+}
+
+// Milliseconds until `skill` can be removed again, or 0 if it's free now. Only
+// meaningful for cooldown skills — callers gate on isCooldownSkill first.
 export function getRemainingSkillCooldownMs(
   map: SkillLastChangedAt | undefined,
   skill: BumpkinRevampSkillName,
@@ -20,8 +28,9 @@ export function getRemainingSkillCooldownMs(
   return Math.max(0, remaining);
 }
 
-// Drop entries whose cooldown has elapsed — keeps the map bounded by
-// "skills touched in the last week" instead of growing forever.
+// Drop entries that are no longer cooldown-tracked or whose window has elapsed.
+// Keeps the map bounded to the at-most-two active cooldown skills and clears
+// out stamps left over from the previous symmetric-cooldown behaviour.
 export function pruneExpiredSkillCooldowns(
   map: SkillLastChangedAt,
   now: number,
@@ -29,7 +38,11 @@ export function pruneExpiredSkillCooldowns(
   for (const key of Object.keys(map)) {
     const skill = key as BumpkinRevampSkillName;
     const stamp = map[skill];
-    if (stamp != null && now - stamp >= SKILL_COOLDOWN_MS) {
+    if (
+      !isCooldownSkill(skill) ||
+      stamp == null ||
+      now - stamp >= SKILL_COOLDOWN_MS
+    ) {
       delete map[skill];
     }
   }

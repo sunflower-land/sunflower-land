@@ -273,27 +273,16 @@ describe("choseSkill", () => {
   describe("skill cooldown (EDIT_SKILLSET cohort)", () => {
     const DAY = 24 * 60 * 60 * 1000;
 
-    it("blocks picking a skill that was just removed via skills.updated", () => {
-      const threeDaysAgo = dateNow - 3 * DAY;
-      expect(() =>
-        choseSkill({
-          state: {
-            ...TEST_FARM,
-            bumpkin: {
-              ...INITIAL_BUMPKIN,
-              experience: LEVEL_EXPERIENCE[4],
-              skills: {},
-              skillLastChangedAt: { "Green Thumb": threeDaysAgo },
-            },
-          },
-          action: { type: "skill.chosen", skill: "Green Thumb" },
-          createdAt: dateNow,
-        }),
-      ).toThrow("on cooldown");
-    });
+    // A valid Cooking build that unlocks tier 3, so Double Nom can be picked.
+    const COOKING_BASE = {
+      "Fast Feasts": 1,
+      "Nom Nom": 1,
+      "Munching Mastery": 1,
+      "Frosted Cakes": 1,
+    };
 
-    it("allows the pick once the 7-day window has elapsed", () => {
-      const eightDaysAgo = dateNow - 8 * DAY;
+    it("never blocks picking a skill, even one changed recently", () => {
+      const threeDaysAgo = dateNow - 3 * DAY;
       const result = choseSkill({
         state: {
           ...TEST_FARM,
@@ -301,7 +290,7 @@ describe("choseSkill", () => {
             ...INITIAL_BUMPKIN,
             experience: LEVEL_EXPERIENCE[4],
             skills: {},
-            skillLastChangedAt: { "Green Thumb": eightDaysAgo },
+            skillLastChangedAt: { "Green Thumb": threeDaysAgo },
           },
         },
         action: { type: "skill.chosen", skill: "Green Thumb" },
@@ -309,37 +298,69 @@ describe("choseSkill", () => {
       });
 
       expect(result.bumpkin?.skills?.["Green Thumb"]).toEqual(1);
-      expect(result.bumpkin?.skillLastChangedAt?.["Green Thumb"]).toEqual(
+    });
+
+    it("stamps the pick time for a restricted skill (Double Nom)", () => {
+      const result = choseSkill({
+        state: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            experience: LEVEL_EXPERIENCE[10],
+            skills: COOKING_BASE,
+          },
+        },
+        action: { type: "skill.chosen", skill: "Double Nom" },
+        createdAt: dateNow,
+      });
+
+      expect(result.bumpkin?.skills?.["Double Nom"]).toEqual(1);
+      expect(result.bumpkin?.skillLastChangedAt?.["Double Nom"]).toEqual(
         dateNow,
       );
     });
 
-    it("legacy cohort ignores the cooldown map entirely", () => {
+    it("does not stamp ordinary skills on pick", () => {
+      const result = choseSkill({
+        state: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            experience: LEVEL_EXPERIENCE[4],
+            skills: {},
+          },
+        },
+        action: { type: "skill.chosen", skill: "Green Thumb" },
+        createdAt: dateNow,
+      });
+
+      expect(result.bumpkin?.skills?.["Green Thumb"]).toEqual(1);
+      expect(
+        result.bumpkin?.skillLastChangedAt?.["Green Thumb"],
+      ).toBeUndefined();
+    });
+
+    it("legacy cohort never stamps restricted skills", () => {
       const previousNetwork = CONFIG.NETWORK;
       CONFIG.NETWORK = "mainnet";
       try {
-        const threeDaysAgo = dateNow - 3 * DAY;
         const result = choseSkill({
           state: {
             ...TEST_FARM,
             bumpkin: {
               ...INITIAL_BUMPKIN,
-              experience: LEVEL_EXPERIENCE[4],
-              skills: {},
-              // Pre-existing stamp from when the player was in beta. The
-              // legacy cohort doesn't read it, so the pick still goes through
-              // and no new stamp is written.
-              skillLastChangedAt: { "Green Thumb": threeDaysAgo },
+              experience: LEVEL_EXPERIENCE[10],
+              skills: COOKING_BASE,
             },
           },
-          action: { type: "skill.chosen", skill: "Green Thumb" },
+          action: { type: "skill.chosen", skill: "Double Nom" },
           createdAt: dateNow,
         });
 
-        expect(result.bumpkin?.skills?.["Green Thumb"]).toEqual(1);
-        expect(result.bumpkin?.skillLastChangedAt?.["Green Thumb"]).toEqual(
-          threeDaysAgo,
-        );
+        expect(result.bumpkin?.skills?.["Double Nom"]).toEqual(1);
+        expect(
+          result.bumpkin?.skillLastChangedAt?.["Double Nom"],
+        ).toBeUndefined();
       } finally {
         CONFIG.NETWORK = previousNetwork;
       }
