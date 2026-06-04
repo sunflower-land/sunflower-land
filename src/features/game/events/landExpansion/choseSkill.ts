@@ -9,10 +9,7 @@ import {
 import type { Bumpkin, GameState, Skills } from "features/game/types/game";
 import { populateSaltFarm } from "features/game/types/salt";
 import { produce } from "immer";
-import {
-  getRemainingSkillCooldownMs,
-  pruneExpiredSkillCooldowns,
-} from "./skillCooldown";
+import { isCooldownSkill, pruneExpiredSkillCooldowns } from "./skillCooldown";
 import { hasFeatureAccess } from "lib/flags";
 
 export type ChoseSkillAction = {
@@ -286,29 +283,18 @@ export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
       throw new Error("You already have this skill");
     }
 
-    // EDIT_SKILLSET cohort gets the 7-day per-skill cooldown. The legacy
-    // cohort never reads or writes skillLastChangedAt — they keep the
-    // original flow.
+    // Picking a skill is never blocked. For the EDIT_SKILLSET cohort we only
+    // stamp the pick time of the cooldown skills (Double Nom / Ager) so their
+    // removal stays locked for SKILL_COOLDOWN_MS. The legacy cohort never reads
+    // or writes skillLastChangedAt.
     const enforceCooldown = hasFeatureAccess(stateCopy, "EDIT_SKILLSET");
-    if (enforceCooldown) {
-      const remaining = getRemainingSkillCooldownMs(
-        bumpkin.skillLastChangedAt,
-        action.skill,
-        createdAt,
-      );
-      if (remaining > 0) {
-        throw new Error(
-          `Skill "${action.skill}" is on cooldown for ${remaining}ms`,
-        );
-      }
-    }
 
     bumpkin.skills = {
       ...bumpkin.skills,
       [action.skill]: 1,
     };
 
-    if (enforceCooldown) {
+    if (enforceCooldown && isCooldownSkill(action.skill)) {
       const nextCooldown = { ...(bumpkin.skillLastChangedAt ?? {}) };
       nextCooldown[action.skill] = createdAt;
       pruneExpiredSkillCooldowns(nextCooldown, createdAt);

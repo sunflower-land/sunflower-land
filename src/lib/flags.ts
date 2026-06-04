@@ -146,10 +146,11 @@ const FEATURE_FLAGS = {
 
   /**
    * Gates the FEAT-Edit-skillset flow: draft-mode skill editor and the
-   * skills.updated event (with optional useTicket flag + 7-day per-skill
-   * cooldown). Pricing: 5 gems per point removed, offset by a regenerating
-   * free-point balance (+50 every 90 days, capped at 100). Skill Reset
-   * Tickets are consumed inline during apply when they would save gems.
+   * skills.updated event (with optional useTicket flag). Skills are freely
+   * changeable, except Double Nom and Ager, which can't be removed for 14
+   * days after being picked. Pricing: 5 gems per point removed, offset by a
+   * regenerating free-point balance (+50 every 90 days, capped at 100). Skill
+   * Reset Tickets are consumed inline during apply when they would save gems.
    * Non-beta players keep the classic skills.reset modal flow. Remove this
    * flag (and the Legacy* UI files) when the feature ships to all players.
    */

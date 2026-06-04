@@ -552,10 +552,10 @@ export type Bumpkin = {
   // EDIT_SKILLSET cohort only.
   freeSkillPoints?: number;
   lastFreeSkillPointsRegenAt?: number;
-  // Per-skill 7-day cooldown anchor. Stamped whenever a skill transitions
-  // (added or removed) via skills.updated / skill.chosen in the EDIT_SKILLSET
-  // cohort. Entries are pruned once their cooldown elapses, so the map stays
-  // bounded by "skills touched in the last week."
+  // Pick-time anchor for the removal-cooldown skills (Double Nom / Ager) in
+  // the EDIT_SKILLSET cohort. Stamped when one of those skills is added via
+  // skills.updated / skill.chosen and cleared on removal. Entries are pruned
+  // once their cooldown elapses, so the map stays bounded.
   skillLastChangedAt?: SkillLastChangedAt;
   coordinates?: Coordinates;
   location?: Exclude<PlaceableLocation, "petHouse">;
