@@ -9039,5 +9039,9 @@
   "lockedAnimal.title": "Kapasitas Berlebih",
   "lockedAnimal.locked": "Terkunci",
   "lockedAnimal.description": "{{animal}} ini melebihi kapasitas bangunan Anda, jadi sudah tidak aktif dan tidak dapat diberi makan. Itu masih bisa disembuhkan dan dijual ke hadiah.",
-  "lockedAnimal.howToUnlock": "Tempatkan kembali barang koleksi penambah kapasitas, atau naikkan level bangunan untuk membukanya lagi."
+  "lockedAnimal.howToUnlock": "Tempatkan kembali barang koleksi penambah kapasitas, atau naikkan level bangunan untuk membukanya lagi.",
+  "deposit.menu.intro": "Pindahkan token dan item on-chain ke peternakan Anda. Pilih jenis untuk memulai.",
+  "deposit.menu.collectibles": "Barang Koleksi, Perangkat yang Dapat Dipakai & NFT",
+  "deposit.menu.collectibles.subtitle": "Barang koleksi, barang yang dapat dikenakan, kuncup & hewan peliharaan",
+  "deposit.flower.movedToBank": "Deposit FLOWER telah pindah ke Bank Goblin di Goblin Retreat."
 }

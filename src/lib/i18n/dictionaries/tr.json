@@ -9039,5 +9039,9 @@
   "lockedAnimal.title": "Aşırı Kapasite",
   "lockedAnimal.locked": "Kilitli",
   "lockedAnimal.description": "Bu {{animal}} binanızın kapasitesinin üzerindedir, bu nedenle uykuda kaldı ve beslenemiyor. Hala tedavi edilebilir ve ödüllere satılabilir.",
-  "lockedAnimal.howToUnlock": "Kapasite artırıcı koleksiyon parçasını yeniden yerleştirin veya tekrar kilidini açmak için binanın seviyesini yükseltin."
+  "lockedAnimal.howToUnlock": "Kapasite artırıcı koleksiyon parçasını yeniden yerleştirin veya tekrar kilidini açmak için binanın seviyesini yükseltin.",
+  "deposit.menu.intro": "Jetonları ve zincir içi öğeleri çiftliğinize taşıyın. Başlamak için bir tür seçin.",
+  "deposit.menu.collectibles": "Koleksiyonlar, Giyilebilir Cihazlar ve NFT'ler",
+  "deposit.menu.collectibles.subtitle": "Koleksiyonlar, giyilebilir ürünler, tomurcuklar ve evcil hayvanlar",
+  "deposit.flower.movedToBank": "Depozito FLOWER, Goblin Retreat'teki Goblin Bankası'na taşındı."
 }

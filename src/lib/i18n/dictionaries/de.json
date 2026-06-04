@@ -9039,5 +9039,9 @@
   "lockedAnimal.title": "Überkapazität",
   "lockedAnimal.locked": "Gesperrt",
   "lockedAnimal.description": "Dieser Wert von {{animal}} übersteigt die Kapazität Ihres Gebäudes, es ist also inaktiv geworden und kann nicht versorgt werden. Es kann immer noch geheilt und gegen Kopfgelder verkauft werden.",
-  "lockedAnimal.howToUnlock": "Platziere das kapazitätssteigernde Sammelobjekt erneut oder verbessere das Gebäude, um es wieder freizuschalten."
+  "lockedAnimal.howToUnlock": "Platziere das kapazitätssteigernde Sammelobjekt erneut oder verbessere das Gebäude, um es wieder freizuschalten.",
+  "deposit.menu.intro": "Verschiebe Spielsteine und On-Chain-Gegenstände in deine Farm. Wähle einen Typ aus, um loszulegen.",
+  "deposit.menu.collectibles": "Sammlerstücke, Wearables und NFTs",
+  "deposit.menu.collectibles.subtitle": "Sammlerstücke, Wearables, Kopfhörer und Haustiere",
+  "deposit.flower.movedToBank": "Deposit FLOWER ist auf die Goblinbank im Goblin-Retreat umgezogen."
 }

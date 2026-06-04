@@ -9039,5 +9039,9 @@
   "lockedAnimal.title": "Capacità eccessiva",
   "lockedAnimal.locked": "Bloccato",
   "lockedAnimal.description": "Questo {{animal}} ha superato la capacità del tuo edificio, quindi è inattivo e non può essere alimentato. Può ancora essere curato e venduto in cambio di ricompense.",
-  "lockedAnimal.howToUnlock": "Riposiziona il collezionabile che aumenta la capacità o fai salire di livello l'edificio per sbloccarlo nuovamente."
+  "lockedAnimal.howToUnlock": "Riposiziona il collezionabile che aumenta la capacità o fai salire di livello l'edificio per sbloccarlo nuovamente.",
+  "deposit.menu.intro": "Sposta i gettoni e gli oggetti in catena nella tua fattoria. Scegli un tipo per iniziare.",
+  "deposit.menu.collectibles": "Oggetti da collezione, indossabili e NFT",
+  "deposit.menu.collectibles.subtitle": "Oggetti da collezione, indossabili, boccioli e animali domestici",
+  "deposit.flower.movedToBank": "Il deposito FLOWER si è trasferito alla Goblin Bank nel Goblin Retreat."
 }

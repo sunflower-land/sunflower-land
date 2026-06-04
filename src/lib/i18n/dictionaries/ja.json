@@ -9039,5 +9039,9 @@
   "lockedAnimal.title": "オーバーキャパシティ",
   "lockedAnimal.locked": "ロック済み",
   "lockedAnimal.description": "この {{animal}} は建物の容量を超えているため、休眠状態になり、給餌できません。それでも修復して報奨金に売ることはできます。",
-  "lockedAnimal.howToUnlock": "キャパシティブーストコレクションを再配置するか、建物をレベルアップして再びロックを解除してください。"
+  "lockedAnimal.howToUnlock": "キャパシティブーストコレクションを再配置するか、建物をレベルアップして再びロックを解除してください。",
+  "deposit.menu.intro": "トークンとチェーン上のアイテムを農場に移動します。タイプを選んで始めましょう。",
+  "deposit.menu.collectibles": "グッズ、ウェアラブル、NFT",
+  "deposit.menu.collectibles.subtitle": "グッズ、ウェアラブル、イヤホン、ペット",
+  "deposit.flower.movedToBank": "デポジットフラワーはゴブリンリトリートのゴブリンバンクに移動しました。"
 }

@@ -9039,5 +9039,9 @@
   "lockedAnimal.title": "容量过大",
   "lockedAnimal.locked": "已锁定",
   "lockedAnimal.description": "这 {{animal}} 已超出建筑物的容量，因此它已进入休眠状态，无法喂食。它仍然可以治愈并出售给赏金。",
-  "lockedAnimal.howToUnlock": "更换容量提升收藏品，或者升级建筑物以再次将其解锁。"
+  "lockedAnimal.howToUnlock": "更换容量提升收藏品，或者升级建筑物以再次将其解锁。",
+  "deposit.menu.intro": "将代币和链上物品移入您的农场。选择一种类型即可开始。",
+  "deposit.menu.collectibles": "收藏品、可穿戴设备和 NFT",
+  "deposit.menu.collectibles.subtitle": "收藏品、可穿戴设备、花蕾和宠物",
+  "deposit.flower.movedToBank": "存款 FLOWER 已转移到哥布林度假村的哥布林银行。"
 }

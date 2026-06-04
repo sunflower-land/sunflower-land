@@ -9039,5 +9039,9 @@
   "lockedAnimal.title": "Sobrecapacidad",
   "lockedAnimal.locked": "Bloqueado",
   "lockedAnimal.description": "Este {{animal}} supera la capacidad de tu edificio, por lo que está inactivo y no se puede alimentar. Todavía se puede curar y vender para obtener recompensas.",
-  "lockedAnimal.howToUnlock": "Sustituye el objeto coleccionable que aumenta la capacidad o sube de nivel el edificio para volver a desbloquearlo."
+  "lockedAnimal.howToUnlock": "Sustituye el objeto coleccionable que aumenta la capacidad o sube de nivel el edificio para volver a desbloquearlo.",
+  "deposit.menu.intro": "Mueve fichas y objetos de la cadena a tu granja. Elige un tipo para empezar.",
+  "deposit.menu.collectibles": "Coleccionables, dispositivos portátiles y NFT",
+  "deposit.menu.collectibles.subtitle": "Coleccionables, accesorios portátiles, auriculares y mascotas",
+  "deposit.flower.movedToBank": "El depósito FLOWER se ha trasladado al Banco de los Duendes en el Retiro de los Duendes."
 }
