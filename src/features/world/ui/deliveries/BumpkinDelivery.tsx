@@ -44,6 +44,7 @@ import {
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
 import { getDayOfYear, secondsTillReset } from "lib/utils/time";
+import { Loading } from "features/auth/components";
 import {
   BUMPKIN_FLOWER_BONUSES,
   DEFAULT_FLOWER_POINTS,
@@ -751,11 +752,21 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
       ? delivery
       : undefined;
 
+  // Keep the loading screen up from the moment the player skips until the
+  // autosave settles and the server returns the fresh set of orders.
+  const isAutosaving = gameState.matches("autosaving");
+  const [isSkipping, setIsSkipping] = useState(false);
+  const [wasAutosaving, setWasAutosaving] = useState(isAutosaving);
+  if (wasAutosaving !== isAutosaving) {
+    setWasAutosaving(isAutosaving);
+    if (!isAutosaving) setIsSkipping(false);
+  }
+
   const skip = (id: string) => {
     setShowSkipDialog(false);
+    setIsSkipping(true);
     gameService.send("order.skipped", { id });
     gameService.send("SAVE");
-    onClose?.();
   };
 
   const { holiday } = getBumpkinHoliday({ now });
@@ -868,45 +879,6 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     );
   }
 
-  if (showSkipDialog) {
-    return (
-      <InnerPanel>
-        <div className="flex-1 space-y-2 p-1">
-          <p className="text-xs">{t("orderhelp.Skip.hour")}</p>
-          {canSkip && <p className="text-xs">{t("choose.wisely")}</p>}
-          {!canSkip && (
-            <>
-              <p className="text-xs font-secondary">
-                {`${t("orderhelp.SkipIn")}:`}
-              </p>
-              <div className="flex-1">
-                <RequirementLabel
-                  type="time"
-                  waitSeconds={secondsTillReset(now)}
-                />
-              </div>
-            </>
-          )}
-        </div>
-        {canSkip && (
-          <div className="flex flex-row gap-1">
-            <Button onClick={() => setShowSkipDialog(false)}>
-              {t("orderhelp.NoRight")}
-            </Button>
-            {skippableDelivery && (
-              <Button onClick={() => skip(skippableDelivery.id)}>
-                {t("skip.order")}
-              </Button>
-            )}
-          </div>
-        )}
-        {!canSkip && (
-          <Button onClick={() => setShowSkipDialog(false)}>{t("back")}</Button>
-        )}
-      </InnerPanel>
-    );
-  }
-
   return (
     <>
       {showFlowers && (
@@ -951,111 +923,160 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
           </InnerPanel>
 
           <InnerPanel className="mb-1">
-            <div className="px-2 ">
-              <div className="flex flex-col justify-between items-stretch mb-2 gap-1">
-                <div className="flex flex-row justify-between w-full">
-                  {getActiveCalendarEvent({
-                    calendar: gameState.context.state.calendar,
-                  }) === "doubleDelivery" && !hasClaimedBonus ? (
-                    <Label type="vibrant" icon={lightning}>
-                      {t("double.rewards.delivery")}
-                    </Label>
-                  ) : (
-                    <Label
-                      type="default"
-                      icon={SUNNYSIDE.icons.expression_chat}
-                    >
-                      {t("delivery")}
-                    </Label>
-                  )}
-
-                  {isLocked && (
-                    <Label type="danger" secondaryIcon={SUNNYSIDE.icons.player}>
-                      {t("warning.level.required", {
-                        lvl: NPC_DELIVERY_LEVELS[npc as DeliveryNpcName],
-                      })}
-                    </Label>
-                  )}
-
-                  {delivery?.completedAt && (
-                    <Label
-                      style={{ whiteSpace: "nowrap" }}
-                      type="success"
-                      secondaryIcon={SUNNYSIDE.icons.confirm}
-                    >
-                      {t("completed")}
-                    </Label>
-                  )}
-                </div>
+            {isSkipping ? (
+              <div className="flex-1 p-2">
+                <Loading
+                  className="text-center mb-0.5 mt-1 text-sm loading"
+                  text={t("skipping")}
+                />
               </div>
-              {!delivery && !isLocked && (
-                <p className="text-xs mb-1">{t("no.delivery.avl")}</p>
-              )}
-
-              {isLocked && (
-                <>
-                  <p className="text-xs mb-2">
-                    {t("bumpkin.delivery.proveYourself", {
-                      missingLevels: missingLevels,
-                    })}
-                  </p>
-                </>
-              )}
-
-              {delivery && !deliveryFrozen && (
-                <>
-                  <OrderCard
-                    game={gameState.context.state}
-                    order={delivery as Order}
-                    hasRequirementsCheck={() => true}
-                    onDeliver={deliver}
-                  />
-                  {!delivery.completedAt &&
-                    !isLocked &&
-                    !missingRequiredReputation &&
-                    delivery.readyAt <= now && (
-                      <button
-                        type="button"
-                        className="text-left underline font-secondary text-xxs p-0 pb-1 pt-0.5 bg-transparent border-0 cursor-pointer hover:text-blue-500 focus-visible:text-blue-500"
-                        onClick={() => setShowSkipDialog(true)}
+            ) : showSkipDialog ? (
+              <div className="flex-1 space-y-2 p-1">
+                <p className="text-xs">{t("orderhelp.Skip.hour")}</p>
+                {canSkip && <p className="text-xs">{t("choose.wisely")}</p>}
+                {!canSkip && (
+                  <>
+                    <p className="text-xs font-secondary">
+                      {`${t("orderhelp.SkipIn")}:`}
+                    </p>
+                    <div className="flex-1">
+                      <RequirementLabel
+                        type="time"
+                        waitSeconds={secondsTillReset(now)}
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+            ) : (
+              <div className="px-2 ">
+                <div className="flex flex-col justify-between items-stretch mb-2 gap-1">
+                  <div className="flex flex-row justify-between w-full">
+                    {getActiveCalendarEvent({
+                      calendar: gameState.context.state.calendar,
+                    }) === "doubleDelivery" && !hasClaimedBonus ? (
+                      <Label type="vibrant" icon={lightning}>
+                        {t("double.rewards.delivery")}
+                      </Label>
+                    ) : (
+                      <Label
+                        type="default"
+                        icon={SUNNYSIDE.icons.expression_chat}
                       >
-                        {t("skip.order")}
-                        {"?"}
-                      </button>
+                        {t("delivery")}
+                      </Label>
                     )}
-                </>
-              )}
-              {deliveryFrozen && (
-                <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
-                  {t("orderhelp.ticket.deliveries.closed")}
-                </Label>
-              )}
-            </div>
+
+                    {isLocked && (
+                      <Label
+                        type="danger"
+                        secondaryIcon={SUNNYSIDE.icons.player}
+                      >
+                        {t("warning.level.required", {
+                          lvl: NPC_DELIVERY_LEVELS[npc as DeliveryNpcName],
+                        })}
+                      </Label>
+                    )}
+
+                    {delivery?.completedAt && (
+                      <Label
+                        style={{ whiteSpace: "nowrap" }}
+                        type="success"
+                        secondaryIcon={SUNNYSIDE.icons.confirm}
+                      >
+                        {t("completed")}
+                      </Label>
+                    )}
+                  </div>
+                </div>
+                {!delivery && !isLocked && (
+                  <p className="text-xs mb-1">{t("no.delivery.avl")}</p>
+                )}
+
+                {isLocked && (
+                  <>
+                    <p className="text-xs mb-2">
+                      {t("bumpkin.delivery.proveYourself", {
+                        missingLevels: missingLevels,
+                      })}
+                    </p>
+                  </>
+                )}
+
+                {delivery && !deliveryFrozen && (
+                  <>
+                    <OrderCard
+                      game={gameState.context.state}
+                      order={delivery as Order}
+                      hasRequirementsCheck={() => true}
+                      onDeliver={deliver}
+                    />
+                    {!delivery.completedAt &&
+                      !isLocked &&
+                      !missingRequiredReputation &&
+                      delivery.readyAt <= now && (
+                        <button
+                          type="button"
+                          className="text-left underline font-secondary text-xxs p-0 pb-1 pt-0.5 bg-transparent border-0 cursor-pointer hover:text-blue-500 focus-visible:text-blue-500"
+                          onClick={() => setShowSkipDialog(true)}
+                        >
+                          {t("skip.order")}
+                          {"?"}
+                        </button>
+                      )}
+                  </>
+                )}
+                {deliveryFrozen && (
+                  <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
+                    {t("orderhelp.ticket.deliveries.closed")}
+                  </Label>
+                )}
+              </div>
+            )}
           </InnerPanel>
           {missingRequiredReputation && (
             <RequiredReputation reputation={Reputation.Cropkeeper} />
           )}
-          <div className="flex mt-1">
-            {acceptGifts && (
-              <Button className="mr-1" onClick={() => setShowFlowers(true)}>
-                {t("gift")}
+          {isSkipping ? null : showSkipDialog ? (
+            canSkip ? (
+              <div className="flex flex-row gap-1">
+                <Button onClick={() => setShowSkipDialog(false)}>
+                  {t("orderhelp.NoRight")}
+                </Button>
+                {skippableDelivery && (
+                  <Button onClick={() => skip(skippableDelivery.id)}>
+                    {t("skip.order")}
+                  </Button>
+                )}
+              </div>
+            ) : (
+              <Button onClick={() => setShowSkipDialog(false)}>
+                {t("back")}
               </Button>
-            )}
+            )
+          ) : (
+            <div className="flex mt-1">
+              {acceptGifts && (
+                <Button className="mr-1" onClick={() => setShowFlowers(true)}>
+                  {t("gift")}
+                </Button>
+              )}
 
-            <Button
-              disabled={
-                !delivery ||
-                !hasDelivery ||
-                !!delivery?.completedAt ||
-                isLocked ||
-                missingRequiredReputation ||
-                deliveryFrozen
-              }
-              onClick={deliver}
-            >
-              {t("deliver")}
-            </Button>
-          </div>
+              <Button
+                disabled={
+                  !delivery ||
+                  !hasDelivery ||
+                  !!delivery?.completedAt ||
+                  isLocked ||
+                  missingRequiredReputation ||
+                  deliveryFrozen
+                }
+                onClick={deliver}
+              >
+                {t("deliver")}
+              </Button>
+            </div>
+          )}
         </>
       )}
     </>
