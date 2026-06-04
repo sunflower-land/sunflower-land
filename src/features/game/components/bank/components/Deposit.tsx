@@ -4,6 +4,7 @@ import Decimal from "decimal.js-light";
 import { toWei } from "web3-utils";
 
 import { Button } from "components/ui/Button";
+import { ButtonPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { TextInput } from "components/ui/TextInput";
@@ -13,6 +14,7 @@ import { Loading } from "features/auth/components";
 import { SUNNYSIDE } from "assets/sunnyside";
 import chest from "assets/icons/chest.png";
 import petNFTEgg from "assets/icons/pet_nft_egg.png";
+import flowerIcon from "assets/icons/flower_token.webp";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import type { TranslationKeys } from "lib/i18n/dictionaries/types";
@@ -47,6 +49,7 @@ import type { DepositArgs } from "lib/blockchain/Deposit";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { GameWallet } from "features/wallet/Wallet";
+import { DepositFlower } from "features/island/hud/components/deposit/DepositFlower";
 
 import { WithdrawItemGrid } from "./withdraw/WithdrawItemGrid";
 import { WithdrawItemDetail } from "./withdraw/WithdrawItemDetail";
@@ -89,6 +92,10 @@ interface Props {
   onClose: () => void;
 }
 
+interface DepositContentProps extends Props {
+  onBack: () => void;
+}
+
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet ?? "";
 
 /**
@@ -97,7 +104,7 @@ const _linkedWallet = (state: MachineState) => state.context.linkedWallet ?? "";
  * withdraw (one transaction per category), deposit keeps a single combined
  * cart and sends everything to the farm in one transaction.
  */
-const DepositContent: React.FC<Props> = ({ onClose }) => {
+const DepositContent: React.FC<DepositContentProps> = ({ onClose, onBack }) => {
   const { t } = useAppTranslation();
   const isMobile = useIsMobile();
 
@@ -614,11 +621,27 @@ const DepositContent: React.FC<Props> = ({ onClose }) => {
     </span>
   );
 
+  const browseHeader = (
+    <div className="flex items-center px-1 mb-1">
+      <img
+        src={SUNNYSIDE.icons.arrow_left}
+        className="cursor-pointer mr-2"
+        style={{ width: `${PIXEL_SCALE * 11}px` }}
+        alt={t("back")}
+        onClick={onBack}
+      />
+      <Label type="default" icon={chest}>
+        {t("deposit.menu.collectibles")}
+      </Label>
+      {availableCount}
+    </div>
+  );
+
   // Desktop two-pane: sectioned grid on the left, detail + review on the right.
   if (!isMobile) {
     return (
       <div className="flex flex-col">
-        <div className="flex items-center px-1 mb-1">{availableCount}</div>
+        {browseHeader}
         <div className="px-1 mb-1">{search}</div>
         <SplitScreenView
           tallDesktopContent
@@ -637,7 +660,7 @@ const DepositContent: React.FC<Props> = ({ onClose }) => {
   // Mobile grid screen
   return (
     <div className="flex flex-col">
-      <div className="flex items-center px-1 mb-1">{availableCount}</div>
+      {browseHeader}
       <div className="px-1 mb-1">{search}</div>
       <div className="max-h-[55vh] overflow-y-auto scrollable">
         {sectionedGrid}
@@ -647,8 +670,69 @@ const DepositContent: React.FC<Props> = ({ onClose }) => {
   );
 };
 
-export const Deposit: React.FC<Props> = ({ onClose }) => (
-  <GameWallet action="depositItems">
-    <DepositContent onClose={onClose} />
-  </GameWallet>
-);
+type DepositPage = "main" | "flower" | "collectibles";
+
+const DepositMenu: React.FC<{ setPage: (page: DepositPage) => void }> = ({
+  setPage,
+}) => {
+  const { t } = useAppTranslation();
+
+  return (
+    <div className="flex flex-col gap-2 p-1">
+      <span className="text-xs">{t("deposit.menu.intro")}</span>
+
+      {/* FLOWER token */}
+      <ButtonPanel
+        onClick={() => setPage("flower")}
+        className="flex items-center justify-between"
+      >
+        <div className="flex items-center gap-2">
+          <img src={flowerIcon} className="w-8 h-8" />
+          <div className="flex flex-col">
+            <span className="text-sm">{`FLOWER`}</span>
+            <span className="text-xxs">
+              {t("withdraw.menu.flower.subtitle")}
+            </span>
+          </div>
+        </div>
+        <img src={SUNNYSIDE.icons.arrow_right} className="h-3 opacity-60" />
+      </ButtonPanel>
+
+      {/* Collectibles, wearables, buds & pets */}
+      <span className="text-xxs">{t("withdraw.menu.nftCollections")}</span>
+      <ButtonPanel
+        onClick={() => setPage("collectibles")}
+        className="flex items-center justify-between"
+      >
+        <div className="flex items-center gap-2">
+          <img src={chest} className="w-8 h-8" />
+          <div className="flex flex-col">
+            <span className="text-sm">{t("deposit.menu.collectibles")}</span>
+            <span className="text-xxs">
+              {t("deposit.menu.collectibles.subtitle")}
+            </span>
+          </div>
+        </div>
+        <img src={SUNNYSIDE.icons.arrow_right} className="h-3 opacity-60" />
+      </ButtonPanel>
+    </div>
+  );
+};
+
+export const Deposit: React.FC<Props> = ({ onClose }) => {
+  const [page, setPage] = useState<DepositPage>("main");
+
+  if (page === "flower") {
+    return <DepositFlower onClose={() => setPage("main")} />;
+  }
+
+  if (page === "collectibles") {
+    return (
+      <GameWallet action="depositItems">
+        <DepositContent onClose={onClose} onBack={() => setPage("main")} />
+      </GameWallet>
+    );
+  }
+
+  return <DepositMenu setPage={setPage} />;
+};

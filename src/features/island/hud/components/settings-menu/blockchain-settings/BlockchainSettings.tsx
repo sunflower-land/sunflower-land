@@ -18,7 +18,7 @@ import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 
 // Minimum Bumpkin level required to travel to the Goblin Retreat
 // (matches the gate on the world travel map).
-const GOBLIN_RETREAT_LEVEL = 5;
+export const GOBLIN_RETREAT_LEVEL = 5;
 
 const _nftId = (state: MachineState) => state.context.nftId;
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
