@@ -741,11 +741,19 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   const canSkip =
     !!delivery &&
-    getDayOfYear(new Date(now)) !== getDayOfYear(new Date(delivery.createdAt));
+    (getDayOfYear(new Date(now)) !==
+      getDayOfYear(new Date(delivery.createdAt)) ||
+      new Date(now).getFullYear() !==
+        new Date(delivery.createdAt).getFullYear());
 
-  const skip = () => {
+  const skippableDelivery =
+    delivery && !delivery.completedAt && delivery.readyAt <= now && canSkip
+      ? delivery
+      : undefined;
+
+  const skip = (id: string) => {
     setShowSkipDialog(false);
-    gameService.send("order.skipped", { id: delivery?.id });
+    gameService.send("order.skipped", { id });
     gameService.send("SAVE");
     onClose?.();
   };
@@ -874,18 +882,22 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
               <div className="flex-1">
                 <RequirementLabel
                   type="time"
-                  waitSeconds={secondsTillReset()}
+                  waitSeconds={secondsTillReset(now)}
                 />
               </div>
             </>
           )}
         </div>
         {canSkip && (
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-row gap-1">
             <Button onClick={() => setShowSkipDialog(false)}>
               {t("orderhelp.NoRight")}
             </Button>
-            <Button onClick={skip}>{t("skip.order")}</Button>
+            {skippableDelivery && (
+              <Button onClick={() => skip(skippableDelivery.id)}>
+                {t("skip.order")}
+              </Button>
+            )}
           </div>
         )}
         {!canSkip && (
@@ -1002,13 +1014,14 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                     !isLocked &&
                     !missingRequiredReputation &&
                     delivery.readyAt <= now && (
-                      <p
-                        className="underline font-secondary text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
+                      <button
+                        type="button"
+                        className="text-left underline font-secondary text-xxs p-0 pb-1 pt-0.5 bg-transparent border-0 cursor-pointer hover:text-blue-500 focus-visible:text-blue-500"
                         onClick={() => setShowSkipDialog(true)}
                       >
                         {t("skip.order")}
                         {"?"}
-                      </p>
+                      </button>
                     )}
                 </>
               )}

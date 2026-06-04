@@ -134,6 +134,66 @@ describe("skipOrder", () => {
     ).toBeDefined();
   });
 
+  it("throws an error if the order is already completed", () => {
+    const id = "ORDER";
+
+    const order: Order = {
+      from: "betty",
+      createdAt: 0,
+      id,
+      items: {},
+      readyAt: 0,
+      reward: {},
+      completedAt: 123,
+    };
+
+    expect(() =>
+      skipOrder({
+        state: {
+          ...GAME_STATE,
+          delivery: {
+            ...GAME_STATE.delivery,
+            orders: [order],
+          },
+        },
+        action: {
+          type: "order.skipped",
+          id,
+        },
+      }),
+    ).toThrow(`Order already completed`);
+  });
+
+  it("throws an error if the order is not ready yet", () => {
+    const id = "ORDER";
+
+    const order: Order = {
+      from: "betty",
+      createdAt: 0,
+      id,
+      items: {},
+      readyAt: 2000,
+      reward: {},
+    };
+
+    expect(() =>
+      skipOrder({
+        state: {
+          ...GAME_STATE,
+          delivery: {
+            ...GAME_STATE.delivery,
+            orders: [order],
+          },
+        },
+        action: {
+          type: "order.skipped",
+          id,
+        },
+        createdAt: 1000,
+      }),
+    ).toThrow(`Order ${id} is not ready yet`);
+  });
+
   it("increments the existing skipped count", async () => {
     const id = "ORDER";
 
