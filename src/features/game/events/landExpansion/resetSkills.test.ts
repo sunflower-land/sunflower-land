@@ -2,9 +2,23 @@ import Decimal from "decimal.js-light";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { getTimeUntilNextFreeReset, resetSkills } from "./resetSkills";
+import { CONFIG } from "lib/config";
 
 describe("resetSkills", () => {
   const dateNow = Date.now();
+
+  // Default test env is `amoy`, which makes betaFeatureFlag true and the
+  // EDIT_SKILLSET gate trigger — pin to mainnet so the legacy flow runs.
+  let previousNetwork: (typeof CONFIG)["NETWORK"];
+
+  beforeEach(() => {
+    previousNetwork = CONFIG.NETWORK;
+    CONFIG.NETWORK = "mainnet";
+  });
+
+  afterEach(() => {
+    CONFIG.NETWORK = previousNetwork;
+  });
 
   it("requires Bumpkin to have skills", () => {
     expect(() => {
@@ -330,6 +344,27 @@ describe("resetSkills", () => {
       });
 
       expect(state.bumpkin?.skills).toEqual({});
+    });
+  });
+
+  describe("EDIT_SKILLSET gate", () => {
+    it("throws when the cohort has EDIT_SKILLSET access", () => {
+      CONFIG.NETWORK = "amoy";
+      expect(() =>
+        resetSkills({
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...TEST_BUMPKIN,
+              skills: { "Green Thumb": 1 },
+            },
+          },
+          action: { type: "skills.reset", paymentType: "free" },
+          createdAt: dateNow,
+        }),
+      ).toThrow(
+        "skills.reset is unavailable for the EDIT_SKILLSET cohort; use skills.updated",
+      );
     });
   });
 });
