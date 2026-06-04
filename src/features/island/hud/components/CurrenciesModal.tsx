@@ -8,7 +8,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { VIPItems } from "features/game/components/modal/components/VIPItems";
 import { BuyGemsWidget } from "features/announcements/AnnouncementWidgets";
-import { DepositFlower } from "./deposit/DepositFlower";
 import { SwapSFLForCoins } from "./SwapSFLForCoins";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { XsollaLoading } from "features/game/components/modal/components/XsollaLoading";
@@ -26,6 +25,9 @@ import type { AuthMachineState } from "features/auth/lib/authMachine";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { buyBlockBucksXsolla as buyGemsXsolla } from "features/game/actions/buyGems";
+import { useNavigate } from "react-router";
+import { useSound } from "lib/utils/hooks/useSound";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 import flowerIcon from "assets/icons/flower_token.webp";
 import vipIcon from "assets/icons/vip.webp";
@@ -62,10 +64,16 @@ type Props = {
   onClose: () => void;
 };
 
+// Minimum Bumpkin level required to travel to the Goblin Retreat
+// (matches the gate on the world travel map).
+const GOBLIN_RETREAT_LEVEL = 5;
+
 const _token = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 const _farmId = (state: MachineState) => state.context.farmId;
 const _autosaving = (state: MachineState) => state.matches("autosaving");
+const _experience = (state: MachineState) =>
+  state.context.state.bumpkin?.experience ?? 0;
 
 export const CurrenciesModal: React.FC<Props> = ({
   show,
@@ -84,6 +92,18 @@ export const CurrenciesModal: React.FC<Props> = ({
   const token = useSelector(authService, _token);
   const farmId = useSelector(gameService, _farmId);
   const autosaving = useSelector(gameService, _autosaving);
+  const experience = useSelector(gameService, _experience);
+
+  const navigate = useNavigate();
+  const travel = useSound("travel");
+
+  const canAccessRetreat = getBumpkinLevel(experience) >= GOBLIN_RETREAT_LEVEL;
+
+  const goToGoblinRetreat = () => {
+    travel.play();
+    navigate("/world/retreat");
+    onClose();
+  };
 
   const { t } = useAppTranslation();
 
@@ -240,7 +260,38 @@ export const CurrenciesModal: React.FC<Props> = ({
               </div>
             )}
             {page === "deposit" && (
-              <DepositFlower onClose={() => setPage("menu")} />
+              <>
+                <div className="flex flex-col gap-2 p-1">
+                  <div className="flex items-center">
+                    <img
+                      src={SUNNYSIDE.icons.arrow_left}
+                      className="w-6 cursor-pointer mr-2"
+                      onClick={() => setPage("menu")}
+                    />
+                    <Label type="default" icon={flowerIcon}>
+                      {t("deposit.flower")}
+                    </Label>
+                  </div>
+                  <p className="text-sm p-1">
+                    {t("deposit.flower.movedToBank")}
+                  </p>
+                </div>
+                <Button
+                  onClick={goToGoblinRetreat}
+                  disabled={!canAccessRetreat}
+                >
+                  <div className="flex items-center justify-center">
+                    {!canAccessRetreat && (
+                      <img src={SUNNYSIDE.icons.lock} className="h-4 mr-1" />
+                    )}
+                    {canAccessRetreat
+                      ? t("gameOptions.blockchainSettings.goToBank")
+                      : t("world.lvl.requirement", {
+                          lvl: GOBLIN_RETREAT_LEVEL,
+                        })}
+                  </div>
+                </Button>
+              </>
             )}
             {page === "swap" && (
               <SwapSFLForCoins onClose={() => setPage("menu")} />
