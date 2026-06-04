@@ -42,6 +42,7 @@ import {
   REQUIRED_FOOD_QTY,
 } from "features/game/events/landExpansion/feedAnimal";
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
+import { isAnimalFeedable } from "features/game/events/landExpansion/buyAnimal";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
 import { isWearableActive } from "features/game/lib/wearables";
@@ -49,6 +50,7 @@ import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
 import { SleepingAnimalModal } from "features/barn/components/SleepingAnimalModal";
+import { LockedAnimalModal } from "features/barn/components/LockedAnimalModal";
 import glow from "public/world/glow.png";
 
 export const CHICKEN_EMOTION_ICONS: Record<
@@ -148,6 +150,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const [showAnimalDetails, setShowAnimalDetails] = useState(false);
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
   const [showNoMedicine, setShowNoMedicine] = useState(false);
+  const [showLockedDetails, setShowLockedDetails] = useState(false);
   const [showFeedXP, setShowFeedXP] = useState(false);
   const [showNoFoodSelected, setShowNoFoodSelected] = useState(false);
   const [showLoveItem, setShowLoveItem] = useState<LoveAnimalItem>();
@@ -159,6 +162,10 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const ready = chickenMachineState === "ready";
   const idle = chickenMachineState === "idle";
   const sick = chickenMachineState === "sick" || chicken.state === "sick";
+  // Over-capacity animals (e.g. the Chicken Coop was removed/sold after buying
+  // animals) cannot be fed. They go dormant (rendered like a sleeping animal)
+  // but can still be cured and sold to bounties.
+  const isLocked = !isAnimalFeedable("henHouse", game, id);
 
   // Sounds
   const { play: playFeedAnimal } = useSound("feed_animal");
@@ -369,6 +376,14 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       return onReadyClick();
     }
 
+    // Defensive: never let the capacity lock block curing a sick animal
+    // (sick is handled above via onSickClick); only normal feeding is gated.
+    // Locked animals behave like sleeping ones: clicking opens an info modal.
+    if (isLocked && !sick) {
+      setShowLockedDetails(true);
+      return;
+    }
+
     const hasFoodSelected = selectedItem && isAnimalFood(selectedItem);
 
     if (hasGoldEgg) {
@@ -433,6 +448,14 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       };
     }
 
+    // Locked (over-capacity) animals are dormant - show them sleeping.
+    if (isLocked) {
+      return {
+        image: SUNNYSIDE.animals.chickenAsleep,
+        width: PIXEL_SCALE * 13,
+      };
+    }
+
     return {
       image: SUNNYSIDE.animals.chickenIdle,
       width: PIXEL_SCALE * 11,
@@ -444,7 +467,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     if (needsLove) return chicken.item;
     return favFood;
   };
-  const showRequestBubble = sick || needsLove || idle;
+  const showRequestBubble = sick || needsLove || (idle && !isLocked);
 
   if (chickenMachineState === "initial") return null;
 
@@ -528,8 +551,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
             className={classNames(
               "absolute ml-[1px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
               {
-                "mt-[2px]": !sleeping && !ready,
-                "mt-[3px]": sleeping || ready,
+                "mt-[2px]": !sleeping && !ready && !isLocked,
+                "mt-[3px]": sleeping || ready || isLocked,
               },
             )}
           />
@@ -552,6 +575,19 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
               top={PIXEL_SCALE * -3.5}
               left={PIXEL_SCALE * 20}
               request={requestBubbleRequest()}
+            />
+          )}
+          {/* Over-capacity lock */}
+          {isLocked && (
+            <img
+              src={SUNNYSIDE.icons.lock}
+              alt={t("animal.overCapacity")}
+              className="absolute z-20 pointer-events-none"
+              style={{
+                width: `${PIXEL_SCALE * 7}px`,
+                top: `${PIXEL_SCALE * 1}px`,
+                right: `${PIXEL_SCALE * 1}px`,
+              }}
             />
           )}
         </div>
@@ -580,6 +616,17 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
             awakeAt={chicken.awakeAt}
             onClose={() => setShowAnimalDetails(false)}
           />
+        </CloseButtonPanel>
+      </Modal>
+      <Modal
+        show={showLockedDetails}
+        onHide={() => setShowLockedDetails(false)}
+      >
+        <CloseButtonPanel
+          container={OuterPanel}
+          onClose={() => setShowLockedDetails(false)}
+        >
+          <LockedAnimalModal animal={chicken} />
         </CloseButtonPanel>
       </Modal>
       {/* Level Progress */}

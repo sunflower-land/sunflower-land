@@ -9023,5 +9023,21 @@
   "deposit.search.noResults": "Aucun article ne correspond à votre recherche.",
   "gameOptions.blockchainSettings.movedToBank": "Les dépôts et les retraits ont été transférés à la Banque des gobelins, dans la retraite des gobelins.",
   "gameOptions.blockchainSettings.movedToBank.fullUsers": "Les dépôts, les retraits et les transferts ont été transférés à la Goblin Bank, dans le Goblin Retreat.",
-  "gameOptions.blockchainSettings.goToBank": "Allez à la Goblin Bank"
+  "gameOptions.blockchainSettings.goToBank": "Allez à la Goblin Bank",
+  "inventory.all": "Tous",
+  "inventory.sort.default": "Catégorie",
+  "inventory.sort.amount": "Montant",
+  "inventory.sort.name": "Nom (A à Z)",
+  "inventory.noResults": "Aucun article ne correspond à votre recherche.",
+  "farmHands": "Farm Hands",
+  "withdraw.placed.warning": "Si vous retirez un objet de collection placé, vous le retirerez de votre ferme, de votre maison ou de votre intérieur.",
+  "withdraw.equipped.warning": "Si vous retirez un appareil portable équipé, vous le déséquiperez de votre Bumpkin et de vos ouvriers agricoles.",
+  "withdraw.placedBud.warning": "Ce bourgeon est placé dans votre ferme et sera retiré une fois retiré.",
+  "withdraw.placedPet.warning": "Cet animal est placé dans votre ferme et sera retiré une fois retiré.",
+  "marketplace.favoritesDescription": "Accédez rapidement à vos articles préférés",
+  "animal.overCapacity": "Surcapacité ! Votre animal ne veut pas être nourri.",
+  "lockedAnimal.title": "Surcapacité",
+  "lockedAnimal.locked": "Verrouillé",
+  "lockedAnimal.description": "Ce {{animal}} est supérieur à la capacité de votre bâtiment, il est donc devenu inactif et ne peut pas être alimenté. Il peut encore être guéri et vendu à des primes.",
+  "lockedAnimal.howToUnlock": "Replacez l'objet de collection qui augmente les capacités ou améliorez le bâtiment pour le déverrouiller à nouveau."
 }

@@ -9023,5 +9023,21 @@
   "deposit.search.noResults": "Nessun articolo corrisponde alla tua ricerca.",
   "gameOptions.blockchainSettings.movedToBank": "I depositi e i prelievi sono stati trasferiti alla Goblin Bank nel Goblin Retreat.",
   "gameOptions.blockchainSettings.movedToBank.fullUsers": "Il deposito, il prelievo e il trasferimento sono stati trasferiti alla Goblin Bank nel Goblin Retreat.",
-  "gameOptions.blockchainSettings.goToBank": "Vai alla Goblin Bank"
+  "gameOptions.blockchainSettings.goToBank": "Vai alla Goblin Bank",
+  "inventory.all": "Tutti",
+  "inventory.sort.default": "Categoria",
+  "inventory.sort.amount": "Importo",
+  "inventory.sort.name": "Nome (A-Z)",
+  "inventory.noResults": "Nessun articolo corrisponde alla tua ricerca.",
+  "farmHands": "Mani della fattoria",
+  "withdraw.placed.warning": "Il ritiro di un oggetto da collezione piazzato lo rimuoverà dalla tua fattoria, dalla tua casa o dai tuoi interni.",
+  "withdraw.equipped.warning": "Il ritiro di un dispositivo indossabile equipaggiato lo disequipaggerà dai tuoi Bumpkin e dai tuoi braccianti.",
+  "withdraw.placedBud.warning": "Questa gemma viene posizionata nella tua fattoria e verrà rimossa una volta ritirata.",
+  "withdraw.placedPet.warning": "Questo animale domestico viene collocato nella tua fattoria e verrà rimosso una volta ritirato.",
+  "marketplace.favoritesDescription": "Accedi rapidamente ai tuoi articoli preferiti",
+  "animal.overCapacity": "Sovraccapacità! Il tuo animale non vuole essere nutrito.",
+  "lockedAnimal.title": "Capacità eccessiva",
+  "lockedAnimal.locked": "Bloccato",
+  "lockedAnimal.description": "Questo {{animal}} ha superato la capacità del tuo edificio, quindi è inattivo e non può essere alimentato. Può ancora essere curato e venduto in cambio di ricompense.",
+  "lockedAnimal.howToUnlock": "Riposiziona il collezionabile che aumenta la capacità o fai salire di livello l'edificio per sbloccarlo nuovamente."
 }

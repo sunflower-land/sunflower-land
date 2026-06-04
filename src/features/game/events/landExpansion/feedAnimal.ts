@@ -25,6 +25,7 @@ import { trackFarmActivity } from "features/game/types/farmActivity";
 import { getKeys } from "lib/object";
 import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { isAnimalFeedable } from "./buyAnimal";
 
 export const ANIMAL_SLEEP_DURATION = 24 * 60 * 60 * 1000;
 
@@ -239,6 +240,13 @@ export function feedAnimal({
       });
 
       return copy; // Early return after curing
+    }
+
+    // Animals beyond the building's capacity (e.g. a capacity boosting
+    // collectible was removed or sold after buying animals) cannot be fed.
+    // They can still be cured (handled above) and sold to bounties.
+    if (!isAnimalFeedable(buildingKey, copy, action.id)) {
+      throw new Error("Animal exceeds building capacity and cannot be fed");
     }
 
     // Handle feeding

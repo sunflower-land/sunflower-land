@@ -9023,5 +9023,21 @@
   "deposit.search.noResults": "Nenhum item corresponde à sua pesquisa.",
   "gameOptions.blockchainSettings.movedToBank": "O depósito e o saque foram transferidos para o Goblin Bank no Goblin Retreat.",
   "gameOptions.blockchainSettings.movedToBank.fullUsers": "O depósito, o saque e a transferência foram transferidos para o Goblin Bank no Goblin Retreat.",
-  "gameOptions.blockchainSettings.goToBank": "Vá para o Goblin Bank"
+  "gameOptions.blockchainSettings.goToBank": "Vá para o Goblin Bank",
+  "inventory.all": "Todos",
+  "inventory.sort.default": "Categoria",
+  "inventory.sort.amount": "Quantia",
+  "inventory.sort.name": "Nome (A-Z)",
+  "inventory.noResults": "Nenhum item corresponde à sua pesquisa.",
+  "farmHands": "Mãos da fazenda",
+  "withdraw.placed.warning": "Retirar um item colecionável colocado o removerá de sua fazenda, casa ou interior.",
+  "withdraw.equipped.warning": "Retirar um dispositivo vestível equipado o desequipará de seu caipira e de seus fazendeiros.",
+  "withdraw.placedBud.warning": "Este Bud é colocado em sua fazenda e será removido quando retirado.",
+  "withdraw.placedPet.warning": "Este animal de estimação é colocado em sua fazenda e será removido quando retirado.",
+  "marketplace.favoritesDescription": "Acesse rapidamente seus itens favoritos",
+  "animal.overCapacity": "Sobrecapacidade! Seu animal não quer ser alimentado.",
+  "lockedAnimal.title": "Sobrecapacidade",
+  "lockedAnimal.locked": "Bloqueado",
+  "lockedAnimal.description": "Esse {{animal}} está acima da capacidade do seu prédio, então ele ficou inativo e não pode ser alimentado. Ele ainda pode ser curado e vendido como recompensa.",
+  "lockedAnimal.howToUnlock": "Substitua o colecionável que aumenta a capacidade ou suba o nível do prédio para desbloqueá-lo novamente."
 }

@@ -46,8 +46,17 @@ const AcceptOfferContent: React.FC<{
   display: TradeableDisplay;
   offer: Offer;
   itemId: number;
+  availableBalance?: number;
   onOfferAccepted: () => void;
-}> = ({ onClose, display, itemId, authToken, offer, onOfferAccepted }) => {
+}> = ({
+  onClose,
+  display,
+  itemId,
+  authToken,
+  offer,
+  availableBalance,
+  onOfferAccepted,
+}) => {
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
@@ -113,6 +122,12 @@ const AcceptOfferContent: React.FC<{
     hasItem = !!state.pets?.nfts?.[itemId];
   }
 
+  if (display.type === "economies") {
+    // Economy token balances live in the API-provided `balance`, not the
+    // game inventory, so check against that rather than `state.inventory`.
+    hasItem = (availableBalance ?? 0) >= offer.quantity;
+  }
+
   const estTradePoints =
     offer.sfl === 0
       ? 0
@@ -170,7 +185,7 @@ const AcceptOfferContent: React.FC<{
 
       {!hasItem && (
         <Label type="danger" className="my-2">
-          {`You do not have ${display.name}`}
+          {`You do not have ${display.translatedName ?? display.name}`}
         </Label>
       )}
 
@@ -196,8 +211,17 @@ export const AcceptOffer: React.FC<{
   display: TradeableDisplay;
   offer: Offer;
   itemId: number;
+  availableBalance?: number;
   onOfferAccepted: () => void;
-}> = ({ onClose, authToken, display, offer, itemId, onOfferAccepted }) => {
+}> = ({
+  onClose,
+  authToken,
+  display,
+  offer,
+  itemId,
+  availableBalance,
+  onOfferAccepted,
+}) => {
   if (offer.type === "onchain") {
     return (
       <GameWallet action="marketplace">
@@ -207,6 +231,7 @@ export const AcceptOffer: React.FC<{
           display={display}
           offer={offer}
           itemId={itemId}
+          availableBalance={availableBalance}
           onOfferAccepted={onOfferAccepted}
         />
       </GameWallet>
@@ -220,6 +245,7 @@ export const AcceptOffer: React.FC<{
       display={display}
       offer={offer}
       itemId={itemId}
+      availableBalance={availableBalance}
       onOfferAccepted={onOfferAccepted}
     />
   );

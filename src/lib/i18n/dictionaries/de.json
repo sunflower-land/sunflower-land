@@ -9023,5 +9023,21 @@
   "deposit.search.noResults": "Keine Artikel entsprechen Ihrer Suche.",
   "gameOptions.blockchainSettings.movedToBank": "Ein- und Auszahlungen wurden auf die Goblinbank im Goblin-Retreat verschoben.",
   "gameOptions.blockchainSettings.movedToBank.fullUsers": "Einzahlung, Auszahlung und Überweisung sind auf die Goblinbank im Goblin-Retreat umgezogen.",
-  "gameOptions.blockchainSettings.goToBank": "Gehe zur Goblinbank"
+  "gameOptions.blockchainSettings.goToBank": "Gehe zur Goblinbank",
+  "inventory.all": "Alle",
+  "inventory.sort.default": "Kategorie",
+  "inventory.sort.amount": "Betrag",
+  "inventory.sort.name": "Name (A-Z)",
+  "inventory.noResults": "Keine Artikel entsprechen Ihrer Suche.",
+  "farmHands": "Farmarbeiter",
+  "withdraw.placed.warning": "Wenn du ein platziertes Sammlerstück zurückziehst, wird es von deiner Farm, deinem Zuhause oder deiner Inneneinrichtung entfernt.",
+  "withdraw.equipped.warning": "Wenn du ein ausgerüstetes Wearable zurückziehst, wird es deinem Bumpkin und den Farmarbeitern entzogen.",
+  "withdraw.placedBud.warning": "Diese Knospe wird auf deiner Farm platziert und entfernt, wenn sie entfernt wird.",
+  "withdraw.placedPet.warning": "Dieses Haustier wird auf deiner Farm platziert und entfernt, wenn es zurückgezogen wird.",
+  "marketplace.favoritesDescription": "Greifen Sie schnell auf Ihre Lieblingsartikel zu",
+  "animal.overCapacity": "Überkapazität! Ihr Tier will nicht gefüttert werden.",
+  "lockedAnimal.title": "Überkapazität",
+  "lockedAnimal.locked": "Gesperrt",
+  "lockedAnimal.description": "Dieser Wert von {{animal}} übersteigt die Kapazität Ihres Gebäudes, es ist also inaktiv geworden und kann nicht versorgt werden. Es kann immer noch geheilt und gegen Kopfgelder verkauft werden.",
+  "lockedAnimal.howToUnlock": "Platziere das kapazitätssteigernde Sammelobjekt erneut oder verbessere das Gebäude, um es wieder freizuschalten."
 }

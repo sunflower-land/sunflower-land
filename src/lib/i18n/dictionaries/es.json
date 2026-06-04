@@ -9023,5 +9023,21 @@
   "deposit.search.noResults": "No hay ningún artículo que coincida con tu búsqueda.",
   "gameOptions.blockchainSettings.movedToBank": "Los depósitos y retiros se han trasladado al Banco de los Duendes en el Retiro de los Duendes.",
   "gameOptions.blockchainSettings.movedToBank.fullUsers": "Los depósitos, retiros y transferencias se han trasladado al Goblin Bank en el Goblin Retreat.",
-  "gameOptions.blockchainSettings.goToBank": "Ve al Banco Goblin"
+  "gameOptions.blockchainSettings.goToBank": "Ve al Banco Goblin",
+  "inventory.all": "Todas",
+  "inventory.sort.default": "Categoría",
+  "inventory.sort.amount": "Monto",
+  "inventory.sort.name": "Nombre (A-Z)",
+  "inventory.noResults": "No hay ningún artículo que coincida con tu búsqueda.",
+  "farmHands": "Manos de granja",
+  "withdraw.placed.warning": "Retirar un objeto coleccionable colocado lo eliminará de tu granja, casa o interior.",
+  "withdraw.equipped.warning": "Si retiras un objeto portátil equipado, lo desequiparás de tus jornaleros y cobardes.",
+  "withdraw.placedBud.warning": "Este capullo se coloca en tu granja y se eliminará cuando lo retires.",
+  "withdraw.placedPet.warning": "Esta mascota se coloca en tu granja y se retirará cuando la retires.",
+  "marketplace.favoritesDescription": "Accede rápidamente a tus artículos favoritos",
+  "animal.overCapacity": "¡Por encima de su capacidad! Tu animal no quiere que lo alimenten.",
+  "lockedAnimal.title": "Sobrecapacidad",
+  "lockedAnimal.locked": "Bloqueado",
+  "lockedAnimal.description": "Este {{animal}} supera la capacidad de tu edificio, por lo que está inactivo y no se puede alimentar. Todavía se puede curar y vender para obtener recompensas.",
+  "lockedAnimal.howToUnlock": "Sustituye el objeto coleccionable que aumenta la capacidad o sube de nivel el edificio para volver a desbloquearlo."
 }

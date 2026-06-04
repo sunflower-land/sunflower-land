@@ -64,10 +64,13 @@ export const InlineDialogue: React.FC<{
   }, [message, trail, currentIndex]);
 
   return (
-    <div className="relative">
-      <div className="text-sm absolute inset-0">{displayedMessage}</div>
-      {/* Render a hidden message so the container gets the correct height initially */}
-      <div className="text-sm opacity-0">{message}</div>
+    <div className="grid">
+      <div className="text-sm col-start-1 row-start-1">{displayedMessage}</div>
+      {/* Render a hidden message in the same grid cell so the container reserves
+          the full height up front without the visible text overflowing it. */}
+      <div className="text-sm col-start-1 row-start-1 invisible" aria-hidden>
+        {message}
+      </div>
     </div>
   );
 };

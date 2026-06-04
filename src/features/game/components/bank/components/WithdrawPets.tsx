@@ -51,10 +51,10 @@ export const WithdrawPets: React.FC<Props> = ({
 
   const nfts = state.pets?.nfts ?? {};
 
+  // Placed pets can now be withdrawn (the backend removes the pet NFT
+  // entirely), so they are no longer filtered out here.
   const [unselected, setUnselected] = useState<number[]>(
-    getKeys(nfts)
-      .filter((nftId) => !nfts[nftId].coordinates)
-      .map(Number),
+    getKeys(nfts).map(Number),
   );
   const [selected, setSelected] = useState<number[]>([]);
   const [confirmationStep, setConfirmationStep] = useState<1 | 2 | null>(null);
@@ -249,6 +249,9 @@ export const WithdrawPets: React.FC<Props> = ({
             })
           : undefined;
 
+    // A placed pet is removed from the farm when withdrawn — warn on select.
+    const isPlaced = !!nfts[petId]?.coordinates;
+
     return {
       key: `pet-${petId}`,
       id: petId,
@@ -256,6 +259,8 @@ export const WithdrawPets: React.FC<Props> = ({
       image: getPetImage("happy", petId),
       total: 1,
       unique: true,
+      safeWithdrawCount: isPlaced ? 0 : 1,
+      inUseWarning: isPlaced ? t("withdraw.placedPet.warning") : undefined,
       locked,
       lockReason,
       status: isRestricted

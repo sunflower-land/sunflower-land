@@ -42,6 +42,7 @@ import {
   REQUIRED_FOOD_QTY,
 } from "features/game/events/landExpansion/feedAnimal";
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
+import { isAnimalFeedable } from "features/game/events/landExpansion/buyAnimal";
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { isWearableActive } from "features/game/lib/wearables";
@@ -49,6 +50,7 @@ import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
 import { SleepingAnimalModal } from "./SleepingAnimalModal";
+import { LockedAnimalModal } from "./LockedAnimalModal";
 import glow from "public/world/glow.png";
 
 export const ANIMAL_EMOTION_ICONS: Record<
@@ -143,6 +145,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const [showNoFoodSelected, setShowNoFoodSelected] = useState(false);
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
   const [showNoMedicine, setShowNoMedicine] = useState(false);
+  const [showLockedDetails, setShowLockedDetails] = useState(false);
   // Sounds
   const { play: playFeedAnimal } = useSound("feed_animal");
   const { play: playCowCollect } = useSound("cow_collect");
@@ -156,6 +159,10 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const ready = cowMachineState === "ready";
   const idle = cowMachineState === "idle";
   const sick = cowMachineState === "sick" || cow.state === "sick";
+  // Over-capacity animals (e.g. the Barn Blueprint was removed/sold after
+  // buying animals) cannot be fed. They go dormant (rendered like a sleeping
+  // animal) but can still be cured and sold to bounties.
+  const isLocked = !isAnimalFeedable("barn", game, id);
 
   const { foodQuantity: requiredFoodQty } = getBoostedFoodQuantity({
     animalType: "Cow",
@@ -359,6 +366,14 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       return onReadyClick();
     }
 
+    // Defensive: never let the capacity lock block curing a sick animal
+    // (sick is handled above via onSickClick); only normal feeding is gated.
+    // Locked animals behave like sleeping ones: clicking opens an info modal.
+    if (isLocked && !sick) {
+      setShowLockedDetails(true);
+      return;
+    }
+
     const hasFoodSelected = selectedItem && isAnimalFood(selectedItem);
 
     if (hasGoldenCow) {
@@ -423,6 +438,14 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
       };
     }
 
+    // Locked (over-capacity) animals are dormant - show them sleeping.
+    if (isLocked) {
+      return {
+        image: SUNNYSIDE.animals.cowSleeping,
+        width: PIXEL_SCALE * 13,
+      };
+    }
+
     return {
       image: SUNNYSIDE.animals.cowIdle,
       width: PIXEL_SCALE * 11,
@@ -434,7 +457,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     if (needsLove) return cow.item;
     return favFood;
   };
-  const showRequestBubble = sick || needsLove || idle;
+  const showRequestBubble = sick || needsLove || (idle && !isLocked);
 
   if (cowMachineState === "initial") return null;
 
@@ -533,6 +556,19 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
               }
             />
           )}
+          {/* Over-capacity lock */}
+          {isLocked && (
+            <img
+              src={SUNNYSIDE.icons.lock}
+              alt={t("animal.overCapacity")}
+              className="absolute z-20 pointer-events-none"
+              style={{
+                width: `${PIXEL_SCALE * 7}px`,
+                top: `${PIXEL_SCALE * 1}px`,
+                right: `${PIXEL_SCALE * 1}px`,
+              }}
+            />
+          )}
           <Modal
             show={showAnimalDetails}
             onHide={() => setShowAnimalDetails(false)}
@@ -547,6 +583,17 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
                 awakeAt={cow.awakeAt}
                 onClose={() => setShowAnimalDetails(false)}
               />
+            </CloseButtonPanel>
+          </Modal>
+          <Modal
+            show={showLockedDetails}
+            onHide={() => setShowLockedDetails(false)}
+          >
+            <CloseButtonPanel
+              container={OuterPanel}
+              onClose={() => setShowLockedDetails(false)}
+            >
+              <LockedAnimalModal animal={cow} />
             </CloseButtonPanel>
           </Modal>
           <InfoPopover

@@ -190,6 +190,7 @@ export const TradeableOffers: React.FC<{
             itemId={itemId}
             display={display}
             offer={(isResource ? selectedOffer : topOffer) as Offer}
+            availableBalance={tradeable?.balance}
             onClose={() => setShowAcceptOffer(false)}
             onOfferAccepted={reload}
           />
