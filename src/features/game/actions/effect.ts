@@ -22,6 +22,7 @@ type EffectName =
   | "telegram.joined"
   | "twitter.followed"
   | "twitter.posted"
+  | "twitter.showcased"
   | "gems.bought"
   | "vip.bought"
   | "username.assigned"
@@ -98,6 +99,7 @@ export type StateMachineStateName =
   | "joiningTelegram"
   | "followingTwitter"
   | "postingTwitter"
+  | "showcasingTwitter"
   | "buyingGems"
   | "buyingVIP"
   | "assigningUsername"
@@ -159,6 +161,7 @@ export const STATE_MACHINE_EFFECTS: Record<
   "telegram.joined": "joiningTelegram",
   "twitter.followed": "followingTwitter",
   "twitter.posted": "postingTwitter",
+  "twitter.showcased": "showcasingTwitter",
   "gems.bought": "buyingGems",
   "vip.bought": "buyingVIP",
   "username.assigned": "assigningUsername",
