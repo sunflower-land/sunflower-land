@@ -144,7 +144,7 @@ const FEATURE_FLAGS = {
 
   BOOSTS_DISPLAY: betaFeatureFlag,
 
-  SEEN_ON_X: testnetFeatureFlag,
+  SEEN_ON_X: betaFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
