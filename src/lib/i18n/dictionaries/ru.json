@@ -9048,9 +9048,7 @@
   "community.feed.empty": "No community posts yet. Check back soon!",
   "community.feed.error": "Could not load community posts. Please try again later.",
   "community.feed.title": "Community post",
-  "community.feed.postOnX.cta": "Post on X to earn rewards",
   "community.feed.postOnX.viewMore": "View more",
-  "community.feed.viewOnX": "View on X",
   "community.addPost.title": "Showcase a post",
   "community.addPost.description": "Paste the link to an X (Twitter) post to feature it in the community feed. The author will be rewarded.",
   "community.addPost.placeholder": "https://x.com/...",
@@ -9063,5 +9061,12 @@
   "showcasing.twitter": "Showcasing post...",
   "showcasing.twitter.success": "Post showcased! The author has been rewarded.",
   "inventory.showFilters": "Show filters",
-  "inventory.hideFilters": "Hide filters"
+  "inventory.hideFilters": "Hide filters",
+  "community.feed.postOnX.cta": "Post on X for instant rewards",
+  "community.feed.viewOnX": "Read more",
+  "community.feed.remove": "Remove from feed",
+  "community.feed.remove.confirm": "Confirm remove",
+  "community.feed.removing": "Removing post...",
+  "community.feed.removeError": "Couldn't remove the post. Please try again.",
+  "community.addPost.reward": "Authors will receive 1,000 Love Charms."
 }

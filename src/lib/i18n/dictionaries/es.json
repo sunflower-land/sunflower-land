@@ -9048,9 +9048,7 @@
   "community.feed.empty": "Aún no hay publicaciones en la comunidad. ¡Vuelve pronto!",
   "community.feed.error": "No se han podido cargar las publicaciones de la comunidad. Vuelve a intentarlo más tarde.",
   "community.feed.title": "Publicación en la comunidad",
-  "community.feed.postOnX.cta": "Publica en X para ganar recompensas",
   "community.feed.postOnX.viewMore": "Ver más",
-  "community.feed.viewOnX": "Ver en X",
   "community.addPost.title": "Mostrar una publicación",
   "community.addPost.description": "Pega el enlace a una publicación de X (Twitter) para incluirla en el feed de la comunidad. El autor será recompensado.",
   "community.addPost.placeholder": "https://x.com/...",
@@ -9063,5 +9061,12 @@
   "showcasing.twitter": "Mostrando publicación...",
   "showcasing.twitter.success": "¡Publicación presentada! El autor ha sido recompensado.",
   "inventory.showFilters": "Mostrar filtros",
-  "inventory.hideFilters": "Ocultar filtros"
+  "inventory.hideFilters": "Ocultar filtros",
+  "community.feed.postOnX.cta": "Publica en X para obtener recompensas instantáneas",
+  "community.feed.viewOnX": "Leer más",
+  "community.feed.remove": "Eliminar del feed",
+  "community.feed.remove.confirm": "Confirmar eliminar",
+  "community.feed.removing": "Eliminando publicación...",
+  "community.feed.removeError": "No se ha podido eliminar la publicación. Por favor, inténtalo de nuevo.",
+  "community.addPost.reward": "Los autores recibirán 1000 amuletos de amor."
 }

@@ -9048,9 +9048,7 @@
   "community.feed.empty": "Ancora nessun post della community. Torna presto!",
   "community.feed.error": "Impossibile caricare i post della community. Riprova più tardi.",
   "community.feed.title": "Post della community",
-  "community.feed.postOnX.cta": "Pubblica su X per guadagnare premi",
   "community.feed.postOnX.viewMore": "Visualizza altro",
-  "community.feed.viewOnX": "Visualizza su X",
   "community.addPost.title": "Mostra un post",
   "community.addPost.description": "Incolla il link a un post di X (Twitter) per inserirlo nel feed della community. L'autore verrà premiato.",
   "community.addPost.placeholder": "https://x.com/...",
@@ -9063,5 +9061,12 @@
   "showcasing.twitter": "Post in vetrina...",
   "showcasing.twitter.success": "Post in mostra! L'autore è stato premiato.",
   "inventory.showFilters": "Mostra filtri",
-  "inventory.hideFilters": "Nascondi filtri"
+  "inventory.hideFilters": "Nascondi filtri",
+  "community.feed.postOnX.cta": "Pubblica su X per premi istantanei",
+  "community.feed.viewOnX": "Leggi di più",
+  "community.feed.remove": "Rimuovi dal feed",
+  "community.feed.remove.confirm": "Conferma rimozione",
+  "community.feed.removing": "Rimozione del post...",
+  "community.feed.removeError": "Impossibile rimuovere il post. Per favore riprova.",
+  "community.addPost.reward": "Gli autori riceveranno 1.000 Love Charms."
 }

@@ -9048,9 +9048,7 @@
   "community.feed.empty": "コミュニティへの投稿はまだありません。すぐにもう一度チェックしてください！",
   "community.feed.error": "コミュニティ投稿を読み込めませんでした。後でもう一度試してください。",
   "community.feed.title": "コミュニティポスト",
-  "community.feed.postOnX.cta": "Xに投稿して報酬を獲得",
   "community.feed.postOnX.viewMore": "もっと見る",
-  "community.feed.viewOnX": "X で表示",
   "community.addPost.title": "投稿を紹介する",
   "community.addPost.description": "X (Twitter) 投稿へのリンクを貼り付けて、コミュニティフィードで取り上げてください。作者には報酬が贈られます。",
   "community.addPost.placeholder": "https://x.com/...",
@@ -9063,5 +9061,12 @@
   "showcasing.twitter": "投稿を紹介中...",
   "showcasing.twitter.success": "投稿が紹介されました！著者は報われました。",
   "inventory.showFilters": "フィルターを表示",
-  "inventory.hideFilters": "フィルターを非表示にする"
+  "inventory.hideFilters": "フィルターを非表示にする",
+  "community.feed.postOnX.cta": "Xに投稿すると、すぐに報酬がもらえます",
+  "community.feed.viewOnX": "もっと読む",
+  "community.feed.remove": "フィードから削除",
+  "community.feed.remove.confirm": "削除を確認",
+  "community.feed.removing": "投稿を削除中...",
+  "community.feed.removeError": "投稿を削除できませんでした。もう一度試してください。",
+  "community.addPost.reward": "著者には1,000個のラブチャームが贈られます。"
 }
