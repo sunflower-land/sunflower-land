@@ -183,10 +183,13 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   linkingWallet: false,
   linkingWalletSuccess: false,
   linkingWalletFailed: false,
-  // Showcasing a tweet is handled inline within the mailbox Community tab.
+  // Showcasing / removing a tweet is handled inline in the mailbox Community tab.
   showcasingTwitter: false,
   showcasingTwitterSuccess: false,
   showcasingTwitterFailed: false,
+  removingShowcase: false,
+  removingShowcaseSuccess: false,
+  removingShowcaseFailed: false,
 
   // Every new state should be added below here
   gems: true,

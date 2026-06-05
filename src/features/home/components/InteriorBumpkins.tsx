@@ -13,7 +13,10 @@ import { Button } from "components/ui/Button";
 import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { BED_FARMHAND_COUNT } from "features/game/types/beds";
+import {
+  BED_FARMHAND_COUNT,
+  getPlacedBedNames,
+} from "features/game/types/beds";
 import { BED_WIDTH } from "features/island/collectibles/components/Bed";
 import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
@@ -27,6 +30,10 @@ const _farmHands = (state: MachineState) =>
 const _collectibles = (state: MachineState) => state.context.state.collectibles;
 const _homeCollectibles = (state: MachineState) =>
   state.context.state.home.collectibles;
+const _interiorCollectibles = (state: MachineState) =>
+  state.context.state.interior.ground.collectibles;
+const _levelOneCollectibles = (state: MachineState) =>
+  state.context.state.interior.level_one?.collectibles;
 const _isLandscaping = (state: MachineState) => state.matches("landscaping");
 
 export const InteriorBumpkins: React.FC = () => {
@@ -41,6 +48,8 @@ export const InteriorBumpkins: React.FC = () => {
   const farmHands = useSelector(gameService, _farmHands);
   const collectibles = useSelector(gameService, _collectibles);
   const homeCollectibles = useSelector(gameService, _homeCollectibles);
+  const interiorCollectibles = useSelector(gameService, _interiorCollectibles);
+  const levelOneCollectibles = useSelector(gameService, _levelOneCollectibles);
   const isLandscaping = useSelector(gameService, _isLandscaping);
 
   const unplacedFarmHandIds = getKeys(farmHands).filter(
@@ -50,15 +59,12 @@ export const InteriorBumpkins: React.FC = () => {
   const count = getKeys(farmHands).length + 1;
   const max = Object.keys(BED_FARMHAND_COUNT).length;
 
-  const uniqueBedCollectibles = getKeys(collectibles).filter(
-    (collectible) => collectible in BED_FARMHAND_COUNT,
-  );
-  const uniqueHomeBedCollectibles = getKeys(homeCollectibles).filter(
-    (collectible) => collectible in BED_FARMHAND_COUNT,
-  );
-  const uniqueBeds = new Set([
-    ...uniqueBedCollectibles,
-    ...uniqueHomeBedCollectibles,
+  // Beds placed anywhere count — farm, home interior and both /interior floors.
+  const uniqueBeds = getPlacedBedNames([
+    collectibles,
+    homeCollectibles,
+    interiorCollectibles,
+    levelOneCollectibles,
   ]);
 
   const beds = getKeys(BED_FARMHAND_COUNT)

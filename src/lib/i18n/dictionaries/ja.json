@@ -9025,9 +9025,6 @@
   "gameOptions.blockchainSettings.movedToBank.fullUsers": "入金、出金、送金はゴブリンリトリートのゴブリンバンクに移動しました。",
   "gameOptions.blockchainSettings.goToBank": "ゴブリンバンクに行く",
   "inventory.all": "[すべて]",
-  "inventory.sort.default": "カテゴリー",
-  "inventory.sort.amount": "金額",
-  "inventory.sort.name": "名前 (アルファベット順)",
   "inventory.noResults": "検索条件に一致する商品はありません。",
   "farmHands": "ファームハンズ",
   "withdraw.placed.warning": "置いた収集品を引き出すと、農場、家、またはインテリアから削除されます。",
@@ -9064,5 +9061,7 @@
   "community.showcase.error.alreadyShowcased": "この投稿はすでに紹介されています。",
   "community.showcase.error.invalidUrl": "それは有効なX投稿リンクのようには見えません。",
   "showcasing.twitter": "投稿を紹介中...",
-  "showcasing.twitter.success": "投稿が紹介されました！著者は報われました。"
+  "showcasing.twitter.success": "投稿が紹介されました！著者は報われました。",
+  "inventory.showFilters": "フィルターを表示",
+  "inventory.hideFilters": "フィルターを非表示にする"
 }

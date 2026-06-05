@@ -12,7 +12,10 @@ import { getKeys } from "lib/object";
 import type { BedName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { BED_FARMHAND_COUNT } from "features/game/types/beds";
+import {
+  BED_FARMHAND_COUNT,
+  getPlacedBedNames,
+} from "features/game/types/beds";
 import { NaturalImage } from "components/ui/NaturalImage";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import type { Equipped } from "features/game/types/bumpkin";
@@ -56,6 +59,10 @@ const _farmhands = (state: MachineState) =>
 const _collectibles = (state: MachineState) => state.context.state.collectibles;
 const _homeCollectibles = (state: MachineState) =>
   state.context.state.home.collectibles;
+const _interiorCollectibles = (state: MachineState) =>
+  state.context.state.interior.ground.collectibles;
+const _levelOneCollectibles = (state: MachineState) =>
+  state.context.state.interior.level_one?.collectibles;
 const _isLandscaping = (state: MachineState) => state.matches("landscaping");
 const _unlockingFarmhand = (state: MachineState) =>
   state.matches("unlockingFarmhand");
@@ -76,6 +83,8 @@ export const Bed: React.FC<BedProps> = ({ name }) => {
   const farmhands = useSelector(gameService, _farmhands);
   const collectibles = useSelector(gameService, _collectibles);
   const homeCollectibles = useSelector(gameService, _homeCollectibles);
+  const interiorCollectibles = useSelector(gameService, _interiorCollectibles);
+  const levelOneCollectibles = useSelector(gameService, _levelOneCollectibles);
   const isLandscaping = useSelector(gameService, _isLandscaping);
   const unlockingFarmhand = useSelector(gameService, _unlockingFarmhand);
   const unlockingFarmhandSuccess = useSelector(
@@ -86,15 +95,12 @@ export const Bed: React.FC<BedProps> = ({ name }) => {
 
   // Limit: main bumpkin + farmhands must not exceed bed count (e.g. 11 beds = 1 main + 10 farmhands max)
   const bumpkinCount = getKeys(farmhands).length + 1;
-  const uniqueBedCollectibles = getKeys(collectibles).filter(
-    (collectible) => collectible in BED_FARMHAND_COUNT,
-  );
-  const uniqueHomeBedCollectibles = getKeys(homeCollectibles).filter(
-    (collectible) => collectible in BED_FARMHAND_COUNT,
-  );
-  const uniqueBeds = new Set([
-    ...uniqueBedCollectibles,
-    ...uniqueHomeBedCollectibles,
+  // Beds placed anywhere count — farm, home interior and both /interior floors.
+  const uniqueBeds = getPlacedBedNames([
+    collectibles,
+    homeCollectibles,
+    interiorCollectibles,
+    levelOneCollectibles,
   ]);
 
   // Sort best bed first (highest BED_FARMHAND_COUNT = Pearl Bed) so the next unlock targets it

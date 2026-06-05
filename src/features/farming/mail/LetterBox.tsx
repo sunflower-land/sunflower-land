@@ -182,6 +182,7 @@ export const LetterBox: React.FC = () => {
             <CommunityFeed
               key={feedKey}
               onAddPost={() => setShowAddPost(true)}
+              onRemoved={() => setFeedKey((key) => key + 1)}
             />
           )}
         </CloseButtonPanel>

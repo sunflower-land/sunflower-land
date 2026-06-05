@@ -9025,9 +9025,6 @@
   "gameOptions.blockchainSettings.movedToBank.fullUsers": "Einzahlung, Auszahlung und Überweisung sind auf die Goblinbank im Goblin-Retreat umgezogen.",
   "gameOptions.blockchainSettings.goToBank": "Gehe zur Goblinbank",
   "inventory.all": "Alle",
-  "inventory.sort.default": "Kategorie",
-  "inventory.sort.amount": "Betrag",
-  "inventory.sort.name": "Name (A-Z)",
   "inventory.noResults": "Keine Artikel entsprechen Ihrer Suche.",
   "farmHands": "Farmarbeiter",
   "withdraw.placed.warning": "Wenn du ein platziertes Sammlerstück zurückziehst, wird es von deiner Farm, deinem Zuhause oder deiner Inneneinrichtung entfernt.",
@@ -9064,5 +9061,7 @@
   "community.showcase.error.alreadyShowcased": "Dieser Beitrag wurde bereits veröffentlicht.",
   "community.showcase.error.invalidUrl": "Das sieht nicht nach einem gültigen X-Post-Link aus.",
   "showcasing.twitter": "Beitrag präsentieren...",
-  "showcasing.twitter.success": "Beitrag präsentiert! Der Autor wurde belohnt."
+  "showcasing.twitter.success": "Beitrag präsentiert! Der Autor wurde belohnt.",
+  "inventory.showFilters": "Filter einblenden",
+  "inventory.hideFilters": "Filter ausblenden"
 }
