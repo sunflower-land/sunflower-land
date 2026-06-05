@@ -567,7 +567,6 @@ describe("cancelQueuedCrafting", () => {
     const expectedQueue = recalculateCraftingQueue({
       queue: updatedQueue,
       game: gameAfterDecrement,
-      farmId,
     });
 
     const result = cancelQueuedCrafting({
@@ -589,5 +588,157 @@ describe("cancelQueuedCrafting", () => {
     expect(result.craftingBox.queue?.[1].readyAt).toEqual(
       expectedQueue[1].readyAt,
     );
+  });
+
+  // Bug #2: cancelling a later queued item must not re-derive the currently
+  // crafting item's time from the *current* boost state. The duration is locked
+  // in when the item is queued.
+  it("keeps the in-progress item's locked readyAt when a later item is cancelled", () => {
+    const now = Date.now();
+    const hour = 60 * 60 * 1000;
+    // Doll's base recipe time is 2h, but this item was queued while a crafting
+    // speed boost was active, so its locked duration is only 1h.
+    const dollReadyAt = now + hour;
+    const doll2ReadyAt = dollReadyAt + 2 * hour;
+
+    const state = cancelQueuedCrafting({
+      state: {
+        ...INITIAL_FARM,
+        buildings: {
+          "Crafting Box": [
+            {
+              id: "123",
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+        inventory: { Leather: new Decimal(0), Wool: new Decimal(0) },
+        farmActivity: { "Doll Crafting Started": 2 },
+        craftingBox: {
+          status: "crafting",
+          queue: [
+            {
+              id: "doll-1",
+              name: "Doll",
+              readyAt: dollReadyAt,
+              startedAt: now,
+              type: "collectible",
+            },
+            {
+              id: "doll-2",
+              name: "Doll",
+              readyAt: doll2ReadyAt,
+              startedAt: dollReadyAt,
+              type: "collectible",
+            },
+          ],
+          recipes: { Doll: { ...RECIPES.Doll } },
+        },
+      },
+      action: { type: "crafting.cancelled", queueItemId: "doll-2" },
+      createdAt: now,
+      farmId,
+    });
+
+    expect(state.craftingBox.queue).toHaveLength(1);
+    expect(state.craftingBox.queue?.[0].id).toBe("doll-1");
+    // Must stay at the locked 1h, not be recomputed to the full 2h recipe time.
+    expect(state.craftingBox.queue?.[0].readyAt).toEqual(dollReadyAt);
+  });
+
+  // Bug #4: the "currently being crafted" guard must compare by id, not readyAt.
+  it("cancels a later pending item that shares a readyAt with the in-progress item", () => {
+    const now = Date.now();
+    const sharedReadyAt = now + 60 * 60 * 1000;
+    // doll-current is actively crafting (ready in 1h). doll-pending is an
+    // instant item queued behind it, so it becomes ready exactly when the
+    // current craft finishes — the two share a readyAt. Cancelling the pending
+    // item must be allowed.
+    const state = cancelQueuedCrafting({
+      state: {
+        ...INITIAL_FARM,
+        buildings: {
+          "Crafting Box": [
+            {
+              id: "123",
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+        inventory: { Leather: new Decimal(0), Wool: new Decimal(0) },
+        farmActivity: { "Doll Crafting Started": 2 },
+        craftingBox: {
+          status: "crafting",
+          queue: [
+            {
+              id: "doll-current",
+              name: "Doll",
+              readyAt: sharedReadyAt,
+              startedAt: now,
+              type: "collectible",
+            },
+            {
+              id: "doll-pending",
+              name: "Doll",
+              readyAt: sharedReadyAt,
+              startedAt: sharedReadyAt,
+              type: "collectible",
+            },
+          ],
+          recipes: { Doll: { ...RECIPES.Doll } },
+        },
+      },
+      action: { type: "crafting.cancelled", queueItemId: "doll-pending" },
+      createdAt: now,
+      farmId,
+    });
+
+    expect(state.craftingBox.queue).toHaveLength(1);
+    expect(state.craftingBox.queue?.[0].id).toBe("doll-current");
+  });
+
+  // Bug #3: recalculating must not re-derive crafting time (which on the buggy
+  // path re-rolls the Fox Shrine prng). An item that rolled the instant proc
+  // when queued has a locked (zero) duration and must stay instant, even though
+  // its recipe time is 2h.
+  it("does not resurrect a Fox Shrine instant item's time when recalculating", () => {
+    const now = Date.now();
+    const twoHours = 2 * 60 * 60 * 1000;
+    const instantReadyAt = now; // this Doll rolled the Fox Shrine instant proc
+
+    const result = recalculateCraftingQueue({
+      queue: [
+        {
+          id: "doll-in-progress",
+          name: "Doll",
+          readyAt: now + twoHours,
+          startedAt: now,
+          type: "collectible",
+        },
+        {
+          id: "doll-instant",
+          name: "Doll",
+          readyAt: instantReadyAt,
+          startedAt: instantReadyAt,
+          type: "collectible",
+        },
+      ],
+      game: {
+        ...INITIAL_FARM,
+        farmActivity: { "Doll Crafting Started": 2 },
+        craftingBox: {
+          status: "crafting",
+          queue: [],
+          recipes: { Doll: { ...RECIPES.Doll } },
+        },
+      },
+    });
+
+    // Locked (zero) duration is kept instead of being recomputed from the recipe.
+    expect(result[1].readyAt).toEqual(instantReadyAt);
   });
 });

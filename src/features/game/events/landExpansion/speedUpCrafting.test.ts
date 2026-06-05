@@ -478,7 +478,6 @@ describe("speedUpCrafting", () => {
     const expectedRecalculated = recalculateCraftingQueue({
       queue: inProgressItems,
       game: state,
-      farmId,
       firstItemReadyAt: now,
     });
 
@@ -496,6 +495,63 @@ describe("speedUpCrafting", () => {
     expect(result.craftingBox.queue?.[1].readyAt).toEqual(
       expectedRecalculated[1].readyAt,
     );
+  });
+
+  // Bug #2: speeding up the current craft must not re-derive following items'
+  // durations from the current boost state — each item's duration is locked in
+  // when it is queued.
+  it("keeps following items' locked durations when speeding up the current craft", () => {
+    const now = Date.now();
+    const farmId = 1;
+    const hour = 60 * 60 * 1000;
+    // Both Dolls have a 2h base recipe time, but doll-2 was queued under a
+    // crafting-speed boost, so its locked duration is only 1h.
+    const doll1ReadyAt = now + 2 * hour;
+    const doll2ReadyAt = doll1ReadyAt + hour;
+
+    const state: GameState = {
+      ...INITIAL_FARM,
+      inventory: { Gem: new Decimal(1000), "Beta Pass": new Decimal(1) },
+      buildings: {
+        "Crafting Box": [
+          { id: "123", coordinates: { x: 0, y: 0 }, createdAt: 0, readyAt: 0 },
+        ],
+      },
+      farmActivity: { "Doll Crafting Started": 2 },
+      vip: { bundles: [], expiresAt: now + 86400000 },
+      craftingBox: {
+        status: "crafting",
+        queue: [
+          {
+            id: "doll-1",
+            name: "Doll",
+            readyAt: doll1ReadyAt,
+            startedAt: now,
+            type: "collectible",
+          },
+          {
+            id: "doll-2",
+            name: "Doll",
+            readyAt: doll2ReadyAt,
+            startedAt: doll1ReadyAt,
+            type: "collectible",
+          },
+        ],
+        recipes: { Doll: { ...RECIPES.Doll } },
+      },
+    };
+
+    const result = speedUpCrafting({
+      state,
+      action: { type: "crafting.spedUp" },
+      createdAt: now,
+      farmId,
+    });
+
+    // doll-1 sped up to now; doll-2 now starts immediately and keeps its locked
+    // 1h duration (not re-derived to the full 2h recipe time).
+    expect(result.craftingBox.queue?.[0].readyAt).toEqual(now);
+    expect(result.craftingBox.queue?.[1].readyAt).toEqual(now + hour);
   });
 
   it("updates gem history", () => {
