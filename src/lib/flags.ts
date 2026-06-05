@@ -143,6 +143,8 @@ const FEATURE_FLAGS = {
   CHAACS_TEMPLE_BETA: betaFeatureFlag,
 
   BOOSTS_DISPLAY: betaFeatureFlag,
+
+  SEEN_ON_X: betaFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

@@ -23,6 +23,7 @@ import { DuplicateWithdraw } from "./components/DuplicateWithdraw";
 import { SocialIdentityHasFarm } from "./components/SocialIdentityHasFarm";
 import { LinkedWalletHasFarm } from "./components/LinkedWalletHasFarm";
 import { GoogleLoginDisabled } from "./components/GoogleLoginDisabled";
+import { TwitterShowcaseError } from "./components/TwitterShowcaseError";
 
 interface Props {
   errorCode: ErrorCode;
@@ -68,6 +69,14 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
 
   if (errorCode === ERRORS.GOOGLE_LOGIN_DISABLED) {
     return <GoogleLoginDisabled />;
+  }
+
+  if (
+    errorCode === ERRORS.TWITTER_NOT_CONNECTED ||
+    errorCode === ERRORS.TWITTER_ALREADY_SHOWCASED ||
+    errorCode === ERRORS.TWITTER_INVALID_URL
+  ) {
+    return <TwitterShowcaseError errorCode={errorCode} />;
   }
 
   if (errorCode === ERRORS.DISCORD_NOT_ON_SERVER) {
