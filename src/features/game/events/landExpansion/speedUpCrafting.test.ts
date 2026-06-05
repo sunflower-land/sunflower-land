@@ -1,6 +1,9 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { RECIPES } from "features/game/lib/crafting";
-import { recalculateCraftingQueue } from "./cancelQueuedCrafting";
+import {
+  recalculateCraftingQueue,
+  cancelQueuedCrafting,
+} from "./cancelQueuedCrafting";
 import { speedUpCrafting } from "./speedUpCrafting";
 import Decimal from "decimal.js-light";
 import { getInstantGems } from "features/game/lib/getInstantGems";
@@ -552,6 +555,102 @@ describe("speedUpCrafting", () => {
     // 1h duration (not re-derived to the full 2h recipe time).
     expect(result.craftingBox.queue?.[0].readyAt).toEqual(now);
     expect(result.craftingBox.queue?.[1].readyAt).toEqual(now + hour);
+  });
+
+  // Reported flow: speed up the current doll (it becomes ready), then cancel a
+  // different queued doll. The sped-up doll must stay ready — it must NOT start
+  // crafting again. (Regression guard for the locked-duration fix.)
+  it("keeps a sped-up doll ready after another queued doll is cancelled", () => {
+    const now = Date.now();
+    const farmId = 1;
+    const twoHours = 2 * 60 * 60 * 1000;
+    const halfHour = 30 * 60 * 1000;
+
+    const dollRecipe = {
+      name: "Doll" as const,
+      type: "collectible" as const,
+      time: twoHours,
+      ingredients: [
+        { collectible: "Leather" as const },
+        { collectible: "Wool" as const },
+        { collectible: "Leather" as const },
+        { collectible: "Wool" as const },
+        { collectible: "Wool" as const },
+        { collectible: "Wool" as const },
+        { collectible: "Leather" as const },
+        { collectible: "Wool" as const },
+        { collectible: "Leather" as const },
+      ],
+    };
+
+    // DollA: 30 min into its 2h craft (1.5h left). DollB in progress, DollC pending.
+    const state: GameState = {
+      ...INITIAL_FARM,
+      inventory: {
+        Gem: new Decimal(1000),
+        "Beta Pass": new Decimal(1),
+        Leather: new Decimal(0),
+        Wool: new Decimal(0),
+      },
+      buildings: {
+        "Crafting Box": [
+          { id: "123", coordinates: { x: 0, y: 0 }, createdAt: 0, readyAt: 0 },
+        ],
+      },
+      farmActivity: { "Doll Crafting Started": 3 },
+      vip: { bundles: [], expiresAt: now + 86400000 },
+      craftingBox: {
+        status: "crafting",
+        queue: [
+          {
+            id: "doll-a",
+            name: "Doll",
+            startedAt: now - halfHour,
+            readyAt: now + (twoHours - halfHour),
+            type: "collectible",
+          },
+          {
+            id: "doll-b",
+            name: "Doll",
+            startedAt: now + (twoHours - halfHour),
+            readyAt: now + (twoHours - halfHour) + twoHours,
+            type: "collectible",
+          },
+          {
+            id: "doll-c",
+            name: "Doll",
+            startedAt: now + (twoHours - halfHour) + twoHours,
+            readyAt: now + (twoHours - halfHour) + 2 * twoHours,
+            type: "collectible",
+          },
+        ],
+        recipes: { Doll: dollRecipe },
+      },
+    };
+
+    // 1) Speed up the current doll (DollA) -> ready now.
+    const spedUp = speedUpCrafting({
+      state,
+      action: { type: "crafting.spedUp" },
+      createdAt: now,
+      farmId,
+    });
+    expect(
+      spedUp.craftingBox.queue?.find((q) => q.id === "doll-a")?.readyAt,
+    ).toEqual(now);
+
+    // 2) Cancel a different doll (DollC).
+    const afterCancel = cancelQueuedCrafting({
+      state: spedUp,
+      action: { type: "crafting.cancelled", queueItemId: "doll-c" },
+      createdAt: now,
+      farmId,
+    });
+
+    const dollA = afterCancel.craftingBox.queue?.find((q) => q.id === "doll-a");
+    // The ready doll must stay ready, not revert to a full 2h craft.
+    expect(dollA?.readyAt).toEqual(now);
+    expect(dollA?.readyAt).toBeLessThanOrEqual(now);
   });
 
   it("updates gem history", () => {
