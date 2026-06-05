@@ -17,7 +17,6 @@ import {
   placeEvent,
 } from "features/game/expansion/placeable/landscapingMachine";
 import type { PlaceableLocation } from "features/game/types/collectibles";
-import type { InventoryItemName } from "features/game/types/game";
 import { getKeys } from "lib/object";
 import {
   getChestBuds,
@@ -26,13 +25,13 @@ import {
   getChestItems,
   getChestPets,
 } from "./inventory/utils/inventory";
+import { hasBoost } from "./inventory/utils/boosts";
 import { RESOURCES, type ResourceName } from "features/game/types/resources";
 import {
   BUILDINGS,
   BUILDINGS_DIMENSIONS,
   type BuildingName,
 } from "features/game/types/buildings";
-import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { BANNERS } from "features/game/types/banners";
 import { BED_FARMHAND_COUNT } from "features/game/types/beds";
 import { MONUMENTS, REWARD_ITEMS } from "features/game/types/monuments";
@@ -369,12 +368,8 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
   const weatherItems = collectibleNames.filter(
     (name) => name in WEATHER_SHOP_ITEM_COSTS,
   );
-  const hasBoost = (name: InventoryItemName) =>
-    name in COLLECTIBLE_BUFF_LABELS &&
-    (COLLECTIBLE_BUFF_LABELS[name]?.(state) ?? []).length > 0;
-
   const flowers = getChestFlowers(collectibleNames).filter(
-    (name) => !hasBoost(name),
+    (name) => !hasBoost(name, state),
   );
   const dolls = collectibleNames.filter((name) => name in DOLLS);
   const pets = collectibleNames.filter((name) => name in PET_TYPES);
@@ -391,7 +386,7 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
   const petsSet = new Set(pets);
 
   const boosts = collectibleNames
-    .filter(hasBoost)
+    .filter((name) => hasBoost(name, state))
     .filter(
       (name) =>
         !resourcesSet.has(name) &&
