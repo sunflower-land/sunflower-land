@@ -61,7 +61,9 @@ export const InventoryFilters: React.FC<Props> = ({
           <span className="text-xs sm:text-sm whitespace-nowrap">
             {showFilters
               ? t("inventory.hideFilters")
-              : t("inventory.showFilters")}
+              : activeCategories.length > 0
+                ? `${t("inventory.showFilters")} (${activeCategories.length})`
+                : t("inventory.showFilters")}
           </span>
         </Button>
       </div>
