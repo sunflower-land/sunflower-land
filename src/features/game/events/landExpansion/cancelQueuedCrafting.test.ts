@@ -741,4 +741,137 @@ describe("cancelQueuedCrafting", () => {
     // Locked (zero) duration is kept instead of being recomputed from the recipe.
     expect(result[1].readyAt).toEqual(instantReadyAt);
   });
+
+  // Review finding: an instant Fox Shrine proc is "ready" out of order (its
+  // readyAt is in the past while a longer craft ahead of it is still going). A
+  // later real craft must chain off when the box is actually free, NOT off the
+  // instant proc's stale readyAt (which would discount it).
+  it("does not discount a later craft chained behind an instant proc when an item is cancelled", () => {
+    const now = Date.now();
+    const twoHours = 2 * 60 * 60 * 1000;
+
+    const state = cancelQueuedCrafting({
+      state: {
+        ...INITIAL_FARM,
+        buildings: {
+          "Crafting Box": [
+            {
+              id: "123",
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+        inventory: { Leather: new Decimal(0), Wool: new Decimal(0) },
+        farmActivity: { "Doll Crafting Started": 4 },
+        craftingBox: {
+          status: "crafting",
+          queue: [
+            {
+              id: "doll-1",
+              name: "Doll",
+              startedAt: now,
+              readyAt: now + twoHours,
+              type: "collectible",
+            },
+            {
+              id: "doll-instant",
+              name: "Doll",
+              startedAt: now,
+              readyAt: now,
+              type: "collectible",
+            },
+            {
+              id: "doll-2",
+              name: "Doll",
+              startedAt: now + twoHours,
+              readyAt: now + 2 * twoHours,
+              type: "collectible",
+            },
+            {
+              id: "doll-3",
+              name: "Doll",
+              startedAt: now + 2 * twoHours,
+              readyAt: now + 3 * twoHours,
+              type: "collectible",
+            },
+          ],
+          recipes: { Doll: { ...RECIPES.Doll } },
+        },
+      },
+      action: { type: "crafting.cancelled", queueItemId: "doll-2" },
+      createdAt: now,
+      farmId,
+    });
+
+    const queue = state.craftingBox.queue!;
+    const instant = queue.find((q) => q.id === "doll-instant");
+    const doll3 = queue.find((q) => q.id === "doll-3");
+    // Instant proc stays ready; doll-3 starts when doll-1 finishes (now+2h) and
+    // takes its full 2h -> now+4h, NOT now+2h chained off the instant.
+    expect(instant?.readyAt).toEqual(now);
+    expect(doll3?.readyAt).toEqual(now + 2 * twoHours);
+  });
+
+  // Review finding: an in-progress craft must not be dragged earlier by an
+  // already-ready instant proc sitting in front of it in the queue.
+  it("does not move an in-progress craft earlier than an instant proc queued before it", () => {
+    const now = Date.now();
+    const hour = 60 * 60 * 1000;
+    const twoHours = 2 * hour;
+
+    const state = cancelQueuedCrafting({
+      state: {
+        ...INITIAL_FARM,
+        buildings: {
+          "Crafting Box": [
+            {
+              id: "123",
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+        inventory: { Leather: new Decimal(0), Wool: new Decimal(0) },
+        farmActivity: { "Doll Crafting Started": 3 },
+        craftingBox: {
+          status: "crafting",
+          queue: [
+            {
+              id: "doll-instant",
+              name: "Doll",
+              startedAt: now - hour,
+              readyAt: now - hour,
+              type: "collectible",
+            },
+            {
+              id: "doll-1",
+              name: "Doll",
+              startedAt: now,
+              readyAt: now + twoHours,
+              type: "collectible",
+            },
+            {
+              id: "doll-2",
+              name: "Doll",
+              startedAt: now + twoHours,
+              readyAt: now + 2 * twoHours,
+              type: "collectible",
+            },
+          ],
+          recipes: { Doll: { ...RECIPES.Doll } },
+        },
+      },
+      action: { type: "crafting.cancelled", queueItemId: "doll-2" },
+      createdAt: now,
+      farmId,
+    });
+
+    const doll1 = state.craftingBox.queue!.find((q) => q.id === "doll-1");
+    // doll-1 is actively crafting; cancelling a later item must not pull it
+    // earlier by chaining off the instant proc's past readyAt.
+    expect(doll1?.readyAt).toEqual(now + twoHours);
+  });
 });

@@ -41,6 +41,14 @@ export function recalculateCraftingQueue({
 
   const result = [...queue];
 
+  // The crafting box is free once the latest real (box-occupying) craft has
+  // finished. Track that time instead of chaining off the immediately-preceding
+  // item: a Fox Shrine instant proc is "ready" out of order (its readyAt can be
+  // in the past while a longer craft ahead of it is still going), and it does
+  // not occupy the box — so later crafts must wait for the real craft, not
+  // inherit the instant's stale readyAt.
+  let boxFreeAt: number | null = null;
+
   for (let i = 0; i < result.length; i++) {
     const item = result[i];
     const recipe = getRecipeByName(item.name, game);
@@ -52,19 +60,27 @@ export function recalculateCraftingQueue({
     // speeding up an earlier item shifts the rest, without re-deriving durations
     // from the current (possibly changed) boost state or re-rolling the prng.
     const lockedDuration = item.readyAt - item.startedAt;
-    const startAt = i === 0 ? item.startedAt : result[i - 1].readyAt;
 
+    let startedAt: number;
     let readyAt: number;
     if (i === 0 && firstItemReadyAt !== undefined) {
+      startedAt = item.startedAt;
       readyAt = firstItemReadyAt;
+      boxFreeAt = readyAt;
     } else if (lockedDuration === 0) {
-      // Instant items stay ready at their original time.
+      // Instant craft: stays ready at its original time and does not occupy the
+      // box, so it neither moves nor delays the crafts after it.
+      startedAt = item.startedAt;
       readyAt = item.readyAt;
     } else {
-      readyAt = startAt + lockedDuration;
+      // Real craft: starts when the box is next free (after the previous real
+      // craft), or keeps its own start if it is the first to occupy the box.
+      startedAt = boxFreeAt ?? item.startedAt;
+      readyAt = startedAt + lockedDuration;
+      boxFreeAt = readyAt;
     }
 
-    result[i] = { ...item, startedAt: startAt, readyAt };
+    result[i] = { ...item, startedAt, readyAt };
   }
 
   return result;
