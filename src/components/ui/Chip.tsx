@@ -31,14 +31,15 @@ export const Chip: React.FC<React.PropsWithChildren<Props>> = ({
   className,
 }) => {
   return (
-    <div
+    <button
+      type="button"
       onClick={onClick}
+      // No handler means the chip is a static display, not interactive - mark
+      // it disabled so native button semantics keep it out of the tab order.
+      disabled={!onClick}
       className={classnames(
         className,
-        "relative w-fit justify-center flex items-center text-xs transition-transform active:translate-y-[1px]",
-        {
-          "cursor-pointer": !!onClick,
-        },
+        "relative w-fit justify-center flex items-center text-xs transition-transform active:translate-y-[1px] cursor-pointer disabled:cursor-default",
       )}
       style={{
         ...(selected ? pixelChipSelectedBorderStyle : pixelChipBorderStyle),
@@ -62,6 +63,6 @@ export const Chip: React.FC<React.PropsWithChildren<Props>> = ({
         />
       )}
       {children}
-    </div>
+    </button>
   );
 };
