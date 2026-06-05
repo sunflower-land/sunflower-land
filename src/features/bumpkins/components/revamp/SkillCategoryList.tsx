@@ -33,6 +33,7 @@ import { useNow } from "lib/utils/hooks/useNow";
 import fruits from "assets/fruit/fruits.png";
 import { capitalize } from "lib/utils/capitalize";
 import { Button } from "components/ui/Button";
+import { Chip } from "components/ui/Chip";
 export const SKILL_TREE_ICONS: Record<BumpkinRevampSkillTree, string> = {
   Crops: SUNNYSIDE.skills.crops,
   Trees: SUNNYSIDE.skills.trees,
@@ -201,12 +202,20 @@ export const SkillCategoryList: React.FC<{
   return (
     <>
       <InnerPanel className="flex flex-col h-full overflow-y-auto scrollable max-h-96">
-        <div className="mt-2 mb-1">
+        <div className="mt-2 mb-1 flex flex-row items-center justify-between gap-2">
           <SkillsEditHeader
             displayedSkills={displayedSkills}
             isEditing={isEditing}
             validationError={validationError}
           />
+          {!readonly && !isEditing && (
+            <Chip
+              className="flex-none"
+              onClick={() => setShowEditSkillsModal(true)}
+            >
+              {t("skillEdit.editSkills")}
+            </Chip>
+          )}
         </div>
         {ISLAND_EXPANSIONS.map((islandType) => {
           const hasUnlockedIslandCategory = hasRequiredIslandExpansion(
@@ -282,56 +291,39 @@ export const SkillCategoryList: React.FC<{
             </div>
           );
         })}
-        {!readonly && (
+        {!readonly && isEditing && (
           <div className="flex flex-col m-1">
             <div className="flex flex-row items-center justify-between gap-3">
-              {!isEditing ? (
-                <p
-                  className="text-xs cursor-pointer underline py-1"
-                  onClick={() => setShowEditSkillsModal(true)}
+              <Chip
+                selected
+                className={classNames({
+                  "opacity-50": !hasDisplayedSkills,
+                })}
+                onClick={
+                  hasDisplayedSkills && !showApplyChangesConfirmation
+                    ? onRemoveAllSkills
+                    : undefined
+                }
+              >
+                {t("skillEdit.removeAllSkills")}
+              </Chip>
+              <div className="flex flex-row items-center gap-3">
+                <Chip selected onClick={handleCancelEditing}>
+                  {t("cancel")}
+                </Chip>
+                <Chip
+                  className={classNames({
+                    "opacity-50": !hasChanges || !!validationError,
+                  })}
+                  onClick={
+                    hasChanges && !validationError
+                      ? () => setShowApplyChangesConfirmation(true)
+                      : undefined
+                  }
                 >
-                  {t("skillEdit.editSkills")}
-                </p>
-              ) : (
-                <>
-                  <p
-                    className={classNames("text-xs underline py-1", {
-                      "cursor-pointer":
-                        hasDisplayedSkills && !showApplyChangesConfirmation,
-                      "opacity-50 cursor-not-allowed": !hasDisplayedSkills,
-                    })}
-                    onClick={
-                      hasDisplayedSkills && !showApplyChangesConfirmation
-                        ? onRemoveAllSkills
-                        : undefined
-                    }
-                  >
-                    {t("skillEdit.removeAllSkills")}
-                  </p>
-                  <div className="flex flex-row items-center gap-3">
-                    <p
-                      className="text-xs cursor-pointer underline py-1"
-                      onClick={handleCancelEditing}
-                    >
-                      {t("cancel")}
-                    </p>
-                    <p
-                      className={classNames("text-xs underline py-1", {
-                        "cursor-pointer": hasChanges && !validationError,
-                        "opacity-50 cursor-not-allowed":
-                          !hasChanges || !!validationError,
-                      })}
-                      onClick={
-                        hasChanges && !validationError
-                          ? () => setShowApplyChangesConfirmation(true)
-                          : undefined
-                      }
-                    >
-                      {t("skillEdit.applyChanges")}
-                    </p>
-                  </div>
-                </>
-              )}
+                  {t("skillEdit.applyChanges")}
+                </Chip>
+              </div>
             </div>
           </div>
         )}
