@@ -17,6 +17,7 @@ import {
   placeEvent,
 } from "features/game/expansion/placeable/landscapingMachine";
 import type { PlaceableLocation } from "features/game/types/collectibles";
+import type { InventoryItemName } from "features/game/types/game";
 import { getKeys } from "lib/object";
 import {
   getChestBuds,
@@ -368,7 +369,13 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
   const weatherItems = collectibleNames.filter(
     (name) => name in WEATHER_SHOP_ITEM_COSTS,
   );
-  const flowers = getChestFlowers(collectibleNames);
+  const hasBoost = (name: InventoryItemName) =>
+    name in COLLECTIBLE_BUFF_LABELS &&
+    (COLLECTIBLE_BUFF_LABELS[name]?.(state) ?? []).length > 0;
+
+  const flowers = getChestFlowers(collectibleNames).filter(
+    (name) => !hasBoost(name),
+  );
   const dolls = collectibleNames.filter((name) => name in DOLLS);
   const pets = collectibleNames.filter((name) => name in PET_TYPES);
 
@@ -384,11 +391,7 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
   const petsSet = new Set(pets);
 
   const boosts = collectibleNames
-    .filter(
-      (name) =>
-        name in COLLECTIBLE_BUFF_LABELS &&
-        (COLLECTIBLE_BUFF_LABELS[name]?.(state) ?? []).length > 0,
-    )
+    .filter(hasBoost)
     .filter(
       (name) =>
         !resourcesSet.has(name) &&

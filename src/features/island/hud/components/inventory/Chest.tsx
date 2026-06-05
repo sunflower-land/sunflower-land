@@ -376,7 +376,13 @@ export const Chest: React.FC<Props> = ({
     (name) => name in WEATHER_SHOP_ITEM_COSTS,
   );
 
-  const flowers = getChestFlowers(collectibleNames);
+  const hasBoost = (name: InventoryItemName) =>
+    name in COLLECTIBLE_BUFF_LABELS &&
+    (COLLECTIBLE_BUFF_LABELS[name]?.(state) ?? []).length > 0;
+
+  const flowers = getChestFlowers(collectibleNames).filter(
+    (name) => !hasBoost(name),
+  );
   const dolls = collectibleNames.filter((name) => name in DOLLS);
   const pets = collectibleNames.filter((name) => name in PET_TYPES);
 
@@ -393,11 +399,7 @@ export const Chest: React.FC<Props> = ({
   const flowersSet = new Set(flowers);
 
   const boosts = collectibleNames
-    .filter(
-      (name) =>
-        name in COLLECTIBLE_BUFF_LABELS &&
-        (COLLECTIBLE_BUFF_LABELS[name]?.(state) ?? []).length > 0,
-    )
+    .filter(hasBoost)
     .filter(
       (name) =>
         !resourcesSet.has(name) &&
