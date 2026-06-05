@@ -1,7 +1,7 @@
 import React from "react";
 import { TextInput } from "components/ui/TextInput";
 import { Dropdown } from "components/ui/Dropdown";
-import { Label } from "components/ui/Label";
+import { Chip } from "components/ui/Chip";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InnerPanel } from "components/ui/Panel";
@@ -74,25 +74,23 @@ export const InventoryFilters: React.FC<Props> = ({
         </div>
       </div>
       <div className="flex overflow-x-auto scrollable sm:flex-wrap gap-1">
-        <Label
-          type={activeCategories.length === 0 ? "warning" : "default"}
+        <Chip
+          selected={activeCategories.length === 0}
           onClick={onClearCategories}
           className="whitespace-nowrap sm:whitespace-normal mb-1 sm:mb-0"
         >
           {t("inventory.all")}
-        </Label>
+        </Chip>
         {categories.map((category) => (
-          <Label
+          <Chip
             key={category.id}
-            type={
-              activeCategories.includes(category.id) ? "warning" : "default"
-            }
+            selected={activeCategories.includes(category.id)}
             icon={category.icon}
             onClick={() => onToggleCategory(category.id)}
             className="whitespace-nowrap sm:whitespace-normal mb-1 sm:mb-0"
           >
             {category.label}
-          </Label>
+          </Chip>
         ))}
       </div>
     </InnerPanel>
