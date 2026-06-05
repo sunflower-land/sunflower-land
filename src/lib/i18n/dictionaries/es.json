@@ -9025,9 +9025,6 @@
   "gameOptions.blockchainSettings.movedToBank.fullUsers": "Los depósitos, retiros y transferencias se han trasladado al Goblin Bank en el Goblin Retreat.",
   "gameOptions.blockchainSettings.goToBank": "Ve al Banco Goblin",
   "inventory.all": "Todas",
-  "inventory.sort.default": "Categoría",
-  "inventory.sort.amount": "Monto",
-  "inventory.sort.name": "Nombre (A-Z)",
   "inventory.noResults": "No hay ningún artículo que coincida con tu búsqueda.",
   "farmHands": "Manos de granja",
   "withdraw.placed.warning": "Retirar un objeto coleccionable colocado lo eliminará de tu granja, casa o interior.",
@@ -9064,5 +9061,7 @@
   "community.showcase.error.alreadyShowcased": "Esta publicación ya se ha publicado.",
   "community.showcase.error.invalidUrl": "No parece un enlace de publicación X válido.",
   "showcasing.twitter": "Mostrando publicación...",
-  "showcasing.twitter.success": "¡Publicación presentada! El autor ha sido recompensado."
+  "showcasing.twitter.success": "¡Publicación presentada! El autor ha sido recompensado.",
+  "inventory.showFilters": "Mostrar filtros",
+  "inventory.hideFilters": "Ocultar filtros"
 }

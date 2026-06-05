@@ -9025,9 +9025,6 @@
   "gameOptions.blockchainSettings.movedToBank.fullUsers": "Setoran, penarikan dan transfer telah dipindahkan ke Bank Goblin di Goblin Retreat.",
   "gameOptions.blockchainSettings.goToBank": "Pergi ke Bank Goblin",
   "inventory.all": "Semua",
-  "inventory.sort.default": "Kategori",
-  "inventory.sort.amount": "Jumlah",
-  "inventory.sort.name": "Nama (A-Z)",
   "inventory.noResults": "Tidak ada item yang cocok dengan pencarian Anda.",
   "farmHands": "Tangan Pertanian",
   "withdraw.placed.warning": "Menarik barang koleksi yang ditempatkan akan menghapusnya dari pertanian, rumah, atau interior Anda.",
@@ -9064,5 +9061,7 @@
   "community.showcase.error.alreadyShowcased": "Posting ini sudah dipamerkan.",
   "community.showcase.error.invalidUrl": "Itu tidak terlihat seperti tautan posting X yang valid.",
   "showcasing.twitter": "Menampilkan posting...",
-  "showcasing.twitter.success": "Posting dipamerkan! Penulis telah diberi penghargaan."
+  "showcasing.twitter.success": "Posting dipamerkan! Penulis telah diberi penghargaan.",
+  "inventory.showFilters": "Tampilkan filter",
+  "inventory.hideFilters": "Sembunyikan filter"
 }

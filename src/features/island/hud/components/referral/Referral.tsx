@@ -1,5 +1,6 @@
 import { useSelector } from "@xstate/react";
 import { CopyField } from "components/ui/CopyField";
+import { Chip } from "components/ui/Chip";
 import { Label } from "components/ui/Label";
 import { Modal } from "components/ui/Modal";
 import { Context, useGame } from "features/game/GameProvider";
@@ -218,13 +219,12 @@ export const ReferralInfo: React.FC = () => {
           >
             {t("noaccount.referralCodeLabel", { referralId: referralCode })}
           </Label>
-          <Label
-            type="vibrant"
+          <Chip
             icon={SUNNYSIDE.icons.player}
             onClick={() => setShowReferrees(true)}
           >
             {`${referredCount} ${t("referral.referred")}`}
-          </Label>
+          </Chip>
         </div>
         <CopyField
           text={referralLink}

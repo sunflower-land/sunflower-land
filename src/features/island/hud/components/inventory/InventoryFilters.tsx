@@ -1,12 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { TextInput } from "components/ui/TextInput";
-import { Dropdown } from "components/ui/Dropdown";
-import { Label } from "components/ui/Label";
+import { Chip } from "components/ui/Chip";
+import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InnerPanel } from "components/ui/Panel";
-
-export type InventorySortKey = "default" | "amount" | "name";
 
 export interface InventoryFilterCategory {
   id: string;
@@ -22,17 +20,14 @@ interface Props {
   activeCategories: string[];
   onToggleCategory: (id: string) => void;
   onClearCategories: () => void;
-  sort: InventorySortKey;
-  onSortChange: (sort: InventorySortKey) => void;
 }
 
-const SORT_KEYS: InventorySortKey[] = ["default", "amount", "name"];
-
 /**
- * Search field, sort dropdown and category filter chips shared by the Basket
- * and Chest. Multiple chips can be selected at once to narrow the grid to a
- * union of categories so the player no longer has to scroll through every
- * section. Selecting none (or "All") shows everything.
+ * Search field and collapsible category filter chips shared by the Basket and
+ * Chest. The chips are hidden behind a "Show filters" toggle to keep the panel
+ * compact. Multiple chips can be selected at once to narrow the grid to a union
+ * of categories so the player no longer has to scroll through every section.
+ * Selecting none (or "All") shows everything.
  */
 export const InventoryFilters: React.FC<Props> = ({
   search,
@@ -41,16 +36,12 @@ export const InventoryFilters: React.FC<Props> = ({
   activeCategories,
   onToggleCategory,
   onClearCategories,
-  sort,
-  onSortChange,
 }) => {
   const { t } = useAppTranslation();
 
-  const sortLabels: Record<InventorySortKey, string> = {
-    default: t("inventory.sort.default"),
-    amount: t("inventory.sort.amount"),
-    name: t("inventory.sort.name"),
-  };
+  // Category chips are collapsed by default to keep the panel compact; the
+  // player opens them on demand via the toggle button.
+  const [showFilters, setShowFilters] = useState(false);
 
   return (
     <InnerPanel className="flex flex-col gap-1 px-1 pb-1 mb-1">
@@ -63,38 +54,41 @@ export const InventoryFilters: React.FC<Props> = ({
             onCancel={() => onSearchChange("")}
           />
         </div>
-        <div className="w-28 sm:w-36 shrink-0">
-          <Dropdown
-            options={SORT_KEYS}
-            value={sort}
-            onChange={(value) => onSortChange(value as InventorySortKey)}
-            getOptionLabel={(value) => sortLabels[value as InventorySortKey]}
-            maxHeight={12}
-          />
-        </div>
-      </div>
-      <div className="flex overflow-x-auto scrollable sm:flex-wrap gap-1">
-        <Label
-          type={activeCategories.length === 0 ? "warning" : "default"}
-          onClick={onClearCategories}
-          className="whitespace-nowrap sm:whitespace-normal mb-1 sm:mb-0"
+        <Button
+          className="w-auto shrink-0"
+          onClick={() => setShowFilters((show) => !show)}
         >
-          {t("inventory.all")}
-        </Label>
-        {categories.map((category) => (
-          <Label
-            key={category.id}
-            type={
-              activeCategories.includes(category.id) ? "warning" : "default"
-            }
-            icon={category.icon}
-            onClick={() => onToggleCategory(category.id)}
+          <span className="text-xs sm:text-sm whitespace-nowrap">
+            {showFilters
+              ? t("inventory.hideFilters")
+              : activeCategories.length > 0
+                ? `${t("inventory.showFilters")} (${activeCategories.length})`
+                : t("inventory.showFilters")}
+          </span>
+        </Button>
+      </div>
+      {showFilters && (
+        <div className="flex overflow-x-auto scrollable sm:flex-wrap gap-1">
+          <Chip
+            selected={activeCategories.length === 0}
+            onClick={onClearCategories}
             className="whitespace-nowrap sm:whitespace-normal mb-1 sm:mb-0"
           >
-            {category.label}
-          </Label>
-        ))}
-      </div>
+            {t("inventory.all")}
+          </Chip>
+          {categories.map((category) => (
+            <Chip
+              key={category.id}
+              selected={activeCategories.includes(category.id)}
+              icon={category.icon}
+              onClick={() => onToggleCategory(category.id)}
+              className="whitespace-nowrap sm:whitespace-normal mb-1 sm:mb-0"
+            >
+              {category.label}
+            </Chip>
+          ))}
+        </div>
+      )}
     </InnerPanel>
   );
 };
