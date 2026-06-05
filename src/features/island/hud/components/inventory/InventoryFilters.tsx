@@ -55,7 +55,7 @@ export const InventoryFilters: React.FC<Props> = ({
           />
         </div>
         <Button
-          className="w-28 sm:w-36 shrink-0"
+          className="w-auto shrink-0"
           onClick={() => setShowFilters((show) => !show)}
         >
           <span className="text-xs sm:text-sm whitespace-nowrap">
