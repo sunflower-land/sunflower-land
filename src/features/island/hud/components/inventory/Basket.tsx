@@ -95,7 +95,7 @@ import {
   type SpiceRackProductName,
 } from "features/game/types/spiceRackProducts";
 import { ANIMAL_FEED_BUFF_ITEMS } from "features/game/events/landExpansion/applyAnimalFeedBuff";
-import { InventoryFilters, type InventorySortKey } from "./InventoryFilters";
+import { InventoryFilters } from "./InventoryFilters";
 
 interface Prop {
   gameState: GameState;
@@ -109,7 +109,6 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const [showBoosts, setShowBoosts] = useState(false);
   const [search, setSearch] = useState("");
   const [activeCategories, setActiveCategories] = useState<string[]>([]);
-  const [sort, setSort] = useState<InventorySortKey>("default");
 
   const toggleCategory = (id: string) =>
     setActiveCategories((prev) =>
@@ -485,23 +484,9 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     }))
     .filter((section) => section.items.length > 0);
 
-  const sortItems = (items: InventoryItemName[]) => {
-    if (sort === "amount") {
-      return [...items].sort(
-        (a, b) =>
-          (inventory[b]?.toNumber() ?? 0) - (inventory[a]?.toNumber() ?? 0),
-      );
-    }
-    if (sort === "name") {
-      return [...items].sort((a, b) => a.localeCompare(b));
-    }
-    return items;
-  };
-
-  const grouped = sort === "default" && !query;
-  const flatItems = sortItems(
-    filteredSections.flatMap((section) => section.items),
-  );
+  // Items stay grouped by category unless the player is searching.
+  const grouped = !query;
+  const flatItems = filteredSections.flatMap((section) => section.items);
 
   // The flat header only names a single section; with several categories
   // selected we fall back to the generic "All" label.
@@ -523,8 +508,6 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
         activeCategories={activeCategories}
         onToggleCategory={toggleCategory}
         onClearCategories={() => setActiveCategories([])}
-        sort={sort}
-        onSortChange={setSort}
       />
       <SplitScreenView
         divRef={divRef}

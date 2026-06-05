@@ -10,6 +10,9 @@ import halloweenTabBorderInner2 from "assets/ui/halloweenTabBorderInner2.png";
 import interactionBorder from "assets/ui/interaction_border.webp";
 import chatInputBorder from "assets/ui/chat_input_border.webp";
 
+import unselectedChip from "assets/ui/unselected_chip.png";
+import selectedChip from "assets/ui/selected_chip.png";
+
 const pixelizedBorderStyle: React.CSSProperties = {
   borderStyle: "solid",
   borderWidth: `${PIXEL_SCALE * 2}px`,
@@ -161,4 +164,41 @@ export const pixelChatInputBorderStyle: React.CSSProperties = {
   borderImage: `url(${chatInputBorder}) 21%`,
   ...pixelizedBorderStyle,
   borderWidth: `${PIXEL_SCALE * 3}px`,
+};
+
+// Clickable filter "chips" - a pixel border with a small drop shadow baked
+// into the bottom of the art (thicker bottom slice) to give the affordance of
+// a pressable element, distinct from non-clickable Labels. The unselected and
+// selected variants use different colours so the state is readable at a glance
+// without reusing the reward-yellow Label.
+// NOTE: use the `borderImageSource` LONGHAND, never the `borderImage`
+// shorthand. The shorthand resets every other `border-image-*` longhand
+// (notably `border-image-slice`) to its initial value. On a React style update
+// that swaps only the source, the shorthand would wipe the slice back to 100%
+// (stretching the whole 14x9 source into the border) while React skips
+// re-applying the unchanged slice - breaking the chip when it toggles
+// selected. The longhand touches nothing but the image source.
+const pixelChipBorderBase: React.CSSProperties = {
+  borderStyle: "solid",
+  imageRendering: "pixelated",
+  borderImageRepeat: "stretch",
+  // Source art is 14x9 with a 2px top/side border and a 4px bottom (the drop
+  // shadow). Slice top/right/bottom/left so only the flat fill is left in the
+  // centre for the element background to show through.
+  borderImageSlice: "2 2 4 2",
+  borderTopWidth: `${PIXEL_SCALE * 2}px`,
+  borderLeftWidth: `${PIXEL_SCALE * 2}px`,
+  borderRightWidth: `${PIXEL_SCALE * 2}px`,
+  borderBottomWidth: `${PIXEL_SCALE * 4}px`,
+  borderRadius: `${PIXEL_SCALE * 3}px`,
+};
+
+export const pixelChipBorderStyle: React.CSSProperties = {
+  ...pixelChipBorderBase,
+  borderImageSource: `url(${unselectedChip})`,
+};
+
+export const pixelChipSelectedBorderStyle: React.CSSProperties = {
+  ...pixelChipBorderBase,
+  borderImageSource: `url(${selectedChip})`,
 };

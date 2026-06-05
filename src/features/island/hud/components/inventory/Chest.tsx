@@ -72,7 +72,7 @@ import type { PlaceableLocation } from "features/game/types/collectibles";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { FarmHandDetails } from "components/ui/layouts/FarmHandDetails";
 import { getBudImage } from "lib/buds/types";
-import { InventoryFilters, type InventorySortKey } from "./InventoryFilters";
+import { InventoryFilters } from "./InventoryFilters";
 
 export const ITEM_ICONS: (
   season: TemperateSeasonName,
@@ -252,7 +252,6 @@ export const Chest: React.FC<Props> = ({
   const divRef = useRef<HTMLDivElement>(null);
   const [search, setSearch] = useState("");
   const [activeCategories, setActiveCategories] = useState<string[]>([]);
-  const [sort, setSort] = useState<InventorySortKey>("default");
 
   const toggleCategory = (id: string) =>
     setActiveCategories((prev) =>
@@ -497,19 +496,6 @@ export const Chest: React.FC<Props> = ({
   const matchesSearch = (item: CollectibleName) =>
     !query || item.toLowerCase().includes(query);
 
-  const sortCollectibles = (items: CollectibleName[]) => {
-    if (sort === "amount") {
-      return [...items].sort(
-        (a, b) =>
-          (chestMap[b]?.toNumber() ?? 0) - (chestMap[a]?.toNumber() ?? 0),
-      );
-    }
-    if (sort === "name") {
-      return [...items].sort((a, b) => a.localeCompare(b));
-    }
-    return items;
-  };
-
   const hasBuds = Object.values(buds).length > 0;
   const hasPetNFTs = !isEmpty(petsNFTs);
   const hasFarmHands = !isEmpty(farmHands) && !!onPlaceFarmHand;
@@ -551,7 +537,7 @@ export const Chest: React.FC<Props> = ({
     )
     .map((group) => ({
       ...group,
-      items: sortCollectibles(group.items.filter(matchesSearch)),
+      items: group.items.filter(matchesSearch),
     }))
     .filter((group) => group.items.length > 0);
 
@@ -576,8 +562,6 @@ export const Chest: React.FC<Props> = ({
         activeCategories={activeCategories}
         onToggleCategory={toggleCategory}
         onClearCategories={() => setActiveCategories([])}
-        sort={sort}
-        onSortChange={setSort}
       />
       <SplitScreenView
         divRef={divRef}
