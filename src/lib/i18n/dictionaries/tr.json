@@ -9048,9 +9048,7 @@
   "community.feed.empty": "Henüz topluluk gönderisi yok. Yakında tekrar kontrol edin!",
   "community.feed.error": "Topluluk gönderileri yüklenemedi. Lütfen daha sonra tekrar deneyin.",
   "community.feed.title": "Topluluk gönderisi",
-  "community.feed.postOnX.cta": "Ödül kazanmak için X'e yayın yapın",
   "community.feed.postOnX.viewMore": "Daha fazla göster",
-  "community.feed.viewOnX": "X'te görüntüle",
   "community.addPost.title": "Bir gönderiyi sergileyin",
   "community.addPost.description": "Topluluk feed'inde yer almak için bağlantıyı bir X (Twitter) gönderisine yapıştırın. Yazar ödüllendirilecektir.",
   "community.addPost.placeholder": "https://x.com/...",
@@ -9063,5 +9061,12 @@
   "showcasing.twitter": "Gösterim gönderisi...",
   "showcasing.twitter.success": "Gönderi sergilendi! Yazar ödüllendirildi.",
   "inventory.showFilters": "Filtreleri göster",
-  "inventory.hideFilters": "Filtreleri gizle"
+  "inventory.hideFilters": "Filtreleri gizle",
+  "community.feed.postOnX.cta": "Anında ödüller için X'te yayınlayın",
+  "community.feed.viewOnX": "Devamını oku",
+  "community.feed.remove": "Beslemeden kaldır",
+  "community.feed.remove.confirm": "Kaldırmayı onaylayın",
+  "community.feed.removing": "Mesaj kaldırılıyor...",
+  "community.feed.removeError": "Gönderi kaldırılamadı. Lütfen tekrar deneyin.",
+  "community.addPost.reward": "Yazarlar 1000 Aşk Tılsımı alacak."
 }
