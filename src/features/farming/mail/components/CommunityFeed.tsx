@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useSelector } from "@xstate/react";
 
 import { ButtonPanel, InnerPanel } from "components/ui/Panel";
@@ -17,6 +17,9 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MANAGER_IDS } from "lib/access";
 import { CONFIG } from "lib/config";
 
+import { PlayerModal } from "features/social/PlayerModal";
+import { playerModalManager } from "features/social/lib/playerModalManager";
+
 import { getShowcasedTweets } from "features/game/actions/getShowcasedTweets";
 import type { ShowcasedTweet } from "features/game/types/social";
 import type { Equipped } from "features/game/types/bumpkin";
@@ -26,6 +29,11 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import letter from "assets/icons/letter.png";
 
 const _farmId = (state: MachineState) => state.context.farmId;
+const _removing = (state: MachineState) => state.matches("removingShowcase");
+const _removeSuccess = (state: MachineState) =>
+  state.matches("removingShowcaseSuccess");
+const _removeFailed = (state: MachineState) =>
+  state.matches("removingShowcaseFailed");
 
 const IMAGE_SIZE = 50;
 
@@ -56,27 +64,34 @@ const BumpkinAvatar: React.FC<{ parts: Equipped; size: number }> = ({
 
 interface Props {
   onAddPost: () => void;
+  onRemoved: () => void;
 }
 
-export const CommunityFeed: React.FC<Props> = ({ onAddPost }) => {
+export const CommunityFeed: React.FC<Props> = ({ onAddPost, onRemoved }) => {
   const { gameService } = useContext(Context);
   const { authState } = useAuth();
   const { t } = useAppTranslation();
   const now = useNow();
 
+  const token = authState.context.user.rawToken as string;
+
   const farmId = useSelector(gameService, _farmId);
-  // Admins can always showcase posts. On non-production environments
+  // Admins can always showcase / remove posts. On non-production environments
   // (testnet / local dev) everyone can, to make manual testing easy.
-  const canAddPost =
-    MANAGER_IDS.includes(farmId) || CONFIG.NETWORK !== "mainnet";
+  const isAdmin = MANAGER_IDS.includes(farmId) || CONFIG.NETWORK !== "mainnet";
+
+  const removing = useSelector(gameService, _removing);
+  const removeSuccess = useSelector(gameService, _removeSuccess);
+  const removeFailed = useSelector(gameService, _removeFailed);
 
   const [tweets, setTweets] = useState<ShowcasedTweet[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [selected, setSelected] = useState<ShowcasedTweet>();
+  const [confirmRemove, setConfirmRemove] = useState(false);
+  const removeHandledRef = useRef(false);
 
   useEffect(() => {
-    const token = authState.context.user.rawToken as string | undefined;
     if (!token) return;
 
     let active = true;
@@ -96,53 +111,128 @@ export const CommunityFeed: React.FC<Props> = ({ onAddPost }) => {
     return () => {
       active = false;
     };
-  }, [authState.context.user.rawToken]);
+  }, [token]);
+
+  // On a successful removal, reset the machine and hand back to the parent,
+  // which remounts the feed (refetching the now-updated list).
+  useEffect(() => {
+    if (removeSuccess && !removeHandledRef.current) {
+      removeHandledRef.current = true;
+      gameService.send("CONTINUE");
+      onRemoved();
+    }
+    if (!removeSuccess) removeHandledRef.current = false;
+  }, [removeSuccess, gameService, onRemoved]);
+
+  const removePost = () => {
+    if (!selected) return;
+    gameService.send("showcase.removed", {
+      effect: {
+        type: "showcase.removed",
+        tweetId: selected.tweetId,
+      },
+    });
+  };
+
+  // Reset the machine from the failed state back to the detail view.
+  const dismissRemoveError = () => {
+    gameService.send("CONTINUE");
+    setConfirmRemove(false);
+  };
 
   const authorName = (tweet: ShowcasedTweet) =>
     tweet.authorUsername ?? `@${tweet.twitterHandle}`;
 
+  const openAuthor = (tweet: ShowcasedTweet) =>
+    playerModalManager.open({
+      farmId: tweet.authorFarmId,
+      username: tweet.authorUsername,
+      clothing: tweet.bumpkin,
+    });
+
   // Detail view for a single post.
   if (selected) {
     return (
-      <InnerPanel className="p-1">
-        <div className="flex items-center justify-between mb-2">
-          <div
-            className="flex items-center cursor-pointer w-fit"
-            onClick={() => setSelected(undefined)}
-          >
-            <img src={SUNNYSIDE.icons.arrow_left} className="h-5 mr-1" />
-            <span className="text-sm underline">{t("back")}</span>
+      <>
+        <InnerPanel className="p-1">
+          <div className="flex items-center justify-between mb-2">
+            <div
+              className="flex items-center cursor-pointer w-fit"
+              onClick={() => setSelected(undefined)}
+            >
+              <img src={SUNNYSIDE.icons.arrow_left} className="h-5 mr-1" />
+              <span className="text-sm underline">{t("back")}</span>
+            </div>
+            <span
+              className="text-xs underline cursor-pointer p-1"
+              onClick={() => window.open(selected.url, "_blank")}
+            >
+              {t("community.feed.viewOnX")}
+            </span>
           </div>
-          <span
-            className="text-sm underline cursor-pointer"
-            onClick={() => window.open(selected.url, "_blank")}
-          >
-            {t("community.feed.viewOnX")}
-          </span>
-        </div>
 
-        <div className="flex items-center mb-2">
-          <div className="mr-2">
-            <BumpkinAvatar parts={selected.bumpkin} size={32} />
-          </div>
-          <div className="overflow-hidden">
-            <p className="text-sm capitalize truncate">
-              {authorName(selected)}
-            </p>
-            <p className="text-xxs">
-              {getRelativeTime(selected.postedAt, now)}
-            </p>
-          </div>
-        </div>
+          {removing ? (
+            <Loading text={t("community.feed.removing")} />
+          ) : removeFailed ? (
+            <div className="p-1">
+              <Label type="danger" className="mb-2">
+                {t("community.feed.removeError")}
+              </Label>
+              <Button onClick={dismissRemoveError}>
+                {t("community.addPost.tryAgain")}
+              </Button>
+            </div>
+          ) : (
+            <>
+              <div
+                className="flex items-center mb-2 cursor-pointer w-fit"
+                onClick={() => openAuthor(selected)}
+              >
+                <div className="mr-2">
+                  <BumpkinAvatar parts={selected.bumpkin} size={32} />
+                </div>
+                <div className="overflow-hidden">
+                  <p className="text-sm capitalize truncate">
+                    {authorName(selected)}
+                  </p>
+                  <p className="text-xxs">
+                    {getRelativeTime(selected.postedAt, now)}
+                  </p>
+                </div>
+              </div>
 
-        <p className="text-sm break-words whitespace-pre-wrap mb-2 p-2">
-          {selected.content}
-        </p>
+              <p className="text-sm break-words whitespace-pre-wrap mb-2 p-2">
+                {selected.content}
+              </p>
 
-        {selected.image && (
-          <img src={selected.image} className="w-full rounded mb-2 p-2" />
-        )}
-      </InnerPanel>
+              {selected.image && (
+                <img src={selected.image} className="w-full rounded mb-2 p-2" />
+              )}
+
+              {isAdmin &&
+                (confirmRemove ? (
+                  <div className="flex gap-1">
+                    <Button onClick={() => setConfirmRemove(false)}>
+                      {t("cancel")}
+                    </Button>
+                    <Button onClick={removePost}>
+                      {t("community.feed.remove.confirm")}
+                    </Button>
+                  </div>
+                ) : (
+                  <Button onClick={() => setConfirmRemove(true)}>
+                    {t("community.feed.remove")}
+                  </Button>
+                ))}
+            </>
+          )}
+        </InnerPanel>
+        <PlayerModal
+          loggedInFarmId={farmId}
+          token={token}
+          hasAirdropAccess={false}
+        />
+      </>
     );
   }
 
@@ -150,7 +240,7 @@ export const CommunityFeed: React.FC<Props> = ({ onAddPost }) => {
     <InnerPanel>
       <div className="flex items-center justify-between p-1">
         <Label type="default">{t("community.feed.heading")}</Label>
-        {canAddPost && (
+        {isAdmin && (
           <Button className="w-auto px-3" onClick={onAddPost}>
             {t("community.feed.addPost")}
           </Button>

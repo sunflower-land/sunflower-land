@@ -11,6 +11,7 @@ import { Loading } from "features/auth/components";
 import { useGame } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ERRORS } from "lib/errors";
+import { ITEM_DETAILS } from "features/game/types/images";
 import type { MachineState } from "features/game/lib/gameMachine";
 
 const _showcasing = (state: MachineState) => state.matches("showcasingTwitter");
@@ -108,6 +109,14 @@ export const AddPostForm: React.FC<Props> = ({ show, onClose, onSuccess }) => {
           {t("community.addPost.title")}
         </Label>
         <p className="text-xs mb-2">{t("community.addPost.description")}</p>
+        <div className="flex items-center mb-2">
+          <img
+            src={ITEM_DETAILS["Love Charm"].image}
+            className="h-5 mr-1"
+            alt="Love Charm"
+          />
+          <span className="text-xxs">{t("community.addPost.reward")}</span>
+        </div>
         <TextInput
           placeholder={t("community.addPost.placeholder")}
           value={url}

@@ -38,8 +38,8 @@ export const PostOnXPanel: React.FC<Props> = ({ onClose }) => {
         style={{ width: `${PIXEL_SCALE * 11}px` }}
       />
       <div className="flex flex-col">
-        <p className="text-sm">{t("community.feed.postOnX.cta")}</p>
-        <span className="text-xs underline">
+        <p className="text-xs">{t("community.feed.postOnX.cta")}</p>
+        <span className="text-xxs underline">
           {t("community.feed.postOnX.viewMore")}
         </span>
       </div>

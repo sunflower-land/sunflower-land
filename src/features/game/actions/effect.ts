@@ -23,6 +23,7 @@ type EffectName =
   | "twitter.followed"
   | "twitter.posted"
   | "twitter.showcased"
+  | "showcase.removed"
   | "gems.bought"
   | "vip.bought"
   | "username.assigned"
@@ -100,6 +101,7 @@ export type StateMachineStateName =
   | "followingTwitter"
   | "postingTwitter"
   | "showcasingTwitter"
+  | "removingShowcase"
   | "buyingGems"
   | "buyingVIP"
   | "assigningUsername"
@@ -162,6 +164,7 @@ export const STATE_MACHINE_EFFECTS: Record<
   "twitter.followed": "followingTwitter",
   "twitter.posted": "postingTwitter",
   "twitter.showcased": "showcasingTwitter",
+  "showcase.removed": "removingShowcase",
   "gems.bought": "buyingGems",
   "vip.bought": "buyingVIP",
   "username.assigned": "assigningUsername",
