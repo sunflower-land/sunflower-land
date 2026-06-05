@@ -9062,6 +9062,6 @@
   "community.showcase.error.invalidUrl": "这看起来不像是有效的 X 帖子链接。",
   "showcasing.twitter": "展示帖子...",
   "showcasing.twitter.success": "帖子展示成功！作者已获得奖励。",
-  "inventory.showFilters": "显示过滤器",
-  "inventory.hideFilters": "隐藏过滤器"
+  "inventory.showFilters": "显示筛选",
+  "inventory.hideFilters": "隐藏筛选"
 }
