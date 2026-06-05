@@ -9025,9 +9025,6 @@
   "gameOptions.blockchainSettings.movedToBank.fullUsers": "Para yatırma, çekme ve transfer, Goblin Retreat'teki Goblin Bankası'na taşındı.",
   "gameOptions.blockchainSettings.goToBank": "Goblin Bankası'na git",
   "inventory.all": "Hepsi",
-  "inventory.sort.default": "Kategoriler",
-  "inventory.sort.amount": "Miktar",
-  "inventory.sort.name": "İsim (A-Z)",
   "inventory.noResults": "Aramanızla eşleşen öğe yok.",
   "farmHands": "Çiftlik Elleri",
   "withdraw.placed.warning": "Yerleştirilen bir koleksiyon parçasını geri çekmek, onu çiftliğinizden, evinizden veya iç mekanınızdan kaldıracaktır.",
@@ -9064,5 +9061,7 @@
   "community.showcase.error.alreadyShowcased": "Bu gönderi zaten sergilendi.",
   "community.showcase.error.invalidUrl": "Bu geçerli bir X gönderi bağlantısı gibi görünmüyor.",
   "showcasing.twitter": "Gösterim gönderisi...",
-  "showcasing.twitter.success": "Gönderi sergilendi! Yazar ödüllendirildi."
+  "showcasing.twitter.success": "Gönderi sergilendi! Yazar ödüllendirildi.",
+  "inventory.showFilters": "Filtreleri göster",
+  "inventory.hideFilters": "Filtreleri gizle"
 }

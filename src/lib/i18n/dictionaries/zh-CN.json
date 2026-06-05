@@ -9025,9 +9025,6 @@
   "gameOptions.blockchainSettings.movedToBank.fullUsers": "存款、提款和转账已转移到哥布林度假村的哥布林银行。",
   "gameOptions.blockchainSettings.goToBank": "去哥布林银行",
   "inventory.all": "全部",
-  "inventory.sort.default": "类别",
-  "inventory.sort.amount": "金额",
-  "inventory.sort.name": "姓名 (A-Z)",
   "inventory.noResults": "没有与您的搜索条件相匹配的商品。",
   "farmHands": "农场之手",
   "withdraw.placed.warning": "撤回已放置的收藏品会将其从您的农场、家中或室内移走。",
@@ -9064,5 +9061,7 @@
   "community.showcase.error.alreadyShowcased": "这篇文章已经展示了。",
   "community.showcase.error.invalidUrl": "这看起来不像是有效的 X 帖子链接。",
   "showcasing.twitter": "展示帖子...",
-  "showcasing.twitter.success": "帖子已展示！作者已获得奖励。"
+  "showcasing.twitter.success": "帖子已展示！作者已获得奖励。",
+  "inventory.showFilters": "显示过滤器",
+  "inventory.hideFilters": "隐藏过滤器"
 }
