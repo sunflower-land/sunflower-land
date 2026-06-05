@@ -8,7 +8,10 @@ import { getKeys } from "lib/object";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { BED_FARMHAND_COUNT } from "features/game/types/beds";
+import {
+  BED_FARMHAND_COUNT,
+  getPlacedBedNames,
+} from "features/game/types/beds";
 import { BED_WIDTH } from "features/island/collectibles/components/Bed";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 
@@ -26,6 +29,10 @@ const _farmHands = (state: MachineState) =>
 const _collectibles = (state: MachineState) => state.context.state.collectibles;
 const _homeCollectibles = (state: MachineState) =>
   state.context.state.home.collectibles;
+const _interiorCollectibles = (state: MachineState) =>
+  state.context.state.interior.ground.collectibles;
+const _levelOneCollectibles = (state: MachineState) =>
+  state.context.state.interior.level_one?.collectibles;
 
 interface Props {
   show: boolean;
@@ -46,17 +53,18 @@ export const BedsMigrationModal: React.FC<Props> = ({ show, onHide }) => {
   const farmHands = useSelector(gameService, _farmHands);
   const collectibles = useSelector(gameService, _collectibles);
   const homeCollectibles = useSelector(gameService, _homeCollectibles);
+  const interiorCollectibles = useSelector(gameService, _interiorCollectibles);
+  const levelOneCollectibles = useSelector(gameService, _levelOneCollectibles);
 
   const count = getKeys(farmHands).length + 1;
   const max = Object.keys(BED_FARMHAND_COUNT).length;
 
-  const uniqueBeds = new Set<BedName>([
-    ...(getKeys(collectibles).filter(
-      (n) => n in BED_FARMHAND_COUNT,
-    ) as BedName[]),
-    ...(getKeys(homeCollectibles).filter(
-      (n) => n in BED_FARMHAND_COUNT,
-    ) as BedName[]),
+  // Beds placed anywhere count — farm, home interior and both /interior floors.
+  const uniqueBeds = getPlacedBedNames([
+    collectibles,
+    homeCollectibles,
+    interiorCollectibles,
+    levelOneCollectibles,
   ]);
 
   const beds = getKeys(BED_FARMHAND_COUNT)

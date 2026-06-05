@@ -33,6 +33,8 @@ import { PetNFT } from "features/island/pets/PetNFT";
 import { FarmHand } from "features/island/farmhand/FarmHand";
 import { PlacedBumpkin } from "features/island/bumpkin/components/PlacedBumpkin";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { animated } from "@react-spring/web";
+import { ZoomContext } from "components/ZoomProvider";
 
 const _landscaping = (state: MachineState) => state.matches("landscaping");
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
@@ -87,6 +89,7 @@ const _interiorFarmHands = (state: MachineState) => {
  */
 export const Interior: React.FC = () => {
   const { gameService } = useContext(Context);
+  const { scale } = useContext(ZoomContext);
   const [params] = useSearchParams();
   const [scrollIntoView] = useScrollIntoView();
   const navigate = useNavigate();
@@ -283,12 +286,17 @@ export const Interior: React.FC = () => {
         className="!overflow-scroll relative w-full h-full page-scroll-container overscroll-none"
         ignoreElements={"*[data-prevent-drag-scroll]"}
       >
-        <div
+        <animated.div
           className="absolute bg-[#181425]"
           style={{
             width: `${84 * GRID_WIDTH_PX}px`,
             height: `${56 * GRID_WIDTH_PX}px`,
             imageRendering: "pixelated",
+            // Pinch-to-zoom: same ZoomContext scale GameBoard applies on the
+            // farm. Origin is the canvas centre (where GenesisBlock sits) so
+            // zooming keeps the room centred rather than drifting.
+            transform: scale.to((s) => `scale(${s})`),
+            transformOrigin: "50% 50%",
           }}
         >
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -375,7 +383,7 @@ export const Interior: React.FC = () => {
               )}
             </div>
           </div>
-        </div>
+        </animated.div>
       </ScrollContainer>
 
       {!landscaping && <Hud isFarming location="interior" />}
