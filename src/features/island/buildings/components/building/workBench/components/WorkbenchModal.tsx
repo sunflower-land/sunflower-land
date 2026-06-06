@@ -1,4 +1,4 @@
-import React, { type SyntheticEvent, useState } from "react";
+import React, { type SyntheticEvent, useContext, useState } from "react";
 
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -12,6 +12,9 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { IslandBlacksmithItems } from "features/helios/components/blacksmith/component/IslandBlacksmithItems";
 import { Buildings } from "features/island/hud/components/buildings/Buildings";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import type { MachineState } from "features/game/lib/gameMachine";
 
 interface Props {
   onClose: (e?: SyntheticEvent) => void;
@@ -20,9 +23,25 @@ interface Props {
 
 type WorkbenchTab = "Tools" | "boosts" | "build" | "guide";
 
+const _needsBuilding = (state: MachineState) =>
+  !state.context.state.buildings["Water Well"];
+
+const _needsScarecrow = (state: MachineState) =>
+  !state.context.state.inventory["Basic Scarecrow"] &&
+  (state.context.state.farmActivity?.["Sunflower Planted"] ?? 0) >= 6;
+
 export const WorkbenchModal: React.FC<Props> = ({ onClose, show }) => {
-  const [tab, setTab] = useState<WorkbenchTab>("Tools");
+  const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
+
+  const needsBuilding = useSelector(gameService, _needsBuilding);
+  const needsScarecrow = useSelector(gameService, _needsScarecrow);
+
+  // Point new players towards the relevant tab, matching the onboarding
+  // helper shown on the Workbench building.
+  const [tab, setTab] = useState<WorkbenchTab>(
+    needsBuilding ? "build" : needsScarecrow ? "boosts" : "Tools",
+  );
 
   return (
     <Modal show={show} onHide={onClose} size="lg">

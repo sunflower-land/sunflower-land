@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { WorkbenchModal } from "./components/WorkbenchModal";
@@ -9,12 +9,28 @@ import { WORKBENCH_VARIANTS } from "features/island/lib/alternateArt";
 import shadow from "assets/npcs/shadow.png";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getCurrentBiome } from "features/island/biomes/biomes";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import type { MachineState } from "features/game/lib/gameMachine";
+
+const _needsBuilding = (state: MachineState) =>
+  !state.context.state.buildings["Water Well"];
+
+const _needsScarecrow = (state: MachineState) =>
+  !state.context.state.inventory["Basic Scarecrow"] &&
+  (state.context.state.farmActivity?.["Sunflower Planted"] ?? 0) >= 6;
 
 export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, island }) => {
   // TODO: feat/crafting-box - remove this
   const [isOpen, setIsOpen] = useState(false);
 
+  const { gameService } = useContext(Context);
+
   const { play: shopAudio } = useSound("shop");
+
+  const needsBuilding = useSelector(gameService, _needsBuilding);
+  const needsScarecrow = useSelector(gameService, _needsScarecrow);
+  const showHelper = isBuilt && (needsBuilding || needsScarecrow);
 
   const handleClick = () => {
     if (isBuilt) {
@@ -58,6 +74,18 @@ export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, island }) => {
             right: `${PIXEL_SCALE * 12}px`,
           }}
         />
+
+        {showHelper && (
+          <img
+            className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
+            src={SUNNYSIDE.icons.click_icon}
+            style={{
+              width: `${PIXEL_SCALE * 18}px`,
+              right: `${PIXEL_SCALE * -8}px`,
+              top: `${PIXEL_SCALE * 20}px`,
+            }}
+          />
+        )}
       </BuildingImageWrapper>
       <WorkbenchModal onClose={handleClose} show={isOpen} />
     </>
