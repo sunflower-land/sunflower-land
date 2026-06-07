@@ -61,46 +61,52 @@ export const ChickenHouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
     }
   };
 
+  const henHouseAlertIcons: React.ReactElement[] = [];
+  const classNamesList = classNames({ ready: showAnimations });
+  if (hasHungryChickens) {
+    henHouseAlertIcons.push(
+      <img
+        key="hungry"
+        src={SUNNYSIDE.icons.expression_alerted}
+        className={classNamesList}
+        style={{ width: `${PIXEL_SCALE * 4}px` }}
+      />,
+    );
+  }
+  if (hasSickChickens) {
+    henHouseAlertIcons.push(
+      <img
+        key="sick"
+        src={SUNNYSIDE.icons.expression_stress}
+        className={classNamesList}
+        style={{ width: `${PIXEL_SCALE * 7}px` }}
+      />,
+    );
+  }
+  if (chickensNeedLove) {
+    henHouseAlertIcons.push(
+      <img
+        key="love"
+        src={SUNNYSIDE.icons.expression_chat}
+        className={classNamesList}
+        style={{ width: `${PIXEL_SCALE * 8}px` }}
+      />,
+    );
+  }
+
   return (
-    <>
-      <BuildingImageWrapper name="Hen House" onClick={handleClick}>
-        {hasHungryChickens ? (
-          <img
-            src={SUNNYSIDE.icons.expression_alerted}
-            className={classNames(
-              "absolute -top-2 left-1/2 transform -translate-x-1/2 z-20",
-              { ready: showAnimations },
-            )}
-            style={{ width: `${PIXEL_SCALE * 4}px` }}
-          />
-        ) : hasSickChickens ? (
-          <img
-            src={SUNNYSIDE.icons.expression_stress}
-            className={classNames(
-              "absolute -top-2 left-1/2 transform -translate-x-1/2 z-20",
-              { ready: showAnimations },
-            )}
-            style={{ width: `${PIXEL_SCALE * 7}px` }}
-          />
-        ) : chickensNeedLove ? (
-          <img
-            src={SUNNYSIDE.icons.expression_chat}
-            className={classNames(
-              "absolute -top-2 left-1/2 transform -translate-x-1/2 z-20",
-              { ready: showAnimations },
-            )}
-            style={{ width: `${PIXEL_SCALE * 8}px` }}
-          />
-        ) : null}
-        <img
-          src={HEN_HOUSE_VARIANTS[season][buildingLevel]}
-          className="absolute bottom-0 pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 68}px`,
-            left: `${PIXEL_SCALE * 1}px`,
-          }}
-        />
-      </BuildingImageWrapper>
-    </>
+    <BuildingImageWrapper name="Hen House" onClick={handleClick}>
+      <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 z-20 flex gap-2">
+        {henHouseAlertIcons}
+      </div>
+      <img
+        src={HEN_HOUSE_VARIANTS[season][buildingLevel]}
+        className="absolute bottom-0 pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 68}px`,
+          left: `${PIXEL_SCALE * 1}px`,
+        }}
+      />
+    </BuildingImageWrapper>
   );
 };
