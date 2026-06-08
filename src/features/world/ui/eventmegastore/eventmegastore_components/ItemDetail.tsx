@@ -33,8 +33,12 @@ import { getItemDescription } from "../EventStore";
 import { getKeys } from "lib/object";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 
-import { REWARD_BOXES } from "features/game/types/rewardBoxes";
+import {
+  isDisplayableRewardBoxName,
+  isRewardBoxName,
+} from "features/game/types/rewardBoxes";
 import { MINIGAME_SHOP_ITEMS } from "features/game/types/minigameShop";
+import { ChestRewardsList } from "components/ui/ChestRewardsList";
 
 interface ItemOverlayProps {
   item: EventStoreItem | null;
@@ -100,6 +104,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
       ? (item as EventStoreWearable).wearable
       : (item as EventStoreCollectible).collectible
     : undefined;
+  const rewardBoxName =
+    itemName && isDisplayableRewardBoxName(itemName) ? itemName : undefined;
 
   const isRareUnlocked =
     tiers === "rare" && eventItemsCrafted >= eventStore.rare.requirement;
@@ -218,7 +224,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     setShowSuccess(true);
     setConfirmBuy(false);
 
-    if (itemName && itemName in REWARD_BOXES) {
+    if (itemName && isRewardBoxName(itemName)) {
       onClose();
     }
   };
@@ -342,6 +348,12 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       </div>
                     )}
                     <span className="text-xs leading-none">{description}</span>
+                    {rewardBoxName && (
+                      <ChestRewardsList
+                        type={rewardBoxName}
+                        showDescription={false}
+                      />
+                    )}
                     <Label
                       type={itemsCrafted ? "danger" : "default"}
                       className="text-xxs"

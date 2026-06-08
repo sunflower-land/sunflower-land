@@ -26,9 +26,13 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSelector } from "@xstate/react";
 import {
   REWARD_BOXES,
+  getRewardBoxRewardsForDisplay,
+  isDisplayableRewardBoxName,
   type RewardBoxName,
   type RewardBoxReward,
 } from "features/game/types/rewardBoxes";
+import flowerIcon from "assets/icons/flower_token.webp";
+import vipIcon from "assets/icons/vip.webp";
 
 const RewardRow: React.FC<{
   rewardName: string;
@@ -117,12 +121,14 @@ export const ChestRewardsList: React.FC<{
   isFirstInMultiList?: boolean;
   isSubsequentInMultiList?: boolean;
   chestDescription?: NoticeboardItemsElements[];
+  showDescription?: boolean;
 }> = ({
   type,
   listTitle,
   isFirstInMultiList,
   isSubsequentInMultiList,
   chestDescription,
+  showDescription = true,
 }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
@@ -136,7 +142,9 @@ export const ChestRewardsList: React.FC<{
 
   const rewards: RewardBoxReward[] = isChestRewardType(type)
     ? chestLoot[type]
-    : REWARD_BOXES[type].rewards;
+    : isDisplayableRewardBoxName(type)
+      ? getRewardBoxRewardsForDisplay({ name: type })
+      : REWARD_BOXES[type].rewards;
 
   // Based on total weighting for each list
   const rewardChance = (weigthing: number) => {
@@ -156,7 +164,7 @@ export const ChestRewardsList: React.FC<{
       className={`flex flex-col py-0.5 pr-1 text-xs ${isFirstInMultiList || isSubsequentInMultiList ? "" : "overflow-y-auto max-h-[350px] scrollable"}`}
     >
       {/* The condition hides the descriptions in subsequent lists */}
-      {!isSubsequentInMultiList && (
+      {showDescription && !isSubsequentInMultiList && (
         <div className="py-1.5">
           <NoticeboardItems
             items={
@@ -182,17 +190,37 @@ export const ChestRewardsList: React.FC<{
           <Label type="default">{t("chestRewardsList.listTitle2")}</Label>
         )}
       </div>
-      {...rewards
+      {[...rewards]
         .sort((a, b) => b.weighting - a.weighting) // Sort by weighting descending
         .map((reward, index) => {
           return (
             <div key={index}>
-              {(reward.coins ?? 0 > 0) && (
+              {!!reward.coins && (
                 <RewardRow
                   rewardName={t("coins")}
                   amount={reward.coins ?? 0}
                   chance={`${rewardChance(reward.weighting)}%`}
                   icon={SUNNYSIDE.ui.coins}
+                  secondBG={index % 2 === 0}
+                />
+              )}
+
+              {!!reward.flower && (
+                <RewardRow
+                  rewardName="FLOWER"
+                  amount={reward.flower}
+                  chance={`${rewardChance(reward.weighting)}%`}
+                  icon={flowerIcon}
+                  secondBG={index % 2 === 0}
+                />
+              )}
+
+              {!!reward.vipDays && (
+                <RewardRow
+                  rewardName="VIP Days"
+                  amount={reward.vipDays}
+                  chance={`${rewardChance(reward.weighting)}%`}
+                  icon={vipIcon}
                   secondBG={index % 2 === 0}
                 />
               )}

@@ -36,7 +36,10 @@ import {
   getChapterPurchaseCount,
   isKeyBoughtWithinChapter,
 } from "features/game/events/landExpansion/buyChapterItem";
-import { REWARD_BOXES } from "features/game/types/rewardBoxes";
+import {
+  isDisplayableRewardBoxName,
+  isRewardBoxName,
+} from "features/game/types/rewardBoxes";
 import { secondsToString } from "lib/utils/time";
 import {
   WEARABLE_RELEASES,
@@ -44,6 +47,7 @@ import {
 } from "features/game/types/withdrawables";
 
 import lockIcon from "assets/icons/lock.png";
+import { ChestRewardsList } from "components/ui/ChestRewardsList";
 
 interface ItemOverlayProps {
   item: ChapterStoreItem;
@@ -115,6 +119,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const itemName = isWearable
     ? (item as ChapterStoreWearable)?.wearable
     : (item as ChapterStoreCollectible)?.collectible;
+  const rewardBoxName =
+    itemName && isDisplayableRewardBoxName(itemName) ? itemName : undefined;
 
   const isKey = (name: InventoryItemName): name is Keys =>
     name in ARTEFACT_SHOP_KEYS;
@@ -256,7 +262,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     setShowSuccess(true);
     setConfirmBuy(false);
 
-    if (itemName && itemName in REWARD_BOXES) {
+    if (itemName && isRewardBoxName(itemName)) {
       onClose();
     }
   };
@@ -358,6 +364,12 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       <span className="text-xs leading-none">
                         {description}
                       </span>
+                    )}
+                    {rewardBoxName && (
+                      <ChestRewardsList
+                        type={rewardBoxName}
+                        showDescription={false}
+                      />
                     )}
                     {itemName && item?.cooldownMs ? (
                       <Label

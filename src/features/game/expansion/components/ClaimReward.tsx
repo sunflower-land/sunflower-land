@@ -1,5 +1,5 @@
 import { Button } from "components/ui/Button";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import confetti from "canvas-confetti";
 
 import token from "assets/icons/flower_token.webp";
@@ -38,6 +38,11 @@ import { OPEN_SEA_WEARABLES } from "metadata/metadata";
 import { RECIPES } from "features/game/lib/crafting";
 import blueLightning from "assets/icons/blue_lightning.png";
 import { useNow } from "lib/utils/hooks/useNow";
+import { ChestRewardsList } from "components/ui/ChestRewardsList";
+import {
+  isDisplayableRewardBoxName,
+  type DisplayableRewardBoxName,
+} from "features/game/types/rewardBoxes";
 
 const _game = (state: MachineState) => state.context.state;
 
@@ -113,6 +118,8 @@ export const Rewards: React.FC<{
   const { t } = useAppTranslation();
   const { gameState } = useGame();
   const game = gameState.context.state;
+  const [expandedRewardBox, setExpandedRewardBox] =
+    useState<DisplayableRewardBoxName>();
   const itemNames = getKeys(reward.items);
   const now = useNow({
     live: getKeys(CONSUMABLES).some((name) => (reward.items[name] ?? 0) > 0),
@@ -205,10 +212,21 @@ export const Rewards: React.FC<{
         itemNames.map((name) => {
           const buff = COLLECTIBLE_BUFF_LABELS[name]?.(game);
           const isVipGift = vipGiftItem === name;
+          const rewardBoxName = isDisplayableRewardBoxName(name)
+            ? name
+            : undefined;
+          const isRewardBoxExpanded = expandedRewardBox === rewardBoxName;
           return (
             <ButtonPanel
-              className="flex items-start cursor-context-menu hover:brightness-100"
+              className={`flex items-start hover:brightness-100 ${rewardBoxName ? "cursor-pointer" : "cursor-context-menu"}`}
               key={name}
+              onClick={() => {
+                if (!rewardBoxName) return;
+
+                setExpandedRewardBox((current) =>
+                  current === rewardBoxName ? undefined : rewardBoxName,
+                );
+              }}
             >
               <Box
                 image={ITEM_DETAILS[name].image}
@@ -269,6 +287,17 @@ export const Rewards: React.FC<{
                     {getItemDescription({ item: name, game }) ||
                       t("reward.collectible")}
                   </p>
+                )}
+                {rewardBoxName && isRewardBoxExpanded && (
+                  <div
+                    className="mt-1"
+                    onClick={(event) => event.stopPropagation()}
+                  >
+                    <ChestRewardsList
+                      type={rewardBoxName}
+                      showDescription={false}
+                    />
+                  </div>
                 )}
               </div>
             </ButtonPanel>

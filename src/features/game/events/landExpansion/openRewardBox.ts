@@ -3,7 +3,7 @@ import {
   type RewardBoxName,
   type RewardBoxReward,
   REWARD_BOXES,
-  getPetRewardPool,
+  getRewardBoxRewards,
 } from "features/game/types/rewardBoxes";
 import { produce } from "immer";
 import { CONFIG } from "lib/config";
@@ -18,29 +18,7 @@ function getReward({
   name: RewardBoxName;
   game: GameState;
 }): RewardBoxReward | undefined {
-  let rewards = REWARD_BOXES[name].rewards;
-
-  if (name === "Pet Egg") {
-    rewards = getPetRewardPool({ inventory: game.inventory });
-  }
-
-  if (name === "Bronze Food Box" || name === "Silver Food Box") {
-    rewards = rewards.map((reward) => {
-      if (!reward.items || !("Fermented Fish" in reward.items)) {
-        return reward;
-      }
-
-      const { ["Fermented Fish"]: fermentedFish, ...rest } = reward.items;
-
-      return {
-        ...reward,
-        items: {
-          ...rest,
-          "Surimi Rice Bowl": fermentedFish,
-        },
-      };
-    });
-  }
+  const rewards = getRewardBoxRewards({ name, game });
 
   // TODO: If a player already has the reward, half the weight
 

@@ -18,9 +18,13 @@ import confetti from "canvas-confetti";
 import type { BumpkinItem } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getItemDescription } from "../FloatingIslandShop";
-import { REWARD_BOXES } from "features/game/types/rewardBoxes";
+import {
+  isDisplayableRewardBoxName,
+  isRewardBoxName,
+} from "features/game/types/rewardBoxes";
 import type { FloatingShopItem } from "features/game/types/floatingIsland";
 import { getKeys } from "lib/object";
+import { ChestRewardsList } from "components/ui/ChestRewardsList";
 
 interface ItemOverlayProps {
   item: FloatingShopItem | null;
@@ -52,6 +56,10 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const [confirmBuy, setConfirmBuy] = useState<boolean>(false);
 
   const description = getItemDescription(item);
+  const rewardBoxName =
+    item && !isWearable && isDisplayableRewardBoxName(item.name)
+      ? item.name
+      : undefined;
 
   useLayoutEffect(() => {
     if (isWearable) {
@@ -126,7 +134,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     setShowSuccess(true);
     setConfirmBuy(false);
 
-    if (item.name in REWARD_BOXES) {
+    if (isRewardBoxName(item.name)) {
       onClose();
     }
   };
@@ -221,6 +229,13 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       </div>
                     )}
                     <span className="text-xs leading-none">{description}</span>
+
+                    {rewardBoxName && (
+                      <ChestRewardsList
+                        type={rewardBoxName}
+                        showDescription={false}
+                      />
+                    )}
 
                     {item && (
                       <div className="flex flex-1 items-end">
