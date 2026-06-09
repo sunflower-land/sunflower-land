@@ -121,7 +121,7 @@ export const AgingRackEmpty: React.FC<Props> = ({
               >
                 <Box
                   image={opt.icon}
-                  hideCount
+                  count={merged[fishName]}
                   isSelected={selectedFish === fishName}
                   onClick={() => onSelectFish(fishName)}
                   secondaryImage={

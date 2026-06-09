@@ -9048,9 +9048,7 @@
   "community.feed.empty": "Noch keine Community-Beiträge. Schau bald wieder vorbei!",
   "community.feed.error": "Community-Beiträge konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
   "community.feed.title": "Beitrag der Gemeinschaft",
-  "community.feed.postOnX.cta": "Poste auf X, um Prämien zu verdienen",
   "community.feed.postOnX.viewMore": "Mehr ansehen",
-  "community.feed.viewOnX": "Auf X ansehen",
   "community.addPost.title": "Präsentieren Sie einen Beitrag",
   "community.addPost.description": "Fügen Sie den Link zu einem X-Beitrag (Twitter) ein, um ihn im Community-Feed zu veröffentlichen. Der Autor wird belohnt.",
   "community.addPost.placeholder": "https://x.com/...",
@@ -9063,5 +9061,12 @@
   "showcasing.twitter": "Beitrag präsentieren...",
   "showcasing.twitter.success": "Beitrag präsentiert! Der Autor wurde belohnt.",
   "inventory.showFilters": "Filter einblenden",
-  "inventory.hideFilters": "Filter ausblenden"
+  "inventory.hideFilters": "Filter ausblenden",
+  "community.feed.postOnX.cta": "Poste auf X und erhalte sofortige Belohnungen",
+  "community.feed.viewOnX": "Lesen Sie mehr",
+  "community.feed.remove": "Aus dem Feed entfernen",
+  "community.feed.remove.confirm": "Bestätigen Sie das Entfernen",
+  "community.feed.removing": "Beitrag wird entfernt...",
+  "community.feed.removeError": "Der Beitrag konnte nicht entfernt werden. Bitte versuche es erneut.",
+  "community.addPost.reward": "Autoren erhalten 1.000 Liebeszauber."
 }

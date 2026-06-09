@@ -9048,9 +9048,7 @@
   "community.feed.empty": "Aucune publication de la communauté pour le moment. Revenez bientôt !",
   "community.feed.error": "Impossible de charger les publications de la communauté. Veuillez réessayer ultérieurement.",
   "community.feed.title": "Poste communautaire",
-  "community.feed.postOnX.cta": "Publiez sur X pour gagner des récompenses",
   "community.feed.postOnX.viewMore": "Afficher plus",
-  "community.feed.viewOnX": "Afficher sur X",
   "community.addPost.title": "Présenter une publication",
   "community.addPost.description": "Collez le lien vers une publication X (Twitter) pour l'inclure dans le fil communautaire. L'auteur sera récompensé.",
   "community.addPost.placeholder": "https://x.com/...",
@@ -9063,5 +9061,12 @@
   "showcasing.twitter": "Article de présentation...",
   "showcasing.twitter.success": "Article présenté ! L'auteur a été récompensé.",
   "inventory.showFilters": "Afficher les filtres",
-  "inventory.hideFilters": "Masquer les filtres"
+  "inventory.hideFilters": "Masquer les filtres",
+  "community.feed.postOnX.cta": "Publiez sur X pour obtenir des récompenses instantanées",
+  "community.feed.viewOnX": "En savoir plus",
+  "community.feed.remove": "Supprimer du flux",
+  "community.feed.remove.confirm": "Confirmer la suppression",
+  "community.feed.removing": "Supprimer un message...",
+  "community.feed.removeError": "Impossible de supprimer le message. Veuillez réessayer.",
+  "community.addPost.reward": "Les auteurs recevront 1 000 Love Charms."
 }
