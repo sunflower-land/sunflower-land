@@ -457,7 +457,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                         </span>
                       )}
                       <Label type="default" className="shrink-0">
-                        {"Rewards"}
+                        {t("rewards")}
                       </Label>
                     </div>
                   )}
