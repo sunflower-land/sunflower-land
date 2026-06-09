@@ -351,13 +351,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                     )}
                     <span className="text-xs leading-none">{description}</span>
 
-                    {rewardBoxName && (
-                      <ChestRewardsList
-                        type={rewardBoxName}
-                        showDescription={false}
-                      />
-                    )}
-
                     {renderCost()}
                     {item?.name === "Pet Egg" && (
                       <Label type={isBought ? "danger" : "warning"}>
