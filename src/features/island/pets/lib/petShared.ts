@@ -1,6 +1,7 @@
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getObjectEntries } from "lib/object";
+import { getCollectiblesAcrossLocations } from "features/game/lib/getCollectiblesAcrossLocations";
 import { type PetName, isPetNFTRevealed } from "features/game/types/pets";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type { GameState } from "features/game/types/game";
@@ -218,11 +219,9 @@ export const isPetExcludedByMissingPetHouse = ({
     return game.pets?.nfts?.[pet]?.location === "petHouse";
   }
 
-  const placedOutsidePetHouse =
-    game.collectibles[pet]?.some((p) => !!p.coordinates) ||
-    game.home.collectibles[pet]?.some((p) => !!p.coordinates) ||
-    game.interior?.ground.collectibles[pet]?.some((p) => !!p.coordinates) ||
-    game.interior?.level_one?.collectibles[pet]?.some((p) => !!p.coordinates);
+  const placedOutsidePetHouse = getCollectiblesAcrossLocations(game, pet).some(
+    (p) => !!p.coordinates,
+  );
   const placedInPetHouse = game.petHouse?.pets[pet]?.some(
     (p) => !!p.coordinates,
   );
