@@ -21,6 +21,7 @@ import { getItemDescription } from "../FloatingIslandShop";
 import {
   isDisplayableRewardBoxName,
   isRewardBoxName,
+  type RewardBoxName,
 } from "features/game/types/rewardBoxes";
 import type { FloatingShopItem } from "features/game/types/floatingIsland";
 import { getKeys } from "lib/object";
@@ -39,6 +40,73 @@ interface ItemOverlayProps {
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 
+const RewardBoxPreview: React.FC<{
+  rewardBoxName: RewardBoxName;
+  image: string;
+  imageWidth: number;
+  itemName: string;
+  description: string;
+}> = ({ rewardBoxName, image, imageWidth, itemName, description }) => {
+  const { t } = useAppTranslation();
+  const [showRewards, setShowRewards] = useState<boolean>(false);
+  const rewardsListId = `love-reward-box-rewards-${rewardBoxName
+    .replace(/\W+/g, "-")
+    .toLowerCase()}`;
+
+  if (showRewards) {
+    return (
+      <button
+        type="button"
+        aria-expanded={showRewards}
+        aria-controls={rewardsListId}
+        className="max-h-[150px] overflow-y-auto scrollable pr-1 cursor-pointer text-left text-current w-full bg-transparent pl-0 py-0 border-0"
+        onClick={() => setShowRewards(false)}
+      >
+        <div id={rewardsListId}>
+          <ChestRewardsList
+            type={rewardBoxName}
+            showDescription={false}
+            isFirstInMultiList
+          />
+        </div>
+      </button>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      aria-expanded={showRewards}
+      aria-controls={rewardsListId}
+      className="flex items-center space-x-2 cursor-pointer text-left text-current w-full bg-transparent p-0 border-0"
+      onClick={() => setShowRewards(true)}
+    >
+      <div
+        className="relative rounded-md overflow-hidden shadow-md flex justify-center items-center shrink-0"
+        style={{
+          width: `${PIXEL_SCALE * 24}px`,
+          height: `${PIXEL_SCALE * 24}px`,
+          backgroundImage: `url(${SUNNYSIDE.ui.grey_background})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <img
+          src={image}
+          alt={itemName}
+          style={{
+            width: `${Math.min(imageWidth, PIXEL_SCALE * 20)}px`,
+          }}
+        />
+      </div>
+      <span className="text-xs leading-none flex-1">{description}</span>
+      <Label type="default" className="shrink-0">
+        {t("rewards")}
+      </Label>
+    </button>
+  );
+};
+
 export const ItemDetail: React.FC<ItemOverlayProps> = ({
   item,
   image,
@@ -54,7 +122,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const [imageWidth, setImageWidth] = useState<number>(0);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
   const [confirmBuy, setConfirmBuy] = useState<boolean>(false);
-  const [showRewards, setShowRewards] = useState<boolean>(false);
 
   const description = getItemDescription(item);
   const rewardBoxName =
@@ -154,9 +221,13 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   };
 
   const getButtonLabel = () => {
-    if (confirmBuy) return `${t("confirm")} ${t("buy")}`;
+    if (confirmBuy) {
+      return isWearable
+        ? t("confirmBuy.wearable")
+        : t("confirmBuy.collectible");
+    }
 
-    return `${t("buy")} ${isWearable ? "wearable" : "collectible"}`;
+    return isWearable ? t("buy.wearable") : t("buy.collectible");
   };
 
   const renderCost = () => {
@@ -228,48 +299,14 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
               {!showSuccess && (
                 <div className="w-full p-2 px-1 space-y-2">
-                  {showRewards ? (
-                    <div
-                      className="max-h-[150px] overflow-y-auto scrollable pr-1 cursor-pointer"
-                      onClick={() => setShowRewards(false)}
-                    >
-                      <ChestRewardsList
-                        type={rewardBoxName}
-                        showDescription={false}
-                        isFirstInMultiList
-                      />
-                    </div>
-                  ) : (
-                    <div
-                      className="flex items-center space-x-2 cursor-pointer"
-                      onClick={() => setShowRewards(true)}
-                    >
-                      <div
-                        className="relative rounded-md overflow-hidden shadow-md flex justify-center items-center shrink-0"
-                        style={{
-                          width: `${PIXEL_SCALE * 24}px`,
-                          height: `${PIXEL_SCALE * 24}px`,
-                          backgroundImage: `url(${SUNNYSIDE.ui.grey_background})`,
-                          backgroundSize: "cover",
-                          backgroundPosition: "center",
-                        }}
-                      >
-                        <img
-                          src={image}
-                          alt={item?.name}
-                          style={{
-                            width: `${Math.min(imageWidth, PIXEL_SCALE * 20)}px`,
-                          }}
-                        />
-                      </div>
-                      <span className="text-xs leading-none flex-1">
-                        {description}
-                      </span>
-                      <Label type="default" className="shrink-0">
-                        {t("rewards")}
-                      </Label>
-                    </div>
-                  )}
+                  <RewardBoxPreview
+                    key={rewardBoxName}
+                    rewardBoxName={rewardBoxName}
+                    image={image}
+                    imageWidth={imageWidth}
+                    itemName={item?.name ?? rewardBoxName}
+                    description={description}
+                  />
 
                   {renderCost()}
                 </div>
