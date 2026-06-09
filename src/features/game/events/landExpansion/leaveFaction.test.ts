@@ -157,6 +157,44 @@ describe("leaveFaction", () => {
     ).toBeUndefined();
   });
 
+  it("removes a banner placed in level one", () => {
+    const state = leaveFaction({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Goblin Faction Banner": new Decimal(1),
+        },
+        interior: {
+          ground: { collectibles: {} },
+          level_one: {
+            collectibles: {
+              "Goblin Faction Banner": [
+                {
+                  id: "1",
+                  createdAt: 0,
+                  readyAt: 0,
+                  coordinates: { x: 0, y: 0 },
+                },
+              ],
+            },
+          },
+        },
+        faction: {
+          name: "goblins",
+          history: {},
+          pledgedAt: 1200100,
+        },
+      },
+      action: {
+        type: "faction.left",
+      },
+    });
+
+    expect(
+      state.interior.level_one?.collectibles["Goblin Faction Banner"],
+    ).toBeUndefined();
+  });
+
   it("throws error when trying to leave faction before 24 hours", () => {
     const now = Date.now();
 
