@@ -24,39 +24,38 @@ describe("BED_FARMHAND_COUNT", () => {
 
 describe("getPlacedBedNames", () => {
   it("counts a bed placed in the interior ground floor", () => {
-    const interiorGround: Collectibles = { "Basic Bed": placed() };
-
-    const result = getPlacedBedNames([
-      undefined,
-      undefined,
-      interiorGround,
-      undefined,
-    ]);
+    const result = getPlacedBedNames({
+      collectibles: {},
+      home: { collectibles: {} },
+      interior: { ground: { collectibles: { "Basic Bed": placed() } } },
+    });
 
     expect(result.has("Basic Bed")).toBe(true);
   });
 
   it("counts a bed placed on the interior level_one floor", () => {
-    const levelOne: Collectibles = { "Sturdy Bed": placed() };
-
-    const result = getPlacedBedNames([
-      undefined,
-      undefined,
-      undefined,
-      levelOne,
-    ]);
+    const result = getPlacedBedNames({
+      collectibles: {},
+      home: { collectibles: {} },
+      interior: {
+        ground: { collectibles: {} },
+        level_one: { collectibles: { "Sturdy Bed": placed() } },
+      },
+    });
 
     expect(result.has("Sturdy Bed")).toBe(true);
   });
 
   it("merges and dedupes bed types across every placement surface", () => {
-    const farm: Collectibles = { "Basic Bed": placed() };
-    const home: Collectibles = { "Floral Bed": placed() };
-    // Same bed type placed both on the farm and the interior — counted once.
-    const interiorGround: Collectibles = { "Basic Bed": placed() };
-    const levelOne: Collectibles = { "Pearl Bed": placed() };
-
-    const result = getPlacedBedNames([farm, home, interiorGround, levelOne]);
+    const result = getPlacedBedNames({
+      collectibles: { "Basic Bed": placed() },
+      home: { collectibles: { "Floral Bed": placed() } },
+      interior: {
+        // Same bed type placed both on the farm and the interior — counted once.
+        ground: { collectibles: { "Basic Bed": placed() } },
+        level_one: { collectibles: { "Pearl Bed": placed() } },
+      },
+    });
 
     expect(result).toEqual(new Set(["Basic Bed", "Floral Bed", "Pearl Bed"]));
   });
@@ -67,14 +66,17 @@ describe("getPlacedBedNames", () => {
       "Basic Bed": placed(),
     };
 
-    const result = getPlacedBedNames([farm]);
+    const result = getPlacedBedNames({
+      collectibles: farm,
+      home: { collectibles: {} },
+    });
 
     expect(result).toEqual(new Set(["Basic Bed"]));
   });
 
   it("returns an empty set when no beds are placed anywhere", () => {
     expect(
-      getPlacedBedNames([undefined, undefined, undefined, undefined]),
+      getPlacedBedNames({ collectibles: {}, home: { collectibles: {} } }),
     ).toEqual(new Set());
   });
 });

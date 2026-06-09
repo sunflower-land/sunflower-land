@@ -1,3 +1,4 @@
+import { getCollectiblesAcrossLocations } from "features/game/lib/getCollectiblesAcrossLocations";
 import { getKeys } from "lib/object";
 import type { BedName, Collectibles } from "./game";
 
@@ -16,24 +17,21 @@ export const BED_FARMHAND_COUNT: Record<BedName, number> = {
   "Salt Crystal Bed": 12,
 };
 
-const EMPTY_COLLECTIBLES: Collectibles = {};
-
 /**
- * The distinct bed types placed across the given placement surfaces.
- *
- * Farm hand capacity is driven by the number of distinct beds placed, so a bed
- * must count no matter where it lives — the farm (`collectibles`), the home
- * interior (`home.collectibles`) or the /interior floors (`interior.ground`
- * and `interior.level_one`). Pass every relevant surface; `undefined` ones
- * (e.g. a not-yet-unlocked level) are skipped.
+ * The distinct bed types placed across every placement surface — the farm, the
+ * home, and both /interior floors. Farm hand capacity is driven by this count,
+ * so a bed counts no matter where it lives.
  */
-export const getPlacedBedNames = (
-  placements: Array<Collectibles | undefined>,
-): Set<BedName> =>
+export const getPlacedBedNames = (game: {
+  collectibles: Collectibles;
+  home: { collectibles: Collectibles };
+  interior?: {
+    ground: { collectibles: Collectibles };
+    level_one?: { collectibles: Collectibles };
+  };
+}): Set<BedName> =>
   new Set(
-    placements.flatMap((collectibles) =>
-      getKeys(collectibles ?? EMPTY_COLLECTIBLES).filter(
-        (name): name is BedName => name in BED_FARMHAND_COUNT,
-      ),
+    getKeys(BED_FARMHAND_COUNT).filter(
+      (bedName) => getCollectiblesAcrossLocations(game, bedName).length > 0,
     ),
   );

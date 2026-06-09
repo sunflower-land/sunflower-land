@@ -12,6 +12,7 @@ import {
 } from "features/game/types/consumables";
 import {
   EXPIRY_COOLDOWNS,
+  getCollectiblesAcrossLocations,
   isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
@@ -143,12 +144,10 @@ const applyTempCollectibleBoost = ({
   const active = isTemporaryCollectibleActive({ name: collectibleName, game });
   if (!active) return seconds;
 
-  const activeItems = [
-    ...(game.collectibles[collectibleName] ?? []),
-    ...(game.home.collectibles[collectibleName] ?? []),
-    ...(game.interior?.ground.collectibles[collectibleName] ?? []),
-    ...(game.interior?.level_one?.collectibles[collectibleName] ?? []),
-  ].filter((item) => item.coordinates && !item.removedAt);
+  const activeItems = getCollectiblesAcrossLocations(
+    game,
+    collectibleName,
+  ).filter((item) => item.coordinates && !item.removedAt);
   if (activeItems.length === 0) return seconds;
 
   const newestItem = activeItems.sort((a, b) => b.createdAt! - a.createdAt!)[0];
