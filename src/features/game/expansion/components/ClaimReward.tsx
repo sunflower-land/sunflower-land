@@ -218,7 +218,7 @@ export const Rewards: React.FC<{
           const isRewardBoxExpanded = expandedRewardBox === rewardBoxName;
           return (
             <ButtonPanel
-              className={`flex items-start hover:brightness-100 ${rewardBoxName ? "cursor-pointer" : "cursor-context-menu"}`}
+              className={`flex flex-col hover:brightness-100 ${rewardBoxName ? "cursor-pointer" : "cursor-context-menu"}`}
               key={name}
               onClick={() => {
                 if (!rewardBoxName) return;
@@ -228,78 +228,85 @@ export const Rewards: React.FC<{
                 );
               }}
             >
-              <Box
-                image={ITEM_DETAILS[name].image}
-                className="-mt-2 -ml-1 -mb-1"
-              />
-              <div>
-                <div className="flex flex-wrap items-start">
-                  <Label type="default" className="mr-1 mb-1">
-                    {`${formatNumber(reward.items[name] ?? 1)} x ${name}`}
-                  </Label>
-                  {isVipGift && (
-                    <img
-                      src={vip}
-                      className="h-5 w-5 inline-block ml-1 -mb-0.5"
-                      alt="VIP gift"
-                    />
-                  )}
-                  {name in CONSUMABLES && (
-                    <Label
-                      type="success"
-                      icon={powerup}
-                      className="ml-1 mb-1"
-                    >{`+${formatNumber(
-                      getFoodExpBoost({
-                        food: CONSUMABLES[name as ConsumableName],
-                        game,
-                        createdAt: now,
-                      }).boostedExp,
-                      { decimalPlaces: 0 },
-                    )} XP`}</Label>
-                  )}
-                </div>
-                {buff ? (
-                  <div className="flex flex-col gap-1">
-                    {buff.map(
-                      (
-                        {
-                          labelType,
-                          boostTypeIcon,
-                          boostedItemIcon,
-                          shortDescription,
-                        },
-                        index,
-                      ) => (
-                        <Label
-                          key={index}
-                          type={labelType}
-                          icon={boostTypeIcon}
-                          secondaryIcon={boostedItemIcon}
-                        >
-                          {shortDescription}
-                        </Label>
-                      ),
+              <div className="flex items-start w-full">
+                <Box
+                  image={ITEM_DETAILS[name].image}
+                  className="-mt-2 -ml-1 -mb-1"
+                />
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-wrap items-start">
+                    <Label type="default" className="mr-1 mb-1">
+                      {`${formatNumber(reward.items[name] ?? 1)} x ${name}`}
+                    </Label>
+                    {isVipGift && (
+                      <img
+                        src={vip}
+                        className="h-5 w-5 inline-block ml-1 -mb-0.5"
+                        alt="VIP gift"
+                      />
+                    )}
+                    {name in CONSUMABLES && (
+                      <Label
+                        type="success"
+                        icon={powerup}
+                        className="ml-1 mb-1"
+                      >{`+${formatNumber(
+                        getFoodExpBoost({
+                          food: CONSUMABLES[name as ConsumableName],
+                          game,
+                          createdAt: now,
+                        }).boostedExp,
+                        { decimalPlaces: 0 },
+                      )} XP`}</Label>
+                    )}
+                    {rewardBoxName && (
+                      <Label type="default" className="ml-auto">
+                        {"Chances"}
+                      </Label>
                     )}
                   </div>
-                ) : (
-                  <p className="text-xs ml-0.5">
-                    {getItemDescription({ item: name, game }) ||
-                      t("reward.collectible")}
-                  </p>
-                )}
-                {rewardBoxName && isRewardBoxExpanded && (
-                  <div
-                    className="mt-1"
-                    onClick={(event) => event.stopPropagation()}
-                  >
-                    <ChestRewardsList
-                      type={rewardBoxName}
-                      showDescription={false}
-                    />
-                  </div>
-                )}
+                  {buff ? (
+                    <div className="flex flex-col gap-1">
+                      {buff.map(
+                        (
+                          {
+                            labelType,
+                            boostTypeIcon,
+                            boostedItemIcon,
+                            shortDescription,
+                          },
+                          index,
+                        ) => (
+                          <Label
+                            key={index}
+                            type={labelType}
+                            icon={boostTypeIcon}
+                            secondaryIcon={boostedItemIcon}
+                          >
+                            {shortDescription}
+                          </Label>
+                        ),
+                      )}
+                    </div>
+                  ) : (
+                    <p className="text-xs ml-0.5">
+                      {getItemDescription({ item: name, game }) ||
+                        t("reward.collectible")}
+                    </p>
+                  )}
+                </div>
               </div>
+              {rewardBoxName && isRewardBoxExpanded && (
+                <div
+                  className="mt-1 w-full"
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  <ChestRewardsList
+                    type={rewardBoxName}
+                    showDescription={false}
+                  />
+                </div>
+              )}
             </ButtonPanel>
           );
         })}

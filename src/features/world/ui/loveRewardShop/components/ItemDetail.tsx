@@ -54,6 +54,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const [imageWidth, setImageWidth] = useState<number>(0);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
   const [confirmBuy, setConfirmBuy] = useState<boolean>(false);
+  const [showChances, setShowChances] = useState<boolean>(false);
 
   const description = getItemDescription(item);
   const rewardBoxName =
@@ -162,6 +163,130 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     return `${t("buy")} ${isWearable ? "wearable" : "collectible"}`;
   };
 
+  const renderCost = () => {
+    if (!item) return null;
+
+    return (
+      <div className="flex flex-1 items-end">
+        {getKeys(item.cost.items).map((name) => {
+          return (
+            <RequirementLabel
+              key={name}
+              type={"item"}
+              item={name}
+              balance={inventory[name] ?? new Decimal(0)}
+              requirement={new Decimal(item.cost.items[name] ?? 0)}
+            />
+          );
+        })}
+      </div>
+    );
+  };
+
+  const renderBuyActions = () => (
+    <>
+      {!showSuccess && (
+        <div
+          className={classNames("flex w-full", {
+            "space-x-1": confirmBuy,
+          })}
+        >
+          {confirmBuy && (
+            <Button onClick={() => setConfirmBuy(false)}>{t("cancel")}</Button>
+          )}
+
+          {!isBought && (
+            <Button disabled={!canBuy()} onClick={buttonHandler}>
+              {getButtonLabel()}
+            </Button>
+          )}
+        </div>
+      )}
+      {showSuccess && (
+        <div className="flex flex-col space-y-1">
+          <span className="p-2 text-xs">{getSuccessCopy()}</span>
+          <Button onClick={onClose}>{t("ok")}</Button>
+        </div>
+      )}
+    </>
+  );
+
+  if (rewardBoxName) {
+    return (
+      <InnerPanel className="shadow">
+        {isVisible && (
+          <>
+            <div className="flex flex-col space-y-2">
+              <div className="flex items-center w-full">
+                <div style={{ width: `${PIXEL_SCALE * 9}px` }} />
+                <span className="flex-1 text-center">{item?.name}</span>
+                <img
+                  src={SUNNYSIDE.icons.close}
+                  className="cursor-pointer"
+                  onClick={onClose}
+                  style={{
+                    width: `${PIXEL_SCALE * 9}px`,
+                  }}
+                />
+              </div>
+
+              {!showSuccess && (
+                <div className="w-full p-2 px-1 space-y-2">
+                  {showChances ? (
+                    <div
+                      className="max-h-[150px] overflow-y-auto scrollable pr-1 cursor-pointer"
+                      onClick={() => setShowChances(false)}
+                    >
+                      <ChestRewardsList
+                        type={rewardBoxName}
+                        showDescription={false}
+                        isFirstInMultiList
+                      />
+                    </div>
+                  ) : (
+                    <div
+                      className="flex items-center space-x-2 cursor-pointer"
+                      onClick={() => setShowChances(true)}
+                    >
+                      <div
+                        className="relative rounded-md overflow-hidden shadow-md flex justify-center items-center shrink-0"
+                        style={{
+                          width: `${PIXEL_SCALE * 24}px`,
+                          height: `${PIXEL_SCALE * 24}px`,
+                          backgroundImage: `url(${SUNNYSIDE.ui.grey_background})`,
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
+                        }}
+                      >
+                        <img
+                          src={image}
+                          alt={item?.name}
+                          style={{
+                            width: `${Math.min(imageWidth, PIXEL_SCALE * 20)}px`,
+                          }}
+                        />
+                      </div>
+                      <span className="text-xs leading-none flex-1">
+                        {description}
+                      </span>
+                      <Label type="default" className="shrink-0">
+                        {"Chances"}
+                      </Label>
+                    </div>
+                  )}
+
+                  {renderCost()}
+                </div>
+              )}
+            </div>
+
+            {renderBuyActions()}
+          </>
+        )}
+      </InnerPanel>
+    );
+  }
+
   return (
     <InnerPanel className="shadow">
       {isVisible && (
@@ -237,23 +362,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       />
                     )}
 
-                    {item && (
-                      <div className="flex flex-1 items-end">
-                        {getKeys(item.cost.items).map((name) => {
-                          return (
-                            <RequirementLabel
-                              key={name}
-                              type={"item"}
-                              item={name}
-                              balance={inventory[name] ?? new Decimal(0)}
-                              requirement={
-                                new Decimal(item.cost.items[name] ?? 0)
-                              }
-                            />
-                          );
-                        })}
-                      </div>
-                    )}
+                    {renderCost()}
                     {item?.name === "Pet Egg" && (
                       <Label type={isBought ? "danger" : "warning"}>
                         {`Limit: ${isBought ? "1" : "0"}/1`}
@@ -264,33 +373,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
               </div>
             )}
           </div>
-          <>
-            {!showSuccess && (
-              <div
-                className={classNames("flex w-full", {
-                  "space-x-1": confirmBuy,
-                })}
-              >
-                {confirmBuy && (
-                  <Button onClick={() => setConfirmBuy(false)}>
-                    {t("cancel")}
-                  </Button>
-                )}
-
-                {!isBought && (
-                  <Button disabled={!canBuy()} onClick={buttonHandler}>
-                    {getButtonLabel()}
-                  </Button>
-                )}
-              </div>
-            )}
-            {showSuccess && (
-              <div className="flex flex-col space-y-1">
-                <span className="p-2 text-xs">{getSuccessCopy()}</span>
-                <Button onClick={onClose}>{t("ok")}</Button>
-              </div>
-            )}
-          </>
+          {renderBuyActions()}
         </>
       )}
     </InnerPanel>

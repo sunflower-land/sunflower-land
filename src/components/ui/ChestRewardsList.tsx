@@ -43,7 +43,7 @@ const RewardRow: React.FC<{
 }> = ({ rewardName, amount, chance, icon, secondBG }) => {
   return (
     <div
-      className={`flex justify-between items-center pr-2 ${secondBG ? "bg-[#ead4aa] rounded" : "bg-[#c285697d] rounded"}`}
+      className={`flex justify-between items-center pr-2 w-full ${secondBG ? "bg-[#ead4aa] rounded" : "bg-[#c285697d] rounded"}`}
     >
       <div className="flex items-center w-32 sm:w-40">
         <Box
@@ -72,7 +72,7 @@ const MultipleRewardsRow: React.FC<{
 
   return (
     <div
-      className={`flex justify-between items-center pr-2 ${secondBG ? "bg-[#ead4aa] rounded" : "bg-[#c285697d] rounded"}`}
+      className={`flex justify-between items-center pr-2 w-full ${secondBG ? "bg-[#ead4aa] rounded" : "bg-[#c285697d] rounded"}`}
     >
       <div className={`flex flex-col justify-between items-start `}>
         {rewards.map(([rewardName, amount], itemIndex) => {
@@ -161,7 +161,7 @@ export const ChestRewardsList: React.FC<{
 
   return (
     <div
-      className={`flex flex-col py-0.5 pr-1 text-xs ${isFirstInMultiList || isSubsequentInMultiList ? "" : "overflow-y-auto max-h-[350px] scrollable"}`}
+      className={`flex flex-col py-0.5 pr-1 text-xs w-full ${isFirstInMultiList || isSubsequentInMultiList ? "" : "overflow-y-auto max-h-[280px] sm:max-h-[350px] scrollable"}`}
     >
       {/* The condition hides the descriptions in subsequent lists */}
       {showDescription && !isSubsequentInMultiList && (
