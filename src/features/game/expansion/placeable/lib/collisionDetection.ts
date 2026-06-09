@@ -485,56 +485,9 @@ function detectHomeCollision({
       }));
   });
 
-  const budsBoundingBox = Object.values(state.buds ?? {})
-    .filter((bud) => !!bud.coordinates && bud.location === "home")
-    .map((item) => ({
-      x: item.coordinates!.x,
-      y: item.coordinates!.y,
-      height: 1,
-      width: 1,
-    }));
-
-  const petNFTBoundingBox = Object.values(state.pets?.nfts ?? {})
-    .filter((petNFT) => !!petNFT.coordinates && petNFT.location === "home")
-    .map((item) => ({
-      x: item.coordinates!.x,
-      y: item.coordinates!.y,
-      height: PET_NFT_DIMENSIONS.height,
-      width: PET_NFT_DIMENSIONS.width,
-    }));
-
-  const farmHandBoundingBox = Object.values(state.farmHands.bumpkins ?? {})
-    .filter(
-      (farmHand) => !!farmHand.coordinates && farmHand.location === "home",
-    )
-    .map((farmHand) => ({
-      x: farmHand.coordinates!.x,
-      y: farmHand.coordinates!.y,
-      height: 1,
-      width: 1,
-    }));
-
-  // Main bumpkin inside, exclude when placing/moving the bumpkin itself
-  const bumpkinBoundingBox =
-    name !== "Bumpkin" &&
-    state.bumpkin?.coordinates &&
-    state.bumpkin?.location === "home"
-      ? [
-          {
-            x: state.bumpkin.coordinates.x,
-            y: state.bumpkin.coordinates.y,
-            height: 1,
-            width: 1,
-          },
-        ]
-      : [];
-
   const boundingBoxes = [
     ...placeableBounds,
-    ...budsBoundingBox,
-    ...petNFTBoundingBox,
-    ...farmHandBoundingBox,
-    ...bumpkinBoundingBox,
+    ...placedEntityBoundingBoxes(state, "home", name),
   ];
 
   return boundingBoxes.some((resourceBoundingBox) =>
@@ -802,6 +755,69 @@ function detectLandCornerCollision(
  * once before the layout lookup and treat everything else (overlap check) in
  * the canvas-center convention since collectibles store their coords there.
  */
+/**
+ * Bounding boxes for the non-collectible entities (buds, pet NFTs, farm hands
+ * and the main bumpkin) placed on a given indoor surface. Shared by the home,
+ * interior and level_one collision checks so each surface collides with these
+ * the same way.
+ */
+function placedEntityBoundingBoxes(
+  state: GameState,
+  location: PlaceableLocation,
+  name: LandscapingPlaceable,
+): BoundingBox[] {
+  const budsBoundingBox = Object.values(state.buds ?? {})
+    .filter((bud) => !!bud.coordinates && bud.location === location)
+    .map((item) => ({
+      x: item.coordinates!.x,
+      y: item.coordinates!.y,
+      height: 1,
+      width: 1,
+    }));
+
+  const petNFTBoundingBox = Object.values(state.pets?.nfts ?? {})
+    .filter((petNFT) => !!petNFT.coordinates && petNFT.location === location)
+    .map((item) => ({
+      x: item.coordinates!.x,
+      y: item.coordinates!.y,
+      height: PET_NFT_DIMENSIONS.height,
+      width: PET_NFT_DIMENSIONS.width,
+    }));
+
+  const farmHandBoundingBox = Object.values(state.farmHands.bumpkins ?? {})
+    .filter(
+      (farmHand) => !!farmHand.coordinates && farmHand.location === location,
+    )
+    .map((farmHand) => ({
+      x: farmHand.coordinates!.x,
+      y: farmHand.coordinates!.y,
+      height: 1,
+      width: 1,
+    }));
+
+  // Main bumpkin inside, exclude when placing/moving the bumpkin itself
+  const bumpkinBoundingBox =
+    name !== "Bumpkin" &&
+    state.bumpkin?.coordinates &&
+    state.bumpkin?.location === location
+      ? [
+          {
+            x: state.bumpkin.coordinates.x,
+            y: state.bumpkin.coordinates.y,
+            height: 1,
+            width: 1,
+          },
+        ]
+      : [];
+
+  return [
+    ...budsBoundingBox,
+    ...petNFTBoundingBox,
+    ...farmHandBoundingBox,
+    ...bumpkinBoundingBox,
+  ];
+}
+
 function detectInteriorCollision({
   state,
   position,
@@ -851,7 +867,12 @@ function detectInteriorCollision({
       }));
   });
 
-  return placeableBounds.some((box) => isOverlapping(position, box));
+  const boundingBoxes = [
+    ...placeableBounds,
+    ...placedEntityBoundingBoxes(state, "interior", name),
+  ];
+
+  return boundingBoxes.some((box) => isOverlapping(position, box));
 }
 
 /**
@@ -913,7 +934,12 @@ function detectLevelOneCollision({
       }));
   });
 
-  return placeableBounds.some((box) => isOverlapping(position, box));
+  const boundingBoxes = [
+    ...placeableBounds,
+    ...placedEntityBoundingBoxes(state, "level_one", name),
+  ];
+
+  return boundingBoxes.some((box) => isOverlapping(position, box));
 }
 
 export function detectCollision({

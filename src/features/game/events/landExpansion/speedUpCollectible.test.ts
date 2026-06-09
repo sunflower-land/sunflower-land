@@ -123,6 +123,42 @@ describe("speedUpCollectible", () => {
     expect(state.collectibles["Basic Scarecrow"]![0].readyAt).toEqual(now);
   });
 
+  it("speeds up a collectible placed in the interior", () => {
+    const now = Date.now();
+    const state = speedUpCollectible({
+      action: {
+        type: "collectible.spedUp",
+        id: "123",
+        name: "Basic Scarecrow",
+      },
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          Gem: new Decimal(100),
+        },
+        interior: {
+          ground: {
+            collectibles: {
+              "Basic Scarecrow": [
+                {
+                  coordinates: { x: 0, y: 0 },
+                  createdAt: 100,
+                  id: "123",
+                  readyAt: Date.now() + 1000,
+                },
+              ],
+            },
+          },
+        },
+      },
+    });
+
+    expect(
+      state.interior.ground.collectibles["Basic Scarecrow"]![0].readyAt,
+    ).toEqual(now);
+  });
+
   it("records gem history under the createdAt date key (cross-day)", () => {
     const createdAt = new Date("2024-06-15T12:00:00Z").getTime();
     const dateKey = "2024-06-15";

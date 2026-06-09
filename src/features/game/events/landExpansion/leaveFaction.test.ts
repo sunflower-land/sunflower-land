@@ -120,6 +120,43 @@ describe("leaveFaction", () => {
     expect(state.inventory["Goblin Faction Banner"]).toBeUndefined();
   });
 
+  it("removes a banner placed in the interior", () => {
+    const state = leaveFaction({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Goblin Faction Banner": new Decimal(1),
+        },
+        interior: {
+          ground: {
+            collectibles: {
+              "Goblin Faction Banner": [
+                {
+                  id: "1",
+                  createdAt: 0,
+                  readyAt: 0,
+                  coordinates: { x: 0, y: 0 },
+                },
+              ],
+            },
+          },
+        },
+        faction: {
+          name: "goblins",
+          history: {},
+          pledgedAt: 1200100,
+        },
+      },
+      action: {
+        type: "faction.left",
+      },
+    });
+
+    expect(
+      state.interior.ground.collectibles["Goblin Faction Banner"],
+    ).toBeUndefined();
+  });
+
   it("throws error when trying to leave faction before 24 hours", () => {
     const now = Date.now();
 

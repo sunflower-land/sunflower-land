@@ -44,6 +44,8 @@ export function leaveFaction({
       delete game.inventory[name];
       delete game.collectibles[name];
       delete game.home.collectibles[name];
+      delete game.interior.ground.collectibles[name];
+      delete game.interior.level_one?.collectibles[name];
     });
 
     return game;

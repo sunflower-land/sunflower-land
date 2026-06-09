@@ -60,6 +60,43 @@ describe("burnCollectible", () => {
     expect(state.home.collectibles).toEqual({});
   });
 
+  it("burns a Hourglass in the interior", () => {
+    const state = burnCollectible({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          "Gourmet Hourglass": new Decimal(2),
+        },
+        interior: {
+          ground: {
+            collectibles: {
+              "Gourmet Hourglass": [
+                {
+                  coordinates: {
+                    x: 0,
+                    y: 0,
+                  },
+                  id: "1",
+                  createdAt: 0,
+                  readyAt: 0,
+                },
+              ],
+            },
+          },
+        },
+      },
+      action: {
+        id: "1",
+        location: "interior",
+        name: "Gourmet Hourglass",
+        type: "collectible.burned",
+      },
+    });
+
+    expect(state.inventory["Gourmet Hourglass"]).toEqual(new Decimal(1));
+    expect(state.interior.ground.collectibles).toEqual({});
+  });
+
   it("burns a Hourglass in the farm", () => {
     const state = burnCollectible({
       state: {

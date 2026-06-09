@@ -220,7 +220,9 @@ export const isPetExcludedByMissingPetHouse = ({
 
   const placedOutsidePetHouse =
     game.collectibles[pet]?.some((p) => !!p.coordinates) ||
-    game.home.collectibles[pet]?.some((p) => !!p.coordinates);
+    game.home.collectibles[pet]?.some((p) => !!p.coordinates) ||
+    game.interior?.ground.collectibles[pet]?.some((p) => !!p.coordinates) ||
+    game.interior?.level_one?.collectibles[pet]?.some((p) => !!p.coordinates);
   const placedInPetHouse = game.petHouse?.pets[pet]?.some(
     (p) => !!p.coordinates,
   );

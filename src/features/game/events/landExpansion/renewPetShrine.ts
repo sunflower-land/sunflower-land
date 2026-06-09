@@ -29,7 +29,11 @@ export function renewPetShrine({
     const collectibleGroup =
       action.location === "home"
         ? stateCopy.home.collectibles[action.name]
-        : stateCopy.collectibles[action.name];
+        : action.location === "interior"
+          ? stateCopy.interior.ground.collectibles[action.name]
+          : action.location === "level_one"
+            ? stateCopy.interior.level_one?.collectibles[action.name]
+            : stateCopy.collectibles[action.name];
 
     if (!collectibleGroup) {
       throw new Error("Invalid collectible");

@@ -65,6 +65,14 @@ export function burnCollectible({
           );
         }
         return stateCopy.petHouse.pets[name];
+      } else if (location === "interior") {
+        return stateCopy.interior.ground.collectibles[name];
+      } else if (location === "level_one") {
+        const levelOne = stateCopy.interior.level_one;
+        if (!levelOne) {
+          throw new Error("Level one floor has not been unlocked");
+        }
+        return levelOne.collectibles[name];
       } else {
         return stateCopy.collectibles[name];
       }
@@ -104,6 +112,10 @@ export function burnCollectible({
           );
         }
         delete stateCopy.petHouse.pets[action.name];
+      } else if (action.location === "interior") {
+        delete stateCopy.interior.ground.collectibles[action.name];
+      } else if (action.location === "level_one") {
+        delete stateCopy.interior.level_one!.collectibles[action.name];
       } else {
         delete stateCopy.collectibles[action.name];
       }
@@ -117,6 +129,11 @@ export function burnCollectible({
           );
         }
         stateCopy.petHouse.pets[action.name] = collectibleGroup;
+      } else if (action.location === "interior") {
+        stateCopy.interior.ground.collectibles[action.name] = collectibleGroup;
+      } else if (action.location === "level_one") {
+        stateCopy.interior.level_one!.collectibles[action.name] =
+          collectibleGroup;
       } else {
         stateCopy.collectibles[action.name] = collectibleGroup;
       }
