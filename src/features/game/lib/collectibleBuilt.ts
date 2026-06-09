@@ -1,34 +1,12 @@
 import type { HourglassType } from "features/island/collectibles/components/Hourglass";
 import type { CollectibleName } from "../types/craftables";
 import { getKeys } from "lib/object";
-import type { Collectibles, GameState } from "../types/game";
+import type { GameState } from "../types/game";
 import { PET_SHRINES, type PetShrineName } from "../types/pets";
 import { isPetCollectible } from "../events/landExpansion/placeCollectible";
+import { getCollectiblesAcrossLocations } from "./getCollectiblesAcrossLocations";
 
-/**
- * Every instance of a collectible gathered from the four collectible surfaces:
- * farm, home, interior ground and interior level_one. The pet house is excluded
- * (it stores pets, keyed by PetName). Instances are returned as-is — callers
- * filter by `coordinates` / `readyAt` / `createdAt` as needed.
- */
-export function getCollectiblesAcrossLocations<N extends CollectibleName>(
-  game: {
-    collectibles: Collectibles;
-    home: { collectibles: Collectibles };
-    interior?: {
-      ground: { collectibles: Collectibles };
-      level_one?: { collectibles: Collectibles };
-    };
-  },
-  name: N,
-): NonNullable<Collectibles[N]> {
-  return [
-    ...(game.collectibles[name] ?? []),
-    ...(game.home.collectibles[name] ?? []),
-    ...(game.interior?.ground.collectibles[name] ?? []),
-    ...(game.interior?.level_one?.collectibles[name] ?? []),
-  ] as NonNullable<Collectibles[N]>;
-}
+export { getCollectiblesAcrossLocations };
 
 export function isCollectibleBuilt({
   name,
