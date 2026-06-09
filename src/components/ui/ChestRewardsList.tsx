@@ -207,7 +207,7 @@ export const ChestRewardsList: React.FC<{
 
               {!!reward.flower && (
                 <RewardRow
-                  rewardName="FLOWER"
+                  rewardName={t("flower")}
                   amount={reward.flower}
                   chance={`${rewardChance(reward.weighting)}%`}
                   icon={flowerIcon}
@@ -217,7 +217,7 @@ export const ChestRewardsList: React.FC<{
 
               {!!reward.vipDays && (
                 <RewardRow
-                  rewardName="VIP Days"
+                  rewardName={t("vipDays")}
                   amount={reward.vipDays}
                   chance={`${rewardChance(reward.weighting)}%`}
                   icon={vipIcon}
