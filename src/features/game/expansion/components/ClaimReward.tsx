@@ -261,7 +261,7 @@ export const Rewards: React.FC<{
                     )}
                     {rewardBoxName && (
                       <Label type="default" className="ml-auto">
-                        {"Chances"}
+                        {"Rewards"}
                       </Label>
                     )}
                   </div>
@@ -299,7 +299,10 @@ export const Rewards: React.FC<{
               {rewardBoxName && isRewardBoxExpanded && (
                 <div
                   className="mt-1 w-full"
-                  onClick={(event) => event.stopPropagation()}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setExpandedRewardBox(undefined);
+                  }}
                 >
                   <ChestRewardsList
                     type={rewardBoxName}

@@ -54,21 +54,17 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const [imageWidth, setImageWidth] = useState<number>(0);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
   const [confirmBuy, setConfirmBuy] = useState<boolean>(false);
-  const [showChances, setShowChances] = useState<boolean>(false);
+  const [showRewards, setShowRewards] = useState<boolean>(false);
 
   const description = getItemDescription(item);
   const rewardBoxName =
     item && !isWearable && isDisplayableRewardBoxName(item.name)
       ? item.name
       : undefined;
+  const displayedImageWidth = isWearable ? PIXEL_SCALE * 50 : imageWidth;
 
   useLayoutEffect(() => {
-    if (isWearable) {
-      // Valid use case here as we are reading the width of the image
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setImageWidth(PIXEL_SCALE * 50);
-      return;
-    }
+    if (isWearable) return;
 
     const imgElement = new Image();
 
@@ -80,7 +76,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     };
 
     imgElement.src = image;
-  }, []);
+  }, [image, isWearable]);
 
   const canBuy = () => {
     if (!item) return false;
@@ -232,10 +228,10 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
               {!showSuccess && (
                 <div className="w-full p-2 px-1 space-y-2">
-                  {showChances ? (
+                  {showRewards ? (
                     <div
                       className="max-h-[150px] overflow-y-auto scrollable pr-1 cursor-pointer"
-                      onClick={() => setShowChances(false)}
+                      onClick={() => setShowRewards(false)}
                     >
                       <ChestRewardsList
                         type={rewardBoxName}
@@ -246,7 +242,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                   ) : (
                     <div
                       className="flex items-center space-x-2 cursor-pointer"
-                      onClick={() => setShowChances(true)}
+                      onClick={() => setShowRewards(true)}
                     >
                       <div
                         className="relative rounded-md overflow-hidden shadow-md flex justify-center items-center shrink-0"
@@ -270,7 +266,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                         {description}
                       </span>
                       <Label type="default" className="shrink-0">
-                        {"Chances"}
+                        {"Rewards"}
                       </Label>
                     </div>
                   )}
@@ -324,7 +320,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       alt={item?.name}
                       className={"w-full"}
                       style={{
-                        width: `${imageWidth}px`,
+                        width: `${displayedImageWidth}px`,
                       }}
                     />
                   </div>
