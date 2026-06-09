@@ -261,7 +261,7 @@ export const Rewards: React.FC<{
                     )}
                     {rewardBoxName && (
                       <Label type="default" className="ml-auto">
-                        {"Rewards"}
+                        {t("rewards")}
                       </Label>
                     )}
                   </div>
