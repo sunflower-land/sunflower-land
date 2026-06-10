@@ -25,7 +25,6 @@ export function speedUpCrafting({
   state,
   action,
   createdAt = Date.now(),
-  farmId = 0,
 }: Options): GameState {
   return produce(state, (game) => {
     if (action.type !== "crafting.spedUp") {
@@ -74,7 +73,6 @@ export function speedUpCrafting({
       const recalculated = recalculateCraftingQueue({
         queue: inProgressItems,
         game,
-        farmId,
         firstItemReadyAt: createdAt,
       });
 
