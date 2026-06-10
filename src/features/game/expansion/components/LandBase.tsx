@@ -591,10 +591,16 @@ export const LandBase: React.FC<Props> = ({
   // Each land image is generated at 16px/tile with the world origin (coordinate 0,0) at its exact
   // centre, so it just needs to render at the game's natural scale (PIXEL_SCALE, via NaturalImage)
   // and be centred by the wrapper in Land.tsx — no per-biome width, "extended" or translateX.
+
+  const MAX_LAND_IMAGE_LEVEL = 42;
+
+  const imageLevel = Math.min(expandedCount, MAX_LAND_IMAGE_LEVEL);
+  const src = LEVEL_IMAGES[biome][season][imageLevel];
+
   return (
     <NaturalImage
       id={Section.GenesisBlock}
-      src={LEVEL_IMAGES[biome][season][expandedCount]}
+      src={src}
       alt="land"
       className="-z-10"
     />
