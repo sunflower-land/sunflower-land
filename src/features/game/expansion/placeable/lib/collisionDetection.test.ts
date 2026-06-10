@@ -94,15 +94,17 @@ describe("detectCollisions", () => {
     expect(hasCollision).toBe(true);
   });
 
-  it("returns true if a collision is detected with a corner", () => {
+  it("allows placement in a land corner", () => {
     const state: GameState = cloneDeep(TEST_FARM);
     state.inventory["Basic Land"] = new Decimal(1);
 
+    // Bottom-left corner tile of the starting expansion — previously blocked by
+    // the land-corner collision, now placeable.
     const hasCollision = detectCollision({
       state,
       position: {
         x: -3,
-        y: 3,
+        y: -2,
         width: 1,
         height: 1,
       },
@@ -110,7 +112,7 @@ describe("detectCollisions", () => {
       name: "Abandoned Bear",
     });
 
-    expect(hasCollision).toBe(true);
+    expect(hasCollision).toBe(false);
   });
 
   it("returns true if a collision is detected with a building", () => {
