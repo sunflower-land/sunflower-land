@@ -705,6 +705,7 @@ export type InventoryItemName =
   | ChapterCollectibleName
   | TradeFood
   | ChapterBanner
+  | "Creator Banner"
   | RewardBoxName
   | LandBiomeName
   | MonumentName
@@ -2160,6 +2161,12 @@ export interface GameState {
       coins?: number;
       sfl?: number;
     };
+    /**
+     * VIP referral milestone thresholds (1, 5, 10, 20 … 90) that have been
+     * claimed, mapped to the timestamp (ms) they were claimed at. Used to make
+     * each milestone prize claimable exactly once.
+     */
+    vipMilestonesClaimed?: Partial<Record<number, number>>;
   };
   socialTasks?: {
     completed: Partial<Record<InGameTaskName, { completedAt: number }>>;

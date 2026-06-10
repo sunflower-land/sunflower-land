@@ -5364,6 +5364,17 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Creator Banner": {
+    name: "Creator Banner",
+    description:
+      "A banner to celebrate the creators who grow the Sunflower Land community.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Banner" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   "Luminous Lantern": {
     description: "A bright paper lantern that illuminates the way.",
     decimals: 0,

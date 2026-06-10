@@ -31,6 +31,7 @@ import {
   XIcon,
 } from "react-share";
 import { getReferrees } from "./actions/getReferrees";
+import { VipReferralRewards } from "./VipReferralRewards";
 import useSWR from "swr";
 import { useAuth } from "features/auth/lib/Provider";
 import { Loading } from "features/auth/components";
@@ -313,6 +314,9 @@ export const ReferralInfo: React.FC = () => {
           />
         </div>
       </div>
+
+      {/* VIP Referral Milestone Rewards */}
+      <VipReferralRewards />
 
       {/* Referred-list modal — layers on top of whatever parent modal
           contains the referral content. Kept inside ReferralInfo so the
