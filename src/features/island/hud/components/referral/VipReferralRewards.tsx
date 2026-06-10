@@ -23,9 +23,12 @@ import {
   VIP_REFERRAL_MILESTONE_THRESHOLDS,
   VIP_REFERRAL_MILESTONES,
 } from "features/game/lib/vipReferralMilestones";
+import { hasFeatureAccess } from "lib/flags";
 import classNames from "classnames";
 
 const _referrals = (state: MachineState) => state.context.state.referrals;
+const _hasAccess = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "VIP_REFERRAL_REWARDS");
 
 /**
  * Final, non-claimable perk shown at the bottom of the ladder: reaching this
@@ -80,6 +83,10 @@ export const VipReferralRewards: React.FC = () => {
   const { t } = useAppTranslation();
   const { gameService, showAnimations } = useContext(Context);
   const referrals = useSelector(gameService, _referrals);
+  const hasAccess = useSelector(gameService, _hasAccess);
+
+  // Feature-flagged: only beta testers see the VIP referral rewards UI for now.
+  if (!hasAccess) return null;
 
   const totalVIPReferrals = referrals?.totalVIPReferrals ?? 0;
   const claimedMilestones = referrals?.vipMilestonesClaimed ?? {};
