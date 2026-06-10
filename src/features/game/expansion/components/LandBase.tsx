@@ -2,15 +2,11 @@ import React from "react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { NaturalImage } from "components/ui/NaturalImage";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import type { GameState, TemperateSeasonName } from "features/game/types/game";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import type { LandBiomeName } from "features/island/biomes/biomes";
-
-const IMAGE_GRID_WIDTH = 36;
-const VOLCANO_IMAGE_GRID_WIDTH = 48;
-const EXTENDED_IMAGE_GRID_WIDTH = 42;
 
 const SPRING_BASIC_LEVEL_IMAGES = {
   1: SUNNYSIDE.seasons.spring.basicLevel1,
@@ -43,6 +39,18 @@ const SPRING_BASIC_LEVEL_IMAGES = {
   28: SUNNYSIDE.seasons.spring.basicLevel28,
   29: SUNNYSIDE.seasons.spring.basicLevel29,
   30: SUNNYSIDE.seasons.spring.basicLevel30,
+  31: SUNNYSIDE.seasons.spring.basicLevel31,
+  32: SUNNYSIDE.seasons.spring.basicLevel32,
+  33: SUNNYSIDE.seasons.spring.basicLevel33,
+  34: SUNNYSIDE.seasons.spring.basicLevel34,
+  35: SUNNYSIDE.seasons.spring.basicLevel35,
+  36: SUNNYSIDE.seasons.spring.basicLevel36,
+  37: SUNNYSIDE.seasons.spring.basicLevel37,
+  38: SUNNYSIDE.seasons.spring.basicLevel38,
+  39: SUNNYSIDE.seasons.spring.basicLevel39,
+  40: SUNNYSIDE.seasons.spring.basicLevel40,
+  41: SUNNYSIDE.seasons.spring.basicLevel41,
+  42: SUNNYSIDE.seasons.spring.basicLevel42,
 };
 
 const SUMMER_BASIC_LEVEL_IMAGES = {
@@ -76,6 +84,18 @@ const SUMMER_BASIC_LEVEL_IMAGES = {
   28: SUNNYSIDE.land.basicLevel28,
   29: SUNNYSIDE.land.basicLevel29,
   30: SUNNYSIDE.land.basicLevel30,
+  31: SUNNYSIDE.land.basicLevel31,
+  32: SUNNYSIDE.land.basicLevel32,
+  33: SUNNYSIDE.land.basicLevel33,
+  34: SUNNYSIDE.land.basicLevel34,
+  35: SUNNYSIDE.land.basicLevel35,
+  36: SUNNYSIDE.land.basicLevel36,
+  37: SUNNYSIDE.land.basicLevel37,
+  38: SUNNYSIDE.land.basicLevel38,
+  39: SUNNYSIDE.land.basicLevel39,
+  40: SUNNYSIDE.land.basicLevel40,
+  41: SUNNYSIDE.land.basicLevel41,
+  42: SUNNYSIDE.land.basicLevel42,
 };
 const AUTUMN_BASIC_LEVEL_IMAGES = {
   1: SUNNYSIDE.seasons.autumn.basicLevel1,
@@ -108,6 +128,18 @@ const AUTUMN_BASIC_LEVEL_IMAGES = {
   28: SUNNYSIDE.seasons.autumn.basicLevel28,
   29: SUNNYSIDE.seasons.autumn.basicLevel29,
   30: SUNNYSIDE.seasons.autumn.basicLevel30,
+  31: SUNNYSIDE.seasons.autumn.basicLevel31,
+  32: SUNNYSIDE.seasons.autumn.basicLevel32,
+  33: SUNNYSIDE.seasons.autumn.basicLevel33,
+  34: SUNNYSIDE.seasons.autumn.basicLevel34,
+  35: SUNNYSIDE.seasons.autumn.basicLevel35,
+  36: SUNNYSIDE.seasons.autumn.basicLevel36,
+  37: SUNNYSIDE.seasons.autumn.basicLevel37,
+  38: SUNNYSIDE.seasons.autumn.basicLevel38,
+  39: SUNNYSIDE.seasons.autumn.basicLevel39,
+  40: SUNNYSIDE.seasons.autumn.basicLevel40,
+  41: SUNNYSIDE.seasons.autumn.basicLevel41,
+  42: SUNNYSIDE.seasons.autumn.basicLevel42,
 };
 const WINTER_BASIC_LEVEL_IMAGES = {
   1: SUNNYSIDE.seasons.winter.basicLevel1,
@@ -140,6 +172,18 @@ const WINTER_BASIC_LEVEL_IMAGES = {
   28: SUNNYSIDE.seasons.winter.basicLevel28,
   29: SUNNYSIDE.seasons.winter.basicLevel29,
   30: SUNNYSIDE.seasons.winter.basicLevel30,
+  31: SUNNYSIDE.seasons.winter.basicLevel31,
+  32: SUNNYSIDE.seasons.winter.basicLevel32,
+  33: SUNNYSIDE.seasons.winter.basicLevel33,
+  34: SUNNYSIDE.seasons.winter.basicLevel34,
+  35: SUNNYSIDE.seasons.winter.basicLevel35,
+  36: SUNNYSIDE.seasons.winter.basicLevel36,
+  37: SUNNYSIDE.seasons.winter.basicLevel37,
+  38: SUNNYSIDE.seasons.winter.basicLevel38,
+  39: SUNNYSIDE.seasons.winter.basicLevel39,
+  40: SUNNYSIDE.seasons.winter.basicLevel40,
+  41: SUNNYSIDE.seasons.winter.basicLevel41,
+  42: SUNNYSIDE.seasons.winter.basicLevel42,
 };
 
 const SPRING_DESERT_LEVEL_IMAGES = {
@@ -173,6 +217,18 @@ const SPRING_DESERT_LEVEL_IMAGES = {
   28: SUNNYSIDE.seasons.spring.desertLevel28,
   29: SUNNYSIDE.seasons.spring.desertLevel29,
   30: SUNNYSIDE.seasons.spring.desertLevel30,
+  31: SUNNYSIDE.seasons.spring.desertLevel31,
+  32: SUNNYSIDE.seasons.spring.desertLevel32,
+  33: SUNNYSIDE.seasons.spring.desertLevel33,
+  34: SUNNYSIDE.seasons.spring.desertLevel34,
+  35: SUNNYSIDE.seasons.spring.desertLevel35,
+  36: SUNNYSIDE.seasons.spring.desertLevel36,
+  37: SUNNYSIDE.seasons.spring.desertLevel37,
+  38: SUNNYSIDE.seasons.spring.desertLevel38,
+  39: SUNNYSIDE.seasons.spring.desertLevel39,
+  40: SUNNYSIDE.seasons.spring.desertLevel40,
+  41: SUNNYSIDE.seasons.spring.desertLevel41,
+  42: SUNNYSIDE.seasons.spring.desertLevel42,
 };
 
 const SUMMER_DESERT_LEVEL_IMAGES = {
@@ -206,6 +262,18 @@ const SUMMER_DESERT_LEVEL_IMAGES = {
   28: SUNNYSIDE.land.desertLevel28,
   29: SUNNYSIDE.land.desertLevel29,
   30: SUNNYSIDE.land.desertLevel30,
+  31: SUNNYSIDE.land.desertLevel31,
+  32: SUNNYSIDE.land.desertLevel32,
+  33: SUNNYSIDE.land.desertLevel33,
+  34: SUNNYSIDE.land.desertLevel34,
+  35: SUNNYSIDE.land.desertLevel35,
+  36: SUNNYSIDE.land.desertLevel36,
+  37: SUNNYSIDE.land.desertLevel37,
+  38: SUNNYSIDE.land.desertLevel38,
+  39: SUNNYSIDE.land.desertLevel39,
+  40: SUNNYSIDE.land.desertLevel40,
+  41: SUNNYSIDE.land.desertLevel41,
+  42: SUNNYSIDE.land.desertLevel42,
 };
 
 const AUTUMN_DESERT_LEVEL_IMAGES = {
@@ -239,6 +307,18 @@ const AUTUMN_DESERT_LEVEL_IMAGES = {
   28: SUNNYSIDE.seasons.autumn.desertLevel28,
   29: SUNNYSIDE.seasons.autumn.desertLevel29,
   30: SUNNYSIDE.seasons.autumn.desertLevel30,
+  31: SUNNYSIDE.seasons.autumn.desertLevel31,
+  32: SUNNYSIDE.seasons.autumn.desertLevel32,
+  33: SUNNYSIDE.seasons.autumn.desertLevel33,
+  34: SUNNYSIDE.seasons.autumn.desertLevel34,
+  35: SUNNYSIDE.seasons.autumn.desertLevel35,
+  36: SUNNYSIDE.seasons.autumn.desertLevel36,
+  37: SUNNYSIDE.seasons.autumn.desertLevel37,
+  38: SUNNYSIDE.seasons.autumn.desertLevel38,
+  39: SUNNYSIDE.seasons.autumn.desertLevel39,
+  40: SUNNYSIDE.seasons.autumn.desertLevel40,
+  41: SUNNYSIDE.seasons.autumn.desertLevel41,
+  42: SUNNYSIDE.seasons.autumn.desertLevel42,
 };
 
 const WINTER_DESERT_LEVEL_IMAGES = {
@@ -272,6 +352,18 @@ const WINTER_DESERT_LEVEL_IMAGES = {
   28: SUNNYSIDE.seasons.winter.desertLevel28,
   29: SUNNYSIDE.seasons.winter.desertLevel29,
   30: SUNNYSIDE.seasons.winter.desertLevel30,
+  31: SUNNYSIDE.seasons.winter.desertLevel31,
+  32: SUNNYSIDE.seasons.winter.desertLevel32,
+  33: SUNNYSIDE.seasons.winter.desertLevel33,
+  34: SUNNYSIDE.seasons.winter.desertLevel34,
+  35: SUNNYSIDE.seasons.winter.desertLevel35,
+  36: SUNNYSIDE.seasons.winter.desertLevel36,
+  37: SUNNYSIDE.seasons.winter.desertLevel37,
+  38: SUNNYSIDE.seasons.winter.desertLevel38,
+  39: SUNNYSIDE.seasons.winter.desertLevel39,
+  40: SUNNYSIDE.seasons.winter.desertLevel40,
+  41: SUNNYSIDE.seasons.winter.desertLevel41,
+  42: SUNNYSIDE.seasons.winter.desertLevel42,
 };
 
 const SPRING_VOLCANO_LEVEL_IMAGES = {
@@ -305,6 +397,18 @@ const SPRING_VOLCANO_LEVEL_IMAGES = {
   28: SUNNYSIDE.seasons.spring.volcanoLevel28,
   29: SUNNYSIDE.seasons.spring.volcanoLevel29,
   30: SUNNYSIDE.seasons.spring.volcanoLevel30,
+  31: SUNNYSIDE.seasons.spring.volcanoLevel31,
+  32: SUNNYSIDE.seasons.spring.volcanoLevel32,
+  33: SUNNYSIDE.seasons.spring.volcanoLevel33,
+  34: SUNNYSIDE.seasons.spring.volcanoLevel34,
+  35: SUNNYSIDE.seasons.spring.volcanoLevel35,
+  36: SUNNYSIDE.seasons.spring.volcanoLevel36,
+  37: SUNNYSIDE.seasons.spring.volcanoLevel37,
+  38: SUNNYSIDE.seasons.spring.volcanoLevel38,
+  39: SUNNYSIDE.seasons.spring.volcanoLevel39,
+  40: SUNNYSIDE.seasons.spring.volcanoLevel40,
+  41: SUNNYSIDE.seasons.spring.volcanoLevel41,
+  42: SUNNYSIDE.seasons.spring.volcanoLevel42,
 };
 
 const SUMMER_VOLCANO_LEVEL_IMAGES = {
@@ -338,6 +442,18 @@ const SUMMER_VOLCANO_LEVEL_IMAGES = {
   28: SUNNYSIDE.land.volcanoLevel28,
   29: SUNNYSIDE.land.volcanoLevel29,
   30: SUNNYSIDE.land.volcanoLevel30,
+  31: SUNNYSIDE.land.volcanoLevel31,
+  32: SUNNYSIDE.land.volcanoLevel32,
+  33: SUNNYSIDE.land.volcanoLevel33,
+  34: SUNNYSIDE.land.volcanoLevel34,
+  35: SUNNYSIDE.land.volcanoLevel35,
+  36: SUNNYSIDE.land.volcanoLevel36,
+  37: SUNNYSIDE.land.volcanoLevel37,
+  38: SUNNYSIDE.land.volcanoLevel38,
+  39: SUNNYSIDE.land.volcanoLevel39,
+  40: SUNNYSIDE.land.volcanoLevel40,
+  41: SUNNYSIDE.land.volcanoLevel41,
+  42: SUNNYSIDE.land.volcanoLevel42,
 };
 
 const AUTUMN_VOLCANO_LEVEL_IMAGES = {
@@ -371,6 +487,18 @@ const AUTUMN_VOLCANO_LEVEL_IMAGES = {
   28: SUNNYSIDE.seasons.autumn.volcanoLevel28,
   29: SUNNYSIDE.seasons.autumn.volcanoLevel29,
   30: SUNNYSIDE.seasons.autumn.volcanoLevel30,
+  31: SUNNYSIDE.seasons.autumn.volcanoLevel31,
+  32: SUNNYSIDE.seasons.autumn.volcanoLevel32,
+  33: SUNNYSIDE.seasons.autumn.volcanoLevel33,
+  34: SUNNYSIDE.seasons.autumn.volcanoLevel34,
+  35: SUNNYSIDE.seasons.autumn.volcanoLevel35,
+  36: SUNNYSIDE.seasons.autumn.volcanoLevel36,
+  37: SUNNYSIDE.seasons.autumn.volcanoLevel37,
+  38: SUNNYSIDE.seasons.autumn.volcanoLevel38,
+  39: SUNNYSIDE.seasons.autumn.volcanoLevel39,
+  40: SUNNYSIDE.seasons.autumn.volcanoLevel40,
+  41: SUNNYSIDE.seasons.autumn.volcanoLevel41,
+  42: SUNNYSIDE.seasons.autumn.volcanoLevel42,
 };
 
 const WINTER_VOLCANO_LEVEL_IMAGES = {
@@ -404,6 +532,18 @@ const WINTER_VOLCANO_LEVEL_IMAGES = {
   28: SUNNYSIDE.seasons.winter.volcanoLevel28,
   29: SUNNYSIDE.seasons.winter.volcanoLevel29,
   30: SUNNYSIDE.seasons.winter.volcanoLevel30,
+  31: SUNNYSIDE.seasons.winter.volcanoLevel31,
+  32: SUNNYSIDE.seasons.winter.volcanoLevel32,
+  33: SUNNYSIDE.seasons.winter.volcanoLevel33,
+  34: SUNNYSIDE.seasons.winter.volcanoLevel34,
+  35: SUNNYSIDE.seasons.winter.volcanoLevel35,
+  36: SUNNYSIDE.seasons.winter.volcanoLevel36,
+  37: SUNNYSIDE.seasons.winter.volcanoLevel37,
+  38: SUNNYSIDE.seasons.winter.volcanoLevel38,
+  39: SUNNYSIDE.seasons.winter.volcanoLevel39,
+  40: SUNNYSIDE.seasons.winter.volcanoLevel40,
+  41: SUNNYSIDE.seasons.winter.volcanoLevel41,
+  42: SUNNYSIDE.seasons.winter.volcanoLevel42,
 };
 
 const LEVEL_IMAGES: Record<
@@ -448,30 +588,15 @@ export const LandBase: React.FC<Props> = ({
   season,
 }) => {
   const biome = getCurrentBiome(island);
-  // Expansion 25 of the following biomes have a slightly longer width than the ones that are 24 and below, hence why we need to have a different image grid width
-  const isExtendedBiome =
-    expandedCount >= 25 &&
-    (
-      ["Basic Biome", "Spring Biome", "Desert Biome"] as LandBiomeName[]
-    ).includes(biome);
-  const imageGridWidth =
-    biome === "Volcano Biome"
-      ? VOLCANO_IMAGE_GRID_WIDTH
-      : isExtendedBiome
-        ? EXTENDED_IMAGE_GRID_WIDTH
-        : IMAGE_GRID_WIDTH;
-
-  const transformLeft = isExtendedBiome ? 3 * GRID_WIDTH_PX : 0;
+  // Each land image is generated at 16px/tile with the world origin (coordinate 0,0) at its exact
+  // centre, so it just needs to render at the game's natural scale (PIXEL_SCALE, via NaturalImage)
+  // and be centred by the wrapper in Land.tsx — no per-biome width, "extended" or translateX.
   return (
-    <img
+    <NaturalImage
       id={Section.GenesisBlock}
       src={LEVEL_IMAGES[biome][season][expandedCount]}
       alt="land"
-      className="h-auto -z-10"
-      style={{
-        width: `${imageGridWidth * GRID_WIDTH_PX}px`,
-        transform: `translateX(${transformLeft}px)`,
-      }}
+      className="-z-10"
     />
   );
 };
