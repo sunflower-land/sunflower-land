@@ -9069,9 +9069,9 @@
   "community.feed.removing": "正在移除帖子...",
   "community.feed.removeError": "无法移除帖子。请重试。",
   "community.addPost.reward": "作者将获得 1,000 个爱心护符。",
-  "description.creator.banner": "一面旗帜，以庆祝发展向日葵乐园社区的创作者。",
-  "referral.vipRewards.title": "VIP 推荐奖励",
-  "referral.vipRewards.progress": "{{count}}/{{max}} VIP",
-  "referral.vipRewards.description": "当您推荐的朋友成为 VIP 时，您将获得奖励奖励。达到里程碑即可领取奖励！",
-  "referral.vipRewards.commission": "鲜花佣金增加到20％"
+  "description.creator.banner": "用于表彰那些推动 Sunflower Land 社区不断壮大的创作者的横幅。",
+  "referral.vipRewards.title": "VIP 邀请奖励",
+  "referral.vipRewards.progress": "{{count}}/{{max}} 名 VIP",
+  "referral.vipRewards.description": "当您邀请的好友成为 VIP 时，即可赚取额外奖品。达到里程碑即可领取对应奖励！",
+  "referral.vipRewards.commission": "Flower 佣金提升至 20%"
 }
