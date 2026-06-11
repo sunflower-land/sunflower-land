@@ -9068,5 +9068,10 @@
   "community.feed.remove.confirm": "Bestätigen Sie das Entfernen",
   "community.feed.removing": "Beitrag wird entfernt...",
   "community.feed.removeError": "Der Beitrag konnte nicht entfernt werden. Bitte versuche es erneut.",
-  "community.addPost.reward": "Autoren erhalten 1.000 Liebeszauber."
+  "community.addPost.reward": "Autoren erhalten 1.000 Liebeszauber.",
+  "description.creator.banner": "Ein Banner, um die Macher zu feiern, die die Sunflower Land-Community wachsen lassen.",
+  "referral.vipRewards.title": "VIP-Empfehlungsprämien",
+  "referral.vipRewards.progress": "{{count}}/{{max}} VIP",
+  "referral.vipRewards.description": "Verdiene Bonuspreise, wenn die Freunde, die du empfiehlst, VIP werden. Erreiche einen Meilenstein, um seine Belohnung zu erhalten!",
+  "referral.vipRewards.commission": "Die Blumenprovision steigt auf 20%"
 }

@@ -9068,5 +9068,10 @@
   "community.feed.remove.confirm": "Подтвердить удаление",
   "community.feed.removing": "Удаление поста...",
   "community.feed.removeError": "Не удалось удалить пост. Попробуй ещё раз.",
-  "community.addPost.reward": "Авторы получают 1 000 жетонов любви."
+  "community.addPost.reward": "Авторы получают 1 000 жетонов любви.",
+  "description.creator.banner": "A banner to celebrate the creators who grow the Sunflower Land community.",
+  "referral.vipRewards.title": "VIP Referral Rewards",
+  "referral.vipRewards.progress": "{{count}}/{{max}} VIP",
+  "referral.vipRewards.description": "Earn bonus prizes as the friends you refer become VIP. Reach a milestone to claim its reward!",
+  "referral.vipRewards.commission": "Flower commission increases to 20%"
 }

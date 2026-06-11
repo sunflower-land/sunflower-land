@@ -9068,5 +9068,10 @@
   "community.feed.remove.confirm": "确认移除",
   "community.feed.removing": "正在删除帖子...",
   "community.feed.removeError": "无法删除该帖子。请再试一次。",
-  "community.addPost.reward": "作者将获得 1,000 个爱情护身符。"
+  "community.addPost.reward": "作者将获得 1,000 个爱情护身符。",
+  "description.creator.banner": "一面旗帜，以庆祝发展向日葵乐园社区的创作者。",
+  "referral.vipRewards.title": "VIP 推荐奖励",
+  "referral.vipRewards.progress": "{{count}}/{{max}} VIP",
+  "referral.vipRewards.description": "当您推荐的朋友成为 VIP 时，您将获得奖励奖励。达到里程碑即可领取奖励！",
+  "referral.vipRewards.commission": "鲜花佣金增加到20％"
 }

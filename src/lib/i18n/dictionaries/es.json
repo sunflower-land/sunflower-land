@@ -9068,5 +9068,10 @@
   "community.feed.remove.confirm": "Confirmar eliminar",
   "community.feed.removing": "Eliminando publicación...",
   "community.feed.removeError": "No se ha podido eliminar la publicación. Por favor, inténtalo de nuevo.",
-  "community.addPost.reward": "Los autores recibirán 1000 amuletos de amor."
+  "community.addPost.reward": "Los autores recibirán 1000 amuletos de amor.",
+  "description.creator.banner": "Una pancarta para homenajear a los creadores que hacen crecer la comunidad de Sunflower Land.",
+  "referral.vipRewards.title": "Recompensas por recomendación VIP",
+  "referral.vipRewards.progress": "{{count}}/{{max}} VIP",
+  "referral.vipRewards.description": "Gana premios adicionales a medida que los amigos que recomiendes se conviertan en VIP. ¡Alcanza un hito para hacerte con su recompensa!",
+  "referral.vipRewards.commission": "La comisión de flores aumenta al 20%"
 }
