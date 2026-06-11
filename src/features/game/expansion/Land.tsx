@@ -1228,6 +1228,9 @@ export const LandComponent: React.FC = () => {
               )}
               style={{
                 backgroundSize: `${GRID_WIDTH_PX}px ${GRID_WIDTH_PX}px`,
+                // Pin a grid line to the centre (MapPlacement's 0,0) so it tracks the placement
+                // cells for any land image size, not just even-tile-width ones.
+                backgroundPosition: `calc(50% + ${GRID_WIDTH_PX / 2}px) calc(50% + ${GRID_WIDTH_PX / 2}px)`,
                 backgroundImage: gridBackgroundImage,
               }}
             />
