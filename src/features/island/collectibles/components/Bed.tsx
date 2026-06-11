@@ -96,12 +96,16 @@ export const Bed: React.FC<BedProps> = ({ name }) => {
   // Limit: main bumpkin + farmhands must not exceed bed count (e.g. 11 beds = 1 main + 10 farmhands max)
   const bumpkinCount = getKeys(farmhands).length + 1;
   // Beds placed anywhere count — farm, home interior and both /interior floors.
-  const uniqueBeds = getPlacedBedNames([
+  const uniqueBeds = getPlacedBedNames({
     collectibles,
-    homeCollectibles,
-    interiorCollectibles,
-    levelOneCollectibles,
-  ]);
+    home: { collectibles: homeCollectibles },
+    interior: {
+      ground: { collectibles: interiorCollectibles },
+      level_one: levelOneCollectibles
+        ? { collectibles: levelOneCollectibles }
+        : undefined,
+    },
+  });
 
   // Sort best bed first (highest BED_FARMHAND_COUNT = Pearl Bed) so the next unlock targets it
   const beds = getKeys(BED_FARMHAND_COUNT)

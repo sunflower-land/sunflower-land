@@ -9068,5 +9068,10 @@
   "community.feed.remove.confirm": "Konfirmasikan hapus",
   "community.feed.removing": "Menghapus posting...",
   "community.feed.removeError": "Tidak dapat menghapus posting. Silakan coba lagi.",
-  "community.addPost.reward": "Penulis akan menerima 1.000 Pesona Cinta."
+  "community.addPost.reward": "Penulis akan menerima 1.000 Pesona Cinta.",
+  "description.creator.banner": "Spanduk untuk merayakan pencipta yang menumbuhkan komunitas Sunflower Land.",
+  "referral.vipRewards.title": "Hadiah Referensi VIP",
+  "referral.vipRewards.progress": "{{count}}/{{max}} VIP",
+  "referral.vipRewards.description": "Dapatkan hadiah bonus saat teman yang Anda referensikan menjadi VIP. Mencapai tonggak sejarah untuk mengklaim hadiahnya!",
+  "referral.vipRewards.commission": "Komisi bunga meningkat menjadi 20%"
 }

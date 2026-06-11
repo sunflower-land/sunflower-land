@@ -9068,5 +9068,10 @@
   "community.feed.remove.confirm": "Confirme a remoção",
   "community.feed.removing": "Removendo a postagem...",
   "community.feed.removeError": "Não foi possível remover a postagem. Por favor, tente novamente.",
-  "community.addPost.reward": "Os autores receberão 1.000 Love Charms."
+  "community.addPost.reward": "Os autores receberão 1.000 Love Charms.",
+  "description.creator.banner": "Um banner para homenagear os criadores que fazem crescer a comunidade Sunflower Land.",
+  "referral.vipRewards.title": "Recompensas por indicação VIP",
+  "referral.vipRewards.progress": "{{count}}/{{max}} VIP",
+  "referral.vipRewards.description": "Ganhe prêmios de bônus à medida que os amigos que você indicar se tornarem VIP. Alcance um marco para reivindicar sua recompensa!",
+  "referral.vipRewards.commission": "A comissão de flores aumenta para 20%"
 }

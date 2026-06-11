@@ -1,14 +1,7 @@
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import type {
-  CraftingQueueItem,
-  GameState,
-  InventoryItemName,
-} from "features/game/types/game";
+import type { CraftingQueueItem, GameState } from "features/game/types/game";
 import { type Recipe, RECIPES } from "features/game/lib/crafting";
-import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
-import { KNOWN_IDS } from "features/game/types";
-import { getBoostedCraftingTime } from "./startCrafting";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 
 export type CancelQueuedCraftingAction = {
@@ -38,57 +31,56 @@ function getRecipeByName(name: string, game: GameState): Recipe | undefined {
 export function recalculateCraftingQueue({
   queue,
   game,
-  farmId = 0,
   firstItemReadyAt,
 }: {
   queue: CraftingQueueItem[];
   game: GameState;
-  farmId?: number;
   firstItemReadyAt?: number;
 }): CraftingQueueItem[] {
   if (queue.length === 0) return [];
 
   const result = [...queue];
 
+  // The crafting box is free once the latest real (box-occupying) craft has
+  // finished. Track that time instead of chaining off the immediately-preceding
+  // item: a Fox Shrine instant proc is "ready" out of order (its readyAt can be
+  // in the past while a longer craft ahead of it is still going), and it does
+  // not occupy the box — so later crafts must wait for the real craft, not
+  // inherit the instant's stale readyAt.
+  let boxFreeAt: number | null = null;
+
   for (let i = 0; i < result.length; i++) {
     const item = result[i];
     const recipe = getRecipeByName(item.name, game);
     if (!recipe) continue;
 
+    // Each item's crafting duration is locked in when it is queued — it already
+    // reflects any boosts or Fox Shrine instant procs that were active at that
+    // moment. Only the chain of start times is recomputed so that removing or
+    // speeding up an earlier item shifts the rest, without re-deriving durations
+    // from the current (possibly changed) boost state or re-rolling the prng.
+    const lockedDuration = item.readyAt - item.startedAt;
+
+    let startedAt: number;
     let readyAt: number;
-    const startAt = i === 0 ? item.startedAt : result[i - 1].readyAt;
-
-    const countSameRecipeFromEnd = result
-      .slice(i)
-      .filter((q) => q.name === item.name).length;
-    const counter = Math.max(
-      0,
-      (game.farmActivity?.[`${recipe.name} Crafting Started`] ?? 0) -
-        countSameRecipeFromEnd,
-    );
-
-    const { seconds: recipeTime } = getBoostedCraftingTime({
-      game,
-      time: recipe.time,
-      prngArgs: {
-        farmId,
-        itemId:
-          recipe.type === "collectible"
-            ? KNOWN_IDS[recipe.name as InventoryItemName]
-            : ITEM_IDS[recipe.name as BumpkinItem],
-        counter,
-      },
-    });
-
     if (i === 0 && firstItemReadyAt !== undefined) {
+      startedAt = item.startedAt;
       readyAt = firstItemReadyAt;
-    } else if (recipeTime === 0) {
+      boxFreeAt = readyAt;
+    } else if (lockedDuration === 0) {
+      // Instant craft: stays ready at its original time and does not occupy the
+      // box, so it neither moves nor delays the crafts after it.
+      startedAt = item.startedAt;
       readyAt = item.readyAt;
     } else {
-      readyAt = startAt + recipeTime;
+      // Real craft: starts when the box is next free (after the previous real
+      // craft), or keeps its own start if it is the first to occupy the box.
+      startedAt = boxFreeAt ?? item.startedAt;
+      readyAt = startedAt + lockedDuration;
+      boxFreeAt = readyAt;
     }
 
-    result[i] = { ...item, startedAt: startAt, readyAt };
+    result[i] = { ...item, startedAt, readyAt };
   }
 
   return result;
@@ -105,7 +97,6 @@ export function cancelQueuedCrafting({
   state,
   action,
   createdAt = Date.now(),
-  farmId = 0,
 }: Options): GameState {
   return produce(state, (game) => {
     const { queueItemId } = action;
@@ -123,7 +114,7 @@ export function cancelQueuedCrafting({
 
     const currentCraftingItem = getCurrentCraftingItem(queue, createdAt);
 
-    if (currentCraftingItem?.readyAt === item.readyAt) {
+    if (currentCraftingItem?.id === item.id) {
       throw new Error(
         `Item ${item.name} with readyAt ${item.readyAt} is currently being crafted`,
       );
@@ -165,7 +156,6 @@ export function cancelQueuedCrafting({
     game.craftingBox.queue = recalculateCraftingQueue({
       queue: updatedQueue,
       game,
-      farmId,
     });
 
     if (game.craftingBox.queue.length === 0) {

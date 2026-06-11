@@ -227,7 +227,7 @@ export const Experiment: React.FC<Props> = ({ potionHouseService }) => {
             <span className="text-xxs italic">
               {t("statements.clickBottle")}
             </span>
-            <div className="flex flex-wrap gap-2 mt-3 mb-2">
+            <div className="flex flex-wrap gap-4 mt-3 mb-2">
               {Object.values(POTIONS).map((potion) => (
                 <div
                   key={potion.name}

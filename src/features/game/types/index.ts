@@ -475,6 +475,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Clash of Factions Banner": 738,
   Scroll: 739,
   "Lifetime Farmer Banner": 740,
+  "Creator Banner": 3025,
   "Goblin Emblem": 741,
   "Bumpkin Emblem": 742,
   "Sunflorian Emblem": 743,

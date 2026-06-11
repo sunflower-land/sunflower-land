@@ -571,6 +571,10 @@ import {
   type ClaimReferralRewardsAction,
 } from "./landExpansion/claimReferralRewards";
 import {
+  claimVipReferralMilestones,
+  type ClaimVipReferralMilestonesAction,
+} from "./landExpansion/claimVipReferralMilestones";
+import {
   exchangeFlower,
   type ExchangeFlowerAction,
 } from "./landExpansion/exchangeFLOWER";
@@ -861,6 +865,7 @@ export type PlayingEvent =
   | RevealLandAction
   | BurnCollectibleAction
   | ClaimReferralRewardsAction
+  | ClaimVipReferralMilestonesAction
   | ClaimBonusAction
   | ClaimDailyRewardAction
   | AccelerateComposterAction
@@ -1210,6 +1215,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "upgrade.spedUp": speedUpUpgrade,
   "socialTask.completed": completeSocialTask,
   "referral.rewardsClaimed": claimReferralRewards,
+  "referral.vipMilestonesClaimed": claimVipReferralMilestones,
   "exchange.flower": exchangeFlower,
   "floatingShopItem.bought": buyFloatingShopItem,
   "network.updated": updateNetwork,

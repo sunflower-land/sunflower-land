@@ -618,6 +618,7 @@ export const ITEM_TRADE_TYPES: {
     "Clash of Factions Banner": "instant",
     Scroll: "instant",
     "Lifetime Farmer Banner": "instant",
+    "Creator Banner": "instant",
     "Goblin Emblem": "instant",
     "Bumpkin Emblem": "instant",
     "Sunflorian Emblem": "instant",

@@ -219,6 +219,7 @@ export type CollectibleName =
   | PlaceableFlowerName
   | FactionBanner
   | "Lifetime Farmer Banner"
+  | "Creator Banner"
   | FactionShopCollectibleName
   | TreasureCollectibleItem
   | MutantFlowerName
@@ -1224,6 +1225,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Clash of Factions Banner": { width: 1, height: 2 },
   "Pharaoh's Treasure Banner": { width: 1, height: 2 },
   "Lifetime Farmer Banner": { width: 1, height: 2 },
+  "Creator Banner": { width: 1, height: 2 },
   "Better Together Banner": { width: 1, height: 2 },
   "Paw Prints Banner": { width: 1, height: 2 },
   "Crabs and Traps Banner": { width: 1, height: 2 },

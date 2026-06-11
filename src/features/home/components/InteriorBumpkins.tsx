@@ -60,12 +60,16 @@ export const InteriorBumpkins: React.FC = () => {
   const max = Object.keys(BED_FARMHAND_COUNT).length;
 
   // Beds placed anywhere count — farm, home interior and both /interior floors.
-  const uniqueBeds = getPlacedBedNames([
+  const uniqueBeds = getPlacedBedNames({
     collectibles,
-    homeCollectibles,
-    interiorCollectibles,
-    levelOneCollectibles,
-  ]);
+    home: { collectibles: homeCollectibles },
+    interior: {
+      ground: { collectibles: interiorCollectibles },
+      level_one: levelOneCollectibles
+        ? { collectibles: levelOneCollectibles }
+        : undefined,
+    },
+  });
 
   const beds = getKeys(BED_FARMHAND_COUNT)
     .sort((a, b) => BED_FARMHAND_COUNT[a] - BED_FARMHAND_COUNT[b])

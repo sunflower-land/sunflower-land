@@ -192,10 +192,14 @@ export function startCrafting({
       return copy;
     }
 
-    const recipeStartAt =
-      effectiveQueue.length > 0
-        ? effectiveQueue[effectiveQueue.length - 1].readyAt
-        : createdAt;
+    // Start when the crafting box next becomes free: the latest readyAt across
+    // the queue, but never before now. Finished-but-uncollected items keep a
+    // readyAt in the past, so without clamping to createdAt the elapsed wait
+    // would be discounted from (or instantly complete) the new craft.
+    const recipeStartAt = effectiveQueue.reduce(
+      (latest, queued) => Math.max(latest, queued.readyAt),
+      createdAt,
+    );
 
     const { seconds: recipeTime, boostsUsed } = getBoostedCraftingTime({
       game: state,
