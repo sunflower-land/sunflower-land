@@ -6,6 +6,7 @@ type BannerName =
   | "Human War Banner"
   | "Goblin War Banner"
   | "Lifetime Farmer Banner"
+  | "Creator Banner"
   | "Earn Alliance Banner"
   | "Polygon Banner"
   | "Ronin Banner"
@@ -18,6 +19,7 @@ export const BANNERS: Record<BannerName, string> = {
   "Human War Banner": "",
   "Goblin War Banner": "",
   "Lifetime Farmer Banner": "",
+  "Creator Banner": "",
   "Bumpkin Faction Banner": "",
   "Goblin Faction Banner": "",
   "Sunflorian Faction Banner": "",

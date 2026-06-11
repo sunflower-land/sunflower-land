@@ -292,6 +292,7 @@ import catchTheKrakenBanner from "assets/decorations/banners/catch_the_kraken_ba
 import springBlossomBanner from "assets/decorations/banners/spring_banner.gif";
 import clashOfFactionsBanner from "assets/decorations/banners/clash_of_factions_banner.webp";
 import lifetimeFarmerBanner from "assets/decorations/banners/lifetime_farmer_banner.png";
+import creatorBanner from "assets/decorations/banners/creator_banner.png";
 import pharaohsTreasureBanner from "assets/decorations/banners/pharaohs_treasure_banner.webp";
 import budTicket from "assets/icons/bud_ticket.png";
 import prizeTicket from "assets/icons/prize_ticket.png";
@@ -3603,6 +3604,10 @@ export const ITEM_DETAILS: Items = {
   "Lifetime Farmer Banner": {
     image: lifetimeFarmerBanner,
     description: translate("description.lifetime.farmer.banner"),
+  },
+  "Creator Banner": {
+    image: creatorBanner,
+    description: translate("description.creator.banner"),
   },
   "Pharaoh's Treasure Banner": {
     image: pharaohsTreasureBanner,
