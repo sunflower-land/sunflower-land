@@ -25,7 +25,10 @@ import { Label } from "components/ui/Label";
 import coinsIcon from "assets/icons/coins.webp";
 import brush from "assets/animals/brush.webp";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { makeAnimalBuildingKey } from "features/game/lib/animals";
+import {
+  getAnimalMaturityTimeForDisplay,
+  makeAnimalBuildingKey,
+} from "features/game/lib/animals";
 import { AnimalBounties } from "features/barn/components/AnimalBounties";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -77,6 +80,7 @@ export const AnimalBuildingModal: React.FC<Props> = ({
   const [currentTab, setCurrentTab] = useState<Tab>(
     !hasReadGuide() ? "guide" : "buy",
   );
+  const [showTimeBoosts, setShowTimeBoosts] = useState(false);
 
   const state = useSelector(gameService, _state);
   const bumpkin = useSelector(gameService, _bumpkin);
@@ -118,6 +122,11 @@ export const AnimalBuildingModal: React.FC<Props> = ({
   const atMaxCapacity =
     getTotalAnimalsInBuilding() >=
     getBoostedAnimalCapacity(buildingKey, state).capacity;
+
+  const maturityTime = getAnimalMaturityTimeForDisplay({
+    animalType: selectedName,
+    game: state,
+  });
 
   if (showIntro) {
     return (
@@ -194,8 +203,13 @@ export const AnimalBuildingModal: React.FC<Props> = ({
               requirements={{
                 coins: ANIMALS[selectedName].coins,
                 showCoinsIfFree: true,
+                timeSeconds: Math.ceil(maturityTime.maturityTimeMs / 1000),
+                baseTimeSeconds: Math.ceil(maturityTime.baseTimeMs / 1000),
+                timeBoostsUsed: maturityTime.boostsUsed,
                 level: ANIMALS[selectedName].levelRequired,
               }}
+              showTimeBoosts={showTimeBoosts}
+              setShowTimeBoosts={setShowTimeBoosts}
               label={
                 atMaxCapacity ? (
                   <Label type="danger">
@@ -225,7 +239,10 @@ export const AnimalBuildingModal: React.FC<Props> = ({
                   <Box
                     isSelected={selectedName === name}
                     key={name}
-                    onClick={() => setSelectedName(name)}
+                    onClick={() => {
+                      setSelectedName(name);
+                      setShowTimeBoosts(false);
+                    }}
                     image={ITEM_DETAILS[name].image}
                     showOverlay={!hasRequiredLevel()}
                     secondaryImage={

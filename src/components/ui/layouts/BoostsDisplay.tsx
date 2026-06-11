@@ -113,6 +113,7 @@ export const BoostsDisplay: React.FC<{
   onClick: () => void;
   className?: string;
   portalAlign?: "left" | "center" | "right";
+  portalPlacement?: "auto" | "above" | "below";
   /** When provided, renders in a portal to avoid clipping by scroll containers. Positions above trigger when it would clip below. */
   anchorRef?: React.RefObject<HTMLElement | null>;
 }> = ({
@@ -122,6 +123,7 @@ export const BoostsDisplay: React.FC<{
   onClick,
   className,
   portalAlign = "right",
+  portalPlacement = "auto",
   anchorRef,
 }) => {
   const { t } = useAppTranslation();
@@ -165,7 +167,10 @@ export const BoostsDisplay: React.FC<{
       setAnchorVisible(visible);
       if (!visible) return;
       const spaceBelow = window.innerHeight - rect.bottom;
-      const positionAbove = spaceBelow < BOOSTS_PANEL_ESTIMATED_HEIGHT;
+      const positionAbove =
+        portalPlacement === "above" ||
+        (portalPlacement === "auto" &&
+          spaceBelow < BOOSTS_PANEL_ESTIMATED_HEIGHT);
 
       const horizontalStyle =
         portalAlign === "center"
@@ -227,7 +232,7 @@ export const BoostsDisplay: React.FC<{
         el.removeEventListener("scroll", scheduleUpdate),
       );
     };
-  }, [show, anchorRef, portalAlign]);
+  }, [show, anchorRef, portalAlign, portalPlacement]);
 
   const panelContent = (
     <AnimatedPanel

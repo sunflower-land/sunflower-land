@@ -13,6 +13,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import React, {
   type Dispatch,
   type SetStateAction,
+  useRef,
   useState,
   type JSX,
 } from "react";
@@ -213,6 +214,7 @@ export const CraftingRequirements: React.FC<Props> = ({
 }: Props) => {
   const { t } = useAppTranslation();
   const [showIngredients, setShowIngredients] = useState(false);
+  const timeBoostsRef = useRef<HTMLDivElement>(null);
   const getStock = () => {
     if (!stock) return <></>;
 
@@ -510,6 +512,7 @@ export const CraftingRequirements: React.FC<Props> = ({
               ) {
                 return (
                   <div
+                    ref={timeBoostsRef}
                     className="flex flex-row sm:flex-col items-center cursor-pointer"
                     onClick={() => setShowTimeBoosts(!showTimeBoosts)}
                   >
@@ -529,6 +532,9 @@ export const CraftingRequirements: React.FC<Props> = ({
                         show={showTimeBoosts}
                         state={gameState}
                         onClick={() => setShowTimeBoosts((prev) => !prev)}
+                        anchorRef={timeBoostsRef}
+                        portalAlign="center"
+                        portalPlacement="above"
                       />
                     )}
                   </div>
