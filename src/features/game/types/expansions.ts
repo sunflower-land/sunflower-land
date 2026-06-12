@@ -133,43 +133,43 @@ export function getLand({ game }: { game: GameState }): Layout | null {
 
   const totalTrees = game.inventory.Tree?.toNumber() ?? 0;
   const availableTrees = expectedResources.Tree - totalTrees;
-  land.trees = land.trees.slice(0, availableTrees);
+  land.trees = land.trees.slice(0, Math.max(0, availableTrees));
 
   const totalStones = game.inventory["Stone Rock"]?.toNumber() ?? 0;
   const availableStones = expectedResources["Stone Rock"] - totalStones;
-  land.stones = land.stones.slice(0, availableStones);
+  land.stones = land.stones.slice(0, Math.max(0, availableStones));
 
   const totalIron = game.inventory["Iron Rock"]?.toNumber() ?? 0;
   const availableIron = expectedResources["Iron Rock"] - totalIron;
-  land.iron = land.iron?.slice(0, availableIron);
+  land.iron = land.iron?.slice(0, Math.max(0, availableIron));
 
   const totalGold = game.inventory["Gold Rock"]?.toNumber() ?? 0;
   const availableGold = expectedResources["Gold Rock"] - totalGold;
-  land.gold = land.gold?.slice(0, availableGold);
+  land.gold = land.gold?.slice(0, Math.max(0, availableGold));
 
   const availableFruit =
     expectedResources["Fruit Patch"] -
     (game.inventory["Fruit Patch"]?.toNumber() ?? 0);
-  land.fruitPatches = land.fruitPatches?.slice(0, availableFruit);
+  land.fruitPatches = land.fruitPatches?.slice(0, Math.max(0, availableFruit));
 
   const availablePlots =
     expectedResources["Crop Plot"] -
     (game.inventory["Crop Plot"]?.toNumber() ?? 0);
-  land.plots = land.plots.slice(0, availablePlots);
+  land.plots = land.plots.slice(0, Math.max(0, availablePlots));
 
   const availableHives =
     expectedResources["Beehive"] - (game.inventory["Beehive"]?.toNumber() ?? 0);
-  land.beehives = land.beehives?.slice(0, availableHives);
+  land.beehives = land.beehives?.slice(0, Math.max(0, availableHives));
 
   const availableFlowers =
     expectedResources["Flower Bed"] -
     (game.inventory["Flower Bed"]?.toNumber() ?? 0);
-  land.flowerBeds = land.flowerBeds?.slice(0, availableFlowers);
+  land.flowerBeds = land.flowerBeds?.slice(0, Math.max(0, availableFlowers));
 
   const availableCrimstones =
     expectedResources["Crimstone Rock"] -
     (game.inventory["Crimstone Rock"]?.toNumber() ?? 0);
-  land.crimstones = land.crimstones?.slice(0, availableCrimstones);
+  land.crimstones = land.crimstones?.slice(0, Math.max(0, availableCrimstones));
 
   // IMPORTANT: We cannot drop extra sunstones
   // We need to consider how many sunstones were dropped on previous lands in `game.island.sunstones`
@@ -179,18 +179,21 @@ export function getLand({ game }: { game: GameState }): Layout | null {
       game.inventory["Sunstone Rock"]?.toNumber() ?? 0,
       game.island.sunstones ?? 0,
     );
-  land.sunstones = land.sunstones?.slice(0, availableSunstones);
+  land.sunstones = land.sunstones?.slice(0, Math.max(0, availableSunstones));
 
   const availableOilReserves =
     expectedResources["Oil Reserve"] -
     (game.inventory["Oil Reserve"]?.toNumber() ?? 0);
-  land.oilReserves = land.oilReserves?.slice(0, availableOilReserves);
+  land.oilReserves = land.oilReserves?.slice(
+    0,
+    Math.max(0, availableOilReserves),
+  );
 
   // Add Lava
   const availableLavaPit =
     expectedResources["Lava Pit"] -
     (game.inventory["Lava Pit"]?.toNumber() ?? 0);
-  land.lavaPits = land.lavaPits?.slice(0, availableLavaPit);
+  land.lavaPits = land.lavaPits?.slice(0, Math.max(0, availableLavaPit));
 
   return land;
 }
