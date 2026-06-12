@@ -5,6 +5,7 @@ import type { GameState } from "features/game/types/game";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 
 import { expansionRequirements } from "./revealLand";
+import { ISLAND_MAX_EXPANSION } from "features/game/expansion/lib/expansionRequirements";
 import { produce } from "immer";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
@@ -23,6 +24,13 @@ type Options = {
 
 export function expandLand({ state, createdAt = Date.now() }: Options) {
   return produce(state, (game) => {
+    // At an island's expansion cap the player must upgrade to gain more land.
+    // Legacy farms already beyond the cap may remain but cannot expand further.
+    const maxExpansion = ISLAND_MAX_EXPANSION[game.island.type];
+    if ((game.inventory["Basic Land"]?.toNumber() ?? 0) >= maxExpansion) {
+      throw new Error("Upgrade your island to expand further");
+    }
+
     const bumpkin = game.bumpkin;
 
     const { requirements, boostsUsed } = expansionRequirements({ game });

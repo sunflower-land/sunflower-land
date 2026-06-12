@@ -1,8 +1,7 @@
 import { INITIAL_FARM, TEST_FARM } from "features/game/lib/constants";
 import { upgrade } from "./upgradeFarm";
 import Decimal from "decimal.js-light";
-import { TOTAL_EXPANSION_NODES } from "features/game/expansion/lib/expansionNodes";
-import { getLand } from "features/game/types/expansions";
+import { getLand, TOTAL_EXPANSION_NODES } from "features/game/types/expansions";
 
 describe("upgradeFarm", () => {
   const farmId = 1;

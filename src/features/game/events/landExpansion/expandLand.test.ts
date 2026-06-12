@@ -4,6 +4,70 @@ import Decimal from "decimal.js-light";
 import { BB_TO_GEM_RATIO } from "features/game/types/game";
 
 describe("expandLand", () => {
+  it("does not allow expanding basic island past 9 (must upgrade)", () => {
+    expect(() =>
+      expandLand({
+        action: {
+          type: "land.expanded",
+          farmId: 0,
+        },
+        state: {
+          ...TEST_FARM,
+          island: { type: "basic" },
+          inventory: { "Basic Land": new Decimal(9) },
+        },
+      }),
+    ).toThrow("Upgrade your island to expand further");
+  });
+
+  it("forces legacy basic farms above 9 to upgrade rather than expand", () => {
+    expect(() =>
+      expandLand({
+        action: {
+          type: "land.expanded",
+          farmId: 0,
+        },
+        state: {
+          ...TEST_FARM,
+          island: { type: "basic" },
+          inventory: { "Basic Land": new Decimal(15) },
+        },
+      }),
+    ).toThrow("Upgrade your island to expand further");
+  });
+
+  it("does not allow expanding spring island past 16 (must upgrade)", () => {
+    expect(() =>
+      expandLand({
+        action: {
+          type: "land.expanded",
+          farmId: 0,
+        },
+        state: {
+          ...TEST_FARM,
+          island: { type: "spring" },
+          inventory: { "Basic Land": new Decimal(16) },
+        },
+      }),
+    ).toThrow("Upgrade your island to expand further");
+  });
+
+  it("blocks expansion for legacy spring farms beyond 16 (they remain but cannot expand)", () => {
+    expect(() =>
+      expandLand({
+        action: {
+          type: "land.expanded",
+          farmId: 0,
+        },
+        state: {
+          ...TEST_FARM,
+          island: { type: "spring" },
+          inventory: { "Basic Land": new Decimal(18) },
+        },
+      }),
+    ).toThrow("Upgrade your island to expand further");
+  });
+
   it("requires player has sufficient coins", () => {
     expect(() =>
       expandLand({

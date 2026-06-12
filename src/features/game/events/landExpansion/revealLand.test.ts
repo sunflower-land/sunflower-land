@@ -12,12 +12,10 @@ import {
 import {
   EXPANSION_REQUIREMENTS,
   SPRING_LAYOUTS,
+  TOTAL_EXPANSION_NODES,
   getBasicLand,
 } from "features/game/types/expansions";
-import {
-  type Nodes,
-  TOTAL_EXPANSION_NODES,
-} from "features/game/expansion/lib/expansionNodes";
+import type { Nodes } from "features/game/expansion/lib/expansionNodes";
 import { BB_TO_GEM_RATIO, type FiniteResource } from "features/game/types/game";
 import { OIL_RESERVE_RECOVERY_TIME } from "./drillOilReserve";
 

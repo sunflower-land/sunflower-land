@@ -1,6 +1,5 @@
 import Decimal from "decimal.js-light";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { TOTAL_EXPANSION_NODES } from "features/game/expansion/lib/expansionNodes";
 import { getObjectEntries } from "lib/object";
 import type { BuildingName } from "features/game/types/buildings";
 import type {
@@ -25,6 +24,7 @@ import { placePlot } from "./placePlot";
 import { placeStone } from "./placeStone";
 import { placeTree } from "./placeTree";
 import { removeAll } from "./removeAll";
+import { TOTAL_EXPANSION_NODES } from "features/game/types/expansions";
 
 export type UpgradeFarmAction = {
   type: "farm.upgraded";
@@ -642,7 +642,7 @@ export function upgrade({ state, createdAt = Date.now(), farmId }: Options) {
   }
 
   const sunstonesForExpansion =
-    TOTAL_EXPANSION_NODES[game.island.type][previousExpansions][
+    TOTAL_EXPANSION_NODES[game.island.type][previousExpansions]?.[
       "Sunstone Rock"
     ] ?? 0;
 

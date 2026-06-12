@@ -1,6 +1,6 @@
 import type { GameState, InventoryItemName, IslandType } from "./game";
 import type { Coordinates } from "../expansion/components/MapPlacement";
-import { TOTAL_EXPANSION_NODES } from "../expansion/lib/expansionNodes";
+import type { Nodes } from "../expansion/lib/expansionNodes";
 import { getKeys } from "lib/object";
 import {
   ADVANCED_RESOURCES,
@@ -1709,12 +1709,9 @@ export const DESERT_LAND_13_LAYOUT: () => Layout = () => ({
   iron: [],
   stones: [],
   crimstones: [],
-  sunstones: [
-    {
-      x: 0,
-      y: 0,
-    },
-  ],
+  // No sunstone here — it was a stray vs the desert node cap (always sliced off)
+  // and is removed so the desert node table derives cleanly, matching the BE.
+  sunstones: [],
   trees: [
     {
       x: 0,
@@ -2522,6 +2519,151 @@ export type Layout = {
   fruitPatches?: Coordinates[];
   oilReserves?: Coordinates[];
   lavaPits?: Coordinates[];
+};
+
+// --- Expansion node counts (derived) -------------------------------------
+// How many of each resource node a player should have at each expansion is
+// derived from the layouts above (arrival row + cumulative layout counts) so the
+// counts can never drift from the actual map. Mirror of the BE.
+
+/** Maps each `Layout` resource array to its `Nodes` (resource-count) key. */
+const LAYOUT_FIELD_TO_NODE = {
+  plots: "Crop Plot",
+  trees: "Tree",
+  stones: "Stone Rock",
+  iron: "Iron Rock",
+  gold: "Gold Rock",
+  crimstones: "Crimstone Rock",
+  sunstones: "Sunstone Rock",
+  fruitPatches: "Fruit Patch",
+  flowerBeds: "Flower Bed",
+  beehives: "Beehive",
+  oilReserves: "Oil Reserve",
+  lavaPits: "Lava Pit",
+} as const satisfies Partial<Record<keyof Layout, keyof Nodes>>;
+
+/** Counts the resource nodes placed by a single expansion's `Layout`. */
+function countLayoutNodes(
+  layout: Layout,
+): Partial<Record<keyof Nodes, number>> {
+  const counts: Partial<Record<keyof Nodes, number>> = {};
+  getKeys(LAYOUT_FIELD_TO_NODE).forEach((field) => {
+    const arr = layout[field];
+    if (arr && arr.length) {
+      const key = LAYOUT_FIELD_TO_NODE[field];
+      counts[key] = (counts[key] ?? 0) + arr.length;
+    }
+  });
+  return counts;
+}
+
+/**
+ * Derives the cumulative `Record<expansion, Nodes>` table for an island from its
+ * per-expansion layouts. `base` is the "arrival" row — the expected totals when
+ * a player first lands on the island (a curated floor, not derivable from
+ * layouts) — and sits at the expansion directly below the first layout.
+ */
+export function deriveExpansionNodes(
+  base: Nodes,
+  layouts: Record<number, Layout>,
+): Record<number, Nodes> {
+  const levels = Object.keys(layouts)
+    .map(Number)
+    .sort((a, b) => a - b);
+
+  const result: Record<number, Nodes> = {};
+  let running: Nodes = { ...base };
+
+  // The arrival row sits at the expansion directly below the first layout.
+  result[levels[0] - 1] = { ...running };
+
+  levels.forEach((level) => {
+    const counts = countLayoutNodes(layouts[level]);
+    running = { ...running };
+    getKeys(counts).forEach((key) => {
+      running[key] = (running[key] ?? 0) + (counts[key] ?? 0);
+    });
+    result[level] = running;
+  });
+
+  return result;
+}
+
+export type ExpansionNode = Record<IslandType, Record<number, Nodes>>;
+
+const BASIC_BASE_NODES: Nodes = {
+  "Crop Plot": 0,
+  Tree: 3,
+  "Stone Rock": 2,
+  "Iron Rock": 0,
+  "Gold Rock": 0,
+  "Crimstone Rock": 0,
+  "Sunstone Rock": 0,
+  "Fruit Patch": 0,
+  "Flower Bed": 0,
+  Beehive: 0,
+  "Oil Reserve": 0,
+  "Lava Pit": 0,
+};
+
+const SPRING_BASE_NODES: Nodes = {
+  "Crop Plot": 31,
+  "Fruit Patch": 2,
+  Tree: 9,
+  "Stone Rock": 7,
+  "Iron Rock": 4,
+  "Gold Rock": 2,
+  "Crimstone Rock": 0,
+  "Sunstone Rock": 0,
+  Beehive: 0,
+  "Oil Reserve": 0,
+  "Flower Bed": 0,
+  "Lava Pit": 0,
+};
+
+const DESERT_BASE_NODES: Nodes = {
+  "Crop Plot": 45,
+  "Fruit Patch": 11,
+  Tree: 18,
+  "Stone Rock": 15,
+  "Iron Rock": 9,
+  "Gold Rock": 6,
+  "Crimstone Rock": 2,
+  "Sunstone Rock": 2,
+  "Oil Reserve": 0,
+  "Lava Pit": 0,
+  Beehive: 3,
+  "Flower Bed": 3,
+};
+
+const VOLCANO_BASE_NODES: Nodes = {
+  "Crop Plot": 65,
+  Tree: 23,
+  "Stone Rock": 20,
+  "Iron Rock": 12,
+  "Gold Rock": 7,
+  "Fruit Patch": 15,
+  "Crimstone Rock": 4,
+  "Sunstone Rock": 6,
+  "Oil Reserve": 3,
+  "Lava Pit": 0,
+  Beehive: 3,
+  "Flower Bed": 3,
+};
+
+export const TOTAL_EXPANSION_NODES: ExpansionNode = {
+  // Basic is capped at 9 expansions (see BASIC_MAX_EXPANSION); legacy 10-23 retired.
+  basic: deriveExpansionNodes(BASIC_BASE_NODES, {
+    4: LAND_4_LAYOUT(),
+    5: LAND_5_LAYOUT(),
+    6: LAND_6_LAYOUT(),
+    7: LAND_7_LAYOUT(),
+    8: LAND_8_LAYOUT(),
+    9: LAND_9_LAYOUT(),
+  }),
+  spring: deriveExpansionNodes(SPRING_BASE_NODES, SPRING_LAYOUTS()),
+  desert: deriveExpansionNodes(DESERT_BASE_NODES, DESERT_LAYOUTS()),
+  volcano: deriveExpansionNodes(VOLCANO_BASE_NODES, VOLCANO_LAYOUTS()),
 };
 
 /**
