@@ -57,6 +57,10 @@ import {
   getSaltNodesWithPositions,
 } from "features/game/types/salt";
 import { getPendingSaltNodeIdsForUpgrade } from "features/game/types/salt";
+import { PlayerModal } from "features/social/PlayerModal";
+import { hasFeatureAccess } from "lib/flags";
+import { Context as AuthContext } from "features/auth/lib/Provider";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
 
 export const LAND_WIDTH = 6;
 
@@ -302,6 +306,8 @@ const _waterTrapPositions = (state: MachineState) => {
     }),
   };
 };
+
+const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
 
 export const LandComponent: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -1178,6 +1184,15 @@ export const LandComponent: React.FC = () => {
     mushroomElements,
   ]);
 
+  const { authService } = useContext(AuthContext);
+  const context = gameService.getSnapshot().context;
+  const hasAirdropAccess = hasFeatureAccess(
+    context.visitorState ?? context.state,
+    "AIRDROP_PLAYER",
+  );
+  const token = useSelector(authService, _token);
+  const loggedInFarmId = context.visitorId ?? context.farmId;
+
   return (
     <>
       <div
@@ -1289,6 +1304,12 @@ export const LandComponent: React.FC = () => {
           </div>,
           document.body,
         )}
+
+      <PlayerModal
+        loggedInFarmId={loggedInFarmId}
+        token={token}
+        hasAirdropAccess={hasAirdropAccess}
+      />
     </>
   );
 };
