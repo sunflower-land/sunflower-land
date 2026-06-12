@@ -85,8 +85,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
 
   const bumpkinLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
 
-  const { username, bounties, delivery, choreBoard, kingdomChores, faction } =
-    state;
+  const { username, bounties, delivery, choreBoard, faction } = state;
 
   const [currentTab, setCurrentTab] = useState<CodexCategoryName>("Deliveries");
   const [showMilestoneReached, setShowMilestoneReached] = useState(false);
@@ -145,11 +144,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     (chore) => !chore.completedAt,
   ).length;
 
-  const inCompleteKingdomChores =
-    kingdomChores?.chores.filter(
-      (chore) => chore.startedAt && !chore.completedAt && !chore.skippedAt,
-    ).length ?? 0;
-
   // Pre-calculate checklist count once
   const checklistCountValue = checklistCount(state, bumpkinLevel, now);
   const hasLeagues =
@@ -197,7 +191,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
           {
             name: "Marks" as const,
             icon: factions,
-            count: inCompleteKingdomChores,
+            count: 0,
           },
         ]
       : []),
