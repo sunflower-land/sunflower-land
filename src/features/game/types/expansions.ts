@@ -2571,6 +2571,10 @@ export function deriveExpansionNodes(
     .map(Number)
     .sort((a, b) => a - b);
 
+  if (levels.length === 0) {
+    throw new Error("deriveExpansionNodes requires at least one layout");
+  }
+
   const result: Record<number, Nodes> = {};
   let running: Nodes = { ...base };
 
@@ -2652,7 +2656,11 @@ const VOLCANO_BASE_NODES: Nodes = {
 };
 
 export const TOTAL_EXPANSION_NODES: ExpansionNode = {
-  // Basic is capped at 9 expansions (see BASIC_MAX_EXPANSION); legacy 10-23 retired.
+  // Basic only uses expansions 3-9: it's capped at 9 (see ISLAND_MAX_EXPANSION) and
+  // the node table is read only when expanding/upgrading. Legacy farms still on the
+  // old land-pack expansions (10-23) can't expand, so those rows are never looked up
+  // — they're intentionally omitted (and wouldn't derive cleanly anyway, since the
+  // land packs are randomized per player group).
   basic: deriveExpansionNodes(BASIC_BASE_NODES, {
     4: LAND_4_LAYOUT(),
     5: LAND_5_LAYOUT(),
