@@ -108,6 +108,28 @@ export const BARN_IMAGES: Record<
       3: SUNNYSIDE.seasons.winter.volcanoBarn_3,
     },
   },
+  "Swamp Biome": {
+    spring: {
+      1: SUNNYSIDE.seasons.spring.volcanoBarn_1,
+      2: SUNNYSIDE.seasons.spring.volcanoBarn_2,
+      3: SUNNYSIDE.seasons.spring.volcanoBarn_3,
+    },
+    summer: {
+      1: SUNNYSIDE.building.volcanoBarn_1,
+      2: SUNNYSIDE.building.volcanoBarn_2,
+      3: SUNNYSIDE.building.volcanoBarn_3,
+    },
+    autumn: {
+      1: SUNNYSIDE.seasons.autumn.volcanoBarn_1,
+      2: SUNNYSIDE.seasons.autumn.volcanoBarn_2,
+      3: SUNNYSIDE.seasons.autumn.volcanoBarn_3,
+    },
+    winter: {
+      1: SUNNYSIDE.seasons.winter.volcanoBarn_1,
+      2: SUNNYSIDE.seasons.winter.volcanoBarn_2,
+      3: SUNNYSIDE.seasons.winter.volcanoBarn_3,
+    },
+  },
 };
 
 const _hasHungryAnimals = (state: MachineState) => {

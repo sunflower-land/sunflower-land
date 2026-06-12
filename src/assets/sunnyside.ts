@@ -1079,6 +1079,52 @@ export const SUNNYSIDE = {
         },
       },
     },
+    swamp: {
+      spring: {
+        Tree: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Volcano/spring_volcano_tree.webp`,
+        "Ancient Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/spring_basic_ancient_tree.png`,
+        "Sacred Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/spring_basic_sacred_tree.png`,
+        bush: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Volcano/spring_volcano_bush.webp`,
+        shakeSheet: {
+          Tree: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Volcano/spring_volcano_trees_shake_sheet.webp`,
+          "Ancient Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/spring_basic_ancient_tree_shake_sheet.webp`,
+          "Sacred Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/spring_basic_sacred_tree_shake_sheet.webp`,
+        },
+      },
+      summer: {
+        Tree: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Volcano/summer_volcano_tree.webp`,
+        "Ancient Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/summer_basic_ancient_tree.png`,
+        "Sacred Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/summer_basic_sacred_tree.png`,
+        bush: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Volcano/summer_volcano_bush.webp`,
+        shakeSheet: {
+          Tree: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Volcano/summer_volcano_trees_shake_sheet.webp`,
+          "Ancient Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/summer_basic_ancient_tree_shake_sheet.webp`,
+          "Sacred Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/summer_basic_sacred_tree_shake_sheet.webp`,
+        },
+      },
+      autumn: {
+        Tree: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Volcano/autumn_volcano_tree.webp`,
+        "Ancient Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/autumn_basic_ancient_tree.png`,
+        "Sacred Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/autumn_basic_sacred_tree.png`,
+        bush: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Volcano/autumn_volcano_bush.webp`,
+        shakeSheet: {
+          Tree: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Volcano/autumn_volcano_trees_shake_sheet.webp`,
+          "Ancient Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/autumn_basic_ancient_tree_shake_sheet.webp`,
+          "Sacred Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/autumn_basic_sacred_tree_shake_sheet.webp`,
+        },
+      },
+      winter: {
+        Tree: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Volcano/winter_volcano_tree.webp`,
+        "Ancient Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/winter_basic_ancient_tree.png`,
+        "Sacred Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/winter_basic_sacred_tree.png`,
+        bush: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Volcano/winter_volcano_bush.webp`,
+        shakeSheet: {
+          Tree: `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Volcano/winter_volcano_trees_shake_sheet.webp`,
+          "Ancient Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/winter_basic_ancient_tree_shake_sheet.webp`,
+          "Sacred Tree": `${CONFIG.PROTECTED_IMAGE_URL}/resources/tree/Basic/winter_basic_sacred_tree_shake_sheet.webp`,
+        },
+      },
+    },
   },
   seasons: {
     spring: {

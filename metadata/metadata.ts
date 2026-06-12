@@ -12907,6 +12907,16 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Volcano Biome",
   },
+  "Swamp Biome": {
+    description: "A swamp biome that provides a swamp income and a swamp life.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Swamp Biome",
+  },
   "Better Together Banner": {
     description: "",
     decimals: 0,

@@ -1273,6 +1273,7 @@ export const ITEM_TRADE_TYPES: {
     "Spring Biome": "instant",
     "Desert Biome": "instant",
     "Volcano Biome": "instant",
+    "Swamp Biome": "instant",
     Bracelet: "instant",
     Coprolite: "instant",
     "Better Together Banner": "instant",

@@ -1126,7 +1126,7 @@ describe("upgradeFarm", () => {
           },
         },
       }),
-    ).toThrow("Not implemented");
+    ).toThrow("Ascension Islands are not upgradable");
   });
 
   it("does not remove buds from home on upgrade", () => {

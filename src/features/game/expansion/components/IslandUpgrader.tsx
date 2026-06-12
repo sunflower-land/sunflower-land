@@ -35,6 +35,7 @@ const UPGRADE_DATES: Record<IslandType, number | null> = {
   spring: new Date("2024-05-15T00:00:00Z").getTime(),
   desert: new Date("2025-02-03T00:00:00Z").getTime(),
   volcano: null, // Next prestige after volcano
+  swamp: null, // Next prestige after volcano
 };
 
 export const UPGRADE_RAFTS: Record<IslandType, string | null> = {
@@ -42,6 +43,7 @@ export const UPGRADE_RAFTS: Record<IslandType, string | null> = {
   spring: SUNNYSIDE.land.desertRaft,
   desert: SUNNYSIDE.land.volcanoRaft,
   volcano: null, // Next prestige after volcano
+  swamp: null, // Next prestige after volcano
 };
 
 const UPGRADE_PREVIEW: Record<IslandType, string | null> = {
@@ -49,6 +51,7 @@ const UPGRADE_PREVIEW: Record<IslandType, string | null> = {
   spring: SUNNYSIDE.announcement.springPrestige,
   desert: SUNNYSIDE.announcement.desertPrestige,
   volcano: SUNNYSIDE.announcement.volcanoPrestige,
+  swamp: SUNNYSIDE.announcement.volcanoPrestige,
 };
 
 const UPGRADE_MESSAGES: Record<IslandType, string | null> = {
@@ -56,6 +59,7 @@ const UPGRADE_MESSAGES: Record<IslandType, string | null> = {
   spring: translate("islandupgrade.welcomePetalParadise"),
   desert: translate("islandupgrade.welcomeDesertIsland"),
   volcano: translate("islandupgrade.welcomeVolcanoIsland"),
+  swamp: translate("islandupgrade.welcomeVolcanoIsland"),
 };
 
 const UPGRADE_DESCRIPTIONS: Record<IslandType, string | null> = {
@@ -63,6 +67,7 @@ const UPGRADE_DESCRIPTIONS: Record<IslandType, string | null> = {
   spring: translate("islandupgrade.exoticResourcesDescription"),
   desert: translate("islandupgrade.desertResourcesDescription"),
   volcano: translate("islandupgrade.volcanoResourcesDescription"),
+  swamp: translate("islandupgrade.volcanoResourcesDescription"),
 };
 
 const IslandUpgraderModal: React.FC<{

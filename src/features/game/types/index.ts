@@ -1228,6 +1228,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Spring Biome": 2401,
   "Desert Biome": 2402,
   "Volcano Biome": 2403,
+  "Swamp Biome": 2404,
 
   // Dolls
   Doll: 2501,

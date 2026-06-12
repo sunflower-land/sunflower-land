@@ -52,6 +52,16 @@ export const LAND_BIOMES: Record<LandBiomeName, Biome> = {
     description: "",
     disabled: true,
   },
+  "Swamp Biome": {
+    name: "Volcano Biome",
+    ingredients: {
+      Gem: new Decimal(2000),
+      Leather: new Decimal(1500),
+      Obsidian: new Decimal(25),
+    },
+    description: "",
+    disabled: true,
+  },
 };
 export function getCurrentBiome(island: GameState["island"]): LandBiomeName {
   return island.biome ?? (`${capitalize(island.type)} Biome` as LandBiomeName);

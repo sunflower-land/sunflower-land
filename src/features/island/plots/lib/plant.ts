@@ -150,6 +150,20 @@ export const CROP_LIFECYCLE: Record<
     }),
     {} as Record<CropName, Lifecycle>,
   ),
+  "Swamp Biome": getKeys(IMAGES).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: {
+        seedling: `${VOLCANO_URL}/${IMAGES[name]}/seedling.png`,
+        halfway: `${VOLCANO_URL}/${IMAGES[name]}/halfway.png`,
+        almost: `${VOLCANO_URL}/${IMAGES[name]}/almost.png`,
+        ready: `${VOLCANO_URL}/${IMAGES[name]}/plant.png`,
+        crop: `${VOLCANO_URL}/${IMAGES[name]}/crop.png`,
+        seed: `${VOLCANO_URL}/${IMAGES[name]}/seed.png`,
+      },
+    }),
+    {} as Record<CropName, Lifecycle>,
+  ),
 };
 
 export const SOIL_IMAGES: Record<LandBiomeName, Record<string, string>> = {
@@ -168,5 +182,9 @@ export const SOIL_IMAGES: Record<LandBiomeName, Record<string, string>> = {
   "Desert Biome": {
     regular: SUNNYSIDE.soil.soil2,
     dry: SUNNYSIDE.soil.soil_dry,
+  },
+  "Swamp Biome": {
+    regular: SUNNYSIDE.soil.volcanoSoil2,
+    dry: SUNNYSIDE.soil.volcanoSoilDry,
   },
 };

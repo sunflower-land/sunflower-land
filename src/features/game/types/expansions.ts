@@ -1986,12 +1986,15 @@ export function deriveExpansionNodes(
     .map(Number)
     .sort((a, b) => a - b);
 
-  if (levels.length === 0) {
-    throw new Error("deriveExpansionNodes requires at least one layout");
-  }
-
   const result: Record<number, Nodes> = {};
   let running: Nodes = { ...base };
+
+  // No per-level layouts (e.g. an ascension island without an expansion table
+  // yet): the base row is the only data, so return it as the sole entry.
+  if (levels.length === 0) {
+    result[0] = { ...running };
+    return result;
+  }
 
   // The arrival row sits at the expansion directly below the first layout.
   result[levels[0] - 1] = { ...running };
@@ -2070,6 +2073,21 @@ const VOLCANO_BASE_NODES: Nodes = {
   "Flower Bed": 3,
 };
 
+const SWAMP_BASE_NODES: Nodes = {
+  "Crop Plot": 65,
+  Tree: 23,
+  "Stone Rock": 20,
+  "Iron Rock": 13,
+  "Gold Rock": 8,
+  "Fruit Patch": 15,
+  "Crimstone Rock": 1,
+  "Sunstone Rock": 13,
+  "Oil Reserve": 4,
+  "Lava Pit": 3,
+  Beehive: 3,
+  "Flower Bed": 3,
+};
+
 export const TOTAL_EXPANSION_NODES: ExpansionNode = {
   // Basic only uses expansions 3-9: it's capped at 9 (see ISLAND_MAX_EXPANSION) and
   // the node table is read only when expanding/upgrading. Legacy farms still on the
@@ -2087,6 +2105,7 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
   spring: deriveExpansionNodes(SPRING_BASE_NODES, SPRING_LAYOUTS()),
   desert: deriveExpansionNodes(DESERT_BASE_NODES, DESERT_LAYOUTS()),
   volcano: deriveExpansionNodes(VOLCANO_BASE_NODES, VOLCANO_LAYOUTS()),
+  swamp: deriveExpansionNodes(SWAMP_BASE_NODES, {}),
 };
 
 export interface Requirements {
@@ -3347,4 +3366,5 @@ export const EXPANSION_REQUIREMENTS: Record<
     29: VOLCANO_LAND_29_REQUIREMENTS,
     30: VOLCANO_LAND_30_REQUIREMENTS,
   },
+  swamp: {},
 };

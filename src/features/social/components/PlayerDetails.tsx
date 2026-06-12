@@ -56,6 +56,7 @@ const ISLAND_ICONS: Record<IslandType, string> = {
   spring: springIsland,
   desert: desertIsland,
   volcano: volcanoIsland,
+  swamp: volcanoIsland,
 };
 
 type Props = {

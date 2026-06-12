@@ -2,13 +2,15 @@ import Decimal from "decimal.js-light";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { getObjectEntries } from "lib/object";
 import type { BuildingName } from "features/game/types/buildings";
-import type {
-  GameState,
-  IslandType,
-  Inventory,
-  InventoryItemName,
-  Season,
-  TemperateSeasonName,
+import {
+  type GameState,
+  type IslandType,
+  type Inventory,
+  type InventoryItemName,
+  type Season,
+  type TemperateSeasonName,
+  type AscensionIslandType,
+  ASCENSION_ISLANDS,
 } from "features/game/types/game";
 import {
   getTotalBaseResourceEquivalents,
@@ -393,7 +395,7 @@ function placeInitialLand({
 }
 
 export const ISLAND_UPGRADE: Record<
-  IslandType,
+  Exclude<IslandType, AscensionIslandType | "volcano">,
   { items: Inventory; expansions: number; upgrade: IslandType | null }
 > = {
   basic: {
@@ -416,13 +418,6 @@ export const ISLAND_UPGRADE: Record<
       Oil: new Decimal(200),
     },
     upgrade: "volcano",
-  },
-  volcano: {
-    expansions: 99,
-    items: {
-      Oil: new Decimal(9999999999),
-    },
-    upgrade: null,
   },
 };
 
@@ -589,8 +584,21 @@ export const populateSeason = (createdAt: number): Season => {
   return { startedAt: startAt, season };
 };
 
+const isAscensionUpgrade = (
+  islandType: IslandType,
+): islandType is AscensionIslandType | "volcano" => {
+  return (
+    islandType === "volcano" ||
+    ASCENSION_ISLANDS.includes(islandType as AscensionIslandType)
+  );
+};
+
 export function upgrade({ state, createdAt = Date.now(), farmId }: Options) {
   let game = cloneDeep(state) as GameState;
+
+  if (isAscensionUpgrade(game.island.type)) {
+    throw new Error("Ascension Islands are not upgradable");
+  }
 
   const upcoming = ISLAND_UPGRADE[game.island.type];
 

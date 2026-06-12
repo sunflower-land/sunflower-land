@@ -22,6 +22,7 @@ export const INTERIOR_BACKGROUNDS: Record<IslandType, string> = {
   spring: home,
   desert: manor,
   volcano: mansion,
+  swamp: mansion,
 };
 
 /**

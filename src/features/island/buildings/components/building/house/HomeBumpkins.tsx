@@ -25,6 +25,7 @@ const BACKYARD_CAPACITY: Record<IslandType, number> = {
   spring: 2,
   desert: 3,
   volcano: 4,
+  swamp: 4,
 };
 
 const _isLandscaping = (state: MachineState) => state.matches("landscaping");

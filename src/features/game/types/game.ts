@@ -1509,7 +1509,15 @@ export type MegaStore = {
   collectibles: CollectiblesItem[];
 };
 
-export type IslandType = "basic" | "spring" | "desert" | "volcano";
+export type IslandType =
+  | "basic"
+  | "spring"
+  | "desert"
+  | "volcano"
+  | AscensionIslandType;
+
+export const ASCENSION_ISLANDS = ["swamp"] as const;
+export type AscensionIslandType = (typeof ASCENSION_ISLANDS)[number];
 
 /**
  * The order of the islands is important as it determines the levels of the islands.
