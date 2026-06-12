@@ -47,23 +47,15 @@ type Options = {
   state: Readonly<GameState>;
   action: RevealLandAction;
   createdAt?: number;
-  farmId?: number;
-  promo?: string;
 };
 
-export function revealLand({
-  state,
-  action,
-  createdAt = Date.now(),
-  farmId = 0,
-  promo,
-}: Options) {
+export function revealLand({ state, createdAt = Date.now() }: Options) {
   return produce(state, (game) => {
     if (!game.expansionConstruction) {
       throw new Error("Land is not in construction");
     }
 
-    const land = getLand({ id: farmId, game });
+    const land = getLand({ game });
     if (!land) {
       throw new Error("Land Does Not Exists");
     }

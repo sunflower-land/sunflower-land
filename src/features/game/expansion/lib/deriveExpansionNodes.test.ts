@@ -52,7 +52,7 @@ const EXPECTED: Record<
   },
   spring: {
     first: 4,
-    last: 20,
+    last: 16,
     base: {
       "Crop Plot": 31,
       "Fruit Patch": 2,
@@ -67,15 +67,17 @@ const EXPECTED: Record<
       "Flower Bed": 0,
       "Lava Pit": 0,
     },
+    // spring[16] is the designed handoff into the desert arrival row
+    // (== DESERT_BASE_NODES); legacy spring 17–20 were retired with the cap.
     final: {
-      "Crop Plot": 50,
-      "Fruit Patch": 12,
+      "Crop Plot": 45,
+      "Fruit Patch": 11,
       Tree: 18,
-      "Stone Rock": 16,
-      "Iron Rock": 10,
+      "Stone Rock": 15,
+      "Iron Rock": 9,
       "Gold Rock": 6,
-      "Crimstone Rock": 3,
-      "Sunstone Rock": 4,
+      "Crimstone Rock": 2,
+      "Sunstone Rock": 2,
       Beehive: 3,
       "Flower Bed": 3,
       "Oil Reserve": 0,
