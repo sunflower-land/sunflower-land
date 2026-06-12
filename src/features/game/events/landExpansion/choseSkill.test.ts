@@ -1,6 +1,7 @@
 import { TEST_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { choseSkill, getAvailableBumpkinSkillPoints } from "./choseSkill";
+import { CONFIG } from "lib/config";
 
 describe("choseSkill", () => {
   const dateNow = Date.now();
@@ -266,6 +267,103 @@ describe("choseSkill", () => {
       });
 
       expect(result).toBe(4);
+    });
+  });
+
+  describe("skill cooldown (EDIT_SKILLSET cohort)", () => {
+    const DAY = 24 * 60 * 60 * 1000;
+
+    // A valid Cooking build that unlocks tier 3, so Double Nom can be picked.
+    const COOKING_BASE = {
+      "Fast Feasts": 1,
+      "Nom Nom": 1,
+      "Munching Mastery": 1,
+      "Frosted Cakes": 1,
+    };
+
+    it("never blocks picking a skill, even one changed recently", () => {
+      const threeDaysAgo = dateNow - 3 * DAY;
+      const result = choseSkill({
+        state: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            experience: LEVEL_EXPERIENCE[4],
+            skills: {},
+            skillLastChangedAt: { "Green Thumb": threeDaysAgo },
+          },
+        },
+        action: { type: "skill.chosen", skill: "Green Thumb" },
+        createdAt: dateNow,
+      });
+
+      expect(result.bumpkin?.skills?.["Green Thumb"]).toEqual(1);
+    });
+
+    it("stamps the pick time for a restricted skill (Double Nom)", () => {
+      const result = choseSkill({
+        state: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            experience: LEVEL_EXPERIENCE[10],
+            skills: COOKING_BASE,
+          },
+        },
+        action: { type: "skill.chosen", skill: "Double Nom" },
+        createdAt: dateNow,
+      });
+
+      expect(result.bumpkin?.skills?.["Double Nom"]).toEqual(1);
+      expect(result.bumpkin?.skillLastChangedAt?.["Double Nom"]).toEqual(
+        dateNow,
+      );
+    });
+
+    it("does not stamp ordinary skills on pick", () => {
+      const result = choseSkill({
+        state: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            experience: LEVEL_EXPERIENCE[4],
+            skills: {},
+          },
+        },
+        action: { type: "skill.chosen", skill: "Green Thumb" },
+        createdAt: dateNow,
+      });
+
+      expect(result.bumpkin?.skills?.["Green Thumb"]).toEqual(1);
+      expect(
+        result.bumpkin?.skillLastChangedAt?.["Green Thumb"],
+      ).toBeUndefined();
+    });
+
+    it("legacy cohort never stamps restricted skills", () => {
+      const previousNetwork = CONFIG.NETWORK;
+      CONFIG.NETWORK = "mainnet";
+      try {
+        const result = choseSkill({
+          state: {
+            ...TEST_FARM,
+            bumpkin: {
+              ...INITIAL_BUMPKIN,
+              experience: LEVEL_EXPERIENCE[10],
+              skills: COOKING_BASE,
+            },
+          },
+          action: { type: "skill.chosen", skill: "Double Nom" },
+          createdAt: dateNow,
+        });
+
+        expect(result.bumpkin?.skills?.["Double Nom"]).toEqual(1);
+        expect(
+          result.bumpkin?.skillLastChangedAt?.["Double Nom"],
+        ).toBeUndefined();
+      } finally {
+        CONFIG.NETWORK = previousNetwork;
+      }
     });
   });
 });

@@ -19,10 +19,8 @@ import { SkillSquareIcon } from "./SkillSquareIcon";
 // Function imports
 import {
   getAvailableBumpkinSkillPoints,
-  getAvailableBumpkinSkillPointsForSkills,
   getUnlockedTierForTree,
   SKILL_POINTS_PER_TIER,
-  validateSkillSelection,
 } from "features/game/events/landExpansion/choseSkill";
 import { gameAnalytics } from "lib/gameAnalytics";
 
@@ -32,58 +30,23 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { millisecondsToString } from "lib/utils/time";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import type { MachineState } from "features/game/lib/gameMachine";
-import { SKILL_TREE_ICONS } from "./SkillCategoryList";
-import { SkillsEditHeader } from "./SkillsEditHeader";
+import { LEGACY_SKILL_TREE_ICONS } from "./LegacySkillCategoryList";
+// Legacy component for the non-EDIT_SKILLSET cohort. Restored verbatim from
+// origin/main. Delete this file when the EDIT_SKILLSET flag is removed.
 import tradeOffs from "src/assets/icons/tradeOffs.png";
 import { getSkillCooldown } from "features/game/events/landExpansion/skillUsed";
-import {
-  getRemainingSkillCooldownMs,
-  isCooldownSkill,
-} from "features/game/events/landExpansion/skillCooldown";
-import { useNow } from "lib/utils/hooks/useNow";
-import type { Skills } from "features/game/types/game";
-import classNames from "classnames";
 
 interface Props {
   selectedSkillPath: BumpkinRevampSkillTree;
   skillsInPath: BumpkinSkillRevamp[];
   readonly: boolean;
   onBack: () => void;
-  skills: Skills;
-  isEditing: boolean;
-  validationError?: string;
-  onToggleDraftSkill: (skill: BumpkinRevampSkillName) => void;
-  onClearDraftSkillPath: () => void;
 }
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _state = (state: MachineState) => state.context.state;
 
-export const getSkillSelectionErrorMessage = (
-  error: unknown,
-  t: ReturnType<typeof useAppTranslation>["t"],
-) => {
-  if (!(error instanceof Error)) {
-    return t("skillEdit.invalidSkillBuild");
-  }
-
-  const tierMatch = error.message.match(/You need to unlock tier (\d+) first/);
-
-  if (tierMatch) {
-    return t("skillEdit.unlockTierFirst", { tier: tierMatch[1] });
-  }
-
-  const errorMessages: Record<string, ReturnType<typeof t>> = {
-    "You do not have a Bumpkin!": t("skillEdit.noBumpkin"),
-    "You do not have enough skill points": t("skillEdit.notEnoughSkillPoints"),
-    "You are not at the correct island!": t("skillEdit.wrongIsland"),
-    "This skill is disabled": t("skillTier.skillDisabled"),
-  };
-
-  return errorMessages[error.message] ?? t("skillEdit.invalidSkillBuild");
-};
-
-export const getSkillImage = (
+const getSkillImage = (
   image: string | undefined,
   boostedItemIcon: string | undefined,
   tree: BumpkinRevampSkillTree,
@@ -92,19 +55,14 @@ export const getSkillImage = (
     ? image
     : boostedItemIcon
       ? boostedItemIcon
-      : SKILL_TREE_ICONS[tree];
+      : LEGACY_SKILL_TREE_ICONS[tree];
 };
 
-export const SkillPathDetails: React.FC<Props> = ({
+export const LegacySkillPathDetails: React.FC<Props> = ({
   selectedSkillPath,
   skillsInPath,
   readonly,
   onBack,
-  skills,
-  isEditing,
-  validationError,
-  onToggleDraftSkill,
-  onClearDraftSkillPath,
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
@@ -115,16 +73,6 @@ export const SkillPathDetails: React.FC<Props> = ({
   const [selectedSkill, setSelectedSkill] = useState<BumpkinSkillRevamp>(
     skillsInPath[0],
   );
-  // Cooldown labels need to tick live so "wait 3d" shrinks to "wait 2d" as
-  // the day rolls over without remounting the modal.
-  const now = useNow({ live: true });
-
-  const formatCooldown = (remainingMs: number) =>
-    millisecondsToString(remainingMs, {
-      length: "short",
-      isShortFormat: true,
-      removeTrailingZeros: true,
-    });
 
   const { tree, requirements, name, image, boosts, disabled, power, npc } =
     selectedSkill;
@@ -132,86 +80,22 @@ export const SkillPathDetails: React.FC<Props> = ({
   const boostedCooldown = getSkillCooldown({ cooldown: cooldown ?? 0, state });
   const { buff, debuff } = boosts;
 
-  const displayedBumpkin = {
-    ...bumpkin,
-    skills,
-  };
-  const availableSkillPoints = isEditing
-    ? getAvailableBumpkinSkillPointsForSkills(bumpkin, skills)
-    : getAvailableBumpkinSkillPoints(bumpkin);
+  const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
   const { availableTier, totalUsedSkillPoints } = getUnlockedTierForTree(
     tree,
-    displayedBumpkin,
+    bumpkin,
   );
-  const hasSelectedSkill = !!skills[name as BumpkinRevampSkillName];
-  const hasSkillsInPath = skillsInPath.some(
-    (skill) => !!skills[skill.name as BumpkinRevampSkillName],
-  );
-  const missingPointRequirement =
-    !hasSelectedSkill && points > availableSkillPoints;
-  const missingSkillsRequirement = !hasSelectedSkill && tier > availableTier;
-  const getEditDisabledReason = (skill: BumpkinSkillRevamp) => {
-    if (!isEditing) return;
-
-    const skillName = skill.name as BumpkinRevampSkillName;
-    const hasSkill = !!skills[skillName];
-    const { points, tier } = skill.requirements;
-    const nextSkills = { ...skills };
-
-    if (hasSkill) {
-      delete nextSkills[skillName as keyof Skills];
-    } else {
-      nextSkills[skillName as keyof Skills] = 1;
-    }
-
-    // Double Nom / Ager can't be removed until their cooldown elapses. Adding
-    // is always allowed and every other skill is freely changeable.
-    if (hasSkill && isCooldownSkill(skillName)) {
-      const cooldownRemaining = getRemainingSkillCooldownMs(
-        bumpkin.skillLastChangedAt,
-        skillName,
-        now,
-      );
-      if (cooldownRemaining > 0) {
-        return t("skillEdit.cooldown", {
-          time: formatCooldown(cooldownRemaining),
-        });
-      }
-    }
-
-    try {
-      validateSkillSelection({ state, skills: nextSkills });
-    } catch (error) {
-      return getSkillSelectionErrorMessage(error, t);
-    }
-
-    if (hasSkill) {
-      return;
-    }
-
-    if (points > availableSkillPoints) {
-      return t("skillEdit.notEnoughSkillPoints");
-    }
-
-    if (tier > availableTier) {
-      return t("skillEdit.unlockTierFirst", { tier });
-    }
-  };
-  const editDisabledReason = getEditDisabledReason(selectedSkill);
-  const isClaimDisabled = isEditing
-    ? (disabled && !hasSelectedSkill) || readonly || !!editDisabledReason
-    : hasSelectedSkill ||
-      missingPointRequirement ||
-      missingSkillsRequirement ||
-      disabled ||
-      readonly;
+  const hasSelectedSkill = !!bumpkin.skills[name as BumpkinRevampSkillName];
+  const missingPointRequirement = points > availableSkillPoints;
+  const missingSkillsRequirement = tier > availableTier;
+  const isClaimDisabled =
+    hasSelectedSkill ||
+    missingPointRequirement ||
+    missingSkillsRequirement ||
+    disabled ||
+    readonly;
 
   const handleClaim = () => {
-    if (isEditing) {
-      onToggleDraftSkill(name as BumpkinRevampSkillName);
-      return;
-    }
-
     setShowConfirmation(false);
     const state = gameService.send("skill.chosen", { skill: name });
 
@@ -317,33 +201,13 @@ export const SkillPathDetails: React.FC<Props> = ({
                   {t("skillTier.skillDisabled")}
                 </Label>
               )}
-              {isEditing && validationError && (
-                <Label type="danger" className="mb-2">
-                  {validationError}
-                </Label>
-              )}
             </div>
           </div>
 
           {/* Claim/Claimed/Use Button */}
           {!readonly && (
-            <div className="flex flex-col w-full">
-              {isEditing ? (
-                <div className="flex flex-col w-full">
-                  <Button disabled={isClaimDisabled} onClick={handleClaim}>
-                    {t(
-                      hasSelectedSkill
-                        ? "skillEdit.removeSkill"
-                        : "skillEdit.addSkill",
-                    )}
-                  </Button>
-                  {editDisabledReason && (
-                    <Label type="warning" className="mt-1">
-                      {editDisabledReason}
-                    </Label>
-                  )}
-                </div>
-              ) : showConfirmation ? (
+            <div className="flex sm:flex-col w-full">
+              {showConfirmation ? (
                 <>
                   <Button
                     className="mr-1 sm:mr-0"
@@ -373,15 +237,6 @@ export const SkillPathDetails: React.FC<Props> = ({
       }
       content={
         <div className="pl-1">
-          {/* Shared chip row mirrors what SkillCategoryList shows so the
-              player keeps the cost / draft context as they drill in. */}
-          <div className="mt-2 mb-1 ml-1">
-            <SkillsEditHeader
-              displayedSkills={skills}
-              isEditing={isEditing}
-              validationError={validationError}
-            />
-          </div>
           {/* Header */}
           <div
             className="flex flex-row my-2 items-center"
@@ -405,11 +260,11 @@ export const SkillPathDetails: React.FC<Props> = ({
           {/* Skills */}
           <div className="flex flex-col gap-1">
             {Object.entries(createRevampSkillPath(skillsInPath)).map(
-              ([tier, tierSkills]) => {
-                const { requirements, tree } = tierSkills[0];
+              ([tier, skills]) => {
+                const { requirements, tree } = skills[0];
                 const { tier: tierRequirement } = requirements;
                 const tierUnlocked = tierRequirement <= availableTier;
-                const availableSkills = tierSkills.filter(
+                const availableSkills = skills.filter(
                   (skill) => !skill.disabled,
                 );
                 const pointsRequired =
@@ -435,8 +290,10 @@ export const SkillPathDetails: React.FC<Props> = ({
                     </div>
                     <div className="flex flex-row flex-wrap gap-0">
                       {availableSkills.map((skill) => {
-                        const skillName = skill.name as BumpkinRevampSkillName;
-                        const hasSkill = !!skills[skillName];
+                        const hasSkill =
+                          !!bumpkin.skills[
+                            skill.name as BumpkinRevampSkillName
+                          ];
                         const { name, image, tree, npc, power, boosts } = skill;
                         const { boostTypeIcon, boostedItemIcon } = boosts.buff;
 
@@ -484,21 +341,6 @@ export const SkillPathDetails: React.FC<Props> = ({
               },
             )}
           </div>
-          {isEditing && (
-            <div className="flex flex-row items-center justify-between m-1">
-              <p
-                className={classNames("text-xs underline py-1", {
-                  "cursor-pointer": hasSkillsInPath,
-                  "opacity-50 cursor-not-allowed": !hasSkillsInPath,
-                })}
-                onClick={hasSkillsInPath ? onClearDraftSkillPath : undefined}
-              >
-                {t("skillEdit.clearBranchSkills", {
-                  skillPath: selectedSkillPath,
-                })}
-              </p>
-            </div>
-          )}
         </div>
       }
     />

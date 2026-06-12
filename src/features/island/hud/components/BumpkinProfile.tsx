@@ -209,6 +209,9 @@ export const BumpkinProfile: React.FC = () => {
   const progressBarEl = useRef<SpriteSheetInstance>(undefined);
   const [viewSkillsTab, setViewSkillsTab] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  // Mirrors BumpkinModal's draft-edit state so we can suppress backdrop
+  // dismiss on the outer Modal while the player has unsaved skill changes.
+  const [isSkillsEditing, setIsSkillsEditing] = useState(false);
 
   const profile = useSound("profile");
 
@@ -287,7 +290,11 @@ export const BumpkinProfile: React.FC = () => {
   return (
     <>
       {/* Bumpkin modal */}
-      <Modal show={showModal} onHide={handleHideModal} size="lg">
+      <Modal
+        show={showModal}
+        onHide={isSkillsEditing ? undefined : handleHideModal}
+        size="lg"
+      >
         <BumpkinModal
           initialTab={viewSkillsTab ? "skills" : "feed"}
           onClose={handleHideModal}
@@ -295,6 +302,7 @@ export const BumpkinProfile: React.FC = () => {
           bumpkin={gameState.context.state.bumpkin as Bumpkin}
           inventory={gameState.context.state.inventory}
           gameState={gameState.context.state}
+          onEditingChange={setIsSkillsEditing}
         />
       </Modal>
 
