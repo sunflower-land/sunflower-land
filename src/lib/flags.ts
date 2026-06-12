@@ -142,9 +142,6 @@ const FEATURE_FLAGS = {
 
   CHAACS_TEMPLE_BETA: betaFeatureFlag,
 
-  // Hides the VIP referral rewards UI from everyone except beta testers for now.
-  VIP_REFERRAL_REWARDS: betaFeatureFlag,
-
   BOOSTS_DISPLAY: betaFeatureFlag,
 
   SEEN_ON_X: betaFeatureFlag,
