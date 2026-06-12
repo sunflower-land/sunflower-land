@@ -11,6 +11,7 @@ import { useNavigate } from "react-router";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useSound } from "lib/utils/hooks/useSound";
 import classNames from "classnames";
+import { saveIslandScrollPosition } from "features/game/expansion/lib/islandScroll";
 
 const _hasHungryChickens = (state: MachineState) => {
   return Object.values(state.context.state.henHouse.animals).some(
@@ -50,6 +51,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
     if (isBuilt) {
       // Add future on click actions here
       barnAudio();
+      saveIslandScrollPosition();
 
       navigate("/hen-house");
       return;

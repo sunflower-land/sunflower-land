@@ -44,6 +44,7 @@ import {
   getSortedResourcePositions,
   getSortedCollectiblePositions,
 } from "./lib/utils";
+import { restoreIslandScrollPosition } from "./lib/islandScroll";
 import { Clutter } from "features/island/clutter/Clutter";
 import { PetNFT } from "features/island/pets/PetNFT";
 import { WaterTrapSpot } from "features/island/fisherman/WaterTrapSpot";
@@ -420,6 +421,8 @@ export const LandComponent: React.FC = () => {
   const [scrollIntoView] = useScrollIntoView();
 
   useLayoutEffect(() => {
+    if (restoreIslandScrollPosition()) return;
+
     scrollIntoView(Section.GenesisBlock, "auto");
   }, []);
 

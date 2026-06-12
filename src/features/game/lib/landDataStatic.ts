@@ -38,7 +38,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Rich Bear": new Decimal(1),
     "Angel Bear": new Decimal(1),
     "Aging Shed": new Decimal(1),
+    Barkley: new Decimal(1),
     "Basic Land": new Decimal(30),
+    "Pet House": new Decimal(1),
   },
   bumpkin: {
     ...INITIAL_FARM.bumpkin,
@@ -75,6 +77,14 @@ export const STATIC_OFFLINE_FARM: GameState = {
         readyAt: 0,
       },
     ],
+    "Pet House": [
+      {
+        id: "pet-house-1",
+        coordinates: { x: -4, y: 4 },
+        createdAt: 0,
+        readyAt: 0,
+      },
+    ],
   },
   agingShed: {
     ...INITIAL_FARM.agingShed,
@@ -97,5 +107,29 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   farmActivity: {
     "welcome Bonus Claimed": 1, // Skip welcome screen
+  },
+  pets: {
+    common: {
+      Barkley: {
+        energy: 0,
+        experience: 0,
+        name: "Barkley",
+        pettedAt: 0,
+        requests: { food: [], fedAt: 0 },
+      },
+    },
+  },
+  petHouse: {
+    level: 1,
+    pets: {
+      Barkley: [
+        {
+          id: "barkley-1",
+          coordinates: { x: 0, y: 0 },
+          createdAt: 0,
+          readyAt: 0,
+        },
+      ],
+    },
   },
 };

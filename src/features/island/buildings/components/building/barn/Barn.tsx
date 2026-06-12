@@ -13,6 +13,7 @@ import { TemperateSeasonName } from "features/game/types/game";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { LandBiomeName } from "features/island/biomes/biomes";
 import classNames from "classnames";
+import { saveIslandScrollPosition } from "features/game/expansion/lib/islandScroll";
 
 export const BARN_IMAGES: Record<
   LandBiomeName,
@@ -147,6 +148,7 @@ export const Barn: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
     if (isBuilt) {
       // Add future on click actions here
       barnAudio();
+      saveIslandScrollPosition();
       navigate("/barn");
     }
   };

@@ -18,6 +18,7 @@ import { PlacedItem } from "features/game/types/game";
 import { OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
 import { useVisiting } from "lib/utils/visitUtils";
 import { useNavigate } from "react-router";
+import { saveIslandScrollPosition } from "features/game/expansion/lib/islandScroll";
 
 const selectBuildings = (state: MachineState) => state.context.state.buildings;
 
@@ -47,6 +48,8 @@ export const Tent: React.FC<BuildingProps> = ({ buildingId, isBuilt }) => {
 
   const handleClick = () => {
     if (isBuilt && bumpkin) {
+      saveIslandScrollPosition();
+
       if (isVisiting) {
         navigate(`/visit/${gameService.getSnapshot().context.farmId}/home`);
       } else {
