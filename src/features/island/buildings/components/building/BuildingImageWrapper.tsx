@@ -48,7 +48,9 @@ export const BuildingImageWrapper: React.FC<React.PropsWithChildren<Props>> = ({
   const [showBumpkinLevel, setShowBumpkinLevel] = useState(false);
 
   const bumpkinLevelRequired = getBuildingBumpkinLevelRequired(name);
-  const bumpkinTooLow = bumpkinLevel < bumpkinLevelRequired;
+  // Infinity-level buildings aren't level-gated (obtained via progression).
+  const bumpkinTooLow =
+    bumpkinLevelRequired !== Infinity && bumpkinLevel < bumpkinLevelRequired;
   const { t } = useAppTranslation();
 
   const getHandleDisabledOnClick = (

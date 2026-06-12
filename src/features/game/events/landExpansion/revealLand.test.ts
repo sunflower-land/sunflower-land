@@ -12,12 +12,10 @@ import {
 import {
   EXPANSION_REQUIREMENTS,
   SPRING_LAYOUTS,
+  TOTAL_EXPANSION_NODES,
   getBasicLand,
 } from "features/game/types/expansions";
-import {
-  type Nodes,
-  TOTAL_EXPANSION_NODES,
-} from "features/game/expansion/lib/expansionNodes";
+import type { Nodes } from "features/game/expansion/lib/expansionNodes";
 import { BB_TO_GEM_RATIO, type FiniteResource } from "features/game/types/game";
 import { OIL_RESERVE_RECOVERY_TIME } from "./drillOilReserve";
 
@@ -150,8 +148,8 @@ describe("totalExpansions", () => {
     };
 
     let expansion = 4;
-    while (expansion <= 9 && getBasicLand({ id: 1, expansion })) {
-      const layout = getBasicLand({ id: 1, expansion });
+    while (expansion <= 9 && getBasicLand({ expansion })) {
+      const layout = getBasicLand({ expansion });
 
       if (layout) {
         nodes.Beehive += layout.beehives?.length ?? 0;
@@ -206,7 +204,7 @@ describe("revealLand", () => {
         action: {
           type: "land.revealed",
         },
-        farmId: 1,
+
         state: {
           ...TEST_FARM,
           expansionConstruction: { createdAt: 0, readyAt: 0 },
@@ -222,7 +220,7 @@ describe("revealLand", () => {
         action: {
           type: "land.revealed",
         },
-        farmId: 1,
+
         state: {
           ...TEST_FARM,
           inventory: { "Basic Land": new Decimal(1000) },
@@ -236,7 +234,7 @@ describe("revealLand", () => {
       action: {
         type: "land.revealed",
       },
-      farmId: 1,
+
       state: {
         ...TEST_FARM,
         inventory: {
@@ -258,7 +256,7 @@ describe("revealLand", () => {
       action: {
         type: "land.revealed",
       },
-      farmId: 1,
+
       createdAt: now,
       state: {
         ...TEST_FARM,
@@ -280,7 +278,7 @@ describe("revealLand", () => {
       action: {
         type: "land.revealed",
       },
-      farmId: 1,
+
       state: {
         ...TEST_FARM,
         inventory: {
@@ -300,7 +298,7 @@ describe("revealLand", () => {
       action: {
         type: "land.revealed",
       },
-      farmId: 1,
+
       state: {
         ...TEST_FARM,
         inventory: {
@@ -320,7 +318,7 @@ describe("revealLand", () => {
       action: {
         type: "land.revealed",
       },
-      farmId: 1,
+
       state: {
         ...TEST_FARM,
         inventory: {
@@ -340,7 +338,7 @@ describe("revealLand", () => {
       action: {
         type: "land.revealed",
       },
-      farmId: 1,
+
       state: {
         ...TEST_FARM,
         inventory: {
@@ -360,7 +358,7 @@ describe("revealLand", () => {
       action: {
         type: "land.revealed",
       },
-      farmId: 1,
+
       state: {
         ...TEST_FARM,
         inventory: {
@@ -380,11 +378,11 @@ describe("revealLand", () => {
       action: {
         type: "land.revealed",
       },
-      farmId: 1,
+
       state: {
         ...TEST_FARM,
         inventory: {
-          "Basic Land": new Decimal(17),
+          "Basic Land": new Decimal(12),
           "Sunstone Rock": new Decimal(1),
         },
         island: {
@@ -414,7 +412,7 @@ describe("revealLand", () => {
       action: {
         type: "land.revealed",
       },
-      farmId: 1,
+
       state: {
         ...TEST_FARM,
         inventory: {
@@ -449,16 +447,16 @@ describe("revealLand", () => {
       action: {
         type: "land.revealed",
       },
-      farmId: 1,
+
       state: {
         ...TEST_FARM,
         inventory: {
-          "Basic Land": new Decimal(17),
+          "Basic Land": new Decimal(12),
           "Sunstone Rock": new Decimal(1),
         },
         island: {
           type: "spring",
-          sunstones: 3,
+          sunstones: 2,
         },
         expansionConstruction: { createdAt: 0, readyAt: 0 },
 
@@ -485,7 +483,7 @@ describe("revealLand", () => {
       action: {
         type: "land.revealed",
       },
-      farmId: 3,
+
       state: {
         ...TEST_FARM,
         trees: {
@@ -516,7 +514,7 @@ describe("revealLand", () => {
       action: {
         type: "land.revealed",
       },
-      farmId: 3,
+
       state: {
         ...TEST_FARM,
         stones: {
@@ -547,7 +545,7 @@ describe("revealLand", () => {
       action: {
         type: "land.revealed",
       },
-      farmId: 3,
+
       state: {
         ...TEST_FARM,
         iron: {
@@ -578,7 +576,7 @@ describe("revealLand", () => {
       action: {
         type: "land.revealed",
       },
-      farmId: 3,
+
       state: {
         ...TEST_FARM,
         gold: {
@@ -609,7 +607,7 @@ describe("revealLand", () => {
       action: {
         type: "land.revealed",
       },
-      farmId: 3,
+
       state: {
         ...INITIAL_FARM,
         crimstones: {
@@ -650,7 +648,7 @@ describe("revealLand", () => {
       action: {
         type: "land.revealed",
       },
-      farmId: 3,
+
       state: {
         ...INITIAL_FARM,
         crimstones: {
@@ -689,7 +687,7 @@ describe("revealLand", () => {
       action: {
         type: "land.revealed",
       },
-      farmId: 3,
+
       state: {
         ...TEST_FARM,
         oilReserves: {
@@ -740,7 +738,7 @@ describe("revealLand", () => {
       action: {
         type: "land.revealed",
       },
-      farmId: 3,
+
       state: INITIAL_STATE,
       createdAt: now,
     });

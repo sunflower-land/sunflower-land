@@ -10,7 +10,11 @@ import { getBuildingBumpkinLevelRequired } from "../expansion/lib/buildingRequir
 import { INITIAL_RESOURCES } from "./constants";
 
 function getInitialNodes(name: string) {
-  let count = getEnabledNodeCount(INITIAL_BUMPKIN_LEVEL as BumpkinLevel, name);
+  let count = getEnabledNodeCount(
+    INITIAL_BUMPKIN_LEVEL as BumpkinLevel,
+    name,
+    "basic",
+  );
   let x = -1;
   let y = 9;
 

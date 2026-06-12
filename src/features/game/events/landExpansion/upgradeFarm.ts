@@ -1,6 +1,5 @@
 import Decimal from "decimal.js-light";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { TOTAL_EXPANSION_NODES } from "features/game/expansion/lib/expansionNodes";
 import { getObjectEntries } from "lib/object";
 import type { BuildingName } from "features/game/types/buildings";
 import type {
@@ -25,6 +24,8 @@ import { placePlot } from "./placePlot";
 import { placeStone } from "./placeStone";
 import { placeTree } from "./placeTree";
 import { removeAll } from "./removeAll";
+import { TOTAL_EXPANSION_NODES } from "features/game/types/expansions";
+import { ISLAND_MAX_EXPANSION } from "features/game/expansion/lib/expansionRequirements";
 
 export type UpgradeFarmAction = {
   type: "farm.upgraded";
@@ -641,8 +642,15 @@ export function upgrade({ state, createdAt = Date.now(), farmId }: Options) {
     previousExpansions += 1;
   }
 
+  // Legacy farms may sit above the island cap, and the node rows beyond the cap
+  // were retired. Clamp the lookup to the cap row so the carry-forward sunstone
+  // count is the island's max (e.g. spring 2) rather than silently 0.
+  const expansionForNodeLookup = Math.min(
+    previousExpansions,
+    ISLAND_MAX_EXPANSION[game.island.type],
+  );
   const sunstonesForExpansion =
-    TOTAL_EXPANSION_NODES[game.island.type][previousExpansions][
+    TOTAL_EXPANSION_NODES[game.island.type][expansionForNodeLookup]?.[
       "Sunstone Rock"
     ] ?? 0;
 
