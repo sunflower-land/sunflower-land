@@ -246,10 +246,6 @@ import {
   type PlaceCrimstoneAction,
 } from "./landExpansion/placeCrimstone";
 import {
-  buyFarmhand,
-  type BuyFarmHandAction,
-} from "./landExpansion/buyFarmHand";
-import {
   equipFarmhand,
   type EquipFarmHandAction,
 } from "./landExpansion/equipFarmHand";
@@ -869,7 +865,6 @@ export type PlayingEvent =
   | ClaimBonusAction
   | ClaimDailyRewardAction
   | AccelerateComposterAction
-  | BuyFarmHandAction
   | EquipFarmHandAction
   | HarvestBeehiveAction
   | PlantFlowerAction
@@ -1159,7 +1154,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "bonus.claimed": claimBonus,
   "dailyReward.claimed": claimDailyReward,
   "compost.accelerated": accelerateComposter,
-  "farmHand.bought": buyFarmhand,
   "farmHand.equipped": equipFarmhand,
   "beehive.harvested": harvestBeehive,
   "flower.planted": plantFlower,
