@@ -1,10 +1,10 @@
+import { BASIC_MAX_EXPANSION } from "features/game/expansion/lib/expansionRequirements";
+import type { BumpkinLevel } from "features/game/lib/level";
 import {
   EXPANSION_REQUIREMENTS,
-  type Land,
-  BASIC_MAX_EXPANSION,
-} from "features/game/expansion/lib/expansionRequirements";
-import type { BumpkinLevel } from "features/game/lib/level";
-import { TOTAL_EXPANSION_NODES } from "features/game/types/expansions";
+  TOTAL_EXPANSION_NODES,
+} from "features/game/types/expansions";
+import type { IslandType } from "features/game/types/game";
 
 export interface Nodes {
   "Crop Plot": number;
@@ -43,12 +43,15 @@ export function isNode(value: string): value is keyof Nodes {
 export function getEnabledNodeCount(
   bumpkinLevel: BumpkinLevel,
   nodeType: string,
+  islandType: IslandType,
 ): number {
   const key = nodeType as keyof Nodes;
 
   for (let expansions = 4; expansions <= BASIC_MAX_EXPANSION; ++expansions) {
-    if (EXPANSION_REQUIREMENTS[expansions as Land].bumpkinLevel > bumpkinLevel)
-      return TOTAL_EXPANSION_NODES.basic[expansions as Land][key];
+    if (
+      EXPANSION_REQUIREMENTS[islandType][expansions].bumpkinLevel > bumpkinLevel
+    )
+      return TOTAL_EXPANSION_NODES.basic[expansions][key];
   }
 
   return 0;
