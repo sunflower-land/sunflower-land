@@ -55,6 +55,10 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
       throw new Error("Land is not in construction");
     }
 
+    // getLand returns null for layouts retired by the cap refactor (basic
+    // 10-23, spring 17-20). A pending construction for one of those rows would
+    // surface here — not expected, as those were UI-capped (basic 9 / spring 16)
+    // long ago and constructions are short-lived.
     const land = getLand({ game });
     if (!land) {
       throw new Error("Land Does Not Exists");

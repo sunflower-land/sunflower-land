@@ -179,6 +179,77 @@ describe("TOTAL_EXPANSION_NODES (derived from layouts)", () => {
   });
 });
 
+// Per-expansion cumulative counts for the sparse, high-value nodes, captured
+// from the audited derived table (== the original hardcoded table for these
+// ranges). The first/final checks above can miss a drifted intermediate row;
+// these guard it for the nodes where a single wrong row is most impactful and
+// least visible — gameplay reads each intermediate row directly.
+const SPARSE: Record<
+  keyof typeof EXPECTED,
+  Partial<Record<keyof Nodes, number[]>>
+> = {
+  basic: {
+    "Sunstone Rock": [0, 0, 0, 0, 0, 0, 0],
+    "Crimstone Rock": [0, 0, 0, 0, 0, 0, 0],
+    "Oil Reserve": [0, 0, 0, 0, 0, 0, 0],
+    "Lava Pit": [0, 0, 0, 0, 0, 0, 0],
+  },
+  spring: {
+    "Sunstone Rock": [0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2],
+    "Crimstone Rock": [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2],
+    "Oil Reserve": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "Lava Pit": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  },
+  desert: {
+    "Sunstone Rock": [
+      2, 2, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 6, 6,
+    ],
+    "Crimstone Rock": [
+      2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4,
+    ],
+    "Oil Reserve": [
+      0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3,
+    ],
+    "Lava Pit": [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ],
+  },
+  volcano: {
+    "Sunstone Rock": [
+      6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 8, 9, 9, 10, 10, 11, 11, 11, 11, 11, 11,
+      11, 12, 12, 13,
+    ],
+    "Crimstone Rock": [
+      4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
+      5,
+    ],
+    "Oil Reserve": [
+      3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+      4,
+    ],
+    "Lava Pit": [
+      0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3,
+      3,
+    ],
+  },
+};
+
+describe("sparse high-value nodes match per expansion (intermediate-row guard)", () => {
+  (Object.keys(SPARSE) as (keyof typeof SPARSE)[]).forEach((island) => {
+    const exp = EXPECTED[island];
+
+    (Object.keys(SPARSE[island]) as (keyof Nodes)[]).forEach((node) => {
+      it(`${island} ${node}`, () => {
+        const actual: number[] = [];
+        for (let e = exp.first; e <= exp.last; e++) {
+          actual.push(TOTAL_EXPANSION_NODES[island][e][node]);
+        }
+        expect(actual).toEqual(SPARSE[island][node]);
+      });
+    });
+  });
+});
+
 describe("prestige handoff: an island's arrival row never has fewer nodes than the previous island's cap", () => {
   // Each island prestiges to the next at its ISLAND_UPGRADE threshold (basic 9,
   // spring 16, desert 25). A player must not lose nodes on prestige, so the next
