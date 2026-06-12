@@ -12,6 +12,7 @@ import { getHelpRequired } from "features/game/types/monuments";
 import { isPetNapping, type PetName } from "features/game/types/pets";
 import { useNow } from "lib/utils/hooks/useNow";
 import type { GameState } from "features/game/types/game";
+import { saveIslandScrollPosition } from "features/game/expansion/lib/islandScroll";
 
 const _farmId = (state: MachineState) => state.context.farmId;
 const _petHouseLevel = (state: MachineState) =>
@@ -53,6 +54,8 @@ export const PetHouse: React.FC = () => {
   const hasNappingPet = useNappingPetInPetHouse(game);
 
   const handlePetHouseClick = () => {
+    saveIslandScrollPosition();
+
     if (visiting) {
       const targetPath = `/visit/${farmId}/pet-house`;
       navigate(targetPath);

@@ -14,6 +14,7 @@ import type { GreenHouseFruitName } from "features/game/types/fruits";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GREENHOUSE_VARIANTS } from "features/island/lib/alternateArt";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { saveIslandScrollPosition } from "features/game/expansion/lib/islandScroll";
 
 const selectReadyPlants = (state: MachineState) => {
   const pots = state.context.state.greenhouse.pots;
@@ -53,6 +54,7 @@ export const Greenhouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
 
   const handleClick = () => {
     if (isBuilt) {
+      saveIslandScrollPosition();
       navigate("/greenhouse");
 
       // Add future on click actions here

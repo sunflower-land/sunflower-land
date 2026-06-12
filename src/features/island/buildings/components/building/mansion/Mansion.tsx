@@ -16,6 +16,7 @@ import { getHelpRequired } from "features/game/types/monuments";
 import { HomeBumpkins } from "../house/HomeBumpkins";
 import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
 import { getHomeRoute } from "features/island/buildings/lib/getHomeRoute";
+import { saveIslandScrollPosition } from "features/game/expansion/lib/islandScroll";
 
 const _game = (state: MachineState) => state.context.state;
 const _farmId = (state: MachineState) => state.context.farmId;
@@ -31,6 +32,7 @@ export const Mansion: React.FC<BuildingProps> = ({ isBuilt, season }) => {
 
   const handleClick = () => {
     if (isBuilt) {
+      saveIslandScrollPosition();
       navigate(getHomeRoute({ game, isVisiting: visiting, farmId }));
       // Add future on click actions here
       return;
