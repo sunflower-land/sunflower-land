@@ -68,6 +68,22 @@ describe("expandLand", () => {
     ).toThrow("Upgrade your island to expand further");
   });
 
+  it("does not allow expanding volcano (terminal island) past its max", () => {
+    expect(() =>
+      expandLand({
+        action: {
+          type: "land.expanded",
+          farmId: 0,
+        },
+        state: {
+          ...TEST_FARM,
+          island: { type: "volcano" },
+          inventory: { "Basic Land": new Decimal(30) },
+        },
+      }),
+    ).toThrow("No more land expansions available");
+  });
+
   it("requires player has sufficient coins", () => {
     expect(() =>
       expandLand({

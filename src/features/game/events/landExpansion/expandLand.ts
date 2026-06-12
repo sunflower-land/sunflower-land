@@ -26,9 +26,14 @@ export function expandLand({ state, createdAt = Date.now() }: Options) {
   return produce(state, (game) => {
     // At an island's expansion cap the player must upgrade to gain more land.
     // Legacy farms already beyond the cap may remain but cannot expand further.
+    // Volcano is the terminal island, so there is nothing to upgrade to.
     const maxExpansion = ISLAND_MAX_EXPANSION[game.island.type];
     if ((game.inventory["Basic Land"]?.toNumber() ?? 0) >= maxExpansion) {
-      throw new Error("Upgrade your island to expand further");
+      throw new Error(
+        game.island.type === "volcano"
+          ? "No more land expansions available"
+          : "Upgrade your island to expand further",
+      );
     }
 
     const bumpkin = game.bumpkin;

@@ -1043,6 +1043,48 @@ describe("upgradeFarm", () => {
     expect(state.island.sunstones).toEqual(100);
   });
 
+  it("clamps the sunstone carry to the cap row for legacy farms above the cap", () => {
+    const createdAt = Date.now();
+    const sunstones = {
+      "1234": {
+        minesLeft: 1,
+        stone: {
+          minedAt: Date.now() - 1 * 60 * 60 * 1000,
+        },
+        x: 100,
+        y: 100,
+      },
+    };
+
+    const state = upgrade({
+      farmId,
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          "Basic Land": new Decimal(17),
+          Crimstone: new Decimal(20),
+          Sunstone: new Decimal(1),
+        },
+        island: {
+          type: "spring",
+          previousExpansions: 17,
+          upgradedAt: 0,
+        },
+        sunstones,
+      },
+      createdAt,
+    });
+
+    // Spring rows 17-20 were retired; the carry must clamp to the cap row
+    // (spring[16] = 2 sunstones), not silently fall back to 0.
+    expect(state.island.sunstones).toEqual(
+      TOTAL_EXPANSION_NODES["spring"][16]["Sunstone Rock"],
+    );
+  });
+
   it("allows a player to upgrade from desert island", () => {
     const state = upgrade({
       farmId,
