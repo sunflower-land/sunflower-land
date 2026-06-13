@@ -295,21 +295,17 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Cabbage.crop,
     },
   ],
-  Karkinos: (game) => [
-    ...(isCollectibleBuilt({ game, name: "Cabbage Boy" })
-      ? []
-      : ([
-          {
-            shortDescription: translate("description.Karkinos.boost"),
-            labelType: "success",
-            boostTypeIcon: powerup,
-            boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Cabbage.crop,
-          },
-          {
-            shortDescription: translate("description.Karkinos.warning"),
-            labelType: "danger",
-          },
-        ] as BuffLabel[])),
+  Karkinos: () => [
+    {
+      shortDescription: translate("description.Karkinos.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Cabbage.crop,
+    },
+    {
+      shortDescription: translate("description.Karkinos.warning"),
+      labelType: "danger",
+    },
   ],
   "Golden Cauliflower": () => [
     {
