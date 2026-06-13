@@ -56,13 +56,19 @@ export const EXPANSION_ORIGINS: Record<number, Coordinates> = {
 };
 
 /**
- * Expansion origin x-coordinates (in LAND_SIZE units) along the rectangular
- * spiral, for the first `count` expansions. Index 0 = centre. Matches
- * EXPANSION_ORIGINS for 0..30 and continues for any N — so the land's edges
- * keep stepping out past the 30 hand-listed origins (e.g. the upcoming 7-wide,
+ * Origins (in LAND_SIZE units) of the first `expansionCount` expansions along
+ * the rectangular spiral — indices `0..expansionCount-1`, matching how
+ * `expansionCount` (the player's "Basic Land" total) is used everywhere else
+ * (e.g. extractExpansionBoundingBoxes). Index 0 = centre.
+ *
+ * Reproduces EXPANSION_ORIGINS for the hand-listed range and continues for any
+ * N, so the land's edges keep stepping out past it (e.g. the upcoming 7-wide,
  * 42-expansion lands). Mirrors `spiralOrigins` in the land-image generator.
  */
-const spiralOrigins = (count: number): Coordinates[] => {
+const spiralOrigins = (expansionCount: number): Coordinates[] => {
+  // A real farm always has at least one expansion; guard against 0 so the
+  // bounds below never collapse to Infinity.
+  const count = Math.max(1, expansionCount);
   const out: Coordinates[] = [{ x: 0, y: 0 }];
   for (let r = 1; out.length < count; r++) {
     for (let y = -(r - 1); y <= r; y++) out.push({ x: r, y }); // up the right side

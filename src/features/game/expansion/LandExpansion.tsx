@@ -56,68 +56,56 @@ export const LandExpansion: React.FC = () => {
   const container = useRef<HTMLElement | null>(null);
   const oceanRef = useRef<HTMLDivElement>(null);
 
-  // When the board is zoomed out it shrinks toward its centre, exposing the
-  // backdrop above and to the left of it. Don't let the player pan past the
-  // board's top-left corner. Measured from the rendered board, so it's exact
-  // at any zoom.
+  // Keep the ocean backdrop locked to the world and stop the player panning
+  // off the top-left of the board. Driven by scroll/resize events rather than a
+  // perpetual rAF, so it does no layout work while the view is idle.
   useEffect(() => {
     const scrollEl = container.current;
     if (!scrollEl) return;
 
-    const clampTopLeft = () => {
+    const sync = () => {
+      // Don't let the player pan above or to the left of the board's top-left
+      // corner. Measured from the rendered board, so it's exact at any zoom.
+      // (Any momentary over-scroll just reveals the infinite ocean behind the
+      // board, never white — so a same-frame correction here is enough; no need
+      // to intercept the wheel.)
       const boardEl = document.getElementById("game-board");
-      if (!boardEl) return;
+      if (boardEl) {
+        const board = boardEl.getBoundingClientRect();
+        const view = scrollEl.getBoundingClientRect();
+        const overTop = board.top - view.top;
+        const overLeft = board.left - view.left;
+        if (overTop > 0) scrollEl.scrollTop += overTop;
+        if (overLeft > 0) scrollEl.scrollLeft += overLeft;
+      }
 
-      const board = boardEl.getBoundingClientRect();
-      const view = scrollEl.getBoundingClientRect();
-      const overTop = board.top - view.top;
-      const overLeft = board.left - view.left;
-      if (overTop > 0) scrollEl.scrollTop += overTop;
-      if (overLeft > 0) scrollEl.scrollLeft += overLeft;
-    };
-
-    // Pan the ocean backdrop with the world. The on-screen pan is 1:1 with the
-    // scroll offset at any zoom (the board's percentage transform-origin
-    // scrolls with it), so shifting the background by -scroll locks the water
-    // to the land.
-    const syncOcean = () => {
+      // Pan the ocean with the world. The on-screen pan is 1:1 with the scroll
+      // offset at any zoom (the board's percentage transform-origin scrolls
+      // with it), so shifting the background by -scroll locks water to land.
       if (oceanRef.current) {
         oceanRef.current.style.backgroundPosition = `${-scrollEl.scrollLeft}px ${-scrollEl.scrollTop}px`;
       }
     };
 
-    // Wheel/trackpad scrolling runs on the browser's compositor thread, so a
-    // post-hoc clamp (scroll event or rAF) lands a frame late and flashes white.
-    // Take the wheel over: scroll synchronously and clamp in the same tick so
-    // the over-scroll never reaches the screen.
-    const onWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      const px =
-        e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? scrollEl.clientHeight : 1;
-      // Shift+wheel means horizontal scroll — the browser normally does this
-      // swap itself, but the raw event still carries the delta in deltaY.
-      const swap = e.shiftKey && !e.deltaX;
-      scrollEl.scrollLeft += (swap ? e.deltaY : e.deltaX) * px;
-      scrollEl.scrollTop += (swap ? 0 : e.deltaY) * px;
-      clampTopLeft();
-      syncOcean();
+    // Coalesce bursts of scroll/resize into one sync per frame (the sync reads
+    // layout, so we don't want to run it more than once per paint).
+    let raf: number | undefined;
+    const scheduleSync = () => {
+      if (raf !== undefined) return;
+      raf = requestAnimationFrame(() => {
+        raf = undefined;
+        sync();
+      });
     };
-    scrollEl.addEventListener("wheel", onWheel, { passive: false });
 
-    // Mouse-drag is already applied on the main thread by the library; this rAF
-    // keeps it (and zooming, which fires no scroll event) clamped too. rAF runs
-    // before paint, so the ocean sync here lands in the same frame.
-    let raf: number;
-    const loop = () => {
-      clampTopLeft();
-      syncOcean();
-      raf = requestAnimationFrame(loop);
-    };
-    raf = requestAnimationFrame(loop);
+    scrollEl.addEventListener("scroll", scheduleSync, { passive: true });
+    window.addEventListener("resize", scheduleSync);
+    sync();
 
     return () => {
-      scrollEl.removeEventListener("wheel", onWheel);
-      cancelAnimationFrame(raf);
+      scrollEl.removeEventListener("scroll", scheduleSync);
+      window.removeEventListener("resize", scheduleSync);
+      if (raf !== undefined) cancelAnimationFrame(raf);
     };
   }, []);
 

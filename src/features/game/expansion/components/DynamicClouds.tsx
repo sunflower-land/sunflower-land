@@ -125,8 +125,14 @@ export const DynamicClouds: React.FC<CloudProps> = ({
       left = Math.max(0, Math.min(left, width - w));
       top = Math.max(0, Math.min(top, height - h));
 
+      // The board always has a water margin wider than a cloud, so the clamp
+      // above lands in open water — but if a future board size ever breaks that
+      // and the clamp pushes a cloud back onto land/island, drop it rather than
+      // render it on the farm.
+      if (overlaps(rect(), land) || overlaps(rect(), island)) return null;
+
       return { key: `cloud-${i}`, number, left, top, width: w };
-    });
+    }).filter((cloud): cloud is NonNullable<typeof cloud> => cloud !== null);
   }, [width, height, expansionCount]);
 
   return (
