@@ -18,6 +18,10 @@ class ErrorBoundary extends Component<Props, State> {
     error: null,
   };
 
+  private refreshPage = () => {
+    window.location.reload();
+  };
+
   public static getDerivedStateFromError(error: Error): State {
     // Update state so the next render will show the fallback UI.
     return { error };
@@ -40,6 +44,7 @@ class ErrorBoundary extends Component<Props, State> {
               <BoundaryError
                 error={this.state.error.message}
                 stack={this.state.error.stack}
+                onAcknowledge={this.refreshPage}
               />
             </Panel>
           </Modal>
