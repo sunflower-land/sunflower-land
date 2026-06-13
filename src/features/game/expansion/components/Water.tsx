@@ -8,6 +8,7 @@ import { SharkBumpkin } from "./water/SharkBumpkin";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { LAND_WIDTH } from "../Land";
+import { getLandLeftEdge } from "../lib/constants";
 import { TravelTeaser } from "./TravelTeaser";
 import { DiscordBoat } from "./DiscordBoat";
 import { IslandUpgrader } from "./IslandUpgrader";
@@ -248,7 +249,9 @@ export const WaterComponent: React.FC<Props> = ({ expansionCount }) => {
         </MapPlacement>
       )}
 
-      <MapPlacement x={-20} y={6} width={4}>
+      {/* Mushroom island sits ~3 tiles off the land's actual left edge and tracks it as the land grows.
+          The `- 6` MUST match getIslandAnchorX in the back-end (island.ts) so spawned mushrooms/clutter land on it. */}
+      <MapPlacement x={getLandLeftEdge(expansionCount) - 6} y={6} width={4}>
         <img
           src={SUNNYSIDE.land.mushroomIsland}
           className="absolute"

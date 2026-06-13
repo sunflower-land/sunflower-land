@@ -1,168 +1,153 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import classNames from "classnames";
 
 import { Context } from "features/game/GameProvider";
 
 import { SUNNYSIDE } from "assets/sunnyside";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { getLandBounds, getLandLeftEdge } from "../lib/constants";
 
 type CloudNumber = 1 | 2 | 3 | 4 | 5 | 6;
 
-const CLOUD_DIMENSIONS: Record<CloudNumber, { width: number }> = {
-  1: { width: 68 },
-  2: { width: 36 },
-  3: { width: 68 },
-  4: { width: 68 },
-  5: { width: 52 },
-  6: { width: 68 },
-};
+// Source sprite sizes (the drop shadow is baked in below the puff, so the
+// sprites are taller than they are wide — height matters for collision).
+const CLOUD_DIMENSIONS: Record<CloudNumber, { width: number; height: number }> =
+  {
+    1: { width: 68, height: 78 },
+    2: { width: 36, height: 62 },
+    3: { width: 68, height: 78 },
+    4: { width: 68, height: 78 },
+    5: { width: 52, height: 62 },
+    6: { width: 68, height: 78 },
+  };
 
-const CLOUDS: Record<CloudNumber, [number, number][]> = {
-  1: [
-    [214, 6],
-    [54, 310],
-    [262, 726],
-    [358, 838],
-    [294, 934],
-    [918, 38],
-    [1350, 86],
-    [1366, 326],
-    [838, 902],
-    [966, 790],
-    [854, 262],
-  ],
-  2: [
-    [374, 262],
-    [550, 86],
-    [294, 582],
-    [486, 662],
-    [566, 934],
-    [738, 786],
-    [1062, 886],
-    [1054, 574],
-    [1158, 534],
-    [1158, 310],
-    [982, 278],
-  ],
-  3: [
-    [694, 246],
-    [454, 342],
-  ],
-  4: [
-    [418, 502],
-    [470, 758],
-    [838, 806],
-    [1050, 688],
-    [1048, 318],
-  ],
-  5: [[566, 246]],
-  6: [
-    [646, 830],
-    [1046, 470],
-  ],
-};
+// Cloud variety mix, matching the proportions of the original hand-authored
+// layout (11:11:2:5:1:2). Consecutive indices land far apart on the board, so
+// repeats in the pool don't visually cluster.
+const TYPE_POOL: CloudNumber[] = [
+  1, 2, 1, 2, 4, 1, 2, 3, 1, 2, 4, 1, 2, 6, 1, 2, 4, 1, 2, 5, 1, 2, 3, 1, 2, 4,
+  1, 2, 6, 1, 2, 1,
+];
 
-const CLOUD_WIDTH = 1536;
-const CLOUD_HEIGHT = 1088;
+// One cloud per this many board tiles — the original layout's density
+// (32 clouds on the 84x56 board), now kept constant as the board grows.
+const TILES_PER_CLOUD = 150;
+
+// R2 low-discrepancy sequence constants (plastic number) — deterministic,
+// evenly scattered positions with no clumps and no reshuffling on re-render.
+const A1 = 0.7548776662466927;
+const A2 = 0.5698402909980532;
+const frac = (v: number) => v - Math.floor(v);
+
+// Clear water to keep between a relocated cloud and land/island (tiles).
+const MARGIN_TILES = 1;
+
+type Rect = { left: number; top: number; right: number; bottom: number };
+
+const overlaps = (a: Rect, b: Rect) =>
+  a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
 
 interface CloudProps {
   width: number;
   height: number;
+  expansionCount: number;
 }
 
-export const DynamicClouds: React.FC<CloudProps> = ({ width, height }) => {
+export const DynamicClouds: React.FC<CloudProps> = ({
+  width,
+  height,
+  expansionCount,
+}) => {
   const { showAnimations } = useContext(Context);
 
-  const X_SCALE = width / CLOUD_WIDTH;
-  const Y_SCALE = height / CLOUD_HEIGHT;
+  // Clouds are scattered evenly across the whole board, with density constant
+  // per ocean area. Any cloud that would sit on the land (or the mushroom
+  // island) is physically moved into the nearest open water instead.
+  const clouds = useMemo(() => {
+    const cx = width / 2;
+    const cy = height / 2;
+    const margin = MARGIN_TILES * GRID_WIDTH_PX;
+
+    // Land bounding box in board px (tile y is up; screen y is down).
+    const bounds = getLandBounds(expansionCount);
+    const land: Rect = {
+      left: cx + bounds.left * GRID_WIDTH_PX - margin,
+      right: cx + bounds.right * GRID_WIDTH_PX + margin,
+      top: cy - bounds.top * GRID_WIDTH_PX - margin,
+      bottom: cy - bounds.bottom * GRID_WIDTH_PX + margin,
+    };
+
+    // The mushroom island floats off the land's left edge (see Water.tsx).
+    const islandAnchorX = getLandLeftEdge(expansionCount) - 6;
+    const island: Rect = {
+      left: cx + islandAnchorX * GRID_WIDTH_PX - margin,
+      right: cx + (islandAnchorX + 4) * GRID_WIDTH_PX + margin,
+      top: cy - 7 * GRID_WIDTH_PX - margin,
+      bottom: cy - 1 * GRID_WIDTH_PX + margin,
+    };
+
+    const boardTiles = (width / GRID_WIDTH_PX) * (height / GRID_WIDTH_PX);
+    const count = Math.round(boardTiles / TILES_PER_CLOUD);
+
+    return Array.from({ length: count }, (_, i) => {
+      const number = TYPE_POOL[i % TYPE_POOL.length];
+      const w = CLOUD_DIMENSIONS[number].width * PIXEL_SCALE;
+      const h = CLOUD_DIMENSIONS[number].height * PIXEL_SCALE;
+
+      let left = Math.round(frac(0.5 + (i + 1) * A1) * (width - w));
+      let top = Math.round(frac(0.5 + (i + 1) * A2) * (height - h));
+
+      const rect = (): Rect => ({
+        left,
+        top,
+        right: left + w,
+        bottom: top + h,
+      });
+
+      // Push out of the land along the axis needing the smallest shift.
+      if (overlaps(rect(), land)) {
+        const shifts: [number, () => void][] = [
+          [left + w - land.left, () => (left = land.left - w)],
+          [land.right - left, () => (left = land.right)],
+          [top + h - land.top, () => (top = land.top - h)],
+          [land.bottom - top, () => (top = land.bottom)],
+        ];
+        shifts.sort((a, b) => a[0] - b[0])[0][1]();
+      }
+
+      // The island sits in the water west of the land — if the cloud landed
+      // on it, slide it further out into open ocean.
+      if (overlaps(rect(), island)) {
+        left = island.left - w;
+      }
+
+      // Keep it on the board.
+      left = Math.max(0, Math.min(left, width - w));
+      top = Math.max(0, Math.min(top, height - h));
+
+      // The board always has a water margin wider than a cloud, so the clamp
+      // above lands in open water — but if a future board size ever breaks that
+      // and the clamp pushes a cloud back onto land/island, drop it rather than
+      // render it on the farm.
+      if (overlaps(rect(), land) || overlaps(rect(), island)) return null;
+
+      return { key: `cloud-${i}`, number, left, top, width: w };
+    }).filter((cloud): cloud is NonNullable<typeof cloud> => cloud !== null);
+  }, [width, height, expansionCount]);
 
   return (
     <>
-      {CLOUDS[1].map((cloud, i) => (
+      {clouds.map((cloud) => (
         <img
-          key={`cloud1-${i}`}
-          src={SUNNYSIDE.land.cloud1}
+          key={cloud.key}
+          src={SUNNYSIDE.land[`cloud${cloud.number}`]}
           className={classNames("z-20 absolute pointer-events-none ", {
             "animate-float": showAnimations,
           })}
           style={{
-            top: Math.round(cloud[1] * Y_SCALE),
-            left: Math.round(cloud[0] * X_SCALE),
-            width: CLOUD_DIMENSIONS[1].width * X_SCALE,
-          }}
-        />
-      ))}
-
-      {CLOUDS[2].map((cloud, i) => (
-        <img
-          key={`cloud2-${i}`}
-          src={SUNNYSIDE.land.cloud2}
-          className={classNames("z-20 absolute pointer-events-none ", {
-            "animate-float": showAnimations,
-          })}
-          style={{
-            top: Math.round(cloud[1] * Y_SCALE),
-            left: Math.round(cloud[0] * X_SCALE),
-            width: CLOUD_DIMENSIONS[2].width * X_SCALE,
-          }}
-        />
-      ))}
-
-      {CLOUDS[3].map((cloud, i) => (
-        <img
-          key={`cloud3-${i}`}
-          src={SUNNYSIDE.land.cloud3}
-          className={classNames("z-20 absolute pointer-events-none ", {
-            "animate-float": showAnimations,
-          })}
-          style={{
-            top: Math.round(cloud[1] * Y_SCALE),
-            left: Math.round(cloud[0] * X_SCALE),
-            width: Math.round(CLOUD_DIMENSIONS[3].width * X_SCALE),
-          }}
-        />
-      ))}
-
-      {CLOUDS[4].map((cloud, i) => (
-        <img
-          key={`cloud4-${i}`}
-          src={SUNNYSIDE.land.cloud4}
-          className={classNames("z-20 absolute pointer-events-none ", {
-            "animate-float": showAnimations,
-          })}
-          style={{
-            top: Math.round(cloud[1] * Y_SCALE),
-            left: Math.round(cloud[0] * X_SCALE),
-            width: CLOUD_DIMENSIONS[4].width * X_SCALE,
-          }}
-        />
-      ))}
-
-      {CLOUDS[5].map((cloud, i) => (
-        <img
-          key={`cloud5-${i}`}
-          src={SUNNYSIDE.land.cloud5}
-          className={classNames("z-20 absolute pointer-events-none ", {
-            "animate-float": showAnimations,
-          })}
-          style={{
-            top: Math.round(cloud[1] * Y_SCALE),
-            left: Math.round(cloud[0] * X_SCALE),
-            width: CLOUD_DIMENSIONS[5].width * X_SCALE,
-          }}
-        />
-      ))}
-
-      {CLOUDS[6].map((cloud, i) => (
-        <img
-          key={`cloud6-${i}`}
-          src={SUNNYSIDE.land.cloud6}
-          className={classNames("z-20 absolute pointer-events-none ", {
-            "animate-float": showAnimations,
-          })}
-          style={{
-            top: Math.round(cloud[1] * Y_SCALE),
-            left: Math.round(cloud[0] * X_SCALE),
-            width: CLOUD_DIMENSIONS[6].width * X_SCALE,
+            top: cloud.top,
+            left: cloud.left,
+            width: cloud.width,
           }}
         />
       ))}
