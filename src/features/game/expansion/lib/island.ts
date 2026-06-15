@@ -74,15 +74,20 @@ const isOnLand = (x: number, y: number, expansionCount: number): boolean => {
  * land — and therefore the island — grows.
  *
  * Items already on a current island tile keep their exact position (a no-op
- * when the island hasn't moved). Items on the main land are left where they are
- * (they belong to the land). Only off-land items — island items stranded in
- * open water after the island shifted — are relocated onto a free island tile,
+ * when the island hasn't moved). Off-land items — island items stranded in open
+ * water after the island shifted — are relocated onto a free island tile,
  * keeping their other fields. Items never share a tile; if the island runs out
  * of free tiles the item is left in place. Mirrors the server's `reAnchorToIsland`.
+ *
+ * `keepLandItems` (default true) leaves items on the main land in place —
+ * correct for mushrooms, which legitimately spawn on the land. Pass false for
+ * island-only items: an item on the land is then a stranded island item the
+ * land has grown over, so it's pulled back onto the island too.
  */
 export const reAnchorToIsland = <T extends { x: number; y: number }>(
   items: Record<string, T>,
   expansionCount: number,
+  { keepLandItems = true }: { keepLandItems?: boolean } = {},
 ): Record<string, T> => {
   const islandPositions = getIslandSpawnPositions(expansionCount);
   const islandTileKeys = new Set(islandPositions.map((p) => `${p.x},${p.y}`));
@@ -96,7 +101,7 @@ export const reAnchorToIsland = <T extends { x: number; y: number }>(
     if (islandTileKeys.has(key) && !taken.has(key)) {
       result[id] = item;
       taken.add(key);
-    } else if (isOnLand(item.x, item.y, expansionCount)) {
+    } else if (keepLandItems && isOnLand(item.x, item.y, expansionCount)) {
       result[id] = item;
     } else {
       toMove.push(id);

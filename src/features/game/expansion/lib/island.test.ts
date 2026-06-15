@@ -53,4 +53,16 @@ describe("reAnchorToIsland", () => {
 
     expect(reAnchorToIsland(items, expansionCount)).toEqual(items);
   });
+
+  // Island-only items (clutter): keepLandItems:false pulls an on-land item back.
+  it("re-anchors on-land items onto the island when keepLandItems is false", () => {
+    const island = getIslandSpawnPositions(expansionCount);
+    const items = { onLand: { x: 0, y: 0, type: "Trash" } };
+
+    const moved = reAnchorToIsland(items, expansionCount, {
+      keepLandItems: false,
+    }).onLand;
+
+    expect(island.some((p) => p.x === moved.x && p.y === moved.y)).toBe(true);
+  });
 });
