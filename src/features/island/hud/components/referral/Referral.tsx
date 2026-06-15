@@ -79,18 +79,21 @@ export const Referrees: React.FC = () => {
     (a, b) => (b.flower ?? 0) - (a.flower ?? 0),
   );
   const totalReferrees = referrees?.length ?? 0;
-  const totalVIPReferrees =
-    referrees?.filter((referree) => referree.vip).length ?? 0;
+  // VIP count comes from the persisted game-state counter (the same source the
+  // VIP milestone rewards use) so the bracketed "(X VIP)" figure here matches
+  // the milestone progress, rather than the live referrees-list filter.
+  const totalVIPReferrals =
+    gameState.context.state.referrals?.totalVIPReferrals ?? 0;
   const totalFlower =
     referrees?.reduce((acc, referree) => acc + (referree.flower ?? 0), 0) ?? 0;
 
   let label = t("referral.noReferrees");
   if (totalReferrees === 1) {
-    label = t("referral.singleReferree", { vipCount: totalVIPReferrees });
+    label = t("referral.singleReferree", { vipCount: totalVIPReferrals });
   } else if (totalReferrees > 1) {
     label = t("referral.multipleReferrees", {
       totalReferrees,
-      vipCount: totalVIPReferrees,
+      vipCount: totalVIPReferrals,
     });
   }
 
