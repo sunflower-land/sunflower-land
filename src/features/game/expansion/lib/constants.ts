@@ -85,11 +85,18 @@ const spiralOrigins = (expansionCount: number): Coordinates[] => {
  * The land grows as a rectangular spiral, so the left edge only moves out when
  * an expansion is added on the left. Each expansion is a LAND_SIZE square
  * centred on its origin, so the left edge is the left side of the left-most
- * active expansion. The land image is centred on (0,0), so this is also where
- * the rendered land visually ends on the left.
+ * active expansion. The client renders the land image centred on (0,0), so
+ * this is also where the land visually ends on the left.
+ *
+ * The mushroom island is anchored a fixed gap off this edge, so the exact
+ * value matters — changing this formula would shift where island items appear.
  */
-export const getLandLeftEdge = (expansionCount: number): number =>
-  getLandBounds(expansionCount).left;
+export const getLandLeftEdge = (expansionCount: number): number => {
+  const minOriginX =
+    Math.min(0, ...spiralOrigins(expansionCount).map((o) => o.x)) * LAND_SIZE;
+
+  return minOriginX - LAND_SIZE / 2;
+};
 
 /**
  * The land's bounding box in tile coordinates for a given expansion count.

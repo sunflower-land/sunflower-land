@@ -250,7 +250,7 @@ export const WaterComponent: React.FC<Props> = ({ expansionCount }) => {
       )}
 
       {/* Mushroom island sits ~3 tiles off the land's actual left edge and tracks it as the land grows.
-          The `- 6` MUST match getIslandAnchorX in the back-end (island.ts) so spawned mushrooms/clutter land on it. */}
+          The `- 6` gap is what places spawned mushrooms/clutter on the island, so keep it exact. */}
       <MapPlacement x={getLandLeftEdge(expansionCount) - 6} y={6} width={4}>
         <img
           src={SUNNYSIDE.land.mushroomIsland}

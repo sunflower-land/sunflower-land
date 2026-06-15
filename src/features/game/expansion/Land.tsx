@@ -24,13 +24,15 @@ import { getGameGrid } from "./placeable/lib/makeGrid";
 import { LandscapingHud } from "features/island/hud/LandscapingHud";
 import { Mushroom } from "features/island/mushrooms/Mushroom";
 import { MUSHROOM_DIMENSIONS, RESOURCE_DIMENSIONS } from "../types/resources";
-import { GRID_WIDTH_PX } from "../lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
 import { Bud } from "features/island/buds/Bud";
 import { Fisherman } from "features/island/fisherman/Fisherman";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { Airdrop } from "./components/Airdrop";
 import { DynamicClouds } from "./components/DynamicClouds";
+import { StaticClouds } from "./components/StaticClouds";
 import { BackgroundIslands } from "./components/BackgroundIslands";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { Outlet, useLocation } from "react-router";
 import { createPortal } from "react-dom";
 import { NON_COLLIDING_OBJECTS } from "./placeable/lib/collisionDetection";
@@ -408,10 +410,15 @@ export const LandComponent: React.FC = () => {
   );
   const landscaping = useSelector(gameService, isLandscaping);
 
-  // As the land gets bigger, expand the gameboard
-  // The distance between the edge of the gameboard and the edge of island should remain roughly the same for higher expansions
+  // As the land gets bigger, expand the gameboard so the static cloud frame
+  // (and the ocean margin) keeps clearing the land + mushroom island.
+  // The frame's bands are a fixed fraction of the board, so this multiplier
+  // has to outpace the land's growth (≈ √expansions); LAND_WIDTH (6) left the
+  // top of the land touching the clouds at the 42-land (7x6) layout, so it's
+  // bumped here. Keep the result even.
+  const GAMEBOARD_MARGIN_FACTOR = 10;
   const gameboardSizeOffset =
-    Math.ceil((Math.sqrt(expansionCount) * LAND_WIDTH) / 2) * 2; // make sure this is even
+    Math.ceil((Math.sqrt(expansionCount) * GAMEBOARD_MARGIN_FACTOR) / 2) * 2;
   const gameboardDimensions = {
     x: 84 + gameboardSizeOffset,
     y: 56 + gameboardSizeOffset,
@@ -1181,10 +1188,12 @@ export const LandComponent: React.FC = () => {
       <div
         className="absolute"
         style={{
-          // dynamic gameboard (the ocean is the infinite backdrop behind the
-          // scroll container — see InfiniteOcean in LandExpansion)
+          // dynamic gameboard
           width: `${gameboardDimensions.x * GRID_WIDTH_PX}px`,
           height: `${gameboardDimensions.y * GRID_WIDTH_PX}px`,
+          backgroundImage: `url(${season === "winter" ? SUNNYSIDE.decorations.frozenOcean : island.type === "volcano" ? SUNNYSIDE.decorations.darkOcean : SUNNYSIDE.decorations.ocean})`,
+          backgroundSize: `${64 * PIXEL_SCALE}px`,
+          imageRendering: "pixelated",
         }}
       >
         <BackgroundIslands
@@ -1195,7 +1204,11 @@ export const LandComponent: React.FC = () => {
         <DynamicClouds
           width={gameboardDimensions.x * GRID_WIDTH_PX}
           height={gameboardDimensions.y * GRID_WIDTH_PX}
-          expansionCount={expansionCount}
+        />
+
+        <StaticClouds
+          width={gameboardDimensions.x * GRID_WIDTH_PX}
+          height={gameboardDimensions.y * GRID_WIDTH_PX}
         />
 
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">

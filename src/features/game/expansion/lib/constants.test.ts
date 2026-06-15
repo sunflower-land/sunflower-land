@@ -1,4 +1,9 @@
-import { EXPANSION_ORIGINS, LAND_SIZE, getLandBounds } from "./constants";
+import {
+  EXPANSION_ORIGINS,
+  LAND_SIZE,
+  getLandBounds,
+  getLandLeftEdge,
+} from "./constants";
 
 describe("expansion spiral", () => {
   const listedCount = Object.keys(EXPANSION_ORIGINS).length;
@@ -23,6 +28,10 @@ describe("expansion spiral", () => {
         top: Math.max(...ys) + LAND_SIZE / 2,
         bottom: Math.min(...ys) - LAND_SIZE / 2,
       });
+
+      // getLandLeftEdge is computed standalone (not via getLandBounds), so
+      // guard it against the table directly too.
+      expect(getLandLeftEdge(count)).toBe(Math.min(...xs) - LAND_SIZE / 2);
     }
   });
 
