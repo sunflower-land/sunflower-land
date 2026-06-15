@@ -382,7 +382,7 @@ export const LevelOne: React.FC = () => {
                 >
                   <div
                     className="absolute left-0 w-full pointer-events-auto"
-                    style={{ top: "-7rem" }}
+                    style={{ top: "-6rem" }}
                   >
                     <InteriorBumpkins location="level_one" />
                   </div>
