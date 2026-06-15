@@ -8,7 +8,7 @@ import { SharkBumpkin } from "./water/SharkBumpkin";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { LAND_WIDTH } from "../Land";
-import { getLandLeftEdge } from "../lib/constants";
+import { getIslandAnchorX } from "../lib/island";
 import { TravelTeaser } from "./TravelTeaser";
 import { DiscordBoat } from "./DiscordBoat";
 import { IslandUpgrader } from "./IslandUpgrader";
@@ -250,16 +250,10 @@ export const WaterComponent: React.FC<Props> = ({ expansionCount }) => {
       )}
 
       {/* Mushroom island sits off the land's left edge and tracks it as the land
-          grows. Anchored off the NEXT expansion's edge (`expansionCount + 1`) so
-          the upcoming-expansion scaffolding never overlaps the island, capped at
-          the 42-land (7x6) layout — the expansion cap — so it never reads past
-          the final left edge. The `Math.min(.., 42)` and `- 6` gap are what place
-          spawned mushrooms/clutter on the island, so keep them exact. */}
-      <MapPlacement
-        x={getLandLeftEdge(Math.min(expansionCount + 1, 42)) - 6}
-        y={6}
-        width={4}
-      >
+          grows — anchored off the next expansion's edge, capped at the 42-land
+          cap (see getIslandAnchorX), so it always clears the upcoming-expansion
+          scaffolding and spawned items land on it. */}
+      <MapPlacement x={getIslandAnchorX(expansionCount)} y={6} width={4}>
         <img
           src={SUNNYSIDE.land.mushroomIsland}
           className="absolute"

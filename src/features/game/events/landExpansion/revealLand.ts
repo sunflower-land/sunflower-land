@@ -13,6 +13,7 @@ import type { Airdrop, BoostName, GameState } from "features/game/types/game";
 
 import { getKeys } from "lib/object";
 import { pickEmptyPosition } from "features/game/expansion/placeable/lib/collisionDetection";
+import { reAnchorToIsland } from "features/game/expansion/lib/island";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import type { CropName } from "features/game/types/crops";
 import { produce } from "immer";
@@ -74,6 +75,16 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
     const origin = EXPANSION_ORIGINS[landCount - 1];
 
     delete game.expansionConstruction;
+
+    // The mushroom island shifts left with the new land edge — pull island
+    // mushrooms onto its current tiles so they aren't left stranded in the
+    // water. Mushrooms on the main land stay where they are.
+    if (game.mushrooms) {
+      game.mushrooms.mushrooms = reAnchorToIsland(
+        game.mushrooms.mushrooms,
+        landCount,
+      );
+    }
 
     // Add Trees
     land.trees?.forEach((coords) => {
