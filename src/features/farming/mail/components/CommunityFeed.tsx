@@ -5,6 +5,7 @@ import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { Loading } from "features/auth/components";
+import { NewsContent } from "./NewsContent";
 
 import { Context } from "features/game/GameProvider";
 import { useAuth } from "features/auth/lib/Provider";
@@ -150,82 +151,92 @@ export const CommunityFeed: React.FC<Props> = ({ onAddPost, onRemoved }) => {
       clothing: tweet.bumpkin,
     });
 
-  // Detail view for a single post.
+  // Detail view for a single post. Mirrors the Discord news detail layout:
+  // back button, author/NPC header, body text, then the image.
   if (selected) {
     return (
       <>
         <InnerPanel className="p-1">
-          <div className="flex items-center justify-between mb-2">
+          <div className="max-h-[450px] overflow-y-auto scrollable">
             <div
-              className="flex items-center cursor-pointer w-fit"
+              className="flex items-center cursor-pointer mb-2 w-fit"
               onClick={() => setSelected(undefined)}
             >
-              <img src={SUNNYSIDE.icons.arrow_left} className="h-5 mr-1" />
-              <span className="text-sm underline">{t("back")}</span>
+              <img src={SUNNYSIDE.icons.arrow_left} className="h-6 mr-2" />
+              <p className="text-xs underline">{t("back")}</p>
             </div>
-            <span
-              className="text-xs underline cursor-pointer p-1"
-              onClick={() => window.open(selected.url, "_blank")}
-            >
-              {t("community.feed.viewOnX")}
-            </span>
-          </div>
 
-          {removing ? (
-            <Loading text={t("community.feed.removing")} />
-          ) : removeFailed ? (
-            <div className="p-1">
-              <Label type="danger" className="mb-2">
-                {t("community.feed.removeError")}
-              </Label>
-              <Button onClick={dismissRemoveError}>
-                {t("community.addPost.tryAgain")}
-              </Button>
-            </div>
-          ) : (
-            <>
-              <div
-                className="flex items-center mb-2 cursor-pointer w-fit"
-                onClick={() => openAuthor(selected)}
-              >
-                <div className="mr-2">
-                  <BumpkinAvatar parts={selected.bumpkin} size={32} />
-                </div>
-                <div className="overflow-hidden">
-                  <p className="text-sm capitalize truncate">
-                    {authorName(selected)}
-                  </p>
-                  <p className="text-xxs">
-                    {getRelativeTime(selected.postedAt, now)}
-                  </p>
-                </div>
+            {removing ? (
+              <Loading text={t("community.feed.removing")} />
+            ) : removeFailed ? (
+              <div className="p-1">
+                <Label type="danger" className="mb-2">
+                  {t("community.feed.removeError")}
+                </Label>
+                <Button onClick={dismissRemoveError}>
+                  {t("community.addPost.tryAgain")}
+                </Button>
               </div>
-
-              <p className="text-sm break-words whitespace-pre-wrap mb-2 p-2">
-                {selected.content}
-              </p>
-
-              {selected.image && (
-                <img src={selected.image} className="w-full rounded mb-2 p-2" />
-              )}
-
-              {isAdmin &&
-                (confirmRemove ? (
-                  <div className="flex gap-1">
-                    <Button onClick={() => setConfirmRemove(false)}>
-                      {t("cancel")}
-                    </Button>
-                    <Button onClick={removePost}>
-                      {t("community.feed.remove.confirm")}
-                    </Button>
+            ) : (
+              <>
+                <div className="flex items-center justify-between mb-3 w-full">
+                  <div
+                    className="flex items-center gap-2 cursor-pointer"
+                    onClick={() => openAuthor(selected)}
+                  >
+                    <BumpkinAvatar
+                      parts={selected.bumpkin}
+                      size={PIXEL_SCALE * 12}
+                    />
+                    <div className="flex flex-col">
+                      <p className="text-xs capitalize">
+                        {authorName(selected)}
+                      </p>
+                      <a
+                        href={selected.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-xxs underline"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {getRelativeTime(selected.postedAt, now)}
+                      </a>
+                    </div>
                   </div>
-                ) : (
-                  <Button onClick={() => setConfirmRemove(true)}>
-                    {t("community.feed.remove")}
-                  </Button>
-                ))}
-            </>
-          )}
+                </div>
+
+                <NewsContent
+                  content={selected.content}
+                  variant="body"
+                  nowMs={now}
+                  className="mb-2 px-1"
+                />
+
+                {selected.image && (
+                  <img
+                    src={selected.image}
+                    className="mb-2 max-h-96 object-contain"
+                  />
+                )}
+
+                {isAdmin &&
+                  (confirmRemove ? (
+                    <div className="flex gap-1">
+                      <Button onClick={() => setConfirmRemove(false)}>
+                        {t("cancel")}
+                      </Button>
+                      <Button onClick={removePost}>
+                        {t("community.feed.remove.confirm")}
+                      </Button>
+                    </div>
+                  ) : (
+                    <Button onClick={() => setConfirmRemove(true)}>
+                      {t("community.feed.remove")}
+                    </Button>
+                  ))}
+              </>
+            )}
+          </div>
         </InnerPanel>
         <PlayerModal
           loggedInFarmId={farmId}
@@ -294,9 +305,12 @@ export const CommunityFeed: React.FC<Props> = ({ onAddPost, onRemoved }) => {
                 </div>
 
                 <div className="flex-1 overflow-hidden">
-                  <p className="text-xs break-words line-clamp-2 mb-1">
-                    {tweet.content}
-                  </p>
+                  <NewsContent
+                    content={tweet.content}
+                    variant="preview"
+                    nowMs={now}
+                    className="mb-1"
+                  />
                   <div className="flex items-center justify-between gap-1">
                     <div className="flex items-center gap-1 overflow-hidden">
                       <BumpkinAvatar parts={tweet.bumpkin} size={20} />
