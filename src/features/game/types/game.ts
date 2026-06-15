@@ -2046,7 +2046,7 @@ export interface GameState {
   auctioneer: Auctioneer;
   chores?: ChoresV2;
   kingdomChores: KingdomChores;
-  mushrooms: Mushrooms;
+  mushrooms?: Mushrooms;
   potionHouse?: PotionHouse;
 
   bounties: Bounties;
