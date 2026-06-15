@@ -39,6 +39,63 @@ export const EXPANSION_ORIGINS: Record<number, Coordinates> = {
   28: { x: 3 * LAND_SIZE, y: 1 * LAND_SIZE },
   29: { x: 3 * LAND_SIZE, y: 2 * LAND_SIZE },
   30: { x: 3 * LAND_SIZE, y: 3 * LAND_SIZE },
+  // 7-wide x 6-tall layout (up to 42 expansions): continue the rectangular
+  // spiral from (3,3) — left across the top, then down the left side.
+  31: { x: 2 * LAND_SIZE, y: 3 * LAND_SIZE },
+  32: { x: 1 * LAND_SIZE, y: 3 * LAND_SIZE },
+  33: { x: 0 * LAND_SIZE, y: 3 * LAND_SIZE },
+  34: { x: -1 * LAND_SIZE, y: 3 * LAND_SIZE },
+  35: { x: -2 * LAND_SIZE, y: 3 * LAND_SIZE },
+  36: { x: -3 * LAND_SIZE, y: 3 * LAND_SIZE },
+  37: { x: -3 * LAND_SIZE, y: 2 * LAND_SIZE },
+  38: { x: -3 * LAND_SIZE, y: 1 * LAND_SIZE },
+  39: { x: -3 * LAND_SIZE, y: 0 * LAND_SIZE },
+  40: { x: -3 * LAND_SIZE, y: -1 * LAND_SIZE },
+  41: { x: -3 * LAND_SIZE, y: -2 * LAND_SIZE },
+  42: { x: -3 * LAND_SIZE, y: -3 * LAND_SIZE },
+};
+
+/**
+ * Origins (in LAND_SIZE units) of the first `expansionCount` expansions along
+ * the rectangular spiral — indices `0..expansionCount-1`, matching how
+ * `expansionCount` (the player's "Basic Land" total) is used everywhere else
+ * (e.g. extractExpansionBoundingBoxes). Index 0 = centre.
+ *
+ * Reproduces EXPANSION_ORIGINS for the hand-listed range and continues for any
+ * N, so the land's edges keep stepping out past it (e.g. the upcoming 7-wide,
+ * 42-expansion lands). Mirrors `spiralOrigins` in the land-image generator.
+ */
+const spiralOrigins = (expansionCount: number): Coordinates[] => {
+  // A real farm always has at least one expansion; guard against 0 so the
+  // bounds below never collapse to Infinity.
+  const count = Math.max(1, expansionCount);
+  const out: Coordinates[] = [{ x: 0, y: 0 }];
+  for (let r = 1; out.length < count; r++) {
+    for (let y = -(r - 1); y <= r; y++) out.push({ x: r, y }); // up the right side
+    for (let x = r - 1; x >= -r; x--) out.push({ x, y: r }); // left across the top
+    for (let y = r - 1; y >= -r; y--) out.push({ x: -r, y }); // down the left side
+    for (let x = -r + 1; x <= r; x++) out.push({ x, y: -r }); // right across the bottom
+  }
+  return out.slice(0, count);
+};
+
+/**
+ * The x tile coordinate of the land's left edge for a given expansion count.
+ *
+ * The land grows as a rectangular spiral, so the left edge only moves out when
+ * an expansion is added on the left. Each expansion is a LAND_SIZE square
+ * centred on its origin, so the left edge is the left side of the left-most
+ * active expansion. The client renders the land image centred on (0,0), so
+ * this is also where the land visually ends on the left.
+ *
+ * The mushroom island is anchored a fixed gap off this edge, so the exact
+ * value matters — changing this formula would shift where island items appear.
+ */
+export const getLandLeftEdge = (expansionCount: number): number => {
+  const minOriginX =
+    Math.min(0, ...spiralOrigins(expansionCount).map((o) => o.x)) * LAND_SIZE;
+
+  return minOriginX - LAND_SIZE / 2;
 };
 
 export type LandRequirements = {

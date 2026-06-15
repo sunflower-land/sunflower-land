@@ -410,10 +410,15 @@ export const LandComponent: React.FC = () => {
   );
   const landscaping = useSelector(gameService, isLandscaping);
 
-  // As the land gets bigger, expand the gameboard
-  // The distance between the edge of the gameboard and the edge of island should remain roughly the same for higher expansions
+  // As the land gets bigger, expand the gameboard so the static cloud frame
+  // (and the ocean margin) keeps clearing the land + mushroom island.
+  // The frame's bands are a fixed fraction of the board, so this multiplier
+  // has to outpace the land's growth (≈ √expansions); LAND_WIDTH (6) left the
+  // top of the land touching the clouds at the 42-land (7x6) layout, so it's
+  // bumped here. Keep the result even.
+  const GAMEBOARD_MARGIN_FACTOR = 10;
   const gameboardSizeOffset =
-    Math.ceil((Math.sqrt(expansionCount) * LAND_WIDTH) / 2) * 2; // make sure this is even
+    Math.ceil((Math.sqrt(expansionCount) * GAMEBOARD_MARGIN_FACTOR) / 2) * 2;
   const gameboardDimensions = {
     x: 84 + gameboardSizeOffset,
     y: 56 + gameboardSizeOffset,
