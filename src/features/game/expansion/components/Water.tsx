@@ -249,9 +249,17 @@ export const WaterComponent: React.FC<Props> = ({ expansionCount }) => {
         </MapPlacement>
       )}
 
-      {/* Mushroom island sits ~3 tiles off the land's actual left edge and tracks it as the land grows.
-          The `- 6` gap is what places spawned mushrooms/clutter on the island, so keep it exact. */}
-      <MapPlacement x={getLandLeftEdge(expansionCount) - 6} y={6} width={4}>
+      {/* Mushroom island sits off the land's left edge and tracks it as the land
+          grows. Anchored off the NEXT expansion's edge (`expansionCount + 1`) so
+          the upcoming-expansion scaffolding never overlaps the island, capped at
+          the 42-land (7x6) layout — the expansion cap — so it never reads past
+          the final left edge. The `Math.min(.., 42)` and `- 6` gap are what place
+          spawned mushrooms/clutter on the island, so keep them exact. */}
+      <MapPlacement
+        x={getLandLeftEdge(Math.min(expansionCount + 1, 42)) - 6}
+        y={6}
+        width={4}
+      >
         <img
           src={SUNNYSIDE.land.mushroomIsland}
           className="absolute"
