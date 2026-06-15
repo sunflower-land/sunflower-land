@@ -98,26 +98,6 @@ export const getLandLeftEdge = (expansionCount: number): number => {
   return minOriginX - LAND_SIZE / 2;
 };
 
-/**
- * The land's bounding box in tile coordinates for a given expansion count.
- * Each expansion is a LAND_SIZE square centred on its spiral origin, and the
- * land image is centred on (0,0), so these are also the visual edges.
- */
-export const getLandBounds = (
-  expansionCount: number,
-): { left: number; right: number; top: number; bottom: number } => {
-  const origins = spiralOrigins(expansionCount);
-  const xs = origins.map((o) => o.x * LAND_SIZE);
-  const ys = origins.map((o) => o.y * LAND_SIZE);
-
-  return {
-    left: Math.min(...xs) - LAND_SIZE / 2,
-    right: Math.max(...xs) + LAND_SIZE / 2,
-    top: Math.max(...ys) + LAND_SIZE / 2,
-    bottom: Math.min(...ys) - LAND_SIZE / 2,
-  };
-};
-
 export type LandRequirements = {
   resources: Ingredient[];
   sfl: Decimal;

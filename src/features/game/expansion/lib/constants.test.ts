@@ -1,36 +1,18 @@
-import {
-  EXPANSION_ORIGINS,
-  LAND_SIZE,
-  getLandBounds,
-  getLandLeftEdge,
-} from "./constants";
+import { EXPANSION_ORIGINS, LAND_SIZE, getLandLeftEdge } from "./constants";
 
 describe("expansion spiral", () => {
   const listedCount = Object.keys(EXPANSION_ORIGINS).length;
 
-  // getLandBounds derives the spiral algorithmically, while other land logic
+  // getLandLeftEdge derives the spiral algorithmically, while other land logic
   // reads the hand-listed EXPANSION_ORIGINS table. Guard against the two
   // encodings drifting apart.
-  it("getLandBounds matches EXPANSION_ORIGINS for every listed count", () => {
+  it("getLandLeftEdge matches EXPANSION_ORIGINS for every listed count", () => {
     for (let count = 1; count <= listedCount; count++) {
       const xs = Array.from(
         { length: count },
         (_, i) => EXPANSION_ORIGINS[i].x,
       );
-      const ys = Array.from(
-        { length: count },
-        (_, i) => EXPANSION_ORIGINS[i].y,
-      );
 
-      expect(getLandBounds(count)).toEqual({
-        left: Math.min(...xs) - LAND_SIZE / 2,
-        right: Math.max(...xs) + LAND_SIZE / 2,
-        top: Math.max(...ys) + LAND_SIZE / 2,
-        bottom: Math.min(...ys) - LAND_SIZE / 2,
-      });
-
-      // getLandLeftEdge is computed standalone (not via getLandBounds), so
-      // guard it against the table directly too.
       expect(getLandLeftEdge(count)).toBe(Math.min(...xs) - LAND_SIZE / 2);
     }
   });
