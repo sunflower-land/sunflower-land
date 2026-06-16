@@ -6,9 +6,11 @@ import {
   type BumpkinRevampSkillTree,
   type BumpkinSkillTier,
 } from "features/game/types/bumpkinSkills";
-import type { Bumpkin, GameState } from "features/game/types/game";
+import type { Bumpkin, GameState, Skills } from "features/game/types/game";
 import { populateSaltFarm } from "features/game/types/salt";
 import { produce } from "immer";
+import { isCooldownSkill, pruneExpiredSkillCooldowns } from "./skillCooldown";
+import { hasFeatureAccess } from "lib/flags";
 
 export type ChoseSkillAction = {
   type: "skill.chosen";
@@ -38,6 +40,33 @@ export const getAvailableBumpkinSkillPoints = (bumpkin?: Bumpkin) => {
 
   return bumpkinLevel - totalUsedSkillPoints;
 };
+
+export const getAvailableBumpkinSkillPointsForSkills = (
+  bumpkin: Bumpkin,
+  skills: Skills,
+) =>
+  getAvailableBumpkinSkillPoints({
+    ...bumpkin,
+    skills,
+  });
+
+export const getSkillPointsForSkills = (skills: Skills): number =>
+  Object.keys(skills).reduce((total, skillName) => {
+    if (!skills[skillName as keyof Skills]) return total;
+    const data = BUMPKIN_REVAMP_SKILL_TREE[skillName as BumpkinRevampSkillName];
+    return data ? total + data.requirements.points : total;
+  }, 0);
+
+export const getPointsRemoved = (
+  currentSkills: Skills,
+  newSkills: Skills,
+): number =>
+  Object.keys(currentSkills).reduce((total, skillName) => {
+    if (!currentSkills[skillName as keyof Skills]) return total;
+    if (newSkills[skillName as keyof Skills]) return total;
+    const data = BUMPKIN_REVAMP_SKILL_TREE[skillName as BumpkinRevampSkillName];
+    return data ? total + data.requirements.points : total;
+  }, 0);
 
 export const SKILL_POINTS_PER_TIER: Record<
   BumpkinRevampSkillTree,
@@ -140,6 +169,85 @@ export const getUnlockedTierForTree = (
   return { availableTier, totalUsedSkillPoints };
 };
 
+export const validateSkillSelection = ({
+  state,
+  skills,
+}: {
+  state: GameState;
+  skills: Skills;
+}) => {
+  const { bumpkin, island } = state;
+
+  if (!bumpkin) {
+    throw new Error("You do not have a Bumpkin!");
+  }
+
+  if (getAvailableBumpkinSkillPointsForSkills(bumpkin, skills) < 0) {
+    throw new Error("You do not have enough skill points");
+  }
+
+  const selectedSkills = Object.keys(skills).filter(
+    (skillName): skillName is BumpkinRevampSkillName =>
+      !!skills[skillName as keyof Skills] &&
+      !!BUMPKIN_REVAMP_SKILL_TREE[skillName as BumpkinRevampSkillName],
+  );
+
+  selectedSkills.forEach((skillName) => {
+    const { requirements, disabled } = BUMPKIN_REVAMP_SKILL_TREE[skillName];
+
+    if (!hasRequiredIslandExpansion(island.type, requirements.island)) {
+      throw new Error("You are not at the correct island!");
+    }
+
+    if (disabled) {
+      throw new Error("This skill is disabled");
+    }
+  });
+
+  Object.keys(SKILL_POINTS_PER_TIER).forEach((tree) => {
+    const skillTree = tree as BumpkinRevampSkillTree;
+    const acceptedSkills: Skills = {};
+
+    ([1, 2, 3] as BumpkinSkillTier[]).forEach((tier) => {
+      const tierSkills = selectedSkills.filter((skillName) => {
+        const skill = BUMPKIN_REVAMP_SKILL_TREE[skillName];
+
+        return skill.tree === skillTree && skill.requirements.tier === tier;
+      });
+
+      if (tierSkills.length === 0) return;
+
+      const { availableTier } = getUnlockedTierForTree(skillTree, {
+        ...bumpkin,
+        skills: acceptedSkills,
+      });
+
+      if (tier > availableTier) {
+        throw new Error(`You need to unlock tier ${tier} first`);
+      }
+
+      tierSkills.forEach((skillName) => {
+        acceptedSkills[skillName as keyof Skills] = 1;
+      });
+    });
+  });
+};
+
+export const sanitizeSkillSelection = (skills: Skills): Skills =>
+  Object.entries(skills).reduce<Skills>(
+    (selectedSkills, [skillName, value]) => {
+      if (
+        !!value &&
+        BUMPKIN_REVAMP_SKILL_TREE[skillName as BumpkinRevampSkillName]
+      ) {
+        selectedSkills[skillName as keyof Skills] = 1;
+      }
+
+      return selectedSkills;
+    },
+    {},
+  );
+
 export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
   return produce(state, (stateCopy) => {
     const { bumpkin, island } = stateCopy;
@@ -175,10 +283,23 @@ export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
       throw new Error("You already have this skill");
     }
 
+    // Picking a skill is never blocked. For the EDIT_SKILLSET cohort we only
+    // stamp the pick time of the cooldown skills (Double Nom / Ager) so their
+    // removal stays locked for SKILL_COOLDOWN_MS. The legacy cohort never reads
+    // or writes skillLastChangedAt.
+    const enforceCooldown = hasFeatureAccess(stateCopy, "EDIT_SKILLSET");
+
     bumpkin.skills = {
       ...bumpkin.skills,
       [action.skill]: 1,
     };
+
+    if (enforceCooldown && isCooldownSkill(action.skill)) {
+      const nextCooldown = { ...(bumpkin.skillLastChangedAt ?? {}) };
+      nextCooldown[action.skill] = createdAt;
+      pruneExpiredSkillCooldowns(nextCooldown, createdAt);
+      bumpkin.skillLastChangedAt = nextCooldown;
+    }
 
     populateSaltFarm({
       gameBefore: state,

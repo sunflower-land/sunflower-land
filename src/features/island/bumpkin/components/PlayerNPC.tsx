@@ -34,6 +34,9 @@ const _gameState = (state: MachineState) => state.context.state;
 
 export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
   const [open, setOpen] = useState(false);
+  // Mirrors BumpkinModal's draft-edit state so we can suppress backdrop
+  // dismiss on the outer Modal while the player has unsaved skill changes.
+  const [isSkillsEditing, setIsSkillsEditing] = useState(false);
   const { gameService } = useContext(Context);
   const { authService } = useContext(AuthContext);
 
@@ -88,7 +91,11 @@ export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
         />
       )}
 
-      <Modal show={open} onHide={() => setOpen(false)} size="lg">
+      <Modal
+        show={open}
+        onHide={isSkillsEditing ? undefined : () => setOpen(false)}
+        size="lg"
+      >
         <BumpkinModal
           initialTab="feed"
           onClose={() => setOpen(false)}
@@ -96,6 +103,7 @@ export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
           inventory={gameState.inventory}
           readonly={false}
           gameState={gameState}
+          onEditingChange={setIsSkillsEditing}
         />
       </Modal>
       <PlayerModal

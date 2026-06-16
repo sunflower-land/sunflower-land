@@ -1299,7 +1299,6 @@ import { CONSUMABLES, COOKABLES } from "./consumables";
 import { COMMODITIES } from "./resources";
 import { BEANS } from "./beans";
 import {
-  ANIMALS,
   BARN_ITEMS,
   BLACKSMITH_ITEMS,
   FOODS,
@@ -1900,22 +1899,22 @@ export const ITEM_DETAILS: Items = {
   },
   Chicken: {
     image: SUNNYSIDE.resource.chicken,
-    description: ANIMALS.Chicken.description,
+    description: translate("description.chicken"),
     translatedName: translate("animal.chicken"),
   },
   Cow: {
     image: SUNNYSIDE.animals.cowIdle,
-    description: ANIMALS.Cow.description,
+    description: translate("description.cow"),
     translatedName: translate("animal.cow"),
   },
   Sheep: {
     image: SUNNYSIDE.animals.sheepIdle,
-    description: ANIMALS.Sheep.description,
+    description: translate("description.sheep"),
     translatedName: translate("animal.sheep"),
   },
   Pig: {
     image: SUNNYSIDE.icons.expression_confused,
-    description: ANIMALS.Pig.description,
+    description: translate("description.pig"),
     translatedName: translate("animal.pig"),
   },
   Axe: {
