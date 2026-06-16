@@ -154,6 +154,7 @@ export function castRod({
       const gemPrice = getReelsPackGemPrice({
         state,
         packs: action.reelPacksToBuy,
+        createdAt,
       });
       const gemsInventory = game.inventory.Gem ?? new Decimal(0);
 
