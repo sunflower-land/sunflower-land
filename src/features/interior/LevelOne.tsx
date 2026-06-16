@@ -20,7 +20,11 @@ import {
   NON_COLLIDING_OBJECTS,
   FURNITURE_OBJECTS,
 } from "features/game/expansion/placeable/lib/collisionDetection";
-import { INTERIOR_CANVAS } from "features/game/expansion/placeable/lib/interiorLayouts";
+import {
+  getInteriorLayoutBounds,
+  HOME_EXPANSION_LAYOUTS,
+  INTERIOR_CANVAS,
+} from "features/game/expansion/placeable/lib/interiorLayouts";
 import {
   HOME_EXPANSION_BACKGROUNDS,
   HOME_EXPANSION_BACKGROUND_NATIVE,
@@ -36,6 +40,7 @@ import type { Collectibles, HomeExpansionTier } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { animated } from "@react-spring/web";
 import { ZoomContext } from "components/ZoomProvider";
+import { InteriorBumpkins } from "features/home/components/InteriorBumpkins";
 
 const _landscaping = (state: MachineState) => state.matches("landscaping");
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
@@ -149,6 +154,9 @@ export const LevelOne: React.FC = () => {
 
   const canvasWidthPx = INTERIOR_CANVAS.width * GRID_WIDTH_PX;
   const canvasHeightPx = INTERIOR_CANVAS.height * GRID_WIDTH_PX;
+  const bumpkinLayerBounds = expansion
+    ? getInteriorLayoutBounds(HOME_EXPANSION_LAYOUTS[expansion])
+    : undefined;
 
   // Beta-only feature.
   if (!hasAccess) {
@@ -358,6 +366,28 @@ export const LevelOne: React.FC = () => {
               />
 
               {debug && <LevelOneGridOverlay tier={expansion} />}
+
+              {bumpkinLayerBounds && (
+                <div
+                  className="absolute pointer-events-none"
+                  style={{
+                    left: `${bumpkinLayerBounds.x * GRID_WIDTH_PX}px`,
+                    top: `${
+                      (INTERIOR_CANVAS.height - bumpkinLayerBounds.y) *
+                      GRID_WIDTH_PX
+                    }px`,
+                    width: `${bumpkinLayerBounds.width * GRID_WIDTH_PX}px`,
+                    height: `${bumpkinLayerBounds.height * GRID_WIDTH_PX}px`,
+                  }}
+                >
+                  <div
+                    className="absolute left-0 w-full pointer-events-auto"
+                    style={{ top: "-6rem" }}
+                  >
+                    <InteriorBumpkins location="level_one" />
+                  </div>
+                </div>
+              )}
 
               <LandscapingGrid />
 

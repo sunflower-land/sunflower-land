@@ -16,6 +16,8 @@ interface Props {
 
 const _expansion = (state: MachineState) =>
   state.context.state.interior.expansion;
+const _isVolcanoIsland = (state: MachineState) =>
+  state.context.state.island.type === "volcano";
 
 /**
  * Stacked up/down floor-navigation buttons for the interior HUD.
@@ -31,7 +33,8 @@ export const InteriorFloorNav: React.FC<Props> = ({ floor }) => {
   const navigate = useNavigate();
 
   const expansion = useSelector(gameService, _expansion);
-  const levelOneUnlocked = !!expansion;
+  const isVolcanoIsland = useSelector(gameService, _isVolcanoIsland);
+  const levelOneUnlocked = !!expansion && isVolcanoIsland;
 
   const onGround = floor === "ground";
   const onLevelOne = floor === "level_one";

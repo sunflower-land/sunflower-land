@@ -1033,6 +1033,37 @@ export function isValidInteriorTile(
   return INTERIOR_LAYOUTS[island].has(`${x},${y}`);
 }
 
+export type InteriorLayoutBounds = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+
+export function getInteriorLayoutBounds(
+  layout: ReadonlySet<string>,
+): InteriorLayoutBounds {
+  let minX = Infinity;
+  let maxX = -Infinity;
+  let minY = Infinity;
+  let maxY = -Infinity;
+
+  layout.forEach((tile) => {
+    const [x, y] = tile.split(",").map(Number);
+    minX = Math.min(minX, x);
+    maxX = Math.max(maxX, x);
+    minY = Math.min(minY, y);
+    maxY = Math.max(maxY, y);
+  });
+
+  return {
+    x: minX,
+    y: maxY,
+    width: maxX - minX + 1,
+    height: maxY - minY + 1,
+  };
+}
+
 /**
  * Returns true iff every cell of the given bounding box is a valid interior
  * tile for the given island. Uses the same (x, y = top) / (y - dy) convention
