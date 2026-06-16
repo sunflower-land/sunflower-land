@@ -394,6 +394,7 @@ import { DeepSeaSlug } from "./components/DeepSeaSlug";
 import { CrystalShrimp } from "./components/CrystalShrimp";
 import { BED_FARMHAND_COUNT } from "features/game/types/beds";
 import type { BedName } from "features/game/types/game";
+import { WeatherProtection } from "./components/WeatherProtection";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud" | "Pet" | "PetNFT",
@@ -441,6 +442,16 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Dr Cow": DrCow,
   "Nurse Sheep": NurseSheep,
   "Pink Dolphin": PinkDolphin,
+  "Tornado Pinwheel": (props) => (
+    <WeatherProtection {...props} name="Tornado Pinwheel" />
+  ),
+  Mangrove: (props) => <WeatherProtection {...props} name="Mangrove" />,
+  "Thermal Stone": (props) => (
+    <WeatherProtection {...props} name="Thermal Stone" />
+  ),
+  "Protective Pesticide": (props) => (
+    <WeatherProtection {...props} name="Protective Pesticide" />
+  ),
   Lunalist: Lunalist,
   "Frozen Cow": FrozenCow,
   "Frozen Sheep": FrozenSheep,

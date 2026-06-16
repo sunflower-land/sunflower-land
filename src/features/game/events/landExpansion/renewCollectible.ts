@@ -4,8 +4,10 @@ import type { CollectibleName } from "features/game/types/craftables";
 import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import {
+  getWeatherRenewalRequirements,
   hasCollectibleExpired,
   isInventoryRenewableCollectible,
+  isWeatherProtectionCollectible,
   type InventoryRenewableCollectibleName,
 } from "features/game/lib/renewableCollectibles";
 import { isPetCollectible } from "./placeCollectible";
@@ -68,6 +70,37 @@ export function renewCollectible({
       throw new Error("Collectible is still active");
     }
 
+    if (isWeatherProtectionCollectible(action.name)) {
+      const requirements = getWeatherRenewalRequirements({
+        game: stateCopy,
+        name: action.name,
+      });
+
+      if (stateCopy.coins < (requirements.coins ?? 0)) {
+        throw new Error("Insufficient Coins");
+      }
+
+      Object.entries(requirements.resources ?? {}).forEach(
+        ([ingredient, amount]) => {
+          const balance =
+            stateCopy.inventory[ingredient as CollectibleName] ??
+            new Decimal(0);
+
+          if (balance.lt(amount)) {
+            throw new Error(`Insufficient ingredient: ${ingredient}`);
+          }
+
+          stateCopy.inventory[ingredient as CollectibleName] =
+            balance.sub(amount);
+        },
+      );
+
+      stateCopy.coins -= requirements.coins ?? 0;
+      delete collectibleToRenew.createdAt;
+
+      return stateCopy;
+    }
+
     const available = stateCopy.inventory[action.name] ?? new Decimal(0);
 
     if (available.lt(1)) {
@@ -75,6 +108,7 @@ export function renewCollectible({
     }
 
     stateCopy.inventory[action.name] = available.sub(1);
+
     collectibleToRenew.createdAt = createdAt;
 
     return stateCopy;
