@@ -393,9 +393,12 @@ function placeInitialLand({
   return stateCopy;
 }
 
+/** Islands a player can linearly prestige *into* via `farm.upgraded`. */
+type UpgradeTarget = "spring" | "desert" | "volcano";
+
 export const ISLAND_UPGRADE: Record<
   Exclude<BasicIslandType, "volcano">,
-  { items: Inventory; expansions: number; upgrade: IslandType | null }
+  { items: Inventory; expansions: number; upgrade: UpgradeTarget }
 > = {
   basic: {
     expansions: 9,
@@ -589,37 +592,52 @@ export const populateSeason = (createdAt: number): Season => {
   return { startedAt: startAt, season };
 };
 
-export function upgrade({ state, createdAt = Date.now(), farmId }: Options) {
-  let game = cloneDeep(state) as GameState;
+type IslandSetup = {
+  /** Expansions (Basic Land) the player starts the new island with. */
+  startingExpansions: number;
+  /** Buildings, resources & trap spots laid out when the player arrives. */
+  initialCoordinates: InitialLandCoordinates;
+  /** Island-specific changes: home building swap, resource floor, airdrop. */
+  applySetup: (state: GameState) => GameState;
+};
 
-  if (!isLandUpgradable(game.island.type)) {
-    throw new Error(
-      "Island is already at max level, ascend to upgrade further",
-    );
-  }
+const ISLAND_SETUP: Record<UpgradeTarget, IslandSetup> = {
+  spring: {
+    startingExpansions: 4,
+    initialCoordinates: INITIAL_SPRING_LAND_COORDINATES,
+    applySetup: springUpgrade,
+  },
+  desert: {
+    startingExpansions: 4,
+    initialCoordinates: INITIAL_DESERT_LAND_COORDINATES,
+    applySetup: desertUpgrade,
+  },
+  volcano: {
+    startingExpansions: 5,
+    initialCoordinates: INITIAL_VOLCANO_LAND_COORDINATES,
+    applySetup: volcanoUpgrade,
+  },
+};
 
-  const upcoming = ISLAND_UPGRADE[game.island.type];
+/**
+ * The island-agnostic part of moving a farm to a new island: wipe the old
+ * farm, carry island history (incl. sunstones) forward, and lay out the fresh
+ * starting island. The per-island bits are driven by `ISLAND_SETUP[target]`.
+ */
+function transitionToIsland({
+  state,
+  target,
+  farmId,
+  createdAt,
+}: {
+  state: GameState;
+  target: UpgradeTarget;
+  farmId: number;
+  createdAt: number;
+}): GameState {
+  let game = cloneDeep(state);
 
-  if (upcoming.upgrade === null) {
-    throw new Error("Not implemented");
-  }
-
-  if (game.inventory["Basic Land"]?.lt(upcoming.expansions)) {
-    throw new Error("Player has not met the expansion requirements");
-  }
-
-  // Check & burn the requirements
-  Object.entries(upcoming.items).forEach(([name, required]) => {
-    const amount = game.inventory[name as InventoryItemName] ?? new Decimal(0);
-    if (amount.lt(required)) {
-      throw new Error(`Insufficient ${name}`);
-    }
-
-    // Burn the ingredients
-    game.inventory[name as InventoryItemName] = amount.minus(required);
-  });
-
-  // Remove all items from the farm
+  // Return every placed item to the inventory
   try {
     game = removeAll({
       state: game,
@@ -636,12 +654,14 @@ export function upgrade({ state, createdAt = Date.now(), farmId }: Options) {
 
   delete game.socialFarming.clutter;
 
+  // Reset transient systems that do not carry across islands
   game.fishing.wharf = {};
   game.mushrooms = {
     mushrooms: {},
     spawnedAt: game.mushrooms?.spawnedAt ?? 0,
   };
 
+  // Carry expansion history forward (read from the *source* island below)
   let previousExpansions = game.inventory["Basic Land"]?.toNumber() ?? 0;
 
   if (game.expansionConstruction) {
@@ -665,58 +685,68 @@ export function upgrade({ state, createdAt = Date.now(), farmId }: Options) {
     game.island.sunstones ?? 0,
   );
 
-  // Set the island
+  // Set the new island
   game.island = {
-    type: upcoming.upgrade,
+    type: target,
     upgradedAt: createdAt,
     previousExpansions,
     sunstones: maxSunstones,
   };
 
-  // In basic land the season is always spring. If upgrading, apply the new season.
+  // In basic land the season is always spring. Apply the real season rotation.
   game.season = populateSeason(createdAt);
 
   // Remove any previous in progress expansions (LEGACY)
   delete game.expansionConstruction;
 
-  if (upcoming.upgrade === "spring") {
-    game = springUpgrade(game);
-    game.inventory["Basic Land"] = new Decimal(4);
-    game = placeInitialLand({
-      state: game,
-      farmId,
-      createdAt,
-      initialLandCoordinates: INITIAL_SPRING_LAND_COORDINATES,
-    });
-  }
-
-  if (upcoming.upgrade === "desert") {
-    game = desertUpgrade(game);
-    game.inventory["Basic Land"] = new Decimal(4);
-    game = placeInitialLand({
-      state: game,
-      farmId,
-      createdAt,
-      initialLandCoordinates: INITIAL_DESERT_LAND_COORDINATES,
-    });
-  }
-
-  if (upcoming.upgrade === "volcano") {
-    game = volcanoUpgrade(game);
-    game.inventory["Basic Land"] = new Decimal(5);
-    game = placeInitialLand({
-      state: game,
-      farmId,
-      createdAt,
-      initialLandCoordinates: INITIAL_VOLCANO_LAND_COORDINATES,
-    });
-  }
+  // Island-specific setup, then lay out the starting island
+  const setup = ISLAND_SETUP[target];
+  game = setup.applySetup(game);
+  game.inventory["Basic Land"] = new Decimal(setup.startingExpansions);
+  game = placeInitialLand({
+    state: game,
+    farmId,
+    createdAt,
+    initialLandCoordinates: setup.initialCoordinates,
+  });
   game = cloneDeep(game);
 
-  // Reset the biome upon upgrade
+  // Reset the biome upon transition
   delete game.island.biome;
 
-  return {
-    ...game,
-  };
+  return game;
+}
+
+export function upgrade({ state, createdAt = Date.now(), farmId }: Options) {
+  const game = cloneDeep(state) as GameState;
+
+  if (!isLandUpgradable(game.island.type)) {
+    throw new Error(
+      "Island is already at max level, ascend to upgrade further",
+    );
+  }
+
+  const upcoming = ISLAND_UPGRADE[game.island.type];
+
+  if (game.inventory["Basic Land"]?.lt(upcoming.expansions)) {
+    throw new Error("Player has not met the expansion requirements");
+  }
+
+  // Check & burn the requirements
+  Object.entries(upcoming.items).forEach(([name, required]) => {
+    const amount = game.inventory[name as InventoryItemName] ?? new Decimal(0);
+    if (amount.lt(required)) {
+      throw new Error(`Insufficient ${name}`);
+    }
+
+    // Burn the ingredients
+    game.inventory[name as InventoryItemName] = amount.minus(required);
+  });
+
+  return transitionToIsland({
+    state: game,
+    target: upcoming.upgrade,
+    farmId,
+    createdAt,
+  });
 }

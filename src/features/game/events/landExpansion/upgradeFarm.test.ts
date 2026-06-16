@@ -1126,7 +1126,7 @@ describe("upgradeFarm", () => {
           },
         },
       }),
-    ).toThrow("Not implemented");
+    ).toThrow("Island is already at max level, ascend to upgrade further");
   });
 
   it("does not remove buds from home on upgrade", () => {

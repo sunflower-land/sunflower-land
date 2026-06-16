@@ -87,10 +87,12 @@ const IslandUpgraderModal: React.FC<{
   // Volcano/swamp are not in ISLAND_UPGRADE (no further prestige). The modal still
   // renders for them via UPGRADE_DATES (null -> "coming soon"), so fall back to an
   // empty upgrade to keep the unconditional reads below type-safe and crash-free.
-  const upgrade: (typeof ISLAND_UPGRADE)[keyof typeof ISLAND_UPGRADE] =
-    isLandUpgradable(island.type)
-      ? ISLAND_UPGRADE[island.type]
-      : { expansions: 0, items: {}, upgrade: null };
+  const upgrade: Pick<
+    (typeof ISLAND_UPGRADE)[keyof typeof ISLAND_UPGRADE],
+    "items" | "expansions"
+  > = isLandUpgradable(island.type)
+    ? ISLAND_UPGRADE[island.type]
+    : { expansions: 0, items: {} };
   const { t } = useAppTranslation();
 
   const remainingExpansions =
