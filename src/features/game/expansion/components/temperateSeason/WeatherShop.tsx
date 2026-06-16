@@ -10,6 +10,7 @@ import {
   getWeatherShop,
   type WeatherShopItem,
 } from "features/game/types/calendar";
+import { hasUsableWeatherProtectionCollectible } from "features/game/lib/renewableCollectibles";
 import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -74,7 +75,10 @@ export const WeatherShop: React.FC<Props> = ({ onClose }) => {
 
   const weatherShop = getWeatherShop(island.type);
   const hasCoins = coins >= weatherShop[selected].price;
-  const hasItem = !!inventory[selected];
+  const hasUsableItem = hasUsableWeatherProtectionCollectible({
+    game: state,
+    name: selected,
+  });
 
   const itemIngredients = weatherShop[selected].ingredients(
     state.bumpkin.skills,
@@ -112,7 +116,7 @@ export const WeatherShop: React.FC<Props> = ({ onClose }) => {
                 coins: weatherShop[selected].price,
               }}
               actionView={
-                hasItem ? undefined : (
+                hasUsableItem ? undefined : (
                   <Button
                     disabled={!hasCoins || lessIngredients()}
                     onClick={craft}

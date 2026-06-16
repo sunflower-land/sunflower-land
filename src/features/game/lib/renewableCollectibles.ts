@@ -10,6 +10,7 @@ import {
   type WeatherShopItem,
 } from "features/game/types/calendar";
 import { EXPIRY_COOLDOWNS } from "./collectibleBuilt";
+import { getCollectiblesAcrossLocations } from "./getCollectiblesAcrossLocations";
 
 type WeatherRenewalRequirements = {
   coins: number;
@@ -111,5 +112,26 @@ export const canRenewWeatherCollectible = ({
     (game.inventory[item as InventoryItemName] ?? new Decimal(0)).gte(
       amount ?? new Decimal(0),
     ),
+  );
+};
+
+export const hasUsableWeatherProtectionCollectible = ({
+  game,
+  name,
+}: {
+  game: GameState;
+  name: WeatherProtectionCollectibleName;
+}) => {
+  const inventoryCount = game.inventory[name] ?? new Decimal(0);
+
+  if (inventoryCount.gt(0)) {
+    return true;
+  }
+
+  return getCollectiblesAcrossLocations(game, name).some(
+    (collectible) =>
+      !!collectible.coordinates &&
+      !collectible.removedAt &&
+      !hasCollectibleExpired({ name, collectible }),
   );
 };
