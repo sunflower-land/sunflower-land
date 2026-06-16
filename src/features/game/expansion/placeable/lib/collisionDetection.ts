@@ -301,6 +301,12 @@ export const HOME_BOUNDS: Record<IslandType, BoundingBox> = {
     x: -10,
     y: -10,
   },
+  swamp: {
+    height: 20,
+    width: 20,
+    x: -10,
+    y: -10,
+  },
 };
 
 // Pet House bounds based on interior floor area (centered at origin)

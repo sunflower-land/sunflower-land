@@ -574,6 +574,12 @@ const LEVEL_IMAGES: Record<
     autumn: AUTUMN_VOLCANO_LEVEL_IMAGES,
     winter: WINTER_VOLCANO_LEVEL_IMAGES,
   },
+  "Swamp Biome": {
+    spring: SPRING_VOLCANO_LEVEL_IMAGES,
+    summer: SUMMER_VOLCANO_LEVEL_IMAGES,
+    autumn: AUTUMN_VOLCANO_LEVEL_IMAGES,
+    winter: WINTER_VOLCANO_LEVEL_IMAGES,
+  },
 };
 
 interface Props {

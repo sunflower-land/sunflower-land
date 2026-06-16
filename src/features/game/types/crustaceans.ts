@@ -215,6 +215,12 @@ const TRAP_POSITIONS: Record<IslandType, Record<string, Coordinates>> = {
     "3": { x: -14, y: -19.5 },
     "4": { x: -12, y: -16 },
   },
+  swamp: {
+    "1": { x: -12, y: -20 },
+    "2": { x: -10, y: -16.5 },
+    "3": { x: -14, y: -19.5 },
+    "4": { x: -12, y: -16 },
+  },
 };
 
 const TRAP_DOCK_OFFSET = { x: 14, y: 15 };

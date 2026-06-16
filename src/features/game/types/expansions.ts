@@ -2070,6 +2070,33 @@ const VOLCANO_BASE_NODES: Nodes = {
   "Flower Bed": 3,
 };
 
+const SWAMP_BASE_NODES: Nodes = {
+  "Crop Plot": 65,
+  Tree: 23,
+  "Stone Rock": 20,
+  "Iron Rock": 13,
+  "Gold Rock": 8,
+  "Fruit Patch": 15,
+  "Crimstone Rock": 5,
+  "Sunstone Rock": 13,
+  "Oil Reserve": 4,
+  "Lava Pit": 3,
+  Beehive: 3,
+  "Flower Bed": 3,
+};
+
+// TODO: temporary empty layouts so swamp clears tsc; replace with real swamp
+// layouts when the ascension system ships.
+const placeholderLayout = (id: string): Layout => ({
+  id,
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  trees: [],
+});
+
 export const TOTAL_EXPANSION_NODES: ExpansionNode = {
   // Basic only uses expansions 3-9: it's capped at 9 (see ISLAND_MAX_EXPANSION) and
   // the node table is read only when expanding/upgrading. Legacy farms still on the
@@ -2087,6 +2114,21 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
   spring: deriveExpansionNodes(SPRING_BASE_NODES, SPRING_LAYOUTS()),
   desert: deriveExpansionNodes(DESERT_BASE_NODES, DESERT_LAYOUTS()),
   volcano: deriveExpansionNodes(VOLCANO_BASE_NODES, VOLCANO_LAYOUTS()),
+  // TODO: will probably have a separate function that calculates the drip nodes
+  swamp: deriveExpansionNodes(SWAMP_BASE_NODES, {
+    31: placeholderLayout("31"),
+    32: placeholderLayout("32"),
+    33: placeholderLayout("33"),
+    34: placeholderLayout("34"),
+    35: placeholderLayout("35"),
+    36: placeholderLayout("36"),
+    37: placeholderLayout("37"),
+    38: placeholderLayout("38"),
+    39: placeholderLayout("39"),
+    40: placeholderLayout("40"),
+    41: placeholderLayout("41"),
+    42: placeholderLayout("42"),
+  }),
 };
 
 export interface Requirements {
@@ -3347,4 +3389,6 @@ export const EXPANSION_REQUIREMENTS: Record<
     29: VOLCANO_LAND_29_REQUIREMENTS,
     30: VOLCANO_LAND_30_REQUIREMENTS,
   },
+  // TODO: Add swamp land requirements when released
+  swamp: {},
 };

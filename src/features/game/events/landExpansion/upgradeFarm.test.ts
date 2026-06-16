@@ -2,6 +2,7 @@ import { INITIAL_FARM, TEST_FARM } from "features/game/lib/constants";
 import { upgrade } from "./upgradeFarm";
 import Decimal from "decimal.js-light";
 import { getLand, TOTAL_EXPANSION_NODES } from "features/game/types/expansions";
+import { getIslandSpawnPositions } from "features/game/expansion/lib/island";
 
 describe("upgradeFarm", () => {
   const farmId = 1;
@@ -73,7 +74,7 @@ describe("upgradeFarm", () => {
     expect(state.inventory["Basic Land"]).toEqual(new Decimal(4));
   });
 
-  it("resets collectibles, buildings, fishing, chickens, mushrooms, buds, flowers, beehives, oil, crimstone", () => {
+  it("resets collectibles, buildings, fishing, chickens, buds, flowers, beehives, oil, crimstone", () => {
     const now = Date.now();
     const state = upgrade({
       farmId,
@@ -201,10 +202,11 @@ describe("upgradeFarm", () => {
         .map((b) => b.coordinates),
     ).not.toContain({ x: expect.any(Number), y: expect.any(Number) });
     expect(state.fishing.wharf).toEqual({});
-    expect(state.mushrooms).toEqual({
-      mushrooms: {},
-      spawnedAt: 0,
-    });
+    // Mushrooms are no longer wiped on upgrade — they relocate to the new
+    // island's small island instead (see dedicated test below). spawnedAt
+    // carries across and the mushroom is preserved.
+    expect(state.mushrooms?.spawnedAt).toEqual(0);
+    expect(Object.keys(state.mushrooms?.mushrooms ?? {})).toHaveLength(1);
     expect(state.buds).toEqual({
       1: {
         aura: "Basic",
@@ -252,6 +254,176 @@ describe("upgradeFarm", () => {
         stone: { minedAt: now - 1 * 60 * 60 * 1000 },
         removedAt: now,
       },
+    });
+  });
+
+  it("relocates existing mushrooms onto the new island's small island", () => {
+    const state = upgrade({
+      farmId,
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(9),
+          Gold: new Decimal(15),
+        },
+        mushrooms: {
+          spawnedAt: 1234,
+          mushrooms: {
+            // On the main land
+            1: { amount: 1, name: "Wild Mushroom", x: 1, y: 1 },
+            // Stranded on the previous island
+            2: { amount: 2, name: "Magic Mushroom", x: -9, y: 5 },
+          },
+        },
+      },
+    });
+
+    // Basic land upgrades to the spring island, which starts with 4 expansions.
+    const islandTileKeys = new Set(
+      getIslandSpawnPositions(4).map((t) => `${t.x},${t.y}`),
+    );
+
+    const mushrooms = state.mushrooms?.mushrooms ?? {};
+    const entries = Object.values(mushrooms);
+
+    // No mushrooms are lost on upgrade
+    expect(entries).toHaveLength(2);
+
+    // spawnedAt carries across the upgrade
+    expect(state.mushrooms?.spawnedAt).toEqual(1234);
+
+    // Names & amounts are preserved
+    expect(mushrooms["1"]).toMatchObject({ name: "Wild Mushroom", amount: 1 });
+    expect(mushrooms["2"]).toMatchObject({ name: "Magic Mushroom", amount: 2 });
+
+    // Every mushroom now sits on a distinct island spawn tile
+    const positions = entries.map((m) => `${m.x},${m.y}`);
+    positions.forEach((position) => {
+      expect(islandTileKeys.has(position)).toBe(true);
+    });
+    expect(new Set(positions).size).toEqual(positions.length);
+  });
+
+  it("relocates existing clutter onto the new island's small island", () => {
+    const state = upgrade({
+      farmId,
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(9),
+          Gold: new Decimal(15),
+        },
+        socialFarming: {
+          ...INITIAL_FARM.socialFarming,
+          clutter: {
+            spawnedAt: 4321,
+            locations: {
+              // Stranded on the previous island
+              a: { type: "Dung", x: -9, y: 5 },
+              b: { type: "Weed", x: -9, y: 4 },
+            },
+          },
+        },
+      },
+    });
+
+    // Basic land upgrades to the spring island, which starts with 4 expansions.
+    const islandTileKeys = new Set(
+      getIslandSpawnPositions(4).map((t) => `${t.x},${t.y}`),
+    );
+
+    const clutter = state.socialFarming.clutter;
+    const locations = clutter?.locations ?? {};
+    const entries = Object.values(locations);
+
+    // No clutter is lost on upgrade
+    expect(entries).toHaveLength(2);
+
+    // spawnedAt carries across the upgrade
+    expect(clutter?.spawnedAt).toEqual(4321);
+
+    // Types & ids are preserved
+    expect(locations["a"]?.type).toEqual("Dung");
+    expect(locations["b"]?.type).toEqual("Weed");
+
+    // Every clutter now sits on a distinct island spawn tile
+    const positions = entries.map((c) => `${c.x},${c.y}`);
+    positions.forEach((position) => {
+      expect(islandTileKeys.has(position)).toBe(true);
+    });
+    expect(new Set(positions).size).toEqual(positions.length);
+  });
+
+  it("anchors relocated mushrooms & clutter to the new island count, not the source count (desert → volcano)", () => {
+    // The island tracks the land's left edge, which only shifts at certain
+    // expansion counts: a 25-expansion source farm anchors its island at x=-19,
+    // while the fresh 5-expansion volcano island anchors at x=-13. Items must
+    // follow the *new* count, so anything seeded on the source island's tiles
+    // must be pulled onto the volcano island's tiles.
+    const sourceTiles = getIslandSpawnPositions(25); // x=-19 band
+    const newTiles = getIslandSpawnPositions(5); // x=-13 band
+    const sourceTileKeys = new Set(sourceTiles.map((t) => `${t.x},${t.y}`));
+    const newTileKeys = new Set(newTiles.map((t) => `${t.x},${t.y}`));
+
+    // Sanity: the two islands genuinely sit on different tiles.
+    expect([...sourceTileKeys].some((k) => newTileKeys.has(k))).toBe(false);
+
+    const state = upgrade({
+      farmId,
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...INITIAL_FARM,
+        island: {
+          type: "desert",
+        },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(25),
+          Oil: new Decimal(200),
+        },
+        mushrooms: {
+          spawnedAt: 1234,
+          mushrooms: {
+            // Sitting on the source (25-expansion) island's tiles
+            1: { amount: 1, name: "Wild Mushroom", ...sourceTiles[0] },
+            2: { amount: 2, name: "Magic Mushroom", ...sourceTiles[1] },
+          },
+        },
+        socialFarming: {
+          ...INITIAL_FARM.socialFarming,
+          clutter: {
+            spawnedAt: 4321,
+            locations: {
+              a: { type: "Dung", ...sourceTiles[2] },
+            },
+          },
+        },
+      },
+    });
+
+    const mushrooms = Object.values(state.mushrooms?.mushrooms ?? {});
+    const clutter = Object.values(state.socialFarming.clutter?.locations ?? {});
+
+    // Nothing lost
+    expect(mushrooms).toHaveLength(2);
+    expect(clutter).toHaveLength(1);
+
+    // Every item now sits on the new volcano island, and none lingers on the
+    // source island's tiles.
+    [...mushrooms, ...clutter].forEach((item) => {
+      const key = `${item.x},${item.y}`;
+      expect(newTileKeys.has(key)).toBe(true);
+      expect(sourceTileKeys.has(key)).toBe(false);
     });
   });
 
@@ -1126,7 +1298,7 @@ describe("upgradeFarm", () => {
           },
         },
       }),
-    ).toThrow("Not implemented");
+    ).toThrow("Island is already at max level, ascend to upgrade further");
   });
 
   it("does not remove buds from home on upgrade", () => {
