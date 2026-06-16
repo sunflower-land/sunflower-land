@@ -14,7 +14,10 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
 import { useActor, useSelector } from "@xstate/react";
-import { ISLAND_UPGRADE } from "features/game/events/landExpansion/upgradeFarm";
+import {
+  ISLAND_UPGRADE,
+  isLandUpgradable,
+} from "features/game/events/landExpansion/upgradeFarm";
 import type { CollectibleName } from "features/game/types/craftables";
 import { getKeys } from "lib/object";
 import { createPortal } from "react-dom";
@@ -35,6 +38,7 @@ const UPGRADE_DATES: Record<IslandType, number | null> = {
   spring: new Date("2024-05-15T00:00:00Z").getTime(),
   desert: new Date("2025-02-03T00:00:00Z").getTime(),
   volcano: null, // Next prestige after volcano
+  swamp: null, // Next prestige after volcano
 };
 
 export const UPGRADE_RAFTS: Record<IslandType, string | null> = {
@@ -42,6 +46,7 @@ export const UPGRADE_RAFTS: Record<IslandType, string | null> = {
   spring: SUNNYSIDE.land.desertRaft,
   desert: SUNNYSIDE.land.volcanoRaft,
   volcano: null, // Next prestige after volcano
+  swamp: null, // Next prestige after volcano
 };
 
 const UPGRADE_PREVIEW: Record<IslandType, string | null> = {
@@ -49,6 +54,7 @@ const UPGRADE_PREVIEW: Record<IslandType, string | null> = {
   spring: SUNNYSIDE.announcement.springPrestige,
   desert: SUNNYSIDE.announcement.desertPrestige,
   volcano: SUNNYSIDE.announcement.volcanoPrestige,
+  swamp: SUNNYSIDE.announcement.volcanoPrestige,
 };
 
 const UPGRADE_MESSAGES: Record<IslandType, string | null> = {
@@ -56,6 +62,7 @@ const UPGRADE_MESSAGES: Record<IslandType, string | null> = {
   spring: translate("islandupgrade.welcomePetalParadise"),
   desert: translate("islandupgrade.welcomeDesertIsland"),
   volcano: translate("islandupgrade.welcomeVolcanoIsland"),
+  swamp: translate("islandupgrade.welcomeVolcanoIsland"),
 };
 
 const UPGRADE_DESCRIPTIONS: Record<IslandType, string | null> = {
@@ -63,7 +70,16 @@ const UPGRADE_DESCRIPTIONS: Record<IslandType, string | null> = {
   spring: translate("islandupgrade.exoticResourcesDescription"),
   desert: translate("islandupgrade.desertResourcesDescription"),
   volcano: translate("islandupgrade.volcanoResourcesDescription"),
+  swamp: translate("islandupgrade.volcanoResourcesDescription"),
 };
+
+// Volcano/swamp are not in ISLAND_UPGRADE (no further prestige). The modal still
+// renders for them via UPGRADE_DATES (null -> "coming soon"), so fall back to an
+// empty upgrade to keep the unconditional reads below type-safe and crash-free.
+const NO_ISLAND_UPGRADE: Pick<
+  (typeof ISLAND_UPGRADE)[keyof typeof ISLAND_UPGRADE],
+  "items" | "expansions"
+> = { expansions: 0, items: {} };
 
 const IslandUpgraderModal: React.FC<{
   onClose: () => void;
@@ -76,7 +92,9 @@ const IslandUpgraderModal: React.FC<{
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const { island, inventory, collectibles, home } = gameState.context.state;
-  const upgrade = ISLAND_UPGRADE[island.type];
+  const upgrade = isLandUpgradable(island.type)
+    ? ISLAND_UPGRADE[island.type]
+    : NO_ISLAND_UPGRADE;
   const { t } = useAppTranslation();
 
   const remainingExpansions =

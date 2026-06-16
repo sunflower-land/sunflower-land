@@ -10,6 +10,7 @@ const TRAP_IDS_PER_ISLAND: Record<IslandType, string[]> = {
   spring: ["1", "2"],
   desert: ["1", "2", "3"],
   volcano: ["1", "2", "3", "4"],
+  swamp: ["1", "2", "3", "4"],
 };
 
 describe("getWaterTrapCoordinates", () => {

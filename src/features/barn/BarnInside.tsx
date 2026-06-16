@@ -43,6 +43,7 @@ export const EXTERIOR_ISLAND_BG: Record<LandBiomeName, string> = {
   "Spring Biome": SUNNYSIDE.land.spring_building_bg,
   "Desert Biome": SUNNYSIDE.land.desert_building_bg,
   "Volcano Biome": SUNNYSIDE.land.volcano_building_bg,
+  "Swamp Biome": SUNNYSIDE.land.volcano_building_bg,
 };
 
 const _barn = (state: MachineState) => state.context.state.barn;
