@@ -1509,18 +1509,18 @@ export type MegaStore = {
   collectibles: CollectiblesItem[];
 };
 
-export type IslandType = "basic" | "spring" | "desert" | "volcano";
+export const ISLAND_TYPES = ["basic", "spring", "desert", "volcano"] as const;
+export type BasicIslandType = (typeof ISLAND_TYPES)[number];
 
-/**
- * The order of the islands is important as it determines the levels of the islands.
- * Each new island should be added to the end of the array.
- */
-export const ISLAND_EXPANSIONS: IslandType[] = [
-  "basic",
-  "spring",
-  "desert",
-  "volcano",
-];
+export const ASCENSION_ISLANDS = ["swamp"] as const;
+export type AscensionIslandType = (typeof ASCENSION_ISLANDS)[number];
+
+export const ISLAND_EXPANSIONS = [
+  ...ISLAND_TYPES,
+  ...ASCENSION_ISLANDS,
+] as const;
+
+export type IslandType = (typeof ISLAND_EXPANSIONS)[number];
 
 export type Home = {
   collectibles: Collectibles;
@@ -1920,6 +1920,7 @@ export interface GameState {
     previousExpansions?: number;
     sunstones?: number;
     biome?: LandBiomeName;
+    ascensionLevel?: number;
   };
 
   username?: string;

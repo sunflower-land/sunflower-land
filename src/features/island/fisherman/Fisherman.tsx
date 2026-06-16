@@ -34,6 +34,7 @@ const WHARF: Record<Exclude<IslandType, "basic">, string> = {
   volcano: volcanoWharf,
   desert: desertWharf,
   spring: springWharf,
+  swamp: volcanoWharf,
 };
 
 export const Fisherman: React.FC = () => {

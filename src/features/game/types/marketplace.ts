@@ -402,6 +402,7 @@ const ISLAND_RESOURCE_TAXES: Record<IslandType, number> = {
   spring: 0.5,
   desert: 0.2,
   volcano: 0.15,
+  swamp: 0.15,
 };
 
 export function getResourceTax({

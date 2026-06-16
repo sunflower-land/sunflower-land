@@ -3,6 +3,7 @@ import type { Coordinates } from "features/game/expansion/components/MapPlacemen
 import { getObjectEntries } from "lib/object";
 import type { BuildingName } from "features/game/types/buildings";
 import type {
+  BasicIslandType,
   GameState,
   IslandType,
   Inventory,
@@ -393,7 +394,7 @@ function placeInitialLand({
 }
 
 export const ISLAND_UPGRADE: Record<
-  IslandType,
+  Exclude<BasicIslandType, "volcano">,
   { items: Inventory; expansions: number; upgrade: IslandType | null }
 > = {
   basic: {
@@ -417,13 +418,12 @@ export const ISLAND_UPGRADE: Record<
     },
     upgrade: "volcano",
   },
-  volcano: {
-    expansions: 99,
-    items: {
-      Oil: new Decimal(9999999999),
-    },
-    upgrade: null,
-  },
+};
+
+export const isLandUpgradable = (
+  islandType: IslandType,
+): islandType is Exclude<BasicIslandType, "volcano"> => {
+  return islandType in ISLAND_UPGRADE;
 };
 
 function springUpgrade(state: GameState) {
@@ -591,6 +591,12 @@ export const populateSeason = (createdAt: number): Season => {
 
 export function upgrade({ state, createdAt = Date.now(), farmId }: Options) {
   let game = cloneDeep(state) as GameState;
+
+  if (!isLandUpgradable(game.island.type)) {
+    throw new Error(
+      "Island is already at max level, ascend to upgrade further",
+    );
+  }
 
   const upcoming = ISLAND_UPGRADE[game.island.type];
 
