@@ -1930,7 +1930,7 @@ export const ITEM_TRADE_TYPES: {
     "Recycle Shirt": "instant",
     "Garbage Bin Hat": "instant",
     "Turd Topper": "instant",
-    "Architect Ruler": "onchain",
+    "Architect Ruler": "instant",
     "Onion Leek": "onchain",
     "Oil Gallon": "onchain",
     "Alchemist Apron": "onchain",
