@@ -2001,6 +2001,7 @@ export const ITEM_TRADE_TYPES: {
     "Pistol Shrimp": "onchain",
     "Clam Shell Hat": "instant",
     "Shrimp Onesie": "instant",
+    "Brasil Jersey": "instant",
   },
 };
 
