@@ -27,6 +27,7 @@ import { placeTree } from "./placeTree";
 import { removeAll } from "./removeAll";
 import { TOTAL_EXPANSION_NODES } from "features/game/types/expansions";
 import { ISLAND_MAX_EXPANSION } from "features/game/expansion/lib/expansionRequirements";
+import { reAnchorToIsland } from "features/game/expansion/lib/island";
 
 export type UpgradeFarmAction = {
   type: "farm.upgraded";
@@ -652,14 +653,37 @@ function transitionToIsland({
   }
   game = cloneDeep(game);
 
-  delete game.socialFarming.clutter;
-
   // Reset transient systems that do not carry across islands
   game.fishing.wharf = {};
+
+  // Mushrooms aren't tied to a specific island, so carry them across the
+  // upgrade: relocate every existing mushroom onto the new island's small side
+  // island (the old land — and the mushroom positions on it — is wiped). With
+  // `keepLandItems: false` even mushrooms that spawned on the main land are
+  // pulled back onto the island rather than left on the old layout.
   game.mushrooms = {
-    mushrooms: {},
     spawnedAt: game.mushrooms?.spawnedAt ?? 0,
+    mushrooms: game.mushrooms
+      ? reAnchorToIsland(
+          game.mushrooms.mushrooms,
+          ISLAND_SETUP[target].startingExpansions,
+          { keepLandItems: false },
+        )
+      : {},
   };
+
+  // Clutter lives on the small island too, so carry it across the same way as
+  // mushrooms: relocate it onto the new island rather than wiping it.
+  if (game.socialFarming.clutter) {
+    game.socialFarming.clutter = {
+      ...game.socialFarming.clutter,
+      locations: reAnchorToIsland(
+        game.socialFarming.clutter.locations,
+        ISLAND_SETUP[target].startingExpansions,
+        { keepLandItems: false },
+      ),
+    };
+  }
 
   // Carry expansion history forward (read from the *source* island below)
   let previousExpansions = game.inventory["Basic Land"]?.toNumber() ?? 0;
