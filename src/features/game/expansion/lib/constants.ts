@@ -98,6 +98,21 @@ export const getLandLeftEdge = (expansionCount: number): number => {
   return minOriginX - LAND_SIZE / 2;
 };
 
+/**
+ * The wharf/dock sits at the 2nd tile from the left on the south edge of the
+ * anchor (SW-corner) land — i.e. `plot.x * LAND_SIZE - 2`, `plot.y * LAND_SIZE
+ * - 3`. The SW plot is (0,0) below 7 expansions, (-1,-1) from 7, (-2,-2) from
+ * 21, so the dock steps out at 7 and 21. The crab traps, salt nodes and the two
+ * boats (Pumpkin Pete's boat and the restock boat) are all positioned as
+ * `getWharfCoordinates + <constant offset>`, so the whole cluster moves with
+ * the dock.
+ */
+export const getWharfCoordinates = (expansionCount: number): Coordinates => {
+  if (expansionCount < 7) return { x: -2, y: -3 };
+  if (expansionCount < 21) return { x: -8, y: -9 };
+  return { x: -14, y: -15 };
+};
+
 export type LandRequirements = {
   resources: Ingredient[];
   sfl: Decimal;

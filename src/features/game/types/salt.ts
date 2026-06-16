@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import type { Coordinates } from "../expansion/components/MapPlacement";
+import { getWharfCoordinates } from "../expansion/lib/constants";
 import type { BoostName, GameState, InventoryItemName } from "./game";
 import { getObjectEntries } from "lib/object";
 import { isWearableActive } from "../lib/wearables";
@@ -341,26 +342,22 @@ export const SALT_NODE_COORDINATES: Record<string, Coordinates> = {
   "5": { x: -6, y: -19 },
 };
 
+// The salt cluster is anchored to the dock: SALT_NODE_COORDINATES give the
+// cluster shape and this offset places it relative to the wharf, so it moves
+// with the dock as the anchor land grows. The x sits the cluster east of the
+// crab-trap spots (which reach ~4 tiles east of the dock on every island).
+const SALT_DOCK_OFFSET = { x: 14, y: 15 };
+
 export function getSaltNodeCoordinates(
   expansions: number,
   nodeIndex: string,
 ): Coordinates {
-  let offsetX = 0;
-  let offsetY = 0;
-
-  if (expansions < 7) {
-    offsetX = 6;
-    offsetY = 10;
-  }
-
-  if (expansions >= 7 && expansions < 21) {
-    offsetX = 6;
-    offsetY = 6;
-  }
+  const base = SALT_NODE_COORDINATES[nodeIndex];
+  const wharf = getWharfCoordinates(expansions);
 
   return {
-    x: SALT_NODE_COORDINATES[nodeIndex].x + offsetX,
-    y: SALT_NODE_COORDINATES[nodeIndex].y + offsetY,
+    x: wharf.x + base.x + SALT_DOCK_OFFSET.x,
+    y: wharf.y + base.y + SALT_DOCK_OFFSET.y,
   };
 }
 

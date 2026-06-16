@@ -12,6 +12,7 @@ import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { MapPlacement } from "./MapPlacement";
+import { getWharfCoordinates } from "../lib/constants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import { getKeys } from "lib/object";
@@ -115,15 +116,10 @@ export const TravelTeaser: React.FC = () => {
     speak();
   }, [peteHint]);
 
+  // Pumpkin Pete's boat sits east of the dock/salt and moves with the dock.
   const coords = () => {
-    if (expansionCount < 7) {
-      return { x: 6, y: -4.5 };
-    }
-    if (expansionCount >= 7 && expansionCount < 21) {
-      return { x: 6, y: -10.5 };
-    } else {
-      return { x: 6, y: -16.5 };
-    }
+    const wharf = getWharfCoordinates(expansionCount);
+    return { x: wharf.x + 13, y: wharf.y - 1.5 };
   };
 
   const coordinates = coords();
