@@ -3,9 +3,9 @@ import {
   INITIAL_FARM,
   TEST_FARM,
 } from "features/game/lib/constants";
-import { castRod, getReelsPackGemPrice } from "./castRod";
+import { castRod, getReelPackPrice, getReelsPackGemPrice } from "./castRod";
 import Decimal from "decimal.js-light";
-import type { Bumpkin } from "features/game/types/game";
+import type { Bumpkin, GameState } from "features/game/types/game";
 import { type Chum, getDailyFishingLimit } from "features/game/types/fishing";
 import { CHAPTERS } from "features/game/types/chapters";
 
@@ -103,7 +103,8 @@ describe("castRod", () => {
         ...INITIAL_FARM,
         inventory: {
           ...INITIAL_FARM.inventory,
-          Gem: new Decimal(70),
+          // 3 packs from a fresh day: 5 + 10 + 15 = 30 Gems
+          Gem: new Decimal(30),
           Rod: new Decimal(1),
           Earthworm: new Decimal(1),
         },
@@ -135,7 +136,8 @@ describe("castRod", () => {
         ...INITIAL_FARM,
         inventory: {
           ...INITIAL_FARM.inventory,
-          Gem: new Decimal(10),
+          // First pack of the day costs 5 Gems
+          Gem: new Decimal(5),
           Rod: new Decimal(1),
           Earthworm: new Decimal(1),
         },
@@ -855,7 +857,7 @@ describe("castRod", () => {
         ...INITIAL_FARM,
         inventory: {
           ...INITIAL_FARM.inventory,
-          Gem: new Decimal(70), // 10 + 20 + 40 = 70 for 3 packs
+          Gem: new Decimal(30), // 5 + 10 + 15 = 30 for 3 packs
           Rod: new Decimal(1),
           Earthworm: new Decimal(1),
         },
@@ -1008,67 +1010,89 @@ describe("getDailyFishingLimit", () => {
   });
 });
 
+describe("getReelPackPrice", () => {
+  it("ramps linearly for the first four packs then doubles", () => {
+    // Index = packs already bought today -> price of the next pack
+    expect([0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(getReelPackPrice)).toEqual([
+      5, 10, 15, 20, 40, 80, 160, 320, 640, 1280,
+    ]);
+  });
+});
+
 describe("getReelsPackGemPrice", () => {
-  it("returns the correct price for 1 pack", () => {
-    const price = getReelsPackGemPrice({
-      state: farm,
-      packs: 1,
-    });
-    expect(price).toEqual(10);
+  const createdAt = new Date("2026-01-15T00:00:00.000Z").getTime();
+  const today = "2026-01-15";
+
+  const stateWithPacksBought = (timesBoughtToday: number): GameState => ({
+    ...INITIAL_FARM,
+    fishing: {
+      ...INITIAL_FARM.fishing,
+      extraReels: {
+        count: 0,
+        timesBought: { [today]: timesBoughtToday },
+      },
+    },
   });
 
-  it("increases price of gems by 2x after buying once", () => {
-    const now = new Date();
-    const today = now.toISOString().split("T")[0];
-    const price = getReelsPackGemPrice({
-      state: {
-        ...INITIAL_FARM,
-        inventory: {
-          ...INITIAL_FARM.inventory,
-          Gem: new Decimal(10),
-        },
-        fishing: {
-          wharf: {},
-          dailyAttempts: {
-            [today]: 20,
-          },
-          extraReels: {
-            timesBought: {
-              [today]: 1,
-            },
-            count: 0,
-          },
-        },
-      },
-      packs: 1,
-      createdAt: Date.now(),
-    });
-    expect(price).toEqual(20);
+  it("charges 5 Gems for the first pack of the day", () => {
+    expect(
+      getReelsPackGemPrice({
+        state: stateWithPacksBought(0),
+        packs: 1,
+        createdAt,
+      }),
+    ).toEqual(5);
   });
 
-  it("scales price exponentially across multiple packs in one purchase", () => {
-    const now = new Date();
-    const today = now.toISOString().split("T")[0];
-    const price = getReelsPackGemPrice({
-      state: {
-        ...INITIAL_FARM,
-        fishing: {
-          wharf: {},
-          dailyAttempts: {
-            [today]: 20,
-          },
-          extraReels: {
-            timesBought: {
-              [today]: 2,
-            },
-            count: 0,
-          },
-        },
-      },
-      packs: 3,
-      createdAt: Date.now(),
-    });
-    // Prices: 40, 80, 160 => total 280
-    expect(price).toEqual(280);
+  it("ramps linearly by 5 across the first four packs", () => {
+    // 5 + 10 + 15 + 20
+    expect(
+      getReelsPackGemPrice({
+        state: stateWithPacksBought(0),
+        packs: 4,
+        createdAt,
+      }),
+    ).toEqual(50);
+  });
+
+  it("doubles the price once past the fourth pack", () => {
+    // Fifth pack of the day
+    expect(
+      getReelsPackGemPrice({
+        state: stateWithPacksBought(4),
+        packs: 1,
+        createdAt,
+      }),
+    ).toEqual(40);
+    // Sixth pack of the day
+    expect(
+      getReelsPackGemPrice({
+        state: stateWithPacksBought(5),
+        packs: 1,
+        createdAt,
+      }),
+    ).toEqual(80);
+  });
+
+  it("sums the curve across multiple packs bought together", () => {
+    // Already bought 2 today; buying 3 more -> 15 + 20 + 40
+    expect(
+      getReelsPackGemPrice({
+        state: stateWithPacksBought(2),
+        packs: 3,
+        createdAt,
+      }),
+    ).toEqual(75);
+  });
+
+  it("matches the cumulative cost of buying all ten packs in a day", () => {
+    // 5,10,15,20,40,80,160,320,640,1280 => 2570
+    expect(
+      getReelsPackGemPrice({
+        state: stateWithPacksBought(0),
+        packs: 10,
+        createdAt,
+      }),
+    ).toEqual(2570);
   });
 });
