@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import superTotem from "assets/sfts/super_totem.webp";
 import fastForward from "assets/icons/fast_forward.png";
@@ -17,6 +17,14 @@ import {
 import { secondsToString } from "lib/utils/time";
 import { Label } from "components/ui/Label";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { useSelector } from "@xstate/react";
+import type { MachineState } from "features/game/lib/gameMachine";
+import { useVisiting } from "lib/utils/visitUtils";
+import { RenewCollectible } from "features/game/components/RenewCollectible";
+import Decimal from "decimal.js-light";
+import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
+
+const _gameState = (state: MachineState) => state.context.state;
 
 export const SuperTotem: React.FC<CollectibleProps> = ({
   createdAt,
@@ -24,12 +32,17 @@ export const SuperTotem: React.FC<CollectibleProps> = ({
   location,
 }) => {
   const { t } = useAppTranslation();
-  const { gameService, showTimers } = useContext(Context);
+  const { gameService, showTimers, showAnimations } = useContext(Context);
+  const { isVisiting } = useVisiting();
+  const gameState = useSelector(gameService, _gameState);
+  const [showRenewModal, setShowRenewModal] = useState(false);
+  const chestItems = getChestItems(gameState);
 
   const expiresAt = createdAt + 7 * 24 * 60 * 60 * 1000;
   const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
   const hasExpired = secondsToExpire <= 0;
   const percentage = 100 - (secondsToExpire / (7 * 24 * 60 * 60)) * 100;
+  const hasReplacement = (chestItems["Super Totem"] ?? new Decimal(0)).gt(0);
 
   const handleRemove = () => {
     gameService.send("collectible.burned", {
@@ -41,38 +54,77 @@ export const SuperTotem: React.FC<CollectibleProps> = ({
 
   if (hasExpired) {
     return (
-      <div onClick={handleRemove}>
-        {showTimers && (
-          <div className="absolute bottom-0 left-0">
-            <ProgressBar
-              seconds={secondsToExpire}
-              formatLength="medium"
-              type="error"
-              percentage={percentage}
-            />
-          </div>
-        )}
-        <img
-          className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
-          src={SUNNYSIDE.icons.dig_icon}
-          style={{
-            width: `${PIXEL_SCALE * 18}px`,
-            right: `${PIXEL_SCALE * -8}px`,
-            top: `${PIXEL_SCALE * -8}px`,
-          }}
-        />
+      <>
+        <div
+          onClick={
+            isVisiting
+              ? undefined
+              : hasReplacement
+                ? () => setShowRenewModal(true)
+                : handleRemove
+          }
+        >
+          {showTimers && (
+            <div className="absolute bottom-0 left-0">
+              <ProgressBar
+                seconds={secondsToExpire}
+                formatLength="medium"
+                type="error"
+                percentage={percentage}
+              />
+            </div>
+          )}
 
-        <img
-          src={superTotem}
-          style={{
-            width: `${PIXEL_SCALE * 20}px`,
-            bottom: `${PIXEL_SCALE * 0}px`,
-            left: `${PIXEL_SCALE * 0}px`,
-          }}
-          className="absolute cursor-pointer"
-          alt="Super Totem"
+          {!hasReplacement && (
+            <img
+              className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
+              src={SUNNYSIDE.icons.dig_icon}
+              style={{
+                width: `${PIXEL_SCALE * 18}px`,
+                right: `${PIXEL_SCALE * -8}px`,
+                top: `${PIXEL_SCALE * -8}px`,
+              }}
+            />
+          )}
+
+          {hasReplacement && (
+            <div
+              className="flex justify-center absolute w-full pointer-events-none z-30"
+              style={{
+                top: `${PIXEL_SCALE * -12}px`,
+              }}
+            >
+              <img
+                src={SUNNYSIDE.icons.expression_alerted}
+                className={showAnimations ? "ready" : ""}
+                style={{
+                  width: `${PIXEL_SCALE * 4}px`,
+                }}
+              />
+            </div>
+          )}
+
+          <img
+            src={superTotem}
+            style={{
+              width: `${PIXEL_SCALE * 20}px`,
+              bottom: `${PIXEL_SCALE * 0}px`,
+              left: `${PIXEL_SCALE * 0}px`,
+              filter: "grayscale(100%)",
+            }}
+            className="absolute cursor-pointer"
+            alt="Super Totem"
+          />
+        </div>
+
+        <RenewCollectible
+          show={showRenewModal}
+          onHide={() => setShowRenewModal(false)}
+          name="Super Totem"
+          id={id}
+          location={location}
         />
-      </div>
+      </>
     );
   }
   return (
