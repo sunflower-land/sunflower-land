@@ -73,6 +73,23 @@ export function getRodCost({
   return { rodCost, boostsUsed };
 }
 
+export const REEL_PACK_BASE_PRICE = 5;
+// Packs at the start of each day that ramp linearly before the price doubles
+export const REEL_PACK_LINEAR_COUNT = 4;
+
+/**
+ * Gem price of a single reel pack based on how many were already bought today.
+ * The first 4 packs ramp linearly (5, 10, 15, 20), then the price doubles for
+ * every pack after (40, 80, 160, ...).
+ */
+export function getReelPackPrice(timesBought: number): number {
+  if (timesBought < REEL_PACK_LINEAR_COUNT) {
+    return REEL_PACK_BASE_PRICE * (timesBought + 1);
+  }
+
+  return REEL_PACK_BASE_PRICE * 2 ** (timesBought - 1);
+}
+
 export function getReelsPackGemPrice({
   state,
   packs,
@@ -87,15 +104,12 @@ export function getReelsPackGemPrice({
   const { extraReels = { count: 0 } } = state.fishing;
   const { timesBought = {} } = extraReels;
 
-  const basePrice = 10;
-  const gemMultiplier = 2;
-
   const timesBoughtToday = timesBought[today] ?? 0;
 
   // Sum the cost of each pack at the incremented price scale
   let totalPrice = 0;
   for (let i = 0; i < packs; i++) {
-    totalPrice += basePrice * gemMultiplier ** (timesBoughtToday + i);
+    totalPrice += getReelPackPrice(timesBoughtToday + i);
   }
 
   return totalPrice;
@@ -140,6 +154,7 @@ export function castRod({
       const gemPrice = getReelsPackGemPrice({
         state,
         packs: action.reelPacksToBuy,
+        createdAt,
       });
       const gemsInventory = game.inventory.Gem ?? new Decimal(0);
 
