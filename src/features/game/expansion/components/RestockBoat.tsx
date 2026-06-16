@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import boat from "assets/decorations/restock_boat.png";
 import { type Coordinates, MapPlacement } from "./MapPlacement";
+import { getWharfCoordinates } from "../lib/constants";
 import {
   INITIAL_STOCK,
   PIXEL_SCALE,
@@ -75,15 +76,10 @@ export const RestockBoat: React.FC = () => {
 
   if (restockIsEmpty) return null;
 
+  // The restock boat sits east of Pumpkin Pete's boat and moves with the dock.
   const wharfCoords = (): Coordinates => {
-    if (expansionCount < 7) {
-      return { x: 10, y: -4.5 };
-    }
-    if (expansionCount >= 7 && expansionCount < 21) {
-      return { x: 10, y: -10.5 };
-    } else {
-      return { x: 10, y: -16.5 };
-    }
+    const wharf = getWharfCoordinates(expansionCount);
+    return { x: wharf.x + 17, y: wharf.y - 1.5 };
   };
 
   return (
