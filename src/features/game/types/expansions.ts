@@ -2085,15 +2085,17 @@ const SWAMP_BASE_NODES: Nodes = {
   "Flower Bed": 3,
 };
 
-const PLACEHOLDER_LAYOUT: Layout = {
-  id: "123",
+// TODO: temporary empty layouts so swamp clears tsc; replace with real swamp
+// layouts when the ascension system ships.
+const placeholderLayout = (id: string): Layout => ({
+  id,
   plots: [],
   fruitPatches: [],
   gold: [],
   iron: [],
   stones: [],
   trees: [],
-};
+});
 
 export const TOTAL_EXPANSION_NODES: ExpansionNode = {
   // Basic only uses expansions 3-9: it's capped at 9 (see ISLAND_MAX_EXPANSION) and
@@ -2114,18 +2116,18 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
   volcano: deriveExpansionNodes(VOLCANO_BASE_NODES, VOLCANO_LAYOUTS()),
   // TODO: will probably have a separate function that calculates the drip nodes
   swamp: deriveExpansionNodes(SWAMP_BASE_NODES, {
-    31: PLACEHOLDER_LAYOUT,
-    32: PLACEHOLDER_LAYOUT,
-    33: PLACEHOLDER_LAYOUT,
-    34: PLACEHOLDER_LAYOUT,
-    35: PLACEHOLDER_LAYOUT,
-    36: PLACEHOLDER_LAYOUT,
-    37: PLACEHOLDER_LAYOUT,
-    38: PLACEHOLDER_LAYOUT,
-    39: PLACEHOLDER_LAYOUT,
-    40: PLACEHOLDER_LAYOUT,
-    41: PLACEHOLDER_LAYOUT,
-    42: PLACEHOLDER_LAYOUT,
+    31: placeholderLayout("31"),
+    32: placeholderLayout("32"),
+    33: placeholderLayout("33"),
+    34: placeholderLayout("34"),
+    35: placeholderLayout("35"),
+    36: placeholderLayout("36"),
+    37: placeholderLayout("37"),
+    38: placeholderLayout("38"),
+    39: placeholderLayout("39"),
+    40: placeholderLayout("40"),
+    41: placeholderLayout("41"),
+    42: placeholderLayout("42"),
   }),
 };
 
