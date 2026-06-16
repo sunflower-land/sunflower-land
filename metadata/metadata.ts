@@ -21165,4 +21165,14 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Shrimp Onesie",
   },
+  "Brasil Jersey": {
+    description: "Aqui é o Brasil. O melhor time no mundo!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shirt" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Brasil Jersey",
+  },
 };
