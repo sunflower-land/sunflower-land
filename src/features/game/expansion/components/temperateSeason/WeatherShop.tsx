@@ -10,7 +10,10 @@ import {
   getWeatherShop,
   type WeatherShopItem,
 } from "features/game/types/calendar";
-import { hasUsableWeatherProtectionCollectible } from "features/game/lib/renewableCollectibles";
+import {
+  getSpentWeatherProtectionCollectible,
+  hasUsableWeatherProtectionCollectible,
+} from "features/game/lib/renewableCollectibles";
 import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -49,8 +52,21 @@ export const WeatherShop: React.FC<Props> = ({ onClose }) => {
 
   const state = useSelector(gameService, _state);
   const { coins, inventory, island } = state;
+  const spentPlacedItem = getSpentWeatherProtectionCollectible({
+    game: state,
+    name: selected,
+  });
 
   const craft = () => {
+    if (spentPlacedItem) {
+      gameService.send("collectible.renewed", {
+        name: selected,
+        location: spentPlacedItem.location,
+        id: spentPlacedItem.id,
+      });
+      return;
+    }
+
     gameService.send("tool.crafted", {
       tool: selected,
     });

@@ -5,6 +5,7 @@ import type {
   InventoryItemName,
   PlacedItem,
 } from "features/game/types/game";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 import {
   getWeatherShop,
   type WeatherShopItem,
@@ -134,4 +135,43 @@ export const hasUsableWeatherProtectionCollectible = ({
       !collectible.removedAt &&
       !hasCollectibleExpired({ name, collectible }),
   );
+};
+
+export const getSpentWeatherProtectionCollectible = ({
+  game,
+  name,
+}: {
+  game: GameState;
+  name: WeatherProtectionCollectibleName;
+}): { id: string; location: PlaceableLocation } | undefined => {
+  const locations: Array<{
+    location: PlaceableLocation;
+    collectibles: GameState["collectibles"];
+  }> = [
+    { location: "farm", collectibles: game.collectibles },
+    { location: "home", collectibles: game.home.collectibles },
+    {
+      location: "interior",
+      collectibles: game.interior?.ground.collectibles ?? {},
+    },
+    {
+      location: "level_one",
+      collectibles: game.interior?.level_one?.collectibles ?? {},
+    },
+  ];
+
+  for (const { location, collectibles } of locations) {
+    const match = collectibles[name]?.find(
+      (collectible) =>
+        !!collectible.coordinates &&
+        !collectible.removedAt &&
+        hasCollectibleExpired({ name, collectible }),
+    );
+
+    if (match) {
+      return { id: match.id, location };
+    }
+  }
+
+  return undefined;
 };
