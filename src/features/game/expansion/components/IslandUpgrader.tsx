@@ -73,6 +73,14 @@ const UPGRADE_DESCRIPTIONS: Record<IslandType, string | null> = {
   swamp: translate("islandupgrade.volcanoResourcesDescription"),
 };
 
+// Volcano/swamp are not in ISLAND_UPGRADE (no further prestige). The modal still
+// renders for them via UPGRADE_DATES (null -> "coming soon"), so fall back to an
+// empty upgrade to keep the unconditional reads below type-safe and crash-free.
+const NO_ISLAND_UPGRADE: Pick<
+  (typeof ISLAND_UPGRADE)[keyof typeof ISLAND_UPGRADE],
+  "items" | "expansions"
+> = { expansions: 0, items: {} };
+
 const IslandUpgraderModal: React.FC<{
   onClose: () => void;
   onUpgrade: () => void;
@@ -84,15 +92,9 @@ const IslandUpgraderModal: React.FC<{
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const { island, inventory, collectibles, home } = gameState.context.state;
-  // Volcano/swamp are not in ISLAND_UPGRADE (no further prestige). The modal still
-  // renders for them via UPGRADE_DATES (null -> "coming soon"), so fall back to an
-  // empty upgrade to keep the unconditional reads below type-safe and crash-free.
-  const upgrade: Pick<
-    (typeof ISLAND_UPGRADE)[keyof typeof ISLAND_UPGRADE],
-    "items" | "expansions"
-  > = isLandUpgradable(island.type)
+  const upgrade = isLandUpgradable(island.type)
     ? ISLAND_UPGRADE[island.type]
-    : { expansions: 0, items: {} };
+    : NO_ISLAND_UPGRADE;
   const { t } = useAppTranslation();
 
   const remainingExpansions =

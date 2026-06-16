@@ -71,7 +71,7 @@ export const Fisherman: React.FC = () => {
       };
     }
 
-    if (island === "volcano") {
+    if (island === "volcano" || island === "swamp") {
       const width = 76;
       const top = 24;
       // +2 over the original (8.619 / 9.76) to nudge the volcano dock art 2px west.
@@ -124,7 +124,7 @@ export const Fisherman: React.FC = () => {
       bottom = -78;
     }
 
-    if (island === "volcano") {
+    if (island === "volcano" || island === "swamp") {
       right = -23;
       bottom = -93;
     }
