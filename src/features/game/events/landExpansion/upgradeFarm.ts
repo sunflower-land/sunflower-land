@@ -388,7 +388,7 @@ const INITIAL_SWAMP_LAND_COORDINATES: InitialLandCoordinates = {
   beehives: {
     "36088790": { x: -15, y: 14 },
     "7f87f68b": { x: -15, y: 13 },
-    "8724fce7": { x: -15, y: 12 },
+    "8724fce7": { x: -15, y: 15 },
   },
   flowerBeds: {
     "97a62df9": { x: -14, y: 14 },
