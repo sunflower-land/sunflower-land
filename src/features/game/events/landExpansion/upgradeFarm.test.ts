@@ -1091,6 +1091,59 @@ describe("upgradeFarm", () => {
     });
   });
 
+  it("upgrades to swamp island", () => {
+    const createdAt = Date.now();
+    const state = upgrade({
+      farmId,
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...INITIAL_FARM,
+        island: {
+          type: "volcano",
+        },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(30),
+          "Crop Plot": new Decimal(65),
+          "Fruit Patch": new Decimal(15),
+          Tree: new Decimal(23),
+          "Gold Rock": new Decimal(9),
+          "Iron Rock": new Decimal(13),
+          "Stone Rock": new Decimal(20),
+          "Crimstone Rock": new Decimal(5),
+          "Sunstone Rock": new Decimal(13),
+          "Oil Reserve": new Decimal(4),
+          "Lava Pit": new Decimal(4),
+          Beehive: new Decimal(4),
+          "Flower Bed": new Decimal(4),
+        },
+      },
+      createdAt,
+    });
+
+    // Transitions onto the swamp ascension island
+    expect(state.island.type).toEqual("swamp");
+    expect(state.island.ascensionLevel).toEqual(1);
+    expect(state.island.upgradedAt).toEqual(createdAt);
+    expect(state.island.previousExpansions).toEqual(30);
+    expect(state.inventory["Basic Land"]).toEqual(new Decimal(30));
+
+    // Keeps the Mansion as the home, laid out per the swamp layout
+    expect(state.buildings.Manor).toBeUndefined();
+    expect(state.inventory.Mansion).toEqual(new Decimal(1));
+    expect(state.buildings.Mansion?.[0].coordinates).toEqual({ x: 0, y: 15 });
+
+    // Lays out the swamp starting nodes, incl. the swamp-specific types
+    expect(Object.keys(state.crops)).toHaveLength(65);
+    expect(Object.keys(state.fruitPatches)).toHaveLength(15);
+    expect(Object.keys(state.crimstones)).toHaveLength(5);
+    expect(Object.keys(state.beehives)).toHaveLength(4);
+    expect(Object.keys(state.flowers.flowerBeds)).toHaveLength(4);
+    expect(Object.keys(state.lavaPits)).toHaveLength(4);
+  });
+
   it("sets island history", () => {
     const createdAt = Date.now();
     const state = upgrade({
@@ -1280,7 +1333,7 @@ describe("upgradeFarm", () => {
     expect(state.island.type).toEqual("volcano");
   });
 
-  it("does not allow a player to upgrade from volcano island", () => {
+  it("does not allow a player to upgrade from swamp island", () => {
     expect(() =>
       upgrade({
         farmId,
@@ -1290,11 +1343,10 @@ describe("upgradeFarm", () => {
         state: {
           ...INITIAL_FARM,
           island: {
-            type: "volcano",
+            type: "swamp",
           },
           inventory: {
-            "Basic Land": new Decimal(16),
-            Oil: new Decimal(1000000000000),
+            "Basic Land": new Decimal(42),
           },
         },
       }),
