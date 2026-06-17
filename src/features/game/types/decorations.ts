@@ -178,6 +178,7 @@ export type EventDecorationName =
   | "Bronze Friends Trophy"
   | "Silver Friends Trophy"
   | "Gold Friends Trophy"
+  | "Design Trophy"
   | "Cerberus"
   | "Witch's Cauldron"
   | "Raveyard"
@@ -268,6 +269,13 @@ export const DECORATION_TEMPLATES = {
     isWithdrawable: () => false,
   },
   "Gold Friends Trophy": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Design Trophy": {
     dimensions: {
       width: 1,
       height: 1,

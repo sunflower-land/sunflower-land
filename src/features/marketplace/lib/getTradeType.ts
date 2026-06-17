@@ -139,6 +139,7 @@ export const ITEM_TRADE_TYPES: {
     "Bronze Friends Trophy": "instant",
     "Silver Friends Trophy": "instant",
     "Gold Friends Trophy": "instant",
+    "Design Trophy": "instant",
     "Test Box": "instant",
     "Bronze Tool Box": "instant",
     "Silver Tool Box": "instant",
