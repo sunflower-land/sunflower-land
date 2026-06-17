@@ -163,4 +163,35 @@ describe("renewCollectible", () => {
       }),
     ).toThrow("Insufficient Coins");
   });
+
+  it("does not renew a weather collectible without enough weather shop ingredients", () => {
+    expect(() =>
+      renewCollectible({
+        state: {
+          ...TEST_FARM,
+          coins: 500,
+          inventory: {
+            Wood: new Decimal(30),
+            Leather: new Decimal(1),
+          },
+          collectibles: {
+            "Tornado Pinwheel": [
+              {
+                id: "1",
+                coordinates: { x: 0, y: 0 },
+                createdAt: now - 1000,
+              },
+            ],
+          },
+        },
+        action: {
+          type: "collectible.renewed",
+          name: "Tornado Pinwheel",
+          location: "farm",
+          id: "1",
+        },
+        createdAt: now,
+      }),
+    ).toThrow("Insufficient ingredient: Leather");
+  });
 });
