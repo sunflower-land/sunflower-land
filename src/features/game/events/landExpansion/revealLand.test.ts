@@ -830,4 +830,93 @@ describe("revealLand", () => {
       TOTAL_EXPANSION_NODES.desert[25]["Sunstone Rock"],
     );
   });
+
+  const sunstonesGranted = (airdrops: ReturnType<typeof getRewards>) =>
+    airdrops
+      .filter((a) => a.id.startsWith("missing-resources"))
+      .reduce((total, a) => total + (a.items["Sunstone Rock"] ?? 0), 0);
+
+  it("does not count partially mined live rocks as depletions", () => {
+    const grant = (sunstones: Record<string, FiniteResource>, mined: number) =>
+      sunstonesGranted(
+        getRewards({
+          game: {
+            ...INITIAL_FARM,
+            island: { type: "volcano" },
+            inventory: {
+              "Basic Land": new Decimal(6),
+              "Sunstone Rock": new Decimal(0),
+            },
+            sunstones,
+            farmActivity: { "Sunstone Mined": mined },
+          },
+          createdAt: Date.now(),
+        }),
+      );
+
+    const baseline = grant({}, 0);
+    expect(baseline).toBeGreaterThan(0);
+
+    // 10 lifetime mines with no live rocks => one rock was mined to depletion.
+    expect(grant({}, 10)).toBe(baseline - 1);
+
+    // 10 lifetime mines spread across 2 live rocks (none depleted) => no
+    // depletion, so the full missing amount is still granted.
+    expect(
+      grant(
+        {
+          "1": { stone: { minedAt: 0 }, minesLeft: 5, createdAt: 0 },
+          "2": { stone: { minedAt: 0 }, minesLeft: 5, createdAt: 0 },
+        },
+        10,
+      ),
+    ).toBe(baseline);
+  });
+
+  it("does not re-grant resources promised by a pending missing-resources airdrop", () => {
+    // With no pending airdrop, the missing sunstones are reported.
+    const granted = sunstonesGranted(
+      getRewards({
+        game: {
+          ...INITIAL_FARM,
+          island: { type: "volcano" },
+          inventory: {
+            "Basic Land": new Decimal(6),
+            "Sunstone Rock": new Decimal(0),
+          },
+          farmActivity: {},
+        },
+        createdAt: Date.now(),
+      }),
+    );
+    expect(granted).toBeGreaterThan(0);
+
+    // The same sunstones already sit in an unclaimed airdrop, so they must not
+    // be reported missing (and re-granted) a second time.
+    const withPending = sunstonesGranted(
+      getRewards({
+        game: {
+          ...INITIAL_FARM,
+          island: { type: "volcano" },
+          inventory: {
+            "Basic Land": new Decimal(6),
+            "Sunstone Rock": new Decimal(0),
+          },
+          farmActivity: {},
+          airdrops: [
+            {
+              id: "missing-resources-6",
+              createdAt: 0,
+              items: { "Sunstone Rock": granted },
+              wearables: {},
+              sfl: 0,
+              coins: 0,
+            },
+          ],
+        },
+        createdAt: Date.now(),
+      }),
+    );
+    expect(withPending).toBe(0);
+  });
 });

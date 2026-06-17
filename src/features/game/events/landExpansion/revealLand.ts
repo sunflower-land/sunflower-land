@@ -597,19 +597,40 @@ export function getRewards({
     expansion: expansions.toNumber(),
   });
 
+  // Items already promised by an unclaimed missing-resources airdrop are not
+  // yet in the inventory. Counting them as still-missing would duplicate the
+  // grant if the player expands again before collecting the previous airdrop.
+  const pendingMissing: Partial<Record<ResourceName, number>> = {};
+  (game.airdrops ?? [])
+    .filter((airdrop) => airdrop.id.startsWith("missing-resources"))
+    .forEach((airdrop) => {
+      getKeys(missingNodes).forEach((key) => {
+        pendingMissing[key] =
+          (pendingMissing[key] ?? 0) + (airdrop.items[key] ?? 0);
+      });
+    });
+
   getKeys(missingNodes).forEach((key) => {
-    let missing = expected[key] - (game.inventory[key]?.toNumber() ?? 0);
+    let missing =
+      (expected[key] ?? 0) -
+      (game.inventory[key]?.toNumber() ?? 0) -
+      (pendingMissing[key] ?? 0);
 
     // Sunstone rocks are finite: once a rock is mined to depletion it is
     // removed from the inventory (see mineSunstone). To avoid re-granting rocks
-    // the player legitimately consumed, subtract the number of fully depleted
-    // rocks. Each rock starts with 10 mines, so every 10 lifetime mines
-    // accounts for one depleted rock. A player who has never mined a sunstone
-    // (Sunstone Mined === 0) receives the full missing amount.
+    // the player legitimately consumed, subtract the rocks already mined to
+    // depletion. Each rock holds 10 mines, but mines spent on rocks the player
+    // still owns are not depletions, so they are excluded before dividing. A
+    // player who has never mined a sunstone receives the full missing amount.
     if (key === "Sunstone Rock") {
       const MINES_PER_SUNSTONE = 10;
+      const lifetimeMines = game.farmActivity?.["Sunstone Mined"] ?? 0;
+      const minesOnLiveRocks = Object.values(game.sunstones ?? {}).reduce(
+        (total, rock) => total + (MINES_PER_SUNSTONE - rock.minesLeft),
+        0,
+      );
       const depleted = Math.floor(
-        (game.farmActivity?.["Sunstone Mined"] ?? 0) / MINES_PER_SUNSTONE,
+        Math.max(0, lifetimeMines - minesOnLiveRocks) / MINES_PER_SUNSTONE,
       );
       missing -= depleted;
     }
