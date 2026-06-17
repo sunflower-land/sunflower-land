@@ -10,6 +10,7 @@ import { MapPlacement } from "./MapPlacement";
 
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
+import coinsIcon from "assets/icons/coins.webp";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
@@ -17,6 +18,7 @@ import { useActor, useSelector } from "@xstate/react";
 import {
   ISLAND_UPGRADE,
   isLandUpgradable,
+  getAscensionUpgradeCost,
 } from "features/game/events/landExpansion/upgradeFarm";
 import type { CollectibleName } from "features/game/types/craftables";
 import { getKeys } from "lib/object";
@@ -81,7 +83,8 @@ const IslandUpgraderModal: React.FC<{
 
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  const { island, inventory, collectibles, home } = gameState.context.state;
+  const { island, inventory, collectibles, home, coins } =
+    gameState.context.state;
   const upgrade = isLandUpgradable(island.type)
     ? ISLAND_UPGRADE[island.type]
     : NO_ISLAND_UPGRADE;
@@ -147,9 +150,16 @@ const IslandUpgraderModal: React.FC<{
     hasFeatureAccess(gameState.context.state, "SWAMP_ASCENSION");
   const hasUpgrade = isLandUpgradable(island.type) && flagAllows;
 
-  const hasResources = getKeys(upgrade.items).every(
-    (name) => inventory[name]?.gte(upgrade.items[name] ?? 0) ?? false,
-  );
+  // Ascension upgrades carry their (level-scaled) cost in getAscensionUpgradeCost,
+  // not in ISLAND_UPGRADE[...].items (which is empty for them).
+  const { items: upgradeItems, coins: upgradeCoins } = isAscensionUpgrade
+    ? getAscensionUpgradeCost((island.ascensionLevel ?? 0) + 1)
+    : { items: upgrade.items, coins: 0 };
+
+  const hasResources =
+    getKeys(upgradeItems).every(
+      (name) => inventory[name]?.gte(upgradeItems[name] ?? 0) ?? false,
+    ) && coins >= upgradeCoins;
 
   return (
     <CloseButtonPanel bumpkinParts={NPC_WEARABLES.grubnuk} onClose={onClose}>
@@ -197,18 +207,25 @@ const IslandUpgraderModal: React.FC<{
                   {t("islandupgrade.tempItemWarning")}
                 </Label>
               )}
-              {getKeys(upgrade.items).map((name) => (
+              {getKeys(upgradeItems).map((name) => (
                 <Label
                   key={name}
                   icon={ITEM_DETAILS[name].image}
                   className="mr-3 whitespace-nowrap"
                   type={
-                    inventory[name]?.gte(upgrade.items[name] ?? 0)
+                    inventory[name]?.gte(upgradeItems[name] ?? 0)
                       ? "default"
                       : "danger"
                   }
-                >{`${upgrade.items[name]} x ${name}`}</Label>
+                >{`${upgradeItems[name]} x ${name}`}</Label>
               ))}
+              {upgradeCoins > 0 && (
+                <Label
+                  icon={coinsIcon}
+                  className="mr-3 whitespace-nowrap"
+                  type={coins >= upgradeCoins ? "default" : "danger"}
+                >{`${upgradeCoins} x Coins`}</Label>
+              )}
             </div>
           </>
         )}
@@ -329,7 +346,7 @@ export const IslandUpgrader: React.FC<Props> = ({ offset }) => {
     // Volcano -> swamp raft sits on the scaffolding at the top-right of the
     // volcano land. TODO: confirm exact coordinates in-game.
     if (islandType === "volcano") {
-      return { x: 9, y: 9 };
+      return { x: 16, y: 14 };
     }
 
     return { x: 7, y: 0 };
