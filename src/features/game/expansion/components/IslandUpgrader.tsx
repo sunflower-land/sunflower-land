@@ -23,29 +23,21 @@ import { getKeys } from "lib/object";
 import { createPortal } from "react-dom";
 import confetti from "canvas-confetti";
 import type { IslandType } from "features/game/types/game";
+import { ASCENSION_ISLANDS } from "features/game/types/game";
+import { hasFeatureAccess } from "lib/flags";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Transition } from "@headlessui/react";
-import { formatDateTime } from "lib/utils/time";
 import { translate } from "lib/i18n/translate";
 import { Loading } from "features/auth/components";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import type { MachineState } from "features/game/lib/gameMachine";
-import { useNow } from "lib/utils/hooks/useNow";
-
-const UPGRADE_DATES: Record<IslandType, number | null> = {
-  basic: new Date(0).getTime(),
-  spring: new Date("2024-05-15T00:00:00Z").getTime(),
-  desert: new Date("2025-02-03T00:00:00Z").getTime(),
-  volcano: null, // Next prestige after volcano
-  swamp: null, // Next prestige after volcano
-};
 
 export const UPGRADE_RAFTS: Record<IslandType, string | null> = {
   basic: SUNNYSIDE.land.springRaft,
   spring: SUNNYSIDE.land.desertRaft,
   desert: SUNNYSIDE.land.volcanoRaft,
-  volcano: null, // Next prestige after volcano
+  volcano: SUNNYSIDE.land.volcanoRaft, // Next prestige after volcano
   swamp: null, // Next prestige after volcano
 };
 
@@ -73,8 +65,7 @@ const UPGRADE_DESCRIPTIONS: Record<IslandType, string | null> = {
   swamp: translate("islandupgrade.volcanoResourcesDescription"),
 };
 
-// Volcano/swamp are not in ISLAND_UPGRADE (no further prestige). The modal still
-// renders for them via UPGRADE_DATES (null -> "coming soon"), so fall back to an
+// Swamp (terminal ascension island) isn't in ISLAND_UPGRADE, so fall back to an
 // empty upgrade to keep the unconditional reads below type-safe and crash-free.
 const NO_ISLAND_UPGRADE: Pick<
   (typeof ISLAND_UPGRADE)[keyof typeof ISLAND_UPGRADE],
@@ -87,7 +78,6 @@ const IslandUpgraderModal: React.FC<{
 }> = ({ onClose, onUpgrade }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const now = useNow();
 
   const [showConfirmation, setShowConfirmation] = useState(false);
 
@@ -144,9 +134,18 @@ const IslandUpgraderModal: React.FC<{
     return getKeys(temporaryCollectibles).length > 0;
   };
 
-  const upgradeDate = UPGRADE_DATES[island.type];
-  const hasUpgrade = upgradeDate !== null;
-  const isReady = hasUpgrade && upgradeDate <= now;
+  // Ascension upgrades (volcano -> swamp onward) are gated behind the
+  // SWAMP_ASCENSION feature flag; basic-island upgrades are unaffected.
+  const nextIsland = isLandUpgradable(island.type)
+    ? ISLAND_UPGRADE[island.type].upgrade
+    : undefined;
+  const isAscensionUpgrade =
+    !!nextIsland &&
+    (ASCENSION_ISLANDS as readonly string[]).includes(nextIsland);
+  const flagAllows =
+    !isAscensionUpgrade ||
+    hasFeatureAccess(gameState.context.state, "SWAMP_ASCENSION");
+  const hasUpgrade = isLandUpgradable(island.type) && flagAllows;
 
   const hasResources = getKeys(upgrade.items).every(
     (name) => inventory[name]?.gte(upgrade.items[name] ?? 0) ?? false,
@@ -179,17 +178,6 @@ const IslandUpgraderModal: React.FC<{
         {hasUpgrade && (
           <>
             <div className="flex items-center mt-2 mb-1 flex-wrap">
-              {!isReady && (
-                <Label
-                  icon={SUNNYSIDE.icons.stopwatch}
-                  type="danger"
-                  className="mr-3 my-2 whitespace-nowrap"
-                >
-                  {`${t("coming.soon")} - ${formatDateTime(
-                    new Date(upgradeDate).toISOString(),
-                  )}`}
-                </Label>
-              )}
               {remainingExpansions > 0 && (
                 <Label
                   icon={SUNNYSIDE.land.island}
@@ -200,7 +188,7 @@ const IslandUpgraderModal: React.FC<{
                 </Label>
               )}
 
-              {isReady && hasUnexpiredItemsPlaced() && (
+              {hasUnexpiredItemsPlaced() && (
                 <Label
                   icon={SUNNYSIDE.icons.expression_alerted}
                   type="danger"
@@ -226,9 +214,7 @@ const IslandUpgraderModal: React.FC<{
         )}
       </div>
       <Button
-        disabled={
-          !hasUpgrade || !hasResources || !isReady || remainingExpansions > 0
-        }
+        disabled={!hasUpgrade || !hasResources || remainingExpansions > 0}
         onClick={() => setShowConfirmation(true)}
       >
         {t("continue")}
@@ -339,6 +325,11 @@ export const IslandUpgrader: React.FC<Props> = ({ offset }) => {
     }
     if (islandType === "desert" && nextExpansion === 26) {
       return { x: 1, y: -11 };
+    }
+    // Volcano -> swamp raft sits on the scaffolding at the top-right of the
+    // volcano land. TODO: confirm exact coordinates in-game.
+    if (islandType === "volcano") {
+      return { x: 9, y: 9 };
     }
 
     return { x: 7, y: 0 };

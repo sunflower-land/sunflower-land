@@ -12,6 +12,7 @@ import type {
   TemperateSeasonName,
 } from "features/game/types/game";
 import { ASCENSION_ISLANDS } from "features/game/types/game";
+import { hasFeatureAccess } from "lib/flags";
 import {
   getTotalBaseResourceEquivalents,
   topUpResourceToMinimum,
@@ -1120,6 +1121,11 @@ export function upgrade({ state, createdAt = Date.now(), farmId }: Options) {
   const targetIsAscension = (ASCENSION_ISLANDS as readonly string[]).includes(
     upcoming.upgrade,
   );
+
+  if (targetIsAscension && !hasFeatureAccess(game, "SWAMP_ASCENSION")) {
+    throw new Error("Swamp ascension is not yet available");
+  }
+
   const { items, coins } = targetIsAscension
     ? getAscensionUpgradeCost((game.island.ascensionLevel ?? 0) + 1)
     : { items: upcoming.items, coins: 0 };
