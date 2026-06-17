@@ -921,4 +921,39 @@ describe("revealLand", () => {
     );
     expect(withPending).toBe(0);
   });
+
+  // The sunstone depletion and pending-airdrop changes must not alter how
+  // forged/upgraded nodes (e.g. Ancient Tree) are granted.
+  it("grants forged nodes and dedups them against pending airdrops", () => {
+    const ancientTreesGranted = (airdrops?: ReturnType<typeof getRewards>) =>
+      getRewards({
+        game: {
+          ...INITIAL_FARM,
+          island: { type: "spring" },
+          inventory: { "Basic Land": new Decimal(7) },
+          farmActivity: { "Ancient Tree Upgrade": 1 },
+          ...(airdrops ? { airdrops } : {}),
+        },
+        createdAt: Date.now(),
+      })
+        .filter((a) => a.id.startsWith("missing-resources"))
+        .reduce((total, a) => total + (a.items["Ancient Tree"] ?? 0), 0);
+
+    // A forged Ancient Tree the player no longer holds is still granted.
+    expect(ancientTreesGranted()).toBe(1);
+
+    // ...but it is not re-granted while it sits in an unclaimed airdrop.
+    expect(
+      ancientTreesGranted([
+        {
+          id: "missing-resources-7",
+          createdAt: 0,
+          items: { "Ancient Tree": 1 },
+          wearables: {},
+          sfl: 0,
+          coins: 0,
+        },
+      ]),
+    ).toBe(0);
+  });
 });
