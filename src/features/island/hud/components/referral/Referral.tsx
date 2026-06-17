@@ -31,6 +31,7 @@ import {
   XIcon,
 } from "react-share";
 import { getReferrees } from "./actions/getReferrees";
+import { VipReferralRewards } from "./VipReferralRewards";
 import useSWR from "swr";
 import { useAuth } from "features/auth/lib/Provider";
 import { Loading } from "features/auth/components";
@@ -78,18 +79,21 @@ export const Referrees: React.FC = () => {
     (a, b) => (b.flower ?? 0) - (a.flower ?? 0),
   );
   const totalReferrees = referrees?.length ?? 0;
-  const totalVIPReferrees =
-    referrees?.filter((referree) => referree.vip).length ?? 0;
+  // VIP count comes from the persisted game-state counter (the same source the
+  // VIP milestone rewards use) so the bracketed "(X VIP)" figure here matches
+  // the milestone progress, rather than the live referrees-list filter.
+  const totalVIPReferrals =
+    gameState.context.state.referrals?.totalVIPReferrals ?? 0;
   const totalFlower =
     referrees?.reduce((acc, referree) => acc + (referree.flower ?? 0), 0) ?? 0;
 
   let label = t("referral.noReferrees");
   if (totalReferrees === 1) {
-    label = t("referral.singleReferree", { vipCount: totalVIPReferrees });
+    label = t("referral.singleReferree", { vipCount: totalVIPReferrals });
   } else if (totalReferrees > 1) {
     label = t("referral.multipleReferrees", {
       totalReferrees,
-      vipCount: totalVIPReferrees,
+      vipCount: totalVIPReferrals,
     });
   }
 
@@ -313,6 +317,9 @@ export const ReferralInfo: React.FC = () => {
           />
         </div>
       </div>
+
+      {/* VIP Referral Milestone Rewards */}
+      <VipReferralRewards />
 
       {/* Referred-list modal — layers on top of whatever parent modal
           contains the referral content. Kept inside ReferralInfo so the

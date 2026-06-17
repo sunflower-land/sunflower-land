@@ -2,6 +2,7 @@ import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import type { CollectibleName } from "features/game/types/craftables";
 import Decimal from "decimal.js-light";
+import { getCollectiblesAcrossLocations } from "features/game/lib/collectibleBuilt";
 import {
   chargeCoinsForSpeedUp,
   getInstantGems,
@@ -28,7 +29,8 @@ export function speedUpCollectible({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    const collectible = game.collectibles[action.name]?.find(
+    // A collectible can live on any placement surface — search them all by id.
+    const collectible = getCollectiblesAcrossLocations(game, action.name).find(
       (item) => item.id === action.id,
     );
 

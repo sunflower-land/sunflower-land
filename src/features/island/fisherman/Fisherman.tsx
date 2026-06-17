@@ -9,6 +9,7 @@ import {
   MapPlacement,
 } from "features/game/expansion/components/MapPlacement";
 import { PIXEL_SCALE, GRID_WIDTH_PX } from "features/game/lib/constants";
+import { getWharfCoordinates } from "features/game/expansion/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
 import React, { useContext, useState } from "react";
 import { Modal } from "components/ui/Modal";
@@ -33,6 +34,7 @@ const WHARF: Record<Exclude<IslandType, "basic">, string> = {
   volcano: volcanoWharf,
   desert: desertWharf,
   spring: springWharf,
+  swamp: volcanoWharf,
 };
 
 export const Fisherman: React.FC = () => {
@@ -44,16 +46,7 @@ export const Fisherman: React.FC = () => {
   const season = useSelector(gameService, _season);
   const island = useSelector(gameService, _island);
 
-  const wharfCoords = (): Coordinates => {
-    if (expansionCount < 7) {
-      return { x: -1, y: -3 };
-    }
-    if (expansionCount >= 7 && expansionCount < 21) {
-      return { x: -8, y: -9 };
-    } else {
-      return { x: -14, y: -15 };
-    }
-  };
+  const wharfCoords = (): Coordinates => getWharfCoordinates(expansionCount);
 
   const extendedWharfPosition = (): React.CSSProperties | undefined => {
     if (island === "spring") {
@@ -78,13 +71,14 @@ export const Fisherman: React.FC = () => {
       };
     }
 
-    if (island === "volcano") {
+    if (island === "volcano" || island === "swamp") {
       const width = 76;
       const top = 24;
-      let right = 8.619;
+      // +2 over the original (8.619 / 9.76) to nudge the volcano dock art 2px west.
+      let right = 10.619;
 
       if (expansionCount > 7) {
-        right = 9.76;
+        right = 11.76;
       }
 
       return {
@@ -130,7 +124,7 @@ export const Fisherman: React.FC = () => {
       bottom = -78;
     }
 
-    if (island === "volcano") {
+    if (island === "volcano" || island === "swamp") {
       right = -23;
       bottom = -93;
     }

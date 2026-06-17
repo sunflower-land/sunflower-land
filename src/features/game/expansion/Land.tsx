@@ -48,6 +48,7 @@ import {
 import { Clutter } from "features/island/clutter/Clutter";
 import { PetNFT } from "features/island/pets/PetNFT";
 import { WaterTrapSpot } from "features/island/fisherman/WaterTrapSpot";
+import { getWaterTrapCoordinates } from "features/game/types/crustaceans";
 import { FarmHand } from "features/island/farmhand/FarmHand";
 import { PlacedBumpkin } from "features/island/bumpkin/components/PlacedBumpkin";
 import { SaltNode } from "./components/salt/SaltNode";
@@ -416,10 +417,15 @@ export const LandComponent: React.FC = () => {
   );
   const landscaping = useSelector(gameService, isLandscaping);
 
-  // As the land gets bigger, expand the gameboard
-  // The distance between the edge of the gameboard and the edge of island should remain roughly the same for higher expansions
+  // As the land gets bigger, expand the gameboard so the static cloud frame
+  // (and the ocean margin) keeps clearing the land + mushroom island.
+  // The frame's bands are a fixed fraction of the board, so this multiplier
+  // has to outpace the land's growth (≈ √expansions); LAND_WIDTH (6) left the
+  // top of the land touching the clouds at the 42-land (7x6) layout, so it's
+  // bumped here. Keep the result even.
+  const GAMEBOARD_MARGIN_FACTOR = 10;
   const gameboardSizeOffset =
-    Math.ceil((Math.sqrt(expansionCount) * LAND_WIDTH) / 2) * 2; // make sure this is even
+    Math.ceil((Math.sqrt(expansionCount) * GAMEBOARD_MARGIN_FACTOR) / 2) * 2;
   const gameboardDimensions = {
     x: 84 + gameboardSizeOffset,
     y: 56 + gameboardSizeOffset,
@@ -1061,20 +1067,26 @@ export const LandComponent: React.FC = () => {
   const waterTrapElements = useMemo(() => {
     if (!waterTraps) return [];
 
-    return Object.entries(waterTraps).map(([id, waterTrap]) => {
-      return (
+    // Trap coordinates are a client render concern anchored to the dock (see
+    // getWaterTrapCoordinates); the state only owns which ids exist and whether
+    // each holds a trap. Iterate the ids, compute the position.
+    return Object.keys(waterTraps).flatMap((id) => {
+      const coords = getWaterTrapCoordinates(expansionCount, island.type, id);
+      if (!coords) return [];
+
+      return [
         <MapPlacement
           key={`water-trap-${id}`}
-          x={waterTrap.x}
-          y={waterTrap.y}
+          x={coords.x}
+          y={coords.y}
           height={1}
           width={1}
         >
           <WaterTrapSpot key={`water-trap-${id}`} id={id} />
-        </MapPlacement>
-      );
+        </MapPlacement>,
+      ];
     });
-  }, [waterTraps]);
+  }, [waterTraps, expansionCount, island.type]);
 
   const saltNodeElements = useMemo(() => {
     return getObjectEntries(
@@ -1243,6 +1255,9 @@ export const LandComponent: React.FC = () => {
               )}
               style={{
                 backgroundSize: `${GRID_WIDTH_PX}px ${GRID_WIDTH_PX}px`,
+                // Pin a grid line to the centre (MapPlacement's 0,0) so it tracks the placement
+                // cells for any land image size, not just even-tile-width ones.
+                backgroundPosition: `calc(50% + ${GRID_WIDTH_PX / 2}px) calc(50% + ${GRID_WIDTH_PX / 2}px)`,
                 backgroundImage: gridBackgroundImage,
               }}
             />

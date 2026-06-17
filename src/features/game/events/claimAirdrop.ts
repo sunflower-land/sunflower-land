@@ -125,6 +125,10 @@ export function claimAirdrop({
               // Only pet collectibles can be in petHouse
               if (!isPetCollectible(itemName)) return [];
               return game.petHouse?.pets?.[itemName] ?? [];
+            } else if (location === "interior") {
+              return game.interior?.ground.collectibles[itemName] ?? [];
+            } else if (location === "level_one") {
+              return game.interior?.level_one?.collectibles[itemName] ?? [];
             } else {
               return game.collectibles[itemName] ?? [];
             }

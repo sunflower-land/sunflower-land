@@ -55,6 +55,7 @@ const BACKGROUND_IMAGE: Record<IslandType, string> = {
   spring: SUNNYSIDE.land.house_inside,
   desert: SUNNYSIDE.land.manor_inside,
   volcano: SUNNYSIDE.land.mansion_inside,
+  swamp: SUNNYSIDE.land.mansion_inside,
 };
 
 function hasReadIntro() {

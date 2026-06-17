@@ -705,6 +705,7 @@ export type InventoryItemName =
   | ChapterCollectibleName
   | TradeFood
   | ChapterBanner
+  | "Creator Banner"
   | RewardBoxName
   | LandBiomeName
   | MonumentName
@@ -1508,18 +1509,18 @@ export type MegaStore = {
   collectibles: CollectiblesItem[];
 };
 
-export type IslandType = "basic" | "spring" | "desert" | "volcano";
+export const ISLAND_TYPES = ["basic", "spring", "desert", "volcano"] as const;
+export type BasicIslandType = (typeof ISLAND_TYPES)[number];
 
-/**
- * The order of the islands is important as it determines the levels of the islands.
- * Each new island should be added to the end of the array.
- */
-export const ISLAND_EXPANSIONS: IslandType[] = [
-  "basic",
-  "spring",
-  "desert",
-  "volcano",
-];
+export const ASCENSION_ISLANDS = ["swamp"] as const;
+export type AscensionIslandType = (typeof ASCENSION_ISLANDS)[number];
+
+export const ISLAND_EXPANSIONS = [
+  ...ISLAND_TYPES,
+  ...ASCENSION_ISLANDS,
+] as const;
+
+export type IslandType = (typeof ISLAND_EXPANSIONS)[number];
 
 export type Home = {
   collectibles: Collectibles;
@@ -1919,6 +1920,7 @@ export interface GameState {
     previousExpansions?: number;
     sunstones?: number;
     biome?: LandBiomeName;
+    ascensionLevel?: number;
   };
 
   username?: string;
@@ -2045,7 +2047,7 @@ export interface GameState {
   auctioneer: Auctioneer;
   chores?: ChoresV2;
   kingdomChores: KingdomChores;
-  mushrooms: Mushrooms;
+  mushrooms?: Mushrooms;
   potionHouse?: PotionHouse;
 
   bounties: Bounties;
@@ -2160,6 +2162,12 @@ export interface GameState {
       coins?: number;
       sfl?: number;
     };
+    /**
+     * VIP referral milestone thresholds (1, 5, 10, 20 … 90) that have been
+     * claimed, mapped to the timestamp (ms) they were claimed at. Used to make
+     * each milestone prize claimable exactly once.
+     */
+    vipMilestonesClaimed?: Partial<Record<number, number>>;
   };
   socialTasks?: {
     completed: Partial<Record<InGameTaskName, { completedAt: number }>>;

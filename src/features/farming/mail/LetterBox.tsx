@@ -24,7 +24,6 @@ import { DailyRewardClaim } from "features/game/components/DailyReward";
 import { CommunityFeed } from "./components/CommunityFeed";
 import { AddPostForm } from "./components/AddPostForm";
 import { PostOnXPanel } from "./components/PostOnXPanel";
-import { hasFeatureAccess } from "lib/flags";
 import { useAuth } from "features/auth/lib/Provider";
 import {
   DISCORD_NEWS_STORAGE_EVENT,
@@ -44,10 +43,6 @@ export const LetterBox: React.FC = () => {
 
   const isVisiting = useSelector(gameService, (state) =>
     state.matches("visiting"),
-  );
-
-  const hasSeenOnX = useSelector(gameService, (state) =>
-    hasFeatureAccess(state.context.state, "SEEN_ON_X"),
   );
 
   const { t } = useAppTranslation();
@@ -154,15 +149,11 @@ export const LetterBox: React.FC = () => {
               name: t("mailbox.dailyGift"),
               id: "dailyGift",
             },
-            ...(hasSeenOnX
-              ? [
-                  {
-                    icon: speakerIcon,
-                    name: t("mailbox.community"),
-                    id: "community" as const,
-                  },
-                ]
-              : []),
+            {
+              icon: speakerIcon,
+              name: t("mailbox.community"),
+              id: "community" as const,
+            },
           ]}
           currentTab={tab}
           setCurrentTab={setTab}
@@ -178,7 +169,7 @@ export const LetterBox: React.FC = () => {
               <DailyRewardClaim />
             </InnerPanel>
           )}
-          {tab === "community" && hasSeenOnX && (
+          {tab === "community" && (
             <CommunityFeed
               key={feedKey}
               onAddPost={() => setShowAddPost(true)}
@@ -186,21 +177,19 @@ export const LetterBox: React.FC = () => {
             />
           )}
         </CloseButtonPanel>
-        {tab === "community" && hasSeenOnX && <PostOnXPanel onClose={close} />}
+        {tab === "community" && <PostOnXPanel onClose={close} />}
       </Modal>
-      {hasSeenOnX && (
-        <AddPostForm
-          key={feedKey}
-          show={showAddPost}
-          onClose={() => setShowAddPost(false)}
-          onSuccess={() => {
-            setShowAddPost(false);
-            // Remount the feed (and this form) so the newly showcased post
-            // loads into the list and the form input resets.
-            setFeedKey((key) => key + 1);
-          }}
-        />
-      )}
+      <AddPostForm
+        key={feedKey}
+        show={showAddPost}
+        onClose={() => setShowAddPost(false)}
+        onSuccess={() => {
+          setShowAddPost(false);
+          // Remount the feed (and this form) so the newly showcased post
+          // loads into the list and the form input resets.
+          setFeedKey((key) => key + 1);
+        }}
+      />
     </>
   );
 };

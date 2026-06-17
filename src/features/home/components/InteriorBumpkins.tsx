@@ -23,6 +23,7 @@ import { Panel } from "components/ui/Panel";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import type { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _farmHands = (state: MachineState) =>
@@ -36,7 +37,11 @@ const _levelOneCollectibles = (state: MachineState) =>
   state.context.state.interior.level_one?.collectibles;
 const _isLandscaping = (state: MachineState) => state.matches("landscaping");
 
-export const InteriorBumpkins: React.FC = () => {
+type Props = {
+  location?: Extract<PlaceableLocation, "home" | "interior" | "level_one">;
+};
+
+export const InteriorBumpkins: React.FC<Props> = ({ location = "home" }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
@@ -60,12 +65,16 @@ export const InteriorBumpkins: React.FC = () => {
   const max = Object.keys(BED_FARMHAND_COUNT).length;
 
   // Beds placed anywhere count — farm, home interior and both /interior floors.
-  const uniqueBeds = getPlacedBedNames([
+  const uniqueBeds = getPlacedBedNames({
     collectibles,
-    homeCollectibles,
-    interiorCollectibles,
-    levelOneCollectibles,
-  ]);
+    home: { collectibles: homeCollectibles },
+    interior: {
+      ground: { collectibles: interiorCollectibles },
+      level_one: levelOneCollectibles
+        ? { collectibles: levelOneCollectibles }
+        : undefined,
+    },
+  });
 
   const beds = getKeys(BED_FARMHAND_COUNT)
     .sort((a, b) => BED_FARMHAND_COUNT[a] - BED_FARMHAND_COUNT[b])
@@ -97,7 +106,7 @@ export const InteriorBumpkins: React.FC = () => {
         <div className="flex">
           {(!isLandscaping ||
             !bumpkin.coordinates ||
-            bumpkin.location !== "home") && (
+            bumpkin.location !== location) && (
             <div
               className={classNames(
                 "mr-2",

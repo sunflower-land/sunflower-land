@@ -292,6 +292,7 @@ import catchTheKrakenBanner from "assets/decorations/banners/catch_the_kraken_ba
 import springBlossomBanner from "assets/decorations/banners/spring_banner.gif";
 import clashOfFactionsBanner from "assets/decorations/banners/clash_of_factions_banner.webp";
 import lifetimeFarmerBanner from "assets/decorations/banners/lifetime_farmer_banner.png";
+import creatorBanner from "assets/decorations/banners/creator_banner.png";
 import pharaohsTreasureBanner from "assets/decorations/banners/pharaohs_treasure_banner.webp";
 import budTicket from "assets/icons/bud_ticket.png";
 import prizeTicket from "assets/icons/prize_ticket.png";
@@ -886,6 +887,8 @@ import bronzeCookingTrophy from "assets/sfts/cooking_bronze_trophy.webp";
 import bronzeFriendsTrophy from "assets/sfts/friends_third_place_trophy.webp";
 import silverFriendsTrophy from "assets/sfts/friends_second_place_trophy.webp";
 import goldFriendsTrophy from "assets/sfts/friends_first_place_trophy.webp";
+
+import designTrophy from "assets/sfts/design_trophy.webp";
 
 import desertRose from "assets/sfts/desert_rose.webp";
 import sarcophagus from "assets/sfts/sarcophagus.webp";
@@ -3603,6 +3606,10 @@ export const ITEM_DETAILS: Items = {
   "Lifetime Farmer Banner": {
     image: lifetimeFarmerBanner,
     description: translate("description.lifetime.farmer.banner"),
+  },
+  "Creator Banner": {
+    image: creatorBanner,
+    description: translate("description.creator.banner"),
   },
   "Pharaoh's Treasure Banner": {
     image: pharaohsTreasureBanner,
@@ -6802,6 +6809,10 @@ export const ITEM_DETAILS: Items = {
     description:
       "A volcano biome that provides a volcano income and a volcano life.",
   },
+  "Swamp Biome": {
+    image: volcanoBiome,
+    description: "A swamp biome that provides a swamp income and a swamp life.",
+  },
   Bracelet: {
     image: bracelet,
     description: "",
@@ -6965,6 +6976,10 @@ export const ITEM_DETAILS: Items = {
   "Gold Friends Trophy": {
     image: goldFriendsTrophy,
     description: translate("description.goldFriendsTrophy"),
+  },
+  "Design Trophy": {
+    image: designTrophy,
+    description: translate("description.designTrophy"),
   },
   Doll: {
     image: doll,

@@ -60,3 +60,18 @@ export type ShowcasedTweet = {
   twitterHandle: string;
   bumpkin: Equipped;
 };
+
+/**
+ * A farm design featured by the team in the in-game Design Showcase.
+ * Mirrors the backend `ShowcasedDesign` shape returned by `/data`.
+ */
+export type ShowcasedDesign = {
+  messageId: string;
+  farmId: number;
+  username?: string;
+  /** Discord display name, used as a fallback when no farm username is set. */
+  displayName?: string;
+  image: string;
+  showcasedAt: number;
+  bumpkin: Equipped;
+};

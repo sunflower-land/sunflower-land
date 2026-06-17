@@ -9068,5 +9068,16 @@
   "community.feed.remove.confirm": "Kaldırmayı onaylayın",
   "community.feed.removing": "Mesaj kaldırılıyor...",
   "community.feed.removeError": "Gönderi kaldırılamadı. Lütfen tekrar deneyin.",
-  "community.addPost.reward": "Yazarlar 1000 Aşk Tılsımı alacak."
+  "community.addPost.reward": "Yazarlar 1000 Aşk Tılsımı alacak.",
+  "description.creator.banner": "Sunflower Land topluluğunu büyüten yaratıcıları kutlamak için bir afiş.",
+  "referral.vipRewards.title": "VIP Tavsiye Ödülleri",
+  "referral.vipRewards.progress": "{{count}}/{{max}} VİP",
+  "referral.vipRewards.description": "Tavsiye ettiğiniz arkadaşlarınız VIP olduğunda bonus ödüller kazanın. Ödülünü almak için bir dönüm noktasına ulaşın!",
+  "referral.vipRewards.commission": "Çiçek komisyonu% 20'ye yükseldi",
+  "gameOptions.experiments.designShowcase": "Tasarım vitrini",
+  "designShowcase.heading": "Öne çıkan tasarımlar",
+  "designShowcase.description": "Topluluktan göze çarpan çiftlik tasarımlarının bir vitrini.",
+  "designShowcase.error": "Öne çıkan tasarımları yüklerken bir şeyler ters gitti.",
+  "designShowcase.empty": "Henüz hiçbir tasarım öne çıkmadı. Yakında tekrar kontrol edin!",
+  "description.designTrophy": "Ekip tarafından öne çıkan olağanüstü bir çiftlik tasarımı için ödüllendirildi!"
 }

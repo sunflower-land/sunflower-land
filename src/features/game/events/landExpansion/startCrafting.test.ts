@@ -1126,4 +1126,80 @@ describe("startCrafting", () => {
     expect(instantItem.readyAt).toBe(now);
     expect(instantItem.startedAt).toBe(now);
   });
+
+  // A finished craft left uncollected keeps occupying a queue slot with a
+  // readyAt in the past. A new craft must start "now", not chain off that past
+  // readyAt — otherwise the elapsed wait is discounted from (or makes instant)
+  // the next craft.
+  it("does not discount the next craft when a finished item is left uncollected", () => {
+    const now = Date.now();
+    const twoHours = 2 * 60 * 60 * 1000;
+    // Doll #1 finished 4h ago but was never collected.
+    const finishedReadyAt = now - 4 * 60 * 60 * 1000;
+
+    gameState.vip = { bundles: [], expiresAt: now + 86400000 };
+    gameState.inventory = {
+      Leather: new Decimal(10),
+      Wool: new Decimal(10),
+    };
+    gameState.farmActivity = { "Doll Crafting Started": 1 };
+    gameState.craftingBox = {
+      status: "crafting",
+      queue: [
+        {
+          id: "doll-finished",
+          name: "Doll",
+          startedAt: finishedReadyAt - twoHours,
+          readyAt: finishedReadyAt,
+          type: "collectible",
+        },
+      ],
+      recipes: {
+        Doll: {
+          name: "Doll",
+          type: "collectible",
+          ingredients: [
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Wool" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
+            { collectible: "Wool" },
+            { collectible: "Leather" },
+          ],
+          time: 2 * 60 * 60 * 1000,
+        },
+      },
+    };
+
+    const action: StartCraftingAction = {
+      type: "crafting.started",
+      queueItemId: "doll-2",
+      ingredients: [
+        { collectible: "Leather" },
+        { collectible: "Wool" },
+        { collectible: "Leather" },
+        { collectible: "Wool" },
+        { collectible: "Wool" },
+        { collectible: "Wool" },
+        { collectible: "Leather" },
+        { collectible: "Wool" },
+        { collectible: "Leather" },
+      ],
+    };
+
+    const newState = startCrafting({
+      state: gameState,
+      action,
+      createdAt: now,
+      farmId,
+    });
+
+    const newItem = newState.craftingBox.queue?.find((q) => q.id === "doll-2");
+    // Must start now and take the full 2h — not inherit the 4h waited.
+    expect(newItem?.startedAt).toBe(now);
+    expect(newItem?.readyAt).toBe(now + twoHours);
+  });
 });

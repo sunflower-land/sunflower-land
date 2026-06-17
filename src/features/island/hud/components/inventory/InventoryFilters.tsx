@@ -68,7 +68,7 @@ export const InventoryFilters: React.FC<Props> = ({
         </Button>
       </div>
       {showFilters && (
-        <div className="flex overflow-x-auto scrollable sm:flex-wrap gap-1">
+        <div className="flex overflow-x-auto scrollable sm:flex-wrap gap-x-2 gap-y-1">
           <Chip
             selected={activeCategories.length === 0}
             onClick={onClearCategories}
@@ -76,17 +76,19 @@ export const InventoryFilters: React.FC<Props> = ({
           >
             {t("inventory.all")}
           </Chip>
-          {categories.map((category) => (
-            <Chip
-              key={category.id}
-              selected={activeCategories.includes(category.id)}
-              icon={category.icon}
-              onClick={() => onToggleCategory(category.id)}
-              className="whitespace-nowrap sm:whitespace-normal mb-1 sm:mb-0"
-            >
-              {category.label}
-            </Chip>
-          ))}
+          {categories
+            .sort((a, b) => a.label.localeCompare(b.label))
+            .map((category) => (
+              <Chip
+                key={category.id}
+                selected={activeCategories.includes(category.id)}
+                icon={category.icon}
+                onClick={() => onToggleCategory(category.id)}
+                className="whitespace-nowrap sm:whitespace-normal mb-1 sm:mb-0"
+              >
+                {category.label}
+              </Chip>
+            ))}
         </div>
       )}
     </InnerPanel>

@@ -6,13 +6,16 @@ import {
 } from "features/game/expansion/lib/constants";
 import {
   EXPANSION_REQUIREMENTS,
+  getExpectedResources,
   getLand,
   type Requirements,
 } from "features/game/types/expansions";
 import type { Airdrop, BoostName, GameState } from "features/game/types/game";
+import type { ResourceName } from "features/game/types/resources";
 
 import { getKeys } from "lib/object";
 import { pickEmptyPosition } from "features/game/expansion/placeable/lib/collisionDetection";
+import { reAnchorToIsland } from "features/game/expansion/lib/island";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import type { CropName } from "features/game/types/crops";
 import { produce } from "immer";
@@ -24,6 +27,11 @@ import {
   TREE_RECOVERY_TIME,
 } from "features/game/lib/constants";
 import { OIL_RESERVE_RECOVERY_TIME } from "./drillOilReserve";
+
+// Each sunstone rock can be mined this many times before it is depleted and
+// removed from the farm (see mineSunstone). Used both when placing new rocks
+// and when reconciling how many the player has mined to depletion.
+const SUNSTONE_MINES = 10;
 
 // Preloaded crops that will appear on plots when they reveal
 const EXPANSION_CROPS: Record<number, CropName> = {
@@ -47,23 +55,19 @@ type Options = {
   state: Readonly<GameState>;
   action: RevealLandAction;
   createdAt?: number;
-  farmId?: number;
-  promo?: string;
 };
 
-export function revealLand({
-  state,
-  action,
-  createdAt = Date.now(),
-  farmId = 0,
-  promo,
-}: Options) {
+export function revealLand({ state, createdAt = Date.now() }: Options) {
   return produce(state, (game) => {
     if (!game.expansionConstruction) {
       throw new Error("Land is not in construction");
     }
 
-    const land = getLand({ id: farmId, game });
+    // getLand returns null for layouts retired by the cap refactor (basic
+    // 10-23, spring 17-20). A pending construction for one of those rows would
+    // surface here — not expected, as those were UI-capped (basic 9 / spring 16)
+    // long ago and constructions are short-lived.
+    const land = getLand({ game });
     if (!land) {
       throw new Error("Land Does Not Exists");
     }
@@ -78,6 +82,16 @@ export function revealLand({
     const origin = EXPANSION_ORIGINS[landCount - 1];
 
     delete game.expansionConstruction;
+
+    // The mushroom island shifts left with the new land edge — pull island
+    // mushrooms onto its current tiles so they aren't left stranded in the
+    // water. Mushrooms on the main land stay where they are.
+    if (game.mushrooms) {
+      game.mushrooms.mushrooms = reAnchorToIsland(
+        game.mushrooms.mushrooms,
+        landCount,
+      );
+    }
 
     // Add Trees
     land.trees?.forEach((coords) => {
@@ -180,7 +194,7 @@ export function revealLand({
         x: coords.x + origin.x,
         y: coords.y + origin.y,
         stone: { minedAt: 0 },
-        minesLeft: 10,
+        minesLeft: SUNSTONE_MINES,
       };
     });
     inventory["Sunstone Rock"] = (
@@ -557,6 +571,122 @@ export function getRewards({
         },
       ];
     }
+  }
+
+  const missingNodes: Record<ResourceName, number> = {
+    "Crimstone Rock": 0,
+    "Crop Plot": 0,
+    "Flower Bed": 0,
+    "Fruit Patch": 0,
+    "Gold Rock": 0,
+    "Iron Rock": 0,
+    "Stone Rock": 0,
+    "Sunstone Rock": 0,
+    Beehive: 0,
+    Tree: 0,
+    "Oil Reserve": 0,
+    "Lava Pit": 0,
+    "Fused Stone Rock": 0,
+    "Reinforced Stone Rock": 0,
+    Boulder: 0,
+    "Ancient Tree": 0,
+    "Sacred Tree": 0,
+    "Refined Iron Rock": 0,
+    "Tempered Iron Rock": 0,
+    "Pure Gold Rock": 0,
+    "Prime Gold Rock": 0,
+  };
+
+  const expected = getExpectedResources({
+    game,
+    expansion: expansions.toNumber(),
+  });
+
+  // Items already promised by an unclaimed missing-resources airdrop are not
+  // yet in the inventory. Counting them as still-missing would duplicate the
+  // grant if the player expands again before collecting the previous airdrop.
+  const pendingMissing: Partial<Record<ResourceName, number>> = {};
+  (game.airdrops ?? [])
+    .filter((airdrop) => airdrop.id.startsWith("missing-resources"))
+    .forEach((airdrop) => {
+      getKeys(missingNodes).forEach((key) => {
+        pendingMissing[key] =
+          (pendingMissing[key] ?? 0) + (airdrop.items[key] ?? 0);
+      });
+    });
+
+  getKeys(missingNodes).forEach((key) => {
+    let missing =
+      (expected[key] ?? 0) -
+      (game.inventory[key]?.toNumber() ?? 0) -
+      (pendingMissing[key] ?? 0);
+
+    // Sunstone rocks are finite: once a rock is mined to depletion it is
+    // removed from the inventory (see mineSunstone). To avoid re-granting rocks
+    // the player legitimately consumed, subtract the rocks already mined to
+    // depletion. Each rock holds 10 mines, but mines spent on rocks the player
+    // still owns are not depletions, so they are excluded before dividing. A
+    // player who has never mined a sunstone receives the full missing amount.
+    if (key === "Sunstone Rock") {
+      const lifetimeMines = game.farmActivity?.["Sunstone Mined"] ?? 0;
+      const minesOnLiveRocks = Object.values(game.sunstones ?? {}).reduce(
+        (total, rock) => total + (SUNSTONE_MINES - rock.minesLeft),
+        0,
+      );
+      const depleted = Math.floor(
+        Math.max(0, lifetimeMines - minesOnLiveRocks) / SUNSTONE_MINES,
+      );
+      missing -= depleted;
+    }
+
+    // They have the expected amount of resources
+    if (missing <= 0) {
+      return;
+    }
+
+    missingNodes[key] = missing;
+  });
+
+  const hasMissing = getKeys(missingNodes).some((key) => missingNodes[key] > 0);
+  if (hasMissing) {
+    const expansionBoundaries = {
+      x: EXPANSION_ORIGINS[expansions.toNumber() - 1].x - LAND_SIZE / 2,
+      y: EXPANSION_ORIGINS[expansions.toNumber() - 1].y + LAND_SIZE / 2,
+      width: LAND_SIZE,
+      height: LAND_SIZE,
+    };
+
+    const position = pickEmptyPosition({
+      gameState: game,
+      bounding: expansionBoundaries,
+    });
+
+    airdrops = [
+      ...airdrops,
+      {
+        createdAt,
+        id: `missing-resources-${expansions.toNumber()}`,
+        // Only include items greater than 0
+        items: getKeys(missingNodes).reduce(
+          (acc, key) =>
+            missingNodes[key] > 0
+              ? {
+                  ...acc,
+                  [key]: missingNodes[key],
+                }
+              : acc,
+          {},
+        ),
+        sfl: 0,
+        coins: 0,
+        wearables: {},
+        message: "Congratulations, you found some bonus resources!",
+        coordinates: position && {
+          x: position.x,
+          y: position.y,
+        },
+      },
+    ];
   }
 
   return airdrops;
