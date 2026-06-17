@@ -129,7 +129,7 @@ describe("loveAnimal", () => {
                 lovedAt: now - 17 * 60 * 60 * 1000,
                 createdAt: 0,
                 experience: 0,
-                state: "idle",
+                state: "sad",
                 item: "Brush",
               },
             },
@@ -163,7 +163,7 @@ describe("loveAnimal", () => {
                 lovedAt: now - 17 * 60 * 60 * 1000,
                 createdAt: 0,
                 experience: 0,
-                state: "idle",
+                state: "sad",
                 item: "Petting Hand",
               },
             },
@@ -198,7 +198,7 @@ describe("loveAnimal", () => {
               lovedAt: now - 17 * 60 * 60 * 1000,
               createdAt: 0,
               experience: 0,
-              state: "idle",
+              state: "sad",
               item: "Petting Hand",
             },
           },
@@ -234,7 +234,7 @@ describe("loveAnimal", () => {
               lovedAt: now - 17 * 60 * 60 * 1000,
               createdAt: 0,
               experience: 0,
-              state: "idle",
+              state: "sad",
               item: "Petting Hand",
             },
           },
@@ -272,7 +272,7 @@ describe("loveAnimal", () => {
               lovedAt: 0,
               createdAt: 0,
               experience: 200,
-              state: "idle",
+              state: "sad",
               item: "Music Box",
             },
           },
@@ -320,7 +320,7 @@ describe("loveAnimal", () => {
               awakeAt: now - 9 * 60 * 60 * 1000 + ANIMAL_SLEEP_DURATION,
               createdAt: 0,
               experience: 200,
-              state: "idle",
+              state: "sad",
               item: "Brush",
             },
           },
@@ -375,7 +375,7 @@ describe("loveAnimal", () => {
                 awakeAt: now - 9 * 60 * 60 * 1000 + ANIMAL_SLEEP_DURATION,
                 createdAt: 0,
                 experience: 200,
-                state: "idle",
+                state: "sad",
                 item,
               },
             },
@@ -423,7 +423,7 @@ describe("loveAnimal", () => {
               awakeAt: now - 9 * 60 * 60 * 1000 + ANIMAL_SLEEP_DURATION,
               createdAt: 0,
               experience: 200,
-              state: "idle",
+              state: "sad",
               item: "Brush",
             },
           },
@@ -474,7 +474,7 @@ describe("getNextLoveAvailableAt", () => {
   });
 
   it("agrees with isAnimalNeedingLove at the gate boundary", () => {
-    let animal: Animal = { ...baseAnimal, state: "sad", lovedAt: 0 };
+    let animal: Animal = { ...baseAnimal, state: "idle", lovedAt: 0 };
     // Gate opens at the boundary — false strictly before, true at and after.
     expect(isAnimalNeedingLove(animal)).toBe(false);
     animal = { ...baseAnimal, state: "sad", lovedAt: 1 };
