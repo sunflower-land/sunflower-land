@@ -888,6 +888,8 @@ import bronzeFriendsTrophy from "assets/sfts/friends_third_place_trophy.webp";
 import silverFriendsTrophy from "assets/sfts/friends_second_place_trophy.webp";
 import goldFriendsTrophy from "assets/sfts/friends_first_place_trophy.webp";
 
+import designTrophy from "assets/sfts/design_trophy.webp";
+
 import desertRose from "assets/sfts/desert_rose.webp";
 import sarcophagus from "assets/sfts/sarcophagus.webp";
 import anubisJackal from "assets/sfts/anubis_jackal.webp";
@@ -6970,6 +6972,10 @@ export const ITEM_DETAILS: Items = {
   "Gold Friends Trophy": {
     image: goldFriendsTrophy,
     description: translate("description.goldFriendsTrophy"),
+  },
+  "Design Trophy": {
+    image: designTrophy,
+    description: translate("description.designTrophy"),
   },
   Doll: {
     image: doll,

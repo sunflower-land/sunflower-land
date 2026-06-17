@@ -1532,6 +1532,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Ripped Salt Bag": 3022,
   "Salt Doll": 3023,
   "Jacuzzi Bear": 3024,
+  "Design Trophy": 3026,
 };
 
 // The reverse of above
