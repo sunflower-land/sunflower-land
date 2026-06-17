@@ -96,6 +96,13 @@ describe("getRewards", () => {
         ...TEST_FARM,
         inventory: {
           "Basic Land": new Decimal(5),
+          // Hold the full expected nodes so nothing is reported as missing
+          "Crop Plot": new Decimal(33),
+          "Fruit Patch": new Decimal(3),
+          "Gold Rock": new Decimal(3),
+          "Iron Rock": new Decimal(5),
+          "Stone Rock": new Decimal(9),
+          Tree: new Decimal(11),
         },
         island: {
           type: "spring",
@@ -745,6 +752,82 @@ describe("revealLand", () => {
 
     expect(state.trees[1].wood.choppedAt).toBeLessThan(
       state.trees[1].removedAt!,
+    );
+  });
+
+  // A player who expands onto an island with sunstones but was never granted
+  // them (and never mined any) should be airdropped the missing rocks.
+  const revealMissingSunstones = (sunstoneMined?: number) =>
+    revealLand({
+      action: {
+        type: "land.revealed",
+      },
+
+      state: {
+        ...INITIAL_FARM,
+        island: {
+          type: "volcano",
+        },
+        inventory: {
+          "Basic Land": new Decimal(5),
+          "Sunstone Rock": new Decimal(0), // Never received any sunstones
+        },
+        farmActivity:
+          sunstoneMined === undefined ? {} : { "Sunstone Mined": sunstoneMined },
+        expansionConstruction: { createdAt: 0, readyAt: 0 },
+      },
+      createdAt: Date.now(),
+    });
+
+  const missingSunstoneAirdrop = (sunstoneMined?: number) =>
+    revealMissingSunstones(sunstoneMined).airdrops?.find((a) =>
+      a.id.startsWith("missing-resources"),
+    )?.items["Sunstone Rock"] ?? 0;
+
+  it("airdrops missing sunstones for a player who has never mined", () => {
+    // Previously sunstones were never airdropped at all (bug); now they are.
+    expect(missingSunstoneAirdrop()).toBeGreaterThan(0);
+  });
+
+  it("only airdrops sunstones the player has not mined to depletion", () => {
+    const baseline = missingSunstoneAirdrop(); // never mined
+
+    // Mining 20 times depletes 2 rocks (10 mines each), so 2 fewer are granted.
+    expect(missingSunstoneAirdrop(20)).toBe(baseline - 2);
+    // A partial rock (fewer than 10 mines) does not reduce the grant.
+    expect(missingSunstoneAirdrop(9)).toBe(baseline);
+  });
+
+  // Regression: a player who expanded the desert before sunstones existed there
+  // is owed the full desert sunstone total once they expand again. Desert
+  // expects 6 sunstones by expansion 25.
+  it("airdrops missing desert sunstones (expansion 24 -> 25)", () => {
+    const state = revealLand({
+      action: {
+        type: "land.revealed",
+      },
+
+      state: {
+        ...INITIAL_FARM,
+        island: {
+          type: "desert",
+        },
+        inventory: {
+          "Basic Land": new Decimal(24),
+          "Sunstone Rock": new Decimal(0),
+        },
+        farmActivity: {},
+        expansionConstruction: { createdAt: 0, readyAt: 0 },
+      },
+      createdAt: Date.now(),
+    });
+
+    const airdrop = state.airdrops?.find((a) =>
+      a.id.startsWith("missing-resources"),
+    );
+
+    expect(airdrop?.items["Sunstone Rock"]).toBe(
+      TOTAL_EXPANSION_NODES.desert[25]["Sunstone Rock"],
     );
   });
 });

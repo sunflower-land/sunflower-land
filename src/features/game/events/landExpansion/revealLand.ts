@@ -6,10 +6,12 @@ import {
 } from "features/game/expansion/lib/constants";
 import {
   EXPANSION_REQUIREMENTS,
+  getExpectedResources,
   getLand,
   type Requirements,
 } from "features/game/types/expansions";
 import type { Airdrop, BoostName, GameState } from "features/game/types/game";
+import type { ResourceName } from "features/game/types/resources";
 
 import { getKeys } from "lib/object";
 import { pickEmptyPosition } from "features/game/expansion/placeable/lib/collisionDetection";
@@ -564,6 +566,102 @@ export function getRewards({
         },
       ];
     }
+  }
+
+  const missingNodes: Record<ResourceName, number> = {
+    "Crimstone Rock": 0,
+    "Crop Plot": 0,
+    "Flower Bed": 0,
+    "Fruit Patch": 0,
+    "Gold Rock": 0,
+    "Iron Rock": 0,
+    "Stone Rock": 0,
+    "Sunstone Rock": 0,
+    Beehive: 0,
+    Tree: 0,
+    "Oil Reserve": 0,
+    "Lava Pit": 0,
+    "Fused Stone Rock": 0,
+    "Reinforced Stone Rock": 0,
+    Boulder: 0,
+    "Ancient Tree": 0,
+    "Sacred Tree": 0,
+    "Refined Iron Rock": 0,
+    "Tempered Iron Rock": 0,
+    "Pure Gold Rock": 0,
+    "Prime Gold Rock": 0,
+  };
+
+  const expected = getExpectedResources({
+    game,
+    expansion: expansions.toNumber(),
+  });
+
+  getKeys(missingNodes).forEach((key) => {
+    let missing = expected[key] - (game.inventory[key]?.toNumber() ?? 0);
+
+    // Sunstone rocks are finite: once a rock is mined to depletion it is
+    // removed from the inventory (see mineSunstone). To avoid re-granting rocks
+    // the player legitimately consumed, subtract the number of fully depleted
+    // rocks. Each rock starts with 10 mines, so every 10 lifetime mines
+    // accounts for one depleted rock. A player who has never mined a sunstone
+    // (Sunstone Mined === 0) receives the full missing amount.
+    if (key === "Sunstone Rock") {
+      const MINES_PER_SUNSTONE = 10;
+      const depleted = Math.floor(
+        (game.farmActivity?.["Sunstone Mined"] ?? 0) / MINES_PER_SUNSTONE,
+      );
+      missing -= depleted;
+    }
+
+    // They have the expected amount of resources
+    if (missing <= 0) {
+      return;
+    }
+
+    missingNodes[key] = missing;
+  });
+
+  const hasMissing = getKeys(missingNodes).some((key) => missingNodes[key] > 0);
+  if (hasMissing) {
+    const expansionBoundaries = {
+      x: EXPANSION_ORIGINS[expansions.toNumber() - 1].x - LAND_SIZE / 2,
+      y: EXPANSION_ORIGINS[expansions.toNumber() - 1].y + LAND_SIZE / 2,
+      width: LAND_SIZE,
+      height: LAND_SIZE,
+    };
+
+    const position = pickEmptyPosition({
+      gameState: game,
+      bounding: expansionBoundaries,
+    });
+
+    airdrops = [
+      ...airdrops,
+      {
+        createdAt,
+        id: `missing-resources-${expansions.toNumber()}`,
+        // Only include items greater than 0
+        items: getKeys(missingNodes).reduce(
+          (acc, key) =>
+            missingNodes[key] > 0
+              ? {
+                  ...acc,
+                  [key]: missingNodes[key],
+                }
+              : acc,
+          {},
+        ),
+        sfl: 0,
+        coins: 0,
+        wearables: {},
+        message: "Congratulations, you found some bonus resources!",
+        coordinates: position && {
+          x: position.x,
+          y: position.y,
+        },
+      },
+    ];
   }
 
   return airdrops;
