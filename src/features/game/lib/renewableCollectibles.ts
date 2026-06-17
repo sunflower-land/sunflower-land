@@ -88,6 +88,13 @@ export const getWeatherRenewalRequirements = ({
   name: WeatherProtectionCollectibleName;
 }): WeatherRenewalRequirements => {
   const weatherItem = getWeatherShop(game.island.type)[name as WeatherShopItem];
+
+  if (!weatherItem) {
+    throw new Error(
+      `Missing weather collectible entry for ${name} on island type ${game.island.type}`,
+    );
+  }
+
   return {
     coins: weatherItem.price,
     resources: weatherItem.ingredients(
