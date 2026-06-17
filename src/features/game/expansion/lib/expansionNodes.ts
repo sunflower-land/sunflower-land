@@ -5,21 +5,22 @@ import {
   TOTAL_EXPANSION_NODES,
 } from "features/game/types/expansions";
 import type { IslandType } from "features/game/types/game";
+import type { ResourceName } from "features/game/types/resources";
 
-export interface Nodes {
-  "Crop Plot": number;
-  Tree: number;
-  "Stone Rock": number;
-  "Iron Rock": number;
-  "Gold Rock": number;
-  "Crimstone Rock": number;
-  "Sunstone Rock": number;
-  "Fruit Patch": number;
-  "Flower Bed": number;
-  Beehive: number;
-  "Oil Reserve": number;
-  "Lava Pit": number;
-}
+export type Nodes = Record<
+  Exclude<
+    ResourceName,
+    | "Ancient Tree"
+    | "Sacred Tree"
+    | "Refined Iron Rock"
+    | "Tempered Iron Rock"
+    | "Pure Gold Rock"
+    | "Prime Gold Rock"
+    | "Fused Stone Rock"
+    | "Reinforced Stone Rock"
+  >,
+  number
+>;
 
 export function isNode(value: string): value is keyof Nodes {
   const nodeTypes: Array<keyof Nodes> = [
