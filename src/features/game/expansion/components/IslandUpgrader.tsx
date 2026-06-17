@@ -40,7 +40,7 @@ export const UPGRADE_RAFTS: Record<IslandType, string | null> = {
   spring: SUNNYSIDE.land.desertRaft,
   desert: SUNNYSIDE.land.volcanoRaft,
   volcano: SUNNYSIDE.land.volcanoRaft, // Next prestige after volcano
-  swamp: null, // Next prestige after volcano
+  swamp: null, // swamp is terminal — no further prestige raft
 };
 
 const UPGRADE_PREVIEW: Record<IslandType, string | null> = {

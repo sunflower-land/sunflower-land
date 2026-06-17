@@ -348,7 +348,6 @@ const INITIAL_SWAMP_LAND_COORDINATES: InitialLandCoordinates = {
     "6": { x: 17, y: -4 },
     "7": { x: 17, y: -6 },
     "8": { x: 19, y: -4 },
-    "9": { x: 17, y: -5 },
   },
   iron: {
     "4d8d840d": { x: 18, y: -6 },
@@ -390,19 +389,16 @@ const INITIAL_SWAMP_LAND_COORDINATES: InitialLandCoordinates = {
     "36088790": { x: -15, y: 14 },
     "7f87f68b": { x: -15, y: 13 },
     "8724fce7": { x: -15, y: 12 },
-    "517eeed7": { x: -15, y: 15 },
   },
   flowerBeds: {
     "97a62df9": { x: -14, y: 14 },
     a3cb4712: { x: -14, y: 13 },
     be869296: { x: -14, y: 15 },
-    b200d416: { x: -14, y: 12 },
   },
   lavaPits: {
     "1571085d": { x: 10, y: -2 },
     "06fcbfea": { x: 12, y: -2 },
     f569e8ea: { x: 12, y: -4 },
-    b2123a9c: { x: 10, y: -4 },
   },
 };
 

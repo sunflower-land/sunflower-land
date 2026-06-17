@@ -1111,18 +1111,8 @@ describe("upgradeFarm", () => {
           Crimstone: new Decimal(100),
           Oil: new Decimal(100),
           Obsidian: new Decimal(10),
-          "Crop Plot": new Decimal(65),
-          "Fruit Patch": new Decimal(15),
-          Tree: new Decimal(23),
-          "Gold Rock": new Decimal(9),
-          "Iron Rock": new Decimal(13),
-          "Stone Rock": new Decimal(20),
-          "Crimstone Rock": new Decimal(5),
-          "Sunstone Rock": new Decimal(13),
-          "Oil Reserve": new Decimal(4),
-          "Lava Pit": new Decimal(4),
-          Beehive: new Decimal(4),
-          "Flower Bed": new Decimal(4),
+          // No node pre-seed: swampUpgrade's arrival floor must cover the
+          // INITIAL_SWAMP_LAND_COORDINATES placements for a realistic account.
         },
       },
       createdAt,
@@ -1149,10 +1139,11 @@ describe("upgradeFarm", () => {
     // Lays out the swamp starting nodes, incl. the swamp-specific types
     expect(Object.keys(state.crops)).toHaveLength(65);
     expect(Object.keys(state.fruitPatches)).toHaveLength(15);
+    expect(Object.keys(state.gold)).toHaveLength(8);
     expect(Object.keys(state.crimstones)).toHaveLength(5);
-    expect(Object.keys(state.beehives)).toHaveLength(4);
-    expect(Object.keys(state.flowers.flowerBeds)).toHaveLength(4);
-    expect(Object.keys(state.lavaPits)).toHaveLength(4);
+    expect(Object.keys(state.beehives)).toHaveLength(3);
+    expect(Object.keys(state.flowers.flowerBeds)).toHaveLength(3);
+    expect(Object.keys(state.lavaPits)).toHaveLength(3);
   });
 
   it("scales the ascension upgrade cost with level", () => {
