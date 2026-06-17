@@ -6,6 +6,7 @@ import {
 } from "./loveAnimal";
 import Decimal from "decimal.js-light";
 import { ANIMAL_SLEEP_DURATION } from "./feedAnimal";
+import type { Animal } from "features/game/types/game";
 
 describe("loveAnimal", () => {
   const now = Date.now();
@@ -447,36 +448,37 @@ describe("getNextLoveAvailableAt", () => {
   const awakeAt = asleepAt + napMs;
   const third = napMs / 3;
 
-  const baseAnimal = {
+  const baseAnimal: Animal = {
     id: "c1",
     type: "Chicken" as const,
-    state: "idle" as const,
+    state: "idle",
     createdAt: 0,
     experience: 0,
+    lovedAt: 0,
     asleepAt,
     awakeAt,
     item: "Petting Hand" as const,
   };
 
   it("opens at asleepAt + period when the animal has never been loved", () => {
-    expect(getNextLoveAvailableAt({ ...baseAnimal, lovedAt: 0 })).toBe(
-      asleepAt + third,
-    );
+    expect(
+      getNextLoveAvailableAt({ ...baseAnimal, state: "idle", lovedAt: 0 }),
+    ).toBe(asleepAt + third);
   });
 
   it("opens at lovedAt + period after a love inside the current cycle", () => {
     const lovedAt = asleepAt + third + 1_000;
-    expect(getNextLoveAvailableAt({ ...baseAnimal, lovedAt })).toBe(
-      lovedAt + third,
-    );
+    expect(
+      getNextLoveAvailableAt({ ...baseAnimal, state: "idle", lovedAt }),
+    ).toBe(lovedAt + third);
   });
 
   it("agrees with isAnimalNeedingLove at the gate boundary", () => {
-    const animal = { ...baseAnimal, lovedAt: 0 };
-    const openAt = getNextLoveAvailableAt(animal);
+    let animal: Animal = { ...baseAnimal, state: "sad", lovedAt: 0 };
     // Gate opens at the boundary — false strictly before, true at and after.
-    expect(isAnimalNeedingLove(animal, openAt - 1)).toBe(false);
-    expect(isAnimalNeedingLove(animal, openAt)).toBe(true);
+    expect(isAnimalNeedingLove(animal)).toBe(false);
+    animal = { ...baseAnimal, state: "sad", lovedAt: 1 };
+    expect(isAnimalNeedingLove(animal)).toBe(true);
   });
 
   it("returns a value >= awakeAt when no slot remains this cycle", () => {

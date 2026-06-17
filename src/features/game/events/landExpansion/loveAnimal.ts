@@ -31,14 +31,8 @@ export function getNextLoveAvailableAt(animal: Animal): number {
   return Math.max(animal.asleepAt + third, animal.lovedAt + third);
 }
 
-/**
- * Boolean form of {@link getNextLoveAvailableAt}: has the love window opened by `now`?
- * `<=` (not `<`) so love is accepted at exactly the boundary timestamp — matches
- * the original `loveAnimal` reducer's `if (createdAt < boundary) throw` semantics
- * (rejects strictly before, accepts at equality).
- */
-export function isAnimalNeedingLove(animal: Animal, now: number): boolean {
-  return getNextLoveAvailableAt(animal) <= now;
+export function isAnimalNeedingLove(animal: Animal): boolean {
+  return animal.state === "sad";
 }
 
 export type LoveAnimalAction = {
@@ -69,7 +63,7 @@ export function loveAnimal({
     }
 
     // You can love an animal twice in a night — see getNextLoveAvailableAt.
-    if (!isAnimalNeedingLove(animal, createdAt)) {
+    if (!isAnimalNeedingLove(animal)) {
       throw new Error("The animal cannot be loved yet");
     }
 

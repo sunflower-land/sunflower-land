@@ -177,20 +177,17 @@ describe("applyAnimalFeedBuff", () => {
     const awakeAt = 1_000 + 3_600_000;
     const createdAt = 2_000_000;
     expect(
-      isAnimalNeedingLove(
-        {
-          id: chickenId,
-          type: "Chicken",
-          state: "idle",
-          createdAt: 0,
-          experience: 0,
-          asleepAt,
-          awakeAt,
-          lovedAt: 1_000,
-          item: "Petting Hand",
-        },
-        createdAt,
-      ),
+      isAnimalNeedingLove({
+        id: chickenId,
+        type: "Chicken",
+        state: "sad",
+        createdAt: 0,
+        experience: 0,
+        asleepAt,
+        awakeAt,
+        lovedAt: 1_000,
+        item: "Petting Hand",
+      }),
     ).toBe(true);
 
     expect(() =>
