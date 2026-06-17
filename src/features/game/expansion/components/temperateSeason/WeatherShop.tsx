@@ -137,7 +137,7 @@ export const WeatherShop: React.FC<Props> = ({ onClose }) => {
                     disabled={!hasCoins || lessIngredients()}
                     onClick={craft}
                   >
-                    {t("buy")}
+                    {spentPlacedItem ? t("renew") : t("buy")}
                   </Button>
                 )
               }
