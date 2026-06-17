@@ -69,7 +69,7 @@ const UPGRADE_DESCRIPTIONS: Record<IslandType, string | null> = {
 
 // Swamp ascension launch date — shown as a teaser on the locked "coming soon"
 // label until the upgrade opens to everyone.
-const SWAMP_LAUNCH_DATE = new Date(2027, 7, 3); // 3rd August 2027
+const SWAMP_LAUNCH_DATE = new Date("2026-08-03"); // 3rd August 2026
 
 // Swamp (terminal ascension island) isn't in ISLAND_UPGRADE, so fall back to an
 // empty upgrade to keep the unconditional reads below type-safe and crash-free.
@@ -97,6 +97,16 @@ const IslandUpgraderModal: React.FC<{
   const remainingExpansions =
     upgrade.expansions - (inventory["Basic Land"]?.toNumber() ?? 0);
 
+  // Ascension upgrades (volcano -> swamp onward) are gated behind the
+  // SWAMP_ASCENSION feature flag; basic-island upgrades are unaffected. Computed
+  // up here so the confirmation panel below can switch its copy too.
+  const nextIsland = isLandUpgradable(island.type)
+    ? ISLAND_UPGRADE[island.type].upgrade
+    : undefined;
+  const isAscensionUpgrade =
+    !!nextIsland &&
+    (ASCENSION_ISLANDS as readonly string[]).includes(nextIsland);
+
   if (showConfirmation) {
     return (
       <Panel>
@@ -104,7 +114,11 @@ const IslandUpgraderModal: React.FC<{
           {t("warning")}
         </Label>
         <div className="p-2">
-          <p className="text-sm">{t("islandupgrade.confirmUpgrade")}</p>
+          <p className="text-sm">
+            {isAscensionUpgrade
+              ? t("islandupgrade.confirmAscend")
+              : t("islandupgrade.confirmUpgrade")}
+          </p>
           <p className="text-xs mt-2">{t("islandupgrade.warning1")}</p>
         </div>
 
@@ -141,14 +155,6 @@ const IslandUpgraderModal: React.FC<{
     return getKeys(temporaryCollectibles).length > 0;
   };
 
-  // Ascension upgrades (volcano -> swamp onward) are gated behind the
-  // SWAMP_ASCENSION feature flag; basic-island upgrades are unaffected.
-  const nextIsland = isLandUpgradable(island.type)
-    ? ISLAND_UPGRADE[island.type].upgrade
-    : undefined;
-  const isAscensionUpgrade =
-    !!nextIsland &&
-    (ASCENSION_ISLANDS as readonly string[]).includes(nextIsland);
   const flagAllows =
     !isAscensionUpgrade ||
     hasFeatureAccess(gameState.context.state, "SWAMP_ASCENSION");
@@ -175,11 +181,23 @@ const IslandUpgraderModal: React.FC<{
     <CloseButtonPanel bumpkinParts={NPC_WEARABLES.grubnuk} onClose={onClose}>
       <div className="p-2">
         <div className="flex items-center  mb-2 ">
-          <p className="text-sm mr-2">{t("islandupgrade.upgradeIsland")}</p>
+          <p className="text-sm mr-2">
+            {isAscensionUpgrade
+              ? t("islandupgrade.ascendIsland")
+              : t("islandupgrade.upgradeIsland")}
+          </p>
           <img src={SUNNYSIDE.icons.heart} className="h-6" />
         </div>
-        <p className="text-xs mb-2">{t("islandupgrade.newOpportunities")}</p>
-        <p className="text-xs mb-2">{t("islandupgrade.confirmation")}</p>
+        <p className="text-xs mb-2">
+          {isAscensionUpgrade
+            ? t("islandupgrade.ascendIntro")
+            : t("islandupgrade.newOpportunities")}
+        </p>
+        <p className="text-xs mb-2">
+          {isAscensionUpgrade
+            ? t("islandupgrade.ascendConfirmation")
+            : t("islandupgrade.confirmation")}
+        </p>
         <img
           src={UPGRADE_PREVIEW[gameState.context.state.island.type] as string}
           className="w-full rounded-md"
