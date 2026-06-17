@@ -9073,5 +9073,11 @@
   "referral.vipRewards.title": "Recompensas por indicação VIP",
   "referral.vipRewards.progress": "{{count}}/{{max}} VIP",
   "referral.vipRewards.description": "Ganhe prêmios de bônus à medida que os amigos que você indicar se tornarem VIP. Alcance um marco para reivindicar sua recompensa!",
-  "referral.vipRewards.commission": "A comissão de flores aumenta para 20%"
+  "referral.vipRewards.commission": "A comissão de flores aumenta para 20%",
+  "gameOptions.experiments.designShowcase": "Mostra de design",
+  "designShowcase.heading": "Designs em destaque",
+  "designShowcase.description": "Uma vitrine de projetos agrícolas de destaque da comunidade.",
+  "designShowcase.error": "Algo deu errado ao carregar os designs em destaque.",
+  "designShowcase.empty": "Nenhum design foi apresentado ainda. Volte em breve!",
+  "description.designTrophy": "Premiado por um excelente design de fazenda apresentado pela equipe!"
 }

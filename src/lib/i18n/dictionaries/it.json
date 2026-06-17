@@ -9073,5 +9073,11 @@
   "referral.vipRewards.title": "Premi VIP per i referral",
   "referral.vipRewards.progress": "{{count}}/{{max}} VIP",
   "referral.vipRewards.description": "Guadagna premi bonus man mano che gli amici che inviti diventano VIP. Raggiungi un traguardo per richiederne la ricompensa!",
-  "referral.vipRewards.commission": "La commissione sui fiori aumenta al 20%"
+  "referral.vipRewards.commission": "La commissione sui fiori aumenta al 20%",
+  "gameOptions.experiments.designShowcase": "Vetrina di design",
+  "designShowcase.heading": "Design in primo piano",
+  "designShowcase.description": "Una vetrina di straordinari progetti di fattorie della comunità.",
+  "designShowcase.error": "Qualcosa è andato storto durante il caricamento dei design in evidenza.",
+  "designShowcase.empty": "Nessun design è stato ancora presentato. Torna presto!",
+  "description.designTrophy": "Premiato per l'eccezionale design della fattoria presentato dal team!"
 }
