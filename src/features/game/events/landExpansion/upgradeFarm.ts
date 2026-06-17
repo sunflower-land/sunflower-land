@@ -1,9 +1,9 @@
 import Decimal from "decimal.js-light";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { TOTAL_EXPANSION_NODES } from "features/game/expansion/lib/expansionNodes";
 import { getObjectEntries } from "lib/object";
 import type { BuildingName } from "features/game/types/buildings";
 import type {
+  BasicIslandType,
   GameState,
   IslandType,
   Inventory,
@@ -25,6 +25,9 @@ import { placePlot } from "./placePlot";
 import { placeStone } from "./placeStone";
 import { placeTree } from "./placeTree";
 import { removeAll } from "./removeAll";
+import { TOTAL_EXPANSION_NODES } from "features/game/types/expansions";
+import { ISLAND_MAX_EXPANSION } from "features/game/expansion/lib/expansionRequirements";
+import { reAnchorToIsland } from "features/game/expansion/lib/island";
 
 export type UpgradeFarmAction = {
   type: "farm.upgraded";
@@ -391,9 +394,12 @@ function placeInitialLand({
   return stateCopy;
 }
 
+/** Islands a player can linearly prestige *into* via `farm.upgraded`. */
+type UpgradeTarget = "spring" | "desert" | "volcano";
+
 export const ISLAND_UPGRADE: Record<
-  IslandType,
-  { items: Inventory; expansions: number; upgrade: IslandType | null }
+  Exclude<BasicIslandType, "volcano">,
+  { items: Inventory; expansions: number; upgrade: UpgradeTarget }
 > = {
   basic: {
     expansions: 9,
@@ -416,13 +422,12 @@ export const ISLAND_UPGRADE: Record<
     },
     upgrade: "volcano",
   },
-  volcano: {
-    expansions: 99,
-    items: {
-      Oil: new Decimal(9999999999),
-    },
-    upgrade: null,
-  },
+};
+
+export const isLandUpgradable = (
+  islandType: IslandType,
+): islandType is Exclude<BasicIslandType, "volcano"> => {
+  return islandType in ISLAND_UPGRADE;
 };
 
 function springUpgrade(state: GameState) {
@@ -588,14 +593,164 @@ export const populateSeason = (createdAt: number): Season => {
   return { startedAt: startAt, season };
 };
 
+type IslandSetup = {
+  /** Expansions (Basic Land) the player starts the new island with. */
+  startingExpansions: number;
+  /** Buildings, resources & trap spots laid out when the player arrives. */
+  initialCoordinates: InitialLandCoordinates;
+  /** Island-specific changes: home building swap, resource floor, airdrop. */
+  applySetup: (state: GameState) => GameState;
+};
+
+const ISLAND_SETUP: Record<UpgradeTarget, IslandSetup> = {
+  spring: {
+    startingExpansions: 4,
+    initialCoordinates: INITIAL_SPRING_LAND_COORDINATES,
+    applySetup: springUpgrade,
+  },
+  desert: {
+    startingExpansions: 4,
+    initialCoordinates: INITIAL_DESERT_LAND_COORDINATES,
+    applySetup: desertUpgrade,
+  },
+  volcano: {
+    startingExpansions: 5,
+    initialCoordinates: INITIAL_VOLCANO_LAND_COORDINATES,
+    applySetup: volcanoUpgrade,
+  },
+};
+
+/**
+ * The island-agnostic part of moving a farm to a new island: wipe the old
+ * farm, carry island history (incl. sunstones) forward, and lay out the fresh
+ * starting island. The per-island bits are driven by `ISLAND_SETUP[target]`.
+ */
+function transitionToIsland({
+  state,
+  target,
+  farmId,
+  createdAt,
+}: {
+  state: GameState;
+  target: UpgradeTarget;
+  farmId: number;
+  createdAt: number;
+}): GameState {
+  let game = cloneDeep(state);
+
+  // Return every placed item to the inventory
+  try {
+    game = removeAll({
+      state: game,
+      action: {
+        type: "items.removed",
+        location: "farm",
+      },
+      createdAt,
+    });
+  } catch (error) {
+    // Ignore errors
+  }
+  game = cloneDeep(game);
+
+  // Reset transient systems that do not carry across islands
+  game.fishing.wharf = {};
+
+  // Mushrooms aren't tied to a specific island, so carry them across the
+  // upgrade: relocate every existing mushroom onto the new island's small side
+  // island (the old land — and the mushroom positions on it — is wiped). With
+  // `keepLandItems: false` even mushrooms that spawned on the main land are
+  // pulled back onto the island rather than left on the old layout.
+  game.mushrooms = {
+    spawnedAt: game.mushrooms?.spawnedAt ?? 0,
+    mushrooms: game.mushrooms
+      ? reAnchorToIsland(
+          game.mushrooms.mushrooms,
+          ISLAND_SETUP[target].startingExpansions,
+          { keepLandItems: false },
+        )
+      : {},
+  };
+
+  // Clutter lives on the small island too, so carry it across the same way as
+  // mushrooms: relocate it onto the new island rather than wiping it.
+  if (game.socialFarming.clutter) {
+    game.socialFarming.clutter = {
+      ...game.socialFarming.clutter,
+      locations: reAnchorToIsland(
+        game.socialFarming.clutter.locations,
+        ISLAND_SETUP[target].startingExpansions,
+        { keepLandItems: false },
+      ),
+    };
+  }
+
+  // Carry expansion history forward (read from the *source* island below)
+  let previousExpansions = game.inventory["Basic Land"]?.toNumber() ?? 0;
+
+  if (game.expansionConstruction) {
+    previousExpansions += 1;
+  }
+
+  // Legacy farms may sit above the island cap, and the node rows beyond the cap
+  // were retired. Clamp the lookup to the cap row so the carry-forward sunstone
+  // count is the island's max (e.g. spring 2) rather than silently 0.
+  const expansionForNodeLookup = Math.min(
+    previousExpansions,
+    ISLAND_MAX_EXPANSION[game.island.type],
+  );
+  const sunstonesForExpansion =
+    TOTAL_EXPANSION_NODES[game.island.type][expansionForNodeLookup]?.[
+      "Sunstone Rock"
+    ] ?? 0;
+
+  const maxSunstones = Math.max(
+    sunstonesForExpansion,
+    game.island.sunstones ?? 0,
+  );
+
+  // Set the new island
+  game.island = {
+    type: target,
+    upgradedAt: createdAt,
+    previousExpansions,
+    sunstones: maxSunstones,
+  };
+
+  // In basic land the season is always spring. Apply the real season rotation.
+  game.season = populateSeason(createdAt);
+
+  // Remove any previous in progress expansions (LEGACY)
+  delete game.expansionConstruction;
+
+  // Island-specific setup, then lay out the starting island
+  const setup = ISLAND_SETUP[target];
+  game = setup.applySetup(game);
+  game.inventory["Basic Land"] = new Decimal(setup.startingExpansions);
+  game = placeInitialLand({
+    state: game,
+    farmId,
+    createdAt,
+    initialLandCoordinates: setup.initialCoordinates,
+  });
+  game = cloneDeep(game);
+
+  // Reset the biome upon transition
+  delete game.island.biome;
+
+  return game;
+}
+
 export function upgrade({ state, createdAt = Date.now(), farmId }: Options) {
-  let game = cloneDeep(state) as GameState;
+  const game = cloneDeep(state) as GameState;
+
+  if (!isLandUpgradable(game.island.type)) {
+    throw new Error(
+      "Island is already at max level, ascend to upgrade further",
+    );
+  }
 
   const upcoming = ISLAND_UPGRADE[game.island.type];
-
-  if (upcoming.upgrade === null) {
-    throw new Error("Not implemented");
-  }
 
   if (game.inventory["Basic Land"]?.lt(upcoming.expansions)) {
     throw new Error("Player has not met the expansion requirements");
@@ -612,97 +767,10 @@ export function upgrade({ state, createdAt = Date.now(), farmId }: Options) {
     game.inventory[name as InventoryItemName] = amount.minus(required);
   });
 
-  // Remove all items from the farm
-  try {
-    game = removeAll({
-      state: game,
-      action: {
-        type: "items.removed",
-        location: "farm",
-      },
-      createdAt,
-    });
-  } catch (error) {
-    // Ignore errors
-  }
-  game = cloneDeep(game);
-
-  delete game.socialFarming.clutter;
-
-  game.fishing.wharf = {};
-  game.mushrooms = {
-    mushrooms: {},
-    spawnedAt: game.mushrooms?.spawnedAt ?? 0,
-  };
-
-  let previousExpansions = game.inventory["Basic Land"]?.toNumber() ?? 0;
-
-  if (game.expansionConstruction) {
-    previousExpansions += 1;
-  }
-
-  const sunstonesForExpansion =
-    TOTAL_EXPANSION_NODES[game.island.type][previousExpansions][
-      "Sunstone Rock"
-    ] ?? 0;
-
-  const maxSunstones = Math.max(
-    sunstonesForExpansion,
-    game.island.sunstones ?? 0,
-  );
-
-  // Set the island
-  game.island = {
-    type: upcoming.upgrade,
-    upgradedAt: createdAt,
-    previousExpansions,
-    sunstones: maxSunstones,
-  };
-
-  // In basic land the season is always spring. If upgrading, apply the new season.
-  game.season = populateSeason(createdAt);
-
-  // Remove any previous in progress expansions (LEGACY)
-  delete game.expansionConstruction;
-
-  if (upcoming.upgrade === "spring") {
-    game = springUpgrade(game);
-    game.inventory["Basic Land"] = new Decimal(4);
-    game = placeInitialLand({
-      state: game,
-      farmId,
-      createdAt,
-      initialLandCoordinates: INITIAL_SPRING_LAND_COORDINATES,
-    });
-  }
-
-  if (upcoming.upgrade === "desert") {
-    game = desertUpgrade(game);
-    game.inventory["Basic Land"] = new Decimal(4);
-    game = placeInitialLand({
-      state: game,
-      farmId,
-      createdAt,
-      initialLandCoordinates: INITIAL_DESERT_LAND_COORDINATES,
-    });
-  }
-
-  if (upcoming.upgrade === "volcano") {
-    game = volcanoUpgrade(game);
-    game.inventory["Basic Land"] = new Decimal(5);
-    game = placeInitialLand({
-      state: game,
-      farmId,
-      createdAt,
-      initialLandCoordinates: INITIAL_VOLCANO_LAND_COORDINATES,
-    });
-  }
-  game = cloneDeep(game);
-
-  // Reset the biome upon upgrade
-  delete game.island.biome;
-
-  return {
-    ...game,
-  };
+  return transitionToIsland({
+    state: game,
+    target: upcoming.upgrade,
+    farmId,
+    createdAt,
+  });
 }

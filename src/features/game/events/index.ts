@@ -246,10 +246,6 @@ import {
   type PlaceCrimstoneAction,
 } from "./landExpansion/placeCrimstone";
 import {
-  buyFarmhand,
-  type BuyFarmHandAction,
-} from "./landExpansion/buyFarmHand";
-import {
   equipFarmhand,
   type EquipFarmHandAction,
 } from "./landExpansion/equipFarmHand";
@@ -571,6 +567,10 @@ import {
   type ClaimReferralRewardsAction,
 } from "./landExpansion/claimReferralRewards";
 import {
+  claimVipReferralMilestones,
+  type ClaimVipReferralMilestonesAction,
+} from "./landExpansion/claimVipReferralMilestones";
+import {
   exchangeFlower,
   type ExchangeFlowerAction,
 } from "./landExpansion/exchangeFLOWER";
@@ -861,10 +861,10 @@ export type PlayingEvent =
   | RevealLandAction
   | BurnCollectibleAction
   | ClaimReferralRewardsAction
+  | ClaimVipReferralMilestonesAction
   | ClaimBonusAction
   | ClaimDailyRewardAction
   | AccelerateComposterAction
-  | BuyFarmHandAction
   | EquipFarmHandAction
   | HarvestBeehiveAction
   | PlantFlowerAction
@@ -1154,7 +1154,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "bonus.claimed": claimBonus,
   "dailyReward.claimed": claimDailyReward,
   "compost.accelerated": accelerateComposter,
-  "farmHand.bought": buyFarmhand,
   "farmHand.equipped": equipFarmhand,
   "beehive.harvested": harvestBeehive,
   "flower.planted": plantFlower,
@@ -1210,6 +1209,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "upgrade.spedUp": speedUpUpgrade,
   "socialTask.completed": completeSocialTask,
   "referral.rewardsClaimed": claimReferralRewards,
+  "referral.vipMilestonesClaimed": claimVipReferralMilestones,
   "exchange.flower": exchangeFlower,
   "floatingShopItem.bought": buyFloatingShopItem,
   "network.updated": updateNetwork,

@@ -1,6 +1,6 @@
 import type { GameState, InventoryItemName, IslandType } from "./game";
 import type { Coordinates } from "../expansion/components/MapPlacement";
-import { TOTAL_EXPANSION_NODES } from "../expansion/lib/expansionNodes";
+import type { Nodes } from "../expansion/lib/expansionNodes";
 import { getKeys } from "lib/object";
 import {
   ADVANCED_RESOURCES,
@@ -15,37 +15,9 @@ export type ExpandLandAction = {
   type: "land.expanded";
 };
 
-type Options = {
-  state: Readonly<GameState>;
-  action: ExpandLandAction;
-  createdAt?: number;
-  farmId?: number;
-};
-
 const LAND_GEM_RATIO = 15;
 
-/**
- * We split players into 3 groups
- * This decides what order of expansions they will receive
- * We need to use a seed that will always remain the same even if we lose all DB data = Farm ID
- * Formula = Add individual digits of Farm ID, then modular 3
- * 294 = (2 + 9 + 5) % 3 + 1 = Group 2
- */
-export function getPlayerGroup(id: string): 0 | 1 | 2 {
-  const digits = id.split("").map(Number);
-  const total = digits.reduce((total, digit) => total + digit);
-  const groupId = total % 3;
-
-  return groupId as 0 | 1 | 2;
-}
-
-export function getBasicLand({
-  id,
-  expansion,
-}: {
-  id: number;
-  expansion: number;
-}) {
+export function getBasicLand({ expansion }: { expansion: number }) {
   if (expansion === 4) {
     return LAND_4_LAYOUT();
   }
@@ -68,43 +40,6 @@ export function getBasicLand({
 
   if (expansion === 9) {
     return LAND_9_LAYOUT();
-  }
-
-  if (expansion === 10) {
-    return LAND_10_LAYOUT();
-  }
-
-  if (expansion === 11) {
-    return LAND_11_LAYOUT();
-  }
-
-  // LEGACY - can remove from Feb 1st
-  if (expansion >= 12 && expansion <= 14) {
-    const group = getPlayerGroup(id.toString());
-    const positionInPack = (expansion + group) % 3;
-
-    return LAND_PACK_THREE[positionInPack]();
-  }
-
-  if (expansion >= 15 && expansion <= 17) {
-    const group = getPlayerGroup(id.toString());
-    const positionInPack = (expansion + group) % 3;
-
-    return LAND_PACK_FOUR[positionInPack]();
-  }
-
-  if (expansion >= 18 && expansion <= 20) {
-    const group = getPlayerGroup(id.toString());
-    const positionInPack = (expansion + group) % 3;
-
-    return LAND_PACK_FIVE[positionInPack]();
-  }
-
-  if (expansion >= 21 && expansion <= 23) {
-    const group = getPlayerGroup(id.toString());
-    const positionInPack = (expansion + group) % 3;
-
-    return LAND_PACK_SIX[positionInPack]();
   }
 
   return null;
@@ -166,19 +101,13 @@ export function getExpectedResources({
   return expectedResources;
 }
 
-export function getLand({
-  id,
-  game,
-}: {
-  id: number;
-  game: GameState;
-}): Layout | null {
+export function getLand({ game }: { game: GameState }): Layout | null {
   const expansion = (game.inventory["Basic Land"]?.toNumber() ?? 0) + 1;
 
   let land: Layout | null = null;
 
   if (game.island.type === "basic") {
-    land = getBasicLand({ id, expansion });
+    land = getBasicLand({ expansion });
   }
 
   if (game.island.type === "spring") {
@@ -204,43 +133,43 @@ export function getLand({
 
   const totalTrees = game.inventory.Tree?.toNumber() ?? 0;
   const availableTrees = expectedResources.Tree - totalTrees;
-  land.trees = land.trees.slice(0, availableTrees);
+  land.trees = land.trees.slice(0, Math.max(0, availableTrees));
 
   const totalStones = game.inventory["Stone Rock"]?.toNumber() ?? 0;
   const availableStones = expectedResources["Stone Rock"] - totalStones;
-  land.stones = land.stones.slice(0, availableStones);
+  land.stones = land.stones.slice(0, Math.max(0, availableStones));
 
   const totalIron = game.inventory["Iron Rock"]?.toNumber() ?? 0;
   const availableIron = expectedResources["Iron Rock"] - totalIron;
-  land.iron = land.iron?.slice(0, availableIron);
+  land.iron = land.iron?.slice(0, Math.max(0, availableIron));
 
   const totalGold = game.inventory["Gold Rock"]?.toNumber() ?? 0;
   const availableGold = expectedResources["Gold Rock"] - totalGold;
-  land.gold = land.gold?.slice(0, availableGold);
+  land.gold = land.gold?.slice(0, Math.max(0, availableGold));
 
   const availableFruit =
     expectedResources["Fruit Patch"] -
     (game.inventory["Fruit Patch"]?.toNumber() ?? 0);
-  land.fruitPatches = land.fruitPatches?.slice(0, availableFruit);
+  land.fruitPatches = land.fruitPatches?.slice(0, Math.max(0, availableFruit));
 
   const availablePlots =
     expectedResources["Crop Plot"] -
     (game.inventory["Crop Plot"]?.toNumber() ?? 0);
-  land.plots = land.plots.slice(0, availablePlots);
+  land.plots = land.plots.slice(0, Math.max(0, availablePlots));
 
   const availableHives =
     expectedResources["Beehive"] - (game.inventory["Beehive"]?.toNumber() ?? 0);
-  land.beehives = land.beehives?.slice(0, availableHives);
+  land.beehives = land.beehives?.slice(0, Math.max(0, availableHives));
 
   const availableFlowers =
     expectedResources["Flower Bed"] -
     (game.inventory["Flower Bed"]?.toNumber() ?? 0);
-  land.flowerBeds = land.flowerBeds?.slice(0, availableFlowers);
+  land.flowerBeds = land.flowerBeds?.slice(0, Math.max(0, availableFlowers));
 
   const availableCrimstones =
     expectedResources["Crimstone Rock"] -
     (game.inventory["Crimstone Rock"]?.toNumber() ?? 0);
-  land.crimstones = land.crimstones?.slice(0, availableCrimstones);
+  land.crimstones = land.crimstones?.slice(0, Math.max(0, availableCrimstones));
 
   // IMPORTANT: We cannot drop extra sunstones
   // We need to consider how many sunstones were dropped on previous lands in `game.island.sunstones`
@@ -250,18 +179,21 @@ export function getLand({
       game.inventory["Sunstone Rock"]?.toNumber() ?? 0,
       game.island.sunstones ?? 0,
     );
-  land.sunstones = land.sunstones?.slice(0, availableSunstones);
+  land.sunstones = land.sunstones?.slice(0, Math.max(0, availableSunstones));
 
   const availableOilReserves =
     expectedResources["Oil Reserve"] -
     (game.inventory["Oil Reserve"]?.toNumber() ?? 0);
-  land.oilReserves = land.oilReserves?.slice(0, availableOilReserves);
+  land.oilReserves = land.oilReserves?.slice(
+    0,
+    Math.max(0, availableOilReserves),
+  );
 
   // Add Lava
   const availableLavaPit =
     expectedResources["Lava Pit"] -
     (game.inventory["Lava Pit"]?.toNumber() ?? 0);
-  land.lavaPits = land.lavaPits?.slice(0, availableLavaPit);
+  land.lavaPits = land.lavaPits?.slice(0, Math.max(0, availableLavaPit));
 
   return land;
 }
@@ -538,416 +470,6 @@ export const LAND_9_LAYOUT: () => Layout = () => ({
   ],
   stones: [],
   trees: [],
-});
-
-export const LAND_10_LAYOUT: () => Layout = () => ({
-  id: "10",
-  plots: [
-    {
-      x: 1,
-      y: 2,
-    },
-    {
-      x: 0,
-      y: 2,
-    },
-  ],
-  fruitPatches: [
-    {
-      x: -2,
-      y: 3,
-    },
-  ],
-  gold: [],
-  iron: [],
-  stones: [
-    {
-      x: 1,
-      y: -1,
-    },
-  ],
-  trees: [
-    {
-      x: -2,
-      y: 1,
-    },
-    {
-      x: -2,
-      y: -1,
-    },
-  ],
-});
-export const LAND_11_LAYOUT: () => Layout = () => ({
-  id: "11",
-  plots: [
-    {
-      x: -1,
-      y: -2,
-    },
-    {
-      x: 0,
-      y: -2,
-    },
-  ],
-  fruitPatches: [],
-  gold: [
-    {
-      x: 1,
-      y: 2,
-    },
-  ],
-  iron: [
-    {
-      x: 0,
-      y: 0,
-    },
-  ],
-  stones: [
-    {
-      x: -2,
-      y: 0,
-    },
-  ],
-  trees: [
-    {
-      x: -2,
-      y: 3,
-    },
-  ],
-});
-export const LAND_12_LAYOUT: () => Layout = () => ({
-  id: "12",
-  plots: [],
-  fruitPatches: [
-    {
-      x: -2,
-      y: 2,
-    },
-    {
-      x: 0,
-      y: 2,
-    },
-  ],
-  gold: [],
-  iron: [],
-  stones: [
-    {
-      x: 0,
-      y: -1,
-    },
-  ],
-  trees: [],
-  boulder: [],
-});
-
-export const LAND_13_LAYOUT: () => Layout = () => ({
-  id: "13",
-  plots: [
-    {
-      x: -2,
-      y: 2,
-    },
-    {
-      x: -2,
-      y: 1,
-    },
-  ],
-  fruitPatches: [],
-  gold: [],
-  iron: [],
-  stones: [
-    {
-      x: -1,
-      y: -1,
-    },
-  ],
-  trees: [
-    {
-      x: 0,
-      y: 2,
-    },
-  ],
-});
-
-export const LAND_14_LAYOUT: () => Layout = () => ({
-  id: "14",
-  plots: [
-    {
-      x: -2,
-      y: 2,
-    },
-    {
-      x: -1,
-      y: 2,
-    },
-  ],
-  fruitPatches: [
-    {
-      x: 1,
-      y: 2,
-    },
-  ],
-  gold: [
-    {
-      x: 1,
-      y: -1,
-    },
-  ],
-  iron: [
-    {
-      x: -1,
-      y: -2,
-    },
-  ],
-  stones: [
-    {
-      x: -2,
-      y: 0,
-    },
-  ],
-  trees: [],
-});
-
-export const LAND_15_LAYOUT: () => Layout = () => ({
-  id: "15",
-  plots: [],
-  fruitPatches: [
-    {
-      x: -2,
-      y: 2,
-    },
-  ],
-  gold: [],
-  iron: [],
-  stones: [],
-  trees: [
-    {
-      x: 0,
-      y: 0,
-    },
-  ],
-});
-
-export const LAND_16_LAYOUT: () => Layout = () => ({
-  id: "16",
-  plots: [],
-  fruitPatches: [
-    {
-      x: -1,
-      y: 1,
-    },
-  ],
-  gold: [
-    {
-      x: 1,
-      y: -1,
-    },
-  ],
-  iron: [
-    {
-      x: -2,
-      y: -1,
-    },
-  ],
-  stones: [],
-  trees: [],
-});
-
-export const LAND_17_LAYOUT: () => Layout = () => ({
-  id: "17",
-  plots: [
-    {
-      x: 0,
-      y: 2,
-    },
-    {
-      x: 1,
-      y: 2,
-    },
-  ],
-  fruitPatches: [
-    {
-      x: 0,
-      y: 0,
-    },
-  ],
-  gold: [],
-  iron: [],
-  stones: [
-    {
-      x: -2,
-      y: -1,
-    },
-  ],
-  trees: [
-    {
-      x: -2,
-      y: 2,
-    },
-  ],
-});
-
-export const LAND_18_LAYOUT: () => Layout = () => ({
-  id: "18",
-  plots: [
-    {
-      x: 1,
-      y: 1,
-    },
-    {
-      x: 1,
-      y: 0,
-    },
-  ],
-  trees: [],
-  stones: [],
-  fruitPatches: [],
-  gold: [],
-  iron: [],
-});
-
-export const LAND_19_LAYOUT: () => Layout = () => ({
-  id: "19",
-  plots: [],
-  fruitPatches: [
-    {
-      x: -2,
-      y: 2,
-    },
-  ],
-  trees: [
-    {
-      x: -2,
-      y: 0,
-    },
-  ],
-  stones: [
-    {
-      x: 2,
-      y: 1,
-    },
-  ],
-  iron: [
-    {
-      x: 2,
-      y: 0,
-    },
-  ],
-  gold: [],
-});
-
-export const LAND_20_LAYOUT: () => Layout = () => ({
-  id: "20",
-  plots: [
-    {
-      x: 1,
-      y: 1,
-    },
-    {
-      x: 1,
-      y: 0,
-    },
-  ],
-  fruitPatches: [
-    {
-      x: -2,
-      y: 2,
-    },
-  ],
-  trees: [],
-  stones: [],
-  gold: [],
-  iron: [],
-});
-
-export const LAND_21_LAYOUT: () => Layout = () => ({
-  id: "21",
-  plots: [
-    {
-      x: 1,
-      y: 1,
-    },
-  ],
-  fruitPatches: [
-    {
-      x: -2,
-      y: 2,
-    },
-  ],
-  trees: [
-    {
-      x: -2,
-      y: 0,
-    },
-  ],
-  stones: [
-    {
-      x: 2,
-      y: 1,
-    },
-  ],
-  gold: [],
-  iron: [
-    {
-      x: 2,
-      y: 0,
-    },
-  ],
-});
-
-export const LAND_22_LAYOUT: () => Layout = () => ({
-  id: "22",
-  plots: [
-    {
-      x: 1,
-      y: 1,
-    },
-  ],
-  fruitPatches: [],
-  trees: [
-    {
-      x: -2,
-      y: 0,
-    },
-  ],
-  stones: [],
-  gold: [
-    {
-      x: 2,
-      y: 0,
-    },
-  ],
-  iron: [],
-});
-
-export const LAND_23_LAYOUT: () => Layout = () => ({
-  id: "23",
-  plots: [
-    {
-      x: 1,
-      y: 1,
-    },
-  ],
-  fruitPatches: [
-    {
-      x: -2,
-      y: 2,
-    },
-  ],
-  trees: [],
-  stones: [
-    {
-      x: 2,
-      y: 1,
-    },
-  ],
-  gold: [],
-  iron: [
-    {
-      x: 2,
-      y: 0,
-    },
-  ],
 });
 
 export const SPRING_LAND_5_LAYOUT: () => Layout = () => ({
@@ -1395,109 +917,6 @@ export const SPRING_LAND_16_LAYOUT: () => Layout = () => ({
   ],
   id: "spring_16",
 });
-export const SPRING_LAND_17_LAYOUT: () => Layout = () => ({
-  plots: [
-    {
-      x: 0,
-      y: 2,
-    },
-  ],
-  fruitPatches: [
-    {
-      x: -2,
-      y: 3,
-    },
-  ],
-  gold: [],
-  iron: [
-    {
-      x: 0,
-      y: -1,
-    },
-  ],
-  stones: [
-    {
-      x: -2,
-      y: 0,
-    },
-  ],
-  crimstones: [],
-  sunstones: [],
-  trees: [],
-  beehives: [],
-  id: "spring_17",
-});
-export const SPRING_LAND_18_LAYOUT: () => Layout = () => ({
-  plots: [],
-  fruitPatches: [],
-  gold: [],
-  iron: [],
-  stones: [],
-  crimstones: [],
-  sunstones: [
-    {
-      x: -1,
-      y: 1,
-    },
-  ],
-  trees: [],
-  beehives: [],
-  id: "spring_18",
-});
-
-export const SPRING_LAND_19_LAYOUT: () => Layout = () => ({
-  plots: [
-    {
-      x: -1,
-      y: 1,
-    },
-    {
-      x: 0,
-      y: 1,
-    },
-  ],
-  fruitPatches: [],
-  gold: [],
-  iron: [],
-  stones: [],
-  crimstones: [
-    {
-      x: -3,
-      y: 0,
-    },
-  ],
-  sunstones: [],
-  trees: [],
-  beehives: [],
-  id: "spring_19",
-});
-
-export const SPRING_LAND_20_LAYOUT: () => Layout = () => ({
-  plots: [
-    {
-      x: -1,
-      y: 2,
-    },
-    {
-      x: 0,
-      y: 2,
-    },
-  ],
-  fruitPatches: [],
-  gold: [],
-  iron: [],
-  stones: [],
-  crimstones: [],
-  sunstones: [
-    {
-      x: -1,
-      y: 0,
-    },
-  ],
-  trees: [],
-  beehives: [],
-  id: "spring_20",
-});
 
 export const SPRING_LAYOUTS: () => Record<number, Layout> = () => ({
   5: SPRING_LAND_5_LAYOUT(),
@@ -1513,10 +932,6 @@ export const SPRING_LAYOUTS: () => Record<number, Layout> = () => ({
   14: SPRING_LAND_14_LAYOUT(),
   15: SPRING_LAND_15_LAYOUT(),
   16: SPRING_LAND_16_LAYOUT(),
-  17: SPRING_LAND_17_LAYOUT(),
-  18: SPRING_LAND_18_LAYOUT(),
-  19: SPRING_LAND_19_LAYOUT(),
-  20: SPRING_LAND_20_LAYOUT(),
 });
 
 export const DESERT_LAND_5_LAYOUT: () => Layout = () => ({
@@ -1709,12 +1124,9 @@ export const DESERT_LAND_13_LAYOUT: () => Layout = () => ({
   iron: [],
   stones: [],
   crimstones: [],
-  sunstones: [
-    {
-      x: 0,
-      y: 0,
-    },
-  ],
+  // No sunstone here — it was a stray vs the desert node cap (always sliced off)
+  // and is removed so the desert node table derives cleanly, matching the BE.
+  sunstones: [],
   trees: [
     {
       x: 0,
@@ -2524,15 +1936,200 @@ export type Layout = {
   lavaPits?: Coordinates[];
 };
 
+// --- Expansion node counts (derived) -------------------------------------
+// How many of each resource node a player should have at each expansion is
+// derived from the layouts above (arrival row + cumulative layout counts) so the
+// counts can never drift from the actual map. Mirror of the BE.
+
+/** Maps each `Layout` resource array to its `Nodes` (resource-count) key. */
+const LAYOUT_FIELD_TO_NODE = {
+  plots: "Crop Plot",
+  trees: "Tree",
+  stones: "Stone Rock",
+  iron: "Iron Rock",
+  gold: "Gold Rock",
+  crimstones: "Crimstone Rock",
+  sunstones: "Sunstone Rock",
+  fruitPatches: "Fruit Patch",
+  flowerBeds: "Flower Bed",
+  beehives: "Beehive",
+  oilReserves: "Oil Reserve",
+  lavaPits: "Lava Pit",
+} as const satisfies Partial<Record<keyof Layout, keyof Nodes>>;
+
+/** Counts the resource nodes placed by a single expansion's `Layout`. */
+function countLayoutNodes(
+  layout: Layout,
+): Partial<Record<keyof Nodes, number>> {
+  const counts: Partial<Record<keyof Nodes, number>> = {};
+  getKeys(LAYOUT_FIELD_TO_NODE).forEach((field) => {
+    const arr = layout[field];
+    if (arr && arr.length) {
+      const key = LAYOUT_FIELD_TO_NODE[field];
+      counts[key] = (counts[key] ?? 0) + arr.length;
+    }
+  });
+  return counts;
+}
+
 /**
- * Once a player gets past the first 8 pieces of land, they enter the land pack stage
- * A land pack provides 3 expansions in a random order for the player
+ * Derives the cumulative `Record<expansion, Nodes>` table for an island from its
+ * per-expansion layouts. `base` is the "arrival" row — the expected totals when
+ * a player first lands on the island (a curated floor, not derivable from
+ * layouts) — and sits at the expansion directly below the first layout.
  */
-export const LAND_PACK_TWO = [LAND_9_LAYOUT, LAND_10_LAYOUT, LAND_11_LAYOUT];
-export const LAND_PACK_THREE = [LAND_12_LAYOUT, LAND_13_LAYOUT, LAND_14_LAYOUT];
-export const LAND_PACK_FOUR = [LAND_15_LAYOUT, LAND_16_LAYOUT, LAND_17_LAYOUT];
-export const LAND_PACK_FIVE = [LAND_18_LAYOUT, LAND_19_LAYOUT, LAND_20_LAYOUT];
-export const LAND_PACK_SIX = [LAND_21_LAYOUT, LAND_22_LAYOUT, LAND_23_LAYOUT];
+export function deriveExpansionNodes(
+  base: Nodes,
+  layouts: Record<number, Layout>,
+): Record<number, Nodes> {
+  const levels = Object.keys(layouts)
+    .map(Number)
+    .sort((a, b) => a - b);
+
+  if (levels.length === 0) {
+    throw new Error("deriveExpansionNodes requires at least one layout");
+  }
+
+  const result: Record<number, Nodes> = {};
+  let running: Nodes = { ...base };
+
+  // The arrival row sits at the expansion directly below the first layout.
+  result[levels[0] - 1] = { ...running };
+
+  levels.forEach((level) => {
+    const counts = countLayoutNodes(layouts[level]);
+    running = { ...running };
+    getKeys(counts).forEach((key) => {
+      running[key] = (running[key] ?? 0) + (counts[key] ?? 0);
+    });
+    result[level] = running;
+  });
+
+  return result;
+}
+
+export type ExpansionNode = Record<IslandType, Record<number, Nodes>>;
+
+const BASIC_BASE_NODES: Nodes = {
+  "Crop Plot": 0,
+  Tree: 3,
+  "Stone Rock": 2,
+  "Iron Rock": 0,
+  "Gold Rock": 0,
+  "Crimstone Rock": 0,
+  "Sunstone Rock": 0,
+  "Fruit Patch": 0,
+  "Flower Bed": 0,
+  Beehive: 0,
+  "Oil Reserve": 0,
+  "Lava Pit": 0,
+};
+
+const SPRING_BASE_NODES: Nodes = {
+  "Crop Plot": 31,
+  "Fruit Patch": 2,
+  Tree: 9,
+  "Stone Rock": 7,
+  "Iron Rock": 4,
+  "Gold Rock": 2,
+  "Crimstone Rock": 0,
+  "Sunstone Rock": 0,
+  Beehive: 0,
+  "Oil Reserve": 0,
+  "Flower Bed": 0,
+  "Lava Pit": 0,
+};
+
+const DESERT_BASE_NODES: Nodes = {
+  "Crop Plot": 45,
+  "Fruit Patch": 11,
+  Tree: 18,
+  "Stone Rock": 15,
+  "Iron Rock": 9,
+  "Gold Rock": 6,
+  "Crimstone Rock": 2,
+  "Sunstone Rock": 2,
+  "Oil Reserve": 0,
+  "Lava Pit": 0,
+  Beehive: 3,
+  "Flower Bed": 3,
+};
+
+const VOLCANO_BASE_NODES: Nodes = {
+  "Crop Plot": 65,
+  Tree: 23,
+  "Stone Rock": 20,
+  "Iron Rock": 12,
+  "Gold Rock": 7,
+  "Fruit Patch": 15,
+  "Crimstone Rock": 4,
+  "Sunstone Rock": 6,
+  "Oil Reserve": 3,
+  "Lava Pit": 0,
+  Beehive: 3,
+  "Flower Bed": 3,
+};
+
+const SWAMP_BASE_NODES: Nodes = {
+  "Crop Plot": 65,
+  Tree: 23,
+  "Stone Rock": 20,
+  "Iron Rock": 13,
+  "Gold Rock": 8,
+  "Fruit Patch": 15,
+  "Crimstone Rock": 5,
+  "Sunstone Rock": 13,
+  "Oil Reserve": 4,
+  "Lava Pit": 3,
+  Beehive: 3,
+  "Flower Bed": 3,
+};
+
+// TODO: temporary empty layouts so swamp clears tsc; replace with real swamp
+// layouts when the ascension system ships.
+const placeholderLayout = (id: string): Layout => ({
+  id,
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  trees: [],
+});
+
+export const TOTAL_EXPANSION_NODES: ExpansionNode = {
+  // Basic only uses expansions 3-9: it's capped at 9 (see ISLAND_MAX_EXPANSION) and
+  // the node table is read only when expanding/upgrading. Legacy farms still on the
+  // old land-pack expansions (10-23) can't expand, so those rows are never looked up
+  // — they're intentionally omitted (and wouldn't derive cleanly anyway, since the
+  // land packs are randomized per player group).
+  basic: deriveExpansionNodes(BASIC_BASE_NODES, {
+    4: LAND_4_LAYOUT(),
+    5: LAND_5_LAYOUT(),
+    6: LAND_6_LAYOUT(),
+    7: LAND_7_LAYOUT(),
+    8: LAND_8_LAYOUT(),
+    9: LAND_9_LAYOUT(),
+  }),
+  spring: deriveExpansionNodes(SPRING_BASE_NODES, SPRING_LAYOUTS()),
+  desert: deriveExpansionNodes(DESERT_BASE_NODES, DESERT_LAYOUTS()),
+  volcano: deriveExpansionNodes(VOLCANO_BASE_NODES, VOLCANO_LAYOUTS()),
+  // TODO: will probably have a separate function that calculates the drip nodes
+  swamp: deriveExpansionNodes(SWAMP_BASE_NODES, {
+    31: placeholderLayout("31"),
+    32: placeholderLayout("32"),
+    33: placeholderLayout("33"),
+    34: placeholderLayout("34"),
+    35: placeholderLayout("35"),
+    36: placeholderLayout("36"),
+    37: placeholderLayout("37"),
+    38: placeholderLayout("38"),
+    39: placeholderLayout("39"),
+    40: placeholderLayout("40"),
+    41: placeholderLayout("41"),
+    42: placeholderLayout("42"),
+  }),
+};
 
 export interface Requirements {
   resources: Partial<Record<InventoryItemName, number>>;
@@ -3792,4 +3389,6 @@ export const EXPANSION_REQUIREMENTS: Record<
     29: VOLCANO_LAND_29_REQUIREMENTS,
     30: VOLCANO_LAND_30_REQUIREMENTS,
   },
+  // TODO: Add swamp land requirements when released
+  swamp: {},
 };

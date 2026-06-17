@@ -9068,5 +9068,16 @@
   "community.feed.remove.confirm": "削除を確認",
   "community.feed.removing": "投稿を削除中...",
   "community.feed.removeError": "投稿を削除できませんでした。もう一度試してください。",
-  "community.addPost.reward": "著者には1,000個のラブチャームが贈られます。"
+  "community.addPost.reward": "著者には1,000個のラブチャームが贈られます。",
+  "description.creator.banner": "サンフラワーランドのコミュニティを成長させるクリエイターを称えるバナー。",
+  "referral.vipRewards.title": "VIP紹介報酬",
+  "referral.vipRewards.progress": "{{count}}/{{max}} VIP",
+  "referral.vipRewards.description": "紹介した友達がVIPになると、ボーナス賞品を獲得できます。マイルストーンに到達して報酬を受け取りましょう！",
+  "referral.vipRewards.commission": "フラワーコミッションが 20% に増加",
+  "gameOptions.experiments.designShowcase": "デザインショーケース",
+  "designShowcase.heading": "注目のデザイン",
+  "designShowcase.description": "コミュニティの傑出した農場デザインのショーケース。",
+  "designShowcase.error": "注目のデザインをロード中に問題が発生しました。",
+  "designShowcase.empty": "デザインはまだ紹介されていません。すぐにもう一度チェックしてください！",
+  "description.designTrophy": "チームが特集した優れたファームデザインに対して授与されます！"
 }

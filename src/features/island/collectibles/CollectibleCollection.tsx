@@ -254,6 +254,7 @@ import { NightshadeFactionBanner } from "./components/NightshadeFactionBanner";
 import { BumpkinFactionBanner } from "./components/BumpkinFactionBanner";
 import { ClashOfFactionsBanner } from "./components/ClashOfFactionsBanner";
 import { LifetimeFarmerBanner } from "./components/LifetimeFarmerBanner";
+import { CreatorBanner } from "./components/CreatorBanner";
 import { TurboSprout } from "./components/TurboSprout";
 import { Soybliss } from "./components/Soybliss";
 import { GrapeGranny } from "./components/GrapeGranny";
@@ -686,6 +687,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Spring Blossom Banner": SpringBlossomBanner,
   "Clash of Factions Banner": ClashOfFactionsBanner,
   "Lifetime Farmer Banner": LifetimeFarmerBanner,
+  "Creator Banner": CreatorBanner,
   "Pharaoh's Treasure Banner": PharaohsTreasureBanner,
   "Bull Run Banner": BullRunBanner,
   "Winds of Change Banner": WindsOfChangeBanner,

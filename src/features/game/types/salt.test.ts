@@ -2,7 +2,9 @@ import type { GameState } from "features/game/types/game";
 import {
   MAX_STORED_SALT_CHARGES_PER_NODE,
   SALT_CHARGE_GENERATION_TIME,
+  SALT_NODE_COORDINATES,
   getSaltChargeGenerationTime,
+  getSaltNodeCoordinates,
   materializeSaltRegen,
   populateSaltFarm,
   rechargeAllSaltNodes,
@@ -11,6 +13,7 @@ import {
   type SaltNode,
 } from "./salt";
 import { INITIAL_FARM } from "../lib/constants";
+import { getWharfCoordinates } from "../expansion/lib/constants";
 
 describe("salt nextChargeAt regen", () => {
   const t0 = 1_000_000_000_000;
@@ -381,5 +384,39 @@ describe("rechargeAllSaltNodes", () => {
     const result = rechargeAllSaltNodes(game, now);
 
     expect(Object.keys(result.saltFarm.nodes)).toHaveLength(0);
+  });
+});
+
+describe("getSaltNodeCoordinates", () => {
+  const ids = Object.keys(SALT_NODE_COORDINATES);
+
+  // Each node keeps a constant offset from the dock across every land size, so
+  // the salt cluster moves with the wharf instead of drifting.
+  it("keeps a constant offset from the dock at every land size", () => {
+    const offsetFromDock = (count: number, id: string) => {
+      const c = getSaltNodeCoordinates(count, id);
+      const dock = getWharfCoordinates(count);
+      return { dx: c.x - dock.x, dy: c.y - dock.y };
+    };
+
+    for (const id of ids) {
+      const ref = offsetFromDock(3, id);
+      for (const count of [7, 14, 21, 42]) {
+        expect(offsetFromDock(count, id)).toEqual(ref);
+      }
+    }
+  });
+
+  // Each node keeps the SALT_NODE_COORDINATES cluster shape (a fixed offset from
+  // node "0") at every land size.
+  it("preserves the cluster shape across land sizes", () => {
+    const shapeAt = (count: number) =>
+      ids.map((id) => {
+        const a = getSaltNodeCoordinates(count, id);
+        const b = getSaltNodeCoordinates(count, ids[0]);
+        return { dx: a.x - b.x, dy: a.y - b.y };
+      });
+
+    expect(shapeAt(3)).toEqual(shapeAt(42));
   });
 });

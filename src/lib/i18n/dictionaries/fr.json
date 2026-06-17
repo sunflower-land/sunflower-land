@@ -9068,5 +9068,16 @@
   "community.feed.remove.confirm": "Confirmer la suppression",
   "community.feed.removing": "Supprimer un message...",
   "community.feed.removeError": "Impossible de supprimer le message. Veuillez réessayer.",
-  "community.addPost.reward": "Les auteurs recevront 1 000 Love Charms."
+  "community.addPost.reward": "Les auteurs recevront 1 000 Love Charms.",
+  "description.creator.banner": "Une bannière pour célébrer les créateurs qui font grandir la communauté Sunflower Land.",
+  "referral.vipRewards.title": "Récompenses de parrainage VIP",
+  "referral.vipRewards.progress": "{{count}}/{{max}} VIP",
+  "referral.vipRewards.description": "Gagnez des prix bonus lorsque les amis que vous parrainez deviennent VIP. Atteignez un objectif pour obtenir sa récompense !",
+  "referral.vipRewards.commission": "La commission des fleurs passe à 20 %",
+  "gameOptions.experiments.designShowcase": "Vitrine de design",
+  "designShowcase.heading": "Designs en vedette",
+  "designShowcase.description": "Une vitrine de designs de fermes remarquables réalisés par la communauté.",
+  "designShowcase.error": "Une erreur s'est produite lors du chargement des designs en vedette.",
+  "designShowcase.empty": "Aucun design n'a encore été présenté. Revenez bientôt !",
+  "description.designTrophy": "Décerné pour un design de ferme exceptionnel mis en valeur par l'équipe !"
 }

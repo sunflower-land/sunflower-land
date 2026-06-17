@@ -189,7 +189,7 @@ export const ResourceList: React.FC<Props> = ({
         </div>
 
         <div className="flex">
-          <div className="flex">
+          <div className="flex flex-1 min-w-0">
             <div className="w-1/2 mr-1">
               <div className="flex items-center">
                 <Label

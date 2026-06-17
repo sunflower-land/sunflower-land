@@ -8,11 +8,9 @@ import {
 } from "./expansions";
 import { upgradeRock } from "../events/landExpansion/upgradeRock";
 
-const s = TEST_FARM;
 describe("getLand", () => {
   it("returns a basic land", () => {
     const land = getLand({
-      id: 1,
       game: {
         ...TEST_FARM,
         inventory: {
@@ -27,7 +25,6 @@ describe("getLand", () => {
 
   it("returns a spring land", () => {
     const land = getLand({
-      id: 1,
       game: {
         ...TEST_FARM,
         island: {
@@ -45,7 +42,6 @@ describe("getLand", () => {
 
   it("does not return resources if player already has expected resources", () => {
     const land = getLand({
-      id: 1,
       game: {
         ...TEST_FARM,
         island: {
@@ -75,7 +71,6 @@ describe("getLand", () => {
 
   it("only returns spring resources if they previously had basic resources", () => {
     const land = getLand({
-      id: 1,
       game: {
         ...TEST_FARM,
         island: {
@@ -107,7 +102,6 @@ describe("getLand", () => {
   // Flower bed and honey temp disabled
   it.skip("returns spring resources if they had bought resource nodes", () => {
     const land = getLand({
-      id: 1,
       game: {
         ...TEST_FARM,
         island: {
@@ -240,7 +234,7 @@ describe("getExpectedResources", () => {
     expect(resources["Reinforced Stone Rock"]).toEqual(1);
   });
 
-  it("returns 20 when on spring expansion 20 (18 trees) and have purchased 2 trees", () => {
+  it("returns 20 when on spring expansion 16 (18 trees) and have purchased 2 trees", () => {
     const resources = getExpectedResources({
       game: {
         ...TEST_FARM,
@@ -254,13 +248,13 @@ describe("getExpectedResources", () => {
           type: "spring",
         },
       },
-      expansion: 20,
+      expansion: 16,
     });
 
     expect(resources.Tree).toEqual(20);
   });
 
-  it("returns 16 when on spring expansion 20 (18 trees) and have purchased 2 trees, and upgraded 1 ancient tree", () => {
+  it("returns 16 when on spring expansion 16 (18 trees) and have purchased 2 trees, and upgraded 1 ancient tree", () => {
     const resources = getExpectedResources({
       game: {
         ...TEST_FARM,
@@ -275,13 +269,13 @@ describe("getExpectedResources", () => {
           type: "spring",
         },
       },
-      expansion: 20,
+      expansion: 16,
     });
 
     expect(resources.Tree).toEqual(16);
   });
 
-  it("returns 4 when on spring expansion 20 (18 trees) and have purchased 2 trees, and upgraded 1 sacred tree and 4 ancient trees", () => {
+  it("returns 4 when on spring expansion 16 (18 trees) and have purchased 2 trees, and upgraded 1 sacred tree and 4 ancient trees", () => {
     const resources = getExpectedResources({
       game: {
         ...TEST_FARM,
@@ -297,13 +291,13 @@ describe("getExpectedResources", () => {
           type: "spring",
         },
       },
-      expansion: 20,
+      expansion: 16,
     });
 
     expect(resources.Tree).toEqual(4);
   });
 
-  it("returns 0 when on spring expansion 20 (18 trees) and have purchased 2 trees, and upgraded 1 sacred tree and 5 ancient trees", () => {
+  it("returns 0 when on spring expansion 16 (18 trees) and have purchased 2 trees, and upgraded 1 sacred tree and 5 ancient trees", () => {
     const resources = getExpectedResources({
       game: {
         ...TEST_FARM,
@@ -319,13 +313,13 @@ describe("getExpectedResources", () => {
           type: "spring",
         },
       },
-      expansion: 20,
+      expansion: 16,
     });
 
     expect(resources.Tree).toEqual(0);
   });
 
-  it("returns 0 when on spring expansion 20 (18 trees) and have purchased 2 trees, and upgraded 1 sacred tree and 5 ancient trees", () => {
+  it("returns 0 when on spring expansion 16 (18 trees) and have purchased 2 trees, and upgraded 1 sacred tree and 5 ancient trees", () => {
     const resources = getExpectedResources({
       game: {
         ...TEST_FARM,
@@ -341,13 +335,13 @@ describe("getExpectedResources", () => {
           type: "spring",
         },
       },
-      expansion: 20,
+      expansion: 16,
     });
 
     expect(resources.Tree).toEqual(0);
   });
 
-  it("returns 5 ancient trees when on spring expansion 20 (18 trees) and upgraded 5 ancient trees", () => {
+  it("returns 5 ancient trees when on spring expansion 16 (18 trees) and upgraded 5 ancient trees", () => {
     const resources = getExpectedResources({
       game: {
         ...TEST_FARM,
@@ -362,13 +356,13 @@ describe("getExpectedResources", () => {
           type: "spring",
         },
       },
-      expansion: 20,
+      expansion: 16,
     });
 
     expect(resources["Ancient Tree"]).toEqual(5);
   });
 
-  it("returns 1 ancient tree when on spring expansion 20 (18 trees) and upgraded 1 sacred tree and 5 ancient trees", () => {
+  it("returns 1 ancient tree when on spring expansion 16 (18 trees) and upgraded 1 sacred tree and 5 ancient trees", () => {
     const resources = getExpectedResources({
       game: {
         ...TEST_FARM,
@@ -384,13 +378,13 @@ describe("getExpectedResources", () => {
           type: "spring",
         },
       },
-      expansion: 20,
+      expansion: 16,
     });
 
     expect(resources["Ancient Tree"]).toEqual(1);
   });
 
-  it("returns 1 sacred tree when on spring expansion 20 (18 trees) and upgraded 1 sacred tree and 5 ancient trees", () => {
+  it("returns 1 sacred tree when on spring expansion 16 (18 trees) and upgraded 1 sacred tree and 5 ancient trees", () => {
     const resources = getExpectedResources({
       game: {
         ...TEST_FARM,
@@ -406,7 +400,7 @@ describe("getExpectedResources", () => {
           type: "spring",
         },
       },
-      expansion: 20,
+      expansion: 16,
     });
 
     expect(resources["Sacred Tree"]).toEqual(1);

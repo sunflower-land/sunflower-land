@@ -152,7 +152,8 @@ export type BumpkinShirt =
   | "Comfy Xmas Sweater"
   | "Fish Hook Vest"
   | "Neon Noiz Jacket"
-  | "404 Chic Top";
+  | "404 Chic Top"
+  | "Brasil Jersey";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -1212,6 +1213,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Deep Sea Salt Cave Background": 560,
   "Clam Shell Hat": 561,
   "Shrimp Onesie": 562,
+  "Brasil Jersey": 563,
 };
 
 // The reverse of above
@@ -1839,6 +1841,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Pistol Shrimp": "tool",
   "Clam Shell Hat": "hat",
   "Shrimp Onesie": "onesie",
+  "Brasil Jersey": "shirt",
 };
 
 /**Copied from BE just for hoarding checks */

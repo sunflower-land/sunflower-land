@@ -20,12 +20,9 @@ import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { BUILDINGS } from "features/game/types/buildings";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { translate } from "lib/i18n/translate";
-import {
-  EXPANSION_REQUIREMENTS,
-  type Land,
-} from "features/game/expansion/lib/expansionRequirements";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SEEDS } from "features/game/types/seeds";
+import { getBuildingBumpkinLevelRequired } from "features/game/expansion/lib/buildingRequirements";
 
 const BONUS_UNLOCKS: Record<number, { text: string; icon: string }[]> = {
   3: [
@@ -69,13 +66,7 @@ function generateUnlockLabels(): Record<
         });
 
       const buildings = getKeys(BUILDINGS)
-        .filter((name) => {
-          const b = BUILDINGS[name];
-          return (
-            EXPANSION_REQUIREMENTS[b.unlocksAtLevel as Land]?.bumpkinLevel ===
-            level
-          );
-        })
+        .filter((name) => getBuildingBumpkinLevelRequired(name) === level)
         .map((name) => ({ text: name, icon: ITEM_DETAILS[name].image }));
 
       const bonus = BONUS_UNLOCKS[level] ?? [];
@@ -92,7 +83,6 @@ function generateUnlockLabels(): Record<
 }
 
 const LEVEL_UP_UNLOCKS = generateUnlockLabels();
-
 const LEVEL_UP_MESSAGES: Record<number, string> = {
   2: translate("levelUp.2"),
   3: translate("levelUp.3"),

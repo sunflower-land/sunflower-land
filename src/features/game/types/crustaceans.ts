@@ -1,4 +1,6 @@
-import type { InventoryItemName } from "./game";
+import type { InventoryItemName, IslandType } from "./game";
+import type { Coordinates } from "../expansion/components/MapPlacement";
+import { getWharfCoordinates } from "../expansion/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { translate } from "lib/i18n/translate";
 import { getKeys } from "lib/object";
@@ -183,3 +185,59 @@ export const WATER_TRAP: Record<WaterTrapName, WaterTrap> = {
     chums: getKeys(MARINER_POT_CHUMS),
   },
 };
+
+/**
+ * Crab-trap spot positions are a client render concern, anchored to the dock so
+ * the cluster moves with it (see getWharfCoordinates). The back end owns only
+ * the set of trap ids per island and whether each holds a trap — placement is
+ * validated by trap id, never coordinates — so the FE computes the positions and
+ * its id set must match the back end's.
+ *
+ * TRAP_POSITIONS give the per-island cluster shape; (14, 15) places the cluster
+ * relative to the dock.
+ */
+const TRAP_POSITIONS: Record<IslandType, Record<string, Coordinates>> = {
+  basic: {
+    "1": { x: -14, y: -17 },
+  },
+  spring: {
+    "1": { x: -13, y: -19 },
+    "2": { x: -11, y: -16 },
+  },
+  desert: {
+    "1": { x: -13, y: -19 },
+    "2": { x: -10, y: -16 },
+    "3": { x: -14.5, y: -18.5 },
+  },
+  volcano: {
+    "1": { x: -12, y: -20 },
+    "2": { x: -10, y: -16.5 },
+    "3": { x: -14, y: -19.5 },
+    "4": { x: -12, y: -16 },
+  },
+  swamp: {
+    "1": { x: -12, y: -20 },
+    "2": { x: -10, y: -16.5 },
+    "3": { x: -14, y: -19.5 },
+    "4": { x: -12, y: -16 },
+  },
+};
+
+const TRAP_DOCK_OFFSET = { x: 14, y: 15 };
+
+/** The render position of a crab-trap spot for the current land + island. */
+export function getWaterTrapCoordinates(
+  expansions: number,
+  island: IslandType,
+  trapId: string,
+): Coordinates | undefined {
+  const base = TRAP_POSITIONS[island][trapId];
+  if (!base) return undefined;
+
+  const wharf = getWharfCoordinates(expansions);
+
+  return {
+    x: wharf.x + base.x + TRAP_DOCK_OFFSET.x,
+    y: wharf.y + base.y + TRAP_DOCK_OFFSET.y,
+  };
+}

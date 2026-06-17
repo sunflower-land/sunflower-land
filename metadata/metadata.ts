@@ -5364,6 +5364,17 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Creator Banner": {
+    name: "Creator Banner",
+    description:
+      "A banner to celebrate the creators who grow the Sunflower Land community.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Banner" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   "Luminous Lantern": {
     description: "A bright paper lantern that illuminates the way.",
     decimals: 0,
@@ -12895,6 +12906,16 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Volcano Biome",
+  },
+  "Swamp Biome": {
+    description: "A swamp biome that provides a swamp income and a swamp life.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Swamp Biome",
   },
   "Better Together Banner": {
     description: "",
@@ -21153,5 +21174,15 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Shrimp Onesie",
+  },
+  "Brasil Jersey": {
+    description: "Aqui é o Brasil. O melhor time no mundo!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shirt" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Brasil Jersey",
   },
 };

@@ -23,6 +23,7 @@ const PRODUCTION_MANAGER_IDS = [
   130170, // Dcol
   7841, // Labochi
   2489871284279175, // Jiko
+  2253, // Celinho
 ];
 
 export const MANAGER_IDS =

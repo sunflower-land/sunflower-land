@@ -1,162 +1,84 @@
-import Decimal from "decimal.js-light";
-import type { Bumpkin, GameState } from "../types/game";
+import type { GameState, IslandType } from "../types/game";
+import { ISLAND_EXPANSIONS } from "../types/game";
+
+import { INITIAL_FARM } from "./constants";
+import { revealLand } from "../events/landExpansion/revealLand";
+import { ISLAND_MAX_EXPANSION } from "../expansion/lib/expansionRequirements";
 import { LEVEL_EXPERIENCE } from "./level";
-import type { BumpkinLevel } from "features/game/lib/level";
-import { INITIAL_BUMPKIN_LEVEL, INITIAL_EXPANSIONS } from "./bumpkinData";
-import { getEnabledNodeCount } from "../expansion/lib/expansionNodes";
-import { TEST_BUMPKIN } from "./bumpkinData";
-import { STATIC_OFFLINE_FARM } from "./landDataStatic";
-import { getBuildingBumpkinLevelRequired } from "../expansion/lib/buildingRequirements";
-import { INITIAL_RESOURCES } from "./constants";
+import { upgrade } from "../events/landExpansion/upgradeFarm";
+import Decimal from "decimal.js-light";
 
-function getInitialNodes(name: string) {
-  let count = getEnabledNodeCount(INITIAL_BUMPKIN_LEVEL as BumpkinLevel, name);
-  let x = -1;
-  let y = 9;
-
-  if (INITIAL_EXPANSIONS < 4) {
-    count = name === "Stone Rock" ? 2 : 0;
-    x = 3;
-    y = 7;
-  }
-  if (INITIAL_EXPANSIONS >= 9) {
-    x = -7;
-  }
-
-  if (count === 0) return {};
-
-  if (name === "Iron Rock") x += 1;
-  if (name === "Gold Rock") x += 2;
-
-  return [...Array(count).keys()].reduce(
-    (acc, _, i) => ({
-      ...acc,
-      [i + 1]: {
-        stone: { amount: 1, minedAt: 0 },
-        x: x,
-        y: y - i,
-        height: 1,
-        width: 1,
-      },
-    }),
-    {},
-  );
-}
-
-function getBuildings() {
-  const buildings = {
-    ...STATIC_OFFLINE_FARM["buildings"],
+/**
+ * Builds a farm sitting on `island`, expanded to `expansionCount` lands.
+ *
+ * Rather than hand-listing every node's coordinates (which drift whenever the
+ * land layouts in `expansions.ts` change), we walk the real progression from
+ * INITIAL_FARM: `revealLand` places each expansion's crops, trees and rocks at
+ * the right tiles, and `upgrade` prestiges between islands — so the result
+ * always tracks the canonical layouts.
+ *
+ * `expansionCount` is optional. When omitted, the farm is returned exactly as
+ * it arrives on `island` — the starter lands you get right after the upgrade
+ * (e.g. 9 for spring), or INITIAL_EXPANSIONS for "basic".
+ *
+ * The Bumpkin is set to level 11 and seeded with the resources each upgrade
+ * along the chain burns; the offline farm doesn't need a level matched to the
+ * island, so this stays fixed regardless of `island`.
+ */
+export function getDynamicIsland(
+  island: IslandType,
+  expansionCount?: number,
+): GameState {
+  let farm: GameState = {
+    ...INITIAL_FARM,
+    bumpkin: {
+      ...INITIAL_FARM.bumpkin,
+      experience: LEVEL_EXPERIENCE[11],
+    },
+    inventory: {
+      ...INITIAL_FARM.inventory,
+      // Resources each island upgrade burns: Gold -> spring, Crimstone ->
+      // desert, Oil -> volcano.
+      Gold: new Decimal(10),
+      Crimstone: new Decimal(20),
+      Oil: new Decimal(200),
+    },
   };
 
-  // Add and pre-fill built composters 1 level after unlock.
-  if (
-    INITIAL_BUMPKIN_LEVEL >=
-    1 + getBuildingBumpkinLevelRequired("Compost Bin")
-  ) {
-    buildings["Compost Bin"] = [
-      {
-        coordinates: { x: 2, y: 8 },
-        createdAt: 0,
-        id: "123",
-        readyAt: 0,
-        requires: {
-          Sunflower: 5,
-        },
-        producing: {
-          items: { "Fruitful Blend": 10, "Red Wiggler": 3 },
-
-          readyAt: Date.now() + 30000,
-          startedAt: Date.now() - 50000 - 8 * 60 * 60 * 1000,
-        },
-      },
-    ];
-  }
-  if (
-    INITIAL_BUMPKIN_LEVEL >=
-    1 + getBuildingBumpkinLevelRequired("Turbo Composter")
-  ) {
-    buildings["Turbo Composter"] = [
-      {
-        coordinates: { x: 0, y: 8 },
-        createdAt: 0,
-        id: "123",
-        readyAt: 0,
-        requires: { Apple: 1 },
-        producing: {
-          items: { "Fruitful Blend": 10, "Red Wiggler": 3 },
-
-          readyAt: Date.now() + 30000,
-          startedAt: Date.now() - 50000 - 8 * 60 * 60 * 1000,
-        },
-      },
-    ];
-  }
-  if (
-    INITIAL_BUMPKIN_LEVEL >=
-    1 + getBuildingBumpkinLevelRequired("Premium Composter")
-  ) {
-    buildings["Premium Composter"] = [
-      {
-        coordinates: { x: -2, y: 8 },
-        createdAt: 0,
-        id: "123",
-        readyAt: 0,
-        producing: {
-          items: { "Rapid Root": 10, Grub: 3 },
-
-          readyAt: Date.now() + 30000,
-          startedAt: Date.now() - 50000 - 12 * 60 * 60 * 1000,
-        },
-      },
-    ];
-  }
-
-  return buildings;
-}
-
-function getInventory() {
-  const inventory = {
-    ...STATIC_OFFLINE_FARM["inventory"],
+  // Reveal lands until the "Basic Land" count reaches `target`. revealLand only
+  // requires a pending construction; it places the next expansion's nodes and
+  // increments the count.
+  const revealTo = (target: number) => {
+    while ((farm.inventory["Basic Land"]?.toNumber() ?? 0) < target) {
+      farm = revealLand({
+        state: { ...farm, expansionConstruction: { createdAt: 0, readyAt: 0 } },
+        action: { type: "land.revealed" },
+        createdAt: farm.createdAt,
+      });
+    }
   };
 
-  // Add composters to inventory as soon as they unlock.
-  if (INITIAL_BUMPKIN_LEVEL >= getBuildingBumpkinLevelRequired("Compost Bin")) {
-    inventory["Compost Bin"] = new Decimal(1);
-  }
-  if (
-    INITIAL_BUMPKIN_LEVEL >= getBuildingBumpkinLevelRequired("Turbo Composter")
-  ) {
-    inventory["Turbo Composter"] = new Decimal(1);
-  }
-  if (
-    INITIAL_BUMPKIN_LEVEL >=
-    getBuildingBumpkinLevelRequired("Premium Composter")
-  ) {
-    inventory["Premium Composter"] = new Decimal(1);
+  const targetIndex = ISLAND_EXPANSIONS.indexOf(island);
+
+  // Walk the upgrade chain: fill each island below the target to its cap (the
+  // upgrade requirement) and prestige to the next island.
+  for (let i = 0; i < targetIndex; i++) {
+    revealTo(ISLAND_MAX_EXPANSION[ISLAND_EXPANSIONS[i]]);
+    farm = upgrade({
+      state: farm,
+      action: { type: "farm.upgraded" },
+      createdAt: farm.createdAt,
+      farmId: 1,
+    });
   }
 
-  return inventory;
+  // Expand the target island to the requested size. When omitted, leave the
+  // farm as it arrives (right after the upgrade / the starter lands).
+  if (expansionCount !== undefined) {
+    revealTo(expansionCount);
+  }
+
+  return farm;
 }
 
-const DYNAMIC_INITIAL_RESOURCES: Pick<
-  GameState,
-  "crops" | "trees" | "stones" | "iron" | "gold" | "fruitPatches"
-> = {
-  ...INITIAL_RESOURCES,
-  stones: getInitialNodes("Stone Rock"),
-  iron: getInitialNodes("Iron Rock"),
-  gold: getInitialNodes("Gold Rock"),
-};
-
-const DYNAMIC_INITIAL_BUMPKIN: Bumpkin = {
-  ...TEST_BUMPKIN,
-  experience: LEVEL_EXPERIENCE[INITIAL_BUMPKIN_LEVEL as BumpkinLevel],
-};
-
-export const DYNAMIC_OFFLINE_FARM: GameState = {
-  ...STATIC_OFFLINE_FARM,
-  ...DYNAMIC_INITIAL_RESOURCES,
-  buildings: getBuildings(),
-  bumpkin: DYNAMIC_INITIAL_BUMPKIN,
-  inventory: getInventory(),
-};
+export const DYNAMIC_OFFLINE_FARM: GameState = getDynamicIsland("basic");

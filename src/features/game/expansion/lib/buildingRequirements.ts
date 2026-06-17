@@ -1,22 +1,16 @@
 import { type BuildingName, BUILDINGS } from "features/game/types/buildings";
-import {
-  EXPANSION_REQUIREMENTS,
-  type Land,
-} from "features/game/expansion/lib/expansionRequirements";
 import type { BumpkinLevel } from "features/game/lib/level";
 
 export function getBuildingBumpkinLevelRequired(name: BuildingName): number {
-  let requiredExpansionLevel = 1;
-  const blueprint = BUILDINGS[name];
-  if (blueprint) requiredExpansionLevel = blueprint.unlocksAtLevel;
-  return (
-    EXPANSION_REQUIREMENTS[requiredExpansionLevel as Land]?.bumpkinLevel ?? 1
-  );
+  return BUILDINGS[name].unlocksAtLevel;
 }
 
 export function isBuildingEnabled(
   bumpkinLevel: BumpkinLevel,
   name: BuildingName,
 ): boolean {
-  return bumpkinLevel >= getBuildingBumpkinLevelRequired(name);
+  const required = getBuildingBumpkinLevelRequired(name);
+  // Infinity means the building isn't unlocked via bumpkin level (you get it
+  // through progression), so it has no level requirement once owned.
+  return required === Infinity || bumpkinLevel >= required;
 }

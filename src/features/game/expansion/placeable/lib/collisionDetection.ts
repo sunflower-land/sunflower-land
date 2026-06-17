@@ -301,6 +301,12 @@ export const HOME_BOUNDS: Record<IslandType, BoundingBox> = {
     x: -10,
     y: -10,
   },
+  swamp: {
+    height: 20,
+    width: 20,
+    x: -10,
+    y: -10,
+  },
 };
 
 // Pet House bounds based on interior floor area (centered at origin)
@@ -485,56 +491,9 @@ function detectHomeCollision({
       }));
   });
 
-  const budsBoundingBox = Object.values(state.buds ?? {})
-    .filter((bud) => !!bud.coordinates && bud.location === "home")
-    .map((item) => ({
-      x: item.coordinates!.x,
-      y: item.coordinates!.y,
-      height: 1,
-      width: 1,
-    }));
-
-  const petNFTBoundingBox = Object.values(state.pets?.nfts ?? {})
-    .filter((petNFT) => !!petNFT.coordinates && petNFT.location === "home")
-    .map((item) => ({
-      x: item.coordinates!.x,
-      y: item.coordinates!.y,
-      height: PET_NFT_DIMENSIONS.height,
-      width: PET_NFT_DIMENSIONS.width,
-    }));
-
-  const farmHandBoundingBox = Object.values(state.farmHands.bumpkins ?? {})
-    .filter(
-      (farmHand) => !!farmHand.coordinates && farmHand.location === "home",
-    )
-    .map((farmHand) => ({
-      x: farmHand.coordinates!.x,
-      y: farmHand.coordinates!.y,
-      height: 1,
-      width: 1,
-    }));
-
-  // Main bumpkin inside, exclude when placing/moving the bumpkin itself
-  const bumpkinBoundingBox =
-    name !== "Bumpkin" &&
-    state.bumpkin?.coordinates &&
-    state.bumpkin?.location === "home"
-      ? [
-          {
-            x: state.bumpkin.coordinates.x,
-            y: state.bumpkin.coordinates.y,
-            height: 1,
-            width: 1,
-          },
-        ]
-      : [];
-
   const boundingBoxes = [
     ...placeableBounds,
-    ...budsBoundingBox,
-    ...petNFTBoundingBox,
-    ...farmHandBoundingBox,
-    ...bumpkinBoundingBox,
+    ...placedEntityBoundingBoxes(state, "home", name),
   ];
 
   return boundingBoxes.some((resourceBoundingBox) =>
@@ -649,139 +608,6 @@ function detectAirdropCollision(state: GameState, boundingBox: BoundingBox) {
   );
 }
 
-function detectGarbageCollision(state: GameState, boundingBox: BoundingBox) {
-  if (!state.socialFarming?.clutter?.locations) return false;
-  const { locations } = state.socialFarming.clutter;
-
-  const boundingBoxes = getKeys(locations).flatMap((id) => {
-    const location = locations[id];
-
-    return {
-      x: location.x,
-      y: location.y,
-      height: 1,
-      width: 1,
-    };
-  });
-
-  return boundingBoxes.some((resourceBoundingBox) =>
-    isOverlapping(boundingBox, resourceBoundingBox),
-  );
-}
-
-enum Direction {
-  Left,
-  Right,
-  Top,
-  Bottom,
-}
-
-/**
- * Detects whether a bounding box collides with a land corner.
- *
- * As corners of a land change depending on how many expansions you have, this function looks for
- * neighbouring expansions in all directions to determine where the corners are and whether the bounding box
- * overlaps with any of them.
- * @param expansions The list of expansions that are not under construction.
- * @param boundingBox
- * @returns boolean
- */
-function detectLandCornerCollision(
-  expansions: number,
-  boundingBox: BoundingBox,
-) {
-  // Mid point coordinates for all land expansions
-  const originCoordinatesForExpansions: Coordinates[] = new Array(expansions)
-    .fill(null)
-    .map((_, i) => EXPANSION_ORIGINS[i]);
-
-  /**
-   *
-   * @param expansionOrigin Center coordinates for a land expansion
-   * @param offset coordinate multiplier to determine direction to check eg bottomLeft = { x: -1, y: -1 }
-   * @returns Boolean
-   */
-  const expansionExistsAtOffset = (
-    expansionOrigin: Coordinates,
-    offset: {
-      x: -1 | 0 | 1;
-      y: -1 | 0 | 1;
-    },
-  ) => {
-    return originCoordinatesForExpansions.some((neighbour) => {
-      return (
-        neighbour.x === expansionOrigin.x + LAND_SIZE * offset.x &&
-        neighbour.y === expansionOrigin.y + LAND_SIZE * offset.y
-      );
-    });
-  };
-
-  const hasNeighbouringExpansion = (
-    origin: Coordinates,
-    direction: Direction,
-  ) => {
-    switch (direction) {
-      case Direction.Left:
-        return expansionExistsAtOffset(origin, { x: -1, y: 0 });
-      case Direction.Right:
-        return expansionExistsAtOffset(origin, { x: 1, y: 0 });
-      case Direction.Top:
-        return expansionExistsAtOffset(origin, { x: 0, y: 1 });
-      case Direction.Bottom:
-        return expansionExistsAtOffset(origin, { x: 0, y: -1 });
-    }
-  };
-
-  return originCoordinatesForExpansions.some((originCoordinate) => {
-    const overlapsTopLeft = () =>
-      !hasNeighbouringExpansion(originCoordinate, Direction.Left) &&
-      !hasNeighbouringExpansion(originCoordinate, Direction.Top) &&
-      isOverlapping(boundingBox, {
-        x: originCoordinate.x - LAND_SIZE / 2,
-        y: originCoordinate.y + LAND_SIZE / 2,
-        width: 1,
-        height: 1,
-      });
-
-    const overlapsTopRight = () =>
-      !hasNeighbouringExpansion(originCoordinate, Direction.Right) &&
-      !hasNeighbouringExpansion(originCoordinate, Direction.Top) &&
-      isOverlapping(boundingBox, {
-        x: originCoordinate.x + LAND_SIZE / 2 - 1,
-        y: originCoordinate.y + LAND_SIZE / 2,
-        width: 1,
-        height: 1,
-      });
-
-    const overlapsBottomLeft = () =>
-      !hasNeighbouringExpansion(originCoordinate, Direction.Left) &&
-      !hasNeighbouringExpansion(originCoordinate, Direction.Bottom) &&
-      isOverlapping(boundingBox, {
-        x: originCoordinate.x - LAND_SIZE / 2,
-        y: originCoordinate.y - LAND_SIZE / 2 + 1,
-        width: 1,
-        height: 1,
-      });
-
-    const overlapsBottomRight = () =>
-      !hasNeighbouringExpansion(originCoordinate, Direction.Right) &&
-      !hasNeighbouringExpansion(originCoordinate, Direction.Bottom) &&
-      isOverlapping(boundingBox, {
-        x: originCoordinate.x + LAND_SIZE / 2 - 1,
-        y: originCoordinate.y - LAND_SIZE / 2 + 1,
-        width: 1,
-        height: 1,
-      });
-
-    return (
-      overlapsTopLeft() ||
-      overlapsTopRight() ||
-      overlapsBottomLeft() ||
-      overlapsBottomRight()
-    );
-  });
-}
-
 /**
  * Interior collision check — intentionally simpler than `detectHomeCollision`.
  *
@@ -802,6 +628,69 @@ function detectLandCornerCollision(
  * once before the layout lookup and treat everything else (overlap check) in
  * the canvas-center convention since collectibles store their coords there.
  */
+/**
+ * Bounding boxes for the non-collectible entities (buds, pet NFTs, farm hands
+ * and the main bumpkin) placed on a given indoor surface. Shared by the home,
+ * interior and level_one collision checks so each surface collides with these
+ * the same way.
+ */
+function placedEntityBoundingBoxes(
+  state: GameState,
+  location: PlaceableLocation,
+  name: LandscapingPlaceable,
+): BoundingBox[] {
+  const budsBoundingBox = Object.values(state.buds ?? {})
+    .filter((bud) => !!bud.coordinates && bud.location === location)
+    .map((item) => ({
+      x: item.coordinates!.x,
+      y: item.coordinates!.y,
+      height: 1,
+      width: 1,
+    }));
+
+  const petNFTBoundingBox = Object.values(state.pets?.nfts ?? {})
+    .filter((petNFT) => !!petNFT.coordinates && petNFT.location === location)
+    .map((item) => ({
+      x: item.coordinates!.x,
+      y: item.coordinates!.y,
+      height: PET_NFT_DIMENSIONS.height,
+      width: PET_NFT_DIMENSIONS.width,
+    }));
+
+  const farmHandBoundingBox = Object.values(state.farmHands.bumpkins ?? {})
+    .filter(
+      (farmHand) => !!farmHand.coordinates && farmHand.location === location,
+    )
+    .map((farmHand) => ({
+      x: farmHand.coordinates!.x,
+      y: farmHand.coordinates!.y,
+      height: 1,
+      width: 1,
+    }));
+
+  // Main bumpkin inside, exclude when placing/moving the bumpkin itself
+  const bumpkinBoundingBox =
+    name !== "Bumpkin" &&
+    state.bumpkin?.coordinates &&
+    state.bumpkin?.location === location
+      ? [
+          {
+            x: state.bumpkin.coordinates.x,
+            y: state.bumpkin.coordinates.y,
+            height: 1,
+            width: 1,
+          },
+        ]
+      : [];
+
+  return [
+    ...budsBoundingBox,
+    ...petNFTBoundingBox,
+    ...farmHandBoundingBox,
+    ...bumpkinBoundingBox,
+  ];
+}
+
 function detectInteriorCollision({
   state,
   position,
@@ -851,7 +740,12 @@ function detectInteriorCollision({
       }));
   });
 
-  return placeableBounds.some((box) => isOverlapping(position, box));
+  const boundingBoxes = [
+    ...placeableBounds,
+    ...placedEntityBoundingBoxes(state, "interior", name),
+  ];
+
+  return boundingBoxes.some((box) => isOverlapping(position, box));
 }
 
 /**
@@ -913,7 +807,12 @@ function detectLevelOneCollision({
       }));
   });
 
-  return placeableBounds.some((box) => isOverlapping(position, box));
+  const boundingBoxes = [
+    ...placeableBounds,
+    ...placedEntityBoundingBoxes(state, "level_one", name),
+  ];
+
+  return boundingBoxes.some((box) => isOverlapping(position, box));
 }
 
 export function detectCollision({
@@ -948,7 +847,6 @@ export function detectCollision({
   return (
     detectWaterCollision(expansions, position) ||
     detectPlaceableCollision(state, position, name) ||
-    detectLandCornerCollision(expansions, position) ||
     detectMushroomCollision(state, position, name) ||
     detectAirdropCollision(state, position)
   );
