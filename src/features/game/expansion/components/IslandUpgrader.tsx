@@ -10,7 +10,7 @@ import { MapPlacement } from "./MapPlacement";
 
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
-import coinsIcon from "assets/icons/coins.webp";
+import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
@@ -194,7 +194,9 @@ const IslandUpgraderModal: React.FC<{
                   type="danger"
                   className="mr-3 whitespace-nowrap"
                 >
-                  {`${remainingExpansions} Expansions Remaining`}
+                  {t("islandupgrade.expansionsRemaining", {
+                    remaining: remainingExpansions,
+                  })}
                 </Label>
               )}
 
@@ -220,11 +222,12 @@ const IslandUpgraderModal: React.FC<{
                 >{`${upgradeItems[name]} x ${name}`}</Label>
               ))}
               {upgradeCoins > 0 && (
-                <Label
-                  icon={coinsIcon}
-                  className="mr-3 whitespace-nowrap"
-                  type={coins >= upgradeCoins ? "default" : "danger"}
-                >{`${upgradeCoins} x Coins`}</Label>
+                <RequirementLabel
+                  type="coins"
+                  balance={coins}
+                  requirement={upgradeCoins}
+                  showLabel
+                />
               )}
             </div>
           </>
