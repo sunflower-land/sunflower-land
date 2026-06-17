@@ -8,6 +8,8 @@ import { Loading } from "features/auth/components";
 import { Context } from "features/game/GameProvider";
 import { useAuth } from "features/auth/lib/Provider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useNow } from "lib/utils/hooks/useNow";
+import { getRelativeTime } from "lib/utils/time";
 
 import { NPCFixed } from "features/island/bumpkin/components/NPC";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -57,6 +59,7 @@ export const DesignShowcaseSettings: React.FC<ContentComponentProps> = () => {
   const { gameService } = useContext(Context);
   const { authState } = useAuth();
   const { t } = useAppTranslation();
+  const now = useNow();
 
   const token = authState.context.user.rawToken as string;
   const farmId = useSelector(gameService, _farmId);
@@ -121,7 +124,17 @@ export const DesignShowcaseSettings: React.FC<ContentComponentProps> = () => {
               onClick={() => openAuthor(selected)}
             >
               <BumpkinAvatar parts={selected.bumpkin} size={PIXEL_SCALE * 12} />
-              <p className="text-xs capitalize">{designAuthorName(selected)}</p>
+              <div className="flex flex-col">
+                <div className="flex items-center gap-1">
+                  <p className="text-xs capitalize">
+                    {designAuthorName(selected)}
+                  </p>
+                  <span className="text-xs underline">{`#${selected.farmId}`}</span>
+                </div>
+                <span className="text-xxs">
+                  {getRelativeTime(selected.showcasedAt, now)}
+                </span>
+              </div>
             </div>
           </div>
         </InnerPanel>
@@ -177,6 +190,9 @@ export const DesignShowcaseSettings: React.FC<ContentComponentProps> = () => {
                       {designAuthorName(design)}
                     </span>
                   </div>
+                  <span className="text-xxs mt-0.5">
+                    {getRelativeTime(design.showcasedAt, now)}
+                  </span>
                 </ButtonPanel>
               ))}
             </div>
