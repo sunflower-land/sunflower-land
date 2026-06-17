@@ -693,10 +693,44 @@ export const ISLAND_UPGRADE: Record<
   },
   volcano: {
     expansions: 30,
+    // Cost scales with ascension level — see getAscensionUpgradeCost
     items: {},
     upgrade: "swamp",
   },
 };
+
+/**
+ * Row 0 ascension upgrade cost. Every upgrade into (and, later, within) an
+ * ascension island scales with the level being reached:
+ *   cost(r, a) = floor(base_r × 1.4^(a - 1))
+ * So the first ascension (a = 1) costs the base, and each repeat costs 1.4×
+ * more. Coins are charged separately from the inventory items.
+ */
+const ASCENSION_UPGRADE_BASE_ITEMS: Partial<Record<InventoryItemName, number>> =
+  {
+    Crimstone: 30,
+    Oil: 50,
+    Obsidian: 3,
+  };
+const ASCENSION_UPGRADE_BASE_COINS = 5000;
+
+export function getAscensionUpgradeCost(ascensionLevel: number): {
+  items: Inventory;
+  coins: number;
+} {
+  // 1.4^(a-1) computed in Decimal — exact, no binary-float error — then floored.
+  const multiplier = new Decimal(1.4).pow(ascensionLevel - 1);
+  const scaled = (base: number) =>
+    new Decimal(base).mul(multiplier).toDecimalPlaces(0, Decimal.ROUND_DOWN);
+  const items: Inventory = {};
+  getObjectEntries(ASCENSION_UPGRADE_BASE_ITEMS).forEach(([name, base]) => {
+    items[name] = scaled(base ?? 0);
+  });
+  return {
+    items,
+    coins: scaled(ASCENSION_UPGRADE_BASE_COINS).toNumber(),
+  };
+}
 
 export const isLandUpgradable = (
   islandType: IslandType,
@@ -1081,16 +1115,32 @@ export function upgrade({ state, createdAt = Date.now(), farmId }: Options) {
     throw new Error("Player has not met the expansion requirements");
   }
 
-  // Check & burn the requirements
-  Object.entries(upcoming.items).forEach(([name, required]) => {
+  // Ascension-island upgrades (swamp onward) scale their cost with the level
+  // being reached; basic-island upgrades use their static `items`.
+  const targetIsAscension = (ASCENSION_ISLANDS as readonly string[]).includes(
+    upcoming.upgrade,
+  );
+  const { items, coins } = targetIsAscension
+    ? getAscensionUpgradeCost((game.island.ascensionLevel ?? 0) + 1)
+    : { items: upcoming.items, coins: 0 };
+
+  // Check & burn the item requirements
+  Object.entries(items).forEach(([name, required]) => {
     const amount = game.inventory[name as InventoryItemName] ?? new Decimal(0);
     if (amount.lt(required)) {
       throw new Error(`Insufficient ${name}`);
     }
 
-    // Burn the ingredients
     game.inventory[name as InventoryItemName] = amount.minus(required);
   });
+
+  // Check & burn the coin requirement (coins are not an inventory item)
+  if (coins > 0) {
+    if (game.coins < coins) {
+      throw new Error("Insufficient coins");
+    }
+    game.coins -= coins;
+  }
 
   return transitionToIsland({
     state: game,

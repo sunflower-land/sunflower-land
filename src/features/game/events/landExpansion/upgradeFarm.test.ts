@@ -1,5 +1,5 @@
 import { INITIAL_FARM, TEST_FARM } from "features/game/lib/constants";
-import { upgrade } from "./upgradeFarm";
+import { upgrade, getAscensionUpgradeCost } from "./upgradeFarm";
 import Decimal from "decimal.js-light";
 import { getLand, TOTAL_EXPANSION_NODES } from "features/game/types/expansions";
 import { getIslandSpawnPositions } from "features/game/expansion/lib/island";
@@ -1100,12 +1100,17 @@ describe("upgradeFarm", () => {
       },
       state: {
         ...INITIAL_FARM,
+        coins: 10000,
         island: {
           type: "volcano",
         },
         inventory: {
           ...INITIAL_FARM.inventory,
           "Basic Land": new Decimal(30),
+          // volcano->swamp ascension cost (a=1 base): 30 Crimstone / 50 Oil / 3 Obsidian
+          Crimstone: new Decimal(100),
+          Oil: new Decimal(100),
+          Obsidian: new Decimal(10),
           "Crop Plot": new Decimal(65),
           "Fruit Patch": new Decimal(15),
           Tree: new Decimal(23),
@@ -1130,6 +1135,12 @@ describe("upgradeFarm", () => {
     expect(state.island.previousExpansions).toEqual(30);
     expect(state.inventory["Basic Land"]).toEqual(new Decimal(30));
 
+    // Burns the a=1 ascension cost (base: 30 Crimstone / 50 Oil / 3 Obsidian / 5000 coins)
+    expect(state.inventory.Crimstone).toEqual(new Decimal(70));
+    expect(state.inventory.Oil).toEqual(new Decimal(50));
+    expect(state.inventory.Obsidian).toEqual(new Decimal(7));
+    expect(state.coins).toEqual(5000);
+
     // Keeps the Mansion as the home, laid out per the swamp layout
     expect(state.buildings.Manor).toBeUndefined();
     expect(state.inventory.Mansion).toEqual(new Decimal(1));
@@ -1142,6 +1153,36 @@ describe("upgradeFarm", () => {
     expect(Object.keys(state.beehives)).toHaveLength(4);
     expect(Object.keys(state.flowers.flowerBeds)).toHaveLength(4);
     expect(Object.keys(state.lavaPits)).toHaveLength(4);
+  });
+
+  it("scales the ascension upgrade cost with level", () => {
+    // a = 1 -> base
+    expect(getAscensionUpgradeCost(1)).toEqual({
+      items: {
+        Crimstone: new Decimal(30),
+        Oil: new Decimal(50),
+        Obsidian: new Decimal(3),
+      },
+      coins: 5000,
+    });
+    // a = 2 -> floor(base x 1.4)
+    expect(getAscensionUpgradeCost(2)).toEqual({
+      items: {
+        Crimstone: new Decimal(42),
+        Oil: new Decimal(70),
+        Obsidian: new Decimal(4),
+      },
+      coins: 7000,
+    });
+    // a = 3 -> floor(base x 1.96)
+    expect(getAscensionUpgradeCost(3)).toEqual({
+      items: {
+        Crimstone: new Decimal(58),
+        Oil: new Decimal(98),
+        Obsidian: new Decimal(5),
+      },
+      coins: 9800,
+    });
   });
 
   it("sets island history", () => {
