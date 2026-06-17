@@ -857,7 +857,7 @@ describe("revealLand", () => {
       );
 
     const baseline = grant({}, 0);
-    expect(baseline).toBeGreaterThan(0);
+    expect(baseline).toBe(TOTAL_EXPANSION_NODES.volcano[6]["Sunstone Rock"]);
 
     // 10 lifetime mines with no live rocks => one rock was mined to depletion.
     expect(grant({}, 10)).toBe(baseline - 1);
@@ -891,7 +891,7 @@ describe("revealLand", () => {
         createdAt: Date.now(),
       }),
     );
-    expect(granted).toBeGreaterThan(0);
+    expect(granted).toBe(TOTAL_EXPANSION_NODES.volcano[6]["Sunstone Rock"]);
 
     // The same sunstones already sit in an unclaimed airdrop, so they must not
     // be reported missing (and re-granted) a second time.

@@ -28,6 +28,11 @@ import {
 } from "features/game/lib/constants";
 import { OIL_RESERVE_RECOVERY_TIME } from "./drillOilReserve";
 
+// Each sunstone rock can be mined this many times before it is depleted and
+// removed from the farm (see mineSunstone). Used both when placing new rocks
+// and when reconciling how many the player has mined to depletion.
+const SUNSTONE_MINES = 10;
+
 // Preloaded crops that will appear on plots when they reveal
 const EXPANSION_CROPS: Record<number, CropName> = {
   4: "Sunflower",
@@ -189,7 +194,7 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
         x: coords.x + origin.x,
         y: coords.y + origin.y,
         stone: { minedAt: 0 },
-        minesLeft: 10,
+        minesLeft: SUNSTONE_MINES,
       };
     });
     inventory["Sunstone Rock"] = (
@@ -623,14 +628,13 @@ export function getRewards({
     // still owns are not depletions, so they are excluded before dividing. A
     // player who has never mined a sunstone receives the full missing amount.
     if (key === "Sunstone Rock") {
-      const MINES_PER_SUNSTONE = 10;
       const lifetimeMines = game.farmActivity?.["Sunstone Mined"] ?? 0;
       const minesOnLiveRocks = Object.values(game.sunstones ?? {}).reduce(
-        (total, rock) => total + (MINES_PER_SUNSTONE - rock.minesLeft),
+        (total, rock) => total + (SUNSTONE_MINES - rock.minesLeft),
         0,
       );
       const depleted = Math.floor(
-        Math.max(0, lifetimeMines - minesOnLiveRocks) / MINES_PER_SUNSTONE,
+        Math.max(0, lifetimeMines - minesOnLiveRocks) / SUNSTONE_MINES,
       );
       missing -= depleted;
     }
