@@ -67,6 +67,10 @@ const UPGRADE_DESCRIPTIONS: Record<IslandType, string | null> = {
   swamp: translate("islandupgrade.volcanoResourcesDescription"),
 };
 
+// Swamp ascension launch date — shown as a teaser on the locked "coming soon"
+// label until the upgrade opens to everyone.
+const SWAMP_LAUNCH_DATE = new Date(2027, 7, 3); // 3rd August 2027
+
 // Swamp (terminal ascension island) isn't in ISLAND_UPGRADE, so fall back to an
 // empty upgrade to keep the unconditional reads below type-safe and crash-free.
 const NO_ISLAND_UPGRADE: Pick<
@@ -156,6 +160,12 @@ const IslandUpgraderModal: React.FC<{
     ? getAscensionUpgradeCost((island.ascensionLevel ?? 0) + 1)
     : { items: upgrade.items, coins: 0 };
 
+  // Localised launch date (US vs rest-of-world ordering from the browser locale).
+  const comingSoonDate = SWAMP_LAUNCH_DATE.toLocaleDateString(
+    navigator.language,
+    { day: "numeric", month: "long", year: "numeric" },
+  );
+
   const hasResources =
     getKeys(upgradeItems).every(
       (name) => inventory[name]?.gte(upgradeItems[name] ?? 0) ?? false,
@@ -181,18 +191,20 @@ const IslandUpgraderModal: React.FC<{
             type="danger"
             className="mr-3 my-2"
           >
-            {t("coming.soon")}
+            {isAscensionUpgrade
+              ? t("islandupgrade.comingSoon", { date: comingSoonDate })
+              : t("coming.soon")}
           </Label>
         )}
 
         {hasUpgrade && (
           <>
-            <div className="flex items-center mt-2 mb-1 flex-wrap">
+            <div className="flex items-center mt-2 mb-1 flex-wrap gap-x-2 gap-y-1">
               {remainingExpansions > 0 && (
                 <Label
                   icon={SUNNYSIDE.land.island}
                   type="danger"
-                  className="mr-3 whitespace-nowrap"
+                  className="whitespace-nowrap"
                 >
                   {t("islandupgrade.expansionsRemaining", {
                     remaining: remainingExpansions,
@@ -201,11 +213,7 @@ const IslandUpgraderModal: React.FC<{
               )}
 
               {hasUnexpiredItemsPlaced() && (
-                <Label
-                  icon={SUNNYSIDE.icons.expression_alerted}
-                  type="danger"
-                  className="mr-3 mb-1"
-                >
+                <Label icon={SUNNYSIDE.icons.expression_alerted} type="danger">
                   {t("islandupgrade.tempItemWarning")}
                 </Label>
               )}
@@ -213,7 +221,7 @@ const IslandUpgraderModal: React.FC<{
                 <Label
                   key={name}
                   icon={ITEM_DETAILS[name].image}
-                  className="mr-3 whitespace-nowrap"
+                  className="whitespace-nowrap"
                   type={
                     inventory[name]?.gte(upgradeItems[name] ?? 0)
                       ? "default"
@@ -224,7 +232,7 @@ const IslandUpgraderModal: React.FC<{
               {upgradeCoins > 0 && (
                 <Label
                   icon={coinsIcon}
-                  className="mr-3 whitespace-nowrap"
+                  className="whitespace-nowrap"
                   type={coins >= upgradeCoins ? "default" : "danger"}
                 >
                   {`${upgradeCoins} x ${t("coins")}`}
