@@ -343,10 +343,12 @@ export const IslandUpgrader: React.FC<Props> = ({ offset }) => {
     if (islandType === "desert" && nextExpansion === 26) {
       return { x: 1, y: -11 };
     }
-    // Volcano -> swamp raft sits on the scaffolding at the top-right of the
-    // volcano land. TODO: confirm exact coordinates in-game.
+    // Until the volcano cap (30 expansions) the raft sits on the side and the
+    // modal blocks the upgrade ("X Expansions Remaining"); once maxed it moves
+    // to the top-right scaffolding, ready to prestige to swamp.
+    // TODO: confirm the scaffolding coordinate in-game.
     if (islandType === "volcano") {
-      return { x: 16, y: 14 };
+      return nextExpansion === 31 ? { x: 16, y: 14 } : { x: 9, y: 9 };
     }
 
     return { x: 7, y: 0 };
