@@ -773,7 +773,9 @@ describe("revealLand", () => {
           "Sunstone Rock": new Decimal(0), // Never received any sunstones
         },
         farmActivity:
-          sunstoneMined === undefined ? {} : { "Sunstone Mined": sunstoneMined },
+          sunstoneMined === undefined
+            ? {}
+            : { "Sunstone Mined": sunstoneMined },
         expansionConstruction: { createdAt: 0, readyAt: 0 },
       },
       createdAt: Date.now(),
