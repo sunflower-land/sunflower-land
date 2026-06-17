@@ -99,7 +99,7 @@ const RenewCollectibleContent: React.FC<{
           </Label>
           <p className="text-xs">
             {isWeatherItem
-              ? `Renew ${name} to prepare for the next weather event.`
+              ? t("renew.weather.expired.message", { name })
               : t("renew.expired.message", { name })}
           </p>
         </>

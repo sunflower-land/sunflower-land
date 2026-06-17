@@ -26,6 +26,7 @@
   "confirm.renew": "Confirm Renew",
   "confirm.renew.message": "Are you sure you want to renew {{name}}?",
   "renew.expired.message": "{{name}} has expired. You can renew it to extend its duration.",
+  "renew.weather.expired.message": "Renew {{name}} to prepare for the next weather event.",
   "shrine.expired": "{{name}} Expired",
   "drink": "Drink",
   "eat": "Eat",
