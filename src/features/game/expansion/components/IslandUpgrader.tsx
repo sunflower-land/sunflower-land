@@ -10,8 +10,8 @@ import { MapPlacement } from "./MapPlacement";
 
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { ITEM_DETAILS } from "features/game/types/images";
+import coinsIcon from "assets/icons/coins.webp";
 import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
 import { useActor, useSelector } from "@xstate/react";
@@ -222,12 +222,13 @@ const IslandUpgraderModal: React.FC<{
                 >{`${upgradeItems[name]} x ${name}`}</Label>
               ))}
               {upgradeCoins > 0 && (
-                <RequirementLabel
-                  type="coins"
-                  balance={coins}
-                  requirement={upgradeCoins}
-                  showLabel
-                />
+                <Label
+                  icon={coinsIcon}
+                  className="mr-3 whitespace-nowrap"
+                  type={coins >= upgradeCoins ? "default" : "danger"}
+                >
+                  {`${upgradeCoins} x ${t("coins")}`}
+                </Label>
               )}
             </div>
           </>
@@ -351,7 +352,7 @@ export const IslandUpgrader: React.FC<Props> = ({ offset }) => {
     // to the top-right scaffolding, ready to prestige to swamp.
     // TODO: confirm the scaffolding coordinate in-game.
     if (islandType === "volcano") {
-      return nextExpansion === 31 ? { x: 16, y: 14 } : { x: 9, y: 9 };
+      return nextExpansion === 31 ? { x: -1, y: 20 } : { x: 9, y: 9 };
     }
 
     return { x: 7, y: 0 };
