@@ -14,6 +14,7 @@ import type { InventoryRenewableCollectibleName } from "../lib/renewableCollecti
 import { COLLECTIBLE_BUFF_LABELS } from "../types/collectibleItemBuffs";
 import Decimal from "decimal.js-light";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type Props = {
   show: boolean;
@@ -66,6 +67,7 @@ const RenewCollectibleContent: React.FC<{
   inventory: Inventory;
   gameState: GameState;
 }> = ({ handleRenew, handleRemove, name, inventory, gameState }) => {
+  const { t } = useAppTranslation();
   const available = inventory[name] ?? new Decimal(0);
   const canRenew = available.gte(1);
   const buffLabels = COLLECTIBLE_BUFF_LABELS[name]?.(gameState);
@@ -74,12 +76,10 @@ const RenewCollectibleContent: React.FC<{
     <>
       <div className="flex flex-col gap-2 p-1">
         <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
-          {`${name} Expired`}
+          {t("shrine.expired", { name })}
         </Label>
 
-        <p className="text-xs">
-          {`${name} has expired. You can renew it to extend its duration.`}
-        </p>
+        <p className="text-xs">{t("renew.expired.message", { name })}</p>
 
         {buffLabels && (
           <div className="flex flex-wrap gap-2">
@@ -113,9 +113,9 @@ const RenewCollectibleContent: React.FC<{
 
       <div className="flex justify-between gap-1">
         <Button onClick={handleRenew} disabled={!canRenew}>
-          {"Renew"}
+          {t("renew")}
         </Button>
-        <Button onClick={handleRemove}>{"Remove"}</Button>
+        <Button onClick={handleRemove}>{t("remove")}</Button>
       </div>
     </>
   );
