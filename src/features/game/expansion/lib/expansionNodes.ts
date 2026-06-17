@@ -18,6 +18,7 @@ export type Nodes = Record<
     | "Prime Gold Rock"
     | "Fused Stone Rock"
     | "Reinforced Stone Rock"
+    | "Boulder"
   >,
   number
 >;
