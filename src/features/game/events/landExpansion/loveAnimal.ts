@@ -93,6 +93,8 @@ export function loveAnimal({
 
     if (level !== getAnimalLevel(animal.experience, animal.type)) {
       animal.state = "ready";
+    } else if (animal.state === "sad") {
+      animal.state = "idle";
     }
 
     return copy;
