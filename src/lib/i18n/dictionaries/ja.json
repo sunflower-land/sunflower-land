@@ -9097,5 +9097,10 @@
   "transfer.ronin.migrate.step3": "ステップ3: 現在のウォレットを切断し、Roninブラウザ拡張機能またはRoninアプリを介して接続します。",
   "transfer.ronin.migrate.step4": "ステップ4: Polygonに切り替えて転送を続行してください。",
   "transfer.ronin.migrate.switchToPolygon": "ポリゴンに切り替え",
-  "transfer.ronin.migrate.switchError": "ネットワークを切り替えることができませんでした。Ronin ブラウザ拡張機能または Ronin アプリで Waypoint ウォレットを設定しましたか？"
+  "transfer.ronin.migrate.switchError": "ネットワークを切り替えることができませんでした。Ronin ブラウザ拡張機能または Ronin アプリで Waypoint ウォレットを設定しましたか？",
+  "transfer.ronin.migrate.loginTitle": "Ronin ウォレットが検出されました",
+  "transfer.ronin.migrate.loginIntro": "Ronin ウォレットでサインインしていることに気付きました。Ronin Waypointウォレットを使用している場合、プレイを続けるにはサンフラワーランドのアカウントを転送する必要があります。他の種類の Ronin ウォレットは影響を受けません。",
+  "transfer.ronin.migrate.loginIntro2": "Ronin Waypoint ウォレットを使用していない場合は、何もする必要はありません。Ronin Waypointのユーザーは読み続けてください。",
+  "transfer.ronin.migrate.notWaypoint": "Ronin ウェイポイントを使用していません",
+  "transfer.ronin.migrate.migrateNow": "今すぐ移行"
 }

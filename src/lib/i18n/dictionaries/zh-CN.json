@@ -9097,5 +9097,10 @@
   "transfer.ronin.migrate.step3": "步骤3：断开当前钱包的连接，然后通过Ronin浏览器扩展程序或Ronin应用程序进行连接。",
   "transfer.ronin.migrate.step4": "第 4 步：切换到 Polygon 继续传输。",
   "transfer.ronin.migrate.switchToPolygon": "切换到多边形",
-  "transfer.ronin.migrate.switchError": "无法切换网络。你在 Ronin 浏览器扩展程序或 Ronin 应用程序上设置了 Waypoint 钱包吗？"
+  "transfer.ronin.migrate.switchError": "无法切换网络。你在 Ronin 浏览器扩展程序或 Ronin 应用程序上设置了 Waypoint 钱包吗？",
+  "transfer.ronin.migrate.loginTitle": "检测到 Ronin 钱包",
+  "transfer.ronin.migrate.loginIntro": "我们注意到你使用 Ronin 钱包登录。如果你使用的是 Ronin Waypoint 钱包，则需要转移你的向日葵乐园账户才能继续游戏。其他类型的 Ronin 钱包不受影响。",
+  "transfer.ronin.migrate.loginIntro2": "如果你没有使用 Ronin Waypoint 钱包，则无需执行任何操作。Ronin Waypoint 用户请继续阅读。",
+  "transfer.ronin.migrate.notWaypoint": "我没用 Ronin Waypoint",
+  "transfer.ronin.migrate.migrateNow": "立即迁移"
 }

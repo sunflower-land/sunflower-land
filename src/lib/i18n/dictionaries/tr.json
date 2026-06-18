@@ -9097,5 +9097,10 @@
   "transfer.ronin.migrate.step3": "Adım 3: Mevcut cüzdanınızın bağlantısını kesin ve Ronin tarayıcı uzantısı veya Ronin uygulaması aracılığıyla bağlanın.",
   "transfer.ronin.migrate.step4": "Adım 4: Transferinize devam etmek için Çokgen'e geçin.",
   "transfer.ronin.migrate.switchToPolygon": "Çokgene geç",
-  "transfer.ronin.migrate.switchError": "Ağ değiştirilemedi. Waypoint cüzdanınızı Ronin tarayıcı uzantısında veya Ronin uygulamasında kurdunuz mu?"
+  "transfer.ronin.migrate.switchError": "Ağ değiştirilemedi. Waypoint cüzdanınızı Ronin tarayıcı uzantısında veya Ronin uygulamasında kurdunuz mu?",
+  "transfer.ronin.migrate.loginTitle": "Ronin Cüzdan Tespit Edildi",
+  "transfer.ronin.migrate.loginIntro": "Ronin cüzdanıyla giriş yaptığını fark ettik. Ronin Waypoint cüzdanı kullanıyorsanız, oynamaya devam etmek için Sunflower Land hesabınızı aktarmanız gerekir. Diğer Ronin cüzdan türleri etkilenmez.",
+  "transfer.ronin.migrate.loginIntro2": "Ronin Waypoint cüzdanı kullanmıyorsanız herhangi bir işlem gerekmez. Ronin Waypoint kullanıcıları lütfen okumaya devam edin.",
+  "transfer.ronin.migrate.notWaypoint": "Ronin Waypoint kullanmıyorum",
+  "transfer.ronin.migrate.migrateNow": "Şimdi taşıyın"
 }

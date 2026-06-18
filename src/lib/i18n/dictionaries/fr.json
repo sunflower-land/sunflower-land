@@ -9097,5 +9097,10 @@
   "transfer.ronin.migrate.step3": "Étape 3 : Déconnectez votre portefeuille actuel et connectez-vous via l'extension de navigateur Ronin ou l'application Ronin.",
   "transfer.ronin.migrate.step4": "Étape 4 : Passez à Polygon pour poursuivre votre transfert.",
   "transfer.ronin.migrate.switchToPolygon": "Basculer vers Polygon",
-  "transfer.ronin.migrate.switchError": "Impossible de changer de réseau. Avez-vous configuré votre portefeuille Waypoint sur l'extension de navigateur Ronin ou l'application Ronin ?"
+  "transfer.ronin.migrate.switchError": "Impossible de changer de réseau. Avez-vous configuré votre portefeuille Waypoint sur l'extension de navigateur Ronin ou l'application Ronin ?",
+  "transfer.ronin.migrate.loginTitle": "Portefeuille Ronin détecté",
+  "transfer.ronin.migrate.loginIntro": "Nous avons remarqué que vous vous êtes connecté avec un portefeuille Ronin. Si vous utilisez un portefeuille Ronin Waypoint, vous devrez transférer votre compte Sunflower Land pour continuer à jouer. Les autres types de portefeuilles Ronin ne sont pas concernés.",
+  "transfer.ronin.migrate.loginIntro2": "Si vous n'utilisez pas de portefeuille Ronin Waypoint, aucune action n'est requise. Utilisateurs de Ronin Waypoint, veuillez continuer à lire.",
+  "transfer.ronin.migrate.notWaypoint": "Je n'utilise pas Ronin Waypoint",
+  "transfer.ronin.migrate.migrateNow": "Migrez dès maintenant"
 }

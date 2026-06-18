@@ -9097,5 +9097,10 @@
   "transfer.ronin.migrate.step3": "Langkah 3: Putuskan sambungan dompet Anda saat ini dan sambungkan melalui ekstensi browser Ronin atau aplikasi Ronin.",
   "transfer.ronin.migrate.step4": "Langkah 4: Beralih ke Polygon untuk melanjutkan transfer Anda.",
   "transfer.ronin.migrate.switchToPolygon": "Beralih ke Polygon",
-  "transfer.ronin.migrate.switchError": "Tidak dapat beralih jaringan. Apakah Anda mengatur dompet Waypoint Anda di ekstensi browser Ronin atau aplikasi Ronin?"
+  "transfer.ronin.migrate.switchError": "Tidak dapat beralih jaringan. Apakah Anda mengatur dompet Waypoint Anda di ekstensi browser Ronin atau aplikasi Ronin?",
+  "transfer.ronin.migrate.loginTitle": "Dompet Ronin Terdeteksi",
+  "transfer.ronin.migrate.loginIntro": "Kami melihat Anda masuk dengan dompet Ronin. Jika Anda menggunakan dompet Ronin Waypoint, Anda harus mentransfer akun Sunflower Land Anda untuk terus bermain. Jenis dompet Ronin lainnya tidak terpengaruh.",
+  "transfer.ronin.migrate.loginIntro2": "Jika Anda tidak menggunakan dompet Ronin Waypoint, tidak ada tindakan yang diperlukan. Pengguna Ronin Waypoint silakan lanjutkan membaca.",
+  "transfer.ronin.migrate.notWaypoint": "Saya tidak menggunakan Ronin Waypoint",
+  "transfer.ronin.migrate.migrateNow": "Bermigrasi sekarang"
 }

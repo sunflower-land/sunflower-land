@@ -9097,5 +9097,10 @@
   "transfer.ronin.migrate.step3": "Step 3: Disconnect your current wallet and connect via the Ronin browser extension or Ronin app.",
   "transfer.ronin.migrate.step4": "Step 4: Switch to Polygon to continue your transfer.",
   "transfer.ronin.migrate.switchToPolygon": "Switch to Polygon",
-  "transfer.ronin.migrate.switchError": "Couldn't switch networks. Did you set up your Waypoint wallet on the Ronin browser extension or Ronin app?"
+  "transfer.ronin.migrate.switchError": "Couldn't switch networks. Did you set up your Waypoint wallet on the Ronin browser extension or Ronin app?",
+  "transfer.ronin.migrate.loginTitle": "Ronin Wallet Detected",
+  "transfer.ronin.migrate.loginIntro": "We noticed you signed in with a Ronin wallet. If you are using a Ronin Waypoint wallet, you'll need to transfer your Sunflower Land account to continue playing. Other types of Ronin wallets are not impacted.",
+  "transfer.ronin.migrate.loginIntro2": "If you are not using a Ronin Waypoint wallet no action is required. Ronin Waypoint users please continue reading.",
+  "transfer.ronin.migrate.notWaypoint": "I'm not using Ronin Waypoint",
+  "transfer.ronin.migrate.migrateNow": "Migrate now"
 }

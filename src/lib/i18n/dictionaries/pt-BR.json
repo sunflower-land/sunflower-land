@@ -9097,5 +9097,10 @@
   "transfer.ronin.migrate.step3": "Etapa 3: Desconecte sua carteira atual e conecte-se por meio da extensão do navegador Ronin ou do aplicativo Ronin.",
   "transfer.ronin.migrate.step4": "Etapa 4: Mude para o Polygon para continuar sua transferência.",
   "transfer.ronin.migrate.switchToPolygon": "Mudar para Polygon",
-  "transfer.ronin.migrate.switchError": "Não foi possível trocar de rede. Você configurou sua carteira Waypoint na extensão do navegador Ronin ou no aplicativo Ronin?"
+  "transfer.ronin.migrate.switchError": "Não foi possível trocar de rede. Você configurou sua carteira Waypoint na extensão do navegador Ronin ou no aplicativo Ronin?",
+  "transfer.ronin.migrate.loginTitle": "Carteira Ronin detectada",
+  "transfer.ronin.migrate.loginIntro": "Percebemos que você entrou com uma carteira Ronin. Se você estiver usando uma carteira Ronin Waypoint, precisará transferir sua conta Sunflower Land para continuar jogando. Outros tipos de carteiras Ronin não são afetados.",
+  "transfer.ronin.migrate.loginIntro2": "Se você não estiver usando uma carteira Ronin Waypoint, nenhuma ação será necessária. Usuários do Ronin Waypoint, continuem lendo.",
+  "transfer.ronin.migrate.notWaypoint": "Não estou usando o Ronin Waypoint",
+  "transfer.ronin.migrate.migrateNow": "Migre agora"
 }
