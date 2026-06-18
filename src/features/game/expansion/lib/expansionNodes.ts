@@ -16,6 +16,11 @@ export type Nodes = Record<
   number
 >;
 
+/**
+ * Determines if a value is a valid node type.
+ *
+ * @returns `true` if the value is a valid node type, `false` otherwise.
+ */
 export function isNode(value: string): value is keyof Nodes {
   const nodeTypes: Array<keyof Nodes> = [
     "Crop Plot",

@@ -27,6 +27,15 @@ type Options = {
   createdAt?: number;
 };
 
+/**
+ * Initiates a land expansion for the player's game state.
+ *
+ * Validates expansion eligibility, deducts coins and required resources, records the expansion construction timer, and logs analytics events.
+ *
+ * @param createdAt - Timestamp when the expansion starts
+ * @returns The updated game state with the expansion construction in progress
+ * @throws When expansion cannot proceed due to validation failures such as reaching the island expansion cap, insufficient bumpkin level, insufficient resources or coins, or an expansion already in progress
+ */
 export function expandLand({ state, createdAt = Date.now() }: Options) {
   return produce(state, (game) => {
     // At an island's expansion cap the player must upgrade to gain more land.

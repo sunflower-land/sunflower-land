@@ -877,6 +877,11 @@ function volcanoUpgrade(state: GameState) {
   return game;
 }
 
+/**
+ * Sets up the game state for swamp island by clearing old home structures, adding a mansion, and ensuring minimum starting resources.
+ *
+ * @returns The updated game state ready for swamp island.
+ */
 function swampUpgrade(state: GameState) {
   const game = cloneDeep(state) as GameState;
   // Swamp keeps the Mansion from Volcano — clear any older homes defensively
@@ -985,9 +990,11 @@ const ISLAND_SETUP: Record<UpgradeTarget, IslandSetup> = {
 };
 
 /**
- * The island-agnostic part of moving a farm to a new island: wipe the old
- * farm, carry island history (incl. sunstones) forward, and lay out the fresh
- * starting island. The per-island bits are driven by `ISLAND_SETUP[target]`.
+ * Transitions a farm to a new island, establishing a fresh starting configuration.
+ *
+ * Clears the previous farm state, carries forward expansion history and sunstone counts, relocates mushrooms and social farming clutter to the new island's side island, applies target-island-specific setup (home adjustments, resource flooring, airdrops), and initializes all starting land, buildings, and resources. Per-island configurations are determined by `ISLAND_SETUP[target]`.
+ *
+ * @returns The transitioned game state with the new island fully initialized
  */
 function transitionToIsland({
   state,

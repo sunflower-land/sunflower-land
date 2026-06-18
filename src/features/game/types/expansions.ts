@@ -61,6 +61,13 @@ const isAdvancedResource = (
   return resource in ADVANCED_RESOURCES;
 };
 
+/**
+ * Calculates the cumulative expected resource node counts for a given expansion, accounting for purchases and upgrades.
+ *
+ * @param game - The current game state
+ * @param expansion - The expansion level
+ * @returns A mapping of resource names to their expected cumulative counts
+ */
 export function getExpectedResources({
   game,
   expansion,
@@ -117,6 +124,12 @@ export function getExpectedResources({
   return expectedResources;
 }
 
+/**
+ * Computes the layout for the player's next land expansion with resource availability constraints applied.
+ *
+ * @param game - The current game state
+ * @returns The next land expansion layout with resource placements capped by available resources, or `null` if no layout exists for the computed expansion
+ */
 export function getLand({ game }: { game: GameState }): Layout | null {
   const expansion = (game.inventory["Basic Land"]?.toNumber() ?? 0) + 1;
 
@@ -1996,10 +2009,12 @@ function countLayoutNodes(
 }
 
 /**
- * Derives the cumulative `Record<expansion, Nodes>` table for an island from its
- * per-expansion layouts. `base` is the "arrival" row — the expected totals when
- * a player first lands on the island (a curated floor, not derivable from
- * layouts) — and sits at the expansion directly below the first layout.
+ * Derives cumulative node counts for each expansion level on an island.
+ *
+ * @param base - Initial node counts when the island is first discovered.
+ * @param layouts - Per-expansion layout definitions.
+ * @returns A record mapping each expansion level to its cumulative node totals.
+ * @throws If `layouts` is empty.
  */
 export function deriveExpansionNodes(
   base: Nodes,

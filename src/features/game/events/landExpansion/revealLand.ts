@@ -55,6 +55,17 @@ type Options = {
   createdAt?: number;
 };
 
+/**
+ * Completes a pending land expansion by populating the game board with entities and computing rewards.
+ *
+ * Establishes all entities from the revealed land layout, updates inventory counts, resets resource recovery timers, and calculates expansion rewards. Repositions the mushroom island if present and adds a Fire Pit building upon the 5th expansion.
+ *
+ * @param state - The current game state
+ * @param createdAt - Timestamp for entity and structure creation; defaults to `Date.now()`
+ * @returns The updated game state with new entities and calculated rewards
+ * @throws When expansion construction is not active
+ * @throws When the land layout cannot be found
+ */
 export function revealLand({ state, createdAt = Date.now() }: Options) {
   return produce(state, (game) => {
     if (!game.expansionConstruction) {
@@ -378,6 +389,12 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
   });
 }
 
+/**
+ * Generates airdrop rewards for expansion milestones and missing resources.
+ *
+ * @param createdAt - The timestamp for the airdrops
+ * @returns An array of airdrops to be granted to the player
+ */
 export function getRewards({
   game,
   createdAt,

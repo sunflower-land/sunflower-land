@@ -21,6 +21,16 @@ type Options = {
   createdAt?: number;
 };
 
+/**
+ * Completes an in-progress expansion instantly by paying with gems or coins.
+ *
+ * @param action - Determines the payment method: "coins" to charge coins, or gems by default
+ * @returns The updated game state with the expansion completed
+ * @throws "Expansion not in progress" if no expansion is currently being constructed
+ * @throws "You can't speed up the expansion on this island" if the current island type doesn't support expansion speedup
+ * @throws "Expansion already complete" if the expansion is already done
+ * @throws "Insufficient Gems" if paying with gems and the player doesn't have enough
+ */
 export function speedUpExpansion({
   state,
   action,
