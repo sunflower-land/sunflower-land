@@ -1,6 +1,7 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { speedUpExpansion } from "./speedUpExpansion";
 import Decimal from "decimal.js-light";
+import { CONFIG } from "lib/config";
 
 describe("instantExpand", () => {
   it("requires expansion is in progress", () => {
@@ -113,46 +114,56 @@ describe("instantExpand", () => {
     ).toThrow("You can't speed up the expansion on this island");
   });
 
-  it("cannot speed up expansion on desert island (SWAMP_ASCENSION=false default)", () => {
-    // When SWAMP_ASCENSION feature flag is off (default in tests), the threshold
-    // is "desert", so desert and islands beyond it (volcano, swamp) are blocked.
-    expect(() =>
-      speedUpExpansion({
-        action: { type: "expansion.spedUp" },
-        state: {
-          ...INITIAL_FARM,
-          island: {
-            ...INITIAL_FARM.island,
-            type: "desert",
-          },
-          expansionConstruction: {
-            createdAt: 0,
-            readyAt: Date.now() + 1000,
-          },
-        },
-      }),
-    ).toThrow("You can't speed up the expansion on this island");
-  });
+  describe("when SWAMP_ASCENSION is off (mainnet)", () => {
+    // The flag is on by default in tests (amoy), so force mainnet to exercise
+    // the flag-off threshold ("desert"): desert and every island beyond it
+    // (volcano, swamp) are blocked from speeding up.
+    let previousNetwork: (typeof CONFIG)["NETWORK"];
+    beforeEach(() => {
+      previousNetwork = CONFIG.NETWORK;
+      CONFIG.NETWORK = "mainnet";
+    });
+    afterEach(() => {
+      CONFIG.NETWORK = previousNetwork;
+    });
 
-  it("cannot speed up expansion on volcano island", () => {
-    // Volcano comes after desert in island order, so it is also blocked regardless
-    // of the SWAMP_ASCENSION feature flag state.
-    expect(() =>
-      speedUpExpansion({
-        action: { type: "expansion.spedUp" },
-        state: {
-          ...INITIAL_FARM,
-          island: {
-            ...INITIAL_FARM.island,
-            type: "volcano",
+    it("cannot speed up expansion on desert island", () => {
+      expect(() =>
+        speedUpExpansion({
+          action: { type: "expansion.spedUp" },
+          state: {
+            ...INITIAL_FARM,
+            island: {
+              ...INITIAL_FARM.island,
+              type: "desert",
+            },
+            expansionConstruction: {
+              createdAt: 0,
+              readyAt: Date.now() + 1000,
+            },
           },
-          expansionConstruction: {
-            createdAt: 0,
-            readyAt: Date.now() + 1000,
+        }),
+      ).toThrow("You can't speed up the expansion on this island");
+    });
+
+    it("cannot speed up expansion on volcano island", () => {
+      expect(() =>
+        speedUpExpansion({
+          action: { type: "expansion.spedUp" },
+          state: {
+            ...INITIAL_FARM,
+            island: {
+              ...INITIAL_FARM.island,
+              type: "volcano",
+            },
+            expansionConstruction: {
+              createdAt: 0,
+              readyAt: Date.now() + 1000,
+            },
           },
-        },
-      }),
-    ).toThrow("You can't speed up the expansion on this island");
+        }),
+      ).toThrow("You can't speed up the expansion on this island");
+    });
   });
 
   describe("Dino Egg Trophy coin payment", () => {
