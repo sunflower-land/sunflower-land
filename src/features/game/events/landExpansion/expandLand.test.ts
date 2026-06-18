@@ -252,4 +252,96 @@ describe("expansionRequirements", () => {
       Wood: 1.5,
     });
   });
+
+  it("returns swamp formula requirements for swamp island with ascensionLevel 1", () => {
+    const HOUR = 60 * 60;
+    const { requirements, boostsUsed } = expansionRequirements({
+      game: {
+        ...TEST_FARM,
+        island: { type: "swamp", ascensionLevel: 1 },
+        inventory: {
+          ...TEST_FARM.inventory,
+          "Basic Land": new Decimal(30),
+        },
+      },
+    });
+
+    // expansion = 30 + 1 = 31, first swamp ascension slot
+    expect(requirements?.resources).toEqual({
+      Crimstone: 30,
+      Oil: 50,
+      Obsidian: 3,
+    });
+    expect(requirements?.coins).toBe(5000);
+    expect(requirements?.seconds).toBe(7 * HOUR);
+    expect(boostsUsed).toHaveLength(0);
+  });
+
+  it("applies Grinx's Hammer halving to swamp resources (not Gem)", () => {
+    const { requirements, boostsUsed } = expansionRequirements({
+      game: {
+        ...TEST_FARM,
+        island: { type: "swamp", ascensionLevel: 1 },
+        inventory: {
+          ...TEST_FARM.inventory,
+          "Basic Land": new Decimal(30),
+        },
+        collectibles: {
+          "Grinx's Hammer": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: Date.now(),
+              id: "456",
+              readyAt: Date.now(),
+            },
+          ],
+        },
+      },
+    });
+
+    expect(requirements?.resources).toEqual({
+      Crimstone: 15,
+      Oil: 25,
+      Obsidian: 1.5,
+    });
+    expect(boostsUsed).toEqual([{ name: "Grinx's Hammer", value: "x0.5" }]);
+  });
+
+  it("returns undefined requirements when swamp expansion is beyond range (Basic Land 42)", () => {
+    const { requirements } = expansionRequirements({
+      game: {
+        ...TEST_FARM,
+        island: { type: "swamp", ascensionLevel: 1 },
+        inventory: {
+          ...TEST_FARM.inventory,
+          "Basic Land": new Decimal(42),
+        },
+      },
+    });
+
+    // expansion = 42 + 1 = 43, outside the 31-42 swamp range → no requirements
+    expect(requirements).toBeUndefined();
+  });
+
+  it("returns swamp requirements at ascensionLevel 2 with scaled costs", () => {
+    const HOUR = 60 * 60;
+    const { requirements } = expansionRequirements({
+      game: {
+        ...TEST_FARM,
+        island: { type: "swamp", ascensionLevel: 2 },
+        inventory: {
+          ...TEST_FARM.inventory,
+          "Basic Land": new Decimal(41),
+        },
+      },
+    });
+
+    // expansion 42, ascensionLevel 2: costs × 1.4
+    expect(requirements?.resources).toEqual({
+      Crimstone: 210,
+      Oil: 560,
+      Obsidian: 42,
+    });
+    expect(requirements?.seconds).toBe(84 * HOUR);
+  });
 });
