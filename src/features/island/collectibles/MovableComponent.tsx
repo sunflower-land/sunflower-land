@@ -598,10 +598,12 @@ export const MoveableComponent: React.FC<
 
   const hasRemovalAction = !!removeAction;
 
-  const hasFlipAction = !isMobile && isCollectible(name);
+  const hasFlipAction =
+    !isMobile &&
+    (isCollectible(name) || name === "FarmHand" || name === "Bumpkin");
 
   const flip = () => {
-    if (isCollectible(name)) {
+    if (isCollectible(name) || name === "FarmHand" || name === "Bumpkin") {
       landscapingMachine.send("FLIP", { id, name, location });
     }
   };
@@ -677,6 +679,14 @@ export const MoveableComponent: React.FC<
   };
 
   const isFlipped = useSelector(gameService, (state) => {
+    if (name === "FarmHand") {
+      return !!state.context.state.farmHands.bumpkins[id]?.flipped;
+    }
+
+    if (name === "Bumpkin") {
+      return !!state.context.state.bumpkin?.flipped;
+    }
+
     if (!isCollectible(name)) return false;
     const collectibles =
       location === "home"

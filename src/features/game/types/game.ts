@@ -539,6 +539,7 @@ export type Bumpkin = {
   paidSkillResets?: number;
   coordinates?: Coordinates;
   location?: Exclude<PlaceableLocation, "petHouse">;
+  flipped?: boolean;
 };
 
 export type SpecialEvent = "Chef Apron" | "Chef Hat";
@@ -1056,6 +1057,7 @@ export type FarmHand = {
   equipped: BumpkinParts;
   coordinates?: Coordinates;
   location?: "farm" | "home" | "interior" | "level_one";
+  flipped?: boolean;
 };
 
 export type Mushroom = {

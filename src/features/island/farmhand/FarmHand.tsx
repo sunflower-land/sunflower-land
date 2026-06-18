@@ -29,7 +29,13 @@ export const FarmHand: React.FC<{
   if (!fh) return null;
 
   if (!fh.coordinates) {
-    return <NPCPlaceable parts={fh.equipped} isManuallyPlaced={true} />;
+    return (
+      <NPCPlaceable
+        parts={fh.equipped}
+        isManuallyPlaced={true}
+        flipped={fh.flipped}
+      />
+    );
   }
 
   if (!isLandscaping) {
@@ -39,6 +45,7 @@ export const FarmHand: React.FC<{
           parts={fh.equipped}
           onClick={() => setShowModal(true)}
           isManuallyPlaced={true}
+          flipped={fh.flipped}
         />
         <Modal show={showModal} onHide={() => setShowModal(false)} size="lg">
           <CloseButtonPanel
@@ -76,7 +83,11 @@ export const FarmHand: React.FC<{
       y={fh.coordinates.y}
       location={location}
     >
-      <NPCPlaceable parts={fh.equipped} isManuallyPlaced={true} />
+      <NPCPlaceable
+        parts={fh.equipped}
+        isManuallyPlaced={true}
+        flipped={fh.flipped}
+      />
     </MoveableComponent>
   );
 };
