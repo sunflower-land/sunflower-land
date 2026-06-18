@@ -2802,6 +2802,7 @@
   "islandupgrade.tempItemWarning": "Active totems/hourglasses will be burned",
   "islandupgrade.expansionsRemaining": "{{remaining}} Expansions Remaining",
   "islandupgrade.comingSoon": "Coming soon - {{date}}",
+  "islandupgrade.levelRequired": "Level {{level}} required",
   "islandupgrade.confirmation": "Would you like to upgrade? You will start on a small island with all of your items.",
   "islandupgrade.ascendIsland": "Ascend Island",
   "islandupgrade.ascendIntro": "A greater island awaits. Ascend to unlock exotic resources and a new chapter for your farm.",

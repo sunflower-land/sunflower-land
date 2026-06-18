@@ -13,6 +13,7 @@ import type {
 } from "features/game/types/game";
 import { ASCENSION_ISLANDS } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
+import { getBumpkinLevel } from "features/game/lib/level";
 import {
   getTotalBaseResourceEquivalents,
   topUpResourceToMinimum,
@@ -711,6 +712,9 @@ const ASCENSION_UPGRADE_BASE_ITEMS: Partial<Record<InventoryItemName, number>> =
   };
 const ASCENSION_UPGRADE_BASE_COINS = 5000;
 
+/** Minimum Bumpkin level required to ascend into an ascension island (swamp onward). */
+export const ASCENSION_BUMPKIN_LEVEL = 150;
+
 export function getAscensionUpgradeCost(ascensionLevel: number): {
   items: Inventory;
   coins: number;
@@ -1120,6 +1124,14 @@ export function upgrade({ state, createdAt = Date.now(), farmId }: Options) {
 
   if (targetIsAscension && !hasFeatureAccess(game, "SWAMP_ASCENSION")) {
     throw new Error("Swamp ascension is not yet available");
+  }
+
+  // Ascension islands require a minimum Bumpkin level to access.
+  if (
+    targetIsAscension &&
+    getBumpkinLevel(game.bumpkin?.experience ?? 0) < ASCENSION_BUMPKIN_LEVEL
+  ) {
+    throw new Error("Player has not met the level requirements");
   }
 
   const { items, coins } = targetIsAscension
