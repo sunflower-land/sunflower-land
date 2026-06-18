@@ -112,7 +112,11 @@ import { config } from "features/wallet/WalletProvider";
 import { depositFlower } from "lib/blockchain/DepositFlower";
 import type { NetworkOption } from "features/island/hud/components/deposit/DepositFlower";
 import { depositSFL } from "lib/blockchain/DepositSFL";
-import { hasFeatureAccess } from "lib/flags";
+import { hasFeatureAccess, isWaypointWalletDisabled } from "lib/flags";
+import {
+  isRoninWallet,
+  getRoninWaypointPopupShown,
+} from "features/roninMigration/roninWaypointPopup";
 import { isDailyRewardReady } from "../events/landExpansion/claimDailyReward";
 import { getDailyRewardLastAcknowledged } from "../components/DailyReward";
 import type { LanguageCode } from "lib/i18n/dictionaries/language";
@@ -1465,6 +1469,16 @@ export function startGame(authContext: AuthContext) {
             },
 
             {
+              target: "roninMigration",
+              cond: (context) => {
+                if (isWaypointWalletDisabled()) return false;
+                if (getRoninWaypointPopupShown()) return false;
+
+                return isRoninWallet(context.wallet);
+              },
+            },
+
+            {
               target: "dailyReward",
               cond: (context) => {
                 // If already acknowledged in last 24 hours, don't show
@@ -1569,6 +1583,18 @@ export function startGame(authContext: AuthContext) {
           on: {
             CLOSE: {
               target: "playing",
+            },
+          },
+        },
+        roninMigration: {
+          on: {
+            ACKNOWLEDGE: {
+              // The "shown" flag is persisted synchronously by the modal's
+              // onClose BEFORE this event is sent (see RoninWaypointLoginModal).
+              // It must be set before `notifying` re-evaluates its `always`
+              // guards, otherwise this state re-enters and the popup needs two
+              // clicks to dismiss.
+              target: "notifying",
             },
           },
         },
