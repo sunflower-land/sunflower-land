@@ -542,7 +542,10 @@ describe("getExpansionRequirements", () => {
   });
 
   it("treats ascensionLevel 0 the same as no ascensionLevel (static path)", () => {
-    const noAscension = getExpansionRequirements({ island: "basic", expansion: 4 });
+    const noAscension = getExpansionRequirements({
+      island: "basic",
+      expansion: 4,
+    });
     const zeroAscension = getExpansionRequirements({
       island: "basic",
       expansion: 4,
