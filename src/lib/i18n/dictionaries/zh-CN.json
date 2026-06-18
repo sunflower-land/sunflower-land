@@ -9086,5 +9086,16 @@
   "islandupgrade.ascendIntro": "一个更大的岛屿在等着你。上升即可解锁异国情调的资源，为你的农场开启全新篇章。",
   "islandupgrade.ascendConfirmation": "升序会将你的等级重置为 1 并重新开始——你的技能、物品和扩展包随之而来。",
   "islandupgrade.confirmAscend": "你确定要登上新岛吗？",
-  "islandupgrade.levelRequired": "等级 {{level}} 为必填项"
+  "islandupgrade.levelRequired": "等级 {{level}} 为必填项",
+  "transfer.ronin.migrate.label": "浪人航点迁移",
+  "transfer.ronin.migrate.title": "你在用 Ronin Waypoint 吗？",
+  "transfer.ronin.migrate.deadline": "Ronin 正在放弃对 Ronin Waypoint 的支持。Ronin Waypoint 将在 2026 年 9 月 16 日之后不再可用。您必须在此之前迁移您的帐户才能继续访问该帐户。",
+  "transfer.ronin.migrate.polygon": "向日葵乐园账户 NFT 在 Polygon 上，因此您需要一个与 Polygon 兼容的钱包来转移您的 NFT。",
+  "transfer.ronin.migrate.howTo": "如何迁移",
+  "transfer.ronin.migrate.step1": "第 1 步：安装 Ronin 浏览器扩展程序或 Ronin 应用程序",
+  "transfer.ronin.migrate.step2": "第 2 步：将您的 Waypoint 钱包导入浏览器扩展程序或 Ronin 应用程序。",
+  "transfer.ronin.migrate.step3": "步骤3：断开当前钱包的连接，然后通过Ronin浏览器扩展程序或Ronin应用程序进行连接。",
+  "transfer.ronin.migrate.step4": "第 4 步：切换到 Polygon 继续传输。",
+  "transfer.ronin.migrate.switchToPolygon": "切换到多边形",
+  "transfer.ronin.migrate.switchError": "无法切换网络。你在 Ronin 浏览器扩展程序或 Ronin 应用程序上设置了 Waypoint 钱包吗？"
 }

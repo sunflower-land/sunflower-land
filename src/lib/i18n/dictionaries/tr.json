@@ -9086,5 +9086,16 @@
   "islandupgrade.ascendIntro": "Daha büyük bir ada bekliyor. Egzotik kaynakların ve çiftliğiniz için yeni bir bölümün kilidini açmak için yükselin.",
   "islandupgrade.ascendConfirmation": "Yükselen seviyenizi 1'e sıfırlar ve yeniden başlar - becerileriniz, öğeleriniz ve genişletmeleriniz sizinle birlikte gelir.",
   "islandupgrade.confirmAscend": "Yeni bir adaya çıkmak istediğinizden emin misiniz?",
-  "islandupgrade.levelRequired": "Seviye {{level}} gerekli"
+  "islandupgrade.levelRequired": "Seviye {{level}} gerekli",
+  "transfer.ronin.migrate.label": "Ronin Yol Noktası Geçişi",
+  "transfer.ronin.migrate.title": "Ronin Waypoint kullanıyor musunuz?",
+  "transfer.ronin.migrate.deadline": "Ronin, Ronin Waypoint desteğini bırakıyor. Ronin Waypoint, 16 Eylül 2026'dan sonra artık kullanılamayacak. Hesabınıza erişimini sürdürmek için daha önce hesabınızı taşımanız gerekir.",
+  "transfer.ronin.migrate.polygon": "Sunflower Land Accounts NFT'leri Polygon'dadır, bu nedenle NFT'nizi aktarmak için Poligon uyumlu bir cüzdana ihtiyacınız olacak.",
+  "transfer.ronin.migrate.howTo": "Nasıl Geçiş Yapılır",
+  "transfer.ronin.migrate.step1": "Adım 1: Ronin tarayıcı uzantısını veya Ronin uygulamasını yükleyin",
+  "transfer.ronin.migrate.step2": "Adım 2: Waypoint cüzdanınızı tarayıcı uzantısına veya Ronin uygulamasına aktarın.",
+  "transfer.ronin.migrate.step3": "Adım 3: Mevcut cüzdanınızın bağlantısını kesin ve Ronin tarayıcı uzantısı veya Ronin uygulaması aracılığıyla bağlanın.",
+  "transfer.ronin.migrate.step4": "Adım 4: Transferinize devam etmek için Çokgen'e geçin.",
+  "transfer.ronin.migrate.switchToPolygon": "Çokgene geç",
+  "transfer.ronin.migrate.switchError": "Ağ değiştirilemedi. Waypoint cüzdanınızı Ronin tarayıcı uzantısında veya Ronin uygulamasında kurdunuz mu?"
 }

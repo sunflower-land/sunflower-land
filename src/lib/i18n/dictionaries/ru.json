@@ -9086,5 +9086,16 @@
   "islandupgrade.ascendIntro": "A greater island awaits. Ascend to unlock exotic resources and a new chapter for your farm.",
   "islandupgrade.ascendConfirmation": "Ascending resets your level to 1 and begins anew — your skills, items and expansions come with you.",
   "islandupgrade.confirmAscend": "Are you sure you want to ascend to a new island?",
-  "islandupgrade.levelRequired": "Level {{level}} required"
+  "islandupgrade.levelRequired": "Level {{level}} required",
+  "transfer.ronin.migrate.label": "Ronin Waypoint Migration",
+  "transfer.ronin.migrate.title": "Are you using Ronin Waypoint?",
+  "transfer.ronin.migrate.deadline": "Ronin is dropping support for Ronin Waypoint. Ronin Waypoint will no longer be available after September 16, 2026. You must migrate your account before then to keep access to it.",
+  "transfer.ronin.migrate.polygon": "Sunflower Land Accounts NFTs are on Polygon, so you'll need a Polygon-compatible wallet to transfer your NFT.",
+  "transfer.ronin.migrate.howTo": "How to Migrate",
+  "transfer.ronin.migrate.step1": "Step 1: Install the Ronin browser extension or Ronin app",
+  "transfer.ronin.migrate.step2": "Step 2: Import your Waypoint wallet into the browser extension or Ronin app.",
+  "transfer.ronin.migrate.step3": "Step 3: Disconnect your current wallet and connect via the Ronin browser extension or Ronin app.",
+  "transfer.ronin.migrate.step4": "Step 4: Switch to Polygon to continue your transfer.",
+  "transfer.ronin.migrate.switchToPolygon": "Switch to Polygon",
+  "transfer.ronin.migrate.switchError": "Couldn't switch networks. Did you set up your Waypoint wallet on the Ronin browser extension or Ronin app?"
 }

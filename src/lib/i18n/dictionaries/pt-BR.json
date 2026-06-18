@@ -9086,5 +9086,16 @@
   "islandupgrade.ascendIntro": "Uma ilha maior espera por você. Suba para desbloquear recursos exóticos e um novo capítulo para sua fazenda.",
   "islandupgrade.ascendConfirmation": "A ascensão redefine seu nível para 1 e começa de novo — suas habilidades, itens e expansões vêm com você.",
   "islandupgrade.confirmAscend": "Tem certeza de que deseja subir para uma nova ilha?",
-  "islandupgrade.levelRequired": "Nível {{level}} obrigatório"
+  "islandupgrade.levelRequired": "Nível {{level}} obrigatório",
+  "transfer.ronin.migrate.label": "Migração do Ronin Waypoint",
+  "transfer.ronin.migrate.title": "Você está usando o Ronin Waypoint?",
+  "transfer.ronin.migrate.deadline": "Ronin está abandonando o suporte para o Ronin Waypoint. O Ronin Waypoint não estará mais disponível após 16 de setembro de 2026. Você deve migrar sua conta antes disso para manter o acesso a ela.",
+  "transfer.ronin.migrate.polygon": "Os NFTs das contas Sunflower Land estão no Polygon, então você precisará de uma carteira compatível com o Polygon para transferir seu NFT.",
+  "transfer.ronin.migrate.howTo": "Como migrar",
+  "transfer.ronin.migrate.step1": "Etapa 1: instalar a extensão do navegador Ronin ou o aplicativo Ronin",
+  "transfer.ronin.migrate.step2": "Etapa 2: Importe sua carteira Waypoint para a extensão do navegador ou aplicativo Ronin.",
+  "transfer.ronin.migrate.step3": "Etapa 3: Desconecte sua carteira atual e conecte-se por meio da extensão do navegador Ronin ou do aplicativo Ronin.",
+  "transfer.ronin.migrate.step4": "Etapa 4: Mude para o Polygon para continuar sua transferência.",
+  "transfer.ronin.migrate.switchToPolygon": "Mudar para Polygon",
+  "transfer.ronin.migrate.switchError": "Não foi possível trocar de rede. Você configurou sua carteira Waypoint na extensão do navegador Ronin ou no aplicativo Ronin?"
 }

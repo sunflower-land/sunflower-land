@@ -9086,5 +9086,16 @@
   "islandupgrade.ascendIntro": "より大きな島が待っています。登ってエキゾチックな資源をアンロックし、農場に新たな章を開きましょう。",
   "islandupgrade.ascendConfirmation": "昇格するとレベルが1にリセットされ、新たに開始します。スキル、アイテム、拡張パックが付属します。",
   "islandupgrade.confirmAscend": "本当に新しい島に登りたいの？",
-  "islandupgrade.levelRequired": "レベル {{level}} が必要です"
+  "islandupgrade.levelRequired": "レベル {{level}} が必要です",
+  "transfer.ronin.migrate.label": "Ronin ウェイポイントマイグレーション",
+  "transfer.ronin.migrate.title": "Ronin ウェイポイントを使用していますか？",
+  "transfer.ronin.migrate.deadline": "Ronin は Ronin ウェイポイントのサポートを終了します。Ronin Waypoint は 2026 年 9 月 16 日以降はご利用いただけなくなります。引き続きアクセスするには、それまでにアカウントを移行する必要があります。",
+  "transfer.ronin.migrate.polygon": "サンフラワーランドアカウントのNFTはPolygon上にあるため、NFTを転送するにはPolygon対応のウォレットが必要です。",
+  "transfer.ronin.migrate.howTo": "移行方法",
+  "transfer.ronin.migrate.step1": "ステップ 1: Ronin ブラウザ拡張機能または Ronin アプリをインストールする",
+  "transfer.ronin.migrate.step2": "ステップ2: Waypointウォレットをブラウザ拡張機能またはRoninアプリにインポートします。",
+  "transfer.ronin.migrate.step3": "ステップ3: 現在のウォレットを切断し、Roninブラウザ拡張機能またはRoninアプリを介して接続します。",
+  "transfer.ronin.migrate.step4": "ステップ4: Polygonに切り替えて転送を続行してください。",
+  "transfer.ronin.migrate.switchToPolygon": "ポリゴンに切り替え",
+  "transfer.ronin.migrate.switchError": "ネットワークを切り替えることができませんでした。Ronin ブラウザ拡張機能または Ronin アプリで Waypoint ウォレットを設定しましたか？"
 }

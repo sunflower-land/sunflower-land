@@ -9086,5 +9086,16 @@
   "islandupgrade.ascendIntro": "Pulau yang lebih besar menanti. Naik untuk membuka sumber daya eksotis dan babak baru untuk pertanian Anda.",
   "islandupgrade.ascendConfirmation": "Ascending mengatur ulang level Anda ke 1 dan dimulai lagi — keterampilan, item, dan ekspansi Anda datang bersama Anda.",
   "islandupgrade.confirmAscend": "Apakah Anda yakin ingin naik ke pulau baru?",
-  "islandupgrade.levelRequired": "Level {{level}} diperlukan"
+  "islandupgrade.levelRequired": "Level {{level}} diperlukan",
+  "transfer.ronin.migrate.label": "Migrasi Waypoint Ronin",
+  "transfer.ronin.migrate.title": "Apakah Anda menggunakan Ronin Waypoint?",
+  "transfer.ronin.migrate.deadline": "Ronin menghentikan dukungan untuk Ronin Waypoint. Ronin Waypoint tidak akan lagi tersedia setelah 16 September 2026. Anda harus memigrasikan akun Anda sebelum itu untuk mempertahankan akses ke sana.",
+  "transfer.ronin.migrate.polygon": "NFT Akun Tanah Bunga Matahari ada di Polygon, jadi Anda memerlukan dompet yang kompatibel dengan Poligon untuk mentransfer NFT Anda.",
+  "transfer.ronin.migrate.howTo": "Bagaimana untuk bermigrasi",
+  "transfer.ronin.migrate.step1": "Langkah 1: Instal ekstensi browser Ronin atau aplikasi Ronin",
+  "transfer.ronin.migrate.step2": "Langkah 2: Impor dompet Waypoint Anda ke ekstensi browser atau aplikasi Ronin.",
+  "transfer.ronin.migrate.step3": "Langkah 3: Putuskan sambungan dompet Anda saat ini dan sambungkan melalui ekstensi browser Ronin atau aplikasi Ronin.",
+  "transfer.ronin.migrate.step4": "Langkah 4: Beralih ke Polygon untuk melanjutkan transfer Anda.",
+  "transfer.ronin.migrate.switchToPolygon": "Beralih ke Polygon",
+  "transfer.ronin.migrate.switchError": "Tidak dapat beralih jaringan. Apakah Anda mengatur dompet Waypoint Anda di ekstensi browser Ronin atau aplikasi Ronin?"
 }
