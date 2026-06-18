@@ -9085,5 +9085,6 @@
   "islandupgrade.ascendIsland": "Île Ascend",
   "islandupgrade.ascendIntro": "Une île plus grande vous attend. Montez pour débloquer des ressources exotiques et ouvrir un nouveau chapitre pour votre ferme.",
   "islandupgrade.ascendConfirmation": "L'ascension ramène votre niveau à 1 et recommence à zéro : vos compétences, vos objets et vos extensions vous accompagnent.",
-  "islandupgrade.confirmAscend": "Êtes-vous sûr de vouloir monter sur une nouvelle île ?"
+  "islandupgrade.confirmAscend": "Êtes-vous sûr de vouloir monter sur une nouvelle île ?",
+  "islandupgrade.levelRequired": "Niveau {{level}} requis"
 }

@@ -9085,5 +9085,6 @@
   "islandupgrade.ascendIsland": "Insel Ascend",
   "islandupgrade.ascendIntro": "Eine größere Insel erwartet Sie. Steige auf, um exotische Ressourcen und ein neues Kapitel für deine Farm freizuschalten.",
   "islandupgrade.ascendConfirmation": "Wenn du aufsteigst, setzt du dein Level auf 1 zurück und beginnt von vorne — deine Fähigkeiten, Gegenstände und Erweiterungen kommen mit dir.",
-  "islandupgrade.confirmAscend": "Bist du sicher, dass du auf eine neue Insel aufsteigen willst?"
+  "islandupgrade.confirmAscend": "Bist du sicher, dass du auf eine neue Insel aufsteigen willst?",
+  "islandupgrade.levelRequired": "Level {{level}} erforderlich"
 }

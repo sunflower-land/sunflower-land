@@ -9085,5 +9085,6 @@
   "islandupgrade.ascendIsland": "Ascend Island",
   "islandupgrade.ascendIntro": "A greater island awaits. Ascend to unlock exotic resources and a new chapter for your farm.",
   "islandupgrade.ascendConfirmation": "Ascending resets your level to 1 and begins anew — your skills, items and expansions come with you.",
-  "islandupgrade.confirmAscend": "Are you sure you want to ascend to a new island?"
+  "islandupgrade.confirmAscend": "Are you sure you want to ascend to a new island?",
+  "islandupgrade.levelRequired": "Level {{level}} required"
 }

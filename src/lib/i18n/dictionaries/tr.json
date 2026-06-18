@@ -9085,5 +9085,6 @@
   "islandupgrade.ascendIsland": "Ascend Adası",
   "islandupgrade.ascendIntro": "Daha büyük bir ada bekliyor. Egzotik kaynakların ve çiftliğiniz için yeni bir bölümün kilidini açmak için yükselin.",
   "islandupgrade.ascendConfirmation": "Yükselen seviyenizi 1'e sıfırlar ve yeniden başlar - becerileriniz, öğeleriniz ve genişletmeleriniz sizinle birlikte gelir.",
-  "islandupgrade.confirmAscend": "Yeni bir adaya çıkmak istediğinizden emin misiniz?"
+  "islandupgrade.confirmAscend": "Yeni bir adaya çıkmak istediğinizden emin misiniz?",
+  "islandupgrade.levelRequired": "Seviye {{level}} gerekli"
 }
