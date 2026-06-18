@@ -1,5 +1,5 @@
 import { INITIAL_FARM, TEST_FARM } from "features/game/lib/constants";
-import { upgrade } from "./upgradeFarm";
+import { upgrade, getAscensionUpgradeCost } from "./upgradeFarm";
 import Decimal from "decimal.js-light";
 import { getLand, TOTAL_EXPANSION_NODES } from "features/game/types/expansions";
 import { getIslandSpawnPositions } from "features/game/expansion/lib/island";
@@ -1091,6 +1091,91 @@ describe("upgradeFarm", () => {
     });
   });
 
+  it("upgrades to swamp island", () => {
+    const createdAt = Date.now();
+    const state = upgrade({
+      farmId,
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...INITIAL_FARM,
+        coins: 10000,
+        island: {
+          type: "volcano",
+        },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(30),
+          // volcano->swamp ascension cost (a=1 base): 30 Crimstone / 50 Oil / 3 Obsidian
+          Crimstone: new Decimal(100),
+          Oil: new Decimal(100),
+          Obsidian: new Decimal(10),
+          // No node pre-seed: swampUpgrade's arrival floor must cover the
+          // INITIAL_SWAMP_LAND_COORDINATES placements for a realistic account.
+        },
+      },
+      createdAt,
+    });
+
+    // Transitions onto the swamp ascension island
+    expect(state.island.type).toEqual("swamp");
+    expect(state.island.ascensionLevel).toEqual(1);
+    expect(state.island.upgradedAt).toEqual(createdAt);
+    expect(state.island.previousExpansions).toEqual(30);
+    expect(state.inventory["Basic Land"]).toEqual(new Decimal(30));
+
+    // Burns the a=1 ascension cost (base: 30 Crimstone / 50 Oil / 3 Obsidian / 5000 coins)
+    expect(state.inventory.Crimstone).toEqual(new Decimal(70));
+    expect(state.inventory.Oil).toEqual(new Decimal(50));
+    expect(state.inventory.Obsidian).toEqual(new Decimal(7));
+    expect(state.coins).toEqual(5000);
+
+    // Keeps the Mansion as the home, laid out per the swamp layout
+    expect(state.buildings.Manor).toBeUndefined();
+    expect(state.inventory.Mansion).toEqual(new Decimal(1));
+    expect(state.buildings.Mansion?.[0].coordinates).toEqual({ x: 0, y: 15 });
+
+    // Lays out the swamp starting nodes, incl. the swamp-specific types
+    expect(Object.keys(state.crops)).toHaveLength(65);
+    expect(Object.keys(state.fruitPatches)).toHaveLength(15);
+    expect(Object.keys(state.gold)).toHaveLength(8);
+    expect(Object.keys(state.crimstones)).toHaveLength(5);
+    expect(Object.keys(state.beehives)).toHaveLength(3);
+    expect(Object.keys(state.flowers.flowerBeds)).toHaveLength(3);
+    expect(Object.keys(state.lavaPits)).toHaveLength(3);
+  });
+
+  it("scales the ascension upgrade cost with level", () => {
+    // a = 1 -> base
+    expect(getAscensionUpgradeCost(1)).toEqual({
+      items: {
+        Crimstone: new Decimal(30),
+        Oil: new Decimal(50),
+        Obsidian: new Decimal(3),
+      },
+      coins: 5000,
+    });
+    // a = 2 -> floor(base x 1.4)
+    expect(getAscensionUpgradeCost(2)).toEqual({
+      items: {
+        Crimstone: new Decimal(42),
+        Oil: new Decimal(70),
+        Obsidian: new Decimal(4),
+      },
+      coins: 7000,
+    });
+    // a = 3 -> floor(base x 1.96)
+    expect(getAscensionUpgradeCost(3)).toEqual({
+      items: {
+        Crimstone: new Decimal(58),
+        Oil: new Decimal(98),
+        Obsidian: new Decimal(5),
+      },
+      coins: 9800,
+    });
+  });
+
   it("sets island history", () => {
     const createdAt = Date.now();
     const state = upgrade({
@@ -1280,7 +1365,7 @@ describe("upgradeFarm", () => {
     expect(state.island.type).toEqual("volcano");
   });
 
-  it("does not allow a player to upgrade from volcano island", () => {
+  it("does not allow a player to upgrade from swamp island", () => {
     expect(() =>
       upgrade({
         farmId,
@@ -1290,11 +1375,10 @@ describe("upgradeFarm", () => {
         state: {
           ...INITIAL_FARM,
           island: {
-            type: "volcano",
+            type: "swamp",
           },
           inventory: {
-            "Basic Land": new Decimal(16),
-            Oil: new Decimal(1000000000000),
+            "Basic Land": new Decimal(42),
           },
         },
       }),
