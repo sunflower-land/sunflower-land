@@ -823,6 +823,15 @@ function desertUpgrade(state: GameState) {
   return game;
 }
 
+/**
+ * Upgrades the game state for the volcano island tier.
+ *
+ * Establishes the Mansion as the home structure, ensures minimum starting resources (excluding sunstone bonuses),
+ * and provides a welcome reward airdrop.
+ *
+ * @param state - The game state to upgrade
+ * @returns The updated game state configured for the volcano island
+ */
 function volcanoUpgrade(state: GameState) {
   const game = cloneDeep(state) as GameState;
   // Clear the manor
@@ -878,9 +887,9 @@ function volcanoUpgrade(state: GameState) {
 }
 
 /**
- * Sets up the game state for swamp island by clearing old home structures, adding a mansion, and ensuring minimum starting resources.
+ * Prepares the game state for swamp island by clearing previous home structures, adding a mansion, and ensuring minimum starting resources.
  *
- * @returns The updated game state ready for swamp island.
+ * @returns The updated game state for swamp island.
  */
 function swampUpgrade(state: GameState) {
   const game = cloneDeep(state) as GameState;

@@ -62,11 +62,9 @@ const isAdvancedResource = (
 };
 
 /**
- * Calculates the cumulative expected resource node counts for a given expansion, accounting for purchases and upgrades.
+ * Determines expected resource node counts for an expansion, incorporating player purchases and upgrade conversions.
  *
- * @param game - The current game state
- * @param expansion - The expansion level
- * @returns A mapping of resource names to their expected cumulative counts
+ * @returns A mapping of resource names to expected cumulative node counts at the given expansion
  */
 export function getExpectedResources({
   game,
@@ -1993,7 +1991,11 @@ const LAYOUT_FIELD_TO_NODE = {
   lavaPits: "Lava Pit",
 } as const satisfies Partial<Record<keyof Layout, keyof Nodes>>;
 
-/** Counts the resource nodes placed by a single expansion's `Layout`. */
+/**
+ * Counts the resource nodes placed by a single expansion's `Layout`.
+ *
+ * @returns A record mapping node types to their counts in the layout.
+ */
 function countLayoutNodes(
   layout: Layout,
 ): Partial<Record<keyof Nodes, number>> {

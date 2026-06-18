@@ -390,10 +390,16 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
 }
 
 /**
- * Generates airdrop rewards for expansion milestones and missing resources.
+ * Generates airdrops for expansion milestones, refunds for returning players, and missing resource compensation.
  *
- * @param createdAt - The timestamp for the airdrops
- * @returns An array of airdrops to be granted to the player
+ * Grants milestone rewards at specific expansion counts on basic islands. On spring and desert islands,
+ * provides refunds if the player previously expanded further on a different island. Computes and grants
+ * any resources the player is missing based on the current expansion level, accounting for resources
+ * already promised but not yet collected.
+ *
+ * @param game - The game state to evaluate
+ * @param createdAt - The timestamp for created airdrops
+ * @returns An array of airdrops granted by this expansion
  */
 export function getRewards({
   game,
