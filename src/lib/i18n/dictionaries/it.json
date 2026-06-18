@@ -9079,5 +9079,11 @@
   "designShowcase.description": "Una vetrina di straordinari progetti di fattorie della comunità.",
   "designShowcase.error": "Qualcosa è andato storto durante il caricamento dei design in evidenza.",
   "designShowcase.empty": "Nessun design è stato ancora presentato. Torna presto!",
-  "description.designTrophy": "Premiato per l'eccezionale design della fattoria presentato dal team!"
+  "description.designTrophy": "Premiato per l'eccezionale design della fattoria presentato dal team!",
+  "islandupgrade.expansionsRemaining": "{{remaining}} Espansioni rimanenti",
+  "islandupgrade.comingSoon": "Prossimamente - {{date}}",
+  "islandupgrade.ascendIsland": "Isola Ascend",
+  "islandupgrade.ascendIntro": "Un'isola più grande ti aspetta. Sali per sbloccare risorse esotiche e un nuovo capitolo per la tua fattoria.",
+  "islandupgrade.ascendConfirmation": "L'ascesa riporta il tuo livello a 1 e ricomincia da capo: le tue abilità, oggetti ed espansioni vengono con te.",
+  "islandupgrade.confirmAscend": "Sei sicuro di voler salire su una nuova isola?"
 }

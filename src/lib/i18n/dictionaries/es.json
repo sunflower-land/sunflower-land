@@ -9079,5 +9079,11 @@
   "designShowcase.description": "Una muestra de diseños agrícolas destacados de la comunidad.",
   "designShowcase.error": "Algo salió mal al cargar los diseños destacados.",
   "designShowcase.empty": "Aún no se ha presentado ningún diseño. ¡Vuelve pronto!",
-  "description.designTrophy": "¡Otorgado por un excelente diseño de granja presentado por el equipo!"
+  "description.designTrophy": "¡Otorgado por un excelente diseño de granja presentado por el equipo!",
+  "islandupgrade.expansionsRemaining": "{{remaining}} Expansiones restantes",
+  "islandupgrade.comingSoon": "Próximamente - {{date}}",
+  "islandupgrade.ascendIsland": "Isla Ascend",
+  "islandupgrade.ascendIntro": "Te espera una isla más grande. Asciende para desbloquear recursos exóticos y un nuevo capítulo para tu granja.",
+  "islandupgrade.ascendConfirmation": "La ascensión restablece tu nivel a 1 y comienza de nuevo: tus habilidades, objetos y expansiones vienen contigo.",
+  "islandupgrade.confirmAscend": "¿Estás seguro de que quieres ascender a una nueva isla?"
 }

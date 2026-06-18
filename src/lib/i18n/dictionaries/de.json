@@ -9079,5 +9079,11 @@
   "designShowcase.description": "Ein Schaufenster herausragender Farmdesigns aus der Community.",
   "designShowcase.error": "Beim Laden der vorgestellten Designs ist ein Fehler aufgetreten.",
   "designShowcase.empty": "Es wurden noch keine Designs vorgestellt. Schauen Sie bald wieder vorbei!",
-  "description.designTrophy": "Ausgezeichnet für ein herausragendes Farmdesign, das vom Team vorgestellt wurde!"
+  "description.designTrophy": "Ausgezeichnet für ein herausragendes Farmdesign, das vom Team vorgestellt wurde!",
+  "islandupgrade.expansionsRemaining": "{{remaining}} Verbleibende Erweiterungen",
+  "islandupgrade.comingSoon": "Demnächst - {{date}}",
+  "islandupgrade.ascendIsland": "Insel Ascend",
+  "islandupgrade.ascendIntro": "Eine größere Insel erwartet Sie. Steige auf, um exotische Ressourcen und ein neues Kapitel für deine Farm freizuschalten.",
+  "islandupgrade.ascendConfirmation": "Wenn du aufsteigst, setzt du dein Level auf 1 zurück und beginnt von vorne — deine Fähigkeiten, Gegenstände und Erweiterungen kommen mit dir.",
+  "islandupgrade.confirmAscend": "Bist du sicher, dass du auf eine neue Insel aufsteigen willst?"
 }

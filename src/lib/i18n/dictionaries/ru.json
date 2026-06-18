@@ -9079,5 +9079,11 @@
   "designShowcase.description": "A showcase of standout farm designs from the community.",
   "designShowcase.error": "Something went wrong loading the featured designs.",
   "designShowcase.empty": "No designs have been featured yet. Check back soon!",
-  "description.designTrophy": "Awarded for an outstanding farm design featured by the team!"
+  "description.designTrophy": "Awarded for an outstanding farm design featured by the team!",
+  "islandupgrade.expansionsRemaining": "{{remaining}} Expansions Remaining",
+  "islandupgrade.comingSoon": "Coming soon - {{date}}",
+  "islandupgrade.ascendIsland": "Ascend Island",
+  "islandupgrade.ascendIntro": "A greater island awaits. Ascend to unlock exotic resources and a new chapter for your farm.",
+  "islandupgrade.ascendConfirmation": "Ascending resets your level to 1 and begins anew — your skills, items and expansions come with you.",
+  "islandupgrade.confirmAscend": "Are you sure you want to ascend to a new island?"
 }

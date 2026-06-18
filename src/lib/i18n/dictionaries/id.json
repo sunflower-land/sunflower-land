@@ -9079,5 +9079,11 @@
   "designShowcase.description": "Sebuah pameran desain pertanian yang menonjol dari komunitas.",
   "designShowcase.error": "Ada yang salah saat memuat desain unggulan.",
   "designShowcase.empty": "Belum ada desain yang ditampilkan. Periksa kembali segera!",
-  "description.designTrophy": "Diberikan untuk desain pertanian luar biasa yang ditampilkan oleh tim!"
+  "description.designTrophy": "Diberikan untuk desain pertanian luar biasa yang ditampilkan oleh tim!",
+  "islandupgrade.expansionsRemaining": "{{remaining}} Ekspansi Tersisa",
+  "islandupgrade.comingSoon": "Segera hadir - {{date}}",
+  "islandupgrade.ascendIsland": "Pulau Ascend",
+  "islandupgrade.ascendIntro": "Pulau yang lebih besar menanti. Naik untuk membuka sumber daya eksotis dan babak baru untuk pertanian Anda.",
+  "islandupgrade.ascendConfirmation": "Ascending mengatur ulang level Anda ke 1 dan dimulai lagi — keterampilan, item, dan ekspansi Anda datang bersama Anda.",
+  "islandupgrade.confirmAscend": "Apakah Anda yakin ingin naik ke pulau baru?"
 }

@@ -9079,5 +9079,11 @@
   "designShowcase.description": "Topluluktan göze çarpan çiftlik tasarımlarının bir vitrini.",
   "designShowcase.error": "Öne çıkan tasarımları yüklerken bir şeyler ters gitti.",
   "designShowcase.empty": "Henüz hiçbir tasarım öne çıkmadı. Yakında tekrar kontrol edin!",
-  "description.designTrophy": "Ekip tarafından öne çıkan olağanüstü bir çiftlik tasarımı için ödüllendirildi!"
+  "description.designTrophy": "Ekip tarafından öne çıkan olağanüstü bir çiftlik tasarımı için ödüllendirildi!",
+  "islandupgrade.expansionsRemaining": "{{remaining}} Kalan Genişletmeler",
+  "islandupgrade.comingSoon": "Çok yakında - {{date}}",
+  "islandupgrade.ascendIsland": "Ascend Adası",
+  "islandupgrade.ascendIntro": "Daha büyük bir ada bekliyor. Egzotik kaynakların ve çiftliğiniz için yeni bir bölümün kilidini açmak için yükselin.",
+  "islandupgrade.ascendConfirmation": "Yükselen seviyenizi 1'e sıfırlar ve yeniden başlar - becerileriniz, öğeleriniz ve genişletmeleriniz sizinle birlikte gelir.",
+  "islandupgrade.confirmAscend": "Yeni bir adaya çıkmak istediğinizden emin misiniz?"
 }

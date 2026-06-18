@@ -9079,5 +9079,11 @@
   "designShowcase.description": "Une vitrine de designs de fermes remarquables réalisés par la communauté.",
   "designShowcase.error": "Une erreur s'est produite lors du chargement des designs en vedette.",
   "designShowcase.empty": "Aucun design n'a encore été présenté. Revenez bientôt !",
-  "description.designTrophy": "Décerné pour un design de ferme exceptionnel mis en valeur par l'équipe !"
+  "description.designTrophy": "Décerné pour un design de ferme exceptionnel mis en valeur par l'équipe !",
+  "islandupgrade.expansionsRemaining": "{{remaining}} Extensions restantes",
+  "islandupgrade.comingSoon": "Prochainement - {{date}}",
+  "islandupgrade.ascendIsland": "Île Ascend",
+  "islandupgrade.ascendIntro": "Une île plus grande vous attend. Montez pour débloquer des ressources exotiques et ouvrir un nouveau chapitre pour votre ferme.",
+  "islandupgrade.ascendConfirmation": "L'ascension ramène votre niveau à 1 et recommence à zéro : vos compétences, vos objets et vos extensions vous accompagnent.",
+  "islandupgrade.confirmAscend": "Êtes-vous sûr de vouloir monter sur une nouvelle île ?"
 }

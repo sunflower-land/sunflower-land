@@ -9079,5 +9079,11 @@
   "designShowcase.description": "展示来自社区的杰出农场设计。",
   "designShowcase.error": "加载精选设计时出现问题。",
   "designShowcase.empty": "尚未推出任何设计。稍后再回来看看！",
-  "description.designTrophy": "以表彰该团队精选的杰出农场设计而获奖！"
+  "description.designTrophy": "以表彰该团队精选的杰出农场设计而获奖！",
+  "islandupgrade.expansionsRemaining": "{{remaining}} 剩余扩展包",
+  "islandupgrade.comingSoon": "即将推出-{{date}}",
+  "islandupgrade.ascendIsland": "阿森德岛",
+  "islandupgrade.ascendIntro": "一个更大的岛屿在等着你。上升即可解锁异国情调的资源，为你的农场开启全新篇章。",
+  "islandupgrade.ascendConfirmation": "升序会将你的等级重置为 1 并重新开始——你的技能、物品和扩展包随之而来。",
+  "islandupgrade.confirmAscend": "你确定要登上新岛吗？"
 }
