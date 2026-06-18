@@ -167,9 +167,11 @@ const IslandUpgraderModal: React.FC<{
     : { items: upgrade.items, coins: 0 };
 
   // Localised launch date (US vs rest-of-world ordering from the browser locale).
+  // SWAMP_LAUNCH_DATE is parsed as UTC midnight, so format in UTC too — otherwise
+  // negative-UTC locales (the Americas) render the previous calendar day.
   const comingSoonDate = SWAMP_LAUNCH_DATE.toLocaleDateString(
     navigator.language,
-    { day: "numeric", month: "long", year: "numeric" },
+    { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" },
   );
 
   const hasResources =
