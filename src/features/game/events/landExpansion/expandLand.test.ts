@@ -1,5 +1,5 @@
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { expandLand } from "./expandLand";
+import { expandLand, expansionRequirements } from "./expandLand";
 import Decimal from "decimal.js-light";
 import { BB_TO_GEM_RATIO } from "features/game/types/game";
 
@@ -68,7 +68,7 @@ describe("expandLand", () => {
     ).toThrow("Upgrade your island to expand further");
   });
 
-  it("does not allow expanding volcano (terminal island) past its max", () => {
+  it("does not allow expanding volcano past its max (must upgrade)", () => {
     expect(() =>
       expandLand({
         action: {
@@ -81,7 +81,7 @@ describe("expandLand", () => {
           inventory: { "Basic Land": new Decimal(30) },
         },
       }),
-    ).toThrow("No more land expansions available");
+    ).toThrow("Upgrade your island to expand further");
   });
 
   it("requires player has sufficient coins", () => {
@@ -220,5 +220,36 @@ describe("expandLand", () => {
     });
 
     expect(state.farmActivity["Coins Spent"]).toBe(1152);
+  });
+});
+
+describe("expansionRequirements", () => {
+  it("returns normal expansion requirements", () => {
+    const { requirements } = expansionRequirements({ game: TEST_FARM });
+
+    expect(requirements?.resources).toEqual({
+      Wood: 3,
+    });
+  });
+  it("returns discounted expansion requirements with Grinx Hammer", () => {
+    const { requirements } = expansionRequirements({
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Grinx's Hammer": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: Date.now(),
+              id: "123",
+              readyAt: Date.now(),
+            },
+          ],
+        },
+      },
+    });
+
+    expect(requirements?.resources).toEqual({
+      Wood: 1.5,
+    });
   });
 });

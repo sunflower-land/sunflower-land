@@ -32,7 +32,11 @@ import { placeBeehive } from "./placeBeehive";
 import { placeFlowerBed } from "./placeFlowerBed";
 import { placeLavaPit } from "./placeLavaPit";
 import { removeAll } from "./removeAll";
-import { TOTAL_EXPANSION_NODES } from "features/game/types/expansions";
+import {
+  TOTAL_EXPANSION_NODES,
+  getExpansionNodes,
+} from "features/game/types/expansions";
+import { SWAMP_BASE_EXPANSION } from "features/game/expansion/lib/ascension";
 import { ISLAND_MAX_EXPANSION } from "features/game/expansion/lib/expansionRequirements";
 import { reAnchorToIsland } from "features/game/expansion/lib/island";
 
@@ -889,7 +893,16 @@ function swampUpgrade(state: GameState) {
   // Ensure they have the minimum resources to start the island with
   // Do not give bonus sunstones
   // Account for upgraded resources when checking minimums
-  const minimum = { ...TOTAL_EXPANSION_NODES.swamp[30], "Sunstone Rock": 0 };
+  // Carry-forward floor: base + every prior ascension's grants (ascensionLevel
+  // is already bumped to the level being entered by the time this runs).
+  const minimum = {
+    ...getExpansionNodes({
+      island: "swamp",
+      expansion: SWAMP_BASE_EXPANSION,
+      ascensionLevel: game.island.ascensionLevel,
+    }),
+    "Sunstone Rock": 0,
+  };
 
   getObjectEntries(minimum).forEach(([resource, amount]) => {
     const totalEquivalents = getTotalBaseResourceEquivalents(game, resource);
@@ -1051,9 +1064,11 @@ function transitionToIsland({
     ISLAND_MAX_EXPANSION[game.island.type],
   );
   const sunstonesForExpansion =
-    TOTAL_EXPANSION_NODES[game.island.type][expansionForNodeLookup]?.[
-      "Sunstone Rock"
-    ] ?? 0;
+    getExpansionNodes({
+      island: game.island.type,
+      expansion: expansionForNodeLookup,
+      ascensionLevel: game.island.ascensionLevel,
+    })["Sunstone Rock"] ?? 0;
 
   const maxSunstones = Math.max(
     sunstonesForExpansion,

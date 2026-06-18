@@ -8,15 +8,13 @@ import {
   EXPANSION_REQUIREMENTS,
   getExpectedResources,
   getLand,
-  type Requirements,
 } from "features/game/types/expansions";
-import type { Airdrop, BoostName, GameState } from "features/game/types/game";
+import type { Airdrop, GameState } from "features/game/types/game";
 import type { ResourceName } from "features/game/types/resources";
 
 import { getKeys } from "lib/object";
 import { pickEmptyPosition } from "features/game/expansion/placeable/lib/collisionDetection";
 import { reAnchorToIsland } from "features/game/expansion/lib/island";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import type { CropName } from "features/game/types/crops";
 import { produce } from "immer";
 import {
@@ -379,41 +377,6 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
     return game;
   });
 }
-
-export const expansionRequirements = ({
-  game,
-}: {
-  game: GameState;
-}): {
-  requirements: Requirements | undefined;
-  boostsUsed: { name: BoostName; value: string }[];
-} => {
-  const level = (game.inventory["Basic Land"]?.toNumber() ?? 0) + 1;
-
-  const boostsUsed: { name: BoostName; value: string }[] = [];
-
-  const requirements = EXPANSION_REQUIREMENTS[game.island.type][level];
-
-  if (!requirements) {
-    return { requirements: undefined, boostsUsed };
-  }
-
-  let resources = requirements.resources;
-
-  // Half resource costs
-  if (isCollectibleBuilt({ name: "Grinx's Hammer", game })) {
-    resources = getKeys(resources).reduce(
-      (acc, key) => ({
-        ...acc,
-        [key]: key === "Gem" ? resources[key] : (resources[key] ?? 0) / 2,
-      }),
-      {},
-    );
-    boostsUsed.push({ name: "Grinx's Hammer", value: "x0.5" });
-  }
-
-  return { requirements: { ...requirements, resources }, boostsUsed };
-};
 
 export function getRewards({
   game,
