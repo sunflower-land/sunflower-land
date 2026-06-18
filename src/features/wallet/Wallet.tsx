@@ -21,6 +21,7 @@ import {
   saigon,
 } from "@wagmi/core/chains";
 import { CONFIG } from "lib/config";
+import { isWaypointWalletDisabled } from "lib/flags";
 import type { Reputation } from "features/game/lib/reputation";
 import { ConnectWallet } from "./components/ConnectWallet";
 import { LinkWallet } from "./components/LinkWallet";
@@ -229,7 +230,8 @@ const WALLET_ACTIONS: Record<WalletAction, WalletActionSettings> = {
     requiresNFT: true,
     chains: {
       [CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id]: true,
-      [CONFIG.NETWORK === "mainnet" ? ronin.id : saigon.id]: true,
+      [CONFIG.NETWORK === "mainnet" ? ronin.id : saigon.id]:
+        isWaypointWalletDisabled() ? undefined : true,
     },
   },
   sync: {
@@ -509,7 +511,9 @@ export const Wallet: React.FC<PropsWithChildren<Props>> = ({
 
   const availableChains = enforceChainId
     ? [enforceChainId]
-    : Object.keys(WALLET_ACTIONS[action].chains).map(Number);
+    : Object.entries(WALLET_ACTIONS[action].chains)
+        .filter(([, enabled]) => enabled)
+        .map(([id]) => Number(id));
   const hasChain = !!chainId && availableChains.includes(chainId);
 
   if (requiresConnection && !hasConnection) {

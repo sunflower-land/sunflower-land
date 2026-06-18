@@ -4,6 +4,13 @@ import { TEAM_USERNAMES } from "./access";
 
 export const RONIN_AIRDROP_ENDDATE = new Date("2025-11-04T00:00:00Z");
 
+// Ronin Waypoint (and the migration flow / transfer option for it) stops being
+// available after 17th Sept 2026 - i.e. from the 18th onwards.
+export const WAYPOINT_WALLET_ENDDATE = new Date("2026-09-18T00:00:00Z");
+
+export const isWaypointWalletDisabled = () =>
+  Date.now() >= WAYPOINT_WALLET_ENDDATE.getTime();
+
 export const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" ||
   (!!((wardrobe["Gift Giver"] ?? 0) > 0) && !!inventory["Beta Pass"]?.gt(0));
