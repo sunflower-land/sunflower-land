@@ -1,6 +1,11 @@
 import { INITIAL_FARM, TEST_FARM } from "features/game/lib/constants";
-import { upgrade, getAscensionUpgradeCost } from "./upgradeFarm";
+import {
+  upgrade,
+  getAscensionUpgradeCost,
+  ASCENSION_BUMPKIN_LEVEL,
+} from "./upgradeFarm";
 import Decimal from "decimal.js-light";
+import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { getLand, TOTAL_EXPANSION_NODES } from "features/game/types/expansions";
 import { getIslandSpawnPositions } from "features/game/expansion/lib/island";
 
@@ -1101,6 +1106,10 @@ describe("upgradeFarm", () => {
       state: {
         ...INITIAL_FARM,
         coins: 10000,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          experience: LEVEL_EXPERIENCE[ASCENSION_BUMPKIN_LEVEL],
+        },
         island: {
           type: "volcano",
         },
@@ -1144,6 +1153,37 @@ describe("upgradeFarm", () => {
     expect(Object.keys(state.beehives)).toHaveLength(3);
     expect(Object.keys(state.flowers.flowerBeds)).toHaveLength(3);
     expect(Object.keys(state.lavaPits)).toHaveLength(3);
+  });
+
+  it("requires the minimum Bumpkin level to ascend to swamp island", () => {
+    expect(() =>
+      upgrade({
+        farmId,
+        action: {
+          type: "farm.upgraded",
+        },
+        state: {
+          ...INITIAL_FARM,
+          coins: 10000,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            // One XP short of the required ascension level
+            experience: LEVEL_EXPERIENCE[ASCENSION_BUMPKIN_LEVEL] - 1,
+          },
+          island: {
+            type: "volcano",
+          },
+          inventory: {
+            ...INITIAL_FARM.inventory,
+            "Basic Land": new Decimal(30),
+            Crimstone: new Decimal(100),
+            Oil: new Decimal(100),
+            Obsidian: new Decimal(10),
+          },
+        },
+        createdAt: Date.now(),
+      }),
+    ).toThrow("Player has not met the level requirements");
   });
 
   it("scales the ascension upgrade cost with level", () => {

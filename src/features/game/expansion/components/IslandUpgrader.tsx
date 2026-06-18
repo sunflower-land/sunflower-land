@@ -19,7 +19,9 @@ import {
   ISLAND_UPGRADE,
   isLandUpgradable,
   getAscensionUpgradeCost,
+  ASCENSION_BUMPKIN_LEVEL,
 } from "features/game/events/landExpansion/upgradeFarm";
+import { getBumpkinLevel } from "features/game/lib/level";
 import type { CollectibleName } from "features/game/types/craftables";
 import { getKeys } from "lib/object";
 import { createPortal } from "react-dom";
@@ -87,7 +89,7 @@ const IslandUpgraderModal: React.FC<{
 
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  const { island, inventory, collectibles, home, coins } =
+  const { island, inventory, collectibles, home, coins, bumpkin } =
     gameState.context.state;
   const upgrade = isLandUpgradable(island.type)
     ? ISLAND_UPGRADE[island.type]
@@ -106,6 +108,11 @@ const IslandUpgraderModal: React.FC<{
   const isAscensionUpgrade =
     !!nextIsland &&
     (ASCENSION_ISLANDS as readonly string[]).includes(nextIsland);
+
+  // Ascension islands also require a minimum Bumpkin level.
+  const hasRequiredLevel =
+    !isAscensionUpgrade ||
+    getBumpkinLevel(bumpkin?.experience ?? 0) >= ASCENSION_BUMPKIN_LEVEL;
 
   if (showConfirmation) {
     return (
@@ -232,6 +239,18 @@ const IslandUpgraderModal: React.FC<{
                 </Label>
               )}
 
+              {!hasRequiredLevel && (
+                <Label
+                  icon={SUNNYSIDE.icons.player}
+                  type="danger"
+                  className="whitespace-nowrap"
+                >
+                  {t("islandupgrade.levelRequired", {
+                    level: ASCENSION_BUMPKIN_LEVEL,
+                  })}
+                </Label>
+              )}
+
               {hasUnexpiredItemsPlaced() && (
                 <Label icon={SUNNYSIDE.icons.expression_alerted} type="danger">
                   {t("islandupgrade.tempItemWarning")}
@@ -263,7 +282,12 @@ const IslandUpgraderModal: React.FC<{
         )}
       </div>
       <Button
-        disabled={!hasUpgrade || !hasResources || remainingExpansions > 0}
+        disabled={
+          !hasUpgrade ||
+          !hasResources ||
+          !hasRequiredLevel ||
+          remainingExpansions > 0
+        }
         onClick={() => setShowConfirmation(true)}
       >
         {t("continue")}
