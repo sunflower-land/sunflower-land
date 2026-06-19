@@ -20,7 +20,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { ResizableBar } from "../ProgressBar";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
-import { expansionRequirements } from "features/game/events/landExpansion/revealLand";
+import { expansionRequirements } from "features/game/events/landExpansion/expandLand";
 import { Button } from "../Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useSpeedUpPayment } from "features/game/lib/useSpeedUpPayment";
@@ -36,6 +36,7 @@ import {
   useExpansionCoinCostWithVip,
   useVipAccess,
 } from "lib/utils/hooks/useVipAccess";
+import { hasFeatureAccess } from "lib/flags";
 /**
  * The props for the component.
  * @param gameState The game state.
@@ -228,7 +229,10 @@ export const Expanding: React.FC<{
     readyAt ?? 0,
   );
 
-  const hasAccess = !hasRequiredIslandExpansion(state.island.type, "desert");
+  const hasAccess = !hasRequiredIslandExpansion(
+    state.island.type,
+    hasFeatureAccess(state, "SWAMP_ASCENSION") ? "swamp" : "desert",
+  );
 
   const payment = useSpeedUpPayment({ readyAt, game: state });
   const cost =

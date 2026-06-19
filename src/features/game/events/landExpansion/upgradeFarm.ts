@@ -32,7 +32,11 @@ import { placeBeehive } from "./placeBeehive";
 import { placeFlowerBed } from "./placeFlowerBed";
 import { placeLavaPit } from "./placeLavaPit";
 import { removeAll } from "./removeAll";
-import { TOTAL_EXPANSION_NODES } from "features/game/types/expansions";
+import {
+  TOTAL_EXPANSION_NODES,
+  getExpansionNodes,
+} from "features/game/types/expansions";
+import { SWAMP_BASE_EXPANSION } from "features/game/expansion/lib/ascension";
 import { ISLAND_MAX_EXPANSION } from "features/game/expansion/lib/expansionRequirements";
 import { reAnchorToIsland } from "features/game/expansion/lib/island";
 
@@ -819,6 +823,15 @@ function desertUpgrade(state: GameState) {
   return game;
 }
 
+/**
+ * Upgrades the game state for the volcano island tier.
+ *
+ * Establishes the Mansion as the home structure, ensures minimum starting resources (excluding sunstone bonuses),
+ * and provides a welcome reward airdrop.
+ *
+ * @param state - The game state to upgrade
+ * @returns The updated game state configured for the volcano island
+ */
 function volcanoUpgrade(state: GameState) {
   const game = cloneDeep(state) as GameState;
   // Clear the manor
@@ -873,6 +886,11 @@ function volcanoUpgrade(state: GameState) {
   return game;
 }
 
+/**
+ * Prepares the game state for swamp island by clearing previous home structures, adding a mansion, and ensuring minimum starting resources.
+ *
+ * @returns The updated game state for swamp island.
+ */
 function swampUpgrade(state: GameState) {
   const game = cloneDeep(state) as GameState;
   // Swamp keeps the Mansion from Volcano — clear any older homes defensively
@@ -889,7 +907,16 @@ function swampUpgrade(state: GameState) {
   // Ensure they have the minimum resources to start the island with
   // Do not give bonus sunstones
   // Account for upgraded resources when checking minimums
-  const minimum = { ...TOTAL_EXPANSION_NODES.swamp[30], "Sunstone Rock": 0 };
+  // Carry-forward floor: base + every prior ascension's grants (ascensionLevel
+  // is already bumped to the level being entered by the time this runs).
+  const minimum = {
+    ...getExpansionNodes({
+      island: "swamp",
+      expansion: SWAMP_BASE_EXPANSION,
+      ascensionLevel: game.island.ascensionLevel,
+    }),
+    "Sunstone Rock": 0,
+  };
 
   getObjectEntries(minimum).forEach(([resource, amount]) => {
     const totalEquivalents = getTotalBaseResourceEquivalents(game, resource);
@@ -972,9 +999,11 @@ const ISLAND_SETUP: Record<UpgradeTarget, IslandSetup> = {
 };
 
 /**
- * The island-agnostic part of moving a farm to a new island: wipe the old
- * farm, carry island history (incl. sunstones) forward, and lay out the fresh
- * starting island. The per-island bits are driven by `ISLAND_SETUP[target]`.
+ * Transitions a farm to a new island, establishing a fresh starting configuration.
+ *
+ * Clears the previous farm state, carries forward expansion history and sunstone counts, relocates mushrooms and social farming clutter to the new island's side island, applies target-island-specific setup (home adjustments, resource flooring, airdrops), and initializes all starting land, buildings, and resources. Per-island configurations are determined by `ISLAND_SETUP[target]`.
+ *
+ * @returns The transitioned game state with the new island fully initialized
  */
 function transitionToIsland({
   state,
@@ -1051,9 +1080,11 @@ function transitionToIsland({
     ISLAND_MAX_EXPANSION[game.island.type],
   );
   const sunstonesForExpansion =
-    TOTAL_EXPANSION_NODES[game.island.type][expansionForNodeLookup]?.[
-      "Sunstone Rock"
-    ] ?? 0;
+    getExpansionNodes({
+      island: game.island.type,
+      expansion: expansionForNodeLookup,
+      ascensionLevel: game.island.ascensionLevel,
+    })["Sunstone Rock"] ?? 0;
 
   const maxSunstones = Math.max(
     sunstonesForExpansion,

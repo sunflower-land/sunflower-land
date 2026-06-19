@@ -25,7 +25,7 @@ import type {
   Inventory,
   Bumpkin,
 } from "features/game/types/game";
-import { expansionRequirements } from "features/game/events/landExpansion/revealLand";
+import { expansionRequirements } from "features/game/events/landExpansion/expandLand";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ExpansionRequirements } from "components/ui/layouts/ExpansionRequirements";

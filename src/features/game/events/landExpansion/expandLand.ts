@@ -1,10 +1,17 @@
 import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getKeys } from "lib/object";
-import type { GameState } from "features/game/types/game";
+import type { BoostName, GameState } from "features/game/types/game";
+import { ASCENSION_ISLANDS } from "features/game/types/game";
+import { hasFeatureAccess } from "lib/flags";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 
-import { expansionRequirements } from "./revealLand";
+import {
+  getExpansionRequirements,
+  getLand,
+  type Requirements,
+} from "features/game/types/expansions";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { ISLAND_MAX_EXPANSION } from "features/game/expansion/lib/expansionRequirements";
 import { produce } from "immer";
 import { trackFarmActivity } from "features/game/types/farmActivity";
@@ -22,18 +29,30 @@ type Options = {
   createdAt?: number;
 };
 
+/**
+ * Initiates a land expansion for the player's game state.
+ *
+ * @param createdAt - Timestamp when the expansion starts
+ * @returns The updated game state
+ * @throws When the island expansion cap is reached, no expansions remain available, land is missing, an expansion is already in progress, the bumpkin level is insufficient, coins are insufficient, or any required resource is insufficient
+ */
 export function expandLand({ state, createdAt = Date.now() }: Options) {
   return produce(state, (game) => {
+    // Expanding ascension islands (swamp onward) is gated behind the flag — same
+    // as the upgrade that lands you there. Guards farms that reached an
+    // ascension island while the flag was on if it is later turned off.
+    if (
+      (ASCENSION_ISLANDS as readonly string[]).includes(game.island.type) &&
+      !hasFeatureAccess(game, "SWAMP_ASCENSION")
+    ) {
+      throw new Error("Swamp ascension is not yet available");
+    }
+
     // At an island's expansion cap the player must upgrade to gain more land.
     // Legacy farms already beyond the cap may remain but cannot expand further.
-    // Volcano is the terminal island, so there is nothing to upgrade to.
     const maxExpansion = ISLAND_MAX_EXPANSION[game.island.type];
     if ((game.inventory["Basic Land"]?.toNumber() ?? 0) >= maxExpansion) {
-      throw new Error(
-        game.island.type === "volcano"
-          ? "No more land expansions available"
-          : "Upgrade your island to expand further",
-      );
+      throw new Error("Upgrade your island to expand further");
     }
 
     const bumpkin = game.bumpkin;
@@ -41,6 +60,11 @@ export function expandLand({ state, createdAt = Date.now() }: Options) {
     const { requirements, boostsUsed } = expansionRequirements({ game });
     if (!requirements) {
       throw new Error("No more land expansions available");
+    }
+
+    const land = getLand({ game });
+    if (!land) {
+      throw new Error("Land Does Not Exists");
     }
 
     if (game.expansionConstruction) {
@@ -113,3 +137,42 @@ export function expandLand({ state, createdAt = Date.now() }: Options) {
     return game;
   });
 }
+
+export const expansionRequirements = ({
+  game,
+}: {
+  game: GameState;
+}): {
+  requirements: Requirements | undefined;
+  boostsUsed: { name: BoostName; value: string }[];
+} => {
+  const level = (game.inventory["Basic Land"]?.toNumber() ?? 0) + 1;
+
+  const boostsUsed: { name: BoostName; value: string }[] = [];
+
+  const requirements = getExpansionRequirements({
+    island: game.island.type,
+    expansion: level,
+    ascensionLevel: game.island.ascensionLevel,
+  });
+
+  if (!requirements) {
+    return { requirements: undefined, boostsUsed };
+  }
+
+  let resources = requirements.resources;
+
+  // Half resource costs
+  if (isCollectibleBuilt({ name: "Grinx's Hammer", game })) {
+    resources = getKeys(resources).reduce(
+      (acc, key) => ({
+        ...acc,
+        [key]: key === "Gem" ? resources[key] : (resources[key] ?? 0) / 2,
+      }),
+      {},
+    );
+    boostsUsed.push({ name: "Grinx's Hammer", value: "x0.5" });
+  }
+
+  return { requirements: { ...requirements, resources }, boostsUsed };
+};

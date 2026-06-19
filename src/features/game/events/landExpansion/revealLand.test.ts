@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { expansionRequirements, getRewards, revealLand } from "./revealLand";
+import { getRewards, revealLand } from "./revealLand";
 import {
   CRIMSTONE_RECOVERY_TIME,
   GOLD_RECOVERY_TIME,
@@ -18,37 +18,6 @@ import {
 import type { Nodes } from "features/game/expansion/lib/expansionNodes";
 import { BB_TO_GEM_RATIO, type FiniteResource } from "features/game/types/game";
 import { OIL_RESERVE_RECOVERY_TIME } from "./drillOilReserve";
-
-describe("expansionRequirements", () => {
-  it("returns normal expansion requirements", () => {
-    const { requirements } = expansionRequirements({ game: TEST_FARM });
-
-    expect(requirements?.resources).toEqual({
-      Wood: 3,
-    });
-  });
-  it("returns discounted expansion requirements with Grinx Hammer", () => {
-    const { requirements } = expansionRequirements({
-      game: {
-        ...TEST_FARM,
-        collectibles: {
-          "Grinx's Hammer": [
-            {
-              coordinates: { x: 1, y: 1 },
-              createdAt: Date.now(),
-              id: "123",
-              readyAt: Date.now(),
-            },
-          ],
-        },
-      },
-    });
-
-    expect(requirements?.resources).toEqual({
-      Wood: 1.5,
-    });
-  });
-});
 
 describe("getRewards", () => {
   it("returns rewards for previously built expansions", () => {

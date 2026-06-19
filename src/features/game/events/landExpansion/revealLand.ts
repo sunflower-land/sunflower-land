@@ -8,15 +8,13 @@ import {
   EXPANSION_REQUIREMENTS,
   getExpectedResources,
   getLand,
-  type Requirements,
 } from "features/game/types/expansions";
-import type { Airdrop, BoostName, GameState } from "features/game/types/game";
+import type { Airdrop, GameState } from "features/game/types/game";
 import type { ResourceName } from "features/game/types/resources";
 
 import { getKeys } from "lib/object";
 import { pickEmptyPosition } from "features/game/expansion/placeable/lib/collisionDetection";
 import { reAnchorToIsland } from "features/game/expansion/lib/island";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import type { CropName } from "features/game/types/crops";
 import { produce } from "immer";
 import {
@@ -57,6 +55,17 @@ type Options = {
   createdAt?: number;
 };
 
+/**
+ * Completes a pending land expansion by populating the game board with entities and computing rewards.
+ *
+ * Establishes all entities from the revealed land layout, updates inventory counts, resets resource recovery timers, and calculates expansion rewards. Repositions the mushroom island if present and adds a Fire Pit building upon the 5th expansion.
+ *
+ * @param state - The current game state
+ * @param createdAt - Timestamp for entity and structure creation; defaults to `Date.now()`
+ * @returns The updated game state with new entities and calculated rewards
+ * @throws When expansion construction is not active
+ * @throws When the land layout cannot be found
+ */
 export function revealLand({ state, createdAt = Date.now() }: Options) {
   return produce(state, (game) => {
     if (!game.expansionConstruction) {
@@ -380,41 +389,18 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
   });
 }
 
-export const expansionRequirements = ({
-  game,
-}: {
-  game: GameState;
-}): {
-  requirements: Requirements | undefined;
-  boostsUsed: { name: BoostName; value: string }[];
-} => {
-  const level = (game.inventory["Basic Land"]?.toNumber() ?? 0) + 1;
-
-  const boostsUsed: { name: BoostName; value: string }[] = [];
-
-  const requirements = EXPANSION_REQUIREMENTS[game.island.type][level];
-
-  if (!requirements) {
-    return { requirements: undefined, boostsUsed };
-  }
-
-  let resources = requirements.resources;
-
-  // Half resource costs
-  if (isCollectibleBuilt({ name: "Grinx's Hammer", game })) {
-    resources = getKeys(resources).reduce(
-      (acc, key) => ({
-        ...acc,
-        [key]: key === "Gem" ? resources[key] : (resources[key] ?? 0) / 2,
-      }),
-      {},
-    );
-    boostsUsed.push({ name: "Grinx's Hammer", value: "x0.5" });
-  }
-
-  return { requirements: { ...requirements, resources }, boostsUsed };
-};
-
+/**
+ * Generates airdrops for expansion milestones, refunds for returning players, and missing resource compensation.
+ *
+ * Grants milestone rewards at specific expansion counts on basic islands. On spring and desert islands,
+ * provides refunds if the player previously expanded further on a different island. Computes and grants
+ * any resources the player is missing based on the current expansion level, accounting for resources
+ * already promised but not yet collected.
+ *
+ * @param game - The game state to evaluate
+ * @param createdAt - The timestamp for created airdrops
+ * @returns An array of airdrops granted by this expansion
+ */
 export function getRewards({
   game,
   createdAt,
