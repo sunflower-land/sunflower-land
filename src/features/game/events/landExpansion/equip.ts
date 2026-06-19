@@ -74,7 +74,7 @@ export function assertEquipment({
 export function availableWardrobe(game: GameState): Wardrobe {
   // TODO check in use by farm hands
   const equipped = [
-    game.bumpkin?.equipped as Equipped,
+    game.bumpkin.equipped as Equipped,
     ...Object.values(game.farmHands.bumpkins).map((f) => f.equipped),
   ];
 

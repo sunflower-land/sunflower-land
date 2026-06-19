@@ -32,7 +32,7 @@ import basicXPBox from "assets/rewardBoxes/basic_xp_box.png";
 import type { BuffName } from "../types/buffs";
 import coinsIcon from "assets/icons/coins_stack.webp";
 import vipIcon from "assets/icons/vip.webp";
-import { getBumpkinLevel } from "../lib/level";
+import { getAscensionLevel, meetsLevelRequirement } from "../lib/level";
 import { getVipDailyBonusItem } from "../lib/vipAccess";
 import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 
@@ -59,7 +59,7 @@ export const DAILY_REWARD_IMAGES: Record<DailyRewardName, string> = {
 };
 
 const _bumpkinExperience = (state: MachineState) =>
-  state.context.state.bumpkin?.experience ?? 0;
+  state.context.state.bumpkin.experience ?? 0;
 const _dailyRewards = (state: MachineState) => state.context.state.dailyRewards;
 const _gameState = (state: MachineState) => state.context.state;
 
@@ -99,7 +99,13 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
   const currentDate = new Date(now).toISOString().substring(0, 10);
 
   const [showClaim, setShowClaim] = useState(false);
-  const hasUnlocked = getBumpkinLevel(bumpkinExperience) >= 3;
+  const hasUnlocked = meetsLevelRequirement(
+    getAscensionLevel({
+      experience: bumpkinExperience,
+      ascensionLevel: gameState.island.ascensionLevel ?? 0,
+    }),
+    { ascension: 0, level: 3 },
+  );
 
   const claim = () => {
     const lastCollectedAt =
@@ -128,6 +134,7 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
     !isDailyRewardReady({
       dailyRewards,
       bumpkinExperience,
+      ascensionLevel: gameState.island.ascensionLevel ?? 0,
       now,
     }) && hasUnlocked;
 
@@ -171,7 +178,10 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
       {} as Partial<Record<InventoryItemName, number>>,
     );
 
-    const level = getBumpkinLevel(bumpkinExperience);
+    const level = getAscensionLevel({
+      experience: bumpkinExperience,
+      ascensionLevel: gameState.island.ascensionLevel ?? 0,
+    }).level;
     const vipGiftItem = hasVip ? getVipDailyBonusItem(level) : null;
     if (vipGiftItem) {
       items[vipGiftItem] = (items[vipGiftItem] ?? 0) + 1;

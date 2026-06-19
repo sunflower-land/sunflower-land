@@ -403,7 +403,7 @@ describe("claimProduce", () => {
         bumpkin: {
           ...GAME_STATE.bumpkin,
           equipped: {
-            ...GAME_STATE.bumpkin?.equipped,
+            ...GAME_STATE.bumpkin.equipped,
             hat: "Cattlegrim",
           },
         },
@@ -523,7 +523,7 @@ describe("claimProduce", () => {
         bumpkin: {
           ...GAME_STATE.bumpkin,
           equipped: {
-            ...GAME_STATE.bumpkin?.equipped,
+            ...GAME_STATE.bumpkin.equipped,
             hat: "Cattlegrim",
           },
         },
@@ -605,7 +605,7 @@ describe("claimProduce", () => {
         bumpkin: {
           ...GAME_STATE.bumpkin,
           equipped: {
-            ...GAME_STATE.bumpkin?.equipped,
+            ...GAME_STATE.bumpkin.equipped,
             coat: "Milk Apron",
           },
         },
@@ -643,7 +643,7 @@ describe("claimProduce", () => {
         bumpkin: {
           ...GAME_STATE.bumpkin,
           equipped: {
-            ...GAME_STATE.bumpkin?.equipped,
+            ...GAME_STATE.bumpkin.equipped,
             necklace: "Cowbell Necklace",
           },
         },
@@ -681,7 +681,7 @@ describe("claimProduce", () => {
         bumpkin: {
           ...GAME_STATE.bumpkin,
           equipped: {
-            ...GAME_STATE.bumpkin?.equipped,
+            ...GAME_STATE.bumpkin.equipped,
             hat: "Cattlegrim",
           },
         },
@@ -764,7 +764,7 @@ describe("claimProduce", () => {
         bumpkin: {
           ...GAME_STATE.bumpkin,
           equipped: {
-            ...GAME_STATE.bumpkin?.equipped,
+            ...GAME_STATE.bumpkin.equipped,
             suit: "Chicken Suit",
           },
         },
@@ -988,7 +988,7 @@ describe("claimProduce", () => {
         bumpkin: {
           ...GAME_STATE.bumpkin,
           equipped: {
-            ...GAME_STATE.bumpkin?.equipped,
+            ...GAME_STATE.bumpkin.equipped,
             necklace: "Training Whistle",
           },
         },
@@ -1026,7 +1026,7 @@ describe("claimProduce", () => {
         bumpkin: {
           ...GAME_STATE.bumpkin,
           equipped: {
-            ...GAME_STATE.bumpkin?.equipped,
+            ...GAME_STATE.bumpkin.equipped,
             onesie: "Black Sheep Onesie",
           },
         },
@@ -1064,7 +1064,7 @@ describe("claimProduce", () => {
         bumpkin: {
           ...GAME_STATE.bumpkin,
           equipped: {
-            ...GAME_STATE.bumpkin?.equipped,
+            ...GAME_STATE.bumpkin.equipped,
             shirt: "Merino Jumper",
           },
         },
@@ -1367,7 +1367,7 @@ describe("claimProduce", () => {
         bumpkin: {
           ...GAME_STATE.bumpkin,
           equipped: {
-            ...GAME_STATE.bumpkin?.equipped,
+            ...GAME_STATE.bumpkin.equipped,
             necklace: "Dream Scarf",
           },
         },
@@ -1413,7 +1413,7 @@ describe("claimProduce", () => {
         bumpkin: {
           ...GAME_STATE.bumpkin,
           equipped: {
-            ...GAME_STATE.bumpkin?.equipped,
+            ...GAME_STATE.bumpkin.equipped,
           },
         },
         barn: {
@@ -1581,7 +1581,7 @@ describe("claimProduce", () => {
         bumpkin: {
           ...GAME_STATE.bumpkin,
           equipped: {
-            ...GAME_STATE.bumpkin?.equipped,
+            ...GAME_STATE.bumpkin.equipped,
             necklace: "Dream Scarf",
           },
         },
@@ -1848,7 +1848,7 @@ describe("claimProduce", () => {
         bumpkin: {
           ...GAME_STATE.bumpkin,
           equipped: {
-            ...GAME_STATE.bumpkin?.equipped,
+            ...GAME_STATE.bumpkin.equipped,
             onesie: "White Sheep Onesie",
           },
         },

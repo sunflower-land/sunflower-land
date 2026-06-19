@@ -268,7 +268,7 @@ describe("claimDailyReward", () => {
     });
 
     expect(state10.dailyRewards?.streaks).toBe(5);
-    expect(state10.bumpkin?.experience).toBe(xpAt10 + expectedXp10);
+    expect(state10.bumpkin.experience).toBe(xpAt10 + expectedXp10);
 
     const level50 = 50 as const;
     const xpAt50 = LEVEL_EXPERIENCE[level50];
@@ -298,7 +298,7 @@ describe("claimDailyReward", () => {
     });
 
     expect(state50.dailyRewards?.streaks).toBe(5);
-    expect(state50.bumpkin?.experience).toBe(xpAt50 + expectedXp50);
+    expect(state50.bumpkin.experience).toBe(xpAt50 + expectedXp50);
 
     // Higher level should grant different XP than lower level
     expect(expectedXp50).not.toBe(expectedXp10);

@@ -1,5 +1,8 @@
 import Decimal from "decimal.js-light";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 import { getKeys } from "lib/object";
 import type { BoostName, GameState } from "features/game/types/game";
 import { ASCENSION_ISLANDS } from "features/game/types/game";
@@ -71,8 +74,13 @@ export function expandLand({ state, createdAt = Date.now() }: Options) {
       throw new Error("Player is expanding");
     }
 
-    const bumpkinLevel = getBumpkinLevel(bumpkin?.experience ?? 0);
-    if (bumpkinLevel < requirements.bumpkinLevel) {
+    // Compare the player's standing against the (ascension, level) requirement.
+    const ascensionLevel = game.island.ascensionLevel ?? 0;
+    const ascension = getAscensionLevel({
+      experience: bumpkin.experience ?? 0,
+      ascensionLevel,
+    });
+    if (!meetsLevelRequirement(ascension, requirements.bumpkinLevel)) {
       throw new Error("Insufficient Bumpkin Level");
     }
 

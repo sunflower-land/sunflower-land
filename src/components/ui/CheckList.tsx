@@ -37,7 +37,11 @@ import {
 } from "features/game/types/desert";
 import { getCurrentChapter } from "features/game/types/chapters";
 import { hasClaimedPetalPrize } from "features/game/events/landExpansion/claimPetalPrize";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+  type AscensionLevel,
+} from "features/game/lib/level";
 import { useNavigate } from "react-router";
 import { ChestRewardsList } from "./ChestRewardsList";
 import { translate } from "lib/i18n/translate";
@@ -169,7 +173,7 @@ const minigamesStatus = (minigames: GameState["minigames"]) => {
 
 export const checklistCount = (
   state: GameState,
-  bumpkinLevel: number,
+  ascension: AscensionLevel,
   now: number,
 ) => {
   // Plaza Tasks
@@ -180,7 +184,7 @@ export const checklistCount = (
     hasBud && playerBudTypes.includes(todayBud) && !hasOpened;
 
   const completedPlazaTasksCount = () => {
-    if (bumpkinLevel >= 2) {
+    if (meetsLevelRequirement(ascension, { ascension: 0, level: 2 })) {
       return (hasNotClaimedLoveBox ? 1 : 0) + (hasNotClaimedBudBox ? 1 : 0);
     }
     return 0;
@@ -194,7 +198,7 @@ export const checklistCount = (
   const hasNotClaimedPirateBox = hasPiratePotion && !hasOpenedPirateChest;
 
   const completedBeachTasksCount = () => {
-    if (bumpkinLevel >= 4) {
+    if (meetsLevelRequirement(ascension, { ascension: 0, level: 4 })) {
       return (hasNotClaimedDigbyBox ? 1 : 0) + (hasNotClaimedPirateBox ? 1 : 0);
     }
     return 0;
@@ -205,7 +209,7 @@ export const checklistCount = (
     state.minigames,
   );
   const completedKingdomTasksCount = () => {
-    if (bumpkinLevel >= 7) {
+    if (meetsLevelRequirement(ascension, { ascension: 0, level: 7 })) {
       return completedMinigames !== allMinigamesCount
         ? allMinigamesCount - completedMinigames
         : 0;
@@ -225,7 +229,10 @@ export const Checklist: React.FC = () => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
 
-  const bumpkinLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
+  const ascension = getAscensionLevel({
+    experience: state.bumpkin.experience ?? 0,
+    ascensionLevel: state.island.ascensionLevel ?? 0,
+  });
 
   return (
     <>
@@ -262,14 +269,14 @@ export const Checklist: React.FC = () => {
           <div className="p-0.5 sm:p-1">
             <Heading
               location={t("checkList.plaza")}
-              bumpkinLevel={bumpkinLevel}
+              ascension={ascension}
               requiredLevel={2}
               locationPath="/world/plaza"
             />
             {/* Love Island Box */}
-            <LoveIslandBox bumpkinLevel={bumpkinLevel} />
+            <LoveIslandBox ascension={ascension} />
             {/* Bud Box */}
-            <BudBoxContent bumpkinLevel={bumpkinLevel} />
+            <BudBoxContent ascension={ascension} />
           </div>
         </InnerPanel>
 
@@ -278,14 +285,14 @@ export const Checklist: React.FC = () => {
           <div className="p-0.5 sm:p-1">
             <Heading
               location={t("checkList.beach")}
-              bumpkinLevel={bumpkinLevel}
+              ascension={ascension}
               requiredLevel={4}
               locationPath="/world/beach"
             />
             {/* Digging Streak */}
-            <DiggingStreakContent bumpkinLevel={bumpkinLevel} />
+            <DiggingStreakContent ascension={ascension} />
             {/* Pirate Chest */}
-            <PirateChestContent bumpkinLevel={bumpkinLevel} />
+            <PirateChestContent ascension={ascension} />
           </div>
         </InnerPanel>
 
@@ -294,12 +301,12 @@ export const Checklist: React.FC = () => {
           <div className="p-0.5 sm:p-1">
             <Heading
               location={t("checkList.kingdom")}
-              bumpkinLevel={bumpkinLevel}
+              ascension={ascension}
               requiredLevel={7}
               locationPath="/world/kingdom"
             />
             {/* Mini Games */}
-            <MiniGamesContent bumpkinLevel={bumpkinLevel} />
+            <MiniGamesContent ascension={ascension} />
           </div>
         </InnerPanel>
       </div>
@@ -307,8 +314,8 @@ export const Checklist: React.FC = () => {
   );
 };
 
-const LoveIslandBox: React.FC<{ bumpkinLevel: number }> = ({
-  bumpkinLevel,
+const LoveIslandBox: React.FC<{ ascension: AscensionLevel }> = ({
+  ascension,
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
@@ -342,7 +349,7 @@ const LoveIslandBox: React.FC<{ bumpkinLevel: number }> = ({
 
   return (
     <RowContent
-      isLocked={bumpkinLevel < 2}
+      isLocked={!meetsLevelRequirement(ascension, { ascension: 0, level: 2 })}
       title={t("checkList.loveIsland.title")}
       titleIcon={heart_air_balloon}
       labelType={hasClaimed ? "success" : "warning"}
@@ -421,8 +428,8 @@ const LoveIslandBox: React.FC<{ bumpkinLevel: number }> = ({
   );
 };
 
-const BudBoxContent: React.FC<{ bumpkinLevel: number }> = ({
-  bumpkinLevel,
+const BudBoxContent: React.FC<{ ascension: AscensionLevel }> = ({
+  ascension,
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
@@ -441,7 +448,9 @@ const BudBoxContent: React.FC<{ bumpkinLevel: number }> = ({
 
   return (
     <RowContent
-      isLocked={bumpkinLevel < 2 || !hasBud}
+      isLocked={
+        !meetsLevelRequirement(ascension, { ascension: 0, level: 2 }) || !hasBud
+      }
       title={t("checkList.budBox.title")}
       titleIcon={gift}
       labelType={
@@ -519,8 +528,8 @@ const BudBoxContent: React.FC<{ bumpkinLevel: number }> = ({
   );
 };
 
-const DiggingStreakContent: React.FC<{ bumpkinLevel: number }> = ({
-  bumpkinLevel,
+const DiggingStreakContent: React.FC<{ ascension: AscensionLevel }> = ({
+  ascension,
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
@@ -531,7 +540,7 @@ const DiggingStreakContent: React.FC<{ bumpkinLevel: number }> = ({
     digbyStreakStatus(state, now);
   return (
     <RowContent
-      isLocked={bumpkinLevel < 4}
+      isLocked={!meetsLevelRequirement(ascension, { ascension: 0, level: 4 })}
       title={t("checkList.diggingStreak.title")}
       titleIcon={ITEM_DETAILS["Sand Shovel"].image}
       labelType={hasClaimedDigbyReward ? "success" : "warning"}
@@ -589,8 +598,8 @@ const DiggingStreakContent: React.FC<{ bumpkinLevel: number }> = ({
   );
 };
 
-const PirateChestContent: React.FC<{ bumpkinLevel: number }> = ({
-  bumpkinLevel,
+const PirateChestContent: React.FC<{ ascension: AscensionLevel }> = ({
+  ascension,
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
@@ -600,7 +609,10 @@ const PirateChestContent: React.FC<{ bumpkinLevel: number }> = ({
   return (
     <div className="mt-1">
       <RowContent
-        isLocked={bumpkinLevel < 4 || !hasPiratePotion}
+        isLocked={
+          !meetsLevelRequirement(ascension, { ascension: 0, level: 4 }) ||
+          !hasPiratePotion
+        }
         title={t("checkList.pirateChest.title")}
         titleIcon={pirate_chest}
         labelType={hasOpenedPirateChest ? "success" : "warning"}
@@ -644,8 +656,8 @@ const PirateChestContent: React.FC<{ bumpkinLevel: number }> = ({
   );
 };
 
-const MiniGamesContent: React.FC<{ bumpkinLevel: number }> = ({
-  bumpkinLevel,
+const MiniGamesContent: React.FC<{ ascension: AscensionLevel }> = ({
+  ascension,
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
@@ -662,7 +674,7 @@ const MiniGamesContent: React.FC<{ bumpkinLevel: number }> = ({
 
   return (
     <RowContent
-      isLocked={bumpkinLevel < 7}
+      isLocked={!meetsLevelRequirement(ascension, { ascension: 0, level: 7 })}
       title={t("checkList.miniGames.title")}
       titleIcon={swords}
       labelType={hasCompletedAll ? "success" : "warning"}
@@ -732,13 +744,16 @@ const MiniGamesContent: React.FC<{ bumpkinLevel: number }> = ({
 
 const Heading: React.FC<{
   location: string;
-  bumpkinLevel: number;
+  ascension: AscensionLevel;
   requiredLevel: number;
   locationPath: string;
-}> = ({ location, requiredLevel, bumpkinLevel, locationPath }) => {
+}> = ({ location, requiredLevel, ascension, locationPath }) => {
   const { t } = useAppTranslation();
   const navigate = useNavigate();
-  const isLocked = bumpkinLevel < requiredLevel;
+  const isLocked = !meetsLevelRequirement(ascension, {
+    ascension: 0,
+    level: requiredLevel,
+  });
   return (
     <div
       className={`flex justify-between items-center ${isLocked ? "mb-0.5" : ""}`}

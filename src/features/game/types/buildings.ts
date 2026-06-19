@@ -3,6 +3,8 @@ import type { CollectibleName } from "./craftables";
 import type { Inventory, InventoryItemName, IslandType } from "./game";
 import type { ResourceName } from "./resources";
 import { getKeys } from "lib/object";
+import type { LevelRequirement } from "features/game/lib/level";
+import { levelRequirementToTotal } from "features/game/lib/level";
 
 export type Home = "Tent" | "House" | "Manor" | "Mansion";
 
@@ -43,7 +45,7 @@ export type Ingredient = {
 };
 
 export type BuildingBluePrint = {
-  unlocksAtLevel: number;
+  unlocksAtLevel: LevelRequirement;
   ingredients: Inventory;
   coins: number;
   constructionSeconds: number;
@@ -60,37 +62,37 @@ export const UPGRADABLES: Partial<Record<BuildingName, BuildingName>> = {};
 
 export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
   "Town Center": {
-    unlocksAtLevel: Infinity,
+    unlocksAtLevel: { ascension: 0, level: Infinity },
     coins: 0,
     constructionSeconds: 30,
     ingredients: {},
   },
   Mansion: {
-    unlocksAtLevel: Infinity,
+    unlocksAtLevel: { ascension: 0, level: Infinity },
     coins: 0,
     constructionSeconds: 30,
     ingredients: {},
   },
   House: {
-    unlocksAtLevel: Infinity,
+    unlocksAtLevel: { ascension: 0, level: Infinity },
     coins: 0,
     constructionSeconds: 30,
     ingredients: {},
   },
   Manor: {
-    unlocksAtLevel: Infinity,
+    unlocksAtLevel: { ascension: 0, level: Infinity },
     coins: 0,
     constructionSeconds: 30,
     ingredients: {},
   },
   Market: {
-    unlocksAtLevel: Infinity,
+    unlocksAtLevel: { ascension: 0, level: Infinity },
     coins: 0,
     constructionSeconds: 30,
     ingredients: {},
   },
   "Fire Pit": {
-    unlocksAtLevel: Infinity,
+    unlocksAtLevel: { ascension: 0, level: Infinity },
     coins: 0,
     constructionSeconds: 0,
     ingredients: {
@@ -99,13 +101,13 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     },
   },
   Workbench: {
-    unlocksAtLevel: Infinity,
+    unlocksAtLevel: { ascension: 0, level: Infinity },
     coins: 5,
     constructionSeconds: 60 * 1,
     ingredients: {},
   },
   Tent: {
-    unlocksAtLevel: Infinity,
+    unlocksAtLevel: { ascension: 0, level: Infinity },
     coins: 20,
     constructionSeconds: 60 * 60,
     ingredients: {
@@ -113,7 +115,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     },
   },
   "Water Well": {
-    unlocksAtLevel: 2,
+    unlocksAtLevel: { ascension: 0, level: 2 },
     coins: 100,
     constructionSeconds: 60 * 5,
     ingredients: {
@@ -121,7 +123,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     },
   },
   Kitchen: {
-    unlocksAtLevel: 5,
+    unlocksAtLevel: { ascension: 0, level: 5 },
     coins: 10,
     constructionSeconds: 60 * 30,
     ingredients: {
@@ -130,7 +132,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     },
   },
   Barn: {
-    unlocksAtLevel: 30,
+    unlocksAtLevel: { ascension: 0, level: 30 },
     coins: 200,
     constructionSeconds: 60 * 60 * 2,
     ingredients: {
@@ -140,7 +142,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     },
   },
   "Fish Market": {
-    unlocksAtLevel: 10,
+    unlocksAtLevel: { ascension: 0, level: 10 },
     coins: 0,
     constructionSeconds: 60 * 60,
     ingredients: {
@@ -150,7 +152,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     },
   },
   "Hen House": {
-    unlocksAtLevel: 6,
+    unlocksAtLevel: { ascension: 0, level: 6 },
     coins: 100,
     constructionSeconds: 60 * 60 * 2,
     ingredients: {
@@ -160,7 +162,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     },
   },
   Bakery: {
-    unlocksAtLevel: 8,
+    unlocksAtLevel: { ascension: 0, level: 8 },
     coins: 200,
     constructionSeconds: 60 * 60 * 4,
     ingredients: {
@@ -170,7 +172,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     },
   },
   Deli: {
-    unlocksAtLevel: 16,
+    unlocksAtLevel: { ascension: 0, level: 16 },
     coins: 300,
     constructionSeconds: 60 * 60 * 12,
     ingredients: {
@@ -180,7 +182,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     },
   },
   "Smoothie Shack": {
-    unlocksAtLevel: 23,
+    unlocksAtLevel: { ascension: 0, level: 23 },
     coins: 0,
     constructionSeconds: 60 * 60 * 12,
     ingredients: {
@@ -190,7 +192,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     },
   },
   Toolshed: {
-    unlocksAtLevel: 25,
+    unlocksAtLevel: { ascension: 0, level: 25 },
     coins: 0,
     constructionSeconds: 60 * 60 * 2,
     ingredients: {
@@ -202,7 +204,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     },
   },
   Warehouse: {
-    unlocksAtLevel: 20,
+    unlocksAtLevel: { ascension: 0, level: 20 },
     coins: 0,
     constructionSeconds: 60 * 60 * 2,
     ingredients: {
@@ -215,7 +217,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     },
   },
   "Compost Bin": {
-    unlocksAtLevel: 7,
+    unlocksAtLevel: { ascension: 0, level: 7 },
     coins: 0,
     constructionSeconds: 60 * 60,
     ingredients: {
@@ -224,7 +226,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     },
   },
   "Turbo Composter": {
-    unlocksAtLevel: 12,
+    unlocksAtLevel: { ascension: 0, level: 12 },
     coins: 0,
     constructionSeconds: 60 * 60 * 2,
     ingredients: {
@@ -233,7 +235,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     },
   },
   "Premium Composter": {
-    unlocksAtLevel: 18,
+    unlocksAtLevel: { ascension: 0, level: 18 },
     coins: 0,
     constructionSeconds: 60 * 60 * 4,
     ingredients: {
@@ -241,7 +243,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     },
   },
   Greenhouse: {
-    unlocksAtLevel: 46,
+    unlocksAtLevel: { ascension: 0, level: 46 },
     coins: 4800,
     constructionSeconds: 60 * 60 * 4,
     ingredients: {
@@ -253,7 +255,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     requiredIsland: "desert",
   },
   "Crop Machine": {
-    unlocksAtLevel: 35,
+    unlocksAtLevel: { ascension: 0, level: 35 },
     coins: 8000,
     constructionSeconds: 60 * 60 * 2,
     ingredients: {
@@ -264,7 +266,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     requiredIsland: "desert",
   },
   "Crafting Box": {
-    unlocksAtLevel: 6,
+    unlocksAtLevel: { ascension: 0, level: 6 },
     coins: 0,
     constructionSeconds: 60 * 60,
     ingredients: {
@@ -273,7 +275,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     },
   },
   "Pet House": {
-    unlocksAtLevel: 0,
+    unlocksAtLevel: { ascension: 0, level: 0 },
     ingredients: {
       Wood: new Decimal(200),
       Stone: new Decimal(100),
@@ -282,7 +284,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     constructionSeconds: 2 * 60 * 60,
   },
   "Aging Shed": {
-    unlocksAtLevel: 0,
+    unlocksAtLevel: { ascension: 0, level: 0 },
     coins: 200,
     constructionSeconds: 0,
     ingredients: {
@@ -325,11 +327,9 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
 export function getUnlockedBuildings(level: number): BuildingName[] {
   return getKeys(BUILDINGS).filter((building) => {
     const buildingBluePrint = BUILDINGS[building];
+    const required = levelRequirementToTotal(buildingBluePrint.unlocksAtLevel);
 
-    return (
-      buildingBluePrint.unlocksAtLevel === Infinity ||
-      buildingBluePrint.unlocksAtLevel <= level
-    );
+    return required === Infinity || required <= level;
   });
 }
 

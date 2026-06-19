@@ -70,8 +70,8 @@ const compareResource = (prev: TreeType, next: TreeType) => {
 const compareGame = (prev: GameState, next: GameState) =>
   isCollectibleBuilt({ name: "Foreman Beaver", game: prev }) ===
     isCollectibleBuilt({ name: "Foreman Beaver", game: next }) &&
-  (prev.bumpkin?.skills["Insta-Chop"] ?? false) ===
-    (next.bumpkin?.skills["Insta-Chop"] ?? false);
+  (prev.bumpkin.skills["Insta-Chop"] ?? false) ===
+    (next.bumpkin.skills["Insta-Chop"] ?? false);
 
 interface Props {
   id: string;
@@ -178,7 +178,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
   const { reward: expectedReward } = resource.wood.reward
     ? { reward: resource.wood.reward }
     : getReward({
-        skills: game.bumpkin?.skills ?? {},
+        skills: game.bumpkin.skills ?? {},
         farmId,
         itemId: KNOWN_IDS[treeName],
         counter: activityCount,

@@ -1,7 +1,7 @@
 import { getDayOfYear } from "lib/utils/time";
 import { getKeys } from "lib/object";
 import type { GameState } from "../types/game";
-import { getBumpkinLevel } from "./level";
+import { getAscensionLevel, meetsLevelRequirement } from "./level";
 import { hasVipAccess } from "./vipAccess";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 
@@ -54,8 +54,22 @@ export const REPUTATION_TASKS: Record<
     game.island.type !== "desert",
   Discord: ({ game }) => !!game.discord?.verified,
   ProofOfHumanity: ({ game }) => isFaceVerified({ game }) || !!game.verified,
-  Level100: ({ game }) => getBumpkinLevel(game.bumpkin.experience) >= 100,
-  Level15: ({ game }) => getBumpkinLevel(game.bumpkin.experience) >= 15,
+  Level100: ({ game }) =>
+    meetsLevelRequirement(
+      getAscensionLevel({
+        experience: game.bumpkin.experience,
+        ascensionLevel: game.island.ascensionLevel ?? 0,
+      }),
+      { ascension: 0, level: 100 },
+    ),
+  Level15: ({ game }) =>
+    meetsLevelRequirement(
+      getAscensionLevel({
+        experience: game.bumpkin.experience,
+        ascensionLevel: game.island.ascensionLevel ?? 0,
+      }),
+      { ascension: 0, level: 15 },
+    ),
   Bud: ({ game }) => getKeys(game.buds ?? {}).length > 0,
   VIP: ({ game, now }) => hasVipAccess({ game: game, type: "full", now }),
 };

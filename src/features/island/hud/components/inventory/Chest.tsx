@@ -144,7 +144,7 @@ const PanelContent: React.FC<PanelContentProps> = ({
 
   if (selectedChestItem.name === "FarmHand") {
     const bumpkin = state.farmHands.bumpkins[selectedChestItem.id];
-    const equipped = bumpkin?.equipped;
+    const equipped = bumpkin.equipped;
 
     return (
       <FarmHandDetails

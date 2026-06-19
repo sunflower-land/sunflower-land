@@ -40,7 +40,7 @@ describe("equip", () => {
       action,
     });
 
-    expect(result.bumpkin?.equipped).toEqual(TEST_PARTS);
+    expect(result.bumpkin.equipped).toEqual(TEST_PARTS);
   });
 
   it("requires clothing is available", () => {

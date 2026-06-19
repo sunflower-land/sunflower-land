@@ -132,7 +132,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
     (crop && isReadyToHarvest(now, crop, CROPS[crop.name])
       ? getReward({
           crop: crop.name,
-          skills: state.bumpkin?.skills ?? {},
+          skills: state.bumpkin.skills ?? {},
           prngArgs: { farmId, counter: activityCount },
         }).reward
       : undefined);

@@ -271,7 +271,7 @@ export const Home: React.FC = () => {
     }),
   );
 
-  if (bumpkin?.coordinates && bumpkin.location === "home") {
+  if (bumpkin.coordinates && bumpkin.location === "home") {
     const { x, y, oX, oY } = bumpkin.coordinates;
     mapPlacements.push(
       <MapPlacement

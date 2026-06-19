@@ -39,7 +39,7 @@ const compareResource = (prev: Rock, next: Rock) => {
 };
 
 const selectSkills = (state: MachineState) =>
-  state.context.state.bumpkin?.skills;
+  state.context.state.bumpkin.skills;
 
 const compareSkills = (prev: Skills, next: Skills) =>
   (prev["Tap Prospector"] ?? false) === (next["Tap Prospector"] ?? false);

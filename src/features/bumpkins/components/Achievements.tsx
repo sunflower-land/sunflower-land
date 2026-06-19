@@ -29,7 +29,7 @@ interface Props {
 
 const getDefaultSelectedAchievement = (state: GameState) => {
   const achievements = ACHIEVEMENTS();
-  const bumpkinAchievements = state.bumpkin?.achievements || {};
+  const bumpkinAchievements = state.bumpkin.achievements || {};
   const achievementKeys = getKeys(achievements).filter((achievement) => {
     const item = ACHIEVEMENTS()[achievement];
     return item.rewards || item.coins > 0;
@@ -97,7 +97,7 @@ export const Achievements: React.FC<Props> = ({ onBack, readonly }) => {
               const progress = achievement.progress(state);
               const isComplete = progress >= achievement.requirement;
 
-              const bumpkinAchievements = state.bumpkin?.achievements || {};
+              const bumpkinAchievements = state.bumpkin.achievements || {};
               const isAlreadyClaimed = !!bumpkinAchievements[name];
 
               return (

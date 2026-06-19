@@ -77,8 +77,8 @@ describe("feedBumpkin", () => {
       action: { type: "bumpkin.feed", food: "Boiled Eggs", amount: 1 },
     });
 
-    expect(stateCopy.bumpkin?.experience).toBe(
-      (state.bumpkin?.experience as number) +
+    expect(stateCopy.bumpkin.experience).toBe(
+      (state.bumpkin.experience as number) +
         CONSUMABLES["Boiled Eggs"].experience,
     );
   });
@@ -94,8 +94,8 @@ describe("feedBumpkin", () => {
       action: { type: "bumpkin.feed", food: "Boiled Eggs", amount: 7 },
     });
 
-    expect(stateCopy.bumpkin?.experience).toBe(
-      (state.bumpkin?.experience as number) +
+    expect(stateCopy.bumpkin.experience).toBe(
+      (state.bumpkin.experience as number) +
         CONSUMABLES["Boiled Eggs"].experience * 7,
     );
   });
@@ -119,7 +119,7 @@ describe("feedBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.experience).toBe(
+    expect(result.bumpkin.experience).toBe(
       new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.1).toNumber(),
     );
   });
@@ -154,7 +154,7 @@ describe("feedBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.experience).toBe(
+    expect(result.bumpkin.experience).toBe(
       CONSUMABLES["Boiled Eggs"].experience * 1.05,
     );
   });
@@ -187,7 +187,7 @@ describe("feedBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.experience).toBe(
+    expect(result.bumpkin.experience).toBe(
       CONSUMABLES["Sunflower Cake"].experience * 1.2,
     );
   });
@@ -220,7 +220,7 @@ describe("feedBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.experience).toBe(
+    expect(result.bumpkin.experience).toBe(
       CONSUMABLES["Sauerkraut"].experience,
     );
   });
@@ -250,7 +250,7 @@ describe("feedBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.experience).toBe(
+    expect(result.bumpkin.experience).toBe(
       CONSUMABLES["Gumbo"].experience * 1.1,
     );
   });
@@ -277,7 +277,7 @@ describe("feedBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.experience).toBe(
+    expect(result.bumpkin.experience).toBe(
       CONSUMABLES["Gumbo"].experience * 1.5,
     );
   });
@@ -304,7 +304,7 @@ describe("feedBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.experience).toBe(
+    expect(result.bumpkin.experience).toBe(
       CONSUMABLES["Anchovy"].experience * 1.5,
     );
   });
@@ -337,7 +337,7 @@ describe("feedBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.experience).toBe(
+    expect(result.bumpkin.experience).toBe(
       CONSUMABLES["Anchovy"].experience * 1.2,
     );
   });
@@ -370,7 +370,7 @@ describe("feedBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.experience).toBe(
+    expect(result.bumpkin.experience).toBe(
       CONSUMABLES["Gumbo"].experience * 1.2,
     );
   });
@@ -403,7 +403,7 @@ describe("feedBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.experience).toBe(
+    expect(result.bumpkin.experience).toBe(
       CONSUMABLES["Fermented Carrots"].experience * 2,
     );
   });
@@ -427,7 +427,7 @@ describe("feedBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.experience).toBe(
+    expect(result.bumpkin.experience).toBe(
       new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.1).toNumber(),
     );
   });
@@ -479,7 +479,7 @@ describe("feedBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.experience).toBe(
+    expect(result.bumpkin.experience).toBe(
       new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.1).toNumber(),
     );
 
@@ -533,7 +533,7 @@ describe("feedBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.experience).toBe(
+    expect(result.bumpkin.experience).toBe(
       new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.2).toNumber(),
     );
 
@@ -587,7 +587,7 @@ describe("feedBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.experience).toBe(
+    expect(result.bumpkin.experience).toBe(
       new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.5).toNumber(),
     );
 
@@ -636,7 +636,7 @@ describe("feedBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.experience).toBe(
+    expect(result.bumpkin.experience).toBe(
       new Decimal(CONSUMABLES["Boiled Eggs"].experience).toNumber(),
     );
   });
@@ -660,7 +660,7 @@ describe("feedBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.experience).toBe(
+    expect(result.bumpkin.experience).toBe(
       new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.05).toNumber(),
     );
   });
@@ -684,7 +684,7 @@ describe("feedBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.experience).toBe(
+    expect(result.bumpkin.experience).toBe(
       new Decimal(CONSUMABLES["Apple Juice"].experience).mul(1.1).toNumber(),
     );
   });
@@ -708,7 +708,7 @@ describe("feedBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.experience).toBe(
+    expect(result.bumpkin.experience).toBe(
       new Decimal(CONSUMABLES["Shroom Syrup"].experience).mul(1.15).toNumber(),
     );
   });
@@ -732,7 +732,7 @@ describe("feedBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.experience).toBe(
+    expect(result.bumpkin.experience).toBe(
       new Decimal(CONSUMABLES["Honey Cake"].experience).mul(1.1).toNumber(),
     );
   });
@@ -756,7 +756,7 @@ describe("feedBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.experience).toBe(
+    expect(result.bumpkin.experience).toBe(
       new Decimal(CONSUMABLES["Boiled Eggs"].experience).toNumber(),
     );
   });
@@ -789,7 +789,7 @@ describe("feedBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.experience).toBe(
+    expect(result.bumpkin.experience).toBe(
       new Decimal(CONSUMABLES["Pizza Margherita"].experience)
         .plus(500)
         .toNumber(),
@@ -824,7 +824,7 @@ describe("feedBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.experience).toBe(
+    expect(result.bumpkin.experience).toBe(
       new Decimal(CONSUMABLES["Boiled Eggs"].experience).toNumber(),
     );
   });

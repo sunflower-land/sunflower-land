@@ -1,6 +1,10 @@
 import type { BuffName } from "./buffs";
 import type { BoostName, GameState, InventoryItemName } from "./game";
-import { getBumpkinLevel, getExperienceToNextLevel } from "../lib/level";
+import {
+  getAscensionLevel,
+  getExperienceToNextLevel,
+  meetsLevelRequirement,
+} from "../lib/level";
 import {
   CHAPTER_ORDER,
   getChapterBanner,
@@ -137,9 +141,13 @@ export function calculateXPPotion(
 const WEEKLY_REWARDS: (game: GameState) => DailyRewardDefinition[] = (
   game: GameState,
 ) => {
-  const level = getBumpkinLevel(game.bumpkin?.experience ?? 0);
+  const ascension = getAscensionLevel({
+    experience: game.bumpkin.experience ?? 0,
+    ascensionLevel: game.island.ascensionLevel ?? 0,
+  });
+  const level = ascension.level;
   const { experienceToNextLevel } = getExperienceToNextLevel(
-    game.bumpkin?.experience ?? 0,
+    game.bumpkin.experience ?? 0,
   );
 
   const scaleAmount = (base: number, multiplier: number) => {
@@ -150,10 +158,10 @@ const WEEKLY_REWARDS: (game: GameState) => DailyRewardDefinition[] = (
   const day2Xp = calculateXPPotion(level, experienceToNextLevel);
 
   const loveBox = (() => {
-    if (level > 100) {
+    if (meetsLevelRequirement(ascension, { ascension: 0, level: 101 })) {
       return "Silver Love Box";
     }
-    if (level > 50) {
+    if (meetsLevelRequirement(ascension, { ascension: 0, level: 51 })) {
       return "Bronze Love Box";
     }
 

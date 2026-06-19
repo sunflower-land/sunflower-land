@@ -21,7 +21,10 @@ import {
   getAscensionUpgradeCost,
   ASCENSION_BUMPKIN_LEVEL,
 } from "features/game/events/landExpansion/upgradeFarm";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 import type { CollectibleName } from "features/game/types/craftables";
 import { getKeys } from "lib/object";
 import { createPortal } from "react-dom";
@@ -112,7 +115,13 @@ const IslandUpgraderModal: React.FC<{
   // Ascension islands also require a minimum Bumpkin level.
   const hasRequiredLevel =
     !isAscensionUpgrade ||
-    getBumpkinLevel(bumpkin?.experience ?? 0) >= ASCENSION_BUMPKIN_LEVEL;
+    meetsLevelRequirement(
+      getAscensionLevel({
+        experience: bumpkin.experience ?? 0,
+        ascensionLevel: island.ascensionLevel ?? 0,
+      }),
+      { ascension: 0, level: ASCENSION_BUMPKIN_LEVEL },
+    );
 
   if (showConfirmation) {
     return (

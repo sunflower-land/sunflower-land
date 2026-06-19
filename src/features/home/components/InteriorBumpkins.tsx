@@ -285,7 +285,7 @@ export const InteriorBumpkins: React.FC<Props> = ({ location = "home" }) => {
         size="lg"
       >
         <CloseButtonPanel
-          bumpkinParts={bumpkin?.equipped}
+          bumpkinParts={bumpkin.equipped}
           onClose={() => setShowBumpkinModal(false)}
           tabs={[
             {
@@ -297,7 +297,7 @@ export const InteriorBumpkins: React.FC<Props> = ({ location = "home" }) => {
         >
           <BumpkinEquip
             farmHandId={undefined}
-            equipment={bumpkin?.equipped as BumpkinParts}
+            equipment={bumpkin.equipped as BumpkinParts}
             onEquip={(equipment) => {
               gameService.send("bumpkin.equipped", {
                 equipment,

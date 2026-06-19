@@ -77,7 +77,7 @@ describe("moveBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.coordinates).toEqual({ x: 5, y: 3 });
-    expect(result.bumpkin?.location).toBe("farm");
+    expect(result.bumpkin.coordinates).toEqual({ x: 5, y: 3 });
+    expect(result.bumpkin.location).toBe("farm");
   });
 });

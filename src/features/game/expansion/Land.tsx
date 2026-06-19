@@ -1012,7 +1012,7 @@ export const LandComponent: React.FC = () => {
   }, [farmHands]);
 
   const bumpkinElement = useMemo(() => {
-    if (!bumpkin?.coordinates || bumpkin.location === "home") return [];
+    if (!bumpkin.coordinates || bumpkin.location === "home") return [];
 
     const { x, y, oX, oY } = bumpkin.coordinates;
 

@@ -62,7 +62,7 @@ describe("claim achievements", () => {
         achievement: "Busy Bumpkin",
       },
     });
-    expect(state.bumpkin?.achievements?.["Busy Bumpkin"]).toBe(1);
+    expect(state.bumpkin.achievements?.["Busy Bumpkin"]).toBe(1);
   });
 
   it("claims busy bumpkin coin rewards", () => {

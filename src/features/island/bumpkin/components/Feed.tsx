@@ -18,7 +18,7 @@ import { FeedBumpkinDetails } from "components/ui/layouts/FeedBumpkinDetails";
 import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
-import { getBumpkinLevel } from "features/game/lib/level";
+import { getAscensionLevel } from "features/game/lib/level";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
@@ -86,17 +86,22 @@ export const Feed: React.FC<Props> = ({
   const feed = (amount: number) => {
     if (!activeSelected) return;
 
-    const previousExperience = bumpkin?.experience ?? 0;
-    let previousLevel: number = getBumpkinLevel(bumpkin?.experience ?? 0);
+    const ascensionLevel = game.island.ascensionLevel ?? 0;
+    const previousExperience = bumpkin.experience ?? 0;
+    let previousLevel: number = getAscensionLevel({
+      experience: bumpkin.experience ?? 0,
+      ascensionLevel,
+    }).level;
 
     const newState = gameService.send("bumpkin.feed", {
       food: activeSelected.name,
       amount,
     });
 
-    const currentLevel = getBumpkinLevel(
-      newState.context.state.bumpkin?.experience ?? 0,
-    );
+    const currentLevel = getAscensionLevel({
+      experience: newState.context.state.bumpkin.experience ?? 0,
+      ascensionLevel: newState.context.state.island.ascensionLevel ?? 0,
+    }).level;
 
     while (currentLevel > previousLevel) {
       previousLevel += 1;

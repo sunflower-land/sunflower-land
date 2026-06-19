@@ -1,5 +1,9 @@
 import Decimal from "decimal.js-light";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+  type LevelRequirement,
+} from "features/game/lib/level";
 import type { AnimalBuildingType } from "features/game/types/animals";
 import type { BuildingName } from "features/game/types/buildings";
 import { trackFarmActivity } from "features/game/types/farmActivity";
@@ -33,7 +37,7 @@ type Options = {
 export type BuildingUpgradeCost = {
   coins: number;
   items: Partial<Record<InventoryItemName, Decimal>>;
-  requiredLevel?: number;
+  requiredLevel?: LevelRequirement;
   upgradeTime?: number;
 };
 
@@ -100,24 +104,24 @@ export const BUILDING_UPGRADES: Record<
     1: {
       coins: 0,
       items: {},
-      requiredLevel: 2,
+      requiredLevel: { ascension: 0, level: 2 },
     },
     2: {
       coins: 200,
       items: { Wood: new Decimal(5), Stone: new Decimal(2) },
-      requiredLevel: 4,
+      requiredLevel: { ascension: 0, level: 4 },
       upgradeTime: 1000 * 60 * 60,
     },
     3: {
       coins: 400,
       items: { Wood: new Decimal(5), Stone: new Decimal(5) },
-      requiredLevel: 11,
+      requiredLevel: { ascension: 0, level: 11 },
       upgradeTime: 1000 * 60 * 60 * 2,
     },
     4: {
       coins: 800,
       items: { Wood: new Decimal(10), Stone: new Decimal(10) },
-      requiredLevel: 15,
+      requiredLevel: { ascension: 0, level: 15 },
       upgradeTime: 1000 * 60 * 60 * 4,
     },
   },
@@ -229,14 +233,17 @@ export function upgradeBuilding({
       throw new Error("Building is still under upgrade");
     }
 
-    const currentExperienceLevel = getBumpkinLevel(experience);
+    const currentLevel = getAscensionLevel({
+      experience,
+      ascensionLevel: copy.island.ascensionLevel ?? 0,
+    });
 
     const nextLevel = building.level + 1;
     const upgradeCost = upgrades[nextLevel];
 
     if (
       upgradeCost.requiredLevel &&
-      currentExperienceLevel < upgradeCost.requiredLevel
+      !meetsLevelRequirement(currentLevel, upgradeCost.requiredLevel)
     ) {
       throw new Error("Insufficient level for upgrade");
     }

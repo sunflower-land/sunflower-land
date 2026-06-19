@@ -69,9 +69,9 @@ describe("resetSkills", () => {
         createdAt: dateNow,
       });
 
-      expect(state.bumpkin?.skills).toEqual({});
-      expect(state.bumpkin?.previousFreeSkillResetAt).toEqual(dateNow);
-      expect(state.bumpkin?.paidSkillResets ?? 0).toEqual(0);
+      expect(state.bumpkin.skills).toEqual({});
+      expect(state.bumpkin.previousFreeSkillResetAt).toEqual(dateNow);
+      expect(state.bumpkin.paidSkillResets ?? 0).toEqual(0);
     });
   });
 
@@ -114,9 +114,9 @@ describe("resetSkills", () => {
         createdAt: dateNow,
       });
 
-      expect(result.bumpkin?.paidSkillResets).toEqual(2);
+      expect(result.bumpkin.paidSkillResets).toEqual(2);
       expect(result.inventory.Gem?.toNumber()).toEqual(0);
-      expect(result.bumpkin?.skills).toEqual({});
+      expect(result.bumpkin.skills).toEqual({});
     });
 
     it("successfully resets skills with gems", () => {
@@ -135,10 +135,10 @@ describe("resetSkills", () => {
         createdAt: dateNow,
       });
 
-      expect(state.bumpkin?.skills).toEqual({});
-      expect(state.bumpkin?.paidSkillResets).toEqual(1);
+      expect(state.bumpkin.skills).toEqual({});
+      expect(state.bumpkin.paidSkillResets).toEqual(1);
       expect(state.inventory.Gem?.toNumber()).toEqual(100);
-      expect(state.bumpkin?.previousFreeSkillResetAt).toBeUndefined();
+      expect(state.bumpkin.previousFreeSkillResetAt).toBeUndefined();
     });
   });
 
@@ -196,7 +196,7 @@ describe("resetSkills", () => {
       });
 
       expect(state.inventory["Skill Reset Ticket"]?.toNumber()).toEqual(2);
-      expect(state.bumpkin?.skills).toEqual({});
+      expect(state.bumpkin.skills).toEqual({});
     });
 
     it("increments paidSkillResets when using a ticket", () => {
@@ -216,7 +216,7 @@ describe("resetSkills", () => {
         createdAt: dateNow,
       });
 
-      expect(state.bumpkin?.paidSkillResets).toEqual(2);
+      expect(state.bumpkin.paidSkillResets).toEqual(2);
     });
 
     it("does not touch previousFreeSkillResetAt when using a ticket", () => {
@@ -239,7 +239,7 @@ describe("resetSkills", () => {
         createdAt: dateNow,
       });
 
-      expect(state.bumpkin?.previousFreeSkillResetAt).toEqual(
+      expect(state.bumpkin.previousFreeSkillResetAt).toEqual(
         threeMonthsAgo.getTime(),
       );
     });
@@ -296,7 +296,7 @@ describe("resetSkills", () => {
         createdAt: dateNow,
       });
 
-      expect(state.bumpkin?.skills).toEqual({});
+      expect(state.bumpkin.skills).toEqual({});
     });
 
     it("succeeds reset with excess oil in tank (post-split no restriction)", () => {
@@ -329,7 +329,7 @@ describe("resetSkills", () => {
         createdAt: dateNow,
       });
 
-      expect(state.bumpkin?.skills).toEqual({});
+      expect(state.bumpkin.skills).toEqual({});
     });
   });
 });

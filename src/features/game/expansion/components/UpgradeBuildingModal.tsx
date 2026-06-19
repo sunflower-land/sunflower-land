@@ -28,7 +28,10 @@ import {
   WATER_WELL_VARIANTS,
 } from "features/island/lib/alternateArt";
 import { getSupportedPlots } from "features/game/events/landExpansion/plant";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 import {
   getCurrentBiome,
   type LandBiomeName,
@@ -84,10 +87,13 @@ export const UpgradeBuildingContent: React.FC<Omit<Props, "show">> = ({
   };
 
   const hasRequiredLevel = (requirements: BuildingUpgradeCost) => {
-    const bumpkinLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
+    const playerLevel = getAscensionLevel({
+      experience: state.bumpkin.experience ?? 0,
+      ascensionLevel: state.island.ascensionLevel ?? 0,
+    });
 
     if (requirements.requiredLevel) {
-      return bumpkinLevel >= requirements.requiredLevel;
+      return meetsLevelRequirement(playerLevel, requirements.requiredLevel);
     }
 
     return true;
@@ -276,7 +282,7 @@ export const UpgradeBuildingContent: React.FC<Omit<Props, "show">> = ({
                     className="mr-2 mb-2"
                   >
                     {t("warning.level.required", {
-                      lvl: requirements.requiredLevel,
+                      lvl: requirements.requiredLevel.level,
                     })}
                   </Label>
                 )}

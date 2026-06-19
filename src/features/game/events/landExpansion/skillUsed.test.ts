@@ -106,7 +106,7 @@ describe("skillUse", () => {
       createdAt: dateNow,
     });
 
-    expect(result.bumpkin?.previousPowerUseAt).toEqual({
+    expect(result.bumpkin.previousPowerUseAt).toEqual({
       "Instant Growth": dateNow,
     });
   });

@@ -9,7 +9,11 @@ import {
   getRewardsForStreak,
 } from "features/game/types/dailyRewards";
 import { produce } from "immer";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  getMaxBumpkinLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 import {
   hasVipAccess,
   getVipDailyBonusItem,
@@ -32,15 +36,22 @@ type Options = {
 
 export function isDailyRewardReady({
   bumpkinExperience,
+  ascensionLevel,
   dailyRewards,
   now = Date.now(),
 }: {
   bumpkinExperience: number;
+  ascensionLevel: number;
   dailyRewards?: DailyRewards;
   now?: number;
 }): boolean {
   // Do not give them daily reward until level 3
-  if (getBumpkinLevel(bumpkinExperience) < 3) {
+  if (
+    !meetsLevelRequirement(
+      getAscensionLevel({ experience: bumpkinExperience, ascensionLevel }),
+      { ascension: 0, level: 3 },
+    )
+  ) {
     return false;
   }
 
@@ -107,7 +118,8 @@ export function claimDailyReward({
     if (
       !isDailyRewardReady({
         dailyRewards: game.dailyRewards,
-        bumpkinExperience: game.bumpkin?.experience ?? 0,
+        bumpkinExperience: game.bumpkin.experience ?? 0,
+        ascensionLevel: game.island.ascensionLevel ?? 0,
         now: createdAt,
       })
     ) {
@@ -133,7 +145,11 @@ export function claimDailyReward({
 
     // VIP bonus daily reward (1 consumable based on level)
     if (hasVipAccess({ game, now: createdAt })) {
-      const level = getBumpkinLevel(game.bumpkin?.experience ?? 0);
+      const level = getAscensionLevel({
+        experience: game.bumpkin.experience ?? 0,
+        ascensionLevel: game.island.ascensionLevel ?? 0,
+        maxLevel: getMaxBumpkinLevel(game),
+      }).level;
       const vipBonusItem = getVipDailyBonusItem(level);
       if (vipBonusItem) {
         applyReward(

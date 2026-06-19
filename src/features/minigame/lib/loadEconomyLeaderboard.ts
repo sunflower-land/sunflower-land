@@ -5,7 +5,7 @@ export type EconomyLeaderboardPlayer = {
   rank: number;
   farmId: number;
   username: string;
-  bumpkin?: BumpkinParts;
+  bumpkin: BumpkinParts;
   level: number;
   highscore: number;
 };

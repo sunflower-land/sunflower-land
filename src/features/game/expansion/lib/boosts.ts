@@ -17,7 +17,10 @@ import {
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { getBudExperienceBoosts } from "features/game/lib/getBudExperienceBoosts";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 import { isWearableActive } from "features/game/lib/wearables";
 import type { SellableItem } from "features/game/events/landExpansion/sellCrop";
 import {
@@ -30,9 +33,12 @@ import { setPrecision } from "lib/utils/formatNumber";
 const crops = CROPS;
 
 export function isCropShortage({ game }: { game: GameState }) {
-  const bumpkinLevel = getBumpkinLevel(game.bumpkin?.experience ?? 0);
+  const ascension = getAscensionLevel({
+    experience: game.bumpkin.experience ?? 0,
+    ascensionLevel: game.island.ascensionLevel ?? 0,
+  });
 
-  if (bumpkinLevel >= 3) {
+  if (meetsLevelRequirement(ascension, { ascension: 0, level: 3 })) {
     return false;
   }
 
@@ -267,19 +273,19 @@ export const getCookingTime = ({
   }
 
   // 10% reduction on Fire Pit with Fast Feasts skill
-  if (buildingName === "Fire Pit" && bumpkin?.skills["Fast Feasts"]) {
+  if (buildingName === "Fire Pit" && bumpkin.skills["Fast Feasts"]) {
     reducedSecs = reducedSecs.mul(0.9);
     boostsUsed.push({ name: "Fast Feasts", value: "x0.9" });
   }
 
   // 10% reduction on Kitchen with Fast Feasts skill
-  if (buildingName === "Kitchen" && bumpkin?.skills["Fast Feasts"]) {
+  if (buildingName === "Kitchen" && bumpkin.skills["Fast Feasts"]) {
     reducedSecs = reducedSecs.mul(0.9);
     boostsUsed.push({ name: "Fast Feasts", value: "x0.9" });
   }
 
   // 10% reduction on Cakes with Frosted Cakes skill
-  if (item in COOKABLE_CAKES && bumpkin?.skills["Frosted Cakes"]) {
+  if (item in COOKABLE_CAKES && bumpkin.skills["Frosted Cakes"]) {
     reducedSecs = reducedSecs.mul(0.9);
     boostsUsed.push({ name: "Frosted Cakes", value: "x0.9" });
   }

@@ -9,7 +9,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context as GameContext } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 import type { ContentComponentProps } from "../types";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -24,7 +27,9 @@ const _nftId = (state: MachineState) => state.context.nftId;
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
 const _farmAddress = (state: MachineState) => state.context.farmAddress ?? "";
 const _experience = (state: MachineState) =>
-  state.context.state.bumpkin?.experience ?? 0;
+  state.context.state.bumpkin.experience ?? 0;
+const _ascensionLevel = (state: MachineState) =>
+  state.context.state.island.ascensionLevel ?? 0;
 
 export const BlockchainSettings: React.FC<ContentComponentProps> = ({
   onClose,
@@ -37,12 +42,16 @@ export const BlockchainSettings: React.FC<ContentComponentProps> = ({
   const nftId = useSelector(gameService, _nftId);
   const linkedWallet = useSelector(gameService, _linkedWallet);
   const experience = useSelector(gameService, _experience);
+  const ascensionLevel = useSelector(gameService, _ascensionLevel);
   const farmAddress = useSelector(gameService, _farmAddress);
 
   // Only full (NFT-farm) users have the transfer option, so only they see
   // "transfer" mentioned in the moved-to-bank notice.
   const isFullUser = farmAddress !== "";
-  const canAccessRetreat = getBumpkinLevel(experience) >= GOBLIN_RETREAT_LEVEL;
+  const canAccessRetreat = meetsLevelRequirement(
+    getAscensionLevel({ experience, ascensionLevel }),
+    { ascension: 0, level: GOBLIN_RETREAT_LEVEL },
+  );
 
   const goToGoblinRetreat = () => {
     travel.play();

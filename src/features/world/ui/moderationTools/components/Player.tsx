@@ -6,7 +6,7 @@ import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { isMobile } from "mobile-device-detect";
 
 import {
-  getBumpkinLevel,
+  getAscensionLevel,
   getExperienceToNextLevel,
   isMaxLevel,
 } from "features/game/lib/level";
@@ -56,7 +56,7 @@ export const PlayerModal: React.FC<Props> = ({
     );
 
   const experience = player.experience ?? 0;
-  const level = getBumpkinLevel(experience);
+  const level = getAscensionLevel({ experience, ascensionLevel: 0 }).level;
   const maxLevel = isMaxLevel(experience);
   const { currentExperienceProgress, experienceToNextLevel } =
     getExperienceToNextLevel(experience);

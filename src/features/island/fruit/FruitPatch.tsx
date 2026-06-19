@@ -198,7 +198,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
 
     if (
       !isCollectibleBuilt({ name: "Foreman Beaver", game }) &&
-      !game.bumpkin?.skills["No Axe No Worries"]
+      !game.bumpkin.skills["No Axe No Worries"]
     )
       shortcutItem("Axe");
 

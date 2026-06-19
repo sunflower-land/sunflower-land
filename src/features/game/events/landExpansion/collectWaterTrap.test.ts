@@ -282,7 +282,7 @@ describe("collectWaterTrap", () => {
         bumpkin: {
           ...GAME_STATE.bumpkin,
           equipped: {
-            ...GAME_STATE.bumpkin?.equipped,
+            ...GAME_STATE.bumpkin.equipped,
             tool: "Pistol Shrimp",
           },
         },

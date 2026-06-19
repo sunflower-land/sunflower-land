@@ -9,7 +9,7 @@ import {
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { ButtonPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getBumpkinLevel } from "features/game/lib/level";
+import { getAscensionLevel } from "features/game/lib/level";
 import giftIcon from "assets/icons/gift.png";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -132,7 +132,10 @@ export const PlayerSelectionList: React.FC = () => {
                 <div className="flex-grow" />
                 <div className="text-center">
                   {t("level.number", {
-                    level: getBumpkinLevel(player.experience ?? 0),
+                    level: getAscensionLevel({
+                      experience: player.experience ?? 0,
+                      ascensionLevel: 0,
+                    }).level,
                   })}
                 </div>
               </ButtonPanel>

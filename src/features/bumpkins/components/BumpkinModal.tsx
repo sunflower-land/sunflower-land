@@ -4,9 +4,11 @@ import levelIcon from "assets/icons/level_up.png";
 
 import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
 import {
-  getBumpkinLevel,
+  getAscensionLevel,
   getExperienceToNextLevel,
+  getMaxBumpkinLevel,
   isMaxLevel,
+  type BumpkinLevel as BumpkinLevelValue,
 } from "features/game/lib/level";
 
 import { AchievementsModal } from "./Achievements";
@@ -55,18 +57,26 @@ export type ViewState =
   | "powerSkills";
 
 const _experience = (state: MachineState) =>
-  state.context.state.bumpkin?.experience ?? 0;
+  state.context.state.bumpkin.experience ?? 0;
 
-export const BumpkinLevel: React.FC<{ experience?: number }> = ({
-  experience = 0,
-}) => {
-  const maxLevel = isMaxLevel(experience);
+export const BumpkinLevel: React.FC<{
+  experience?: number;
+  ascensionLevel?: number;
+  maxLevel?: BumpkinLevelValue;
+}> = ({ experience = 0, ascensionLevel = 0, maxLevel }) => {
+  const ascension =
+    ascensionLevel >= 1
+      ? getAscensionLevel({ experience, ascensionLevel })
+      : undefined;
+  const atMax = ascension
+    ? ascension.isReadyToAscend
+    : isMaxLevel(experience, maxLevel);
   const { currentExperienceProgress, experienceToNextLevel } =
-    getExperienceToNextLevel(experience);
+    ascension ?? getExperienceToNextLevel(experience, maxLevel);
 
   const getProgressPercentage = () => {
     let progressRatio = 1;
-    if (!maxLevel) {
+    if (!atMax) {
       progressRatio = Math.min(
         1,
         currentExperienceProgress / experienceToNextLevel,
@@ -91,7 +101,7 @@ export const BumpkinLevel: React.FC<{ experience?: number }> = ({
       <p className="font-secondary mt-0.5 ml-2">{`${formatNumber(
         currentExperienceProgress,
         { decimalPlaces: 0 },
-      )}/${maxLevel ? "-" : formatNumber(experienceToNextLevel, { decimalPlaces: 0 })} XP`}</p>
+      )}/${atMax ? "-" : formatNumber(experienceToNextLevel, { decimalPlaces: 0 })} XP`}</p>
     </div>
   );
 };
@@ -117,9 +127,22 @@ export const BumpkinModal: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const { openModal } = useContext(ModalContext);
   const experience = useSelector(gameService, _experience);
-  const level = getBumpkinLevel(experience);
-  const currentBumpkinLevel = level;
-  const maxLevel = isMaxLevel(experience);
+  const ascensionLevel = gameState.island.ascensionLevel ?? 0;
+  const maxBumpkinLevel = getMaxBumpkinLevel(gameState);
+  const isAscended = ascensionLevel >= 1;
+  const ascension = getAscensionLevel({
+    experience,
+    ascensionLevel,
+    maxLevel: maxBumpkinLevel,
+  });
+  // Displayed level: within-ascension (0..50) when ascended, else the capped Bumpkin level.
+  const level = ascension.level;
+  const maxLevel = isAscended
+    ? ascension.isReadyToAscend
+    : isMaxLevel(experience, maxBumpkinLevel);
+  // Fires the level-up modal once per level; the within-ascension (or legacy) level
+  // increments per level-up and resets on ascend (no spurious modal on prestige).
+  const currentBumpkinLevel = ascension.level;
   const [view, setView] = useState<ViewState>("home");
   const [tab, setTab] = useState<Tab>(() => {
     if (initialTab !== "feed" || readonly) return initialTab;
@@ -138,8 +161,7 @@ export const BumpkinModal: React.FC<Props> = ({
 
   const powerSkills = getPowerSkills();
   const powerSkillsUnlocked = powerSkills.filter(
-    (skill) =>
-      !!gameState.bumpkin?.skills[skill.name as BumpkinRevampSkillName],
+    (skill) => !!gameState.bumpkin.skills[skill.name as BumpkinRevampSkillName],
   );
   const hasPowerSkills = powerSkillsUnlocked.length > 0;
   const powerSkillsReady =
@@ -159,7 +181,7 @@ export const BumpkinModal: React.FC<Props> = ({
           state: gameState,
         });
         const nextSkillUse =
-          (gameState.bumpkin?.previousPowerUseAt?.[
+          (gameState.bumpkin.previousPowerUseAt?.[
             skill.name as BumpkinRevampSkillName
           ] ?? 0) + boostedCooldown;
         return nextSkillUse < now;
@@ -175,7 +197,7 @@ export const BumpkinModal: React.FC<Props> = ({
   >(undefined);
 
   const availableFood = getAvailableFood(inventory);
-  const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
+  const availableSkillPoints = getAvailableBumpkinSkillPoints(gameState);
 
   if (view === "achievements") {
     return (
@@ -261,10 +283,23 @@ export const BumpkinModal: React.FC<Props> = ({
           />
           <div className="flex-1">
             <p className="text-sm">
-              {t("lvl")} {level}
-              {maxLevel ? " (Max)" : ""}
+              {isAscended
+                ? t("bumpkin.ascensionLevel", {
+                    ascension: ascensionLevel,
+                    level,
+                  })
+                : `${t("lvl")} ${level}`}
+              {maxLevel
+                ? isAscended
+                  ? ` (${t("bumpkin.readyToAscend")})`
+                  : " (Max)"
+                : ""}
             </p>
-            <BumpkinLevel experience={bumpkin.experience} />
+            <BumpkinLevel
+              experience={bumpkin.experience}
+              ascensionLevel={ascensionLevel}
+              maxLevel={maxBumpkinLevel}
+            />
           </div>
           {availableSkillPoints > 0 && (
             <p className="hidden sm:block text-xs text-right ml-2">
@@ -309,7 +344,8 @@ export const BumpkinModal: React.FC<Props> = ({
             {hasLeveledUp ? (
               <InnerPanel>
                 <LevelUp
-                  level={currentBumpkinLevel}
+                  level={level}
+                  ascension={isAscended ? ascensionLevel : undefined}
                   onClose={() => {
                     if (currentBumpkinLevel === 2) {
                       onClose();
@@ -415,7 +451,7 @@ export const BumpkinInfo: React.FC<{
           </div>
           <span className="underline text-sm">{t("viewAll")}</span>
         </div>
-        <AchievementBadges achievements={bumpkin?.achievements} />
+        <AchievementBadges achievements={bumpkin.achievements} />
       </ButtonPanel>
     </div>
   );

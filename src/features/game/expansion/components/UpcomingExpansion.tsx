@@ -14,7 +14,10 @@ import { useActor } from "@xstate/react";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
 import { getKeys } from "lib/object";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 import { Label } from "components/ui/Label";
 import { NPC_WEARABLES } from "lib/npcs";
 import { craftingRequirementsMet } from "features/game/lib/craftingRequirement";
@@ -270,9 +273,16 @@ export const UpcomingExpansion: React.FC = () => {
   const nextPosition =
     EXPANSION_ORIGINS[state.inventory["Basic Land"]?.toNumber() ?? 0];
 
-  const isLocked =
-    getBumpkinLevel(state.bumpkin?.experience ?? 0) <
-    (requirements?.bumpkinLevel ?? 0);
+  // Compare the player's standing against the (ascension, level) requirement —
+  // matching the `expandLand` gate.
+  const ascensionLevel = state.island.ascensionLevel ?? 0;
+  const playerLevel = getAscensionLevel({
+    experience: state.bumpkin.experience ?? 0,
+    ascensionLevel,
+  });
+  const isLocked = requirements
+    ? !meetsLevelRequirement(playerLevel, requirements.bumpkinLevel)
+    : false;
 
   const effectiveCoinCost = useExpansionCoinCostWithVip({
     coins: requirements?.coins,

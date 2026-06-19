@@ -58,7 +58,7 @@ describe("promoteFarmhand", () => {
       },
     });
 
-    expect(result.bumpkin?.equipped).toEqual(FARMHAND_EQUIPPED);
+    expect(result.bumpkin.equipped).toEqual(FARMHAND_EQUIPPED);
     expect(result.farmHands.bumpkins["fh-1"].equipped).toEqual(bumpkinEquipped);
   });
 
@@ -86,8 +86,8 @@ describe("promoteFarmhand", () => {
       action: { type: "farmhand.promoted", id: "fh-1" },
     });
 
-    expect(result.bumpkin?.coordinates).toEqual({ x: 5, y: 5 });
-    expect(result.bumpkin?.location).toBe("farm");
+    expect(result.bumpkin.coordinates).toEqual({ x: 5, y: 5 });
+    expect(result.bumpkin.location).toBe("farm");
     expect(result.farmHands.bumpkins["fh-1"].coordinates).toEqual({
       x: 1,
       y: 1,
@@ -110,8 +110,8 @@ describe("promoteFarmhand", () => {
       action: { type: "farmhand.promoted", id: "fh-1" },
     });
 
-    expect(result.bumpkin?.coordinates).toBeUndefined();
-    expect(result.bumpkin?.location).toBeUndefined();
+    expect(result.bumpkin.coordinates).toBeUndefined();
+    expect(result.bumpkin.location).toBeUndefined();
     expect(result.farmHands.bumpkins["fh-1"].coordinates).toEqual({
       x: 1,
       y: 1,
@@ -138,8 +138,8 @@ describe("promoteFarmhand", () => {
       action: { type: "farmhand.promoted", id: "fh-1" },
     });
 
-    expect(result.bumpkin?.coordinates).toEqual({ x: 5, y: 5 });
-    expect(result.bumpkin?.location).toBe("farm");
+    expect(result.bumpkin.coordinates).toEqual({ x: 5, y: 5 });
+    expect(result.bumpkin.location).toBe("farm");
     expect(result.farmHands.bumpkins["fh-1"].coordinates).toBeUndefined();
     expect(result.farmHands.bumpkins["fh-1"].location).toBeUndefined();
   });
@@ -153,7 +153,7 @@ describe("promoteFarmhand", () => {
       action: { type: "farmhand.promoted", id: "fh-1" },
     });
 
-    expect(result.bumpkin?.experience).toBe(bumpkinExp);
-    expect(result.bumpkin?.skills).toEqual(bumpkinSkills);
+    expect(result.bumpkin.experience).toBe(bumpkinExp);
+    expect(result.bumpkin.skills).toEqual(bumpkinSkills);
   });
 });

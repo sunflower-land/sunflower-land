@@ -78,7 +78,7 @@ export const SkillPathDetails: React.FC<Props> = ({
   const boostedCooldown = getSkillCooldown({ cooldown: cooldown ?? 0, state });
   const { buff, debuff } = boosts;
 
-  const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
+  const availableSkillPoints = getAvailableBumpkinSkillPoints(state);
   const { availableTier, totalUsedSkillPoints } = getUnlockedTierForTree(
     tree,
     bumpkin,

@@ -56,8 +56,8 @@ describe("placeBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.coordinates).toEqual({ x: 3, y: 5 });
-    expect(result.bumpkin?.location).toBe("farm");
+    expect(result.bumpkin.coordinates).toEqual({ x: 3, y: 5 });
+    expect(result.bumpkin.location).toBe("farm");
   });
 
   it("places bumpkin in the home", () => {
@@ -70,7 +70,7 @@ describe("placeBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.coordinates).toEqual({ x: 1, y: 2 });
-    expect(result.bumpkin?.location).toBe("home");
+    expect(result.bumpkin.coordinates).toEqual({ x: 1, y: 2 });
+    expect(result.bumpkin.location).toBe("home");
   });
 });

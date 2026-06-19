@@ -20,7 +20,10 @@ import {
 import { getCropPlotTime } from "features/game/events/landExpansion/plant";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { makeBulkBuySeeds } from "./lib/makeBulkBuyAmount";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 import {
   SEASONAL_SEEDS,
   SEEDS,
@@ -143,7 +146,13 @@ export const SeasonalSeeds: React.FC = () => {
 
   const isSeedLocked = (seedName: SeedName) => {
     const seed = SEEDS[seedName];
-    return getBumpkinLevel(bumpkin?.experience ?? 0) < seed.bumpkinLevel;
+    return !meetsLevelRequirement(
+      getAscensionLevel({
+        experience: bumpkin.experience ?? 0,
+        ascensionLevel: island.ascensionLevel ?? 0,
+      }),
+      seed.bumpkinLevel,
+    );
   };
 
   const getAction = () => {

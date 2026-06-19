@@ -120,7 +120,7 @@ export function getSaltChargeGenerationTime({
   let chargeGenerationTimeMs = SALT_CHARGE_GENERATION_TIME;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
-  if (gameState.bumpkin?.skills["Salty Seas"]) {
+  if (gameState.bumpkin.skills["Salty Seas"]) {
     chargeGenerationTimeMs *= 0.9;
     boostsUsed.push({ name: "Salty Seas", value: "x0.9" });
   }
@@ -163,7 +163,7 @@ export function getSaltYieldPerRake(
   let saltYield = BASE_SALT_YIELD;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
-  if (gameState.bumpkin?.skills["Wide Rakes"]) {
+  if (gameState.bumpkin.skills["Wide Rakes"]) {
     saltYield += 2;
     boostsUsed.push({ name: "Wide Rakes", value: "+2" });
   }

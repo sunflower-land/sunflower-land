@@ -1,5 +1,6 @@
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { expandLand, expansionRequirements } from "./expandLand";
+import { ascensionBaseline } from "features/game/lib/level";
 import Decimal from "decimal.js-light";
 import { BB_TO_GEM_RATIO } from "features/game/types/game";
 
@@ -220,6 +221,55 @@ describe("expandLand", () => {
     });
 
     expect(state.farmActivity["Coins Spent"]).toBe(1152);
+  });
+
+  it("gates swamp expansions on the within-ascension level", () => {
+    // Basic Land 30 → expansion 31 (local e=1) requires within-ascension level 1.
+    // Experience just below the band baseline reads as within-ascension level 0.
+    expect(() =>
+      expandLand({
+        action: { type: "land.expanded", farmId: 0 },
+        state: {
+          ...TEST_FARM,
+          coins: 100000,
+          island: { type: "swamp", ascensionLevel: 1 },
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            experience: ascensionBaseline(1) - 1,
+          },
+          inventory: {
+            "Basic Land": new Decimal(30),
+            Crimstone: new Decimal(100),
+            Oil: new Decimal(100),
+            Obsidian: new Decimal(100),
+          },
+        },
+      }),
+    ).toThrow("Insufficient Bumpkin Level");
+  });
+
+  it("allows expanding swamp once the within-ascension level is met", () => {
+    const state = expandLand({
+      action: { type: "land.expanded", farmId: 0 },
+      state: {
+        ...TEST_FARM,
+        coins: 100000,
+        island: { type: "swamp", ascensionLevel: 1 },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: ascensionBaseline(1), // within-ascension level 1
+        },
+        inventory: {
+          "Basic Land": new Decimal(30),
+          Crimstone: new Decimal(100),
+          Oil: new Decimal(100),
+          Obsidian: new Decimal(100),
+        },
+      },
+    });
+
+    // Expansion 31 coins = 5000.
+    expect(state.coins).toEqual(95000);
   });
 });
 

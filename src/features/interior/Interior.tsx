@@ -264,7 +264,7 @@ export const Interior: React.FC = () => {
     }),
   );
 
-  if (bumpkin?.coordinates && bumpkin.location === "interior") {
+  if (bumpkin.coordinates && bumpkin.location === "interior") {
     const { x, y, oX, oY } = bumpkin.coordinates;
     mapPlacements.push(
       <MapPlacement

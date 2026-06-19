@@ -48,7 +48,7 @@ export function getReadyAt({
   }
 
   // gives +10% speed boost if the player has Swift Decomposer skill
-  if (gameState.bumpkin?.skills["Swift Decomposer"]) {
+  if (gameState.bumpkin.skills["Swift Decomposer"]) {
     timeToFinishMilliseconds = timeToFinishMilliseconds * 0.9;
     boostsUsed.push({ name: "Swift Decomposer", value: "x0.9" });
   }

@@ -109,7 +109,7 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
       if (!plotReward) {
         const { reward } = getReward({
           crop: crop.name,
-          skills: state.bumpkin?.skills ?? {},
+          skills: state.bumpkin.skills ?? {},
           prngArgs: { farmId, counter: counters[activityKey] ?? 0 },
         });
         plotReward = reward;
@@ -141,7 +141,7 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
     if (items.length > 0) combined.items = items;
     if (coins > 0) combined.coins = coins;
     return combined;
-  }, [readyPlots, state.bumpkin?.skills, state.farmActivity, farmId]);
+  }, [readyPlots, state.bumpkin.skills, state.farmActivity, farmId]);
 
   const doHarvestAll = () => {
     gameService.send("crops.bulkHarvested", {});

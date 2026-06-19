@@ -4,7 +4,7 @@ import type { RankData } from "./actions/leaderboard";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { toOrdinalSuffix } from "features/retreat/components/auctioneer/AuctionLeaderboardTable";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
-import { getBumpkinLevel } from "features/game/lib/level";
+import { getAscensionLevel } from "features/game/lib/level";
 import { playerModalManager } from "features/social/lib/playerModalManager";
 
 interface Props {
@@ -38,7 +38,10 @@ export const TicketTable: React.FC<Props> = ({
       <tbody>
         {rankings.map(
           ({ id, count, rank, bumpkin, experience, farmId }, index) => {
-            const level = getBumpkinLevel(experience ?? 0);
+            const level = getAscensionLevel({
+              experience: experience ?? 0,
+              ascensionLevel: 0,
+            }).level;
             return (
               <tr
                 key={index}

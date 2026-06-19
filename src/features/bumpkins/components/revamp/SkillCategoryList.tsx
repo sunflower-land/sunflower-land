@@ -61,7 +61,7 @@ export const SkillCategoryList: React.FC<{
     useState(false);
 
   const { bumpkin, inventory } = state;
-  const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
+  const availableSkillPoints = getAvailableBumpkinSkillPoints(state);
   const { previousFreeSkillResetAt = 0, paidSkillResets = 0, skills } = bumpkin;
 
   const hasSkills = getKeys(skills).length > 0;
@@ -168,7 +168,7 @@ export const SkillCategoryList: React.FC<{
                   const skills = getRevampSkills(category);
                   const icon = SKILL_TREE_ICONS[skills[0].tree];
                   const skillsAcquiredInCategoryCount = getKeys({
-                    ...bumpkin?.skills,
+                    ...bumpkin.skills,
                   }).filter((acquiredSkillName) =>
                     skills.find((skill) => skill.name === acquiredSkillName),
                   ).length;

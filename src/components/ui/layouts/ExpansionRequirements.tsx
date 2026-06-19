@@ -1,5 +1,8 @@
 import Decimal from "decimal.js-light";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 import { getKeys } from "lib/object";
 import type {
   Bumpkin,
@@ -79,8 +82,13 @@ export const ExpansionRequirements: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
-  const hasLevel =
-    getBumpkinLevel(bumpkin.experience) >= requirements.bumpkinLevel;
+  // Compare the player's standing against the (ascension, level) requirement —
+  // matching the `expandLand` gate.
+  const ascensionLevel = state.island.ascensionLevel ?? 0;
+  const hasLevel = meetsLevelRequirement(
+    getAscensionLevel({ experience: bumpkin.experience, ascensionLevel }),
+    requirements.bumpkinLevel,
+  );
 
   const fullCoinRequirement = requirements.coins ?? 0;
   const effectiveCoinCost = useExpansionCoinCostWithVip({
@@ -202,7 +210,7 @@ export const ExpansionRequirements: React.FC<Props> = ({
         <InnerPanel className="mb-1">
           <Label type="danger" icon={SUNNYSIDE.icons.lock}>
             {t("warning.level.required", {
-              lvl: requirements.bumpkinLevel,
+              lvl: requirements.bumpkinLevel.level,
             })}
           </Label>
           <p className="text-xs">{t("statements.visit.firePit")}</p>

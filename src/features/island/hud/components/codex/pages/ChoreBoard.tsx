@@ -30,7 +30,10 @@ import {
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { Button } from "components/ui/Button";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 import lockIcon from "assets/icons/lock.png";
 
 import type { GameState, InventoryItemName } from "features/game/types/game";
@@ -64,7 +67,10 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
   });
 
   const end = useCountdown(weekResetsAt());
-  const level = getBumpkinLevel(bumpkin.experience ?? 0);
+  const ascension = getAscensionLevel({
+    experience: bumpkin.experience ?? 0,
+    ascensionLevel: state.island.ascensionLevel ?? 0,
+  });
 
   const previewNpc = selectedId ?? getKeys(chores)[0];
   const previewChore = chores[previewNpc];
@@ -78,7 +84,13 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
   const nextUnlock = getKeys(NPC_CHORE_UNLOCKS)
     .filter((name) => name in chores)
     .sort((a, b) => (NPC_CHORE_UNLOCKS[a] > NPC_CHORE_UNLOCKS[b] ? 1 : -1))
-    .find((npc) => level < (NPC_CHORE_UNLOCKS?.[npc] ?? 0));
+    .find(
+      (npc) =>
+        !meetsLevelRequirement(ascension, {
+          ascension: 0,
+          level: NPC_CHORE_UNLOCKS?.[npc] ?? 0,
+        }),
+    );
 
   const handleCompleteChore = (npcName: NPCName) => {
     gameService.send({
@@ -87,8 +99,11 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
     });
   };
 
-  const unlockedChores = getKeys(chores).filter(
-    (npc) => level >= NPC_CHORE_UNLOCKS[npc as NPCName],
+  const unlockedChores = getKeys(chores).filter((npc) =>
+    meetsLevelRequirement(ascension, {
+      ascension: 0,
+      level: NPC_CHORE_UNLOCKS[npc as NPCName],
+    }),
   );
   const chapterTicket = getChapterTicket(now);
   const chapter = getCurrentChapter(now);

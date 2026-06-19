@@ -580,7 +580,7 @@ export const MoveableComponent: React.FC<
       return offsetOf(ctx.farmHands?.bumpkins?.[id]?.coordinates);
     }
     if (name === "Bumpkin") {
-      return offsetOf(ctx.bumpkin?.coordinates);
+      return offsetOf(ctx.bumpkin.coordinates);
     }
     return { savedOX: 0, savedOY: 0 };
   });

@@ -62,7 +62,7 @@ export function getBoostedAgingTimeMs(
 }
 
 export function getPrimeAgedChance(state: GameState): number {
-  const skills = state.bumpkin?.skills;
+  const skills = state.bumpkin.skills;
   let chance = PRIME_AGED_BASE_CHANCE * 100;
   if (skills?.["Fish Smoking"]) {
     chance *= 2;
@@ -74,7 +74,7 @@ export function getPrimeAgedChance(state: GameState): number {
 }
 
 export function getAgingInputMultiplier(state: GameState): number {
-  const skills = state.bumpkin?.skills;
+  const skills = state.bumpkin.skills;
   return skills?.["Ager"] ? 2 : 1;
 }
 
@@ -126,6 +126,6 @@ export function getBoostedAgingFishCost(state: GameState): number {
 }
 
 export function getRefinedSaltChance(state: GameState): number {
-  const skills = state.bumpkin?.skills;
+  const skills = state.bumpkin.skills;
   return skills?.["Refiner"] ? 15 : 0;
 }

@@ -655,7 +655,7 @@ describe("feedAnimal", () => {
         bumpkin: {
           ...GAME_STATE.bumpkin,
           equipped: {
-            ...GAME_STATE.bumpkin?.equipped,
+            ...GAME_STATE.bumpkin.equipped,
             wings: "Oracle Syringe",
           },
         },
@@ -1097,7 +1097,7 @@ describe("feedAnimal", () => {
         bumpkin: {
           ...GAME_STATE.bumpkin,
           equipped: {
-            ...GAME_STATE.bumpkin?.equipped,
+            ...GAME_STATE.bumpkin.equipped,
             tool: "Infernal Bullwhip",
           },
         },
@@ -1124,7 +1124,7 @@ describe("feedAnimal", () => {
         bumpkin: {
           ...GAME_STATE.bumpkin,
           equipped: {
-            ...GAME_STATE.bumpkin?.equipped,
+            ...GAME_STATE.bumpkin.equipped,
             tool: "Infernal Bullwhip",
           },
         },

@@ -18,7 +18,7 @@ describe("swamp expansion requirements", () => {
       resources: { Crimstone: 30, Oil: 50, Obsidian: 3 },
       coins: 5000,
       seconds: 7 * HOUR,
-      bumpkinLevel: 0,
+      bumpkinLevel: { ascension: 1, level: 1 },
     });
   });
 
@@ -29,7 +29,7 @@ describe("swamp expansion requirements", () => {
       resources: { Crimstone: 150, Oil: 400, Obsidian: 30 },
       coins: 75000,
       seconds: 84 * HOUR,
-      bumpkinLevel: 0,
+      bumpkinLevel: { ascension: 1, level: 45 },
     });
   });
 
@@ -50,7 +50,7 @@ describe("swamp expansion requirements", () => {
       resources: { Crimstone: 210, Oil: 560, Obsidian: 42 },
       coins: 105000,
       seconds: 84 * HOUR,
-      bumpkinLevel: 0,
+      bumpkinLevel: { ascension: 2, level: 45 },
     });
 
     expect(
@@ -59,7 +59,7 @@ describe("swamp expansion requirements", () => {
       resources: { Crimstone: 576, Oil: 1537, Obsidian: 115 },
       coins: 288120,
       seconds: 84 * HOUR,
-      bumpkinLevel: 0,
+      bumpkinLevel: { ascension: 5, level: 45 },
     });
   });
 
