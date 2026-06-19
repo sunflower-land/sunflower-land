@@ -2,6 +2,8 @@ import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getKeys } from "lib/object";
 import type { BoostName, GameState } from "features/game/types/game";
+import { ASCENSION_ISLANDS } from "features/game/types/game";
+import { hasFeatureAccess } from "lib/flags";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 
 import {
@@ -36,6 +38,16 @@ type Options = {
  */
 export function expandLand({ state, createdAt = Date.now() }: Options) {
   return produce(state, (game) => {
+    // Expanding ascension islands (swamp onward) is gated behind the flag — same
+    // as the upgrade that lands you there. Guards farms that reached an
+    // ascension island while the flag was on if it is later turned off.
+    if (
+      (ASCENSION_ISLANDS as readonly string[]).includes(game.island.type) &&
+      !hasFeatureAccess(game, "SWAMP_ASCENSION")
+    ) {
+      throw new Error("Swamp ascension is not yet available");
+    }
+
     // At an island's expansion cap the player must upgrade to gain more land.
     // Legacy farms already beyond the cap may remain but cannot expand further.
     const maxExpansion = ISLAND_MAX_EXPANSION[game.island.type];
