@@ -135,20 +135,6 @@ const PLACEMENT_ORDER: (keyof Nodes)[] = [
 const localExpansionIndex = (expansion: number): number =>
   expansion - SWAMP_BASE_EXPANSION;
 
-/**
- * Global, monotonic expansion counter across every ascension:
- *   E = (BasicLandCount - 30) + (ascensionLevel - 1) × 12
- * `expansion` is the *post-increment* Basic Land count (31…42), so arrival
- * (count 30) maps to E = 0 — which is deliberately never evaluated for drips
- * (0 % anything === 0 would grant one of everything).
- */
-export const getAscensionGlobalExpansion = (
-  expansion: number,
-  ascensionLevel: number,
-): number =>
-  localExpansionIndex(expansion) +
-  (ascensionLevel - 1) * SWAMP_EXPANSIONS_PER_ASCENSION;
-
 /** Effective drip for a node type at a given ascension (widened, then capped). */
 export const getAscensionNodeDrip = (
   node: keyof Nodes,
@@ -163,9 +149,78 @@ export const getAscensionNodeDrip = (
 };
 
 /**
- * Nodes granted by a single swamp expansion. Each type drops at most one node
- * (the modulo check is binary). Returns `{}` for anything that is not a real
- * swamp expansion (Basic Land outside 31…42), so the E = 0 base row stays clean.
+ * Total nodes of a type granted over one ascension's 12 expansions — the count
+ * of multiples of the effective drip in the ascension's global window. This is
+ * the unchanged "node formula": it equals the old sum of `globalE % drip === 0`.
+ */
+const getAscensionNodeTotal = (
+  node: keyof Nodes,
+  ascensionLevel: number,
+): number => {
+  const drip = getAscensionNodeDrip(node, ascensionLevel);
+  if (drip <= 0) return 0;
+  const span = SWAMP_EXPANSIONS_PER_ASCENSION;
+  return (
+    Math.floor((ascensionLevel * span) / drip) -
+    Math.floor(((ascensionLevel - 1) * span) / drip)
+  );
+};
+
+/** (√5 − 1) / 2 — a per-type phase that decorrelates equal-count nodes. */
+const GOLDEN_RATIO = 0.6180339887498949;
+
+/**
+ * Deals each ascension's dripped nodes *evenly* across its 12 expansions, so no
+ * expansion is empty and none is overloaded — instead of the old `E % drip`
+ * placement that piled the cap-12 nodes (Lava/Beehive/Flower) onto expansion 42.
+ *
+ * Per-type totals are exactly `getAscensionNodeTotal` (the node formula is
+ * unchanged); only *which* expansion each node lands on changes. Returns one
+ * delta per local expansion (index 0 = Basic Land 31). Deterministic — pure
+ * arithmetic plus a stable sort with an explicit tie-break — so FE and BE agree.
+ */
+const getAscensionSchedule = (
+  ascensionLevel: number,
+): Partial<Record<keyof Nodes, number>>[] => {
+  const span = SWAMP_EXPANSIONS_PER_ASCENSION;
+
+  // Spread each type's instances evenly in [0, 1); the golden-ratio per-type
+  // phase keeps equal-count types from landing on the same slots. Flower Bed is
+  // not dealt on its own — it rides along with Beehive so the two always unlock
+  // in the same expansion (they share a drip rate, so their counts always match).
+  const items: { pos: number; node: keyof Nodes; tie: number }[] = [];
+  getKeys(SWAMP_NODE_DRIP).forEach((node, t) => {
+    if (node === "Flower Bed") return;
+    const count = getAscensionNodeTotal(node, ascensionLevel);
+    const phase = (t * GOLDEN_RATIO) % 1;
+    for (let i = 0; i < count; i++) {
+      items.push({ pos: (i + phase) / count, node, tie: t });
+    }
+  });
+
+  items.sort((a, b) => a.pos - b.pos || a.tie - b.tie);
+
+  // Deal by rank: each expansion gets floor(N/span)…ceil(N/span) nodes.
+  const schedule: Partial<Record<keyof Nodes, number>>[] = Array.from(
+    { length: span },
+    () => ({}),
+  );
+  items.forEach((item, k) => {
+    const slot = Math.floor((k * span) / items.length); // 0…span-1
+    schedule[slot][item.node] = (schedule[slot][item.node] ?? 0) + 1;
+    // Beehive and Flower Bed unlock together as a pair.
+    if (item.node === "Beehive") {
+      schedule[slot]["Flower Bed"] = (schedule[slot]["Flower Bed"] ?? 0) + 1;
+    }
+  });
+
+  return schedule;
+};
+
+/**
+ * Nodes granted by a single swamp expansion — the evenly-dealt schedule slot.
+ * Returns `{}` for anything that is not a real swamp expansion (Basic Land
+ * outside 31…42), so the E = 0 base row stays clean.
  */
 export const getAscensionExpansionDelta = ({
   expansion,
@@ -176,18 +231,7 @@ export const getAscensionExpansionDelta = ({
 }): Partial<Record<keyof Nodes, number>> => {
   const e = localExpansionIndex(expansion);
   if (e < 1 || e > SWAMP_EXPANSIONS_PER_ASCENSION) return {};
-
-  const globalE = getAscensionGlobalExpansion(expansion, ascensionLevel);
-  const delta: Partial<Record<keyof Nodes, number>> = {};
-
-  getKeys(SWAMP_NODE_DRIP).forEach((node) => {
-    const drip = getAscensionNodeDrip(node, ascensionLevel);
-    if (drip > 0 && globalE % drip === 0) {
-      delta[node] = 1;
-    }
-  });
-
-  return delta;
+  return getAscensionSchedule(ascensionLevel)[e - 1];
 };
 
 const addDelta = (
@@ -217,21 +261,17 @@ export const getAscensionNodes = ({
 
   // Every prior ascension contributes its full 12 expansions.
   for (let prior = 1; prior < ascensionLevel; prior++) {
-    for (let c = SWAMP_FIRST_EXPANSION; c <= SWAMP_LAST_EXPANSION; c++) {
-      addDelta(
-        nodes,
-        getAscensionExpansionDelta({ expansion: c, ascensionLevel: prior }),
-      );
-    }
+    getAscensionSchedule(prior).forEach((delta) => addDelta(nodes, delta));
   }
 
-  // The current ascension up to the requested expansion.
-  const cap = Math.min(expansion, SWAMP_LAST_EXPANSION);
-  for (let c = SWAMP_FIRST_EXPANSION; c <= cap; c++) {
-    addDelta(
-      nodes,
-      getAscensionExpansionDelta({ expansion: c, ascensionLevel }),
-    );
+  // The current ascension up to (and including) the requested expansion.
+  const cap = Math.min(
+    localExpansionIndex(expansion),
+    SWAMP_EXPANSIONS_PER_ASCENSION,
+  );
+  const schedule = getAscensionSchedule(ascensionLevel);
+  for (let e = 1; e <= cap; e++) {
+    addDelta(nodes, schedule[e - 1]);
   }
 
   return nodes;

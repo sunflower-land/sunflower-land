@@ -80,23 +80,23 @@ describe("swamp node drip", () => {
     ).toEqual({});
   });
 
-  it("grants exactly one Lava/Beehive/Flower per ascension, on the final expansion", () => {
+  it("grants exactly one Lava/Beehive/Flower per ascension", () => {
     for (let a = 1; a <= 5; a++) {
-      let lava = 0;
-      let lavaExpansion = 0;
+      const totals: Partial<Record<string, number>> = {};
       for (let expansion = 31; expansion <= 42; expansion++) {
         const delta = getAscensionExpansionDelta({
           expansion,
           ascensionLevel: a,
         });
-        if (delta["Lava Pit"]) {
-          lava += delta["Lava Pit"];
-          lavaExpansion = expansion;
+        for (const [node, count] of Object.entries(delta)) {
+          totals[node] = (totals[node] ?? 0) + (count ?? 0);
         }
       }
-      expect(lava).toBe(1);
-      // Lava drip is capped at 12, so it only ever lands on the 42nd expansion.
-      expect(lavaExpansion).toBe(42);
+      // The cap-12 nodes are granted exactly once per ascension — now spread
+      // evenly rather than pinned to the final expansion.
+      expect(totals["Lava Pit"]).toBe(1);
+      expect(totals["Beehive"]).toBe(1);
+      expect(totals["Flower Bed"]).toBe(1);
     }
   });
 
@@ -199,16 +199,43 @@ describe("swamp layout placement", () => {
     }
   });
 
-  it("places exactly the dripped node counts", () => {
-    const layout = getAscensionLayout({ expansion: 42, ascensionLevel: 1 });
-    // E = 12: Crop, Tree, Stone, Fruit, Iron, Lava.
-    expect(layout.plots).toHaveLength(1);
-    expect(layout.trees).toHaveLength(1);
-    expect(layout.stones).toHaveLength(1);
-    expect(layout.fruitPatches).toHaveLength(1);
-    expect(layout.iron).toHaveLength(1);
-    expect(layout.lavaPits).toHaveLength(1);
-    expect(layout.gold).toHaveLength(0);
-    expect(layout.beehives).toHaveLength(0);
+  it("spreads nodes evenly — no empty expansion, totals preserved", () => {
+    for (let a = 1; a <= 5; a++) {
+      const startOfAscension = getAscensionNodes({
+        expansion: 30,
+        ascensionLevel: a,
+      });
+      const endOfAscension = getAscensionNodes({
+        expansion: 42,
+        ascensionLevel: a,
+      });
+      const dealt: Partial<Record<string, number>> = {};
+
+      for (let expansion = 31; expansion <= 42; expansion++) {
+        const delta = getAscensionExpansionDelta({
+          expansion,
+          ascensionLevel: a,
+        });
+        const count = Object.values(delta).reduce(
+          (sum, n) => sum + (n ?? 0),
+          0,
+        );
+        // No expansion is empty — nodes are dealt across all 12, not piled on 42.
+        expect(count).toBeGreaterThan(0);
+        for (const [node, n] of Object.entries(delta)) {
+          dealt[node] = (dealt[node] ?? 0) + (n ?? 0);
+        }
+      }
+
+      // Per-type totals are unchanged: the dealt counts equal the ascension's
+      // end-of-ascension floor minus its starting floor.
+      for (const node of Object.keys(
+        endOfAscension,
+      ) as (keyof typeof endOfAscension)[]) {
+        expect(dealt[node] ?? 0).toBe(
+          (endOfAscension[node] ?? 0) - (startOfAscension[node] ?? 0),
+        );
+      }
+    }
   });
 });
