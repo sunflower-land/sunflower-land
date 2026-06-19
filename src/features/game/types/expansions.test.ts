@@ -430,25 +430,25 @@ describe("getExpansionNodes", () => {
     expect(nodes).toEqual(SWAMP_BASE_NODES);
   });
 
-  it("returns base nodes unchanged at expansion 31 (e=1, no drip fires at globalE=1)", () => {
+  it("returns the base floor at the swamp arrival expansion (30)", () => {
     const nodes = getExpansionNodes({
       island: "swamp",
-      expansion: 31,
+      expansion: 30,
       ascensionLevel: 1,
     });
-    // globalE=1: no drip modulo hits at 1 for any node, so cumulative = base floor
+    // Expansion 30 is the arrival floor — no expansion has been granted yet.
     expect(nodes).toEqual(SWAMP_BASE_NODES);
   });
 
-  it("adds one Crop Plot at expansion 32 (e=2, globalE=2, drip=2 fires)", () => {
+  it("accumulates the full ascension-1 Crop Plot total by expansion 42", () => {
     const nodes = getExpansionNodes({
       island: "swamp",
-      expansion: 32,
+      expansion: 42,
       ascensionLevel: 1,
     });
-    expect(nodes["Crop Plot"]).toBe(SWAMP_BASE_NODES["Crop Plot"] + 1);
-    // All other node types unchanged from base
-    expect(nodes.Tree).toBe(SWAMP_BASE_NODES.Tree);
+    // Ascension 1 deals +6 Crop Plots across its 12 expansions; the even-spread
+    // distribution preserves the per-ascension totals.
+    expect(nodes["Crop Plot"]).toBe(SWAMP_BASE_NODES["Crop Plot"] + 6);
   });
 
   it("returns higher node totals for ascensionLevel 2 vs 1 at the same expansion", () => {
@@ -588,7 +588,7 @@ describe("getLand (ascension path)", () => {
     expect(land?.id).toBe("swamp_31");
   });
 
-  it("includes a dripped Crop Plot at expansion 32 (e=2 fires Crop Plot drip)", () => {
+  it("places the dripped Crop Plot dealt to expansion 32", () => {
     const land = getLand({
       game: {
         ...TEST_FARM,
@@ -601,8 +601,8 @@ describe("getLand (ascension path)", () => {
         },
       },
     });
-    // Expansion 32 (e=2) drips exactly 1 Crop Plot; expected total = base(65) + 1 = 66.
-    // With 0 owned, all 1 dripped plot should appear in the layout.
+    // The even-spread schedule deals exactly 1 Crop Plot to expansion 32. With 0
+    // owned, that dripped plot appears in the layout.
     expect(land?.plots).toHaveLength(1);
   });
 
