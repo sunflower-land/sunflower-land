@@ -24,6 +24,7 @@ import { DailyRewardClaim } from "features/game/components/DailyReward";
 import { CommunityFeed } from "./components/CommunityFeed";
 import { AddPostForm } from "./components/AddPostForm";
 import { PostOnXPanel } from "./components/PostOnXPanel";
+import { RoadmapWidget } from "./components/RoadmapWidget";
 import { useAuth } from "features/auth/lib/Provider";
 import {
   DISCORD_NEWS_STORAGE_EVENT,
@@ -177,6 +178,7 @@ export const LetterBox: React.FC = () => {
             />
           )}
         </CloseButtonPanel>
+        {tab === "news" && <RoadmapWidget />}
         {tab === "community" && <PostOnXPanel onClose={close} />}
       </Modal>
       <AddPostForm
