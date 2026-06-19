@@ -9102,5 +9102,10 @@
   "transfer.ronin.migrate.loginIntro": "我们注意到你使用 Ronin 钱包登录。如果你使用的是 Ronin Waypoint 钱包，则需要转移你的向日葵乐园账户才能继续游戏。其他类型的 Ronin 钱包不受影响。",
   "transfer.ronin.migrate.loginIntro2": "如果你没有使用 Ronin Waypoint 钱包，则无需执行任何操作。Ronin Waypoint 用户请继续阅读。",
   "transfer.ronin.migrate.notWaypoint": "我没用 Ronin Waypoint",
-  "transfer.ronin.migrate.migrateNow": "立即迁移"
+  "transfer.ronin.migrate.migrateNow": "立即迁移",
+  "roadmap.cta": "每 3 个月就会推出新的机制和 NFT",
+  "roadmap.button": "查看路线图",
+  "roadmap.title": "路线图",
+  "roadmap.empty": "目前还没有即将发布的功能。稍后再回来看看！",
+  "roadmap.disclaimer": "生成图像仅用于说明目的。路线图可能会在发布之前发生变化。"
 }

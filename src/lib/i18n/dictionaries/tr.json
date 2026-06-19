@@ -9102,5 +9102,10 @@
   "transfer.ronin.migrate.loginIntro": "Ronin cüzdanıyla giriş yaptığını fark ettik. Ronin Waypoint cüzdanı kullanıyorsanız, oynamaya devam etmek için Sunflower Land hesabınızı aktarmanız gerekir. Diğer Ronin cüzdan türleri etkilenmez.",
   "transfer.ronin.migrate.loginIntro2": "Ronin Waypoint cüzdanı kullanmıyorsanız herhangi bir işlem gerekmez. Ronin Waypoint kullanıcıları lütfen okumaya devam edin.",
   "transfer.ronin.migrate.notWaypoint": "Ronin Waypoint kullanmıyorum",
-  "transfer.ronin.migrate.migrateNow": "Şimdi taşıyın"
+  "transfer.ronin.migrate.migrateNow": "Şimdi taşıyın",
+  "roadmap.cta": "Her 3 ayda bir yeni mekanikler ve NFT'ler piyasaya sürüldü",
+  "roadmap.button": "Yol haritasını görüntüle",
+  "roadmap.title": "Yol Haritası",
+  "roadmap.empty": "Henüz gösterilecek yaklaşan özellik yok. Yakında tekrar kontrol edin!",
+  "roadmap.disclaimer": "Görüntüler yalnızca açıklama amacıyla oluşturulmuştur. Yol haritası lansmana kadar değişebilir."
 }

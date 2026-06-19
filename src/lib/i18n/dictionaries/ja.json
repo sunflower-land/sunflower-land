@@ -9102,5 +9102,10 @@
   "transfer.ronin.migrate.loginIntro": "Ronin ウォレットでサインインしていることに気付きました。Ronin Waypointウォレットを使用している場合、プレイを続けるにはサンフラワーランドのアカウントを転送する必要があります。他の種類の Ronin ウォレットは影響を受けません。",
   "transfer.ronin.migrate.loginIntro2": "Ronin Waypoint ウォレットを使用していない場合は、何もする必要はありません。Ronin Waypointのユーザーは読み続けてください。",
   "transfer.ronin.migrate.notWaypoint": "Ronin ウェイポイントを使用していません",
-  "transfer.ronin.migrate.migrateNow": "今すぐ移行"
+  "transfer.ronin.migrate.migrateNow": "今すぐ移行",
+  "roadmap.cta": "3か月ごとに新しいメカニックとNFTがリリースされます",
+  "roadmap.button": "ロードマップを表示",
+  "roadmap.title": "ロードマップ",
+  "roadmap.empty": "今後公開予定の機能はまだありません。すぐにもう一度チェックしてください！",
+  "roadmap.disclaimer": "画像は説明のみを目的として生成されています。ロードマップは発売まで変更される場合があります。"
 }

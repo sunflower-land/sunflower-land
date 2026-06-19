@@ -9102,5 +9102,10 @@
   "transfer.ronin.migrate.loginIntro": "Abbiamo notato che hai effettuato l'accesso con un portafoglio Ronin. Se utilizzi un portafoglio Ronin Waypoint, dovrai trasferire il tuo account Sunflower Land per continuare a giocare. Gli altri tipi di portafogli Ronin non sono interessati.",
   "transfer.ronin.migrate.loginIntro2": "Se non stai utilizzando un portafoglio Ronin Waypoint, non è richiesta alcuna azione. Utenti di Ronin Waypoint, continuate a leggere.",
   "transfer.ronin.migrate.notWaypoint": "Non sto usando Ronin Waypoint",
-  "transfer.ronin.migrate.migrateNow": "Esegui la migrazione adesso"
+  "transfer.ronin.migrate.migrateNow": "Esegui la migrazione adesso",
+  "roadmap.cta": "Ogni 3 mesi vengono lanciate nuove meccaniche e NFT",
+  "roadmap.button": "Visualizza la tabella di marcia",
+  "roadmap.title": "Mappa stradale",
+  "roadmap.empty": "Nessuna funzionalità imminente da mostrare ancora. Torna presto!",
+  "roadmap.disclaimer": "Le immagini vengono generate solo a scopo illustrativo. La roadmap può cambiare fino al lancio."
 }
