@@ -568,7 +568,7 @@ describe("getLand (ascension path)", () => {
       },
     });
     expect(land).not.toBeNull();
-    expect(land?.id).toBe("swamp_31");
+    expect(land?.id).toBe("swamp_1_31");
   });
 
   it("overrides static island branch when ascensionLevel > 0", () => {
@@ -585,7 +585,7 @@ describe("getLand (ascension path)", () => {
       },
     });
     expect(land).not.toBeNull();
-    expect(land?.id).toBe("swamp_31");
+    expect(land?.id).toBe("swamp_2_31");
   });
 
   it("places the dripped Crop Plot dealt to expansion 32", () => {

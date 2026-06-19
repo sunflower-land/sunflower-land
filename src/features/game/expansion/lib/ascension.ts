@@ -170,16 +170,18 @@ const getAscensionNodeTotal = (
 const GOLDEN_RATIO = 0.6180339887498949;
 
 /**
- * Deals each ascension's dripped nodes *evenly* across its 12 expansions, so no
- * expansion is empty and none is overloaded — instead of the old `E % drip`
- * placement that piled the cap-12 nodes (Lava/Beehive/Flower) onto expansion 42.
+ * Deals each ascension's dripped nodes *evenly* across its 12 expansions: each
+ * expansion gets ⌊N/12⌋…⌈N/12⌉ of the ascension's N nodes — never overloaded, and
+ * never empty while N ≥ 12 (which holds across the live ascension range, a ≤ 5).
+ * This replaces the old `E % drip` placement that piled the cap-12 nodes
+ * (Lava/Beehive/Flower) onto expansion 42.
  *
  * Per-type totals are exactly `getAscensionNodeTotal` (the node formula is
  * unchanged); only *which* expansion each node lands on changes. Returns one
  * delta per local expansion (index 0 = Basic Land 31). Deterministic — pure
  * arithmetic plus a stable sort with an explicit tie-break — so FE and BE agree.
  */
-const getAscensionSchedule = (
+const buildAscensionSchedule = (
   ascensionLevel: number,
 ): Partial<Record<keyof Nodes, number>>[] => {
   const span = SWAMP_EXPANSIONS_PER_ASCENSION;
@@ -214,6 +216,24 @@ const getAscensionSchedule = (
     }
   });
 
+  return schedule;
+};
+
+/**
+ * Memoized `buildAscensionSchedule` — the schedule is pure and keyed only by
+ * ascension level, but `getAscensionNodes` rebuilds it once per prior ascension.
+ * Callers only read the returned deltas, so sharing cached references is safe.
+ */
+const scheduleCache = new Map<number, Partial<Record<keyof Nodes, number>>[]>();
+
+const getAscensionSchedule = (
+  ascensionLevel: number,
+): Partial<Record<keyof Nodes, number>>[] => {
+  const cached = scheduleCache.get(ascensionLevel);
+  if (cached) return cached;
+
+  const schedule = buildAscensionSchedule(ascensionLevel);
+  scheduleCache.set(ascensionLevel, schedule);
   return schedule;
 };
 
@@ -364,7 +384,7 @@ export const getAscensionLayout = ({
   ascensionLevel: number;
 }): Layout => {
   const layout: Layout = {
-    id: `swamp_${expansion}`,
+    id: `swamp_${ascensionLevel}_${expansion}`,
     plots: [],
     trees: [],
     stones: [],
