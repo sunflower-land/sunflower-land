@@ -31,7 +31,7 @@ const _showHelper = (state: MachineState) =>
   // First Pumpkin Soup
   (!meetsLevelRequirement(
     getAscensionLevel({
-      experience: state.context.state.bumpkin.experience ?? 0,
+      experience: state.context.state.bumpkin?.experience ?? 0,
       ascensionLevel: state.context.state.island.ascensionLevel ?? 0,
     }),
     { ascension: 0, level: 4 },

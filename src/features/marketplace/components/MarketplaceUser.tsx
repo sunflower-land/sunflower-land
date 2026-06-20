@@ -72,7 +72,7 @@ export const MarketplaceUser: React.FC = () => {
                       ascension: profile.ascension,
                       level: profile.level,
                     })
-                  : `Lvl. ${profile.level}`}
+                  : t("level.short", { level: profile.level })}
               </Label>
               <p className="text-sm truncate">{profile.username}</p>
             </div>

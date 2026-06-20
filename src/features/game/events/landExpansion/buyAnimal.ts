@@ -183,7 +183,9 @@ export function buyAnimal({
 
     if (!meetsLevelRequirement(ascension, levelRequired)) {
       throw new Error(
-        `Your bumpkin is not at the required level of ${levelRequired.level}`,
+        levelRequired.ascension > 0
+          ? `Your bumpkin must be Ascension ${levelRequired.ascension}, Level ${levelRequired.level}`
+          : `Your bumpkin is not at the required level of ${levelRequired.level}`,
       );
     }
 

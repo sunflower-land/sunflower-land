@@ -9,8 +9,10 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { Label } from "components/ui/Label";
 import type { NPCName } from "lib/npcs";
 import { type DeliveryNpcName, NPC_DELIVERY_LEVELS } from "../lib/delivery";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const LockedOrderCard: React.FC<{ npc: NPCName }> = ({ npc }) => {
+  const { t } = useAppTranslation();
   return (
     <div className="py-1 px-1">
       <ButtonPanel
@@ -45,7 +47,9 @@ export const LockedOrderCard: React.FC<{ npc: NPCName }> = ({ npc }) => {
             height: "25px",
           }}
         >
-          {`Lvl ${NPC_DELIVERY_LEVELS[npc as DeliveryNpcName]?.level}`}
+          {t("level.short", {
+            level: NPC_DELIVERY_LEVELS[npc as DeliveryNpcName]?.level,
+          })}
         </Label>
       </ButtonPanel>
     </div>

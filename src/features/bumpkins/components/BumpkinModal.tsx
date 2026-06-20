@@ -161,7 +161,8 @@ export const BumpkinModal: React.FC<Props> = ({
 
   const powerSkills = getPowerSkills();
   const powerSkillsUnlocked = powerSkills.filter(
-    (skill) => !!gameState.bumpkin.skills[skill.name as BumpkinRevampSkillName],
+    (skill) =>
+      !!gameState.bumpkin?.skills[skill.name as BumpkinRevampSkillName],
   );
   const hasPowerSkills = powerSkillsUnlocked.length > 0;
   const powerSkillsReady =

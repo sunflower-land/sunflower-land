@@ -324,14 +324,17 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   "Aging Shed": { width: 3, height: 2 },
 };
 
-export function getUnlockedBuildings(level: number): BuildingName[] {
+export function getUnlockedBuildings(
+  level: number,
+  ascension: number,
+): BuildingName[] {
   return getKeys(BUILDINGS).filter((building) => {
     const buildingBluePrint = BUILDINGS[building];
 
     return (
       buildingBluePrint.unlocksAtLevel.level === Infinity ||
       meetsLevelRequirement(
-        { ascension: 0, level },
+        { ascension, level },
         buildingBluePrint.unlocksAtLevel,
       )
     );

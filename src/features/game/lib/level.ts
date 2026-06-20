@@ -650,11 +650,11 @@ export const getAscensionLevel = ({
 export const getTotalBumpkinLevel = ({
   experience,
   ascensionLevel,
-  maxLevel = MAX_BUMPKIN_LEVEL,
+  maxLevel,
 }: {
   experience: number;
   ascensionLevel: number;
-  maxLevel?: BumpkinLevel;
+  maxLevel: BumpkinLevel;
 }): number => {
   if (ascensionLevel >= 1) {
     return (

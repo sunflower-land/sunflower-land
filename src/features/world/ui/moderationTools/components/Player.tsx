@@ -5,11 +5,7 @@ import { isModerator } from "../tabs/PlayerList";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { isMobile } from "mobile-device-detect";
 
-import {
-  getAscensionLevel,
-  getExperienceToNextLevel,
-  isMaxLevel,
-} from "features/game/lib/level";
+import { getAscensionLevel } from "features/game/lib/level";
 import { t } from "i18next";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { Label } from "components/ui/Label";
@@ -56,17 +52,20 @@ export const PlayerModal: React.FC<Props> = ({
     );
 
   const experience = player.experience ?? 0;
-  const { ascension, level } = getAscensionLevel({
+  const {
+    ascension,
+    level,
+    isReadyToAscend,
+    currentExperienceProgress,
+    experienceToNextLevel,
+  } = getAscensionLevel({
     experience,
     ascensionLevel: player.ascensionLevel ?? 0,
   });
-  const maxLevel = isMaxLevel(experience);
-  const { currentExperienceProgress, experienceToNextLevel } =
-    getExperienceToNextLevel(experience);
 
   const getProgressPercentage = () => {
     let progressRatio = 1;
-    if (!maxLevel) {
+    if (!isReadyToAscend) {
       progressRatio = Math.min(
         1,
         currentExperienceProgress / experienceToNextLevel,
@@ -148,9 +147,9 @@ export const PlayerModal: React.FC<Props> = ({
               </div>
               <div className="flex flex-col items-end justify-center gap-2">
                 <p className="text-base">
-                  {ascension > 0
-                    ? t("level.ascension", { ascension, level })
-                    : `${t("lvl")} ${level}${maxLevel ? " (Max)" : ""}`}
+                  {`${t("level.ascension.short", { ascension, level })}${
+                    isReadyToAscend ? " (Max)" : ""
+                  }`}
                 </p>
                 <div className="flex items-center mt-1">
                   <p className="text-xxs mr-2">

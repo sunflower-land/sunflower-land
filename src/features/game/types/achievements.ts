@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { getTotalBumpkinLevel } from "../lib/level";
+import { getMaxBumpkinLevel, getTotalBumpkinLevel } from "../lib/level";
 import type { GameState, Inventory } from "./game";
 import type { CookEvent, CraftedEvent, HarvestEvent } from "./farmActivity";
 import { COOKABLES, COOKABLE_CAKES } from "./consumables";
@@ -230,6 +230,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       getTotalBumpkinLevel({
         experience: gameState.bumpkin.experience || 0,
         ascensionLevel: gameState.island.ascensionLevel ?? 0,
+        maxLevel: getMaxBumpkinLevel(gameState),
       }),
     requirement: 2,
     coins: 10,
@@ -281,6 +282,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       getTotalBumpkinLevel({
         experience: gameState.bumpkin.experience || 0,
         ascensionLevel: gameState.island.ascensionLevel ?? 0,
+        maxLevel: getMaxBumpkinLevel(gameState),
       }),
     requirement: 20,
     coins: 0,
