@@ -67,7 +67,12 @@ export const MarketplaceUser: React.FC = () => {
             </div>
             <div className="flex-1 overflow-hidden">
               <Label type="default" className="mb-0.5">
-                {`Lvl. ${profile.level}`}
+                {profile.ascension > 0
+                  ? t("level.ascension", {
+                      ascension: profile.ascension,
+                      level: profile.level,
+                    })
+                  : `Lvl. ${profile.level}`}
               </Label>
               <p className="text-sm truncate">{profile.username}</p>
             </div>

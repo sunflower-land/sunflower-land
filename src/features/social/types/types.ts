@@ -42,7 +42,10 @@ export type Player = {
     following: number[];
     followedBy: number[];
     username: string;
+    /** Within-ascension level. Meaningless without `ascension`. */
     level: number;
+    /** Ascension band this level belongs to (0 = pre-ascension). */
+    ascension: number;
     farmCreatedAt: number;
     marketValue: number;
     island: IslandType;

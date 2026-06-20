@@ -136,7 +136,7 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
                   icon={SUNNYSIDE.icons.lock}
                   className="mt-2"
                 >
-                  {t("lvl")} {requirements.bumpkinLevel}
+                  {t("lvl")} {requirements.bumpkinLevel.level}
                 </Label>
               )}
             </>

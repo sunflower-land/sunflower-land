@@ -304,7 +304,13 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         return `${formatNumber(props.xp)}XP`;
       }
       case "level": {
-        return `${t("level.number", { level: props.requirement.level })}`;
+        // Show the ascension band unless the player is already in it (then it's redundant).
+        return props.requirement.ascension !== props.currentLevel.ascension
+          ? t("level.ascension", {
+              ascension: props.requirement.ascension,
+              level: props.requirement.level,
+            })
+          : t("level.number", { level: props.requirement.level });
       }
       case "harvests": {
         return `${

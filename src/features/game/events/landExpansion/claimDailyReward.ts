@@ -12,6 +12,7 @@ import { produce } from "immer";
 import {
   getAscensionLevel,
   getMaxBumpkinLevel,
+  getTotalBumpkinLevel,
   meetsLevelRequirement,
 } from "features/game/lib/level";
 import {
@@ -145,11 +146,13 @@ export function claimDailyReward({
 
     // VIP bonus daily reward (1 consumable based on level)
     if (hasVipAccess({ game, now: createdAt })) {
-      const level = getAscensionLevel({
+      // VIP bonus item is keyed to the historical 1..200 scale, so use the monotonic
+      // total level (ascension-aware), not the 1..50 within-ascension level.
+      const level = getTotalBumpkinLevel({
         experience: game.bumpkin.experience ?? 0,
         ascensionLevel: game.island.ascensionLevel ?? 0,
         maxLevel: getMaxBumpkinLevel(game),
-      }).level;
+      });
       const vipBonusItem = getVipDailyBonusItem(level);
       if (vipBonusItem) {
         applyReward(

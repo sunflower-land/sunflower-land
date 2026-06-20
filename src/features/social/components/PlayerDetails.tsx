@@ -328,7 +328,14 @@ export const PlayerDetails: React.FC<Props> = ({
             </div>
             <div className="flex flex-col gap-1 text-xs mt-1 ml-2 flex-1 mb-1">
               <div className="flex items-center">
-                {`Lvl ${player?.level}${player?.faction ? ` - ${capitalize(player?.faction)}` : ""}`}
+                {`${
+                  player?.ascension
+                    ? t("level.ascension", {
+                        ascension: player.ascension,
+                        level: player.level,
+                      })
+                    : `Lvl ${player?.level}`
+                }${player?.faction ? ` - ${capitalize(player?.faction)}` : ""}`}
                 {player?.faction && (
                   <img
                     src={ITEM_DETAILS[FACTION_TO_EMBLEM[player.faction]].image}

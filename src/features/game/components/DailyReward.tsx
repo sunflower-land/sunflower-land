@@ -32,7 +32,11 @@ import basicXPBox from "assets/rewardBoxes/basic_xp_box.png";
 import type { BuffName } from "../types/buffs";
 import coinsIcon from "assets/icons/coins_stack.webp";
 import vipIcon from "assets/icons/vip.webp";
-import { getAscensionLevel, meetsLevelRequirement } from "../lib/level";
+import {
+  getAscensionLevel,
+  getTotalBumpkinLevel,
+  meetsLevelRequirement,
+} from "../lib/level";
 import { getVipDailyBonusItem } from "../lib/vipAccess";
 import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 
@@ -178,10 +182,12 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
       {} as Partial<Record<InventoryItemName, number>>,
     );
 
-    const level = getAscensionLevel({
+    // VIP gift item is keyed to the historical 1..200 scale, so use the monotonic
+    // total level (ascension-aware) to match the actual claim logic.
+    const level = getTotalBumpkinLevel({
       experience: bumpkinExperience,
       ascensionLevel: gameState.island.ascensionLevel ?? 0,
-    }).level;
+    });
     const vipGiftItem = hasVip ? getVipDailyBonusItem(level) : null;
     if (vipGiftItem) {
       items[vipGiftItem] = (items[vipGiftItem] ?? 0) + 1;

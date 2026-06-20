@@ -56,7 +56,10 @@ export const PlayerModal: React.FC<Props> = ({
     );
 
   const experience = player.experience ?? 0;
-  const level = getAscensionLevel({ experience, ascensionLevel: 0 }).level;
+  const { ascension, level } = getAscensionLevel({
+    experience,
+    ascensionLevel: player.ascensionLevel ?? 0,
+  });
   const maxLevel = isMaxLevel(experience);
   const { currentExperienceProgress, experienceToNextLevel } =
     getExperienceToNextLevel(experience);
@@ -145,8 +148,9 @@ export const PlayerModal: React.FC<Props> = ({
               </div>
               <div className="flex flex-col items-end justify-center gap-2">
                 <p className="text-base">
-                  {t("lvl")} {level}
-                  {maxLevel ? " (Max)" : ""}
+                  {ascension > 0
+                    ? t("level.ascension", { ascension, level })
+                    : `${t("lvl")} ${level}${maxLevel ? " (Max)" : ""}`}
                 </p>
                 <div className="flex items-center mt-1">
                   <p className="text-xxs mr-2">

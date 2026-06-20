@@ -20,6 +20,9 @@ export interface Player extends Schema {
   x: number;
   y: number;
   experience: number;
+  // Ascension band — needed to read `experience` as a level. Optional until the MMO
+  // server syncs it; consumers default to 0 (legacy pre-ascension reading) meanwhile.
+  ascensionLevel?: number;
   tick: number;
   clothing: BumpkinParts & { updatedAt: number };
   npc: NPCName;

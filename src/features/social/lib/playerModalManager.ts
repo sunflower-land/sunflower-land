@@ -6,6 +6,12 @@ export type PlayerModalPlayer = {
   username?: string;
   clothing?: BumpkinParts;
   experience?: number;
+  /**
+   * Ascension band — needed to read `experience` as a level. Only set when the modal
+   * is opened from a local context; remote MMO players don't sync it yet, so consumers
+   * must default to 0.
+   */
+  ascensionLevel?: number;
   faction?: FactionName;
 };
 

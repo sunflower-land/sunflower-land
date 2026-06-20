@@ -68,6 +68,7 @@ export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
         username: context.state.username ?? "",
         clothing: context.state.bumpkin.equipped ?? bumpkinParts,
         experience: context.state.bumpkin.experience ?? 0,
+        ascensionLevel: context.state.island.ascensionLevel ?? 0,
         faction: context.state.faction?.name,
       };
       playerModalManager.open(playerData);

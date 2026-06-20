@@ -2265,6 +2265,7 @@
   "harvest.numbers": "{{minHarvest}}-{{maxHarvest}} harvests",
   "harvest.number": "{{noOfHarvests}} harvests",
   "level.number": "Level {{level}}",
+  "level.ascension": "Ascension {{ascension}} · Lvl {{level}}",
   "new.delivery.in": "New deliveries: {{timeLeft}}",
   "new.delivery.levelup": "Level up to unlock more deliveries.",
   "no.sfl": "No FLOWER tokens found",

@@ -4,7 +4,7 @@ import type { Inventory, InventoryItemName, IslandType } from "./game";
 import type { ResourceName } from "./resources";
 import { getKeys } from "lib/object";
 import type { LevelRequirement } from "features/game/lib/level";
-import { levelRequirementToTotal } from "features/game/lib/level";
+import { meetsLevelRequirement } from "features/game/lib/level";
 
 export type Home = "Tent" | "House" | "Manor" | "Mansion";
 
@@ -327,9 +327,14 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
 export function getUnlockedBuildings(level: number): BuildingName[] {
   return getKeys(BUILDINGS).filter((building) => {
     const buildingBluePrint = BUILDINGS[building];
-    const required = levelRequirementToTotal(buildingBluePrint.unlocksAtLevel);
 
-    return required === Infinity || required <= level;
+    return (
+      buildingBluePrint.unlocksAtLevel.level === Infinity ||
+      meetsLevelRequirement(
+        { ascension: 0, level },
+        buildingBluePrint.unlocksAtLevel,
+      )
+    );
   });
 }
 

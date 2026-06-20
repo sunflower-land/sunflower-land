@@ -41,6 +41,7 @@ import {
   getAscensionLevel,
   meetsLevelRequirement,
   type AscensionLevel,
+  type LevelRequirement,
 } from "features/game/lib/level";
 import { useNavigate } from "react-router";
 import { ChestRewardsList } from "./ChestRewardsList";
@@ -270,7 +271,7 @@ export const Checklist: React.FC = () => {
             <Heading
               location={t("checkList.plaza")}
               ascension={ascension}
-              requiredLevel={2}
+              requiredLevel={{ ascension: 0, level: 2 }}
               locationPath="/world/plaza"
             />
             {/* Love Island Box */}
@@ -286,7 +287,7 @@ export const Checklist: React.FC = () => {
             <Heading
               location={t("checkList.beach")}
               ascension={ascension}
-              requiredLevel={4}
+              requiredLevel={{ ascension: 0, level: 4 }}
               locationPath="/world/beach"
             />
             {/* Digging Streak */}
@@ -302,7 +303,7 @@ export const Checklist: React.FC = () => {
             <Heading
               location={t("checkList.kingdom")}
               ascension={ascension}
-              requiredLevel={7}
+              requiredLevel={{ ascension: 0, level: 7 }}
               locationPath="/world/kingdom"
             />
             {/* Mini Games */}
@@ -745,15 +746,12 @@ const MiniGamesContent: React.FC<{ ascension: AscensionLevel }> = ({
 const Heading: React.FC<{
   location: string;
   ascension: AscensionLevel;
-  requiredLevel: number;
+  requiredLevel: LevelRequirement;
   locationPath: string;
 }> = ({ location, requiredLevel, ascension, locationPath }) => {
   const { t } = useAppTranslation();
   const navigate = useNavigate();
-  const isLocked = !meetsLevelRequirement(ascension, {
-    ascension: 0,
-    level: requiredLevel,
-  });
+  const isLocked = !meetsLevelRequirement(ascension, requiredLevel);
   return (
     <div
       className={`flex justify-between items-center ${isLocked ? "mb-0.5" : ""}`}
@@ -770,7 +768,12 @@ const Heading: React.FC<{
           secondaryIcon={SUNNYSIDE.icons.lock}
           className="mr-2"
         >
-          {t("level.number", { level: requiredLevel })}
+          {requiredLevel.ascension !== ascension.ascension
+            ? t("level.ascension", {
+                ascension: requiredLevel.ascension,
+                level: requiredLevel.level,
+              })
+            : t("level.number", { level: requiredLevel.level })}
         </Label>
       ) : (
         <Button

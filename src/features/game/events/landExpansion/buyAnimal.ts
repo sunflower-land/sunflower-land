@@ -181,11 +181,9 @@ export function buyAnimal({
       ascensionLevel: copy.island.ascensionLevel ?? 0,
     });
 
-    if (
-      !meetsLevelRequirement(ascension, { ascension: 0, level: levelRequired })
-    ) {
+    if (!meetsLevelRequirement(ascension, levelRequired)) {
       throw new Error(
-        `Your bumpkin is not at the required level of ${levelRequired}`,
+        `Your bumpkin is not at the required level of ${levelRequired.level}`,
       );
     }
 

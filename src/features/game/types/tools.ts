@@ -144,10 +144,7 @@ export const WORKBENCH_TOOLS: Record<
       Wool: new Decimal(3),
     }),
     stock: new Decimal(15),
-    requiredLevel: {
-      ascension: 0,
-      level: WATER_TRAP["Crab Pot"].requiredBumpkinLevel,
-    },
+    requiredLevel: WATER_TRAP["Crab Pot"].requiredBumpkinLevel,
     type: "water",
   },
   "Mariner Pot": {
@@ -159,10 +156,7 @@ export const WORKBENCH_TOOLS: Record<
       "Merino Wool": new Decimal(10),
     }),
     stock: new Decimal(10),
-    requiredLevel: {
-      ascension: 0,
-      level: WATER_TRAP["Mariner Pot"].requiredBumpkinLevel,
-    },
+    requiredLevel: WATER_TRAP["Mariner Pot"].requiredBumpkinLevel,
     type: "water",
   },
   "Salt Rake": {

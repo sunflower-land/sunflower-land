@@ -107,9 +107,14 @@ export const MinigameLeaderboardWidget: React.FC<Props> = ({
                       {player.username}
                     </span>
                     <span className="text-xxs text-[#3e2731]/70">
-                      {t("minigame.dashboard.leaderboardLevelShort", {
-                        level: player.level,
-                      })}
+                      {player.ascension > 0
+                        ? t("level.ascension", {
+                            ascension: player.ascension,
+                            level: player.level,
+                          })
+                        : t("minigame.dashboard.leaderboardLevelShort", {
+                            level: player.level,
+                          })}
                       {" · #"}
                       {player.farmId}
                     </span>

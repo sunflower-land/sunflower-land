@@ -119,10 +119,7 @@ export const AnimalBuildingModal: React.FC<Props> = ({
   });
 
   const hasRequiredLevel = () =>
-    meetsLevelRequirement(ascension, {
-      ascension: 0,
-      level: ANIMALS[selectedName].levelRequired,
-    });
+    meetsLevelRequirement(ascension, ANIMALS[selectedName].levelRequired);
 
   const atMaxCapacity =
     getTotalAnimalsInBuilding() >=
@@ -203,10 +200,7 @@ export const AnimalBuildingModal: React.FC<Props> = ({
               requirements={{
                 coins: ANIMALS[selectedName].coins,
                 showCoinsIfFree: true,
-                level: {
-                  ascension: 0,
-                  level: ANIMALS[selectedName].levelRequired,
-                },
+                level: ANIMALS[selectedName].levelRequired,
               }}
               label={
                 atMaxCapacity ? (

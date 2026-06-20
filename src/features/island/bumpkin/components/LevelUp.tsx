@@ -16,10 +16,7 @@ import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { getKeys } from "lib/object";
-import {
-  LEVEL_EXPERIENCE,
-  levelRequirementToTotal,
-} from "features/game/lib/level";
+import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { BUILDINGS } from "features/game/types/buildings";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { translate } from "lib/i18n/translate";
@@ -59,10 +56,11 @@ function generateUnlockLabels(): Record<
     (acc, id) => {
       const level = Number(id);
       const crops = getKeys(seeds)
-        .filter(
-          (seedName) =>
-            levelRequirementToTotal(seeds[seedName].bumpkinLevel) === level,
-        )
+        .filter((seedName) => {
+          // Legacy unlock table (LEVEL_EXPERIENCE), so requirements are pre-ascension.
+          const req = seeds[seedName].bumpkinLevel;
+          return req.ascension === 0 && req.level === level;
+        })
         .map((seedName) => {
           const name = seeds[seedName].yield ?? seedName;
           return {
@@ -72,11 +70,10 @@ function generateUnlockLabels(): Record<
         });
 
       const buildings = getKeys(BUILDINGS)
-        .filter(
-          (name) =>
-            levelRequirementToTotal(getBuildingBumpkinLevelRequired(name)) ===
-            level,
-        )
+        .filter((name) => {
+          const req = getBuildingBumpkinLevelRequired(name);
+          return req.ascension === 0 && req.level === level;
+        })
         .map((name) => ({ text: name, icon: ITEM_DETAILS[name].image }));
 
       const bonus = BONUS_UNLOCKS[level] ?? [];

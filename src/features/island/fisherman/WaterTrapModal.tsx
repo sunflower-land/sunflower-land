@@ -132,11 +132,10 @@ export const WaterTrapModal: React.FC<Props> = ({
     experience,
     ascensionLevel: state.island.ascensionLevel ?? 0,
   });
-  const marinerRequiredLevel = WATER_TRAP["Mariner Pot"].requiredBumpkinLevel;
-  const canUseMarinerPot = meetsLevelRequirement(ascension, {
-    ascension: 0,
-    level: marinerRequiredLevel,
-  });
+  const canUseMarinerPot = meetsLevelRequirement(
+    ascension,
+    WATER_TRAP["Mariner Pot"].requiredBumpkinLevel,
+  );
 
   const [stored, setStored] = useLocalStorage<WaterTrapSelection>(
     WATER_TRAP_SELECTION_KEY,

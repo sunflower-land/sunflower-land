@@ -169,7 +169,7 @@ export const IslandBlacksmithItems: React.FC = () => {
         experience: bumpkin.experience ?? 0,
         ascensionLevel: state.island.ascensionLevel ?? 0,
       }),
-      { ascension: 0, level: selectedItem.level },
+      selectedItem.level,
     );
 
   const craft = () => {
@@ -245,9 +245,7 @@ export const IslandBlacksmithItems: React.FC = () => {
           requirements={{
             resources: selectedItem?.ingredients ?? {},
             coins: selectedItem?.coins ?? 0,
-            level: selectedItem?.level
-              ? { ascension: 0, level: selectedItem.level }
-              : undefined,
+            level: selectedItem?.level,
           }}
           actionView={
             isAlreadyCrafted ? (

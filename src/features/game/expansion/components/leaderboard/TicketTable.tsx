@@ -37,11 +37,18 @@ export const TicketTable: React.FC<Props> = ({
       )}
       <tbody>
         {rankings.map(
-          ({ id, count, rank, bumpkin, experience, farmId }, index) => {
-            const level = getAscensionLevel({
+          (
+            { id, count, rank, bumpkin, experience, ascensionLevel, farmId },
+            index,
+          ) => {
+            const { ascension, level } = getAscensionLevel({
               experience: experience ?? 0,
-              ascensionLevel: 0,
-            }).level;
+              ascensionLevel: ascensionLevel ?? 0,
+            });
+            const levelText =
+              ascension > 0
+                ? t("level.ascension", { ascension, level })
+                : t("auction.raffle.levelShort", { level });
             return (
               <tr
                 key={index}
@@ -72,7 +79,7 @@ export const TicketTable: React.FC<Props> = ({
                   <div className="absolute" style={{ left: "4px", top: "1px" }}>
                     <NPCIcon width={24} parts={bumpkin} />
                   </div>
-                  {`${id} - ${t("auction.raffle.levelShort", { level })}`}
+                  {`${id} - ${levelText}`}
                 </td>
                 <td
                   style={{ border: "1px solid #b96f50" }}

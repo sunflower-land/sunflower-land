@@ -54,6 +54,8 @@ import { useNavigate } from "react-router";
 import {
   getAscensionLevel,
   meetsLevelRequirement,
+  levelRequirementToTotal,
+  type LevelRequirement,
 } from "features/game/lib/level";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { formatNumber } from "lib/utils/formatNumber";
@@ -231,8 +233,8 @@ export const DeliveryOrders: React.FC<Props> = ({
     experience: bumpkin.experience ?? 0,
     ascensionLevel: state.island.ascensionLevel ?? 0,
   });
-  const isBelowLevel = (level: number) =>
-    !meetsLevelRequirement(ascension, { ascension: 0, level });
+  const isBelowLevel = (requirement: LevelRequirement) =>
+    !meetsLevelRequirement(ascension, requirement);
 
   const coinOrders = orders.filter((order) => order.reward.coins);
   const sflOrders = orders.filter((order) => order.reward.sfl);
@@ -242,18 +244,33 @@ export const DeliveryOrders: React.FC<Props> = ({
 
   const nextCoinUnlock = getKeys(NPC_DELIVERY_LEVELS)
     .filter((name) => isCoinNPC(name))
-    .sort((a, b) => (NPC_DELIVERY_LEVELS[a] > NPC_DELIVERY_LEVELS[b] ? 1 : -1))
-    .find((npc) => isBelowLevel(NPC_DELIVERY_LEVELS?.[npc] ?? 0));
+    .sort((a, b) =>
+      levelRequirementToTotal(NPC_DELIVERY_LEVELS[a]) >
+      levelRequirementToTotal(NPC_DELIVERY_LEVELS[b])
+        ? 1
+        : -1,
+    )
+    .find((npc) => isBelowLevel(NPC_DELIVERY_LEVELS[npc]));
 
   const nextTicketUnlock = getKeys(NPC_DELIVERY_LEVELS)
     .filter((name) => isTicketNPC(name))
-    .sort((a, b) => (NPC_DELIVERY_LEVELS[a] > NPC_DELIVERY_LEVELS[b] ? 1 : -1))
-    .find((npc) => isBelowLevel(NPC_DELIVERY_LEVELS?.[npc] ?? 0));
+    .sort((a, b) =>
+      levelRequirementToTotal(NPC_DELIVERY_LEVELS[a]) >
+      levelRequirementToTotal(NPC_DELIVERY_LEVELS[b])
+        ? 1
+        : -1,
+    )
+    .find((npc) => isBelowLevel(NPC_DELIVERY_LEVELS[npc]));
 
   const nextSFLUnlock = getKeys(NPC_DELIVERY_LEVELS)
     .filter((name) => isSFLNPC(name))
-    .sort((a, b) => (NPC_DELIVERY_LEVELS[a] > NPC_DELIVERY_LEVELS[b] ? 1 : -1))
-    .find((npc) => isBelowLevel(NPC_DELIVERY_LEVELS?.[npc] ?? 0));
+    .sort((a, b) =>
+      levelRequirementToTotal(NPC_DELIVERY_LEVELS[a]) >
+      levelRequirementToTotal(NPC_DELIVERY_LEVELS[b])
+        ? 1
+        : -1,
+    )
+    .find((npc) => isBelowLevel(NPC_DELIVERY_LEVELS[npc]));
 
   const { amount: baseTickets } = generateDeliveryTickets({
     game: state,
@@ -395,7 +412,7 @@ export const DeliveryOrders: React.FC<Props> = ({
             )}
             <NextHolidayLabel holiday={holiday} now={now} />
           </div>
-          {isBelowLevel(9) && (
+          {isBelowLevel({ ascension: 0, level: 9 }) && (
             <span className="text-xs mb-2">
               {t("bumpkin.delivery.earnTickets", {
                 ticket: chapterTicket,
@@ -432,7 +449,7 @@ export const DeliveryOrders: React.FC<Props> = ({
               {`FLOWER`}
             </Label>
           </div>
-          {isBelowLevel(13) && (
+          {isBelowLevel({ ascension: 0, level: 13 }) && (
             <span className="text-xs mb-2">
               {t("bumpkin.delivery.earnSFL")}
             </span>

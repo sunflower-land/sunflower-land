@@ -4,12 +4,13 @@ import { getWharfCoordinates } from "../expansion/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { translate } from "lib/i18n/translate";
 import { getKeys } from "lib/object";
+import type { LevelRequirement } from "features/game/lib/level";
 
 export type WaterTrapName = "Crab Pot" | "Mariner Pot";
 
 type WaterTrap = {
   readyTimeHours: number;
-  requiredBumpkinLevel: number;
+  requiredBumpkinLevel: LevelRequirement;
   chums: CrustaceanChum[];
 };
 
@@ -176,12 +177,12 @@ export function caughtCrustacean(
 export const WATER_TRAP: Record<WaterTrapName, WaterTrap> = {
   "Crab Pot": {
     readyTimeHours: 4,
-    requiredBumpkinLevel: 18,
+    requiredBumpkinLevel: { ascension: 0, level: 18 },
     chums: getKeys(CRAB_POT_CHUMS),
   },
   "Mariner Pot": {
     readyTimeHours: 8,
-    requiredBumpkinLevel: 24,
+    requiredBumpkinLevel: { ascension: 0, level: 24 },
     chums: getKeys(MARINER_POT_CHUMS),
   },
 };

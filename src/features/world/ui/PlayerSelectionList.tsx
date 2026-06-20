@@ -131,12 +131,15 @@ export const PlayerSelectionList: React.FC = () => {
                 </div>
                 <div className="flex-grow" />
                 <div className="text-center">
-                  {t("level.number", {
-                    level: getAscensionLevel({
+                  {(() => {
+                    const { ascension, level } = getAscensionLevel({
                       experience: player.experience ?? 0,
-                      ascensionLevel: 0,
-                    }).level,
-                  })}
+                      ascensionLevel: player.ascensionLevel ?? 0,
+                    });
+                    return ascension > 0
+                      ? t("level.ascension", { ascension, level })
+                      : t("level.number", { level });
+                  })()}
                 </div>
               </ButtonPanel>
             );

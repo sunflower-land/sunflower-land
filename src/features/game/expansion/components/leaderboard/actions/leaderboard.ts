@@ -30,6 +30,7 @@ export type RankData = {
   rank?: number;
   bumpkin: BumpkinParts;
   experience?: number;
+  ascensionLevel?: number; // ascension band — needed to read the level derived from experience
   farmId?: number;
 };
 

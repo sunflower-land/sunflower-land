@@ -45,7 +45,7 @@ export const LockedOrderCard: React.FC<{ npc: NPCName }> = ({ npc }) => {
             height: "25px",
           }}
         >
-          {`Lvl ${NPC_DELIVERY_LEVELS[npc as DeliveryNpcName]}`}
+          {`Lvl ${NPC_DELIVERY_LEVELS[npc as DeliveryNpcName]?.level}`}
         </Label>
       </ButtonPanel>
     </div>

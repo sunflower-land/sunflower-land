@@ -854,16 +854,16 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     message = t("goblinTrade.missingReputation.sflDelivery");
   }
 
-  const requiredLevel = NPC_DELIVERY_LEVELS[npc as DeliveryNpcName] ?? 0;
+  const requiredLevel = NPC_DELIVERY_LEVELS[npc as DeliveryNpcName] ?? {
+    ascension: 0,
+    level: 0,
+  };
   const ascension = getAscensionLevel({
     experience: game.bumpkin.experience ?? 0,
     ascensionLevel: game.island.ascensionLevel ?? 0,
   });
-  const isLocked = !meetsLevelRequirement(ascension, {
-    ascension: 0,
-    level: requiredLevel,
-  });
-  const missingLevels = Math.max(0, requiredLevel - ascension.level);
+  const isLocked = !meetsLevelRequirement(ascension, requiredLevel);
+  const missingLevels = Math.max(0, requiredLevel.level - ascension.level);
   const deliveryFrozen = isHoliday && isTicketNPC(npc) && baseTickets > 0;
   const acceptGifts = !!getNextGift({ game, npc });
 
@@ -982,7 +982,8 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                         secondaryIcon={SUNNYSIDE.icons.player}
                       >
                         {t("warning.level.required", {
-                          lvl: NPC_DELIVERY_LEVELS[npc as DeliveryNpcName],
+                          lvl: NPC_DELIVERY_LEVELS[npc as DeliveryNpcName]
+                            ?.level,
                         })}
                       </Label>
                     )}
