@@ -387,10 +387,10 @@ export abstract class BaseScene extends Phaser.Scene {
         isCurrentPlayer: true,
         // gameService
         clothing: {
-          ...(this.gameState.bumpkin.equipped as BumpkinParts),
+          ...(this.gameState.bumpkin?.equipped as BumpkinParts),
           updatedAt: 0,
         },
-        experience: this.gameState.bumpkin.experience ?? 0,
+        experience: this.gameState.bumpkin?.experience ?? 0,
         totalDeliveries: this.gameState.delivery.fulfilledCount ?? 0,
         dailyStreak: this.gameState.dailyRewards?.streaks ?? 0,
         isVip: hasVipAccess({ game: this.gameState, now: Date.now() }),

@@ -73,7 +73,7 @@ const _token = (state: AuthMachineState) =>
 const _farmId = (state: MachineState) => state.context.farmId;
 const _autosaving = (state: MachineState) => state.matches("autosaving");
 const _experience = (state: MachineState) =>
-  state.context.state.bumpkin.experience ?? 0;
+  state.context.state.bumpkin?.experience ?? 0;
 const _ascensionLevel = (state: MachineState) =>
   state.context.state.island.ascensionLevel ?? 0;
 

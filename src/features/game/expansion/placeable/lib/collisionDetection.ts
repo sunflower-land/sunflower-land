@@ -250,8 +250,8 @@ function detectPlaceableCollision(
   // Main bumpkin on the farm, exclude when placing/moving the bumpkin itself
   const bumpkinBoundingBox =
     name !== "Bumpkin" &&
-    state.bumpkin.coordinates &&
-    state.bumpkin.location === "farm"
+    state.bumpkin?.coordinates &&
+    state.bumpkin?.location === "farm"
       ? [
           {
             x: state.bumpkin.coordinates.x,
@@ -671,8 +671,8 @@ function placedEntityBoundingBoxes(
   // Main bumpkin inside, exclude when placing/moving the bumpkin itself
   const bumpkinBoundingBox =
     name !== "Bumpkin" &&
-    state.bumpkin.coordinates &&
-    state.bumpkin.location === location
+    state.bumpkin?.coordinates &&
+    state.bumpkin?.location === location
       ? [
           {
             x: state.bumpkin.coordinates.x,

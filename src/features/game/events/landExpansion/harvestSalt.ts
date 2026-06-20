@@ -121,7 +121,7 @@ export function harvestSalt({
     const saltHarvestCount = copy.farmActivity["Salt Harvested"] ?? 0;
     copy.farmActivity = trackFarmActivity("Salt Harvested", copy.farmActivity);
 
-    if (copy.bumpkin.skills["Sea Blessed"]) {
+    if (copy.bumpkin?.skills["Sea Blessed"]) {
       const seaBlessedHit = prngChance({
         farmId,
         itemId: KNOWN_IDS["Salt"],

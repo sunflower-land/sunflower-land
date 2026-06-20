@@ -795,19 +795,19 @@ export function getDailyFishingLimit(
   }
 
   // +5 daily limit if player had Fisherman's 5 Fold skill
-  if (game.bumpkin.skills["Fisherman's 5 Fold"]) {
+  if (game.bumpkin?.skills["Fisherman's 5 Fold"]) {
     limit += 5;
     boostsUsed.push({ name: "Fisherman's 5 Fold", value: "+5" });
   }
 
   // +10 daily limit if player had Fisherman's 10 Fold skill
-  if (game.bumpkin.skills["Fisherman's 10 Fold"]) {
+  if (game.bumpkin?.skills["Fisherman's 10 Fold"]) {
     limit += 10;
     boostsUsed.push({ name: "Fisherman's 10 Fold", value: "+10" });
   }
 
   // +10 daily limit if player has the More With Less skill
-  if (game.bumpkin.skills["More With Less"]) {
+  if (game.bumpkin?.skills["More With Less"]) {
     limit += 10;
     boostsUsed.push({ name: "More With Less", value: "+10" });
   }

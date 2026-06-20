@@ -119,7 +119,7 @@ export function claimDailyReward({
     if (
       !isDailyRewardReady({
         dailyRewards: game.dailyRewards,
-        bumpkinExperience: game.bumpkin.experience ?? 0,
+        bumpkinExperience: game.bumpkin?.experience ?? 0,
         ascensionLevel: game.island.ascensionLevel ?? 0,
         now: createdAt,
       })

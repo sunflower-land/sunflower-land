@@ -40,7 +40,7 @@ describe("choseSkill", () => {
       createdAt: dateNow,
     });
 
-    expect(result.bumpkin.skills).toEqual({ "Green Thumb": 1 });
+    expect(result.bumpkin?.skills).toEqual({ "Green Thumb": 1 });
   });
 
   it("adds the Cultivator skill to bumpkin", () => {
@@ -57,7 +57,7 @@ describe("choseSkill", () => {
       createdAt: dateNow,
     });
 
-    expect(result.bumpkin.skills).toEqual({
+    expect(result.bumpkin?.skills).toEqual({
       "Young Farmer": 1,
       "Green Thumb": 1,
     });
@@ -94,7 +94,7 @@ describe("choseSkill", () => {
       createdAt: dateNow,
     });
 
-    expect(result.bumpkin.skills).toEqual({
+    expect(result.bumpkin?.skills).toEqual({
       "Green Thumb": 1,
       "Young Farmer": 1,
       "Old Farmer": 1,
@@ -144,7 +144,7 @@ describe("choseSkill", () => {
       createdAt: dateNow,
     });
 
-    expect(result.bumpkin.skills).toEqual({
+    expect(result.bumpkin?.skills).toEqual({
       "Green Thumb": 1,
       "Young Farmer": 1,
       "Old Farmer": 1,

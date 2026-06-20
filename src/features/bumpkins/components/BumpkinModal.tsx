@@ -57,7 +57,7 @@ export type ViewState =
   | "powerSkills";
 
 const _experience = (state: MachineState) =>
-  state.context.state.bumpkin.experience ?? 0;
+  state.context.state.bumpkin?.experience ?? 0;
 
 export const BumpkinLevel: React.FC<{
   experience?: number;
@@ -181,7 +181,7 @@ export const BumpkinModal: React.FC<Props> = ({
           state: gameState,
         });
         const nextSkillUse =
-          (gameState.bumpkin.previousPowerUseAt?.[
+          (gameState.bumpkin?.previousPowerUseAt?.[
             skill.name as BumpkinRevampSkillName
           ] ?? 0) + boostedCooldown;
         return nextSkillUse < now;
@@ -451,7 +451,7 @@ export const BumpkinInfo: React.FC<{
           </div>
           <span className="underline text-sm">{t("viewAll")}</span>
         </div>
-        <AchievementBadges achievements={bumpkin.achievements} />
+        <AchievementBadges achievements={bumpkin?.achievements} />
       </ButtonPanel>
     </div>
   );

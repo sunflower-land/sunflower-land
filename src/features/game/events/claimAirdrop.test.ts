@@ -714,8 +714,8 @@ describe("claimAirdrop", () => {
     });
 
     expect(state.wardrobe["Red Farmer Shirt"]).toEqual(1);
-    expect(state.bumpkin.equipped.shirt).toBeUndefined();
-    expect(state.bumpkin.equipped.pants).toEqual("Farmer Overalls");
+    expect(state.bumpkin?.equipped.shirt).toBeUndefined();
+    expect(state.bumpkin?.equipped.pants).toEqual("Farmer Overalls");
     expect(state.airdrops).toEqual([]);
   });
 
@@ -768,7 +768,7 @@ describe("claimAirdrop", () => {
     expect(state.farmHands.bumpkins[1]?.equipped.pants).toEqual(
       "Farmer Overalls",
     );
-    expect(state.bumpkin.equipped.shirt).toEqual("Yellow Farmer Shirt");
+    expect(state.bumpkin?.equipped.shirt).toEqual("Yellow Farmer Shirt");
     expect(state.airdrops).toEqual([]);
   });
 
@@ -809,7 +809,7 @@ describe("claimAirdrop", () => {
     });
 
     expect(state.wardrobe["Red Farmer Shirt"]).toEqual(1);
-    expect(state.bumpkin.equipped.shirt).toBeUndefined();
+    expect(state.bumpkin?.equipped.shirt).toBeUndefined();
     expect(state.farmHands.bumpkins[1]?.equipped.shirt).toEqual(
       "Red Farmer Shirt",
     );
@@ -844,7 +844,7 @@ describe("claimAirdrop", () => {
     });
 
     expect(state.wardrobe["Red Farmer Shirt"]).toEqual(3);
-    expect(state.bumpkin.equipped.shirt).toEqual("Red Farmer Shirt");
+    expect(state.bumpkin?.equipped.shirt).toEqual("Red Farmer Shirt");
     expect(state.airdrops).toEqual([]);
   });
 

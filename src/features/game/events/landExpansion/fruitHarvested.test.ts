@@ -1049,7 +1049,7 @@ describe("fruitHarvested", () => {
           bumpkin: {
             ...TEST_FARM.bumpkin,
             equipped: {
-              ...TEST_FARM.bumpkin.equipped,
+              ...TEST_FARM.bumpkin?.equipped,
               wings: "Bumpkin Quiver",
             },
           },

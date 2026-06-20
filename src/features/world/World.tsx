@@ -128,7 +128,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
       pets: gameState.context.state.pets,
       faction: gameState.context.state.faction?.name,
       sceneId: (name ?? "plaza") as SceneId,
-      experience: gameState.context.state.bumpkin.experience ?? 0,
+      experience: gameState.context.state.bumpkin?.experience ?? 0,
       isCommunity,
       moderation: gameState.context.moderation,
       username: gameState.context.state.username,

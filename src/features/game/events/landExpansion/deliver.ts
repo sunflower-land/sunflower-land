@@ -243,7 +243,7 @@ export function getOrderSellPrice<T>(
 
   if (
     order.from === "betty" &&
-    game.bumpkin.skills["Betty's Friend"] &&
+    game.bumpkin?.skills["Betty's Friend"] &&
     order.reward.coins
   ) {
     mul += 0.3;
@@ -252,7 +252,7 @@ export function getOrderSellPrice<T>(
 
   if (
     order.from === "victoria" &&
-    game.bumpkin.skills["Victoria's Secretary"] &&
+    game.bumpkin?.skills["Victoria's Secretary"] &&
     order.reward.coins
   ) {
     mul += 0.5;
@@ -261,7 +261,7 @@ export function getOrderSellPrice<T>(
 
   if (
     order.from === "blacksmith" &&
-    game.bumpkin.skills["Forge-Ward Profits"] &&
+    game.bumpkin?.skills["Forge-Ward Profits"] &&
     order.reward.coins
   ) {
     mul += 0.2;
@@ -270,7 +270,7 @@ export function getOrderSellPrice<T>(
 
   // Fruity Profit - 50% Coins bonus if fruit
   if (
-    game.bumpkin.skills["Fruity Profit"] &&
+    game.bumpkin?.skills["Fruity Profit"] &&
     order.reward.coins &&
     order.from === "tango"
   ) {
@@ -283,7 +283,7 @@ export function getOrderSellPrice<T>(
 
   // Fishy Fortune - 50% Coins bonus if Corale NPC
   if (
-    game.bumpkin.skills["Fishy Fortune"] &&
+    game.bumpkin?.skills["Fishy Fortune"] &&
     order.reward.coins &&
     order.from === "corale"
   ) {
@@ -292,7 +292,7 @@ export function getOrderSellPrice<T>(
   }
 
   // Nom Nom - 10% bonus with food orders
-  if (game.bumpkin.skills["Nom Nom"]) {
+  if (game.bumpkin?.skills["Nom Nom"]) {
     const items = getKeys(order.items);
     if (items.some((name) => name in CONSUMABLES && !(name in FISH))) {
       mul += 0.1;

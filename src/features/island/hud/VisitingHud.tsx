@@ -121,7 +121,7 @@ export const VisitingHud: React.FC = () => {
       <Feed type="world" showFeed={showFeed} setShowFeed={setShowFeed} />
       <Modal show={showVisitorGuide} onHide={handleCloseVisitorGuide}>
         <CloseButtonPanel
-          bumpkinParts={gameState.context.state.bumpkin.equipped}
+          bumpkinParts={gameState.context.state.bumpkin?.equipped}
           container={OuterPanel}
         >
           <VisitorGuide
@@ -138,7 +138,7 @@ export const VisitingHud: React.FC = () => {
           <div className="flex flex-col p-0.5 items-center justify-center">
             <div className="flex items-center space-x-1">
               <NPCIcon
-                parts={gameState.context.state.bumpkin.equipped}
+                parts={gameState.context.state.bumpkin?.equipped}
                 width={20}
               />
               <span className="text-xs">

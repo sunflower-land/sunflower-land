@@ -127,7 +127,7 @@ export const ToastPanel: React.FC = () => {
     oldSflBalance.current = newSflBalance.current;
     newSflBalance.current = state.context?.state?.balance;
     oldExperience.current = newExperience.current;
-    const experience = state.context.state.bumpkin.experience;
+    const experience = state.context.state.bumpkin?.experience;
     newExperience.current = experience ? new Decimal(experience) : undefined;
     oldCoinBalance.current = newCoinBalance.current;
     newCoinBalance.current = state.context.state.coins;

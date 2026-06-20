@@ -68,7 +68,7 @@ export const getFruitfulBlendBuff = (
   let fruitfulBlendBuff = 0.1;
   const boostsUsed: { name: BoostName; value: string }[] = [];
   boostsUsed.push({ name: "Fruitful Blend", value: "+0.1" });
-  if (state.bumpkin.skills["Fruitful Bounty"]) {
+  if (state.bumpkin?.skills["Fruitful Bounty"]) {
     fruitfulBlendBuff *= 2;
     boostsUsed.push({ name: "Fruitful Bounty", value: "+0.1" });
   }

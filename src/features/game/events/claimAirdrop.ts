@@ -246,7 +246,7 @@ export function claimAirdrop({
     }
 
     // Unequip from main bumpkin first
-    if (game.bumpkin.equipped && game.bumpkin.equipped[part] === itemName) {
+    if (game.bumpkin?.equipped && game.bumpkin.equipped[part] === itemName) {
       delete game.bumpkin.equipped[part];
       remainingToRemove -= 1;
     }

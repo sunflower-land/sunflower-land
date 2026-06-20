@@ -27,7 +27,7 @@ const _nftId = (state: MachineState) => state.context.nftId;
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
 const _farmAddress = (state: MachineState) => state.context.farmAddress ?? "";
 const _experience = (state: MachineState) =>
-  state.context.state.bumpkin.experience ?? 0;
+  state.context.state.bumpkin?.experience ?? 0;
 const _ascensionLevel = (state: MachineState) =>
   state.context.state.island.ascensionLevel ?? 0;
 

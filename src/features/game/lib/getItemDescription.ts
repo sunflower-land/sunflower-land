@@ -21,7 +21,7 @@ export function getItemDescription({
           name: boostedDescription.name as CollectibleName,
           game,
         }) ||
-        game.bumpkin.skills[boostedDescription.name as BumpkinRevampSkillName]
+        game.bumpkin?.skills[boostedDescription.name as BumpkinRevampSkillName]
       ) {
         description = boostedDescription.description;
       }

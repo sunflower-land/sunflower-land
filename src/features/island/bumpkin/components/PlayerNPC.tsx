@@ -26,7 +26,7 @@ import type { Bumpkin } from "features/game/types/game";
 
 const _showHelper = (state: MachineState) =>
   // First Rhubarb Tart
-  (state.context.state.bumpkin.experience === 0 &&
+  (state.context.state.bumpkin?.experience === 0 &&
     state.context.state.inventory["Rhubarb Tart"]?.gte(1)) ||
   // First Pumpkin Soup
   (!meetsLevelRequirement(
@@ -66,8 +66,8 @@ export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
       const playerData: PlayerModalPlayer = {
         farmId: context.farmId,
         username: context.state.username ?? "",
-        clothing: context.state.bumpkin.equipped ?? bumpkinParts,
-        experience: context.state.bumpkin.experience ?? 0,
+        clothing: context.state.bumpkin?.equipped ?? bumpkinParts,
+        experience: context.state.bumpkin?.experience ?? 0,
         ascensionLevel: context.state.island.ascensionLevel ?? 0,
         faction: context.state.faction?.name,
       };

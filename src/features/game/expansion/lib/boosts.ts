@@ -273,19 +273,19 @@ export const getCookingTime = ({
   }
 
   // 10% reduction on Fire Pit with Fast Feasts skill
-  if (buildingName === "Fire Pit" && bumpkin.skills["Fast Feasts"]) {
+  if (buildingName === "Fire Pit" && bumpkin?.skills["Fast Feasts"]) {
     reducedSecs = reducedSecs.mul(0.9);
     boostsUsed.push({ name: "Fast Feasts", value: "x0.9" });
   }
 
   // 10% reduction on Kitchen with Fast Feasts skill
-  if (buildingName === "Kitchen" && bumpkin.skills["Fast Feasts"]) {
+  if (buildingName === "Kitchen" && bumpkin?.skills["Fast Feasts"]) {
     reducedSecs = reducedSecs.mul(0.9);
     boostsUsed.push({ name: "Fast Feasts", value: "x0.9" });
   }
 
   // 10% reduction on Cakes with Frosted Cakes skill
-  if (item in COOKABLE_CAKES && bumpkin.skills["Frosted Cakes"]) {
+  if (item in COOKABLE_CAKES && bumpkin?.skills["Frosted Cakes"]) {
     reducedSecs = reducedSecs.mul(0.9);
     boostsUsed.push({ name: "Frosted Cakes", value: "x0.9" });
   }

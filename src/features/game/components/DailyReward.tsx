@@ -63,7 +63,7 @@ export const DAILY_REWARD_IMAGES: Record<DailyRewardName, string> = {
 };
 
 const _bumpkinExperience = (state: MachineState) =>
-  state.context.state.bumpkin.experience ?? 0;
+  state.context.state.bumpkin?.experience ?? 0;
 const _dailyRewards = (state: MachineState) => state.context.state.dailyRewards;
 const _gameState = (state: MachineState) => state.context.state;
 

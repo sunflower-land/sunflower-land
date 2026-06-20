@@ -29,7 +29,7 @@ const setChapterRewardsAcknowledged = (timestamp: number) => {
 };
 
 const _bumpkinExperience = (state: MachineState) =>
-  state.context.state.bumpkin.experience ?? 0;
+  state.context.state.bumpkin?.experience ?? 0;
 const _ascensionLevel = (state: MachineState) =>
   state.context.state.island.ascensionLevel ?? 0;
 

@@ -147,7 +147,7 @@ const WEEKLY_REWARDS: (game: GameState) => DailyRewardDefinition[] = (
   });
   const level = ascension.level;
   const { experienceToNextLevel } = getExperienceToNextLevel(
-    game.bumpkin.experience ?? 0,
+    game.bumpkin?.experience ?? 0,
   );
 
   const scaleAmount = (base: number, multiplier: number) => {

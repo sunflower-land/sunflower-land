@@ -87,7 +87,7 @@ export const Feed: React.FC<Props> = ({
     if (!activeSelected) return;
 
     const ascensionLevel = game.island.ascensionLevel ?? 0;
-    const previousExperience = bumpkin.experience ?? 0;
+    const previousExperience = bumpkin?.experience ?? 0;
     let previousLevel: number = getAscensionLevel({
       experience: bumpkin.experience ?? 0,
       ascensionLevel,

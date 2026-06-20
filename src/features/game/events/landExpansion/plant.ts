@@ -203,7 +203,7 @@ export function getCropTime({
   let multiplier = 1;
   const boostsUsed: { name: BoostName; value: string }[] = [];
   const { inventory, buds = {}, bumpkin } = game;
-  const skills = bumpkin.skills ?? {};
+  const skills = bumpkin?.skills ?? {};
 
   if (inventory["Seed Specialist"]?.gte(1)) {
     multiplier = multiplier * 0.9;

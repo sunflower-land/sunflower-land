@@ -127,7 +127,7 @@ export const WaterTrapModal: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const [tab, setTab] = useState<Tab>("crustaceans");
 
-  const experience = state.bumpkin.experience ?? 0;
+  const experience = state.bumpkin?.experience ?? 0;
   const ascension = getAscensionLevel({
     experience,
     ascensionLevel: state.island.ascensionLevel ?? 0,

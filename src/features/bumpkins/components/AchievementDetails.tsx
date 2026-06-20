@@ -39,7 +39,7 @@ export const AchievementDetails: React.FC<Props> = ({
   const progress = achievement.progress(state);
   const isComplete = progress >= achievement.requirement;
 
-  const bumpkinAchievements = state.bumpkin.achievements || {};
+  const bumpkinAchievements = state.bumpkin?.achievements || {};
   const isAlreadyClaimed = !!bumpkinAchievements[name];
   const progressPercentage =
     Math.min(1, progress / achievement.requirement) * 100;

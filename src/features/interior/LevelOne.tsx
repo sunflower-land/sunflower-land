@@ -299,7 +299,7 @@ export const LevelOne: React.FC = () => {
     }),
   );
 
-  if (bumpkin.coordinates && bumpkin.location === "level_one") {
+  if (bumpkin?.coordinates && bumpkin.location === "level_one") {
     const { x, y, oX, oY } = bumpkin.coordinates;
     mapPlacements.push(
       <MapPlacement

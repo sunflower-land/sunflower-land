@@ -32,7 +32,7 @@ type Props = {
 const _rhubarbTartCooked = (state: MachineState) =>
   state.context.state.farmActivity["Rhubarb Tart Cooked"] ?? 0;
 const _experience = (state: MachineState) =>
-  state.context.state.bumpkin.experience;
+  state.context.state.bumpkin?.experience;
 const _rhubarbCount = (state: MachineState) =>
   state.context.state.inventory.Rhubarb ?? new Decimal(0);
 const _season = (state: MachineState) => state.context.state.season.season;

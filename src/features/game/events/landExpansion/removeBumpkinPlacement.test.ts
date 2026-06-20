@@ -48,7 +48,7 @@ describe("removeBumpkinPlacement", () => {
       },
     });
 
-    expect(result.bumpkin.coordinates).toBeUndefined();
-    expect(result.bumpkin.location).toBeUndefined();
+    expect(result.bumpkin?.coordinates).toBeUndefined();
+    expect(result.bumpkin?.location).toBeUndefined();
   });
 });

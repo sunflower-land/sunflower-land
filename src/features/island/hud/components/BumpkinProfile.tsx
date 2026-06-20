@@ -90,7 +90,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
 
   const progressBarEl = useRef<SpriteSheetInstance>(undefined);
 
-  const experience = bumpkin.experience ?? 0;
+  const experience = bumpkin?.experience ?? 0;
   const ascension = getAscensionLevel({ experience, ascensionLevel, maxLevel });
   const level = ascension.level;
 
@@ -223,7 +223,7 @@ export const BumpkinProfile: React.FC = () => {
     context: { state },
   } = gameState;
 
-  const experience = state.bumpkin.experience ?? 0;
+  const experience = state.bumpkin?.experience ?? 0;
   const ascensionLevel = state.island.ascensionLevel ?? 0;
   const maxLevel = getMaxBumpkinLevel(state);
   const level = getAscensionLevel({
@@ -249,7 +249,7 @@ export const BumpkinProfile: React.FC = () => {
 
   const goToProgress = () => {
     if (progressBarEl.current) {
-      const experience = state.bumpkin.experience ?? 0;
+      const experience = state.bumpkin?.experience ?? 0;
       const { currentExperienceProgress, experienceToNextLevel } =
         getAscensionLevel({ experience, ascensionLevel, maxLevel });
 

@@ -254,7 +254,7 @@ export function getCropYieldAmount({
 
   const { bumpkin, buds, aoe } = game;
   const updatedAoe = cloneDeep(aoe);
-  const skills = bumpkin.skills ?? {};
+  const skills = bumpkin?.skills ?? {};
   const itemId = KNOWN_IDS[crop];
   const criticalDrop = (
     criticalHitName: CriticalHitName,
