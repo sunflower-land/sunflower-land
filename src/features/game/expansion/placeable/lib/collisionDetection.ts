@@ -307,6 +307,31 @@ export const HOME_BOUNDS: Record<IslandType, BoundingBox> = {
     x: -10,
     y: -10,
   },
+  // Ascension islands (spooky onward) reuse the swamp value for now.
+  spooky: {
+    height: 20,
+    width: 20,
+    x: -10,
+    y: -10,
+  },
+  crystal: {
+    height: 20,
+    width: 20,
+    x: -10,
+    y: -10,
+  },
+  moon: {
+    height: 20,
+    width: 20,
+    x: -10,
+    y: -10,
+  },
+  marble: {
+    height: 20,
+    width: 20,
+    x: -10,
+    y: -10,
+  },
 };
 
 // Pet House bounds based on interior floor area (centered at origin)

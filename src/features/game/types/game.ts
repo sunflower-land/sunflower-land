@@ -1513,7 +1513,13 @@ export type MegaStore = {
 export const ISLAND_TYPES = ["basic", "spring", "desert", "volcano"] as const;
 export type BasicIslandType = (typeof ISLAND_TYPES)[number];
 
-export const ASCENSION_ISLANDS = ["swamp"] as const;
+export const ASCENSION_ISLANDS = [
+  "swamp",
+  "spooky",
+  "crystal",
+  "moon",
+  "marble",
+] as const;
 export type AscensionIslandType = (typeof ASCENSION_ISLANDS)[number];
 
 export const ISLAND_EXPANSIONS = [
@@ -1522,6 +1528,23 @@ export const ISLAND_EXPANSIONS = [
 ] as const;
 
 export type IslandType = (typeof ISLAND_EXPANSIONS)[number];
+
+/**
+ * Islands that are displayed under a custom name rather than `"{Type} Island"`.
+ * Use {@link getIslandName} for any player-facing island label so these stay
+ * consistent across the UI.
+ */
+export const ISLAND_DISPLAY_NAMES: Partial<Record<IslandType, string>> = {
+  spring: "Petal Paradise",
+  marble: "Marble Age",
+};
+
+/**
+ * The custom display name for an island, or `undefined` if it has none (callers
+ * then fall back to their own generic formatting, e.g. `"{Type} Island"`).
+ */
+export const getIslandName = (island: IslandType): string =>
+  ISLAND_DISPLAY_NAMES[island] ?? `${island} Island`;
 
 export type Home = {
   collectibles: Collectibles;

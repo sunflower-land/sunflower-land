@@ -6813,6 +6813,23 @@ export const ITEM_DETAILS: Items = {
     image: volcanoBiome,
     description: "A swamp biome that provides a swamp income and a swamp life.",
   },
+  // Ascension biomes (spooky onward)
+  "Spooky Biome": {
+    image: volcanoBiome,
+    description: "A swamp biome that provides a swamp income and a swamp life.",
+  },
+  "Crystal Biome": {
+    image: volcanoBiome,
+    description: "A swamp biome that provides a swamp income and a swamp life.",
+  },
+  "Moon Biome": {
+    image: volcanoBiome,
+    description: "A swamp biome that provides a swamp income and a swamp life.",
+  },
+  "Marble Age Biome": {
+    image: volcanoBiome,
+    description: "A swamp biome that provides a swamp income and a swamp life.",
+  },
   Bracelet: {
     image: bracelet,
     description: "",

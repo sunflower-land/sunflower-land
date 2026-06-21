@@ -1275,6 +1275,11 @@ export const ITEM_TRADE_TYPES: {
     "Desert Biome": "instant",
     "Volcano Biome": "instant",
     "Swamp Biome": "instant",
+    // Ascension biomes (spooky onward)
+    "Spooky Biome": "instant",
+    "Crystal Biome": "instant",
+    "Moon Biome": "instant",
+    "Marble Age Biome": "instant",
     Bracelet: "instant",
     Coprolite: "instant",
     "Better Together Banner": "instant",

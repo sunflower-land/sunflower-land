@@ -12917,6 +12917,49 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Swamp Biome",
   },
+  "Spooky Biome": {
+    description:
+      "A spooky biome that provides a spooky income and a spooky life.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Spooky Biome",
+  },
+  "Crystal Biome": {
+    description:
+      "A crystal biome that provides a crystal income and a crystal life.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Crystal Biome",
+  },
+  "Moon Biome": {
+    description: "A moon biome that provides a moon income and a moon life.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Moon Biome",
+  },
+  "Marble Age Biome": {
+    description:
+      "A marble age biome that provides a marble age income and a marble age life.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Marble Age Biome",
+  },
   "Better Together Banner": {
     description: "",
     decimals: 0,

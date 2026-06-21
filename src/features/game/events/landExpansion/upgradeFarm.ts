@@ -3,6 +3,7 @@ import type { Coordinates } from "features/game/expansion/components/MapPlacemen
 import { getObjectEntries } from "lib/object";
 import type { BuildingName } from "features/game/types/buildings";
 import type {
+  AscensionIslandType,
   BasicIslandType,
   GameState,
   IslandType,
@@ -13,10 +14,7 @@ import type {
 } from "features/game/types/game";
 import { ASCENSION_ISLANDS } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
-import {
-  getAscensionLevel,
-  meetsLevelRequirement,
-} from "features/game/lib/level";
+import { getAscensionLevel } from "features/game/lib/level";
 import {
   getTotalBaseResourceEquivalents,
   topUpResourceToMinimum,
@@ -672,7 +670,7 @@ function placeInitialLand({
 type UpgradeTarget = Exclude<IslandType, "basic">;
 
 export const ISLAND_UPGRADE: Record<
-  BasicIslandType,
+  IslandType,
   { items: Inventory; expansions: number; upgrade: UpgradeTarget }
 > = {
   basic: {
@@ -701,6 +699,31 @@ export const ISLAND_UPGRADE: Record<
     // Cost scales with ascension level — see getAscensionUpgradeCost
     items: {},
     upgrade: "swamp",
+  },
+  swamp: {
+    items: {},
+    expansions: 42,
+    upgrade: "spooky",
+  },
+  spooky: {
+    items: {},
+    expansions: 42,
+    upgrade: "crystal",
+  },
+  crystal: {
+    items: {},
+    expansions: 42,
+    upgrade: "moon",
+  },
+  moon: {
+    items: {},
+    expansions: 42,
+    upgrade: "marble",
+  },
+  marble: {
+    items: {},
+    expansions: 42,
+    upgrade: "marble",
   },
 };
 
@@ -889,12 +912,22 @@ function volcanoUpgrade(state: GameState) {
   return game;
 }
 
+const isTargetAscension = (
+  target: UpgradeTarget,
+): target is AscensionIslandType =>
+  ASCENSION_ISLANDS.includes(target as AscensionIslandType);
+
 /**
- * Prepares the game state for swamp island by clearing previous home structures, adding a mansion, and ensuring minimum starting resources.
+ * Prepares the game state for an ascension island (swamp onward) by clearing
+ * previous home structures, adding a mansion, and ensuring minimum starting
+ * resources.
  *
- * @returns The updated game state for swamp island.
+ * @returns The updated game state for the ascension island.
  */
-function swampUpgrade(state: GameState) {
+function ascensionUpgrade(state: GameState, target: UpgradeTarget) {
+  if (!isTargetAscension(target)) {
+    throw new Error("Target is not Ascension");
+  }
   const game = cloneDeep(state) as GameState;
   // Swamp keeps the Mansion from Volcano — clear any older homes defensively
   delete game.inventory["Town Center"];
@@ -914,7 +947,7 @@ function swampUpgrade(state: GameState) {
   // is already bumped to the level being entered by the time this runs).
   const minimum = {
     ...getExpansionNodes({
-      island: "swamp",
+      island: target,
       expansion: SWAMP_BASE_EXPANSION,
       ascensionLevel: game.island.ascensionLevel,
     }),
@@ -975,7 +1008,9 @@ type IslandSetup = {
   /** Buildings, resources & trap spots laid out when the player arrives. */
   initialCoordinates: InitialLandCoordinates;
   /** Island-specific changes: home building swap, resource floor, airdrop. */
-  applySetup: (state: GameState) => GameState;
+  applySetup:
+    | ((state: GameState) => GameState)
+    | ((state: GameState, target: UpgradeTarget) => GameState);
 };
 
 const ISLAND_SETUP: Record<UpgradeTarget, IslandSetup> = {
@@ -997,7 +1032,27 @@ const ISLAND_SETUP: Record<UpgradeTarget, IslandSetup> = {
   swamp: {
     startingExpansions: 30,
     initialCoordinates: INITIAL_SWAMP_LAND_COORDINATES,
-    applySetup: swampUpgrade,
+    applySetup: ascensionUpgrade,
+  },
+  spooky: {
+    startingExpansions: 30,
+    initialCoordinates: INITIAL_SWAMP_LAND_COORDINATES,
+    applySetup: ascensionUpgrade,
+  },
+  crystal: {
+    startingExpansions: 30,
+    initialCoordinates: INITIAL_SWAMP_LAND_COORDINATES,
+    applySetup: ascensionUpgrade,
+  },
+  moon: {
+    startingExpansions: 30,
+    initialCoordinates: INITIAL_SWAMP_LAND_COORDINATES,
+    applySetup: ascensionUpgrade,
+  },
+  marble: {
+    startingExpansions: 30,
+    initialCoordinates: INITIAL_SWAMP_LAND_COORDINATES,
+    applySetup: ascensionUpgrade,
   },
 };
 
@@ -1119,7 +1174,7 @@ function transitionToIsland({
 
   // Island-specific setup, then lay out the starting island
   const setup = ISLAND_SETUP[target];
-  game = setup.applySetup(game);
+  game = setup.applySetup(game, target);
   game.inventory["Basic Land"] = new Decimal(setup.startingExpansions);
   game = placeInitialLand({
     state: game,
@@ -1160,19 +1215,17 @@ export function upgrade({ state, createdAt = Date.now(), farmId }: Options) {
     throw new Error("Swamp ascension is not yet available");
   }
 
-  // Ascension islands require a minimum Bumpkin level to access. This is the first
-  // ascension (volcano→swamp); re-ascension (swamp→swamp) is a separate system not
-  // wired through here yet — when it is, gate it on
-  // `getAscensionLevel(...).isReadyToAscend` for the current ascension.
+  // Ascension islands require the player to have maxed their current ascension band
+  // before ascending again (pre-swamp: Bumpkin level 150; ascension >= 1: level 50 of
+  // the current band). `isReadyToAscend` is band-aware, so this single check covers
+  // the first ascension (volcano→swamp) and every re-ascension — including marble's
+  // infinite marble→marble loop, which keeps gating on the ever-increasing band.
   if (
     targetIsAscension &&
-    !meetsLevelRequirement(
-      getAscensionLevel({
-        experience: game.bumpkin.experience ?? 0,
-        ascensionLevel: game.island.ascensionLevel ?? 0,
-      }),
-      { ascension: 0, level: ASCENSION_BUMPKIN_LEVEL },
-    )
+    !getAscensionLevel({
+      experience: game.bumpkin.experience ?? 0,
+      ascensionLevel: game.island.ascensionLevel ?? 0,
+    }).isReadyToAscend
   ) {
     throw new Error("Player has not met the level requirements");
   }

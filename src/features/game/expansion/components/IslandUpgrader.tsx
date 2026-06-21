@@ -46,6 +46,11 @@ export const UPGRADE_RAFTS: Record<IslandType, string | null> = {
   desert: SUNNYSIDE.land.volcanoRaft,
   volcano: SUNNYSIDE.land.volcanoRaft, // Next prestige after volcano
   swamp: null, // swamp is terminal — no further prestige raft
+  // Ascension islands (spooky onward) reuse the swamp value for now.
+  spooky: null,
+  crystal: null,
+  moon: null,
+  marble: null,
 };
 
 const UPGRADE_PREVIEW: Record<IslandType, string | null> = {
@@ -54,6 +59,11 @@ const UPGRADE_PREVIEW: Record<IslandType, string | null> = {
   desert: SUNNYSIDE.announcement.desertPrestige,
   volcano: SUNNYSIDE.announcement.volcanoPrestige,
   swamp: SUNNYSIDE.announcement.volcanoPrestige,
+  // Ascension islands (spooky onward) reuse the swamp value for now.
+  spooky: SUNNYSIDE.announcement.volcanoPrestige,
+  crystal: SUNNYSIDE.announcement.volcanoPrestige,
+  moon: SUNNYSIDE.announcement.volcanoPrestige,
+  marble: SUNNYSIDE.announcement.volcanoPrestige,
 };
 
 const UPGRADE_MESSAGES: Record<IslandType, string | null> = {
@@ -62,6 +72,11 @@ const UPGRADE_MESSAGES: Record<IslandType, string | null> = {
   desert: translate("islandupgrade.welcomeDesertIsland"),
   volcano: translate("islandupgrade.welcomeVolcanoIsland"),
   swamp: translate("islandupgrade.welcomeVolcanoIsland"),
+  // Ascension islands (spooky onward) reuse the swamp value for now.
+  spooky: translate("islandupgrade.welcomeVolcanoIsland"),
+  crystal: translate("islandupgrade.welcomeVolcanoIsland"),
+  moon: translate("islandupgrade.welcomeVolcanoIsland"),
+  marble: translate("islandupgrade.welcomeVolcanoIsland"),
 };
 
 const UPGRADE_DESCRIPTIONS: Record<IslandType, string | null> = {
@@ -70,6 +85,11 @@ const UPGRADE_DESCRIPTIONS: Record<IslandType, string | null> = {
   desert: translate("islandupgrade.desertResourcesDescription"),
   volcano: translate("islandupgrade.volcanoResourcesDescription"),
   swamp: translate("islandupgrade.volcanoResourcesDescription"),
+  // Ascension islands (spooky onward) reuse the swamp value for now.
+  spooky: translate("islandupgrade.volcanoResourcesDescription"),
+  crystal: translate("islandupgrade.volcanoResourcesDescription"),
+  moon: translate("islandupgrade.volcanoResourcesDescription"),
+  marble: translate("islandupgrade.volcanoResourcesDescription"),
 };
 
 // Swamp ascension launch date — shown as a teaser on the locked "coming soon"

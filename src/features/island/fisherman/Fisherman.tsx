@@ -35,6 +35,11 @@ const WHARF: Record<Exclude<IslandType, "basic">, string> = {
   desert: desertWharf,
   spring: springWharf,
   swamp: volcanoWharf,
+  // Ascension islands (spooky onward) reuse the swamp value for now.
+  spooky: volcanoWharf,
+  crystal: volcanoWharf,
+  moon: volcanoWharf,
+  marble: volcanoWharf,
 };
 
 export const Fisherman: React.FC = () => {

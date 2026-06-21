@@ -1405,26 +1405,6 @@ describe("upgradeFarm", () => {
     expect(state.island.type).toEqual("volcano");
   });
 
-  it("does not allow a player to upgrade from swamp island", () => {
-    expect(() =>
-      upgrade({
-        farmId,
-        action: {
-          type: "farm.upgraded",
-        },
-        state: {
-          ...INITIAL_FARM,
-          island: {
-            type: "swamp",
-          },
-          inventory: {
-            "Basic Land": new Decimal(42),
-          },
-        },
-      }),
-    ).toThrow("Island is already at max level, ascend to upgrade further");
-  });
-
   it("does not remove buds from home on upgrade", () => {
     const state = upgrade({
       farmId,
