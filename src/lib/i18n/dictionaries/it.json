@@ -9107,5 +9107,12 @@
   "roadmap.button": "Visualizza la tabella di marcia",
   "roadmap.title": "Mappa stradale",
   "roadmap.empty": "Nessuna funzionalità imminente da mostrare ancora. Torna presto!",
-  "roadmap.disclaimer": "Le immagini vengono generate solo a scopo illustrativo. La roadmap può cambiare fino al lancio."
+  "roadmap.disclaimer": "Le immagini vengono generate solo a scopo illustrativo. La roadmap può cambiare fino al lancio.",
+  "bumpkin.ascensionLevel": "Ascensione {{ascension}} · Lvl {{level}} /50",
+  "bumpkin.readyToAscend": "Pronti a salire",
+  "level.short": "Livello {{level}}",
+  "level.ascension": "Ascensione {{ascension}} Livello {{level}}",
+  "level.ascension.medium": "Risc. {{ascension}} Livello {{level}}",
+  "level.ascension.short": "A {{ascension}} L {{level}}",
+  "levelUp.ascension": "Ascensione {{ascension}}! Hai raggiunto il livello {{level}}."
 }

@@ -9107,5 +9107,12 @@
   "roadmap.button": "Roadmap ansehen",
   "roadmap.title": "Straßenkarte",
   "roadmap.empty": "Derzeit gibt es keine bevorstehenden Funktionen. Schauen Sie bald wieder vorbei!",
-  "roadmap.disclaimer": "Bilder werden nur zur Veranschaulichung generiert. Die Roadmap kann sich bis zum Start ändern."
+  "roadmap.disclaimer": "Bilder werden nur zur Veranschaulichung generiert. Die Roadmap kann sich bis zum Start ändern.",
+  "bumpkin.ascensionLevel": "Himmelfahrt {{ascension}} · Stufe {{level}} /50",
+  "bumpkin.readyToAscend": "Bereit zum Aufstieg",
+  "level.short": "Stufe {{level}}",
+  "level.ascension": "Aufstieg {{ascension}} Stufe {{level}}",
+  "level.ascension.medium": "Aufsteigend {{ascension}} Stufe {{level}}",
+  "level.ascension.short": "A {{ascension}} L {{level}}",
+  "levelUp.ascension": "Himmelfahrt {{ascension}}! Du hast Level {{level}} erreicht."
 }

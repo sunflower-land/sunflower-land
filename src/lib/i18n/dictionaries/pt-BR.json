@@ -9107,5 +9107,12 @@
   "roadmap.button": "Veja o roteiro",
   "roadmap.title": "Roteiro",
   "roadmap.empty": "Ainda não há recursos futuros para mostrar. Volte em breve!",
-  "roadmap.disclaimer": "As imagens são geradas apenas para fins ilustrativos. O roteiro pode mudar até o lançamento."
+  "roadmap.disclaimer": "As imagens são geradas apenas para fins ilustrativos. O roteiro pode mudar até o lançamento.",
+  "bumpkin.ascensionLevel": "Ascensão {{ascension}} · Nível {{level}} /50",
+  "bumpkin.readyToAscend": "Pronto para ascender",
+  "level.short": "Nvel {{level}}",
+  "level.ascension": "Ascensão {{ascension}} Nível {{level}}",
+  "level.ascension.medium": "Asc. {{ascension}} Lvl. {{level}}",
+  "level.ascension.short": "A {{ascension}} L {{level}}",
+  "levelUp.ascension": "Ascensão {{ascension}}! Você atingiu o nível {{level}}."
 }

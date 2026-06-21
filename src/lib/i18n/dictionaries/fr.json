@@ -9107,5 +9107,12 @@
   "roadmap.button": "Afficher la feuille de route",
   "roadmap.title": "Feuille de route",
   "roadmap.empty": "Aucune fonctionnalité à venir à afficher pour l'instant. Revenez bientôt !",
-  "roadmap.disclaimer": "Les images sont générées à des fins d'illustration uniquement. La feuille de route peut changer jusqu'au lancement."
+  "roadmap.disclaimer": "Les images sont générées à des fins d'illustration uniquement. La feuille de route peut changer jusqu'au lancement.",
+  "bumpkin.ascensionLevel": "Ascension {{ascension}} · Niveau {{level}} /50",
+  "bumpkin.readyToAscend": "Prêt pour l'ascension",
+  "level.short": "Niveau {{level}}",
+  "level.ascension": "Ascension {{ascension}} Niveau {{level}}",
+  "level.ascension.medium": "Asc. {{ascension}} Niveau {{level}}",
+  "level.ascension.short": "A {{ascension}} L {{level}}",
+  "levelUp.ascension": "L'Ascension {{ascension}} ! Vous avez atteint le niveau {{level}}."
 }

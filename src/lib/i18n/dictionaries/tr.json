@@ -9107,5 +9107,12 @@
   "roadmap.button": "Yol haritasını görüntüle",
   "roadmap.title": "Yol Haritası",
   "roadmap.empty": "Henüz gösterilecek yaklaşan özellik yok. Yakında tekrar kontrol edin!",
-  "roadmap.disclaimer": "Görüntüler yalnızca açıklama amacıyla oluşturulmuştur. Yol haritası lansmana kadar değişebilir."
+  "roadmap.disclaimer": "Görüntüler yalnızca açıklama amacıyla oluşturulmuştur. Yol haritası lansmana kadar değişebilir.",
+  "bumpkin.ascensionLevel": "Yükseliş {{ascension}} · Lvl {{level}} /50",
+  "bumpkin.readyToAscend": "Yükselmeye Hazır",
+  "level.short": "Lvl {{level}}",
+  "level.ascension": "Yükseliş {{ascension}} Seviye {{level}}",
+  "level.ascension.medium": "Asc. {{ascension}} Lvl. {{level}}",
+  "level.ascension.short": "A {{ascension}} L {{level}}",
+  "levelUp.ascension": "Yükseliş {{ascension}}! {{level}} seviyesine ulaştınız."
 }

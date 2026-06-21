@@ -9107,5 +9107,12 @@
   "roadmap.button": "查看路线图",
   "roadmap.title": "路线图",
   "roadmap.empty": "目前还没有即将发布的功能。稍后再回来看看！",
-  "roadmap.disclaimer": "生成图像仅用于说明目的。路线图可能会在发布之前发生变化。"
+  "roadmap.disclaimer": "生成图像仅用于说明目的。路线图可能会在发布之前发生变化。",
+  "bumpkin.ascensionLevel": "Ascension {{ascension}} · 等级 {{level}} /50",
+  "bumpkin.readyToAscend": "准备好登高了",
+  "level.short": "等级 {{level}}",
+  "level.ascension": "Ascension {{ascension}} 等级 {{level}}",
+  "level.ascension.medium": "等级 {{ascension}} 等级 {{level}}",
+  "level.ascension.short": "A {{ascension}} L {{level}}",
+  "levelUp.ascension": "Ascension {{ascension}}！你已达到等级 {{level}}。"
 }

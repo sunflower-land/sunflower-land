@@ -9107,5 +9107,12 @@
   "roadmap.button": "Lihat peta jalan",
   "roadmap.title": "Peta Jalan",
   "roadmap.empty": "Belum ada fitur mendatang untuk ditampilkan. Periksa kembali segera!",
-  "roadmap.disclaimer": "Gambar dibuat untuk tujuan ilustrasi saja. Peta jalan dapat berubah hingga diluncurkan."
+  "roadmap.disclaimer": "Gambar dibuat untuk tujuan ilustrasi saja. Peta jalan dapat berubah hingga diluncurkan.",
+  "bumpkin.ascensionLevel": "Kenaikan {{ascension}} · Lvl {{level}} /50",
+  "bumpkin.readyToAscend": "Siap untuk Naik",
+  "level.short": "Tingkat {{level}}",
+  "level.ascension": "Kenaikan {{ascension}} Level {{level}}",
+  "level.ascension.medium": "Asc. {{ascension}} Lvl. {{level}}",
+  "level.ascension.short": "A {{ascension}} L {{level}}",
+  "levelUp.ascension": "Kenaikan {{ascension}}! Anda telah mencapai level {{level}}."
 }

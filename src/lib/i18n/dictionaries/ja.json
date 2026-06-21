@@ -9107,5 +9107,12 @@
   "roadmap.button": "ロードマップを表示",
   "roadmap.title": "ロードマップ",
   "roadmap.empty": "今後公開予定の機能はまだありません。すぐにもう一度チェックしてください！",
-  "roadmap.disclaimer": "画像は説明のみを目的として生成されています。ロードマップは発売まで変更される場合があります。"
+  "roadmap.disclaimer": "画像は説明のみを目的として生成されています。ロードマップは発売まで変更される場合があります。",
+  "bumpkin.ascensionLevel": "アセンション {{ascension}} · レベル {{level}} /50",
+  "bumpkin.readyToAscend": "アセンション準備完了",
+  "level.short": "レベル {{level}}",
+  "level.ascension": "アセンション {{ascension}} レベル {{level}}",
+  "level.ascension.medium": "昇順 {{ascension}} レベル {{level}}",
+  "level.ascension.short": "{{ascension}} L {{level}}",
+  "levelUp.ascension": "アセンション {{ascension}}!レベル {{level}} に達しました。"
 }

@@ -9107,5 +9107,12 @@
   "roadmap.button": "View roadmap",
   "roadmap.title": "Roadmap",
   "roadmap.empty": "No upcoming features to show just yet. Check back soon!",
-  "roadmap.disclaimer": "Images are generated for illustrative purposes only. Roadmap may change until launch."
+  "roadmap.disclaimer": "Images are generated for illustrative purposes only. Roadmap may change until launch.",
+  "bumpkin.ascensionLevel": "Ascension {{ascension}} · Lvl {{level}}/50",
+  "bumpkin.readyToAscend": "Ready to Ascend",
+  "level.short": "Lvl {{level}}",
+  "level.ascension": "Ascension {{ascension}} Level {{level}}",
+  "level.ascension.medium": "Asc. {{ascension}} Lvl. {{level}}",
+  "level.ascension.short": "A{{ascension}} L{{level}}",
+  "levelUp.ascension": "Ascension {{ascension}}! You've reached level {{level}}."
 }
