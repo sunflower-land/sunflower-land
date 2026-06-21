@@ -18,7 +18,10 @@ import { FeedBumpkinDetails } from "components/ui/layouts/FeedBumpkinDetails";
 import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
-import { getAscensionLevel } from "features/game/lib/level";
+import {
+  getMaxBumpkinLevel,
+  getTotalBumpkinLevel,
+} from "features/game/lib/level";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
@@ -88,20 +91,25 @@ export const Feed: React.FC<Props> = ({
 
     const ascensionLevel = game.island.ascensionLevel ?? 0;
     const previousExperience = bumpkin?.experience ?? 0;
-    let previousLevel: number = getAscensionLevel({
+    const maxLevel = getMaxBumpkinLevel(game);
+    // Track the total level (across ascension bands) so milestones still fire
+    // correctly if a feed ever crosses an ascension boundary.
+    let previousLevel: number = getTotalBumpkinLevel({
       experience: bumpkin.experience ?? 0,
       ascensionLevel,
-    }).level;
+      maxLevel,
+    });
 
     const newState = gameService.send("bumpkin.feed", {
       food: activeSelected.name,
       amount,
     });
 
-    const currentLevel = getAscensionLevel({
+    const currentLevel = getTotalBumpkinLevel({
       experience: newState.context.state.bumpkin.experience ?? 0,
       ascensionLevel: newState.context.state.island.ascensionLevel ?? 0,
-    }).level;
+      maxLevel,
+    });
 
     while (currentLevel > previousLevel) {
       previousLevel += 1;

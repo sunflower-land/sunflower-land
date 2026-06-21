@@ -60,6 +60,7 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { formatNumber } from "lib/utils/formatNumber";
 import {
   getAscensionLevel,
+  levelRequirementToTotal,
   meetsLevelRequirement,
 } from "features/game/lib/level";
 import type { TranslationKeys } from "lib/i18n/dictionaries/types";
@@ -863,7 +864,10 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     ascensionLevel: game.island.ascensionLevel ?? 0,
   });
   const isLocked = !meetsLevelRequirement(ascension, requiredLevel);
-  const missingLevels = Math.max(0, requiredLevel.level - ascension.level);
+  const missingLevels = Math.max(
+    0,
+    levelRequirementToTotal(requiredLevel) - levelRequirementToTotal(ascension),
+  );
   const deliveryFrozen = isHoliday && isTicketNPC(npc) && baseTickets > 0;
   const acceptGifts = !!getNextGift({ game, npc });
 
