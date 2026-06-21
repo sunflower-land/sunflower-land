@@ -5,8 +5,10 @@ import { isModerator } from "../tabs/PlayerList";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { isMobile } from "mobile-device-detect";
 
-import { getAscensionLevel } from "features/game/lib/level";
-import { t } from "i18next";
+import {
+  getAscensionDisplayText,
+  getAscensionLevel,
+} from "features/game/lib/level";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -147,7 +149,7 @@ export const PlayerModal: React.FC<Props> = ({
               </div>
               <div className="flex flex-col items-end justify-center gap-2">
                 <p className="text-base">
-                  {`${t("level.ascension.short", { ascension, level })}${
+                  {`${getAscensionDisplayText({ ascension: { ascension, level }, length: "medium" })}${
                     isReadyToAscend ? " (Max)" : ""
                   }`}
                 </p>

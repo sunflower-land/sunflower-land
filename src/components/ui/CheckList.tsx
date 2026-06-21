@@ -38,6 +38,7 @@ import {
 import { getCurrentChapter } from "features/game/types/chapters";
 import { hasClaimedPetalPrize } from "features/game/events/landExpansion/claimPetalPrize";
 import {
+  getAscensionDisplayText,
   getAscensionLevel,
   meetsLevelRequirement,
   type AscensionLevel,
@@ -769,9 +770,9 @@ const Heading: React.FC<{
           className="mr-2"
         >
           {requiredLevel.ascension !== ascension.ascension
-            ? t("level.ascension", {
-                ascension: requiredLevel.ascension,
-                level: requiredLevel.level,
+            ? getAscensionDisplayText({
+                ascension: requiredLevel,
+                length: "full",
               })
             : t("level.number", { level: requiredLevel.level })}
         </Label>

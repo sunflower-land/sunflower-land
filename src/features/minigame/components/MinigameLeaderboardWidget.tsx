@@ -7,6 +7,7 @@ import { playerModalManager } from "features/social/lib/playerModalManager";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { formatNumber } from "lib/utils/formatNumber";
 import type { EconomyLeaderboardPlayer } from "../lib/loadEconomyLeaderboard";
+import { getAscensionDisplayText } from "features/game/lib/level";
 
 type Props = {
   loading: boolean;
@@ -108,9 +109,9 @@ export const MinigameLeaderboardWidget: React.FC<Props> = ({
                     </span>
                     <span className="text-xxs text-[#3e2731]/70">
                       {player.ascension > 0
-                        ? t("level.ascension", {
-                            ascension: player.ascension,
-                            level: player.level,
+                        ? getAscensionDisplayText({
+                            ascension: player,
+                            length: "full",
                           })
                         : t("minigame.dashboard.leaderboardLevelShort", {
                             level: player.level,

@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import type { GameState } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
+import { translate } from "lib/i18n/translate";
 
 export type BumpkinLevel =
   | 1
@@ -638,6 +639,26 @@ export const getAscensionLevel = ({
     currentExperienceProgress: isReadyToAscend ? span : experience - levelStart,
     experienceToNextLevel: span,
   };
+};
+
+export const getAscensionDisplayText = ({
+  ascension,
+  length = "medium",
+}: {
+  ascension: Pick<AscensionLevel, "ascension" | "level">;
+  length: "short" | "medium" | "full";
+}) => {
+  if (length !== "full") {
+    return translate(`level.ascension.${length}`, {
+      ascension: ascension.ascension,
+      level: ascension.level,
+    });
+  } else {
+    return translate(`level.ascension`, {
+      ascension: ascension.ascension,
+      level: ascension.level,
+    });
+  }
 };
 
 /**

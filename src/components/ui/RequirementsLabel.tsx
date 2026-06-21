@@ -14,6 +14,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { formatNumber } from "lib/utils/formatNumber";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
+  getAscensionDisplayText,
   meetsLevelRequirement,
   type AscensionLevel,
   type LevelRequirement,
@@ -306,9 +307,9 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       case "level": {
         // Show the ascension band unless the player is already in it (then it's redundant).
         return props.requirement.ascension !== props.currentLevel.ascension
-          ? t("level.ascension", {
-              ascension: props.requirement.ascension,
-              level: props.requirement.level,
+          ? getAscensionDisplayText({
+              ascension: props.requirement,
+              length: "full",
             })
           : t("level.number", { level: props.requirement.level });
       }

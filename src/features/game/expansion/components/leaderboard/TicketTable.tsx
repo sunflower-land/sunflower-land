@@ -4,7 +4,10 @@ import type { RankData } from "./actions/leaderboard";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { toOrdinalSuffix } from "features/retreat/components/auctioneer/AuctionLeaderboardTable";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
-import { getAscensionLevel } from "features/game/lib/level";
+import {
+  getAscensionDisplayText,
+  getAscensionLevel,
+} from "features/game/lib/level";
 import { playerModalManager } from "features/social/lib/playerModalManager";
 
 interface Props {
@@ -45,10 +48,10 @@ export const TicketTable: React.FC<Props> = ({
               experience: experience ?? 0,
               ascensionLevel: ascensionLevel ?? 0,
             });
-            const levelText =
-              ascension > 0
-                ? t("level.ascension", { ascension, level })
-                : t("auction.raffle.levelShort", { level });
+            const levelText = getAscensionDisplayText({
+              ascension: { ascension, level },
+              length: "short",
+            });
             return (
               <tr
                 key={index}

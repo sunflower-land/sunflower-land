@@ -9,7 +9,10 @@ import {
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { ButtonPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getAscensionLevel } from "features/game/lib/level";
+import {
+  getAscensionDisplayText,
+  getAscensionLevel,
+} from "features/game/lib/level";
 import giftIcon from "assets/icons/gift.png";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -137,7 +140,10 @@ export const PlayerSelectionList: React.FC = () => {
                       ascensionLevel: player.ascensionLevel ?? 0,
                     });
                     return ascension > 0
-                      ? t("level.ascension", { ascension, level })
+                      ? getAscensionDisplayText({
+                          ascension: { ascension, level },
+                          length: "full",
+                        })
                       : t("level.number", { level });
                   })()}
                 </div>
