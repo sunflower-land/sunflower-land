@@ -9,15 +9,24 @@ import { Codex } from "../codex/Codex";
 import { hasNewOrders } from "features/island/delivery/lib/delivery";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSelector } from "@xstate/react";
 import { RoundButton } from "components/ui/RoundButton";
 import { isMobile } from "mobile-device-detect";
 
 const _delivery = (state: MachineState) => state.context.state.delivery;
-const _level = (state: MachineState) =>
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
+const _hasDeliveryLevel = (state: MachineState) =>
+  meetsLevelRequirement(
+    getAscensionLevel({
+      experience: state.context.state.bumpkin.experience ?? 0,
+      ascensionLevel: state.context.state.island.ascensionLevel ?? 0,
+    }),
+    { ascension: 0, level: 2 },
+  );
 
 export const CodexButton: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,13 +34,13 @@ export const CodexButton: React.FC = () => {
   const { gameService } = useContext(Context);
 
   const deliveries = useSelector(gameService, _delivery);
-  const level = useSelector(gameService, _level);
+  const hasDeliveryLevel = useSelector(gameService, _hasDeliveryLevel);
 
   const hasDeliveries =
     // Show if any new orders has popped up (but not for new players)
-    (hasNewOrders(deliveries) && level >= 2) ||
+    (hasNewOrders(deliveries) && hasDeliveryLevel) ||
     // For new players, always show until they fulfill a delivery
-    (level >= 2 && deliveries.fulfilledCount === 0);
+    (hasDeliveryLevel && deliveries.fulfilledCount === 0);
 
   const { t } = useAppTranslation();
 

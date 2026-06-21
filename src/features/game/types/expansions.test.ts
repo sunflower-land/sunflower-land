@@ -487,7 +487,7 @@ describe("getExpansionRequirements", () => {
     expect(req).toEqual({
       resources: { Wood: 3 },
       seconds: 5,
-      bumpkinLevel: 1,
+      bumpkinLevel: { ascension: 0, level: 1 },
     });
   });
 
@@ -507,7 +507,7 @@ describe("getExpansionRequirements", () => {
       resources: { Crimstone: 30, Oil: 50, Obsidian: 3 },
       coins: 5000,
       seconds: 7 * HOUR,
-      bumpkinLevel: 0,
+      bumpkinLevel: { ascension: 1, level: 1 },
     });
   });
 

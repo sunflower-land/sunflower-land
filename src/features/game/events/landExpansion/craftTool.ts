@@ -17,7 +17,10 @@ import {
   type WeatherShopItem,
 } from "features/game/types/calendar";
 import { getObjectEntries } from "lib/object";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 
 type CraftableToolName = WorkbenchToolName | TreasureToolName | WeatherShopItem;
 
@@ -131,7 +134,16 @@ export function craftTool({ state, action }: Options) {
     throw new Error("Insufficient Coins");
   }
 
-  if (requiredLevel && getBumpkinLevel(bumpkin.experience) < requiredLevel) {
+  if (
+    requiredLevel &&
+    !meetsLevelRequirement(
+      getAscensionLevel({
+        experience: bumpkin.experience,
+        ascensionLevel: stateCopy.island.ascensionLevel ?? 0,
+      }),
+      requiredLevel,
+    )
+  ) {
     throw new Error("You do not have the required level");
   }
 

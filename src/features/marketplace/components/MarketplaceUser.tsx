@@ -15,6 +15,7 @@ import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { Sales } from "./PriceHistory";
 import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { playerModalManager } from "features/social/lib/playerModalManager";
+import { getAscensionDisplayText } from "features/game/lib/level";
 
 const _token = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
@@ -67,7 +68,12 @@ export const MarketplaceUser: React.FC = () => {
             </div>
             <div className="flex-1 overflow-hidden">
               <Label type="default" className="mb-0.5">
-                {`Lvl. ${profile.level}`}
+                {profile.ascension > 0
+                  ? getAscensionDisplayText({
+                      ascension: profile,
+                      length: "full",
+                    })
+                  : t("level.short", { level: profile.level })}
               </Label>
               <p className="text-sm truncate">{profile.username}</p>
             </div>

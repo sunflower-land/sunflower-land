@@ -1,5 +1,9 @@
 import { TEST_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
-import { LEVEL_EXPERIENCE } from "features/game/lib/level";
+import {
+  LEVEL_EXPERIENCE,
+  ascensionBaseline,
+  levelXp,
+} from "features/game/lib/level";
 import { choseSkill, getAvailableBumpkinSkillPoints } from "./choseSkill";
 
 describe("choseSkill", () => {
@@ -206,9 +210,12 @@ describe("choseSkill", () => {
   describe("getAvailableBumpkinSkillPoints", () => {
     it("makes sure level 1 bumpkin with no skills has 1 skill point", () => {
       const result = getAvailableBumpkinSkillPoints({
-        ...INITIAL_BUMPKIN,
-        experience: LEVEL_EXPERIENCE[1],
-        skills: {},
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: LEVEL_EXPERIENCE[1],
+          skills: {},
+        },
       });
 
       expect(result).toBe(1);
@@ -216,9 +223,12 @@ describe("choseSkill", () => {
 
     it("makes sure level 10 bumpkin with no skills has 10 skill points", () => {
       const result = getAvailableBumpkinSkillPoints({
-        ...INITIAL_BUMPKIN,
-        experience: LEVEL_EXPERIENCE[10],
-        skills: {},
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: LEVEL_EXPERIENCE[10],
+          skills: {},
+        },
       });
 
       expect(result).toBe(10);
@@ -226,9 +236,12 @@ describe("choseSkill", () => {
 
     it("makes sure level 5 bumpkins with one tier 1 skills has 4 skill points", () => {
       const result = getAvailableBumpkinSkillPoints({
-        ...INITIAL_BUMPKIN,
-        experience: LEVEL_EXPERIENCE[5],
-        skills: { "Young Farmer": 1 },
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: LEVEL_EXPERIENCE[5],
+          skills: { "Young Farmer": 1 },
+        },
       });
 
       expect(result).toBe(4);
@@ -236,9 +249,12 @@ describe("choseSkill", () => {
 
     it("makes sure level 5 bumpkins with one tier 2 skills has 3 skill points", () => {
       const result = getAvailableBumpkinSkillPoints({
-        ...INITIAL_BUMPKIN,
-        experience: LEVEL_EXPERIENCE[5],
-        skills: { "Strong Roots": 1 },
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: LEVEL_EXPERIENCE[5],
+          skills: { "Strong Roots": 1 },
+        },
       });
 
       expect(result).toBe(3);
@@ -246,9 +262,12 @@ describe("choseSkill", () => {
 
     it("makes sure level 5 bumpkins with one tier 3 skills has 2 skill points", () => {
       const result = getAvailableBumpkinSkillPoints({
-        ...INITIAL_BUMPKIN,
-        experience: LEVEL_EXPERIENCE[5],
-        skills: { "Instant Growth": 1 },
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: LEVEL_EXPERIENCE[5],
+          skills: { "Instant Growth": 1 },
+        },
       });
 
       expect(result).toBe(2);
@@ -256,16 +275,77 @@ describe("choseSkill", () => {
 
     it("makes sure level 10 bumpkins with one skill of each tier has 5 skill points", () => {
       const result = getAvailableBumpkinSkillPoints({
-        ...INITIAL_BUMPKIN,
-        experience: LEVEL_EXPERIENCE[10],
-        skills: {
-          "Young Farmer": 1,
-          "Strong Roots": 1,
-          "Instant Growth": 1,
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: LEVEL_EXPERIENCE[10],
+          skills: {
+            "Young Farmer": 1,
+            "Strong Roots": 1,
+            "Instant Growth": 1,
+          },
         },
       });
 
       expect(result).toBe(4);
+    });
+
+    it("grants 150 skill points at the pre-ascension cap (level 150)", () => {
+      const result = getAvailableBumpkinSkillPoints({
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: LEVEL_EXPERIENCE[150],
+          skills: {},
+        },
+      });
+
+      expect(result).toBe(150);
+    });
+
+    it("grants 150 + within-ascension level skill points (A1 L1 → 151)", () => {
+      const result = getAvailableBumpkinSkillPoints({
+        ...TEST_FARM,
+        island: { type: "swamp", ascensionLevel: 1 },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: ascensionBaseline(1),
+          skills: {},
+        },
+      });
+
+      expect(result).toBe(151);
+    });
+
+    it("grants 200 skill points at A1 L50 (band complete)", () => {
+      const result = getAvailableBumpkinSkillPoints({
+        ...TEST_FARM,
+        island: { type: "swamp", ascensionLevel: 1 },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: ascensionBaseline(2),
+          skills: {},
+        },
+      });
+
+      expect(result).toBe(200);
+    });
+
+    it("stacks prior bands: A2 L25 → 150 + 50 + 25 = 225 skill points", () => {
+      let experience = ascensionBaseline(2);
+      for (let n = 1; n < 25; n++) experience += levelXp(2, n);
+
+      const result = getAvailableBumpkinSkillPoints({
+        ...TEST_FARM,
+        island: { type: "swamp", ascensionLevel: 2 },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience,
+          skills: {},
+        },
+      });
+
+      expect(result).toBe(225);
     });
   });
 });

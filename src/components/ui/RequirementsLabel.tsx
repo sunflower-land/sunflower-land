@@ -13,6 +13,12 @@ import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { formatNumber } from "lib/utils/formatNumber";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import {
+  getAscensionDisplayText,
+  meetsLevelRequirement,
+  type AscensionLevel,
+  type LevelRequirement,
+} from "features/game/lib/level";
 import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { KNOWN_IDS } from "features/game/types";
@@ -139,8 +145,8 @@ interface XPProps {
  */
 interface LevelProps {
   type: "level";
-  currentLevel: number;
-  requirement: number;
+  currentLevel: Pick<AscensionLevel, "ascension" | "level">;
+  requirement: LevelRequirement;
 }
 
 /**
@@ -299,7 +305,13 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         return `${formatNumber(props.xp)}XP`;
       }
       case "level": {
-        return `${t("level.number", { level: props.requirement })}`;
+        // Show the ascension band unless the player is already in it (then it's redundant).
+        return props.requirement.ascension !== props.currentLevel.ascension
+          ? getAscensionDisplayText({
+              ascension: props.requirement,
+              length: "full",
+            })
+          : t("level.number", { level: props.requirement.level });
       }
       case "harvests": {
         return `${
@@ -341,7 +353,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       case "wearable":
         return props.balance > 0;
       case "level":
-        return props.currentLevel >= props.requirement;
+        return meetsLevelRequirement(props.currentLevel, props.requirement);
       case "skillPoints":
         return props.points >= props.requirement;
       case "other": {

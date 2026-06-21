@@ -1,3 +1,8 @@
+import Decimal from "decimal.js-light";
+import type { GameState } from "features/game/types/game";
+import { hasFeatureAccess } from "lib/flags";
+import { translate } from "lib/i18n/translate";
+
 export type BumpkinLevel =
   | 1
   | 2
@@ -405,17 +410,42 @@ export const LEVEL_EXPERIENCE: Record<BumpkinLevel, number> = {
 
 export const MAX_BUMPKIN_LEVEL: BumpkinLevel = 200;
 
-export const isMaxLevel = (experience: number): boolean => {
-  return experience >= LEVEL_EXPERIENCE[MAX_BUMPKIN_LEVEL];
+/** Pre-ascension level cap once `SWAMP_ASCENSION` is on (levels above become ascension bands). */
+export const PRE_ASCENSION_MAX_LEVEL: BumpkinLevel = 150;
+
+/**
+ * Pre-ascension Bumpkin level cap. Behind `SWAMP_ASCENSION` the cap drops from 200
+ * to 150 (levels above 150 become ascension-band territory — see `getAscensionLevel`);
+ * pass this as the `maxLevel` arg to `getBumpkinLevel`/`isMaxLevel`/`getExperienceToNextLevel`
+ * at ascension-aware call sites. Flag-off keeps the legacy 200 cap.
+ */
+export const getMaxBumpkinLevel = (game: GameState): BumpkinLevel =>
+  hasFeatureAccess(game, "SWAMP_ASCENSION")
+    ? PRE_ASCENSION_MAX_LEVEL
+    : MAX_BUMPKIN_LEVEL;
+
+export const isMaxLevel = (
+  experience: number,
+  maxLevel: BumpkinLevel = MAX_BUMPKIN_LEVEL,
+): boolean => {
+  return experience >= LEVEL_EXPERIENCE[maxLevel];
 };
 
-export const getBumpkinLevel = (experience: number): BumpkinLevel => {
+const getBumpkinLevel = (
+  experience: number,
+  maxLevel: BumpkinLevel = MAX_BUMPKIN_LEVEL,
+): BumpkinLevel => {
+  if (isMaxLevel(experience, maxLevel)) {
+    return maxLevel;
+  }
+
   let bumpkinLevel: BumpkinLevel = 1;
   for (const key in LEVEL_EXPERIENCE) {
     const level = Number(key) as BumpkinLevel;
-    if (isMaxLevel(experience)) {
-      bumpkinLevel = MAX_BUMPKIN_LEVEL;
-    } else if (experience >= LEVEL_EXPERIENCE[level]) {
+    if (level > maxLevel) {
+      break;
+    }
+    if (experience >= LEVEL_EXPERIENCE[level]) {
       bumpkinLevel = level;
     } else {
       break;
@@ -424,8 +454,11 @@ export const getBumpkinLevel = (experience: number): BumpkinLevel => {
   return bumpkinLevel;
 };
 
-export const getExperienceToNextLevel = (experience: number) => {
-  const level = getBumpkinLevel(experience);
+export const getExperienceToNextLevel = (
+  experience: number,
+  maxLevel: BumpkinLevel = MAX_BUMPKIN_LEVEL,
+) => {
+  const level = getBumpkinLevel(experience, maxLevel);
 
   const nextLevelExperience = LEVEL_EXPERIENCE[(level + 1) as BumpkinLevel];
   const currentLevelExperience = LEVEL_EXPERIENCE[level] || 0;
@@ -433,12 +466,12 @@ export const getExperienceToNextLevel = (experience: number) => {
   const currentExperienceProgress = experience - currentLevelExperience;
   const experienceToNextLevel = nextLevelExperience - currentLevelExperience;
 
-  if (level === MAX_BUMPKIN_LEVEL) {
+  if (level === maxLevel) {
     return {
       currentExperienceProgress,
       experienceToNextLevel:
-        LEVEL_EXPERIENCE[MAX_BUMPKIN_LEVEL] -
-        LEVEL_EXPERIENCE[(MAX_BUMPKIN_LEVEL - 1) as BumpkinLevel],
+        LEVEL_EXPERIENCE[maxLevel] -
+        LEVEL_EXPERIENCE[(maxLevel - 1) as BumpkinLevel],
     };
   }
 
@@ -446,4 +479,210 @@ export const getExperienceToNextLevel = (experience: number) => {
     currentExperienceProgress,
     experienceToNextLevel,
   };
+};
+
+/**
+ * Ascension (swamp onward) XP progression. Once a player ascends past the
+ * level-150 pre-ascension cap, each ascension `a` (`game.island.ascensionLevel`,
+ * 1-indexed) adds a band of `LEVELS_PER_ASCENSION` levels on top of the
+ * cumulative `bumpkin.experience`:
+ *
+ *   bandXp(a)    = round_5M(50,000,000 × 1.45^(a-1))  — total XP to complete ascension a
+ *   levelXp(a,n) = bandXp(a) × (1 + 0.03n) / 88.25    — XP for within-level n (n = 1..50)
+ *   B(a)         = LEVEL_EXPERIENCE[150] + Σ_{b<a} bandXp(b)  — XP to start band a
+ *
+ * Bands stack: completing band a (experience ≥ B(a+1)) makes the player ready to
+ * ascend again. Everything here is pure so the client and server agree 1:1 — keep
+ * it byte-identical with the backend mirror (`domain/game/lib/level.ts`).
+ */
+export const LEVELS_PER_ASCENSION = 50;
+const ASCENSION_BAND_XP_BASE = 50_000_000;
+const ASCENSION_BAND_XP_GROWTH = 1.45;
+const ASCENSION_BAND_XP_ROUNDING = 5_000_000;
+const ASCENSION_LEVEL_WEIGHT_PER_LEVEL = 0.03;
+/** Σ_{n=1..50} (1 + 0.03n) = 50 + 0.03 × (50 × 51 / 2) = 88.25. */
+export const ASCENSION_TOTAL_WEIGHT =
+  LEVELS_PER_ASCENSION +
+  ASCENSION_LEVEL_WEIGHT_PER_LEVEL *
+    ((LEVELS_PER_ASCENSION * (LEVELS_PER_ASCENSION + 1)) / 2);
+
+/** Total XP required to complete ascension `a`, rounded to the nearest 5M. */
+export const bandXp = (ascension: number): number =>
+  new Decimal(ASCENSION_BAND_XP_BASE)
+    .mul(new Decimal(ASCENSION_BAND_XP_GROWTH).pow(ascension - 1))
+    .div(ASCENSION_BAND_XP_ROUNDING)
+    .toDecimalPlaces(0, Decimal.ROUND_HALF_UP)
+    .mul(ASCENSION_BAND_XP_ROUNDING)
+    .toNumber();
+
+/**
+ * XP required for within-ascension level `n` (1..50) of ascension `a`. Unrounded
+ * so that the 50 levels sum exactly to `bandXp(a)`.
+ */
+export const levelXp = (ascension: number, n: number): number =>
+  (bandXp(ascension) * (1 + ASCENSION_LEVEL_WEIGHT_PER_LEVEL * n)) /
+  ASCENSION_TOTAL_WEIGHT;
+
+/** Cumulative XP needed to reach the start (within-level 1) of ascension `a`. */
+export const ascensionBaseline = (ascension: number): number => {
+  let xp = LEVEL_EXPERIENCE[150];
+  for (let b = 1; b < ascension; b++) {
+    xp += bandXp(b);
+  }
+  return xp;
+};
+
+export type AscensionLevel = {
+  /** Ascension number; 0 = pre-swamp (legacy table level). */
+  ascension: number;
+  /** Within-ascension level — 0..50 on swamp; 1..maxLevel (legacy) at ascension 0. */
+  level: number;
+  isReadyToAscend: boolean;
+  currentExperienceProgress: number;
+  experienceToNextLevel: number;
+};
+
+/** A level gate expressed as an (ascension, level) pair. */
+export type LevelRequirement = {
+  ascension: number;
+  level: number;
+};
+
+/**
+ * Monotonic scalar for an (ascension, level) pair — only for ordering needs
+ * (sorting requirements, detecting level-ups). Gates should use
+ * `meetsLevelRequirement`; displays should use `.ascension`/`.level`.
+ */
+export const levelRequirementToTotal = ({
+  ascension,
+  level,
+}: LevelRequirement): number =>
+  ascension < 1
+    ? level
+    : PRE_ASCENSION_MAX_LEVEL + (ascension - 1) * LEVELS_PER_ASCENSION + level;
+
+/**
+ * Whether the player's current standing meets an (ascension, level) requirement —
+ * a higher ascension always qualifies; within the same ascension the level must be
+ * at least the required level.
+ */
+export const meetsLevelRequirement = (
+  current: Pick<AscensionLevel, "ascension" | "level">,
+  required: LevelRequirement,
+): boolean =>
+  current.ascension > required.ascension ||
+  (current.ascension === required.ascension && current.level >= required.level);
+
+/**
+ * The player's level standing. `ascensionLevel` (`game.island.ascensionLevel`, 0 =
+ * pre-swamp) selects the band: at ascension 0 this is the legacy table-based Bumpkin
+ * level (1..`maxLevel`); from ascension 1 it is the within-ascension level (0..50),
+ * clamped to `LEVELS_PER_ASCENSION` even when banked experience exceeds the band (so a
+ * player shows "level 50, ready to ascend" until they actually ascend again). Below a
+ * band's level-1 XP the player is shown as level 0 with the XP remaining until level 1.
+ */
+export const getAscensionLevel = ({
+  experience,
+  ascensionLevel,
+  maxLevel = MAX_BUMPKIN_LEVEL,
+}: {
+  experience: number;
+  ascensionLevel: number;
+  maxLevel?: BumpkinLevel;
+}): AscensionLevel => {
+  // Ascension 0 — pre-swamp legacy progression off the LEVEL_EXPERIENCE table.
+  if (ascensionLevel < 1) {
+    const level = getBumpkinLevel(experience, maxLevel);
+    const { currentExperienceProgress, experienceToNextLevel } =
+      getExperienceToNextLevel(experience, maxLevel);
+    return {
+      ascension: 0,
+      level,
+      isReadyToAscend: experience >= LEVEL_EXPERIENCE[PRE_ASCENSION_MAX_LEVEL],
+      currentExperienceProgress,
+      experienceToNextLevel,
+    };
+  }
+
+  const baseline = ascensionBaseline(ascensionLevel);
+
+  if (experience < baseline) {
+    return {
+      ascension: ascensionLevel,
+      level: 0,
+      isReadyToAscend: false,
+      currentExperienceProgress: 0,
+      experienceToNextLevel: baseline - experience,
+    };
+  }
+
+  const isReadyToAscend = experience >= baseline + bandXp(ascensionLevel);
+
+  // Walk the cumulative thresholds: level n starts at baseline + Σ_{m<n} levelXp.
+  let level = 1;
+  let levelStart = baseline;
+  for (let n = 1; n < LEVELS_PER_ASCENSION; n++) {
+    const nextStart = levelStart + levelXp(ascensionLevel, n);
+    if (experience >= nextStart) {
+      level = n + 1;
+      levelStart = nextStart;
+    } else {
+      break;
+    }
+  }
+
+  const span = levelXp(ascensionLevel, level);
+  return {
+    ascension: ascensionLevel,
+    level,
+    isReadyToAscend,
+    currentExperienceProgress: isReadyToAscend ? span : experience - levelStart,
+    experienceToNextLevel: span,
+  };
+};
+
+export const getAscensionDisplayText = ({
+  ascension,
+  length = "medium",
+}: {
+  ascension: Pick<AscensionLevel, "ascension" | "level">;
+  length: "short" | "medium" | "full";
+}) => {
+  if (length !== "full") {
+    return translate(`level.ascension.${length}`, {
+      ascension: ascension.ascension,
+      level: ascension.level,
+    });
+  } else {
+    return translate(`level.ascension`, {
+      ascension: ascension.ascension,
+      level: ascension.level,
+    });
+  }
+};
+
+/**
+ * Total Bumpkin levels earned across the player's whole journey — i.e. the number
+ * of skill points granted (1 per level, including ascension band levels).
+ * Pre-ascension this is the capped Bumpkin level; after ascending it is the
+ * pre-ascension cap (150) + every completed prior band (50 each) + the current
+ * within-ascension level. e.g. A1 L1 → 151, A1 L50 → 200, A2 L25 → 225.
+ */
+export const getTotalBumpkinLevel = ({
+  experience,
+  ascensionLevel,
+  maxLevel,
+}: {
+  experience: number;
+  ascensionLevel: number;
+  maxLevel: BumpkinLevel;
+}): number => {
+  if (ascensionLevel >= 1) {
+    return (
+      PRE_ASCENSION_MAX_LEVEL +
+      (ascensionLevel - 1) * LEVELS_PER_ASCENSION +
+      getAscensionLevel({ experience, ascensionLevel }).level
+    );
+  }
+  return getBumpkinLevel(experience, maxLevel);
 };

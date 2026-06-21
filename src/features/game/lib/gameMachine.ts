@@ -120,7 +120,7 @@ import {
 import { isDailyRewardReady } from "../events/landExpansion/claimDailyReward";
 import { getDailyRewardLastAcknowledged } from "../components/DailyReward";
 import type { LanguageCode } from "lib/i18n/dictionaries/language";
-import { getBumpkinLevel } from "./level";
+import { getAscensionLevel, meetsLevelRequirement } from "./level";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -1402,10 +1402,16 @@ export function startGame(authContext: AuthContext) {
               target: "referrals",
               cond: (context) => {
                 const experience = context.state.bumpkin?.experience ?? 0;
-                const level = getBumpkinLevel(experience);
+                const ascension = getAscensionLevel({
+                  experience,
+                  ascensionLevel: context.state.island.ascensionLevel ?? 0,
+                });
 
                 // Only show once the player is level 10 or above
-                if (level < 10) return false;
+                if (
+                  !meetsLevelRequirement(ascension, { ascension: 0, level: 10 })
+                )
+                  return false;
 
                 const lastRead = getReferralsAnnouncementLastRead();
                 const thirtyDaysMs = 30 * 24 * 60 * 60 * 1000;
@@ -1493,6 +1499,7 @@ export function startGame(authContext: AuthContext) {
 
                 return isDailyRewardReady({
                   bumpkinExperience: context.state.bumpkin?.experience ?? 0,
+                  ascensionLevel: context.state.island.ascensionLevel ?? 0,
                   dailyRewards: context.state.dailyRewards,
                   now: Date.now(),
                 });

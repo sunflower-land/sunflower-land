@@ -4,14 +4,23 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import type { MachineState } from "features/game/lib/gameMachine";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 import { Context } from "features/game/GameProvider";
 import { useNavigate } from "react-router";
 import { useSelector } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const isLocked = (state: MachineState) =>
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) < 2;
+  !meetsLevelRequirement(
+    getAscensionLevel({
+      experience: state.context.state.bumpkin.experience ?? 0,
+      ascensionLevel: state.context.state.island.ascensionLevel ?? 0,
+    }),
+    { ascension: 0, level: 2 },
+  );
 
 export const PeteHelp: React.FC = () => {
   const { gameService } = useContext(Context);

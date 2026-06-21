@@ -29,7 +29,10 @@ import {
 } from "features/game/types/fishing";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -89,7 +92,13 @@ interface Props {
 }
 
 const _canFish = (state: MachineState) =>
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 5;
+  meetsLevelRequirement(
+    getAscensionLevel({
+      experience: state.context.state.bumpkin.experience ?? 0,
+      ascensionLevel: state.context.state.island.ascensionLevel ?? 0,
+    }),
+    { ascension: 0, level: 5 },
+  );
 const _state = (state: MachineState) => state.context.state;
 
 const _marvel = (state: MachineState) => {

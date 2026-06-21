@@ -13,7 +13,10 @@ import type {
 } from "features/game/types/game";
 import { ASCENSION_ISLANDS } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 import {
   getTotalBaseResourceEquivalents,
   topUpResourceToMinimum,
@@ -1157,10 +1160,19 @@ export function upgrade({ state, createdAt = Date.now(), farmId }: Options) {
     throw new Error("Swamp ascension is not yet available");
   }
 
-  // Ascension islands require a minimum Bumpkin level to access.
+  // Ascension islands require a minimum Bumpkin level to access. This is the first
+  // ascension (volcano→swamp); re-ascension (swamp→swamp) is a separate system not
+  // wired through here yet — when it is, gate it on
+  // `getAscensionLevel(...).isReadyToAscend` for the current ascension.
   if (
     targetIsAscension &&
-    getBumpkinLevel(game.bumpkin?.experience ?? 0) < ASCENSION_BUMPKIN_LEVEL
+    !meetsLevelRequirement(
+      getAscensionLevel({
+        experience: game.bumpkin.experience ?? 0,
+        ascensionLevel: game.island.ascensionLevel ?? 0,
+      }),
+      { ascension: 0, level: ASCENSION_BUMPKIN_LEVEL },
+    )
   ) {
     throw new Error("Player has not met the level requirements");
   }

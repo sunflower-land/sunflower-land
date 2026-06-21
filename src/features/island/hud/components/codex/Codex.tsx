@@ -37,7 +37,7 @@ import type { BountyRequest } from "features/game/types/game";
 import { CompetitionDetails } from "features/competition/CompetitionBoard";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { Checklist, checklistCount } from "components/ui/CheckList";
-import { getBumpkinLevel } from "features/game/lib/level";
+import { getAscensionLevel } from "features/game/lib/level";
 import trophyIcon from "assets/icons/trophy.png";
 import { hasFeatureAccess } from "lib/flags";
 import type { AuthMachineState } from "features/auth/lib/authMachine";
@@ -83,7 +83,10 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
   const now = useNow();
   const chapterTicket = getChapterTicket(now);
 
-  const bumpkinLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
+  const ascension = getAscensionLevel({
+    experience: state.bumpkin.experience ?? 0,
+    ascensionLevel: state.island.ascensionLevel ?? 0,
+  });
 
   const { username, bounties, delivery, choreBoard, kingdomChores, faction } =
     state;
@@ -151,7 +154,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     ).length ?? 0;
 
   // Pre-calculate checklist count once
-  const checklistCountValue = checklistCount(state, bumpkinLevel, now);
+  const checklistCountValue = checklistCount(state, ascension, now);
   const hasLeagues =
     hasFeatureAccess(state, "LEAGUES") && state.prototypes?.leagues;
 

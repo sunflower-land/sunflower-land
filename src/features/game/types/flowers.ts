@@ -3,6 +3,7 @@ import type { PatchFruitName } from "./fruits";
 import { translate } from "lib/i18n/translate";
 import type { ResourceName } from "./resources";
 import type { SeedName } from "./seeds";
+import type { LevelRequirement } from "features/game/lib/level";
 
 type PansyName =
   | "Red Pansy"
@@ -77,7 +78,7 @@ export type EpicFlowerName =
   | "Primula Enigma";
 
 export type FlowerSeed = {
-  bumpkinLevel: number;
+  bumpkinLevel: LevelRequirement;
   price: number;
   description: string;
   plantSeconds: number;
@@ -118,7 +119,7 @@ export function isFlowerSeed(seed: SeedName): seed is FlowerSeedName {
 export const FLOWER_SEEDS: Record<FlowerSeedName, FlowerSeed> = {
   "Sunpetal Seed": {
     price: 16,
-    bumpkinLevel: 13,
+    bumpkinLevel: { ascension: 0, level: 13 },
     plantSeconds: 1 * 24 * 60 * 60,
     description: translate("description.sunpetal.seed"),
     disabled: false,
@@ -126,7 +127,7 @@ export const FLOWER_SEEDS: Record<FlowerSeedName, FlowerSeed> = {
   },
   "Bloom Seed": {
     price: 32,
-    bumpkinLevel: 22,
+    bumpkinLevel: { ascension: 0, level: 22 },
     plantSeconds: 2 * 24 * 60 * 60,
     description: translate("description.bloom.seed"),
     disabled: false,
@@ -134,7 +135,7 @@ export const FLOWER_SEEDS: Record<FlowerSeedName, FlowerSeed> = {
   },
   "Lily Seed": {
     price: 48,
-    bumpkinLevel: 27,
+    bumpkinLevel: { ascension: 0, level: 27 },
     plantSeconds: 5 * 24 * 60 * 60,
     description: translate("description.lily.seed"),
     disabled: false,
@@ -142,7 +143,7 @@ export const FLOWER_SEEDS: Record<FlowerSeedName, FlowerSeed> = {
   },
   "Edelweiss Seed": {
     price: 96,
-    bumpkinLevel: 35,
+    bumpkinLevel: { ascension: 0, level: 35 },
     plantSeconds: 3 * 24 * 60 * 60,
     plantingSpot: "Flower Bed",
     disabled: false,
@@ -150,7 +151,7 @@ export const FLOWER_SEEDS: Record<FlowerSeedName, FlowerSeed> = {
   },
   "Gladiolus Seed": {
     price: 96,
-    bumpkinLevel: 35,
+    bumpkinLevel: { ascension: 0, level: 35 },
     plantSeconds: 3 * 24 * 60 * 60,
     plantingSpot: "Flower Bed",
     disabled: false,
@@ -158,7 +159,7 @@ export const FLOWER_SEEDS: Record<FlowerSeedName, FlowerSeed> = {
   },
   "Lavender Seed": {
     price: 96,
-    bumpkinLevel: 35,
+    bumpkinLevel: { ascension: 0, level: 35 },
     plantSeconds: 3 * 24 * 60 * 60,
     plantingSpot: "Flower Bed",
     disabled: false,
@@ -166,7 +167,7 @@ export const FLOWER_SEEDS: Record<FlowerSeedName, FlowerSeed> = {
   },
   "Clover Seed": {
     price: 96,
-    bumpkinLevel: 35,
+    bumpkinLevel: { ascension: 0, level: 35 },
     plantSeconds: 3 * 24 * 60 * 60,
     plantingSpot: "Flower Bed",
     disabled: false,

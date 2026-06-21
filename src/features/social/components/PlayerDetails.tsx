@@ -50,6 +50,7 @@ import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 import { HelpInfoPopover } from "./HelpInfoPopover";
 import { CopySvg } from "components/ui/CopyField";
+import { getAscensionDisplayText } from "features/game/lib/level";
 
 const ISLAND_ICONS: Record<IslandType, string> = {
   basic: basicIsland,
@@ -328,7 +329,10 @@ export const PlayerDetails: React.FC<Props> = ({
             </div>
             <div className="flex flex-col gap-1 text-xs mt-1 ml-2 flex-1 mb-1">
               <div className="flex items-center">
-                {`Lvl ${player?.level}${player?.faction ? ` - ${capitalize(player?.faction)}` : ""}`}
+                {`${getAscensionDisplayText({
+                  ascension: player,
+                  length: "full",
+                })}${player?.faction ? ` - ${capitalize(player?.faction)}` : ""}`}
                 {player?.faction && (
                   <img
                     src={ITEM_DETAILS[FACTION_TO_EMBLEM[player.faction]].image}

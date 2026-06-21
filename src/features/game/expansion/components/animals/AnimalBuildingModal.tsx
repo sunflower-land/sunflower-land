@@ -18,7 +18,10 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import type { AnimalBounty, AnimalBuildingKey } from "features/game/types/game";
 import Decimal from "decimal.js-light";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 import { getBoostedAnimalCapacity } from "features/game/events/landExpansion/buyAnimal";
 import { Label } from "components/ui/Label";
 
@@ -110,10 +113,13 @@ export const AnimalBuildingModal: React.FC<Props> = ({
       (animal) => ANIMALS[animal.type].buildingRequired === buildingName,
     ).length;
 
-  const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
+  const ascension = getAscensionLevel({
+    experience: bumpkin.experience,
+    ascensionLevel: state.island.ascensionLevel ?? 0,
+  });
 
   const hasRequiredLevel = () =>
-    bumpkinLevel >= ANIMALS[selectedName].levelRequired;
+    meetsLevelRequirement(ascension, ANIMALS[selectedName].levelRequired);
 
   const atMaxCapacity =
     getTotalAnimalsInBuilding() >=

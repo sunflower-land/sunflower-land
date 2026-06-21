@@ -103,6 +103,7 @@ import type {
   MarketplaceTradeableName,
 } from "./marketplace";
 import type { GameTransaction } from "./transactions";
+import type { LevelRequirement } from "features/game/lib/level";
 import type { CompetitionName, CompetitionProgress } from "./competitions";
 import type { AnimalType } from "./animals";
 import type { ChoreBoard } from "./choreBoard";
@@ -980,7 +981,7 @@ export interface ExpansionRequirements {
   resources: Partial<Record<InventoryItemName, number>>;
   coins?: number;
   seconds: number;
-  bumpkinLevel: number;
+  bumpkinLevel: LevelRequirement;
 }
 
 export type Airdrop = {

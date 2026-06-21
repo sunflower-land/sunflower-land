@@ -56,7 +56,11 @@ function generateUnlockLabels(): Record<
     (acc, id) => {
       const level = Number(id);
       const crops = getKeys(seeds)
-        .filter((seedName) => seeds[seedName].bumpkinLevel === level)
+        .filter((seedName) => {
+          // Legacy unlock table (LEVEL_EXPERIENCE), so requirements are pre-ascension.
+          const req = seeds[seedName].bumpkinLevel;
+          return req.ascension === 0 && req.level === level;
+        })
         .map((seedName) => {
           const name = seeds[seedName].yield ?? seedName;
           return {
@@ -66,7 +70,10 @@ function generateUnlockLabels(): Record<
         });
 
       const buildings = getKeys(BUILDINGS)
-        .filter((name) => getBuildingBumpkinLevelRequired(name) === level)
+        .filter((name) => {
+          const req = getBuildingBumpkinLevelRequired(name);
+          return req.ascension === 0 && req.level === level;
+        })
         .map((name) => ({ text: name, icon: ITEM_DETAILS[name].image }));
 
       const bonus = BONUS_UNLOCKS[level] ?? [];
@@ -149,10 +156,19 @@ interface Props {
   level: number;
   onClose: () => void;
   wearables: Equipped;
+  // When set, this is a within-ascension level-up (level is 1..50 of this ascension).
+  ascension?: number;
 }
-export const LevelUp: React.FC<Props> = ({ level, onClose, wearables }) => {
+export const LevelUp: React.FC<Props> = ({
+  level,
+  onClose,
+  wearables,
+  ascension,
+}) => {
   const { t } = useAppTranslation();
-  const shareMessage = `Just reached level ${level} in Sunflower Land! So proud of my progress in this game. 🌻🚀 \n\n https://www.sunflower-land.com \n\n #SunflowerLand #LevelUp`;
+  const shareMessage = ascension
+    ? `Just reached level ${level} of Ascension ${ascension} in Sunflower Land! So proud of my progress in this game. 🌻🚀 \n\n https://www.sunflower-land.com \n\n #SunflowerLand #LevelUp`
+    : `Just reached level ${level} in Sunflower Land! So proud of my progress in this game. 🌻🚀 \n\n https://www.sunflower-land.com \n\n #SunflowerLand #LevelUp`;
 
   const clicked = (method: "Reddit" | "Twitter" | "Telegram" | "Facebook") => {
     // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?sjid=18434190870996612736-AP&client_type=gtag#share
@@ -163,12 +179,15 @@ export const LevelUp: React.FC<Props> = ({ level, onClose, wearables }) => {
     });
   };
 
-  const unlocks = LEVEL_UP_UNLOCKS[level] ?? [];
+  // Crop/building unlocks are keyed by legacy levels; ascension within-levels grant none.
+  const unlocks = ascension ? [] : (LEVEL_UP_UNLOCKS[level] ?? []);
 
   return (
     <div className="flex flex-col items-center">
       <p className="text-sm my-1 text-center">
-        {LEVEL_UP_MESSAGES[level] ?? "Wow, I am lost for words!"}
+        {ascension
+          ? t("levelUp.ascension", { ascension, level })
+          : (LEVEL_UP_MESSAGES[level] ?? "Wow, I am lost for words!")}
       </p>
       {unlocks.length > 0 && (
         <div className="mt-2">

@@ -10,10 +10,19 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { DailyRewardClaim } from "features/game/components/DailyReward";
 import type { MachineState } from "features/game/lib/gameMachine";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 
-const _bumpkinLevel = (state: MachineState) =>
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
+const _hasChestLevel = (state: MachineState) =>
+  meetsLevelRequirement(
+    getAscensionLevel({
+      experience: state.context.state.bumpkin.experience ?? 0,
+      ascensionLevel: state.context.state.island.ascensionLevel ?? 0,
+    }),
+    { ascension: 0, level: 6 },
+  );
 
 const _chestCollectedAt = (state: MachineState) =>
   state.context.state.dailyRewards?.chest?.collectedAt ?? 0;
@@ -24,7 +33,7 @@ const _chestCollectedAt = (state: MachineState) =>
 export const DailyReward: React.FC = () => {
   const { gameService, showAnimations } = useContext(Context);
 
-  const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
+  const hasChestLevel = useSelector(gameService, _hasChestLevel);
   const chestCollectedAt = useSelector(gameService, _chestCollectedAt);
   const { isVisiting } = useVisiting();
 
@@ -34,7 +43,7 @@ export const DailyReward: React.FC = () => {
     return null;
   }
 
-  if (bumpkinLevel <= 5) {
+  if (!hasChestLevel) {
     return null;
   }
 

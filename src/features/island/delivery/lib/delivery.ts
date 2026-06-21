@@ -2,6 +2,7 @@ import {
   type QuestNPCName,
   TICKET_REWARDS,
 } from "features/game/events/landExpansion/deliver";
+import type { LevelRequirement } from "features/game/lib/level";
 import type { Delivery } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 
@@ -273,34 +274,34 @@ export function acknowledgeOrders(delivery: Delivery) {
   localStorage.setItem(`orders.read`, JSON.stringify(ids));
 }
 
-export const NPC_DELIVERY_LEVELS: Record<DeliveryNpcName, number> = {
+export const NPC_DELIVERY_LEVELS: Record<DeliveryNpcName, LevelRequirement> = {
   // Coins
-  betty: 1,
-  blacksmith: 1,
-  peggy: 3,
-  corale: 7,
-  tango: 13,
-  "old salty": 15,
-  victoria: 30,
+  betty: { ascension: 0, level: 1 },
+  blacksmith: { ascension: 0, level: 1 },
+  peggy: { ascension: 0, level: 3 },
+  corale: { ascension: 0, level: 7 },
+  tango: { ascension: 0, level: 13 },
+  "old salty": { ascension: 0, level: 15 },
+  victoria: { ascension: 0, level: 30 },
 
   // FLOWER
-  grimbly: 10,
-  grimtooth: 12,
-  grubnuk: 16,
-  gambit: 25,
-  gordo: 30,
-  guria: 40,
+  grimbly: { ascension: 0, level: 10 },
+  grimtooth: { ascension: 0, level: 12 },
+  grubnuk: { ascension: 0, level: 16 },
+  gambit: { ascension: 0, level: 25 },
+  gordo: { ascension: 0, level: 30 },
+  guria: { ascension: 0, level: 40 },
 
   // Tickets
-  "pumpkin' pete": 5,
-  bert: 8,
-  finley: 12,
-  raven: 14,
-  miranda: 15,
-  finn: 16,
-  pharaoh: 17,
-  cornwell: 18,
-  timmy: 20,
-  tywin: 22,
-  jester: 26,
+  "pumpkin' pete": { ascension: 0, level: 5 },
+  bert: { ascension: 0, level: 8 },
+  finley: { ascension: 0, level: 12 },
+  raven: { ascension: 0, level: 14 },
+  miranda: { ascension: 0, level: 15 },
+  finn: { ascension: 0, level: 16 },
+  pharaoh: { ascension: 0, level: 17 },
+  cornwell: { ascension: 0, level: 18 },
+  timmy: { ascension: 0, level: 20 },
+  tywin: { ascension: 0, level: 22 },
+  jester: { ascension: 0, level: 26 },
 };

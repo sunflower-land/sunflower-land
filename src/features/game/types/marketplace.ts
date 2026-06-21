@@ -231,7 +231,10 @@ export type MarketplaceTrends = {
 export type MarketplaceProfile = {
   id: number;
   username: string;
+  /** Within-ascension level. Meaningless without `ascension`. */
   level: number;
+  /** Ascension band this level belongs to (0 = pre-ascension). */
+  ascension: number;
   tokenUri: string;
   totalTrades: number;
   profit: number;

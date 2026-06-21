@@ -61,7 +61,7 @@ export const SkillCategoryList: React.FC<{
     useState(false);
 
   const { bumpkin, inventory } = state;
-  const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
+  const availableSkillPoints = getAvailableBumpkinSkillPoints(state);
   const { previousFreeSkillResetAt = 0, paidSkillResets = 0, skills } = bumpkin;
 
   const hasSkills = getKeys(skills).length > 0;

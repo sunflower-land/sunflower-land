@@ -1,5 +1,8 @@
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getMaxBumpkinLevel,
+  getTotalBumpkinLevel,
+} from "features/game/lib/level";
 import {
   type BumpkinRevampSkillName,
   BUMPKIN_REVAMP_SKILL_TREE,
@@ -21,10 +24,16 @@ type Options = {
   createdAt?: number;
 };
 
-export const getAvailableBumpkinSkillPoints = (bumpkin?: Bumpkin) => {
+export const getAvailableBumpkinSkillPoints = (game?: GameState) => {
+  const bumpkin = game?.bumpkin;
   if (!bumpkin) return 0;
 
-  const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
+  // 1 skill point per level earned, including ascension band levels.
+  const earnedSkillPoints = getTotalBumpkinLevel({
+    experience: bumpkin.experience,
+    ascensionLevel: game.island.ascensionLevel ?? 0,
+    maxLevel: getMaxBumpkinLevel(game),
+  });
   const skillsClaimed = Object.keys(bumpkin.skills) as BumpkinRevampSkillName[];
 
   const totalUsedSkillPoints = skillsClaimed.reduce((acc, skill) => {
@@ -36,7 +45,7 @@ export const getAvailableBumpkinSkillPoints = (bumpkin?: Bumpkin) => {
     return acc;
   }, 0);
 
-  return bumpkinLevel - totalUsedSkillPoints;
+  return earnedSkillPoints - totalUsedSkillPoints;
 };
 
 export const SKILL_POINTS_PER_TIER: Record<
@@ -152,7 +161,7 @@ export function choseSkill({ state, action, createdAt = Date.now() }: Options) {
       BUMPKIN_REVAMP_SKILL_TREE[action.skill];
     const bumpkinHasSkill = bumpkin.skills[action.skill];
 
-    const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
+    const availableSkillPoints = getAvailableBumpkinSkillPoints(stateCopy);
     const { availableTier } = getUnlockedTierForTree(tree, bumpkin);
 
     if (!hasRequiredIslandExpansion(island.type, requirements.island)) {

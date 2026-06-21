@@ -1,6 +1,9 @@
 import Decimal from "decimal.js-light";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  type LevelRequirement,
+} from "features/game/lib/level";
 import type {
   BoostName,
   GameState,
@@ -82,7 +85,7 @@ interface RequirementsProps {
   harvests?: HarvestsRequirementProps;
   time?: { seconds: number; boostsUsed: { name: BoostName; value: string }[] };
   baseTimeSeconds?: number;
-  level?: number;
+  level?: LevelRequirement;
   restriction?: {
     icon: string;
     text: string;
@@ -338,7 +341,10 @@ export const SeedRequirements: React.FC<Props> = ({
         {!!level && (
           <RequirementLabel
             type="level"
-            currentLevel={getBumpkinLevel(gameState.bumpkin?.experience ?? 0)}
+            currentLevel={getAscensionLevel({
+              experience: gameState.bumpkin.experience ?? 0,
+              ascensionLevel: gameState.island.ascensionLevel ?? 0,
+            })}
             requirement={level}
           />
         )}

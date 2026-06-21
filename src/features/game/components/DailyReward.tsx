@@ -32,7 +32,12 @@ import basicXPBox from "assets/rewardBoxes/basic_xp_box.png";
 import type { BuffName } from "../types/buffs";
 import coinsIcon from "assets/icons/coins_stack.webp";
 import vipIcon from "assets/icons/vip.webp";
-import { getBumpkinLevel } from "../lib/level";
+import {
+  getAscensionLevel,
+  getMaxBumpkinLevel,
+  getTotalBumpkinLevel,
+  meetsLevelRequirement,
+} from "../lib/level";
 import { getVipDailyBonusItem } from "../lib/vipAccess";
 import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 
@@ -99,7 +104,13 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
   const currentDate = new Date(now).toISOString().substring(0, 10);
 
   const [showClaim, setShowClaim] = useState(false);
-  const hasUnlocked = getBumpkinLevel(bumpkinExperience) >= 3;
+  const hasUnlocked = meetsLevelRequirement(
+    getAscensionLevel({
+      experience: bumpkinExperience,
+      ascensionLevel: gameState.island.ascensionLevel ?? 0,
+    }),
+    { ascension: 0, level: 3 },
+  );
 
   const claim = () => {
     const lastCollectedAt =
@@ -128,6 +139,7 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
     !isDailyRewardReady({
       dailyRewards,
       bumpkinExperience,
+      ascensionLevel: gameState.island.ascensionLevel ?? 0,
       now,
     }) && hasUnlocked;
 
@@ -171,7 +183,13 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
       {} as Partial<Record<InventoryItemName, number>>,
     );
 
-    const level = getBumpkinLevel(bumpkinExperience);
+    // VIP gift item is keyed to the historical 1..200 scale, so use the monotonic
+    // total level (ascension-aware) to match the actual claim logic.
+    const level = getTotalBumpkinLevel({
+      experience: bumpkinExperience,
+      ascensionLevel: gameState.island.ascensionLevel ?? 0,
+      maxLevel: getMaxBumpkinLevel(gameState),
+    });
     const vipGiftItem = hasVip ? getVipDailyBonusItem(level) : null;
     if (vipGiftItem) {
       items[vipGiftItem] = (items[vipGiftItem] ?? 0) + 1;

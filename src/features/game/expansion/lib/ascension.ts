@@ -8,6 +8,10 @@ import {
   type ResourceName,
 } from "features/game/types/resources";
 import { getKeys } from "lib/object";
+import {
+  LEVELS_PER_ASCENSION,
+  type LevelRequirement,
+} from "features/game/lib/level";
 
 /**
  * Swamp is the first "ascension" island. Unlike the linear islands (basic →
@@ -42,11 +46,26 @@ const DRIP_CAP = SWAMP_EXPANSIONS_PER_ASCENSION; // 12
 const HOURS_PER_EXPANSION = 7;
 
 /**
- * Bumpkin level required to expand on swamp. Stubbed at 0 (no gate) until the
- * XP/level progression lands; wire the real per-expansion requirement then.
+ * Within-ascension level (1..50, from `getAscensionLevel`) required to unlock each
+ * swamp expansion, keyed by local expansion index 1..12 (Basic Land 31→1 … 42→12).
+ * The gate is compared against the player's within-ascension level (not the legacy
+ * Bumpkin level) — see the ascension-aware check in `expandLand`. Reaching level 50
+ * completes the band (ready to ascend into the next one).
  */
-// TODO: replace with the real level gate once swamp XP levels ship.
-const SWAMP_EXPANSION_BUMPKIN_LEVEL = 0;
+export const SWAMP_EXPANSION_LEVELS: Record<number, number> = {
+  1: 1,
+  2: 4,
+  3: 8,
+  4: 12,
+  5: 16,
+  6: 20,
+  7: 24,
+  8: 28,
+  9: 32,
+  10: 36,
+  11: 40,
+  12: 45,
+};
 
 /**
  * Expected resource totals when a player first lands on swamp (Basic Land 30).
@@ -364,7 +383,10 @@ export const getAscensionExpansionRequirements = ({
       swampCostBase(SWAMP_COIN_CURVE.start, SWAMP_COIN_CURVE.end, e),
     ),
     seconds: e * HOURS_PER_EXPANSION * 60 * 60,
-    bumpkinLevel: SWAMP_EXPANSION_BUMPKIN_LEVEL,
+    bumpkinLevel: {
+      ascension: ascensionLevel,
+      level: SWAMP_EXPANSION_LEVELS[e] ?? LEVELS_PER_ASCENSION,
+    } satisfies LevelRequirement,
   };
 };
 
