@@ -58,6 +58,7 @@ import {
   getSaltNodesWithPositions,
 } from "features/game/types/salt";
 import { getPendingSaltNodeIdsForUpgrade } from "features/game/types/salt";
+import { hasRequiredIslandExpansion } from "../lib/hasRequiredIslandExpansion";
 
 export const LAND_WIDTH = 6;
 
@@ -1198,7 +1199,7 @@ export const LandComponent: React.FC = () => {
           // dynamic gameboard
           width: `${gameboardDimensions.x * GRID_WIDTH_PX}px`,
           height: `${gameboardDimensions.y * GRID_WIDTH_PX}px`,
-          backgroundImage: `url(${season === "winter" ? SUNNYSIDE.decorations.frozenOcean : island.type === "volcano" ? SUNNYSIDE.decorations.darkOcean : SUNNYSIDE.decorations.ocean})`,
+          backgroundImage: `url(${season === "winter" ? SUNNYSIDE.decorations.frozenOcean : hasRequiredIslandExpansion(island.type, "volcano") ? SUNNYSIDE.decorations.darkOcean : SUNNYSIDE.decorations.ocean})`,
           backgroundSize: `${64 * PIXEL_SCALE}px`,
           imageRendering: "pixelated",
         }}
