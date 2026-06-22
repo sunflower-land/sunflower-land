@@ -23,8 +23,8 @@ import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandE
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
-import { capitalize } from "lib/utils/capitalize";
 import type { IslandType, LoveAnimalItem } from "features/game/types/game";
+import { getIslandName } from "features/game/types/game";
 import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 import { Restock } from "../../market/restock/Restock";
 import { getObjectEntries } from "lib/object";
@@ -140,12 +140,7 @@ export const Tools: React.FC = () => {
       return (
         <Label type="danger">
           {t("islandupgrade.requiredIsland", {
-            islandType:
-              selected.requiredIsland === "spring"
-                ? "Petal Paradise"
-                : t("islandupgrade.otherIsland", {
-                    island: capitalize(selected.requiredIsland as IslandType),
-                  }),
+            islandType: getIslandName(selected.requiredIsland as IslandType),
           })}
         </Label>
       );

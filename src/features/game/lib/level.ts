@@ -488,7 +488,7 @@ export const getExperienceToNextLevel = (
  * cumulative `bumpkin.experience`:
  *
  *   bandXp(a)    = round_5M(50,000,000 × 1.45^(a-1))  — total XP to complete ascension a
- *   levelXp(a,n) = bandXp(a) × (1 + 0.03n) / 88.25    — XP for within-level n (n = 1..50)
+ *   levelXp(a,n) = bandXp(a) × (1 + 0.03n) / 85.75    — XP for the level-up n→n+1 (n = 1..49)
  *   B(a)         = LEVEL_EXPERIENCE[150] + Σ_{b<a} bandXp(b)  — XP to start band a
  *
  * Bands stack: completing band a (experience ≥ B(a+1)) makes the player ready to
@@ -500,11 +500,17 @@ const ASCENSION_BAND_XP_BASE = 50_000_000;
 const ASCENSION_BAND_XP_GROWTH = 1.45;
 const ASCENSION_BAND_XP_ROUNDING = 5_000_000;
 const ASCENSION_LEVEL_WEIGHT_PER_LEVEL = 0.03;
-/** Σ_{n=1..50} (1 + 0.03n) = 50 + 0.03 × (50 × 51 / 2) = 88.25. */
+/**
+ * Number of level-up transitions inside a band: levels 1 → 50 is 49 steps. The
+ * band's XP is split across these 49 level-ups, so reaching level 50 means the
+ * whole band is earned and the player is ready to ascend (no goal at level 50).
+ */
+const ASCENSION_LEVEL_UPS = LEVELS_PER_ASCENSION - 1;
+/** Σ_{n=1..49} (1 + 0.03n) = 49 + 0.03 × (49 × 50 / 2) = 85.75. */
 export const ASCENSION_TOTAL_WEIGHT =
-  LEVELS_PER_ASCENSION +
+  ASCENSION_LEVEL_UPS +
   ASCENSION_LEVEL_WEIGHT_PER_LEVEL *
-    ((LEVELS_PER_ASCENSION * (LEVELS_PER_ASCENSION + 1)) / 2);
+    ((ASCENSION_LEVEL_UPS * LEVELS_PER_ASCENSION) / 2);
 
 /** Total XP required to complete ascension `a`, rounded to the nearest 5M. */
 export const bandXp = (ascension: number): number =>
@@ -516,8 +522,9 @@ export const bandXp = (ascension: number): number =>
     .toNumber();
 
 /**
- * XP required for within-ascension level `n` (1..50) of ascension `a`. Unrounded
- * so that the 50 levels sum exactly to `bandXp(a)`.
+ * XP to advance from within-ascension level `n` to `n + 1` (n = 1..49) of ascension
+ * `a`. Unrounded so the 49 level-ups sum exactly to `bandXp(a)` — i.e. completing
+ * level 49 lands the player at level 50 / ready to ascend.
  */
 export const levelXp = (ascension: number, n: number): number =>
   (bandXp(ascension) * (1 + ASCENSION_LEVEL_WEIGHT_PER_LEVEL * n)) /
@@ -619,12 +626,24 @@ export const getAscensionLevel = ({
     };
   }
 
-  const isReadyToAscend = experience >= baseline + bandXp(ascensionLevel);
+  // Level 50 is the band's max: once the whole band XP is banked the player is ready
+  // to ascend, shown as level 50 with a full bar and no remaining goal.
+  if (experience >= baseline + bandXp(ascensionLevel)) {
+    const span = levelXp(ascensionLevel, ASCENSION_LEVEL_UPS);
+    return {
+      ascension: ascensionLevel,
+      level: LEVELS_PER_ASCENSION,
+      isReadyToAscend: true,
+      currentExperienceProgress: span,
+      experienceToNextLevel: span,
+    };
+  }
 
-  // Walk the cumulative thresholds: level n starts at baseline + Σ_{m<n} levelXp.
+  // Below the band total — walk the level-up thresholds for levels 1..49. Level n
+  // starts at baseline + Σ_{m<n} levelXp; the n-th level-up costs levelXp(a, n).
   let level = 1;
   let levelStart = baseline;
-  for (let n = 1; n < LEVELS_PER_ASCENSION; n++) {
+  for (let n = 1; n < ASCENSION_LEVEL_UPS; n++) {
     const nextStart = levelStart + levelXp(ascensionLevel, n);
     if (experience >= nextStart) {
       level = n + 1;
@@ -634,13 +653,12 @@ export const getAscensionLevel = ({
     }
   }
 
-  const span = levelXp(ascensionLevel, level);
   return {
     ascension: ascensionLevel,
     level,
-    isReadyToAscend,
-    currentExperienceProgress: isReadyToAscend ? span : experience - levelStart,
-    experienceToNextLevel: span,
+    isReadyToAscend: false,
+    currentExperienceProgress: experience - levelStart,
+    experienceToNextLevel: levelXp(ascensionLevel, level),
   };
 };
 

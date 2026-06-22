@@ -31,19 +31,21 @@ export function applyBiome({
       throw new Error("You do not own this biome");
     }
 
-    const biomeData = LAND_BIOMES[biome];
-
-    if (!hasRequiredIslandExpansion(game.island.type, biomeData.requires)) {
-      throw new Error("You are not permitted to apply this biome");
-    }
-
-    // Unapply the biome to the default biome if player selects the same biome as their current biome
+    // Unapply the biome to the default biome if player selects the same biome as
+    // their current biome. Toggling off the currently-applied biome does not
+    // require the island gate — only applying a *new* biome does.
     if (getCurrentBiome(game.island) === biome) {
       if (!game.island.biome) {
         throw new Error("You are already in this biome");
       }
       delete game.island.biome;
       return game; // early return
+    }
+
+    const biomeData = LAND_BIOMES[biome];
+
+    if (!hasRequiredIslandExpansion(game.island.type, biomeData.requires)) {
+      throw new Error("You are not permitted to apply this biome");
     }
 
     game.island.biome = biome;

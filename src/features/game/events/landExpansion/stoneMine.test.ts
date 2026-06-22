@@ -1402,6 +1402,30 @@ describe("mineStone", () => {
     expect(state.inventory.Stone).toEqual(new Decimal(1.1));
   });
 
+  it("applies the +0.1 volcano boost on ascension islands (e.g. spooky)", () => {
+    const counter = findNonCriticalCounter();
+    const state = mineStone({
+      state: {
+        ...GAME_STATE,
+        island: {
+          type: "spooky",
+        },
+        inventory: {
+          Pickaxe: new Decimal(1),
+        },
+        farmActivity: { "Stone Rock Mined": counter },
+      },
+      action: {
+        type: "stoneRock.mined",
+        index: "0",
+      } as LandExpansionStoneMineAction,
+      createdAt: now,
+      farmId,
+    });
+
+    expect(state.inventory.Stone).toEqual(new Decimal(1.1));
+  });
+
   it("doesn't require pickaxes if Quarry is built", () => {
     const counter = findNonCriticalCounter();
     const state = mineStone({

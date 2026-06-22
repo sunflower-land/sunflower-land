@@ -27,6 +27,7 @@ import {
   type MarineMarvelName,
   MAP_PIECE_MARVELS,
 } from "features/game/types/fishing";
+
 import type { MachineState } from "features/game/lib/gameMachine";
 import { gameAnalytics } from "lib/gameAnalytics";
 import {
@@ -41,6 +42,7 @@ import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
 import { FishermanPuzzle } from "features/island/fisherman/FishingPuzzle";
 import { Panel } from "components/ui/Panel";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 
 const HITBOX_SIZE_PX = 50;
 
@@ -279,7 +281,9 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   };
 
   const fishermanPosition = (): Coordinates => {
-    if (island.type === "volcano") {
+    // Ascension islands (swamp, spooky, crystal, moon, marble) reuse the volcano
+    // dock art, so the fisherman stands at the same spot.
+    if (hasRequiredIslandExpansion(island.type, "volcano")) {
       return {
         x: 53,
         y: 44,

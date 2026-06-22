@@ -43,7 +43,7 @@ export const INTERIOR_CANVAS = {
  * `python3 src/features/game/expansion/placeable/lib/generateInteriorLayouts.py`
  * if the background artwork is updated.
  */
-export const INTERIOR_LAYOUTS: Record<IslandType, ReadonlySet<string>> = {
+const STATIC_INTERIOR_LAYOUTS = {
   basic: new Set([
     "3,2",
     "3,3",
@@ -1023,6 +1023,15 @@ export const INTERIOR_LAYOUTS: Record<IslandType, ReadonlySet<string>> = {
     "22,13",
     "22,14",
   ]),
+};
+
+// Ascension islands (spooky onward) reuse the swamp value for now.
+export const INTERIOR_LAYOUTS: Record<IslandType, ReadonlySet<string>> = {
+  ...STATIC_INTERIOR_LAYOUTS,
+  spooky: STATIC_INTERIOR_LAYOUTS.swamp,
+  crystal: STATIC_INTERIOR_LAYOUTS.swamp,
+  moon: STATIC_INTERIOR_LAYOUTS.swamp,
+  marble: STATIC_INTERIOR_LAYOUTS.swamp,
 };
 
 export function isValidInteriorTile(

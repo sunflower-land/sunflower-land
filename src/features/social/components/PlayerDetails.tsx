@@ -24,6 +24,7 @@ import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { FollowerFeed } from "./FollowerFeed";
 import type { InventoryItemName, IslandType } from "features/game/types/game";
+import { getIslandName } from "features/game/types/game";
 import { useTranslation } from "react-i18next";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
@@ -58,6 +59,11 @@ const ISLAND_ICONS: Record<IslandType, string> = {
   desert: desertIsland,
   volcano: volcanoIsland,
   swamp: volcanoIsland,
+  // Ascension islands (spooky onward) reuse the swamp value for now.
+  spooky: volcanoIsland,
+  crystal: volcanoIsland,
+  moon: volcanoIsland,
+  marble: volcanoIsland,
 };
 
 type Props = {
@@ -366,11 +372,7 @@ export const PlayerDetails: React.FC<Props> = ({
               />
             </div>
             <div className="flex pb-1 flex-col justify-center gap-1 text-xs mt-1 ml-2 flex-1">
-              <div>
-                {t("playerModal.island", {
-                  island: capitalize(player?.island ?? ""),
-                })}
-              </div>
+              <div>{player?.island ? getIslandName(player.island) : ""}</div>
               <div className="flex items-center">
                 <span>
                   {t("playerModal.marketValue", {

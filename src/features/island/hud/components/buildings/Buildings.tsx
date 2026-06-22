@@ -20,7 +20,7 @@ import {
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import type { IslandType } from "features/game/types/game";
-import { capitalize } from "lib/utils/capitalize";
+import { getIslandName } from "features/game/types/game";
 import {
   makeUpgradableBuildingKey,
   isBuildingUpgradable,
@@ -122,14 +122,9 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
       return (
         <Label type="danger">
           {t("islandupgrade.requiredIsland", {
-            islandType:
-              buildingBlueprint.requiredIsland === "spring"
-                ? "Petal Paradise"
-                : t("islandupgrade.otherIsland", {
-                    island: capitalize(
-                      buildingBlueprint.requiredIsland as IslandType,
-                    ),
-                  }),
+            islandType: getIslandName(
+              buildingBlueprint.requiredIsland as IslandType,
+            ),
           })}
         </Label>
       );

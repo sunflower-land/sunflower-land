@@ -1229,6 +1229,11 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Desert Biome": 2402,
   "Volcano Biome": 2403,
   "Swamp Biome": 2404,
+  // Ascension biomes (spooky onward)
+  "Spooky Biome": 2405,
+  "Crystal Biome": 2406,
+  "Moon Biome": 2407,
+  "Marble Age Biome": 2408,
 
   // Dolls
   Doll: 2501,

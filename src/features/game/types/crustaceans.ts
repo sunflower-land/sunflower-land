@@ -222,6 +222,31 @@ const TRAP_POSITIONS: Record<IslandType, Record<string, Coordinates>> = {
     "3": { x: -14, y: -19.5 },
     "4": { x: -12, y: -16 },
   },
+  // Ascension islands (spooky onward) reuse the swamp value for now.
+  spooky: {
+    "1": { x: -12, y: -20 },
+    "2": { x: -10, y: -16.5 },
+    "3": { x: -14, y: -19.5 },
+    "4": { x: -12, y: -16 },
+  },
+  crystal: {
+    "1": { x: -12, y: -20 },
+    "2": { x: -10, y: -16.5 },
+    "3": { x: -14, y: -19.5 },
+    "4": { x: -12, y: -16 },
+  },
+  moon: {
+    "1": { x: -12, y: -20 },
+    "2": { x: -10, y: -16.5 },
+    "3": { x: -14, y: -19.5 },
+    "4": { x: -12, y: -16 },
+  },
+  marble: {
+    "1": { x: -12, y: -20 },
+    "2": { x: -10, y: -16.5 },
+    "3": { x: -14, y: -19.5 },
+    "4": { x: -12, y: -16 },
+  },
 };
 
 const TRAP_DOCK_OFFSET = { x: 14, y: 15 };
