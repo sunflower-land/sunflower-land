@@ -26,8 +26,9 @@ import {
 import type { PlaceableLocation } from "features/game/types/collectibles";
 import type { NFTName } from "features/game/events/landExpansion/placeNFT";
 
-export const RESOURCE_PLACE_EVENTS: Partial<
-  Record<ResourceName, GameEventName<PlacementEvent>>
+export const RESOURCE_PLACE_EVENTS: Record<
+  Exclude<ResourceName, "Boulder">,
+  GameEventName<PlacementEvent>
 > = {
   Tree: "tree.placed",
   "Ancient Tree": "tree.placed",
@@ -49,6 +50,7 @@ export const RESOURCE_PLACE_EVENTS: Partial<
   "Sunstone Rock": "sunstone.placed",
   "Oil Reserve": "oilReserve.placed",
   "Lava Pit": "lavaPit.placed",
+  "Ascension Crystal": "ascensionCrystal.placed",
 };
 
 /**
@@ -66,7 +68,7 @@ export function placeEvent(
 ): GameEventName<PlacementEvent> {
   if (name in RESOURCES) {
     return RESOURCE_PLACE_EVENTS[
-      name as ResourceName
+      name as Exclude<ResourceName, "Boulder">
     ] as GameEventName<PlacementEvent>;
   }
 

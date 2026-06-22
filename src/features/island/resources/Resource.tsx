@@ -19,6 +19,7 @@ import { Crimstone } from "features/game/expansion/components/resources/crimston
 import { Beehive } from "features/game/expansion/components/resources/beehive/Beehive";
 import { FlowerBed } from "../flowers/FlowerBed";
 import { Sunstone } from "features/game/expansion/components/resources/sunstone/Sunstone";
+import { AscensionCrystal } from "features/game/expansion/components/resources/ascensionCrystal/AscensionCrystal";
 import { OilReserve } from "features/game/expansion/components/resources/oilReserve/OilReserve";
 import { LavaPit } from "features/game/expansion/components/lavaPit/LavaPit";
 import { TREE_VARIANTS } from "../lib/alternateArt";
@@ -321,8 +322,8 @@ export const RESOURCE_COMPONENTS: Record<
   "Tempered Iron Rock": Iron,
   "Pure Gold Rock": Gold,
   "Prime Gold Rock": Gold,
-  // TODO: placeholder component — anchored groundwork, no instances spawn yet.
-  "Ascension Crystal": Sunstone,
+  // TODO: placeholder visuals (reuses Sunstone art) until dedicated crystal art.
+  "Ascension Crystal": AscensionCrystal,
 };
 
 const isLandscaping = (state: MachineState) => state.matches("landscaping");

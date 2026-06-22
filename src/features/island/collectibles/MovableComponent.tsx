@@ -62,7 +62,7 @@ import { getBudImage } from "lib/buds/types";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
-  GameEventName<PlacementEvent>
+  GameEventName<PlacementEvent> | null
 > = {
   Tree: "tree.moved",
   "Crop Plot": "crop.moved",
@@ -73,7 +73,7 @@ export const RESOURCE_MOVE_EVENTS: Record<
   "Fused Stone Rock": "stone.moved",
   "Reinforced Stone Rock": "stone.moved",
   "Crimstone Rock": "crimstone.moved",
-  Boulder: "tree.moved",
+  Boulder: null,
   Beehive: "beehive.moved",
   "Flower Bed": "flowerBed.moved",
   "Sunstone Rock": "sunstone.moved",
@@ -97,7 +97,11 @@ function getMoveAction(
   }
 
   if (name in RESOURCES) {
-    return RESOURCE_MOVE_EVENTS[name as ResourceName];
+    const event = RESOURCE_MOVE_EVENTS[name as ResourceName];
+    if (!event) {
+      throw new Error("No matching move event");
+    }
+    return event;
   }
 
   if (name in COLLECTIBLES_DIMENSIONS) {

@@ -108,6 +108,14 @@ const _sunstonePositions = (state: MachineState) => {
     positions: getSortedResourcePositions(state.context.state.sunstones),
   };
 };
+const _ascensionCrystalPositions = (state: MachineState) => {
+  return {
+    ascensionCrystals: state.context.state.ascensionCrystals,
+    positions: getSortedResourcePositions(
+      state.context.state.ascensionCrystals,
+    ),
+  };
+};
 const _beehivePositions = (state: MachineState) => {
   return {
     beehives: state.context.state.beehives,
@@ -345,6 +353,11 @@ export const LandComponent: React.FC = () => {
   const { sunstones } = useSelector(
     gameService,
     _sunstonePositions,
+    comparePositions,
+  );
+  const { ascensionCrystals } = useSelector(
+    gameService,
+    _ascensionCrystalPositions,
     comparePositions,
   );
   const { beehives } = useSelector(
@@ -750,6 +763,38 @@ export const LandComponent: React.FC = () => {
       });
   }, [sunstones]);
 
+  const ascensionCrystalElements = useMemo(() => {
+    return getObjectEntries(ascensionCrystals)
+      .filter(
+        ([, crystal]) => crystal.x !== undefined && crystal.y !== undefined,
+      )
+      .map(([id, crystal], index) => {
+        const { x, y, oX, oY } = crystal;
+
+        return (
+          <MapPlacement
+            key={`ascension-crystal-${id}`}
+            x={x!}
+            y={y!}
+            oX={oX}
+            oY={oY}
+            {...RESOURCE_DIMENSIONS["Ascension Crystal"]}
+          >
+            <Resource
+              key={`ascension-crystal-${id}`}
+              name="Ascension Crystal"
+              createdAt={0}
+              readyAt={0}
+              id={id}
+              index={index}
+              x={x!}
+              y={y!}
+            />
+          </MapPlacement>
+        );
+      });
+  }, [ascensionCrystals]);
+
   const beehiveElements = useMemo(() => {
     return getObjectEntries(beehives)
       .filter(
@@ -1132,6 +1177,7 @@ export const LandComponent: React.FC = () => {
       ironElements,
       crimstoneElements,
       sunstoneElements,
+      ascensionCrystalElements,
       beehiveElements,
       flowerBedElements,
       fruitPatchElements,
@@ -1177,6 +1223,7 @@ export const LandComponent: React.FC = () => {
     ironElements,
     crimstoneElements,
     sunstoneElements,
+    ascensionCrystalElements,
     beehiveElements,
     flowerBedElements,
     fruitPatchElements,
