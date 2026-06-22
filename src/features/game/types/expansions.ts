@@ -10,8 +10,10 @@ import {
   getAscensionExpansionRequirements,
   getAscensionLayout,
   getAscensionNodes,
+  getExpectedAscensionCrystals,
 } from "../expansion/lib/ascension";
 import { getKeys } from "lib/object";
+import { hasFeatureAccess } from "lib/flags";
 import type { LevelRequirement } from "features/game/lib/level";
 import {
   ADVANCED_RESOURCES,
@@ -119,6 +121,21 @@ export function getExpectedResources({
     expectedResources[resource] =
       (expectedResources[resource] ?? 0) + bought - burned + upgraded;
   });
+
+  // Ascension Crystals follow a custom grant schedule (outside the drip model)
+  // and only when the ascension feature is live. Override the base (0) with the
+  // cumulative expected so revealLand's missing-node airdrop can back-pay legacy
+  // players who progressed before the feature shipped.
+  expectedResources["Ascension Crystal"] = hasFeatureAccess(
+    game,
+    "SWAMP_ASCENSION",
+  )
+    ? getExpectedAscensionCrystals({
+        islandType: game.island.type,
+        ascensionLevel: game.island.ascensionLevel ?? 0,
+        basicLand: expansion,
+      })
+    : 0;
 
   return expectedResources;
 }

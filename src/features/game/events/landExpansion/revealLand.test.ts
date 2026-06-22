@@ -72,6 +72,8 @@ describe("getRewards", () => {
           "Iron Rock": new Decimal(5),
           "Stone Rock": new Decimal(9),
           Tree: new Decimal(11),
+          // Spring island owes 1 A0 Ascension Crystal (back-pay).
+          "Ascension Crystal": new Decimal(1),
         },
         island: {
           type: "spring",

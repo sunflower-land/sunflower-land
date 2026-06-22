@@ -210,6 +210,23 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
       inventory["Sunstone Rock"] || new Decimal(0)
     ).add(land.sunstones?.length ?? 0);
 
+    // Add Ascension Crystals (single-use nodes; placed by getAscensionLayout on
+    // the first N expansions of an ascension band — see getExpansionCrystalCount).
+    if (land.ascensionCrystals?.length) {
+      game.ascensionCrystals = game.ascensionCrystals ?? {};
+      land.ascensionCrystals.forEach((coords) => {
+        game.ascensionCrystals[randomUUID()] = {
+          x: coords.x + origin.x,
+          y: coords.y + origin.y,
+          stone: { minedAt: 0 },
+          minesLeft: 1,
+        };
+      });
+      inventory["Ascension Crystal"] = (
+        inventory["Ascension Crystal"] || new Decimal(0)
+      ).add(land.ascensionCrystals.length);
+    }
+
     // Add bee hives
     land.beehives?.forEach((coords) => {
       const id = randomUUID();
@@ -624,6 +641,15 @@ export function getRewards({
         Math.max(0, lifetimeMines - minesOnLiveRocks) / SUNSTONE_MINES,
       );
       missing -= depleted;
+    }
+
+    // Ascension Crystals are single-use: each mine destroys exactly one crystal
+    // (and decrements the inventory, see mineAscensionCrystal). Subtract the
+    // crystals already mined so this back-pay airdrop never resurrects ones the
+    // player legitimately consumed. A legacy player (0 owned, 0 mined) receives
+    // the full expected amount.
+    if (key === "Ascension Crystal") {
+      missing -= game.farmActivity?.["Ascension Crystal Mined"] ?? 0;
     }
 
     // They have the expected amount of resources

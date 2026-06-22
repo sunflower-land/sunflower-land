@@ -1212,6 +1212,18 @@ function transitionToIsland({
     createdAt,
     initialLandCoordinates: setup.initialCoordinates,
   });
+
+  // Grant the Ascension Crystal "upgrade node": 1 per island upgrade (the A0
+  // spring/desert/volcano grants and each ascension's upgrade node). Granted to
+  // inventory for the player to place; the per-expansion crystals auto-place via
+  // the ascension layout. Kept additive (never reset) so it stays in lockstep
+  // with getExpectedAscensionCrystals for the revealLand back-pay reconciliation.
+  if (hasFeatureAccess(game, "SWAMP_ASCENSION")) {
+    game.inventory["Ascension Crystal"] = (
+      game.inventory["Ascension Crystal"] ?? new Decimal(0)
+    ).add(1);
+  }
+
   game = cloneDeep(game);
 
   // Reset the biome upon transition
