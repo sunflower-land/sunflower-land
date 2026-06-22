@@ -209,6 +209,18 @@ export const READONLY_RESOURCE_COMPONENTS = ({
         }}
       />
     ),
+    // TODO: placeholder art — anchored groundwork, no instances spawn yet.
+    "Ascension Crystal": () => (
+      <img
+        src={ITEM_DETAILS["Ascension Crystal"].image}
+        className="absolute h-auto w-full"
+        style={{
+          width: `${PIXEL_SCALE * 24}px`,
+          bottom: `${PIXEL_SCALE * 1}px`,
+          left: `${PIXEL_SCALE * 4}px`,
+        }}
+      />
+    ),
     "Lava Pit": () => (
       <img
         src={ITEM_DETAILS["Lava Pit"].image}
@@ -309,6 +321,8 @@ export const RESOURCE_COMPONENTS: Record<
   "Tempered Iron Rock": Iron,
   "Pure Gold Rock": Gold,
   "Prime Gold Rock": Gold,
+  // TODO: placeholder component — anchored groundwork, no instances spawn yet.
+  "Ascension Crystal": Sunstone,
 };
 
 const isLandscaping = (state: MachineState) => state.matches("landscaping");

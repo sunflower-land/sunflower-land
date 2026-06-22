@@ -85,6 +85,7 @@ export const RESOURCE_MOVE_EVENTS: Record<
   "Tempered Iron Rock": "iron.moved",
   "Pure Gold Rock": "gold.moved",
   "Prime Gold Rock": "gold.moved",
+  "Ascension Crystal": "ascensionCrystal.moved",
 };
 
 function getMoveAction(
@@ -142,6 +143,7 @@ export const RESOURCES_REMOVE_ACTIONS: Record<
   "Tempered Iron Rock": "iron.removed",
   "Pure Gold Rock": "gold.removed",
   "Prime Gold Rock": "gold.removed",
+  "Ascension Crystal": "ascensionCrystal.removed",
 };
 
 function getOverlappingCollectibles({
