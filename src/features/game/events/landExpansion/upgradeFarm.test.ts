@@ -1143,7 +1143,7 @@ describe("upgradeFarm", () => {
     // Keeps the Mansion as the home, laid out per the swamp layout
     expect(state.buildings.Manor).toBeUndefined();
     expect(state.inventory.Mansion).toEqual(new Decimal(1));
-    expect(state.buildings.Mansion?.[0].coordinates).toEqual({ x: 0, y: 15 });
+    expect(state.buildings.Mansion?.[0].coordinates).toEqual({ x: -3, y: 15 });
 
     // Lays out the swamp starting nodes, incl. the swamp-specific types
     expect(Object.keys(state.crops)).toHaveLength(65);

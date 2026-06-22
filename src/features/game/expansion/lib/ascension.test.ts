@@ -128,6 +128,7 @@ describe("swamp cumulative nodes (carry-forward)", () => {
       Beehive: 4,
       "Flower Bed": 4,
       "Sunstone Rock": 13,
+      "Ascension Crystal": 0,
     });
 
     expect(getAscensionNodes({ expansion: 42, ascensionLevel: 5 })).toEqual({
@@ -143,6 +144,7 @@ describe("swamp cumulative nodes (carry-forward)", () => {
       Beehive: 8,
       "Flower Bed": 8,
       "Sunstone Rock": 13,
+      "Ascension Crystal": 0,
     });
   });
 });
