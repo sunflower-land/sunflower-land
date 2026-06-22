@@ -581,6 +581,7 @@ export function getRewards({
     "Tempered Iron Rock": 0,
     "Pure Gold Rock": 0,
     "Prime Gold Rock": 0,
+    "Ascension Crystal": 0,
   };
 
   const expected = getExpectedResources({

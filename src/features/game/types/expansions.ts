@@ -1969,6 +1969,7 @@ export type Layout = {
   fruitPatches?: Coordinates[];
   oilReserves?: Coordinates[];
   lavaPits?: Coordinates[];
+  ascensionCrystals?: Coordinates[];
 };
 
 // --- Expansion node counts (derived) -------------------------------------
@@ -2067,6 +2068,7 @@ const BASIC_BASE_NODES: Nodes = {
   Beehive: 0,
   "Oil Reserve": 0,
   "Lava Pit": 0,
+  "Ascension Crystal": 0,
 };
 
 const SPRING_BASE_NODES: Nodes = {
@@ -2082,6 +2084,7 @@ const SPRING_BASE_NODES: Nodes = {
   "Oil Reserve": 0,
   "Flower Bed": 0,
   "Lava Pit": 0,
+  "Ascension Crystal": 0,
 };
 
 const DESERT_BASE_NODES: Nodes = {
@@ -2097,6 +2100,7 @@ const DESERT_BASE_NODES: Nodes = {
   "Lava Pit": 0,
   Beehive: 3,
   "Flower Bed": 3,
+  "Ascension Crystal": 0,
 };
 
 const VOLCANO_BASE_NODES: Nodes = {
@@ -2112,6 +2116,7 @@ const VOLCANO_BASE_NODES: Nodes = {
   "Lava Pit": 0,
   Beehive: 3,
   "Flower Bed": 3,
+  "Ascension Crystal": 0,
 };
 
 export const TOTAL_EXPANSION_NODES: ExpansionNode = {

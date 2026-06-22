@@ -257,6 +257,7 @@ export const INITIAL_RESOURCES: Pick<
   | "flowers"
   | "crimstones"
   | "sunstones"
+  | "ascensionCrystals"
   | "beehives"
   | "oilReserves"
 > = {
@@ -317,6 +318,7 @@ export const INITIAL_RESOURCES: Pick<
     flowerBeds: {},
   },
   sunstones: {},
+  ascensionCrystals: {},
   beehives: {},
   oilReserves: {},
 };
@@ -965,6 +967,7 @@ export const TEST_FARM: GameState = {
     },
   },
   sunstones: {},
+  ascensionCrystals: {},
   mushrooms: {
     spawnedAt: 0,
     mushrooms: {},
@@ -1139,6 +1142,7 @@ export const EMPTY: GameState = {
   oilReserves: {},
   trees: {},
   sunstones: {},
+  ascensionCrystals: {},
   farmActivity: {},
 
   milestones: {},

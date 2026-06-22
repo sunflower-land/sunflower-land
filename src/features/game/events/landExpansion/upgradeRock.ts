@@ -27,6 +27,7 @@ export type UpgradeRockAction = {
     | "Iron Rock"
     | "Sunstone Rock"
     | "Crimstone Rock"
+    | "Ascension Crystal"
   >;
   id: string;
 };

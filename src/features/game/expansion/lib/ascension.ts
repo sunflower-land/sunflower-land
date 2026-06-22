@@ -85,6 +85,7 @@ export const SWAMP_BASE_NODES: Nodes = {
   "Lava Pit": 3,
   Beehive: 3,
   "Flower Bed": 3,
+  "Ascension Crystal": 0,
 };
 
 /** `{ start, end }` of the cost curve for each charged resource + coins. */
@@ -113,6 +114,7 @@ const SWAMP_NODE_DRIP: Record<keyof Nodes, number> = {
   Beehive: 10,
   "Flower Bed": 10,
   "Sunstone Rock": 0,
+  "Ascension Crystal": 0,
 };
 
 /** Maps each node type to the `Layout` array it is placed into. */
@@ -129,6 +131,7 @@ const NODE_TO_LAYOUT_FIELD: Record<keyof Nodes, keyof Layout> = {
   Beehive: "beehives",
   "Oil Reserve": "oilReserves",
   "Lava Pit": "lavaPits",
+  "Ascension Crystal": "ascensionCrystals",
 };
 
 /**
@@ -419,6 +422,7 @@ export const getAscensionLayout = ({
     fruitPatches: [],
     oilReserves: [],
     lavaPits: [],
+    ascensionCrystals: [],
   };
 
   const delta = getAscensionExpansionDelta({ expansion, ascensionLevel });

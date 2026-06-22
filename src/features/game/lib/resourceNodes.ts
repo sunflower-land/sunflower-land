@@ -105,6 +105,7 @@ export function canMine(
     "Tempered Iron Rock": IRON_RECOVERY_TIME,
     "Pure Gold Rock": GOLD_RECOVERY_TIME,
     "Prime Gold Rock": GOLD_RECOVERY_TIME,
+    "Ascension Crystal": 0,
   };
 
   const recoveryTime = resourceRecoveryTime[rockName];

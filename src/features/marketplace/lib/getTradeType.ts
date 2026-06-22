@@ -545,6 +545,8 @@ export const ITEM_TRADE_TYPES: {
     Crimstone: "instant",
     "Sunstone Rock": "instant",
     Sunstone: "instant",
+    "Ascension Crystal": "instant",
+    "Ascension Shard": "instant",
     Oil: "instant",
     "Oil Reserve": "instant",
     Obsidian: "instant",

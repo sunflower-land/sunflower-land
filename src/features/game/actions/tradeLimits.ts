@@ -33,6 +33,7 @@ export type TradeResource = Extract<
       CommodityName,
       | "Diamond"
       | "Sunstone"
+      | "Ascension Shard"
       | "Oil"
       | "Obsidian"
       | "Refined Salt"

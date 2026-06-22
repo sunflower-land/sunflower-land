@@ -2153,6 +2153,17 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Ascension Shard": {
+    name: "Ascension Shard",
+    description:
+      "A resource collected by mining ascension crystals.\n\nIt is used to upgrade existing skills.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   Chicken: {
     name: "Chicken",
     description:
@@ -5121,6 +5132,15 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Lava Pit": {
     description: "A source of obsidian",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Resource Node" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Ascension Crystal": {
+    description: "Upgrade skills",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     attributes: [
