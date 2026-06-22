@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import type {
   BoostName,
@@ -327,7 +328,7 @@ export function getStoneDropAmount({
   if (budUsed)
     boostsUsed.push({ name: budUsed, value: `+${yieldBoost.toString()}` });
 
-  if (game.island.type === "volcano") {
+  if (hasRequiredIslandExpansion(game.island.type, "volcano")) {
     amount += 0.1;
   }
 
