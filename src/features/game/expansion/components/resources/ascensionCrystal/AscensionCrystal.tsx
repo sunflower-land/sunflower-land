@@ -2,7 +2,10 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { Context } from "features/game/GameProvider";
 
-import type { InventoryItemName, Rock } from "features/game/types/game";
+import type {
+  FiniteResource,
+  InventoryItemName,
+} from "features/game/types/game";
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
@@ -22,9 +25,13 @@ const HasTool = (inventory: Partial<Record<InventoryItemName, Decimal>>) => {
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
 
-const compareResource = (prev?: Rock, next?: Rock) => {
-  return JSON.stringify(prev) === JSON.stringify(next);
-};
+// Cheap field comparator (avoids per-frame JSON.stringify in a resource-heavy
+// scene). Single-use nodes only change via mine/move, so these fields suffice.
+const compareResource = (prev?: FiniteResource, next?: FiniteResource) =>
+  prev?.minesLeft === next?.minesLeft &&
+  prev?.stone?.minedAt === next?.stone?.minedAt &&
+  prev?.x === next?.x &&
+  prev?.y === next?.y;
 
 interface Props {
   id: string;
@@ -36,9 +43,11 @@ export const AscensionCrystal: React.FC<Props> = ({ id }) => {
 
   const [touchCount, setTouchCount] = useState(0);
 
-  // When to hide the resource that pops out
-  const [collecting, setCollecting] = useState(false);
-  const harvested = useRef<number>(0);
+  // Drives the "popping out" animation. State (not a ref) so the render output
+  // never depends on mutable ref state — keeps React Compiler / concurrent
+  // rendering happy.
+  const [collectingAmount, setCollectingAmount] = useState(0);
+  const collectingTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const divRef = useRef<HTMLDivElement>(null);
 
   const { play: miningFallAudio } = useSound("mining_fall");
@@ -53,6 +62,15 @@ export const AscensionCrystal: React.FC<Props> = ({ id }) => {
     document.addEventListener("click", handleClickOutside, true);
     return () => {
       document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, []);
+
+  // Clear any pending animation timeout on unmount (mining deletes the node).
+  useEffect(() => {
+    return () => {
+      if (collectingTimeout.current) {
+        clearTimeout(collectingTimeout.current);
+      }
     };
   }, []);
 
@@ -88,22 +106,19 @@ export const AscensionCrystal: React.FC<Props> = ({ id }) => {
     setTouchCount(0);
   };
 
-  const mine = async () => {
+  const mine = () => {
     gameService.send("ascensionCrystal.mined", {
       index: id,
     });
 
-    if (showAnimations) {
-      setCollecting(true);
-      harvested.current = 1;
-    }
-
     miningFallAudio();
 
     if (showAnimations) {
-      await new Promise((res) => setTimeout(res, 3000));
-      setCollecting(false);
-      harvested.current = 0;
+      setCollectingAmount(1);
+      collectingTimeout.current = setTimeout(() => {
+        setCollectingAmount(0);
+        collectingTimeout.current = null;
+      }, 3000);
     }
   };
 
@@ -121,9 +136,9 @@ export const AscensionCrystal: React.FC<Props> = ({ id }) => {
       )}
 
       {/* Depleting resource animation */}
-      {collecting && (
+      {collectingAmount > 0 && (
         <DepletingSunstone
-          resourceAmount={harvested.current}
+          resourceAmount={collectingAmount}
           minesLeft={resource.minesLeft}
         />
       )}

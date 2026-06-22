@@ -39,7 +39,7 @@ export function mineAscensionCrystal({ state, action }: Options): GameState {
       throw new Error(EVENT_ERRORS.NO_ASCENSION_CRYSTAL);
     }
 
-    if (ascensionCrystal.x === undefined && ascensionCrystal.y === undefined) {
+    if (ascensionCrystal.x === undefined || ascensionCrystal.y === undefined) {
       throw new Error(EVENT_ERRORS.NOT_PLACED);
     }
 

@@ -12,7 +12,7 @@ describe("placeAscensionCrystal", () => {
             y: 1,
           },
           id: "1",
-          name: "Stone Rock",
+          name: "Ascension Crystal",
           type: "ascensionCrystal.placed",
         },
         state: {

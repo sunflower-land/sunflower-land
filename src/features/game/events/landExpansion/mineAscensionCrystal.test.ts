@@ -88,6 +88,23 @@ describe("mineAscensionCrystal", () => {
     ).toThrow(EVENT_ERRORS.NOT_PLACED);
   });
 
+  it("throws if the crystal is only partially placed (one coord missing)", () => {
+    expect(() =>
+      mineAscensionCrystal({
+        state: {
+          ...GAME_STATE,
+          bumpkin: INITIAL_BUMPKIN,
+          inventory: { "Gold Pickaxe": new Decimal(1) },
+          ascensionCrystals: {
+            0: { ...GAME_STATE.ascensionCrystals[0], y: undefined },
+          },
+        },
+        action: { type: "ascensionCrystal.mined", index: "0" },
+        createdAt: Date.now(),
+      }),
+    ).toThrow(EVENT_ERRORS.NOT_PLACED);
+  });
+
   it("throws an error if no gold pickaxes are left", () => {
     expect(() =>
       mineAscensionCrystal({
