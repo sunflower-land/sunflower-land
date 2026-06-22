@@ -340,7 +340,7 @@ export const BumpkinModal: React.FC<Props> = ({
                   level={level}
                   ascension={isAscended ? ascensionLevel : undefined}
                   onClose={() => {
-                    if (currentBumpkinLevel === 2) {
+                    if (currentBumpkinLevel === 2 && !isAscended) {
                       onClose();
                       openModal("SECOND_LEVEL");
                       setTimeout(() => acknowledgeLevelUp(), 500);
