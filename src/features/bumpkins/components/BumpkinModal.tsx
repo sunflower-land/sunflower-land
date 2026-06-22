@@ -4,6 +4,7 @@ import levelIcon from "assets/icons/level_up.png";
 
 import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
 import {
+  getAscensionDisplayText,
   getAscensionLevel,
   getExperienceToNextLevel,
   getMaxBumpkinLevel,
@@ -284,17 +285,8 @@ export const BumpkinModal: React.FC<Props> = ({
           />
           <div className="flex-1">
             <p className="text-sm">
-              {isAscended
-                ? t("bumpkin.ascensionLevel", {
-                    ascension: ascensionLevel,
-                    level,
-                  })
-                : `${t("lvl")} ${level}`}
-              {maxLevel
-                ? isAscended
-                  ? ` (${t("bumpkin.readyToAscend")})`
-                  : " (Max)"
-                : ""}
+              {getAscensionDisplayText({ ascension, length: "full" })}
+              {maxLevel ? " (Max)" : ""}
             </p>
             <BumpkinLevel
               experience={bumpkin.experience}

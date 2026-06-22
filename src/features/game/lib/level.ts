@@ -598,7 +598,10 @@ export const getAscensionLevel = ({
     return {
       ascension: 0,
       level,
-      isReadyToAscend: experience >= LEVEL_EXPERIENCE[PRE_ASCENSION_MAX_LEVEL],
+      // Tie "ready to ascend" to the actual cap: 150 when SWAMP_ASCENSION is on
+      // (maxLevel === PRE_ASCENSION_MAX_LEVEL), else the legacy 200 — so flag-off
+      // players keep progressing the bar up to their real max instead of pinning at 150.
+      isReadyToAscend: experience >= LEVEL_EXPERIENCE[maxLevel],
       currentExperienceProgress,
       experienceToNextLevel,
     };
