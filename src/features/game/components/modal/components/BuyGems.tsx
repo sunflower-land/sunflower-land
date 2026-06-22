@@ -12,6 +12,7 @@ import gemBundle04 from "assets/icons/gem_bundles/gem_bundle_04.webp";
 import gemBundle05 from "assets/icons/gem_bundles/gem_bundle_05.webp";
 import { Button } from "components/ui/Button";
 import { ButtonPanel } from "components/ui/Panel";
+import { NumberInput } from "components/ui/NumberInput";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -35,6 +36,8 @@ export interface Price {
   usd: number;
   image?: string;
   img_width?: number;
+  /** Kept as a pricing anchor for custom amounts, but hidden from the grid */
+  hidden?: boolean;
 }
 
 const PRICES: Price[] = [
@@ -42,10 +45,38 @@ const PRICES: Price[] = [
   { amount: 650, usd: 6.49, image: gemBundle01, img_width: 14 },
   { amount: 1350, usd: 12.99, image: gemBundle02, img_width: 16 },
   { amount: 2800, usd: 25.99, image: gemBundle03, img_width: 20 },
-  { amount: 7400, usd: 64.99, image: gemBundle04, img_width: 21 },
+  { amount: 7400, usd: 64.99, image: gemBundle04, img_width: 21, hidden: true },
   { amount: 15500, usd: 129.99, image: gemBundle05, img_width: 27 },
   { amount: 200000, usd: 1299.99 },
 ];
+
+/** Tiles shown in the grid (7,400 is hidden but still anchors custom pricing) */
+const DISPLAYED_PRICES = PRICES.filter((price) => !price.hidden);
+
+/** Numeric bundles used to anchor custom amounts, sorted ascending */
+const ANCHOR_BUNDLES = PRICES.filter(
+  (price): price is Price & { amount: number } =>
+    typeof price.amount === "number",
+).sort((a, b) => a.amount - b.amount);
+
+export const CUSTOM_GEMS_MIN = ANCHOR_BUNDLES[0].amount; // 100
+export const CUSTOM_GEMS_MAX = ANCHOR_BUNDLES[ANCHOR_BUNDLES.length - 1].amount; // whale pack size (200,000)
+
+/** FLOWER purchases receive a 30% discount on the USD price */
+const FLOWER_DISCOUNT = 0.7;
+
+/**
+ * Anchor a custom gem amount to the nearest bundle at or below it and return the
+ * full (pre-discount) USD price, using that bundle's per-gem rate.
+ */
+export function getCustomGemsUSD(amount: number): number {
+  const anchor =
+    [...ANCHOR_BUNDLES].reverse().find((bundle) => bundle.amount <= amount) ??
+    ANCHOR_BUNDLES[0];
+
+  const usdPerGem = anchor.usd / anchor.amount;
+  return amount * usdPerGem;
+}
 
 const STARTER_PACK_AVAILABLE_SECONDS = 7 * 24 * 60 * 60; // First 7 days
 /** Exported for StarterOfferModal time remaining display */
@@ -74,7 +105,7 @@ interface Props {
     usd: number;
     amount: number | typeof STARTER_PACK;
   }) => void;
-  onFlowerBuy: (quote: number) => void;
+  onFlowerBuy: (quote: number, bundle: number | typeof STARTER_PACK) => void;
   onCreditCardBuy: () => void;
   onHideBuyBBLabel: (hide: boolean) => void;
   onBack?: () => void;
@@ -97,15 +128,17 @@ export const BuyGems: React.FC<Props> = ({
   );
 
   const [showFlowerConfirm, setShowFlowerConfirm] = useState(false);
+  const [showCustom, setShowCustom] = useState(false);
+  const [customAmount, setCustomAmount] = useState(0);
   const { t } = useAppTranslation();
 
   useEffect(() => {
-    if (showFlowerConfirm) {
+    if (showFlowerConfirm || showCustom) {
       onHideBuyBBLabel(true);
     } else {
       onHideBuyBBLabel(false);
     }
-  }, [showFlowerConfirm, onHideBuyBBLabel]);
+  }, [showFlowerConfirm, showCustom, onHideBuyBBLabel]);
 
   if (!!price && showFlowerConfirm) {
     const flowerPrice =
@@ -194,10 +227,120 @@ export const BuyGems: React.FC<Props> = ({
 
         <Button
           disabled={!hasFlower}
-          onClick={() => onFlowerBuy(Number(flowerQuote))}
+          onClick={() => onFlowerBuy(Number(flowerQuote), price.amount)}
           className="relative mt-0"
         >
           {!hasFlower && (
+            <Label type="danger" className="absolute -top-4 right-0">
+              {t("error.insufficientFlower")}
+            </Label>
+          )}
+          {t("confirm")}
+        </Button>
+      </>
+    );
+  }
+
+  if (showCustom) {
+    const flowerPrice =
+      gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
+
+    const amount = Math.floor(customAmount);
+    const inRange = amount >= CUSTOM_GEMS_MIN && amount <= CUSTOM_GEMS_MAX;
+
+    // Anchor down to the nearest bundle and apply the FLOWER discount
+    const usd = inRange ? getCustomGemsUSD(amount) : 0;
+    const flowerUSD = usd * FLOWER_DISCOUNT;
+    const flowerQuote =
+      inRange && flowerPrice > 0
+        ? new Decimal(flowerUSD / flowerPrice).toFixed(4)
+        : "0.0000";
+
+    const hasFlower = gameService
+      .getSnapshot()
+      .context.state.balance.gte(flowerQuote);
+
+    const canConfirm = inRange && flowerPrice > 0 && hasFlower;
+
+    const resetCustom = () => {
+      setShowCustom(false);
+      setCustomAmount(0);
+    };
+
+    return (
+      <>
+        <div className="flex items-center justify-between flex-wrap">
+          <div className="flex items-center mr-2">
+            <div className="py-2">
+              <img
+                src={SUNNYSIDE.icons.arrow_left}
+                className="h-6 w-6 ml-2 cursor-pointer"
+                onClick={resetCustom}
+              />
+            </div>
+            <Label
+              icon={ITEM_DETAILS.Gem.image}
+              type="default"
+              className="ml-2"
+            >
+              {t("transaction.flowerPurchase")}
+            </Label>
+          </div>
+          <Label type="warning">{`1 FLOWER = $${flowerPrice.toFixed(4)}`}</Label>
+        </div>
+
+        <div className="p-1">
+          <p className="text-xs mb-1">
+            {t("transaction.enterGemAmount", {
+              min: CUSTOM_GEMS_MIN,
+              max: CUSTOM_GEMS_MAX,
+            })}
+          </p>
+          <NumberInput
+            value={customAmount}
+            maxDecimalPlaces={0}
+            isOutOfRange={amount > 0 && !inRange}
+            icon={ITEM_DETAILS.Gem.image}
+            onValueChange={(value) => setCustomAmount(value.toNumber())}
+          />
+
+          <div className="flex justify-between mt-3 mb-1">
+            <p className="text-sm">{t("gems")}</p>
+            <div className="flex items-center space-x-2">
+              <span>{`${amount} x`}</span>
+              <img src={ITEM_DETAILS.Gem.image} className="w-6" />
+            </div>
+          </div>
+
+          <div className="flex justify-between mb-1">
+            <p className="text-sm">{t("usd")}</p>
+            <div className="flex items-center space-x-2">
+              <span className="line-through">{`$${usd.toFixed(2)}`}</span>
+              <span>{`$${flowerUSD.toFixed(2)} x`}</span>
+              <img src={usdcIcon} className="w-6" />
+            </div>
+          </div>
+
+          <div
+            className="flex justify-between my-2 pt-2"
+            style={{ borderTop: "1px solid #ead4aa" }}
+          >
+            <p className="text-sm">{`FLOWER`}</p>
+            <div className="flex items-center space-x-2">
+              <span>
+                {flowerQuote} {`x`}{" "}
+              </span>
+              <img src={flowerIcon} className="w-6" />
+            </div>
+          </div>
+        </div>
+
+        <Button
+          disabled={!canConfirm}
+          onClick={() => onFlowerBuy(Number(flowerQuote), amount)}
+          className="relative mt-0"
+        >
+          {inRange && flowerPrice > 0 && !hasFlower && (
             <Label type="danger" className="absolute -top-4 right-0">
               {t("error.insufficientFlower")}
             </Label>
@@ -414,7 +557,7 @@ export const BuyGems: React.FC<Props> = ({
         )}
 
         <div className="grid grid-cols-3 gap-1 gap-y-2  sm:text-sm sm:gap-2">
-          {PRICES.map((price, index) => {
+          {DISPLAYED_PRICES.map((price, index) => {
             // Compare price to base package (PRICES only has numeric amounts)
             const amount = typeof price.amount === "number" ? price.amount : 0;
             const gemsPerDollar =
@@ -434,7 +577,7 @@ export const BuyGems: React.FC<Props> = ({
                   </Label>
                 )}
 
-                {index === PRICES.length - 1 && (
+                {index === DISPLAYED_PRICES.length - 1 && (
                   <img
                     src={whaleIcon}
                     className="h-6 absolute -left-4 -top-4"
@@ -467,6 +610,21 @@ export const BuyGems: React.FC<Props> = ({
             );
           })}
         </div>
+
+        <ButtonPanel
+          onClick={() => setShowCustom(true)}
+          className="w-full mt-3 relative cursor-pointer hover:bg-brown-300 flex items-center justify-between"
+        >
+          <div className="flex items-center">
+            <SquareIcon icon={ITEM_DETAILS.Gem.image} width={10} />
+            <span className="ml-2 text-sm">
+              {t("transaction.enterCustomAmount")}
+            </span>
+          </div>
+          <Label type="warning" icon={flowerIcon}>
+            {t("transaction.flowerPurchase")}
+          </Label>
+        </ButtonPanel>
       </div>
     </>
   );

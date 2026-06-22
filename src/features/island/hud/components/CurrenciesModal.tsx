@@ -145,12 +145,15 @@ export const CurrenciesModal: React.FC<Props> = ({
     onboardingAnalytics.logEvent("begin_checkout");
   }, []);
 
-  const onFlowerBuy = async (quote: number) => {
+  const onFlowerBuy = async (
+    quote: number,
+    bundle: number | typeof STARTER_PACK,
+  ) => {
     gameService.send("gems.bought", {
       effect: {
         type: "gems.bought",
         quote,
-        bundle: price?.amount,
+        bundle,
       },
       authToken: token,
     });
