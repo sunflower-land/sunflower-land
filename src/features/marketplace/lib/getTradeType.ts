@@ -1712,7 +1712,7 @@ export const ITEM_TRADE_TYPES: {
     "Radiant Dumbo": "onchain",
     "Deep Sea Helm": "instant",
     "Maple Dumbo": "onchain",
-    "Pickaxe Shark": "onchain",
+    "Pickaxe Shark": "instant",
     "Seedling Hat": "instant",
     "Golden Seedling": "instant",
     "Gloomy Dumbo": "onchain",
