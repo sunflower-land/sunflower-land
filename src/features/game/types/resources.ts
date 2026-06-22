@@ -93,7 +93,7 @@ export const COMMODITIES: Record<CommodityName, Commodity> = {
   "Refined Salt": {
     description: "Processed salt for pickling and advanced recipes",
   },
-  "Ascension Shard": { description: "" },
+  "Ascension Shard": { description: translate("description.ascensionShard") },
 };
 
 export const ANIMAL_RESOURCES: Record<AnimalResource, Commodity> = {

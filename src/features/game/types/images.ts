@@ -3531,7 +3531,7 @@ export const ITEM_DETAILS: Items = {
   // TODO: replace placeholder art once the Ascension Crystal asset lands.
   "Ascension Crystal": {
     image: sunstoneRock,
-    description: "Upgrade skills",
+    description: translate("description.ascensionCrystal"),
   },
   Tree: {
     image: SUNNYSIDE.resource.tree,
