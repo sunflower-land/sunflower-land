@@ -89,6 +89,7 @@ import type { FermentationProductName } from "./fermentationProducts";
 import type { SpiceRackProductName } from "./spiceRackProducts";
 import type { PickledCropName } from "./pickled";
 import { translate } from "lib/i18n/translate";
+import { capitalize } from "lib/utils/capitalize";
 import type { SpecialEvents } from "./specialEvents";
 import type { TradeableName } from "../actions/sellMarketResource";
 import type { MinigameCurrency } from "../events/minigames/purchaseMinigameItem";
@@ -1540,11 +1541,11 @@ export const ISLAND_DISPLAY_NAMES: Partial<Record<IslandType, string>> = {
 };
 
 /**
- * The custom display name for an island, or `undefined` if it has none (callers
- * then fall back to their own generic formatting, e.g. `"{Type} Island"`).
+ * The player-facing display name for an island: its custom name if it has one,
+ * otherwise the title-cased generic `"{Type} Island"`.
  */
 export const getIslandName = (island: IslandType): string =>
-  ISLAND_DISPLAY_NAMES[island] ?? `${island} Island`;
+  ISLAND_DISPLAY_NAMES[island] ?? `${capitalize(island)} Island`;
 
 export type Home = {
   collectibles: Collectibles;

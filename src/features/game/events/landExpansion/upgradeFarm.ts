@@ -1008,9 +1008,7 @@ type IslandSetup = {
   /** Buildings, resources & trap spots laid out when the player arrives. */
   initialCoordinates: InitialLandCoordinates;
   /** Island-specific changes: home building swap, resource floor, airdrop. */
-  applySetup:
-    | ((state: GameState) => GameState)
-    | ((state: GameState, target: UpgradeTarget) => GameState);
+  applySetup: (state: GameState, target: UpgradeTarget) => GameState;
 };
 
 const ISLAND_SETUP: Record<UpgradeTarget, IslandSetup> = {

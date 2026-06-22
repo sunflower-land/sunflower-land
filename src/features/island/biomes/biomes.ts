@@ -92,5 +92,11 @@ export const LAND_BIOMES: Record<LandBiomeName, Biome> = {
   },
 };
 export function getCurrentBiome(island: GameState["island"]): LandBiomeName {
-  return island.biome ?? (`${capitalize(island.type)} Biome` as LandBiomeName);
+  return (
+    island.biome ??
+    // Marble is the only island whose biome isn't `${Capitalize<type>} Biome`.
+    (island.type === "marble"
+      ? "Marble Age Biome"
+      : (`${capitalize(island.type)} Biome` as LandBiomeName))
+  );
 }
