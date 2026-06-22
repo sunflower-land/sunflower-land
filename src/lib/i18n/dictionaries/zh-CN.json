@@ -2128,7 +2128,6 @@
   "islandupgrade.welcomeDesertIsland": "欢迎来到黄沙岛！",
   "islandupgrade.desertResourcesDescription": "恶劣的沙漠环境需要新科技才能生存。拓张你的地块，发现新的建筑物和里面的新玩意儿！",
   "islandupgrade.requiredIsland": "在 {{islandType}} 处解锁",
-  "islandupgrade.otherIsland": "{{island}} 岛屿",
   "landscape.intro.one": "设计您的梦幻岛屿！",
   "landscape.intro.two": "在设计模式下，您可以抓取、拖动并移动物件。",
   "landscape.intro.three": "锻造稀有装饰品",
@@ -5832,7 +5831,6 @@
   "event.noticeboard.five": "这一切都要归功于你和你的支持！我们来自社区活动团队谢谢大家！感谢您对向日葵乐园 Discord 官方服务器的反馈",
   "playerModal.since": "自 {{date}} 开始",
   "playerModal.marketValue": "市场价值：{{value}}",
-  "playerModal.island": "{{island}} 岛屿",
   "playerModal.dailyStreak": "每日连胜纪录：{{streak}}",
   "playerModal.totalDeliveries": "总配送量：{{count}}",
   "whatsOn.auction.tickets": "本周无法通过农活和赏金获取 {{ticket}}。",
@@ -5854,7 +5852,6 @@
   "marketplace.price": "价格：{{price}}",
   "description.colorToken2025": "在活动结束之前，在色彩节活动商店中使用它！",
   "description.colorTicket2025": "在色彩节活动结束后，持有这个有机会赢取 $FLOWER！",
-  "biome.notInCorrectIslandType": "请升级至 {{islandType}} 岛屿以购买此地块",
   "biome.applyInstructions": "您已购买新地块！是时候给您的土地大改造一番了。前往物品栏中的 “地块” 选项即可启用它。",
   "apply": "启用",
   "unapply": "取消",
@@ -9114,5 +9111,7 @@
   "level.ascension": "Ascension {{ascension}} 等级 {{level}}",
   "level.ascension.medium": "等级 {{ascension}} 等级 {{level}}",
   "level.ascension.short": "A {{ascension}} L {{level}}",
-  "levelUp.ascension": "Ascension {{ascension}}！你已达到等级 {{level}}。"
+  "levelUp.ascension": "Ascension {{ascension}}！你已达到等级 {{level}}。",
+  "islandupgrade.ascensionLevelRequired": "在你当前的岛屿上达到等级 {{level}} 即可升级",
+  "biome.notInCorrectIslandType": "升级到 {{islandType}} 即可购买此生物群落"
 }

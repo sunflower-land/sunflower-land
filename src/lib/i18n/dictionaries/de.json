@@ -1881,7 +1881,6 @@
   "islandupgrade.notReadyExpandMore": "Du bist nicht bereit. Erweitern Sie {{remainingExpansions}} mehrmals",
   "islandupgrade.desertResourcesDescription": "Die raue Wüstenumgebung erfordert neue Technologien, um zu überleben. Erweitere dein Land, um neue Gebäude und das, was sich darin befindet, zu entdecken!",
   "islandupgrade.requiredIsland": "Wird bei {{islandType}} freigeschaltet",
-  "islandupgrade.otherIsland": "{{island}} Insel",
   "landscape.intro.one": "Gestalte deine Trauminsel!",
   "landscape.intro.two": "Im Designmodus können Sie Objekte halten, ziehen und verschieben.",
   "landscape.intro.three": "Stelle seltene Dekorationen her",
@@ -5832,7 +5831,6 @@
   "event.noticeboard.five": "Das alles haben wir dir und deiner Unterstützung zu verdanken! Wir vom Community Event Team danken euch allen! Euer Feedback auf dem offiziellen Sunflower Land Discord Server ist uns sehr wichtig",
   "playerModal.since": "Seit {{date}}",
   "playerModal.marketValue": "Marktwert: {{value}}",
-  "playerModal.island": "{{island}} Insel",
   "playerModal.dailyStreak": "Tagesserie: {{streak}}",
   "playerModal.totalDeliveries": "Lieferungen insgesamt: {{count}}",
   "whatsOn.auction.tickets": "Keine {{ticket}} von Hausarbeiten und Kopfgeldern in dieser Woche.",
@@ -5854,7 +5852,6 @@
   "marketplace.price": "Preis: {{price}}",
   "description.colorToken2025": "Benutze es im Festival of Colors Eventshop, bevor das Event endet!",
   "description.colorTicket2025": "Holt das, um nach Ende des Festivals der Farben $FLOWER zu gewinnen!",
-  "biome.notInCorrectIslandType": "Rüste auf die Insel {{islandType}} auf, um dieses Biom zu kaufen",
   "biome.applyInstructions": "Du hast ein neues Biom gekauft! Zeit, Ihrem Land ein neues Gesicht zu geben. Gehe in deinem Inventar zum Tab „Biome“, um es anzuwenden.",
   "apply": "Bewerben",
   "unapply": "Bewerbung aufheben",
@@ -9114,5 +9111,7 @@
   "level.ascension": "Aufstieg {{ascension}} Stufe {{level}}",
   "level.ascension.medium": "Aufsteigend {{ascension}} Stufe {{level}}",
   "level.ascension.short": "A {{ascension}} L {{level}}",
-  "levelUp.ascension": "Himmelfahrt {{ascension}}! Du hast Level {{level}} erreicht."
+  "levelUp.ascension": "Himmelfahrt {{ascension}}! Du hast Level {{level}} erreicht.",
+  "islandupgrade.ascensionLevelRequired": "Erreiche Level {{level}} auf deiner aktuellen Insel, um aufzusteigen",
+  "biome.notInCorrectIslandType": "Upgrade auf {{islandType}}, um dieses Biom zu kaufen"
 }

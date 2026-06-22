@@ -2717,7 +2717,6 @@
   "islandupgrade.notReadyExpandMore": "Hazır değilsin. {{remainingExpansions}} öğesini daha fazla genişletin",
   "islandupgrade.desertResourcesDescription": "Zorlu çöl ortamı hayatta kalmak için yeni teknolojiye ihtiyaç duyuyor. Yeni binaları ve içinde ne olduğunu keşfetmek için arazinizi genişletin!",
   "islandupgrade.requiredIsland": "{{islandType}} 'de kilidi açılır",
-  "islandupgrade.otherIsland": "{{island}} Ada",
   "landscape.confirmation.resourceNodes.one": "Bu düğüm yere yerleştirildikten sonra, onu göğsünüze kadar kazamayacaksınız.",
   "landscape.confirmation.resourceNodes.two": "Bunu yere koymak istediğinden emin misin?",
   "landscape.confirmation.hourglass.one": "Yerleştirildikten sonra, {{selectedChestItem}} efektleri hemen başlayacak ve duraklatılamaz veya iptal edilemez.",
@@ -5832,7 +5831,6 @@
   "event.noticeboard.five": "Bunların hepsi sizin ve desteğiniz sayesinde! Topluluk etkinlik ekibinden hepinize teşekkür ederiz! Resmi Sunflower Land Discord Sunucusu hakkındaki görüşleriniz takdir edilmektedir",
   "playerModal.since": "{{date}} 'den beri",
   "playerModal.marketValue": "Piyasa değeri: {{value}}",
-  "playerModal.island": "{{island}} Ada",
   "playerModal.dailyStreak": "Günlük seri: {{streak}}",
   "playerModal.totalDeliveries": "Toplam teslimatlar: {{count}}",
   "whatsOn.auction.tickets": "Bu hafta ev işleri ve ödüllerden {{ticket}} yok.",
@@ -5854,7 +5852,6 @@
   "marketplace.price": "Fiyat: {{price}}",
   "description.colorToken2025": "Etkinlik bitmeden önce bunu renkler festivali etkinlik mağazasında kullanın!",
   "description.colorTicket2025": "Renkler festivali etkinliği sona erdikten sonra $FLOWER kazanma şansı için bunu tut!",
-  "biome.notInCorrectIslandType": "Bu biyomu satın almak için {{islandType}} adasına yükseltin",
   "biome.applyInstructions": "Yeni bir biyom satın aldınız! Arazinize bir makyaj yapma zamanı. Uygulamak için envanterinizdeki “Biyomlar” sekmesine gidin.",
   "apply": "Uygula",
   "unapply": "Uygulamayı kaldır",
@@ -9114,5 +9111,7 @@
   "level.ascension": "Yükseliş {{ascension}} Seviye {{level}}",
   "level.ascension.medium": "Asc. {{ascension}} Lvl. {{level}}",
   "level.ascension.short": "A {{ascension}} L {{level}}",
-  "levelUp.ascension": "Yükseliş {{ascension}}! {{level}} seviyesine ulaştınız."
+  "levelUp.ascension": "Yükseliş {{ascension}}! {{level}} seviyesine ulaştınız.",
+  "islandupgrade.ascensionLevelRequired": "Yükselmek için mevcut adanızdaki {{level}} seviyesine ulaşın",
+  "biome.notInCorrectIslandType": "Bu biyomu satın almak için {{islandType}} 'ye yükseltin"
 }

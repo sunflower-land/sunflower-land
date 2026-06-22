@@ -2708,7 +2708,6 @@
   "islandupgrade.notReadyExpandMore": "Tu n'es pas prête. Étendre {{remainingExpansions}} plusieurs fois",
   "islandupgrade.desertResourcesDescription": "L'environnement désertique rude nécessite de nouvelles technologies pour survivre. Agrandissez votre terrain pour découvrir de nouveaux bâtiments et ce qu'il y a à l'intérieur !",
   "islandupgrade.requiredIsland": "Débloqué à {{islandType}}",
-  "islandupgrade.otherIsland": "{{island}} Île",
   "landscape.confirmation.resourceNodes.one": "Une fois ce nœud posé, vous ne pourrez plus le creuser jusqu'à votre poitrine.",
   "landscape.confirmation.resourceNodes.two": "Tu es sûr de vouloir le poser ?",
   "landscape.confirmation.hourglass.one": "Une fois placé, les effets du {{selectedChestItem}} débuteront immédiatement et ne peuvent être ni suspendus ni annulés.",
@@ -5832,7 +5831,6 @@
   "event.noticeboard.five": "Tout cela grâce à vous et à votre soutien ! L'équipe de l'événement communautaire vous remercie tous ! Vos commentaires sur le serveur Discord officiel de Sunflower Land sont appréciés",
   "playerModal.since": "Depuis {{date}}",
   "playerModal.marketValue": "Valeur de marché : {{value}}",
-  "playerModal.island": "{{island}} Île",
   "playerModal.dailyStreak": "Série quotidienne : {{streak}}",
   "playerModal.totalDeliveries": "Total des livraisons : {{count}}",
   "whatsOn.auction.tickets": "Pas de {{ticket}} de corvées et de primes cette semaine.",
@@ -5854,7 +5852,6 @@
   "marketplace.price": "Prix : {{price}}",
   "description.colorToken2025": "Utilisez-le dans la boutique événementielle du Festival des couleurs avant la fin de l'événement !",
   "description.colorTicket2025": "Gardez-le pour courir la chance de gagner $FLOWER après la fin de l'événement du festival des couleurs !",
-  "biome.notInCorrectIslandType": "Passez à l'île {{islandType}} pour acheter ce biome",
   "biome.applyInstructions": "Vous avez acheté un nouveau biome ! Il est temps de relooker votre terrain. Rendez-vous dans l'onglet « Biomes » de votre inventaire pour l'appliquer.",
   "apply": "Postulez",
   "unapply": "Déposer une demande",
@@ -9114,5 +9111,7 @@
   "level.ascension": "Ascension {{ascension}} Niveau {{level}}",
   "level.ascension.medium": "Asc. {{ascension}} Niveau {{level}}",
   "level.ascension.short": "A {{ascension}} L {{level}}",
-  "levelUp.ascension": "L'Ascension {{ascension}} ! Vous avez atteint le niveau {{level}}."
+  "levelUp.ascension": "L'Ascension {{ascension}} ! Vous avez atteint le niveau {{level}}.",
+  "islandupgrade.ascensionLevelRequired": "Atteignez le niveau {{level}} sur votre île actuelle pour y monter",
+  "biome.notInCorrectIslandType": "Passez à {{islandType}} pour acheter ce biome"
 }

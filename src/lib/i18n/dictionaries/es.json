@@ -1854,7 +1854,6 @@
   "islandupgrade.notReadyExpandMore": "No estás preparado. Amplíe {{remainingExpansions}} más veces",
   "islandupgrade.desertResourcesDescription": "El duro entorno desértico requiere nuevas tecnologías para sobrevivir. Amplía tu terreno para descubrir nuevos edificios y lo que hay en su interior!",
   "islandupgrade.requiredIsland": "Se desbloquea a {{islandType}}",
-  "islandupgrade.otherIsland": "{{island}} Isla",
   "landscape.intro.one": "Diseña la isla de tus sueños!",
   "landscape.intro.two": "En el modo de diseño puedes sujetar, arrastrar y mover los elementos.",
   "landscape.intro.three": "Crea decoraciones raras",
@@ -5832,7 +5831,6 @@
   "event.noticeboard.five": "¡Todo esto es gracias a ti y a tu apoyo! ¡Desde el equipo de eventos comunitarios os damos las gracias a todos! Agradecemos vuestros comentarios sobre el servidor oficial de Discord de Sunflower Land",
   "playerModal.since": "Desde {{date}}",
   "playerModal.marketValue": "Valor de mercado: {{value}}",
-  "playerModal.island": "{{island}} Isla",
   "playerModal.dailyStreak": "Racha diaria: {{streak}}",
   "playerModal.totalDeliveries": "Entregas totales: {{count}}",
   "whatsOn.auction.tickets": "No habrá {{ticket}} de tareas y recompensas esta semana.",
@@ -5854,7 +5852,6 @@
   "marketplace.price": "Precio: {{price}}",
   "description.colorToken2025": "¡Utilízala en la tienda de eventos del festival de colores antes de que termine el evento!",
   "description.colorTicket2025": "¡Guarda esto para tener la oportunidad de ganar $FLOWER cuando termine el festival de colores!",
-  "biome.notInCorrectIslandType": "Actualice a la isla {{islandType}} para comprar este bioma",
   "biome.applyInstructions": "¡Has comprado un nuevo bioma! Es hora de renovar tu tierra. Dirígete a la pestaña «Biomas» de tu inventario para aplicarlo.",
   "apply": "Aplicar",
   "unapply": "Anular la solicitud",
@@ -9114,5 +9111,7 @@
   "level.ascension": "Ascensión {{ascension}} Nivel {{level}}",
   "level.ascension.medium": "Nivel {{ascension}} Nivel {{level}}",
   "level.ascension.short": "{{ascension}} L {{level}}",
-  "levelUp.ascension": "¡Ascensión {{ascension}}! Has alcanzado el nivel {{level}}."
+  "levelUp.ascension": "¡Ascensión {{ascension}}! Has alcanzado el nivel {{level}}.",
+  "islandupgrade.ascensionLevelRequired": "Alcanza el nivel {{level}} en tu isla actual para ascender",
+  "biome.notInCorrectIslandType": "Actualice a {{islandType}} para comprar este bioma"
 }

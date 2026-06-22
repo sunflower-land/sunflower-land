@@ -1882,7 +1882,6 @@
   "islandupgrade.notReadyExpandMore": "Anda belum siap. Perluas {{remainingExpansions}} lebih banyak",
   "islandupgrade.desertResourcesDescription": "Lingkungan gurun yang keras membutuhkan teknologi baru untuk bertahan hidup. Perluas tanah Anda untuk menemukan bangunan baru dan apa yang ada di dalamnya!",
   "islandupgrade.requiredIsland": "Buka di {{islandType}}",
-  "islandupgrade.otherIsland": "{{island}} Pulau",
   "landscape.intro.one": "Rancang pulau impian Anda!",
   "landscape.intro.two": "Dalam mode desain Anda dapat menahan, menyeret & memindahkan item di sekitar.",
   "landscape.intro.three": "Kerajinan dekorasi langka",
@@ -5832,7 +5831,6 @@
   "event.noticeboard.five": "Ini semua berkat Anda dan dukungan Anda! Kami dari tim acara komunitas berterima kasih kepada Anda semua! Umpan balik Anda tentang Sunflower Land Discord Server resmi dihargai",
   "playerModal.since": "Sejak {{date}}",
   "playerModal.marketValue": "Nilai pasar: {{value}}",
-  "playerModal.island": "{{island}} Pulau",
   "playerModal.dailyStreak": "Beruntun harian: {{streak}}",
   "playerModal.totalDeliveries": "Total pengiriman: {{count}}",
   "whatsOn.auction.tickets": "Tidak ada {{ticket}} dari tugas-tugas dan hadiah minggu ini.",
@@ -5854,7 +5852,6 @@
   "marketplace.price": "Harga: {{price}}",
   "description.colorToken2025": "Gunakan ini di toko acara festival warna sebelum acara berakhir!",
   "description.colorTicket2025": "Tahan ini untuk kesempatan memenangkan $FLOWER setelah acara festival warna berakhir!",
-  "biome.notInCorrectIslandType": "Tingkatkan ke pulau {{islandType}} untuk membeli bioma ini",
   "biome.applyInstructions": "Anda telah membeli bioma baru! Saatnya mengubah tanah Anda. Buka tab “Bioma” di inventaris Anda untuk menerapkannya.",
   "apply": "Menerapkan",
   "unapply": "Hapus aplikasi",
@@ -9114,5 +9111,7 @@
   "level.ascension": "Kenaikan {{ascension}} Level {{level}}",
   "level.ascension.medium": "Asc. {{ascension}} Lvl. {{level}}",
   "level.ascension.short": "A {{ascension}} L {{level}}",
-  "levelUp.ascension": "Kenaikan {{ascension}}! Anda telah mencapai level {{level}}."
+  "levelUp.ascension": "Kenaikan {{ascension}}! Anda telah mencapai level {{level}}.",
+  "islandupgrade.ascensionLevelRequired": "Mencapai level {{level}} di pulau Anda saat ini untuk naik",
+  "biome.notInCorrectIslandType": "Tingkatkan ke {{islandType}} untuk membeli bioma ini"
 }

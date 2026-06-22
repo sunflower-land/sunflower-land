@@ -2430,7 +2430,6 @@
   "islandupgrade.desertResourcesDescription": "Суровые условия пустыни требуют новых технологий для выживания. Расширяйте свою территорию, чтобы открыть для себя новые здания и то, что внутри!",
   "islandupgrade.volcanoResourcesDescription": "Опасная вулканическая местность с драгоценными минералами и редкими ресурсами, ожидающими своего открытия. Расширяйте свою землю, чтобы раскрыть ее секреты!",
   "islandupgrade.requiredIsland": "Разблокируй {{islandType}}",
-  "islandupgrade.otherIsland": "{{island}} остров",
   "landscape.intro.one": "Создай остров своей мечты!",
   "landscape.intro.two": "В режиме дизайнера ты можешь захватывать и перетаскивать предметы.",
   "landscape.intro.three": "Создавай редкие украшения",
@@ -6087,7 +6086,6 @@
   "walletWall.selectANetwork": "Выбери сеть для {{action}}",
   "playerModal.since": "Играет с {{date}}",
   "playerModal.marketValue": "Рыночная стоимость: {{value}}",
-  "playerModal.island": "{{island}} Остров",
   "playerModal.followers": "Подписчики ({{count}})",
   "playerModal.following": "Подписки ({{count}})",
   "playerModal.no.followers": "На данный момент у этого игрока нет подписчиков.",
@@ -6126,7 +6124,6 @@
   "whatsOn.peggysCookoffText2": "5000 лучших шеф-поваров выиграют жетоны любви!",
   "whatsOn.july10th": "10 июля",
   "biome.alreadyOwn": "У вас уже есть этот биом",
-  "biome.notInCorrectIslandType": "Чтобы купить этот биом, перейдите на остров {{islandType}}",
   "biome.applyInstructions": "Вы купили новый биом! Пора преобразить свою землю. Перейдите на вкладку «Биомы» в своем инвентаре, чтобы применить его.",
   "already.built": "Уже построено",
   "monuments": "Монументы",
@@ -9114,5 +9111,7 @@
   "level.ascension": "Ascension {{ascension}} Level {{level}}",
   "level.ascension.medium": "Asc. {{ascension}} Lvl. {{level}}",
   "level.ascension.short": "A{{ascension}} L{{level}}",
-  "levelUp.ascension": "Ascension {{ascension}}! You've reached level {{level}}."
+  "levelUp.ascension": "Ascension {{ascension}}! You've reached level {{level}}.",
+  "islandupgrade.ascensionLevelRequired": "Reach level {{level}} on your current island to ascend",
+  "biome.notInCorrectIslandType": "Upgrade to {{islandType}} to buy this biome"
 }
