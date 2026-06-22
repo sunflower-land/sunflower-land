@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from "react-router";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
@@ -386,30 +387,31 @@ export const Interior: React.FC = () => {
                   <UpgradeButton />
                 </MapPlacement>
               )}
-              {expansion && island.type === "volcano" && (
-                <MapPlacement
-                  key="upgrade-button"
-                  x={14 - 12}
-                  y={20 - 12}
-                  height={2}
-                  width={1}
-                  className="relative"
-                >
-                  <div
-                    className="h-full w-full cursor-pointer"
-                    onClick={() => navigate("/level_one")}
-                  />
-                  <img
-                    src={SUNNYSIDE.icons.arrow_up}
-                    style={{
-                      width: `${PIXEL_SCALE * 9}px`,
-                      left: `${PIXEL_SCALE * 2}px`,
-                      top: `${PIXEL_SCALE * -2}px`,
-                    }}
-                    className="absolute inset-0 pointer-events-none"
-                  />
-                </MapPlacement>
-              )}
+              {expansion &&
+                hasRequiredIslandExpansion(island.type, "volcano") && (
+                  <MapPlacement
+                    key="upgrade-button"
+                    x={14 - 12}
+                    y={20 - 12}
+                    height={2}
+                    width={1}
+                    className="relative"
+                  >
+                    <div
+                      className="h-full w-full cursor-pointer"
+                      onClick={() => navigate("/level_one")}
+                    />
+                    <img
+                      src={SUNNYSIDE.icons.arrow_up}
+                      style={{
+                        width: `${PIXEL_SCALE * 9}px`,
+                        left: `${PIXEL_SCALE * 2}px`,
+                        top: `${PIXEL_SCALE * -2}px`,
+                      }}
+                      className="absolute inset-0 pointer-events-none"
+                    />
+                  </MapPlacement>
+                )}
             </div>
           </div>
         </animated.div>
