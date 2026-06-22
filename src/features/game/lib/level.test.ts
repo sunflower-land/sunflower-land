@@ -86,13 +86,13 @@ describe("ascension bandXp", () => {
 });
 
 describe("ascension levelXp", () => {
-  it("uses a total weight of 88.25", () => {
-    expect(ASCENSION_TOTAL_WEIGHT).toBeCloseTo(88.25, 10);
+  it("uses a total weight of 85.75 (49 level-up transitions)", () => {
+    expect(ASCENSION_TOTAL_WEIGHT).toBeCloseTo(85.75, 10);
   });
-  it("sums to bandXp across the 50 within-ascension levels", () => {
+  it("sums to bandXp across the 49 level-up transitions", () => {
     for (const a of [1, 2, 5]) {
       let sum = 0;
-      for (let n = 1; n <= LEVELS_PER_ASCENSION; n++) sum += levelXp(a, n);
+      for (let n = 1; n < LEVELS_PER_ASCENSION; n++) sum += levelXp(a, n);
       expect(sum).toBeCloseTo(bandXp(a), 3);
     }
   });
@@ -136,21 +136,24 @@ describe("getAscensionLevel", () => {
     });
     expect(result.level).toEqual(2);
   });
-  it("is level 50 but not ready just below the band total", () => {
+  it("is level 49 (not yet 50) just below the band total", () => {
     const result = getAscensionLevel({
       experience: ascensionBaseline(2) - 1,
       ascensionLevel: 1,
     });
-    expect(result.level).toEqual(50);
+    expect(result.level).toEqual(49);
     expect(result.isReadyToAscend).toBeFalsy();
   });
-  it("is level 50 and ready to ascend at the band total", () => {
+  it("is level 50 and ready to ascend at the band total, with no remaining goal", () => {
     const result = getAscensionLevel({
       experience: ascensionBaseline(2),
       ascensionLevel: 1,
     });
     expect(result.level).toEqual(50);
     expect(result.isReadyToAscend).toBeTruthy();
+    expect(result.currentExperienceProgress).toEqual(
+      result.experienceToNextLevel,
+    );
   });
   it("clamps to level 50 / ready when banked experience exceeds the band", () => {
     const result = getAscensionLevel({

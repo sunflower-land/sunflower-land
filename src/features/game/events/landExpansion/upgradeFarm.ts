@@ -14,7 +14,7 @@ import type {
 } from "features/game/types/game";
 import { ASCENSION_ISLANDS } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
-import { getAscensionLevel } from "features/game/lib/level";
+import { getAscensionLevel, getMaxBumpkinLevel } from "features/game/lib/level";
 import {
   getTotalBaseResourceEquivalents,
   topUpResourceToMinimum,
@@ -1223,6 +1223,7 @@ export function upgrade({ state, createdAt = Date.now(), farmId }: Options) {
     !getAscensionLevel({
       experience: game.bumpkin.experience ?? 0,
       ascensionLevel: game.island.ascensionLevel ?? 0,
+      maxLevel: getMaxBumpkinLevel(game),
     }).isReadyToAscend
   ) {
     throw new Error("Player has not met the level requirements");
