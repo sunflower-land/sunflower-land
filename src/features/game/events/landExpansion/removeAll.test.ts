@@ -181,6 +181,17 @@ const GAME_STATE: GameState = {
       y: 8,
     },
   },
+  ascensionCrystals: {
+    "1": {
+      stone: {
+        minedAt: dateNow,
+      },
+      createdAt: dateNow,
+      x: 2,
+      y: 9,
+      minesLeft: 5,
+    },
+  },
 };
 
 describe("removeAll", () => {
@@ -219,6 +230,8 @@ describe("removeAll", () => {
     expect(state.crops["1"].y).toBeUndefined();
     expect(state.trees["1"].x).toBeUndefined();
     expect(state.trees["1"].y).toBeUndefined();
+    expect(state.ascensionCrystals["1"].x).toBeUndefined();
+    expect(state.ascensionCrystals["1"].y).toBeUndefined();
   });
   it("should remove all items from the home", () => {
     const state = removeAll({
@@ -277,6 +290,8 @@ describe("removeAll", () => {
     expect(state.crops["1"].y).toBeDefined();
     expect(state.trees["1"].x).toBeDefined();
     expect(state.trees["1"].y).toBeDefined();
+    expect(state.ascensionCrystals["1"].x).toBeDefined();
+    expect(state.ascensionCrystals["1"].y).toBeDefined();
   });
 
   it("throws when removing all from level_one before the floor is unlocked", () => {
