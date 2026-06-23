@@ -91,7 +91,6 @@ export const MarketplaceUser: React.FC<{ view?: MarketplaceUserView }> = ({
               </Label>
               <p className="text-sm truncate">{profile.username}</p>
             </div>
-        </div>
 
             <div className="w-full sm:w-1/3 pr-1 mb-1">
               <InnerPanel className="flex items-center h-full">
