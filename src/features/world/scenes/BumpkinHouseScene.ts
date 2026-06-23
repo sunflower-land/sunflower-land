@@ -12,12 +12,6 @@ export const BUMPKIN_HOUSE_NPCS: NPCBumpkin[] = [
     direction: "left",
   },
   {
-    x: 182,
-    y: 160,
-    npc: "buttercup",
-    direction: "right",
-  },
-  {
     x: 389,
     y: 335,
     npc: "chef maple",

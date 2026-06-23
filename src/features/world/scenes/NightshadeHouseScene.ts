@@ -12,12 +12,6 @@ export const NIGHTSHADE_HOUSE_NPCS: NPCBumpkin[] = [
     direction: "left",
   },
   {
-    x: 181,
-    y: 161,
-    npc: "shadow",
-    direction: "right",
-  },
-  {
     x: 296,
     y: 156,
     npc: "chef ebon",
