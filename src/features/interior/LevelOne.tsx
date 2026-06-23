@@ -387,6 +387,8 @@ export const LevelOne: React.FC = () => {
                   >
                     <InteriorBumpkins location="level_one" />
                   </div>
+                </div>
+              )}
               {/*
                 Import-from-old-home button, pinned to the top-right corner of
                 the house layout (anchored to the background image's top edge).

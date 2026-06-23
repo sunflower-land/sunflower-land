@@ -151,6 +151,9 @@ const FEATURE_FLAGS = {
 
   BOOSTS_DISPLAY: betaFeatureFlag,
 
+  // Importing leftover items from the old home into the new interior.
+  HOME_ITEM_MIGRATION: betaFeatureFlag,
+
   SWAMP_ASCENSION: testnetFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 

@@ -34,6 +34,7 @@ import {
 import { InteriorGridOverlay } from "./components/InteriorGridOverlay";
 import { UpgradeButton } from "./components/UpgradeButton";
 import { ImportHomeButton } from "./components/ImportHomeButton";
+import { InteriorWelcomeModal } from "./components/InteriorWelcomeModal";
 import { Bud } from "features/island/buds/Bud";
 import { PetNFT } from "features/island/pets/PetNFT";
 import { FarmHand } from "features/island/farmhand/FarmHand";
@@ -442,6 +443,8 @@ export const Interior: React.FC = () => {
 
       {!landscaping && <Hud isFarming location="interior" />}
       {landscaping && <LandscapingHud location="interior" />}
+
+      {!landscaping && <InteriorWelcomeModal />}
     </>
   );
 };
