@@ -242,6 +242,7 @@ const NO_DRIP_CAP_NODES: (keyof Nodes)[] = [
   "Beehive",
   "Flower Bed",
   "Oil Reserve",
+  "Sunstone Rock",
   "Crimstone Rock",
   "Lava Pit",
 ];

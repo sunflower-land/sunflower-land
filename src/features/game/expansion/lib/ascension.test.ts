@@ -116,12 +116,12 @@ describe("ascension node drip widening (cap vs uncap)", () => {
     expect(getAscensionNodeDrip("Oil Reserve", 5)).toBe(24); // floor(12 * 2)
     expect(getAscensionNodeDrip("Beehive", 5)).toBe(20); // floor(10 * 2)
     expect(getAscensionNodeDrip("Crimstone Rock", 5)).toBe(16); // floor(8 * 2)
+    expect(getAscensionNodeDrip("Sunstone Rock", 5)).toBe(20); // floor(10 * 2)
   });
 
   it("clamps capped nodes at the 12 drip cap", () => {
-    // Widened would be 16 (Gold) and 20 (Sunstone) — both clamp to 12.
+    // Gold Rock widened would be 16 → clamps to 12.
     expect(getAscensionNodeDrip("Gold Rock", 5)).toBe(12);
-    expect(getAscensionNodeDrip("Sunstone Rock", 5)).toBe(12);
   });
 
   it("keeps zero-drip nodes at zero (never widens)", () => {
@@ -166,7 +166,7 @@ describe("swamp cumulative nodes (carry-forward)", () => {
       "Lava Pit": 4,
       Beehive: 7,
       "Flower Bed": 7,
-      "Sunstone Rock": 18,
+      "Sunstone Rock": 17,
       "Ascension Crystal": 0,
     });
   });
