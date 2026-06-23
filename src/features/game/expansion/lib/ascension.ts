@@ -36,11 +36,11 @@ const SWAMP_FIRST_EXPANSION = SWAMP_BASE_EXPANSION + 1; // 31
 const SWAMP_LAST_EXPANSION =
   SWAMP_BASE_EXPANSION + SWAMP_EXPANSIONS_PER_ASCENSION; // 42
 
-/** Per-ascension cost multiplier — `cost = floor(base × 1.4^(a-1))`. */
-const COST_GROWTH = 1.4;
+/** Per-ascension cost multiplier — `cost = floor(base × 1.3^(a-1))`. */
+const COST_GROWTH = 1.3;
 /** Shape of the within-island cost curve across the 12 expansions. */
 const COST_CURVE_EXPONENT = 1.3;
-/** Drip widens by this fraction per ascension, then is capped at 12. */
+/** Drip widens by this fraction per ascension; capped at 12 except for `NO_DRIP_CAP_NODES`. */
 const DRIP_WIDEN_PER_ASCENSION = 0.25;
 const DRIP_CAP = SWAMP_EXPANSIONS_PER_ASCENSION; // 12
 /** Each expansion's build time grows linearly: `e × 7h`. */
@@ -175,9 +175,9 @@ export const SWAMP_BASE_NODES: Nodes = {
 
 /** `{ start, end }` of the cost curve for each charged resource + coins. */
 const SWAMP_COST_CURVE = {
-  Crimstone: { start: 30, end: 150 },
+  Crimstone: { start: 10, end: 50 },
   Oil: { start: 50, end: 400 },
-  Obsidian: { start: 3, end: 30 },
+  Obsidian: { start: 2, end: 20 },
 } as const;
 const SWAMP_COIN_CURVE = { start: 5000, end: 75000 };
 
@@ -193,12 +193,12 @@ const SWAMP_NODE_DRIP: Record<keyof Nodes, number> = {
   "Fruit Patch": 3,
   "Iron Rock": 6,
   "Gold Rock": 8,
-  "Crimstone Rock": 5,
-  "Oil Reserve": 8,
-  "Lava Pit": 12,
+  "Crimstone Rock": 8,
+  "Oil Reserve": 12,
+  "Lava Pit": 16,
   Beehive: 10,
   "Flower Bed": 10,
-  "Sunstone Rock": 0,
+  "Sunstone Rock": 10,
   "Ascension Crystal": 0,
 };
 
@@ -238,6 +238,15 @@ const PLACEMENT_ORDER: (keyof Nodes)[] = [
   "Beehive",
 ];
 
+const NO_DRIP_CAP_NODES: (keyof Nodes)[] = [
+  "Beehive",
+  "Flower Bed",
+  "Oil Reserve",
+  "Sunstone Rock",
+  "Crimstone Rock",
+  "Lava Pit",
+];
+
 /** Local index 1…12 of a swamp expansion (Basic Land 31→1 … 42→12). */
 const localExpansionIndex = (expansion: number): number =>
   expansion - SWAMP_BASE_EXPANSION;
@@ -252,6 +261,11 @@ export const getAscensionNodeDrip = (
   const widened = Math.floor(
     base * (1 + DRIP_WIDEN_PER_ASCENSION * (ascensionLevel - 1)),
   );
+
+  if (NO_DRIP_CAP_NODES.includes(node)) {
+    return widened;
+  }
+
   return Math.min(widened, DRIP_CAP);
 };
 
