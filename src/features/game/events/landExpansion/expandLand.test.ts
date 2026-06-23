@@ -318,9 +318,9 @@ describe("expansionRequirements", () => {
 
     // expansion = 30 + 1 = 31, first swamp ascension slot
     expect(requirements?.resources).toEqual({
-      Crimstone: 30,
+      Crimstone: 10,
       Oil: 50,
-      Obsidian: 3,
+      Obsidian: 2,
     });
     expect(requirements?.coins).toBe(5000);
     expect(requirements?.seconds).toBe(7 * HOUR);
@@ -350,9 +350,9 @@ describe("expansionRequirements", () => {
     });
 
     expect(requirements?.resources).toEqual({
-      Crimstone: 15,
+      Crimstone: 5,
       Oil: 25,
-      Obsidian: 1.5,
+      Obsidian: 1,
     });
     expect(boostsUsed).toEqual([{ name: "Grinx's Hammer", value: "x0.5" }]);
   });
@@ -386,11 +386,11 @@ describe("expansionRequirements", () => {
       },
     });
 
-    // expansion 42, ascensionLevel 2: costs × 1.4
+    // expansion 42, ascensionLevel 2: costs × 1.3
     expect(requirements?.resources).toEqual({
-      Crimstone: 210,
-      Oil: 560,
-      Obsidian: 42,
+      Crimstone: 65,
+      Oil: 520,
+      Obsidian: 26,
     });
     expect(requirements?.seconds).toBe(84 * HOUR);
   });

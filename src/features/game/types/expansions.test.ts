@@ -504,7 +504,7 @@ describe("getExpansionRequirements", () => {
       ascensionLevel: 1,
     });
     expect(req).toEqual({
-      resources: { Crimstone: 30, Oil: 50, Obsidian: 3 },
+      resources: { Crimstone: 10, Oil: 50, Obsidian: 2 },
       coins: 5000,
       seconds: 7 * HOUR,
       bumpkinLevel: { ascension: 1, level: 1 },
@@ -529,15 +529,15 @@ describe("getExpansionRequirements", () => {
     expect(req).toBeUndefined();
   });
 
-  it("scales costs by 1.4 at ascensionLevel 2 while keeping seconds unchanged", () => {
+  it("scales costs by 1.3 at ascensionLevel 2 while keeping seconds unchanged", () => {
     const HOUR = 60 * 60;
     const req = getExpansionRequirements({
       island: "swamp",
       expansion: 42,
       ascensionLevel: 2,
     });
-    expect(req?.resources).toEqual({ Crimstone: 210, Oil: 560, Obsidian: 42 });
-    expect(req?.coins).toBe(105000);
+    expect(req?.resources).toEqual({ Crimstone: 65, Oil: 520, Obsidian: 26 });
+    expect(req?.coins).toBe(97500);
     expect(req?.seconds).toBe(84 * HOUR);
   });
 

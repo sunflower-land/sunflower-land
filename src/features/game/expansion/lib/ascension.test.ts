@@ -4,6 +4,7 @@ import {
   getAscensionExpansionDelta,
   getAscensionExpansionRequirements,
   getAscensionLayout,
+  getAscensionNodeDrip,
   getAscensionNodes,
 } from "./ascension";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
@@ -15,7 +16,7 @@ describe("swamp expansion requirements", () => {
     expect(
       getAscensionExpansionRequirements({ expansion: 31, ascensionLevel: 1 }),
     ).toEqual({
-      resources: { Crimstone: 30, Oil: 50, Obsidian: 3 },
+      resources: { Crimstone: 10, Oil: 50, Obsidian: 2 },
       coins: 5000,
       seconds: 7 * HOUR,
       bumpkinLevel: { ascension: 1, level: 1 },
@@ -26,7 +27,7 @@ describe("swamp expansion requirements", () => {
     expect(
       getAscensionExpansionRequirements({ expansion: 42, ascensionLevel: 1 }),
     ).toEqual({
-      resources: { Crimstone: 150, Oil: 400, Obsidian: 30 },
+      resources: { Crimstone: 50, Oil: 400, Obsidian: 20 },
       coins: 75000,
       seconds: 84 * HOUR,
       bumpkinLevel: { ascension: 1, level: 45 },
@@ -39,16 +40,16 @@ describe("swamp expansion requirements", () => {
       expansion: 32,
       ascensionLevel: 1,
     });
-    expect(req?.resources).toEqual({ Crimstone: 35, Oil: 65, Obsidian: 4 });
+    expect(req?.resources).toEqual({ Crimstone: 12, Oil: 65, Obsidian: 3 });
     expect(req?.coins).toBe(8100);
   });
 
-  it("scales cost by 1.4^(a-1) and keeps time ascension-invariant", () => {
+  it("scales cost by 1.3^(a-1) and keeps time ascension-invariant", () => {
     expect(
       getAscensionExpansionRequirements({ expansion: 42, ascensionLevel: 2 }),
     ).toEqual({
-      resources: { Crimstone: 210, Oil: 560, Obsidian: 42 },
-      coins: 105000,
+      resources: { Crimstone: 65, Oil: 520, Obsidian: 26 },
+      coins: 97500,
       seconds: 84 * HOUR,
       bumpkinLevel: { ascension: 2, level: 45 },
     });
@@ -56,8 +57,8 @@ describe("swamp expansion requirements", () => {
     expect(
       getAscensionExpansionRequirements({ expansion: 42, ascensionLevel: 5 }),
     ).toEqual({
-      resources: { Crimstone: 576, Oil: 1537, Obsidian: 115 },
-      coins: 288120,
+      resources: { Crimstone: 143, Oil: 1142, Obsidian: 57 },
+      coins: 214210,
       seconds: 84 * HOUR,
       bumpkinLevel: { ascension: 5, level: 45 },
     });
@@ -80,7 +81,7 @@ describe("swamp node drip", () => {
     ).toEqual({});
   });
 
-  it("grants exactly one Lava/Beehive/Flower per ascension", () => {
+  it("grants Beehive and Flower Bed together (paired) each ascension", () => {
     for (let a = 1; a <= 5; a++) {
       const totals: Partial<Record<string, number>> = {};
       for (let expansion = 31; expansion <= 42; expansion++) {
@@ -92,18 +93,40 @@ describe("swamp node drip", () => {
           totals[node] = (totals[node] ?? 0) + (count ?? 0);
         }
       }
-      // The cap-12 nodes are granted exactly once per ascension — now spread
-      // evenly rather than pinned to the final expansion.
-      expect(totals["Lava Pit"]).toBe(1);
-      expect(totals["Beehive"]).toBe(1);
-      expect(totals["Flower Bed"]).toBe(1);
+      // Beehive and Flower Bed share a drip and always unlock as a pair.
+      expect(totals["Beehive"] ?? 0).toBe(totals["Flower Bed"] ?? 0);
     }
   });
 
-  it("keeps Sunstone pinned at the base floor (never drips)", () => {
+  it("drips Sunstone above the base floor across ascensions", () => {
     expect(
       getAscensionNodes({ expansion: 42, ascensionLevel: 5 })["Sunstone Rock"],
-    ).toBe(SWAMP_BASE_NODES["Sunstone Rock"]);
+    ).toBeGreaterThan(SWAMP_BASE_NODES["Sunstone Rock"]);
+  });
+});
+
+describe("ascension node drip widening (cap vs uncap)", () => {
+  it("returns the base drip at ascension 1", () => {
+    expect(getAscensionNodeDrip("Crimstone Rock", 1)).toBe(8);
+  });
+
+  it("widens uncapped nodes past the 12 cap at higher ascensions", () => {
+    // NO_DRIP_CAP_NODES keep widening: floor(base * (1 + 0.25 * (a - 1))).
+    expect(getAscensionNodeDrip("Lava Pit", 2)).toBe(20); // floor(16 * 1.25)
+    expect(getAscensionNodeDrip("Oil Reserve", 5)).toBe(24); // floor(12 * 2)
+    expect(getAscensionNodeDrip("Beehive", 5)).toBe(20); // floor(10 * 2)
+    expect(getAscensionNodeDrip("Crimstone Rock", 5)).toBe(16); // floor(8 * 2)
+  });
+
+  it("clamps capped nodes at the 12 drip cap", () => {
+    // Widened would be 16 (Gold) and 20 (Sunstone) — both clamp to 12.
+    expect(getAscensionNodeDrip("Gold Rock", 5)).toBe(12);
+    expect(getAscensionNodeDrip("Sunstone Rock", 5)).toBe(12);
+  });
+
+  it("keeps zero-drip nodes at zero (never widens)", () => {
+    expect(getAscensionNodeDrip("Ascension Crystal", 1)).toBe(0);
+    expect(getAscensionNodeDrip("Ascension Crystal", 5)).toBe(0);
   });
 });
 
@@ -122,12 +145,12 @@ describe("swamp cumulative nodes (carry-forward)", () => {
       "Fruit Patch": 19,
       "Iron Rock": 15,
       "Gold Rock": 9,
-      "Crimstone Rock": 7,
+      "Crimstone Rock": 6,
       "Oil Reserve": 5,
-      "Lava Pit": 4,
+      "Lava Pit": 3,
       Beehive: 4,
       "Flower Bed": 4,
-      "Sunstone Rock": 13,
+      "Sunstone Rock": 14,
       "Ascension Crystal": 0,
     });
 
@@ -138,12 +161,12 @@ describe("swamp cumulative nodes (carry-forward)", () => {
       "Fruit Patch": 30,
       "Iron Rock": 21,
       "Gold Rock": 13,
-      "Crimstone Rock": 15,
-      "Oil Reserve": 9,
-      "Lava Pit": 8,
-      Beehive: 8,
-      "Flower Bed": 8,
-      "Sunstone Rock": 13,
+      "Crimstone Rock": 9,
+      "Oil Reserve": 8,
+      "Lava Pit": 4,
+      Beehive: 7,
+      "Flower Bed": 7,
+      "Sunstone Rock": 18,
       "Ascension Crystal": 0,
     });
   });
@@ -201,7 +224,7 @@ describe("swamp layout placement", () => {
     }
   });
 
-  it("spreads nodes evenly — no empty expansion, totals preserved", () => {
+  it("deals dripped nodes across the band — per-type totals preserved", () => {
     for (let a = 1; a <= 5; a++) {
       const startOfAscension = getAscensionNodes({
         expansion: 30,
@@ -218,12 +241,8 @@ describe("swamp layout placement", () => {
           expansion,
           ascensionLevel: a,
         });
-        const count = Object.values(delta).reduce(
-          (sum, n) => sum + (n ?? 0),
-          0,
-        );
-        // No expansion is empty — nodes are dealt across all 12, not piled on 42.
-        expect(count).toBeGreaterThan(0);
+        // At higher ascensions the widened drips can leave some expansions
+        // empty; that's fine — only the per-type band totals must be preserved.
         for (const [node, n] of Object.entries(delta)) {
           dealt[node] = (dealt[node] ?? 0) + (n ?? 0);
         }
