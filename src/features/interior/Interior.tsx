@@ -33,6 +33,8 @@ import {
 } from "./lib/interiorBackgrounds";
 import { InteriorGridOverlay } from "./components/InteriorGridOverlay";
 import { UpgradeButton } from "./components/UpgradeButton";
+import { ImportHomeButton } from "./components/ImportHomeButton";
+import { InteriorWelcomeModal } from "./components/InteriorWelcomeModal";
 import { Bud } from "features/island/buds/Bud";
 import { PetNFT } from "features/island/pets/PetNFT";
 import { FarmHand } from "features/island/farmhand/FarmHand";
@@ -368,6 +370,28 @@ export const Interior: React.FC = () => {
                   <InteriorBumpkins location="interior" />
                 </div>
               </div>
+              {/*
+                Import-from-old-home button, pinned to the top-right corner of
+                the house layout. Anchored to the background image's top edge so
+                it sits on the room rather than floating in the black canvas
+                gutter. Self-hides when the old home has no items left.
+              */}
+              {!landscaping && (
+                <div
+                  data-prevent-drag-scroll
+                  className="absolute z-30"
+                  style={{
+                    right: `${PIXEL_SCALE * 6}px`,
+                    top: `${
+                      canvasHeightPx -
+                      INTERIOR_BACKGROUND_NATIVE.height * PIXEL_SCALE +
+                      PIXEL_SCALE * 6
+                    }px`,
+                  }}
+                >
+                  <ImportHomeButton />
+                </div>
+              )}
 
               <LandscapingGrid />
 
@@ -419,6 +443,8 @@ export const Interior: React.FC = () => {
 
       {!landscaping && <Hud isFarming location="interior" />}
       {landscaping && <LandscapingHud location="interior" />}
+
+      {!landscaping && <InteriorWelcomeModal />}
     </>
   );
 };
