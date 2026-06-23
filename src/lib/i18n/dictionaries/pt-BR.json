@@ -9115,5 +9115,6 @@
   "islandupgrade.ascensionLevelRequired": "Alcance o nível {{level}} na sua ilha atual para subir",
   "biome.notInCorrectIslandType": "Atualize para {{islandType}} para comprar este bioma",
   "description.ascensionCrystal": "Minere para obter Fragmentos de Ascensão",
-  "description.ascensionShard": "Usado para aprimorar habilidades"
+  "description.ascensionShard": "Usado para aprimorar habilidades",
+  "marketplace.activeTrades": "Negociações ativas"
 }

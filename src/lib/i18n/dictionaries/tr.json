@@ -9115,5 +9115,6 @@
   "islandupgrade.ascensionLevelRequired": "Yükselmek için mevcut adanızdaki {{level}} seviyesine ulaşın",
   "biome.notInCorrectIslandType": "Bu biyomu satın almak için {{islandType}} 'ye yükseltin",
   "description.ascensionCrystal": "Yükseliş Parçalarını elde etmek için mayın",
-  "description.ascensionShard": "Becerileri yükseltmek için kullanılır"
+  "description.ascensionShard": "Becerileri yükseltmek için kullanılır",
+  "marketplace.activeTrades": "Aktif İşlemler"
 }

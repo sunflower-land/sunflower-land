@@ -9115,5 +9115,6 @@
   "islandupgrade.ascensionLevelRequired": "在你当前的岛屿上达到等级 {{level}} 即可升级",
   "biome.notInCorrectIslandType": "升级到 {{islandType}} 即可购买此生物群落",
   "description.ascensionCrystal": "挖矿获得升天碎片",
-  "description.ascensionShard": "用于升级技能"
+  "description.ascensionShard": "用于升级技能",
+  "marketplace.activeTrades": "活跃交易"
 }

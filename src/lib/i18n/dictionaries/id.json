@@ -9115,5 +9115,6 @@
   "islandupgrade.ascensionLevelRequired": "Mencapai level {{level}} di pulau Anda saat ini untuk naik",
   "biome.notInCorrectIslandType": "Tingkatkan ke {{islandType}} untuk membeli bioma ini",
   "description.ascensionCrystal": "Tambang untuk mendapatkan Ascension Shards",
-  "description.ascensionShard": "Digunakan untuk meningkatkan keterampilan"
+  "description.ascensionShard": "Digunakan untuk meningkatkan keterampilan",
+  "marketplace.activeTrades": "Perdagangan Aktif"
 }
