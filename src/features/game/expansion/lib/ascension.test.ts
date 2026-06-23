@@ -82,6 +82,7 @@ describe("swamp node drip", () => {
   });
 
   it("grants Beehive and Flower Bed together (paired) each ascension", () => {
+    let grandTotalBeehive = 0;
     for (let a = 1; a <= 5; a++) {
       const totals: Partial<Record<string, number>> = {};
       for (let expansion = 31; expansion <= 42; expansion++) {
@@ -93,9 +94,14 @@ describe("swamp node drip", () => {
           totals[node] = (totals[node] ?? 0) + (count ?? 0);
         }
       }
-      // Beehive and Flower Bed share a drip and always unlock as a pair.
+      // Beehive and Flower Bed share a drip and always unlock as a pair. A band
+      // can drip 0 of each (the floor doesn't grow every ascension), but the two
+      // must always match.
       expect(totals["Beehive"] ?? 0).toBe(totals["Flower Bed"] ?? 0);
+      grandTotalBeehive += totals["Beehive"] ?? 0;
     }
+    // Guard against a vacuous pass: the pair must actually drip across the range.
+    expect(grandTotalBeehive).toBeGreaterThan(0);
   });
 
   it("drips Sunstone above the base floor across ascensions", () => {

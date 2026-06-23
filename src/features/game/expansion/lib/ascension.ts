@@ -36,11 +36,11 @@ const SWAMP_FIRST_EXPANSION = SWAMP_BASE_EXPANSION + 1; // 31
 const SWAMP_LAST_EXPANSION =
   SWAMP_BASE_EXPANSION + SWAMP_EXPANSIONS_PER_ASCENSION; // 42
 
-/** Per-ascension cost multiplier — `cost = floor(base × 1.4^(a-1))`. */
+/** Per-ascension cost multiplier — `cost = floor(base × 1.3^(a-1))`. */
 const COST_GROWTH = 1.3;
 /** Shape of the within-island cost curve across the 12 expansions. */
 const COST_CURVE_EXPONENT = 1.3;
-/** Drip widens by this fraction per ascension, then is capped at 12. */
+/** Drip widens by this fraction per ascension; capped at 12 except for `NO_DRIP_CAP_NODES`. */
 const DRIP_WIDEN_PER_ASCENSION = 0.25;
 const DRIP_CAP = SWAMP_EXPANSIONS_PER_ASCENSION; // 12
 /** Each expansion's build time grows linearly: `e × 7h`. */
