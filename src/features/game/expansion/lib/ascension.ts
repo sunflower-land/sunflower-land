@@ -7,6 +7,7 @@ import {
   RESOURCE_DIMENSIONS,
   type ResourceName,
 } from "features/game/types/resources";
+import type { IslandType } from "features/game/types/game";
 import { getKeys } from "lib/object";
 import {
   LEVELS_PER_ASCENSION,
@@ -44,6 +45,90 @@ const DRIP_WIDEN_PER_ASCENSION = 0.25;
 const DRIP_CAP = SWAMP_EXPANSIONS_PER_ASCENSION; // 12
 /** Each expansion's build time grows linearly: `e × 7h`. */
 const HOURS_PER_EXPANSION = 7;
+
+/**
+ * Ascension Crystal grants — a bolt-on resource, deliberately kept OUT of the
+ * drip model (`SWAMP_NODE_DRIP`/`SWAMP_BASE_NODES` stay 0 for it). Crystals are
+ * single-use (mined once for shards), so they are reconciled additively rather
+ * than via the cumulative `getAscensionNodes` floor (which would resurrect spent
+ * crystals through the `upgradeFarm` `minimum` top-up). See ASCENSION_SYSTEM.md.
+ *
+ * Schedule:
+ * - A0 (pre-ascension): 1 crystal on each spring/desert/volcano upgrade
+ *   (cumulative-by-island below; ascension islands inherit the full 3).
+ * - Per ascension A: 1 at the upgrade + 1 on each of the first
+ *   `min(A + 2, 12)` expansions of the band.
+ */
+const A0_CRYSTALS_BY_ISLAND: Record<IslandType, number> = {
+  basic: 0,
+  spring: 1,
+  desert: 2,
+  volcano: 3,
+  swamp: 3,
+  spooky: 3,
+  crystal: 3,
+  moon: 3,
+  marble: 3,
+};
+
+/** Expansion crystals granted across one ascension band: `min(A + 2, 12)`. */
+const getBandExpansionCrystalTotal = (ascensionLevel: number): number =>
+  Math.min(ascensionLevel + 2, SWAMP_EXPANSIONS_PER_ASCENSION);
+
+/**
+ * Crystals placed by revealing the expansion that brings the farm to
+ * `expansion` Basic Land tiles: 1 for each of the band's first `min(A+2,12)`
+ * expansions, otherwise 0 (and 0 off an ascension island).
+ */
+export const getExpansionCrystalCount = ({
+  ascensionLevel,
+  expansion,
+}: {
+  ascensionLevel: number;
+  expansion: number;
+}): number => {
+  const a = ascensionLevel ?? 0;
+  if (a < 1) return 0;
+  const e = expansion - SWAMP_BASE_EXPANSION; // 1..12
+  if (e < 1 || e > SWAMP_EXPANSIONS_PER_ASCENSION) return 0;
+  return e <= getBandExpansionCrystalTotal(a) ? 1 : 0;
+};
+
+/**
+ * Cumulative Ascension Crystals a player should have earned by their current
+ * progression. Single source of truth: forward placement increments inventory
+ * by this function's first-difference; `revealLand`'s missing-node airdrop
+ * backfills the remainder (legacy players who progressed before the feature).
+ */
+export const getExpectedAscensionCrystals = ({
+  islandType,
+  ascensionLevel,
+  basicLand,
+}: {
+  islandType: IslandType;
+  ascensionLevel: number;
+  basicLand: number;
+}): number => {
+  let total = A0_CRYSTALS_BY_ISLAND[islandType] ?? 0;
+
+  const a = ascensionLevel ?? 0;
+  // Every completed prior ascension granted 1 (upgrade) + its expansion nodes.
+  for (let prior = 1; prior < a; prior++) {
+    total += 1 + getBandExpansionCrystalTotal(prior);
+  }
+  // Current band: the upgrade node + the expansion nodes earned so far.
+  if (a >= 1) {
+    const e = Math.max(
+      0,
+      Math.min(
+        basicLand - SWAMP_BASE_EXPANSION,
+        SWAMP_EXPANSIONS_PER_ASCENSION,
+      ),
+    );
+    total += 1 + Math.min(e, getBandExpansionCrystalTotal(a));
+  }
+  return total;
+};
 
 /**
  * Within-ascension level (1..50, from `getAscensionLevel`) required to unlock each
@@ -85,6 +170,7 @@ export const SWAMP_BASE_NODES: Nodes = {
   "Lava Pit": 3,
   Beehive: 3,
   "Flower Bed": 3,
+  "Ascension Crystal": 0,
 };
 
 /** `{ start, end }` of the cost curve for each charged resource + coins. */
@@ -113,6 +199,7 @@ const SWAMP_NODE_DRIP: Record<keyof Nodes, number> = {
   Beehive: 10,
   "Flower Bed": 10,
   "Sunstone Rock": 0,
+  "Ascension Crystal": 0,
 };
 
 /** Maps each node type to the `Layout` array it is placed into. */
@@ -129,6 +216,7 @@ const NODE_TO_LAYOUT_FIELD: Record<keyof Nodes, keyof Layout> = {
   Beehive: "beehives",
   "Oil Reserve": "oilReserves",
   "Lava Pit": "lavaPits",
+  "Ascension Crystal": "ascensionCrystals",
 };
 
 /**
@@ -419,6 +507,7 @@ export const getAscensionLayout = ({
     fruitPatches: [],
     oilReserves: [],
     lavaPits: [],
+    ascensionCrystals: [],
   };
 
   const delta = getAscensionExpansionDelta({ expansion, ascensionLevel });
@@ -458,6 +547,16 @@ export const getAscensionLayout = ({
       (layout[field] as Coordinates[]).push(place(width, height));
     }
   });
+
+  // Ascension Crystals are placed outside the drip schedule (see helpers above):
+  // 1 on each of the band's first `min(A+2,12)` expansions.
+  const crystals = getExpansionCrystalCount({ ascensionLevel, expansion });
+  const crystalDimensions = RESOURCE_DIMENSIONS["Ascension Crystal"];
+  for (let k = 0; k < crystals; k++) {
+    layout.ascensionCrystals!.push(
+      place(crystalDimensions.width, crystalDimensions.height),
+    );
+  }
 
   return layout;
 };

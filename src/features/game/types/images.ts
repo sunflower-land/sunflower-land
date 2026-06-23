@@ -1885,6 +1885,10 @@ export const ITEM_DETAILS: Items = {
     description: COMMODITIES.Sunstone.description,
     translatedName: translate("resource.sunstone"),
   },
+  "Ascension Shard": {
+    image: sunstone,
+    description: COMMODITIES["Ascension Shard"].description,
+  },
   Oil: {
     image: oil,
     description: COMMODITIES.Oil.description,
@@ -3523,6 +3527,11 @@ export const ITEM_DETAILS: Items = {
     image: lavaPit,
     description: translate("description.lava.pit"),
     translatedName: translate("node.lavaPit"),
+  },
+  // TODO: replace placeholder art once the Ascension Crystal asset lands.
+  "Ascension Crystal": {
+    image: sunstoneRock,
+    description: translate("description.ascensionCrystal"),
   },
   Tree: {
     image: SUNNYSIDE.resource.tree,

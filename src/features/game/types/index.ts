@@ -434,6 +434,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Honey Treat": 668,
   "Spice Base": 669,
   "Spiced Cheese": 670,
+  "Ascension Crystal": 671,
+  "Ascension Shard": 672,
 
   "Green Thumb": 701,
   "Barn Manager": 702,

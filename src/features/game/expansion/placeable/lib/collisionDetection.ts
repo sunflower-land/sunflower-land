@@ -143,6 +143,7 @@ function detectPlaceableCollision(
     flowers: { flowerBeds },
     oilReserves,
     farmHands,
+    ascensionCrystals,
   } = state;
 
   const placed = {
@@ -196,6 +197,7 @@ function detectPlaceableCollision(
     "Fruit Patch": fruitPatches,
     "Flower Bed": flowerBeds,
     Beehive: beehives,
+    "Ascension Crystal": ascensionCrystals,
   };
 
   const resourceBoundingBoxes = getObjectEntries(RESOURCE_TYPES).flatMap(

@@ -1990,6 +1990,7 @@ export interface GameState {
   iron: Record<string, Rock>;
   crimstones: Record<string, FiniteResource>;
   sunstones: Record<string, FiniteResource>;
+  ascensionCrystals: Record<string, FiniteResource>;
   oilReserves: Record<string, OilReserve>;
 
   crops: Record<string, CropPlot>;
