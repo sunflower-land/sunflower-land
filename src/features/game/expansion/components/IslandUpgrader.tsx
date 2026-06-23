@@ -39,6 +39,7 @@ import { translate } from "lib/i18n/translate";
 import { Loading } from "features/auth/components";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import type { MachineState } from "features/game/lib/gameMachine";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 
 export const UPGRADE_RAFTS: Record<IslandType, string | null> = {
   basic: SUNNYSIDE.land.springRaft,
@@ -438,6 +439,13 @@ export const IslandUpgrader: React.FC<Props> = ({ offset }) => {
     // TODO: confirm the scaffolding coordinate in-game.
     if (islandType === "volcano") {
       return nextExpansion === 31 ? { x: -1, y: 20 } : { x: 9, y: 9 };
+    }
+
+    if (
+      hasRequiredIslandExpansion(islandType, "swamp") &&
+      nextExpansion === 43
+    ) {
+      return { x: -40, y: -16 };
     }
 
     return { x: 7, y: 0 };
