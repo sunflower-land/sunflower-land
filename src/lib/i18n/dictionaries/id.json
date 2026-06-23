@@ -9113,5 +9113,7 @@
   "level.ascension.short": "A {{ascension}} L {{level}}",
   "levelUp.ascension": "Kenaikan {{ascension}}! Anda telah mencapai level {{level}}.",
   "islandupgrade.ascensionLevelRequired": "Mencapai level {{level}} di pulau Anda saat ini untuk naik",
-  "biome.notInCorrectIslandType": "Tingkatkan ke {{islandType}} untuk membeli bioma ini"
+  "biome.notInCorrectIslandType": "Tingkatkan ke {{islandType}} untuk membeli bioma ini",
+  "description.ascensionCrystal": "Tambang untuk mendapatkan Ascension Shards",
+  "description.ascensionShard": "Digunakan untuk meningkatkan keterampilan"
 }

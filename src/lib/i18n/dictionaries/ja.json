@@ -9113,5 +9113,7 @@
   "level.ascension.short": "{{ascension}} L {{level}}",
   "levelUp.ascension": "アセンション {{ascension}}!レベル {{level}} に達しました。",
   "islandupgrade.ascensionLevelRequired": "現在の島のレベル {{level}} に到達して上昇してください",
-  "biome.notInCorrectIslandType": "{{islandType}} にアップグレードしてこのバイオームを購入"
+  "biome.notInCorrectIslandType": "{{islandType}} にアップグレードしてこのバイオームを購入",
+  "description.ascensionCrystal": "鉱山でアセンションシャードを入手しよう",
+  "description.ascensionShard": "スキルのアップグレードに使用"
 }

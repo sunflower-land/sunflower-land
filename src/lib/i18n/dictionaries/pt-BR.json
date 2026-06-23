@@ -9113,5 +9113,7 @@
   "level.ascension.short": "A {{ascension}} L {{level}}",
   "levelUp.ascension": "Ascensão {{ascension}}! Você atingiu o nível {{level}}.",
   "islandupgrade.ascensionLevelRequired": "Alcance o nível {{level}} na sua ilha atual para subir",
-  "biome.notInCorrectIslandType": "Atualize para {{islandType}} para comprar este bioma"
+  "biome.notInCorrectIslandType": "Atualize para {{islandType}} para comprar este bioma",
+  "description.ascensionCrystal": "Minere para obter Fragmentos de Ascensão",
+  "description.ascensionShard": "Usado para aprimorar habilidades"
 }
