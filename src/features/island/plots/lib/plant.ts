@@ -150,6 +150,63 @@ export const CROP_LIFECYCLE: Record<
     }),
     {} as Record<CropName, Lifecycle>,
   ),
+  // Ascension biomes (spooky onward) reuse the swamp art for now.
+  "Spooky Biome": getKeys(IMAGES).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: {
+        seedling: `${VOLCANO_URL}/${IMAGES[name]}/seedling.png`,
+        halfway: `${VOLCANO_URL}/${IMAGES[name]}/halfway.png`,
+        almost: `${VOLCANO_URL}/${IMAGES[name]}/almost.png`,
+        ready: `${VOLCANO_URL}/${IMAGES[name]}/plant.png`,
+        crop: `${VOLCANO_URL}/${IMAGES[name]}/crop.png`,
+        seed: `${VOLCANO_URL}/${IMAGES[name]}/seed.png`,
+      },
+    }),
+    {} as Record<CropName, Lifecycle>,
+  ),
+  "Crystal Biome": getKeys(IMAGES).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: {
+        seedling: `${VOLCANO_URL}/${IMAGES[name]}/seedling.png`,
+        halfway: `${VOLCANO_URL}/${IMAGES[name]}/halfway.png`,
+        almost: `${VOLCANO_URL}/${IMAGES[name]}/almost.png`,
+        ready: `${VOLCANO_URL}/${IMAGES[name]}/plant.png`,
+        crop: `${VOLCANO_URL}/${IMAGES[name]}/crop.png`,
+        seed: `${VOLCANO_URL}/${IMAGES[name]}/seed.png`,
+      },
+    }),
+    {} as Record<CropName, Lifecycle>,
+  ),
+  "Moon Biome": getKeys(IMAGES).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: {
+        seedling: `${VOLCANO_URL}/${IMAGES[name]}/seedling.png`,
+        halfway: `${VOLCANO_URL}/${IMAGES[name]}/halfway.png`,
+        almost: `${VOLCANO_URL}/${IMAGES[name]}/almost.png`,
+        ready: `${VOLCANO_URL}/${IMAGES[name]}/plant.png`,
+        crop: `${VOLCANO_URL}/${IMAGES[name]}/crop.png`,
+        seed: `${VOLCANO_URL}/${IMAGES[name]}/seed.png`,
+      },
+    }),
+    {} as Record<CropName, Lifecycle>,
+  ),
+  "Marble Age Biome": getKeys(IMAGES).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: {
+        seedling: `${VOLCANO_URL}/${IMAGES[name]}/seedling.png`,
+        halfway: `${VOLCANO_URL}/${IMAGES[name]}/halfway.png`,
+        almost: `${VOLCANO_URL}/${IMAGES[name]}/almost.png`,
+        ready: `${VOLCANO_URL}/${IMAGES[name]}/plant.png`,
+        crop: `${VOLCANO_URL}/${IMAGES[name]}/crop.png`,
+        seed: `${VOLCANO_URL}/${IMAGES[name]}/seed.png`,
+      },
+    }),
+    {} as Record<CropName, Lifecycle>,
+  ),
   "Desert Biome": getKeys(IMAGES).reduce(
     (acc, name) => ({
       ...acc,
@@ -180,6 +237,23 @@ export const SOIL_IMAGES: Record<LandBiomeName, Record<string, string>> = {
     dry: SUNNYSIDE.soil.volcanoSoilDry,
   },
   "Swamp Biome": {
+    regular: SUNNYSIDE.soil.volcanoSoil2,
+    dry: SUNNYSIDE.soil.volcanoSoilDry,
+  },
+  // Ascension biomes (spooky onward) reuse the swamp art for now.
+  "Spooky Biome": {
+    regular: SUNNYSIDE.soil.volcanoSoil2,
+    dry: SUNNYSIDE.soil.volcanoSoilDry,
+  },
+  "Crystal Biome": {
+    regular: SUNNYSIDE.soil.volcanoSoil2,
+    dry: SUNNYSIDE.soil.volcanoSoilDry,
+  },
+  "Moon Biome": {
+    regular: SUNNYSIDE.soil.volcanoSoil2,
+    dry: SUNNYSIDE.soil.volcanoSoilDry,
+  },
+  "Marble Age Biome": {
     regular: SUNNYSIDE.soil.volcanoSoil2,
     dry: SUNNYSIDE.soil.volcanoSoilDry,
   },

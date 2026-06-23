@@ -23,12 +23,15 @@ import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandE
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
-import { capitalize } from "lib/utils/capitalize";
 import type { IslandType, LoveAnimalItem } from "features/game/types/game";
+import { getIslandName } from "features/game/types/game";
 import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 import { Restock } from "../../market/restock/Restock";
 import { getObjectEntries } from "lib/object";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 
 const isLoveAnimalTool = (
   toolName: WorkbenchToolName | LoveAnimalItem,
@@ -104,10 +107,13 @@ export const Tools: React.FC = () => {
       return true;
     }
 
-    const bumpkinLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
+    const ascension = getAscensionLevel({
+      experience: state.bumpkin.experience ?? 0,
+      ascensionLevel: state.island.ascensionLevel ?? 0,
+    });
 
     if (tool.requiredLevel) {
-      return bumpkinLevel >= tool.requiredLevel;
+      return meetsLevelRequirement(ascension, tool.requiredLevel);
     }
 
     return true;
@@ -134,12 +140,7 @@ export const Tools: React.FC = () => {
       return (
         <Label type="danger">
           {t("islandupgrade.requiredIsland", {
-            islandType:
-              selected.requiredIsland === "spring"
-                ? "Petal Paradise"
-                : t("islandupgrade.otherIsland", {
-                    island: capitalize(selected.requiredIsland as IslandType),
-                  }),
+            islandType: getIslandName(selected.requiredIsland as IslandType),
           })}
         </Label>
       );
@@ -149,7 +150,7 @@ export const Tools: React.FC = () => {
       return (
         <Label type="danger" className="mx-auto">
           {t("warning.level.required", {
-            lvl: selected.requiredLevel ?? 0,
+            lvl: selected.requiredLevel?.level ?? 0,
           })}
         </Label>
       );

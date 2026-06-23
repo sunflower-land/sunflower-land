@@ -2,7 +2,10 @@ import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { type BuildingName, BUILDINGS } from "../../types/buildings";
 import type { GameState, PlacedItem } from "../../types/game";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { produce } from "immer";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
@@ -45,8 +48,13 @@ export function constructBuilding({
 
     const buildingToConstruct = BUILDINGS[action.name];
 
-    const hasReachedUnlockRequirement =
-      getBumpkinLevel(bumpkin.experience) >= buildingToConstruct.unlocksAtLevel;
+    const hasReachedUnlockRequirement = meetsLevelRequirement(
+      getAscensionLevel({
+        experience: bumpkin.experience,
+        ascensionLevel: stateCopy.island.ascensionLevel ?? 0,
+      }),
+      buildingToConstruct.unlocksAtLevel,
+    );
 
     if (!hasReachedUnlockRequirement) {
       throw new Error(CONSTRUCT_BUILDING_ERRORS.BUMPKIN_LEVEL_NOT_MET);

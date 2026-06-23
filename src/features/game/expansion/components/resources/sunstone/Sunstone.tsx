@@ -10,7 +10,6 @@ import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
 import { canMine } from "features/game/lib/resourceNodes";
-import { getBumpkinLevel } from "features/game/lib/level";
 import { DepletedSunstone } from "./components/DepletedSunstone";
 import { RecoveredSunstone } from "./components/RecoveredSunstone";
 import { DepletingSunstone } from "./components/DepletingSunstone";
@@ -42,9 +41,6 @@ export const getSunstoneStage = (minesLeft: number) => {
   if (minesLeft === 2) return 9;
   return 10;
 };
-
-const _bumpkinLevel = (state: MachineState) =>
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
 
 interface Props {
   id: string;

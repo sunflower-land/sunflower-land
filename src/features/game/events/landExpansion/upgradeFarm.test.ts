@@ -1143,7 +1143,7 @@ describe("upgradeFarm", () => {
     // Keeps the Mansion as the home, laid out per the swamp layout
     expect(state.buildings.Manor).toBeUndefined();
     expect(state.inventory.Mansion).toEqual(new Decimal(1));
-    expect(state.buildings.Mansion?.[0].coordinates).toEqual({ x: 0, y: 15 });
+    expect(state.buildings.Mansion?.[0].coordinates).toEqual({ x: -3, y: 15 });
 
     // Lays out the swamp starting nodes, incl. the swamp-specific types
     expect(Object.keys(state.crops)).toHaveLength(65);
@@ -1403,26 +1403,6 @@ describe("upgradeFarm", () => {
     expect(state.inventory.Mansion).toEqual(new Decimal(1));
     expect(state.inventory.Manor).toBeUndefined();
     expect(state.island.type).toEqual("volcano");
-  });
-
-  it("does not allow a player to upgrade from swamp island", () => {
-    expect(() =>
-      upgrade({
-        farmId,
-        action: {
-          type: "farm.upgraded",
-        },
-        state: {
-          ...INITIAL_FARM,
-          island: {
-            type: "swamp",
-          },
-          inventory: {
-            "Basic Land": new Decimal(42),
-          },
-        },
-      }),
-    ).toThrow("Island is already at max level, ascend to upgrade further");
   });
 
   it("does not remove buds from home on upgrade", () => {

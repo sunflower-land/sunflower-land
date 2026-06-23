@@ -33,7 +33,10 @@ import {
 import type { GameState } from "features/game/types/game";
 import { Label } from "components/ui/Label";
 import helpIcon from "assets/icons/help.webp";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 import { useNow } from "lib/utils/hooks/useNow";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
@@ -161,7 +164,13 @@ export const IslandBlacksmithItems: React.FC = () => {
 
   const hasLevel =
     !selectedItem?.level ||
-    getBumpkinLevel(bumpkin?.experience ?? 0) >= selectedItem?.level;
+    meetsLevelRequirement(
+      getAscensionLevel({
+        experience: bumpkin.experience ?? 0,
+        ascensionLevel: state.island.ascensionLevel ?? 0,
+      }),
+      selectedItem.level,
+    );
 
   const craft = () => {
     if (selectedName in WORKBENCH_MONUMENTS) {
@@ -236,7 +245,7 @@ export const IslandBlacksmithItems: React.FC = () => {
           requirements={{
             resources: selectedItem?.ingredients ?? {},
             coins: selectedItem?.coins ?? 0,
-            level: selectedItem?.level ?? 0,
+            level: selectedItem?.level,
           }}
           actionView={
             isAlreadyCrafted ? (

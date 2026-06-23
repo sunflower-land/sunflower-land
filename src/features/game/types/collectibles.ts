@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import type { Inventory, Keys } from "./game";
+import type { LevelRequirement } from "features/game/lib/level";
 import { translate } from "lib/i18n/translate";
 import { CHAPTERS } from "./chapters";
 import type { ExoticCropName } from "./beans";
@@ -224,7 +225,7 @@ export type CraftableCollectible = {
   coins?: number;
   from?: Date;
   to?: Date;
-  level?: number;
+  level?: LevelRequirement;
   limit?: number;
   inventoryLimit?: number;
   disabled?: boolean;

@@ -158,7 +158,7 @@ const TwitterPost: React.FC<{ name: TwitterPostName; onClose: () => void }> = ({
             const redirectUrl = `${CONFIG.API_URL}/oauth/twitter`;
             const nonce = gameState.context.oauthNonce;
 
-            const url = `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=${CONFIG.TWITTER_CLIENT_ID}&redirect_uri=${redirectUrl}&scope=tweet.read%20users.read%20follows.read%20offline.access&state=${nonce}&code_challenge=challenge&code_challenge_method=plain`;
+            const url = `https://x.com/i/oauth2/authorize?response_type=code&client_id=${CONFIG.TWITTER_CLIENT_ID}&redirect_uri=${redirectUrl}&scope=tweet.read%20users.read%20follows.read%20offline.access&state=${nonce}&code_challenge=challenge&code_challenge_method=plain`;
 
             window.location.href = url;
           }}

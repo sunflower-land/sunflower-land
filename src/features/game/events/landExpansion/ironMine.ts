@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import type {
   AOE,
@@ -264,7 +265,7 @@ export function getIronDropAmount({
   if (budUsed)
     boostsUsed.push({ name: budUsed, value: `+${yieldBoost.toString()}` });
 
-  if (game.island.type === "volcano") {
+  if (hasRequiredIslandExpansion(game.island.type, "volcano")) {
     amount += 0.1;
     boostsUsed.push({ name: "Volcano Bonus", value: "+0.1" });
   }

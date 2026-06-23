@@ -1885,6 +1885,10 @@ export const ITEM_DETAILS: Items = {
     description: COMMODITIES.Sunstone.description,
     translatedName: translate("resource.sunstone"),
   },
+  "Ascension Shard": {
+    image: sunstone,
+    description: COMMODITIES["Ascension Shard"].description,
+  },
   Oil: {
     image: oil,
     description: COMMODITIES.Oil.description,
@@ -3523,6 +3527,11 @@ export const ITEM_DETAILS: Items = {
     image: lavaPit,
     description: translate("description.lava.pit"),
     translatedName: translate("node.lavaPit"),
+  },
+  // TODO: replace placeholder art once the Ascension Crystal asset lands.
+  "Ascension Crystal": {
+    image: sunstoneRock,
+    description: translate("description.ascensionCrystal"),
   },
   Tree: {
     image: SUNNYSIDE.resource.tree,
@@ -6810,6 +6819,23 @@ export const ITEM_DETAILS: Items = {
       "A volcano biome that provides a volcano income and a volcano life.",
   },
   "Swamp Biome": {
+    image: volcanoBiome,
+    description: "A swamp biome that provides a swamp income and a swamp life.",
+  },
+  // Ascension biomes (spooky onward)
+  "Spooky Biome": {
+    image: volcanoBiome,
+    description: "A swamp biome that provides a swamp income and a swamp life.",
+  },
+  "Crystal Biome": {
+    image: volcanoBiome,
+    description: "A swamp biome that provides a swamp income and a swamp life.",
+  },
+  "Moon Biome": {
+    image: volcanoBiome,
+    description: "A swamp biome that provides a swamp income and a swamp life.",
+  },
+  "Marble Age Biome": {
     image: volcanoBiome,
     description: "A swamp biome that provides a swamp income and a swamp life.",
   },

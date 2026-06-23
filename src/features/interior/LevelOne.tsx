@@ -31,6 +31,7 @@ import {
 } from "./lib/interiorBackgrounds";
 import { LevelOneGridOverlay } from "./components/LevelOneGridOverlay";
 import { UpgradeButton } from "./components/UpgradeButton";
+import { ImportHomeButton } from "./components/ImportHomeButton";
 import { Bud } from "features/island/buds/Bud";
 import { PetNFT } from "features/island/pets/PetNFT";
 import { FarmHand } from "features/island/farmhand/FarmHand";
@@ -386,6 +387,27 @@ export const LevelOne: React.FC = () => {
                   >
                     <InteriorBumpkins location="level_one" />
                   </div>
+                </div>
+              )}
+              {/*
+                Import-from-old-home button, pinned to the top-right corner of
+                the house layout (anchored to the background image's top edge).
+                Self-hides when the old home has no items left to import.
+              */}
+              {!landscaping && (
+                <div
+                  data-prevent-drag-scroll
+                  className="absolute z-30"
+                  style={{
+                    right: `${PIXEL_SCALE * 6}px`,
+                    top: `${
+                      canvasHeightPx -
+                      HOME_EXPANSION_BACKGROUND_NATIVE.height * PIXEL_SCALE +
+                      PIXEL_SCALE * 6
+                    }px`,
+                  }}
+                >
+                  <ImportHomeButton />
                 </div>
               )}
 

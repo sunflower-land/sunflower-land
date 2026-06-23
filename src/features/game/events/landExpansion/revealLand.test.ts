@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { expansionRequirements, getRewards, revealLand } from "./revealLand";
+import { getRewards, revealLand } from "./revealLand";
 import {
   CRIMSTONE_RECOVERY_TIME,
   GOLD_RECOVERY_TIME,
@@ -18,37 +18,6 @@ import {
 import type { Nodes } from "features/game/expansion/lib/expansionNodes";
 import { BB_TO_GEM_RATIO, type FiniteResource } from "features/game/types/game";
 import { OIL_RESERVE_RECOVERY_TIME } from "./drillOilReserve";
-
-describe("expansionRequirements", () => {
-  it("returns normal expansion requirements", () => {
-    const { requirements } = expansionRequirements({ game: TEST_FARM });
-
-    expect(requirements?.resources).toEqual({
-      Wood: 3,
-    });
-  });
-  it("returns discounted expansion requirements with Grinx Hammer", () => {
-    const { requirements } = expansionRequirements({
-      game: {
-        ...TEST_FARM,
-        collectibles: {
-          "Grinx's Hammer": [
-            {
-              coordinates: { x: 1, y: 1 },
-              createdAt: Date.now(),
-              id: "123",
-              readyAt: Date.now(),
-            },
-          ],
-        },
-      },
-    });
-
-    expect(requirements?.resources).toEqual({
-      Wood: 1.5,
-    });
-  });
-});
 
 describe("getRewards", () => {
   it("returns rewards for previously built expansions", () => {
@@ -103,6 +72,8 @@ describe("getRewards", () => {
           "Iron Rock": new Decimal(5),
           "Stone Rock": new Decimal(9),
           Tree: new Decimal(11),
+          // Spring island owes 1 A0 Ascension Crystal (back-pay).
+          "Ascension Crystal": new Decimal(1),
         },
         island: {
           type: "spring",
@@ -152,6 +123,7 @@ describe("totalExpansions", () => {
       Tree: 3,
       "Oil Reserve": 0,
       "Lava Pit": 0,
+      "Ascension Crystal": 0,
     };
 
     let expansion = 4;

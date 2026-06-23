@@ -21,7 +21,10 @@ import {
   getAscensionUpgradeCost,
   ASCENSION_BUMPKIN_LEVEL,
 } from "features/game/events/landExpansion/upgradeFarm";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  LEVELS_PER_ASCENSION,
+} from "features/game/lib/level";
 import type { CollectibleName } from "features/game/types/craftables";
 import { getKeys } from "lib/object";
 import { createPortal } from "react-dom";
@@ -36,13 +39,20 @@ import { translate } from "lib/i18n/translate";
 import { Loading } from "features/auth/components";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import type { MachineState } from "features/game/lib/gameMachine";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 
 export const UPGRADE_RAFTS: Record<IslandType, string | null> = {
   basic: SUNNYSIDE.land.springRaft,
   spring: SUNNYSIDE.land.desertRaft,
   desert: SUNNYSIDE.land.volcanoRaft,
   volcano: SUNNYSIDE.land.volcanoRaft, // Next prestige after volcano
-  swamp: null, // swamp is terminal — no further prestige raft
+  // Ascension islands chain onward (swamp → … → marble → marble); reuse the
+  // volcano raft stub like the preview/message/description assets do.
+  swamp: SUNNYSIDE.land.volcanoRaft,
+  spooky: SUNNYSIDE.land.volcanoRaft,
+  crystal: SUNNYSIDE.land.volcanoRaft,
+  moon: SUNNYSIDE.land.volcanoRaft,
+  marble: SUNNYSIDE.land.volcanoRaft,
 };
 
 const UPGRADE_PREVIEW: Record<IslandType, string | null> = {
@@ -51,6 +61,11 @@ const UPGRADE_PREVIEW: Record<IslandType, string | null> = {
   desert: SUNNYSIDE.announcement.desertPrestige,
   volcano: SUNNYSIDE.announcement.volcanoPrestige,
   swamp: SUNNYSIDE.announcement.volcanoPrestige,
+  // Ascension islands (spooky onward) reuse the swamp value for now.
+  spooky: SUNNYSIDE.announcement.volcanoPrestige,
+  crystal: SUNNYSIDE.announcement.volcanoPrestige,
+  moon: SUNNYSIDE.announcement.volcanoPrestige,
+  marble: SUNNYSIDE.announcement.volcanoPrestige,
 };
 
 const UPGRADE_MESSAGES: Record<IslandType, string | null> = {
@@ -59,6 +74,11 @@ const UPGRADE_MESSAGES: Record<IslandType, string | null> = {
   desert: translate("islandupgrade.welcomeDesertIsland"),
   volcano: translate("islandupgrade.welcomeVolcanoIsland"),
   swamp: translate("islandupgrade.welcomeVolcanoIsland"),
+  // Ascension islands (spooky onward) reuse the swamp value for now.
+  spooky: translate("islandupgrade.welcomeVolcanoIsland"),
+  crystal: translate("islandupgrade.welcomeVolcanoIsland"),
+  moon: translate("islandupgrade.welcomeVolcanoIsland"),
+  marble: translate("islandupgrade.welcomeVolcanoIsland"),
 };
 
 const UPGRADE_DESCRIPTIONS: Record<IslandType, string | null> = {
@@ -67,6 +87,11 @@ const UPGRADE_DESCRIPTIONS: Record<IslandType, string | null> = {
   desert: translate("islandupgrade.desertResourcesDescription"),
   volcano: translate("islandupgrade.volcanoResourcesDescription"),
   swamp: translate("islandupgrade.volcanoResourcesDescription"),
+  // Ascension islands (spooky onward) reuse the swamp value for now.
+  spooky: translate("islandupgrade.volcanoResourcesDescription"),
+  crystal: translate("islandupgrade.volcanoResourcesDescription"),
+  moon: translate("islandupgrade.volcanoResourcesDescription"),
+  marble: translate("islandupgrade.volcanoResourcesDescription"),
 };
 
 // Swamp ascension launch date — shown as a teaser on the locked "coming soon"
@@ -110,9 +135,14 @@ const IslandUpgraderModal: React.FC<{
     (ASCENSION_ISLANDS as readonly string[]).includes(nextIsland);
 
   // Ascension islands also require a minimum Bumpkin level.
+  // Mirror the server gate: maxed current band — level 150 for the first
+  // ascension (band 0), level 50 of the current band for every re-ascension.
   const hasRequiredLevel =
     !isAscensionUpgrade ||
-    getBumpkinLevel(bumpkin?.experience ?? 0) >= ASCENSION_BUMPKIN_LEVEL;
+    getAscensionLevel({
+      experience: bumpkin.experience ?? 0,
+      ascensionLevel: island.ascensionLevel ?? 0,
+    }).isReadyToAscend;
 
   if (showConfirmation) {
     return (
@@ -245,9 +275,13 @@ const IslandUpgraderModal: React.FC<{
                   type="danger"
                   className="whitespace-nowrap"
                 >
-                  {t("islandupgrade.levelRequired", {
-                    level: ASCENSION_BUMPKIN_LEVEL,
-                  })}
+                  {island.ascensionLevel
+                    ? t("islandupgrade.ascensionLevelRequired", {
+                        level: LEVELS_PER_ASCENSION,
+                      })
+                    : t("islandupgrade.levelRequired", {
+                        level: ASCENSION_BUMPKIN_LEVEL,
+                      })}
                 </Label>
               )}
 
@@ -405,6 +439,13 @@ export const IslandUpgrader: React.FC<Props> = ({ offset }) => {
     // TODO: confirm the scaffolding coordinate in-game.
     if (islandType === "volcano") {
       return nextExpansion === 31 ? { x: -1, y: 20 } : { x: 9, y: 9 };
+    }
+
+    if (
+      hasRequiredIslandExpansion(islandType, "swamp") &&
+      nextExpansion === 43
+    ) {
+      return { x: -40, y: -16 };
     }
 
     return { x: 7, y: 0 };

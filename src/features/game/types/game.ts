@@ -89,6 +89,7 @@ import type { FermentationProductName } from "./fermentationProducts";
 import type { SpiceRackProductName } from "./spiceRackProducts";
 import type { PickledCropName } from "./pickled";
 import { translate } from "lib/i18n/translate";
+import { capitalize } from "lib/utils/capitalize";
 import type { SpecialEvents } from "./specialEvents";
 import type { TradeableName } from "../actions/sellMarketResource";
 import type { MinigameCurrency } from "../events/minigames/purchaseMinigameItem";
@@ -103,6 +104,7 @@ import type {
   MarketplaceTradeableName,
 } from "./marketplace";
 import type { GameTransaction } from "./transactions";
+import type { LevelRequirement } from "features/game/lib/level";
 import type { CompetitionName, CompetitionProgress } from "./competitions";
 import type { AnimalType } from "./animals";
 import type { ChoreBoard } from "./choreBoard";
@@ -981,7 +983,7 @@ export interface ExpansionRequirements {
   resources: Partial<Record<InventoryItemName, number>>;
   coins?: number;
   seconds: number;
-  bumpkinLevel: number;
+  bumpkinLevel: LevelRequirement;
 }
 
 export type Airdrop = {
@@ -1514,7 +1516,13 @@ export type MegaStore = {
 export const ISLAND_TYPES = ["basic", "spring", "desert", "volcano"] as const;
 export type BasicIslandType = (typeof ISLAND_TYPES)[number];
 
-export const ASCENSION_ISLANDS = ["swamp"] as const;
+export const ASCENSION_ISLANDS = [
+  "swamp",
+  "spooky",
+  "crystal",
+  "moon",
+  "marble",
+] as const;
 export type AscensionIslandType = (typeof ASCENSION_ISLANDS)[number];
 
 export const ISLAND_EXPANSIONS = [
@@ -1523,6 +1531,23 @@ export const ISLAND_EXPANSIONS = [
 ] as const;
 
 export type IslandType = (typeof ISLAND_EXPANSIONS)[number];
+
+/**
+ * Islands that are displayed under a custom name rather than `"{Type} Island"`.
+ * Use {@link getIslandName} for any player-facing island label so these stay
+ * consistent across the UI.
+ */
+export const ISLAND_DISPLAY_NAMES: Partial<Record<IslandType, string>> = {
+  spring: "Petal Paradise",
+  marble: "Marble Age",
+};
+
+/**
+ * The player-facing display name for an island: its custom name if it has one,
+ * otherwise the title-cased generic `"{Type} Island"`.
+ */
+export const getIslandName = (island: IslandType): string =>
+  ISLAND_DISPLAY_NAMES[island] ?? `${capitalize(island)} Island`;
 
 export type Home = {
   collectibles: Collectibles;
@@ -1967,6 +1992,7 @@ export interface GameState {
   iron: Record<string, Rock>;
   crimstones: Record<string, FiniteResource>;
   sunstones: Record<string, FiniteResource>;
+  ascensionCrystals: Record<string, FiniteResource>;
   oilReserves: Record<string, OilReserve>;
 
   crops: Record<string, CropPlot>;

@@ -58,7 +58,11 @@ import {
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { formatNumber } from "lib/utils/formatNumber";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  levelRequirementToTotal,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { calculateRelationshipPoints } from "features/game/events/landExpansion/giftFlowers";
 import { FriendshipInfoPanel } from "components/ui/FriendshipInfoPanel";
@@ -851,10 +855,19 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     message = t("goblinTrade.missingReputation.sflDelivery");
   }
 
-  const missingLevels =
-    (NPC_DELIVERY_LEVELS[npc as DeliveryNpcName] ?? 0) -
-    getBumpkinLevel(game.bumpkin?.experience ?? 0);
-  const isLocked = missingLevels >= 1;
+  const requiredLevel = NPC_DELIVERY_LEVELS[npc as DeliveryNpcName] ?? {
+    ascension: 0,
+    level: 0,
+  };
+  const ascension = getAscensionLevel({
+    experience: game.bumpkin.experience ?? 0,
+    ascensionLevel: game.island.ascensionLevel ?? 0,
+  });
+  const isLocked = !meetsLevelRequirement(ascension, requiredLevel);
+  const missingLevels = Math.max(
+    0,
+    levelRequirementToTotal(requiredLevel) - levelRequirementToTotal(ascension),
+  );
   const deliveryFrozen = isHoliday && isTicketNPC(npc) && baseTickets > 0;
   const acceptGifts = !!getNextGift({ game, npc });
 
@@ -973,7 +986,8 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                         secondaryIcon={SUNNYSIDE.icons.player}
                       >
                         {t("warning.level.required", {
-                          lvl: NPC_DELIVERY_LEVELS[npc as DeliveryNpcName],
+                          lvl: NPC_DELIVERY_LEVELS[npc as DeliveryNpcName]
+                            ?.level,
                         })}
                       </Label>
                     )}

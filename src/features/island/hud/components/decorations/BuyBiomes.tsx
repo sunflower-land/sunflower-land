@@ -13,7 +13,7 @@ import Decimal from "decimal.js-light";
 import { Label } from "components/ui/Label";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import type { IslandType } from "features/game/types/game";
-import { capitalize } from "lib/utils/capitalize";
+import { getIslandName } from "features/game/types/game";
 
 export const BuyBiomes: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { gameService } = useContext(Context);
@@ -115,7 +115,9 @@ const BiomesActionView: React.FC<{
     return (
       <Label type="danger">
         {t("biome.notInCorrectIslandType", {
-          islandType: capitalize(requiredIslandExpansion ?? "Basic"),
+          islandType: getIslandName(
+            (requiredIslandExpansion ?? "basic") as IslandType,
+          ),
         })}
       </Label>
     );

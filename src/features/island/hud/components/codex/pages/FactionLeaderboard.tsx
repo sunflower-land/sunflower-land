@@ -28,7 +28,6 @@ import { formatNumber, shortenCount } from "lib/utils/formatNumber";
 import { type NPCName, NPC_WEARABLES } from "lib/npcs";
 import { ChampionsPrizes } from "features/world/ui/factions/Champions";
 import { toOrdinalSuffix } from "features/retreat/components/auctioneer/AuctionLeaderboardTable";
-import { KingdomChores } from "features/world/ui/factions/chores/KingdomChoresCodex";
 import { LastUpdatedAt } from "components/LastUpdatedAt";
 
 const npcs: Record<FactionName, NPCName> = {
@@ -163,7 +162,6 @@ export const FactionLeaderboard: React.FC<Props> = ({
           </div>
         </div>
         <ChampionsPrizes />
-        <KingdomChores />
       </div>
     </InnerPanel>
   );

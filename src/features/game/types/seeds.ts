@@ -17,6 +17,7 @@ import {
 import { FLOWER_SEEDS, type FlowerSeedName } from "./flowers";
 import type { ResourceName } from "./resources";
 import type { InventoryItemName, TemperateSeasonName } from "./game";
+import type { LevelRequirement } from "features/game/lib/level";
 
 export type SeedName =
   | CropSeedName
@@ -29,7 +30,7 @@ export type Seed = {
   price: number;
   description: string;
   plantSeconds: number;
-  bumpkinLevel: number;
+  bumpkinLevel: LevelRequirement;
   plantingSpot: ResourceName | "Greenhouse";
   yield?:
     | CropName

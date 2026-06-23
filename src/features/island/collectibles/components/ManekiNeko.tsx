@@ -2,7 +2,6 @@ import { useActor } from "@xstate/react";
 import React, { useContext, useEffect, useState } from "react";
 
 import manekiNekoShaking from "assets/sfts/maneki_neko.gif";
-import manekiNeko from "assets/sfts/maneki_neko_idle.gif";
 import shadow from "assets/npcs/shadow16px.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 
@@ -119,7 +118,7 @@ export const ManekiNekoImage: React.FC<Props> = ({ id, open }) => {
           className="absolute pointer-events-none"
         />
         <img
-          src={open ? manekiNekoShaking : manekiNeko}
+          src={manekiNekoShaking}
           style={{
             width: `${PIXEL_SCALE * 16}px`,
             bottom: `${PIXEL_SCALE * 2}px`,

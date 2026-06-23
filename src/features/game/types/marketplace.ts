@@ -231,7 +231,10 @@ export type MarketplaceTrends = {
 export type MarketplaceProfile = {
   id: number;
   username: string;
+  /** Within-ascension level. Meaningless without `ascension`. */
   level: number;
+  /** Ascension band this level belongs to (0 = pre-ascension). */
+  ascension: number;
   tokenUri: string;
   totalTrades: number;
   profit: number;
@@ -403,6 +406,11 @@ const ISLAND_RESOURCE_TAXES: Record<IslandType, number> = {
   desert: 0.2,
   volcano: 0.15,
   swamp: 0.15,
+  // Ascension islands (spooky onward) reuse the swamp value for now.
+  spooky: 0.15,
+  crystal: 0.15,
+  moon: 0.15,
+  marble: 0.15,
 };
 
 export function getResourceTax({

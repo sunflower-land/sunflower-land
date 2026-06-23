@@ -1,5 +1,6 @@
 import type Decimal from "decimal.js-light";
 import type { Ingredient } from "features/game/types/craftables";
+import type { LevelRequirement } from "features/game/lib/level";
 import type { Coordinates } from "../components/MapPlacement";
 
 export const LAND_SIZE = 6;
@@ -117,5 +118,5 @@ export type LandRequirements = {
   resources: Ingredient[];
   sfl: Decimal;
   seconds: number;
-  bumpkinLevel: number;
+  bumpkinLevel: LevelRequirement;
 };

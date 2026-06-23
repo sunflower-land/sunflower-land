@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from "react-router";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
@@ -32,6 +33,8 @@ import {
 } from "./lib/interiorBackgrounds";
 import { InteriorGridOverlay } from "./components/InteriorGridOverlay";
 import { UpgradeButton } from "./components/UpgradeButton";
+import { ImportHomeButton } from "./components/ImportHomeButton";
+import { InteriorWelcomeModal } from "./components/InteriorWelcomeModal";
 import { Bud } from "features/island/buds/Bud";
 import { PetNFT } from "features/island/pets/PetNFT";
 import { FarmHand } from "features/island/farmhand/FarmHand";
@@ -367,6 +370,28 @@ export const Interior: React.FC = () => {
                   <InteriorBumpkins location="interior" />
                 </div>
               </div>
+              {/*
+                Import-from-old-home button, pinned to the top-right corner of
+                the house layout. Anchored to the background image's top edge so
+                it sits on the room rather than floating in the black canvas
+                gutter. Self-hides when the old home has no items left.
+              */}
+              {!landscaping && (
+                <div
+                  data-prevent-drag-scroll
+                  className="absolute z-30"
+                  style={{
+                    right: `${PIXEL_SCALE * 6}px`,
+                    top: `${
+                      canvasHeightPx -
+                      INTERIOR_BACKGROUND_NATIVE.height * PIXEL_SCALE +
+                      PIXEL_SCALE * 6
+                    }px`,
+                  }}
+                >
+                  <ImportHomeButton />
+                </div>
+              )}
 
               <LandscapingGrid />
 
@@ -386,30 +411,31 @@ export const Interior: React.FC = () => {
                   <UpgradeButton />
                 </MapPlacement>
               )}
-              {expansion && island.type === "volcano" && (
-                <MapPlacement
-                  key="upgrade-button"
-                  x={14 - 12}
-                  y={20 - 12}
-                  height={2}
-                  width={1}
-                  className="relative"
-                >
-                  <div
-                    className="h-full w-full cursor-pointer"
-                    onClick={() => navigate("/level_one")}
-                  />
-                  <img
-                    src={SUNNYSIDE.icons.arrow_up}
-                    style={{
-                      width: `${PIXEL_SCALE * 9}px`,
-                      left: `${PIXEL_SCALE * 2}px`,
-                      top: `${PIXEL_SCALE * -2}px`,
-                    }}
-                    className="absolute inset-0 pointer-events-none"
-                  />
-                </MapPlacement>
-              )}
+              {expansion &&
+                hasRequiredIslandExpansion(island.type, "volcano") && (
+                  <MapPlacement
+                    key="upgrade-button"
+                    x={14 - 12}
+                    y={20 - 12}
+                    height={2}
+                    width={1}
+                    className="relative"
+                  >
+                    <div
+                      className="h-full w-full cursor-pointer"
+                      onClick={() => navigate("/level_one")}
+                    />
+                    <img
+                      src={SUNNYSIDE.icons.arrow_up}
+                      style={{
+                        width: `${PIXEL_SCALE * 9}px`,
+                        left: `${PIXEL_SCALE * 2}px`,
+                        top: `${PIXEL_SCALE * -2}px`,
+                      }}
+                      className="absolute inset-0 pointer-events-none"
+                    />
+                  </MapPlacement>
+                )}
             </div>
           </div>
         </animated.div>
@@ -417,6 +443,8 @@ export const Interior: React.FC = () => {
 
       {!landscaping && <Hud isFarming location="interior" />}
       {landscaping && <LandscapingHud location="interior" />}
+
+      {!landscaping && <InteriorWelcomeModal />}
     </>
   );
 };

@@ -147,9 +147,17 @@ const FEATURE_FLAGS = {
   MODERATOR: (game) =>
     !!((game.wardrobe.Halo ?? 0) > 0) && !!game.inventory["Beta Pass"]?.gt(0),
 
-  CHAACS_TEMPLE_BETA: betaFeatureFlag,
+  /**
+   * Gates the new home-interior placement system: the /interior route, the
+   * /level_one upgrade route, and the `interior.upgrade` event. Beta-pass /
+   * testnet only until the feature ships to all players.
+   */
+  HOME_EXPANSIONS: betaFeatureFlag,
 
   BOOSTS_DISPLAY: betaFeatureFlag,
+
+  // Importing leftover items from the old home into the new interior.
+  HOME_ITEM_MIGRATION: betaFeatureFlag,
 
   SWAMP_ASCENSION: testnetFeatureFlag,
 } satisfies Record<string, FeatureFlag>;

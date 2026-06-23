@@ -1,5 +1,8 @@
 import Decimal from "decimal.js-light";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 import { getKeys } from "lib/object";
 import type {
   Bumpkin,
@@ -20,7 +23,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { ResizableBar } from "../ProgressBar";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
-import { expansionRequirements } from "features/game/events/landExpansion/revealLand";
+import { expansionRequirements } from "features/game/events/landExpansion/expandLand";
 import { Button } from "../Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useSpeedUpPayment } from "features/game/lib/useSpeedUpPayment";
@@ -36,6 +39,7 @@ import {
   useExpansionCoinCostWithVip,
   useVipAccess,
 } from "lib/utils/hooks/useVipAccess";
+import { hasFeatureAccess } from "lib/flags";
 /**
  * The props for the component.
  * @param gameState The game state.
@@ -78,8 +82,13 @@ export const ExpansionRequirements: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
-  const hasLevel =
-    getBumpkinLevel(bumpkin.experience) >= requirements.bumpkinLevel;
+  // Compare the player's standing against the (ascension, level) requirement —
+  // matching the `expandLand` gate.
+  const ascensionLevel = state.island.ascensionLevel ?? 0;
+  const hasLevel = meetsLevelRequirement(
+    getAscensionLevel({ experience: bumpkin.experience, ascensionLevel }),
+    requirements.bumpkinLevel,
+  );
 
   const fullCoinRequirement = requirements.coins ?? 0;
   const effectiveCoinCost = useExpansionCoinCostWithVip({
@@ -201,7 +210,7 @@ export const ExpansionRequirements: React.FC<Props> = ({
         <InnerPanel className="mb-1">
           <Label type="danger" icon={SUNNYSIDE.icons.lock}>
             {t("warning.level.required", {
-              lvl: requirements.bumpkinLevel,
+              lvl: requirements.bumpkinLevel.level,
             })}
           </Label>
           <p className="text-xs">{t("statements.visit.firePit")}</p>
@@ -228,7 +237,10 @@ export const Expanding: React.FC<{
     readyAt ?? 0,
   );
 
-  const hasAccess = !hasRequiredIslandExpansion(state.island.type, "desert");
+  const hasAccess = !hasRequiredIslandExpansion(
+    state.island.type,
+    hasFeatureAccess(state, "SWAMP_ASCENSION") ? "swamp" : "desert",
+  );
 
   const payment = useSpeedUpPayment({ readyAt, game: state });
   const cost =

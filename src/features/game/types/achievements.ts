@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { getBumpkinLevel } from "../lib/level";
+import { getMaxBumpkinLevel, getTotalBumpkinLevel } from "../lib/level";
 import type { GameState, Inventory } from "./game";
 import type { CookEvent, CraftedEvent, HarvestEvent } from "./farmActivity";
 import { COOKABLES, COOKABLE_CAKES } from "./consumables";
@@ -227,7 +227,11 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Busy Bumpkin": {
     description: translate("busyBumpkin.description"),
     progress: (gameState: GameState) =>
-      getBumpkinLevel(gameState.bumpkin?.experience || 0),
+      getTotalBumpkinLevel({
+        experience: gameState.bumpkin.experience || 0,
+        ascensionLevel: gameState.island.ascensionLevel ?? 0,
+        maxLevel: getMaxBumpkinLevel(gameState),
+      }),
     requirement: 2,
     coins: 10,
     introduction: [translate("busyBumpkin.one"), translate("busyBumpkin.two")],
@@ -275,7 +279,11 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Brilliant Bumpkin": {
     description: translate("brilliantBumpkin.description"),
     progress: (gameState: GameState) =>
-      getBumpkinLevel(gameState.bumpkin?.experience || 0),
+      getTotalBumpkinLevel({
+        experience: gameState.bumpkin.experience || 0,
+        ascensionLevel: gameState.island.ascensionLevel ?? 0,
+        maxLevel: getMaxBumpkinLevel(gameState),
+      }),
     requirement: 20,
     coins: 0,
     rewards: {

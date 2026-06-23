@@ -3,6 +3,7 @@ import type { Coordinates } from "features/game/expansion/components/MapPlacemen
 import { getObjectEntries } from "lib/object";
 import type { BuildingName } from "features/game/types/buildings";
 import type {
+  AscensionIslandType,
   BasicIslandType,
   GameState,
   IslandType,
@@ -13,7 +14,7 @@ import type {
 } from "features/game/types/game";
 import { ASCENSION_ISLANDS } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
-import { getBumpkinLevel } from "features/game/lib/level";
+import { getAscensionLevel, getMaxBumpkinLevel } from "features/game/lib/level";
 import {
   getTotalBaseResourceEquivalents,
   topUpResourceToMinimum,
@@ -32,7 +33,11 @@ import { placeBeehive } from "./placeBeehive";
 import { placeFlowerBed } from "./placeFlowerBed";
 import { placeLavaPit } from "./placeLavaPit";
 import { removeAll } from "./removeAll";
-import { TOTAL_EXPANSION_NODES } from "features/game/types/expansions";
+import {
+  TOTAL_EXPANSION_NODES,
+  getExpansionNodes,
+} from "features/game/types/expansions";
+import { SWAMP_BASE_EXPANSION } from "features/game/expansion/lib/ascension";
 import { ISLAND_MAX_EXPANSION } from "features/game/expansion/lib/expansionRequirements";
 import { reAnchorToIsland } from "features/game/expansion/lib/island";
 
@@ -47,7 +52,7 @@ type Options = {
   farmId: number;
 };
 
-interface InitialLandCoordinates {
+export interface InitialLandCoordinates {
   buildings: Partial<Record<BuildingName, Coordinates>>;
   crops: Record<string, Coordinates>;
   fruitPatches: Record<string, Coordinates>;
@@ -225,190 +230,222 @@ const INITIAL_VOLCANO_LAND_COORDINATES: InitialLandCoordinates = {
   },
 };
 
-const INITIAL_SWAMP_LAND_COORDINATES: InitialLandCoordinates = {
+export const INITIAL_SWAMP_LAND_COORDINATES: InitialLandCoordinates = {
   buildings: {
-    Workbench: { x: 17, y: -10 },
-    Market: { x: -4, y: 13 },
-    "Fire Pit": { x: -14, y: -9 },
-    Mansion: { x: 0, y: 15 },
-    Barn: { x: -9, y: 13 },
-    "Hen House": { x: 11, y: 13 },
-    Warehouse: { x: 7, y: 13 },
-    Bakery: { x: -9, y: -6 },
-    Toolshed: { x: 17, y: 5 },
-    Deli: { x: -9, y: -2 },
-    Greenhouse: { x: -9, y: 8 },
-    "Crafting Box": { x: 17, y: -12 },
-    "Water Well": { x: 2, y: -8 },
-    Kitchen: { x: -14, y: -2 },
-    "Premium Composter": { x: -6, y: -10 },
-    "Crop Machine": { x: 10, y: 8 },
-    "Compost Bin": { x: -10, y: -10 },
-    "Smoothie Shack": { x: -13, y: -6 },
-    "Turbo Composter": { x: -8, y: -10 },
-    "Fish Market": { x: -14, y: -12 },
-    "Pet House": { x: -12, y: 2 },
-    "Aging Shed": { x: -10, y: -13 },
+    Mansion: { x: -3, y: 15 },
+    Greenhouse: { x: -15, y: 15 },
+    "Crop Machine": { x: 3, y: 15 },
+    "Water Well": { x: 8, y: 15 },
+    Workbench: { x: 11, y: 15 },
+    "Crafting Box": { x: 14, y: 15 },
+    Toolshed: { x: 17, y: 15 },
+    Warehouse: { x: 11, y: 12 },
+    Market: { x: 14, y: 12 },
+    Kitchen: { x: -9, y: 9 },
+    Bakery: { x: -9, y: 6 },
+    Deli: { x: -9, y: 3 },
+    "Fire Pit": { x: -9, y: 0 },
+    "Smoothie Shack": { x: -9, y: -2 },
+    Barn: { x: -4, y: 3 },
+    "Hen House": { x: 1, y: 3 },
+    "Pet House": { x: 6, y: 3 },
+    "Aging Shed": { x: -4, y: -2 },
+    "Fish Market": { x: 1, y: -2 },
+    "Compost Bin": { x: -15, y: 0 },
+    "Turbo Composter": { x: -12, y: 0 },
+    "Premium Composter": { x: -15, y: -3 },
   },
   crops: {
-    "1": { x: 0, y: 9 },
-    "2": { x: 1, y: 9 },
-    "3": { x: 2, y: 9 },
-    "4": { x: 3, y: 9 },
-    "5": { x: 4, y: 9 },
-    "6": { x: 5, y: 9 },
-    "7": { x: 6, y: 9 },
-    "8": { x: -1, y: 9 },
-    "9": { x: 6, y: 8 },
-    "10": { x: 5, y: 8 },
-    "11": { x: 4, y: 8 },
-    "12": { x: 3, y: 8 },
-    "13": { x: 2, y: 8 },
-    "14": { x: 1, y: 8 },
-    "15": { x: 2, y: 3 },
-    "16": { x: 1, y: 3 },
-    "17": { x: 0, y: 3 },
-    "18": { x: 3, y: 3 },
-    "19": { x: 1, y: 7 },
-    "20": { x: 2, y: 7 },
-    "21": { x: 3, y: 7 },
-    "22": { x: 4, y: 7 },
-    "23": { x: 5, y: 7 },
-    "24": { x: 6, y: 7 },
-    "25": { x: 6, y: 6 },
-    "26": { x: 5, y: 6 },
-    "27": { x: 4, y: 6 },
-    "28": { x: 3, y: 6 },
-    "29": { x: 2, y: 6 },
-    "30": { x: 1, y: 6 },
-    "31": { x: 0, y: 6 },
-    "32": { x: -1, y: 6 },
-    "33": { x: -2, y: 3 },
-    "34": { x: 0, y: 5 },
-    "35": { x: 1, y: 5 },
-    "36": { x: 2, y: 5 },
-    "37": { x: 3, y: 5 },
-    "38": { x: 4, y: 5 },
-    "39": { x: 5, y: 5 },
-    "40": { x: 6, y: 5 },
-    "41": { x: 7, y: 9 },
-    "42": { x: 7, y: 8 },
-    "43": { x: 7, y: 7 },
-    "44": { x: 7, y: 6 },
-    "45": { x: 7, y: 5 },
-    "46": { x: -2, y: 10 },
-    "47": { x: -2, y: 9 },
-    "48": { x: -2, y: 8 },
-    "49": { x: -2, y: 7 },
-    "50": { x: -2, y: 6 },
-    "51": { x: -2, y: 5 },
-    "52": { x: -2, y: 4 },
-    "53": { x: -1, y: 3 },
-    "54": { x: 0, y: 4 },
-    "55": { x: 1, y: 4 },
-    "56": { x: 2, y: 4 },
-    "57": { x: 3, y: 4 },
-    "58": { x: 4, y: 4 },
-    "59": { x: 5, y: 4 },
-    "60": { x: 6, y: 4 },
-    "61": { x: 7, y: 4 },
-    "62": { x: 7, y: 3 },
-    "63": { x: 6, y: 3 },
-    "64": { x: 5, y: 3 },
-    "65": { x: 4, y: 3 },
+    "1": { x: -4, y: 9 },
+    "2": { x: -3, y: 9 },
+    "3": { x: -2, y: 9 },
+    "4": { x: -1, y: 9 },
+    "5": { x: 0, y: 9 },
+    "6": { x: 1, y: 9 },
+    "7": { x: 2, y: 9 },
+    "8": { x: 3, y: 9 },
+    "9": { x: 4, y: 9 },
+    "10": { x: 5, y: 9 },
+    "11": { x: 6, y: 9 },
+    "12": { x: 7, y: 9 },
+    "13": { x: 8, y: 9 },
+    "14": { x: -4, y: 8 },
+    "15": { x: -3, y: 8 },
+    "16": { x: -2, y: 8 },
+    "17": { x: -1, y: 8 },
+    "18": { x: 0, y: 8 },
+    "19": { x: 1, y: 8 },
+    "20": { x: 2, y: 8 },
+    "21": { x: 3, y: 8 },
+    "22": { x: 4, y: 8 },
+    "23": { x: 5, y: 8 },
+    "24": { x: 6, y: 8 },
+    "25": { x: 7, y: 8 },
+    "26": { x: 8, y: 8 },
+    "27": { x: -4, y: 7 },
+    "28": { x: -3, y: 7 },
+    "29": { x: -2, y: 7 },
+    "30": { x: -1, y: 7 },
+    "31": { x: 0, y: 7 },
+    "32": { x: 1, y: 7 },
+    "33": { x: 2, y: 7 },
+    "34": { x: 3, y: 7 },
+    "35": { x: 4, y: 7 },
+    "36": { x: 5, y: 7 },
+    "37": { x: 6, y: 7 },
+    "38": { x: 7, y: 7 },
+    "39": { x: 8, y: 7 },
+    "40": { x: -4, y: 6 },
+    "41": { x: -3, y: 6 },
+    "42": { x: -2, y: 6 },
+    "43": { x: -1, y: 6 },
+    "44": { x: 0, y: 6 },
+    "45": { x: 1, y: 6 },
+    "46": { x: 2, y: 6 },
+    "47": { x: 3, y: 6 },
+    "48": { x: 4, y: 6 },
+    "49": { x: 5, y: 6 },
+    "50": { x: 6, y: 6 },
+    "51": { x: 7, y: 6 },
+    "52": { x: 8, y: 6 },
+    "53": { x: -4, y: 5 },
+    "54": { x: -3, y: 5 },
+    "55": { x: -2, y: 5 },
+    "56": { x: -1, y: 5 },
+    "57": { x: 0, y: 5 },
+    "58": { x: 1, y: 5 },
+    "59": { x: 2, y: 5 },
+    "60": { x: 3, y: 5 },
+    "61": { x: 4, y: 5 },
+    "62": { x: 5, y: 5 },
+    "63": { x: 6, y: 5 },
+    "64": { x: 7, y: 5 },
+    "65": { x: 8, y: 5 },
   },
   fruitPatches: {
-    "1": { x: 0, y: -6 },
-    "2": { x: 0, y: -2 },
-    "3": { x: 2, y: -6 },
-    "4": { x: 2, y: -4 },
-    "5": { x: -2, y: -4 },
-    "6": { x: 4, y: -2 },
-    "7": { x: 4, y: -6 },
-    "8": { x: -2, y: -6 },
-    "9": { x: 6, y: -6 },
-    "10": { x: 6, y: -4 },
-    "11": { x: 6, y: -2 },
-    "12": { x: 2, y: -2 },
-    "13": { x: -2, y: -2 },
-    "14": { x: 0, y: -4 },
-    "15": { x: 4, y: -4 },
+    "1": { x: -15, y: 11 },
+    "2": { x: -13, y: 11 },
+    "3": { x: -11, y: 11 },
+    "4": { x: -15, y: 9 },
+    "5": { x: -13, y: 9 },
+    "6": { x: -11, y: 9 },
+    "7": { x: -15, y: 7 },
+    "8": { x: -13, y: 7 },
+    "9": { x: -11, y: 7 },
+    "10": { x: -15, y: 5 },
+    "11": { x: -13, y: 5 },
+    "12": { x: -11, y: 5 },
+    "13": { x: -15, y: 3 },
+    "14": { x: -13, y: 3 },
+    "15": { x: -11, y: 3 },
   },
   trees: {
-    "1": { x: 10, y: 2 },
-    "2": { x: 12, y: 2 },
-    "3": { x: 12, y: 0 },
-    "4": { x: 10, y: 0 },
+    "1": { x: -9, y: -5 },
+    "2": { x: -7, y: -5 },
+    "3": { x: -5, y: -5 },
+    "4": { x: -3, y: -5 },
+    "5": { x: -1, y: -5 },
+    "6": { x: 1, y: -5 },
+    "7": { x: -9, y: -7 },
+    "8": { x: -7, y: -7 },
+    "9": { x: -5, y: -7 },
+    "10": { x: -3, y: -7 },
+    "11": { x: -1, y: -7 },
+    "12": { x: 1, y: -7 },
+    "13": { x: -9, y: -9 },
+    "14": { x: -7, y: -9 },
+    "15": { x: -5, y: -9 },
+    "16": { x: -3, y: -9 },
+    "17": { x: -1, y: -9 },
+    "18": { x: 1, y: -9 },
+    "19": { x: -9, y: -11 },
+    "20": { x: -7, y: -11 },
+    "21": { x: -5, y: -11 },
+    "22": { x: -3, y: -11 },
+    "23": { x: -1, y: -11 },
   },
   gold: {
-    "1": { x: 17, y: -3 },
-    "2": { x: 18, y: -3 },
-    "3": { x: 19, y: -3 },
-    "4": { x: 19, y: -5 },
-    "5": { x: 19, y: -6 },
-    "6": { x: 17, y: -4 },
-    "7": { x: 17, y: -6 },
-    "8": { x: 19, y: -4 },
+    "1": { x: 18, y: -8 },
+    "2": { x: 19, y: -8 },
+    "3": { x: 20, y: -8 },
+    "4": { x: 18, y: -9 },
+    "5": { x: 19, y: -9 },
+    "6": { x: 20, y: -9 },
+    "7": { x: 18, y: -10 },
+    "8": { x: 19, y: -10 },
   },
   iron: {
-    "4d8d840d": { x: 18, y: -6 },
-    "5cb431c4": { x: 17, y: -7 },
-    "6c5e7d40": { x: 18, y: -7 },
-    "815c6bb5": { x: 19, y: -7 },
-    "9954c056": { x: 19, y: -8 },
-    b378d8d3: { x: 18, y: -8 },
-    b60c7935: { x: 17, y: -8 },
-    f8c09a39: { x: 19, y: -9 },
-    a280fb4c: { x: 17, y: -9 },
-    e6f8d990: { x: 18, y: -9 },
-    e79b3e44: { x: 18, y: -5 },
+    "1": { x: 18, y: -3 },
+    "2": { x: 19, y: -3 },
+    "3": { x: 20, y: -3 },
+    "4": { x: 18, y: -4 },
+    "5": { x: 19, y: -4 },
+    "6": { x: 20, y: -4 },
+    "7": { x: 18, y: -5 },
+    "8": { x: 19, y: -5 },
+    "9": { x: 20, y: -5 },
+    "10": { x: 18, y: -6 },
+    "11": { x: 19, y: -6 },
+    "12": { x: 20, y: -6 },
+    "13": { x: 18, y: -7 },
   },
   stones: {
-    c1b64ee3: { x: 17, y: 0 },
-    d56eda85: { x: 17, y: -1 },
-    d92d4d04: { x: 18, y: -2 },
-    e11b578f: { x: 17, y: -2 },
-    ffbc02d4: { x: 19, y: -2 },
-    ecc257f7: { x: 19, y: -1 },
-    "987beac6": { x: 18, y: 0 },
-    "9e17f622": { x: 19, y: 0 },
+    "1": { x: 13, y: -3 },
+    "2": { x: 14, y: -3 },
+    "3": { x: 15, y: -3 },
+    "4": { x: 16, y: -3 },
+    "5": { x: 17, y: -3 },
+    "6": { x: 13, y: -4 },
+    "7": { x: 14, y: -4 },
+    "8": { x: 15, y: -4 },
+    "9": { x: 16, y: -4 },
+    "10": { x: 17, y: -4 },
+    "11": { x: 13, y: -5 },
+    "12": { x: 14, y: -5 },
+    "13": { x: 15, y: -5 },
+    "14": { x: 16, y: -5 },
+    "15": { x: 17, y: -5 },
+    "16": { x: 13, y: -6 },
+    "17": { x: 14, y: -6 },
+    "18": { x: 15, y: -6 },
+    "19": { x: 16, y: -6 },
+    "20": { x: 17, y: -6 },
   },
   oilReserves: {
-    "1": { x: 10, y: -6 },
-    "4a19070c": { x: 10, y: -8 },
-    e38b77e6: { x: 12, y: -6 },
-    "6308b565": { x: 12, y: -8 },
+    "1": { x: 9, y: 9 },
+    "2": { x: 11, y: 9 },
+    "3": { x: 9, y: 7 },
+    "4": { x: 11, y: 7 },
   },
   crimstones: {
-    "4eeefbf2": { x: 14, y: -4 },
-    "592f837f": { x: 14, y: 0 },
-    "608f3f7b": { x: 14, y: -6 },
-    "69a1b94d": { x: 14, y: 2 },
-    "44bc0169": { x: 14, y: -2 },
+    "1": { x: 13, y: 9 },
+    "2": { x: 15, y: 9 },
+    "3": { x: 17, y: 9 },
+    "4": { x: 19, y: 9 },
+    "5": { x: 13, y: 7 },
   },
   beehives: {
-    "36088790": { x: -15, y: 14 },
-    "7f87f68b": { x: -15, y: 13 },
-    "8724fce7": { x: -15, y: 15 },
+    "1": { x: -12, y: -6 },
+    "2": { x: -12, y: -7 },
+    "3": { x: -12, y: -8 },
   },
   flowerBeds: {
-    "97a62df9": { x: -14, y: 14 },
-    a3cb4712: { x: -14, y: 13 },
-    be869296: { x: -14, y: 15 },
+    "1": { x: -15, y: -6 },
+    "2": { x: -15, y: -7 },
+    "3": { x: -15, y: -8 },
   },
   lavaPits: {
-    "1571085d": { x: 10, y: -2 },
-    "06fcbfea": { x: 12, y: -2 },
-    f569e8ea: { x: 12, y: -4 },
+    "1": { x: 9, y: 5 },
+    "2": { x: 11, y: 5 },
+    "3": { x: 9, y: 3 },
   },
 };
-
 /**
  * Places the initial land on the farm.
  * All functions will place the elements on the farm.
  * If there's existing data it will update coordinates on the existing data, otherwise it will create new ones
  */
-function placeInitialLand({
+export function placeInitialLand({
   state,
   createdAt = Date.now(),
   initialLandCoordinates,
@@ -665,7 +702,7 @@ function placeInitialLand({
 type UpgradeTarget = Exclude<IslandType, "basic">;
 
 export const ISLAND_UPGRADE: Record<
-  BasicIslandType,
+  IslandType,
   { items: Inventory; expansions: number; upgrade: UpgradeTarget }
 > = {
   basic: {
@@ -694,6 +731,31 @@ export const ISLAND_UPGRADE: Record<
     // Cost scales with ascension level — see getAscensionUpgradeCost
     items: {},
     upgrade: "swamp",
+  },
+  swamp: {
+    items: {},
+    expansions: 42,
+    upgrade: "spooky",
+  },
+  spooky: {
+    items: {},
+    expansions: 42,
+    upgrade: "crystal",
+  },
+  crystal: {
+    items: {},
+    expansions: 42,
+    upgrade: "moon",
+  },
+  moon: {
+    items: {},
+    expansions: 42,
+    upgrade: "marble",
+  },
+  marble: {
+    items: {},
+    expansions: 42,
+    upgrade: "marble",
   },
 };
 
@@ -819,6 +881,15 @@ function desertUpgrade(state: GameState) {
   return game;
 }
 
+/**
+ * Upgrades the game state for the volcano island tier.
+ *
+ * Establishes the Mansion as the home structure, ensures minimum starting resources (excluding sunstone bonuses),
+ * and provides a welcome reward airdrop.
+ *
+ * @param state - The game state to upgrade
+ * @returns The updated game state configured for the volcano island
+ */
 function volcanoUpgrade(state: GameState) {
   const game = cloneDeep(state) as GameState;
   // Clear the manor
@@ -873,7 +944,22 @@ function volcanoUpgrade(state: GameState) {
   return game;
 }
 
-function swampUpgrade(state: GameState) {
+const isTargetAscension = (
+  target: UpgradeTarget,
+): target is AscensionIslandType =>
+  ASCENSION_ISLANDS.includes(target as AscensionIslandType);
+
+/**
+ * Prepares the game state for an ascension island (swamp onward) by clearing
+ * previous home structures, adding a mansion, and ensuring minimum starting
+ * resources.
+ *
+ * @returns The updated game state for the ascension island.
+ */
+function ascensionUpgrade(state: GameState, target: UpgradeTarget) {
+  if (!isTargetAscension(target)) {
+    throw new Error("Target is not Ascension");
+  }
   const game = cloneDeep(state) as GameState;
   // Swamp keeps the Mansion from Volcano — clear any older homes defensively
   delete game.inventory["Town Center"];
@@ -889,7 +975,16 @@ function swampUpgrade(state: GameState) {
   // Ensure they have the minimum resources to start the island with
   // Do not give bonus sunstones
   // Account for upgraded resources when checking minimums
-  const minimum = { ...TOTAL_EXPANSION_NODES.swamp[30], "Sunstone Rock": 0 };
+  // Carry-forward floor: base + every prior ascension's grants (ascensionLevel
+  // is already bumped to the level being entered by the time this runs).
+  const minimum = {
+    ...getExpansionNodes({
+      island: target,
+      expansion: SWAMP_BASE_EXPANSION,
+      ascensionLevel: game.island.ascensionLevel,
+    }),
+    "Sunstone Rock": 0,
+  };
 
   getObjectEntries(minimum).forEach(([resource, amount]) => {
     const totalEquivalents = getTotalBaseResourceEquivalents(game, resource);
@@ -945,7 +1040,7 @@ type IslandSetup = {
   /** Buildings, resources & trap spots laid out when the player arrives. */
   initialCoordinates: InitialLandCoordinates;
   /** Island-specific changes: home building swap, resource floor, airdrop. */
-  applySetup: (state: GameState) => GameState;
+  applySetup: (state: GameState, target: UpgradeTarget) => GameState;
 };
 
 const ISLAND_SETUP: Record<UpgradeTarget, IslandSetup> = {
@@ -967,14 +1062,36 @@ const ISLAND_SETUP: Record<UpgradeTarget, IslandSetup> = {
   swamp: {
     startingExpansions: 30,
     initialCoordinates: INITIAL_SWAMP_LAND_COORDINATES,
-    applySetup: swampUpgrade,
+    applySetup: ascensionUpgrade,
+  },
+  spooky: {
+    startingExpansions: 30,
+    initialCoordinates: INITIAL_SWAMP_LAND_COORDINATES,
+    applySetup: ascensionUpgrade,
+  },
+  crystal: {
+    startingExpansions: 30,
+    initialCoordinates: INITIAL_SWAMP_LAND_COORDINATES,
+    applySetup: ascensionUpgrade,
+  },
+  moon: {
+    startingExpansions: 30,
+    initialCoordinates: INITIAL_SWAMP_LAND_COORDINATES,
+    applySetup: ascensionUpgrade,
+  },
+  marble: {
+    startingExpansions: 30,
+    initialCoordinates: INITIAL_SWAMP_LAND_COORDINATES,
+    applySetup: ascensionUpgrade,
   },
 };
 
 /**
- * The island-agnostic part of moving a farm to a new island: wipe the old
- * farm, carry island history (incl. sunstones) forward, and lay out the fresh
- * starting island. The per-island bits are driven by `ISLAND_SETUP[target]`.
+ * Transitions a farm to a new island, establishing a fresh starting configuration.
+ *
+ * Clears the previous farm state, carries forward expansion history and sunstone counts, relocates mushrooms and social farming clutter to the new island's side island, applies target-island-specific setup (home adjustments, resource flooring, airdrops), and initializes all starting land, buildings, and resources. Per-island configurations are determined by `ISLAND_SETUP[target]`.
+ *
+ * @returns The transitioned game state with the new island fully initialized
  */
 function transitionToIsland({
   state,
@@ -1051,9 +1168,11 @@ function transitionToIsland({
     ISLAND_MAX_EXPANSION[game.island.type],
   );
   const sunstonesForExpansion =
-    TOTAL_EXPANSION_NODES[game.island.type][expansionForNodeLookup]?.[
-      "Sunstone Rock"
-    ] ?? 0;
+    getExpansionNodes({
+      island: game.island.type,
+      expansion: expansionForNodeLookup,
+      ascensionLevel: game.island.ascensionLevel,
+    })["Sunstone Rock"] ?? 0;
 
   const maxSunstones = Math.max(
     sunstonesForExpansion,
@@ -1085,7 +1204,7 @@ function transitionToIsland({
 
   // Island-specific setup, then lay out the starting island
   const setup = ISLAND_SETUP[target];
-  game = setup.applySetup(game);
+  game = setup.applySetup(game, target);
   game.inventory["Basic Land"] = new Decimal(setup.startingExpansions);
   game = placeInitialLand({
     state: game,
@@ -1093,6 +1212,18 @@ function transitionToIsland({
     createdAt,
     initialLandCoordinates: setup.initialCoordinates,
   });
+
+  // Grant the Ascension Crystal "upgrade node": 1 per island upgrade (the A0
+  // spring/desert/volcano grants and each ascension's upgrade node). Granted to
+  // inventory for the player to place; the per-expansion crystals auto-place via
+  // the ascension layout. Kept additive (never reset) so it stays in lockstep
+  // with getExpectedAscensionCrystals for the revealLand back-pay reconciliation.
+  if (hasFeatureAccess(game, "SWAMP_ASCENSION")) {
+    game.inventory["Ascension Crystal"] = (
+      game.inventory["Ascension Crystal"] ?? new Decimal(0)
+    ).add(1);
+  }
+
   game = cloneDeep(game);
 
   // Reset the biome upon transition
@@ -1126,10 +1257,18 @@ export function upgrade({ state, createdAt = Date.now(), farmId }: Options) {
     throw new Error("Swamp ascension is not yet available");
   }
 
-  // Ascension islands require a minimum Bumpkin level to access.
+  // Ascension islands require the player to have maxed their current ascension band
+  // before ascending again (pre-swamp: Bumpkin level 150; ascension >= 1: level 50 of
+  // the current band). `isReadyToAscend` is band-aware, so this single check covers
+  // the first ascension (volcano→swamp) and every re-ascension — including marble's
+  // infinite marble→marble loop, which keeps gating on the ever-increasing band.
   if (
     targetIsAscension &&
-    getBumpkinLevel(game.bumpkin?.experience ?? 0) < ASCENSION_BUMPKIN_LEVEL
+    !getAscensionLevel({
+      experience: game.bumpkin.experience ?? 0,
+      ascensionLevel: game.island.ascensionLevel ?? 0,
+      maxLevel: getMaxBumpkinLevel(game),
+    }).isReadyToAscend
   ) {
     throw new Error("Player has not met the level requirements");
   }

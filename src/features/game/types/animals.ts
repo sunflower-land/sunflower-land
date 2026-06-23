@@ -10,6 +10,7 @@ import type {
 } from "./game";
 import { translate } from "lib/i18n/translate";
 import { getKeys } from "lib/object";
+import type { LevelRequirement } from "features/game/lib/level";
 
 export type AnimalBuildingType = Extract<BuildingName, "Barn" | "Hen House">;
 
@@ -17,7 +18,7 @@ export type AnimalType = "Chicken" | "Cow" | "Sheep";
 
 type AnimalDetail = {
   coins: number;
-  levelRequired: number;
+  levelRequired: LevelRequirement;
   buildingRequired: AnimalBuildingType;
   height: number;
   width: number;
@@ -35,21 +36,21 @@ export interface Feed {
 export const ANIMALS: Record<AnimalType, AnimalDetail> = {
   Chicken: {
     coins: 50,
-    levelRequired: 6,
+    levelRequired: { ascension: 0, level: 6 },
     buildingRequired: "Hen House",
     height: 2,
     width: 2,
   },
   Cow: {
     coins: 100,
-    levelRequired: 14,
+    levelRequired: { ascension: 0, level: 14 },
     buildingRequired: "Barn",
     height: 2,
     width: 2,
   },
   Sheep: {
     coins: 120,
-    levelRequired: 18,
+    levelRequired: { ascension: 0, level: 18 },
     buildingRequired: "Barn",
     height: 2,
     width: 2,

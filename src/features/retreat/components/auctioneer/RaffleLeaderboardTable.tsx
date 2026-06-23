@@ -16,6 +16,7 @@ import type { RafflePrize } from "./types";
 import { toOrdinalSuffix } from "./AuctionLeaderboardTable";
 import { playerModalManager } from "features/social/lib/playerModalManager";
 import { getPrizeDisplay } from "features/world/ui/chapterRaffles/prizeDisplay";
+import { getAscensionDisplayText } from "features/game/lib/level";
 
 type Props = {
   winners: RaffleSnapshotWinner[];
@@ -37,7 +38,15 @@ export const RaffleLeaderboardTable: React.FC<Props> = ({
       <tbody>
         {winners.map((winner) => {
           const name = winner.profile?.username ?? `#${winner.farmId}`;
-          const level = winner.profile?.level ?? "-";
+          const level = winner.profile?.level ?? 0;
+          const ascension = winner.profile?.ascension ?? 0;
+          const levelText =
+            ascension > 0
+              ? getAscensionDisplayText({
+                  ascension: { ascension, level },
+                  length: "full",
+                })
+              : t("auction.raffle.levelShort", { level });
 
           return (
             <tr
@@ -71,9 +80,7 @@ export const RaffleLeaderboardTable: React.FC<Props> = ({
                     <NPCIcon width={24} parts={winner.profile.equipped} />
                   </div>
                 )}
-                <p className="relative truncate">
-                  {`${name} - ${t("auction.raffle.levelShort", { level })}`}
-                </p>
+                <p className="relative truncate">{`${name} - ${levelText}`}</p>
               </td>
 
               <td

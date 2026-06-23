@@ -1,7 +1,10 @@
 import Decimal from "decimal.js-light";
 import { makeAnimalBuildingKey } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 import {
   type AnimalBuildingType,
   ANIMALS,
@@ -173,11 +176,16 @@ export function buyAnimal({
       throw new Error(`You do not have a ${buildingRequired}`);
     }
 
-    const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
+    const ascension = getAscensionLevel({
+      experience: bumpkin.experience,
+      ascensionLevel: copy.island.ascensionLevel ?? 0,
+    });
 
-    if (bumpkinLevel < levelRequired) {
+    if (!meetsLevelRequirement(ascension, levelRequired)) {
       throw new Error(
-        `Your bumpkin is not at the required level of ${levelRequired}`,
+        levelRequired.ascension > 0
+          ? `Your bumpkin must be Ascension ${levelRequired.ascension}, Level ${levelRequired.level}`
+          : `Your bumpkin is not at the required level of ${levelRequired.level}`,
       );
     }
 
