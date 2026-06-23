@@ -8060,7 +8060,6 @@
   "description.anemoneFlower.boost": "+1 次钓鱼小游戏尝试机会",
   "chaacsTemple.portal.title": "小游戏 - 查克神殿",
   "chaacsTemple.portal.description": "你有胆量踏入查克神殿吗？",
-  "chaacsTemple.portal.missionObjective": "任务目标：累计 {{targetScore}} 次达到不断递增的分数线。初始分数线为 {{start}}。",
   "chaacsTemple.portal.rewardMessage": "恭喜！你战胜了重重困难，成功通过了查克的试炼。收下这份属于你的奖励吧。",
   "portal.chaacsTemple.title": "查克神殿",
   "portal.chaacsTemple.description": "踏入神殿，突破极限，完成查克的记忆试炼。",
@@ -9116,5 +9115,6 @@
   "biome.notInCorrectIslandType": "升级到 {{islandType}} 即可购买此生物群落",
   "description.ascensionCrystal": "挖矿获得升天碎片",
   "description.ascensionShard": "用于升级技能",
-  "marketplace.activeTrades": "活跃交易"
+  "marketplace.activeTrades": "活跃交易",
+  "chaacsTemple.portal.missionObjective": "任务：重复灯光序列 5 次。长度从 {{start}} 开始。"
 }

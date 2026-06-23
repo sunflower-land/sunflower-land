@@ -8060,7 +8060,6 @@
   "description.anemoneFlower.boost": "+1 intento de minijuego de pesca",
   "chaacsTemple.portal.title": "Minijuego - El templo de Chaac",
   "chaacsTemple.portal.description": "¿Te atreves a entrar en el templo de Chaac?",
-  "chaacsTemple.portal.missionObjective": "Misión: Alcanzar el umbral de puntuación creciente {{targetScore}} veces. El umbral comienza en {{start}}.",
   "chaacsTemple.portal.rewardMessage": "Enhorabuena, has desafiado las probabilidades y has resuelto el desafío de Chaac. Aquí tienes tu recompensa.",
   "portal.chaacsTemple.title": "Templo de Chaac",
   "portal.chaacsTemple.description": "Entra en el templo, desafía las probabilidades y resuelve el desafío de memoria de Chaac.",
@@ -9116,5 +9115,6 @@
   "biome.notInCorrectIslandType": "Actualice a {{islandType}} para comprar este bioma",
   "description.ascensionCrystal": "Mina para obtener fragmentos de Ascensión",
   "description.ascensionShard": "Se usa para mejorar las habilidades",
-  "marketplace.activeTrades": "Operaciones activas"
+  "marketplace.activeTrades": "Operaciones activas",
+  "chaacsTemple.portal.missionObjective": "Misión: Repite la secuencia de luces 5 veces. La longitud comienza en {{start}}."
 }

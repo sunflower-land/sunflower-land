@@ -8060,7 +8060,6 @@
   "description.anemoneFlower.boost": "+1 Versuch eines Angel-Minispiels",
   "chaacsTemple.portal.title": "Minispiel - Chaacs Tempel",
   "chaacsTemple.portal.description": "Traust du dich, Chaacs Tempel zu betreten?",
-  "chaacsTemple.portal.missionObjective": "Auftrag: Erreiche die steigende Punkteschwelle {{targetScore}} mal. Der Schwellenwert beginnt bei {{start}}.",
   "chaacsTemple.portal.rewardMessage": "Herzlichen Glückwunsch, du hast allen Widrigkeiten getrotzt und Chaacs Herausforderung gelöst. Hier ist deine Belohnung.",
   "portal.chaacsTemple.title": "Chaacs Tempel",
   "portal.chaacsTemple.description": "Betritt den Tempel, trotze allen Widrigkeiten und löse Chaacs Gedächtnisherausforderung.",
@@ -9116,5 +9115,6 @@
   "biome.notInCorrectIslandType": "Upgrade auf {{islandType}}, um dieses Biom zu kaufen",
   "description.ascensionCrystal": "Mine, um Ascension Shards zu erhalten",
   "description.ascensionShard": "Wird verwendet, um Fähigkeiten zu verbessern",
-  "marketplace.activeTrades": "Aktive Trades"
+  "marketplace.activeTrades": "Aktive Trades",
+  "chaacsTemple.portal.missionObjective": "Auftrag: Wiederhole die Lichtsequenz fünfmal. Die Länge beginnt bei {{start}}."
 }

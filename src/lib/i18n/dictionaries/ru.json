@@ -8094,7 +8094,6 @@
   "cluck.coin": "CluckCoin",
   "chaacsTemple.portal.title": "Мини-игра - Храм Чаака",
   "chaacsTemple.portal.description": "Осмелишься войти в Храм Чаака?",
-  "chaacsTemple.portal.missionObjective": "Задание: достигни растущего порога очков {{targetScore}} раз. Начальное значение - {{start}}.",
   "chaacsTemple.portal.rewardMessage": "Поздравляем! Ты справился с испытанием Чаака. Вот твоя награда.",
   "portal.chaacsTemple.title": "Храм Чаака",
   "portal.chaacsTemple.description": "Войди в храм, испытай удачу и выполни испытание на память.",
@@ -9116,5 +9115,6 @@
   "biome.notInCorrectIslandType": "Upgrade to {{islandType}} to buy this biome",
   "description.ascensionCrystal": "Mine to obtain Ascension Shards",
   "description.ascensionShard": "Used to upgrade skills",
-  "marketplace.activeTrades": "Active Trades"
+  "marketplace.activeTrades": "Active Trades",
+  "chaacsTemple.portal.missionObjective": "Mission: Repeat the light sequence 5 times. The length starts at {{start}}."
 }

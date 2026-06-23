@@ -8060,7 +8060,6 @@
   "description.anemoneFlower.boost": "+1 Balıkçılık mini oyunu denemesi",
   "chaacsTemple.portal.title": "Mini oyun - Chaac Tapınağı",
   "chaacsTemple.portal.description": "Chaac Tapınağı'na girmeye cesaretin var mı?",
-  "chaacsTemple.portal.missionObjective": "Görev: Artan puan eşiğine {{targetScore}} kez ulaşın. Eşik {{start}} 'den başlar.",
   "chaacsTemple.portal.rewardMessage": "Tebrikler, olasılıklara meydan okudun ve Chaac'ın meydan okumasını çözdün. İşte ödülünüz.",
   "portal.chaacsTemple.title": "Chaac Tapınağı",
   "portal.chaacsTemple.description": "Tapınağa girin, olasılıklara meydan okuyun ve Chaac'ın hafıza zorluğunu çözün.",
@@ -9116,5 +9115,6 @@
   "biome.notInCorrectIslandType": "Bu biyomu satın almak için {{islandType}} 'ye yükseltin",
   "description.ascensionCrystal": "Yükseliş Parçalarını elde etmek için mayın",
   "description.ascensionShard": "Becerileri yükseltmek için kullanılır",
-  "marketplace.activeTrades": "Aktif İşlemler"
+  "marketplace.activeTrades": "Aktif İşlemler",
+  "chaacsTemple.portal.missionObjective": "Görev: Işık dizisini 5 kez tekrarlayın. Uzunluk {{start}} 'den başlar."
 }

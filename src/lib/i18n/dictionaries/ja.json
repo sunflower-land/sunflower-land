@@ -8060,7 +8060,6 @@
   "description.anemoneFlower.boost": "+1 釣りミニゲーム試行",
   "chaacsTemple.portal.title": "ミニゲーム-チャアックテンプル",
   "chaacsTemple.portal.description": "チャアクの神殿に入る勇気はありますか？",
-  "chaacsTemple.portal.missionObjective": "ミッション:スコアの上昇条件を {{targetScore}} 回達成する。しきい値は {{start}} から始まります。",
   "chaacsTemple.portal.rewardMessage": "おめでとうございます。あなたは困難を乗り越え、Chaacの課題を解決しました。こちらが報酬です。",
   "portal.chaacsTemple.title": "チャアクの神殿",
   "portal.chaacsTemple.description": "神殿に入り、困難に打ち勝ち、チャックの記憶力を試してください。",
@@ -9116,5 +9115,6 @@
   "biome.notInCorrectIslandType": "{{islandType}} にアップグレードしてこのバイオームを購入",
   "description.ascensionCrystal": "鉱山でアセンションシャードを入手しよう",
   "description.ascensionShard": "スキルのアップグレードに使用",
-  "marketplace.activeTrades": "アクティブトレード"
+  "marketplace.activeTrades": "アクティブトレード",
+  "chaacsTemple.portal.missionObjective": "ミッション:ライトシークエンスを5回繰り返す長さは {{start}} から始まります。"
 }
