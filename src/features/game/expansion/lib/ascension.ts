@@ -270,32 +270,47 @@ export const getAscensionNodeDrip = (
 };
 
 /**
- * Total nodes of a type granted over one ascension's 12 expansions — the count
- * of multiples of the effective drip in the ascension's global window. This is
- * the unchanged "node formula": it equals the old sum of `globalE % drip === 0`.
+ * Cumulative nodes of a type granted through the end of ascension `a`:
+ *   C(a) = Σ_{k=1..a} span / drip(k)
+ * The per-expansion drop rate is `1/drip` and drip widens each ascension, so this
+ * integrates a *decreasing* rate — giving a smooth, monotonic cadence. Floor only
+ * at the very end so fractional rates accumulate. `a = 0` → empty sum → 0.
+ */
+const getAscensionCumulativeNodes = (
+  node: keyof Nodes,
+  ascensionLevel: number,
+): number => {
+  let total = 0;
+  for (let a = 1; a <= ascensionLevel; a++) {
+    const drip = getAscensionNodeDrip(node, a);
+    if (drip > 0) total += SWAMP_EXPANSIONS_PER_ASCENSION / drip;
+  }
+  return Math.floor(total);
+};
+
+/**
+ * Nodes of a type granted within ascension `a` — the monotonic first difference of
+ * the cumulative rate above. Non-negative by construction (C is non-decreasing) and
+ * telescopes cleanly (Σ over bands = `getAscensionCumulativeNodes`). Replaces the
+ * old per-band `floor(a·span/d) − floor((a−1)·span/d)`, which silently stopped
+ * telescoping once `drip` widened per ascension and produced lumpy clusters
+ * (e.g. Lava on A6/A7/A8).
  */
 const getAscensionNodeTotal = (
   node: keyof Nodes,
   ascensionLevel: number,
-): number => {
-  const drip = getAscensionNodeDrip(node, ascensionLevel);
-  if (drip <= 0) return 0;
-  const span = SWAMP_EXPANSIONS_PER_ASCENSION;
-  return (
-    Math.floor((ascensionLevel * span) / drip) -
-    Math.floor(((ascensionLevel - 1) * span) / drip)
-  );
-};
+): number =>
+  getAscensionCumulativeNodes(node, ascensionLevel) -
+  getAscensionCumulativeNodes(node, ascensionLevel - 1);
 
 /** (√5 − 1) / 2 — a per-type phase that decorrelates equal-count nodes. */
 const GOLDEN_RATIO = 0.6180339887498949;
 
 /**
  * Deals each ascension's dripped nodes *evenly* across its 12 expansions: each
- * expansion gets ⌊N/12⌋…⌈N/12⌉ of the ascension's N nodes — never overloaded, and
- * never empty while N ≥ 12 (which holds across the live ascension range, a ≤ 5).
- * This replaces the old `E % drip` placement that piled the cap-12 nodes
- * (Lava/Beehive/Flower) onto expansion 42.
+ * expansion gets ⌊N/12⌋…⌈N/12⌉ of the ascension's N nodes — never overloaded.
+ * This replaces the old `E % drip` placement that piled the drip-capped nodes
+ * onto expansion 42 (any node whose drip divided 12 only ever landed on e = 12).
  *
  * Per-type totals are exactly `getAscensionNodeTotal` (the node formula is
  * unchanged); only *which* expansion each node lands on changes. Returns one
