@@ -112,10 +112,10 @@ const RenewCollectibleContent: React.FC<{
       </div>
 
       <div className="flex justify-between gap-1">
+        <Button onClick={handleRemove}>{t("remove")}</Button>
         <Button onClick={handleRenew} disabled={!canRenew}>
           {t("renew")}
         </Button>
-        <Button onClick={handleRemove}>{t("remove")}</Button>
       </div>
     </>
   );
