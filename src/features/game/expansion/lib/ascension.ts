@@ -190,7 +190,7 @@ const SWAMP_NODE_DRIP: Record<keyof Nodes, number> = {
   "Crop Plot": 2,
   Tree: 4,
   "Stone Rock": 4,
-  "Fruit Patch": 3,
+  "Fruit Patch": 6,
   "Iron Rock": 6,
   "Gold Rock": 8,
   "Crimstone Rock": 8,
