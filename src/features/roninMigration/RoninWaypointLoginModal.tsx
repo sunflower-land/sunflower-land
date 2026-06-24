@@ -8,6 +8,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { RoninMigrateAssistant } from "./RoninMigrateAssistant";
 import { setRoninWaypointPopupShown } from "./roninWaypointPopup";
+import { useSelector } from "@xstate/react";
 
 /**
  * Shown via the gameMachine's `roninMigration` notifying state when a player
@@ -20,6 +21,10 @@ import { setRoninWaypointPopupShown } from "./roninWaypointPopup";
 export const RoninWaypointLoginModal: React.FC = () => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
+  const isRoninWaypoint = useSelector(
+    gameService,
+    (state) => state.context.wallet === "Ronin Waypoint",
+  );
 
   const [showAssistant, setShowAssistant] = useState(false);
 
@@ -43,7 +48,11 @@ export const RoninWaypointLoginModal: React.FC = () => {
         />
       ) : (
         <CloseButtonPanel
-          title={t("transfer.ronin.migrate.loginTitle")}
+          title={t(
+            isRoninWaypoint
+              ? "transfer.ronin.migrate.waypointTitle"
+              : "transfer.ronin.migrate.loginTitle",
+          )}
           onClose={onClose}
         >
           <div className="flex flex-col gap-2 p-1 mb-2 text-xs">
@@ -53,16 +62,22 @@ export const RoninWaypointLoginModal: React.FC = () => {
                 className="h-5 inline-block mr-1 align-text-bottom"
                 alt="Ronin"
               />
-              {t("transfer.ronin.migrate.loginIntro")}
+              {t(
+                isRoninWaypoint
+                  ? "transfer.ronin.migrate.waypointIntro"
+                  : "transfer.ronin.migrate.loginIntro",
+              )}
             </p>
-            <p>
-              <img
-                src={SUNNYSIDE.icons.roninIcon}
-                className="h-5 inline-block mr-1 align-text-bottom"
-                alt="Ronin"
-              />
-              {t("transfer.ronin.migrate.loginIntro2")}
-            </p>
+            {!isRoninWaypoint && (
+              <p>
+                <img
+                  src={SUNNYSIDE.icons.roninIcon}
+                  className="h-5 inline-block mr-1 align-text-bottom"
+                  alt="Ronin"
+                />
+                {t("transfer.ronin.migrate.loginIntro2")}
+              </p>
+            )}
             <p>
               {" "}
               <img
@@ -74,9 +89,11 @@ export const RoninWaypointLoginModal: React.FC = () => {
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-1">
-            <Button onClick={onClose}>
-              {t("transfer.ronin.migrate.notWaypoint")}
-            </Button>
+            {!isRoninWaypoint && (
+              <Button onClick={onClose}>
+                {t("transfer.ronin.migrate.notWaypoint")}
+              </Button>
+            )}
             <Button onClick={() => setShowAssistant(true)}>
               {t("transfer.ronin.migrate.migrateNow")}
             </Button>

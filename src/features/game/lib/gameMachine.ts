@@ -1479,6 +1479,7 @@ export function startGame(authContext: AuthContext) {
               cond: (context) => {
                 if (isWaypointWalletDisabled()) return false;
                 if (getRoninWaypointPopupShown()) return false;
+                if (context.wallet === "Ronin Stash") return false;
 
                 return isRoninWallet(context.wallet);
               },
