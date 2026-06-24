@@ -176,6 +176,16 @@ describe("swamp cumulative nodes (carry-forward)", () => {
       "Ascension Crystal": 0,
     });
   });
+
+  it("spreads Lava Pit grants instead of clustering on a6/a7/a8", () => {
+    const lava = (a: number) =>
+      getAscensionNodes({ expansion: 42, ascensionLevel: a })["Lava Pit"];
+    const perBand = [6, 7, 8].map((a) => lava(a) - lava(a - 1));
+    // The old per-band formula granted 1 Lava Pit on each of A6/A7/A8.
+    expect(perBand).not.toEqual([1, 1, 1]);
+    // Smooth cadence: Lava Pit drips on A2/A4/A7/A10, so A6/A7/A8 = 0/1/0.
+    expect(perBand).toEqual([0, 1, 0]);
+  });
 });
 
 describe("swamp layout placement", () => {
