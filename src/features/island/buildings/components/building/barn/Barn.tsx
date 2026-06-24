@@ -9,6 +9,7 @@ import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useSound } from "lib/utils/hooks/useSound";
+import { useNow } from "lib/utils/hooks/useNow";
 import type { TemperateSeasonName } from "features/game/types/game";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import type { LandBiomeName } from "features/island/biomes/biomes";
@@ -161,8 +162,12 @@ export const Barn: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
   const barnAnimals = useSelector(gameService, _barnAnimals);
   const hasSickAnimals = useSelector(gameService, _hasSickAnimals);
 
+  // useNow drives a tick every second so the alert flips on as soon as
+  // the love window opens — the underlying gate values only change on
+  // game-state events, which wouldn't fire when crossing the time gate.
+  const now = useNow({ live: true });
   const animalsNeedLove = Object.values(barnAnimals).some((animal) =>
-    isAnimalNeedingLove(animal),
+    isAnimalNeedingLove(animal, now),
   );
   const handleClick = () => {
     if (isBuilt) {
@@ -206,7 +211,7 @@ export const Barn: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
 
   return (
     <BuildingImageWrapper name="Barn" onClick={handleClick}>
-      <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 z-20 flex gap-2">
+      <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 z-20 flex gap-2 items-center">
         {barnAlertIcons}
       </div>
       <img

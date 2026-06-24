@@ -69,7 +69,10 @@ export function applyAnimalFeedBuff({
       throw new Error(APPLY_ANIMAL_FEED_BUFF_ERRORS.SICK);
     }
 
-    if (isAnimalAsleep(animal, createdAt) && isAnimalNeedingLove(animal)) {
+    if (
+      isAnimalAsleep(animal, createdAt) &&
+      isAnimalNeedingLove(animal, createdAt)
+    ) {
       throw new Error(APPLY_ANIMAL_FEED_BUFF_ERRORS.NEEDS_LOVE);
     }
 

@@ -10,6 +10,7 @@ import { useSelector } from "@xstate/react";
 import { useNavigate } from "react-router";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useSound } from "lib/utils/hooks/useSound";
+import { useNow } from "lib/utils/hooks/useNow";
 import { isAnimalNeedingLove } from "features/game/events/landExpansion/loveAnimal";
 import classNames from "classnames";
 
@@ -40,8 +41,12 @@ export const ChickenHouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
   const henHouseAnimals = useSelector(gameService, _henHouseAnimals);
   const buildingLevel = useSelector(gameService, _buildingLevel);
 
+  // useNow drives a tick every second so the alert flips on as soon as
+  // the love window opens — the underlying gate values only change on
+  // game-state events, which wouldn't fire when crossing the time gate.
+  const now = useNow({ live: true });
   const chickensNeedLove = Object.values(henHouseAnimals).some((animal) =>
-    isAnimalNeedingLove(animal),
+    isAnimalNeedingLove(animal, now),
   );
 
   const { play: barnAudio } = useSound("barn");
@@ -91,7 +96,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
 
   return (
     <BuildingImageWrapper name="Hen House" onClick={handleClick}>
-      <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 z-20 flex gap-2">
+      <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 z-20 flex gap-2 items-center">
         {henHouseAlertIcons}
       </div>
       <img

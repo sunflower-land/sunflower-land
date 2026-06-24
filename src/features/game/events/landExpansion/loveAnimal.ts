@@ -69,7 +69,7 @@ export function loveAnimal({
     }
 
     // You can love an animal twice in a night — see getNextLoveAvailableAt.
-    if (!isAnimalNeedingLove(animal)) {
+    if (!isAnimalNeedingLove(animal, createdAt)) {
       throw new Error("The animal cannot be loved yet");
     }
 
