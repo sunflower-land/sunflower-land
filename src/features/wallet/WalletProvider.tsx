@@ -81,10 +81,7 @@ export function roninStashConnector(): CreateConnectorFn {
     iconUrl:
       "https://imagedelivery.net/oHBRUd2clqykxgDWmeAyLg/3fb3509e-3561-4790-cb71-67e983a88e00/icon",
   });
-  return (params) => ({
-    ...base(params),
-    type: "injected",
-  });
+  return (params) => ({ ...base(params) });
 }
 
 type SupportedChain =
