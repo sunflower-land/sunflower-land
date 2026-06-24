@@ -5,7 +5,7 @@ import { useActor } from "@xstate/react";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
 import type { MinigameName } from "features/game/types/minigames";
-import { MinigameName, V2_MINIGAMES } from "features/game/types/minigames";
+import { V2_MINIGAMES } from "features/game/types/minigames";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 
