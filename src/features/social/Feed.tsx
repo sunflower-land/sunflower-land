@@ -90,6 +90,8 @@ const _farmId = (state: MachineState) =>
 const _cheersAvailable = (state: MachineState) =>
   (state.context.visitorState ?? state.context.state).inventory["Cheer"] ??
   new Decimal(0);
+const _cheersGiven = (state: MachineState) =>
+  (state.context.visitorState ?? state.context.state).socialFarming.cheersGiven;
 const _totalHelpedToday = (state: MachineState) =>
   state.context.totalHelpedToday;
 const _game = (state: MachineState) =>
@@ -139,6 +141,7 @@ export const Feed: React.FC<Props> = ({
   const token = useSelector(authService, _token);
   const farmId = useSelector(gameService, _farmId);
   const cheersAvailable = useSelector(gameService, _cheersAvailable);
+  const cheersGiven = useSelector(gameService, _cheersGiven);
   const totalHelpedToday = useSelector(gameService, _totalHelpedToday);
   const game = useSelector(gameService, _game);
   const helpLimit = getHelpLimit({ game });
@@ -246,6 +249,20 @@ export const Feed: React.FC<Props> = ({
     gameService,
     "helpingFarm",
     "helpingFarmSuccess",
+    mutate,
+  );
+
+  useOnMachineTransition(
+    gameService,
+    "cheeringFarm",
+    "cheeringFarmSuccess",
+    mutate,
+  );
+
+  useOnMachineTransition(
+    gameService,
+    "cheeringFarmVisiting",
+    "cheeringFarmVisitingSuccess",
     mutate,
   );
 
@@ -458,6 +475,7 @@ export const Feed: React.FC<Props> = ({
             loadMore={loadMore}
             onInteractionClick={handleInteractionClick}
             filter={selectedFilter}
+            cheersGiven={cheersGiven}
           />
         )}
       </div>
@@ -508,6 +526,24 @@ const HelpIconWithPopover: React.FC<{
   );
 };
 
+const CheerGivenIcon: React.FC = () => {
+  return (
+    <div
+      className="flex h-8 w-10 items-center justify-center cursor-default"
+      onPointerDown={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
+      onClickCapture={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
+    >
+      <img src={cheer} className="w-5 h-5" alt="" />
+    </div>
+  );
+};
+
 type FeedContentProps = {
   feed: Interaction[];
   following: number[];
@@ -519,6 +555,10 @@ type FeedContentProps = {
   onInteractionClick: (interaction: Interaction) => void;
   onFollowClick: (id: number) => void;
   loadMore: () => void;
+  cheersGiven: {
+    date: string;
+    farms: number[];
+  };
 };
 
 const FeedContent: React.FC<FeedContentProps> = ({
@@ -532,6 +572,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
   hasMore,
   loadMore,
   filter,
+  cheersGiven,
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const loaderRef = useRef<HTMLDivElement>(null);
@@ -584,6 +625,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
     e.stopPropagation();
     onFollowClick(id);
   };
+  const today = new Date().toISOString().split("T")[0];
 
   if (isLoadingInitialData) {
     return <FeedSkeleton />;
@@ -616,6 +658,10 @@ const FeedContent: React.FC<FeedContentProps> = ({
               : () => onInteractionClick(interaction);
           const isFollowing = following.includes(interaction.sender.id);
           const isAtMaxFollowing = !isFollowing && following.length >= 5000;
+          const hasCheeredThemToday =
+            interaction.type === "cheer" &&
+            cheersGiven.date === today &&
+            cheersGiven.farms.includes(interaction.sender.id);
 
           return (
             <div
@@ -669,6 +715,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
                           helpedThemToday={interaction.helpedThemToday}
                         />
                       )}
+                      {hasCheeredThemToday && <CheerGivenIcon />}
                     </div>
                   </div>
                   {!isAtMaxFollowing && (
