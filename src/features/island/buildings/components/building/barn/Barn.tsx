@@ -267,46 +267,51 @@ export const Barn: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
       navigate("/barn");
     }
   };
+  const barnAlertIcons: React.ReactElement[] = [];
+  const classNamesList = classNames({ ready: showAnimations });
+  if (hasHungryAnimals) {
+    barnAlertIcons.push(
+      <img
+        key="hungry"
+        src={SUNNYSIDE.icons.expression_alerted}
+        className={classNamesList}
+        style={{ width: `${PIXEL_SCALE * 4}px` }}
+      />,
+    );
+  }
+  if (hasSickAnimals) {
+    barnAlertIcons.push(
+      <img
+        key="sick"
+        src={SUNNYSIDE.icons.expression_stress}
+        className={classNamesList}
+        style={{ width: `${PIXEL_SCALE * 7}px` }}
+      />,
+    );
+  }
+  if (animalsNeedLove) {
+    barnAlertIcons.push(
+      <img
+        key="love"
+        src={SUNNYSIDE.icons.expression_chat}
+        className={classNamesList}
+        style={{ width: `${PIXEL_SCALE * 8}px` }}
+      />,
+    );
+  }
 
   return (
-    <>
-      <BuildingImageWrapper name="Barn" onClick={handleClick}>
-        {hasHungryAnimals ? (
-          <img
-            src={SUNNYSIDE.icons.expression_alerted}
-            className={classNames(
-              "absolute -top-2 -ml-1 left-1/2 transform -translate-x-1/2 z-20",
-              { ready: showAnimations },
-            )}
-            style={{ width: `${PIXEL_SCALE * 4}px` }}
-          />
-        ) : hasSickAnimals ? (
-          <img
-            src={SUNNYSIDE.icons.expression_stress}
-            className={classNames(
-              "absolute -top-2 -ml-2 left-1/2 transform -translate-x-1/2 z-20",
-              { ready: showAnimations },
-            )}
-            style={{ width: `${PIXEL_SCALE * 7}px` }}
-          />
-        ) : animalsNeedLove ? (
-          <img
-            src={SUNNYSIDE.icons.expression_chat}
-            className={classNames(
-              "absolute -top-2 -ml-2 left-1/2 transform -translate-x-1/2 z-20",
-              { ready: showAnimations },
-            )}
-            style={{ width: `${PIXEL_SCALE * 8}px` }}
-          />
-        ) : null}
-        <img
-          src={BARN_IMAGES[getCurrentBiome(island)][season][buildingLevel]}
-          className="absolute bottom-0 pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 64}px`,
-          }}
-        />
-      </BuildingImageWrapper>
-    </>
+    <BuildingImageWrapper name="Barn" onClick={handleClick}>
+      <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 z-20 flex gap-2 items-center">
+        {barnAlertIcons}
+      </div>
+      <img
+        src={BARN_IMAGES[getCurrentBiome(island)][season][buildingLevel]}
+        className="absolute bottom-0 pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 64}px`,
+        }}
+      />
+    </BuildingImageWrapper>
   );
 };
