@@ -93,6 +93,25 @@ describe("renewWeatherCollectible", () => {
     ).toThrow("Collectible is not used");
   });
 
+  it("throws if the collectible is used but not placed", () => {
+    expect(() =>
+      renewWeatherCollectible({
+        state: usedPinwheelFarm({
+          collectibles: {
+            "Tornado Pinwheel": [{ id: "1", used: true }],
+          },
+        }),
+        action: {
+          type: "weatherCollectible.renewed",
+          name: "Tornado Pinwheel",
+          location: "farm",
+          id: "1",
+        },
+        createdAt: now,
+      }),
+    ).toThrow("Collectible is not placed");
+  });
+
   it("throws if the player has insufficient coins", () => {
     expect(() =>
       renewWeatherCollectible({

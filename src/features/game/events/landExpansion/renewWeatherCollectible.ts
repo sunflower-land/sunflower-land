@@ -49,12 +49,17 @@ export function renewWeatherCollectible({ state, action }: Options): GameState {
       throw new Error("Collectible does not exist");
     }
 
+    if (!collectibleToRenew.coordinates) {
+      throw new Error("Collectible is not placed");
+    }
+
     if (!collectibleToRenew.used) {
       throw new Error("Collectible is not used");
     }
 
-    // Renewal costs the same as buying a new one from the Weather Shop, scaled
-    // by the player's current island.
+    // Renewal costs the base Weather Shop price (scaled by the player's current
+    // island), matching renewPetShrine — craft-time discounts are intentionally
+    // not applied.
     const shopItem = getWeatherShop(game.island.type)[action.name];
     const coinCost = shopItem.price;
     const requirements = shopItem.ingredients();

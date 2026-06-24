@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { useVisiting } from "lib/utils/visitUtils";
@@ -16,26 +16,38 @@ type Props = CollectibleProps & {
   name: WeatherShopItem;
 };
 
+const selectWeatherProtectionUsed = (
+  state: MachineState,
+  name: WeatherShopItem,
+  id: string,
+  location: CollectibleProps["location"],
+) => {
+  const game = state.context.state;
+  const group =
+    location === "home"
+      ? game.home.collectibles[name]
+      : location === "interior"
+        ? game.interior.ground.collectibles[name]
+        : location === "level_one"
+          ? game.interior.level_one?.collectibles[name]
+          : game.collectibles[name];
+
+  return !!group?.find((collectible) => collectible.id === id)?.used;
+};
+
 export const WeatherProtection: React.FC<Props> = ({ name, id, location }) => {
   const { gameService, showAnimations } = useContext(Context);
   const { isVisiting } = useVisiting();
   const [showRenewModal, setShowRenewModal] = useState(false);
 
-  const _isUsed = (state: MachineState) => {
-    const game = state.context.state;
-    const group =
-      location === "home"
-        ? game.home.collectibles[name]
-        : location === "interior"
-          ? game.interior.ground.collectibles[name]
-          : location === "level_one"
-            ? game.interior.level_one?.collectibles[name]
-            : game.collectibles[name];
-
-    return !!group?.find((collectible) => collectible.id === id)?.used;
-  };
-
-  const isUsed = useSelector(gameService, _isUsed);
+  const isUsed = useSelector(
+    gameService,
+    useCallback(
+      (state: MachineState) =>
+        selectWeatherProtectionUsed(state, name, id, location),
+      [name, id, location],
+    ),
+  );
 
   if (isUsed) {
     return (
