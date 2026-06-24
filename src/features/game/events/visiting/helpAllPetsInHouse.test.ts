@@ -36,7 +36,9 @@ describe("helpAllPetsInHouse", () => {
           petHouse: {
             level: 1,
             pets: {
-              Barkley: [{ id: "1", createdAt: now, coordinates: { x: 0, y: 0 } }],
+              Barkley: [
+                { id: "1", createdAt: now, coordinates: { x: 0, y: 0 } },
+              ],
             },
           },
         },
@@ -56,7 +58,9 @@ describe("helpAllPetsInHouse", () => {
           petHouse: {
             level: 1,
             pets: {
-              Barkley: [{ id: "1", createdAt: now, coordinates: { x: 0, y: 0 } }],
+              Barkley: [
+                { id: "1", createdAt: now, coordinates: { x: 0, y: 0 } },
+              ],
             },
           },
         },
@@ -200,11 +204,11 @@ describe("helpAllPetsInHouse", () => {
       },
     };
 
-    // Default help limit is 10; setting totalHelpedToday to 9 means only 1 more pet can be helped
+    // Default help limit is 5; setting totalHelpedToday to 4 means only 1 more pet can be helped
     const [state] = helpAllPetsInHouse({
       state: stateWithManyPets,
       visitorState: baseVisitor,
-      action: { type: "pet.helpAllPetsInHouse", totalHelpedToday: 9 },
+      action: { type: "pet.helpAllPetsInHouse", totalHelpedToday: 4 },
       createdAt: now,
     });
 
