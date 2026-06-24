@@ -294,6 +294,18 @@ import {
   type MineSunstoneAction,
 } from "./landExpansion/mineSunstone";
 import {
+  placeAscensionCrystal,
+  type PlaceAscensionCrystalAction,
+} from "./landExpansion/placeAscensionCrystal";
+import {
+  moveAscensionCrystal,
+  type MoveAscensionCrystalAction,
+} from "./landExpansion/moveAscensionCrystal";
+import {
+  mineAscensionCrystal,
+  type MineAscensionCrystalAction,
+} from "./landExpansion/mineAscensionCrystal";
+import {
   type FlowerShopTradedAction,
   tradeFlowerShop,
 } from "./landExpansion/tradeFlowerShop";
@@ -640,6 +652,10 @@ import {
   type RemoveSunstoneAction,
 } from "./landExpansion/removeSunstone";
 import {
+  removeAscensionCrystal,
+  type RemoveAscensionCrystalAction,
+} from "./landExpansion/removeAscensionCrystal";
+import {
   removeLavaPit,
   type RemoveLavaPitAction,
 } from "./landExpansion/removeLavaPit";
@@ -671,6 +687,14 @@ import {
   flipCollectible,
   type FlipCollectibleAction,
 } from "./landExpansion/flipCollectible";
+import {
+  flipFarmHand,
+  type FlipFarmHandAction,
+} from "./landExpansion/flipFarmHand";
+import {
+  flipBumpkin,
+  type FlipBumpkinAction,
+} from "./landExpansion/flipBumpkin";
 
 // Visiting local events
 import {
@@ -811,6 +835,7 @@ export type PlayingEvent =
   | LandExpansionGoldMineAction
   | MineCrimstoneAction
   | MineSunstoneAction
+  | MineAscensionCrystalAction
   | ClaimAirdropAction
   | RecipeCookedAction
   | CollectRecipeAction
@@ -989,6 +1014,7 @@ export type PlacementEvent =
   | PlaceCrimstoneAction
   | PlaceFruitPatchAction
   | PlaceSunstoneAction
+  | PlaceAscensionCrystalAction
   | BuyDecorationAction
   | BuyMonumentAction
   | CraftCollectibleAction
@@ -1002,6 +1028,7 @@ export type PlacementEvent =
   | MoveGoldAction
   | MoveCrimstoneAction
   | MoveSunstoneAction
+  | MoveAscensionCrystalAction
   | RemoveBuildingAction
   | RemoveCollectibleAction
   | PlaceNFTAction
@@ -1021,6 +1048,7 @@ export type PlacementEvent =
   | RemoveGoldAction
   | RemoveCrimstoneAction
   | RemoveSunstoneAction
+  | RemoveAscensionCrystalAction
   | RemoveLavaPitAction
   | RemoveOilReserveAction
   | RemovePlotAction
@@ -1029,6 +1057,8 @@ export type PlacementEvent =
   | RemoveBeehiveAction
   | RemoveAllAction
   | FlipCollectibleAction
+  | FlipFarmHandAction
+  | FlipBumpkinAction
   | PlaceFarmHandAction
   | MoveFarmHandAction
   | RemoveFarmHandAction
@@ -1102,6 +1132,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "goldRock.mined": landExpansionMineGold,
   "crimstoneRock.mined": mineCrimstone,
   "sunstoneRock.mined": mineSunstone,
+  "ascensionCrystal.mined": mineAscensionCrystal,
 
   "timber.chopped": landExpansionChop,
   "recipe.cooked": cook,
@@ -1306,6 +1337,8 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "flowerBed.placed": placeFlowerBed,
   "sunstone.placed": placeSunstone,
   "sunstone.moved": moveSunstone,
+  "ascensionCrystal.placed": placeAscensionCrystal,
+  "ascensionCrystal.moved": moveAscensionCrystal,
   "oilReserve.moved": moveOilReserve,
   "oilReserve.placed": placeOilReserve,
   "lavaPit.placed": placeLavaPit,
@@ -1316,6 +1349,7 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "gold.removed": removeGold,
   "crimstone.removed": removeCrimstone,
   "sunstone.removed": removeSunstone,
+  "ascensionCrystal.removed": removeAscensionCrystal,
   "lavaPit.removed": removeLavaPit,
   "oilReserve.removed": removeOilReserve,
   "plot.removed": removePlot,
@@ -1324,6 +1358,8 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "beehive.removed": removeBeehive,
   "items.removed": removeAll,
   "collectible.flipped": flipCollectible,
+  "farmHand.flipped": flipFarmHand,
+  "bumpkin.flipped": flipBumpkin,
 };
 
 export const EVENTS = {

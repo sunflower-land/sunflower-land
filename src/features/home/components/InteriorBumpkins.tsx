@@ -23,6 +23,7 @@ import { Panel } from "components/ui/Panel";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import type { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _farmHands = (state: MachineState) =>
@@ -36,7 +37,11 @@ const _levelOneCollectibles = (state: MachineState) =>
   state.context.state.interior.level_one?.collectibles;
 const _isLandscaping = (state: MachineState) => state.matches("landscaping");
 
-export const InteriorBumpkins: React.FC = () => {
+type Props = {
+  location?: Extract<PlaceableLocation, "home" | "interior" | "level_one">;
+};
+
+export const InteriorBumpkins: React.FC<Props> = ({ location = "home" }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
@@ -101,7 +106,7 @@ export const InteriorBumpkins: React.FC = () => {
         <div className="flex">
           {(!isLandscaping ||
             !bumpkin.coordinates ||
-            bumpkin.location !== "home") && (
+            bumpkin.location !== location) && (
             <div
               className={classNames(
                 "mr-2",

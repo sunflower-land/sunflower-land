@@ -1,26 +1,26 @@
-import { BASIC_MAX_EXPANSION } from "features/game/expansion/lib/expansionRequirements";
-import type { BumpkinLevel } from "features/game/lib/level";
-import {
-  EXPANSION_REQUIREMENTS,
-  TOTAL_EXPANSION_NODES,
-} from "features/game/types/expansions";
-import type { IslandType } from "features/game/types/game";
+import type { ResourceName } from "features/game/types/resources";
 
-export interface Nodes {
-  "Crop Plot": number;
-  Tree: number;
-  "Stone Rock": number;
-  "Iron Rock": number;
-  "Gold Rock": number;
-  "Crimstone Rock": number;
-  "Sunstone Rock": number;
-  "Fruit Patch": number;
-  "Flower Bed": number;
-  Beehive: number;
-  "Oil Reserve": number;
-  "Lava Pit": number;
-}
+export type Nodes = Record<
+  Exclude<
+    ResourceName,
+    | "Ancient Tree"
+    | "Sacred Tree"
+    | "Refined Iron Rock"
+    | "Tempered Iron Rock"
+    | "Pure Gold Rock"
+    | "Prime Gold Rock"
+    | "Fused Stone Rock"
+    | "Reinforced Stone Rock"
+    | "Boulder"
+  >,
+  number
+>;
 
+/**
+ * Determines if a value is a valid node type.
+ *
+ * @returns `true` if the value is a valid node type, `false` otherwise.
+ */
 export function isNode(value: string): value is keyof Nodes {
   const nodeTypes: Array<keyof Nodes> = [
     "Crop Plot",
@@ -38,21 +38,4 @@ export function isNode(value: string): value is keyof Nodes {
   ];
 
   return nodeTypes.includes(value as keyof Nodes);
-}
-
-export function getEnabledNodeCount(
-  bumpkinLevel: BumpkinLevel,
-  nodeType: string,
-  islandType: IslandType,
-): number {
-  const key = nodeType as keyof Nodes;
-
-  for (let expansions = 4; expansions <= BASIC_MAX_EXPANSION; ++expansions) {
-    if (
-      EXPANSION_REQUIREMENTS[islandType][expansions].bumpkinLevel > bumpkinLevel
-    )
-      return TOTAL_EXPANSION_NODES.basic[expansions][key];
-  }
-
-  return 0;
 }

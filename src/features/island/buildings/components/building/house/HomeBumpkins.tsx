@@ -25,6 +25,12 @@ const BACKYARD_CAPACITY: Record<IslandType, number> = {
   spring: 2,
   desert: 3,
   volcano: 4,
+  swamp: 4,
+  // Ascension islands (spooky onward) reuse the swamp value for now.
+  spooky: 4,
+  crystal: 4,
+  moon: 4,
+  marble: 4,
 };
 
 const _isLandscaping = (state: MachineState) => state.matches("landscaping");

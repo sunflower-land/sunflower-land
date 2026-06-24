@@ -27,7 +27,10 @@ import { useSelector } from "@xstate/react";
 import { buyBlockBucksXsolla as buyGemsXsolla } from "features/game/actions/buyGems";
 import { useNavigate } from "react-router";
 import { useSound } from "lib/utils/hooks/useSound";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 import { GOBLIN_RETREAT_LEVEL } from "./settings-menu/blockchain-settings/BlockchainSettings";
 
 import flowerIcon from "assets/icons/flower_token.webp";
@@ -71,6 +74,8 @@ const _farmId = (state: MachineState) => state.context.farmId;
 const _autosaving = (state: MachineState) => state.matches("autosaving");
 const _experience = (state: MachineState) =>
   state.context.state.bumpkin?.experience ?? 0;
+const _ascensionLevel = (state: MachineState) =>
+  state.context.state.island.ascensionLevel ?? 0;
 
 export const CurrenciesModal: React.FC<Props> = ({
   show,
@@ -90,11 +95,15 @@ export const CurrenciesModal: React.FC<Props> = ({
   const farmId = useSelector(gameService, _farmId);
   const autosaving = useSelector(gameService, _autosaving);
   const experience = useSelector(gameService, _experience);
+  const ascensionLevel = useSelector(gameService, _ascensionLevel);
 
   const navigate = useNavigate();
   const travel = useSound("travel");
 
-  const canAccessRetreat = getBumpkinLevel(experience) >= GOBLIN_RETREAT_LEVEL;
+  const canAccessRetreat = meetsLevelRequirement(
+    getAscensionLevel({ experience, ascensionLevel }),
+    { ascension: 0, level: GOBLIN_RETREAT_LEVEL },
+  );
 
   const goToGoblinRetreat = () => {
     travel.play();

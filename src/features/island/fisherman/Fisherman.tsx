@@ -15,12 +15,18 @@ import React, { useContext, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import { FishermanModal } from "./FishermanModal";
 import { FishermanNPC } from "./FishermanNPC";
-import type { InventoryItemName, IslandType } from "features/game/types/game";
+import {
+  ASCENSION_ISLANDS,
+  type AscensionIslandType,
+  type InventoryItemName,
+  type IslandType,
+} from "features/game/types/game";
 import type { FishName, FishingBait } from "features/game/types/fishing";
 import classNames from "classnames";
 import springWharf from "assets/wharf/spring_wharf.png";
 import desertWharf from "assets/wharf/desert_wharf.png";
 import volcanoWharf from "assets/wharf/volcano_wharf.png";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 
 const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 3;
@@ -34,6 +40,12 @@ const WHARF: Record<Exclude<IslandType, "basic">, string> = {
   volcano: volcanoWharf,
   desert: desertWharf,
   spring: springWharf,
+  swamp: volcanoWharf,
+  // Ascension islands (spooky onward) reuse the swamp value for now.
+  spooky: volcanoWharf,
+  crystal: volcanoWharf,
+  moon: volcanoWharf,
+  marble: volcanoWharf,
 };
 
 export const Fisherman: React.FC = () => {
@@ -70,7 +82,7 @@ export const Fisherman: React.FC = () => {
       };
     }
 
-    if (island === "volcano") {
+    if (hasRequiredIslandExpansion(island, "volcano")) {
       const width = 76;
       const top = 24;
       // +2 over the original (8.619 / 9.76) to nudge the volcano dock art 2px west.
@@ -123,7 +135,10 @@ export const Fisherman: React.FC = () => {
       bottom = -78;
     }
 
-    if (island === "volcano") {
+    if (
+      island === "volcano" ||
+      ASCENSION_ISLANDS.includes(island as AscensionIslandType)
+    ) {
       right = -23;
       bottom = -93;
     }

@@ -5,6 +5,7 @@ import type { BoostName, GameState, InventoryItemName } from "./game";
 import type { ClutterName } from "./clutter";
 import type { PetName, PetNFTName } from "./pets";
 import { isCollectibleBuilt } from "../lib/collectibleBuilt";
+import type { LevelRequirement } from "features/game/lib/level";
 
 type HelpLimitMonumentName =
   | "Farmer's Monument"
@@ -28,7 +29,7 @@ export type WorkbenchMonumentName =
 
 type HelpLimitMonument = Omit<Decoration, "name"> & {
   name: HelpLimitMonumentName;
-  level?: number;
+  level?: LevelRequirement;
 };
 
 type MegastoreMonument = Omit<Decoration, "name"> & {
@@ -37,7 +38,7 @@ type MegastoreMonument = Omit<Decoration, "name"> & {
 
 export type LandscapingMonument = Omit<Decoration, "name"> & {
   name: WorkbenchMonumentName;
-  level?: number;
+  level?: LevelRequirement;
 };
 
 export type Monument =
@@ -86,7 +87,7 @@ export const HELP_LIMIT_MONUMENTS: Record<
     ingredients: {
       Gem: new Decimal(100),
     },
-    level: 10,
+    level: { ascension: 0, level: 10 },
   },
   "Woodcutter's Monument": {
     name: "Woodcutter's Monument",
@@ -95,7 +96,7 @@ export const HELP_LIMIT_MONUMENTS: Record<
     ingredients: {
       Gem: new Decimal(200),
     },
-    level: 20,
+    level: { ascension: 0, level: 20 },
   },
   "Miner's Monument": {
     name: "Miner's Monument",
@@ -104,7 +105,7 @@ export const HELP_LIMIT_MONUMENTS: Record<
     ingredients: {
       Gem: new Decimal(300),
     },
-    level: 50,
+    level: { ascension: 0, level: 50 },
   },
 };
 
@@ -123,20 +124,20 @@ export const WORKBENCH_MONUMENTS: Record<
     description: "",
     coins: 500,
     ingredients: {},
-    level: 16,
+    level: { ascension: 0, level: 16 },
   },
   "Big Apple": {
     name: "Big Apple",
     description: "",
     coins: 1500,
     ingredients: {},
-    level: 30,
+    level: { ascension: 0, level: 30 },
   },
   "Big Banana": {
     name: "Big Banana",
     description: "",
     coins: 4000,
-    level: 50,
+    level: { ascension: 0, level: 50 },
     ingredients: {},
   },
   "Basic Cooking Pot": {
@@ -144,21 +145,21 @@ export const WORKBENCH_MONUMENTS: Record<
     description: "",
     coins: 0,
     ingredients: { Gem: new Decimal(10) },
-    level: 20,
+    level: { ascension: 0, level: 20 },
   },
   "Expert Cooking Pot": {
     name: "Expert Cooking Pot",
     description: "",
     coins: 0,
     ingredients: { Gem: new Decimal(50) },
-    level: 40,
+    level: { ascension: 0, level: 40 },
   },
   "Advanced Cooking Pot": {
     name: "Advanced Cooking Pot",
     description: "",
     coins: 0,
     ingredients: { Gem: new Decimal(500) },
-    level: 60,
+    level: { ascension: 0, level: 60 },
   },
 };
 

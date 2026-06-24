@@ -16,6 +16,7 @@ import {
 import { GOLD_RECOVERY_TIME } from "features/game/lib/constants";
 import { FACTION_ITEMS } from "features/game/lib/factions";
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { isWearableActive } from "features/game/lib/wearables";
 import { KNOWN_IDS } from "features/game/types";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
@@ -284,7 +285,7 @@ export function getGoldDropAmount({
   if (budUsed)
     boostsUsed.push({ name: budUsed, value: `+${yieldBoost.toString()}` });
 
-  if (game.island.type === "volcano") {
+  if (hasRequiredIslandExpansion(game.island.type, "volcano")) {
     amount += 0.1;
     boostsUsed.push({ name: "Volcano Bonus", value: "+0.1" });
   }

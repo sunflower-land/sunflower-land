@@ -469,7 +469,6 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
       label: "Projects",
       emptyLabel: "No projects available.",
       icon: ITEM_DETAILS["Farmer's Monument"].image,
-      farmOnly: true,
       hasItems: monuments.length > 0 || villageProjects.length > 0,
     },
     {

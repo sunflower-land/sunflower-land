@@ -1,6 +1,6 @@
 import { getKeys } from "lib/object";
 import type { ExpansionRequirements, GameState } from "../types/game";
-import { getBumpkinLevel } from "./level";
+import { getAscensionLevel, meetsLevelRequirement } from "./level";
 
 /**
  * Whether the crafting requirements are met.
@@ -22,8 +22,13 @@ export const craftingRequirementsMet = (
   );
 
   const hasLevel = requirements.bumpkinLevel
-    ? getBumpkinLevel(gameState.bumpkin?.experience || 0) >=
-      (requirements.bumpkinLevel ?? 0)
+    ? meetsLevelRequirement(
+        getAscensionLevel({
+          experience: gameState.bumpkin.experience || 0,
+          ascensionLevel: gameState.island.ascensionLevel ?? 0,
+        }),
+        requirements.bumpkinLevel,
+      )
     : !!gameState.bumpkin;
 
   const canCraft = hasResources && hasLevel && hasCoins;

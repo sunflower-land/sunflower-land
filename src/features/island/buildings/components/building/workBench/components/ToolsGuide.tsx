@@ -21,6 +21,7 @@ import { getGoldRecoveryTimeForDisplay } from "features/game/events/landExpansio
 import { getCrimstoneRecoveryTimeForDisplay } from "features/game/events/landExpansion/mineCrimstone";
 import { getSunstoneRecoveryTimeForDisplay } from "features/game/events/landExpansion/mineSunstone";
 import { getSaltChargeGenerationTimeForDisplay } from "features/game/events/landExpansion/harvestSalt";
+import { getWaterTrapMilliseconds } from "features/game/events/landExpansion/placeWaterTrap";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 import type {
@@ -28,19 +29,14 @@ import type {
   ResourceName,
 } from "features/game/types/resources";
 import saltNodeStage3 from "assets/buildings/salt/salt_node_stage_3.webp";
+import {
+  WATER_TRAP,
+  type WaterTrapName,
+} from "features/game/types/crustaceans";
+import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 
 const ICON_SIZE = 13.7;
 const NODE_TOOL_ICON_CONTAINER_SIZE = PIXEL_SCALE * (ICON_SIZE + 2);
-
-type ResourceLabelKey =
-  | "resource.treeRecoveryTime"
-  | "resource.stoneRecoveryTime"
-  | "resource.ironRecoveryTime"
-  | "resource.goldRecoveryTime"
-  | "resource.crimstoneRecoveryTime"
-  | "resource.sunstoneRecoveryTime"
-  | "resource.oilRecoveryTime"
-  | "resource.saltChargeGenerationTime";
 
 type CooldownDisplay = {
   nodeLabel: string;
@@ -50,79 +46,121 @@ type CooldownDisplay = {
   image?: string;
 };
 
-type LandNodeWithRecovery = {
+type GuideNodeWithRecovery = {
   nodeName?: ResourceName;
   nodeImage?: string;
   nodeIconWidth?: number;
-  resourceName: CommodityName;
+  showToolIcon?: boolean;
+  resourceName?: CommodityName;
+  resourceImage?: string;
+  resourceLabelKey?: TranslationKeys;
   toolName: WorkbenchToolName;
   getRecovery: (opts: { game: GameState }) => {
     baseTimeMs: number;
     recoveryTimeMs: number;
     boostsUsed: { name: BoostName; value: string }[];
   };
-  resourceLabelKey: ResourceLabelKey;
+  recoveryLabelKey: TranslationKeys;
 };
-const LAND_NODES_WITH_RECOVERY: LandNodeWithRecovery[] = [
+const LAND_NODES_WITH_RECOVERY: GuideNodeWithRecovery[] = [
   {
     nodeName: "Tree",
     resourceName: "Wood",
     toolName: "Axe",
     getRecovery: ({ game }) => getTreeRecoveryTimeForDisplay({ game }),
-    resourceLabelKey: "resource.treeRecoveryTime",
+    recoveryLabelKey: "resource.treeRecoveryTime",
   },
   {
     nodeName: "Stone Rock",
     resourceName: "Stone",
     toolName: "Pickaxe",
     getRecovery: ({ game }) => getStoneRecoveryTimeForDisplay({ game }),
-    resourceLabelKey: "resource.stoneRecoveryTime",
+    recoveryLabelKey: "resource.stoneRecoveryTime",
   },
   {
     nodeName: "Iron Rock",
     resourceName: "Iron",
     toolName: "Stone Pickaxe",
     getRecovery: ({ game }) => getIronRecoveryTimeForDisplay({ game }),
-    resourceLabelKey: "resource.ironRecoveryTime",
+    recoveryLabelKey: "resource.ironRecoveryTime",
   },
   {
     nodeName: "Gold Rock",
     resourceName: "Gold",
     toolName: "Iron Pickaxe",
     getRecovery: ({ game }) => getGoldRecoveryTimeForDisplay({ game }),
-    resourceLabelKey: "resource.goldRecoveryTime",
+    recoveryLabelKey: "resource.goldRecoveryTime",
   },
   {
     nodeName: "Crimstone Rock",
     toolName: "Gold Pickaxe",
     resourceName: "Crimstone",
     getRecovery: ({ game }) => getCrimstoneRecoveryTimeForDisplay({ game }),
-    resourceLabelKey: "resource.crimstoneRecoveryTime",
+    recoveryLabelKey: "resource.crimstoneRecoveryTime",
   },
   {
     nodeName: "Sunstone Rock",
     toolName: "Gold Pickaxe",
     resourceName: "Sunstone",
     getRecovery: ({ game }) => getSunstoneRecoveryTimeForDisplay(game),
-    resourceLabelKey: "resource.sunstoneRecoveryTime",
+    recoveryLabelKey: "resource.sunstoneRecoveryTime",
   },
   {
     nodeName: "Oil Reserve",
     toolName: "Oil Drill",
     resourceName: "Oil",
     getRecovery: ({ game }) => getOilRecoveryTimeForDisplay({ game }),
-    resourceLabelKey: "resource.oilRecoveryTime",
+    recoveryLabelKey: "resource.oilRecoveryTime",
   },
 ];
 
-const WATER_NODES_WITH_RECOVERY: LandNodeWithRecovery[] = [
+const getWaterTrapRecoveryTimeForDisplay = ({
+  game,
+  waterTrap,
+}: {
+  game: GameState;
+  waterTrap: WaterTrapName;
+}) => {
+  const { milliseconds, boostsUsed } = getWaterTrapMilliseconds(
+    game,
+    waterTrap,
+  );
+
+  return {
+    baseTimeMs: WATER_TRAP[waterTrap].readyTimeHours * 60 * 60 * 1000,
+    recoveryTimeMs: milliseconds,
+    boostsUsed,
+  };
+};
+
+const WATER_NODES_WITH_RECOVERY: GuideNodeWithRecovery[] = [
+  {
+    nodeImage: ITEM_DETAILS["Crab Pot"].image,
+    showToolIcon: false,
+    toolName: "Crab Pot",
+    resourceImage: ITEM_DETAILS["Blue Crab"].image,
+    resourceLabelKey: "crustaceans",
+    getRecovery: ({ game }) =>
+      getWaterTrapRecoveryTimeForDisplay({ game, waterTrap: "Crab Pot" }),
+    recoveryLabelKey: "crustaceans.crabPot",
+  },
+  {
+    nodeImage: ITEM_DETAILS["Mariner Pot"].image,
+    showToolIcon: false,
+    toolName: "Mariner Pot",
+    resourceImage: ITEM_DETAILS["Blue Crab"].image,
+    resourceLabelKey: "crustaceans",
+    getRecovery: ({ game }) =>
+      getWaterTrapRecoveryTimeForDisplay({ game, waterTrap: "Mariner Pot" }),
+    recoveryLabelKey: "crustaceans.marinerPot",
+  },
   {
     nodeImage: saltNodeStage3,
     nodeIconWidth: ICON_SIZE - 2,
     toolName: "Salt Rake",
     resourceName: "Salt",
     getRecovery: ({ game }) => getSaltChargeGenerationTimeForDisplay({ game }),
-    resourceLabelKey: "resource.saltChargeGenerationTime",
+    recoveryLabelKey: "resource.saltChargeGenerationTime",
   },
 ];
 
@@ -169,7 +207,7 @@ export const ToolsGuide: React.FC = () => {
         </div>
         {WATER_NODES_WITH_RECOVERY.map((node, index) => (
           <NodeRow
-            key={`${node.toolName}-${node.resourceName}`}
+            key={`${node.toolName}-${node.resourceName ?? node.resourceLabelKey}`}
             node={node}
             state={state}
             alternateBg={(index + LAND_NODES_WITH_RECOVERY.length) % 2 === 0}
@@ -213,7 +251,7 @@ const NodeToolIcon: React.FC<{
 };
 
 interface NodeRowProps {
-  node: LandNodeWithRecovery;
+  node: GuideNodeWithRecovery;
   state: GameState;
   alternateBg?: boolean;
   showBoostsKey: string | null;
@@ -310,13 +348,17 @@ const NodeRow: React.FC<NodeRowProps> = ({
     game: state,
   });
 
-  const resourceName =
-    ITEM_DETAILS[node.resourceName]?.translatedName ?? node.resourceName;
+  const resourceName = node.resourceName
+    ? (ITEM_DETAILS[node.resourceName]?.translatedName ?? node.resourceName)
+    : node.resourceLabelKey
+      ? translate(node.resourceLabelKey)
+      : "";
+  const resourceImage = node.resourceName
+    ? ITEM_DETAILS[node.resourceName].image
+    : node.resourceImage;
 
   const cooldown: CooldownDisplay = {
-    nodeLabel: node.resourceLabelKey
-      ? translate(node.resourceLabelKey)
-      : resourceName,
+    nodeLabel: translate(node.recoveryLabelKey),
     baseSeconds: baseTimeMs / 1000,
     recoverySeconds: recoveryTimeMs / 1000,
     boostsUsed,
@@ -325,7 +367,10 @@ const NodeRow: React.FC<NodeRowProps> = ({
   const nodeIcon = node.nodeName
     ? ITEM_DETAILS[node.nodeName]?.image
     : node.nodeImage;
-  const toolIcon = ITEM_DETAILS[node.toolName]?.image;
+  const toolIcon =
+    node.showToolIcon === false
+      ? undefined
+      : ITEM_DETAILS[node.toolName]?.image;
 
   return (
     <div
@@ -343,11 +388,13 @@ const NodeRow: React.FC<NodeRowProps> = ({
       <div
         className={classNames(CELL_CLASS, "flex-1 min-w-0 flex items-center")}
       >
-        <img
-          src={ITEM_DETAILS[node.resourceName].image}
-          className="w-4 mr-1 flex-shrink-0"
-          alt={resourceName}
-        />
+        {resourceImage && (
+          <img
+            src={resourceImage}
+            className="w-4 mr-1 flex-shrink-0"
+            alt={resourceName}
+          />
+        )}
         <p className="text-xs">{resourceName}</p>
       </div>
       <div

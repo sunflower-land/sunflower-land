@@ -159,6 +159,52 @@ describe("mineGold", () => {
     expect(game.inventory.Gold).toEqual(new Decimal(1));
   });
 
+  it("applies a +0.1 boost if the player is on volcano island", () => {
+    const counter = findNonCriticalCounter();
+    const game = mineGold({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        bumpkin: TEST_BUMPKIN,
+        island: { type: "volcano" },
+        inventory: {
+          "Iron Pickaxe": new Decimal(1),
+        },
+        farmActivity: { "Gold Rock Mined": counter },
+      },
+      createdAt: now,
+      action: {
+        type: "goldRock.mined",
+        index: "0",
+      } as LandExpansionGoldMineAction,
+    });
+
+    expect(game.inventory.Gold).toEqual(new Decimal(1.1));
+  });
+
+  it("applies the +0.1 volcano boost on ascension islands (e.g. spooky)", () => {
+    const counter = findNonCriticalCounter();
+    const game = mineGold({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        bumpkin: TEST_BUMPKIN,
+        island: { type: "spooky" },
+        inventory: {
+          "Iron Pickaxe": new Decimal(1),
+        },
+        farmActivity: { "Gold Rock Mined": counter },
+      },
+      createdAt: now,
+      action: {
+        type: "goldRock.mined",
+        index: "0",
+      } as LandExpansionGoldMineAction,
+    });
+
+    expect(game.inventory.Gold).toEqual(new Decimal(1.1));
+  });
+
   it("mines multiple gold", () => {
     // Find two consecutive counters that don't trigger critical hits
     function findTwoNonCriticalCounters() {

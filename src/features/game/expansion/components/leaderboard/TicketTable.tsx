@@ -4,7 +4,10 @@ import type { RankData } from "./actions/leaderboard";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { toOrdinalSuffix } from "features/retreat/components/auctioneer/AuctionLeaderboardTable";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionDisplayText,
+  getAscensionLevel,
+} from "features/game/lib/level";
 import { playerModalManager } from "features/social/lib/playerModalManager";
 
 interface Props {
@@ -37,8 +40,18 @@ export const TicketTable: React.FC<Props> = ({
       )}
       <tbody>
         {rankings.map(
-          ({ id, count, rank, bumpkin, experience, farmId }, index) => {
-            const level = getBumpkinLevel(experience ?? 0);
+          (
+            { id, count, rank, bumpkin, experience, ascensionLevel, farmId },
+            index,
+          ) => {
+            const { ascension, level } = getAscensionLevel({
+              experience: experience ?? 0,
+              ascensionLevel: ascensionLevel ?? 0,
+            });
+            const levelText = getAscensionDisplayText({
+              ascension: { ascension, level },
+              length: "short",
+            });
             return (
               <tr
                 key={index}
@@ -69,7 +82,7 @@ export const TicketTable: React.FC<Props> = ({
                   <div className="absolute" style={{ left: "4px", top: "1px" }}>
                     <NPCIcon width={24} parts={bumpkin} />
                   </div>
-                  {`${id} - ${t("auction.raffle.levelShort", { level })}`}
+                  {`${id} - ${levelText}`}
                 </td>
                 <td
                   style={{ border: "1px solid #b96f50" }}

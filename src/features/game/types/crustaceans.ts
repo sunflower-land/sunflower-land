@@ -4,12 +4,13 @@ import { getWharfCoordinates } from "../expansion/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { translate } from "lib/i18n/translate";
 import { getKeys } from "lib/object";
+import type { LevelRequirement } from "features/game/lib/level";
 
 export type WaterTrapName = "Crab Pot" | "Mariner Pot";
 
 type WaterTrap = {
   readyTimeHours: number;
-  requiredBumpkinLevel: number;
+  requiredBumpkinLevel: LevelRequirement;
   chums: CrustaceanChum[];
 };
 
@@ -176,12 +177,12 @@ export function caughtCrustacean(
 export const WATER_TRAP: Record<WaterTrapName, WaterTrap> = {
   "Crab Pot": {
     readyTimeHours: 4,
-    requiredBumpkinLevel: 18,
+    requiredBumpkinLevel: { ascension: 0, level: 18 },
     chums: getKeys(CRAB_POT_CHUMS),
   },
   "Mariner Pot": {
     readyTimeHours: 8,
-    requiredBumpkinLevel: 24,
+    requiredBumpkinLevel: { ascension: 0, level: 24 },
     chums: getKeys(MARINER_POT_CHUMS),
   },
 };
@@ -210,6 +211,37 @@ const TRAP_POSITIONS: Record<IslandType, Record<string, Coordinates>> = {
     "3": { x: -14.5, y: -18.5 },
   },
   volcano: {
+    "1": { x: -12, y: -20 },
+    "2": { x: -10, y: -16.5 },
+    "3": { x: -14, y: -19.5 },
+    "4": { x: -12, y: -16 },
+  },
+  swamp: {
+    "1": { x: -12, y: -20 },
+    "2": { x: -10, y: -16.5 },
+    "3": { x: -14, y: -19.5 },
+    "4": { x: -12, y: -16 },
+  },
+  // Ascension islands (spooky onward) reuse the swamp value for now.
+  spooky: {
+    "1": { x: -12, y: -20 },
+    "2": { x: -10, y: -16.5 },
+    "3": { x: -14, y: -19.5 },
+    "4": { x: -12, y: -16 },
+  },
+  crystal: {
+    "1": { x: -12, y: -20 },
+    "2": { x: -10, y: -16.5 },
+    "3": { x: -14, y: -19.5 },
+    "4": { x: -12, y: -16 },
+  },
+  moon: {
+    "1": { x: -12, y: -20 },
+    "2": { x: -10, y: -16.5 },
+    "3": { x: -14, y: -19.5 },
+    "4": { x: -12, y: -16 },
+  },
+  marble: {
     "1": { x: -12, y: -20 },
     "2": { x: -10, y: -16.5 },
     "3": { x: -14, y: -19.5 },

@@ -6,6 +6,7 @@ import Decimal from "decimal.js-light";
 import type { Inventory, IslandType, LoveAnimalItem, Skills } from "./game";
 import { translate } from "lib/i18n/translate";
 import { WATER_TRAP } from "./crustaceans";
+import type { LevelRequirement } from "features/game/lib/level";
 
 export type WorkbenchToolName =
   | "Axe"
@@ -29,7 +30,7 @@ export interface Tool {
   price: number;
   disabled?: boolean;
   requiredIsland?: IslandType;
-  requiredLevel?: number;
+  requiredLevel?: LevelRequirement;
   type: "land" | "water" | "animal" | "weather";
 }
 

@@ -20,14 +20,24 @@ export const PlacedBumpkin: React.FC<{
   if (!bumpkin) return null;
 
   if (!bumpkin.coordinates) {
-    return <NPCPlaceable parts={bumpkin.equipped} isManuallyPlaced={true} />;
+    return (
+      <NPCPlaceable
+        parts={bumpkin.equipped}
+        isManuallyPlaced={true}
+        flipped={bumpkin.flipped}
+      />
+    );
   }
 
   if (!isLandscaping) {
     return (
       <>
         <div style={{ position: "relative", top: "-24px" }}>
-          <PlayerNPC parts={bumpkin.equipped} isManuallyPlaced={true} />
+          <PlayerNPC
+            parts={bumpkin.equipped}
+            isManuallyPlaced={true}
+            flipped={bumpkin.flipped}
+          />
         </div>
       </>
     );
@@ -42,7 +52,11 @@ export const PlacedBumpkin: React.FC<{
       y={bumpkin.coordinates.y}
       location={location}
     >
-      <NPCPlaceable parts={bumpkin.equipped} isManuallyPlaced={true} />
+      <NPCPlaceable
+        parts={bumpkin.equipped}
+        isManuallyPlaced={true}
+        flipped={bumpkin.flipped}
+      />
     </MoveableComponent>
   );
 };

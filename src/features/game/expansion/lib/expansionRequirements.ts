@@ -16,4 +16,10 @@ export const ISLAND_MAX_EXPANSION: Record<IslandType, number> = {
   spring: 16,
   desert: 25,
   volcano: 30,
+  swamp: 42,
+  // Ascension islands (spooky onward) reuse the swamp value for now.
+  spooky: 42,
+  crystal: 42,
+  moon: 42,
+  marble: 42,
 };

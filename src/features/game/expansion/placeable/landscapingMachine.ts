@@ -25,9 +25,13 @@ import {
 } from "features/island/collectibles/MovableComponent";
 import type { PlaceableLocation } from "features/game/types/collectibles";
 import type { NFTName } from "features/game/events/landExpansion/placeNFT";
+import type { FlipCollectibleAction } from "features/game/events/landExpansion/flipCollectible";
+import type { FlipFarmHandAction } from "features/game/events/landExpansion/flipFarmHand";
+import type { FlipBumpkinAction } from "features/game/events/landExpansion/flipBumpkin";
 
-export const RESOURCE_PLACE_EVENTS: Partial<
-  Record<ResourceName, GameEventName<PlacementEvent>>
+export const RESOURCE_PLACE_EVENTS: Record<
+  Exclude<ResourceName, "Boulder">,
+  GameEventName<PlacementEvent>
 > = {
   Tree: "tree.placed",
   "Ancient Tree": "tree.placed",
@@ -49,6 +53,7 @@ export const RESOURCE_PLACE_EVENTS: Partial<
   "Sunstone Rock": "sunstone.placed",
   "Oil Reserve": "oilReserve.placed",
   "Lava Pit": "lavaPit.placed",
+  "Ascension Crystal": "ascensionCrystal.placed",
 };
 
 /**
@@ -66,7 +71,7 @@ export function placeEvent(
 ): GameEventName<PlacementEvent> {
   if (name in RESOURCES) {
     return RESOURCE_PLACE_EVENTS[
-      name as ResourceName
+      name as Exclude<ResourceName, "Boulder">
     ] as GameEventName<PlacementEvent>;
   }
 
@@ -164,7 +169,7 @@ type RemoveAllEvent = {
 type FlipEvent = {
   type: "FLIP";
   id: string;
-  name: CollectibleName;
+  name: CollectibleName | "FarmHand" | "Bumpkin";
   location: PlaceableLocation;
 };
 
@@ -344,12 +349,25 @@ export const landscapingMachine = createMachine<
             FLIP: {
               target: "idle",
               actions: [
-                sendParent((_, event) => ({
-                  type: "collectible.flipped",
-                  id: event.id,
-                  name: event.name,
-                  location: event.location,
-                })),
+                sendParent(
+                  (_, event) =>
+                    ({
+                      type:
+                        event.name === "FarmHand"
+                          ? "farmHand.flipped"
+                          : event.name === "Bumpkin"
+                            ? "bumpkin.flipped"
+                            : "collectible.flipped",
+                      ...(event.name !== "Bumpkin" ? { id: event.id } : {}),
+                      ...(event.name !== "FarmHand" && event.name !== "Bumpkin"
+                        ? { name: event.name }
+                        : {}),
+                      location: event.location,
+                    }) as
+                      | FlipCollectibleAction
+                      | FlipFarmHandAction
+                      | FlipBumpkinAction,
+                ),
               ],
             },
             REMOVE: {

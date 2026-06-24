@@ -43,6 +43,12 @@ export const EXTERIOR_ISLAND_BG: Record<LandBiomeName, string> = {
   "Spring Biome": SUNNYSIDE.land.spring_building_bg,
   "Desert Biome": SUNNYSIDE.land.desert_building_bg,
   "Volcano Biome": SUNNYSIDE.land.volcano_building_bg,
+  "Swamp Biome": SUNNYSIDE.land.volcano_building_bg,
+  // Ascension biomes (spooky onward) reuse the swamp art for now.
+  "Spooky Biome": SUNNYSIDE.land.volcano_building_bg,
+  "Crystal Biome": SUNNYSIDE.land.volcano_building_bg,
+  "Moon Biome": SUNNYSIDE.land.volcano_building_bg,
+  "Marble Age Biome": SUNNYSIDE.land.volcano_building_bg,
 };
 
 const _barn = (state: MachineState) => state.context.state.barn;

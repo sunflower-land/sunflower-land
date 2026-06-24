@@ -6,7 +6,10 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 import { useVisiting } from "lib/utils/visitUtils";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import {
@@ -26,13 +29,22 @@ const _showHelper = (state: MachineState) =>
   (state.context.state.bumpkin?.experience === 0 &&
     state.context.state.inventory["Rhubarb Tart"]?.gte(1)) ||
   // First Pumpkin Soup
-  (getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) <= 3 &&
+  (!meetsLevelRequirement(
+    getAscensionLevel({
+      experience: state.context.state.bumpkin?.experience ?? 0,
+      ascensionLevel: state.context.state.island.ascensionLevel ?? 0,
+    }),
+    { ascension: 0, level: 4 },
+  ) &&
     state.context.state.inventory["Pumpkin Soup"]?.gte(1));
 const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
 const _isLandscaping = (state: MachineState) => state.matches("landscaping");
 const _gameState = (state: MachineState) => state.context.state;
 
-export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
+export const PlayerNPC: React.FC<NPCProps> = ({
+  parts: bumpkinParts,
+  flipped,
+}) => {
   const [open, setOpen] = useState(false);
   const { gameService } = useContext(Context);
   const { authService } = useContext(AuthContext);
@@ -59,6 +71,7 @@ export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
         username: context.state.username ?? "",
         clothing: context.state.bumpkin?.equipped ?? bumpkinParts,
         experience: context.state.bumpkin?.experience ?? 0,
+        ascensionLevel: context.state.island.ascensionLevel ?? 0,
         faction: context.state.faction?.name,
       };
       playerModalManager.open(playerData);
@@ -70,9 +83,10 @@ export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
   return (
     <>
       <NPCPlaceable
-        key={JSON.stringify(bumpkinParts)}
+        key={`${JSON.stringify(bumpkinParts)}-${flipped}`}
         parts={bumpkinParts}
         onClick={handleClick}
+        flipped={flipped}
       />
 
       {showHelper && (

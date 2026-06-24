@@ -16,7 +16,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/choseSkill";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { ISLAND_EXPANSIONS } from "features/game/types/game";
+import { ISLAND_EXPANSIONS, getIslandName } from "features/game/types/game";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import classNames from "classnames";
 import { SquareIcon } from "components/ui/SquareIcon";
@@ -31,7 +31,6 @@ import {
 import { SkillReset } from "./SkillReset";
 import fruits from "assets/fruit/fruits.png";
 import Decimal from "decimal.js-light";
-import { capitalize } from "lib/utils/capitalize";
 export const SKILL_TREE_ICONS: Record<BumpkinRevampSkillTree, string> = {
   Crops: SUNNYSIDE.skills.crops,
   Trees: SUNNYSIDE.skills.trees,
@@ -61,7 +60,7 @@ export const SkillCategoryList: React.FC<{
     useState(false);
 
   const { bumpkin, inventory } = state;
-  const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);
+  const availableSkillPoints = getAvailableBumpkinSkillPoints(state);
   const { previousFreeSkillResetAt = 0, paidSkillResets = 0, skills } = bumpkin;
 
   const hasSkills = getKeys(skills).length > 0;
@@ -147,18 +146,14 @@ export const SkillCategoryList: React.FC<{
                   className="capitalize"
                 >
                   {t("skillCategory.islands", {
-                    island:
-                      islandType === "spring" ? "Petal Paradise" : islandType,
+                    island: getIslandName(islandType),
                   })}
                 </Label>
 
                 {!hasUnlockedIslandCategory && (
                   <Label type="warning">
                     {t("skillCategory.reachIsland", {
-                      island:
-                        islandType === "spring"
-                          ? "Petal Paradise"
-                          : `${capitalize(islandType)} Island`,
+                      island: getIslandName(islandType),
                     })}
                   </Label>
                 )}

@@ -4,7 +4,10 @@ import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 import type { BoostName, GameState } from "features/game/types/game";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 import { type SeedName, SEEDS } from "features/game/types/seeds";
 import { isWearableActive } from "features/game/lib/wearables";
 import { FLOWER_SEEDS } from "features/game/types/flowers";
@@ -142,13 +145,13 @@ export function seedBought({ state, action, createdAt = Date.now() }: Options) {
       throw new Error("Bumpkin not found");
     }
 
-    const userBumpkinLevel = getBumpkinLevel(
-      stateCopy.bumpkin?.experience ?? 0,
-    );
+    const userLevel = getAscensionLevel({
+      experience: stateCopy.bumpkin.experience ?? 0,
+      ascensionLevel: stateCopy.island.ascensionLevel ?? 0,
+    });
     const seed = SEEDS[item];
-    const requiredSeedLevel = seed.bumpkinLevel ?? 0;
 
-    if (userBumpkinLevel < requiredSeedLevel) {
+    if (!meetsLevelRequirement(userLevel, seed.bumpkinLevel)) {
       throw new Error("Inadequate level");
     }
 

@@ -10,7 +10,10 @@ import { PeteHelp } from "./PeteHelp";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 import { MapPlacement } from "./MapPlacement";
 import { getWharfCoordinates } from "../lib/constants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -27,9 +30,12 @@ const expansions = (state: MachineState) =>
 const hint = (state: MachineState) => {
   const activity = state.context.state.farmActivity;
   const inventory = state.context.state.inventory;
-  const level = getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
+  const ascension = getAscensionLevel({
+    experience: state.context.state.bumpkin.experience ?? 0,
+    ascensionLevel: state.context.state.island.ascensionLevel ?? 0,
+  });
 
-  if (level >= 2) {
+  if (meetsLevelRequirement(ascension, { ascension: 0, level: 2 })) {
     return "Explore";
   }
 
@@ -86,7 +92,7 @@ const hint = (state: MachineState) => {
     return translate("pete.teaser.seven");
   }
 
-  if (inventory["Basic Scarecrow"] && level === 1) {
+  if (inventory["Basic Scarecrow"] && ascension.level === 1) {
     return translate("pete.teaser.eight");
   }
 

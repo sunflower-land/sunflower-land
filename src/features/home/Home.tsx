@@ -55,6 +55,12 @@ const BACKGROUND_IMAGE: Record<IslandType, string> = {
   spring: SUNNYSIDE.land.house_inside,
   desert: SUNNYSIDE.land.manor_inside,
   volcano: SUNNYSIDE.land.mansion_inside,
+  swamp: SUNNYSIDE.land.mansion_inside,
+  // Ascension islands (spooky onward) reuse the swamp value for now.
+  spooky: SUNNYSIDE.land.mansion_inside,
+  crystal: SUNNYSIDE.land.mansion_inside,
+  moon: SUNNYSIDE.land.mansion_inside,
+  marble: SUNNYSIDE.land.mansion_inside,
 };
 
 function hasReadIntro() {

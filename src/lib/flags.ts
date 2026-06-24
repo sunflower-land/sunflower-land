@@ -4,6 +4,13 @@ import { TEAM_USERNAMES } from "./access";
 
 export const RONIN_AIRDROP_ENDDATE = new Date("2025-11-04T00:00:00Z");
 
+// Ronin Waypoint (and the migration flow / transfer option for it) stops being
+// available after 17th Sept 2026 - i.e. from the 18th onwards.
+export const WAYPOINT_WALLET_ENDDATE = new Date("2026-09-18T00:00:00Z");
+
+export const isWaypointWalletDisabled = () =>
+  Date.now() >= WAYPOINT_WALLET_ENDDATE.getTime();
+
 export const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" ||
   (!!((wardrobe["Gift Giver"] ?? 0) > 0) && !!inventory["Beta Pass"]?.gt(0));
@@ -140,9 +147,19 @@ const FEATURE_FLAGS = {
   MODERATOR: (game) =>
     !!((game.wardrobe.Halo ?? 0) > 0) && !!game.inventory["Beta Pass"]?.gt(0),
 
-  CHAACS_TEMPLE_BETA: betaFeatureFlag,
+  /**
+   * Gates the new home-interior placement system: the /interior route, the
+   * /level_one upgrade route, and the `interior.upgrade` event. Beta-pass /
+   * testnet only until the feature ships to all players.
+   */
+  HOME_EXPANSIONS: betaFeatureFlag,
 
   BOOSTS_DISPLAY: betaFeatureFlag,
+
+  // Importing leftover items from the old home into the new interior.
+  HOME_ITEM_MIGRATION: betaFeatureFlag,
+
+  SWAMP_ASCENSION: testnetFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

@@ -86,6 +86,7 @@ export const OFFCHAIN_ITEMS = new Set<InventoryItemName>([
   "Gold Friends Trophy",
   "Silver Friends Trophy",
   "Bronze Friends Trophy",
+  "Design Trophy",
   "Basic Land",
   "Holiday Token 2025",
   "Holiday Ticket 2025",

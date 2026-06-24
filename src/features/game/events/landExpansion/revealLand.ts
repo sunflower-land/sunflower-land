@@ -6,15 +6,16 @@ import {
 } from "features/game/expansion/lib/constants";
 import {
   EXPANSION_REQUIREMENTS,
+  getExpectedResources,
   getLand,
-  type Requirements,
 } from "features/game/types/expansions";
-import type { Airdrop, BoostName, GameState } from "features/game/types/game";
+import type { Airdrop, GameState } from "features/game/types/game";
+import type { ResourceName } from "features/game/types/resources";
+import { hasFeatureAccess } from "lib/flags";
 
 import { getKeys } from "lib/object";
 import { pickEmptyPosition } from "features/game/expansion/placeable/lib/collisionDetection";
 import { reAnchorToIsland } from "features/game/expansion/lib/island";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import type { CropName } from "features/game/types/crops";
 import { produce } from "immer";
 import {
@@ -25,6 +26,11 @@ import {
   TREE_RECOVERY_TIME,
 } from "features/game/lib/constants";
 import { OIL_RESERVE_RECOVERY_TIME } from "./drillOilReserve";
+
+// Each sunstone rock can be mined this many times before it is depleted and
+// removed from the farm (see mineSunstone). Used both when placing new rocks
+// and when reconciling how many the player has mined to depletion.
+const SUNSTONE_MINES = 10;
 
 // Preloaded crops that will appear on plots when they reveal
 const EXPANSION_CROPS: Record<number, CropName> = {
@@ -50,6 +56,17 @@ type Options = {
   createdAt?: number;
 };
 
+/**
+ * Completes a pending land expansion by populating the game board with entities and computing rewards.
+ *
+ * Establishes all entities from the revealed land layout, updates inventory counts, resets resource recovery timers, and calculates expansion rewards. Repositions the mushroom island if present and adds a Fire Pit building upon the 5th expansion.
+ *
+ * @param state - The current game state
+ * @param createdAt - Timestamp for entity and structure creation; defaults to `Date.now()`
+ * @returns The updated game state with new entities and calculated rewards
+ * @throws When expansion construction is not active
+ * @throws When the land layout cannot be found
+ */
 export function revealLand({ state, createdAt = Date.now() }: Options) {
   return produce(state, (game) => {
     if (!game.expansionConstruction) {
@@ -187,12 +204,34 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
         x: coords.x + origin.x,
         y: coords.y + origin.y,
         stone: { minedAt: 0 },
-        minesLeft: 10,
+        minesLeft: SUNSTONE_MINES,
       };
     });
     inventory["Sunstone Rock"] = (
       inventory["Sunstone Rock"] || new Decimal(0)
     ).add(land.sunstones?.length ?? 0);
+
+    // Add Ascension Crystals (single-use nodes; placed by getAscensionLayout on
+    // the first N expansions of an ascension band — see getExpansionCrystalCount).
+    // Gated by the feature flag so the forward grant can never run while the
+    // ascension system is disabled (the back-pay reconciliation is gated too).
+    if (
+      hasFeatureAccess(game, "SWAMP_ASCENSION") &&
+      land.ascensionCrystals?.length
+    ) {
+      game.ascensionCrystals = game.ascensionCrystals ?? {};
+      land.ascensionCrystals.forEach((coords) => {
+        game.ascensionCrystals[randomUUID()] = {
+          x: coords.x + origin.x,
+          y: coords.y + origin.y,
+          stone: { minedAt: 0 },
+          minesLeft: 1,
+        };
+      });
+      inventory["Ascension Crystal"] = (
+        inventory["Ascension Crystal"] || new Decimal(0)
+      ).add(land.ascensionCrystals.length);
+    }
 
     // Add bee hives
     land.beehives?.forEach((coords) => {
@@ -373,41 +412,18 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
   });
 }
 
-export const expansionRequirements = ({
-  game,
-}: {
-  game: GameState;
-}): {
-  requirements: Requirements | undefined;
-  boostsUsed: { name: BoostName; value: string }[];
-} => {
-  const level = (game.inventory["Basic Land"]?.toNumber() ?? 0) + 1;
-
-  const boostsUsed: { name: BoostName; value: string }[] = [];
-
-  const requirements = EXPANSION_REQUIREMENTS[game.island.type][level];
-
-  if (!requirements) {
-    return { requirements: undefined, boostsUsed };
-  }
-
-  let resources = requirements.resources;
-
-  // Half resource costs
-  if (isCollectibleBuilt({ name: "Grinx's Hammer", game })) {
-    resources = getKeys(resources).reduce(
-      (acc, key) => ({
-        ...acc,
-        [key]: key === "Gem" ? resources[key] : (resources[key] ?? 0) / 2,
-      }),
-      {},
-    );
-    boostsUsed.push({ name: "Grinx's Hammer", value: "x0.5" });
-  }
-
-  return { requirements: { ...requirements, resources }, boostsUsed };
-};
-
+/**
+ * Generates airdrops for expansion milestones, refunds for returning players, and missing resource compensation.
+ *
+ * Grants milestone rewards at specific expansion counts on basic islands. On spring and desert islands,
+ * provides refunds if the player previously expanded further on a different island. Computes and grants
+ * any resources the player is missing based on the current expansion level, accounting for resources
+ * already promised but not yet collected.
+ *
+ * @param game - The game state to evaluate
+ * @param createdAt - The timestamp for created airdrops
+ * @returns An array of airdrops granted by this expansion
+ */
 export function getRewards({
   game,
   createdAt,
@@ -564,6 +580,132 @@ export function getRewards({
         },
       ];
     }
+  }
+
+  const missingNodes: Record<ResourceName, number> = {
+    "Crimstone Rock": 0,
+    "Crop Plot": 0,
+    "Flower Bed": 0,
+    "Fruit Patch": 0,
+    "Gold Rock": 0,
+    "Iron Rock": 0,
+    "Stone Rock": 0,
+    "Sunstone Rock": 0,
+    Beehive: 0,
+    Tree: 0,
+    "Oil Reserve": 0,
+    "Lava Pit": 0,
+    "Fused Stone Rock": 0,
+    "Reinforced Stone Rock": 0,
+    Boulder: 0,
+    "Ancient Tree": 0,
+    "Sacred Tree": 0,
+    "Refined Iron Rock": 0,
+    "Tempered Iron Rock": 0,
+    "Pure Gold Rock": 0,
+    "Prime Gold Rock": 0,
+    "Ascension Crystal": 0,
+  };
+
+  const expected = getExpectedResources({
+    game,
+    expansion: expansions.toNumber(),
+  });
+
+  // Items already promised by an unclaimed missing-resources airdrop are not
+  // yet in the inventory. Counting them as still-missing would duplicate the
+  // grant if the player expands again before collecting the previous airdrop.
+  const pendingMissing: Partial<Record<ResourceName, number>> = {};
+  (game.airdrops ?? [])
+    .filter((airdrop) => airdrop.id.startsWith("missing-resources"))
+    .forEach((airdrop) => {
+      getKeys(missingNodes).forEach((key) => {
+        pendingMissing[key] =
+          (pendingMissing[key] ?? 0) + (airdrop.items[key] ?? 0);
+      });
+    });
+
+  getKeys(missingNodes).forEach((key) => {
+    let missing =
+      (expected[key] ?? 0) -
+      (game.inventory[key]?.toNumber() ?? 0) -
+      (pendingMissing[key] ?? 0);
+
+    // Sunstone rocks are finite: once a rock is mined to depletion it is
+    // removed from the inventory (see mineSunstone). To avoid re-granting rocks
+    // the player legitimately consumed, subtract the rocks already mined to
+    // depletion. Each rock holds 10 mines, but mines spent on rocks the player
+    // still owns are not depletions, so they are excluded before dividing. A
+    // player who has never mined a sunstone receives the full missing amount.
+    if (key === "Sunstone Rock") {
+      const lifetimeMines = game.farmActivity?.["Sunstone Mined"] ?? 0;
+      const minesOnLiveRocks = Object.values(game.sunstones ?? {}).reduce(
+        (total, rock) => total + (SUNSTONE_MINES - rock.minesLeft),
+        0,
+      );
+      const depleted = Math.floor(
+        Math.max(0, lifetimeMines - minesOnLiveRocks) / SUNSTONE_MINES,
+      );
+      missing -= depleted;
+    }
+
+    // Ascension Crystals are single-use: each mine destroys exactly one crystal
+    // (and decrements the inventory, see mineAscensionCrystal). Subtract the
+    // crystals already mined so this back-pay airdrop never resurrects ones the
+    // player legitimately consumed. A legacy player (0 owned, 0 mined) receives
+    // the full expected amount.
+    if (key === "Ascension Crystal") {
+      missing -= game.farmActivity?.["Ascension Crystal Mined"] ?? 0;
+    }
+
+    // They have the expected amount of resources
+    if (missing <= 0) {
+      return;
+    }
+
+    missingNodes[key] = missing;
+  });
+
+  const hasMissing = getKeys(missingNodes).some((key) => missingNodes[key] > 0);
+  if (hasMissing) {
+    const expansionBoundaries = {
+      x: EXPANSION_ORIGINS[expansions.toNumber() - 1].x - LAND_SIZE / 2,
+      y: EXPANSION_ORIGINS[expansions.toNumber() - 1].y + LAND_SIZE / 2,
+      width: LAND_SIZE,
+      height: LAND_SIZE,
+    };
+
+    const position = pickEmptyPosition({
+      gameState: game,
+      bounding: expansionBoundaries,
+    });
+
+    airdrops = [
+      ...airdrops,
+      {
+        createdAt,
+        id: `missing-resources-${expansions.toNumber()}`,
+        // Only include items greater than 0
+        items: getKeys(missingNodes).reduce(
+          (acc, key) =>
+            missingNodes[key] > 0
+              ? {
+                  ...acc,
+                  [key]: missingNodes[key],
+                }
+              : acc,
+          {},
+        ),
+        sfl: 0,
+        coins: 0,
+        wearables: {},
+        message: "Congratulations, you found some bonus resources!",
+        coordinates: position && {
+          x: position.x,
+          y: position.y,
+        },
+      },
+    ];
   }
 
   return airdrops;

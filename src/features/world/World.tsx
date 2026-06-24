@@ -27,7 +27,10 @@ import { GameWrapper } from "features/game/expansion/Game";
 import { Loading } from "features/auth/components";
 import type { GameState } from "features/game/types/game";
 import { Forbidden } from "features/auth/components/Forbidden";
-import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
 import { getActiveFloatingIsland } from "features/game/types/floatingIsland";
 import { adminFeatureFlag } from "lib/flags";
 import { useVisiting } from "lib/utils/visitUtils";
@@ -78,6 +81,15 @@ const _isIntroducing = (state: MMOMachineState) =>
 
 type MMOProps = { isCommunity: boolean };
 
+const hasWorldLevel = (game: GameState, level: number) =>
+  meetsLevelRequirement(
+    getAscensionLevel({
+      experience: game.bumpkin.experience ?? 0,
+      ascensionLevel: game.island.ascensionLevel ?? 0,
+    }),
+    { ascension: 0, level },
+  );
+
 const SCENE_ACCESS: Partial<
   Record<SceneId, (game: GameState, now: number) => boolean>
 > = {
@@ -87,30 +99,12 @@ const SCENE_ACCESS: Partial<
   nightshade_house: (game) => game.faction?.name === "nightshades",
   love_island: (game) =>
     !!getActiveFloatingIsland({ state: game }) || !!adminFeatureFlag(game),
-  infernos: (game) => {
-    const level = getBumpkinLevel(game.bumpkin?.experience ?? 0);
-    return level >= 30;
-  },
-  plaza: (game) => {
-    const level = getBumpkinLevel(game.bumpkin?.experience ?? 0);
-    return level >= 2;
-  },
-  kingdom: (game) => {
-    const level = getBumpkinLevel(game.bumpkin?.experience ?? 0);
-    return level >= 7;
-  },
-  beach: (game) => {
-    const level = getBumpkinLevel(game.bumpkin?.experience ?? 0);
-    return level >= 4;
-  },
-  woodlands: (game) => {
-    const level = getBumpkinLevel(game.bumpkin?.experience ?? 0);
-    return level >= 6;
-  },
-  retreat: (game) => {
-    const level = getBumpkinLevel(game.bumpkin?.experience ?? 0);
-    return level >= 5;
-  },
+  infernos: (game) => hasWorldLevel(game, 30),
+  plaza: (game) => hasWorldLevel(game, 2),
+  kingdom: (game) => hasWorldLevel(game, 7),
+  beach: (game) => hasWorldLevel(game, 4),
+  woodlands: (game) => hasWorldLevel(game, 6),
+  retreat: (game) => hasWorldLevel(game, 5),
 };
 
 export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {

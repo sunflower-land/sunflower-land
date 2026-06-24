@@ -2153,6 +2153,17 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Ascension Shard": {
+    name: "Ascension Shard",
+    description:
+      "A resource collected by mining ascension crystals.\n\nIt is used to upgrade existing skills.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   Chicken: {
     name: "Chicken",
     description:
@@ -5121,6 +5132,15 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Lava Pit": {
     description: "A source of obsidian",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [
+      { trait_type: "Purpose", value: "Resource Node" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Ascension Crystal": {
+    description: "Upgrade skills",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     attributes: [
@@ -12906,6 +12926,59 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Volcano Biome",
+  },
+  "Swamp Biome": {
+    description: "A swamp biome that provides a swamp income and a swamp life.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Swamp Biome",
+  },
+  "Spooky Biome": {
+    description:
+      "A spooky biome that provides a spooky income and a spooky life.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Spooky Biome",
+  },
+  "Crystal Biome": {
+    description:
+      "A crystal biome that provides a crystal income and a crystal life.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Crystal Biome",
+  },
+  "Moon Biome": {
+    description: "A moon biome that provides a moon income and a moon life.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Moon Biome",
+  },
+  "Marble Age Biome": {
+    description:
+      "A marble age biome that provides a marble age income and a marble age life.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Marble Age Biome",
   },
   "Better Together Banner": {
     description: "",

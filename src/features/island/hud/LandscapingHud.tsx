@@ -51,6 +51,7 @@ import type { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { LandscapingChest } from "./components/LandscapingChest";
 import classNames from "classnames";
 import { LandscapingQuickPanel } from "./components/LandscapingQuickPanel";
+import { InteriorFloorNav } from "features/interior/components/InteriorFloorNav";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -153,7 +154,12 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
 
   const showRemove = isMobile && selectedItem && removeAction;
 
-  const showFlip = isMobile && selectedItem && isCollectible(selectedItem.name);
+  const showFlip =
+    isMobile &&
+    selectedItem &&
+    (isCollectible(selectedItem.name) ||
+      selectedItem.name === "FarmHand" ||
+      selectedItem.name === "Bumpkin");
 
   const remove = () => {
     const action = selectedItem && removeAction;
@@ -188,7 +194,12 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   };
 
   const flip = () => {
-    if (selectedItem && isCollectible(selectedItem.name)) {
+    if (
+      selectedItem &&
+      (isCollectible(selectedItem.name) ||
+        selectedItem.name === "FarmHand" ||
+        selectedItem.name === "Bumpkin")
+    ) {
       child.send("FLIP", {
         id: selectedItem.id,
         name: selectedItem.name,
@@ -198,7 +209,17 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   };
 
   const isFlipped = useSelector(gameService, (state) => {
-    if (!selectedItem || !isCollectible(selectedItem.name)) return false;
+    if (!selectedItem) return false;
+
+    if (selectedItem.name === "FarmHand") {
+      return !!state.context.state.farmHands.bumpkins[selectedItem.id]?.flipped;
+    }
+
+    if (selectedItem.name === "Bumpkin") {
+      return !!state.context.state.bumpkin?.flipped;
+    }
+
+    if (!isCollectible(selectedItem.name)) return false;
     const name = selectedItem.name;
     const collectibles =
       location === "home"
@@ -221,6 +242,20 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
       <div className="absolute right-0 top-0 p-2.5">
         <Balances sfl={balance} coins={coins} gems={gems ?? new Decimal(0)} />
       </div>
+
+      {/*
+        Floor navigation stays available while landscaping the interior so the
+        player can move between floors without leaving edit mode. The matching
+        in-world arrows are hidden during landscaping (see Interior/LevelOne),
+        so these HUD buttons are the only way to switch floors here.
+      */}
+      {(location === "interior" || location === "level_one") && (
+        <div className="absolute bottom-0 p-2.5 left-0 flex flex-col space-y-2.5">
+          <InteriorFloorNav
+            floor={location === "interior" ? "ground" : "level_one"}
+          />
+        </div>
+      )}
 
       {removalMode && (
         <>

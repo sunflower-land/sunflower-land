@@ -76,19 +76,17 @@ export const InventoryFilters: React.FC<Props> = ({
           >
             {t("inventory.all")}
           </Chip>
-          {categories
-            .sort((a, b) => a.label.localeCompare(b.label))
-            .map((category) => (
-              <Chip
-                key={category.id}
-                selected={activeCategories.includes(category.id)}
-                icon={category.icon}
-                onClick={() => onToggleCategory(category.id)}
-                className="whitespace-nowrap sm:whitespace-normal mb-1 sm:mb-0"
-              >
-                {category.label}
-              </Chip>
-            ))}
+          {categories.map((category) => (
+            <Chip
+              key={category.id}
+              selected={activeCategories.includes(category.id)}
+              icon={category.icon}
+              onClick={() => onToggleCategory(category.id)}
+              className="whitespace-nowrap sm:whitespace-normal mb-1 sm:mb-0"
+            >
+              {category.label}
+            </Chip>
+          ))}
         </div>
       )}
     </InnerPanel>

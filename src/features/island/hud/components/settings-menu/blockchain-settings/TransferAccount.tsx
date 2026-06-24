@@ -1,5 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
+import { useConnection } from "wagmi";
+import { ronin, saigon } from "@wagmi/core/chains";
 import { isAddress } from "web3-utils";
 
 import farmImg from "assets/brand/nft.png";
@@ -15,6 +17,11 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GameWallet } from "features/wallet/Wallet";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
+import { CONFIG } from "lib/config";
+import { isWaypointWalletDisabled } from "lib/flags";
+import { RoninMigration } from "./RoninMigration";
+
+const RONIN_CHAIN_ID = CONFIG.NETWORK === "mainnet" ? ronin.id : saigon.id;
 
 const transferring = SUNNYSIDE.npcs.minting;
 export const TransferAccount: React.FC = () => {
@@ -23,6 +30,8 @@ export const TransferAccount: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
   const [authState] = useActor(authService);
+
+  const { chainId } = useConnection();
 
   const [receiver, setReceiver] = useState({ address: "" });
   const [state, setState] = useState<"idle" | "loading" | "error" | "success">(
@@ -52,6 +61,10 @@ export const TransferAccount: React.FC = () => {
 
   if (!isFaceVerified({ game: gameService.getSnapshot().context.state })) {
     return <FaceRecognition />;
+  }
+
+  if (chainId === RONIN_CHAIN_ID && !isWaypointWalletDisabled()) {
+    return <RoninMigration />;
   }
 
   if (state === "success") {

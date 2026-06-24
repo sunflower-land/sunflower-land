@@ -434,6 +434,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Honey Treat": 668,
   "Spice Base": 669,
   "Spiced Cheese": 670,
+  "Ascension Crystal": 671,
+  "Ascension Shard": 672,
 
   "Green Thumb": 701,
   "Barn Manager": 702,
@@ -1228,6 +1230,12 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Spring Biome": 2401,
   "Desert Biome": 2402,
   "Volcano Biome": 2403,
+  "Swamp Biome": 2404,
+  // Ascension biomes (spooky onward)
+  "Spooky Biome": 2405,
+  "Crystal Biome": 2406,
+  "Moon Biome": 2407,
+  "Marble Age Biome": 2408,
 
   // Dolls
   Doll: 2501,
@@ -1532,6 +1540,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Ripped Salt Bag": 3022,
   "Salt Doll": 3023,
   "Jacuzzi Bear": 3024,
+  "Design Trophy": 3026,
 };
 
 // The reverse of above

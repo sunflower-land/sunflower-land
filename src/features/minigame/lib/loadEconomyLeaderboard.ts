@@ -5,8 +5,11 @@ export type EconomyLeaderboardPlayer = {
   rank: number;
   farmId: number;
   username: string;
-  bumpkin?: BumpkinParts;
+  bumpkin: BumpkinParts;
+  /** Within-ascension level. Meaningless without `ascension`. */
   level: number;
+  /** Ascension band this level belongs to (0 = pre-ascension). */
+  ascension: number;
   highscore: number;
 };
 

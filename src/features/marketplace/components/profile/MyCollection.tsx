@@ -13,19 +13,14 @@ import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { TextInput } from "components/ui/TextInput";
 import { ListViewCard } from "../ListViewCard";
+import { InventoryFilters } from "features/island/hud/components/inventory/InventoryFilters";
 
 import chest from "assets/icons/chest.png";
 import { isNode } from "features/game/expansion/lib/expansionNodes";
-import {
-  WEARABLE_RELEASES,
-  getPetReleases,
-} from "features/game/types/withdrawables";
+import { BUILDINGS } from "features/game/types/buildings";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type { GameState } from "features/game/types/game";
-import { useNow } from "lib/utils/hooks/useNow";
 
 type CollectionItem = {
   id: number;
@@ -33,7 +28,36 @@ type CollectionItem = {
   count: number;
 };
 
+type CollectionCategory =
+  | "buds"
+  | "pets"
+  | "buildings"
+  | "wearables"
+  | "collectibles"
+  | "cosmetic";
+
+type EnrichedCollectionItem = CollectionItem & {
+  details: ReturnType<typeof getTradeableDisplay>;
+  category: CollectionCategory;
+};
+
 const _state = (state: MachineState) => state.context.state;
+const BUILDING_NAMES = new Set(Object.keys(BUILDINGS));
+
+const getBaseCategory = (
+  item: CollectionItem,
+  details: ReturnType<typeof getTradeableDisplay>,
+): CollectionCategory => {
+  if (item.collection === "buds") return "buds";
+  if (item.collection === "pets") return "pets";
+  if (item.collection === "wearables") return "wearables";
+
+  if (BUILDING_NAMES.has(details.name)) {
+    return "buildings";
+  }
+
+  return details.buffs.length > 0 ? "collectibles" : "cosmetic";
+};
 
 export const MyCollection: React.FC = () => {
   const { t } = useAppTranslation();
@@ -42,12 +66,12 @@ export const MyCollection: React.FC = () => {
   const gameState = useSelector(gameService, _state);
 
   const [search, setSearch] = useState("");
+  const [activeCategories, setActiveCategories] = useState<
+    CollectionCategory[]
+  >([]);
   const { buds, pets: { nfts: petNFTs = {} } = {} } = gameState;
 
-  const now = useNow();
-  const nowDate = new Date(now);
-
-  let items: CollectionItem[] = [];
+  const items: CollectionItem[] = [];
 
   const inventory = getChestItems(gameState);
   getKeys(inventory)
@@ -62,15 +86,11 @@ export const MyCollection: React.FC = () => {
 
   const wardrobe = availableWardrobe(gameState);
   getKeys(wardrobe).forEach((name) => {
-    const withdrawAt = WEARABLE_RELEASES[name]?.withdrawAt;
-    const canWithdraw = !!withdrawAt && withdrawAt <= nowDate;
-    if (canWithdraw) {
-      items.push({
-        id: ITEM_IDS[name],
-        collection: "wearables",
-        count: wardrobe[name] ?? 0,
-      });
-    }
+    items.push({
+      id: ITEM_IDS[name],
+      collection: "wearables",
+      count: wardrobe[name] ?? 0,
+    });
   });
 
   getKeys(buds ?? {}).forEach((id) => {
@@ -82,35 +102,75 @@ export const MyCollection: React.FC = () => {
   });
 
   getKeys(petNFTs ?? {}).forEach((id) => {
-    const petId = Number(id);
-    const { tradeAt } = getPetReleases(petId);
-    const canTrade = !!tradeAt && tradeAt <= nowDate;
-    if (canTrade) {
-      items.push({
-        id: petId,
-        collection: "pets",
-        count: 1,
-      });
-    }
+    items.push({
+      id: Number(id),
+      collection: "pets",
+      count: 1,
+    });
   });
 
-  items = items.filter((item) => {
-    const details = getTradeableDisplay({
-      id: item.id,
-      type: item.collection,
-      state: gameState,
+  const enrichedItems: EnrichedCollectionItem[] = items
+    .map((item) => {
+      const details = getTradeableDisplay({
+        id: item.id,
+        type: item.collection,
+        state: gameState,
+      });
+      const category = getBaseCategory(item, details);
+
+      return {
+        ...item,
+        details,
+        category,
+      };
+    })
+    .filter((item) =>
+      item.details.name.toLowerCase().includes(search.toLowerCase()),
+    )
+    .filter((item) => {
+      if (activeCategories.length === 0) return true;
+
+      return activeCategories.includes(item.category);
     });
 
-    return details.name.toLowerCase().includes(search.toLowerCase());
-  });
+  const toggleCategory = (id: string) => {
+    setActiveCategories((current) =>
+      current.includes(id as CollectionCategory)
+        ? current.filter((entry) => entry !== id)
+        : [...current, id as CollectionCategory],
+    );
+  };
 
-  // Separate items into three categories
-  const budsItems = items.filter((item) => item.collection === "buds");
-  const petsItems = items.filter((item) => item.collection === "pets");
-  const wearableItems = items.filter((item) => item.collection === "wearables");
-  const collectibleItems = items.filter(
-    (item) => item.collection === "collectibles",
+  const sortItems = (items: EnrichedCollectionItem[]) =>
+    [...items].sort((a, b) => a.details.name.localeCompare(b.details.name));
+
+  const budsItems = sortItems(
+    enrichedItems.filter((item) => item.category === "buds"),
   );
+  const petsItems = sortItems(
+    enrichedItems.filter((item) => item.category === "pets"),
+  );
+  const buildingItems = sortItems(
+    enrichedItems.filter((item) => item.category === "buildings"),
+  );
+  const wearableItems = sortItems(
+    enrichedItems.filter((item) => item.category === "wearables"),
+  );
+  const collectibleItems = sortItems(
+    enrichedItems.filter((item) => item.category === "collectibles"),
+  );
+  const cosmeticItems = sortItems(
+    enrichedItems.filter((item) => item.category === "cosmetic"),
+  );
+
+  const categories = [
+    { id: "buds", label: t("buds") },
+    { id: "pets", label: t("pets") },
+    { id: "collectibles", label: t("collectibles") },
+    { id: "wearables", label: t("wearables") },
+    { id: "cosmetic", label: t("marketplace.cosmetics") },
+    { id: "buildings", label: t("buildings") },
+  ];
 
   return (
     <>
@@ -124,15 +184,16 @@ export const MyCollection: React.FC = () => {
         <Label className="mb-2 ml-2" type="default" icon={chest}>
           {t("marketplace.myCollection")}
         </Label>
-        <div className="flex items-center mb-2">
-          <TextInput
-            icon={SUNNYSIDE.icons.search}
-            value={search}
-            onValueChange={setSearch}
-          />
-        </div>
+        <InventoryFilters
+          search={search}
+          onSearchChange={setSearch}
+          categories={categories}
+          activeCategories={activeCategories}
+          onToggleCategory={toggleCategory}
+          onClearCategories={() => setActiveCategories([])}
+        />
         <div className="p-2 h-full w-full">
-          {items.length === 0 ? (
+          {enrichedItems.length === 0 ? (
             <p className="text-sm">{t("marketplace.noCollection")}</p>
           ) : (
             <div className="space-y-3">
@@ -168,6 +229,22 @@ export const MyCollection: React.FC = () => {
                   <ItemGrid items={wearableItems} gameState={gameState} />
                 </div>
               )}
+              {cosmeticItems.length > 0 && (
+                <div>
+                  <Label className="mb-2" type="default">
+                    {`${t("marketplace.cosmetics")} (${cosmeticItems.length})`}
+                  </Label>
+                  <ItemGrid items={cosmeticItems} gameState={gameState} />
+                </div>
+              )}
+              {buildingItems.length > 0 && (
+                <div>
+                  <Label className="mb-2" type="default">
+                    {`${t("buildings")} (${buildingItems.length})`}
+                  </Label>
+                  <ItemGrid items={buildingItems} gameState={gameState} />
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -177,7 +254,7 @@ export const MyCollection: React.FC = () => {
 };
 
 const ItemGrid: React.FC<{
-  items: CollectionItem[];
+  items: EnrichedCollectionItem[];
   gameState: GameState;
 }> = ({ items, gameState }) => {
   const navigate = useNavigate();
@@ -186,19 +263,13 @@ const ItemGrid: React.FC<{
   return (
     <div className="flex flex-wrap">
       {items.map((item) => {
-        const details = getTradeableDisplay({
-          id: item.id,
-          type: item.collection,
-          state: gameState,
-        });
-
         return (
           <div
             key={`${item.collection}-${item.id}`}
             className="w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/7 p-1"
           >
             <ListViewCard
-              details={details}
+              details={item.details}
               onClick={() => {
                 navigate(
                   `${isWorldRoute ? "/world" : ""}/marketplace/${item.collection}/${item.id}`,

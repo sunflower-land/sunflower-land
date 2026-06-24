@@ -13,7 +13,10 @@ export type RaffleSnapshotWinner = {
   onChain?: boolean;
   profile?: {
     username: string;
+    /** Within-ascension level. Meaningless without `ascension`. */
     level: number;
+    /** Ascension band this level belongs to (0 = pre-ascension). */
+    ascension: number;
     equipped?: BumpkinParts;
   };
 } & RaffleRewards;
@@ -54,6 +57,7 @@ export async function loadRaffleResults(
           onChain: true,
           profile: {
             level: 22,
+            ascension: 0,
             equipped: NPC_WEARABLES.adam,
             username: "Adam",
           },
@@ -67,6 +71,7 @@ export async function loadRaffleResults(
           items: { Gold: 10 },
           profile: {
             level: 122,
+            ascension: 0,
             equipped: NPC_WEARABLES.gordy,
             username: "Gordy",
           },

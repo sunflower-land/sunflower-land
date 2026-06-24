@@ -57,6 +57,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PriceChange } from "../components/PriceChange";
 import { VIPOffer } from "../components/modal/components/VIPItems";
 import { StarterOfferModal } from "../components/modal/components/StarterOfferModal";
+import { RoninWaypointLoginModal } from "features/roninMigration/RoninWaypointLoginModal";
 import { GreenhouseInside } from "features/greenhouse/GreenhouseInside";
 import { useSound } from "lib/utils/hooks/useSound";
 import { SomethingArrived } from "./components/SomethingArrived";
@@ -325,6 +326,8 @@ const isCalendarEvent = (state: MachineState) => state.matches("calendarEvent");
 const isJinAirdrop = (state: MachineState) => state.matches("jinAirdrop");
 const isLinkWallet = (state: MachineState) => state.matches("linkWallet");
 const isStarterOffer = (state: MachineState) => state.matches("starterOffer");
+const isRoninMigration = (state: MachineState) =>
+  state.matches("roninMigration");
 const _isVisiting = (state: MachineState) =>
   state.context.visitorId !== undefined;
 const isLeagueResultsReleased = (state: MachineState) =>
@@ -528,6 +531,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   );
   const dailyReward = useSelector(gameService, isDailyReward);
   const starterOffer = useSelector(gameService, isStarterOffer);
+  const roninMigration = useSelector(gameService, isRoninMigration);
   const { t } = useAppTranslation();
 
   useInterval(() => {
@@ -739,6 +743,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
         {refundAuction && <RefundAuction />}
         {onChainRaffleAcknowledgment && <OnChainRaffleRewardModal />}
         {seasonChanged && <SeasonChanged />}
+        {roninMigration && <RoninWaypointLoginModal />}
         {calendarEvent && <CalendarEvent />}
         {referralsAnnouncement && <ReferralsAnnouncement />}
         {competition && (

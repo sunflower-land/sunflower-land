@@ -6,6 +6,7 @@ import { useSelector } from "@xstate/react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { RoundButton } from "components/ui/RoundButton";
 import { SUNNYSIDE } from "assets/sunnyside";
 
@@ -16,6 +17,10 @@ interface Props {
 
 const _expansion = (state: MachineState) =>
   state.context.state.interior.expansion;
+// Volcano and every ascension island (swamp, spooky, …) share the volcano
+// interior, so they all get the upgraded multi-floor layout.
+const _hasUpgradedInterior = (state: MachineState) =>
+  hasRequiredIslandExpansion(state.context.state.island.type, "volcano");
 
 /**
  * Stacked up/down floor-navigation buttons for the interior HUD.
@@ -31,7 +36,8 @@ export const InteriorFloorNav: React.FC<Props> = ({ floor }) => {
   const navigate = useNavigate();
 
   const expansion = useSelector(gameService, _expansion);
-  const levelOneUnlocked = !!expansion;
+  const hasUpgradedInterior = useSelector(gameService, _hasUpgradedInterior);
+  const levelOneUnlocked = !!expansion && hasUpgradedInterior;
 
   const onGround = floor === "ground";
   const onLevelOne = floor === "level_one";

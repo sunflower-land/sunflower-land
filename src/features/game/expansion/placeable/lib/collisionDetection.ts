@@ -143,6 +143,7 @@ function detectPlaceableCollision(
     flowers: { flowerBeds },
     oilReserves,
     farmHands,
+    ascensionCrystals,
   } = state;
 
   const placed = {
@@ -196,6 +197,7 @@ function detectPlaceableCollision(
     "Fruit Patch": fruitPatches,
     "Flower Bed": flowerBeds,
     Beehive: beehives,
+    "Ascension Crystal": ascensionCrystals,
   };
 
   const resourceBoundingBoxes = getObjectEntries(RESOURCE_TYPES).flatMap(
@@ -296,6 +298,37 @@ export const HOME_BOUNDS: Record<IslandType, BoundingBox> = {
     y: -8,
   },
   volcano: {
+    height: 20,
+    width: 20,
+    x: -10,
+    y: -10,
+  },
+  swamp: {
+    height: 20,
+    width: 20,
+    x: -10,
+    y: -10,
+  },
+  // Ascension islands (spooky onward) reuse the swamp value for now.
+  spooky: {
+    height: 20,
+    width: 20,
+    x: -10,
+    y: -10,
+  },
+  crystal: {
+    height: 20,
+    width: 20,
+    x: -10,
+    y: -10,
+  },
+  moon: {
+    height: 20,
+    width: 20,
+    x: -10,
+    y: -10,
+  },
+  marble: {
     height: 20,
     width: 20,
     x: -10,

@@ -34,6 +34,7 @@ const EXPECTED: Record<
       Beehive: 0,
       "Oil Reserve": 0,
       "Lava Pit": 0,
+      "Ascension Crystal": 0,
     },
     final: {
       "Crop Plot": 31,
@@ -48,6 +49,7 @@ const EXPECTED: Record<
       Beehive: 0,
       "Oil Reserve": 0,
       "Lava Pit": 0,
+      "Ascension Crystal": 0,
     },
   },
   spring: {
@@ -66,6 +68,7 @@ const EXPECTED: Record<
       "Oil Reserve": 0,
       "Flower Bed": 0,
       "Lava Pit": 0,
+      "Ascension Crystal": 0,
     },
     // spring[16] is the designed handoff into the desert arrival row
     // (== DESERT_BASE_NODES); legacy spring 17–20 were retired with the cap.
@@ -82,6 +85,7 @@ const EXPECTED: Record<
       "Flower Bed": 3,
       "Oil Reserve": 0,
       "Lava Pit": 0,
+      "Ascension Crystal": 0,
     },
   },
   desert: {
@@ -100,6 +104,7 @@ const EXPECTED: Record<
       "Lava Pit": 0,
       Beehive: 3,
       "Flower Bed": 3,
+      "Ascension Crystal": 0,
     },
     final: {
       "Crop Plot": 65,
@@ -114,6 +119,7 @@ const EXPECTED: Record<
       "Lava Pit": 0,
       Beehive: 3,
       "Flower Bed": 3,
+      "Ascension Crystal": 0,
     },
   },
   volcano: {
@@ -132,6 +138,7 @@ const EXPECTED: Record<
       "Lava Pit": 0,
       Beehive: 3,
       "Flower Bed": 3,
+      "Ascension Crystal": 0,
     },
     final: {
       "Crop Plot": 65,
@@ -146,6 +153,7 @@ const EXPECTED: Record<
       "Lava Pit": 3,
       Beehive: 3,
       "Flower Bed": 3,
+      "Ascension Crystal": 0,
     },
   },
 };
