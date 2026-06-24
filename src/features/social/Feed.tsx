@@ -115,6 +115,17 @@ const mergeUpdates = (
   ];
 };
 
+const getUTCDateKey = (timestamp: number) =>
+  new Date(timestamp).toISOString().split("T")[0];
+
+const shouldShowInteraction = (interaction: Interaction, todayKey: string) => {
+  if (interaction.type !== "cheer") {
+    return true;
+  }
+
+  return getUTCDateKey(interaction.createdAt) === todayKey;
+};
+
 export type FeedFilter = "all" | "help" | "chat" | "cheer" | "follow";
 export type FeedFilterOption = {
   value: FeedFilter;
@@ -578,6 +589,11 @@ const FeedContent: React.FC<FeedContentProps> = ({
   const loaderRef = useRef<HTMLDivElement>(null);
   const { t } = useAppTranslation();
   const [canPaginate, setCanPaginate] = useState(false);
+  const now = useNow({ live: true });
+  const todayKey = getUTCDateKey(now);
+  const visibleFeed = feed.filter((interaction) =>
+    shouldShowInteraction(interaction, todayKey),
+  );
 
   // Intersection observer to load more interactions when the loader is in view
   const { ref: intersectionRef, inView } = useInView({
@@ -591,7 +607,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
     if (!el) return;
     // tiny buffer so off-by-1 doesn’t trigger
     setCanPaginate(el.scrollHeight > el.clientHeight + 2);
-  }, [feed.length, filter]);
+  }, [visibleFeed.length, filter]);
 
   useEffect(() => {
     if (scrollContainerRef.current) {
@@ -631,7 +647,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
     return <FeedSkeleton />;
   }
 
-  if (feed.length === 0) {
+  if (visibleFeed.length === 0) {
     return (
       <div className="flex justify-center items-center h-full">
         <Label type="default">{t("noActivity")}</Label>
@@ -645,7 +661,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
       className="scrollable overflow-hidden overflow-y-auto"
     >
       <div className="flex flex-col gap-1 pr-1">
-        {feed.map((interaction, index) => {
+        {visibleFeed.map((interaction, index) => {
           const direction =
             interaction?.sender.username === username ? "right" : "left";
           const sender =
