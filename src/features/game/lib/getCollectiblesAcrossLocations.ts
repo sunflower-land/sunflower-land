@@ -21,10 +21,11 @@ export function getCollectiblesAcrossLocations<N extends CollectibleName>(
   },
   name: N,
 ): NonNullable<Collectibles[N]> {
-  return [
+  const collectibles: NonNullable<Collectibles[N]> = [
     ...(game.collectibles[name] ?? []),
     ...(game.home.collectibles[name] ?? []),
     ...(game.interior?.ground.collectibles[name] ?? []),
     ...(game.interior?.level_one?.collectibles[name] ?? []),
-  ] as NonNullable<Collectibles[N]>;
+  ];
+  return collectibles;
 }
