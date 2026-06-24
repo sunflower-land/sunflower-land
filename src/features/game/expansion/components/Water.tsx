@@ -13,7 +13,6 @@ import { TravelTeaser } from "./TravelTeaser";
 import { DiscordBoat } from "./DiscordBoat";
 import { IslandUpgrader } from "./IslandUpgrader";
 
-import { CONFIG } from "lib/config";
 import { LaTomatina } from "./LaTomatina";
 import { RestockBoat } from "./RestockBoat";
 
@@ -267,7 +266,7 @@ export const WaterComponent: React.FC<Props> = ({ expansionCount }) => {
 
       {!isVisiting && (
         <>
-          {CONFIG.NETWORK === "mainnet" && <DiscordBoat />}
+          <DiscordBoat />
           <TravelTeaser />
           <IslandUpgrader offset={offset} />
           <RestockBoat />

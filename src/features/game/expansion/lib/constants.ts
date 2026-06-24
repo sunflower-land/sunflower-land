@@ -100,6 +100,23 @@ export const getLandLeftEdge = (expansionCount: number): number => {
 };
 
 /**
+ * The y tile coordinate of the land's top (northern) edge for a given expansion
+ * count.
+ *
+ * The mirror of getLandLeftEdge: the land grows as a rectangular spiral, so the
+ * top edge only moves out when an expansion is added along the top. Each
+ * expansion is a LAND_SIZE square centred on its origin, so the top edge is the
+ * top side of the highest active expansion. The land image is rendered centred
+ * on (0,0), so this is also where the land visually ends at the top.
+ */
+export const getLandTopEdge = (expansionCount: number): number => {
+  const maxOriginY =
+    Math.max(0, ...spiralOrigins(expansionCount).map((o) => o.y)) * LAND_SIZE;
+
+  return maxOriginY + LAND_SIZE / 2;
+};
+
+/**
  * The wharf/dock sits at the 2nd tile from the left on the south edge of the
  * anchor (SW-corner) land — i.e. `plot.x * LAND_SIZE - 2`, `plot.y * LAND_SIZE
  * - 3`. The SW plot is (0,0) below 7 expansions, (-1,-1) from 7, (-2,-2) from

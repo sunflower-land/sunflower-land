@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import boat from "assets/decorations/isle_boat.gif";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { getLandTopEdge } from "features/game/expansion/lib/constants";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -138,10 +139,16 @@ export const DiscordBoat: React.FC = () => {
 
   const expansions = useSelector(gameService, _expansions);
 
-  let yOffset = 5;
-  if (expansions >= 12) {
-    yOffset = 0;
-  }
+  // Keep the boat sailing in the ocean just north of the land's top edge, no
+  // matter how far the farm has expanded. The land image is centred on world
+  // (0,0), so anchor the boat off that centre (like MapPlacement) rather than
+  // off the land image's top-left corner — a fixed corner offset doesn't track
+  // the coastline as the land grows, which let the boat sail over the land.
+  // The boat art (46px tall) hangs down from this div's top, so lift the top by
+  // the boat's own height plus a one-tile water gap to keep the whole hull above
+  // the land's top edge.
+  const boatTopPx =
+    GRID_WIDTH_PX * (getLandTopEdge(expansions) + 1) + PIXEL_SCALE * 46;
 
   // When ready, show boat above island
   const isReady = !!gameService.getSnapshot().context.discordId && !isClaimed;
@@ -156,7 +163,7 @@ export const DiscordBoat: React.FC = () => {
         })}
         onClick={() => openModal("DISCORD")}
         style={{
-          top: `${GRID_WIDTH_PX * yOffset}px`,
+          top: `calc(50% - ${boatTopPx}px)`,
           width: `${PIXEL_SCALE * 104}px`,
           transform: `translateX(650px)`,
         }}
