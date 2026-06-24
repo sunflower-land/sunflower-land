@@ -31,8 +31,14 @@ export function getNextLoveAvailableAt(animal: Animal): number {
   return Math.max(animal.asleepAt + third, animal.lovedAt + third);
 }
 
-export function isAnimalNeedingLove(animal: Animal): boolean {
-  return animal.state === "sad";
+/**Add a comment on  lines L34 to L40Add diff commentMarkdown input:  edit mode selected.WritePreviewHeadingBoldItalicQuoteCodeLinkUnordered listNumbered listTask listMentionReferenceMore Formatting tools items 0Saved repliesAdd FilesPaste, drop, or click to add filesCancelCommentStart a review
+ * Boolean form of {@link getNextLoveAvailableAt}: has the love window opened by `now`?
+ * `<=` (not `<`) so love is accepted at exactly the boundary timestamp — matches
+ * the original `loveAnimal` reducer's `if (createdAt < boundary) throw` semantics
+ * (rejects strictly before, accepts at equality).
+ */
+export function isAnimalNeedingLove(animal: Animal, now: number): boolean {
+  return getNextLoveAvailableAt(animal) <= now;
 }
 
 export type LoveAnimalAction = {
