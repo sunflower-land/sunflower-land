@@ -242,4 +242,25 @@ describe("Super Totem Built", () => {
 
     expect(isBuilt).toBe(false);
   });
+
+  it("returns false if a placed weather collectible has been used", () => {
+    const isBuilt = isCollectibleBuilt({
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Tornado Pinwheel": [
+            {
+              id: "123",
+              coordinates: { x: 1, y: 1 },
+              readyAt: Date.now() - 10000,
+              used: true,
+            },
+          ],
+        },
+      },
+      name: "Tornado Pinwheel",
+    });
+
+    expect(isBuilt).toBe(false);
+  });
 });

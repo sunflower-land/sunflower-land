@@ -914,6 +914,11 @@ export type PlacedItem = {
   processing?: BuildingProduct[];
   oil?: number;
   flipped?: boolean;
+  /**
+   * Weather-protection collectible (e.g. Tornado Pinwheel) consumed by its
+   * calendar event. Stays placed/owned but grants no protection until renewed.
+   */
+  used?: boolean;
 };
 
 export type ShakeItem = PlacedItem & { shakenAt?: number };

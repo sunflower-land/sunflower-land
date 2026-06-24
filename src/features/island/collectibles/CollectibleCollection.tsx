@@ -382,6 +382,7 @@ import { AnemoneFlower } from "./components/AnemoneFlower";
 import { Poseidon } from "./components/Poseidon";
 import { Project } from "./components/Project";
 import { PetShrine } from "./components/PetShrine";
+import { WeatherProtection } from "./components/WeatherProtection";
 import { ObsidianShrine } from "./components/ObsidianShrine";
 import { Pet } from "../pets/Pet";
 import { type PetName, PET_TYPES } from "features/game/types/pets";
@@ -600,6 +601,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Cyborg Bear": CyborgBear,
   "Maneki Neko": ManekiNeko,
   "Pablo The Bunny": PabloBunny,
+
+  // Weather protection (override the TemplateCollectible default so the
+  // greyed-out "used" state + renew flow renders)
+  "Tornado Pinwheel": (props: CollectibleProps) => (
+    <WeatherProtection {...props} name="Tornado Pinwheel" />
+  ),
+  Mangrove: (props: CollectibleProps) => (
+    <WeatherProtection {...props} name="Mangrove" />
+  ),
+  "Thermal Stone": (props: CollectibleProps) => (
+    <WeatherProtection {...props} name="Thermal Stone" />
+  ),
+  "Protective Pesticide": (props: CollectibleProps) => (
+    <WeatherProtection {...props} name="Protective Pesticide" />
+  ),
 
   // Treasure
   "Abandoned Bear": AbandonedBear,

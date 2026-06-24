@@ -117,6 +117,14 @@ export function craftTool({ state, action }: Options) {
     throw new Error("Tool is disabled");
   }
 
+  const isWeatherItem = action.tool in getWeatherShop(stateCopy.island.type);
+  if (
+    isWeatherItem &&
+    (stateCopy.inventory[action.tool] ?? new Decimal(0)).add(amount).gt(1)
+  ) {
+    throw new Error("You can only have one of this weather item");
+  }
+
   if (!hasRequiredIslandExpansion(stateCopy.island.type, requiredIsland)) {
     throw new Error("You do not have the required island expansion");
   }
