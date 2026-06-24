@@ -15,6 +15,7 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import type { LandBiomeName } from "features/island/biomes/biomes";
 import { isAnimalNeedingLove } from "features/game/events/landExpansion/loveAnimal";
 import classNames from "classnames";
+import { saveIslandScrollPosition } from "features/game/expansion/lib/islandScroll";
 
 export const BARN_IMAGES: Record<
   LandBiomeName,
@@ -262,6 +263,7 @@ export const Barn: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
     if (isBuilt) {
       // Add future on click actions here
       barnAudio();
+      saveIslandScrollPosition();
       navigate("/barn");
     }
   };
