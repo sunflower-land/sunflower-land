@@ -9116,5 +9116,7 @@
   "description.ascensionCrystal": "Minere para obter Fragmentos de Ascensão",
   "description.ascensionShard": "Usado para aprimorar habilidades",
   "marketplace.activeTrades": "Negociações ativas",
-  "chaacsTemple.portal.missionObjective": "Missão: Repita a sequência de luz 5 vezes. O comprimento começa em {{start}}."
+  "chaacsTemple.portal.missionObjective": "Missão: Repita a sequência de luz 5 vezes. O comprimento começa em {{start}}.",
+  "weatherCollectible.used": "{{name}} Usado",
+  "weatherCollectible.renew.message": "{{name}} protegeu sua fazenda e foi usado. Renove-o para ficar protegido novamente."
 }

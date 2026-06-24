@@ -27,6 +27,8 @@
   "confirm.renew.message": "Are you sure you want to renew {{name}}?",
   "renew.expired.message": "{{name}} has expired. You can renew it to extend its duration.",
   "shrine.expired": "{{name}} Expired",
+  "weatherCollectible.used": "{{name}} Used",
+  "weatherCollectible.renew.message": "{{name}} protected your farm and was used up. Renew it to be protected again.",
   "drink": "Drink",
   "eat": "Eat",
   "resource.wood": "Wood",

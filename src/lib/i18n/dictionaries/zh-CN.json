@@ -9116,5 +9116,7 @@
   "description.ascensionCrystal": "挖矿获得升天碎片",
   "description.ascensionShard": "用于升级技能",
   "marketplace.activeTrades": "活跃交易",
-  "chaacsTemple.portal.missionObjective": "任务：重复灯光序列 5 次。长度从 {{start}} 开始。"
+  "chaacsTemple.portal.missionObjective": "任务：重复灯光序列 5 次。长度从 {{start}} 开始。",
+  "weatherCollectible.used": "{{name}} 已使用",
+  "weatherCollectible.renew.message": "{{name}} 保护了你的农场并被用光了。将其续订以再次受到保护。"
 }

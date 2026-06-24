@@ -9116,5 +9116,7 @@
   "description.ascensionCrystal": "鉱山でアセンションシャードを入手しよう",
   "description.ascensionShard": "スキルのアップグレードに使用",
   "marketplace.activeTrades": "アクティブトレード",
-  "chaacsTemple.portal.missionObjective": "ミッション:ライトシークエンスを5回繰り返す長さは {{start}} から始まります。"
+  "chaacsTemple.portal.missionObjective": "ミッション:ライトシークエンスを5回繰り返す長さは {{start}} から始まります。",
+  "weatherCollectible.used": "{{name}} 中古品",
+  "weatherCollectible.renew.message": "{{name}} はファームを保護し、使い果たされました。再度保護されるよう更新してください。"
 }

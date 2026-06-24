@@ -9116,5 +9116,7 @@
   "description.ascensionCrystal": "Il mio per ottenere Ascension Shards",
   "description.ascensionShard": "Utilizzato per migliorare le competenze",
   "marketplace.activeTrades": "Operazioni attive",
-  "chaacsTemple.portal.missionObjective": "Missione: ripetere la sequenza di luci 5 volte. La lunghezza inizia da {{start}}."
+  "chaacsTemple.portal.missionObjective": "Missione: ripetere la sequenza di luci 5 volte. La lunghezza inizia da {{start}}.",
+  "weatherCollectible.used": "{{name}} Usato",
+  "weatherCollectible.renew.message": "{{name}} ha protetto la tua fattoria ed è stata esaurita. Rinnovala per essere nuovamente protetta."
 }

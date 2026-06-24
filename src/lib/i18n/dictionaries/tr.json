@@ -9116,5 +9116,7 @@
   "description.ascensionCrystal": "Yükseliş Parçalarını elde etmek için mayın",
   "description.ascensionShard": "Becerileri yükseltmek için kullanılır",
   "marketplace.activeTrades": "Aktif İşlemler",
-  "chaacsTemple.portal.missionObjective": "Görev: Işık dizisini 5 kez tekrarlayın. Uzunluk {{start}} 'den başlar."
+  "chaacsTemple.portal.missionObjective": "Görev: Işık dizisini 5 kez tekrarlayın. Uzunluk {{start}} 'den başlar.",
+  "weatherCollectible.used": "{{name}} Kullanılmış",
+  "weatherCollectible.renew.message": "{{name}} çiftliğinizi korudu ve tükendi. Tekrar korunmak için yenileyin."
 }

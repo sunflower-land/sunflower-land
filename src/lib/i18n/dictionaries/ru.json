@@ -9116,5 +9116,7 @@
   "description.ascensionCrystal": "Mine to obtain Ascension Shards",
   "description.ascensionShard": "Used to upgrade skills",
   "marketplace.activeTrades": "Active Trades",
-  "chaacsTemple.portal.missionObjective": "Mission: Repeat the light sequence 5 times. The length starts at {{start}}."
+  "chaacsTemple.portal.missionObjective": "Mission: Repeat the light sequence 5 times. The length starts at {{start}}.",
+  "weatherCollectible.used": "{{name}} Used",
+  "weatherCollectible.renew.message": "{{name}} protected your farm and was used up. Renew it to be protected again."
 }

@@ -9116,5 +9116,7 @@
   "description.ascensionCrystal": "À moi pour obtenir des éclats d'Ascension",
   "description.ascensionShard": "Utilisé pour améliorer les compétences",
   "marketplace.activeTrades": "Trades actifs",
-  "chaacsTemple.portal.missionObjective": "Mission : Répétez la séquence lumineuse 5 fois. La longueur commence à {{start}}."
+  "chaacsTemple.portal.missionObjective": "Mission : Répétez la séquence lumineuse 5 fois. La longueur commence à {{start}}.",
+  "weatherCollectible.used": "{{name}} Utilisé",
+  "weatherCollectible.renew.message": "{{name}} a protégé votre ferme et a été épuisée. Renouvelez-le pour être à nouveau protégé."
 }

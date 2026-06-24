@@ -9116,5 +9116,7 @@
   "description.ascensionCrystal": "Tambang untuk mendapatkan Ascension Shards",
   "description.ascensionShard": "Digunakan untuk meningkatkan keterampilan",
   "marketplace.activeTrades": "Perdagangan Aktif",
-  "chaacsTemple.portal.missionObjective": "Misi: Ulangi urutan cahaya 5 kali. Panjangnya dimulai dari {{start}}."
+  "chaacsTemple.portal.missionObjective": "Misi: Ulangi urutan cahaya 5 kali. Panjangnya dimulai dari {{start}}.",
+  "weatherCollectible.used": "{{name}} Digunakan",
+  "weatherCollectible.renew.message": "{{name}} melindungi pertanian Anda dan habis. Perbarui agar dilindungi lagi."
 }
