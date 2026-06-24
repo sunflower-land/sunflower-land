@@ -9118,5 +9118,7 @@
   "marketplace.activeTrades": "Perdagangan Aktif",
   "chaacsTemple.portal.missionObjective": "Misi: Ulangi urutan cahaya 5 kali. Panjangnya dimulai dari {{start}}.",
   "weatherCollectible.used": "{{name}} Digunakan",
-  "weatherCollectible.renew.message": "{{name}} melindungi pertanian Anda dan habis. Perbarui agar dilindungi lagi."
+  "weatherCollectible.renew.message": "{{name}} melindungi pertanian Anda dan habis. Perbarui agar dilindungi lagi.",
+  "transfer.ronin.migrate.waypointTitle": "Titik Jalan Ronin Terdeteksi",
+  "transfer.ronin.migrate.waypointIntro": "Kami melihat Anda masuk dengan dompet Ronin Waypoint. Anda harus mentransfer akun Sunflower Land Anda untuk terus bermain."
 }

@@ -9118,5 +9118,7 @@
   "marketplace.activeTrades": "Operaciones activas",
   "chaacsTemple.portal.missionObjective": "Misión: Repite la secuencia de luces 5 veces. La longitud comienza en {{start}}.",
   "weatherCollectible.used": "{{name}} Usado",
-  "weatherCollectible.renew.message": "{{name}} protegió tu granja y se agotó. Renuévalo para volver a estar protegido."
+  "weatherCollectible.renew.message": "{{name}} protegió tu granja y se agotó. Renuévalo para volver a estar protegido.",
+  "transfer.ronin.migrate.waypointTitle": "Se detectó un punto de referencia de Ronin",
+  "transfer.ronin.migrate.waypointIntro": "Hemos observado que has iniciado sesión con una cartera Ronin Waypoint. Deberás transferir tu cuenta de Sunflower Land para seguir jugando."
 }

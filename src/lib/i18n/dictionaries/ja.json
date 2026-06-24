@@ -9118,5 +9118,7 @@
   "marketplace.activeTrades": "アクティブトレード",
   "chaacsTemple.portal.missionObjective": "ミッション:ライトシークエンスを5回繰り返す長さは {{start}} から始まります。",
   "weatherCollectible.used": "{{name}} 中古品",
-  "weatherCollectible.renew.message": "{{name}} はファームを保護し、使い果たされました。再度保護されるよう更新してください。"
+  "weatherCollectible.renew.message": "{{name}} はファームを保護し、使い果たされました。再度保護されるよう更新してください。",
+  "transfer.ronin.migrate.waypointTitle": "Ronin ウェイポイントが検出されました",
+  "transfer.ronin.migrate.waypointIntro": "Ronin Waypointウォレットを使用してサインインしていることに気付きました。プレイを続けるには、サンフラワーランドのアカウントを移行する必要があります。"
 }

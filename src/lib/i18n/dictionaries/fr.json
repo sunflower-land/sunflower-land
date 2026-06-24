@@ -9118,5 +9118,7 @@
   "marketplace.activeTrades": "Trades actifs",
   "chaacsTemple.portal.missionObjective": "Mission : Répétez la séquence lumineuse 5 fois. La longueur commence à {{start}}.",
   "weatherCollectible.used": "{{name}} Utilisé",
-  "weatherCollectible.renew.message": "{{name}} a protégé votre ferme et a été épuisée. Renouvelez-le pour être à nouveau protégé."
+  "weatherCollectible.renew.message": "{{name}} a protégé votre ferme et a été épuisée. Renouvelez-le pour être à nouveau protégé.",
+  "transfer.ronin.migrate.waypointTitle": "Point de cheminement Ronin détecté",
+  "transfer.ronin.migrate.waypointIntro": "Nous avons remarqué que vous vous êtes connecté avec un portefeuille Ronin Waypoint. Vous devrez transférer votre compte Sunflower Land pour continuer à jouer."
 }

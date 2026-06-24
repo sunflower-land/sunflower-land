@@ -9118,5 +9118,7 @@
   "marketplace.activeTrades": "Aktif İşlemler",
   "chaacsTemple.portal.missionObjective": "Görev: Işık dizisini 5 kez tekrarlayın. Uzunluk {{start}} 'den başlar.",
   "weatherCollectible.used": "{{name}} Kullanılmış",
-  "weatherCollectible.renew.message": "{{name}} çiftliğinizi korudu ve tükendi. Tekrar korunmak için yenileyin."
+  "weatherCollectible.renew.message": "{{name}} çiftliğinizi korudu ve tükendi. Tekrar korunmak için yenileyin.",
+  "transfer.ronin.migrate.waypointTitle": "Ronin Yol Noktası Tespit Edildi",
+  "transfer.ronin.migrate.waypointIntro": "Ronin Waypoint cüzdanıyla giriş yaptığınızı fark ettik. Oynamaya devam etmek için Sunflower Land hesabınızı aktarmanız gerekecek."
 }

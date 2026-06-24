@@ -9118,5 +9118,7 @@
   "marketplace.activeTrades": "Aktive Trades",
   "chaacsTemple.portal.missionObjective": "Auftrag: Wiederhole die Lichtsequenz fünfmal. Die Länge beginnt bei {{start}}.",
   "weatherCollectible.used": "{{name}} Verwendet",
-  "weatherCollectible.renew.message": "{{name}} hat deine Farm geschützt und wurde aufgebraucht. Erneuern Sie es, um erneut geschützt zu sein."
+  "weatherCollectible.renew.message": "{{name}} hat deine Farm geschützt und wurde aufgebraucht. Erneuern Sie es, um erneut geschützt zu sein.",
+  "transfer.ronin.migrate.waypointTitle": "Ronin-Wegpunkt erkannt",
+  "transfer.ronin.migrate.waypointIntro": "Wir haben festgestellt, dass du dich mit einer Ronin Waypoint Wallet angemeldet hast. Du musst dein Sunflower Land-Konto übertragen, um weiterspielen zu können."
 }

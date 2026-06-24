@@ -9118,5 +9118,7 @@
   "marketplace.activeTrades": "活跃交易",
   "chaacsTemple.portal.missionObjective": "任务：重复灯光序列 5 次。长度从 {{start}} 开始。",
   "weatherCollectible.used": "{{name}} 已使用",
-  "weatherCollectible.renew.message": "{{name}} 保护了你的农场并被用光了。将其续订以再次受到保护。"
+  "weatherCollectible.renew.message": "{{name}} 保护了你的农场并被用光了。将其续订以再次受到保护。",
+  "transfer.ronin.migrate.waypointTitle": "检测到浪人航路点",
+  "transfer.ronin.migrate.waypointIntro": "我们注意到你使用了 Ronin Waypoint 钱包登录。你需要转移你的向日葵乐园账号才能继续游戏。"
 }
