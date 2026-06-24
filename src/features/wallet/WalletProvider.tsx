@@ -16,6 +16,8 @@ import { WaypointProvider } from "@sky-mavis/waypoint";
 import type { EIP1193Provider } from "viem";
 import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { toPrivyWalletConnector } from "@privy-io/cross-app-connect/rainbow-kit";
+import type { CreateConnectorFn } from "wagmi";
 
 export const sequenceConnector = sequenceWallet({
   defaultNetwork: "polygon",
@@ -72,6 +74,19 @@ export const waypointConnector = injected({
   },
 });
 
+export function roninStashConnector(): CreateConnectorFn {
+  const base = toPrivyWalletConnector({
+    id: "cmpkwmb7l001c0bjp3sdn6n8e",
+    name: "Ronin Stash",
+    iconUrl:
+      "https://imagedelivery.net/oHBRUd2clqykxgDWmeAyLg/3fb3509e-3561-4790-cb71-67e983a88e00/icon",
+  });
+  return (params) => ({
+    ...base(params),
+    type: "injected",
+  });
+}
+
 type SupportedChain =
   | "polygon"
   | "polygonAmoy"
@@ -111,6 +126,7 @@ export const config = createConfig({
     waypointConnector,
     fallbackConnector,
     farcasterConnector,
+    roninStashConnector(),
   ],
   transports: {
     // Testnet

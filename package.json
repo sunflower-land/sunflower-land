@@ -55,6 +55,7 @@
     "@headlessui/react": "^2.2.4",
     "@khmyznikov/pwa-install": "^0.3.3",
     "@metamask/sdk": "~0.33.1",
+    "@privy-io/cross-app-connect": "^0.5.14",
     "@react-spring/web": "^10.0.0",
     "@safe-global/safe-apps-provider": "~0.18.6",
     "@safe-global/safe-apps-sdk": "^9.1.0",
