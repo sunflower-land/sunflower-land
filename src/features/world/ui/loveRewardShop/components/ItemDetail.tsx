@@ -2,7 +2,7 @@ import React, { useContext, useLayoutEffect, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import Decimal from "decimal.js-light";
-import type { InventoryItemName } from "features/game/types/game";
+import type { Inventory, InventoryItemName } from "features/game/types/game";
 
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
@@ -39,6 +39,78 @@ interface ItemOverlayProps {
 }
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
+
+const ItemDetailItemRequirements: React.FC<{
+  item: FloatingShopItem | null;
+  inventory: Inventory;
+}> = ({ item, inventory }) => {
+  if (!item) return null;
+
+  return (
+    <div className="flex flex-1 items-end">
+      {getKeys(item.cost.items).map((name) => {
+        return (
+          <RequirementLabel
+            key={name}
+            type={"item"}
+            item={name}
+            balance={inventory[name] ?? new Decimal(0)}
+            requirement={new Decimal(item.cost.items[name] ?? 0)}
+          />
+        );
+      })}
+    </div>
+  );
+};
+
+const ItemDetailBuyActions: React.FC<{
+  showSuccess: boolean;
+  confirmBuy: boolean;
+  isBought?: boolean;
+  canBuy: boolean;
+  buttonLabel: string;
+  successCopy: string;
+  onCancel: () => void;
+  onBuy: () => void;
+  onClose: () => void;
+}> = ({
+  showSuccess,
+  confirmBuy,
+  isBought,
+  canBuy,
+  buttonLabel,
+  successCopy,
+  onCancel,
+  onBuy,
+  onClose,
+}) => {
+  const { t } = useAppTranslation();
+
+  if (showSuccess) {
+    return (
+      <div className="flex flex-col space-y-1">
+        <span className="p-2 text-xs">{successCopy}</span>
+        <Button onClick={onClose}>{t("ok")}</Button>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={classNames("flex w-full", {
+        "space-x-1": confirmBuy,
+      })}
+    >
+      {confirmBuy && <Button onClick={onCancel}>{t("cancel")}</Button>}
+
+      {!isBought && (
+        <Button disabled={!canBuy} onClick={onBuy}>
+          {buttonLabel}
+        </Button>
+      )}
+    </div>
+  );
+};
 
 const RewardBoxPreview: React.FC<{
   rewardBoxName: RewardBoxName;
@@ -229,53 +301,18 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
     return isWearable ? t("buy.wearable") : t("buy.collectible");
   };
-
-  const renderCost = () => {
-    if (!item) return null;
-
-    return (
-      <div className="flex flex-1 items-end">
-        {getKeys(item.cost.items).map((name) => {
-          return (
-            <RequirementLabel
-              key={name}
-              type={"item"}
-              item={name}
-              balance={inventory[name] ?? new Decimal(0)}
-              requirement={new Decimal(item.cost.items[name] ?? 0)}
-            />
-          );
-        })}
-      </div>
-    );
-  };
-
-  const renderBuyActions = () => (
-    <>
-      {!showSuccess && (
-        <div
-          className={classNames("flex w-full", {
-            "space-x-1": confirmBuy,
-          })}
-        >
-          {confirmBuy && (
-            <Button onClick={() => setConfirmBuy(false)}>{t("cancel")}</Button>
-          )}
-
-          {!isBought && (
-            <Button disabled={!canBuy()} onClick={buttonHandler}>
-              {getButtonLabel()}
-            </Button>
-          )}
-        </div>
-      )}
-      {showSuccess && (
-        <div className="flex flex-col space-y-1">
-          <span className="p-2 text-xs">{getSuccessCopy()}</span>
-          <Button onClick={onClose}>{t("ok")}</Button>
-        </div>
-      )}
-    </>
+  const buyActions = (
+    <ItemDetailBuyActions
+      showSuccess={showSuccess}
+      confirmBuy={confirmBuy}
+      isBought={isBought}
+      canBuy={!!canBuy()}
+      buttonLabel={getButtonLabel()}
+      successCopy={getSuccessCopy()}
+      onCancel={() => setConfirmBuy(false)}
+      onBuy={buttonHandler}
+      onClose={onClose}
+    />
   );
 
   if (rewardBoxName) {
@@ -308,12 +345,15 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                     description={description}
                   />
 
-                  {renderCost()}
+                  <ItemDetailItemRequirements
+                    item={item}
+                    inventory={inventory}
+                  />
                 </div>
               )}
             </div>
 
-            {renderBuyActions()}
+            {buyActions}
           </>
         )}
       </InnerPanel>
@@ -388,7 +428,10 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                     )}
                     <span className="text-xs leading-none">{description}</span>
 
-                    {renderCost()}
+                    <ItemDetailItemRequirements
+                      item={item}
+                      inventory={inventory}
+                    />
                     {item?.name === "Pet Egg" && (
                       <Label type={isBought ? "danger" : "warning"}>
                         {`Limit: ${isBought ? "1" : "0"}/1`}
@@ -399,7 +442,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
               </div>
             )}
           </div>
-          {renderBuyActions()}
+          {buyActions}
         </>
       )}
     </InnerPanel>
