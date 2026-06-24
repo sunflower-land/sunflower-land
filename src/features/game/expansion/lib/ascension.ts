@@ -259,7 +259,13 @@ export const getAscensionNodeDrip = (
   const base = SWAMP_NODE_DRIP[node];
   if (base <= 0) return 0;
   const widened = Math.floor(
-    base * (1 + DRIP_WIDEN_PER_ASCENSION * (ascensionLevel - 1)),
+    new Decimal(base)
+      .mul(
+        new Decimal(1).plus(
+          new Decimal(DRIP_WIDEN_PER_ASCENSION).mul(ascensionLevel - 1),
+        ),
+      )
+      .toNumber(),
   );
 
   if (NO_DRIP_CAP_NODES.includes(node)) {
@@ -270,37 +276,54 @@ export const getAscensionNodeDrip = (
 };
 
 /**
- * Total nodes of a type granted over one ascension's 12 expansions — the count
- * of multiples of the effective drip in the ascension's global window. This is
- * the unchanged "node formula": it equals the old sum of `globalE % drip === 0`.
+ * Cumulative nodes of a type granted through the end of ascension `a`:
+ *   C(a) = Σ_{k=1..a} span / drip(k)
+ * The per-expansion drop rate is `1/drip` and drip widens each ascension, so this
+ * integrates a *decreasing* rate — giving a smooth, monotonic cadence. Floor only
+ * at the very end so fractional rates accumulate. `a = 0` → empty sum → 0.
+ */
+const getAscensionCumulativeNodes = (
+  node: keyof Nodes,
+  ascensionLevel: number,
+): number => {
+  let total = new Decimal(0);
+  for (let a = 1; a <= ascensionLevel; a++) {
+    const drip = getAscensionNodeDrip(node, a);
+    if (drip > 0) {
+      total = total.plus(new Decimal(SWAMP_EXPANSIONS_PER_ASCENSION).div(drip));
+    }
+  }
+  return Math.floor(total.toNumber());
+};
+
+/**
+ * Nodes of a type granted within ascension `a` — the monotonic first difference of
+ * the cumulative rate above. Non-negative by construction (C is non-decreasing) and
+ * telescopes cleanly (Σ over bands = `getAscensionCumulativeNodes`). Replaces the
+ * old per-band `floor(a·span/d) − floor((a−1)·span/d)`, which silently stopped
+ * telescoping once `drip` widened per ascension and produced lumpy clusters
+ * (e.g. Lava on A6/A7/A8).
  */
 const getAscensionNodeTotal = (
   node: keyof Nodes,
   ascensionLevel: number,
-): number => {
-  const drip = getAscensionNodeDrip(node, ascensionLevel);
-  if (drip <= 0) return 0;
-  const span = SWAMP_EXPANSIONS_PER_ASCENSION;
-  return (
-    Math.floor((ascensionLevel * span) / drip) -
-    Math.floor(((ascensionLevel - 1) * span) / drip)
-  );
-};
+): number =>
+  getAscensionCumulativeNodes(node, ascensionLevel) -
+  getAscensionCumulativeNodes(node, ascensionLevel - 1);
 
 /** (√5 − 1) / 2 — a per-type phase that decorrelates equal-count nodes. */
-const GOLDEN_RATIO = 0.6180339887498949;
+const GOLDEN_RATIO = new Decimal("0.6180339887498949");
 
 /**
  * Deals each ascension's dripped nodes *evenly* across its 12 expansions: each
- * expansion gets ⌊N/12⌋…⌈N/12⌉ of the ascension's N nodes — never overloaded, and
- * never empty while N ≥ 12 (which holds across the live ascension range, a ≤ 5).
- * This replaces the old `E % drip` placement that piled the cap-12 nodes
- * (Lava/Beehive/Flower) onto expansion 42.
+ * expansion gets ⌊N/12⌋…⌈N/12⌉ of the ascension's N nodes — never overloaded.
+ * This replaces the old `E % drip` placement that piled the drip-capped nodes
+ * onto expansion 42 (any node whose drip divided 12 only ever landed on e = 12).
  *
- * Per-type totals are exactly `getAscensionNodeTotal` (the node formula is
- * unchanged); only *which* expansion each node lands on changes. Returns one
- * delta per local expansion (index 0 = Basic Land 31). Deterministic — pure
- * arithmetic plus a stable sort with an explicit tie-break — so FE and BE agree.
+ * Per-type totals are exactly `getAscensionNodeTotal`; only *which* expansion each
+ * node lands on is decided here. Returns one delta per local expansion (index 0 =
+ * Basic Land 31). Deterministic — Decimal arithmetic plus a stable sort with an
+ * explicit tie-break — so FE and BE agree.
  */
 const buildAscensionSchedule = (
   ascensionLevel: number,
@@ -311,17 +334,17 @@ const buildAscensionSchedule = (
   // phase keeps equal-count types from landing on the same slots. Flower Bed is
   // not dealt on its own — it rides along with Beehive so the two always unlock
   // in the same expansion (they share a drip rate, so their counts always match).
-  const items: { pos: number; node: keyof Nodes; tie: number }[] = [];
+  const items: { pos: Decimal; node: keyof Nodes; tie: number }[] = [];
   getKeys(SWAMP_NODE_DRIP).forEach((node, t) => {
     if (node === "Flower Bed") return;
     const count = getAscensionNodeTotal(node, ascensionLevel);
-    const phase = (t * GOLDEN_RATIO) % 1;
+    const phase = new Decimal(t).mul(GOLDEN_RATIO).mod(1);
     for (let i = 0; i < count; i++) {
-      items.push({ pos: (i + phase) / count, node, tie: t });
+      items.push({ pos: new Decimal(i).plus(phase).div(count), node, tie: t });
     }
   });
 
-  items.sort((a, b) => a.pos - b.pos || a.tie - b.tie);
+  items.sort((a, b) => a.pos.cmp(b.pos) || a.tie - b.tie);
 
   // Deal by rank: each expansion gets floor(N/span)…ceil(N/span) nodes.
   const schedule: Partial<Record<keyof Nodes, number>>[] = Array.from(
@@ -329,7 +352,9 @@ const buildAscensionSchedule = (
     () => ({}),
   );
   items.forEach((item, k) => {
-    const slot = Math.floor((k * span) / items.length); // 0…span-1
+    const slot = Math.floor(
+      new Decimal(k).mul(span).div(items.length).toNumber(),
+    ); // 0…span-1
     schedule[slot][item.node] = (schedule[slot][item.node] ?? 0) + 1;
     // Beehive and Flower Bed unlock together as a pair.
     if (item.node === "Beehive") {
