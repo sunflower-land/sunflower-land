@@ -735,6 +735,10 @@ import { type NeglectPetAction, neglectPet } from "./pets/neglectPet";
 import { petPet, type PetPetAction } from "./pets/petPet";
 import { fetchPet, type FetchPetAction } from "./pets/fetchPet";
 import { helpPets, type HelpPetsAction } from "./visiting/helpPets";
+import {
+  helpAllPetsInHouse,
+  type HelpAllPetsInHouseAction,
+} from "./visiting/helpAllPetsInHouse";
 import { type BulkPlantAction, bulkPlant } from "./landExpansion/bulkPlant";
 import {
   bulkHarvest,
@@ -1003,7 +1007,8 @@ export type PlayingEvent =
 export type LocalVisitingEvent =
   | CollectGarbageAction
   | HelpProjectAction
-  | HelpPetsAction;
+  | HelpPetsAction
+  | HelpAllPetsInHouseAction;
 
 export type VisitingEvent = IncreaseHelpLimitAction | LocalVisitingEvent;
 
@@ -1296,6 +1301,7 @@ export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {
   "garbage.collected": collectGarbage,
   "project.helped": helpProject,
   "pet.visitingPets": helpPets,
+  "pet.helpAllPetsInHouse": helpAllPetsInHouse,
 };
 
 export const VISITING_EVENTS: Handlers<VisitingEvent> = {
