@@ -260,8 +260,10 @@ export const Rewards: React.FC<{
                       )} XP`}</Label>
                     )}
                     {rewardBoxName && (
-                      <Label type="default" className="ml-auto"
-                      icon={
+                      <Label
+                        type="default"
+                        className="ml-auto"
+                        icon={
                           isRewardBoxExpanded
                             ? SUNNYSIDE.icons.chevron_up
                             : SUNNYSIDE.icons.chevron_down
