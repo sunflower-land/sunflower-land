@@ -9,6 +9,7 @@ import {
   OIL_RESERVE_RECOVERY_TIME,
   getOilDropAmount,
   getRequiredOilDrillAmount,
+  isNextDrillHasBonus,
 } from "features/game/events/landExpansion/drillOilReserve";
 import { RecoveringOilReserve } from "./components/RecoveringOilReserve";
 import { DepletedOilReserve } from "./components/DepletedOilReserve";
@@ -59,7 +60,11 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
   return (
     <div className="relative w-full h-full flex justify-center items-center">
       {ready && (
-        <RecoveredOilReserve hasDrill={hasDrill} onDrill={handleDrill} />
+        <RecoveredOilReserve
+          bonusDrill={isNextDrillHasBonus(reserve)}
+          hasDrill={hasDrill}
+          onDrill={handleDrill}
+        />
       )}
       {halfReady && <RecoveringOilReserve timeLeft={timeLeft} />}
       {!ready && !halfReady && (

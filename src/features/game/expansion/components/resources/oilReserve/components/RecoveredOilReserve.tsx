@@ -5,13 +5,19 @@ import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import fullOilReserve from "assets/resources/oil/oil_reserve_full.webp";
+import halfOilReserve from "assets/resources/oil/oil_reserve_half.webp";
 
 interface Props {
+  bonusDrill: boolean;
   hasDrill: boolean;
   onDrill: () => void;
 }
 
-export const RecoveredOilReserve: React.FC<Props> = ({ hasDrill, onDrill }) => {
+export const RecoveredOilReserve: React.FC<Props> = ({
+  bonusDrill,
+  hasDrill,
+  onDrill,
+}) => {
   const [showDrillWarning, setShowDrillWarning] = useState(false);
   const { t } = useAppTranslation();
 
@@ -38,11 +44,11 @@ export const RecoveredOilReserve: React.FC<Props> = ({ hasDrill, onDrill }) => {
       onMouseLeave={handleMouseLeave}
     >
       <img
-        src={fullOilReserve}
+        src={bonusDrill ? fullOilReserve : halfOilReserve}
         style={{
           width: `${PIXEL_SCALE * 30}px`,
         }}
-        alt="Full oil reserve"
+        alt={bonusDrill ? "Full oil reserve" : "Half oil reserve"}
         onClick={onDrill}
       />
       {/* No tool warning */}
