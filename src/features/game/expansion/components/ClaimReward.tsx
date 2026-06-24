@@ -262,8 +262,8 @@ export const Rewards: React.FC<{
                     {rewardBoxName && (
                       <Label
                         type="default"
-                        className="ml-auto"
-                        icon={
+                        className="ml-auto cursor-pointer"
+                        secondaryIcon={
                           isRewardBoxExpanded
                             ? SUNNYSIDE.icons.chevron_up
                             : SUNNYSIDE.icons.chevron_down
