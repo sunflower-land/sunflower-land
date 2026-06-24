@@ -15,8 +15,12 @@ export function isCollectibleBuilt({
   name: CollectibleName;
   game: GameState;
 }) {
-  const isReady = (placed: { readyAt?: number; coordinates?: unknown }) =>
-    (placed.readyAt ?? 0) <= Date.now() && !!placed.coordinates;
+  const isReady = (placed: {
+    readyAt?: number;
+    coordinates?: unknown;
+    used?: boolean;
+  }) =>
+    (placed.readyAt ?? 0) <= Date.now() && !!placed.coordinates && !placed.used;
 
   const placedAcrossLocations = getCollectiblesAcrossLocations(game, name).some(
     isReady,
