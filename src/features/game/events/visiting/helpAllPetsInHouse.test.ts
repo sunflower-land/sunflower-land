@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import type { GameState } from "features/game/types/game";
+import type { PetName } from "features/game/types/pets";
 import { helpAllPetsInHouse } from "./helpAllPetsInHouse";
 
 const baseVisitor: GameState = { ...INITIAL_FARM };
@@ -32,7 +33,9 @@ describe("helpAllPetsInHouse", () => {
         state: {
           ...INITIAL_FARM,
           buildings: petHousePlaced,
-          pets: { common: { Barkley: { ...basePet, name: "Barkley" } } },
+          pets: {
+            common: { Barkley: { ...basePet, name: "Barkley" as PetName } },
+          },
           petHouse: {
             level: 1,
             pets: {
@@ -54,7 +57,9 @@ describe("helpAllPetsInHouse", () => {
       helpAllPetsInHouse({
         state: {
           ...INITIAL_FARM,
-          pets: { common: { Barkley: { ...basePet, name: "Barkley" } } },
+          pets: {
+            common: { Barkley: { ...basePet, name: "Barkley" as PetName } },
+          },
           petHouse: {
             level: 1,
             pets: {
@@ -78,8 +83,8 @@ describe("helpAllPetsInHouse", () => {
         buildings: petHousePlaced,
         pets: {
           common: {
-            Barkley: { ...basePet, name: "Barkley" },
-            Meowchi: { ...basePet, name: "Meowchi" },
+            Barkley: { ...basePet, name: "Barkley" as PetName },
+            Meowchi: { ...basePet, name: "Meowchi" as PetName },
           },
         },
         petHouse: {
@@ -108,8 +113,12 @@ describe("helpAllPetsInHouse", () => {
         buildings: petHousePlaced,
         pets: {
           common: {
-            Barkley: { ...basePet, name: "Barkley", visitedAt: now - 1000 },
-            Meowchi: { ...basePet, name: "Meowchi" },
+            Barkley: {
+              ...basePet,
+              name: "Barkley" as PetName,
+              visitedAt: now - 1000,
+            },
+            Meowchi: { ...basePet, name: "Meowchi" as PetName },
           },
         },
         petHouse: {
@@ -191,8 +200,8 @@ describe("helpAllPetsInHouse", () => {
       buildings: petHousePlaced,
       pets: {
         common: {
-          Barkley: { ...basePet, name: "Barkley" },
-          Meowchi: { ...basePet, name: "Meowchi" },
+          Barkley: { ...basePet, name: "Barkley" as PetName },
+          Meowchi: { ...basePet, name: "Meowchi" as PetName },
         },
       },
       petHouse: {
