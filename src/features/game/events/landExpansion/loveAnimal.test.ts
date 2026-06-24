@@ -6,7 +6,6 @@ import {
 } from "./loveAnimal";
 import Decimal from "decimal.js-light";
 import { ANIMAL_SLEEP_DURATION } from "./feedAnimal";
-import type { Animal } from "features/game/types/game";
 
 describe("loveAnimal", () => {
   const now = Date.now();
@@ -129,7 +128,7 @@ describe("loveAnimal", () => {
                 lovedAt: now - 17 * 60 * 60 * 1000,
                 createdAt: 0,
                 experience: 0,
-                state: "sad",
+                state: "idle",
                 item: "Brush",
               },
             },
@@ -163,7 +162,7 @@ describe("loveAnimal", () => {
                 lovedAt: now - 17 * 60 * 60 * 1000,
                 createdAt: 0,
                 experience: 0,
-                state: "sad",
+                state: "idle",
                 item: "Petting Hand",
               },
             },
@@ -198,7 +197,7 @@ describe("loveAnimal", () => {
               lovedAt: now - 17 * 60 * 60 * 1000,
               createdAt: 0,
               experience: 0,
-              state: "sad",
+              state: "idle",
               item: "Petting Hand",
             },
           },
@@ -234,7 +233,7 @@ describe("loveAnimal", () => {
               lovedAt: now - 17 * 60 * 60 * 1000,
               createdAt: 0,
               experience: 0,
-              state: "sad",
+              state: "idle",
               item: "Petting Hand",
             },
           },
@@ -272,7 +271,7 @@ describe("loveAnimal", () => {
               lovedAt: 0,
               createdAt: 0,
               experience: 200,
-              state: "sad",
+              state: "idle",
               item: "Music Box",
             },
           },
@@ -320,7 +319,7 @@ describe("loveAnimal", () => {
               awakeAt: now - 9 * 60 * 60 * 1000 + ANIMAL_SLEEP_DURATION,
               createdAt: 0,
               experience: 200,
-              state: "sad",
+              state: "idle",
               item: "Brush",
             },
           },
@@ -375,7 +374,7 @@ describe("loveAnimal", () => {
                 awakeAt: now - 9 * 60 * 60 * 1000 + ANIMAL_SLEEP_DURATION,
                 createdAt: 0,
                 experience: 200,
-                state: "sad",
+                state: "idle",
                 item,
               },
             },
@@ -423,7 +422,7 @@ describe("loveAnimal", () => {
               awakeAt: now - 9 * 60 * 60 * 1000 + ANIMAL_SLEEP_DURATION,
               createdAt: 0,
               experience: 200,
-              state: "sad",
+              state: "idle",
               item: "Brush",
             },
           },
@@ -448,29 +447,28 @@ describe("getNextLoveAvailableAt", () => {
   const awakeAt = asleepAt + napMs;
   const third = napMs / 3;
 
-  const baseAnimal: Animal = {
+  const baseAnimal = {
     id: "c1",
     type: "Chicken" as const,
-    state: "idle",
+    state: "idle" as const,
     createdAt: 0,
     experience: 0,
-    lovedAt: 0,
     asleepAt,
     awakeAt,
     item: "Petting Hand" as const,
   };
 
   it("opens at asleepAt + period when the animal has never been loved", () => {
-    expect(
-      getNextLoveAvailableAt({ ...baseAnimal, state: "idle", lovedAt: 0 }),
-    ).toBe(asleepAt + third);
+    expect(getNextLoveAvailableAt({ ...baseAnimal, lovedAt: 0 })).toBe(
+      asleepAt + third,
+    );
   });
 
   it("opens at lovedAt + period after a love inside the current cycle", () => {
     const lovedAt = asleepAt + third + 1_000;
-    expect(
-      getNextLoveAvailableAt({ ...baseAnimal, state: "idle", lovedAt }),
-    ).toBe(lovedAt + third);
+    expect(getNextLoveAvailableAt({ ...baseAnimal, lovedAt })).toBe(
+      lovedAt + third,
+    );
   });
 
   it("agrees with isAnimalNeedingLove at the gate boundary", () => {
