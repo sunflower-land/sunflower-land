@@ -206,7 +206,7 @@ describe("applyAnimalFeedBuff", () => {
                 id: chickenId,
                 type: "Chicken",
                 createdAt: 0,
-                state: "sad",
+                state: "idle",
                 experience: 0,
                 asleepAt,
                 awakeAt,
