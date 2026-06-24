@@ -42,6 +42,7 @@ export interface NPCProps {
   width?: number;
   // Set to true if an NPC is manually placed on the island (e.g. Bumpkin or FarmHand)
   isManuallyPlaced?: boolean;
+  flipped?: boolean;
 }
 
 export const NPCPlaceable: React.FC<NPCProps & { onClick?: () => void }> = ({
@@ -49,6 +50,7 @@ export const NPCPlaceable: React.FC<NPCProps & { onClick?: () => void }> = ({
   onClick,
   width = PIXEL_SCALE * 16, // Default to original width if not passed
   isManuallyPlaced = false,
+  flipped = false,
 }) => {
   const { scale } = useContext(ZoomContext);
 
@@ -83,6 +85,7 @@ export const NPCPlaceable: React.FC<NPCProps & { onClick?: () => void }> = ({
             top: `${backAuraTop}px`,
             left: `${width * -0.125}px`,
             imageRendering: "pixelated",
+            transform: flipped ? "scaleX(-1)" : undefined,
           }}
           image={auraBack}
           widthFrame={AURA_WIDTH}
@@ -101,6 +104,7 @@ export const NPCPlaceable: React.FC<NPCProps & { onClick?: () => void }> = ({
           top: `${width * 0.31 * (isManuallyPlaced ? -1 : 1)}px`,
           left: `${width * -0.125}px`,
           imageRendering: "pixelated",
+          transform: flipped ? "scaleX(-1)" : undefined,
         }}
       >
         <img src={idle} style={{ width: `${width * 1.25}px` }} />
@@ -114,6 +118,7 @@ export const NPCPlaceable: React.FC<NPCProps & { onClick?: () => void }> = ({
             top: `${frontAuraTop}px`,
             left: `${width * -0.125}px`,
             imageRendering: "pixelated",
+            transform: flipped ? "scaleX(-1)" : undefined,
           }}
           image={auraFront}
           widthFrame={AURA_WIDTH}

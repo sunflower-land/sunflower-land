@@ -41,7 +41,10 @@ const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
 const _isLandscaping = (state: MachineState) => state.matches("landscaping");
 const _gameState = (state: MachineState) => state.context.state;
 
-export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
+export const PlayerNPC: React.FC<NPCProps> = ({
+  parts: bumpkinParts,
+  flipped,
+}) => {
   const [open, setOpen] = useState(false);
   const { gameService } = useContext(Context);
   const { authService } = useContext(AuthContext);
@@ -80,9 +83,10 @@ export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
   return (
     <>
       <NPCPlaceable
-        key={JSON.stringify(bumpkinParts)}
+        key={`${JSON.stringify(bumpkinParts)}-${flipped}`}
         parts={bumpkinParts}
         onClick={handleClick}
+        flipped={flipped}
       />
 
       {showHelper && (

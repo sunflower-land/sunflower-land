@@ -687,6 +687,14 @@ import {
   flipCollectible,
   type FlipCollectibleAction,
 } from "./landExpansion/flipCollectible";
+import {
+  flipFarmHand,
+  type FlipFarmHandAction,
+} from "./landExpansion/flipFarmHand";
+import {
+  flipBumpkin,
+  type FlipBumpkinAction,
+} from "./landExpansion/flipBumpkin";
 
 // Visiting local events
 import {
@@ -1044,6 +1052,8 @@ export type PlacementEvent =
   | RemoveBeehiveAction
   | RemoveAllAction
   | FlipCollectibleAction
+  | FlipFarmHandAction
+  | FlipBumpkinAction
   | PlaceFarmHandAction
   | MoveFarmHandAction
   | RemoveFarmHandAction
@@ -1342,6 +1352,8 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "beehive.removed": removeBeehive,
   "items.removed": removeAll,
   "collectible.flipped": flipCollectible,
+  "farmHand.flipped": flipFarmHand,
+  "bumpkin.flipped": flipBumpkin,
 };
 
 export const EVENTS = {
