@@ -705,3 +705,28 @@ export function getBoostedAwakeAt({
   // Add the boosted duration to the created time
   return { awakeAt: createdAt + totalDuration, boostsUsed };
 }
+
+export function getAnimalMaturityTimeForDisplay({
+  animalType,
+  game,
+}: {
+  animalType: AnimalType;
+  game: GameState;
+}): {
+  baseTimeMs: number;
+  maturityTimeMs: number;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
+  const createdAt = 0;
+  const { awakeAt, boostsUsed } = getBoostedAwakeAt({
+    animalType,
+    createdAt,
+    game,
+  });
+
+  return {
+    baseTimeMs: ANIMAL_SLEEP_DURATION,
+    maturityTimeMs: awakeAt - createdAt,
+    boostsUsed,
+  };
+}
