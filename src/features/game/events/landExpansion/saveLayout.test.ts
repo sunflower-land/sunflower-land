@@ -84,8 +84,10 @@ describe("saveLayout", () => {
     expect(layout.buildings["Fire Pit"]).toEqual([
       { id: "fp", coordinates: { x: -3, y: 0 } },
     ]);
-    // Immovable buildings are never captured.
-    expect(layout.buildings["Town Center"]).toBeUndefined();
+    // Non-removable buildings (Town Center) can still be moved → captured.
+    expect(layout.buildings["Town Center"]).toEqual([
+      { id: "tc", coordinates: { x: -2, y: 3 } },
+    ]);
     expect(layout.resources.trees).toEqual({ t1: { x: 0, y: 2 } });
     expect(layout.resources.crops).toEqual({ c1: { x: 2, y: 0 } });
     expect(layout.resources.flowerBeds).toEqual({ f1: { x: -1, y: 3 } });

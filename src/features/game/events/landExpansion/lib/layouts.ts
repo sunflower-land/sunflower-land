@@ -4,10 +4,7 @@ import type {
   SavedLayout,
 } from "features/game/types/game";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
-import {
-  BUILDINGS_DIMENSIONS,
-  type BuildingName,
-} from "features/game/types/buildings";
+import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import {
   RESOURCE_DIMENSIONS,
   type ResourceName,
@@ -18,14 +15,6 @@ import {
 } from "features/game/expansion/placeable/lib/collisionDetection";
 import type { LandscapingPlaceable } from "features/game/expansion/placeable/landscapingMachine";
 import { getObjectEntries } from "lib/object";
-
-/** Buildings that cannot be moved and must never enter a layout snapshot. */
-export const IMMOVABLE_BUILDINGS: BuildingName[] = [
-  "Town Center",
-  "House",
-  "Mansion",
-  "Manor",
-];
 
 const PLACEABLE_DIMENSIONS: Record<string, { width: number; height: number }> =
   {
@@ -114,8 +103,9 @@ const copyCoordinates = (item: PlacedResource): LayoutCoordinates => {
 
 /**
  * Snapshot the current farm arrangement into the position maps stored on a
- * {@link SavedLayout}. Captures only placed items (those with coordinates);
- * skips the immovable buildings so they never enter a layout.
+ * {@link SavedLayout}. Captures every placed item (those with coordinates),
+ * including the non-removable buildings (Town Center/House/Mansion/Manor) —
+ * those can still be moved, so their position is part of the layout.
  */
 export function snapshotFarm(
   state: GameState,
@@ -135,7 +125,7 @@ export function snapshotFarm(
 
   const buildings: SavedLayout["buildings"] = {};
   getObjectEntries(state.buildings).forEach(([name, group]) => {
-    if (!group || IMMOVABLE_BUILDINGS.includes(name)) return;
+    if (!group) return;
     const placed = group
       .filter((item) => !!item.coordinates)
       .map((item) => ({
