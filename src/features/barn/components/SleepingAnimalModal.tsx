@@ -85,9 +85,6 @@ export const SleepingAnimalModal = ({
 
   const favouriteFood = getAnimalFavoriteFood(animal.type, animal.experience);
 
-  // Calculate when the animal can be loved again
-  const lovePeriod = (animal.awakeAt - animal.asleepAt) / 3;
-
   // Get the XP for the current love item
   const { animalXP } = getAnimalXP({
     name: animal.item,
@@ -126,16 +123,6 @@ export const SleepingAnimalModal = ({
           <span className="mr-2">
             {" "}
             {`${t("wakesIn")} ${secondsToString(secondsLeft, { length: "medium" })}`}
-          </span>
-        </div>
-        <div className="flex text-sm p-1 items-center">
-          <img src={SUNNYSIDE.icons.heart} alt="Love" className="w-6 mr-2" />
-          <span className="text-xs">
-            {secondsUntilLove > 0
-              ? t("pets.nextRequestsIn", {
-                  time: secondsToString(secondsUntilLove, { length: "medium" }),
-                })
-              : t("ready")}
           </span>
         </div>
         {/* XP progress */}
@@ -177,12 +164,15 @@ export const SleepingAnimalModal = ({
                 </Label>
               )}
             </div>
-            <span className="text-xs -top-0.5 relative">{`${t("sleepingAnimal.every")} ${secondsToString(
-              lovePeriod / 1000,
-              {
-                length: "short",
-              },
-            )}`}</span>
+            <span className="text-xs -top-0.5 relative">
+              {secondsUntilLove > 0
+                ? t("pets.nextRequestsIn", {
+                    time: secondsToString(secondsUntilLove, {
+                      length: "medium",
+                    }),
+                  })
+                : t("ready")}
+            </span>
           </div>
         </div>
 
