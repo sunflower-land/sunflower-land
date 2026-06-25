@@ -161,6 +161,9 @@ const FEATURE_FLAGS = {
 
   BOOSTS_DISPLAY: betaFeatureFlag,
 
+  // Saving & re-applying named farm layouts in landscaping mode.
+  SAVED_LAYOUTS: betaFeatureFlag,
+
   // Importing leftover items from the old home into the new interior.
   HOME_ITEM_MIGRATION: betaFeatureFlag,
 

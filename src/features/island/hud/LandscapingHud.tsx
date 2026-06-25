@@ -12,6 +12,7 @@ import shopIcon from "assets/icons/shop.png";
 import flipped from "assets/icons/flipped.webp";
 import flipIcon from "assets/icons/flip.webp";
 import cleanBroom from "assets/icons/clean_broom.webp";
+import mapIcon from "assets/icons/map.webp";
 
 import { isMobile } from "mobile-device-detect";
 
@@ -39,6 +40,8 @@ import {
   CraftDecorationsModal,
 } from "./components/decorations/CraftDecorationsModal";
 import { RemoveAllConfirmation } from "../collectibles/RemoveAllConfirmation";
+import { SavedLayoutsModal } from "./components/SavedLayoutsModal";
+import { hasFeatureAccess } from "lib/flags";
 import { useNow } from "lib/utils/hooks/useNow";
 import { PET_SHRINES } from "features/game/types/pets";
 import { isPetCollectible } from "features/game/events/landExpansion/placeCollectible";
@@ -96,6 +99,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
     useState(false);
   const [showDecorations, setShowDecorations] = useState(false);
   const [showCraftBuild, setShowCraftBuild] = useState(false);
+  const [showSavedLayouts, setShowSavedLayouts] = useState(false);
   const [quickDragging, setQuickDragging] = useState(false);
   const button = useSound("button");
 
@@ -443,6 +447,27 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                 />
               </RoundButton>
 
+              {location === "farm" &&
+                hasFeatureAccess(gameState, "SAVED_LAYOUTS") && (
+                  <RoundButton
+                    className="mb-3.5"
+                    onClick={() => {
+                      button.play();
+                      setShowSavedLayouts(true);
+                    }}
+                  >
+                    <img
+                      src={mapIcon}
+                      className="absolute group-active:translate-y-[2px]"
+                      style={{
+                        top: `${PIXEL_SCALE * 5}px`,
+                        left: `${PIXEL_SCALE * 5}px`,
+                        width: `${PIXEL_SCALE * 13}px`,
+                      }}
+                    />
+                  </RoundButton>
+                )}
+
               <RoundButton className="mb-3.5" onClick={toggleRemovalMode}>
                 <img
                   src={ITEM_DETAILS["Rusty Shovel"].image}
@@ -553,6 +578,10 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
           location={location}
         />
       )}
+      <SavedLayoutsModal
+        show={showSavedLayouts}
+        onHide={() => setShowSavedLayouts(false)}
+      />
       {showRemove && (
         <div
           className="absolute flex z-50 flex-col"

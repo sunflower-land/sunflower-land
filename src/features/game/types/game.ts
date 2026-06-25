@@ -979,6 +979,66 @@ type PlacedBuildings<Name extends BuildingName> = {
 
 export type Buildings = Partial<PlacedBuildings<BuildingName>>;
 
+/**
+ * A single restorable position within a {@link SavedLayout}. Mirrors the
+ * coordinate shape used by placed items (integer tile x/y + optional render
+ * offsets oX/oY).
+ */
+export type LayoutCoordinates = {
+  x: number;
+  y: number;
+  oX?: number;
+  oY?: number;
+};
+
+/**
+ * A named snapshot of the player's farm arrangement (`location: "farm"`).
+ * Items are keyed by `id` so applying a layout repositions the player's
+ * existing items. Collectibles/buildings mirror the live `name -> PlacedItem[]`
+ * buckets (capturing `flipped`); resources mirror the live `Record<id, {...}>`
+ * buckets whose coordinates live as top-level x/y. See `saveLayout`/`applyLayout`.
+ */
+export type SavedLayout = {
+  name: string;
+  createdAt: number;
+  updatedAt: number;
+  collectibles: Partial<
+    Record<
+      CollectibleName,
+      { id: string; coordinates: LayoutCoordinates; flipped?: boolean }[]
+    >
+  >;
+  buildings: Partial<
+    Record<
+      BuildingName,
+      { id: string; coordinates: LayoutCoordinates; flipped?: boolean }[]
+    >
+  >;
+  resources: {
+    trees: Record<string, LayoutCoordinates>;
+    stones: Record<string, LayoutCoordinates>;
+    gold: Record<string, LayoutCoordinates>;
+    iron: Record<string, LayoutCoordinates>;
+    crimstones: Record<string, LayoutCoordinates>;
+    sunstones: Record<string, LayoutCoordinates>;
+    ascensionCrystals: Record<string, LayoutCoordinates>;
+    oilReserves: Record<string, LayoutCoordinates>;
+    crops: Record<string, LayoutCoordinates>;
+    fruitPatches: Record<string, LayoutCoordinates>;
+    beehives: Record<string, LayoutCoordinates>;
+    flowerBeds: Record<string, LayoutCoordinates>;
+    lavaPits: Record<string, LayoutCoordinates>;
+  };
+};
+
+/**
+ * Maximum number of *saved* layout snapshots. The live farm is the "current"
+ * layout on top of these, so players effectively have current + this many.
+ */
+export const MAX_SAVED_LAYOUTS = 2;
+/** Maximum character length of a saved layout name. */
+export const MAX_LAYOUT_NAME_LENGTH = 30;
+
 export type ExpansionConstruction = {
   createdAt: number;
   readyAt: number;
@@ -2158,6 +2218,13 @@ export interface GameState {
   };
   season: Season;
   lavaPits: Record<string, LavaPit>;
+  /**
+   * Saved snapshots of the farm arrangement. The live farm is the "current"
+   * layout; these are the saved alternatives the player can load onto it.
+   * Optional so legacy saves (which never had this field) need no migration.
+   * Capped at {@link MAX_SAVED_LAYOUTS}.
+   */
+  layouts?: SavedLayout[];
   nfts?: Partial<Record<Chain, NFT>>;
 
   faceRecognition?: {
