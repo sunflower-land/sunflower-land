@@ -7401,8 +7401,6 @@
   "sleepingAnimal.mutantClue1": "Glowing {{type}}…",
   "sleepingAnimal.mutantClue2": "something special is coming!",
   "sleepingAnimal.harvestsLeft": "{{count}} harvests remaining",
-  "sleepingAnimal.xp": "XP: {{experience}}",
-  "sleepingAnimal.xpToNextLevel": "+{{xpToNext}} to Lvl {{level}}",
   "description.bonusBracelet.boost": "+1 Bracelet",
   "description.architectRuler.boost": "-25% Crafting Box Time",
   "description.reelmastersChair.boost": "+5 daily fishing reels",
