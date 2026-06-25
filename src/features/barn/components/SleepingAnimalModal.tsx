@@ -129,11 +129,18 @@ export const SleepingAnimalModal = ({
         <div className="flex text-sm p-1 items-center">
           <img src={SUNNYSIDE.icons.lightning} alt="XP" className="w-6 mr-2" />
           <div className="flex justify-between w-full text-xs">
-            <span>{`XP: ${animal.experience}`}</span>
+            <span>
+              {t("sleepingAnimal.xp", { experience: animal.experience })}
+            </span>
             {isMaxLevel ? (
               <span className="text-yellow-400">{t("levelUpMax")}</span>
             ) : (
-              <span>{`+${xpToNext} to Lvl ${level + 1}`}</span>
+              <span>
+                {t("sleepingAnimal.xpToNextLevel", {
+                  xpToNext: xpToNext!,
+                  level: level + 1,
+                })}
+              </span>
             )}
           </div>
         </div>
