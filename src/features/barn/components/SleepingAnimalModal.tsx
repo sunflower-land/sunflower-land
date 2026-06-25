@@ -19,7 +19,6 @@ import {
   isMaxLevel as isMaxAnimalLevel,
 } from "features/game/lib/animals";
 import { ANIMAL_LEVELS, type AnimalLevel } from "features/game/types/animals";
-import { ProgressBar } from "components/ui/ProgressBar";
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { useSelector } from "@xstate/react";
@@ -95,18 +94,9 @@ export const SleepingAnimalModal = ({
   const level = getAnimalLevel(animal.experience, animal.type);
   const isMaxLevel = isMaxAnimalLevel(animal.type, level);
 
-  const currentLevelXP = ANIMAL_LEVELS[animal.type][level as AnimalLevel];
   const nextLevelXP = isMaxLevel
     ? null
     : ANIMAL_LEVELS[animal.type][(level + 1) as AnimalLevel];
-  const xpProgress =
-    isMaxLevel || nextLevelXP == null
-      ? 100
-      : Math.round(
-          ((animal.experience - currentLevelXP) /
-            (nextLevelXP - currentLevelXP)) *
-            100,
-        );
   const xpToNext = nextLevelXP != null ? nextLevelXP - animal.experience : null;
 
   const { name: mutantName } = animal.reward?.items?.[0] ?? {};
@@ -135,20 +125,13 @@ export const SleepingAnimalModal = ({
         {/* XP progress */}
         <div className="flex text-sm p-1 items-center">
           <img src={SUNNYSIDE.icons.lightning} alt="XP" className="w-6 mr-2" />
-          <div className="flex-1">
-            <div className="flex justify-between text-xs mb-0.5">
-              <span>{`XP: ${animal.experience}`}</span>
-              {isMaxLevel ? (
-                <span className="text-yellow-400">{t("levelUpMax")}</span>
-              ) : (
-                <span>{`+${xpToNext} to Lvl ${level + 1}`}</span>
-              )}
-            </div>
-            <ProgressBar
-              percentage={xpProgress}
-              type="progress"
-              formatLength="short"
-            />
+          <div className="flex justify-between w-full text-xs">
+            <span>{`XP: ${animal.experience}`}</span>
+            {isMaxLevel ? (
+              <span className="text-yellow-400">{t("levelUpMax")}</span>
+            ) : (
+              <span>{`+${xpToNext} to Lvl ${level + 1}`}</span>
+            )}
           </div>
         </div>
         <div className="flex text-sm p-1 items-center">
