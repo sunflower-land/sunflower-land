@@ -302,7 +302,7 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
             {atCap ? (
               <InnerPanel className="p-2">
                 <span className="text-xs">
-                  {t("savedLayouts.cap", { max: MAX_SAVED_LAYOUTS + 1 })}
+                  {t("savedLayouts.cap", { max: MAX_SAVED_LAYOUTS })}
                 </span>
               </InnerPanel>
             ) : (
@@ -367,8 +367,8 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
           <div className="sm:w-[42%] flex-none flex flex-col gap-1">
             <span className="text-xxs pl-0.5">
               {t("savedLayouts.slots", {
-                count: layouts.length + 1,
-                max: MAX_SAVED_LAYOUTS + 1,
+                count: layouts.length,
+                max: MAX_SAVED_LAYOUTS,
               })}
             </span>
 

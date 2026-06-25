@@ -1032,10 +1032,10 @@ export type SavedLayout = {
 };
 
 /**
- * Maximum number of *saved* layout snapshots. The live farm is the "current"
- * layout on top of these, so players effectively have current + this many.
+ * Maximum number of saved layouts a player can keep. The live farm is the
+ * working arrangement, not a saved layout — these slots are separate from it.
  */
-export const MAX_SAVED_LAYOUTS = 2;
+export const MAX_SAVED_LAYOUTS = 3;
 /** Maximum character length of a saved layout name. */
 export const MAX_LAYOUT_NAME_LENGTH = 30;
 

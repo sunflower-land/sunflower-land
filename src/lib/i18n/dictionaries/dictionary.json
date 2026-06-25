@@ -9123,7 +9123,7 @@
   "description.square.table": "A square table, neat and symmetrical.",
   "description.stool": "A simple stool to sit on.",
   "savedLayouts.title": "Saved Layouts",
-  "savedLayouts.slots": "Your layouts · {{count}}/{{max}} (incl. current)",
+  "savedLayouts.slots": "Your layouts · {{count}}/{{max}}",
   "savedLayouts.current": "Current",
   "savedLayouts.currentFarm": "Current Farm",
   "savedLayouts.activeNow": "Active now",

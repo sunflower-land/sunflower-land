@@ -154,11 +154,16 @@ describe("saveLayout", () => {
       action: { type: "layout.saved", name: "b" },
       createdAt,
     });
+    state = saveLayout({
+      state,
+      action: { type: "layout.saved", name: "c" },
+      createdAt,
+    });
 
     expect(() =>
       saveLayout({
         state,
-        action: { type: "layout.saved", name: "c" },
+        action: { type: "layout.saved", name: "d" },
         createdAt,
       }),
     ).toThrow("Maximum number of layouts reached");
