@@ -162,21 +162,13 @@ describe("saveLayout", () => {
     ).toThrow("Maximum number of layouts reached");
   });
 
-  it("trims the name and rejects empty / too-long names", () => {
+  it("trims a provided name and rejects too-long names", () => {
     const trimmed = saveLayout({
       state: baseFarm,
       action: { type: "layout.saved", name: "  Padded  " },
       createdAt,
     });
     expect(trimmed.layouts![0].name).toEqual("Padded");
-
-    expect(() =>
-      saveLayout({
-        state: baseFarm,
-        action: { type: "layout.saved", name: "   " },
-        createdAt,
-      }),
-    ).toThrow("Layout name cannot be empty");
 
     expect(() =>
       saveLayout({
@@ -188,6 +180,38 @@ describe("saveLayout", () => {
         createdAt,
       }),
     ).toThrow("Layout name is too long");
+  });
+
+  it("defaults an unnamed new layout to 'Layout N'", () => {
+    let state = saveLayout({
+      state: baseFarm,
+      action: { type: "layout.saved" },
+      createdAt,
+    });
+    expect(state.layouts![0].name).toEqual("Layout 1");
+
+    // A blank/whitespace name is treated the same as no name.
+    state = saveLayout({
+      state,
+      action: { type: "layout.saved", name: "   " },
+      createdAt,
+    });
+    expect(state.layouts![1].name).toEqual("Layout 2");
+  });
+
+  it("keeps the existing name when overwriting without a name", () => {
+    const first = saveLayout({
+      state: baseFarm,
+      action: { type: "layout.saved", name: "Keep" },
+      createdAt,
+    });
+    const second = saveLayout({
+      state: first,
+      action: { type: "layout.saved", layoutId: 0 },
+      createdAt: createdAt + 1000,
+    });
+    expect(second.layouts![0].name).toEqual("Keep");
+    expect(second.layouts![0].updatedAt).toEqual(createdAt + 1000);
   });
 
   describe("feature gate", () => {

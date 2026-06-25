@@ -9130,7 +9130,7 @@
   "savedLayouts.currentDescription": "This is your farm right now — the active layout. Save it as a named layout to come back to this arrangement later.",
   "savedLayouts.saveCurrentFarm": "Save current farm",
   "savedLayouts.saveAsNew": "Save as new layout",
-  "savedLayouts.nameThis": "Name this layout…",
+  "savedLayouts.nameThis": "Name this layout (optional)…",
   "savedLayouts.namePlaceholder": "Layout name",
   "savedLayouts.apply": "Apply this layout",
   "savedLayouts.applyConfirm": "Apply",

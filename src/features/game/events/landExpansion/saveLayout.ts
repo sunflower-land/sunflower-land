@@ -5,11 +5,12 @@ import {
   MAX_SAVED_LAYOUTS,
 } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
-import { snapshotFarm } from "./lib/layouts";
+import { defaultLayoutName, snapshotFarm } from "./lib/layouts";
 
 export type SaveLayoutAction = {
   type: "layout.saved";
-  name: string;
+  /** Optional — new layouts default to "Layout N"; overwrites keep their name. */
+  name?: string;
   /** Index of an existing layout to overwrite. Omit to create a new layout. */
   layoutId?: number;
 };
@@ -30,10 +31,7 @@ export function saveLayout({
       throw new Error("Saved layouts are not available");
     }
 
-    const name = action.name.trim();
-    if (name.length === 0) {
-      throw new Error("Layout name cannot be empty");
-    }
+    const name = (action.name ?? "").trim();
     if (name.length > MAX_LAYOUT_NAME_LENGTH) {
       throw new Error("Layout name is too long");
     }
@@ -49,7 +47,8 @@ export function saveLayout({
       layouts[action.layoutId] = {
         ...existing,
         ...snapshot,
-        name,
+        // An unnamed overwrite keeps the slot's current name.
+        name: name || existing.name,
         updatedAt: createdAt,
       };
     } else {
@@ -57,7 +56,7 @@ export function saveLayout({
         throw new Error("Maximum number of layouts reached");
       }
       layouts.push({
-        name,
+        name: name || defaultLayoutName(layouts),
         createdAt,
         updatedAt: createdAt,
         ...snapshot,

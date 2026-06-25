@@ -17,6 +17,7 @@ import {
 import { produce } from "immer";
 import {
   applyFarmLayout,
+  defaultLayoutName,
   snapshotFarm,
 } from "features/game/events/landExpansion/lib/layouts";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -153,15 +154,16 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
 
   const saveNew = () => {
     const name = newName.trim();
-    if (!name) {
-      setError(t("savedLayouts.nameRequired"));
-      return;
-    }
-    gameService.send({ type: "layout.saved", name });
+    // Name is optional — a blank name becomes "Layout N" server-side.
+    gameService.send({ type: "layout.saved", ...(name ? { name } : {}) });
     setNewName("");
     setError(null);
     setSelected(layouts.length + 1);
-    flash(t("savedLayouts.toastSaved", { name }));
+    flash(
+      t("savedLayouts.toastSaved", {
+        name: name || defaultLayoutName(layouts),
+      }),
+    );
   };
 
   const doRename = () => {
@@ -392,8 +394,9 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
               ),
             )}
 
-            <div
-              className="flex items-center justify-center gap-1 border-2 border-dashed rounded-md py-1.5 cursor-pointer"
+            <button
+              type="button"
+              className="flex items-center justify-center gap-1 border-2 border-dashed rounded-md py-1.5 cursor-pointer w-full bg-transparent"
               style={{ borderColor: "#9a6a47" }}
               onClick={() => pick(0)}
             >
@@ -401,7 +404,7 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
               <span className="text-xxs">
                 {t("savedLayouts.saveCurrentFarm")}
               </span>
-            </div>
+            </button>
           </div>
 
           {/* RIGHT: detail */}
