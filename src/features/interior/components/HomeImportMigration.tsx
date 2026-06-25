@@ -12,9 +12,12 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { getObjectEntries } from "lib/object";
 import type { GameState } from "features/game/types/game";
 import type { CollectibleName } from "features/game/types/craftables";
-import { getHomeImportPlan } from "features/game/events/landExpansion/importHomeItems";
+import {
+  getHomeImportPlan,
+  tryApplyImportStep,
+} from "features/game/events/landExpansion/importHomeItems";
 
-/** How many items are dug-up-and-placed per narrated batch. */
+/** How many items are moved per narrated batch. */
 const BATCH_SIZE = 50;
 
 /** Minimum time each batch is shown for, so the player can read the message
@@ -44,7 +47,7 @@ const clamp = (value: number, min: number, max: number) =>
   Math.max(min, Math.min(max, value));
 
 /** Placed collectibles still sitting in the old home, aggregated by name —
- *  i.e. everything the import couldn't move (didn't fit or couldn't be dug up). */
+ *  i.e. everything the import couldn't move (didn't fit or couldn't be moved). */
 const getHomeLeftover = (state: GameState): Leftover[] =>
   getObjectEntries(state.home.collectibles)
     .map(([name, items]) => ({
@@ -73,11 +76,14 @@ export type HomeImport = {
 };
 
 /**
- * Owns the batched home → interior migration: each item is "dug up" from the old
- * home and "placed" on the new floor by dispatching the existing
- * `collectible.removed` + `collectible.placed` events. Items run in batches of
- * {@link BATCH_SIZE}, each batch held for ~{@link BATCH_DISPLAY_MS} with items
- * trickling in, so the room visibly populates behind the modal.
+ * Owns the batched home → interior migration: each item is dug up from the old
+ * home and placed on the new floor by dispatching the existing
+ * `*.removed` + `*.placed` events. The dig-up + place-down pair is dry-run via
+ * {@link tryApplyImportStep} first, so an item that can't be placed is left
+ * untouched in the old home rather than dug up and stranded in the inventory.
+ * Items run in batches of {@link BATCH_SIZE}, each batch held for
+ * ~{@link BATCH_DISPLAY_MS} with items trickling in, so the room visibly
+ * populates behind the modal.
  *
  * Shared by the top-right import button and the on-entry welcome panel.
  */
@@ -133,27 +139,20 @@ export function useHomeImport(): HomeImport {
       );
       const startedAt = Date.now();
 
-      for (const { name, id, location, coordinates } of batch) {
+      for (const placement of batch) {
         if (aborted.current) return;
-        try {
-          // Dig up from the old home (strips coordinates → back in the pool)...
-          gameService.send({
-            type: "collectible.removed",
-            name,
-            id,
-            location: "home",
-          });
-          // ...then place on the new floor (moves the now-loose home item).
-          gameService.send({
-            type: "collectible.placed",
-            name,
-            id,
-            coordinates,
-            location,
-          });
-        } catch {
-          // Skip an item that can't be dug up/placed (e.g. an in-use item).
+
+        // Dig up + place down together, but only commit if the place would
+        // actually succeed. We dry-run both reducers against the live snapshot
+        // first; if the item can't land, we send nothing and it stays exactly
+        // where it was in the old home — never dug up and stranded in the
+        // inventory.
+        const live = gameService.getSnapshot().context.state;
+        const result = tryApplyImportStep(live, placement);
+        if (result) {
+          result.events.forEach((event) => gameService.send(event));
         }
+
         placed += 1;
         setCompleted(placed);
         await wait(itemDelay);
