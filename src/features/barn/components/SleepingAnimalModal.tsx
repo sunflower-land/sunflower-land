@@ -19,7 +19,10 @@ import {
   isMaxLevel as isMaxAnimalLevel,
 } from "features/game/lib/animals";
 import { ANIMAL_LEVELS, type AnimalLevel } from "features/game/types/animals";
-import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
+import {
+  getAnimalXP,
+  getNextLoveAvailableAt,
+} from "features/game/events/landExpansion/loveAnimal";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { useSelector } from "@xstate/react";
 import glow from "public/world/glow.png";
@@ -42,6 +45,9 @@ export const SleepingAnimalModal = ({
   const [showConfirm, setShowConfirm] = useState(false);
   const { t } = useAppTranslation();
   const { totalSeconds: secondsLeft } = useCountdown(awakeAt);
+  const { totalSeconds: secondsUntilLove } = useCountdown(
+    getNextLoveAvailableAt(animal),
+  );
 
   const toy = getAnimalToy({ animal });
   const state = useSelector(gameService, (state) => state.context.state);
@@ -120,6 +126,16 @@ export const SleepingAnimalModal = ({
           <span className="mr-2">
             {" "}
             {`${t("wakesIn")} ${secondsToString(secondsLeft, { length: "medium" })}`}
+          </span>
+        </div>
+        <div className="flex text-sm p-1 items-center">
+          <img src={SUNNYSIDE.icons.heart} alt="Love" className="w-6 mr-2" />
+          <span className="text-xs">
+            {secondsUntilLove > 0
+              ? t("pets.nextRequestsIn", {
+                  time: secondsToString(secondsUntilLove, { length: "medium" }),
+                })
+              : t("ready")}
           </span>
         </div>
         {/* XP progress */}
