@@ -158,6 +158,17 @@ export function snapshotFarm(
   return { collectibles, buildings, resources };
 }
 
+/**
+ * Default name for an unnamed layout: the lowest unused "Layout N". Computed
+ * identically on FE and BE so the generated name matches on both sides.
+ */
+export function defaultLayoutName(layouts: SavedLayout[]): string {
+  const taken = new Set(layouts.map((layout) => layout.name));
+  let n = 1;
+  while (taken.has(`Layout ${n}`)) n += 1;
+  return `Layout ${n}`;
+}
+
 export type LayoutRectCategory = "collectible" | "building" | "resource";
 
 export type LayoutRect = {
@@ -214,7 +225,7 @@ export function layoutItemRects(
   RESOURCE_BUCKETS.forEach(({ key, resourceName }) => {
     const dimensions = PLACEABLE_DIMENSIONS[resourceName];
     if (!dimensions) return;
-    Object.values(layout.resources[key]).forEach((coordinates) =>
+    Object.values(layout.resources[key] ?? {}).forEach((coordinates) =>
       rects.push({
         x: coordinates.x,
         y: coordinates.y,
@@ -242,18 +253,21 @@ type PendingPlacement = {
  * Reposition the player's existing farm items to match a saved layout, on a
  * best-effort basis. Returns how many items were placed vs skipped.
  *
- * Strategy ("lift then place", skip-and-restore):
- *   1. Resolve which snapshot entries still exist live (withdrawn/missing items
- *      are not applicable and are ignored).
+ * Strategy ("lift then reserve then place"):
+ *   1. Resolve which snapshot entries are applicable: the item must still exist
+ *      AND be currently placed (an item withdrawn during landscaping stays in
+ *      its bucket with no coordinates — those are ignored, not re-placed).
  *   2. Lift every applicable item (clear its coordinates), remembering where it
  *      was, so a layout item's target never falsely collides with another
  *      layout item's *current* spot (handles swaps).
- *   3. Pass 1 — place each item at its target if free. A target that is now off
- *      the land (e.g. the farm shrank on ascension) or blocked by a non-layout
- *      item fails `detectCollision`; defer it. Deferred items stay lifted so
- *      they never block the items that *can* be placed.
- *   4. Pass 2 — deferred items keep their current position (restore pre-lift
- *      coords) and count as skipped. The farm is never left with unplaced items.
+ *   3. Pass 1 — with everything lifted, any target still blocked can't be placed
+ *      (off-land, e.g. the farm shrank on ascension, or under a non-layout
+ *      item). Restore those items to their current position immediately, as
+ *      reservations, and count them skipped. The rest are candidates.
+ *   4. Pass 2 — place each candidate at its target if it's still free against the
+ *      reservations + already-placed candidates; otherwise it keeps its current
+ *      position. Restoring skipped items *before* placing candidates is what
+ *      prevents a restored item from landing on top of a placed one.
  *
  * Mutates `state` in place (expects an Immer draft).
  */
@@ -270,7 +284,8 @@ export function applyFarmLayout(
     const group = state.collectibles[name];
     entries.forEach((entry) => {
       const item = group?.find((collectible) => collectible.id === entry.id);
-      if (!item) return; // withdrawn / no longer placed → not applicable
+      // Withdrawn items stay in the bucket with no coordinates — don't re-place.
+      if (!item?.coordinates) return;
       const original = item.coordinates ? { ...item.coordinates } : undefined;
       pending.push({
         name,
@@ -299,7 +314,8 @@ export function applyFarmLayout(
     const group = state.buildings[name];
     entries.forEach((entry) => {
       const item = group?.find((building) => building.id === entry.id);
-      if (!item) return;
+      // Withdrawn items stay in the bucket with no coordinates — don't re-place.
+      if (!item?.coordinates) return;
       const original = item.coordinates ? { ...item.coordinates } : undefined;
       pending.push({
         name,
@@ -324,9 +340,10 @@ export function applyFarmLayout(
   RESOURCE_BUCKETS.forEach(({ key, resourceName, get }) => {
     const dimensions = RESOURCE_DIMENSIONS[resourceName];
     const bucket = get(state);
-    Object.entries(layout.resources[key]).forEach(([id, coordinates]) => {
+    Object.entries(layout.resources[key] ?? {}).forEach(([id, coordinates]) => {
       const item = bucket[id];
-      if (!item) return;
+      // Withdrawn resources keep their object with x/y deleted — don't re-place.
+      if (!item || item.x === undefined || item.y === undefined) return;
       const original = { x: item.x, y: item.y, oX: item.oX, oY: item.oY };
       pending.push({
         name: resourceName,
@@ -354,10 +371,12 @@ export function applyFarmLayout(
     });
   });
 
-  // Pass 1: place everything that fits. Deferred items stay lifted so they
-  // never obstruct the items that can be placed.
-  const deferred: PendingPlacement[] = [];
-  let applied = 0;
+  // Pass 1: with every applicable item lifted, anything still blocked can't be
+  // placed at all (its target is off-land or taken by a non-layout item).
+  // Restore those to their current position straight away so they act as
+  // reservations; the rest stay lifted as candidates.
+  const skipped: PendingPlacement[] = [];
+  const candidates: PendingPlacement[] = [];
   for (const placement of pending) {
     const blocked = detectCollision({
       state,
@@ -366,15 +385,32 @@ export function applyFarmLayout(
       name: placement.name,
     });
     if (blocked) {
-      deferred.push(placement);
+      placement.toOriginal();
+      skipped.push(placement);
+    } else {
+      candidates.push(placement);
+    }
+  }
+
+  // Pass 2: place candidates against the reservations + already-placed items. A
+  // candidate now blocked (its target was taken by a restored skipped item)
+  // keeps its current position instead — never restored onto a placed item.
+  let applied = 0;
+  for (const placement of candidates) {
+    const blocked = detectCollision({
+      state,
+      position: placement.position,
+      location: "farm",
+      name: placement.name,
+    });
+    if (blocked) {
+      placement.toOriginal();
+      skipped.push(placement);
     } else {
       placement.toTarget();
       applied += 1;
     }
   }
 
-  // Pass 2: items that couldn't reach their target keep their current position.
-  deferred.forEach((placement) => placement.toOriginal());
-
-  return { applied, skipped: deferred.length };
+  return { applied, skipped: skipped.length };
 }

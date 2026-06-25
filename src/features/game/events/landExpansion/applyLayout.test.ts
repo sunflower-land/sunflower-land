@@ -295,6 +295,60 @@ describe("applyLayout", () => {
     });
   });
 
+  it("never restores a skipped item onto another layout item's tile", () => {
+    // Saved: a -> (0,0), b -> (2,0). Now: a sits at (2,0) (b's target), b is
+    // elsewhere, and a non-layout item blocks a's target (0,0). a can't move, so
+    // b must NOT be placed onto (2,0) and overlap a.
+    const saved = withSavedLayout({
+      ...baseFarm,
+      collectibles: {
+        "Wicker Man": [
+          { id: "a", coordinates: { x: 0, y: 0 }, createdAt },
+          { id: "b", coordinates: { x: 2, y: 0 }, createdAt },
+        ],
+      },
+    });
+
+    const moved = cloneDeep(saved);
+    moved.collectibles["Wicker Man"]![0].coordinates = { x: 2, y: 0 };
+    moved.collectibles["Wicker Man"]![1].coordinates = { x: -1, y: 0 };
+    moved.collectibles["Golden Bonsai"] = [
+      { id: "c", coordinates: { x: 0, y: 0 }, createdAt },
+    ];
+
+    const result = applyLayout({
+      state: moved,
+      action: { type: "layout.applied", layoutId: 0 },
+    });
+
+    const group = result.collectibles["Wicker Man"]!;
+    const a = group.find((c) => c.id === "a")!.coordinates!;
+    const b = group.find((c) => c.id === "b")!.coordinates!;
+    expect(a).toEqual({ x: 2, y: 0 });
+    expect(`${a.x},${a.y}`).not.toEqual(`${b.x},${b.y}`);
+  });
+
+  it("does not re-place a withdrawn (coordinate-less) collectible", () => {
+    const saved = withSavedLayout({
+      ...baseFarm,
+      collectibles: {
+        "Wicker Man": [{ id: "a", coordinates: { x: 0, y: 0 }, createdAt }],
+      },
+    });
+
+    const moved = cloneDeep(saved);
+    // Removed during landscaping: still owned (in the bucket) but unplaced.
+    delete moved.collectibles["Wicker Man"]![0].coordinates;
+    moved.collectibles["Wicker Man"]![0].removedAt = createdAt;
+
+    const result = applyLayout({
+      state: moved,
+      action: { type: "layout.applied", layoutId: 0 },
+    });
+
+    expect(result.collectibles["Wicker Man"]![0].coordinates).toBeUndefined();
+  });
+
   it("throws when the layout does not exist", () => {
     expect(() =>
       applyLayout({

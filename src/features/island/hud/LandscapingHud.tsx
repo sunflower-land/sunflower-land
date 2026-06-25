@@ -578,10 +578,12 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
           location={location}
         />
       )}
-      <SavedLayoutsModal
-        show={showSavedLayouts}
-        onHide={() => setShowSavedLayouts(false)}
-      />
+      {showSavedLayouts && (
+        <SavedLayoutsModal
+          show={showSavedLayouts}
+          onHide={() => setShowSavedLayouts(false)}
+        />
+      )}
       {showRemove && (
         <div
           className="absolute flex z-50 flex-col"

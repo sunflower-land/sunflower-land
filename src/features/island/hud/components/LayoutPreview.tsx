@@ -96,6 +96,7 @@ export const LayoutPreview: React.FC<Props> = ({ layout, className }) => {
             {image ? (
               <img
                 src={image}
+                alt=""
                 style={{
                   position: "absolute",
                   bottom: 0,
