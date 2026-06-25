@@ -992,6 +992,16 @@ export type LayoutCoordinates = {
 };
 
 /**
+ * A placed collectible/building reduced to what a layout restores: which item
+ * (`id`), where (`coordinates`) and its orientation (`flipped`). Derived from
+ * {@link PlacedItem} so it stays in step with the source shape, without the
+ * per-item state (crafting, readyAt, oil, …) a layout doesn't need.
+ */
+export type LayoutPlacement = Pick<PlacedItem, "id" | "flipped"> & {
+  coordinates: LayoutCoordinates;
+};
+
+/**
  * A named snapshot of the player's farm arrangement (`location: "farm"`).
  * Items are keyed by `id` so applying a layout repositions the player's
  * existing items. Collectibles/buildings mirror the live `name -> PlacedItem[]`
@@ -1002,18 +1012,8 @@ export type SavedLayout = {
   name: string;
   createdAt: number;
   updatedAt: number;
-  collectibles: Partial<
-    Record<
-      CollectibleName,
-      { id: string; coordinates: LayoutCoordinates; flipped?: boolean }[]
-    >
-  >;
-  buildings: Partial<
-    Record<
-      BuildingName,
-      { id: string; coordinates: LayoutCoordinates; flipped?: boolean }[]
-    >
-  >;
+  collectibles: Partial<Record<CollectibleName, LayoutPlacement[]>>;
+  buildings: Partial<Record<BuildingName, LayoutPlacement[]>>;
   resources: {
     trees: Record<string, LayoutCoordinates>;
     stones: Record<string, LayoutCoordinates>;
