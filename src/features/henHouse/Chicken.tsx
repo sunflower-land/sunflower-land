@@ -16,13 +16,19 @@ import {
   getAnimalLevel,
   getBoostedFoodQuantity,
   isAnimalFood,
+  isMaxLevel,
 } from "features/game/lib/animals";
+import { ANIMAL_LEVELS, type AnimalLevel } from "features/game/types/animals";
+import { getNextLoveAvailableAt } from "features/game/events/landExpansion/loveAnimal";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { secondsToString } from "lib/utils/time";
 import classNames from "classnames";
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
 import { Transition } from "@headlessui/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import type {
+  Animal,
   AnimalFeedBuffName,
   AnimalFoodName,
   AnimalMedicineName,
@@ -97,6 +103,85 @@ const _chicken = (id: string) => (state: MachineState) =>
   state.context.state.henHouse.animals[id];
 const _game = (state: MachineState) => state.context.state;
 const _inventory = (state: MachineState) => state.context.state.inventory;
+
+type AnimalTimerHUDProps = {
+  chicken: Animal;
+  chickenMachineState: AnimalMachineState["value"];
+};
+
+const AnimalTimerHUD: React.FC<AnimalTimerHUDProps> = ({
+  chicken,
+  chickenMachineState,
+}) => {
+  const { t } = useAppTranslation();
+
+  const sleeping = chickenMachineState === "sleeping";
+  const needsLove = chickenMachineState === "needsLove";
+  const ready = chickenMachineState === "ready";
+
+  const nextInteractionAt = (() => {
+    if (sleeping) return chicken.awakeAt;
+    if (needsLove || ready) return undefined;
+    return getNextLoveAvailableAt(chicken);
+  })();
+
+  const { totalSeconds } = useCountdown(nextInteractionAt ?? null);
+
+  const level = getAnimalLevel(chicken.experience, "Chicken");
+  const maxLevel = isMaxLevel("Chicken", level);
+  const nextLevelXP = maxLevel
+    ? null
+    : ANIMAL_LEVELS.Chicken[(level + 1) as AnimalLevel];
+  const xpToNext =
+    nextLevelXP !== null && nextLevelXP !== undefined
+      ? nextLevelXP - chicken.experience
+      : null;
+
+  const timerLabel = (() => {
+    if (ready) return t("ready");
+    if (needsLove) return "♥";
+    if (nextInteractionAt && totalSeconds > 0) {
+      return secondsToString(totalSeconds, { length: "short" });
+    }
+    return null;
+  })();
+
+  return (
+    <div
+      className="absolute z-30 pointer-events-none"
+      style={{
+        bottom: "calc(100% + 2px)",
+        left: "50%",
+        transform: "translateX(-50%)",
+        whiteSpace: "nowrap",
+      }}
+    >
+      <div
+        className="flex flex-col items-center gap-0.5 px-1.5 py-0.5 rounded"
+        style={{ background: "rgba(0,0,0,0.65)" }}
+      >
+        {timerLabel && (
+          <span
+            className="text-white font-secondary"
+            style={{ fontSize: "9px", lineHeight: "12px" }}
+          >
+            {timerLabel}
+          </span>
+        )}
+        <span
+          className="font-secondary"
+          style={{ fontSize: "9px", lineHeight: "12px", color: "#71e358" }}
+        >
+          {maxLevel
+            ? `XP: ${chicken.experience} (MAX)`
+            : xpToNext !== null
+              ? `XP: ${chicken.experience} (+${xpToNext})`
+              : `XP: ${chicken.experience}`}
+        </span>
+      </div>
+    </div>
+  );
+};
 
 export const getMedicineOption = (): {
   name: InventoryItemName;
@@ -629,6 +714,11 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
           <LockedAnimalModal animal={chicken} />
         </CloseButtonPanel>
       </Modal>
+      {/* Animal HUD: timer + XP */}
+      <AnimalTimerHUD
+        chicken={chicken}
+        chickenMachineState={chickenMachineState}
+      />
       {/* Level Progress */}
       <LevelProgress
         animalState={chickenMachineState}
