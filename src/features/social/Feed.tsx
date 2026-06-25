@@ -9,6 +9,7 @@ import React, {
   useContext,
   useEffect,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -117,6 +118,15 @@ const mergeUpdates = (
 
 const getUTCDateKey = (timestamp: number) =>
   new Date(timestamp).toISOString().split("T")[0];
+
+const getNextUTCDateKeyRefreshAt = (timestamp: number) => {
+  const date = new Date(timestamp);
+
+  return (
+    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 1) +
+    1000
+  );
+};
 
 const shouldShowInteraction = (interaction: Interaction, todayKey: string) => {
   if (interaction.type !== "cheer") {
@@ -589,10 +599,15 @@ const FeedContent: React.FC<FeedContentProps> = ({
   const loaderRef = useRef<HTMLDivElement>(null);
   const { t } = useAppTranslation();
   const [canPaginate, setCanPaginate] = useState(false);
-  const now = useNow({ live: true });
-  const todayKey = getUTCDateKey(now);
-  const visibleFeed = feed.filter((interaction) =>
-    shouldShowInteraction(interaction, todayKey),
+  const [hasMeasuredScroll, setHasMeasuredScroll] = useState(false);
+  const [todayKey, setTodayKey] = useState(() => getUTCDateKey(Date.now()));
+  const refreshTimeoutRef = useRef<number | null>(null);
+  const visibleFeed = useMemo(
+    () =>
+      feed.filter((interaction) =>
+        shouldShowInteraction(interaction, todayKey),
+      ),
+    [feed, todayKey],
   );
 
   // Intersection observer to load more interactions when the loader is in view
@@ -607,7 +622,28 @@ const FeedContent: React.FC<FeedContentProps> = ({
     if (!el) return;
     // tiny buffer so off-by-1 doesn’t trigger
     setCanPaginate(el.scrollHeight > el.clientHeight + 2);
+    setHasMeasuredScroll(true);
   }, [visibleFeed.length, filter]);
+
+  useEffect(() => {
+    const refreshTodayKey = () => {
+      const now = Date.now();
+      const refreshIn = getNextUTCDateKeyRefreshAt(now) - now;
+
+      refreshTimeoutRef.current = window.setTimeout(() => {
+        setTodayKey(getUTCDateKey(Date.now()));
+        refreshTodayKey();
+      }, refreshIn);
+    };
+
+    refreshTodayKey();
+
+    return () => {
+      if (refreshTimeoutRef.current) {
+        window.clearTimeout(refreshTimeoutRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (scrollContainerRef.current) {
@@ -618,10 +654,25 @@ const FeedContent: React.FC<FeedContentProps> = ({
   }, [filter]);
 
   useEffect(() => {
-    if (inView && hasMore && !isLoadingMore && canPaginate) {
+    const shouldLoadMore =
+      hasMore &&
+      !isLoadingMore &&
+      (inView ||
+        visibleFeed.length === 0 ||
+        (hasMeasuredScroll && !canPaginate));
+
+    if (shouldLoadMore) {
       loadMore();
     }
-  }, [inView, hasMore, isLoadingMore, loadMore, scrollContainerRef]);
+  }, [
+    canPaginate,
+    hasMeasuredScroll,
+    hasMore,
+    inView,
+    isLoadingMore,
+    loadMore,
+    visibleFeed.length,
+  ]);
 
   const setRefs = useCallback(
     (node: HTMLDivElement | null) => {
@@ -641,8 +692,6 @@ const FeedContent: React.FC<FeedContentProps> = ({
     e.stopPropagation();
     onFollowClick(id);
   };
-  const today = new Date().toISOString().split("T")[0];
-
   if (isLoadingInitialData) {
     return <FeedSkeleton />;
   }
@@ -650,7 +699,11 @@ const FeedContent: React.FC<FeedContentProps> = ({
   if (visibleFeed.length === 0) {
     return (
       <div className="flex justify-center items-center h-full">
-        <Label type="default">{t("noActivity")}</Label>
+        {hasMore ? (
+          <Loading dotsOnly />
+        ) : (
+          <Label type="default">{t("noActivity")}</Label>
+        )}
       </div>
     );
   }
@@ -676,7 +729,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
           const isAtMaxFollowing = !isFollowing && following.length >= 5000;
           const hasCheeredThemToday =
             interaction.type === "cheer" &&
-            cheersGiven.date === today &&
+            cheersGiven.date === todayKey &&
             cheersGiven.farms.includes(interaction.sender.id);
 
           return (
