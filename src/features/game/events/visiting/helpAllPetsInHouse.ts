@@ -1,5 +1,5 @@
 import type { GameState } from "features/game/types/game";
-import { getHelpLimit, hasHitHelpLimit } from "features/game/types/monuments";
+import { hasHitHelpLimit } from "features/game/types/monuments";
 import {
   hasHitSocialPetLimit,
   type PetName,
@@ -45,14 +45,10 @@ export function helpAllPetsInHouse({
     }
 
     const day = new Date(createdAt).toISOString().slice(0, 10);
-    const helpLimit = getHelpLimit({ game: visitorGame });
-    let helpCount = action.totalHelpedToday;
 
     const petHousePets = game.petHouse?.pets ?? {};
 
     for (const name of getKeys(petHousePets)) {
-      if (helpCount >= helpLimit) break;
-
       const isPlaced = petHousePets[name]?.some((item) => !!item.coordinates);
       if (!isPlaced) continue;
 
@@ -67,12 +63,9 @@ export function helpAllPetsInHouse({
       }
 
       pet.visitedAt = createdAt;
-      helpCount++;
     }
 
     for (const id of getKeys(game.pets?.nfts ?? {})) {
-      if (helpCount >= helpLimit) break;
-
       const pet = game.pets?.nfts?.[id];
       if (!pet || pet.visitedAt || pet.location !== "petHouse") continue;
 
@@ -84,7 +77,6 @@ export function helpAllPetsInHouse({
       }
 
       pet.visitedAt = createdAt;
-      helpCount++;
     }
   });
 }
