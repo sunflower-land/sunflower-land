@@ -10,16 +10,10 @@ import { getFenceImage } from "features/island/collectibles/components/Fence";
 import { getGoldenFenceImage } from "features/island/collectibles/components/GoldenFence";
 import { getStoneFenceImage } from "features/island/collectibles/components/StoneFence";
 import { getGoldenStoneFenceImage } from "features/island/collectibles/components/GoldenStoneFence";
-import { getTileImage } from "features/island/collectibles/components/Tiles";
-
-const TILE_NAMES = new Set<string>([
-  "Black Tile",
-  "Blue Tile",
-  "Green Tile",
-  "Purple Tile",
-  "Red Tile",
-  "Yellow Tile",
-] satisfies TileName[]);
+import {
+  getTileImage,
+  TILE_NAMES,
+} from "features/island/collectibles/components/Tiles";
 
 /**
  * Build the {@link GameGrid} (id-by-tile map) a layout's fences/paths need to

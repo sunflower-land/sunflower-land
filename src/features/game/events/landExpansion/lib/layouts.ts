@@ -208,15 +208,18 @@ export function snapshotFarm(
     island: { ...state.island },
   };
 
+  // Every bucket is always present (empty when nothing is placed) so that
+  // overwriting a layout — `{ ...existing, ...snapshot }` — fully replaces the
+  // old arrangement instead of leaving stale buds/pets/farmhands/bumpkin behind.
   return {
     collectibles,
     buildings,
     resources,
     land,
-    ...(Object.keys(buds).length > 0 ? { buds } : {}),
-    ...(Object.keys(petNFTs).length > 0 ? { petNFTs } : {}),
-    ...(Object.keys(farmHands).length > 0 ? { farmHands } : {}),
-    ...(bumpkin ? { bumpkin } : {}),
+    buds,
+    petNFTs,
+    farmHands,
+    bumpkin,
   };
 }
 
@@ -253,6 +256,8 @@ export type LayoutRect = {
    * live sprite (bud/pet by id; farmhand by id → equipped). Bumpkin omits it.
    */
   id?: string;
+  /** Mirror the item horizontally, matching its on-farm orientation. */
+  flipped?: boolean;
 };
 
 /**
@@ -278,7 +283,7 @@ export function layoutItemRects(
   getObjectEntries(layout.collectibles).forEach(([name, entries]) => {
     const dimensions = PLACEABLE_DIMENSIONS[name];
     if (!dimensions || !entries) return;
-    entries.forEach(({ coordinates }) =>
+    entries.forEach(({ coordinates, flipped }) =>
       rects.push({
         x: coordinates.x,
         y: coordinates.y,
@@ -286,6 +291,7 @@ export function layoutItemRects(
         height: dimensions.height,
         category: "collectible",
         name,
+        flipped,
       }),
     );
   });
@@ -293,7 +299,7 @@ export function layoutItemRects(
   getObjectEntries(layout.buildings).forEach(([name, entries]) => {
     const dimensions = PLACEABLE_DIMENSIONS[name];
     if (!dimensions || !entries) return;
-    entries.forEach(({ coordinates }) =>
+    entries.forEach(({ coordinates, flipped }) =>
       rects.push({
         x: coordinates.x,
         y: coordinates.y,
@@ -301,6 +307,7 @@ export function layoutItemRects(
         height: dimensions.height,
         category: "building",
         name,
+        flipped,
       }),
     );
   });
@@ -354,6 +361,7 @@ export function layoutItemRects(
       category: "avatar",
       name: "FarmHand",
       id,
+      flipped: placement.flipped,
     }),
   );
   if (layout.bumpkin) {
@@ -364,6 +372,7 @@ export function layoutItemRects(
       height: BUMPKIN_DIMENSIONS.height,
       category: "avatar",
       name: "Bumpkin",
+      flipped: layout.bumpkin.flipped,
     });
   }
 

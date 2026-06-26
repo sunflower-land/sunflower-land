@@ -199,7 +199,7 @@ describe("saveLayout", () => {
     expect(layout.bumpkin).toEqual({ x: -1, y: -1, flipped: true });
   });
 
-  it("omits the avatar keys when nothing of that kind is farm-placed", () => {
+  it("empties the avatar buckets when nothing of that kind is farm-placed", () => {
     const state: GameState = {
       ...baseFarm,
       buds: {},
@@ -214,10 +214,38 @@ describe("saveLayout", () => {
       createdAt,
     }).layouts![0];
 
-    expect(layout.buds).toBeUndefined();
-    expect(layout.petNFTs).toBeUndefined();
-    expect(layout.farmHands).toBeUndefined();
+    expect(layout.buds).toEqual({});
+    expect(layout.petNFTs).toEqual({});
+    expect(layout.farmHands).toEqual({});
     expect(layout.bumpkin).toBeUndefined();
+  });
+
+  it("clears stale avatar placements when overwriting a layout", () => {
+    const bud = {
+      aura: "Basic" as const,
+      colour: "Beige" as const,
+      ears: "Ears" as const,
+      stem: "3 Leaf Clover" as const,
+      type: "Beach" as const,
+    };
+    // First save captures a placed bud.
+    const withBud = saveLayout({
+      state: {
+        ...baseFarm,
+        buds: { 1: { ...bud, coordinates: { x: 1, y: 1 }, location: "farm" } },
+      },
+      action: { type: "layout.saved", name: "Farm" },
+      createdAt,
+    });
+
+    // Overwrite from a farm with no bud — the stale bud must not survive.
+    const overwritten = saveLayout({
+      state: { ...withBud, buds: {} },
+      action: { type: "layout.saved", layoutId: 0 },
+      createdAt: createdAt + 1000,
+    });
+
+    expect(overwritten.layouts![0].buds).toEqual({});
   });
 
   it("captures the land extent (expansion count + island) at save time", () => {

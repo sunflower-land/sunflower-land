@@ -35,6 +35,9 @@ const CONNECTED_TILES: Record<TileName, string> = {
   "Red Tile": redTileConnected,
   "Yellow Tile": yellowTileConnected,
 };
+
+/** Every connecting colour-tile name, derived from {@link TILES}. */
+export const TILE_NAMES: Set<string> = new Set(Object.keys(TILES));
 type Edges = {
   connected: boolean;
 };

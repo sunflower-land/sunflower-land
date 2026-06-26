@@ -132,7 +132,13 @@ type Props = {
  * back-to-front. The land's natural pixel size drives the box aspect ratio.
  */
 export const LayoutPreview: React.FC<Props> = ({ layout, className, game }) => {
-  const [imgSize, setImgSize] = useState<{ w: number; h: number } | null>(null);
+  // The measured natural size is tagged with the land image it came from, so a
+  // newly-selected layout never paints a frame at the previous land's size.
+  const [measured, setMeasured] = useState<{
+    src: string;
+    w: number;
+    h: number;
+  } | null>(null);
 
   const island = layout.land?.island ?? game?.island;
   const expansions =
@@ -155,8 +161,10 @@ export const LayoutPreview: React.FC<Props> = ({ layout, className, game }) => {
     );
   }
 
-  const tilesWide = imgSize ? imgSize.w / LAND_IMAGE_TILE_PX : 0;
-  const tilesHigh = imgSize ? imgSize.h / LAND_IMAGE_TILE_PX : 0;
+  // Ignore a measurement left over from a previously-selected land image.
+  const size = measured?.src === landSrc ? measured : null;
+  const tilesWide = size ? size.w / LAND_IMAGE_TILE_PX : 0;
+  const tilesHigh = size ? size.h / LAND_IMAGE_TILE_PX : 0;
 
   // Grid of placed items so fences/paths pick the connecting sprite.
   const grid = layoutGrid(layout);
@@ -185,7 +193,7 @@ export const LayoutPreview: React.FC<Props> = ({ layout, className, game }) => {
       style={{
         position: "relative",
         width: "100%",
-        aspectRatio: imgSize ? `${imgSize.w} / ${imgSize.h}` : "1 / 1",
+        aspectRatio: size ? `${size.w} / ${size.h}` : "1 / 1",
         overflow: "hidden",
         borderRadius: 3,
         ...waterStyle(island, season),
@@ -195,7 +203,8 @@ export const LayoutPreview: React.FC<Props> = ({ layout, className, game }) => {
         src={landSrc}
         alt=""
         onLoad={(e) =>
-          setImgSize({
+          setMeasured({
+            src: landSrc,
             w: e.currentTarget.naturalWidth,
             h: e.currentTarget.naturalHeight,
           })
@@ -210,7 +219,7 @@ export const LayoutPreview: React.FC<Props> = ({ layout, className, game }) => {
       />
 
       {/* Dirt layer — crop plots + Dirt Path decorations, joined like the farm. */}
-      {imgSize &&
+      {size &&
         biome &&
         dirtTiles(grid).map(({ x, y }) => (
           <img
@@ -222,7 +231,7 @@ export const LayoutPreview: React.FC<Props> = ({ layout, className, game }) => {
         ))}
 
       {/* Empty plots — the dug soil sits on the connecting dirt. */}
-      {imgSize &&
+      {size &&
         biome &&
         Object.values(layout.resources.crops ?? {}).map(({ x, y }, i) => (
           <img
@@ -234,7 +243,7 @@ export const LayoutPreview: React.FC<Props> = ({ layout, className, game }) => {
         ))}
 
       {/* Items are placed only once the land's natural size is known. */}
-      {imgSize &&
+      {size &&
         ordered.map((rect, i) => {
           // Crop plots and Dirt Path are drawn by the dirt layer above, so they
           // share one connecting dirt shape exactly like the live game.
@@ -258,6 +267,7 @@ export const LayoutPreview: React.FC<Props> = ({ layout, className, game }) => {
                     width: "100%",
                     height: "auto",
                     imageRendering: "pixelated",
+                    transform: rect.flipped ? "scaleX(-1)" : undefined,
                   }}
                 />
               ) : (
