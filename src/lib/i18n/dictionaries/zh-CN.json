@@ -9150,5 +9150,7 @@
   "savedLayouts.toastDeleted": "布局已删除",
   "savedLayouts.toastRenamed": "重命名",
   "sleepingAnimal.xp": "XP: {{experience}}",
-  "sleepingAnimal.xpToNextLevel": "+ {{xpToNext}} 到 Lvl {{level}}"
+  "sleepingAnimal.xpToNextLevel": "+ {{xpToNext}} 到 Lvl {{level}}",
+  "savedLayouts.expansions": "扩展：{{count}}",
+  "savedLayouts.savedOnLargerFarm": "存放在更大的农场里 — 有些物品可能不适合"
 }

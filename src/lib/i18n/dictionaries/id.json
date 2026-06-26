@@ -9150,5 +9150,7 @@
   "savedLayouts.toastDeleted": "Tata letak dihapus",
   "savedLayouts.toastRenamed": "Mengganti nama",
   "sleepingAnimal.xp": "XP: {{experience}}",
-  "sleepingAnimal.xpToNextLevel": "+ {{xpToNext}} ke Lvl {{level}}"
+  "sleepingAnimal.xpToNextLevel": "+ {{xpToNext}} ke Lvl {{level}}",
+  "savedLayouts.expansions": "Ekspansi: {{count}}",
+  "savedLayouts.savedOnLargerFarm": "Disimpan di pertanian yang lebih besar - beberapa item mungkin tidak muat"
 }

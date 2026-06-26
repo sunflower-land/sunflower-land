@@ -9150,5 +9150,7 @@
   "savedLayouts.toastDeleted": "Layout eliminato",
   "savedLayouts.toastRenamed": "Rinominato",
   "sleepingAnimal.xp": "XP: {{experience}}",
-  "sleepingAnimal.xpToNextLevel": "+ {{xpToNext}} a Lvl {{level}}"
+  "sleepingAnimal.xpToNextLevel": "+ {{xpToNext}} a Lvl {{level}}",
+  "savedLayouts.expansions": "Espansioni: {{count}}",
+  "savedLayouts.savedOnLargerFarm": "Salvato in una fattoria più grande: alcuni articoli potrebbero non essere adatti"
 }

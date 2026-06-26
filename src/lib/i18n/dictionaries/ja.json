@@ -9150,5 +9150,7 @@
   "savedLayouts.toastDeleted": "レイアウトが削除されました",
   "savedLayouts.toastRenamed": "名前が変更されました",
   "sleepingAnimal.xp": "XP: {{experience}}",
-  "sleepingAnimal.xpToNextLevel": "+ {{xpToNext}} からレベル {{level}} へ"
+  "sleepingAnimal.xpToNextLevel": "+ {{xpToNext}} からレベル {{level}} へ",
+  "savedLayouts.expansions": "エクスパンション:{{count}}",
+  "savedLayouts.savedOnLargerFarm": "大規模農場での保存—一部のアイテムが収まらない場合があります"
 }

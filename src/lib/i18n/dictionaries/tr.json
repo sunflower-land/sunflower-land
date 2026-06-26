@@ -9150,5 +9150,7 @@
   "savedLayouts.toastDeleted": "Düzen silindi",
   "savedLayouts.toastRenamed": "Yeniden adlandırıldı",
   "sleepingAnimal.xp": "XP: {{experience}}",
-  "sleepingAnimal.xpToNextLevel": "+ {{xpToNext}} için Lvl {{level}}"
+  "sleepingAnimal.xpToNextLevel": "+ {{xpToNext}} için Lvl {{level}}",
+  "savedLayouts.expansions": "Genişletmeler: {{count}}",
+  "savedLayouts.savedOnLargerFarm": "Daha büyük bir çiftlikte kaydedildi - bazı öğeler sığmayabilir"
 }

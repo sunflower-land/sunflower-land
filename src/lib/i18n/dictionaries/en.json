@@ -9140,6 +9140,8 @@
   "savedLayouts.delete": "Delete",
   "savedLayouts.saveName": "Save name",
   "savedLayouts.updated": "Updated {{date}}",
+  "savedLayouts.expansions": "Expansions: {{count}}",
+  "savedLayouts.savedOnLargerFarm": "Saved on a larger farm — some items may not fit",
   "savedLayouts.cap": "All {{max}} slots are full. Overwrite or delete a layout to save another.",
   "savedLayouts.nameRequired": "Please enter a layout name.",
   "savedLayouts.confirmApply": "Apply \"{{name}}\"? This will rearrange your farm to match this layout.",
