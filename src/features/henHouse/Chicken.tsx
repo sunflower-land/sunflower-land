@@ -575,6 +575,9 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
               top={PIXEL_SCALE * -3.5}
               left={PIXEL_SCALE * 20}
               request={requestBubbleRequest()}
+              quantity={
+                idle && !hasGoldEgg ? requiredFoodQty.toNumber() : undefined
+              }
             />
           )}
           {/* Over-capacity lock */}
