@@ -114,6 +114,150 @@ describe("saveLayout", () => {
     ]);
   });
 
+  it("snapshots farm-placed buds, pet NFTs, farmhands and the bumpkin", () => {
+    const equipped = {
+      background: "Farm Background" as const,
+      body: "Beige Farmer Potion" as const,
+      hair: "Basic Hair" as const,
+      shoes: "Black Farmer Boots" as const,
+      pants: "Farmer Pants" as const,
+      shirt: "Yellow Farmer Shirt" as const,
+      tool: "Farmer Pitchfork" as const,
+    };
+    const bud = {
+      aura: "Basic" as const,
+      colour: "Beige" as const,
+      ears: "Ears" as const,
+      stem: "3 Leaf Clover" as const,
+      type: "Beach" as const,
+    };
+
+    const state: GameState = {
+      ...baseFarm,
+      buds: {
+        1: { ...bud, coordinates: { x: 1, y: 1 }, location: "farm" },
+        2: { ...bud }, // not placed → skipped
+        3: { ...bud, coordinates: { x: 5, y: 5 }, location: "home" }, // not farm
+      },
+      pets: {
+        nfts: {
+          1: {
+            id: 1,
+            name: "Pet #1",
+            requests: { food: [], fedAt: createdAt },
+            energy: 100,
+            experience: 0,
+            pettedAt: createdAt,
+            coordinates: { x: 2, y: 2 },
+            location: "farm",
+          },
+          2: {
+            id: 2,
+            name: "Pet #2",
+            requests: { food: [], fedAt: createdAt },
+            energy: 100,
+            experience: 0,
+            pettedAt: createdAt,
+            coordinates: { x: 0, y: 0 },
+            location: "petHouse", // not farm → excluded
+          },
+        },
+      },
+      farmHands: {
+        bumpkins: {
+          "fh-1": {
+            equipped,
+            coordinates: { x: 3, y: 3 },
+            flipped: true,
+            location: "farm",
+          },
+          "fh-2": {
+            equipped,
+            coordinates: { x: 6, y: 6 },
+            location: "home", // not farm → excluded
+          },
+        },
+      },
+      bumpkin: {
+        ...baseFarm.bumpkin,
+        coordinates: { x: -1, y: -1 },
+        location: "farm",
+        flipped: true,
+      },
+    };
+
+    const result = saveLayout({
+      state,
+      action: { type: "layout.saved", name: "Avatars" },
+      createdAt,
+    });
+    const layout = result.layouts![0];
+
+    expect(layout.buds).toEqual({ 1: { x: 1, y: 1 } });
+    expect(layout.petNFTs).toEqual({ 1: { x: 2, y: 2 } });
+    expect(layout.farmHands).toEqual({ "fh-1": { x: 3, y: 3, flipped: true } });
+    expect(layout.bumpkin).toEqual({ x: -1, y: -1, flipped: true });
+  });
+
+  it("empties the avatar buckets when nothing of that kind is farm-placed", () => {
+    const state: GameState = {
+      ...baseFarm,
+      buds: {},
+      pets: { nfts: {} },
+      farmHands: { bumpkins: {} },
+      bumpkin: { ...baseFarm.bumpkin, coordinates: undefined },
+    };
+
+    const layout = saveLayout({
+      state,
+      action: { type: "layout.saved", name: "Empty" },
+      createdAt,
+    }).layouts![0];
+
+    expect(layout.buds).toEqual({});
+    expect(layout.petNFTs).toEqual({});
+    expect(layout.farmHands).toEqual({});
+    expect(layout.bumpkin).toBeUndefined();
+  });
+
+  it("clears stale avatar placements when overwriting a layout", () => {
+    const bud = {
+      aura: "Basic" as const,
+      colour: "Beige" as const,
+      ears: "Ears" as const,
+      stem: "3 Leaf Clover" as const,
+      type: "Beach" as const,
+    };
+    // First save captures a placed bud.
+    const withBud = saveLayout({
+      state: {
+        ...baseFarm,
+        buds: { 1: { ...bud, coordinates: { x: 1, y: 1 }, location: "farm" } },
+      },
+      action: { type: "layout.saved", name: "Farm" },
+      createdAt,
+    });
+
+    // Overwrite from a farm with no bud — the stale bud must not survive.
+    const overwritten = saveLayout({
+      state: { ...withBud, buds: {} },
+      action: { type: "layout.saved", layoutId: 0 },
+      createdAt: createdAt + 1000,
+    });
+
+    expect(overwritten.layouts![0].buds).toEqual({});
+  });
+
+  it("captures the land extent (expansion count + island) at save time", () => {
+    const layout = saveLayout({
+      state: baseFarm,
+      action: { type: "layout.saved", name: "Land" },
+      createdAt,
+    }).layouts![0];
+
+    expect(layout.land).toEqual({ expansions: 1, island: TEST_FARM.island });
+  });
+
   it("overwrites an existing layout, preserving createdAt", () => {
     const first = saveLayout({
       state: baseFarm,

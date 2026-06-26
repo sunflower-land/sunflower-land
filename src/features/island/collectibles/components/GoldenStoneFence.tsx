@@ -32,7 +32,12 @@ const verticalImages = [
   SUNNYSIDE.decorations.goldenStoneVerticalFour,
 ];
 
-export const GoldenStoneFence: React.FC<Props> = ({ x, y, grid }) => {
+/** The connecting golden-stone-fence sprite for tile (x,y), from its neighbours. */
+export function getGoldenStoneFenceImage(
+  grid: GameGrid,
+  x: number,
+  y: number,
+): string {
   const edges: Edges = {
     top:
       grid[x]?.[y + 1] === "Stone Fence" ||
@@ -105,6 +110,12 @@ export const GoldenStoneFence: React.FC<Props> = ({ x, y, grid }) => {
     }
     image = verticalImages[(numberBelowMe - 1) % 4];
   }
+
+  return image;
+}
+
+export const GoldenStoneFence: React.FC<Props> = ({ x, y, grid }) => {
+  const image = getGoldenStoneFenceImage(grid, x, y);
 
   return (
     <SFTDetailPopover name="Golden Stone Fence">

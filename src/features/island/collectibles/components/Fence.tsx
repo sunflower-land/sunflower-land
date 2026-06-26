@@ -38,7 +38,8 @@ interface Props {
   grid: GameGrid;
 }
 
-export const Fence: React.FC<Props> = ({ x, y, grid }) => {
+/** The connecting wood-fence sprite for tile (x,y), from its fence neighbours. */
+export function getFenceImage(grid: GameGrid, x: number, y: number): string {
   const edges: Edges = {
     top:
       grid[x]?.[y + 1] === "Fence" ||
@@ -62,13 +63,14 @@ export const Fence: React.FC<Props> = ({ x, y, grid }) => {
       grid[x - 1]?.[y] === "Golden Stone Fence",
   };
 
-  let image = SUNNYSIDE.decorations.woodFenceNoEdge;
   const edgeNames = getKeys(edges).filter((edge) => !!edges[edge]);
-  const name = edgeNames.join("_");
-  const path = IMAGE_PATHS[name];
-  if (path) {
-    image = path;
-  }
+  return (
+    IMAGE_PATHS[edgeNames.join("_")] ?? SUNNYSIDE.decorations.woodFenceNoEdge
+  );
+}
+
+export const Fence: React.FC<Props> = ({ x, y, grid }) => {
+  const image = getFenceImage(grid, x, y);
 
   return (
     <SFTDetailPopover name="Fence">

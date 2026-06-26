@@ -35,6 +35,9 @@ const CONNECTED_TILES: Record<TileName, string> = {
   "Red Tile": redTileConnected,
   "Yellow Tile": yellowTileConnected,
 };
+
+/** Every connecting colour-tile name, derived from {@link TILES}. */
+export const TILE_NAMES: Set<string> = new Set(Object.keys(TILES));
 type Edges = {
   connected: boolean;
 };
@@ -46,16 +49,26 @@ interface Props {
   grid: GameGrid;
 }
 
-export const Tiles: React.FC<Props> = ({ name, x, y, grid }) => {
+/** The tile sprite for (x,y) — its connected variant when a tile sits below. */
+export function getTileImage(
+  name: TileName,
+  grid: GameGrid,
+  x: number,
+  y: number,
+): string {
   const edges: Edges = {
     connected: Object.keys(TILES).includes(grid[x]?.[y - 1]),
   };
 
-  let image = TILES[name];
-
   if (edges.connected && CONNECTED_TILES[name]) {
-    image = CONNECTED_TILES[name];
+    return CONNECTED_TILES[name];
   }
+  return TILES[name];
+}
+
+export const Tiles: React.FC<Props> = ({ name, x, y, grid }) => {
+  const image = getTileImage(name, grid, x, y);
+
   return (
     <SFTDetailPopover name={name}>
       <img
