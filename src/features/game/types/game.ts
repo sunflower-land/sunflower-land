@@ -506,7 +506,7 @@ export const COUPONS: Record<Coupons, { description: string }> = {
     description: "A raffle ticket for the Salt Awakening chapter.",
   },
   "Colors Token 2026": {
-    description: translate("description.colorTicket2026"),
+    description: translate("description.colorToken2026"),
   },
   "Colors Ticket 2026": {
     description: translate("description.colorTicket2026"),
