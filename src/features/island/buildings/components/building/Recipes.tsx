@@ -43,6 +43,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { Panel } from "components/ui/Panel";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useNow } from "lib/utils/hooks/useNow";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 
 interface Props {
   selected: Cookable;
@@ -263,12 +264,13 @@ export const Recipes: React.FC<Props> = ({
               />
             )}
 
-            {buildingId && (
-              <BuildingOilTank
-                buildingName={buildingName}
-                buildingId={buildingId}
-              />
-            )}
+            {buildingId &&
+              hasRequiredIslandExpansion(state.island.type, "desert") && (
+                <BuildingOilTank
+                  buildingName={buildingName}
+                  buildingId={buildingId}
+                />
+              )}
 
             <div className="w-full">
               <Label
