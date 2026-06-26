@@ -268,6 +268,7 @@ export const LayoutPreview: React.FC<Props> = ({ layout, className, game }) => {
                     height: "auto",
                     imageRendering: "pixelated",
                     transform: rect.flipped ? "scaleX(-1)" : undefined,
+                    transformOrigin: "bottom center",
                   }}
                 />
               ) : (
