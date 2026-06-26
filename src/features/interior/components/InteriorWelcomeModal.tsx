@@ -10,6 +10,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getObjectEntries } from "lib/object";
 import { hasFeatureAccess } from "lib/flags";
 import type { GameState } from "features/game/types/game";
+import { hasHomeItemsToImport } from "features/game/events/landExpansion/importHomeItems";
 import {
   MigrationDonePanel,
   MigrationRunningPanel,
@@ -24,7 +25,7 @@ const hasPlaced = (collectibles: GameState["home"]["collectibles"]) =>
 // Show the migrate prompt only to beta testers who still have old-home items.
 const _canMigrateHomeItems = (state: MachineState) =>
   hasFeatureAccess(state.context.state, "HOME_ITEM_MIGRATION") &&
-  hasPlaced(state.context.state.home.collectibles);
+  hasHomeItemsToImport(state.context.state);
 
 /** True when neither interior floor has any placed collectible. */
 const isInteriorEmpty = (state: GameState) => {

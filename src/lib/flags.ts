@@ -5,8 +5,8 @@ import { TEAM_USERNAMES } from "./access";
 export const RONIN_AIRDROP_ENDDATE = new Date("2025-11-04T00:00:00Z");
 
 // Ronin Waypoint (and the migration flow / transfer option for it) stops being
-// available after 17th Sept 2026 - i.e. from the 18th onwards.
-export const WAYPOINT_WALLET_ENDDATE = new Date("2026-09-18T00:00:00Z");
+// available after 16th Sept 2026
+export const WAYPOINT_WALLET_ENDDATE = new Date("2026-09-16T00:00:00Z");
 
 export const isWaypointWalletDisabled = () =>
   Date.now() >= WAYPOINT_WALLET_ENDDATE.getTime();
@@ -80,6 +80,10 @@ export const TIME_BASED_FEATURE_FLAG_WINDOWS = {
     start: new Date("2026-04-01T00:00:00Z"),
     end: new Date("2026-04-08T00:00:00Z"),
   },
+  RONIN_WAYPOINT_DEPRECATION: {
+    start: WAYPOINT_WALLET_ENDDATE,
+    end: null,
+  },
 } satisfies Record<string, TimeBasedFeatureWindow>;
 
 /** All time-based flags receive the full window; start-only helpers ignore `end`. */
@@ -96,6 +100,7 @@ export const TIME_BASED_FEATURE_FLAGS: Record<
   TICKETS_FROM_COIN_NPC: timePeriodFeatureFlag,
   TICKETS_FROM_FLOWER_NPC: timePeriodFeatureFlag,
   APRIL_FOOLS_EVENT_FLAG: betaTimePeriodFeatureFlag,
+  RONIN_WAYPOINT_DEPRECATION: timePeriodFeatureFlag,
 };
 
 /**
@@ -155,6 +160,9 @@ const FEATURE_FLAGS = {
   HOME_EXPANSIONS: betaFeatureFlag,
 
   BOOSTS_DISPLAY: betaFeatureFlag,
+
+  // Saving & re-applying named farm layouts in landscaping mode.
+  SAVED_LAYOUTS: betaFeatureFlag,
 
   // Importing leftover items from the old home into the new interior.
   HOME_ITEM_MIGRATION: betaFeatureFlag,

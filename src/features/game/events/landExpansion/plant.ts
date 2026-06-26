@@ -83,7 +83,7 @@ type IsPlotFertile = {
 };
 
 // First 15 plots do not need water
-const INITIAL_SUPPORTED_PLOTS = (island: IslandType) =>
+export const INITIAL_SUPPORTED_PLOTS = (island: IslandType) =>
   island !== "basic" ? 18 : 17;
 
 // Each well can support an additional 8 plots

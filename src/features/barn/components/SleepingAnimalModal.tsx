@@ -18,7 +18,11 @@ import {
   getAnimalLevel,
   isMaxLevel as isMaxAnimalLevel,
 } from "features/game/lib/animals";
-import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
+import { ANIMAL_LEVELS, type AnimalLevel } from "features/game/types/animals";
+import {
+  getAnimalXP,
+  getNextLoveAvailableAt,
+} from "features/game/events/landExpansion/loveAnimal";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { useSelector } from "@xstate/react";
 import glow from "public/world/glow.png";
@@ -41,6 +45,9 @@ export const SleepingAnimalModal = ({
   const [showConfirm, setShowConfirm] = useState(false);
   const { t } = useAppTranslation();
   const { totalSeconds: secondsLeft } = useCountdown(awakeAt);
+  const { totalSeconds: secondsUntilLove } = useCountdown(
+    getNextLoveAvailableAt(animal),
+  );
 
   const toy = getAnimalToy({ animal });
   const state = useSelector(gameService, (state) => state.context.state);
@@ -78,9 +85,6 @@ export const SleepingAnimalModal = ({
 
   const favouriteFood = getAnimalFavoriteFood(animal.type, animal.experience);
 
-  // Calculate when the animal can be loved again
-  const lovePeriod = (animal.awakeAt - animal.asleepAt) / 3;
-
   // Get the XP for the current love item
   const { animalXP } = getAnimalXP({
     name: animal.item,
@@ -92,6 +96,11 @@ export const SleepingAnimalModal = ({
 
   const level = getAnimalLevel(animal.experience, animal.type);
   const isMaxLevel = isMaxAnimalLevel(animal.type, level);
+
+  const nextLevelXP = isMaxLevel
+    ? null
+    : ANIMAL_LEVELS[animal.type][(level + 1) as AnimalLevel];
+  const xpToNext = nextLevelXP != null ? nextLevelXP - animal.experience : null;
 
   const { name: mutantName } = animal.reward?.items?.[0] ?? {};
 
@@ -115,6 +124,25 @@ export const SleepingAnimalModal = ({
             {" "}
             {`${t("wakesIn")} ${secondsToString(secondsLeft, { length: "medium" })}`}
           </span>
+        </div>
+        {/* XP progress */}
+        <div className="flex text-sm p-1 items-center">
+          <img src={SUNNYSIDE.icons.lightning} alt="XP" className="w-6 mr-2" />
+          <div className="flex justify-between w-full text-xs">
+            <span>
+              {t("sleepingAnimal.xp", { experience: animal.experience })}
+            </span>
+            {isMaxLevel ? (
+              <span className="text-yellow-400">{t("levelUpMax")}</span>
+            ) : (
+              <span>
+                {t("sleepingAnimal.xpToNextLevel", {
+                  xpToNext: xpToNext!,
+                  level: level + 1,
+                })}
+              </span>
+            )}
+          </div>
         </div>
         <div className="flex text-sm p-1 items-center">
           <img
@@ -143,12 +171,15 @@ export const SleepingAnimalModal = ({
                 </Label>
               )}
             </div>
-            <span className="text-xs -top-0.5 relative">{`${t("sleepingAnimal.every")} ${secondsToString(
-              lovePeriod / 1000,
-              {
-                length: "short",
-              },
-            )}`}</span>
+            <span className="text-xs -top-0.5 relative">
+              {secondsUntilLove > 0
+                ? t("pets.nextRequestsIn", {
+                    time: secondsToString(secondsUntilLove, {
+                      length: "medium",
+                    }),
+                  })
+                : t("ready")}
+            </span>
           </div>
         </div>
 

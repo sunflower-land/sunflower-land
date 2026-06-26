@@ -9,10 +9,10 @@ import { Panel } from "components/ui/Panel";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Label } from "components/ui/Label";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { getObjectEntries } from "lib/object";
 import { hasFeatureAccess } from "lib/flags";
 import {
   getHomeImportPlan,
+  hasHomeItemsToImport,
   type HomeImportPlan,
 } from "features/game/events/landExpansion/importHomeItems";
 import {
@@ -22,9 +22,7 @@ import {
 } from "./HomeImportMigration";
 
 const _hasHomeItems = (state: MachineState) =>
-  getObjectEntries(state.context.state.home.collectibles).some(([, items]) =>
-    (items ?? []).some((item) => !!item.coordinates),
-  );
+  hasHomeItemsToImport(state.context.state);
 
 // Migration is a beta-only mechanic.
 const _canMigrate = (state: MachineState) =>

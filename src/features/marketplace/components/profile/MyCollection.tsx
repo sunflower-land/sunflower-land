@@ -41,6 +41,10 @@ type EnrichedCollectionItem = CollectionItem & {
   category: CollectionCategory;
 };
 
+type Props = {
+  fullHeight?: boolean;
+};
+
 const _state = (state: MachineState) => state.context.state;
 const BUILDING_NAMES = new Set(Object.keys(BUILDINGS));
 
@@ -59,7 +63,7 @@ const getBaseCategory = (
   return details.buffs.length > 0 ? "collectibles" : "cosmetic";
 };
 
-export const MyCollection: React.FC = () => {
+export const MyCollection: React.FC<Props> = ({ fullHeight = false }) => {
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
@@ -175,11 +179,19 @@ export const MyCollection: React.FC = () => {
   return (
     <>
       <InnerPanel
-        className="w-full mb-1"
-        style={{
-          height: "auto",
-          minHeight: "200px",
-        }}
+        className={
+          fullHeight
+            ? "w-full h-full min-h-0 flex flex-col mb-1"
+            : "w-full mb-1"
+        }
+        style={
+          fullHeight
+            ? undefined
+            : {
+                height: "auto",
+                minHeight: "200px",
+              }
+        }
       >
         <Label className="mb-2 ml-2" type="default" icon={chest}>
           {t("marketplace.myCollection")}
@@ -192,7 +204,13 @@ export const MyCollection: React.FC = () => {
           onToggleCategory={toggleCategory}
           onClearCategories={() => setActiveCategories([])}
         />
-        <div className="p-2 h-full w-full">
+        <div
+          className={
+            fullHeight
+              ? "min-h-0 w-full flex-1 overflow-y-auto overflow-x-hidden scrollable p-2"
+              : "p-2 h-full w-full"
+          }
+        >
           {enrichedItems.length === 0 ? (
             <p className="text-sm">{t("marketplace.noCollection")}</p>
           ) : (

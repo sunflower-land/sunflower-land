@@ -245,7 +245,7 @@ export const MarketplaceNavigation: React.FC = () => {
               />
               <Route
                 path="/profile/:id/collection"
-                element={<MyCollection />}
+                element={<MyCollection fullHeight />}
               />
               <Route path="/profile/rewards" element={<MarketplaceRewards />} />
               {/* default to hot */}

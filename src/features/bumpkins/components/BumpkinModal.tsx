@@ -110,6 +110,9 @@ type Tab = "info" | "equip" | "skills" | "feed";
 
 interface Props {
   initialTab: Tab;
+  // When true, always open on `initialTab` instead of restoring the last-used
+  // tab. Used when clicking the Bumpkin NPC so it always lands on Feed.
+  forceTab?: boolean;
   onClose: () => void;
   bumpkin: Bumpkin;
   inventory: Inventory;
@@ -119,6 +122,7 @@ interface Props {
 
 export const BumpkinModal: React.FC<Props> = ({
   initialTab,
+  forceTab = false,
   onClose,
   bumpkin,
   inventory,
@@ -146,7 +150,7 @@ export const BumpkinModal: React.FC<Props> = ({
   const currentBumpkinLevel = ascension.level;
   const [view, setView] = useState<ViewState>("home");
   const [tab, setTab] = useState<Tab>(() => {
-    if (initialTab !== "feed" || readonly) return initialTab;
+    if (forceTab || initialTab !== "feed" || readonly) return initialTab;
     const stored = localStorage.getItem("bumpkinModalTab") as Tab | null;
     const valid: Tab[] = ["feed", "equip", "skills", "info"];
     return stored && valid.includes(stored) ? stored : initialTab;

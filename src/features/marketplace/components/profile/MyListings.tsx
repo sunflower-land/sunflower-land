@@ -34,7 +34,11 @@ const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 const _state = (state: MachineState) => state.context.state;
 
-export const MyListings: React.FC = () => {
+type Props = {
+  fullHeight?: boolean;
+};
+
+export const MyListings: React.FC<Props> = ({ fullHeight = false }) => {
   const { t } = useAppTranslation();
   const params = useParams<{
     collection?: CollectionName;
@@ -148,8 +152,12 @@ export const MyListings: React.FC = () => {
         )}
       </Modal>
 
-      <InnerPanel className="mb-1">
-        <div className="p-2">
+      <InnerPanel
+        className={fullHeight ? "flex h-full min-h-0 flex-col" : "mb-1"}
+      >
+        <div
+          className={fullHeight ? "flex h-full min-h-0 flex-col p-2" : "p-2"}
+        >
           <div className="flex items-center justify-between mb-2">
             <Label type="default" icon={trade}>
               {t("marketplace.myListings")}
@@ -163,11 +171,17 @@ export const MyListings: React.FC = () => {
               </p>
             </Button>
           </div>
-          <div className="flex flex-wrap">
+          <div
+            className={fullHeight ? "flex min-h-0 flex-1" : "flex flex-wrap"}
+          >
             {getKeys(filteredListings).length === 0 ? (
               <p className="text-sm">{t("marketplace.noMyListings")}</p>
             ) : (
-              <div className="w-full relative border-collapse mb-2 max-h-[200px] scrollable overflow-y-auto overflow-x-hidden">
+              <div
+                className={`w-full relative border-collapse mb-2 scrollable overflow-y-auto overflow-x-hidden ${
+                  fullHeight ? "h-full min-h-0" : "max-h-[200px]"
+                }`}
+              >
                 {getKeys(filteredListings).map((id, index) => {
                   const listing = listings[id];
                   const itemName = getKeys(
