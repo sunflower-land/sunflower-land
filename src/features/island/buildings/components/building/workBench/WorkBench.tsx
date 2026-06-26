@@ -12,9 +12,25 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
+import { INITIAL_SUPPORTED_PLOTS } from "features/game/events/landExpansion/plant";
+import { getKeys } from "lib/object";
 
-const _needsBuilding = (state: MachineState) =>
-  !state.context.state.buildings["Water Well"];
+// Only nudge towards building a Water Well once the player has more crop plots
+// than the no-well limit supports, i.e. one or more plots have become
+// infertile. This avoids showing the helper at the very start of the tutorial.
+const _needsWell = (state: MachineState) => {
+  const { buildings, crops, island } = state.context.state;
+
+  const hasWell =
+    buildings["Water Well"]?.some((w) => !!w.coordinates) ?? false;
+  if (hasWell) return false;
+
+  const placedPlots = getKeys(crops).filter(
+    (id) => crops[id].x !== undefined && crops[id].y !== undefined,
+  ).length;
+
+  return placedPlots > INITIAL_SUPPORTED_PLOTS(island.type);
+};
 
 const _needsScarecrow = (state: MachineState) =>
   !state.context.state.inventory["Basic Scarecrow"] &&
@@ -28,9 +44,9 @@ export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, island }) => {
 
   const { play: shopAudio } = useSound("shop");
 
-  const needsBuilding = useSelector(gameService, _needsBuilding);
+  const needsWell = useSelector(gameService, _needsWell);
   const needsScarecrow = useSelector(gameService, _needsScarecrow);
-  const showHelper = isBuilt && (needsBuilding || needsScarecrow);
+  const showHelper = isBuilt && (needsWell || needsScarecrow);
 
   const handleClick = () => {
     if (isBuilt) {
