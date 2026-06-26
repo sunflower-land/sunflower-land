@@ -16,9 +16,9 @@ export const MyTrades: React.FC = () => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const trades = useSelector(gameService, _trades);
-  const hasActiveTrades =
-    getKeys(trades.offers ?? {}).length > 0 ||
-    getKeys(trades.listings ?? {}).length > 0;
+  const hasOffers = getKeys(trades.offers ?? {}).length > 0;
+  const hasListings = getKeys(trades.listings ?? {}).length > 0;
+  const hasActiveTrades = hasOffers || hasListings;
 
   if (!hasActiveTrades) {
     return (
@@ -35,9 +35,17 @@ export const MyTrades: React.FC = () => {
   }
 
   return (
-    <div className="overflow-y-scroll scrollable pr-1 h-full">
-      <MyOffers />
-      <MyListings />
+    <div className="flex h-full min-h-0 flex-col gap-1 pr-1">
+      {hasOffers && (
+        <div className="min-h-0 flex-1">
+          <MyOffers fullHeight />
+        </div>
+      )}
+      {hasListings && (
+        <div className="min-h-0 flex-1">
+          <MyListings fullHeight />
+        </div>
+      )}
     </div>
   );
 };
