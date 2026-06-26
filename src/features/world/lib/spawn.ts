@@ -182,4 +182,10 @@ export const SPAWNS: () => SpawnLocation = () => ({
       y: 290,
     },
   },
+  colors_island_2026: {
+    default: {
+      x: 176,
+      y: 352,
+    },
+  },
 });

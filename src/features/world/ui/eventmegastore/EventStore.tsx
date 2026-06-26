@@ -3,12 +3,12 @@ import { Label } from "components/ui/Label";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import React, { useState } from "react";
 import {
-  APRIL_FOOLS_EVENT_ITEMS,
+  COLORS_2026_EVENT_ITEMS,
   type EventStoreCollectible,
   type EventStoreItem,
   type EventStoreTier,
   type EventStoreWearable,
-} from "features/game/types/aprilFoolsEventShop";
+} from "features/game/types/colors2026EventShop";
 
 import { ItemsList } from "./eventmegastore_components/ItemsList";
 import { ItemDetail } from "./eventmegastore_components/ItemDetail";
@@ -21,6 +21,10 @@ import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuff
 import { FACTION_SHOP_KEYS } from "features/game/types/factionShop";
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
 import type { GameState } from "features/game/types/game";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { getTimeLeft, secondsToString } from "lib/utils/time";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useNow } from "lib/utils/hooks/useNow";
 interface Props {
   onClose?: () => void;
   readonly?: boolean;
@@ -79,13 +83,27 @@ export const EventStore: React.FC<Props> = ({ readonly, state }) => {
     setSelectedTier(tier);
   };
 
-  const EVENTMEGASTORE = APRIL_FOOLS_EVENT_ITEMS;
+  const now = useNow({ live: true });
+  const startDate = new Date("2026-07-01T00:00:00.000Z");
+  const endDate = new Date("2026-07-11T00:00:00.000Z");
+
+  const totalSecondsAvailable =
+    (endDate.getTime() - startDate.getTime()) / 1000;
+
+  const timeRemaining = getTimeLeft(
+    startDate.getTime(),
+    totalSecondsAvailable,
+    now,
+  );
+  const { t } = useAppTranslation();
+  const EVENTMEGASTORE = COLORS_2026_EVENT_ITEMS;
 
   // Basic-Epic
   const basicAllItems = EVENTMEGASTORE.basic.items;
   const rareAllItems = EVENTMEGASTORE.rare.items;
   const epicAllItems = EVENTMEGASTORE.epic.items;
   const megaItems = EVENTMEGASTORE.mega.items;
+  const extraItems = EVENTMEGASTORE.extra.items;
 
   return (
     <>
@@ -111,6 +129,14 @@ export const EventStore: React.FC<Props> = ({ readonly, state }) => {
       <div className="flex justify-between px-2 flex-wrap pb-1">
         <Label type="default" className="mb-1">
           {"Event Store"}
+        </Label>
+        <Label icon={SUNNYSIDE.icons.stopwatch} type="danger" className="mb-1">
+          {t("megaStore.timeRemaining", {
+            timeRemaining: secondsToString(timeRemaining, {
+              length: "medium",
+              removeTrailingZeros: true,
+            }),
+          })}
         </Label>
       </div>
       <div
@@ -139,6 +165,12 @@ export const EventStore: React.FC<Props> = ({ readonly, state }) => {
           itemsLabel={"Mega Items"}
           tier="mega"
           items={megaItems}
+          onItemClick={handleClickItem}
+        />
+        <ItemsList
+          itemsLabel={"Extra Item"}
+          tier="extra"
+          items={extraItems}
           onItemClick={handleClickItem}
         />
       </div>

@@ -5,7 +5,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import love from "assets/icons/love_charm_small.webp";
 import shop from "assets/icons/shop.png";
 import calendar from "assets/icons/calendar.webp";
-import eventToken from "assets/icons/april_fools_token_2026.webp";
+import eventToken from "assets/icons/colors_2026_token.webp";
 import flowerToken from "assets/icons/flower_token.webp";
 import type { BuffLabel } from "features/game/types";
 import { Label } from "components/ui/Label";
@@ -31,8 +31,6 @@ const CONTRIBUTORS = [
   "Shykun",
   "Jc",
   "Andando",
-  "wetto",
-  "RadishPies",
 ];
 
 export const NoticeboardItems: React.FC<NoticeboardItemProps> = ({
@@ -92,7 +90,7 @@ export const EventNoticeboard: React.FC<Props> = ({ onClose }) => {
         <NoticeboardItems
           items={[
             {
-              text: t("eventAprilFools.noticeboard.one"),
+              text: t("eventColors2026.noticeboard.one"),
               icon: calendar,
             },
             {

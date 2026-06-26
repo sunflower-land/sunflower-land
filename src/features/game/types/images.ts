@@ -1081,6 +1081,26 @@ import goblinRug from "assets/sfts/goblin_rug.webp";
 import petRug from "assets/sfts/pet_rug.webp";
 import jesterInABox from "assets/sfts/jester_in_a_box.webp";
 import theSunflowerManStatue from "assets/sfts/the_sunflower_man_statue.webp";
+
+import colorsTicket2026 from "assets/icons/colors_2026_ticket.webp";
+import colorsToken2026 from "assets/icons/colors_2026_token.webp";
+import bluePaintBucket from "assets/sfts/blue_paint_bucket.webp";
+import greenPaintBucket from "assets/sfts/green_paint_bucket.webp";
+import foolsGold from "assets/sfts/fools_gold.webp";
+import rainbowPorkJelly from "assets/sfts/rainbow_pork_jelly.webp";
+import porkJelly from "assets/sfts/pork_jelly.webp";
+import mimicWingedSlimeBall from "assets/sfts/mimic_winged_slime_ball.webp";
+import mimicSlimeBall from "assets/sfts/mimic_slime_ball.webp";
+import colorWheel from "assets/sfts/color_wheel.webp";
+import yellowPaintBucket from "assets/sfts/yellow_paint_bucket.webp";
+import purplePaintBucket from "assets/sfts/purple_paint_bucket.webp";
+import slimeTotem from "assets/sfts/slime_totem.webp";
+import dholDrum from "assets/sfts/dhol_drum.webp";
+import bronzeSlimeTrophy from "assets/sfts/bronze_slime_trophy.webp";
+import silverSlimeTrophy from "assets/sfts/silver_slime_trophy.webp";
+import goldSlimeTrophy from "assets/sfts/gold_slime_trophy.webp";
+import giantDonut from "assets/sfts/giant_donut.webp";
+
 import bigTable from "assets/decorations/big_table.webp";
 import crate from "assets/decorations/crate.webp";
 import emptyPot from "assets/decorations/empty_pot.webp";
@@ -7808,5 +7828,77 @@ export const ITEM_DETAILS: Items = {
   Stool: {
     image: stool,
     description: translate("description.stool"),
+  },
+  "Blue Paint Bucket": {
+    image: bluePaintBucket,
+    description: translate("description.bluePaintBucket"),
+  },
+  "Green Paint Bucket": {
+    image: greenPaintBucket,
+    description: translate("description.greenPaintBucket"),
+  },
+  "Fool's Gold": {
+    image: foolsGold,
+    description: translate("description.foolsGold"),
+  },
+  "Rainbow Pork Jelly": {
+    image: rainbowPorkJelly,
+    description: translate("description.rainbowPorkJelly"),
+  },
+  "Pork Jelly": {
+    image: porkJelly,
+    description: translate("description.porkJelly"),
+  },
+  "Mimic Winged Slime Ball": {
+    image: mimicWingedSlimeBall,
+    description: translate("description.mimicWingedSlimeBall"),
+  },
+  "Mimic Slime Ball": {
+    image: mimicSlimeBall,
+    description: translate("description.mimicSlimeBall"),
+  },
+  "Color Wheel": {
+    image: colorWheel,
+    description: translate("description.colorWheel"),
+  },
+  "Yellow Paint Bucket": {
+    image: yellowPaintBucket,
+    description: translate("description.yellowPaintBucket"),
+  },
+  "Purple Paint Bucket": {
+    image: purplePaintBucket,
+    description: translate("description.purplePaintBucket"),
+  },
+  "Slime Totem": {
+    image: slimeTotem,
+    description: translate("description.slimeTotem"),
+  },
+  "Dhol Drum": {
+    image: dholDrum,
+    description: translate("description.dholDrum"),
+  },
+  "Bronze Slime Trophy": {
+    image: bronzeSlimeTrophy,
+    description: translate("description.bronzeSlimeTrophy"),
+  },
+  "Silver Slime Trophy": {
+    image: silverSlimeTrophy,
+    description: translate("description.silverSlimeTrophy"),
+  },
+  "Golden Slime Trophy": {
+    image: goldSlimeTrophy,
+    description: translate("description.goldSlimeTrophy"),
+  },
+  "Giant Donut": {
+    image: giantDonut,
+    description: translate("description.giantDonut"),
+  },
+  "Colors Ticket 2026": {
+    image: colorsTicket2026,
+    description: translate("description.colorsTicket2026"),
+  },
+  "Colors Token 2026": {
+    image: colorsToken2026,
+    description: translate("description.colorsToken2026"),
   },
 };

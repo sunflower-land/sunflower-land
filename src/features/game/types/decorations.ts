@@ -206,7 +206,23 @@ export type EventDecorationName =
   | "Goblin Rug"
   | "Pet Rug"
   | "Jester in a box"
-  | "The Sunflower Man Statue";
+  | "The Sunflower Man Statue"
+  | "Blue Paint Bucket"
+  | "Green Paint Bucket"
+  | "Purple Paint Bucket"
+  | "Yellow Paint Bucket"
+  | "Color Wheel"
+  | "Dhol Drum"
+  | "Mimic Slime Ball"
+  | "Mimic Winged Slime Ball"
+  | "Pork Jelly"
+  | "Rainbow Pork Jelly"
+  | "Slime Totem"
+  | "Giant Donut"
+  | "Fool's Gold"
+  | "Golden Slime Trophy"
+  | "Silver Slime Trophy"
+  | "Bronze Slime Trophy";
 
 export type TileName =
   | "Black Tile"
@@ -1527,6 +1543,70 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   Stool: {
     width: 1,
     height: 1,
+  },
+  "Blue Paint Bucket": {
+    width: 1,
+    height: 2,
+  },
+  "Green Paint Bucket": {
+    width: 1,
+    height: 2,
+  },
+  "Purple Paint Bucket": {
+    width: 1,
+    height: 2,
+  },
+  "Yellow Paint Bucket": {
+    width: 1,
+    height: 2,
+  },
+  "Color Wheel": {
+    width: 2,
+    height: 2,
+  },
+  "Dhol Drum": {
+    width: 2,
+    height: 2,
+  },
+  "Mimic Slime Ball": {
+    width: 1,
+    height: 1,
+  },
+  "Mimic Winged Slime Ball": {
+    width: 1,
+    height: 1,
+  },
+  "Pork Jelly": {
+    width: 1,
+    height: 1,
+  },
+  "Rainbow Pork Jelly": {
+    width: 1,
+    height: 1,
+  },
+  "Slime Totem": {
+    width: 2,
+    height: 2,
+  },
+  "Giant Donut": {
+    width: 2,
+    height: 2,
+  },
+  "Fool's Gold": {
+    width: 2,
+    height: 2,
+  },
+  "Golden Slime Trophy": {
+    width: 1,
+    height: 2,
+  },
+  "Silver Slime Trophy": {
+    width: 1,
+    height: 2,
+  },
+  "Bronze Slime Trophy": {
+    width: 1,
+    height: 2,
   },
 };
 

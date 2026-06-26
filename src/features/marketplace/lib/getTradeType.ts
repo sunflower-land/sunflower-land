@@ -1449,6 +1449,26 @@ export const ITEM_TRADE_TYPES: {
     "Salt Crystal Bed": "instant",
     "World Map Rug": "instant",
     "Ripped Salt Bag": "instant",
+
+    //Colors Event 2026 items
+    "Colors Token 2026": "instant",
+    "Colors Ticket 2026": "instant",
+    "Blue Paint Bucket": "instant",
+    "Green Paint Bucket": "instant",
+    "Purple Paint Bucket": "instant",
+    "Yellow Paint Bucket": "instant",
+    "Color Wheel": "instant",
+    "Dhol Drum": "instant",
+    "Mimic Slime Ball": "instant",
+    "Mimic Winged Slime Ball": "instant",
+    "Pork Jelly": "instant",
+    "Rainbow Pork Jelly": "instant",
+    "Slime Totem": "instant",
+    "Giant Donut": "instant",
+    "Fool's Gold": "instant",
+    "Golden Slime Trophy": "instant",
+    "Silver Slime Trophy": "instant",
+    "Bronze Slime Trophy": "instant",
   },
   wearables: {
     "Walrus Onesie": "instant",
@@ -2011,6 +2031,20 @@ export const ITEM_TRADE_TYPES: {
     "Clam Shell Hat": "instant",
     "Shrimp Onesie": "instant",
     "Brasil Jersey": "instant",
+
+    //Colors 2026 event wearables
+    "Green Slime Hair": "instant",
+    "Blue Slime Shirt": "instant",
+    "Slime Splattered Shirt": "instant",
+    "Sad Slime Pants": "instant",
+    "Red Jelly Pants": "instant",
+    "Yellow Slime Puppet": "instant",
+    "Blue Jelly Shoes": "instant",
+    "Sad Slime Slippers": "instant",
+    "Sad Slime Hat": "instant",
+    "Slime Wall Background": "instant",
+    "Rainbow Wings": "onchain",
+    "Butterfly Aura": "onchain",
   },
 };
 

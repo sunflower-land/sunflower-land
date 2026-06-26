@@ -328,6 +328,8 @@ export type Coupons =
   | "Holiday Ticket 2025"
   | "April Fools Token 2026"
   | "April Fools Ticket 2026"
+  | "Colors Token 2026"
+  | "Colors Ticket 2026"
   | "Cheer"
   | "CluckCoin"
   | Keys
@@ -502,6 +504,12 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Salt Rock": { description: "Collected during the Salt Awakening." },
   "Salt Awakening Raffle Ticket": {
     description: "A raffle ticket for the Salt Awakening chapter.",
+  },
+  "Colors Token 2026": {
+    description: translate("description.colorTicket2026"),
+  },
+  "Colors Ticket 2026": {
+    description: translate("description.colorTicket2026"),
   },
 };
 
@@ -1568,7 +1576,8 @@ export type Currency =
   | "Colors Token 2025"
   | "Halloween Token 2025"
   | "Holiday Token 2025"
-  | "April Fools Token 2026";
+  | "April Fools Token 2026"
+  | "Colors Token 2026";
 
 export type ShopItemBase = {
   shortDescription: string;

@@ -12,7 +12,9 @@ export type EventShopItemName =
   | HolidayShopCollectibleName
   | HolidayShopWearableName
   | AprilFoolsShopCollectibleName
-  | AprilFoolsShopWearableName;
+  | AprilFoolsShopWearableName
+  | Colors2026ShopCollectibleName
+  | Colors2026ShopWearableName;
 
 export type EasterShopCollectibleName = Extract<
   InventoryItemName,
@@ -95,6 +97,27 @@ export type AprilFoolsShopCollectibleName = Extract<
   | "Definitely not a Flower"
 >;
 
+export type Colors2026ShopCollectibleName = Extract<
+  InventoryItemName,
+  | "Super Totem"
+  | "Treasure Key"
+  | "Rare Key"
+  | "Luxury Key"
+  | "Colors Ticket 2026"
+  | "Blue Paint Bucket"
+  | "Green Paint Bucket"
+  | "Purple Paint Bucket"
+  | "Yellow Paint Bucket"
+  | "Color Wheel"
+  | "Dhol Drum"
+  | "Mimic Slime Ball"
+  | "Mimic Winged Slime Ball"
+  | "Pork Jelly"
+  | "Rainbow Pork Jelly"
+  | "Slime Totem"
+  | "Giant Donut"
+>;
+
 export type EasterShopWearableName = Extract<
   BumpkinItem,
   | "Bunny Pants"
@@ -163,6 +186,22 @@ export type AprilFoolsShopWearableName = Extract<
   | "Glitch Aura"
 >;
 
+export type Colors2026ShopWearableName = Extract<
+  BumpkinItem,
+  | "Rainbow Wings"
+  | "Butterfly Aura"
+  | "Slime Wall Background"
+  | "Green Slime Hair"
+  | "Blue Slime Shirt"
+  | "Slime Splattered Shirt"
+  | "Yellow Slime Puppet"
+  | "Blue Jelly Shoes"
+  | "Sad Slime Slippers"
+  | "Sad Slime Hat"
+  | "Sad Slime Pants"
+  | "Red Jelly Pants"
+>;
+
 export type EasterShopItemName =
   | EasterShopCollectibleName
   | EasterShopWearableName;
@@ -182,6 +221,10 @@ export type HolidayShopItemName =
 export type AprilFoolsShopItemName =
   | AprilFoolsShopCollectibleName
   | AprilFoolsShopWearableName;
+
+export type Colors2026ShopItemName =
+  | Colors2026ShopCollectibleName
+  | Colors2026ShopWearableName;
 
 type EventShopBase = {
   cost: { sfl: number; items: Partial<Record<InventoryItemName, number>> };
@@ -922,6 +965,186 @@ export const APRIL_FOOLS_STORE: MinigameShop<AprilFoolsShopItemName> = {
   },
 };
 
+export const COLORS_2026_STORE: MinigameShop<Colors2026ShopItemName> = {
+  "Colors Ticket 2026": {
+    cost: { sfl: 0, items: { "Colors Token 2026": 100 } },
+    max: 10000,
+    type: "collectible",
+    name: "Colors Ticket 2026",
+  },
+  "Treasure Key": {
+    cost: { sfl: 0, items: { "Colors Token 2026": 300 } },
+    max: 1,
+    type: "collectible",
+    name: "Treasure Key",
+  },
+  "Rare Key": {
+    cost: { sfl: 0, items: { "Colors Token 2026": 500 } },
+    max: 1,
+    type: "collectible",
+    name: "Rare Key",
+  },
+  "Luxury Key": {
+    cost: { sfl: 0, items: { "Colors Token 2026": 700 } },
+    max: 1,
+    type: "collectible",
+    name: "Luxury Key",
+  },
+  "Super Totem": {
+    cost: { sfl: 0, items: { "Colors Token 2026": 2000 } },
+    max: 1,
+    type: "collectible",
+    name: "Super Totem",
+  },
+  "Blue Paint Bucket": {
+    cost: { sfl: 0, items: { "Colors Token 2026": 100 } },
+    max: 1,
+    type: "collectible",
+    name: "Blue Paint Bucket",
+  },
+  "Green Paint Bucket": {
+    cost: { sfl: 0, items: { "Colors Token 2026": 100 } },
+    max: 1,
+    type: "collectible",
+    name: "Green Paint Bucket",
+  },
+  "Purple Paint Bucket": {
+    cost: { sfl: 0, items: { "Colors Token 2026": 100 } },
+    max: 1,
+    type: "collectible",
+    name: "Purple Paint Bucket",
+  },
+  "Yellow Paint Bucket": {
+    cost: { sfl: 0, items: { "Colors Token 2026": 100 } },
+    max: 1,
+    type: "collectible",
+    name: "Yellow Paint Bucket",
+  },
+  "Color Wheel": {
+    cost: { sfl: 0, items: { "Colors Token 2026": 500 } },
+    max: 1,
+    type: "collectible",
+    name: "Color Wheel",
+  },
+  "Dhol Drum": {
+    cost: { sfl: 0, items: { "Colors Token 2026": 200 } },
+    max: 1,
+    type: "collectible",
+    name: "Dhol Drum",
+  },
+  "Mimic Slime Ball": {
+    cost: { sfl: 30, items: {} },
+    max: 2,
+    type: "collectible",
+    name: "Mimic Slime Ball",
+  },
+  "Mimic Winged Slime Ball": {
+    cost: {
+      sfl: 0,
+      items: { "Mimic Slime Ball": 1, "Colors Token 2026": 300 },
+    },
+    max: 1,
+    type: "collectible",
+    name: "Mimic Winged Slime Ball",
+  },
+  "Pork Jelly": {
+    cost: { sfl: 0, items: { "Colors Token 2026": 300 } },
+    max: 2,
+    type: "collectible",
+    name: "Pork Jelly",
+  },
+  "Rainbow Pork Jelly": {
+    cost: { sfl: 0, items: { "Pork Jelly": 1, "Colors Token 2026": 500 } },
+    max: 1,
+    type: "collectible",
+    name: "Rainbow Pork Jelly",
+  },
+  "Slime Totem": {
+    cost: { sfl: 1, items: {} },
+    max: 1,
+    type: "collectible",
+    name: "Slime Totem",
+  },
+  "Giant Donut": {
+    cost: { sfl: 0, items: { "Colors Token 2026": 400 } },
+    max: 1,
+    type: "collectible",
+    name: "Giant Donut",
+  },
+  "Green Slime Hair": {
+    cost: { sfl: 30, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Green Slime Hair",
+  },
+  "Blue Slime Shirt": {
+    cost: { sfl: 100, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Blue Slime Shirt",
+  },
+  "Slime Splattered Shirt": {
+    cost: { sfl: 0, items: { "Colors Token 2026": 200 } },
+    max: 1,
+    type: "wearable",
+    name: "Slime Splattered Shirt",
+  },
+  "Sad Slime Pants": {
+    cost: { sfl: 0, items: { "Colors Token 2026": 300 } },
+    max: 1,
+    type: "wearable",
+    name: "Sad Slime Pants",
+  },
+  "Red Jelly Pants": {
+    cost: { sfl: 30, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Red Jelly Pants",
+  },
+  "Yellow Slime Puppet": {
+    cost: { sfl: 0, items: { "Colors Token 2026": 400 } },
+    max: 1,
+    type: "wearable",
+    name: "Yellow Slime Puppet",
+  },
+  "Blue Jelly Shoes": {
+    cost: { sfl: 0, items: { "Colors Token 2026": 150 } },
+    max: 1,
+    type: "wearable",
+    name: "Blue Jelly Shoes",
+  },
+  "Sad Slime Slippers": {
+    cost: { sfl: 0, items: { "Colors Token 2026": 300 } },
+    max: 1,
+    type: "wearable",
+    name: "Sad Slime Slippers",
+  },
+  "Sad Slime Hat": {
+    cost: { sfl: 50, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Sad Slime Hat",
+  },
+  "Slime Wall Background": {
+    cost: { sfl: 0, items: { "Colors Token 2026": 1000 } },
+    max: 1,
+    type: "wearable",
+    name: "Slime Wall Background",
+  },
+  "Rainbow Wings": {
+    cost: { sfl: 300, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Rainbow Wings",
+  },
+  "Butterfly Aura": {
+    cost: { sfl: 600, items: {} },
+    max: 1,
+    type: "wearable",
+    name: "Butterfly Aura",
+  },
+};
+
 export const MINIGAME_SHOP_ITEMS: Partial<
   Record<MinigameName, AnyMinigameShop>
 > = {
@@ -930,4 +1153,5 @@ export const MINIGAME_SHOP_ITEMS: Partial<
   halloween: HALLOWEEN_STORE,
   "holiday-puzzle-2025": HOLIDAY_STORE,
   "april-fools": APRIL_FOOLS_STORE,
+  "colors-2026": COLORS_2026_STORE,
 };
