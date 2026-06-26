@@ -21,6 +21,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { getChapterTicket } from "features/game/types/chapters";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
+import { needsBasicScarecrow } from "features/island/buildings/components/building/workBench/lib/onboarding";
 import {
   type MonumentName,
   REQUIRED_CHEERS,
@@ -159,9 +160,7 @@ export const IslandBlacksmithItems: React.FC<Props> = ({ onClose }) => {
   // Nudge new players towards crafting their first Basic Scarecrow once they
   // have planted enough sunflowers to need one.
   const showScarecrowHelper =
-    selectedName === "Basic Scarecrow" &&
-    !inventory["Basic Scarecrow"] &&
-    (state.farmActivity?.["Sunflower Planted"] ?? 0) >= 6;
+    selectedName === "Basic Scarecrow" && needsBasicScarecrow(state);
 
   const lessIngredients = () =>
     getKeys(selectedItem?.ingredients ?? {}).some((name) =>

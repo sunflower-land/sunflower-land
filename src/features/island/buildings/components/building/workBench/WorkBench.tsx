@@ -12,29 +12,11 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
-import { INITIAL_SUPPORTED_PLOTS } from "features/game/events/landExpansion/plant";
-import { getKeys } from "lib/object";
+import { needsBasicScarecrow, needsWaterWell } from "./lib/onboarding";
 
-// Only nudge towards building a Water Well once the player has more crop plots
-// than the no-well limit supports, i.e. one or more plots have become
-// infertile. This avoids showing the helper at the very start of the tutorial.
-const _needsWell = (state: MachineState) => {
-  const { buildings, crops, island } = state.context.state;
-
-  const hasWell =
-    buildings["Water Well"]?.some((w) => !!w.coordinates) ?? false;
-  if (hasWell) return false;
-
-  const placedPlots = getKeys(crops).filter(
-    (id) => crops[id].x !== undefined && crops[id].y !== undefined,
-  ).length;
-
-  return placedPlots > INITIAL_SUPPORTED_PLOTS(island.type);
-};
-
+const _needsWell = (state: MachineState) => needsWaterWell(state.context.state);
 const _needsScarecrow = (state: MachineState) =>
-  !state.context.state.inventory["Basic Scarecrow"] &&
-  (state.context.state.farmActivity?.["Sunflower Planted"] ?? 0) >= 6;
+  needsBasicScarecrow(state.context.state);
 
 export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, island }) => {
   // TODO: feat/crafting-box - remove this
@@ -103,7 +85,9 @@ export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, island }) => {
           />
         )}
       </BuildingImageWrapper>
-      <WorkbenchModal onClose={handleClose} show={isOpen} />
+      {/* Mount only while open so the modal re-evaluates its default tab each
+          time it is opened, without an effect-driven state reset. */}
+      {isOpen && <WorkbenchModal onClose={handleClose} show />}
     </>
   );
 };
