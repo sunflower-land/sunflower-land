@@ -609,7 +609,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
     if (inView && hasMore && !isLoadingMore && canPaginate) {
       loadMore();
     }
-  }, [inView, hasMore, isLoadingMore, loadMore, scrollContainerRef]);
+  }, [inView, hasMore, isLoadingMore, loadMore, canPaginate]);
 
   const setRefs = useCallback(
     (node: HTMLDivElement | null) => {
