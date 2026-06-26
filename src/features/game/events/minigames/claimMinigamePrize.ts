@@ -91,7 +91,7 @@ export function claimMinigamePrize({
     }
 
     // Has already claimed
-    if (history.prizeClaimedAt && !minigames.games["festival-of-colors-2026"]) {
+    if (history.prizeClaimedAt && !minigames.games["colors-2026"]) {
       throw new Error(`Already claimed ${action.id} prize`);
     }
 
