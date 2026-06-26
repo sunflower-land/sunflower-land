@@ -466,6 +466,13 @@ type LayoutSlot = {
   position: Position;
   /** Materialise the resolved instance at this slot. */
   place: () => void;
+  /**
+   * For a reused instance that was already on the farm: where it sat before the
+   * layout lifted it, so that if this slot is blocked we can leave the item
+   * there (when that tile is still free) instead of unplacing it. Newly-created
+   * instances have no `restore` — they simply aren't created.
+   */
+  restore?: { position: Position; apply: () => void };
 };
 
 /** Deterministic position order so FE and BE fill slots identically. */
@@ -477,20 +484,22 @@ const byPosition = (a: LayoutCoordinates, b: LayoutCoordinates) =>
  * inventory availability (not by saved id) so a layout can be shared between
  * players. Best-effort — mutates `state` in place (expects an Immer draft).
  *
- * Matching: collectibles/buildings/resources by name+availability; buds/pet
- * NFTs by id ownership; farmhands by however many are unlocked; the bumpkin
- * always. For each type the player's current farm placements are lifted, then
- * the type's saved positions are filled (in a deterministic order) from the
- * available instances — so owning fewer than the layout asks leaves the extra
- * positions empty (`noInventory`), and owning more leaves the extras unplaced.
+ * Matching: collectibles/buildings/resources prefer the player's own instance
+ * for each saved id (so applying your own layout restores each item to its exact
+ * spot, keeping its timers/state), then fall back to inventory availability for
+ * ids you don't own (e.g. a shared layout). Buds/pet NFTs match by id ownership;
+ * farmhands prefer the saved id then fill by count; the bumpkin is always placed.
+ * For each type the player's current farm placements are lifted, then the type's
+ * saved positions are filled (in a deterministic order) — owning fewer than the
+ * layout asks leaves the extra positions empty (`noInventory`), owning more
+ * leaves the extras unplaced.
  *
- * Collectibles & buildings are placed up to full inventory availability:
- * unplaced instances are reused first, then new instances are created (with
- * deterministic ids) from the remaining owned inventory. Resources/buds/pets/
- * farmhands reuse existing instances (resource nodes are pre-created by land
- * expansion, so reuse already covers what a player owns); positions with no
- * available instance count as `noInventory`. Positions blocked off-land or under
- * a non-layout item are `skipped`.
+ * Collectibles, buildings & resources are placed up to full inventory
+ * availability: existing instances are reused first, then new instances are
+ * created (with deterministic ids) from the remaining owned inventory. Buds/pets/
+ * farmhands reuse existing instances only; positions with no available instance
+ * count as `noInventory`. Positions blocked off-land or under a non-layout item
+ * are `skipped`.
  */
 export function applyFarmLayout(
   state: GameState,
@@ -518,42 +527,78 @@ export function applyFarmLayout(
       const dimensions = PLACEABLE_DIMENSIONS[name];
       if (!dimensions || !entries) return;
       const group = getBucket(name) ?? [];
+      const originalCoords = new Map(
+        group.map((item) => [item.id, item.coordinates]),
+      );
       group.forEach((item) => {
         if (item.coordinates) item.coordinates = undefined; // lift
       });
-      const available = group
-        .filter((item) => !item.coordinates)
-        .sort((a, b) => a.id.localeCompare(b.id));
+      const byId = new Map(group.map((item) => [item.id, item]));
       const owned = getChestItemCount(
         state,
         name as InventoryItemName,
       ).toNumber();
-      const capacity = Math.min(entries.length, owned);
-      [...entries]
-        .sort((a, b) => byPosition(a.coordinates, b.coordinates))
-        .forEach((entry, i) => {
-          if (i >= capacity) {
-            noInventory += 1;
-            return;
-          }
-          const reuse = available[i];
-          slots.push({
-            name: name as LandscapingPlaceable,
-            position: {
-              x: entry.coordinates.x,
-              y: entry.coordinates.y,
-              width: dimensions.width,
-              height: dimensions.height,
-            },
-            place: () => {
-              const item = reuse ?? newItem(name, newId(name, i));
-              if (!reuse) ensureBucket(name).push(item);
-              item.coordinates = { ...entry.coordinates };
-              item.flipped = entry.flipped;
-              delete item.removedAt;
-            },
-          });
+      const sortedEntries = [...entries].sort((a, b) =>
+        byPosition(a.coordinates, b.coordinates),
+      );
+      const capacity = Math.min(sortedEntries.length, owned);
+      // Prefer the player's own copy of each saved instance (exact restoration);
+      // reserve those ids, then fall back to any other unplaced instance
+      // (id-sorted) and finally to creating new ones from inventory.
+      const ownedSavedIds = new Set(
+        sortedEntries
+          .slice(0, capacity)
+          .map((entry) => entry.id)
+          .filter((id) => byId.has(id)),
+      );
+      const freePool = group
+        .map((item) => item.id)
+        .filter((id) => !ownedSavedIds.has(id))
+        .sort((a, b) => a.localeCompare(b));
+      let freeIdx = 0;
+      sortedEntries.forEach((entry, i) => {
+        if (i >= capacity) {
+          noInventory += 1;
+          return;
+        }
+        const reuseId = byId.has(entry.id) ? entry.id : freePool[freeIdx++];
+        const reuse = reuseId !== undefined ? byId.get(reuseId) : undefined;
+        const original =
+          reuse && reuseId !== undefined
+            ? originalCoords.get(reuseId)
+            : undefined;
+        slots.push({
+          name: name as LandscapingPlaceable,
+          position: {
+            x: entry.coordinates.x,
+            y: entry.coordinates.y,
+            width: dimensions.width,
+            height: dimensions.height,
+          },
+          place: () => {
+            const item = reuse ?? newItem(name, newId(name, i));
+            if (!reuse) ensureBucket(name).push(item);
+            item.coordinates = { ...entry.coordinates };
+            item.flipped = entry.flipped;
+            delete item.removedAt;
+          },
+          restore:
+            reuse && original
+              ? {
+                  position: {
+                    x: original.x,
+                    y: original.y,
+                    width: dimensions.width,
+                    height: dimensions.height,
+                  },
+                  apply: () => {
+                    reuse.coordinates = { ...original };
+                    delete reuse.removedAt;
+                  },
+                }
+              : undefined,
         });
+      });
     });
   };
   addNamedSlots(
@@ -573,32 +618,59 @@ export function applyFarmLayout(
   // Resources: keyed by bucket (tiers aggregated), placed up to availability.
   // Lift the bucket, reuse the (id-sorted) unplaced instances first, then create
   // new nodes from the remaining owned inventory.
-  let beehivePlaced = false;
+  let affectsBeehives = false;
   RESOURCE_BUCKETS.forEach(({ key, resourceName, get }) => {
     const dimensions = RESOURCE_DIMENSIONS[resourceName];
     const bucket = get(state);
+    const originalCoords = new Map(
+      Object.entries(bucket).map(([id, node]) => [
+        id,
+        node.x !== undefined && node.y !== undefined
+          ? { x: node.x, y: node.y, oX: node.oX, oY: node.oY }
+          : undefined,
+      ]),
+    );
     Object.values(bucket).forEach((node) => {
       if (node.x !== undefined) {
         node.x = undefined; // lift
         node.y = undefined;
       }
     });
-    const available = Object.keys(bucket)
-      .filter((id) => bucket[id].x === undefined)
-      .sort((a, b) => a.localeCompare(b));
     const owned = isTieredFamily(key)
       ? getAvailableNodes(state, key).toNumber()
       : getChestItemCount(state, resourceName as InventoryItemName).toNumber();
-    const positions = Object.values(layout.resources[key] ?? {}).sort(
-      byPosition,
+    const entries = Object.entries(layout.resources[key] ?? {}).sort(
+      ([, a], [, b]) => byPosition(a, b),
     );
-    const capacity = Math.min(positions.length, owned);
-    positions.forEach((coordinates, i) => {
+    const capacity = Math.min(entries.length, owned);
+    // Prefer the player's own node for each saved id (keeps its tier + timers at
+    // the saved spot); reserve those, then fall back to any other unplaced node
+    // (id-sorted) and finally to creating new ones from inventory.
+    const ownedSavedIds = new Set(
+      entries
+        .slice(0, capacity)
+        .map(([id]) => id)
+        .filter((id) => bucket[id] !== undefined),
+    );
+    const freePool = Object.keys(bucket)
+      .filter((id) => bucket[id].x === undefined && !ownedSavedIds.has(id))
+      .sort((a, b) => a.localeCompare(b));
+    let freeIdx = 0;
+    entries.forEach(([savedId, coordinates], i) => {
       if (i >= capacity) {
         noInventory += 1;
         return;
       }
-      const reuseId = available[i];
+      const reuseId =
+        bucket[savedId] !== undefined ? savedId : freePool[freeIdx++];
+      const original =
+        reuseId !== undefined ? originalCoords.get(reuseId) : undefined;
+      const markBeehives = () => {
+        // Moving a beehive OR a flower bed changes beehive flower adjacency.
+        if (key === "beehives" || key === "flowerBeds") {
+          affectsBeehives = true;
+        }
+      };
       slots.push({
         name: resourceName,
         position: {
@@ -623,8 +695,28 @@ export function applyFarmLayout(
               createdAt,
             );
           }
-          if (key === "beehives") beehivePlaced = true;
+          markBeehives();
         },
+        restore:
+          reuseId !== undefined && original
+            ? {
+                position: {
+                  x: original.x,
+                  y: original.y,
+                  width: dimensions.width,
+                  height: dimensions.height,
+                },
+                apply: () => {
+                  const node = bucket[reuseId];
+                  node.x = original.x;
+                  node.y = original.y;
+                  node.oX = original.oX;
+                  node.oY = original.oY;
+                  delete node.removedAt;
+                  markBeehives();
+                },
+              }
+            : undefined,
       });
     });
   });
@@ -634,6 +726,7 @@ export function applyFarmLayout(
   Object.entries(layout.buds ?? {}).forEach(([id, coordinates]) => {
     const bud = state.buds?.[Number(id)];
     if (!bud) return;
+    const original = bud.coordinates;
     bud.coordinates = undefined; // lift
     slots.push({
       name: "Bud",
@@ -642,12 +735,22 @@ export function applyFarmLayout(
         bud.coordinates = { x: coordinates.x, y: coordinates.y };
         bud.location = "farm";
       },
+      restore: original
+        ? {
+            position: { x: original.x, y: original.y, ...BUD_DIMENSIONS },
+            apply: () => {
+              bud.coordinates = { x: original.x, y: original.y };
+              bud.location = "farm";
+            },
+          }
+        : undefined,
     });
   });
   Object.entries(layout.petNFTs ?? {}).forEach(([id, coordinates]) => {
     // Owned by id (a pet in a layout was placed once, so it's already revealed).
     const pet = state.pets?.nfts?.[Number(id)];
     if (!pet) return;
+    const original = pet.coordinates;
     pet.coordinates = undefined; // lift
     slots.push({
       name: "Pet",
@@ -656,42 +759,83 @@ export function applyFarmLayout(
         pet.coordinates = { x: coordinates.x, y: coordinates.y };
         pet.location = "farm";
       },
+      restore: original
+        ? {
+            position: { x: original.x, y: original.y, ...PET_NFT_DIMENSIONS },
+            apply: () => {
+              pet.coordinates = { x: original.x, y: original.y };
+              pet.location = "farm";
+            },
+          }
+        : undefined,
     });
   });
 
-  // FarmHands: by count — bind the (id-sorted) unlocked farmhands to the
-  // (position-sorted) saved slots, ignoring the saved ids.
+  // FarmHands: prefer the saved farmhand id if the player owns it (keeps each
+  // bumpkin's equipment + flip at its saved spot), else bind any other unlocked
+  // farmhand by count. No creation — you can't mint farmhands.
   const farmHandIds = Object.keys(state.farmHands?.bumpkins ?? {}).sort(
     (a, b) => a.localeCompare(b),
+  );
+  const farmHandOriginals = new Map(
+    farmHandIds.map((id) => [id, state.farmHands.bumpkins[id].coordinates]),
   );
   farmHandIds.forEach((id) => {
     const fh = state.farmHands.bumpkins[id];
     if (fh.coordinates) fh.coordinates = undefined; // lift
   });
-  Object.values(layout.farmHands ?? {})
-    .sort(byPosition)
-    .forEach((placement, i) => {
-      const id = farmHandIds[i];
-      if (id === undefined) {
-        noInventory += 1;
-        return;
-      }
-      const fh = state.farmHands.bumpkins[id];
-      slots.push({
-        name: "FarmHand",
-        position: { ...placement, ...FARM_HAND_DIMENSIONS },
-        place: () => {
-          fh.coordinates = { x: placement.x, y: placement.y };
-          fh.flipped = placement.flipped;
-          fh.location = "farm";
-        },
-      });
+  const fhEntries = Object.entries(layout.farmHands ?? {}).sort(
+    ([, a], [, b]) => byPosition(a, b),
+  );
+  const fhCapacity = Math.min(fhEntries.length, farmHandIds.length);
+  const ownedFarmHandIds = new Set(
+    fhEntries
+      .slice(0, fhCapacity)
+      .map(([id]) => id)
+      .filter((id) => state.farmHands.bumpkins[id] !== undefined),
+  );
+  const farmHandPool = farmHandIds.filter((id) => !ownedFarmHandIds.has(id));
+  let fhPoolIdx = 0;
+  fhEntries.forEach(([savedId, placement], i) => {
+    if (i >= fhCapacity) {
+      noInventory += 1;
+      return;
+    }
+    const id =
+      state.farmHands.bumpkins[savedId] !== undefined
+        ? savedId
+        : farmHandPool[fhPoolIdx++];
+    if (id === undefined) {
+      noInventory += 1;
+      return;
+    }
+    const fh = state.farmHands.bumpkins[id];
+    const original = farmHandOriginals.get(id);
+    slots.push({
+      name: "FarmHand",
+      position: { ...placement, ...FARM_HAND_DIMENSIONS },
+      place: () => {
+        fh.coordinates = { x: placement.x, y: placement.y };
+        fh.flipped = placement.flipped;
+        fh.location = "farm";
+      },
+      restore: original
+        ? {
+            position: { x: original.x, y: original.y, ...FARM_HAND_DIMENSIONS },
+            apply: () => {
+              fh.coordinates = { x: original.x, y: original.y };
+              fh.location = "farm";
+            },
+          }
+        : undefined,
     });
+  });
 
   // The player's own Bumpkin — always placed at its saved position.
   if (layout.bumpkin && state.bumpkin) {
     const placement = layout.bumpkin;
     const bumpkin = state.bumpkin;
+    const original = bumpkin.coordinates;
     bumpkin.coordinates = undefined; // lift
     slots.push({
       name: "Bumpkin",
@@ -701,13 +845,24 @@ export function applyFarmLayout(
         bumpkin.flipped = placement.flipped;
         bumpkin.location = "farm";
       },
+      restore: original
+        ? {
+            position: { x: original.x, y: original.y, ...BUMPKIN_DIMENSIONS },
+            apply: () => {
+              bumpkin.coordinates = { x: original.x, y: original.y };
+              bumpkin.location = "farm";
+            },
+          }
+        : undefined,
     });
   }
 
   // Everything is now lifted. Place each slot in turn against the live draft
-  // (non-layout items + already-placed slots). A blocked slot stays unplaced.
+  // (non-layout items + already-placed slots). A blocked slot stays unplaced
+  // for now; reused instances get a best-effort restore pass below.
   let applied = 0;
   let skipped = 0;
+  const blockedSlots: LayoutSlot[] = [];
   for (const slot of slots) {
     const blocked = detectCollision({
       state,
@@ -717,15 +872,31 @@ export function applyFarmLayout(
     });
     if (blocked) {
       skipped += 1;
+      if (slot.restore) blockedSlots.push(slot);
     } else {
       slot.place();
       applied += 1;
     }
   }
 
+  // Best-effort: an item whose saved spot was blocked stays where it was before
+  // the layout lifted it, as long as that tile is still free (nothing in the new
+  // arrangement claimed it). Otherwise it remains unplaced.
+  for (const slot of blockedSlots) {
+    const restore = slot.restore;
+    if (!restore) continue;
+    const stillBlocked = detectCollision({
+      state,
+      position: restore.position,
+      location: "farm",
+      name: slot.name,
+    });
+    if (!stillBlocked) restore.apply();
+  }
+
   // Recompute honey now that beehives sit next to their flowers (mirrors the
   // place events, which call this whenever a beehive or flower bed is placed).
-  if (beehivePlaced) {
+  if (affectsBeehives) {
     state.beehives = updateBeehives({ game: state, createdAt });
   }
 

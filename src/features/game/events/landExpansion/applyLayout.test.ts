@@ -556,6 +556,158 @@ describe("applyLayout", () => {
     expect(result.buds).toEqual({});
   });
 
+  it("leaves a blocked item at its original spot (best-effort restore)", () => {
+    const saved = withSavedLayout({
+      ...withInventory({ "Wicker Man": 1 }),
+      collectibles: {
+        "Wicker Man": [{ id: "w", coordinates: { x: 0, y: 0 }, createdAt }],
+      },
+    });
+
+    const moved = cloneDeep(saved);
+    // Layout wants Wicker Man at (1, 0); it currently sits at (0, 0); a
+    // non-layout item blocks (1, 0).
+    moved.layouts![0].collectibles["Wicker Man"]![0].coordinates = {
+      x: 1,
+      y: 0,
+    };
+    moved.collectibles["Wicker Man"] = [
+      { id: "w", coordinates: { x: 0, y: 0 }, createdAt },
+    ];
+    moved.collectibles["Golden Bonsai"] = [
+      { id: "g", coordinates: { x: 1, y: 0 }, createdAt },
+    ];
+
+    const result = applyLayout({
+      state: moved,
+      action: { type: "layout.applied", layoutId: 0 },
+    });
+
+    expect(result.collectibles["Wicker Man"]![0].coordinates).toEqual({
+      x: 0,
+      y: 0,
+    });
+  });
+
+  it("unplaces a blocked item when its original tile is taken by the layout", () => {
+    const saved = withSavedLayout({
+      ...withInventory({ "Wicker Man": 2 }),
+      collectibles: {
+        "Wicker Man": [
+          { id: "a", coordinates: { x: 0, y: 0 }, createdAt },
+          { id: "b", coordinates: { x: 2, y: 0 }, createdAt },
+        ],
+      },
+    });
+
+    const moved = cloneDeep(saved);
+    // Layout: a -> (1, 0) [will be blocked], b -> (0, 0) [a's original tile].
+    moved.layouts![0].collectibles["Wicker Man"] = [
+      { id: "a", coordinates: { x: 1, y: 0 } },
+      { id: "b", coordinates: { x: 0, y: 0 } },
+    ];
+    moved.collectibles["Wicker Man"] = [
+      { id: "a", coordinates: { x: 0, y: 0 }, createdAt },
+      { id: "b", coordinates: { x: 2, y: 0 }, createdAt },
+    ];
+    moved.collectibles["Golden Bonsai"] = [
+      { id: "g", coordinates: { x: 1, y: 0 }, createdAt },
+    ];
+
+    const result = applyLayout({
+      state: moved,
+      action: { type: "layout.applied", layoutId: 0 },
+    });
+
+    const byId = Object.fromEntries(
+      result.collectibles["Wicker Man"]!.map((c) => [c.id, c.coordinates]),
+    );
+    expect(byId["b"]).toEqual({ x: 0, y: 0 });
+    expect(byId["a"]).toBeUndefined();
+  });
+
+  it("restores each owned collectible to its own saved spot (hybrid by id)", () => {
+    // ids sort opposite to positions, so pure-availability would swap them.
+    const saved = withSavedLayout({
+      ...withInventory({ "Wicker Man": 2 }),
+      collectibles: {
+        "Wicker Man": [
+          { id: "z", coordinates: { x: 0, y: 0 }, createdAt },
+          { id: "a", coordinates: { x: 1, y: 0 }, createdAt },
+        ],
+      },
+    });
+
+    const moved = cloneDeep(saved);
+    moved.collectibles["Wicker Man"]![0].coordinates = { x: 2, y: 0 }; // z
+    moved.collectibles["Wicker Man"]![1].coordinates = { x: -1, y: 0 }; // a
+
+    const result = applyLayout({
+      state: moved,
+      action: { type: "layout.applied", layoutId: 0 },
+    });
+
+    const byId = Object.fromEntries(
+      result.collectibles["Wicker Man"]!.map((c) => [c.id, c.coordinates]),
+    );
+    expect(byId["z"]).toEqual({ x: 0, y: 0 });
+    expect(byId["a"]).toEqual({ x: 1, y: 0 });
+  });
+
+  it("restores each owned resource node to its own saved spot (hybrid by id)", () => {
+    const saved = withSavedLayout({
+      ...withInventory({ "Crop Plot": 2 }),
+      crops: {
+        z: { x: 0, y: 0, createdAt },
+        a: { x: 1, y: 0, createdAt },
+      },
+    });
+
+    const moved = cloneDeep(saved);
+    moved.crops.z = { x: 2, y: 0, createdAt };
+    moved.crops.a = { x: -1, y: 0, createdAt };
+
+    const result = applyLayout({
+      state: moved,
+      action: { type: "layout.applied", layoutId: 0 },
+    });
+
+    expect(result.crops.z).toMatchObject({ x: 0, y: 0 });
+    expect(result.crops.a).toMatchObject({ x: 1, y: 0 });
+  });
+
+  it("restores each owned farmhand to its own saved spot (hybrid by id)", () => {
+    const saved = withSavedLayout({
+      ...baseFarm,
+      farmHands: {
+        bumpkins: {
+          z: {
+            equipped: EQUIPPED,
+            coordinates: { x: 0, y: 0 },
+            location: "farm",
+          },
+          a: {
+            equipped: EQUIPPED,
+            coordinates: { x: 1, y: 0 },
+            location: "farm",
+          },
+        },
+      },
+    });
+
+    const moved = cloneDeep(saved);
+    moved.farmHands.bumpkins.z.coordinates = { x: 2, y: 0 };
+    moved.farmHands.bumpkins.a.coordinates = { x: -1, y: 0 };
+
+    const result = applyLayout({
+      state: moved,
+      action: { type: "layout.applied", layoutId: 0 },
+    });
+
+    expect(result.farmHands.bumpkins.z.coordinates).toEqual({ x: 0, y: 0 });
+    expect(result.farmHands.bumpkins.a.coordinates).toEqual({ x: 1, y: 0 });
+  });
+
   it("throws when the layout does not exist", () => {
     expect(() =>
       applyLayout({
