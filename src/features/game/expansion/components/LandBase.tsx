@@ -607,6 +607,24 @@ const LEVEL_IMAGES: Record<
   },
 };
 
+/** Highest land-image level shipped — counts above this reuse the level-42 art. */
+export const MAX_LAND_IMAGE_LEVEL = 42;
+
+/**
+ * The composite land sprite for an island at a given expansion count + season.
+ * Each image is 16px/tile with the world origin (0,0) at its exact centre, so a
+ * consumer can overlay world-coordinate items on it with an origin-centred map.
+ */
+export const getLandImage = (
+  island: GameState["island"],
+  expandedCount: number,
+  season: TemperateSeasonName,
+): string => {
+  const biome = getCurrentBiome(island);
+  const imageLevel = Math.min(expandedCount, MAX_LAND_IMAGE_LEVEL);
+  return LEVEL_IMAGES[biome][season][imageLevel];
+};
+
 interface Props {
   island: GameState["island"];
   expandedCount: number;
@@ -618,15 +636,9 @@ export const LandBase: React.FC<Props> = ({
   expandedCount,
   season,
 }) => {
-  const biome = getCurrentBiome(island);
-  // Each land image is generated at 16px/tile with the world origin (coordinate 0,0) at its exact
-  // centre, so it just needs to render at the game's natural scale (PIXEL_SCALE, via NaturalImage)
-  // and be centred by the wrapper in Land.tsx — no per-biome width, "extended" or translateX.
-
-  const MAX_LAND_IMAGE_LEVEL = 42;
-
-  const imageLevel = Math.min(expandedCount, MAX_LAND_IMAGE_LEVEL);
-  const src = LEVEL_IMAGES[biome][season][imageLevel];
+  // Centred by the wrapper in Land.tsx and rendered at the game's natural scale
+  // (PIXEL_SCALE, via NaturalImage) — see getLandImage for the 16px/tile origin.
+  const src = getLandImage(island, expandedCount, season);
 
   return (
     <NaturalImage

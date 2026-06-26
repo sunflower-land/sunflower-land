@@ -349,6 +349,101 @@ describe("applyLayout", () => {
     expect(result.collectibles["Wicker Man"]![0].coordinates).toBeUndefined();
   });
 
+  const EQUIPPED = {
+    background: "Farm Background" as const,
+    body: "Beige Farmer Potion" as const,
+    hair: "Basic Hair" as const,
+    shoes: "Black Farmer Boots" as const,
+    pants: "Farmer Pants" as const,
+    shirt: "Yellow Farmer Shirt" as const,
+    tool: "Farmer Pitchfork" as const,
+  };
+  const BUD = {
+    aura: "Basic" as const,
+    colour: "Beige" as const,
+    ears: "Ears" as const,
+    stem: "3 Leaf Clover" as const,
+    type: "Beach" as const,
+  };
+  const petNFT = (coordinates: { x: number; y: number }) => ({
+    id: 1,
+    name: "Pet #1" as const,
+    requests: { food: [], fedAt: createdAt },
+    energy: 100,
+    experience: 0,
+    pettedAt: createdAt,
+    coordinates,
+    location: "farm" as const,
+  });
+
+  it("restores buds, pet NFTs, farmhands and the bumpkin (with flip)", () => {
+    const saved = withSavedLayout({
+      ...baseFarm,
+      buds: { 1: { ...BUD, coordinates: { x: 2, y: 2 }, location: "farm" } },
+      pets: { nfts: { 1: petNFT({ x: -1, y: 1 }) } },
+      farmHands: {
+        bumpkins: {
+          "fh-1": {
+            equipped: EQUIPPED,
+            coordinates: { x: 1, y: 0 },
+            flipped: true,
+            location: "farm",
+          },
+        },
+      },
+      bumpkin: {
+        ...baseFarm.bumpkin,
+        coordinates: { x: 2, y: 0 },
+        location: "farm",
+        flipped: true,
+      },
+    });
+
+    // Displace everything (and clear the flips) before applying.
+    const moved = cloneDeep(saved);
+    moved.buds![1].coordinates = { x: -3, y: 0 };
+    moved.pets!.nfts![1].coordinates = { x: 1, y: 2 };
+    moved.farmHands.bumpkins["fh-1"].coordinates = { x: -2, y: 0 };
+    moved.farmHands.bumpkins["fh-1"].flipped = false;
+    moved.bumpkin.coordinates = { x: -1, y: 2 };
+    moved.bumpkin.flipped = false;
+
+    const result = applyLayout({
+      state: moved,
+      action: { type: "layout.applied", layoutId: 0 },
+    });
+
+    expect(result.buds![1].coordinates).toEqual({ x: 2, y: 2 });
+    expect(result.pets!.nfts![1].coordinates).toEqual({ x: -1, y: 1 });
+    expect(result.farmHands.bumpkins["fh-1"].coordinates).toEqual({
+      x: 1,
+      y: 0,
+    });
+    expect(result.farmHands.bumpkins["fh-1"].flipped).toEqual(true);
+    expect(result.bumpkin.coordinates).toEqual({ x: 2, y: 0 });
+    expect(result.bumpkin.flipped).toEqual(true);
+  });
+
+  it("does not pull a bud back onto the farm if it is now in the house", () => {
+    const saved = withSavedLayout({
+      ...baseFarm,
+      buds: { 1: { ...BUD, coordinates: { x: 2, y: 2 }, location: "farm" } },
+    });
+
+    const moved = cloneDeep(saved);
+    // The bud was moved into the house since the layout was saved.
+    moved.buds![1].coordinates = { x: 0, y: 0 };
+    moved.buds![1].location = "home";
+
+    const result = applyLayout({
+      state: moved,
+      action: { type: "layout.applied", layoutId: 0 },
+    });
+
+    expect(result.buds![1].location).toEqual("home");
+    expect(result.buds![1].coordinates).toEqual({ x: 0, y: 0 });
+  });
+
   it("throws when the layout does not exist", () => {
     expect(() =>
       applyLayout({

@@ -247,6 +247,29 @@ type Edges = {
   left: boolean;
 };
 
+/**
+ * The dirt sprite for a `"Dirt Path"` tile (a crop plot or a Dirt Path
+ * decoration) given the surrounding grid — an edge is drawn on any side whose
+ * neighbour isn't also dirt, so runs of plots/paths join into one shape.
+ */
+export function getDirtImage(
+  grid: GameGrid,
+  x: number,
+  y: number,
+  biome: LandBiomeName,
+): string {
+  // It is an edge, if there is NOT a piece next to it
+  const edges: Edges = {
+    top: grid[x]?.[y + 1] !== "Dirt Path",
+    right: grid[x + 1]?.[y] !== "Dirt Path",
+    bottom: grid[x]?.[y - 1] !== "Dirt Path",
+    left: grid[x - 1]?.[y] !== "Dirt Path",
+  };
+
+  const edgeNames = getKeys(edges).filter((edge) => !!edges[edge]);
+  return IMAGE_PATHS[edgeNames.join("_")]?.[biome] ?? NO_EDGE[biome];
+}
+
 interface Props {
   grid: GameGrid;
   biome: LandBiomeName;
@@ -263,21 +286,7 @@ const Renderer: React.FC<Props> = ({ grid, biome }) => {
         return;
       }
 
-      // It is an edge, if there is NOT a piece next to it
-      const edges: Edges = {
-        top: grid[x][y + 1] !== "Dirt Path",
-        right: grid[x + 1]?.[y] !== "Dirt Path",
-        bottom: grid[x][y - 1] !== "Dirt Path",
-        left: grid[x - 1]?.[y] !== "Dirt Path",
-      };
-
-      let image = NO_EDGE[biome];
-      const edgeNames = getKeys(edges).filter((edge) => !!edges[edge]);
-      const name = edgeNames.join("_");
-      const path = IMAGE_PATHS[name]?.[biome];
-      if (path) {
-        image = path;
-      }
+      const image = getDirtImage(grid, x, y, biome);
 
       return (
         <img

@@ -22,10 +22,10 @@ import {
 } from "features/game/events/landExpansion/lib/layouts";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getObjectEntries } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
 import chestIcon from "assets/icons/chest.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 import { LayoutPreview } from "./LayoutPreview";
 
 interface Props {
@@ -41,67 +41,6 @@ type Mode =
   | "confirmDelete";
 
 const _state = (state: MachineState): GameState => state.context.state;
-
-const ITEM_IMAGE = ITEM_DETAILS as Record<string, { image: string }>;
-
-/** Resource bucket -> a representative item whose icon stands in for the chip. */
-const RESOURCE_CHIPS: { key: keyof SavedLayout["resources"]; item: string }[] =
-  [
-    { key: "crops", item: "Crop Plot" },
-    { key: "trees", item: "Tree" },
-    { key: "stones", item: "Stone Rock" },
-    { key: "iron", item: "Iron Rock" },
-    { key: "gold", item: "Gold Rock" },
-    { key: "crimstones", item: "Crimstone Rock" },
-    { key: "sunstones", item: "Sunstone Rock" },
-    { key: "ascensionCrystals", item: "Ascension Crystal" },
-    { key: "oilReserves", item: "Oil Reserve" },
-    { key: "fruitPatches", item: "Fruit Patch" },
-    { key: "flowerBeds", item: "Flower Bed" },
-    { key: "beehives", item: "Beehive" },
-    { key: "lavaPits", item: "Lava Pit" },
-  ];
-
-type Chip = { image?: string; count: number };
-
-/** Summarise a layout's contents into a few "icon × count" chips (top by count). */
-const summaryChips = (
-  layout: Pick<SavedLayout, "collectibles" | "buildings" | "resources">,
-): Chip[] => {
-  const chips: Chip[] = [];
-
-  RESOURCE_CHIPS.forEach(({ key, item }) => {
-    const count = Object.keys(layout.resources[key]).length;
-    if (count > 0) chips.push({ image: ITEM_IMAGE[item]?.image, count });
-  });
-
-  const mostCommon = (
-    group: Partial<Record<string, { id: string }[]>>,
-  ): { image?: string; count: number } => {
-    let total = 0;
-    let topName = "";
-    let topCount = 0;
-    getObjectEntries(group).forEach(([name, items]) => {
-      const n = items?.length ?? 0;
-      total += n;
-      if (n > topCount) {
-        topCount = n;
-        topName = name as string;
-      }
-    });
-    return {
-      image: topName ? ITEM_IMAGE[topName]?.image : undefined,
-      count: total,
-    };
-  };
-
-  const buildings = mostCommon(layout.buildings);
-  if (buildings.count > 0) chips.push(buildings);
-  const decorations = mostCommon(layout.collectibles);
-  if (decorations.count > 0) chips.push(decorations);
-
-  return chips.sort((a, b) => b.count - a.count).slice(0, 4);
-};
 
 export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
   const { t } = useAppTranslation();
@@ -136,6 +75,13 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
   const showCurrent = isCurrent || !layout;
   const previewLayout = showCurrent ? currentSnapshot : layout!;
   const atCap = layouts.length >= MAX_SAVED_LAYOUTS;
+
+  // Land the layout was saved on (biome + size) — a layout saved on a bigger
+  // farm than the player has now will skip the items that fall off the land.
+  const previewLand = previewLayout.land;
+  const currentExpansions = game.inventory["Basic Land"]?.toNumber() ?? 3;
+  const savedOnLargerFarm =
+    !showCurrent && !!previewLand && previewLand.expansions > currentExpansions;
 
   const close = () => {
     setSelected(0);
@@ -225,7 +171,7 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
       className="flex items-center gap-2 !p-1"
     >
       <div className="flex-none" style={{ width: 44 }}>
-        <LayoutPreview layout={preview} />
+        <LayoutPreview layout={preview} game={game} />
       </div>
       <div className="flex flex-col gap-0.5 min-w-0">
         <span className="text-xs truncate">{name}</span>
@@ -293,6 +239,25 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
           </span>
         </div>
 
+        {previewLand && (
+          <div className="flex flex-wrap items-center gap-1">
+            <Label
+              type="default"
+              icon={ITEM_DETAILS[getCurrentBiome(previewLand.island)].image}
+            >
+              {getCurrentBiome(previewLand.island)}
+            </Label>
+            <Label type="default" icon={ITEM_DETAILS["Basic Land"].image}>
+              {t("savedLayouts.expansions", { count: previewLand.expansions })}
+            </Label>
+            {savedOnLargerFarm && (
+              <Label type="warning">
+                {t("savedLayouts.savedOnLargerFarm")}
+              </Label>
+            )}
+          </div>
+        )}
+
         {showCurrent ? (
           <div className="flex flex-col gap-2">
             <Label type="info">{t("savedLayouts.current")}</Label>
@@ -324,16 +289,6 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
           </div>
         ) : mode === "idle" ? (
           <div className="flex flex-col gap-2">
-            <div className="flex flex-wrap gap-1">
-              {summaryChips(layout!).map((chip, i) => (
-                <Label key={i} type="default">
-                  <div className="flex items-center gap-1">
-                    {chip.image && <img src={chip.image} className="h-3.5" />}
-                    <span>{`×${chip.count}`}</span>
-                  </div>
-                </Label>
-              ))}
-            </div>
             <Button onClick={() => setMode("confirmApply")}>
               <div className="flex items-center justify-center gap-1">
                 <img src={SUNNYSIDE.icons.confirm} className="w-4" />
@@ -416,7 +371,7 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
             )}
 
             <InnerPanel className="p-1">
-              <LayoutPreview layout={previewLayout} />
+              <LayoutPreview layout={previewLayout} game={game} />
             </InnerPanel>
 
             {error && (

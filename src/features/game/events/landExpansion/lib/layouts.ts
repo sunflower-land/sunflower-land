@@ -9,12 +9,27 @@ import {
   RESOURCE_DIMENSIONS,
   type ResourceName,
 } from "features/game/types/resources";
+import { PET_NFT_DIMENSIONS } from "features/game/types/pets";
 import {
   detectCollision,
   type Position,
 } from "features/game/expansion/placeable/lib/collisionDetection";
 import type { LandscapingPlaceable } from "features/game/expansion/placeable/landscapingMachine";
 import { getObjectEntries } from "lib/object";
+
+/**
+ * Collision dimensions for the placeables that aren't in
+ * {@link PLACEABLE_DIMENSIONS} (Buds/Pet NFTs/FarmHands/Bumpkin). Mirrors the
+ * hardcoded boxes used by `detectCollision` and the placement UI: 1x1 for
+ * everything except the 2x2 Pet NFT.
+ */
+const BUD_DIMENSIONS = { width: 1, height: 1 };
+const FARM_HAND_DIMENSIONS = { width: 1, height: 1 };
+const BUMPKIN_DIMENSIONS = { width: 1, height: 1 };
+
+/** True when a placeable's `location` marks it as on the farm (legacy = farm). */
+const isOnFarm = (placed: { location?: string; coordinates?: unknown }) =>
+  !!placed.coordinates && (!placed.location || placed.location === "farm");
 
 const PLACEABLE_DIMENSIONS: Record<string, { width: number; height: number }> =
   {
@@ -109,7 +124,17 @@ const copyCoordinates = (item: PlacedResource): LayoutCoordinates => {
  */
 export function snapshotFarm(
   state: GameState,
-): Pick<SavedLayout, "collectibles" | "buildings" | "resources"> {
+): Pick<
+  SavedLayout,
+  | "collectibles"
+  | "buildings"
+  | "resources"
+  | "buds"
+  | "petNFTs"
+  | "farmHands"
+  | "bumpkin"
+  | "land"
+> {
   const collectibles: SavedLayout["collectibles"] = {};
   getObjectEntries(state.collectibles).forEach(([name, group]) => {
     if (!group) return;
@@ -145,7 +170,54 @@ export function snapshotFarm(
     });
   });
 
-  return { collectibles, buildings, resources };
+  // Buds and Pet NFTs: single bucket each, distinguished from home/interior
+  // copies by `location`. Neither is flippable, so store bare coordinates.
+  const buds: NonNullable<SavedLayout["buds"]> = {};
+  Object.entries(state.buds ?? {}).forEach(([id, bud]) => {
+    if (!isOnFarm(bud)) return;
+    buds[id] = { ...(bud.coordinates as LayoutCoordinates) };
+  });
+
+  const petNFTs: NonNullable<SavedLayout["petNFTs"]> = {};
+  Object.entries(state.pets?.nfts ?? {}).forEach(([id, pet]) => {
+    if (!isOnFarm(pet)) return;
+    petNFTs[id] = { ...(pet.coordinates as LayoutCoordinates) };
+  });
+
+  // FarmHands (extra bumpkins) carry a `flipped` flag like the main Bumpkin.
+  const farmHands: NonNullable<SavedLayout["farmHands"]> = {};
+  Object.entries(state.farmHands?.bumpkins ?? {}).forEach(([id, farmHand]) => {
+    if (!isOnFarm(farmHand)) return;
+    farmHands[id] = {
+      ...(farmHand.coordinates as LayoutCoordinates),
+      ...(farmHand.flipped !== undefined ? { flipped: farmHand.flipped } : {}),
+    };
+  });
+
+  const bumpkin = isOnFarm(state.bumpkin)
+    ? {
+        ...(state.bumpkin.coordinates as LayoutCoordinates),
+        ...(state.bumpkin.flipped !== undefined
+          ? { flipped: state.bumpkin.flipped }
+          : {}),
+      }
+    : undefined;
+
+  const land = {
+    expansions: state.inventory["Basic Land"]?.toNumber() ?? 3,
+    island: { ...state.island },
+  };
+
+  return {
+    collectibles,
+    buildings,
+    resources,
+    land,
+    ...(Object.keys(buds).length > 0 ? { buds } : {}),
+    ...(Object.keys(petNFTs).length > 0 ? { petNFTs } : {}),
+    ...(Object.keys(farmHands).length > 0 ? { farmHands } : {}),
+    ...(bumpkin ? { bumpkin } : {}),
+  };
 }
 
 /**
@@ -159,7 +231,14 @@ export function defaultLayoutName(layouts: SavedLayout[]): string {
   return `Layout ${n}`;
 }
 
-export type LayoutRectCategory = "collectible" | "building" | "resource";
+export type LayoutRectCategory =
+  | "collectible"
+  | "building"
+  | "resource"
+  // Buds & Pet NFTs — sprite resolved from `id` (getBudImage/getPetImage…).
+  | "nft"
+  // The player's Bumpkin & FarmHands — sprite composed from equipped parts.
+  | "avatar";
 
 export type LayoutRect = {
   x: number;
@@ -169,6 +248,11 @@ export type LayoutRect = {
   category: LayoutRectCategory;
   /** Item name (for sprite lookup); resources use their representative name. */
   name: string;
+  /**
+   * Entity id for `nft`/`avatar` rects, used by the preview to resolve the
+   * live sprite (bud/pet by id; farmhand by id → equipped). Bumpkin omits it.
+   */
+  id?: string;
 };
 
 /**
@@ -178,7 +262,16 @@ export type LayoutRect = {
  * the top edge y). `name` is the item name so a renderer can resolve a sprite.
  */
 export function layoutItemRects(
-  layout: Pick<SavedLayout, "collectibles" | "buildings" | "resources">,
+  layout: Pick<
+    SavedLayout,
+    | "collectibles"
+    | "buildings"
+    | "resources"
+    | "buds"
+    | "petNFTs"
+    | "farmHands"
+    | "bumpkin"
+  >,
 ): LayoutRect[] {
   const rects: LayoutRect[] = [];
 
@@ -226,6 +319,53 @@ export function layoutItemRects(
       }),
     );
   });
+
+  // Buds & Pet NFTs — sprite resolved from the entity id in the preview.
+  Object.entries(layout.buds ?? {}).forEach(([id, coordinates]) =>
+    rects.push({
+      x: coordinates.x,
+      y: coordinates.y,
+      width: BUD_DIMENSIONS.width,
+      height: BUD_DIMENSIONS.height,
+      category: "nft",
+      name: "Bud",
+      id,
+    }),
+  );
+  Object.entries(layout.petNFTs ?? {}).forEach(([id, coordinates]) =>
+    rects.push({
+      x: coordinates.x,
+      y: coordinates.y,
+      width: PET_NFT_DIMENSIONS.width,
+      height: PET_NFT_DIMENSIONS.height,
+      category: "nft",
+      name: "Pet",
+      id,
+    }),
+  );
+
+  // FarmHands & the player's Bumpkin — sprite composed from equipped parts.
+  Object.entries(layout.farmHands ?? {}).forEach(([id, placement]) =>
+    rects.push({
+      x: placement.x,
+      y: placement.y,
+      width: FARM_HAND_DIMENSIONS.width,
+      height: FARM_HAND_DIMENSIONS.height,
+      category: "avatar",
+      name: "FarmHand",
+      id,
+    }),
+  );
+  if (layout.bumpkin) {
+    rects.push({
+      x: layout.bumpkin.x,
+      y: layout.bumpkin.y,
+      width: BUMPKIN_DIMENSIONS.width,
+      height: BUMPKIN_DIMENSIONS.height,
+      category: "avatar",
+      name: "Bumpkin",
+    });
+  }
 
   return rects;
 }
@@ -360,6 +500,110 @@ export function applyFarmLayout(
       item.y = undefined;
     });
   });
+
+  // Buds — single bucket, 1x1, not flippable. Only re-place ones currently on
+  // the farm (an item moved to the house keeps its house spot).
+  Object.entries(layout.buds ?? {}).forEach(([id, coordinates]) => {
+    const item = state.buds?.[Number(id)];
+    if (!item || !isOnFarm(item)) return;
+    const original = { ...item.coordinates! };
+    pending.push({
+      name: "Bud",
+      position: {
+        x: coordinates.x,
+        y: coordinates.y,
+        width: BUD_DIMENSIONS.width,
+        height: BUD_DIMENSIONS.height,
+      },
+      toTarget: () => {
+        item.coordinates = { x: coordinates.x, y: coordinates.y };
+      },
+      toOriginal: () => {
+        item.coordinates = original;
+      },
+    });
+    item.coordinates = undefined; // lift
+  });
+
+  // Pet NFTs — keyed under pets.nfts, 2x2, not flippable.
+  Object.entries(layout.petNFTs ?? {}).forEach(([id, coordinates]) => {
+    const item = state.pets?.nfts?.[Number(id)];
+    if (!item || !isOnFarm(item)) return;
+    const original = { ...item.coordinates! };
+    pending.push({
+      name: "Pet",
+      position: {
+        x: coordinates.x,
+        y: coordinates.y,
+        width: PET_NFT_DIMENSIONS.width,
+        height: PET_NFT_DIMENSIONS.height,
+      },
+      toTarget: () => {
+        item.coordinates = { x: coordinates.x, y: coordinates.y };
+      },
+      toOriginal: () => {
+        item.coordinates = original;
+      },
+    });
+    item.coordinates = undefined; // lift
+  });
+
+  // FarmHands — extra bumpkins, 1x1, flippable.
+  Object.entries(layout.farmHands ?? {}).forEach(([id, placement]) => {
+    const item = state.farmHands?.bumpkins?.[id];
+    if (!item || !isOnFarm(item)) return;
+    const original = {
+      coordinates: { ...item.coordinates! },
+      flipped: item.flipped,
+    };
+    pending.push({
+      name: "FarmHand",
+      position: {
+        x: placement.x,
+        y: placement.y,
+        width: FARM_HAND_DIMENSIONS.width,
+        height: FARM_HAND_DIMENSIONS.height,
+      },
+      toTarget: () => {
+        item.coordinates = { x: placement.x, y: placement.y };
+        item.flipped = placement.flipped;
+      },
+      toOriginal: () => {
+        item.coordinates = original.coordinates;
+        item.flipped = original.flipped;
+      },
+    });
+    item.coordinates = undefined; // lift
+  });
+
+  // The player's own Bumpkin — single, 1x1, flippable. Passing name "Bumpkin"
+  // makes detectCollision self-exclude it (it's lifted anyway).
+  if (layout.bumpkin && isOnFarm(state.bumpkin)) {
+    const placement = layout.bumpkin;
+    const bumpkin = state.bumpkin;
+    const original = {
+      coordinates: { ...bumpkin.coordinates! },
+      flipped: bumpkin.flipped,
+    };
+    pending.push({
+      name: "Bumpkin",
+      position: {
+        x: placement.x,
+        y: placement.y,
+        width: BUMPKIN_DIMENSIONS.width,
+        height: BUMPKIN_DIMENSIONS.height,
+      },
+      toTarget: () => {
+        bumpkin.coordinates = { x: placement.x, y: placement.y };
+        bumpkin.flipped = placement.flipped;
+      },
+      toOriginal: () => {
+        bumpkin.coordinates = original.coordinates;
+        bumpkin.flipped = original.flipped;
+      },
+    });
+    bumpkin.coordinates = undefined; // lift
+  }
 
   // Pass 1: with every applicable item lifted, anything still blocked can't be
   // placed at all (its target is off-land or taken by a non-layout item).
