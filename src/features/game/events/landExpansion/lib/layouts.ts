@@ -1,13 +1,22 @@
 import type {
   GameState,
+  InventoryItemName,
   LayoutCoordinates,
+  LayoutPlacement,
+  PlacedItem,
   SavedLayout,
 } from "features/game/types/game";
+import { getChestItemCount } from "features/island/hud/components/inventory/utils/inventory";
+import { isCollectibleWithTimestamps } from "features/game/events/landExpansion/placeCollectible";
+import { getAvailableNodes } from "features/game/lib/resourceNodes";
+import { updateBeehives } from "features/game/lib/updateBeehives";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import {
   RESOURCE_DIMENSIONS,
+  RESOURCE_MULTIPLIER,
   type ResourceName,
+  type UpgradeableResource,
 } from "features/game/types/resources";
 import { PET_NFT_DIMENSIONS } from "features/game/types/pets";
 import {
@@ -39,7 +48,13 @@ const PLACEABLE_DIMENSIONS: Record<string, { width: number; height: number }> =
   };
 
 /** Minimal coordinate shape shared by every placed resource/plot. */
-type PlacedResource = { x?: number; y?: number; oX?: number; oY?: number };
+type PlacedResource = {
+  x?: number;
+  y?: number;
+  oX?: number;
+  oY?: number;
+  removedAt?: number;
+};
 
 type ResourceBucketKey = keyof SavedLayout["resources"];
 
@@ -89,6 +104,72 @@ export const RESOURCE_BUCKETS: {
   },
   { key: "lavaPits", resourceName: "Lava Pit", get: (s) => s.lavaPits },
 ];
+
+/** Resource buckets whose availability spans an upgradeable tier family. */
+const TIERED_FAMILIES = ["trees", "stones", "gold", "iron"] as const;
+type TieredFamily = (typeof TIERED_FAMILIES)[number];
+const isTieredFamily = (key: ResourceBucketKey): key is TieredFamily =>
+  (TIERED_FAMILIES as readonly string[]).includes(key);
+
+/**
+ * Build a fresh resource node for a bucket — mirrors the new-instance shape each
+ * `placeX` event creates. Tiered families default to the base tier (advanced
+ * tiers only ever exist as already-placed instances, so they're reused, not
+ * created).
+ */
+const createResourceNode = (
+  key: ResourceBucketKey,
+  resourceName: ResourceName,
+  c: LayoutCoordinates,
+  createdAt: number,
+): PlacedResource => {
+  const base = { createdAt, x: c.x, y: c.y, oX: c.oX, oY: c.oY };
+  switch (key) {
+    case "trees":
+      return {
+        ...base,
+        wood: { choppedAt: 0 },
+        name: resourceName,
+        multiplier: RESOURCE_MULTIPLIER[resourceName as UpgradeableResource],
+        tier: 1,
+      } as PlacedResource;
+    case "stones":
+    case "gold":
+    case "iron":
+      return {
+        ...base,
+        stone: { minedAt: 0 },
+        name: resourceName,
+        multiplier: RESOURCE_MULTIPLIER[resourceName as UpgradeableResource],
+        tier: 1,
+      } as PlacedResource;
+    case "crimstones":
+      return { ...base, stone: { minedAt: 0 }, minesLeft: 5 } as PlacedResource;
+    case "sunstones":
+      return {
+        ...base,
+        stone: { minedAt: 0 },
+        minesLeft: 10,
+      } as PlacedResource;
+    case "ascensionCrystals":
+      return { ...base, stone: { minedAt: 0 }, minesLeft: 1 } as PlacedResource;
+    case "oilReserves":
+      return { ...base, oil: { drilledAt: 0 }, drilled: 0 } as PlacedResource;
+    case "beehives":
+      return {
+        x: c.x,
+        y: c.y,
+        oX: c.oX,
+        oY: c.oY,
+        swarm: false,
+        honey: { updatedAt: createdAt, produced: 0 },
+        flowers: [],
+      } as PlacedResource;
+    default:
+      // crops, fruitPatches, flowerBeds, lavaPits — just coordinates + createdAt.
+      return base as PlacedResource;
+  }
+};
 
 const emptyResources = (): SavedLayout["resources"] => ({
   trees: {},
@@ -379,112 +460,146 @@ export function layoutItemRects(
   return rects;
 }
 
-type PendingPlacement = {
+/** A single position from the layout, with the resolved instance to place there. */
+type LayoutSlot = {
   name: LandscapingPlaceable;
   position: Position;
-  /** Move the item to its saved layout position. */
-  toTarget: () => void;
-  /** Leave the item exactly where it currently is (restore pre-lift coords). */
-  toOriginal: () => void;
+  /** Materialise the resolved instance at this slot. */
+  place: () => void;
 };
 
+/** Deterministic position order so FE and BE fill slots identically. */
+const byPosition = (a: LayoutCoordinates, b: LayoutCoordinates) =>
+  a.x - b.x || a.y - b.y;
+
 /**
- * Reposition the player's existing farm items to match a saved layout, on a
- * best-effort basis. Returns how many items were placed vs skipped.
+ * Arrange the player's OWNED items onto a saved layout's positions, driven by
+ * inventory availability (not by saved id) so a layout can be shared between
+ * players. Best-effort — mutates `state` in place (expects an Immer draft).
  *
- * Strategy ("lift then reserve then place"):
- *   1. Resolve which snapshot entries are applicable: the item must still exist
- *      AND be currently placed (an item withdrawn during landscaping stays in
- *      its bucket with no coordinates — those are ignored, not re-placed).
- *   2. Lift every applicable item (clear its coordinates), remembering where it
- *      was, so a layout item's target never falsely collides with another
- *      layout item's *current* spot (handles swaps).
- *   3. Pass 1 — with everything lifted, any target still blocked can't be placed
- *      (off-land, e.g. the farm shrank on ascension, or under a non-layout
- *      item). Restore those items to their current position immediately, as
- *      reservations, and count them skipped. The rest are candidates.
- *   4. Pass 2 — place each candidate at its target if it's still free against the
- *      reservations + already-placed candidates; otherwise it keeps its current
- *      position. Restoring skipped items *before* placing candidates is what
- *      prevents a restored item from landing on top of a placed one.
+ * Matching: collectibles/buildings/resources by name+availability; buds/pet
+ * NFTs by id ownership; farmhands by however many are unlocked; the bumpkin
+ * always. For each type the player's current farm placements are lifted, then
+ * the type's saved positions are filled (in a deterministic order) from the
+ * available instances — so owning fewer than the layout asks leaves the extra
+ * positions empty (`noInventory`), and owning more leaves the extras unplaced.
  *
- * Mutates `state` in place (expects an Immer draft).
+ * Collectibles & buildings are placed up to full inventory availability:
+ * unplaced instances are reused first, then new instances are created (with
+ * deterministic ids) from the remaining owned inventory. Resources/buds/pets/
+ * farmhands reuse existing instances (resource nodes are pre-created by land
+ * expansion, so reuse already covers what a player owns); positions with no
+ * available instance count as `noInventory`. Positions blocked off-land or under
+ * a non-layout item are `skipped`.
  */
 export function applyFarmLayout(
   state: GameState,
   layout: SavedLayout,
-): { applied: number; skipped: number } {
-  const pending: PendingPlacement[] = [];
+  createdAt: number,
+): { applied: number; skipped: number; noInventory: number } {
+  const slots: LayoutSlot[] = [];
+  let noInventory = 0;
 
-  getObjectEntries(layout.collectibles).forEach(([name, entries]) => {
-    if (!entries) return;
-    const dimensions = PLACEABLE_DIMENSIONS[name];
-    if (!dimensions) return;
-    const group = state.collectibles[name];
-    entries.forEach((entry) => {
-      const item = group?.find((collectible) => collectible.id === entry.id);
-      // Withdrawn items stay in the bucket with no coordinates — don't re-place.
-      if (!item?.coordinates) return;
-      const original = item.coordinates ? { ...item.coordinates } : undefined;
-      pending.push({
-        name,
-        position: {
-          x: entry.coordinates.x,
-          y: entry.coordinates.y,
-          width: dimensions.width,
-          height: dimensions.height,
-        },
-        toTarget: () => {
-          item.coordinates = { ...entry.coordinates };
-          item.flipped = entry.flipped;
-        },
-        toOriginal: () => {
-          item.coordinates = original;
-        },
+  // Deterministic id for a newly-created instance — identical on FE and BE
+  // (same `createdAt`), and never collides with the 8-hex uuid-slice ids.
+  const newId = (tag: string, i: number) =>
+    `L${createdAt.toString(36)}-${tag}-${i}`;
+
+  // Collectibles & buildings: keyed by name, placed up to inventory availability.
+  // Lift the farm instances, fill the (position-sorted) saved slots by reusing
+  // the (id-sorted) unplaced instances first, then creating new ones.
+  const addNamedSlots = <N extends string>(
+    layoutGroup: Partial<Record<N, LayoutPlacement[]>>,
+    getBucket: (name: N) => PlacedItem[] | undefined,
+    ensureBucket: (name: N) => PlacedItem[],
+    newItem: (name: N, id: string) => PlacedItem,
+  ) => {
+    getObjectEntries(layoutGroup).forEach(([name, entries]) => {
+      const dimensions = PLACEABLE_DIMENSIONS[name];
+      if (!dimensions || !entries) return;
+      const group = getBucket(name) ?? [];
+      group.forEach((item) => {
+        if (item.coordinates) item.coordinates = undefined; // lift
       });
-      item.coordinates = undefined; // lift
+      const available = group
+        .filter((item) => !item.coordinates)
+        .sort((a, b) => a.id.localeCompare(b.id));
+      const owned = getChestItemCount(
+        state,
+        name as InventoryItemName,
+      ).toNumber();
+      const capacity = Math.min(entries.length, owned);
+      [...entries]
+        .sort((a, b) => byPosition(a.coordinates, b.coordinates))
+        .forEach((entry, i) => {
+          if (i >= capacity) {
+            noInventory += 1;
+            return;
+          }
+          const reuse = available[i];
+          slots.push({
+            name: name as LandscapingPlaceable,
+            position: {
+              x: entry.coordinates.x,
+              y: entry.coordinates.y,
+              width: dimensions.width,
+              height: dimensions.height,
+            },
+            place: () => {
+              const item = reuse ?? newItem(name, newId(name, i));
+              if (!reuse) ensureBucket(name).push(item);
+              item.coordinates = { ...entry.coordinates };
+              item.flipped = entry.flipped;
+              delete item.removedAt;
+            },
+          });
+        });
     });
-  });
+  };
+  addNamedSlots(
+    layout.collectibles,
+    (name) => state.collectibles[name],
+    (name) => (state.collectibles[name] ??= []),
+    (name, id) =>
+      isCollectibleWithTimestamps(name) ? { id, createdAt } : { id },
+  );
+  addNamedSlots(
+    layout.buildings,
+    (name) => state.buildings[name],
+    (name) => (state.buildings[name] ??= []),
+    (_name, id) => ({ id, createdAt, readyAt: createdAt }),
+  );
 
-  getObjectEntries(layout.buildings).forEach(([name, entries]) => {
-    if (!entries) return;
-    const dimensions = PLACEABLE_DIMENSIONS[name];
-    if (!dimensions) return;
-    const group = state.buildings[name];
-    entries.forEach((entry) => {
-      const item = group?.find((building) => building.id === entry.id);
-      // Withdrawn items stay in the bucket with no coordinates — don't re-place.
-      if (!item?.coordinates) return;
-      const original = item.coordinates ? { ...item.coordinates } : undefined;
-      pending.push({
-        name,
-        position: {
-          x: entry.coordinates.x,
-          y: entry.coordinates.y,
-          width: dimensions.width,
-          height: dimensions.height,
-        },
-        toTarget: () => {
-          item.coordinates = { ...entry.coordinates };
-          item.flipped = entry.flipped;
-        },
-        toOriginal: () => {
-          item.coordinates = original;
-        },
-      });
-      item.coordinates = undefined; // lift
-    });
-  });
-
+  // Resources: keyed by bucket (tiers aggregated), placed up to availability.
+  // Lift the bucket, reuse the (id-sorted) unplaced instances first, then create
+  // new nodes from the remaining owned inventory.
+  let beehivePlaced = false;
   RESOURCE_BUCKETS.forEach(({ key, resourceName, get }) => {
     const dimensions = RESOURCE_DIMENSIONS[resourceName];
     const bucket = get(state);
-    Object.entries(layout.resources[key] ?? {}).forEach(([id, coordinates]) => {
-      const item = bucket[id];
-      // Withdrawn resources keep their object with x/y deleted — don't re-place.
-      if (!item || item.x === undefined || item.y === undefined) return;
-      const original = { x: item.x, y: item.y, oX: item.oX, oY: item.oY };
-      pending.push({
+    Object.values(bucket).forEach((node) => {
+      if (node.x !== undefined) {
+        node.x = undefined; // lift
+        node.y = undefined;
+      }
+    });
+    const available = Object.keys(bucket)
+      .filter((id) => bucket[id].x === undefined)
+      .sort((a, b) => a.localeCompare(b));
+    const owned = isTieredFamily(key)
+      ? getAvailableNodes(state, key).toNumber()
+      : getChestItemCount(state, resourceName as InventoryItemName).toNumber();
+    const positions = Object.values(layout.resources[key] ?? {}).sort(
+      byPosition,
+    );
+    const capacity = Math.min(positions.length, owned);
+    positions.forEach((coordinates, i) => {
+      if (i >= capacity) {
+        noInventory += 1;
+        return;
+      }
+      const reuseId = available[i];
+      slots.push({
         name: resourceName,
         position: {
           x: coordinates.x,
@@ -492,168 +607,127 @@ export function applyFarmLayout(
           width: dimensions.width,
           height: dimensions.height,
         },
-        toTarget: () => {
-          item.x = coordinates.x;
-          item.y = coordinates.y;
-          item.oX = coordinates.oX;
-          item.oY = coordinates.oY;
-        },
-        toOriginal: () => {
-          item.x = original.x;
-          item.y = original.y;
-          item.oX = original.oX;
-          item.oY = original.oY;
+        place: () => {
+          if (reuseId !== undefined) {
+            const node = bucket[reuseId];
+            node.x = coordinates.x;
+            node.y = coordinates.y;
+            node.oX = coordinates.oX;
+            node.oY = coordinates.oY;
+            delete node.removedAt;
+          } else {
+            bucket[newId(key, i)] = createResourceNode(
+              key,
+              resourceName,
+              coordinates,
+              createdAt,
+            );
+          }
+          if (key === "beehives") beehivePlaced = true;
         },
       });
-      item.x = undefined; // lift
-      item.y = undefined;
     });
   });
 
-  // Buds — single bucket, 1x1, not flippable. Only re-place ones currently on
-  // the farm (an item moved to the house keeps its house spot).
+  // Buds & Pet NFTs: by id ownership (shared-layout ids you don't own are
+  // skipped silently). Pets must be revealed to be placed.
   Object.entries(layout.buds ?? {}).forEach(([id, coordinates]) => {
-    const item = state.buds?.[Number(id)];
-    if (!item || !isOnFarm(item)) return;
-    const original = { ...item.coordinates! };
-    pending.push({
+    const bud = state.buds?.[Number(id)];
+    if (!bud) return;
+    bud.coordinates = undefined; // lift
+    slots.push({
       name: "Bud",
-      position: {
-        x: coordinates.x,
-        y: coordinates.y,
-        width: BUD_DIMENSIONS.width,
-        height: BUD_DIMENSIONS.height,
-      },
-      toTarget: () => {
-        item.coordinates = { x: coordinates.x, y: coordinates.y };
-      },
-      toOriginal: () => {
-        item.coordinates = original;
+      position: { ...coordinates, ...BUD_DIMENSIONS },
+      place: () => {
+        bud.coordinates = { x: coordinates.x, y: coordinates.y };
+        bud.location = "farm";
       },
     });
-    item.coordinates = undefined; // lift
   });
-
-  // Pet NFTs — keyed under pets.nfts, 2x2, not flippable.
   Object.entries(layout.petNFTs ?? {}).forEach(([id, coordinates]) => {
-    const item = state.pets?.nfts?.[Number(id)];
-    if (!item || !isOnFarm(item)) return;
-    const original = { ...item.coordinates! };
-    pending.push({
+    // Owned by id (a pet in a layout was placed once, so it's already revealed).
+    const pet = state.pets?.nfts?.[Number(id)];
+    if (!pet) return;
+    pet.coordinates = undefined; // lift
+    slots.push({
       name: "Pet",
-      position: {
-        x: coordinates.x,
-        y: coordinates.y,
-        width: PET_NFT_DIMENSIONS.width,
-        height: PET_NFT_DIMENSIONS.height,
-      },
-      toTarget: () => {
-        item.coordinates = { x: coordinates.x, y: coordinates.y };
-      },
-      toOriginal: () => {
-        item.coordinates = original;
+      position: { ...coordinates, ...PET_NFT_DIMENSIONS },
+      place: () => {
+        pet.coordinates = { x: coordinates.x, y: coordinates.y };
+        pet.location = "farm";
       },
     });
-    item.coordinates = undefined; // lift
   });
 
-  // FarmHands — extra bumpkins, 1x1, flippable.
-  Object.entries(layout.farmHands ?? {}).forEach(([id, placement]) => {
-    const item = state.farmHands?.bumpkins?.[id];
-    if (!item || !isOnFarm(item)) return;
-    const original = {
-      coordinates: { ...item.coordinates! },
-      flipped: item.flipped,
-    };
-    pending.push({
-      name: "FarmHand",
-      position: {
-        x: placement.x,
-        y: placement.y,
-        width: FARM_HAND_DIMENSIONS.width,
-        height: FARM_HAND_DIMENSIONS.height,
-      },
-      toTarget: () => {
-        item.coordinates = { x: placement.x, y: placement.y };
-        item.flipped = placement.flipped;
-      },
-      toOriginal: () => {
-        item.coordinates = original.coordinates;
-        item.flipped = original.flipped;
-      },
+  // FarmHands: by count — bind the (id-sorted) unlocked farmhands to the
+  // (position-sorted) saved slots, ignoring the saved ids.
+  const farmHandIds = Object.keys(state.farmHands?.bumpkins ?? {}).sort(
+    (a, b) => a.localeCompare(b),
+  );
+  farmHandIds.forEach((id) => {
+    const fh = state.farmHands.bumpkins[id];
+    if (fh.coordinates) fh.coordinates = undefined; // lift
+  });
+  Object.values(layout.farmHands ?? {})
+    .sort(byPosition)
+    .forEach((placement, i) => {
+      const id = farmHandIds[i];
+      if (id === undefined) {
+        noInventory += 1;
+        return;
+      }
+      const fh = state.farmHands.bumpkins[id];
+      slots.push({
+        name: "FarmHand",
+        position: { ...placement, ...FARM_HAND_DIMENSIONS },
+        place: () => {
+          fh.coordinates = { x: placement.x, y: placement.y };
+          fh.flipped = placement.flipped;
+          fh.location = "farm";
+        },
+      });
     });
-    item.coordinates = undefined; // lift
-  });
 
-  // The player's own Bumpkin — single, 1x1, flippable. Passing name "Bumpkin"
-  // makes detectCollision self-exclude it (it's lifted anyway).
-  if (layout.bumpkin && isOnFarm(state.bumpkin)) {
+  // The player's own Bumpkin — always placed at its saved position.
+  if (layout.bumpkin && state.bumpkin) {
     const placement = layout.bumpkin;
     const bumpkin = state.bumpkin;
-    const original = {
-      coordinates: { ...bumpkin.coordinates! },
-      flipped: bumpkin.flipped,
-    };
-    pending.push({
+    bumpkin.coordinates = undefined; // lift
+    slots.push({
       name: "Bumpkin",
-      position: {
-        x: placement.x,
-        y: placement.y,
-        width: BUMPKIN_DIMENSIONS.width,
-        height: BUMPKIN_DIMENSIONS.height,
-      },
-      toTarget: () => {
+      position: { ...placement, ...BUMPKIN_DIMENSIONS },
+      place: () => {
         bumpkin.coordinates = { x: placement.x, y: placement.y };
         bumpkin.flipped = placement.flipped;
-      },
-      toOriginal: () => {
-        bumpkin.coordinates = original.coordinates;
-        bumpkin.flipped = original.flipped;
+        bumpkin.location = "farm";
       },
     });
-    bumpkin.coordinates = undefined; // lift
   }
 
-  // Pass 1: with every applicable item lifted, anything still blocked can't be
-  // placed at all (its target is off-land or taken by a non-layout item).
-  // Restore those to their current position straight away so they act as
-  // reservations; the rest stay lifted as candidates.
-  const skipped: PendingPlacement[] = [];
-  const candidates: PendingPlacement[] = [];
-  for (const placement of pending) {
-    const blocked = detectCollision({
-      state,
-      position: placement.position,
-      location: "farm",
-      name: placement.name,
-    });
-    if (blocked) {
-      placement.toOriginal();
-      skipped.push(placement);
-    } else {
-      candidates.push(placement);
-    }
-  }
-
-  // Pass 2: place candidates against the reservations + already-placed items. A
-  // candidate now blocked (its target was taken by a restored skipped item)
-  // keeps its current position instead — never restored onto a placed item.
+  // Everything is now lifted. Place each slot in turn against the live draft
+  // (non-layout items + already-placed slots). A blocked slot stays unplaced.
   let applied = 0;
-  for (const placement of candidates) {
+  let skipped = 0;
+  for (const slot of slots) {
     const blocked = detectCollision({
       state,
-      position: placement.position,
+      position: slot.position,
       location: "farm",
-      name: placement.name,
+      name: slot.name,
     });
     if (blocked) {
-      placement.toOriginal();
-      skipped.push(placement);
+      skipped += 1;
     } else {
-      placement.toTarget();
+      slot.place();
       applied += 1;
     }
   }
 
-  return { applied, skipped: skipped.length };
+  // Recompute honey now that beehives sit next to their flowers (mirrors the
+  // place events, which call this whenever a beehive or flower bed is placed).
+  if (beehivePlaced) {
+    state.beehives = updateBeehives({ game: state, createdAt });
+  }
+
+  return { applied, skipped, noInventory };
 }

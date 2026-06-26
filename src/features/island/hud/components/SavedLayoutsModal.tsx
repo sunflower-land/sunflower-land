@@ -25,6 +25,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import chestIcon from "assets/icons/chest.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useNow } from "lib/utils/hooks/useNow";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { LayoutPreview } from "./LayoutPreview";
 
@@ -46,6 +47,7 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const game = useSelector(gameService, _state);
+  const now = useNow();
   const layouts = game.layouts ?? [];
 
   // 0 = current farm; 1..n = saved layout at index (selected - 1).
@@ -128,17 +130,18 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
     const layoutId = selected - 1;
     if (mode === "confirmApply") {
       // Best-effort apply never throws — run it on a throwaway draft just to
-      // learn how many items won't fit (e.g. after the farm shrank), so the
-      // toast can say so.
-      let skipped = 0;
+      // learn how many layout positions won't be filled (blocked, or no item
+      // owned), so the toast can say so.
+      let notPlaced = 0;
       produce(game, (draft) => {
-        skipped = applyFarmLayout(draft, layouts[layoutId]).skipped;
+        const result = applyFarmLayout(draft, layouts[layoutId], now);
+        notPlaced = result.skipped + result.noInventory;
       });
       gameService.send({ type: "layout.applied", layoutId });
       setMode("idle");
       flash(
-        skipped > 0
-          ? t("savedLayouts.toastAppliedPartial", { skipped })
+        notPlaced > 0
+          ? t("savedLayouts.toastAppliedPartial", { skipped: notPlaced })
           : t("savedLayouts.toastApplied"),
       );
     } else if (mode === "confirmOverwrite") {

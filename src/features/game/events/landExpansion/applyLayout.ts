@@ -21,7 +21,11 @@ type Options = {
  * they are. Saved layouts are immutable — editing the farm never changes them;
  * use `saveLayout` with a `layoutId` to overwrite one.
  */
-export function applyLayout({ state, action }: Options): GameState {
+export function applyLayout({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options): GameState {
   return produce(state, (stateCopy) => {
     if (!hasFeatureAccess(stateCopy, "SAVED_LAYOUTS")) {
       throw new Error("Saved layouts are not available");
@@ -32,7 +36,7 @@ export function applyLayout({ state, action }: Options): GameState {
       throw new Error("Layout does not exist");
     }
 
-    applyFarmLayout(stateCopy, layout);
+    applyFarmLayout(stateCopy, layout, createdAt);
 
     return stateCopy;
   });
