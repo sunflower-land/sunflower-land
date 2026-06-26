@@ -19,9 +19,9 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getChapterTicket } from "features/game/types/chapters";
-import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
+import { needsBasicScarecrow } from "features/island/buildings/components/building/workBench/lib/onboarding";
 import {
   type MonumentName,
   REQUIRED_CHEERS,
@@ -122,7 +122,11 @@ const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _landscapingMachine = (state: MachineState) =>
   state.children.landscaping as MachineInterpreter;
 
-export const IslandBlacksmithItems: React.FC = () => {
+interface Props {
+  onClose: () => void;
+}
+
+export const IslandBlacksmithItems: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
   const [selectedName, setSelectedName] = useState<
     HeliosBlacksmithItem | WorkbenchMonumentName
@@ -153,6 +157,11 @@ export const IslandBlacksmithItems: React.FC = () => {
 
   const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(1);
 
+  // Nudge new players towards crafting their first Basic Scarecrow once they
+  // have planted enough sunflowers to need one.
+  const showScarecrowHelper =
+    selectedName === "Basic Scarecrow" && needsBasicScarecrow(state);
+
   const lessIngredients = () =>
     getKeys(selectedItem?.ingredients ?? {}).some((name) =>
       (selectedItem?.ingredients ?? {})[name]?.greaterThan(
@@ -173,26 +182,25 @@ export const IslandBlacksmithItems: React.FC = () => {
     );
 
   const craft = () => {
-    if (selectedName in WORKBENCH_MONUMENTS) {
-      landscapingMachine.send("SELECT", {
-        placeable: { name: selectedName },
-        action: "monument.bought",
-        requirements: {
-          coins: selectedItem?.coins ?? 0,
-          ingredients: selectedItem?.ingredients ?? {},
-        },
-        multiple: false,
-      });
+    const isMonument = selectedName in WORKBENCH_MONUMENTS;
+
+    const selection = {
+      placeable: { name: selectedName },
+      action: isMonument ? "monument.bought" : "collectible.crafted",
+      requirements: {
+        coins: selectedItem?.coins ?? 0,
+        ingredients: selectedItem?.ingredients ?? {},
+      },
+      multiple: false,
+    };
+
+    // This modal lives on the main screen, not inside the landscaping HUD.
+    // When already landscaping just select the item; otherwise enter
+    // landscaping mode so the player can place what they crafted.
+    if (landscapingMachine) {
+      landscapingMachine.send("SELECT", selection);
     } else {
-      landscapingMachine.send("SELECT", {
-        placeable: { name: selectedName },
-        action: "collectible.crafted",
-        // Not used yet
-        requirements: {
-          sfl: new Decimal(0),
-          ingredients: {},
-        },
-      });
+      gameService.send("LANDSCAPE", { ...selection, location: "farm" });
     }
 
     const count = inventory[selectedName]?.toNumber() ?? 1;
@@ -210,6 +218,8 @@ export const IslandBlacksmithItems: React.FC = () => {
     }
 
     shortcutItem(selectedName);
+
+    onClose();
   };
 
   const hasBuiltMonument = () => {
@@ -260,7 +270,7 @@ export const IslandBlacksmithItems: React.FC = () => {
                     selectedName={selectedName}
                   />
                 </div>
-                <div>
+                <div className="relative">
                   <Button
                     disabled={
                       lessIngredients() ||
@@ -272,6 +282,17 @@ export const IslandBlacksmithItems: React.FC = () => {
                   >
                     {t("craft")}
                   </Button>
+                  {showScarecrowHelper && (
+                    <img
+                      className="absolute pointer-events-none z-30 animate-pulsate"
+                      src={SUNNYSIDE.icons.click_icon}
+                      style={{
+                        width: `${PIXEL_SCALE * 18}px`,
+                        right: `${PIXEL_SCALE * -4}px`,
+                        top: `${PIXEL_SCALE * 2}px`,
+                      }}
+                    />
+                  )}
                 </div>
               </div>
             )

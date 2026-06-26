@@ -270,7 +270,7 @@ type LandscapeEvent = {
   action?: GameEventName<PlacementEvent>;
   type: "LANDSCAPE";
   requirements?: {
-    sfl: Decimal;
+    coins: number;
     ingredients: Inventory;
   };
   multiple?: boolean;

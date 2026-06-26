@@ -106,11 +106,20 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
     );
 
   const craft = () => {
-    landscapingMachine.send("SELECT", {
+    const selection = {
       action: "building.constructed",
       placeable: { name: selectedName },
       requirements: { coins, ingredients: buildingIngredients },
-    });
+    };
+
+    // This modal lives on the main screen, not inside the landscaping HUD.
+    // When already landscaping just select the building; otherwise enter
+    // landscaping mode so the player can place what they crafted.
+    if (landscapingMachine) {
+      landscapingMachine.send("SELECT", selection);
+    } else {
+      gameService.send("LANDSCAPE", { ...selection, location: "farm" });
+    }
 
     onClose();
   };

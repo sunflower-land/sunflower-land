@@ -105,6 +105,7 @@ export const PlayerNPC: React.FC<NPCProps> = ({
       <Modal show={open} onHide={() => setOpen(false)} size="lg">
         <BumpkinModal
           initialTab="feed"
+          forceTab
           onClose={() => setOpen(false)}
           bumpkin={gameState.bumpkin as Bumpkin}
           inventory={gameState.inventory}
