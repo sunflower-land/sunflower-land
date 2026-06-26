@@ -9148,5 +9148,7 @@
   "savedLayouts.toastAppliedPartial": "Layout aplicado · {{skipped}} não coube",
   "savedLayouts.toastOverwritten": "Substituído pela fazenda atual",
   "savedLayouts.toastDeleted": "Layout excluído",
-  "savedLayouts.toastRenamed": "Renomeado"
+  "savedLayouts.toastRenamed": "Renomeado",
+  "sleepingAnimal.xp": "XP: {{experience}}",
+  "sleepingAnimal.xpToNextLevel": "+ {{xpToNext}} até Lvl {{level}}"
 }

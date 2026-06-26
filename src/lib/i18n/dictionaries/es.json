@@ -9148,5 +9148,7 @@
   "savedLayouts.toastAppliedPartial": "Diseño aplicado · {{skipped}} no encajaba",
   "savedLayouts.toastOverwritten": "Sobrescrito con la granja actual",
   "savedLayouts.toastDeleted": "Diseño eliminado",
-  "savedLayouts.toastRenamed": "Renombrado"
+  "savedLayouts.toastRenamed": "Renombrado",
+  "sleepingAnimal.xp": "XP: {{experience}}",
+  "sleepingAnimal.xpToNextLevel": "+ {{xpToNext}} a Lvl {{level}}"
 }

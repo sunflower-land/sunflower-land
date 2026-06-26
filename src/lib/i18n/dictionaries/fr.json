@@ -9148,5 +9148,7 @@
   "savedLayouts.toastAppliedPartial": "Mise en page appliquée · {{skipped}} ne correspondait pas",
   "savedLayouts.toastOverwritten": "Remposé par la ferme actuelle",
   "savedLayouts.toastDeleted": "Disposition supprimée",
-  "savedLayouts.toastRenamed": "Renommé"
+  "savedLayouts.toastRenamed": "Renommé",
+  "sleepingAnimal.xp": "XP : {{experience}}",
+  "sleepingAnimal.xpToNextLevel": "+ {{xpToNext}} au niveau {{level}}"
 }

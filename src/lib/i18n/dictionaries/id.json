@@ -9148,5 +9148,7 @@
   "savedLayouts.toastAppliedPartial": "Tata letak diterapkan · {{skipped}} tidak cocok",
   "savedLayouts.toastOverwritten": "Ditulis dengan peternakan saat ini",
   "savedLayouts.toastDeleted": "Tata letak dihapus",
-  "savedLayouts.toastRenamed": "Mengganti nama"
+  "savedLayouts.toastRenamed": "Mengganti nama",
+  "sleepingAnimal.xp": "XP: {{experience}}",
+  "sleepingAnimal.xpToNextLevel": "+ {{xpToNext}} ke Lvl {{level}}"
 }

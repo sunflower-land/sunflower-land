@@ -9148,5 +9148,7 @@
   "savedLayouts.toastAppliedPartial": "レイアウト適用・{{skipped}} が合わなかった",
   "savedLayouts.toastOverwritten": "現在のファームで上書き",
   "savedLayouts.toastDeleted": "レイアウトが削除されました",
-  "savedLayouts.toastRenamed": "名前が変更されました"
+  "savedLayouts.toastRenamed": "名前が変更されました",
+  "sleepingAnimal.xp": "XP: {{experience}}",
+  "sleepingAnimal.xpToNextLevel": "+ {{xpToNext}} からレベル {{level}} へ"
 }

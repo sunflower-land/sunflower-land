@@ -9148,5 +9148,7 @@
   "savedLayouts.toastAppliedPartial": "Düzen uygulandı · {{skipped}} uymadı",
   "savedLayouts.toastOverwritten": "Geçerli çiftlikle üzerine yazıldı",
   "savedLayouts.toastDeleted": "Düzen silindi",
-  "savedLayouts.toastRenamed": "Yeniden adlandırıldı"
+  "savedLayouts.toastRenamed": "Yeniden adlandırıldı",
+  "sleepingAnimal.xp": "XP: {{experience}}",
+  "sleepingAnimal.xpToNextLevel": "+ {{xpToNext}} için Lvl {{level}}"
 }

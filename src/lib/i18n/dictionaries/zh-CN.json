@@ -9148,5 +9148,7 @@
   "savedLayouts.toastAppliedPartial": "已应用布局·{{skipped}} 不适合",
   "savedLayouts.toastOverwritten": "用当前农场覆盖",
   "savedLayouts.toastDeleted": "布局已删除",
-  "savedLayouts.toastRenamed": "重命名"
+  "savedLayouts.toastRenamed": "重命名",
+  "sleepingAnimal.xp": "XP: {{experience}}",
+  "sleepingAnimal.xpToNextLevel": "+ {{xpToNext}} 到 Lvl {{level}}"
 }

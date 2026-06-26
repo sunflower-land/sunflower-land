@@ -9148,5 +9148,7 @@
   "savedLayouts.toastAppliedPartial": "Layout applied · {{skipped}} didn't fit",
   "savedLayouts.toastOverwritten": "Overwritten with current farm",
   "savedLayouts.toastDeleted": "Layout deleted",
-  "savedLayouts.toastRenamed": "Renamed"
+  "savedLayouts.toastRenamed": "Renamed",
+  "sleepingAnimal.xp": "XP: {{experience}}",
+  "sleepingAnimal.xpToNextLevel": "+{{xpToNext}} to Lvl {{level}}"
 }
