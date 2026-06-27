@@ -160,6 +160,39 @@ describe("getBoostWindows", () => {
     ]);
   });
 
+  it("anchors the window on createdAt even when readyAt is later", () => {
+    // Matches isTemporaryCollectibleActive, which keys off createdAt + cooldown;
+    // temporary collectibles are placed active (no build delay), so readyAt does
+    // not gate the boost window.
+    const createdAt = 1_000_000;
+    const windows = getBoostWindows({
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          ...TEST_FARM.collectibles,
+          "Sparrow Shrine": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              createdAt,
+              readyAt: createdAt + 60 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      name: "Sparrow Shrine",
+      speed: SPARROW_SHRINE_CROP_SPEED,
+    });
+
+    expect(windows).toEqual([
+      {
+        from: createdAt,
+        to: createdAt + EXPIRY_COOLDOWNS["Sparrow Shrine"],
+        speed: SPARROW_SHRINE_CROP_SPEED,
+      },
+    ]);
+  });
+
   it("truncates the window at removedAt when the shrine was picked up", () => {
     const createdAt = 1_000_000;
     const removedAt = createdAt + 2 * HOUR;

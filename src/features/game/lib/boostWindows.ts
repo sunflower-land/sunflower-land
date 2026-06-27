@@ -74,7 +74,9 @@ function mergeWindows(windows: BoostWindow[]): BoostWindow[] {
   for (let i = 1; i < sorted.length; i++) {
     const last = merged[merged.length - 1];
     const current = sorted[i];
-    if (current.from <= last.to) {
+    // Only coalesce windows of the same speed; differing speeds must stay
+    // separate so overlaps multiply (handled later in buildSegments).
+    if (current.speed === last.speed && current.from <= last.to) {
       last.to = Math.max(last.to, current.to);
     } else {
       merged.push({ ...current });

@@ -331,6 +331,10 @@ export const getCropPlotTime = ({
   // Under the SPEED_BOOSTS model the Sparrow Shrine is a retroactive speed-rate
   // window applied at read time (see boostWindows). Without the flag it stays a
   // legacy discount-at-start multiplier baked in here.
+  // Note: under the flag it is intentionally NOT recorded in `boostsUsed` here —
+  // a windowed boost's contribution is determined over the grow (and may not
+  // apply if the shrine is removed), not at plant time. If analytics ever needs
+  // it, record it at harvest where it actually contributes.
   if (
     !hasFeatureAccess(game, "SPEED_BOOSTS") &&
     isTemporaryCollectibleActive({ name: "Sparrow Shrine", game })
