@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { CROPS } from "features/game/types/crops";
 import { INITIAL_FARM } from "../../lib/constants";
 import type { GameState, CropPlot } from "../../types/game";
-import { getCropPlotTime, plant } from "./plant";
+import { getCropPlotTime, getCropTime, plant } from "./plant";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { CONFIG } from "lib/config";
 import { SPARROW_SHRINE_CROP_SPEED } from "features/game/lib/boostWindows";
@@ -1279,7 +1279,7 @@ describe("plant", () => {
       expect(time).toEqual(baseHarvestSeconds * 0.5);
     });
 
-    it("applies the harvest hourglass boost of -25% crop growth time for 6 hours", () => {
+    it("does not reduce the base plot time for Harvest Hourglass under SPEED_BOOSTS (applied as a speed window)", () => {
       const dateNow = Date.now();
       const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
 
@@ -1302,17 +1302,16 @@ describe("plant", () => {
         createdAt: dateNow,
       });
 
-      expect(time).toEqual(baseHarvestSeconds * 0.75);
+      expect(time).toEqual(baseHarvestSeconds);
     });
 
-    it("does not apply a boost if the harvest hourglass has expired", () => {
+    it("still applies the legacy -25% Harvest Hourglass discount to greenhouse crops", () => {
       const dateNow = Date.now();
 
-      const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
-      const sevenHoursAgo = dateNow - 7 * 60 * 60 * 1000;
-
-      const { time } = getCropPlotTime({
-        crop: "Corn",
+      // Greenhouse isn't on the windowed model yet, so it keeps the baked
+      // discount-at-start even under SPEED_BOOSTS.
+      const { boostsUsed } = getCropTime({
+        crop: "Rice",
         game: {
           ...FARM_WITH_PLOTS,
           collectibles: {
@@ -1320,17 +1319,18 @@ describe("plant", () => {
               {
                 id: "123",
                 coordinates: { x: -1, y: -1 },
-                createdAt: sevenHoursAgo,
-                readyAt: sevenHoursAgo,
+                createdAt: dateNow - 100,
+                readyAt: dateNow - 100,
               },
             ],
           },
         },
-        plot: { ...plot, x: 0, y: -3 },
-        createdAt: dateNow,
       });
 
-      expect(time).toEqual(baseHarvestSeconds);
+      expect(boostsUsed).toContainEqual({
+        name: "Harvest Hourglass",
+        value: "x0.75",
+      });
     });
 
     it("applies a +5% speed boost with Green Thumb skill", () => {

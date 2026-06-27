@@ -26,7 +26,7 @@ import {
   selectVerified,
 } from "features/game/lib/gameMachine";
 import { isSeasonedPlayer } from "features/game/lib/seasonedPlayer";
-import { getCropBoostWindows } from "features/game/lib/boostWindows";
+import { getCropPlotBoostWindows } from "features/game/lib/boostWindows";
 import { ZoomContext } from "components/ZoomProvider";
 import { CROP_COMPOST } from "features/game/types/composters";
 import { gameAnalytics } from "lib/gameAnalytics";
@@ -127,7 +127,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const now = useNow({ live: true });
   const isSeasoned = isSeasonedPlayer({ game: state, verified, now });
 
-  const cropBoostWindows = getCropBoostWindows(state);
+  const cropBoostWindows = getCropPlotBoostWindows(state);
 
   // Calculate expected reward for UI preview (captcha gate for non-seasoned players)
   const expectedReward =

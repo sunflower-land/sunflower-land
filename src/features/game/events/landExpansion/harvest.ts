@@ -32,7 +32,7 @@ import {
 } from "features/game/lib/collectibleBuilt";
 import {
   computeReadyAt,
-  getCropBoostWindows,
+  getCropPlotBoostWindows,
 } from "features/game/lib/boostWindows";
 import { FACTION_ITEMS } from "features/game/lib/factions";
 import {
@@ -122,7 +122,7 @@ export const getCropReadyAt = (
     return computeReadyAt({
       startedAt: plantedCrop.plantedAt,
       baseDurationMs: plantedCrop.baseDurationMs,
-      windows: getCropBoostWindows(game),
+      windows: getCropPlotBoostWindows(game),
     });
   }
 

@@ -5,7 +5,7 @@ import { CROPS } from "./crops";
 import { useNow } from "lib/utils/hooks/useNow";
 import {
   computeReadyAt,
-  getCropBoostWindows,
+  getCropPlotBoostWindows,
   workAccruedAt,
 } from "features/game/lib/boostWindows";
 
@@ -72,7 +72,7 @@ export function applyBuff({
       // Half the remaining time to harvest
       if (plot?.crop?.plantedAt) {
         const cropDetails = CROPS[plot.crop.name];
-        const windows = getCropBoostWindows(gameClone);
+        const windows = getCropPlotBoostWindows(gameClone);
         const baseDurationMs = plot.crop.baseDurationMs;
 
         const readyAt =

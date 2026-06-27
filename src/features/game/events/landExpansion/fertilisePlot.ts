@@ -4,7 +4,7 @@ import type { CropCompostName } from "features/game/types/composters";
 import { CROPS, type Crop, isBasicCrop } from "features/game/types/crops";
 import { getCropReadyAt, isReadyToHarvest } from "./harvest";
 import {
-  getCropBoostWindows,
+  getCropPlotBoostWindows,
   workAccruedAt,
 } from "features/game/lib/boostWindows";
 import { trackFarmActivity } from "features/game/types/farmActivity";
@@ -91,7 +91,7 @@ export function applyFertiliserToPlot({
       const accrued = workAccruedAt({
         startedAt: crop.plantedAt,
         at: createdAt,
-        windows: getCropBoostWindows(game),
+        windows: getCropPlotBoostWindows(game),
       });
       const remainingWork = Math.max(crop.baseDurationMs - accrued, 0);
       crop.baseDurationMs = crop.baseDurationMs - remainingWork / 2;

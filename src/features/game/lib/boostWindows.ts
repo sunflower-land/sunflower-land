@@ -12,7 +12,8 @@ import { getCollectiblesAcrossLocations } from "./getCollectiblesAcrossLocations
  * temporary boost is a RATE multiplier that applies over its active wall-clock
  * window. A task needs `baseDurationMs` of "work"; work accrues at the effective
  * speed at each instant (1× normally, the product of any covering windows during
- * overlaps). The task is ready when accrued work reaches `baseDurationMs`.
+ * overlaps, e.g. two 1.35× boosts → 1.8225×). The task is ready when accrued
+ * work reaches `baseDurationMs`.
  *
  * Because a window is fully determined by the boost's `createdAt`/`removedAt`,
  * the ready time is DERIVED live — which is what makes the boost credit only the
@@ -23,13 +24,27 @@ export type BoostWindow = { from: number; to: number; speed: number };
 /** Sparrow Shrine: 1.35× plot crop growth speed. */
 export const SPARROW_SHRINE_CROP_SPEED = 1.35;
 
-/** The windowed speed boosts that apply to crop growth. */
-export const getCropBoostWindows = (game: GameState): BoostWindow[] =>
-  getBoostWindows({
+/** Harvest Hourglass: 1.35× plot crop growth speed. */
+export const HARVEST_HOURGLASS_CROP_SPEED = 1.35;
+
+/**
+ * The windowed speed boosts that apply to (plot) crop growth. Each is its own
+ * window so overlapping boosts stack multiplicatively (Sparrow 1.35 × Harvest
+ * 1.35 = 1.8225×); placements of the same boost are merged within
+ * `getBoostWindows`.
+ */
+export const getCropPlotBoostWindows = (game: GameState): BoostWindow[] => [
+  ...getBoostWindows({
     game,
     name: "Sparrow Shrine",
     speed: SPARROW_SHRINE_CROP_SPEED,
-  });
+  }),
+  ...getBoostWindows({
+    game,
+    name: "Harvest Hourglass",
+    speed: HARVEST_HOURGLASS_CROP_SPEED,
+  }),
+];
 
 /**
  * Build the active windows for a single temporary collectible from live game

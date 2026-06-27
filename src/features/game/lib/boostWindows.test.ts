@@ -65,11 +65,22 @@ describe("computeReadyAt", () => {
       { from: 0, to: 10 * HOUR, speed: 2 },
       { from: 0, to: 1 * HOUR, speed: 2 },
     ];
-    // First hour at 4x → 4h of work. Remaining 0h → finishes inside the first hour.
-    // 4h work at 4x = 1h exactly.
+    // First hour at 4× → 4h of work → finishes in 1h exactly.
     expect(
       computeReadyAt({ startedAt, baseDurationMs: 4 * HOUR, windows }),
     ).toEqual(1 * HOUR);
+  });
+
+  it("stacks two equal boosts multiplicatively (1.35× × 1.35× = 1.8225×)", () => {
+    const startedAt = 0;
+    const windows: BoostWindow[] = [
+      { from: 0, to: 10 * HOUR, speed: 1.35 },
+      { from: 0, to: 10 * HOUR, speed: 1.35 },
+    ];
+    // Both cover the whole task → 1.35 × 1.35 = 1.8225× → base / 1.8225.
+    expect(
+      computeReadyAt({ startedAt, baseDurationMs: 4 * HOUR, windows }),
+    ).toBeCloseTo((4 * HOUR) / (1.35 * 1.35), 5);
   });
 
   it("ignores the portion of a window before the task started", () => {

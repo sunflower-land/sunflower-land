@@ -7,7 +7,10 @@ import { CROPS } from "features/game/types/crops";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
 import { applyBuff } from "features/game/types/buffs";
-import { SPARROW_SHRINE_CROP_SPEED } from "features/game/lib/boostWindows";
+import {
+  HARVEST_HOURGLASS_CROP_SPEED,
+  SPARROW_SHRINE_CROP_SPEED,
+} from "features/game/lib/boostWindows";
 
 const dateNow = Date.now();
 const GAME_STATE: GameState = {
@@ -3281,6 +3284,47 @@ describe("harvest", () => {
 
       expect(() =>
         harvestSunflower({ plantedAt, collectibles: sparrowShrine(plantedAt) }),
+      ).toThrow("Not ready");
+    });
+
+    const harvestHourglass = (createdAt: number) => ({
+      "Harvest Hourglass": [
+        { id: "2", coordinates: { x: 4, y: 4 }, createdAt, readyAt: createdAt },
+      ],
+    });
+
+    it("grows at the boosted speed with an active Harvest Hourglass", () => {
+      const plantedAt = dateNow - base / HARVEST_HOURGLASS_CROP_SPEED;
+      const state = harvestSunflower({
+        plantedAt,
+        baseDurationMs: base,
+        collectibles: harvestHourglass(plantedAt),
+      });
+
+      expect(state.crops[0].crop).toBeUndefined();
+    });
+
+    it("stacks Sparrow Shrine and Harvest Hourglass multiplicatively (1.8225×)", () => {
+      const combined = SPARROW_SHRINE_CROP_SPEED * HARVEST_HOURGLASS_CROP_SPEED;
+      const plantedAt = dateNow - base / combined;
+      const state = harvestSunflower({
+        plantedAt,
+        baseDurationMs: base,
+        collectibles: {
+          ...sparrowShrine(plantedAt),
+          ...harvestHourglass(plantedAt),
+        },
+      });
+
+      expect(state.crops[0].crop).toBeUndefined();
+    });
+
+    it("is not ready at the combined point without the boosts", () => {
+      const combined = SPARROW_SHRINE_CROP_SPEED * HARVEST_HOURGLASS_CROP_SPEED;
+      const plantedAt = dateNow - base / combined;
+
+      expect(() =>
+        harvestSunflower({ plantedAt, baseDurationMs: base }),
       ).toThrow("Not ready");
     });
   });

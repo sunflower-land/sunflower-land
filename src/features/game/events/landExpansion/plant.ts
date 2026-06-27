@@ -27,7 +27,7 @@ import {
 import { hasFeatureAccess } from "lib/flags";
 import {
   computeReadyAt,
-  getCropBoostWindows,
+  getCropPlotBoostWindows,
 } from "features/game/lib/boostWindows";
 import {
   SEASONAL_SEEDS,
@@ -248,7 +248,17 @@ export function getCropTime({
       boostsUsed.push({ name: "Time Warp Totem", value: "x0.5" });
   }
 
-  if (isTemporaryCollectibleActive({ name: "Harvest Hourglass", game })) {
+  // Harvest Hourglass: under SPEED_BOOSTS it's a retroactive speed-rate window
+  // for PLOT crops (see boostWindows), so excluded from the baked time here.
+  // Greenhouse crops aren't on the windowed model yet, so they keep the legacy
+  // discount-at-start (as do all crops when the flag is off). Not recorded in
+  // boostsUsed for the windowed case — contribution is derived over the grow.
+  const harvestHourglassIsWindowed =
+    hasFeatureAccess(game, "SPEED_BOOSTS") && isPlotCrop(crop);
+  if (
+    !harvestHourglassIsWindowed &&
+    isTemporaryCollectibleActive({ name: "Harvest Hourglass", game })
+  ) {
     multiplier = multiplier * 0.75;
     boostsUsed.push({ name: "Harvest Hourglass", value: "x0.75" });
   }
@@ -483,7 +493,7 @@ export const getCropPlotTime = ({
           ? computeReadyAt({
               startedAt: createdAt,
               baseDurationMs: seconds * 1000,
-              windows: getCropBoostWindows(game),
+              windows: getCropPlotBoostWindows(game),
             }) - createdAt
           : seconds * 1000;
         setAOEAvailableAt(
