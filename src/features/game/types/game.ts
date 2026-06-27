@@ -776,6 +776,13 @@ export type PlantedCrop = {
   reward?: Omit<Reward, "sfl">;
   amount?: number;
   boostedTime?: number;
+  /**
+   * Unboosted-by-windowed-collectibles grow duration (ms), with all other
+   * (discount-at-start) boosts already folded in. Present only on crops planted
+   * under the speed-rate model; its presence selects `computeReadyAt` over the
+   * legacy back-dated `plantedAt`/`boostedTime` readiness check.
+   */
+  baseDurationMs?: number;
 };
 
 export type PlantedFruit = {

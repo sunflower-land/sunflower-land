@@ -21,6 +21,12 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { useNow } from "lib/utils/hooks/useNow";
 import { CROP_COMPOST } from "features/game/types/composters";
+import {
+  computeReadyAt,
+  getEffectiveSpeedAt,
+  workAccruedAt,
+  type BoostWindow,
+} from "features/game/lib/boostWindows";
 
 interface Props {
   cropName?: CropName;
@@ -30,6 +36,10 @@ interface Props {
   procAnimation?: JSX.Element;
   touchCount: number;
   showTimers: boolean;
+  /** Live windowed speed boosts (e.g. Sparrow Shrine) affecting crop growth. */
+  boostWindows: BoostWindow[];
+  /** Live timestamp from the parent; used to pick the current boost speed. */
+  now: number;
 }
 
 const _island = (state: MachineState) => state.context.state.island;
@@ -52,17 +62,45 @@ const getHarvestMetrics = ({
   cropName,
   plot,
   plantedAt,
+  boostWindows,
 }: {
   cropName?: CropName;
   plot: CropPlot;
   plantedAt?: number;
-}): { harvestSeconds: number; readyAt: number; startAt: number } => {
+  boostWindows: BoostWindow[];
+}): {
+  harvestSeconds: number;
+  readyAt: number;
+  startAt: number;
+  baseDurationMs?: number;
+} => {
   const plantedTimestamp = plantedAt ?? plot.crop?.plantedAt ?? 0;
 
   if (!cropName || !plantedTimestamp) {
     return { harvestSeconds: 0, readyAt: 0, startAt: 0 };
   }
 
+  // Speed-rate model: derive the ready time live from the boost windows so the
+  // countdown ticks at the boosted rate and reacts to shrines placed mid-grow.
+  const baseDurationMs =
+    plot.crop?.name === cropName ? plot.crop?.baseDurationMs : undefined;
+
+  if (baseDurationMs !== undefined) {
+    const readyAt = computeReadyAt({
+      startedAt: plantedTimestamp,
+      baseDurationMs,
+      windows: boostWindows,
+    });
+
+    return {
+      baseDurationMs,
+      harvestSeconds: baseDurationMs / 1000,
+      readyAt,
+      startAt: plantedTimestamp,
+    };
+  }
+
+  // Legacy model: back-dated plantedAt + base grow time.
   const baseHarvestSeconds = CROPS[cropName].harvestSeconds;
   const boostOffsetMs =
     plot.crop?.name === cropName ? (plot.crop?.boostedTime ?? 0) : 0;
@@ -81,6 +119,8 @@ export const FertilePlot: React.FC<Props> = ({
   procAnimation,
   touchCount,
   showTimers,
+  boostWindows,
+  now,
 }) => {
   const { gameService, selectedItem } = useContext(Context);
   // Only treat the player as "applying fertiliser" when the plot is still
@@ -93,28 +133,107 @@ export const FertilePlot: React.FC<Props> = ({
   const calendar = useSelector(gameService, _calendar);
 
   const [showTimerPopover, setShowTimerPopover] = useState(false);
-  const { harvestSeconds, readyAt } = useMemo(
-    () => getHarvestMetrics({ cropName, plot, plantedAt }),
-    [cropName, plantedAt, plot],
+  const { harvestSeconds, readyAt, startAt, baseDurationMs } = useMemo(
+    () => getHarvestMetrics({ cropName, plot, plantedAt, boostWindows }),
+    [cropName, plantedAt, plot, boostWindows],
   );
-  const currentTime = useNow({ live: readyAt > 0, autoEndAt: readyAt });
-  const timeLeft =
-    readyAt > 0 && harvestSeconds > 0
-      ? Math.max((readyAt - currentTime) / 1000, 0)
-      : 0;
+  // Tick faster while a boost window is active so the displayed countdown drops
+  // ~1s per visual tick (a faster-running clock) instead of jumping by `speed`
+  // each real second. speed === 1 keeps the normal 1s cadence. Only crops on the
+  // speed-rate model (baseDurationMs set) are boosted; legacy crops stay at 1×.
+  const speed =
+    baseDurationMs !== undefined
+      ? getEffectiveSpeedAt({ at: now, windows: boostWindows })
+      : 1;
+  const intervalMs = Math.max(Math.round(1000 / Math.max(speed, 1)), 250);
+  const currentTime = useNow({
+    live: readyAt > 0,
+    autoEndAt: readyAt,
+    intervalMs,
+  });
   const isGrowing = harvestSeconds > 0 ? readyAt > currentTime : false;
+  // A windowed speed boost (e.g. Sparrow Shrine) is actively speeding this crop.
+  const isBoosted = isGrowing && speed > 1;
+
+  // For speed-rate crops the remaining time is the remaining *work* (in base
+  // duration), so it visibly ticks down faster while a boost window is active.
+  let timeLeft = 0;
+  let growPercentage = 100;
+  if (readyAt > 0 && harvestSeconds > 0) {
+    if (baseDurationMs !== undefined) {
+      const workDoneMs = workAccruedAt({
+        startedAt: startAt,
+        at: currentTime,
+        windows: boostWindows,
+      });
+      timeLeft = Math.max((baseDurationMs - workDoneMs) / 1000, 0);
+      growPercentage = clampPercentage((workDoneMs / baseDurationMs) * 100);
+    } else {
+      timeLeft = Math.max((readyAt - currentTime) / 1000, 0);
+      growPercentage = clampPercentage(100 - (timeLeft / harvestSeconds) * 100);
+    }
+  }
 
   const activeInsectPlague =
     getActiveCalendarEvent({ calendar }) === "insectPlague";
   const isProtected = calendar.insectPlague?.protected;
-
-  const growPercentage =
-    harvestSeconds > 0
-      ? clampPercentage(100 - (timeLeft / harvestSeconds) * 100)
-      : 100;
   const stage = getGrowthStage(cropName, growPercentage);
 
   const isSunshower = getActiveCalendarEvent({ calendar }) === "sunshower";
+
+  // Plot status indicators are packed into the four corners clockwise from the
+  // top-left so they never overlap regardless of which are active.
+  const cornerStyles: React.CSSProperties[] = [
+    { top: `${PIXEL_SCALE * -2}px`, left: `${PIXEL_SCALE * 0}px` }, // top-left
+    { top: `${PIXEL_SCALE * -2}px`, right: `${PIXEL_SCALE * -2}px` }, // top-right
+    { bottom: `${PIXEL_SCALE * 9}px`, right: `${PIXEL_SCALE * 0}px` }, // bottom-right
+    { bottom: `${PIXEL_SCALE * 9}px`, left: `${PIXEL_SCALE * 0}px` }, // bottom-left
+  ];
+
+  const SPROUT_MIX_ICON = powerup; // yield boost
+  const RAPID_ROOT_ICON = SUNNYSIDE.icons.stopwatch; // speed boost
+
+  // Sproutroot Surprise = Sprout Mix (yield) + Rapid Root (speed).
+  const fertiliserIcons: string[] =
+    fertiliser?.name === "Sprout Mix"
+      ? [SPROUT_MIX_ICON]
+      : fertiliser?.name === "Rapid Root"
+        ? [RAPID_ROOT_ICON]
+        : fertiliser?.name === "Sproutroot Surprise"
+          ? [SPROUT_MIX_ICON, RAPID_ROOT_ICON]
+          : [];
+
+  const weatherIcon =
+    activeInsectPlague && !isProtected
+      ? locust
+      : isSunshower
+        ? sunshower
+        : undefined;
+
+  // Each icon is its own entry in priority order and takes the next free
+  // corner. Any overflow beyond four shares the last corner.
+  const cornerIcons: {
+    key: string;
+    src: string;
+    size: number;
+    pulse?: boolean;
+  }[] = [
+    ...(isBoosted
+      ? [{ key: "boost", src: SUNNYSIDE.icons.lightning, size: 7, pulse: true }]
+      : []),
+    ...(weatherIcon ? [{ key: "weather", src: weatherIcon, size: 10 }] : []),
+    ...(plot.beeSwarm ? [{ key: "bee", src: bee, size: 8 }] : []),
+    ...fertiliserIcons.map((src, i) => ({
+      key: `fertiliser-${i}`,
+      src,
+      size: 6,
+    })),
+  ];
+
+  const cornerBuckets: (typeof cornerIcons)[] = [[], [], [], []];
+  cornerIcons.forEach((icon, index) =>
+    cornerBuckets[Math.min(index, cornerStyles.length - 1)].push(icon),
+  );
 
   const handleMouseEnter = () => {
     // Suppress the boost/timer popover while the player is applying a crop
@@ -155,91 +274,24 @@ export const FertilePlot: React.FC<Props> = ({
           <Soil cropName={cropName} stage={stage} island={island} />
         </div>
       </div>
-      {activeInsectPlague && !isProtected && (
-        <img
-          src={locust}
-          alt="locust"
-          className="absolute top-0 right-0 pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 10}px`,
-            top: `${PIXEL_SCALE * -4}px`,
-          }}
-        />
-      )}
-
-      {isSunshower && (
-        <img
-          src={sunshower}
-          alt="sunshower"
-          className="absolute top-0 right-0 pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 10}px`,
-            top: `${PIXEL_SCALE * -4}px`,
-            right: `${PIXEL_SCALE * -2}px`,
-          }}
-        />
-      )}
-      {/* Fertiliser */}
-      {fertiliser?.name === "Sprout Mix" && (
-        <img
-          key={fertiliser.name}
-          className="absolute z-10 pointer-events-none"
-          src={powerup}
-          style={{
-            width: `${PIXEL_SCALE * 5}px`,
-            bottom: `${PIXEL_SCALE * 9}px`,
-            right: `${PIXEL_SCALE * 0}px`,
-          }}
-        />
-      )}
-      {fertiliser?.name === "Rapid Root" && (
-        <img
-          key={fertiliser.name}
-          className="absolute z-10 pointer-events-none"
-          src={SUNNYSIDE.icons.stopwatch}
-          style={{
-            width: `${PIXEL_SCALE * 6}px`,
-            bottom: `${PIXEL_SCALE * 9}px`,
-            right: `${PIXEL_SCALE * 0}px`,
-          }}
-        />
-      )}
-      {fertiliser?.name === "Sproutroot Surprise" && (
-        <>
-          <img
-            key={`${fertiliser.name}-yield`}
-            className="absolute z-10 pointer-events-none"
-            src={powerup}
-            style={{
-              width: `${PIXEL_SCALE * 5}px`,
-              bottom: `${PIXEL_SCALE * 9}px`,
-              left: `${PIXEL_SCALE * 0}px`,
-            }}
-          />
-          <img
-            key={`${fertiliser.name}-speed`}
-            className="absolute z-10 pointer-events-none"
-            src={SUNNYSIDE.icons.stopwatch}
-            style={{
-              width: `${PIXEL_SCALE * 6}px`,
-              bottom: `${PIXEL_SCALE * 9}px`,
-              right: `${PIXEL_SCALE * 0}px`,
-            }}
-          />
-        </>
-      )}
-
-      {/* Bee Swarm */}
-      {plot.beeSwarm && (
-        <img
-          className="absolute z-10 pointer-events-none"
-          src={bee}
-          style={{
-            width: `${PIXEL_SCALE * 8}px`,
-            top: `${PIXEL_SCALE * -2}px`,
-            left: `${PIXEL_SCALE * 0}px`,
-          }}
-        />
+      {/* Status indicators, packed into corners clockwise from the top-left */}
+      {cornerBuckets.map((bucket, index) =>
+        bucket.length === 0 ? null : (
+          <div
+            key={index}
+            className="absolute z-20 pointer-events-none flex"
+            style={cornerStyles[index]}
+          >
+            {bucket.map((icon) => (
+              <img
+                key={icon.key}
+                src={icon.src}
+                className={icon.pulse ? "animate-pulse" : undefined}
+                style={{ width: `${PIXEL_SCALE * icon.size}px` }}
+              />
+            ))}
+          </div>
+        ),
       )}
 
       {/* Time popover */}
@@ -255,6 +307,7 @@ export const FertilePlot: React.FC<Props> = ({
             description={cropName}
             showPopover={showTimerPopover && !isApplyingFertiliser}
             timeLeft={timeLeft}
+            speed={speed}
           />
         </div>
       )}
@@ -287,6 +340,19 @@ export const FertilePlot: React.FC<Props> = ({
             type="progress"
             formatLength="short"
           />
+          {/* Lightning next to the timer while a speed boost is active */}
+          {isBoosted && (
+            <img
+              src={SUNNYSIDE.icons.lightning}
+              alt="speed boost"
+              className="absolute z-30 pointer-events-none animate-pulse"
+              style={{
+                width: `${PIXEL_SCALE * 4}px`,
+                top: `${PIXEL_SCALE * -5}px`,
+                left: `${PIXEL_SCALE * 13}px`,
+              }}
+            />
+          )}
         </div>
       )}
 

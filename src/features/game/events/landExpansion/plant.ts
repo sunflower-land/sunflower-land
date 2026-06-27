@@ -24,6 +24,7 @@ import {
   isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
+import { hasFeatureAccess } from "lib/flags";
 import {
   SEASONAL_SEEDS,
   type SeedName,
@@ -323,7 +324,13 @@ export const getCropPlotTime = ({
     boostsUsed.push({ name: "Green Thumb", value: "x0.95" });
   }
 
-  if (isTemporaryCollectibleActive({ name: "Sparrow Shrine", game })) {
+  // Under the SPEED_BOOSTS model the Sparrow Shrine is a retroactive speed-rate
+  // window applied at read time (see boostWindows). Without the flag it stays a
+  // legacy discount-at-start multiplier baked in here.
+  if (
+    !hasFeatureAccess(game, "SPEED_BOOSTS") &&
+    isTemporaryCollectibleActive({ name: "Sparrow Shrine", game })
+  ) {
     seconds = seconds * 0.75;
     boostsUsed.push({ name: "Sparrow Shrine", value: "x0.75" });
   }
@@ -539,7 +546,7 @@ export function plantCropOnPlot({
   aoe: AOE;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  const { inventory, collectibles, bumpkin, crops: plots } = game;
+  const { inventory, crops: plots } = game;
   const plot = plots[plotId];
   const seedCount = inventory[seedItem] || new Decimal(0);
 
@@ -599,20 +606,29 @@ export function plantCropOnPlot({
 
   const updatedPlot: CropPlot = {
     ...plot,
-    crop: {
-      id: cropId,
-      plantedAt: getPlantedAt({
-        crop: cropName,
-        inventory,
-        collectibles,
-        bumpkin,
-        createdAt,
-        plot,
-        boostedTime,
-      }),
-      boostedTime: getBoostedTime({ crop: cropName, boostedTime }),
-      name: cropName,
-    },
+    crop: hasFeatureAccess(game, "SPEED_BOOSTS")
+      ? {
+          id: cropId,
+          // True plant time — Sparrow Shrine speed-up is derived live from
+          // windows rather than baked in by back-dating plantedAt.
+          plantedAt: createdAt,
+          baseDurationMs: boostedTime * 1000,
+          name: cropName,
+        }
+      : {
+          id: cropId,
+          plantedAt: getPlantedAt({
+            crop: cropName,
+            inventory: game.inventory,
+            collectibles: game.collectibles,
+            bumpkin: game.bumpkin,
+            createdAt,
+            plot,
+            boostedTime,
+          }),
+          boostedTime: getBoostedTime({ crop: cropName, boostedTime }),
+          name: cropName,
+        },
   };
 
   return {

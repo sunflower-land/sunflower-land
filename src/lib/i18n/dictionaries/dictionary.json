@@ -7578,6 +7578,7 @@
   "description.boarShrine.buff": "x0.8 Cooking Time",
   "description.houndShrine.buff": "+100 Pet XP per food request",
   "description.sparrowShrine.buff": "x0.75 Plot Crop Growth Time",
+  "description.sparrowShrine.buff.speed": "1.35x Plot Crop Growth Speed",
   "description.toucanShrine.buff": "x0.75 Fruit Patch Growth Time",
   "description.collieShrine.buff": "x0.75 Cow Sleep Time",
   "description.collieShrine.buff.2": "x0.75 Sheep Sleep Time",

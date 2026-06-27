@@ -17,6 +17,7 @@ import { isCollectible } from "../events/landExpansion/garbageSold";
 import { getKeys, getObjectEntries } from "lib/object";
 import { BED_FARMHAND_COUNT } from "./beds";
 import { isCollectibleBuilt } from "../lib/collectibleBuilt";
+import { hasFeatureAccess } from "lib/flags";
 
 type FertiliserBuffLabelName =
   | "Sprout Mix"
@@ -1847,9 +1848,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS.Oil.image,
     },
   ],
-  "Sparrow Shrine": () => [
+  "Sparrow Shrine": (game) => [
     {
-      shortDescription: translate("description.sparrowShrine.buff"),
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.sparrowShrine.buff.speed")
+        : translate("description.sparrowShrine.buff"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },

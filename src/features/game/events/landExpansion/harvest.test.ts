@@ -7,6 +7,7 @@ import { CROPS } from "features/game/types/crops";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
 import { applyBuff } from "features/game/types/buffs";
+import { SPARROW_SHRINE_CROP_SPEED } from "features/game/lib/boostWindows";
 
 const dateNow = Date.now();
 const GAME_STATE: GameState = {
@@ -3175,6 +3176,112 @@ describe("harvest", () => {
 
       expect(crops[firstId].crop).toBeUndefined();
       expect(state.inventory.Sunflower).toEqual(new Decimal(1));
+    });
+  });
+
+  describe("Sparrow Shrine (speed-rate boost)", () => {
+    const base = CROPS.Sunflower.harvestSeconds * 1000;
+    const speed = SPARROW_SHRINE_CROP_SPEED;
+
+    const sparrowShrine = (createdAt: number, removedAt?: number) => ({
+      "Sparrow Shrine": [
+        {
+          id: "1",
+          coordinates: { x: 3, y: 3 },
+          createdAt,
+          readyAt: createdAt,
+          ...(removedAt !== undefined ? { removedAt } : {}),
+        },
+      ],
+    });
+
+    const harvestSunflower = ({
+      plantedAt,
+      baseDurationMs,
+      collectibles,
+    }: {
+      plantedAt: number;
+      baseDurationMs?: number;
+      collectibles?: GameState["collectibles"];
+    }) =>
+      harvest({
+        state: {
+          ...GAME_STATE,
+          inventory: { Sunflower: new Decimal(0) },
+          collectibles: collectibles ?? {},
+          crops: {
+            0: {
+              ...GAME_STATE.crops[0],
+              crop: {
+                name: "Sunflower",
+                plantedAt,
+                ...(baseDurationMs !== undefined ? { baseDurationMs } : {}),
+              },
+            },
+          },
+        },
+        action: { type: "crop.harvested", index: "0" },
+        createdAt: dateNow,
+      });
+
+    it("grows at the boosted speed while an active Sparrow Shrine covers the whole grow", () => {
+      // base/speed of real time, all boosted → exactly base of work → ready.
+      const plantedAt = dateNow - base / speed;
+      const state = harvestSunflower({
+        plantedAt,
+        baseDurationMs: base,
+        collectibles: sparrowShrine(plantedAt),
+      });
+
+      expect(state.crops[0].crop).toBeUndefined();
+    });
+
+    it("is not ready at the same point without a Sparrow Shrine", () => {
+      const plantedAt = dateNow - base / speed;
+
+      expect(() =>
+        harvestSunflower({ plantedAt, baseDurationMs: base }),
+      ).toThrow("Not ready");
+    });
+
+    it("retroactively speeds up an in-progress crop when placed mid-grow", () => {
+      // Half the work done unboosted, then the shrine covers the rest:
+      // base/2 at 1x + base/(2*speed) at `speed` == base → ready.
+      const boostedFor = base / (2 * speed);
+      const plantedAt = dateNow - (base / 2 + boostedFor);
+      const state = harvestSunflower({
+        plantedAt,
+        baseDurationMs: base,
+        collectibles: sparrowShrine(dateNow - boostedFor),
+      });
+
+      expect(state.crops[0].crop).toBeUndefined();
+    });
+
+    it("stops accruing the boost once the shrine is removed", () => {
+      // Active only for the first base/(2*speed), then removed → accrues
+      // base/2 + base/(2*speed) < base, so NOT ready (it would be ready if the
+      // boost had stayed on for the full base/speed window).
+      const plantedAt = dateNow - base / speed;
+      const removedAt = dateNow - base / (2 * speed);
+
+      expect(() =>
+        harvestSunflower({
+          plantedAt,
+          baseDurationMs: base,
+          collectibles: sparrowShrine(plantedAt, removedAt),
+        }),
+      ).toThrow("Not ready");
+    });
+
+    it("does not apply the speed window to legacy crops (no baseDurationMs)", () => {
+      // Legacy crop (no baseDurationMs) stays on the back-dated model: base/speed
+      // elapsed < base and the window does not apply, so it is not ready.
+      const plantedAt = dateNow - base / speed;
+
+      expect(() =>
+        harvestSunflower({ plantedAt, collectibles: sparrowShrine(plantedAt) }),
+      ).toThrow("Not ready");
     });
   });
 });
