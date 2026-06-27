@@ -4,7 +4,7 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Button } from "components/ui/Button";
 import { CloseButtonPanel } from "./CloseablePanel";
 import { Label } from "components/ui/Label";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Context } from "../GameProvider";
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "../lib/gameMachine";
@@ -68,6 +68,7 @@ const RenewCollectibleContent: React.FC<{
   gameState: GameState;
 }> = ({ handleRenew, handleRemove, name, inventory, gameState }) => {
   const { t } = useAppTranslation();
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const available = inventory[name] ?? new Decimal(0);
   const canRenew = available.gte(1);
   const buffLabels = COLLECTIBLE_BUFF_LABELS[name]?.(gameState);
@@ -75,11 +76,21 @@ const RenewCollectibleContent: React.FC<{
   return (
     <>
       <div className="flex flex-col gap-2 p-1">
-        <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
-          {t("shrine.expired", { name })}
-        </Label>
+        {showConfirmation && (
+          <>
+            <Label type="warning">{t("confirm.renew")}</Label>
+            <p className="text-xs">{t("confirm.renew.message", { name })}</p>
+          </>
+        )}
+        {!showConfirmation && (
+          <>
+            <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
+              {t("shrine.expired", { name })}
+            </Label>
 
-        <p className="text-xs">{t("renew.expired.message", { name })}</p>
+            <p className="text-xs">{t("renew.expired.message", { name })}</p>
+          </>
+        )}
 
         {buffLabels && (
           <div className="flex flex-wrap gap-2">
@@ -111,12 +122,26 @@ const RenewCollectibleContent: React.FC<{
         </div>
       </div>
 
-      <div className="flex justify-between gap-1">
-        <Button onClick={handleRemove}>{t("remove")}</Button>
-        <Button onClick={handleRenew} disabled={!canRenew}>
-          {t("renew")}
-        </Button>
-      </div>
+      {showConfirmation ? (
+        <div className="flex justify-between gap-1">
+          <Button onClick={() => setShowConfirmation(false)}>
+            {t("cancel")}
+          </Button>
+          <Button onClick={handleRenew} disabled={!canRenew}>
+            {t("renew")}
+          </Button>
+        </div>
+      ) : (
+        <div className="flex justify-between gap-1">
+          <Button
+            onClick={() => setShowConfirmation(true)}
+            disabled={!canRenew}
+          >
+            {t("renew")}
+          </Button>
+          <Button onClick={handleRemove}>{t("remove")}</Button>
+        </div>
+      )}
     </>
   );
 };
