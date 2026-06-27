@@ -353,7 +353,12 @@ export const getCropPlotTime = ({
     boostsUsed.push({ name: "Sparrow Shrine", value: "x0.75" });
   }
 
-  if (isBuffActive({ buff: "Power hour", game, now: createdAt })) {
+  // Power hour: under SPEED_BOOSTS it's a windowed 2× speed boost for plot crops
+  // (see boostWindows); legacy / flag-off keeps the discount-at-start here.
+  if (
+    !hasFeatureAccess(game, "SPEED_BOOSTS") &&
+    isBuffActive({ buff: "Power hour", game, now: createdAt })
+  ) {
     seconds = seconds * 0.5;
     boostsUsed.push({ name: "Power hour", value: "x0.5" });
   }

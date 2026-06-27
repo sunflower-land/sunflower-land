@@ -3,11 +3,6 @@ import type { GameState } from "./game";
 import { getKeys } from "lib/object";
 import { CROPS } from "./crops";
 import { useNow } from "lib/utils/hooks/useNow";
-import {
-  computeReadyAt,
-  getCropPlotBoostWindows,
-  workAccruedAt,
-} from "features/game/lib/boostWindows";
 
 // 50% faster crops, +0.2 Crops
 export type BuffName = "Power hour";
@@ -71,46 +66,18 @@ export function applyBuff({
 
       // Half the remaining time to harvest
       if (plot?.crop?.plantedAt) {
-        const cropDetails = CROPS[plot.crop.name];
-        const windows = getCropPlotBoostWindows(gameClone);
-        const baseDurationMs = plot.crop.baseDurationMs;
+        // Speed-rate crops accelerate via the Power Hour window itself (see
+        // boostWindows) — skip them here, or the window would double-count.
+        if (plot.crop.baseDurationMs !== undefined) return;
 
-        const readyAt =
-          baseDurationMs !== undefined
-            ? computeReadyAt({
-                startedAt: plot.crop.plantedAt,
-                baseDurationMs,
-                windows,
-              })
-            : plot.crop.plantedAt + cropDetails.harvestSeconds * 1000;
+        const cropDetails = CROPS[plot.crop.name];
+        const readyAt = plot.crop.plantedAt + cropDetails.harvestSeconds * 1000;
         const remainingTime = readyAt - now;
 
         if (remainingTime > 0) {
-          let timeReduction: number;
-
-          if (baseDurationMs !== undefined) {
-            // Speed-rate model: halve the remaining work; the AOE cooldown
-            // shrinks by the real time that saves.
-            const accrued = workAccruedAt({
-              startedAt: plot.crop.plantedAt,
-              at: now,
-              windows,
-            });
-            const remainingWork = Math.max(baseDurationMs - accrued, 0);
-            plot.crop.baseDurationMs = baseDurationMs - remainingWork / 2;
-            timeReduction =
-              readyAt -
-              computeReadyAt({
-                startedAt: plot.crop.plantedAt,
-                baseDurationMs: plot.crop.baseDurationMs,
-                windows,
-              });
-          } else {
-            timeReduction = remainingTime / 2;
-            plot.crop.plantedAt -= timeReduction;
-            plot.crop.boostedTime =
-              (plot.crop.boostedTime ?? 0) + timeReduction;
-          }
+          const timeReduction = remainingTime / 2;
+          plot.crop.plantedAt -= timeReduction;
+          plot.crop.boostedTime = (plot.crop.boostedTime ?? 0) + timeReduction;
 
           const basicScarecrow = gameClone.collectibles["Basic Scarecrow"]?.[0];
           if (

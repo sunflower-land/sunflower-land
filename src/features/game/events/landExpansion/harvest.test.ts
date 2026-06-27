@@ -9,6 +9,7 @@ import { KNOWN_IDS } from "features/game/types";
 import { applyBuff } from "features/game/types/buffs";
 import {
   HARVEST_HOURGLASS_CROP_SPEED,
+  POWER_HOUR_CROP_SPEED,
   SPARROW_SHRINE_CROP_SPEED,
 } from "features/game/lib/boostWindows";
 
@@ -3326,6 +3327,31 @@ describe("harvest", () => {
       expect(() =>
         harvestSunflower({ plantedAt, baseDurationMs: base }),
       ).toThrow("Not ready");
+    });
+
+    it("grows at 2× with an active Power hour buff", () => {
+      // Power hour is a buff window (not a collectible): base/2 of real time fully
+      // boosted at 2× → exactly base of work → ready.
+      const plantedAt = dateNow - base / POWER_HOUR_CROP_SPEED;
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          inventory: { Sunflower: new Decimal(0) },
+          buffs: {
+            "Power hour": { startedAt: plantedAt, durationMS: 60 * 60 * 1000 },
+          },
+          crops: {
+            0: {
+              ...GAME_STATE.crops[0],
+              crop: { name: "Sunflower", plantedAt, baseDurationMs: base },
+            },
+          },
+        },
+        action: { type: "crop.harvested", index: "0" },
+        createdAt: dateNow,
+      });
+
+      expect(state.crops[0].crop).toBeUndefined();
     });
   });
 });

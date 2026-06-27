@@ -27,6 +27,22 @@ export const SPARROW_SHRINE_CROP_SPEED = 1.35;
 /** Harvest Hourglass: 1.35× plot crop growth speed. */
 export const HARVEST_HOURGLASS_CROP_SPEED = 1.35;
 
+/** Power Hour buff: 2× plot crop growth speed for the buff's window. */
+export const POWER_HOUR_CROP_SPEED = 2;
+
+/** Window for the Power Hour buff (1h from activation), if active. */
+const getPowerHourWindows = (game: GameState): BoostWindow[] => {
+  const buff = game.buffs?.["Power hour"];
+  if (buff?.startedAt === undefined) return [];
+  return [
+    {
+      from: buff.startedAt,
+      to: buff.startedAt + buff.durationMS,
+      speed: POWER_HOUR_CROP_SPEED,
+    },
+  ];
+};
+
 /**
  * The windowed speed boosts that apply to (plot) crop growth. Each is its own
  * window so overlapping boosts stack multiplicatively (Sparrow 1.35 × Harvest
@@ -44,6 +60,7 @@ export const getCropPlotBoostWindows = (game: GameState): BoostWindow[] => [
     name: "Harvest Hourglass",
     speed: HARVEST_HOURGLASS_CROP_SPEED,
   }),
+  ...getPowerHourWindows(game),
 ];
 
 /**
