@@ -7,11 +7,7 @@ import { CROPS } from "features/game/types/crops";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
 import { applyBuff } from "features/game/types/buffs";
-import {
-  HARVEST_HOURGLASS_CROP_SPEED,
-  POWER_HOUR_CROP_SPEED,
-  SPARROW_SHRINE_CROP_SPEED,
-} from "features/game/lib/boostWindows";
+import { CROP_PLOT_BOOST_SPEED } from "features/game/lib/boostWindows";
 
 const dateNow = Date.now();
 const GAME_STATE: GameState = {
@@ -3185,7 +3181,7 @@ describe("harvest", () => {
 
   describe("Sparrow Shrine (speed-rate boost)", () => {
     const base = CROPS.Sunflower.harvestSeconds * 1000;
-    const speed = SPARROW_SHRINE_CROP_SPEED;
+    const speed = CROP_PLOT_BOOST_SPEED["Sparrow Shrine"];
 
     const sparrowShrine = (createdAt: number, removedAt?: number) => ({
       "Sparrow Shrine": [
@@ -3295,7 +3291,8 @@ describe("harvest", () => {
     });
 
     it("grows at the boosted speed with an active Harvest Hourglass", () => {
-      const plantedAt = dateNow - base / HARVEST_HOURGLASS_CROP_SPEED;
+      const plantedAt =
+        dateNow - base / CROP_PLOT_BOOST_SPEED["Harvest Hourglass"];
       const state = harvestSunflower({
         plantedAt,
         baseDurationMs: base,
@@ -3306,7 +3303,9 @@ describe("harvest", () => {
     });
 
     it("stacks Sparrow Shrine and Harvest Hourglass multiplicatively (1.8225×)", () => {
-      const combined = SPARROW_SHRINE_CROP_SPEED * HARVEST_HOURGLASS_CROP_SPEED;
+      const combined =
+        CROP_PLOT_BOOST_SPEED["Sparrow Shrine"] *
+        CROP_PLOT_BOOST_SPEED["Harvest Hourglass"];
       const plantedAt = dateNow - base / combined;
       const state = harvestSunflower({
         plantedAt,
@@ -3321,7 +3320,9 @@ describe("harvest", () => {
     });
 
     it("is not ready at the combined point without the boosts", () => {
-      const combined = SPARROW_SHRINE_CROP_SPEED * HARVEST_HOURGLASS_CROP_SPEED;
+      const combined =
+        CROP_PLOT_BOOST_SPEED["Sparrow Shrine"] *
+        CROP_PLOT_BOOST_SPEED["Harvest Hourglass"];
       const plantedAt = dateNow - base / combined;
 
       expect(() =>
@@ -3332,7 +3333,7 @@ describe("harvest", () => {
     it("grows at 2× with an active Power hour buff", () => {
       // Power hour is a buff window (not a collectible): base/2 of real time fully
       // boosted at 2× → exactly base of work → ready.
-      const plantedAt = dateNow - base / POWER_HOUR_CROP_SPEED;
+      const plantedAt = dateNow - base / CROP_PLOT_BOOST_SPEED["Power hour"];
       const state = harvest({
         state: {
           ...GAME_STATE,
@@ -3352,6 +3353,80 @@ describe("harvest", () => {
       });
 
       expect(state.crops[0].crop).toBeUndefined();
+    });
+
+    // Sunshower window = [startedAt, end of that UTC day]; startedAt = midnight of
+    // today, so the short grow ending "now" is fully inside the window.
+    const sunshowerToday = () => ({
+      dates: [],
+      sunshower: {
+        startedAt: new Date(
+          new Date(dateNow).toISOString().split("T")[0],
+        ).getTime(),
+        triggeredAt: dateNow,
+      },
+    });
+
+    it("grows at 2× with an active sunshower", () => {
+      const plantedAt = dateNow - base / CROP_PLOT_BOOST_SPEED.sunshower;
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          inventory: { Sunflower: new Decimal(0) },
+          calendar: sunshowerToday(),
+          crops: {
+            0: {
+              ...GAME_STATE.crops[0],
+              crop: { name: "Sunflower", plantedAt, baseDurationMs: base },
+            },
+          },
+        },
+        action: { type: "crop.harvested", index: "0" },
+        createdAt: dateNow,
+      });
+
+      expect(state.crops[0].crop).toBeUndefined();
+    });
+
+    it("grows at 4× with sunshower and a matching season Guardian", () => {
+      const plantedAt =
+        dateNow - base / CROP_PLOT_BOOST_SPEED.sunshowerGuardian;
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          inventory: { Sunflower: new Decimal(0) },
+          season: { season: "winter", startedAt: dateNow },
+          calendar: sunshowerToday(),
+          collectibles: {
+            "Winter Guardian": [
+              {
+                id: "wg",
+                coordinates: { x: 5, y: 5 },
+                createdAt: dateNow,
+                readyAt: dateNow,
+              },
+            ],
+          },
+          crops: {
+            0: {
+              ...GAME_STATE.crops[0],
+              crop: { name: "Sunflower", plantedAt, baseDurationMs: base },
+            },
+          },
+        },
+        action: { type: "crop.harvested", index: "0" },
+        createdAt: dateNow,
+      });
+
+      expect(state.crops[0].crop).toBeUndefined();
+    });
+
+    it("is not ready at the 2× point without a sunshower", () => {
+      const plantedAt = dateNow - base / CROP_PLOT_BOOST_SPEED.sunshower;
+
+      expect(() =>
+        harvestSunflower({ plantedAt, baseDurationMs: base }),
+      ).toThrow("Not ready");
     });
   });
 });

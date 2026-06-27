@@ -5,7 +5,7 @@ import type { GameState, CropPlot } from "../../types/game";
 import { getCropPlotTime, getCropTime, plant } from "./plant";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { CONFIG } from "lib/config";
-import { SPARROW_SHRINE_CROP_SPEED } from "features/game/lib/boostWindows";
+import { CROP_PLOT_BOOST_SPEED } from "features/game/lib/boostWindows";
 
 const FARM_WITH_PLOTS: GameState = {
   ...INITIAL_FARM,
@@ -1087,7 +1087,7 @@ describe("plant", () => {
       // the window is active, so the AOE frees up sooner than the raw seconds.
       const baseDurationMs = pumpkinHarvestSeconds * 0.8 * 1000;
       expect(aoe["Basic Scarecrow"]?.["0"]?.["-2"]).toBeCloseTo(
-        dateNow + baseDurationMs / SPARROW_SHRINE_CROP_SPEED,
+        dateNow + baseDurationMs / CROP_PLOT_BOOST_SPEED["Sparrow Shrine"],
         5,
       );
     });
@@ -1396,7 +1396,7 @@ describe("plant", () => {
       expect(time).toEqual(baseHarvestSeconds);
     });
 
-    it("applies a 2x speed boost with Sunshower", () => {
+    it("does not reduce the base plot time for Sunshower under SPEED_BOOSTS (applied as a speed window)", () => {
       const baseHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
       const { time } = getCropPlotTime({
         crop: "Sunflower",
@@ -1414,7 +1414,7 @@ describe("plant", () => {
         createdAt: dateNow,
       });
 
-      expect(time).toEqual(baseHarvestSeconds * 0.5);
+      expect(time).toEqual(baseHarvestSeconds);
     });
 
     it("does not reduce the base plot time for Sparrow Shrine (applied as a speed window at read time)", () => {

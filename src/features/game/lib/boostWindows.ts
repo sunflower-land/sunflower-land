@@ -1,6 +1,7 @@
 import type { GameState } from "../types/game";
 import {
   EXPIRY_COOLDOWNS,
+  isCollectibleBuilt,
   type TemporaryCollectibleName,
 } from "./collectibleBuilt";
 import { getCollectiblesAcrossLocations } from "./getCollectiblesAcrossLocations";
@@ -21,14 +22,19 @@ import { getCollectiblesAcrossLocations } from "./getCollectiblesAcrossLocations
  */
 export type BoostWindow = { from: number; to: number; speed: number };
 
-/** Sparrow Shrine: 1.35× plot crop growth speed. */
-export const SPARROW_SHRINE_CROP_SPEED = 1.35;
-
-/** Harvest Hourglass: 1.35× plot crop growth speed. */
-export const HARVEST_HOURGLASS_CROP_SPEED = 1.35;
-
-/** Power Hour buff: 2× plot crop growth speed for the buff's window. */
-export const POWER_HOUR_CROP_SPEED = 2;
+/**
+ * Speed multipliers for the windowed crop-plot boosts — the single place to tune
+ * them. Stacking is multiplicative (effective speed = product of active boosts).
+ * `sunshower` is the base sunshower rate; `sunshowerGuardian` replaces it while a
+ * matching season Guardian is built.
+ */
+export const CROP_PLOT_BOOST_SPEED = {
+  "Sparrow Shrine": 1.35,
+  "Harvest Hourglass": 1.35,
+  "Power hour": 2,
+  sunshower: 2,
+  sunshowerGuardian: 4,
+} as const;
 
 /** Window for the Power Hour buff (1h from activation), if active. */
 const getPowerHourWindows = (game: GameState): BoostWindow[] => {
@@ -38,7 +44,47 @@ const getPowerHourWindows = (game: GameState): BoostWindow[] => {
     {
       from: buff.startedAt,
       to: buff.startedAt + buff.durationMS,
-      speed: POWER_HOUR_CROP_SPEED,
+      speed: CROP_PLOT_BOOST_SPEED["Power hour"],
+    },
+  ];
+};
+
+const SEASON_GUARDIAN = {
+  spring: "Spring Guardian",
+  summer: "Summer Guardian",
+  autumn: "Autumn Guardian",
+  winter: "Winter Guardian",
+} as const;
+
+/**
+ * Window for the sunshower calendar event, if one has started. Sunshower lasts
+ * until the END of the (UTC) day it began on — not a rolling 24h — so the window
+ * runs from `startedAt` to the next UTC midnight. A built season Guardian doubles
+ * the boost (2× → 4×).
+ */
+const getSunshowerWindows = (game: GameState): BoostWindow[] => {
+  const startedAt = game.calendar?.sunshower?.startedAt;
+  if (startedAt === undefined) return [];
+
+  const day = new Date(startedAt);
+  const to = Date.UTC(
+    day.getUTCFullYear(),
+    day.getUTCMonth(),
+    day.getUTCDate() + 1,
+  );
+
+  const hasGuardian = isCollectibleBuilt({
+    game,
+    name: SEASON_GUARDIAN[game.season.season],
+  });
+
+  return [
+    {
+      from: startedAt,
+      to,
+      speed: hasGuardian
+        ? CROP_PLOT_BOOST_SPEED.sunshowerGuardian
+        : CROP_PLOT_BOOST_SPEED.sunshower,
     },
   ];
 };
@@ -53,14 +99,15 @@ export const getCropPlotBoostWindows = (game: GameState): BoostWindow[] => [
   ...getBoostWindows({
     game,
     name: "Sparrow Shrine",
-    speed: SPARROW_SHRINE_CROP_SPEED,
+    speed: CROP_PLOT_BOOST_SPEED["Sparrow Shrine"],
   }),
   ...getBoostWindows({
     game,
     name: "Harvest Hourglass",
-    speed: HARVEST_HOURGLASS_CROP_SPEED,
+    speed: CROP_PLOT_BOOST_SPEED["Harvest Hourglass"],
   }),
   ...getPowerHourWindows(game),
+  ...getSunshowerWindows(game),
 ];
 
 /**

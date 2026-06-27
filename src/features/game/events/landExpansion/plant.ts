@@ -430,7 +430,11 @@ export const getCropPlotTime = ({
     boostsUsed.push({ name: "Giant Turnip", value: "x0.5" });
   }
 
+  // Sunshower: under SPEED_BOOSTS it's a windowed 2× (4× with a season Guardian)
+  // speed boost for plot crops (see boostWindows); legacy / flag-off bakes the
+  // discount-at-start here.
   const isSunshower =
+    !hasFeatureAccess(game, "SPEED_BOOSTS") &&
     getActiveCalendarEvent({ calendar: game.calendar }) === "sunshower";
 
   if (isSunshower) {

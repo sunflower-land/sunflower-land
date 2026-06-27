@@ -3,7 +3,7 @@ import {
   getBoostWindows,
   getEffectiveSpeedAt,
   workAccruedAt,
-  SPARROW_SHRINE_CROP_SPEED,
+  CROP_PLOT_BOOST_SPEED,
   type BoostWindow,
 } from "./boostWindows";
 import { EXPIRY_COOLDOWNS } from "./collectibleBuilt";
@@ -159,14 +159,14 @@ describe("getBoostWindows", () => {
         },
       },
       name: "Sparrow Shrine",
-      speed: SPARROW_SHRINE_CROP_SPEED,
+      speed: CROP_PLOT_BOOST_SPEED["Sparrow Shrine"],
     });
 
     expect(windows).toEqual([
       {
         from: createdAt,
         to: createdAt + EXPIRY_COOLDOWNS["Sparrow Shrine"],
-        speed: SPARROW_SHRINE_CROP_SPEED,
+        speed: CROP_PLOT_BOOST_SPEED["Sparrow Shrine"],
       },
     ]);
   });
@@ -192,14 +192,14 @@ describe("getBoostWindows", () => {
         },
       },
       name: "Sparrow Shrine",
-      speed: SPARROW_SHRINE_CROP_SPEED,
+      speed: CROP_PLOT_BOOST_SPEED["Sparrow Shrine"],
     });
 
     expect(windows).toEqual([
       {
         from: createdAt,
         to: createdAt + EXPIRY_COOLDOWNS["Sparrow Shrine"],
-        speed: SPARROW_SHRINE_CROP_SPEED,
+        speed: CROP_PLOT_BOOST_SPEED["Sparrow Shrine"],
       },
     ]);
   });
@@ -216,11 +216,15 @@ describe("getBoostWindows", () => {
         },
       },
       name: "Sparrow Shrine",
-      speed: SPARROW_SHRINE_CROP_SPEED,
+      speed: CROP_PLOT_BOOST_SPEED["Sparrow Shrine"],
     });
 
     expect(windows).toEqual([
-      { from: createdAt, to: removedAt, speed: SPARROW_SHRINE_CROP_SPEED },
+      {
+        from: createdAt,
+        to: removedAt,
+        speed: CROP_PLOT_BOOST_SPEED["Sparrow Shrine"],
+      },
     ]);
   });
 
@@ -229,7 +233,7 @@ describe("getBoostWindows", () => {
       getBoostWindows({
         game: TEST_FARM,
         name: "Sparrow Shrine",
-        speed: SPARROW_SHRINE_CROP_SPEED,
+        speed: CROP_PLOT_BOOST_SPEED["Sparrow Shrine"],
       }),
     ).toEqual([]);
   });
@@ -255,7 +259,7 @@ describe("getBoostWindows", () => {
         },
       },
       name: "Sparrow Shrine",
-      speed: SPARROW_SHRINE_CROP_SPEED,
+      speed: CROP_PLOT_BOOST_SPEED["Sparrow Shrine"],
     });
 
     // Coalesced into a single window at the single speed (not stacked/4x).
@@ -263,7 +267,7 @@ describe("getBoostWindows", () => {
       {
         from: createdAt,
         to: secondCreatedAt + cooldown,
-        speed: SPARROW_SHRINE_CROP_SPEED,
+        speed: CROP_PLOT_BOOST_SPEED["Sparrow Shrine"],
       },
     ]);
   });
