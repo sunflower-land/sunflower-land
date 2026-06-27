@@ -26,6 +26,10 @@ import {
 } from "features/game/lib/collectibleBuilt";
 import { hasFeatureAccess } from "lib/flags";
 import {
+  computeReadyAt,
+  getCropBoostWindows,
+} from "features/game/lib/boostWindows";
+import {
   SEASONAL_SEEDS,
   type SeedName,
   SEEDS,
@@ -468,12 +472,22 @@ export const getCropPlotTime = ({
         } else {
           seconds = seconds * 0.8;
         }
+        // Under the speed-rate model the crop is ready when accrued work hits
+        // `seconds`, which the active windows reach sooner — so the AOE frees up
+        // at the windowed ready time, not the raw duration.
+        const aoeWaitTime = hasFeatureAccess(game, "SPEED_BOOSTS")
+          ? computeReadyAt({
+              startedAt: createdAt,
+              baseDurationMs: seconds * 1000,
+              windows: getCropBoostWindows(game),
+            }) - createdAt
+          : seconds * 1000;
         setAOEAvailableAt(
           updatedAoe,
           "Basic Scarecrow",
           { dx, dy },
           createdAt,
-          seconds * 1000,
+          aoeWaitTime,
         );
       }
       boostsUsed.push({ name: "Basic Scarecrow", value: "x0.8" });

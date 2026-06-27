@@ -189,4 +189,38 @@ describe("getBoostWindows", () => {
       }),
     ).toEqual([]);
   });
+
+  it("merges overlapping placements into one window (no double-multiply)", () => {
+    const createdAt = 1_000_000;
+    const cooldown = EXPIRY_COOLDOWNS["Sparrow Shrine"];
+    // Second shrine placed 1h later — its window overlaps the first's.
+    const secondCreatedAt = createdAt + 60 * 60 * 1000;
+    const windows = getBoostWindows({
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          ...TEST_FARM.collectibles,
+          "Sparrow Shrine": [
+            { id: "1", coordinates: { x: 0, y: 0 }, createdAt },
+            {
+              id: "2",
+              coordinates: { x: 1, y: 1 },
+              createdAt: secondCreatedAt,
+            },
+          ],
+        },
+      },
+      name: "Sparrow Shrine",
+      speed: SPARROW_SHRINE_CROP_SPEED,
+    });
+
+    // Coalesced into a single window at the single speed (not stacked/4x).
+    expect(windows).toEqual([
+      {
+        from: createdAt,
+        to: secondCreatedAt + cooldown,
+        speed: SPARROW_SHRINE_CROP_SPEED,
+      },
+    ]);
+  });
 });

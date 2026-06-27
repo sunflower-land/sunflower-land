@@ -7577,6 +7577,7 @@
   "description.foxShrine.buff.2": "10% chance to instantly craft a recipe",
   "description.boarShrine.buff": "x0.8 Cooking Time",
   "description.houndShrine.buff": "+100 Pet XP per food request",
+  "description.boostedSpeed": "Speed: {{speed}}x",
   "description.sparrowShrine.buff": "x0.75 Plot Crop Growth Time",
   "description.sparrowShrine.buff.speed": "1.35x Plot Crop Growth Speed",
   "description.toucanShrine.buff": "x0.75 Fruit Patch Growth Time",

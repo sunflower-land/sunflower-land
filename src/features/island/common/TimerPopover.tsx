@@ -56,7 +56,11 @@ export const TimerPopover: React.FC<Props> = ({
         )}
         {isBoosted && (
           <Label type="transparent" icon={SUNNYSIDE.icons.lightning}>
-            <span className="whitespace-nowrap">{`${t("speed")}: ${Number(speed.toFixed(2))}x`}</span>
+            <span className="whitespace-nowrap">
+              {t("description.boostedSpeed", {
+                speed: Number(speed.toFixed(2)),
+              })}
+            </span>
           </Label>
         )}
         <span className="flex-1 text-center font-secondary">

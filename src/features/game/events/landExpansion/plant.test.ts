@@ -5,6 +5,7 @@ import type { GameState, CropPlot } from "../../types/game";
 import { getCropPlotTime, plant } from "./plant";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { CONFIG } from "lib/config";
+import { SPARROW_SHRINE_CROP_SPEED } from "features/game/lib/boostWindows";
 
 const FARM_WITH_PLOTS: GameState = {
   ...INITIAL_FARM,
@@ -1049,6 +1050,45 @@ describe("plant", () => {
 
       expect(aoe["Basic Scarecrow"]?.["0"]?.["-2"]).toEqual(
         dateNow + pumpkinHarvestSeconds * 1000 * 0.8,
+      );
+    });
+
+    it("sets the Basic Scarecrow AOE cooldown to the windowed (shorter) ready time when a Sparrow Shrine is active", () => {
+      const pumpkinHarvestSeconds = CROPS["Pumpkin"].harvestSeconds;
+
+      const { aoe } = getCropPlotTime({
+        crop: "Pumpkin",
+        game: {
+          ...FARM_WITH_PLOTS,
+          collectibles: {
+            "Basic Scarecrow": [
+              {
+                id: "123",
+                coordinates: { x: 0, y: 0 },
+                createdAt: dateNow - 100,
+                readyAt: dateNow - 100,
+              },
+            ],
+            "Sparrow Shrine": [
+              {
+                id: "456",
+                coordinates: { x: 3, y: 3 },
+                createdAt: dateNow,
+                readyAt: dateNow,
+              },
+            ],
+          },
+        },
+        plot: { ...plot, x: 0, y: -2 },
+        createdAt: dateNow,
+      });
+
+      // Base (Basic Scarecrow ×0.8) duration accrues at the Sparrow speed while
+      // the window is active, so the AOE frees up sooner than the raw seconds.
+      const baseDurationMs = pumpkinHarvestSeconds * 0.8 * 1000;
+      expect(aoe["Basic Scarecrow"]?.["0"]?.["-2"]).toBeCloseTo(
+        dateNow + baseDurationMs / SPARROW_SHRINE_CROP_SPEED,
+        5,
       );
     });
 

@@ -286,6 +286,8 @@ export const FertilePlot: React.FC<Props> = ({
               <img
                 key={icon.key}
                 src={icon.src}
+                alt=""
+                aria-hidden
                 className={icon.pulse ? "animate-pulse" : undefined}
                 style={{ width: `${PIXEL_SCALE * icon.size}px` }}
               />
@@ -344,7 +346,8 @@ export const FertilePlot: React.FC<Props> = ({
           {isBoosted && (
             <img
               src={SUNNYSIDE.icons.lightning}
-              alt="speed boost"
+              alt=""
+              aria-hidden
               className="absolute z-30 pointer-events-none animate-pulse"
               style={{
                 width: `${PIXEL_SCALE * 4}px`,
