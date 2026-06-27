@@ -3428,5 +3428,78 @@ describe("harvest", () => {
         harvestSunflower({ plantedAt, baseDurationMs: base }),
       ).toThrow("Not ready");
     });
+
+    const superTotem = (createdAt: number) => ({
+      "Super Totem": [
+        {
+          id: "st",
+          coordinates: { x: 6, y: 6 },
+          createdAt,
+          readyAt: createdAt,
+        },
+      ],
+    });
+    const timeWarpTotem = (createdAt: number) => ({
+      "Time Warp Totem": [
+        {
+          id: "tw",
+          coordinates: { x: 7, y: 7 },
+          createdAt,
+          readyAt: createdAt,
+        },
+      ],
+    });
+
+    it("grows at 2× with an active Super Totem", () => {
+      const plantedAt = dateNow - base / CROP_PLOT_BOOST_SPEED["Super Totem"];
+      const state = harvestSunflower({
+        plantedAt,
+        baseDurationMs: base,
+        collectibles: superTotem(plantedAt),
+      });
+
+      expect(state.crops[0].crop).toBeUndefined();
+    });
+
+    it("treats Super Totem + Time Warp Totem as one 2× window (they don't stack)", () => {
+      const plantedAt = dateNow - base / 2;
+      const state = harvestSunflower({
+        plantedAt,
+        baseDurationMs: base,
+        collectibles: { ...superTotem(plantedAt), ...timeWarpTotem(plantedAt) },
+      });
+
+      expect(state.crops[0].crop).toBeUndefined();
+    });
+
+    it("does not stack the two totems to 4× (not ready at base/4)", () => {
+      // If the two 2× windows multiplied, base/4 of real time would be enough.
+      const plantedAt = dateNow - base / 4;
+
+      expect(() =>
+        harvestSunflower({
+          plantedAt,
+          baseDurationMs: base,
+          collectibles: {
+            ...superTotem(plantedAt),
+            ...timeWarpTotem(plantedAt),
+          },
+        }),
+      ).toThrow("Not ready");
+    });
+
+    it("stacks Super Totem and Sparrow Shrine multiplicatively (2.7×)", () => {
+      const combined =
+        CROP_PLOT_BOOST_SPEED["Super Totem"] *
+        CROP_PLOT_BOOST_SPEED["Sparrow Shrine"];
+      const plantedAt = dateNow - base / combined;
+      const state = harvestSunflower({
+        plantedAt,
+        baseDurationMs: base,
+        collectibles: { ...superTotem(plantedAt), ...sparrowShrine(plantedAt) },
+      });
+
+      expect(state.crops[0].crop).toBeUndefined();
+    });
   });
 });

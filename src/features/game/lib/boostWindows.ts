@@ -31,6 +31,8 @@ export type BoostWindow = { from: number; to: number; speed: number };
 export const CROP_PLOT_BOOST_SPEED = {
   "Sparrow Shrine": 1.35,
   "Harvest Hourglass": 1.35,
+  "Super Totem": 2,
+  "Time Warp Totem": 2,
   "Power hour": 2,
   sunshower: 2,
   sunshowerGuardian: 4,
@@ -90,6 +92,25 @@ const getSunshowerWindows = (game: GameState): BoostWindow[] => {
 };
 
 /**
+ * Windows for the totems. Super Totem & Time Warp Totem are the SAME 2× boost and
+ * explicitly do NOT stack with each other, so both names' windows are merged into
+ * one same-speed set (overlaps coalesce instead of multiplying).
+ */
+const getTotemWindows = (game: GameState): BoostWindow[] =>
+  mergeWindows([
+    ...getBoostWindows({
+      game,
+      name: "Super Totem",
+      speed: CROP_PLOT_BOOST_SPEED["Super Totem"],
+    }),
+    ...getBoostWindows({
+      game,
+      name: "Time Warp Totem",
+      speed: CROP_PLOT_BOOST_SPEED["Time Warp Totem"],
+    }),
+  ]);
+
+/**
  * The windowed speed boosts that apply to (plot) crop growth. Each is its own
  * window so overlapping boosts stack multiplicatively (Sparrow 1.35 × Harvest
  * 1.35 = 1.8225×); placements of the same boost are merged within
@@ -106,6 +127,7 @@ export const getCropPlotBoostWindows = (game: GameState): BoostWindow[] => [
     name: "Harvest Hourglass",
     speed: CROP_PLOT_BOOST_SPEED["Harvest Hourglass"],
   }),
+  ...getTotemWindows(game),
   ...getPowerHourWindows(game),
   ...getSunshowerWindows(game),
 ];

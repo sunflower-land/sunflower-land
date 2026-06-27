@@ -1166,9 +1166,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
-  "Harvest Hourglass": () => [
+  "Harvest Hourglass": (game) => [
     {
-      shortDescription: translate("description.harvest.hourglass.boost"),
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.harvest.hourglass.boost.speed")
+        : translate("description.harvest.hourglass.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },

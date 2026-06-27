@@ -241,7 +241,13 @@ export function getCropTime({
     name: "Time Warp Totem",
     game,
   });
-  if (hasSuperTotem || hasTimeWarpTotem) {
+  // Totems: under SPEED_BOOSTS they're a windowed 2× speed boost for PLOT crops
+  // (see boostWindows; Super & Time Warp merge so they don't stack), so excluded
+  // from the baked time here. Greenhouse crops and the flag-off path keep the
+  // legacy discount-at-start.
+  const totemsWindowed =
+    hasFeatureAccess(game, "SPEED_BOOSTS") && isPlotCrop(crop);
+  if (!totemsWindowed && (hasSuperTotem || hasTimeWarpTotem)) {
     multiplier = multiplier * 0.5;
     if (hasSuperTotem) boostsUsed.push({ name: "Super Totem", value: "x0.5" });
     else if (hasTimeWarpTotem)

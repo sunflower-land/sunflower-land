@@ -759,7 +759,7 @@ describe("plant", () => {
         expect(time).toEqual(60);
       });
 
-      it("crop replenishes faster with time warp", () => {
+      it("does not bake the Time Warp Totem into the plot time under SPEED_BOOSTS", () => {
         const now = Date.now();
 
         const { time } = getCropPlotTime({
@@ -782,9 +782,10 @@ describe("plant", () => {
           createdAt: dateNow,
         });
 
-        expect(time).toEqual(30);
+        // Windowed (2×) for plot crops, so the base time is unchanged here.
+        expect(time).toEqual(60);
       });
-      it("crop replenishes faster with Super Totem", () => {
+      it("does not bake the Super Totem into the plot time under SPEED_BOOSTS", () => {
         const now = Date.now();
 
         const { time } = getCropPlotTime({
@@ -807,10 +808,10 @@ describe("plant", () => {
           createdAt: dateNow,
         });
 
-        expect(time).toEqual(30);
+        expect(time).toEqual(60);
       });
 
-      it("doesn't stack Super Totem and Time Warp Totem", () => {
+      it("does not stack Super Totem and Time Warp Totem (both windowed, base time unchanged)", () => {
         const now = Date.now();
 
         const { time } = getCropPlotTime({
@@ -841,7 +842,9 @@ describe("plant", () => {
           createdAt: dateNow,
         });
 
-        expect(time).toEqual(30);
+        // Both windowed → not baked; the no-stacking is enforced over the grow
+        // (see harvest tests), not in the plant-time multiplier.
+        expect(time).toEqual(60);
       });
     });
 
@@ -1331,6 +1334,55 @@ describe("plant", () => {
         name: "Harvest Hourglass",
         value: "x0.75",
       });
+    });
+
+    it("does not reduce the base plot time for a totem under SPEED_BOOSTS (applied as a speed window)", () => {
+      const dateNow = Date.now();
+      const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
+
+      const { time } = getCropPlotTime({
+        crop: "Corn",
+        game: {
+          ...FARM_WITH_PLOTS,
+          collectibles: {
+            "Super Totem": [
+              {
+                id: "123",
+                coordinates: { x: -1, y: -1 },
+                createdAt: dateNow - 100,
+                readyAt: dateNow - 100,
+              },
+            ],
+          },
+        },
+        plot: { ...plot, x: 0, y: -3 },
+        createdAt: dateNow,
+      });
+
+      expect(time).toEqual(baseHarvestSeconds);
+    });
+
+    it("still applies the legacy -50% totem discount to greenhouse crops", () => {
+      const dateNow = Date.now();
+
+      const { boostsUsed } = getCropTime({
+        crop: "Rice",
+        game: {
+          ...FARM_WITH_PLOTS,
+          collectibles: {
+            "Super Totem": [
+              {
+                id: "123",
+                coordinates: { x: -1, y: -1 },
+                createdAt: dateNow - 100,
+                readyAt: dateNow - 100,
+              },
+            ],
+          },
+        },
+      });
+
+      expect(boostsUsed).toContainEqual({ name: "Super Totem", value: "x0.5" });
     });
 
     it("applies a +5% speed boost with Green Thumb skill", () => {
