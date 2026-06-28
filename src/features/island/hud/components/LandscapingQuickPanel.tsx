@@ -20,28 +20,25 @@ import type { PlaceableLocation } from "features/game/types/collectibles";
 import { getKeys } from "lib/object";
 import {
   getChestBuds,
-  getChestFlowers,
   getChestFarmHands,
   getChestItems,
   getChestPets,
 } from "./inventory/utils/inventory";
-import { hasBoost } from "./inventory/utils/boosts";
-import { RESOURCES, type ResourceName } from "features/game/types/resources";
 import {
-  BUILDINGS,
+  getChestCategories,
+  CHEST_SPECIAL_CATEGORIES,
+  type ChestCategoryId,
+  type ChestSpecialCategoryId,
+} from "./inventory/utils/chestCategories";
+import type { ResourceName } from "features/game/types/resources";
+import {
   BUILDINGS_DIMENSIONS,
   type BuildingName,
 } from "features/game/types/buildings";
-import { BANNERS } from "features/game/types/banners";
-import { BED_FARMHAND_COUNT } from "features/game/types/beds";
-import { MONUMENTS, REWARD_ITEMS } from "features/game/types/monuments";
-import { DOLLS } from "features/game/lib/crafting";
-import { PET_TYPES, isPetNFTRevealed } from "features/game/types/pets";
-import { WEATHER_SHOP_ITEM_COSTS } from "features/game/types/calendar";
+import { isPetNFTRevealed } from "features/game/types/pets";
 import { Box, type BoxProps } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
-import lightning from "assets/icons/lightning.png";
 import { isMobile } from "mobile-device-detect";
 import { ITEM_ICONS } from "./inventory/Chest";
 import { getCurrentBiome } from "features/island/biomes/biomes";
@@ -73,14 +70,10 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 
-type TabId =
-  | "nfts"
-  | "resources"
-  | "buildings"
-  | "boosts"
-  | "projects"
-  | "flowers"
-  | "decorations";
+type TabId = ChestCategoryId | ChestSpecialCategoryId;
+
+// Resources and buildings can only be placed on the farm.
+const FARM_ONLY_TABS = new Set<TabId>(["resource.nodes", "buildings"]);
 
 // Persists scroll position across panel unmount/remount (item select → place → idle)
 let _savedScrollLeft = 0;
@@ -356,136 +349,50 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
     [chestMap],
   );
 
-  // ── Group items ────────────────────────────────────────────────────────
-  const resources = collectibleNames.filter((name) => name in RESOURCES);
-  const buildings = collectibleNames.filter((name) => name in BUILDINGS);
-  const monuments = collectibleNames.filter((name) => name in MONUMENTS);
-  const villageProjects = collectibleNames.filter(
-    (name) => name in REWARD_ITEMS,
-  );
-  const banners = collectibleNames.filter((name) => name in BANNERS);
-  const beds = collectibleNames.filter((name) => name in BED_FARMHAND_COUNT);
-  const weatherItems = collectibleNames.filter(
-    (name) => name in WEATHER_SHOP_ITEM_COSTS,
-  );
-  const flowers = getChestFlowers(collectibleNames).filter(
-    (name) => !hasBoost(name, state),
-  );
-  const dolls = collectibleNames.filter((name) => name in DOLLS);
-  const pets = collectibleNames.filter((name) => name in PET_TYPES);
+  // ── Group items (shared with the chest) ────────────────────────────────
+  const categories = getChestCategories(state, collectibleNames);
 
-  const resourcesSet = new Set(resources);
-  const buildingsSet = new Set(buildings);
-  const monumentsSet = new Set(monuments);
-  const villageProjectsSet = new Set(villageProjects);
-  const bedsSet = new Set(beds);
-  const bannersSet = new Set(banners);
-  const weatherItemsSet = new Set(weatherItems);
-  const flowersSet = new Set<string>(flowers);
-  const dollsSet = new Set(dolls);
-  const petsSet = new Set(pets);
+  const specialCounts: Record<ChestSpecialCategoryId, number> = {
+    buds: getKeys(buds).length,
+    petNFTs: getKeys(petsNFTs).length,
+    farmHands: Object.keys(farmHands).length,
+  };
 
-  const boosts = collectibleNames
-    .filter((name) => hasBoost(name, state))
-    .filter(
-      (name) =>
-        !resourcesSet.has(name) &&
-        !buildingsSet.has(name) &&
-        !monumentsSet.has(name) &&
-        !villageProjectsSet.has(name) &&
-        !bedsSet.has(name) &&
-        !flowersSet.has(name),
-    );
-
-  const boostsSet = new Set(boosts);
-
-  const decorations = collectibleNames.filter(
-    (name) =>
-      !resourcesSet.has(name) &&
-      !buildingsSet.has(name) &&
-      !boostsSet.has(name) &&
-      !bannersSet.has(name) &&
-      !bedsSet.has(name) &&
-      !weatherItemsSet.has(name) &&
-      !monumentsSet.has(name) &&
-      !dollsSet.has(name) &&
-      !petsSet.has(name) &&
-      !flowersSet.has(name) &&
-      !villageProjectsSet.has(name),
-  );
-
-  // ── Tab definitions ────────────────────────────────────────────────────
+  // ── Tab definitions (mirror the chest categories) ──────────────────────
   const tabs: {
     id: TabId;
     label: string;
-    emptyLabel: string;
     icon: string;
     farmOnly?: boolean;
     hasItems: boolean;
   }[] = [
-    {
-      id: "resources",
-      label: t("resources"),
-      emptyLabel: "No resources available.",
-      icon: SUNNYSIDE.resource.tree,
-      farmOnly: true,
-      hasItems: resources.length > 0,
-    },
-    {
-      id: "buildings",
-      label: t("buildings"),
-      emptyLabel: "No buildings available.",
-      icon: SUNNYSIDE.icons.hammer,
-      farmOnly: true,
-      hasItems: buildings.length > 0,
-    },
-    {
-      id: "boosts",
-      label: t("boosts"),
-      emptyLabel: "No boosts available.",
-      icon: lightning,
-      hasItems: boosts.length > 0 || weatherItems.length > 0 || beds.length > 0,
-    },
-    {
-      id: "decorations",
-      label: t("decorations"),
-      emptyLabel: "No decorations available.",
-      icon: ITEM_DETAILS["Basic Bear"].image,
-      hasItems:
-        banners.length > 0 ||
-        dolls.length > 0 ||
-        pets.length > 0 ||
-        decorations.length > 0,
-    },
-    {
-      id: "flowers",
-      label: t("flowers"),
-      emptyLabel: t("landscaping.quickPanel.empty.flowers"),
-      icon: ITEM_DETAILS["Prism Petal"].image,
-      hasItems: flowers.length > 0,
-    },
-    {
-      id: "projects",
-      label: "Projects",
-      emptyLabel: "No projects available.",
-      icon: ITEM_DETAILS["Farmer's Monument"].image,
-      hasItems: monuments.length > 0 || villageProjects.length > 0,
-    },
-    {
-      id: "nfts",
-      label: "NFTs",
-      emptyLabel: "No NFTs available.",
-      icon: SUNNYSIDE.icons.heart,
-      hasItems:
-        Object.keys(buds).length > 0 ||
-        Object.keys(petsNFTs).length > 0 ||
-        Object.keys(farmHands).length > 0,
-    },
+    ...CHEST_SPECIAL_CATEGORIES.map((category) => ({
+      id: category.id,
+      label: t(category.id),
+      icon: category.icon,
+      hasItems: specialCounts[category.id] > 0,
+    })),
+    ...categories.map((category) => ({
+      id: category.id,
+      label: t(category.id),
+      icon: category.icon,
+      farmOnly: FARM_ONLY_TABS.has(category.id),
+      hasItems: category.items.length > 0,
+    })),
   ];
 
+  // Only show tabs that have items, matching the chest (which hides empty
+  // categories). Resources/buildings are additionally limited to the farm.
   const visibleTabs = tabs.filter(
-    (tab) => !tab.farmOnly || location === "farm",
+    (tab) => (!tab.farmOnly || location === "farm") && tab.hasItems,
   );
+
+  // Fall back to the first visible tab when the active one has no items.
+  const effectiveTab: TabId | undefined = visibleTabs.some(
+    (tab) => tab.id === activeTab,
+  )
+    ? activeTab
+    : visibleTabs[0]?.id;
 
   // ── Placement helpers ──────────────────────────────────────────────────
   const doPlace = (item: LandscapingPlaceableType) => {
@@ -545,174 +452,88 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
           handleDragStart(e, item),
       });
 
-    switch (activeTab) {
-      case "nfts":
-        return [
-          ...getKeys(buds).map((budId) => {
-            const image = getBudImage(Number(budId));
-            const item: LandscapingPlaceableType = {
-              name: "Bud",
-              id: String(budId),
-            };
-            return wrapBox(
-              `bud-${budId}`,
-              item,
-              <Box
-                image={image}
-                iconClassName={classNames(
-                  "scale-[1.8] origin-bottom absolute",
-                  {
-                    "top-1": buds[budId].type === "Retreat",
-                    "left-1": buds[budId].type === "Plaza",
-                  },
-                )}
-                onClick={() => handleClick(item)}
-              />,
-            );
-          }),
-          ...getKeys(petsNFTs).map((petId) => {
-            const revealed = isPetNFTRevealed(Number(petId), now);
-            const image = getPetImage("happy", Number(petId));
-            const item: LandscapingPlaceableType = {
-              name: "Pet",
-              id: String(petId),
-            };
-            return wrapBox(
-              `pet-${petId}`,
-              item,
-              <Box
-                image={image}
-                className={!revealed ? "opacity-50" : ""}
-                onClick={() => {
-                  if (!revealed) return;
-                  handleClick(item);
-                }}
-              />,
-            );
-          }),
-          ...Object.keys(farmHands).map((id) => {
-            const image = SUNNYSIDE.achievement.farmHand;
-            const item: LandscapingPlaceableType = { name: "FarmHand", id };
-            return wrapBox(
-              `farmhand-${id}`,
-              item,
-              <Box image={image} onClick={() => handleClick(item)}>
-                <NPCPlaceable
-                  parts={farmHands[id].equipped}
-                  width={PIXEL_SCALE * 12}
-                />
-              </Box>,
-            );
-          }),
-        ];
-
-      case "resources":
-        return resources.map((name) => {
-          const image = getItemImage(name as CollectibleName);
-          const item: LandscapingPlaceableType = {
-            name: name as CollectibleName | BuildingName | ResourceName,
-          };
-          return wrapBox(
-            name,
-            item,
-            <Box
-              count={chestMap[name]}
-              image={image}
-              onClick={() => handleClick(item)}
-            />,
-          );
-        });
-
-      case "buildings":
-        return buildings.map((name) => {
-          const image = getItemImage(name as CollectibleName);
-          const item: LandscapingPlaceableType = {
-            name: name as CollectibleName | BuildingName | ResourceName,
-          };
-          return wrapBox(
-            name,
-            item,
-            <Box
-              count={chestMap[name]}
-              image={image}
-              onClick={() => handleClick(item)}
-            />,
-          );
-        });
-
-      case "boosts":
-        return [...boosts, ...weatherItems, ...beds].map((name) => {
-          const image = getItemImage(name as CollectibleName);
-          const item: LandscapingPlaceableType = {
-            name: name as CollectibleName | BuildingName | ResourceName,
-          };
-          return wrapBox(
-            name,
-            item,
-            <Box
-              count={chestMap[name]}
-              image={image}
-              onClick={() => handleClick(item)}
-            />,
-          );
-        });
-
-      case "projects":
-        return [...monuments, ...villageProjects].map((name) => {
-          const image = getItemImage(name as CollectibleName);
-          const item: LandscapingPlaceableType = {
-            name: name as CollectibleName | BuildingName | ResourceName,
-          };
-          return wrapBox(
-            name,
-            item,
-            <Box
-              count={chestMap[name]}
-              image={image}
-              onClick={() => handleClick(item)}
-            />,
-          );
-        });
-
-      case "decorations":
-        return [...banners, ...dolls, ...pets, ...decorations].map((name) => {
-          const image = getItemImage(name as CollectibleName);
-          const item: LandscapingPlaceableType = {
-            name: name as CollectibleName | BuildingName | ResourceName,
-          };
-          return wrapBox(
-            name,
-            item,
-            <Box
-              count={chestMap[name]}
-              image={image}
-              onClick={() => handleClick(item)}
-            />,
-          );
-        });
-
-      case "flowers":
-        return flowers.map((name) => {
-          const image = getItemImage(name as CollectibleName);
-          const item: LandscapingPlaceableType = {
-            name: name as CollectibleName | BuildingName | ResourceName,
-          };
-          return wrapBox(
-            name,
-            item,
-            <Box
-              count={chestMap[name]}
-              image={image}
-              onClick={() => handleClick(item)}
-            />,
-          );
-        });
-
-      default:
-        return [];
+    if (effectiveTab === "buds") {
+      return getKeys(buds).map((budId) => {
+        const image = getBudImage(Number(budId));
+        const item: LandscapingPlaceableType = {
+          name: "Bud",
+          id: String(budId),
+        };
+        return wrapBox(
+          `bud-${budId}`,
+          item,
+          <Box
+            image={image}
+            iconClassName={classNames("scale-[1.8] origin-bottom absolute", {
+              "top-1": buds[budId].type === "Retreat",
+              "left-1": buds[budId].type === "Plaza",
+            })}
+            onClick={() => handleClick(item)}
+          />,
+        );
+      });
     }
+
+    if (effectiveTab === "petNFTs") {
+      return getKeys(petsNFTs).map((petId) => {
+        const revealed = isPetNFTRevealed(Number(petId), now);
+        const image = getPetImage("happy", Number(petId));
+        const item: LandscapingPlaceableType = {
+          name: "Pet",
+          id: String(petId),
+        };
+        return wrapBox(
+          `pet-${petId}`,
+          item,
+          <Box
+            image={image}
+            className={!revealed ? "opacity-50" : ""}
+            onClick={() => {
+              if (!revealed) return;
+              handleClick(item);
+            }}
+          />,
+        );
+      });
+    }
+
+    if (effectiveTab === "farmHands") {
+      return Object.keys(farmHands).map((id) => {
+        const image = SUNNYSIDE.achievement.farmHand;
+        const item: LandscapingPlaceableType = { name: "FarmHand", id };
+        return wrapBox(
+          `farmhand-${id}`,
+          item,
+          <Box image={image} onClick={() => handleClick(item)}>
+            <NPCPlaceable
+              parts={farmHands[id].equipped}
+              width={PIXEL_SCALE * 12}
+            />
+          </Box>,
+        );
+      });
+    }
+
+    const category = categories.find((c) => c.id === effectiveTab);
+    if (!category) return [];
+
+    return category.items.map((name) => {
+      const image = getItemImage(name as CollectibleName);
+      const item: LandscapingPlaceableType = {
+        name: name as CollectibleName | BuildingName | ResourceName,
+      };
+      return wrapBox(
+        name,
+        item,
+        <Box
+          count={chestMap[name]}
+          image={image}
+          onClick={() => handleClick(item)}
+        />,
+      );
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeTab, chestMap, buds, petsNFTs, farmHands, now]);
+  }, [effectiveTab, chestMap, buds, petsNFTs, farmHands, now]);
 
   const totalPages = Math.ceil(items.length / MOBILE_ITEMS_PER_PAGE);
   const pagedItems = isMobile
@@ -766,7 +587,7 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
                       key={tab.id}
                       isFirstTab={index === 0}
                       className="relative mr-1"
-                      isActive={activeTab === tab.id}
+                      isActive={effectiveTab === tab.id}
                       onClick={() => {
                         tabSound.play();
                         setActiveTab(tab.id);
@@ -829,10 +650,7 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
                     ) : (
                       <div className="h-full flex items-center justify-center px-4">
                         <span className="text-xs">
-                          {
-                            visibleTabs.find((tab) => tab.id === activeTab)
-                              ?.emptyLabel
-                          }
+                          {t("statements.empty.chest")}
                         </span>
                       </div>
                     )}

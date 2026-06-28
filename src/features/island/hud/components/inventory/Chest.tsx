@@ -10,16 +10,17 @@ import type { CollectibleName } from "features/game/types/craftables";
 import { getKeys } from "lib/object";
 import {
   getChestBuds,
-  getChestFlowers,
   getChestFarmHands,
   getChestItems,
   getChestPets,
 } from "./utils/inventory";
-import { hasBoost } from "./utils/boosts";
+import {
+  getChestCategories,
+  CHEST_SPECIAL_CATEGORIES,
+  type ChestSpecialCategoryId,
+} from "./utils/chestCategories";
 import type Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
-
-import lightning from "assets/icons/lightning.png";
 
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -29,8 +30,7 @@ import { isEmpty } from "lodash";
 import type { Bud } from "features/game/types/buds";
 import { BudDetails } from "components/ui/layouts/BudDetails";
 import classNames from "classnames";
-import { RESOURCES } from "features/game/types/resources";
-import { type BuildingName, BUILDINGS } from "features/game/types/buildings";
+import type { BuildingName } from "features/game/types/buildings";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -41,11 +41,7 @@ import {
   TREE_VARIANTS,
   WATER_WELL_VARIANTS,
 } from "features/island/lib/alternateArt";
-import { BANNERS } from "features/game/types/banners";
 import { InnerPanel } from "components/ui/Panel";
-import type { TranslationKeys } from "lib/i18n/dictionaries/types";
-import { BED_FARMHAND_COUNT } from "features/game/types/beds";
-import { WEATHER_SHOP_ITEM_COSTS } from "features/game/types/calendar";
 import {
   isBuildingUpgradable,
   makeUpgradableBuildingKey,
@@ -53,7 +49,6 @@ import {
 } from "features/game/events/landExpansion/upgradeBuilding";
 import type { LandBiomeName } from "features/island/biomes/biomes";
 import { getCurrentBiome } from "features/island/biomes/biomes";
-import { DOLLS } from "features/game/lib/crafting";
 import {
   isPetNFTRevealed,
   PET_TYPES,
@@ -66,7 +61,6 @@ import type {
 import { PetNFTDetails } from "components/ui/layouts/PetNFTDetails";
 import { getPetImage } from "features/island/pets/lib/petShared";
 import type { NFTName } from "features/game/events/landExpansion/placeNFT";
-import { MONUMENTS, REWARD_ITEMS } from "features/game/types/monuments";
 import { useNow } from "lib/utils/hooks/useNow";
 import type { PlaceableLocation } from "features/game/types/collectibles";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
@@ -362,133 +356,7 @@ export const Chest: React.FC<Props> = ({
 
   const collectibleNames = getKeys(collectibles);
 
-  // Sort collectibles by type
-  const resources = collectibleNames.filter((name) => name in RESOURCES);
-  const buildings = collectibleNames.filter((name) => name in BUILDINGS);
-  const monuments = collectibleNames.filter((name) => name in MONUMENTS);
-  const villageProjects = collectibleNames.filter(
-    (name) => name in REWARD_ITEMS,
-  );
-
-  const banners = collectibleNames.filter((name) => name in BANNERS);
-  const beds = collectibleNames.filter((name) => name in BED_FARMHAND_COUNT);
-  const weatherItems = collectibleNames.filter(
-    (name) => name in WEATHER_SHOP_ITEM_COSTS,
-  );
-
-  const flowers = getChestFlowers(collectibleNames).filter(
-    (name) => !hasBoost(name, state),
-  );
-  const dolls = collectibleNames.filter((name) => name in DOLLS);
-  const pets = collectibleNames.filter((name) => name in PET_TYPES);
-
-  // Use Sets for O(1) lookups instead of O(n) .includes()
-  const resourcesSet = new Set(resources);
-  const buildingsSet = new Set(buildings);
-  const monumentsSet = new Set(monuments);
-  const villageProjectsSet = new Set(villageProjects);
-  const bedsSet = new Set(beds);
-  const bannersSet = new Set(banners);
-  const weatherItemsSet = new Set(weatherItems);
-  const dollsSet = new Set(dolls);
-  const petsSet = new Set(pets);
-  const flowersSet = new Set(flowers);
-
-  const boosts = collectibleNames
-    .filter((name) => hasBoost(name, state))
-    .filter(
-      (name) =>
-        !resourcesSet.has(name) &&
-        !buildingsSet.has(name) &&
-        !monumentsSet.has(name) &&
-        !villageProjectsSet.has(name) &&
-        !bedsSet.has(name) &&
-        !flowersSet.has(name),
-    );
-
-  const boostsSet = new Set(boosts);
-
-  const decorations = collectibleNames.filter(
-    (name) =>
-      !resourcesSet.has(name) &&
-      !buildingsSet.has(name) &&
-      !boostsSet.has(name) &&
-      !bannersSet.has(name) &&
-      !bedsSet.has(name) &&
-      !weatherItemsSet.has(name) &&
-      !monumentsSet.has(name) &&
-      !dollsSet.has(name) &&
-      !petsSet.has(name) &&
-      !flowersSet.has(name) &&
-      !villageProjectsSet.has(name),
-  );
-
-  const ITEM_GROUPS: {
-    items: CollectibleName[];
-    label: TranslationKeys;
-    icon: string;
-  }[] = [
-    {
-      items: pets,
-      label: "pets",
-      icon: SUNNYSIDE.icons.expression_confused,
-    },
-    {
-      items: resources,
-      label: "resource.nodes",
-      icon: SUNNYSIDE.resource.tree,
-    },
-    {
-      items: buildings,
-      label: "buildings",
-      icon: SUNNYSIDE.icons.hammer,
-    },
-    {
-      items: boosts,
-      label: "boosts",
-      icon: lightning,
-    },
-    {
-      items: banners,
-      label: "banners",
-      icon: ITEM_DETAILS["Lifetime Farmer Banner"].image,
-    },
-    {
-      items: beds,
-      label: "beds",
-      icon: ITEM_DETAILS["Basic Bed"].image,
-    },
-    {
-      items: weatherItems,
-      label: "weatherItems",
-      icon: ITEM_DETAILS["Tornado Pinwheel"].image,
-    },
-    {
-      items: monuments,
-      label: "monuments",
-      icon: ITEM_DETAILS["Farmer's Monument"].image,
-    },
-    {
-      items: villageProjects,
-      label: "villageProjects",
-      icon: ITEM_DETAILS["Big Orange"].image,
-    },
-    {
-      items: dolls,
-      label: "dolls",
-      icon: ITEM_DETAILS["Doll"].image,
-    },
-    {
-      items: flowers,
-      label: "flowers",
-      icon: ITEM_DETAILS["Prism Petal"].image,
-    },
-    {
-      items: decorations,
-      label: "decorations",
-      icon: ITEM_DETAILS["Basic Bear"].image,
-    },
-  ];
+  const ITEM_GROUPS = getChestCategories(state, collectibleNames);
 
   const query = search.trim().toLowerCase();
   const matchesSearch = (item: CollectibleName) =>
@@ -498,32 +366,26 @@ export const Chest: React.FC<Props> = ({
   const hasPetNFTs = !isEmpty(petsNFTs);
   const hasFarmHands = !isEmpty(farmHands) && !!onPlaceFarmHand;
 
+  const specialAvailable: Record<ChestSpecialCategoryId, boolean> = {
+    buds: hasBuds,
+    petNFTs: hasPetNFTs,
+    farmHands: hasFarmHands,
+  };
+
   const filterCategories: { id: string; label: string; icon: string }[] = [];
-  if (hasBuds) {
+  CHEST_SPECIAL_CATEGORIES.filter(
+    (category) => specialAvailable[category.id],
+  ).forEach((category) =>
     filterCategories.push({
-      id: "buds",
-      label: t("buds"),
-      icon: SUNNYSIDE.icons.heart,
-    });
-  }
-  if (hasPetNFTs) {
-    filterCategories.push({
-      id: "petNFTs",
-      label: t("petNFTs"),
-      icon: SUNNYSIDE.icons.heart,
-    });
-  }
-  if (hasFarmHands) {
-    filterCategories.push({
-      id: "farmHands",
-      label: t("farmHands"),
-      icon: SUNNYSIDE.achievement.farmHand,
-    });
-  }
+      id: category.id,
+      label: t(category.id),
+      icon: category.icon,
+    }),
+  );
   ITEM_GROUPS.filter((group) => group.items.length > 0).forEach((group) =>
     filterCategories.push({
-      id: group.label,
-      label: t(group.label),
+      id: group.id,
+      label: t(group.id),
       icon: group.icon,
     }),
   );
@@ -531,7 +393,7 @@ export const Chest: React.FC<Props> = ({
   const visibleGroups = ITEM_GROUPS.filter((group) => group.items.length > 0)
     .filter(
       (group) =>
-        activeCategories.length === 0 || activeCategories.includes(group.label),
+        activeCategories.length === 0 || activeCategories.includes(group.id),
     )
     .map((group) => ({
       ...group,
@@ -679,11 +541,11 @@ export const Chest: React.FC<Props> = ({
                 </div>
               </div>
             )}
-            {visibleGroups.map(({ items, label, icon }) => (
+            {visibleGroups.map(({ items, id, icon }) => (
               <ItemGroup
-                key={label}
+                key={id}
                 items={items}
-                label={t(label)}
+                label={t(id)}
                 icon={icon}
                 chestMap={chestMap}
                 selectedChestItem={selectedChestItem}
