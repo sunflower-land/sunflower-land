@@ -349,20 +349,6 @@ export const FertilePlot: React.FC<Props> = ({
             type="progress"
             formatLength="short"
           />
-          {/* Lightning next to the timer while a speed boost is active */}
-          {isBoosted && (
-            <img
-              src={SUNNYSIDE.icons.lightning}
-              alt=""
-              aria-hidden
-              className="absolute z-30 pointer-events-none animate-pulse"
-              style={{
-                width: `${PIXEL_SCALE * 4}px`,
-                top: `${PIXEL_SCALE * -5}px`,
-                left: `${PIXEL_SCALE * 13}px`,
-              }}
-            />
-          )}
         </div>
       )}
 
