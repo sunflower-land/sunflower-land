@@ -28,10 +28,8 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { isGreenhouseFruit } from "./plantGreenhouse";
 import { FACTION_ITEMS } from "features/game/lib/factions";
 import { produce } from "immer";
-import {
-  getActiveCalendarEvent,
-  getActiveGuardian,
-} from "features/game/types/calendar";
+import { getActiveCalendarEvent } from "features/game/types/calendar";
+import { getActiveGuardian } from "features/game/lib/getActiveGuardian";
 import { getFruitfulBlendBuff } from "./fertiliseFruitPatch";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { prngChance } from "lib/prng";

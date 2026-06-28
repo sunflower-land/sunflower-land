@@ -1,7 +1,7 @@
+import { getActiveGuardian } from "./getActiveGuardian";
 import type { BoostHistoryWindow, GameState, PlacedItem } from "../types/game";
 import {
   EXPIRY_COOLDOWNS,
-  isCollectibleBuilt,
   type TemporaryCollectibleName,
 } from "./collectibleBuilt";
 import { getCollectiblesAcrossLocations } from "./getCollectiblesAcrossLocations";
@@ -51,13 +51,6 @@ const getPowerHourWindows = (game: GameState): BoostWindow[] => {
   ];
 };
 
-const SEASON_GUARDIAN = {
-  spring: "Spring Guardian",
-  summer: "Summer Guardian",
-  autumn: "Autumn Guardian",
-  winter: "Winter Guardian",
-} as const;
-
 /**
  * Window for the sunshower calendar event, if one has started. Sunshower lasts
  * until the END of the (UTC) day it began on — not a rolling 24h — so the window
@@ -75,10 +68,7 @@ const getSunshowerWindows = (game: GameState): BoostWindow[] => {
     day.getUTCDate() + 1,
   );
 
-  const hasGuardian = isCollectibleBuilt({
-    game,
-    name: SEASON_GUARDIAN[game.season.season],
-  });
+  const hasGuardian = !!getActiveGuardian({ game }).activeGuardian;
 
   return [
     {

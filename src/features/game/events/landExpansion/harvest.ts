@@ -40,10 +40,8 @@ import {
   isPlotCrop,
 } from "features/game/lib/getBudYieldBoosts";
 import { isWearableActive } from "features/game/lib/wearables";
-import {
-  getActiveCalendarEvent,
-  getActiveGuardian,
-} from "features/game/types/calendar";
+import { getActiveCalendarEvent } from "features/game/types/calendar";
+import { getActiveGuardian } from "features/game/lib/getActiveGuardian";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { setPrecision } from "lib/utils/formatNumber";

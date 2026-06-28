@@ -45,8 +45,8 @@ import { produce } from "immer";
 import {
   type CalendarEventName,
   getActiveCalendarEvent,
-  getActiveGuardian,
 } from "features/game/types/calendar";
+import { getActiveGuardian } from "features/game/lib/getActiveGuardian";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import {
   canUseTimeBoostAOE,
