@@ -161,13 +161,20 @@ export const FertilePlot: React.FC<Props> = ({
   let growPercentage = 100;
   if (readyAt > 0 && harvestSeconds > 0) {
     if (baseDurationMs !== undefined) {
+      // Work banked before a landscaping lift (see placePlot): already done, so
+      // it counts toward the displayed progress but not toward the remaining
+      // time. Undefined for crops that were never lifted.
+      const bankedMs =
+        plot.crop?.name === cropName ? (plot.crop?.boostedTime ?? 0) : 0;
       const workDoneMs = workAccruedAt({
         startedAt: startAt,
         at: currentTime,
         windows: boostWindows,
       });
       timeLeft = Math.max((baseDurationMs - workDoneMs) / 1000, 0);
-      growPercentage = clampPercentage((workDoneMs / baseDurationMs) * 100);
+      growPercentage = clampPercentage(
+        ((bankedMs + workDoneMs) / (baseDurationMs + bankedMs)) * 100,
+      );
     } else {
       timeLeft = Math.max((readyAt - currentTime) / 1000, 0);
       growPercentage = clampPercentage(100 - (timeLeft / harvestSeconds) * 100);

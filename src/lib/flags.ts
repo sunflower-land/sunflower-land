@@ -25,7 +25,7 @@ const usernameFeatureFlag = (game: GameState) => {
 };
 
 const betaFeatureFlag = ({ inventory }: GameState) =>
-  CONFIG.NETWORK === "amoy" || !!inventory["Beta Pass"]?.gt(0);
+  CONFIG.NETWORK === "amoy" || !!inventory?.["Beta Pass"]?.gt(0);
 
 export const testnetFeatureFlag = () => CONFIG.NETWORK === "amoy";
 
