@@ -6,6 +6,7 @@ import type { GameState } from "features/game/types/game";
 import type { PetShrineName } from "features/game/types/pets";
 import { PET_SHOP_ITEMS } from "features/game/types/petShop";
 import { produce } from "immer";
+import { appendBoostHistory } from "features/game/lib/boostWindows";
 
 export type RenewPetShrineAction = {
   type: "petShrine.renewed";
@@ -78,6 +79,16 @@ export function renewPetShrine({
 
     stateCopy.inventory = subtractedInventory;
     stateCopy.coins -= coinCost;
+
+    // Preserve the shrine's previous active window before its createdAt is reset,
+    // so any in-progress timer it boosted keeps the earned credit (see boostWindows).
+    const previousCreatedAt = collectibleToRenew.createdAt ?? 0;
+    appendBoostHistory(
+      stateCopy,
+      action.name,
+      { from: previousCreatedAt, to: previousCreatedAt + cooldown },
+      createdAt,
+    );
 
     // Set the createdAt timestamp to the current time to renew the cooldown
     collectibleToRenew.createdAt = createdAt;

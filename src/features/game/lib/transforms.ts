@@ -145,6 +145,7 @@ export function makeGame(farm: any): GameState {
     withdrawals: farm.withdrawals,
     aoe: farm.aoe,
     boostsUsedAt: farm.boostsUsedAt,
+    boostHistory: farm.boostHistory,
     socialFarming: farm.socialFarming,
     pets: farm.pets,
     prototypes: farm.prototypes,

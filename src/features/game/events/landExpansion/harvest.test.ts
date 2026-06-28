@@ -3501,5 +3501,32 @@ describe("harvest", () => {
 
       expect(state.crops[0].crop).toBeUndefined();
     });
+
+    it("still credits a crop from a burned shrine's boostHistory window (BUG-5)", () => {
+      // No live Sparrow Shrine (it was burned), but its window survives in
+      // boostHistory, so the in-progress crop keeps the 1.35× credit and is ready.
+      const plantedAt =
+        dateNow - base / CROP_PLOT_BOOST_SPEED["Sparrow Shrine"];
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          inventory: { Sunflower: new Decimal(0) },
+          collectibles: {},
+          boostHistory: {
+            "Sparrow Shrine": [{ from: plantedAt, to: dateNow + 1 }],
+          },
+          crops: {
+            0: {
+              ...GAME_STATE.crops[0],
+              crop: { name: "Sunflower", plantedAt, baseDurationMs: base },
+            },
+          },
+        },
+        action: { type: "crop.harvested", index: "0" },
+        createdAt: dateNow,
+      });
+
+      expect(state.crops[0].crop).toBeUndefined();
+    });
   });
 });

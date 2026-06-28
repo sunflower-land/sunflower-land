@@ -66,4 +66,39 @@ describe("renewCollectible", () => {
       }),
     ).toThrow("Collectible is still active");
   });
+
+  it("records the previous window in boostHistory when renewing a windowed booster", () => {
+    const cooldown = EXPIRY_COOLDOWNS["Time Warp Totem"];
+    const expiredCreatedAt = now - cooldown;
+
+    const state = renewCollectible({
+      state: {
+        ...TEST_FARM,
+        inventory: { "Time Warp Totem": new Decimal(1) },
+        collectibles: {
+          "Time Warp Totem": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              createdAt: expiredCreatedAt,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "collectible.renewed",
+        name: "Time Warp Totem",
+        location: "farm",
+        id: "1",
+      },
+      createdAt: now,
+    });
+
+    // createdAt reset to now…
+    expect(state.collectibles["Time Warp Totem"]?.[0].createdAt).toBe(now);
+    // …and the OLD window preserved so in-progress crops keep their credit.
+    expect(state.boostHistory?.["Time Warp Totem"]).toEqual([
+      { from: expiredCreatedAt, to: expiredCreatedAt + cooldown },
+    ]);
+  });
 });

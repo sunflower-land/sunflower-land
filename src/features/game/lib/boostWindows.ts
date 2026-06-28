@@ -1,4 +1,4 @@
-import type { GameState } from "../types/game";
+import type { BoostHistoryWindow, GameState, PlacedItem } from "../types/game";
 import {
   EXPIRY_COOLDOWNS,
   isCollectibleBuilt,
@@ -133,10 +133,12 @@ export const getCropPlotBoostWindows = (game: GameState): BoostWindow[] => [
 ];
 
 /**
- * Build the active windows for a single temporary collectible from live game
- * state. Each placement yields `[createdAt, min(createdAt + cooldown, removedAt)]`
- * at the given speed. Overlapping windows for the same boost are merged (a player
- * cannot stack a boost with itself).
+ * Build the active windows for a single temporary collectible. Each LIVE placement
+ * yields `[createdAt, min(createdAt + cooldown, removedAt)]`; FINALISED intervals
+ * recorded in `game.boostHistory` (when the booster was burned or renewed) are
+ * unioned in so the boost's contribution survives the placed record being deleted
+ * or its `createdAt` reset. All windows take the given speed; overlapping ones for
+ * the same boost are merged (a player cannot stack a boost with itself).
  */
 export function getBoostWindows({
   game,
@@ -149,20 +151,59 @@ export function getBoostWindows({
 }): BoostWindow[] {
   const cooldown = EXPIRY_COOLDOWNS[name];
 
-  const windows = getCollectiblesAcrossLocations(game, name)
-    .filter((placed) => placed.createdAt !== undefined)
+  const live = getCollectiblesAcrossLocations(game, name)
+    .filter(
+      (
+        placed,
+      ): placed is Omit<PlacedItem, "createdAt"> & { createdAt: number } =>
+        placed.createdAt !== undefined,
+    )
     .map((placed) => {
-      const from = placed.createdAt as number;
+      const from = placed.createdAt;
       const expiry = from + cooldown;
       const to =
         placed.removedAt !== undefined
           ? Math.min(expiry, placed.removedAt)
           : expiry;
       return { from, to, speed };
-    })
-    .filter((window) => window.to > window.from);
+    });
 
-  return mergeWindows(windows);
+  const history = (game.boostHistory?.[name] ?? []).map((window) => ({
+    from: window.from,
+    to: window.to,
+    speed,
+  }));
+
+  return mergeWindows([...live, ...history].filter((w) => w.to > w.from));
+}
+
+/** Finalised boost windows older than this (relative to now) can't affect any
+ *  in-progress timer, so they're pruned from `boostHistory`. */
+const MAX_BOOST_HISTORY_AGE_MS = 7 * 24 * 60 * 60 * 1000;
+
+/**
+ * Record a finalised active window for a temporary boost collectible into
+ * `game.boostHistory` so its contribution survives the placed record being burned
+ * (deleted) or renewed (createdAt reset). Mutates `game` in place (immer-draft
+ * friendly). Recorded for ALL temporary collectibles — most have a time effect
+ * that will be windowed eventually, so this is future-proof; entries for boosts no
+ * window engine reads are inert and pruned. No-op for empty/zero-length windows.
+ * Prunes stale intervals as it appends.
+ */
+export function appendBoostHistory(
+  game: GameState,
+  name: TemporaryCollectibleName,
+  window: BoostHistoryWindow,
+  now: number,
+): void {
+  if (window.to <= window.from) return;
+
+  if (!game.boostHistory) game.boostHistory = {};
+  const kept = (game.boostHistory[name] ?? []).filter(
+    (w) => w.to >= now - MAX_BOOST_HISTORY_AGE_MS,
+  );
+  kept.push({ from: window.from, to: window.to });
+  game.boostHistory[name] = kept;
 }
 
 /** Merge overlapping/touching same-speed windows into disjoint intervals. */

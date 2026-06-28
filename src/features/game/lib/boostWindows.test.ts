@@ -4,10 +4,12 @@ import {
   getEffectiveSpeedAt,
   workAccruedAt,
   CROP_PLOT_BOOST_SPEED,
+  appendBoostHistory,
   type BoostWindow,
 } from "./boostWindows";
 import { EXPIRY_COOLDOWNS } from "./collectibleBuilt";
 import { TEST_FARM } from "./constants";
+import type { GameState } from "../types/game";
 
 const HOUR = 60 * 60 * 1000;
 
@@ -270,5 +272,110 @@ describe("getBoostWindows", () => {
         speed: CROP_PLOT_BOOST_SPEED["Sparrow Shrine"],
       },
     ]);
+  });
+
+  it("includes finalized intervals from boostHistory (even with no live placement)", () => {
+    // The shrine is gone (burned), but its window survives in boostHistory.
+    const windows = getBoostWindows({
+      game: {
+        ...TEST_FARM,
+        collectibles: {},
+        boostHistory: { "Sparrow Shrine": [{ from: 1000, to: 5000 }] },
+      },
+      name: "Sparrow Shrine",
+      speed: CROP_PLOT_BOOST_SPEED["Sparrow Shrine"],
+    });
+
+    expect(windows).toEqual([
+      { from: 1000, to: 5000, speed: CROP_PLOT_BOOST_SPEED["Sparrow Shrine"] },
+    ]);
+  });
+
+  it("unions a live placement with a disjoint history interval", () => {
+    const cooldown = EXPIRY_COOLDOWNS["Sparrow Shrine"];
+    const liveCreatedAt = 1_000_000;
+    const windows = getBoostWindows({
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          ...TEST_FARM.collectibles,
+          "Sparrow Shrine": [
+            { id: "1", coordinates: { x: 0, y: 0 }, createdAt: liveCreatedAt },
+          ],
+        },
+        boostHistory: { "Sparrow Shrine": [{ from: 0, to: 5000 }] },
+      },
+      name: "Sparrow Shrine",
+      speed: CROP_PLOT_BOOST_SPEED["Sparrow Shrine"],
+    });
+
+    expect(windows).toEqual([
+      { from: 0, to: 5000, speed: CROP_PLOT_BOOST_SPEED["Sparrow Shrine"] },
+      {
+        from: liveCreatedAt,
+        to: liveCreatedAt + cooldown,
+        speed: CROP_PLOT_BOOST_SPEED["Sparrow Shrine"],
+      },
+    ]);
+  });
+});
+
+describe("appendBoostHistory", () => {
+  const DAY = 24 * HOUR;
+
+  it("records a finalized window for a windowed boost collectible", () => {
+    const game = { ...TEST_FARM, boostHistory: {} } as GameState;
+    appendBoostHistory(game, "Sparrow Shrine", { from: 1000, to: 2000 }, 2000);
+    expect(game.boostHistory?.["Sparrow Shrine"]).toEqual([
+      { from: 1000, to: 2000 },
+    ]);
+  });
+
+  it("appends to existing history for the same boost", () => {
+    const game = {
+      ...TEST_FARM,
+      boostHistory: { "Harvest Hourglass": [{ from: 1000, to: 2000 }] },
+    } as GameState;
+    appendBoostHistory(
+      game,
+      "Harvest Hourglass",
+      { from: 3000, to: 4000 },
+      4000,
+    );
+    expect(game.boostHistory?.["Harvest Hourglass"]).toEqual([
+      { from: 1000, to: 2000 },
+      { from: 3000, to: 4000 },
+    ]);
+  });
+
+  it("prunes intervals that ended long before now", () => {
+    const now = 100 * DAY;
+    const game = {
+      ...TEST_FARM,
+      boostHistory: { "Sparrow Shrine": [{ from: 0, to: 1000 }] }, // ancient
+    } as GameState;
+    appendBoostHistory(
+      game,
+      "Sparrow Shrine",
+      { from: now - 500, to: now },
+      now,
+    );
+    expect(game.boostHistory?.["Sparrow Shrine"]).toEqual([
+      { from: now - 500, to: now },
+    ]);
+  });
+
+  it("records for any temporary collectible (future-proof, even if not windowed yet)", () => {
+    const game = { ...TEST_FARM, boostHistory: {} } as GameState;
+    appendBoostHistory(game, "Ore Hourglass", { from: 1000, to: 2000 }, 2000);
+    expect(game.boostHistory?.["Ore Hourglass"]).toEqual([
+      { from: 1000, to: 2000 },
+    ]);
+  });
+
+  it("ignores empty/zero-length windows", () => {
+    const game = { ...TEST_FARM, boostHistory: {} } as GameState;
+    appendBoostHistory(game, "Sparrow Shrine", { from: 2000, to: 2000 }, 2000);
+    expect(game.boostHistory?.["Sparrow Shrine"]).toBeUndefined();
   });
 });
