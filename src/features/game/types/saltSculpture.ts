@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { translate } from "lib/i18n/translate";
 import type { GameState, InventoryItemName } from "./game";
 
 export type SculptureName = "Salt Sculpture";
@@ -53,12 +54,12 @@ export const SALT_SCULPTURE_UPGRADES: Record<
 };
 
 export const SALT_SCULPTURE_BUFFS: Record<number, string> = {
-  1: "-5% salt charge replenishment time",
-  2: "+4% Prime Aging chance",
-  3: "+1 max salt harvest cap per node",
-  4: "-10% Salt Rake coin cost",
-  5: "+5% Aging Rack speed",
-  6: "+1 max salt harvest cap per node",
+  1: translate("saltSculpture.buff.1"),
+  2: translate("saltSculpture.buff.2"),
+  3: translate("saltSculpture.buff.3"),
+  4: translate("saltSculpture.buff.4"),
+  5: translate("saltSculpture.buff.5"),
+  6: translate("saltSculpture.buff.6"),
 };
 
 export function getSaltSculptureLevel(state: GameState): number {
