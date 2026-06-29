@@ -1,11 +1,15 @@
 import type { GameState, IslandType } from "../types/game";
-import { ISLAND_EXPANSIONS } from "../types/game";
+import { ASCENSION_ISLANDS, ISLAND_EXPANSIONS } from "../types/game";
 
 import { INITIAL_FARM } from "./constants";
 import { revealLand } from "../events/landExpansion/revealLand";
 import { ISLAND_MAX_EXPANSION } from "../expansion/lib/expansionRequirements";
-import { LEVEL_EXPERIENCE } from "./level";
-import { upgrade } from "../events/landExpansion/upgradeFarm";
+import { ascensionBaseline, LEVEL_EXPERIENCE } from "./level";
+import {
+  getAscensionUpgradeCost,
+  upgrade,
+} from "../events/landExpansion/upgradeFarm";
+import { getObjectEntries } from "lib/object";
 import Decimal from "decimal.js-light";
 
 /**
@@ -21,6 +25,11 @@ import Decimal from "decimal.js-light";
  * it arrives on `island` — the starter lands you get right after the upgrade
  * (e.g. 9 for spring), or INITIAL_EXPANSIONS for "basic".
  *
+ * `ascension` is optional and only bites on `"marble"`, the terminal island that
+ * re-ascends into itself forever. The linear chain reaches marble at ascension 5;
+ * pass a higher number to keep prestiging marble→marble until the farm sits in
+ * that band. Ignored for every other island, whose ascension is fixed by type.
+ *
  * The Bumpkin is set to level 11 and seeded with the resources each upgrade
  * along the chain burns; the offline farm doesn't need a level matched to the
  * island, so this stays fixed regardless of `island`.
@@ -28,6 +37,7 @@ import Decimal from "decimal.js-light";
 export function getDynamicIsland(
   island: IslandType,
   expansionCount?: number,
+  ascension?: number,
 ): GameState {
   let farm: GameState = {
     ...INITIAL_FARM,
@@ -58,18 +68,64 @@ export function getDynamicIsland(
     }
   };
 
-  const targetIndex = ISLAND_EXPANSIONS.indexOf(island);
+  // Ascension prestiges (volcano→swamp and every re-ascension, including the
+  // terminal marble→marble loop) add two gates the static seed above doesn't
+  // satisfy: the Bumpkin must be "ready to ascend" (pre-swamp level 150, then
+  // level 50 of the current band) and the upgrade burns a level-scaled cost.
+  // Grant exactly the band's readiness XP (`ascensionBaseline(a)`, = level-150 XP
+  // for the first ascension) and the upgrade's items/coins right before
+  // prestiging. `upgrade` returns frozen state, so rebuild rather than mutate.
+  const seedAscensionPrestige = () => {
+    const a = (farm.island.ascensionLevel ?? 0) + 1;
+    const { items, coins } = getAscensionUpgradeCost(a);
+    const inventory = { ...farm.inventory };
+    getObjectEntries(items).forEach(([name, amount]) => {
+      inventory[name] = (inventory[name] ?? new Decimal(0)).add(amount ?? 0);
+    });
+    farm = {
+      ...farm,
+      coins: farm.coins + coins,
+      bumpkin: { ...farm.bumpkin, experience: ascensionBaseline(a) },
+      inventory,
+    };
+  };
 
-  // Walk the upgrade chain: fill each island below the target to its cap (the
-  // upgrade requirement) and prestige to the next island.
-  for (let i = 0; i < targetIndex; i++) {
-    revealTo(ISLAND_MAX_EXPANSION[ISLAND_EXPANSIONS[i]]);
+  const prestige = () => {
     farm = upgrade({
       state: farm,
       action: { type: "farm.upgraded" },
       createdAt: farm.createdAt,
       farmId: 1,
     });
+  };
+
+  const targetIndex = ISLAND_EXPANSIONS.indexOf(island);
+
+  // Walk the upgrade chain: fill each island below the target to its cap (the
+  // upgrade requirement) and prestige to the next island.
+  for (let i = 0; i < targetIndex; i++) {
+    revealTo(ISLAND_MAX_EXPANSION[ISLAND_EXPANSIONS[i]]);
+    if (
+      (ASCENSION_ISLANDS as readonly IslandType[]).includes(
+        ISLAND_EXPANSIONS[i + 1],
+      )
+    ) {
+      seedAscensionPrestige();
+    }
+    prestige();
+  }
+
+  // Marble is terminal but re-ascends into itself forever — the linear chain
+  // only reaches ascension 5. Keep prestiging marble→marble (each band fills
+  // back to its 42-land cap first) until the requested ascension is reached.
+  while (
+    ascension !== undefined &&
+    farm.island.type === "marble" &&
+    (farm.island.ascensionLevel ?? 0) < ascension
+  ) {
+    revealTo(ISLAND_MAX_EXPANSION[farm.island.type]);
+    seedAscensionPrestige();
+    prestige();
   }
 
   // Expand the target island to the requested size. When omitted, leave the
@@ -78,7 +134,20 @@ export function getDynamicIsland(
     revealTo(expansionCount);
   }
 
+  // The Bumpkin level is cosmetic (see above) and stays fixed at 11; the
+  // ascension XP granted during the walk only existed to clear the prestige
+  // gate, so reset it now that the farm is built. `revealLand`/`upgrade` return
+  // frozen state, so rebuild rather than mutate.
+  farm = {
+    ...farm,
+    bumpkin: { ...farm.bumpkin, experience: LEVEL_EXPERIENCE[11] },
+  };
+
   return farm;
 }
 
-export const DYNAMIC_OFFLINE_FARM: GameState = getDynamicIsland("basic");
+export const DYNAMIC_OFFLINE_FARM: GameState = getDynamicIsland(
+  "marble",
+  42,
+  10,
+);
