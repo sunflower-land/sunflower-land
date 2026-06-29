@@ -179,7 +179,7 @@ export const CROP_LIFECYCLE: Record<
     }),
     {} as Record<CropName, Lifecycle>,
   ),
-  "Moon Biome": getKeys(IMAGES).reduce(
+  "Galaxy Biome": getKeys(IMAGES).reduce(
     (acc, name) => ({
       ...acc,
       [name]: {
@@ -249,7 +249,7 @@ export const SOIL_IMAGES: Record<LandBiomeName, Record<string, string>> = {
     regular: SUNNYSIDE.soil.volcanoSoil2,
     dry: SUNNYSIDE.soil.volcanoSoilDry,
   },
-  "Moon Biome": {
+  "Galaxy Biome": {
     regular: SUNNYSIDE.soil.volcanoSoil2,
     dry: SUNNYSIDE.soil.volcanoSoilDry,
   },

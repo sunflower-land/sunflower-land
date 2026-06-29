@@ -51,7 +51,7 @@ export const UPGRADE_RAFTS: Record<IslandType, string | null> = {
   swamp: SUNNYSIDE.land.volcanoRaft,
   spooky: SUNNYSIDE.land.volcanoRaft,
   crystal: SUNNYSIDE.land.volcanoRaft,
-  moon: SUNNYSIDE.land.volcanoRaft,
+  galaxy: SUNNYSIDE.land.volcanoRaft,
   marble: SUNNYSIDE.land.volcanoRaft,
 };
 
@@ -64,7 +64,7 @@ const UPGRADE_PREVIEW: Record<IslandType, string | null> = {
   // Ascension islands (spooky onward) reuse the swamp value for now.
   spooky: SUNNYSIDE.announcement.volcanoPrestige,
   crystal: SUNNYSIDE.announcement.volcanoPrestige,
-  moon: SUNNYSIDE.announcement.volcanoPrestige,
+  galaxy: SUNNYSIDE.announcement.volcanoPrestige,
   marble: SUNNYSIDE.announcement.volcanoPrestige,
 };
 
@@ -77,7 +77,7 @@ const UPGRADE_MESSAGES: Record<IslandType, string | null> = {
   // Ascension islands (spooky onward) reuse the swamp value for now.
   spooky: translate("islandupgrade.welcomeVolcanoIsland"),
   crystal: translate("islandupgrade.welcomeVolcanoIsland"),
-  moon: translate("islandupgrade.welcomeVolcanoIsland"),
+  galaxy: translate("islandupgrade.welcomeVolcanoIsland"),
   marble: translate("islandupgrade.welcomeVolcanoIsland"),
 };
 
@@ -90,7 +90,7 @@ const UPGRADE_DESCRIPTIONS: Record<IslandType, string | null> = {
   // Ascension islands (spooky onward) reuse the swamp value for now.
   spooky: translate("islandupgrade.volcanoResourcesDescription"),
   crystal: translate("islandupgrade.volcanoResourcesDescription"),
-  moon: translate("islandupgrade.volcanoResourcesDescription"),
+  galaxy: translate("islandupgrade.volcanoResourcesDescription"),
   marble: translate("islandupgrade.volcanoResourcesDescription"),
 };
 

@@ -62,7 +62,7 @@ const ISLAND_ICONS: Record<IslandType, string> = {
   // Ascension islands (spooky onward) reuse the swamp value for now.
   spooky: volcanoIsland,
   crystal: volcanoIsland,
-  moon: volcanoIsland,
+  galaxy: volcanoIsland,
   marble: volcanoIsland,
 };
 

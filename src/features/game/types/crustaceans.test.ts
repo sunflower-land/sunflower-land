@@ -14,7 +14,7 @@ const TRAP_IDS_PER_ISLAND: Record<IslandType, string[]> = {
   // Ascension islands (spooky onward) reuse the swamp value for now.
   spooky: ["1", "2", "3", "4"],
   crystal: ["1", "2", "3", "4"],
-  moon: ["1", "2", "3", "4"],
+  galaxy: ["1", "2", "3", "4"],
   marble: ["1", "2", "3", "4"],
 };
 

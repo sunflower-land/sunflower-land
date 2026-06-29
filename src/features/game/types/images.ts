@@ -6831,7 +6831,7 @@ export const ITEM_DETAILS: Items = {
     image: volcanoBiome,
     description: "A swamp biome that provides a swamp income and a swamp life.",
   },
-  "Moon Biome": {
+  "Galaxy Biome": {
     image: volcanoBiome,
     description: "A swamp biome that provides a swamp income and a swamp life.",
   },

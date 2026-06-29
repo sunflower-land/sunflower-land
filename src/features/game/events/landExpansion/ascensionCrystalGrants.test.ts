@@ -108,7 +108,7 @@ describe("Ascension Crystal upgrade-node grant (upgradeFarm)", () => {
       },
     ],
     [
-      "crystal -> moon",
+      "crystal -> galaxy",
       {
         from: "crystal",
         ascensionLevel: 3,
@@ -117,9 +117,9 @@ describe("Ascension Crystal upgrade-node grant (upgradeFarm)", () => {
       },
     ],
     [
-      "moon -> marble",
+      "galaxy -> marble",
       {
-        from: "moon",
+        from: "galaxy",
         ascensionLevel: 4,
         basicLand: 42,
         experience: ascensionBaseline(4) + bandXp(4),

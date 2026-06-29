@@ -745,9 +745,9 @@ export const ISLAND_UPGRADE: Record<
   crystal: {
     items: {},
     expansions: 42,
-    upgrade: "moon",
+    upgrade: "galaxy",
   },
-  moon: {
+  galaxy: {
     items: {},
     expansions: 42,
     upgrade: "marble",
@@ -1074,7 +1074,7 @@ const ISLAND_SETUP: Record<UpgradeTarget, IslandSetup> = {
     initialCoordinates: INITIAL_SWAMP_LAND_COORDINATES,
     applySetup: ascensionUpgrade,
   },
-  moon: {
+  galaxy: {
     startingExpansions: 30,
     initialCoordinates: INITIAL_SWAMP_LAND_COORDINATES,
     applySetup: ascensionUpgrade,

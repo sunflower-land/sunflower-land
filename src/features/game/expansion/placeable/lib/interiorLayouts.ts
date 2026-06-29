@@ -1030,7 +1030,7 @@ export const INTERIOR_LAYOUTS: Record<IslandType, ReadonlySet<string>> = {
   ...STATIC_INTERIOR_LAYOUTS,
   spooky: STATIC_INTERIOR_LAYOUTS.swamp,
   crystal: STATIC_INTERIOR_LAYOUTS.swamp,
-  moon: STATIC_INTERIOR_LAYOUTS.swamp,
+  galaxy: STATIC_INTERIOR_LAYOUTS.swamp,
   marble: STATIC_INTERIOR_LAYOUTS.swamp,
 };
 

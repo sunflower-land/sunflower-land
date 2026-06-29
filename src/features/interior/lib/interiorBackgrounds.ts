@@ -26,7 +26,7 @@ export const INTERIOR_BACKGROUNDS: Record<IslandType, string> = {
   // Ascension islands (spooky onward) reuse the swamp value for now.
   spooky: mansion,
   crystal: mansion,
-  moon: mansion,
+  galaxy: mansion,
   marble: mansion,
 };
 

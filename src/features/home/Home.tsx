@@ -59,7 +59,7 @@ const BACKGROUND_IMAGE: Record<IslandType, string> = {
   // Ascension islands (spooky onward) reuse the swamp value for now.
   spooky: SUNNYSIDE.land.mansion_inside,
   crystal: SUNNYSIDE.land.mansion_inside,
-  moon: SUNNYSIDE.land.mansion_inside,
+  galaxy: SUNNYSIDE.land.mansion_inside,
   marble: SUNNYSIDE.land.mansion_inside,
 };
 

@@ -549,7 +549,7 @@ export const PATCH_FRUIT_LIFECYCLE: Record<
       dead: SUNNYSIDE.fruit.bushShrub,
     },
   },
-  "Moon Biome": {
+  "Galaxy Biome": {
     Apple: {
       seedling: CROP_LIFECYCLE["Swamp Biome"].Sunflower.seedling,
       halfway: CROP_LIFECYCLE["Swamp Biome"].Sunflower.halfway,

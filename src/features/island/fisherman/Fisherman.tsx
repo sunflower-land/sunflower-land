@@ -44,7 +44,7 @@ const WHARF: Record<Exclude<IslandType, "basic">, string> = {
   // Ascension islands (spooky onward) reuse the swamp value for now.
   spooky: volcanoWharf,
   crystal: volcanoWharf,
-  moon: volcanoWharf,
+  galaxy: volcanoWharf,
   marble: volcanoWharf,
 };
 

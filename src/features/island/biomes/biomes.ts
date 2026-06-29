@@ -73,11 +73,11 @@ export const LAND_BIOMES: Record<LandBiomeName, Biome> = {
     name: "Crystal Biome",
     ingredients: {},
     description: "",
-    requires: "moon",
+    requires: "galaxy",
     disabled: true,
   },
-  "Moon Biome": {
-    name: "Moon Biome",
+  "Galaxy Biome": {
+    name: "Galaxy Biome",
     ingredients: {},
     description: "",
     requires: "marble",

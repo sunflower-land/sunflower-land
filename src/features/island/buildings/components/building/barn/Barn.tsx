@@ -176,7 +176,7 @@ export const BARN_IMAGES: Record<
       3: SUNNYSIDE.seasons.winter.volcanoBarn_3,
     },
   },
-  "Moon Biome": {
+  "Galaxy Biome": {
     spring: {
       1: SUNNYSIDE.seasons.spring.volcanoBarn_1,
       2: SUNNYSIDE.seasons.spring.volcanoBarn_2,

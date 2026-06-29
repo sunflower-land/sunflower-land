@@ -1280,7 +1280,7 @@ export const ITEM_TRADE_TYPES: {
     // Ascension biomes (spooky onward)
     "Spooky Biome": "instant",
     "Crystal Biome": "instant",
-    "Moon Biome": "instant",
+    "Galaxy Biome": "instant",
     "Marble Age Biome": "instant",
     Bracelet: "instant",
     Coprolite: "instant",

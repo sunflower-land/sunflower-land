@@ -12959,15 +12959,16 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Crystal Biome",
   },
-  "Moon Biome": {
-    description: "A moon biome that provides a moon income and a moon life.",
+  "Galaxy Biome": {
+    description:
+      "A galaxy biome that provides a galaxy income and a galaxy life.",
     decimals: 0,
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    name: "Moon Biome",
+    name: "Galaxy Biome",
   },
   "Marble Age Biome": {
     description:

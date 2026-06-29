@@ -322,7 +322,7 @@ export const HOME_BOUNDS: Record<IslandType, BoundingBox> = {
     x: -10,
     y: -10,
   },
-  moon: {
+  galaxy: {
     height: 20,
     width: 20,
     x: -10,

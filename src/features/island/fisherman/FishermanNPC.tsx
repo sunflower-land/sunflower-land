@@ -281,7 +281,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   };
 
   const fishermanPosition = (): Coordinates => {
-    // Ascension islands (swamp, spooky, crystal, moon, marble) reuse the volcano
+    // Ascension islands (swamp, spooky, crystal, galaxy, marble) reuse the volcano
     // dock art, so the fisherman stands at the same spot.
     if (hasRequiredIslandExpansion(island.type, "volcano")) {
       return {

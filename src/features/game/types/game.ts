@@ -1612,7 +1612,7 @@ export const ASCENSION_ISLANDS = [
   "swamp",
   "spooky",
   "crystal",
-  "moon",
+  "galaxy",
   "marble",
 ] as const;
 export type AscensionIslandType = (typeof ASCENSION_ISLANDS)[number];

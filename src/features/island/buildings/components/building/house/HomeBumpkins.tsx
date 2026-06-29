@@ -29,7 +29,7 @@ const BACKYARD_CAPACITY: Record<IslandType, number> = {
   // Ascension islands (spooky onward) reuse the swamp value for now.
   spooky: 4,
   crystal: 4,
-  moon: 4,
+  galaxy: 4,
   marble: 4,
 };
 

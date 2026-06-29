@@ -409,7 +409,7 @@ const ISLAND_RESOURCE_TAXES: Record<IslandType, number> = {
   // Ascension islands (spooky onward) reuse the swamp value for now.
   spooky: 0.15,
   crystal: 0.15,
-  moon: 0.15,
+  galaxy: 0.15,
   marble: 0.15,
 };
 

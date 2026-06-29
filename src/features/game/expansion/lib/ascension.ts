@@ -67,7 +67,7 @@ const A0_CRYSTALS_BY_ISLAND: Record<IslandType, number> = {
   swamp: 3,
   spooky: 3,
   crystal: 3,
-  moon: 3,
+  galaxy: 3,
   marble: 3,
 };
 
