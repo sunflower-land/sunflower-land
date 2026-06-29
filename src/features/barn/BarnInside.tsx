@@ -234,7 +234,7 @@ export const BarnInside: React.FC = () => {
                   transform: "translateX(-50%)",
                 }}
               >
-                <FeederMachine />
+                <FeederMachine building="Barn" />
               </div>
 
               <MapPlacement

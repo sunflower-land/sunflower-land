@@ -15,6 +15,7 @@ import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
+import Decimal from "decimal.js-light";
 import {
   ANIMAL_FOODS,
   type Feed,
@@ -22,10 +23,13 @@ import {
 } from "features/game/types/animals";
 import { Label } from "components/ui/Label";
 import { getIngredients } from "./feedMixed";
+import { getBulkMixRequirements } from "./getBulkMixRequirements";
+import { formatNumber } from "lib/utils/formatNumber";
 
 interface Props {
   show: boolean;
   onClose: () => void;
+  building: "Hen House" | "Barn";
 }
 
 const FOOD_TYPE_TERMS = {
@@ -33,7 +37,11 @@ const FOOD_TYPE_TERMS = {
   medicine: "feeder.foodTypes.medicine",
 } as const;
 
-export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
+export const FeederMachineModal: React.FC<Props> = ({
+  show,
+  onClose,
+  building,
+}) => {
   const { t } = useAppTranslation();
   const { gameService, shortcutItem } = useContext(Context);
   const [
@@ -47,6 +55,11 @@ export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
   const { coins } = ANIMAL_FOODS[selectedName];
 
   const { ingredients } = getIngredients({ state, name: selectedName });
+  const {
+    requests,
+    missingRequests,
+    requirements: bulkRequirements,
+  } = getBulkMixRequirements(state, building);
 
   const groupedItems = getKeys(ANIMAL_FOODS).reduce(
     (acc, item) => {
@@ -80,6 +93,51 @@ export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
     gameService.send("feed.mixed", {
       item: selectedName,
       amount,
+    });
+
+    shortcutItem(selectedName);
+  };
+
+  const hasBulkRequests = getKeys(missingRequests).length > 0;
+
+  const hasEnoughBulkIngredients = getKeys(bulkRequirements.ingredients).every(
+    (name) =>
+      (state.inventory[name] ?? new Decimal(0)).gte(
+        bulkRequirements.ingredients[name] ?? 0,
+      ),
+  );
+
+  const hasEnoughBulkCoins = state.coins >= bulkRequirements.coins;
+
+  const missingIngredients = getKeys(bulkRequirements.ingredients).reduce(
+    (acc, ingredient) => {
+      const required =
+        bulkRequirements.ingredients[ingredient] ?? new Decimal(0);
+      const available = state.inventory[ingredient] ?? new Decimal(0);
+      const difference = required.sub(available);
+
+      if (difference.lte(0)) {
+        return acc;
+      }
+
+      acc[ingredient] = difference;
+      return acc;
+    },
+    {} as Record<string, Decimal>,
+  );
+
+  const bulkMix = () => {
+    getKeys(missingRequests).forEach((item) => {
+      const amount = missingRequests[item]?.toNumber() ?? 0;
+
+      if (amount <= 0) {
+        return;
+      }
+
+      gameService.send("feed.mixed", {
+        item,
+        amount,
+      });
     });
 
     shortcutItem(selectedName);
@@ -145,6 +203,115 @@ export const FeederMachineModal: React.FC<Props> = ({ show, onClose }) => {
                   </div>
                 </div>
               ))}
+              <div className="flex flex-col mt-1">
+                <Label type="default" className="mb-1">
+                  {t("feeder.combinedRequests")}
+                </Label>
+                <div className="border border-[#2E2543] p-2 bg-[#dba072] min-h-[96px]">
+                  <div className="flex flex-col gap-2">
+                    {getKeys(requests).length > 0 ? (
+                      <div className="flex flex-wrap gap-1">
+                        {getKeys(requests).map((item) => (
+                          <Label
+                            key={`${building}-${item}`}
+                            icon={ITEM_DETAILS[item].image}
+                            type="default"
+                          >
+                            {formatNumber(requests[item] ?? 0)}
+                          </Label>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-xs">
+                        {t("feeder.noRequestsForBuilding")}
+                      </p>
+                    )}
+                    <div className="flex flex-col gap-1 pt-1">
+                      <Label type="warning">{t("feeder.needToMix")}</Label>
+                      {hasBulkRequests ? (
+                        <div className="flex flex-wrap gap-1">
+                          {getKeys(missingRequests).map((item) => (
+                            <Label
+                              key={`missing-${item}`}
+                              icon={ITEM_DETAILS[item].image}
+                              type="default"
+                            >
+                              {formatNumber(missingRequests[item] ?? 0)}
+                            </Label>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-xs">
+                          {t("feeder.allRequestsCovered")}
+                        </p>
+                      )}
+                    </div>
+                    {getKeys(bulkRequirements.ingredients).length > 0 && (
+                      <div className="flex flex-col gap-1 pt-1">
+                        <Label type="default">
+                          {t("feeder.ingredientsToMix")}
+                        </Label>
+                        <div className="flex flex-wrap gap-1">
+                          {getKeys(bulkRequirements.ingredients).map(
+                            (ingredient) => {
+                              const item =
+                                ingredient as keyof typeof ITEM_DETAILS;
+
+                              return (
+                                <Label
+                                  key={`required-ingredient-${ingredient}`}
+                                  icon={ITEM_DETAILS[item].image}
+                                  type="default"
+                                >
+                                  {formatNumber(
+                                    bulkRequirements.ingredients[ingredient] ??
+                                      0,
+                                  )}
+                                </Label>
+                              );
+                            },
+                          )}
+                        </div>
+                      </div>
+                    )}
+                    {getKeys(missingIngredients).length > 0 && (
+                      <div className="flex flex-col gap-1 pt-1">
+                        <Label type="danger">
+                          {t("feeder.missingIngredients")}
+                        </Label>
+                        <div className="flex flex-wrap gap-1">
+                          {getKeys(missingIngredients).map((ingredient) => {
+                            const item =
+                              ingredient as keyof typeof ITEM_DETAILS;
+
+                            return (
+                              <Label
+                                key={`ingredient-${ingredient}`}
+                                icon={ITEM_DETAILS[item].image}
+                                type="default"
+                              >
+                                {formatNumber(
+                                  missingIngredients[ingredient] ?? 0,
+                                )}
+                              </Label>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                    <Button
+                      disabled={
+                        !hasBulkRequests ||
+                        !hasEnoughBulkIngredients ||
+                        !hasEnoughBulkCoins
+                      }
+                      onClick={bulkMix}
+                    >
+                      {t("feeder.mixAll")}
+                    </Button>
+                  </div>
+                </div>
+              </div>
             </div>
           }
         />
