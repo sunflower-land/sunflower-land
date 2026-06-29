@@ -80,9 +80,9 @@ export const BEACH_BUMPKINS: NPCName[] = [
   "finn",
   "finley",
   "miranda",
-  "old salty",
-  "pharaoh",
 ];
+
+export const DIGGING_BUMPKINS: NPCName[] = ["old salty", "pharaoh"];
 
 export const KINGDOM_BUMPKINS: NPCName[] = ["victoria", "jester", "gambit"];
 
@@ -195,6 +195,7 @@ export const DeliveryOrders: React.FC<Props> = ({
 
   const getLocationName = (npcName: NPCName) => {
     if (RETREAT_BUMPKINS.includes(npcName)) return t("world.retreat");
+    if (DIGGING_BUMPKINS.includes(npcName)) return t("world.digging");
     if (BEACH_BUMPKINS.includes(npcName)) return t("world.beach");
     if (KINGDOM_BUMPKINS.includes(npcName)) return t("world.kingdom");
     return t("world.plaza");
@@ -205,6 +206,7 @@ export const DeliveryOrders: React.FC<Props> = ({
       const customPreposition: Record<string, string> = {
         [t("world.retreat")]: "в",
         [t("world.beach")]: "на",
+        [t("world.digging")]: "на",
         [t("world.kingdom")]: "в",
         [t("world.plaza")]: "на",
       };
@@ -741,6 +743,14 @@ export const DeliveryOrders: React.FC<Props> = ({
                               )
                             ) {
                               navigate("/world/retreat");
+                            } else if (
+                              DIGGING_BUMPKINS.includes(
+                                previewOrder?.from as NPCName,
+                              )
+                            ) {
+                              navigate("/world/beach", {
+                                state: { previousSceneId: "digging" },
+                              });
                             } else if (
                               BEACH_BUMPKINS.includes(
                                 previewOrder?.from as NPCName,
