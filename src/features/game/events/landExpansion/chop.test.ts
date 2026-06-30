@@ -1823,3 +1823,29 @@ describe("chop — SPEED_BOOSTS speed windows", () => {
     expect(getTreeReadyAt(tree, INITIAL_FARM)).toEqual(now + BASE_MS);
   });
 });
+
+describe("getTreeReadyAt — baseDurationMs is a permanent per-tree marker", () => {
+  const BASE_MS = TREE_RECOVERY_TIME * 1000;
+  const originalNetwork = CONFIG.NETWORK;
+
+  beforeEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+  });
+  afterEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+  });
+
+  it("keeps using baseDurationMs with SPEED_BOOSTS off (no rollback to full base)", () => {
+    // A tree chopped while the flag was on stored its real choppedAt + a
+    // permanent-boost-only baseDurationMs (here half the base). With the flag
+    // off it must STILL ready at choppedAt + baseDurationMs, not choppedAt +
+    // full base recovery — the marker is intentionally flag-independent.
+    const tree: Tree = {
+      wood: { choppedAt: now, baseDurationMs: BASE_MS / 2 },
+      x: 1,
+      y: 1,
+    };
+
+    expect(getTreeReadyAt(tree, INITIAL_FARM)).toEqual(now + BASE_MS / 2);
+  });
+});

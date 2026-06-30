@@ -344,6 +344,14 @@ export function getChoppedAt({ game, createdAt, prngArgs }: GetChoppedAtArgs): {
  * chopped under the speed-rate model (with `baseDurationMs`) derive their ready
  * time live from the tree boost windows; legacy trees use their back-dated
  * `choppedAt` + base recovery time.
+ *
+ * `baseDurationMs` is a PERMANENT per-tree migration marker: the read path keys
+ * off its presence, NOT the `SPEED_BOOSTS` flag (matching `getCropReadyAt`). A
+ * tree chopped while the flag was on therefore keeps windowed timing even if the
+ * flag is later disabled. This is intentional — windowed trees store the real
+ * `choppedAt` + a permanent-boost-only `baseDurationMs`, so falling back to
+ * `choppedAt + base recovery` would drop their baked permanent-boost credit and
+ * wrongly lengthen recovery on rollback.
  */
 export function getTreeReadyAt(tree: Tree, game: GameState): number {
   const { baseDurationMs, choppedAt } = tree.wood;

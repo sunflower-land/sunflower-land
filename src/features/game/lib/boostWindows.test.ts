@@ -444,6 +444,24 @@ describe("getTreeBoostWindows", () => {
     ]);
   });
 
+  it("includes a removed/burned Timber Hourglass via boostHistory", () => {
+    // The booster is gone from collectibles, but its finalised window survives
+    // in boostHistory so an in-progress tree still gets the recovered credit.
+    const from = 1_000_000;
+    const to = from + EXPIRY_COOLDOWNS["Timber Hourglass"];
+    const windows = getTreeBoostWindows({
+      ...TEST_FARM,
+      collectibles: {},
+      boostHistory: { "Timber Hourglass": [{ from, to }] },
+    });
+
+    expect(windows).toContainEqual({
+      from,
+      to,
+      speed: TREE_BOOST_SPEED["Timber Hourglass"],
+    });
+  });
+
   it("returns no windows when none are placed", () => {
     expect(getTreeBoostWindows(TEST_FARM)).toEqual([]);
   });

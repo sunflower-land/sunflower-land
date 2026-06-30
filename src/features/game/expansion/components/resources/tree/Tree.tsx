@@ -20,6 +20,7 @@ import {
   getEffectiveSpeedAt,
   getTreeBoostWindows,
   workAccruedAt,
+  type BoostWindow,
 } from "features/game/lib/boostWindows";
 import { KNOWN_IDS } from "features/game/types";
 import type { TreeName } from "features/game/types/resources";
@@ -72,6 +73,19 @@ const selectFarmId = (state: MachineState) => state.context.farmId;
 const compareResource = (prev: TreeType, next: TreeType) => {
   return JSON.stringify(prev) === JSON.stringify(next);
 };
+// Field comparator for the tree boost windows so the selector skips re-renders
+// without allocating JSON strings per tree on every service update.
+const areBoostWindowsEqual = (a: BoostWindow[], b: BoostWindow[]) =>
+  a.length === b.length &&
+  a.every((window, index) => {
+    const other = b[index];
+    return (
+      other !== undefined &&
+      window.from === other.from &&
+      window.to === other.to &&
+      window.speed === other.speed
+    );
+  });
 const compareGame = (prev: GameState, next: GameState) =>
   isCollectibleBuilt({ name: "Foreman Beaver", game: prev }) ===
     isCollectibleBuilt({ name: "Foreman Beaver", game: next }) &&
@@ -141,7 +155,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
   const treeBoostWindows = useSelector(
     gameService,
     (state) => getTreeBoostWindows(state.context.state),
-    (a, b) => JSON.stringify(a) === JSON.stringify(b),
+    areBoostWindowsEqual,
   );
   const hasTool = HasTool(inventory, game, id);
 

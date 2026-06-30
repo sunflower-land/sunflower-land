@@ -34,14 +34,14 @@ export const TimerPopover: React.FC<Props> = ({
   return (
     <InnerPanel
       className={classNames(
-        "transition-opacity absolute w-fit whitespace-nowrap z-50 pointer-events-none",
+        "transition-opacity absolute w-fit max-w-[180px] z-50 pointer-events-none",
         {
           "opacity-100": showPopover,
           "opacity-0": !showPopover,
         },
       )}
     >
-      <div className="flex flex-col text-xs gap-0.5 items-center">
+      <div className="flex flex-col text-xs gap-0.5 items-center pl-2 pr-1">
         <div className="flex flex-1 items-center justify-center">
           <img src={image} className="w-4 mr-1" />
           <span>{description}</span>
@@ -55,7 +55,11 @@ export const TimerPopover: React.FC<Props> = ({
           </div>
         )}
         {isBoosted && (
-          <Label type="transparent" icon={SUNNYSIDE.icons.lightning}>
+          <Label
+            type="transparent"
+            icon={SUNNYSIDE.icons.lightning}
+            className="self-center"
+          >
             <span className="whitespace-nowrap">
               {t("description.boostedSpeed", {
                 speed: Number(speed.toFixed(2)),
