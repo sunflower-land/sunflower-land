@@ -7003,7 +7003,6 @@
   "flowerRewards.howToParticipate": "Untuk berpartisipasi, Anda dapat menambahkan likuiditas ke kolam V3 USDC/FLOWER (0,3%) pada",
   "withdraw.flower.minimumWithdrawal": "Jumlah penarikan minimum adalah 5 FLOWER.",
   "reward.xp": "Wow, dorongan XP yang bagus!",
-  "reward.powerHour": "50% tanaman lebih cepat +0,2 hasil selama 1 jam",
   "description.loginUnavailable": "Login Tidak Tersedia",
   "description.fslWechatDeprecation": "{{title}} login telah dihapus.",
   "description.fslWEchatDeprecationDescription": "Silakan masuk dengan dompet tertaut peternakan Anda atau hubungi dukungan di Discord.",
@@ -9152,5 +9151,9 @@
   "saltSculpture.buff.1": "x0.95 waktu pengisian muatan garam",
   "saltSculpture.buff.4": "Biaya koin penggaruk garam x0.9",
   "saltSculpture.buff.5": "x0.95 Waktu Rak Penuaan",
-  "description.speedTrap.boost": "x0.8 Waktu Pot Perangkap"
+  "description.speedTrap.boost": "x0.8 Waktu Pot Perangkap",
+  "description.harvest.hourglass.boost.speed": "1.35x Kecepatan Pertumbuhan Tanaman Plot",
+  "description.boostedSpeed": "Kecepatan: {{speed}} x",
+  "description.sparrowShrine.buff.speed": "1.35x Kecepatan Pertumbuhan Tanaman Plot",
+  "reward.powerHour": "2x tanaman lebih cepat +0,2 hasil selama 1 jam"
 }

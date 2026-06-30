@@ -7003,7 +7003,6 @@
   "flowerRewards.howToParticipate": "Para participar, puedes añadir liquidez a la reserva V3 de USDC/FLOWER (0,3%) en",
   "withdraw.flower.minimumWithdrawal": "El monto mínimo de retiro es de 5 FLOWER.",
   "reward.xp": "¡Vaya, un buen aumento de XP!",
-  "reward.powerHour": "Cultivos un 50% más rápidos +rendimiento del 0,2 durante 1 hora",
   "description.loginUnavailable": "Inicio de sesión no disponible",
   "description.fslWechatDeprecation": "Se ha eliminado el inicio de sesión de {{title}}.",
   "description.fslWEchatDeprecationDescription": "Inicia sesión con la billetera vinculada de tu granja o ponte en contacto con el servicio de asistencia en Discord.",
@@ -9152,5 +9151,9 @@
   "saltSculpture.buff.1": "tiempo de reposición de carga de sal x0.95",
   "saltSculpture.buff.4": "Precio de la moneda Salt Rake x0.9",
   "saltSculpture.buff.5": "x0.95 Tiempo de envejecimiento en el estante",
-  "description.speedTrap.boost": "x0.8 Tiempo de Trampa Pot"
+  "description.speedTrap.boost": "x0.8 Tiempo de Trampa Pot",
+  "description.harvest.hourglass.boost.speed": "1,35 veces la velocidad de crecimiento del cultivo de la parcela",
+  "description.boostedSpeed": "Velocidad: {{speed}} x",
+  "description.sparrowShrine.buff.speed": "1,35 veces la velocidad de crecimiento del cultivo de la parcela",
+  "reward.powerHour": "Cultivos 2 veces más rápidos +rendimiento de 0,2 durante 1 hora"
 }

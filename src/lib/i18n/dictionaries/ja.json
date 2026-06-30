@@ -7003,7 +7003,6 @@
   "flowerRewards.howToParticipate": "参加するには、以下のV3 USDC/FLOWERプール（0.3％）に流動性を追加することができます",
   "withdraw.flower.minimumWithdrawal": "最低出金額は5フラワーです。",
   "reward.xp": "うわー、素晴らしいXPブースト！",
-  "reward.powerHour": "1時間の収穫速度が 50% 向上+収穫量が0.2％",
   "description.loginUnavailable": "ログインできません",
   "description.fslWechatDeprecation": "{{title}} ログインは削除されました。",
   "description.fslWEchatDeprecationDescription": "ファームのリンクされたウォレットでサインインするか、Discordでサポートに連絡してください。",
@@ -9152,5 +9151,9 @@
   "saltSculpture.buff.1": "x0.95 ソルトチャージ補給時間",
   "saltSculpture.buff.4": "x0.9 ソルトレーキコインコスト",
   "saltSculpture.buff.5": "x0.95 エージングラックタイム",
-  "description.speedTrap.boost": "x0.8 トラップポットタイム"
+  "description.speedTrap.boost": "x0.8 トラップポットタイム",
+  "description.harvest.hourglass.boost.speed": "1.35x プロット作物の成長速度",
+  "description.boostedSpeed": "スピード:{{speed}} x",
+  "description.sparrowShrine.buff.speed": "1.35x プロット作物の成長速度",
+  "reward.powerHour": "1時間の収穫速度の2倍+収穫量0.2倍"
 }

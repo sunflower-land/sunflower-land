@@ -7003,7 +7003,6 @@
   "flowerRewards.howToParticipate": "想参加活动的话，可以到 V3 USDC/FLOWER（0.3%）资金池里提供流动性。",
   "withdraw.flower.minimumWithdrawal": "单次最低提领数量为 5 FLOWER。",
   "reward.xp": "哇，不错的乡包佬 XP 加成！",
-  "reward.powerHour": "1 小时内 ：庄稼生长速度提高 50%，产量 +0.2",
   "description.loginUnavailable": "登录不可用",
   "description.fslWechatDeprecation": "{{title}} 登录功能已移除。",
   "description.fslWEchatDeprecationDescription": "请使用您农场关联的钱包进行登录，或前往 Discord 联系技术支持。",
@@ -9152,5 +9151,9 @@
   "saltSculpture.buff.1": "x0.95 盐分充能时间",
   "saltSculpture.buff.4": "x0.9 盐耙硬币成本",
   "saltSculpture.buff.5": "x0.95 老化机架时间",
-  "description.speedTrap.boost": "x0.8 Trap Pot 时间"
+  "description.speedTrap.boost": "x0.8 Trap Pot 时间",
+  "description.harvest.hourglass.boost.speed": "1.35 倍地块作物生长速度",
+  "description.boostedSpeed": "速度：{{speed}} x",
+  "description.sparrowShrine.buff.speed": "1.35 倍地块作物生长速度",
+  "reward.powerHour": "作物速度提高 2 倍，1 小时产量 +0.2"
 }

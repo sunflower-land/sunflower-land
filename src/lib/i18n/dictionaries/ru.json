@@ -7058,7 +7058,6 @@
   "flowerRewards.howToParticipate": "Чтобы присоединиться, добавь ликвидность в пул V3 USDC/FLOWER (0.3%) на",
   "withdraw.flower.minimumWithdrawal": "Минимальная сумма вывода - 5 FLOWER.",
   "reward.xp": "Вау, отличный бонус к опыту!",
-  "reward.powerHour": "Растения растут на 50% быстрее и дают +0.2 к урожаю в течение 1 часа",
   "description.loginUnavailable": "Вход недоступен",
   "description.fslWechatDeprecation": "Вход через {{title}} был удалён",
   "description.fslWEchatDeprecationDescription": "Пожалуйста, войди с помощью кошелька, привязанного к твоей ферме, или обратись в поддержку в Discord",
@@ -9152,5 +9151,9 @@
   "saltSculpture.buff.1": "x0.95 salt charge replenishment time",
   "saltSculpture.buff.4": "x0.9 salt rake coin cost",
   "saltSculpture.buff.5": "x0.95 Aging Rack Time",
-  "description.speedTrap.boost": "x0.8 Trap Pot time"
+  "description.speedTrap.boost": "x0.8 Trap Pot time",
+  "description.harvest.hourglass.boost.speed": "1.35x Plot Crop Growth Speed",
+  "description.boostedSpeed": "Speed: {{speed}}x",
+  "description.sparrowShrine.buff.speed": "1.35x Plot Crop Growth Speed",
+  "reward.powerHour": "2x faster crops +0.2 yield for 1 hour"
 }

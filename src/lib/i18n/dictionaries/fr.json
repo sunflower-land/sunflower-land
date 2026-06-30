@@ -7003,7 +7003,6 @@
   "flowerRewards.howToParticipate": "Pour participer, vous pouvez ajouter des liquidités au pool V3 USDC/FLOWER (0,3 %) sur",
   "withdraw.flower.minimumWithdrawal": "Le montant minimum de retrait est de 5 FLEURS.",
   "reward.xp": "Waouh, une belle augmentation d'XP !",
-  "reward.powerHour": "Récoltes 50 % plus rapides +0,2 rendement pendant 1 heure",
   "description.loginUnavailable": "Login non disponible",
   "description.fslWechatDeprecation": "La connexion {{title}} a été supprimée.",
   "description.fslWEchatDeprecationDescription": "Connectez-vous à l'aide du portefeuille associé à votre ferme ou contactez l'assistance sur Discord.",
@@ -9152,5 +9151,9 @@
   "saltSculpture.buff.1": "Temps de réapprovisionnement de la charge en sel x0,95",
   "saltSculpture.buff.4": "Coût par pièce d'un râteau à sel x0,9",
   "saltSculpture.buff.5": "x0,95 Durée de vieillissement",
-  "description.speedTrap.boost": "Durée du piège x0.8"
+  "description.speedTrap.boost": "Durée du piège x0.8",
+  "description.harvest.hourglass.boost.speed": "1,35x la vitesse de croissance des cultures sur la parcelle",
+  "description.boostedSpeed": "Vitesse : {{speed}} x",
+  "description.sparrowShrine.buff.speed": "1,35x la vitesse de croissance des cultures sur la parcelle",
+  "reward.powerHour": "Récoltes 2 fois plus rapides +0,2 rendement pendant 1 heure"
 }

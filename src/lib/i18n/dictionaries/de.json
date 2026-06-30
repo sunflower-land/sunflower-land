@@ -7003,7 +7003,6 @@
   "flowerRewards.howToParticipate": "Um teilzunehmen, können Sie dem V3 USDC/FLOWER-Pool (0,3%) Liquidität hinzufügen",
   "withdraw.flower.minimumWithdrawal": "Der Mindestauszahlungsbetrag beträgt 5 FLOWER.",
   "reward.xp": "Wow, ein netter XP-Boost!",
-  "reward.powerHour": "50% schnellere Ernte +0,2 Ertrag für 1 Stunde",
   "description.loginUnavailable": "Anmeldung nicht verfügbar",
   "description.fslWechatDeprecation": "{{title}} -Login wurde entfernt.",
   "description.fslWEchatDeprecationDescription": "Bitte melde dich mit der verlinkten Wallet deiner Farm an oder kontaktiere den Support auf Discord.",
@@ -9152,5 +9151,9 @@
   "saltSculpture.buff.1": "x0,95 Zeit zum Auffüllen der Salzladung",
   "saltSculpture.buff.4": "x0,9 Kosten einer Salt-Rake-Münze",
   "saltSculpture.buff.5": "x0.95 Aging Rack Time",
-  "description.speedTrap.boost": "x0.8 Trap Pot Time"
+  "description.speedTrap.boost": "x0.8 Trap Pot Time",
+  "description.harvest.hourglass.boost.speed": "1,35-fache Wachstumsgeschwindigkeit der Parzellenkulturen",
+  "description.boostedSpeed": "Geschwindigkeit: {{speed}} x",
+  "description.sparrowShrine.buff.speed": "1,35-fache Wachstumsgeschwindigkeit der Parzellenkulturen",
+  "reward.powerHour": "2 x schnellere Ernten +0,2 Ertrag für 1 Stunde"
 }
