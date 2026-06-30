@@ -559,6 +559,45 @@ describe("getMineBoostWindows", () => {
       ]);
     });
 
+    it("keeps a Totem, Ore Hourglass and Badger Shrine as SEPARATE windows that stack multiplicatively", () => {
+      const windows = getMineBoostWindows(
+        withCollectibles({
+          "Super Totem": placed("1"),
+          "Ore Hourglass": placed("2"),
+          "Badger Shrine": placed("3"),
+        }),
+        "Stone Rock",
+      );
+
+      // Independent categories do NOT merge — only the two totems merge with each
+      // other — so this is three distinct windows even though the Totem and Ore
+      // Hourglass both run at 2×.
+      expect(windows).toHaveLength(3);
+      expect(windows).toContainEqual({
+        from: createdAt,
+        to: createdAt + EXPIRY_COOLDOWNS["Super Totem"],
+        speed: MINE_BOOST_SPEED["Super Totem"],
+      });
+      expect(windows).toContainEqual({
+        from: createdAt,
+        to: createdAt + EXPIRY_COOLDOWNS["Ore Hourglass"],
+        speed: MINE_BOOST_SPEED["Ore Hourglass"],
+      });
+      expect(windows).toContainEqual({
+        from: createdAt,
+        to: createdAt + EXPIRY_COOLDOWNS["Badger Shrine"],
+        speed: MINE_BOOST_SPEED["Badger Shrine"],
+      });
+
+      // During the overlap the effective speed is the PRODUCT (2 × 2 × 1.35 = 5.4×):
+      // categories stack multiplicatively, NOT "highest speed wins".
+      expect(getEffectiveSpeedAt({ at: createdAt + 1, windows })).toEqual(
+        MINE_BOOST_SPEED["Super Totem"] *
+          MINE_BOOST_SPEED["Ore Hourglass"] *
+          MINE_BOOST_SPEED["Badger Shrine"],
+      );
+    });
+
     it("does NOT include the Mole Shrine (stone uses Badger, not Mole)", () => {
       const windows = getMineBoostWindows(
         withCollectibles({ "Mole Shrine": placed("1") }),
@@ -621,6 +660,42 @@ describe("getMineBoostWindows", () => {
           speed: MINE_BOOST_SPEED["Super Totem"],
         },
       ]);
+    });
+
+    it("keeps a Totem, Ore Hourglass and Mole Shrine as SEPARATE windows that stack multiplicatively", () => {
+      const windows = getMineBoostWindows(
+        withCollectibles({
+          "Super Totem": placed("1"),
+          "Ore Hourglass": placed("2"),
+          "Mole Shrine": placed("3"),
+        }),
+        rockName,
+      );
+
+      // Independent categories do NOT merge — three distinct windows.
+      expect(windows).toHaveLength(3);
+      expect(windows).toContainEqual({
+        from: createdAt,
+        to: createdAt + EXPIRY_COOLDOWNS["Super Totem"],
+        speed: MINE_BOOST_SPEED["Super Totem"],
+      });
+      expect(windows).toContainEqual({
+        from: createdAt,
+        to: createdAt + EXPIRY_COOLDOWNS["Ore Hourglass"],
+        speed: MINE_BOOST_SPEED["Ore Hourglass"],
+      });
+      expect(windows).toContainEqual({
+        from: createdAt,
+        to: createdAt + EXPIRY_COOLDOWNS["Mole Shrine"],
+        speed: MINE_BOOST_SPEED["Mole Shrine"],
+      });
+
+      // Effective speed during the overlap is the PRODUCT (2 × 2 × 1.35 = 5.4×).
+      expect(getEffectiveSpeedAt({ at: createdAt + 1, windows })).toEqual(
+        MINE_BOOST_SPEED["Super Totem"] *
+          MINE_BOOST_SPEED["Ore Hourglass"] *
+          MINE_BOOST_SPEED["Mole Shrine"],
+      );
     });
 
     it("does NOT include the Badger Shrine (iron/gold use Mole, not Badger)", () => {
