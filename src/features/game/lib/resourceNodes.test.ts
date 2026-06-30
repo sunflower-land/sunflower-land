@@ -533,6 +533,49 @@ describe("resourceNodes", () => {
       );
     });
 
+    it("credits an EXPIRED boost window for a rock mined during it (does not slow back down)", () => {
+      // Highest-risk edge case for the speed-rate model: windows are built from the
+      // booster's persisted createdAt + cooldown, NOT from whether it's active "now".
+      // An Ore Hourglass placed when the iron rock was mined accelerates only the
+      // first 3h of recovery; once it expires the already-earned credit must persist
+      // — readyAt stays at the boosted time and never reverts to the unboosted 8h.
+      const minedAt = 1_000_000;
+      const baseDurationMs = 8 * HOUR;
+      const oreWindow = EXPIRY_COOLDOWNS["Ore Hourglass"]; // 3h, ends well in the past
+      const rock: Rock = {
+        createdAt: Date.now(),
+        stone: { minedAt, baseDurationMs },
+        x: 1,
+        y: 1,
+      };
+
+      const game: GameState = {
+        ...INITIAL_FARM,
+        collectibles: {
+          ...INITIAL_FARM.collectibles,
+          "Ore Hourglass": [
+            { id: "1", coordinates: { x: 0, y: 0 }, createdAt: minedAt },
+          ],
+        },
+      };
+
+      // 3h at 2× banks 6h of work; the remaining 2h accrues at 1× after the window
+      // expires → ready 5h after mining, not the unboosted 8h.
+      const readyAt = getMineReadyAt(rock, "Iron Rock", game);
+      expect(readyAt).toEqual(
+        minedAt + oreWindow + (baseDurationMs - oreWindow * 2),
+      );
+      expect(readyAt).toEqual(minedAt + 5 * HOUR);
+      expect(readyAt).toBeLessThan(minedAt + baseDurationMs);
+
+      // Post-expiry sanity via canMine: still recovering at 4h (boost long gone),
+      // ready just past 5h — the expired window's credit is stable over time.
+      expect(canMine(rock, "Iron Rock", game, minedAt + 4 * HOUR)).toBe(false);
+      expect(canMine(rock, "Iron Rock", game, minedAt + 5 * HOUR + 1)).toBe(
+        true,
+      );
+    });
+
     it("honors baseDurationMs even with SPEED_BOOSTS off (keys off the field, not the flag)", () => {
       // FE jest runs with SPEED_BOOSTS (testnetFeatureFlag) OFF by default, yet the
       // read path keys off the permanent baseDurationMs marker, so a windowed rock
