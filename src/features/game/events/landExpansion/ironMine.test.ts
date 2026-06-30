@@ -767,6 +767,60 @@ describe("mineIron", () => {
     expect(game.inventory.Iron).toEqual(new Decimal(1.5));
   });
 
+  it("uses the WINDOWED recovery duration for the yield-AOE budget", () => {
+    // A Super Totem (2× iron) covering the whole recovery halves it: the Emerald
+    // Turtle position frees up after baseDurationMs/2, NOT the full
+    // IRON_RECOVERY_TIME. Last used exactly baseDurationMs/2 ago, so the AOE
+    // re-applies only if the budget uses the windowed (boosted) duration.
+    const baseDurationMs = IRON_RECOVERY_TIME * 1000;
+    const windowedDuration = baseDurationMs / 2;
+    const counter = findNonCriticalCounter();
+
+    const game = mineIron({
+      state: {
+        ...GAME_STATE,
+        bumpkin: TEST_BUMPKIN,
+        inventory: { "Stone Pickaxe": new Decimal(1) },
+        iron: {
+          0: {
+            createdAt: now,
+            stone: { minedAt: now - windowedDuration - 1, baseDurationMs },
+            x: 1,
+            y: 1,
+          },
+        },
+        collectibles: {
+          "Super Totem": [
+            {
+              id: "totem",
+              createdAt: now - windowedDuration - 1,
+              coordinates: { x: 9, y: 9 },
+              readyAt: now - windowedDuration - 1,
+            },
+          ],
+          "Emerald Turtle": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 2, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+        },
+        aoe: { "Emerald Turtle": { "-1": { "0": now - windowedDuration } } },
+        farmActivity: { "Iron Rock Mined": counter },
+      },
+      createdAt: now,
+      action: {
+        type: "ironRock.mined",
+        index: "0",
+      } as LandExpansionIronMineAction,
+      farmId,
+    });
+
+    expect(game.inventory.Iron).toEqual(new Decimal(1.5));
+  });
+
   it("applies the AOE on a iron with boosted time", () => {
     const boostedTime = IRON_RECOVERY_TIME * 1000 * 0.5;
     const counter = findNonCriticalCounter();

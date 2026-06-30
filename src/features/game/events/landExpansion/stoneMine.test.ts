@@ -766,6 +766,70 @@ describe("mineStone", () => {
     expect(game.inventory.Stone).toEqual(new Decimal(1.5));
   });
 
+  it("uses the WINDOWED recovery duration for the yield-AOE budget", () => {
+    // A Super Totem (2× stone) covering the whole recovery halves it: the rock is
+    // ready — and the AOE position frees up — after baseDurationMs/2, NOT the full
+    // STONE_RECOVERY_TIME. The Emerald Turtle was last used exactly baseDurationMs/2
+    // ago, so the AOE re-applies ONLY if the budget uses the windowed (boosted)
+    // duration; with the un-windowed STONE_RECOVERY_TIME it would still be locked.
+    const baseDurationMs = STONE_RECOVERY_TIME * 1000; // 4h of work
+    const windowedDuration = baseDurationMs / 2; // 2h at 2×
+    const counter = findNonCriticalCounter();
+
+    const game = mineStone({
+      state: {
+        ...GAME_STATE,
+        bumpkin: TEST_BUMPKIN,
+        inventory: { Pickaxe: new Decimal(1) },
+        stones: {
+          0: {
+            createdAt: now,
+            // 1ms past the windowed ready boundary so canMine (now > readyAt) passes.
+            stone: { minedAt: now - windowedDuration - 1, baseDurationMs },
+            x: 1,
+            y: 1,
+          },
+        },
+        collectibles: {
+          "Super Totem": [
+            {
+              id: "totem",
+              createdAt: now - windowedDuration - 1,
+              coordinates: { x: 9, y: 9 },
+              readyAt: now - windowedDuration - 1,
+            },
+          ],
+          "Emerald Turtle": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 2, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+        },
+        aoe: {
+          "Emerald Turtle": {
+            "-1": {
+              // Last used exactly the WINDOWED duration ago — only frees up if the
+              // budget is windowed (it would still be locked at the full 4h budget).
+              "0": now - windowedDuration,
+            },
+          },
+        },
+        farmActivity: { "Stone Rock Mined": counter },
+      },
+      createdAt: now,
+      action: {
+        type: "stoneRock.mined",
+        index: "0",
+      } as LandExpansionStoneMineAction,
+      farmId,
+    });
+
+    expect(game.inventory.Stone).toEqual(new Decimal(1.5));
+  });
+
   it("does not add boost when stone rock is outside Emerald Turtle AoE", () => {
     const counter = findNonCriticalCounter();
     const game = mineStone({
