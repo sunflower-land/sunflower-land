@@ -9155,5 +9155,7 @@
   "description.harvest.hourglass.boost.speed": "1.35x プロット作物の成長速度",
   "description.boostedSpeed": "スピード:{{speed}} x",
   "description.sparrowShrine.buff.speed": "1.35x プロット作物の成長速度",
-  "reward.powerHour": "1時間の収穫速度の2倍+収穫量0.2倍"
+  "reward.powerHour": "1時間の収穫速度の2倍+収穫量0.2倍",
+  "description.timber.hourglass.boost.speed": "1.35x ツリー回復速度",
+  "description.badgerShrine.buff.speed": "1.35x ツリー回復速度"
 }

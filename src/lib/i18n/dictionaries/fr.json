@@ -9155,5 +9155,7 @@
   "description.harvest.hourglass.boost.speed": "1,35x la vitesse de croissance des cultures sur la parcelle",
   "description.boostedSpeed": "Vitesse : {{speed}} x",
   "description.sparrowShrine.buff.speed": "1,35x la vitesse de croissance des cultures sur la parcelle",
-  "reward.powerHour": "Récoltes 2 fois plus rapides +0,2 rendement pendant 1 heure"
+  "reward.powerHour": "Récoltes 2 fois plus rapides +0,2 rendement pendant 1 heure",
+  "description.timber.hourglass.boost.speed": "Vitesse de restauration des arbres 1,35 fois",
+  "description.badgerShrine.buff.speed": "Vitesse de restauration des arbres 1,35 fois"
 }

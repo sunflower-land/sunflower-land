@@ -9155,5 +9155,7 @@
   "description.harvest.hourglass.boost.speed": "1.35x Arsa Mahsulü Büyüme Hızı",
   "description.boostedSpeed": "Hız: {{speed}} x",
   "description.sparrowShrine.buff.speed": "1.35x Arsa Mahsulü Büyüme Hızı",
-  "reward.powerHour": "2 kat daha hızlı mahsul +1 saat boyunca 0,2 verim"
+  "reward.powerHour": "2 kat daha hızlı mahsul +1 saat boyunca 0,2 verim",
+  "description.timber.hourglass.boost.speed": "1.35x Ağaç Kurtarma Hızı",
+  "description.badgerShrine.buff.speed": "1.35x Ağaç Kurtarma Hızı"
 }

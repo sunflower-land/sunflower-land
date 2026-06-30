@@ -9155,5 +9155,7 @@
   "description.harvest.hourglass.boost.speed": "Velocità di crescita delle colture del grafico 1,35x",
   "description.boostedSpeed": "Velocità: {{speed}} x",
   "description.sparrowShrine.buff.speed": "Velocità di crescita delle colture del grafico 1,35x",
-  "reward.powerHour": "Raccolti 2 volte più veloci +0,2 rendimenti per 1 ora"
+  "reward.powerHour": "Raccolti 2 volte più veloci +0,2 rendimenti per 1 ora",
+  "description.timber.hourglass.boost.speed": "Velocità di ripristino dell'albero 1,35x",
+  "description.badgerShrine.buff.speed": "Velocità di ripristino dell'albero 1,35x"
 }

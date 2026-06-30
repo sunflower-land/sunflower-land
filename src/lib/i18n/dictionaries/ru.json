@@ -9155,5 +9155,7 @@
   "description.harvest.hourglass.boost.speed": "1.35x Plot Crop Growth Speed",
   "description.boostedSpeed": "Speed: {{speed}}x",
   "description.sparrowShrine.buff.speed": "1.35x Plot Crop Growth Speed",
-  "reward.powerHour": "2x faster crops +0.2 yield for 1 hour"
+  "reward.powerHour": "2x faster crops +0.2 yield for 1 hour",
+  "description.timber.hourglass.boost.speed": "1.35x Tree Recovery Speed",
+  "description.badgerShrine.buff.speed": "1.35x Tree Recovery Speed"
 }

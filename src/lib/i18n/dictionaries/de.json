@@ -9155,5 +9155,7 @@
   "description.harvest.hourglass.boost.speed": "1,35-fache Wachstumsgeschwindigkeit der Parzellenkulturen",
   "description.boostedSpeed": "Geschwindigkeit: {{speed}} x",
   "description.sparrowShrine.buff.speed": "1,35-fache Wachstumsgeschwindigkeit der Parzellenkulturen",
-  "reward.powerHour": "2 x schnellere Ernten +0,2 Ertrag für 1 Stunde"
+  "reward.powerHour": "2 x schnellere Ernten +0,2 Ertrag für 1 Stunde",
+  "description.timber.hourglass.boost.speed": "1,35-fache Tree-Recovery-Geschwindigkeit",
+  "description.badgerShrine.buff.speed": "1,35-fache Tree-Recovery-Geschwindigkeit"
 }

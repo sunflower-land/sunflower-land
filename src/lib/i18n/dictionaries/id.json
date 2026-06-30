@@ -9155,5 +9155,7 @@
   "description.harvest.hourglass.boost.speed": "1.35x Kecepatan Pertumbuhan Tanaman Plot",
   "description.boostedSpeed": "Kecepatan: {{speed}} x",
   "description.sparrowShrine.buff.speed": "1.35x Kecepatan Pertumbuhan Tanaman Plot",
-  "reward.powerHour": "2x tanaman lebih cepat +0,2 hasil selama 1 jam"
+  "reward.powerHour": "2x tanaman lebih cepat +0,2 hasil selama 1 jam",
+  "description.timber.hourglass.boost.speed": "1.35x Kecepatan Pemulihan Pohon",
+  "description.badgerShrine.buff.speed": "1.35x Kecepatan Pemulihan Pohon"
 }
