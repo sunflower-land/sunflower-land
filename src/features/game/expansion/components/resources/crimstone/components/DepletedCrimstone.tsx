@@ -7,7 +7,7 @@ import crimstone_5 from "assets/resources/crimstone/crimstone_rock_5.webp";
 import crimstone_6 from "assets/resources/crimstone/crimstone_rock_6.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
-import { getCrimstoneStage } from "../Crimstone";
+import { getCrimstoneStage } from "../getCrimstoneStage";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 
@@ -15,6 +15,7 @@ interface Props {
   timeLeft: number;
   minesLeft: number;
   minedAt: number;
+  now: number;
   /**
    * Current effective recovery speed from windowed boosts (e.g. Mole Shrine).
    * > 1 shows a lightning marker + the multiplier in the popover.
@@ -27,6 +28,7 @@ const DepletedCrimstoneComponent: React.FC<Props> = ({
   minesLeft,
   minedAt,
   speed,
+  now,
 }) => {
   const { t } = useAppTranslation();
   const [showTimeLeft, setShowTimeLeft] = useState(false);
@@ -39,7 +41,7 @@ const DepletedCrimstoneComponent: React.FC<Props> = ({
     crimstone_4,
     crimstone_5,
     crimstone_6,
-  ][getCrimstoneStage(minesLeft, minedAt) - 1];
+  ][getCrimstoneStage(minesLeft, minedAt, now) - 1];
 
   return (
     <div

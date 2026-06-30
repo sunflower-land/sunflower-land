@@ -17,6 +17,7 @@ import { canMine } from "features/game/lib/resourceNodes";
 import { RecoveredCrimstone } from "./components/RecoveredCrimstone";
 import { DepletingCrimstone } from "./components/DepletingCrimstone";
 import { DepletedCrimstone } from "./components/DepletedCrimstone";
+import { getCrimstoneStage } from "./getCrimstoneStage";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getCrimstoneDropAmount } from "features/game/events/landExpansion/mineCrimstone";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -66,22 +67,6 @@ const compareResource = (prev: Rock, next: Rock) => {
   return JSON.stringify(prev) === JSON.stringify(next);
 };
 
-export const getCrimstoneStage = (minesLeft: number, minedAt: number) => {
-  const timeToReset = (CRIMSTONE_RECOVERY_TIME + 24 * 60 * 60) * 1000;
-  const now = Date.now();
-  if (now - minedAt > timeToReset) {
-    return 1;
-  }
-
-  if (minesLeft === 5 && now - minedAt < CRIMSTONE_RECOVERY_TIME * 1000)
-    return 6;
-  if (minesLeft === 5) return 1;
-  if (minesLeft === 4) return 2;
-  if (minesLeft === 3) return 3;
-  if (minesLeft === 2) return 4;
-  return 5;
-};
-
 interface Props {
   id: string;
 }
@@ -118,10 +103,7 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
     (state) => state.context.state.crimstones[id],
     compareResource,
   );
-  const crimstoneStage = getCrimstoneStage(
-    resource.minesLeft,
-    resource.stone.minedAt,
-  );
+
   const inventory = useSelector(
     gameService,
     selectInventory,
@@ -166,6 +148,13 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
       : 1;
   const intervalMs = Math.max(Math.round(1000 / Math.max(speed, 1)), 250);
   const now = useNow({ live: true, autoEndAt: readyAt, intervalMs });
+
+  const crimstoneStage = getCrimstoneStage(
+    resource.minesLeft,
+    resource.stone.minedAt,
+    now,
+  );
+
   // For windowed rocks the remaining time is remaining *work* (in base
   // duration), so it visibly ticks down faster while a boost window is active.
   const timeLeft =
@@ -281,6 +270,7 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
             touchCount={touchCount}
             minesLeft={resource.minesLeft}
             minedAt={resource.stone.minedAt}
+            now={now}
           />
         </div>
       )}
@@ -290,6 +280,7 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
         <DepletingCrimstone
           resourceAmount={harvested.current}
           minesLeft={resource.minesLeft}
+          now={now}
           minedAt={resource.stone.minedAt}
         />
       )}
@@ -299,6 +290,7 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
         <DepletedCrimstone
           timeLeft={timeLeft}
           minesLeft={resource.minesLeft}
+          now={now}
           minedAt={resource.stone.minedAt}
           speed={speed}
         />
