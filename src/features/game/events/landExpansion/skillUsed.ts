@@ -371,7 +371,9 @@ export function powerSkillDisabledConditions({
     }
 
     case "Tree Blitz": {
-      if (Object.values(trees).every((tree) => canChop(tree))) {
+      if (
+        Object.values(trees).every((tree) => canChop(tree, state, createdAt))
+      ) {
         return {
           disabled: true,
           reason: translate("powerSkills.reason.noTreesRecovering"),

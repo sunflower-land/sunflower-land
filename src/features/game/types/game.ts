@@ -758,6 +758,13 @@ export type Wood = {
   reward?: Omit<Reward, "sfl">;
   criticalHit?: CriticalHit;
   amount?: number;
+  /**
+   * Unboosted-by-windowed-collectibles recovery duration (ms), with all
+   * permanent (discount-at-start) boosts already folded in. Present only on
+   * trees chopped under the speed-rate model; its presence selects
+   * `computeReadyAt` over the legacy back-dated `choppedAt` readiness check.
+   */
+  baseDurationMs?: number;
 };
 
 export type CriticalHitName =

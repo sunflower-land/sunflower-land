@@ -38,6 +38,18 @@ export const CROP_PLOT_BOOST_SPEED = {
   sunshowerGuardian: 4,
 } as const;
 
+/**
+ * Speed multipliers for the windowed tree (wood) recovery boosts — the single
+ * place to tune them. Stacking is multiplicative; Super & Time Warp Totem share
+ * the same 2× and merge so they don't stack with each other.
+ */
+export const TREE_BOOST_SPEED = {
+  "Super Totem": 2,
+  "Time Warp Totem": 2,
+  "Timber Hourglass": 1.35,
+  "Badger Shrine": 1.35,
+} as const;
+
 /** Window for the Power Hour buff (1h from activation), if active. */
 const getPowerHourWindows = (game: GameState): BoostWindow[] => {
   const buff = game.buffs?.["Power hour"];
@@ -82,22 +94,17 @@ const getSunshowerWindows = (game: GameState): BoostWindow[] => {
 };
 
 /**
- * Windows for the totems. Super Totem & Time Warp Totem are the SAME 2× boost and
- * explicitly do NOT stack with each other, so both names' windows are merged into
- * one same-speed set (overlaps coalesce instead of multiplying).
+ * Merge the Super Totem & Time Warp Totem windows for ONE activity into a single
+ * same-speed set. The two totems are the SAME boost for a given activity and
+ * explicitly do NOT stack with each other, so their windows coalesce (overlaps
+ * merge instead of multiplying). Both share `speed` within an activity (crops &
+ * trees: 2×); activities where the two totems differ (e.g. mines) must NOT use
+ * this helper — unequal speeds would multiply rather than pick the higher.
  */
-const getTotemWindows = (game: GameState): BoostWindow[] =>
+const getMergedTotemWindows = (game: GameState, speed: number): BoostWindow[] =>
   mergeWindows([
-    ...getBoostWindows({
-      game,
-      name: "Super Totem",
-      speed: CROP_PLOT_BOOST_SPEED["Super Totem"],
-    }),
-    ...getBoostWindows({
-      game,
-      name: "Time Warp Totem",
-      speed: CROP_PLOT_BOOST_SPEED["Time Warp Totem"],
-    }),
+    ...getBoostWindows({ game, name: "Super Totem", speed }),
+    ...getBoostWindows({ game, name: "Time Warp Totem", speed }),
   ]);
 
 /**
@@ -117,9 +124,29 @@ export const getCropPlotBoostWindows = (game: GameState): BoostWindow[] => [
     name: "Harvest Hourglass",
     speed: CROP_PLOT_BOOST_SPEED["Harvest Hourglass"],
   }),
-  ...getTotemWindows(game),
+  ...getMergedTotemWindows(game, CROP_PLOT_BOOST_SPEED["Super Totem"]),
   ...getPowerHourWindows(game),
   ...getSunshowerWindows(game),
+];
+
+/**
+ * The windowed speed boosts that apply to tree (wood) recovery. Each is its own
+ * window so overlapping boosts stack multiplicatively; the two totems merge so
+ * they don't stack with each other (both 2×). Mirrors `getCropPlotBoostWindows`
+ * for the trees activity.
+ */
+export const getTreeBoostWindows = (game: GameState): BoostWindow[] => [
+  ...getMergedTotemWindows(game, TREE_BOOST_SPEED["Super Totem"]),
+  ...getBoostWindows({
+    game,
+    name: "Timber Hourglass",
+    speed: TREE_BOOST_SPEED["Timber Hourglass"],
+  }),
+  ...getBoostWindows({
+    game,
+    name: "Badger Shrine",
+    speed: TREE_BOOST_SPEED["Badger Shrine"],
+  }),
 ];
 
 /**

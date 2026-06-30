@@ -80,10 +80,13 @@ describe("resourceNodes", () => {
         y: 1,
       };
 
-      const result = canGatherResource({
-        name: "Stone Rock",
-        ...stoneRock,
-      });
+      const result = canGatherResource(
+        {
+          name: "Stone Rock",
+          ...stoneRock,
+        },
+        GAME_STATE,
+      );
 
       expect(result).toBe(true);
     });
@@ -98,10 +101,13 @@ describe("resourceNodes", () => {
         y: 1,
       };
 
-      const result = canGatherResource({
-        name: "Stone Rock",
-        ...stoneRock,
-      });
+      const result = canGatherResource(
+        {
+          name: "Stone Rock",
+          ...stoneRock,
+        },
+        GAME_STATE,
+      );
 
       expect(result).toBe(false);
     });
@@ -116,10 +122,13 @@ describe("resourceNodes", () => {
         y: 1,
       };
 
-      const result = canGatherResource({
-        name: "Tree",
-        ...tree,
-      });
+      const result = canGatherResource(
+        {
+          name: "Tree",
+          ...tree,
+        },
+        GAME_STATE,
+      );
 
       expect(result).toBe(true);
     });
@@ -134,10 +143,13 @@ describe("resourceNodes", () => {
         y: 1,
       };
 
-      const result = canGatherResource({
-        name: "Tree",
-        ...tree,
-      });
+      const result = canGatherResource(
+        {
+          name: "Tree",
+          ...tree,
+        },
+        GAME_STATE,
+      );
 
       expect(result).toBe(false);
     });
@@ -152,10 +164,13 @@ describe("resourceNodes", () => {
         y: 1,
       };
 
-      const result = canGatherResource({
-        name: "Iron Rock",
-        ...ironRock,
-      });
+      const result = canGatherResource(
+        {
+          name: "Iron Rock",
+          ...ironRock,
+        },
+        GAME_STATE,
+      );
 
       expect(result).toBe(true);
     });
@@ -170,10 +185,13 @@ describe("resourceNodes", () => {
         y: 1,
       };
 
-      const result = canGatherResource({
-        name: "Gold Rock",
-        ...goldRock,
-      });
+      const result = canGatherResource(
+        {
+          name: "Gold Rock",
+          ...goldRock,
+        },
+        GAME_STATE,
+      );
 
       expect(result).toBe(true);
     });
@@ -188,10 +206,13 @@ describe("resourceNodes", () => {
         y: 1,
       };
 
-      const result = canGatherResource({
-        name: "Stone Rock",
-        ...stoneRock,
-      });
+      const result = canGatherResource(
+        {
+          name: "Stone Rock",
+          ...stoneRock,
+        },
+        GAME_STATE,
+      );
 
       expect(result).toBe(true);
     });
@@ -207,10 +228,13 @@ describe("resourceNodes", () => {
       };
 
       expect(() =>
-        canGatherResource({
-          name: "Invalid Rock" as RockName,
-          ...invalidRock,
-        }),
+        canGatherResource(
+          {
+            name: "Invalid Rock" as RockName,
+            ...invalidRock,
+          },
+          GAME_STATE,
+        ),
       ).toThrow("Invalid resource name: Invalid Rock");
     });
 
@@ -220,9 +244,9 @@ describe("resourceNodes", () => {
         invalidProperty: "test",
       };
 
-      expect(() => canGatherResource(invalidResource as any)).toThrow(
-        "Invalid resource",
-      );
+      expect(() =>
+        canGatherResource(invalidResource as any, GAME_STATE),
+      ).toThrow("Invalid resource");
     });
   });
 
