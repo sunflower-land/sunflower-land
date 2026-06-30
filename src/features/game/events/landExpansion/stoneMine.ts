@@ -330,6 +330,7 @@ export function getStoneDropAmount({
 
   if (hasRequiredIslandExpansion(game.island.type, "volcano")) {
     amount += 0.1;
+    boostsUsed.push({ name: "Volcano Bonus", value: "+0.1" });
   }
 
   amount *= multiplier;
@@ -337,10 +338,12 @@ export function getStoneDropAmount({
   // Add yield boost for upgraded stones
   if (rock.tier === 2) {
     amount += 0.5;
+    boostsUsed.push({ name: "Tier 2 Bonus", value: "+0.5" });
   }
 
   if (rock.tier === 3) {
     amount += 2.5;
+    boostsUsed.push({ name: "Tier 3 Bonus", value: "+2.5" });
   }
 
   return {
