@@ -32,7 +32,10 @@ export const canGatherResource = (
   }
 
   if ("stone" in resource) {
-    let rockName = resource.name as RockName;
+    // Prefer an explicit rockType when the node has no name — it covers the rocks
+    // the Stone/Iron/Gold substring inference can't (Crimstone, Sunstone) as well
+    // as tier-2/3 names. Fall back to inference only when neither is set.
+    let rockName = (resource.name ?? rockType) as RockName;
     if (!rockName) {
       if (resource.name?.includes("Stone") || rockType?.includes("Stone")) {
         rockName = "Stone Rock";

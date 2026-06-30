@@ -9,7 +9,6 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
-import { canMine } from "features/game/lib/resourceNodes";
 import { DepletedSunstone } from "./components/DepletedSunstone";
 import { RecoveredSunstone } from "./components/RecoveredSunstone";
 import { DepletingSunstone } from "./components/DepletingSunstone";
@@ -31,7 +30,6 @@ const HasTool = (inventory: Partial<Record<InventoryItemName, Decimal>>) => {
 };
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
-const selectGame = (state: MachineState) => state.context.state;
 
 const compareResource = (prev: Rock, next: Rock) => {
   return JSON.stringify(prev) === JSON.stringify(next);
@@ -94,7 +92,6 @@ export const Sunstone: React.FC<Props> = ({ id, index }) => {
     };
   }, []);
 
-  const game = useSelector(gameService, selectGame);
   const resource = useSelector(
     gameService,
     (state) => state.context.state.sunstones[id],
@@ -158,7 +155,10 @@ export const Sunstone: React.FC<Props> = ({ id, index }) => {
           0,
         )
       : getTimeLeft(resource.stone.minedAt, SUNSTONE_RECOVERY_TIME, now);
-  const mined = !canMine(resource, "Sunstone Rock", game, now);
+  // Sunstone has no recovery boost, so readiness is purely `now` vs the local
+  // readyAt — no need to subscribe to (or pass) the full game state. Equivalent to
+  // `!canMine(resource, "Sunstone Rock", game, now)` for a boost-less rock.
+  const mined = now <= readyAt;
 
   useUiRefresher({ active: mined });
 
