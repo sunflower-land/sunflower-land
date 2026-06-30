@@ -167,7 +167,7 @@ const FEATURE_FLAGS = {
   // Speed-rate (Clash-of-Clans potion) model for time-based boosts — starting
   // with the Sparrow Shrine on crops. When on, planting stores the new
   // baseDurationMs + true plantedAt model; when off, boosts stay discount-at-start.
-  SPEED_BOOSTS: betaFeatureFlag,
+  SPEED_BOOSTS: testnetFeatureFlag,
 
   // Importing leftover items from the old home into the new interior.
   HOME_ITEM_MIGRATION: betaFeatureFlag,
