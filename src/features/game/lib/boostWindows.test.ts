@@ -4,6 +4,8 @@ import {
   getEffectiveSpeedAt,
   workAccruedAt,
   CROP_PLOT_BOOST_SPEED,
+  TREE_BOOST_SPEED,
+  getTreeBoostWindows,
   appendBoostHistory,
   type BoostWindow,
 } from "./boostWindows";
@@ -377,5 +379,90 @@ describe("appendBoostHistory", () => {
     const game = { ...TEST_FARM, boostHistory: {} } as GameState;
     appendBoostHistory(game, "Sparrow Shrine", { from: 2000, to: 2000 }, 2000);
     expect(game.boostHistory?.["Sparrow Shrine"]).toBeUndefined();
+  });
+});
+
+describe("getTreeBoostWindows", () => {
+  const createdAt = 1_000_000;
+
+  it("builds a window for an active Timber Hourglass at the tree speed", () => {
+    const windows = getTreeBoostWindows({
+      ...TEST_FARM,
+      collectibles: {
+        ...TEST_FARM.collectibles,
+        "Timber Hourglass": [
+          { id: "1", coordinates: { x: 0, y: 0 }, createdAt },
+        ],
+      },
+    });
+
+    expect(windows).toContainEqual({
+      from: createdAt,
+      to: createdAt + EXPIRY_COOLDOWNS["Timber Hourglass"],
+      speed: TREE_BOOST_SPEED["Timber Hourglass"],
+    });
+  });
+
+  it("includes the Badger Shrine at the tree speed", () => {
+    const windows = getTreeBoostWindows({
+      ...TEST_FARM,
+      collectibles: {
+        ...TEST_FARM.collectibles,
+        "Badger Shrine": [{ id: "1", coordinates: { x: 0, y: 0 }, createdAt }],
+      },
+    });
+
+    expect(windows).toContainEqual({
+      from: createdAt,
+      to: createdAt + EXPIRY_COOLDOWNS["Badger Shrine"],
+      speed: TREE_BOOST_SPEED["Badger Shrine"],
+    });
+  });
+
+  it("merges Super Totem & Time Warp Totem into one 2× window (no stacking)", () => {
+    const windows = getTreeBoostWindows({
+      ...TEST_FARM,
+      collectibles: {
+        ...TEST_FARM.collectibles,
+        "Super Totem": [{ id: "1", coordinates: { x: 0, y: 0 }, createdAt }],
+        "Time Warp Totem": [
+          { id: "2", coordinates: { x: 1, y: 1 }, createdAt },
+        ],
+      },
+    });
+
+    // Both totems share 2× and merge into a single window, not two stacked.
+    const totemWindows = windows.filter(
+      (w) => w.speed === TREE_BOOST_SPEED["Super Totem"],
+    );
+    expect(totemWindows).toEqual([
+      {
+        from: createdAt,
+        to: createdAt + EXPIRY_COOLDOWNS["Super Totem"],
+        speed: TREE_BOOST_SPEED["Super Totem"],
+      },
+    ]);
+  });
+
+  it("includes a removed/burned Timber Hourglass via boostHistory", () => {
+    // The booster is gone from collectibles, but its finalised window survives
+    // in boostHistory so an in-progress tree still gets the recovered credit.
+    const from = 1_000_000;
+    const to = from + EXPIRY_COOLDOWNS["Timber Hourglass"];
+    const windows = getTreeBoostWindows({
+      ...TEST_FARM,
+      collectibles: {},
+      boostHistory: { "Timber Hourglass": [{ from, to }] },
+    });
+
+    expect(windows).toContainEqual({
+      from,
+      to,
+      speed: TREE_BOOST_SPEED["Timber Hourglass"],
+    });
+  });
+
+  it("returns no windows when none are placed", () => {
+    expect(getTreeBoostWindows(TEST_FARM)).toEqual([]);
   });
 });

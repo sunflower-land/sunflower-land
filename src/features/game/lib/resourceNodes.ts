@@ -23,6 +23,7 @@ import {
 
 export const canGatherResource = (
   resource: ResourceItem,
+  game: GameState,
   rockType?: RockName,
 ) => {
   if ("name" in resource && resource?.name && !(resource.name in RESOURCES)) {
@@ -52,7 +53,7 @@ export const canGatherResource = (
     return canMine(resource as Rock, rockName);
   }
 
-  if ("wood" in resource) return canChop(resource as Tree);
+  if ("wood" in resource) return canChop(resource as Tree, game);
 
   throw new Error("Invalid resource");
 };
@@ -80,7 +81,7 @@ export const getUpgradeableNodes = (
     const isPlaced = node.x !== undefined && node.y !== undefined;
     return (
       isPlaced &&
-      canGatherResource(node, upgradeTo as RockName) &&
+      canGatherResource(node, game, upgradeTo as RockName) &&
       tier === advancedResource.preRequires.tier
     );
   });

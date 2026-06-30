@@ -1182,9 +1182,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
-  "Timber Hourglass": () => [
+  "Timber Hourglass": (game) => [
     {
-      shortDescription: translate("description.timber.hourglass.boost"),
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.timber.hourglass.boost.speed")
+        : translate("description.timber.hourglass.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
@@ -1886,9 +1888,13 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: SUNNYSIDE.animalFoods.kernel_blend,
     },
   ],
-  "Badger Shrine": () => [
+  "Badger Shrine": (game) => [
     {
-      shortDescription: translate("description.badgerShrine.buff"),
+      // Tree recovery is on the windowed speed model under SPEED_BOOSTS; the
+      // stone half stays a baked discount until the mines slice migrates it.
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.badgerShrine.buff.speed")
+        : translate("description.badgerShrine.buff"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS.Tree.image,

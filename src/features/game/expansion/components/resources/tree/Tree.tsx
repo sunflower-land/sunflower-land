@@ -11,11 +11,17 @@ import type {
   Tree as TreeType,
 } from "features/game/types/game";
 import {
-  canChop,
   getRequiredAxeAmount,
   getReward,
   getWoodDropAmount,
 } from "features/game/events/landExpansion/chop";
+import {
+  computeReadyAt,
+  getEffectiveSpeedAt,
+  getTreeBoostWindows,
+  workAccruedAt,
+  type BoostWindow,
+} from "features/game/lib/boostWindows";
 import { KNOWN_IDS } from "features/game/types";
 import type { TreeName } from "features/game/types/resources";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
@@ -67,6 +73,19 @@ const selectFarmId = (state: MachineState) => state.context.farmId;
 const compareResource = (prev: TreeType, next: TreeType) => {
   return JSON.stringify(prev) === JSON.stringify(next);
 };
+// Field comparator for the tree boost windows so the selector skips re-renders
+// without allocating JSON strings per tree on every service update.
+const areBoostWindowsEqual = (a: BoostWindow[], b: BoostWindow[]) =>
+  a.length === b.length &&
+  a.every((window, index) => {
+    const other = b[index];
+    return (
+      other !== undefined &&
+      window.from === other.from &&
+      window.to === other.to &&
+      window.speed === other.speed
+    );
+  });
 const compareGame = (prev: GameState, next: GameState) =>
   isCollectibleBuilt({ name: "Foreman Beaver", game: prev }) ===
     isCollectibleBuilt({ name: "Foreman Beaver", game: next }) &&
@@ -130,17 +149,60 @@ export const Tree: React.FC<Props> = ({ id }) => {
   const island = useSelector(gameService, selectIsland);
   const season = useSelector(gameService, selectSeason);
   const farmId = useSelector(gameService, selectFarmId);
+  // Live windowed tree-recovery speed boosts (Timber Hourglass, Badger Shrine,
+  // totems). Recomputed from full state but only re-renders when the windows
+  // actually change, so the countdown reacts to boosters placed/expired mid-grow.
+  const treeBoostWindows = useSelector(
+    gameService,
+    (state) => getTreeBoostWindows(state.context.state),
+    areBoostWindowsEqual,
+  );
   const hasTool = HasTool(inventory, game, id);
-  const readyAt = resource.wood.choppedAt + TREE_RECOVERY_TIME * 1000;
-  const now = useNow({ live: true, autoEndAt: readyAt });
+
+  const { choppedAt, baseDurationMs } = resource.wood;
+  // Speed-rate model (baseDurationMs set): derive the ready time live from the
+  // boost windows. Legacy trees use the back-dated choppedAt + base recovery.
+  const readyAt =
+    baseDurationMs !== undefined
+      ? computeReadyAt({
+          startedAt: choppedAt,
+          baseDurationMs,
+          windows: treeBoostWindows,
+        })
+      : choppedAt + TREE_RECOVERY_TIME * 1000;
+
+  // Coarse 1s clock to pick the current boost speed; only windowed trees are
+  // boosted. Gated to windowed trees and stopped at readyAt so recovered/legacy
+  // trees don't re-render every second. Tick the countdown faster (1000/speed)
+  // so it drops ~1s per visual tick rather than jumping by `speed` each second.
+  const tickNow = useNow({
+    live: baseDurationMs !== undefined,
+    autoEndAt: readyAt,
+  });
+  const speed =
+    baseDurationMs !== undefined
+      ? getEffectiveSpeedAt({ at: tickNow, windows: treeBoostWindows })
+      : 1;
+  const intervalMs = Math.max(Math.round(1000 / Math.max(speed, 1)), 250);
+  const now = useNow({ live: true, autoEndAt: readyAt, intervalMs });
   const isSeasoned = isSeasonedPlayer({ game, verified, now });
 
-  const timeLeft = getTimeLeft(
-    resource.wood.choppedAt,
-    TREE_RECOVERY_TIME,
-    now,
-  );
-  const chopped = !canChop(resource);
+  // For windowed trees the remaining time is remaining *work* (in base
+  // duration), so it visibly ticks down faster while a boost window is active.
+  const timeLeft =
+    baseDurationMs !== undefined
+      ? Math.max(
+          (baseDurationMs -
+            workAccruedAt({
+              startedAt: choppedAt,
+              at: now,
+              windows: treeBoostWindows,
+            })) /
+            1000,
+          0,
+        )
+      : getTimeLeft(choppedAt, TREE_RECOVERY_TIME, now);
+  const chopped = now <= readyAt;
 
   const [isAnimationRunning, setIsAnimationRunning] = useState(false);
   const [isRecentlyChopped, setIsRecentlyChopped] = useState(false);
@@ -287,7 +349,12 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
       {/* Depleted resource */}
       {(chopped || isRecentlyChopped) && (
-        <DepletedTree timeLeft={timeLeft} island={island} season={season} />
+        <DepletedTree
+          timeLeft={timeLeft}
+          island={island}
+          season={season}
+          speed={speed}
+        />
       )}
 
       {/* Chest reward - captcha gate for non-seasoned players */}

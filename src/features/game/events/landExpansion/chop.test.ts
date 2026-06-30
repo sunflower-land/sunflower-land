@@ -5,11 +5,14 @@ import { INITIAL_FARM, TREE_RECOVERY_TIME } from "features/game/lib/constants";
 import { KNOWN_IDS } from "features/game/types";
 import type { GameState, Tree } from "features/game/types/game";
 import { prngChance } from "lib/prng";
+import { CONFIG } from "lib/config";
 import {
   chop,
   type LandExpansionChopAction,
   getWoodDropAmount,
   getChoppedAt,
+  canChop,
+  getTreeReadyAt,
 } from "./chop";
 
 const now = Date.now();
@@ -38,6 +41,17 @@ const GAME_STATE: GameState = {
 };
 
 describe("chop", () => {
+  // These tests assert the LEGACY back-dated recovery (the discount is baked into
+  // choppedAt at chop time). FE jest runs on amoy where SPEED_BOOSTS is on, so
+  // force the flag off here; the windowed model is covered in its own describe.
+  const originalNetwork = CONFIG.NETWORK;
+  beforeEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+  });
+  afterEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+  });
+
   const dateNow = now;
   const farmId = 1;
 
@@ -1606,5 +1620,232 @@ describe("chop", () => {
         highCounter + 1,
       );
     });
+  });
+});
+
+describe("chop — SPEED_BOOSTS speed windows", () => {
+  const farmId = 1;
+  const ONE_HOUR = 60 * 60 * 1000;
+  const BASE_MS = TREE_RECOVERY_TIME * 1000;
+  const originalNetwork = CONFIG.NETWORK;
+
+  beforeEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
+  });
+  afterEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+  });
+
+  it("stores the real chop time + base recovery (no back-dating) with no boosts", () => {
+    const game = chop({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        bumpkin: TEST_BUMPKIN,
+        inventory: { Axe: new Decimal(1) },
+      },
+      createdAt: now,
+      action: { type: "timber.chopped", item: "Axe", index: "0" },
+    });
+
+    const tree = game.trees[0];
+    expect(tree.wood.choppedAt).toEqual(now);
+    expect(tree.wood.baseDurationMs).toEqual(BASE_MS);
+  });
+
+  it("folds permanent boosts (Tree Charge) into baseDurationMs, not back-dating", () => {
+    const { time, baseDurationMs } = getChoppedAt({
+      game: {
+        ...INITIAL_FARM,
+        bumpkin: { ...TEST_BUMPKIN, skills: { "Tree Charge": 1 } },
+      },
+      createdAt: now,
+      prngArgs: { farmId, itemId: 0, counter: 0 },
+    });
+
+    expect(time).toEqual(now);
+    expect(baseDurationMs).toEqual(BASE_MS * 0.9);
+  });
+
+  it("excludes the Timber Hourglass from baseDurationMs (applied as a window)", () => {
+    const { time, baseDurationMs } = getChoppedAt({
+      game: {
+        ...INITIAL_FARM,
+        collectibles: {
+          "Timber Hourglass": [
+            {
+              id: "1",
+              createdAt: now - 100,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 100,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+      prngArgs: { farmId, itemId: 0, counter: 0 },
+    });
+
+    expect(time).toEqual(now);
+    // Not reduced — the 1.35× is derived live over the recovery instead.
+    expect(baseDurationMs).toEqual(BASE_MS);
+  });
+
+  it("recovers 1.35× faster with an active Timber Hourglass (getTreeReadyAt)", () => {
+    const tree: Tree = {
+      wood: { choppedAt: now, baseDurationMs: BASE_MS },
+      x: 1,
+      y: 1,
+    };
+    const game: GameState = {
+      ...INITIAL_FARM,
+      collectibles: {
+        "Timber Hourglass": [
+          {
+            id: "1",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now,
+          },
+        ],
+      },
+    };
+
+    expect(getTreeReadyAt(tree, game)).toBeCloseTo(now + BASE_MS / 1.35, 0);
+  });
+
+  it("credits only the overlap for a Timber Hourglass placed mid-recovery (retroactive)", () => {
+    // Chopped 1h ago with no boost: 1h of work already accrued at 1×.
+    const tree: Tree = {
+      wood: { choppedAt: now - ONE_HOUR, baseDurationMs: BASE_MS },
+      x: 1,
+      y: 1,
+    };
+    const game: GameState = {
+      ...INITIAL_FARM,
+      collectibles: {
+        "Timber Hourglass": [
+          {
+            id: "1",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now,
+          },
+        ],
+      },
+    };
+
+    // Remaining 1h of work now accrues at 1.35×.
+    expect(getTreeReadyAt(tree, game)).toBeCloseTo(now + ONE_HOUR / 1.35, 0);
+  });
+
+  it("merges Super Totem & Time Warp Totem so they don't stack (2×, not 4×)", () => {
+    const tree: Tree = {
+      wood: { choppedAt: now, baseDurationMs: BASE_MS },
+      x: 1,
+      y: 1,
+    };
+    const game: GameState = {
+      ...INITIAL_FARM,
+      collectibles: {
+        "Super Totem": [
+          {
+            id: "1",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now,
+          },
+        ],
+        "Time Warp Totem": [
+          {
+            id: "2",
+            createdAt: now,
+            coordinates: { x: 2, y: 2 },
+            readyAt: now,
+          },
+        ],
+      },
+    };
+
+    expect(getTreeReadyAt(tree, game)).toBeCloseTo(now + BASE_MS / 2, 0);
+  });
+
+  it("speeds recovery 1.35× with an active Badger Shrine", () => {
+    const tree: Tree = {
+      wood: { choppedAt: now, baseDurationMs: BASE_MS },
+      x: 1,
+      y: 1,
+    };
+    const game: GameState = {
+      ...INITIAL_FARM,
+      collectibles: {
+        "Badger Shrine": [
+          {
+            id: "1",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now,
+          },
+        ],
+      },
+    };
+
+    expect(getTreeReadyAt(tree, game)).toBeCloseTo(now + BASE_MS / 1.35, 0);
+  });
+
+  it("canChop respects the windowed ready time", () => {
+    const tree: Tree = {
+      wood: { choppedAt: now, baseDurationMs: BASE_MS },
+      x: 1,
+      y: 1,
+    };
+    const game: GameState = {
+      ...INITIAL_FARM,
+      collectibles: {
+        "Timber Hourglass": [
+          {
+            id: "1",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now,
+          },
+        ],
+      },
+    };
+    const readyAt = getTreeReadyAt(tree, game);
+
+    expect(canChop(tree, game, readyAt - 1)).toBe(false);
+    expect(canChop(tree, game, readyAt + 1)).toBe(true);
+  });
+
+  it("falls back to base recovery for a legacy tree (no baseDurationMs)", () => {
+    const tree: Tree = { wood: { choppedAt: now }, x: 1, y: 1 };
+    expect(getTreeReadyAt(tree, INITIAL_FARM)).toEqual(now + BASE_MS);
+  });
+});
+
+describe("getTreeReadyAt — baseDurationMs is a permanent per-tree marker", () => {
+  const BASE_MS = TREE_RECOVERY_TIME * 1000;
+  const originalNetwork = CONFIG.NETWORK;
+
+  beforeEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+  });
+  afterEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+  });
+
+  it("keeps using baseDurationMs with SPEED_BOOSTS off (no rollback to full base)", () => {
+    // A tree chopped while the flag was on stored its real choppedAt + a
+    // permanent-boost-only baseDurationMs (here half the base). With the flag
+    // off it must STILL ready at choppedAt + baseDurationMs, not choppedAt +
+    // full base recovery — the marker is intentionally flag-independent.
+    const tree: Tree = {
+      wood: { choppedAt: now, baseDurationMs: BASE_MS / 2 },
+      x: 1,
+      y: 1,
+    };
+
+    expect(getTreeReadyAt(tree, INITIAL_FARM)).toEqual(now + BASE_MS / 2);
   });
 });
