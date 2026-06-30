@@ -24,6 +24,7 @@ const HasTool = (inventory: Partial<Record<InventoryItemName, Decimal>>) => {
 };
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
+const selectGame = (state: MachineState) => state.context.state;
 
 // Cheap field comparator (avoids per-frame JSON.stringify in a resource-heavy
 // scene). Single-use nodes only change via mine/move, so these fields suffice.
@@ -74,6 +75,7 @@ export const AscensionCrystal: React.FC<Props> = ({ id }) => {
     };
   }, []);
 
+  const game = useSelector(gameService, selectGame);
   const resource = useSelector(
     gameService,
     (state) => state.context.state.ascensionCrystals[id],
@@ -90,7 +92,7 @@ export const AscensionCrystal: React.FC<Props> = ({ id }) => {
   if (!resource) return null;
 
   const hasTool = HasTool(inventory);
-  const mined = !canMine(resource, "Ascension Crystal");
+  const mined = !canMine(resource, "Ascension Crystal", game);
 
   const strike = () => {
     if (!hasTool) return;

@@ -1,14 +1,6 @@
-import type { Collectibles, Rock } from "features/game/types/game";
+import type { Collectibles } from "features/game/types/game";
 import isEqual from "lodash.isequal";
 import { getObjectEntries } from "lib/object";
-
-export function canMine(
-  rock: Rock,
-  recoveryTime: number,
-  now: number = Date.now(),
-) {
-  return now - rock.stone.minedAt >= recoveryTime * 1000;
-}
 
 interface ResourceObject {
   [id: string]: {

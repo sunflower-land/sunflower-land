@@ -5,13 +5,16 @@ import {
   workAccruedAt,
   CROP_PLOT_BOOST_SPEED,
   TREE_BOOST_SPEED,
+  MINE_BOOST_SPEED,
   getTreeBoostWindows,
+  getMineBoostWindows,
   appendBoostHistory,
   type BoostWindow,
 } from "./boostWindows";
 import { EXPIRY_COOLDOWNS } from "./collectibleBuilt";
 import { TEST_FARM } from "./constants";
 import type { GameState } from "../types/game";
+import type { RockName } from "../types/resources";
 
 const HOUR = 60 * 60 * 1000;
 
@@ -464,5 +467,280 @@ describe("getTreeBoostWindows", () => {
 
   it("returns no windows when none are placed", () => {
     expect(getTreeBoostWindows(TEST_FARM)).toEqual([]);
+  });
+});
+
+describe("MINE_BOOST_SPEED", () => {
+  it("has the exact tuned multipliers", () => {
+    expect(MINE_BOOST_SPEED).toEqual({
+      "Super Totem": 2,
+      "Time Warp Totem": 2,
+      "Ore Hourglass": 2,
+      "Badger Shrine": 1.35,
+      "Mole Shrine": 1.35,
+    });
+  });
+});
+
+describe("getMineBoostWindows", () => {
+  const createdAt = 1_000_000;
+
+  const withCollectibles = (
+    collectibles: GameState["collectibles"],
+  ): GameState => ({
+    ...TEST_FARM,
+    collectibles: { ...TEST_FARM.collectibles, ...collectibles },
+  });
+
+  const placed = (id: string) => [
+    { id, coordinates: { x: 0, y: 0 }, createdAt },
+  ];
+
+  describe("Stone Rock", () => {
+    it("includes the Super Totem at speed 2", () => {
+      const windows = getMineBoostWindows(
+        withCollectibles({ "Super Totem": placed("1") }),
+        "Stone Rock",
+      );
+
+      expect(windows).toContainEqual({
+        from: createdAt,
+        to: createdAt + EXPIRY_COOLDOWNS["Super Totem"],
+        speed: MINE_BOOST_SPEED["Super Totem"],
+      });
+    });
+
+    it("includes the Badger Shrine at speed 1.35", () => {
+      const windows = getMineBoostWindows(
+        withCollectibles({ "Badger Shrine": placed("1") }),
+        "Stone Rock",
+      );
+
+      expect(windows).toContainEqual({
+        from: createdAt,
+        to: createdAt + EXPIRY_COOLDOWNS["Badger Shrine"],
+        speed: MINE_BOOST_SPEED["Badger Shrine"],
+      });
+    });
+
+    it("includes the Ore Hourglass at speed 2", () => {
+      const windows = getMineBoostWindows(
+        withCollectibles({ "Ore Hourglass": placed("1") }),
+        "Stone Rock",
+      );
+
+      expect(windows).toContainEqual({
+        from: createdAt,
+        to: createdAt + EXPIRY_COOLDOWNS["Ore Hourglass"],
+        speed: MINE_BOOST_SPEED["Ore Hourglass"],
+      });
+    });
+
+    it("merges both totems into a single 2× window (no stacking)", () => {
+      const windows = getMineBoostWindows(
+        withCollectibles({
+          "Super Totem": [{ id: "1", coordinates: { x: 0, y: 0 }, createdAt }],
+          "Time Warp Totem": [
+            { id: "2", coordinates: { x: 1, y: 1 }, createdAt },
+          ],
+        }),
+        "Stone Rock",
+      );
+
+      const totemWindows = windows.filter(
+        (w) => w.speed === MINE_BOOST_SPEED["Super Totem"],
+      );
+      expect(totemWindows).toEqual([
+        {
+          from: createdAt,
+          to: createdAt + EXPIRY_COOLDOWNS["Super Totem"],
+          speed: MINE_BOOST_SPEED["Super Totem"],
+        },
+      ]);
+    });
+
+    it("does NOT include the Mole Shrine (stone uses Badger, not Mole)", () => {
+      const windows = getMineBoostWindows(
+        withCollectibles({ "Mole Shrine": placed("1") }),
+        "Stone Rock",
+      );
+
+      expect(windows).toEqual([]);
+    });
+
+    it("returns no windows when nothing is placed", () => {
+      expect(getMineBoostWindows(TEST_FARM, "Stone Rock")).toEqual([]);
+    });
+  });
+
+  describe.each<RockName>(["Iron Rock", "Gold Rock"])("%s", (rockName) => {
+    it("includes the Mole Shrine at speed 1.35", () => {
+      const windows = getMineBoostWindows(
+        withCollectibles({ "Mole Shrine": placed("1") }),
+        rockName,
+      );
+
+      expect(windows).toContainEqual({
+        from: createdAt,
+        to: createdAt + EXPIRY_COOLDOWNS["Mole Shrine"],
+        speed: MINE_BOOST_SPEED["Mole Shrine"],
+      });
+    });
+
+    it("includes the Ore Hourglass at speed 2", () => {
+      const windows = getMineBoostWindows(
+        withCollectibles({ "Ore Hourglass": placed("1") }),
+        rockName,
+      );
+
+      expect(windows).toContainEqual({
+        from: createdAt,
+        to: createdAt + EXPIRY_COOLDOWNS["Ore Hourglass"],
+        speed: MINE_BOOST_SPEED["Ore Hourglass"],
+      });
+    });
+
+    it("merges both totems into a single 2× window (no stacking)", () => {
+      const windows = getMineBoostWindows(
+        withCollectibles({
+          "Super Totem": [{ id: "1", coordinates: { x: 0, y: 0 }, createdAt }],
+          "Time Warp Totem": [
+            { id: "2", coordinates: { x: 1, y: 1 }, createdAt },
+          ],
+        }),
+        rockName,
+      );
+
+      const totemWindows = windows.filter(
+        (w) => w.speed === MINE_BOOST_SPEED["Super Totem"],
+      );
+      expect(totemWindows).toEqual([
+        {
+          from: createdAt,
+          to: createdAt + EXPIRY_COOLDOWNS["Super Totem"],
+          speed: MINE_BOOST_SPEED["Super Totem"],
+        },
+      ]);
+    });
+
+    it("does NOT include the Badger Shrine (iron/gold use Mole, not Badger)", () => {
+      const windows = getMineBoostWindows(
+        withCollectibles({ "Badger Shrine": placed("1") }),
+        rockName,
+      );
+
+      expect(windows).toEqual([]);
+    });
+  });
+
+  describe("Crimstone Rock", () => {
+    it("includes the Mole Shrine at speed 1.35", () => {
+      const windows = getMineBoostWindows(
+        withCollectibles({ "Mole Shrine": placed("1") }),
+        "Crimstone Rock",
+      );
+
+      expect(windows).toEqual([
+        {
+          from: createdAt,
+          to: createdAt + EXPIRY_COOLDOWNS["Mole Shrine"],
+          speed: MINE_BOOST_SPEED["Mole Shrine"],
+        },
+      ]);
+    });
+
+    it("does NOT include totems, Ore Hourglass or Badger Shrine", () => {
+      const windows = getMineBoostWindows(
+        withCollectibles({
+          "Super Totem": placed("1"),
+          "Time Warp Totem": [
+            { id: "2", coordinates: { x: 1, y: 1 }, createdAt },
+          ],
+          "Ore Hourglass": [
+            { id: "3", coordinates: { x: 2, y: 2 }, createdAt },
+          ],
+          "Badger Shrine": [
+            { id: "4", coordinates: { x: 3, y: 3 }, createdAt },
+          ],
+        }),
+        "Crimstone Rock",
+      );
+
+      expect(windows).toEqual([]);
+    });
+  });
+
+  describe("Sunstone Rock", () => {
+    it("always returns [] regardless of placed collectibles", () => {
+      const windows = getMineBoostWindows(
+        withCollectibles({
+          "Super Totem": placed("1"),
+          "Time Warp Totem": [
+            { id: "2", coordinates: { x: 1, y: 1 }, createdAt },
+          ],
+          "Ore Hourglass": [
+            { id: "3", coordinates: { x: 2, y: 2 }, createdAt },
+          ],
+          "Badger Shrine": [
+            { id: "4", coordinates: { x: 3, y: 3 }, createdAt },
+          ],
+          "Mole Shrine": [{ id: "5", coordinates: { x: 4, y: 4 }, createdAt }],
+        }),
+        "Sunstone Rock",
+      );
+
+      expect(windows).toEqual([]);
+    });
+  });
+
+  describe("tier-2/3 names map to the base family", () => {
+    it("Fused Stone Rock behaves like Stone Rock (gets Badger, not Mole)", () => {
+      const game = withCollectibles({
+        "Badger Shrine": placed("1"),
+        "Mole Shrine": [{ id: "2", coordinates: { x: 1, y: 1 }, createdAt }],
+      });
+
+      expect(getMineBoostWindows(game, "Fused Stone Rock")).toEqual(
+        getMineBoostWindows(game, "Stone Rock"),
+      );
+      // Stone family → Badger present, Mole absent.
+      expect(getMineBoostWindows(game, "Fused Stone Rock")).toContainEqual({
+        from: createdAt,
+        to: createdAt + EXPIRY_COOLDOWNS["Badger Shrine"],
+        speed: MINE_BOOST_SPEED["Badger Shrine"],
+      });
+    });
+
+    it("Prime Gold Rock behaves like Gold Rock (gets Mole, not Badger)", () => {
+      const game = withCollectibles({
+        "Mole Shrine": placed("1"),
+        "Badger Shrine": [{ id: "2", coordinates: { x: 1, y: 1 }, createdAt }],
+      });
+
+      expect(getMineBoostWindows(game, "Prime Gold Rock")).toEqual(
+        getMineBoostWindows(game, "Gold Rock"),
+      );
+      expect(getMineBoostWindows(game, "Prime Gold Rock")).toContainEqual({
+        from: createdAt,
+        to: createdAt + EXPIRY_COOLDOWNS["Mole Shrine"],
+        speed: MINE_BOOST_SPEED["Mole Shrine"],
+      });
+    });
+
+    it("Refined Iron Rock behaves like Iron Rock (gets Mole, not Badger)", () => {
+      const game = withCollectibles({
+        "Mole Shrine": placed("1"),
+        "Badger Shrine": [{ id: "2", coordinates: { x: 1, y: 1 }, createdAt }],
+      });
+
+      expect(getMineBoostWindows(game, "Refined Iron Rock")).toEqual(
+        getMineBoostWindows(game, "Iron Rock"),
+      );
+      expect(getMineBoostWindows(game, "Refined Iron Rock")).toContainEqual({
+        from: createdAt,
+        to: createdAt + EXPIRY_COOLDOWNS["Mole Shrine"],
+        speed: MINE_BOOST_SPEED["Mole Shrine"],
+      });
+    });
   });
 });

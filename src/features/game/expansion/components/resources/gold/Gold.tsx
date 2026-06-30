@@ -20,9 +20,30 @@ import { useNow } from "lib/utils/hooks/useNow";
 import { Transition } from "@headlessui/react";
 import lightning from "assets/icons/lightning.png";
 import { KNOWN_IDS } from "features/game/types";
+import {
+  computeReadyAt,
+  getEffectiveSpeedAt,
+  getMineBoostWindows,
+  workAccruedAt,
+  type BoostWindow,
+} from "features/game/lib/boostWindows";
 
 const HITS = 3;
 const tool = "Iron Pickaxe";
+
+// Field comparator for the mine boost windows so the selector skips re-renders
+// without allocating JSON strings per rock on every service update.
+const areBoostWindowsEqual = (a: BoostWindow[], b: BoostWindow[]) =>
+  a.length === b.length &&
+  a.every((window, index) => {
+    const other = b[index];
+    return (
+      other !== undefined &&
+      window.from === other.from &&
+      window.to === other.to &&
+      window.speed === other.speed
+    );
+  });
 
 const HasTool = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
@@ -103,13 +124,59 @@ export const Gold: React.FC<Props> = ({ id }) => {
   const season = useSelector(gameService, _selectSeason);
   const island = useSelector(gameService, _selectIsland);
   const farmId = useSelector(gameService, selectFarmId);
-  const readyAt = resource.stone.minedAt + GOLD_RECOVERY_TIME * 1000;
-  const now = useNow({ live: true, autoEndAt: readyAt });
+  const goldRockName = (resource.name ?? "Gold Rock") as GoldRockName;
+  // Live windowed mine-recovery speed boosts (Ore Hourglass, Mole Shrine,
+  // totems). Recomputed from full state but only re-renders when the windows
+  // actually change, so the countdown reacts to boosters placed/expired mid-recover.
+  const mineBoostWindows = useSelector(
+    gameService,
+    (state) => getMineBoostWindows(state.context.state, goldRockName),
+    areBoostWindowsEqual,
+  );
 
   const hasTool = HasTool(inventory, resource);
-  const goldRockName = (resource.name ?? "Gold Rock") as GoldRockName;
-  const timeLeft = getTimeLeft(resource.stone.minedAt, GOLD_RECOVERY_TIME, now);
-  const mined = !canMine(resource, goldRockName);
+
+  const { minedAt, baseDurationMs } = resource.stone;
+  // Speed-rate model (baseDurationMs set): derive the ready time live from the
+  // boost windows. Legacy rocks use the back-dated minedAt + base recovery.
+  const readyAt =
+    baseDurationMs !== undefined
+      ? computeReadyAt({
+          startedAt: minedAt,
+          baseDurationMs,
+          windows: mineBoostWindows,
+        })
+      : minedAt + GOLD_RECOVERY_TIME * 1000;
+
+  // Coarse 1s clock to pick the current boost speed; only windowed rocks are
+  // boosted. Tick the countdown faster (1000/speed) so it drops ~1s per visual
+  // tick rather than jumping by `speed` each second.
+  const tickNow = useNow({
+    live: baseDurationMs !== undefined,
+    autoEndAt: readyAt,
+  });
+  const speed =
+    baseDurationMs !== undefined
+      ? getEffectiveSpeedAt({ at: tickNow, windows: mineBoostWindows })
+      : 1;
+  const intervalMs = Math.max(Math.round(1000 / Math.max(speed, 1)), 250);
+  const now = useNow({ live: true, autoEndAt: readyAt, intervalMs });
+  // For windowed rocks the remaining time is remaining *work* (in base
+  // duration), so it visibly ticks down faster while a boost window is active.
+  const timeLeft =
+    baseDurationMs !== undefined
+      ? Math.max(
+          (baseDurationMs -
+            workAccruedAt({
+              startedAt: minedAt,
+              at: now,
+              windows: mineBoostWindows,
+            })) /
+            1000,
+          0,
+        )
+      : getTimeLeft(resource.stone.minedAt, GOLD_RECOVERY_TIME, now);
+  const mined = !canMine(resource, goldRockName, state, now);
 
   const [isAnimationRunning, setIsAnimationRunning] = useState(false);
   const [isRecentlyMined, setIsRecentlyMined] = useState(false);
@@ -232,6 +299,7 @@ export const Gold: React.FC<Props> = ({ id }) => {
           island={island}
           timeLeft={timeLeft}
           name={goldRockName}
+          speed={speed}
         />
       )}
     </div>

@@ -4,6 +4,7 @@ import { canMine } from "features/game/lib/resourceNodes";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import type { BoostName, GameState } from "features/game/types/game";
 import { produce } from "immer";
+import { hasFeatureAccess } from "lib/flags";
 
 export type MineSunstoneAction = {
   type: "sunstoneRock.mined";
@@ -21,6 +22,27 @@ export enum EVENT_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin",
   NO_SUNSTONE = "No sunstone rock found.",
   STILL_RECOVERING = "Sunstone is still recovering",
+}
+
+/**
+ * The mine time to persist, plus (under SPEED_BOOSTS) the base recovery duration.
+ *
+ * Sunstone has no recovery boosts, so the legacy model simply stores the real
+ * `minedAt`. Speed-rate model (SPEED_BOOSTS): also persist a `baseDurationMs` so
+ * the read path (getMineReadyAt) derives readiness live from the mine windows.
+ */
+export function getMinedAt({
+  createdAt,
+  game,
+}: {
+  createdAt: number;
+  game: GameState;
+}): { time: number; baseDurationMs?: number } {
+  if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
+    return { time: createdAt, baseDurationMs: SUNSTONE_RECOVERY_TIME * 1000 };
+  }
+
+  return { time: createdAt };
 }
 
 export function mineSunstone({
@@ -46,7 +68,7 @@ export function mineSunstone({
       throw new Error("Sunstone rock is not placed");
     }
 
-    if (!canMine(sunstoneRock, "Sunstone Rock", createdAt)) {
+    if (!canMine(sunstoneRock, "Sunstone Rock", stateCopy, createdAt)) {
       throw new Error(EVENT_ERRORS.STILL_RECOVERING);
     }
 
@@ -59,9 +81,17 @@ export function mineSunstone({
     const sunstoneMined = 1;
     const amountInInventory = stateCopy.inventory.Sunstone || new Decimal(0);
 
-    sunstoneRock.stone = {
-      minedAt: createdAt,
-    };
+    const { time, baseDurationMs } = getMinedAt({
+      createdAt,
+      game: stateCopy,
+    });
+
+    sunstoneRock.stone = { minedAt: time };
+    if (baseDurationMs !== undefined) {
+      // Speed-rate model: real minedAt + base recovery duration so readiness is
+      // derived live from the mine windows.
+      sunstoneRock.stone.baseDurationMs = baseDurationMs;
+    }
 
     stateCopy.inventory["Gold Pickaxe"] = toolAmount.sub(1);
     stateCopy.inventory.Sunstone = amountInInventory.add(sunstoneMined);

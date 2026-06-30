@@ -3,8 +3,10 @@ import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { INITIAL_FARM, STONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { KNOWN_IDS } from "features/game/types";
-import type { GameState } from "features/game/types/game";
+import type { GameState, Rock } from "features/game/types/game";
 import { prngChance } from "lib/prng";
+import { CONFIG } from "lib/config";
+import { getMineReadyAt } from "features/game/lib/resourceNodes";
 import {
   mineStone,
   type LandExpansionStoneMineAction,
@@ -38,8 +40,19 @@ const GAME_STATE: GameState = {
 };
 
 describe("mineStone", () => {
+  // These tests assert the LEGACY back-dated recovery (the discount is baked into
+  // minedAt/boostedTime at mine time). FE jest runs on amoy where SPEED_BOOSTS is
+  // on, so force the flag off here; the windowed model is covered in its own
+  // describe.
+  const originalNetwork = CONFIG.NETWORK;
   beforeAll(() => {
     jest.useFakeTimers();
+  });
+  beforeEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+  });
+  afterEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
   });
 
   const itemId = KNOWN_IDS["Stone Rock"];
@@ -712,7 +725,9 @@ describe("mineStone", () => {
           0: {
             createdAt: now,
             stone: {
-              minedAt: now - STONE_RECOVERY_TIME * 1000,
+              // 1ms past the recovery boundary so the legacy rock is ready
+              // (canMine is strictly `now > readyAt`).
+              minedAt: now - STONE_RECOVERY_TIME * 1000 - 1,
               boostedTime,
             },
             x: 1,
@@ -1781,5 +1796,218 @@ describe("mineStone", () => {
       // Counter should increment from the high value, not reset
       expect(result.farmActivity["Stone Rock Mined"]).toEqual(highCounter + 1);
     });
+  });
+});
+
+describe("mineStone — SPEED_BOOSTS speed windows", () => {
+  const ONE_HOUR = 60 * 60 * 1000;
+  const BASE_MS = STONE_RECOVERY_TIME * 1000;
+  const originalNetwork = CONFIG.NETWORK;
+
+  beforeEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
+  });
+  afterEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+  });
+
+  const mineFirstStone = (state: GameState) =>
+    mineStone({
+      state: {
+        ...state,
+        inventory: { ...state.inventory, Pickaxe: new Decimal(1) },
+      },
+      createdAt: now,
+      action: { type: "stoneRock.mined", index: "0" },
+      farmId,
+    });
+
+  it("stores the real mine time + base recovery (no back-dating) with no boosts", () => {
+    const game = mineFirstStone({ ...GAME_STATE, bumpkin: TEST_BUMPKIN });
+
+    expect(game.stones[0].stone.minedAt).toEqual(now);
+    expect(game.stones[0].stone.baseDurationMs).toEqual(BASE_MS);
+    expect(game.stones[0].stone.boostedTime).toEqual(0);
+  });
+
+  it("folds a permanent Speed Miner boost into baseDurationMs, not back-dating", () => {
+    const game = mineFirstStone({
+      ...GAME_STATE,
+      bumpkin: { ...TEST_BUMPKIN, skills: { "Speed Miner": 1 } },
+    });
+
+    expect(game.stones[0].stone.minedAt).toEqual(now);
+    expect(game.stones[0].stone.baseDurationMs).toEqual(BASE_MS * 0.8);
+    expect(game.stones[0].stone.boostedTime).toEqual(0);
+  });
+
+  it("excludes a temporary Ore Hourglass from baseDurationMs (applied as a window)", () => {
+    const game = mineFirstStone({
+      ...GAME_STATE,
+      bumpkin: TEST_BUMPKIN,
+      collectibles: {
+        "Ore Hourglass": [
+          {
+            id: "1",
+            createdAt: now - 100,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now - 100,
+          },
+        ],
+      },
+    });
+
+    // Not reduced — the 2× is derived live over the recovery instead.
+    expect(game.stones[0].stone.minedAt).toEqual(now);
+    expect(game.stones[0].stone.baseDurationMs).toEqual(BASE_MS);
+  });
+
+  it("recovers 2× faster with an active Ore Hourglass (getMineReadyAt)", () => {
+    const rock: Rock = {
+      stone: { minedAt: now, baseDurationMs: BASE_MS },
+      x: 1,
+      y: 1,
+    };
+    const game: GameState = {
+      ...INITIAL_FARM,
+      collectibles: {
+        "Ore Hourglass": [
+          {
+            id: "1",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now,
+          },
+        ],
+      },
+    };
+
+    expect(getMineReadyAt(rock, "Stone Rock", game)).toBeCloseTo(
+      now + BASE_MS / 2,
+      0,
+    );
+  });
+
+  it("recovers 1.35× faster with an active Badger Shrine (getMineReadyAt)", () => {
+    const rock: Rock = {
+      stone: { minedAt: now, baseDurationMs: BASE_MS },
+      x: 1,
+      y: 1,
+    };
+    const game: GameState = {
+      ...INITIAL_FARM,
+      collectibles: {
+        "Badger Shrine": [
+          {
+            id: "1",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now,
+          },
+        ],
+      },
+    };
+
+    expect(getMineReadyAt(rock, "Stone Rock", game)).toBeCloseTo(
+      now + BASE_MS / 1.35,
+      0,
+    );
+  });
+
+  it("credits only the overlap for an Ore Hourglass placed mid-recovery (retroactive)", () => {
+    // Mined 1h ago with no boost: 1h of work already accrued at 1×.
+    const rock: Rock = {
+      stone: { minedAt: now - ONE_HOUR, baseDurationMs: BASE_MS },
+      x: 1,
+      y: 1,
+    };
+    const game: GameState = {
+      ...INITIAL_FARM,
+      collectibles: {
+        "Ore Hourglass": [
+          {
+            id: "1",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now,
+          },
+        ],
+      },
+    };
+
+    // Remaining work (BASE_MS - 1h) now accrues at 2×.
+    expect(getMineReadyAt(rock, "Stone Rock", game)).toBeCloseTo(
+      now + (BASE_MS - ONE_HOUR) / 2,
+      0,
+    );
+  });
+
+  it("merges Super Totem & Time Warp Totem so they don't stack (2×, not 4×)", () => {
+    const rock: Rock = {
+      stone: { minedAt: now, baseDurationMs: BASE_MS },
+      x: 1,
+      y: 1,
+    };
+    const game: GameState = {
+      ...INITIAL_FARM,
+      collectibles: {
+        "Super Totem": [
+          {
+            id: "1",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now,
+          },
+        ],
+        "Time Warp Totem": [
+          {
+            id: "2",
+            createdAt: now,
+            coordinates: { x: 2, y: 2 },
+            readyAt: now,
+          },
+        ],
+      },
+    };
+
+    expect(getMineReadyAt(rock, "Stone Rock", game)).toBeCloseTo(
+      now + BASE_MS / 2,
+      0,
+    );
+  });
+
+  it("falls back to base recovery for a legacy rock (no baseDurationMs)", () => {
+    const rock: Rock = { stone: { minedAt: now }, x: 1, y: 1 };
+    expect(getMineReadyAt(rock, "Stone Rock", INITIAL_FARM)).toEqual(
+      now + BASE_MS,
+    );
+  });
+});
+
+describe("getMineReadyAt — baseDurationMs is a permanent per-rock marker (stone)", () => {
+  const BASE_MS = STONE_RECOVERY_TIME * 1000;
+  const originalNetwork = CONFIG.NETWORK;
+
+  beforeEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+  });
+  afterEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+  });
+
+  it("keeps using baseDurationMs with SPEED_BOOSTS off (no rollback to full base)", () => {
+    // A rock mined while the flag was on stored its real minedAt + a
+    // permanent-boost-only baseDurationMs (here half the base). With the flag off
+    // it must STILL ready at minedAt + baseDurationMs, not minedAt + full base
+    // recovery — the marker is intentionally flag-independent.
+    const rock: Rock = {
+      stone: { minedAt: now, baseDurationMs: BASE_MS / 2 },
+      x: 1,
+      y: 1,
+    };
+
+    expect(getMineReadyAt(rock, "Stone Rock", INITIAL_FARM)).toEqual(
+      now + BASE_MS / 2,
+    );
   });
 });
