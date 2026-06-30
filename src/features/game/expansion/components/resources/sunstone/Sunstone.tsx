@@ -49,19 +49,6 @@ const areBoostWindowsEqual = (a: BoostWindow[], b: BoostWindow[]) =>
     );
   });
 
-export const getSunstoneStage = (minesLeft: number) => {
-  if (minesLeft === 10) return 1;
-  if (minesLeft === 9) return 2;
-  if (minesLeft === 8) return 3;
-  if (minesLeft === 7) return 4;
-  if (minesLeft === 6) return 5;
-  if (minesLeft === 5) return 6;
-  if (minesLeft === 4) return 7;
-  if (minesLeft === 3) return 8;
-  if (minesLeft === 2) return 9;
-  return 10;
-};
-
 interface Props {
   id: string;
   index: number;

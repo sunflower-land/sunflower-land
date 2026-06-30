@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
-import { getSunstoneStage } from "../Sunstone";
+import { getSunstoneStage } from "../getSunstoneStage";
 import sunstone_1 from "assets/resources/sunstone/sunstone_rock_1.webp";
 import sunstone_2 from "assets/resources/sunstone/sunstone_rock_2.webp";
 import sunstone_3 from "assets/resources/sunstone/sunstone_rock_3.webp";
