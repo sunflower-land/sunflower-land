@@ -23,8 +23,6 @@ import calendar from "assets/icons/calendar.webp";
 import sunshower from "assets/icons/sunshower.webp";
 import fishFrenzy from "assets/icons/fish_frenzy.webp";
 import Decimal from "decimal.js-light";
-import { getObjectEntries } from "lib/object";
-import { isCollectibleBuilt } from "../lib/collectibleBuilt";
 
 export type CalendarEventName = "unknown" | "calendar" | SeasonalEventName;
 
@@ -371,45 +369,3 @@ export const isFullMoon = (game: GameState) =>
 
 export const isFishFrenzy = (game: GameState) =>
   getActiveCalendarEvent({ calendar: game.calendar }) === "fishFrenzy";
-
-type SeasonGuardianName = Extract<
-  InventoryItemName,
-  "Winter Guardian" | "Spring Guardian" | "Autumn Guardian" | "Summer Guardian"
->;
-
-export const GUARDIAN_BOOST: Record<
-  SeasonGuardianName,
-  { season: TemperateSeasonName }
-> = {
-  "Spring Guardian": {
-    season: "spring",
-  },
-  "Summer Guardian": {
-    season: "summer",
-  },
-  "Autumn Guardian": {
-    season: "autumn",
-  },
-  "Winter Guardian": {
-    season: "winter",
-  },
-};
-
-export const getActiveGuardian = ({
-  game,
-}: {
-  game: GameState;
-}): {
-  activeGuardian: SeasonGuardianName | undefined;
-} => {
-  const guardian = getObjectEntries(GUARDIAN_BOOST).find(
-    ([guardian, { season }]) =>
-      season === game.season.season &&
-      isCollectibleBuilt({ game, name: guardian }),
-  );
-
-  if (!guardian) return { activeGuardian: undefined };
-
-  const [guardianName] = guardian;
-  return { activeGuardian: guardianName };
-};

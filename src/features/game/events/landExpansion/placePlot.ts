@@ -3,6 +3,10 @@ import type { ResourceName } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
+import {
+  getCropPlotBoostWindows,
+  workAccruedAt,
+} from "features/game/lib/boostWindows";
 
 export type PlacePlotAction = {
   type: "plot.placed";
@@ -46,9 +50,27 @@ export function placePlot({
       };
 
       if (updatedPlot.crop && updatedPlot.removedAt) {
-        const existingProgress =
-          updatedPlot.removedAt - updatedPlot.crop.plantedAt;
-        updatedPlot.crop.plantedAt = createdAt - existingProgress;
+        const crop = updatedPlot.crop;
+
+        if (crop.baseDurationMs !== undefined) {
+          // Windowed crop: "pause" growth across the lift. Bank the work accrued
+          // before removal (already done, so it isn't redone), then resume the
+          // remaining work from now against the current windows. `boostedTime`
+          // keeps the pre-lift progress for the growth bar; `baseDurationMs`
+          // holds the remaining work that still has to accrue.
+          const banked = workAccruedAt({
+            startedAt: crop.plantedAt,
+            at: updatedPlot.removedAt,
+            windows: getCropPlotBoostWindows(game),
+          });
+          crop.baseDurationMs = Math.max(crop.baseDurationMs - banked, 0);
+          crop.boostedTime = (crop.boostedTime ?? 0) + banked;
+          crop.plantedAt = createdAt;
+        } else {
+          // Legacy crop: back-date plantedAt so the lifted interval doesn't count.
+          const existingProgress = updatedPlot.removedAt - crop.plantedAt;
+          crop.plantedAt = createdAt - existingProgress;
+        }
       }
       delete updatedPlot.removedAt;
 

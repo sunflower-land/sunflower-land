@@ -25,7 +25,7 @@ const usernameFeatureFlag = (game: GameState) => {
 };
 
 const betaFeatureFlag = ({ inventory }: GameState) =>
-  CONFIG.NETWORK === "amoy" || !!inventory["Beta Pass"]?.gt(0);
+  CONFIG.NETWORK === "amoy" || !!inventory?.["Beta Pass"]?.gt(0);
 
 export const testnetFeatureFlag = () => CONFIG.NETWORK === "amoy";
 
@@ -163,6 +163,11 @@ const FEATURE_FLAGS = {
 
   // Saving & re-applying named farm layouts in landscaping mode.
   SAVED_LAYOUTS: betaFeatureFlag,
+
+  // Speed-rate (Clash-of-Clans potion) model for time-based boosts — starting
+  // with the Sparrow Shrine on crops. When on, planting stores the new
+  // baseDurationMs + true plantedAt model; when off, boosts stay discount-at-start.
+  SPEED_BOOSTS: testnetFeatureFlag,
 
   // Importing leftover items from the old home into the new interior.
   HOME_ITEM_MIGRATION: betaFeatureFlag,

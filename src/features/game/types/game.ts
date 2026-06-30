@@ -776,6 +776,13 @@ export type PlantedCrop = {
   reward?: Omit<Reward, "sfl">;
   amount?: number;
   boostedTime?: number;
+  /**
+   * Unboosted-by-windowed-collectibles grow duration (ms), with all other
+   * (discount-at-start) boosts already folded in. Present only on crops planted
+   * under the speed-rate model; its presence selects `computeReadyAt` over the
+   * legacy back-dated `plantedAt`/`boostedTime` readiness check.
+   */
+  baseDurationMs?: number;
 };
 
 export type PlantedFruit = {
@@ -1947,6 +1954,15 @@ export type SpecialBoostName =
 
 export type BoostUsedAt = Partial<Record<BoostName, number>>;
 
+/**
+ * A finalised [from, to] interval during which a temporary boost collectible was
+ * active. Stored in `GameState.boostHistory` so the boost's contribution to
+ * in-progress timers survives the placed record being burned (deleted) or
+ * renewed (createdAt reset). Activity-agnostic — the per-activity speed is
+ * applied when the window is read.
+ */
+export type BoostHistoryWindow = { from: number; to: number };
+
 type ClutterCoordinates = {
   type: ClutterName;
 } & Coordinates;
@@ -2074,6 +2090,7 @@ export interface GameState {
   stock: Inventory;
   stockExpiry: StockExpiry;
   boostsUsedAt?: BoostUsedAt;
+  boostHistory?: Partial<Record<CollectibleName, BoostHistoryWindow[]>>;
 
   // When an item is burnt, what the prize was
   mysteryPrizes: Partial<Record<InventoryItemName, Reveal[]>>;

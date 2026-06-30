@@ -24,6 +24,11 @@ import {
   isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
+import { hasFeatureAccess } from "lib/flags";
+import {
+  computeReadyAt,
+  getCropPlotBoostWindows,
+} from "features/game/lib/boostWindows";
 import {
   SEASONAL_SEEDS,
   type SeedName,
@@ -40,8 +45,8 @@ import { produce } from "immer";
 import {
   type CalendarEventName,
   getActiveCalendarEvent,
-  getActiveGuardian,
 } from "features/game/types/calendar";
+import { getActiveGuardian } from "features/game/lib/getActiveGuardian";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import {
   canUseTimeBoostAOE,
@@ -236,14 +241,30 @@ export function getCropTime({
     name: "Time Warp Totem",
     game,
   });
-  if (hasSuperTotem || hasTimeWarpTotem) {
+  // Totems: under SPEED_BOOSTS they're a windowed 2× speed boost for PLOT crops
+  // (see boostWindows; Super & Time Warp merge so they don't stack), so excluded
+  // from the baked time here. Greenhouse crops and the flag-off path keep the
+  // legacy discount-at-start.
+  const totemsWindowed =
+    hasFeatureAccess(game, "SPEED_BOOSTS") && isPlotCrop(crop);
+  if (!totemsWindowed && (hasSuperTotem || hasTimeWarpTotem)) {
     multiplier = multiplier * 0.5;
     if (hasSuperTotem) boostsUsed.push({ name: "Super Totem", value: "x0.5" });
     else if (hasTimeWarpTotem)
       boostsUsed.push({ name: "Time Warp Totem", value: "x0.5" });
   }
 
-  if (isTemporaryCollectibleActive({ name: "Harvest Hourglass", game })) {
+  // Harvest Hourglass: under SPEED_BOOSTS it's a retroactive speed-rate window
+  // for PLOT crops (see boostWindows), so excluded from the baked time here.
+  // Greenhouse crops aren't on the windowed model yet, so they keep the legacy
+  // discount-at-start (as do all crops when the flag is off). Not recorded in
+  // boostsUsed for the windowed case — contribution is derived over the grow.
+  const harvestHourglassIsWindowed =
+    hasFeatureAccess(game, "SPEED_BOOSTS") && isPlotCrop(crop);
+  if (
+    !harvestHourglassIsWindowed &&
+    isTemporaryCollectibleActive({ name: "Harvest Hourglass", game })
+  ) {
     multiplier = multiplier * 0.75;
     boostsUsed.push({ name: "Harvest Hourglass", value: "x0.75" });
   }
@@ -323,12 +344,27 @@ export const getCropPlotTime = ({
     boostsUsed.push({ name: "Green Thumb", value: "x0.95" });
   }
 
-  if (isTemporaryCollectibleActive({ name: "Sparrow Shrine", game })) {
+  // Under the SPEED_BOOSTS model the Sparrow Shrine is a retroactive speed-rate
+  // window applied at read time (see boostWindows). Without the flag it stays a
+  // legacy discount-at-start multiplier baked in here.
+  // Note: under the flag it is intentionally NOT recorded in `boostsUsed` here —
+  // a windowed boost's contribution is determined over the grow (and may not
+  // apply if the shrine is removed), not at plant time. If analytics ever needs
+  // it, record it at harvest where it actually contributes.
+  if (
+    !hasFeatureAccess(game, "SPEED_BOOSTS") &&
+    isTemporaryCollectibleActive({ name: "Sparrow Shrine", game })
+  ) {
     seconds = seconds * 0.75;
     boostsUsed.push({ name: "Sparrow Shrine", value: "x0.75" });
   }
 
-  if (isBuffActive({ buff: "Power hour", game, now: createdAt })) {
+  // Power hour: under SPEED_BOOSTS it's a windowed 2× speed boost for plot crops
+  // (see boostWindows); legacy / flag-off keeps the discount-at-start here.
+  if (
+    !hasFeatureAccess(game, "SPEED_BOOSTS") &&
+    isBuffActive({ buff: "Power hour", game, now: createdAt })
+  ) {
     seconds = seconds * 0.5;
     boostsUsed.push({ name: "Power hour", value: "x0.5" });
   }
@@ -400,7 +436,11 @@ export const getCropPlotTime = ({
     boostsUsed.push({ name: "Giant Turnip", value: "x0.5" });
   }
 
+  // Sunshower: under SPEED_BOOSTS it's a windowed 2× (4× with a season Guardian)
+  // speed boost for plot crops (see boostWindows); legacy / flag-off bakes the
+  // discount-at-start here.
   const isSunshower =
+    !hasFeatureAccess(game, "SPEED_BOOSTS") &&
     getActiveCalendarEvent({ calendar: game.calendar }) === "sunshower";
 
   if (isSunshower) {
@@ -461,12 +501,22 @@ export const getCropPlotTime = ({
         } else {
           seconds = seconds * 0.8;
         }
+        // Under the speed-rate model the crop is ready when accrued work hits
+        // `seconds`, which the active windows reach sooner — so the AOE frees up
+        // at the windowed ready time, not the raw duration.
+        const aoeWaitTime = hasFeatureAccess(game, "SPEED_BOOSTS")
+          ? computeReadyAt({
+              startedAt: createdAt,
+              baseDurationMs: seconds * 1000,
+              windows: getCropPlotBoostWindows(game),
+            }) - createdAt
+          : seconds * 1000;
         setAOEAvailableAt(
           updatedAoe,
           "Basic Scarecrow",
           { dx, dy },
           createdAt,
-          seconds * 1000,
+          aoeWaitTime,
         );
       }
       boostsUsed.push({ name: "Basic Scarecrow", value: "x0.8" });
@@ -539,7 +589,7 @@ export function plantCropOnPlot({
   aoe: AOE;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  const { inventory, collectibles, bumpkin, crops: plots } = game;
+  const { inventory, crops: plots } = game;
   const plot = plots[plotId];
   const seedCount = inventory[seedItem] || new Decimal(0);
 
@@ -599,20 +649,29 @@ export function plantCropOnPlot({
 
   const updatedPlot: CropPlot = {
     ...plot,
-    crop: {
-      id: cropId,
-      plantedAt: getPlantedAt({
-        crop: cropName,
-        inventory,
-        collectibles,
-        bumpkin,
-        createdAt,
-        plot,
-        boostedTime,
-      }),
-      boostedTime: getBoostedTime({ crop: cropName, boostedTime }),
-      name: cropName,
-    },
+    crop: hasFeatureAccess(game, "SPEED_BOOSTS")
+      ? {
+          id: cropId,
+          // True plant time — Sparrow Shrine speed-up is derived live from
+          // windows rather than baked in by back-dating plantedAt.
+          plantedAt: createdAt,
+          baseDurationMs: boostedTime * 1000,
+          name: cropName,
+        }
+      : {
+          id: cropId,
+          plantedAt: getPlantedAt({
+            crop: cropName,
+            inventory: game.inventory,
+            collectibles: game.collectibles,
+            bumpkin: game.bumpkin,
+            createdAt,
+            plot,
+            boostedTime,
+          }),
+          boostedTime: getBoostedTime({ crop: cropName, boostedTime }),
+          name: cropName,
+        },
   };
 
   return {

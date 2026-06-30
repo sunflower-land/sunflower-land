@@ -27,7 +27,7 @@ export const getPlotsToFertilise = (state: GameState, createdAt: number) => {
     const isEmpty = !plot.crop;
     const isGrowing =
       !!plot.crop &&
-      !isReadyToHarvest(createdAt, plot.crop, CROPS[plot.crop.name]);
+      !isReadyToHarvest(createdAt, plot.crop, CROPS[plot.crop.name], state);
 
     return (
       hasPlacedPosition &&

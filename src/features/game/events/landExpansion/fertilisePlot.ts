@@ -2,7 +2,11 @@ import Decimal from "decimal.js-light";
 import type { GameState } from "../../types/game";
 import type { CropCompostName } from "features/game/types/composters";
 import { CROPS, type Crop, isBasicCrop } from "features/game/types/crops";
-import { isReadyToHarvest } from "./harvest";
+import { getCropReadyAt, isReadyToHarvest } from "./harvest";
+import {
+  getCropPlotBoostWindows,
+  workAccruedAt,
+} from "features/game/lib/boostWindows";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { produce } from "immer";
 import {
@@ -82,15 +86,26 @@ export function applyFertiliserToPlot({
     (fertiliser === "Rapid Root" || fertiliser === "Sproutroot Surprise") &&
     cropDetails
   ) {
-    const { newPlantedAt, timeReduction } = getPlantedAt(
-      fertiliser,
-      crop.plantedAt,
-      createdAt,
-      cropDetails,
-    );
+    if (crop.baseDurationMs !== undefined) {
+      // Speed-rate model: halve the remaining work (in base-duration ms).
+      const accrued = workAccruedAt({
+        startedAt: crop.plantedAt,
+        at: createdAt,
+        windows: getCropPlotBoostWindows(game),
+      });
+      const remainingWork = Math.max(crop.baseDurationMs - accrued, 0);
+      crop.baseDurationMs = crop.baseDurationMs - remainingWork / 2;
+    } else {
+      const { newPlantedAt, timeReduction } = getPlantedAt(
+        fertiliser,
+        crop.plantedAt,
+        createdAt,
+        cropDetails,
+      );
 
-    crop.plantedAt = newPlantedAt;
-    crop.boostedTime = (crop.boostedTime ?? 0) + timeReduction;
+      crop.plantedAt = newPlantedAt;
+      crop.boostedTime = (crop.boostedTime ?? 0) + timeReduction;
+    }
 
     if (
       isCollectibleOnFarm({ name: "Basic Scarecrow", game }) &&
@@ -135,7 +150,7 @@ export function applyFertiliserToPlot({
           "Basic Scarecrow",
           { dx, dy },
           createdAt,
-          crop.plantedAt + cropDetails.harvestSeconds * 1000 - createdAt,
+          getCropReadyAt(crop, cropDetails, game) - createdAt,
         );
       }
     }
@@ -182,7 +197,10 @@ export function fertilisePlot({
     const crop = plot.crop;
     if (crop) {
       const cropDetails = crop && CROPS[crop.name];
-      if (cropDetails && isReadyToHarvest(createdAt, crop, cropDetails)) {
+      if (
+        cropDetails &&
+        isReadyToHarvest(createdAt, crop, cropDetails, stateCopy)
+      ) {
         throw new Error(FERTILISE_CROP_ERRORS.READY_TO_HARVEST);
       }
     }

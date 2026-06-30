@@ -9,6 +9,8 @@ import {
   type InventoryRenewableCollectibleName,
 } from "features/game/lib/renewableCollectibles";
 import { isPetCollectible } from "./placeCollectible";
+import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
+import { appendBoostHistory } from "features/game/lib/boostWindows";
 
 export type RenewCollectibleAction = {
   type: "collectible.renewed";
@@ -75,6 +77,19 @@ export function renewCollectible({
     }
 
     stateCopy.inventory[action.name] = available.sub(1);
+
+    // Preserve the booster's previous active window before its createdAt is reset,
+    // so any in-progress timer it boosted keeps the earned credit (see boostWindows).
+    const previousCreatedAt = collectibleToRenew.createdAt ?? 0;
+    appendBoostHistory(
+      stateCopy,
+      action.name,
+      {
+        from: previousCreatedAt,
+        to: previousCreatedAt + EXPIRY_COOLDOWNS[action.name],
+      },
+      createdAt,
+    );
     collectibleToRenew.createdAt = createdAt;
 
     return stateCopy;

@@ -352,7 +352,12 @@ export function powerSkillDisabledConditions({
       }
       const plotsStatus = Object.values(crops).map((plot) => {
         if (!plot.crop) return "empty";
-        return isReadyToHarvest(Date.now(), plot.crop, CROPS[plot.crop.name])
+        return isReadyToHarvest(
+          createdAt,
+          plot.crop,
+          CROPS[plot.crop.name],
+          state,
+        )
           ? "ready"
           : "growing";
       });

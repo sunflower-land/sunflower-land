@@ -26,6 +26,7 @@ import {
   selectVerified,
 } from "features/game/lib/gameMachine";
 import { isSeasonedPlayer } from "features/game/lib/seasonedPlayer";
+import { getCropPlotBoostWindows } from "features/game/lib/boostWindows";
 import { ZoomContext } from "components/ZoomProvider";
 import { CROP_COMPOST } from "features/game/types/composters";
 import { gameAnalytics } from "lib/gameAnalytics";
@@ -126,10 +127,12 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const now = useNow({ live: true });
   const isSeasoned = isSeasonedPlayer({ game: state, verified, now });
 
+  const cropBoostWindows = getCropPlotBoostWindows(state);
+
   // Calculate expected reward for UI preview (captcha gate for non-seasoned players)
   const expectedReward =
     crop?.reward ??
-    (crop && isReadyToHarvest(now, crop, CROPS[crop.name])
+    (crop && isReadyToHarvest(now, crop, CROPS[crop.name], state)
       ? getReward({
           crop: crop.name,
           skills: state.bumpkin?.skills ?? {},
@@ -211,7 +214,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
   const onClick = (seed: SeedName = selectedItem as SeedName) => {
     const readyToHarvest =
-      !!crop && isReadyToHarvest(now, crop, CROPS[crop.name]);
+      !!crop && isReadyToHarvest(now, crop, CROPS[crop.name], state);
     const wantsToPlant = !crop && seed && isCropSeed(seed);
 
     // small buffer to prevent accidental double clicks
@@ -356,6 +359,8 @@ export const Plot: React.FC<Props> = ({ id }) => {
           procAnimation={procAnimation}
           touchCount={touchCount}
           showTimers={showTimers}
+          boostWindows={cropBoostWindows}
+          now={now}
         />
       </div>
       {reward && (

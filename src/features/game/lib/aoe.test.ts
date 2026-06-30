@@ -1,6 +1,20 @@
 import { CROPS } from "../types/crops";
-import { canUseTimeBoostAOE, canUseYieldBoostAOE } from "./aoe";
-import { IRON_RECOVERY_TIME, STONE_RECOVERY_TIME } from "./constants";
+import {
+  canUseTimeBoostAOE,
+  canUseYieldBoostAOE,
+  refreshBasicScarecrowTimeAOE,
+} from "./aoe";
+import {
+  IRON_RECOVERY_TIME,
+  STONE_RECOVERY_TIME,
+  INITIAL_FARM,
+} from "./constants";
+import {
+  computeReadyAt,
+  getCropPlotBoostWindows,
+  CROP_PLOT_BOOST_SPEED,
+} from "./boostWindows";
+import type { GameState } from "../types/game";
 
 describe("canUseYieldAOE", () => {
   it("returns true for the Emerald Turtle if the boost has not been used", () => {
@@ -149,5 +163,133 @@ describe("canUseTimeBoostAOE", () => {
     );
 
     expect(canUse).toBe(true);
+  });
+});
+
+describe("refreshBasicScarecrowTimeAOE", () => {
+  const now = Date.now();
+  const base = 120_000;
+
+  const gameWith = (overrides: Partial<GameState>): GameState =>
+    ({
+      ...INITIAL_FARM,
+      collectibles: {
+        "Basic Scarecrow": [
+          {
+            id: "s",
+            coordinates: { x: 0, y: 0 },
+            createdAt: now,
+            readyAt: now,
+          },
+        ],
+      },
+      crops: {},
+      aoe: {},
+      ...overrides,
+    }) as GameState;
+
+  it("re-syncs a windowed crop's cell to its boosted ready time", () => {
+    const game = gameWith({
+      collectibles: {
+        "Basic Scarecrow": [
+          {
+            id: "s",
+            coordinates: { x: 0, y: 0 },
+            createdAt: now,
+            readyAt: now,
+          },
+        ],
+        "Sparrow Shrine": [
+          {
+            id: "sh",
+            coordinates: { x: 5, y: 5 },
+            createdAt: now,
+            readyAt: now,
+          },
+        ],
+      },
+      crops: {
+        "1": {
+          createdAt: now,
+          x: 1,
+          y: 0,
+          crop: { name: "Sunflower", plantedAt: now, baseDurationMs: base },
+        },
+      },
+      // Frozen at the un-boosted ready time (stale).
+      aoe: { "Basic Scarecrow": { 1: { 0: now + base } } },
+    });
+
+    refreshBasicScarecrowTimeAOE(game);
+
+    // Recomputed from the live windows...
+    const expected = computeReadyAt({
+      startedAt: now,
+      baseDurationMs: base,
+      windows: getCropPlotBoostWindows(game),
+    });
+    expect(game.aoe["Basic Scarecrow"]![1]![0]).toBe(expected);
+    // ...which, with the 1.35x Sparrow window covering the whole grow, is base/1.35.
+    expect(game.aoe["Basic Scarecrow"]![1]![0]).toBeCloseTo(
+      now + base / CROP_PLOT_BOOST_SPEED["Sparrow Shrine"],
+      0,
+    );
+  });
+
+  it("leaves legacy crops (no baseDurationMs) untouched", () => {
+    const stale = now + base;
+    const game = gameWith({
+      crops: {
+        "1": {
+          createdAt: now,
+          x: 1,
+          y: 0,
+          crop: { name: "Sunflower", plantedAt: now },
+        },
+      },
+      aoe: { "Basic Scarecrow": { 1: { 0: stale } } },
+    });
+
+    refreshBasicScarecrowTimeAOE(game);
+
+    expect(game.aoe["Basic Scarecrow"]![1]![0]).toBe(stale);
+  });
+
+  it("does nothing when there is no Basic Scarecrow", () => {
+    const stale = now + base;
+    const game = gameWith({
+      collectibles: {},
+      crops: {
+        "1": {
+          createdAt: now,
+          x: 1,
+          y: 0,
+          crop: { name: "Sunflower", plantedAt: now, baseDurationMs: base },
+        },
+      },
+      aoe: { "Basic Scarecrow": { 1: { 0: stale } } },
+    });
+
+    refreshBasicScarecrowTimeAOE(game);
+
+    expect(game.aoe["Basic Scarecrow"]![1]![0]).toBe(stale);
+  });
+
+  it("does not create an AOE entry for a cell that has none", () => {
+    const game = gameWith({
+      crops: {
+        "1": {
+          createdAt: now,
+          x: 1,
+          y: 0,
+          crop: { name: "Sunflower", plantedAt: now, baseDurationMs: base },
+        },
+      },
+      aoe: {},
+    });
+
+    refreshBasicScarecrowTimeAOE(game);
+
+    expect(game.aoe["Basic Scarecrow"]?.[1]?.[0]).toBeUndefined();
   });
 });

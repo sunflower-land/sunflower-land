@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { hasFeatureAccess, hasTimeBasedFeatureAccess } from "./flags";
 import { TEST_FARM } from "features/game/lib/constants";
 import { CONFIG } from "./config";
+import type { GameState } from "features/game/types/game";
 
 describe("hasFeatureAccess", () => {
   let previousNetwork: (typeof CONFIG)["NETWORK"];
@@ -34,6 +35,16 @@ describe("hasFeatureAccess", () => {
   it("returns true if on amoy and does not have a beta pass", () => {
     CONFIG.NETWORK = "amoy";
     expect(hasFeatureAccess(TEST_FARM, "JEST_TEST")).toBe(true);
+  });
+
+  // Regression: buff-label/empty-state callers (e.g. the Pet Guide Shrines tab)
+  // invoke feature-gated code with `{} as GameState` (no inventory). On mainnet
+  // the beta flag must read inventory safely and return false, not crash.
+  it("does not throw for a beta feature when the game has no inventory", () => {
+    expect(() =>
+      hasFeatureAccess({} as GameState, "SPEED_BOOSTS"),
+    ).not.toThrow();
+    expect(hasFeatureAccess({} as GameState, "SPEED_BOOSTS")).toBe(false);
   });
 });
 
