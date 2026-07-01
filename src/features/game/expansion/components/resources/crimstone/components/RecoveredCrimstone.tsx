@@ -18,7 +18,7 @@ import crimstone_4 from "assets/resources/crimstone/crimstone_rock_4.webp";
 import crimstone_5 from "assets/resources/crimstone/crimstone_rock_5.webp";
 import { ZoomContext } from "components/ZoomProvider";
 
-import { getCrimstoneStage } from "../Crimstone";
+import { getCrimstoneStage } from "../getCrimstoneStage";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
 
@@ -32,6 +32,7 @@ interface Props {
   touchCount: number;
   minesLeft: number;
   minedAt: number;
+  now: number;
 }
 
 const RecoveredCrimstoneComponent: React.FC<Props> = ({
@@ -39,6 +40,7 @@ const RecoveredCrimstoneComponent: React.FC<Props> = ({
   touchCount,
   minesLeft,
   minedAt,
+  now,
 }) => {
   const { scale } = useContext(ZoomContext);
   const [showEquipTool, setShowEquipTool] = useState(false);
@@ -61,7 +63,7 @@ const RecoveredCrimstoneComponent: React.FC<Props> = ({
     crimstone_3,
     crimstone_4,
     crimstone_5,
-  ][getCrimstoneStage(minesLeft, minedAt) - 1];
+  ][getCrimstoneStage(minesLeft, minedAt, now) - 1];
 
   useEffect(() => {
     if (touchCount > 0) {

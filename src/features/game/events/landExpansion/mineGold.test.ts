@@ -2,8 +2,10 @@ import Decimal from "decimal.js-light";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import { GOLD_RECOVERY_TIME, INITIAL_FARM } from "features/game/lib/constants";
 import { KNOWN_IDS } from "features/game/types";
-import type { GameState } from "features/game/types/game";
+import type { GameState, Rock } from "features/game/types/game";
 import { prngChance } from "lib/prng";
+import { CONFIG } from "lib/config";
+import { getMineReadyAt } from "features/game/lib/resourceNodes";
 import {
   mineGold,
   type LandExpansionGoldMineAction,
@@ -36,6 +38,18 @@ const GAME_STATE: GameState = {
 };
 
 describe("mineGold", () => {
+  // These tests assert the LEGACY back-dated recovery (the discount is baked into
+  // minedAt/boostedTime at mine time). FE jest runs on amoy where SPEED_BOOSTS is
+  // on, so force the flag off here; the windowed model is covered in its own
+  // describe.
+  const originalNetwork = CONFIG.NETWORK;
+  beforeEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+  });
+  afterEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+  });
+
   const itemId = KNOWN_IDS["Gold Rock"];
 
   // Helper to find a counter that doesn't trigger Native
@@ -627,6 +641,60 @@ describe("mineGold", () => {
     expect(game.inventory.Gold).toEqual(new Decimal(1.5));
   });
 
+  it("uses the WINDOWED recovery duration for the yield-AOE budget", () => {
+    // A Super Totem (2× gold) covering the whole recovery halves it: the Emerald
+    // Turtle position frees up after baseDurationMs/2, NOT the full
+    // GOLD_RECOVERY_TIME. Last used exactly baseDurationMs/2 ago, so the AOE
+    // re-applies only if the budget uses the windowed (boosted) duration.
+    const baseDurationMs = GOLD_RECOVERY_TIME * 1000;
+    const windowedDuration = baseDurationMs / 2;
+    const counter = findNonCriticalCounter();
+
+    const game = mineGold({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        bumpkin: TEST_BUMPKIN,
+        inventory: { "Iron Pickaxe": new Decimal(1) },
+        gold: {
+          0: {
+            createdAt: now,
+            stone: { minedAt: now - windowedDuration - 1, baseDurationMs },
+            x: 1,
+            y: 1,
+          },
+        },
+        collectibles: {
+          "Super Totem": [
+            {
+              id: "totem",
+              createdAt: now - windowedDuration - 1,
+              coordinates: { x: 9, y: 9 },
+              readyAt: now - windowedDuration - 1,
+            },
+          ],
+          "Emerald Turtle": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 2, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+        },
+        aoe: { "Emerald Turtle": { "-1": { "0": now - windowedDuration } } },
+        farmActivity: { "Gold Rock Mined": counter },
+      },
+      createdAt: now,
+      action: {
+        type: "goldRock.mined",
+        index: "0",
+      } as LandExpansionGoldMineAction,
+    });
+
+    expect(game.inventory.Gold).toEqual(new Decimal(1.5));
+  });
+
   it("applies the AOE on a gold with boosted time", () => {
     const boostedTime = GOLD_RECOVERY_TIME * 1000 * 0.5;
     const counter = findNonCriticalCounter();
@@ -643,7 +711,9 @@ describe("mineGold", () => {
           0: {
             createdAt: now,
             stone: {
-              minedAt: now - GOLD_RECOVERY_TIME * 1000,
+              // 1ms past the recovery boundary so the legacy rock is ready
+              // (canMine is strictly `now > readyAt`).
+              minedAt: now - GOLD_RECOVERY_TIME * 1000 - 1,
               boostedTime,
             },
             x: 1,
@@ -1591,5 +1661,237 @@ describe("mineGold", () => {
       // Counter should increment from the high value, not reset
       expect(result.farmActivity["Gold Rock Mined"]).toEqual(highCounter + 1);
     });
+  });
+});
+
+describe("mineGold — SPEED_BOOSTS speed windows", () => {
+  const ONE_HOUR = 60 * 60 * 1000;
+  const BASE_MS = GOLD_RECOVERY_TIME * 1000;
+  const originalNetwork = CONFIG.NETWORK;
+
+  beforeEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
+  });
+  afterEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+  });
+
+  const mineFirstGold = (state: GameState) =>
+    mineGold({
+      state: {
+        ...state,
+        inventory: { ...state.inventory, "Iron Pickaxe": new Decimal(1) },
+      },
+      createdAt: now,
+      action: { type: "goldRock.mined", index: "0" },
+      farmId,
+    });
+
+  it("stores the real mine time + base recovery (no back-dating) with no boosts", () => {
+    const game = mineFirstGold({ ...GAME_STATE, bumpkin: TEST_BUMPKIN });
+
+    expect(game.gold[0].stone.minedAt).toEqual(now);
+    expect(game.gold[0].stone.baseDurationMs).toEqual(BASE_MS);
+    expect(game.gold[0].stone.boostedTime).toEqual(0);
+  });
+
+  it("folds a permanent Midas Rush boost into baseDurationMs, not back-dating", () => {
+    const game = mineFirstGold({
+      ...GAME_STATE,
+      bumpkin: { ...TEST_BUMPKIN, skills: { "Midas Rush": 1 } },
+    });
+
+    expect(game.gold[0].stone.minedAt).toEqual(now);
+    expect(game.gold[0].stone.baseDurationMs).toEqual(BASE_MS * 0.8);
+    expect(game.gold[0].stone.boostedTime).toEqual(0);
+  });
+
+  it("excludes a temporary Ore Hourglass from baseDurationMs (applied as a window)", () => {
+    const game = mineFirstGold({
+      ...GAME_STATE,
+      bumpkin: TEST_BUMPKIN,
+      collectibles: {
+        "Ore Hourglass": [
+          {
+            id: "1",
+            createdAt: now - 100,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now - 100,
+          },
+        ],
+      },
+    });
+
+    // Not reduced — derived live over the recovery instead.
+    expect(game.gold[0].stone.minedAt).toEqual(now);
+    expect(game.gold[0].stone.baseDurationMs).toEqual(BASE_MS);
+  });
+
+  it("recovers 2× faster with an active Super Totem (window covers full recovery)", () => {
+    const rock: Rock = {
+      stone: { minedAt: now, baseDurationMs: BASE_MS },
+      x: 1,
+      y: 1,
+    };
+    const game: GameState = {
+      ...INITIAL_FARM,
+      collectibles: {
+        "Super Totem": [
+          {
+            id: "1",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now,
+          },
+        ],
+      },
+    };
+
+    expect(getMineReadyAt(rock, "Gold Rock", game)).toBeCloseTo(
+      now + BASE_MS / 2,
+      0,
+    );
+  });
+
+  it("recovers 1.35× faster with an active Mole Shrine (getMineReadyAt)", () => {
+    const rock: Rock = {
+      stone: { minedAt: now, baseDurationMs: BASE_MS },
+      x: 1,
+      y: 1,
+    };
+    const game: GameState = {
+      ...INITIAL_FARM,
+      collectibles: {
+        "Mole Shrine": [
+          {
+            id: "1",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now,
+          },
+        ],
+      },
+    };
+
+    expect(getMineReadyAt(rock, "Gold Rock", game)).toBeCloseTo(
+      now + BASE_MS / 1.35,
+      0,
+    );
+  });
+
+  it("does NOT speed up gold with a Badger Shrine (stone-only boost)", () => {
+    const rock: Rock = {
+      stone: { minedAt: now, baseDurationMs: BASE_MS },
+      x: 1,
+      y: 1,
+    };
+    const game: GameState = {
+      ...INITIAL_FARM,
+      collectibles: {
+        "Badger Shrine": [
+          {
+            id: "1",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now,
+          },
+        ],
+      },
+    };
+
+    expect(getMineReadyAt(rock, "Gold Rock", game)).toEqual(now + BASE_MS);
+  });
+
+  it("credits only the overlap for a Super Totem placed mid-recovery (retroactive)", () => {
+    // Mined 1h ago with no boost: 1h of work already accrued at 1×.
+    const rock: Rock = {
+      stone: { minedAt: now - ONE_HOUR, baseDurationMs: BASE_MS },
+      x: 1,
+      y: 1,
+    };
+    const game: GameState = {
+      ...INITIAL_FARM,
+      collectibles: {
+        "Super Totem": [
+          {
+            id: "1",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now,
+          },
+        ],
+      },
+    };
+
+    // Remaining work (BASE_MS - 1h) now accrues at 2× (window covers it fully).
+    expect(getMineReadyAt(rock, "Gold Rock", game)).toBeCloseTo(
+      now + (BASE_MS - ONE_HOUR) / 2,
+      0,
+    );
+  });
+
+  it("merges Super Totem & Time Warp Totem so they don't stack (2×, not 4×)", () => {
+    const rock: Rock = {
+      stone: { minedAt: now, baseDurationMs: BASE_MS },
+      x: 1,
+      y: 1,
+    };
+    const game: GameState = {
+      ...INITIAL_FARM,
+      collectibles: {
+        "Super Totem": [
+          {
+            id: "1",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now,
+          },
+        ],
+        "Time Warp Totem": [
+          {
+            id: "2",
+            createdAt: now,
+            coordinates: { x: 2, y: 2 },
+            readyAt: now,
+          },
+        ],
+      },
+    };
+
+    expect(getMineReadyAt(rock, "Gold Rock", game)).toBeCloseTo(
+      now + BASE_MS / 2,
+      0,
+    );
+  });
+
+  it("falls back to base recovery for a legacy rock (no baseDurationMs)", () => {
+    const rock: Rock = { stone: { minedAt: now }, x: 1, y: 1 };
+    expect(getMineReadyAt(rock, "Gold Rock", INITIAL_FARM)).toEqual(
+      now + BASE_MS,
+    );
+  });
+});
+
+describe("getMineReadyAt — baseDurationMs is a permanent per-rock marker (gold)", () => {
+  const BASE_MS = GOLD_RECOVERY_TIME * 1000;
+  const originalNetwork = CONFIG.NETWORK;
+
+  beforeEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+  });
+  afterEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+  });
+
+  it("keeps using baseDurationMs with SPEED_BOOSTS off (no rollback to full base)", () => {
+    const rock: Rock = {
+      stone: { minedAt: now, baseDurationMs: BASE_MS / 2 },
+      x: 1,
+      y: 1,
+    };
+
+    expect(getMineReadyAt(rock, "Gold Rock", INITIAL_FARM)).toEqual(
+      now + BASE_MS / 2,
+    );
   });
 });

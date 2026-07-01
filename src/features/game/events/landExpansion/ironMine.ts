@@ -35,6 +35,8 @@ import {
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
 import { IRON_RECOVERY_TIME } from "features/game/lib/constants";
+import { hasFeatureAccess } from "lib/flags";
+import { canMine, getMineReadyAt } from "features/game/lib/resourceNodes";
 
 export type LandExpansionIronMineAction = {
   type: "ironRock.mined";
@@ -48,16 +50,22 @@ type Options = {
   farmId: number;
 };
 
-// 8 hours
-export function canMine(rock: Rock, now: number = Date.now()) {
-  const recoveryTime = IRON_RECOVERY_TIME;
-  return now - rock.stone.minedAt >= recoveryTime * 1000;
-}
-
 type GetMinedAtArgs = {
   createdAt: number;
   game: GameState;
 };
+
+/**
+ * The iron rock's real recovery duration (ms), for gating the yield-AOE re-use.
+ * Windowed rocks derive it from the live speed windows so an active boost shortens
+ * it to match the actual recovery (matching how legacy rocks folded the discount
+ * into `boostedTime`); legacy rocks keep their back-dated boosted time.
+ */
+function getIronRecoveryDurationMs(rock: Rock, game: GameState): number {
+  return rock.stone.baseDurationMs !== undefined
+    ? getMineReadyAt(rock, "Iron Rock", game) - rock.stone.minedAt
+    : IRON_RECOVERY_TIME * 1000 - (rock?.stone?.boostedTime ?? 0);
+}
 
 /**
  * Single source of truth for iron recovery boosts. Used by both getMinedAt (game) and UI.
@@ -71,6 +79,12 @@ export function getIronRecoveryTimeForDisplay({ game }: { game: GameState }): {
   let totalSeconds = IRON_RECOVERY_TIME;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
+  // Under SPEED_BOOSTS the temporary iron boosts (totems, Ore Hourglass, Mole
+  // Shrine) are retroactive speed-rate windows (see boostWindows), so they're
+  // excluded from the baked recovery here — what remains is the permanent-boost-
+  // only base duration. Flag-off keeps the legacy discount-at-start.
+  const boostsWindowed = hasFeatureAccess(game, "SPEED_BOOSTS");
+
   const superTotemActive = isTemporaryCollectibleActive({
     name: "Super Totem",
     game,
@@ -79,7 +93,7 @@ export function getIronRecoveryTimeForDisplay({ game }: { game: GameState }): {
     name: "Time Warp Totem",
     game,
   });
-  if (superTotemActive || timeWarpTotemActive) {
+  if (!boostsWindowed && (superTotemActive || timeWarpTotemActive)) {
     totalSeconds = totalSeconds * 0.5;
     if (superTotemActive)
       boostsUsed.push({ name: "Super Totem", value: "x0.5" });
@@ -87,12 +101,18 @@ export function getIronRecoveryTimeForDisplay({ game }: { game: GameState }): {
       boostsUsed.push({ name: "Time Warp Totem", value: "x0.5" });
   }
 
-  if (isTemporaryCollectibleActive({ name: "Ore Hourglass", game })) {
+  if (
+    !boostsWindowed &&
+    isTemporaryCollectibleActive({ name: "Ore Hourglass", game })
+  ) {
     totalSeconds = totalSeconds * 0.5;
     boostsUsed.push({ name: "Ore Hourglass", value: "x0.5" });
   }
 
-  if (isTemporaryCollectibleActive({ name: "Mole Shrine", game })) {
+  if (
+    !boostsWindowed &&
+    isTemporaryCollectibleActive({ name: "Mole Shrine", game })
+  ) {
     totalSeconds = totalSeconds * 0.75;
     boostsUsed.push({ name: "Mole Shrine", value: "x0.75" });
   }
@@ -110,14 +130,25 @@ export function getIronRecoveryTimeForDisplay({ game }: { game: GameState }): {
 }
 
 /**
- * Set a mined in the past to make it replenish faster. Uses getIronRecoveryTimeForDisplay for boost logic.
+ * The mine time to persist, plus (under SPEED_BOOSTS) the base recovery duration.
+ *
+ * Legacy model: back-date `minedAt` into the past so the rock replenishes faster.
+ * Speed-rate model (SPEED_BOOSTS): store the REAL mine time and a `baseDurationMs`
+ * carrying only the permanent boosts; the temporary boosts are derived live from
+ * windows. Uses getIronRecoveryTimeForDisplay for boost logic.
  */
 export function getMinedAt({ createdAt, game }: GetMinedAtArgs): {
   time: number;
+  baseDurationMs?: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
   const { baseTimeMs, recoveryTimeMs, boostsUsed } =
     getIronRecoveryTimeForDisplay({ game });
+
+  if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
+    return { time: createdAt, baseDurationMs: recoveryTimeMs, boostsUsed };
+  }
+
   const buffMs = baseTimeMs - recoveryTimeMs;
   return { time: createdAt - buffMs, boostsUsed };
 }
@@ -232,7 +263,7 @@ export function getIronDropAmount({
         updatedAoe,
         "Emerald Turtle",
         { dx, dy },
-        IRON_RECOVERY_TIME * 1000 - (rock?.stone?.boostedTime ?? 0),
+        getIronRecoveryDurationMs(rock, game),
         createdAt,
       );
 
@@ -313,7 +344,9 @@ export function mineIron({
       throw new Error("Iron rock is not placed");
     }
 
-    if (!canMine(ironRock, createdAt)) {
+    if (
+      !canMine(ironRock, ironRock.name ?? "Iron Rock", stateCopy, createdAt)
+    ) {
       throw new Error("Iron is still recovering");
     }
 
@@ -351,7 +384,11 @@ export function mineIron({
 
     const amountInInventory = stateCopy.inventory.Iron || new Decimal(0);
 
-    const { time, boostsUsed: minedAtBoostsUsed } = getMinedAt({
+    const {
+      time,
+      baseDurationMs,
+      boostsUsed: minedAtBoostsUsed,
+    } = getMinedAt({
       createdAt,
       game: stateCopy,
     });
@@ -361,12 +398,17 @@ export function mineIron({
       recoveryTimeMs,
       boostsUsed: boostedTimeBoostsUsed,
     } = getIronRecoveryTimeForDisplay({ game: stateCopy });
-    const boostedTime = baseTimeMs - recoveryTimeMs;
 
-    ironRock.stone = {
-      minedAt: time,
-      boostedTime,
-    };
+    ironRock.stone = { minedAt: time };
+    if (baseDurationMs !== undefined) {
+      // Speed-rate model: real minedAt + permanent-only baseDurationMs. Temporary
+      // boosts are derived live from windows, so there's no baked discount; keep
+      // boostedTime at 0 so the yield-AOE budget uses the real windowed duration.
+      ironRock.stone.baseDurationMs = baseDurationMs;
+      ironRock.stone.boostedTime = 0;
+    } else {
+      ironRock.stone.boostedTime = baseTimeMs - recoveryTimeMs;
+    }
 
     stateCopy.farmActivity = trackFarmActivity(
       "Iron Mined",

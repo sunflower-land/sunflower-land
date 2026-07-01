@@ -1,12 +1,15 @@
 import type { GameState, Rock, Tree } from "../types/game";
 import type { RockName, UpgradedResourceName } from "../types/resources";
-import { INITIAL_FARM } from "./constants";
+import { INITIAL_FARM, STONE_RECOVERY_TIME } from "./constants";
 import {
   canGatherResource,
   canMine,
   canUpgrade,
+  getMineReadyAt,
   getUpgradeableNodes,
 } from "./resourceNodes";
+import { EXPIRY_COOLDOWNS } from "./collectibleBuilt";
+import { computeReadyAt, getMineBoostWindows } from "./boostWindows";
 
 const GAME_STATE: GameState = {
   ...INITIAL_FARM,
@@ -261,7 +264,7 @@ describe("resourceNodes", () => {
         y: 1,
       };
 
-      const result = canMine(stoneRock, "Stone Rock");
+      const result = canMine(stoneRock, "Stone Rock", GAME_STATE);
 
       expect(result).toBe(true);
     });
@@ -276,7 +279,7 @@ describe("resourceNodes", () => {
         y: 1,
       };
 
-      const result = canMine(stoneRock, "Stone Rock");
+      const result = canMine(stoneRock, "Stone Rock", GAME_STATE);
 
       expect(result).toBe(false);
     });
@@ -291,7 +294,7 @@ describe("resourceNodes", () => {
         y: 1,
       };
 
-      const result = canMine(ironRock, "Iron Rock");
+      const result = canMine(ironRock, "Iron Rock", GAME_STATE);
 
       expect(result).toBe(true);
     });
@@ -306,7 +309,7 @@ describe("resourceNodes", () => {
         y: 1,
       };
 
-      const result = canMine(goldRock, "Gold Rock");
+      const result = canMine(goldRock, "Gold Rock", GAME_STATE);
 
       expect(result).toBe(true);
     });
@@ -321,7 +324,7 @@ describe("resourceNodes", () => {
         y: 1,
       };
 
-      const result = canMine(sunstoneRock, "Sunstone Rock");
+      const result = canMine(sunstoneRock, "Sunstone Rock", GAME_STATE);
 
       expect(result).toBe(true);
     });
@@ -336,7 +339,7 @@ describe("resourceNodes", () => {
         y: 1,
       };
 
-      const result = canMine(crimstoneRock, "Crimstone Rock");
+      const result = canMine(crimstoneRock, "Crimstone Rock", GAME_STATE);
 
       expect(result).toBe(true);
     });
@@ -351,7 +354,7 @@ describe("resourceNodes", () => {
         y: 1,
       };
 
-      const result = canMine(fusedStoneRock, "Fused Stone Rock");
+      const result = canMine(fusedStoneRock, "Fused Stone Rock", GAME_STATE);
 
       expect(result).toBe(true);
     });
@@ -366,7 +369,11 @@ describe("resourceNodes", () => {
         y: 1,
       };
 
-      const result = canMine(reinforcedStoneRock, "Reinforced Stone Rock");
+      const result = canMine(
+        reinforcedStoneRock,
+        "Reinforced Stone Rock",
+        GAME_STATE,
+      );
 
       expect(result).toBe(true);
     });
@@ -381,7 +388,7 @@ describe("resourceNodes", () => {
         y: 1,
       };
 
-      const result = canMine(refinedIronRock, "Refined Iron Rock");
+      const result = canMine(refinedIronRock, "Refined Iron Rock", GAME_STATE);
 
       expect(result).toBe(true);
     });
@@ -396,7 +403,11 @@ describe("resourceNodes", () => {
         y: 1,
       };
 
-      const result = canMine(temperedIronRock, "Tempered Iron Rock");
+      const result = canMine(
+        temperedIronRock,
+        "Tempered Iron Rock",
+        GAME_STATE,
+      );
 
       expect(result).toBe(true);
     });
@@ -411,7 +422,7 @@ describe("resourceNodes", () => {
         y: 1,
       };
 
-      const result = canMine(pureGoldRock, "Pure Gold Rock");
+      const result = canMine(pureGoldRock, "Pure Gold Rock", GAME_STATE);
 
       expect(result).toBe(true);
     });
@@ -426,9 +437,220 @@ describe("resourceNodes", () => {
         y: 1,
       };
 
-      const result = canMine(primeGoldRock, "Prime Gold Rock");
+      const result = canMine(primeGoldRock, "Prime Gold Rock", GAME_STATE);
 
       expect(result).toBe(true);
+    });
+  });
+
+  describe("getMineReadyAt", () => {
+    const HOUR = 60 * 60 * 1000;
+
+    it("uses minedAt + base recovery for a legacy rock (no baseDurationMs)", () => {
+      const minedAt = 1_000_000;
+      const rock: Rock = {
+        createdAt: Date.now(),
+        stone: { minedAt },
+        x: 1,
+        y: 1,
+      };
+
+      expect(getMineReadyAt(rock, "Stone Rock", INITIAL_FARM)).toEqual(
+        minedAt + STONE_RECOVERY_TIME * 1000,
+      );
+    });
+
+    it("uses minedAt + baseDurationMs for a windowed rock with no active boosts", () => {
+      const minedAt = 1_000_000;
+      const baseDurationMs = 4 * HOUR;
+      const rock: Rock = {
+        createdAt: Date.now(),
+        stone: { minedAt, baseDurationMs },
+        x: 1,
+        y: 1,
+      };
+
+      // Empty windows → computeReadyAt reduces to minedAt + baseDurationMs.
+      expect(getMineReadyAt(rock, "Stone Rock", INITIAL_FARM)).toEqual(
+        minedAt + baseDurationMs,
+      );
+    });
+
+    it("returns an earlier ready time when a mine boost speeds the rock up", () => {
+      const minedAt = 1_000_000;
+      const baseDurationMs = 4 * HOUR;
+      const rock: Rock = {
+        createdAt: Date.now(),
+        stone: { minedAt, baseDurationMs },
+        x: 1,
+        y: 1,
+      };
+
+      // A Time Warp Totem placed exactly at minedAt covers the whole task at 2×.
+      const boostedGame: GameState = {
+        ...INITIAL_FARM,
+        collectibles: {
+          ...INITIAL_FARM.collectibles,
+          "Time Warp Totem": [
+            { id: "1", coordinates: { x: 0, y: 0 }, createdAt: minedAt },
+          ],
+        },
+      };
+
+      const boostedReadyAt = getMineReadyAt(rock, "Stone Rock", boostedGame);
+
+      // 4h of work at 2× finishes in 2h — strictly earlier than the unboosted 4h.
+      expect(boostedReadyAt).toBeLessThan(minedAt + baseDurationMs);
+      expect(boostedReadyAt).toEqual(minedAt + baseDurationMs / 2);
+    });
+
+    it("matches computeReadyAt over the resolved mine windows", () => {
+      const minedAt = 1_000_000;
+      const baseDurationMs = 8 * HOUR;
+      const rock: Rock = {
+        createdAt: Date.now(),
+        stone: { minedAt, baseDurationMs },
+        x: 1,
+        y: 1,
+      };
+
+      const game: GameState = {
+        ...INITIAL_FARM,
+        collectibles: {
+          ...INITIAL_FARM.collectibles,
+          "Ore Hourglass": [
+            { id: "1", coordinates: { x: 0, y: 0 }, createdAt: minedAt },
+          ],
+        },
+      };
+
+      expect(getMineReadyAt(rock, "Iron Rock", game)).toEqual(
+        computeReadyAt({
+          startedAt: minedAt,
+          baseDurationMs,
+          windows: getMineBoostWindows(game, "Iron Rock"),
+        }),
+      );
+    });
+
+    it("credits an EXPIRED boost window for a rock mined during it (does not slow back down)", () => {
+      // Highest-risk edge case for the speed-rate model: windows are built from the
+      // booster's persisted createdAt + cooldown, NOT from whether it's active "now".
+      // An Ore Hourglass placed when the iron rock was mined accelerates only the
+      // first 3h of recovery; once it expires the already-earned credit must persist
+      // — readyAt stays at the boosted time and never reverts to the unboosted 8h.
+      const minedAt = 1_000_000;
+      const baseDurationMs = 8 * HOUR;
+      const oreWindow = EXPIRY_COOLDOWNS["Ore Hourglass"]; // 3h, ends well in the past
+      const rock: Rock = {
+        createdAt: Date.now(),
+        stone: { minedAt, baseDurationMs },
+        x: 1,
+        y: 1,
+      };
+
+      const game: GameState = {
+        ...INITIAL_FARM,
+        collectibles: {
+          ...INITIAL_FARM.collectibles,
+          "Ore Hourglass": [
+            { id: "1", coordinates: { x: 0, y: 0 }, createdAt: minedAt },
+          ],
+        },
+      };
+
+      // 3h at 2× banks 6h of work; the remaining 2h accrues at 1× after the window
+      // expires → ready 5h after mining, not the unboosted 8h.
+      const readyAt = getMineReadyAt(rock, "Iron Rock", game);
+      expect(readyAt).toEqual(
+        minedAt + oreWindow + (baseDurationMs - oreWindow * 2),
+      );
+      expect(readyAt).toEqual(minedAt + 5 * HOUR);
+      expect(readyAt).toBeLessThan(minedAt + baseDurationMs);
+
+      // Post-expiry sanity via canMine: still recovering at 4h (boost long gone),
+      // ready just past 5h — the expired window's credit is stable over time.
+      expect(canMine(rock, "Iron Rock", game, minedAt + 4 * HOUR)).toBe(false);
+      expect(canMine(rock, "Iron Rock", game, minedAt + 5 * HOUR + 1)).toBe(
+        true,
+      );
+    });
+
+    it("honors baseDurationMs even with SPEED_BOOSTS off (keys off the field, not the flag)", () => {
+      // FE jest runs with SPEED_BOOSTS (testnetFeatureFlag) OFF by default, yet the
+      // read path keys off the permanent baseDurationMs marker, so a windowed rock
+      // keeps windowed timing regardless of the flag.
+      const minedAt = 1_000_000;
+      const baseDurationMs = 4 * HOUR;
+      const rock: Rock = {
+        createdAt: Date.now(),
+        stone: { minedAt, baseDurationMs },
+        x: 1,
+        y: 1,
+      };
+
+      const boostedGame: GameState = {
+        ...INITIAL_FARM,
+        collectibles: {
+          ...INITIAL_FARM.collectibles,
+          "Super Totem": [
+            { id: "1", coordinates: { x: 0, y: 0 }, createdAt: minedAt },
+          ],
+        },
+      };
+
+      // Still windowed (2×) → 2h, not the legacy STONE_RECOVERY_TIME path.
+      expect(getMineReadyAt(rock, "Stone Rock", boostedGame)).toEqual(
+        minedAt + baseDurationMs / 2,
+      );
+    });
+
+    it("canMine delegates to getMineReadyAt (now > readyAt)", () => {
+      const minedAt = 1_000_000;
+      const baseDurationMs = 4 * HOUR;
+      const rock: Rock = {
+        createdAt: Date.now(),
+        stone: { minedAt, baseDurationMs },
+        x: 1,
+        y: 1,
+      };
+
+      const readyAt = getMineReadyAt(rock, "Stone Rock", INITIAL_FARM);
+
+      expect(canMine(rock, "Stone Rock", INITIAL_FARM, readyAt + 1)).toBe(true);
+      expect(canMine(rock, "Stone Rock", INITIAL_FARM, readyAt)).toBe(false);
+      expect(canMine(rock, "Stone Rock", INITIAL_FARM, readyAt - 1)).toBe(
+        false,
+      );
+    });
+
+    it("a truncated boost window (removedAt) still survives via the cooldown clamp", () => {
+      // Sanity: an active totem whose window outlasts the task speeds it up; this
+      // guards that getMineBoostWindows is actually consulted (uses EXPIRY_COOLDOWNS).
+      const minedAt = 1_000_000;
+      const baseDurationMs = 1 * HOUR;
+      const rock: Rock = {
+        createdAt: Date.now(),
+        stone: { minedAt, baseDurationMs },
+        x: 1,
+        y: 1,
+      };
+
+      const game: GameState = {
+        ...INITIAL_FARM,
+        collectibles: {
+          ...INITIAL_FARM.collectibles,
+          "Super Totem": [
+            { id: "1", coordinates: { x: 0, y: 0 }, createdAt: minedAt },
+          ],
+        },
+      };
+
+      // Super Totem cooldown is 7 days ≫ the 1h task, so the whole task runs at 2×.
+      expect(EXPIRY_COOLDOWNS["Super Totem"]).toBeGreaterThan(baseDurationMs);
+      expect(getMineReadyAt(rock, "Stone Rock", game)).toEqual(
+        minedAt + baseDurationMs / 2,
+      );
     });
   });
 

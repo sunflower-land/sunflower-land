@@ -828,6 +828,13 @@ export type Stone = {
   criticalHit?: CriticalHit;
   amount?: number;
   boostedTime?: number;
+  /**
+   * Unboosted-by-windowed-collectibles recovery duration (ms), with all
+   * permanent (discount-at-start) boosts already folded in. Present only on
+   * rocks mined under the speed-rate model; its presence selects
+   * `computeReadyAt` over the legacy back-dated `minedAt` readiness check.
+   */
+  baseDurationMs?: number;
 };
 
 export type FiniteResource = {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
-import { getSunstoneStage } from "../Sunstone";
+import { getSunstoneStage } from "../getSunstoneStage";
 import sunstone_1 from "assets/resources/sunstone/sunstone_rock_1.webp";
 import sunstone_2 from "assets/resources/sunstone/sunstone_rock_2.webp";
 import sunstone_3 from "assets/resources/sunstone/sunstone_rock_3.webp";
@@ -13,18 +13,26 @@ import sunstone_8 from "assets/resources/sunstone/sunstone_rock_8.webp";
 import sunstone_9 from "assets/resources/sunstone/sunstone_rock_9.webp";
 import sunstone_10 from "assets/resources/sunstone/sunstone_rock_10.webp";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   timeLeft: number;
   minesLeft: number;
+  /**
+   * Current effective recovery speed from windowed boosts. Sunstone has no
+   * temporary recovery boost so this stays 1; the marker is kept for uniformity.
+   */
+  speed?: number;
 }
 
 const DepletedSunstoneComponent: React.FC<Props> = ({
   timeLeft,
   minesLeft,
+  speed,
 }) => {
   const { t } = useAppTranslation();
   const [showTimeLeft, setShowTimeLeft] = useState(false);
+  const boosted = speed !== undefined && speed > 1;
 
   const sunstoneImage = [
     sunstone_1,
@@ -55,6 +63,19 @@ const DepletedSunstoneComponent: React.FC<Props> = ({
             right: `${PIXEL_SCALE * 4}px`,
           }}
         />
+        {boosted && (
+          <img
+            src={SUNNYSIDE.icons.lightning}
+            alt=""
+            aria-hidden
+            className="absolute animate-pulse"
+            style={{
+              width: `${PIXEL_SCALE * 7}px`,
+              top: `${PIXEL_SCALE * 2}px`,
+              right: `${PIXEL_SCALE * 2}px`,
+            }}
+          />
+        )}
         <div
           className="flex justify-center absolute w-full"
           style={{
@@ -65,6 +86,7 @@ const DepletedSunstoneComponent: React.FC<Props> = ({
             text={t("resources.recoversIn")}
             timeLeft={timeLeft}
             showTimeLeft={showTimeLeft}
+            speed={speed}
           />
         </div>
       </div>

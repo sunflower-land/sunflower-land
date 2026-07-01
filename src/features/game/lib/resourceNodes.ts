@@ -7,6 +7,7 @@ import {
   STONE_RECOVERY_TIME,
   SUNSTONE_RECOVERY_TIME,
 } from "features/game/lib/constants";
+import { computeReadyAt, getMineBoostWindows } from "./boostWindows";
 import type { ResourceItem } from "../expansion/placeable/lib/collisionDetection";
 import type { Rock, Tree, GameState } from "../types/game";
 import {
@@ -31,7 +32,10 @@ export const canGatherResource = (
   }
 
   if ("stone" in resource) {
-    let rockName = resource.name as RockName;
+    // Prefer an explicit rockType when the node has no name — it covers the rocks
+    // the Stone/Iron/Gold substring inference can't (Crimstone, Sunstone) as well
+    // as tier-2/3 names. Fall back to inference only when neither is set.
+    let rockName = (resource.name ?? rockType) as RockName;
     if (!rockName) {
       if (resource.name?.includes("Stone") || rockType?.includes("Stone")) {
         rockName = "Stone Rock";
@@ -50,7 +54,7 @@ export const canGatherResource = (
       }
     }
 
-    return canMine(resource as Rock, rockName);
+    return canMine(resource as Rock, rockName, game);
   }
 
   if ("wood" in resource) return canChop(resource as Tree, game);
@@ -88,29 +92,59 @@ export const getUpgradeableNodes = (
   return upgradeableNodes.sort();
 };
 
+export const RESOURCE_RECOVERY_TIME: Record<RockName, number> = {
+  "Stone Rock": STONE_RECOVERY_TIME,
+  "Iron Rock": IRON_RECOVERY_TIME,
+  "Gold Rock": GOLD_RECOVERY_TIME,
+  "Sunstone Rock": SUNSTONE_RECOVERY_TIME,
+  "Crimstone Rock": CRIMSTONE_RECOVERY_TIME,
+  "Fused Stone Rock": STONE_RECOVERY_TIME,
+  "Reinforced Stone Rock": STONE_RECOVERY_TIME,
+  "Refined Iron Rock": IRON_RECOVERY_TIME,
+  "Tempered Iron Rock": IRON_RECOVERY_TIME,
+  "Pure Gold Rock": GOLD_RECOVERY_TIME,
+  "Prime Gold Rock": GOLD_RECOVERY_TIME,
+  "Ascension Crystal": 0,
+};
+
+/**
+ * When a mined rock is ready to mine again, across both boost models. Rocks mined
+ * under the speed-rate model (with `stone.baseDurationMs`) derive their ready time
+ * live from the mine boost windows; legacy rocks use their back-dated `minedAt` +
+ * base recovery time.
+ *
+ * `baseDurationMs` is a PERMANENT per-rock migration marker: the read path keys off
+ * its presence, NOT the `SPEED_BOOSTS` flag (matching `getTreeReadyAt`). A rock
+ * mined while the flag was on therefore keeps windowed timing even if the flag is
+ * later disabled — windowed rocks store the real `minedAt` + a permanent-boost-only
+ * `baseDurationMs`, so falling back to `minedAt + base recovery` would drop their
+ * baked permanent-boost credit and wrongly lengthen recovery on rollback.
+ */
+export function getMineReadyAt(
+  rock: Rock,
+  rockName: RockName,
+  game: GameState,
+): number {
+  const { baseDurationMs, minedAt } = rock.stone;
+
+  if (baseDurationMs !== undefined) {
+    return computeReadyAt({
+      startedAt: minedAt,
+      baseDurationMs,
+      windows: getMineBoostWindows(game, rockName),
+    });
+  }
+
+  return minedAt + RESOURCE_RECOVERY_TIME[rockName] * 1000;
+}
+
 export function canMine(
   rock: Rock,
   rockName: RockName,
+  game: GameState,
   now: number = Date.now(),
 ) {
-  // Defining inside the function to avoid circular dependency
-  const resourceRecoveryTime: Record<RockName, number> = {
-    "Stone Rock": STONE_RECOVERY_TIME,
-    "Iron Rock": IRON_RECOVERY_TIME,
-    "Gold Rock": GOLD_RECOVERY_TIME,
-    "Sunstone Rock": SUNSTONE_RECOVERY_TIME,
-    "Crimstone Rock": CRIMSTONE_RECOVERY_TIME,
-    "Fused Stone Rock": STONE_RECOVERY_TIME,
-    "Reinforced Stone Rock": STONE_RECOVERY_TIME,
-    "Refined Iron Rock": IRON_RECOVERY_TIME,
-    "Tempered Iron Rock": IRON_RECOVERY_TIME,
-    "Pure Gold Rock": GOLD_RECOVERY_TIME,
-    "Prime Gold Rock": GOLD_RECOVERY_TIME,
-    "Ascension Crystal": 0,
-  };
-
-  const recoveryTime = resourceRecoveryTime[rockName];
-  return now - rock.stone.minedAt >= recoveryTime * 1000;
+  return now > getMineReadyAt(rock, rockName, game);
 }
 export function getAvailableNodes(
   game: GameState,

@@ -7,22 +7,32 @@ import crimstone_5 from "assets/resources/crimstone/crimstone_rock_5.webp";
 import crimstone_6 from "assets/resources/crimstone/crimstone_rock_6.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
-import { getCrimstoneStage } from "../Crimstone";
+import { getCrimstoneStage } from "../getCrimstoneStage";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   timeLeft: number;
   minesLeft: number;
   minedAt: number;
+  now: number;
+  /**
+   * Current effective recovery speed from windowed boosts (e.g. Mole Shrine).
+   * > 1 shows a lightning marker + the multiplier in the popover.
+   */
+  speed?: number;
 }
 
 const DepletedCrimstoneComponent: React.FC<Props> = ({
   timeLeft,
   minesLeft,
   minedAt,
+  speed,
+  now,
 }) => {
   const { t } = useAppTranslation();
   const [showTimeLeft, setShowTimeLeft] = useState(false);
+  const boosted = speed !== undefined && speed > 1;
 
   const crimstone = [
     crimstone_1,
@@ -31,7 +41,7 @@ const DepletedCrimstoneComponent: React.FC<Props> = ({
     crimstone_4,
     crimstone_5,
     crimstone_6,
-  ][getCrimstoneStage(minesLeft, minedAt) - 1];
+  ][getCrimstoneStage(minesLeft, minedAt, now) - 1];
 
   return (
     <div
@@ -49,6 +59,19 @@ const DepletedCrimstoneComponent: React.FC<Props> = ({
             right: `${PIXEL_SCALE * 4}px`,
           }}
         />
+        {boosted && (
+          <img
+            src={SUNNYSIDE.icons.lightning}
+            alt=""
+            aria-hidden
+            className="absolute animate-pulse"
+            style={{
+              width: `${PIXEL_SCALE * 7}px`,
+              top: `${PIXEL_SCALE * 2}px`,
+              right: `${PIXEL_SCALE * 2}px`,
+            }}
+          />
+        )}
         <div
           className="flex justify-center absolute w-full"
           style={{
@@ -59,6 +82,7 @@ const DepletedCrimstoneComponent: React.FC<Props> = ({
             text={t("resources.recoversIn")}
             timeLeft={timeLeft}
             showTimeLeft={showTimeLeft}
+            speed={speed}
           />
         </div>
       </div>

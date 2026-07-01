@@ -5,6 +5,7 @@ import {
   type TemporaryCollectibleName,
 } from "./collectibleBuilt";
 import { getCollectiblesAcrossLocations } from "./getCollectiblesAcrossLocations";
+import type { RockName } from "../types/resources";
 
 /**
  * Speed-rate boost model ("Clash of Clans builder/research potion").
@@ -48,6 +49,22 @@ export const TREE_BOOST_SPEED = {
   "Time Warp Totem": 2,
   "Timber Hourglass": 1.35,
   "Badger Shrine": 1.35,
+} as const;
+
+/**
+ * Speed multipliers for the windowed mine/rock recovery boosts — the single
+ * place to tune them. Stacking is multiplicative; Super & Time Warp Totem share
+ * the same 2× and merge so they don't stack with each other. Coverage differs by
+ * resource (see `getMineBoostWindows`): Badger Shrine speeds up stone, Mole
+ * Shrine speeds up iron/gold/crimstone, and Ore Hourglass + the totems speed up
+ * stone/iron/gold.
+ */
+export const MINE_BOOST_SPEED = {
+  "Super Totem": 2,
+  "Time Warp Totem": 2,
+  "Ore Hourglass": 2,
+  "Badger Shrine": 1.35,
+  "Mole Shrine": 1.35,
 } as const;
 
 /** Window for the Power Hour buff (1h from activation), if active. */
@@ -97,11 +114,15 @@ const getSunshowerWindows = (game: GameState): BoostWindow[] => {
  * Merge the Super Totem & Time Warp Totem windows for ONE activity into a single
  * same-speed set. The two totems are the SAME boost for a given activity and
  * explicitly do NOT stack with each other, so their windows coalesce (overlaps
- * merge instead of multiplying). Both share `speed` within an activity (crops &
- * trees: 2×); activities where the two totems differ (e.g. mines) must NOT use
- * this helper — unequal speeds would multiply rather than pick the higher.
+ * merge instead of multiplying). Both must share `speed` within an activity
+ * (crops, trees & mines: 2×); an activity where the two totems had DIFFERENT
+ * speeds could not use this helper — unequal speeds would multiply rather than
+ * pick the higher.
  */
-const getMergedTotemWindows = (game: GameState, speed: number): BoostWindow[] =>
+export const getMergedTotemWindows = (
+  game: GameState,
+  speed: number,
+): BoostWindow[] =>
   mergeWindows([
     ...getBoostWindows({ game, name: "Super Totem", speed }),
     ...getBoostWindows({ game, name: "Time Warp Totem", speed }),
@@ -148,6 +169,68 @@ export const getTreeBoostWindows = (game: GameState): BoostWindow[] => [
     speed: TREE_BOOST_SPEED["Badger Shrine"],
   }),
 ];
+
+/**
+ * The windowed speed boosts that apply to a rock's recovery, by resource family.
+ * Coverage differs per resource: stone gets Badger Shrine (not Mole), iron & gold
+ * get Mole Shrine (not Badger), crimstone gets Mole Shrine only, and sunstone (+
+ * the unmigrated Ascension Crystal) have no temporary recovery boost — the empty
+ * set makes `computeReadyAt` reduce to `minedAt + baseDurationMs`. The two totems
+ * merge so they don't stack (both 2×); Ore Hourglass applies to stone/iron/gold.
+ * Tier-2/3 rock names (e.g. Fused Stone, Prime Gold) map to their base family.
+ * Mirrors `getTreeBoostWindows` for the mines activity.
+ */
+export const getMineBoostWindows = (
+  game: GameState,
+  rockName: RockName,
+): BoostWindow[] => {
+  switch (rockName) {
+    case "Stone Rock":
+    case "Fused Stone Rock":
+    case "Reinforced Stone Rock":
+      return [
+        ...getMergedTotemWindows(game, MINE_BOOST_SPEED["Super Totem"]),
+        ...getBoostWindows({
+          game,
+          name: "Ore Hourglass",
+          speed: MINE_BOOST_SPEED["Ore Hourglass"],
+        }),
+        ...getBoostWindows({
+          game,
+          name: "Badger Shrine",
+          speed: MINE_BOOST_SPEED["Badger Shrine"],
+        }),
+      ];
+    case "Iron Rock":
+    case "Refined Iron Rock":
+    case "Tempered Iron Rock":
+    case "Gold Rock":
+    case "Pure Gold Rock":
+    case "Prime Gold Rock":
+      return [
+        ...getMergedTotemWindows(game, MINE_BOOST_SPEED["Super Totem"]),
+        ...getBoostWindows({
+          game,
+          name: "Ore Hourglass",
+          speed: MINE_BOOST_SPEED["Ore Hourglass"],
+        }),
+        ...getBoostWindows({
+          game,
+          name: "Mole Shrine",
+          speed: MINE_BOOST_SPEED["Mole Shrine"],
+        }),
+      ];
+    case "Crimstone Rock":
+      return getBoostWindows({
+        game,
+        name: "Mole Shrine",
+        speed: MINE_BOOST_SPEED["Mole Shrine"],
+      });
+    case "Sunstone Rock":
+    case "Ascension Crystal":
+      return [];
+  }
+};
 
 /**
  * Build the active windows for a single temporary collectible. Each LIVE placement

@@ -1198,9 +1198,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
-  "Ore Hourglass": () => [
+  "Ore Hourglass": (game) => [
     {
-      shortDescription: translate("description.ore.hourglass.boost"),
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.ore.hourglass.boost.speed")
+        : translate("description.ore.hourglass.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
@@ -1890,8 +1892,8 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   ],
   "Badger Shrine": (game) => [
     {
-      // Tree recovery is on the windowed speed model under SPEED_BOOSTS; the
-      // stone half stays a baked discount until the mines slice migrates it.
+      // Both tree and stone recovery are on the windowed speed model under
+      // SPEED_BOOSTS (trees + mines slices); flag-off keeps the baked discount.
       shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
         ? translate("description.badgerShrine.buff.speed")
         : translate("description.badgerShrine.buff"),
@@ -1900,7 +1902,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS.Tree.image,
     },
     {
-      shortDescription: translate("description.badgerShrine.buff.2"),
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.badgerShrine.buff.2.speed")
+        : translate("description.badgerShrine.buff.2"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS.Stone.image,
@@ -1950,21 +1954,27 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.lightning,
     },
   ],
-  "Mole Shrine": () => [
+  "Mole Shrine": (game) => [
     {
-      shortDescription: translate("description.moleShrine.buff"),
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.moleShrine.buff.speed")
+        : translate("description.moleShrine.buff"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS.Iron.image,
     },
     {
-      shortDescription: translate("description.moleShrine.buff.2"),
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.moleShrine.buff.2.speed")
+        : translate("description.moleShrine.buff.2"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS.Gold.image,
     },
     {
-      shortDescription: translate("description.moleShrine.buff.3"),
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.moleShrine.buff.3.speed")
+        : translate("description.moleShrine.buff.3"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS.Crimstone.image,

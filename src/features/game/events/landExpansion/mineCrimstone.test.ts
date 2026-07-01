@@ -3,8 +3,9 @@ import {
   TEST_FARM,
   INITIAL_BUMPKIN,
   CRIMSTONE_RECOVERY_TIME,
+  INITIAL_FARM,
 } from "../../lib/constants";
-import type { GameState } from "../../types/game";
+import type { GameState, FiniteResource } from "../../types/game";
 import {
   type MineCrimstoneAction,
   getMinedAt,
@@ -12,6 +13,8 @@ import {
 } from "./mineCrimstone";
 import { KNOWN_IDS } from "features/game/types";
 import { prngChance } from "lib/prng";
+import { CONFIG } from "lib/config";
+import { getMineReadyAt } from "features/game/lib/resourceNodes";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -37,8 +40,18 @@ const GAME_STATE: GameState = {
 const FARM_ID = 1;
 
 describe("mineCrimstone", () => {
+  // These tests assert the LEGACY back-dated recovery (the discount is baked into
+  // minedAt at mine time). FE jest runs on amoy where SPEED_BOOSTS is on, so
+  // force the flag off here; the windowed model is covered in its own describe.
+  const originalNetwork = CONFIG.NETWORK;
   beforeAll(() => {
     jest.useFakeTimers();
+  });
+  beforeEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+  });
+  afterEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
   });
 
   it("throws an error if no gold pickaxes are left", () => {
@@ -421,5 +434,209 @@ describe("mineCrimstone", () => {
 
       expect(time).toEqual(now - CRIMSTONE_RECOVERY_TIME * 1000);
     });
+  });
+});
+
+describe("mineCrimstone — SPEED_BOOSTS speed windows", () => {
+  const now = Date.now();
+  const ONE_HOUR = 60 * 60 * 1000;
+  const BASE_MS = CRIMSTONE_RECOVERY_TIME * 1000;
+  const originalNetwork = CONFIG.NETWORK;
+
+  beforeEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
+  });
+  afterEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+  });
+
+  const baseState: GameState = {
+    ...GAME_STATE,
+    inventory: { "Gold Pickaxe": new Decimal(1) },
+    crimstones: {
+      0: { stone: { minedAt: 0 }, x: 1, y: 1, minesLeft: 5 },
+    },
+  };
+
+  const mineFirstCrimstone = (state: GameState) =>
+    mineCrimstone({
+      state,
+      createdAt: now,
+      action: { type: "crimstoneRock.mined", index: 0 },
+      farmId: FARM_ID,
+    });
+
+  it("stores the real mine time + base recovery (no back-dating) with no boosts", () => {
+    const game = mineFirstCrimstone(baseState);
+
+    expect(game.crimstones[0].stone.minedAt).toEqual(now);
+    expect(game.crimstones[0].stone.baseDurationMs).toEqual(BASE_MS);
+  });
+
+  it("folds a permanent Crimstone Amulet boost into baseDurationMs, not back-dating", () => {
+    const game = mineFirstCrimstone({
+      ...baseState,
+      bumpkin: {
+        ...baseState.bumpkin,
+        equipped: {
+          ...baseState.bumpkin.equipped,
+          necklace: "Crimstone Amulet",
+        },
+      },
+    });
+
+    expect(game.crimstones[0].stone.minedAt).toEqual(now);
+    expect(game.crimstones[0].stone.baseDurationMs).toEqual(BASE_MS * 0.8);
+  });
+
+  it("folds a permanent Fireside Alchemist boost into baseDurationMs", () => {
+    const game = mineFirstCrimstone({
+      ...baseState,
+      bumpkin: {
+        ...baseState.bumpkin,
+        skills: { "Fireside Alchemist": 1 },
+      },
+    });
+
+    expect(game.crimstones[0].stone.minedAt).toEqual(now);
+    expect(game.crimstones[0].stone.baseDurationMs).toEqual(BASE_MS * 0.85);
+  });
+
+  it("excludes a temporary Mole Shrine from baseDurationMs (applied as a window)", () => {
+    const game = mineFirstCrimstone({
+      ...baseState,
+      collectibles: {
+        "Mole Shrine": [
+          {
+            id: "1",
+            createdAt: now - 100,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now - 100,
+          },
+        ],
+      },
+    });
+
+    // Not reduced — derived live over the recovery instead.
+    expect(game.crimstones[0].stone.minedAt).toEqual(now);
+    expect(game.crimstones[0].stone.baseDurationMs).toEqual(BASE_MS);
+  });
+
+  it("recovers 1.35× faster with an active Mole Shrine (getMineReadyAt)", () => {
+    const rock: FiniteResource = {
+      stone: { minedAt: now, baseDurationMs: BASE_MS },
+      x: 1,
+      y: 1,
+      minesLeft: 5,
+    };
+    const game: GameState = {
+      ...INITIAL_FARM,
+      collectibles: {
+        "Mole Shrine": [
+          {
+            id: "1",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now,
+          },
+        ],
+      },
+    };
+
+    expect(getMineReadyAt(rock, "Crimstone Rock", game)).toBeCloseTo(
+      now + BASE_MS / 1.35,
+      0,
+    );
+  });
+
+  it("does NOT speed up crimstone with an Ore Hourglass (iron/gold/stone-only)", () => {
+    const rock: FiniteResource = {
+      stone: { minedAt: now, baseDurationMs: BASE_MS },
+      x: 1,
+      y: 1,
+      minesLeft: 5,
+    };
+    const game: GameState = {
+      ...INITIAL_FARM,
+      collectibles: {
+        "Ore Hourglass": [
+          {
+            id: "1",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now,
+          },
+        ],
+      },
+    };
+
+    expect(getMineReadyAt(rock, "Crimstone Rock", game)).toEqual(now + BASE_MS);
+  });
+
+  it("credits only the overlap for a Mole Shrine placed mid-recovery (retroactive)", () => {
+    // Mined 1h ago with no boost: 1h of work already accrued at 1×.
+    const rock: FiniteResource = {
+      stone: { minedAt: now - ONE_HOUR, baseDurationMs: BASE_MS },
+      x: 1,
+      y: 1,
+      minesLeft: 5,
+    };
+    const game: GameState = {
+      ...INITIAL_FARM,
+      collectibles: {
+        "Mole Shrine": [
+          {
+            id: "1",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now,
+          },
+        ],
+      },
+    };
+
+    // Remaining work (BASE_MS - 1h) now accrues at 1.35× (window covers it fully).
+    expect(getMineReadyAt(rock, "Crimstone Rock", game)).toBeCloseTo(
+      now + (BASE_MS - ONE_HOUR) / 1.35,
+      0,
+    );
+  });
+
+  it("falls back to base recovery for a legacy rock (no baseDurationMs)", () => {
+    const rock: FiniteResource = {
+      stone: { minedAt: now },
+      x: 1,
+      y: 1,
+      minesLeft: 5,
+    };
+    expect(getMineReadyAt(rock, "Crimstone Rock", INITIAL_FARM)).toEqual(
+      now + BASE_MS,
+    );
+  });
+});
+
+describe("getMineReadyAt — baseDurationMs is a permanent per-rock marker (crimstone)", () => {
+  const now = Date.now();
+  const BASE_MS = CRIMSTONE_RECOVERY_TIME * 1000;
+  const originalNetwork = CONFIG.NETWORK;
+
+  beforeEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+  });
+  afterEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+  });
+
+  it("keeps using baseDurationMs with SPEED_BOOSTS off (no rollback to full base)", () => {
+    const rock: FiniteResource = {
+      stone: { minedAt: now, baseDurationMs: BASE_MS / 2 },
+      x: 1,
+      y: 1,
+      minesLeft: 5,
+    };
+
+    expect(getMineReadyAt(rock, "Crimstone Rock", INITIAL_FARM)).toEqual(
+      now + BASE_MS / 2,
+    );
   });
 });

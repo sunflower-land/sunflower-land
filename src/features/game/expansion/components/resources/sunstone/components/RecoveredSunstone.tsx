@@ -24,7 +24,7 @@ import sunstone_10 from "assets/resources/sunstone/sunstone_rock_10.webp";
 
 import { ZoomContext } from "components/ZoomProvider";
 
-import { getSunstoneStage } from "../Sunstone";
+import { getSunstoneStage } from "../getSunstoneStage";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
 

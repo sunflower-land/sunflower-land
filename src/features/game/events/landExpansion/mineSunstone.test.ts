@@ -1,11 +1,18 @@
 import Decimal from "decimal.js-light";
-import { TEST_FARM, INITIAL_BUMPKIN } from "../../lib/constants";
-import type { GameState } from "../../types/game";
+import {
+  TEST_FARM,
+  INITIAL_BUMPKIN,
+  INITIAL_FARM,
+  SUNSTONE_RECOVERY_TIME,
+} from "../../lib/constants";
+import type { GameState, FiniteResource } from "../../types/game";
 import {
   EVENT_ERRORS,
   type MineSunstoneAction,
   mineSunstone,
 } from "./mineSunstone";
+import { CONFIG } from "lib/config";
+import { getMineReadyAt } from "features/game/lib/resourceNodes";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -191,5 +198,128 @@ describe("mineSunstone", () => {
 
       expect(game.farmActivity["Sunstone Mined"]).toBe(2);
     });
+  });
+});
+
+describe("mineSunstone — SPEED_BOOSTS speed windows", () => {
+  const now = Date.now();
+  const BASE_MS = SUNSTONE_RECOVERY_TIME * 1000;
+  const originalNetwork = CONFIG.NETWORK;
+
+  beforeEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
+  });
+  afterEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+  });
+
+  it("stores the real mine time + base recovery (no back-dating), no boosts", () => {
+    const game = mineSunstone({
+      state: {
+        ...GAME_STATE,
+        bumpkin: INITIAL_BUMPKIN,
+        inventory: { "Gold Pickaxe": new Decimal(1) },
+      },
+      createdAt: now,
+      action: { type: "sunstoneRock.mined", index: "0" },
+    });
+
+    expect(game.sunstones[0].stone.minedAt).toEqual(now);
+    expect(game.sunstones[0].stone.baseDurationMs).toEqual(BASE_MS);
+  });
+
+  it("has no temporary recovery boost — totems/hourglass/shrines do not speed it up", () => {
+    const rock: FiniteResource = {
+      stone: { minedAt: now, baseDurationMs: BASE_MS },
+      x: 1,
+      y: 1,
+      minesLeft: 10,
+    };
+    const game: GameState = {
+      ...INITIAL_FARM,
+      collectibles: {
+        "Super Totem": [
+          {
+            id: "1",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now,
+          },
+        ],
+        "Time Warp Totem": [
+          {
+            id: "2",
+            createdAt: now,
+            coordinates: { x: 2, y: 2 },
+            readyAt: now,
+          },
+        ],
+        "Ore Hourglass": [
+          {
+            id: "3",
+            createdAt: now,
+            coordinates: { x: 3, y: 3 },
+            readyAt: now,
+          },
+        ],
+        "Mole Shrine": [
+          {
+            id: "4",
+            createdAt: now,
+            coordinates: { x: 4, y: 4 },
+            readyAt: now,
+          },
+        ],
+        "Badger Shrine": [
+          {
+            id: "5",
+            createdAt: now,
+            coordinates: { x: 5, y: 5 },
+            readyAt: now,
+          },
+        ],
+      },
+    };
+
+    // Empty window set → readiness is just minedAt + baseDurationMs.
+    expect(getMineReadyAt(rock, "Sunstone Rock", game)).toEqual(now + BASE_MS);
+  });
+
+  it("falls back to base recovery for a legacy rock (no baseDurationMs)", () => {
+    const rock: FiniteResource = {
+      stone: { minedAt: now },
+      x: 1,
+      y: 1,
+      minesLeft: 10,
+    };
+    expect(getMineReadyAt(rock, "Sunstone Rock", INITIAL_FARM)).toEqual(
+      now + BASE_MS,
+    );
+  });
+});
+
+describe("getMineReadyAt — baseDurationMs is a permanent per-rock marker (sunstone)", () => {
+  const now = Date.now();
+  const BASE_MS = SUNSTONE_RECOVERY_TIME * 1000;
+  const originalNetwork = CONFIG.NETWORK;
+
+  beforeEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+  });
+  afterEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+  });
+
+  it("keeps using baseDurationMs with SPEED_BOOSTS off (no rollback to full base)", () => {
+    const rock: FiniteResource = {
+      stone: { minedAt: now, baseDurationMs: BASE_MS / 2 },
+      x: 1,
+      y: 1,
+      minesLeft: 10,
+    };
+
+    expect(getMineReadyAt(rock, "Sunstone Rock", INITIAL_FARM)).toEqual(
+      now + BASE_MS / 2,
+    );
   });
 });
