@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "components/ui/Modal";
@@ -35,7 +35,14 @@ import { Panel } from "components/ui/Panel";
 import { secondsToString } from "lib/utils/time";
 import type { PlantedFlower } from "features/game/types/game";
 import type { MachineState } from "features/game/lib/gameMachine";
-import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { useNow } from "lib/utils/hooks/useNow";
+import {
+  computeReadyAt,
+  getEffectiveSpeedAt,
+  getFlowerBoostWindows,
+  workAccruedAt,
+  type BoostWindow,
+} from "features/game/lib/boostWindows";
 
 interface Props {
   id: string;
@@ -129,6 +136,22 @@ const _inventory = (state: MachineState) => state.context.state.inventory;
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _collectibles = (state: MachineState) => state.context.state.collectibles;
 const _gameState = (state: MachineState) => state.context.state;
+const _flowerBoostWindows = (state: MachineState) =>
+  getFlowerBoostWindows(state.context.state);
+
+// Field comparator for the flower boost windows so the selector skips re-renders
+// without allocating JSON strings on every service update.
+const areBoostWindowsEqual = (a: BoostWindow[], b: BoostWindow[]) =>
+  a.length === b.length &&
+  a.every((window, index) => {
+    const other = b[index];
+    return (
+      other !== undefined &&
+      window.from === other.from &&
+      window.to === other.to &&
+      window.speed === other.speed
+    );
+  });
 
 const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
   flower,
@@ -144,6 +167,8 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
   const [showInstaGrowModal, setShowInstaGrowModal] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
+  const nodeRef = useRef<HTMLDivElement>(null);
+
   const farmActivity = useSelector(gameService, _farmActivity);
   const inventory = useSelector(gameService, _inventory);
   const biome = useSelector(gameService, _biome);
@@ -151,18 +176,87 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
   const bumpkin = useSelector(gameService, _bumpkin);
   const collectibles = useSelector(gameService, _collectibles);
   const gameState = useSelector(gameService, _gameState);
+  // Live windowed flower-growth speed boosts (Blossom Hourglass, Moth Shrine).
+  // Only re-renders when the windows actually change, so the countdown reacts to
+  // boosters placed/expired mid-grow.
+  const flowerBoostWindows = useSelector(
+    gameService,
+    _flowerBoostWindows,
+    areBoostWindowsEqual,
+  );
 
-  // Keep growth calculations in seconds to match `useCountdown`, and only use
-  // milliseconds for the countdown target date.
   const growSeconds = FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds;
   const growTimeMs = growSeconds * 1000;
 
-  const { totalSeconds: secondsLeft } = useCountdown(
-    flower.plantedAt + growTimeMs,
-  );
-  const growPercentage = 100 - (Math.max(secondsLeft, 0) / growSeconds) * 100;
+  const baseDurationMs = flower.baseDurationMs;
+  const startedAt = flower.plantedAt;
+
+  // Speed-rate model derives the ready time live from the windows; legacy flowers
+  // use their (back-dated) plantedAt + base grow time.
+  const readyAt =
+    baseDurationMs !== undefined
+      ? computeReadyAt({
+          startedAt,
+          baseDurationMs,
+          windows: flowerBoostWindows,
+        })
+      : startedAt + growTimeMs;
+
+  // Coarse 1s clock to pick the current boost speed; only windowed flowers are
+  // boosted. Tick the countdown faster (1000/speed) so it drops ~1s per visual
+  // tick rather than jumping by `speed` each real second.
+  const tickNow = useNow({
+    live: baseDurationMs !== undefined,
+    autoEndAt: readyAt,
+  });
+  const speed =
+    baseDurationMs !== undefined
+      ? getEffectiveSpeedAt({ at: tickNow, windows: flowerBoostWindows })
+      : 1;
+  const intervalMs = Math.max(Math.round(1000 / Math.max(speed, 1)), 250);
+  const now = useNow({ live: true, autoEndAt: readyAt, intervalMs });
+
+  // Remaining time is remaining *work* (in base duration) for windowed flowers, so
+  // it ticks down faster while a boost window is active; legacy counts down to readyAt.
+  const secondsLeft =
+    baseDurationMs !== undefined
+      ? Math.max(
+          (baseDurationMs -
+            workAccruedAt({
+              startedAt,
+              at: now,
+              windows: flowerBoostWindows,
+            })) /
+            1000,
+          0,
+        )
+      : Math.max((readyAt - now) / 1000, 0);
+  const totalSeconds =
+    baseDurationMs !== undefined ? baseDurationMs / 1000 : growSeconds;
+  const growPercentage = 100 - (Math.max(secondsLeft, 0) / totalSeconds) * 100;
 
   const isGrowing = secondsLeft > 0;
+  const isBoosted = speed > 1;
+
+  const popoverVisible = showPopover && isGrowing && !flower.dirty;
+
+  // Elevate the tile's MapPlacement ancestor while the popover is visible so it
+  // renders above sibling flower beds / decorations. Each MapPlacement is its
+  // own depth-sorted stacking context, so the inner z-50 popover would otherwise
+  // be painted over by later-rendered tiles. Mirrors MovableComponent's
+  // selection elevation; the original z-index is restored on hide.
+  useEffect(() => {
+    if (!popoverVisible) return;
+    const mapPlacement = nodeRef.current?.closest<HTMLElement>(
+      "[data-map-placement]",
+    );
+    if (!mapPlacement) return;
+    const originalZIndex = mapPlacement.style.zIndex;
+    mapPlacement.style.zIndex = "10000";
+    return () => {
+      mapPlacement.style.zIndex = originalZIndex;
+    };
+  }, [popoverVisible]);
 
   const stage = getGrowthStage(growPercentage, !!flower.dirty);
 
@@ -214,6 +308,7 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
   return (
     <>
       <div
+        ref={nodeRef}
         className="relative w-full h-full cursor-pointer hover:img-highlight"
         onClick={handlePlotClick}
         onMouseEnter={() => setShowPopover(true)}
@@ -227,6 +322,19 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
             bottom: 0,
           }}
         />
+        {isGrowing && isBoosted && (
+          <img
+            src={SUNNYSIDE.icons.lightning}
+            alt=""
+            aria-hidden
+            className="absolute z-20 pointer-events-none animate-pulse"
+            style={{
+              width: `${PIXEL_SCALE * 7}px`,
+              top: `${PIXEL_SCALE * 2}px`,
+              right: `${PIXEL_SCALE * 2}px`,
+            }}
+          />
+        )}
         {flower && isGrowing && !flower.dirty && (
           <div
             className="flex justify-center absolute w-full pointer-events-none"
@@ -243,6 +351,7 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
               description={hasHarvestedBefore ? flower.name : "Unknown"}
               showPopover={showPopover}
               timeLeft={secondsLeft}
+              speed={speed}
             />
           </div>
         )}

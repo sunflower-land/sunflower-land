@@ -89,6 +89,13 @@ export const FRUIT_BOOST_SPEED = {
   "Turbofruit Mix": 1.25,
 } as const;
 
+export const FLOWER_BOOST_SPEED = {
+  "Blossom Hourglass": 1.35,
+  // Moth Shrine is a MIXED boost: only its grow-TIME half is windowed here; its
+  // +1-flower yield critical-hit stays baked in getFlowerAmount (harvestFlower).
+  "Moth Shrine": 1.35,
+} as const;
+
 /** Window for the Power Hour buff (1h from activation), if active. */
 const getPowerHourWindows = (game: GameState): BoostWindow[] => {
   const buff = game.buffs?.["Power hour"];
@@ -210,6 +217,27 @@ export const getFruitBoostWindows = (game: GameState): BoostWindow[] => [
     game,
     name: "Toucan Shrine",
     speed: FRUIT_BOOST_SPEED["Toucan Shrine"],
+  }),
+];
+
+/**
+ * The windowed speed boosts that apply to flower growth. Each is its own window
+ * so overlapping boosts stack multiplicatively (Blossom 1.35 × Moth 1.35 =
+ * 1.8225×). Unlike other activities there are NO totems here — Super/Time Warp
+ * Totem are not applied to flowers (their descriptions exclude flowers) — and no
+ * fertiliser. Only Moth Shrine's grow-TIME half is windowed; its +1-flower yield
+ * stays baked in getFlowerAmount. Mirrors `getFruitBoostWindows` for flowers.
+ */
+export const getFlowerBoostWindows = (game: GameState): BoostWindow[] => [
+  ...getBoostWindows({
+    game,
+    name: "Blossom Hourglass",
+    speed: FLOWER_BOOST_SPEED["Blossom Hourglass"],
+  }),
+  ...getBoostWindows({
+    game,
+    name: "Moth Shrine",
+    speed: FLOWER_BOOST_SPEED["Moth Shrine"],
   }),
 ];
 
