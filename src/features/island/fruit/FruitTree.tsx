@@ -162,7 +162,7 @@ export const FruitTree: React.FC<Props> = ({
   // boosted. Tick the countdown faster (1000/speed) so it drops ~1s per visual
   // tick rather than jumping by `speed` each real second.
   const tickNow = useNow({
-    live: baseDurationMs !== undefined,
+    live: isGrowing && baseDurationMs !== undefined,
     autoEndAt: readyAt,
   });
   const speed =

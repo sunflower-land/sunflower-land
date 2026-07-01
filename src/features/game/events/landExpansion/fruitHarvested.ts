@@ -326,19 +326,29 @@ export function harvestFruit({
       stateCopy.inventory[name]?.add(amount) ?? new Decimal(amount);
 
     patch.fruit.harvestsLeft = patch.fruit.harvestsLeft - 1;
-    // Patch fertiliser persists across harvests (not consumed here). Passing it into
-    // getPlantedAt applies Turbofruit Mix (×0.8) to replenishment timing for every
-    // remaining harvest, same lifecycle intent as Fruitful Blend on yield.
+    // A fruit already on the windowed model (baseDurationMs set) stays windowed
+    // for its remaining harvests even if SPEED_BOOSTS is later rolled back —
+    // otherwise the read path (which keys off baseDurationMs) would keep windowed
+    // timing while the write silently reverted it to legacy mid-life. Patch
+    // fertiliser persists across harvests; passing it into getPlantedAt applies
+    // Turbofruit Mix to replenishment timing for every remaining harvest.
+    const forceWindowed = patch.fruit.baseDurationMs !== undefined;
     const {
       plantedAt: newPlantedAt,
       baseDurationMs: newBaseDurationMs,
       boostsUsed: fruitPlantedBoostsUsed,
-    } = getPlantedAt(seed, stateCopy, createdAt, patch.fertiliser?.name);
+    } = getPlantedAt(
+      seed,
+      stateCopy,
+      createdAt,
+      patch.fertiliser?.name,
+      forceWindowed,
+    );
     delete patch.fruit.amount;
     patch.fruit.harvestedAt = newPlantedAt;
-    // Speed-rate model stores the real harvestedAt + a permanent-boost-only base
-    // recovery; legacy/flag-off back-dates harvestedAt instead, so clear any
-    // stale baseDurationMs from a prior (windowed) grow.
+    // Windowed replenish stores the real harvestedAt + a permanent-boost-only
+    // base recovery; a legacy (never-windowed) fruit under flag-off back-dates
+    // harvestedAt instead, so clear any baseDurationMs.
     if (newBaseDurationMs !== undefined) {
       patch.fruit.baseDurationMs = newBaseDurationMs;
     } else {

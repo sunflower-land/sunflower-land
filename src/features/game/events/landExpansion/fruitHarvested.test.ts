@@ -1244,4 +1244,23 @@ describe("harvestFruit — SPEED_BOOSTS speed windows", () => {
     );
     expect(ready).toBe(true);
   });
+
+  it("keeps baseDurationMs on a flag-off replenish (windowed fruit stays windowed)", () => {
+    // Flag rolled back after the fruit was planted windowed: harvesting it must
+    // NOT silently revert it to legacy timing — the marker persists so remaining
+    // harvests stay on the windowed model.
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+    const state = harvestFruit({
+      state: withApplePatch({ plantedAt: dateNow - appleMs }),
+      action: { type: "fruit.harvested", index: "0" },
+      createdAt: dateNow,
+      farmId: 1,
+    });
+
+    const fruit = state.fruitPatches[0].fruit;
+    expect(fruit?.harvestsLeft).toBe(2);
+    expect(fruit?.baseDurationMs).toBe(appleMs);
+    // Real harvestedAt (not back-dated) — windowed replenish.
+    expect(fruit?.harvestedAt).toBe(dateNow);
+  });
 });

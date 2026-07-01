@@ -224,7 +224,14 @@ export const getFruitBoostWindows = (game: GameState): BoostWindow[] => [
 export const getTurbofruitMixWindows = (
   fertiliser?: FruitFertiliser,
 ): BoostWindow[] => {
-  if (fertiliser?.name !== "Turbofruit Mix") return [];
+  // Guard fertilisedAt too: the type requires it, but defend against malformed
+  // persisted state producing a `from: undefined` window.
+  if (
+    fertiliser?.name !== "Turbofruit Mix" ||
+    fertiliser.fertilisedAt === undefined
+  ) {
+    return [];
+  }
   return [
     {
       from: fertiliser.fertilisedAt,
