@@ -513,6 +513,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Ammonite Shell": 773,
   "April Fools Token 2026": 774,
   "Skill Reset Ticket": 775,
+  "Colors Token 2026": 776,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -1172,6 +1173,25 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Pet Rug": 2356,
   "Jester in a box": 2357,
   "The Sunflower Man Statue": 2358,
+
+  //Festival of Colors 2026 event items
+  "Blue Paint Bucket": 2359,
+  "Green Paint Bucket": 2360,
+  "Purple Paint Bucket": 2361,
+  "Yellow Paint Bucket": 2362,
+  "Color Wheel": 2363,
+  "Dhol Drum": 2364,
+  "Mimic Slime Ball": 2365,
+  "Mimic Winged Slime Ball": 2366,
+  "Pork Jelly": 2367,
+  "Rainbow Pork Jelly": 2368,
+  "Slime Totem": 2369,
+  "Giant Donut": 2370,
+  "Fool's Gold": 2371,
+  "Golden Slime Trophy": 2372,
+  "Silver Slime Trophy": 2373,
+  "Bronze Slime Trophy": 2374,
+  "Colors Ticket 2026": 2375,
 
   // Monument Items
   "Big Orange": 2281,

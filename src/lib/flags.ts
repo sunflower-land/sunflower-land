@@ -80,6 +80,10 @@ export const TIME_BASED_FEATURE_FLAG_WINDOWS = {
     start: new Date("2026-04-01T00:00:00Z"),
     end: new Date("2026-04-08T00:00:00Z"),
   },
+  COLORS_2026_EVENT_FLAG: {
+    start: new Date("2026-07-01T00:00:00Z"),
+    end: new Date("2026-07-11T00:00:00Z"),
+  },
   RONIN_WAYPOINT_DEPRECATION: {
     start: WAYPOINT_WALLET_ENDDATE,
     end: null,
@@ -101,6 +105,7 @@ export const TIME_BASED_FEATURE_FLAGS: Record<
   TICKETS_FROM_FLOWER_NPC: timePeriodFeatureFlag,
   APRIL_FOOLS_EVENT_FLAG: betaTimePeriodFeatureFlag,
   RONIN_WAYPOINT_DEPRECATION: timePeriodFeatureFlag,
+  COLORS_2026_EVENT_FLAG: betaTimePeriodFeatureFlag,
 };
 
 /**

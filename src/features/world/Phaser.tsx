@@ -71,6 +71,7 @@ import { WaveModal } from "features/social/WaveModal";
 import { Discovery } from "features/social/Discovery";
 import { SPAWNS, type SpawnFromId } from "./lib/spawn";
 import { PlayerInteractionMenu } from "./ui/player/PlayerInteractionMenu";
+import { ColorsIsland2026Scene } from "./scenes/ColorsIsland2026Scene";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -158,6 +159,7 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
     InfernosScene,
     StreamScene,
     LoveIslandScene,
+    ColorsIsland2026Scene,
   ];
 
   useEffect(() => {
