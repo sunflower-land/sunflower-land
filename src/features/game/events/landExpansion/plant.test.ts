@@ -860,7 +860,7 @@ describe("plant", () => {
       expect(time).toEqual(60 * 60);
     });
 
-    it("plants a fertilised carrot", () => {
+    it("does not bake Rapid Root into the plot time under SPEED_BOOSTS", () => {
       const { time } = getCropPlotTime({
         crop: "Carrot",
         game: FARM_WITH_PLOTS,
@@ -872,10 +872,11 @@ describe("plant", () => {
         createdAt: dateNow,
       });
 
-      expect(time).toEqual(30 * 60);
+      // Windowed (2×) via getCropFertiliserWindows, so the base time is unchanged.
+      expect(time).toEqual(60 * 60);
     });
 
-    it("plants a carrot fertilised with Sproutroot Surprise", () => {
+    it("does not bake Sproutroot Surprise into the plot time under SPEED_BOOSTS", () => {
       const { time } = getCropPlotTime({
         crop: "Carrot",
         game: FARM_WITH_PLOTS,
@@ -887,7 +888,8 @@ describe("plant", () => {
         createdAt: dateNow,
       });
 
-      expect(time).toEqual(30 * 60);
+      // Only its grow-TIME half is windowed (2×); the +0.2 yield is separate.
+      expect(time).toEqual(60 * 60);
     });
 
     it("when Bumpkin has Carrot Amulet equipped it reduces 20% the harvest time", () => {

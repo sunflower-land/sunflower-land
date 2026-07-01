@@ -3,10 +3,6 @@ import type { GameState } from "../../types/game";
 import type { CropCompostName } from "features/game/types/composters";
 import { CROPS, type Crop, isBasicCrop } from "features/game/types/crops";
 import { getCropReadyAt, isReadyToHarvest } from "./harvest";
-import {
-  getCropPlotBoostWindows,
-  workAccruedAt,
-} from "features/game/lib/boostWindows";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { produce } from "immer";
 import {
@@ -86,16 +82,11 @@ export function applyFertiliserToPlot({
     (fertiliser === "Rapid Root" || fertiliser === "Sproutroot Surprise") &&
     cropDetails
   ) {
-    if (crop.baseDurationMs !== undefined) {
-      // Speed-rate model: halve the remaining work (in base-duration ms).
-      const accrued = workAccruedAt({
-        startedAt: crop.plantedAt,
-        at: createdAt,
-        windows: getCropPlotBoostWindows(game),
-      });
-      const remainingWork = Math.max(crop.baseDurationMs - accrued, 0);
-      crop.baseDurationMs = crop.baseDurationMs - remainingWork / 2;
-    } else {
+    // Speed-rate model: the fertiliser is a live 2× window from `fertilisedAt`
+    // (recorded on `plot.fertiliser` above), so a windowed crop needs no mutation
+    // — its readyAt is derived live via getCropFertiliserWindows. Only legacy
+    // crops back-date plantedAt.
+    if (crop.baseDurationMs === undefined) {
       const { newPlantedAt, timeReduction } = getPlantedAt(
         fertiliser,
         crop.plantedAt,
@@ -150,7 +141,7 @@ export function applyFertiliserToPlot({
           "Basic Scarecrow",
           { dx, dy },
           createdAt,
-          getCropReadyAt(crop, cropDetails, game) - createdAt,
+          getCropReadyAt(crop, cropDetails, game, plot.fertiliser) - createdAt,
         );
       }
     }

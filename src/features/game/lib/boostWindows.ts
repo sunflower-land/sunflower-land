@@ -1,6 +1,7 @@
 import { getActiveGuardian } from "./getActiveGuardian";
 import type {
   BoostHistoryWindow,
+  CropFertiliser,
   FruitFertiliser,
   GameState,
   PlacedItem,
@@ -40,6 +41,10 @@ export const CROP_PLOT_BOOST_SPEED = {
   "Super Totem": 2,
   "Time Warp Totem": 2,
   "Power hour": 2,
+  // Per-crop fertilisers (not collectibles); windowed via getCropFertiliserWindows.
+  // Sproutroot Surprise's +0.2 yield is separate — only its grow-time half is here.
+  "Rapid Root": 2,
+  "Sproutroot Surprise": 2,
   sunshower: 2,
   sunshowerGuardian: 4,
 } as const;
@@ -268,6 +273,40 @@ export const getTurbofruitMixWindows = (
       // always ready long before this.
       to: Number.MAX_SAFE_INTEGER,
       speed: FRUIT_BOOST_SPEED["Turbofruit Mix"],
+    },
+  ];
+};
+
+/**
+ * The crop-plot fertiliser speed windows (Rapid Root, Sproutroot Surprise). Like
+ * Turbofruit Mix for fruit, these are per-CROP and never expire on a timer: a 2×
+ * speed active from when the fertiliser was applied (`fertilisedAt`) until the
+ * crop is harvested, so the window is open-ended. Returns [] when the plot has no
+ * speed fertiliser. Sproutroot Surprise's +0.2 yield is separate (baked in
+ * getCropYieldAmount) — only its grow-TIME half is windowed here. Assembled
+ * separately from `getCropPlotBoostWindows` (game-global) and unioned in by
+ * `getCropReadyAt` and the plot UI.
+ */
+export const getCropFertiliserWindows = (
+  fertiliser?: CropFertiliser,
+): BoostWindow[] => {
+  // Guard fertilisedAt too: the type requires it, but defend against malformed
+  // persisted state producing a `from: undefined` window.
+  if (
+    (fertiliser?.name !== "Rapid Root" &&
+      fertiliser?.name !== "Sproutroot Surprise") ||
+    fertiliser.fertilisedAt === undefined
+  ) {
+    return [];
+  }
+  return [
+    {
+      from: fertiliser.fertilisedAt,
+      // Open-ended: active for the crop's whole remaining grow. A far-future
+      // bound (not Infinity, to keep the segment maths finite) — the crop is
+      // always ready long before this.
+      to: Number.MAX_SAFE_INTEGER,
+      speed: CROP_PLOT_BOOST_SPEED[fertiliser.name],
     },
   ];
 };

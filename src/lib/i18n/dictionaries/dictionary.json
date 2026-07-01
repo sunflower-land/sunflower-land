@@ -9074,6 +9074,7 @@
   "description.fruitful.blend.boost": "+0.1 Fruit Patch Yield",
   "description.fruitful.bounty.skill.boost": "+0.1 Fruit Patch Yield from Fruitful Bounty Skill",
   "description.rapid.root.boost": "x0.5 Crop Plot Growth Time",
+  "description.rapid.root.boost.speed": "2x Crop Plot Growth Speed",
   "description.sproutroot.surprise.boost": "+0.2 Crop Plot Yield",
   "description.sproutroot.surprise.boost.2": "x0.5 Crop Plot Growth Time",
   "description.turbofruit.mix.boost": "x0.8 Fruit Patch Growth Time",

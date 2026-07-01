@@ -357,6 +357,7 @@ export function powerSkillDisabledConditions({
           plot.crop,
           CROPS[plot.crop.name],
           state,
+          plot.fertiliser,
         )
           ? "ready"
           : "growing";

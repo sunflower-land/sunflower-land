@@ -26,7 +26,10 @@ import {
   selectVerified,
 } from "features/game/lib/gameMachine";
 import { isSeasonedPlayer } from "features/game/lib/seasonedPlayer";
-import { getCropPlotBoostWindows } from "features/game/lib/boostWindows";
+import {
+  getCropFertiliserWindows,
+  getCropPlotBoostWindows,
+} from "features/game/lib/boostWindows";
 import { ZoomContext } from "components/ZoomProvider";
 import { CROP_COMPOST } from "features/game/types/composters";
 import { gameAnalytics } from "lib/gameAnalytics";
@@ -127,12 +130,18 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const now = useNow({ live: true });
   const isSeasoned = isSeasonedPlayer({ game: state, verified, now });
 
-  const cropBoostWindows = getCropPlotBoostWindows(state);
+  // Union the plot's own Rapid Root / Sproutroot Surprise fertiliser window
+  // (per-plot, keyed off fertilisedAt) with the game-global crop boost windows,
+  // so the countdown ticks at the fertiliser's boosted rate too.
+  const cropBoostWindows = [
+    ...getCropPlotBoostWindows(state),
+    ...getCropFertiliserWindows(fertiliser),
+  ];
 
   // Calculate expected reward for UI preview (captcha gate for non-seasoned players)
   const expectedReward =
     crop?.reward ??
-    (crop && isReadyToHarvest(now, crop, CROPS[crop.name], state)
+    (crop && isReadyToHarvest(now, crop, CROPS[crop.name], state, fertiliser)
       ? getReward({
           crop: crop.name,
           skills: state.bumpkin?.skills ?? {},
@@ -214,7 +223,8 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
   const onClick = (seed: SeedName = selectedItem as SeedName) => {
     const readyToHarvest =
-      !!crop && isReadyToHarvest(now, crop, CROPS[crop.name], state);
+      !!crop &&
+      isReadyToHarvest(now, crop, CROPS[crop.name], state, fertiliser);
     const wantsToPlant = !crop && seed && isCropSeed(seed);
 
     // small buffer to prevent accidental double clicks

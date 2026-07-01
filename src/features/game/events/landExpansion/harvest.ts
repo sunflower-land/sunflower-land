@@ -2,6 +2,7 @@ import type {
   AOE,
   BoostName,
   CriticalHitName,
+  CropFertiliser,
   GameState,
   PlantedCrop,
   Reward,
@@ -32,6 +33,7 @@ import {
 } from "features/game/lib/collectibleBuilt";
 import {
   computeReadyAt,
+  getCropFertiliserWindows,
   getCropPlotBoostWindows,
 } from "features/game/lib/boostWindows";
 import { FACTION_ITEMS } from "features/game/lib/factions";
@@ -115,12 +117,16 @@ export const getCropReadyAt = (
   plantedCrop: PlantedCrop,
   cropDetails: Crop,
   game: GameState,
+  fertiliser?: CropFertiliser,
 ): number => {
   if (plantedCrop.baseDurationMs !== undefined) {
     return computeReadyAt({
       startedAt: plantedCrop.plantedAt,
       baseDurationMs: plantedCrop.baseDurationMs,
-      windows: getCropPlotBoostWindows(game),
+      windows: [
+        ...getCropPlotBoostWindows(game),
+        ...getCropFertiliserWindows(fertiliser),
+      ],
     });
   }
 
@@ -132,8 +138,9 @@ export const isReadyToHarvest = (
   plantedCrop: PlantedCrop,
   cropDetails: Crop,
   game: GameState,
+  fertiliser?: CropFertiliser,
 ) => {
-  return now >= getCropReadyAt(plantedCrop, cropDetails, game);
+  return now >= getCropReadyAt(plantedCrop, cropDetails, game, fertiliser);
 };
 
 export function isCropGrowing(plot: CropPlot, game: GameState) {
@@ -141,7 +148,13 @@ export function isCropGrowing(plot: CropPlot, game: GameState) {
   if (!crop) return false;
 
   const cropDetails = CROPS[crop.name];
-  return !isReadyToHarvest(Date.now(), crop, cropDetails, game);
+  return !isReadyToHarvest(
+    Date.now(),
+    crop,
+    cropDetails,
+    game,
+    plot.fertiliser,
+  );
 }
 
 /**
@@ -155,10 +168,12 @@ const getCropGrowDurationMs = (
   cropName: CropName | GreenHouseCropName,
   plantedCrop: PlantedCrop | undefined,
   game: GameState,
+  fertiliser?: CropFertiliser,
 ): number => {
   const cropDetails = CROPS[cropName as CropName];
   return plantedCrop?.baseDurationMs !== undefined
-    ? getCropReadyAt(plantedCrop, cropDetails, game) - plantedCrop.plantedAt
+    ? getCropReadyAt(plantedCrop, cropDetails, game, fertiliser) -
+        plantedCrop.plantedAt
     : cropDetails.harvestSeconds * 1000 - (plantedCrop?.boostedTime ?? 0);
 };
 
@@ -541,7 +556,7 @@ export function getCropYieldAmount({
         updatedAoe,
         "Scary Mike",
         { dx, dy },
-        getCropGrowDurationMs(crop, plot?.crop, game),
+        getCropGrowDurationMs(crop, plot?.crop, game, plot?.fertiliser),
         createdAt,
       );
 
@@ -590,7 +605,7 @@ export function getCropYieldAmount({
         updatedAoe,
         "Sir Goldensnout",
         { dx, dy },
-        getCropGrowDurationMs(crop, plot?.crop, game),
+        getCropGrowDurationMs(crop, plot?.crop, game, plot?.fertiliser),
         createdAt,
       );
 
@@ -639,7 +654,7 @@ export function getCropYieldAmount({
         updatedAoe,
         "Laurie the Chuckle Crow",
         { dx, dy },
-        getCropGrowDurationMs(crop, plot.crop, game),
+        getCropGrowDurationMs(crop, plot.crop, game, plot.fertiliser),
         createdAt,
       );
 
@@ -690,7 +705,7 @@ export function getCropYieldAmount({
         updatedAoe,
         "Queen Cornelia",
         { dx, dy },
-        getCropGrowDurationMs(crop, plot?.crop, game),
+        getCropGrowDurationMs(crop, plot?.crop, game, plot?.fertiliser),
         createdAt,
       );
 
@@ -748,7 +763,7 @@ export function getCropYieldAmount({
         updatedAoe,
         "Gnome",
         { dx, dy },
-        getCropGrowDurationMs(crop, plot?.crop, game),
+        getCropGrowDurationMs(crop, plot?.crop, game, plot?.fertiliser),
         createdAt,
       );
       if (canUseAoe) {
@@ -1016,7 +1031,15 @@ export function harvestCropFromPlot({
         prngArgs: { farmId, counter },
       });
 
-  if (!isReadyToHarvest(createdAt, plot.crop, CROPS[cropName], game)) {
+  if (
+    !isReadyToHarvest(
+      createdAt,
+      plot.crop,
+      CROPS[cropName],
+      game,
+      plot.fertiliser,
+    )
+  ) {
     throw new Error("Not ready");
   }
 

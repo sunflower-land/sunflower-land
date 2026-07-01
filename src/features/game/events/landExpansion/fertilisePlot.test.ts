@@ -4,6 +4,7 @@ import { INITIAL_FARM } from "features/game/lib/constants";
 import { CROPS } from "features/game/types/crops";
 import type { GameState, CropPlot } from "features/game/types/game";
 import { fertilisePlot, FERTILISE_CROP_ERRORS } from "./fertilisePlot";
+import { getCropReadyAt } from "./harvest";
 
 const GAME_STATE: GameState = {
   ...INITIAL_FARM,
@@ -307,5 +308,97 @@ describe("fertiliseCrop", () => {
       createdAt: dateNow,
     });
     expect(gameState.crops[0].crop?.boostedTime).toEqual(10 * 1000);
+  });
+
+  // Speed-rate model: a windowed crop (has `baseDurationMs`) is boosted by a live
+  // 2× window from `fertilisedAt` (see getCropFertiliserWindows), so fertilising
+  // it must NOT mutate the crop — only record the fertiliser. Keyed off
+  // `baseDurationMs`, not the flag.
+  describe("Rapid Root / Sproutroot Surprise — SPEED_BOOSTS (windowed)", () => {
+    const sunflowerMs = CROPS.Sunflower.harvestSeconds * 1000;
+
+    const fertiliseWindowedCrop = (
+      fertiliser: "Rapid Root" | "Sproutroot Surprise",
+    ) =>
+      fertilisePlot({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            ...inventory,
+            "Rapid Root": new Decimal(5),
+            "Sproutroot Surprise": new Decimal(5),
+          },
+          crops: {
+            0: {
+              ...plot,
+              crop: {
+                name: "Sunflower",
+                plantedAt: dateNow - sunflowerMs / 2,
+                baseDurationMs: sunflowerMs,
+              },
+            },
+          },
+        },
+        action: { type: "plot.fertilised", plotID: "0", fertiliser },
+        createdAt: dateNow,
+      });
+
+    it("does NOT mutate a windowed crop — just records the fertiliser at fertilisedAt", () => {
+      const plantedAt = dateNow - sunflowerMs / 2;
+      const state = fertiliseWindowedCrop("Rapid Root");
+      const crop = state.crops["0"].crop;
+      // No deduction: plantedAt / baseDurationMs untouched, no boostedTime banked.
+      expect(crop?.plantedAt).toEqual(plantedAt);
+      expect(crop?.baseDurationMs).toEqual(sunflowerMs);
+      expect(crop?.boostedTime).toBeUndefined();
+      expect(state.crops["0"].fertiliser).toEqual({
+        name: "Rapid Root",
+        fertilisedAt: dateNow,
+      });
+    });
+
+    it("brings the ready time forward by speeding the work accrued AFTER it was applied", () => {
+      const state = fertiliseWindowedCrop("Rapid Root");
+      const crop = state.crops["0"].crop!;
+      const fertiliser = state.crops["0"].fertiliser;
+
+      const readyWith = getCropReadyAt(
+        crop,
+        CROPS.Sunflower,
+        state,
+        fertiliser,
+      );
+      const readyWithout = getCropReadyAt(
+        crop,
+        CROPS.Sunflower,
+        state,
+        undefined,
+      );
+
+      // Half the work was done at 1×; the remaining half accrues at 2× from
+      // fertilisedAt (dateNow): readyAt = dateNow + (sunflowerMs / 2) / 2.
+      expect(readyWith).toBe(dateNow + sunflowerMs / 2 / 2);
+      expect(readyWith).toBeLessThan(readyWithout);
+    });
+
+    it("windows a Sproutroot Surprise crop the same way (time half) without mutation", () => {
+      const plantedAt = dateNow - sunflowerMs / 2;
+      const state = fertiliseWindowedCrop("Sproutroot Surprise");
+      const crop = state.crops["0"].crop!;
+      expect(crop.plantedAt).toEqual(plantedAt);
+      expect(crop.baseDurationMs).toEqual(sunflowerMs);
+      expect(state.crops["0"].fertiliser).toEqual({
+        name: "Sproutroot Surprise",
+        fertilisedAt: dateNow,
+      });
+      expect(
+        getCropReadyAt(
+          crop,
+          CROPS.Sunflower,
+          state,
+          state.crops["0"].fertiliser,
+        ),
+      ).toBe(dateNow + sunflowerMs / 2 / 2);
+    });
   });
 });

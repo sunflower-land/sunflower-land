@@ -416,9 +416,13 @@ export const getCropPlotTime = ({
     boostsUsed.push({ name: "Broccoli Hat", value: "x0.5" });
   }
 
+  // Rapid Root / Sproutroot Surprise: under SPEED_BOOSTS these are a windowed 2×
+  // speed boost for the crop (see getCropFertiliserWindows); legacy / flag-off
+  // bakes the discount-at-start here. (Sproutroot's +0.2 yield is separate.)
   if (
-    plot?.fertiliser?.name === "Rapid Root" ||
-    plot?.fertiliser?.name === "Sproutroot Surprise"
+    !hasFeatureAccess(game, "SPEED_BOOSTS") &&
+    (plot?.fertiliser?.name === "Rapid Root" ||
+      plot?.fertiliser?.name === "Sproutroot Surprise")
   ) {
     seconds = seconds * 0.5;
   }
