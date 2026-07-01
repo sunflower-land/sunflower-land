@@ -112,13 +112,16 @@ describe("harvest", () => {
     expect(state.crops?.[0].crop).toBeUndefined();
     expect(state.inventory.Carrot).toBeDefined();
 
-    // Without the fertiliser the same crop is still growing at 1×.
+    // Without the fertiliser window (explicitly cleared so the case can't
+    // silently inherit one) the same crop is still growing at 1× → not ready.
     expect(() =>
       harvest({
         state: {
           ...GAME_STATE,
           inventory: {},
-          crops: { 0: { ...plot, crop: windowedCarrot } },
+          crops: {
+            0: { ...plot, crop: windowedCarrot, fertiliser: undefined },
+          },
         },
         action: { type: "crop.harvested", index: "0" },
         createdAt: dateNow,
