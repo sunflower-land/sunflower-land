@@ -3,6 +3,12 @@ import type { GameState } from "../../types/game";
 import { FLOWER_SEEDS, FLOWERS, type FlowerName } from "../../types/flowers";
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
+import { getFlowerReadyAt } from "features/game/lib/flowerBedReadiness";
+import { CONFIG } from "lib/config";
+
+const setNetwork = (network: "mainnet" | "amoy") => {
+  (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = network;
+};
 
 const GAME_STATE: GameState = {
   flowers: {
@@ -220,5 +226,51 @@ describe("instaGrowFlower", () => {
     });
 
     expect(result.beehives["123"].flowers).toEqual([]);
+  });
+});
+
+describe("instaGrowFlower — SPEED_BOOSTS speed windows", () => {
+  const originalNetwork = CONFIG.NETWORK;
+  beforeEach(() => setNetwork("amoy"));
+  afterAll(() => setNetwork(originalNetwork));
+
+  const flowerName: FlowerName = "Red Pansy";
+  const baseMs = FLOWER_SEEDS[FLOWERS[flowerName].seed].plantSeconds * 1000;
+
+  it("zeroes baseDurationMs instead of back-dating plantedAt", () => {
+    const createdAt = 2_000_000_000;
+    const plantedAt = createdAt;
+    const flowerBedId = "1";
+
+    const result = instaGrowFlower({
+      state: {
+        ...INITIAL_FARM,
+        inventory: { Obsidian: new Decimal(100) },
+        beehives: {},
+        flowers: {
+          discovered: {},
+          flowerBeds: {
+            [flowerBedId]: {
+              createdAt: 0,
+              x: 0,
+              y: 0,
+              flower: { name: flowerName, plantedAt, baseDurationMs: baseMs },
+            },
+          },
+        },
+      } as GameState,
+      action: { type: "flower.instaGrown", id: flowerBedId },
+      createdAt,
+    });
+
+    const flower = result.flowers.flowerBeds[flowerBedId].flower!;
+
+    // Windowed insta-grow zeroes remaining work rather than back-dating plantedAt.
+    expect(flower.baseDurationMs).toEqual(0);
+    expect(flower.plantedAt).toEqual(plantedAt);
+    // Ready now: readyAt resolves to startedAt, which is <= createdAt.
+    expect(getFlowerReadyAt(flower, result)).toBeLessThanOrEqual(createdAt);
+    // Some Obsidian was spent.
+    expect(result.inventory.Obsidian!.lt(new Decimal(100))).toBe(true);
   });
 });

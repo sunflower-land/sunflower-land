@@ -7,10 +7,12 @@ import {
   TREE_BOOST_SPEED,
   MINE_BOOST_SPEED,
   FRUIT_BOOST_SPEED,
+  FLOWER_BOOST_SPEED,
   getTreeBoostWindows,
   getMineBoostWindows,
   getFruitBoostWindows,
   getTurbofruitMixWindows,
+  getFlowerBoostWindows,
   appendBoostHistory,
   type BoostWindow,
 } from "./boostWindows";
@@ -585,6 +587,109 @@ describe("getFruitBoostWindows", () => {
 
   it("returns no windows when none are placed", () => {
     expect(getFruitBoostWindows(TEST_FARM)).toEqual([]);
+  });
+});
+
+describe("FLOWER_BOOST_SPEED", () => {
+  it("has the exact tuned multipliers", () => {
+    expect(FLOWER_BOOST_SPEED).toEqual({
+      "Blossom Hourglass": 1.35,
+      "Moth Shrine": 1.35,
+    });
+  });
+});
+
+describe("getFlowerBoostWindows", () => {
+  const createdAt = 1_000_000;
+
+  it("builds a window for an active Blossom Hourglass at the flower speed", () => {
+    const windows = getFlowerBoostWindows({
+      ...TEST_FARM,
+      collectibles: {
+        ...TEST_FARM.collectibles,
+        "Blossom Hourglass": [
+          { id: "1", coordinates: { x: 0, y: 0 }, createdAt },
+        ],
+      },
+    });
+
+    expect(windows).toContainEqual({
+      from: createdAt,
+      to: createdAt + EXPIRY_COOLDOWNS["Blossom Hourglass"],
+      speed: FLOWER_BOOST_SPEED["Blossom Hourglass"],
+    });
+  });
+
+  it("includes the Moth Shrine time boost at the flower speed", () => {
+    const windows = getFlowerBoostWindows({
+      ...TEST_FARM,
+      collectibles: {
+        ...TEST_FARM.collectibles,
+        "Moth Shrine": [{ id: "1", coordinates: { x: 0, y: 0 }, createdAt }],
+      },
+    });
+
+    expect(windows).toContainEqual({
+      from: createdAt,
+      to: createdAt + EXPIRY_COOLDOWNS["Moth Shrine"],
+      speed: FLOWER_BOOST_SPEED["Moth Shrine"],
+    });
+  });
+
+  it("does NOT include totems (flowers get no totem boost)", () => {
+    const windows = getFlowerBoostWindows({
+      ...TEST_FARM,
+      collectibles: {
+        ...TEST_FARM.collectibles,
+        "Super Totem": [{ id: "1", coordinates: { x: 0, y: 0 }, createdAt }],
+        "Time Warp Totem": [
+          { id: "2", coordinates: { x: 1, y: 1 }, createdAt },
+        ],
+      },
+    });
+
+    expect(windows).toEqual([]);
+  });
+
+  it("Blossom Hourglass and Moth Shrine stack MULTIPLICATIVELY over an overlap", () => {
+    const windows = getFlowerBoostWindows({
+      ...TEST_FARM,
+      collectibles: {
+        ...TEST_FARM.collectibles,
+        "Blossom Hourglass": [
+          { id: "1", coordinates: { x: 0, y: 0 }, createdAt },
+        ],
+        "Moth Shrine": [{ id: "2", coordinates: { x: 1, y: 1 }, createdAt }],
+      },
+    });
+
+    // Effective speed during the overlap = 1.35 × 1.35 = 1.8225.
+    const speed = getEffectiveSpeedAt({ at: createdAt + 1000, windows });
+    expect(speed).toBeCloseTo(
+      FLOWER_BOOST_SPEED["Blossom Hourglass"] *
+        FLOWER_BOOST_SPEED["Moth Shrine"],
+      10,
+    );
+  });
+
+  it("includes a removed/burned Blossom Hourglass via boostHistory", () => {
+    const from = 1_000_000;
+    const to = from + EXPIRY_COOLDOWNS["Blossom Hourglass"];
+    const windows = getFlowerBoostWindows({
+      ...TEST_FARM,
+      collectibles: {},
+      boostHistory: { "Blossom Hourglass": [{ from, to }] },
+    });
+
+    expect(windows).toContainEqual({
+      from,
+      to,
+      speed: FLOWER_BOOST_SPEED["Blossom Hourglass"],
+    });
+  });
+
+  it("returns no windows when none are placed", () => {
+    expect(getFlowerBoostWindows(TEST_FARM)).toEqual([]);
   });
 });
 

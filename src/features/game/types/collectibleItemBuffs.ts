@@ -1244,9 +1244,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
-  "Blossom Hourglass": () => [
+  "Blossom Hourglass": (game) => [
     {
-      shortDescription: translate("description.blossom.hourglass.boost"),
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.blossom.hourglass.boost.speed")
+        : translate("description.blossom.hourglass.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
@@ -2014,9 +2016,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS["Crop Machine"].image,
     },
   ],
-  "Moth Shrine": () => [
+  "Moth Shrine": (game) => [
     {
-      shortDescription: translate("description.mothShrine.buff"),
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.mothShrine.buff.speed")
+        : translate("description.mothShrine.buff"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,

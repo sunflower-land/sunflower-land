@@ -1738,6 +1738,15 @@ export type PlantedFlower = {
   reward?: Reward;
   criticalHit?: CriticalHit;
   amount?: number;
+  /**
+   * Unboosted-by-windowed-collectibles grow duration (ms), with all permanent
+   * (discount-at-start) boosts already folded in. Present only on flowers planted
+   * under the speed-rate model; its presence — NOT the `SPEED_BOOSTS` flag —
+   * selects `computeReadyAt` (over the legacy back-dated `plantedAt` readiness
+   * check), so a flower planted while the flag was on keeps windowed timing on
+   * rollback and retains its baked permanent boosts.
+   */
+  baseDurationMs?: number;
 };
 
 export type FlowerBed = {

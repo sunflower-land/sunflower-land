@@ -68,9 +68,13 @@ export const TimerPopover: React.FC<Props> = ({
           </Label>
         )}
         <span className="flex-1 text-center font-secondary">
+          {/* secondsToString joins units with a non-breaking space, which would
+              force a long boosted "full" time (e.g. a multi-day flower) onto one
+              line and overflow this fixed-width popover. Normalise to a regular
+              space so it wraps within the panel. */}
           {secondsToString(timeLeft, {
             length: speed && speed > 1 ? "full" : "medium",
-          })}
+          }).replace(/\u00A0/g, " ")}
         </span>
       </div>
     </InnerPanel>

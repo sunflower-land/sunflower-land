@@ -11,6 +11,7 @@ import {
   DEFAULT_HONEY_PRODUCTION_TIME,
   updateBeehives,
 } from "./updateBeehives";
+import { getFlowerReadyAt } from "./flowerBedReadiness";
 
 describe("updateBeehives", () => {
   const now = Date.now();
@@ -1098,5 +1099,113 @@ describe("updateBeehives", () => {
     });
 
     expect(futureUpdate[beehiveId].honey.produced).toEqual(tenMinutes * 1.5);
+  });
+
+  // SPEED_BOOSTS: a windowed flower becomes ready earlier while a boost window is
+  // active, so pollination must be bounded by the windowed readyAt (not the base
+  // grow time) — otherwise the hive over-credits pollination time.
+  it("bounds pollination by the windowed (earlier) readyAt for a boosted flower", () => {
+    const beehives: Beehives = {
+      "1": {
+        ...DEFAULT_BEEHIVE,
+        honey: { updatedAt: now, produced: 0 },
+        flowers: [],
+      },
+    };
+    const flowerBeds: FlowerBeds = {
+      "1": {
+        createdAt: now,
+        x: 0,
+        y: 0,
+        flower: {
+          name: "Red Pansy",
+          plantedAt: now,
+          baseDurationMs: FLOWER_GROW_TIME,
+        },
+      },
+    };
+    const game: GameState = {
+      ...TEST_FARM,
+      beehives,
+      flowers: { flowerBeds, discovered: {} },
+      collectibles: {
+        ...TEST_FARM.collectibles,
+        "Blossom Hourglass": [
+          {
+            id: "1",
+            coordinates: { x: 5, y: 5 },
+            createdAt: now,
+            readyAt: now,
+          },
+        ],
+      },
+    };
+
+    const windowedReadyAt = getFlowerReadyAt(
+      game.flowers.flowerBeds["1"].flower!,
+      game,
+    );
+    // Sanity: the active Blossom Hourglass readies the flower before its base time.
+    expect(windowedReadyAt).toBeLessThan(now + FLOWER_GROW_TIME);
+
+    const updatedBeehives = updateBeehives({ game, createdAt: now });
+    const attached = updatedBeehives["1"].flowers[0];
+
+    expect(attached.id).toEqual("1");
+    // Pollination ends at the windowed readyAt, not now + base grow time.
+    expect(attached.attachedUntil).toEqual(windowedReadyAt);
+  });
+
+  // A boost placed AFTER a flower is attached moves its readiness earlier; honey
+  // production must not be credited past the recomputed (windowed) ready time even
+  // though the stored attachedUntil still reflects the pre-boost ready time.
+  it("does not credit honey past a flower's windowed readyAt when a boost is added after attachment", () => {
+    const attachedUntil = now + FLOWER_GROW_TIME; // pre-boost (no-boost) ready time
+    const beehives: Beehives = {
+      "1": {
+        ...DEFAULT_BEEHIVE,
+        honey: { updatedAt: now, produced: 0 },
+        flowers: [{ id: "1", attachedAt: now, attachedUntil, rate: 1 }],
+      },
+    };
+    const flowerBeds: FlowerBeds = {
+      "1": {
+        createdAt: now,
+        x: 0,
+        y: 0,
+        flower: {
+          name: "Red Pansy",
+          plantedAt: now,
+          baseDurationMs: FLOWER_GROW_TIME,
+        },
+      },
+    };
+    const game: GameState = {
+      ...TEST_FARM,
+      beehives,
+      flowers: { flowerBeds, discovered: {} },
+      collectibles: {
+        ...TEST_FARM.collectibles,
+        "Blossom Hourglass": [
+          {
+            id: "1",
+            coordinates: { x: 5, y: 5 },
+            createdAt: now,
+            readyAt: now,
+          },
+        ],
+      },
+    };
+
+    const windowedReadyAt = getFlowerReadyAt(
+      game.flowers.flowerBeds["1"].flower!,
+      game,
+    );
+    expect(windowedReadyAt).toBeLessThan(attachedUntil);
+
+    const updatedBeehives = updateBeehives({ game, createdAt: attachedUntil });
+
+    // Honey credited only for [now, windowedReadyAt], not up to the stale attachedUntil.
+    expect(updatedBeehives["1"].honey.produced).toEqual(windowedReadyAt - now);
   });
 });

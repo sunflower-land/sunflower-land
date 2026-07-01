@@ -1,5 +1,5 @@
-import { FLOWERS, FLOWER_SEEDS } from "features/game/types/flowers";
 import type { BoostName, CriticalHitName, GameState } from "../../types/game";
+import { isFlowerReadyToHarvest } from "features/game/lib/flowerBedReadiness";
 import Decimal from "decimal.js-light";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import { translate } from "lib/i18n/translate";
@@ -118,10 +118,7 @@ export function harvestFlower({
 
     if (!flower) throw new Error(translate("harvestflower.noFlower"));
 
-    const isReady =
-      flower.plantedAt +
-        FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds * 1000 <
-      createdAt;
+    const isReady = isFlowerReadyToHarvest(createdAt, flower, stateCopy);
 
     if (!isReady) throw new Error(translate("harvestflower.notReady"));
     const { amount, boostsUsed } =

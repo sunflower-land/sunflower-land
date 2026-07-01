@@ -4,6 +4,7 @@ import { FLOWERS, FLOWER_SEEDS } from "../../types/flowers";
 import Decimal from "decimal.js-light";
 import { translate } from "lib/i18n/translate";
 import { updateBeehives } from "features/game/lib/updateBeehives";
+import { getFlowerReadyAt } from "features/game/lib/flowerBedReadiness";
 
 export type InstaGrowFlowerAction = {
   type: "flower.instaGrown";
@@ -41,9 +42,9 @@ export function instaGrowFlower({
 
     if (!flower) throw new Error(translate("harvestflower.noFlower"));
 
-    const growTime =
-      FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds * 1000;
-    const timeLeft = flower.plantedAt + growTime - createdAt;
+    // Windowed flowers derive readyAt live from their boost windows; legacy flowers
+    // fall back to plantedAt + base grow time (getFlowerReadyAt handles both).
+    const timeLeft = getFlowerReadyAt(flower, stateCopy) - createdAt;
     const timeLeftSeconds = timeLeft / 1000;
 
     if (timeLeft <= 0) {
@@ -59,7 +60,15 @@ export function instaGrowFlower({
 
     stateCopy.inventory.Obsidian = playerObsidian.sub(obsidianCost);
 
-    flower.plantedAt = createdAt - growTime;
+    if (flower.baseDurationMs !== undefined) {
+      // Speed-rate model: zero the remaining work so computeReadyAt resolves to
+      // startedAt (ready now) regardless of any active boost windows.
+      flower.baseDurationMs = 0;
+    } else {
+      // Legacy: back-date plantedAt so plantedAt + base grow time === createdAt.
+      flower.plantedAt =
+        createdAt - FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds * 1000;
+    }
 
     stateCopy.beehives = updateBeehives({ game: stateCopy, createdAt });
   });
