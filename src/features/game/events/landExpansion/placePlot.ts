@@ -4,6 +4,7 @@ import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import {
+  getCropFertiliserWindows,
   getCropPlotBoostWindows,
   workAccruedAt,
 } from "features/game/lib/boostWindows";
@@ -61,7 +62,10 @@ export function placePlot({
           const banked = workAccruedAt({
             startedAt: crop.plantedAt,
             at: updatedPlot.removedAt,
-            windows: getCropPlotBoostWindows(game),
+            windows: [
+              ...getCropPlotBoostWindows(game),
+              ...getCropFertiliserWindows(updatedPlot.fertiliser),
+            ],
           });
           crop.baseDurationMs = Math.max(crop.baseDurationMs - banked, 0);
           crop.boostedTime = (crop.boostedTime ?? 0) + banked;

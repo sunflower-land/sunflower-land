@@ -85,7 +85,9 @@ export function getFertiliserBuffLabels({
         game,
       }),
       {
-        shortDescription: translate("description.rapid.root.boost"),
+        shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+          ? translate("description.rapid.root.boost.speed")
+          : translate("description.rapid.root.boost"),
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS["Crop Plot"].image,
@@ -413,9 +415,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       fertiliser: "Fruitful Blend",
       game,
     }),
-  "Rapid Root": () => [
+  "Rapid Root": (game) => [
     {
-      shortDescription: translate("description.rapid.root.boost"),
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.rapid.root.boost.speed")
+        : translate("description.rapid.root.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Crop Plot"].image,

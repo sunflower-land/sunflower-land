@@ -1,7 +1,11 @@
 import type { AOEItemName } from "../expansion/placeable/lib/collisionDetection";
 import type { CollectibleName } from "../types/craftables";
 import type { AOE, GameState } from "../types/game";
-import { computeReadyAt, getCropPlotBoostWindows } from "./boostWindows";
+import {
+  computeReadyAt,
+  getCropFertiliserWindows,
+  getCropPlotBoostWindows,
+} from "./boostWindows";
 
 /**
  * Important: for yield boosts, the gameState.aoe object contains when the boost was last used.
@@ -88,7 +92,7 @@ export function refreshBasicScarecrowTimeAOE(game: GameState): void {
     game.aoe["Basic Scarecrow"]![dx]![dy] = computeReadyAt({
       startedAt: crop.plantedAt,
       baseDurationMs: crop.baseDurationMs,
-      windows,
+      windows: [...windows, ...getCropFertiliserWindows(plot.fertiliser)],
     });
   });
 }

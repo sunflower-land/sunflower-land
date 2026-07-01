@@ -61,7 +61,9 @@ export function removeCrop({ state, action, createdAt = Date.now() }: Options) {
     }
 
     const cropDetails = CROPS[crop.name];
-    if (isReadyToHarvest(createdAt, crop, cropDetails, stateCopy)) {
+    if (
+      isReadyToHarvest(createdAt, crop, cropDetails, stateCopy, plot.fertiliser)
+    ) {
       throw new Error(REMOVE_CROP_ERRORS.READY_TO_HARVEST);
     }
 

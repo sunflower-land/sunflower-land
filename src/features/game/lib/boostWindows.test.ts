@@ -12,13 +12,14 @@ import {
   getMineBoostWindows,
   getFruitBoostWindows,
   getTurbofruitMixWindows,
+  getCropFertiliserWindows,
   getFlowerBoostWindows,
   appendBoostHistory,
   type BoostWindow,
 } from "./boostWindows";
 import { EXPIRY_COOLDOWNS } from "./collectibleBuilt";
 import { TEST_FARM } from "./constants";
-import type { GameState } from "../types/game";
+import type { CropFertiliser, GameState } from "../types/game";
 import type { RockName } from "../types/resources";
 
 const HOUR = 60 * 60 * 1000;
@@ -786,6 +787,118 @@ describe("getTurbofruitMixWindows", () => {
         baseDurationMs /
           (FRUIT_BOOST_SPEED["Orchard Hourglass"] *
             FRUIT_BOOST_SPEED["Turbofruit Mix"]),
+    );
+  });
+});
+
+describe("getCropFertiliserWindows", () => {
+  const fertilisedAt = 1_000_000;
+
+  it("returns no window when the plot has no fertiliser", () => {
+    expect(getCropFertiliserWindows(undefined)).toEqual([]);
+  });
+
+  it("returns no window for a non-speed fertiliser (Sprout Mix)", () => {
+    expect(
+      getCropFertiliserWindows({ name: "Sprout Mix", fertilisedAt }),
+    ).toEqual([]);
+  });
+
+  it("returns no window when the name is valid but fertilisedAt is missing (malformed state)", () => {
+    expect(
+      getCropFertiliserWindows({ name: "Rapid Root" } as CropFertiliser),
+    ).toEqual([]);
+  });
+
+  it("builds an open-ended 2× window from fertilisedAt for Rapid Root", () => {
+    expect(
+      getCropFertiliserWindows({ name: "Rapid Root", fertilisedAt }),
+    ).toEqual([
+      {
+        from: fertilisedAt,
+        to: Number.MAX_SAFE_INTEGER,
+        speed: CROP_PLOT_BOOST_SPEED["Rapid Root"],
+      },
+    ]);
+  });
+
+  it("builds an open-ended 2× window from fertilisedAt for Sproutroot Surprise", () => {
+    expect(
+      getCropFertiliserWindows({ name: "Sproutroot Surprise", fertilisedAt }),
+    ).toEqual([
+      {
+        from: fertilisedAt,
+        to: Number.MAX_SAFE_INTEGER,
+        speed: CROP_PLOT_BOOST_SPEED["Sproutroot Surprise"],
+      },
+    ]);
+  });
+
+  it("keeps the segment maths finite over the far-future bound", () => {
+    // Edge case for the MAX_SAFE_INTEGER bound: a crop under a fertiliser window
+    // is ready long before the bound and computeReadyAt stays finite.
+    const startedAt = fertilisedAt;
+    const baseDurationMs = 10 * HOUR;
+    const readyAt = computeReadyAt({
+      startedAt,
+      baseDurationMs,
+      windows: getCropFertiliserWindows({ name: "Rapid Root", fertilisedAt }),
+    });
+
+    // Whole grow is at 2× → wall-clock = base / 2.
+    expect(readyAt).toBe(
+      startedAt + baseDurationMs / CROP_PLOT_BOOST_SPEED["Rapid Root"],
+    );
+    expect(Number.isFinite(readyAt)).toBe(true);
+  });
+
+  it("only speeds work accrued AFTER it was applied mid-grow", () => {
+    const startedAt = 0;
+    const baseDurationMs = 10 * HOUR;
+    const midFertilisedAt = 2 * HOUR;
+    const readyAt = computeReadyAt({
+      startedAt,
+      baseDurationMs,
+      windows: getCropFertiliserWindows({
+        name: "Rapid Root",
+        fertilisedAt: midFertilisedAt,
+      }),
+    });
+
+    // First 2h at 1× (2h work), remaining 8h work at 2× → 8h / 2 = 4h.
+    expect(readyAt).toBe(
+      midFertilisedAt +
+        (baseDurationMs - 2 * HOUR) / CROP_PLOT_BOOST_SPEED["Rapid Root"],
+    );
+  });
+
+  it("stacks MULTIPLICATIVELY with the collectible crop windows", () => {
+    const startedAt = 0;
+    const baseDurationMs = 10 * HOUR;
+    const sparrow: BoostWindow[] = [
+      {
+        from: 0,
+        to: Number.MAX_SAFE_INTEGER,
+        speed: CROP_PLOT_BOOST_SPEED["Sparrow Shrine"],
+      },
+    ];
+    const rapidRoot = getCropFertiliserWindows({
+      name: "Rapid Root",
+      fertilisedAt: 0,
+    });
+
+    const readyAt = computeReadyAt({
+      startedAt,
+      baseDurationMs,
+      windows: [...sparrow, ...rapidRoot],
+    });
+
+    // Both cover the whole grow → 1.35 × 2 effective speed.
+    expect(readyAt).toBe(
+      startedAt +
+        baseDurationMs /
+          (CROP_PLOT_BOOST_SPEED["Sparrow Shrine"] *
+            CROP_PLOT_BOOST_SPEED["Rapid Root"]),
     );
   });
 });
