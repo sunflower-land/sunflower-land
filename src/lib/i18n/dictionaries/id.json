@@ -9162,5 +9162,8 @@
   "description.badgerShrine.buff.2.speed": "1.35x Kecepatan Pemulihan Batu",
   "description.moleShrine.buff.speed": "1.35x Kecepatan Pemulihan Besi",
   "description.moleShrine.buff.2.speed": "1.35x Kecepatan Pemulihan Emas",
-  "description.moleShrine.buff.3.speed": "1.35x Kecepatan Pemulihan Crimstone"
+  "description.moleShrine.buff.3.speed": "1.35x Kecepatan Pemulihan Crimstone",
+  "description.orchard.hourglass.boost.speed": "1.35x Kecepatan Pertumbuhan Buah",
+  "description.toucanShrine.buff.speed": "1,35x Kecepatan Pertumbuhan Petak Buah",
+  "description.turbofruit.mix.boost.speed": "1,25x Kecepatan Pertumbuhan Petak Buah"
 }

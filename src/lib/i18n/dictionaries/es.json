@@ -9162,5 +9162,8 @@
   "description.badgerShrine.buff.2.speed": "Velocidad de recuperación de piedra de 1,35 veces",
   "description.moleShrine.buff.speed": "Velocidad de recuperación de hierro de 1,35 veces",
   "description.moleShrine.buff.2.speed": "Velocidad de recuperación de oro de 1,35 veces",
-  "description.moleShrine.buff.3.speed": "Velocidad de recuperación de 1.35x Crimstone"
+  "description.moleShrine.buff.3.speed": "Velocidad de recuperación de 1.35x Crimstone",
+  "description.orchard.hourglass.boost.speed": "1,35 veces la velocidad de crecimiento de la fruta",
+  "description.toucanShrine.buff.speed": "1.35 veces la velocidad de crecimiento de Fruit Patch",
+  "description.turbofruit.mix.boost.speed": "Velocidad de crecimiento de Huertos Fruit Patch de 1,25 veces"
 }

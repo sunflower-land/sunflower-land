@@ -9162,5 +9162,8 @@
   "description.badgerShrine.buff.2.speed": "1.35x Taş Kurtarma Hızı",
   "description.moleShrine.buff.speed": "1.35x Demir Geri Kazanım Hızı",
   "description.moleShrine.buff.2.speed": "1.35x Altın Kurtarma Hızı",
-  "description.moleShrine.buff.3.speed": "1.35x Crimstone Kurtarma Hızı"
+  "description.moleShrine.buff.3.speed": "1.35x Crimstone Kurtarma Hızı",
+  "description.orchard.hourglass.boost.speed": "1.35x Meyve Büyüme Hızı",
+  "description.toucanShrine.buff.speed": "1.35x Meyve Yaması Büyüme Hızı",
+  "description.turbofruit.mix.boost.speed": "1.25x Meyve Yaması Büyüme Hızı"
 }
