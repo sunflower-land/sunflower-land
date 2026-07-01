@@ -1,5 +1,10 @@
 import { getActiveGuardian } from "./getActiveGuardian";
-import type { BoostHistoryWindow, GameState, PlacedItem } from "../types/game";
+import type {
+  BoostHistoryWindow,
+  FruitFertiliser,
+  GameState,
+  PlacedItem,
+} from "../types/game";
 import {
   EXPIRY_COOLDOWNS,
   type TemporaryCollectibleName,
@@ -65,6 +70,23 @@ export const MINE_BOOST_SPEED = {
   "Ore Hourglass": 2,
   "Badger Shrine": 1.35,
   "Mole Shrine": 1.35,
+} as const;
+
+/**
+ * Speed multipliers for the windowed (patch) fruit growth boosts — the single
+ * place to tune them. Stacking is multiplicative; Super & Time Warp Totem share
+ * the same 2× and merge so they don't stack with each other. Orchard Hourglass
+ * and Toucan Shrine (a fruit-recovery-TIME pet shrine, not a yield boost) are
+ * both 1.35×. Only PATCH fruit is windowed — greenhouse fruit keeps the legacy
+ * baked totem discount (see the `isPatchFruit` gate in `getFruitTime`).
+ */
+export const FRUIT_BOOST_SPEED = {
+  "Super Totem": 2,
+  "Time Warp Totem": 2,
+  "Orchard Hourglass": 1.35,
+  "Toucan Shrine": 1.35,
+  // Per-patch fertiliser (not a collectible); windowed via getTurbofruitMixWindows.
+  "Turbofruit Mix": 1.25,
 } as const;
 
 /** Window for the Power Hour buff (1h from activation), if active. */
@@ -169,6 +191,58 @@ export const getTreeBoostWindows = (game: GameState): BoostWindow[] => [
     speed: TREE_BOOST_SPEED["Badger Shrine"],
   }),
 ];
+
+/**
+ * The windowed speed boosts that apply to (patch) fruit growth & replenishment.
+ * Each is its own window so overlapping boosts stack multiplicatively (Orchard
+ * 1.35 × Toucan 1.35 = 1.8225×); the two totems merge so they don't stack (both
+ * 2×). Mirrors `getTreeBoostWindows` for the fruit activity. Greenhouse fruit is
+ * NOT windowed yet, so this is only assembled for patch fruit.
+ */
+export const getFruitBoostWindows = (game: GameState): BoostWindow[] => [
+  ...getMergedTotemWindows(game, FRUIT_BOOST_SPEED["Super Totem"]),
+  ...getBoostWindows({
+    game,
+    name: "Orchard Hourglass",
+    speed: FRUIT_BOOST_SPEED["Orchard Hourglass"],
+  }),
+  ...getBoostWindows({
+    game,
+    name: "Toucan Shrine",
+    speed: FRUIT_BOOST_SPEED["Toucan Shrine"],
+  }),
+];
+
+/**
+ * The Turbofruit Mix fertiliser's speed window for a fruit patch. Unlike the
+ * collectible boosts it is per-PATCH and never expires on a timer: it's a 1.25×
+ * speed active from when the fertiliser was applied (`fertilisedAt`) until the
+ * fruit runs out of harvests, so the window is open-ended. Returns [] when the
+ * patch has no Turbofruit Mix. Assembled separately from `getFruitBoostWindows`
+ * (which is game-global) and unioned in by `getFruitReadyAt` and the patch UI.
+ */
+export const getTurbofruitMixWindows = (
+  fertiliser?: FruitFertiliser,
+): BoostWindow[] => {
+  // Guard fertilisedAt too: the type requires it, but defend against malformed
+  // persisted state producing a `from: undefined` window.
+  if (
+    fertiliser?.name !== "Turbofruit Mix" ||
+    fertiliser.fertilisedAt === undefined
+  ) {
+    return [];
+  }
+  return [
+    {
+      from: fertiliser.fertilisedAt,
+      // Open-ended: active for the fruit's whole remaining life. A far-future
+      // bound (not Infinity, to keep the segment maths finite) — the fruit is
+      // always ready long before this.
+      to: Number.MAX_SAFE_INTEGER,
+      speed: FRUIT_BOOST_SPEED["Turbofruit Mix"],
+    },
+  ];
+};
 
 /**
  * The windowed speed boosts that apply to a rock's recovery, by resource family.

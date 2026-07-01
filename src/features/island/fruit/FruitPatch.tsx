@@ -236,6 +236,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
         {/* Fruit tree stages */}
         <FruitTree
           plantedFruit={fruit}
+          fertiliser={fertiliser}
           plantTree={() => plantTree(selectedItem)}
           harvestFruit={harvestFruit}
           removeTree={removeTree}

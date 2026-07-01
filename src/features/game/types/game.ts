@@ -799,6 +799,16 @@ export type PlantedFruit = {
   harvestedAt: number;
   criticalHit?: CriticalHit;
   amount?: number;
+  /**
+   * Unboosted-by-windowed-collectibles grow/replenish duration (ms), with all
+   * permanent (discount-at-start) boosts already folded in. Present only on
+   * fruit planted/harvested under the speed-rate model; its presence — NOT the
+   * `SPEED_BOOSTS` flag — selects `computeReadyAt` (over the legacy back-dated
+   * `plantedAt`/`harvestedAt` readiness check), so a fruit planted while the flag
+   * was on keeps windowed timing on rollback and retains its baked permanent
+   * boosts. Applies to whichever phase is active (`harvestedAt || plantedAt`).
+   */
+  baseDurationMs?: number;
 };
 
 type OptionalCoordinates = {

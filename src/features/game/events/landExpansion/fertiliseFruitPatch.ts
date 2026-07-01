@@ -12,7 +12,12 @@ import { PATCH_FRUIT, PATCH_FRUIT_SEEDS } from "features/game/types/fruits";
 import { produce } from "immer";
 import { isFruitReadyToHarvest } from "./fruitPatchReadiness";
 
-/** Shifts plantedAt/harvestedAt so remaining time is multiplied by 0.8 (−20%), matching getFruitPatchTime. */
+/**
+ * LEGACY-model only: shifts plantedAt/harvestedAt so the remaining grow time is
+ * multiplied by 0.8 (−20%), matching getFruitPatchTime. Under the speed-rate
+ * model Turbofruit Mix is instead a live 1.25× speed window from `fertilisedAt`
+ * (see getTurbofruitMixWindows), so no fruit mutation is needed on apply.
+ */
 function applyTurbofruitMixToRemainingGrowTime(
   fruit: PlantedFruit,
   now: number,
@@ -115,13 +120,25 @@ export function fertiliseFruitPatch({
       const { seed } = PATCH_FRUIT[nextFruit.name];
       const { plantSeconds } = PATCH_FRUIT_SEEDS[seed];
 
+      // The patch has no fertiliser yet (guarded above), so readiness uses the
+      // existing (non-Turbofruit) windows — correct, we haven't applied it yet.
       if (
-        isFruitReadyToHarvest(createdAt, nextFruit, PATCH_FRUIT[nextFruit.name])
+        isFruitReadyToHarvest(
+          createdAt,
+          nextFruit,
+          stateCopy,
+          fruitPatch.fertiliser,
+        )
       ) {
         throw new Error(FERTILISE_FRUIT_ERRORS.READY_TO_HARVEST);
       }
 
-      if (action.fertiliser === "Turbofruit Mix") {
+      // Speed-rate model: Turbofruit Mix is a live 1.25× window from fertilisedAt
+      // (set below), so it needs no fruit mutation. Only legacy fruit back-date.
+      if (
+        action.fertiliser === "Turbofruit Mix" &&
+        nextFruit.baseDurationMs === undefined
+      ) {
         nextFruit = applyTurbofruitMixToRemainingGrowTime(
           nextFruit,
           createdAt,
