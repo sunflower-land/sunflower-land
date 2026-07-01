@@ -9167,5 +9167,6 @@
   "description.toucanShrine.buff.speed": "1.35 veces la velocidad de crecimiento de Fruit Patch",
   "description.turbofruit.mix.boost.speed": "Velocidad de crecimiento de Huertos Fruit Patch de 1,25 veces",
   "description.blossom.hourglass.boost.speed": "1,35 veces la velocidad de crecimiento de las flores",
-  "description.mothShrine.buff.speed": "1,35 veces la velocidad de crecimiento de las flores"
+  "description.mothShrine.buff.speed": "1,35 veces la velocidad de crecimiento de las flores",
+  "description.rapid.root.boost.speed": "Velocidad de crecimiento de parcelas de cultivo 2 veces"
 }

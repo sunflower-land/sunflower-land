@@ -9167,5 +9167,6 @@
   "description.toucanShrine.buff.speed": "1.35 倍水果补丁生长速度",
   "description.turbofruit.mix.boost.speed": "1.25 倍水果补丁生长速度",
   "description.blossom.hourglass.boost.speed": "1.35 倍花朵生长速度",
-  "description.mothShrine.buff.speed": "1.35 倍花朵生长速度"
+  "description.mothShrine.buff.speed": "1.35 倍花朵生长速度",
+  "description.rapid.root.boost.speed": "作物地块生长速度的 2 倍"
 }

@@ -9167,5 +9167,6 @@
   "description.toucanShrine.buff.speed": "1,35x Velocidade de crescimento do canteiro de frutas",
   "description.turbofruit.mix.boost.speed": "1,25x Velocidade de crescimento do canteiro de frutas",
   "description.blossom.hourglass.boost.speed": "1,35x Velocidade de Crescimento da Flor",
-  "description.mothShrine.buff.speed": "1,35x Velocidade de Crescimento da Flor"
+  "description.mothShrine.buff.speed": "1,35x Velocidade de Crescimento da Flor",
+  "description.rapid.root.boost.speed": "2x a velocidade de crescimento do lote de cultivo"
 }

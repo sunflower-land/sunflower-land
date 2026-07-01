@@ -9167,5 +9167,6 @@
   "description.toucanShrine.buff.speed": "Velocità di crescita degli appezzamenti di frutta 1,35x",
   "description.turbofruit.mix.boost.speed": "Velocità di crescita degli appezzamenti di frutta 1,25x",
   "description.blossom.hourglass.boost.speed": "Velocità di crescita dei fiori 1,35x",
-  "description.mothShrine.buff.speed": "Velocità di crescita dei fiori 1,35x"
+  "description.mothShrine.buff.speed": "Velocità di crescita dei fiori 1,35x",
+  "description.rapid.root.boost.speed": "Velocità di crescita del grafico delle colture raddoppiata"
 }

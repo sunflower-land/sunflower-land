@@ -9167,5 +9167,6 @@
   "description.toucanShrine.buff.speed": "1.35x フルーツパッチの成長速度",
   "description.turbofruit.mix.boost.speed": "1.25x フルーツパッチの成長速度",
   "description.blossom.hourglass.boost.speed": "1.35x 花の成長速度",
-  "description.mothShrine.buff.speed": "1.35x 花の成長速度"
+  "description.mothShrine.buff.speed": "1.35x 花の成長速度",
+  "description.rapid.root.boost.speed": "クロッププロットの成長速度の2倍"
 }

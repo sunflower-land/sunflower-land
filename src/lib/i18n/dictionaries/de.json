@@ -9167,5 +9167,6 @@
   "description.toucanShrine.buff.speed": "1,35-fache Wachstumsgeschwindigkeit von Fruchtfeldern",
   "description.turbofruit.mix.boost.speed": "1,25-fache Wachstumsgeschwindigkeit von Fruchtfeldern",
   "description.blossom.hourglass.boost.speed": "1,35-fache Wachstumsgeschwindigkeit der Blüten",
-  "description.mothShrine.buff.speed": "1,35-fache Wachstumsgeschwindigkeit der Blüten"
+  "description.mothShrine.buff.speed": "1,35-fache Wachstumsgeschwindigkeit der Blüten",
+  "description.rapid.root.boost.speed": "2-fache Wachstumsgeschwindigkeit der Nutzfläche"
 }

@@ -9167,5 +9167,6 @@
   "description.toucanShrine.buff.speed": "1.35x Fruit Patch Growth Speed",
   "description.turbofruit.mix.boost.speed": "1.25x Fruit Patch Growth Speed",
   "description.blossom.hourglass.boost.speed": "1.35x Flower Growth Speed",
-  "description.mothShrine.buff.speed": "1.35x Flower Growth Speed"
+  "description.mothShrine.buff.speed": "1.35x Flower Growth Speed",
+  "description.rapid.root.boost.speed": "2x Crop Plot Growth Speed"
 }
