@@ -1,5 +1,5 @@
 import type { BoostName, CriticalHitName, GameState } from "../../types/game";
-import { isFlowerReadyToHarvest } from "./flowerBedReadiness";
+import { isFlowerReadyToHarvest } from "features/game/lib/flowerBedReadiness";
 import Decimal from "decimal.js-light";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import { translate } from "lib/i18n/translate";

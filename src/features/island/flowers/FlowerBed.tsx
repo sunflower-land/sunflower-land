@@ -233,7 +233,13 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
       : Math.max((readyAt - now) / 1000, 0);
   const totalSeconds =
     baseDurationMs !== undefined ? baseDurationMs / 1000 : growSeconds;
-  const growPercentage = 100 - (Math.max(secondsLeft, 0) / totalSeconds) * 100;
+  // Guard the zero-duration case (an insta-grown windowed flower has
+  // baseDurationMs === 0): 0 / 0 would be NaN, which makes getGrowthStage fall
+  // through to "sprout" for a flower that is actually ready.
+  const growPercentage =
+    totalSeconds <= 0
+      ? 100
+      : 100 - (Math.max(secondsLeft, 0) / totalSeconds) * 100;
 
   const isGrowing = secondsLeft > 0;
   const isBoosted = speed > 1;

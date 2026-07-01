@@ -1,9 +1,6 @@
 import { FLOWERS, FLOWER_SEEDS } from "features/game/types/flowers";
 import type { GameState, PlantedFlower } from "features/game/types/game";
-import {
-  computeReadyAt,
-  getFlowerBoostWindows,
-} from "features/game/lib/boostWindows";
+import { computeReadyAt, getFlowerBoostWindows } from "./boostWindows";
 
 /**
  * The instant a planted flower is ready to harvest, across both boost models.
@@ -16,25 +13,23 @@ import {
  * off its presence, NOT the `SPEED_BOOSTS` flag (matching `getFruitReadyAt` /
  * `getTreeReadyAt`). A flower planted while the flag was on therefore keeps
  * windowed timing even if the flag is later disabled — see
- * `PlantedFlower.baseDurationMs`.
+ * `PlantedFlower.baseDurationMs`. Lives in `lib` (not `events`) because it is
+ * read-model logic consumed by `lib/updateBeehives` for hive pollination.
  */
 export const getFlowerReadyAt = (
   flower: PlantedFlower,
   game: GameState,
 ): number => {
-  const { plantSeconds } = FLOWER_SEEDS[FLOWERS[flower.name].seed];
-
-  const startedAt = flower.plantedAt;
-
   if (flower.baseDurationMs !== undefined) {
     return computeReadyAt({
-      startedAt,
+      startedAt: flower.plantedAt,
       baseDurationMs: flower.baseDurationMs,
       windows: getFlowerBoostWindows(game),
     });
   }
 
-  return startedAt + plantSeconds * 1000;
+  const { plantSeconds } = FLOWER_SEEDS[FLOWERS[flower.name].seed];
+  return flower.plantedAt + plantSeconds * 1000;
 };
 
 /**

@@ -4,7 +4,7 @@ import { FLOWERS, FLOWER_SEEDS } from "../../types/flowers";
 import Decimal from "decimal.js-light";
 import { translate } from "lib/i18n/translate";
 import { updateBeehives } from "features/game/lib/updateBeehives";
-import { getFlowerReadyAt } from "./flowerBedReadiness";
+import { getFlowerReadyAt } from "features/game/lib/flowerBedReadiness";
 
 export type InstaGrowFlowerAction = {
   type: "flower.instaGrown";

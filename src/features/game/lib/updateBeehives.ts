@@ -10,7 +10,7 @@ import {
   isTemporaryCollectibleActive,
 } from "./collectibleBuilt";
 import { getKeys } from "lib/object";
-import { getFlowerReadyAt as getFlowerBedReadyAt } from "../events/landExpansion/flowerBedReadiness";
+import { getFlowerReadyAt as getFlowerBedReadyAt } from "./flowerBedReadiness";
 import { isWearableActive } from "./wearables";
 import cloneDeep from "lodash.clonedeep";
 import { updateBoostUsed } from "../types/updateBoostUsed";
@@ -169,7 +169,13 @@ const updateProducedHoney = ({ game, createdAt }: UpdateBeehives) => {
       }
 
       const start = Math.max(hive.honey.updatedAt, attachedFlower.attachedAt);
-      const end = Math.min(createdAt, attachedFlower.attachedUntil);
+      // Cap crediting at the flower's CURRENT (windowed) ready time: a boost placed
+      // after the flower was attached can move its readiness earlier, so the stored
+      // attachedUntil may over-run when the flower actually finished growing. Legacy
+      // flowers are unaffected (getFlowerBedReadyAt returns the base-time value,
+      // which is >= attachedUntil).
+      const readyAt = getFlowerBedReadyAt(plantedFlower, game);
+      const end = Math.min(createdAt, attachedFlower.attachedUntil, readyAt);
 
       // Prevent future dates
       const honey = Math.max(end - start, 0);

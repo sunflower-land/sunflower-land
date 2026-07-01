@@ -3,7 +3,7 @@ import { harvestFlower } from "./harvestFlower";
 import Decimal from "decimal.js-light";
 import type { GameState } from "features/game/types/game";
 import { FLOWERS, FLOWER_SEEDS } from "features/game/types/flowers";
-import { getFlowerReadyAt } from "./flowerBedReadiness";
+import { getFlowerReadyAt } from "features/game/lib/flowerBedReadiness";
 import { CONFIG } from "lib/config";
 
 const GAME_STATE = { ...TEST_FARM, bumpkin: INITIAL_BUMPKIN };
@@ -384,5 +384,51 @@ describe("harvestFlower — SPEED_BOOSTS speed windows", () => {
         createdAt: windowedReadyAt - 1000,
       }),
     ).toThrow("Flower is not ready to harvest");
+  });
+
+  // Moth Shrine's TIME half is windowed (excluded from plant-time boostsUsed), but
+  // its +1-flower YIELD critical must still apply at harvest.
+  it("still grants the Moth Shrine +1 yield for a windowed flower", () => {
+    // isTemporaryCollectibleActive checks Date.now(), so anchor the shrine to now.
+    const nowMs = Date.now();
+    const game: GameState = {
+      ...GAME_STATE,
+      collectibles: {
+        "Moth Shrine": [
+          {
+            id: "1",
+            createdAt: nowMs,
+            readyAt: nowMs,
+            coordinates: { x: 0, y: 0 },
+          },
+        ],
+      },
+      flowers: {
+        discovered: {},
+        flowerBeds: {
+          "1": {
+            createdAt: 0,
+            x: 0,
+            y: 0,
+            flower: {
+              name: flowerName,
+              // Long past → ready regardless of windows.
+              plantedAt: nowMs - 10 * baseMs,
+              baseDurationMs: baseMs,
+              criticalHit: { "Moth Shrine": 1 },
+            },
+          },
+        },
+      },
+    };
+
+    const state = harvestFlower({
+      state: game,
+      action: { type: "flower.harvested", id: "1" },
+      createdAt: nowMs,
+    });
+
+    // Base 1 + Moth Shrine +1.
+    expect(state.inventory[flowerName]?.gte(new Decimal(2))).toBe(true);
   });
 });

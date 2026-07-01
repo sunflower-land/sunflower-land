@@ -3,7 +3,7 @@ import type { GameState } from "../../types/game";
 import { FLOWER_SEEDS, FLOWERS, type FlowerName } from "../../types/flowers";
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { getFlowerReadyAt } from "./flowerBedReadiness";
+import { getFlowerReadyAt } from "features/game/lib/flowerBedReadiness";
 import { CONFIG } from "lib/config";
 
 const setNetwork = (network: "mainnet" | "amoy") => {
