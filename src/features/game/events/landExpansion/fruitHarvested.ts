@@ -14,7 +14,6 @@ import {
 import {
   type GreenHouseFruitName,
   PATCH_FRUIT,
-  PATCH_FRUIT_SEEDS,
   type PatchFruitName,
 } from "features/game/types/fruits";
 import type {
@@ -34,6 +33,7 @@ import { getFruitfulBlendBuff } from "./fertiliseFruitPatch";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
+import { isFruitReadyToHarvest } from "./fruitPatchReadiness";
 
 export type HarvestFruitAction = {
   type: "fruit.harvested";
@@ -47,7 +47,7 @@ type Options = {
   farmId: number;
 };
 
-export { isFruitReadyToHarvest } from "./fruitPatchReadiness";
+export { isFruitReadyToHarvest };
 
 type FruitYield = {
   name: GreenHouseFruitName | PatchFruitName;
@@ -287,17 +287,24 @@ export function harvestFruit({
       throw new Error("Nothing was planted");
     }
 
-    const { name, plantedAt, harvestsLeft, harvestedAt } = patch.fruit;
+    const { name, harvestsLeft, harvestedAt } = patch.fruit;
 
     const { seed } = PATCH_FRUIT[name];
-    const { plantSeconds } = PATCH_FRUIT_SEEDS[seed];
 
-    if (createdAt - plantedAt < plantSeconds * 1000) {
-      throw new Error("Not ready");
-    }
-
-    if (createdAt - harvestedAt < plantSeconds * 1000) {
-      throw new Error("Fruit is still replenishing");
+    // Windowed readyAt keys off the active phase (harvestedAt || plantedAt); the
+    // original grow throws "Not ready", a post-harvest replenish throws "still
+    // replenishing" — same split as the legacy two-check gate.
+    if (
+      !isFruitReadyToHarvest(
+        createdAt,
+        patch.fruit,
+        stateCopy,
+        patch.fertiliser,
+      )
+    ) {
+      throw new Error(
+        harvestedAt ? "Fruit is still replenishing" : "Not ready",
+      );
     }
 
     if (!harvestsLeft) {
@@ -322,10 +329,21 @@ export function harvestFruit({
     // Patch fertiliser persists across harvests (not consumed here). Passing it into
     // getPlantedAt applies Turbofruit Mix (×0.8) to replenishment timing for every
     // remaining harvest, same lifecycle intent as Fruitful Blend on yield.
-    const { plantedAt: newPlantedAt, boostsUsed: fruitPlantedBoostsUsed } =
-      getPlantedAt(seed, stateCopy, createdAt, patch.fertiliser?.name);
+    const {
+      plantedAt: newPlantedAt,
+      baseDurationMs: newBaseDurationMs,
+      boostsUsed: fruitPlantedBoostsUsed,
+    } = getPlantedAt(seed, stateCopy, createdAt, patch.fertiliser?.name);
     delete patch.fruit.amount;
     patch.fruit.harvestedAt = newPlantedAt;
+    // Speed-rate model stores the real harvestedAt + a permanent-boost-only base
+    // recovery; legacy/flag-off back-dates harvestedAt instead, so clear any
+    // stale baseDurationMs from a prior (windowed) grow.
+    if (newBaseDurationMs !== undefined) {
+      patch.fruit.baseDurationMs = newBaseDurationMs;
+    } else {
+      delete patch.fruit.baseDurationMs;
+    }
 
     const activityName: FarmActivityName = `${name} Harvested`;
 

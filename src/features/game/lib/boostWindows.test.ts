@@ -6,8 +6,11 @@ import {
   CROP_PLOT_BOOST_SPEED,
   TREE_BOOST_SPEED,
   MINE_BOOST_SPEED,
+  FRUIT_BOOST_SPEED,
   getTreeBoostWindows,
   getMineBoostWindows,
+  getFruitBoostWindows,
+  getTurbofruitMixWindows,
   appendBoostHistory,
   type BoostWindow,
 } from "./boostWindows";
@@ -467,6 +470,218 @@ describe("getTreeBoostWindows", () => {
 
   it("returns no windows when none are placed", () => {
     expect(getTreeBoostWindows(TEST_FARM)).toEqual([]);
+  });
+});
+
+describe("FRUIT_BOOST_SPEED", () => {
+  it("has the exact tuned multipliers", () => {
+    expect(FRUIT_BOOST_SPEED).toEqual({
+      "Super Totem": 2,
+      "Time Warp Totem": 2,
+      "Orchard Hourglass": 1.35,
+      "Toucan Shrine": 1.35,
+      "Turbofruit Mix": 1.25,
+    });
+  });
+});
+
+describe("getFruitBoostWindows", () => {
+  const createdAt = 1_000_000;
+
+  it("builds a window for an active Orchard Hourglass at the fruit speed", () => {
+    const windows = getFruitBoostWindows({
+      ...TEST_FARM,
+      collectibles: {
+        ...TEST_FARM.collectibles,
+        "Orchard Hourglass": [
+          { id: "1", coordinates: { x: 0, y: 0 }, createdAt },
+        ],
+      },
+    });
+
+    expect(windows).toContainEqual({
+      from: createdAt,
+      to: createdAt + EXPIRY_COOLDOWNS["Orchard Hourglass"],
+      speed: FRUIT_BOOST_SPEED["Orchard Hourglass"],
+    });
+  });
+
+  it("includes the Toucan Shrine at the fruit speed", () => {
+    const windows = getFruitBoostWindows({
+      ...TEST_FARM,
+      collectibles: {
+        ...TEST_FARM.collectibles,
+        "Toucan Shrine": [{ id: "1", coordinates: { x: 0, y: 0 }, createdAt }],
+      },
+    });
+
+    expect(windows).toContainEqual({
+      from: createdAt,
+      to: createdAt + EXPIRY_COOLDOWNS["Toucan Shrine"],
+      speed: FRUIT_BOOST_SPEED["Toucan Shrine"],
+    });
+  });
+
+  it("merges Super Totem & Time Warp Totem into one 2× window (no stacking)", () => {
+    const windows = getFruitBoostWindows({
+      ...TEST_FARM,
+      collectibles: {
+        ...TEST_FARM.collectibles,
+        "Super Totem": [{ id: "1", coordinates: { x: 0, y: 0 }, createdAt }],
+        "Time Warp Totem": [
+          { id: "2", coordinates: { x: 1, y: 1 }, createdAt },
+        ],
+      },
+    });
+
+    const totemWindows = windows.filter(
+      (w) => w.speed === FRUIT_BOOST_SPEED["Super Totem"],
+    );
+    expect(totemWindows).toEqual([
+      {
+        from: createdAt,
+        to: createdAt + EXPIRY_COOLDOWNS["Super Totem"],
+        speed: FRUIT_BOOST_SPEED["Super Totem"],
+      },
+    ]);
+  });
+
+  it("Orchard Hourglass and Toucan Shrine stack MULTIPLICATIVELY over an overlap", () => {
+    const windows = getFruitBoostWindows({
+      ...TEST_FARM,
+      collectibles: {
+        ...TEST_FARM.collectibles,
+        "Orchard Hourglass": [
+          { id: "1", coordinates: { x: 0, y: 0 }, createdAt },
+        ],
+        "Toucan Shrine": [{ id: "2", coordinates: { x: 1, y: 1 }, createdAt }],
+      },
+    });
+
+    // Effective speed during the overlap = 1.35 × 1.35 = 1.8225.
+    const speed = getEffectiveSpeedAt({ at: createdAt + 1000, windows });
+    expect(speed).toBeCloseTo(
+      FRUIT_BOOST_SPEED["Orchard Hourglass"] *
+        FRUIT_BOOST_SPEED["Toucan Shrine"],
+      10,
+    );
+  });
+
+  it("includes a removed/burned Orchard Hourglass via boostHistory", () => {
+    const from = 1_000_000;
+    const to = from + EXPIRY_COOLDOWNS["Orchard Hourglass"];
+    const windows = getFruitBoostWindows({
+      ...TEST_FARM,
+      collectibles: {},
+      boostHistory: { "Orchard Hourglass": [{ from, to }] },
+    });
+
+    expect(windows).toContainEqual({
+      from,
+      to,
+      speed: FRUIT_BOOST_SPEED["Orchard Hourglass"],
+    });
+  });
+
+  it("returns no windows when none are placed", () => {
+    expect(getFruitBoostWindows(TEST_FARM)).toEqual([]);
+  });
+});
+
+describe("getTurbofruitMixWindows", () => {
+  const fertilisedAt = 1_000_000;
+
+  it("returns no window when the patch has no fertiliser", () => {
+    expect(getTurbofruitMixWindows(undefined)).toEqual([]);
+  });
+
+  it("returns no window for a non-Turbofruit fertiliser", () => {
+    expect(
+      getTurbofruitMixWindows({ name: "Fruitful Blend", fertilisedAt }),
+    ).toEqual([]);
+  });
+
+  it("builds an open-ended 1.25× window from fertilisedAt for Turbofruit Mix", () => {
+    expect(
+      getTurbofruitMixWindows({ name: "Turbofruit Mix", fertilisedAt }),
+    ).toEqual([
+      {
+        from: fertilisedAt,
+        to: Number.MAX_SAFE_INTEGER,
+        speed: FRUIT_BOOST_SPEED["Turbofruit Mix"],
+      },
+    ]);
+  });
+
+  it("keeps the segment maths finite over the far-future bound", () => {
+    // Edge case for the MAX_SAFE_INTEGER bound: a fruit under a Turbofruit window
+    // is ready long before the bound and computeReadyAt stays finite.
+    const startedAt = fertilisedAt;
+    const baseDurationMs = 10 * HOUR;
+    const readyAt = computeReadyAt({
+      startedAt,
+      baseDurationMs,
+      windows: getTurbofruitMixWindows({
+        name: "Turbofruit Mix",
+        fertilisedAt,
+      }),
+    });
+
+    // Whole grow is at 1.25× → wall-clock = base / 1.25.
+    expect(readyAt).toBe(
+      startedAt + baseDurationMs / FRUIT_BOOST_SPEED["Turbofruit Mix"],
+    );
+    expect(Number.isFinite(readyAt)).toBe(true);
+  });
+
+  it("only speeds work accrued AFTER it was applied mid-grow", () => {
+    const startedAt = 0;
+    const baseDurationMs = 10 * HOUR;
+    const midFertilisedAt = 2 * HOUR;
+    const readyAt = computeReadyAt({
+      startedAt,
+      baseDurationMs,
+      windows: getTurbofruitMixWindows({
+        name: "Turbofruit Mix",
+        fertilisedAt: midFertilisedAt,
+      }),
+    });
+
+    // First 2h at 1× (2h work), remaining 8h work at 1.25× → 8h / 1.25 = 6.4h.
+    expect(readyAt).toBe(
+      midFertilisedAt +
+        (baseDurationMs - 2 * HOUR) / FRUIT_BOOST_SPEED["Turbofruit Mix"],
+    );
+  });
+
+  it("stacks MULTIPLICATIVELY with the collectible fruit windows", () => {
+    const startedAt = 0;
+    const baseDurationMs = 10 * HOUR;
+    const orchard: BoostWindow[] = [
+      {
+        from: 0,
+        to: Number.MAX_SAFE_INTEGER,
+        speed: FRUIT_BOOST_SPEED["Orchard Hourglass"],
+      },
+    ];
+    const turbo = getTurbofruitMixWindows({
+      name: "Turbofruit Mix",
+      fertilisedAt: 0,
+    });
+
+    const readyAt = computeReadyAt({
+      startedAt,
+      baseDurationMs,
+      windows: [...orchard, ...turbo],
+    });
+
+    // Both cover the whole grow → 1.35 × 1.25 effective speed.
+    expect(readyAt).toBe(
+      startedAt +
+        baseDurationMs /
+          (FRUIT_BOOST_SPEED["Orchard Hourglass"] *
+            FRUIT_BOOST_SPEED["Turbofruit Mix"]),
+    );
   });
 });
 

@@ -14,6 +14,7 @@ import classNames from "classnames";
 import { ITEM_DETAILS } from "features/game/types/images";
 import type { GameState } from "features/game/types/game";
 import { getCurrentBiome } from "../biomes/biomes";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const pluralisedNames: Record<PatchFruitName, string> = {
   Orange: "Oranges",
@@ -31,6 +32,10 @@ interface Props {
   patchFruitName: PatchFruitName;
   island: GameState["island"];
   timeLeft: number;
+  /** Cycle length (s) — progress denominator; defaults to base plant time. */
+  totalSeconds?: number;
+  /** Current effective grow speed; shows a lightning when > 1. */
+  speed?: number;
   playShakeAnimation: boolean;
 }
 
@@ -38,6 +43,8 @@ export const ReplenishingTree: React.FC<Props> = ({
   island,
   patchFruitName,
   timeLeft,
+  totalSeconds,
+  speed,
   playShakeAnimation,
 }) => {
   const { showTimers } = useContext(Context);
@@ -78,8 +85,10 @@ export const ReplenishingTree: React.FC<Props> = ({
 
   const { plantSeconds } = PATCH_FRUIT_SEEDS[seed];
 
+  const cycleSeconds = totalSeconds ?? plantSeconds;
+  const isBoosted = speed !== undefined && speed > 1;
   const replenishPercentage =
-    plantSeconds > 0 ? 100 - (timeLeft / plantSeconds) * 100 : 0;
+    cycleSeconds > 0 ? 100 - (timeLeft / cycleSeconds) * 100 : 0;
 
   return (
     <div
@@ -99,6 +108,21 @@ export const ReplenishingTree: React.FC<Props> = ({
           width: `${PIXEL_SCALE * width}px`,
         }}
       />
+
+      {/* Active speed boost indicator */}
+      {isBoosted && (
+        <img
+          src={SUNNYSIDE.icons.lightning}
+          alt=""
+          aria-hidden
+          className="absolute z-20 pointer-events-none animate-pulse"
+          style={{
+            width: `${PIXEL_SCALE * 7}px`,
+            top: `${PIXEL_SCALE * 2}px`,
+            right: `${PIXEL_SCALE * 2}px`,
+          }}
+        />
+      )}
 
       {/* Progress bar */}
       {showTimers && (
@@ -131,6 +155,7 @@ export const ReplenishingTree: React.FC<Props> = ({
           image={ITEM_DETAILS[patchFruitName].image}
           description={`${pluralisedNames[patchFruitName]} Replenishing`}
           timeLeft={timeLeft}
+          speed={speed}
         />
       </div>
     </div>

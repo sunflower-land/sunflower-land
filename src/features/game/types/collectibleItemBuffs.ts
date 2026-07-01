@@ -99,7 +99,9 @@ export function getFertiliserBuffLabels({
       game,
     }),
     {
-      shortDescription: translate("description.turbofruit.mix.boost"),
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.turbofruit.mix.boost.speed")
+        : translate("description.turbofruit.mix.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Fruit Patch"].image,
@@ -1212,9 +1214,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
-  "Orchard Hourglass": () => [
+  "Orchard Hourglass": (game) => [
     {
-      shortDescription: translate("description.orchard.hourglass.boost"),
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.orchard.hourglass.boost.speed")
+        : translate("description.orchard.hourglass.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
@@ -1863,9 +1867,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
-  "Toucan Shrine": () => [
+  "Toucan Shrine": (game) => [
     {
-      shortDescription: translate("description.toucanShrine.buff"),
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.toucanShrine.buff.speed")
+        : translate("description.toucanShrine.buff"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },

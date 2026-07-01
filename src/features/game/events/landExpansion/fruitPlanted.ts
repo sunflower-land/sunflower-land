@@ -13,6 +13,7 @@ import {
 import type { BoostName, GameState } from "features/game/types/game";
 import { randomInt } from "lib/utils/random";
 import { isWearableActive } from "features/game/lib/wearables";
+import { hasFeatureAccess } from "lib/flags";
 import { produce } from "immer";
 import { SEASONAL_SEEDS } from "features/game/types/seeds";
 import { isFullMoonBerry } from "./seedBought";
@@ -68,7 +69,11 @@ export function getPlantedAt(
   game: GameState,
   createdAt: number,
   fruitPatchFertiliser?: FruitCompostName,
-): { plantedAt: number; boostsUsed: { name: BoostName; value: string }[] } {
+): {
+  plantedAt: number;
+  baseDurationMs?: number;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
   if (!patchFruitSeedName) return { plantedAt: createdAt, boostsUsed: [] };
 
   const fruitTime = PATCH_FRUIT_SEEDS[patchFruitSeedName].plantSeconds;
@@ -77,6 +82,18 @@ export function getPlantedAt(
     game,
     fruitPatchFertiliser,
   );
+
+  // Speed-rate model: store the REAL plant/harvest time + a baseDurationMs
+  // carrying only the permanent boosts. The temporary boosts (totems / Orchard
+  // Hourglass / Toucan Shrine) are derived live from windows so they credit only
+  // the overlap and apply retroactively. Legacy / flag-off back-dates instead.
+  if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
+    return {
+      plantedAt: createdAt,
+      baseDurationMs: boostedTime * 1000,
+      boostsUsed,
+    };
+  }
 
   const offset = fruitTime - boostedTime;
 
@@ -92,9 +109,20 @@ export const isAdvancedFruitSeed = (
 ) => name === "Apple Seed" || name === "Banana Plant";
 
 /**
- * Generic boost for all fruit types - normal + greenhouse
+ * Generic boost for all fruit types - normal + greenhouse.
+ *
+ * `isPatchFruit` gates the windowed totem model to PATCH fruit only: under
+ * SPEED_BOOSTS the two totems are a windowed 2× speed boost for patch fruit (see
+ * boostWindows), so they're excluded from the baked time here. Greenhouse fruit
+ * (isPatchFruit false) and the flag-off path keep the legacy discount-at-start.
  */
-export function getFruitTime({ game }: { game: GameState }): {
+export function getFruitTime({
+  game,
+  isPatchFruit = false,
+}: {
+  game: GameState;
+  isPatchFruit?: boolean;
+}): {
   multiplier: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
@@ -109,7 +137,10 @@ export function getFruitTime({ game }: { game: GameState }): {
     name: "Time Warp Totem",
     game,
   });
-  if (hasSuperTotem || hasTimeWarpTotem) {
+  // Under the windowed model the totems' contribution is derived over the grow
+  // rather than baked at plant time, so it's not recorded in boostsUsed either.
+  const totemsWindowed = hasFeatureAccess(game, "SPEED_BOOSTS") && isPatchFruit;
+  if (!totemsWindowed && (hasSuperTotem || hasTimeWarpTotem)) {
     seconds = seconds * 0.5;
     if (hasSuperTotem) boostsUsed.push({ name: "Super Totem", value: "x0.5" });
     if (hasTimeWarpTotem)
@@ -130,7 +161,10 @@ export const getFruitPatchTime = (
   const { bumpkin } = game;
   let seconds = PATCH_FRUIT_SEEDS[patchFruitSeedName]?.plantSeconds ?? 0;
 
-  const { multiplier: baseMultiplier, boostsUsed } = getFruitTime({ game });
+  const { multiplier: baseMultiplier, boostsUsed } = getFruitTime({
+    game,
+    isPatchFruit: true,
+  });
   seconds *= baseMultiplier;
 
   // Squirrel Monkey: 50% reduction
@@ -229,17 +263,33 @@ export const getFruitPatchTime = (
     }
   }
 
-  if (isTemporaryCollectibleActive({ name: "Orchard Hourglass", game })) {
+  // Orchard Hourglass & Toucan Shrine: under SPEED_BOOSTS these are retroactive
+  // speed-rate windows for patch fruit (see boostWindows), so excluded from the
+  // baked time here — the remaining time is the permanent-boost-only base
+  // duration. Flag-off keeps the discount-at-start. Not recorded in boostsUsed
+  // for the windowed case; their contribution is derived over the grow.
+  const fruitBoostsWindowed = hasFeatureAccess(game, "SPEED_BOOSTS");
+
+  if (
+    !fruitBoostsWindowed &&
+    isTemporaryCollectibleActive({ name: "Orchard Hourglass", game })
+  ) {
     seconds *= 0.75;
     boostsUsed.push({ name: "Orchard Hourglass", value: "x0.75" });
   }
 
-  if (isTemporaryCollectibleActive({ name: "Toucan Shrine", game })) {
+  if (
+    !fruitBoostsWindowed &&
+    isTemporaryCollectibleActive({ name: "Toucan Shrine", game })
+  ) {
     seconds *= 0.75;
     boostsUsed.push({ name: "Toucan Shrine", value: "x0.75" });
   }
 
-  if (fruitPatchFertiliser === "Turbofruit Mix") {
+  // Turbofruit Mix: under SPEED_BOOSTS it's a live per-patch 1.25× speed window
+  // from when it was applied (see getTurbofruitMixWindows), so excluded from the
+  // baked time here. Flag-off keeps the legacy ×0.8 discount-at-start.
+  if (!fruitBoostsWindowed && fruitPatchFertiliser === "Turbofruit Mix") {
     seconds *= 0.8;
     boostsUsed.push({ name: "Turbofruit Mix", value: "x0.8" });
   }
@@ -320,7 +370,7 @@ export function plantFruit({
       stateCopy.inventory[action.seed]?.minus(1);
 
     const fruitName = PATCH_FRUIT_SEEDS[action.seed].yield;
-    const { plantedAt, boostsUsed } = getPlantedAt(
+    const { plantedAt, baseDurationMs, boostsUsed } = getPlantedAt(
       action.seed,
       stateCopy,
       createdAt,
@@ -332,6 +382,9 @@ export function plantFruit({
       harvestedAt: 0,
       // Value will be overridden by BE
       harvestsLeft: harvestCount,
+      // Speed-rate model marker: real plantedAt + permanent-boost-only base
+      // duration; the windowed temp boosts are derived live at read time.
+      ...(baseDurationMs !== undefined ? { baseDurationMs } : {}),
     };
 
     stateCopy.farmActivity = trackFarmActivity(
