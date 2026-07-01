@@ -9165,5 +9165,7 @@
   "description.moleShrine.buff.3.speed": "Vitesse de récupération de Crimstone 1,35x",
   "description.orchard.hourglass.boost.speed": "Vitesse de croissance des fruits 1,35 fois",
   "description.toucanShrine.buff.speed": "Vitesse de croissance des parcelles fruitières 1,35 fois",
-  "description.turbofruit.mix.boost.speed": "Vitesse de croissance des parcelles fruitières multipliée par 1,25"
+  "description.turbofruit.mix.boost.speed": "Vitesse de croissance des parcelles fruitières multipliée par 1,25",
+  "description.blossom.hourglass.boost.speed": "1,35 fois la vitesse de croissance des fleurs",
+  "description.mothShrine.buff.speed": "1,35 fois la vitesse de croissance des fleurs"
 }

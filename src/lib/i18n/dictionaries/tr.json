@@ -9165,5 +9165,7 @@
   "description.moleShrine.buff.3.speed": "1.35x Crimstone Kurtarma Hızı",
   "description.orchard.hourglass.boost.speed": "1.35x Meyve Büyüme Hızı",
   "description.toucanShrine.buff.speed": "1.35x Meyve Yaması Büyüme Hızı",
-  "description.turbofruit.mix.boost.speed": "1.25x Meyve Yaması Büyüme Hızı"
+  "description.turbofruit.mix.boost.speed": "1.25x Meyve Yaması Büyüme Hızı",
+  "description.blossom.hourglass.boost.speed": "1.35x Çiçek Büyüme Hızı",
+  "description.mothShrine.buff.speed": "1.35x Çiçek Büyüme Hızı"
 }
