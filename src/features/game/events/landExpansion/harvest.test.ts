@@ -80,6 +80,52 @@ describe("harvest", () => {
     ).toThrow(`Not ready`);
   });
 
+  it("harvests a windowed crop early thanks to a Rapid Root fertiliser window", () => {
+    const plot = GAME_STATE.crops[0];
+    const carrotMs = CROPS.Carrot.harvestSeconds * 1000;
+    // 35 min into a 60 min Carrot: not ready at 1×, but the Rapid Root 2× window
+    // (active from plant) readies it at plantedAt + 30 min = 5 min ago.
+    const plantedAt = dateNow - 35 * 60 * 1000;
+    const windowedCarrot = {
+      name: "Carrot" as const,
+      plantedAt,
+      baseDurationMs: carrotMs,
+    };
+
+    const state = harvest({
+      state: {
+        ...GAME_STATE,
+        inventory: {},
+        crops: {
+          0: {
+            ...plot,
+            crop: windowedCarrot,
+            fertiliser: { name: "Rapid Root", fertilisedAt: plantedAt },
+          },
+        },
+      },
+      action: { type: "crop.harvested", index: "0" },
+      createdAt: dateNow,
+    });
+
+    // The fertiliser window made it ready early → harvested.
+    expect(state.crops?.[0].crop).toBeUndefined();
+    expect(state.inventory.Carrot).toBeDefined();
+
+    // Without the fertiliser the same crop is still growing at 1×.
+    expect(() =>
+      harvest({
+        state: {
+          ...GAME_STATE,
+          inventory: {},
+          crops: { 0: { ...plot, crop: windowedCarrot } },
+        },
+        action: { type: "crop.harvested", index: "0" },
+        createdAt: dateNow,
+      }),
+    ).toThrow("Not ready");
+  });
+
   it("harvests a crop", () => {
     const plot = GAME_STATE.crops[0];
 

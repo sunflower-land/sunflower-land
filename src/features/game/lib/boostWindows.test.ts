@@ -19,7 +19,7 @@ import {
 } from "./boostWindows";
 import { EXPIRY_COOLDOWNS } from "./collectibleBuilt";
 import { TEST_FARM } from "./constants";
-import type { GameState } from "../types/game";
+import type { CropFertiliser, GameState } from "../types/game";
 import type { RockName } from "../types/resources";
 
 const HOUR = 60 * 60 * 1000;
@@ -801,6 +801,12 @@ describe("getCropFertiliserWindows", () => {
   it("returns no window for a non-speed fertiliser (Sprout Mix)", () => {
     expect(
       getCropFertiliserWindows({ name: "Sprout Mix", fertilisedAt }),
+    ).toEqual([]);
+  });
+
+  it("returns no window when the name is valid but fertilisedAt is missing (malformed state)", () => {
+    expect(
+      getCropFertiliserWindows({ name: "Rapid Root" } as CropFertiliser),
     ).toEqual([]);
   });
 

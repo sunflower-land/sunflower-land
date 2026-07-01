@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState, type JSX } from "react";
+import React, { useContext, useMemo, useRef, useState, type JSX } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import type { Reward, CropPlot } from "features/game/types/game";
@@ -132,11 +132,16 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
   // Union the plot's own Rapid Root / Sproutroot Surprise fertiliser window
   // (per-plot, keyed off fertilisedAt) with the game-global crop boost windows,
-  // so the countdown ticks at the fertiliser's boosted rate too.
-  const cropBoostWindows = [
-    ...getCropPlotBoostWindows(state),
-    ...getCropFertiliserWindows(fertiliser),
-  ];
+  // so the countdown ticks at the fertiliser's boosted rate too. Memoised so the
+  // per-tick `useNow` re-renders don't reallocate the array (it only depends on
+  // `state` and `fertiliser`, not `now`).
+  const cropBoostWindows = useMemo(
+    () => [
+      ...getCropPlotBoostWindows(state),
+      ...getCropFertiliserWindows(fertiliser),
+    ],
+    [state, fertiliser],
+  );
 
   // Calculate expected reward for UI preview (captcha gate for non-seasoned players)
   const expectedReward =

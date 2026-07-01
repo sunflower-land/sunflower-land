@@ -110,8 +110,16 @@ export const isWinterCrop = (
 
 /**
  * When a planted crop is ready, across both boost models. New crops (with
- * `baseDurationMs`) derive their ready time live from the Sparrow Shrine speed
- * windows; legacy crops use their back-dated `plantedAt` + base grow time.
+ * `baseDurationMs`) derive their ready time live from the crop-plot speed windows
+ * plus any per-plot fertiliser (Rapid Root / Sproutroot Surprise) window; legacy
+ * crops use their back-dated `plantedAt` + base grow time.
+ *
+ * Branching on `baseDurationMs` — NOT the `SPEED_BOOSTS` flag — is intentional:
+ * the marker makes a crop permanently speed-rate, so it keeps windowed timing
+ * (and its baked permanent boosts) even if the flag is rolled back, matching every
+ * other windowed activity. The fertiliser windows are merged unconditionally here
+ * for the same reason as the collectible windows; only the plant / fertilise WRITE
+ * paths gate on the flag.
  */
 export const getCropReadyAt = (
   plantedCrop: PlantedCrop,
