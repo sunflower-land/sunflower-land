@@ -9157,5 +9157,10 @@
   "description.sparrowShrine.buff.speed": "1,35x la vitesse de croissance des cultures sur la parcelle",
   "reward.powerHour": "Récoltes 2 fois plus rapides +0,2 rendement pendant 1 heure",
   "description.timber.hourglass.boost.speed": "Vitesse de restauration des arbres 1,35 fois",
-  "description.badgerShrine.buff.speed": "Vitesse de restauration des arbres 1,35 fois"
+  "description.badgerShrine.buff.speed": "Vitesse de restauration des arbres 1,35 fois",
+  "description.ore.hourglass.boost.speed": "2 fois la vitesse de récupération des minéraux",
+  "description.badgerShrine.buff.2.speed": "Vitesse de récupération des pierres 1,35 fois",
+  "description.moleShrine.buff.speed": "Vitesse de récupération du fer 1,35 fois",
+  "description.moleShrine.buff.2.speed": "Vitesse de récupération de l'or 1,35 fois",
+  "description.moleShrine.buff.3.speed": "Vitesse de récupération de Crimstone 1,35x"
 }

@@ -9157,5 +9157,10 @@
   "description.sparrowShrine.buff.speed": "1.35 倍地块作物生长速度",
   "reward.powerHour": "作物速度提高 2 倍，1 小时产量 +0.2",
   "description.timber.hourglass.boost.speed": "1.35 倍树恢复速度",
-  "description.badgerShrine.buff.speed": "1.35 倍树恢复速度"
+  "description.badgerShrine.buff.speed": "1.35 倍树恢复速度",
+  "description.ore.hourglass.boost.speed": "2 倍矿物回收速度",
+  "description.badgerShrine.buff.2.speed": "1.35 倍宝石回收速度",
+  "description.moleShrine.buff.speed": "1.35 倍铁回收速度",
+  "description.moleShrine.buff.2.speed": "1.35 倍金币回收速度",
+  "description.moleShrine.buff.3.speed": "1.35 倍猩红石恢复速度"
 }

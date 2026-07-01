@@ -9157,5 +9157,10 @@
   "description.sparrowShrine.buff.speed": "Velocidade de crescimento da safra gráfica de 1,35 vezes",
   "reward.powerHour": "Colheitas 2x mais rápidas +0,2 de rendimento por 1 hora",
   "description.timber.hourglass.boost.speed": "1,35x Velocidade de Recuperação da Árvore",
-  "description.badgerShrine.buff.speed": "1,35x Velocidade de Recuperação da Árvore"
+  "description.badgerShrine.buff.speed": "1,35x Velocidade de Recuperação da Árvore",
+  "description.ore.hourglass.boost.speed": "2x Velocidade de Recuperação Mineral",
+  "description.badgerShrine.buff.2.speed": "1,35x Velocidade de Recuperação de Pedra",
+  "description.moleShrine.buff.speed": "1,35x Velocidade de Recuperação de Ferro",
+  "description.moleShrine.buff.2.speed": "1,35x Velocidade de Recuperação de Ouro",
+  "description.moleShrine.buff.3.speed": "1,35x a velocidade de recuperação do Crimstone"
 }

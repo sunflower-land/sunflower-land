@@ -9157,5 +9157,10 @@
   "description.sparrowShrine.buff.speed": "1.35x Plot Crop Growth Speed",
   "reward.powerHour": "2x faster crops +0.2 yield for 1 hour",
   "description.timber.hourglass.boost.speed": "1.35x Tree Recovery Speed",
-  "description.badgerShrine.buff.speed": "1.35x Tree Recovery Speed"
+  "description.badgerShrine.buff.speed": "1.35x Tree Recovery Speed",
+  "description.ore.hourglass.boost.speed": "2x Mineral Recovery Speed",
+  "description.badgerShrine.buff.2.speed": "1.35x Stone Recovery Speed",
+  "description.moleShrine.buff.speed": "1.35x Iron Recovery Speed",
+  "description.moleShrine.buff.2.speed": "1.35x Gold Recovery Speed",
+  "description.moleShrine.buff.3.speed": "1.35x Crimstone Recovery Speed"
 }

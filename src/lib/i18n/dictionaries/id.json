@@ -9157,5 +9157,10 @@
   "description.sparrowShrine.buff.speed": "1.35x Kecepatan Pertumbuhan Tanaman Plot",
   "reward.powerHour": "2x tanaman lebih cepat +0,2 hasil selama 1 jam",
   "description.timber.hourglass.boost.speed": "1.35x Kecepatan Pemulihan Pohon",
-  "description.badgerShrine.buff.speed": "1.35x Kecepatan Pemulihan Pohon"
+  "description.badgerShrine.buff.speed": "1.35x Kecepatan Pemulihan Pohon",
+  "description.ore.hourglass.boost.speed": "Kecepatan Pemulihan Mineral 2x",
+  "description.badgerShrine.buff.2.speed": "1.35x Kecepatan Pemulihan Batu",
+  "description.moleShrine.buff.speed": "1.35x Kecepatan Pemulihan Besi",
+  "description.moleShrine.buff.2.speed": "1.35x Kecepatan Pemulihan Emas",
+  "description.moleShrine.buff.3.speed": "1.35x Kecepatan Pemulihan Crimstone"
 }

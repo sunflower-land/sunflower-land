@@ -9157,5 +9157,10 @@
   "description.sparrowShrine.buff.speed": "1,35-fache Wachstumsgeschwindigkeit der Parzellenkulturen",
   "reward.powerHour": "2 x schnellere Ernten +0,2 Ertrag für 1 Stunde",
   "description.timber.hourglass.boost.speed": "1,35-fache Tree-Recovery-Geschwindigkeit",
-  "description.badgerShrine.buff.speed": "1,35-fache Tree-Recovery-Geschwindigkeit"
+  "description.badgerShrine.buff.speed": "1,35-fache Tree-Recovery-Geschwindigkeit",
+  "description.ore.hourglass.boost.speed": "2-fache Geschwindigkeit der Mineralgewinnung",
+  "description.badgerShrine.buff.2.speed": "1,35-fache Steinwiederherstellungsgeschwindigkeit",
+  "description.moleShrine.buff.speed": "1,35-fache Eisenrückgewinnungsgeschwindigkeit",
+  "description.moleShrine.buff.2.speed": "1,35-fache Gold-Wiederherstellungsgeschwindigkeit",
+  "description.moleShrine.buff.3.speed": "1,35-fache Crimstone-Wiederherstellungsgeschwindigkeit"
 }
