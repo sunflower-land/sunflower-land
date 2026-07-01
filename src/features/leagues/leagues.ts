@@ -83,6 +83,7 @@ export const LEAGUE_POINTS_EVENTS: Record<LeaguePointsEvent, Decimal> = {
   "Onion Harvested": new Decimal(12),
   "Turnip Harvested": new Decimal(14.4),
   "Artichoke Harvested": new Decimal(21.6),
+  "Saltwort Harvested": new Decimal(0),
   "Honey Harvested": new Decimal(200),
   "Apple Harvested": new Decimal(28.8),
   "Blueberry Harvested": new Decimal(14.4),
@@ -153,6 +154,7 @@ export const LEAGUE_POINTS_EVENTS: Record<LeaguePointsEvent, Decimal> = {
   // Cook Events
   // ----- temp values will need to be updated
   "Furikake Sprinkle Cooked": new Decimal(0),
+  "Saltbite Cooked": new Decimal(0),
   "Surimi Rice Bowl Cooked": new Decimal(0),
   "Creamy Crab Bite Cooked": new Decimal(0),
   "Crimstone Infused Fish Oil Cooked": new Decimal(0),

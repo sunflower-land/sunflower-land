@@ -51,6 +51,11 @@ import { getBudTraits } from "features/game/types/budBuffs";
 import { setPrecision } from "lib/utils/formatNumber";
 import { useNow } from "lib/utils/hooks/useNow";
 import {
+  CHAPTER_CROP_WEEK,
+  CHAPTER_CROP_WEEK_CROP,
+  isChapterCropWeekActive,
+} from "features/game/types/chapterCropWeek";
+import {
   MinigameCurrencyDisclaimerPanel,
   showsMinigameCurrencyDisclaimer,
 } from "./MinigameCurrencyDisclaimerPanel";
@@ -442,6 +447,20 @@ export const TradeableDescription: React.FC<{
               </Label>
             </div>
           )}
+          {display.name === CHAPTER_CROP_WEEK_CROP &&
+            isChapterCropWeekActive(now) && (
+              <div className="p-2 pl-0 pb-0 flex flex-col gap-1">
+                <Label type="warning" icon={SUNNYSIDE.icons.stopwatch}>
+                  {`${t("chapterCropWeek.temporarilyTradeable")} (${secondsToString(
+                    (CHAPTER_CROP_WEEK.endDate.getTime() - now) / 1000,
+                    { length: "short" },
+                  )} ${t("time.left")})`}
+                </Label>
+                <Label type="info" icon={crownIcon}>
+                  {t("chapterCropWeek.vipOnlySell")}
+                </Label>
+              </div>
+            )}
           {!canTrade && !!tradeAt && (
             <div className="p-2 pl-0 pb-0 flex items-center justify-between  flex-wrap">
               <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>

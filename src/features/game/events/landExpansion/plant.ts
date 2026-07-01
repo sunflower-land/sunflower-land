@@ -34,6 +34,7 @@ import {
   type SeedName,
   SEEDS,
 } from "features/game/types/seeds";
+import { CHAPTER_CROP_WEEK_SEED } from "features/game/types/chapterCropWeek";
 import {
   isWithinAOE,
   type Position,
@@ -698,7 +699,10 @@ export function plant({
       throw new Error("Not a seed");
     }
 
+    // The Chapter Crop Week seed is a limited-time event crop that is not tied
+    // to a season, so it is exempt from the seasonal availability check.
     if (
+      action.item !== CHAPTER_CROP_WEEK_SEED &&
       !SEASONAL_SEEDS[stateCopy.season.season].includes(action.item as SeedName)
     ) {
       throw new Error("This seed is not available in this season");

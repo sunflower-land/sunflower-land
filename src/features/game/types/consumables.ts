@@ -38,7 +38,8 @@ type FirePitCookableName =
   | "Fried Tofu"
   | "Pizza Margherita"
   | "Rhubarb Tart"
-  | "Furikake Sprinkle";
+  | "Furikake Sprinkle"
+  | "Saltbite";
 
 type KitchenCookableName =
   | "Surimi Rice Bowl"
@@ -303,6 +304,17 @@ export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
     ingredients: {
       "Magic Mushroom": new Decimal(1),
       Pumpkin: new Decimal(40),
+    },
+  },
+  // Chapter Crop Week (limited-time event recipe)
+  Saltbite: {
+    name: "Saltbite",
+    description: translate("description.saltbite"),
+    experience: 2000,
+    building: "Fire Pit",
+    cookingSeconds: 4 * 60 * 60,
+    ingredients: {
+      Saltwort: new Decimal(10),
     },
   },
   "Fried Tofu": {

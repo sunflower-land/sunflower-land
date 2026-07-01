@@ -5,6 +5,7 @@ import { produce } from "immer";
 import type { CropName } from "../../types/crops";
 import type { GameState, InventoryItemName } from "../../types/game";
 import { SEASONAL_SEEDS, type SeedName, SEEDS } from "../../types/seeds";
+import { CHAPTER_CROP_WEEK_SEED } from "../../types/chapterCropWeek";
 import { updateBoostUsed } from "../../types/updateBoostUsed";
 import type { BoostName } from "../../types/game";
 import { getAffectedWeather, plantCropOnPlot } from "./plant";
@@ -49,7 +50,10 @@ export function bulkPlant({
       throw new Error("Not a seed");
     }
 
+    // The Chapter Crop Week seed is a limited-time event crop that is not tied
+    // to a season, so it is exempt from the seasonal availability check.
     if (
+      action.seed !== CHAPTER_CROP_WEEK_SEED &&
       !SEASONAL_SEEDS[stateCopy.season.season].includes(action.seed as SeedName)
     ) {
       throw new Error("This seed is not available in this season");

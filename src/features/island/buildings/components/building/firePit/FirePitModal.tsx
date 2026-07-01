@@ -17,8 +17,13 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import type { BuildingProduct } from "features/game/types/game";
-import { CHAPTERS, getCurrentChapter } from "features/game/types/chapters";
+import { getCurrentChapter } from "features/game/types/chapters";
 import { useNow } from "lib/utils/hooks/useNow";
+import {
+  CHAPTER_CROP_WEEK,
+  CHAPTER_CROP_WEEK_RECIPE,
+} from "features/game/types/chapterCropWeek";
+import { hasChapterCropWeekAccess } from "lib/flags";
 import { Context } from "features/game/GameProvider";
 import { getCookingRequirements } from "features/game/events/landExpansion/cook";
 import type { InventoryItemName } from "features/game/types/game";
@@ -59,7 +64,7 @@ export const FirePitModal: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const now = useNow({
     live: true,
-    autoEndAt: CHAPTERS["Paw Prints"].endDate.getTime(),
+    autoEndAt: CHAPTER_CROP_WEEK.endDate.getTime(),
   });
 
   const getGame = useCallback(() => {
@@ -69,6 +74,12 @@ export const FirePitModal: React.FC<Props> = ({
   const firePitRecipes = useMemo(() => {
     return Object.values(FIRE_PIT_COOKABLES)
       .filter((recipe) => {
+        // Chapter Crop Week event recipe only appears during the event window
+        // (beta testers get access before the event starts)
+        if (recipe.name === CHAPTER_CROP_WEEK_RECIPE) {
+          return hasChapterCropWeekAccess(getGame(), now);
+        }
+
         if (getCurrentChapter(now) === "Paw Prints") return true;
 
         return !isFishCookable(recipe.name);
@@ -76,7 +87,7 @@ export const FirePitModal: React.FC<Props> = ({
       .sort(
         (a, b) => a.experience - b.experience, // "Lowest entry" == first in this order
       );
-  }, [now]);
+  }, [now, getGame]);
 
   /**
    * Stored selection is intentionally session-only (component state).

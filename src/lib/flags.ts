@@ -1,6 +1,7 @@
 import type { GameState } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 import { TEAM_USERNAMES } from "./access";
+import { CHAPTER_CROP_WEEK } from "features/game/types/chapterCropWeek";
 
 export const RONIN_AIRDROP_ENDDATE = new Date("2025-11-04T00:00:00Z");
 
@@ -84,6 +85,12 @@ export const TIME_BASED_FEATURE_FLAG_WINDOWS = {
     start: WAYPOINT_WALLET_ENDDATE,
     end: null,
   },
+  // Chapter Crop Week (Saltwort crop + Saltbite recipe). Beta testers get
+  // access before the event starts; everyone during the window.
+  CHAPTER_CROP_WEEK: {
+    start: CHAPTER_CROP_WEEK.startDate,
+    end: CHAPTER_CROP_WEEK.endDate,
+  },
 } satisfies Record<string, TimeBasedFeatureWindow>;
 
 /** All time-based flags receive the full window; start-only helpers ignore `end`. */
@@ -101,6 +108,7 @@ export const TIME_BASED_FEATURE_FLAGS: Record<
   TICKETS_FROM_FLOWER_NPC: timePeriodFeatureFlag,
   APRIL_FOOLS_EVENT_FLAG: betaTimePeriodFeatureFlag,
   RONIN_WAYPOINT_DEPRECATION: timePeriodFeatureFlag,
+  CHAPTER_CROP_WEEK: betaTimePeriodFeatureFlag,
 };
 
 /**
@@ -121,6 +129,14 @@ export function hasTimeBasedFeatureAccess({
   const window = TIME_BASED_FEATURE_FLAG_WINDOWS[featureName];
   return TIME_BASED_FEATURE_FLAGS[featureName](window)(game)(now);
 }
+
+/**
+ * Whether the player can access the Chapter Crop Week crop & recipe at `now`.
+ * Beta testers (Beta Pass / testnet) get access before the event starts;
+ * all players get access during the event window.
+ */
+export const hasChapterCropWeekAccess = (game: GameState, now: number) =>
+  hasTimeBasedFeatureAccess({ featureName: "CHAPTER_CROP_WEEK", now, game });
 
 /*
  * How to Use:

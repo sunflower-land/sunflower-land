@@ -75,6 +75,11 @@ import {
 import { isFullMoon } from "features/game/types/calendar";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { useNow } from "lib/utils/hooks/useNow";
+import {
+  CHAPTER_CROP_WEEK,
+  CHAPTER_CROP_WEEK_SEED,
+} from "features/game/types/chapterCropWeek";
+import { hasChapterCropWeekAccess } from "lib/flags";
 
 export const SEASON_ICONS: Record<TemperateSeasonName, string> = {
   spring: springIcon,
@@ -94,7 +99,11 @@ export const SeasonalSeeds: React.FC = () => {
   const currentSeasonSeeds = getKeys(SEEDS).filter((seed) =>
     SEASONAL_SEEDS[currentSeason].includes(seed),
   );
-  const now = useNow();
+  const now = useNow({
+    live: true,
+    autoEndAt: CHAPTER_CROP_WEEK.endDate.getTime(),
+  });
+  const isCropWeek = hasChapterCropWeekAccess(state, now);
 
   const [selectedName, setSelectedName] = useState<SeedName>(
     currentSeasonSeeds[0],
@@ -366,6 +375,7 @@ export const SeasonalSeeds: React.FC = () => {
     ...cropMachineSeeds,
     ...currentSeasonSeeds,
     ...FULL_MOON_SEEDS,
+    ...(isCropWeek ? [CHAPTER_CROP_WEEK_SEED] : []),
   ];
 
   const harvestCount = getHarvestCount();
@@ -384,6 +394,12 @@ export const SeasonalSeeds: React.FC = () => {
             item: selectedName,
             seasons,
             cropMachineSeeds,
+            ...(selectedName === CHAPTER_CROP_WEEK_SEED
+              ? {
+                  from: CHAPTER_CROP_WEEK.startDate,
+                  to: CHAPTER_CROP_WEEK.endDate,
+                }
+              : {}),
           }}
           requirements={{
             coins: price,
@@ -474,6 +490,36 @@ export const SeasonalSeeds: React.FC = () => {
                     count={inventory[name]}
                   />
                 ))}
+              </div>
+            </div>
+          )}
+          {isCropWeek && (
+            <div id="Chapter Crop Week Seeds">
+              <Label
+                icon={SUNNYSIDE.icons.stopwatch}
+                type="warning"
+                className="ml-2 mb-1"
+              >
+                {t("chapterCropWeek.title")}
+              </Label>
+              <div className="flex flex-wrap mb-2">
+                <Box
+                  isSelected={selectedName === CHAPTER_CROP_WEEK_SEED}
+                  key={CHAPTER_CROP_WEEK_SEED}
+                  onClick={() => {
+                    onSeedClick(CHAPTER_CROP_WEEK_SEED);
+                    setShowBoosts(false);
+                  }}
+                  image={
+                    ITEM_DETAILS[
+                      SEEDS[CHAPTER_CROP_WEEK_SEED].yield ??
+                        CHAPTER_CROP_WEEK_SEED
+                    ].image
+                  }
+                  secondaryImage={SUNNYSIDE.icons.stopwatch}
+                  showOverlay={isSeedLocked(CHAPTER_CROP_WEEK_SEED)}
+                  count={inventory[CHAPTER_CROP_WEEK_SEED]}
+                />
               </div>
             </div>
           )}

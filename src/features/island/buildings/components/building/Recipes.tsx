@@ -44,6 +44,13 @@ import { Panel } from "components/ui/Panel";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useNow } from "lib/utils/hooks/useNow";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { secondsToString } from "lib/utils/time";
+import {
+  CHAPTER_CROP_WEEK,
+  CHAPTER_CROP_WEEK_RECIPE,
+  isChapterCropWeekActive,
+} from "features/game/types/chapterCropWeek";
 
 interface Props {
   selected: Cookable;
@@ -272,7 +279,7 @@ export const Recipes: React.FC<Props> = ({
                 />
               )}
 
-            <div className="w-full">
+            <div className="w-full flex justify-between items-center">
               <Label
                 className="mr-3 ml-2 mb-1"
                 icon={pumpkinSoup}
@@ -280,6 +287,19 @@ export const Recipes: React.FC<Props> = ({
               >
                 {t("recipes")}
               </Label>
+              {recipes.some((item) => item.name === CHAPTER_CROP_WEEK_RECIPE) &&
+                isChapterCropWeekActive(now) && (
+                  <Label
+                    icon={SUNNYSIDE.icons.stopwatch}
+                    type="warning"
+                    className="mr-2 mb-1 whitespace-nowrap"
+                  >
+                    {`${secondsToString(
+                      (CHAPTER_CROP_WEEK.endDate.getTime() - now) / 1000,
+                      { length: "short" },
+                    )} ${t("time.left")}`}
+                  </Label>
+                )}
             </div>
             <div className="flex flex-wrap h-fit">
               {recipes.map((item) => (
@@ -292,6 +312,11 @@ export const Recipes: React.FC<Props> = ({
                     setShowTimeBoosts(false);
                   }}
                   image={ITEM_DETAILS[item.name].image}
+                  secondaryImage={
+                    item.name === CHAPTER_CROP_WEEK_RECIPE
+                      ? SUNNYSIDE.icons.stopwatch
+                      : undefined
+                  }
                   count={inventory[item.name]}
                 />
               ))}

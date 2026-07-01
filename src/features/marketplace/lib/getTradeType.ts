@@ -186,6 +186,10 @@ export const ITEM_TRADE_TYPES: {
     Onion: "instant",
     Turnip: "instant",
     Artichoke: "instant",
+    // Chapter Crop Week (limited-time event)
+    "Saltwort Seed": "instant",
+    Saltwort: "instant",
+    Saltbite: "instant",
 
     "Thermal Stone": "instant",
     "Protective Pesticide": "instant",

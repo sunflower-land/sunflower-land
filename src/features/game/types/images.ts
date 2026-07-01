@@ -1418,6 +1418,11 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.barley"),
     translatedName: translate("crop.barley"),
   },
+  Saltwort: {
+    image: CROP_LIFECYCLE["Basic Biome"].Saltwort.crop,
+    description: translate("description.saltwort"),
+    translatedName: translate("crop.saltwort"),
+  },
   Rhubarb: {
     image: CROP_LIFECYCLE["Basic Biome"].Rhubarb.crop,
     description: translate("description.rhubarb"),
@@ -1534,6 +1539,11 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE["Basic Biome"].Barley.seed,
     description: translate("description.barley"),
     translatedName: translate("seed.barley"),
+  },
+  "Saltwort Seed": {
+    image: CROP_LIFECYCLE["Basic Biome"].Saltwort.seed,
+    description: translate("description.saltwort"),
+    translatedName: translate("seed.saltwort"),
   },
   "Rhubarb Seed": {
     image: CROP_LIFECYCLE["Basic Biome"].Rhubarb.seed,
@@ -5343,6 +5353,12 @@ export const ITEM_DETAILS: Items = {
     image: rapidRoast,
     description: CONSUMABLES["Rapid Roast"].description,
     translatedName: translate("food.rapidRoast"),
+  },
+  // Chapter Crop Week event recipe reuses existing food art
+  Saltbite: {
+    image: rapidRoast,
+    description: CONSUMABLES["Saltbite"].description,
+    translatedName: translate("food.saltbite"),
   },
   "Shroom Syrup": {
     image: shroomSyrup,
