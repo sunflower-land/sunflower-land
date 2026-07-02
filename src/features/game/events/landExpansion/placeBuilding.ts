@@ -13,7 +13,7 @@ import { createInitialAgingShed } from "features/game/lib/agingShed";
 import {
   getGreenhouseBoostWindows,
   getGreenhouseGlowWindows,
-  workAccruedAt,
+  pauseWindowedTimer,
 } from "features/game/lib/boostWindows";
 import { getReadyAt } from "./startComposter";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
@@ -128,32 +128,20 @@ export function placeBuilding({
         Object.values(greenhouse.pots).forEach((pot) => {
           if (pot.plant && existingBuilding.removedAt) {
             const { plant } = pot;
-            if (plant.baseDurationMs !== undefined) {
-              // Windowed plant: "pause" growth across the move. Bank the work
-              // accrued before removal (already done, so it isn't redone), then
-              // resume the remaining work from now against the current windows.
-              // `boostedTime` keeps the pre-move progress for the growth bar;
-              // `baseDurationMs` holds the remaining work still to accrue.
-              // (Mirrors placePlot's lift-banking for windowed crops.)
-              const accured = workAccruedAt({
-                startedAt: plant.plantedAt,
-                at: existingBuilding.removedAt,
-                windows: [
-                  ...getGreenhouseBoostWindows(stateCopy, plant.name),
-                  ...getGreenhouseGlowWindows(pot.fertiliser),
-                ],
-              });
-              const banked = Math.min(accured, plant.baseDurationMs);
-              plant.baseDurationMs -= banked;
-              plant.boostedTime = (plant.boostedTime ?? 0) + banked;
-              plant.plantedAt = createdAt;
-            } else {
-              // Legacy plant: back-date plantedAt so the moved interval
-              // doesn't count.
-              const existingProgress =
-                existingBuilding.removedAt - plant.plantedAt;
-              plant.plantedAt = createdAt - existingProgress;
-            }
+            // Pause growth across the move (windowed banking or legacy back-date).
+            // trackProgress banks the pre-move work into boostedTime for the
+            // growth bar. (Mirrors placePlot's lift-banking for windowed crops.)
+            plant.plantedAt = pauseWindowedTimer({
+              timer: plant,
+              startedAt: plant.plantedAt,
+              removedAt: existingBuilding.removedAt,
+              createdAt,
+              windows: [
+                ...getGreenhouseBoostWindows(stateCopy, plant.name),
+                ...getGreenhouseGlowWindows(pot.fertiliser),
+              ],
+              trackProgress: true,
+            });
           }
         });
       }
