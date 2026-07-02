@@ -115,7 +115,15 @@ function useGreenhouseGuru({
   getKeys(greenhousePot).forEach((pot) => {
     const { plant } = greenhousePot[pot];
     if (plant) {
-      plant.plantedAt = 1;
+      // Windowed plants (speed-rate model) are made instantly ready by zeroing
+      // the remaining work — back-dating plantedAt would instead re-price the
+      // grow against past boost windows (mirrors instaGrowFlower). Legacy
+      // plants keep the plantedAt back-date.
+      if (plant.baseDurationMs !== undefined) {
+        plant.baseDurationMs = 0;
+      } else {
+        plant.plantedAt = 1;
+      }
     }
   });
 

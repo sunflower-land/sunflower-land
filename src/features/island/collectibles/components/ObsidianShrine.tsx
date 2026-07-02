@@ -40,7 +40,7 @@ import {
   GREENHOUSE_COMPOST,
   type GreenhouseCompostName,
 } from "features/game/types/composters";
-import { getReadyAt as getGreenhouseReadyAt } from "features/game/events/landExpansion/harvestGreenHouse";
+import { isGreenhouseReady } from "features/game/events/landExpansion/greenhouseReadiness";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
 import { useVisiting } from "lib/utils/visitUtils";
@@ -522,14 +522,7 @@ const getEligibleGreenhousePotIds = (
   return Object.entries(state.greenhouse.pots)
     .filter(([, pot]) => {
       if (!pot || pot.fertiliser) return false;
-      if (
-        pot.plant &&
-        now >=
-          getGreenhouseReadyAt({
-            plant: pot.plant.name,
-            createdAt: pot.plant.plantedAt,
-          })
-      ) {
+      if (pot.plant && isGreenhouseReady(now, pot.plant, state)) {
         return false;
       }
       return true;

@@ -2,7 +2,19 @@ import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { plantGreenhouse } from "./plantGreenhouse";
 import Decimal from "decimal.js-light";
 import type { GameState } from "features/game/types/game";
-import { GREENHOUSE_CROP_TIME_SECONDS } from "./harvestGreenHouse";
+import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/lib/greenhouseGrowTimes";
+import { CONFIG } from "lib/config";
+
+// Pin the legacy (mainnet, SPEED_BOOSTS off) behaviour for this file's existing
+// tests — jest runs on amoy where the flag is ON. The windowed model is covered
+// in the dedicated SPEED_BOOSTS describes.
+const originalNetwork = CONFIG.NETWORK;
+beforeAll(() => {
+  (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+});
+afterAll(() => {
+  (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+});
 
 const farm: GameState = {
   ...TEST_FARM,
@@ -2177,5 +2189,132 @@ describe("plantGreenhouse", () => {
         plantedAt: now,
       },
     });
+  });
+});
+
+describe("plantGreenhouse under SPEED_BOOSTS (windowed)", () => {
+  beforeAll(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
+  });
+  afterAll(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+  });
+
+  const greenhouseState = (extra: Partial<GameState> = {}): GameState => ({
+    ...farm,
+    inventory: {
+      "Rice Seed": new Decimal(5),
+      "Grape Seed": new Decimal(5),
+    },
+    greenhouse: {
+      oil: 50,
+      pots: { 1: {} },
+    },
+    buildings: {
+      Greenhouse: [
+        {
+          coordinates: { x: 0, y: 0 },
+          id: "1",
+          createdAt: 0,
+          readyAt: 0,
+        },
+      ],
+    },
+    ...extra,
+  });
+
+  it("keeps the real plantedAt and stores the base grow duration", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: { type: "greenhouse.planted", id: 1, seed: "Rice Seed" },
+      state: greenhouseState(),
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        name: "Rice",
+        plantedAt: now,
+        baseDurationMs: GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000,
+      },
+    });
+  });
+
+  it("keeps permanent boosts baked into baseDurationMs (Turbo Sprout)", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: { type: "greenhouse.planted", id: 1, seed: "Rice Seed" },
+      state: greenhouseState({
+        collectibles: {
+          "Turbo Sprout": [
+            { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 }, readyAt: 0 },
+          ],
+        },
+      }),
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1].plant).toEqual({
+      name: "Rice",
+      plantedAt: now,
+      baseDurationMs: (GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000) / 2,
+    });
+  });
+
+  it("excludes the Tortoise Shrine from baseDurationMs AND boostsUsed", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: { type: "greenhouse.planted", id: 1, seed: "Rice Seed" },
+      state: greenhouseState({
+        collectibles: {
+          "Tortoise Shrine": [
+            {
+              id: "1",
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+              readyAt: now,
+            },
+          ],
+        },
+      }),
+      createdAt: now,
+    });
+
+    // The shrine's 1.5× applies live over the grow via
+    // getGreenhouseBoostWindows — intentionally NOT baked at plant time and
+    // NOT recorded in boostsUsed (its contribution is derived, not locked in).
+    expect(state.greenhouse.pots[1].plant?.baseDurationMs).toEqual(
+      GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000,
+    );
+    expect(state.greenhouse.pots[1].plant?.plantedAt).toEqual(now);
+    expect(state.boostsUsedAt?.["Tortoise Shrine"]).toBeUndefined();
+  });
+
+  it("does not bake a pre-applied Greenhouse Glow at plant time", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: { type: "greenhouse.planted", id: 1, seed: "Rice Seed" },
+      state: greenhouseState({
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {
+              fertiliser: {
+                name: "Greenhouse Glow",
+                fertilisedAt: now - 1000,
+              },
+            },
+          },
+        },
+      }),
+      createdAt: now,
+    });
+
+    // The pot's open-ended `[fertilisedAt, ∞)` window covers the whole grow
+    // (getGreenhouseGlowWindows) — nothing is baked into the stored duration.
+    expect(state.greenhouse.pots[1].plant?.baseDurationMs).toEqual(
+      GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000,
+    );
+    expect(state.boostsUsedAt?.["Greenhouse Glow"]).toBeUndefined();
   });
 });

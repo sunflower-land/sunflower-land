@@ -241,12 +241,11 @@ export function getCropTime({
     name: "Time Warp Totem",
     game,
   });
-  // Totems: under SPEED_BOOSTS they're a windowed 2× speed boost for PLOT crops
-  // (see boostWindows; Super & Time Warp merge so they don't stack), so excluded
-  // from the baked time here. Greenhouse crops and the flag-off path keep the
-  // legacy discount-at-start.
-  const totemsWindowed =
-    hasFeatureAccess(game, "SPEED_BOOSTS") && isPlotCrop(crop);
+  // Totems: under SPEED_BOOSTS they're a windowed 2× speed boost (see
+  // boostWindows; Super & Time Warp merge so they don't stack) for BOTH crop
+  // consumers — plot crops and greenhouse crops — so they're excluded from the
+  // baked time here. The flag-off path keeps the legacy discount-at-start.
+  const totemsWindowed = hasFeatureAccess(game, "SPEED_BOOSTS");
   if (!totemsWindowed && (hasSuperTotem || hasTimeWarpTotem)) {
     multiplier = multiplier * 0.5;
     if (hasSuperTotem) boostsUsed.push({ name: "Super Totem", value: "x0.5" });
@@ -255,12 +254,11 @@ export function getCropTime({
   }
 
   // Harvest Hourglass: under SPEED_BOOSTS it's a retroactive speed-rate window
-  // for PLOT crops (see boostWindows), so excluded from the baked time here.
-  // Greenhouse crops aren't on the windowed model yet, so they keep the legacy
-  // discount-at-start (as do all crops when the flag is off). Not recorded in
-  // boostsUsed for the windowed case — contribution is derived over the grow.
-  const harvestHourglassIsWindowed =
-    hasFeatureAccess(game, "SPEED_BOOSTS") && isPlotCrop(crop);
+  // (see boostWindows) for BOTH crop consumers — plot crops and greenhouse
+  // crops — so it's excluded from the baked time here (all crops keep the
+  // legacy discount-at-start when the flag is off). Not recorded in boostsUsed
+  // for the windowed case — contribution is derived over the grow.
+  const harvestHourglassIsWindowed = hasFeatureAccess(game, "SPEED_BOOSTS");
   if (
     !harvestHourglassIsWindowed &&
     isTemporaryCollectibleActive({ name: "Harvest Hourglass", game })
@@ -565,12 +563,6 @@ export function getPlantedAt({
   const offset = getBoostedTime({ crop, boostedTime });
 
   return createdAt - offset;
-}
-
-export function isPlotCrop(
-  plant: GreenHouseCropName | CropName,
-): plant is CropName {
-  return (plant as CropName) in CROPS;
 }
 
 export function plantCropOnPlot({

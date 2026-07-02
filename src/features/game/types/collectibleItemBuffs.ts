@@ -435,9 +435,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       fertiliser: "Turbofruit Mix",
       game,
     }),
-  "Greenhouse Glow": () => [
+  "Greenhouse Glow": (game) => [
     {
-      shortDescription: translate("description.greenhouse.glow.boost"),
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.greenhouse.glow.boost.speed")
+        : translate("description.greenhouse.glow.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Greenhouse"].image,
@@ -2006,9 +2008,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: bee,
     },
   ],
-  "Tortoise Shrine": () => [
+  "Tortoise Shrine": (game) => [
     {
-      shortDescription: translate("description.tortoiseShrine.buff"),
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.tortoiseShrine.buff.speed")
+        : translate("description.tortoiseShrine.buff"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Greenhouse"].image,

@@ -1310,12 +1310,12 @@ describe("plant", () => {
       expect(time).toEqual(baseHarvestSeconds);
     });
 
-    it("still applies the legacy -25% Harvest Hourglass discount to greenhouse crops", () => {
+    it("excludes the Harvest Hourglass from greenhouse crops under SPEED_BOOSTS (windowed)", () => {
       const dateNow = Date.now();
 
-      // Greenhouse isn't on the windowed model yet, so it keeps the baked
-      // discount-at-start even under SPEED_BOOSTS.
-      const { boostsUsed } = getCropTime({
+      // Greenhouse crops joined the windowed model: the hourglass applies live
+      // via getGreenhouseBoostWindows, so it's no longer baked here either.
+      const { multiplier, boostsUsed } = getCropTime({
         crop: "Rice",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1332,7 +1332,8 @@ describe("plant", () => {
         },
       });
 
-      expect(boostsUsed).toContainEqual({
+      expect(multiplier).toEqual(1);
+      expect(boostsUsed).not.toContainEqual({
         name: "Harvest Hourglass",
         value: "x0.75",
       });
@@ -1364,10 +1365,10 @@ describe("plant", () => {
       expect(time).toEqual(baseHarvestSeconds);
     });
 
-    it("still applies the legacy -50% totem discount to greenhouse crops", () => {
+    it("excludes the totems from greenhouse crops under SPEED_BOOSTS (windowed)", () => {
       const dateNow = Date.now();
 
-      const { boostsUsed } = getCropTime({
+      const { multiplier, boostsUsed } = getCropTime({
         crop: "Rice",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1384,7 +1385,11 @@ describe("plant", () => {
         },
       });
 
-      expect(boostsUsed).toContainEqual({ name: "Super Totem", value: "x0.5" });
+      expect(multiplier).toEqual(1);
+      expect(boostsUsed).not.toContainEqual({
+        name: "Super Totem",
+        value: "x0.5",
+      });
     });
 
     it("applies a +5% speed boost with Green Thumb skill", () => {

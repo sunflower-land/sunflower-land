@@ -1,9 +1,34 @@
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { fertiliseGreenhouse } from "./fertiliseGreenhouse";
-import { harvestGreenHouse, getReadyAt } from "./harvestGreenHouse";
+import { harvestGreenHouse } from "./harvestGreenHouse";
 import { plantGreenhouse } from "./plantGreenhouse";
+import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/lib/greenhouseGrowTimes";
+import { getGreenhouseReadyAt } from "./greenhouseReadiness";
+import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import type { GameState } from "features/game/types/game";
 import Decimal from "decimal.js-light";
+import { CONFIG } from "lib/config";
+
+// Pin the legacy (mainnet, SPEED_BOOSTS off) behaviour for this file's existing
+// tests — jest runs on amoy where the flag is ON. The windowed model is covered
+// in the dedicated SPEED_BOOSTS describes.
+const originalNetwork = CONFIG.NETWORK;
+beforeAll(() => {
+  (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+});
+afterAll(() => {
+  (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+});
+
+// Legacy base-time readiness (plantedAt + base grow duration) for these
+// mainnet-pinned tests; the windowed model derives it via getGreenhouseReadyAt.
+const getReadyAt = ({
+  plant,
+  createdAt,
+}: {
+  plant: keyof typeof GREENHOUSE_CROP_TIME_SECONDS;
+  createdAt: number;
+}) => createdAt + GREENHOUSE_CROP_TIME_SECONDS[plant] * 1000;
 
 const farm: GameState = {
   ...TEST_FARM,
@@ -706,5 +731,190 @@ describe("plantGreenhouse", () => {
       },
     });
     expect(state.inventory.Rice).toEqual(new Decimal(2));
+  });
+});
+
+describe("harvestGreenHouse under SPEED_BOOSTS (windowed)", () => {
+  const farmId = 1;
+
+  beforeAll(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
+  });
+  afterAll(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+  });
+
+  const placed = (createdAt: number) => [
+    {
+      id: "1",
+      createdAt,
+      coordinates: { x: 0, y: 0 },
+      readyAt: createdAt,
+    },
+  ];
+
+  const plantRice = (state: GameState, createdAt: number): GameState =>
+    plantGreenhouse({
+      state,
+      action: { type: "greenhouse.planted", id: 1, seed: "Rice Seed" },
+      createdAt,
+    });
+
+  it("harvests earlier when a Tortoise Shrine covers the whole grow (1.5×)", () => {
+    const now = Date.now();
+    const state = plantRice(
+      {
+        ...greenhouseFarm(),
+        collectibles: { "Tortoise Shrine": placed(now) },
+      },
+      now,
+    );
+
+    const readyAt = getGreenhouseReadyAt(
+      state.greenhouse.pots[1].plant!,
+      state,
+    );
+    expect(readyAt).toEqual(
+      now + (GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000) / 1.5,
+    );
+
+    // `now >= readyAt` boundary: exactly at readyAt harvests…
+    const harvested = harvestGreenHouse({
+      state,
+      action: { type: "greenhouse.harvested", id: 1 },
+      createdAt: readyAt,
+      farmId,
+    });
+    expect(harvested.greenhouse.pots[1].plant).toBeUndefined();
+
+    // …one ms earlier does not.
+    expect(() =>
+      harvestGreenHouse({
+        state,
+        action: { type: "greenhouse.harvested", id: 1 },
+        createdAt: readyAt - 1,
+        farmId,
+      }),
+    ).toThrow("Plant is not ready");
+  });
+
+  it("still credits an expired Harvest Hourglass window", () => {
+    const now = Date.now();
+    const state = plantRice(
+      {
+        ...greenhouseFarm(),
+        collectibles: { "Harvest Hourglass": placed(now) },
+      },
+      now,
+    );
+
+    const base = GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000;
+    const cooldown = EXPIRY_COOLDOWNS["Harvest Hourglass"];
+    const readyAt = getGreenhouseReadyAt(
+      state.greenhouse.pots[1].plant!,
+      state,
+    );
+
+    // The hourglass expires long before the 32h grow finishes, but the work
+    // earned during its window is kept: earlier than base time, later than a
+    // hypothetical full-grow 1.35×.
+    expect(readyAt).toEqual(now + cooldown + (base - cooldown * 1.35));
+    expect(readyAt).toBeLessThan(now + base);
+    expect(readyAt).toBeGreaterThan(now + base / 1.35);
+
+    const harvested = harvestGreenHouse({
+      state,
+      action: { type: "greenhouse.harvested", id: 1 },
+      createdAt: readyAt,
+      farmId,
+    });
+    expect(harvested.greenhouse.pots[1].plant).toBeUndefined();
+  });
+
+  it("ignores Harvest Hourglass for Grape but applies Orchard Hourglass", () => {
+    const now = Date.now();
+    const base = GREENHOUSE_CROP_TIME_SECONDS.Grape * 1000;
+    const plantGrape = (collectibles: GameState["collectibles"]): GameState =>
+      plantGreenhouse({
+        state: {
+          ...greenhouseFarm(),
+          inventory: { "Grape Seed": new Decimal(1) },
+          collectibles,
+        },
+        action: { type: "greenhouse.planted", id: 1, seed: "Grape Seed" },
+        createdAt: now,
+      });
+
+    // Harvest Hourglass never covered greenhouse fruit — no speed for Grape.
+    const withHarvest = plantGrape({ "Harvest Hourglass": placed(now) });
+    expect(
+      getGreenhouseReadyAt(withHarvest.greenhouse.pots[1].plant!, withHarvest),
+    ).toEqual(now + base);
+
+    // Orchard Hourglass covers the fruit activity — windowed-model addition.
+    const withOrchard = plantGrape({ "Orchard Hourglass": placed(now) });
+    const orchardReadyAt = getGreenhouseReadyAt(
+      withOrchard.greenhouse.pots[1].plant!,
+      withOrchard,
+    );
+    expect(orchardReadyAt).toBeLessThan(now + base);
+    expect(orchardReadyAt).toBeGreaterThan(now + base / 1.35);
+  });
+
+  it("stacks a totem with the Tortoise Shrine multiplicatively (3×)", () => {
+    const now = Date.now();
+    const state = plantRice(
+      {
+        ...greenhouseFarm(),
+        collectibles: {
+          "Super Totem": placed(now),
+          "Tortoise Shrine": placed(now),
+        },
+      },
+      now,
+    );
+
+    const readyAt = getGreenhouseReadyAt(
+      state.greenhouse.pots[1].plant!,
+      state,
+    );
+    expect(readyAt).toEqual(
+      now + (GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000) / 3,
+    );
+
+    const harvested = harvestGreenHouse({
+      state,
+      action: { type: "greenhouse.harvested", id: 1 },
+      createdAt: readyAt,
+      farmId,
+    });
+    expect(harvested.greenhouse.pots[1].plant).toBeUndefined();
+  });
+
+  it("keeps base timing for an unboosted windowed plant", () => {
+    const now = Date.now();
+    const state = plantRice(greenhouseFarm(), now);
+
+    const base = GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000;
+    expect(
+      getGreenhouseReadyAt(state.greenhouse.pots[1].plant!, state),
+    ).toEqual(now + base);
+
+    expect(() =>
+      harvestGreenHouse({
+        state,
+        action: { type: "greenhouse.harvested", id: 1 },
+        createdAt: now + base - 1,
+        farmId,
+      }),
+    ).toThrow("Plant is not ready");
+
+    const harvested = harvestGreenHouse({
+      state,
+      action: { type: "greenhouse.harvested", id: 1 },
+      createdAt: now + base,
+      farmId,
+    });
+    expect(harvested.greenhouse.pots[1].plant).toBeUndefined();
   });
 });
