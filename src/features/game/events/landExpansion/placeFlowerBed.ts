@@ -2,6 +2,10 @@ import Decimal from "decimal.js-light";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import type { FlowerBed, GameState } from "features/game/types/game";
 import { produce } from "immer";
+import {
+  getFlowerBoostWindows,
+  workAccruedAt,
+} from "features/game/lib/boostWindows";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export type PlaceFlowerBedAction = {
@@ -50,9 +54,25 @@ export function placeFlowerBed({
       };
 
       if (updatedFlowerBed.flower && updatedFlowerBed.removedAt) {
-        const existingProgress =
-          updatedFlowerBed.removedAt - updatedFlowerBed.flower.plantedAt;
-        updatedFlowerBed.flower.plantedAt = createdAt - existingProgress;
+        const flower = updatedFlowerBed.flower;
+        if (flower.baseDurationMs !== undefined) {
+          // Windowed flower: "pause" growth across the lift. Bank the work
+          // accrued before removal against the current flower boost windows,
+          // then resume the remainder from now (mirrors placePlot). Runs before
+          // updateBeehives below so hive pollination sees the corrected timing.
+          const banked = workAccruedAt({
+            startedAt: flower.plantedAt,
+            at: updatedFlowerBed.removedAt,
+            windows: getFlowerBoostWindows(game),
+          });
+          flower.baseDurationMs = Math.max(flower.baseDurationMs - banked, 0);
+          flower.plantedAt = createdAt;
+        } else {
+          // Legacy flower: back-date plantedAt so the lifted interval doesn't count.
+          const existingProgress =
+            updatedFlowerBed.removedAt - flower.plantedAt;
+          flower.plantedAt = createdAt - existingProgress;
+        }
       }
       delete updatedFlowerBed.removedAt;
 

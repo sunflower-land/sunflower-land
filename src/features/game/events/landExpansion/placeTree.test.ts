@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
+import { TREE_BOOST_SPEED } from "features/game/lib/boostWindows";
 import { placeTree } from "./placeTree";
 
 describe("placeTree", () => {
@@ -154,5 +155,50 @@ describe("placeTree", () => {
         y: 2,
       },
     });
+  });
+
+  it("banks boosted work when a tree speed window covered the pre-lift period", () => {
+    const now = Date.now();
+    const choppedAt = now - 180000;
+    const removedAt = now - 120000; // 60s of real recovery before the lift
+    const baseDurationMs = 200000;
+    const speed = TREE_BOOST_SPEED["Timber Hourglass"]; // 1.35x
+
+    const state = placeTree({
+      action: {
+        coordinates: { x: 2, y: 2 },
+        id: "156",
+        name: "Tree",
+        type: "tree.placed",
+      },
+      state: {
+        ...INITIAL_FARM,
+        buildings: {},
+        inventory: { Tree: new Decimal(2) },
+        collectibles: {
+          "Timber Hourglass": [
+            {
+              id: "hg",
+              coordinates: { x: 5, y: 5 },
+              createdAt: now - 200000,
+              readyAt: now - 200000,
+            },
+          ],
+        },
+        trees: {
+          "123": {
+            createdAt: now,
+            wood: { choppedAt, baseDurationMs },
+            removedAt,
+          },
+        },
+      },
+      createdAt: now,
+    });
+
+    const wood = state.trees["123"].wood;
+    const banked = 60000 * speed;
+    expect(wood.choppedAt).toBe(now);
+    expect(wood.baseDurationMs).toBeCloseTo(baseDurationMs - banked, 5);
   });
 });

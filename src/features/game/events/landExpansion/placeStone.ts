@@ -10,6 +10,10 @@ import {
   findExistingUnplacedNode,
   getAvailableNodes,
 } from "features/game/lib/resourceNodes";
+import {
+  getMineBoostWindows,
+  workAccruedAt,
+} from "features/game/lib/boostWindows";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export type PlaceStoneAction = {
@@ -53,9 +57,23 @@ export function placeStone({
       };
 
       if (updatedStone.stone && updatedStone.removedAt) {
-        const existingProgress =
-          updatedStone.removedAt - updatedStone.stone.minedAt;
-        updatedStone.stone.minedAt = createdAt - existingProgress;
+        const stone = updatedStone.stone;
+        if (stone.baseDurationMs !== undefined) {
+          // Windowed rock: "pause" recovery across the lift. Bank the work
+          // accrued before removal, then resume the remaining work from now
+          // against the current mine boost windows (mirrors placePlot).
+          const banked = workAccruedAt({
+            startedAt: stone.minedAt,
+            at: updatedStone.removedAt,
+            windows: getMineBoostWindows(game, action.name),
+          });
+          stone.baseDurationMs = Math.max(stone.baseDurationMs - banked, 0);
+          stone.minedAt = createdAt;
+        } else {
+          // Legacy rock: back-date minedAt so the lifted interval doesn't count.
+          const existingProgress = updatedStone.removedAt - stone.minedAt;
+          stone.minedAt = createdAt - existingProgress;
+        }
       }
       delete updatedStone.removedAt;
 
