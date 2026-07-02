@@ -75,6 +75,11 @@ import {
 import { isFullMoon } from "features/game/types/calendar";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { useNow } from "lib/utils/hooks/useNow";
+import {
+  CHAPTER_CROP_WEEK,
+  CHAPTER_CROP_WEEK_SEED,
+} from "features/game/types/chapterCropWeek";
+import { hasChapterCropWeekAccess } from "lib/flags";
 
 export const SEASON_ICONS: Record<TemperateSeasonName, string> = {
   spring: springIcon,
@@ -94,7 +99,11 @@ export const SeasonalSeeds: React.FC = () => {
   const currentSeasonSeeds = getKeys(SEEDS).filter((seed) =>
     SEASONAL_SEEDS[currentSeason].includes(seed),
   );
-  const now = useNow();
+  const now = useNow({
+    live: true,
+    autoEndAt: CHAPTER_CROP_WEEK.endDate.getTime(),
+  });
+  const isCropWeek = hasChapterCropWeekAccess(state);
 
   const [selectedName, setSelectedName] = useState<SeedName>(
     currentSeasonSeeds[0],
@@ -366,7 +375,22 @@ export const SeasonalSeeds: React.FC = () => {
     ...cropMachineSeeds,
     ...currentSeasonSeeds,
     ...FULL_MOON_SEEDS,
+    ...(isCropWeek ? [CHAPTER_CROP_WEEK_SEED] : []),
   ];
+
+  // Show the limited-time Chapter Crop Week seed inline in the season list,
+  // after the other crops and before the fruit seeds.
+  const displayedSeasonSeeds = [...currentSeasonSeeds];
+  if (isCropWeek && !displayedSeasonSeeds.includes(CHAPTER_CROP_WEEK_SEED)) {
+    const firstNonCropIndex = displayedSeasonSeeds.findIndex(
+      (seed) => !(seed in CROP_SEEDS),
+    );
+    const insertAt =
+      firstNonCropIndex === -1
+        ? displayedSeasonSeeds.length
+        : firstNonCropIndex;
+    displayedSeasonSeeds.splice(insertAt, 0, CHAPTER_CROP_WEEK_SEED);
+  }
 
   const harvestCount = getHarvestCount();
 
@@ -384,6 +408,12 @@ export const SeasonalSeeds: React.FC = () => {
             item: selectedName,
             seasons,
             cropMachineSeeds,
+            ...(selectedName === CHAPTER_CROP_WEEK_SEED
+              ? {
+                  from: CHAPTER_CROP_WEEK.startDate,
+                  to: CHAPTER_CROP_WEEK.endDate,
+                }
+              : {}),
           }}
           requirements={{
             coins: price,
@@ -434,7 +464,7 @@ export const SeasonalSeeds: React.FC = () => {
               )}
             </div>
             <div className="flex flex-wrap mb-2">
-              {currentSeasonSeeds.map((name: SeedName) => (
+              {displayedSeasonSeeds.map((name: SeedName) => (
                 <Box
                   isSelected={selectedName === name}
                   key={name}
@@ -444,7 +474,11 @@ export const SeasonalSeeds: React.FC = () => {
                   }}
                   image={ITEM_DETAILS[SEEDS[name].yield ?? name].image}
                   showOverlay={isSeedLocked(name)}
-                  // secondaryImage={SUNNYSIDE.icons.seedling}
+                  secondaryImage={
+                    name === CHAPTER_CROP_WEEK_SEED
+                      ? SUNNYSIDE.icons.stopwatch
+                      : undefined
+                  }
                   count={inventory[name]}
                 />
               ))}

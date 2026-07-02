@@ -173,6 +173,10 @@ const FEATURE_FLAGS = {
   HOME_ITEM_MIGRATION: betaFeatureFlag,
 
   SWAMP_ASCENSION: testnetFeatureFlag,
+
+  // Chapter Crop Week (Saltwort crop + Saltbite recipe). Beta-pass / testnet
+  // only until the event is ready to ship to all players.
+  CHAPTER_CROP_WEEK: betaFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
@@ -180,3 +184,12 @@ export type FeatureName = keyof typeof FEATURE_FLAGS;
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
   return FEATURE_FLAGS[featureName](game);
 };
+
+/**
+ * Whether the player can see & use the Chapter Crop Week crop (Saltwort) and
+ * recipe (Saltbite). Currently gated to beta testers (Beta Pass / testnet)
+ * only. When the event is ready to go public, switch this to the event window
+ * (e.g. `isChapterCropWeekActive`) or remove the flag.
+ */
+export const hasChapterCropWeekAccess = (game: GameState) =>
+  hasFeatureAccess(game, "CHAPTER_CROP_WEEK");

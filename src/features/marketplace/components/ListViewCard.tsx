@@ -23,6 +23,11 @@ import { getPetLevel } from "features/game/types/pets";
 import { Label } from "components/ui/Label";
 import { useNow } from "lib/utils/hooks/useNow";
 import { getCurrentChapter } from "features/game/types/chapters";
+import {
+  CHAPTER_CROP_WEEK,
+  CHAPTER_CROP_WEEK_CROP,
+  isChapterCropWeekActive,
+} from "features/game/types/chapterCropWeek";
 
 type Props = {
   details: TradeableDisplay;
@@ -223,6 +228,18 @@ export const ListViewCard: React.FC<Props> = ({
                 {`${secondsToString((expiresAt - now) / 1000, {
                   length: "short",
                 })} left`}
+              </p>
+            </div>
+          )}
+
+          {name === CHAPTER_CROP_WEEK_CROP && isChapterCropWeekActive(now) && (
+            <div className="flex items-center">
+              <img src={SUNNYSIDE.icons.stopwatch} className="h-4 mr-1" />
+              <p className="text-xs truncate pb-0.5">
+                {`${secondsToString(
+                  (CHAPTER_CROP_WEEK.endDate.getTime() - now) / 1000,
+                  { length: "short" },
+                )} ${t("time.left")}`}
               </p>
             </div>
           )}

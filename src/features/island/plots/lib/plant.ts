@@ -43,6 +43,7 @@ const HARVEST_PROC_SPRITES: Record<CropName, any> = {
   Onion: parsnipProc,
   Turnip: sunflowerProc,
   Artichoke: cabbageProc,
+  Saltwort: beetrootProc,
 };
 
 export const HARVEST_PROC_ANIMATION = {
@@ -88,6 +89,8 @@ export const IMAGES: Record<CropName, string> = {
   Onion: "onion",
   Turnip: "turnip",
   Artichoke: "artichoke",
+  // Chapter Crop Week event crop (lifecycle art in the images repo)
+  Saltwort: "saltwort",
 };
 
 export const CROP_LIFECYCLE: Record<

@@ -33,7 +33,8 @@ export type CropName =
   | "Pepper"
   | "Onion"
   | "Turnip"
-  | "Artichoke";
+  | "Artichoke"
+  | "Saltwort";
 
 export type Crop = {
   sellPrice: number;
@@ -236,6 +237,13 @@ export const CROPS: Record<CropName, Crop> = {
     name: "Barley",
     description: translate("description.barley"),
   },
+  // Chapter Crop Week (limited-time event crop)
+  Saltwort: {
+    sellPrice: 50,
+    harvestSeconds: 12 * 60 * 60,
+    name: "Saltwort",
+    description: translate("description.saltwort"),
+  },
 };
 
 export type CropSeedName = `${CropName} Seed`;
@@ -427,6 +435,15 @@ export const CROP_SEEDS: Record<CropSeedName, Seed> = {
     bumpkinLevel: { ascension: 0, level: 14 },
     plantingSpot: "Crop Plot",
     yield: "Barley",
+  },
+  // Chapter Crop Week (limited-time event seed)
+  "Saltwort Seed": {
+    price: 10,
+    description: translate("description.saltwort"),
+    plantSeconds: 12 * 60 * 60,
+    bumpkinLevel: { ascension: 0, level: 1 },
+    plantingSpot: "Crop Plot",
+    yield: "Saltwort",
   },
 };
 

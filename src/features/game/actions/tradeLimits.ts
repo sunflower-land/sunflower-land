@@ -72,6 +72,7 @@ export const TRADE_LIMITS: Record<TradeResource, number> = {
   Kale: 500,
   Artichoke: 500,
   Barley: 500,
+  Saltwort: 500,
 
   // Fruits
   Tomato: 400,
@@ -144,6 +145,7 @@ export const TRADE_MINIMUMS: Record<TradeResource, number> = {
   Kale: 10,
   Artichoke: 10,
   Barley: 10,
+  Saltwort: 10,
 
   Tomato: 20,
   Lemon: 10,
