@@ -39,7 +39,7 @@ export const Greenhouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
         return plants;
       }
 
-      if (!isGreenhouseReady(now, pot.plant, gameState, pot.fertiliser)) {
+      if (!isGreenhouseReady(now, pot, gameState)) {
         return plants;
       }
 

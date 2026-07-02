@@ -2,6 +2,7 @@ import type {
   GameState,
   GreenhouseFertiliser,
   GreenhousePlant,
+  GreenhousePot,
 } from "features/game/types/game";
 import {
   computeReadyAt,
@@ -40,9 +41,14 @@ export const getGreenhouseReadyAt = (
   return plant.plantedAt + GREENHOUSE_CROP_TIME_SECONDS[plant.name] * 1000;
 };
 
+export const getGreenhousePotReadyAt = (pot: GreenhousePot, game: GameState) =>
+  pot.plant ? getGreenhouseReadyAt(pot.plant, game, pot.fertiliser) : undefined;
+
 export const isGreenhouseReady = (
   now: number,
-  plant: GreenhousePlant,
+  pot: GreenhousePot,
   game: GameState,
-  fertiliser?: GreenhouseFertiliser,
-): boolean => now >= getGreenhouseReadyAt(plant, game, fertiliser);
+): boolean => {
+  const readyAt = getGreenhousePotReadyAt(pot, game);
+  return readyAt !== undefined && now >= readyAt;
+};

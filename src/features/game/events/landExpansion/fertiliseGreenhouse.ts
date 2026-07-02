@@ -97,10 +97,8 @@ export function fertiliseGreenhouse({
     }
 
     const plant = pot.plant;
-    if (plant) {
-      if (isGreenhouseReady(createdAt, plant, game)) {
-        throw new Error(FERTILISE_GREENHOUSE_ERRORS.READY_TO_HARVEST);
-      }
+    if (isGreenhouseReady(createdAt, pot, game)) {
+      throw new Error(FERTILISE_GREENHOUSE_ERRORS.READY_TO_HARVEST);
     }
 
     let nextPlant = plant;

@@ -135,7 +135,7 @@ export function placeBuilding({
               // `boostedTime` keeps the pre-move progress for the growth bar;
               // `baseDurationMs` holds the remaining work still to accrue.
               // (Mirrors placePlot's lift-banking for windowed crops.)
-              const banked = workAccruedAt({
+              const accured = workAccruedAt({
                 startedAt: plant.plantedAt,
                 at: existingBuilding.removedAt,
                 windows: [
@@ -143,7 +143,8 @@ export function placeBuilding({
                   ...getGreenhouseGlowWindows(pot.fertiliser),
                 ],
               });
-              plant.baseDurationMs = Math.max(plant.baseDurationMs - banked, 0);
+              const banked = Math.min(accured, plant.baseDurationMs);
+              plant.baseDurationMs -= banked;
               plant.boostedTime = (plant.boostedTime ?? 0) + banked;
               plant.plantedAt = createdAt;
             } else {

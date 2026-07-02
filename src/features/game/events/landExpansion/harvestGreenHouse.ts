@@ -163,7 +163,7 @@ export function harvestGreenHouse({
       throw new Error("Plant does not exist");
     }
 
-    if (!isGreenhouseReady(createdAt, pot.plant, game, pot.fertiliser)) {
+    if (!isGreenhouseReady(createdAt, pot, game)) {
       throw new Error("Plant is not ready");
     }
 

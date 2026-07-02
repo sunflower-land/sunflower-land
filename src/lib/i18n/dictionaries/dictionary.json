@@ -7605,7 +7605,7 @@
   "description.bearShrine.buff": "+0.5 Honey Production Speed",
   "description.bearShrine.buff.2": "+20% chance of bee swarm",
   "description.tortoiseShrine.buff": "x0.67 Greenhouse Growth Time",
-  "description.tortoiseShrine.buff.speed": "1.35x Greenhouse Growth Speed",
+  "description.tortoiseShrine.buff.speed": "1.5x Greenhouse Growth Speed",
   "description.tortoiseShrine.buff.2": "x0.9 Crop Machine Growth Time",
   "description.mothShrine.buff": "x0.75 Flower Growth Time",
   "description.mothShrine.buff.speed": "1.35x Flower Growth Speed",

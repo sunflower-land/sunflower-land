@@ -522,7 +522,7 @@ const getEligibleGreenhousePotIds = (
   return Object.entries(state.greenhouse.pots)
     .filter(([, pot]) => {
       if (!pot || pot.fertiliser) return false;
-      if (pot.plant && isGreenhouseReady(now, pot.plant, state)) {
+      if (isGreenhouseReady(now, pot, state)) {
         return false;
       }
       return true;
