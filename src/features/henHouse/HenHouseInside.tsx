@@ -225,7 +225,7 @@ export const HenHouseInside: React.FC = () => {
                   transform: "translateX(-50%)",
                 }}
               >
-                <FeederMachine />
+                <FeederMachine building="Hen House" />
               </div>
 
               <MapPlacement
