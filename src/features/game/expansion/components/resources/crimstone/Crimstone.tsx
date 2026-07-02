@@ -153,6 +153,7 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
     resource.minesLeft,
     resource.stone.minedAt,
     now,
+    readyAt,
   );
 
   // For windowed rocks the remaining time is remaining *work* (in base
@@ -271,6 +272,7 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
             minesLeft={resource.minesLeft}
             minedAt={resource.stone.minedAt}
             now={now}
+            readyAt={readyAt}
           />
         </div>
       )}
@@ -282,6 +284,7 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
           minesLeft={resource.minesLeft}
           now={now}
           minedAt={resource.stone.minedAt}
+          readyAt={readyAt}
         />
       )}
 
@@ -292,6 +295,7 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
           minesLeft={resource.minesLeft}
           now={now}
           minedAt={resource.stone.minedAt}
+          readyAt={readyAt}
           speed={speed}
         />
       )}

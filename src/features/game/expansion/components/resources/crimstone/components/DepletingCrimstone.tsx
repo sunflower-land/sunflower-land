@@ -17,6 +17,7 @@ interface Props {
   minesLeft: number;
   minedAt: number;
   now: number;
+  readyAt: number;
 }
 
 const DepletingCrimstoneComponent: React.FC<Props> = ({
@@ -24,13 +25,14 @@ const DepletingCrimstoneComponent: React.FC<Props> = ({
   minesLeft,
   minedAt,
   now,
+  readyAt,
 }) => {
   const { scale } = useContext(ZoomContext);
   const [playing, setPlaying] = useState(false);
   const sparkGif = useRef<SpriteSheetInstance>(undefined);
 
   const getDropSheet = () => {
-    if (getCrimstoneStage(minesLeft, minedAt, now) === 6) {
+    if (getCrimstoneStage(minesLeft, minedAt, now, readyAt) === 6) {
       return dropSheet2;
     }
     return dropSheet1;

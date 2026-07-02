@@ -16,6 +16,7 @@ interface Props {
   minesLeft: number;
   minedAt: number;
   now: number;
+  readyAt: number;
   /**
    * Current effective recovery speed from windowed boosts (e.g. Mole Shrine).
    * > 1 shows a lightning marker + the multiplier in the popover.
@@ -29,6 +30,7 @@ const DepletedCrimstoneComponent: React.FC<Props> = ({
   minedAt,
   speed,
   now,
+  readyAt,
 }) => {
   const { t } = useAppTranslation();
   const [showTimeLeft, setShowTimeLeft] = useState(false);
@@ -41,7 +43,7 @@ const DepletedCrimstoneComponent: React.FC<Props> = ({
     crimstone_4,
     crimstone_5,
     crimstone_6,
-  ][getCrimstoneStage(minesLeft, minedAt, now) - 1];
+  ][getCrimstoneStage(minesLeft, minedAt, now, readyAt) - 1];
 
   return (
     <div
