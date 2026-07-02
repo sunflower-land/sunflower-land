@@ -9152,7 +9152,6 @@
   "saltSculpture.buff.4": "Coût par pièce d'un râteau à sel x0,9",
   "saltSculpture.buff.5": "x0,95 Durée de vieillissement",
   "description.speedTrap.boost": "Durée du piège x0.8",
-  "description.harvest.hourglass.boost.speed": "1,35x la vitesse de croissance des cultures sur la parcelle",
   "description.boostedSpeed": "Vitesse : {{speed}} x",
   "description.sparrowShrine.buff.speed": "1,35x la vitesse de croissance des cultures sur la parcelle",
   "reward.powerHour": "Récoltes 2 fois plus rapides +0,2 rendement pendant 1 heure",
@@ -9168,5 +9167,8 @@
   "description.turbofruit.mix.boost.speed": "Vitesse de croissance des parcelles fruitières multipliée par 1,25",
   "description.blossom.hourglass.boost.speed": "1,35 fois la vitesse de croissance des fleurs",
   "description.mothShrine.buff.speed": "1,35 fois la vitesse de croissance des fleurs",
-  "description.rapid.root.boost.speed": "Vitesse de croissance des parcelles de culture multipliée par 2"
+  "description.rapid.root.boost.speed": "Vitesse de croissance des parcelles de culture multipliée par 2",
+  "description.harvest.hourglass.boost.speed": "Vitesse de croissance des cultures multipliée par 1,35",
+  "description.tortoiseShrine.buff.speed": "1,5 fois la vitesse de croissance des serres",
+  "description.greenhouse.glow.boost.speed": "Vitesse de croissance des pots de serre 1,25 fois"
 }

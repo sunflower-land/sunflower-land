@@ -9152,7 +9152,6 @@
   "saltSculpture.buff.4": "x0.9 salt rake coin cost",
   "saltSculpture.buff.5": "x0.95 Aging Rack Time",
   "description.speedTrap.boost": "x0.8 Trap Pot time",
-  "description.harvest.hourglass.boost.speed": "1.35x Plot Crop Growth Speed",
   "description.boostedSpeed": "Speed: {{speed}}x",
   "description.sparrowShrine.buff.speed": "1.35x Plot Crop Growth Speed",
   "reward.powerHour": "2x faster crops +0.2 yield for 1 hour",
@@ -9168,5 +9167,8 @@
   "description.turbofruit.mix.boost.speed": "1.25x Fruit Patch Growth Speed",
   "description.blossom.hourglass.boost.speed": "1.35x Flower Growth Speed",
   "description.mothShrine.buff.speed": "1.35x Flower Growth Speed",
-  "description.rapid.root.boost.speed": "2x Crop Plot Growth Speed"
+  "description.rapid.root.boost.speed": "2x Crop Plot Growth Speed",
+  "description.harvest.hourglass.boost.speed": "1.35x Crop Growth Speed",
+  "description.tortoiseShrine.buff.speed": "1.5x Greenhouse Growth Speed",
+  "description.greenhouse.glow.boost.speed": "1.25x Greenhouse Pot Growth Speed"
 }

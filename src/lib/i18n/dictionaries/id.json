@@ -9152,7 +9152,6 @@
   "saltSculpture.buff.4": "Biaya koin penggaruk garam x0.9",
   "saltSculpture.buff.5": "x0.95 Waktu Rak Penuaan",
   "description.speedTrap.boost": "x0.8 Waktu Pot Perangkap",
-  "description.harvest.hourglass.boost.speed": "1.35x Kecepatan Pertumbuhan Tanaman Plot",
   "description.boostedSpeed": "Kecepatan: {{speed}} x",
   "description.sparrowShrine.buff.speed": "1.35x Kecepatan Pertumbuhan Tanaman Plot",
   "reward.powerHour": "2x tanaman lebih cepat +0,2 hasil selama 1 jam",
@@ -9168,5 +9167,8 @@
   "description.turbofruit.mix.boost.speed": "1,25x Kecepatan Pertumbuhan Petak Buah",
   "description.blossom.hourglass.boost.speed": "1.35x Kecepatan Pertumbuhan Bunga",
   "description.mothShrine.buff.speed": "1.35x Kecepatan Pertumbuhan Bunga",
-  "description.rapid.root.boost.speed": "2x Kecepatan Pertumbuhan Plot Tanaman"
+  "description.rapid.root.boost.speed": "2x Kecepatan Pertumbuhan Plot Tanaman",
+  "description.harvest.hourglass.boost.speed": "1.35x Kecepatan Pertumbuhan Tanaman",
+  "description.tortoiseShrine.buff.speed": "Kecepatan Pertumbuhan Rumah Kaca 1.5x",
+  "description.greenhouse.glow.boost.speed": "Kecepatan Pertumbuhan Pot Rumah Kaca 1,25x"
 }

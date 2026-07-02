@@ -9152,7 +9152,6 @@
   "saltSculpture.buff.4": "x0,9 Kosten einer Salt-Rake-Münze",
   "saltSculpture.buff.5": "x0.95 Aging Rack Time",
   "description.speedTrap.boost": "x0.8 Trap Pot Time",
-  "description.harvest.hourglass.boost.speed": "1,35-fache Wachstumsgeschwindigkeit der Parzellenkulturen",
   "description.boostedSpeed": "Geschwindigkeit: {{speed}} x",
   "description.sparrowShrine.buff.speed": "1,35-fache Wachstumsgeschwindigkeit der Parzellenkulturen",
   "reward.powerHour": "2 x schnellere Ernten +0,2 Ertrag für 1 Stunde",
@@ -9168,5 +9167,8 @@
   "description.turbofruit.mix.boost.speed": "1,25-fache Wachstumsgeschwindigkeit von Fruchtfeldern",
   "description.blossom.hourglass.boost.speed": "1,35-fache Wachstumsgeschwindigkeit der Blüten",
   "description.mothShrine.buff.speed": "1,35-fache Wachstumsgeschwindigkeit der Blüten",
-  "description.rapid.root.boost.speed": "2-fache Wachstumsgeschwindigkeit der Nutzfläche"
+  "description.rapid.root.boost.speed": "2-fache Wachstumsgeschwindigkeit der Nutzfläche",
+  "description.harvest.hourglass.boost.speed": "1,35-fache Wachstumsgeschwindigkeit der Pflanzen",
+  "description.tortoiseShrine.buff.speed": "1,5-fache Wachstumsgeschwindigkeit des Gewächshauses",
+  "description.greenhouse.glow.boost.speed": "1,25-fache Wachstumsgeschwindigkeit von Gewächshaustopfen"
 }

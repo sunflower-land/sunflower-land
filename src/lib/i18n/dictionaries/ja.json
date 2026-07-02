@@ -9152,7 +9152,6 @@
   "saltSculpture.buff.4": "x0.9 ソルトレーキコインコスト",
   "saltSculpture.buff.5": "x0.95 エージングラックタイム",
   "description.speedTrap.boost": "x0.8 トラップポットタイム",
-  "description.harvest.hourglass.boost.speed": "1.35x プロット作物の成長速度",
   "description.boostedSpeed": "スピード:{{speed}} x",
   "description.sparrowShrine.buff.speed": "1.35x プロット作物の成長速度",
   "reward.powerHour": "1時間の収穫速度の2倍+収穫量0.2倍",
@@ -9168,5 +9167,8 @@
   "description.turbofruit.mix.boost.speed": "1.25x フルーツパッチの成長速度",
   "description.blossom.hourglass.boost.speed": "1.35x 花の成長速度",
   "description.mothShrine.buff.speed": "1.35x 花の成長速度",
-  "description.rapid.root.boost.speed": "クロッププロットの成長速度の2倍"
+  "description.rapid.root.boost.speed": "クロッププロットの成長速度の2倍",
+  "description.harvest.hourglass.boost.speed": "1.35倍の作物成長速度",
+  "description.tortoiseShrine.buff.speed": "1.5倍の温室成長速度",
+  "description.greenhouse.glow.boost.speed": "1.25倍の温室ポットの成長速度"
 }

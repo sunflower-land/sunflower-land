@@ -9152,7 +9152,6 @@
   "saltSculpture.buff.4": "x0.9 盐耙硬币成本",
   "saltSculpture.buff.5": "x0.95 老化机架时间",
   "description.speedTrap.boost": "x0.8 Trap Pot 时间",
-  "description.harvest.hourglass.boost.speed": "1.35 倍地块作物生长速度",
   "description.boostedSpeed": "速度：{{speed}} x",
   "description.sparrowShrine.buff.speed": "1.35 倍地块作物生长速度",
   "reward.powerHour": "作物速度提高 2 倍，1 小时产量 +0.2",
@@ -9168,5 +9167,8 @@
   "description.turbofruit.mix.boost.speed": "1.25 倍水果补丁生长速度",
   "description.blossom.hourglass.boost.speed": "1.35 倍花朵生长速度",
   "description.mothShrine.buff.speed": "1.35 倍花朵生长速度",
-  "description.rapid.root.boost.speed": "作物地块生长速度的 2 倍"
+  "description.rapid.root.boost.speed": "作物地块生长速度的 2 倍",
+  "description.harvest.hourglass.boost.speed": "1.35 倍作物生长速度",
+  "description.tortoiseShrine.buff.speed": "1.5 倍温室生长速度",
+  "description.greenhouse.glow.boost.speed": "1.25 倍温室花盆生长速度"
 }

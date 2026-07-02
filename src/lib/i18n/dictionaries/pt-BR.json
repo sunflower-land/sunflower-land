@@ -9152,7 +9152,6 @@
   "saltSculpture.buff.4": "custo da moeda de ancinho de sal x0,9",
   "saltSculpture.buff.5": "x0.95 Tempo de envelhecimento em rack",
   "description.speedTrap.boost": "x0.8 Trap | Tempo de porta",
-  "description.harvest.hourglass.boost.speed": "Velocidade de crescimento da safra gráfica de 1,35 vezes",
   "description.boostedSpeed": "Velocidade: {{speed}} x",
   "description.sparrowShrine.buff.speed": "Velocidade de crescimento da safra gráfica de 1,35 vezes",
   "reward.powerHour": "Colheitas 2x mais rápidas +0,2 de rendimento por 1 hora",
@@ -9168,5 +9167,8 @@
   "description.turbofruit.mix.boost.speed": "1,25x Velocidade de crescimento do canteiro de frutas",
   "description.blossom.hourglass.boost.speed": "1,35x Velocidade de Crescimento da Flor",
   "description.mothShrine.buff.speed": "1,35x Velocidade de Crescimento da Flor",
-  "description.rapid.root.boost.speed": "2x a velocidade de crescimento do lote de cultivo"
+  "description.rapid.root.boost.speed": "2x a velocidade de crescimento do lote de cultivo",
+  "description.harvest.hourglass.boost.speed": "1,35x a velocidade de crescimento da safra",
+  "description.tortoiseShrine.buff.speed": "1,5 vezes a velocidade de crescimento da estufa",
+  "description.greenhouse.glow.boost.speed": "1,25x Velocidade de crescimento do vaso de estufa"
 }

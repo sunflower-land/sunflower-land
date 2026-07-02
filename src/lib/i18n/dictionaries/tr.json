@@ -9152,7 +9152,6 @@
   "saltSculpture.buff.4": "x0.9 tuz tırmığı madeni para maliyeti",
   "saltSculpture.buff.5": "x0.95 Yaşlanma Raf Süresi",
   "description.speedTrap.boost": "x0.8 Trap Pot zamanı",
-  "description.harvest.hourglass.boost.speed": "1.35x Arsa Mahsulü Büyüme Hızı",
   "description.boostedSpeed": "Hız: {{speed}} x",
   "description.sparrowShrine.buff.speed": "1.35x Arsa Mahsulü Büyüme Hızı",
   "reward.powerHour": "2 kat daha hızlı mahsul +1 saat boyunca 0,2 verim",
@@ -9168,5 +9167,8 @@
   "description.turbofruit.mix.boost.speed": "1.25x Meyve Yaması Büyüme Hızı",
   "description.blossom.hourglass.boost.speed": "1.35x Çiçek Büyüme Hızı",
   "description.mothShrine.buff.speed": "1.35x Çiçek Büyüme Hızı",
-  "description.rapid.root.boost.speed": "2x Mahsul Arsa Büyüme Hızı"
+  "description.rapid.root.boost.speed": "2x Mahsul Arsa Büyüme Hızı",
+  "description.harvest.hourglass.boost.speed": "1.35x Mahsul Büyüme Hızı",
+  "description.tortoiseShrine.buff.speed": "1.5x Sera Büyüme Hızı",
+  "description.greenhouse.glow.boost.speed": "1.25x Sera Saksı Büyüme Hızı"
 }

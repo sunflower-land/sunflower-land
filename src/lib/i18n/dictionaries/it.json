@@ -9152,7 +9152,6 @@
   "saltSculpture.buff.4": "Costo della moneta Salt Rake x0.9",
   "saltSculpture.buff.5": "x0.95 Invecchiamento Rack Time",
   "description.speedTrap.boost": "x0.8 Trappola il tempo",
-  "description.harvest.hourglass.boost.speed": "Velocità di crescita delle colture del grafico 1,35x",
   "description.boostedSpeed": "Velocità: {{speed}} x",
   "description.sparrowShrine.buff.speed": "Velocità di crescita delle colture del grafico 1,35x",
   "reward.powerHour": "Raccolti 2 volte più veloci +0,2 rendimenti per 1 ora",
@@ -9168,5 +9167,8 @@
   "description.turbofruit.mix.boost.speed": "Velocità di crescita degli appezzamenti di frutta 1,25x",
   "description.blossom.hourglass.boost.speed": "Velocità di crescita dei fiori 1,35x",
   "description.mothShrine.buff.speed": "Velocità di crescita dei fiori 1,35x",
-  "description.rapid.root.boost.speed": "Velocità di crescita del grafico delle colture raddoppiata"
+  "description.rapid.root.boost.speed": "Velocità di crescita del grafico delle colture raddoppiata",
+  "description.harvest.hourglass.boost.speed": "Velocità di crescita delle colture 1,35x",
+  "description.tortoiseShrine.buff.speed": "Velocità di crescita in serra 1,5x",
+  "description.greenhouse.glow.boost.speed": "Velocità di crescita dei vasi in serra 1,25x"
 }
