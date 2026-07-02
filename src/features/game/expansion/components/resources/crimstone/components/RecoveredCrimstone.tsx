@@ -31,7 +31,6 @@ interface Props {
   hasTool: boolean;
   touchCount: number;
   minesLeft: number;
-  minedAt: number;
   now: number;
   readyAt: number;
 }
@@ -40,7 +39,6 @@ const RecoveredCrimstoneComponent: React.FC<Props> = ({
   hasTool,
   touchCount,
   minesLeft,
-  minedAt,
   now,
   readyAt,
 }) => {
@@ -65,7 +63,7 @@ const RecoveredCrimstoneComponent: React.FC<Props> = ({
     crimstone_3,
     crimstone_4,
     crimstone_5,
-  ][getCrimstoneStage(minesLeft, minedAt, now, readyAt) - 1];
+  ][getCrimstoneStage(minesLeft, now, readyAt) - 1];
 
   useEffect(() => {
     if (touchCount > 0) {

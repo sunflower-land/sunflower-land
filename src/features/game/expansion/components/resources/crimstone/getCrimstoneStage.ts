@@ -1,5 +1,3 @@
-import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
-
 /**
  * Visual depletion stage (1-6) for a crimstone, derived from minesLeft + whether
  * it is still recovering. `now` and `readyAt` are passed in (from the component
@@ -18,12 +16,15 @@ import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
  */
 export const getCrimstoneStage = (
   minesLeft: number,
-  minedAt: number,
   now: number,
   readyAt: number,
 ) => {
-  const timeToReset = (CRIMSTONE_RECOVERY_TIME + 24 * 60 * 60) * 1000;
-  if (now - minedAt > timeToReset) {
+  // Long after it became ready the rock fully resets to a fresh stage 1. Anchor
+  // this off the actual (windowed) readyAt rather than `minedAt + base recovery`,
+  // so a boosted rock resets 24h after it truly recovered (legacy:
+  // readyAt === minedAt + base recovery, so behaviour is unchanged).
+  const timeToReset = readyAt + 24 * 60 * 60 * 1000;
+  if (now > timeToReset) {
     return 1;
   }
 

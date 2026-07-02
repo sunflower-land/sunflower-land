@@ -14,7 +14,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 interface Props {
   timeLeft: number;
   minesLeft: number;
-  minedAt: number;
   now: number;
   readyAt: number;
   /**
@@ -27,7 +26,6 @@ interface Props {
 const DepletedCrimstoneComponent: React.FC<Props> = ({
   timeLeft,
   minesLeft,
-  minedAt,
   speed,
   now,
   readyAt,
@@ -43,7 +41,7 @@ const DepletedCrimstoneComponent: React.FC<Props> = ({
     crimstone_4,
     crimstone_5,
     crimstone_6,
-  ][getCrimstoneStage(minesLeft, minedAt, now, readyAt) - 1];
+  ][getCrimstoneStage(minesLeft, now, readyAt) - 1];
 
   return (
     <div

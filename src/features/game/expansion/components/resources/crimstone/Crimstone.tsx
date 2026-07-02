@@ -149,12 +149,7 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
   const intervalMs = Math.max(Math.round(1000 / Math.max(speed, 1)), 250);
   const now = useNow({ live: true, autoEndAt: readyAt, intervalMs });
 
-  const crimstoneStage = getCrimstoneStage(
-    resource.minesLeft,
-    resource.stone.minedAt,
-    now,
-    readyAt,
-  );
+  const crimstoneStage = getCrimstoneStage(resource.minesLeft, now, readyAt);
 
   // For windowed rocks the remaining time is remaining *work* (in base
   // duration), so it visibly ticks down faster while a boost window is active.
@@ -270,7 +265,6 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
             hasTool={hasTool}
             touchCount={touchCount}
             minesLeft={resource.minesLeft}
-            minedAt={resource.stone.minedAt}
             now={now}
             readyAt={readyAt}
           />
@@ -283,7 +277,6 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
           resourceAmount={harvested.current}
           minesLeft={resource.minesLeft}
           now={now}
-          minedAt={resource.stone.minedAt}
           readyAt={readyAt}
         />
       )}
@@ -294,7 +287,6 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
           timeLeft={timeLeft}
           minesLeft={resource.minesLeft}
           now={now}
-          minedAt={resource.stone.minedAt}
           readyAt={readyAt}
           speed={speed}
         />
