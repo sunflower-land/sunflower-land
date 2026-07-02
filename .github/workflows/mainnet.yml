@@ -344,7 +344,7 @@ jobs:
         run: aws s3 sync ./dist/ s3://www.sunflower-land.com/play --delete
 
       - name: Deploy static site to R2 bucket
-        run: aws s3 sync ./dist/ s3://sunflower-land.com/play --delete --endpoint-url https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
+        run: aws s3 sync ./dist/ s3://sunflower-land/play --delete --endpoint-url https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
