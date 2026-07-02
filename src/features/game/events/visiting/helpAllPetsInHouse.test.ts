@@ -190,7 +190,7 @@ describe("helpAllPetsInHouse", () => {
     expect(state.pets?.nfts?.[1]?.visitedAt).toBeUndefined();
   });
 
-  it("does not exceed help limit when multiple pets are present", () => {
+  it("helps all pets in house even when totalHelpedToday is close to the limit", () => {
     const stateWithManyPets = {
       ...INITIAL_FARM,
       inventory: {
@@ -213,7 +213,8 @@ describe("helpAllPetsInHouse", () => {
       },
     };
 
-    // Default help limit is 5; setting totalHelpedToday to 4 means only 1 more pet can be helped
+    // totalHelpedToday is stale on the client (same as individual pet.visitingPets calls),
+    // so all pets in the house should be helped in a single click regardless of proximity to limit.
     const [state] = helpAllPetsInHouse({
       state: stateWithManyPets,
       visitorState: baseVisitor,
@@ -221,10 +222,7 @@ describe("helpAllPetsInHouse", () => {
       createdAt: now,
     });
 
-    const barkleyVisited = !!state.pets?.common?.Barkley?.visitedAt;
-    const meowchiVisited = !!state.pets?.common?.Meowchi?.visitedAt;
-
-    // Only one of the two pets should be helped (limit was 1 remaining)
-    expect(barkleyVisited !== meowchiVisited).toBe(true);
+    expect(state.pets?.common?.Barkley?.visitedAt).toEqual(now);
+    expect(state.pets?.common?.Meowchi?.visitedAt).toEqual(now);
   });
 });
