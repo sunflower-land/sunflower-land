@@ -218,6 +218,8 @@ describe("placeFruitPatch", () => {
     const banked = 60000 * speed;
     expect(fruit?.plantedAt).toBe(now);
     expect(fruit?.baseDurationMs).toBeCloseTo(baseDurationMs - banked, 5);
+    // Banked work is retained as boostedTime for the progress bar.
+    expect(fruit?.boostedTime).toBeCloseTo(banked, 5);
   });
 
   it("banks replenishing-phase boosted work (harvestedAt) for a windowed fruit on lift", () => {
@@ -273,6 +275,7 @@ describe("placeFruitPatch", () => {
     expect(fruit?.harvestedAt).toBe(now);
     expect(fruit?.plantedAt).toBe(plantedAt);
     expect(fruit?.baseDurationMs).toBeCloseTo(baseDurationMs - banked, 5);
+    expect(fruit?.boostedTime).toBeCloseTo(banked, 5);
   });
 
   it("only banks unboosted work when a fruit boost starts during the lift", () => {

@@ -5,7 +5,7 @@ import { produce } from "immer";
 import {
   getFruitBoostWindows,
   getTurbofruitMixWindows,
-  workAccruedAt,
+  pauseWindowedTimer,
 } from "features/game/lib/boostWindows";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 
@@ -53,35 +53,25 @@ export function placeFruitPatch({
       };
       if (existingPatch.fruit && existingPatch.removedAt) {
         const fruit = existingPatch.fruit;
-        // HarvestedAt will be greater than plantedAt if the fruit was harvested
+        // HarvestedAt will be greater than plantedAt if the fruit was harvested;
+        // pause the active phase (windowed banking or legacy back-date) and write
+        // the resumed start back to that same phase field.
         const isReplenishing = fruit.harvestedAt > fruit.plantedAt;
-
-        if (fruit.baseDurationMs !== undefined) {
-          // Windowed fruit: "pause" growth/replenish across the lift. Bank the
-          // work accrued before removal against the current fruit boost windows
-          // (+ the patch's Turbofruit Mix), then resume the remainder from now
-          // (mirrors placePlot). The active phase is harvestedAt || plantedAt.
-          const banked = workAccruedAt({
-            startedAt: isReplenishing ? fruit.harvestedAt : fruit.plantedAt,
-            at: existingPatch.removedAt,
-            windows: [
-              ...getFruitBoostWindows(game),
-              ...getTurbofruitMixWindows(existingPatch.fertiliser),
-            ],
-          });
-          fruit.baseDurationMs = Math.max(fruit.baseDurationMs - banked, 0);
-          if (isReplenishing) {
-            fruit.harvestedAt = createdAt;
-          } else {
-            fruit.plantedAt = createdAt;
-          }
-        } else if (isReplenishing) {
-          // Legacy fruit: back-date so the lifted interval doesn't count.
-          const existingProgress = existingPatch.removedAt - fruit.harvestedAt;
-          fruit.harvestedAt = createdAt - existingProgress;
+        const newStart = pauseWindowedTimer({
+          timer: fruit,
+          startedAt: isReplenishing ? fruit.harvestedAt : fruit.plantedAt,
+          removedAt: existingPatch.removedAt,
+          createdAt,
+          windows: [
+            ...getFruitBoostWindows(game),
+            ...getTurbofruitMixWindows(existingPatch.fertiliser),
+          ],
+          trackProgress: true,
+        });
+        if (isReplenishing) {
+          fruit.harvestedAt = newStart;
         } else {
-          const existingProgress = existingPatch.removedAt - fruit.plantedAt;
-          fruit.plantedAt = createdAt - existingProgress;
+          fruit.plantedAt = newStart;
         }
       }
       delete existingPatch.removedAt;

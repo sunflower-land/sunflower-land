@@ -223,5 +223,7 @@ describe("placeFlowerBed", () => {
     const banked = 60000 * speed;
     expect(flower?.plantedAt).toBe(now);
     expect(flower?.baseDurationMs).toBeCloseTo(baseDurationMs - banked, 5);
+    // Banked work is retained as boostedTime for the progress bar.
+    expect(flower?.boostedTime).toBeCloseTo(banked, 5);
   });
 });

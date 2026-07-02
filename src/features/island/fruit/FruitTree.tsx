@@ -42,8 +42,14 @@ const getFruitTreeStatus = (
   // No fruits planted
   if (!plantedFruit) return { stage: "Empty" };
 
-  const { name, harvestsLeft, harvestedAt, plantedAt, baseDurationMs } =
-    plantedFruit;
+  const {
+    name,
+    harvestsLeft,
+    harvestedAt,
+    plantedAt,
+    baseDurationMs,
+    boostedTime,
+  } = plantedFruit;
 
   // Dead tree/bush
   if (!harvestsLeft) return { stage: "Dead" };
@@ -64,7 +70,9 @@ const getFruitTreeStatus = (
     // so it ticks down faster while a boost window is active.
     const workDoneMs = workAccruedAt({ startedAt, at: now, windows });
     timeLeft = Math.max((baseDurationMs - workDoneMs) / 1000, 0);
-    totalSeconds = baseDurationMs / 1000;
+    // Fold pre-lift banked work into the denominator so the progress bar retains
+    // its fill across a landscaping lift instead of snapping backward.
+    totalSeconds = (baseDurationMs + (boostedTime ?? 0)) / 1000;
   } else {
     timeLeft = Math.max((startedAt + plantSeconds * 1000 - now) / 1000, 0);
     totalSeconds = plantSeconds;
