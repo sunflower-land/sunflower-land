@@ -27,7 +27,7 @@ import {
 } from "features/game/types/fruits";
 import { secondsToString } from "lib/utils/time";
 import { SELLABLE } from "features/game/events/landExpansion/sellCrop";
-import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/events/landExpansion/harvestGreenHouse";
+import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/lib/greenhouseGrowTimes";
 import { useGame } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";

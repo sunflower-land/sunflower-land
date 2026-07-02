@@ -510,6 +510,37 @@ describe("skillUse", () => {
 
       expect(state.greenhouse.pots[1].plant?.plantedAt).toEqual(1);
     });
+
+    it("zeroes the remaining work for windowed plants (speed-rate model)", () => {
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Greenhouse Guru": 1 },
+          },
+          greenhouse: {
+            oil: 76,
+            pots: {
+              "1": {
+                plant: {
+                  name: "Olive",
+                  plantedAt: 1733803854974,
+                  baseDurationMs: 158400000,
+                },
+              },
+            },
+          },
+        },
+        action: { type: "skill.used", skill: "Greenhouse Guru" },
+        createdAt: dateNow,
+      });
+
+      // Windowed plants zero the remaining work instead of back-dating
+      // plantedAt (which would re-price the grow against past boost windows).
+      expect(state.greenhouse.pots[1].plant?.baseDurationMs).toEqual(0);
+      expect(state.greenhouse.pots[1].plant?.plantedAt).toEqual(1733803854974);
+    });
   });
 
   describe("usePetalBlessed", () => {

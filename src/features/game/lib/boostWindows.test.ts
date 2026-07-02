@@ -8,18 +8,25 @@ import {
   MINE_BOOST_SPEED,
   FRUIT_BOOST_SPEED,
   FLOWER_BOOST_SPEED,
+  GREENHOUSE_BOOST_SPEED,
   getTreeBoostWindows,
   getMineBoostWindows,
   getFruitBoostWindows,
   getTurbofruitMixWindows,
   getCropFertiliserWindows,
   getFlowerBoostWindows,
+  getGreenhouseBoostWindows,
+  getGreenhouseGlowWindows,
   appendBoostHistory,
   type BoostWindow,
 } from "./boostWindows";
 import { EXPIRY_COOLDOWNS } from "./collectibleBuilt";
 import { TEST_FARM } from "./constants";
-import type { CropFertiliser, GameState } from "../types/game";
+import type {
+  CropFertiliser,
+  GameState,
+  GreenhouseFertiliser,
+} from "../types/game";
 import type { RockName } from "../types/resources";
 
 const HOUR = 60 * 60 * 1000;
@@ -1250,5 +1257,173 @@ describe("getMineBoostWindows", () => {
         speed: MINE_BOOST_SPEED["Mole Shrine"],
       });
     });
+  });
+});
+
+describe("GREENHOUSE_BOOST_SPEED", () => {
+  it("pins the greenhouse speeds", () => {
+    expect(GREENHOUSE_BOOST_SPEED).toEqual({
+      "Super Totem": 2,
+      "Time Warp Totem": 2,
+      "Harvest Hourglass": 1.35,
+      "Orchard Hourglass": 1.35,
+      "Tortoise Shrine": 1.5,
+      "Greenhouse Glow": 1.25,
+    });
+  });
+});
+
+describe("getGreenhouseBoostWindows", () => {
+  const createdAt = 1_000_000;
+
+  it("includes the Tortoise Shrine window for every plant", () => {
+    const game: GameState = {
+      ...TEST_FARM,
+      collectibles: {
+        ...TEST_FARM.collectibles,
+        "Tortoise Shrine": [
+          { id: "1", coordinates: { x: 0, y: 0 }, createdAt },
+        ],
+      },
+    };
+    const expected = {
+      from: createdAt,
+      to: createdAt + EXPIRY_COOLDOWNS["Tortoise Shrine"],
+      speed: GREENHOUSE_BOOST_SPEED["Tortoise Shrine"],
+    };
+
+    expect(getGreenhouseBoostWindows(game, "Rice")).toContainEqual(expected);
+    expect(getGreenhouseBoostWindows(game, "Olive")).toContainEqual(expected);
+    expect(getGreenhouseBoostWindows(game, "Grape")).toContainEqual(expected);
+  });
+
+  it("includes Harvest Hourglass for the greenhouse CROPS only", () => {
+    const game: GameState = {
+      ...TEST_FARM,
+      collectibles: {
+        ...TEST_FARM.collectibles,
+        "Harvest Hourglass": [
+          { id: "1", coordinates: { x: 0, y: 0 }, createdAt },
+        ],
+      },
+    };
+    const expected = {
+      from: createdAt,
+      to: createdAt + EXPIRY_COOLDOWNS["Harvest Hourglass"],
+      speed: GREENHOUSE_BOOST_SPEED["Harvest Hourglass"],
+    };
+
+    expect(getGreenhouseBoostWindows(game, "Rice")).toContainEqual(expected);
+    expect(getGreenhouseBoostWindows(game, "Olive")).toContainEqual(expected);
+    // Grape is a fruit — Harvest Hourglass never covered it.
+    expect(getGreenhouseBoostWindows(game, "Grape")).toEqual([]);
+  });
+
+  it("includes Orchard Hourglass for Grape only (windowed-model addition)", () => {
+    const game: GameState = {
+      ...TEST_FARM,
+      collectibles: {
+        ...TEST_FARM.collectibles,
+        "Orchard Hourglass": [
+          { id: "1", coordinates: { x: 0, y: 0 }, createdAt },
+        ],
+      },
+    };
+
+    expect(getGreenhouseBoostWindows(game, "Grape")).toContainEqual({
+      from: createdAt,
+      to: createdAt + EXPIRY_COOLDOWNS["Orchard Hourglass"],
+      speed: GREENHOUSE_BOOST_SPEED["Orchard Hourglass"],
+    });
+    expect(getGreenhouseBoostWindows(game, "Rice")).toEqual([]);
+    expect(getGreenhouseBoostWindows(game, "Olive")).toEqual([]);
+  });
+
+  it("merges Super Totem & Time Warp Totem into one 2× window (no stacking)", () => {
+    const windows = getGreenhouseBoostWindows(
+      {
+        ...TEST_FARM,
+        collectibles: {
+          ...TEST_FARM.collectibles,
+          "Super Totem": [{ id: "1", coordinates: { x: 0, y: 0 }, createdAt }],
+          "Time Warp Totem": [
+            { id: "2", coordinates: { x: 1, y: 1 }, createdAt },
+          ],
+        },
+      },
+      "Rice",
+    );
+
+    // Both totems share 2× and merge into a single window, not two stacked.
+    const totemWindows = windows.filter(
+      (w) => w.speed === GREENHOUSE_BOOST_SPEED["Super Totem"],
+    );
+    expect(totemWindows).toEqual([
+      {
+        from: createdAt,
+        to: createdAt + EXPIRY_COOLDOWNS["Super Totem"],
+        speed: GREENHOUSE_BOOST_SPEED["Super Totem"],
+      },
+    ]);
+  });
+
+  it("includes a burned Tortoise Shrine via boostHistory", () => {
+    // The shrine is gone from collectibles, but its finalised window survives
+    // in boostHistory so an in-progress plant keeps the earned credit.
+    const from = 1_000_000;
+    const to = from + EXPIRY_COOLDOWNS["Tortoise Shrine"];
+    const windows = getGreenhouseBoostWindows(
+      {
+        ...TEST_FARM,
+        collectibles: {},
+        boostHistory: { "Tortoise Shrine": [{ from, to }] },
+      },
+      "Rice",
+    );
+
+    expect(windows).toContainEqual({
+      from,
+      to,
+      speed: GREENHOUSE_BOOST_SPEED["Tortoise Shrine"],
+    });
+  });
+
+  it("returns no windows when none are placed", () => {
+    expect(getGreenhouseBoostWindows(TEST_FARM, "Rice")).toEqual([]);
+    expect(getGreenhouseBoostWindows(TEST_FARM, "Grape")).toEqual([]);
+  });
+});
+
+describe("getGreenhouseGlowWindows", () => {
+  it("returns an open-ended 1.25× window from fertilisedAt for Greenhouse Glow", () => {
+    const fertilisedAt = 1_000_000;
+
+    expect(
+      getGreenhouseGlowWindows({ name: "Greenhouse Glow", fertilisedAt }),
+    ).toEqual([
+      {
+        from: fertilisedAt,
+        to: Number.MAX_SAFE_INTEGER,
+        speed: GREENHOUSE_BOOST_SPEED["Greenhouse Glow"],
+      },
+    ]);
+  });
+
+  it("returns no window for Greenhouse Goodie (a yield compost)", () => {
+    expect(
+      getGreenhouseGlowWindows({ name: "Greenhouse Goodie", fertilisedAt: 1 }),
+    ).toEqual([]);
+  });
+
+  it("returns no window without a fertiliser", () => {
+    expect(getGreenhouseGlowWindows(undefined)).toEqual([]);
+  });
+
+  it("guards a malformed fertiliser with no fertilisedAt", () => {
+    expect(
+      getGreenhouseGlowWindows({
+        name: "Greenhouse Glow",
+      } as unknown as GreenhouseFertiliser),
+    ).toEqual([]);
   });
 });

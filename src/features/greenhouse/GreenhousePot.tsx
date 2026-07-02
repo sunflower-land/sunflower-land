@@ -27,10 +27,14 @@ import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { ProgressBar } from "components/ui/ProgressBar";
+import { getGreenhouseCropYieldAmount } from "features/game/events/landExpansion/harvestGreenHouse";
+import { getGreenhouseReadyAt } from "features/game/events/landExpansion/greenhouseReadiness";
 import {
-  getGreenhouseCropYieldAmount,
-  getReadyAt,
-} from "features/game/events/landExpansion/harvestGreenHouse";
+  getEffectiveSpeedAt,
+  getGreenhouseBoostWindows,
+  getGreenhouseGlowWindows,
+  workAccruedAt,
+} from "features/game/lib/boostWindows";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getOilUsage,
@@ -39,7 +43,6 @@ import {
 import { QuickSelect } from "./QuickSelect";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
-import { secondsToString } from "lib/utils/time";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { formatNumber } from "lib/utils/formatNumber";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -51,6 +54,7 @@ import type {
   GreenhouseFertiliser,
   InventoryItemName,
 } from "features/game/types/game";
+import { TimerPopover } from "features/island/common/TimerPopover";
 
 type Stage = "seedling" | "growing" | "almost" | "ready";
 const PLANT_STAGES: Record<
@@ -156,20 +160,69 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
   const potFertiliser = pot?.fertiliser;
 
   const plantedAt = growingPlant?.plantedAt ?? 0;
+  // Windowed plants (speed-rate model) derive their ready time live from the
+  // boost windows; legacy plants use their back-dated plantedAt + base time.
   const readyAt = growingPlant
-    ? getReadyAt({
-        plant: growingPlant.name,
-        createdAt: plantedAt,
-      })
+    ? getGreenhouseReadyAt(growingPlant, state, potFertiliser)
     : 0;
-  const harvestSeconds = Math.max((readyAt - plantedAt) / 1000, 0);
-  const now = useNow({ live: !!growingPlant, autoEndAt: readyAt });
+
+  // Live windowed greenhouse speed boosts (totems / Tortoise Shrine / Harvest
+  // Hourglass for the crops + this pot's Greenhouse Glow fertiliser). Computed
+  // inline — this component already subscribes to the whole game state.
+  const boostWindows = growingPlant
+    ? [
+        ...getGreenhouseBoostWindows(state, growingPlant.name),
+        ...getGreenhouseGlowWindows(potFertiliser),
+      ]
+    : [];
+  const baseDurationMs = growingPlant?.baseDurationMs;
+  // Work banked across Greenhouse building moves — folded into the bar's total
+  // so visual progress is preserved (readiness already accounts for it).
+  const bankedWorkMs = growingPlant?.boostedTime ?? 0;
+
+  // Coarse 1s clock to pick the current boost speed; only windowed plants are
+  // boosted. Tick the countdown faster (1000/speed) so it drops ~1s per visual
+  // tick rather than jumping by `speed` each real second.
+  const tickNow = useNow({
+    live: !!growingPlant && baseDurationMs !== undefined,
+    autoEndAt: readyAt,
+  });
+  const speed =
+    baseDurationMs !== undefined
+      ? getEffectiveSpeedAt({ at: tickNow, windows: boostWindows })
+      : 1;
+  const intervalMs = Math.max(Math.round(1000 / Math.max(speed, 1)), 250);
+  const now = useNow({ live: !!growingPlant, autoEndAt: readyAt, intervalMs });
+
+  // Remaining time is remaining *work* (in base duration) for windowed plants,
+  // so it ticks down faster while a boost window is active; legacy counts down
+  // to the back-dated readyAt.
   const secondsLeft =
-    readyAt > 0 ? Math.max(Math.ceil((readyAt - now) / 1000), 0) : 0;
+    baseDurationMs !== undefined
+      ? Math.max(
+          Math.ceil(
+            (baseDurationMs -
+              workAccruedAt({
+                startedAt: plantedAt,
+                at: now,
+                windows: boostWindows,
+              })) /
+              1000,
+          ),
+          0,
+        )
+      : readyAt > 0
+        ? Math.max(Math.ceil((readyAt - now) / 1000), 0)
+        : 0;
+  const totalSeconds =
+    baseDurationMs !== undefined
+      ? (baseDurationMs + bankedWorkMs) / 1000
+      : Math.max((readyAt - plantedAt) / 1000, 0);
   const percentage =
-    harvestSeconds > 0
-      ? clampPercentage(((harvestSeconds - secondsLeft) / harvestSeconds) * 100)
+    totalSeconds > 0
+      ? clampPercentage(((totalSeconds - secondsLeft) / totalSeconds) * 100)
       : 100;
+  const isBoosted = speed > 1;
 
   const { usage: oilRequired } = getOilUsage({
     seed: selectedItem as GreenHouseCropSeedName,
@@ -200,18 +253,19 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
     gameService.send("greenhouse.planted", { id, seed });
   };
 
-  const tryApplyGreenhouseFertiliser = (item?: InventoryItemName) => {
+  const canApplyGreenhouseFertiliser = (item?: InventoryItemName) => {
     const invItem = item ?? selectedItem;
-    if (!invItem || !(invItem in GREENHOUSE_COMPOST) || potFertiliser) {
-      return false;
-    }
+    return !!invItem && invItem in GREENHOUSE_COMPOST && !potFertiliser;
+  };
+
+  const tryApplyGreenhouseFertiliser = (item?: InventoryItemName) => {
+    if (!canApplyGreenhouseFertiliser(item)) return false;
     gameService.send("greenhouse.fertilised", {
       id,
-      fertiliser: invItem as GreenhouseCompostName,
+      fertiliser: (item ?? selectedItem) as GreenhouseCompostName,
     });
     return true;
   };
-
   if (!pot?.plant) {
     return (
       <div className="relative" style={{ width: `${PIXEL_SCALE * 28}px` }}>
@@ -361,6 +415,19 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
         style={{ width: `${PIXEL_SCALE * 28}px` }}
         onClick={harvest}
       />
+      {secondsLeft > 0 && isBoosted && (
+        <img
+          src={SUNNYSIDE.icons.lightning}
+          alt=""
+          aria-hidden
+          className="absolute z-20 pointer-events-none animate-pulse"
+          style={{
+            width: `${PIXEL_SCALE * 7}px`,
+            top: `${PIXEL_SCALE * 1}px`,
+            right: `${PIXEL_SCALE * 3}px`,
+          }}
+        />
+      )}
       {showTimers && secondsLeft > 0 && (
         <div
           className="absolute pointer-events-none"
@@ -392,15 +459,13 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
         className="flex top-0 left-[90%] absolute z-40 shadow-md w-[200px]"
         as="div"
       >
-        <Label
-          type="info"
-          icon={ITEM_DETAILS[pot.plant.name].image}
-          secondaryIcon={SUNNYSIDE.icons.stopwatch}
-        >
-          {`${pot.plant.name}: ${secondsToString(secondsLeft, {
-            length: "medium",
-          })}`}
-        </Label>
+        <TimerPopover
+          image={ITEM_DETAILS[pot.plant.name].image}
+          description={pot.plant.name}
+          showPopover={showTimeRemaining && !canApplyGreenhouseFertiliser()}
+          timeLeft={secondsLeft}
+          speed={speed}
+        />
       </Transition>
     </div>
   );

@@ -8,18 +8,30 @@ import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { useNavigate } from "react-router";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { getKeys } from "lib/object";
-import { getReadyAt } from "features/game/events/landExpansion/harvestGreenHouse";
+import { isGreenhouseReady } from "features/game/events/landExpansion/greenhouseReadiness";
 import type { GreenHouseCropName } from "features/game/types/crops";
 import type { GreenHouseFruitName } from "features/game/types/fruits";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GREENHOUSE_VARIANTS } from "features/island/lib/alternateArt";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { saveIslandScrollPosition } from "features/game/expansion/lib/islandScroll";
+import { useNow } from "lib/utils/hooks/useNow";
 
-const selectReadyPlants = (state: MachineState) => {
-  const pots = state.context.state.greenhouse.pots;
+const _gameState = (state: MachineState) => state.context.state;
 
-  return getKeys(pots).reduce(
+export const Greenhouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
+  const { gameService, showAnimations } = useContext(Context);
+
+  const gameState = useSelector(gameService, _gameState);
+
+  const { pots } = gameState.greenhouse;
+  const hasActivePlants = Object.values(pots).some((pot) => !!pot.plant);
+
+  // Readiness is derived in-render (windowed plants become ready earlier than
+  // their stored plantedAt implies) off a live clock, so the ready indicators
+  // appear on time; the clock stops when nothing is growing.
+  const now = useNow({ live: hasActivePlants });
+  const readyPlants = getKeys(pots).reduce(
     (plants, id) => {
       const pot = pots[id];
 
@@ -27,11 +39,7 @@ const selectReadyPlants = (state: MachineState) => {
         return plants;
       }
 
-      const isReady =
-        Date.now() >
-        getReadyAt({ plant: pot.plant.name, createdAt: pot.plant.plantedAt });
-
-      if (!isReady) {
+      if (!isGreenhouseReady(now, pot, gameState)) {
         return plants;
       }
 
@@ -39,16 +47,6 @@ const selectReadyPlants = (state: MachineState) => {
     },
     [] as (GreenHouseCropName | GreenHouseFruitName)[],
   );
-};
-
-const selectHasActivePlants = (state: MachineState) =>
-  Object.values(state.context.state.greenhouse.pots).some((pot) => !!pot.plant);
-
-export const Greenhouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
-  const { gameService, showAnimations } = useContext(Context);
-
-  const readyPlants = useSelector(gameService, selectReadyPlants);
-  const hasActivePlants = useSelector(gameService, selectHasActivePlants);
 
   const navigate = useNavigate();
 

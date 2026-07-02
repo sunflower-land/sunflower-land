@@ -6,7 +6,31 @@ import {
 import { plantGreenhouse } from "./plantGreenhouse";
 import Decimal from "decimal.js-light";
 import type { GameState } from "features/game/types/game";
-import { getReadyAt, getGreenhouseCropYieldAmount } from "./harvestGreenHouse";
+import { getGreenhouseCropYieldAmount } from "./harvestGreenHouse";
+import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/lib/greenhouseGrowTimes";
+import { getGreenhouseReadyAt } from "./greenhouseReadiness";
+import { CONFIG } from "lib/config";
+
+// Pin the legacy (mainnet, SPEED_BOOSTS off) behaviour for this file's existing
+// tests — jest runs on amoy where the flag is ON. The windowed model is covered
+// in the dedicated SPEED_BOOSTS describes.
+const originalNetwork = CONFIG.NETWORK;
+beforeAll(() => {
+  (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+});
+afterAll(() => {
+  (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+});
+
+// Legacy base-time readiness (plantedAt + base grow duration) for these
+// mainnet-pinned tests; the windowed model derives it via getGreenhouseReadyAt.
+const getReadyAt = ({
+  plant,
+  createdAt,
+}: {
+  plant: keyof typeof GREENHOUSE_CROP_TIME_SECONDS;
+  createdAt: number;
+}) => createdAt + GREENHOUSE_CROP_TIME_SECONDS[plant] * 1000;
 
 const farm: GameState = {
   ...TEST_FARM,
@@ -249,5 +273,108 @@ describe("fertiliseGreenhouse", () => {
         createdAt: 1,
       }),
     ).toThrow(FERTILISE_GREENHOUSE_ERRORS.NOT_ENOUGH_FERTILISER);
+  });
+});
+
+describe("fertiliseGreenhouse under SPEED_BOOSTS (windowed)", () => {
+  beforeAll(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
+  });
+  afterAll(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+  });
+
+  const plantRice = (state: GameState, createdAt: number): GameState =>
+    plantGreenhouse({
+      state,
+      action: { type: "greenhouse.planted", id: 1, seed: "Rice Seed" },
+      createdAt,
+    });
+
+  it("applies Greenhouse Glow mid-grow with NO plant mutation", () => {
+    const t0 = Date.now();
+    const base = GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000;
+    let state = plantRice(placedGreenhouse(), t0);
+    const before = { ...state.greenhouse.pots[1].plant! };
+
+    state = fertiliseGreenhouse({
+      state,
+      action: {
+        type: "greenhouse.fertilised",
+        id: 1,
+        fertiliser: "Greenhouse Glow",
+      },
+      createdAt: t0 + base / 2,
+    });
+
+    // Unlike the legacy back-date, the windowed plant is untouched…
+    expect(state.greenhouse.pots[1].plant).toEqual(before);
+    // …and readiness moves earlier purely via the pot's open-ended window:
+    // half the grow at 1×, the remaining half at 1.25×.
+    expect(
+      getGreenhouseReadyAt(
+        state.greenhouse.pots[1].plant!,
+        state,
+        state.greenhouse.pots[1].fertiliser,
+      ),
+    ).toEqual(t0 + base / 2 + base / 2 / 1.25);
+  });
+
+  it("keeps the whole grow boosted when the pot was fertilised before planting", () => {
+    const t0 = Date.now();
+    const base = GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000;
+    let state = fertiliseGreenhouse({
+      state: placedGreenhouse(),
+      action: {
+        type: "greenhouse.fertilised",
+        id: 1,
+        fertiliser: "Greenhouse Glow",
+      },
+      createdAt: t0,
+    });
+    state = plantRice(state, t0 + 1000);
+
+    expect(
+      getGreenhouseReadyAt(
+        state.greenhouse.pots[1].plant!,
+        state,
+        state.greenhouse.pots[1].fertiliser,
+      ),
+    ).toEqual(t0 + 1000 + base / 1.25);
+  });
+
+  it("throws READY_TO_HARVEST when a boost already made the windowed plant ready", () => {
+    const t0 = Date.now();
+    const base = GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000;
+    const state = plantRice(
+      {
+        ...placedGreenhouse(),
+        collectibles: {
+          "Tortoise Shrine": [
+            {
+              id: "1",
+              createdAt: t0,
+              coordinates: { x: 0, y: 0 },
+              readyAt: t0,
+            },
+          ],
+        },
+      },
+      t0,
+    );
+
+    // Ready by the windowed clock (1.5×) even though the base grow time has
+    // not elapsed — the guard must use windowed readiness.
+    expect(() =>
+      fertiliseGreenhouse({
+        state,
+        action: {
+          type: "greenhouse.fertilised",
+          id: 1,
+          fertiliser: "Greenhouse Goodie",
+        },
+        createdAt: t0 + base / 1.5,
+      }),
+    ).toThrow(FERTILISE_GREENHOUSE_ERRORS.READY_TO_HARVEST);
   });
 });

@@ -5,18 +5,23 @@ import {
 } from "features/game/types/composters";
 import type { GameState, GreenhousePlant } from "features/game/types/game";
 import { produce } from "immer";
-import { getReadyAt } from "features/game/events/landExpansion/harvestGreenHouse";
+import { getGreenhouseReadyAt, isGreenhouseReady } from "./greenhouseReadiness";
 import { MAX_POTS } from "./plantGreenhouse";
 
-/** Shifts plantedAt so remaining grow time is multiplied by 0.8 (−20%), matching Turbofruit / Greenhouse Glow rules. */
+/**
+ * Legacy (baked) model only: shifts `plantedAt` so the remaining grow time is
+ * multiplied by 0.8 (−20%). Windowed plants (`baseDurationMs` set) get NO
+ * mutation — the pot's open-ended `[fertilisedAt, ∞)` Greenhouse Glow window
+ * (see getGreenhouseGlowWindows) speeds up the remaining grow live instead.
+ */
 function applyGreenhouseGlowToRemainingGrowTime(
+  game: GameState,
   plant: GreenhousePlant,
   now: number,
 ): GreenhousePlant {
-  const readyAt = getReadyAt({
-    plant: plant.name,
-    createdAt: plant.plantedAt,
-  });
+  if (plant.baseDurationMs !== undefined) return plant;
+
+  const readyAt = getGreenhouseReadyAt(plant, game);
   if (now < readyAt) {
     const timeReduction = (readyAt - now) * 0.2;
     return { ...plant, plantedAt: plant.plantedAt - timeReduction };
@@ -92,18 +97,17 @@ export function fertiliseGreenhouse({
     }
 
     const plant = pot.plant;
-    if (plant) {
-      if (
-        createdAt >=
-        getReadyAt({ plant: plant.name, createdAt: plant.plantedAt })
-      ) {
-        throw new Error(FERTILISE_GREENHOUSE_ERRORS.READY_TO_HARVEST);
-      }
+    if (isGreenhouseReady(createdAt, pot, game)) {
+      throw new Error(FERTILISE_GREENHOUSE_ERRORS.READY_TO_HARVEST);
     }
 
     let nextPlant = plant;
     if (plant && action.fertiliser === "Greenhouse Glow") {
-      nextPlant = applyGreenhouseGlowToRemainingGrowTime(plant, createdAt);
+      nextPlant = applyGreenhouseGlowToRemainingGrowTime(
+        game,
+        plant,
+        createdAt,
+      );
     }
 
     game.greenhouse.pots[potId] = {

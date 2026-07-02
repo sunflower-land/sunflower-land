@@ -888,6 +888,23 @@ export type GreenhousePlant = {
   plantedAt: number;
   criticalHit?: CriticalHit;
   amount?: number;
+  /**
+   * Work (ms) banked when the Greenhouse building was moved mid-grow (windowed
+   * plants freeze accrued WORK, not wall-clock progress, while the building
+   * sits in inventory). Display-only: the pot UI folds it into the progress
+   * bar; readiness ignores it — the banked work is already subtracted from
+   * `baseDurationMs`.
+   */
+  boostedTime?: number;
+  /**
+   * Unboosted-by-windowed-collectibles grow duration (ms), with all permanent
+   * (discount-at-start) boosts already folded in. Present only on plants sown
+   * under the speed-rate model; its presence — NOT the `SPEED_BOOSTS` flag —
+   * selects `computeReadyAt` (over the legacy back-dated `plantedAt` readiness
+   * check), so a plant sown while the flag was on keeps windowed timing on
+   * rollback and retains its baked permanent boosts.
+   */
+  baseDurationMs?: number;
 };
 
 export type GreenhousePot = {

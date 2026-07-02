@@ -4,14 +4,9 @@ import type {
   GameState,
 } from "features/game/types/game";
 import { isGreenhouseCrop, MAX_POTS } from "./plantGreenhouse";
-import {
-  GREENHOUSE_CROPS,
-  type GreenHouseCropName,
-} from "features/game/types/crops";
-import {
-  GREENHOUSE_FRUIT_SEEDS,
-  type GreenHouseFruitName,
-} from "features/game/types/fruits";
+import type { GreenHouseCropName } from "features/game/types/crops";
+import type { GreenHouseFruitName } from "features/game/types/fruits";
+import { isGreenhouseReady } from "./greenhouseReadiness";
 import Decimal from "decimal.js-light";
 
 import { produce } from "immer";
@@ -27,27 +22,6 @@ import { KNOWN_IDS } from "features/game/types";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { isWearableActive } from "features/game/lib/wearables";
 import type { GreenhouseCompostName } from "features/game/types/composters";
-
-export const GREENHOUSE_CROP_TIME_SECONDS: Record<
-  GreenHouseCropName | GreenHouseFruitName,
-  number
-> = {
-  Grape: GREENHOUSE_FRUIT_SEEDS["Grape Seed"].plantSeconds,
-  Olive: GREENHOUSE_CROPS.Olive.harvestSeconds,
-  Rice: GREENHOUSE_CROPS.Rice.harvestSeconds,
-};
-
-export function getReadyAt({
-  plant,
-  createdAt = Date.now(),
-}: {
-  plant: GreenHouseCropName | GreenHouseFruitName;
-  createdAt?: number;
-}) {
-  const seconds = GREENHOUSE_CROP_TIME_SECONDS[plant];
-
-  return createdAt + seconds * 1000;
-}
 
 export function getGreenhouseCropYieldAmount({
   crop,
@@ -189,10 +163,7 @@ export function harvestGreenHouse({
       throw new Error("Plant does not exist");
     }
 
-    if (
-      createdAt <
-      getReadyAt({ plant: pot.plant.name, createdAt: pot.plant.plantedAt })
-    ) {
+    if (!isGreenhouseReady(createdAt, pot, game)) {
       throw new Error("Plant is not ready");
     }
 

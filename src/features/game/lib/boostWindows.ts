@@ -4,6 +4,7 @@ import type {
   CropFertiliser,
   FruitFertiliser,
   GameState,
+  GreenhouseFertiliser,
   PlacedItem,
 } from "../types/game";
 import {
@@ -12,6 +13,8 @@ import {
 } from "./collectibleBuilt";
 import { getCollectiblesAcrossLocations } from "./getCollectiblesAcrossLocations";
 import type { RockName } from "../types/resources";
+import type { GreenHouseCropName } from "../types/crops";
+import type { GreenHouseFruitName } from "../types/fruits";
 
 /**
  * Speed-rate boost model ("Clash of Clans builder/research potion").
@@ -82,8 +85,8 @@ export const MINE_BOOST_SPEED = {
  * place to tune them. Stacking is multiplicative; Super & Time Warp Totem share
  * the same 2× and merge so they don't stack with each other. Orchard Hourglass
  * and Toucan Shrine (a fruit-recovery-TIME pet shrine, not a yield boost) are
- * both 1.35×. Only PATCH fruit is windowed — greenhouse fruit keeps the legacy
- * baked totem discount (see the `isPatchFruit` gate in `getFruitTime`).
+ * both 1.35×. This table is PATCH-fruit-only — greenhouse fruit (Grape) is
+ * windowed via `GREENHOUSE_BOOST_SPEED` instead.
  */
 export const FRUIT_BOOST_SPEED = {
   "Super Totem": 2,
@@ -99,6 +102,28 @@ export const FLOWER_BOOST_SPEED = {
   // Moth Shrine is a MIXED boost: only its grow-TIME half is windowed here; its
   // +1-flower yield critical-hit stays baked in getFlowerAmount (harvestFlower).
   "Moth Shrine": 1.35,
+} as const;
+
+/**
+ * Speed multipliers for the windowed greenhouse growth boosts — the single place
+ * to tune them. Stacking is multiplicative; Super & Time Warp Totem share the
+ * same 2× and merge so they don't stack with each other. Coverage differs by
+ * plant (see `getGreenhouseBoostWindows`): Harvest Hourglass speeds up the
+ * greenhouse CROPS (Rice/Olive) and Orchard Hourglass the greenhouse FRUIT
+ * (Grape). Orchard-on-Grape is a windowed-model ADDITION — the legacy baked
+ * path never applied it to greenhouse fruit (hourglasses now cover their whole
+ * activity, mirroring Harvest-on-greenhouse-crops). Tortoise Shrine is a
+ * MIXED-activity boost: only its greenhouse half is windowed here; its
+ * crop-machine ×0.9 stays baked in supplyCropMachine until that slice.
+ */
+export const GREENHOUSE_BOOST_SPEED = {
+  "Super Totem": 2,
+  "Time Warp Totem": 2,
+  "Harvest Hourglass": 1.35,
+  "Orchard Hourglass": 1.35,
+  "Tortoise Shrine": 1.5,
+  // Per-pot fertiliser (not a collectible); windowed via getGreenhouseGlowWindows.
+  "Greenhouse Glow": 1.25,
 } as const;
 
 /** Window for the Power Hour buff (1h from activation), if active. */
@@ -208,8 +233,8 @@ export const getTreeBoostWindows = (game: GameState): BoostWindow[] => [
  * The windowed speed boosts that apply to (patch) fruit growth & replenishment.
  * Each is its own window so overlapping boosts stack multiplicatively (Orchard
  * 1.35 × Toucan 1.35 = 1.8225×); the two totems merge so they don't stack (both
- * 2×). Mirrors `getTreeBoostWindows` for the fruit activity. Greenhouse fruit is
- * NOT windowed yet, so this is only assembled for patch fruit.
+ * 2×). Mirrors `getTreeBoostWindows` for the fruit activity. This is assembled
+ * for PATCH fruit only — greenhouse fruit uses `getGreenhouseBoostWindows`.
  */
 export const getFruitBoostWindows = (game: GameState): BoostWindow[] => [
   ...getMergedTotemWindows(game, FRUIT_BOOST_SPEED["Super Totem"]),
@@ -309,6 +334,88 @@ export const getCropFertiliserWindows = (
       speed: CROP_PLOT_BOOST_SPEED[fertiliser.name],
     },
   ];
+};
+
+/**
+ * The Greenhouse Glow fertiliser's speed window for a greenhouse pot. Like
+ * Turbofruit Mix / Rapid Root it is per-POT and never expires on a timer: a
+ * 1.25× speed active from when the fertiliser was applied (`fertilisedAt`)
+ * until the plant is harvested (harvest deletes the pot's fertiliser), so the
+ * window is open-ended. Fertilise-then-plant needs no special case — the window
+ * already covers the whole grow. Returns [] when the pot has no Greenhouse Glow
+ * (Greenhouse Goodie is a YIELD compost — no window). Assembled separately from
+ * `getGreenhouseBoostWindows` (which is game-global) and unioned in by
+ * `getGreenhouseReadyAt` and the pot UI.
+ */
+export const getGreenhouseGlowWindows = (
+  fertiliser?: GreenhouseFertiliser,
+): BoostWindow[] => {
+  // Guard fertilisedAt too: the type requires it, but defend against malformed
+  // persisted state producing a `from: undefined` window.
+  if (
+    fertiliser?.name !== "Greenhouse Glow" ||
+    fertiliser.fertilisedAt === undefined
+  ) {
+    return [];
+  }
+  return [
+    {
+      from: fertiliser.fertilisedAt,
+      // Open-ended: active for the plant's whole remaining grow. A far-future
+      // bound (not Infinity, to keep the segment maths finite) — the plant is
+      // always ready long before this.
+      to: Number.MAX_SAFE_INTEGER,
+      speed: GREENHOUSE_BOOST_SPEED["Greenhouse Glow"],
+    },
+  ];
+};
+
+/**
+ * The windowed speed boosts that apply to a greenhouse pot's growth, by plant.
+ * Coverage differs per plant, keyed by the activity each hourglass covers: the
+ * greenhouse CROPS (Rice, Olive) get Harvest Hourglass (their legacy baked
+ * discount came via `getCropTime`) and the greenhouse FRUIT (Grape) gets
+ * Orchard Hourglass — a windowed-model ADDITION; the legacy baked path never
+ * applied it to greenhouse fruit. The two totems merge so they don't stack
+ * (both 2×); Tortoise Shrine applies to every plant. Mirrors
+ * `getMineBoostWindows`' per-resource switch. The per-pot Greenhouse Glow
+ * fertiliser window is assembled separately (`getGreenhouseGlowWindows`) and
+ * unioned in by `getGreenhouseReadyAt` and the pot UI.
+ */
+export const getGreenhouseBoostWindows = (
+  game: GameState,
+  plant: GreenHouseCropName | GreenHouseFruitName,
+): BoostWindow[] => {
+  const shared = [
+    ...getMergedTotemWindows(game, GREENHOUSE_BOOST_SPEED["Super Totem"]),
+    ...getBoostWindows({
+      game,
+      name: "Tortoise Shrine",
+      speed: GREENHOUSE_BOOST_SPEED["Tortoise Shrine"],
+    }),
+  ];
+
+  switch (plant) {
+    case "Rice":
+    case "Olive":
+      return [
+        ...shared,
+        ...getBoostWindows({
+          game,
+          name: "Harvest Hourglass",
+          speed: GREENHOUSE_BOOST_SPEED["Harvest Hourglass"],
+        }),
+      ];
+    case "Grape":
+      return [
+        ...shared,
+        ...getBoostWindows({
+          game,
+          name: "Orchard Hourglass",
+          speed: GREENHOUSE_BOOST_SPEED["Orchard Hourglass"],
+        }),
+      ];
+  }
 };
 
 /**

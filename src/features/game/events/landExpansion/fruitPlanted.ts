@@ -118,18 +118,16 @@ export const isAdvancedFruitSeed = (
 /**
  * Generic boost for all fruit types - normal + greenhouse.
  *
- * `isPatchFruit` gates the windowed totem model to PATCH fruit only: under
- * SPEED_BOOSTS the two totems are a windowed 2× speed boost for patch fruit (see
- * boostWindows), so they're excluded from the baked time here. Greenhouse fruit
- * (isPatchFruit false) and the flag-off path keep the legacy discount-at-start.
+ * Under SPEED_BOOSTS the two totems are a windowed 2× speed boost for BOTH
+ * fruit consumers — patch fruit and greenhouse fruit (see boostWindows) — so
+ * they're excluded from the baked time here. The flag-off path keeps the
+ * legacy discount-at-start.
  */
 export function getFruitTime({
   game,
-  isPatchFruit = false,
   windowed = hasFeatureAccess(game, "SPEED_BOOSTS"),
 }: {
   game: GameState;
-  isPatchFruit?: boolean;
   /**
    * Whether the windowed speed-rate model applies. Defaults to the SPEED_BOOSTS
    * flag; the replenish path forces it true for a fruit that already carries a
@@ -153,7 +151,7 @@ export function getFruitTime({
   });
   // Under the windowed model the totems' contribution is derived over the grow
   // rather than baked at plant time, so it's not recorded in boostsUsed either.
-  const totemsWindowed = windowed && isPatchFruit;
+  const totemsWindowed = windowed;
   if (!totemsWindowed && (hasSuperTotem || hasTimeWarpTotem)) {
     seconds = seconds * 0.5;
     if (hasSuperTotem) boostsUsed.push({ name: "Super Totem", value: "x0.5" });
@@ -180,7 +178,6 @@ export const getFruitPatchTime = (
 
   const { multiplier: baseMultiplier, boostsUsed } = getFruitTime({
     game,
-    isPatchFruit: true,
     windowed,
   });
   seconds *= baseMultiplier;

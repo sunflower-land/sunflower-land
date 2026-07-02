@@ -13,13 +13,14 @@ import {
 } from "features/game/types/fruits";
 import Decimal from "decimal.js-light";
 
-import { GREENHOUSE_CROP_TIME_SECONDS } from "./harvestGreenHouse";
+import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/lib/greenhouseGrowTimes";
 import {
   isTemporaryCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { getCropTime } from "./plant";
 import { getFruitTime } from "./fruitPlanted";
+import { hasFeatureAccess } from "lib/flags";
 import type { Resource } from "features/game/lib/getBudYieldBoosts";
 import { produce } from "immer";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
@@ -91,6 +92,7 @@ function getPlantedAt({
   greenhouseFertiliser,
 }: GetPlantedAtArgs): {
   plantedAt: number;
+  baseDurationMs?: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
   if (!crop) return { plantedAt: 0, boostsUsed: [] };
@@ -102,6 +104,19 @@ function getPlantedAt({
     game,
     greenhouseFertiliser,
   });
+
+  if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
+    // Speed-rate model: keep the real plant time and store the grow duration
+    // with only permanent boosts folded in (getGreenhouseCropTime excludes the
+    // temporary ones under the flag); the temporary boosts — totems, Harvest
+    // Hourglass, Tortoise Shrine, Greenhouse Glow — apply live as speed
+    // windows over the grow instead (see getGreenhouseReadyAt).
+    return {
+      plantedAt: createdAt,
+      baseDurationMs: boostedTime * 1000,
+      boostsUsed,
+    };
+  }
 
   const offset = cropTime - boostedTime;
 
@@ -119,6 +134,15 @@ export const getGreenhouseCropTime = ({
 }): { seconds: number; boostsUsed: { name: BoostName; value: string }[] } => {
   let seconds = GREENHOUSE_CROP_TIME_SECONDS[crop];
   const boostsUsed: { name: BoostName; value: string }[] = [];
+
+  // Under SPEED_BOOSTS the temporary boosts — totems + Harvest Hourglass
+  // (excluded inside getCropTime/getFruitTime), Tortoise Shrine and Greenhouse
+  // Glow (gated below) — are windowed speed boosts derived live over the grow
+  // (see getGreenhouseBoostWindows / getGreenhouseGlowWindows), so they're
+  // excluded from the baked time AND from boostsUsed here; only permanent
+  // boosts stay baked. Flag off keeps the legacy discount-at-start.
+  const windowed = hasFeatureAccess(game, "SPEED_BOOSTS");
+
   if (isGreenhouseCrop(crop)) {
     const { multiplier: baseMultiplier, boostsUsed: cropBoostsUsed } =
       getCropTime({
@@ -139,7 +163,10 @@ export const getGreenhouseCropTime = ({
     boostsUsed.push({ name: "Turbo Sprout", value: "x0.5" });
   }
 
-  if (isTemporaryCollectibleActive({ name: "Tortoise Shrine", game })) {
+  if (
+    !windowed &&
+    isTemporaryCollectibleActive({ name: "Tortoise Shrine", game })
+  ) {
     seconds *= 2 / 3; // -33% growth time
     boostsUsed.push({ name: "Tortoise Shrine", value: "x0.67" });
   }
@@ -167,7 +194,7 @@ export const getGreenhouseCropTime = ({
     boostsUsed.push({ name: "Vine Velocity", value: "x0.9" });
   }
 
-  if (greenhouseFertiliser === "Greenhouse Glow") {
+  if (!windowed && greenhouseFertiliser === "Greenhouse Glow") {
     seconds *= 0.8;
     boostsUsed.push({ name: "Greenhouse Glow", value: "x0.8" });
   }
@@ -262,7 +289,7 @@ export function plantGreenhouse({
     }
 
     const plantName = SEED_TO_PLANT[action.seed];
-    const { plantedAt, boostsUsed } = getPlantedAt({
+    const { plantedAt, baseDurationMs, boostsUsed } = getPlantedAt({
       createdAt,
       crop: plantName,
       game,
@@ -273,6 +300,7 @@ export function plantGreenhouse({
       plant: {
         name: plantName,
         plantedAt,
+        ...(baseDurationMs !== undefined ? { baseDurationMs } : {}),
       },
     };
 

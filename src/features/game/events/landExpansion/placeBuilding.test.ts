@@ -336,6 +336,70 @@ describe("Place building", () => {
     );
   });
 
+  it("banks accrued work for windowed greenhouse plants on move", () => {
+    // Windowed plant sown 5 minutes before placement; the building was picked
+    // up 2 minutes ago, so it grew 3 minutes — with a Tortoise Shrine (1.5×)
+    // active the whole time, that is 270s of accrued work.
+    const plantedAt = dateNow - 300000;
+    const removedAt = dateNow - 120000;
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Greenhouse: new Decimal(1),
+          "Basic Land": new Decimal(10),
+        },
+        collectibles: {
+          "Tortoise Shrine": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              createdAt: plantedAt,
+              readyAt: plantedAt,
+            },
+          ],
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt,
+            },
+          ],
+        },
+        greenhouse: {
+          oil: 100,
+          pots: {
+            "123": {
+              plant: {
+                name: "Olive",
+                plantedAt,
+                baseDurationMs: 158400000,
+              },
+            },
+          },
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Greenhouse",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    const plant = state.greenhouse.pots["123"].plant;
+    // 180s wall-clock at 1.5× = 270s of banked work; the remaining work
+    // resumes from placement time against the live windows.
+    expect(plant?.boostedTime).toEqual(270000);
+    expect(plant?.baseDurationMs).toEqual(158400000 - 270000);
+    expect(plant?.plantedAt).toEqual(dateNow);
+  });
+
   it("adjusts the new readyAt for henhouse", () => {
     const state = placeBuilding({
       farmId,
