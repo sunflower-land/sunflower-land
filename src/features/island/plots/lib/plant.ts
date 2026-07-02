@@ -89,8 +89,8 @@ export const IMAGES: Record<CropName, string> = {
   Onion: "onion",
   Turnip: "turnip",
   Artichoke: "artichoke",
-  // Chapter Crop Week event crop reuses existing Beetroot art
-  Saltwort: "beetroot",
+  // Chapter Crop Week event crop (lifecycle art in the images repo)
+  Saltwort: "saltwort",
 };
 
 export const CROP_LIFECYCLE: Record<
