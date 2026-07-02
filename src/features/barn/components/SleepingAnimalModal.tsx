@@ -97,10 +97,17 @@ export const SleepingAnimalModal = ({
   const level = getAnimalLevel(animal.experience, animal.type);
   const isMaxLevel = isMaxAnimalLevel(animal.type, level);
 
-  const nextLevelXP = isMaxLevel
-    ? null
-    : ANIMAL_LEVELS[animal.type][(level + 1) as AnimalLevel];
-  const xpToNext = nextLevelXP != null ? nextLevelXP - animal.experience : null;
+  const xpToNext = isMaxLevel
+    ? (() => {
+        const levelBeforeMaxXP =
+          ANIMAL_LEVELS[animal.type][(level - 1) as AnimalLevel];
+        const maxLevelXP = ANIMAL_LEVELS[animal.type][level as AnimalLevel];
+        const cycleXP = maxLevelXP - levelBeforeMaxXP;
+        const excessXP = animal.experience - maxLevelXP;
+        return cycleXP - (excessXP % cycleXP);
+      })()
+    : ANIMAL_LEVELS[animal.type][(level + 1) as AnimalLevel] -
+      animal.experience;
 
   const { name: mutantName } = animal.reward?.items?.[0] ?? {};
 
@@ -133,11 +140,11 @@ export const SleepingAnimalModal = ({
               {t("sleepingAnimal.xp", { experience: animal.experience })}
             </span>
             {isMaxLevel ? (
-              <span className="text-yellow-400">{t("levelUpMax")}</span>
+              <span>{t("sleepingAnimal.xpToNextCycle", { xpToNext })}</span>
             ) : (
               <span>
                 {t("sleepingAnimal.xpToNextLevel", {
-                  xpToNext: xpToNext!,
+                  xpToNext,
                   level: level + 1,
                 })}
               </span>

@@ -7408,6 +7408,7 @@
   "sleepingAnimal.harvestsLeft": "{{count}} harvests remaining",
   "sleepingAnimal.xp": "XP: {{experience}}",
   "sleepingAnimal.xpToNextLevel": "+{{xpToNext}} to Lvl {{level}}",
+  "sleepingAnimal.xpToNextCycle": "+{{xpToNext}} XP to next cycle",
   "description.bonusBracelet.boost": "+1 Bracelet",
   "description.architectRuler.boost": "x0.75 Crafting Box Time",
   "description.reelmastersChair.boost": "+5 daily fishing reels",
