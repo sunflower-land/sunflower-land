@@ -265,12 +265,66 @@ describe("instaGrowFlower — SPEED_BOOSTS speed windows", () => {
 
     const flower = result.flowers.flowerBeds[flowerBedId].flower!;
 
-    // Windowed insta-grow zeroes remaining work rather than back-dating plantedAt.
+    // Windowed insta-grow zeroes remaining work and anchors the start to now.
     expect(flower.baseDurationMs).toEqual(0);
-    expect(flower.plantedAt).toEqual(plantedAt);
-    // Ready now: readyAt resolves to startedAt, which is <= createdAt.
-    expect(getFlowerReadyAt(flower, result)).toBeLessThanOrEqual(createdAt);
+    expect(flower.plantedAt).toEqual(createdAt);
+    // Ready now: readyAt resolves to the (now) start === createdAt.
+    expect(getFlowerReadyAt(flower, result)).toEqual(createdAt);
     // Some Obsidian was spent.
     expect(result.inventory.Obsidian!.lt(new Decimal(100))).toBe(true);
+  });
+
+  it("credits beehive honey accrued before insta-growing an attached windowed flower", () => {
+    const createdAt = 2_000_000_000;
+    const plantedAt = createdAt - 12 * 60 * 60 * 1000; // planted 12h ago
+    const flowerBedId = "1";
+
+    const result = instaGrowFlower({
+      state: {
+        ...INITIAL_FARM,
+        inventory: { Obsidian: new Decimal(100) },
+        beehives: {
+          hive: {
+            swarm: false,
+            honey: { updatedAt: plantedAt, produced: 0 },
+            x: 0,
+            y: 0,
+            flowers: [
+              {
+                id: flowerBedId,
+                attachedAt: plantedAt,
+                attachedUntil: plantedAt + baseMs,
+              },
+            ],
+          },
+        },
+        flowers: {
+          discovered: {},
+          flowerBeds: {
+            [flowerBedId]: {
+              createdAt: 0,
+              x: 0,
+              y: 0,
+              // Windowed flower with a 24h base still 12h from ready.
+              flower: {
+                name: flowerName,
+                plantedAt,
+                baseDurationMs: 24 * 60 * 60 * 1000,
+              },
+            },
+          },
+        },
+      } as GameState,
+      action: { type: "flower.instaGrown", id: flowerBedId },
+      createdAt,
+    });
+
+    const flower = result.flowers.flowerBeds[flowerBedId].flower!;
+    // readyAt anchored to now, NOT collapsed back to the (past) plantedAt.
+    expect(flower.plantedAt).toEqual(createdAt);
+    expect(getFlowerReadyAt(flower, result)).toEqual(createdAt);
+    // Honey produced over [attachedAt, insta-grow] is credited, not clamped to 0
+    // by a past readyAt.
+    expect(result.beehives.hive.honey.produced).toBeGreaterThan(0);
   });
 });

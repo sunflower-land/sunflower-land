@@ -61,9 +61,13 @@ export function instaGrowFlower({
     stateCopy.inventory.Obsidian = playerObsidian.sub(obsidianCost);
 
     if (flower.baseDurationMs !== undefined) {
-      // Speed-rate model: zero the remaining work so computeReadyAt resolves to
-      // startedAt (ready now) regardless of any active boost windows.
+      // Speed-rate model: zero the remaining work AND re-anchor the start to now
+      // so computeReadyAt resolves to `createdAt` (ready now), not the original
+      // (past) plantedAt. Anchoring to now matches the legacy branch's
+      // `readyAt === createdAt`, so updateBeehives credits honey accrued up to
+      // the insta-grow instead of clamping it to a past readyAt.
       flower.baseDurationMs = 0;
+      flower.plantedAt = createdAt;
     } else {
       // Legacy: back-date plantedAt so plantedAt + base grow time === createdAt.
       flower.plantedAt =
