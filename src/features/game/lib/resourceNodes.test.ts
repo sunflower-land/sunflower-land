@@ -8,7 +8,7 @@ import {
   getMineReadyAt,
   getUpgradeableNodes,
 } from "./resourceNodes";
-import { EXPIRY_COOLDOWNS } from "./collectibleBuilt";
+import { EXPIRY_COOLDOWNS, getExpiryCooldown } from "./collectibleBuilt";
 import { computeReadyAt, getMineBoostWindows } from "./boostWindows";
 
 const GAME_STATE: GameState = {
@@ -540,8 +540,10 @@ describe("resourceNodes", () => {
       // first 3h of recovery; once it expires the already-earned credit must persist
       // — readyAt stays at the boosted time and never reverts to the unboosted 8h.
       const minedAt = 1_000_000;
-      const baseDurationMs = 8 * HOUR;
-      const oreWindow = EXPIRY_COOLDOWNS["Ore Hourglass"]; // 3h, ends well in the past
+      const oreWindow = getExpiryCooldown("Ore Hourglass", INITIAL_FARM);
+      // Base outlasts the window (3×) so the 2× boost expires mid-recovery and the
+      // tail accrues at 1× — the expired-window edge this test guards.
+      const baseDurationMs = oreWindow * 3;
       const rock: Rock = {
         createdAt: Date.now(),
         stone: { minedAt, baseDurationMs },
@@ -559,21 +561,21 @@ describe("resourceNodes", () => {
         },
       };
 
-      // 3h at 2× banks 6h of work; the remaining 2h accrues at 1× after the window
-      // expires → ready 5h after mining, not the unboosted 8h.
+      // The window at 2× banks 2×oreWindow of work; the remaining oreWindow accrues
+      // at 1× after it expires → ready 2×oreWindow after mining, not the unboosted base.
       const readyAt = getMineReadyAt(rock, "Iron Rock", game);
       expect(readyAt).toEqual(
         minedAt + oreWindow + (baseDurationMs - oreWindow * 2),
       );
-      expect(readyAt).toEqual(minedAt + 5 * HOUR);
+      expect(readyAt).toEqual(minedAt + 2 * oreWindow);
       expect(readyAt).toBeLessThan(minedAt + baseDurationMs);
 
-      // Post-expiry sanity via canMine: still recovering at 4h (boost long gone),
-      // ready just past 5h — the expired window's credit is stable over time.
-      expect(canMine(rock, "Iron Rock", game, minedAt + 4 * HOUR)).toBe(false);
-      expect(canMine(rock, "Iron Rock", game, minedAt + 5 * HOUR + 1)).toBe(
-        true,
-      );
+      // Post-expiry sanity via canMine: still recovering during the window, ready
+      // just past 2×oreWindow — the expired window's credit is stable over time.
+      expect(canMine(rock, "Iron Rock", game, minedAt + oreWindow)).toBe(false);
+      expect(
+        canMine(rock, "Iron Rock", game, minedAt + 2 * oreWindow + 1),
+      ).toBe(true);
     });
 
     it("honors baseDurationMs even with SPEED_BOOSTS off (keys off the field, not the flag)", () => {

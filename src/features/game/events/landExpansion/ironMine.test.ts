@@ -6,7 +6,7 @@ import type { GameState, Rock } from "features/game/types/game";
 import { prngChance } from "lib/prng";
 import { CONFIG } from "lib/config";
 import { getMineReadyAt } from "features/game/lib/resourceNodes";
-import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
+import { getExpiryCooldown } from "features/game/lib/collectibleBuilt";
 import {
   getMinedAt,
   type LandExpansionIronMineAction,
@@ -1743,11 +1743,12 @@ describe("mineIron — SPEED_BOOSTS speed windows", () => {
   });
 
   it("recovers 2× faster while an active Ore Hourglass window covers the recovery", () => {
-    // Iron base recovery (8h) outlasts the Ore Hourglass window (3h), so the 2×
-    // only applies for the window's duration, then the tail accrues at 1×.
-    const oreWindow = EXPIRY_COOLDOWNS["Ore Hourglass"];
+    // Base recovery outlasts the Ore Hourglass window (3×), so the 2× only applies
+    // for the window's duration, then the tail accrues at 1×.
+    const oreWindow = getExpiryCooldown("Ore Hourglass", INITIAL_FARM);
+    const baseMs = oreWindow * 3;
     const rock: Rock = {
-      stone: { minedAt: now, baseDurationMs: BASE_MS },
+      stone: { minedAt: now, baseDurationMs: baseMs },
       x: 1,
       y: 1,
     };
@@ -1766,7 +1767,7 @@ describe("mineIron — SPEED_BOOSTS speed windows", () => {
     };
 
     // Window does 2× work for `oreWindow` ms (= 2*oreWindow of work), tail at 1×.
-    const expected = now + oreWindow + (BASE_MS - oreWindow * 2);
+    const expected = now + oreWindow + (baseMs - oreWindow * 2);
 
     expect(getMineReadyAt(rock, "Iron Rock", game)).toBeCloseTo(expected, 0);
   });
@@ -1822,9 +1823,10 @@ describe("mineIron — SPEED_BOOSTS speed windows", () => {
 
   it("credits only the overlap for an Ore Hourglass placed mid-recovery (retroactive)", () => {
     // Mined 1h ago with no boost: 1h of work already accrued at 1×.
-    const oreWindow = EXPIRY_COOLDOWNS["Ore Hourglass"];
+    const oreWindow = getExpiryCooldown("Ore Hourglass", INITIAL_FARM);
+    const baseMs = oreWindow * 3;
     const rock: Rock = {
-      stone: { minedAt: now - ONE_HOUR, baseDurationMs: BASE_MS },
+      stone: { minedAt: now - ONE_HOUR, baseDurationMs: baseMs },
       x: 1,
       y: 1,
     };
@@ -1842,9 +1844,9 @@ describe("mineIron — SPEED_BOOSTS speed windows", () => {
       },
     };
 
-    // Remaining work at `now` is BASE_MS - 1h. The window (oreWindow ms from now)
+    // Remaining work at `now` is baseMs - 1h. The window (oreWindow ms from now)
     // does 2× → 2*oreWindow of that work, the tail accrues at 1×.
-    const remaining = BASE_MS - ONE_HOUR;
+    const remaining = baseMs - ONE_HOUR;
     const expected = now + oreWindow + (remaining - oreWindow * 2);
 
     expect(getMineReadyAt(rock, "Iron Rock", game)).toBeCloseTo(expected, 0);

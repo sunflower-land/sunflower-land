@@ -11,10 +11,11 @@ import {
   isCookable,
 } from "features/game/types/consumables";
 import {
-  EXPIRY_COOLDOWNS,
+  getExpiryCooldown,
   getCollectiblesAcrossLocations,
   isTemporaryCollectibleActive,
   isCollectibleBuilt,
+  type TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
 import { getBudExperienceBoosts } from "features/game/lib/getBudExperienceBoosts";
 import {
@@ -143,7 +144,7 @@ const applyTempCollectibleBoost = ({
 }: {
   seconds: Decimal;
   cookStartAt: number;
-  collectibleName: keyof typeof EXPIRY_COOLDOWNS;
+  collectibleName: TemporaryCollectibleName;
   game: GameState;
   boostValue: number;
 }) => {
@@ -157,7 +158,7 @@ const applyTempCollectibleBoost = ({
   if (activeItems.length === 0) return seconds;
 
   const newestItem = activeItems.sort((a, b) => b.createdAt! - a.createdAt!)[0];
-  const cooldown = EXPIRY_COOLDOWNS[collectibleName] as number;
+  const cooldown = getExpiryCooldown(collectibleName, game);
   const expiresAt = newestItem.createdAt! + cooldown;
 
   if (expiresAt <= cookStartAt) return seconds;

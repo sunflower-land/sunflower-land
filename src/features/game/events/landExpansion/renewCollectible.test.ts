@@ -1,13 +1,14 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
-import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
+import { getExpiryCooldown } from "features/game/lib/collectibleBuilt";
 import { renewCollectible } from "./renewCollectible";
 
 describe("renewCollectible", () => {
   const now = Date.now();
 
   it("renews an expired Time Warp Totem in place", () => {
-    const expiredCreatedAt = now - EXPIRY_COOLDOWNS["Time Warp Totem"];
+    const expiredCreatedAt =
+      now - getExpiryCooldown("Time Warp Totem", TEST_FARM);
 
     const state = renewCollectible({
       state: {
@@ -68,7 +69,7 @@ describe("renewCollectible", () => {
   });
 
   it("records the previous window in boostHistory when renewing a windowed booster", () => {
-    const cooldown = EXPIRY_COOLDOWNS["Time Warp Totem"];
+    const cooldown = getExpiryCooldown("Time Warp Totem", TEST_FARM);
     const expiredCreatedAt = now - cooldown;
 
     const state = renewCollectible({

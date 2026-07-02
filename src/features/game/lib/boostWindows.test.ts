@@ -20,7 +20,7 @@ import {
   appendBoostHistory,
   type BoostWindow,
 } from "./boostWindows";
-import { EXPIRY_COOLDOWNS } from "./collectibleBuilt";
+import { getExpiryCooldown } from "./collectibleBuilt";
 import { TEST_FARM } from "./constants";
 import type {
   CropFertiliser,
@@ -185,7 +185,7 @@ describe("getBoostWindows", () => {
     expect(windows).toEqual([
       {
         from: createdAt,
-        to: createdAt + EXPIRY_COOLDOWNS["Sparrow Shrine"],
+        to: createdAt + getExpiryCooldown("Sparrow Shrine", TEST_FARM),
         speed: CROP_PLOT_BOOST_SPEED["Sparrow Shrine"],
       },
     ]);
@@ -218,7 +218,7 @@ describe("getBoostWindows", () => {
     expect(windows).toEqual([
       {
         from: createdAt,
-        to: createdAt + EXPIRY_COOLDOWNS["Sparrow Shrine"],
+        to: createdAt + getExpiryCooldown("Sparrow Shrine", TEST_FARM),
         speed: CROP_PLOT_BOOST_SPEED["Sparrow Shrine"],
       },
     ]);
@@ -260,7 +260,7 @@ describe("getBoostWindows", () => {
 
   it("merges overlapping placements into one window (no double-multiply)", () => {
     const createdAt = 1_000_000;
-    const cooldown = EXPIRY_COOLDOWNS["Sparrow Shrine"];
+    const cooldown = getExpiryCooldown("Sparrow Shrine", TEST_FARM);
     // Second shrine placed 1h later — its window overlaps the first's.
     const secondCreatedAt = createdAt + 60 * 60 * 1000;
     const windows = getBoostWindows({
@@ -310,7 +310,7 @@ describe("getBoostWindows", () => {
   });
 
   it("unions a live placement with a disjoint history interval", () => {
-    const cooldown = EXPIRY_COOLDOWNS["Sparrow Shrine"];
+    const cooldown = getExpiryCooldown("Sparrow Shrine", TEST_FARM);
     const liveCreatedAt = 1_000_000;
     const windows = getBoostWindows({
       game: {
@@ -414,7 +414,7 @@ describe("getTreeBoostWindows", () => {
 
     expect(windows).toContainEqual({
       from: createdAt,
-      to: createdAt + EXPIRY_COOLDOWNS["Timber Hourglass"],
+      to: createdAt + getExpiryCooldown("Timber Hourglass", TEST_FARM),
       speed: TREE_BOOST_SPEED["Timber Hourglass"],
     });
   });
@@ -430,7 +430,7 @@ describe("getTreeBoostWindows", () => {
 
     expect(windows).toContainEqual({
       from: createdAt,
-      to: createdAt + EXPIRY_COOLDOWNS["Badger Shrine"],
+      to: createdAt + getExpiryCooldown("Badger Shrine", TEST_FARM),
       speed: TREE_BOOST_SPEED["Badger Shrine"],
     });
   });
@@ -454,7 +454,7 @@ describe("getTreeBoostWindows", () => {
     expect(totemWindows).toEqual([
       {
         from: createdAt,
-        to: createdAt + EXPIRY_COOLDOWNS["Super Totem"],
+        to: createdAt + getExpiryCooldown("Super Totem", TEST_FARM),
         speed: TREE_BOOST_SPEED["Super Totem"],
       },
     ]);
@@ -464,7 +464,7 @@ describe("getTreeBoostWindows", () => {
     // The booster is gone from collectibles, but its finalised window survives
     // in boostHistory so an in-progress tree still gets the recovered credit.
     const from = 1_000_000;
-    const to = from + EXPIRY_COOLDOWNS["Timber Hourglass"];
+    const to = from + getExpiryCooldown("Timber Hourglass", TEST_FARM);
     const windows = getTreeBoostWindows({
       ...TEST_FARM,
       collectibles: {},
@@ -511,7 +511,7 @@ describe("getFruitBoostWindows", () => {
 
     expect(windows).toContainEqual({
       from: createdAt,
-      to: createdAt + EXPIRY_COOLDOWNS["Orchard Hourglass"],
+      to: createdAt + getExpiryCooldown("Orchard Hourglass", TEST_FARM),
       speed: FRUIT_BOOST_SPEED["Orchard Hourglass"],
     });
   });
@@ -527,7 +527,7 @@ describe("getFruitBoostWindows", () => {
 
     expect(windows).toContainEqual({
       from: createdAt,
-      to: createdAt + EXPIRY_COOLDOWNS["Toucan Shrine"],
+      to: createdAt + getExpiryCooldown("Toucan Shrine", TEST_FARM),
       speed: FRUIT_BOOST_SPEED["Toucan Shrine"],
     });
   });
@@ -550,7 +550,7 @@ describe("getFruitBoostWindows", () => {
     expect(totemWindows).toEqual([
       {
         from: createdAt,
-        to: createdAt + EXPIRY_COOLDOWNS["Super Totem"],
+        to: createdAt + getExpiryCooldown("Super Totem", TEST_FARM),
         speed: FRUIT_BOOST_SPEED["Super Totem"],
       },
     ]);
@@ -579,7 +579,7 @@ describe("getFruitBoostWindows", () => {
 
   it("includes a removed/burned Orchard Hourglass via boostHistory", () => {
     const from = 1_000_000;
-    const to = from + EXPIRY_COOLDOWNS["Orchard Hourglass"];
+    const to = from + getExpiryCooldown("Orchard Hourglass", TEST_FARM);
     const windows = getFruitBoostWindows({
       ...TEST_FARM,
       collectibles: {},
@@ -623,7 +623,7 @@ describe("getFlowerBoostWindows", () => {
 
     expect(windows).toContainEqual({
       from: createdAt,
-      to: createdAt + EXPIRY_COOLDOWNS["Blossom Hourglass"],
+      to: createdAt + getExpiryCooldown("Blossom Hourglass", TEST_FARM),
       speed: FLOWER_BOOST_SPEED["Blossom Hourglass"],
     });
   });
@@ -639,7 +639,7 @@ describe("getFlowerBoostWindows", () => {
 
     expect(windows).toContainEqual({
       from: createdAt,
-      to: createdAt + EXPIRY_COOLDOWNS["Moth Shrine"],
+      to: createdAt + getExpiryCooldown("Moth Shrine", TEST_FARM),
       speed: FLOWER_BOOST_SPEED["Moth Shrine"],
     });
   });
@@ -682,7 +682,7 @@ describe("getFlowerBoostWindows", () => {
 
   it("includes a removed/burned Blossom Hourglass via boostHistory", () => {
     const from = 1_000_000;
-    const to = from + EXPIRY_COOLDOWNS["Blossom Hourglass"];
+    const to = from + getExpiryCooldown("Blossom Hourglass", TEST_FARM);
     const windows = getFlowerBoostWindows({
       ...TEST_FARM,
       collectibles: {},
@@ -945,7 +945,7 @@ describe("getMineBoostWindows", () => {
 
       expect(windows).toContainEqual({
         from: createdAt,
-        to: createdAt + EXPIRY_COOLDOWNS["Super Totem"],
+        to: createdAt + getExpiryCooldown("Super Totem", TEST_FARM),
         speed: MINE_BOOST_SPEED["Super Totem"],
       });
     });
@@ -958,7 +958,7 @@ describe("getMineBoostWindows", () => {
 
       expect(windows).toContainEqual({
         from: createdAt,
-        to: createdAt + EXPIRY_COOLDOWNS["Badger Shrine"],
+        to: createdAt + getExpiryCooldown("Badger Shrine", TEST_FARM),
         speed: MINE_BOOST_SPEED["Badger Shrine"],
       });
     });
@@ -971,7 +971,7 @@ describe("getMineBoostWindows", () => {
 
       expect(windows).toContainEqual({
         from: createdAt,
-        to: createdAt + EXPIRY_COOLDOWNS["Ore Hourglass"],
+        to: createdAt + getExpiryCooldown("Ore Hourglass", TEST_FARM),
         speed: MINE_BOOST_SPEED["Ore Hourglass"],
       });
     });
@@ -993,7 +993,7 @@ describe("getMineBoostWindows", () => {
       expect(totemWindows).toEqual([
         {
           from: createdAt,
-          to: createdAt + EXPIRY_COOLDOWNS["Super Totem"],
+          to: createdAt + getExpiryCooldown("Super Totem", TEST_FARM),
           speed: MINE_BOOST_SPEED["Super Totem"],
         },
       ]);
@@ -1015,17 +1015,17 @@ describe("getMineBoostWindows", () => {
       expect(windows).toHaveLength(3);
       expect(windows).toContainEqual({
         from: createdAt,
-        to: createdAt + EXPIRY_COOLDOWNS["Super Totem"],
+        to: createdAt + getExpiryCooldown("Super Totem", TEST_FARM),
         speed: MINE_BOOST_SPEED["Super Totem"],
       });
       expect(windows).toContainEqual({
         from: createdAt,
-        to: createdAt + EXPIRY_COOLDOWNS["Ore Hourglass"],
+        to: createdAt + getExpiryCooldown("Ore Hourglass", TEST_FARM),
         speed: MINE_BOOST_SPEED["Ore Hourglass"],
       });
       expect(windows).toContainEqual({
         from: createdAt,
-        to: createdAt + EXPIRY_COOLDOWNS["Badger Shrine"],
+        to: createdAt + getExpiryCooldown("Badger Shrine", TEST_FARM),
         speed: MINE_BOOST_SPEED["Badger Shrine"],
       });
 
@@ -1061,7 +1061,7 @@ describe("getMineBoostWindows", () => {
 
       expect(windows).toContainEqual({
         from: createdAt,
-        to: createdAt + EXPIRY_COOLDOWNS["Mole Shrine"],
+        to: createdAt + getExpiryCooldown("Mole Shrine", TEST_FARM),
         speed: MINE_BOOST_SPEED["Mole Shrine"],
       });
     });
@@ -1074,7 +1074,7 @@ describe("getMineBoostWindows", () => {
 
       expect(windows).toContainEqual({
         from: createdAt,
-        to: createdAt + EXPIRY_COOLDOWNS["Ore Hourglass"],
+        to: createdAt + getExpiryCooldown("Ore Hourglass", TEST_FARM),
         speed: MINE_BOOST_SPEED["Ore Hourglass"],
       });
     });
@@ -1096,7 +1096,7 @@ describe("getMineBoostWindows", () => {
       expect(totemWindows).toEqual([
         {
           from: createdAt,
-          to: createdAt + EXPIRY_COOLDOWNS["Super Totem"],
+          to: createdAt + getExpiryCooldown("Super Totem", TEST_FARM),
           speed: MINE_BOOST_SPEED["Super Totem"],
         },
       ]);
@@ -1116,17 +1116,17 @@ describe("getMineBoostWindows", () => {
       expect(windows).toHaveLength(3);
       expect(windows).toContainEqual({
         from: createdAt,
-        to: createdAt + EXPIRY_COOLDOWNS["Super Totem"],
+        to: createdAt + getExpiryCooldown("Super Totem", TEST_FARM),
         speed: MINE_BOOST_SPEED["Super Totem"],
       });
       expect(windows).toContainEqual({
         from: createdAt,
-        to: createdAt + EXPIRY_COOLDOWNS["Ore Hourglass"],
+        to: createdAt + getExpiryCooldown("Ore Hourglass", TEST_FARM),
         speed: MINE_BOOST_SPEED["Ore Hourglass"],
       });
       expect(windows).toContainEqual({
         from: createdAt,
-        to: createdAt + EXPIRY_COOLDOWNS["Mole Shrine"],
+        to: createdAt + getExpiryCooldown("Mole Shrine", TEST_FARM),
         speed: MINE_BOOST_SPEED["Mole Shrine"],
       });
 
@@ -1158,7 +1158,7 @@ describe("getMineBoostWindows", () => {
       expect(windows).toEqual([
         {
           from: createdAt,
-          to: createdAt + EXPIRY_COOLDOWNS["Mole Shrine"],
+          to: createdAt + getExpiryCooldown("Mole Shrine", TEST_FARM),
           speed: MINE_BOOST_SPEED["Mole Shrine"],
         },
       ]);
@@ -1221,7 +1221,7 @@ describe("getMineBoostWindows", () => {
       // Stone family → Badger present, Mole absent.
       expect(getMineBoostWindows(game, "Fused Stone Rock")).toContainEqual({
         from: createdAt,
-        to: createdAt + EXPIRY_COOLDOWNS["Badger Shrine"],
+        to: createdAt + getExpiryCooldown("Badger Shrine", TEST_FARM),
         speed: MINE_BOOST_SPEED["Badger Shrine"],
       });
     });
@@ -1237,7 +1237,7 @@ describe("getMineBoostWindows", () => {
       );
       expect(getMineBoostWindows(game, "Prime Gold Rock")).toContainEqual({
         from: createdAt,
-        to: createdAt + EXPIRY_COOLDOWNS["Mole Shrine"],
+        to: createdAt + getExpiryCooldown("Mole Shrine", TEST_FARM),
         speed: MINE_BOOST_SPEED["Mole Shrine"],
       });
     });
@@ -1253,7 +1253,7 @@ describe("getMineBoostWindows", () => {
       );
       expect(getMineBoostWindows(game, "Refined Iron Rock")).toContainEqual({
         from: createdAt,
-        to: createdAt + EXPIRY_COOLDOWNS["Mole Shrine"],
+        to: createdAt + getExpiryCooldown("Mole Shrine", TEST_FARM),
         speed: MINE_BOOST_SPEED["Mole Shrine"],
       });
     });
@@ -1288,7 +1288,7 @@ describe("getGreenhouseBoostWindows", () => {
     };
     const expected = {
       from: createdAt,
-      to: createdAt + EXPIRY_COOLDOWNS["Tortoise Shrine"],
+      to: createdAt + getExpiryCooldown("Tortoise Shrine", TEST_FARM),
       speed: GREENHOUSE_BOOST_SPEED["Tortoise Shrine"],
     };
 
@@ -1309,7 +1309,7 @@ describe("getGreenhouseBoostWindows", () => {
     };
     const expected = {
       from: createdAt,
-      to: createdAt + EXPIRY_COOLDOWNS["Harvest Hourglass"],
+      to: createdAt + getExpiryCooldown("Harvest Hourglass", TEST_FARM),
       speed: GREENHOUSE_BOOST_SPEED["Harvest Hourglass"],
     };
 
@@ -1332,7 +1332,7 @@ describe("getGreenhouseBoostWindows", () => {
 
     expect(getGreenhouseBoostWindows(game, "Grape")).toContainEqual({
       from: createdAt,
-      to: createdAt + EXPIRY_COOLDOWNS["Orchard Hourglass"],
+      to: createdAt + getExpiryCooldown("Orchard Hourglass", TEST_FARM),
       speed: GREENHOUSE_BOOST_SPEED["Orchard Hourglass"],
     });
     expect(getGreenhouseBoostWindows(game, "Rice")).toEqual([]);
@@ -1361,7 +1361,7 @@ describe("getGreenhouseBoostWindows", () => {
     expect(totemWindows).toEqual([
       {
         from: createdAt,
-        to: createdAt + EXPIRY_COOLDOWNS["Super Totem"],
+        to: createdAt + getExpiryCooldown("Super Totem", TEST_FARM),
         speed: GREENHOUSE_BOOST_SPEED["Super Totem"],
       },
     ]);
@@ -1371,7 +1371,7 @@ describe("getGreenhouseBoostWindows", () => {
     // The shrine is gone from collectibles, but its finalised window survives
     // in boostHistory so an in-progress plant keeps the earned credit.
     const from = 1_000_000;
-    const to = from + EXPIRY_COOLDOWNS["Tortoise Shrine"];
+    const to = from + getExpiryCooldown("Tortoise Shrine", TEST_FARM);
     const windows = getGreenhouseBoostWindows(
       {
         ...TEST_FARM,

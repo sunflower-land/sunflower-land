@@ -16,7 +16,7 @@ import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { isCollectible } from "../events/landExpansion/garbageSold";
 import { getKeys, getObjectEntries } from "lib/object";
 import { BED_FARMHAND_COUNT } from "./beds";
-import { isCollectibleBuilt } from "../lib/collectibleBuilt";
+import { isCollectibleBuilt, getExpiryCooldown } from "../lib/collectibleBuilt";
 import { hasFeatureAccess } from "lib/flags";
 
 type FertiliserBuffLabelName =
@@ -1108,16 +1108,16 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: SUNNYSIDE.tools.hammer,
     },
   ],
-  "Time Warp Totem": () => [
+  "Time Warp Totem": (game) => [
     {
       shortDescription: translate("description.time.warp.totem.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
     {
-      shortDescription: translate(
-        "description.time.warp.totem.boost.effectTime",
-      ),
+      shortDescription: translate("description.temp.buff.effectTime", {
+        time: getExpiryCooldown("Time Warp Totem", game) / (60 * 60 * 1000),
+      }),
       labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
@@ -1160,16 +1160,16 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   ],
 
   // Faction Shop
-  "Gourmet Hourglass": () => [
+  "Gourmet Hourglass": (game) => [
     {
       shortDescription: translate("description.gourmet.hourglass.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
     {
-      shortDescription: translate(
-        "description.gourmet.hourglass.boost.effectTime",
-      ),
+      shortDescription: translate("description.temp.buff.effectTime", {
+        time: getExpiryCooldown("Gourmet Hourglass", game) / (60 * 60 * 1000),
+      }),
       labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
@@ -1183,9 +1183,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
     {
-      shortDescription: translate(
-        "description.harvest.hourglass.boost.effectTime",
-      ),
+      shortDescription: translate("description.temp.buff.effectTime", {
+        time: getExpiryCooldown("Harvest Hourglass", game) / (60 * 60 * 1000),
+      }),
       labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
@@ -1199,9 +1199,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
     {
-      shortDescription: translate(
-        "description.timber.hourglass.boost.effectTime",
-      ),
+      shortDescription: translate("description.temp.buff.effectTime", {
+        time: getExpiryCooldown("Timber Hourglass", game) / (60 * 60 * 1000),
+      }),
       labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
@@ -1215,7 +1215,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
     {
-      shortDescription: translate("description.ore.hourglass.boost.effectTime"),
+      shortDescription: translate("description.temp.buff.effectTime", {
+        time: getExpiryCooldown("Ore Hourglass", game) / (60 * 60 * 1000),
+      }),
       labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
@@ -1229,23 +1231,23 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
     {
-      shortDescription: translate(
-        "description.orchard.hourglass.boost.effectTime",
-      ),
+      shortDescription: translate("description.temp.buff.effectTime", {
+        time: getExpiryCooldown("Orchard Hourglass", game) / (60 * 60 * 1000),
+      }),
       labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
-  "Fisher's Hourglass": () => [
+  "Fisher's Hourglass": (game) => [
     {
       shortDescription: translate("description.fishers.hourglass.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
     },
     {
-      shortDescription: translate(
-        "description.fishers.hourglass.boost.effectTime",
-      ),
+      shortDescription: translate("description.temp.buff.effectTime", {
+        time: getExpiryCooldown("Fisher's Hourglass", game) / (60 * 60 * 1000),
+      }),
       labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
@@ -1259,9 +1261,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
     {
-      shortDescription: translate(
-        "description.blossom.hourglass.boost.effectTime",
-      ),
+      shortDescription: translate("description.temp.buff.effectTime", {
+        time: getExpiryCooldown("Blossom Hourglass", game) / (60 * 60 * 1000),
+      }),
       labelType: "danger",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },

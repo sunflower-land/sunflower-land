@@ -9,7 +9,7 @@ import {
   type InventoryRenewableCollectibleName,
 } from "features/game/lib/renewableCollectibles";
 import { isPetCollectible } from "./placeCollectible";
-import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
+import { getExpiryCooldown } from "features/game/lib/collectibleBuilt";
 import { appendBoostHistory } from "features/game/lib/boostWindows";
 
 export type RenewCollectibleAction = {
@@ -64,6 +64,7 @@ export function renewCollectible({
       !hasCollectibleExpired({
         name: action.name,
         collectible: collectibleToRenew,
+        game: stateCopy,
         now: createdAt,
       })
     ) {
@@ -86,7 +87,7 @@ export function renewCollectible({
       action.name,
       {
         from: previousCreatedAt,
-        to: previousCreatedAt + EXPIRY_COOLDOWNS[action.name],
+        to: previousCreatedAt + getExpiryCooldown(action.name, stateCopy),
       },
       createdAt,
     );

@@ -47,7 +47,7 @@ type Options = {
  */
 export function isCollectibleWithTimestamps(name: CollectibleName) {
   return (
-    EXPIRY_COOLDOWNS[name as TemporaryCollectibleName] ||
+    !!EXPIRY_COOLDOWNS[name as TemporaryCollectibleName] ||
     name === "Maneki Neko" ||
     name === "Magic Bean"
   );

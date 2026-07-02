@@ -8,7 +8,7 @@ import type {
   PlacedItem,
 } from "../types/game";
 import {
-  EXPIRY_COOLDOWNS,
+  getExpiryCooldown,
   type TemporaryCollectibleName,
 } from "./collectibleBuilt";
 import { getCollectiblesAcrossLocations } from "./getCollectiblesAcrossLocations";
@@ -497,7 +497,7 @@ export function getBoostWindows({
   name: TemporaryCollectibleName;
   speed: number;
 }): BoostWindow[] {
-  const cooldown = EXPIRY_COOLDOWNS[name];
+  const cooldown = getExpiryCooldown(name, game);
 
   const live = getCollectiblesAcrossLocations(game, name)
     .filter(

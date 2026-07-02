@@ -4,7 +4,7 @@ import { harvestGreenHouse } from "./harvestGreenHouse";
 import { plantGreenhouse } from "./plantGreenhouse";
 import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/lib/greenhouseGrowTimes";
 import { getGreenhouseReadyAt } from "./greenhouseReadiness";
-import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
+import { getExpiryCooldown } from "features/game/lib/collectibleBuilt";
 import type { GameState } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
@@ -809,7 +809,7 @@ describe("harvestGreenHouse under SPEED_BOOSTS (windowed)", () => {
     );
 
     const base = GREENHOUSE_CROP_TIME_SECONDS.Rice * 1000;
-    const cooldown = EXPIRY_COOLDOWNS["Harvest Hourglass"];
+    const cooldown = getExpiryCooldown("Harvest Hourglass", state);
     const readyAt = getGreenhouseReadyAt(
       state.greenhouse.pots[1].plant!,
       state,

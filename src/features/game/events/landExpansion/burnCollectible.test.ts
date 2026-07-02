@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { burnCollectible } from "./burnCollectible";
 import { TEST_FARM } from "features/game/lib/constants";
-import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
+import { getExpiryCooldown } from "features/game/lib/collectibleBuilt";
 
 describe("burnCollectible", () => {
   it("requires Hourglass exists", () => {
@@ -505,7 +505,7 @@ describe("burnCollectible", () => {
 
   it("records the active window in boostHistory when a windowed booster is burned", () => {
     const now = Date.now();
-    const cooldown = EXPIRY_COOLDOWNS["Harvest Hourglass"];
+    const cooldown = getExpiryCooldown("Harvest Hourglass", TEST_FARM);
     const createdAt = now - cooldown - 1000; // just expired
 
     const state = burnCollectible({
@@ -542,7 +542,7 @@ describe("burnCollectible", () => {
 
   it("records boostHistory for any burned temporary collectible (future-proof)", () => {
     const now = Date.now();
-    const cooldown = EXPIRY_COOLDOWNS["Gourmet Hourglass"];
+    const cooldown = getExpiryCooldown("Gourmet Hourglass", TEST_FARM);
     const createdAt = now - cooldown - 1000;
 
     const state = burnCollectible({

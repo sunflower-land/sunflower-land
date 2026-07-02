@@ -12,7 +12,10 @@ import {
   getOilConsumption,
   getReadyAt,
 } from "./cook";
-import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
+import {
+  EXPIRY_COOLDOWNS,
+  getExpiryCooldown,
+} from "features/game/lib/collectibleBuilt";
 import { getCookingTime } from "features/game/expansion/lib/boosts";
 
 const GAME_STATE: GameState = {
@@ -983,7 +986,9 @@ describe("getReadyAt", () => {
 
   it("does not apply expired Gourmet Hourglass boost of +50% cooking speed for 4 hours", () => {
     const now = createdAt;
-    const fiveHoursAgo = now - 5 * 60 * 60 * 1000;
+    // Placed longer ago than the (flag-gated) Gourmet window so the boost is expired.
+    const fiveHoursAgo =
+      now - getExpiryCooldown("Gourmet Hourglass", GAME_STATE) - 1000;
 
     const state: GameState = {
       ...GAME_STATE,
@@ -1235,7 +1240,7 @@ describe("getReadyAt", () => {
 
     // Hourglass expires in 1 second
     const hourglassCreatedAt =
-      now - (EXPIRY_COOLDOWNS["Gourmet Hourglass"] as number) + 1 * 1000;
+      now - getExpiryCooldown("Gourmet Hourglass", TEST_FARM) + 1 * 1000;
 
     const mashedPotatoCookingTime =
       COOKABLES["Mashed Potato"].cookingSeconds * 1000;
@@ -1303,7 +1308,7 @@ describe("getReadyAt", () => {
     const now = createdAt;
     // Hourglass expires in 30 minutes
     const hourglassCreatedAt =
-      now - (EXPIRY_COOLDOWNS["Gourmet Hourglass"] as number) + 30 * 60 * 1000;
+      now - getExpiryCooldown("Gourmet Hourglass", TEST_FARM) + 30 * 60 * 1000;
     const cookTimeMs = COOKABLES["Boiled Eggs"].cookingSeconds * 1000;
 
     const state = cook({

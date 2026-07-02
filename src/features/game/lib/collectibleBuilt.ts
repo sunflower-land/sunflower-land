@@ -5,6 +5,7 @@ import type { GameState } from "../types/game";
 import { PET_SHRINES, type PetShrineName } from "../types/pets";
 import { isPetCollectible } from "../events/landExpansion/placeCollectible";
 import { getCollectiblesAcrossLocations } from "./getCollectiblesAcrossLocations";
+import { hasFeatureAccess } from "lib/flags";
 
 export { getCollectiblesAcrossLocations };
 
@@ -67,6 +68,43 @@ export const EXPIRY_COOLDOWNS: Record<TemporaryCollectibleName, number> = {
 };
 
 /**
+ * Rebalanced (longer) durations applied ONLY under the `SPEED_BOOSTS` flag (via
+ * `getExpiryCooldown`). The windowed model credits only the overlap, so the short
+ * boosters are extended to still bank a worthwhile chunk on longer tasks (agreed
+ * in Discussion #7393). Flag-off / production keeps `EXPIRY_COOLDOWNS` unchanged.
+ * Only the entries that actually change are listed; everything else falls through
+ * to `EXPIRY_COOLDOWNS`.
+ */
+export const SPEED_BOOST_EXPIRY_COOLDOWNS: Partial<
+  Record<TemporaryCollectibleName, number>
+> = {
+  "Time Warp Totem": 4 * 60 * 60 * 1000,
+  "Gourmet Hourglass": 6 * 60 * 60 * 1000,
+  "Harvest Hourglass": 9 * 60 * 60 * 1000,
+  "Ore Hourglass": 5 * 60 * 60 * 1000,
+  "Orchard Hourglass": 8 * 60 * 60 * 1000,
+  "Blossom Hourglass": 12 * 60 * 60 * 1000,
+};
+
+/**
+ * A temporary collectible's active-lifetime / boost-window duration, flag-gated:
+ * `SPEED_BOOSTS` players get the rebalanced durations, everyone else keeps the
+ * legacy `EXPIRY_COOLDOWNS`. Every timing consumer that has `game` (boost windows,
+ * the active check, cooking, boostHistory writers) routes through this so a
+ * boost's window, active state and recorded history stay consistent.
+ */
+export function getExpiryCooldown(
+  name: TemporaryCollectibleName,
+  game: GameState,
+): number {
+  if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
+    return SPEED_BOOST_EXPIRY_COOLDOWNS[name] ?? EXPIRY_COOLDOWNS[name];
+  }
+
+  return EXPIRY_COOLDOWNS[name];
+}
+
+/**
  * Useful for collectibles which expire after X time
  * Currently we only support Time Warp Totem
  */
@@ -77,7 +115,7 @@ export function isTemporaryCollectibleActive({
   name: TemporaryCollectibleName;
   game: GameState;
 }) {
-  const cooldown = EXPIRY_COOLDOWNS[name];
+  const cooldown = getExpiryCooldown(name, game);
 
   return getCollectiblesAcrossLocations(game, name).some(
     (placed) => (placed.createdAt ?? 0) + cooldown > Date.now(),
