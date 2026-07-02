@@ -392,7 +392,7 @@ export const SeedRequirements: React.FC<Props> = ({
           <div className="flex flex-col items-center gap-1 my-1">
             <Label
               icon={SUNNYSIDE.icons.stopwatch}
-              type="warning"
+              type="vibrant"
               className="mx-auto whitespace-nowrap"
             >
               {formatDateRange(details.from, details.to as Date)}

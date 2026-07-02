@@ -378,6 +378,20 @@ export const SeasonalSeeds: React.FC = () => {
     ...(isCropWeek ? [CHAPTER_CROP_WEEK_SEED] : []),
   ];
 
+  // Show the limited-time Chapter Crop Week seed inline in the season list,
+  // after the other crops and before the fruit seeds.
+  const displayedSeasonSeeds = [...currentSeasonSeeds];
+  if (isCropWeek && !displayedSeasonSeeds.includes(CHAPTER_CROP_WEEK_SEED)) {
+    const firstNonCropIndex = displayedSeasonSeeds.findIndex(
+      (seed) => !(seed in CROP_SEEDS),
+    );
+    const insertAt =
+      firstNonCropIndex === -1
+        ? displayedSeasonSeeds.length
+        : firstNonCropIndex;
+    displayedSeasonSeeds.splice(insertAt, 0, CHAPTER_CROP_WEEK_SEED);
+  }
+
   const harvestCount = getHarvestCount();
 
   const seasons = getKeys(SEASONAL_SEEDS).filter((season) =>
@@ -450,7 +464,7 @@ export const SeasonalSeeds: React.FC = () => {
               )}
             </div>
             <div className="flex flex-wrap mb-2">
-              {currentSeasonSeeds.map((name: SeedName) => (
+              {displayedSeasonSeeds.map((name: SeedName) => (
                 <Box
                   isSelected={selectedName === name}
                   key={name}
@@ -460,7 +474,11 @@ export const SeasonalSeeds: React.FC = () => {
                   }}
                   image={ITEM_DETAILS[SEEDS[name].yield ?? name].image}
                   showOverlay={isSeedLocked(name)}
-                  // secondaryImage={SUNNYSIDE.icons.seedling}
+                  secondaryImage={
+                    name === CHAPTER_CROP_WEEK_SEED
+                      ? SUNNYSIDE.icons.stopwatch
+                      : undefined
+                  }
                   count={inventory[name]}
                 />
               ))}
@@ -490,36 +508,6 @@ export const SeasonalSeeds: React.FC = () => {
                     count={inventory[name]}
                   />
                 ))}
-              </div>
-            </div>
-          )}
-          {isCropWeek && (
-            <div id="Chapter Crop Week Seeds">
-              <Label
-                icon={SUNNYSIDE.icons.stopwatch}
-                type="warning"
-                className="ml-2 mb-1"
-              >
-                {t("chapterCropWeek.title")}
-              </Label>
-              <div className="flex flex-wrap mb-2">
-                <Box
-                  isSelected={selectedName === CHAPTER_CROP_WEEK_SEED}
-                  key={CHAPTER_CROP_WEEK_SEED}
-                  onClick={() => {
-                    onSeedClick(CHAPTER_CROP_WEEK_SEED);
-                    setShowBoosts(false);
-                  }}
-                  image={
-                    ITEM_DETAILS[
-                      SEEDS[CHAPTER_CROP_WEEK_SEED].yield ??
-                        CHAPTER_CROP_WEEK_SEED
-                    ].image
-                  }
-                  secondaryImage={SUNNYSIDE.icons.stopwatch}
-                  showOverlay={isSeedLocked(CHAPTER_CROP_WEEK_SEED)}
-                  count={inventory[CHAPTER_CROP_WEEK_SEED]}
-                />
               </div>
             </div>
           )}

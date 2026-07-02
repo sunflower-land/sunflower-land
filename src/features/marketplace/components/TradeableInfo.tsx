@@ -21,7 +21,7 @@ import type { InventoryItemName } from "features/game/types/game";
 import { isTradeResource } from "features/game/actions/tradeLimits";
 import { useParams } from "react-router";
 import { TradeableStats } from "./TradeableStats";
-import { secondsToString } from "lib/utils/time";
+import { formatDateRange, secondsToString } from "lib/utils/time";
 import {
   WEARABLE_RELEASES,
   INVENTORY_RELEASES,
@@ -36,7 +36,10 @@ import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import classNames from "classnames";
-import { pixelGreenBorderStyle } from "features/game/lib/style";
+import {
+  pixelGreenBorderStyle,
+  pixelVibrantBorderStyle,
+} from "features/game/lib/style";
 import { useGame } from "features/game/GameProvider";
 import {
   getPetLevel,
@@ -53,7 +56,6 @@ import { useNow } from "lib/utils/hooks/useNow";
 import {
   CHAPTER_CROP_WEEK,
   CHAPTER_CROP_WEEK_CROP,
-  isChapterCropWeekActive,
 } from "features/game/types/chapterCropWeek";
 import {
   MinigameCurrencyDisclaimerPanel,
@@ -447,20 +449,6 @@ export const TradeableDescription: React.FC<{
               </Label>
             </div>
           )}
-          {display.name === CHAPTER_CROP_WEEK_CROP &&
-            isChapterCropWeekActive(now) && (
-              <div className="p-2 pl-0 pb-0 flex flex-col gap-1">
-                <Label type="warning" icon={SUNNYSIDE.icons.stopwatch}>
-                  {`${t("chapterCropWeek.temporarilyTradeable")} (${secondsToString(
-                    (CHAPTER_CROP_WEEK.endDate.getTime() - now) / 1000,
-                    { length: "short" },
-                  )} ${t("time.left")})`}
-                </Label>
-                <Label type="info" icon={crownIcon}>
-                  {t("chapterCropWeek.vipOnlySell")}
-                </Label>
-              </div>
-            )}
           {!canTrade && !!tradeAt && (
             <div className="p-2 pl-0 pb-0 flex items-center justify-between  flex-wrap">
               <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
@@ -479,6 +467,27 @@ export const TradeableDescription: React.FC<{
           )}
         </div>
       </InnerPanel>
+      {display.name === CHAPTER_CROP_WEEK_CROP && (
+        <div
+          className="w-full flex flex-col items-center text-center text-xs p-2 mb-1 relative"
+          style={{
+            background: "#b65389",
+            color: "#ffffff",
+            ...pixelVibrantBorderStyle,
+          }}
+        >
+          <div className="flex items-center mb-1">
+            <img src={SUNNYSIDE.icons.stopwatch} className="h-4 mr-1" />
+            <p>{t("chapterCropWeek.temporarilyTradeable")}</p>
+          </div>
+          <p>
+            {formatDateRange(
+              CHAPTER_CROP_WEEK.startDate,
+              CHAPTER_CROP_WEEK.endDate,
+            )}
+          </p>
+        </div>
+      )}
       {showsMinigameCurrencyDisclaimer(display.name) && (
         <MinigameCurrencyDisclaimerPanel className="mb-1" />
       )}

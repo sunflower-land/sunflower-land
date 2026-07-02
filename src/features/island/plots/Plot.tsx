@@ -36,6 +36,7 @@ import {
   SEASONAL_SEEDS,
   type SeedName,
 } from "features/game/types/seeds";
+import { CHAPTER_CROP_WEEK_SEED } from "features/game/types/chapterCropWeek";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getKeys } from "lib/object";
 import { Transition } from "@headlessui/react";
@@ -263,7 +264,11 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
     // plant
     if (!crop) {
-      if (isCropSeed(seed) && !SEASONAL_SEEDS[season.season].includes(seed)) {
+      if (
+        isCropSeed(seed) &&
+        seed !== CHAPTER_CROP_WEEK_SEED &&
+        !SEASONAL_SEEDS[season.season].includes(seed)
+      ) {
         setShowSeasonalSeed(true);
       }
 
