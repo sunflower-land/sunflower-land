@@ -253,18 +253,19 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
     gameService.send("greenhouse.planted", { id, seed });
   };
 
-  const tryApplyGreenhouseFertiliser = (item?: InventoryItemName) => {
+  const canApplyGreenhouseFertiliser = (item?: InventoryItemName) => {
     const invItem = item ?? selectedItem;
-    if (!invItem || !(invItem in GREENHOUSE_COMPOST) || potFertiliser) {
-      return false;
-    }
+    return !!invItem && invItem in GREENHOUSE_COMPOST && !potFertiliser;
+  };
+
+  const tryApplyGreenhouseFertiliser = (item?: InventoryItemName) => {
+    if (!canApplyGreenhouseFertiliser(item)) return false;
     gameService.send("greenhouse.fertilised", {
       id,
-      fertiliser: invItem as GreenhouseCompostName,
+      fertiliser: (item ?? selectedItem) as GreenhouseCompostName,
     });
     return true;
   };
-
   if (!pot?.plant) {
     return (
       <div className="relative" style={{ width: `${PIXEL_SCALE * 28}px` }}>
@@ -461,7 +462,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
         <TimerPopover
           image={ITEM_DETAILS[pot.plant.name].image}
           description={pot.plant.name}
-          showPopover={showTimeRemaining && !tryApplyGreenhouseFertiliser()}
+          showPopover={showTimeRemaining && !canApplyGreenhouseFertiliser()}
           timeLeft={secondsLeft}
           speed={speed}
         />
