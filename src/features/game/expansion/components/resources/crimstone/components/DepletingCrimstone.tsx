@@ -15,22 +15,22 @@ const DROP_SHEET_FRAME_HEIGHT = 48;
 interface Props {
   resourceAmount?: number;
   minesLeft: number;
-  minedAt: number;
   now: number;
+  readyAt: number;
 }
 
 const DepletingCrimstoneComponent: React.FC<Props> = ({
   resourceAmount,
   minesLeft,
-  minedAt,
   now,
+  readyAt,
 }) => {
   const { scale } = useContext(ZoomContext);
   const [playing, setPlaying] = useState(false);
   const sparkGif = useRef<SpriteSheetInstance>(undefined);
 
   const getDropSheet = () => {
-    if (getCrimstoneStage(minesLeft, minedAt, now) === 6) {
+    if (getCrimstoneStage(minesLeft, now, readyAt) === 6) {
       return dropSheet2;
     }
     return dropSheet1;

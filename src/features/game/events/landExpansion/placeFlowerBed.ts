@@ -2,6 +2,10 @@ import Decimal from "decimal.js-light";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import type { FlowerBed, GameState } from "features/game/types/game";
 import { produce } from "immer";
+import {
+  getFlowerBoostWindows,
+  pauseWindowedTimer,
+} from "features/game/lib/boostWindows";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export type PlaceFlowerBedAction = {
@@ -50,9 +54,17 @@ export function placeFlowerBed({
       };
 
       if (updatedFlowerBed.flower && updatedFlowerBed.removedAt) {
-        const existingProgress =
-          updatedFlowerBed.removedAt - updatedFlowerBed.flower.plantedAt;
-        updatedFlowerBed.flower.plantedAt = createdAt - existingProgress;
+        // Pause growth across the lift (windowed banking or legacy back-date).
+        // Runs before updateBeehives below so hive pollination sees the
+        // corrected timing.
+        updatedFlowerBed.flower.plantedAt = pauseWindowedTimer({
+          timer: updatedFlowerBed.flower,
+          startedAt: updatedFlowerBed.flower.plantedAt,
+          removedAt: updatedFlowerBed.removedAt,
+          createdAt,
+          windows: getFlowerBoostWindows(game),
+          trackProgress: true,
+        });
       }
       delete updatedFlowerBed.removedAt;
 

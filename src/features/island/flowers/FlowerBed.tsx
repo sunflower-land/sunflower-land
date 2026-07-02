@@ -231,8 +231,12 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
           0,
         )
       : Math.max((readyAt - now) / 1000, 0);
+  // Fold pre-lift banked work into the denominator so the progress bar retains
+  // its fill across a landscaping lift instead of snapping backward.
   const totalSeconds =
-    baseDurationMs !== undefined ? baseDurationMs / 1000 : growSeconds;
+    baseDurationMs !== undefined
+      ? (baseDurationMs + (flower.boostedTime ?? 0)) / 1000
+      : growSeconds;
   // Guard the zero-duration case (an insta-grown windowed flower has
   // baseDurationMs === 0): 0 / 0 would be NaN, which makes getGrowthStage fall
   // through to "sprout" for a flower that is actually ready.

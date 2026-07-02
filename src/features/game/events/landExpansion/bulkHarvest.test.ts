@@ -342,6 +342,29 @@ describe("getPlotsToHarvest", () => {
     expect(readyPlots).not.toHaveProperty("4");
   });
 
+  it("includes a windowed crop fertilised with Rapid Root at its boosted ready time", () => {
+    const baseDurationMs = 2000;
+    const plantedAt = dateNow - 1002; // > half of baseDuration ago
+    const state: GameState = {
+      ...GAME_STATE,
+      crops: {
+        "1": {
+          x: 1,
+          y: 1,
+          createdAt: 0,
+          crop: { name: "Sunflower" as CropName, plantedAt, baseDurationMs },
+          fertiliser: { name: "Rapid Root", fertilisedAt: plantedAt },
+        },
+      },
+    };
+
+    // Rapid Root is a 2x speed window, so the crop is ready at half its
+    // baseDuration. The bulk detector must forward plot.fertiliser to see this;
+    // without it the crop looks unready until its un-boosted (2x longer) time.
+    const { readyPlots } = getCropsToHarvest(state, dateNow);
+    expect(readyPlots).toHaveProperty("1");
+  });
+
   it("returns empty object when no crops are ready", () => {
     const state = {
       ...GAME_STATE,

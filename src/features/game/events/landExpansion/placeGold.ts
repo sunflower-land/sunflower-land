@@ -10,6 +10,10 @@ import {
   findExistingUnplacedNode,
   getAvailableNodes,
 } from "features/game/lib/resourceNodes";
+import {
+  getMineBoostWindows,
+  pauseWindowedTimer,
+} from "features/game/lib/boostWindows";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export type PlaceGoldAction = {
@@ -53,9 +57,14 @@ export function placeGold({
       };
 
       if (updatedGold.stone && updatedGold.removedAt) {
-        const existingProgress =
-          updatedGold.removedAt - updatedGold.stone.minedAt;
-        updatedGold.stone.minedAt = createdAt - existingProgress;
+        // Pause recovery across the lift (windowed banking or legacy back-date).
+        updatedGold.stone.minedAt = pauseWindowedTimer({
+          timer: updatedGold.stone,
+          startedAt: updatedGold.stone.minedAt,
+          removedAt: updatedGold.removedAt,
+          createdAt,
+          windows: getMineBoostWindows(game, action.name),
+        });
       }
       delete updatedGold.removedAt;
 

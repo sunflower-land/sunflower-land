@@ -800,6 +800,14 @@ export type PlantedFruit = {
   criticalHit?: CriticalHit;
   amount?: number;
   /**
+   * Work (ms) banked when the patch was lifted mid-grow/replenish (windowed
+   * fruit freeze accrued WORK, not wall-clock progress, while the patch sits in
+   * inventory). Display-only: the patch UI folds it into the progress bar;
+   * readiness ignores it — the banked work is already subtracted from
+   * `baseDurationMs`. Reset when a new phase begins (harvest → replenish).
+   */
+  boostedTime?: number;
+  /**
    * Unboosted-by-windowed-collectibles grow/replenish duration (ms), with all
    * permanent (discount-at-start) boosts already folded in. Present only on
    * fruit planted/harvested under the speed-rate model; its presence — NOT the
@@ -1755,6 +1763,14 @@ export type PlantedFlower = {
   reward?: Reward;
   criticalHit?: CriticalHit;
   amount?: number;
+  /**
+   * Work (ms) banked when the flower bed was lifted mid-grow (windowed flowers
+   * freeze accrued WORK, not wall-clock progress, while the bed sits in
+   * inventory). Display-only: the bed UI folds it into the progress bar;
+   * readiness ignores it — the banked work is already subtracted from
+   * `baseDurationMs`. Flowers are one-shot, so it never needs resetting.
+   */
+  boostedTime?: number;
   /**
    * Unboosted-by-windowed-collectibles grow duration (ms), with all permanent
    * (discount-at-start) boosts already folded in. Present only on flowers planted

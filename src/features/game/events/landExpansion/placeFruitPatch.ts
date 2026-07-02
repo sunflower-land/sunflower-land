@@ -2,6 +2,11 @@ import type { FruitPatch, GameState } from "features/game/types/game";
 import type { ResourceName } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
+import {
+  getFruitBoostWindows,
+  getTurbofruitMixWindows,
+  pauseWindowedTimer,
+} from "features/game/lib/boostWindows";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export type PlaceFruitPatchAction = {
@@ -47,15 +52,26 @@ export function placeFruitPatch({
         y: action.coordinates.y,
       };
       if (existingPatch.fruit && existingPatch.removedAt) {
-        // HarvestedAt will be greater than plantedAt if the fruit was harvested
-        if (existingPatch.fruit.harvestedAt > existingPatch.fruit.plantedAt) {
-          const existingProgress =
-            existingPatch.removedAt - existingPatch.fruit.harvestedAt;
-          existingPatch.fruit.harvestedAt = createdAt - existingProgress;
+        const fruit = existingPatch.fruit;
+        // HarvestedAt will be greater than plantedAt if the fruit was harvested;
+        // pause the active phase (windowed banking or legacy back-date) and write
+        // the resumed start back to that same phase field.
+        const isReplenishing = fruit.harvestedAt > fruit.plantedAt;
+        const newStart = pauseWindowedTimer({
+          timer: fruit,
+          startedAt: isReplenishing ? fruit.harvestedAt : fruit.plantedAt,
+          removedAt: existingPatch.removedAt,
+          createdAt,
+          windows: [
+            ...getFruitBoostWindows(game),
+            ...getTurbofruitMixWindows(existingPatch.fertiliser),
+          ],
+          trackProgress: true,
+        });
+        if (isReplenishing) {
+          fruit.harvestedAt = newStart;
         } else {
-          const existingProgress =
-            existingPatch.removedAt - existingPatch.fruit.plantedAt;
-          existingPatch.fruit.plantedAt = createdAt - existingProgress;
+          fruit.plantedAt = newStart;
         }
       }
       delete existingPatch.removedAt;

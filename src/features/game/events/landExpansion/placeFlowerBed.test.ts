@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { placeFlowerBed } from "./placeFlowerBed";
 import { TEST_FARM } from "features/game/lib/constants";
+import { FLOWER_BOOST_SPEED } from "features/game/lib/boostWindows";
 
 describe("placeFlowerBed", () => {
   const dateNow = Date.now();
@@ -175,5 +176,54 @@ describe("placeFlowerBed", () => {
     expect(state.flowers.flowerBeds["123"].flower?.plantedAt).toBe(
       dateNow - 60000,
     );
+  });
+
+  it("banks boosted work when a flower speed window covered the pre-lift period", () => {
+    const now = Date.now();
+    const plantedAt = now - 180000;
+    const removedAt = now - 120000; // 60s of real growth before the lift
+    const baseDurationMs = 200000;
+    const speed = FLOWER_BOOST_SPEED["Blossom Hourglass"]; // 1.35x
+
+    const state = placeFlowerBed({
+      action: {
+        coordinates: { x: 2, y: 2 },
+        id: "156",
+        type: "flowerBed.placed",
+      },
+      state: {
+        ...TEST_FARM,
+        buildings: {},
+        inventory: { "Flower Bed": new Decimal(3) },
+        collectibles: {
+          "Blossom Hourglass": [
+            {
+              id: "hg",
+              coordinates: { x: 5, y: 5 },
+              createdAt: now - 200000,
+              readyAt: now - 200000,
+            },
+          ],
+        },
+        flowers: {
+          flowerBeds: {
+            "123": {
+              createdAt: now,
+              flower: { name: "Red Pansy", plantedAt, baseDurationMs },
+              removedAt,
+            },
+          },
+          discovered: {},
+        },
+      },
+      createdAt: now,
+    });
+
+    const flower = state.flowers.flowerBeds["123"].flower;
+    const banked = 60000 * speed;
+    expect(flower?.plantedAt).toBe(now);
+    expect(flower?.baseDurationMs).toBeCloseTo(baseDurationMs - banked, 5);
+    // Banked work is retained as boostedTime for the progress bar.
+    expect(flower?.boostedTime).toBeCloseTo(banked, 5);
   });
 });

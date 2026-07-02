@@ -345,6 +345,8 @@ export function harvestFruit({
       forceWindowed,
     );
     delete patch.fruit.amount;
+    // New replenish phase starts with a fresh progress bar (no banked work yet).
+    delete patch.fruit.boostedTime;
     patch.fruit.harvestedAt = newPlantedAt;
     // Windowed replenish stores the real harvestedAt + a permanent-boost-only
     // base recovery; a legacy (never-windowed) fruit under flag-off back-dates
