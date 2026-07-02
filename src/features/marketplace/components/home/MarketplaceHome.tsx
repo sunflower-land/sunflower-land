@@ -3,7 +3,7 @@ import { InnerPanel } from "components/ui/Panel";
 import filterIcon from "assets/icons/filter_icon.webp";
 import flowerIcon from "assets/icons/flower_token.webp";
 import crownIcon from "assets/icons/vip.webp";
-import { Route, Routes, useNavigate } from "react-router";
+import { Route, Routes, useNavigate, useSearchParams } from "react-router";
 import { Collection, preloadCollections } from "../Collection";
 import { Favourites } from "../Favourites";
 import { Modal } from "components/ui/Modal";
@@ -45,7 +45,22 @@ export const MarketplaceNavigation: React.FC = () => {
   const navigate = useNavigate();
   const crabChapterStartMs = CHAPTERS["Crabs and Traps"].startDate.getTime();
 
-  const [search, setSearch] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const search = searchParams.get("q") ?? "";
+  const setSearch = (value: string) => {
+    setSearchParams(
+      (prev) => {
+        const next = new URLSearchParams(prev);
+        if (value) {
+          next.set("q", value);
+        } else {
+          next.delete("q");
+        }
+        return next;
+      },
+      { replace: true },
+    );
+  };
   const [showFilters, setShowFilters] = useState(false);
   const [showQuickswap, setShowQuickswap] = useState(false);
   const [hideLimited, setHideLimited] = useState<boolean>(() => {
@@ -210,13 +225,7 @@ export const MarketplaceNavigation: React.FC = () => {
 
         <div className="flex-1 flex flex-col w-full">
           {search ? (
-            <Collection
-              search={search}
-              hideLimited={hideLimited}
-              onNavigated={() => {
-                setSearch("");
-              }}
-            />
+            <Collection search={search} hideLimited={hideLimited} />
           ) : (
             <Routes>
               <Route path="/profile" element={<MarketplaceProfile />} />
