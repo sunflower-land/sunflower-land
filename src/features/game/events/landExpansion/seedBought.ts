@@ -137,12 +137,8 @@ export function seedBought({ state, action, createdAt = Date.now() }: Options) {
       throw new Error("Not a full moon");
     }
 
-    // Chapter Crop Week event seed is only available during the event window
-    // (beta testers get access before the event starts)
-    if (
-      item === CHAPTER_CROP_WEEK_SEED &&
-      !hasChapterCropWeekAccess(state, createdAt)
-    ) {
+    // Chapter Crop Week event seed is currently gated to beta testers only
+    if (item === CHAPTER_CROP_WEEK_SEED && !hasChapterCropWeekAccess(state)) {
       throw new Error("Chapter Crop Week is not active");
     }
 

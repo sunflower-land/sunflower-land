@@ -74,10 +74,9 @@ export const FirePitModal: React.FC<Props> = ({
   const firePitRecipes = useMemo(() => {
     return Object.values(FIRE_PIT_COOKABLES)
       .filter((recipe) => {
-        // Chapter Crop Week event recipe only appears during the event window
-        // (beta testers get access before the event starts)
+        // Chapter Crop Week event recipe is currently gated to beta testers only
         if (recipe.name === CHAPTER_CROP_WEEK_RECIPE) {
-          return hasChapterCropWeekAccess(getGame(), now);
+          return hasChapterCropWeekAccess(getGame());
         }
 
         if (getCurrentChapter(now) === "Paw Prints") return true;

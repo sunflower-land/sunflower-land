@@ -191,12 +191,8 @@ export function cook({
   return produce(state, (stateCopy) => {
     const { item, buildingId } = action;
 
-    // Chapter Crop Week event recipe is only cookable during the event window
-    // (beta testers get access before the event starts)
-    if (
-      item === CHAPTER_CROP_WEEK_RECIPE &&
-      !hasChapterCropWeekAccess(state, createdAt)
-    ) {
+    // Chapter Crop Week event recipe is currently gated to beta testers only
+    if (item === CHAPTER_CROP_WEEK_RECIPE && !hasChapterCropWeekAccess(state)) {
       throw new Error("Chapter Crop Week is not active");
     }
 

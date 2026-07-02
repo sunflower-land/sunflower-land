@@ -103,7 +103,7 @@ export const SeasonalSeeds: React.FC = () => {
     live: true,
     autoEndAt: CHAPTER_CROP_WEEK.endDate.getTime(),
   });
-  const isCropWeek = hasChapterCropWeekAccess(state, now);
+  const isCropWeek = hasChapterCropWeekAccess(state);
 
   const [selectedName, setSelectedName] = useState<SeedName>(
     currentSeasonSeeds[0],
