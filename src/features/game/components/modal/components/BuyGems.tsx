@@ -25,6 +25,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import flowerIcon from "assets/icons/flower_token.webp";
 import Decimal from "decimal.js-light";
 import { secondsToString } from "lib/utils/time";
+import { hasFeatureAccess } from "lib/flags";
 
 export const STARTER_PACK = "STARTER_PACK" as const;
 export const STARTER_PACK_GEMS = 300;
@@ -88,6 +89,9 @@ export const starterOfferSecondsLeftSelector = (state: MachineState) => {
 };
 const _starterOfferSecondsLeft = starterOfferSecondsLeftSelector;
 
+const _hasCustomGemAccess = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "CUSTOM_GEM_AMOUNT");
+
 /** Show starter offer only when time hasn't expired and player hasn't purchased gems yet */
 const _canShowStarterOffer = (state: MachineState) => {
   const timeLeft = _starterOfferSecondsLeft(state);
@@ -126,6 +130,7 @@ export const BuyGems: React.FC<Props> = ({
     gameService,
     _starterOfferSecondsLeft,
   );
+  const hasCustomGemAccess = useSelector(gameService, _hasCustomGemAccess);
 
   const [showFlowerConfirm, setShowFlowerConfirm] = useState(false);
   const [showCustom, setShowCustom] = useState(false);
@@ -251,6 +256,7 @@ export const BuyGems: React.FC<Props> = ({
     // Anchor down to the nearest bundle and apply the FLOWER discount
     const usd = inRange ? getCustomGemsUSD(amount) : 0;
     const flowerUSD = usd * FLOWER_DISCOUNT;
+    const usdPerGem = inRange ? flowerUSD / amount : 0;
     const flowerQuote =
       inRange && flowerPrice > 0
         ? new Decimal(flowerUSD / flowerPrice).toFixed(4)
@@ -313,6 +319,14 @@ export const BuyGems: React.FC<Props> = ({
           </div>
 
           <div className="flex justify-between mb-1">
+            <p className="text-sm">{t("transaction.pricePerGem")}</p>
+            <div className="flex items-center space-x-2">
+              <span>{`$${usdPerGem.toFixed(4)}`}</span>
+              <img src={ITEM_DETAILS.Gem.image} className="w-6" />
+            </div>
+          </div>
+
+          <div className="flex justify-between mb-1">
             <p className="text-sm">{t("usd")}</p>
             <div className="flex items-center space-x-2">
               <span className="line-through">{`$${usd.toFixed(2)}`}</span>
@@ -333,6 +347,10 @@ export const BuyGems: React.FC<Props> = ({
               <img src={flowerIcon} className="w-6" />
             </div>
           </div>
+
+          <p className="text-xxs italic mt-2">
+            {t("transaction.bulkDiscount")}
+          </p>
         </div>
 
         <Button
@@ -611,20 +629,22 @@ export const BuyGems: React.FC<Props> = ({
           })}
         </div>
 
-        <ButtonPanel
-          onClick={() => setShowCustom(true)}
-          className="w-full mt-3 relative cursor-pointer hover:bg-brown-300 flex items-center justify-between"
-        >
-          <div className="flex items-center">
-            <SquareIcon icon={ITEM_DETAILS.Gem.image} width={10} />
-            <span className="ml-2 text-sm">
-              {t("transaction.enterCustomAmount")}
-            </span>
-          </div>
-          <Label type="warning" icon={flowerIcon}>
-            {t("transaction.flowerPurchase")}
-          </Label>
-        </ButtonPanel>
+        {hasCustomGemAccess && (
+          <ButtonPanel
+            onClick={() => setShowCustom(true)}
+            className="w-full mt-3 relative cursor-pointer hover:bg-brown-300 flex items-center justify-between"
+          >
+            <div className="flex items-center">
+              <SquareIcon icon={ITEM_DETAILS.Gem.image} width={10} />
+              <span className="ml-2 text-sm">
+                {t("transaction.enterCustomAmount")}
+              </span>
+            </div>
+            <Label type="warning" icon={flowerIcon}>
+              {`FLOWER`}
+            </Label>
+          </ButtonPanel>
+        )}
       </div>
     </>
   );

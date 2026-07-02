@@ -177,6 +177,10 @@ const FEATURE_FLAGS = {
   // Chapter Crop Week (Saltwort crop + Saltbite recipe). Beta-pass / testnet
   // only until the event is ready to ship to all players.
   CHAPTER_CROP_WEEK: betaFeatureFlag,
+
+  // Custom gem purchase amount (FLOWER-only) in the Buy Gems panel. Beta-pass /
+  // testnet only until ready to ship to all players.
+  CUSTOM_GEM_AMOUNT: betaFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
