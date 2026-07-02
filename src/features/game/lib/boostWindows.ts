@@ -708,3 +708,53 @@ export function workAccruedAt({
 
   return work;
 }
+
+/**
+ * "Pause" a resource-node timer across a landscaping lift and return the new
+ * start timestamp the caller should write back to the node's phase field
+ * (minedAt / choppedAt / plantedAt / harvestedAt).
+ *
+ * - Windowed node (`timer.baseDurationMs` set): bank the work accrued before
+ *   removal against `windows` and shrink `baseDurationMs` in place (mutates
+ *   `timer`), then resume from `createdAt` — so the lifted interval is excluded
+ *   and boost credit earned before the lift is neither lost nor re-applied over
+ *   a different part of the windows.
+ * - Legacy node (no `baseDurationMs`): back-date the start so the lifted
+ *   interval doesn't count (wall-clock elapsed === work when unboosted).
+ *
+ * The caller owns which field is the start timestamp (and, for multi-phase fruit,
+ * which phase is active), so it passes `startedAt` and writes the returned value
+ * back to that same field. `trackProgress` additionally banks the accrued work
+ * into `timer.boostedTime` for the growth bar — used by the crop / greenhouse
+ * plant handlers, which carry that field; resource nodes omit it. Shared by every
+ * resource place handler to keep the bank/shrink/back-date logic in one place.
+ */
+export function pauseWindowedTimer({
+  timer,
+  startedAt,
+  removedAt,
+  createdAt,
+  windows,
+  trackProgress = false,
+}: {
+  timer: { baseDurationMs?: number; boostedTime?: number };
+  startedAt: number;
+  removedAt: number;
+  createdAt: number;
+  windows: BoostWindow[];
+  trackProgress?: boolean;
+}): number {
+  if (timer.baseDurationMs === undefined) {
+    return createdAt - (removedAt - startedAt);
+  }
+
+  const banked = Math.min(
+    workAccruedAt({ startedAt, at: removedAt, windows }),
+    timer.baseDurationMs,
+  );
+  timer.baseDurationMs -= banked;
+  if (trackProgress) {
+    timer.boostedTime = (timer.boostedTime ?? 0) + banked;
+  }
+  return createdAt;
+}

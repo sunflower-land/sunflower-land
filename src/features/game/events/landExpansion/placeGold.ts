@@ -12,7 +12,7 @@ import {
 } from "features/game/lib/resourceNodes";
 import {
   getMineBoostWindows,
-  workAccruedAt,
+  pauseWindowedTimer,
 } from "features/game/lib/boostWindows";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 
@@ -57,23 +57,14 @@ export function placeGold({
       };
 
       if (updatedGold.stone && updatedGold.removedAt) {
-        const stone = updatedGold.stone;
-        if (stone.baseDurationMs !== undefined) {
-          // Windowed rock: "pause" recovery across the lift. Bank the work
-          // accrued before removal, then resume the remaining work from now
-          // against the current mine boost windows (mirrors placePlot).
-          const banked = workAccruedAt({
-            startedAt: stone.minedAt,
-            at: updatedGold.removedAt,
-            windows: getMineBoostWindows(game, action.name),
-          });
-          stone.baseDurationMs = Math.max(stone.baseDurationMs - banked, 0);
-          stone.minedAt = createdAt;
-        } else {
-          // Legacy rock: back-date minedAt so the lifted interval doesn't count.
-          const existingProgress = updatedGold.removedAt - stone.minedAt;
-          stone.minedAt = createdAt - existingProgress;
-        }
+        // Pause recovery across the lift (windowed banking or legacy back-date).
+        updatedGold.stone.minedAt = pauseWindowedTimer({
+          timer: updatedGold.stone,
+          startedAt: updatedGold.stone.minedAt,
+          removedAt: updatedGold.removedAt,
+          createdAt,
+          windows: getMineBoostWindows(game, action.name),
+        });
       }
       delete updatedGold.removedAt;
 

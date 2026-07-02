@@ -4,7 +4,7 @@ import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import {
   getMineBoostWindows,
-  workAccruedAt,
+  pauseWindowedTimer,
 } from "features/game/lib/boostWindows";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 
@@ -53,23 +53,14 @@ export function placeCrimstone({
       };
 
       if (updatedCrimstone.stone && updatedCrimstone.removedAt) {
-        const stone = updatedCrimstone.stone;
-        if (stone.baseDurationMs !== undefined) {
-          // Windowed rock: "pause" recovery across the lift. Bank the work
-          // accrued before removal, then resume the remaining work from now
-          // against the current mine boost windows (mirrors placePlot).
-          const banked = workAccruedAt({
-            startedAt: stone.minedAt,
-            at: updatedCrimstone.removedAt,
-            windows: getMineBoostWindows(game, "Crimstone Rock"),
-          });
-          stone.baseDurationMs = Math.max(stone.baseDurationMs - banked, 0);
-          stone.minedAt = createdAt;
-        } else {
-          // Legacy rock: back-date minedAt so the lifted interval doesn't count.
-          const existingProgress = updatedCrimstone.removedAt - stone.minedAt;
-          stone.minedAt = createdAt - existingProgress;
-        }
+        // Pause recovery across the lift (windowed banking or legacy back-date).
+        updatedCrimstone.stone.minedAt = pauseWindowedTimer({
+          timer: updatedCrimstone.stone,
+          startedAt: updatedCrimstone.stone.minedAt,
+          removedAt: updatedCrimstone.removedAt,
+          createdAt,
+          windows: getMineBoostWindows(game, "Crimstone Rock"),
+        });
       }
       delete updatedCrimstone.removedAt;
 
