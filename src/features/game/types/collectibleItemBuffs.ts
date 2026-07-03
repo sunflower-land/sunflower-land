@@ -1854,9 +1854,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: powerup,
     },
   ],
-  "Stag Shrine": () => [
+  "Stag Shrine": (game) => [
     {
-      shortDescription: translate("description.stagShrine.buff"),
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.stagShrine.buff.speed")
+        : translate("description.stagShrine.buff"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS.Oil.image,

@@ -105,6 +105,16 @@ export const FLOWER_BOOST_SPEED = {
 } as const;
 
 /**
+ * Speed multiplier for the windowed oil-reserve recovery boost. Oil's only
+ * temporary boost is the Stag Shrine (no totems apply to oil, mirroring flowers).
+ * Stag Shrine is a MIXED boost: only its recovery-TIME half is windowed here; its
+ * +15 bonus-oil yield (every 3rd drill) stays baked in getOilDropAmount.
+ */
+export const OIL_BOOST_SPEED = {
+  "Stag Shrine": 1.35,
+} as const;
+
+/**
  * Speed multipliers for the windowed greenhouse growth boosts — the single place
  * to tune them. Stacking is multiplicative; Super & Time Warp Totem share the
  * same 2× and merge so they don't stack with each other. Coverage differs by
@@ -270,6 +280,20 @@ export const getFlowerBoostWindows = (game: GameState): BoostWindow[] => [
     speed: FLOWER_BOOST_SPEED["Moth Shrine"],
   }),
 ];
+
+/**
+ * The windowed speed boosts that apply to an oil reserve's recovery. Oil's only
+ * temporary boost is the Stag Shrine (no totems — mirrors flowers). Only its
+ * recovery-TIME half is windowed; the +15 bonus-oil yield stays baked in
+ * getOilDropAmount. Empty set (no Stag Shrine) makes `computeReadyAt` reduce to
+ * `drilledAt + baseDurationMs`.
+ */
+export const getOilBoostWindows = (game: GameState): BoostWindow[] =>
+  getBoostWindows({
+    game,
+    name: "Stag Shrine",
+    speed: OIL_BOOST_SPEED["Stag Shrine"],
+  });
 
 /**
  * The Turbofruit Mix fertiliser's speed window for a fruit patch. Unlike the

@@ -158,7 +158,14 @@ function useGreaseLightning({
   getKeys(oilReserves).forEach((reserve) => {
     const { oil } = oilReserves[reserve];
     if (oil) {
+      // Instant recovery. Legacy: a far-past `drilledAt` makes the fixed recovery
+      // window already elapsed. Windowed (`baseDurationMs` set): also zero the
+      // remaining work so `computeReadyAt` collapses `readyAt` to `drilledAt`
+      // (mirrors instaGrowFlower / Greenhouse Guru).
       oil.drilledAt = 1;
+      if (oil.baseDurationMs !== undefined) {
+        oil.baseDurationMs = 0;
+      }
     }
   });
   return oilReserves;
@@ -428,7 +435,7 @@ export function powerSkillDisabledConditions({
     case "Grease Lightning": {
       if (
         Object.values(oilReserves).every((reserve) =>
-          canDrillOilReserve(reserve),
+          canDrillOilReserve(reserve, state, createdAt),
         )
       ) {
         return {

@@ -870,6 +870,15 @@ export type Rock = {
 
 export type Oil = {
   drilledAt: number;
+  /**
+   * Unboosted-by-windowed-collectibles recovery duration (ms), with all
+   * permanent (discount-at-start) boosts already folded in. Present only on
+   * reserves drilled under the speed-rate model; its presence selects
+   * `computeReadyAt` over the legacy back-dated `drilledAt` readiness check.
+   * Oil has no progress-fill bar (countdown only), so — like `Wood` — it
+   * carries no `boostedTime`.
+   */
+  baseDurationMs?: number;
 };
 
 export type OilReserve = {

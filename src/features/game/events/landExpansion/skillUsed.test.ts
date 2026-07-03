@@ -894,6 +894,35 @@ describe("skillUse", () => {
       expect(state.oilReserves["456"].oil.drilledAt).toEqual(1);
       expect(state.oilReserves["789"].oil.drilledAt).toEqual(1);
     });
+
+    it("zeroes baseDurationMs for a windowed reserve (instant recovery)", () => {
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Grease Lightning": 1 },
+          },
+          oilReserves: {
+            "123": {
+              createdAt: dateNow,
+              oil: {
+                drilledAt: dateNow - 1000 * 60,
+                baseDurationMs: 20 * 60 * 60 * 1000,
+              },
+              x: 10,
+              y: -1,
+              drilled: 5,
+            },
+          },
+        },
+        action: { type: "skill.used", skill: "Grease Lightning" },
+        createdAt: dateNow,
+      });
+
+      expect(state.oilReserves["123"].oil.drilledAt).toEqual(1);
+      expect(state.oilReserves["123"].oil.baseDurationMs).toEqual(0);
+    });
   });
 
   describe("useInstantGratification", () => {

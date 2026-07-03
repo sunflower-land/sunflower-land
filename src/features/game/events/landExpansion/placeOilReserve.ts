@@ -2,6 +2,10 @@ import type { GameState, OilReserve } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
+import {
+  getOilBoostWindows,
+  pauseWindowedTimer,
+} from "features/game/lib/boostWindows";
 
 export type PlaceOilReserveAction = {
   type: "oilReserve.placed";
@@ -46,9 +50,16 @@ export function placeOilReserve({
       };
 
       if (updatedOilReserve.oil && updatedOilReserve.removedAt) {
-        const existingProgress =
-          updatedOilReserve.removedAt - updatedOilReserve.oil.drilledAt;
-        updatedOilReserve.oil.drilledAt = createdAt - existingProgress;
+        // Pause recovery across the lift: bank work for a windowed reserve
+        // (shrinks baseDurationMs), else legacy back-date. Behaviour-identical to
+        // the old back-date for legacy reserves.
+        updatedOilReserve.oil.drilledAt = pauseWindowedTimer({
+          timer: updatedOilReserve.oil,
+          startedAt: updatedOilReserve.oil.drilledAt,
+          removedAt: updatedOilReserve.removedAt,
+          createdAt,
+          windows: getOilBoostWindows(game),
+        });
       }
       delete updatedOilReserve.removedAt;
 

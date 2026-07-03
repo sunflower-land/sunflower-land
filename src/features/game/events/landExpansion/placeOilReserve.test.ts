@@ -151,4 +151,38 @@ describe("placeOil", () => {
       },
     });
   });
+
+  it("banks accrued work for a windowed reserve on lift/replace", () => {
+    const T0 = Date.now();
+    const HOUR = 60 * 60 * 1000;
+    const state = placeOilReserve({
+      action: {
+        coordinates: { x: 2, y: 2 },
+        id: "1",
+        type: "oilReserve.placed",
+      },
+      state: {
+        ...INITIAL_FARM,
+        buildings: {},
+        inventory: { "Oil Reserve": new Decimal(2) },
+        oilReserves: {
+          "123": {
+            createdAt: T0,
+            // 5h of the 20h recovery elapsed before the lift (no boost → 1x).
+            oil: { drilledAt: T0, baseDurationMs: 20 * HOUR },
+            drilled: 5,
+            removedAt: T0 + 5 * HOUR,
+          },
+        },
+      },
+      createdAt: T0 + 8 * HOUR,
+    });
+
+    // Work resumes from the placement time; the 5h banked shrinks baseDurationMs.
+    expect(state.oilReserves["123"].oil).toEqual({
+      drilledAt: T0 + 8 * HOUR,
+      baseDurationMs: 15 * HOUR,
+    });
+    expect(state.oilReserves["123"].removedAt).toBeUndefined();
+  });
 });

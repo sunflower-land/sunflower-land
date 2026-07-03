@@ -7,11 +7,17 @@ import { Transition } from "@headlessui/react";
 import oil from "assets/resources/oil.webp";
 import emptyOilReserve from "assets/resources/oil/oil_reserve_empty.webp";
 import classNames from "classnames";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   timeLeft: number;
   oilAmount?: number;
   drilling: boolean;
+  /**
+   * Current effective recovery speed from the windowed Stag Shrine boost.
+   * > 1 shows a lightning marker + the multiplier in the popover.
+   */
+  speed?: number;
   onOilTransitionEnd?: () => void;
 }
 
@@ -19,10 +25,12 @@ export const DepletedOilReserve: React.FC<Props> = ({
   timeLeft,
   oilAmount,
   drilling,
+  speed,
   onOilTransitionEnd,
 }) => {
   const { t } = useAppTranslation();
   const [showTimeLeft, setShowTimeLeft] = useState(false);
+  const boosted = speed !== undefined && speed > 1;
 
   return (
     <div
@@ -45,6 +53,19 @@ export const DepletedOilReserve: React.FC<Props> = ({
           }}
           alt="Empty oil reserve"
         />
+        {boosted && (
+          <img
+            src={SUNNYSIDE.icons.lightning}
+            alt=""
+            aria-hidden
+            className="absolute animate-pulse"
+            style={{
+              width: `${PIXEL_SCALE * 7}px`,
+              top: `${PIXEL_SCALE * 2}px`,
+              right: `${PIXEL_SCALE * 2}px`,
+            }}
+          />
+        )}
         <div
           className="flex justify-center absolute w-full"
           style={{
@@ -55,6 +76,7 @@ export const DepletedOilReserve: React.FC<Props> = ({
             text={t("resources.recoversIn")}
             timeLeft={timeLeft}
             showTimeLeft={showTimeLeft}
+            speed={speed}
           />
         </div>
       </div>

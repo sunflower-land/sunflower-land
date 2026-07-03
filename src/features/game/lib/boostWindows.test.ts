@@ -17,6 +17,8 @@ import {
   getFlowerBoostWindows,
   getGreenhouseBoostWindows,
   getGreenhouseGlowWindows,
+  getOilBoostWindows,
+  OIL_BOOST_SPEED,
   appendBoostHistory,
   type BoostWindow,
 } from "./boostWindows";
@@ -698,6 +700,61 @@ describe("getFlowerBoostWindows", () => {
 
   it("returns no windows when none are placed", () => {
     expect(getFlowerBoostWindows(TEST_FARM)).toEqual([]);
+  });
+});
+
+describe("getOilBoostWindows", () => {
+  const createdAt = 1_000_000;
+
+  it("builds a window for an active Stag Shrine at the oil speed", () => {
+    const windows = getOilBoostWindows({
+      ...TEST_FARM,
+      collectibles: {
+        ...TEST_FARM.collectibles,
+        "Stag Shrine": [{ id: "1", coordinates: { x: 0, y: 0 }, createdAt }],
+      },
+    });
+
+    expect(windows).toContainEqual({
+      from: createdAt,
+      to: createdAt + getExpiryCooldown("Stag Shrine", TEST_FARM),
+      speed: OIL_BOOST_SPEED["Stag Shrine"],
+    });
+  });
+
+  it("does NOT include totems (oil gets no totem boost)", () => {
+    const windows = getOilBoostWindows({
+      ...TEST_FARM,
+      collectibles: {
+        ...TEST_FARM.collectibles,
+        "Super Totem": [{ id: "1", coordinates: { x: 0, y: 0 }, createdAt }],
+        "Time Warp Totem": [
+          { id: "2", coordinates: { x: 1, y: 1 }, createdAt },
+        ],
+      },
+    });
+
+    expect(windows).toEqual([]);
+  });
+
+  it("includes a removed/burned Stag Shrine via boostHistory", () => {
+    const from = 1_000_000;
+    const to = from + getExpiryCooldown("Stag Shrine", TEST_FARM);
+    const windows = getOilBoostWindows({
+      ...TEST_FARM,
+      collectibles: {},
+      boostHistory: { "Stag Shrine": [{ from, to }] },
+    });
+
+    expect(windows).toContainEqual({
+      from,
+      to,
+      speed: OIL_BOOST_SPEED["Stag Shrine"],
+    });
+  });
+
+  it("returns no windows when none are placed", () => {
+    expect(getOilBoostWindows(TEST_FARM)).toEqual([]);
   });
 });
 

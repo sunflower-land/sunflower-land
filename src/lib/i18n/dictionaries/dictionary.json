@@ -7599,6 +7599,7 @@
   "description.badgerShrine.buff.2": "x0.75 Stone Recovery Time",
   "description.badgerShrine.buff.2.speed": "1.35x Stone Recovery Speed",
   "description.stagShrine.buff": "x0.75 Oil Recovery Time",
+  "description.stagShrine.buff.speed": "1.35x Oil Recovery Speed",
   "description.stagShrine.buff.2": "+15 Oil every 3rd drill",
   "description.moleShrine.buff": "x0.75 Iron Recovery Time",
   "description.moleShrine.buff.speed": "1.35x Iron Recovery Speed",
