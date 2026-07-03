@@ -332,9 +332,9 @@ describe("getExpiryCooldown", () => {
   // username/mainnet rollout doesn't surprise anyone.
   it("retroactively re-times already-placed boosters when the flag flips", () => {
     // A Time Warp Totem placed 3h ago: past the legacy 2h lifetime, inside the 4h one.
-    const totemGame = (username: string): GameState => ({
+    // The flag is network-static (testnetFeatureFlag), so only the network decides.
+    const totemGame: GameState = {
       ...TEST_FARM,
-      username,
       collectibles: {
         "Time Warp Totem": [
           {
@@ -345,13 +345,13 @@ describe("getExpiryCooldown", () => {
           },
         ],
       },
-    });
+    };
 
     setNetwork("mainnet");
     expect(
       isTemporaryCollectibleActive({
         name: "Time Warp Totem",
-        game: totemGame("not-a-team-member"),
+        game: totemGame,
       }),
     ).toBe(false); // legacy 2h lifetime → expired
 
@@ -359,7 +359,7 @@ describe("getExpiryCooldown", () => {
     expect(
       isTemporaryCollectibleActive({
         name: "Time Warp Totem",
-        game: totemGame("team-member"),
+        game: totemGame,
       }),
     ).toBe(true); // rebalanced 4h lifetime → still active
   });
