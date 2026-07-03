@@ -879,11 +879,11 @@ describe("drillOilReserve", () => {
     });
   });
 
-  // Regression: a reserve already carrying the baseDurationMs marker must stay
-  // windowed and REFRESH baseDurationMs on every re-drill, even flag-off (sticky).
-  // Otherwise a stale marker (e.g. Grease Lightning's 0) would persist beside a new
-  // drilledAt and mis-time recovery (permanently instantly-ready in the 0 case).
-  describe("sticky-windowed re-drill (mainnet, flag off)", () => {
+  // Regression: a fresh drill rebuilds the timer, so a flag-off re-drill CLEARS any
+  // prior windowed marker and reverts the reserve to legacy — mirrors stone/tree
+  // re-mine/re-chop, and prevents a stale marker (e.g. Grease Lightning's 0) from
+  // mis-timing the next recovery.
+  describe("flag-off re-drill reverts a windowed reserve to legacy", () => {
     const originalNetwork = CONFIG.NETWORK;
     beforeAll(() => {
       (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
@@ -894,7 +894,7 @@ describe("drillOilReserve", () => {
 
     const BASE_MS = OIL_RESERVE_RECOVERY_TIME * 1000;
 
-    it("refreshes a Grease-Lightning'd (baseDurationMs 0) reserve to the full duration", () => {
+    it("clears a Grease-Lightning'd (baseDurationMs 0) marker instead of leaving it stale", () => {
       const now = Date.now();
       const game = drillOilReserve({
         action: { id: "1", type: "oilReserve.drilled" },
@@ -914,15 +914,15 @@ describe("drillOilReserve", () => {
         createdAt: now,
       });
       const reserve = game.oilReserves["1"];
-      // Refreshed, NOT left at the stale 0 — and never deleted.
-      expect(reserve.oil.baseDurationMs).toBe(BASE_MS);
+      // Marker cleared → legacy. No boosts → drilledAt == now (buffMs 0).
+      expect(reserve.oil.baseDurationMs).toBeUndefined();
       expect(reserve.oil.drilledAt).toBe(now);
       // No longer instantly ready.
       expect(canDrillOilReserve(reserve, game, now)).toBe(false);
       expect(getOilReserveReadyAt(reserve, game)).toBe(now + BASE_MS);
     });
 
-    it("refreshes a marked reserve to the new permanent-only cycle (Dev Wrench x0.5)", () => {
+    it("clears a stale marker and back-dates with permanent boosts (Dev Wrench x0.5)", () => {
       const now = Date.now();
       const game = drillOilReserve({
         action: { id: "1", type: "oilReserve.drilled" },
@@ -947,9 +947,9 @@ describe("drillOilReserve", () => {
         createdAt: now,
       });
       const reserve = game.oilReserves["1"];
-      // Refreshed to the new cycle's permanent-only duration, NOT the stale 999.
-      expect(reserve.oil.baseDurationMs).toBe(BASE_MS * 0.5);
-      expect(reserve.oil.drilledAt).toBe(now);
+      // Marker cleared; legacy back-date folds in the permanent Dev Wrench (x0.5).
+      expect(reserve.oil.baseDurationMs).toBeUndefined();
+      expect(reserve.oil.drilledAt).toBe(now - BASE_MS * 0.5);
     });
   });
 });
