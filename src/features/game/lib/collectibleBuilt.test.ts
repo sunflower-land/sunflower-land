@@ -324,15 +324,11 @@ describe("getExpiryCooldown", () => {
     );
   });
 
-  // The cooldown is derived from CURRENT feature access rather than persisted at
-  // placement time, so flipping SPEED_BOOSTS retroactively re-times already-placed
-  // boosters. This is INTENTIONAL and safe under this rollout: the flag is
-  // `testnetFeatureFlag` (network-static — always on for amoy, off for mainnet), so
-  // no player experiences a mid-life flip. Locked in here so the eventual
-  // username/mainnet rollout doesn't surprise anyone.
+  // The cooldown is derived from CURRENT feature access, not persisted at placement
+  // time, so an account with SPEED_BOOSTS access reads its already-placed boosters at
+  // the rebalanced durations (a benign one-time extension — intended).
   it("retroactively re-times already-placed boosters when the flag flips", () => {
     // A Time Warp Totem placed 3h ago: past the legacy 2h lifetime, inside the 4h one.
-    // The flag is network-static (testnetFeatureFlag), so only the network decides.
     const totemGame: GameState = {
       ...TEST_FARM,
       collectibles: {
