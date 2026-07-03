@@ -5,6 +5,7 @@ const TREASURY_ADDRESS = import.meta.env.VITE_TREASURY_ADDRESS as string;
 const POLYGON_CHAIN_ID = NETWORK === "mainnet" ? 137 : 80002;
 
 const API_URL = import.meta.env.VITE_API_URL;
+const API2_URL = import.meta.env.VITE_API2_URL;
 const ROOM_URL = import.meta.env.VITE_ROOM_URL;
 
 const WISHING_WELL_CONTRACT = import.meta.env.VITE_WISHING_WELL_CONTRACT;
@@ -110,6 +111,7 @@ export const CONFIG = {
   DONATION_ADDRESS,
   TREASURY_ADDRESS,
   API_URL,
+  API2_URL,
   DISCORD_REDIRECT,
 
   WISHING_WELL_CONTRACT,

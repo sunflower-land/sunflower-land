@@ -57,6 +57,7 @@ export type SocialDetails = {
 };
 
 const API_URL = CONFIG.API_URL;
+const API2_URL = CONFIG.API2_URL;
 
 let loadSessionErrors = 0;
 
@@ -72,7 +73,10 @@ export async function loadSession(
 
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const response = await window.fetch(`${API_URL}/session`, {
+  // Use API2 to a URL unless we are retrying, and then fall back to the original API.
+  const apiUrl = retries === 0 ? API2_URL : API_URL;
+
+  const response = await window.fetch(`${apiUrl}/session`, {
     method: "POST",
     //mode: "no-cors",
     headers: {
