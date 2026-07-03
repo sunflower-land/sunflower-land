@@ -2,10 +2,7 @@ import React, { useContext, useState } from "react";
 import { RecoveredOilReserve } from "./components/RecoveredOilReserve";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
-import type {
-  GameState,
-  OilReserve as IOilReserve,
-} from "features/game/types/game";
+import type { OilReserve as IOilReserve } from "features/game/types/game";
 import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import {
@@ -34,15 +31,6 @@ const _reserve = (id: string) => (state: MachineState) =>
   state.context.state.oilReserves[id];
 const _drills = (state: MachineState) =>
   state.context.state.inventory["Oil Drill"] ?? new Decimal(0);
-const _state = (state: MachineState) => state.context.state;
-
-// Only re-render the game selector when the drill requirement changes (Infernal
-// Drill). The recovery windows have their own field-compared selector below, so
-// the component no longer subscribes to the whole game state every tick.
-const _compareOilDrill = (prev: GameState, next: GameState) =>
-  getRequiredOilDrillAmount(prev).amount.equals(
-    getRequiredOilDrillAmount(next).amount,
-  );
 
 const compareResource = (prev: IOilReserve, next: IOilReserve) => {
   return JSON.stringify(prev) === JSON.stringify(next);
@@ -67,9 +55,27 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
   const [drilling, setDrilling] = useState(false);
   const [oilHarvested, setOilHarvested] = useState(0);
 
-  const game = useSelector(gameService, _state, _compareOilDrill);
   const reserve = useSelector(gameService, _reserve(id), compareResource);
   const drills = useSelector(gameService, _drills);
+  // Derive just the values this component needs from game state, each with its own
+  // comparator, instead of holding a whole-game snapshot (which would either
+  // re-render every tick or — if narrowly compared — go stale for the oil-yield
+  // animation when e.g. a Stag Shrine is placed).
+  const requiredDrillAmount = useSelector(
+    gameService,
+    (state) => getRequiredOilDrillAmount(state.context.state).amount,
+    (a, b) => a.equals(b),
+  );
+  const oilDropAmount = useSelector(
+    gameService,
+    (state) => {
+      const oilReserve = state.context.state.oilReserves[id];
+      return oilReserve
+        ? getOilDropAmount(state.context.state, oilReserve).amount
+        : 0;
+    },
+    (a, b) => a === b,
+  );
   // Live windowed oil-recovery speed boost (Stag Shrine). Recomputed from full
   // state but only re-renders when the windows actually change, so the countdown
   // reacts to a Stag Shrine placed/expired mid-recovery.
@@ -131,9 +137,7 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
   const halfReady = !ready && timeLeft <= halfThreshold;
 
   const handleDrill = async () => {
-    const requiredDrillAmount = getRequiredOilDrillAmount(game).amount;
     if (!ready || drills.lessThan(requiredDrillAmount)) return;
-    const { amount: oilDropAmount } = getOilDropAmount(game, reserve);
 
     gameService.send({ type: "oilReserve.drilled", id });
 
@@ -143,7 +147,7 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
     await new Promise((res) => setTimeout(res, 2000));
     setDrilling(false);
   };
-  const hasDrill = drills.gte(getRequiredOilDrillAmount(game).amount);
+  const hasDrill = drills.gte(requiredDrillAmount);
 
   return (
     <div className="relative w-full h-full flex justify-center items-center">

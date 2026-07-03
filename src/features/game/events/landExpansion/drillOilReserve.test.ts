@@ -878,4 +878,78 @@ describe("drillOilReserve", () => {
       ).toBeCloseTo(base / 1.35, 0);
     });
   });
+
+  // Regression: a reserve already carrying the baseDurationMs marker must stay
+  // windowed and REFRESH baseDurationMs on every re-drill, even flag-off (sticky).
+  // Otherwise a stale marker (e.g. Grease Lightning's 0) would persist beside a new
+  // drilledAt and mis-time recovery (permanently instantly-ready in the 0 case).
+  describe("sticky-windowed re-drill (mainnet, flag off)", () => {
+    const originalNetwork = CONFIG.NETWORK;
+    beforeAll(() => {
+      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+    });
+    afterAll(() => {
+      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+    });
+
+    const BASE_MS = OIL_RESERVE_RECOVERY_TIME * 1000;
+
+    it("refreshes a Grease-Lightning'd (baseDurationMs 0) reserve to the full duration", () => {
+      const now = Date.now();
+      const game = drillOilReserve({
+        action: { id: "1", type: "oilReserve.drilled" },
+        state: {
+          ...TEST_FARM,
+          inventory: { "Oil Drill": new Decimal(2) },
+          oilReserves: {
+            "1": {
+              x: 1,
+              y: 1,
+              createdAt: 0,
+              drilled: 1,
+              oil: { drilledAt: 1, baseDurationMs: 0 },
+            },
+          },
+        },
+        createdAt: now,
+      });
+      const reserve = game.oilReserves["1"];
+      // Refreshed, NOT left at the stale 0 — and never deleted.
+      expect(reserve.oil.baseDurationMs).toBe(BASE_MS);
+      expect(reserve.oil.drilledAt).toBe(now);
+      // No longer instantly ready.
+      expect(canDrillOilReserve(reserve, game, now)).toBe(false);
+      expect(getOilReserveReadyAt(reserve, game)).toBe(now + BASE_MS);
+    });
+
+    it("refreshes a marked reserve to the new permanent-only cycle (Dev Wrench x0.5)", () => {
+      const now = Date.now();
+      const game = drillOilReserve({
+        action: { id: "1", type: "oilReserve.drilled" },
+        state: {
+          ...TEST_FARM,
+          inventory: { "Oil Drill": new Decimal(2) },
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            equipped: { ...TEST_BUMPKIN.equipped, tool: "Dev Wrench" },
+          },
+          oilReserves: {
+            "1": {
+              x: 1,
+              y: 1,
+              createdAt: 0,
+              drilled: 1,
+              // A stale marker from a prior windowed cycle.
+              oil: { drilledAt: 1, baseDurationMs: 999 },
+            },
+          },
+        },
+        createdAt: now,
+      });
+      const reserve = game.oilReserves["1"];
+      // Refreshed to the new cycle's permanent-only duration, NOT the stale 999.
+      expect(reserve.oil.baseDurationMs).toBe(BASE_MS * 0.5);
+      expect(reserve.oil.drilledAt).toBe(now);
+    });
+  });
 });

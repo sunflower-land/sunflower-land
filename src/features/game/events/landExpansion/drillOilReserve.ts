@@ -142,12 +142,25 @@ export function getRequiredOilDrillAmount(gameState: GameState): {
 type getDrilledAtArgs = {
   createdAt: number;
   game: GameState;
+  windowed?: boolean;
 };
 
 /**
  * Single source of truth for oil recovery boosts. Used by both getDrilledAt (game) and UI.
+ *
+ * `windowed` (default = the flag) selects the speed-rate model: when true the
+ * temporary Stag Shrine boost is a retroactive window and is excluded from the
+ * baked recovery here (permanent boosts only). The drill path passes
+ * `windowed = flag || reserve is already marked` so a windowed reserve stays
+ * windowed across re-drills even flag-off (sticky).
  */
-export function getOilRecoveryTimeForDisplay({ game }: { game: GameState }): {
+export function getOilRecoveryTimeForDisplay({
+  game,
+  windowed = hasFeatureAccess(game, "SPEED_BOOSTS"),
+}: {
+  game: GameState;
+  windowed?: boolean;
+}): {
   baseTimeMs: number;
   recoveryTimeMs: number;
   boostsUsed: { name: BoostName; value: string }[];
@@ -156,11 +169,11 @@ export function getOilRecoveryTimeForDisplay({ game }: { game: GameState }): {
   let totalSeconds = OIL_RESERVE_RECOVERY_TIME;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
-  // Under SPEED_BOOSTS the temporary Stag Shrine recovery boost is a retroactive
-  // speed-rate window (see boostWindows), so it's excluded from the baked recovery
-  // here — what remains is the permanent-boost-only base duration. Flag-off keeps
-  // the legacy discount-at-start.
-  const boostsWindowed = hasFeatureAccess(game, "SPEED_BOOSTS");
+  // Under the windowed model the temporary Stag Shrine recovery boost is a
+  // retroactive speed-rate window (see boostWindows), so it's excluded from the
+  // baked recovery here — what remains is the permanent-boost-only base duration.
+  // Legacy (unmarked, flag-off) keeps the legacy discount-at-start.
+  const boostsWindowed = windowed;
 
   if (isWearableActive({ game, name: "Dev Wrench" })) {
     totalSeconds = totalSeconds * 0.5;
@@ -187,24 +200,30 @@ export function getOilRecoveryTimeForDisplay({ game }: { game: GameState }): {
 }
 
 /**
- * The drilled-at time to persist, plus (under SPEED_BOOSTS) the base recovery
- * duration.
+ * The drilled-at time to persist, plus (under the windowed model) the base
+ * recovery duration.
  *
  * Legacy model: back-date `drilledAt` into the past so the reserve replenishes
- * faster. Speed-rate model (SPEED_BOOSTS): store the REAL drill time and a
+ * faster. Speed-rate model (`windowed`): store the REAL drill time and a
  * `baseDurationMs` carrying only the permanent boosts; the temporary Stag Shrine
- * boost is derived live from windows. Uses getOilRecoveryTimeForDisplay for boost
- * logic. Mirrors `getMinedAt`.
+ * boost is derived live from windows. `windowed` defaults to the flag; the drill
+ * path passes `flag || reserve already marked` so a marked reserve is refreshed
+ * (never left with a stale `baseDurationMs`) even flag-off. Uses
+ * getOilRecoveryTimeForDisplay for boost logic. Mirrors `getMinedAt`.
  */
-export function getDrilledAt({ createdAt, game }: getDrilledAtArgs): {
+export function getDrilledAt({
+  createdAt,
+  game,
+  windowed = hasFeatureAccess(game, "SPEED_BOOSTS"),
+}: getDrilledAtArgs): {
   time: number;
   baseDurationMs?: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
   const { baseTimeMs, recoveryTimeMs, boostsUsed } =
-    getOilRecoveryTimeForDisplay({ game });
+    getOilRecoveryTimeForDisplay({ game, windowed });
 
-  if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
+  if (windowed) {
     return { time: createdAt, baseDurationMs: recoveryTimeMs, boostsUsed };
   }
 
@@ -249,14 +268,21 @@ export function drillOilReserve({
     );
     // Take away one drill
     game.inventory["Oil Drill"] = drillAmount.sub(requiredDrills);
-    // Update drilled at time
+    // Update drilled at time. Sticky-windowed: a reserve that already carries the
+    // baseDurationMs marker stays windowed across re-drills even flag-off, so we
+    // refresh a fresh permanent-only baseDurationMs rather than leaving a stale one
+    // (mirrors the fruit forceWindowed re-action pattern).
+    const windowed =
+      hasFeatureAccess(game, "SPEED_BOOSTS") ||
+      oilReserve.oil.baseDurationMs !== undefined;
     const {
       time,
       baseDurationMs,
       boostsUsed: drilledAtBoostsUsed,
     } = getDrilledAt({
       createdAt,
-      game: game,
+      game,
+      windowed,
     });
     oilReserve.oil.drilledAt = time;
     if (baseDurationMs !== undefined) {

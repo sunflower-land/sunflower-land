@@ -877,6 +877,12 @@ export type Oil = {
    * `computeReadyAt` over the legacy back-dated `drilledAt` readiness check.
    * Oil has no progress-fill bar (countdown only), so — like `Wood` — it
    * carries no `boostedTime`.
+   *
+   * Lifecycle: PERMANENT per-reserve. Once drilled windowed the reserve stays
+   * windowed, and every subsequent drill REFRESHES this to that cycle's
+   * permanent-only duration (sticky), regardless of the `SPEED_BOOSTS` flag — it
+   * is never left stale beside a fresh `drilledAt`, nor does it silently revert to
+   * the legacy back-date.
    */
   baseDurationMs?: number;
 };
