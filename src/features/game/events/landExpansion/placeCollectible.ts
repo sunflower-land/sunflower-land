@@ -18,10 +18,7 @@ import {
   PET_HOUSE_CAPACITY,
   PET_TYPES,
 } from "features/game/types/pets";
-import {
-  EXPIRY_COOLDOWNS,
-  type TemporaryCollectibleName,
-} from "features/game/lib/collectibleBuilt";
+import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { COMPETITION_POINTS } from "features/game/types/competitions";
 import { populateSaltFarm } from "features/game/types/salt";
@@ -47,9 +44,7 @@ type Options = {
  */
 export function isCollectibleWithTimestamps(name: CollectibleName) {
   return (
-    !!EXPIRY_COOLDOWNS[name as TemporaryCollectibleName] ||
-    name === "Maneki Neko" ||
-    name === "Magic Bean"
+    name in EXPIRY_COOLDOWNS || name === "Maneki Neko" || name === "Magic Bean"
   );
 }
 

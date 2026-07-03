@@ -6,6 +6,7 @@ import {
 } from "./collectibleBuilt";
 import { TEST_FARM } from "./constants";
 import { CONFIG } from "lib/config";
+import type { GameState } from "features/game/types/game";
 
 describe("isCollectibleBuilt", () => {
   it("returns true if collectible is ready on island", () => {
@@ -273,7 +274,9 @@ describe("getExpiryCooldown", () => {
   const setNetwork = (network: "mainnet" | "amoy") =>
     ((CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = network);
   const originalNetwork = CONFIG.NETWORK;
-  afterAll(() => setNetwork(originalNetwork));
+  // Restore after every test so the suite stays order-independent (tests below
+  // set their own network explicitly).
+  afterEach(() => setNetwork(originalNetwork));
 
   it("returns the rebalanced durations under SPEED_BOOSTS", () => {
     setNetwork("amoy");
@@ -319,5 +322,45 @@ describe("getExpiryCooldown", () => {
     expect(getExpiryCooldown("Time Warp Totem", game)).toBe(
       EXPIRY_COOLDOWNS["Time Warp Totem"],
     );
+  });
+
+  // The cooldown is derived from CURRENT feature access rather than persisted at
+  // placement time, so flipping SPEED_BOOSTS retroactively re-times already-placed
+  // boosters. This is INTENTIONAL and safe under this rollout: the flag is
+  // `testnetFeatureFlag` (network-static — always on for amoy, off for mainnet), so
+  // no player experiences a mid-life flip. Locked in here so the eventual
+  // username/mainnet rollout doesn't surprise anyone.
+  it("retroactively re-times already-placed boosters when the flag flips", () => {
+    // A Time Warp Totem placed 3h ago: past the legacy 2h lifetime, inside the 4h one.
+    const totemGame = (username: string): GameState => ({
+      ...TEST_FARM,
+      username,
+      collectibles: {
+        "Time Warp Totem": [
+          {
+            id: "1",
+            coordinates: { x: 0, y: 0 },
+            createdAt: Date.now() - 3 * 60 * 60 * 1000,
+            readyAt: Date.now() - 3 * 60 * 60 * 1000,
+          },
+        ],
+      },
+    });
+
+    setNetwork("mainnet");
+    expect(
+      isTemporaryCollectibleActive({
+        name: "Time Warp Totem",
+        game: totemGame("not-a-team-member"),
+      }),
+    ).toBe(false); // legacy 2h lifetime → expired
+
+    setNetwork("amoy");
+    expect(
+      isTemporaryCollectibleActive({
+        name: "Time Warp Totem",
+        game: totemGame("team-member"),
+      }),
+    ).toBe(true); // rebalanced 4h lifetime → still active
   });
 });
