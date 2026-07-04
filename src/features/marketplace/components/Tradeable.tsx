@@ -222,7 +222,8 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
 
   // Chapter Crop Week crop (Saltwort) trading is gated to players with event
   // access (beta testers early; everyone during the event window). Everyone else
-  // sees a "coming soon" panel instead of the buy / list / offer / accept UI.
+  // can still view the item, but the buy / list / offer / accept actions are
+  // disabled.
   const isChapterCropWeekLocked =
     display.name === CHAPTER_CROP_WEEK_CROP && !hasChapterCropWeekAccess(state);
 

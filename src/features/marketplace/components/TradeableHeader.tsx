@@ -275,7 +275,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                 {showBuyNow && (
                   <Button
                     onClick={() => setShowPurchaseModal(true)}
-                    disabled={!canBuy}
+                    disabled={!canBuy || disabled}
                     className={classNames("mr-1 w-full sm:w-auto", {
                       "animate-pulsate": isTutorialBuy,
                     })}
@@ -286,6 +286,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                 {tradeable?.isActive && !vipIsRequired && !isTutorialItem && (
                   <Button
                     disabled={
+                      disabled ||
                       !availableCount ||
                       // Already has one listed?
 
