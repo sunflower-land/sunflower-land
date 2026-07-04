@@ -52,6 +52,8 @@ type TradeableListingsProps = {
   onListClick: () => void;
   onListClose: () => void;
   reload: KeyedMutator<TradeableDetails>;
+  /** When true, buying is blocked (e.g. Saltwort without event access). */
+  disabled?: boolean;
 };
 
 type BulkOrder = {
@@ -74,6 +76,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
   showListItem,
   reload,
   onListClose,
+  disabled,
 }) => {
   const { gameService, showAnimations } = useContext(Context);
   const { t } = useAppTranslation();
@@ -339,6 +342,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
                   </Button>
                   <Button
                     disabled={
+                      disabled ||
                       bulkOrder === undefined ||
                       bulkOrder?.ids.length === 0 ||
                       new Decimal(bulkOrder?.price ?? 0).gt(balance)
@@ -353,6 +357,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
               {!!availableListings.length &&
                 isResource &&
                 !showBulkBuy &&
+                !disabled &&
                 tradeable?.isActive &&
                 limitedTradesLeft === Infinity && (
                   <Button
@@ -402,7 +407,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
                   id={farmId}
                   tableType="listings"
                   onClick={
-                    tradeable.isActive
+                    tradeable.isActive && !disabled
                       ? (listingId) => {
                           handleSelectListing(listingId);
                           setShowPurchaseModal(true);

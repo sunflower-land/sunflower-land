@@ -57,6 +57,8 @@ export const TradeableOffers: React.FC<{
   display: TradeableDisplay;
   itemId: number;
   reload: KeyedMutator<TradeableDetails>;
+  /** When true, making & accepting offers is blocked (e.g. Saltwort without event access). */
+  disabled?: boolean;
 }> = ({
   hideLimited,
   tradeable,
@@ -66,6 +68,7 @@ export const TradeableOffers: React.FC<{
   itemId,
   reload,
   limitedPurchasesLeft,
+  disabled,
 }) => {
   const { authService } = useContext(Auth.Context);
   const { gameService, showAnimations } = useContext(Context);
@@ -237,6 +240,7 @@ export const TradeableOffers: React.FC<{
                     <Button
                       className="w-full sm:w-fit mr-1"
                       disabled={
+                        disabled ||
                         !tradeable ||
                         !tradeable?.isActive ||
                         limitedPurchasesLeft <= 0
@@ -252,6 +256,7 @@ export const TradeableOffers: React.FC<{
                   {topOffer && tradeable?.isActive && !vipIsRequired && (
                     <Button
                       disabled={
+                        disabled ||
                         topOffer.offeredBy.id === farmId ||
                         limitedTradesLeft <= 0
                       }
@@ -318,7 +323,7 @@ export const TradeableOffers: React.FC<{
                   id={farmId}
                   tableType="offers"
                   onClick={
-                    tradeable.isActive && !vipIsRequired
+                    tradeable.isActive && !vipIsRequired && !disabled
                       ? (offerId) => {
                           handleSelectOffer(offerId);
                           setShowAcceptOffer(true);
@@ -332,6 +337,7 @@ export const TradeableOffers: React.FC<{
           <div className="w-full justify-end flex sm:pb-2 sm:pr-2">
             <Button
               className="w-full sm:w-fit"
+              disabled={disabled}
               onClick={() => setShowMakeOffer(true)}
             >
               {t("marketplace.makeOffer")}
