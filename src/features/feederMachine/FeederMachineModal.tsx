@@ -52,6 +52,7 @@ export const FeederMachineModal: React.FC<Props> = ({
   const [selectedName, setSelectedName] = useState<
     AnimalFoodName | AnimalMedicineName
   >("Hay");
+  const [tab, setTab] = useState<"food" | "automaticMixer">("food");
   const { coins } = ANIMAL_FOODS[selectedName];
 
   const { ingredients } = getIngredients({ state, name: selectedName });
@@ -99,6 +100,7 @@ export const FeederMachineModal: React.FC<Props> = ({
   };
 
   const hasBulkRequests = getKeys(missingRequests).length > 0;
+  const hasFeedRequests = getKeys(requests).length > 0;
 
   const hasEnoughBulkIngredients = getKeys(bulkRequirements.ingredients).every(
     (name) =>
@@ -143,6 +145,21 @@ export const FeederMachineModal: React.FC<Props> = ({
     shortcutItem(selectedName);
   };
 
+  const renderAmountLabel = (
+    item: keyof typeof ITEM_DETAILS,
+    amount: Decimal | number,
+    key: string,
+  ) => (
+    <Label
+      key={key}
+      icon={ITEM_DETAILS[item].image}
+      type="default"
+      style={{ paddingLeft: "24px" }}
+    >
+      {formatNumber(amount)}
+    </Label>
+  );
+
   return (
     <Modal show={show} onHide={onClose}>
       <CloseButtonPanel
@@ -150,95 +167,161 @@ export const FeederMachineModal: React.FC<Props> = ({
         container={OuterPanel}
         tabs={[
           {
-            id: "feederMachine",
+            id: "food",
             icon: ITEM_DETAILS.Hay.image,
-            name: t("feederMachine.title"),
+            name: t("feeder.foodTypes.food"),
+          },
+          {
+            id: "automaticMixer",
+            icon: ITEM_DETAILS["Mixed Grain"].image,
+            name: t("feeder.automaticMixer"),
           },
         ]}
+        currentTab={tab}
+        setCurrentTab={setTab}
       >
-        <SplitScreenView
-          panel={
-            <CraftingRequirements
-              gameState={state}
-              details={{ item: selectedName }}
-              requirements={{
-                coins,
-                resources: ingredients,
-              }}
-              actionView={
-                <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-                  <Button
-                    disabled={lessFunds() || lessIngredients()}
-                    onClick={() => mix()}
-                  >
-                    {t("mix.one")}
-                  </Button>
-                  <Button
-                    disabled={lessFunds(10) || lessIngredients(10)}
-                    onClick={() => mix(10)}
-                  >
-                    {t("mix.ten")}
-                  </Button>
-                </div>
-              }
-            />
-          }
-          content={
-            <div className="flex flex-col">
-              {Object.entries(groupedItems).map(([type, items]) => (
-                <div key={type} className="flex flex-col">
-                  <Label type="default" className="mb-1">
-                    {t(FOOD_TYPE_TERMS[type as FeedType])}
-                  </Label>
-                  <div className="flex flex-wrap mb-2">
-                    {items.map((item) => (
-                      <Box
-                        key={item.name}
-                        isSelected={selectedName === item.name}
-                        onClick={() => onSelect(item.name)}
-                        image={ITEM_DETAILS[item.name].image}
-                        count={state.inventory[item.name]}
-                      />
-                    ))}
+        {tab === "food" && (
+          <SplitScreenView
+            panel={
+              <CraftingRequirements
+                gameState={state}
+                details={{ item: selectedName }}
+                requirements={{
+                  coins,
+                  resources: ingredients,
+                }}
+                actionView={
+                  <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
+                    <Button
+                      disabled={lessFunds() || lessIngredients()}
+                      onClick={() => mix()}
+                    >
+                      {t("mix.one")}
+                    </Button>
+                    <Button
+                      disabled={lessFunds(10) || lessIngredients(10)}
+                      onClick={() => mix(10)}
+                    >
+                      {t("mix.ten")}
+                    </Button>
                   </div>
+                }
+              />
+            }
+            content={
+              <div className="flex flex-col">
+                {Object.entries(groupedItems).map(([type, items]) => (
+                  <div key={type} className="flex flex-col">
+                    <Label type="default" className="mb-1">
+                      {t(FOOD_TYPE_TERMS[type as FeedType])}
+                    </Label>
+                    <div className="flex flex-wrap mb-2">
+                      {items.map((item) => (
+                        <Box
+                          key={item.name}
+                          isSelected={selectedName === item.name}
+                          onClick={() => onSelect(item.name)}
+                          image={ITEM_DETAILS[item.name].image}
+                          count={state.inventory[item.name]}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            }
+          />
+        )}
+        {tab === "automaticMixer" && (
+          <SplitScreenView
+            panel={
+              <div className="flex flex-col gap-2 p-1 min-h-56 sm:min-h-[19.5rem] w-full">
+                {getKeys(bulkRequirements.ingredients).length > 0 && (
+                  <div className="flex flex-col gap-1">
+                    <Label type="default">{t("feeder.ingredientsToMix")}</Label>
+                    <div className="flex flex-wrap gap-1">
+                      {getKeys(bulkRequirements.ingredients).map((ingredient) =>
+                        renderAmountLabel(
+                          ingredient as keyof typeof ITEM_DETAILS,
+                          bulkRequirements.ingredients[ingredient] ??
+                            new Decimal(0),
+                          `required-ingredient-${ingredient}`,
+                        ),
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {getKeys(missingIngredients).length > 0 && (
+                  <div className="flex flex-col gap-1">
+                    <Label type="danger">
+                      {t("feeder.missingIngredients")}
+                    </Label>
+                    <div className="flex flex-wrap gap-1">
+                      {getKeys(missingIngredients).map((ingredient) =>
+                        renderAmountLabel(
+                          ingredient as keyof typeof ITEM_DETAILS,
+                          missingIngredients[ingredient] ?? new Decimal(0),
+                          `ingredient-${ingredient}`,
+                        ),
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                <div className="mt-auto">
+                  <Button
+                    disabled={
+                      !hasBulkRequests ||
+                      !hasEnoughBulkIngredients ||
+                      !hasEnoughBulkCoins
+                    }
+                    onClick={bulkMix}
+                  >
+                    {t("feeder.mixAll")}
+                  </Button>
                 </div>
-              ))}
-              <div className="flex flex-col mt-1">
-                <Label type="default" className="mb-1">
-                  {t("feeder.combinedRequests")}
-                </Label>
-                <div className="border border-[#2E2543] p-2 bg-[#dba072] min-h-[96px]">
+              </div>
+            }
+            content={
+              <div className="flex flex-col gap-2 p-1 min-h-56 sm:min-h-[19.5rem] w-full">
+                {!hasFeedRequests ? (
                   <div className="flex flex-col gap-2">
-                    {getKeys(requests).length > 0 ? (
-                      <div className="flex flex-wrap gap-1">
-                        {getKeys(requests).map((item) => (
-                          <Label
-                            key={`${building}-${item}`}
-                            icon={ITEM_DETAILS[item].image}
-                            type="default"
-                          >
-                            {formatNumber(requests[item] ?? 0)}
-                          </Label>
-                        ))}
+                    <p className="text-xs">
+                      {t("feeder.noRequestsForBuilding")}
+                    </p>
+                    <p className="text-xs">
+                      {t("feeder.automaticMixerEmptyDescription")}
+                    </p>
+                  </div>
+                ) : (
+                  <>
+                    <div className="flex flex-col gap-1">
+                      <Label type="default">
+                        {t("feeder.combinedRequests")}
+                      </Label>
+                      <div className="flex flex-wrap gap-2">
+                        {getKeys(requests).map((item) =>
+                          renderAmountLabel(
+                            item,
+                            requests[item] ?? 0,
+                            `${building}-${item}`,
+                          ),
+                        )}
                       </div>
-                    ) : (
-                      <p className="text-xs">
-                        {t("feeder.noRequestsForBuilding")}
-                      </p>
-                    )}
-                    <div className="flex flex-col gap-1 pt-1">
+                    </div>
+
+                    <div className="flex flex-col gap-1">
                       <Label type="warning">{t("feeder.needToMix")}</Label>
                       {hasBulkRequests ? (
-                        <div className="flex flex-wrap gap-1">
-                          {getKeys(missingRequests).map((item) => (
-                            <Label
-                              key={`missing-${item}`}
-                              icon={ITEM_DETAILS[item].image}
-                              type="default"
-                            >
-                              {formatNumber(missingRequests[item] ?? 0)}
-                            </Label>
-                          ))}
+                        <div className="flex flex-wrap gap-2">
+                          {getKeys(missingRequests).map((item) =>
+                            renderAmountLabel(
+                              item,
+                              missingRequests[item] ?? 0,
+                              `missing-${item}`,
+                            ),
+                          )}
                         </div>
                       ) : (
                         <p className="text-xs">
@@ -246,75 +329,12 @@ export const FeederMachineModal: React.FC<Props> = ({
                         </p>
                       )}
                     </div>
-                    {getKeys(bulkRequirements.ingredients).length > 0 && (
-                      <div className="flex flex-col gap-1 pt-1">
-                        <Label type="default">
-                          {t("feeder.ingredientsToMix")}
-                        </Label>
-                        <div className="flex flex-wrap gap-1">
-                          {getKeys(bulkRequirements.ingredients).map(
-                            (ingredient) => {
-                              const item =
-                                ingredient as keyof typeof ITEM_DETAILS;
-
-                              return (
-                                <Label
-                                  key={`required-ingredient-${ingredient}`}
-                                  icon={ITEM_DETAILS[item].image}
-                                  type="default"
-                                >
-                                  {formatNumber(
-                                    bulkRequirements.ingredients[ingredient] ??
-                                      0,
-                                  )}
-                                </Label>
-                              );
-                            },
-                          )}
-                        </div>
-                      </div>
-                    )}
-                    {getKeys(missingIngredients).length > 0 && (
-                      <div className="flex flex-col gap-1 pt-1">
-                        <Label type="danger">
-                          {t("feeder.missingIngredients")}
-                        </Label>
-                        <div className="flex flex-wrap gap-1">
-                          {getKeys(missingIngredients).map((ingredient) => {
-                            const item =
-                              ingredient as keyof typeof ITEM_DETAILS;
-
-                            return (
-                              <Label
-                                key={`ingredient-${ingredient}`}
-                                icon={ITEM_DETAILS[item].image}
-                                type="default"
-                              >
-                                {formatNumber(
-                                  missingIngredients[ingredient] ?? 0,
-                                )}
-                              </Label>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
-                    <Button
-                      disabled={
-                        !hasBulkRequests ||
-                        !hasEnoughBulkIngredients ||
-                        !hasEnoughBulkCoins
-                      }
-                      onClick={bulkMix}
-                    >
-                      {t("feeder.mixAll")}
-                    </Button>
-                  </div>
-                </div>
+                  </>
+                )}
               </div>
-            </div>
-          }
-        />
+            }
+          />
+        )}
       </CloseButtonPanel>
     </Modal>
   );
