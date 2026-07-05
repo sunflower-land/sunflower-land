@@ -48,6 +48,8 @@ interface HarvestsRequirementProps {
 /**
  * The props for the inventory properties.
  * @param timeSeconds The wait time in seconds for using the item.
+ * @param baseTimeSeconds The base wait time before boosts (for strikethrough display).
+ * @param timeBoostsUsed The boosts applied to the grow time (for clickable boost display).
  * @param harvests The min/max harvests for the item.
  * @param xp The XP gained for consuming the item.
  * @param xpBoostsUsed The boosts applied to food XP (for clickable boost display).
@@ -58,6 +60,8 @@ interface HarvestsRequirementProps {
  */
 interface PropertiesProps {
   timeSeconds?: number;
+  baseTimeSeconds?: number;
+  timeBoostsUsed?: { name: BoostName; value: string }[];
   harvests?: HarvestsRequirementProps;
   xp?: Decimal;
   xpBoostsUsed?: { name: BoostName; value: string }[];
@@ -170,6 +174,51 @@ export const InventoryItemDetails: React.FC<Props> = ({
   const getProperties = () => {
     if (!properties) return <></>;
 
+    const getTimeDisplay = () => {
+      if (!properties.timeSeconds) return <></>;
+
+      const isTimeBoosted =
+        properties.timeBoostsUsed &&
+        properties.timeBoostsUsed.length > 0 &&
+        properties.baseTimeSeconds !== undefined &&
+        properties.timeSeconds !== properties.baseTimeSeconds;
+
+      if (
+        isTimeBoosted &&
+        properties.timeBoostsUsed &&
+        properties.setShowBoosts &&
+        properties.showBoosts !== undefined
+      ) {
+        return (
+          <div
+            className="flex flex-col items-center cursor-pointer"
+            onClick={() => properties.setShowBoosts?.(!properties.showBoosts)}
+          >
+            <RequirementLabel
+              type="time"
+              waitSeconds={properties.timeSeconds}
+              boosted
+            />
+            <RequirementLabel
+              type="time"
+              waitSeconds={properties.baseTimeSeconds ?? 0}
+              strikethrough
+            />
+            <BoostsDisplay
+              boosts={properties.timeBoostsUsed}
+              show={properties.showBoosts}
+              state={game}
+              onClick={() => properties.setShowBoosts?.(!properties.showBoosts)}
+            />
+          </div>
+        );
+      }
+
+      return (
+        <RequirementLabel type="time" waitSeconds={properties.timeSeconds} />
+      );
+    };
+
     const getXPDisplay = () => {
       if (!properties.xp) return <></>;
 
@@ -217,9 +266,7 @@ export const InventoryItemDetails: React.FC<Props> = ({
         )}
       >
         {/* Time requirement display */}
-        {!!properties.timeSeconds && (
-          <RequirementLabel type="time" waitSeconds={properties.timeSeconds} />
-        )}
+        {getTimeDisplay()}
 
         {/* Harvests display */}
         {!!properties.harvests && (

@@ -154,30 +154,54 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
 
   const getHarvestTime = (seedName: SeedName) => {
     if (isFlowerSeed(seedName)) {
-      return getFlowerTime(seedName, gameState).seconds;
+      return getFlowerTime(seedName, gameState);
     }
 
     if (isPatchFruitSeed(seedName)) {
-      return getFruitPatchTime(seedName, gameState).seconds;
+      return getFruitPatchTime(seedName, gameState);
     }
     if (seedName in GREENHOUSE_SEEDS || seedName in GREENHOUSE_FRUIT_SEEDS) {
       const plant = SEED_TO_PLANT[seedName as GreenHouseCropSeedName];
-      const { seconds } = getGreenhouseCropTime({
+      return getGreenhouseCropTime({
         crop: plant,
         game: gameState,
       });
-      return seconds;
     }
 
     const crop = SEEDS[seedName].yield as CropName;
-    return getCropPlotTime({
+    const { time: seconds, boostsUsed } = getCropPlotTime({
       crop,
       game: gameState,
       createdAt: now,
-    }).time;
+    });
+    return { seconds, boostsUsed };
+  };
+
+  const getBaseHarvestTime = (seedName: SeedName): number => {
+    if (seedName in FLOWER_SEEDS) {
+      return FLOWER_SEEDS[seedName as keyof typeof FLOWER_SEEDS].plantSeconds;
+    }
+    if (seedName in PATCH_FRUIT_SEEDS) {
+      return PATCH_FRUIT_SEEDS[seedName as keyof typeof PATCH_FRUIT_SEEDS]
+        .plantSeconds;
+    }
+    if (seedName in GREENHOUSE_SEEDS) {
+      return GREENHOUSE_SEEDS[seedName as keyof typeof GREENHOUSE_SEEDS]
+        .plantSeconds;
+    }
+    if (seedName in GREENHOUSE_FRUIT_SEEDS) {
+      return GREENHOUSE_FRUIT_SEEDS[
+        seedName as keyof typeof GREENHOUSE_FRUIT_SEEDS
+      ].plantSeconds;
+    }
+    return CROP_SEEDS[seedName as keyof typeof CROP_SEEDS].plantSeconds;
   };
 
   const harvestCounts = getFruitHarvests(gameState, selectedItem as SeedName);
+
+  const seedHarvestTime = isSeed(selectedItem)
+    ? getHarvestTime(selectedItem)
+    : undefined;
 
   const foodExpBoost = isFood(selectedItem)
     ? getFoodExpBoost({
@@ -541,13 +565,15 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
                 baseXp: foodExpBoost
                   ? CONSUMABLES[selectedItem as ConsumableName].experience
                   : undefined,
-                ...(foodExpBoost && {
+                ...((foodExpBoost || isSeed(selectedItem)) && {
                   showBoosts,
                   setShowBoosts,
                 }),
-                timeSeconds: isSeed(selectedItem)
-                  ? getHarvestTime(selectedItem)
+                timeSeconds: seedHarvestTime?.seconds,
+                baseTimeSeconds: isSeed(selectedItem)
+                  ? getBaseHarvestTime(selectedItem)
                   : undefined,
+                timeBoostsUsed: seedHarvestTime?.boostsUsed,
                 showOpenSeaLink: true,
               }}
             />
