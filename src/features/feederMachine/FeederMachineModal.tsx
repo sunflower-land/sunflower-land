@@ -141,8 +141,6 @@ export const FeederMachineModal: React.FC<Props> = ({
         amount,
       });
     });
-
-    shortcutItem(selectedName);
   };
 
   const renderAmountLabel = (
