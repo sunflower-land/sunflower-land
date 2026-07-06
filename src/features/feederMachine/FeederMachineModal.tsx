@@ -150,12 +150,7 @@ export const FeederMachineModal: React.FC<Props> = ({
     amount: Decimal | number,
     key: string,
   ) => (
-    <Label
-      key={key}
-      icon={ITEM_DETAILS[item].image}
-      type="default"
-      style={{ paddingLeft: "24px" }}
-    >
+    <Label key={key} icon={ITEM_DETAILS[item].image} type="default">
       {formatNumber(amount)}
     </Label>
   );
@@ -235,11 +230,11 @@ export const FeederMachineModal: React.FC<Props> = ({
         {tab === "automaticMixer" && (
           <SplitScreenView
             panel={
-              <div className="flex flex-col gap-2 p-1 min-h-56 sm:min-h-[19.5rem] w-full">
+              <div className="flex flex-col gap-2 min-h-56 sm:min-h-[19.5rem] w-full">
                 {getKeys(bulkRequirements.ingredients).length > 0 && (
-                  <div className="flex flex-col gap-1">
+                  <div className="flex flex-col gap-1 px-1 pt-1">
                     <Label type="default">{t("feeder.ingredientsToMix")}</Label>
-                    <div className="flex flex-wrap gap-1">
+                    <div className="flex flex-wrap gap-x-3 gap-y-1">
                       {getKeys(bulkRequirements.ingredients).map((ingredient) =>
                         renderAmountLabel(
                           ingredient as keyof typeof ITEM_DETAILS,
@@ -253,11 +248,11 @@ export const FeederMachineModal: React.FC<Props> = ({
                 )}
 
                 {getKeys(missingIngredients).length > 0 && (
-                  <div className="flex flex-col gap-1">
+                  <div className="flex flex-col gap-1 px-1">
                     <Label type="danger">
                       {t("feeder.missingIngredients")}
                     </Label>
-                    <div className="flex flex-wrap gap-1">
+                    <div className="flex flex-wrap gap-x-3 gap-y-1">
                       {getKeys(missingIngredients).map((ingredient) =>
                         renderAmountLabel(
                           ingredient as keyof typeof ITEM_DETAILS,
@@ -269,7 +264,7 @@ export const FeederMachineModal: React.FC<Props> = ({
                   </div>
                 )}
 
-                <div className="mt-auto">
+                <div className="mt-auto w-full">
                   <Button
                     disabled={
                       !hasBulkRequests ||
@@ -300,7 +295,7 @@ export const FeederMachineModal: React.FC<Props> = ({
                       <Label type="default">
                         {t("feeder.combinedRequests")}
                       </Label>
-                      <div className="flex flex-wrap gap-2">
+                      <div className="flex flex-wrap gap-x-3 gap-y-1">
                         {getKeys(requests).map((item) =>
                           renderAmountLabel(
                             item,
@@ -311,10 +306,23 @@ export const FeederMachineModal: React.FC<Props> = ({
                       </div>
                     </div>
 
+                    <div className="flex flex-col gap-1 mt-2">
+                      <Label type="default">{t("feeder.youHave")}</Label>
+                      <div className="flex flex-wrap gap-x-3 gap-y-1">
+                        {getKeys(requests).map((item) =>
+                          renderAmountLabel(
+                            item,
+                            state.inventory[item] ?? 0,
+                            `available-${item}`,
+                          ),
+                        )}
+                      </div>
+                    </div>
+
                     <div className="flex flex-col gap-1">
                       <Label type="warning">{t("feeder.needToMix")}</Label>
                       {hasBulkRequests ? (
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-x-3 gap-y-1">
                           {getKeys(missingRequests).map((item) =>
                             renderAmountLabel(
                               item,
