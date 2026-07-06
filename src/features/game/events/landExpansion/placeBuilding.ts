@@ -11,6 +11,7 @@ import { produce } from "immer";
 import type { ComposterName } from "features/game/types/composters";
 import { createInitialAgingShed } from "features/game/lib/agingShed";
 import {
+  getAnimalBoostWindows,
   getGreenhouseBoostWindows,
   getGreenhouseGlowWindows,
   pauseWindowedTimer,
@@ -156,13 +157,25 @@ export function placeBuilding({
 
         Object.values(animals).forEach((animal) => {
           if (existingBuilding.removedAt) {
-            const timeOffset = Math.max(
-              0,
-              createdAt - existingBuilding.removedAt,
-            );
-            animal.asleepAt = animal.asleepAt + timeOffset;
-            animal.awakeAt = animal.awakeAt + timeOffset;
-            animal.lovedAt = animal.lovedAt + timeOffset;
+            const oldAsleepAt = animal.asleepAt;
+            // Pause sleep across the move: bank accrued work into baseDurationMs
+            // (windowed) or back-date the start (legacy). No trackProgress — animals
+            // have no fill bar. Then re-anchor the denormalised awakeAt and shift
+            // lovedAt by the same delta so the love cadence stays consistent with
+            // the resumed asleepAt. (Mirrors the Greenhouse branch above.)
+            const newAsleepAt = pauseWindowedTimer({
+              timer: animal,
+              startedAt: animal.asleepAt,
+              removedAt: existingBuilding.removedAt,
+              createdAt,
+              windows: getAnimalBoostWindows(stateCopy, animal.type),
+            });
+            animal.asleepAt = newAsleepAt;
+            animal.awakeAt =
+              animal.baseDurationMs !== undefined
+                ? newAsleepAt + animal.baseDurationMs
+                : animal.awakeAt + (newAsleepAt - oldAsleepAt);
+            animal.lovedAt = animal.lovedAt + (newAsleepAt - oldAsleepAt);
           }
         });
       }

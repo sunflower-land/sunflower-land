@@ -15,6 +15,7 @@ import { makeAnimalBuildingKey } from "features/game/lib/animals";
 import { getKeys } from "lib/object";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { hasFeatureAccess } from "lib/flags";
 
 export type ClaimProduceAction = {
   type: "produce.claimed";
@@ -101,12 +102,23 @@ export function claimProduce({
     }
 
     animal.asleepAt = createdAt;
-    const { awakeAt, boostsUsed } = getBoostedAwakeAt({
+    const windowed = hasFeatureAccess(copy, "SPEED_BOOSTS");
+    const { awakeAt, baseDurationMs, boostsUsed } = getBoostedAwakeAt({
       animalType: animal.type,
       createdAt,
       game: copy,
+      windowed,
     });
+    // Windowed: asleepAt is the start, baseDurationMs the shrine-excluded work,
+    // and awakeAt a denormalised un-boosted upper bound (also the legacy fallback).
+    // Flag-off: keep the fully-baked awakeAt and drop any stale marker so a re-claim
+    // reverts to legacy (mirrors getDrilledAt for oil).
     animal.awakeAt = awakeAt;
+    if (windowed) {
+      animal.baseDurationMs = baseDurationMs;
+    } else {
+      delete animal.baseDurationMs;
+    }
     copy.boostsUsedAt = updateBoostUsed({
       game: copy,
       boostNames: boostsUsed,

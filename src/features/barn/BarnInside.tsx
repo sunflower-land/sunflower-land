@@ -37,6 +37,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { isBuildingDestroyed } from "features/island/buildings/components/building/Building";
+import { useNow } from "lib/utils/hooks/useNow";
 
 export const EXTERIOR_ISLAND_BG: Record<LandBiomeName, string> = {
   "Basic Biome": SUNNYSIDE.land.basic_building_bg,
@@ -84,6 +85,7 @@ export const BarnInside: React.FC = () => {
   const barn = useSelector(gameService, _barn);
   const island = useSelector(gameService, _island);
   const level = barn.level;
+  const now = useNow();
 
   const [scrollIntoView] = useScrollIntoView();
   const navigate = useNavigate();
@@ -149,9 +151,16 @@ export const BarnInside: React.FC = () => {
 
   const validAnimalsCount = useMemo(() => {
     if (!deal) return 0;
-    return organizedAnimals.filter((animal) => isValidDeal({ animal, deal }))
-      .length;
-  }, [organizedAnimals, deal]);
+    return organizedAnimals.filter((animal) =>
+      isValidDeal({
+        animal,
+        deal,
+        game: context.visitorState ?? context.state,
+        now,
+      }),
+    ).length;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [organizedAnimals, deal, now]);
 
   const calendarEvent = isBuildingDestroyed({
     name: "Barn",
@@ -242,7 +251,14 @@ export const BarnInside: React.FC = () => {
               >
                 <div className="flex flex-wrap w-full h-full">
                   {organizedAnimals.map((animal) => {
-                    const isValid = deal && isValidDeal({ animal, deal });
+                    const isValid =
+                      deal &&
+                      isValidDeal({
+                        animal,
+                        deal,
+                        game: context.visitorState ?? context.state,
+                        now,
+                      });
                     const Component =
                       BARN_ANIMAL_COMPONENTS[animal.type as BarnAnimal];
                     const { width, height } = ANIMALS[animal.type];

@@ -14,9 +14,11 @@ import {
 import {
   getAnimalFavoriteFood,
   getAnimalLevel,
+  getAnimalReadyAt,
   getBoostedFoodQuantity,
   isAnimalFood,
 } from "features/game/lib/animals";
+import { useNow } from "lib/utils/hooks/useNow";
 import classNames from "classnames";
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
@@ -118,23 +120,34 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const { t } = useAppTranslation();
   const chicken = useSelector(gameService, _chicken(id));
   const game = useSelector(gameService, _game);
+  // Live (windowed) wake time — earlier than the denormalised awakeAt under a
+  // Bantam shrine. Drives the countdown, the machine and the instant-wake effect.
+  const readyAt = getAnimalReadyAt(chicken, game);
+  // Tick every second until the chicken is due to wake, then stop.
+  const now = useNow({ live: true, autoEndAt: readyAt });
   const inventory = useSelector(gameService, _inventory);
   const chickenService = useInterpret(animalMachine, {
-    context: { animal: chicken },
+    context: { animal: chicken, game },
     devTools: true,
   }) as unknown as AnimalMachineInterpreter;
 
   const chickenMachineState = useSelector(chickenService, _animalState);
 
+  // Keep the machine's game fresh so a shrine placed mid-sleep recomputes ready/love.
   useEffect(() => {
-    if (chicken.awakeAt < Date.now() && chickenMachineState === "sleeping") {
+    chickenService.send({ type: "UPDATE_GAME", game });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [game]);
+
+  useEffect(() => {
+    if (readyAt < now && chickenMachineState === "sleeping") {
       chickenService.send({
         type: "INSTANT_WAKE_UP",
         animal: chicken,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chicken.awakeAt]);
+  }, [readyAt, now]);
 
   useEffect(() => {
     if (chicken.state === "sick" && chickenMachineState !== "sick") {
@@ -616,7 +629,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
           <SleepingAnimalModal
             id={chicken.id}
             animal={chicken}
-            awakeAt={chicken.awakeAt}
+            awakeAt={readyAt}
             onClose={() => setShowAnimalDetails(false)}
           />
         </CloseButtonPanel>

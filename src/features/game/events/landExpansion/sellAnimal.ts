@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { getAnimalLevel } from "features/game/lib/animals";
+import { getAnimalLevel, getAnimalReadyAt } from "features/game/lib/animals";
 import { getKeys } from "lib/object";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import type {
@@ -19,9 +19,13 @@ import { handleChapterAnalytics } from "features/game/lib/trackAnalytics";
 export function isValidDeal({
   animal,
   deal,
+  game,
+  now,
 }: {
   animal: Animal;
   deal: BountyRequest;
+  game: GameState;
+  now: number;
 }) {
   if (animal.type !== deal.name) {
     return false;
@@ -42,7 +46,7 @@ export function isValidDeal({
     return false;
   }
 
-  if (animal.awakeAt && animal.awakeAt > Date.now()) {
+  if (animal.awakeAt && getAnimalReadyAt(animal, game) > now) {
     return false;
   }
 
@@ -95,7 +99,7 @@ export function sellAnimal({
       throw new Error("Animal does not exist");
     }
 
-    if (!isValidDeal({ animal, deal: request })) {
+    if (!isValidDeal({ animal, deal: request, game, now: createdAt })) {
       throw new Error("Animal does not meet requirements");
     }
 

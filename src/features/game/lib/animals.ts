@@ -27,6 +27,8 @@ import {
 } from "./collectibleBuilt";
 import { getBudYieldBoosts } from "./getBudYieldBoosts";
 import { isWearableActive } from "./wearables";
+import { computeReadyAt, getAnimalBoostWindows } from "./boostWindows";
+import { hasFeatureAccess } from "lib/flags";
 import Decimal from "decimal.js-light";
 
 export const makeAnimalBuildingKey = (
@@ -614,12 +616,21 @@ export function getBoostedAwakeAt({
   animalType,
   createdAt,
   game,
+  windowed = hasFeatureAccess(game, "SPEED_BOOSTS"),
 }: {
   animalType: AnimalType;
   createdAt: number;
   game: GameState;
+  /**
+   * When true (default: the SPEED_BOOSTS flag), the temporary Collie/Bantam
+   * shrines are EXCLUDED from both the baked duration and `boostsUsed` — they
+   * become live speed windows (getAnimalBoostWindows) instead. Permanent boosts
+   * always stay baked. `baseDurationMs` is the shrine-excluded duration.
+   */
+  windowed?: boolean;
 }): {
   awakeAt: number;
+  baseDurationMs: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
   const sleepDuration = ANIMAL_SLEEP_DURATION;
@@ -686,7 +697,12 @@ export function getBoostedAwakeAt({
     boostsUsed.push({ name: "Restless Animals", value: "x0.9" });
   }
 
+  // Collie/Bantam shrines' sleep-TIME half. Under the windowed model they are
+  // applied live via getAnimalBoostWindows, so exclude them from the baked
+  // duration (and boostsUsed) here; their feed-amount ×0.95 half stays baked in
+  // getBoostedFoodQuantity regardless.
   if (
+    !windowed &&
     (isCow || isSheep) &&
     isTemporaryCollectibleActive({ name: "Collie Shrine", game })
   ) {
@@ -695,6 +711,7 @@ export function getBoostedAwakeAt({
   }
 
   if (
+    !windowed &&
     isChicken &&
     isTemporaryCollectibleActive({ name: "Bantam Shrine", game })
   ) {
@@ -702,16 +719,43 @@ export function getBoostedAwakeAt({
     boostsUsed.push({ name: "Bantam Shrine", value: "x0.75" });
   }
 
-  // Add the boosted duration to the created time
-  return { awakeAt: createdAt + totalDuration, boostsUsed };
+  // Add the boosted duration to the created time. `baseDurationMs` is the
+  // shrine-excluded (permanents-only) work the windowed model needs; when not
+  // windowed it equals the full baked duration.
+  return {
+    awakeAt: createdAt + totalDuration,
+    baseDurationMs: totalDuration,
+    boostsUsed,
+  };
 }
+
+/**
+ * The live ready (wake) time for an animal. Windowed animals (carrying a
+ * `baseDurationMs` marker, set on claimProduce under the flag) derive it from
+ * `asleepAt` + the accrued work against the animal's live speed windows, so a
+ * Collie/Bantam shrine speeds up sleep retroactively. Legacy animals fall back
+ * to the baked `awakeAt`. Presence of the marker — NOT the flag — selects the
+ * path (mirrors getFlowerReadyAt / getOilReserveReadyAt), keeping permanent-boost
+ * credit on a flag rollback.
+ */
+export const getAnimalReadyAt = (animal: Animal, game: GameState): number =>
+  animal.baseDurationMs !== undefined
+    ? computeReadyAt({
+        startedAt: animal.asleepAt,
+        baseDurationMs: animal.baseDurationMs,
+        windows: getAnimalBoostWindows(game, animal.type),
+      })
+    : animal.awakeAt;
 
 export function getAnimalMaturityTimeForDisplay({
   animalType,
   game,
+  windowed = hasFeatureAccess(game, "SPEED_BOOSTS"),
 }: {
   animalType: AnimalType;
   game: GameState;
+  /** See getBoostedAwakeAt: under the flag the shrines drop to live windows. */
+  windowed?: boolean;
 }): {
   baseTimeMs: number;
   maturityTimeMs: number;
@@ -722,6 +766,7 @@ export function getAnimalMaturityTimeForDisplay({
     animalType,
     createdAt,
     game,
+    windowed,
   });
 
   return {

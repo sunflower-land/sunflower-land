@@ -1935,6 +1935,14 @@ export type Animal = {
   asleepAt: number;
   awakeAt: number;
   lovedAt: number;
+  /**
+   * Windowed sleep duration (ms) with permanent boosts baked in and the temporary
+   * Collie/Bantam shrines EXCLUDED (they become live speed windows). Presence — NOT
+   * the SPEED_BOOSTS flag — selects the derived readiness path (`getAnimalReadyAt`);
+   * legacy animals without it fall back to the baked `awakeAt`. Animals have no
+   * `boostedTime` (countdown only, no fill bar). Written on claimProduce under the flag.
+   */
+  baseDurationMs?: number;
   item: LoveAnimalItem;
   multiplier?: number;
   reward?: Reward;

@@ -12,12 +12,13 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useSound } from "lib/utils/hooks/useSound";
 import { useNow } from "lib/utils/hooks/useNow";
 import { isAnimalNeedingLove } from "features/game/events/landExpansion/loveAnimal";
+import { getAnimalReadyAt } from "features/game/lib/animals";
 import classNames from "classnames";
 import { saveIslandScrollPosition } from "features/game/expansion/lib/islandScroll";
 
 const _hasHungryChickens = (state: MachineState) => {
   return Object.values(state.context.state.henHouse.animals).some(
-    (animal) => animal.awakeAt < Date.now(),
+    (animal) => getAnimalReadyAt(animal, state.context.state) < Date.now(),
   );
 };
 
@@ -33,6 +34,8 @@ const _henHouseAnimals = (state: MachineState) =>
 const _buildingLevel = (state: MachineState) =>
   state.context.state.henHouse.level;
 
+const _game = (state: MachineState) => state.context.state;
+
 export const ChickenHouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
   const { gameService, showAnimations } = useContext(Context);
   const navigate = useNavigate();
@@ -41,13 +44,14 @@ export const ChickenHouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
   const hasSickChickens = useSelector(gameService, _hasSickChickens);
   const henHouseAnimals = useSelector(gameService, _henHouseAnimals);
   const buildingLevel = useSelector(gameService, _buildingLevel);
+  const game = useSelector(gameService, _game);
 
   // useNow drives a tick every second so the alert flips on as soon as
   // the love window opens — the underlying gate values only change on
   // game-state events, which wouldn't fire when crossing the time gate.
   const now = useNow({ live: true });
   const chickensNeedLove = Object.values(henHouseAnimals).some((animal) =>
-    isAnimalNeedingLove(animal, now),
+    isAnimalNeedingLove(animal, game, now),
   );
 
   const { play: barnAudio } = useSound("barn");

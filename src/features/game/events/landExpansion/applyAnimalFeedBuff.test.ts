@@ -189,6 +189,7 @@ describe("applyAnimalFeedBuff", () => {
           lovedAt: 1_000,
           item: "Petting Hand",
         },
+        INITIAL_FARM,
         createdAt,
       ),
     ).toBe(true);

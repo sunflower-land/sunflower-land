@@ -6,7 +6,10 @@ import type {
   AnimalFeedBuffName,
   GameState,
 } from "features/game/types/game";
-import { makeAnimalBuildingKey } from "features/game/lib/animals";
+import {
+  getAnimalReadyAt,
+  makeAnimalBuildingKey,
+} from "features/game/lib/animals";
 import { isAnimalNeedingLove } from "./loveAnimal";
 
 export const ANIMAL_FEED_BUFF_ITEMS: AnimalFeedBuffName[] = [
@@ -22,8 +25,8 @@ export enum APPLY_ANIMAL_FEED_BUFF_ERRORS {
   NEEDS_LOVE = "Pet your animal before using this",
 }
 
-function isAnimalAsleep(animal: Animal, now: number): boolean {
-  return now < animal.awakeAt;
+function isAnimalAsleep(animal: Animal, game: GameState, now: number): boolean {
+  return now < getAnimalReadyAt(animal, game);
 }
 
 export type ApplyAnimalFeedBuffAction = {
@@ -70,8 +73,8 @@ export function applyAnimalFeedBuff({
     }
 
     if (
-      isAnimalAsleep(animal, createdAt) &&
-      isAnimalNeedingLove(animal, createdAt)
+      isAnimalAsleep(animal, copy, createdAt) &&
+      isAnimalNeedingLove(animal, copy, createdAt)
     ) {
       throw new Error(APPLY_ANIMAL_FEED_BUFF_ERRORS.NEEDS_LOVE);
     }

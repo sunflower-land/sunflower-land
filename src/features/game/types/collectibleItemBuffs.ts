@@ -1888,15 +1888,21 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
-  "Collie Shrine": () => [
+  "Collie Shrine": (game) => [
     {
-      shortDescription: translate("description.collieShrine.buff"),
+      // Cow/Sheep sleep time is on the windowed speed model under SPEED_BOOSTS
+      // (animals slice); flag-off keeps the baked discount. The feed half stays baked.
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.collieShrine.buff.speed")
+        : translate("description.collieShrine.buff"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: SUNNYSIDE.animals.cowSleeping,
     },
     {
-      shortDescription: translate("description.collieShrine.buff.2"),
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.collieShrine.buff.2.speed")
+        : translate("description.collieShrine.buff.2"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: SUNNYSIDE.animals.sheepSleeping,
@@ -2044,9 +2050,13 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
     },
   ],
-  "Bantam Shrine": () => [
+  "Bantam Shrine": (game) => [
     {
-      shortDescription: translate("description.bantamShrine.buff"),
+      // Chicken sleep time is on the windowed speed model under SPEED_BOOSTS
+      // (animals slice); flag-off keeps the baked discount. The feed half stays baked.
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.bantamShrine.buff.speed")
+        : translate("description.bantamShrine.buff"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: SUNNYSIDE.animals.chickenAsleep,

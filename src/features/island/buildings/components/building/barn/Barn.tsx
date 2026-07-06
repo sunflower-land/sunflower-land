@@ -14,6 +14,7 @@ import type { TemperateSeasonName } from "features/game/types/game";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import type { LandBiomeName } from "features/island/biomes/biomes";
 import { isAnimalNeedingLove } from "features/game/events/landExpansion/loveAnimal";
+import { getAnimalReadyAt } from "features/game/lib/animals";
 import classNames from "classnames";
 import { saveIslandScrollPosition } from "features/game/expansion/lib/islandScroll";
 
@@ -224,7 +225,7 @@ export const BARN_IMAGES: Record<
 
 const _hasHungryAnimals = (state: MachineState) => {
   return Object.values(state.context.state.barn.animals).some(
-    (animal) => animal.awakeAt < Date.now(),
+    (animal) => getAnimalReadyAt(animal, state.context.state) < Date.now(),
   );
 };
 
@@ -240,6 +241,8 @@ const _barnLevel = (state: MachineState) => {
   return state.context.state.barn.level;
 };
 
+const _game = (state: MachineState) => state.context.state;
+
 export const Barn: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
   const { gameService, showAnimations } = useContext(Context);
   const buildingLevel = useSelector(gameService, _barnLevel);
@@ -251,13 +254,14 @@ export const Barn: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
   const hasHungryAnimals = useSelector(gameService, _hasHungryAnimals);
   const barnAnimals = useSelector(gameService, _barnAnimals);
   const hasSickAnimals = useSelector(gameService, _hasSickAnimals);
+  const game = useSelector(gameService, _game);
 
   // useNow drives a tick every second so the alert flips on as soon as
   // the love window opens — the underlying gate values only change on
   // game-state events, which wouldn't fire when crossing the time gate.
   const now = useNow({ live: true });
   const animalsNeedLove = Object.values(barnAnimals).some((animal) =>
-    isAnimalNeedingLove(animal, now),
+    isAnimalNeedingLove(animal, game, now),
   );
   const handleClick = () => {
     if (isBuilt) {
