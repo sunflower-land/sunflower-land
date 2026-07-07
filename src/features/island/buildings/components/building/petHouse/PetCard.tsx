@@ -47,9 +47,19 @@ interface Props {
   setSelectedFeed?: (
     feed: { petId: PetName | number; food: CookableName }[],
   ) => void;
+  isBulkFetch?: boolean;
+  selectedFetchKeys?: Set<string>;
+  fetchPlanAmounts?: Map<string, number>;
+  onToggleFetch?: (petName: number | PetName, fetch: PetResourceName) => void;
   handleResetRequests: () => void;
   onAcknowledged: () => void;
 }
+
+/** Stable key identifying a single (pet, resource) fetch selection. */
+export const fetchSelectionKey = (
+  petId: number | PetName,
+  fetch: PetResourceName,
+) => `${petId}::${fetch}`;
 
 export const getAdjustedFoodCount = (
   foodName: CookableName,
@@ -123,6 +133,10 @@ export const PetCard: React.FC<Props> = ({
   isBulkFeed,
   selectedFeed,
   setSelectedFeed,
+  isBulkFetch,
+  selectedFetchKeys,
+  fetchPlanAmounts,
+  onToggleFetch,
   handleResetRequests,
   onAcknowledged,
 }) => {
@@ -291,7 +305,7 @@ export const PetCard: React.FC<Props> = ({
           style={{ display: display === "fetching" ? "flex" : "none" }}
         >
           <Label type="default">{t("pets.fetchableResources")}</Label>
-          <div className="grid grid-cols-3 gap-1 mt-2 w-full">
+          <div className="grid grid-cols-3 gap-2 mt-2 w-full">
             {!getPetType(petData) ? (
               <p className="text-xs col-span-3 p-1">{t("pets.typeUnknown")}</p>
             ) : (
@@ -321,7 +335,6 @@ export const PetCard: React.FC<Props> = ({
                   const hasRequiredLevel = level >= fetch.level;
                   const energyRequired = PET_RESOURCES[fetch.name].energy;
                   const hasEnoughEnergy = petData.energy >= energyRequired;
-                  const isDisabled = !hasRequiredLevel || !hasEnoughEnergy;
                   const inventoryCount =
                     inventory[fetch.name] ?? new Decimal(0);
 
@@ -332,6 +345,19 @@ export const PetCard: React.FC<Props> = ({
                     state,
                   });
 
+                  const selectionKey = fetchSelectionKey(petName, fetch.name);
+                  const plannedAmount = fetchPlanAmounts?.get(selectionKey);
+                  const inPlan = plannedAmount !== undefined;
+                  const isSelected =
+                    !!isBulkFetch &&
+                    (selectedFetchKeys?.has(selectionKey) ?? false);
+
+                  // In bulk fetch mode only the planner's picks are
+                  // interactive (toggle on/off); everything else is inert.
+                  const isDisabled = isBulkFetch
+                    ? !inPlan
+                    : !hasRequiredLevel || !hasEnoughEnergy;
+
                   return (
                     <FetchButtonPanel
                       key={fetch.name}
@@ -340,7 +366,13 @@ export const PetCard: React.FC<Props> = ({
                       energyRequired={energyRequired}
                       disabled={isDisabled}
                       locked={!hasRequiredLevel}
-                      onClick={() => handleFetch(petName, fetch.name)}
+                      selected={isSelected}
+                      plannedAmount={isBulkFetch ? plannedAmount : undefined}
+                      onClick={
+                        isBulkFetch
+                          ? () => onToggleFetch?.(petName, fetch.name)
+                          : () => handleFetch(petName, fetch.name)
+                      }
                       fetchAmount={fetchAmount}
                     />
                   );
