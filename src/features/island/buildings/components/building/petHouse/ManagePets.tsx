@@ -44,13 +44,18 @@ const EMPTY_BULK_FETCH_PLAN: BulkFetchPlan = {
   energyAfter: {},
 };
 
+// `now` here only drives nap (2h) and neglect (daily) state, so the panel clock
+// ticks every 30s instead of every second — far fewer re-renders, no visible
+// difference.
+const PET_STATE_REFRESH_MS = 30_000;
+
 type Props = {
   activePets: [PetName | number, Pet | PetNFT | undefined][];
 };
 
 export const ManagePets: React.FC<Props> = ({ activePets }) => {
   const { t } = useAppTranslation();
-  const now = useNow({ live: true });
+  const now = useNow({ live: true, intervalMs: PET_STATE_REFRESH_MS });
   const [isBulkFeed, setIsBulkFeed] = useState(false);
   const { gameService } = useContext(Context);
   const { authService } = useContext(Auth.Context);
