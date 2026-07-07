@@ -116,6 +116,42 @@ describe("bulkFetchPets", () => {
     );
   });
 
+  it("rejects an entry amount above the maximum", () => {
+    const state: GameState = {
+      ...INITIAL_FARM,
+      inventory: {},
+      pets: { common: { Barkley: makePet("Barkley", { energy: 200 }) } },
+    };
+    const action: BulkFetchPetsAction = {
+      type: "pets.bulkFetch",
+      fetches: [{ petId: "Barkley", fetch: "Acorn", amount: 1001 }],
+    };
+
+    expect(() => bulkFetchPets({ state, action, createdAt: now })).toThrow(
+      "Invalid bulk fetch amount",
+    );
+  });
+
+  it("rejects an action with too many entries", () => {
+    const state: GameState = {
+      ...INITIAL_FARM,
+      inventory: {},
+      pets: { common: { Barkley: makePet("Barkley", { energy: 200 }) } },
+    };
+    const action: BulkFetchPetsAction = {
+      type: "pets.bulkFetch",
+      fetches: Array.from({ length: 141 }, () => ({
+        petId: "Barkley" as const,
+        fetch: "Acorn" as const,
+        amount: 1,
+      })),
+    };
+
+    expect(() => bulkFetchPets({ state, action, createdAt: now })).toThrow(
+      "Too many bulk fetch entries",
+    );
+  });
+
   it("tracks farm activity for fetched resources", () => {
     const state: GameState = {
       ...INITIAL_FARM,
