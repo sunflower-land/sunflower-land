@@ -58,7 +58,6 @@ export const FetchButtonPanel: React.FC<FetchButtonPanelProps> = ({
           className="absolute z-20 -top-2 -left-1"
           type="success"
           style={{
-            padding: "0 2.5",
             height: "24px",
           }}
         >

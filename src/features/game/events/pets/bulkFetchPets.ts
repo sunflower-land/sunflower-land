@@ -1,7 +1,6 @@
 import type { GameState } from "features/game/types/game";
 import type { PetName, PetResourceName } from "features/game/types/pets";
-import { produce } from "immer";
-import { fetchPet } from "./fetchPet";
+import { fetchPet, PetNotEnoughEnergyError } from "./fetchPet";
 
 export type BulkFetchPetsAction = {
   type: "pets.bulkFetch";
@@ -23,25 +22,32 @@ export function bulkFetchPets({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const { fetches } = action;
+  // `fetchPet` already returns a fresh immutable state, so chain the calls in a
+  // plain reducer loop. Throwing mid-loop discards `nextState`, so an invalid
+  // entry rejects the whole event rather than committing a partial result.
+  let nextState = state;
 
-  return produce(state, (stateCopy) => {
-    fetches.forEach(({ petId, fetch, amount }) => {
-      // `amount` is an upper bound from the FE plan; each fetch re-validates
-      // energy/level/napping/neglect, so we simply stop once one fails.
-      for (let i = 0; i < amount; i++) {
-        try {
-          stateCopy = fetchPet({
-            state: stateCopy,
-            action: { type: "pet.fetched", petId, fetch },
-            createdAt,
-          });
-        } catch (error) {
-          break;
-        }
+  action.fetches.forEach(({ petId, fetch, amount }) => {
+    if (!Number.isInteger(amount) || amount < 0) {
+      throw new Error("Invalid bulk fetch amount");
+    }
+
+    for (let i = 0; i < amount; i++) {
+      try {
+        nextState = fetchPet({
+          state: nextState,
+          action: { type: "pet.fetched", petId, fetch },
+          createdAt,
+        });
+      } catch (error) {
+        // Running out of energy is the expected "this pet is done" signal, so
+        // move on to the next entry. Anything else means the action is
+        // malformed or stale, so let it surface.
+        if (error instanceof PetNotEnoughEnergyError) break;
+        throw error;
       }
-    });
-
-    return stateCopy;
+    }
   });
+
+  return nextState;
 }

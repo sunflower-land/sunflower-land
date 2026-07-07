@@ -77,7 +77,7 @@ describe("bulkFetchPets", () => {
     expect(result.pets?.common?.Meowchi?.energy).toEqual(0);
   });
 
-  it("skips invalid entries but still applies valid ones", () => {
+  it("rejects the whole action (no partial commit) if an entry is invalid", () => {
     const state: GameState = {
       ...INITIAL_FARM,
       inventory: {},
@@ -86,19 +86,34 @@ describe("bulkFetchPets", () => {
     const action: BulkFetchPetsAction = {
       type: "pets.bulkFetch",
       fetches: [
-        // Cloudy is a valid pet name but not owned -> fetchPet throws, is swallowed.
-        { petId: "Cloudy", fetch: "Acorn", amount: 1 },
+        // Barkley is valid and would apply first...
         { petId: "Barkley", fetch: "Acorn", amount: 1 },
+        // ...but Cloudy is not owned, so fetchPet throws "Pet not found".
+        { petId: "Cloudy", fetch: "Acorn", amount: 1 },
       ],
     };
 
-    expect(() =>
-      bulkFetchPets({ state, action, createdAt: now }),
-    ).not.toThrow();
+    expect(() => bulkFetchPets({ state, action, createdAt: now })).toThrow(
+      "Pet not found",
+    );
+    // The earlier successful fetch is discarded — the source state is untouched.
+    expect(state.inventory.Acorn).toBeUndefined();
+  });
 
-    const result = bulkFetchPets({ state, action, createdAt: now });
-    expect(result.inventory.Acorn).toEqual(new Decimal(1));
-    expect(result.pets?.common?.Barkley?.energy).toEqual(100);
+  it("throws on a malformed amount", () => {
+    const state: GameState = {
+      ...INITIAL_FARM,
+      inventory: {},
+      pets: { common: { Barkley: makePet("Barkley", { energy: 200 }) } },
+    };
+    const action: BulkFetchPetsAction = {
+      type: "pets.bulkFetch",
+      fetches: [{ petId: "Barkley", fetch: "Acorn", amount: 1.5 }],
+    };
+
+    expect(() => bulkFetchPets({ state, action, createdAt: now })).toThrow(
+      "Invalid bulk fetch amount",
+    );
   });
 
   it("tracks farm activity for fetched resources", () => {

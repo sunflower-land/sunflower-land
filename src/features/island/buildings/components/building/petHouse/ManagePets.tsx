@@ -62,9 +62,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
   const [desiredFetch, setDesiredFetch] = useState<
     Partial<Record<PetResourceName, number>>
   >({});
-  const [deselectedFetch, setDeselectedFetch] = useState<Set<string>>(
-    new Set(),
-  );
+  const [deselectedFetchKeys, setDeselectedFetchKeys] = useState<string[]>([]);
 
   const inventory = useSelector(
     gameService,
@@ -86,6 +84,10 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
     );
     return amounts;
   }, [fetchPlan]);
+  const deselectedFetch = useMemo(
+    () => new Set(deselectedFetchKeys),
+    [deselectedFetchKeys],
+  );
   const selectedFetchEntries = fetchPlan.fetches.filter(
     (entry) =>
       !deselectedFetch.has(fetchSelectionKey(entry.petId, entry.fetch)),
@@ -105,7 +107,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
   ) => {
     setDesiredFetch(next);
     // Changing quantities re-plans, so start from a fresh full selection.
-    setDeselectedFetch(new Set());
+    setDeselectedFetchKeys([]);
   };
 
   const handleToggleFetch = (
@@ -113,20 +115,16 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
     fetch: PetResourceName,
   ) => {
     const key = fetchSelectionKey(petId, fetch);
-    setDeselectedFetch((prev) => {
-      const nextSet = new Set(prev);
-      if (nextSet.has(key)) {
-        nextSet.delete(key);
-      } else {
-        nextSet.add(key);
-      }
-      return nextSet;
-    });
+    setDeselectedFetchKeys((prev) =>
+      prev.includes(key)
+        ? prev.filter((value) => value !== key)
+        : [...prev, key],
+    );
   };
 
   const resetBulkFetch = () => {
     setDesiredFetch({});
-    setDeselectedFetch(new Set());
+    setDeselectedFetchKeys([]);
     setIsBulkFetch(false);
   };
 

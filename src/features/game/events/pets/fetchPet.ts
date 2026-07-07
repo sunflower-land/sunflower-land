@@ -15,6 +15,18 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
+/**
+ * Thrown by {@link fetchPet} when a pet lacks the energy for a fetch. Bulk
+ * fetching treats this as the expected "this pet is tapped out" stop signal,
+ * as opposed to other errors (invalid/stale action) which should reject.
+ */
+export class PetNotEnoughEnergyError extends Error {
+  constructor() {
+    super("Pet doesn't have enough energy");
+    this.name = "PetNotEnoughEnergyError";
+  }
+}
+
 export const getPetLevelFetchYield = ({
   petLevel,
   fetchResource,
@@ -150,7 +162,7 @@ export function fetchPet({ state, action, createdAt = Date.now() }: Options) {
 
     const energyRequired = PET_RESOURCES[fetch].energy;
     if (petData.energy < energyRequired) {
-      throw new Error("Pet doesn't have enough energy");
+      throw new PetNotEnoughEnergyError();
     }
 
     petData.energy -= energyRequired;

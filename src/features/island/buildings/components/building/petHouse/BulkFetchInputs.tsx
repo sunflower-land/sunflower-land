@@ -58,7 +58,14 @@ export const BulkFetchInputs: React.FC<Props> = ({
       if (!getPetType(pet)) return;
       const { level } = getPetLevel(pet.experience);
       getPetFetches(pet).fetches.forEach((fetch) => {
-        if (level >= fetch.level) available.add(fetch.name);
+        // Only surface resources at least one pet can currently afford a fetch
+        // of, otherwise the input can only ever produce a shortfall.
+        if (
+          level >= fetch.level &&
+          pet.energy >= PET_RESOURCES[fetch.name].energy
+        ) {
+          available.add(fetch.name);
+        }
       });
     });
     return getKeys(PET_RESOURCES).filter((resource) => available.has(resource));
