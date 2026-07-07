@@ -28,7 +28,7 @@ import { isFoodAlreadyFed, PetCard, fetchSelectionKey } from "./PetCard";
 import { useNow } from "lib/utils/hooks/useNow";
 import { PetInfo } from "./PetInfo";
 import { BulkFetchInputs } from "./BulkFetchInputs";
-import { planBulkFetch } from "./planBulkFetch";
+import { planBulkFetch, type BulkFetchPlan } from "./planBulkFetch";
 import { hasFeatureAccess } from "lib/flags";
 import { isWearableActive } from "features/game/lib/wearables";
 import * as Auth from "features/auth/lib/Provider";
@@ -36,6 +36,13 @@ import type { AuthMachineState } from "features/auth/lib/authMachine";
 
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
+
+const EMPTY_BULK_FETCH_PLAN: BulkFetchPlan = {
+  fetches: [],
+  fulfilled: {},
+  shortfall: {},
+  energyAfter: {},
+};
 
 type Props = {
   activePets: [PetName | number, Pet | PetNFT | undefined][];
@@ -72,10 +79,15 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
   const hasBulkFetch = hasFeatureAccess(state, "BULK_PET_FETCH");
 
   // The planner turns the typed quantities into concrete per-pet fetches; the
-  // pet cards then show those pre-selected, minus anything deselected.
+  // pet cards then show those pre-selected, minus anything deselected. Only
+  // computed in bulk fetch mode — otherwise it would re-run every `now` tick
+  // for nothing.
   const fetchPlan = useMemo(
-    () => planBulkFetch({ activePets, state, desired: desiredFetch, now }),
-    [activePets, state, desiredFetch, now],
+    () =>
+      isBulkFetch
+        ? planBulkFetch({ activePets, state, desired: desiredFetch, now })
+        : EMPTY_BULK_FETCH_PLAN,
+    [isBulkFetch, activePets, state, desiredFetch, now],
   );
   const fetchPlanAmounts = useMemo(() => {
     const amounts = new Map<string, number>();
@@ -399,16 +411,19 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
           </Button>
         </div>
         <div className="flex flex-row gap-1 w-full">
-          {areSomePetsNeglected && !isBulkFeed && (
+          {areSomePetsNeglected && !isBulkFeed && !isBulkFetch && (
             <Button className="flex-1 min-w-0" onClick={handleBulkNeglect}>
               {`Cheer All`}
             </Button>
           )}
-          {areSomePetsNapping && !areSomePetsNeglected && !isBulkFeed && (
-            <Button className="flex-1 min-w-0" onClick={handleBulkPet}>
-              {`Pet All`}
-            </Button>
-          )}
+          {areSomePetsNapping &&
+            !areSomePetsNeglected &&
+            !isBulkFeed &&
+            !isBulkFetch && (
+              <Button className="flex-1 min-w-0" onClick={handleBulkPet}>
+                {`Pet All`}
+              </Button>
+            )}
           {!areAllPetsNapping && display === "feeding" && (
             <Button
               className="flex-1 min-w-0"
