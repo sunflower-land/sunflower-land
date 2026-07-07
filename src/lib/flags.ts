@@ -81,8 +81,8 @@ export const TIME_BASED_FEATURE_FLAG_WINDOWS = {
     end: new Date("2026-04-08T00:00:00Z"),
   },
   COLORS_2026_EVENT_FLAG: {
-    start: new Date("2026-07-01T00:00:00Z"),
-    end: new Date("2026-07-11T00:00:00Z"),
+    start: new Date("2026-07-13T00:00:00Z"),
+    end: new Date("2026-07-23T00:00:00Z"),
   },
   RONIN_WAYPOINT_DEPRECATION: {
     start: WAYPOINT_WALLET_ENDDATE,
