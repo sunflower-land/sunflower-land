@@ -306,8 +306,8 @@ export const SkillPathDetails: React.FC<Props> = ({
               )}
             </div>
 
-            {/* Rank track (owned upgradable skills only) */}
-            {hasSelectedSkill && canUpgradeHere && (
+            {/* Rank track (any upgradable skill, incl. unclaimed) */}
+            {canUpgradeHere && (
               <RankTrack level={currentLevel} maxLevel={maxLevel} />
             )}
 
