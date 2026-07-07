@@ -288,6 +288,7 @@ export const BumpkinProfile: React.FC = () => {
       const boostedCooldown = getSkillCooldown({
         cooldown: skill.requirements.cooldown ?? 0,
         state,
+        skillName: skill.name as BumpkinRevampSkillName,
       });
       const nextSkillUse =
         (previousPowerUseAt?.[skill.name as BumpkinRevampSkillName] ?? 0) +

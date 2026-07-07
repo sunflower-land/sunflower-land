@@ -157,6 +157,87 @@ describe("boosts", () => {
     });
   });
 
+  it("applies rank 2 Coin Swindler boost to crop", () => {
+    const now = new Date();
+    expect(
+      getSellPrice({
+        item: CROPS.Sunflower,
+        game: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...TEST_FARM.bumpkin,
+            skills: {
+              "Coin Swindler": 2,
+            },
+          },
+          inventory: {
+            "Basic Land": new Decimal(3),
+          },
+          // Game started over 2 hours ago
+          createdAt: now.getTime() - 2 * 60 * 60 * 1000 - 1,
+        },
+        now,
+      }),
+    ).toEqual({
+      price: CROPS.Sunflower.sellPrice * 1.2,
+      boostsUsed: [{ name: "Coin Swindler", value: "+0.2" }],
+    });
+  });
+
+  it("applies rank 3 Coin Swindler boost to crop", () => {
+    const now = new Date();
+    expect(
+      getSellPrice({
+        item: CROPS.Sunflower,
+        game: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...TEST_FARM.bumpkin,
+            skills: {
+              "Coin Swindler": 3,
+            },
+          },
+          inventory: {
+            "Basic Land": new Decimal(3),
+          },
+          // Game started over 2 hours ago
+          createdAt: now.getTime() - 2 * 60 * 60 * 1000 - 1,
+        },
+        now,
+      }),
+    ).toEqual({
+      price: CROPS.Sunflower.sellPrice * 1.3,
+      boostsUsed: [{ name: "Coin Swindler", value: "+0.3" }],
+    });
+  });
+
+  it("does not apply rank 2 Coin Swindler boost to non crops", () => {
+    const now = new Date();
+    expect(
+      getSellPrice({
+        item: PATCH_FRUIT.Tomato,
+        game: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...TEST_FARM.bumpkin,
+            skills: {
+              "Coin Swindler": 2,
+            },
+          },
+          inventory: {
+            "Basic Land": new Decimal(3),
+          },
+          // Game started over 2 hours ago
+          createdAt: now.getTime() - 2 * 60 * 60 * 1000 - 1,
+        },
+        now,
+      }),
+    ).toEqual({
+      price: PATCH_FRUIT.Tomato.sellPrice,
+      boostsUsed: [],
+    });
+  });
+
   it("does not apply Coin Swindler boost to non crops", () => {
     const now = new Date();
     expect(

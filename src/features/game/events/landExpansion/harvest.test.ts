@@ -2625,6 +2625,746 @@ describe("harvest", () => {
       expect(state.inventory.Eggplant).toEqual(new Decimal(2));
     });
 
+    it("gives +0.15 to basic crop when Young Farmer skill is rank 2", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { ...TEST_BUMPKIN.skills, "Young Farmer": 2 },
+          },
+          inventory: { "Sunflower Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Sunflower",
+                plantedAt:
+                  dateNow - (CROPS["Sunflower"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Sunflower).toEqual(new Decimal(1.15));
+    });
+
+    it("gives +0.2 to basic crop when Young Farmer skill is rank 3", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { ...TEST_BUMPKIN.skills, "Young Farmer": 3 },
+          },
+          inventory: { "Sunflower Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Sunflower",
+                plantedAt:
+                  dateNow - (CROPS["Sunflower"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Sunflower).toEqual(new Decimal(1.2));
+    });
+
+    it("gives +0.15 to medium crop when Experienced Farmer skill is rank 2", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { ...TEST_BUMPKIN.skills, "Experienced Farmer": 2 },
+          },
+          inventory: { "Cabbage Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Cabbage",
+                plantedAt:
+                  dateNow - (CROPS["Cabbage"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Cabbage).toEqual(new Decimal(1.15));
+    });
+
+    it("gives +0.2 to medium crop when Experienced Farmer skill is rank 3", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { ...TEST_BUMPKIN.skills, "Experienced Farmer": 3 },
+          },
+          inventory: { "Cabbage Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Cabbage",
+                plantedAt:
+                  dateNow - (CROPS["Cabbage"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Cabbage).toEqual(new Decimal(1.2));
+    });
+
+    it("gives +0.15 to advanced crop when Old Farmer skill is rank 2", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { ...TEST_BUMPKIN.skills, "Old Farmer": 2 },
+          },
+          inventory: { "Eggplant Seed": new Decimal(1) },
+          season: { season: "summer", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Eggplant",
+                plantedAt:
+                  dateNow - (CROPS["Eggplant"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Eggplant).toEqual(new Decimal(1.15));
+    });
+
+    it("gives +0.2 to advanced crop when Old Farmer skill is rank 3", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { ...TEST_BUMPKIN.skills, "Old Farmer": 3 },
+          },
+          inventory: { "Eggplant Seed": new Decimal(1) },
+          season: { season: "summer", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Eggplant",
+                plantedAt:
+                  dateNow - (CROPS["Eggplant"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Eggplant).toEqual(new Decimal(1.2));
+    });
+
+    it("gives +1.25 to advanced crop when Acre Farm skill is rank 2", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { ...TEST_BUMPKIN.skills, "Acre Farm": 2 },
+          },
+          inventory: { "Eggplant Seed": new Decimal(1) },
+          season: { season: "summer", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Eggplant",
+                plantedAt:
+                  dateNow - (CROPS["Eggplant"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Eggplant).toEqual(new Decimal(2.25));
+    });
+
+    it("gives +1.5 to advanced crop when Acre Farm skill is rank 3", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { ...TEST_BUMPKIN.skills, "Acre Farm": 3 },
+          },
+          inventory: { "Eggplant Seed": new Decimal(1) },
+          season: { season: "summer", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Eggplant",
+                plantedAt:
+                  dateNow - (CROPS["Eggplant"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Eggplant).toEqual(new Decimal(2.5));
+    });
+
+    it("debuffs basic crop by -0.6 when Acre Farm skill is rank 2", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { ...TEST_BUMPKIN.skills, "Acre Farm": 2 },
+          },
+          inventory: { "Sunflower Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Sunflower",
+                plantedAt:
+                  dateNow - (CROPS["Sunflower"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Sunflower).toEqual(new Decimal(0.4));
+    });
+
+    it("debuffs basic crop by -0.7 when Acre Farm skill is rank 3", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { ...TEST_BUMPKIN.skills, "Acre Farm": 3 },
+          },
+          inventory: { "Sunflower Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Sunflower",
+                plantedAt:
+                  dateNow - (CROPS["Sunflower"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Sunflower).toEqual(new Decimal(0.3));
+    });
+
+    it("debuffs medium crop by -0.6 when Acre Farm skill is rank 2", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { ...TEST_BUMPKIN.skills, "Acre Farm": 2 },
+          },
+          inventory: { "Cabbage Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Cabbage",
+                plantedAt:
+                  dateNow - (CROPS["Cabbage"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Cabbage).toEqual(new Decimal(0.4));
+    });
+
+    it("debuffs medium crop by -0.7 when Acre Farm skill is rank 3", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { ...TEST_BUMPKIN.skills, "Acre Farm": 3 },
+          },
+          inventory: { "Cabbage Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Cabbage",
+                plantedAt:
+                  dateNow - (CROPS["Cabbage"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Cabbage).toEqual(new Decimal(0.3));
+    });
+
+    it("gives +1.25 to basic crop when Hectare Farm skill is rank 2", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { ...TEST_BUMPKIN.skills, "Hectare Farm": 2 },
+          },
+          inventory: { "Sunflower Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Sunflower",
+                plantedAt:
+                  dateNow - (CROPS["Sunflower"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Sunflower).toEqual(new Decimal(2.25));
+    });
+
+    it("gives +1.5 to basic crop when Hectare Farm skill is rank 3", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { ...TEST_BUMPKIN.skills, "Hectare Farm": 3 },
+          },
+          inventory: { "Sunflower Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Sunflower",
+                plantedAt:
+                  dateNow - (CROPS["Sunflower"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Sunflower).toEqual(new Decimal(2.5));
+    });
+
+    it("debuffs advanced crop by -0.6 when Hectare Farm skill is rank 2", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { ...TEST_BUMPKIN.skills, "Hectare Farm": 2 },
+          },
+          inventory: { "Eggplant Seed": new Decimal(1) },
+          season: { season: "summer", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Eggplant",
+                plantedAt:
+                  dateNow - (CROPS["Eggplant"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Eggplant).toEqual(new Decimal(0.4));
+    });
+
+    it("debuffs advanced crop by -0.7 when Hectare Farm skill is rank 3", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { ...TEST_BUMPKIN.skills, "Hectare Farm": 3 },
+          },
+          inventory: { "Eggplant Seed": new Decimal(1) },
+          season: { season: "summer", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Eggplant",
+                plantedAt:
+                  dateNow - (CROPS["Eggplant"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Eggplant).toEqual(new Decimal(0.3));
+    });
+
+    it("gives +1.25 to medium crop when Hectare Farm skill is rank 2", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { ...TEST_BUMPKIN.skills, "Hectare Farm": 2 },
+          },
+          inventory: { "Cabbage Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Cabbage",
+                plantedAt:
+                  dateNow - (CROPS["Cabbage"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Cabbage).toEqual(new Decimal(2.25));
+    });
+
+    it("gives +1.5 to medium crop when Hectare Farm skill is rank 3", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { ...TEST_BUMPKIN.skills, "Hectare Farm": 3 },
+          },
+          inventory: { "Cabbage Seed": new Decimal(1) },
+          season: { season: "spring", startedAt: 0 },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Cabbage",
+                plantedAt:
+                  dateNow - (CROPS["Cabbage"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Cabbage).toEqual(new Decimal(2.5));
+    });
+
+    // GUARD: Horror Mike only enlarges the Scary Mike AOE per rank; its yield
+    // bonus (+0.3) must NOT scale with rank. The plot at (0,-2) is inside the
+    // base AOE, so the same +0.3 applies at ranks 1, 2 and 3.
+    it("gives the same +0.3 Scary Mike AOE bonus at every Horror Mike rank", () => {
+      const harvestAtRank = (rank: number) =>
+        harvest({
+          state: {
+            ...GAME_STATE,
+            bumpkin: {
+              ...TEST_BUMPKIN,
+              skills: { ...TEST_BUMPKIN.skills, "Horror Mike": rank },
+            },
+            inventory: { "Cabbage Seed": new Decimal(1) },
+            season: { season: "spring", startedAt: 0 },
+            collectibles: {
+              "Scary Mike": [
+                {
+                  id: "123",
+                  createdAt: dateNow,
+                  coordinates: { x: 0, y: 0 },
+                  readyAt: dateNow - 12 * 60 * 1000,
+                },
+              ],
+            },
+            crops: {
+              [firstId]: {
+                ...GAME_STATE.crops[firstId],
+                x: 0,
+                y: -2,
+                crop: {
+                  name: "Cabbage",
+                  plantedAt:
+                    dateNow - (CROPS["Cabbage"].harvestSeconds ?? 0) * 1000,
+                },
+              },
+            },
+          },
+          createdAt: dateNow,
+          action: { type: "crop.harvested", index: firstId },
+        });
+
+      expect(harvestAtRank(1).inventory.Cabbage).toEqual(new Decimal(1.3));
+      expect(harvestAtRank(2).inventory.Cabbage).toEqual(new Decimal(1.3));
+      expect(harvestAtRank(3).inventory.Cabbage).toEqual(new Decimal(1.3));
+    });
+
+    // GUARD: Laurie's Gains only enlarges the Laurie AOE per rank; its yield
+    // bonus (+0.3) must NOT scale with rank. Same +0.3 at ranks 1, 2 and 3.
+    it("gives the same +0.3 Laurie AOE bonus at every Laurie's Gains rank", () => {
+      const harvestAtRank = (rank: number) =>
+        harvest({
+          state: {
+            ...GAME_STATE,
+            bumpkin: {
+              ...TEST_BUMPKIN,
+              skills: { ...TEST_BUMPKIN.skills, "Laurie's Gains": rank },
+            },
+            inventory: { "Eggplant Seed": new Decimal(1) },
+            season: { season: "summer", startedAt: 0 },
+            collectibles: {
+              "Laurie the Chuckle Crow": [
+                {
+                  id: "123",
+                  createdAt: dateNow,
+                  coordinates: { x: 0, y: 0 },
+                  readyAt: dateNow - 12 * 60 * 1000,
+                },
+              ],
+            },
+            crops: {
+              [firstId]: {
+                ...GAME_STATE.crops[firstId],
+                x: 0,
+                y: -2,
+                crop: {
+                  name: "Eggplant",
+                  plantedAt:
+                    dateNow - (CROPS["Eggplant"].harvestSeconds ?? 0) * 1000,
+                },
+              },
+            },
+          },
+          createdAt: dateNow,
+          action: { type: "crop.harvested", index: firstId },
+        });
+
+      expect(harvestAtRank(1).inventory.Eggplant).toEqual(new Decimal(1.3));
+      expect(harvestAtRank(2).inventory.Eggplant).toEqual(new Decimal(1.3));
+      expect(harvestAtRank(3).inventory.Eggplant).toEqual(new Decimal(1.3));
+    });
+
+    // Golden Sunflower drops 0.35 Gold on a PRNG whose inner chance grows with
+    // rank: 1/7 (r1), 1/6 (r2), 1/5 (r3) — i.e. the drop threshold is
+    // rankChance/100 (displayed as 1/700, 1/600, 1/500). We locate a counter in
+    // the r2-only band (drops at 1/6 but not 1/7) to prove rank 2 drops where
+    // rank 1 does not.
+    it("drops Golden Sunflower gold at rank 2 where rank 1 would not", () => {
+      const farmId = 1;
+      const itemId = KNOWN_IDS["Sunflower"];
+      const SEARCH_RANGE = 500_000;
+
+      let boundaryCounter = -1;
+      for (let counter = 0; counter < SEARCH_RANGE; counter++) {
+        const dropsAtRank1 = prngChance({
+          farmId,
+          itemId,
+          counter,
+          chance: 1 / 7,
+          criticalHitName: "Golden Sunflower",
+        });
+        const dropsAtRank2 = prngChance({
+          farmId,
+          itemId,
+          counter,
+          chance: 1 / 6,
+          criticalHitName: "Golden Sunflower",
+        });
+        if (dropsAtRank2 && !dropsAtRank1) {
+          boundaryCounter = counter;
+          break;
+        }
+      }
+      if (boundaryCounter < 0) {
+        throw new Error(
+          `Could not find a rank-2-only Golden Sunflower counter in ${SEARCH_RANGE} attempts`,
+        );
+      }
+
+      const buildState = (rank: number): GameState => ({
+        ...GAME_STATE,
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          skills: { ...TEST_BUMPKIN.skills, "Golden Sunflower": rank },
+        },
+        inventory: { "Sunflower Seed": new Decimal(1) },
+        season: { season: "spring", startedAt: 0 },
+        farmActivity: { "Sunflower Harvested": boundaryCounter },
+        crops: {
+          [firstId]: {
+            ...GAME_STATE.crops[firstId],
+            crop: {
+              name: "Sunflower",
+              plantedAt:
+                dateNow - (CROPS["Sunflower"].harvestSeconds ?? 0) * 1000,
+            },
+          },
+        },
+      });
+
+      const rank1 = harvest({
+        farmId,
+        state: buildState(1),
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      const rank2 = harvest({
+        farmId,
+        state: buildState(2),
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+
+      expect(rank1.inventory.Gold).toBeUndefined();
+      expect(rank2.inventory.Gold).toEqual(new Decimal(0.35));
+    });
+
+    it("drops Golden Sunflower gold at rank 3 where rank 2 would not", () => {
+      const farmId = 1;
+      const itemId = KNOWN_IDS["Sunflower"];
+      const SEARCH_RANGE = 500_000;
+
+      let boundaryCounter = -1;
+      for (let counter = 0; counter < SEARCH_RANGE; counter++) {
+        const dropsAtRank2 = prngChance({
+          farmId,
+          itemId,
+          counter,
+          chance: 1 / 6,
+          criticalHitName: "Golden Sunflower",
+        });
+        const dropsAtRank3 = prngChance({
+          farmId,
+          itemId,
+          counter,
+          chance: 1 / 5,
+          criticalHitName: "Golden Sunflower",
+        });
+        if (dropsAtRank3 && !dropsAtRank2) {
+          boundaryCounter = counter;
+          break;
+        }
+      }
+      if (boundaryCounter < 0) {
+        throw new Error(
+          `Could not find a rank-3-only Golden Sunflower counter in ${SEARCH_RANGE} attempts`,
+        );
+      }
+
+      const buildState = (rank: number): GameState => ({
+        ...GAME_STATE,
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          skills: { ...TEST_BUMPKIN.skills, "Golden Sunflower": rank },
+        },
+        inventory: { "Sunflower Seed": new Decimal(1) },
+        season: { season: "spring", startedAt: 0 },
+        farmActivity: { "Sunflower Harvested": boundaryCounter },
+        crops: {
+          [firstId]: {
+            ...GAME_STATE.crops[firstId],
+            crop: {
+              name: "Sunflower",
+              plantedAt:
+                dateNow - (CROPS["Sunflower"].harvestSeconds ?? 0) * 1000,
+            },
+          },
+        },
+      });
+
+      const rank2 = harvest({
+        farmId,
+        state: buildState(2),
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      const rank3 = harvest({
+        farmId,
+        state: buildState(3),
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+
+      expect(rank2.inventory.Gold).toBeUndefined();
+      expect(rank3.inventory.Gold).toEqual(new Decimal(0.35));
+    });
+
     it("gives +0.2 to any crop when Power hour buff is active", () => {
       const state = harvest({
         state: {

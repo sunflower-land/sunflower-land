@@ -61,6 +61,7 @@ import {
   type FarmActivityName,
 } from "features/game/types/farmActivity";
 import { isBuffActive } from "features/game/types/buffs";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
 export type LandExpansionHarvestAction = {
@@ -838,49 +839,56 @@ export function getCropYieldAmount({
     boostsUsed.push({ name: "Soybliss", value: "+1" });
   }
 
-  if (skills["Young Farmer"] && isBasicCrop(crop)) {
-    amount += 0.1;
-    boostsUsed.push({ name: "Young Farmer", value: "+0.1" });
+  const youngFarmerLevel = getSkillLevel(skills, "Young Farmer");
+  if (youngFarmerLevel && isBasicCrop(crop)) {
+    const v = SKILL_RANKS["Young Farmer"].ranks[youngFarmerLevel - 1];
+    amount += v;
+    boostsUsed.push({ name: "Young Farmer", value: `+${v}` });
   }
 
-  if (skills["Experienced Farmer"] && isMediumCrop(crop)) {
-    amount += 0.1;
-    boostsUsed.push({ name: "Experienced Farmer", value: "+0.1" });
+  const experiencedFarmerLevel = getSkillLevel(skills, "Experienced Farmer");
+  if (experiencedFarmerLevel && isMediumCrop(crop)) {
+    const v =
+      SKILL_RANKS["Experienced Farmer"].ranks[experiencedFarmerLevel - 1];
+    amount += v;
+    boostsUsed.push({ name: "Experienced Farmer", value: `+${v}` });
   }
 
-  if (skills["Old Farmer"] && isAdvancedCrop(crop)) {
-    amount += 0.1;
-    boostsUsed.push({ name: "Old Farmer", value: "+0.1" });
+  const oldFarmerLevel = getSkillLevel(skills, "Old Farmer");
+  if (oldFarmerLevel && isAdvancedCrop(crop)) {
+    const v = SKILL_RANKS["Old Farmer"].ranks[oldFarmerLevel - 1];
+    amount += v;
+    boostsUsed.push({ name: "Old Farmer", value: `+${v}` });
   }
 
-  if (skills["Acre Farm"] && isAdvancedCrop(crop)) {
-    amount += 1;
-    boostsUsed.push({ name: "Acre Farm", value: "+1" });
+  const acreFarmLevel = getSkillLevel(skills, "Acre Farm");
+  if (acreFarmLevel) {
+    const { buff, debuff } = SKILL_RANKS["Acre Farm"];
+    const up = buff[acreFarmLevel - 1];
+    const down = debuff[acreFarmLevel - 1];
+    if (isAdvancedCrop(crop)) {
+      amount += up;
+      boostsUsed.push({ name: "Acre Farm", value: `+${up}` });
+    }
+    if (isMediumCrop(crop) || isBasicCrop(crop)) {
+      amount -= down;
+      boostsUsed.push({ name: "Acre Farm", value: `-${down}` });
+    }
   }
 
-  if (skills["Acre Farm"] && isMediumCrop(crop)) {
-    amount -= 0.5;
-    boostsUsed.push({ name: "Acre Farm", value: "-0.5" });
-  }
-
-  if (skills["Acre Farm"] && isBasicCrop(crop)) {
-    amount -= 0.5;
-    boostsUsed.push({ name: "Acre Farm", value: "-0.5" });
-  }
-
-  if (skills["Hectare Farm"] && isAdvancedCrop(crop)) {
-    amount -= 0.5;
-    boostsUsed.push({ name: "Hectare Farm", value: "-0.5" });
-  }
-
-  if (skills["Hectare Farm"] && isMediumCrop(crop)) {
-    amount += 1;
-    boostsUsed.push({ name: "Hectare Farm", value: "+1" });
-  }
-
-  if (skills["Hectare Farm"] && isBasicCrop(crop)) {
-    amount += 1;
-    boostsUsed.push({ name: "Hectare Farm", value: "+1" });
+  const hectareFarmLevel = getSkillLevel(skills, "Hectare Farm");
+  if (hectareFarmLevel) {
+    const { buff, debuff } = SKILL_RANKS["Hectare Farm"];
+    const up = buff[hectareFarmLevel - 1];
+    const down = debuff[hectareFarmLevel - 1];
+    if (isMediumCrop(crop) || isBasicCrop(crop)) {
+      amount += up;
+      boostsUsed.push({ name: "Hectare Farm", value: `+${up}` });
+    }
+    if (isAdvancedCrop(crop)) {
+      amount -= down;
+      boostsUsed.push({ name: "Hectare Farm", value: `-${down}` });
+    }
   }
 
   if (isCollectibleBuilt({ game, name: "Giant Onion" }) && crop === "Onion") {
@@ -951,10 +959,14 @@ export function getReward({
       criticalHitName,
     });
 
+  const goldenSunflowerLevel = getSkillLevel(skills, "Golden Sunflower");
   if (
-    skills["Golden Sunflower"] &&
+    goldenSunflowerLevel &&
     crop === "Sunflower" &&
-    getPrngChance("Golden Sunflower", 1 / 7)
+    getPrngChance(
+      "Golden Sunflower",
+      SKILL_RANKS["Golden Sunflower"].ranks[goldenSunflowerLevel - 1],
+    )
   ) {
     items.push({
       amount: 0.35,

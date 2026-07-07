@@ -41,6 +41,7 @@ export const PowerSkillsButton: React.FC = () => {
       const cooldown = getSkillCooldown({
         cooldown: skill.requirements.cooldown ?? 0,
         state,
+        skillName: skill.name as BumpkinRevampSkillName,
       });
       return (
         (previousPowerUseAt?.[skill.name as BumpkinRevampSkillName] ?? 0) +

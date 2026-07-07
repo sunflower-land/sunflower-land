@@ -4,8 +4,11 @@ import {
   type BumpkinRevampSkillTree,
   createRevampSkillPath,
   type BumpkinRevampSkillName,
+  type UpgradeableSkillName,
   getSkillUpgradeCost,
+  SKILL_RANKS,
 } from "features/game/types/bumpkinSkills";
+import { getSkillRankDescription } from "./getSkillRankDescription";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -149,7 +152,11 @@ export const SkillPathDetails: React.FC<Props> = ({
   const { tree, requirements, name, image, boosts, disabled, power, npc } =
     selectedSkill;
   const { cooldown, points, tier } = requirements;
-  const boostedCooldown = getSkillCooldown({ cooldown: cooldown ?? 0, state });
+  const boostedCooldown = getSkillCooldown({
+    cooldown: cooldown ?? 0,
+    state,
+    skillName: name as BumpkinRevampSkillName,
+  });
   const { buff, debuff } = boosts;
 
   const availableSkillPoints = getAvailableBumpkinSkillPoints(state);
@@ -176,6 +183,26 @@ export const SkillPathDetails: React.FC<Props> = ({
   const isMaxed =
     hasSelectedSkill && (!canUpgradeHere || currentLevel >= maxLevel);
   const boostLabelType = isLocked ? "success" : "info";
+
+  // Real per-rank boost copy (shown behind SWAMP_ASCENSION). The current-rank
+  // description replaces the static boost text; the next-rank one previews the
+  // upgrade reward. Cooldown skills (Instant Growth) keep their static boost
+  // pill because the cooldown pill already shows the scaled number.
+  const isRankSkill = canUpgradeHere && name in SKILL_RANKS;
+  const rankKind = isRankSkill
+    ? SKILL_RANKS[name as UpgradeableSkillName].kind
+    : undefined;
+  const currentRankDescription =
+    isRankSkill && rankKind !== "cooldown"
+      ? getSkillRankDescription(
+          name as UpgradeableSkillName,
+          Math.max(currentLevel, 1),
+        )
+      : undefined;
+  const nextRankDescription =
+    isRankSkill && isUpgradable
+      ? getSkillRankDescription(name as UpgradeableSkillName, currentLevel + 1)
+      : undefined;
 
   const isUpgradeDisabled =
     shardBalance.lt(upgradeCost.shards) ||
@@ -271,7 +298,7 @@ export const SkillPathDetails: React.FC<Props> = ({
                   secondaryIcon={buff.boostedItemIcon}
                   className="mb-2"
                 >
-                  {buff.shortDescription}
+                  {currentRankDescription?.buff ?? buff.shortDescription}
                 </Label>
               )}
               {debuff && (
@@ -281,7 +308,7 @@ export const SkillPathDetails: React.FC<Props> = ({
                   secondaryIcon={debuff.boostedItemIcon}
                   className="mb-2"
                 >
-                  {debuff.shortDescription}
+                  {currentRankDescription?.debuff ?? debuff.shortDescription}
                 </Label>
               )}
               {!!power && !!boostedCooldown && (
@@ -322,8 +349,13 @@ export const SkillPathDetails: React.FC<Props> = ({
                   {t("skill.rankReward", { rank: currentLevel + 1 })}
                 </Label>
                 <span className="text-xxs ml-1">
-                  {t("skill.strengthensBoost")}
+                  {nextRankDescription?.buff ?? t("skill.strengthensBoost")}
                 </span>
+                {nextRankDescription?.debuff && (
+                  <span className="text-xxs ml-1">
+                    {nextRankDescription.debuff}
+                  </span>
+                )}
               </div>
             )}
 

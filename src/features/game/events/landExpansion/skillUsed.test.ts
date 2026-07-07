@@ -1,5 +1,5 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { skillUse } from "./skillUsed";
+import { skillUse, getSkillCooldown } from "./skillUsed";
 import { CROPS } from "features/game/types/crops";
 import { COOKABLES } from "features/game/types/consumables";
 import { FLOWER_SEEDS, FLOWERS } from "features/game/types/flowers";
@@ -1167,6 +1167,73 @@ describe("skillUse", () => {
         createdAt: dateNow,
       });
       expect(state.henHouse.animals["123"].awakeAt).toEqual(dateNow);
+    });
+  });
+
+  describe("getSkillCooldown", () => {
+    const HOUR = 1000 * 60 * 60;
+
+    it("returns the passed cooldown unchanged when no skillName is provided", () => {
+      expect(
+        getSkillCooldown({
+          cooldown: HOUR * 24,
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: {},
+            },
+          },
+        }),
+      ).toEqual(HOUR * 24);
+    });
+
+    it("returns the rank 1 cooldown (72h) for Instant Growth at rank 1", () => {
+      expect(
+        getSkillCooldown({
+          cooldown: 0,
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Instant Growth": 1 },
+            },
+          },
+          skillName: "Instant Growth",
+        }),
+      ).toEqual(HOUR * 72);
+    });
+
+    it("returns the rank 2 cooldown (60h) for Instant Growth at rank 2", () => {
+      expect(
+        getSkillCooldown({
+          cooldown: 0,
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Instant Growth": 2 },
+            },
+          },
+          skillName: "Instant Growth",
+        }),
+      ).toEqual(HOUR * 60);
+    });
+
+    it("returns the rank 3 cooldown (48h) for Instant Growth at rank 3", () => {
+      expect(
+        getSkillCooldown({
+          cooldown: 0,
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Instant Growth": 3 },
+            },
+          },
+          skillName: "Instant Growth",
+        }),
+      ).toEqual(HOUR * 48);
     });
   });
 });

@@ -2,7 +2,7 @@ import { getKeys } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { translate } from "lib/i18n/translate";
-import type { Inventory, IslandType } from "./game";
+import type { Inventory, IslandType, Skills } from "./game";
 import { ITEM_DETAILS } from "./images";
 import powerup from "assets/icons/level_up.png";
 import redArrowDown from "assets/icons/decrease_arrow.png";
@@ -153,10 +153,11 @@ export type BumpkinSkill = {
 
 export type BumpkinSkillTier = 1 | 2 | 3;
 
-// Marks a skill as upgradeable to a higher rank. Cost per rank-up is derived
-// from the skill's tier (see getSkillUpgradeCost), not stored here.
+// Marks a skill as upgradeable to a higher rank. `effect` holds the per-rank
+// boost magnitudes; cost per rank-up is derived from tier (getSkillUpgradeCost).
 export type SkillUpgrade = {
   maxLevel: number;
+  effect: SkillRankEffect;
 };
 
 // Cost of a single rank-up for a skill of the given tier (flat per upgrade).
@@ -164,6 +165,47 @@ export const getSkillUpgradeCost = (tier: BumpkinSkillTier) => ({
   shards: tier,
   points: tier * 3,
 });
+
+// Current rank of a skill: 0 = not owned, otherwise 1..maxLevel (the rank is
+// stored directly as the skill's value in `bumpkin.skills`).
+export const getSkillLevel = (
+  skills: Skills,
+  name: BumpkinRevampSkillName,
+): number => skills[name] ?? 0;
+
+// A single AOE footprint, expressed as tile extents from the placeable's
+// origin. Base (no skill) is {xLeft:1,xRight:1,depth:3} = 3x3 and stays
+// implicit in collisionDetection; ranks below are the boosted footprints.
+export type AOEExtent = { xLeft: number; xRight: number; depth: number };
+
+// Per-rank effect magnitudes for an upgradeable skill, stored inline on
+// the skill's `upgrade.effect` in BUMPKIN_REVAMP_SKILL_TREE (single source of
+// truth). `kind` drives both the gameplay consumer read and the UI formatter;
+// `ranks` is indexed by (level - 1).
+export type SkillRankEffect =
+  | { kind: "growthMultiplier"; ranks: readonly [number, number, number] }
+  | { kind: "additiveYield"; ranks: readonly [number, number, number] }
+  | { kind: "coinBonus"; ranks: readonly [number, number, number] } // fraction: 0.3 = +30%
+  | { kind: "dropChance"; ranks: readonly [number, number, number] } // inner prngChance arg
+  | { kind: "aoe"; ranks: readonly [AOEExtent, AOEExtent, AOEExtent] }
+  | { kind: "cooldown"; ranks: readonly [number, number, number] } // ms
+  | {
+      kind: "yieldWithDebuff";
+      buff: readonly [number, number, number];
+      debuff: readonly [number, number, number];
+    };
+
+// Shared AOE footprint progression — Chonky Scarecrow / Horror Mike / Laurie's
+// Gains all grow their placeable's AOE identically per rank (7x7 / 8x8 / 9x9).
+const AOE_RANKS: readonly [AOEExtent, AOEExtent, AOEExtent] = [
+  { xLeft: 3, xRight: 3, depth: 7 },
+  { xLeft: 4, xRight: 3, depth: 8 },
+  { xLeft: 4, xRight: 4, depth: 9 },
+];
+
+// Effective "1 in N" chance shown to players for Golden Sunflower per rank. The
+// mechanical inner chance lives in SKILL_RANKS; this is display-only.
+export const GOLDEN_SUNFLOWER_DISPLAY = [700, 600, 500];
 
 export type BumpkinSkillRevamp = {
   name: string;
@@ -411,7 +453,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Green Thumb": {
     name: "Green Thumb",
     tree: "Crops",
-    upgrade: { maxLevel: 3 },
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "growthMultiplier", ranks: [0.95, 0.925, 0.9] },
+    },
     requirements: {
       points: 1,
       tier: 1,
@@ -430,7 +475,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Young Farmer": {
     name: "Young Farmer",
     tree: "Crops",
-    upgrade: { maxLevel: 3 },
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "additiveYield", ranks: [0.1, 0.15, 0.2] },
+    },
     requirements: {
       points: 1,
       tier: 1,
@@ -449,7 +497,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Experienced Farmer": {
     name: "Experienced Farmer",
     tree: "Crops",
-    upgrade: { maxLevel: 3 },
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "additiveYield", ranks: [0.1, 0.15, 0.2] },
+    },
     requirements: {
       points: 1,
       tier: 1,
@@ -468,7 +519,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Old Farmer": {
     name: "Old Farmer",
     tree: "Crops",
-    upgrade: { maxLevel: 3 },
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "additiveYield", ranks: [0.1, 0.15, 0.2] },
+    },
     requirements: {
       points: 1,
       tier: 1,
@@ -487,7 +541,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Chonky Scarecrow": {
     name: "Chonky Scarecrow",
     tree: "Crops",
-    upgrade: { maxLevel: 3 },
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "aoe", ranks: AOE_RANKS },
+    },
     requirements: {
       points: 1,
       tier: 1,
@@ -507,7 +564,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Betty's Friend": {
     name: "Betty's Friend",
     tree: "Crops",
-    upgrade: { maxLevel: 3 },
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "coinBonus", ranks: [0.3, 0.45, 0.6] },
+    },
     requirements: {
       points: 1,
       tier: 1,
@@ -529,7 +589,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Strong Roots": {
     name: "Strong Roots",
     tree: "Crops",
-    upgrade: { maxLevel: 3 },
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "growthMultiplier", ranks: [0.9, 0.875, 0.85] },
+    },
     requirements: {
       points: 2,
       tier: 2,
@@ -548,7 +611,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Coin Swindler": {
     name: "Coin Swindler",
     tree: "Crops",
-    upgrade: { maxLevel: 3 },
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "coinBonus", ranks: [0.1, 0.2, 0.3] },
+    },
     requirements: {
       points: 2,
       tier: 2,
@@ -568,7 +634,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Golden Sunflower": {
     name: "Golden Sunflower",
     tree: "Crops",
-    upgrade: { maxLevel: 3 },
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "dropChance", ranks: [1 / 7, 1 / 6, 1 / 5] },
+    },
     requirements: {
       points: 2,
       tier: 2,
@@ -588,7 +657,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Horror Mike": {
     name: "Horror Mike",
     tree: "Crops",
-    upgrade: { maxLevel: 3 },
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "aoe", ranks: AOE_RANKS },
+    },
     requirements: {
       points: 2,
       tier: 2,
@@ -608,7 +680,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Laurie's Gains": {
     name: "Laurie's Gains",
     tree: "Crops",
-    upgrade: { maxLevel: 3 },
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "aoe", ranks: AOE_RANKS },
+    },
     requirements: {
       points: 2,
       tier: 2,
@@ -629,7 +704,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Instant Growth": {
     name: "Instant Growth",
     tree: "Crops",
-    upgrade: { maxLevel: 3 },
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "cooldown",
+        ranks: [1000 * 60 * 60 * 72, 1000 * 60 * 60 * 60, 1000 * 60 * 60 * 48],
+      },
+    },
     requirements: {
       points: 3,
       tier: 3,
@@ -649,7 +730,14 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Acre Farm": {
     name: "Acre Farm",
     tree: "Crops",
-    upgrade: { maxLevel: 3 },
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "yieldWithDebuff",
+        buff: [1, 1.25, 1.5],
+        debuff: [0.5, 0.6, 0.7],
+      },
+    },
     requirements: {
       points: 3,
       tier: 3,
@@ -673,7 +761,14 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Hectare Farm": {
     name: "Hectare Farm",
     tree: "Crops",
-    upgrade: { maxLevel: 3 },
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "yieldWithDebuff",
+        buff: [1, 1.25, 1.5],
+        debuff: [0.5, 0.6, 0.7],
+      },
+    },
     requirements: {
       points: 3,
       tier: 3,
@@ -3460,6 +3555,41 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
 } satisfies Record<string, BumpkinSkillRevamp>;
 
 export type BumpkinRevampSkillName = keyof typeof BUMPKIN_REVAMP_SKILL_TREE;
+
+// The upgradeable skills — derived from which skills carry `upgrade`, so
+// this set can never drift from the tree.
+export type UpgradeableSkillName = {
+  [K in BumpkinRevampSkillName]: (typeof BUMPKIN_REVAMP_SKILL_TREE)[K] extends {
+    upgrade: SkillUpgrade;
+  }
+    ? K
+    : never;
+}[BumpkinRevampSkillName];
+
+// Per-rank effect values, indexed by skill name — a typed view over each
+// skill's `upgrade.effect` (the single source of truth in the tree). Reading by
+// literal key keeps each skill's exact effect type (fully narrowed, no cast),
+// and `satisfies Record<UpgradeableSkillName, ...>` forces every upgradeable
+// skill to be listed here, so the two can never drift.
+export const SKILL_RANKS = {
+  "Green Thumb": BUMPKIN_REVAMP_SKILL_TREE["Green Thumb"].upgrade.effect,
+  "Young Farmer": BUMPKIN_REVAMP_SKILL_TREE["Young Farmer"].upgrade.effect,
+  "Experienced Farmer":
+    BUMPKIN_REVAMP_SKILL_TREE["Experienced Farmer"].upgrade.effect,
+  "Old Farmer": BUMPKIN_REVAMP_SKILL_TREE["Old Farmer"].upgrade.effect,
+  "Betty's Friend": BUMPKIN_REVAMP_SKILL_TREE["Betty's Friend"].upgrade.effect,
+  "Chonky Scarecrow":
+    BUMPKIN_REVAMP_SKILL_TREE["Chonky Scarecrow"].upgrade.effect,
+  "Strong Roots": BUMPKIN_REVAMP_SKILL_TREE["Strong Roots"].upgrade.effect,
+  "Coin Swindler": BUMPKIN_REVAMP_SKILL_TREE["Coin Swindler"].upgrade.effect,
+  "Golden Sunflower":
+    BUMPKIN_REVAMP_SKILL_TREE["Golden Sunflower"].upgrade.effect,
+  "Horror Mike": BUMPKIN_REVAMP_SKILL_TREE["Horror Mike"].upgrade.effect,
+  "Laurie's Gains": BUMPKIN_REVAMP_SKILL_TREE["Laurie's Gains"].upgrade.effect,
+  "Instant Growth": BUMPKIN_REVAMP_SKILL_TREE["Instant Growth"].upgrade.effect,
+  "Acre Farm": BUMPKIN_REVAMP_SKILL_TREE["Acre Farm"].upgrade.effect,
+  "Hectare Farm": BUMPKIN_REVAMP_SKILL_TREE["Hectare Farm"].upgrade.effect,
+} satisfies Record<UpgradeableSkillName, SkillRankEffect>;
 
 export const SKILL_TREE_CATEGORIES = Array.from(
   new Set(

@@ -27,6 +27,7 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 
 import {
   isCoinNPC,
@@ -241,13 +242,13 @@ export function getOrderSellPrice<T>(
   let mul = 1;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
-  if (
-    order.from === "betty" &&
-    game.bumpkin?.skills["Betty's Friend"] &&
-    order.reward.coins
-  ) {
-    mul += 0.3;
-    boostsUsed.push({ name: "Betty's Friend", value: "+30%" });
+  const bettysFriendLevel = game.bumpkin
+    ? getSkillLevel(game.bumpkin.skills, "Betty's Friend")
+    : 0;
+  if (order.from === "betty" && bettysFriendLevel && order.reward.coins) {
+    const b = SKILL_RANKS["Betty's Friend"].ranks[bettysFriendLevel - 1];
+    mul += b;
+    boostsUsed.push({ name: "Betty's Friend", value: `+${b * 100}%` });
   }
 
   if (

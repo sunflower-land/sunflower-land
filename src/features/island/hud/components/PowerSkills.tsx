@@ -141,7 +141,11 @@ const PowerSkillsContent: React.FC<{
     gameService.send("skill.used", { skill: skillName });
   };
 
-  const boostedCooldown = getSkillCooldown({ cooldown: cooldown ?? 0, state });
+  const boostedCooldown = getSkillCooldown({
+    cooldown: cooldown ?? 0,
+    state,
+    skillName,
+  });
 
   const nextSkillUse = (previousPowerUseAt?.[skillName] ?? 0) + boostedCooldown;
   const powerSkillReady = nextSkillUse < now;
@@ -159,6 +163,7 @@ const PowerSkillsContent: React.FC<{
     const boostedCooldown = getSkillCooldown({
       cooldown: skill.requirements.cooldown ?? 0,
       state,
+      skillName,
     });
     const nextSkillUse =
       (previousPowerUseAt?.[skillName] ?? 0) + boostedCooldown;

@@ -62,6 +62,7 @@ import {
   trackFarmActivity,
 } from "features/game/types/farmActivity";
 import { isBuffActive } from "features/game/types/buffs";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 import { isAutumnCrop, isSummerCrop } from "./harvest";
 import { getKeys } from "lib/object";
 
@@ -268,9 +269,11 @@ export function getCropTime({
     boostsUsed.push({ name: "Harvest Hourglass", value: "x0.75" });
   }
 
-  if (skills["Strong Roots"] && isAdvancedCrop(crop)) {
-    multiplier = multiplier * 0.9;
-    boostsUsed.push({ name: "Strong Roots", value: "x0.9" });
+  const strongRootsLevel = getSkillLevel(skills, "Strong Roots");
+  if (strongRootsLevel && isAdvancedCrop(crop)) {
+    const m = SKILL_RANKS["Strong Roots"].ranks[strongRootsLevel - 1];
+    multiplier = multiplier * m;
+    boostsUsed.push({ name: "Strong Roots", value: `x${m}` });
   }
 
   // Apply bud speed boosts
@@ -338,9 +341,11 @@ export const getCropPlotTime = ({
     boostsUsed.push({ name: "Autumn's Embrace", value: "x0.5" });
   }
 
-  if (skills["Green Thumb"]) {
-    seconds = seconds * 0.95;
-    boostsUsed.push({ name: "Green Thumb", value: "x0.95" });
+  const greenThumbLevel = getSkillLevel(skills, "Green Thumb");
+  if (greenThumbLevel) {
+    const m = SKILL_RANKS["Green Thumb"].ranks[greenThumbLevel - 1];
+    seconds = seconds * m;
+    boostsUsed.push({ name: "Green Thumb", value: `x${m}` });
   }
 
   // Under the SPEED_BOOSTS model the Sparrow Shrine is a retroactive speed-rate

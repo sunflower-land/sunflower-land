@@ -23,6 +23,7 @@ import {
   meetsLevelRequirement,
 } from "features/game/lib/level";
 import { isWearableActive } from "features/game/lib/wearables";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 import type { SellableItem } from "features/game/events/landExpansion/sellCrop";
 import {
   FACTION_ITEMS,
@@ -115,9 +116,11 @@ export const getSellPrice = ({
     multiplier += specialEventMultiplier - 1;
   }
 
-  if (bumpkin.skills["Coin Swindler"] && item.name in CROPS) {
-    multiplier += 0.1;
-    boostUsed.push({ name: "Coin Swindler", value: "+0.1" });
+  const coinSwindlerLevel = getSkillLevel(bumpkin.skills, "Coin Swindler");
+  if (coinSwindlerLevel && item.name in CROPS) {
+    const b = SKILL_RANKS["Coin Swindler"].ranks[coinSwindlerLevel - 1];
+    multiplier += b;
+    boostUsed.push({ name: "Coin Swindler", value: `+${b}` });
   }
 
   return { price: price * multiplier, boostsUsed: boostUsed };
