@@ -468,20 +468,20 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             height: "14%",
             border: showDebugBorders ? "2px solid red" : "",
             position: "absolute",
-            right: "35%",
-            bottom: "0%",
+            right: "30%",
+            bottom: "3%",
           }}
           className={`flex justify-center items-center ${
             hasLevel(2) ? "cursor-pointer" : "cursor-not-allowed"
           }`}
           onClick={() => {
-            if (hasLevel(2)) return;
+            if (!hasLevel(2)) return;
             travel.play();
             navigate("/world/colors_island_2026");
             onClose();
           }}
         >
-          {hasLevel(2) ? (
+          {!hasLevel(2) ? (
             isMobile ? (
               <img
                 src={SUNNYSIDE.icons.lock}
