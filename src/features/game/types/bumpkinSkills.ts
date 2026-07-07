@@ -159,6 +159,12 @@ export type SkillUpgrade = {
   maxLevel: number;
 };
 
+// Cost of a single rank-up for a skill of the given tier (flat per upgrade).
+export const getSkillUpgradeCost = (tier: BumpkinSkillTier) => ({
+  shards: tier,
+  points: tier * 3,
+});
+
 export type BumpkinSkillRevamp = {
   name: string;
   tree: BumpkinRevampSkillTree;

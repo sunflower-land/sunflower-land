@@ -3,6 +3,7 @@ import { TEST_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { CONFIG } from "lib/config";
 import { upgradeSkill } from "./upgradeSkill";
+import { getAvailableBumpkinSkillPoints } from "./choseSkill";
 
 describe("upgradeSkill", () => {
   const dateNow = Date.now();
@@ -49,6 +50,33 @@ describe("upgradeSkill", () => {
 
     expect(result.bumpkin?.skills["Strong Roots"]).toEqual(2);
     expect(result.inventory["Ascension Shard"]).toEqual(new Decimal(3));
+  });
+
+  it("upgrades a rank 2 skill to rank 3 and keeps point accounting aligned", () => {
+    const state = {
+      ...TEST_FARM,
+      inventory: {
+        ...TEST_FARM.inventory,
+        "Ascension Shard": new Decimal(5),
+      },
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        experience: LEVEL_EXPERIENCE[15],
+        skills: { "Green Thumb": 2 },
+      },
+    };
+    const before = getAvailableBumpkinSkillPoints(state);
+
+    const result = upgradeSkill({
+      state,
+      action: { type: "skill.upgraded", skill: "Green Thumb" },
+      createdAt: dateNow,
+    });
+
+    expect(result.bumpkin?.skills["Green Thumb"]).toEqual(3);
+    expect(result.inventory["Ascension Shard"]).toEqual(new Decimal(4));
+    // Tier 1 rank-up costs 3 skill points; available drops by exactly that.
+    expect(getAvailableBumpkinSkillPoints(result)).toEqual(before - 3);
   });
 
   it("throws when the player does not own the skill", () => {

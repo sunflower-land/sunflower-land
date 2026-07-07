@@ -4,6 +4,7 @@ import {
   type BumpkinRevampSkillTree,
   createRevampSkillPath,
   type BumpkinRevampSkillName,
+  getSkillUpgradeCost,
 } from "features/game/types/bumpkinSkills";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
@@ -25,7 +26,6 @@ import {
 // Function imports
 import {
   getAvailableBumpkinSkillPoints,
-  getSkillUpgradeCost,
   getUnlockedTierForTree,
   SKILL_POINTS_PER_TIER,
 } from "features/game/events/landExpansion/choseSkill";

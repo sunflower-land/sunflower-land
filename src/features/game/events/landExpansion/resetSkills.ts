@@ -7,8 +7,8 @@ import {
   type BumpkinRevampSkillName,
   type BumpkinSkillRevamp,
   BUMPKIN_REVAMP_SKILL_TREE,
+  getSkillUpgradeCost,
 } from "features/game/types/bumpkinSkills";
-import { getSkillUpgradeCost } from "./choseSkill";
 
 export type PaymentType = "gems" | "free" | "ticket";
 
@@ -138,9 +138,15 @@ export function resetSkills({
       const skillData: BumpkinSkillRevamp =
         BUMPKIN_REVAMP_SKILL_TREE[skill as BumpkinRevampSkillName];
       const level = skills[skill] ?? 1;
-      if (skillData?.upgrade && level > 1) {
+      if (skillData?.upgrade) {
+        // Cap to maxLevel so malformed/imported ranks can't over-refund.
+        const refundableRanks = Math.max(
+          0,
+          Math.min(level, skillData.upgrade.maxLevel) - 1,
+        );
         refundShards +=
-          getSkillUpgradeCost(skillData.requirements.tier).shards * (level - 1);
+          getSkillUpgradeCost(skillData.requirements.tier).shards *
+          refundableRanks;
       }
     }
 

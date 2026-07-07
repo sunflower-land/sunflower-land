@@ -4,13 +4,11 @@ import {
   type BumpkinRevampSkillName,
   type BumpkinSkillRevamp,
   BUMPKIN_REVAMP_SKILL_TREE,
+  getSkillUpgradeCost,
 } from "features/game/types/bumpkinSkills";
 import type { GameState } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
-import {
-  getAvailableBumpkinSkillPoints,
-  getSkillUpgradeCost,
-} from "./choseSkill";
+import { getAvailableBumpkinSkillPoints } from "./choseSkill";
 
 export type UpgradeSkillAction = {
   type: "skill.upgraded";
@@ -46,6 +44,10 @@ export function upgradeSkill({ state, action }: Options): GameState {
 
     if (!upgrade) {
       throw new Error("This skill cannot be upgraded");
+    }
+
+    if (skillData.disabled) {
+      throw new Error("This skill is disabled");
     }
 
     const currentLevel = bumpkin.skills[action.skill] ?? 0;

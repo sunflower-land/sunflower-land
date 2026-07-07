@@ -9,6 +9,7 @@ import {
   type BumpkinRevampSkillTree,
   type BumpkinSkillTier,
   type BumpkinSkillRevamp,
+  getSkillUpgradeCost,
 } from "features/game/types/bumpkinSkills";
 import type { Bumpkin, GameState } from "features/game/types/game";
 import { populateSaltFarm } from "features/game/types/salt";
@@ -24,12 +25,6 @@ type Options = {
   action: ChoseSkillAction;
   createdAt?: number;
 };
-
-// Cost of a single rank-up for a skill of the given tier (flat per upgrade).
-export const getSkillUpgradeCost = (tier: BumpkinSkillTier) => ({
-  shards: tier,
-  points: tier * 3,
-});
 
 export const getAvailableBumpkinSkillPoints = (game?: GameState) => {
   const bumpkin = game?.bumpkin;

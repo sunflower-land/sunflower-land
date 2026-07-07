@@ -383,5 +383,49 @@ describe("resetSkills", () => {
 
       expect(state.inventory["Ascension Shard"]).toEqual(new Decimal(5));
     });
+
+    it("refunds tier-scaled shards for a rank 3 tier-2 skill", () => {
+      const state = resetSkills({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            // Strong Roots (tier 2) at rank 3 => 2 upgrades * 2 shards = 4.
+            skills: { "Strong Roots": 3 },
+            previousFreeSkillResetAt: sixMonthsAgo(),
+          },
+          inventory: {
+            ...INITIAL_FARM.inventory,
+            "Ascension Shard": new Decimal(0),
+          },
+        },
+        action: { type: "skills.reset", paymentType: "free" },
+        createdAt: dateNow,
+      });
+
+      expect(state.inventory["Ascension Shard"]).toEqual(new Decimal(4));
+    });
+
+    it("caps the refund at maxLevel for a malformed rank", () => {
+      const state = resetSkills({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { "Green Thumb": 99 },
+            previousFreeSkillResetAt: sixMonthsAgo(),
+          },
+          inventory: {
+            ...INITIAL_FARM.inventory,
+            "Ascension Shard": new Decimal(0),
+          },
+        },
+        action: { type: "skills.reset", paymentType: "free" },
+        createdAt: dateNow,
+      });
+
+      // Capped at maxLevel 3 => 2 refundable ranks * 1 shard (tier 1) = 2.
+      expect(state.inventory["Ascension Shard"]).toEqual(new Decimal(2));
+    });
   });
 });
