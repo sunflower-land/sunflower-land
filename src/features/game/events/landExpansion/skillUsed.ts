@@ -2,9 +2,9 @@ import {
   type BumpkinRevampSkillName,
   BUMPKIN_REVAMP_SKILL_TREE,
   type BumpkinSkillRevamp,
-  type UpgradeableSkillName,
   SKILL_RANKS,
   getSkillLevel,
+  isUpgradeableSkillName,
 } from "features/game/types/bumpkinSkills";
 import { getKeys } from "lib/object";
 import type {
@@ -258,10 +258,7 @@ export function getSkillCooldown({
 }) {
   // Upgradeable power skills (e.g. Instant Growth) scale their cooldown by rank.
   let base = cooldown;
-  const isUpgradableSkill = (
-    skillName: BumpkinRevampSkillName,
-  ): skillName is UpgradeableSkillName => skillName in SKILL_RANKS;
-  if (skillName && isUpgradableSkill(skillName)) {
+  if (skillName && isUpgradeableSkillName(skillName)) {
     const effect = SKILL_RANKS[skillName];
     const level = getSkillLevel(state.bumpkin.skills, skillName);
     if (effect.kind === "cooldown" && level) {

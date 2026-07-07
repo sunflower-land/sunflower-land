@@ -7,6 +7,7 @@ import {
   type UpgradeableSkillName,
   getSkillUpgradeCost,
   SKILL_RANKS,
+  isUpgradeableSkillName,
 } from "features/game/types/bumpkinSkills";
 import { getSkillRankDescription } from "./getSkillRankDescription";
 import { useSelector } from "@xstate/react";
@@ -188,20 +189,18 @@ export const SkillPathDetails: React.FC<Props> = ({
   // description replaces the static boost text; the next-rank one previews the
   // upgrade reward. Cooldown skills (Instant Growth) keep their static boost
   // pill because the cooldown pill already shows the scaled number.
-  const isRankSkill = canUpgradeHere && name in SKILL_RANKS;
-  const rankKind = isRankSkill
-    ? SKILL_RANKS[name as UpgradeableSkillName].kind
+  const rankSkillName = isUpgradeableSkillName(name as BumpkinRevampSkillName)
+    ? (name as UpgradeableSkillName)
     : undefined;
+  const isRankSkill = canUpgradeHere && rankSkillName !== undefined;
+  const rankKind = rankSkillName ? SKILL_RANKS[rankSkillName].kind : undefined;
   const currentRankDescription =
-    isRankSkill && rankKind !== "cooldown"
-      ? getSkillRankDescription(
-          name as UpgradeableSkillName,
-          Math.max(currentLevel, 1),
-        )
+    isRankSkill && rankSkillName && rankKind !== "cooldown"
+      ? getSkillRankDescription(rankSkillName, Math.max(currentLevel, 1), t)
       : undefined;
   const nextRankDescription =
-    isRankSkill && isUpgradable
-      ? getSkillRankDescription(name as UpgradeableSkillName, currentLevel + 1)
+    isRankSkill && rankSkillName && isUpgradable
+      ? getSkillRankDescription(rankSkillName, currentLevel + 1, t)
       : undefined;
 
   const isUpgradeDisabled =

@@ -167,11 +167,19 @@ export const getSkillUpgradeCost = (tier: BumpkinSkillTier) => ({
 });
 
 // Current rank of a skill: 0 = not owned, otherwise 1..maxLevel (the rank is
-// stored directly as the skill's value in `bumpkin.skills`).
+// stored directly as the skill's value in `bumpkin.skills`). Clamped to a valid
+// rank so a malformed / out-of-range persisted value can't produce an undefined
+// rank read (NaN yields/growth). For non-upgradeable skills this is a no-op.
 export const getSkillLevel = (
   skills: Skills,
   name: BumpkinRevampSkillName,
-): number => skills[name] ?? 0;
+): number => {
+  const level = Math.floor(skills[name] ?? 0);
+  const maxLevel =
+    (BUMPKIN_REVAMP_SKILL_TREE[name] as BumpkinSkillRevamp).upgrade?.maxLevel ??
+    level;
+  return Math.max(0, Math.min(level, maxLevel));
+};
 
 // A single AOE footprint, expressed as tile extents from the placeable's
 // origin. Base (no skill) is {xLeft:1,xRight:1,depth:3} = 3x3 and stays
@@ -202,10 +210,6 @@ const AOE_RANKS: readonly [AOEExtent, AOEExtent, AOEExtent] = [
   { xLeft: 4, xRight: 3, depth: 8 },
   { xLeft: 4, xRight: 4, depth: 9 },
 ];
-
-// Effective "1 in N" chance shown to players for Golden Sunflower per rank. The
-// mechanical inner chance lives in SKILL_RANKS; this is display-only.
-export const GOLDEN_SUNFLOWER_DISPLAY = [700, 600, 500];
 
 export type BumpkinSkillRevamp = {
   name: string;
@@ -3590,6 +3594,20 @@ export const SKILL_RANKS = {
   "Acre Farm": BUMPKIN_REVAMP_SKILL_TREE["Acre Farm"].upgrade.effect,
   "Hectare Farm": BUMPKIN_REVAMP_SKILL_TREE["Hectare Farm"].upgrade.effect,
 } satisfies Record<UpgradeableSkillName, SkillRankEffect>;
+
+// Runtime guard co-located with SKILL_RANKS so callers can narrow to an
+// upgradeable skill without casting.
+export const isUpgradeableSkillName = (
+  name: BumpkinRevampSkillName,
+): name is UpgradeableSkillName => name in SKILL_RANKS;
+
+// Effective "1 in N" gold chance shown to players for Golden Sunflower per rank.
+// Derived from the mechanical dropChance so the display can't drift: prngChance
+// fires when prngValue*100 < chance, so the player-facing odds are 100 / chance
+// (1/7 -> 700, 1/6 -> 600, 1/5 -> 500).
+export const GOLDEN_SUNFLOWER_DISPLAY = SKILL_RANKS[
+  "Golden Sunflower"
+].ranks.map((chance) => Math.round(100 / chance));
 
 export const SKILL_TREE_CATEGORIES = Array.from(
   new Set(
