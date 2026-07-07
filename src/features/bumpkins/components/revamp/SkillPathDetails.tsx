@@ -168,8 +168,8 @@ export const SkillPathDetails: React.FC<Props> = ({
 
   // The three panel modes. Upgrades only exist behind SWAMP_ASCENSION, so
   // non-Crops trees and flag-off players resolve to Locked -> Maxed (no ranks).
-  const canUpgradeHere =
-    hasFeatureAccess(state, "SWAMP_ASCENSION") && !!upgrade;
+  const upgradesEnabled = hasFeatureAccess(state, "SWAMP_ASCENSION");
+  const canUpgradeHere = upgradesEnabled && !!upgrade;
   const isLocked = !hasSelectedSkill;
   const isUpgradable =
     hasSelectedSkill && canUpgradeHere && currentLevel < maxLevel;
@@ -488,7 +488,14 @@ export const SkillPathDetails: React.FC<Props> = ({
                           bumpkin.skills[
                             skill.name as BumpkinRevampSkillName
                           ] ?? 0;
+                        // "Maxed" = at its top rank (upgradeable skills need the
+                        // flag on to have ranks; otherwise owning it is maxed).
+                        const skillMaxLevel =
+                          upgradesEnabled && skill.upgrade
+                            ? skill.upgrade.maxLevel
+                            : 1;
                         const hasSkill = !!skillLevel;
+                        const isSkillMaxed = skillLevel >= skillMaxLevel;
                         const { name, image, tree, npc, power, boosts } = skill;
                         const { boostTypeIcon, boostedItemIcon } = boosts.buff;
 
@@ -502,11 +509,16 @@ export const SkillPathDetails: React.FC<Props> = ({
                               setShowConfirmation(false);
                               setShowUpgradeConfirmation(false);
                             }}
-                            showOverlay={hasSkill || !tierUnlocked}
+                            showOverlay={isSkillMaxed || !tierUnlocked}
                             overlayIcon={
                               <img
                                 src={
-                                  hasSkill
+                                  isSkillMaxed ||
+                                  (!hasFeatureAccess(
+                                    state,
+                                    "SWAMP_ASCENSION",
+                                  ) &&
+                                    hasSkill)
                                     ? SUNNYSIDE.icons.confirm
                                     : !tierUnlocked
                                       ? SUNNYSIDE.icons.lock
@@ -521,9 +533,9 @@ export const SkillPathDetails: React.FC<Props> = ({
                             }
                             tier={tierRequirement}
                             npc={npc}
-                            levelLabel={
-                              skill.upgrade && skillLevel > 1
-                                ? `${skillLevel}`
+                            count={
+                              skill.upgrade && !!skillLevel
+                                ? new Decimal(skillLevel)
                                 : undefined
                             }
                             secondaryImage={
