@@ -353,14 +353,14 @@ describe("choseSkill", () => {
         ...TEST_FARM,
         bumpkin: {
           ...INITIAL_BUMPKIN,
-          experience: LEVEL_EXPERIENCE[5],
-          // Green Thumb (tier 1) at rank 3: base 1 + upgrades 1 * 2 = 3 used.
+          experience: LEVEL_EXPERIENCE[10],
+          // Green Thumb (tier 1) at rank 3: base 1 + upgrades 3 * 2 = 7 used.
           skills: { "Green Thumb": 3 },
         },
       });
 
-      // Level 5 earns 5 points; 3 spent => 2 available.
-      expect(result).toBe(2);
+      // Level 10 earns 10 points; 7 spent => 3 available.
+      expect(result).toBe(3);
     });
   });
 });

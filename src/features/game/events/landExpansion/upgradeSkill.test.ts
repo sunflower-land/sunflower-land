@@ -7,7 +7,7 @@ import { upgradeSkill } from "./upgradeSkill";
 describe("upgradeSkill", () => {
   const dateNow = Date.now();
 
-  it("upgrades a tier 1 skill, spending 1 shard and 1 skill point", () => {
+  it("upgrades a tier 1 skill, spending 1 shard and 3 skill points", () => {
     const result = upgradeSkill({
       state: {
         ...TEST_FARM,
@@ -39,7 +39,7 @@ describe("upgradeSkill", () => {
         },
         bumpkin: {
           ...INITIAL_BUMPKIN,
-          experience: LEVEL_EXPERIENCE[6],
+          experience: LEVEL_EXPERIENCE[10],
           skills: { "Strong Roots": 1 },
         },
       },
