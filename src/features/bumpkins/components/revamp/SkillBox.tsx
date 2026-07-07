@@ -64,6 +64,10 @@ export interface BoxProps {
   onDrop?: (e: React.DragEvent<HTMLDivElement>) => void;
   tier: BumpkinSkillTier;
   npc?: NPCName;
+  /**
+   * Rank badge (e.g. "2") shown in the bottom-left for upgraded skills.
+   */
+  levelLabel?: string;
 }
 
 export const SkillBox: React.FC<BoxProps> = ({
@@ -90,6 +94,7 @@ export const SkillBox: React.FC<BoxProps> = ({
   onDrop,
   tier,
   npc,
+  levelLabel,
 }) => {
   const [isHover, setIsHover] = useState(false);
 
@@ -236,6 +241,21 @@ export const SkillBox: React.FC<BoxProps> = ({
           <div className="absolute flex justify-center w-full h-full pointer-events-none">
             <div className="absolute object-contain bg-overlay-white w-full h-full opacity-50" />
             {overlayIcon}
+          </div>
+        )}
+
+        {/** Rank badge for upgraded skills */}
+        {levelLabel && (
+          <div
+            className="absolute z-30 pointer-events-none flex items-center justify-center bg-brown-600"
+            style={{
+              bottom: `${PIXEL_SCALE * 1}px`,
+              left: `${PIXEL_SCALE * 1}px`,
+              minWidth: `${PIXEL_SCALE * 7}px`,
+              ...pixelDarkBorderStyle,
+            }}
+          >
+            <span className="text-xxs px-0.5">{levelLabel}</span>
           </div>
         )}
 

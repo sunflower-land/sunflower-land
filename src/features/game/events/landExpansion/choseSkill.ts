@@ -8,6 +8,7 @@ import {
   BUMPKIN_REVAMP_SKILL_TREE,
   type BumpkinRevampSkillTree,
   type BumpkinSkillTier,
+  type BumpkinSkillRevamp,
 } from "features/game/types/bumpkinSkills";
 import type { Bumpkin, GameState } from "features/game/types/game";
 import { populateSaltFarm } from "features/game/types/salt";
@@ -24,6 +25,12 @@ type Options = {
   createdAt?: number;
 };
 
+// Cost of a single rank-up for a skill of the given tier (flat per upgrade).
+export const getSkillUpgradeCost = (tier: BumpkinSkillTier) => ({
+  shards: tier,
+  points: tier,
+});
+
 export const getAvailableBumpkinSkillPoints = (game?: GameState) => {
   const bumpkin = game?.bumpkin;
   if (!bumpkin) return 0;
@@ -37,12 +44,20 @@ export const getAvailableBumpkinSkillPoints = (game?: GameState) => {
   const skillsClaimed = Object.keys(bumpkin.skills) as BumpkinRevampSkillName[];
 
   const totalUsedSkillPoints = skillsClaimed.reduce((acc, skill) => {
-    const skillData = BUMPKIN_REVAMP_SKILL_TREE[skill];
-    if (skillData) {
-      return acc + skillData.requirements.points;
+    const skillData: BumpkinSkillRevamp = BUMPKIN_REVAMP_SKILL_TREE[skill];
+    if (!skillData) return acc;
+
+    // Base cost paid once when the skill was chosen.
+    let used = skillData.requirements.points;
+
+    // Additional points spent on rank upgrades (rank stored as the skill value).
+    const level = bumpkin.skills[skill] ?? 1;
+    if (skillData.upgrade && level > 1) {
+      used +=
+        getSkillUpgradeCost(skillData.requirements.tier).points * (level - 1);
     }
 
-    return acc;
+    return acc + used;
   }, 0);
 
   return earnedSkillPoints - totalUsedSkillPoints;

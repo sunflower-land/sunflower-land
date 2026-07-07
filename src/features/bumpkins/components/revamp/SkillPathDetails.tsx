@@ -11,18 +11,27 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 
 // Component imports
 import { SplitScreenView } from "components/ui/SplitScreenView";
-import { Label } from "components/ui/Label";
+import { Label, LABEL_STYLES } from "components/ui/Label";
+import { InnerPanel } from "components/ui/Panel";
 import { SkillBox, INNER_CANVAS_WIDTH } from "./SkillBox";
 import { Button } from "components/ui/Button";
 import { SkillSquareIcon } from "./SkillSquareIcon";
+import {
+  pixelGrayBorderStyle,
+  pixelGreenBorderStyle,
+  pixelOrangeBorderStyle,
+} from "features/game/lib/style";
 
 // Function imports
 import {
   getAvailableBumpkinSkillPoints,
+  getSkillUpgradeCost,
   getUnlockedTierForTree,
   SKILL_POINTS_PER_TIER,
 } from "features/game/events/landExpansion/choseSkill";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { hasFeatureAccess } from "lib/flags";
+import Decimal from "decimal.js-light";
 
 // Icon imports
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -56,6 +65,70 @@ export const getSkillImage = (
       : SKILL_TREE_ICONS[tree];
 };
 
+/**
+ * A 1·2·3 rank track. `level` is the current rank (0 when the skill is not yet
+ * claimed); pips at or below `level` are done, the next pip is highlighted.
+ */
+const RankTrack: React.FC<{ level: number; maxLevel: number }> = ({
+  level,
+  maxLevel,
+}) => {
+  const { t } = useAppTranslation();
+  const isMaxed = level >= maxLevel;
+
+  const status = isMaxed
+    ? t("skill.max")
+    : t("skill.rankProgress", { level, max: maxLevel });
+
+  return (
+    <InnerPanel className="w-full mb-2">
+      <div className="flex items-center justify-between px-1 pt-0.5 pb-1">
+        <span className="text-xxs" style={{ letterSpacing: "1px" }}>
+          {t("skill.rank")}
+        </span>
+        <span className="text-xxs">{status}</span>
+      </div>
+      <div className="flex gap-1 px-1 pb-1">
+        {Array.from({ length: maxLevel }).map((_, i) => {
+          const rank = i + 1;
+          const done = rank <= level;
+          const next = rank === level + 1;
+          const borderStyle = done
+            ? pixelGreenBorderStyle
+            : next
+              ? pixelOrangeBorderStyle
+              : pixelGrayBorderStyle;
+
+          return (
+            <div
+              key={rank}
+              className="relative flex flex-1 items-center justify-center"
+              style={{
+                height: `${PIXEL_SCALE * 13}px`,
+                ...borderStyle,
+                backgroundColor: done
+                  ? LABEL_STYLES.success.background
+                  : next
+                    ? "#fff4df"
+                    : undefined,
+              }}
+            >
+              <span
+                className="text-sm"
+                style={{
+                  color: done ? "#ffffff" : next ? "#b8720a" : undefined,
+                }}
+              >
+                {rank}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </InnerPanel>
+  );
+};
+
 export const SkillPathDetails: React.FC<Props> = ({
   selectedSkillPath,
   skillsInPath,
@@ -68,6 +141,7 @@ export const SkillPathDetails: React.FC<Props> = ({
   const state = useSelector(gameService, _state);
 
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showUpgradeConfirmation, setShowUpgradeConfirmation] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState<BumpkinSkillRevamp>(
     skillsInPath[0],
   );
@@ -83,7 +157,30 @@ export const SkillPathDetails: React.FC<Props> = ({
     tree,
     bumpkin,
   );
-  const hasSelectedSkill = !!bumpkin.skills[name as BumpkinRevampSkillName];
+  // Skill upgrades (rank stored as the skill value; undefined = not owned).
+  const { upgrade } = selectedSkill;
+  const level = bumpkin.skills[name as BumpkinRevampSkillName];
+  const currentLevel = level ?? 0;
+  const maxLevel = upgrade?.maxLevel ?? 1;
+  const hasSelectedSkill = level !== undefined;
+  const shardBalance = state.inventory["Ascension Shard"] ?? new Decimal(0);
+  const upgradeCost = getSkillUpgradeCost(tier);
+
+  // The three panel modes. Upgrades only exist behind SWAMP_ASCENSION, so
+  // non-Crops trees and flag-off players resolve to Locked -> Maxed (no ranks).
+  const canUpgradeHere =
+    hasFeatureAccess(state, "SWAMP_ASCENSION") && !!upgrade;
+  const isLocked = !hasSelectedSkill;
+  const isUpgradable =
+    hasSelectedSkill && canUpgradeHere && currentLevel < maxLevel;
+  const isMaxed =
+    hasSelectedSkill && (!canUpgradeHere || currentLevel >= maxLevel);
+  const boostLabelType = isLocked ? "success" : "info";
+
+  const isUpgradeDisabled =
+    shardBalance.lt(upgradeCost.shards) ||
+    availableSkillPoints < upgradeCost.points ||
+    readonly;
   const missingPointRequirement = points > availableSkillPoints;
   const missingSkillsRequirement = tier > availableTier;
   const isClaimDisabled =
@@ -108,6 +205,15 @@ export const SkillPathDetails: React.FC<Props> = ({
     }
   };
 
+  const handleUpgrade = () => {
+    setShowUpgradeConfirmation(false);
+    gameService.send("skill.upgraded", { skill: name });
+
+    gameAnalytics.trackMilestone({
+      event: `Bumpkin:SkillUpgraded:${name}`,
+    });
+  };
+
   return (
     <SplitScreenView
       tallDesktopContent
@@ -115,7 +221,7 @@ export const SkillPathDetails: React.FC<Props> = ({
       wideModal
       panel={
         <div className="flex flex-col h-full justify-between">
-          {/* Header */}
+          {/* Header + adaptive body */}
           <div className="flex flex-col h-full px-1 py-0">
             <div className="flex gap-x-2 justify-start items-center sm:flex-col-reverse sm:py-0 py-2">
               <img
@@ -136,8 +242,18 @@ export const SkillPathDetails: React.FC<Props> = ({
                   npc={npc}
                 />
               </div>
-              <span className="sm:text-center">{name}</span>
+              <div className="flex items-center gap-1 sm:justify-center">
+                <span className="sm:text-center">{name}</span>
+                {isMaxed && (
+                  <img
+                    src={SUNNYSIDE.icons.confirm}
+                    alt="owned"
+                    style={{ width: `${PIXEL_SCALE * 8}px` }}
+                  />
+                )}
+              </div>
             </div>
+
             <div className="flex flex-col items-start mt-2">
               {!!power && (
                 <Label
@@ -150,7 +266,7 @@ export const SkillPathDetails: React.FC<Props> = ({
               )}
               {buff && (
                 <Label
-                  type={buff.labelType}
+                  type={boostLabelType}
                   icon={buff.boostTypeIcon}
                   secondaryIcon={buff.boostedItemIcon}
                   className="mb-2"
@@ -168,42 +284,94 @@ export const SkillPathDetails: React.FC<Props> = ({
                   {debuff.shortDescription}
                 </Label>
               )}
-            </div>
-            <div className="flex justify-between flex-col flex-wrap">
-              <div className="flex flex-row lg:flex-col-reverse items-start justify-between">
-                <RequirementLabel
-                  type="skillPoints"
-                  points={availableSkillPoints}
-                  requirement={points}
+              {!!power && !!boostedCooldown && (
+                <Label
+                  type="info"
+                  icon={SUNNYSIDE.icons.stopwatch}
                   className="mb-2"
-                  hideIcon={true} // Hide the div icon
-                />
-                {!!power && !!boostedCooldown && (
-                  <Label
-                    type="info"
-                    icon={SUNNYSIDE.icons.stopwatch}
-                    className="mb-2"
-                  >
-                    {t("skill.cooldown", {
-                      cooldown: millisecondsToString(boostedCooldown, {
-                        length: "short",
-                        isShortFormat: true,
-                        removeTrailingZeros: true,
-                      }),
-                    })}
-                  </Label>
-                )}
-              </div>
+                >
+                  {t("skill.cooldown", {
+                    cooldown: millisecondsToString(boostedCooldown, {
+                      length: "short",
+                      isShortFormat: true,
+                      removeTrailingZeros: true,
+                    }),
+                  })}
+                </Label>
+              )}
               {disabled && (
                 <Label type="danger" className="mb-2">
                   {t("skillTier.skillDisabled")}
                 </Label>
               )}
             </div>
+
+            {/* Rank track (upgradable skills only) */}
+            {canUpgradeHere && (
+              <RankTrack level={currentLevel} maxLevel={maxLevel} />
+            )}
+
+            {/* Next-rank reward preview */}
+            {isUpgradable && (
+              <div className="flex flex-col mb-2">
+                <Label
+                  type="success"
+                  icon={SUNNYSIDE.icons.powerup}
+                  className="mb-1"
+                >
+                  {t("skill.rankReward", { rank: currentLevel + 1 })}
+                </Label>
+                <span className="text-xxs ml-1">
+                  {t("skill.strengthensBoost")}
+                </span>
+              </div>
+            )}
+
+            {/* Fully-upgraded summary */}
+            {isMaxed && canUpgradeHere && (
+              <Label
+                type="success"
+                icon={SUNNYSIDE.icons.confirm}
+                className="mb-2"
+              >
+                {t("skill.fullyUpgraded")}
+              </Label>
+            )}
+
+            {/* Cost */}
+            {isLocked && (
+              <div className="flex flex-col items-start">
+                <RequirementLabel
+                  type="skillPoints"
+                  points={availableSkillPoints}
+                  requirement={points}
+                  className="mb-2"
+                  hideIcon={true}
+                />
+              </div>
+            )}
+            {isUpgradable && (
+              <div className="flex flex-col items-start">
+                <RequirementLabel
+                  type="item"
+                  item="Ascension Shard"
+                  balance={shardBalance}
+                  requirement={new Decimal(upgradeCost.shards)}
+                  className="mb-2"
+                />
+                <RequirementLabel
+                  type="skillPoints"
+                  points={availableSkillPoints}
+                  requirement={upgradeCost.points}
+                  className="mb-2"
+                  hideIcon={true}
+                />
+              </div>
+            )}
           </div>
 
-          {/* Claim/Claimed/Use Button */}
-          {!readonly && (
+          {/* Claim button (Locked) */}
+          {!readonly && isLocked && (
             <div className="flex sm:flex-col w-full">
               {showConfirmation ? (
                 <>
@@ -226,7 +394,37 @@ export const SkillPathDetails: React.FC<Props> = ({
                   disabled={isClaimDisabled}
                   onClick={() => setShowConfirmation(true)}
                 >
-                  {t(hasSelectedSkill ? "skill.claimed" : "skill.claim")}
+                  {t("skill.claim")}
+                </Button>
+              )}
+            </div>
+          )}
+
+          {/* Upgrade button (Owned & upgradable) */}
+          {!readonly && isUpgradable && (
+            <div className="flex sm:flex-col w-full">
+              {showUpgradeConfirmation ? (
+                <>
+                  <Button
+                    className="mr-1 sm:mr-0"
+                    onClick={() => setShowUpgradeConfirmation(false)}
+                  >
+                    {t("cancel")}
+                  </Button>
+                  <Button
+                    className="sm:mt-1"
+                    disabled={isUpgradeDisabled}
+                    onClick={handleUpgrade}
+                  >
+                    {t("skill.upgradeToRank", { rank: currentLevel + 1 })}
+                  </Button>
+                </>
+              ) : (
+                <Button
+                  disabled={isUpgradeDisabled}
+                  onClick={() => setShowUpgradeConfirmation(true)}
+                >
+                  {t("skill.upgradeToRank", { rank: currentLevel + 1 })}
                 </Button>
               )}
             </div>
@@ -286,10 +484,11 @@ export const SkillPathDetails: React.FC<Props> = ({
                     </div>
                     <div className="flex flex-row flex-wrap gap-0">
                       {availableSkills.map((skill) => {
-                        const hasSkill =
-                          !!bumpkin.skills[
+                        const skillLevel =
+                          bumpkin.skills[
                             skill.name as BumpkinRevampSkillName
-                          ];
+                          ] ?? 0;
+                        const hasSkill = !!skillLevel;
                         const { name, image, tree, npc, power, boosts } = skill;
                         const { boostTypeIcon, boostedItemIcon } = boosts.buff;
 
@@ -301,6 +500,7 @@ export const SkillPathDetails: React.FC<Props> = ({
                             onClick={() => {
                               setSelectedSkill(skill);
                               setShowConfirmation(false);
+                              setShowUpgradeConfirmation(false);
                             }}
                             showOverlay={hasSkill || !tierUnlocked}
                             overlayIcon={
@@ -321,6 +521,11 @@ export const SkillPathDetails: React.FC<Props> = ({
                             }
                             tier={tierRequirement}
                             npc={npc}
+                            levelLabel={
+                              skill.upgrade && skillLevel > 1
+                                ? `${skillLevel}`
+                                : undefined
+                            }
                             secondaryImage={
                               boosts.debuff
                                 ? tradeOffs

@@ -332,4 +332,56 @@ describe("resetSkills", () => {
       expect(state.bumpkin?.skills).toEqual({});
     });
   });
+
+  describe("Ascension Shard refund", () => {
+    const sixMonthsAgo = () => {
+      const date = new Date(dateNow);
+      date.setMonth(date.getMonth() - 6);
+      return date.getTime();
+    };
+
+    it("refunds shards spent on skill upgrades (tier-scaled)", () => {
+      const state = resetSkills({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            // Green Thumb (tier 1) at rank 3 => 2 upgrades * 1 shard = 2.
+            skills: { "Green Thumb": 3 },
+            previousFreeSkillResetAt: sixMonthsAgo(),
+          },
+          inventory: {
+            ...INITIAL_FARM.inventory,
+            "Ascension Shard": new Decimal(1),
+          },
+        },
+        action: { type: "skills.reset", paymentType: "free" },
+        createdAt: dateNow,
+      });
+
+      expect(state.bumpkin?.skills).toEqual({});
+      expect(state.inventory["Ascension Shard"]).toEqual(new Decimal(3));
+    });
+
+    it("refunds no shards for a base (rank 1) skill", () => {
+      const state = resetSkills({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { "Green Thumb": 1 },
+            previousFreeSkillResetAt: sixMonthsAgo(),
+          },
+          inventory: {
+            ...INITIAL_FARM.inventory,
+            "Ascension Shard": new Decimal(5),
+          },
+        },
+        action: { type: "skills.reset", paymentType: "free" },
+        createdAt: dateNow,
+      });
+
+      expect(state.inventory["Ascension Shard"]).toEqual(new Decimal(5));
+    });
+  });
 });
