@@ -186,4 +186,40 @@ describe("planBulkFetch", () => {
     });
     expect(plan.shortfall).toEqual({});
   });
+
+  it("still drains a pet heavily when it is the only source of a resource", () => {
+    // Barkley (Dog) is the only pet that can make chewed bone. Even with
+    // even-spread on, it takes the full chewed-bone load (using far more
+    // energy than Meowchi), and the shared acorn goes to the pet with energy
+    // to spare. That lopsided drain is acceptable when there is no alternative.
+    const activePets: ActivePets = [
+      ["Barkley", makePet("Barkley", { experience: LEVEL_3_XP, energy: 1000 })],
+      ["Meowchi", makePet("Meowchi", { energy: 1000 })],
+    ];
+    const plan = planBulkFetch({
+      activePets,
+      state,
+      desired: { "Chewed Bone": 4, Acorn: 4 },
+      now,
+    });
+
+    // Barkley alone can make chewed bone, so it takes all 4 (800 energy)...
+    expect(plan.fetches).toContainEqual({
+      petId: "Barkley",
+      fetch: "Chewed Bone",
+      amount: 4,
+    });
+    // ...and none of the acorn, which flows to the pet with energy to spare.
+    expect(
+      plan.fetches.find((f) => f.petId === "Barkley" && f.fetch === "Acorn"),
+    ).toBeUndefined();
+    expect(plan.fetches).toContainEqual({
+      petId: "Meowchi",
+      fetch: "Acorn",
+      amount: 4,
+    });
+    expect(plan.energyAfter.Barkley).toEqual(200);
+    expect(plan.energyAfter.Meowchi).toEqual(600);
+    expect(plan.shortfall).toEqual({});
+  });
 });
