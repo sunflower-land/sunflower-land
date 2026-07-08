@@ -89,6 +89,38 @@ describe("INITIAL_STOCK", () => {
     expect(INITIAL_STOCK(rank3).Axe).toEqual(new Decimal(400));
   });
 
+  it("increases Tomato & Lemon Seed stock by the Crime Fruit rank bonus (rank 1 +10, rank 2 +20, rank 3 +30)", () => {
+    const rank1 = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...TEST_FARM.bumpkin,
+        skills: { "Crime Fruit": 1 },
+      },
+    };
+    expect(INITIAL_STOCK(rank1)["Tomato Seed"]).toEqual(new Decimal(30));
+    expect(INITIAL_STOCK(rank1)["Lemon Seed"]).toEqual(new Decimal(30));
+
+    const rank2 = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...TEST_FARM.bumpkin,
+        skills: { "Crime Fruit": 2 },
+      },
+    };
+    expect(INITIAL_STOCK(rank2)["Tomato Seed"]).toEqual(new Decimal(40));
+    expect(INITIAL_STOCK(rank2)["Lemon Seed"]).toEqual(new Decimal(40));
+
+    const rank3 = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...TEST_FARM.bumpkin,
+        skills: { "Crime Fruit": 3 },
+      },
+    };
+    expect(INITIAL_STOCK(rank3)["Tomato Seed"]).toEqual(new Decimal(50));
+    expect(INITIAL_STOCK(rank3)["Lemon Seed"]).toEqual(new Decimal(50));
+  });
+
   it("increases stock of tools if More Picks skills is active", () => {
     const state = {
       ...TEST_FARM,

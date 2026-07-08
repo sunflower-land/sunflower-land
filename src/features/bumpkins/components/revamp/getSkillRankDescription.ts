@@ -267,5 +267,101 @@ export const getSkillRankDescription = (
           value: SKILL_RANKS["Midas Rush"].ranks[i],
         }),
       };
+    case "Fruitful Fumble":
+      return {
+        buff: t("skill.fruitfulFumble.ranked", {
+          value: SKILL_RANKS["Fruitful Fumble"].ranks[i],
+        }),
+      };
+    case "Fruity Heaven":
+      return {
+        buff: t("skill.fruityHeaven.ranked", {
+          value: SKILL_RANKS["Fruity Heaven"].ranks[i],
+        }),
+      };
+    case "Fruity Profit":
+      return {
+        buff: t("skill.fruityProfit.ranked", {
+          value: SKILL_RANKS["Fruity Profit"].ranks[i] * 100,
+        }),
+      };
+    case "Catchup":
+      return {
+        buff: t("skill.catchup.ranked", {
+          value: SKILL_RANKS["Catchup"].ranks[i],
+        }),
+      };
+    case "Fruity Woody":
+      return {
+        buff: t("skill.fruityWoody.ranked", {
+          value: SKILL_RANKS["Fruity Woody"].ranks[i],
+        }),
+      };
+    case "Crime Fruit":
+      return {
+        buff: t("skill.crimeFruit.ranked", {
+          value: SKILL_RANKS["Crime Fruit"].ranks["Tomato Seed"]?.[i] ?? 0,
+        }),
+      };
+    case "Generous Orchard":
+      return {
+        buff: t("skill.generousOrchard.ranked", {
+          value: SKILL_RANKS["Generous Orchard"].ranks[i],
+        }),
+      };
+    case "Zesty Vibes":
+      return {
+        buff: t("skill.zestyVibes.buff.ranked", {
+          value: SKILL_RANKS["Zesty Vibes"].buff[i],
+        }),
+        debuff: t("skill.zestyVibes.debuff.ranked", {
+          value: SKILL_RANKS["Zesty Vibes"].debuff[i],
+        }),
+      };
+    case "Loyal Macaw":
+      return {
+        buff: t("skill.loyalMacaw.ranked", {
+          value: SKILL_RANKS["Loyal Macaw"].ranks[i],
+        }),
+      };
+    case "Pear Turbocharge":
+      return {
+        buff: t("skill.pearTurbocharge.ranked", {
+          value: SKILL_RANKS["Pear Turbocharge"].ranks[i],
+        }),
+      };
+    case "No Axe No Worries": {
+      const penalty = SKILL_RANKS["No Axe No Worries"].ranks[i];
+      return {
+        buff: t("skill.noAxeNoWorries.buff"),
+        // Rank 3 removes the debuff entirely, so drop the debuff line.
+        debuff:
+          penalty > 0
+            ? t("skill.noAxeNoWorries.debuff.ranked", { value: penalty })
+            : undefined,
+      };
+    }
+    case "Long Pickings":
+      return {
+        buff: t("skill.longPickings.buff.ranked", {
+          value: SKILL_RANKS["Long Pickings"].buff[i],
+        }),
+        debuff: t("skill.longPickings.debuff.ranked", {
+          value:
+            Math.round((SKILL_RANKS["Long Pickings"].debuff[i] - 1) * 1000) /
+            10,
+        }),
+      };
+    case "Short Pickings":
+      return {
+        buff: t("skill.shortPickings.buff.ranked", {
+          value: SKILL_RANKS["Short Pickings"].buff[i],
+        }),
+        debuff: t("skill.shortPickings.debuff.ranked", {
+          value:
+            Math.round((SKILL_RANKS["Short Pickings"].debuff[i] - 1) * 1000) /
+            10,
+        }),
+      };
   }
 };

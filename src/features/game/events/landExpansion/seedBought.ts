@@ -23,6 +23,7 @@ import {
 } from "features/game/types/crops";
 import { isFullMoon } from "features/game/types/calendar";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import {
   CHAPTER_CROP_WEEK_SEED,
@@ -87,9 +88,11 @@ export function getBuyPrice(
     price = price * 0.8;
   }
 
-  if (isPatchFruitSeed(name) && bumpkin.skills["Fruity Heaven"]) {
-    boostsUsed.push({ name: "Fruity Heaven", value: "x0.9" });
-    price = price * 0.9;
+  const fruityHeavenLevel = getSkillLevel(bumpkin.skills, "Fruity Heaven");
+  if (isPatchFruitSeed(name) && fruityHeavenLevel) {
+    const value = SKILL_RANKS["Fruity Heaven"].ranks[fruityHeavenLevel - 1];
+    boostsUsed.push({ name: "Fruity Heaven", value: `x${value}` });
+    price = price * value;
   }
 
   if (

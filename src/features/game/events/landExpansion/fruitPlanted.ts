@@ -19,6 +19,7 @@ import { SEASONAL_SEEDS } from "features/game/types/seeds";
 import { isFullMoonBerry } from "./seedBought";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import type { FruitCompostName } from "features/game/types/composters";
+import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
 
 export type PlantFruitAction = {
   type: "fruit.planted";
@@ -39,8 +40,14 @@ function getHarvestsLeft({
   let harvestCount = harvestsLeft();
 
   if (isCollectibleBuilt({ name: "Immortal Pear", game: state })) {
-    if (state.bumpkin.skills["Pear Turbocharge"]) {
-      harvestCount += 2;
+    // Pear Turbocharge multiplies Immortal Pear's base +1 harvest by 2x/3x/4x
+    const pearTurbochargeLevel = getSkillLevel(
+      state.bumpkin.skills,
+      "Pear Turbocharge",
+    );
+    if (pearTurbochargeLevel) {
+      harvestCount +=
+        SKILL_RANKS["Pear Turbocharge"].ranks[pearTurbochargeLevel - 1];
     } else {
       harvestCount += 1;
     }
@@ -52,13 +59,15 @@ function getHarvestRange({ state }: { state: GameState }) {
   let minHarvest = 3;
   let maxHarvest = 5;
   if (isCollectibleBuilt({ name: "Immortal Pear", game: state })) {
-    if (state.bumpkin.skills["Pear Turbocharge"]) {
-      minHarvest += 2;
-      maxHarvest += 2;
-    } else {
-      minHarvest += 1;
-      maxHarvest += 1;
-    }
+    const pearTurbochargeLevel = getSkillLevel(
+      state.bumpkin.skills,
+      "Pear Turbocharge",
+    );
+    const bonus = pearTurbochargeLevel
+      ? SKILL_RANKS["Pear Turbocharge"].ranks[pearTurbochargeLevel - 1]
+      : 1;
+    minHarvest += bonus;
+    maxHarvest += bonus;
   }
 
   return { minHarvest, maxHarvest };
@@ -251,31 +260,34 @@ export const getFruitPatchTime = (
     boostsUsed.push({ name: "Cannonball", value: "x0.75" });
   }
 
-  // Catchup Skill: 10% reduction
-  if (bumpkin.skills["Catchup"]) {
-    seconds = seconds * 0.9;
-    boostsUsed.push({ name: "Catchup", value: "x0.9" });
+  // Catchup Skill: 10%/15%/20% growth-time reduction (scales with rank)
+  const catchupLevel = getSkillLevel(bumpkin.skills, "Catchup");
+  if (catchupLevel) {
+    const value = SKILL_RANKS["Catchup"].ranks[catchupLevel - 1];
+    seconds = seconds * value;
+    boostsUsed.push({ name: "Catchup", value: `x${value}` });
   }
 
-  // Long Pickings - -25% growth in Apple and Banana, but +10% in the rest
-  if (bumpkin.skills["Long Pickings"]) {
-    if (isAdvancedFruitSeed(patchFruitSeedName)) {
-      seconds = seconds * 0.75;
-      boostsUsed.push({ name: "Long Pickings", value: "x0.75" });
-    } else {
-      seconds = seconds * 1.1;
-      boostsUsed.push({ name: "Long Pickings", value: "x1.1" });
-    }
+  // Long Pickings - faster Apple/Banana growth, slower for the rest (scales with rank)
+  const longPickingsLevel = getSkillLevel(bumpkin.skills, "Long Pickings");
+  if (longPickingsLevel) {
+    const { buff, debuff } = SKILL_RANKS["Long Pickings"];
+    const value = isAdvancedFruitSeed(patchFruitSeedName)
+      ? buff[longPickingsLevel - 1]
+      : debuff[longPickingsLevel - 1];
+    seconds = seconds * value;
+    boostsUsed.push({ name: "Long Pickings", value: `x${value}` });
   }
 
-  if (bumpkin.skills["Short Pickings"]) {
-    if (isBasicFruitSeed(patchFruitSeedName)) {
-      seconds = seconds * 0.75;
-      boostsUsed.push({ name: "Short Pickings", value: "x0.75" });
-    } else {
-      seconds = seconds * 1.1;
-      boostsUsed.push({ name: "Short Pickings", value: "x1.1" });
-    }
+  // Short Pickings - faster Blueberry/Orange growth, slower for the rest (scales with rank)
+  const shortPickingsLevel = getSkillLevel(bumpkin.skills, "Short Pickings");
+  if (shortPickingsLevel) {
+    const { buff, debuff } = SKILL_RANKS["Short Pickings"];
+    const value = isBasicFruitSeed(patchFruitSeedName)
+      ? buff[shortPickingsLevel - 1]
+      : debuff[shortPickingsLevel - 1];
+    seconds = seconds * value;
+    boostsUsed.push({ name: "Short Pickings", value: `x${value}` });
   }
 
   // Orchard Hourglass & Toucan Shrine: under the windowed model these are

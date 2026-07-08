@@ -373,6 +373,36 @@ describe("seedBought", () => {
     expect(state.inventory[item]).toEqual(oldAmount.add(amount));
   });
 
+  it.each([
+    [1, 0.9],
+    [2, 0.8],
+    [3, 0.7],
+  ])(
+    "discounts fruit seed cost with Fruity Heaven skill at rank %i",
+    (rank, multiplier) => {
+      const coins = 100;
+      const item = "Blueberry Seed";
+      const state = seedBought({
+        state: {
+          ...GAME_STATE,
+          coins,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            experience: 100000000,
+            skills: { "Fruity Heaven": rank },
+          },
+        },
+        action: {
+          item,
+          amount: 1,
+          type: "seed.bought",
+        },
+      });
+
+      expect(state.coins).toEqual(coins - SEEDS[item].price * multiplier);
+    },
+  );
+
   it("purchases flower seeds for free when Hungry Caterpillar is placed and ready", () => {
     const state = seedBought({
       state: {

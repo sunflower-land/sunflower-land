@@ -274,16 +274,16 @@ export function getOrderSellPrice<T>(
     boostsUsed.push({ name: "Forge-Ward Profits", value: `+${b * 100}%` });
   }
 
-  // Fruity Profit - 50% Coins bonus if fruit
-  if (
-    game.bumpkin?.skills["Fruity Profit"] &&
-    order.reward.coins &&
-    order.from === "tango"
-  ) {
+  // Fruity Profit - 50%/75%/100% Coins bonus on Tango fruit deliveries (scales with rank)
+  const fruityProfitLevel = game.bumpkin
+    ? getSkillLevel(game.bumpkin.skills, "Fruity Profit")
+    : 0;
+  if (fruityProfitLevel && order.reward.coins && order.from === "tango") {
     const items = getKeys(order.items);
     if (items.some((name) => isFruit(name as PatchFruitName))) {
-      mul += 0.5;
-      boostsUsed.push({ name: "Fruity Profit", value: "+50%" });
+      const b = SKILL_RANKS["Fruity Profit"].ranks[fruityProfitLevel - 1];
+      mul += b;
+      boostsUsed.push({ name: "Fruity Profit", value: `+${b * 100}%` });
     }
   }
 

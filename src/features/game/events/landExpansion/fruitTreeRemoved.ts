@@ -8,6 +8,7 @@ import type {
 } from "features/game/types/game";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { produce } from "immer";
+import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
 
 export enum FRUIT_TREE_REMOVED_ERRORS {
   MISSING_AXE = "No axe",
@@ -50,14 +51,20 @@ export function getRequiredAxeAmount(inventory: Inventory, game: GameState) {
 
 export function getWoodReward({ state }: { state: GameState }) {
   let woodReward = 1;
-  // Fruity Woody: +1 Wood when removing a fruit tree
-  if (state.bumpkin.skills["Fruity Woody"]) {
-    woodReward += 1;
+  // Fruity Woody: +1/+1.5/+2 Wood when removing a fruit tree (scales with rank)
+  const fruityWoodyLevel = getSkillLevel(state.bumpkin.skills, "Fruity Woody");
+  if (fruityWoodyLevel) {
+    woodReward += SKILL_RANKS["Fruity Woody"].ranks[fruityWoodyLevel - 1];
   }
 
-  // Get -1 wood reward with No Axe No Worries Skill
-  if (state.bumpkin.skills["No Axe No Worries"]) {
-    woodReward -= 1;
+  // No Axe No Worries: wood penalty shrinks with rank (-1 / -0.5 / none)
+  const noAxeNoWorriesLevel = getSkillLevel(
+    state.bumpkin.skills,
+    "No Axe No Worries",
+  );
+  if (noAxeNoWorriesLevel) {
+    woodReward -=
+      SKILL_RANKS["No Axe No Worries"].ranks[noAxeNoWorriesLevel - 1];
   }
 
   return { woodReward };

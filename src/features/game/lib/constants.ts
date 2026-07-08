@@ -173,9 +173,18 @@ export const INITIAL_STOCK = (
     );
   }
 
-  if (state?.bumpkin.skills["Crime Fruit"]) {
-    seeds["Tomato Seed"] = seeds["Tomato Seed"].add(10);
-    seeds["Lemon Seed"] = seeds["Lemon Seed"].add(10);
+  // Crime Fruit: +10/+20/+30 Tomato & Lemon Seed stock (scales with rank)
+  const crimeFruitLevel = state?.bumpkin
+    ? getSkillLevel(state.bumpkin.skills, "Crime Fruit")
+    : 0;
+  if (crimeFruitLevel) {
+    const { ranks } = SKILL_RANKS["Crime Fruit"];
+    seeds["Tomato Seed"] = seeds["Tomato Seed"].add(
+      ranks["Tomato Seed"]?.[crimeFruitLevel - 1] ?? 0,
+    );
+    seeds["Lemon Seed"] = seeds["Lemon Seed"].add(
+      ranks["Lemon Seed"]?.[crimeFruitLevel - 1] ?? 0,
+    );
   }
 
   const restockables: Record<StockableName, Decimal> = {

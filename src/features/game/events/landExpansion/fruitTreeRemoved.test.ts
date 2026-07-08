@@ -204,4 +204,77 @@ describe("fruitTreeRemoved", () => {
 
     expect(state.inventory.Wood).toStrictEqual(new Decimal(3));
   });
+
+  it("applies a +1.5 wood reward on removal with Fruity Woody skill at rank 2", () => {
+    const state = removeFruitTree({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            ...INITIAL_BUMPKIN.skills,
+            "Fruity Woody": 2,
+          },
+        },
+      },
+      action: {
+        type: "fruitTree.removed",
+        index: "0",
+        selectedItem: "Axe",
+      },
+    });
+
+    expect(state.inventory.Wood).toStrictEqual(new Decimal(3.5));
+  });
+
+  it("applies a +2 wood reward on removal with Fruity Woody skill at rank 3", () => {
+    const state = removeFruitTree({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            ...INITIAL_BUMPKIN.skills,
+            "Fruity Woody": 3,
+          },
+        },
+      },
+      action: {
+        type: "fruitTree.removed",
+        index: "0",
+        selectedItem: "Axe",
+      },
+    });
+
+    expect(state.inventory.Wood).toStrictEqual(new Decimal(4));
+  });
+
+  it.each([
+    [1, 1],
+    [2, 1.5],
+    [3, 2],
+  ])(
+    "shrinks the No Axe No Worries wood penalty at rank %i (final Wood %f)",
+    (rank, expectedWood) => {
+      const state = removeFruitTree({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            skills: {
+              ...INITIAL_BUMPKIN.skills,
+              "No Axe No Worries": rank,
+            },
+          },
+        },
+        action: {
+          type: "fruitTree.removed",
+          index: "0",
+          selectedItem: "Axe",
+        },
+      });
+
+      expect(state.inventory.Wood).toStrictEqual(new Decimal(expectedWood));
+    },
+  );
 });
