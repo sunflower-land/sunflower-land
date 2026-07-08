@@ -197,6 +197,14 @@ describe("planBulkFetch", () => {
         (f) => f.petId === "Twizzle" && f.fetch === "Heart leaf",
       ),
     ).toBeUndefined();
+    // Ribbon likewise goes to the higher-yield Meowchi (1.25 vs Barkley's 1.1),
+    // which still has energy to spare — the efficient pet takes both.
+    expect(
+      plan.fetches.find((f) => f.petId === "Meowchi" && f.fetch === "Ribbon"),
+    ).toBeDefined();
+    expect(
+      plan.fetches.find((f) => f.petId === "Barkley" && f.fetch === "Ribbon"),
+    ).toBeUndefined();
     expect(plan.shortfall).toEqual({});
   });
 });

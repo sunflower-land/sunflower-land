@@ -69,6 +69,11 @@ type PetWork = {
  * the projection is exact. Anything that cannot be met is reported as
  * `shortfall` rather than throwing — the executing `pets.bulkFetch` event
  * re-validates every fetch anyway.
+ *
+ * Being a greedy per-resource pick, this is not a global optimum: a versatile
+ * pet with limited energy can be spent on a shared resource a specialist could
+ * have covered, occasionally leaving another request short (an exact optimum is
+ * an assignment problem).
  */
 export function planBulkFetch({
   activePets,
