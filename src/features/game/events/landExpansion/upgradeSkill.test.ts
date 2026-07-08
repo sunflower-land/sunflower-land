@@ -176,10 +176,10 @@ describe("upgradeSkill", () => {
           bumpkin: {
             ...INITIAL_BUMPKIN,
             experience: LEVEL_EXPERIENCE[5],
-            skills: { "Big Catch": 1 },
+            skills: { "Tap Prospector": 1 },
           },
         },
-        action: { type: "skill.upgraded", skill: "Big Catch" },
+        action: { type: "skill.upgraded", skill: "Tap Prospector" },
         createdAt: dateNow,
       }),
     ).toThrow("This skill cannot be upgraded");
