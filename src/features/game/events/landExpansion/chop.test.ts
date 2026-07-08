@@ -11,6 +11,8 @@ import {
   type LandExpansionChopAction,
   getWoodDropAmount,
   getChoppedAt,
+  getReward,
+  getTreeRecoveryTimeForDisplay,
   canChop,
   getTreeReadyAt,
 } from "./chop";
@@ -1847,5 +1849,419 @@ describe("getTreeReadyAt — baseDurationMs is a permanent per-tree marker", () 
     };
 
     expect(getTreeReadyAt(tree, INITIAL_FARM)).toEqual(now + BASE_MS / 2);
+  });
+});
+
+// Rank-scaled Trees chopping skills. The skill's RANK is the number stored in
+// bumpkin.skills[name] (1/2/3); the source scales the effect via getSkillLevel +
+// SKILL_RANKS[name].ranks[level-1]. The PRNG proc skills (Tough Tree, Money Tree,
+// Tree Turnaround) only scale their CHANCE per rank — the magnitude (×3 wood,
+// 200 coins, instant recovery) stays fixed. Because prngChance's underlying value
+// depends only on (farmId, itemId, counter, criticalHitName) and `chance` is just
+// the threshold, we locate a genuine boundary counter where the higher rank's
+// chance procs but the lower rank's does not (same technique as the Golden
+// Sunflower tests in harvest.test.ts). The rank is read regardless of the
+// SPEED_BOOSTS flag, and every function exercised here (getWoodDropAmount,
+// getReward, getTreeRecoveryTimeForDisplay's Tree Charge/Tree Turnaround
+// branches) is flag-independent, so no NETWORK juggling is required.
+describe("chop — Trees skill rank upgrades", () => {
+  const farmId = 1;
+  const itemId = KNOWN_IDS["Tree"];
+  const BASE_RECOVERY_MS = TREE_RECOVERY_TIME * 1000;
+  const SEARCH_RANGE = 100_000;
+
+  describe("Lumberjack's Extra — additive wood yield per rank", () => {
+    function findNonNativeCounter() {
+      for (let counter = 0; counter < 100; counter++) {
+        if (
+          !prngChance({
+            farmId,
+            itemId,
+            counter,
+            chance: 20,
+            criticalHitName: "Native",
+          })
+        ) {
+          return counter;
+        }
+      }
+      return 0;
+    }
+
+    const woodAtRank = (rank: number, counter: number) =>
+      getWoodDropAmount({
+        game: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { "Lumberjack's Extra": rank },
+          },
+        },
+        farmId,
+        itemId,
+        counter,
+        tree: undefined,
+      }).amount.toNumber();
+
+    it("adds +0.2 wood at rank 2", () => {
+      expect(woodAtRank(2, findNonNativeCounter())).toEqual(1.2);
+    });
+
+    it("adds +0.3 wood at rank 3", () => {
+      expect(woodAtRank(3, findNonNativeCounter())).toEqual(1.3);
+    });
+  });
+
+  describe("Tree Charge — recovery-time multiplier per rank", () => {
+    const recoveryAtRank = (rank: number) =>
+      getTreeRecoveryTimeForDisplay({
+        game: {
+          ...INITIAL_FARM,
+          bumpkin: { ...TEST_BUMPKIN, skills: { "Tree Charge": rank } },
+        },
+      }).recoveryTimeMs;
+
+    it("recovers at base × 0.85 at rank 2", () => {
+      expect(recoveryAtRank(2)).toEqual(TREE_RECOVERY_TIME * 0.85 * 1000);
+    });
+
+    it("recovers at base × 0.80 at rank 3", () => {
+      expect(recoveryAtRank(3)).toEqual(TREE_RECOVERY_TIME * 0.8 * 1000);
+    });
+  });
+
+  describe("Tough Tree — triple-wood proc rate per rank", () => {
+    // rank1 = 10%, rank2 = 15%, rank3 = 20%. Magnitude is a fixed ×3.
+    const woodAtRank = (rank: number, counter: number) =>
+      getWoodDropAmount({
+        game: {
+          ...INITIAL_FARM,
+          bumpkin: { ...TEST_BUMPKIN, skills: { "Tough Tree": rank } },
+        },
+        farmId,
+        itemId,
+        counter,
+        tree: undefined,
+      }).amount.toNumber();
+
+    it("triples wood at rank 2 where rank 1 would not (PRNG boundary)", () => {
+      let boundaryCounter = -1;
+      for (let counter = 0; counter < SEARCH_RANGE; counter++) {
+        const procsAtRank1 = prngChance({
+          farmId,
+          itemId,
+          counter,
+          chance: 10,
+          criticalHitName: "Tough Tree",
+        });
+        const procsAtRank2 = prngChance({
+          farmId,
+          itemId,
+          counter,
+          chance: 15,
+          criticalHitName: "Tough Tree",
+        });
+        // Exclude Native (+1 wood) so the assertion is clean.
+        const nativeProcs = prngChance({
+          farmId,
+          itemId,
+          counter,
+          chance: 20,
+          criticalHitName: "Native",
+        });
+        if (procsAtRank2 && !procsAtRank1 && !nativeProcs) {
+          boundaryCounter = counter;
+          break;
+        }
+      }
+      if (boundaryCounter < 0) {
+        throw new Error(
+          `Could not find a rank-2-only Tough Tree counter in ${SEARCH_RANGE} attempts`,
+        );
+      }
+
+      expect(woodAtRank(1, boundaryCounter)).toEqual(1); // no ×3
+      expect(woodAtRank(2, boundaryCounter)).toEqual(3); // ×3
+    });
+
+    it("triples wood at rank 3 where rank 2 would not (PRNG boundary)", () => {
+      let boundaryCounter = -1;
+      for (let counter = 0; counter < SEARCH_RANGE; counter++) {
+        const procsAtRank2 = prngChance({
+          farmId,
+          itemId,
+          counter,
+          chance: 15,
+          criticalHitName: "Tough Tree",
+        });
+        const procsAtRank3 = prngChance({
+          farmId,
+          itemId,
+          counter,
+          chance: 20,
+          criticalHitName: "Tough Tree",
+        });
+        const nativeProcs = prngChance({
+          farmId,
+          itemId,
+          counter,
+          chance: 20,
+          criticalHitName: "Native",
+        });
+        if (procsAtRank3 && !procsAtRank2 && !nativeProcs) {
+          boundaryCounter = counter;
+          break;
+        }
+      }
+      if (boundaryCounter < 0) {
+        throw new Error(
+          `Could not find a rank-3-only Tough Tree counter in ${SEARCH_RANGE} attempts`,
+        );
+      }
+
+      expect(woodAtRank(2, boundaryCounter)).toEqual(1); // no ×3
+      expect(woodAtRank(3, boundaryCounter)).toEqual(3); // ×3
+    });
+
+    it("keeps the ×3 magnitude fixed across ranks (only the proc rate scales)", () => {
+      // A counter that procs at the LOWEST chance (10%) also procs at 15% and
+      // 20% (the threshold is monotone), so the triple applies at every rank.
+      let counterAllRanks = -1;
+      for (let counter = 0; counter < SEARCH_RANGE; counter++) {
+        const procsAtRank1 = prngChance({
+          farmId,
+          itemId,
+          counter,
+          chance: 10,
+          criticalHitName: "Tough Tree",
+        });
+        const nativeProcs = prngChance({
+          farmId,
+          itemId,
+          counter,
+          chance: 20,
+          criticalHitName: "Native",
+        });
+        if (procsAtRank1 && !nativeProcs) {
+          counterAllRanks = counter;
+          break;
+        }
+      }
+      if (counterAllRanks < 0) {
+        throw new Error(
+          `Could not find an all-ranks Tough Tree counter in ${SEARCH_RANGE} attempts`,
+        );
+      }
+
+      expect(woodAtRank(1, counterAllRanks)).toEqual(3);
+      expect(woodAtRank(2, counterAllRanks)).toEqual(3);
+      expect(woodAtRank(3, counterAllRanks)).toEqual(3);
+    });
+  });
+
+  describe("Money Tree — coin proc rate per rank", () => {
+    // rank1 = 1%, rank2 = 2%, rank3 = 3%. Magnitude is a fixed 200 coins.
+    const coinsAtRank = (rank: number, counter: number) =>
+      getReward({
+        skills: { "Money Tree": rank },
+        farmId,
+        itemId,
+        counter,
+      }).reward?.coins;
+
+    it("rewards 200 coins at rank 2 where rank 1 would not (PRNG boundary)", () => {
+      let boundaryCounter = -1;
+      for (let counter = 0; counter < SEARCH_RANGE; counter++) {
+        const procsAtRank1 = prngChance({
+          farmId,
+          itemId,
+          counter,
+          chance: 1,
+          criticalHitName: "Money Tree",
+        });
+        const procsAtRank2 = prngChance({
+          farmId,
+          itemId,
+          counter,
+          chance: 2,
+          criticalHitName: "Money Tree",
+        });
+        if (procsAtRank2 && !procsAtRank1) {
+          boundaryCounter = counter;
+          break;
+        }
+      }
+      if (boundaryCounter < 0) {
+        throw new Error(
+          `Could not find a rank-2-only Money Tree counter in ${SEARCH_RANGE} attempts`,
+        );
+      }
+
+      expect(coinsAtRank(1, boundaryCounter)).toBeUndefined();
+      expect(coinsAtRank(2, boundaryCounter)).toEqual(200);
+    });
+
+    it("rewards 200 coins at rank 3 where rank 2 would not (PRNG boundary)", () => {
+      let boundaryCounter = -1;
+      for (let counter = 0; counter < SEARCH_RANGE; counter++) {
+        const procsAtRank2 = prngChance({
+          farmId,
+          itemId,
+          counter,
+          chance: 2,
+          criticalHitName: "Money Tree",
+        });
+        const procsAtRank3 = prngChance({
+          farmId,
+          itemId,
+          counter,
+          chance: 3,
+          criticalHitName: "Money Tree",
+        });
+        if (procsAtRank3 && !procsAtRank2) {
+          boundaryCounter = counter;
+          break;
+        }
+      }
+      if (boundaryCounter < 0) {
+        throw new Error(
+          `Could not find a rank-3-only Money Tree counter in ${SEARCH_RANGE} attempts`,
+        );
+      }
+
+      expect(coinsAtRank(2, boundaryCounter)).toBeUndefined();
+      expect(coinsAtRank(3, boundaryCounter)).toEqual(200);
+    });
+
+    it("keeps the 200-coin magnitude fixed across ranks (only the proc rate scales)", () => {
+      let counterAllRanks = -1;
+      for (let counter = 0; counter < SEARCH_RANGE; counter++) {
+        if (
+          prngChance({
+            farmId,
+            itemId,
+            counter,
+            chance: 1,
+            criticalHitName: "Money Tree",
+          })
+        ) {
+          counterAllRanks = counter;
+          break;
+        }
+      }
+      if (counterAllRanks < 0) {
+        throw new Error(
+          `Could not find an all-ranks Money Tree counter in ${SEARCH_RANGE} attempts`,
+        );
+      }
+
+      expect(coinsAtRank(1, counterAllRanks)).toEqual(200);
+      expect(coinsAtRank(2, counterAllRanks)).toEqual(200);
+      expect(coinsAtRank(3, counterAllRanks)).toEqual(200);
+    });
+  });
+
+  describe("Tree Turnaround — instant-recovery proc rate per rank", () => {
+    // rank1 = 15%, rank2 = 20%, rank3 = 25%. Magnitude is a fixed instant
+    // recovery (recoveryTimeMs = 0); otherwise the base recovery applies.
+    const recoveryAtRank = (rank: number, counter: number) =>
+      getTreeRecoveryTimeForDisplay({
+        game: {
+          ...INITIAL_FARM,
+          bumpkin: { ...TEST_BUMPKIN, skills: { "Tree Turnaround": rank } },
+        },
+        prngArgs: { farmId, itemId, counter },
+      }).recoveryTimeMs;
+
+    it("regrows instantly at rank 2 where rank 1 would not (PRNG boundary)", () => {
+      let boundaryCounter = -1;
+      for (let counter = 0; counter < SEARCH_RANGE; counter++) {
+        const procsAtRank1 = prngChance({
+          farmId,
+          itemId,
+          counter,
+          chance: 15,
+          criticalHitName: "Tree Turnaround",
+        });
+        const procsAtRank2 = prngChance({
+          farmId,
+          itemId,
+          counter,
+          chance: 20,
+          criticalHitName: "Tree Turnaround",
+        });
+        if (procsAtRank2 && !procsAtRank1) {
+          boundaryCounter = counter;
+          break;
+        }
+      }
+      if (boundaryCounter < 0) {
+        throw new Error(
+          `Could not find a rank-2-only Tree Turnaround counter in ${SEARCH_RANGE} attempts`,
+        );
+      }
+
+      expect(recoveryAtRank(1, boundaryCounter)).toEqual(BASE_RECOVERY_MS);
+      expect(recoveryAtRank(2, boundaryCounter)).toEqual(0);
+    });
+
+    it("regrows instantly at rank 3 where rank 2 would not (PRNG boundary)", () => {
+      let boundaryCounter = -1;
+      for (let counter = 0; counter < SEARCH_RANGE; counter++) {
+        const procsAtRank2 = prngChance({
+          farmId,
+          itemId,
+          counter,
+          chance: 20,
+          criticalHitName: "Tree Turnaround",
+        });
+        const procsAtRank3 = prngChance({
+          farmId,
+          itemId,
+          counter,
+          chance: 25,
+          criticalHitName: "Tree Turnaround",
+        });
+        if (procsAtRank3 && !procsAtRank2) {
+          boundaryCounter = counter;
+          break;
+        }
+      }
+      if (boundaryCounter < 0) {
+        throw new Error(
+          `Could not find a rank-3-only Tree Turnaround counter in ${SEARCH_RANGE} attempts`,
+        );
+      }
+
+      expect(recoveryAtRank(2, boundaryCounter)).toEqual(BASE_RECOVERY_MS);
+      expect(recoveryAtRank(3, boundaryCounter)).toEqual(0);
+    });
+
+    it("keeps the instant magnitude fixed across ranks (only the proc rate scales)", () => {
+      let counterAllRanks = -1;
+      for (let counter = 0; counter < SEARCH_RANGE; counter++) {
+        if (
+          prngChance({
+            farmId,
+            itemId,
+            counter,
+            chance: 15,
+            criticalHitName: "Tree Turnaround",
+          })
+        ) {
+          counterAllRanks = counter;
+          break;
+        }
+      }
+      if (counterAllRanks < 0) {
+        throw new Error(
+          `Could not find an all-ranks Tree Turnaround counter in ${SEARCH_RANGE} attempts`,
+        );
+      }
+
+      expect(recoveryAtRank(1, counterAllRanks)).toEqual(0);
+      expect(recoveryAtRank(2, counterAllRanks)).toEqual(0);
+      expect(recoveryAtRank(3, counterAllRanks)).toEqual(0);
+    });
   });
 });

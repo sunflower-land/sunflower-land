@@ -8,6 +8,7 @@ import {
   LOVE_ANIMAL_TOOLS,
 } from "features/game/types/tools";
 import { trackFarmActivity } from "features/game/types/farmActivity";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 import cloneDeep from "lodash.clonedeep";
 
 import type { GameState, IslandType } from "../../types/game";
@@ -66,9 +67,14 @@ export function getToolPrice(
   // Default price
   let price = tool.price;
 
-  // Feller's Discount Skill: 20% off on Axes
-  if (bumpkin.skills["Feller's Discount"] && name === "Axe") {
-    price = price * 0.8;
+  // Feller's Discount Skill: axe coin cost multiplier (scales with rank)
+  const fellersDiscountLevel = getSkillLevel(
+    bumpkin.skills,
+    "Feller's Discount",
+  );
+  if (fellersDiscountLevel && name === "Axe") {
+    price =
+      price * SKILL_RANKS["Feller's Discount"].ranks[fellersDiscountLevel - 1];
   }
 
   // Reel Deal: 50% off fishing rods

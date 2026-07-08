@@ -1235,5 +1235,53 @@ describe("skillUse", () => {
         }),
       ).toEqual(HOUR * 48);
     });
+
+    it("returns the rank 1 cooldown (24h) for Tree Blitz at rank 1", () => {
+      expect(
+        getSkillCooldown({
+          cooldown: 0,
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Tree Blitz": 1 },
+            },
+          },
+          skillName: "Tree Blitz",
+        }),
+      ).toEqual(HOUR * 24);
+    });
+
+    it("returns the rank 2 cooldown (18h) for Tree Blitz at rank 2", () => {
+      expect(
+        getSkillCooldown({
+          cooldown: 0,
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Tree Blitz": 2 },
+            },
+          },
+          skillName: "Tree Blitz",
+        }),
+      ).toEqual(HOUR * 18);
+    });
+
+    it("returns the rank 3 cooldown (12h) for Tree Blitz at rank 3", () => {
+      expect(
+        getSkillCooldown({
+          cooldown: 0,
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Tree Blitz": 3 },
+            },
+          },
+          skillName: "Tree Blitz",
+        }),
+      ).toEqual(HOUR * 12);
+    });
   });
 });

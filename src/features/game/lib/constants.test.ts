@@ -60,6 +60,35 @@ describe("INITIAL_STOCK", () => {
     expect(INITIAL_STOCK(state).Rod).toEqual(new Decimal(75));
   });
 
+  it("increases Axe stock by the More Axes rank bonus (rank 1 +50, rank 2 +100, rank 3 +200)", () => {
+    const rank1 = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...TEST_FARM.bumpkin,
+        skills: { "More Axes": 1 },
+      },
+    };
+    expect(INITIAL_STOCK(rank1).Axe).toEqual(new Decimal(250));
+
+    const rank2 = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...TEST_FARM.bumpkin,
+        skills: { "More Axes": 2 },
+      },
+    };
+    expect(INITIAL_STOCK(rank2).Axe).toEqual(new Decimal(300));
+
+    const rank3 = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...TEST_FARM.bumpkin,
+        skills: { "More Axes": 3 },
+      },
+    };
+    expect(INITIAL_STOCK(rank3).Axe).toEqual(new Decimal(400));
+  });
+
   it("increases stock of tools if More Picks skills is active", () => {
     const state = {
       ...TEST_FARM,

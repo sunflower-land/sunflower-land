@@ -195,6 +195,9 @@ export type SkillRankEffect =
   | { kind: "additiveYield"; ranks: readonly [number, number, number] }
   | { kind: "coinBonus"; ranks: readonly [number, number, number] } // fraction: 0.3 = +30%
   | { kind: "dropChance"; ranks: readonly [number, number, number] } // inner prngChance arg
+  | { kind: "chance"; ranks: readonly [number, number, number] } // prngChance percent arg
+  | { kind: "costMultiplier"; ranks: readonly [number, number, number] } // multiplier on a coin cost
+  | { kind: "flatBonus"; ranks: readonly [number, number, number] } // flat integer add (e.g. axe stock)
   | { kind: "aoe"; ranks: readonly [AOEExtent, AOEExtent, AOEExtent] }
   | { kind: "cooldown"; ranks: readonly [number, number, number] } // ms
   | {
@@ -1063,6 +1066,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Lumberjack's Extra": {
     name: "Lumberjack's Extra",
     tree: "Trees",
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "additiveYield", ranks: [0.1, 0.2, 0.3] } as const,
+    },
     requirements: {
       points: 1,
       tier: 1,
@@ -1082,6 +1089,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Tree Charge": {
     name: "Tree Charge",
     tree: "Trees",
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "growthMultiplier", ranks: [0.9, 0.85, 0.8] } as const,
+    },
     requirements: {
       points: 1,
       tier: 1,
@@ -1100,6 +1111,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "More Axes": {
     name: "More Axes",
     tree: "Trees",
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "flatBonus", ranks: [50, 100, 200] } as const,
+    },
     requirements: {
       points: 1,
       tier: 1,
@@ -1138,6 +1153,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Tough Tree": {
     name: "Tough Tree",
     tree: "Trees",
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "chance", ranks: [10, 15, 20] } as const,
+    },
     requirements: {
       points: 2,
       tier: 2,
@@ -1157,6 +1176,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Feller's Discount": {
     name: "Feller's Discount",
     tree: "Trees",
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "costMultiplier", ranks: [0.8, 0.75, 0.7] } as const,
+    },
     requirements: {
       points: 2,
       tier: 2,
@@ -1176,6 +1199,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Money Tree": {
     name: "Money Tree",
     tree: "Trees",
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "chance", ranks: [1, 2, 3] } as const,
+    },
     requirements: {
       points: 2,
       tier: 2,
@@ -1195,6 +1222,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Tree Turnaround": {
     name: "Tree Turnaround",
     tree: "Trees",
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "chance", ranks: [15, 20, 25] } as const,
+    },
     requirements: {
       points: 3,
       tier: 3,
@@ -1213,6 +1244,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Tree Blitz": {
     name: "Tree Blitz",
     tree: "Trees",
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "cooldown",
+        ranks: [1000 * 60 * 60 * 24, 1000 * 60 * 60 * 18, 1000 * 60 * 60 * 12],
+      } as const,
+    },
     requirements: {
       points: 3,
       tier: 3,
@@ -3593,6 +3631,17 @@ export const SKILL_RANKS = {
   "Instant Growth": BUMPKIN_REVAMP_SKILL_TREE["Instant Growth"].upgrade.effect,
   "Acre Farm": BUMPKIN_REVAMP_SKILL_TREE["Acre Farm"].upgrade.effect,
   "Hectare Farm": BUMPKIN_REVAMP_SKILL_TREE["Hectare Farm"].upgrade.effect,
+  "Lumberjack's Extra":
+    BUMPKIN_REVAMP_SKILL_TREE["Lumberjack's Extra"].upgrade.effect,
+  "Tree Charge": BUMPKIN_REVAMP_SKILL_TREE["Tree Charge"].upgrade.effect,
+  "More Axes": BUMPKIN_REVAMP_SKILL_TREE["More Axes"].upgrade.effect,
+  "Tough Tree": BUMPKIN_REVAMP_SKILL_TREE["Tough Tree"].upgrade.effect,
+  "Feller's Discount":
+    BUMPKIN_REVAMP_SKILL_TREE["Feller's Discount"].upgrade.effect,
+  "Money Tree": BUMPKIN_REVAMP_SKILL_TREE["Money Tree"].upgrade.effect,
+  "Tree Turnaround":
+    BUMPKIN_REVAMP_SKILL_TREE["Tree Turnaround"].upgrade.effect,
+  "Tree Blitz": BUMPKIN_REVAMP_SKILL_TREE["Tree Blitz"].upgrade.effect,
 } satisfies Record<UpgradeableSkillName, SkillRankEffect>;
 
 // Runtime guard co-located with SKILL_RANKS so callers can narrow to an

@@ -122,5 +122,57 @@ export const getSkillRankDescription = (
           value: SKILL_RANKS["Hectare Farm"].debuff[i],
         }),
       };
+    case "Lumberjack's Extra":
+      return {
+        buff: t("skill.lumberjacksExtra.ranked", {
+          value: SKILL_RANKS["Lumberjack's Extra"].ranks[i],
+        }),
+      };
+    case "Tree Charge":
+      return {
+        buff: t("skill.treeCharge.ranked", {
+          value: SKILL_RANKS["Tree Charge"].ranks[i],
+        }),
+      };
+    case "More Axes":
+      return {
+        buff: t("skill.moreAxes.ranked", {
+          value: SKILL_RANKS["More Axes"].ranks[i],
+        }),
+      };
+    case "Tough Tree":
+      return {
+        buff: t("skill.toughTree.ranked", {
+          value: SKILL_RANKS["Tough Tree"].ranks[i],
+        }),
+      };
+    case "Feller's Discount":
+      return {
+        buff: t("skill.fellersDiscount.ranked", {
+          value: SKILL_RANKS["Feller's Discount"].ranks[i],
+        }),
+      };
+    case "Money Tree":
+      return {
+        buff: t("skill.moneyTree.ranked", {
+          value: SKILL_RANKS["Money Tree"].ranks[i],
+        }),
+      };
+    case "Tree Turnaround":
+      return {
+        buff: t("skill.treeTurnaround.ranked", {
+          value: SKILL_RANKS["Tree Turnaround"].ranks[i],
+        }),
+      };
+    case "Tree Blitz":
+      return {
+        buff: t("skill.treeBlitz.ranked", {
+          value: millisecondsToString(SKILL_RANKS["Tree Blitz"].ranks[i], {
+            length: "short",
+            isShortFormat: true,
+            removeTrailingZeros: true,
+          }),
+        }),
+      };
   }
 };

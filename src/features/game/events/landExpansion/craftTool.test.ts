@@ -172,6 +172,53 @@ describe("craftTool", () => {
 
     expect(state.coins).toEqual(84);
   });
+
+  it("Axes cost 25% less coins with Feller's Discount skill at rank 2", () => {
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins: 100,
+        inventory: {},
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: {
+            "Feller's Discount": 2,
+          },
+        },
+      },
+      action: {
+        type: "tool.crafted",
+        tool: "Axe",
+      },
+    });
+
+    // Axe base price 20 coins * 0.75 = 15 => 100 - 15 = 85
+    expect(state.coins).toEqual(85);
+  });
+
+  it("Axes cost 30% less coins with Feller's Discount skill at rank 3", () => {
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins: 100,
+        inventory: {},
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: {
+            "Feller's Discount": 3,
+          },
+        },
+      },
+      action: {
+        type: "tool.crafted",
+        tool: "Axe",
+      },
+    });
+
+    // Axe base price 20 coins * 0.7 = 14 => 100 - 14 = 86
+    expect(state.coins).toEqual(86);
+  });
+
   it("pickaxe cost 20% less coins with  skill", () => {
     const state = craftTool({
       state: {
