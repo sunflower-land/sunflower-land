@@ -119,7 +119,9 @@ export type NPCName =
   | "new year pete"
   | "bailey" // weatherman
   | "neville" // fish market
-  | "pirate skeleton"; //april fools event portal npc
+  | "pirate skeleton" //april fools event portal npc
+  | "Slime Jim" // Colors event NPC
+  | "Slime Joe"; // Colors event NPC
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   streamer: {
@@ -1384,6 +1386,30 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Pirate Scimitar",
     background: "Farm Background",
     shoes: "Black Farmer Boots",
+  },
+  "Slime Jim": {
+    hair: "Basic Hair",
+    hat: "Sad Slime Hat",
+    body: "Beige Farmer Potion",
+    shirt: "Slime Splattered Shirt",
+    pants: "Sad Slime Pants",
+    shoes: "Sad Slime Slippers",
+    eyes: "Grumpy Eyes",
+    mouth: "Neutral Mouth",
+    tool: "Yellow Slime Puppet",
+  },
+  "Slime Joe": {
+    background: "Slime Wall Background",
+    hair: "Green Slime Hair",
+    body: "Light Brown Farmer Potion",
+    shirt: "Blue Slime Shirt",
+    pants: "Red Jelly Pants",
+    shoes: "Blue Jelly Shoes",
+    tool: "Yellow Slime Puppet",
+    wings: "Rainbow Wings",
+    aura: "Butterfly Aura",
+    eyes: "Fun Eyes",
+    mouth: "Big Smile",
   },
 };
 

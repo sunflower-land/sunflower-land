@@ -1,9 +1,14 @@
 import mapJSON from "assets/map/colors_island_2026.json";
 import type { SceneId } from "../mmoMachine";
-import { BaseScene } from "./BaseScene";
+import { BaseScene, type NPCBumpkin } from "./BaseScene";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { translate } from "lib/i18n/translate";
 import { Label } from "../containers/Label";
+
+const BUMPKINS: NPCBumpkin[] = [
+  { npc: "Slime Jim", x: 360, y: 160 },
+  { npc: "Slime Joe", x: 500, y: 200, direction: "left" },
+];
 
 export class ColorsIsland2026Scene extends BaseScene {
   sceneId: SceneId = "colors_island_2026";
@@ -52,6 +57,8 @@ export class ColorsIsland2026Scene extends BaseScene {
   async create() {
     this.map = this.make.tilemap({ key: "colors_island_2026" });
     super.create();
+
+    this.initialiseNPCs(BUMPKINS);
 
     const portal_entrance = this.add.sprite(430, 190, "portal_entrance");
     this.anims.create({

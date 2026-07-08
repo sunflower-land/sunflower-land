@@ -31,6 +31,7 @@ const CONTRIBUTORS = [
   "Shykun",
   "Jc",
   "Andando",
+  "RadishPies",
 ];
 
 export const NoticeboardItems: React.FC<NoticeboardItemProps> = ({

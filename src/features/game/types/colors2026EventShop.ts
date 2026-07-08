@@ -158,8 +158,16 @@ export const COLORS_2026_EVENT_ITEMS: EventStore = {
         wearable: "Sad Slime Slippers",
         cost: COLORS_2026_STORE["Sad Slime Slippers"].cost,
       },
+      {
+        wearable: "Red Jelly Pants",
+        cost: COLORS_2026_STORE["Red Jelly Pants"].cost,
+      },
+      {
+        wearable: "Blue Slime Shirt",
+        cost: COLORS_2026_STORE["Blue Slime Shirt"].cost,
+      },
     ],
-    requirement: 6,
+    requirement: 5,
   },
   epic: {
     items: [
@@ -172,10 +180,6 @@ export const COLORS_2026_EVENT_ITEMS: EventStore = {
         cost: COLORS_2026_STORE["Giant Donut"].cost,
       },
       {
-        wearable: "Red Jelly Pants",
-        cost: COLORS_2026_STORE["Red Jelly Pants"].cost,
-      },
-      {
         wearable: "Yellow Slime Puppet",
         cost: COLORS_2026_STORE["Yellow Slime Puppet"].cost,
       },
@@ -184,11 +188,15 @@ export const COLORS_2026_EVENT_ITEMS: EventStore = {
         cost: COLORS_2026_STORE["Sad Slime Hat"].cost,
       },
       {
-        wearable: "Blue Slime Shirt",
-        cost: COLORS_2026_STORE["Blue Slime Shirt"].cost,
+        collectible: "Color Wheel",
+        cost: COLORS_2026_STORE["Color Wheel"].cost,
+      },
+      {
+        collectible: "Rainbow Pork Jelly",
+        cost: COLORS_2026_STORE["Rainbow Pork Jelly"].cost,
       },
     ],
-    requirement: 12,
+    requirement: 10,
   },
   mega: {
     items: [
@@ -205,19 +213,11 @@ export const COLORS_2026_EVENT_ITEMS: EventStore = {
         cost: COLORS_2026_STORE["Butterfly Aura"].cost,
       },
       {
-        collectible: "Rainbow Pork Jelly",
-        cost: COLORS_2026_STORE["Rainbow Pork Jelly"].cost,
-      },
-      {
         wearable: "Slime Wall Background",
         cost: COLORS_2026_STORE["Slime Wall Background"].cost,
       },
-      {
-        collectible: "Color Wheel",
-        cost: COLORS_2026_STORE["Color Wheel"].cost,
-      },
     ],
-    requirement: 16,
+    requirement: 14,
   },
   extra: {
     items: [

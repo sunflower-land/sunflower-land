@@ -9268,10 +9268,12 @@
   "description.colorsTicket2026": "Hold this for a chance to win $FLOWER after the Festival of Colors event ends!",
   "colors2026.portal.title": "Sunflower Survivors - Festival of Colors",
   "colors2026.portal.description": "Survive in this Bullet Heaven portal and defeat all the slimes you can!",
-  "colors2026.portal.missionObjectives": "Survive a set amount of time to get event tokens!",
-  "eventStore.tier.extra.requirements": "Buy all event items to get this last special decoration!",
-  "eventStore.tier.rare.requirements": "Buy 6 event items to unlock rare items.",
-  "eventStore.tier.epic.requirements": "Buy 12 event items to unlock epic items.",
-  "eventStore.tier.mega.requirements": "Buy 16 event items to unlock mega items.",
-  "eventColors2026.noticeboard.one": "Welcome to the Festival of Colors 2026 Community Event!"
+  "colors2026.portal.missionObjectives": "Collect the required amount of exp orbs to get event tokens!",
+  "eventStore.tier.extra.requirements": "Buy ALL event items to get this last special decoration!",
+  "eventStore.tier.rare.requirements": "Buy 5 event items to unlock rare items.",
+  "eventStore.tier.epic.requirements": "Buy 10 event items to unlock epic items.",
+  "eventStore.tier.mega.requirements": "Buy 14 event items to unlock mega items.",
+  "eventColors2026.noticeboard.one": "Welcome to the Festival of Colors 2026 Community Event!",
+  "npc.Modal.slimeJoe": "Howdy! I hope you have fun at this new event! Thanks for all your support!",
+  "npc.Modal.slimeJim": "I prefer Halloween... Hopefully it is the next event..."
 }

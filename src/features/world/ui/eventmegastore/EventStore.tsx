@@ -85,7 +85,7 @@ export const EventStore: React.FC<Props> = ({ readonly, state }) => {
 
   const now = useNow({ live: true });
   const startDate = new Date("2026-07-01T00:00:00.000Z");
-  const endDate = new Date("2026-07-11T00:00:00.000Z");
+  const endDate = new Date("2026-07-23T00:00:00.000Z");
 
   const totalSecondsAvailable =
     (endDate.getTime() - startDate.getTime()) / 1000;
