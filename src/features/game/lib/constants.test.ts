@@ -103,6 +103,37 @@ describe("INITIAL_STOCK", () => {
     expect(INITIAL_STOCK(state).Pickaxe).toEqual(new Decimal(130));
     expect(INITIAL_STOCK(state)["Stone Pickaxe"]).toEqual(new Decimal(40));
     expect(INITIAL_STOCK(state)["Iron Pickaxe"]).toEqual(new Decimal(12));
+    expect(INITIAL_STOCK(state)["Gold Pickaxe"]).toEqual(new Decimal(7));
+  });
+
+  it("increases pickaxe stock by the More Picks rank 2 bonus (+140/+40/+14/+4)", () => {
+    const state = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...TEST_FARM.bumpkin,
+        skills: { "More Picks": 2 },
+      },
+    };
+
+    expect(INITIAL_STOCK(state).Pickaxe).toEqual(new Decimal(200));
+    expect(INITIAL_STOCK(state)["Stone Pickaxe"]).toEqual(new Decimal(60));
+    expect(INITIAL_STOCK(state)["Iron Pickaxe"]).toEqual(new Decimal(19));
+    expect(INITIAL_STOCK(state)["Gold Pickaxe"]).toEqual(new Decimal(9));
+  });
+
+  it("increases pickaxe stock by the More Picks rank 3 bonus (+280/+80/+28/+8)", () => {
+    const state = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...TEST_FARM.bumpkin,
+        skills: { "More Picks": 3 },
+      },
+    };
+
+    expect(INITIAL_STOCK(state).Pickaxe).toEqual(new Decimal(340));
+    expect(INITIAL_STOCK(state)["Stone Pickaxe"]).toEqual(new Decimal(100));
+    expect(INITIAL_STOCK(state)["Iron Pickaxe"]).toEqual(new Decimal(33));
+    expect(INITIAL_STOCK(state)["Gold Pickaxe"]).toEqual(new Decimal(13));
   });
 
   it("increases stock of tools if Toolshed is placed and ready and More Picks skill is active", () => {

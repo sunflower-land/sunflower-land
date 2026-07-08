@@ -87,8 +87,10 @@ export function getToolPrice(
     price = price * 0.9;
   }
 
-  if (bumpkin.skills["Frugal Miner"] && isPickaxe(name as WorkbenchToolName)) {
-    price = price * 0.8;
+  // Frugal Miner: pickaxe coin cost multiplier (scales with rank)
+  const frugalMinerLevel = getSkillLevel(bumpkin.skills, "Frugal Miner");
+  if (frugalMinerLevel && isPickaxe(name as WorkbenchToolName)) {
+    price = price * SKILL_RANKS["Frugal Miner"].ranks[frugalMinerLevel - 1];
   }
 
   if (bumpkin.skills["Cheap Rakes"] && name === "Salt Rake") {

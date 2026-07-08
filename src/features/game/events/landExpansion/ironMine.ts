@@ -18,6 +18,7 @@ import {
   isWithinAOE,
 } from "features/game/expansion/placeable/lib/collisionDetection";
 import { FACTION_ITEMS } from "features/game/lib/factions";
+import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { isWearableActive } from "features/game/lib/wearables";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
@@ -117,9 +118,11 @@ export function getIronRecoveryTimeForDisplay({ game }: { game: GameState }): {
     boostsUsed.push({ name: "Mole Shrine", value: "x0.75" });
   }
 
-  if (game.bumpkin.skills["Iron Hustle"]) {
-    totalSeconds = totalSeconds * 0.7;
-    boostsUsed.push({ name: "Iron Hustle", value: "x0.7" });
+  const ironHustleLevel = getSkillLevel(game.bumpkin.skills, "Iron Hustle");
+  if (ironHustleLevel) {
+    const v = SKILL_RANKS["Iron Hustle"].ranks[ironHustleLevel - 1];
+    totalSeconds = totalSeconds * v;
+    boostsUsed.push({ name: "Iron Hustle", value: `x${v}` });
   }
 
   return {
@@ -210,19 +213,27 @@ export function getIronDropAmount({
     boostsUsed.push({ name: "Iron Beetle", value: "+0.1" });
   }
 
-  if (game.bumpkin.skills["Iron Bumpkin"]) {
-    amount += 0.1;
-    boostsUsed.push({ name: "Iron Bumpkin", value: "+0.1" });
+  const ironBumpkinLevel = getSkillLevel(game.bumpkin.skills, "Iron Bumpkin");
+  if (ironBumpkinLevel) {
+    const v = SKILL_RANKS["Iron Bumpkin"].ranks[ironBumpkinLevel - 1];
+    amount += v;
+    boostsUsed.push({ name: "Iron Bumpkin", value: `+${v}` });
   }
 
-  if (game.bumpkin.skills["Rocky Favor"]) {
-    amount -= 0.5;
-    boostsUsed.push({ name: "Rocky Favor", value: "-0.5" });
+  // Rocky Favor: debuff to Iron yield (buff to Stone applied in stoneMine)
+  const rockyFavorLevel = getSkillLevel(game.bumpkin.skills, "Rocky Favor");
+  if (rockyFavorLevel) {
+    const v = SKILL_RANKS["Rocky Favor"].debuff[rockyFavorLevel - 1];
+    amount -= v;
+    boostsUsed.push({ name: "Rocky Favor", value: `-${v}` });
   }
 
-  if (game.bumpkin.skills["Ferrous Favor"]) {
-    amount += 1;
-    boostsUsed.push({ name: "Ferrous Favor", value: "+1" });
+  // Ferrous Favor: buff to Iron yield (debuff to Stone applied in stoneMine)
+  const ferrousFavorLevel = getSkillLevel(game.bumpkin.skills, "Ferrous Favor");
+  if (ferrousFavorLevel) {
+    const v = SKILL_RANKS["Ferrous Favor"].buff[ferrousFavorLevel - 1];
+    amount += v;
+    boostsUsed.push({ name: "Ferrous Favor", value: `+${v}` });
   }
 
   if (getPrngChance(20, "Native")) {

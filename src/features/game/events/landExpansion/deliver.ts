@@ -260,13 +260,18 @@ export function getOrderSellPrice<T>(
     boostsUsed.push({ name: "Victoria's Secretary", value: "+50%" });
   }
 
+  const forgeWardProfitsLevel = game.bumpkin
+    ? getSkillLevel(game.bumpkin.skills, "Forge-Ward Profits")
+    : 0;
   if (
     order.from === "blacksmith" &&
-    game.bumpkin?.skills["Forge-Ward Profits"] &&
+    forgeWardProfitsLevel &&
     order.reward.coins
   ) {
-    mul += 0.2;
-    boostsUsed.push({ name: "Forge-Ward Profits", value: "+20%" });
+    const b =
+      SKILL_RANKS["Forge-Ward Profits"].ranks[forgeWardProfitsLevel - 1];
+    mul += b;
+    boostsUsed.push({ name: "Forge-Ward Profits", value: `+${b * 100}%` });
   }
 
   // Fruity Profit - 50% Coins bonus if fruit

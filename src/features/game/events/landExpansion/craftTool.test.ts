@@ -242,6 +242,38 @@ describe("craftTool", () => {
 
     expect(state.coins).toEqual(84);
   });
+  it("pickaxe cost 30% less coins with Frugal Miner at rank 2", () => {
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins: 100,
+        inventory: { Wood: new Decimal(3) },
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: { "Frugal Miner": 2 },
+        },
+      },
+      action: { type: "tool.crafted", tool: "Pickaxe" },
+    });
+
+    expect(state.coins).toEqual(86);
+  });
+  it("pickaxe cost 40% less coins with Frugal Miner at rank 3", () => {
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins: 100,
+        inventory: { Wood: new Decimal(3) },
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: { "Frugal Miner": 3 },
+        },
+      },
+      action: { type: "tool.crafted", tool: "Pickaxe" },
+    });
+
+    expect(state.coins).toEqual(88);
+  });
   it("stone pickaxe cost 20% less coins with  skill", () => {
     const state = craftTool({
       state: {

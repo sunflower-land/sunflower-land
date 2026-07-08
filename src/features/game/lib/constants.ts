@@ -87,17 +87,27 @@ export const INITIAL_STOCK = (
   if (moreAxesLevel) {
     tools.Axe = new Decimal(
       Math.ceil(
-        tools.Axe.toNumber() +
-          SKILL_RANKS["More Axes"].ranks[moreAxesLevel - 1],
+        tools.Axe.add(
+          SKILL_RANKS["More Axes"].ranks.Axe[moreAxesLevel - 1] ?? 0,
+        ).toNumber(),
       ),
     );
   }
 
-  if (state?.bumpkin?.skills["More Picks"]) {
-    tools.Pickaxe = tools.Pickaxe.add(new Decimal(70));
-    tools["Stone Pickaxe"] = tools["Stone Pickaxe"].add(new Decimal(20));
-    tools["Iron Pickaxe"] = tools["Iron Pickaxe"].add(new Decimal(7));
-    tools["Gold Pickaxe"] = tools["Gold Pickaxe"].add(new Decimal(2));
+  const morePicksLevel = state?.bumpkin
+    ? getSkillLevel(state.bumpkin.skills, "More Picks")
+    : 0;
+
+  if (morePicksLevel) {
+    getObjectEntries(SKILL_RANKS["More Picks"].ranks).forEach(
+      ([toolName, effect]) => {
+        tools[toolName] = new Decimal(
+          Math.ceil(
+            tools[toolName].add(effect[morePicksLevel - 1] ?? 0).toNumber(),
+          ),
+        );
+      },
+    );
   }
 
   const seeds: Record<SeedName, Decimal> = {

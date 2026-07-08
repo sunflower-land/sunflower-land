@@ -137,7 +137,7 @@ export const getSkillRankDescription = (
     case "More Axes":
       return {
         buff: t("skill.moreAxes.ranked", {
-          value: SKILL_RANKS["More Axes"].ranks[i],
+          value: SKILL_RANKS["More Axes"].ranks.Axe?.[i] ?? 0,
         }),
       };
     case "Tough Tree":
@@ -172,6 +172,99 @@ export const getSkillRankDescription = (
             isShortFormat: true,
             removeTrailingZeros: true,
           }),
+        }),
+      };
+    case "Rock'N'Roll":
+      return {
+        buff: t("skill.rockAndRoll.ranked", {
+          value: SKILL_RANKS["Rock'N'Roll"].ranks[i],
+        }),
+      };
+    case "Iron Bumpkin":
+      return {
+        buff: t("skill.ironBumpkin.ranked", {
+          value: SKILL_RANKS["Iron Bumpkin"].ranks[i],
+        }),
+      };
+    case "Speed Miner":
+      return {
+        buff: t("skill.speedMiner.ranked", {
+          value: SKILL_RANKS["Speed Miner"].ranks[i],
+        }),
+      };
+    case "Forge-Ward Profits":
+      return {
+        buff: t("skill.forgeWardProfits.ranked", {
+          value: SKILL_RANKS["Forge-Ward Profits"].ranks[i] * 100,
+        }),
+      };
+    case "Iron Hustle":
+      return {
+        buff: t("skill.ironHustle.ranked", {
+          value: SKILL_RANKS["Iron Hustle"].ranks[i],
+        }),
+      };
+    case "Frugal Miner":
+      return {
+        buff: t("skill.frugalMiner.ranked", {
+          value: SKILL_RANKS["Frugal Miner"].ranks[i],
+        }),
+      };
+    case "Rocky Favor":
+      return {
+        buff: t("skill.rockyFavor.buff.ranked", {
+          value: SKILL_RANKS["Rocky Favor"].buff[i],
+        }),
+        debuff: t("skill.rockyFavor.debuff.ranked", {
+          value: SKILL_RANKS["Rocky Favor"].debuff[i],
+        }),
+      };
+    case "Fire Kissed":
+      return {
+        buff: t("skill.fireKissed.ranked", {
+          value: SKILL_RANKS["Fire Kissed"].ranks[i],
+        }),
+      };
+    case "Midas Sprint":
+      return {
+        buff: t("skill.midasSprint.ranked", {
+          value: SKILL_RANKS["Midas Sprint"].ranks[i],
+        }),
+      };
+    case "Ferrous Favor":
+      return {
+        buff: t("skill.ferrousFavor.buff.ranked", {
+          value: SKILL_RANKS["Ferrous Favor"].buff[i],
+        }),
+        debuff: t("skill.ferrousFavor.debuff.ranked", {
+          value: SKILL_RANKS["Ferrous Favor"].debuff[i],
+        }),
+      };
+    case "Golden Touch":
+      return {
+        buff: t("skill.goldenTouch.ranked", {
+          value: SKILL_RANKS["Golden Touch"].ranks[i],
+        }),
+      };
+    case "More Picks":
+      return {
+        buff: t("skill.morePicks.ranked", {
+          pickaxe: SKILL_RANKS["More Picks"].ranks.Pickaxe?.[i] ?? 0,
+          stone: SKILL_RANKS["More Picks"].ranks["Stone Pickaxe"]?.[i] ?? 0,
+          iron: SKILL_RANKS["More Picks"].ranks["Iron Pickaxe"]?.[i] ?? 0,
+          gold: SKILL_RANKS["More Picks"].ranks["Gold Pickaxe"]?.[i] ?? 0,
+        }),
+      };
+    case "Fireside Alchemist":
+      return {
+        buff: t("skill.firesideAlchemist.ranked", {
+          value: SKILL_RANKS["Fireside Alchemist"].ranks[i],
+        }),
+      };
+    case "Midas Rush":
+      return {
+        buff: t("skill.midasRush.ranked", {
+          value: SKILL_RANKS["Midas Rush"].ranks[i],
         }),
       };
   }

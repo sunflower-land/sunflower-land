@@ -93,6 +93,7 @@ import wideRakes from "assets/icons/skill_icons/wide_rakes.webp";
 import xpIcon from "assets/icons/xp.png";
 import type { NPCName } from "lib/npcs";
 import type { BuffLabel } from ".";
+import type { ToolName } from "./craftables";
 
 export type BumpkinSkillName =
   | "Green Thumb"
@@ -197,7 +198,7 @@ export type SkillRankEffect =
   | { kind: "dropChance"; ranks: readonly [number, number, number] } // inner prngChance arg
   | { kind: "chance"; ranks: readonly [number, number, number] } // prngChance percent arg
   | { kind: "costMultiplier"; ranks: readonly [number, number, number] } // multiplier on a coin cost
-  | { kind: "flatBonus"; ranks: readonly [number, number, number] } // flat integer add (e.g. axe stock)
+  | { kind: "stockBonus"; ranks: Partial<Record<ToolName, number[]>> } // flat integer add (e.g. axe stock)
   | { kind: "aoe"; ranks: readonly [AOEExtent, AOEExtent, AOEExtent] }
   | { kind: "cooldown"; ranks: readonly [number, number, number] } // ms
   | {
@@ -1113,7 +1114,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     tree: "Trees",
     upgrade: {
       maxLevel: 3,
-      effect: { kind: "flatBonus", ranks: [50, 100, 200] } as const,
+      effect: { kind: "stockBonus", ranks: { Axe: [50, 100, 200] } } as const,
     },
     requirements: {
       points: 1,
@@ -2121,6 +2122,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "additiveYield",
+        ranks: [0.1, 0.2, 0.3],
+      },
+    },
   },
   "Iron Bumpkin": {
     name: "Iron Bumpkin",
@@ -2139,6 +2147,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "additiveYield",
+        ranks: [0.1, 0.2, 0.3],
+      },
+    },
   },
   "Speed Miner": {
     name: "Speed Miner",
@@ -2158,6 +2173,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     image: SUNNYSIDE.resource.stone_small,
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "growthMultiplier",
+        ranks: [0.8, 0.75, 0.7],
+      },
+    },
   },
   "Tap Prospector": {
     name: "Tap Prospector",
@@ -2195,6 +2217,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
     npc: "blacksmith",
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "coinBonus",
+        ranks: [0.2, 0.3, 0.4],
+      },
+    },
   },
   // Mining - Tier 2
   "Iron Hustle": {
@@ -2215,6 +2244,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     image: SUNNYSIDE.resource.ironStone,
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "growthMultiplier",
+        ranks: [0.7, 0.65, 0.6],
+      },
+    },
   },
   "Frugal Miner": {
     name: "Frugal Miner",
@@ -2234,6 +2270,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     image: frugalMiner,
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "costMultiplier",
+        ranks: [0.8, 0.7, 0.6],
+      },
+    },
   },
   "Rocky Favor": {
     name: "Rocky Favor",
@@ -2255,6 +2298,14 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     image: rockyFavor,
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "yieldWithDebuff",
+        buff: [1, 1.25, 1.5],
+        debuff: [0.5, 0.6, 0.7],
+      },
+    },
   },
   "Fire Kissed": {
     name: "Fire Kissed",
@@ -2274,6 +2325,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     image: fireKissed,
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "additiveYield",
+        ranks: [1, 1.25, 1.5],
+      },
+    },
   },
   "Midas Sprint": {
     name: "Midas Sprint",
@@ -2293,6 +2351,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     image: midasSprint,
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "growthMultiplier",
+        ranks: [0.9, 0.875, 0.85],
+      },
+    },
   },
   // Mining - Tier 3
   "Ferrous Favor": {
@@ -2319,6 +2384,14 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     image: ferrousFavor,
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "yieldWithDebuff",
+        buff: [1, 1.25, 1.5],
+        debuff: [0.5, 0.6, 0.7],
+      },
+    },
   },
   "Golden Touch": {
     name: "Golden Touch",
@@ -2338,6 +2411,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     image: goldenTouch,
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "additiveYield", ranks: [0.5, 0.75, 1] },
+    },
   },
   "More Picks": {
     name: "More Picks",
@@ -2356,6 +2433,18 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "stockBonus",
+        ranks: {
+          Pickaxe: [70, 140, 280],
+          "Stone Pickaxe": [20, 40, 80],
+          "Iron Pickaxe": [7, 14, 28],
+          "Gold Pickaxe": [2, 4, 8],
+        },
+      },
+    },
   },
   "Fireside Alchemist": {
     name: "Fireside Alchemist",
@@ -2375,6 +2464,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     image: firesideAlchemist,
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "growthMultiplier",
+        ranks: [0.85, 0.8, 0.75],
+      },
+    },
   },
   "Midas Rush": {
     name: "Midas Rush",
@@ -2394,6 +2490,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     image: midasRush,
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "growthMultiplier",
+        ranks: [0.8, 0.75, 0.7],
+      },
+    },
   },
 
   // Cooking - Tier 1
@@ -3642,6 +3745,22 @@ export const SKILL_RANKS = {
   "Tree Turnaround":
     BUMPKIN_REVAMP_SKILL_TREE["Tree Turnaround"].upgrade.effect,
   "Tree Blitz": BUMPKIN_REVAMP_SKILL_TREE["Tree Blitz"].upgrade.effect,
+  "Rock'N'Roll": BUMPKIN_REVAMP_SKILL_TREE["Rock'N'Roll"].upgrade.effect,
+  "Iron Bumpkin": BUMPKIN_REVAMP_SKILL_TREE["Iron Bumpkin"].upgrade.effect,
+  "Speed Miner": BUMPKIN_REVAMP_SKILL_TREE["Speed Miner"].upgrade.effect,
+  "Forge-Ward Profits":
+    BUMPKIN_REVAMP_SKILL_TREE["Forge-Ward Profits"].upgrade.effect,
+  "Iron Hustle": BUMPKIN_REVAMP_SKILL_TREE["Iron Hustle"].upgrade.effect,
+  "Frugal Miner": BUMPKIN_REVAMP_SKILL_TREE["Frugal Miner"].upgrade.effect,
+  "Rocky Favor": BUMPKIN_REVAMP_SKILL_TREE["Rocky Favor"].upgrade.effect,
+  "Fire Kissed": BUMPKIN_REVAMP_SKILL_TREE["Fire Kissed"].upgrade.effect,
+  "Midas Sprint": BUMPKIN_REVAMP_SKILL_TREE["Midas Sprint"].upgrade.effect,
+  "Ferrous Favor": BUMPKIN_REVAMP_SKILL_TREE["Ferrous Favor"].upgrade.effect,
+  "Golden Touch": BUMPKIN_REVAMP_SKILL_TREE["Golden Touch"].upgrade.effect,
+  "More Picks": BUMPKIN_REVAMP_SKILL_TREE["More Picks"].upgrade.effect,
+  "Fireside Alchemist":
+    BUMPKIN_REVAMP_SKILL_TREE["Fireside Alchemist"].upgrade.effect,
+  "Midas Rush": BUMPKIN_REVAMP_SKILL_TREE["Midas Rush"].upgrade.effect,
 } satisfies Record<UpgradeableSkillName, SkillRankEffect>;
 
 // Runtime guard co-located with SKILL_RANKS so callers can narrow to an

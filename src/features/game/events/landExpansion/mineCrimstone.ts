@@ -4,6 +4,7 @@ import { trackFarmActivity } from "features/game/types/farmActivity";
 import { canMine } from "features/game/lib/resourceNodes";
 import type { BoostName, FiniteResource, GameState } from "../../types/game";
 import { isWearableActive } from "features/game/lib/wearables";
+import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
 import { produce } from "immer";
 import {
   isTemporaryCollectibleActive,
@@ -89,9 +90,15 @@ export function getCrimstoneRecoveryTimeForDisplay({
     boostsUsed.push({ name: "Crimstone Amulet", value: "x0.8" });
   }
 
-  if (game.bumpkin.skills["Fireside Alchemist"]) {
-    totalSeconds = totalSeconds * 0.85;
-    boostsUsed.push({ name: "Fireside Alchemist", value: "x0.85" });
+  const firesideAlchemistLevel = getSkillLevel(
+    game.bumpkin.skills,
+    "Fireside Alchemist",
+  );
+  if (firesideAlchemistLevel) {
+    const v =
+      SKILL_RANKS["Fireside Alchemist"].ranks[firesideAlchemistLevel - 1];
+    totalSeconds = totalSeconds * v;
+    boostsUsed.push({ name: "Fireside Alchemist", value: `x${v}` });
   }
 
   if (
@@ -163,9 +170,11 @@ export function getCrimstoneDropAmount({
       amount = amount.add(2);
       boostsUsed.push({ name: "Crimstone Hammer", value: "+2" });
     }
-    if (game.bumpkin.skills["Fire Kissed"]) {
-      amount = amount.add(1);
-      boostsUsed.push({ name: "Fire Kissed", value: "+1" });
+    const fireKissedLevel = getSkillLevel(game.bumpkin.skills, "Fire Kissed");
+    if (fireKissedLevel) {
+      const v = SKILL_RANKS["Fire Kissed"].ranks[fireKissedLevel - 1];
+      amount = amount.add(v);
+      boostsUsed.push({ name: "Fire Kissed", value: `+${v}` });
     }
     amount = amount.add(2);
     boostsUsed.push({ name: "Streak Bonus", value: "+2" });
