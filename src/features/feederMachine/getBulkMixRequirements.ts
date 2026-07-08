@@ -1,11 +1,14 @@
 import Decimal from "decimal.js-light";
 import {
   getBarnDelightCost,
+  handleFoodXP,
+  isMaxLevel,
   REQUIRED_FOOD_QTY,
 } from "features/game/events/landExpansion/feedAnimal";
 import { isAnimalFeedable } from "features/game/events/landExpansion/buyAnimal";
 import {
   getAnimalFavoriteFood,
+  getAnimalLevel,
   getBoostedFoodQuantity,
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
@@ -17,12 +20,20 @@ import type {
   AnimalMedicineName,
   GameState,
 } from "features/game/types/game";
-import { ANIMAL_FOODS, type AnimalType } from "features/game/types/animals";
+import {
+  ANIMAL_FOODS,
+  ANIMAL_LEVELS,
+  type AnimalLevel,
+  type AnimalType,
+} from "features/game/types/animals";
 import { getKeys } from "lib/object";
 import { getIngredients } from "./feedMixed";
 
 type FeedRequestName = AnimalFoodName | AnimalMedicineName;
 type RequestTotals = Partial<Record<FeedRequestName, Decimal>>;
+type FeedRequest = { item: FeedRequestName; quantity: Decimal };
+
+const MAX_FEED_STEPS_TO_READY = 100;
 
 const isAnimalAwakeAndRequestingFood = (animal: Animal) => {
   return animal.state === "idle" && animal.awakeAt <= Date.now();
@@ -52,7 +63,88 @@ const addToTotals = (
   totals[item] = (totals[item] ?? new Decimal(0)).add(amount);
 };
 
-const getAnimalFeedRequest = ({
+const isReadyAfterFoodXP = ({
+  animal,
+  experience,
+  foodXp,
+}: {
+  animal: AnimalType;
+  experience: number;
+  foodXp: number;
+}) => {
+  const nextExperience = experience + foodXp;
+
+  if (!isMaxLevel(animal, experience)) {
+    return (
+      getAnimalLevel(experience, animal) !==
+      getAnimalLevel(nextExperience, animal)
+    );
+  }
+
+  const maxLevel = (getKeys(ANIMAL_LEVELS[animal]).length - 1) as AnimalLevel;
+  const levelBeforeMax = (maxLevel - 1) as AnimalLevel;
+  const maxLevelXp = ANIMAL_LEVELS[animal][maxLevel];
+  const levelBeforeMaxXp = ANIMAL_LEVELS[animal][levelBeforeMax];
+  const cycleXP = maxLevelXp - levelBeforeMaxXp;
+  const excessXpBeforeFeed = Math.max(experience - maxLevelXp, 0);
+  const currentCycleProgress = excessXpBeforeFeed % cycleXP;
+
+  return currentCycleProgress + foodXp >= cycleXP;
+};
+
+const getFeedRequestsUntilReady = ({
+  animal,
+  game,
+}: {
+  animal: Animal;
+  game: GameState;
+}): FeedRequest[] => {
+  const requests: FeedRequest[] = [];
+  let experience = animal.experience;
+
+  for (let step = 0; step < MAX_FEED_STEPS_TO_READY; step += 1) {
+    const level = getAnimalLevel(experience, animal.type);
+    const favouriteFood = getAnimalFavoriteFood(animal.type, experience);
+    const { foodXp } = handleFoodXP({
+      state: game,
+      animal: animal.type,
+      level,
+      food: favouriteFood,
+    });
+
+    if (foodXp <= 0) {
+      break;
+    }
+
+    const { foodQuantity } = getBoostedFoodQuantity({
+      animalType: animal.type,
+      foodQuantity: REQUIRED_FOOD_QTY[animal.type],
+      game,
+      animal: { ...animal, experience },
+    });
+
+    requests.push({
+      item: favouriteFood,
+      quantity: foodQuantity,
+    });
+
+    if (
+      isReadyAfterFoodXP({
+        animal: animal.type,
+        experience,
+        foodXp,
+      })
+    ) {
+      break;
+    }
+
+    experience += foodXp;
+  }
+
+  return requests;
+};
+
+const getAnimalFeedRequests = ({
   animal,
   game,
   buildingKey,
@@ -60,36 +152,25 @@ const getAnimalFeedRequest = ({
   animal: Animal;
   game: GameState;
   buildingKey: AnimalBuildingKey;
-}): { item: FeedRequestName; quantity: Decimal } | null => {
+}): FeedRequest[] => {
   if (animal.state === "sick") {
     const { amount } = getBarnDelightCost({ state: game });
-    return { item: "Barn Delight", quantity: new Decimal(amount) };
+    return [{ item: "Barn Delight", quantity: new Decimal(amount) }];
   }
 
   if (!isAnimalAwakeAndRequestingFood(animal)) {
-    return null;
+    return [];
   }
 
   if (hasFreeFeedBoost(animal.type, game)) {
-    return null;
+    return [];
   }
 
   if (!isAnimalFeedable(buildingKey, game, animal.id)) {
-    return null;
+    return [];
   }
 
-  const favouriteFood = getAnimalFavoriteFood(animal.type, animal.experience);
-  const { foodQuantity } = getBoostedFoodQuantity({
-    animalType: animal.type,
-    foodQuantity: REQUIRED_FOOD_QTY[animal.type],
-    game,
-    animal,
-  });
-
-  return {
-    item: favouriteFood,
-    quantity: foodQuantity,
-  };
+  return getFeedRequestsUntilReady({ animal, game });
 };
 
 const getBuildingRequests = ({
@@ -104,13 +185,11 @@ const getBuildingRequests = ({
   const requests: RequestTotals = {};
 
   animals.forEach((animal) => {
-    const request = getAnimalFeedRequest({ animal, game, buildingKey });
+    const animalRequests = getAnimalFeedRequests({ animal, game, buildingKey });
 
-    if (!request) {
-      return;
-    }
-
-    addToTotals(requests, request.item, request.quantity);
+    animalRequests.forEach((request) =>
+      addToTotals(requests, request.item, request.quantity),
+    );
   });
 
   return requests;
