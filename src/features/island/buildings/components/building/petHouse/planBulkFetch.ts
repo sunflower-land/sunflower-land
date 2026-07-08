@@ -58,10 +58,12 @@ type PetWork = {
  *  1. Only awake, non-neglected pets with unlocked fetches are eligible.
  *  2. Requested resources are allocated scarcest-first (fewest capable pets),
  *     so a versatile pet's energy is not spent on a resource many pets share.
- *  3. For each resource, each single fetch is assigned to the pet that is the
- *     least useful elsewhere (can serve the fewest OTHER still-needed
- *     resources), preserving specialists; ties break on higher yield, then
- *     more remaining energy, then a stable id.
+ *  3. For each resource, each single fetch goes to the pet with the highest
+ *     yield (fewest fetches → least energy for that resource). Because
+ *     scarcest resources are allocated first, the pets that rarer resources
+ *     depend on are already reserved, so favouring yield here does not starve
+ *     them. Ties break toward the pet least useful elsewhere (fewest OTHER
+ *     still-needed resources), then more remaining energy, then a stable id.
  *
  * Yields are deterministic (`getFetchYield`) and energy is the only limiter, so
  * the projection is exact. Anything that cannot be met is reported as
@@ -151,13 +153,19 @@ export function planBulkFetch({
       if (candidates.length === 0) break;
 
       candidates.sort((a, b) => {
-        const usesA = otherNeededUses(a, resource);
-        const usesB = otherNeededUses(b, resource);
-        if (usesA !== usesB) return usesA - usesB; // preserve specialists
-
+        // Energy-efficient: the highest-yield pet needs the fewest fetches, so
+        // the least energy, for this resource. Scarcest-first ordering has
+        // already reserved the pets that rarer resources depend on, so a
+        // versatile high-yield pet (e.g. an NFT) is used here, not saved.
         const yieldA = a.yields[resource] as Decimal;
         const yieldB = b.yields[resource] as Decimal;
         if (!yieldA.eq(yieldB)) return yieldB.minus(yieldA).toNumber();
+
+        // Among equal-yield pets, prefer the one least useful elsewhere, then
+        // the one with more energy, then a stable id.
+        const usesA = otherNeededUses(a, resource);
+        const usesB = otherNeededUses(b, resource);
+        if (usesA !== usesB) return usesA - usesB;
 
         if (a.energy !== b.energy) return b.energy - a.energy;
         return a.key.localeCompare(b.key);

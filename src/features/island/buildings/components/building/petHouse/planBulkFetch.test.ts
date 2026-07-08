@@ -9,6 +9,7 @@ const state: GameState = { ...INITIAL_FARM };
 // XP thresholds: level n requires 50 * (n-1) * n XP.
 const LEVEL_3_XP = 300;
 const LEVEL_18_XP = 15300;
+const LEVEL_100_XP = 495000;
 
 const makePet = (name: PetName, overrides: Partial<Pet> = {}): Pet => ({
   name,
@@ -156,6 +157,46 @@ describe("planBulkFetch", () => {
       { petId: "Barkley", fetch: "Acorn", amount: 2 },
     ]);
     expect(plan.fulfilled.Acorn?.toNumber()).toEqual(4.2);
+    expect(plan.shortfall).toEqual({});
+  });
+
+  it("prefers the higher-yield pet even when it is more useful elsewhere", () => {
+    // Meowchi (Cat, lvl 100) yields 1.25 heart leaf and can also make ribbon;
+    // Twizzle (Owl, lvl 3) yields only 1.0 and cannot make ribbon. With ribbon
+    // also requested, the old "least useful elsewhere" pick saved Meowchi and
+    // handed heart leaf to Twizzle. Ranking yield first uses the efficient pet.
+    // (Barkley is only here so ribbon has two sources and stays pending while
+    // heart leaf is allocated.)
+    const activePets: ActivePets = [
+      [
+        "Meowchi",
+        makePet("Meowchi", { experience: LEVEL_100_XP, energy: 5000 }),
+      ],
+      ["Twizzle", makePet("Twizzle", { experience: LEVEL_3_XP, energy: 5000 })],
+      [
+        "Barkley",
+        makePet("Barkley", { experience: LEVEL_18_XP, energy: 5000 }),
+      ],
+    ];
+    const plan = planBulkFetch({
+      activePets,
+      state,
+      desired: { "Heart leaf": 6, Ribbon: 4 },
+      now,
+    });
+
+    // The higher-yield pet (Meowchi, 1.25) takes the heart leaf...
+    expect(
+      plan.fetches.find(
+        (f) => f.petId === "Meowchi" && f.fetch === "Heart leaf",
+      ),
+    ).toBeDefined();
+    // ...not the lower-yield Twizzle (1.0), which the old logic would have used.
+    expect(
+      plan.fetches.find(
+        (f) => f.petId === "Twizzle" && f.fetch === "Heart leaf",
+      ),
+    ).toBeUndefined();
     expect(plan.shortfall).toEqual({});
   });
 });
