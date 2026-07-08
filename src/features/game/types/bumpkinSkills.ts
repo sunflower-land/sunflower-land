@@ -198,7 +198,10 @@ export type SkillRankEffect =
   | { kind: "dropChance"; ranks: readonly [number, number, number] } // inner prngChance arg
   | { kind: "chance"; ranks: readonly [number, number, number] } // prngChance percent arg
   | { kind: "costMultiplier"; ranks: readonly [number, number, number] } // multiplier on a coin cost
-  | { kind: "stockBonus"; ranks: Partial<Record<ToolName, number[]>> } // flat integer add (e.g. axe stock)
+  | {
+      kind: "stockBonus";
+      ranks: Partial<Record<ToolName, readonly [number, number, number]>>;
+    } // per-tool flat stock add (e.g. axe/pickaxe stock)
   | { kind: "aoe"; ranks: readonly [AOEExtent, AOEExtent, AOEExtent] }
   | { kind: "cooldown"; ranks: readonly [number, number, number] } // ms
   | {
@@ -2443,7 +2446,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
           "Iron Pickaxe": [7, 14, 28],
           "Gold Pickaxe": [2, 4, 8],
         },
-      },
+      } as const,
     },
   },
   "Fireside Alchemist": {
