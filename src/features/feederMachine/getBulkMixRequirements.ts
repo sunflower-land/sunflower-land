@@ -36,7 +36,12 @@ type FeedRequest = { item: FeedRequestName; quantity: Decimal };
 const MAX_FEED_STEPS_TO_READY = 100;
 
 const isAnimalAwakeAndRequestingFood = (animal: Animal) => {
-  return animal.state === "idle" && animal.awakeAt <= Date.now();
+  return (
+    animal.awakeAt <= Date.now() &&
+    (animal.state === "idle" ||
+      animal.state === "happy" ||
+      animal.state === "sad")
+  );
 };
 
 const hasFreeFeedBoost = (animalType: AnimalType, game: GameState) => {
