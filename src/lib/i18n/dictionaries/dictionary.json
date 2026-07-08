@@ -5021,7 +5021,7 @@
   "skill.generousOrchard.ranked": "{{value}}% chance of +1 Fruit Patch yield",
   "skill.zestyVibes.buff.ranked": "+{{value}} Tomato and Lemon yield",
   "skill.zestyVibes.debuff.ranked": "-{{value}} yield for all other fruit patch fruits",
-  "skill.loyalMacaw.ranked": "x{{value}} Macaw's effect",
+  "skill.loyalMacaw.ranked": "+{{value}} Fruit Patch yield with Macaw",
   "skill.pearTurbocharge.ranked": "x{{value}} Immortal Pear's effect",
   "skill.noAxeNoWorries.debuff.ranked": "-{{value}} wood from fruit branches and stems",
   "skill.longPickings.buff.ranked": "x{{value}} Apple and Banana growth time",

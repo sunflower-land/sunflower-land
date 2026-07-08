@@ -885,7 +885,9 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     disabled: false,
     upgrade: {
       maxLevel: 3,
-      effect: { kind: "multiplier", ranks: [2, 3, 4] },
+      // Macaw's base +0.1 yield doubled/tripled/quadrupled, stored as the
+      // resulting yield so there is no lossy 0.1 x rank at runtime.
+      effect: { kind: "additiveYield", ranks: [0.2, 0.3, 0.4] },
     },
     requirements: {
       points: 1,

@@ -128,9 +128,8 @@ export function getFruitYield({
     // Loyal Macaw multiplies Macaw's base +0.1 yield by 2x/3x/4x (scales with rank)
     const loyalMacawLevel = getSkillLevel(bumpkin.skills, "Loyal Macaw");
     if (loyalMacawLevel) {
-      // ranks/10 rather than 0.1*rank to avoid float drift (0.1*3 = 0.30000000000000004).
       // Loyal Macaw subsumes the base Macaw yield, so only its entry is recorded.
-      const value = SKILL_RANKS["Loyal Macaw"].ranks[loyalMacawLevel - 1] / 10;
+      const value = SKILL_RANKS["Loyal Macaw"].ranks[loyalMacawLevel - 1];
       amount += value;
       boostsUsed.push({ name: "Loyal Macaw", value: `+${value}` });
     } else {
