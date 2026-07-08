@@ -60,8 +60,10 @@ type PetWork = {
  *     so a versatile pet's energy is not spent on a resource many pets share.
  *  3. For each resource, each single fetch is assigned to the pet that is the
  *     least useful elsewhere (can serve the fewest OTHER still-needed
- *     resources), preserving specialists; ties break on higher yield, then
- *     more remaining energy, then a stable id.
+ *     resources), preserving specialists; among those it goes to the pet with
+ *     the MOST energy left, so the load spreads evenly across pets rather than
+ *     draining the highest-yield ones first. Ties then break on higher yield,
+ *     then a stable id.
  *
  * Yields are deterministic (`getFetchYield`) and energy is the only limiter, so
  * the projection is exact. Anything that cannot be met is reported as
@@ -155,11 +157,15 @@ export function planBulkFetch({
         const usesB = otherNeededUses(b, resource);
         if (usesA !== usesB) return usesA - usesB; // preserve specialists
 
+        // Spread the load: send each fetch to the pet with the most energy
+        // left, so all pets drain down together instead of emptying the
+        // highest-yield ones first.
+        if (a.energy !== b.energy) return b.energy - a.energy;
+
         const yieldA = a.yields[resource] as Decimal;
         const yieldB = b.yields[resource] as Decimal;
         if (!yieldA.eq(yieldB)) return yieldB.minus(yieldA).toNumber();
 
-        if (a.energy !== b.energy) return b.energy - a.energy;
         return a.key.localeCompare(b.key);
       });
 

@@ -158,4 +158,32 @@ describe("planBulkFetch", () => {
     expect(plan.fulfilled.Acorn?.toNumber()).toEqual(4.2);
     expect(plan.shortfall).toEqual({});
   });
+
+  it("spreads the load across pets by energy, not onto the highest-yield pet", () => {
+    // Barkley (lvl 18) yields 2.1 acorn per fetch; Meowchi (lvl 1) yields 1.
+    // A yield-first pick would take all 3 fetches from Barkley and leave
+    // Meowchi idle. Balancing by remaining energy instead uses both.
+    const activePets: ActivePets = [
+      ["Barkley", makePet("Barkley", { experience: LEVEL_18_XP, energy: 300 })],
+      ["Meowchi", makePet("Meowchi", { energy: 300 })],
+    ];
+    const plan = planBulkFetch({
+      activePets,
+      state,
+      desired: { Acorn: 5 },
+      now,
+    });
+
+    expect(plan.fetches).toContainEqual({
+      petId: "Barkley",
+      fetch: "Acorn",
+      amount: 2,
+    });
+    expect(plan.fetches).toContainEqual({
+      petId: "Meowchi",
+      fetch: "Acorn",
+      amount: 1,
+    });
+    expect(plan.shortfall).toEqual({});
+  });
 });
