@@ -51,8 +51,11 @@ const RANK_NUMERALS = ["I", "II", "III"] as const;
 
 const getSkillRankSuffix = (boost: BoostName, state: GameState): string => {
   if (!isBumpkinSkill(boost) || !isUpgradeableSkillName(boost)) return "";
-  const level = getSkillLevel(state.bumpkin.skills, boost);
-  return level ? ` ${RANK_NUMERALS[level - 1] ?? ""}` : "";
+  // getSkillLevel clamps to the skill's maxLevel, so the index is always valid
+  // today; guarding on the numeral keeps it correct if a maxLevel ever exceeds
+  // the table (and covers the not-owned level-0 case → no suffix).
+  const numeral = RANK_NUMERALS[getSkillLevel(state.bumpkin.skills, boost) - 1];
+  return numeral ? ` ${numeral}` : "";
 };
 
 export const getBoostLabel = (
