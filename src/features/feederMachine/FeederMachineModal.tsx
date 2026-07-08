@@ -7,6 +7,7 @@ import { Context } from "features/game/GameProvider";
 import type {
   AnimalFoodName,
   AnimalMedicineName,
+  InventoryItemName,
 } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useState } from "react";
@@ -32,6 +33,8 @@ interface Props {
   building: "Hen House" | "Barn";
 }
 
+type BulkMixItem = AnimalFoodName | AnimalMedicineName;
+
 const FOOD_TYPE_TERMS = {
   food: "feeder.foodTypes.food",
   medicine: "feeder.foodTypes.medicine",
@@ -43,7 +46,7 @@ export const FeederMachineModal: React.FC<Props> = ({
   building,
 }) => {
   const { t } = useAppTranslation();
-  const { gameService, shortcutItem } = useContext(Context);
+  const { gameService, shortcutItem, shortcutItems } = useContext(Context);
   const [
     {
       context: { state },
@@ -129,18 +132,27 @@ export const FeederMachineModal: React.FC<Props> = ({
   );
 
   const bulkMix = () => {
-    getKeys(missingRequests).forEach((item) => {
+    const mixedItems = getKeys(missingRequests).filter((item) => {
       const amount = missingRequests[item]?.toNumber() ?? 0;
 
-      if (amount <= 0) {
-        return;
-      }
+      return amount > 0;
+    }) as BulkMixItem[];
+
+    mixedItems.forEach((item) => {
+      const amount = missingRequests[item]?.toNumber() ?? 0;
 
       gameService.send("feed.mixed", {
         item,
         amount,
       });
     });
+
+    if (mixedItems.length === 1) {
+      shortcutItem(mixedItems[0]);
+      return;
+    }
+
+    shortcutItems(mixedItems as InventoryItemName[], { activateFirst: false });
   };
 
   const renderAmountLabel = (
