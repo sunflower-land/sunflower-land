@@ -971,33 +971,40 @@ describe("fruitHarvested", () => {
       expect(amount).toEqual(1.2);
     });
     it.each([
-      [2, 1.3],
-      [3, 1.4],
-    ])("scales Loyal Macaw with Macaw placed at rank %i", (rank, expected) => {
-      const { amount } = getFruitYield({
-        prngArgs: { counter: 0, farmId },
-        game: {
-          ...INITIAL_FARM,
-          bumpkin: {
-            ...INITIAL_FARM.bumpkin,
-            skills: { "Loyal Macaw": rank },
+      [2, 1.3, "+0.3"],
+      [3, 1.4, "+0.4"],
+    ])(
+      "scales Loyal Macaw with Macaw placed at rank %i",
+      (rank, expected, boostValue) => {
+        const { amount, boostsUsed } = getFruitYield({
+          prngArgs: { counter: 0, farmId },
+          game: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Loyal Macaw": rank },
+            },
+            collectibles: {
+              Macaw: [
+                {
+                  coordinates: { x: 1, y: 1 },
+                  createdAt: 0,
+                  id: "123",
+                  readyAt: 0,
+                },
+              ],
+            },
           },
-          collectibles: {
-            Macaw: [
-              {
-                coordinates: { x: 1, y: 1 },
-                createdAt: 0,
-                id: "123",
-                readyAt: 0,
-              },
-            ],
-          },
-        },
-        name: "Apple",
-      });
+          name: "Apple",
+        });
 
-      expect(amount).toEqual(expected);
-    });
+        expect(amount).toEqual(expected);
+        // Drift-free display value, and no double-counted base Macaw entry.
+        expect(boostsUsed).toEqual([
+          { name: "Loyal Macaw", value: boostValue },
+        ]);
+      },
+    );
     it("gives +0.2 fruit yield when Fruitful Bounty is claimed and Fruitful Blend is applied", () => {
       const { amount } = getFruitYield({
         prngArgs: { counter: 0, farmId },
