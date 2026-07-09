@@ -4,9 +4,15 @@ import type { Animal } from "features/game/types/game";
 import { getBulkMixRequirements } from "./getBulkMixRequirements";
 
 describe("getBulkMixRequirements", () => {
-  const chicken = (state: Animal["state"]): Animal => ({
+  const animal = ({
+    state,
+    type,
+  }: {
+    state: Animal["state"];
+    type: Animal["type"];
+  }): Animal => ({
     id: "0",
-    type: "Chicken",
+    type,
     createdAt: 0,
     state,
     experience: 0,
@@ -16,8 +22,11 @@ describe("getBulkMixRequirements", () => {
     item: "Petting Hand",
   });
 
+  const chicken = (state: Animal["state"]) =>
+    animal({ state, type: "Chicken" });
+
   it("includes awake animals that are sad after a feed but still need food", () => {
-    const { requests, missingRequests } = getBulkMixRequirements(
+    const { requests, missingRequests, requirements } = getBulkMixRequirements(
       {
         ...INITIAL_FARM,
         inventory: {},
@@ -31,10 +40,10 @@ describe("getBulkMixRequirements", () => {
       "Hen House",
     );
 
-    expect(Object.values(requests).some((amount) => amount?.gt(0))).toBe(true);
-    expect(Object.values(missingRequests).some((amount) => amount?.gt(0))).toBe(
-      true,
-    );
+    expect(requests["Kernel Blend"]).toEqual(new Decimal(1));
+    expect(missingRequests["Kernel Blend"]).toEqual(new Decimal(1));
+    expect(requirements.ingredients.Corn).toEqual(new Decimal(1));
+    expect(requirements.coins).toBe(0);
   });
 
   it("does not request feed for ready animals", () => {
@@ -56,5 +65,26 @@ describe("getBulkMixRequirements", () => {
 
     expect(requests).toEqual({});
     expect(missingRequests).toEqual({});
+  });
+
+  it("calculates barn feed requirements", () => {
+    const { requests, missingRequests, requirements } = getBulkMixRequirements(
+      {
+        ...INITIAL_FARM,
+        inventory: {},
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "0": animal({ state: "idle", type: "Cow" }),
+          },
+        },
+      },
+      "Barn",
+    );
+
+    expect(requests["Kernel Blend"]).toEqual(new Decimal(15));
+    expect(missingRequests["Kernel Blend"]).toEqual(new Decimal(15));
+    expect(requirements.ingredients.Corn).toEqual(new Decimal(15));
+    expect(requirements.coins).toBe(0);
   });
 });
