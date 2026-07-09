@@ -175,14 +175,16 @@ export function getCookingRequirements({
 }: {
   state: GameState;
   item: CookableName;
-  // Double Nom rank to charge for. Defaults to the bumpkin's current rank (for
-  // a fresh cook / cost preview); cancel passes the rank stored on the recipe so
-  // the refund matches what was actually paid.
-  doubleNomLevel?: number;
-  // Force the base (un-doubled) requirements regardless of rank — used when
-  // pricing a recipe made before the skill was applied.
-  skipDoubleNom?: boolean;
-}): Inventory {
+} &
+  // Either skip the Double Nom boost entirely, or charge for a specific rank —
+  // never both. `skipDoubleNom` forces the base (un-doubled) requirements (for
+  // pricing a recipe made before the skill was applied); `doubleNomLevel`
+  // defaults to the bumpkin's current rank (fresh cook / cost preview) and
+  // cancel passes the rank stored on the recipe so the refund matches what was
+  // actually paid.
+  (| { skipDoubleNom: true; doubleNomLevel?: never }
+    | { skipDoubleNom?: false; doubleNomLevel?: number }
+  )): Inventory {
   let { ingredients } = COOKABLES[item];
   const { bumpkin } = state;
 
