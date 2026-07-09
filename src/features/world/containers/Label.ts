@@ -60,7 +60,7 @@ export class Label extends Phaser.GameObjects.Container {
         .setOrigin(0.5, 0.5);
       this.iconSprite = icon;
 
-      if (iconDepth) {
+      if (iconDepth !== undefined) {
         icon.setDepth(iconDepth);
         this.syncFloatingIcon = () => {
           if (!icon.active) return;
