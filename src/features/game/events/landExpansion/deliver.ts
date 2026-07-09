@@ -298,12 +298,16 @@ export function getOrderSellPrice<T>(
     boostsUsed.push({ name: "Fishy Fortune", value: `+${b * 100}%` });
   }
 
-  // Nom Nom - 10% bonus with food orders
-  if (game.bumpkin?.skills["Nom Nom"]) {
+  // Nom Nom - +10%/+30%/+50% bonus with food orders (scales with rank)
+  const nomNomLevel = game.bumpkin
+    ? getSkillLevel(game.bumpkin.skills, "Nom Nom")
+    : 0;
+  if (nomNomLevel) {
     const items = getKeys(order.items);
     if (items.some((name) => name in CONSUMABLES && !(name in FISH))) {
-      mul += 0.1;
-      boostsUsed.push({ name: "Nom Nom", value: "+10%" });
+      const b = SKILL_RANKS["Nom Nom"].ranks[nomNomLevel - 1];
+      mul += b;
+      boostsUsed.push({ name: "Nom Nom", value: `+${b * 100}%` });
     }
   }
 

@@ -957,7 +957,10 @@ export type BuildingProduct = {
    */
   amount?: number;
   boost?: Partial<Record<InventoryItemName, number>>;
-  skills?: Partial<Record<BumpkinRevampSkillName, boolean>>;
+  // The rank of a skill applied when the recipe was cooked, so per-rank effects
+  // (e.g. Double Nom's +food) collect at the rank paid for. Legacy recipes store
+  // `true` (treated as rank 1); new recipes store the numeric rank.
+  skills?: Partial<Record<BumpkinRevampSkillName, boolean | number>>;
   timeRemaining?: number;
   startedAt?: number;
   requirements?: Inventory;

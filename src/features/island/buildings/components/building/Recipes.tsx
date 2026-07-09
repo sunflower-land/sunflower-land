@@ -28,6 +28,7 @@ import {
   MAX_COOKING_SLOTS,
 } from "features/game/events/landExpansion/cook";
 import type { CookingBuildingName } from "features/game/types/buildings";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 import { BuildingOilTank } from "./BuildingOilTank";
 import pumpkinSoup from "assets/food/pumpkin_soup.png";
 import powerup from "assets/icons/level_up.png";
@@ -182,7 +183,7 @@ export const Recipes: React.FC<Props> = ({
   const isOilBoosted = buildingCrafting.find(
     (recipe) => recipe.name === selected.name && recipe.boost?.["Oil"],
   );
-  const hasDoubleNom = !!bumpkin.skills["Double Nom"];
+  const doubleNomLevel = getSkillLevel(bumpkin.skills, "Double Nom");
   const isVIP = useVipAccess({ game: state });
   const isQueueFull =
     [...readyRecipes, ...queue].length + (cooking ? 1 : 0) >= availableSlots;
@@ -213,9 +214,15 @@ export const Recipes: React.FC<Props> = ({
               setShowTimeBoosts={setShowTimeBoosts}
               actionView={
                 <>
-                  {hasDoubleNom && (
+                  {doubleNomLevel > 0 && (
                     <Label type="success" icon={powerup}>
-                      {`Double Nom Boost: 2x Food`}
+                      {`Double Nom Boost: +${
+                        SKILL_RANKS["Double Nom"].food[doubleNomLevel - 1]
+                      } Food (${
+                        SKILL_RANKS["Double Nom"].ingredients[
+                          doubleNomLevel - 1
+                        ]
+                      }x Ingredients)`}
                     </Label>
                   )}
                   {cooking && (

@@ -417,6 +417,88 @@ export const getSkillRankDescription = (
           value: SKILL_RANKS["Fishy Feast"].ranks[i] * 100,
         }),
       };
+    case "Fast Feasts":
+      return {
+        buff: t("skill.fastFeasts.ranked", {
+          value: SKILL_RANKS["Fast Feasts"].ranks[i] * 100,
+        }),
+      };
+    case "Frosted Cakes":
+      return {
+        buff: t("skill.frostedCakes.ranked", {
+          value: SKILL_RANKS["Frosted Cakes"].ranks[i] * 100,
+        }),
+      };
+    case "Swift Sizzle":
+      return {
+        buff: t("skill.swiftSizzle.ranked", {
+          value: SKILL_RANKS["Swift Sizzle"].ranks[i] * 100,
+        }),
+      };
+    case "Turbo Fry":
+      return {
+        buff: t("skill.turboFry.ranked", {
+          value: SKILL_RANKS["Turbo Fry"].ranks[i] * 100,
+        }),
+      };
+    case "Fry Frenzy":
+      return {
+        buff: t("skill.fryFrenzy.ranked", {
+          value: SKILL_RANKS["Fry Frenzy"].ranks[i] * 100,
+        }),
+      };
+    case "Munching Mastery":
+      return {
+        buff: t("skill.munchingMastery.ranked", {
+          value: SKILL_RANKS["Munching Mastery"].ranks[i] * 100,
+        }),
+      };
+    case "Juicy Boost":
+      return {
+        buff: t("skill.juicyBoost.ranked", {
+          value: SKILL_RANKS["Juicy Boost"].ranks[i] * 100,
+        }),
+      };
+    case "Drive-Through Deli":
+      return {
+        buff: t("skill.driveThroughDeli.ranked", {
+          value: SKILL_RANKS["Drive-Through Deli"].ranks[i] * 100,
+        }),
+      };
+    case "Nom Nom":
+      return {
+        buff: t("skill.nomNom.ranked", {
+          value: SKILL_RANKS["Nom Nom"].ranks[i] * 100,
+        }),
+      };
+    case "Fiery Jackpot":
+      return {
+        buff: t("skill.fieryJackpot.ranked", {
+          value: SKILL_RANKS["Fiery Jackpot"].ranks[i],
+        }),
+      };
+    case "Instant Gratification":
+      return {
+        buff: t("skill.instantGratification.ranked", {
+          value: millisecondsToString(
+            SKILL_RANKS["Instant Gratification"].ranks[i],
+            {
+              length: "short",
+              isShortFormat: true,
+              removeTrailingZeros: true,
+            },
+          ),
+        }),
+      };
+    case "Double Nom":
+      return {
+        buff: t("skill.doubleNom.buff.ranked", {
+          value: SKILL_RANKS["Double Nom"].food[i],
+        }),
+        debuff: t("skill.doubleNom.debuff.ranked", {
+          value: SKILL_RANKS["Double Nom"].ingredients[i],
+        }),
+      };
     case "Frenzied Fish": {
       const { flat, crit } = SKILL_RANKS["Frenzied Fish"];
       // Rank 3 is a flat catch with no crit chance, so drop the "and X% chance"

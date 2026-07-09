@@ -372,6 +372,46 @@ describe("cook", () => {
     expect(state.inventory["Egg"]).toEqual(new Decimal(0));
   });
 
+  it("requires 3x ingredients with Double Nom rank 2 and stores the rank", () => {
+    const state = cook({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Egg: new Decimal(30),
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Double Nom": 2 },
+        },
+        buildings: {
+          "Fire Pit": [
+            {
+              coordinates: { x: 2, y: 3 },
+              readyAt: 1000,
+              createdAt: 1000,
+              id: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+              oil: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipe.cooked",
+        item: "Boiled Eggs",
+        buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+      },
+      farmId: 1,
+      createdAt,
+    });
+
+    // 10 Egg base x3 (rank 2) = 30 consumed
+    expect(state.inventory["Egg"]).toEqual(new Decimal(0));
+    // The rank cooked at is persisted on the recipe so collect matches
+    expect(
+      state.buildings["Fire Pit"]?.[0].crafting?.[0].skills?.["Double Nom"],
+    ).toEqual(2);
+  });
+
   it("adds another recipe to the building if there is a slot available", () => {
     const state = cook({
       state: {
@@ -1094,6 +1134,32 @@ describe("getReadyAt", () => {
     expect(time).toEqual(60 * 60 * 0.6);
   });
 
+  it("applies a 50% Fire Pit oil boost with Swift Sizzle rank 3", () => {
+    const game: GameState = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...TEST_FARM.bumpkin,
+        skills: { "Swift Sizzle": 3 },
+      },
+      buildings: {
+        "Fire Pit": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: createdAt,
+            id: "1",
+            readyAt: 0,
+            oil: 1,
+          },
+        ],
+      },
+    };
+
+    const time = getCookingOilBoost("Boiled Eggs", game, "1").timeToCook;
+
+    // rank 3 = 50% reduction
+    expect(time).toEqual(60 * 60 * 0.5);
+  });
+
   it("does not apply Swift Sizzle boost on Kitchen", () => {
     const now = createdAt;
 
@@ -1126,6 +1192,27 @@ describe("getReadyAt", () => {
     });
 
     const boost = COOKABLES["Parsnip Cake"].cookingSeconds * 0.1;
+
+    const readyAt =
+      now + (COOKABLES["Parsnip Cake"].cookingSeconds - boost) * 1000;
+
+    expect(time).toEqual(readyAt);
+  });
+
+  it("applies a 30% speed boost on cakes with Frosted Cakes rank 3", () => {
+    const now = createdAt;
+
+    const { createdAt: time } = getReadyAt({
+      buildingId: "123",
+      item: "Parsnip Cake",
+      createdAt: now,
+      game: {
+        ...TEST_FARM,
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Frosted Cakes": 3 } },
+      },
+    });
+
+    const boost = COOKABLES["Parsnip Cake"].cookingSeconds * 0.3;
 
     const readyAt =
       now + (COOKABLES["Parsnip Cake"].cookingSeconds - boost) * 1000;

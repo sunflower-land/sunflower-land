@@ -641,6 +641,59 @@ describe("cancelQueuedRecipe", () => {
     expect(cancelledState.inventory.Tomato).toEqual(new Decimal(25));
     expect(cancelledState.inventory.Kale).toEqual(new Decimal(20));
   });
+
+  it("refunds ingredients at the Double Nom rank stored on the recipe, not the live rank", () => {
+    const now = new Date("2025-01-01").getTime();
+
+    const state: GameState = {
+      ...INITIAL_FARM,
+      inventory: {
+        Egg: new Decimal(0),
+      },
+      bumpkin: {
+        ...INITIAL_FARM.bumpkin,
+        // Live rank is 1, but the queued recipe was cooked at rank 3
+        skills: { "Double Nom": 1 },
+      },
+      buildings: {
+        "Fire Pit": [
+          {
+            id: "1",
+            coordinates: { x: 0, y: 0 },
+            readyAt: 0,
+            createdAt: 0,
+            crafting: [
+              {
+                name: "Boiled Eggs",
+                readyAt: now + 60 * 1000, // currently cooking
+              },
+              {
+                name: "Boiled Eggs",
+                readyAt: now + 120 * 1000, // queued (cancellable)
+                skills: { "Double Nom": 3 },
+              },
+            ],
+          },
+        ],
+      },
+    };
+
+    const queuedItem = state.buildings["Fire Pit"]?.[0]?.crafting?.[1];
+
+    const cancelledState = cancelQueuedRecipe({
+      state,
+      action: {
+        type: "recipe.cancelled",
+        buildingName: "Fire Pit",
+        buildingId: "1",
+        queueItem: queuedItem as BuildingProduct,
+      },
+      createdAt: now,
+    });
+
+    // Boiled Eggs base 10 Egg x4 (Double Nom rank 3 stored on the recipe)
+    expect(cancelledState.inventory.Egg).toEqual(new Decimal(40));
+  });
 });
 
 describe("getCurrentCookingItem", () => {

@@ -1981,6 +1981,45 @@ describe("deliver", () => {
 
     expect(state.coins).toEqual(352);
   });
+  it("gives 50% more revenue on completed food orders with Nom Nom rank 3", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        coins: 0,
+        inventory: {
+          "Sunflower Cake": new Decimal(1),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "betty",
+              items: {
+                "Sunflower Cake": 1,
+              },
+              reward: { coins: 320 },
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Nom Nom": 3,
+          },
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    // 320 x 1.5 (rank 3 = +50%)
+    expect(state.coins).toEqual(480);
+  });
   it("does not give 10% more revenue on completed fish orders with Nom Nom skill", () => {
     const state = deliverOrder({
       state: {

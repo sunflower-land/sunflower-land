@@ -211,6 +211,7 @@ export type SkillRankEffect =
   | { kind: "multiplier"; ranks: readonly [number, number, number] } // multiplier on a collectible's base effect (e.g. 2x/3x/4x)
   | { kind: "dailyLimit"; ranks: readonly [number, number, number] } // flat additions to the daily fishing reel limit
   | { kind: "xpBonus"; ranks: readonly [number, number, number] } // fraction: 0.2 = +20% (e.g. Bumpkin XP from fish)
+  | { kind: "timeReduction"; ranks: readonly [number, number, number] } // fraction 0..1 shaved off a cooking time (0.3 = -30%)
   | { kind: "flatDebuff"; ranks: readonly [number, number, number] } // a debuff magnitude that shrinks with rank (e.g. wood penalty 1/0.5/0)
   | {
       kind: "yieldWithDebuff";
@@ -226,6 +227,11 @@ export type SkillRankEffect =
       kind: "frenziedFish";
       flat: readonly [number, number, number]; // guaranteed extra fish during a frenzy
       crit: readonly [number, number, number]; // percent chance (0..100) of one further bonus fish
+    }
+  | {
+      kind: "doubleNom";
+      food: readonly [number, number, number]; // guaranteed extra food from cooking
+      ingredients: readonly [number, number, number]; // ingredient-cost multiplier debuff (2x/3x/4x)
     };
 
 // Shared AOE footprint progression — Chonky Scarecrow / Horror Mike / Laurie's
@@ -2681,6 +2687,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "timeReduction",
+        ranks: [0.1, 0.2, 0.3],
+      },
+    },
   },
   "Nom Nom": {
     name: "Nom Nom",
@@ -2700,6 +2713,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
     image: nomNom,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "coinBonus",
+        ranks: [0.1, 0.3, 0.5],
+      },
+    },
   },
   "Munching Mastery": {
     name: "Munching Mastery",
@@ -2718,6 +2738,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     image: xpIcon,
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "xpBonus",
+        ranks: [0.05, 0.1, 0.15],
+      },
+    },
   },
   "Swift Sizzle": {
     name: "Swift Sizzle",
@@ -2737,6 +2764,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
     image: swiftSizzle,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "timeReduction",
+        ranks: [0.4, 0.45, 0.5],
+      },
+    },
   },
   // Cooking - Tier 2
   "Frosted Cakes": {
@@ -2756,6 +2790,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "timeReduction",
+        ranks: [0.1, 0.2, 0.3],
+      },
+    },
   },
   "Juicy Boost": {
     name: "Juicy Boost",
@@ -2774,6 +2815,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "xpBonus",
+        ranks: [0.1, 0.2, 0.3],
+      },
+    },
   },
   "Turbo Fry": {
     name: "Turbo Fry",
@@ -2793,6 +2841,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
     image: turboFry,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "timeReduction",
+        ranks: [0.5, 0.55, 0.6],
+      },
+    },
   },
   "Drive-Through Deli": {
     name: "Drive-Through Deli",
@@ -2811,6 +2866,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "xpBonus",
+        ranks: [0.15, 0.2, 0.25],
+      },
+    },
   },
   // Cooking - Tier 3
   "Instant Gratification": {
@@ -2831,6 +2893,14 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     disabled: false,
     power: true,
     image: instantGratification,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "cooldown",
+        // 4 day / 3.5 day / 3 day cooldown
+        ranks: [1000 * 60 * 60 * 96, 1000 * 60 * 60 * 84, 1000 * 60 * 60 * 72],
+      },
+    },
   },
   "Double Nom": {
     name: "Double Nom",
@@ -2854,6 +2924,14 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
     image: doubleNom,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "doubleNom",
+        food: [1, 2, 3],
+        ingredients: [2, 3, 4],
+      },
+    },
   },
   "Fiery Jackpot": {
     name: "Fiery Jackpot",
@@ -2873,6 +2951,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     image: fieryJackpot,
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "chance",
+        ranks: [20, 25, 30],
+      },
+    },
   },
   "Fry Frenzy": {
     name: "Fry Frenzy",
@@ -2892,6 +2977,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
     image: fryFrenzy,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "timeReduction",
+        ranks: [0.6, 0.65, 0.7],
+      },
+    },
   },
 
   // Bees & Flowers - Tier 1
@@ -3954,6 +4046,21 @@ export const SKILL_RANKS = {
   "Frenzied Fish": BUMPKIN_REVAMP_SKILL_TREE["Frenzied Fish"].upgrade.effect,
   "More With Less": BUMPKIN_REVAMP_SKILL_TREE["More With Less"].upgrade.effect,
   "Fishy Feast": BUMPKIN_REVAMP_SKILL_TREE["Fishy Feast"].upgrade.effect,
+  "Fast Feasts": BUMPKIN_REVAMP_SKILL_TREE["Fast Feasts"].upgrade.effect,
+  "Nom Nom": BUMPKIN_REVAMP_SKILL_TREE["Nom Nom"].upgrade.effect,
+  "Munching Mastery":
+    BUMPKIN_REVAMP_SKILL_TREE["Munching Mastery"].upgrade.effect,
+  "Swift Sizzle": BUMPKIN_REVAMP_SKILL_TREE["Swift Sizzle"].upgrade.effect,
+  "Frosted Cakes": BUMPKIN_REVAMP_SKILL_TREE["Frosted Cakes"].upgrade.effect,
+  "Juicy Boost": BUMPKIN_REVAMP_SKILL_TREE["Juicy Boost"].upgrade.effect,
+  "Turbo Fry": BUMPKIN_REVAMP_SKILL_TREE["Turbo Fry"].upgrade.effect,
+  "Drive-Through Deli":
+    BUMPKIN_REVAMP_SKILL_TREE["Drive-Through Deli"].upgrade.effect,
+  "Instant Gratification":
+    BUMPKIN_REVAMP_SKILL_TREE["Instant Gratification"].upgrade.effect,
+  "Double Nom": BUMPKIN_REVAMP_SKILL_TREE["Double Nom"].upgrade.effect,
+  "Fiery Jackpot": BUMPKIN_REVAMP_SKILL_TREE["Fiery Jackpot"].upgrade.effect,
+  "Fry Frenzy": BUMPKIN_REVAMP_SKILL_TREE["Fry Frenzy"].upgrade.effect,
 } satisfies Record<UpgradeableSkillName, SkillRankEffect>;
 
 // Runtime guard co-located with SKILL_RANKS so callers can narrow to an

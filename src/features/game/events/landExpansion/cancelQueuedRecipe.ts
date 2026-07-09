@@ -13,6 +13,7 @@ import {
   getCookingRequirements,
   getOilConsumption,
 } from "./cook";
+import { getRecipeDoubleNomLevel } from "./collectRecipe";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import {
@@ -234,7 +235,8 @@ export function cancelQueuedRecipe({
     const ingredients = getCookingRequirements({
       state,
       item: cookableName,
-      skipDoubleNomBoost: !recipe.skills?.["Double Nom"],
+      // Refund what was actually paid: the Double Nom rank stored on the recipe.
+      doubleNomLevel: getRecipeDoubleNomLevel(recipe),
     });
 
     game.inventory = Object.entries(ingredients).reduce(

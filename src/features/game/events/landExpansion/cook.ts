@@ -20,6 +20,7 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getCookingAmount } from "./collectRecipe";
 import { isCookingBuilding } from "./isCookingBuilding";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import {
   CHAPTER_CROP_WEEK_RECIPE,
@@ -48,13 +49,28 @@ type GetReadyAtArgs = {
 
 export const BUILDING_OIL_BOOSTS: (
   skills: Skills,
-) => Record<CookingBuildingName, number> = (skills) => ({
-  "Fire Pit": skills["Swift Sizzle"] ? 0.4 : 0.2,
-  Kitchen: skills["Turbo Fry"] ? 0.5 : 0.25,
-  "Smoothie Shack": 0.3,
-  Bakery: 0.35,
-  Deli: skills["Fry Frenzy"] ? 0.6 : 0.4,
-});
+) => Record<CookingBuildingName, number> = (skills) => {
+  const swiftSizzleLevel = getSkillLevel(skills, "Swift Sizzle");
+  const turboFryLevel = getSkillLevel(skills, "Turbo Fry");
+  const fryFrenzyLevel = getSkillLevel(skills, "Fry Frenzy");
+
+  return {
+    // Swift Sizzle - 40%/45%/50% Fire Pit oil boost (scales with rank)
+    "Fire Pit": swiftSizzleLevel
+      ? SKILL_RANKS["Swift Sizzle"].ranks[swiftSizzleLevel - 1]
+      : 0.2,
+    // Turbo Fry - 50%/55%/60% Kitchen oil boost (scales with rank)
+    Kitchen: turboFryLevel
+      ? SKILL_RANKS["Turbo Fry"].ranks[turboFryLevel - 1]
+      : 0.25,
+    "Smoothie Shack": 0.3,
+    Bakery: 0.35,
+    // Fry Frenzy - 60%/65%/70% Deli oil boost (scales with rank)
+    Deli: fryFrenzyLevel
+      ? SKILL_RANKS["Fry Frenzy"].ranks[fryFrenzyLevel - 1]
+      : 0.4,
+  };
+};
 
 export function getCookingOilBoost(
   item: CookableName,
@@ -154,26 +170,29 @@ export function getOilConsumption(
 export function getCookingRequirements({
   state,
   item,
-  skipDoubleNomBoost = false,
+  doubleNomLevel,
 }: {
   state: GameState;
   item: CookableName;
-  // Ignored when getting the requirements for a recipe made before the skill was applied
-  skipDoubleNomBoost?: boolean;
+  // Double Nom rank to charge for. Defaults to the bumpkin's current rank (for
+  // a fresh cook / cost preview); cancel passes the rank stored on the recipe so
+  // the refund matches what was actually paid.
+  doubleNomLevel?: number;
 }): Inventory {
   let { ingredients } = COOKABLES[item];
   const { bumpkin } = state;
 
+  const level = doubleNomLevel ?? getSkillLevel(bumpkin.skills, "Double Nom");
+  // Double Nom - 2x/3x/4x ingredients (scales with rank)
+  const multiplier = level
+    ? SKILL_RANKS["Double Nom"].ingredients[level - 1]
+    : 1;
+
   ingredients = Object.entries(ingredients).reduce(
     (inventory, [ingredient, amount]) => {
-      // Double Nom - 2x ingredients
-      if (bumpkin.skills["Double Nom"] && !skipDoubleNomBoost) {
-        amount = amount.mul(2);
-      }
-
       return {
         ...inventory,
-        [ingredient]: amount,
+        [ingredient]: multiplier === 1 ? amount : amount.mul(multiplier),
       };
     },
     ingredients,
@@ -261,7 +280,7 @@ export function cook({
         recipe: {
           name: item,
           boost: {},
-          skills: { "Double Nom": !!bumpkin.skills["Double Nom"] },
+          skills: { "Double Nom": getSkillLevel(bumpkin.skills, "Double Nom") },
           readyAt: createdAt,
         },
         farmId,
@@ -308,7 +327,7 @@ export function cook({
         name: item,
         boost: { Oil: oilConsumed },
         // Marks whether the Double Nom skill was applied at the time of cooking
-        skills: { "Double Nom": !!bumpkin.skills["Double Nom"] },
+        skills: { "Double Nom": getSkillLevel(bumpkin.skills, "Double Nom") },
         readyAt,
       },
     ];
