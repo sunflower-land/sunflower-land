@@ -85,6 +85,52 @@ describe("craftTool", () => {
     expect(state.inventory["Wood"]).toEqual(new Decimal(7));
   });
 
+  it("applies Reel Deal rank 1 (x0.5) to the Rod coin cost", () => {
+    const coins = 100;
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins,
+        inventory: { Wood: new Decimal(10), Stone: new Decimal(10) },
+        bumpkin: {
+          ...TEST_FARM.bumpkin,
+          skills: { "Reel Deal": 1 },
+        },
+      },
+      action: {
+        type: "tool.crafted",
+        tool: "Rod",
+      },
+    });
+
+    // Rod base price is 20; x0.5 => 10.
+    expect(state.coins).toEqual(coins - 10);
+    expect(state.inventory["Rod"]).toEqual(new Decimal(1));
+  });
+
+  it("scales Reel Deal with rank (x0.3 at rank 3)", () => {
+    const coins = 100;
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins,
+        inventory: { Wood: new Decimal(10), Stone: new Decimal(10) },
+        bumpkin: {
+          ...TEST_FARM.bumpkin,
+          skills: { "Reel Deal": 3 },
+        },
+      },
+      action: {
+        type: "tool.crafted",
+        tool: "Rod",
+      },
+    });
+
+    // Rod base price is 20; x0.3 => 6.
+    expect(state.coins).toEqual(coins - 6);
+    expect(state.inventory["Rod"]).toEqual(new Decimal(1));
+  });
+
   it("does not craft a tool that is not in stock", () => {
     expect(() =>
       craftTool({

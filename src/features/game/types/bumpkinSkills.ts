@@ -209,6 +209,8 @@ export type SkillRankEffect =
   | { kind: "aoe"; ranks: readonly [AOEExtent, AOEExtent, AOEExtent] }
   | { kind: "cooldown"; ranks: readonly [number, number, number] } // ms
   | { kind: "multiplier"; ranks: readonly [number, number, number] } // multiplier on a collectible's base effect (e.g. 2x/3x/4x)
+  | { kind: "dailyLimit"; ranks: readonly [number, number, number] } // flat additions to the daily fishing reel limit
+  | { kind: "xpBonus"; ranks: readonly [number, number, number] } // fraction: 0.2 = +20% (e.g. Bumpkin XP from fish)
   | { kind: "flatDebuff"; ranks: readonly [number, number, number] } // a debuff magnitude that shrinks with rank (e.g. wood penalty 1/0.5/0)
   | {
       kind: "yieldWithDebuff";
@@ -219,6 +221,11 @@ export type SkillRankEffect =
       kind: "growthWithDebuff";
       buff: readonly [number, number, number]; // growth-time multiplier for the favoured fruit
       debuff: readonly [number, number, number]; // growth-time multiplier for the other fruit
+    }
+  | {
+      kind: "frenziedFish";
+      flat: readonly [number, number, number]; // guaranteed extra fish during a frenzy
+      crit: readonly [number, number, number]; // percent chance (0..100) of one further bonus fish
     };
 
 // Shared AOE footprint progression — Chonky Scarecrow / Horror Mike / Laurie's
@@ -1373,6 +1380,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "dailyLimit",
+        ranks: [5, 10, 15],
+      },
+    },
   },
   "Fishy Chance": {
     name: "Fishy Chance",
@@ -1392,6 +1406,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
     image: ITEM_DETAILS.Anchovy.image,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "chance",
+        ranks: [10, 15, 20],
+      },
+    },
   },
   "Fishy Roll": {
     name: "Fishy Roll",
@@ -1411,6 +1432,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     image: ITEM_DETAILS["Red Snapper"].image,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "chance",
+        ranks: [10, 15, 20],
+      },
+    },
   },
   "Reel Deal": {
     name: "Reel Deal",
@@ -1430,6 +1458,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     image: reelDeal,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "costMultiplier",
+        ranks: [0.5, 0.4, 0.3],
+      },
+    },
   },
   // Fishing - Tier 2
   "Fisherman's 10 Fold": {
@@ -1450,6 +1485,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
     image: fishermans10fold,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "dailyLimit",
+        ranks: [10, 20, 30],
+      },
+    },
   },
   "Fishy Fortune": {
     name: "Fishy Fortune",
@@ -1469,6 +1511,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
     npc: "corale",
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "coinBonus",
+        ranks: [1, 1.25, 1.5],
+      },
+    },
   },
   "Big Catch": {
     name: "Big Catch",
@@ -1505,6 +1554,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     image: ITEM_DETAILS.Tuna.image,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "chance",
+        ranks: [20, 25, 30],
+      },
+    },
   },
   // Fishing - Tier 3
   "Frenzied Fish": {
@@ -1525,6 +1581,14 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     image: fishFrenzy,
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "frenziedFish",
+        flat: [1, 2, 3],
+        crit: [50, 50, 0],
+      },
+    },
   },
   "More With Less": {
     name: "More With Less",
@@ -1544,6 +1608,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
     image: moreWithLess,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "dailyLimit",
+        ranks: [10, 30, 50],
+      },
+    },
   },
   "Fishy Feast": {
     name: "Fishy Feast",
@@ -1563,6 +1634,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     image: fishyFeast,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "xpBonus",
+        ranks: [0.2, 0.25, 0.3],
+      },
+    },
   },
 
   // Animals - Tier 1
@@ -3864,6 +3942,18 @@ export const SKILL_RANKS = {
     BUMPKIN_REVAMP_SKILL_TREE["Pear Turbocharge"].upgrade.effect,
   "Long Pickings": BUMPKIN_REVAMP_SKILL_TREE["Long Pickings"].upgrade.effect,
   "Short Pickings": BUMPKIN_REVAMP_SKILL_TREE["Short Pickings"].upgrade.effect,
+  "Fisherman's 5 Fold":
+    BUMPKIN_REVAMP_SKILL_TREE["Fisherman's 5 Fold"].upgrade.effect,
+  "Fishy Chance": BUMPKIN_REVAMP_SKILL_TREE["Fishy Chance"].upgrade.effect,
+  "Fishy Roll": BUMPKIN_REVAMP_SKILL_TREE["Fishy Roll"].upgrade.effect,
+  "Reel Deal": BUMPKIN_REVAMP_SKILL_TREE["Reel Deal"].upgrade.effect,
+  "Fisherman's 10 Fold":
+    BUMPKIN_REVAMP_SKILL_TREE["Fisherman's 10 Fold"].upgrade.effect,
+  "Fishy Fortune": BUMPKIN_REVAMP_SKILL_TREE["Fishy Fortune"].upgrade.effect,
+  "Fishy Gamble": BUMPKIN_REVAMP_SKILL_TREE["Fishy Gamble"].upgrade.effect,
+  "Frenzied Fish": BUMPKIN_REVAMP_SKILL_TREE["Frenzied Fish"].upgrade.effect,
+  "More With Less": BUMPKIN_REVAMP_SKILL_TREE["More With Less"].upgrade.effect,
+  "Fishy Feast": BUMPKIN_REVAMP_SKILL_TREE["Fishy Feast"].upgrade.effect,
 } satisfies Record<UpgradeableSkillName, SkillRankEffect>;
 
 // Runtime guard co-located with SKILL_RANKS so callers can narrow to an

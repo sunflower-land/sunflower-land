@@ -288,14 +288,14 @@ export function getOrderSellPrice<T>(
     }
   }
 
-  // Fishy Fortune - 50% Coins bonus if Corale NPC
-  if (
-    game.bumpkin?.skills["Fishy Fortune"] &&
-    order.reward.coins &&
-    order.from === "corale"
-  ) {
-    mul += 1;
-    boostsUsed.push({ name: "Fishy Fortune", value: "+100%" });
+  // Fishy Fortune - +100%/+125%/+150% Coins bonus on Corale deliveries (scales with rank)
+  const fishyFortuneLevel = game.bumpkin
+    ? getSkillLevel(game.bumpkin.skills, "Fishy Fortune")
+    : 0;
+  if (fishyFortuneLevel && order.reward.coins && order.from === "corale") {
+    const b = SKILL_RANKS["Fishy Fortune"].ranks[fishyFortuneLevel - 1];
+    mul += b;
+    boostsUsed.push({ name: "Fishy Fortune", value: `+${b * 100}%` });
   }
 
   // Nom Nom - 10% bonus with food orders

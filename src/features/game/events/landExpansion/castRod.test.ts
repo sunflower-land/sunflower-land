@@ -929,6 +929,54 @@ describe("getDailyFishingLimit", () => {
     expect(limit).toEqual(25);
   });
 
+  it("scales Fisherman's 5 Fold with rank (+15 at rank 3)", () => {
+    const { limit } = getDailyFishingLimit(
+      {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "Fisherman's 5 Fold": 3,
+          },
+        },
+      },
+      Date.now(),
+    );
+    expect(limit).toEqual(35);
+  });
+
+  it("scales Fisherman's 10 Fold with rank (+30 at rank 3)", () => {
+    const { limit } = getDailyFishingLimit(
+      {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "Fisherman's 10 Fold": 3,
+          },
+        },
+      },
+      Date.now(),
+    );
+    expect(limit).toEqual(50);
+  });
+
+  it("scales More With Less with rank (+50 at rank 3)", () => {
+    const { limit } = getDailyFishingLimit(
+      {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "More With Less": 3,
+          },
+        },
+      },
+      Date.now(),
+    );
+    expect(limit).toEqual(70);
+  });
+
   it("increases fishing limit by 5 with Reelmaster's Chair", () => {
     const { limit } = getDailyFishingLimit(
       {

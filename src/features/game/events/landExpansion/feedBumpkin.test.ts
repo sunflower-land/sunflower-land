@@ -342,6 +342,58 @@ describe("feedBumpkin", () => {
     );
   });
 
+  it("provides 20% more experience for Fish with Fishy Feast (rank 1)", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Fishy Feast": 1,
+          },
+        },
+        inventory: {
+          Anchovy: new Decimal(1),
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Anchovy",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      CONSUMABLES["Anchovy"].experience * 1.2,
+    );
+  });
+
+  it("scales Fishy Feast with rank (+30% experience at rank 3)", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Fishy Feast": 3,
+          },
+        },
+        inventory: {
+          Anchovy: new Decimal(1),
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Anchovy",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      CONSUMABLES["Anchovy"].experience * 1.3,
+    );
+  });
+
   it("provides 20% more experience for Fish food with Skill Shrimpy", () => {
     const result = feedBumpkin({
       state: {

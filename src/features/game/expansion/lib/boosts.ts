@@ -369,9 +369,13 @@ export const getFoodExpBoost = ({
     boostsUsed.push({ name: "Skill Shrimpy", value: "x1.2" });
   }
 
-  if (food.name in FISH_CONSUMABLES && !!skills["Fishy Feast"]) {
-    boostedExp = boostedExp.mul(1.2);
-    boostsUsed.push({ name: "Fishy Feast", value: "x1.2" });
+  // Fishy Feast: +20%/+25%/+30% Bumpkin XP from fish (scales with rank)
+  const fishyFeastLevel = getSkillLevel(skills, "Fishy Feast");
+  if (food.name in FISH_CONSUMABLES && fishyFeastLevel) {
+    const multiplier =
+      1 + SKILL_RANKS["Fishy Feast"].ranks[fishyFeastLevel - 1];
+    boostedExp = boostedExp.mul(multiplier);
+    boostsUsed.push({ name: "Fishy Feast", value: `x${multiplier}` });
   }
 
   if (hasVipAccess({ game, now: createdAt })) {

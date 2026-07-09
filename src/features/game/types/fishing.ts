@@ -14,6 +14,7 @@ import type { ChapterName } from "./chapters";
 import { getCurrentChapter } from "./chapters";
 import { hasVipAccess } from "../lib/vipAccess";
 import type { CrustaceanChum } from "./crustaceans";
+import { getSkillLevel, SKILL_RANKS } from "./bumpkinSkills";
 
 export type PurchaseableBait = "Fishing Lure";
 export type GuaranteedBait =
@@ -794,22 +795,32 @@ export function getDailyFishingLimit(
     boostsUsed.push({ name: "Deep Sea Slug", value: "+5" });
   }
 
-  // +5 daily limit if player had Fisherman's 5 Fold skill
-  if (game.bumpkin?.skills["Fisherman's 5 Fold"]) {
-    limit += 5;
-    boostsUsed.push({ name: "Fisherman's 5 Fold", value: "+5" });
+  const skills = game.bumpkin?.skills ?? {};
+
+  // +5/+10/+15 daily limit per rank if player has Fisherman's 5 Fold skill
+  const fishermansFiveFoldLevel = getSkillLevel(skills, "Fisherman's 5 Fold");
+  if (fishermansFiveFoldLevel) {
+    const bonus =
+      SKILL_RANKS["Fisherman's 5 Fold"].ranks[fishermansFiveFoldLevel - 1];
+    limit += bonus;
+    boostsUsed.push({ name: "Fisherman's 5 Fold", value: `+${bonus}` });
   }
 
-  // +10 daily limit if player had Fisherman's 10 Fold skill
-  if (game.bumpkin?.skills["Fisherman's 10 Fold"]) {
-    limit += 10;
-    boostsUsed.push({ name: "Fisherman's 10 Fold", value: "+10" });
+  // +10/+20/+30 daily limit per rank if player has Fisherman's 10 Fold skill
+  const fishermansTenFoldLevel = getSkillLevel(skills, "Fisherman's 10 Fold");
+  if (fishermansTenFoldLevel) {
+    const bonus =
+      SKILL_RANKS["Fisherman's 10 Fold"].ranks[fishermansTenFoldLevel - 1];
+    limit += bonus;
+    boostsUsed.push({ name: "Fisherman's 10 Fold", value: `+${bonus}` });
   }
 
-  // +10 daily limit if player has the More With Less skill
-  if (game.bumpkin?.skills["More With Less"]) {
-    limit += 10;
-    boostsUsed.push({ name: "More With Less", value: "+10" });
+  // +10/+30/+50 daily limit per rank if player has the More With Less skill
+  const moreWithLessLevel = getSkillLevel(skills, "More With Less");
+  if (moreWithLessLevel) {
+    const bonus = SKILL_RANKS["More With Less"].ranks[moreWithLessLevel - 1];
+    limit += bonus;
+    boostsUsed.push({ name: "More With Less", value: `+${bonus}` });
   }
 
   // +5 daily limit if player has Saw Fish

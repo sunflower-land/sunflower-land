@@ -77,9 +77,10 @@ export function getToolPrice(
       price * SKILL_RANKS["Feller's Discount"].ranks[fellersDiscountLevel - 1];
   }
 
-  // Reel Deal: 50% off fishing rods
-  if (bumpkin.skills["Reel Deal"] && name === "Rod") {
-    price *= 0.5;
+  // Reel Deal: rod coin cost multiplier x0.5/x0.4/x0.3 (scales with rank)
+  const reelDealLevel = getSkillLevel(bumpkin.skills, "Reel Deal");
+  if (reelDealLevel && name === "Rod") {
+    price = price * SKILL_RANKS["Reel Deal"].ranks[reelDealLevel - 1];
   }
 
   // Artist's Discount Skill: 10% off

@@ -363,5 +363,75 @@ export const getSkillRankDescription = (
             10,
         }),
       };
+    case "Fisherman's 5 Fold":
+      return {
+        buff: t("skill.fishermansFiveFold.ranked", {
+          value: SKILL_RANKS["Fisherman's 5 Fold"].ranks[i],
+        }),
+      };
+    case "Fisherman's 10 Fold":
+      return {
+        buff: t("skill.fishermansTenFold.ranked", {
+          value: SKILL_RANKS["Fisherman's 10 Fold"].ranks[i],
+        }),
+      };
+    case "More With Less":
+      return {
+        buff: t("skill.moreWithLess.buff.ranked", {
+          value: SKILL_RANKS["More With Less"].ranks[i],
+        }),
+      };
+    case "Fishy Chance":
+      return {
+        buff: t("skill.fishyChance.ranked", {
+          value: SKILL_RANKS["Fishy Chance"].ranks[i],
+        }),
+      };
+    case "Fishy Roll":
+      return {
+        buff: t("skill.fishyRoll.ranked", {
+          value: SKILL_RANKS["Fishy Roll"].ranks[i],
+        }),
+      };
+    case "Fishy Gamble":
+      return {
+        buff: t("skill.fishyGamble.ranked", {
+          value: SKILL_RANKS["Fishy Gamble"].ranks[i],
+        }),
+      };
+    case "Reel Deal":
+      return {
+        buff: t("skill.reelDeal.ranked", {
+          value: SKILL_RANKS["Reel Deal"].ranks[i],
+        }),
+      };
+    case "Fishy Fortune":
+      return {
+        buff: t("skill.fishyFortune.ranked", {
+          value: SKILL_RANKS["Fishy Fortune"].ranks[i] * 100,
+        }),
+      };
+    case "Fishy Feast":
+      return {
+        buff: t("skill.fishyFeast.ranked", {
+          value: SKILL_RANKS["Fishy Feast"].ranks[i] * 100,
+        }),
+      };
+    case "Frenzied Fish": {
+      const { flat, crit } = SKILL_RANKS["Frenzied Fish"];
+      // Rank 3 is a flat catch with no crit chance, so drop the "and X% chance"
+      // clause.
+      return {
+        buff:
+          crit[i] > 0
+            ? t("skill.frenziedFish.ranked", {
+                fish: flat[i],
+                chance: crit[i],
+              })
+            : t("skill.frenziedFish.flat.ranked", {
+                fish: flat[i],
+              }),
+      };
+    }
   }
 };

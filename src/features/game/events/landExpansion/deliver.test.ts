@@ -1904,6 +1904,45 @@ describe("deliver", () => {
     expect(state.coins).toEqual(640);
   });
 
+  it("scales Fishy Fortune with rank (+150% coins at rank 3)", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        coins: 0,
+        inventory: {
+          "Sunflower Cake": new Decimal(1),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "corale",
+              items: {
+                "Sunflower Cake": 1,
+              },
+              reward: { coins: 320 },
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Fishy Fortune": 3,
+          },
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.coins).toEqual(800);
+  });
+
   it("gives 10% more revenue on completed food orders with Nom Nom skill", () => {
     const state = deliverOrder({
       state: {
