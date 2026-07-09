@@ -8661,7 +8661,7 @@
   "description.worldMapRug": "一张将每片咸水海洋都编织其中的做旧地图地毯。X 标记的就是这块地板。",
   "description.rippedSaltBag": "有人搬运它时用力过猛。盐还在从裂口处源源不断地漏出来。",
   "fishing.shrimpOnesie.singleReel": "下次抛竿时 +1 条随机鱼类",
-  "fishing.shrimpOnesie.bulkReel": "在本次抛竿的第 {{reels}} 次中，获得 +1 条随机鱼类",
+  "fishing.shrimpOnesie.bulkReel": "在本次抛竿时，有 {{reels}} 次将获得 +1 条随机鱼类",
   "fishing.shrimpOnesie.bonus": "小虾连体衣 +{{amount}}",
   "description.shrimpOnesie.boost": "每抛竿 15 次，额外获得 1 条随机鱼类",
   "description.clamShellHat": "顶在头顶上的抛光大蚌壳。",
