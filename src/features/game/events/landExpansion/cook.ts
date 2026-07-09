@@ -171,6 +171,7 @@ export function getCookingRequirements({
   state,
   item,
   doubleNomLevel,
+  skipDoubleNom = false,
 }: {
   state: GameState;
   item: CookableName;
@@ -178,11 +179,16 @@ export function getCookingRequirements({
   // a fresh cook / cost preview); cancel passes the rank stored on the recipe so
   // the refund matches what was actually paid.
   doubleNomLevel?: number;
+  // Force the base (un-doubled) requirements regardless of rank — used when
+  // pricing a recipe made before the skill was applied.
+  skipDoubleNom?: boolean;
 }): Inventory {
   let { ingredients } = COOKABLES[item];
   const { bumpkin } = state;
 
-  const level = doubleNomLevel ?? getSkillLevel(bumpkin.skills, "Double Nom");
+  const level = skipDoubleNom
+    ? 0
+    : (doubleNomLevel ?? getSkillLevel(bumpkin.skills, "Double Nom"));
   // Double Nom - 2x/3x/4x ingredients (scales with rank)
   const multiplier = level
     ? SKILL_RANKS["Double Nom"].ingredients[level - 1]
