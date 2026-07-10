@@ -1,6 +1,5 @@
 import { useContext, useEffect } from "react";
 import { Context } from "../GameProvider";
-import { useSound } from "lib/utils/hooks/useSound";
 
 interface DailyResetActions {
   triggerReset: () => void;
@@ -8,13 +7,11 @@ interface DailyResetActions {
 
 const useDailyResetActions = (): DailyResetActions => {
   const { gameService } = useContext(Context);
-  const { play } = useSound("morning_rooster");
 
   return {
     triggerReset: () => {
-      gameService.send("daily.reset");
-      gameService.send("SAVE");
-      play();
+      // The rooster crow is played by DailyResetModal when the state is entered
+      gameService.send("DAILY_RESET");
     },
   };
 };
