@@ -239,14 +239,10 @@ export function cancelQueuedRecipe({
       doubleNomLevel: getRecipeDoubleNomLevel(recipe),
     });
 
-    game.inventory = getObjectEntries(ingredients).reduce(
-      (inventory, [ingredient, amount]) => {
-        const count = inventory[ingredient] ?? new Decimal(0);
-        inventory[ingredient] = count.add(amount ?? 0);
-        return { ...inventory };
-      },
-      game.inventory,
-    );
+    getObjectEntries(ingredients).forEach(([ingredient, amount]) => {
+      const count = game.inventory[ingredient] ?? new Decimal(0);
+      game.inventory[ingredient] = count.add(amount ?? 0);
+    });
 
     if (recipe.boost?.Oil) {
       building.oil = (building.oil ?? 0) + recipe.boost.Oil;
