@@ -72,10 +72,18 @@ export const getSkillRankDescription = (
       };
     case "Chonky Scarecrow": {
       const { depth } = SKILL_RANKS["Chonky Scarecrow"].ranks[i];
+      const bonus = SKILL_RANKS["Chonky Scarecrow"].aoeYield[i];
+      // Rank 1 grants AOE only (no yield), so drop the yield clause.
       return {
-        buff: t("skill.chonkyScarecrow.ranked", {
-          size: `${depth}x${depth}`,
-        }),
+        buff:
+          bonus > 0
+            ? t("skill.chonkyScarecrow.ranked.yield", {
+                size: `${depth}x${depth}`,
+                value: bonus,
+              })
+            : t("skill.chonkyScarecrow.ranked", {
+                size: `${depth}x${depth}`,
+              }),
       };
     }
     case "Horror Mike": {
@@ -83,6 +91,7 @@ export const getSkillRankDescription = (
       return {
         buff: t("skill.horrorMike.ranked", {
           size: `${depth}x${depth}`,
+          value: SKILL_RANKS["Horror Mike"].aoeYield[i],
         }),
       };
     }
@@ -91,6 +100,7 @@ export const getSkillRankDescription = (
       return {
         buff: t("skill.lauriesGains.ranked", {
           size: `${depth}x${depth}`,
+          value: SKILL_RANKS["Laurie's Gains"].aoeYield[i],
         }),
       };
     }

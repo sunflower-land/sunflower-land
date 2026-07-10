@@ -573,13 +573,80 @@ export function getCropYieldAmount({
       if (canUseAoe) {
         setAOELastUsed(updatedAoe, "Scary Mike", { dx, dy }, createdAt);
 
-        if (game.bumpkin.skills["Horror Mike"]) {
-          amount = amount + 0.3;
-          boostsUsed.push({ name: "Horror Mike", value: "+0.3" });
+        const horrorMikeLevel = getSkillLevel(skills, "Horror Mike");
+        if (horrorMikeLevel) {
+          // Base Scary Mike +0.2 plus the skill's marginal bonus, rounded to
+          // avoid float drift (0.2 + 0.1 = 0.30000000000000004).
+          const total =
+            Math.round(
+              (0.2 + SKILL_RANKS["Horror Mike"].aoeYield[horrorMikeLevel - 1]) *
+                100,
+            ) / 100;
+          amount = amount + total;
+          boostsUsed.push({ name: "Horror Mike", value: `+${total}` });
         } else {
           amount = amount + 0.2;
           boostsUsed.push({ name: "Scary Mike", value: "+0.2" });
         }
+      }
+    }
+  }
+
+  // Chonky Scarecrow: adds a rank-scaled yield to basic crops inside the Basic
+  // Scarecrow AOE. This is net-new (the collectible itself only reduces growth
+  // time), and rank 1 grants no yield, so we skip when the bonus is 0. Uses a
+  // dedicated "Chonky Scarecrow" cooldown slot so it never clobbers the Basic
+  // Scarecrow growth-time AOE's slot.
+  const chonkyScarecrowLevel = getSkillLevel(skills, "Chonky Scarecrow");
+  if (
+    chonkyScarecrowLevel &&
+    SKILL_RANKS["Chonky Scarecrow"].aoeYield[chonkyScarecrowLevel - 1] > 0 &&
+    isCollectibleOnFarm({ name: "Basic Scarecrow", game }) &&
+    isPlotCrop(crop) &&
+    isBasicCrop(crop) &&
+    plot &&
+    plot.x !== undefined &&
+    plot.y !== undefined
+  ) {
+    const coordinates = game.collectibles["Basic Scarecrow"]![0].coordinates!;
+
+    const plotPosition = {
+      x: plot.x,
+      y: plot.y,
+      ...RESOURCE_DIMENSIONS["Crop Plot"],
+    };
+
+    const basicScarecrowPosition = {
+      ...COLLECTIBLES_DIMENSIONS["Basic Scarecrow"],
+      ...coordinates,
+    };
+
+    if (
+      isWithinAOE(
+        "Basic Scarecrow",
+        basicScarecrowPosition,
+        plotPosition,
+        skills,
+      )
+    ) {
+      const dx = plot.x - coordinates.x;
+      const dy = plot.y - coordinates.y;
+
+      const canUseAoe = canUseYieldBoostAOE(
+        updatedAoe,
+        "Chonky Scarecrow",
+        { dx, dy },
+        getCropGrowDurationMs(crop, plot?.crop, game, plot?.fertiliser),
+        createdAt,
+      );
+
+      if (canUseAoe) {
+        setAOELastUsed(updatedAoe, "Chonky Scarecrow", { dx, dy }, createdAt);
+
+        const bonus =
+          SKILL_RANKS["Chonky Scarecrow"].aoeYield[chonkyScarecrowLevel - 1];
+        amount = amount + bonus;
+        boostsUsed.push({ name: "Chonky Scarecrow", value: `+${bonus}` });
       }
     }
   }
@@ -675,9 +742,18 @@ export function getCropYieldAmount({
           { dx, dy },
           createdAt,
         );
-        if (game.bumpkin.skills["Laurie's Gains"]) {
-          amount = amount + 0.3;
-          boostsUsed.push({ name: "Laurie's Gains", value: "+0.3" });
+        const lauriesGainsLevel = getSkillLevel(skills, "Laurie's Gains");
+        if (lauriesGainsLevel) {
+          // Base Laurie +0.2 plus the skill's marginal bonus, rounded to avoid
+          // float drift (0.2 + 0.1 = 0.30000000000000004).
+          const total =
+            Math.round(
+              (0.2 +
+                SKILL_RANKS["Laurie's Gains"].aoeYield[lauriesGainsLevel - 1]) *
+                100,
+            ) / 100;
+          amount = amount + total;
+          boostsUsed.push({ name: "Laurie's Gains", value: `+${total}` });
         } else {
           amount = amount + 0.2;
           boostsUsed.push({ name: "Laurie the Chuckle Crow", value: "+0.2" });

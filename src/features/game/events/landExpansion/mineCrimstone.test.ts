@@ -270,12 +270,12 @@ describe("mineCrimstone", () => {
     expect(crimstoneOnFifthMine({ "Fire Kissed": 1 })).toEqual(4);
   });
 
-  it("adds +1.25 Crimstone with Fire Kissed rank 2 on the 5th mine", () => {
-    expect(crimstoneOnFifthMine({ "Fire Kissed": 2 })).toEqual(4.25);
+  it("adds +1.35 Crimstone with Fire Kissed rank 2 on the 5th mine", () => {
+    expect(crimstoneOnFifthMine({ "Fire Kissed": 2 })).toEqual(4.35);
   });
 
-  it("adds +1.5 Crimstone with Fire Kissed rank 3 on the 5th mine", () => {
-    expect(crimstoneOnFifthMine({ "Fire Kissed": 3 })).toEqual(4.5);
+  it("adds +1.75 Crimstone with Fire Kissed rank 3 on the 5th mine", () => {
+    expect(crimstoneOnFifthMine({ "Fire Kissed": 3 })).toEqual(4.75);
   });
 
   it("does not apply Fire Kissed before the 5th mine", () => {
@@ -561,7 +561,7 @@ describe("mineCrimstone — SPEED_BOOSTS speed windows", () => {
     expect(game.crimstones[0].stone.baseDurationMs).toEqual(BASE_MS * 0.85);
   });
 
-  it("folds a rank 2 Fireside Alchemist boost (x0.8) into baseDurationMs", () => {
+  it("folds a rank 2 Fireside Alchemist boost (x0.75) into baseDurationMs", () => {
     const game = mineFirstCrimstone({
       ...baseState,
       bumpkin: {
@@ -570,10 +570,10 @@ describe("mineCrimstone — SPEED_BOOSTS speed windows", () => {
       },
     });
 
-    expect(game.crimstones[0].stone.baseDurationMs).toEqual(BASE_MS * 0.8);
+    expect(game.crimstones[0].stone.baseDurationMs).toEqual(BASE_MS * 0.75);
   });
 
-  it("folds a rank 3 Fireside Alchemist boost (x0.75) into baseDurationMs", () => {
+  it("folds a rank 3 Fireside Alchemist boost (x0.6) into baseDurationMs", () => {
     const game = mineFirstCrimstone({
       ...baseState,
       bumpkin: {
@@ -582,7 +582,7 @@ describe("mineCrimstone — SPEED_BOOSTS speed windows", () => {
       },
     });
 
-    expect(game.crimstones[0].stone.baseDurationMs).toEqual(BASE_MS * 0.75);
+    expect(game.crimstones[0].stone.baseDurationMs).toEqual(BASE_MS * 0.6);
   });
 
   it("excludes a temporary Mole Shrine from baseDurationMs (applied as a window)", () => {

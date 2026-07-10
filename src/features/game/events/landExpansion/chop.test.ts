@@ -1903,12 +1903,12 @@ describe("chop — Trees skill rank upgrades", () => {
         tree: undefined,
       }).amount.toNumber();
 
-    it("adds +0.2 wood at rank 2", () => {
-      expect(woodAtRank(2, findNonNativeCounter())).toEqual(1.2);
+    it("adds +0.15 wood at rank 2", () => {
+      expect(woodAtRank(2, findNonNativeCounter())).toEqual(1.15);
     });
 
-    it("adds +0.3 wood at rank 3", () => {
-      expect(woodAtRank(3, findNonNativeCounter())).toEqual(1.3);
+    it("adds +0.2 wood at rank 3", () => {
+      expect(woodAtRank(3, findNonNativeCounter())).toEqual(1.2);
     });
   });
 
@@ -1921,17 +1921,17 @@ describe("chop — Trees skill rank upgrades", () => {
         },
       }).recoveryTimeMs;
 
-    it("recovers at base × 0.85 at rank 2", () => {
-      expect(recoveryAtRank(2)).toEqual(TREE_RECOVERY_TIME * 0.85 * 1000);
+    it("recovers at base × 0.875 at rank 2", () => {
+      expect(recoveryAtRank(2)).toEqual(TREE_RECOVERY_TIME * 0.875 * 1000);
     });
 
-    it("recovers at base × 0.80 at rank 3", () => {
-      expect(recoveryAtRank(3)).toEqual(TREE_RECOVERY_TIME * 0.8 * 1000);
+    it("recovers at base × 0.85 at rank 3", () => {
+      expect(recoveryAtRank(3)).toEqual(TREE_RECOVERY_TIME * 0.85 * 1000);
     });
   });
 
   describe("Tough Tree — triple-wood proc rate per rank", () => {
-    // rank1 = 10%, rank2 = 15%, rank3 = 20%. Magnitude is a fixed ×3.
+    // rank1 = 10%, rank2 = 20%, rank3 = 30%. Magnitude is a fixed ×3.
     const woodAtRank = (rank: number, counter: number) =>
       getWoodDropAmount({
         game: {
@@ -1958,7 +1958,7 @@ describe("chop — Trees skill rank upgrades", () => {
           farmId,
           itemId,
           counter,
-          chance: 15,
+          chance: 20,
           criticalHitName: "Tough Tree",
         });
         // Exclude Native (+1 wood) so the assertion is clean.
@@ -1991,14 +1991,14 @@ describe("chop — Trees skill rank upgrades", () => {
           farmId,
           itemId,
           counter,
-          chance: 15,
+          chance: 20,
           criticalHitName: "Tough Tree",
         });
         const procsAtRank3 = prngChance({
           farmId,
           itemId,
           counter,
-          chance: 20,
+          chance: 30,
           criticalHitName: "Tough Tree",
         });
         const nativeProcs = prngChance({
@@ -2024,8 +2024,8 @@ describe("chop — Trees skill rank upgrades", () => {
     });
 
     it("keeps the ×3 magnitude fixed across ranks (only the proc rate scales)", () => {
-      // A counter that procs at the LOWEST chance (10%) also procs at 15% and
-      // 20% (the threshold is monotone), so the triple applies at every rank.
+      // A counter that procs at the LOWEST chance (10%) also procs at 20% and
+      // 30% (the threshold is monotone), so the triple applies at every rank.
       let counterAllRanks = -1;
       for (let counter = 0; counter < SEARCH_RANGE; counter++) {
         const procsAtRank1 = prngChance({
@@ -2162,7 +2162,7 @@ describe("chop — Trees skill rank upgrades", () => {
   });
 
   describe("Tree Turnaround — instant-recovery proc rate per rank", () => {
-    // rank1 = 15%, rank2 = 20%, rank3 = 25%. Magnitude is a fixed instant
+    // rank1 = 15%, rank2 = 25%, rank3 = 40%. Magnitude is a fixed instant
     // recovery (recoveryTimeMs = 0); otherwise the base recovery applies.
     const recoveryAtRank = (rank: number, counter: number) =>
       getTreeRecoveryTimeForDisplay({
@@ -2187,7 +2187,7 @@ describe("chop — Trees skill rank upgrades", () => {
           farmId,
           itemId,
           counter,
-          chance: 20,
+          chance: 25,
           criticalHitName: "Tree Turnaround",
         });
         if (procsAtRank2 && !procsAtRank1) {
@@ -2212,14 +2212,14 @@ describe("chop — Trees skill rank upgrades", () => {
           farmId,
           itemId,
           counter,
-          chance: 20,
+          chance: 25,
           criticalHitName: "Tree Turnaround",
         });
         const procsAtRank3 = prngChance({
           farmId,
           itemId,
           counter,
-          chance: 25,
+          chance: 40,
           criticalHitName: "Tree Turnaround",
         });
         if (procsAtRank3 && !procsAtRank2) {

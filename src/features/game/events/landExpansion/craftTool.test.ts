@@ -108,7 +108,7 @@ describe("craftTool", () => {
     expect(state.inventory["Rod"]).toEqual(new Decimal(1));
   });
 
-  it("scales Reel Deal with rank (x0.3 at rank 3)", () => {
+  it("scales Reel Deal with rank (x0.4 at rank 3)", () => {
     const coins = 100;
     const state = craftTool({
       state: {
@@ -126,8 +126,8 @@ describe("craftTool", () => {
       },
     });
 
-    // Rod base price is 20; x0.3 => 6.
-    expect(state.coins).toEqual(coins - 6);
+    // Rod base price is 20; x0.4 => 8.
+    expect(state.coins).toEqual(coins - 8);
     expect(state.inventory["Rod"]).toEqual(new Decimal(1));
   });
 

@@ -634,27 +634,27 @@ describe("mineIron", () => {
     return game.inventory.Iron;
   };
 
-  it("adds +0.2 iron with Iron Bumpkin at rank 2", () => {
+  it("adds +0.15 iron with Iron Bumpkin at rank 2", () => {
     expect(ironAmountWithSkills({ "Iron Bumpkin": 2 })).toEqual(
+      new Decimal(1.15),
+    );
+  });
+
+  it("adds +0.2 iron with Iron Bumpkin at rank 3", () => {
+    expect(ironAmountWithSkills({ "Iron Bumpkin": 3 })).toEqual(
       new Decimal(1.2),
     );
   });
 
-  it("adds +0.3 iron with Iron Bumpkin at rank 3", () => {
-    expect(ironAmountWithSkills({ "Iron Bumpkin": 3 })).toEqual(
-      new Decimal(1.3),
-    );
-  });
-
-  it("adds +1.25 iron with Ferrous Favor at rank 2", () => {
+  it("adds +1.5 iron with Ferrous Favor at rank 2", () => {
     expect(ironAmountWithSkills({ "Ferrous Favor": 2 })).toEqual(
-      new Decimal(2.25),
+      new Decimal(2.5),
     );
   });
 
-  it("adds +1.5 iron with Ferrous Favor at rank 3", () => {
+  it("adds +2 iron with Ferrous Favor at rank 3", () => {
     expect(ironAmountWithSkills({ "Ferrous Favor": 3 })).toEqual(
-      new Decimal(2.5),
+      new Decimal(3),
     );
   });
 

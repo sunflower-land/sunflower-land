@@ -1177,20 +1177,20 @@ describe("mineStone", () => {
       }).amount.toNumber();
     };
 
-    it("applies +0.2 Stone with Rock'N'Roll at rank 2", () => {
-      expect(stoneAmountWithSkills({ "Rock'N'Roll": 2 })).toEqual(1.2);
+    it("applies +0.15 Stone with Rock'N'Roll at rank 2", () => {
+      expect(stoneAmountWithSkills({ "Rock'N'Roll": 2 })).toEqual(1.15);
     });
 
-    it("applies +0.3 Stone with Rock'N'Roll at rank 3", () => {
-      expect(stoneAmountWithSkills({ "Rock'N'Roll": 3 })).toEqual(1.3);
+    it("applies +0.2 Stone with Rock'N'Roll at rank 3", () => {
+      expect(stoneAmountWithSkills({ "Rock'N'Roll": 3 })).toEqual(1.2);
     });
 
-    it("applies +1.25 Stone with Rocky Favor at rank 2", () => {
-      expect(stoneAmountWithSkills({ "Rocky Favor": 2 })).toEqual(2.25);
+    it("applies +1.4 Stone with Rocky Favor at rank 2", () => {
+      expect(stoneAmountWithSkills({ "Rocky Favor": 2 })).toEqual(2.4);
     });
 
-    it("applies +1.5 Stone with Rocky Favor at rank 3", () => {
-      expect(stoneAmountWithSkills({ "Rocky Favor": 3 })).toEqual(2.5);
+    it("applies +1.8 Stone with Rocky Favor at rank 3", () => {
+      expect(stoneAmountWithSkills({ "Rocky Favor": 3 })).toEqual(2.8);
     });
 
     it("applies -0.6 Stone with Ferrous Favor at rank 2", () => {

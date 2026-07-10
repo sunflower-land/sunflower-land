@@ -886,6 +886,11 @@ export function detectCollision({
 
 export type AOEItemName =
   | "Basic Scarecrow"
+  // Dedicated cooldown-tracking slot for the Chonky Scarecrow yield boost.
+  // Kept separate from "Basic Scarecrow" (whose slot stores the growth-time
+  // AOE's next-available timestamp) so the two mechanics don't clobber each
+  // other. Never passed to isWithinAOE — only used as a game.aoe key.
+  | "Chonky Scarecrow"
   | "Emerald Turtle"
   | "Tin Turtle"
   | "Sir Goldensnout"

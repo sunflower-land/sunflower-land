@@ -368,7 +368,7 @@ describe("feedBumpkin", () => {
     );
   });
 
-  it("scales Fishy Feast with rank (+30% experience at rank 3)", () => {
+  it("scales Fishy Feast with rank (+40% experience at rank 3)", () => {
     const result = feedBumpkin({
       state: {
         ...TEST_FARM,
@@ -390,7 +390,7 @@ describe("feedBumpkin", () => {
     });
 
     expect(result.bumpkin?.experience).toBe(
-      CONSUMABLES["Anchovy"].experience * 1.3,
+      CONSUMABLES["Anchovy"].experience * 1.4,
     );
   });
 
@@ -765,7 +765,7 @@ describe("feedBumpkin", () => {
     );
   });
 
-  it("gives 15% more experience with Munching Mastery rank 3", () => {
+  it("gives 10% more experience with Munching Mastery rank 3", () => {
     const result = feedBumpkin({
       state: {
         ...TEST_FARM,
@@ -785,7 +785,7 @@ describe("feedBumpkin", () => {
     });
 
     expect(result.bumpkin?.experience).toBe(
-      new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.15).toNumber(),
+      new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.1).toNumber(),
     );
   });
 

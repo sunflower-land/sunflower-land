@@ -375,8 +375,8 @@ describe("seedBought", () => {
 
   it.each([
     [1, 0.9],
-    [2, 0.8],
-    [3, 0.7],
+    [2, 0.85],
+    [3, 0.8],
   ])(
     "discounts fruit seed cost with Fruity Heaven skill at rank %i",
     (rank, multiplier) => {

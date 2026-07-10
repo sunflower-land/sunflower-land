@@ -206,7 +206,15 @@ export type SkillRankEffect =
       kind: "stockBonus";
       ranks: Partial<Record<StockBoostName, readonly [number, number, number]>>;
     } // per-item flat stock add (e.g. axe/pickaxe/seed stock)
-  | { kind: "aoe"; ranks: readonly [AOEExtent, AOEExtent, AOEExtent] }
+  | {
+      kind: "aoe";
+      ranks: readonly [AOEExtent, AOEExtent, AOEExtent];
+      // Marginal crop yield the skill adds for a plot inside its AOE, per rank
+      // (matches the sheet's "+0.1 …" wording). For Horror Mike / Laurie's Gains
+      // this stacks on the base collectible's +0.2; for Chonky Scarecrow it is a
+      // net-new bonus (0 at rank 1, so no yield is applied).
+      aoeYield: readonly [number, number, number];
+    }
   | { kind: "cooldown"; ranks: readonly [number, number, number] } // ms
   | { kind: "multiplier"; ranks: readonly [number, number, number] } // multiplier on a collectible's base effect (e.g. 2x/3x/4x)
   | { kind: "dailyLimit"; ranks: readonly [number, number, number] } // flat additions to the daily fishing reel limit
@@ -490,7 +498,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     tree: "Crops",
     upgrade: {
       maxLevel: 3,
-      effect: { kind: "growthMultiplier", ranks: [0.95, 0.925, 0.9] },
+      effect: { kind: "growthMultiplier", ranks: [0.95, 0.94, 0.925] },
     },
     requirements: {
       points: 1,
@@ -512,7 +520,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     tree: "Crops",
     upgrade: {
       maxLevel: 3,
-      effect: { kind: "additiveYield", ranks: [0.1, 0.15, 0.2] },
+      effect: { kind: "additiveYield", ranks: [0.1, 0.125, 0.15] },
     },
     requirements: {
       points: 1,
@@ -534,7 +542,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     tree: "Crops",
     upgrade: {
       maxLevel: 3,
-      effect: { kind: "additiveYield", ranks: [0.1, 0.15, 0.2] },
+      effect: { kind: "additiveYield", ranks: [0.1, 0.125, 0.15] },
     },
     requirements: {
       points: 1,
@@ -556,7 +564,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     tree: "Crops",
     upgrade: {
       maxLevel: 3,
-      effect: { kind: "additiveYield", ranks: [0.1, 0.15, 0.2] },
+      effect: { kind: "additiveYield", ranks: [0.1, 0.125, 0.15] },
     },
     requirements: {
       points: 1,
@@ -578,7 +586,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     tree: "Crops",
     upgrade: {
       maxLevel: 3,
-      effect: { kind: "aoe", ranks: AOE_RANKS },
+      effect: { kind: "aoe", ranks: AOE_RANKS, aoeYield: [0, 0.05, 0.1] },
     },
     requirements: {
       points: 1,
@@ -671,7 +679,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     tree: "Crops",
     upgrade: {
       maxLevel: 3,
-      effect: { kind: "dropChance", ranks: [1 / 7, 1 / 6, 1 / 5] },
+      effect: { kind: "dropChance", ranks: [1 / 7, 1 / 5.5, 1 / 4] },
     },
     requirements: {
       points: 2,
@@ -694,7 +702,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     tree: "Crops",
     upgrade: {
       maxLevel: 3,
-      effect: { kind: "aoe", ranks: AOE_RANKS },
+      effect: { kind: "aoe", ranks: AOE_RANKS, aoeYield: [0.1, 0.15, 0.2] },
     },
     requirements: {
       points: 2,
@@ -717,7 +725,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     tree: "Crops",
     upgrade: {
       maxLevel: 3,
-      effect: { kind: "aoe", ranks: AOE_RANKS },
+      effect: { kind: "aoe", ranks: AOE_RANKS, aoeYield: [0.1, 0.15, 0.2] },
     },
     requirements: {
       points: 2,
@@ -769,7 +777,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       maxLevel: 3,
       effect: {
         kind: "yieldWithDebuff",
-        buff: [1, 1.25, 1.5],
+        buff: [1, 1.4, 1.8],
         debuff: [0.5, 0.6, 0.7],
       },
     },
@@ -800,7 +808,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       maxLevel: 3,
       effect: {
         kind: "yieldWithDebuff",
-        buff: [1, 1.25, 1.5],
+        buff: [1, 1.4, 1.8],
         debuff: [0.5, 0.6, 0.7],
       },
     },
@@ -831,7 +839,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     tree: "Fruit Patch",
     upgrade: {
       maxLevel: 3,
-      effect: { kind: "additiveYield", ranks: [0.1, 0.2, 0.3] },
+      effect: { kind: "additiveYield", ranks: [0.1, 0.15, 0.2] },
     },
     requirements: {
       points: 1,
@@ -852,7 +860,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     tree: "Fruit Patch",
     upgrade: {
       maxLevel: 3,
-      effect: { kind: "costMultiplier", ranks: [0.9, 0.8, 0.7] },
+      effect: { kind: "costMultiplier", ranks: [0.9, 0.85, 0.8] },
     },
     requirements: {
       points: 1,
@@ -900,7 +908,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       maxLevel: 3,
       // Macaw's base +0.1 yield doubled/tripled/quadrupled, stored as the
       // resulting yield so there is no lossy 0.1 x rank at runtime.
-      effect: { kind: "additiveYield", ranks: [0.2, 0.3, 0.4] },
+      effect: { kind: "additiveYield", ranks: [0.2, 0.25, 0.3] },
     },
     requirements: {
       points: 1,
@@ -922,7 +930,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     disabled: false,
     upgrade: {
       maxLevel: 3,
-      effect: { kind: "flatDebuff", ranks: [1, 0.5, 0] },
+      effect: { kind: "flatDebuff", ranks: [1, 0.75, 0.5] },
     },
     requirements: {
       points: 1,
@@ -1019,8 +1027,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       effect: {
         kind: "stockBonus",
         ranks: {
-          "Tomato Seed": [10, 20, 30],
-          "Lemon Seed": [10, 20, 30],
+          "Tomato Seed": [10, 25, 50],
+          "Lemon Seed": [10, 25, 50],
         },
       },
     },
@@ -1046,7 +1054,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     tree: "Fruit Patch",
     upgrade: {
       maxLevel: 3,
-      effect: { kind: "chance", ranks: [20, 30, 40] },
+      effect: { kind: "chance", ranks: [20, 30, 50] },
     },
     disabled: false,
     requirements: {
@@ -1071,7 +1079,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       maxLevel: 3,
       effect: {
         kind: "growthWithDebuff",
-        buff: [0.75, 0.7, 0.65],
+        buff: [0.75, 0.65, 0.55],
         debuff: [1.1, 1.125, 1.15],
       },
     },
@@ -1104,7 +1112,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       maxLevel: 3,
       effect: {
         kind: "growthWithDebuff",
-        buff: [0.75, 0.7, 0.65],
+        buff: [0.75, 0.65, 0.55],
         debuff: [1.1, 1.125, 1.15],
       },
     },
@@ -1136,7 +1144,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       maxLevel: 3,
       effect: {
         kind: "yieldWithDebuff",
-        buff: [1, 1.25, 1.5],
+        buff: [1, 1.5, 2],
         debuff: [0.25, 0.4, 0.5],
       },
     },
@@ -1168,7 +1176,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     tree: "Trees",
     upgrade: {
       maxLevel: 3,
-      effect: { kind: "additiveYield", ranks: [0.1, 0.2, 0.3] } as const,
+      effect: { kind: "additiveYield", ranks: [0.1, 0.15, 0.2] } as const,
     },
     requirements: {
       points: 1,
@@ -1191,7 +1199,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     tree: "Trees",
     upgrade: {
       maxLevel: 3,
-      effect: { kind: "growthMultiplier", ranks: [0.9, 0.85, 0.8] } as const,
+      effect: { kind: "growthMultiplier", ranks: [0.9, 0.875, 0.85] } as const,
     },
     requirements: {
       points: 1,
@@ -1213,7 +1221,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     tree: "Trees",
     upgrade: {
       maxLevel: 3,
-      effect: { kind: "stockBonus", ranks: { Axe: [50, 100, 200] } } as const,
+      effect: { kind: "stockBonus", ranks: { Axe: [50, 100, 150] } } as const,
     },
     requirements: {
       points: 1,
@@ -1255,7 +1263,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     tree: "Trees",
     upgrade: {
       maxLevel: 3,
-      effect: { kind: "chance", ranks: [10, 15, 20] } as const,
+      effect: { kind: "chance", ranks: [10, 20, 30] } as const,
     },
     requirements: {
       points: 2,
@@ -1324,7 +1332,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     tree: "Trees",
     upgrade: {
       maxLevel: 3,
-      effect: { kind: "chance", ranks: [15, 20, 25] } as const,
+      effect: { kind: "chance", ranks: [15, 25, 40] } as const,
     },
     requirements: {
       points: 3,
@@ -1390,7 +1398,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       maxLevel: 3,
       effect: {
         kind: "dailyLimit",
-        ranks: [5, 10, 15],
+        ranks: [5, 7, 10],
       },
     },
   },
@@ -1416,7 +1424,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       maxLevel: 3,
       effect: {
         kind: "chance",
-        ranks: [10, 15, 20],
+        ranks: [10, 12.5, 15],
       },
     },
   },
@@ -1442,7 +1450,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       maxLevel: 3,
       effect: {
         kind: "chance",
-        ranks: [10, 15, 20],
+        ranks: [10, 12.5, 15],
       },
     },
   },
@@ -1468,7 +1476,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       maxLevel: 3,
       effect: {
         kind: "costMultiplier",
-        ranks: [0.5, 0.4, 0.3],
+        ranks: [0.5, 0.45, 0.4],
       },
     },
   },
@@ -1495,7 +1503,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       maxLevel: 3,
       effect: {
         kind: "dailyLimit",
-        ranks: [10, 20, 30],
+        ranks: [10, 18, 25],
       },
     },
   },
@@ -1618,7 +1626,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       maxLevel: 3,
       effect: {
         kind: "dailyLimit",
-        ranks: [10, 30, 50],
+        ranks: [10, 25, 50],
       },
     },
   },
@@ -1644,7 +1652,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       maxLevel: 3,
       effect: {
         kind: "xpBonus",
-        ranks: [0.2, 0.25, 0.3],
+        ranks: [0.2, 0.3, 0.4],
       },
     },
   },
@@ -2296,7 +2304,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       maxLevel: 3,
       effect: {
         kind: "additiveYield",
-        ranks: [0.1, 0.2, 0.3],
+        ranks: [0.1, 0.15, 0.2],
       },
     },
   },
@@ -2321,7 +2329,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       maxLevel: 3,
       effect: {
         kind: "additiveYield",
-        ranks: [0.1, 0.2, 0.3],
+        ranks: [0.1, 0.15, 0.2],
       },
     },
   },
@@ -2472,7 +2480,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       maxLevel: 3,
       effect: {
         kind: "yieldWithDebuff",
-        buff: [1, 1.25, 1.5],
+        buff: [1, 1.4, 1.8],
         debuff: [0.5, 0.6, 0.7],
       },
     },
@@ -2499,7 +2507,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       maxLevel: 3,
       effect: {
         kind: "additiveYield",
-        ranks: [1, 1.25, 1.5],
+        ranks: [1, 1.35, 1.75],
       },
     },
   },
@@ -2558,7 +2566,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       maxLevel: 3,
       effect: {
         kind: "yieldWithDebuff",
-        buff: [1, 1.25, 1.5],
+        buff: [1, 1.5, 2],
         debuff: [0.5, 0.6, 0.7],
       },
     },
@@ -2638,7 +2646,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       maxLevel: 3,
       effect: {
         kind: "growthMultiplier",
-        ranks: [0.85, 0.8, 0.75],
+        ranks: [0.85, 0.75, 0.6],
       },
     },
   },
@@ -2691,7 +2699,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       maxLevel: 3,
       effect: {
         kind: "timeReduction",
-        ranks: [0.1, 0.2, 0.3],
+        ranks: [0.1, 0.15, 0.2],
       },
     },
   },
@@ -2742,7 +2750,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       maxLevel: 3,
       effect: {
         kind: "xpBonus",
-        ranks: [0.05, 0.1, 0.15],
+        ranks: [0.05, 0.075, 0.1],
       },
     },
   },
@@ -2955,7 +2963,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       maxLevel: 3,
       effect: {
         kind: "chance",
-        ranks: [20, 25, 30],
+        ranks: [20, 35, 50],
       },
     },
   },
