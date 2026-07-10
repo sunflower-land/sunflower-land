@@ -93,7 +93,7 @@ export function getFruitYield({
     const criticalDrop = (criticalHitName: CriticalHitName, chance: number) =>
       prngChance({ ...prngArgs, itemId, chance, criticalHitName });
 
-    // Generous Orchard: 20%/30%/40% chance of +1 patch fruit (scales with rank)
+    // Generous Orchard: 20%/30%/50% chance of +1 patch fruit (scales with rank)
     const generousOrchardLevel = getSkillLevel(
       bumpkin.skills,
       "Generous Orchard",
