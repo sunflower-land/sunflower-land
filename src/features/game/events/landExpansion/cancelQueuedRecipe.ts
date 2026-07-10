@@ -5,7 +5,6 @@ import type {
 import type {
   BuildingProduct,
   GameState,
-  InventoryItemName,
   PlacedItem,
 } from "features/game/types/game";
 import {
@@ -22,6 +21,7 @@ import {
   COOKABLES,
 } from "features/game/types/consumables";
 import { getCookingTime } from "features/game/expansion/lib/boosts";
+import { getObjectEntries } from "lib/object";
 
 export type CancelQueuedRecipeAction = {
   type: "recipe.cancelled";
@@ -239,15 +239,11 @@ export function cancelQueuedRecipe({
       doubleNomLevel: getRecipeDoubleNomLevel(recipe),
     });
 
-    game.inventory = Object.entries(ingredients).reduce(
+    game.inventory = getObjectEntries(ingredients).reduce(
       (inventory, [ingredient, amount]) => {
-        const count =
-          inventory[ingredient as InventoryItemName] ?? new Decimal(0);
-
-        return {
-          ...inventory,
-          [ingredient]: count.add(amount),
-        };
+        const count = inventory[ingredient] ?? new Decimal(0);
+        inventory[ingredient] = count.add(amount ?? 0);
+        return { ...inventory };
       },
       game.inventory,
     );
