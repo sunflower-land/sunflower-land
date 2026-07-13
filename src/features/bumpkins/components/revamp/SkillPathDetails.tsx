@@ -174,9 +174,9 @@ export const SkillPathDetails: React.FC<Props> = ({
   const shardBalance = state.inventory["Ascension Shard"] ?? new Decimal(0);
   const upgradeCost = getSkillUpgradeCost(tier);
 
-  // The three panel modes. Upgrades only exist behind SWAMP_ASCENSION, so
+  // The three panel modes. Upgrades only exist behind ASCENSION_SKILLS, so
   // non-Crops trees and flag-off players resolve to Locked -> Maxed (no ranks).
-  const upgradesEnabled = hasFeatureAccess(state, "SWAMP_ASCENSION");
+  const upgradesEnabled = hasFeatureAccess(state, "ASCENSION_SKILLS");
   const canUpgradeHere = upgradesEnabled && !!upgrade;
   const isLocked = !hasSelectedSkill;
   const isUpgradable =
@@ -185,7 +185,7 @@ export const SkillPathDetails: React.FC<Props> = ({
     hasSelectedSkill && (!canUpgradeHere || currentLevel >= maxLevel);
   const boostLabelType = isLocked ? "success" : "info";
 
-  // Real per-rank boost copy (shown behind SWAMP_ASCENSION). The current-rank
+  // Real per-rank boost copy (shown behind ASCENSION_SKILLS). The current-rank
   // description replaces the static boost text; the next-rank one previews the
   // upgrade reward. Cooldown skills (Instant Growth) keep their static boost
   // pill because the cooldown pill already shows the scaled number.
@@ -547,7 +547,7 @@ export const SkillPathDetails: React.FC<Props> = ({
                                   isSkillMaxed ||
                                   (!hasFeatureAccess(
                                     state,
-                                    "SWAMP_ASCENSION",
+                                    "ASCENSION_SKILLS",
                                   ) &&
                                     hasSkill)
                                     ? SUNNYSIDE.icons.confirm

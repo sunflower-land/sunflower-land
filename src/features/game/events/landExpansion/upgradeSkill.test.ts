@@ -185,7 +185,7 @@ describe("upgradeSkill", () => {
     ).toThrow("This skill cannot be upgraded");
   });
 
-  describe("when SWAMP_ASCENSION is off (mainnet)", () => {
+  describe("when ASCENSION_SKILLS is off (mainnet)", () => {
     // The flag is on by default in tests (amoy), so force mainnet to exercise
     // the flag-off path.
     let previousNetwork: (typeof CONFIG)["NETWORK"];

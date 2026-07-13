@@ -183,6 +183,13 @@ const FEATURE_FLAGS = {
   HOME_ITEM_MIGRATION: betaFeatureFlag,
 
   SWAMP_ASCENSION: testnetFeatureFlag,
+
+  // Per-rank skill upgrades (spend Ascension Shards + skill points to rank up a
+  // skill). Kept on its own flag so the upgrade UI + `skill.upgraded` event can
+  // be toggled independently of the rest of the ascension system (islands,
+  // expansion, level bands). Skill *effects* still apply off the stored rank
+  // regardless of this flag; only purchasing new ranks is gated here.
+  ASCENSION_SKILLS: testnetFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

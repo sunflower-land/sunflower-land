@@ -29,7 +29,7 @@ export function upgradeSkill({ state, action }: Options): GameState {
       throw new Error("You do not have a Bumpkin!");
     }
 
-    if (!hasFeatureAccess(game, "SWAMP_ASCENSION")) {
+    if (!hasFeatureAccess(game, "ASCENSION_SKILLS")) {
       throw new Error("Skill upgrades are not available");
     }
 
