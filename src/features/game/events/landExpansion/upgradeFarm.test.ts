@@ -5,7 +5,16 @@ import {
   ASCENSION_BUMPKIN_LEVEL,
 } from "./upgradeFarm";
 import Decimal from "decimal.js-light";
-import { LEVEL_EXPERIENCE } from "features/game/lib/level";
+import {
+  LEVEL_EXPERIENCE,
+  ascensionBaseline,
+  bandXp,
+} from "features/game/lib/level";
+import { CONFIG } from "lib/config";
+import { TIME_BASED_FEATURE_FLAG_WINDOWS } from "lib/flags";
+
+const SPOOKY_ASCENSION_START =
+  TIME_BASED_FEATURE_FLAG_WINDOWS.SPOOKY_ASCENSION.start.getTime();
 import { getLand, TOTAL_EXPANSION_NODES } from "features/game/types/expansions";
 import { getIslandSpawnPositions } from "features/game/expansion/lib/island";
 
@@ -1184,6 +1193,80 @@ describe("upgradeFarm", () => {
         createdAt: Date.now(),
       }),
     ).toThrow("Player has not met the level requirements");
+  });
+
+  describe("swamp->spooky (A2) temporary lock", () => {
+    // Readies the bumpkin for the swamp band so the temporary gate — not the level
+    // gate — is what's under test.
+    const readyXp = ascensionBaseline(1) + bandXp(1);
+    const swampState = {
+      ...INITIAL_FARM,
+      // Team username so the SWAMP_ASCENSION gate passes on mainnet and the
+      // temporary A2 lock is the check under test.
+      username: "elias",
+      coins: 10000,
+      bumpkin: {
+        ...INITIAL_FARM.bumpkin,
+        experience: readyXp,
+      },
+      island: {
+        type: "swamp" as const,
+        ascensionLevel: 1,
+      },
+      inventory: {
+        ...INITIAL_FARM.inventory,
+        // Meets the expansion requirement but holds no ascension-cost items, so a
+        // player past the temporary gate lands on the cost check.
+        "Basic Land": new Decimal(42),
+      },
+    };
+
+    let previousNetwork: (typeof CONFIG)["NETWORK"];
+    beforeEach(() => {
+      previousNetwork = CONFIG.NETWORK;
+    });
+    afterEach(() => {
+      CONFIG.NETWORK = previousNetwork;
+    });
+
+    it("blocks swamp->spooky before the unlock date on mainnet", () => {
+      CONFIG.NETWORK = "mainnet";
+
+      expect(() =>
+        upgrade({
+          farmId,
+          action: { type: "farm.upgraded" },
+          state: swampState,
+          createdAt: SPOOKY_ASCENSION_START - 1,
+        }),
+      ).toThrow("Ascension to the next island is not yet available");
+    });
+
+    it("allows swamp->spooky once the unlock date passes on mainnet", () => {
+      CONFIG.NETWORK = "mainnet";
+
+      expect(() =>
+        upgrade({
+          farmId,
+          action: { type: "farm.upgraded" },
+          state: swampState,
+          createdAt: SPOOKY_ASCENSION_START,
+        }),
+      ).toThrow("Insufficient Crimstone");
+    });
+
+    it("lets testnet bypass the lock before the unlock date", () => {
+      CONFIG.NETWORK = "amoy";
+
+      expect(() =>
+        upgrade({
+          farmId,
+          action: { type: "farm.upgraded" },
+          state: swampState,
+          createdAt: SPOOKY_ASCENSION_START - 1,
+        }),
+      ).toThrow("Insufficient Crimstone");
+    });
   });
 
   it("scales the ascension upgrade cost with level", () => {

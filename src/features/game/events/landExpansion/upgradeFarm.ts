@@ -13,7 +13,7 @@ import type {
   TemperateSeasonName,
 } from "features/game/types/game";
 import { ASCENSION_ISLANDS } from "features/game/types/game";
-import { hasFeatureAccess } from "lib/flags";
+import { hasFeatureAccess, hasTimeBasedFeatureAccess } from "lib/flags";
 import { getAscensionLevel, getMaxBumpkinLevel } from "features/game/lib/level";
 import {
   getTotalBaseResourceEquivalents,
@@ -1255,6 +1255,20 @@ export function upgrade({ state, createdAt = Date.now(), farmId }: Options) {
 
   if (targetIsAscension && !hasFeatureAccess(game, "SWAMP_ASCENSION")) {
     throw new Error("Swamp ascension is not yet available");
+  }
+
+  // Temporary: ascending from Swamp (A1) into the next island (A2) is gated behind
+  // the SPOOKY_ASCENSION window (testnet bypasses). The first ascension (A0 → A1)
+  // is unaffected.
+  if (
+    (game.island.ascensionLevel ?? 0) + 1 === 2 &&
+    !hasTimeBasedFeatureAccess({
+      featureName: "SPOOKY_ASCENSION",
+      now: createdAt,
+      game,
+    })
+  ) {
+    throw new Error("Ascension to the next island is not yet available");
   }
 
   // Ascension islands require the player to have maxed their current ascension band

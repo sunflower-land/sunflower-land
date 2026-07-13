@@ -88,6 +88,13 @@ export const TIME_BASED_FEATURE_FLAG_WINDOWS = {
     start: WAYPOINT_WALLET_ENDDATE,
     end: null,
   },
+  // Ascending from Swamp (A1) into the next island (Spooky, A2) unlocks on this
+  // date. Testnet bypasses; the first ascension (Volcano → Swamp / A0 → A1) is
+  // gated separately by SWAMP_ASCENSION and is unaffected.
+  SPOOKY_ASCENSION: {
+    start: new Date("2026-09-07T00:00:00Z"),
+    end: null,
+  },
 } satisfies Record<string, TimeBasedFeatureWindow>;
 
 /** All time-based flags receive the full window; start-only helpers ignore `end`. */
@@ -106,6 +113,8 @@ export const TIME_BASED_FEATURE_FLAGS: Record<
   APRIL_FOOLS_EVENT_FLAG: betaTimePeriodFeatureFlag,
   RONIN_WAYPOINT_DEPRECATION: timePeriodFeatureFlag,
   COLORS_2026_EVENT_FLAG: betaTimePeriodFeatureFlag,
+  // Testnet-only bypass before the date (not beta), so live testers can reach A2.
+  SPOOKY_ASCENSION: timePeriodFeatureFlag,
 };
 
 /**
