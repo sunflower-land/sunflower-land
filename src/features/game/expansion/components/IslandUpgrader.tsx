@@ -126,17 +126,19 @@ const IslandUpgraderModal: React.FC<{
     featureName: "SPOOKY_ASCENSION",
     game: gameState.context.state,
   });
+  // Match the reducer's authoritative A1→A2 condition (ascensionLevel === 1) so
+  // the button can't enable an upgrade the server rejects, or vice versa.
   const isNextAscensionLocked =
-    island.type === "swamp" && !hasSpookyAscensionAccess;
-  const nextAscensionUnlockDate =
-    TIME_BASED_FEATURE_FLAG_WINDOWS.SPOOKY_ASCENSION.start.toLocaleDateString(
-      navigator.language,
-      { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" },
-    );
+    (island.ascensionLevel ?? 0) === 1 && !hasSpookyAscensionAccess;
   const upgrade = isLandUpgradable(island.type)
     ? ISLAND_UPGRADE[island.type]
     : NO_ISLAND_UPGRADE;
-  const { t } = useAppTranslation();
+  const { t, i18n } = useAppTranslation();
+  const nextAscensionUnlockDate =
+    TIME_BASED_FEATURE_FLAG_WINDOWS.SPOOKY_ASCENSION.start.toLocaleDateString(
+      i18n.resolvedLanguage,
+      { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" },
+    );
 
   const remainingExpansions =
     upgrade.expansions - (inventory["Basic Land"]?.toNumber() ?? 0);
