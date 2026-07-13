@@ -49,4 +49,20 @@ describe("deleteLayout", () => {
       }),
     ).toThrow("Layout does not exist");
   });
+
+  it("throws when deleting the protected Ascension Layout", () => {
+    const built = withTwoLayouts();
+    const state: GameState = {
+      ...built,
+      layouts: built.layouts!.map((layout, i) =>
+        i === 0 ? { ...layout, auto: true } : layout,
+      ),
+    };
+    expect(() =>
+      deleteLayout({
+        state,
+        action: { type: "layout.deleted", layoutId: 0 },
+      }),
+    ).toThrow("The Ascension Layout cannot be deleted");
+  });
 });

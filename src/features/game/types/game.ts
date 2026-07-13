@@ -1102,6 +1102,13 @@ export type SavedLayout = {
   name: string;
   createdAt: number;
   updatedAt: number;
+  /**
+   * Marks the auto-managed "Ascension Layout" captured when the player first
+   * ascends (volcano→swamp) and re-applied on later ascensions. It is protected:
+   * the player cannot delete, rename, or overwrite it, and it does not count
+   * against the manual `MAX_SAVED_LAYOUTS` limit.
+   */
+  auto?: boolean;
   collectibles: Partial<Record<CollectibleName, LayoutPlacement[]>>;
   buildings: Partial<Record<BuildingName, LayoutPlacement[]>>;
   resources: {

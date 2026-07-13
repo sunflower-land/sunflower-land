@@ -8,6 +8,7 @@ import {
   ascensionBaseline,
   bandXp,
 } from "features/game/lib/level";
+import { getExpectedAscensionCrystals } from "features/game/expansion/lib/ascension";
 
 /** Total Ascension Crystals offered by the missing-resources back-pay chest. */
 const backPaidCrystals = (game: GameState): number => {
@@ -136,9 +137,20 @@ describe("Ascension Crystal upgrade-node grant (upgradeFarm)", () => {
     ],
   ];
 
+  // Each transition grants exactly 1 Ascension Crystal. Basic-island upgrades add
+  // it straight to inventory; ascension upgrades (swamp onward) deliver it via the
+  // side-island reward chest (a `missing-resources` airdrop) instead. Seeding the
+  // player with the crystals they should already own means the net grant is 1
+  // wherever it lands.
   it.each(cases)(
     "grants exactly 1 crystal on %s",
     (_label, { from, ascensionLevel, basicLand, experience }) => {
+      const ownedBefore = getExpectedAscensionCrystals({
+        islandType: from,
+        ascensionLevel: ascensionLevel ?? 0,
+        basicLand,
+      });
+
       const state = upgrade({
         farmId: 1,
         action: { type: "farm.upgraded" },
@@ -154,15 +166,23 @@ describe("Ascension Crystal upgrade-node grant (upgradeFarm)", () => {
             ...INITIAL_FARM.inventory,
             ...RESOURCES_FOR_ANY_COST,
             "Basic Land": new Decimal(basicLand),
-            "Ascension Crystal": new Decimal(0),
+            "Ascension Crystal": new Decimal(ownedBefore),
           },
         },
         createdAt: Date.now(),
       });
 
-      expect(
-        (state.inventory["Ascension Crystal"] ?? new Decimal(0)).toNumber(),
-      ).toBe(1);
+      const inventoryAfter = (
+        state.inventory["Ascension Crystal"] ?? new Decimal(0)
+      ).toNumber();
+      const chestCrystals = (state.airdrops ?? [])
+        .filter((airdrop) => airdrop.id.startsWith("missing-resources"))
+        .reduce(
+          (sum, airdrop) => sum + (airdrop.items["Ascension Crystal"] ?? 0),
+          0,
+        );
+
+      expect(inventoryAfter + chestCrystals - ownedBefore).toBe(1);
     },
   );
 });

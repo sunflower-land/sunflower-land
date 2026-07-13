@@ -1,4 +1,5 @@
 import { INITIAL_FARM, TEST_FARM } from "features/game/lib/constants";
+import type { GameState, SavedLayout } from "features/game/types/game";
 import {
   upgrade,
   getAscensionUpgradeCost,
@@ -16,7 +17,10 @@ import { TIME_BASED_FEATURE_FLAG_WINDOWS } from "lib/flags";
 const SPOOKY_ASCENSION_START =
   TIME_BASED_FEATURE_FLAG_WINDOWS.SPOOKY_ASCENSION.start.getTime();
 import { getLand, TOTAL_EXPANSION_NODES } from "features/game/types/expansions";
-import { getIslandSpawnPositions } from "features/game/expansion/lib/island";
+import {
+  getIslandAnchorX,
+  getIslandSpawnPositions,
+} from "features/game/expansion/lib/island";
 
 describe("upgradeFarm", () => {
   const farmId = 1;
@@ -1105,8 +1109,22 @@ describe("upgradeFarm", () => {
     });
   });
 
-  it("upgrades to swamp island", () => {
+  it("upgrades to swamp island preserving the player's arrangement", () => {
     const createdAt = Date.now();
+    // A realistic maxed volcano farm: Mansion already placed, plus a collectible
+    // and a tree at custom positions the player chose.
+    const mansion = {
+      id: "1",
+      coordinates: { x: 0, y: 0 },
+      createdAt,
+      readyAt: createdAt,
+    };
+    const statue = {
+      id: "1",
+      coordinates: { x: 3, y: 3 },
+      createdAt,
+      readyAt: createdAt,
+    };
     const state = upgrade({
       farmId,
       action: {
@@ -1129,9 +1147,14 @@ describe("upgradeFarm", () => {
           Crimstone: new Decimal(100),
           Oil: new Decimal(100),
           Obsidian: new Decimal(10),
-          // No node pre-seed: swampUpgrade's arrival floor must cover the
-          // INITIAL_SWAMP_LAND_COORDINATES placements for a realistic account.
+          Mansion: new Decimal(1),
+          "Sunflower Statue": new Decimal(1),
         },
+        buildings: { Mansion: [mansion] },
+        collectibles: { "Sunflower Statue": [statue] },
+        trees: {
+          "1": { createdAt, wood: {}, x: 5, y: 5 },
+        } as unknown as GameState["trees"],
       },
       createdAt,
     });
@@ -1149,19 +1172,96 @@ describe("upgradeFarm", () => {
     expect(state.inventory.Obsidian).toEqual(new Decimal(7));
     expect(state.coins).toEqual(5000);
 
-    // Keeps the Mansion as the home, laid out per the swamp layout
-    expect(state.buildings.Manor).toBeUndefined();
-    expect(state.inventory.Mansion).toEqual(new Decimal(1));
-    expect(state.buildings.Mansion?.[0].coordinates).toEqual({ x: -3, y: 15 });
+    // Keeps the player's arrangement in place — nothing is wiped or re-laid out
+    expect(state.buildings.Mansion?.[0].coordinates).toEqual({ x: 0, y: 0 });
+    expect(state.collectibles["Sunflower Statue"]?.[0].coordinates).toEqual({
+      x: 3,
+      y: 3,
+    });
+    expect(state.trees["1"]).toMatchObject({ x: 5, y: 5 });
 
-    // Lays out the swamp starting nodes, incl. the swamp-specific types
-    expect(Object.keys(state.crops)).toHaveLength(65);
-    expect(Object.keys(state.fruitPatches)).toHaveLength(15);
-    expect(Object.keys(state.gold)).toHaveLength(8);
-    expect(Object.keys(state.crimstones)).toHaveLength(5);
-    expect(Object.keys(state.beehives)).toHaveLength(3);
-    expect(Object.keys(state.flowers.flowerBeds)).toHaveLength(3);
-    expect(Object.keys(state.lavaPits)).toHaveLength(3);
+    // Saves the arrangement as the protected, auto-managed Ascension Layout
+    const ascensionLayout = state.layouts?.find((layout) => layout.auto);
+    expect(ascensionLayout?.name).toEqual("Ascension Layout");
+    expect(ascensionLayout?.resources.ascensionCrystals).toEqual({});
+    expect(ascensionLayout?.buildings.Mansion?.[0].coordinates).toEqual({
+      x: 0,
+      y: 0,
+    });
+
+    // Drops the ascension reward chest (Ascension Crystals) on the side island,
+    // rather than granting the crystal straight to inventory.
+    expect(state.inventory["Ascension Crystal"]).toBeUndefined();
+    const chest = state.airdrops?.find(
+      (airdrop) => airdrop.id === "missing-resources-ascension-1",
+    );
+    // Expected crystals at swamp a1 (basicLand 30): 3 (A0) + 1 (upgrade node) = 4
+    expect(chest?.items["Ascension Crystal"]).toEqual(4);
+    expect(chest?.coordinates).toBeDefined();
+  });
+
+  it("delivers node shortfall to the reward chest and avoids stacking chests", () => {
+    const createdAt = Date.now();
+    const anchorX = getIslandAnchorX(30);
+    const state = upgrade({
+      farmId,
+      action: { type: "farm.upgraded" },
+      state: {
+        ...INITIAL_FARM,
+        coins: 10000,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          experience: LEVEL_EXPERIENCE[ASCENSION_BUMPKIN_LEVEL],
+        },
+        island: { type: "volcano" },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(30),
+          Crimstone: new Decimal(100),
+          Oil: new Decimal(100),
+          Obsidian: new Decimal(10),
+        },
+        // Under-provisioned: nothing placed, so the swamp floor is all shortfall.
+        collectibles: {},
+        buildings: {},
+        trees: {},
+        stones: {},
+        gold: {},
+        iron: {},
+        crimstones: {},
+        sunstones: {},
+        oilReserves: {},
+        crops: {},
+        fruitPatches: {},
+        beehives: {},
+        lavaPits: {},
+        ascensionCrystals: {},
+        flowers: { ...INITIAL_FARM.flowers, flowerBeds: {} },
+        // An un-collected chest already sits on the first candidate side-island tile.
+        airdrops: [
+          {
+            id: "prior",
+            createdAt,
+            coordinates: { x: anchorX + 1, y: 7 },
+            items: {},
+            wearables: {},
+            sfl: 0,
+            coins: 0,
+          },
+        ],
+      },
+      createdAt,
+    });
+
+    const chest = state.airdrops?.find(
+      (airdrop) => airdrop.id === "missing-resources-ascension-1",
+    );
+    // Swamp floor has 3 Lava Pits; the player owns none, so they arrive via the chest.
+    expect(chest?.items["Lava Pit"]).toEqual(3);
+    // The floor is NOT topped up into inventory anymore.
+    expect(state.inventory["Lava Pit"]).toBeUndefined();
+    // The chest avoids the tile already occupied by the prior airdrop.
+    expect(chest?.coordinates).not.toEqual({ x: anchorX + 1, y: 7 });
   });
 
   it("requires the minimum Bumpkin level to ascend to swamp island", () => {
@@ -1267,6 +1367,124 @@ describe("upgradeFarm", () => {
         }),
       ).toThrow("Insufficient Crimstone");
     });
+  });
+
+  it("preserves crop growth timers across the first ascension (no instant growth)", () => {
+    const createdAt = Date.now();
+    const plantedAt = createdAt - 60 * 1000;
+    const state = upgrade({
+      farmId,
+      action: { type: "farm.upgraded" },
+      state: {
+        ...INITIAL_FARM,
+        coins: 10000,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          experience: LEVEL_EXPERIENCE[ASCENSION_BUMPKIN_LEVEL],
+        },
+        island: { type: "volcano" },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(30),
+          Crimstone: new Decimal(100),
+          Oil: new Decimal(100),
+          Obsidian: new Decimal(10),
+        },
+        crops: {
+          "99": {
+            createdAt,
+            x: 4,
+            y: 4,
+            crop: { id: "99", name: "Sunflower", plantedAt },
+          },
+        } as GameState["crops"],
+      },
+      createdAt,
+    });
+
+    // The same plot instance survives untouched — its planted crop keeps its timer.
+    expect(state.crops["99"]).toMatchObject({ x: 4, y: 4 });
+    expect(state.crops["99"]?.crop?.plantedAt).toEqual(plantedAt);
+  });
+
+  it("reuses the saved Ascension Layout on later ascensions", () => {
+    const createdAt = SPOOKY_ASCENSION_START;
+    const readyXp = ascensionBaseline(1) + bandXp(1);
+    const emptyLayoutResources: SavedLayout["resources"] = {
+      trees: {},
+      stones: {},
+      gold: {},
+      iron: {},
+      crimstones: {},
+      sunstones: {},
+      ascensionCrystals: {},
+      oilReserves: {},
+      crops: {},
+      fruitPatches: {},
+      beehives: {},
+      flowerBeds: {},
+      lavaPits: {},
+    };
+    // The layout captured at volcano->swamp places the statue at { x: 7, y: 7 }.
+    const autoLayout: SavedLayout = {
+      name: "Ascension Layout",
+      auto: true,
+      createdAt,
+      updatedAt: createdAt,
+      collectibles: {
+        "Sunflower Statue": [{ id: "1", coordinates: { x: 7, y: 7 } }],
+      },
+      buildings: {},
+      resources: emptyLayoutResources,
+    };
+
+    const state = upgrade({
+      farmId,
+      action: { type: "farm.upgraded" },
+      state: {
+        ...INITIAL_FARM,
+        // Team username so SWAMP_ASCENSION passes on mainnet.
+        username: "elias",
+        coins: 100000,
+        bumpkin: { ...INITIAL_FARM.bumpkin, experience: readyXp },
+        island: { type: "swamp", ascensionLevel: 1 },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(42),
+          Crimstone: new Decimal(100),
+          Oil: new Decimal(100),
+          Obsidian: new Decimal(10),
+          "Sunflower Statue": new Decimal(1),
+        },
+        // Current arrangement differs from the saved layout — the statue is elsewhere.
+        collectibles: {
+          "Sunflower Statue": [
+            {
+              id: "1",
+              coordinates: { x: 1, y: 1 },
+              createdAt,
+              readyAt: createdAt,
+            },
+          ],
+        },
+        layouts: [autoLayout],
+      },
+      createdAt,
+    });
+
+    expect(state.island.type).toEqual("spooky");
+    expect(state.island.ascensionLevel).toEqual(2);
+    // Reset to the saved layout: the statue moved back to { x: 7, y: 7 }.
+    expect(state.collectibles["Sunflower Statue"]?.[0].coordinates).toEqual({
+      x: 7,
+      y: 7,
+    });
+    // A reward chest is dropped for this ascension too.
+    expect(
+      state.airdrops?.some(
+        (airdrop) => airdrop.id === "missing-resources-ascension-2",
+      ),
+    ).toBe(true);
   });
 
   it("scales the ascension upgrade cost with level", () => {
