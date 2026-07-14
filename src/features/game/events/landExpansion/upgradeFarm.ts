@@ -1116,17 +1116,16 @@ function buildAscensionRewardBundle(
   });
 
   // Ascension Crystals owed for this ascension: the expected cumulative count
-  // minus what the player already owns (inventory + placed), has mined
-  // (single-use), or has pending in an un-collected chest. This replaces the +1
-  // inventory grant on the ascension path.
+  // minus what the player already owns (inventory, which already includes any
+  // placed crystals — placing never decrements it), has mined (single-use), or
+  // has pending in an un-collected chest. Mirrors revealLand's back-pay formula.
+  // This replaces the +1 inventory grant on the ascension path.
   const expectedCrystals = getExpectedAscensionCrystals({
     islandType: target,
     ascensionLevel: game.island.ascensionLevel ?? 0,
     basicLand: game.inventory["Basic Land"]?.toNumber() ?? 0,
   });
-  const ownedCrystals =
-    (game.inventory["Ascension Crystal"]?.toNumber() ?? 0) +
-    Object.keys(game.ascensionCrystals ?? {}).length;
+  const ownedCrystals = game.inventory["Ascension Crystal"]?.toNumber() ?? 0;
   const minedCrystals = game.farmActivity?.["Ascension Crystal Mined"] ?? 0;
   const crystalShortfall =
     expectedCrystals -

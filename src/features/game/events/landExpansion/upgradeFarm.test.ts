@@ -1328,6 +1328,47 @@ describe("upgradeFarm", () => {
     expect(newChest?.items["Ascension Crystal"]).toEqual(expected - 4);
   });
 
+  it("counts placed crystals once when sizing the reward chest", () => {
+    const createdAt = Date.now();
+    // Earned 3 A0 crystals, all placed on volcano. Inventory is the total owned
+    // (placing does not decrement it); the 3 nodes are a subset of that total,
+    // so they must not be counted a second time.
+    const state = upgrade({
+      farmId,
+      action: { type: "farm.upgraded" },
+      state: {
+        ...INITIAL_FARM,
+        coins: 10000,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          experience: LEVEL_EXPERIENCE[ASCENSION_BUMPKIN_LEVEL],
+        },
+        island: { type: "volcano" },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(30),
+          Crimstone: new Decimal(100),
+          Oil: new Decimal(100),
+          Obsidian: new Decimal(10),
+          "Ascension Crystal": new Decimal(3),
+        },
+        ascensionCrystals: {
+          c1: { createdAt, x: 1, y: 1, stone: { minedAt: 0 }, minesLeft: 1 },
+          c2: { createdAt, x: 3, y: 1, stone: { minedAt: 0 }, minesLeft: 1 },
+          c3: { createdAt, x: 5, y: 1, stone: { minedAt: 0 }, minesLeft: 1 },
+        } as GameState["ascensionCrystals"],
+      },
+      createdAt,
+    });
+
+    const chest = state.airdrops?.find(
+      (a) => a.id === "missing-resources-ascension-1",
+    );
+    // Expected at swamp a1 (Basic Land 30) = 4; owned = 3 (inventory already
+    // includes the 3 placed) → chest tops up exactly 1, not 0.
+    expect(chest?.items["Ascension Crystal"]).toEqual(1);
+  });
+
   it("requires the minimum Bumpkin level to ascend to swamp island", () => {
     expect(() =>
       upgrade({
