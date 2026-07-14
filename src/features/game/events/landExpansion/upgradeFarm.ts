@@ -853,8 +853,10 @@ function desertUpgrade(state: GameState) {
   // Add new resources
   game.inventory.Manor = new Decimal(1);
 
-  // Ensure they have the minimum resources to start the island with
-  // Do not give bonus sunstones
+  // Ensure they have the minimum resources to place the starting island layout
+  // (excluding bonus sunstones). Any shortfall beyond this — sunstones, per-tier
+  // gaps, and the upgrade's Ascension Crystals — is reconciled after the layout
+  // by the shared missing-resources chest in transitionToIsland.
   const minimum = { ...TOTAL_EXPANSION_NODES.desert[4], "Sunstone Rock": 0 };
 
   Object.entries(minimum).forEach(([name, amount]) => {
@@ -908,14 +910,15 @@ function volcanoUpgrade(state: GameState) {
   // Add new resources
   game.inventory.Mansion = new Decimal(1);
 
-  // Ensure they have the minimum resources to start the island with
-  // Do not give bonus sunstones
-  // Account for upgraded resources when checking minimums
+  // Ensure they have the minimum resources to place the starting island layout
+  // (excluding bonus sunstones, accounting for upgraded resources). Any shortfall
+  // beyond this — sunstones, per-tier gaps, and the upgrade's Ascension Crystals —
+  // is reconciled after the layout by the shared missing-resources chest in
+  // transitionToIsland.
   const minimum = { ...TOTAL_EXPANSION_NODES.volcano[5], "Sunstone Rock": 0 };
 
   getObjectEntries(minimum).forEach(([resource, amount]) => {
     const totalEquivalents = getTotalBaseResourceEquivalents(game, resource);
-
     // Only set minimum if total equivalents are less than required
     if (totalEquivalents < amount) {
       topUpResourceToMinimum({
@@ -1265,47 +1268,40 @@ function transitionToIsland({
   }
 
   if (hasFeatureAccess(game, "SWAMP_ASCENSION")) {
-    if (isAscensionTarget) {
-      // Ascension rewards — the Ascension Crystals the player is owed (most
-      // players won't have any yet) plus any node shortfall — are delivered via
-      // a chest on the side island rather than straight to inventory. Reuses the
-      // shared `getMissingResources` reconciliation (same as revealLand's
-      // back-pay: per-tier/forging-safe, depletion-aware), keyed on the current
-      // Basic Land count. The `missing-resources` id prefix lets revealLand's
-      // dedup so the same items are never granted twice.
-      const bundle = getMissingResources({
-        game,
-        expansion: game.inventory["Basic Land"]?.toNumber() ?? 0,
-      });
-      if (getObjectEntries(bundle).length > 0) {
-        game.airdrops = [
-          ...(game.airdrops ?? []),
-          {
-            // Keyed on the (strictly increasing) ascension level so every
-            // ascension — including the infinite marble→marble loop — gets a
-            // unique id. `claimAirdrop` removes every airdrop matching the
-            // claimed id, so a reused id would drop an un-collected chest's
-            // rewards. The `missing-resources` prefix keeps revealLand's back-pay
-            // dedup working.
-            id: `missing-resources-ascension-${game.island.ascensionLevel}`,
-            createdAt,
-            coordinates: pickAscensionChestPosition(game, setup),
-            items: bundle,
-            wearables: {},
-            sfl: 0,
-            coins: 0,
-            message:
-              "Ascension rewards! Collect them and place them on your island.",
-          },
-        ];
-      }
-    } else {
-      // Basic-island upgrades (spring/desert/volcano) keep granting the upgrade
-      // crystal straight to inventory — cumulative A0 grants that keep the player
-      // in lockstep with getExpectedAscensionCrystals for the revealLand back-pay.
-      game.inventory["Ascension Crystal"] = (
-        game.inventory["Ascension Crystal"] ?? new Decimal(0)
-      ).add(1);
+    // Every island upgrade (basic + ascension) reconciles the player's resources
+    // against the new island's floor via the shared `getMissingResources`
+    // back-pay (same as revealLand's: per-tier/forging-safe, depletion-aware) and
+    // delivers any shortfall — nodes, sunstones, and the upgrade's Ascension
+    // Crystals — through a side-island reward chest rather than topping up
+    // inventory. The `missing-resources` id prefix lets revealLand's back-pay
+    // dedup so the same items are never granted twice.
+    const bundle = getMissingResources({
+      game,
+      expansion: game.inventory["Basic Land"]?.toNumber() ?? 0,
+    });
+    if (getObjectEntries(bundle).length > 0) {
+      game.airdrops = [
+        ...(game.airdrops ?? []),
+        {
+          // Unique per upgrade so `claimAirdrop` (which removes every airdrop
+          // matching the claimed id) never drops a pending chest: ascension
+          // islands key on the strictly-increasing ascension level (incl. the
+          // infinite marble→marble loop); basic islands key on the target island
+          // (each is reached once in the linear progression).
+          id: isAscensionTarget
+            ? `missing-resources-ascension-${game.island.ascensionLevel}`
+            : `missing-resources-upgrade-${target}`,
+          createdAt,
+          coordinates: pickAscensionChestPosition(game, setup),
+          items: bundle,
+          wearables: {},
+          sfl: 0,
+          coins: 0,
+          message: isAscensionTarget
+            ? "Ascension rewards! Collect them and place them on your island."
+            : "Upgrade rewards! Collect them and place them on your island.",
+        },
+      ];
     }
   }
 

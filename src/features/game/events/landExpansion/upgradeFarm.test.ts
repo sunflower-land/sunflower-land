@@ -1350,6 +1350,44 @@ describe("upgradeFarm", () => {
     expect(chest?.items["Sunstone Rock"]).toBeUndefined();
   });
 
+  it("delivers the basic-upgrade back-pay via a chest while still laying out the new island", () => {
+    const state = upgrade({
+      farmId,
+      action: { type: "farm.upgraded" },
+      state: {
+        ...INITIAL_FARM,
+        island: { type: "desert" },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(25),
+          Oil: new Decimal(200),
+          "Crop Plot": new Decimal(65),
+          "Fruit Patch": new Decimal(15),
+          Tree: new Decimal(23),
+          "Stone Rock": new Decimal(20),
+          "Iron Rock": new Decimal(12),
+          "Gold Rock": new Decimal(7),
+          "Crimstone Rock": new Decimal(4),
+          "Sunstone Rock": new Decimal(6),
+          Beehive: new Decimal(3),
+          "Flower Bed": new Decimal(3),
+        },
+      },
+    });
+
+    // The starting island is still laid out from inventory (placeInitialLand runs
+    // before the back-pay) — the volcano floor's Oil Reserve is placed.
+    expect(Object.keys(state.oilReserves)).toHaveLength(1);
+
+    // The upgrade's Ascension Crystals are folded into the reward chest keyed on
+    // the target island, not granted straight to inventory.
+    const chest = state.airdrops?.find(
+      (airdrop) => airdrop.id === "missing-resources-upgrade-volcano",
+    );
+    expect(chest?.items["Ascension Crystal"]).toBeGreaterThan(0);
+    expect(state.inventory["Ascension Crystal"]).toBeUndefined();
+  });
+
   it("does not re-grant crystals already pending in an un-collected chest", () => {
     const createdAt = SPOOKY_ASCENSION_START;
     const readyXp = ascensionBaseline(1) + bandXp(1);
