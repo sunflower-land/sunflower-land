@@ -425,6 +425,45 @@ describe("craftTool", () => {
     expect(state.inventory["Oil Drill"]).toEqual(new Decimal(1));
   });
 
+  // Rank 1 (20 Wool) is covered above; ranks scale the wool cost down.
+  it.each([
+    [2, 15],
+    [3, 10],
+  ])(
+    "crafts oil drill with %i Oil Rig rank => %i wool instead of leather",
+    (rank, wool) => {
+      const state = craftTool({
+        state: {
+          ...GAME_STATE,
+          coins: 100,
+          inventory: {
+            Wool: new Decimal(wool),
+            Wood: new Decimal(20),
+            Iron: new Decimal(9),
+            Leather: new Decimal(10),
+          },
+          bumpkin: {
+            ...GAME_STATE.bumpkin,
+            skills: {
+              "Oil Rig": rank,
+            },
+          },
+          island: {
+            type: "desert",
+          },
+        },
+        action: {
+          type: "tool.crafted",
+          tool: "Oil Drill",
+        },
+      });
+
+      expect(state.inventory["Wool"]).toEqual(new Decimal(0));
+      expect(state.inventory["Leather"]).toEqual(new Decimal(10));
+      expect(state.inventory["Oil Drill"]).toEqual(new Decimal(1));
+    },
+  );
+
   it("does not craft a tool if the bumpkin level is below the required level", () => {
     expect(() =>
       craftTool({

@@ -94,6 +94,7 @@ import xpIcon from "assets/icons/xp.png";
 import type { NPCName } from "lib/npcs";
 import type { BuffLabel } from ".";
 import type { ToolName } from "./craftables";
+import { OIL_DRILL_WOOL_BY_RANK } from "./tools";
 
 export type BumpkinSkillName =
   | "Green Thumb"
@@ -221,6 +222,13 @@ export type SkillRankEffect =
   | { kind: "xpBonus"; ranks: readonly [number, number, number] } // fraction: 0.2 = +20% (e.g. Bumpkin XP from fish)
   | { kind: "timeReduction"; ranks: readonly [number, number, number] } // fraction 0..1 shaved off a cooking time (0.3 = -30%)
   | { kind: "flatDebuff"; ranks: readonly [number, number, number] } // a debuff magnitude that shrinks with rank (e.g. wood penalty 1/0.5/0)
+  | { kind: "oilReduction"; ranks: readonly [number, number, number] } // fraction subtracted from the crop-machine oil-consumption multiplier (0.1 = -10%)
+  | { kind: "flatBonus"; ranks: readonly [number, number, number] } // a flat per-rank quantity (queue/plot additions, or an absolute ingredient amount)
+  | {
+      kind: "growthWithOilDebuff";
+      growth: readonly [number, number, number]; // crop-machine growth-time multiplier for the boosted seed
+      oilPenalty: readonly [number, number, number]; // fraction ADDED to the crop-machine oil consumption per hour
+    }
   | {
       kind: "yieldWithDebuff";
       buff: readonly [number, number, number];
@@ -3312,6 +3320,14 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Crop Processor Unit": {
     name: "Crop Processor Unit",
     tree: "Machinery",
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "growthWithOilDebuff",
+        growth: [0.95, 0.9, 0.85],
+        oilPenalty: [0.1, 0.15, 0.2],
+      } as const,
+    },
     requirements: {
       points: 1,
       tier: 1,
@@ -3336,6 +3352,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Oil Gadget": {
     name: "Oil Gadget",
     tree: "Machinery",
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "oilReduction", ranks: [0.1, 0.15, 0.2] } as const,
+    },
     requirements: {
       points: 1,
       tier: 1,
@@ -3355,6 +3375,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Oil Extraction": {
     name: "Oil Extraction",
     tree: "Machinery",
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "additiveYield", ranks: [1, 1.5, 2] } as const,
+    },
     requirements: {
       points: 1,
       tier: 1,
@@ -3373,6 +3397,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Leak-Proof Tank": {
     name: "Leak-Proof Tank",
     tree: "Machinery",
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "multiplier", ranks: [3, 4, 5] } as const,
+    },
     requirements: {
       points: 1,
       tier: 1,
@@ -3433,6 +3461,14 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Rapid Rig": {
     name: "Rapid Rig",
     tree: "Machinery",
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "growthWithOilDebuff",
+        growth: [0.8, 0.7, 0.6],
+        oilPenalty: [0.4, 0.5, 0.6],
+      } as const,
+    },
     requirements: {
       points: 2,
       tier: 2,
@@ -3457,6 +3493,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Oil Be Back": {
     name: "Oil Be Back",
     tree: "Machinery",
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "growthMultiplier", ranks: [0.8, 0.7, 0.6] } as const,
+    },
     requirements: {
       points: 2,
       tier: 2,
@@ -3476,6 +3516,12 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Oil Rig": {
     name: "Oil Rig",
     tree: "Machinery",
+    upgrade: {
+      maxLevel: 3,
+      // Wool required to craft the Oil Drill per rank (replaces Leather).
+      // Sourced from tools.ts so the recipe and description can't drift.
+      effect: { kind: "flatBonus", ranks: OIL_DRILL_WOOL_BY_RANK } as const,
+    },
     requirements: {
       points: 2,
       tier: 2,
@@ -3496,6 +3542,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Field Expansion Module": {
     name: "Field Expansion Module",
     tree: "Machinery",
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "flatBonus", ranks: [5, 7, 10] } as const,
+    },
     requirements: {
       points: 3,
       tier: 3,
@@ -3514,6 +3564,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Field Extension Module": {
     name: "Field Extension Module",
     tree: "Machinery",
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "flatBonus", ranks: [5, 7, 10] } as const,
+    },
     requirements: {
       points: 3,
       tier: 3,
@@ -3532,6 +3586,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Efficiency Extension Module": {
     name: "Efficiency Extension Module",
     tree: "Machinery",
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "oilReduction", ranks: [0.3, 0.4, 0.5] } as const,
+    },
     requirements: {
       points: 3,
       tier: 3,
@@ -3551,6 +3609,14 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Grease Lightning": {
     name: "Grease Lightning",
     tree: "Machinery",
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "cooldown",
+        // 4 day / 3.5 day / 3 day cooldown
+        ranks: [1000 * 60 * 60 * 96, 1000 * 60 * 60 * 84, 1000 * 60 * 60 * 72],
+      } as const,
+    },
     requirements: {
       points: 3,
       tier: 3,
@@ -4147,6 +4213,23 @@ export const SKILL_RANKS = {
     BUMPKIN_REVAMP_SKILL_TREE["Greenhouse Gamble"].upgrade.effect,
   "Slick Saver": BUMPKIN_REVAMP_SKILL_TREE["Slick Saver"].upgrade.effect,
   "Greasy Plants": BUMPKIN_REVAMP_SKILL_TREE["Greasy Plants"].upgrade.effect,
+  "Crop Processor Unit":
+    BUMPKIN_REVAMP_SKILL_TREE["Crop Processor Unit"].upgrade.effect,
+  "Oil Gadget": BUMPKIN_REVAMP_SKILL_TREE["Oil Gadget"].upgrade.effect,
+  "Oil Extraction": BUMPKIN_REVAMP_SKILL_TREE["Oil Extraction"].upgrade.effect,
+  "Leak-Proof Tank":
+    BUMPKIN_REVAMP_SKILL_TREE["Leak-Proof Tank"].upgrade.effect,
+  "Rapid Rig": BUMPKIN_REVAMP_SKILL_TREE["Rapid Rig"].upgrade.effect,
+  "Oil Be Back": BUMPKIN_REVAMP_SKILL_TREE["Oil Be Back"].upgrade.effect,
+  "Oil Rig": BUMPKIN_REVAMP_SKILL_TREE["Oil Rig"].upgrade.effect,
+  "Field Expansion Module":
+    BUMPKIN_REVAMP_SKILL_TREE["Field Expansion Module"].upgrade.effect,
+  "Field Extension Module":
+    BUMPKIN_REVAMP_SKILL_TREE["Field Extension Module"].upgrade.effect,
+  "Efficiency Extension Module":
+    BUMPKIN_REVAMP_SKILL_TREE["Efficiency Extension Module"].upgrade.effect,
+  "Grease Lightning":
+    BUMPKIN_REVAMP_SKILL_TREE["Grease Lightning"].upgrade.effect,
 } satisfies Record<UpgradeableSkillName, SkillRankEffect>;
 
 // Runtime guard co-located with SKILL_RANKS so callers can narrow to an

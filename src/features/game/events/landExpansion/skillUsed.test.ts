@@ -1347,5 +1347,38 @@ describe("skillUse", () => {
         }),
       ).toEqual(HOUR * 72);
     });
+
+    it("scales Grease Lightning cooldown per rank (96h/84h/72h)", () => {
+      const state = (rank: number) => ({
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: { "Grease Lightning": rank },
+        },
+      });
+
+      // Rank 1 reproduces the pre-upgrade 96h cooldown.
+      expect(
+        getSkillCooldown({
+          cooldown: HOUR * 96,
+          state: state(1),
+          skillName: "Grease Lightning",
+        }),
+      ).toEqual(HOUR * 96);
+      expect(
+        getSkillCooldown({
+          cooldown: HOUR * 96,
+          state: state(2),
+          skillName: "Grease Lightning",
+        }),
+      ).toEqual(HOUR * 84);
+      expect(
+        getSkillCooldown({
+          cooldown: HOUR * 96,
+          state: state(3),
+          skillName: "Grease Lightning",
+        }),
+      ).toEqual(HOUR * 72);
+    });
   });
 });

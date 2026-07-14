@@ -606,5 +606,84 @@ export const getSkillRankDescription = (
           value: (SKILL_RANKS["Greasy Plants"].oilMultiplier[i] - 1) * 100,
         }),
       };
+    case "Crop Processor Unit":
+      return {
+        buff: t("skill.cropProcessorUnit.buff.ranked", {
+          value: SKILL_RANKS["Crop Processor Unit"].growth[i],
+        }),
+        debuff: t("skill.cropProcessorUnit.debuff.ranked", {
+          value: SKILL_RANKS["Crop Processor Unit"].oilPenalty[i] * 100,
+        }),
+      };
+    case "Oil Gadget":
+      return {
+        buff: t("skill.oilGadget.ranked", {
+          value: 1 - SKILL_RANKS["Oil Gadget"].ranks[i],
+        }),
+      };
+    case "Oil Extraction":
+      return {
+        buff: t("skill.oilExtraction.ranked", {
+          value: SKILL_RANKS["Oil Extraction"].ranks[i],
+        }),
+      };
+    case "Leak-Proof Tank":
+      return {
+        buff: t("skill.leakProofTank.ranked", {
+          value: SKILL_RANKS["Leak-Proof Tank"].ranks[i],
+        }),
+      };
+    case "Rapid Rig":
+      return {
+        buff: t("skill.rapidRig.buff.ranked", {
+          value: SKILL_RANKS["Rapid Rig"].growth[i],
+        }),
+        debuff: t("skill.rapidRig.debuff.ranked", {
+          value: SKILL_RANKS["Rapid Rig"].oilPenalty[i] * 100,
+        }),
+      };
+    case "Oil Be Back":
+      return {
+        buff: t("skill.oilBeBack.ranked", {
+          value: SKILL_RANKS["Oil Be Back"].ranks[i],
+        }),
+      };
+    case "Oil Rig":
+      return {
+        buff: t("skill.oilRig.buff.ranked", {
+          value: SKILL_RANKS["Oil Rig"].ranks[i],
+        }),
+      };
+    case "Field Expansion Module":
+      return {
+        buff: t("skill.fieldExpansionModule.ranked", {
+          value: SKILL_RANKS["Field Expansion Module"].ranks[i],
+        }),
+      };
+    case "Field Extension Module":
+      return {
+        buff: t("skill.fieldExtensionModule.ranked", {
+          value: SKILL_RANKS["Field Extension Module"].ranks[i],
+        }),
+      };
+    case "Efficiency Extension Module":
+      return {
+        buff: t("skill.efficiencyExtensionModule.ranked", {
+          value: 1 - SKILL_RANKS["Efficiency Extension Module"].ranks[i],
+        }),
+      };
+    case "Grease Lightning":
+      return {
+        buff: t("skill.greaseLightning.ranked", {
+          value: millisecondsToString(
+            SKILL_RANKS["Grease Lightning"].ranks[i],
+            {
+              length: "short",
+              isShortFormat: true,
+              removeTrailingZeros: true,
+            },
+          ),
+        }),
+      };
   }
 };
