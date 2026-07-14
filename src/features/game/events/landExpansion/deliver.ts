@@ -252,13 +252,18 @@ export function getOrderSellPrice<T>(
     boostsUsed.push({ name: "Betty's Friend", value: `+${b * 100}%` });
   }
 
+  const victoriasSecretaryLevel = game.bumpkin
+    ? getSkillLevel(game.bumpkin.skills, "Victoria's Secretary")
+    : 0;
   if (
     order.from === "victoria" &&
-    game.bumpkin?.skills["Victoria's Secretary"] &&
+    victoriasSecretaryLevel &&
     order.reward.coins
   ) {
-    mul += 0.5;
-    boostsUsed.push({ name: "Victoria's Secretary", value: "+50%" });
+    const b =
+      SKILL_RANKS["Victoria's Secretary"].ranks[victoriasSecretaryLevel - 1];
+    mul += b;
+    boostsUsed.push({ name: "Victoria's Secretary", value: `+${b * 100}%` });
   }
 
   const forgeWardProfitsLevel = game.bumpkin

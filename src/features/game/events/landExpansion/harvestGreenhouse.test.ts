@@ -8,6 +8,8 @@ import { getExpiryCooldown } from "features/game/lib/collectibleBuilt";
 import type { GameState } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
+import { prngChance } from "lib/prng";
+import { KNOWN_IDS } from "features/game/types";
 
 // Pin the legacy (mainnet, SPEED_BOOSTS off) behaviour for this file's existing
 // tests — jest runs on amoy where the flag is ON. The windowed model is covered
@@ -731,6 +733,152 @@ describe("plantGreenhouse", () => {
       },
     });
     expect(state.inventory.Rice).toEqual(new Decimal(2));
+  });
+});
+
+describe("harvestGreenHouse ascension skill ranks", () => {
+  const harvestRice = (
+    skills: GameState["bumpkin"]["skills"],
+    farmActivity: GameState["farmActivity"] = {},
+  ) =>
+    harvestGreenHouse({
+      farmId: 1,
+      action: { type: "greenhouse.harvested", id: 1 },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { ...INITIAL_BUMPKIN.skills, ...skills },
+        },
+        farmActivity,
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {
+              plant: {
+                name: "Rice",
+                plantedAt: Date.now() - 72 * 60 * 60 * 1000,
+              },
+            },
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            { coordinates: { x: 0, y: 0 }, id: "1", createdAt: 0, readyAt: 0 },
+          ],
+        },
+      },
+    });
+
+  // Glass Room additiveYield [0.1, 0.15, 0.2] — rank 1 == current (+0.1).
+  it("scales Glass Room yield with rank (+0.1/+0.15/+0.2)", () => {
+    expect(harvestRice({ "Glass Room": 1 }).inventory.Rice).toEqual(
+      new Decimal(1.1),
+    );
+    expect(harvestRice({ "Glass Room": 2 }).inventory.Rice).toEqual(
+      new Decimal(1.15),
+    );
+    expect(harvestRice({ "Glass Room": 3 }).inventory.Rice).toEqual(
+      new Decimal(1.2),
+    );
+  });
+
+  // Seeded Bounty yield leg [0.5, 0.75, 1] — rank 1 == current (+0.5).
+  it("scales Seeded Bounty yield with rank (+0.5/+0.75/+1)", () => {
+    expect(harvestRice({ "Seeded Bounty": 1 }).inventory.Rice).toEqual(
+      new Decimal(1.5),
+    );
+    expect(harvestRice({ "Seeded Bounty": 2 }).inventory.Rice).toEqual(
+      new Decimal(1.75),
+    );
+    expect(harvestRice({ "Seeded Bounty": 3 }).inventory.Rice).toEqual(
+      new Decimal(2),
+    );
+  });
+
+  // Greasy Plants yield leg [1, 1.5, 2] — rank 1 == current (+1).
+  it("scales Greasy Plants yield with rank (+1/+1.5/+2)", () => {
+    expect(harvestRice({ "Greasy Plants": 1 }).inventory.Rice).toEqual(
+      new Decimal(2),
+    );
+    expect(harvestRice({ "Greasy Plants": 2 }).inventory.Rice).toEqual(
+      new Decimal(2.5),
+    );
+    expect(harvestRice({ "Greasy Plants": 3 }).inventory.Rice).toEqual(
+      new Decimal(3),
+    );
+  });
+
+  // Greenhouse Gamble chance [25, 35, 45] — locate a counter in the r2-only
+  // band (procs at 35 but not 25) to prove rank 2 procs where rank 1 does not.
+  it("procs Greenhouse Gamble at rank 2 where rank 1 would not", () => {
+    const itemId = KNOWN_IDS["Rice"];
+    let boundary = -1;
+    for (let counter = 0; counter < 500_000; counter++) {
+      const r1 = prngChance({
+        farmId: 1,
+        itemId,
+        counter,
+        chance: 25,
+        criticalHitName: "Greenhouse Gamble",
+      });
+      const r2 = prngChance({
+        farmId: 1,
+        itemId,
+        counter,
+        chance: 35,
+        criticalHitName: "Greenhouse Gamble",
+      });
+      if (r2 && !r1) {
+        boundary = counter;
+        break;
+      }
+    }
+    expect(boundary).toBeGreaterThanOrEqual(0);
+
+    expect(
+      harvestRice({ "Greenhouse Gamble": 1 }, { "Rice Harvested": boundary })
+        .inventory.Rice,
+    ).toEqual(new Decimal(1));
+    expect(
+      harvestRice({ "Greenhouse Gamble": 2 }, { "Rice Harvested": boundary })
+        .inventory.Rice,
+    ).toEqual(new Decimal(2));
+  });
+
+  it("procs Greenhouse Gamble at rank 3 where rank 2 would not", () => {
+    const itemId = KNOWN_IDS["Rice"];
+    let boundary = -1;
+    for (let counter = 0; counter < 500_000; counter++) {
+      const r2 = prngChance({
+        farmId: 1,
+        itemId,
+        counter,
+        chance: 35,
+        criticalHitName: "Greenhouse Gamble",
+      });
+      const r3 = prngChance({
+        farmId: 1,
+        itemId,
+        counter,
+        chance: 45,
+        criticalHitName: "Greenhouse Gamble",
+      });
+      if (r3 && !r2) {
+        boundary = counter;
+        break;
+      }
+    }
+    expect(boundary).toBeGreaterThanOrEqual(0);
+
+    expect(
+      harvestRice({ "Greenhouse Gamble": 2 }, { "Rice Harvested": boundary })
+        .inventory.Rice,
+    ).toEqual(new Decimal(1));
+    expect(
+      harvestRice({ "Greenhouse Gamble": 3 }, { "Rice Harvested": boundary })
+        .inventory.Rice,
+    ).toEqual(new Decimal(2));
   });
 });
 

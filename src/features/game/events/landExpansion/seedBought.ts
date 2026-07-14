@@ -95,12 +95,14 @@ export function getBuyPrice(
     price = price * value;
   }
 
+  const seedyBusinessLevel = getSkillLevel(bumpkin.skills, "Seedy Business");
   if (
     name in { ...GREENHOUSE_SEEDS, ...GREENHOUSE_FRUIT_SEEDS } &&
-    bumpkin.skills["Seedy Business"]
+    seedyBusinessLevel
   ) {
-    boostsUsed.push({ name: "Seedy Business", value: "x0.85" });
-    price = price * 0.85;
+    const value = SKILL_RANKS["Seedy Business"].ranks[seedyBusinessLevel - 1];
+    boostsUsed.push({ name: "Seedy Business", value: `x${value}` });
+    price = price * value;
   }
 
   return { price, boostsUsed };

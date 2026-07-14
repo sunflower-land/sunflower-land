@@ -240,6 +240,12 @@ export type SkillRankEffect =
       kind: "doubleNom";
       food: readonly [number, number, number]; // guaranteed extra food from cooking
       ingredients: readonly [number, number, number]; // ingredient-cost multiplier debuff (2x/3x/4x)
+    }
+  | { kind: "flatReduction"; ranks: readonly [number, number, number] } // flat amount subtracted from a cost (e.g. greenhouse Oil usage 1/1.5/2)
+  | {
+      kind: "yieldWithOilDebuff";
+      yield: readonly [number, number, number]; // extra greenhouse produce yield
+      oilMultiplier: readonly [number, number, number]; // Oil-usage multiplier debuff (2x/3x/4x)
     };
 
 // Shared AOE footprint progression — Chonky Scarecrow / Horror Mike / Laurie's
@@ -2067,6 +2073,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     image: glass_room,
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "additiveYield", ranks: [0.1, 0.15, 0.2] },
+    },
   },
   "Seedy Business": {
     name: "Seedy Business",
@@ -2085,6 +2095,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     image: seedy_business,
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "costMultiplier", ranks: [0.85, 0.8, 0.75] },
+    },
   },
   "Rice and Shine": {
     name: "Rice and Shine",
@@ -2103,6 +2117,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     image: riceAndShine,
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "growthMultiplier", ranks: [0.95, 0.94, 0.925] },
+    },
   },
   "Victoria's Secretary": {
     name: "Victoria's Secretary",
@@ -2122,6 +2140,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     npc: "victoria",
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "coinBonus", ranks: [0.5, 0.75, 1.0] },
+    },
   },
   // Greenhouse - Tier 2
   "Olive Express": {
@@ -2141,6 +2163,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "growthMultiplier", ranks: [0.9, 0.85, 0.8] },
+    },
   },
   "Rice Rocket": {
     name: "Rice Rocket",
@@ -2159,6 +2185,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "growthMultiplier", ranks: [0.9, 0.85, 0.8] },
+    },
   },
   "Vine Velocity": {
     name: "Vine Velocity",
@@ -2177,6 +2207,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "growthMultiplier", ranks: [0.9, 0.85, 0.8] },
+    },
   },
   "Seeded Bounty": {
     name: "Seeded Bounty",
@@ -2200,6 +2234,11 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     image: seededBounty,
+    upgrade: {
+      // Only the yield leg scales; the "+1 seed to plant" debuff is fixed.
+      maxLevel: 3,
+      effect: { kind: "additiveYield", ranks: [0.5, 0.75, 1] },
+    },
   },
   // Greenhouse - Tier 3
   "Greenhouse Guru": {
@@ -2220,6 +2259,14 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     disabled: false,
     power: true,
     image: greenhouse_guru,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "cooldown",
+        // 4 day / 3.5 day / 3 day cooldown
+        ranks: [1000 * 60 * 60 * 96, 1000 * 60 * 60 * 84, 1000 * 60 * 60 * 72],
+      },
+    },
   },
   "Greenhouse Gamble": {
     name: "Greenhouse Gamble",
@@ -2238,6 +2285,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
     image: greenhouse_gamble,
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "chance", ranks: [25, 35, 45] },
+    },
   },
   "Slick Saver": {
     name: "Slick Saver",
@@ -2256,6 +2307,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "flatReduction", ranks: [1, 1.5, 2] },
+    },
   },
   "Greasy Plants": {
     name: "Greasy Plants",
@@ -2280,6 +2335,14 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     image: greasy_plants,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "yieldWithOilDebuff",
+        yield: [1, 1.5, 2],
+        oilMultiplier: [2, 3, 4],
+      },
+    },
   },
 
   // Mining - Tier 1
@@ -4069,6 +4132,21 @@ export const SKILL_RANKS = {
   "Double Nom": BUMPKIN_REVAMP_SKILL_TREE["Double Nom"].upgrade.effect,
   "Fiery Jackpot": BUMPKIN_REVAMP_SKILL_TREE["Fiery Jackpot"].upgrade.effect,
   "Fry Frenzy": BUMPKIN_REVAMP_SKILL_TREE["Fry Frenzy"].upgrade.effect,
+  "Glass Room": BUMPKIN_REVAMP_SKILL_TREE["Glass Room"].upgrade.effect,
+  "Seedy Business": BUMPKIN_REVAMP_SKILL_TREE["Seedy Business"].upgrade.effect,
+  "Rice and Shine": BUMPKIN_REVAMP_SKILL_TREE["Rice and Shine"].upgrade.effect,
+  "Victoria's Secretary":
+    BUMPKIN_REVAMP_SKILL_TREE["Victoria's Secretary"].upgrade.effect,
+  "Olive Express": BUMPKIN_REVAMP_SKILL_TREE["Olive Express"].upgrade.effect,
+  "Rice Rocket": BUMPKIN_REVAMP_SKILL_TREE["Rice Rocket"].upgrade.effect,
+  "Vine Velocity": BUMPKIN_REVAMP_SKILL_TREE["Vine Velocity"].upgrade.effect,
+  "Seeded Bounty": BUMPKIN_REVAMP_SKILL_TREE["Seeded Bounty"].upgrade.effect,
+  "Greenhouse Guru":
+    BUMPKIN_REVAMP_SKILL_TREE["Greenhouse Guru"].upgrade.effect,
+  "Greenhouse Gamble":
+    BUMPKIN_REVAMP_SKILL_TREE["Greenhouse Gamble"].upgrade.effect,
+  "Slick Saver": BUMPKIN_REVAMP_SKILL_TREE["Slick Saver"].upgrade.effect,
+  "Greasy Plants": BUMPKIN_REVAMP_SKILL_TREE["Greasy Plants"].upgrade.effect,
 } satisfies Record<UpgradeableSkillName, SkillRankEffect>;
 
 // Runtime guard co-located with SKILL_RANKS so callers can narrow to an

@@ -525,5 +525,86 @@ export const getSkillRankDescription = (
               }),
       };
     }
+    case "Glass Room":
+      return {
+        buff: t("skill.glassRoom.ranked", {
+          value: SKILL_RANKS["Glass Room"].ranks[i],
+        }),
+      };
+    case "Seedy Business":
+      return {
+        buff: t("skill.seedyBusiness.ranked", {
+          value: SKILL_RANKS["Seedy Business"].ranks[i],
+        }),
+      };
+    case "Rice and Shine":
+      return {
+        buff: t("skill.riceAndShine.ranked", {
+          value: SKILL_RANKS["Rice and Shine"].ranks[i],
+        }),
+      };
+    case "Victoria's Secretary":
+      return {
+        buff: t("skill.victoriasSecretary.ranked", {
+          value: SKILL_RANKS["Victoria's Secretary"].ranks[i] * 100,
+        }),
+      };
+    case "Olive Express":
+      return {
+        buff: t("skill.oliveExpress.ranked", {
+          value: SKILL_RANKS["Olive Express"].ranks[i],
+        }),
+      };
+    case "Rice Rocket":
+      return {
+        buff: t("skill.riceRocket.ranked", {
+          value: SKILL_RANKS["Rice Rocket"].ranks[i],
+        }),
+      };
+    case "Vine Velocity":
+      return {
+        buff: t("skill.vineVelocity.ranked", {
+          value: SKILL_RANKS["Vine Velocity"].ranks[i],
+        }),
+      };
+    case "Seeded Bounty":
+      // Only the yield leg scales; the "+1 seed to plant" debuff is fixed.
+      return {
+        buff: t("skill.seededBounty.buff.ranked", {
+          value: SKILL_RANKS["Seeded Bounty"].ranks[i],
+        }),
+        debuff: t("skill.seededBounty.debuff"),
+      };
+    case "Greenhouse Guru":
+      return {
+        buff: t("skill.greenhouseGuru.ranked", {
+          value: millisecondsToString(SKILL_RANKS["Greenhouse Guru"].ranks[i], {
+            length: "short",
+            isShortFormat: true,
+            removeTrailingZeros: true,
+          }),
+        }),
+      };
+    case "Greenhouse Gamble":
+      return {
+        buff: t("skill.greenhouseGamble.ranked", {
+          value: SKILL_RANKS["Greenhouse Gamble"].ranks[i],
+        }),
+      };
+    case "Slick Saver":
+      return {
+        buff: t("skill.slickSaver.ranked", {
+          value: SKILL_RANKS["Slick Saver"].ranks[i],
+        }),
+      };
+    case "Greasy Plants":
+      return {
+        buff: t("skill.greasyPlants.buff.ranked", {
+          value: SKILL_RANKS["Greasy Plants"].yield[i],
+        }),
+        debuff: t("skill.greasyPlants.debuff.ranked", {
+          value: (SKILL_RANKS["Greasy Plants"].oilMultiplier[i] - 1) * 100,
+        }),
+      };
   }
 };

@@ -8,7 +8,7 @@ import {
 import { type CropSeedName, CROP_SEEDS } from "features/game/types/crops";
 import type { GameState } from "features/game/types/game";
 
-import { seedBought } from "./seedBought";
+import { getBuyPrice, seedBought } from "./seedBought";
 import { SEEDS } from "features/game/types/seeds";
 
 const GAME_STATE: GameState = TEST_FARM;
@@ -372,6 +372,27 @@ describe("seedBought", () => {
 
     expect(state.inventory[item]).toEqual(oldAmount.add(amount));
   });
+
+  // Seedy Business — greenhouse seed cost x0.85/x0.8/x0.75 (rank 1 == now).
+  it.each([
+    [1, 0.85],
+    [2, 0.8],
+    [3, 0.75],
+  ])(
+    "discounts greenhouse seed cost with Seedy Business at rank %i",
+    (rank, multiplier) => {
+      const item = "Rice Seed";
+      const { price } = getBuyPrice(item, SEEDS[item], {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Seedy Business": rank },
+        },
+      });
+
+      expect(price).toEqual(SEEDS[item].price * multiplier);
+    },
+  );
 
   it.each([
     [1, 0.9],

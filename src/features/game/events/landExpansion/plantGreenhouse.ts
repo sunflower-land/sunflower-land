@@ -28,6 +28,7 @@ import {
   type FarmActivityName,
   trackFarmActivity,
 } from "features/game/types/farmActivity";
+import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
 
 export type PlantGreenhouseAction = {
   type: "greenhouse.planted";
@@ -171,27 +172,37 @@ export const getGreenhouseCropTime = ({
     boostsUsed.push({ name: "Tortoise Shrine", value: "x0.67" });
   }
 
-  if (game.bumpkin.skills["Rice and Shine"]) {
-    seconds *= 0.95;
-    boostsUsed.push({ name: "Rice and Shine", value: "x0.95" });
+  const { skills } = game.bumpkin;
+
+  const riceAndShineLevel = getSkillLevel(skills, "Rice and Shine");
+  if (riceAndShineLevel) {
+    const m = SKILL_RANKS["Rice and Shine"].ranks[riceAndShineLevel - 1];
+    seconds *= m;
+    boostsUsed.push({ name: "Rice and Shine", value: `x${m}` });
   }
 
-  // Olive Express: 10% reduction
-  if (crop === "Olive" && game.bumpkin.skills["Olive Express"]) {
-    seconds *= 0.9;
-    boostsUsed.push({ name: "Olive Express", value: "x0.9" });
+  // Olive Express: Olive growth-time reduction
+  const oliveExpressLevel = getSkillLevel(skills, "Olive Express");
+  if (crop === "Olive" && oliveExpressLevel) {
+    const m = SKILL_RANKS["Olive Express"].ranks[oliveExpressLevel - 1];
+    seconds *= m;
+    boostsUsed.push({ name: "Olive Express", value: `x${m}` });
   }
 
-  // Rice Rocket: 10% reduction
-  if (crop === "Rice" && game.bumpkin.skills["Rice Rocket"]) {
-    seconds *= 0.9;
-    boostsUsed.push({ name: "Rice Rocket", value: "x0.9" });
+  // Rice Rocket: Rice growth-time reduction
+  const riceRocketLevel = getSkillLevel(skills, "Rice Rocket");
+  if (crop === "Rice" && riceRocketLevel) {
+    const m = SKILL_RANKS["Rice Rocket"].ranks[riceRocketLevel - 1];
+    seconds *= m;
+    boostsUsed.push({ name: "Rice Rocket", value: `x${m}` });
   }
 
-  // Vine Velocity: 10% reduction
-  if (crop === "Grape" && game.bumpkin.skills["Vine Velocity"]) {
-    seconds *= 0.9;
-    boostsUsed.push({ name: "Vine Velocity", value: "x0.9" });
+  // Vine Velocity: Grape growth-time reduction
+  const vineVelocityLevel = getSkillLevel(skills, "Vine Velocity");
+  if (crop === "Grape" && vineVelocityLevel) {
+    const m = SKILL_RANKS["Vine Velocity"].ranks[vineVelocityLevel - 1];
+    seconds *= m;
+    boostsUsed.push({ name: "Vine Velocity", value: `x${m}` });
   }
 
   if (!windowed && greenhouseFertiliser === "Greenhouse Glow") {
@@ -211,15 +222,20 @@ export function getOilUsage({
 }): { usage: number; boostsUsed: { name: BoostName; value: string }[] } {
   let usage = OIL_USAGE[seed];
   const boostsUsed: { name: BoostName; value: string }[] = [];
+  const { skills } = game.bumpkin;
 
-  if (game.bumpkin.skills["Greasy Plants"]) {
-    usage *= 2;
-    boostsUsed.push({ name: "Greasy Plants", value: "x2" });
+  const greasyPlantsLevel = getSkillLevel(skills, "Greasy Plants");
+  if (greasyPlantsLevel) {
+    const m = SKILL_RANKS["Greasy Plants"].oilMultiplier[greasyPlantsLevel - 1];
+    usage *= m;
+    boostsUsed.push({ name: "Greasy Plants", value: `x${m}` });
   }
 
-  if (game.bumpkin.skills["Slick Saver"]) {
-    usage -= 1;
-    boostsUsed.push({ name: "Slick Saver", value: "-1" });
+  const slickSaverLevel = getSkillLevel(skills, "Slick Saver");
+  if (slickSaverLevel) {
+    const v = SKILL_RANKS["Slick Saver"].ranks[slickSaverLevel - 1];
+    usage -= v;
+    boostsUsed.push({ name: "Slick Saver", value: `-${v}` });
   }
 
   return { usage, boostsUsed };

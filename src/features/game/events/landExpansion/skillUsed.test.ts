@@ -1315,5 +1315,37 @@ describe("skillUse", () => {
         }),
       ).toEqual(HOUR * 72);
     });
+
+    it("scales Greenhouse Guru cooldown per rank (96h/84h/72h)", () => {
+      const state = (rank: number) => ({
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: { "Greenhouse Guru": rank },
+        },
+      });
+
+      expect(
+        getSkillCooldown({
+          cooldown: HOUR * 96,
+          state: state(1),
+          skillName: "Greenhouse Guru",
+        }),
+      ).toEqual(HOUR * 96);
+      expect(
+        getSkillCooldown({
+          cooldown: HOUR * 96,
+          state: state(2),
+          skillName: "Greenhouse Guru",
+        }),
+      ).toEqual(HOUR * 84);
+      expect(
+        getSkillCooldown({
+          cooldown: HOUR * 96,
+          state: state(3),
+          skillName: "Greenhouse Guru",
+        }),
+      ).toEqual(HOUR * 72);
+    });
   });
 });
