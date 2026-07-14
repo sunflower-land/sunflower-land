@@ -1,25 +1,34 @@
 import { useContext, useEffect } from "react";
 import { Context } from "../GameProvider";
 
-interface DailyResetActions {
-  triggerReset: () => void;
-}
-
-const useDailyResetActions = (): DailyResetActions => {
+export const DailyReset: React.FC = () => {
   const { gameService } = useContext(Context);
 
-  return {
-    triggerReset: () => {
-      // The rooster crow is played by DailyResetModal when the state is entered
-      gameService.send("DAILY_RESET");
-    },
-  };
-};
-
-export const DailyReset: React.FC = () => {
-  const { triggerReset } = useDailyResetActions();
-
   useEffect(() => {
+    let subscription: { unsubscribe: () => void } | undefined;
+
+    // Only the `playing` state handles DAILY_RESET — if the machine is
+    // elsewhere at midnight (autosaving, landscaping, a modal) XState would
+    // discard the event, so hold it until the machine returns to `playing`
+    const triggerReset = () => {
+      subscription?.unsubscribe();
+
+      // The rooster crow is played by DailyResetModal when the state is entered
+      if (gameService.getSnapshot().matches("playing")) {
+        gameService.send("DAILY_RESET");
+        return;
+      }
+
+      let delivered = false;
+      subscription = gameService.subscribe((state) => {
+        if (delivered || !state.matches("playing")) return;
+
+        delivered = true;
+        gameService.send("DAILY_RESET");
+        subscription?.unsubscribe();
+      });
+    };
+
     // Calculate time until next check
     const getNextCheckTime = () => {
       const now = new Date();
@@ -50,8 +59,11 @@ export const DailyReset: React.FC = () => {
 
     let timeoutId = scheduleNextReset();
 
-    return () => clearTimeout(timeoutId);
-  }, [triggerReset]);
+    return () => {
+      clearTimeout(timeoutId);
+      subscription?.unsubscribe();
+    };
+  }, [gameService]);
 
   return null;
 };

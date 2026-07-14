@@ -748,7 +748,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
         {seasonChanged && <SeasonChanged />}
         {roninMigration && <RoninWaypointLoginModal />}
         {calendarEvent && <CalendarEvent />}
-        {/* Always mounted so the cloud animation persists after `dailyReset` exits */}
+        {/* Always mounted so it can play the cloud dispersal after `dailyReset` exits; the clouds themselves only mount around the reset */}
         <DailyResetModal />
         {referralsAnnouncement && <ReferralsAnnouncement />}
         {competition && (

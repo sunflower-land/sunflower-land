@@ -82,6 +82,10 @@ const CLOUD_PUFFS = Array.from({ length: 200 }, (_, i) => {
   };
 });
 
+// Longest dispersal transition (max duration + max delay, with headroom) —
+// the cloud layer unmounts once this has elapsed
+const CLOUD_EXIT_MS = 2500;
+
 export const DailyResetModal: React.FC = () => {
   const { gameService, showAnimations } = useContext(Context);
   const { t } = useAppTranslation();
@@ -95,6 +99,42 @@ export const DailyResetModal: React.FC = () => {
   const { play: playRooster } = useSound("morning_rooster");
   const wasShowing = useRef(false);
   const wasResetting = useRef(false);
+
+  // The cloud layer (200 animated sprites) only exists around the reset:
+  // mounted on entry, kept through the dispersal, then removed so it isn't
+  // sitting in the DOM animating for the rest of the session
+  const [cloudsShown, setCloudsShown] = useState(false);
+  const [cloudsExited, setCloudsExited] = useState(true);
+  const cloudsMounted = isDailyReset || !cloudsExited;
+
+  useEffect(() => {
+    if (isDailyReset) {
+      // Let the hidden positions paint for a frame so the roll-in transitions
+      let showFrame: number | undefined;
+      const paintFrame = requestAnimationFrame(() => {
+        showFrame = requestAnimationFrame(() => {
+          setCloudsShown(true);
+          setCloudsExited(false);
+        });
+      });
+
+      return () => {
+        cancelAnimationFrame(paintFrame);
+        if (showFrame !== undefined) cancelAnimationFrame(showFrame);
+      };
+    }
+
+    const exitFrame = requestAnimationFrame(() => setCloudsShown(false));
+    const unmountTimeout = setTimeout(
+      () => setCloudsExited(true),
+      CLOUD_EXIT_MS,
+    );
+
+    return () => {
+      cancelAnimationFrame(exitFrame);
+      clearTimeout(unmountTimeout);
+    };
+  }, [isDailyReset]);
 
   // Crow as the new day fades in
   useEffect(() => {
@@ -172,63 +212,65 @@ export const DailyResetModal: React.FC = () => {
   return (
     <>
       {/* Clouds cover the screen while the modal is open and disperse to
-          reveal the new day when the player continues. Kept mounted (and in a
-          portal) so the leave animation plays out after `dailyReset` exits. */}
-      {createPortal(
-        <div
-          className="fixed inset-0 z-40 pointer-events-none overflow-hidden"
-          aria-hidden
-        >
-          {/* Night falls first: fade to black, then the sky lightens to white
+          reveal the new day when the player continues. Portalled so they
+          overlay everything; mounted only from entry until the dispersal
+          finishes. */}
+      {cloudsMounted &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-40 pointer-events-none overflow-hidden"
+            aria-hidden
+          >
+            {/* Night falls first: fade to black, then the sky lightens to white
               as the clouds roll over the top. On the way out only the white
               layer fades, so the reveal is a clean sky clearing. */}
-          <div
-            className="absolute inset-0 bg-black"
-            style={{
-              transition: isDailyReset
-                ? "opacity 2000ms ease-in-out"
-                : "opacity 0ms",
-              opacity: isDailyReset ? 1 : 0,
-            }}
-          />
-          <div
-            className="absolute inset-0 bg-white"
-            style={{
-              transition: isDailyReset
-                ? "opacity 1200ms ease-in-out 2200ms"
-                : "opacity 1000ms ease-in-out",
-              opacity: isDailyReset ? 1 : 0,
-            }}
-          />
-          {CLOUD_PUFFS.map((puff, i) => (
             <div
-              key={i}
-              className="absolute"
+              className="absolute inset-0 bg-black"
               style={{
-                left: `${puff.left}%`,
-                top: `${puff.top}%`,
-                width: `${puff.width}px`,
-                // Entry waits for dusk to settle in; exit disperses right away
-                ...transitionStyle(
-                  puff.duration,
-                  isDailyReset ? puff.delay + 1000 : puff.delay,
-                ),
-                transform: isDailyReset ? "translate(0, 0)" : puff.hidden,
-                opacity: isDailyReset ? 1 : 0,
+                transition: cloudsShown
+                  ? "opacity 2000ms ease-in-out"
+                  : "opacity 0ms",
+                opacity: cloudsShown ? 1 : 0,
               }}
-            >
-              <img
-                src={puff.src}
-                className={classNames("w-full", {
-                  "animate-float": showAnimations,
-                })}
-                style={{ animationDelay: `${Math.round(puff.floatDelay)}ms` }}
-              />
-            </div>
-          ))}
-        </div>,
-        document.body,
-      )}
+            />
+            <div
+              className="absolute inset-0 bg-white"
+              style={{
+                transition: cloudsShown
+                  ? "opacity 1200ms ease-in-out 2200ms"
+                  : "opacity 1000ms ease-in-out",
+                opacity: cloudsShown ? 1 : 0,
+              }}
+            />
+            {CLOUD_PUFFS.map((puff, i) => (
+              <div
+                key={i}
+                className="absolute"
+                style={{
+                  left: `${puff.left}%`,
+                  top: `${puff.top}%`,
+                  width: `${puff.width}px`,
+                  // Entry waits for dusk to settle in; exit disperses right away
+                  ...transitionStyle(
+                    puff.duration,
+                    cloudsShown ? puff.delay + 1000 : puff.delay,
+                  ),
+                  transform: cloudsShown ? "translate(0, 0)" : puff.hidden,
+                  opacity: cloudsShown ? 1 : 0,
+                }}
+              >
+                <img
+                  src={puff.src}
+                  className={classNames("w-full", {
+                    "animate-float": showAnimations,
+                  })}
+                  style={{ animationDelay: `${Math.round(puff.floatDelay)}ms` }}
+                />
+              </div>
+            ))}
+          </div>,
+          document.body,
+        )}
 
       <Modal show={isDailyReset} backdrop={false}>
         <Panel bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}>
