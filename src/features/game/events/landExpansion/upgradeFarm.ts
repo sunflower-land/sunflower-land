@@ -1088,12 +1088,14 @@ function buildAscensionRewardBundle(
 
   // Items already promised by an un-collected reward chest count as owned — the
   // player will receive them on claim. Ignoring them would re-issue the same
-  // crystals/nodes on the next ascension (both chests stay claimable).
+  // crystals/nodes on the next ascension (both chests stay claimable). Scoped to
+  // `missing-resources` chests (our ascension chests + revealLand's back-pay), so
+  // an unrelated promo/event airdrop can't shrink what this ascension owes —
+  // mirrors revealLand's pendingMissing filter.
   const pending = (item: InventoryItemName): number =>
-    (game.airdrops ?? []).reduce(
-      (total, airdrop) => total + (airdrop.items[item] ?? 0),
-      0,
-    );
+    (game.airdrops ?? [])
+      .filter((airdrop) => airdrop.id.startsWith("missing-resources"))
+      .reduce((total, airdrop) => total + (airdrop.items[item] ?? 0), 0);
 
   // Node floor for the starting island (base row), excluding the sunstone bonus —
   // matching `ascensionUpgrade`'s minimum. After `applySetup` this is already met,

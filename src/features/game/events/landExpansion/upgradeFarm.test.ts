@@ -1,5 +1,9 @@
 import { INITIAL_FARM, TEST_FARM } from "features/game/lib/constants";
-import type { GameState, SavedLayout } from "features/game/types/game";
+import type {
+  GameState,
+  InventoryItemName,
+  SavedLayout,
+} from "features/game/types/game";
 import {
   upgrade,
   getAscensionUpgradeCost,
@@ -1367,6 +1371,108 @@ describe("upgradeFarm", () => {
     // Expected at swamp a1 (Basic Land 30) = 4; owned = 3 (inventory already
     // includes the 3 placed) → chest tops up exactly 1, not 0.
     expect(chest?.items["Ascension Crystal"]).toEqual(1);
+  });
+
+  it("does not duplicate owned nodes into the reward chest (no over-grant)", () => {
+    const createdAt = Date.now();
+    const floor = {
+      "Crop Plot": 65,
+      Tree: 23,
+      "Stone Rock": 20,
+      "Iron Rock": 13,
+      "Gold Rock": 8,
+      "Fruit Patch": 15,
+      "Crimstone Rock": 5,
+      "Sunstone Rock": 13,
+      "Oil Reserve": 4,
+      "Lava Pit": 3,
+      Beehive: 3,
+      "Flower Bed": 3,
+    };
+    const state = upgrade({
+      farmId,
+      action: { type: "farm.upgraded" },
+      state: {
+        ...INITIAL_FARM,
+        coins: 10000,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          experience: LEVEL_EXPERIENCE[ASCENSION_BUMPKIN_LEVEL],
+        },
+        island: { type: "volcano" },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(30),
+          Crimstone: new Decimal(100),
+          Oil: new Decimal(100),
+          Obsidian: new Decimal(10),
+          ...Object.fromEntries(
+            Object.entries(floor).map(([k, v]) => [k, new Decimal(v)]),
+          ),
+        },
+        // Lava Pits actually PLACED (the reviewer's example) while inventory
+        // counts them — proves placement does not make them "uncounted".
+        lavaPits: {
+          l1: { createdAt, x: -1, y: 1, stone: { minedAt: 0 }, minesLeft: 3 },
+          l2: { createdAt, x: 1, y: 1, stone: { minedAt: 0 }, minesLeft: 3 },
+          l3: { createdAt, x: 3, y: 1, stone: { minedAt: 0 }, minesLeft: 3 },
+        } as GameState["lavaPits"],
+      },
+      createdAt,
+    });
+
+    const chest = state.airdrops?.find(
+      (a) => a.id === "missing-resources-ascension-1",
+    );
+    // Every floor node is already owned (inventory includes placed) → none are
+    // re-granted in the chest.
+    Object.keys(floor).forEach((node) =>
+      expect(chest?.items[node as InventoryItemName]).toBeUndefined(),
+    );
+  });
+
+  it("ignores non-reward airdrops when sizing the crystal chest", () => {
+    const createdAt = Date.now();
+    const state = upgrade({
+      farmId,
+      action: { type: "farm.upgraded" },
+      state: {
+        ...INITIAL_FARM,
+        coins: 10000,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          experience: LEVEL_EXPERIENCE[ASCENSION_BUMPKIN_LEVEL],
+        },
+        island: { type: "volcano" },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(30),
+          Crimstone: new Decimal(100),
+          Oil: new Decimal(100),
+          Obsidian: new Decimal(10),
+        },
+        // A promo/event airdrop that happens to contain crystals — NOT a reward
+        // chest, so it must not count toward what the player is owed here.
+        airdrops: [
+          {
+            id: "promo-gift",
+            createdAt,
+            coordinates: { x: -30, y: 7 },
+            items: { "Ascension Crystal": 10 },
+            wearables: {},
+            sfl: 0,
+            coins: 0,
+          },
+        ],
+      },
+      createdAt,
+    });
+
+    const chest = state.airdrops?.find(
+      (a) => a.id === "missing-resources-ascension-1",
+    );
+    // Full expected (4) is still delivered — the promo's crystals don't count.
+    expect(chest?.items["Ascension Crystal"]).toEqual(4);
   });
 
   it("requires the minimum Bumpkin level to ascend to swamp island", () => {
