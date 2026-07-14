@@ -141,6 +141,86 @@ export function getExpectedResources({
 }
 
 /**
+ * Mines a full sunstone rock holds before it depletes and is removed from the
+ * farm (see mineSunstone). Used when reconciling how many rocks a player has
+ * mined to depletion so they are not re-granted.
+ */
+export const SUNSTONE_MINES = 10;
+
+/**
+ * Resource/node counts the player is owed but does not yet have — the shared
+ * back-pay reconciliation used by BOTH `revealLand`'s missing-resources airdrop
+ * and the ascension reward chest. For each node type it is the expected amount
+ * (per-tier, from `getExpectedResources`, which subtracts forged/burned nodes)
+ * minus what the player owns in inventory, minus what an un-collected
+ * `missing-resources` airdrop already promises. Finite resources are credited
+ * for legitimate consumption so they are never resurrected: Sunstone Rocks for
+ * rocks mined to depletion, Ascension Crystals for crystals mined (single-use).
+ *
+ * Counting per-tier (not base-equivalents) is what makes this forging-safe: a
+ * player who forges 4 Trees → 1 Ancient Tree has `expected.Tree` reduced by the
+ * burn, so the base Trees are not re-granted.
+ *
+ * @returns Only positive shortfalls, keyed by resource name.
+ */
+export function getMissingResources({
+  game,
+  expansion,
+}: {
+  game: GameState;
+  expansion: number;
+}): Partial<Record<ResourceName, number>> {
+  const expected = getExpectedResources({ game, expansion });
+
+  // Items already promised by an un-collected missing-resources airdrop are not
+  // yet in inventory; counting them as still-missing would duplicate the grant
+  // if the player reveals/ascends again before collecting the previous airdrop.
+  const pendingMissing: Partial<Record<ResourceName, number>> = {};
+  (game.airdrops ?? [])
+    .filter((airdrop) => airdrop.id.startsWith("missing-resources"))
+    .forEach((airdrop) => {
+      getKeys(expected).forEach((key) => {
+        pendingMissing[key] =
+          (pendingMissing[key] ?? 0) + (airdrop.items[key] ?? 0);
+      });
+    });
+
+  const missing: Partial<Record<ResourceName, number>> = {};
+  getKeys(expected).forEach((key) => {
+    let shortfall =
+      (expected[key] ?? 0) -
+      (game.inventory[key]?.toNumber() ?? 0) -
+      (pendingMissing[key] ?? 0);
+
+    // Sunstone rocks are finite: once mined to depletion a rock is removed from
+    // inventory. Subtract the depletions so they are not re-granted. Each rock
+    // holds SUNSTONE_MINES mines; mines spent on rocks the player still owns are
+    // not depletions, so exclude them before dividing.
+    if (key === "Sunstone Rock") {
+      const lifetimeMines = game.farmActivity?.["Sunstone Mined"] ?? 0;
+      const minesOnLiveRocks = Object.values(game.sunstones ?? {}).reduce(
+        (total, rock) => total + (SUNSTONE_MINES - rock.minesLeft),
+        0,
+      );
+      const depleted = Math.floor(
+        Math.max(0, lifetimeMines - minesOnLiveRocks) / SUNSTONE_MINES,
+      );
+      shortfall -= depleted;
+    }
+
+    // Ascension Crystals are single-use: each mine destroys one crystal and
+    // decrements inventory. Subtract mined crystals so they are not resurrected.
+    if (key === "Ascension Crystal") {
+      shortfall -= game.farmActivity?.["Ascension Crystal Mined"] ?? 0;
+    }
+
+    if (shortfall > 0) missing[key] = shortfall;
+  });
+
+  return missing;
+}
+
+/**
  * Computes the layout for the player's next land expansion with resource availability constraints applied.
  *
  * @param game - The current game state

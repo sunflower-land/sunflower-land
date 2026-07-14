@@ -38,11 +38,8 @@ import { applyFarmLayout, snapshotFarm } from "./lib/layouts";
 import {
   TOTAL_EXPANSION_NODES,
   getExpansionNodes,
+  getMissingResources,
 } from "features/game/types/expansions";
-import {
-  SWAMP_BASE_EXPANSION,
-  getExpectedAscensionCrystals,
-} from "features/game/expansion/lib/ascension";
 import { ISLAND_MAX_EXPANSION } from "features/game/expansion/lib/expansionRequirements";
 import {
   getIslandAnchorX,
@@ -1070,79 +1067,6 @@ const ISLAND_SETUP: Record<UpgradeTarget, IslandSetup> = {
 };
 
 /**
- * Contents of the ascension reward chest (a side-island airdrop). Delivers the
- * Ascension Crystals the player is owed for this ascension — routed through the
- * chest instead of straight to inventory — plus a node-shortfall safety net for
- * under-provisioned/legacy farms (0 for a normal farm, which already meets the
- * floor after `applySetup`).
- *
- * Uses the same expected-vs-owned accounting as `revealLand`'s missing-resources
- * back-pay, and the chest is emitted with a `missing-resources` id prefix so
- * `revealLand`'s dedup never grants the same crystals twice.
- */
-function buildAscensionRewardBundle(
-  game: GameState,
-  target: AscensionIslandType,
-): Partial<Record<InventoryItemName, number>> {
-  const bundle: Partial<Record<InventoryItemName, number>> = {};
-
-  // Items already promised by an un-collected reward chest count as owned — the
-  // player will receive them on claim. Ignoring them would re-issue the same
-  // crystals/nodes on the next ascension (both chests stay claimable). Scoped to
-  // `missing-resources` chests (our ascension chests + revealLand's back-pay), so
-  // an unrelated promo/event airdrop can't shrink what this ascension owes —
-  // mirrors revealLand's pendingMissing filter.
-  const pending = (item: InventoryItemName): number =>
-    (game.airdrops ?? [])
-      .filter((airdrop) => airdrop.id.startsWith("missing-resources"))
-      .reduce((total, airdrop) => total + (airdrop.items[item] ?? 0), 0);
-
-  // Node floor for the starting island (base row), excluding the sunstone bonus —
-  // matching `ascensionUpgrade`'s minimum. After `applySetup` this is already met,
-  // so the shortfall is only positive for legacy / under-provisioned accounts.
-  const floor = {
-    ...getExpansionNodes({
-      island: target,
-      expansion: SWAMP_BASE_EXPANSION,
-      ascensionLevel: game.island.ascensionLevel,
-    }),
-    "Sunstone Rock": 0,
-  };
-  getObjectEntries(floor).forEach(([resource, amount]) => {
-    const owned =
-      getTotalBaseResourceEquivalents(game, resource) + pending(resource);
-    const shortfall = (amount ?? 0) - owned;
-    if (shortfall > 0) {
-      bundle[resource] = (bundle[resource] ?? 0) + shortfall;
-    }
-  });
-
-  // Ascension Crystals owed for this ascension: the expected cumulative count
-  // minus what the player already owns (inventory, which already includes any
-  // placed crystals — placing never decrements it), has mined (single-use), or
-  // has pending in an un-collected chest. Mirrors revealLand's back-pay formula.
-  // This replaces the +1 inventory grant on the ascension path.
-  const expectedCrystals = getExpectedAscensionCrystals({
-    islandType: target,
-    ascensionLevel: game.island.ascensionLevel ?? 0,
-    basicLand: game.inventory["Basic Land"]?.toNumber() ?? 0,
-  });
-  const ownedCrystals = game.inventory["Ascension Crystal"]?.toNumber() ?? 0;
-  const minedCrystals = game.farmActivity?.["Ascension Crystal Mined"] ?? 0;
-  const crystalShortfall =
-    expectedCrystals -
-    ownedCrystals -
-    minedCrystals -
-    pending("Ascension Crystal");
-  if (crystalShortfall > 0) {
-    bundle["Ascension Crystal"] =
-      (bundle["Ascension Crystal"] ?? 0) + crystalShortfall;
-  }
-
-  return bundle;
-}
-
-/**
  * A free side-island tile for the ascension reward chest. The side island sits
  * off the main land, so `pickEmptyPosition`/`detectCollision` (which treats
  * off-land tiles as water) can't be used — instead scan tiles just below the
@@ -1344,13 +1268,15 @@ function transitionToIsland({
     if (isAscensionTarget) {
       // Ascension rewards — the Ascension Crystals the player is owed (most
       // players won't have any yet) plus any node shortfall — are delivered via
-      // a chest on the side island rather than straight to inventory. The
-      // `missing-resources` id prefix lets revealLand's back-pay dedup so the
-      // same crystals are never granted twice.
-      const bundle = buildAscensionRewardBundle(
+      // a chest on the side island rather than straight to inventory. Reuses the
+      // shared `getMissingResources` reconciliation (same as revealLand's
+      // back-pay: per-tier/forging-safe, depletion-aware), keyed on the current
+      // Basic Land count. The `missing-resources` id prefix lets revealLand's
+      // dedup so the same items are never granted twice.
+      const bundle = getMissingResources({
         game,
-        target as AscensionIslandType,
-      );
+        expansion: game.inventory["Basic Land"]?.toNumber() ?? 0,
+      });
       if (getObjectEntries(bundle).length > 0) {
         game.airdrops = [
           ...(game.airdrops ?? []),

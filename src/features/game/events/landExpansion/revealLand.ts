@@ -6,11 +6,11 @@ import {
 } from "features/game/expansion/lib/constants";
 import {
   EXPANSION_REQUIREMENTS,
-  getExpectedResources,
   getLand,
+  getMissingResources,
+  SUNSTONE_MINES,
 } from "features/game/types/expansions";
 import type { Airdrop, GameState } from "features/game/types/game";
-import type { ResourceName } from "features/game/types/resources";
 import { hasFeatureAccess } from "lib/flags";
 
 import { getKeys } from "lib/object";
@@ -26,11 +26,6 @@ import {
   TREE_RECOVERY_TIME,
 } from "features/game/lib/constants";
 import { OIL_RESERVE_RECOVERY_TIME } from "./drillOilReserve";
-
-// Each sunstone rock can be mined this many times before it is depleted and
-// removed from the farm (see mineSunstone). Used both when placing new rocks
-// and when reconciling how many the player has mined to depletion.
-const SUNSTONE_MINES = 10;
 
 // Preloaded crops that will appear on plots when they reveal
 const EXPANSION_CROPS: Record<number, CropName> = {
@@ -582,91 +577,17 @@ export function getRewards({
     }
   }
 
-  const missingNodes: Record<ResourceName, number> = {
-    "Crimstone Rock": 0,
-    "Crop Plot": 0,
-    "Flower Bed": 0,
-    "Fruit Patch": 0,
-    "Gold Rock": 0,
-    "Iron Rock": 0,
-    "Stone Rock": 0,
-    "Sunstone Rock": 0,
-    Beehive: 0,
-    Tree: 0,
-    "Oil Reserve": 0,
-    "Lava Pit": 0,
-    "Fused Stone Rock": 0,
-    "Reinforced Stone Rock": 0,
-    Boulder: 0,
-    "Ancient Tree": 0,
-    "Sacred Tree": 0,
-    "Refined Iron Rock": 0,
-    "Tempered Iron Rock": 0,
-    "Pure Gold Rock": 0,
-    "Prime Gold Rock": 0,
-    "Ascension Crystal": 0,
-  };
-
-  const expected = getExpectedResources({
+  // Shared back-pay reconciliation (also used by the ascension reward chest):
+  // expected-vs-owned per-tier, minus what an un-collected missing-resources
+  // airdrop already promises, crediting depleted sunstones / mined crystals.
+  const missingNodes = getMissingResources({
     game,
     expansion: expansions.toNumber(),
   });
 
-  // Items already promised by an unclaimed missing-resources airdrop are not
-  // yet in the inventory. Counting them as still-missing would duplicate the
-  // grant if the player expands again before collecting the previous airdrop.
-  const pendingMissing: Partial<Record<ResourceName, number>> = {};
-  (game.airdrops ?? [])
-    .filter((airdrop) => airdrop.id.startsWith("missing-resources"))
-    .forEach((airdrop) => {
-      getKeys(missingNodes).forEach((key) => {
-        pendingMissing[key] =
-          (pendingMissing[key] ?? 0) + (airdrop.items[key] ?? 0);
-      });
-    });
-
-  getKeys(missingNodes).forEach((key) => {
-    let missing =
-      (expected[key] ?? 0) -
-      (game.inventory[key]?.toNumber() ?? 0) -
-      (pendingMissing[key] ?? 0);
-
-    // Sunstone rocks are finite: once a rock is mined to depletion it is
-    // removed from the inventory (see mineSunstone). To avoid re-granting rocks
-    // the player legitimately consumed, subtract the rocks already mined to
-    // depletion. Each rock holds 10 mines, but mines spent on rocks the player
-    // still owns are not depletions, so they are excluded before dividing. A
-    // player who has never mined a sunstone receives the full missing amount.
-    if (key === "Sunstone Rock") {
-      const lifetimeMines = game.farmActivity?.["Sunstone Mined"] ?? 0;
-      const minesOnLiveRocks = Object.values(game.sunstones ?? {}).reduce(
-        (total, rock) => total + (SUNSTONE_MINES - rock.minesLeft),
-        0,
-      );
-      const depleted = Math.floor(
-        Math.max(0, lifetimeMines - minesOnLiveRocks) / SUNSTONE_MINES,
-      );
-      missing -= depleted;
-    }
-
-    // Ascension Crystals are single-use: each mine destroys exactly one crystal
-    // (and decrements the inventory, see mineAscensionCrystal). Subtract the
-    // crystals already mined so this back-pay airdrop never resurrects ones the
-    // player legitimately consumed. A legacy player (0 owned, 0 mined) receives
-    // the full expected amount.
-    if (key === "Ascension Crystal") {
-      missing -= game.farmActivity?.["Ascension Crystal Mined"] ?? 0;
-    }
-
-    // They have the expected amount of resources
-    if (missing <= 0) {
-      return;
-    }
-
-    missingNodes[key] = missing;
-  });
-
-  const hasMissing = getKeys(missingNodes).some((key) => missingNodes[key] > 0);
+  const hasMissing = getKeys(missingNodes).some(
+    (key) => (missingNodes[key] ?? 0) > 0,
+  );
   if (hasMissing) {
     const expansionBoundaries = {
       x: EXPANSION_ORIGINS[expansions.toNumber() - 1].x - LAND_SIZE / 2,
@@ -685,17 +606,8 @@ export function getRewards({
       {
         createdAt,
         id: `missing-resources-${expansions.toNumber()}`,
-        // Only include items greater than 0
-        items: getKeys(missingNodes).reduce(
-          (acc, key) =>
-            missingNodes[key] > 0
-              ? {
-                  ...acc,
-                  [key]: missingNodes[key],
-                }
-              : acc,
-          {},
-        ),
+        // getMissingResources already returns only positive shortfalls.
+        items: { ...missingNodes },
         sfl: 0,
         coins: 0,
         wearables: {},

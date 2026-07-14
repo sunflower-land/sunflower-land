@@ -1276,6 +1276,80 @@ describe("upgradeFarm", () => {
     ).toBe(false);
   });
 
+  it("delivers the sunstone shortfall via the chest", () => {
+    const createdAt = Date.now();
+    const state = upgrade({
+      farmId,
+      action: { type: "farm.upgraded" },
+      state: {
+        ...INITIAL_FARM,
+        coins: 10000,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          experience: LEVEL_EXPERIENCE[ASCENSION_BUMPKIN_LEVEL],
+        },
+        island: { type: "volcano" },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(30),
+          Crimstone: new Decimal(100),
+          Oil: new Decimal(100),
+          Obsidian: new Decimal(10),
+          // Maxed volcano owns the volcano floor of 6 sunstone rocks.
+          "Sunstone Rock": new Decimal(6),
+        },
+        sunstones: {},
+      },
+      createdAt,
+    });
+
+    const chest = state.airdrops?.find(
+      (airdrop) => airdrop.id === "missing-resources-ascension-1",
+    );
+    // Swamp floor wants 13 sunstone rocks; a maxed volcano owns 6, so the chest
+    // tops up the remaining 7 (no longer hard-excluded).
+    expect(chest?.items["Sunstone Rock"]).toEqual(7);
+  });
+
+  it("does not re-grant sunstone rocks the player mined to depletion", () => {
+    const createdAt = Date.now();
+    const state = upgrade({
+      farmId,
+      action: { type: "farm.upgraded" },
+      state: {
+        ...INITIAL_FARM,
+        coins: 10000,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          experience: LEVEL_EXPERIENCE[ASCENSION_BUMPKIN_LEVEL],
+        },
+        island: { type: "volcano" },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(30),
+          Crimstone: new Decimal(100),
+          Oil: new Decimal(100),
+          Obsidian: new Decimal(10),
+          // Was granted the full 13, but mined 3 rocks to depletion (each rock
+          // holds 10 mines) — depletion removes them from inventory, leaving 10.
+          "Sunstone Rock": new Decimal(10),
+        },
+        sunstones: {},
+        farmActivity: {
+          ...INITIAL_FARM.farmActivity,
+          "Sunstone Mined": 30,
+        },
+      },
+      createdAt,
+    });
+
+    const chest = state.airdrops?.find(
+      (airdrop) => airdrop.id === "missing-resources-ascension-1",
+    );
+    // owned = 10 inventory + 3 depleted = 13 = floor, so no sunstone shortfall.
+    expect(chest?.items["Sunstone Rock"]).toBeUndefined();
+  });
+
   it("does not re-grant crystals already pending in an un-collected chest", () => {
     const createdAt = SPOOKY_ASCENSION_START;
     const readyXp = ascensionBaseline(1) + bandXp(1);
