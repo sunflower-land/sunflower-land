@@ -201,9 +201,13 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
     const name = layout?.name ?? "";
     const isAscension = mode === "confirmAscension";
     const message = isAscension
-      ? hasAscensionLayout
-        ? t("savedLayouts.confirmAscensionReplace")
-        : t("savedLayouts.confirmAscension")
+      ? showCurrent
+        ? hasAscensionLayout
+          ? t("savedLayouts.confirmAscensionReplace")
+          : t("savedLayouts.confirmAscension")
+        : hasAscensionLayout
+          ? t("savedLayouts.confirmAscensionReplaceFromLayout", { name })
+          : t("savedLayouts.confirmAscensionFromLayout", { name })
       : mode === "confirmApply"
         ? t("savedLayouts.confirmApply", { name })
         : mode === "confirmOverwrite"

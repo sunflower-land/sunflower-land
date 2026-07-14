@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import type { GameState, SavedLayout } from "features/game/types/game";
+import { CONFIG } from "lib/config";
 import { saveAscensionLayout } from "./saveAscensionLayout";
 import { saveLayout } from "./saveLayout";
 
@@ -38,6 +39,28 @@ const WITHIN_30 = { x: 0, y: 0 };
 const BEYOND_30 = { x: 0, y: 18 };
 
 describe("saveAscensionLayout", () => {
+  it("throws when SAVED_LAYOUTS access is missing", () => {
+    const previousNetwork = CONFIG.NETWORK;
+    // Testnet forces the beta flag on; use mainnet + no Beta Pass so the guard
+    // (which runs before any snapshotting) actually fails.
+    CONFIG.NETWORK = "mainnet";
+    try {
+      const state: GameState = {
+        ...baseFarm,
+        inventory: { ...baseFarm.inventory, "Beta Pass": new Decimal(0) },
+      };
+      expect(() =>
+        saveAscensionLayout({
+          state,
+          action: { type: "layout.ascensionSaved" },
+          createdAt,
+        }),
+      ).toThrow("Saved layouts are not available");
+    } finally {
+      CONFIG.NETWORK = previousNetwork;
+    }
+  });
+
   it("trims placed items that fall beyond the first 30 expansions", () => {
     const state: GameState = {
       ...baseFarm,

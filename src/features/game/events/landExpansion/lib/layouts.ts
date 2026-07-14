@@ -221,6 +221,21 @@ const isWithinExpansions = (
   });
 
 /**
+ * Retain a placeable only when its footprint fits within the first
+ * `maxExpansions` expansions. With no `maxExpansions`, everything placed is
+ * kept. Shared by {@link snapshotFarm} (live state) and {@link trimSavedLayout}
+ * (stored layout).
+ */
+const isKept = (
+  coordinates: { x: number; y: number } | undefined,
+  name: string,
+  maxExpansions?: number,
+): boolean =>
+  !!coordinates &&
+  (maxExpansions === undefined ||
+    isWithinExpansions(coordinates, dimensionsFor(name), maxExpansions));
+
+/**
  * Snapshot the current farm arrangement into the position maps stored on a
  * {@link SavedLayout}. Captures every placed item (those with coordinates),
  * including the non-removable buildings (Town Center/House/Mansion/Manor) —
@@ -242,21 +257,11 @@ export function snapshotFarm(
 > {
   const { maxExpansions } = options;
 
-  // When trimming to a land count, keep only placeables whose footprint fits
-  // within the first `maxExpansions` expansions; otherwise keep everything.
-  const isKept = (
-    coordinates: { x: number; y: number } | undefined,
-    name: string,
-  ): boolean =>
-    !!coordinates &&
-    (maxExpansions === undefined ||
-      isWithinExpansions(coordinates, dimensionsFor(name), maxExpansions));
-
   const collectibles: SavedLayout["collectibles"] = {};
   getObjectEntries(state.collectibles).forEach(([name, group]) => {
     if (!group) return;
     const placed = group
-      .filter((item) => isKept(item.coordinates, name))
+      .filter((item) => isKept(item.coordinates, name, maxExpansions))
       .map((item) => ({
         id: item.id,
         coordinates: { ...item.coordinates } as LayoutCoordinates,
@@ -269,7 +274,7 @@ export function snapshotFarm(
   getObjectEntries(state.buildings).forEach(([name, group]) => {
     if (!group) return;
     const placed = group
-      .filter((item) => isKept(item.coordinates, name))
+      .filter((item) => isKept(item.coordinates, name, maxExpansions))
       .map((item) => ({
         id: item.id,
         coordinates: { ...item.coordinates } as LayoutCoordinates,
@@ -283,7 +288,8 @@ export function snapshotFarm(
     const bucket = get(state);
     Object.entries(bucket).forEach(([id, item]) => {
       if (item.x === undefined || item.y === undefined) return;
-      if (!isKept({ x: item.x, y: item.y }, resourceName)) return;
+      if (!isKept({ x: item.x, y: item.y }, resourceName, maxExpansions))
+        return;
       resources[key][id] = copyCoordinates(item);
     });
   });
@@ -294,7 +300,7 @@ export function snapshotFarm(
   Object.entries(state.buds ?? {}).forEach(([id, bud]) => {
     if (!isOnFarm(bud)) return;
     const coordinates = bud.coordinates as LayoutCoordinates;
-    if (!isKept(coordinates, "Bud")) return;
+    if (!isKept(coordinates, "Bud", maxExpansions)) return;
     buds[id] = { ...coordinates };
   });
 
@@ -316,7 +322,7 @@ export function snapshotFarm(
   Object.entries(state.farmHands?.bumpkins ?? {}).forEach(([id, farmHand]) => {
     if (!isOnFarm(farmHand)) return;
     const coordinates = farmHand.coordinates as LayoutCoordinates;
-    if (!isKept(coordinates, "Bumpkin")) return;
+    if (!isKept(coordinates, "Bumpkin", maxExpansions)) return;
     farmHands[id] = {
       ...coordinates,
       ...(farmHand.flipped !== undefined ? { flipped: farmHand.flipped } : {}),
@@ -325,7 +331,11 @@ export function snapshotFarm(
 
   const bumpkin =
     isOnFarm(state.bumpkin) &&
-    isKept(state.bumpkin.coordinates as LayoutCoordinates, "Bumpkin")
+    isKept(
+      state.bumpkin.coordinates as LayoutCoordinates,
+      "Bumpkin",
+      maxExpansions,
+    )
       ? {
           ...(state.bumpkin.coordinates as LayoutCoordinates),
           ...(state.bumpkin.flipped !== undefined
@@ -377,18 +387,11 @@ export function trimSavedLayout(
   | "bumpkin"
   | "land"
 > {
-  const keep = (
-    coordinates: LayoutCoordinates | undefined,
-    name: string,
-  ): boolean =>
-    !!coordinates &&
-    isWithinExpansions(coordinates, dimensionsFor(name), maxExpansions);
-
   const collectibles: SavedLayout["collectibles"] = {};
   getObjectEntries(layout.collectibles).forEach(([name, placements]) => {
     if (!placements) return;
     const kept = placements
-      .filter((p) => keep(p.coordinates, name))
+      .filter((p) => isKept(p.coordinates, name, maxExpansions))
       .map((p) => ({ ...p, coordinates: { ...p.coordinates } }));
     if (kept.length > 0) collectibles[name] = kept;
   });
@@ -397,7 +400,7 @@ export function trimSavedLayout(
   getObjectEntries(layout.buildings).forEach(([name, placements]) => {
     if (!placements) return;
     const kept = placements
-      .filter((p) => keep(p.coordinates, name))
+      .filter((p) => isKept(p.coordinates, name, maxExpansions))
       .map((p) => ({ ...p, coordinates: { ...p.coordinates } }));
     if (kept.length > 0) buildings[name] = kept;
   });
@@ -406,14 +409,15 @@ export function trimSavedLayout(
   RESOURCE_BUCKETS.forEach(({ key, resourceName }) => {
     const bucket = layout.resources[key] ?? {};
     Object.entries(bucket).forEach(([id, coordinates]) => {
-      if (keep(coordinates, resourceName))
+      if (isKept(coordinates, resourceName, maxExpansions))
         resources[key][id] = { ...coordinates };
     });
   });
 
   const buds: NonNullable<SavedLayout["buds"]> = {};
   Object.entries(layout.buds ?? {}).forEach(([id, coordinates]) => {
-    if (keep(coordinates, "Bud")) buds[id] = { ...coordinates };
+    if (isKept(coordinates, "Bud", maxExpansions))
+      buds[id] = { ...coordinates };
   });
 
   const petNFTs: NonNullable<SavedLayout["petNFTs"]> = {};
@@ -425,11 +429,12 @@ export function trimSavedLayout(
 
   const farmHands: NonNullable<SavedLayout["farmHands"]> = {};
   Object.entries(layout.farmHands ?? {}).forEach(([id, placement]) => {
-    if (keep(placement, "Bumpkin")) farmHands[id] = { ...placement };
+    if (isKept(placement, "Bumpkin", maxExpansions))
+      farmHands[id] = { ...placement };
   });
 
   const bumpkin =
-    layout.bumpkin && keep(layout.bumpkin, "Bumpkin")
+    layout.bumpkin && isKept(layout.bumpkin, "Bumpkin", maxExpansions)
       ? { ...layout.bumpkin }
       : undefined;
 
