@@ -91,7 +91,10 @@ const splitBoundingBox = (boundingBox: BoundingBox, height = 1, width = 1) => {
   }));
 };
 
-function detectWaterCollision(expansions: number, boundingBox: BoundingBox) {
+export function detectWaterCollision(
+  expansions: number,
+  boundingBox: BoundingBox,
+) {
   const expansionBoundingBoxes: BoundingBox[] = new Array(expansions)
     .fill(null)
     .map((_, expansionIndex) => ({

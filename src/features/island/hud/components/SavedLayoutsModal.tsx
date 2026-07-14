@@ -39,7 +39,8 @@ type Mode =
   | "rename"
   | "confirmApply"
   | "confirmOverwrite"
-  | "confirmDelete";
+  | "confirmDelete"
+  | "confirmAscension";
 
 const _state = (state: MachineState): GameState => state.context.state;
 
@@ -77,6 +78,7 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
   const showCurrent = isCurrent || !layout;
   const previewLayout = showCurrent ? currentSnapshot : layout!;
   const atCap = layouts.length >= MAX_SAVED_LAYOUTS;
+  const hasAscensionLayout = layouts.some((l) => l.auto);
 
   // Land the layout was saved on (biome + size) — a layout saved on a bigger
   // farm than the player has now will skip the items that fall off the land.
@@ -112,6 +114,18 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
         name: name || defaultLayoutName(layouts),
       }),
     );
+  };
+
+  const setAscension = () => {
+    // The snapshot (trimmed to 30 lands, land count stamped to 30) is built
+    // server-side. Promote the selected saved layout, or — on the current-farm
+    // view — snapshot the live farm.
+    gameService.send({
+      type: "layout.ascensionSaved",
+      ...(showCurrent ? {} : { layoutId: selected - 1 }),
+    });
+    setMode("idle");
+    flash(t("savedLayouts.toastAscensionSaved"));
   };
 
   const doRename = () => {
@@ -185,14 +199,19 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
 
   const confirmPanel = () => {
     const name = layout?.name ?? "";
-    const message =
-      mode === "confirmApply"
+    const isAscension = mode === "confirmAscension";
+    const message = isAscension
+      ? hasAscensionLayout
+        ? t("savedLayouts.confirmAscensionReplace")
+        : t("savedLayouts.confirmAscension")
+      : mode === "confirmApply"
         ? t("savedLayouts.confirmApply", { name })
         : mode === "confirmOverwrite"
           ? t("savedLayouts.confirmOverwrite", { name })
           : t("savedLayouts.confirmDelete", { name });
-    const label =
-      mode === "confirmApply"
+    const label = isAscension
+      ? t("savedLayouts.setAscension")
+      : mode === "confirmApply"
         ? t("savedLayouts.applyConfirm")
         : mode === "confirmOverwrite"
           ? t("savedLayouts.overwrite")
@@ -203,7 +222,9 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
         <span className="text-xs">{message}</span>
         <div className="flex gap-1">
           <Button onClick={() => setMode("idle")}>{t("cancel")}</Button>
-          <Button onClick={confirmYes}>{label}</Button>
+          <Button onClick={isAscension ? setAscension : confirmYes}>
+            {label}
+          </Button>
         </div>
       </InnerPanel>
     );
@@ -262,34 +283,46 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
         )}
 
         {showCurrent ? (
-          <div className="flex flex-col gap-2">
-            <Label type="info">{t("savedLayouts.current")}</Label>
-            <span className="text-xs">
-              {t("savedLayouts.currentDescription")}
-            </span>
-            {atCap ? (
-              <InnerPanel className="p-2">
-                <span className="text-xs">
-                  {t("savedLayouts.cap", { max: MAX_SAVED_LAYOUTS })}
-                </span>
-              </InnerPanel>
-            ) : (
-              <>
-                <TextInput
-                  value={newName}
-                  onValueChange={setNewName}
-                  maxLength={MAX_LAYOUT_NAME_LENGTH}
-                  placeholder={t("savedLayouts.nameThis")}
-                />
-                <Button onClick={saveNew}>
-                  <div className="flex items-center justify-center gap-1">
-                    <img src={chestIcon} className="w-4" />
-                    <span>{t("savedLayouts.saveAsNew")}</span>
-                  </div>
-                </Button>
-              </>
-            )}
-          </div>
+          mode === "confirmAscension" ? (
+            confirmPanel()
+          ) : (
+            <div className="flex flex-col gap-2">
+              <Label type="info">{t("savedLayouts.current")}</Label>
+              <span className="text-xs">
+                {t("savedLayouts.currentDescription")}
+              </span>
+              {atCap ? (
+                <InnerPanel className="p-2">
+                  <span className="text-xs">
+                    {t("savedLayouts.cap", { max: MAX_SAVED_LAYOUTS })}
+                  </span>
+                </InnerPanel>
+              ) : (
+                <>
+                  <TextInput
+                    value={newName}
+                    onValueChange={setNewName}
+                    maxLength={MAX_LAYOUT_NAME_LENGTH}
+                    placeholder={t("savedLayouts.nameThis")}
+                  />
+                  <Button onClick={saveNew}>
+                    <div className="flex items-center justify-center gap-1">
+                      <img src={chestIcon} className="w-4" />
+                      <span>{t("savedLayouts.saveAsNew")}</span>
+                    </div>
+                  </Button>
+                </>
+              )}
+              {/* The Ascension Layout is exempt from the layout cap, so this
+                  stays available even when the manual slots are full. */}
+              <Button onClick={() => setMode("confirmAscension")}>
+                <div className="flex items-center justify-center gap-1">
+                  <img src={SUNNYSIDE.icons.stopwatch} className="w-4" />
+                  <span>{t("savedLayouts.setAscension")}</span>
+                </div>
+              </Button>
+            </div>
+          )
         ) : mode === "idle" ? (
           <div className="flex flex-col gap-2">
             <Button onClick={() => setMode("confirmApply")}>
@@ -309,6 +342,16 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
                 {t("savedLayouts.delete")}
               </Button>
             </div>
+            {/* Promote this saved layout into the (protected) Ascension Layout.
+                Hidden when the selection already is the Ascension Layout. */}
+            {!layout!.auto && (
+              <Button onClick={() => setMode("confirmAscension")}>
+                <div className="flex items-center justify-center gap-1">
+                  <img src={SUNNYSIDE.icons.stopwatch} className="w-4" />
+                  <span>{t("savedLayouts.setAscension")}</span>
+                </div>
+              </Button>
+            )}
           </div>
         ) : (
           confirmPanel()

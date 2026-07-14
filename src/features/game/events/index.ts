@@ -695,6 +695,10 @@ import {
   type DeleteLayoutAction,
 } from "./landExpansion/deleteLayout";
 import {
+  saveAscensionLayout,
+  type SaveAscensionLayoutAction,
+} from "./landExpansion/saveAscensionLayout";
+import {
   wakeAnimal,
   type WakeUpAnimalAction,
 } from "./landExpansion/wakeUpAnimal";
@@ -1087,6 +1091,7 @@ export type PlacementEvent =
   | RemoveBeehiveAction
   | RemoveAllAction
   | SaveLayoutAction
+  | SaveAscensionLayoutAction
   | ApplyLayoutAction
   | RenameLayoutAction
   | DeleteLayoutAction
@@ -1396,6 +1401,7 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "beehive.removed": removeBeehive,
   "items.removed": removeAll,
   "layout.saved": saveLayout,
+  "layout.ascensionSaved": saveAscensionLayout,
   "layout.applied": applyLayout,
   "layout.renamed": renameLayout,
   "layout.deleted": deleteLayout,
