@@ -216,7 +216,7 @@ export const BumpkinModal: React.FC<Props> = ({
     const onScroll = () => {
       lastFeedScrollTop.current = el.scrollTop;
     };
-    el.addEventListener("scroll", onScroll);
+    el.addEventListener("scroll", onScroll, { passive: true });
     return () => el.removeEventListener("scroll", onScroll);
   }, [hasLeveledUp, tab]);
 

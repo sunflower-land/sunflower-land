@@ -68,6 +68,31 @@ describe("bulkFeedBumpkin", () => {
     ).toThrow(FEED_BUMPKIN_ERRORS.NOT_ENOUGH_FOOD);
   });
 
+  // Regression: an inherited property name (from Object.prototype) used as
+  // a food name must be rejected up front, not accepted as an object key -
+  // otherwise `acc[item.food]` resolves to the inherited (non-Decimal)
+  // value and throws a TypeError on `.add()` instead of a clean validation
+  // error.
+  it.each(["constructor", "toString", "__proto__", "hasOwnProperty"])(
+    "rejects a food name that isn't in the consumables registry (%s)",
+    (food) => {
+      const state: GameState = {
+        ...TEST_FARM,
+        inventory: { "Boiled Eggs": new Decimal(10) },
+      };
+
+      expect(() =>
+        bulkFeedBumpkin({
+          state,
+          action: {
+            type: "bumpkin.bulkFeed",
+            items: [{ food: food as never, amount: 1 }],
+          },
+        }),
+      ).toThrow(FEED_BUMPKIN_ERRORS.NOT_ENOUGH_FOOD);
+    },
+  );
+
   // Regression: validation must sum duplicate entries for the same food
   // across the batch, not just check each entry in isolation - two 6-item
   // requests should require 12 total, not pass because each one alone is

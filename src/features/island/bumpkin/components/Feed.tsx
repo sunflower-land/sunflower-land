@@ -44,13 +44,26 @@ const FOOD_CATEGORY_ICONS: Record<FoodCategory, string> = {
   agedFish: ITEM_DETAILS["Aged Anchovy"].image,
 };
 
-// "Fire Pit"/"Kitchen"/etc. are literal building names (unlocalised
-// elsewhere in the codebase); "special"/"fish"/"agedFish" are translated.
-const TRANSLATED_FOOD_CATEGORIES = new Set<FoodCategory>([
-  "special",
-  "fish",
-  "agedFish",
-]);
+const FOOD_CATEGORY_LABEL_KEYS: Record<
+  FoodCategory,
+  | "buildings.firePit"
+  | "buildings.kitchen"
+  | "buildings.bakery"
+  | "buildings.deli"
+  | "buildings.smoothieShack"
+  | "special"
+  | "fish"
+  | "agedFish"
+> = {
+  "Fire Pit": "buildings.firePit",
+  Kitchen: "buildings.kitchen",
+  Bakery: "buildings.bakery",
+  Deli: "buildings.deli",
+  "Smoothie Shack": "buildings.smoothieShack",
+  special: "special",
+  fish: "fish",
+  agedFish: "agedFish",
+};
 
 interface Props {
   food: Consumable[];
@@ -251,18 +264,17 @@ export const Feed: React.FC<Props> = ({
                 <div key={category} className="flex flex-col w-full">
                   <div className="flex items-center ml-2 mb-1">
                     <Label type="default" icon={FOOD_CATEGORY_ICONS[category]}>
-                      {TRANSLATED_FOOD_CATEGORIES.has(category)
-                        ? t(category as "special" | "fish" | "agedFish")
-                        : category}
+                      {t(FOOD_CATEGORY_LABEL_KEYS[category])}
                     </Label>
-                    <span
+                    <button
+                      type="button"
                       className="text-xs underline cursor-pointer ml-2"
                       onClick={() => setCategoryToFeed({ category, items })}
                     >
                       {categoryIsDrink
                         ? t("drinkAllCategory")
                         : t("eatAllCategory")}
-                    </span>
+                    </button>
                   </div>
                   <div className="flex flex-wrap mb-2">
                     {items.map((item) => (
