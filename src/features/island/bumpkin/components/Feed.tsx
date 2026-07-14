@@ -24,11 +24,42 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { useNow } from "lib/utils/hooks/useNow";
+import {
+  type FoodCategory,
+  groupFoodByCategory,
+} from "features/game/lib/availableFood";
+import { BulkFeedModal } from "components/ui/BulkFeedModal";
+import { ConfirmationModal } from "components/ui/ConfirmationModal";
+import type { Equipped } from "features/game/types/bumpkin";
+import { formatNumber } from "lib/utils/formatNumber";
+
+const FOOD_CATEGORY_ICONS: Record<FoodCategory, string> = {
+  "Fire Pit": SUNNYSIDE.icons.firePitIcon,
+  Kitchen: SUNNYSIDE.icons.kitchenIcon,
+  Bakery: SUNNYSIDE.icons.bakeryIcon,
+  Deli: SUNNYSIDE.icons.deliIcon,
+  "Smoothie Shack": SUNNYSIDE.icons.smoothieIcon,
+  special: ITEM_DETAILS["Pirate Cake"].image,
+  fish: ITEM_DETAILS["Anchovy"].image,
+  agedFish: ITEM_DETAILS["Aged Anchovy"].image,
+};
+
+// "Fire Pit"/"Kitchen"/etc. are literal building names (unlocalised
+// elsewhere in the codebase); "special"/"fish"/"agedFish" are translated.
+const TRANSLATED_FOOD_CATEGORIES = new Set<FoodCategory>([
+  "special",
+  "fish",
+  "agedFish",
+]);
 
 interface Props {
   food: Consumable[];
   selectedName: ConsumableName | undefined;
   setSelectedName: (name: ConsumableName) => void;
+  // Lets the parent (which doesn't unmount when the LevelUp screen briefly
+  // replaces Feed) preserve/restore this scrollable content panel's scroll
+  // position across that mount/unmount cycle.
+  contentRef?: React.RefObject<HTMLDivElement | null>;
 }
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
@@ -39,8 +70,15 @@ export const Feed: React.FC<Props> = ({
   food,
   selectedName,
   setSelectedName,
+  contentRef,
 }) => {
   const [showBoosts, setShowBoosts] = useState(false);
+  const [showBulkFeedModal, setShowBulkFeedModal] = useState(false);
+  const [customFeedAmount, setCustomFeedAmount] = useState(new Decimal(0));
+  const [categoryToFeed, setCategoryToFeed] = useState<{
+    category: FoodCategory;
+    items: Consumable[];
+  } | null>(null);
   const { gameService } = useContext(Context);
   const now = useNow({ live: true });
   const inventory = useSelector(gameService, _inventory);
@@ -56,11 +94,14 @@ export const Feed: React.FC<Props> = ({
     ? (inventory[activeSelected.name] ?? new Decimal(0))
     : new Decimal(0);
 
-  const feedVerb = activeSelected
-    ? isJuice(activeSelected.name)
-      ? t("drink")
-      : t("eat")
-    : "";
+  const isDrink = !!activeSelected && isJuice(activeSelected.name);
+  const feedVerb = activeSelected ? (isDrink ? t("drink") : t("eat")) : "";
+  const bulkFeedLabel = isDrink ? t("drinkInBulk") : t("eatInBulk");
+
+  const closeBulkFeedModal = () => {
+    setShowBulkFeedModal(false);
+    setCustomFeedAmount(new Decimal(0));
+  };
 
   if (!activeSelected) {
     return (
@@ -83,9 +124,12 @@ export const Feed: React.FC<Props> = ({
     );
   }
 
-  const feed = (amount: number) => {
-    if (!activeSelected) return;
-
+  // Reports level-up (and first-feed tutorial) milestones by diffing the
+  // bumpkin's total level before and after a feed, so it works whether one
+  // food or a whole batch of foods was fed in a single event.
+  const trackFeedMilestones = (
+    send: () => ReturnType<typeof gameService.send>,
+  ) => {
     const ascensionLevel = game.island.ascensionLevel ?? 0;
     const previousExperience = bumpkin?.experience ?? 0;
     // Track the total level (across ascension bands) so milestones still fire
@@ -95,10 +139,7 @@ export const Feed: React.FC<Props> = ({
       ascensionLevel,
     });
 
-    const newState = gameService.send("bumpkin.feed", {
-      food: activeSelected.name,
-      amount,
-    });
+    const newState = send();
 
     const currentLevel = getTotalBumpkinLevel({
       experience: newState.context.state.bumpkin.experience ?? 0,
@@ -119,6 +160,32 @@ export const Feed: React.FC<Props> = ({
     }
   };
 
+  const feed = (amount: number) => {
+    if (!activeSelected) return;
+
+    trackFeedMilestones(() =>
+      gameService.send("bumpkin.feed", {
+        food: activeSelected.name,
+        amount,
+      }),
+    );
+  };
+
+  const feedCategory = (items: Consumable[]) => {
+    const feedItems = items
+      .map((item) => ({
+        food: item.name,
+        amount: (inventory[item.name] ?? new Decimal(0)).toNumber(),
+      }))
+      .filter((item) => item.amount > 0);
+
+    if (feedItems.length === 0) return;
+
+    trackFeedMilestones(() =>
+      gameService.send("bumpkin.bulkFeed", { items: feedItems }),
+    );
+  };
+
   const { boostedExp, boostsUsed } = getFoodExpBoost({
     food: activeSelected,
     game,
@@ -126,56 +193,151 @@ export const Feed: React.FC<Props> = ({
   });
 
   return (
-    <SplitScreenView
-      panel={
-        <FeedBumpkinDetails
-          details={{
-            item: activeSelected.name,
-          }}
-          properties={{
-            xp: boostedExp,
-            baseXp: activeSelected.experience,
-            boostsUsed,
-            showBoosts,
-            setShowBoosts,
-            gameState: game,
-          }}
-          actionView={
-            <>
-              <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-                <Button
-                  disabled={inventoryFoodCount.lessThan(1)}
-                  onClick={() => feed(1)}
-                >
-                  {`${feedVerb} 1`}
-                </Button>
-                <Button
-                  disabled={inventoryFoodCount.lessThan(10)}
-                  onClick={() => feed(10)}
-                >
-                  {`${feedVerb} 10`}
-                </Button>
+    <>
+      <SplitScreenView
+        divRef={contentRef}
+        panel={
+          <FeedBumpkinDetails
+            details={{
+              item: activeSelected.name,
+            }}
+            properties={{
+              xp: boostedExp,
+              baseXp: activeSelected.experience,
+              boostsUsed,
+              showBoosts,
+              setShowBoosts,
+              gameState: game,
+            }}
+            actionView={
+              <div className="flex flex-col w-full">
+                <div className="flex space-x-1 mb-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
+                  {inventoryFoodCount.greaterThan(1) && (
+                    <Button onClick={() => feed(1)}>{`${feedVerb} 1`}</Button>
+                  )}
+                  {inventoryFoodCount.greaterThan(0) && (
+                    <Button
+                      onClick={() =>
+                        feed(
+                          inventoryFoodCount.greaterThan(10)
+                            ? 10
+                            : inventoryFoodCount.toNumber(),
+                        )
+                      }
+                    >
+                      {`${feedVerb} ${
+                        inventoryFoodCount.greaterThan(10)
+                          ? 10
+                          : inventoryFoodCount
+                      }`}
+                    </Button>
+                  )}
+                </div>
+                {inventoryFoodCount.greaterThan(10) && (
+                  <Button onClick={() => setShowBulkFeedModal(true)}>
+                    {bulkFeedLabel}
+                  </Button>
+                )}
               </div>
-            </>
-          }
-        />
-      }
-      content={
-        <>
-          {food.map((item) => (
-            <Box
-              isSelected={activeSelected?.name === item.name}
-              key={item.name}
-              onClick={() => {
-                setSelectedName(item.name);
-                setShowBoosts(false);
-              }}
-              image={ITEM_DETAILS[item.name].image}
-              count={inventory[item.name]}
-            />
-          ))}
-        </>
-      }
-    />
+            }
+          />
+        }
+        content={
+          <>
+            {groupFoodByCategory(food).map(({ category, items }) => {
+              const categoryIsDrink = items.every((item) => isJuice(item.name));
+
+              return (
+                <div key={category} className="flex flex-col w-full">
+                  <div className="flex items-center ml-2 mb-1">
+                    <Label type="default" icon={FOOD_CATEGORY_ICONS[category]}>
+                      {TRANSLATED_FOOD_CATEGORIES.has(category)
+                        ? t(category as "special" | "fish" | "agedFish")
+                        : category}
+                    </Label>
+                    <span
+                      className="text-xs underline cursor-pointer ml-2"
+                      onClick={() => setCategoryToFeed({ category, items })}
+                    >
+                      {categoryIsDrink
+                        ? t("drinkAllCategory")
+                        : t("eatAllCategory")}
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap mb-2">
+                    {items.map((item) => (
+                      <Box
+                        isSelected={activeSelected?.name === item.name}
+                        key={item.name}
+                        onClick={() => {
+                          setSelectedName(item.name);
+                          setShowBoosts(false);
+                        }}
+                        image={ITEM_DETAILS[item.name].image}
+                        count={inventory[item.name]}
+                      />
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </>
+        }
+      />
+      <BulkFeedModal
+        show={showBulkFeedModal}
+        onHide={closeBulkFeedModal}
+        itemAmount={inventoryFoodCount}
+        customAmount={customFeedAmount}
+        setCustomAmount={setCustomFeedAmount}
+        onCancel={closeBulkFeedModal}
+        onFeed={() => {
+          feed(customFeedAmount.toNumber());
+          closeBulkFeedModal();
+        }}
+        xpAmount={boostedExp.mul(customFeedAmount)}
+        feedLabel={feedVerb}
+        bumpkinParts={bumpkin.equipped as Equipped}
+      />
+      <ConfirmationModal
+        show={!!categoryToFeed}
+        onHide={() => setCategoryToFeed(null)}
+        messages={
+          categoryToFeed
+            ? [
+                t("confirmation.feedCategory", {
+                  count: categoryToFeed.items.reduce(
+                    (sum, item) =>
+                      sum + (inventory[item.name]?.toNumber() ?? 0),
+                    0,
+                  ),
+                  xp: formatNumber(
+                    categoryToFeed.items.reduce((sum, item) => {
+                      const amount = inventory[item.name] ?? new Decimal(0);
+                      const { boostedExp: itemBoostedExp } = getFoodExpBoost({
+                        food: item,
+                        game,
+                        createdAt: now,
+                      });
+                      return sum.add(itemBoostedExp.mul(amount));
+                    }, new Decimal(0)),
+                  ),
+                }),
+              ]
+            : []
+        }
+        onCancel={() => setCategoryToFeed(null)}
+        onConfirm={() => {
+          if (categoryToFeed) feedCategory(categoryToFeed.items);
+          setCategoryToFeed(null);
+        }}
+        confirmButtonLabel={
+          categoryToFeed?.items.every((item) => isJuice(item.name))
+            ? t("drinkAllCategory")
+            : t("eatAllCategory")
+        }
+        bumpkinParts={bumpkin.equipped as Equipped}
+      />
+    </>
   );
 };
