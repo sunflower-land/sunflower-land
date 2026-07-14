@@ -240,7 +240,7 @@ describe("applyLayout", () => {
     expect(coords).toContainEqual({ x: 1, y: 0 });
   });
 
-  it("leaves a blocked position unplaced and places the rest", () => {
+  it("clears items absent from the layout and places the full layout (exact restore)", () => {
     const saved = withSavedLayout({
       ...withInventory({ "Wicker Man": 2, "Golden Bonsai": 1 }),
       collectibles: {
@@ -252,7 +252,8 @@ describe("applyLayout", () => {
     });
 
     const moved = cloneDeep(saved);
-    // A non-layout item blocks the (0,0) position.
+    // A non-layout item sits on a layout target. Applying is an exact restore:
+    // it is lifted back to inventory, so it neither survives nor blocks.
     moved.collectibles["Golden Bonsai"] = [
       { id: "c", coordinates: { x: 0, y: 0 }, createdAt },
     ];
@@ -262,15 +263,15 @@ describe("applyLayout", () => {
       action: { type: "layout.applied", layoutId: 0 },
     });
 
-    const placed = result.collectibles["Wicker Man"]!.filter(
-      (c) => !!c.coordinates,
+    const byId = Object.fromEntries(
+      result.collectibles["Wicker Man"]!.map((c) => [c.id, c.coordinates]),
     );
-    expect(placed).toHaveLength(1);
-    expect(placed[0].coordinates).toEqual({ x: 1, y: 0 });
-    expect(result.collectibles["Golden Bonsai"]![0].coordinates).toEqual({
-      x: 0,
-      y: 0,
-    });
+    expect(byId["a"]).toEqual({ x: 0, y: 0 });
+    expect(byId["b"]).toEqual({ x: 1, y: 0 });
+    // The non-layout Golden Bonsai is lifted (returned to inventory).
+    expect(
+      result.collectibles["Golden Bonsai"]![0].coordinates,
+    ).toBeUndefined();
   });
 
   it("reports applied / skipped / noInventory counts", () => {
@@ -565,17 +566,15 @@ describe("applyLayout", () => {
     });
 
     const moved = cloneDeep(saved);
-    // Layout wants Wicker Man at (1, 0); it currently sits at (0, 0); a
-    // non-layout item blocks (1, 0).
+    // Layout wants Wicker Man off-land at (50, 0) (blocked by the land bounds — a
+    // block exact restore can't clear); it currently sits at (0, 0), which stays
+    // free, so the best-effort restore leaves it there.
     moved.layouts![0].collectibles["Wicker Man"]![0].coordinates = {
-      x: 1,
+      x: 50,
       y: 0,
     };
     moved.collectibles["Wicker Man"] = [
       { id: "w", coordinates: { x: 0, y: 0 }, createdAt },
-    ];
-    moved.collectibles["Golden Bonsai"] = [
-      { id: "g", coordinates: { x: 1, y: 0 }, createdAt },
     ];
 
     const result = applyLayout({
@@ -601,17 +600,15 @@ describe("applyLayout", () => {
     });
 
     const moved = cloneDeep(saved);
-    // Layout: a -> (1, 0) [will be blocked], b -> (0, 0) [a's original tile].
+    // Layout: a -> (50, 0) [off-land, blocked by bounds], b -> (0, 0) [a's
+    // original tile]. b claims a's original, so a has nowhere to fall back to.
     moved.layouts![0].collectibles["Wicker Man"] = [
-      { id: "a", coordinates: { x: 1, y: 0 } },
+      { id: "a", coordinates: { x: 50, y: 0 } },
       { id: "b", coordinates: { x: 0, y: 0 } },
     ];
     moved.collectibles["Wicker Man"] = [
       { id: "a", coordinates: { x: 0, y: 0 }, createdAt },
       { id: "b", coordinates: { x: 2, y: 0 }, createdAt },
-    ];
-    moved.collectibles["Golden Bonsai"] = [
-      { id: "g", coordinates: { x: 1, y: 0 }, createdAt },
     ];
 
     const result = applyLayout({

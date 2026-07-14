@@ -1086,6 +1086,15 @@ function buildAscensionRewardBundle(
 ): Partial<Record<InventoryItemName, number>> {
   const bundle: Partial<Record<InventoryItemName, number>> = {};
 
+  // Items already promised by an un-collected reward chest count as owned — the
+  // player will receive them on claim. Ignoring them would re-issue the same
+  // crystals/nodes on the next ascension (both chests stay claimable).
+  const pending = (item: InventoryItemName): number =>
+    (game.airdrops ?? []).reduce(
+      (total, airdrop) => total + (airdrop.items[item] ?? 0),
+      0,
+    );
+
   // Node floor for the starting island (base row), excluding the sunstone bonus —
   // matching `ascensionUpgrade`'s minimum. After `applySetup` this is already met,
   // so the shortfall is only positive for legacy / under-provisioned accounts.
@@ -1098,16 +1107,18 @@ function buildAscensionRewardBundle(
     "Sunstone Rock": 0,
   };
   getObjectEntries(floor).forEach(([resource, amount]) => {
-    const shortfall =
-      (amount ?? 0) - getTotalBaseResourceEquivalents(game, resource);
+    const owned =
+      getTotalBaseResourceEquivalents(game, resource) + pending(resource);
+    const shortfall = (amount ?? 0) - owned;
     if (shortfall > 0) {
       bundle[resource] = (bundle[resource] ?? 0) + shortfall;
     }
   });
 
   // Ascension Crystals owed for this ascension: the expected cumulative count
-  // minus what the player already owns (inventory + placed) and has mined
-  // (single-use). This replaces the +1 inventory grant on the ascension path.
+  // minus what the player already owns (inventory + placed), has mined
+  // (single-use), or has pending in an un-collected chest. This replaces the +1
+  // inventory grant on the ascension path.
   const expectedCrystals = getExpectedAscensionCrystals({
     islandType: target,
     ascensionLevel: game.island.ascensionLevel ?? 0,
@@ -1117,7 +1128,11 @@ function buildAscensionRewardBundle(
     (game.inventory["Ascension Crystal"]?.toNumber() ?? 0) +
     Object.keys(game.ascensionCrystals ?? {}).length;
   const minedCrystals = game.farmActivity?.["Ascension Crystal Mined"] ?? 0;
-  const crystalShortfall = expectedCrystals - ownedCrystals - minedCrystals;
+  const crystalShortfall =
+    expectedCrystals -
+    ownedCrystals -
+    minedCrystals -
+    pending("Ascension Crystal");
   if (crystalShortfall > 0) {
     bundle["Ascension Crystal"] =
       (bundle["Ascension Crystal"] ?? 0) + crystalShortfall;
@@ -1129,26 +1144,27 @@ function buildAscensionRewardBundle(
 /**
  * A free side-island tile for the ascension reward chest. The side island sits
  * off the main land, so `pickEmptyPosition`/`detectCollision` (which treats
- * off-land tiles as water) can't be used — instead scan a few tiles just below
- * the mushroom spawn rows and pick the first not already holding an airdrop, so
- * successive un-collected ascension chests don't stack on the same tile.
+ * off-land tiles as water) can't be used — instead scan tiles just below the
+ * mushroom spawn rows and return the first not already holding an airdrop. The
+ * scan walks down unbounded rows so a genuinely free tile is always found, no
+ * matter how many un-collected chests have piled up (e.g. marble→marble).
  */
 function pickAscensionChestPosition(
   game: GameState,
   setup: IslandSetup,
 ): Coordinates {
   const anchorX = getIslandAnchorX(setup.startingExpansions);
-  const candidates: Coordinates[] = [7, 8].flatMap((y) =>
-    [1, 0, 2].map((dx) => ({ x: anchorX + dx, y })),
-  );
   const taken = new Set(
     (game.airdrops ?? [])
       .filter((airdrop) => airdrop.coordinates)
       .map((airdrop) => `${airdrop.coordinates!.x},${airdrop.coordinates!.y}`),
   );
-  return (
-    candidates.find(({ x, y }) => !taken.has(`${x},${y}`)) ?? candidates[0]
-  );
+  for (let y = 7; ; y++) {
+    for (const dx of [1, 0, 2]) {
+      const position = { x: anchorX + dx, y };
+      if (!taken.has(`${position.x},${position.y}`)) return position;
+    }
+  }
 }
 
 /**

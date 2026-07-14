@@ -21,6 +21,7 @@ import {
   getIslandAnchorX,
   getIslandSpawnPositions,
 } from "features/game/expansion/lib/island";
+import { getExpectedAscensionCrystals } from "features/game/expansion/lib/ascension";
 
 describe("upgradeFarm", () => {
   const farmId = 1;
@@ -1200,9 +1201,21 @@ describe("upgradeFarm", () => {
     expect(chest?.coordinates).toBeDefined();
   });
 
-  it("delivers node shortfall to the reward chest and avoids stacking chests", () => {
+  it("delivers node shortfall to the chest and finds a free tile even when the initial rows are full", () => {
     const createdAt = Date.now();
     const anchorX = getIslandAnchorX(30);
+    // Occupy every tile in the first two side-island rows (the old fixed set).
+    const priorAirdrops = [7, 8].flatMap((y) =>
+      [1, 0, 2].map((dx) => ({
+        id: `prior-${dx}-${y}`,
+        createdAt,
+        coordinates: { x: anchorX + dx, y },
+        items: {},
+        wearables: {},
+        sfl: 0,
+        coins: 0,
+      })),
+    );
     const state = upgrade({
       farmId,
       action: { type: "farm.upgraded" },
@@ -1237,18 +1250,7 @@ describe("upgradeFarm", () => {
         lavaPits: {},
         ascensionCrystals: {},
         flowers: { ...INITIAL_FARM.flowers, flowerBeds: {} },
-        // An un-collected chest already sits on the first candidate side-island tile.
-        airdrops: [
-          {
-            id: "prior",
-            createdAt,
-            coordinates: { x: anchorX + 1, y: 7 },
-            items: {},
-            wearables: {},
-            sfl: 0,
-            coins: 0,
-          },
-        ],
+        airdrops: priorAirdrops,
       },
       createdAt,
     });
@@ -1260,8 +1262,70 @@ describe("upgradeFarm", () => {
     expect(chest?.items["Lava Pit"]).toEqual(3);
     // The floor is NOT topped up into inventory anymore.
     expect(state.inventory["Lava Pit"]).toBeUndefined();
-    // The chest avoids the tile already occupied by the prior airdrop.
-    expect(chest?.coordinates).not.toEqual({ x: anchorX + 1, y: 7 });
+    // The chest lands on a genuinely free tile beyond the (full) initial rows.
+    const occupied = new Set(
+      priorAirdrops.map((a) => `${a.coordinates.x},${a.coordinates.y}`),
+    );
+    expect(chest?.coordinates).toBeDefined();
+    expect(
+      occupied.has(`${chest!.coordinates!.x},${chest!.coordinates!.y}`),
+    ).toBe(false);
+  });
+
+  it("does not re-grant crystals already pending in an un-collected chest", () => {
+    const createdAt = SPOOKY_ASCENSION_START;
+    const readyXp = ascensionBaseline(1) + bandXp(1);
+    // On swamp (A1) with an un-collected volcano→swamp chest holding the 4
+    // crystals the player was already owed.
+    const priorChest = {
+      id: "missing-resources-ascension-1",
+      createdAt,
+      coordinates: { x: -30, y: 7 },
+      items: { "Ascension Crystal": 4 },
+      wearables: {},
+      sfl: 0,
+      coins: 0,
+    };
+    const state = upgrade({
+      farmId,
+      action: { type: "farm.upgraded" },
+      state: {
+        ...INITIAL_FARM,
+        username: "elias",
+        coins: 100000,
+        bumpkin: { ...INITIAL_FARM.bumpkin, experience: readyXp },
+        island: { type: "swamp", ascensionLevel: 1 },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(42),
+          Crimstone: new Decimal(100),
+          Oil: new Decimal(100),
+          Obsidian: new Decimal(10),
+        },
+        airdrops: [priorChest],
+      },
+      createdAt,
+    });
+
+    const chests = (state.airdrops ?? []).filter((a) =>
+      a.id.startsWith("missing-resources"),
+    );
+    const totalCrystals = chests.reduce(
+      (sum, a) => sum + (a.items["Ascension Crystal"] ?? 0),
+      0,
+    );
+    // Cumulative entitlement at spooky (a2, Basic Land reset to 30) — NOT doubled.
+    const expected = getExpectedAscensionCrystals({
+      islandType: "spooky",
+      ascensionLevel: 2,
+      basicLand: 30,
+    });
+    expect(totalCrystals).toEqual(expected);
+    // The new chest only tops up the difference beyond the pending 4.
+    const newChest = chests.find(
+      (a) => a.id === "missing-resources-ascension-2",
+    );
+    expect(newChest?.items["Ascension Crystal"]).toEqual(expected - 4);
   });
 
   it("requires the minimum Bumpkin level to ascend to swamp island", () => {

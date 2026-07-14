@@ -857,6 +857,33 @@ export function applyFarmLayout(
     });
   }
 
+  // Exact restore: applying a layout yields exactly the saved snapshot, so lift
+  // every placed item the layout does NOT represent too — its instance (with any
+  // timers) is kept; it simply returns to inventory. Resources are lifted in full
+  // above; mirror that for the name/id-keyed categories. The player's own Bumpkin
+  // is intentionally left alone — it is the avatar and is always captured on-farm.
+  getObjectEntries(state.collectibles).forEach(([name, items]) => {
+    if (layout.collectibles[name]) return;
+    items?.forEach((item) => {
+      item.coordinates = undefined;
+    });
+  });
+  getObjectEntries(state.buildings).forEach(([name, items]) => {
+    if (layout.buildings[name]) return;
+    items?.forEach((item) => {
+      item.coordinates = undefined;
+    });
+  });
+  Object.entries(state.buds ?? {}).forEach(([id, bud]) => {
+    if (!layout.buds?.[id]) bud.coordinates = undefined;
+  });
+  Object.entries(state.pets?.nfts ?? {}).forEach(([id, pet]) => {
+    if (!layout.petNFTs?.[id]) pet.coordinates = undefined;
+  });
+  Object.entries(state.farmHands?.bumpkins ?? {}).forEach(([id, fh]) => {
+    if (!layout.farmHands?.[id]) fh.coordinates = undefined;
+  });
+
   // Everything is now lifted. Place each slot in turn against the live draft
   // (non-layout items + already-placed slots). A blocked slot stays unplaced
   // for now; reused instances get a best-effort restore pass below.
