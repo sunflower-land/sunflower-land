@@ -9311,6 +9311,7 @@
   "savedLayouts.confirmAscensionFromLayout": "Set \"{{name}}\" as your Ascension Layout? Only items on its first 30 lands are stored, and it's re-applied each time you ascend.",
   "savedLayouts.confirmAscensionReplaceFromLayout": "Replace your Ascension Layout with \"{{name}}\"? Only items on its first 30 lands are stored, and it's re-applied each time you ascend.",
   "savedLayouts.toastAscensionSaved": "Ascension Layout set",
+  "savedLayouts.ascensionProtected": "This is your Ascension Layout — re-applied each time you ascend. It can't be renamed, overwritten, or deleted.",
   "description.bluePaintBucket": "Looks like a bucket of blue paint, but the way it's staring back at you suggests it's actually a very wet slime.",
   "description.greenPaintBucket": "Fresh green paint? Don't be fooled by the handle... That's definitely a slime trying its best to look useful.",
   "description.yellowPaintBucket": "Vibrant yellow paint that jiggles when you move it. A masterpiece of slime camouflage architecture.",

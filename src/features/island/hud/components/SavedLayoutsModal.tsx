@@ -335,26 +335,33 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
                 <span>{t("savedLayouts.apply")}</span>
               </div>
             </Button>
-            <div className="flex gap-1">
-              <Button onClick={() => setMode("rename")}>
-                {t("savedLayouts.rename")}
-              </Button>
-              <Button onClick={() => setMode("confirmOverwrite")}>
-                {t("savedLayouts.overwrite")}
-              </Button>
-              <Button onClick={() => setMode("confirmDelete")}>
-                {t("savedLayouts.delete")}
-              </Button>
-            </div>
-            {/* Promote this saved layout into the (protected) Ascension Layout.
-                Hidden when the selection already is the Ascension Layout. */}
-            {!layout!.auto && (
-              <Button onClick={() => setMode("confirmAscension")}>
-                <div className="flex items-center justify-center gap-1">
-                  <img src={SUNNYSIDE.icons.stopwatch} className="w-4" />
-                  <span>{t("savedLayouts.setAscension")}</span>
+            {/* The Ascension Layout is protected: it can only be applied — not
+                renamed, overwritten, deleted, or promoted onto itself (those all
+                throw server-side). Manual layouts get the full set of actions. */}
+            {layout!.auto ? (
+              <span className="text-xxs">
+                {t("savedLayouts.ascensionProtected")}
+              </span>
+            ) : (
+              <>
+                <div className="flex gap-1">
+                  <Button onClick={() => setMode("rename")}>
+                    {t("savedLayouts.rename")}
+                  </Button>
+                  <Button onClick={() => setMode("confirmOverwrite")}>
+                    {t("savedLayouts.overwrite")}
+                  </Button>
+                  <Button onClick={() => setMode("confirmDelete")}>
+                    {t("savedLayouts.delete")}
+                  </Button>
                 </div>
-              </Button>
+                <Button onClick={() => setMode("confirmAscension")}>
+                  <div className="flex items-center justify-center gap-1">
+                    <img src={SUNNYSIDE.icons.stopwatch} className="w-4" />
+                    <span>{t("savedLayouts.setAscension")}</span>
+                  </div>
+                </Button>
+              </>
             )}
           </div>
         ) : (
