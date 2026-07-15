@@ -1,6 +1,11 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
 import type { GameState } from "features/game/types/game";
-import type { Pet, PetName, PetNFT } from "features/game/types/pets";
+import type {
+  Pet,
+  PetName,
+  PetNFT,
+  PetNFTType,
+} from "features/game/types/pets";
 import { planBulkFetch } from "./planBulkFetch";
 
 const now = Date.now();
@@ -17,6 +22,30 @@ const makePet = (name: PetName, overrides: Partial<Pet> = {}): Pet => ({
   energy: 500,
   experience: 0,
   pettedAt: now,
+  ...overrides,
+});
+
+// An NFT pet needs `traits.type` — getPetType reads it for NFTs, and a pet with
+// no type is dropped from the plan entirely. Traits other than `type` do not
+// affect fetch yields.
+const makePetNFT = (
+  id: number,
+  type: PetNFTType,
+  overrides: Partial<Omit<PetNFT, "id" | "name" | "traits">> = {},
+): PetNFT => ({
+  id,
+  name: `Pet #${id}`,
+  requests: { food: [], fedAt: now },
+  energy: 500,
+  experience: 0,
+  pettedAt: now,
+  traits: {
+    type,
+    fur: "Green",
+    accessory: "Crown",
+    bib: "Gold Necklace",
+    aura: "No Aura",
+  },
   ...overrides,
 });
 
@@ -167,6 +196,8 @@ describe("planBulkFetch", () => {
     // handed heart leaf to Twizzle. Ranking yield first uses the efficient pet.
     // (Barkley is only here so ribbon has two sources and stays pending while
     // heart leaf is allocated.)
+    // Acorn is the one exception to yield-first — see the common-vs-NFT tests
+    // below — but these are all common pets and no Acorn is requested.
     const activePets: ActivePets = [
       [
         "Meowchi",
@@ -205,6 +236,102 @@ describe("planBulkFetch", () => {
     expect(
       plan.fetches.find((f) => f.petId === "Barkley" && f.fetch === "Ribbon"),
     ).toBeUndefined();
+    expect(plan.shortfall).toEqual({});
+  });
+
+  it("prefers a common pet over an NFT pet for Acorn, even at a lower yield", () => {
+    // The NFT (lvl 100) yields 2.25 Acorn to Meowchi's (lvl 1) 1.0, so ranking
+    // by yield alone would hand Acorn to the NFT. NFT pets gain nothing from
+    // Acorn (excluded from the level-60 NFT bonus) but +1 on every other
+    // resource, so their energy is saved and the common pet does the fetching.
+    const activePets: ActivePets = [
+      ["Meowchi", makePet("Meowchi", { energy: 200 })],
+      [1, makePetNFT(1, "Phoenix", { experience: LEVEL_100_XP, energy: 500 })],
+    ];
+    const plan = planBulkFetch({
+      activePets,
+      state,
+      desired: { Acorn: 2 },
+      now,
+    });
+
+    expect(plan.fetches).toContainEqual({
+      petId: "Meowchi",
+      fetch: "Acorn",
+      amount: 2,
+    });
+    expect(plan.fetches.find((f) => f.petId === 1)).toBeUndefined();
+    expect(plan.shortfall).toEqual({});
+    // The NFT's energy is left untouched for fetches only it does well.
+    expect(plan.energyAfter["1"]).toEqual(500);
+  });
+
+  it("falls back to an NFT pet once common pets run out of energy", () => {
+    // Meowchi can only afford a single Acorn fetch (100 energy each). Commons
+    // that cannot afford a fetch drop out of the candidates, so the NFT covers
+    // the remainder rather than the request coming up short.
+    const activePets: ActivePets = [
+      ["Meowchi", makePet("Meowchi", { energy: 100 })],
+      [1, makePetNFT(1, "Phoenix", { energy: 500 })],
+    ];
+    const plan = planBulkFetch({
+      activePets,
+      state,
+      desired: { Acorn: 3 },
+      now,
+    });
+
+    // The common pet is spent first...
+    expect(plan.fetches).toContainEqual({
+      petId: "Meowchi",
+      fetch: "Acorn",
+      amount: 1,
+    });
+    // ...and only the shortfall spills onto the NFT.
+    expect(plan.fetches).toContainEqual({
+      petId: 1,
+      fetch: "Acorn",
+      amount: 2,
+    });
+    expect(plan.shortfall).toEqual({});
+  });
+
+  it("uses NFT pets for Acorn when there are no common pets", () => {
+    const activePets: ActivePets = [
+      [1, makePetNFT(1, "Phoenix", { energy: 200 })],
+    ];
+    const plan = planBulkFetch({
+      activePets,
+      state,
+      desired: { Acorn: 2 },
+      now,
+    });
+
+    expect(plan.fetches).toEqual([{ petId: 1, fetch: "Acorn", amount: 2 }]);
+    expect(plan.shortfall).toEqual({});
+  });
+
+  it("still prefers the higher-yield NFT pet for non-Acorn resources", () => {
+    // The common-first rule is scoped to Acorn. Both pets are Moonkin, so both
+    // fetch Heart leaf, but the NFT (lvl 100) yields 2.25 to Twizzle's 1.0 —
+    // including the level-60 NFT bonus that Acorn is excluded from.
+    const activePets: ActivePets = [
+      ["Twizzle", makePet("Twizzle", { experience: LEVEL_3_XP, energy: 200 })],
+      [1, makePetNFT(1, "Phoenix", { experience: LEVEL_100_XP, energy: 200 })],
+    ];
+    const plan = planBulkFetch({
+      activePets,
+      state,
+      desired: { "Heart leaf": 2 },
+      now,
+    });
+
+    expect(plan.fetches).toContainEqual({
+      petId: 1,
+      fetch: "Heart leaf",
+      amount: 1,
+    });
+    expect(plan.fetches.find((f) => f.petId === "Twizzle")).toBeUndefined();
     expect(plan.shortfall).toEqual({});
   });
 });
