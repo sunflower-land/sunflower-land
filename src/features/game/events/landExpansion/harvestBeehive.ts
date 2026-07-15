@@ -10,6 +10,7 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 
 export const HARVEST_BEEHIVE_ERRORS = {
   BEEHIVE_NOT_PLACED: "harvestBeeHive.notPlaced",
@@ -32,8 +33,10 @@ export const calculateSwarmBoost = (amount: number, game: GameState) => {
 
   let boost = amount + 0.2;
 
-  if (bumpkin.skills["Pollen Power Up"]) {
-    boost += 0.1; // 0.3
+  const pollenPowerUpLevel = getSkillLevel(bumpkin.skills, "Pollen Power Up");
+  if (pollenPowerUpLevel) {
+    // +0.1 / +0.15 / +0.2 on top of the base +0.2 (total 0.3 / 0.35 / 0.4)
+    boost += SKILL_RANKS["Pollen Power Up"].ranks[pollenPowerUpLevel - 1];
   }
 
   return boost;
@@ -77,9 +80,11 @@ export const getHoneyMultiplier = (game: GameState) => {
     boostsUsed.push({ name: "Honeycomb Shield", value: "+1" });
   }
 
-  if (bumpkin.skills["Sweet Bonus"]) {
-    multiplier += 0.1;
-    boostsUsed.push({ name: "Sweet Bonus", value: "+0.1" });
+  const sweetBonusLevel = getSkillLevel(bumpkin.skills, "Sweet Bonus");
+  if (sweetBonusLevel) {
+    const bonus = SKILL_RANKS["Sweet Bonus"].ranks[sweetBonusLevel - 1];
+    multiplier += bonus;
+    boostsUsed.push({ name: "Sweet Bonus", value: `+${bonus}` });
   }
 
   if (isCollectibleBuilt({ name: "King of Bears", game })) {

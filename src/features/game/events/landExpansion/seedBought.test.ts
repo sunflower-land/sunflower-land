@@ -394,6 +394,27 @@ describe("seedBought", () => {
     },
   );
 
+  // Flower Sale — flower seed cost x0.8/x0.75/x0.7 (rank 1 == now).
+  it.each([
+    [1, 0.8],
+    [2, 0.75],
+    [3, 0.7],
+  ])(
+    "discounts flower seed cost with Flower Sale at rank %i",
+    (rank, multiplier) => {
+      const item = "Sunpetal Seed";
+      const { price } = getBuyPrice(item, SEEDS[item], {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Flower Sale": rank },
+        },
+      });
+
+      expect(price).toEqual(SEEDS[item].price * multiplier);
+    },
+  );
+
   it.each([
     [1, 0.9],
     [2, 0.85],

@@ -428,10 +428,13 @@ export const getFoodExpBoost = ({
     boostsUsed.push({ name: "Drive-Through Deli", value: `x${multiplier}` });
   }
 
-  // Buzzworthy Treats - 10% exp boost on honey foods
-  if (isFoodMadeWithHoney(food) && skills["Buzzworthy Treats"]) {
-    boostedExp = boostedExp.mul(1.1);
-    boostsUsed.push({ name: "Buzzworthy Treats", value: "x1.1" });
+  // Buzzworthy Treats - +10%/+20%/+30% exp boost on honey foods
+  const buzzworthyTreatsLevel = getSkillLevel(skills, "Buzzworthy Treats");
+  if (isFoodMadeWithHoney(food) && buzzworthyTreatsLevel) {
+    const multiplier =
+      1 + SKILL_RANKS["Buzzworthy Treats"].ranks[buzzworthyTreatsLevel - 1];
+    boostedExp = boostedExp.mul(multiplier);
+    boostsUsed.push({ name: "Buzzworthy Treats", value: `x${multiplier}` });
   }
 
   // Swiss Whiskers - +500 exp on cheese recipes

@@ -901,11 +901,16 @@ export function getCropYieldAmount({
       name: "Bee Swarm Bonus",
       value: `+${(0.2 * count).toFixed(1)}`,
     });
-    if (skills["Pollen Power Up"]) {
-      perSwarm += 0.1;
+    const pollenPowerUpLevel = getSkillLevel(skills, "Pollen Power Up");
+    if (pollenPowerUpLevel) {
+      const bonus =
+        SKILL_RANKS["Pollen Power Up"].ranks[pollenPowerUpLevel - 1];
+      perSwarm += bonus;
       boostsUsed.push({
         name: "Pollen Power Up",
-        value: `+${(0.1 * count).toFixed(1)}`,
+        // toFixed(2) then back to Number to drop float noise AND trailing
+        // zeros, so rank 1 still reads "+0.1" (not "+0.10").
+        value: `+${Number((bonus * count).toFixed(2))}`,
       });
     }
     amount += perSwarm * count;

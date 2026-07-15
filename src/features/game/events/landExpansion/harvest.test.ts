@@ -3856,6 +3856,56 @@ describe("harvest", () => {
       expect(state.inventory.Sunflower).toEqual(new Decimal(1.3));
     });
 
+    describe("Pollen Power Up ranks", () => {
+      const harvestWithRank = (rank: number, swarmCount = 1) =>
+        harvest({
+          state: {
+            ...GAME_STATE,
+            bumpkin: {
+              ...TEST_BUMPKIN,
+              skills: { ...TEST_BUMPKIN.skills, "Pollen Power Up": rank },
+            },
+            inventory: { "Sunflower Seed": new Decimal(1) },
+            season: { season: "spring", startedAt: 0 },
+            crops: {
+              [firstId]: {
+                ...GAME_STATE.crops[firstId],
+                crop: {
+                  name: "Sunflower",
+                  plantedAt:
+                    dateNow - (CROPS["Sunflower"].harvestSeconds ?? 0) * 1000,
+                },
+                beeSwarm: {
+                  count: swarmCount,
+                  swarmActivatedAt: dateNow - 1000,
+                },
+              },
+            },
+          },
+          createdAt: dateNow,
+          action: { type: "crop.harvested", index: firstId },
+        });
+
+      it("gives a +0.35 total swarm bonus at rank 2", () => {
+        expect(harvestWithRank(2).inventory.Sunflower).toEqual(
+          new Decimal(1.35),
+        );
+      });
+
+      it("gives a +0.4 total swarm bonus at rank 3", () => {
+        expect(harvestWithRank(3).inventory.Sunflower).toEqual(
+          new Decimal(1.4),
+        );
+      });
+
+      it("scales the ranked swarm bonus by the stacked swarm count", () => {
+        // rank 3 => (0.2 + 0.2) * 3 swarms = +1.2
+        expect(harvestWithRank(3, 3).inventory.Sunflower).toEqual(
+          new Decimal(2.2),
+        );
+      });
+    });
+
     it("gives +1 to medium crop when Hectare Farm skill is active", () => {
       const state = harvest({
         state: {

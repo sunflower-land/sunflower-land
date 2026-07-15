@@ -509,6 +509,91 @@ export const getSkillRankDescription = (
           value: SKILL_RANKS["Double Nom"].ingredients[i],
         }),
       };
+    case "Sweet Bonus":
+      return {
+        buff: t("skill.sweetBonus.ranked", {
+          value: SKILL_RANKS["Sweet Bonus"].ranks[i],
+        }),
+      };
+    case "Hyper Bees":
+      return {
+        buff: t("skill.hyperBees.ranked", {
+          value: SKILL_RANKS["Hyper Bees"].ranks[i],
+        }),
+      };
+    case "Blooming Boost":
+      return {
+        buff: t("skill.bloomingBoost.ranked", {
+          value: SKILL_RANKS["Blooming Boost"].ranks[i],
+        }),
+      };
+    case "Flower Sale":
+      return {
+        buff: t("skill.flowerSale.ranked", {
+          value: SKILL_RANKS["Flower Sale"].ranks[i],
+        }),
+      };
+    case "Buzzworthy Treats":
+      return {
+        buff: t("skill.buzzworthyTreats.ranked", {
+          value: SKILL_RANKS["Buzzworthy Treats"].ranks[i] * 100,
+        }),
+      };
+    case "Blossom Bonding":
+      return {
+        buff: t("skill.blossomBonding.ranked", {
+          value: SKILL_RANKS["Blossom Bonding"].ranks[i],
+        }),
+      };
+    case "Pollen Power Up": {
+      const bonus = SKILL_RANKS["Pollen Power Up"].ranks[i];
+      return {
+        buff: t("skill.pollenPowerUp.ranked", {
+          value: bonus,
+          // Base Bee Swarm bonus is +0.2, so the player-facing total is +0.3/+0.35/+0.4
+          total: Math.round((0.2 + bonus) * 100) / 100,
+        }),
+      };
+    }
+    case "Petalled Perk":
+      return {
+        buff: t("skill.petalledPerk.ranked", {
+          value: SKILL_RANKS["Petalled Perk"].ranks[i],
+        }),
+      };
+    case "Bee Collective":
+      return {
+        buff: t("skill.beeCollective.ranked", {
+          value: SKILL_RANKS["Bee Collective"].ranks[i],
+        }),
+      };
+    case "Flower Power":
+      return {
+        buff: t("skill.flowerPower.ranked", {
+          value: SKILL_RANKS["Flower Power"].ranks[i],
+        }),
+      };
+    case "Flowery Abode":
+      return {
+        buff: t("skill.floweryAbode.buff.ranked", {
+          value: SKILL_RANKS["Flowery Abode"].rate[i],
+        }),
+        debuff: t("skill.floweryAbode.debuff.ranked", {
+          value:
+            Math.round((SKILL_RANKS["Flowery Abode"].growth[i] - 1) * 1000) /
+            10,
+        }),
+      };
+    case "Petal Blessed":
+      return {
+        buff: t("skill.petalBlessed.ranked", {
+          value: millisecondsToString(SKILL_RANKS["Petal Blessed"].ranks[i], {
+            length: "short",
+            isShortFormat: true,
+            removeTrailingZeros: true,
+          }),
+        }),
+      };
     case "Frenzied Fish": {
       const { flat, crit } = SKILL_RANKS["Frenzied Fish"];
       // Rank 3 is a flat catch with no crit chance, so drop the "and X% chance"

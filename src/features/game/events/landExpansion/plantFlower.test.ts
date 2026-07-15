@@ -489,6 +489,49 @@ describe("getFlowerTime", () => {
 
     expect(time).toEqual(growSeconds * 0.8);
   });
+
+  describe("upgradeable skill ranks", () => {
+    const seed = "Bloom Seed";
+    const growSeconds = FLOWER_SEEDS[seed].plantSeconds;
+
+    const timeWithSkills = (skills: Record<string, number>) =>
+      getFlowerTime(seed, {
+        ...GAME_STATE,
+        bumpkin: { ...TEST_BUMPKIN, skills },
+      }).seconds;
+
+    it("applies a 12.5% speed boost with Blooming Boost at rank 2", () => {
+      expect(timeWithSkills({ "Blooming Boost": 2 })).toEqual(
+        growSeconds * 0.875,
+      );
+    });
+
+    it("applies a 15% speed boost with Blooming Boost at rank 3", () => {
+      expect(timeWithSkills({ "Blooming Boost": 3 })).toEqual(
+        growSeconds * 0.85,
+      );
+    });
+
+    it("applies a 30% speed boost with Flower Power at rank 2", () => {
+      expect(timeWithSkills({ "Flower Power": 2 })).toEqual(growSeconds * 0.7);
+    });
+
+    it("applies a 40% speed boost with Flower Power at rank 3", () => {
+      expect(timeWithSkills({ "Flower Power": 3 })).toEqual(growSeconds * 0.6);
+    });
+
+    it("applies a 50% growth debuff with Flowery Abode at rank 1", () => {
+      expect(timeWithSkills({ "Flowery Abode": 1 })).toEqual(growSeconds * 1.5);
+    });
+
+    it("applies a 60% growth debuff with Flowery Abode at rank 2", () => {
+      expect(timeWithSkills({ "Flowery Abode": 2 })).toEqual(growSeconds * 1.6);
+    });
+
+    it("applies a 70% growth debuff with Flowery Abode at rank 3", () => {
+      expect(timeWithSkills({ "Flowery Abode": 3 })).toEqual(growSeconds * 1.7);
+    });
+  });
 });
 
 describe("getFlowerTime — SPEED_BOOSTS", () => {

@@ -544,6 +544,53 @@ describe("skillUse", () => {
   });
 
   describe("usePetalBlessed", () => {
+    it("scales the Petal Blessed cooldown by rank", () => {
+      const HOUR = 1000 * 60 * 60;
+      const useAt = (rank: number, previous: number) =>
+        skillUse({
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Petal Blessed": rank },
+              previousPowerUseAt: { "Petal Blessed": previous },
+            },
+            flowers: {
+              discovered: {},
+              flowerBeds: {
+                "123": {
+                  x: 1,
+                  y: -10,
+                  createdAt: 1715650356584,
+                  flower: {
+                    plantedAt: dateNow,
+                    name: "Yellow Carnation",
+                  },
+                },
+              },
+            },
+          },
+          action: { type: "skill.used", skill: "Petal Blessed" },
+          createdAt: dateNow,
+        });
+
+      // rank 1 -> 96h
+      expect(() => useAt(1, dateNow - 95 * HOUR)).toThrow(
+        "Power Skill on Cooldown",
+      );
+      expect(() => useAt(1, dateNow - 97 * HOUR)).not.toThrow();
+      // rank 2 -> 84h
+      expect(() => useAt(2, dateNow - 83 * HOUR)).toThrow(
+        "Power Skill on Cooldown",
+      );
+      expect(() => useAt(2, dateNow - 85 * HOUR)).not.toThrow();
+      // rank 3 -> 72h
+      expect(() => useAt(3, dateNow - 71 * HOUR)).toThrow(
+        "Power Skill on Cooldown",
+      );
+      expect(() => useAt(3, dateNow - 73 * HOUR)).not.toThrow();
+    });
+
     it("throws an error when flower beds are empty", () => {
       expect(() =>
         skillUse({

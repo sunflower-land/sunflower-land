@@ -83,9 +83,11 @@ export function getBuyPrice(
     price = price * 0.9;
   }
 
-  if (name in FLOWER_SEEDS && bumpkin.skills["Flower Sale"]) {
-    boostsUsed.push({ name: "Flower Sale", value: "x0.8" });
-    price = price * 0.8;
+  const flowerSaleLevel = getSkillLevel(bumpkin.skills, "Flower Sale");
+  if (name in FLOWER_SEEDS && flowerSaleLevel) {
+    const multiplier = SKILL_RANKS["Flower Sale"].ranks[flowerSaleLevel - 1];
+    boostsUsed.push({ name: "Flower Sale", value: `x${multiplier}` });
+    price = price * multiplier;
   }
 
   const fruityHeavenLevel = getSkillLevel(bumpkin.skills, "Fruity Heaven");

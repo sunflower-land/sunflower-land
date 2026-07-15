@@ -254,6 +254,12 @@ export type SkillRankEffect =
       kind: "yieldWithOilDebuff";
       yield: readonly [number, number, number]; // extra greenhouse produce yield
       oilMultiplier: readonly [number, number, number]; // Oil-usage multiplier debuff (2x/3x/4x)
+    }
+  | { kind: "productionRate"; ranks: readonly [number, number, number] } // fraction ADDED to the beehive honey production rate (0.1 = +0.1 on the 1.0 base)
+  | {
+      kind: "rateWithGrowthDebuff";
+      rate: readonly [number, number, number]; // fraction ADDED to the honey production rate
+      growth: readonly [number, number, number]; // flower growth-time multiplier debuff (1.5 = +50%)
     };
 
 // Shared AOE footprint progression — Chonky Scarecrow / Horror Mike / Laurie's
@@ -3083,6 +3089,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "additiveYield", ranks: [0.1, 0.15, 0.2] },
+    },
   },
   "Hyper Bees": {
     name: "Hyper Bees",
@@ -3102,6 +3112,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
     image: hyperBees,
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "productionRate", ranks: [0.1, 0.15, 0.2] },
+    },
   },
   "Blooming Boost": {
     name: "Blooming Boost",
@@ -3120,6 +3134,11 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      // -10% / -12.5% / -15% flower growth time
+      effect: { kind: "growthMultiplier", ranks: [0.9, 0.875, 0.85] },
+    },
   },
   "Flower Sale": {
     name: "Flower Sale",
@@ -3139,6 +3158,11 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     image: flower_sale,
+    upgrade: {
+      maxLevel: 3,
+      // -20% / -25% / -30% flower seed cost
+      effect: { kind: "costMultiplier", ranks: [0.8, 0.75, 0.7] },
+    },
   },
   // Bees & Flowers - Tier 2
   "Buzzworthy Treats": {
@@ -3159,6 +3183,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
     image: ITEM_DETAILS["Honey Cake"].image,
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "xpBonus", ranks: [0.1, 0.2, 0.3] },
+    },
   },
   "Blossom Bonding": {
     name: "Blossom Bonding",
@@ -3177,6 +3205,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
     image: blossom_bonding,
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "flatBonus", ranks: [2, 3, 4] },
+    },
   },
   "Pollen Power Up": {
     name: "Pollen Power Up",
@@ -3195,6 +3227,12 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
     image: pollen,
+    upgrade: {
+      maxLevel: 3,
+      // Marginal crop yield per swarm, on top of the base +0.2 Bee Swarm bonus
+      // (total +0.3 / +0.35 / +0.4).
+      effect: { kind: "additiveYield", ranks: [0.1, 0.15, 0.2] },
+    },
   },
   "Petalled Perk": {
     name: "Petalled Perk",
@@ -3213,6 +3251,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
     image: ITEM_DETAILS["Red Lotus"].image,
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "chance", ranks: [10, 17.5, 25] },
+    },
   },
   // Bees & Flowers - Tier 3
   "Bee Collective": {
@@ -3232,6 +3274,11 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     disabled: false,
+    upgrade: {
+      maxLevel: 3,
+      // Percentage points ADDED to the bee swarm chance
+      effect: { kind: "chance", ranks: [20, 27.5, 35] },
+    },
   },
   "Flower Power": {
     name: "Flower Power",
@@ -3251,6 +3298,11 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
     image: ITEM_DETAILS["Dawn Flower"].image,
+    upgrade: {
+      maxLevel: 3,
+      // -20% / -30% / -40% flower growth time
+      effect: { kind: "growthMultiplier", ranks: [0.8, 0.7, 0.6] },
+    },
   },
   "Flowery Abode": {
     name: "Flowery Abode",
@@ -3276,6 +3328,15 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     disabled: false,
     image: abode,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "rateWithGrowthDebuff",
+        rate: [0.5, 0.75, 1],
+        // +50% / +60% / +70% flower growth time
+        growth: [1.5, 1.6, 1.7],
+      },
+    },
   },
   "Petal Blessed": {
     name: "Petal Blessed",
@@ -3295,6 +3356,14 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
       },
     },
     image: ITEM_DETAILS["Prism Petal"].image,
+    upgrade: {
+      maxLevel: 3,
+      effect: {
+        kind: "cooldown",
+        // 4 day / 3.5 day / 3 day cooldown
+        ranks: [1000 * 60 * 60 * 96, 1000 * 60 * 60 * 84, 1000 * 60 * 60 * 72],
+      },
+    },
   },
 
   // Machinery - Tier 1
@@ -4230,6 +4299,21 @@ export const SKILL_RANKS = {
     BUMPKIN_REVAMP_SKILL_TREE["Efficiency Extension Module"].upgrade.effect,
   "Grease Lightning":
     BUMPKIN_REVAMP_SKILL_TREE["Grease Lightning"].upgrade.effect,
+  "Sweet Bonus": BUMPKIN_REVAMP_SKILL_TREE["Sweet Bonus"].upgrade.effect,
+  "Hyper Bees": BUMPKIN_REVAMP_SKILL_TREE["Hyper Bees"].upgrade.effect,
+  "Blooming Boost": BUMPKIN_REVAMP_SKILL_TREE["Blooming Boost"].upgrade.effect,
+  "Flower Sale": BUMPKIN_REVAMP_SKILL_TREE["Flower Sale"].upgrade.effect,
+  "Buzzworthy Treats":
+    BUMPKIN_REVAMP_SKILL_TREE["Buzzworthy Treats"].upgrade.effect,
+  "Blossom Bonding":
+    BUMPKIN_REVAMP_SKILL_TREE["Blossom Bonding"].upgrade.effect,
+  "Pollen Power Up":
+    BUMPKIN_REVAMP_SKILL_TREE["Pollen Power Up"].upgrade.effect,
+  "Petalled Perk": BUMPKIN_REVAMP_SKILL_TREE["Petalled Perk"].upgrade.effect,
+  "Bee Collective": BUMPKIN_REVAMP_SKILL_TREE["Bee Collective"].upgrade.effect,
+  "Flower Power": BUMPKIN_REVAMP_SKILL_TREE["Flower Power"].upgrade.effect,
+  "Flowery Abode": BUMPKIN_REVAMP_SKILL_TREE["Flowery Abode"].upgrade.effect,
+  "Petal Blessed": BUMPKIN_REVAMP_SKILL_TREE["Petal Blessed"].upgrade.effect,
 } satisfies Record<UpgradeableSkillName, SkillRankEffect>;
 
 // Runtime guard co-located with SKILL_RANKS so callers can narrow to an
