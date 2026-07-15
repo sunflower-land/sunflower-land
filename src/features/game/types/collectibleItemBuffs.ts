@@ -18,6 +18,8 @@ import { getKeys, getObjectEntries } from "lib/object";
 import { BED_FARMHAND_COUNT } from "./beds";
 import { isCollectibleBuilt, getExpiryCooldown } from "../lib/collectibleBuilt";
 import { hasFeatureAccess } from "lib/flags";
+import { SKILL_RANKS, getSkillLevel } from "./bumpkinSkills";
+import { FRUITFUL_BLEND_YIELD } from "./fertilisers";
 
 type FertiliserBuffLabelName =
   | "Sprout Mix"
@@ -56,6 +58,10 @@ export function getFertiliserBuffLabels({
   }
 
   if (fertiliser === "Fruitful Blend") {
+    const fruitfulBountyLevel = getSkillLevel(
+      game.bumpkin.skills,
+      "Fruitful Bounty",
+    );
     return [
       {
         shortDescription: translate("description.fruitful.blend.boost"),
@@ -63,11 +69,24 @@ export function getFertiliserBuffLabels({
         boostTypeIcon: powerup,
         boostedItemIcon: ITEM_DETAILS["Fruit Patch"].image,
       },
-      ...(game.bumpkin.skills["Fruitful Bounty"]
+      ...(fruitfulBountyLevel
         ? [
             {
               shortDescription: translate(
-                "description.fruitful.bounty.skill.boost",
+                "description.fruitful.bounty.skill.boost.ranked",
+                {
+                  // Marginal yield the skill adds on top of Fruitful Blend's
+                  // base +0.1, which it multiplies.
+                  value:
+                    Math.round(
+                      FRUITFUL_BLEND_YIELD *
+                        (SKILL_RANKS["Fruitful Bounty"].ranks[
+                          fruitfulBountyLevel - 1
+                        ] -
+                          1) *
+                        100,
+                    ) / 100,
+                },
               ),
               labelType: "success" as const,
               boostTypeIcon: powerup,

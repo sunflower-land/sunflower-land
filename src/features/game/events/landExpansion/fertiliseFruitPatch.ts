@@ -11,6 +11,8 @@ import type {
 import { PATCH_FRUIT, PATCH_FRUIT_SEEDS } from "features/game/types/fruits";
 import { produce } from "immer";
 import { isFruitReadyToHarvest } from "./fruitPatchReadiness";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
+import { FRUITFUL_BLEND_YIELD } from "features/game/types/fertilisers";
 
 /**
  * LEGACY-model only: shifts plantedAt/harvestedAt so the remaining grow time is
@@ -70,12 +72,26 @@ type Options = {
 export const getFruitfulBlendBuff = (
   state: GameState,
 ): { amount: number; boostsUsed: { name: BoostName; value: string }[] } => {
-  let fruitfulBlendBuff = 0.1;
+  let fruitfulBlendBuff = FRUITFUL_BLEND_YIELD;
   const boostsUsed: { name: BoostName; value: string }[] = [];
-  boostsUsed.push({ name: "Fruitful Blend", value: "+0.1" });
-  if (state.bumpkin?.skills["Fruitful Bounty"]) {
-    fruitfulBlendBuff *= 2;
-    boostsUsed.push({ name: "Fruitful Bounty", value: "+0.1" });
+  boostsUsed.push({
+    name: "Fruitful Blend",
+    value: `+${FRUITFUL_BLEND_YIELD}`,
+  });
+  const fruitfulBountyLevel = getSkillLevel(
+    state.bumpkin?.skills ?? {},
+    "Fruitful Bounty",
+  );
+  if (fruitfulBountyLevel) {
+    const v = SKILL_RANKS["Fruitful Bounty"].ranks[fruitfulBountyLevel - 1];
+    // The skill multiplies Fruitful Blend's base effect, so the marginal gain
+    // is (multiplier - 1) x base.
+    const added = fruitfulBlendBuff * (v - 1);
+    fruitfulBlendBuff *= v;
+    boostsUsed.push({
+      name: "Fruitful Bounty",
+      value: `+${Math.round(added * 100) / 100}`,
+    });
   }
 
   return { amount: fruitfulBlendBuff, boostsUsed };

@@ -202,7 +202,8 @@ export type SkillRankEffect =
   | { kind: "coinBonus"; ranks: readonly [number, number, number] } // fraction: 0.3 = +30%
   | { kind: "dropChance"; ranks: readonly [number, number, number] } // inner prngChance arg
   | { kind: "chance"; ranks: readonly [number, number, number] } // prngChance percent arg
-  | { kind: "costMultiplier"; ranks: readonly [number, number, number] } // multiplier on a coin cost
+  | { kind: "costMultiplier"; ranks: readonly [number, number, number] } // multiplier on a coin or resource cost
+  | { kind: "flatTimeBonus"; ranks: readonly [number, number, number] } // ms shaved off an in-flight production (e.g. composter speed up)
   | {
       kind: "stockBonus";
       ranks: Partial<Record<StockBoostName, readonly [number, number, number]>>;
@@ -3707,6 +3708,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Efficient Bin": {
     name: "Efficient Bin",
     tree: "Compost",
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "additiveYield", ranks: [5, 7, 9] } as const,
+    },
     requirements: {
       points: 1,
       tier: 1,
@@ -3725,6 +3730,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Turbo Charged": {
     name: "Turbo Charged",
     tree: "Compost",
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "additiveYield", ranks: [5, 7, 9] } as const,
+    },
     requirements: {
       points: 1,
       tier: 1,
@@ -3743,6 +3752,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Wormy Treat": {
     name: "Wormy Treat",
     tree: "Compost",
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "additiveYield", ranks: [1, 2, 3] } as const,
+    },
     requirements: {
       points: 1,
       tier: 1,
@@ -3761,6 +3774,12 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Feathery Business": {
     name: "Feathery Business",
     tree: "Compost",
+    upgrade: {
+      maxLevel: 3,
+      // Feather cost multiplier for the composter speed up. Rank 3 removes the
+      // penalty entirely (1x), so the debuff line is dropped from the panel.
+      effect: { kind: "costMultiplier", ranks: [2, 1.5, 1] } as const,
+    },
     requirements: {
       points: 1,
       tier: 1,
@@ -3822,6 +3841,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Premium Worms": {
     name: "Premium Worms",
     tree: "Compost",
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "additiveYield", ranks: [10, 15, 20] } as const,
+    },
     requirements: {
       points: 2,
       tier: 2,
@@ -3840,6 +3863,11 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Fruitful Bounty": {
     name: "Fruitful Bounty",
     tree: "Compost",
+    upgrade: {
+      maxLevel: 3,
+      // Multiplier applied to Fruitful Blend's base +0.1 fruit effect.
+      effect: { kind: "multiplier", ranks: [2, 3, 4] } as const,
+    },
     requirements: {
       points: 2,
       tier: 2,
@@ -3859,6 +3887,11 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Swift Decomposer": {
     name: "Swift Decomposer",
     tree: "Compost",
+    upgrade: {
+      maxLevel: 3,
+      // -10% / -12.5% / -15% compost time.
+      effect: { kind: "growthMultiplier", ranks: [0.9, 0.875, 0.85] } as const,
+    },
     requirements: {
       points: 2,
       tier: 2,
@@ -3876,6 +3909,16 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Composting Bonanza": {
     name: "Composting Bonanza",
     tree: "Compost",
+    upgrade: {
+      maxLevel: 3,
+      // Extra time the composter speed up removes: +1hr / +1.5hr / +2hr.
+      // The 2x resource debuff is flat across ranks, so it stays in the tree's
+      // static debuff copy rather than the effect.
+      effect: {
+        kind: "flatTimeBonus",
+        ranks: [1 * 60 * 60 * 1000, 1.5 * 60 * 60 * 1000, 2 * 60 * 60 * 1000],
+      } as const,
+    },
     requirements: {
       points: 2,
       tier: 2,
@@ -3918,6 +3961,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Composting Overhaul": {
     name: "Composting Overhaul",
     tree: "Compost",
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "additiveYield", ranks: [2, 5, 8] } as const,
+    },
     requirements: {
       points: 3,
       tier: 3,
@@ -3937,6 +3984,15 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Composting Revamp": {
     name: "Composting Revamp",
     tree: "Compost",
+    upgrade: {
+      maxLevel: 3,
+      // +fertilisers per compost, at the cost of fewer worms.
+      effect: {
+        kind: "yieldWithDebuff",
+        buff: [5, 8, 10],
+        debuff: [2, 3, 4],
+      } as const,
+    },
     requirements: {
       points: 3,
       tier: 3,
@@ -4314,6 +4370,22 @@ export const SKILL_RANKS = {
   "Flower Power": BUMPKIN_REVAMP_SKILL_TREE["Flower Power"].upgrade.effect,
   "Flowery Abode": BUMPKIN_REVAMP_SKILL_TREE["Flowery Abode"].upgrade.effect,
   "Petal Blessed": BUMPKIN_REVAMP_SKILL_TREE["Petal Blessed"].upgrade.effect,
+  "Efficient Bin": BUMPKIN_REVAMP_SKILL_TREE["Efficient Bin"].upgrade.effect,
+  "Turbo Charged": BUMPKIN_REVAMP_SKILL_TREE["Turbo Charged"].upgrade.effect,
+  "Wormy Treat": BUMPKIN_REVAMP_SKILL_TREE["Wormy Treat"].upgrade.effect,
+  "Feathery Business":
+    BUMPKIN_REVAMP_SKILL_TREE["Feathery Business"].upgrade.effect,
+  "Premium Worms": BUMPKIN_REVAMP_SKILL_TREE["Premium Worms"].upgrade.effect,
+  "Fruitful Bounty":
+    BUMPKIN_REVAMP_SKILL_TREE["Fruitful Bounty"].upgrade.effect,
+  "Swift Decomposer":
+    BUMPKIN_REVAMP_SKILL_TREE["Swift Decomposer"].upgrade.effect,
+  "Composting Bonanza":
+    BUMPKIN_REVAMP_SKILL_TREE["Composting Bonanza"].upgrade.effect,
+  "Composting Overhaul":
+    BUMPKIN_REVAMP_SKILL_TREE["Composting Overhaul"].upgrade.effect,
+  "Composting Revamp":
+    BUMPKIN_REVAMP_SKILL_TREE["Composting Revamp"].upgrade.effect,
 } satisfies Record<UpgradeableSkillName, SkillRankEffect>;
 
 // Runtime guard co-located with SKILL_RANKS so callers can narrow to an

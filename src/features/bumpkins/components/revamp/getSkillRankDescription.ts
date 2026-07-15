@@ -594,6 +594,82 @@ export const getSkillRankDescription = (
           }),
         }),
       };
+    case "Efficient Bin":
+      return {
+        buff: t("skill.efficientBin.ranked", {
+          value: SKILL_RANKS["Efficient Bin"].ranks[i],
+        }),
+      };
+    case "Turbo Charged":
+      return {
+        buff: t("skill.turboCharged.ranked", {
+          value: SKILL_RANKS["Turbo Charged"].ranks[i],
+        }),
+      };
+    case "Wormy Treat":
+      return {
+        buff: t("skill.wormyTreat.ranked", {
+          value: SKILL_RANKS["Wormy Treat"].ranks[i],
+        }),
+      };
+    case "Feathery Business": {
+      const multiplier = SKILL_RANKS["Feathery Business"].ranks[i];
+      return {
+        buff: t("skill.featheryBusiness.buff"),
+        // Rank 3 costs 1x Feathers, i.e. no penalty left to warn about.
+        debuff:
+          multiplier > 1
+            ? t("skill.featheryBusiness.debuff.ranked", { value: multiplier })
+            : undefined,
+      };
+    }
+    case "Premium Worms":
+      return {
+        buff: t("skill.premiumWorms.ranked", {
+          value: SKILL_RANKS["Premium Worms"].ranks[i],
+        }),
+      };
+    case "Fruitful Bounty":
+      return {
+        buff: t("skill.fruitfulBounty.ranked", {
+          value: SKILL_RANKS["Fruitful Bounty"].ranks[i],
+        }),
+      };
+    case "Swift Decomposer":
+      return {
+        buff: t("skill.swiftDecomposer.ranked", {
+          value: SKILL_RANKS["Swift Decomposer"].ranks[i],
+        }),
+      };
+    case "Composting Bonanza":
+      return {
+        buff: t("skill.compostingBonanza.buff.ranked", {
+          value: millisecondsToString(
+            SKILL_RANKS["Composting Bonanza"].ranks[i],
+            {
+              length: "short",
+              isShortFormat: true,
+              removeTrailingZeros: true,
+            },
+          ),
+        }),
+        debuff: t("skill.compostingBonanza.debuff"),
+      };
+    case "Composting Overhaul":
+      return {
+        buff: t("skill.compostingOverhaul.buff.ranked", {
+          value: SKILL_RANKS["Composting Overhaul"].ranks[i],
+        }),
+      };
+    case "Composting Revamp":
+      return {
+        buff: t("skill.compostingRevamp.buff.ranked", {
+          value: SKILL_RANKS["Composting Revamp"].buff[i],
+        }),
+        debuff: t("skill.compostingRevamp.debuff.ranked", {
+          value: SKILL_RANKS["Composting Revamp"].debuff[i],
+        }),
+      };
     case "Frenzied Fish": {
       const { flat, crit } = SKILL_RANKS["Frenzied Fish"];
       // Rank 3 is a flat catch with no crit chance, so drop the "and X% chance"
