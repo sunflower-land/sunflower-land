@@ -959,8 +959,9 @@ const isTargetAscension = (
 
 /**
  * Prepares the game state for an ascension island (swamp onward) by clearing
- * previous home structures, adding a mansion, and ensuring minimum starting
- * resources.
+ * previous home structures and adding a mansion. Unlike the basic-island
+ * upgrades, this does NOT top the starting-node floor up into inventory — see
+ * the note in the body.
  *
  * @returns The updated game state for the ascension island.
  */
@@ -982,8 +983,9 @@ function ascensionUpgrade(state: GameState, target: UpgradeTarget) {
 
   // The starting-node floor is NOT topped up into inventory here — any shortfall
   // vs the swamp floor is delivered to the player through the ascension reward
-  // chest instead (see `buildAscensionRewardBundle`). A maxed volcano already
-  // exceeds the floor, so this only matters for under-provisioned/legacy farms.
+  // chest instead (the shared `getMissingResources` back-pay in
+  // `transitionToIsland`). A maxed volcano already exceeds the floor, so this
+  // only matters for under-provisioned/legacy farms.
 
   return game;
 }

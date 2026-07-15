@@ -137,11 +137,11 @@ describe("Ascension Crystal upgrade-node grant (upgradeFarm)", () => {
     ],
   ];
 
-  // Each transition grants exactly 1 Ascension Crystal. Basic-island upgrades add
-  // it straight to inventory; ascension upgrades (swamp onward) deliver it via the
-  // side-island reward chest (a `missing-resources` airdrop) instead. Seeding the
-  // player with the crystals they should already own means the net grant is 1
-  // wherever it lands.
+  // Each transition grants exactly 1 Ascension Crystal. Every upgrade — basic and
+  // ascension alike — delivers it via the side-island reward chest (a
+  // `missing-resources` airdrop); nothing tops crystals up into inventory
+  // directly. Seeding the player with the crystals they should already own means
+  // the chest's net grant is exactly 1.
   it.each(cases)(
     "grants exactly 1 crystal on %s",
     (_label, { from, ascensionLevel, basicLand, experience }) => {
