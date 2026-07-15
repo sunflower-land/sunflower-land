@@ -94,7 +94,7 @@ import xpIcon from "assets/icons/xp.png";
 import type { NPCName } from "lib/npcs";
 import type { BuffLabel } from ".";
 import type { ToolName } from "./craftables";
-import { OIL_DRILL_WOOL_BY_RANK } from "./tools";
+import { OIL_DRILL_WOOL_BY_RANK } from "./oilDrill";
 
 export type BumpkinSkillName =
   | "Green Thumb"

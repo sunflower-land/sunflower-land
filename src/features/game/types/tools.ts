@@ -7,13 +7,7 @@ import type { Inventory, IslandType, LoveAnimalItem, Skills } from "./game";
 import { translate } from "lib/i18n/translate";
 import { WATER_TRAP } from "./crustaceans";
 import type { LevelRequirement } from "features/game/lib/level";
-
-// Wool required to craft the Oil Drill per Oil Rig rank (replaces Leather).
-// Owned here (a leaf module) and re-exported through SKILL_RANKS["Oil Rig"] in
-// bumpkinSkills.ts so the crafting recipe and the skill description share one
-// source. Kept local (not imported from bumpkinSkills) to avoid the
-// tools -> bumpkinSkills -> images -> tools require cycle.
-export const OIL_DRILL_WOOL_BY_RANK = [20, 15, 10] as const;
+import { OIL_DRILL_WOOL_BY_RANK } from "./oilDrill";
 
 export type WorkbenchToolName =
   | "Axe"
@@ -114,7 +108,8 @@ export const WORKBENCH_TOOLS: Record<
     price: 100,
     ingredients: (skill) => {
       // Inline clamp (equivalent to getSkillLevel) to avoid importing
-      // bumpkinSkills here — see OIL_DRILL_WOOL_BY_RANK above.
+      // bumpkinSkills here, which would create a
+      // tools -> bumpkinSkills -> images -> tools require cycle.
       const oilRigLevel = Math.max(
         0,
         Math.min(
