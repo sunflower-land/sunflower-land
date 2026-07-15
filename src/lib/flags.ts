@@ -178,11 +178,6 @@ const FEATURE_FLAGS = {
   // Saving & re-applying named farm layouts in landscaping mode.
   SAVED_LAYOUTS: betaFeatureFlag,
 
-  // Bulk-fetch resources from all pets at once: the player types how many of
-  // each resource they need, the FE plans the best allocation across all pets,
-  // and one `pets.bulkFetch` event executes it.
-  BULK_PET_FETCH: betaFeatureFlag,
-
   // Speed-rate (Clash-of-Clans potion) model for time-based boosts — starting
   // with the Sparrow Shrine on crops. When on, planting stores the new
   // baseDurationMs + true plantedAt model; when off, boosts stay discount-at-start.

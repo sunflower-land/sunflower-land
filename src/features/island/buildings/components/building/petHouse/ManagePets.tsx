@@ -29,7 +29,6 @@ import { useNow } from "lib/utils/hooks/useNow";
 import { PetInfo } from "./PetInfo";
 import { BulkFetchInputs } from "./BulkFetchInputs";
 import { planBulkFetch, type BulkFetchPlan } from "./planBulkFetch";
-import { hasFeatureAccess } from "lib/flags";
 import { isWearableActive } from "features/game/lib/wearables";
 import * as Auth from "features/auth/lib/Provider";
 import type { AuthMachineState } from "features/auth/lib/authMachine";
@@ -81,7 +80,6 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
     (state) => state.context.state.inventory,
   );
   const state = useSelector(gameService, (state) => state.context.state);
-  const hasBulkFetch = hasFeatureAccess(state, "BULK_PET_FETCH");
 
   // The planner turns the typed quantities into concrete per-pet fetches; the
   // pet cards then show those pre-selected, minus anything deselected. Only
@@ -446,7 +444,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
               {t("cancel")}
             </Button>
           )}
-          {display === "fetching" && hasBulkFetch && !isBulkFetch && (
+          {display === "fetching" && !isBulkFetch && (
             <Button
               className="flex-1 min-w-0"
               disabled={activePets.length === 0}
