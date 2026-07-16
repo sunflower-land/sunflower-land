@@ -239,20 +239,22 @@ describe("fertiliseFruitPatch", () => {
 });
 
 describe("Fruitful Bounty skill ranks", () => {
+  // Exact equality, not toBeCloseTo: the multiplier is applied to a 0.1 base,
+  // so a lossy 0.1 x 3 would still pass any tolerance-based matcher.
   it.each([
     [1, 0.2],
-    [2, 0.30000000000000004],
+    [2, 0.3],
     [3, 0.4],
   ])("rank %i gives a +%f Fruitful Blend buff", (rank, expected) => {
     const { amount } = getFruitfulBlendBuff({
       ...baseGame,
       bumpkin: { ...INITIAL_BUMPKIN, skills: { "Fruitful Bounty": rank } },
     });
-    expect(amount).toBeCloseTo(expected, 10);
+    expect(amount).toEqual(expected);
   });
 
   it("leaves the base Fruitful Blend buff untouched without the skill", () => {
     const { amount } = getFruitfulBlendBuff(baseGame);
-    expect(amount).toBeCloseTo(0.1, 10);
+    expect(amount).toEqual(0.1);
   });
 });

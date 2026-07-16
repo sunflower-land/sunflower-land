@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import type { BedName, GameState, InventoryItemName } from "./game";
 import type { BuffLabel } from ".";
 import powerup from "assets/icons/level_up.png";
@@ -76,16 +77,15 @@ export function getFertiliserBuffLabels({
                 "description.fruitful.bounty.skill.boost.ranked",
                 {
                   // Marginal yield the skill adds on top of Fruitful Blend's
-                  // base +0.1, which it multiplies.
-                  value:
-                    Math.round(
-                      FRUITFUL_BLEND_YIELD *
-                        (SKILL_RANKS["Fruitful Bounty"].ranks[
-                          fruitfulBountyLevel - 1
-                        ] -
-                          1) *
-                        100,
-                    ) / 100,
+                  // base +0.1, which it multiplies. Decimal because the base
+                  // is 0.1: a plain 0.1 * 3 yields 0.30000000000000004.
+                  value: new Decimal(FRUITFUL_BLEND_YIELD)
+                    .mul(
+                      SKILL_RANKS["Fruitful Bounty"].ranks[
+                        fruitfulBountyLevel - 1
+                      ] - 1,
+                    )
+                    .toNumber(),
                 },
               ),
               labelType: "success" as const,

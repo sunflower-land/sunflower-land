@@ -9256,7 +9256,6 @@
   "description.theSunflowerManStatue": "Stories say this statue is from a hero of the legend. I think someone just thought it was funny and made it.",
   "description.sprout.mix.boost": "+0.2 Crop Plot Yield",
   "description.fruitful.blend.boost": "+0.1 Fruit Patch Yield",
-  "description.fruitful.bounty.skill.boost": "+0.1 Fruit Patch Yield from Fruitful Bounty Skill",
   "description.fruitful.bounty.skill.boost.ranked": "+{{value}} Fruit Patch Yield from Fruitful Bounty Skill",
   "description.rapid.root.boost": "x0.5 Crop Plot Growth Time",
   "description.rapid.root.boost.speed": "2x Crop Plot Growth Speed",
