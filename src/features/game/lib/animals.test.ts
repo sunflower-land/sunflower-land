@@ -127,6 +127,36 @@ describe("Animals skill ranks", () => {
       );
       expect(amount).toEqual(1.1);
     });
+
+    it("records the Bale label on an Egg drop (boost applies)", () => {
+      const { boostsUsed } = getResourceDropAmount({
+        game: baleFarm({}),
+        animalType: "Chicken",
+        resource: "Egg",
+        baseAmount: 1,
+        multiplier: 1,
+        animal: ANIMAL,
+      });
+
+      expect(boostsUsed).toContainEqual({ name: "Bale", value: "+0.1" });
+    });
+
+    // Bale gives no Feather yield, so its label must not appear on a Feather drop.
+    it("does not record the Bale label where it grants no yield", () => {
+      const { amount, boostsUsed } = getResourceDropAmount({
+        game: baleFarm({}),
+        animalType: "Chicken",
+        resource: "Feather",
+        baseAmount: 1,
+        multiplier: 1,
+        animal: ANIMAL,
+      });
+
+      expect(boostsUsed).not.toContainEqual(
+        expect.objectContaining({ name: "Bale" }),
+      );
+      expect(amount).toEqual(1);
+    });
   });
 
   describe("Fine Fibers", () => {

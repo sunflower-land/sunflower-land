@@ -460,9 +460,15 @@ export function getResourceDropAmount({
     const baleBoost = 0.1;
     const doubleBaleLevel = getSkillLevel(bumpkin.skills, "Double Bale");
 
+    // Bale only boosts eggs (always) and wool/milk (with Bale Economy). Track
+    // whether it applied to THIS resource so the label isn't recorded for
+    // Feather/Leather/Merino Wool (or wool/milk without Bale Economy).
+    let baleApplied = false;
+
     // Double Bale multiplies Bale's decimal base, so scale in Decimal — a float
     // 0.1 * 3 drifts to 0.30000000000000004 and would leak into the label below.
     const applyBale = () => {
+      baleApplied = true;
       if (!doubleBaleLevel) {
         amount = amount.plus(baleBoost);
         return;
@@ -488,7 +494,10 @@ export function getResourceDropAmount({
       applyBale();
       boostsUsed.push({ name: "Bale Economy", value: "+0.1" });
     }
-    boostsUsed.push({ name: "Bale", value: "+0.1" });
+
+    if (baleApplied) {
+      boostsUsed.push({ name: "Bale", value: "+0.1" });
+    }
   }
 
   // Cattlegrim boosts all produce
