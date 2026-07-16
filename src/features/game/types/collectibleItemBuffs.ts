@@ -736,36 +736,47 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: SUNNYSIDE.animalFoods.kernel_blend,
     },
   ],
-  Bale: ({ bumpkin }) => [
-    {
-      shortDescription: bumpkin.skills["Double Bale"]
-        ? translate("description.bale.eggBoost.boosted")
-        : translate("description.bale.eggBoost"),
-      labelType: "success",
-      boostTypeIcon: powerup,
-      boostedItemIcon: SUNNYSIDE.resource.egg,
-    },
-    ...(bumpkin.skills["Bale Economy"]
-      ? ([
-          {
-            shortDescription: bumpkin.skills["Double Bale"]
-              ? translate("description.bale.milkBoost.boosted")
-              : translate("description.bale.milkBoost"),
-            labelType: "success",
-            boostTypeIcon: powerup,
-            boostedItemIcon: SUNNYSIDE.resource.milk,
-          },
-          {
-            shortDescription: bumpkin.skills["Double Bale"]
-              ? translate("description.bale.woolBoost.boosted")
-              : translate("description.bale.woolBoost"),
-            labelType: "success",
-            boostTypeIcon: powerup,
-            boostedItemIcon: SUNNYSIDE.resource.wool,
-          },
-        ] as BuffLabel[])
-      : []),
-  ],
+  Bale: ({ bumpkin }) => {
+    // Double Bale multiplies Bale's +0.1 base by its rank (x2 / x2.5 / x3), so
+    // the label must reflect the owned rank rather than a hardcoded +0.2.
+    const doubleBaleLevel = getSkillLevel(bumpkin.skills, "Double Bale");
+    const baleValue = doubleBaleLevel
+      ? new Decimal(0.1)
+          .mul(SKILL_RANKS["Double Bale"].ranks[doubleBaleLevel - 1])
+          .toNumber()
+      : 0.1;
+
+    return [
+      {
+        shortDescription: translate("description.bale.eggBoost", {
+          value: baleValue,
+        }),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.resource.egg,
+      },
+      ...(bumpkin.skills["Bale Economy"]
+        ? ([
+            {
+              shortDescription: translate("description.bale.milkBoost", {
+                value: baleValue,
+              }),
+              labelType: "success",
+              boostTypeIcon: powerup,
+              boostedItemIcon: SUNNYSIDE.resource.milk,
+            },
+            {
+              shortDescription: translate("description.bale.woolBoost", {
+                value: baleValue,
+              }),
+              labelType: "success",
+              boostTypeIcon: powerup,
+              boostedItemIcon: SUNNYSIDE.resource.wool,
+            },
+          ] as BuffLabel[])
+        : []),
+    ];
+  },
 
   // Resources
   "Woody the Beaver": () => [

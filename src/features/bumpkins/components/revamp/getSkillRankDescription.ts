@@ -914,5 +914,150 @@ export const getSkillRankDescription = (
           }),
         }),
       };
+    case "Efficient Feeding":
+      return {
+        buff: t("skill.efficientFeeding.ranked", {
+          value: SKILL_RANKS["Efficient Feeding"].ranks[i],
+        }),
+      };
+    case "Restless Animals":
+      return {
+        buff: t("skill.restlessAnimals.ranked", {
+          value: SKILL_RANKS["Restless Animals"].ranks[i],
+        }),
+      };
+    case "Fine Fibers":
+      return {
+        buff: t("skill.fineFibers.ranked", {
+          value: SKILL_RANKS["Fine Fibers"].ranks[i],
+        }),
+      };
+    case "Bountiful Bounties":
+      return {
+        buff: t("skill.bountifulBounties.ranked", {
+          value: SKILL_RANKS["Bountiful Bounties"].ranks[i] * 100,
+        }),
+      };
+    case "Double Bale":
+      return {
+        buff: t("skill.doubleBale.ranked", {
+          value: SKILL_RANKS["Double Bale"].ranks[i],
+        }),
+      };
+    case "Featherweight":
+      return {
+        buff: t("skill.featherweightBuff.ranked", {
+          value: SKILL_RANKS["Featherweight"].buff[i],
+        }),
+        debuff: t("skill.featherweightDebuff.ranked", {
+          value: SKILL_RANKS["Featherweight"].debuff[i],
+        }),
+      };
+    case "Abundant Harvest":
+      return {
+        buff: t("skill.abundantHarvest.ranked", {
+          value: SKILL_RANKS["Abundant Harvest"].ranks[i],
+        }),
+      };
+    case "Heartwarming Instruments":
+      return {
+        buff: t("skill.heartwarmingInstruments.ranked", {
+          value: SKILL_RANKS["Heartwarming Instruments"].ranks[i] * 100,
+        }),
+      };
+    case "Kale Mix":
+      return {
+        buff: t("skill.kaleMix.ranked", {
+          value: SKILL_RANKS["Kale Mix"].ranks[i],
+        }),
+      };
+    case "Healthy Livestock": {
+      const sickness = SKILL_RANKS["Healthy Livestock"].sickness[i];
+      const spread = SKILL_RANKS["Healthy Livestock"].spread[i];
+      // The spread reduction is a second POSITIVE effect, not a debuff. Fold it
+      // into the buff line so it shows for the owned rank — Healthy Livestock has
+      // no tree `boosts.debuff`, so a debuff-slot line would never render.
+      return {
+        buff:
+          spread < 1
+            ? t("skill.healthyLivestock.ranked.withSpread", {
+                value: sickness,
+                spread: Math.round((1 - spread) * 1000) / 10,
+              })
+            : t("skill.healthyLivestock.ranked", { value: sickness }),
+      };
+    }
+    case "Merino Whisperer":
+      return {
+        buff: t("skill.merinoWhispererBuff.ranked", {
+          value: SKILL_RANKS["Merino Whisperer"].buff[i],
+        }),
+        debuff: t("skill.merinoWhispererDebuff.ranked", {
+          value: SKILL_RANKS["Merino Whisperer"].debuff[i],
+        }),
+      };
+    case "Clucky Grazing":
+      return {
+        buff: t("skill.cluckyGrazing.buff.ranked", {
+          value: SKILL_RANKS["Clucky Grazing"].buff[i],
+        }),
+        debuff: t("skill.cluckyGrazing.debuff.ranked", {
+          value:
+            Math.round((SKILL_RANKS["Clucky Grazing"].debuff[i] - 1) * 1000) /
+            10,
+        }),
+      };
+    case "Sheepwise Diet":
+      return {
+        buff: t("skill.sheepwiseDiet.buff.ranked", {
+          value: SKILL_RANKS["Sheepwise Diet"].buff[i],
+        }),
+        debuff: t("skill.sheepwiseDiet.debuff.ranked", {
+          value:
+            Math.round((SKILL_RANKS["Sheepwise Diet"].debuff[i] - 1) * 1000) /
+            10,
+        }),
+      };
+    case "Cow-Smart Nutrition":
+      return {
+        buff: t("skill.cowSmartNutrition.buff.ranked", {
+          value: SKILL_RANKS["Cow-Smart Nutrition"].buff[i],
+        }),
+        debuff: t("skill.cowSmartNutrition.debuff.ranked", {
+          value:
+            Math.round(
+              (SKILL_RANKS["Cow-Smart Nutrition"].debuff[i] - 1) * 1000,
+            ) / 10,
+        }),
+      };
+    case "Chonky Feed":
+      return {
+        buff: t("skill.chonkyFeed.buff.ranked", {
+          value: SKILL_RANKS["Chonky Feed"].xp[i],
+        }),
+        debuff: t("skill.chonkyFeed.debuff.ranked", {
+          value:
+            Math.round((SKILL_RANKS["Chonky Feed"].feed[i] - 1) * 1000) / 10,
+        }),
+      };
+    case "Leathercraft Mastery":
+      return {
+        buff: t("skill.leathercraftMasteryBuff.ranked", {
+          value: SKILL_RANKS["Leathercraft Mastery"].buff[i],
+        }),
+        debuff: t("skill.leathercraftMasteryDebuff.ranked", {
+          value: SKILL_RANKS["Leathercraft Mastery"].debuff[i],
+        }),
+      };
+    case "Barnyard Rouse":
+      return {
+        buff: t("skill.barnyardRouse.ranked", {
+          value: millisecondsToString(SKILL_RANKS["Barnyard Rouse"].ranks[i], {
+            length: "short",
+            isShortFormat: true,
+            removeTrailingZeros: true,
+          }),
+        }),
+      };
   }
 };

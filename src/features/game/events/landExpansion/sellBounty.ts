@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { DOLLS, RECIPE_CRAFTABLES } from "features/game/lib/crafting";
 import { isWearableActive } from "features/game/lib/wearables";
@@ -131,8 +132,13 @@ export function generateBountyCoins({
 
   const isAnimalBounty = bounty.name in ANIMALS;
 
-  if (game.bumpkin.skills["Bountiful Bounties"] && isAnimalBounty) {
-    multiplier += 0.5;
+  const bountifulBountiesLevel = getSkillLevel(
+    game.bumpkin.skills,
+    "Bountiful Bounties",
+  );
+  if (bountifulBountiesLevel && isAnimalBounty) {
+    multiplier +=
+      SKILL_RANKS["Bountiful Bounties"].ranks[bountifulBountiesLevel - 1];
   }
 
   coins *= multiplier;

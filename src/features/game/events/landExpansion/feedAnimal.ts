@@ -1,5 +1,6 @@
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
+import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
 import {
   ANIMAL_FOOD_EXPERIENCE,
   ANIMAL_LEVELS,
@@ -152,8 +153,10 @@ export function handleFoodXP({
 }) {
   let foodXp = ANIMAL_FOOD_EXPERIENCE[animal][level][food];
 
-  if (state.bumpkin.skills["Chonky Feed"]) {
-    foodXp *= 2;
+  const chonkyFeedLevel = getSkillLevel(state.bumpkin.skills, "Chonky Feed");
+  if (chonkyFeedLevel) {
+    // Every ANIMAL_FOOD_EXPERIENCE value is even, so the 2.5x rank stays integral.
+    foodXp *= SKILL_RANKS["Chonky Feed"].xp[chonkyFeedLevel - 1];
   }
 
   return { foodXp };
