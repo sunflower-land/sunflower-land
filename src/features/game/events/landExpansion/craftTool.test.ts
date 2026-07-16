@@ -555,6 +555,31 @@ describe("craftTool", () => {
     expect(state.coins).toEqual(84);
   });
 
+  it("scales the Cheap Rakes discount with rank", () => {
+    // Salt Rake base cost is 20 coins: x0.7 -> 14 spent, x0.6 -> 12 spent.
+    const craftAtRank = (rank: number) =>
+      craftTool({
+        state: {
+          ...GAME_STATE,
+          coins: 100,
+          inventory: { Wood: new Decimal(10) },
+          bumpkin: {
+            ...GAME_STATE.bumpkin,
+            skills: {
+              "Cheap Rakes": rank,
+            },
+          },
+        },
+        action: {
+          type: "tool.crafted",
+          tool: "Salt Rake",
+        },
+      }).coins;
+
+    expect(craftAtRank(2)).toEqual(86);
+    expect(craftAtRank(3)).toEqual(88);
+  });
+
   it("Salt Rakes cost 10% less with Salt Sculpture level 4", () => {
     const state = craftTool({
       state: {

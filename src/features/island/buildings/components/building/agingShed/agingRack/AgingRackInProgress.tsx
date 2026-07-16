@@ -5,7 +5,10 @@ import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Box } from "components/ui/Box";
-import type { AgingRackSlot } from "features/game/lib/agingShed";
+import {
+  getStampedAgerLevel,
+  type AgingRackSlot,
+} from "features/game/lib/agingShed";
 import { getFishBaseXP } from "features/game/types/aging";
 import { getBoostedAgingSaltCost } from "features/game/types/agingFormulas";
 import type { AgedFishName } from "features/game/types/fishing";
@@ -44,7 +47,13 @@ export const AgingRackInProgress: React.FC<Props> = ({
 
   const agedName: AgedFishName = `Aged ${slot.fish}`;
   const outputLabel = ITEM_DETAILS[agedName]?.translatedName ?? agedName;
-  const saltCost = getBoostedAgingSaltCost(getFishBaseXP(slot.fish), game);
+  // The slot is already running, so show the salt it was charged at its
+  // stamped Ager rank rather than recomputing from the player's live rank.
+  const saltCost = getBoostedAgingSaltCost(
+    getFishBaseXP(slot.fish),
+    game,
+    getStampedAgerLevel(slot.skills),
+  );
   const food: Consumable = CONSUMABLES[agedName];
   const baseXp = food.experience;
   const boostedXp = getFoodExpBoost({ food, game, createdAt: now });

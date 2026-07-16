@@ -1,11 +1,11 @@
 import Decimal from "decimal.js-light";
 import type { BoostName, GameState } from "features/game/types/game";
 import {
-  SEA_BLESSED_CHANCE,
   SEA_BLESSED_NODE_COUNT,
   SALT_CHARGE_GENERATION_TIME,
   getSaltChargeGenerationTime,
   getSaltYieldPerRake,
+  getSeaBlessedChance,
   getStoredSaltCharges,
   materializeSaltRegen,
   syncSaltNode,
@@ -121,12 +121,13 @@ export function harvestSalt({
     const saltHarvestCount = copy.farmActivity["Salt Harvested"] ?? 0;
     copy.farmActivity = trackFarmActivity("Salt Harvested", copy.farmActivity);
 
-    if (copy.bumpkin?.skills["Sea Blessed"]) {
+    const seaBlessedChance = getSeaBlessedChance(copy);
+    if (seaBlessedChance) {
       const seaBlessedHit = prngChance({
         farmId,
         itemId: KNOWN_IDS["Salt"],
         counter: saltHarvestCount,
-        chance: SEA_BLESSED_CHANCE,
+        chance: seaBlessedChance,
         criticalHitName: "Sea Blessed",
       });
 

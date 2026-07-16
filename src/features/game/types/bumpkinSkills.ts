@@ -4019,6 +4019,11 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Cheap Rakes": {
     name: "Cheap Rakes",
     tree: "Aging",
+    upgrade: {
+      maxLevel: 3,
+      // Salt Rake coin cost multiplier: -20% / -30% / -40%.
+      effect: { kind: "costMultiplier", ranks: [0.8, 0.7, 0.6] } as const,
+    },
     disabled: false,
     requirements: {
       points: 1,
@@ -4038,6 +4043,11 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Speedy Aging": {
     name: "Speedy Aging",
     tree: "Aging",
+    upgrade: {
+      maxLevel: 3,
+      // -10% / -15% / -20% fish aging time.
+      effect: { kind: "growthMultiplier", ranks: [0.9, 0.85, 0.8] } as const,
+    },
     disabled: false,
     requirements: {
       points: 1,
@@ -4057,6 +4067,11 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Salty Seas": {
     name: "Salty Seas",
     tree: "Aging",
+    upgrade: {
+      maxLevel: 3,
+      // -10% / -15% / -20% salt charge replenishment time.
+      effect: { kind: "growthMultiplier", ranks: [0.9, 0.85, 0.8] } as const,
+    },
     disabled: false,
     requirements: {
       points: 1,
@@ -4076,6 +4091,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Wide Rakes": {
     name: "Wide Rakes",
     tree: "Aging",
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "additiveYield", ranks: [2, 3, 4] } as const,
+    },
     disabled: false,
     requirements: {
       points: 1,
@@ -4095,6 +4114,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   Bacalhau: {
     name: "Bacalhau",
     tree: "Aging",
+    upgrade: {
+      maxLevel: 3,
+      effect: { kind: "additiveYield", ranks: [1, 2, 3] } as const,
+    },
     disabled: false,
     requirements: {
       points: 1,
@@ -4116,6 +4139,12 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Fish Smoking": {
     name: "Fish Smoking",
     tree: "Aging",
+    upgrade: {
+      maxLevel: 3,
+      // Multiplier on the base 10% Prime Aged chance: doubled / tripled /
+      // quadrupled.
+      effect: { kind: "multiplier", ranks: [2, 3, 4] } as const,
+    },
     disabled: false,
     requirements: {
       points: 2,
@@ -4135,6 +4164,11 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   Refiner: {
     name: "Refiner",
     tree: "Aging",
+    upgrade: {
+      maxLevel: 3,
+      // prngChance percent of +1 Refined Salt.
+      effect: { kind: "chance", ranks: [15, 25, 35] } as const,
+    },
     disabled: false,
     requirements: {
       points: 2,
@@ -4153,6 +4187,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Sea Blessed": {
     name: "Sea Blessed",
     tree: "Aging",
+    upgrade: {
+      maxLevel: 3,
+      // prngChance percent of restoring a charge to 4 Salt Nodes. Rank 2 is a
+      // fractional 7.5% — prngChance compares a continuous prngValue * 100
+      // against this, so it needs no tenths workaround.
+      effect: { kind: "chance", ranks: [5, 7.5, 10] } as const,
+    },
     disabled: false,
     requirements: {
       points: 2,
@@ -4174,6 +4215,13 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   Ager: {
     name: "Ager",
     tree: "Aging",
+    upgrade: {
+      maxLevel: 3,
+      // Both legs share one multiplier: 2x/3x/4x output from the aging racks
+      // for 2x/3x/4x the inputs. The sheet keeps them equal at every rank, so
+      // storing a single value keeps the buff and its debuff from drifting.
+      effect: { kind: "multiplier", ranks: [2, 3, 4] } as const,
+    },
     disabled: false,
     requirements: {
       points: 3,
@@ -4197,6 +4245,14 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   "Salt Surge": {
     name: "Salt Surge",
     tree: "Aging",
+    upgrade: {
+      maxLevel: 3,
+      // Power skill cooldown: 3 days / 2.5 days / 2 days.
+      effect: {
+        kind: "cooldown",
+        ranks: [1000 * 60 * 60 * 72, 1000 * 60 * 60 * 60, 1000 * 60 * 60 * 48],
+      } as const,
+    },
     disabled: false,
     power: true,
     requirements: {
@@ -4386,6 +4442,16 @@ export const SKILL_RANKS = {
     BUMPKIN_REVAMP_SKILL_TREE["Composting Overhaul"].upgrade.effect,
   "Composting Revamp":
     BUMPKIN_REVAMP_SKILL_TREE["Composting Revamp"].upgrade.effect,
+  "Cheap Rakes": BUMPKIN_REVAMP_SKILL_TREE["Cheap Rakes"].upgrade.effect,
+  "Speedy Aging": BUMPKIN_REVAMP_SKILL_TREE["Speedy Aging"].upgrade.effect,
+  "Salty Seas": BUMPKIN_REVAMP_SKILL_TREE["Salty Seas"].upgrade.effect,
+  "Wide Rakes": BUMPKIN_REVAMP_SKILL_TREE["Wide Rakes"].upgrade.effect,
+  Bacalhau: BUMPKIN_REVAMP_SKILL_TREE["Bacalhau"].upgrade.effect,
+  "Fish Smoking": BUMPKIN_REVAMP_SKILL_TREE["Fish Smoking"].upgrade.effect,
+  Refiner: BUMPKIN_REVAMP_SKILL_TREE["Refiner"].upgrade.effect,
+  "Sea Blessed": BUMPKIN_REVAMP_SKILL_TREE["Sea Blessed"].upgrade.effect,
+  Ager: BUMPKIN_REVAMP_SKILL_TREE["Ager"].upgrade.effect,
+  "Salt Surge": BUMPKIN_REVAMP_SKILL_TREE["Salt Surge"].upgrade.effect,
 } satisfies Record<UpgradeableSkillName, SkillRankEffect>;
 
 // Runtime guard co-located with SKILL_RANKS so callers can narrow to an

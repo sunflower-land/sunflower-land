@@ -642,7 +642,7 @@ describe("startFermentation", () => {
     expect(state.inventory.Salt?.toNumber()).toBe(0);
   });
 
-  it("stamps Ager=true on the fermentation job when the skill is active", () => {
+  it("stamps the Ager rank on the fermentation job when the skill is active", () => {
     const state = startFermentation({
       state: createFermentationTestState({
         bumpkin: { ...INITIAL_BUMPKIN, skills: { Ager: 1 } },
@@ -657,10 +657,10 @@ describe("startFermentation", () => {
       createdAt,
     });
 
-    expect(state.agingShed.racks.fermentation[0].skills?.Ager).toBe(true);
+    expect(state.agingShed.racks.fermentation[0].skills?.Ager).toBe(1);
   });
 
-  it("stamps Ager=false on the fermentation job when the skill is not active", () => {
+  it("stamps Ager rank 0 on the fermentation job when the skill is not active", () => {
     const state = startFermentation({
       state: createFermentationTestState({
         inventory: { Radish: new Decimal(10), Salt: new Decimal(5) },
@@ -674,7 +674,7 @@ describe("startFermentation", () => {
       createdAt,
     });
 
-    expect(state.agingShed.racks.fermentation[0].skills?.Ager).toBe(false);
+    expect(state.agingShed.racks.fermentation[0].skills?.Ager).toBe(0);
   });
 
   it("throws when Ager doubles cost beyond available ingredients", () => {

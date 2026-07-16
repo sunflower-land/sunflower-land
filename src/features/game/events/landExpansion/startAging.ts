@@ -15,6 +15,7 @@ import {
 import type { FishName } from "features/game/types/fishing";
 import type { GameState } from "features/game/types/game";
 import { hasPlacedAgingShed } from "./hasPlacedAgingShed";
+import { getSkillLevel } from "features/game/types/bumpkinSkills";
 
 export type StartAgingAction = {
   type: "agingRack.started";
@@ -77,8 +78,9 @@ export function startAging({
       fish: action.fish,
       startedAt: createdAt,
       readyAt: createdAt + getBoostedAgingTimeMs(baseXP, game),
-      // Marks whether the Ager skill was applied at the time of starting
-      skills: { Ager: !!game.bumpkin.skills["Ager"] },
+      // Stamps the Ager rank applied at the time of starting, so collect pays
+      // out at the rank whose inputs were charged above.
+      skills: { Ager: getSkillLevel(game.bumpkin.skills, "Ager") },
     };
 
     game.agingShed.racks.aging = [...queue, slot];

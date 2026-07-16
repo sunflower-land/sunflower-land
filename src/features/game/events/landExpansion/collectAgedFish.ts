@@ -15,6 +15,7 @@ import type { GameState } from "features/game/types/game";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { hasPlacedAgingShed } from "./hasPlacedAgingShed";
 import { prngChance } from "lib/prng";
+import { getStampedAgerLevel } from "features/game/lib/agingShed";
 
 export type CollectAgedFishAction = {
   type: "agingRack.collected";
@@ -67,7 +68,7 @@ export function collectAgedFish({
         game,
         new Decimal(1),
         slot.fish,
-        !!slot.skills?.Ager,
+        getStampedAgerLevel(slot.skills),
         {
           farmId,
           itemId: KNOWN_IDS[slot.fish],

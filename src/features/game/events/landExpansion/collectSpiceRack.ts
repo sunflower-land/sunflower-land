@@ -11,6 +11,7 @@ import type { GameState } from "features/game/types/game";
 import { getAgingOutput } from "features/game/types/agingFormulas";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { hasPlacedAgingShed } from "./hasPlacedAgingShed";
+import { getStampedAgerLevel } from "features/game/lib/agingShed";
 
 export type CollectSpiceRackAction = {
   type: "spiceRack.collected";
@@ -51,7 +52,7 @@ export function collectSpiceRack({
       const recipeDef = getSpiceRackRecipe(job.recipe);
       const counter =
         game.farmActivity[spiceRackCollectedActivity(job.recipe)] ?? 0;
-      const agerApplied = !!job.skills?.Ager;
+      const agerLevel = getStampedAgerLevel(job.skills);
 
       for (const [item, amount] of getObjectEntries(recipeDef.outputs)) {
         const prev = game.inventory[item] ?? new Decimal(0);
@@ -59,7 +60,7 @@ export function collectSpiceRack({
           game,
           amount ?? new Decimal(0),
           item,
-          agerApplied,
+          agerLevel,
           {
             farmId,
             itemId: KNOWN_IDS[item],

@@ -205,6 +205,68 @@ describe("collectSpiceRack", () => {
     expect(state.inventory["Salt Lick"]?.toNumber()).toEqual(10);
   });
 
+  it("pays out a stamped Ager rank 3 at 4x", () => {
+    const past = createdAt - 1;
+
+    const state = collectSpiceRack({
+      state: createFermentationTestState({
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { Ager: 3 } },
+        agingShed: {
+          ...createInitialAgingShed(),
+          racks: {
+            ...createInitialAgingShed().racks,
+            spice: [
+              {
+                id: "ager-rank-3",
+                recipe: "Salt Lick",
+                startedAt: past,
+                readyAt: past,
+                skills: { Ager: 3 },
+              },
+            ],
+          },
+        },
+      }),
+      action: { type: "spiceRack.collected" },
+      createdAt,
+      farmId: 1,
+    });
+
+    expect(state.inventory["Salt Lick"]?.toNumber()).toEqual(20);
+  });
+
+  it("pays out the stamped rank when the player has since ranked up", () => {
+    // Exploit guard: job paid rank 1's 2x inputs, player is now rank 3.
+    // Collect must settle at the stamped rank, not the live one.
+    const past = createdAt - 1;
+
+    const state = collectSpiceRack({
+      state: createFermentationTestState({
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { Ager: 3 } },
+        agingShed: {
+          ...createInitialAgingShed(),
+          racks: {
+            ...createInitialAgingShed().racks,
+            spice: [
+              {
+                id: "ager-rank-up",
+                recipe: "Salt Lick",
+                startedAt: past,
+                readyAt: past,
+                skills: { Ager: 1 },
+              },
+            ],
+          },
+        },
+      }),
+      action: { type: "spiceRack.collected" },
+      createdAt,
+      farmId: 1,
+    });
+
+    expect(state.inventory["Salt Lick"]?.toNumber()).toEqual(10);
+  });
+
   it("ignores Ager skill activated after starting (exploit guard)", () => {
     // Job was queued without Ager (1x input paid); activating Ager after
     // must not double the output.

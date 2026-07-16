@@ -9,6 +9,7 @@ import {
   isStartableFermentationRecipeName,
   type StartableFermentationRecipeName,
 } from "features/game/types/fermentation";
+import { getSkillLevel } from "features/game/types/bumpkinSkills";
 import { getObjectEntries } from "lib/object";
 import type { GameState } from "features/game/types/game";
 import { getAgingInputMultiplier } from "features/game/types/agingFormulas";
@@ -73,10 +74,10 @@ export function startFermentation({
       game.inventory[ingredient] = count.sub(need);
     }
 
-    const agerApplied = !!game.bumpkin.skills["Ager"];
+    const agerLevel = getSkillLevel(game.bumpkin.skills, "Ager");
 
     if (durationSeconds === 0) {
-      grantFermentationRecipeOutputs(game, action.recipe, farmId, agerApplied);
+      grantFermentationRecipeOutputs(game, action.recipe, farmId, agerLevel);
       return;
     }
 
@@ -87,8 +88,9 @@ export function startFermentation({
       recipe: action.recipe,
       startedAt: createdAt,
       readyAt,
-      // Marks whether the Ager skill was applied at the time of starting
-      skills: { Ager: agerApplied },
+      // Stamps the Ager rank applied at the time of starting, so collect pays
+      // out at the rank whose inputs were charged above.
+      skills: { Ager: agerLevel },
     };
 
     game.agingShed.racks.fermentation = [...queue, job];

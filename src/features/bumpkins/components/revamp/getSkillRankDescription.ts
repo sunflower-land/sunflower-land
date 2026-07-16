@@ -846,5 +846,73 @@ export const getSkillRankDescription = (
           ),
         }),
       };
+    case "Cheap Rakes":
+      return {
+        buff: t("skill.cheapRakes.ranked", {
+          value: SKILL_RANKS["Cheap Rakes"].ranks[i],
+        }),
+      };
+    case "Speedy Aging":
+      return {
+        buff: t("skill.speedyAging.ranked", {
+          value: SKILL_RANKS["Speedy Aging"].ranks[i],
+        }),
+      };
+    case "Salty Seas":
+      return {
+        buff: t("skill.saltySeas.ranked", {
+          value: SKILL_RANKS["Salty Seas"].ranks[i],
+        }),
+      };
+    case "Wide Rakes":
+      return {
+        buff: t("skill.wideRakes.ranked", {
+          value: SKILL_RANKS["Wide Rakes"].ranks[i],
+        }),
+      };
+    case "Bacalhau":
+      return {
+        buff: t("skill.bacalhau.ranked", {
+          value: SKILL_RANKS["Bacalhau"].ranks[i],
+        }),
+      };
+    case "Fish Smoking":
+      return {
+        buff: t("skill.fishSmoking.ranked", {
+          value: SKILL_RANKS["Fish Smoking"].ranks[i],
+        }),
+      };
+    case "Refiner":
+      return {
+        buff: t("skill.refiner.ranked", {
+          value: SKILL_RANKS["Refiner"].ranks[i],
+        }),
+      };
+    case "Sea Blessed":
+      return {
+        buff: t("skill.seaBlessed.ranked", {
+          value: SKILL_RANKS["Sea Blessed"].ranks[i],
+        }),
+      };
+    case "Ager":
+      // One multiplier drives both legs: Nx output for Nx inputs.
+      return {
+        buff: t("skill.ager.buff.ranked", {
+          value: SKILL_RANKS["Ager"].ranks[i],
+        }),
+        debuff: t("skill.ager.debuff.ranked", {
+          value: SKILL_RANKS["Ager"].ranks[i],
+        }),
+      };
+    case "Salt Surge":
+      return {
+        buff: t("skill.saltSurge.ranked", {
+          value: millisecondsToString(SKILL_RANKS["Salt Surge"].ranks[i], {
+            length: "short",
+            isShortFormat: true,
+            removeTrailingZeros: true,
+          }),
+        }),
+      };
   }
 };

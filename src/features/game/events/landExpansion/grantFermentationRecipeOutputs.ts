@@ -18,7 +18,7 @@ export function grantFermentationRecipeOutputs(
   game: GameState,
   recipe: FermentationRecipeName,
   farmId: number,
-  agerApplied: boolean,
+  agerLevel: number,
 ): void {
   const recipeDef = getFermentationRecipe(recipe);
 
@@ -28,7 +28,7 @@ export function grantFermentationRecipeOutputs(
       game,
       amount ?? new Decimal(0),
       item,
-      agerApplied,
+      agerLevel,
       {
         farmId,
         itemId: KNOWN_IDS[item],

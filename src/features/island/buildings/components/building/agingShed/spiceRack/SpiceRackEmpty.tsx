@@ -25,6 +25,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useVisiting } from "lib/utils/visitUtils";
 import { getObjectEntries } from "lib/object";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
+import { getSkillLevel } from "features/game/types/bumpkinSkills";
 
 function getPrimaryOutputItem(
   recipeId: SpiceRackRecipeName,
@@ -84,7 +85,7 @@ export const SpiceRackEmpty: React.FC<Props> = ({
         gameState,
         recipeDef?.outputs[selectedRecipeId] ?? new Decimal(0),
         selectedRecipeId,
-        !!gameState.bumpkin.skills["Ager"],
+        getSkillLevel(gameState.bumpkin.skills, "Ager"),
       )
     : undefined;
 
