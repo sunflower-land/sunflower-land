@@ -45,27 +45,60 @@ describe("upgradeSkill", () => {
     expect(result.inventory["Ascension Shard"]).toEqual(new Decimal(4));
   });
 
-  it("spends a tier-scaled cost for a tier 2 skill (2 shards)", () => {
-    const result = upgradeSkill({
-      state: {
-        ...TEST_FARM,
-        inventory: {
-          ...TEST_FARM.inventory,
-          "Ascension Shard": new Decimal(5),
-        },
-        bumpkin: {
-          ...INITIAL_BUMPKIN,
-          experience: LEVEL_EXPERIENCE[15],
-          // Strong Roots (Tier 2) -> Rank 2 needs Crops Tier 3 unlocked.
-          skills: { ...CROPS_TIER_3 },
-        },
+  it("spends a tier-scaled cost for a tier 2 skill (2 shards, 3 skill points)", () => {
+    const state = {
+      ...TEST_FARM,
+      inventory: {
+        ...TEST_FARM.inventory,
+        "Ascension Shard": new Decimal(5),
       },
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        experience: LEVEL_EXPERIENCE[15],
+        // Strong Roots (Tier 2) -> Rank 2 needs Crops Tier 3 unlocked.
+        skills: { ...CROPS_TIER_3 },
+      },
+    };
+    const before = getAvailableBumpkinSkillPoints(state);
+
+    const result = upgradeSkill({
+      state,
       action: { type: "skill.upgraded", skill: "Strong Roots" },
       createdAt: dateNow,
     });
 
     expect(result.bumpkin?.skills["Strong Roots"]).toEqual(2);
     expect(result.inventory["Ascension Shard"]).toEqual(new Decimal(3));
+    // Tier 2 rank-up costs 3 skill points.
+    expect(getAvailableBumpkinSkillPoints(result)).toEqual(before - 3);
+  });
+
+  it("spends a tier-scaled cost for a tier 3 skill (3 shards, 6 skill points)", () => {
+    const state = {
+      ...TEST_FARM,
+      inventory: {
+        ...TEST_FARM.inventory,
+        "Ascension Shard": new Decimal(5),
+      },
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        experience: LEVEL_EXPERIENCE[20],
+        // Acre Farm (Tier 3) needs Crops Tier 3 unlocked for any rank-up.
+        skills: { ...CROPS_TIER_3, "Acre Farm": 1 },
+      },
+    };
+    const before = getAvailableBumpkinSkillPoints(state);
+
+    const result = upgradeSkill({
+      state,
+      action: { type: "skill.upgraded", skill: "Acre Farm" },
+      createdAt: dateNow,
+    });
+
+    expect(result.bumpkin?.skills["Acre Farm"]).toEqual(2);
+    expect(result.inventory["Ascension Shard"]).toEqual(new Decimal(2));
+    // Tier 3 rank-up costs 6 skill points.
+    expect(getAvailableBumpkinSkillPoints(result)).toEqual(before - 6);
   });
 
   it("upgrades a rank 2 skill to rank 3 and keeps point accounting aligned", () => {

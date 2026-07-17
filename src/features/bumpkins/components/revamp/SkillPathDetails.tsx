@@ -120,12 +120,17 @@ const RankTrack: React.FC<{
               : pixelGrayBorderStyle;
 
           return (
-            <div
+            <button
+              type="button"
               key={rank}
-              className={`relative flex flex-1 items-center justify-center ${
+              // Claimed ranks are owned, so they're disabled (not focusable).
+              disabled={done}
+              aria-pressed={selected}
+              aria-label={t("skill.rankBoost", { rank })}
+              className={`relative flex flex-1 items-center justify-center p-0 ${
                 done ? "cursor-default" : "cursor-pointer"
               }`}
-              onClick={done ? undefined : () => onSelectRank(rank)}
+              onClick={() => onSelectRank(rank)}
               style={{
                 height: `${PIXEL_SCALE * 13}px`,
                 ...borderStyle,
@@ -145,7 +150,7 @@ const RankTrack: React.FC<{
               >
                 {rank}
               </span>
-            </div>
+            </button>
           );
         })}
       </div>
@@ -169,12 +174,15 @@ export const SkillPathDetails: React.FC<Props> = ({
   const [selectedSkill, setSelectedSkill] = useState<BumpkinSkillRevamp>(
     skillsInPath[0],
   );
-  // Rank the panel is previewing (driven by clicking a pip in the rank track).
-  const [previewRank, setPreviewRank] = useState<number>(() => {
-    const first = skillsInPath[0];
-    const lvl = bumpkin.skills[first.name as BumpkinRevampSkillName] ?? 0;
-    return defaultPreviewRank(lvl, first.upgrade?.maxLevel ?? 1);
-  });
+  // Explicit rank selection from clicking a pip, tagged with the skill + level it
+  // was made against. previewRank is DERIVED during render (below): once the skill
+  // or its authoritative level changes (e.g. after an upgrade), the selection no
+  // longer matches and we fall back to the default preview — no effect needed.
+  const [rankSelection, setRankSelection] = useState<{
+    skill: BumpkinRevampSkillName;
+    level: number;
+    rank: number;
+  }>();
 
   const { tree, requirements, name, image, boosts, disabled, power, npc } =
     selectedSkill;
@@ -196,6 +204,13 @@ export const SkillPathDetails: React.FC<Props> = ({
   const level = bumpkin.skills[name as BumpkinRevampSkillName];
   const currentLevel = level ?? 0;
   const maxLevel = upgrade?.maxLevel ?? 1;
+  // The previewed rank: the explicit pip selection while it still applies to the
+  // current skill + level, otherwise the default (next unearned) rank.
+  const previewRank =
+    rankSelection?.skill === (name as BumpkinRevampSkillName) &&
+    rankSelection?.level === currentLevel
+      ? rankSelection.rank
+      : defaultPreviewRank(currentLevel, maxLevel);
   const hasSelectedSkill = level !== undefined;
   const shardBalance = state.inventory["Ascension Shard"] ?? new Decimal(0);
   const upgradeCost = getSkillUpgradeCost(tier);
@@ -386,7 +401,11 @@ export const SkillPathDetails: React.FC<Props> = ({
                 maxLevel={maxLevel}
                 selectedRank={previewRank}
                 onSelectRank={(rank) => {
-                  setPreviewRank(rank);
+                  setRankSelection({
+                    skill: name as BumpkinRevampSkillName,
+                    level: currentLevel,
+                    rank,
+                  });
                   setShowConfirmation(false);
                   setShowUpgradeConfirmation(false);
                 }}
@@ -625,9 +644,9 @@ export const SkillPathDetails: React.FC<Props> = ({
                               setSelectedSkill(skill);
                               setShowConfirmation(false);
                               setShowUpgradeConfirmation(false);
-                              setPreviewRank(
-                                defaultPreviewRank(skillLevel, skillMaxLevel),
-                              );
+                              // Fall back to the default preview for the newly
+                              // selected skill (derived from rankSelection).
+                              setRankSelection(undefined);
                             }}
                             showOverlay={isSkillMaxed || !tierUnlocked}
                             overlayIcon={
