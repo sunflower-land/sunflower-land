@@ -18,7 +18,7 @@ export const getSkillRankDescription = (
   name: UpgradeableSkillName,
   rank: number,
   t: ReturnType<typeof useAppTranslation>["t"],
-): { buff: string; debuff?: string } => {
+): { buff: string | string[]; debuff?: string } => {
   const i = rank - 1;
 
   switch (name) {
@@ -73,35 +73,39 @@ export const getSkillRankDescription = (
     case "Chonky Scarecrow": {
       const { depth } = SKILL_RANKS["Chonky Scarecrow"].ranks[i];
       const bonus = SKILL_RANKS["Chonky Scarecrow"].aoeYield[i];
-      // Rank 1 grants AOE only (no yield), so drop the yield clause.
+      // One label per effect: AOE area, growth time, and (rank 2+) crop yield.
       return {
-        buff:
-          bonus > 0
-            ? t("skill.chonkyScarecrow.ranked.yield", {
-                size: `${depth}x${depth}`,
-                value: bonus,
-              })
-            : t("skill.chonkyScarecrow.ranked", {
-                size: `${depth}x${depth}`,
-              }),
+        buff: [
+          t("skill.chonkyScarecrow.aoe.ranked", { size: `${depth}x${depth}` }),
+          t("skill.chonkyScarecrow.growth"),
+          ...(bonus > 0
+            ? [t("skill.chonkyScarecrow.yield.ranked", { value: bonus })]
+            : []),
+        ],
       };
     }
     case "Horror Mike": {
       const { depth } = SKILL_RANKS["Horror Mike"].ranks[i];
+      // One label per effect: AOE area, then medium crop yield.
       return {
-        buff: t("skill.horrorMike.ranked", {
-          size: `${depth}x${depth}`,
-          value: SKILL_RANKS["Horror Mike"].aoeYield[i],
-        }),
+        buff: [
+          t("skill.horrorMike.aoe.ranked", { size: `${depth}x${depth}` }),
+          t("skill.horrorMike.yield.ranked", {
+            value: SKILL_RANKS["Horror Mike"].aoeYield[i],
+          }),
+        ],
       };
     }
     case "Laurie's Gains": {
       const { depth } = SKILL_RANKS["Laurie's Gains"].ranks[i];
+      // One label per effect: AOE area, then advanced crop yield.
       return {
-        buff: t("skill.lauriesGains.ranked", {
-          size: `${depth}x${depth}`,
-          value: SKILL_RANKS["Laurie's Gains"].aoeYield[i],
-        }),
+        buff: [
+          t("skill.lauriesGains.aoe.ranked", { size: `${depth}x${depth}` }),
+          t("skill.lauriesGains.yield.ranked", {
+            value: SKILL_RANKS["Laurie's Gains"].aoeYield[i],
+          }),
+        ],
       };
     }
     case "Instant Growth":

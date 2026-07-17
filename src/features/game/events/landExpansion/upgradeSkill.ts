@@ -5,10 +5,14 @@ import {
   type BumpkinSkillRevamp,
   BUMPKIN_REVAMP_SKILL_TREE,
   getSkillUpgradeCost,
+  getSkillUpgradeTierRequirement,
 } from "features/game/types/bumpkinSkills";
 import type { GameState } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
-import { getAvailableBumpkinSkillPoints } from "./choseSkill";
+import {
+  getAvailableBumpkinSkillPoints,
+  getUnlockedTierForTree,
+} from "./choseSkill";
 
 export type UpgradeSkillAction = {
   type: "skill.upgraded";
@@ -58,6 +62,17 @@ export function upgradeSkill({ state, action }: Options): GameState {
 
     if (currentLevel >= upgrade.maxLevel) {
       throw new Error("Skill is already at max level");
+    }
+
+    // Same-tree investment gate: each rank-up requires the tree unlocked one tier
+    // further than the last (capped at the max tier).
+    const requiredTier = getSkillUpgradeTierRequirement(
+      skillData.requirements.tier,
+      currentLevel,
+    );
+    const { availableTier } = getUnlockedTierForTree(skillData.tree, bumpkin);
+    if (availableTier < requiredTier) {
+      throw new Error(`You need to unlock tier ${requiredTier} first`);
     }
 
     const cost = getSkillUpgradeCost(skillData.requirements.tier);

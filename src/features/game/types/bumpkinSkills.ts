@@ -162,11 +162,27 @@ export type SkillUpgrade = {
   effect: SkillRankEffect;
 };
 
+// Skill points charged for a single rank-up, keyed on the skill's tier.
+const UPGRADE_POINTS_BY_TIER: Record<BumpkinSkillTier, number> = {
+  1: 1,
+  2: 3,
+  3: 6,
+};
+
 // Cost of a single rank-up for a skill of the given tier (flat per upgrade).
 export const getSkillUpgradeCost = (tier: BumpkinSkillTier) => ({
   shards: tier,
-  points: tier * 3,
+  points: UPGRADE_POINTS_BY_TIER[tier],
 });
+
+// Same-tree tier that must be unlocked (via getUnlockedTierForTree) to buy the
+// rank-up FROM `currentRank`. Each rank demands one more tier of tree progression
+// beyond the skill's own tier, capped at the max tier (3). So a Tier 1 skill needs
+// Tier 2 for Rank 2 and Tier 3 for Rank 3; Tier 2/3 skills need Tier 3 for any rank.
+export const getSkillUpgradeTierRequirement = (
+  tier: BumpkinSkillTier,
+  currentRank: number,
+): BumpkinSkillTier => Math.min(3, tier + currentRank) as BumpkinSkillTier;
 
 // Current rank of a skill: 0 = not owned, otherwise 1..maxLevel (the rank is
 // stored directly as the skill's value in `bumpkin.skills`). Clamped to a valid

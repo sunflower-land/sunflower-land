@@ -6,6 +6,7 @@ import {
   type BumpkinRevampSkillName,
   type UpgradeableSkillName,
   getSkillUpgradeCost,
+  getSkillUpgradeTierRequirement,
   SKILL_RANKS,
   isUpgradeableSkillName,
 } from "features/game/types/bumpkinSkills";
@@ -69,14 +70,28 @@ export const getSkillImage = (
       : SKILL_TREE_ICONS[tree];
 };
 
+// Which rank the panel previews when a skill is (re)selected: the next unearned
+// rank if the skill can still be upgraded, otherwise the current (or first) rank.
+const defaultPreviewRank = (level: number, maxLevel: number) =>
+  level < maxLevel ? Math.min(level + 1, maxLevel) : Math.max(level, 1);
+
+// A rank description's buff can be one line or several (e.g. Chonky Scarecrow
+// splits its AOE / growth / yield effects); normalise to an array for rendering.
+const toBuffLines = (buff: string | string[]): string[] =>
+  Array.isArray(buff) ? buff : [buff];
+
 /**
  * A 1·2·3 rank track. `level` is the current rank (0 when the skill is not yet
- * claimed); pips at or below `level` are done, the next pip is highlighted.
+ * claimed); pips at or below `level` are done, the next pip is highlighted. Every
+ * pip is clickable to preview that rank's boost — `selectedRank` is the previewed
+ * rank and gets a highlighted border.
  */
-const RankTrack: React.FC<{ level: number; maxLevel: number }> = ({
-  level,
-  maxLevel,
-}) => {
+const RankTrack: React.FC<{
+  level: number;
+  maxLevel: number;
+  selectedRank: number;
+  onSelectRank: (rank: number) => void;
+}> = ({ level, maxLevel, selectedRank, onSelectRank }) => {
   const { t } = useAppTranslation();
   const isMaxed = level >= maxLevel;
 
@@ -96,31 +111,36 @@ const RankTrack: React.FC<{ level: number; maxLevel: number }> = ({
         {Array.from({ length: maxLevel }).map((_, i) => {
           const rank = i + 1;
           const done = rank <= level;
-          const next = rank === level + 1;
+          // Claimed ranks are already owned, so they can't be previewed/clicked.
+          const selected = rank === selectedRank && !done;
           const borderStyle = done
             ? pixelGreenBorderStyle
-            : next
+            : selected
               ? pixelOrangeBorderStyle
               : pixelGrayBorderStyle;
 
           return (
             <div
               key={rank}
-              className="relative flex flex-1 items-center justify-center"
+              className={`relative flex flex-1 items-center justify-center ${
+                done ? "cursor-default" : "cursor-pointer"
+              }`}
+              onClick={done ? undefined : () => onSelectRank(rank)}
               style={{
                 height: `${PIXEL_SCALE * 13}px`,
                 ...borderStyle,
-                backgroundColor: done
-                  ? LABEL_STYLES.success.background
-                  : next
-                    ? "#fff4df"
+                // The previewed rank is highlighted with a white background.
+                backgroundColor: selected
+                  ? "#ffffff"
+                  : done
+                    ? LABEL_STYLES.success.background
                     : undefined,
               }}
             >
               <span
                 className="text-sm"
                 style={{
-                  color: done ? "#ffffff" : next ? "#b8720a" : undefined,
+                  color: selected ? undefined : done ? "#ffffff" : undefined,
                 }}
               >
                 {rank}
@@ -149,6 +169,12 @@ export const SkillPathDetails: React.FC<Props> = ({
   const [selectedSkill, setSelectedSkill] = useState<BumpkinSkillRevamp>(
     skillsInPath[0],
   );
+  // Rank the panel is previewing (driven by clicking a pip in the rank track).
+  const [previewRank, setPreviewRank] = useState<number>(() => {
+    const first = skillsInPath[0];
+    const lvl = bumpkin.skills[first.name as BumpkinRevampSkillName] ?? 0;
+    return defaultPreviewRank(lvl, first.upgrade?.maxLevel ?? 1);
+  });
 
   const { tree, requirements, name, image, boosts, disabled, power, npc } =
     selectedSkill;
@@ -181,6 +207,20 @@ export const SkillPathDetails: React.FC<Props> = ({
   const isLocked = !hasSelectedSkill;
   const isUpgradable =
     hasSelectedSkill && canUpgradeHere && currentLevel < maxLevel;
+  // Rank-ups are gated behind same-tree progression: buying the next rank needs
+  // the tree unlocked one tier further than the last (capped at the max tier).
+  const requiredRankTier = getSkillUpgradeTierRequirement(tier, currentLevel);
+  const rankTierLocked = isUpgradable && availableTier < requiredRankTier;
+  // Button + requirements track the previewed rank. The player can only act on
+  // the next rank (claim rank 1, or upgrade to currentLevel + 1); previewing any
+  // other rank shows why it isn't reachable yet.
+  const actionableRank = currentLevel + 1;
+  const previewIsActionable = previewRank === actionableRank;
+  const previewRequiredTier =
+    previewRank <= 1
+      ? tier
+      : getSkillUpgradeTierRequirement(tier, previewRank - 1);
+  const previewTierUnlocked = availableTier >= previewRequiredTier;
   const isMaxed =
     hasSelectedSkill && (!canUpgradeHere || currentLevel >= maxLevel);
   const boostLabelType = isLocked ? "success" : "info";
@@ -198,14 +238,16 @@ export const SkillPathDetails: React.FC<Props> = ({
     isRankSkill && rankSkillName && rankKind !== "cooldown"
       ? getSkillRankDescription(rankSkillName, Math.max(currentLevel, 1), t)
       : undefined;
-  const nextRankDescription =
-    isRankSkill && rankSkillName && isUpgradable
-      ? getSkillRankDescription(rankSkillName, currentLevel + 1, t)
+  // Boost copy for the rank currently being previewed (any rank 1..maxLevel).
+  const previewRankDescription =
+    isRankSkill && rankSkillName
+      ? getSkillRankDescription(rankSkillName, previewRank, t)
       : undefined;
 
   const isUpgradeDisabled =
     shardBalance.lt(upgradeCost.shards) ||
     availableSkillPoints < upgradeCost.points ||
+    rankTierLocked ||
     readonly;
   const missingPointRequirement = points > availableSkillPoints;
   const missingSkillsRequirement = tier > availableTier;
@@ -290,16 +332,21 @@ export const SkillPathDetails: React.FC<Props> = ({
                   {t("skill.powerSkill")}
                 </Label>
               )}
-              {buff && (
-                <Label
-                  type={boostLabelType}
-                  icon={buff.boostTypeIcon}
-                  secondaryIcon={buff.boostedItemIcon}
-                  className="mb-2"
-                >
-                  {currentRankDescription?.buff ?? buff.shortDescription}
-                </Label>
-              )}
+              {buff &&
+                (currentRankDescription
+                  ? toBuffLines(currentRankDescription.buff)
+                  : [buff.shortDescription]
+                ).map((line, idx) => (
+                  <Label
+                    key={idx}
+                    type={boostLabelType}
+                    icon={buff.boostTypeIcon}
+                    secondaryIcon={buff.boostedItemIcon}
+                    className="mb-2"
+                  >
+                    {line}
+                  </Label>
+                ))}
               {debuff && (
                 <Label
                   type={debuff.labelType}
@@ -334,25 +381,42 @@ export const SkillPathDetails: React.FC<Props> = ({
 
             {/* Rank track (any upgradable skill, incl. unclaimed) */}
             {canUpgradeHere && (
-              <RankTrack level={currentLevel} maxLevel={maxLevel} />
+              <RankTrack
+                level={currentLevel}
+                maxLevel={maxLevel}
+                selectedRank={previewRank}
+                onSelectRank={(rank) => {
+                  setPreviewRank(rank);
+                  setShowConfirmation(false);
+                  setShowUpgradeConfirmation(false);
+                }}
+              />
             )}
 
-            {/* Next-rank reward preview */}
-            {isUpgradable && (
+            {/* Rank preview — click a pip in the rank track to inspect its boost */}
+            {isRankSkill && previewRankDescription && (
               <div className="flex flex-col mb-2">
                 <Label
-                  type="success"
-                  icon={SUNNYSIDE.icons.powerup}
+                  type={previewRank > currentLevel ? "success" : "info"}
+                  icon={
+                    previewRank > currentLevel
+                      ? SUNNYSIDE.icons.powerup
+                      : SUNNYSIDE.icons.confirm
+                  }
                   className="mb-1"
                 >
-                  {t("skill.rankReward", { rank: currentLevel + 1 })}
+                  {previewRank > currentLevel
+                    ? t("skill.rankReward", { rank: previewRank })
+                    : t("skill.rankBoost", { rank: previewRank })}
                 </Label>
-                <span className="text-xxs ml-1">
-                  {nextRankDescription?.buff ?? t("skill.strengthensBoost")}
-                </span>
-                {nextRankDescription?.debuff && (
+                {toBuffLines(previewRankDescription.buff).map((line, idx) => (
+                  <span key={idx} className="text-xxs ml-1">
+                    {line}
+                  </span>
+                ))}
+                {previewRankDescription.debuff && (
                   <span className="text-xxs ml-1">
-                    {nextRankDescription.debuff}
+                    {previewRankDescription.debuff}
                   </span>
                 )}
               </div>
@@ -369,8 +433,8 @@ export const SkillPathDetails: React.FC<Props> = ({
               </Label>
             )}
 
-            {/* Cost */}
-            {isLocked && (
+            {/* Cost (for the rank the player can act on now) */}
+            {isLocked && previewIsActionable && (
               <div className="flex flex-col items-start">
                 <RequirementLabel
                   type="skillPoints"
@@ -381,8 +445,17 @@ export const SkillPathDetails: React.FC<Props> = ({
                 />
               </div>
             )}
-            {isUpgradable && (
+            {isUpgradable && previewIsActionable && (
               <div className="flex flex-col items-start">
+                {rankTierLocked && (
+                  <Label
+                    type="warning"
+                    icon={SUNNYSIDE.icons.lock}
+                    className="mb-2"
+                  >
+                    {t("skill.upgradeTierLock", { tier: requiredRankTier })}
+                  </Label>
+                )}
                 <RequirementLabel
                   type="item"
                   item="Ascension Shard"
@@ -401,8 +474,8 @@ export const SkillPathDetails: React.FC<Props> = ({
             )}
           </div>
 
-          {/* Claim button (Locked) */}
-          {!readonly && isLocked && (
+          {/* Claim button (Locked, previewing the claimable rank) */}
+          {!readonly && isLocked && previewIsActionable && (
             <div className="flex sm:flex-col w-full">
               {showConfirmation ? (
                 <>
@@ -431,8 +504,8 @@ export const SkillPathDetails: React.FC<Props> = ({
             </div>
           )}
 
-          {/* Upgrade button (Owned & upgradable) */}
-          {!readonly && isUpgradable && (
+          {/* Upgrade button (Owned & upgradable, previewing the next rank) */}
+          {!readonly && isUpgradable && previewIsActionable && (
             <div className="flex sm:flex-col w-full">
               {showUpgradeConfirmation ? (
                 <>
@@ -458,6 +531,19 @@ export const SkillPathDetails: React.FC<Props> = ({
                   {t("skill.upgradeToRank", { rank: currentLevel + 1 })}
                 </Button>
               )}
+            </div>
+          )}
+
+          {/* Previewing a rank that isn't the next attainable step: show why. */}
+          {!readonly && (isLocked || isUpgradable) && !previewIsActionable && (
+            <div className="flex sm:flex-col w-full">
+              <Button disabled>
+                {previewRank <= currentLevel
+                  ? t("skill.rankOwned", { rank: previewRank })
+                  : !previewTierUnlocked
+                    ? t("skill.unlockTierFirst", { tier: previewRequiredTier })
+                    : t("skill.reachRankFirst", { rank: previewRank - 1 })}
+              </Button>
             </div>
           )}
         </div>
@@ -539,6 +625,9 @@ export const SkillPathDetails: React.FC<Props> = ({
                               setSelectedSkill(skill);
                               setShowConfirmation(false);
                               setShowUpgradeConfirmation(false);
+                              setPreviewRank(
+                                defaultPreviewRank(skillLevel, skillMaxLevel),
+                              );
                             }}
                             showOverlay={isSkillMaxed || !tierUnlocked}
                             overlayIcon={
