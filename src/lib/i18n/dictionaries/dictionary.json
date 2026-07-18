@@ -149,6 +149,8 @@
   "goldFever.description": "Mine 500 gold rocks",
   "explorer.one": "Let's gather some wood by chopping down these trees and expand the island. Go ahead and figure out the best way to do it.",
   "expansion.description": "Expand your land to new horizons.",
+  "expansion.resourceNodes.none": "No resource nodes in this expansion.",
+  "expansion.resourceNodes.title": "Resource nodes in this expansion",
   "wellOfProsperity.description": "Build a well",
   "wellOfProsperity.one": "Well, well, well, what do we have here?",
   "wellOfProsperity.two": "It looks like your crops are thirsty. To support more crops you must first build a well.",

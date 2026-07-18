@@ -2063,11 +2063,6 @@ export type Layout = {
   ascensionCrystals?: Coordinates[];
 };
 
-// --- Expansion node counts (derived) -------------------------------------
-// How many of each resource node a player should have at each expansion is
-// derived from the layouts above (arrival row + cumulative layout counts) so the
-// counts can never drift from the actual map. Mirror of the BE.
-
 /** Maps each `Layout` resource array to its `Nodes` (resource-count) key. */
 const LAYOUT_FIELD_TO_NODE = {
   plots: "Crop Plot",
@@ -2083,6 +2078,46 @@ const LAYOUT_FIELD_TO_NODE = {
   oilReserves: "Oil Reserve",
   lavaPits: "Lava Pit",
 } as const satisfies Partial<Record<keyof Layout, keyof Nodes>>;
+
+export type ExpansionNodePreviewItem = {
+  name: ResourceName;
+  count: number;
+};
+
+const EXPANSION_NODE_PREVIEW_FIELDS = {
+  ...LAYOUT_FIELD_TO_NODE,
+  ascensionCrystals: "Ascension Crystal",
+} as const satisfies Partial<Record<keyof Layout, ResourceName>>;
+
+/**
+ * Returns the resource nodes that will materialize with the player's next land.
+ * `getLand` remains the source of truth, including availability adjustments for
+ * nodes the player has already received, bought, or upgraded.
+ */
+export function getNextExpansionNodePreview({
+  game,
+}: {
+  game: GameState;
+}): ExpansionNodePreviewItem[] {
+  const land = getLand({ game });
+
+  if (!land) {
+    return [];
+  }
+
+  return getKeys(EXPANSION_NODE_PREVIEW_FIELDS).flatMap((field) => {
+    const count = land[field]?.length ?? 0;
+
+    return count > 0
+      ? [{ name: EXPANSION_NODE_PREVIEW_FIELDS[field], count }]
+      : [];
+  });
+}
+
+// --- Expansion node counts (derived) -------------------------------------
+// How many of each resource node a player should have at each expansion is
+// derived from the layouts above (arrival row + cumulative layout counts) so the
+// counts can never drift from the actual map. Mirror of the BE.
 
 /**
  * Counts the resource nodes placed by a single expansion's `Layout`.
