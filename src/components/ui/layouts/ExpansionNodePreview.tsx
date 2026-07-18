@@ -23,7 +23,7 @@ export const ExpansionNodePreview: React.FC<{
       )}
 
       {nodes.length > 0 && (
-        <div className="flex flex-wrap gap-x-4 gap-y-1 pl-3">
+        <div className="flex flex-wrap gap-x-4 gap-y-1 py-1 pl-3">
           {nodes.map(({ name, count }) => (
             <Label
               key={name}
