@@ -1,22 +1,10 @@
 import React from "react";
-import { TextDecoder, TextEncoder } from "util";
 
 import { ExpansionNodePreview } from "./ExpansionNodePreview";
 
-class TestMessageChannel {
-  public port1: { onmessage?: () => void } = {};
-  public port2 = {
-    postMessage: () => setTimeout(() => this.port1.onmessage?.(), 0),
-  };
-}
-
-Object.assign(globalThis, {
-  MessageChannel: TestMessageChannel,
-  TextDecoder,
-  TextEncoder,
-});
-
-const { renderToStaticMarkup } = jest.requireActual("react-dom/server") as {
+const { renderToStaticMarkup } = jest.requireActual(
+  "react-dom/server.node",
+) as {
   renderToStaticMarkup: (node: React.ReactNode) => string;
 };
 
