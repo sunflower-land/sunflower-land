@@ -367,6 +367,21 @@ export class PlazaScene extends BaseScene {
     prizesLabel.setDepth(10000000);
     this.add.existing(prizesLabel);
 
+    // Town-hall giveaway board — opens the giveaway modal.
+    const giveaway = this.add.sprite(300, 250, "vip_gift");
+    giveaway.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (this.checkDistanceToSprite(giveaway, 100)) {
+        interactableModalManager.open("giveaway_board");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+      }
+    });
+
+    const giveawayLabel = new Label(this, "GIVEAWAY", "brown");
+    giveawayLabel.setPosition(300, 235);
+    giveawayLabel.setDepth(10000000);
+    this.add.existing(giveawayLabel);
+
     let bumpkins = PLAZA_BUMPKINS;
     const now = Date.now();
     const { holiday } = getBumpkinHoliday({ now });

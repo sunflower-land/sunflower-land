@@ -44,6 +44,7 @@ export type Scenes = {
   infernos: Room<PlazaRoomState> | undefined;
   stream: Room<PlazaRoomState> | undefined;
   love_island: Room<PlazaRoomState> | undefined;
+  giveaway_race: Room<PlazaRoomState> | undefined;
 };
 
 export type SceneId = keyof Scenes;
