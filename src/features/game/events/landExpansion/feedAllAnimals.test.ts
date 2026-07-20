@@ -13,7 +13,6 @@ const makeAnimal = (
   overrides: Partial<Animal> & { id: string; type: Animal["type"] },
 ): Animal => ({
   state: "idle",
-  coordinates: { x: 0, y: 0 },
   asleepAt: 0,
   experience: 0,
   createdAt: 0,
