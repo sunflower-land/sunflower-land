@@ -4666,15 +4666,16 @@ export const isUpgradeableSkillName = (
 // CHAPTER_CROP_WEEK event items (the Saltwort crop and the Saltbite recipe).
 // Derived from the tree (tree === Cooking/Crops + an `upgrade` block) so it can
 // never drift from which skills are actually upgradeable.
-export const CHAPTER_CROP_WEEK_DOWNGRADED_SKILLS: Set<UpgradeableSkillName> =
-  new Set(
-    getKeys(BUMPKIN_REVAMP_SKILL_TREE).filter(
-      (name): name is UpgradeableSkillName => {
-        const { tree } = BUMPKIN_REVAMP_SKILL_TREE[name];
-        return (tree === "Cooking" || tree === "Crops") && name in SKILL_RANKS;
-      },
-    ),
-  );
+// Module-private so no other module can mutate this shared set (it drives the
+// event-item downgrade + the "boosts paused" notice); callers use the helpers below.
+const CHAPTER_CROP_WEEK_DOWNGRADED_SKILLS: Set<UpgradeableSkillName> = new Set(
+  getKeys(BUMPKIN_REVAMP_SKILL_TREE).filter(
+    (name): name is UpgradeableSkillName => {
+      const { tree } = BUMPKIN_REVAMP_SKILL_TREE[name];
+      return (tree === "Cooking" || tree === "Crops") && name in SKILL_RANKS;
+    },
+  ),
+);
 
 // Returns `skills` with every upgradeable Cooking/Crops skill capped at rank 1
 // (the base skill still applies, but the upgraded rank grants no extra bonus).
@@ -4693,24 +4694,47 @@ export const downgradeChapterCropWeekSkills = (skills: Skills): Skills => {
   return result ?? skills;
 };
 
-// Whether the player owns an UPGRADED (rank 2+) skill in the given tree that the
-// CHAPTER_CROP_WEEK event neutralises. Drives the "ascension boosts paused" notice
-// in the Market (Crops) and Fire Pit (Cooking) — a rank-1 skill still applies its
-// base effect on the event items, so it does not count.
+// The upgradeable skills whose downgrade actually changes a CHAPTER_CROP_WEEK
+// event item's result: Saltwort is a MEDIUM plot crop and Saltbite is a Fire-Pit
+// (non-cake) recipe, so only the skills that mechanically apply to those are
+// listed — e.g. Frosted Cakes (cakes only) and basic/advanced farmer skills are
+// excluded because they can never affect Saltbite / medium Saltwort.
+//
+// `downgradeChapterCropWeekSkills` intentionally caps the WHOLE Crops/Cooking tree
+// (a correct superset — capping an inapplicable skill is a no-op for the event
+// item), so mechanics stay robust to crop/recipe tweaks; this list is a subset of
+// it, so the notice can never claim a suppression the mechanics don't make.
+const CHAPTER_CROP_WEEK_NOTICE_SKILLS: Record<
+  "Crops" | "Cooking",
+  readonly UpgradeableSkillName[]
+> = {
+  // Green Thumb (growth, all crops), Experienced Farmer (medium yield), Acre Farm
+  // (debuffs medium), Hectare Farm (buffs medium), Horror Mike (Scary Mike AOE,
+  // medium). See getCropYieldAmount / getCropPlotTime for the class gates.
+  Crops: [
+    "Green Thumb",
+    "Experienced Farmer",
+    "Acre Farm",
+    "Hectare Farm",
+    "Horror Mike",
+  ],
+  // Double Nom (cost + food, all recipes), Fast Feasts (Fire Pit time), Swift
+  // Sizzle (Fire Pit oil), Fiery Jackpot (Fire Pit crit). See cook / collectRecipe.
+  Cooking: ["Double Nom", "Fast Feasts", "Swift Sizzle", "Fiery Jackpot"],
+};
+
+// Whether the player owns an UPGRADED (rank 2+) skill that the CHAPTER_CROP_WEEK
+// event actually neutralises for its item. Drives the "ascension boosts paused"
+// notice in the Market (Crops → Saltwort) and Fire Pit (Cooking → Saltbite) — a
+// rank-1 skill still applies its base effect, and a skill that can't affect the
+// event item never counts, so the notice only shows a real, suppressed boost.
 export const hasUpgradedChapterCropWeekSkill = (
   skills: Skills,
   tree: "Crops" | "Cooking",
-): boolean => {
-  for (const name of CHAPTER_CROP_WEEK_DOWNGRADED_SKILLS) {
-    if (
-      BUMPKIN_REVAMP_SKILL_TREE[name].tree === tree &&
-      (skills[name] ?? 0) >= 2
-    ) {
-      return true;
-    }
-  }
-  return false;
-};
+): boolean =>
+  CHAPTER_CROP_WEEK_NOTICE_SKILLS[tree].some(
+    (name) => (skills[name] ?? 0) >= 2,
+  );
 
 // Effective "1 in N" gold chance shown to players for Golden Sunflower per rank.
 // Derived from the mechanical dropChance so the display can't drift: prngChance
