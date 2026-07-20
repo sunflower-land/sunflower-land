@@ -10,6 +10,8 @@ import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { isWearableActive } from "features/game/lib/wearables";
 import { getKeys } from "lib/object";
 import { isAnimalFeedable } from "./buyAnimal";
+import { claimProduce } from "./claimProduce";
+import { feedAnimal } from "./feedAnimal";
 
 export const GOLDEN_ANIMAL_ASSETS: Record<AnimalType, CollectibleName> = {
   Chicken: "Gold Egg",
@@ -82,4 +84,91 @@ export function getFeedAllTargets({
   });
 
   return targets;
+}
+
+export type FeedAllAnimalsAction = {
+  type: "animals.fedAll";
+  building: AnimalBuildingType;
+};
+
+type Options = {
+  state: Readonly<GameState>;
+  action: FeedAllAnimalsAction;
+  createdAt?: number;
+};
+
+export function feedAllAnimals({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options): GameState {
+  const buildings = state.buildings[action.building];
+  if (!buildings?.some((building) => !!building.coordinates)) {
+    throw new Error("Building does not exist");
+  }
+
+  if (
+    getCoveredAnimalTypes({ state, building: action.building }).length === 0
+  ) {
+    throw new Error("No active golden asset for this building");
+  }
+
+  const { toClaim, toCure, toFeed } = getFeedAllTargets({
+    state,
+    building: action.building,
+    createdAt,
+  });
+
+  if (toClaim.length + toCure.length + toFeed.length === 0) {
+    throw new Error("No animals to feed");
+  }
+
+  const buildingKey = makeAnimalBuildingKey(action.building);
+
+  // Compose the existing single-animal handlers so XP, boosts, rewards and
+  // activity tracking keep a single source of truth.
+  let game: GameState = state;
+
+  toClaim.forEach((id) => {
+    game = claimProduce({
+      state: game,
+      action: {
+        type: "produce.claimed",
+        animal: game[buildingKey].animals[id].type,
+        id,
+      },
+      createdAt,
+    });
+  });
+
+  toCure.forEach((id) => {
+    const { type } = game[buildingKey].animals[id];
+    // Free with the Oracle Syringe (getFeedAllTargets only cures when active)
+    game = feedAnimal({
+      state: game,
+      action: { type: "animal.fed", animal: type, id, item: "Barn Delight" },
+      createdAt,
+    });
+    if (isAnimalFeedable(buildingKey, game, id)) {
+      game = feedAnimal({
+        state: game,
+        action: { type: "animal.fed", animal: type, id },
+        createdAt,
+      });
+    }
+  });
+
+  toFeed.forEach((id) => {
+    game = feedAnimal({
+      state: game,
+      action: {
+        type: "animal.fed",
+        animal: game[buildingKey].animals[id].type,
+        id,
+      },
+      createdAt,
+    });
+  });
+
+  return game;
 }

@@ -1,7 +1,11 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import type { Animal, GameState } from "features/game/types/game";
-import { getCoveredAnimalTypes, getFeedAllTargets } from "./feedAllAnimals";
+import {
+  feedAllAnimals,
+  getCoveredAnimalTypes,
+  getFeedAllTargets,
+} from "./feedAllAnimals";
 
 const now = Date.now();
 
@@ -252,5 +256,268 @@ describe("getFeedAllTargets", () => {
     expect(targets.toClaim).toEqual(["chicken-0"]);
     expect(targets.toFeed).toHaveLength(10);
     expect(targets.toFeed).not.toContain("chicken-0");
+  });
+});
+
+describe("feedAllAnimals", () => {
+  it("throws when the building is not placed", () => {
+    expect(() =>
+      feedAllAnimals({
+        createdAt: now,
+        state: withGoldEgg({
+          ...GAME_STATE,
+          buildings: {
+            "Hen House": [
+              { id: "hh", coordinates: undefined, createdAt: 0, readyAt: 0 },
+            ],
+          },
+        }),
+        action: { type: "animals.fedAll", building: "Hen House" },
+      }),
+    ).toThrow("Building does not exist");
+  });
+
+  it("throws when no golden asset is active for the building", () => {
+    expect(() =>
+      feedAllAnimals({
+        createdAt: now,
+        state: withGoldEgg(GAME_STATE), // Gold Egg does not cover the Barn
+        action: { type: "animals.fedAll", building: "Barn" },
+      }),
+    ).toThrow("No active golden asset for this building");
+  });
+
+  it("throws when no animals are eligible", () => {
+    const state = withGoldEgg({
+      ...GAME_STATE,
+      henHouse: {
+        ...GAME_STATE.henHouse,
+        animals: {
+          "1": makeAnimal({
+            id: "1",
+            type: "Chicken",
+            state: "idle",
+            awakeAt: now + 10_000,
+          }),
+          "2": makeAnimal({ id: "2", type: "Chicken", state: "sick" }),
+        },
+      },
+    });
+
+    expect(() =>
+      feedAllAnimals({
+        createdAt: now,
+        state,
+        action: { type: "animals.fedAll", building: "Hen House" },
+      }),
+    ).toThrow("No animals to feed");
+  });
+
+  it("feeds every awake chicken for free with the Gold Egg", () => {
+    const state = feedAllAnimals({
+      createdAt: now,
+      state: withGoldEgg({
+        ...GAME_STATE,
+        inventory: {
+          ...GAME_STATE.inventory,
+          "Gold Egg": new Decimal(1),
+          Hay: new Decimal(5),
+        },
+        henHouse: {
+          ...GAME_STATE.henHouse,
+          animals: {
+            "1": makeAnimal({ id: "1", type: "Chicken" }),
+            "2": makeAnimal({ id: "2", type: "Chicken" }),
+            "3": makeAnimal({ id: "3", type: "Chicken" }),
+          },
+        },
+      }),
+      action: { type: "animals.fedAll", building: "Hen House" },
+    });
+
+    expect(state.henHouse.animals["1"].experience).toBeGreaterThan(0);
+    expect(state.henHouse.animals["2"].experience).toBeGreaterThan(0);
+    expect(state.henHouse.animals["3"].experience).toBeGreaterThan(0);
+    expect(["happy", "ready"]).toContain(state.henHouse.animals["1"].state);
+    // No food consumed
+    expect(state.inventory.Hay).toEqual(new Decimal(5));
+    // Boost + activity tracked
+    expect(state.boostsUsedAt?.["Gold Egg"]).toEqual(now);
+    expect(state.farmActivity["Chicken Fed"]).toEqual(3);
+  });
+
+  it("feeds only cows with Golden Cow in the Barn", () => {
+    const state = feedAllAnimals({
+      createdAt: now,
+      state: withGoldenCow({
+        ...GAME_STATE,
+        barn: {
+          ...GAME_STATE.barn,
+          animals: {
+            cow: makeAnimal({ id: "cow", type: "Cow" }),
+            sheep: makeAnimal({ id: "sheep", type: "Sheep" }),
+          },
+        },
+      }),
+      action: { type: "animals.fedAll", building: "Barn" },
+    });
+
+    expect(state.barn.animals["cow"].experience).toBeGreaterThan(0);
+    expect(state.barn.animals["sheep"].experience).toEqual(0);
+  });
+
+  it("feeds cows and sheep with both golden assets in the Barn", () => {
+    const state = feedAllAnimals({
+      createdAt: now,
+      state: withGoldenSheep(
+        withGoldenCow({
+          ...GAME_STATE,
+          barn: {
+            ...GAME_STATE.barn,
+            animals: {
+              cow: makeAnimal({ id: "cow", type: "Cow" }),
+              sheep: makeAnimal({ id: "sheep", type: "Sheep" }),
+            },
+          },
+        }),
+      ),
+      action: { type: "animals.fedAll", building: "Barn" },
+    });
+
+    expect(state.barn.animals["cow"].experience).toBeGreaterThan(0);
+    expect(state.barn.animals["sheep"].experience).toBeGreaterThan(0);
+  });
+
+  it("leaves sleeping animals untouched while feeding awake ones", () => {
+    const state = feedAllAnimals({
+      createdAt: now,
+      state: withGoldEgg({
+        ...GAME_STATE,
+        henHouse: {
+          ...GAME_STATE.henHouse,
+          animals: {
+            awake: makeAnimal({ id: "awake", type: "Chicken" }),
+            asleep: makeAnimal({
+              id: "asleep",
+              type: "Chicken",
+              awakeAt: now + 10_000,
+            }),
+          },
+        },
+      }),
+      action: { type: "animals.fedAll", building: "Hen House" },
+    });
+
+    expect(state.henHouse.animals["awake"].experience).toBeGreaterThan(0);
+    expect(state.henHouse.animals["asleep"].experience).toEqual(0);
+    expect(state.henHouse.animals["asleep"].state).toEqual("idle");
+  });
+
+  it("claims produce of ready animals and puts them to sleep", () => {
+    const state = feedAllAnimals({
+      createdAt: now,
+      state: withGoldEgg({
+        ...GAME_STATE,
+        henHouse: {
+          ...GAME_STATE.henHouse,
+          animals: {
+            "1": makeAnimal({
+              id: "1",
+              type: "Chicken",
+              state: "ready",
+              experience: 120,
+              reward: { items: [{ name: "Egg", amount: 1 }] },
+            }),
+          },
+        },
+      }),
+      action: { type: "animals.fedAll", building: "Hen House" },
+    });
+
+    const chicken = state.henHouse.animals["1"];
+    expect(chicken.state).toEqual("idle");
+    expect(chicken.asleepAt).toEqual(now);
+    expect(chicken.awakeAt).toBeGreaterThan(now);
+    // Reward items granted by claimProduce
+    expect(state.inventory.Egg?.gte(1)).toBe(true);
+    // Claiming must not be followed by a feed
+    expect(chicken.experience).toEqual(120);
+  });
+
+  it("skips sick animals without the Oracle Syringe even with Barn Delight", () => {
+    const state = feedAllAnimals({
+      createdAt: now,
+      state: withGoldEgg({
+        ...GAME_STATE,
+        inventory: {
+          ...GAME_STATE.inventory,
+          "Gold Egg": new Decimal(1),
+          "Barn Delight": new Decimal(5),
+        },
+        henHouse: {
+          ...GAME_STATE.henHouse,
+          animals: {
+            sick: makeAnimal({ id: "sick", type: "Chicken", state: "sick" }),
+            healthy: makeAnimal({ id: "healthy", type: "Chicken" }),
+          },
+        },
+      }),
+      action: { type: "animals.fedAll", building: "Hen House" },
+    });
+
+    expect(state.henHouse.animals["sick"].state).toEqual("sick");
+    expect(state.henHouse.animals["sick"].experience).toEqual(0);
+    expect(state.inventory["Barn Delight"]).toEqual(new Decimal(5));
+    expect(state.henHouse.animals["healthy"].experience).toBeGreaterThan(0);
+  });
+
+  it("cures and feeds sick animals with the Oracle Syringe, consuming no Barn Delight", () => {
+    const state = feedAllAnimals({
+      createdAt: now,
+      state: withOracleSyringe(
+        withGoldEgg({
+          ...GAME_STATE,
+          henHouse: {
+            ...GAME_STATE.henHouse,
+            animals: {
+              sick: makeAnimal({ id: "sick", type: "Chicken", state: "sick" }),
+            },
+          },
+        }),
+      ),
+      action: { type: "animals.fedAll", building: "Hen House" },
+    });
+
+    const chicken = state.henHouse.animals["sick"];
+    expect(["happy", "ready"]).toContain(chicken.state);
+    expect(chicken.experience).toBeGreaterThan(0);
+    expect(state.inventory["Barn Delight"] ?? new Decimal(0)).toEqual(
+      new Decimal(0),
+    );
+    expect(state.farmActivity["Chicken Cured"]).toEqual(1);
+  });
+
+  it("does not feed over-capacity animals", () => {
+    const animals: Record<string, Animal> = {};
+    for (let i = 0; i < 11; i++) {
+      animals[`chicken-${i}`] = makeAnimal({
+        id: `chicken-${i}`,
+        type: "Chicken",
+        createdAt: i + 1, // chicken-0 is oldest -> locked at capacity 10
+      });
+    }
+
+    const state = feedAllAnimals({
+      createdAt: now,
+      state: withGoldEgg({
+        ...GAME_STATE,
+        henHouse: { ...GAME_STATE.henHouse, level: 1, animals },
+      }),
+      action: { type: "animals.fedAll", building: "Hen House" },
+    });
+
+    expect(state.henHouse.animals["chicken-0"].experience).toEqual(0);
+    expect(state.henHouse.animals["chicken-1"].experience).toBeGreaterThan(0);
+    expect(state.henHouse.animals["chicken-10"].experience).toBeGreaterThan(0);
   });
 });
