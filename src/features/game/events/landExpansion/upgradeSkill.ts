@@ -13,6 +13,7 @@ import {
   getAvailableBumpkinSkillPoints,
   getUnlockedTierForTree,
 } from "./choseSkill";
+import { getSkillCooldown } from "./skillUsed";
 
 export type UpgradeSkillAction = {
   type: "skill.upgraded";
@@ -25,7 +26,11 @@ type Options = {
   createdAt?: number;
 };
 
-export function upgradeSkill({ state, action }: Options): GameState {
+export function upgradeSkill({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options): GameState {
   return produce(state, (game) => {
     const { bumpkin } = game;
 
@@ -88,7 +93,31 @@ export function upgradeSkill({ state, action }: Options): GameState {
     }
 
     game.inventory["Ascension Shard"] = shards.sub(cost.shards);
+
+    // Power-skill cooldowns shrink with rank and are evaluated live against the
+    // current rank. If the skill is on cooldown when it is upgraded, recomputing
+    // the gate with the shorter cooldown would retroactively shorten — or clear —
+    // the active cooldown. Capture the effective cooldown at the old rank first,
+    // then re-anchor `previousPowerUseAt` so the current ready time is preserved;
+    // the shorter cooldown only applies to the next use.
+    const prevUse = bumpkin.previousPowerUseAt?.[action.skill];
+    const oldCooldown = getSkillCooldown({
+      cooldown: skillData.requirements.cooldown ?? 0,
+      state: game,
+      skillName: action.skill,
+    });
+
     bumpkin.skills[action.skill] = currentLevel + 1;
+
+    if (prevUse !== undefined && prevUse + oldCooldown > createdAt) {
+      const newCooldown = getSkillCooldown({
+        cooldown: skillData.requirements.cooldown ?? 0,
+        state: game,
+        skillName: action.skill,
+      });
+      bumpkin.previousPowerUseAt![action.skill] =
+        prevUse + (oldCooldown - newCooldown);
+    }
 
     return game;
   });
