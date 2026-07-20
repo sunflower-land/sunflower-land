@@ -4662,6 +4662,56 @@ export const isUpgradeableSkillName = (
   name: BumpkinRevampSkillName,
 ): name is UpgradeableSkillName => name in SKILL_RANKS;
 
+// Upgradeable Cooking/Crops skills whose upgraded rank is neutralised on the
+// CHAPTER_CROP_WEEK event items (the Saltwort crop and the Saltbite recipe).
+// Derived from the tree (tree === Cooking/Crops + an `upgrade` block) so it can
+// never drift from which skills are actually upgradeable.
+export const CHAPTER_CROP_WEEK_DOWNGRADED_SKILLS: Set<UpgradeableSkillName> =
+  new Set(
+    getKeys(BUMPKIN_REVAMP_SKILL_TREE).filter(
+      (name): name is UpgradeableSkillName => {
+        const { tree } = BUMPKIN_REVAMP_SKILL_TREE[name];
+        return (tree === "Cooking" || tree === "Crops") && name in SKILL_RANKS;
+      },
+    ),
+  );
+
+// Returns `skills` with every upgradeable Cooking/Crops skill capped at rank 1
+// (the base skill still applies, but the upgraded rank grants no extra bonus).
+// Used to neutralise upgraded skill effects on the CHAPTER_CROP_WEEK event items
+// WITHOUT mutating the player's real ranks — callers pass the result only into the
+// Saltwort/Saltbite boost math and keep the original ranks everywhere else. Returns
+// the original object untouched when nothing needs capping (the common case).
+export const downgradeChapterCropWeekSkills = (skills: Skills): Skills => {
+  let result: Skills | undefined;
+  for (const name of CHAPTER_CROP_WEEK_DOWNGRADED_SKILLS) {
+    if ((skills[name] ?? 0) > 1) {
+      result = result ?? { ...skills };
+      result[name] = 1;
+    }
+  }
+  return result ?? skills;
+};
+
+// Whether the player owns an UPGRADED (rank 2+) skill in the given tree that the
+// CHAPTER_CROP_WEEK event neutralises. Drives the "ascension boosts paused" notice
+// in the Market (Crops) and Fire Pit (Cooking) — a rank-1 skill still applies its
+// base effect on the event items, so it does not count.
+export const hasUpgradedChapterCropWeekSkill = (
+  skills: Skills,
+  tree: "Crops" | "Cooking",
+): boolean => {
+  for (const name of CHAPTER_CROP_WEEK_DOWNGRADED_SKILLS) {
+    if (
+      BUMPKIN_REVAMP_SKILL_TREE[name].tree === tree &&
+      (skills[name] ?? 0) >= 2
+    ) {
+      return true;
+    }
+  }
+  return false;
+};
+
 // Effective "1 in N" gold chance shown to players for Golden Sunflower per rank.
 // Derived from the mechanical dropChance so the display can't drift: prngChance
 // fires when prngValue*100 < chance, so the player-facing odds are 100 / chance

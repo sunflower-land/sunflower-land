@@ -4832,6 +4832,7 @@
   "chapterCropWeek.specialEventRecipe": "Special Event Recipe",
   "chapterCropWeek.daysRemaining": "{{days}} days remaining",
   "chapterCropWeek.comingSoon": "This item will be tradeable during Chapter Crop Week. Check back soon!",
+  "chapterCropWeek.ascensionBoostsPaused": "Ascension skill boosts don't apply during Chapter Crop Week",
   "gems.speedUp": "Speed up",
   "crafting.readySoon": "{{name}} will be ready soon...",
   "crafting.expansionSoon": "Your land will be ready soon...",

@@ -17,6 +17,7 @@ import {
   getExpiryCooldown,
 } from "features/game/lib/collectibleBuilt";
 import { getCookingTime } from "features/game/expansion/lib/boosts";
+import { CHAPTER_CROP_WEEK } from "features/game/types/chapterCropWeek";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -410,6 +411,49 @@ describe("cook", () => {
     expect(
       state.buildings["Fire Pit"]?.[0].crafting?.[0].skills?.["Double Nom"],
     ).toEqual(2);
+  });
+
+  it("neutralises a rank 3 Double Nom on the Saltbite event recipe (2x cost, stamps rank 1)", () => {
+    const state = cook({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Saltwort: new Decimal(30),
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Double Nom": 3 },
+        },
+        buildings: {
+          "Fire Pit": [
+            {
+              coordinates: { x: 2, y: 3 },
+              readyAt: 1000,
+              createdAt: 1000,
+              id: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+              oil: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipe.cooked",
+        item: "Saltbite",
+        buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+      },
+      farmId: 1,
+      // Saltbite is only cookable during CHAPTER_CROP_WEEK.
+      createdAt: CHAPTER_CROP_WEEK.startDate.getTime(),
+    });
+
+    // Saltbite (event recipe) ignores the upgraded rank: 10 Saltwort base x2
+    // (rank 1) = 20 consumed, not rank 3's x4 = 40. Boiled Eggs above (a non-event
+    // recipe) still pays the full upgraded cost, proving the scoping.
+    expect(state.inventory["Saltwort"]).toEqual(new Decimal(10));
+    // Recipe is stamped rank 1 so the later collect also honors rank 1.
+    expect(
+      state.buildings["Fire Pit"]?.[0].crafting?.[0].skills?.["Double Nom"],
+    ).toEqual(1);
   });
 
   it("adds another recipe to the building if there is a slot available", () => {

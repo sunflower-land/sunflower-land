@@ -23,7 +23,12 @@ import {
   meetsLevelRequirement,
 } from "features/game/lib/level";
 import { isWearableActive } from "features/game/lib/wearables";
-import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
+import {
+  SKILL_RANKS,
+  getSkillLevel,
+  downgradeChapterCropWeekSkills,
+} from "features/game/types/bumpkinSkills";
+import { CHAPTER_CROP_WEEK_RECIPE } from "features/game/types/chapterCropWeek";
 import type { SellableItem } from "features/game/events/landExpansion/sellCrop";
 import {
   FACTION_ITEMS,
@@ -276,8 +281,15 @@ export const getCookingTime = ({
     boostsUsed.push({ name: "Desert Gnome", value: "x0.9" });
   }
 
+  // Saltbite (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Cooking-skill
+  // ranks — its cook-time reductions cap at rank 1 (base skill still applies).
+  const cookSkills =
+    item === CHAPTER_CROP_WEEK_RECIPE
+      ? downgradeChapterCropWeekSkills(bumpkin?.skills ?? {})
+      : (bumpkin?.skills ?? {});
+
   // -10%/-20%/-30% on Fire Pit + Kitchen with Fast Feasts skill (scales w/ rank)
-  const fastFeastsLevel = getSkillLevel(bumpkin?.skills ?? {}, "Fast Feasts");
+  const fastFeastsLevel = getSkillLevel(cookSkills, "Fast Feasts");
   if (
     (buildingName === "Fire Pit" || buildingName === "Kitchen") &&
     fastFeastsLevel
@@ -289,10 +301,7 @@ export const getCookingTime = ({
   }
 
   // -10%/-20%/-30% on Cakes with Frosted Cakes skill (scales with rank)
-  const frostedCakesLevel = getSkillLevel(
-    bumpkin?.skills ?? {},
-    "Frosted Cakes",
-  );
+  const frostedCakesLevel = getSkillLevel(cookSkills, "Frosted Cakes");
   if (item in COOKABLE_CAKES && frostedCakesLevel) {
     const multiplier =
       1 - SKILL_RANKS["Frosted Cakes"].ranks[frostedCakesLevel - 1];

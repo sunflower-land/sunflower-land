@@ -2737,6 +2737,35 @@ describe("harvest", () => {
       expect(state.inventory.Cabbage).toEqual(new Decimal(1.15));
     });
 
+    it("neutralises a rank 3 Experienced Farmer on the Saltwort event crop (+0.1, not +0.15)", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { ...TEST_BUMPKIN.skills, "Experienced Farmer": 3 },
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Saltwort",
+                plantedAt:
+                  dateNow - (CROPS["Saltwort"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      // Saltwort (event crop) ignores the upgraded rank: rank-1 bonus (+0.1),
+      // not the owned rank 3 (+0.15). Cabbage above (a non-event medium crop)
+      // still gets the full +0.15, proving the scoping.
+      expect(state.inventory.Saltwort).toEqual(new Decimal(1.1));
+    });
+
     it("gives +0.125 to advanced crop when Old Farmer skill is rank 2", () => {
       const state = harvest({
         state: {

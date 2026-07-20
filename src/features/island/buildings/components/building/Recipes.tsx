@@ -28,7 +28,12 @@ import {
   MAX_COOKING_SLOTS,
 } from "features/game/events/landExpansion/cook";
 import type { CookingBuildingName } from "features/game/types/buildings";
-import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
+import {
+  SKILL_RANKS,
+  getSkillLevel,
+  downgradeChapterCropWeekSkills,
+  hasUpgradedChapterCropWeekSkill,
+} from "features/game/types/bumpkinSkills";
 import { BuildingOilTank } from "./BuildingOilTank";
 import pumpkinSoup from "assets/food/pumpkin_soup.png";
 import powerup from "assets/icons/level_up.png";
@@ -183,7 +188,18 @@ export const Recipes: React.FC<Props> = ({
   const isOilBoosted = buildingCrafting.find(
     (recipe) => recipe.name === selected.name && recipe.boost?.["Oil"],
   );
-  const doubleNomLevel = getSkillLevel(bumpkin.skills, "Double Nom");
+  // Saltbite (the CHAPTER_CROP_WEEK event recipe) neutralises upgraded Cooking
+  // ranks, so preview the Double Nom label at its downgraded (applied) rank and
+  // surface a notice when a real upgraded rank is being suppressed.
+  const isEventRecipe = selected.name === CHAPTER_CROP_WEEK_RECIPE;
+  const doubleNomLevel = getSkillLevel(
+    isEventRecipe
+      ? downgradeChapterCropWeekSkills(bumpkin.skills)
+      : bumpkin.skills,
+    "Double Nom",
+  );
+  const showAscensionPausedNotice =
+    isEventRecipe && hasUpgradedChapterCropWeekSkill(bumpkin.skills, "Cooking");
   const isVIP = useVipAccess({ game: state });
   const isQueueFull =
     [...readyRecipes, ...queue].length + (cooking ? 1 : 0) >= availableSlots;
@@ -214,6 +230,11 @@ export const Recipes: React.FC<Props> = ({
               setShowTimeBoosts={setShowTimeBoosts}
               actionView={
                 <>
+                  {showAscensionPausedNotice && (
+                    <Label type="warning">
+                      {t("chapterCropWeek.ascensionBoostsPaused")}
+                    </Label>
+                  )}
                   {doubleNomLevel > 0 && (
                     <Label type="success" icon={powerup}>
                       {`Double Nom Boost: +${

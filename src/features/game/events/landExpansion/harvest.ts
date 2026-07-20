@@ -61,7 +61,12 @@ import {
   type FarmActivityName,
 } from "features/game/types/farmActivity";
 import { isBuffActive } from "features/game/types/buffs";
-import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
+import {
+  SKILL_RANKS,
+  getSkillLevel,
+  downgradeChapterCropWeekSkills,
+} from "features/game/types/bumpkinSkills";
+import { CHAPTER_CROP_WEEK_CROP } from "features/game/types/chapterCropWeek";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
 import { mfTrack } from "lib/moonforgeAnalytics";
@@ -321,7 +326,13 @@ export function getCropYieldAmount({
 
   const { bumpkin, buds, aoe } = game;
   const updatedAoe = cloneDeep(aoe);
-  const skills = bumpkin?.skills ?? {};
+  // Saltwort (the CHAPTER_CROP_WEEK event crop) ignores upgraded Crops-skill ranks
+  // (base skill still applies) — cap here so every downstream yield/AOE read uses
+  // the neutralised ranks without touching the player's stored skills.
+  const skills =
+    crop === CHAPTER_CROP_WEEK_CROP
+      ? downgradeChapterCropWeekSkills(bumpkin?.skills ?? {})
+      : (bumpkin?.skills ?? {});
   const itemId = KNOWN_IDS[crop];
   const criticalDrop = (
     criticalHitName: CriticalHitName,

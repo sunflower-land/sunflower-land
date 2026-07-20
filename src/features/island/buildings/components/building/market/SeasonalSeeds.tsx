@@ -81,6 +81,7 @@ import {
   CHAPTER_CROP_WEEK_SEED,
   isChapterCropWeekActive,
 } from "features/game/types/chapterCropWeek";
+import { hasUpgradedChapterCropWeekSkill } from "features/game/types/bumpkinSkills";
 
 export const SEASON_ICONS: Record<TemperateSeasonName, string> = {
   spring: springIcon,
@@ -191,6 +192,12 @@ export const SeasonalSeeds: React.FC = () => {
     // return buy buttons otherwise
     return (
       <>
+        {selectedName === CHAPTER_CROP_WEEK_SEED &&
+          hasUpgradedChapterCropWeekSkill(bumpkin.skills, "Crops") && (
+            <Label type="warning" className="mb-1">
+              {t("chapterCropWeek.ascensionBoostsPaused")}
+            </Label>
+          )}
         <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
           <Button
             disabled={lessFunds() || stock.lessThan(1)}
