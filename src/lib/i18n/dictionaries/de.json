@@ -5659,8 +5659,6 @@
   "marketplace.economy.title": "Marktwirtschaft",
   "marketplace.economy.description": "Spiele dich durch das Spiel, um beim Verkauf weniger Ressourcengebühren zu zahlen.",
   "marketplace.economy.tutorialIsland": "Tutorial Island - Ressourcen können nicht verkauft werden",
-  "marketplace.economy.petalParadise": "Petal Paradise — 50% Ressourcensteuer",
-  "marketplace.economy.desertIsland": "Desert Island — 20% Ressourcensteuer",
   "marketplace.economy.volcanoIsland": "Volcano Island — 15% Ressourcensteuer",
   "marketplace.economy.protection": "Ressourcensteuern schützen die deflationäre Marktwirtschaft.",
   "marketplace.resourceFee": "Ressourcengebühr = {{tax}}%",
@@ -9439,5 +9437,7 @@
   "vipDays": "VIP-Tage",
   "feed.olderPosts": "Ältere Beiträge",
   "bounties.sell.animal.sickReducedBounty": "Kranke Tiere erhalten nur 75% dieser Prämie.",
-  "bounties.sell.animal.stateChanged": "Die Gesundheit dieses Tieres hat sich verändert. Bitte überprüfe die aktualisierte Prämie und bestätige sie erneut."
+  "bounties.sell.animal.stateChanged": "Die Gesundheit dieses Tieres hat sich verändert. Bitte überprüfe die aktualisierte Prämie und bestätige sie erneut.",
+  "marketplace.economy.petalParadise": "Petal Paradise — 55% Ressourcensteuer",
+  "marketplace.economy.desertIsland": "Desert Island — 25% Ressourcensteuer"
 }

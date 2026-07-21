@@ -5659,8 +5659,6 @@
   "marketplace.economy.title": "市集经济机制",
   "marketplace.economy.description": "在游戏中取得进展，以减少资源销售时的手续税率。",
   "marketplace.economy.tutorialIsland": "教程岛 - 无法出售资源",
-  "marketplace.economy.petalParadise": "春花岛 - 50% 资源税",
-  "marketplace.economy.desertIsland": "黄沙岛 - 20% 资源税",
   "marketplace.economy.volcanoIsland": "火山岛 - 15% 资源税",
   "marketplace.economy.protection": "资源税是为确保市集经济模型的通货紧缩。",
   "marketplace.resourceFee": "资源税 = {{tax}}%",
@@ -9439,5 +9437,7 @@
   "vipDays": "贵宾日",
   "feed.olderPosts": "较旧的帖子",
   "bounties.sell.animal.sickReducedBounty": "生病的动物只能获得这笔赏金的75％。",
-  "bounties.sell.animal.stateChanged": "这只动物的健康状况发生了变化。请查看更新的赏金并再次确认。"
+  "bounties.sell.animal.stateChanged": "这只动物的健康状况发生了变化。请查看更新的赏金并再次确认。",
+  "marketplace.economy.petalParadise": "花瓣天堂-55% 的资源税",
+  "marketplace.economy.desertIsland": "荒岛-25% 的资源税"
 }

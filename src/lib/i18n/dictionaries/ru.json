@@ -5937,8 +5937,6 @@
   "marketplace.economy.title": "Рыночная экономика",
   "marketplace.economy.description": "Продвигайся по игре и плати меньшую комиссию за продажу ресурсов.",
   "marketplace.economy.tutorialIsland": "Tutorial Island - нельзя продавать ресурсы",
-  "marketplace.economy.petalParadise": "Petal Paradise - 50%  комиссия за продажу ресурсов",
-  "marketplace.economy.desertIsland": "Песчаный остров -  20% комиссия за продажу ресурсов",
   "marketplace.economy.volcanoIsland": "Вулканический остров - 15% комиссия за продажу ресурсов",
   "marketplace.economy.protection": "Комиссия за продажу ресурсов защищает дефляционную рыночную экономику.",
   "marketplace.resourceFee": "Комиссия за продажу ресурсов: {{tax}}%",
@@ -9439,5 +9437,7 @@
   "vipDays": "VIP Days",
   "feed.olderPosts": "Older posts",
   "bounties.sell.animal.sickReducedBounty": "Sick animals only earn 75% of this bounty.",
-  "bounties.sell.animal.stateChanged": "This animal's health changed. Please review the updated bounty and confirm again."
+  "bounties.sell.animal.stateChanged": "This animal's health changed. Please review the updated bounty and confirm again.",
+  "marketplace.economy.petalParadise": "Petal Paradise - 55% resource tax",
+  "marketplace.economy.desertIsland": "Desert Island - 25% resource tax"
 }

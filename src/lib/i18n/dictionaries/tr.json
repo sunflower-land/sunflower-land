@@ -5659,8 +5659,6 @@
   "marketplace.economy.title": "Piyasa Ekonomisi",
   "marketplace.economy.description": "Satış yaparken daha az kaynak ücreti ödemek için oyunda ilerleyin.",
   "marketplace.economy.tutorialIsland": "Tutorial Island - Kaynak satılamıyor",
-  "marketplace.economy.petalParadise": "Petal Paradise -% 50 kaynak vergisi",
-  "marketplace.economy.desertIsland": "Çöl Adası -% 20 kaynak vergisi",
   "marketplace.economy.volcanoIsland": "Volkan Adası -% 15 kaynak vergisi",
   "marketplace.economy.protection": "Kaynak vergileri deflasyonist piyasa ekonomisini korur.",
   "marketplace.resourceFee": "Kaynak Ücreti = {{tax}} %",
@@ -9439,5 +9437,7 @@
   "vipDays": "VIP Günleri",
   "feed.olderPosts": "Eski gönderiler",
   "bounties.sell.animal.sickReducedBounty": "Hasta hayvanlar bu ödülün sadece% 75'ini kazanır.",
-  "bounties.sell.animal.stateChanged": "Bu hayvanın sağlığı değişti. Lütfen güncellenmiş ödülü inceleyin ve tekrar onaylayın."
+  "bounties.sell.animal.stateChanged": "Bu hayvanın sağlığı değişti. Lütfen güncellenmiş ödülü inceleyin ve tekrar onaylayın.",
+  "marketplace.economy.petalParadise": "Petal Paradise -% 55 kaynak vergisi",
+  "marketplace.economy.desertIsland": "Çöl Adası -% 25 kaynak vergisi"
 }

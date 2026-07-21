@@ -5659,8 +5659,6 @@
   "marketplace.economy.title": "市場経済",
   "marketplace.economy.description": "ゲームを進めると、販売時に支払うリソース料金が少なくなります。",
   "marketplace.economy.tutorialIsland": "チュートリアルアイランド-資源を売ることはできません",
-  "marketplace.economy.petalParadise": "ペタルパラダイス-50% 資源税",
-  "marketplace.economy.desertIsland": "デザートアイランド-20% 資源税",
   "marketplace.economy.volcanoIsland": "火山島-15% 資源税",
   "marketplace.economy.protection": "資源税はデフレ市場経済を保護します。",
   "marketplace.resourceFee": "リソース料金 = {{tax}}%",
@@ -9439,5 +9437,7 @@
   "vipDays": "VIP デイズ",
   "feed.olderPosts": "古い投稿",
   "bounties.sell.animal.sickReducedBounty": "病気の動物はこの賞金の75％しか獲得できません。",
-  "bounties.sell.animal.stateChanged": "この動物の健康状態は変わりました。更新されたバウンティを確認して、もう一度確認してください。"
+  "bounties.sell.animal.stateChanged": "この動物の健康状態は変わりました。更新されたバウンティを確認して、もう一度確認してください。",
+  "marketplace.economy.petalParadise": "ペタルパラダイス-55% 資源税",
+  "marketplace.economy.desertIsland": "デザートアイランド-25% 資源税"
 }

@@ -5659,8 +5659,6 @@
   "marketplace.economy.title": "Economia de mercado",
   "marketplace.economy.description": "Avance no jogo para pagar menos taxas de recursos ao vender.",
   "marketplace.economy.tutorialIsland": "Ilha do Tutorial - Não é possível vender recursos",
-  "marketplace.economy.petalParadise": "Petal Paradise - 50% de imposto sobre recursos",
-  "marketplace.economy.desertIsland": "Ilha Deserta - 20% de imposto sobre recursos",
   "marketplace.economy.volcanoIsland": "Ilha do Vulcão - 15% de imposto sobre recursos",
   "marketplace.economy.protection": "Os impostos sobre recursos protegem a economia de mercado deflacionária.",
   "marketplace.resourceFee": "Taxa de recurso = {{tax}}%",
@@ -9439,5 +9437,7 @@
   "vipDays": "Dias VIP",
   "feed.olderPosts": "Postagens mais antigas",
   "bounties.sell.animal.sickReducedBounty": "Animais doentes ganham apenas 75% dessa recompensa.",
-  "bounties.sell.animal.stateChanged": "A saúde desse animal mudou. Revise a recompensa atualizada e confirme novamente."
+  "bounties.sell.animal.stateChanged": "A saúde desse animal mudou. Revise a recompensa atualizada e confirme novamente.",
+  "marketplace.economy.petalParadise": "Petal Paradise - imposto sobre recursos de 55%",
+  "marketplace.economy.desertIsland": "Ilha Deserta - imposto sobre recursos de 25%"
 }
