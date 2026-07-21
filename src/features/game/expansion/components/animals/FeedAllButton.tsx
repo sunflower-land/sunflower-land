@@ -68,7 +68,14 @@ export const FeedAllButton: React.FC<{ building: AnimalBuildingType }> = ({
   const disabled = eligibleCount === 0;
 
   const handleClick = () => {
-    if (disabled) return;
+    // Re-derive eligibility at click time rather than trusting the
+    // render-time `disabled` closure, which can go stale between renders
+    // (e.g. a double-tap after the first click already consumed targets).
+    const targets = getFeedAllTargets({ state: game, building });
+    const hasEligible =
+      targets.toClaim.length + targets.toCure.length + targets.toFeed.length >
+      0;
+    if (!hasEligible) return;
 
     gameService.send({ type: "animals.fedAll", building });
     playFeedAnimal();

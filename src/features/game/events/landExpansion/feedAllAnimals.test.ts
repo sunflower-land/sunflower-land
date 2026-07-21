@@ -363,6 +363,30 @@ describe("feedAllAnimals", () => {
 
     expect(state.barn.animals["cow"].experience).toBeGreaterThan(0);
     expect(state.barn.animals["sheep"].experience).toEqual(0);
+    expect(state.boostsUsedAt?.["Golden Cow"]).toEqual(now);
+  });
+
+  it("feeds only sheep with Golden Sheep in the Barn", () => {
+    const state = feedAllAnimals({
+      createdAt: now,
+      state: withGoldenSheep({
+        ...GAME_STATE,
+        barn: {
+          ...GAME_STATE.barn,
+          animals: {
+            cow: makeAnimal({ id: "cow", type: "Cow" }),
+            sheep: makeAnimal({ id: "sheep", type: "Sheep" }),
+          },
+        },
+      }),
+      action: { type: "animals.fedAll", building: "Barn" },
+    });
+
+    expect(state.barn.animals["sheep"].experience).toBeGreaterThan(0);
+    expect(["happy", "ready"]).toContain(state.barn.animals["sheep"].state);
+    expect(state.barn.animals["cow"].experience).toEqual(0);
+    expect(state.barn.animals["cow"].state).toEqual("idle");
+    expect(state.boostsUsedAt?.["Golden Sheep"]).toEqual(now);
   });
 
   it("feeds cows and sheep with both golden assets in the Barn", () => {
@@ -518,5 +542,36 @@ describe("feedAllAnimals", () => {
     expect(state.henHouse.animals["chicken-0"].experience).toEqual(0);
     expect(state.henHouse.animals["chicken-1"].experience).toBeGreaterThan(0);
     expect(state.henHouse.animals["chicken-10"].experience).toBeGreaterThan(0);
+  });
+
+  it("still claims a ready over-capacity animal without feeding it", () => {
+    const animals: Record<string, Animal> = {};
+    for (let i = 0; i < 11; i++) {
+      animals[`chicken-${i}`] = makeAnimal({
+        id: `chicken-${i}`,
+        type: "Chicken",
+        state: i === 0 ? "ready" : "idle",
+        experience: i === 0 ? 120 : 0,
+        reward: i === 0 ? { items: [{ name: "Egg", amount: 1 }] } : undefined,
+        createdAt: i + 1, // chicken-0 is oldest -> locked at capacity 10
+      });
+    }
+
+    const state = feedAllAnimals({
+      createdAt: now,
+      state: withGoldEgg({
+        ...GAME_STATE,
+        henHouse: { ...GAME_STATE.henHouse, level: 1, animals },
+      }),
+      action: { type: "animals.fedAll", building: "Hen House" },
+    });
+
+    const chicken = state.henHouse.animals["chicken-0"];
+    expect(state.inventory.Egg?.gte(1)).toBe(true);
+    expect(chicken.state).toEqual("idle");
+    expect(chicken.asleepAt).toEqual(now);
+    expect(chicken.awakeAt).toBeGreaterThan(chicken.createdAt);
+    // Claiming must not be followed by a feed
+    expect(chicken.experience).toEqual(120);
   });
 });
