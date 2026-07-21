@@ -13,6 +13,8 @@ import {
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { isWearableActive } from "features/game/lib/wearables";
+import type { BumpkinItem } from "features/game/types/bumpkin";
 import type {
   Animal,
   AnimalBuildingKey,
@@ -20,6 +22,7 @@ import type {
   AnimalMedicineName,
   GameState,
 } from "features/game/types/game";
+import type { CollectibleName } from "features/game/types/craftables";
 import {
   ANIMAL_FOODS,
   ANIMAL_LEVELS,
@@ -59,21 +62,24 @@ const isAnimalAwakeAndRequestingFood = (animal: Animal) => {
   );
 };
 
-const hasFreeFeedBoost = (animalType: AnimalType, game: GameState) => {
-  if (animalType === "Chicken") {
-    return isCollectibleBuilt({ name: "Gold Egg", game });
-  }
-
-  if (animalType === "Cow") {
-    return isCollectibleBuilt({ name: "Golden Cow", game });
-  }
-
-  if (animalType === "Sheep") {
-    return isCollectibleBuilt({ name: "Golden Sheep", game });
-  }
-
-  return false;
+// Collectible that feeds each animal type for free (no mixing needed).
+const FREE_FEED_COLLECTIBLE: Record<AnimalType, CollectibleName> = {
+  Chicken: "Gold Egg",
+  Cow: "Golden Cow",
+  Sheep: "Golden Sheep",
 };
+
+/**
+ * A free boost the Auto Mixer surfaces to explain why a building has no
+ * requests: a collectible that feeds an animal type for free, or a wearable
+ * (Oracle Syringe) that cures sick animals for free.
+ */
+export type FreeFeedBoost =
+  | { source: "collectible"; item: CollectibleName; animalType: AnimalType }
+  | { source: "wearable"; item: BumpkinItem };
+
+const hasFreeFeedBoost = (animalType: AnimalType, game: GameState) =>
+  isCollectibleBuilt({ name: FREE_FEED_COLLECTIBLE[animalType], game });
 
 const addToTotals = (
   totals: RequestTotals,
@@ -207,18 +213,23 @@ const getBuildingRequests = ({
   buildingKey: AnimalBuildingKey;
   animals: Animal[];
   game: GameState;
-}): RequestTotals => {
+}): { requests: RequestTotals; animalsWaiting: number } => {
   const requests: RequestTotals = {};
+  let animalsWaiting = 0;
 
   animals.forEach((animal) => {
     const animalRequests = getAnimalFeedRequests({ animal, game, buildingKey });
+
+    if (animalRequests.length > 0) {
+      animalsWaiting += 1;
+    }
 
     animalRequests.forEach((request) =>
       addToTotals(requests, request.item, request.quantity),
     );
   });
 
-  return requests;
+  return { requests, animalsWaiting };
 };
 
 export function getBulkMixRequirements(
@@ -226,11 +237,30 @@ export function getBulkMixRequirements(
   building: "Hen House" | "Barn",
 ) {
   const buildingKey = makeAnimalBuildingKey(building);
-  const requests = getBuildingRequests({
+  const animals = Object.values(game[buildingKey].animals);
+  const { requests, animalsWaiting } = getBuildingRequests({
     buildingKey,
-    animals: Object.values(game[buildingKey].animals),
+    animals,
     game,
   });
+
+  // Free boosts feeding/curing this building's animals, surfaced to explain
+  // why there are no requests.
+  const animalTypesPresent = [...new Set(animals.map((animal) => animal.type))];
+  const freeFeedBoosts: FreeFeedBoost[] = animalTypesPresent
+    .filter((animalType) => hasFreeFeedBoost(animalType, game))
+    .map((animalType) => ({
+      source: "collectible",
+      item: FREE_FEED_COLLECTIBLE[animalType],
+      animalType,
+    }));
+
+  // Oracle Syringe cures sick animals for free (Barn Delight cost 0), so when
+  // a sick animal would otherwise request it, surface the syringe instead.
+  const hasSickAnimal = animals.some((animal) => animal.state === "sick");
+  if (hasSickAnimal && isWearableActive({ game, name: "Oracle Syringe" })) {
+    freeFeedBoosts.push({ source: "wearable", item: "Oracle Syringe" });
+  }
 
   const missingRequests: RequestTotals = {};
   const ingredients: GameState["inventory"] = {};
@@ -283,6 +313,8 @@ export function getBulkMixRequirements(
     requests,
     missingRequests,
     feeds,
+    animalsWaiting,
+    freeFeedBoosts,
     requirements: {
       ingredients,
       coins,

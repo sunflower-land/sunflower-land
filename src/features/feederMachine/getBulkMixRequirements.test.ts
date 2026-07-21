@@ -143,6 +143,116 @@ describe("getBulkMixRequirements", () => {
     expect(feeds.find((feed) => feed.item === "Barn Delight")).toBeUndefined();
   });
 
+  it("surfaces the free-feed collectibles feeding a building's animals", () => {
+    const { requests, freeFeedBoosts } = getBulkMixRequirements(
+      {
+        ...INITIAL_FARM,
+        inventory: {},
+        collectibles: {
+          ...INITIAL_FARM.collectibles,
+          "Golden Cow": [
+            {
+              id: "1",
+              createdAt: 0,
+              coordinates: { x: 0, y: 0 },
+              readyAt: 0,
+            },
+          ],
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "0": animal({ state: "idle", type: "Cow" }),
+            "1": animal({ state: "idle", type: "Sheep" }),
+          },
+        },
+      },
+      "Barn",
+    );
+
+    // Golden Cow feeds cows for free, so no request and a boost row for it.
+    // The sheep has no free-feed collectible, so it still requests feed.
+    expect(freeFeedBoosts).toEqual([
+      { source: "collectible", item: "Golden Cow", animalType: "Cow" },
+    ]);
+    expect(requests["Kernel Blend"]).toBeDefined();
+  });
+
+  it("surfaces the Oracle Syringe as a free-cure boost for sick animals", () => {
+    const { requests, freeFeedBoosts } = getBulkMixRequirements(
+      {
+        ...INITIAL_FARM,
+        inventory: {},
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin.equipped,
+            wings: "Oracle Syringe",
+          },
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": chicken("sick"),
+          },
+        },
+      },
+      "Hen House",
+    );
+
+    // Free cure means no Barn Delight request, surfaced as a wearable boost.
+    expect(requests["Barn Delight"]).toBeUndefined();
+    expect(freeFeedBoosts).toEqual([
+      { source: "wearable", item: "Oracle Syringe" },
+    ]);
+  });
+
+  it("does not surface the Oracle Syringe when no animal is sick", () => {
+    const { freeFeedBoosts } = getBulkMixRequirements(
+      {
+        ...INITIAL_FARM,
+        inventory: {},
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin.equipped,
+            wings: "Oracle Syringe",
+          },
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": chicken("idle"),
+          },
+        },
+      },
+      "Hen House",
+    );
+
+    expect(freeFeedBoosts).toEqual([]);
+  });
+
+  it("counts how many animals are waiting for feed", () => {
+    const { animalsWaiting } = getBulkMixRequirements(
+      {
+        ...INITIAL_FARM,
+        inventory: {},
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": chicken("sad"),
+            "1": chicken("idle"),
+            "2": chicken("ready"),
+          },
+        },
+      },
+      "Hen House",
+    );
+
+    // The ready chicken makes no request, so only two animals are waiting.
+    expect(animalsWaiting).toBe(2);
+  });
+
   it("marks feeds already covered by inventory with zero missing", () => {
     const { feeds, missingRequests } = getBulkMixRequirements(
       {
