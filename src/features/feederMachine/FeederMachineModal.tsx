@@ -32,6 +32,7 @@ import { Label } from "components/ui/Label";
 import { getIngredients } from "./feedMixed";
 import { getBulkMixRequirements } from "./getBulkMixRequirements";
 import { formatNumber } from "lib/utils/formatNumber";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   show: boolean;
@@ -63,6 +64,8 @@ export const FeederMachineModal: React.FC<Props> = ({
   >("Hay");
   const [tab, setTab] = useState<"food" | "automaticMixer">("food");
   const { coins } = ANIMAL_FOODS[selectedName];
+
+  const showBulkMixer = hasFeatureAccess(state, "BULK_MIXER");
 
   const { ingredients } = getIngredients({ state, name: selectedName });
   const { requests, feeds, animalsWaiting, freeFeedBoosts } =
@@ -298,11 +301,15 @@ export const FeederMachineModal: React.FC<Props> = ({
             icon: ITEM_DETAILS.Hay.image,
             name: t("feeder.foodTypes.food"),
           },
-          {
-            id: "automaticMixer",
-            icon: ITEM_DETAILS["Mixed Grain"].image,
-            name: t("feeder.bulkMixer"),
-          },
+          ...(showBulkMixer
+            ? [
+                {
+                  id: "automaticMixer" as const,
+                  icon: ITEM_DETAILS["Mixed Grain"].image,
+                  name: t("feeder.bulkMixer"),
+                },
+              ]
+            : []),
         ]}
         currentTab={tab}
         setCurrentTab={setTab}
@@ -359,7 +366,7 @@ export const FeederMachineModal: React.FC<Props> = ({
             }
           />
         )}
-        {tab === "automaticMixer" && (
+        {tab === "automaticMixer" && showBulkMixer && (
           <SplitScreenView
             mobileReversePanelOrder
             panel={
