@@ -1101,6 +1101,67 @@ describe("updateBeehives", () => {
     expect(futureUpdate[beehiveId].honey.produced).toEqual(tenMinutes * 1.5);
   });
 
+  describe("upgradeable Bees & Flowers skill ranks", () => {
+    const produceWithSkills = (skills: Record<string, number>) => {
+      const flowerId = "123";
+      const beehiveId = "abc";
+      const tenMinutes = 10 * 60 * 1000;
+
+      const beehives: Beehives = {
+        [beehiveId]: {
+          ...DEFAULT_BEEHIVE,
+          honey: { updatedAt: now, produced: 0 },
+        },
+      };
+      const flowerBeds: FlowerBeds = {
+        [flowerId]: {
+          ...DEFAULT_FLOWER_BED,
+          flower: { name: "Red Pansy", plantedAt: now },
+        },
+      };
+
+      const game = {
+        ...TEST_FARM,
+        bumpkin: { ...INITIAL_BUMPKIN, skills },
+        beehives,
+        flowers: { flowerBeds, discovered: {} },
+      };
+
+      const updatedBeehives = updateBeehives({ game, createdAt: now });
+
+      const futureUpdate = updateBeehives({
+        game: { ...game, beehives: updatedBeehives },
+        createdAt: now + tenMinutes,
+      });
+
+      return { produced: futureUpdate[beehiveId].honey.produced, tenMinutes };
+    };
+
+    it("adds +0.15 Honey speed with Hyper Bees at rank 2", () => {
+      const { produced, tenMinutes } = produceWithSkills({ "Hyper Bees": 2 });
+      expect(produced).toEqual(tenMinutes * 1.15);
+    });
+
+    it("adds +0.2 Honey speed with Hyper Bees at rank 3", () => {
+      const { produced, tenMinutes } = produceWithSkills({ "Hyper Bees": 3 });
+      expect(produced).toEqual(tenMinutes * 1.2);
+    });
+
+    it("adds +0.75 Honey speed with Flowery Abode at rank 2", () => {
+      const { produced, tenMinutes } = produceWithSkills({
+        "Flowery Abode": 2,
+      });
+      expect(produced).toEqual(tenMinutes * 1.75);
+    });
+
+    it("adds +1 Honey speed with Flowery Abode at rank 3", () => {
+      const { produced, tenMinutes } = produceWithSkills({
+        "Flowery Abode": 3,
+      });
+      expect(produced).toEqual(tenMinutes * 2);
+    });
+  });
+
   // SPEED_BOOSTS: a windowed flower becomes ready earlier while a boost window is
   // active, so pollination must be bounded by the windowed readyAt (not the base
   // grow time) — otherwise the hive over-credits pollination time.

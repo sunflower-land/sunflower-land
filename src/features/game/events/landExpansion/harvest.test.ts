@@ -2625,7 +2625,7 @@ describe("harvest", () => {
       expect(state.inventory.Eggplant).toEqual(new Decimal(2));
     });
 
-    it("gives +0.15 to basic crop when Young Farmer skill is rank 2", () => {
+    it("gives +0.125 to basic crop when Young Farmer skill is rank 2", () => {
       const state = harvest({
         state: {
           ...GAME_STATE,
@@ -2650,10 +2650,10 @@ describe("harvest", () => {
         action: { type: "crop.harvested", index: firstId },
       });
       expect(state.crops[firstId].crop).toBeUndefined();
-      expect(state.inventory.Sunflower).toEqual(new Decimal(1.15));
+      expect(state.inventory.Sunflower).toEqual(new Decimal(1.125));
     });
 
-    it("gives +0.2 to basic crop when Young Farmer skill is rank 3", () => {
+    it("gives +0.15 to basic crop when Young Farmer skill is rank 3", () => {
       const state = harvest({
         state: {
           ...GAME_STATE,
@@ -2678,10 +2678,10 @@ describe("harvest", () => {
         action: { type: "crop.harvested", index: firstId },
       });
       expect(state.crops[firstId].crop).toBeUndefined();
-      expect(state.inventory.Sunflower).toEqual(new Decimal(1.2));
+      expect(state.inventory.Sunflower).toEqual(new Decimal(1.15));
     });
 
-    it("gives +0.15 to medium crop when Experienced Farmer skill is rank 2", () => {
+    it("gives +0.125 to medium crop when Experienced Farmer skill is rank 2", () => {
       const state = harvest({
         state: {
           ...GAME_STATE,
@@ -2706,10 +2706,10 @@ describe("harvest", () => {
         action: { type: "crop.harvested", index: firstId },
       });
       expect(state.crops[firstId].crop).toBeUndefined();
-      expect(state.inventory.Cabbage).toEqual(new Decimal(1.15));
+      expect(state.inventory.Cabbage).toEqual(new Decimal(1.125));
     });
 
-    it("gives +0.2 to medium crop when Experienced Farmer skill is rank 3", () => {
+    it("gives +0.15 to medium crop when Experienced Farmer skill is rank 3", () => {
       const state = harvest({
         state: {
           ...GAME_STATE,
@@ -2734,10 +2734,39 @@ describe("harvest", () => {
         action: { type: "crop.harvested", index: firstId },
       });
       expect(state.crops[firstId].crop).toBeUndefined();
-      expect(state.inventory.Cabbage).toEqual(new Decimal(1.2));
+      expect(state.inventory.Cabbage).toEqual(new Decimal(1.15));
     });
 
-    it("gives +0.15 to advanced crop when Old Farmer skill is rank 2", () => {
+    it("neutralises a rank 3 Experienced Farmer on the Saltwort event crop (+0.1, not +0.15)", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: { ...TEST_BUMPKIN.skills, "Experienced Farmer": 3 },
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Saltwort",
+                plantedAt:
+                  dateNow - (CROPS["Saltwort"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: { type: "crop.harvested", index: firstId },
+      });
+      expect(state.crops[firstId].crop).toBeUndefined();
+      // Saltwort (event crop) ignores the upgraded rank: rank-1 bonus (+0.1),
+      // not the owned rank 3 (+0.15). Cabbage above (a non-event medium crop)
+      // still gets the full +0.15, proving the scoping.
+      expect(state.inventory.Saltwort).toEqual(new Decimal(1.1));
+    });
+
+    it("gives +0.125 to advanced crop when Old Farmer skill is rank 2", () => {
       const state = harvest({
         state: {
           ...GAME_STATE,
@@ -2762,10 +2791,10 @@ describe("harvest", () => {
         action: { type: "crop.harvested", index: firstId },
       });
       expect(state.crops[firstId].crop).toBeUndefined();
-      expect(state.inventory.Eggplant).toEqual(new Decimal(1.15));
+      expect(state.inventory.Eggplant).toEqual(new Decimal(1.125));
     });
 
-    it("gives +0.2 to advanced crop when Old Farmer skill is rank 3", () => {
+    it("gives +0.15 to advanced crop when Old Farmer skill is rank 3", () => {
       const state = harvest({
         state: {
           ...GAME_STATE,
@@ -2790,10 +2819,10 @@ describe("harvest", () => {
         action: { type: "crop.harvested", index: firstId },
       });
       expect(state.crops[firstId].crop).toBeUndefined();
-      expect(state.inventory.Eggplant).toEqual(new Decimal(1.2));
+      expect(state.inventory.Eggplant).toEqual(new Decimal(1.15));
     });
 
-    it("gives +1.25 to advanced crop when Acre Farm skill is rank 2", () => {
+    it("gives +1.4 to advanced crop when Acre Farm skill is rank 2", () => {
       const state = harvest({
         state: {
           ...GAME_STATE,
@@ -2818,10 +2847,10 @@ describe("harvest", () => {
         action: { type: "crop.harvested", index: firstId },
       });
       expect(state.crops[firstId].crop).toBeUndefined();
-      expect(state.inventory.Eggplant).toEqual(new Decimal(2.25));
+      expect(state.inventory.Eggplant).toEqual(new Decimal(2.4));
     });
 
-    it("gives +1.5 to advanced crop when Acre Farm skill is rank 3", () => {
+    it("gives +1.8 to advanced crop when Acre Farm skill is rank 3", () => {
       const state = harvest({
         state: {
           ...GAME_STATE,
@@ -2846,7 +2875,7 @@ describe("harvest", () => {
         action: { type: "crop.harvested", index: firstId },
       });
       expect(state.crops[firstId].crop).toBeUndefined();
-      expect(state.inventory.Eggplant).toEqual(new Decimal(2.5));
+      expect(state.inventory.Eggplant).toEqual(new Decimal(2.8));
     });
 
     it("debuffs basic crop by -0.6 when Acre Farm skill is rank 2", () => {
@@ -2961,7 +2990,7 @@ describe("harvest", () => {
       expect(state.inventory.Cabbage).toEqual(new Decimal(0.3));
     });
 
-    it("gives +1.25 to basic crop when Hectare Farm skill is rank 2", () => {
+    it("gives +1.4 to basic crop when Hectare Farm skill is rank 2", () => {
       const state = harvest({
         state: {
           ...GAME_STATE,
@@ -2986,10 +3015,10 @@ describe("harvest", () => {
         action: { type: "crop.harvested", index: firstId },
       });
       expect(state.crops[firstId].crop).toBeUndefined();
-      expect(state.inventory.Sunflower).toEqual(new Decimal(2.25));
+      expect(state.inventory.Sunflower).toEqual(new Decimal(2.4));
     });
 
-    it("gives +1.5 to basic crop when Hectare Farm skill is rank 3", () => {
+    it("gives +1.8 to basic crop when Hectare Farm skill is rank 3", () => {
       const state = harvest({
         state: {
           ...GAME_STATE,
@@ -3014,7 +3043,7 @@ describe("harvest", () => {
         action: { type: "crop.harvested", index: firstId },
       });
       expect(state.crops[firstId].crop).toBeUndefined();
-      expect(state.inventory.Sunflower).toEqual(new Decimal(2.5));
+      expect(state.inventory.Sunflower).toEqual(new Decimal(2.8));
     });
 
     it("debuffs advanced crop by -0.6 when Hectare Farm skill is rank 2", () => {
@@ -3073,7 +3102,7 @@ describe("harvest", () => {
       expect(state.inventory.Eggplant).toEqual(new Decimal(0.3));
     });
 
-    it("gives +1.25 to medium crop when Hectare Farm skill is rank 2", () => {
+    it("gives +1.4 to medium crop when Hectare Farm skill is rank 2", () => {
       const state = harvest({
         state: {
           ...GAME_STATE,
@@ -3098,10 +3127,10 @@ describe("harvest", () => {
         action: { type: "crop.harvested", index: firstId },
       });
       expect(state.crops[firstId].crop).toBeUndefined();
-      expect(state.inventory.Cabbage).toEqual(new Decimal(2.25));
+      expect(state.inventory.Cabbage).toEqual(new Decimal(2.4));
     });
 
-    it("gives +1.5 to medium crop when Hectare Farm skill is rank 3", () => {
+    it("gives +1.8 to medium crop when Hectare Farm skill is rank 3", () => {
       const state = harvest({
         state: {
           ...GAME_STATE,
@@ -3126,13 +3155,13 @@ describe("harvest", () => {
         action: { type: "crop.harvested", index: firstId },
       });
       expect(state.crops[firstId].crop).toBeUndefined();
-      expect(state.inventory.Cabbage).toEqual(new Decimal(2.5));
+      expect(state.inventory.Cabbage).toEqual(new Decimal(2.8));
     });
 
-    // GUARD: Horror Mike only enlarges the Scary Mike AOE per rank; its yield
-    // bonus (+0.3) must NOT scale with rank. The plot at (0,-2) is inside the
-    // base AOE, so the same +0.3 applies at ranks 1, 2 and 3.
-    it("gives the same +0.3 Scary Mike AOE bonus at every Horror Mike rank", () => {
+    // Horror Mike enlarges the Scary Mike AOE per rank AND scales its yield
+    // bonus: base Scary Mike +0.2 plus a marginal +0.1/+0.15/+0.2, i.e. total
+    // +0.3/+0.35/+0.4. The plot at (0,-2) is inside the base AOE at every rank.
+    it("scales the Scary Mike AOE yield with Horror Mike rank (+0.3/+0.35/+0.4)", () => {
       const harvestAtRank = (rank: number) =>
         harvest({
           state: {
@@ -3171,13 +3200,14 @@ describe("harvest", () => {
         });
 
       expect(harvestAtRank(1).inventory.Cabbage).toEqual(new Decimal(1.3));
-      expect(harvestAtRank(2).inventory.Cabbage).toEqual(new Decimal(1.3));
-      expect(harvestAtRank(3).inventory.Cabbage).toEqual(new Decimal(1.3));
+      expect(harvestAtRank(2).inventory.Cabbage).toEqual(new Decimal(1.35));
+      expect(harvestAtRank(3).inventory.Cabbage).toEqual(new Decimal(1.4));
     });
 
-    // GUARD: Laurie's Gains only enlarges the Laurie AOE per rank; its yield
-    // bonus (+0.3) must NOT scale with rank. Same +0.3 at ranks 1, 2 and 3.
-    it("gives the same +0.3 Laurie AOE bonus at every Laurie's Gains rank", () => {
+    // Laurie's Gains enlarges the Laurie AOE per rank AND scales its yield
+    // bonus: base Laurie +0.2 plus a marginal +0.1/+0.15/+0.2, i.e. total
+    // +0.3/+0.35/+0.4. The plot at (0,-2) is inside the base AOE at every rank.
+    it("scales the Laurie AOE yield with Laurie's Gains rank (+0.3/+0.35/+0.4)", () => {
       const harvestAtRank = (rank: number) =>
         harvest({
           state: {
@@ -3216,14 +3246,60 @@ describe("harvest", () => {
         });
 
       expect(harvestAtRank(1).inventory.Eggplant).toEqual(new Decimal(1.3));
-      expect(harvestAtRank(2).inventory.Eggplant).toEqual(new Decimal(1.3));
-      expect(harvestAtRank(3).inventory.Eggplant).toEqual(new Decimal(1.3));
+      expect(harvestAtRank(2).inventory.Eggplant).toEqual(new Decimal(1.35));
+      expect(harvestAtRank(3).inventory.Eggplant).toEqual(new Decimal(1.4));
+    });
+
+    // Chonky Scarecrow adds a net-new yield to basic crops inside the Basic
+    // Scarecrow AOE: +0 at rank 1 (no yield applied), then +0.05 / +0.1 at
+    // ranks 2 / 3. The plot at (0,-2) is inside the AOE at every rank.
+    it("scales the Basic Scarecrow AOE yield with Chonky Scarecrow rank (+0/+0.05/+0.1)", () => {
+      const harvestAtRank = (rank: number) =>
+        harvest({
+          state: {
+            ...GAME_STATE,
+            bumpkin: {
+              ...TEST_BUMPKIN,
+              skills: { ...TEST_BUMPKIN.skills, "Chonky Scarecrow": rank },
+            },
+            inventory: { "Sunflower Seed": new Decimal(1) },
+            season: { season: "spring", startedAt: 0 },
+            collectibles: {
+              "Basic Scarecrow": [
+                {
+                  id: "123",
+                  createdAt: dateNow,
+                  coordinates: { x: 0, y: 0 },
+                  readyAt: dateNow - 12 * 60 * 1000,
+                },
+              ],
+            },
+            crops: {
+              [firstId]: {
+                ...GAME_STATE.crops[firstId],
+                x: 0,
+                y: -2,
+                crop: {
+                  name: "Sunflower",
+                  plantedAt:
+                    dateNow - (CROPS["Sunflower"].harvestSeconds ?? 0) * 1000,
+                },
+              },
+            },
+          },
+          createdAt: dateNow,
+          action: { type: "crop.harvested", index: firstId },
+        });
+
+      expect(harvestAtRank(1).inventory.Sunflower).toEqual(new Decimal(1));
+      expect(harvestAtRank(2).inventory.Sunflower).toEqual(new Decimal(1.05));
+      expect(harvestAtRank(3).inventory.Sunflower).toEqual(new Decimal(1.1));
     });
 
     // Golden Sunflower drops 0.35 Gold on a PRNG whose inner chance grows with
-    // rank: 1/7 (r1), 1/6 (r2), 1/5 (r3) — i.e. the drop threshold is
-    // rankChance/100 (displayed as 1/700, 1/600, 1/500). We locate a counter in
-    // the r2-only band (drops at 1/6 but not 1/7) to prove rank 2 drops where
+    // rank: 1/7 (r1), 1/5.5 (r2), 1/4 (r3) — i.e. the drop threshold is
+    // rankChance/100 (displayed as 1/700, 1/550, 1/400). We locate a counter in
+    // the r2-only band (drops at 1/5.5 but not 1/7) to prove rank 2 drops where
     // rank 1 does not.
     it("drops Golden Sunflower gold at rank 2 where rank 1 would not", () => {
       const farmId = 1;
@@ -3243,7 +3319,7 @@ describe("harvest", () => {
           farmId,
           itemId,
           counter,
-          chance: 1 / 6,
+          chance: 1 / 5.5,
           criticalHitName: "Golden Sunflower",
         });
         if (dropsAtRank2 && !dropsAtRank1) {
@@ -3306,14 +3382,14 @@ describe("harvest", () => {
           farmId,
           itemId,
           counter,
-          chance: 1 / 6,
+          chance: 1 / 5.5,
           criticalHitName: "Golden Sunflower",
         });
         const dropsAtRank3 = prngChance({
           farmId,
           itemId,
           counter,
-          chance: 1 / 5,
+          chance: 1 / 4,
           criticalHitName: "Golden Sunflower",
         });
         if (dropsAtRank3 && !dropsAtRank2) {
@@ -3807,6 +3883,56 @@ describe("harvest", () => {
       });
       expect(state.crops[firstId].crop).toBeUndefined();
       expect(state.inventory.Sunflower).toEqual(new Decimal(1.3));
+    });
+
+    describe("Pollen Power Up ranks", () => {
+      const harvestWithRank = (rank: number, swarmCount = 1) =>
+        harvest({
+          state: {
+            ...GAME_STATE,
+            bumpkin: {
+              ...TEST_BUMPKIN,
+              skills: { ...TEST_BUMPKIN.skills, "Pollen Power Up": rank },
+            },
+            inventory: { "Sunflower Seed": new Decimal(1) },
+            season: { season: "spring", startedAt: 0 },
+            crops: {
+              [firstId]: {
+                ...GAME_STATE.crops[firstId],
+                crop: {
+                  name: "Sunflower",
+                  plantedAt:
+                    dateNow - (CROPS["Sunflower"].harvestSeconds ?? 0) * 1000,
+                },
+                beeSwarm: {
+                  count: swarmCount,
+                  swarmActivatedAt: dateNow - 1000,
+                },
+              },
+            },
+          },
+          createdAt: dateNow,
+          action: { type: "crop.harvested", index: firstId },
+        });
+
+      it("gives a +0.35 total swarm bonus at rank 2", () => {
+        expect(harvestWithRank(2).inventory.Sunflower).toEqual(
+          new Decimal(1.35),
+        );
+      });
+
+      it("gives a +0.4 total swarm bonus at rank 3", () => {
+        expect(harvestWithRank(3).inventory.Sunflower).toEqual(
+          new Decimal(1.4),
+        );
+      });
+
+      it("scales the ranked swarm bonus by the stacked swarm count", () => {
+        // rank 3 => (0.2 + 0.2) * 3 swarms = +1.2
+        expect(harvestWithRank(3, 3).inventory.Sunflower).toEqual(
+          new Decimal(2.2),
+        );
+      });
     });
 
     it("gives +1 to medium crop when Hectare Farm skill is active", () => {

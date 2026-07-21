@@ -65,6 +65,10 @@ import { SunflowerBear } from "./components/SunflowerBear";
 import { BadassBear } from "./components/BadassBear";
 import { VictoriaSisters } from "./components/VictoriaSisters";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import {
+  getAOEExtent,
+  type AOEItemName,
+} from "features/game/expansion/placeable/lib/collisionDetection";
 import { Bean } from "./components/Bean";
 import { PottedPumpkin } from "features/island/collectibles/components/PottedPumpkin";
 import { PottedPotato } from "features/island/collectibles/components/PottedPotato";
@@ -4448,6 +4452,44 @@ export const COLLECTIBLE_COMPONENTS: Record<
 };
 // Need readonly versions for some troublesome components while in design mode
 
+/**
+ * Landscaping preview of a scarecrow-type placeable's area of effect. Reads the
+ * live rank-aware footprint from `getAOEExtent` (the same helper the gameplay
+ * gate `isWithinAOE` uses) so the drawn box matches the boosted plots at every
+ * rank: base 3x3, then 7x7 / 8x8 / 9x9 as the widening skill ranks up. The box
+ * grows downward (depth) and shifts left as the footprint extends further left
+ * of the placeable origin (base xLeft = 1).
+ */
+const ScarecrowAOEOverlay: React.FC<{
+  item: AOEItemName;
+  skills: CollectibleProps["skills"];
+  /** Vertical start of the box below the sprite, in PIXEL_SCALE units. */
+  top: number;
+}> = ({ item, skills, top }) => {
+  const extent = getAOEExtent(item, skills);
+  const tilesWide = extent.xLeft + extent.xRight + 1;
+  const width = PIXEL_SCALE * 16 * tilesWide;
+  const height = PIXEL_SCALE * 16 * extent.depth;
+  const left = PIXEL_SCALE * -13 - (extent.xLeft - 1) * PIXEL_SCALE * 16;
+
+  return (
+    <div
+      className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
+      style={{ width, height, left, top: PIXEL_SCALE * top }}
+    >
+      <img
+        src={lightning}
+        className="absolute opacity-50 animate-pulsate"
+        style={{
+          width: PIXEL_SCALE * 10,
+          left: (width - PIXEL_SCALE * 10) / 2,
+          top: (height - PIXEL_SCALE * 10) / 2,
+        }}
+      />
+    </div>
+  );
+};
+
 export const READONLY_COLLECTIBLES: Record<
   CollectibleName | "Bud" | "Pet" | "PetNFT",
   React.FC<CollectibleProps>
@@ -4469,9 +4511,6 @@ export const READONLY_COLLECTIBLES: Record<
   ),
 
   "Basic Scarecrow": (props: CollectibleProps) => {
-    const hasChonkyScarecrow = props.skills["Chonky Scarecrow"];
-    const chonkyOffset = hasChonkyScarecrow ? 4 : 0;
-
     return (
       <div
         className="absolute bottom-0"
@@ -4481,33 +4520,16 @@ export const READONLY_COLLECTIBLES: Record<
         }}
       >
         <img src={ITEM_DETAILS["Basic Scarecrow"].image} className="w-full " />
-        <div
-          className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 16 * (3 + chonkyOffset)}px`,
-            height: `${PIXEL_SCALE * 16 * (3 + chonkyOffset)}px`,
-            left: `${PIXEL_SCALE * -13 - (chonkyOffset / 2) * PIXEL_SCALE * 16}px`,
-            top: `${PIXEL_SCALE * 31}px`,
-          }}
-        >
-          <img
-            src={lightning}
-            className="absolute bottom-0 opacity-50 animate-pulsate"
-            style={{
-              width: `${PIXEL_SCALE * 10}px`,
-              left: `${PIXEL_SCALE * 19 + (chonkyOffset / 2) * PIXEL_SCALE * 16}px`,
-              top: `${PIXEL_SCALE * 17 + (chonkyOffset / 2) * PIXEL_SCALE * 16}px`,
-            }}
-          />
-        </div>
+        <ScarecrowAOEOverlay
+          item="Basic Scarecrow"
+          skills={props.skills}
+          top={31}
+        />
       </div>
     );
   },
 
   "Scary Mike": (props: CollectibleProps) => {
-    const hasHorrorMike = props.skills["Horror Mike"];
-    const offset = hasHorrorMike ? 4 : 0;
-
     return (
       <div
         className="absolute bottom-0"
@@ -4517,33 +4539,12 @@ export const READONLY_COLLECTIBLES: Record<
         }}
       >
         <img src={ITEM_DETAILS["Scary Mike"].image} className="w-full" />
-        <div
-          className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 16 * (3 + offset)}px`,
-            height: `${PIXEL_SCALE * 16 * (3 + offset)}px`,
-            left: `${PIXEL_SCALE * -13 - (offset / 2) * PIXEL_SCALE * 16}px`,
-            top: `${PIXEL_SCALE * 29}px`,
-          }}
-        >
-          <img
-            src={lightning}
-            className="absolute bottom-0 opacity-50 animate-pulsate"
-            style={{
-              width: `${PIXEL_SCALE * 10}px`,
-              left: `${PIXEL_SCALE * 19 + (offset / 2) * PIXEL_SCALE * 16}px`,
-              top: `${PIXEL_SCALE * 17 + (offset / 2) * PIXEL_SCALE * 16}px`,
-            }}
-          />
-        </div>
+        <ScarecrowAOEOverlay item="Scary Mike" skills={props.skills} top={29} />
       </div>
     );
   },
 
   "Laurie the Chuckle Crow": (props: CollectibleProps) => {
-    const hasLauriesGains = props.skills["Laurie's Gains"];
-    const offset = hasLauriesGains ? 4 : 0;
-
     return (
       <div
         className="absolute bottom-0"
@@ -4556,25 +4557,11 @@ export const READONLY_COLLECTIBLES: Record<
           src={ITEM_DETAILS["Laurie the Chuckle Crow"].image}
           className="w-full"
         />
-        <div
-          className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 16 * (3 + offset)}px`,
-            height: `${PIXEL_SCALE * 16 * (3 + offset)}px`,
-            left: `${PIXEL_SCALE * -13 - (offset / 2) * PIXEL_SCALE * 16}px`,
-            top: `${PIXEL_SCALE * 27}px`,
-          }}
-        >
-          <img
-            src={lightning}
-            className="absolute bottom-0 opacity-50 animate-pulsate"
-            style={{
-              width: `${PIXEL_SCALE * 10}px`,
-              left: `${PIXEL_SCALE * 19 + (offset / 2) * PIXEL_SCALE * 16}px`,
-              top: `${PIXEL_SCALE * 17 + (offset / 2) * PIXEL_SCALE * 16}px`,
-            }}
-          />
-        </div>
+        <ScarecrowAOEOverlay
+          item="Laurie the Chuckle Crow"
+          skills={props.skills}
+          top={27}
+        />
       </div>
     );
   },

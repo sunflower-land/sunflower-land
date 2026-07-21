@@ -1455,7 +1455,7 @@ describe("plant", () => {
       expect(time).toEqual(baseHarvestSeconds);
     });
 
-    it("applies a +7.5% speed boost with rank 2 Green Thumb skill", () => {
+    it("applies a +6% speed boost with rank 2 Green Thumb skill", () => {
       const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
       const { time } = getCropPlotTime({
         crop: "Corn",
@@ -1473,10 +1473,10 @@ describe("plant", () => {
         createdAt: dateNow,
       });
 
-      expect(time).toEqual(baseHarvestSeconds * 0.925);
+      expect(time).toEqual(baseHarvestSeconds * 0.94);
     });
 
-    it("applies a +10% speed boost with rank 3 Green Thumb skill", () => {
+    it("applies a +7.5% speed boost with rank 3 Green Thumb skill", () => {
       const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
       const { time } = getCropPlotTime({
         crop: "Corn",
@@ -1494,7 +1494,30 @@ describe("plant", () => {
         createdAt: dateNow,
       });
 
-      expect(time).toEqual(baseHarvestSeconds * 0.9);
+      expect(time).toEqual(baseHarvestSeconds * 0.925);
+    });
+
+    it("neutralises a rank 3 Green Thumb on the Saltwort event crop (x0.95, not x0.925)", () => {
+      const baseHarvestSeconds = CROPS["Saltwort"].harvestSeconds;
+      const { time } = getCropPlotTime({
+        crop: "Saltwort",
+        game: {
+          ...FARM_WITH_PLOTS,
+          collectibles: {},
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: {
+              "Green Thumb": 3,
+            },
+          },
+        },
+        plot: { ...plot, x: 0, y: -3 },
+        createdAt: dateNow,
+      });
+
+      // Saltwort (event crop) uses the rank-1 multiplier (x0.95); Corn above
+      // (a non-event crop) still gets the full rank-3 x0.925.
+      expect(time).toEqual(baseHarvestSeconds * 0.95);
     });
 
     it("applies a +12.5% speed boost on advanced crops with rank 2 Strong Roots skill", () => {

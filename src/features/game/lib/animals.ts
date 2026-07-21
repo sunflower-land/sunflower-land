@@ -28,6 +28,7 @@ import {
 import { getBudYieldBoosts } from "./getBudYieldBoosts";
 import { isWearableActive } from "./wearables";
 import Decimal from "decimal.js-light";
+import { getSkillLevel, SKILL_RANKS } from "../types/bumpkinSkills";
 
 export const makeAnimalBuildingKey = (
   buildingName: Extract<BuildingName, "Hen House" | "Barn">,
@@ -144,229 +145,245 @@ function getEggYieldBoosts(game: GameState): {
   amount: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  let boost = 0;
+  let boost = new Decimal(0);
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isCollectibleBuilt({ name: "Chicken Coop", game })) {
-    boost += 1;
+    boost = boost.plus(1);
     boostsUsed.push({ name: "Chicken Coop", value: "+1" });
   }
 
   if (isCollectibleBuilt({ name: "Rich Chicken", game })) {
-    boost += 0.1;
+    boost = boost.plus(0.1);
     boostsUsed.push({ name: "Rich Chicken", value: "+0.1" });
   }
 
   if (isCollectibleBuilt({ name: "Undead Rooster", game })) {
-    boost += 0.1;
+    boost = boost.plus(0.1);
     boostsUsed.push({ name: "Undead Rooster", value: "+0.1" });
   }
 
   if (isCollectibleBuilt({ name: "Ayam Cemani", game })) {
-    boost += 0.2;
+    boost = boost.plus(0.2);
     boostsUsed.push({ name: "Ayam Cemani", value: "+0.2" });
   }
 
   if (isCollectibleBuilt({ name: "Squid Chicken", game })) {
-    boost += 0.1;
+    boost = boost.plus(0.1);
     boostsUsed.push({ name: "Squid Chicken", value: "+0.1" });
   }
 
-  if (game.bumpkin.skills["Abundant Harvest"]) {
-    boost += 0.2;
-    boostsUsed.push({ name: "Abundant Harvest", value: "+0.2" });
+  const abundantHarvest = getAbundantHarvestBoost(game);
+  if (abundantHarvest) {
+    boost = boost.plus(abundantHarvest.value);
+    boostsUsed.push(abundantHarvest.boostUsed);
   }
 
-  return { amount: boost, boostsUsed };
+  return { amount: boost.toNumber(), boostsUsed };
+}
+
+// Abundant Harvest adds the same flat yield to Egg, Wool and Milk.
+function getAbundantHarvestBoost(game: GameState) {
+  const level = getSkillLevel(game.bumpkin.skills, "Abundant Harvest");
+  if (!level) return undefined;
+
+  const value = SKILL_RANKS["Abundant Harvest"].ranks[level - 1];
+
+  return {
+    value,
+    boostUsed: { name: "Abundant Harvest" as BoostName, value: `+${value}` },
+  };
+}
+
+// Fine Fibers adds the same flat yield to all three fibre resources, while
+// Featherweight / Merino Whisperer / Leathercraft Mastery each buff their own
+// fibre and debuff the other two from a single debuff value.
+function getFibreYieldBoosts(
+  game: GameState,
+  favoured: "Featherweight" | "Merino Whisperer" | "Leathercraft Mastery",
+): { amount: number; boostsUsed: { name: BoostName; value: string }[] } {
+  // Accumulated in Decimal: these stack on one another, and in float
+  // 0.1 + 0.35 lands on 0.44999999999999996.
+  let boost = new Decimal(0);
+  const boostsUsed: { name: BoostName; value: string }[] = [];
+
+  const fineFibersLevel = getSkillLevel(game.bumpkin.skills, "Fine Fibers");
+  if (fineFibersLevel) {
+    const value = SKILL_RANKS["Fine Fibers"].ranks[fineFibersLevel - 1];
+    boost = boost.plus(value);
+    boostsUsed.push({ name: "Fine Fibers", value: `+${value}` });
+  }
+
+  const FIBRE_SKILLS = [
+    "Featherweight",
+    "Merino Whisperer",
+    "Leathercraft Mastery",
+  ] as const;
+
+  for (const skill of FIBRE_SKILLS) {
+    const level = getSkillLevel(game.bumpkin.skills, skill);
+    if (!level) continue;
+
+    const effect = SKILL_RANKS[skill];
+
+    if (skill === favoured) {
+      const value = effect.buff[level - 1];
+      boost = boost.plus(value);
+      boostsUsed.push({ name: skill, value: `+${value}` });
+    } else {
+      const value = effect.debuff[level - 1];
+      boost = boost.minus(value);
+      boostsUsed.push({ name: skill, value: `-${value}` });
+    }
+  }
+
+  return { amount: boost.toNumber(), boostsUsed };
 }
 
 function getFeatherYieldBoosts(game: GameState): {
   amount: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  let boost = 0;
+  let boost = new Decimal(0);
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isWearableActive({ name: "Chicken Suit", game })) {
-    boost += 1;
+    boost = boost.plus(1);
     boostsUsed.push({ name: "Chicken Suit", value: "+1" });
   }
 
   if (isCollectibleBuilt({ name: "Alien Chicken", game })) {
-    boost += 0.1;
+    boost = boost.plus(0.1);
     boostsUsed.push({ name: "Alien Chicken", value: "+0.1" });
   }
 
-  if (game.bumpkin.skills["Fine Fibers"]) {
-    boost += 0.1;
-    boostsUsed.push({ name: "Fine Fibers", value: "+0.1" });
-  }
+  const { amount: fibreBoost, boostsUsed: fibreBoostsUsed } =
+    getFibreYieldBoosts(game, "Featherweight");
+  boost = boost.plus(fibreBoost);
+  boostsUsed.push(...fibreBoostsUsed);
 
-  if (game.bumpkin.skills["Leathercraft Mastery"]) {
-    boost -= 0.1;
-    boostsUsed.push({ name: "Leathercraft Mastery", value: "-0.1" });
-  }
-
-  if (game.bumpkin.skills["Featherweight"]) {
-    boost += 0.35;
-    boostsUsed.push({ name: "Featherweight", value: "+0.35" });
-  }
-
-  if (game.bumpkin.skills["Merino Whisperer"]) {
-    boost -= 0.1;
-    boostsUsed.push({ name: "Merino Whisperer", value: "-0.1" });
-  }
-
-  return { amount: boost, boostsUsed };
+  return { amount: boost.toNumber(), boostsUsed };
 }
 
 function getWoolYieldBoosts(game: GameState): {
   amount: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  let boost = 0;
+  let boost = new Decimal(0);
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isWearableActive({ name: "Black Sheep Onesie", game })) {
-    boost += 2;
+    boost = boost.plus(2);
     boostsUsed.push({ name: "Black Sheep Onesie", value: "+2" });
   }
   // White Sheep Onesie - +.25 wool
   if (isWearableActive({ name: "White Sheep Onesie", game })) {
-    boost += 0.25;
+    boost = boost.plus(0.25);
     boostsUsed.push({ name: "White Sheep Onesie", value: "+0.25" });
   }
 
   if (isCollectibleBuilt({ name: "Astronaut Sheep", game })) {
-    boost += 0.1;
+    boost = boost.plus(0.1);
     boostsUsed.push({ name: "Astronaut Sheep", value: "+0.1" });
   }
 
-  if (game.bumpkin.skills["Abundant Harvest"]) {
-    boost += 0.2;
-    boostsUsed.push({ name: "Abundant Harvest", value: "+0.2" });
+  const abundantHarvest = getAbundantHarvestBoost(game);
+  if (abundantHarvest) {
+    boost = boost.plus(abundantHarvest.value);
+    boostsUsed.push(abundantHarvest.boostUsed);
   }
 
-  return { amount: boost, boostsUsed };
+  return { amount: boost.toNumber(), boostsUsed };
 }
 
 function getMerinoWoolYieldBoosts(game: GameState): {
   amount: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  let boost = 0;
+  let boost = new Decimal(0);
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isWearableActive({ name: "Merino Jumper", game })) {
-    boost += 1;
+    boost = boost.plus(1);
     boostsUsed.push({ name: "Merino Jumper", value: "+1" });
   }
 
   if (isCollectibleBuilt({ name: "Toxic Tuft", game })) {
-    boost += 0.1;
+    boost = boost.plus(0.1);
     boostsUsed.push({ name: "Toxic Tuft", value: "+0.1" });
   }
 
-  if (game.bumpkin.skills["Fine Fibers"]) {
-    boost += 0.1;
-    boostsUsed.push({ name: "Fine Fibers", value: "+0.1" });
-  }
+  const { amount: fibreBoost, boostsUsed: fibreBoostsUsed } =
+    getFibreYieldBoosts(game, "Merino Whisperer");
+  boost = boost.plus(fibreBoost);
+  boostsUsed.push(...fibreBoostsUsed);
 
-  if (game.bumpkin.skills["Leathercraft Mastery"]) {
-    boost -= 0.1;
-    boostsUsed.push({ name: "Leathercraft Mastery", value: "-0.1" });
-  }
-
-  if (game.bumpkin.skills["Featherweight"]) {
-    boost -= 0.1;
-    boostsUsed.push({ name: "Featherweight", value: "-0.1" });
-  }
-
-  if (game.bumpkin.skills["Merino Whisperer"]) {
-    boost += 0.35;
-    boostsUsed.push({ name: "Merino Whisperer", value: "+0.35" });
-  }
-
-  return { amount: boost, boostsUsed };
+  return { amount: boost.toNumber(), boostsUsed };
 }
 function getMilkYieldBoosts(game: GameState): {
   amount: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  let boost = 0;
+  let boost = new Decimal(0);
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isCollectibleBuilt({ name: "Longhorn Cowfish", game })) {
-    boost += 0.2;
+    boost = boost.plus(0.2);
     boostsUsed.push({ name: "Longhorn Cowfish", value: "+0.2" });
   }
 
   if (isCollectibleBuilt({ name: "Spa Cow", game })) {
-    boost += 0.1;
+    boost = boost.plus(0.1);
     boostsUsed.push({ name: "Spa Cow", value: "+0.1" });
   }
 
   if (isWearableActive({ name: "Milk Apron", game })) {
-    boost += 0.5;
+    boost = boost.plus(0.5);
     boostsUsed.push({ name: "Milk Apron", value: "+0.5" });
   }
 
   if (isWearableActive({ name: "Cowbell Necklace", game })) {
-    boost += 2;
+    boost = boost.plus(2);
     boostsUsed.push({ name: "Cowbell Necklace", value: "+2" });
   }
 
-  if (game.bumpkin.skills["Abundant Harvest"]) {
-    boost += 0.2;
-    boostsUsed.push({ name: "Abundant Harvest", value: "+0.2" });
+  const abundantHarvest = getAbundantHarvestBoost(game);
+  if (abundantHarvest) {
+    boost = boost.plus(abundantHarvest.value);
+    boostsUsed.push(abundantHarvest.boostUsed);
   }
 
-  return { amount: boost, boostsUsed };
+  return { amount: boost.toNumber(), boostsUsed };
 }
 
 function getLeatherYieldBoosts(game: GameState): {
   amount: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  let boost = 0;
+  let boost = new Decimal(0);
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isCollectibleBuilt({ name: "Moo-ver", game })) {
-    boost += 0.25;
+    boost = boost.plus(0.25);
     boostsUsed.push({ name: "Moo-ver", value: "+0.25" });
   }
 
   if (isCollectibleBuilt({ name: "Mootant", game })) {
-    boost += 0.1;
+    boost = boost.plus(0.1);
     boostsUsed.push({ name: "Mootant", value: "+0.1" });
   }
 
-  if (game.bumpkin.skills["Fine Fibers"]) {
-    boost += 0.1;
-    boostsUsed.push({ name: "Fine Fibers", value: "+0.1" });
-  }
-
-  if (game.bumpkin.skills["Leathercraft Mastery"]) {
-    boost += 0.35;
-    boostsUsed.push({ name: "Leathercraft Mastery", value: "+0.35" });
-  }
-
-  if (game.bumpkin.skills["Featherweight"]) {
-    boost -= 0.1;
-    boostsUsed.push({ name: "Featherweight", value: "-0.1" });
-  }
-
-  if (game.bumpkin.skills["Merino Whisperer"]) {
-    boost -= 0.1;
-    boostsUsed.push({ name: "Merino Whisperer", value: "-0.1" });
-  }
+  const { amount: fibreBoost, boostsUsed: fibreBoostsUsed } =
+    getFibreYieldBoosts(game, "Leathercraft Mastery");
+  boost = boost.plus(fibreBoost);
+  boostsUsed.push(...fibreBoostsUsed);
 
   if (isWearableActive({ name: "Training Whistle", game })) {
-    boost += 1;
+    boost = boost.plus(1);
     boostsUsed.push({ name: "Training Whistle", value: "+1" });
   }
 
-  return { amount: boost, boostsUsed };
+  return { amount: boost.toNumber(), boostsUsed };
 }
 
 export function getResourceDropAmount({
@@ -380,7 +397,8 @@ export function getResourceDropAmount({
   amount: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
-  let amount = baseAmount;
+  // Accumulated in Decimal so stacked decimal boosts stay exact.
+  let amount = new Decimal(baseAmount);
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
   const { bumpkin, buds = {} } = game;
@@ -393,7 +411,7 @@ export function getResourceDropAmount({
   if (isChicken && resource === "Egg") {
     const { amount: eggBoost, boostsUsed: eggBoostsUsed } =
       getEggYieldBoosts(game);
-    amount += eggBoost;
+    amount = amount.plus(eggBoost);
     boostsUsed.push(...eggBoostsUsed);
   }
 
@@ -401,7 +419,7 @@ export function getResourceDropAmount({
   if (isChicken && resource === "Feather") {
     const { amount: featherBoost, boostsUsed: featherBoostsUsed } =
       getFeatherYieldBoosts(game);
-    amount += featherBoost;
+    amount = amount.plus(featherBoost);
     boostsUsed.push(...featherBoostsUsed);
   }
 
@@ -409,7 +427,7 @@ export function getResourceDropAmount({
   if (isSheep && resource === "Wool") {
     const { amount: woolBoost, boostsUsed: woolBoostsUsed } =
       getWoolYieldBoosts(game);
-    amount += woolBoost;
+    amount = amount.plus(woolBoost);
     boostsUsed.push(...woolBoostsUsed);
   }
 
@@ -417,7 +435,7 @@ export function getResourceDropAmount({
   if (isSheep && resource === "Merino Wool") {
     const { amount: merinoWoolBoost, boostsUsed: merinoWoolBoostsUsed } =
       getMerinoWoolYieldBoosts(game);
-    amount += merinoWoolBoost;
+    amount = amount.plus(merinoWoolBoost);
     boostsUsed.push(...merinoWoolBoostsUsed);
   }
 
@@ -425,7 +443,7 @@ export function getResourceDropAmount({
   if (isCow && resource === "Milk") {
     const { amount: milkBoost, boostsUsed: milkBoostsUsed } =
       getMilkYieldBoosts(game);
-    amount += milkBoost;
+    amount = amount.plus(milkBoost);
     boostsUsed.push(...milkBoostsUsed);
   }
 
@@ -433,21 +451,39 @@ export function getResourceDropAmount({
   if (isCow && resource === "Leather") {
     const { amount: leatherBoost, boostsUsed: leatherBoostsUsed } =
       getLeatherYieldBoosts(game);
-    amount += leatherBoost;
+    amount = amount.plus(leatherBoost);
     boostsUsed.push(...leatherBoostsUsed);
   }
 
   // Add centralized Bale boost logic here
   if (isCollectibleBuilt({ name: "Bale", game })) {
     const baleBoost = 0.1;
+    const doubleBaleLevel = getSkillLevel(bumpkin.skills, "Double Bale");
+
+    // Bale only boosts eggs (always) and wool/milk (with Bale Economy). Track
+    // whether it applied to THIS resource so the label isn't recorded for
+    // Feather/Leather/Merino Wool (or wool/milk without Bale Economy).
+    let baleApplied = false;
+
+    // Double Bale multiplies Bale's decimal base, so scale in Decimal — a float
+    // 0.1 * 3 drifts to 0.30000000000000004 and would leak into the label below.
+    const applyBale = () => {
+      baleApplied = true;
+      if (!doubleBaleLevel) {
+        amount = amount.plus(baleBoost);
+        return;
+      }
+
+      const multiplier = SKILL_RANKS["Double Bale"].ranks[doubleBaleLevel - 1];
+      const boosted = new Decimal(baleBoost).mul(multiplier);
+
+      amount = amount.plus(boosted);
+      boostsUsed.push({ name: "Double Bale", value: `+${boosted.toNumber()}` });
+    };
+
     // For Chickens (Eggs) - always applies
     if (isChicken && resource === "Egg") {
-      if (bumpkin.skills["Double Bale"]) {
-        amount += baleBoost * 2;
-        boostsUsed.push({ name: "Double Bale", value: "+0.2" });
-      } else {
-        amount += baleBoost;
-      }
+      applyBale();
     }
 
     // For Sheep (Wool) and Cows (Milk) - only if Bale Economy skill is present
@@ -455,38 +491,36 @@ export function getResourceDropAmount({
       bumpkin.skills["Bale Economy"] &&
       ((isSheep && resource === "Wool") || (isCow && resource === "Milk"))
     ) {
-      if (bumpkin.skills["Double Bale"]) {
-        amount += baleBoost * 2;
-        boostsUsed.push({ name: "Double Bale", value: "+0.2" });
-      } else {
-        amount += baleBoost;
-      }
+      applyBale();
       boostsUsed.push({ name: "Bale Economy", value: "+0.1" });
     }
-    boostsUsed.push({ name: "Bale", value: "+0.1" });
+
+    if (baleApplied) {
+      boostsUsed.push({ name: "Bale", value: "+0.1" });
+    }
   }
 
   // Cattlegrim boosts all produce
   if (isWearableActive({ name: "Cattlegrim", game })) {
-    amount += 0.25;
+    amount = amount.plus(0.25);
     boostsUsed.push({ name: "Cattlegrim", value: "+0.25" });
   }
 
   // Barn Manager boosts all produce
   if (game.inventory["Barn Manager"]?.gt(0)) {
-    amount += 0.1;
+    amount = amount.plus(0.1);
     boostsUsed.push({ name: "Barn Manager", value: "+0.1" });
   }
 
   const { yieldBoost, budUsed } = getBudYieldBoosts(buds, resource);
-  amount += yieldBoost;
+  amount = amount.plus(yieldBoost);
   if (budUsed)
     boostsUsed.push({ name: budUsed, value: `+${yieldBoost.toString()}` });
 
-  if (multiplier) amount *= multiplier;
+  if (multiplier) amount = amount.mul(multiplier);
 
   if (animal.feedBuff?.name === "Salt Lick") {
-    amount *= 1.05;
+    amount = amount.mul(1.05);
     boostsUsed.push({ name: "Salt Lick", value: "x1.05" });
   }
 
@@ -546,44 +580,43 @@ export function getBoostedFoodQuantity({
     boostsUsed.push({ name: "Infernal Bullwhip", value: "x0.5" });
   }
 
-  if (game.bumpkin.skills["Efficient Feeding"]) {
-    baseFoodQuantity = baseFoodQuantity.mul(0.95);
-    boostsUsed.push({ name: "Efficient Feeding", value: "x0.95" });
+  const efficientFeedingLevel = getSkillLevel(
+    game.bumpkin.skills,
+    "Efficient Feeding",
+  );
+  if (efficientFeedingLevel) {
+    const value =
+      SKILL_RANKS["Efficient Feeding"].ranks[efficientFeedingLevel - 1];
+    baseFoodQuantity = baseFoodQuantity.mul(value);
+    boostsUsed.push({ name: "Efficient Feeding", value: `x${value}` });
   }
 
-  if (game.bumpkin.skills["Clucky Grazing"]) {
-    if (animalType === "Chicken") {
-      baseFoodQuantity = baseFoodQuantity.mul(0.75);
-      boostsUsed.push({ name: "Clucky Grazing", value: "x0.75" });
-    } else {
-      baseFoodQuantity = baseFoodQuantity.mul(1.5);
-      boostsUsed.push({ name: "Clucky Grazing", value: "x1.5" });
-    }
+  // Each diet skill cuts its own animal's feed and raises every other animal's.
+  const DIET_SKILLS = {
+    "Clucky Grazing": "Chicken",
+    "Sheepwise Diet": "Sheep",
+    "Cow-Smart Nutrition": "Cow",
+  } as const;
+
+  for (const skill of getKeys(DIET_SKILLS)) {
+    const level = getSkillLevel(game.bumpkin.skills, skill);
+    if (!level) continue;
+
+    const effect = SKILL_RANKS[skill];
+    const value =
+      animalType === DIET_SKILLS[skill]
+        ? effect.buff[level - 1]
+        : effect.debuff[level - 1];
+
+    baseFoodQuantity = baseFoodQuantity.mul(value);
+    boostsUsed.push({ name: skill, value: `x${value}` });
   }
 
-  if (game.bumpkin.skills["Sheepwise Diet"]) {
-    if (animalType === "Sheep") {
-      baseFoodQuantity = baseFoodQuantity.mul(0.75);
-      boostsUsed.push({ name: "Sheepwise Diet", value: "x0.75" });
-    } else {
-      baseFoodQuantity = baseFoodQuantity.mul(1.5);
-      boostsUsed.push({ name: "Sheepwise Diet", value: "x1.5" });
-    }
-  }
-
-  if (game.bumpkin.skills["Cow-Smart Nutrition"]) {
-    if (animalType === "Cow") {
-      baseFoodQuantity = baseFoodQuantity.mul(0.75);
-      boostsUsed.push({ name: "Cow-Smart Nutrition", value: "x0.75" });
-    } else {
-      baseFoodQuantity = baseFoodQuantity.mul(1.5);
-      boostsUsed.push({ name: "Cow-Smart Nutrition", value: "x1.5" });
-    }
-  }
-
-  if (game.bumpkin.skills["Chonky Feed"]) {
-    baseFoodQuantity = baseFoodQuantity.mul(1.5);
-    boostsUsed.push({ name: "Chonky Feed", value: "x1.5" });
+  const chonkyFeedLevel = getSkillLevel(game.bumpkin.skills, "Chonky Feed");
+  if (chonkyFeedLevel) {
+    const value = SKILL_RANKS["Chonky Feed"].feed[chonkyFeedLevel - 1];
+    baseFoodQuantity = baseFoodQuantity.mul(value);
+    boostsUsed.push({ name: "Chonky Feed", value: `x${value}` });
   }
 
   if (
@@ -681,9 +714,15 @@ export function getBoostedAwakeAt({
     boostsUsed.push({ name: "Wrangler", value: "x0.9" });
   }
 
-  if (bumpkin.skills["Restless Animals"]) {
-    totalDuration *= 0.9;
-    boostsUsed.push({ name: "Restless Animals", value: "x0.9" });
+  const restlessAnimalsLevel = getSkillLevel(
+    bumpkin.skills,
+    "Restless Animals",
+  );
+  if (restlessAnimalsLevel) {
+    const value =
+      SKILL_RANKS["Restless Animals"].ranks[restlessAnimalsLevel - 1];
+    totalDuration *= value;
+    boostsUsed.push({ name: "Restless Animals", value: `x${value}` });
   }
 
   if (

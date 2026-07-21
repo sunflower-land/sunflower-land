@@ -8,6 +8,7 @@ import type { BoostName, GameState } from "features/game/types/game";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { isWearableActive } from "features/game/lib/wearables";
 import { prng } from "lib/prng";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 
 export const WORM_AMOUNTS: Record<Worm, number[]> = {
   Earthworm: [2, 3, 3, 3, 4],
@@ -30,19 +31,27 @@ function getWormAdjustment(state: GameState): WormBoost {
     boostsUsed.push({ name: "Bucket O' Worms", value: "+1" });
   }
 
-  if (skills["Wormy Treat"]) {
-    delta += 1;
-    boostsUsed.push({ name: "Wormy Treat", value: "+1" });
+  const wormyTreatLevel = getSkillLevel(skills, "Wormy Treat");
+  if (wormyTreatLevel) {
+    const v = SKILL_RANKS["Wormy Treat"].ranks[wormyTreatLevel - 1];
+    delta += v;
+    boostsUsed.push({ name: "Wormy Treat", value: `+${v}` });
   }
 
-  if (skills["Composting Overhaul"]) {
-    delta += 2;
-    boostsUsed.push({ name: "Composting Overhaul", value: "+2" });
+  const compostingOverhaulLevel = getSkillLevel(skills, "Composting Overhaul");
+  if (compostingOverhaulLevel) {
+    const v =
+      SKILL_RANKS["Composting Overhaul"].ranks[compostingOverhaulLevel - 1];
+    delta += v;
+    boostsUsed.push({ name: "Composting Overhaul", value: `+${v}` });
   }
 
-  if (skills["Composting Revamp"]) {
-    delta -= 2;
-    boostsUsed.push({ name: "Composting Revamp", value: "-2" });
+  const compostingRevampLevel = getSkillLevel(skills, "Composting Revamp");
+  if (compostingRevampLevel) {
+    const v =
+      SKILL_RANKS["Composting Revamp"].debuff[compostingRevampLevel - 1];
+    delta -= v;
+    boostsUsed.push({ name: "Composting Revamp", value: `-${v}` });
   }
 
   if (isWearableActive({ name: "Saw Fish", game: state })) {

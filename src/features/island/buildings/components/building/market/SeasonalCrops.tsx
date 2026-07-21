@@ -37,6 +37,7 @@ import {
   CHAPTER_CROP_WEEK_CROP,
   isChapterCropWeekActive,
 } from "features/game/types/chapterCropWeek";
+import { hasUpgradedChapterCropWeekSkill } from "features/game/types/bumpkinSkills";
 import { useNow } from "lib/utils/hooks/useNow";
 import { SpecialEventPanel } from "../SpecialEventPanel";
 
@@ -157,6 +158,15 @@ export const SeasonalCrops: React.FC = () => {
               }}
               actionView={
                 <>
+                  {selected.name === CHAPTER_CROP_WEEK_CROP &&
+                    hasUpgradedChapterCropWeekSkill(
+                      state.bumpkin.skills,
+                      "Crops",
+                    ) && (
+                      <Label type="warning" className="mb-1">
+                        {t("chapterCropWeek.ascensionBoostsPaused")}
+                      </Label>
+                    )}
                   <div className="flex flex-col h-full justify-between">
                     <div className="flex space-x-1 mb-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
                       {cropAmount.greaterThan(1) && (

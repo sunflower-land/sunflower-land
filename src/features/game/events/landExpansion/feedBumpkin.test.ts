@@ -368,7 +368,7 @@ describe("feedBumpkin", () => {
     );
   });
 
-  it("scales Fishy Feast with rank (+30% experience at rank 3)", () => {
+  it("scales Fishy Feast with rank (+40% experience at rank 3)", () => {
     const result = feedBumpkin({
       state: {
         ...TEST_FARM,
@@ -390,7 +390,7 @@ describe("feedBumpkin", () => {
     });
 
     expect(result.bumpkin?.experience).toBe(
-      CONSUMABLES["Anchovy"].experience * 1.3,
+      CONSUMABLES["Anchovy"].experience * 1.4,
     );
   });
 
@@ -765,6 +765,78 @@ describe("feedBumpkin", () => {
     );
   });
 
+  it("gives 10% more experience with Munching Mastery rank 3", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Munching Mastery": 3 },
+        },
+        inventory: {
+          "Boiled Eggs": new Decimal(2),
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Boiled Eggs",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.1).toNumber(),
+    );
+  });
+
+  it("gives 30% more experience when drinking juices with Juicy Boost rank 3", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Juicy Boost": 3 },
+        },
+        inventory: {
+          "Apple Juice": new Decimal(2),
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Apple Juice",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Apple Juice"].experience).mul(1.3).toNumber(),
+    );
+  });
+
+  it("gives 25% more experience when eating Deli foods with Drive-Through Deli rank 3", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Drive-Through Deli": 3 },
+        },
+        inventory: {
+          "Shroom Syrup": new Decimal(2),
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Shroom Syrup",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Shroom Syrup"].experience).mul(1.25).toNumber(),
+    );
+  });
+
   it("gives 10% more experience when eating food made with Honey with Buzzworthy Treats skill", () => {
     const result = feedBumpkin({
       state: {
@@ -787,6 +859,39 @@ describe("feedBumpkin", () => {
     expect(result.bumpkin?.experience).toBe(
       new Decimal(CONSUMABLES["Honey Cake"].experience).mul(1.1).toNumber(),
     );
+  });
+
+  describe("Buzzworthy Treats ranks", () => {
+    const feedWithRank = (rank: number) =>
+      feedBumpkin({
+        state: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            skills: { "Buzzworthy Treats": rank },
+          },
+          inventory: {
+            "Honey Cake": new Decimal(2),
+          },
+        },
+        action: {
+          type: "bumpkin.feed",
+          food: "Honey Cake",
+          amount: 1,
+        },
+      });
+
+    it("gives +20% XP on honey food at rank 2", () => {
+      expect(feedWithRank(2).bumpkin?.experience).toBe(
+        new Decimal(CONSUMABLES["Honey Cake"].experience).mul(1.2).toNumber(),
+      );
+    });
+
+    it("gives +30% XP on honey food at rank 3", () => {
+      expect(feedWithRank(3).bumpkin?.experience).toBe(
+        new Decimal(CONSUMABLES["Honey Cake"].experience).mul(1.3).toNumber(),
+      );
+    });
   });
 
   it("does not apply Buzzworthy Treats on food made without Honey", () => {

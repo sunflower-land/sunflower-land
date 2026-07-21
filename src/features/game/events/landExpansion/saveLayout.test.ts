@@ -313,6 +313,55 @@ describe("saveLayout", () => {
     ).toThrow("Maximum number of layouts reached");
   });
 
+  it("does not count the protected Ascension Layout against the limit", () => {
+    let state = saveLayout({
+      state: baseFarm,
+      action: { type: "layout.saved", name: "a" },
+      createdAt,
+    });
+    state = saveLayout({
+      state,
+      action: { type: "layout.saved", name: "b" },
+      createdAt,
+    });
+    // Mark one of the two as the auto Ascension Layout — it should be exempt, so a
+    // third manual layout still fits (2 manual < MAX_SAVED_LAYOUTS).
+    const withAuto: GameState = {
+      ...state,
+      layouts: state.layouts!.map((layout, i) =>
+        i === 0 ? { ...layout, auto: true } : layout,
+      ),
+    };
+
+    const result = saveLayout({
+      state: withAuto,
+      action: { type: "layout.saved", name: "c" },
+      createdAt,
+    });
+
+    expect(result.layouts).toHaveLength(3);
+  });
+
+  it("throws when overwriting the protected Ascension Layout", () => {
+    const saved = saveLayout({
+      state: baseFarm,
+      action: { type: "layout.saved", name: "a" },
+      createdAt,
+    });
+    const state: GameState = {
+      ...saved,
+      layouts: saved.layouts!.map((layout) => ({ ...layout, auto: true })),
+    };
+
+    expect(() =>
+      saveLayout({
+        state,
+        action: { type: "layout.saved", name: "x", layoutId: 0 },
+        createdAt,
+      }),
+    ).toThrow("The Ascension Layout cannot be overwritten");
+  });
+
   it("trims a provided name and rejects too-long names", () => {
     const trimmed = saveLayout({
       state: baseFarm,

@@ -9,7 +9,6 @@ import React, {
   useContext,
   useEffect,
   useLayoutEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
@@ -116,23 +115,6 @@ const mergeUpdates = (
 
 const getUTCDateKey = (timestamp: number) =>
   new Date(timestamp).toISOString().split("T")[0];
-
-const getNextUTCDateKeyRefreshAt = (timestamp: number) => {
-  const date = new Date(timestamp);
-
-  return (
-    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 1) +
-    1000
-  );
-};
-
-const shouldShowInteraction = (interaction: Interaction, todayKey: string) => {
-  if (interaction.type !== "cheer") {
-    return true;
-  }
-
-  return getUTCDateKey(interaction.createdAt) === todayKey;
-};
 
 export type FeedFilter = "all" | "help" | "chat" | "cheer" | "follow";
 export type FeedFilterOption = {
@@ -543,6 +525,16 @@ const HelpIconWithPopover: React.FC<{
   );
 };
 
+const OlderPostsSeparator: React.FC = () => {
+  const { t } = useAppTranslation();
+
+  return (
+    <p className="text-xs text-center opacity-70 my-1">
+      {t("feed.olderPosts")}
+    </p>
+  );
+};
+
 const CheerGivenIcon: React.FC = () => {
   return (
     <div
@@ -591,15 +583,8 @@ const FeedContent: React.FC<FeedContentProps> = ({
   const { t } = useAppTranslation();
   const [canPaginate, setCanPaginate] = useState(false);
   const [hasMeasuredScroll, setHasMeasuredScroll] = useState(false);
-  const [todayKey, setTodayKey] = useState(() => getUTCDateKey(Date.now()));
-  const refreshTimeoutRef = useRef<number | null>(null);
-  const visibleFeed = useMemo(
-    () =>
-      feed.filter((interaction) =>
-        shouldShowInteraction(interaction, todayKey),
-      ),
-    [feed, todayKey],
-  );
+  const now = useNow({ live: true });
+  const todayKey = getUTCDateKey(now);
 
   // Intersection observer to load more interactions when the loader is in view
   const { ref: intersectionRef, inView } = useInView({
@@ -614,27 +599,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
     // tiny buffer so off-by-1 doesn’t trigger
     setCanPaginate(el.scrollHeight > el.clientHeight + 2);
     setHasMeasuredScroll(true);
-  }, [visibleFeed.length, filter]);
-
-  useEffect(() => {
-    const refreshTodayKey = () => {
-      const now = Date.now();
-      const refreshIn = getNextUTCDateKeyRefreshAt(now) - now;
-
-      refreshTimeoutRef.current = window.setTimeout(() => {
-        setTodayKey(getUTCDateKey(Date.now()));
-        refreshTodayKey();
-      }, refreshIn);
-    };
-
-    refreshTodayKey();
-
-    return () => {
-      if (refreshTimeoutRef.current) {
-        window.clearTimeout(refreshTimeoutRef.current);
-      }
-    };
-  }, []);
+  }, [feed.length, filter]);
 
   useEffect(() => {
     if (scrollContainerRef.current) {
@@ -648,9 +613,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
     const shouldLoadMore =
       hasMore &&
       !isLoadingMore &&
-      (inView ||
-        visibleFeed.length === 0 ||
-        (hasMeasuredScroll && !canPaginate));
+      (inView || feed.length === 0 || (hasMeasuredScroll && !canPaginate));
 
     if (shouldLoadMore) {
       loadMore();
@@ -662,7 +625,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
     inView,
     isLoadingMore,
     loadMore,
-    visibleFeed.length,
+    feed.length,
   ]);
 
   const setRefs = useCallback(
@@ -687,7 +650,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
     return <FeedSkeleton />;
   }
 
-  if (visibleFeed.length === 0) {
+  if (feed.length === 0) {
     return (
       <div className="flex justify-center items-center h-full">
         {hasMore ? (
@@ -705,7 +668,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
       className="scrollable overflow-hidden overflow-y-auto"
     >
       <div className="flex flex-col gap-1 pr-1">
-        {visibleFeed.map((interaction, index) => {
+        {feed.map((interaction, index) => {
           const direction =
             interaction?.sender.username === username ? "right" : "left";
           const sender =
@@ -718,82 +681,91 @@ const FeedContent: React.FC<FeedContentProps> = ({
               : () => onInteractionClick(interaction);
           const isFollowing = following.includes(interaction.sender.id);
           const isAtMaxFollowing = !isFollowing && following.length >= 5000;
+          const previousInteraction = feed[index - 1];
+          const currentDateKey = getUTCDateKey(interaction.createdAt);
+          const showOlderPostsSeparator =
+            currentDateKey < todayKey &&
+            (index === 0 ||
+              getUTCDateKey(previousInteraction.createdAt) >= todayKey);
 
           return (
-            <div
-              key={`${interaction.createdAt}-${index}`}
-              className={classNames({
-                "pl-1": direction === "left" && interaction.type === "chat",
-                "pr-1": direction === "right" && interaction.type === "chat",
-              })}
+            <React.Fragment
+              key={`${interaction.sender.id}-${interaction.createdAt}`}
             >
-              <InteractionBubble
-                key={`${interaction.sender.id}-${interaction.createdAt}-${index}`}
-                direction={direction}
-                type={interaction.type}
-                onClick={onClick}
+              {showOlderPostsSeparator && <OlderPostsSeparator />}
+              <div
+                className={classNames({
+                  "pl-1": direction === "left" && interaction.type === "chat",
+                  "pr-1": direction === "right" && interaction.type === "chat",
+                })}
               >
-                <div className="text-xxs flex">
-                  <div className="-ml-1 mr-1">
-                    {interaction.sender.clothing ? (
-                      <NPCIcon
-                        parts={interaction.sender.clothing}
-                        width={PIXEL_SCALE * 14}
-                      />
-                    ) : (
-                      <img
-                        id="silhouette"
-                        src={silhouette}
-                        className="w-3/5 absolute top-1.5 left-1.5"
-                      />
-                    )}
-                  </div>
-                  <div className="flex flex-col w-full gap-1">
-                    <span className="flex items-center gap-1">
-                      {interaction.type === "announcement" ? (
-                        <img src={promote} />
+                <InteractionBubble
+                  direction={direction}
+                  type={interaction.type}
+                  onClick={onClick}
+                >
+                  <div className="text-xxs flex">
+                    <div className="-ml-1 mr-1">
+                      {interaction.sender.clothing ? (
+                        <NPCIcon
+                          parts={interaction.sender.clothing}
+                          width={PIXEL_SCALE * 14}
+                        />
                       ) : (
-                        `${sender ?? ""} ${interaction.sender ? "- " : ""}`
-                      )}
-                      <RelativeTime createdAt={interaction.createdAt} />
-                    </span>
-                    <div className="flex justify-between items-center w-full">
-                      <div
-                        className="text-xs break-words w-full"
-                        style={{
-                          lineHeight: 1,
-                        }}
-                      >
-                        {interaction.message}
-                      </div>
-                      {!!interaction.helpedThemToday && (
-                        <HelpIconWithPopover
-                          helpedThemToday={interaction.helpedThemToday}
+                        <img
+                          id="silhouette"
+                          src={silhouette}
+                          className="w-3/5 absolute top-1.5 left-1.5"
                         />
                       )}
-                      {!!interaction.cheeredThemToday && <CheerGivenIcon />}
                     </div>
-                  </div>
-                  {!isAtMaxFollowing && (
-                    <div className="flex items-center justify-end flex-grow cursor-pointer">
-                      {interaction.type === "follow" && !isFollowing && (
-                        <Button
-                          className="text-xs flex h-10 w-10 justify-center items-center"
-                          onClick={(e) =>
-                            handleFollowClick(e, interaction.sender.id)
-                          }
+                    <div className="flex flex-col w-full gap-1">
+                      <span className="flex items-center gap-1">
+                        {interaction.type === "announcement" ? (
+                          <img src={promote} />
+                        ) : (
+                          `${sender ?? ""} ${interaction.sender ? "- " : ""}`
+                        )}
+                        <RelativeTime createdAt={interaction.createdAt} />
+                      </span>
+                      <div className="flex justify-between items-center w-full">
+                        <div
+                          className="text-xs break-words w-full"
+                          style={{
+                            lineHeight: 1,
+                          }}
                         >
-                          <img
-                            src={followIcon}
-                            className="w-6 object-contain"
+                          {interaction.message}
+                        </div>
+                        {!!interaction.helpedThemToday && (
+                          <HelpIconWithPopover
+                            helpedThemToday={interaction.helpedThemToday}
                           />
-                        </Button>
-                      )}
+                        )}
+                        {!!interaction.cheeredThemToday && <CheerGivenIcon />}
+                      </div>
                     </div>
-                  )}
-                </div>
-              </InteractionBubble>
-            </div>
+                    {!isAtMaxFollowing && (
+                      <div className="flex items-center justify-end flex-grow cursor-pointer">
+                        {interaction.type === "follow" && !isFollowing && (
+                          <Button
+                            className="text-xs flex h-10 w-10 justify-center items-center"
+                            onClick={(e) =>
+                              handleFollowClick(e, interaction.sender.id)
+                            }
+                          >
+                            <img
+                              src={followIcon}
+                              className="w-6 object-contain"
+                            />
+                          </Button>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </InteractionBubble>
+              </div>
+            </React.Fragment>
           );
         })}
       </div>

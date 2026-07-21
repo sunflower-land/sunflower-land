@@ -23,10 +23,9 @@ import { useVisiting } from "lib/utils/visitUtils";
 import { RenewCollectible } from "features/game/components/RenewCollectible";
 import Decimal from "decimal.js-light";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
+import { getExpiryCooldown } from "features/game/lib/collectibleBuilt";
 
 const _gameState = (state: MachineState) => state.context.state;
-
-const TIME_WARP_TOTEM_DURATION = 2 * 60 * 60 * 1000;
 
 export const TimeWarpTotem: React.FC<CollectibleProps> = ({
   createdAt,
@@ -39,9 +38,10 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({
   const gameState = useSelector(gameService, _gameState);
   const [showRenewModal, setShowRenewModal] = useState(false);
   const chestItems = getChestItems(gameState);
-  const expiresAt = createdAt + TIME_WARP_TOTEM_DURATION;
+  const duration = getExpiryCooldown("Time Warp Totem", gameState);
+  const expiresAt = createdAt + duration;
   const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
-  const durationSeconds = TIME_WARP_TOTEM_DURATION / 1000;
+  const durationSeconds = duration / 1000;
   const percentage = 100 - (secondsToExpire / durationSeconds) * 100;
 
   const hasExpired = secondsToExpire <= 0;

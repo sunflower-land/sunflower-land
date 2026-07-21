@@ -81,6 +81,7 @@ import { CompetitionModal } from "features/competition/CompetitionBoard";
 import { SeasonChanged } from "./components/temperateSeason/SeasonChanged";
 import { CalendarEvent } from "./components/temperateSeason/CalendarEvent";
 import { DailyReset } from "../components/DailyReset";
+import { DailyResetModal } from "../components/DailyResetModal";
 import { RoninJinClaim } from "./components/RoninJinClaim";
 import {
   EFFECT_SUCCESS_COMPONENTS,
@@ -237,6 +238,8 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   sellMarketResource: false,
   somethingArrived: true,
   seasonChanged: false,
+  dailyReset: false,
+  dailyResetting: false,
   jinAirdrop: true,
   investigating: true,
   leagueResults: false,
@@ -745,6 +748,8 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
         {seasonChanged && <SeasonChanged />}
         {roninMigration && <RoninWaypointLoginModal />}
         {calendarEvent && <CalendarEvent />}
+        {/* Always mounted so it can play the cloud dispersal after `dailyReset` exits; the clouds themselves only mount around the reset */}
+        <DailyResetModal />
         {referralsAnnouncement && <ReferralsAnnouncement />}
         {competition && (
           <Modal show onHide={() => gameService.send("ACKNOWLEDGE")}>

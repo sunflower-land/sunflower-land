@@ -797,7 +797,7 @@ export function getDailyFishingLimit(
 
   const skills = game.bumpkin?.skills ?? {};
 
-  // +5/+10/+15 daily limit per rank if player has Fisherman's 5 Fold skill
+  // +5/+7/+10 daily limit per rank if player has Fisherman's 5 Fold skill
   const fishermansFiveFoldLevel = getSkillLevel(skills, "Fisherman's 5 Fold");
   if (fishermansFiveFoldLevel) {
     const bonus =
@@ -806,7 +806,7 @@ export function getDailyFishingLimit(
     boostsUsed.push({ name: "Fisherman's 5 Fold", value: `+${bonus}` });
   }
 
-  // +10/+20/+30 daily limit per rank if player has Fisherman's 10 Fold skill
+  // +10/+18/+25 daily limit per rank if player has Fisherman's 10 Fold skill
   const fishermansTenFoldLevel = getSkillLevel(skills, "Fisherman's 10 Fold");
   if (fishermansTenFoldLevel) {
     const bonus =

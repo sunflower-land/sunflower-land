@@ -46,49 +46,39 @@ export const LAND_BIOMES: Record<LandBiomeName, Biome> = {
   },
   "Volcano Biome": {
     name: "Volcano Biome",
-    ingredients: {
-      Gem: new Decimal(2000),
-      Leather: new Decimal(1500),
-      Obsidian: new Decimal(25),
-    },
+    ingredients: {},
     description: "",
     requires: "swamp",
-    disabled: true,
   },
   "Swamp Biome": {
     name: "Swamp Biome",
     ingredients: {},
     description: "",
     requires: "spooky",
-    disabled: true,
   },
   "Spooky Biome": {
     name: "Spooky Biome",
     ingredients: {},
     description: "",
     requires: "crystal",
-    disabled: true,
   },
   "Crystal Biome": {
     name: "Crystal Biome",
     ingredients: {},
     description: "",
     requires: "galaxy",
-    disabled: true,
   },
   "Galaxy Biome": {
     name: "Galaxy Biome",
     ingredients: {},
     description: "",
     requires: "marble",
-    disabled: true,
   },
   "Marble Age Biome": {
     name: "Marble Age Biome",
     ingredients: {},
     description: "",
     requires: "marble",
-    disabled: true,
   },
 };
 export function getCurrentBiome(island: GameState["island"]): LandBiomeName {

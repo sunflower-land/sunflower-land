@@ -119,4 +119,33 @@ describe("giftBumpkin", () => {
 
     expect(state.npcs?.betty?.friendship?.points).toEqual(10);
   });
+
+  describe("Blossom Bonding ranks", () => {
+    const giftWithRank = (rank: number) =>
+      giftFlowers({
+        state: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...TEST_FARM.bumpkin,
+            skills: { "Blossom Bonding": rank },
+          },
+          inventory: {
+            "Red Pansy": new Decimal(1),
+          },
+        },
+        action: {
+          flower: "Red Pansy",
+          type: "flowers.gifted",
+          bumpkin: "betty",
+        },
+      });
+
+    it("gives +3 relationship points at rank 2", () => {
+      expect(giftWithRank(2).npcs?.betty?.friendship?.points).toEqual(11);
+    });
+
+    it("gives +4 relationship points at rank 3", () => {
+      expect(giftWithRank(3).npcs?.betty?.friendship?.points).toEqual(12);
+    });
+  });
 });

@@ -9,11 +9,12 @@ import type {
   IslandType,
   Inventory,
   InventoryItemName,
+  SavedLayout,
   Season,
   TemperateSeasonName,
 } from "features/game/types/game";
 import { ASCENSION_ISLANDS } from "features/game/types/game";
-import { hasFeatureAccess } from "lib/flags";
+import { hasFeatureAccess, hasTimeBasedFeatureAccess } from "lib/flags";
 import { getAscensionLevel, getMaxBumpkinLevel } from "features/game/lib/level";
 import {
   getTotalBaseResourceEquivalents,
@@ -33,13 +34,17 @@ import { placeBeehive } from "./placeBeehive";
 import { placeFlowerBed } from "./placeFlowerBed";
 import { placeLavaPit } from "./placeLavaPit";
 import { removeAll } from "./removeAll";
+import { applyFarmLayout, snapshotFarm } from "./lib/layouts";
 import {
   TOTAL_EXPANSION_NODES,
   getExpansionNodes,
+  getMissingResources,
 } from "features/game/types/expansions";
-import { SWAMP_BASE_EXPANSION } from "features/game/expansion/lib/ascension";
 import { ISLAND_MAX_EXPANSION } from "features/game/expansion/lib/expansionRequirements";
-import { reAnchorToIsland } from "features/game/expansion/lib/island";
+import {
+  getIslandAnchorX,
+  reAnchorToIsland,
+} from "features/game/expansion/lib/island";
 
 export type UpgradeFarmAction = {
   type: "farm.upgraded";
@@ -848,8 +853,10 @@ function desertUpgrade(state: GameState) {
   // Add new resources
   game.inventory.Manor = new Decimal(1);
 
-  // Ensure they have the minimum resources to start the island with
-  // Do not give bonus sunstones
+  // Ensure they have the minimum resources to place the starting island layout
+  // (excluding bonus sunstones). Any shortfall beyond this — sunstones, per-tier
+  // gaps, and the upgrade's Ascension Crystals — is reconciled after the layout
+  // by the shared missing-resources chest in transitionToIsland.
   const minimum = { ...TOTAL_EXPANSION_NODES.desert[4], "Sunstone Rock": 0 };
 
   Object.entries(minimum).forEach(([name, amount]) => {
@@ -903,14 +910,15 @@ function volcanoUpgrade(state: GameState) {
   // Add new resources
   game.inventory.Mansion = new Decimal(1);
 
-  // Ensure they have the minimum resources to start the island with
-  // Do not give bonus sunstones
-  // Account for upgraded resources when checking minimums
+  // Ensure they have the minimum resources to place the starting island layout
+  // (excluding bonus sunstones, accounting for upgraded resources). Any shortfall
+  // beyond this — sunstones, per-tier gaps, and the upgrade's Ascension Crystals —
+  // is reconciled after the layout by the shared missing-resources chest in
+  // transitionToIsland.
   const minimum = { ...TOTAL_EXPANSION_NODES.volcano[5], "Sunstone Rock": 0 };
 
   getObjectEntries(minimum).forEach(([resource, amount]) => {
     const totalEquivalents = getTotalBaseResourceEquivalents(game, resource);
-
     // Only set minimum if total equivalents are less than required
     if (totalEquivalents < amount) {
       topUpResourceToMinimum({
@@ -951,8 +959,9 @@ const isTargetAscension = (
 
 /**
  * Prepares the game state for an ascension island (swamp onward) by clearing
- * previous home structures, adding a mansion, and ensuring minimum starting
- * resources.
+ * previous home structures and adding a mansion. Unlike the basic-island
+ * upgrades, this does NOT top the starting-node floor up into inventory — see
+ * the note in the body.
  *
  * @returns The updated game state for the ascension island.
  */
@@ -972,35 +981,11 @@ function ascensionUpgrade(state: GameState, target: UpgradeTarget) {
   // Add new resources
   game.inventory.Mansion = new Decimal(1);
 
-  // Ensure they have the minimum resources to start the island with
-  // Do not give bonus sunstones
-  // Account for upgraded resources when checking minimums
-  // Carry-forward floor: base + every prior ascension's grants (ascensionLevel
-  // is already bumped to the level being entered by the time this runs).
-  const minimum = {
-    ...getExpansionNodes({
-      island: target,
-      expansion: SWAMP_BASE_EXPANSION,
-      ascensionLevel: game.island.ascensionLevel,
-    }),
-    "Sunstone Rock": 0,
-  };
-
-  getObjectEntries(minimum).forEach(([resource, amount]) => {
-    const totalEquivalents = getTotalBaseResourceEquivalents(game, resource);
-
-    // Only set minimum if total equivalents are less than required
-    if (totalEquivalents < amount) {
-      topUpResourceToMinimum({
-        game,
-        name: resource,
-        amount,
-        totalEquivalents,
-      });
-    }
-  });
-
-  // No welcome airdrop for now
+  // The starting-node floor is NOT topped up into inventory here — any shortfall
+  // vs the swamp floor is delivered to the player through the ascension reward
+  // chest instead (the shared `getMissingResources` back-pay in
+  // `transitionToIsland`). A maxed volcano already exceeds the floor, so this
+  // only matters for under-provisioned/legacy farms.
 
   return game;
 }
@@ -1087,9 +1072,39 @@ const ISLAND_SETUP: Record<UpgradeTarget, IslandSetup> = {
 };
 
 /**
+ * A free side-island tile for the ascension reward chest. The side island sits
+ * off the main land, so `pickEmptyPosition`/`detectCollision` (which treats
+ * off-land tiles as water) can't be used — instead scan tiles just below the
+ * mushroom spawn rows and return the first not already holding an airdrop. The
+ * scan walks down unbounded rows so a genuinely free tile is always found, no
+ * matter how many un-collected chests have piled up (e.g. marble→marble).
+ */
+function pickAscensionChestPosition(
+  game: GameState,
+  setup: IslandSetup,
+): Coordinates {
+  const anchorX = getIslandAnchorX(setup.startingExpansions);
+  const taken = new Set(
+    (game.airdrops ?? [])
+      .filter((airdrop) => airdrop.coordinates)
+      .map((airdrop) => `${airdrop.coordinates!.x},${airdrop.coordinates!.y}`),
+  );
+  for (let y = 7; ; y++) {
+    for (const dx of [1, 0, 2]) {
+      const position = { x: anchorX + dx, y };
+      if (!taken.has(`${position.x},${position.y}`)) return position;
+    }
+  }
+}
+
+/**
  * Transitions a farm to a new island, establishing a fresh starting configuration.
  *
  * Clears the previous farm state, carries forward expansion history and sunstone counts, relocates mushrooms and social farming clutter to the new island's side island, applies target-island-specific setup (home adjustments, resource flooring, airdrops), and initializes all starting land, buildings, and resources. Per-island configurations are determined by `ISLAND_SETUP[target]`.
+ *
+ * On ascension (swamp onward) the wipe is skipped: the first ascension
+ * (volcano→swamp) keeps the player's arrangement in place and saves it as the
+ * protected "Ascension Layout"; later ascensions re-apply that saved layout.
  *
  * @returns The transitioned game state with the new island fully initialized
  */
@@ -1106,20 +1121,36 @@ function transitionToIsland({
 }): GameState {
   let game = cloneDeep(state);
 
-  // Return every placed item to the inventory
-  try {
-    game = removeAll({
-      state: game,
-      action: {
-        type: "items.removed",
-        location: "farm",
-      },
-      createdAt,
-    });
-  } catch (error) {
-    // Ignore errors
+  // Ascension (swamp onward) preserves the player's arrangement instead of wiping:
+  // - the first ascension (volcano→swamp) keeps every item exactly where it is
+  //   (identical 30-expansion land; a maxed volcano already meets the swamp floor);
+  // - later ascensions re-apply the layout saved at that first ascension.
+  const isAscensionTarget = (ASCENSION_ISLANDS as readonly string[]).includes(
+    target,
+  );
+  const isFirstAscension = isAscensionTarget && game.island.type === "volcano";
+  const storedAscensionLayout = game.layouts?.find((layout) => layout.auto);
+  const keepArrangement = isFirstAscension;
+  const reuseSavedLayout =
+    isAscensionTarget && !isFirstAscension && !!storedAscensionLayout;
+
+  // Return every placed item to the inventory (skipped when we preserve the
+  // arrangement — `applyFarmLayout` does its own lifting on the reuse path).
+  if (!keepArrangement && !reuseSavedLayout) {
+    try {
+      game = removeAll({
+        state: game,
+        action: {
+          type: "items.removed",
+          location: "farm",
+        },
+        createdAt,
+      });
+    } catch (error) {
+      // Ignore errors
+    }
+    game = cloneDeep(game);
   }
-  game = cloneDeep(game);
 
   // Reset transient systems that do not carry across islands
   game.fishing.wharf = {};
@@ -1181,9 +1212,7 @@ function transitionToIsland({
 
   // Every upgrade into an ascension island (swamp onward) bumps the ascension
   // counter by one — continuous from swamp. Basic islands leave it unset.
-  const isAscensionTarget = (ASCENSION_ISLANDS as readonly string[]).includes(
-    target,
-  );
+  // (`isAscensionTarget` is computed at the top of the transition.)
 
   // Set the new island
   game.island = {
@@ -1202,26 +1231,80 @@ function transitionToIsland({
   // Remove any previous in progress expansions (LEGACY)
   delete game.expansionConstruction;
 
-  // Island-specific setup, then lay out the starting island
+  // Island-specific setup (home swap + resource floor), then lay out the island.
   const setup = ISLAND_SETUP[target];
   game = setup.applySetup(game, target);
   game.inventory["Basic Land"] = new Decimal(setup.startingExpansions);
-  game = placeInitialLand({
-    state: game,
-    farmId,
-    createdAt,
-    initialLandCoordinates: setup.initialCoordinates,
-  });
 
-  // Grant the Ascension Crystal "upgrade node": 1 per island upgrade (the A0
-  // spring/desert/volcano grants and each ascension's upgrade node). Granted to
-  // inventory for the player to place; the per-expansion crystals auto-place via
-  // the ascension layout. Kept additive (never reset) so it stays in lockstep
-  // with getExpectedAscensionCrystals for the revealLand back-pay reconciliation.
+  if (keepArrangement) {
+    // Volcano→Swamp: leave every placed item exactly where it is (no wipe, no
+    // re-place) — the land is identical and the arrangement is already correct.
+  } else if (reuseSavedLayout && storedAscensionLayout) {
+    // Later ascensions reset the farm to the layout saved at volcano→swamp
+    // (best-effort; items that no longer fit the land drop back to the chest).
+    applyFarmLayout(game, storedAscensionLayout, createdAt);
+  } else {
+    game = placeInitialLand({
+      state: game,
+      farmId,
+      createdAt,
+      initialLandCoordinates: setup.initialCoordinates,
+    });
+  }
+
+  // Capture the arrangement as the protected, auto-managed "Ascension Layout" the
+  // first time the player ascends (volcano→swamp); it is reused on every later
+  // ascension. Appended once (idempotent guard) and exempt from the manual cap.
+  if (isFirstAscension && !game.layouts?.some((layout) => layout.auto)) {
+    const ascensionLayout: SavedLayout = {
+      ...snapshotFarm(game),
+      name: "Ascension Layout",
+      auto: true,
+      createdAt,
+      updatedAt: createdAt,
+    };
+    // Crystals are single-use and delivered per-upgrade via the reward chest, so
+    // they are never part of the reusable layout.
+    ascensionLayout.resources.ascensionCrystals = {};
+    game.layouts = [...(game.layouts ?? []), ascensionLayout];
+  }
+
   if (hasFeatureAccess(game, "SWAMP_ASCENSION")) {
-    game.inventory["Ascension Crystal"] = (
-      game.inventory["Ascension Crystal"] ?? new Decimal(0)
-    ).add(1);
+    // Every island upgrade (basic + ascension) reconciles the player's resources
+    // against the new island's floor via the shared `getMissingResources`
+    // back-pay (same as revealLand's: per-tier/forging-safe, depletion-aware) and
+    // delivers any shortfall — nodes, sunstones, and the upgrade's Ascension
+    // Crystals — through a side-island reward chest rather than topping up
+    // inventory. The `missing-resources` id prefix lets revealLand's back-pay
+    // dedup so the same items are never granted twice.
+    const bundle = getMissingResources({
+      game,
+      expansion: game.inventory["Basic Land"]?.toNumber() ?? 0,
+    });
+    if (getObjectEntries(bundle).length > 0) {
+      game.airdrops = [
+        ...(game.airdrops ?? []),
+        {
+          // Unique per upgrade so `claimAirdrop` (which removes every airdrop
+          // matching the claimed id) never drops a pending chest: ascension
+          // islands key on the strictly-increasing ascension level (incl. the
+          // infinite marble→marble loop); basic islands key on the target island
+          // (each is reached once in the linear progression).
+          id: isAscensionTarget
+            ? `missing-resources-ascension-${game.island.ascensionLevel}`
+            : `missing-resources-upgrade-${target}`,
+          createdAt,
+          coordinates: pickAscensionChestPosition(game, setup),
+          items: bundle,
+          wearables: {},
+          sfl: 0,
+          coins: 0,
+          message: isAscensionTarget
+            ? "Ascension rewards! Collect them and place them on your island."
+            : "Upgrade rewards! Collect them and place them on your island.",
+        },
+      ];
+    }
   }
 
   game = cloneDeep(game);
@@ -1255,6 +1338,20 @@ export function upgrade({ state, createdAt = Date.now(), farmId }: Options) {
 
   if (targetIsAscension && !hasFeatureAccess(game, "SWAMP_ASCENSION")) {
     throw new Error("Swamp ascension is not yet available");
+  }
+
+  // Temporary: ascending from Swamp (A1) into the next island (A2) is gated behind
+  // the SPOOKY_ASCENSION window (testnet bypasses). The first ascension (A0 → A1)
+  // is unaffected.
+  if (
+    (game.island.ascensionLevel ?? 0) + 1 === 2 &&
+    !hasTimeBasedFeatureAccess({
+      featureName: "SPOOKY_ASCENSION",
+      now: createdAt,
+      game,
+    })
+  ) {
+    throw new Error("Ascension to the next island is not yet available");
   }
 
   // Ascension islands require the player to have maxed their current ascension band

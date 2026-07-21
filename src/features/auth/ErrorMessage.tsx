@@ -91,7 +91,10 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
     return <SessionExpired />;
   }
 
-  if (errorCode === ERRORS.TOO_MANY_REQUESTS) {
+  if (
+    errorCode === ERRORS.TOO_MANY_REQUESTS ||
+    errorCode === ERRORS.EFFECT_TOO_MANY_REQUESTS
+  ) {
     return <TooManyRequests />;
   }
 

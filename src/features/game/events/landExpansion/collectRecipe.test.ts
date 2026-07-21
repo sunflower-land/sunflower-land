@@ -313,6 +313,85 @@ describe("collect Recipes", () => {
     expect(state.inventory["Boiled Eggs"]).toEqual(new Decimal(3));
   });
 
+  it("adds +3 food when the recipe was cooked with Double Nom rank 3", () => {
+    const state = collectRecipe({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        buildings: {
+          "Fire Pit": [
+            {
+              id: "123",
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              readyAt: 0,
+              crafting: [
+                {
+                  name: "Boiled Eggs",
+                  readyAt: dateNow - 5 * 1000,
+                  skills: { "Double Nom": 3 },
+                },
+              ],
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipes.collected",
+        building: "Fire Pit",
+        buildingId: "123",
+      },
+      createdAt: dateNow,
+    });
+
+    // 1 base + 3 (Double Nom rank 3)
+    expect(state.inventory["Boiled Eggs"]).toEqual(new Decimal(4));
+  });
+
+  it("returns 2 with Fiery Jackpot rank 3 landing on its 30% chance", () => {
+    const state = collectRecipe({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        buildings: {
+          "Fire Pit": [
+            {
+              id: "123",
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              readyAt: 0,
+              crafting: [
+                {
+                  name: "Boiled Eggs",
+                  readyAt: dateNow - 5 * 1000,
+                },
+              ],
+            },
+          ],
+        },
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: { "Fiery Jackpot": 3 },
+        },
+        farmActivity: {
+          "Boiled Eggs Cooked": getPrngCounter(
+            "Boiled Eggs",
+            "Fiery Jackpot",
+            30,
+          ),
+        },
+      },
+      action: {
+        type: "recipes.collected",
+        building: "Fire Pit",
+        buildingId: "123",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.inventory["Boiled Eggs"]).toEqual(new Decimal(2));
+  });
+
   describe("boostsUsedAt tracking", () => {
     it("records Double Nom in boostsUsedAt when it adds yield", () => {
       const state = collectRecipe({

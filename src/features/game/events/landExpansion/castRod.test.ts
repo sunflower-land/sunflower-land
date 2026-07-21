@@ -929,7 +929,7 @@ describe("getDailyFishingLimit", () => {
     expect(limit).toEqual(25);
   });
 
-  it("scales Fisherman's 5 Fold with rank (+15 at rank 3)", () => {
+  it("scales Fisherman's 5 Fold with rank (+10 at rank 3)", () => {
     const { limit } = getDailyFishingLimit(
       {
         ...INITIAL_FARM,
@@ -942,10 +942,10 @@ describe("getDailyFishingLimit", () => {
       },
       Date.now(),
     );
-    expect(limit).toEqual(35);
+    expect(limit).toEqual(30);
   });
 
-  it("scales Fisherman's 10 Fold with rank (+30 at rank 3)", () => {
+  it("scales Fisherman's 10 Fold with rank (+25 at rank 3)", () => {
     const { limit } = getDailyFishingLimit(
       {
         ...INITIAL_FARM,
@@ -958,7 +958,7 @@ describe("getDailyFishingLimit", () => {
       },
       Date.now(),
     );
-    expect(limit).toEqual(50);
+    expect(limit).toEqual(45);
   });
 
   it("scales More With Less with rank (+50 at rank 3)", () => {

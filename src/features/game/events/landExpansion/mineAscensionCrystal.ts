@@ -4,7 +4,7 @@ import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
 
 /** Shards yielded by mining a single-use Ascension Crystal. */
-export const ASCENSION_SHARDS_PER_MINE = 10;
+export const ASCENSION_SHARDS_PER_MINE = 3;
 
 export type MineAscensionCrystalAction = {
   type: "ascensionCrystal.mined";

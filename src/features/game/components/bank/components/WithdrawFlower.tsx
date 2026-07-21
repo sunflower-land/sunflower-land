@@ -60,12 +60,12 @@ export const WithdrawFlower: React.FC<Props> = ({
 
   const hasAccess = hasReputation({
     game: state,
-    reputation: Reputation.Grower,
+    reputation: Reputation.Cropkeeper,
     now,
   });
 
   if (!hasAccess) {
-    return <RequiredReputation reputation={Reputation.Grower} />;
+    return <RequiredReputation reputation={Reputation.Cropkeeper} />;
   }
 
   if (!isFaceVerified({ game: state })) {

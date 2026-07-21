@@ -748,4 +748,44 @@ describe("harvestBeehive", () => {
     });
     expect(gameState.inventory.Honey).toEqual(new Decimal(1.1));
   });
+
+  describe("Sweet Bonus ranks", () => {
+    const harvestWithRank = (rank: number) => {
+      const beehiveId = "1234";
+      const now = Date.now();
+      const tenMinutesAgo = now - 10 * 60 * 1000;
+
+      return harvestBeehive({
+        state: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            skills: { ...INITIAL_BUMPKIN.skills, "Sweet Bonus": rank },
+          },
+          beehives: {
+            [beehiveId]: {
+              ...DEFAULT_BEEHIVE,
+              honey: {
+                updatedAt: tenMinutesAgo,
+                produced: DEFAULT_HONEY_PRODUCTION_TIME,
+              },
+            },
+          },
+        },
+        action: {
+          type: "beehive.harvested",
+          id: beehiveId,
+        },
+        createdAt: now,
+      });
+    };
+
+    it("harvests +0.15 honey with Sweet Bonus at rank 2", () => {
+      expect(harvestWithRank(2).inventory.Honey).toEqual(new Decimal(1.15));
+    });
+
+    it("harvests +0.2 honey with Sweet Bonus at rank 3", () => {
+      expect(harvestWithRank(3).inventory.Honey).toEqual(new Decimal(1.2));
+    });
+  });
 });

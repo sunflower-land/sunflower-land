@@ -3,6 +3,7 @@ import { translate } from "lib/i18n/translate";
 import { hasPlacedAgingShed } from "./hasPlacedAgingShed";
 import { grantFermentationRecipeOutputs } from "./grantFermentationRecipeOutputs";
 import type { GameState } from "features/game/types/game";
+import { getStampedAgerLevel } from "features/game/lib/agingShed";
 
 export type CollectFermentationAction = {
   type: "fermentation.collected";
@@ -46,7 +47,7 @@ export function collectFermentation({
         game,
         job.recipe,
         farmId,
-        !!job.skills?.Ager,
+        getStampedAgerLevel(job.skills),
       );
     });
   });

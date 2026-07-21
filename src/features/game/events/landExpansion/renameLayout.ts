@@ -39,6 +39,9 @@ export function renameLayout({
     if (!layout) {
       throw new Error("Layout does not exist");
     }
+    if (layout.auto) {
+      throw new Error("The Ascension Layout cannot be renamed");
+    }
 
     layout.name = name;
     layout.updatedAt = createdAt;

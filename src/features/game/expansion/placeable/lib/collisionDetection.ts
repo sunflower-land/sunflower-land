@@ -91,7 +91,10 @@ const splitBoundingBox = (boundingBox: BoundingBox, height = 1, width = 1) => {
   }));
 };
 
-function detectWaterCollision(expansions: number, boundingBox: BoundingBox) {
+export function detectWaterCollision(
+  expansions: number,
+  boundingBox: BoundingBox,
+) {
   const expansionBoundingBoxes: BoundingBox[] = new Array(expansions)
     .fill(null)
     .map((_, expansionIndex) => ({
@@ -886,6 +889,11 @@ export function detectCollision({
 
 export type AOEItemName =
   | "Basic Scarecrow"
+  // Dedicated cooldown-tracking slot for the Chonky Scarecrow yield boost.
+  // Kept separate from "Basic Scarecrow" (whose slot stores the growth-time
+  // AOE's next-available timestamp) so the two mechanics don't clobber each
+  // other. Never passed to isWithinAOE — only used as a game.aoe key.
+  | "Chonky Scarecrow"
   | "Emerald Turtle"
   | "Tin Turtle"
   | "Sir Goldensnout"
@@ -893,6 +901,38 @@ export type AOEItemName =
   | "Laurie the Chuckle Crow"
   | "Queen Cornelia"
   | "Gnome";
+
+// Base (no skill) footprint = the original 3x3 rectangle, shared by the three
+// scarecrow-type placeables before any rank skill widens it.
+export const BASE_AOE_EXTENT: AOEExtent = { xLeft: 1, xRight: 1, depth: 3 };
+
+/**
+ * Rank-aware AOE footprint for a placeable. The Chonky Scarecrow / Horror Mike /
+ * Laurie's Gains skills widen their placeable's area per rank (7x7 / 8x8 / 9x9);
+ * every other item keeps the base 3x3. Shared by the gameplay gate (isWithinAOE)
+ * and the landscaping overlay so the drawn area can't drift from the boosted one.
+ */
+export function getAOEExtent(
+  AOEItemName: AOEItemName,
+  skills: GameState["bumpkin"]["skills"],
+): AOEExtent {
+  let rankSkill: "Chonky Scarecrow" | "Horror Mike" | "Laurie's Gains";
+  switch (AOEItemName) {
+    case "Basic Scarecrow":
+      rankSkill = "Chonky Scarecrow";
+      break;
+    case "Scary Mike":
+      rankSkill = "Horror Mike";
+      break;
+    case "Laurie the Chuckle Crow":
+      rankSkill = "Laurie's Gains";
+      break;
+    default:
+      return BASE_AOE_EXTENT;
+  }
+  const level = getSkillLevel(skills, rankSkill);
+  return level ? SKILL_RANKS[rankSkill].ranks[level - 1] : BASE_AOE_EXTENT;
+}
 
 /**
  * Detects whether an item is within the area of effect of a placeable with AOE.
@@ -929,33 +969,11 @@ export function isWithinAOE(
     return Math.abs(dx) <= distance && Math.abs(dy) <= distance;
   };
 
-  // Base (no skill) footprint reproduces the original 3x3 rectangle. The rank
-  // skill (Chonky Scarecrow / Horror Mike / Laurie's Gains) widens it per rank.
-  const BASE_AOE: AOEExtent = { xLeft: 1, xRight: 1, depth: 3 };
-  const aoeExtent = (): AOEExtent => {
-    let rankSkill: "Chonky Scarecrow" | "Horror Mike" | "Laurie's Gains";
-    switch (AOEItemName) {
-      case "Basic Scarecrow":
-        rankSkill = "Chonky Scarecrow";
-        break;
-      case "Scary Mike":
-        rankSkill = "Horror Mike";
-        break;
-      case "Laurie the Chuckle Crow":
-        rankSkill = "Laurie's Gains";
-        break;
-      default:
-        return BASE_AOE;
-    }
-    const level = getSkillLevel(skills, rankSkill);
-    return level ? SKILL_RANKS[rankSkill].ranks[level - 1] : BASE_AOE;
-  };
-
   switch (AOEItemName) {
     case "Basic Scarecrow":
     case "Scary Mike":
     case "Laurie the Chuckle Crow": {
-      const e = aoeExtent();
+      const e = getAOEExtent(AOEItemName, skills);
       return isWithinRectangle(
         { x: x - e.xLeft, y: y - height, height, width },
         {

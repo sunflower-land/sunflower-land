@@ -957,7 +957,10 @@ export type BuildingProduct = {
    */
   amount?: number;
   boost?: Partial<Record<InventoryItemName, number>>;
-  skills?: Partial<Record<BumpkinRevampSkillName, boolean>>;
+  // The rank of a skill applied when the recipe was cooked, so per-rank effects
+  // (e.g. Double Nom's +food) collect at the rank paid for. Legacy recipes store
+  // `true` (treated as rank 1); new recipes store the numeric rank.
+  skills?: Partial<Record<BumpkinRevampSkillName, boolean | number>>;
   timeRemaining?: number;
   startedAt?: number;
   requirements?: Inventory;
@@ -1099,6 +1102,13 @@ export type SavedLayout = {
   name: string;
   createdAt: number;
   updatedAt: number;
+  /**
+   * Marks the auto-managed "Ascension Layout" captured when the player first
+   * ascends (volcano→swamp) and re-applied on later ascensions. It is protected:
+   * the player cannot delete, rename, or overwrite it, and it does not count
+   * against the manual `MAX_SAVED_LAYOUTS` limit.
+   */
+  auto?: boolean;
   collectibles: Partial<Record<CollectibleName, LayoutPlacement[]>>;
   buildings: Partial<Record<BuildingName, LayoutPlacement[]>>;
   resources: {

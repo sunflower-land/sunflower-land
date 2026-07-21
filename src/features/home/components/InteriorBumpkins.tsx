@@ -102,8 +102,11 @@ export const InteriorBumpkins: React.FC<Props> = ({ location = "home" }) => {
 
   return (
     <>
-      <div className="flex justify-between items-end">
-        <div className="flex">
+      <div className="flex flex-wrap items-end gap-2 max-w-[70vw]">
+        <div
+          className="flex flex-wrap"
+          style={{ rowGap: `${32 * PIXEL_SCALE}px` }}
+        >
           {(!isLandscaping ||
             !bumpkin.coordinates ||
             bumpkin.location !== location) && (

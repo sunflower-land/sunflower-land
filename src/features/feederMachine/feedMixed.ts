@@ -4,6 +4,7 @@ import type {
   AnimalMedicineName,
 } from "features/game/types/game";
 import Decimal from "decimal.js-light";
+import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { getKeys } from "lib/object";
 import { ANIMAL_FOODS } from "features/game/types/animals";
@@ -29,9 +30,11 @@ export function getIngredients({
 }) {
   let { ingredients } = ANIMAL_FOODS[name];
 
-  if (state.bumpkin.skills["Kale Mix"] && name === "Mixed Grain") {
+  const kaleMixLevel = getSkillLevel(state.bumpkin.skills, "Kale Mix");
+  if (kaleMixLevel && name === "Mixed Grain") {
+    // An absolute Kale requirement, not a delta — Decimal keeps rank 2's 2.5 exact.
     ingredients = {
-      Kale: new Decimal(3),
+      Kale: new Decimal(SKILL_RANKS["Kale Mix"].ranks[kaleMixLevel - 1]),
     };
   }
 

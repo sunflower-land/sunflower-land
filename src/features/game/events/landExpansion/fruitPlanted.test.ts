@@ -1318,8 +1318,8 @@ describe("getFruitTime", () => {
     expect(blueberryTime).toEqual(blueberryPlantSeconds * 0.75);
   });
   it.each([
-    [2, 0.7, 1.125],
-    [3, 0.65, 1.15],
+    [2, 0.65, 1.125],
+    [3, 0.55, 1.15],
   ])(
     "scales Long Pickings buff/debuff at rank %i (Apple buff, Orange debuff)",
     (rank, buff, debuff) => {
@@ -1338,8 +1338,8 @@ describe("getFruitTime", () => {
     },
   );
   it.each([
-    [2, 0.7, 1.125],
-    [3, 0.65, 1.15],
+    [2, 0.65, 1.125],
+    [3, 0.55, 1.15],
   ])(
     "scales Short Pickings buff/debuff at rank %i (Orange buff, Apple debuff)",
     (rank, buff, debuff) => {

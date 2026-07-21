@@ -348,6 +348,7 @@ export type BlockchainEvent =
   | CommunityEvent
   | SellMarketResourceEvent
   | { type: "REFRESH" }
+  | { type: "DAILY_RESET" }
   | { type: "ACKNOWLEDGE" }
   | { type: "CONTINUE"; id?: string }
   | { type: "RESET" }
@@ -864,6 +865,8 @@ export type BlockchainState = {
     | "blacklisted"
     | "somethingArrived"
     | "seasonChanged"
+    | "dailyReset"
+    | "dailyResetting"
     | "randomising"
     | "competition"
     | "jinAirdrop"
@@ -1624,6 +1627,41 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
+        dailyReset: {
+          on: {
+            "daily.reset": (GAME_EVENT_HANDLERS as any)["daily.reset"],
+            CONTINUE: {
+              target: "dailyResetting",
+            },
+          },
+        },
+        dailyResetting: {
+          entry: "setTransactionId",
+          invoke: {
+            src: async (context, event) => {
+              const farmId = context.visitorId ?? context.farmId;
+              const data = await saveGame(
+                context,
+                event,
+                farmId,
+                authContext.user.rawToken as string,
+              );
+
+              return data;
+            },
+            onDone: {
+              // Re-run the announcement guards so any new-day modal can pop up
+              target: "notifying",
+              actions: assign((context: Context, event) =>
+                handleSuccessfulSave(context, event),
+              ),
+            },
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
+          },
+        },
         calendarEvent: {
           on: {
             "daily.reset": (GAME_EVENT_HANDLERS as any)["daily.reset"],
@@ -1846,6 +1884,9 @@ export function startGame(authContext: AuthContext) {
             },
             REFRESH: {
               target: "loading",
+            },
+            DAILY_RESET: {
+              target: "dailyReset",
             },
             LANDSCAPE: {
               target: "landscaping",

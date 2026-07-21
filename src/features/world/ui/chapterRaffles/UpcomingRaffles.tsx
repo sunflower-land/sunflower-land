@@ -4,6 +4,7 @@ import Decimal from "decimal.js-light";
 import { useActor } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
+import vipIcon from "assets/icons/vip.webp";
 import { Button } from "components/ui/Button";
 import { ButtonPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
@@ -325,6 +326,11 @@ export const UpcomingRaffles: React.FC = () => {
                 <p className="text-xxs">{formatRaffleWindow(selectedRaffle)}</p>
               </div>
             </div>
+          </div>
+
+          <div className="flex items-center mb-1">
+            <img src={vipIcon} className="h-4 mr-1" />
+            <p className="text-xs">{t("auction.raffle.vipOnlyPrizes")}</p>
           </div>
 
           <div>

@@ -309,7 +309,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         return props.requirement.ascension !== props.currentLevel.ascension
           ? getAscensionDisplayText({
               ascension: props.requirement,
-              length: "full",
+              length: "medium",
             })
           : t("level.number", { level: props.requirement.level });
       }

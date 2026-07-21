@@ -88,6 +88,13 @@ export const TIME_BASED_FEATURE_FLAG_WINDOWS = {
     start: WAYPOINT_WALLET_ENDDATE,
     end: null,
   },
+  // Ascending from Swamp (A1) into the next island (Spooky, A2) unlocks on this
+  // date. Testnet bypasses; the first ascension (Volcano → Swamp / A0 → A1) is
+  // gated separately by SWAMP_ASCENSION and is unaffected.
+  SPOOKY_ASCENSION: {
+    start: new Date("2026-09-07T00:00:00Z"),
+    end: null,
+  },
 } satisfies Record<string, TimeBasedFeatureWindow>;
 
 /** All time-based flags receive the full window; start-only helpers ignore `end`. */
@@ -106,6 +113,8 @@ export const TIME_BASED_FEATURE_FLAGS: Record<
   APRIL_FOOLS_EVENT_FLAG: betaTimePeriodFeatureFlag,
   RONIN_WAYPOINT_DEPRECATION: timePeriodFeatureFlag,
   COLORS_2026_EVENT_FLAG: betaTimePeriodFeatureFlag,
+  // Testnet-only bypass before the date (not beta), so live testers can reach A2.
+  SPOOKY_ASCENSION: timePeriodFeatureFlag,
 };
 
 /**
@@ -169,11 +178,6 @@ const FEATURE_FLAGS = {
   // Saving & re-applying named farm layouts in landscaping mode.
   SAVED_LAYOUTS: betaFeatureFlag,
 
-  // Bulk-fetch resources from all pets at once: the player types how many of
-  // each resource they need, the FE plans the best allocation across all pets,
-  // and one `pets.bulkFetch` event executes it.
-  BULK_PET_FETCH: betaFeatureFlag,
-
   // Speed-rate (Clash-of-Clans potion) model for time-based boosts — starting
   // with the Sparrow Shrine on crops. When on, planting stores the new
   // baseDurationMs + true plantedAt model; when off, boosts stay discount-at-start.
@@ -182,7 +186,14 @@ const FEATURE_FLAGS = {
   // Importing leftover items from the old home into the new interior.
   HOME_ITEM_MIGRATION: betaFeatureFlag,
 
-  SWAMP_ASCENSION: testnetFeatureFlag,
+  SWAMP_ASCENSION: betaFeatureFlag,
+
+  // Per-rank skill upgrades (spend Ascension Shards + skill points to rank up a
+  // skill). Kept on its own flag so the upgrade UI + `skill.upgraded` event can
+  // be toggled independently of the rest of the ascension system (islands,
+  // expansion, level bands). Skill *effects* still apply off the stored rank
+  // regardless of this flag; only purchasing new ranks is gated here.
+  ASCENSION_SKILLS: betaFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

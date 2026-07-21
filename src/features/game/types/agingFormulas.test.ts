@@ -3,6 +3,7 @@ import { KNOWN_IDS } from "features/game/types";
 import { prngChance } from "lib/prng";
 import type { GameState, Skills } from "./game";
 import {
+  getAgingInputMultiplier,
   getAgingOutput,
   getAgingSaltCost,
   getAgingTimeMs,
@@ -27,6 +28,15 @@ describe("getRefinedSaltChance", () => {
       getRefinedSaltChance(stateWithSkills({ Refiner: 1 } as Skills)),
     ).toBe(15);
   });
+
+  it("scales with Refiner rank", () => {
+    expect(
+      getRefinedSaltChance(stateWithSkills({ Refiner: 2 } as Skills)),
+    ).toBe(25);
+    expect(
+      getRefinedSaltChance(stateWithSkills({ Refiner: 3 } as Skills)),
+    ).toBe(35);
+  });
 });
 
 describe("getPrimeAgedChance", () => {
@@ -39,6 +49,15 @@ describe("getPrimeAgedChance", () => {
       getPrimeAgedChance(stateWithSkills({ "Fish Smoking": 1 } as Skills)),
     ).toBe(20);
   });
+
+  it("triples at Fish Smoking rank 2 and quadruples at rank 3", () => {
+    expect(
+      getPrimeAgedChance(stateWithSkills({ "Fish Smoking": 2 } as Skills)),
+    ).toBe(30);
+    expect(
+      getPrimeAgedChance(stateWithSkills({ "Fish Smoking": 3 } as Skills)),
+    ).toBe(40);
+  });
 });
 
 describe("getAgingOutput", () => {
@@ -47,7 +66,7 @@ describe("getAgingOutput", () => {
   it("returns base amount when no relevant skills", () => {
     const state = stateWithSkills({} as Skills);
     expect(
-      getAgingOutput(state, new Decimal(3), "Salt", false, {
+      getAgingOutput(state, new Decimal(3), "Salt", 0, {
         farmId,
         itemId: KNOWN_IDS.Salt,
         counter: 0,
@@ -55,10 +74,10 @@ describe("getAgingOutput", () => {
     ).toBe(3);
   });
 
-  it("doubles output when agerApplied is true", () => {
+  it("doubles output at Ager rank 1", () => {
     const state = stateWithSkills({ Ager: 1 } as Skills);
     expect(
-      getAgingOutput(state, new Decimal(2), "Pickled Radish", true, {
+      getAgingOutput(state, new Decimal(2), "Pickled Radish", 1, {
         farmId,
         itemId: KNOWN_IDS["Pickled Radish"],
         counter: 0,
@@ -66,11 +85,25 @@ describe("getAgingOutput", () => {
     ).toBe(4);
   });
 
+  it("triples at stamped Ager rank 2 and quadruples at rank 3", () => {
+    // No live Ager skill at all: the stamp alone drives the multiplier.
+    const state = stateWithSkills({} as Skills);
+    const collect = (agerLevel: number) =>
+      getAgingOutput(state, new Decimal(2), "Pickled Radish", agerLevel, {
+        farmId,
+        itemId: KNOWN_IDS["Pickled Radish"],
+        counter: 0,
+      }).toNumber();
+
+    expect(collect(2)).toBe(6);
+    expect(collect(3)).toBe(8);
+  });
+
   it("ignores current Ager skill when stamp says not applied", () => {
-    // Exploit guard: player activates Ager after starting; stamp was false → 1x output
+    // Exploit guard: player activates Ager after starting; stamp was 0 → 1x output
     const state = stateWithSkills({ Ager: 1 } as Skills);
     expect(
-      getAgingOutput(state, new Decimal(2), "Pickled Radish", false, {
+      getAgingOutput(state, new Decimal(2), "Pickled Radish", 0, {
         farmId,
         itemId: KNOWN_IDS["Pickled Radish"],
         counter: 0,
@@ -78,16 +111,69 @@ describe("getAgingOutput", () => {
     ).toBe(2);
   });
 
-  it("applies Ager stamp even when current skill is off", () => {
-    // Symmetric guard: player deactivates Ager after starting; stamp was true → 2x output
-    const state = stateWithSkills({} as Skills);
+  it("pays out the stamped rank, not a higher live rank", () => {
+    // Exploit guard: player ranks Ager 1 → 3 mid-job, having only paid 2x
+    // inputs. Collect must still settle at the stamped rank 1 (2x).
+    const state = stateWithSkills({ Ager: 3 } as Skills);
     expect(
-      getAgingOutput(state, new Decimal(2), "Pickled Radish", true, {
+      getAgingOutput(state, new Decimal(2), "Pickled Radish", 1, {
         farmId,
         itemId: KNOWN_IDS["Pickled Radish"],
         counter: 0,
       }).toNumber(),
     ).toBe(4);
+  });
+
+  it("applies Ager stamp even when current skill is off", () => {
+    // Symmetric guard: player deactivates Ager after starting; stamp was 1 → 2x output
+    const state = stateWithSkills({} as Skills);
+    expect(
+      getAgingOutput(state, new Decimal(2), "Pickled Radish", 1, {
+        farmId,
+        itemId: KNOWN_IDS["Pickled Radish"],
+        counter: 0,
+      }).toNumber(),
+    ).toBe(4);
+  });
+
+  describe("Bacalhau bait bonus", () => {
+    const bait = "Capsule Bait";
+
+    it("adds nothing without the skill", () => {
+      expect(
+        getAgingOutput(
+          stateWithSkills({} as Skills),
+          new Decimal(1),
+          bait,
+          0,
+        ).toNumber(),
+      ).toBe(1);
+    });
+
+    it("scales the bait bonus with rank", () => {
+      const collect = (rank: number) =>
+        getAgingOutput(
+          stateWithSkills({ Bacalhau: rank } as Skills),
+          new Decimal(1),
+          bait,
+          0,
+        ).toNumber();
+
+      expect(collect(1)).toBe(2);
+      expect(collect(2)).toBe(3);
+      expect(collect(3)).toBe(4);
+    });
+
+    it("does not apply to non-bait items", () => {
+      expect(
+        getAgingOutput(
+          stateWithSkills({ Bacalhau: 3 } as Skills),
+          new Decimal(1),
+          "Salt",
+          0,
+        ).toNumber(),
+      ).toBe(1);
+    });
   });
 
   describe("Refiner bonus on Refined Salt (15% PRNG)", () => {
@@ -121,24 +207,18 @@ describe("getAgingOutput", () => {
     it("does not add Refiner bonus without the skill", () => {
       const base = new Decimal(2);
       expect(
-        getAgingOutput(
-          stateWithSkills({} as Skills),
-          base,
-          "Refined Salt",
-          false,
-          {
-            farmId,
-            itemId: refinedSaltId,
-            counter: 4,
-          },
-        ).toNumber(),
+        getAgingOutput(stateWithSkills({} as Skills), base, "Refined Salt", 0, {
+          farmId,
+          itemId: refinedSaltId,
+          counter: 4,
+        }).toNumber(),
       ).toBe(2);
     });
 
     it("does not roll Refiner for non–Refined Salt items", () => {
       const stateWithRefiner = stateWithSkills({ Refiner: 1 } as Skills);
       expect(
-        getAgingOutput(stateWithRefiner, new Decimal(2), "Salt", false, {
+        getAgingOutput(stateWithRefiner, new Decimal(2), "Salt", 0, {
           farmId,
           itemId: KNOWN_IDS.Salt,
           counter: 4,
@@ -148,7 +228,7 @@ describe("getAgingOutput", () => {
 
     it("adds +1 on PRNG hit (counter 4) from base 2", () => {
       expect(
-        getAgingOutput(state, new Decimal(2), "Refined Salt", false, {
+        getAgingOutput(state, new Decimal(2), "Refined Salt", 0, {
           farmId,
           itemId: refinedSaltId,
           counter: 4,
@@ -158,7 +238,7 @@ describe("getAgingOutput", () => {
 
     it("does not add Refiner +1 on PRNG miss (counter 0) from base 2", () => {
       expect(
-        getAgingOutput(state, new Decimal(2), "Refined Salt", false, {
+        getAgingOutput(state, new Decimal(2), "Refined Salt", 0, {
           farmId,
           itemId: refinedSaltId,
           counter: 0,
@@ -172,7 +252,7 @@ describe("getAgingOutput", () => {
         Refiner: 1,
       } as Skills);
       expect(
-        getAgingOutput(agerRefinerState, new Decimal(2), "Refined Salt", true, {
+        getAgingOutput(agerRefinerState, new Decimal(2), "Refined Salt", 1, {
           farmId,
           itemId: refinedSaltId,
           counter: 4,
@@ -219,6 +299,59 @@ describe("getBoostedAgingTimeMs", () => {
       baseMs * 0.9 * 0.95,
     );
   });
+
+  it("applies Speedy Aging rank 2 as 0.85× and rank 3 as 0.8×", () => {
+    const baseMs = getAgingTimeMs(baseXP);
+    expect(
+      getBoostedAgingTimeMs(
+        baseXP,
+        stateWithSkills({ "Speedy Aging": 2 } as Skills),
+      ),
+    ).toBeCloseTo(baseMs * 0.85);
+    expect(
+      getBoostedAgingTimeMs(
+        baseXP,
+        stateWithSkills({ "Speedy Aging": 3 } as Skills),
+      ),
+    ).toBeCloseTo(baseMs * 0.8);
+  });
+});
+
+describe("stamped Ager level for in-progress jobs", () => {
+  // The in-progress panels show what a running job actually cost, so they pass
+  // the job's stamped rank instead of letting the live rank recompute it.
+  const baseXP = 60;
+
+  it("uses an explicit Ager level over the live rank", () => {
+    const rankedUp = stateWithSkills({ Ager: 3 });
+    const base = getAgingSaltCost(baseXP);
+
+    // Job was stamped at rank 1, player is now rank 3: show what was charged.
+    expect(getAgingInputMultiplier(rankedUp, 1)).toBe(2);
+    expect(getBoostedAgingSaltCost(baseXP, rankedUp, 1)).toBe(base * 2);
+    expect(getBoostedAgingFishCost(rankedUp, 1)).toBe(2);
+  });
+
+  it("preserves an explicit level 0 rather than falling back to the live rank", () => {
+    // The `?? live` vs `|| live` trap: a job started without Ager stamps 0, and
+    // 0 must stay 0 even once the player has the skill.
+    const rankedUp = stateWithSkills({ Ager: 3 });
+    const base = getAgingSaltCost(baseXP);
+
+    expect(getAgingInputMultiplier(rankedUp, 0)).toBe(1);
+    expect(getBoostedAgingSaltCost(baseXP, rankedUp, 0)).toBe(base);
+    expect(getBoostedAgingFishCost(rankedUp, 0)).toBe(1);
+  });
+
+  it("falls back to the live rank when no level is given", () => {
+    // Empty panels preview an unstarted job, so they still read live.
+    const base = getAgingSaltCost(baseXP);
+    expect(getAgingInputMultiplier(stateWithSkills({ Ager: 3 }))).toBe(4);
+    expect(getBoostedAgingSaltCost(baseXP, stateWithSkills({ Ager: 2 }))).toBe(
+      base * 3,
+    );
+    expect(getBoostedAgingFishCost(stateWithSkills({ Ager: 2 }))).toBe(3);
+  });
 });
 
 describe("getBoostedAgingFishCost", () => {
@@ -228,6 +361,11 @@ describe("getBoostedAgingFishCost", () => {
 
   it("requires 2 fish with Ager (Aging Rack)", () => {
     expect(getBoostedAgingFishCost(stateWithSkills({ Ager: 1 }))).toBe(2);
+  });
+
+  it("scales the fish cost with Ager rank", () => {
+    expect(getBoostedAgingFishCost(stateWithSkills({ Ager: 2 }))).toBe(3);
+    expect(getBoostedAgingFishCost(stateWithSkills({ Ager: 3 }))).toBe(4);
   });
 });
 
@@ -243,6 +381,16 @@ describe("getBoostedAgingSaltCost", () => {
     const base = getAgingSaltCost(baseXP);
     expect(getBoostedAgingSaltCost(baseXP, stateWithSkills({ Ager: 1 }))).toBe(
       base * 2,
+    );
+  });
+
+  it("scales the salt cost with Ager rank", () => {
+    const base = getAgingSaltCost(baseXP);
+    expect(getBoostedAgingSaltCost(baseXP, stateWithSkills({ Ager: 2 }))).toBe(
+      base * 3,
+    );
+    expect(getBoostedAgingSaltCost(baseXP, stateWithSkills({ Ager: 3 }))).toBe(
+      base * 4,
     );
   });
 });

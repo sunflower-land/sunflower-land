@@ -4,7 +4,9 @@ import type { BuildingName } from "./buildings";
 import type { Cake } from "./craftables";
 import type { BuildingProduct, Inventory, InventoryItemName } from "./game";
 import type { AgedFishName, FishName, PrimeAgedFishName } from "./fishing";
-import { getAgingMaxXP, PRIME_AGED_XP_MULTIPLIER } from "./agingFormulas";
+// Imported from the leaf, not `./agingFormulas`, to avoid the import cycle
+// agingFormulas -> bumpkinSkills -> images -> achievements -> consumables.
+import { getAgingMaxXP, PRIME_AGED_XP_MULTIPLIER } from "./agingBase";
 import { translate } from "lib/i18n/translate";
 import type { FactionShopFoodName } from "./factionShop";
 import type { TradeFood } from "../events/landExpansion/redeemTradeReward";

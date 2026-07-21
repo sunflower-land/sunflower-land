@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
 import {
   getAnimalLevel,
   makeAnimalBuildingKey,
@@ -209,8 +210,15 @@ export function getAnimalXP({
   let animalXP = ITEM_XP[name];
   let multiplier = 1;
 
-  if (state.bumpkin.skills["Heartwarming Instruments"]) {
-    multiplier += 0.5;
+  const heartwarmingInstrumentsLevel = getSkillLevel(
+    state.bumpkin.skills,
+    "Heartwarming Instruments",
+  );
+  if (heartwarmingInstrumentsLevel) {
+    multiplier +=
+      SKILL_RANKS["Heartwarming Instruments"].ranks[
+        heartwarmingInstrumentsLevel - 1
+      ];
   }
 
   if (

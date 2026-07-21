@@ -10,6 +10,7 @@ import socialPointsIcon from "assets/icons/social_score.webp";
 import potIcon from "assets/icons/pot.png";
 import helpIcon from "assets/icons/help.webp";
 import helpedIcon from "assets/icons/helped.webp";
+import cheerIcon from "assets/icons/cheer.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { shortenCount } from "lib/utils/formatNumber";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -21,6 +22,7 @@ type Props = {
   username: string;
   helpedThemToday: boolean;
   helpedYouToday: boolean;
+  cheeredThemToday?: boolean;
   socialPoints: number;
   lastOnlineAt: number;
   hasCookingPot: boolean;
@@ -35,6 +37,7 @@ export const FollowDetailPanel: React.FC<Props> = ({
   username,
   helpedThemToday,
   helpedYouToday,
+  cheeredThemToday,
   socialPoints,
   lastOnlineAt,
   hasCookingPot,
@@ -88,6 +91,9 @@ export const FollowDetailPanel: React.FC<Props> = ({
               <div className="flex items-center gap-1 flex-wrap">
                 {helpedThemToday && <img src={helpIcon} className="w-5 h-5" />}
                 {helpedYouToday && <img src={helpedIcon} className="w-5 h-5" />}
+                {cheeredThemToday && (
+                  <img src={cheerIcon} className="w-5 h-5" />
+                )}
                 {hasCookingPot && <img src={potIcon} className="w-5 h-5" />}
               </div>
               {helpStreak > 0 && (

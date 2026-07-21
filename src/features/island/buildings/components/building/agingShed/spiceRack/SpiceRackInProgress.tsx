@@ -26,6 +26,7 @@ import { secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Box } from "components/ui/Box";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
+import { getStampedAgerLevel } from "features/game/lib/agingShed";
 
 type Props = {
   job: SpiceRackJob;
@@ -51,11 +52,14 @@ export const SpiceRackInProgress: React.FC<Props> = ({
   const recipeDef = getSpiceRackRecipe(job.recipe);
   const outputEntry = getObjectEntries(recipeDef.outputs)[0];
   const outputItem = outputEntry?.[0] as SpiceRackRecipeName;
+  // The job is already running, so both its output and the ingredients it was
+  // charged read from the rank stamped at start, not the player's live rank.
+  const agerLevel = getStampedAgerLevel(job.skills);
   const outputAmount = getAgingOutput(
     state,
     outputEntry?.[1] ?? new Decimal(0),
     outputItem,
-    !!job.skills?.Ager,
+    agerLevel,
   );
 
   const timeRemainingMs = Math.max(0, job.readyAt - now);
@@ -118,7 +122,7 @@ export const SpiceRackInProgress: React.FC<Props> = ({
 
             {getObjectEntries(recipeDef.ingredients).map(([itemName, need]) => {
               const needDecimal = new Decimal(need ?? 0).mul(
-                getAgingInputMultiplier(state),
+                getAgingInputMultiplier(state, agerLevel),
               );
               const balanceDecimal =
                 state.inventory[itemName] ?? new Decimal(0);

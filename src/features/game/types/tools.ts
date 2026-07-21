@@ -7,6 +7,7 @@ import type { Inventory, IslandType, LoveAnimalItem, Skills } from "./game";
 import { translate } from "lib/i18n/translate";
 import { WATER_TRAP } from "./crustaceans";
 import type { LevelRequirement } from "features/game/lib/level";
+import { OIL_DRILL_WOOL_BY_RANK } from "./oilDrill";
 
 export type WorkbenchToolName =
   | "Axe"
@@ -106,11 +107,21 @@ export const WORKBENCH_TOOLS: Record<
     description: translate("description.oil.drill"),
     price: 100,
     ingredients: (skill) => {
-      if (skill?.["Oil Rig"]) {
+      // Inline clamp (equivalent to getSkillLevel) to avoid importing
+      // bumpkinSkills here, which would create a
+      // tools -> bumpkinSkills -> images -> tools require cycle.
+      const oilRigLevel = Math.max(
+        0,
+        Math.min(
+          Math.floor(skill?.["Oil Rig"] ?? 0),
+          OIL_DRILL_WOOL_BY_RANK.length,
+        ),
+      );
+      if (oilRigLevel) {
         return {
           Wood: new Decimal(20),
           Iron: new Decimal(9),
-          Wool: new Decimal(20),
+          Wool: new Decimal(OIL_DRILL_WOOL_BY_RANK[oilRigLevel - 1]),
         };
       }
 

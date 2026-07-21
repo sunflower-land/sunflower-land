@@ -1,14 +1,18 @@
 const ICON_WIDTH = 11;
 const ICON_GAP = -1;
+const ICON_CENTER_Y = 3.5;
 
 export class Label extends Phaser.GameObjects.Container {
   private iconSprite: Phaser.GameObjects.Sprite | undefined;
+  private iconVisible = true;
+  private syncFloatingIcon: (() => void) | undefined;
 
   constructor(
     scene: Phaser.Scene,
     text: string,
     type: "brown" | "grey" | "gold" | "vibrant" = "grey",
     iconKey?: string,
+    iconDepth?: number,
   ) {
     super(scene, 0, 0);
     this.scene = scene;
@@ -51,19 +55,52 @@ export class Label extends Phaser.GameObjects.Container {
     if (hasIcon) {
       const iconX = -patchWidth / 2 - ICON_GAP - ICON_WIDTH / 2;
       const icon = scene.add
-        .sprite(iconX, 3.5, iconKey!)
+        .sprite(iconX, ICON_CENTER_Y, iconKey!)
         .setSize(ICON_WIDTH, ICON_WIDTH)
         .setOrigin(0.5, 0.5);
       this.iconSprite = icon;
-      this.add(icon);
+
+      if (iconDepth !== undefined) {
+        icon.setDepth(iconDepth);
+        this.syncFloatingIcon = () => {
+          if (!icon.active) return;
+
+          const point = this.getWorldTransformMatrix().transformPoint(
+            iconX,
+            ICON_CENTER_Y,
+          );
+
+          icon.setPosition(point.x, point.y);
+          icon.setVisible(
+            this.iconVisible &&
+              this.visible &&
+              (this.parentContainer?.visible ?? true),
+          );
+        };
+
+        this.syncFloatingIcon();
+        scene.events.on("update", this.syncFloatingIcon);
+        this.once("destroy", () => {
+          if (this.syncFloatingIcon) {
+            scene.events.off("update", this.syncFloatingIcon);
+          }
+
+          icon.destroy();
+        });
+      } else {
+        this.add(icon);
+      }
     }
 
     this.setDepth(1);
   }
 
   setIconVisible(visible: boolean) {
+    this.iconVisible = visible;
+
     if (this.iconSprite) {
       this.iconSprite.setVisible(visible);
+      this.syncFloatingIcon?.();
     }
   }
 }

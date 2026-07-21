@@ -251,8 +251,8 @@ describe("fruitTreeRemoved", () => {
 
   it.each([
     [1, 1],
-    [2, 1.5],
-    [3, 2],
+    [2, 1.25],
+    [3, 1.5],
   ])(
     "shrinks the No Axe No Worries wood penalty at rank %i (final Wood %f)",
     (rank, expectedWood) => {

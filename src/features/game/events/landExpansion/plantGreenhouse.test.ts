@@ -2192,6 +2192,186 @@ describe("plantGreenhouse", () => {
   });
 });
 
+describe("plantGreenhouse ascension skill ranks", () => {
+  const plantWith = ({
+    seed,
+    skills,
+    oil = 50,
+    seedAmount = 5,
+    now,
+  }: {
+    seed: "Rice Seed" | "Olive Seed" | "Grape Seed";
+    skills: GameState["bumpkin"]["skills"];
+    oil?: number;
+    seedAmount?: number;
+    now: number;
+  }) =>
+    plantGreenhouse({
+      action: { type: "greenhouse.planted", seed, id: 1 },
+      createdAt: now,
+      state: {
+        ...farm,
+        bumpkin: { ...INITIAL_BUMPKIN, skills },
+        inventory: { [seed]: new Decimal(seedAmount) },
+        greenhouse: { oil, pots: { 1: {} } },
+        buildings: {
+          Greenhouse: [
+            { coordinates: { x: 0, y: 0 }, id: "1", createdAt: 0, readyAt: 0 },
+          ],
+        },
+      },
+    });
+
+  // Replicates the consumer's growth math exactly so the expected plantedAt is
+  // bit-identical (offset = cropTime - cropTime * multiplier).
+  const plantedAtWithMultiplier = (
+    crop: keyof typeof GREENHOUSE_CROP_TIME_SECONDS,
+    mult: number,
+    now: number,
+  ) => {
+    const t = GREENHOUSE_CROP_TIME_SECONDS[crop];
+    return now - (t - t * mult) * 1000;
+  };
+
+  // Rice and Shine — all greenhouse produce, x0.95/x0.94/x0.925 (rank 1 == now).
+  it("scales Rice and Shine growth with rank (x0.95/x0.94/x0.925)", () => {
+    const now = Date.now();
+    [
+      [1, 0.95],
+      [2, 0.94],
+      [3, 0.925],
+    ].forEach(([rank, mult]) => {
+      const state = plantWith({
+        seed: "Rice Seed",
+        skills: { "Rice and Shine": rank },
+        now,
+      });
+      expect(state.greenhouse.pots[1]?.plant?.plantedAt).toEqual(
+        plantedAtWithMultiplier("Rice", mult, now),
+      );
+    });
+  });
+
+  // Olive Express — Olive only, x0.9/x0.85/x0.8 (rank 1 == now).
+  it("scales Olive Express growth with rank (x0.9/x0.85/x0.8)", () => {
+    const now = Date.now();
+    [
+      [1, 0.9],
+      [2, 0.85],
+      [3, 0.8],
+    ].forEach(([rank, mult]) => {
+      const state = plantWith({
+        seed: "Olive Seed",
+        skills: { "Olive Express": rank },
+        now,
+      });
+      expect(state.greenhouse.pots[1]?.plant?.plantedAt).toEqual(
+        plantedAtWithMultiplier("Olive", mult, now),
+      );
+    });
+  });
+
+  // Rice Rocket — Rice only, x0.9/x0.85/x0.8 (rank 1 == now).
+  it("scales Rice Rocket growth with rank (x0.9/x0.85/x0.8)", () => {
+    const now = Date.now();
+    [
+      [1, 0.9],
+      [2, 0.85],
+      [3, 0.8],
+    ].forEach(([rank, mult]) => {
+      const state = plantWith({
+        seed: "Rice Seed",
+        skills: { "Rice Rocket": rank },
+        now,
+      });
+      expect(state.greenhouse.pots[1]?.plant?.plantedAt).toEqual(
+        plantedAtWithMultiplier("Rice", mult, now),
+      );
+    });
+  });
+
+  // Vine Velocity — Grape only, x0.9/x0.85/x0.8 (rank 1 == now).
+  it("scales Vine Velocity growth with rank (x0.9/x0.85/x0.8)", () => {
+    const now = Date.now();
+    [
+      [1, 0.9],
+      [2, 0.85],
+      [3, 0.8],
+    ].forEach(([rank, mult]) => {
+      const state = plantWith({
+        seed: "Grape Seed",
+        skills: { "Vine Velocity": rank },
+        now,
+      });
+      expect(state.greenhouse.pots[1]?.plant?.plantedAt).toEqual(
+        plantedAtWithMultiplier("Grape", mult, now),
+      );
+    });
+  });
+
+  // Slick Saver — flat Oil reduction 1/1.5/2 (rank 1 == now). Rice base = 4 oil.
+  it("scales Slick Saver oil reduction with rank (-1/-1.5/-2)", () => {
+    const now = Date.now();
+    expect(
+      plantWith({ seed: "Rice Seed", skills: { "Slick Saver": 1 }, now })
+        .greenhouse.oil,
+    ).toEqual(47);
+    expect(
+      plantWith({ seed: "Rice Seed", skills: { "Slick Saver": 2 }, now })
+        .greenhouse.oil,
+    ).toEqual(47.5);
+    expect(
+      plantWith({ seed: "Rice Seed", skills: { "Slick Saver": 3 }, now })
+        .greenhouse.oil,
+    ).toEqual(48);
+  });
+
+  // Greasy Plants — Oil-usage multiplier debuff 2x/3x/4x (rank 1 == now).
+  it("scales Greasy Plants oil consumption with rank (x2/x3/x4)", () => {
+    const now = Date.now();
+    expect(
+      plantWith({ seed: "Rice Seed", skills: { "Greasy Plants": 1 }, now })
+        .greenhouse.oil,
+    ).toEqual(42);
+    expect(
+      plantWith({ seed: "Rice Seed", skills: { "Greasy Plants": 2 }, now })
+        .greenhouse.oil,
+    ).toEqual(38);
+    expect(
+      plantWith({ seed: "Rice Seed", skills: { "Greasy Plants": 3 }, now })
+        .greenhouse.oil,
+    ).toEqual(34);
+  });
+
+  // Seeded Bounty — the seed debuff is FIXED (+1 seed) at every rank; it does
+  // NOT scale with rank (only the harvest yield leg scales).
+  it("keeps the Seeded Bounty seed cost fixed at +1 for all ranks", () => {
+    const now = Date.now();
+    [1, 2, 3].forEach((rank) => {
+      const state = plantWith({
+        seed: "Rice Seed",
+        skills: { "Seeded Bounty": rank },
+        seedAmount: 2,
+        now,
+      });
+      // 1 base + 1 fixed debuff = 2 seeds used regardless of rank.
+      expect(state.inventory["Rice Seed"]).toEqual(new Decimal(0));
+    });
+  });
+
+  it("throws with only 1 seed even at Seeded Bounty rank 3 (fixed +1 debuff)", () => {
+    const now = Date.now();
+    expect(() =>
+      plantWith({
+        seed: "Rice Seed",
+        skills: { "Seeded Bounty": 3 },
+        seedAmount: 1,
+        now,
+      }),
+    ).toThrow("Missing Rice Seed");
+  });
+});
+
 describe("plantGreenhouse under SPEED_BOOSTS (windowed)", () => {
   beforeAll(() => {
     (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";

@@ -20,6 +20,7 @@ import type {
   Animal,
   AnimalBounty,
   BountyRequest,
+  GameState,
   InventoryItemName,
 } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -32,7 +33,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES } from "lib/npcs";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
-import React, { useContext, useMemo } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import chapterPoints from "assets/icons/red_medal_short.webp";
 
 import { getChapterTaskPoints } from "features/game/types/tracks";
@@ -44,6 +45,21 @@ interface Props {
   reward?: "coins" | "tickets";
   readonly?: boolean;
 }
+
+const ConfirmButton: React.FC<{
+  children: React.ReactNode;
+  className?: string;
+  onClick: () => void;
+}> = ({ children, className, onClick }) => {
+  const [unlockAt] = useState(() => Date.now() + 1000);
+  const { totalSeconds } = useCountdown(unlockAt);
+
+  return (
+    <Button className={className} disabled={totalSeconds > 0} onClick={onClick}>
+      {children}
+    </Button>
+  );
+};
 
 export const AnimalBounties: React.FC<Props> = ({
   type,
@@ -172,25 +188,70 @@ export const AnimalBounties: React.FC<Props> = ({
 
 export const AnimalDeal: React.FC<{
   deal?: BountyRequest;
-  animal?: Animal;
+  animalId?: string;
   onClose: () => void;
   onSold: () => void;
-}> = ({ deal, animal, onClose, onSold }) => {
+}> = ({ deal, animalId, onClose, onSold }) => {
   const { gameService, gameState } = useGame();
   const state = gameState.context.state;
+  const [animalOverride, setAnimalOverride] = useState<{
+    animalId: string;
+    animal: Animal;
+    showStateChangeWarning: boolean;
+  }>();
+  const renderedAnimalState = useRef<Animal["state"] | undefined>(undefined);
   const now = useNow({ live: true, intervalMs: 60_000 });
   const { t } = useAppTranslation();
   const chapterTicket = getChapterTicket(now);
 
+  const getAnimal = (state: GameState) => {
+    if (!deal || !animalId) return undefined;
+
+    return deal.name === "Chicken"
+      ? state.henHouse.animals[animalId]
+      : state.barn.animals[animalId];
+  };
+
+  const activeAnimalOverride =
+    animalOverride?.animalId === animalId ? animalOverride : undefined;
+  const animal = activeAnimalOverride?.animal ?? getAnimal(state);
+  const showStateChangeWarning =
+    activeAnimalOverride?.showStateChangeWarning ?? false;
+
+  const confirmationKey = `${animalId ?? ""}-${animal?.state ?? ""}-${
+    showStateChangeWarning ? "changed" : "current"
+  }`;
+
+  useEffect(() => {
+    if (animal) {
+      renderedAnimalState.current = animal.state;
+    }
+  }, [animal, animal?.state]);
+
   // Guard against transient undefined props
-  if (!deal || !animal) {
+  if (!deal || !animalId || !animal) {
     return null;
   }
 
   const sell = () => {
+    const currentAnimal = getAnimal(gameService.getSnapshot().context.state);
+
+    if (!currentAnimal) {
+      return;
+    }
+
+    if (renderedAnimalState.current !== currentAnimal.state) {
+      setAnimalOverride({
+        animalId,
+        animal: currentAnimal,
+        showStateChangeWarning: true,
+      });
+      return;
+    }
+
     gameService.send("animal.sold", {
       requestId: deal.id,
-      animalId: animal.id.toString(),
+      animalId,
     });
 
     onSold();
@@ -222,22 +283,47 @@ export const AnimalDeal: React.FC<{
     pointsAwarded = getChapterTaskPoints({ task: "bounty", points });
   }
 
+  const renderSickReward = (amount: number, label: string, icon: string) => {
+    const sickAmount = getSickAnimalRewardAmount(amount);
+
+    if (amount === sickAmount) {
+      return (
+        <Label type="warning" icon={icon} className="text-sm">
+          {`x ${sickAmount} ${label}`}
+        </Label>
+      );
+    }
+
+    return (
+      <>
+        <Label type="warning" icon={icon} className="text-sm">
+          <span className="line-through">{`x ${amount} ${label}`}</span>
+        </Label>
+        <Label type="warning" icon={icon} className="text-sm">
+          {`x ${sickAmount} ${label}`}
+        </Label>
+      </>
+    );
+  };
+
   return (
     <>
       {animal.state === "sick" ? (
         <Panel bumpkinParts={NPC_WEARABLES.grabnab}>
           <div className="p-2">
+            {showStateChangeWarning && (
+              <Label type="danger" className="mb-2">
+                {t("bounties.sell.animal.stateChanged")}
+              </Label>
+            )}
             <p className="mb-1">{t("bounties.sell.animal.sick")}</p>
+            <Label type="danger" className="my-2">
+              {t("bounties.sell.animal.sickReducedBounty")}
+            </Label>
             <div className="flex flex-col space-y-1 my-3">
               {deal.coins && (
                 <div className="flex items-center space-x-1">
-                  <Label
-                    type="warning"
-                    icon={SUNNYSIDE.ui.coinsImg}
-                    className="text-sm"
-                  >
-                    {`x ${getSickAnimalRewardAmount(coins)} coins`}
-                  </Label>
+                  {renderSickReward(coins, "coins", SUNNYSIDE.ui.coinsImg)}
                 </div>
               )}
               {getKeys(deal.items ?? {}).map((name) => {
@@ -253,13 +339,7 @@ export const AnimalDeal: React.FC<{
 
                 return (
                   <div className="flex items-center space-x-1" key={name}>
-                    <Label
-                      type="warning"
-                      icon={ITEM_DETAILS[name].image}
-                      className="text-sm"
-                    >
-                      {`x ${getSickAnimalRewardAmount(amount)} ${name}`}
-                    </Label>
+                    {renderSickReward(amount, name, ITEM_DETAILS[name].image)}
                   </div>
                 );
               })}
@@ -273,12 +353,19 @@ export const AnimalDeal: React.FC<{
           </div>
           <div className="flex space-x-1">
             <Button onClick={onClose}>{t("cancel")}</Button>
-            <Button onClick={sell}>{t("confirm")}</Button>
+            <ConfirmButton key={confirmationKey} onClick={sell}>
+              {t("confirm")}
+            </ConfirmButton>
           </div>
         </Panel>
       ) : (
         <Panel>
           <div className="p-2">
+            {showStateChangeWarning && (
+              <Label type="danger" className="mb-2">
+                {t("bounties.sell.animal.stateChanged")}
+              </Label>
+            )}
             <div className="mb-2 flex flex-wrap">
               <Label
                 type="default"
@@ -340,7 +427,9 @@ export const AnimalDeal: React.FC<{
             <Button className="mr-1" onClick={onClose}>
               {t("cancel")}
             </Button>
-            <Button onClick={sell}>{t("confirm")}</Button>
+            <ConfirmButton key={confirmationKey} onClick={sell}>
+              {t("confirm")}
+            </ConfirmButton>
           </div>
         </Panel>
       )}

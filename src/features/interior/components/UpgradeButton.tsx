@@ -12,6 +12,7 @@ import type {
   HomeExpansionTier,
   InventoryItemName,
 } from "features/game/types/game";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { nextHomeExpansionTier } from "features/game/expansion/placeable/lib/interiorLayouts";
 import { HOME_EXPANSION_UPGRADE_REQUIREMENTS } from "../lib/upgradeRequirements";
 import { getKeys } from "lib/object";
@@ -32,8 +33,10 @@ const _hasInteriorAccess = (state: MachineState) =>
  * a MapPlacement by the caller so it sits on the gameboard at a chosen tile
  * (see UPGRADE_BUTTON_TILE in Interior.tsx / LevelOne.tsx).
  *
- * Self-hides when the `interiors` experiment is off, when the player isn't on volcano island,
- * and when the expansion is already maxed at level-one-full.
+ * Self-hides when the `interiors` experiment is off, when the player hasn't
+ * reached volcano yet (home expansions unlock at volcano and carry forward
+ * through every later ascension island), and when the expansion is already
+ * maxed at level-one-full.
  *
  * Clicking opens a small panel showing the next tier's coin + inventory cost
  * and a confirm button. Confirm dispatches the `interior.upgrade` event; on
@@ -54,8 +57,9 @@ export const UpgradeButton: React.FC = () => {
 
   // Hide for non-beta players.
   if (!hasAccess) return null;
-  // Only show on volcano.
-  if (island.type !== "volcano") return null;
+  // Home expansions unlock at volcano and stay available on every island
+  // reached after it (swamp, spooky, etc. — see ISLAND_EXPANSIONS ordering).
+  if (!hasRequiredIslandExpansion(island.type, "volcano")) return null;
 
   const targetTier: HomeExpansionTier | null = expansion
     ? nextHomeExpansionTier(expansion)

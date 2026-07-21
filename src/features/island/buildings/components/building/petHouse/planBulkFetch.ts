@@ -47,6 +47,7 @@ type PetWork = {
   petId: PetName | number;
   key: string;
   energy: number;
+  isNFT: boolean;
   yields: Partial<Record<PetResourceName, Decimal>>;
 };
 
@@ -64,6 +65,10 @@ type PetWork = {
  *     depend on are already reserved, so favouring yield here does not starve
  *     them. Ties break toward the pet least useful elsewhere (fewest OTHER
  *     still-needed resources), then more remaining energy, then a stable id.
+ *  4. Acorn is the exception to (3): common pets are preferred over NFT pets
+ *     regardless of yield, falling back to NFT pets only once no common pet can
+ *     afford a fetch. NFT pets gain nothing from Acorn but +1 on every other
+ *     resource, so their energy is saved for fetches only they do well.
  *
  * Yields are deterministic (`getFetchYield`) and energy is the only limiter, so
  * the projection is exact. Anything that cannot be met is reported as
@@ -105,7 +110,7 @@ export function planBulkFetch({
       }).yieldAmount;
     });
 
-    pets.push({ petId, key: String(petId), energy: pet.energy, yields });
+    pets.push({ petId, key: String(petId), energy: pet.energy, isNFT, yields });
   });
 
   // 2. Outstanding demand (every positive request; unmet ones surface as shortfall).
@@ -158,6 +163,18 @@ export function planBulkFetch({
       if (candidates.length === 0) break;
 
       candidates.sort((a, b) => {
+        // Acorn is the exception to the yield-first rule below: an NFT pet gains
+        // nothing from it (getFetchYield excludes Acorn from the level-60 NFT
+        // bonus) while gaining +1 on every other resource, so NFT energy is
+        // worth more elsewhere. Prefer common pets even when an NFT out-yields
+        // them — Acorn yield only tracks level, so a high-level NFT would
+        // otherwise always win. Commons that run out of energy fail `canFetch`
+        // and leave `candidates`, so this falls back to NFT pets on its own, one
+        // fetch at a time.
+        if (resource === "Acorn" && a.isNFT !== b.isNFT) {
+          return a.isNFT ? 1 : -1;
+        }
+
         // Energy-efficient: the highest-yield pet needs the fewest fetches, so
         // the least energy, for this resource. Scarcest-first ordering has
         // already reserved the pets that rarer resources depend on, so a

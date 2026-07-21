@@ -544,6 +544,53 @@ describe("skillUse", () => {
   });
 
   describe("usePetalBlessed", () => {
+    it("scales the Petal Blessed cooldown by rank", () => {
+      const HOUR = 1000 * 60 * 60;
+      const useAt = (rank: number, previous: number) =>
+        skillUse({
+          state: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Petal Blessed": rank },
+              previousPowerUseAt: { "Petal Blessed": previous },
+            },
+            flowers: {
+              discovered: {},
+              flowerBeds: {
+                "123": {
+                  x: 1,
+                  y: -10,
+                  createdAt: 1715650356584,
+                  flower: {
+                    plantedAt: dateNow,
+                    name: "Yellow Carnation",
+                  },
+                },
+              },
+            },
+          },
+          action: { type: "skill.used", skill: "Petal Blessed" },
+          createdAt: dateNow,
+        });
+
+      // rank 1 -> 96h
+      expect(() => useAt(1, dateNow - 95 * HOUR)).toThrow(
+        "Power Skill on Cooldown",
+      );
+      expect(() => useAt(1, dateNow - 97 * HOUR)).not.toThrow();
+      // rank 2 -> 84h
+      expect(() => useAt(2, dateNow - 83 * HOUR)).toThrow(
+        "Power Skill on Cooldown",
+      );
+      expect(() => useAt(2, dateNow - 85 * HOUR)).not.toThrow();
+      // rank 3 -> 72h
+      expect(() => useAt(3, dateNow - 71 * HOUR)).toThrow(
+        "Power Skill on Cooldown",
+      );
+      expect(() => useAt(3, dateNow - 73 * HOUR)).not.toThrow();
+    });
+
     it("throws an error when flower beds are empty", () => {
       expect(() =>
         skillUse({
@@ -1282,6 +1329,103 @@ describe("skillUse", () => {
           skillName: "Tree Blitz",
         }),
       ).toEqual(HOUR * 12);
+    });
+
+    it("scales Instant Gratification cooldown per rank (96h/84h/72h)", () => {
+      const state = (rank: number) => ({
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: { "Instant Gratification": rank },
+        },
+      });
+
+      expect(
+        getSkillCooldown({
+          cooldown: HOUR * 96,
+          state: state(1),
+          skillName: "Instant Gratification",
+        }),
+      ).toEqual(HOUR * 96);
+      expect(
+        getSkillCooldown({
+          cooldown: HOUR * 96,
+          state: state(2),
+          skillName: "Instant Gratification",
+        }),
+      ).toEqual(HOUR * 84);
+      expect(
+        getSkillCooldown({
+          cooldown: HOUR * 96,
+          state: state(3),
+          skillName: "Instant Gratification",
+        }),
+      ).toEqual(HOUR * 72);
+    });
+
+    it("scales Greenhouse Guru cooldown per rank (96h/84h/72h)", () => {
+      const state = (rank: number) => ({
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: { "Greenhouse Guru": rank },
+        },
+      });
+
+      expect(
+        getSkillCooldown({
+          cooldown: HOUR * 96,
+          state: state(1),
+          skillName: "Greenhouse Guru",
+        }),
+      ).toEqual(HOUR * 96);
+      expect(
+        getSkillCooldown({
+          cooldown: HOUR * 96,
+          state: state(2),
+          skillName: "Greenhouse Guru",
+        }),
+      ).toEqual(HOUR * 84);
+      expect(
+        getSkillCooldown({
+          cooldown: HOUR * 96,
+          state: state(3),
+          skillName: "Greenhouse Guru",
+        }),
+      ).toEqual(HOUR * 72);
+    });
+
+    it("scales Grease Lightning cooldown per rank (96h/84h/72h)", () => {
+      const state = (rank: number) => ({
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: { "Grease Lightning": rank },
+        },
+      });
+
+      // Rank 1 reproduces the pre-upgrade 96h cooldown.
+      expect(
+        getSkillCooldown({
+          cooldown: HOUR * 96,
+          state: state(1),
+          skillName: "Grease Lightning",
+        }),
+      ).toEqual(HOUR * 96);
+      expect(
+        getSkillCooldown({
+          cooldown: HOUR * 96,
+          state: state(2),
+          skillName: "Grease Lightning",
+        }),
+      ).toEqual(HOUR * 84);
+      expect(
+        getSkillCooldown({
+          cooldown: HOUR * 96,
+          state: state(3),
+          skillName: "Grease Lightning",
+        }),
+      ).toEqual(HOUR * 72);
     });
   });
 });

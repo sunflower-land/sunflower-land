@@ -29,6 +29,7 @@ import {
 import { LandscapeButton } from "./components/LandscapeButton";
 import { InteriorFloorNav } from "features/interior/components/InteriorFloorNav";
 import { InteriorBedsButton } from "features/interior/components/InteriorBedsButton";
+import { InteriorBumpkins } from "features/home/components/InteriorBumpkins";
 import { StreamCountdown } from "./components/streamCountdown/StreamCountdown";
 import { HudBumpkin } from "./components/bumpkinProfile/HudBumpkin";
 import { WorldFeedButton } from "features/social/components/WorldFeedButton";
@@ -116,6 +117,19 @@ const HudComponent: React.FC<{
         {location === "level_one" && <InteriorFloorNav floor="level_one" />}
         <TravelButton location={location} />
       </div>
+
+      {/*
+        Farm hand / bumpkin line for the interior surfaces. Rendered here in
+        the HUD (fixed to the viewport, not the gameboard) instead of inside
+        the room canvas — the room's placeable bounds shrink on early home
+        expansion tiers, which isn't wide enough for the row and caused it to
+        overlap the in-world Upgrade button.
+      */}
+      {(location === "interior" || location === "level_one") && (
+        <div className="absolute top-16 left-1/2 -translate-x-1/2">
+          <InteriorBumpkins location={location} />
+        </div>
+      )}
       <div className="absolute bottom-0 pb-2 pl-3 left-16 flex flex-col space-y-2.5">
         <RaffleWidget />
         <TransactionCountdown />

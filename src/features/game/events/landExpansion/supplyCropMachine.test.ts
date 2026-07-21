@@ -5,7 +5,9 @@ import {
 } from "features/game/lib/constants";
 import {
   CROP_MACHINE_PLOTS,
+  MAX_OIL_CAPACITY_IN_HOURS,
   MAX_OIL_CAPACITY_IN_MILLIS,
+  MAX_QUEUE_SIZE,
   OIL_PER_HOUR_CONSUMPTION,
   calculateCropTime,
   getOilTimeInMillis,
@@ -1918,6 +1920,194 @@ describe("calculateCropTime", () => {
 
     expect(result).toBe(
       (60 * 10 * 1000 * 0.76) / CROP_MACHINE_PLOTS(GAME_STATE),
+    );
+  });
+});
+
+describe("Machinery skill upgrades (ranks)", () => {
+  const withSkills = (skills: GameState["bumpkin"]["skills"]): GameState => ({
+    ...GAME_STATE,
+    bumpkin: { ...GAME_STATE.bumpkin, skills },
+  });
+
+  describe("Field Expansion Module (MAX_QUEUE_SIZE)", () => {
+    // Rank 1 reproduces the pre-upgrade queue size (5 + 5 = 10).
+    it.each([
+      [1, 10],
+      [2, 12],
+      [3, 15],
+    ])("rank %i => queue size %i", (rank, expected) => {
+      expect(
+        MAX_QUEUE_SIZE(withSkills({ "Field Expansion Module": rank })),
+      ).toBe(expected);
+    });
+
+    it("stays at the base of 5 with no skill", () => {
+      expect(MAX_QUEUE_SIZE(withSkills({}))).toBe(5);
+    });
+  });
+
+  describe("Field Extension Module (CROP_MACHINE_PLOTS)", () => {
+    // Rank 1 reproduces the pre-upgrade plot count (10 + 5 = 15).
+    it.each([
+      [1, 15],
+      [2, 17],
+      [3, 20],
+    ])("rank %i => plots %i", (rank, expected) => {
+      expect(
+        CROP_MACHINE_PLOTS(withSkills({ "Field Extension Module": rank })),
+      ).toBe(expected);
+    });
+
+    it("stays at the base of 10 with no skill", () => {
+      expect(CROP_MACHINE_PLOTS(withSkills({}))).toBe(10);
+    });
+  });
+
+  describe("Leak-Proof Tank (MAX_OIL_CAPACITY_IN_HOURS)", () => {
+    // Rank 1 reproduces the pre-upgrade capacity (48 * 3 = 144h).
+    it.each([
+      [1, 144],
+      [2, 192],
+      [3, 240],
+    ])("rank %i => %i hours", (rank, expected) => {
+      expect(
+        MAX_OIL_CAPACITY_IN_HOURS(withSkills({ "Leak-Proof Tank": rank })),
+      ).toBe(expected);
+    });
+
+    it("stays at the base of 48h with no skill", () => {
+      expect(MAX_OIL_CAPACITY_IN_HOURS(withSkills({}))).toBe(48);
+    });
+  });
+
+  describe("Oil Gadget (OIL_PER_HOUR_CONSUMPTION -= reduction)", () => {
+    // Rank 1 reproduces the pre-upgrade -10% (x0.9).
+    it.each([
+      [1, 0.9],
+      [2, 0.85],
+      [3, 0.8],
+    ])("rank %i => %f oil/hour", (rank, expected) => {
+      expect(
+        setPrecision(
+          OIL_PER_HOUR_CONSUMPTION(withSkills({ "Oil Gadget": rank })),
+        ).toNumber(),
+      ).toBe(expected);
+    });
+  });
+
+  describe("Efficiency Extension Module (OIL_PER_HOUR_CONSUMPTION -= reduction)", () => {
+    // Rank 1 reproduces the pre-upgrade -30% (x0.7).
+    it.each([
+      [1, 0.7],
+      [2, 0.6],
+      [3, 0.5],
+    ])("rank %i => %f oil/hour", (rank, expected) => {
+      expect(
+        setPrecision(
+          OIL_PER_HOUR_CONSUMPTION(
+            withSkills({ "Efficiency Extension Module": rank }),
+          ),
+        ).toNumber(),
+      ).toBe(expected);
+    });
+  });
+
+  it("stacks Oil Gadget + Efficiency Extension additively at rank 3 (x0.3)", () => {
+    // 1 - 0.2 (Oil Gadget III) - 0.5 (Efficiency III) = 0.3
+    expect(
+      setPrecision(
+        OIL_PER_HOUR_CONSUMPTION(
+          withSkills({
+            "Oil Gadget": 3,
+            "Efficiency Extension Module": 3,
+          }),
+        ),
+      ).toNumber(),
+    ).toBe(0.3);
+  });
+
+  describe("Crop Processor Unit (oil penalty leg, additive)", () => {
+    // Rank 1 reproduces the pre-upgrade +10%.
+    it.each([
+      [1, 1.1],
+      [2, 1.15],
+      [3, 1.2],
+    ])("rank %i => %f oil/hour", (rank, expected) => {
+      expect(
+        setPrecision(
+          OIL_PER_HOUR_CONSUMPTION(withSkills({ "Crop Processor Unit": rank })),
+        ).toNumber(),
+      ).toBe(expected);
+    });
+  });
+
+  describe("Rapid Rig (oil penalty leg, additive)", () => {
+    // Rank 1 reproduces the pre-upgrade +40%.
+    it.each([
+      [1, 1.4],
+      [2, 1.5],
+      [3, 1.6],
+    ])("rank %i => %f oil/hour", (rank, expected) => {
+      expect(
+        setPrecision(
+          OIL_PER_HOUR_CONSUMPTION(withSkills({ "Rapid Rig": rank })),
+        ).toNumber(),
+      ).toBe(expected);
+    });
+  });
+
+  describe("Crop Processor Unit (growth leg, multiplicative)", () => {
+    // Rank 1 reproduces the pre-upgrade x0.95.
+    it.each([
+      [1, 0.95],
+      [2, 0.9],
+      [3, 0.85],
+    ])("rank %i => x%f growth time", (rank, mult) => {
+      const { milliSeconds } = calculateCropTime(
+        { type: "Sunflower Seed", amount: 10 },
+        withSkills({ "Crop Processor Unit": rank }),
+      );
+      expect(milliSeconds).toBe(
+        (60 * 10 * 1000 * mult) / CROP_MACHINE_PLOTS(GAME_STATE),
+      );
+    });
+  });
+
+  describe("Rapid Rig (growth leg, multiplicative)", () => {
+    // Rank 1 reproduces the pre-upgrade x0.8.
+    it.each([
+      [1, 0.8],
+      [2, 0.7],
+      [3, 0.6],
+    ])("rank %i => x%f growth time", (rank, mult) => {
+      const { milliSeconds } = calculateCropTime(
+        { type: "Sunflower Seed", amount: 10 },
+        withSkills({ "Rapid Rig": rank }),
+      );
+      expect(milliSeconds).toBe(
+        (60 * 10 * 1000 * mult) / CROP_MACHINE_PLOTS(GAME_STATE),
+      );
+    });
+  });
+
+  it("scales BOTH legs of Crop Processor Unit + Rapid Rig at rank 3", () => {
+    const state = withSkills({
+      "Crop Processor Unit": 3,
+      "Rapid Rig": 3,
+    });
+
+    // Oil leg (additive): 1 + 0.2 + 0.6 = 1.8
+    expect(OIL_PER_HOUR_CONSUMPTION(state)).toBeCloseTo(1.8, 5);
+
+    // Growth leg (multiplicative): x0.85 * x0.6 = x0.51
+    const { milliSeconds } = calculateCropTime(
+      { type: "Sunflower Seed", amount: 10 },
+      state,
+    );
+    expect(milliSeconds).toBeCloseTo(
+      (60 * 10 * 1000 * 0.85 * 0.6) / CROP_MACHINE_PLOTS(GAME_STATE),
+      5,
     );
   });
 });

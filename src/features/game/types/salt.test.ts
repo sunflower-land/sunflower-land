@@ -1,10 +1,13 @@
 import type { GameState } from "features/game/types/game";
 import {
+  BASE_SALT_YIELD,
   MAX_STORED_SALT_CHARGES_PER_NODE,
   SALT_CHARGE_GENERATION_TIME,
   SALT_NODE_COORDINATES,
   getSaltChargeGenerationTime,
   getSaltNodeCoordinates,
+  getSaltYieldPerRake,
+  getSeaBlessedChance,
   materializeSaltRegen,
   populateSaltFarm,
   rechargeAllSaltNodes,
@@ -13,6 +16,8 @@ import {
   type SaltNode,
 } from "./salt";
 import { INITIAL_FARM } from "../lib/constants";
+import { prngChance } from "lib/prng";
+import { KNOWN_IDS } from "features/game/types";
 import { getWharfCoordinates } from "../expansion/lib/constants";
 
 describe("salt nextChargeAt regen", () => {
@@ -418,5 +423,125 @@ describe("getSaltNodeCoordinates", () => {
       });
 
     expect(shapeAt(3)).toEqual(shapeAt(42));
+  });
+});
+
+describe("Salty Seas rank", () => {
+  const gameWithRank = (rank: number): GameState =>
+    ({
+      ...INITIAL_FARM,
+      bumpkin: { ...INITIAL_FARM.bumpkin, skills: { "Salty Seas": rank } },
+    }) as GameState;
+
+  it("shortens the charge interval by rank", () => {
+    expect(
+      getSaltChargeGenerationTime({ gameState: gameWithRank(1) })
+        .chargeGenerationTimeMs,
+    ).toBeCloseTo(SALT_CHARGE_GENERATION_TIME * 0.9);
+    expect(
+      getSaltChargeGenerationTime({ gameState: gameWithRank(2) })
+        .chargeGenerationTimeMs,
+    ).toBeCloseTo(SALT_CHARGE_GENERATION_TIME * 0.85);
+    expect(
+      getSaltChargeGenerationTime({ gameState: gameWithRank(3) })
+        .chargeGenerationTimeMs,
+    ).toBeCloseTo(SALT_CHARGE_GENERATION_TIME * 0.8);
+  });
+
+  it("reports the rank's multiplier in boostsUsed", () => {
+    expect(
+      getSaltChargeGenerationTime({ gameState: gameWithRank(3) }).boostsUsed,
+    ).toContainEqual({ name: "Salty Seas", value: "x0.8" });
+  });
+});
+
+describe("Wide Rakes rank", () => {
+  const gameWithRank = (rank: number): GameState =>
+    ({
+      ...INITIAL_FARM,
+      bumpkin: { ...INITIAL_FARM.bumpkin, skills: { "Wide Rakes": rank } },
+    }) as GameState;
+  const now = 1_000_000_000_000;
+
+  it("adds salt per rake by rank", () => {
+    expect(getSaltYieldPerRake(gameWithRank(1), now).saltYield).toBe(
+      BASE_SALT_YIELD + 2,
+    );
+    expect(getSaltYieldPerRake(gameWithRank(2), now).saltYield).toBe(
+      BASE_SALT_YIELD + 3,
+    );
+    expect(getSaltYieldPerRake(gameWithRank(3), now).saltYield).toBe(
+      BASE_SALT_YIELD + 4,
+    );
+  });
+
+  it("reports the rank's bonus in boostsUsed", () => {
+    expect(getSaltYieldPerRake(gameWithRank(3), now).boostsUsed).toContainEqual(
+      {
+        name: "Wide Rakes",
+        value: "+4",
+      },
+    );
+  });
+});
+
+describe("Sea Blessed rank", () => {
+  const gameWithRank = (rank: number): GameState =>
+    ({
+      ...INITIAL_FARM,
+      bumpkin: { ...INITIAL_FARM.bumpkin, skills: { "Sea Blessed": rank } },
+    }) as GameState;
+
+  it("returns 0 without the skill", () => {
+    expect(getSeaBlessedChance(INITIAL_FARM)).toBe(0);
+  });
+
+  it("scales the chance with rank", () => {
+    expect(getSeaBlessedChance(gameWithRank(1))).toBe(5);
+    expect(getSeaBlessedChance(gameWithRank(2))).toBe(7.5);
+    expect(getSeaBlessedChance(gameWithRank(3))).toBe(10);
+  });
+
+  // Guards rank 2's fractional half-percent end to end, at the generator rather
+  // than at the call site. farmId 1 / counter 2 is a witness: its prng value
+  // lands in [7, 7.5), so it misses at rank 1's 5% and would also miss if 7.5
+  // were ever truncated to 7 — it only fires if the full 7.5 reaches prngChance.
+  it("rolls rank 2 at the full 7.5%, not a truncated 7%", () => {
+    const roll = (chance: number) =>
+      prngChance({
+        farmId: 1,
+        itemId: KNOWN_IDS["Salt"],
+        counter: 2,
+        chance,
+        criticalHitName: "Sea Blessed",
+      });
+
+    expect(roll(getSeaBlessedChance(gameWithRank(1)))).toBe(false);
+    expect(roll(getSeaBlessedChance(gameWithRank(2)))).toBe(true);
+    // The truncation this guards against:
+    expect(roll(7)).toBe(false);
+  });
+
+  it("rolls a higher rank whenever a lower rank hits", () => {
+    const hits = (rank: number) => {
+      let count = 0;
+      for (let counter = 0; counter < 2_000; counter++) {
+        if (
+          prngChance({
+            farmId: 1,
+            itemId: KNOWN_IDS["Salt"],
+            counter,
+            chance: getSeaBlessedChance(gameWithRank(rank)),
+            criticalHitName: "Sea Blessed",
+          })
+        ) {
+          count++;
+        }
+      }
+      return count;
+    };
+
+    expect(hits(1)).toBeLessThan(hits(2));
+    expect(hits(2)).toBeLessThan(hits(3));
   });
 });

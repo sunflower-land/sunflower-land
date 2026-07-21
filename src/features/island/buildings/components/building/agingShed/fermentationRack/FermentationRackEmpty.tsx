@@ -33,6 +33,7 @@ import { useVisiting } from "lib/utils/visitUtils";
 import { getObjectEntries } from "lib/object";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { getItemDescription } from "features/game/lib/getItemDescription";
+import { getSkillLevel } from "features/game/types/bumpkinSkills";
 
 function getMergedInventory(state: GameState): Inventory {
   return {
@@ -125,7 +126,7 @@ export const FermentationRackEmpty: React.FC<Props> = ({
           getFermentationRecipe(recipeId).outputs[selectedItem] ??
             new Decimal(0),
           selectedItem,
-          !!gameState.bumpkin.skills["Ager"],
+          getSkillLevel(gameState.bumpkin.skills, "Ager"),
         )
       : undefined;
 
