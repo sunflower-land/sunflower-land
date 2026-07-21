@@ -157,9 +157,7 @@ export const FeederMachineModal: React.FC<Props> = ({
         <p className="text-xxs">{secondary}</p>
       </div>
       <div className="mt-auto w-full">
-        <Button disabled>
-          {t("feeder.nothingToMix")}
-        </Button>
+        <Button disabled>{t("feeder.nothingToMix")}</Button>
       </div>
     </>
   );
@@ -167,10 +165,7 @@ export const FeederMachineModal: React.FC<Props> = ({
   // Covered feeds are informational rows. Keep the confirmation icon in the
   // same leading slot used by selectable feed cards so the list stays aligned.
   const renderCoveredRow = (feed: (typeof coveredFeeds)[number]) => (
-    <div
-      key={`covered-${feed.item}`}
-      className="flex items-center gap-2 px-2"
-    >
+    <div key={`covered-${feed.item}`} className="flex items-center gap-2 px-2">
       <img
         src={SUNNYSIDE.icons.confirm}
         alt=""
@@ -192,9 +187,7 @@ export const FeederMachineModal: React.FC<Props> = ({
     </div>
   );
 
-  const getFeedIngredientShortfalls = (
-    feed: (typeof mixableFeeds)[number],
-  ) =>
+  const getFeedIngredientShortfalls = (feed: (typeof mixableFeeds)[number]) =>
     getKeys(feed.ingredients).reduce(
       (shortfalls, ingredient) => {
         const required = feed.ingredients[ingredient] ?? new Decimal(0);
@@ -308,7 +301,7 @@ export const FeederMachineModal: React.FC<Props> = ({
           {
             id: "automaticMixer",
             icon: ITEM_DETAILS["Mixed Grain"].image,
-            name: t("feeder.automaticMixer"),
+            name: t("feeder.bulkMixer"),
           },
         ]}
         currentTab={tab}
@@ -482,7 +475,7 @@ export const FeederMachineModal: React.FC<Props> = ({
                       {t("feeder.noRequestsForBuilding")}
                     </p>
                     <p className="text-xs">
-                      {t("feeder.automaticMixerEmptyDescription")}
+                      {t("feeder.bulkMixerEmptyDescription")}
                     </p>
                   </div>
                 ) : (
