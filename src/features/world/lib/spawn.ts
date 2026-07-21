@@ -190,4 +190,11 @@ export const SPAWNS: () => SpawnLocation = () => ({
       y: 192,
     },
   },
+  // Log Chop: centre of the woodlands map — trees are scattered around here.
+  giveaway_chop: {
+    default: {
+      x: 400,
+      y: 208,
+    },
+  },
 });

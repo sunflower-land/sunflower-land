@@ -5972,6 +5972,8 @@
   "giveaway.participants": "{{count}} players",
   "giveaway.noScores": "No scores yet",
   "giveaway.startingIn": "Starting in",
+  "giveaway.chopHint": "Press space or tap the tree",
+  "giveaway.scoreValue": "Score {{score}}",
   "giveaway.yourScore": "{{score}}m",
   "giveaway.refreshBoard": "Refresh leaderboard",
   "giveaway.finishEvent": "Finish Event",

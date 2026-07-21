@@ -45,6 +45,7 @@ export type Scenes = {
   stream: Room<PlazaRoomState> | undefined;
   love_island: Room<PlazaRoomState> | undefined;
   giveaway_race: Room<PlazaRoomState> | undefined;
+  giveaway_chop: Room<PlazaRoomState> | undefined;
 };
 
 export type SceneId = keyof Scenes;

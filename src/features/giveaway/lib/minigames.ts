@@ -7,7 +7,7 @@
  * is carried to the play screen via a `?type=` query param. Players who join via
  * the lobby (no query param) fall back to `race`.
  */
-export type MinigameType = "race" | "puzzle" | "trivia";
+export type MinigameType = "race" | "chop" | "puzzle" | "trivia";
 
 export type GiveawayMinigame = {
   type: MinigameType;
@@ -18,6 +18,7 @@ export type GiveawayMinigame = {
 
 export const GIVEAWAY_MINIGAMES: GiveawayMinigame[] = [
   { type: "race", name: "Weekly Stream Race", available: true },
+  { type: "chop", name: "Log Chop", available: true },
   { type: "puzzle", name: "Puzzle (coming soon)", available: false },
   { type: "trivia", name: "Trivia (coming soon)", available: false },
 ];

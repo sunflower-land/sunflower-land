@@ -29,4 +29,11 @@ export interface GiveawayBridge {
 
   /** Called once, when the 30s race clock is up, with the final metres. */
   onFinish: (metres: number) => void;
+
+  /**
+   * Live score for the HUD only — does NOT submit to the server (that's
+   * `onProgress`). Lets a scene push its score to the React overlay every time
+   * it changes, so it can be rendered in HTML rather than pixelated canvas text.
+   */
+  onScoreChange: (score: number) => void;
 }

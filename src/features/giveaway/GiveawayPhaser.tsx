@@ -12,6 +12,7 @@ import { Context as GameContext } from "features/game/GameProvider";
 import * as Auth from "features/auth/lib/Provider";
 import { GiveawayContext } from "./lib/GiveawayProvider";
 import { RaceScene, RACE_SCENE_ID } from "./scenes/RaceScene";
+import { ChopScene, CHOP_SCENE_ID } from "./scenes/ChopScene";
 import { type MinigameType, DEFAULT_MINIGAME } from "./lib/minigames";
 
 /**
@@ -20,6 +21,7 @@ import { type MinigameType, DEFAULT_MINIGAME } from "./lib/minigames";
  */
 const SCENE_BY_TYPE: Partial<Record<MinigameType, string>> = {
   race: RACE_SCENE_ID,
+  chop: CHOP_SCENE_ID,
 };
 
 export const GiveawayPhaser: React.FC<{ minigame?: MinigameType }> = ({
@@ -40,7 +42,7 @@ export const GiveawayPhaser: React.FC<{ minigame?: MinigameType }> = ({
     // Preloader loads the shared Sunflower Land assets (Bumpkin silhouettes,
     // shadows, label ninepatch) that BumpkinContainer depends on, then starts
     // the chosen scene via the `initialScene` registry value.
-    const scenes = [Preloader, RaceScene];
+    const scenes = [Preloader, RaceScene, ChopScene];
 
     const config: Phaser.Types.Core.GameConfig = {
       type: AUTO,

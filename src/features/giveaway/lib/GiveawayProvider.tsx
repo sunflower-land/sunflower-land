@@ -24,6 +24,8 @@ interface GiveawayContextValue {
   countdownMs: number;
   /** ms left on the 30s race clock (0 unless racing). */
   raceRemainingMs: number;
+  /** Live score for the HUD, updated as the mini-game plays. */
+  displayScore: number;
   /** The score the local player achieved, once they finish. */
   playerScore?: number;
   isSubmitting: boolean;
@@ -94,6 +96,8 @@ export const GiveawayProvider: React.FC<
   // `playerScore` is only set once the race actually ends, and drives the
   // results overlay.
   const [liveScore, setLiveScore] = useState(0);
+  /** Score shown in the HUD as it changes (display only — never submitted). */
+  const [displayScore, setDisplayScore] = useState(0);
   const [playerScore, setPlayerScore] = useState<number | undefined>(undefined);
   const lastSubmittedRef = useRef(-1);
 
@@ -116,6 +120,7 @@ export const GiveawayProvider: React.FC<
       getRaceStartAt: () => boardRef.current?.startAt ?? Date.now(),
       onProgress: (metres: number) =>
         setLiveScore((prev) => Math.max(prev, metres)),
+      onScoreChange: setDisplayScore,
       onFinish: (metres: number) => {
         setLiveScore((prev) => Math.max(prev, metres));
         setPlayerScore((prev) => prev ?? metres);
@@ -163,6 +168,7 @@ export const GiveawayProvider: React.FC<
     phase,
     countdownMs,
     raceRemainingMs,
+    displayScore,
     playerScore,
     isSubmitting,
     bridge,

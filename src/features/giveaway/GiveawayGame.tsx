@@ -33,9 +33,11 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
     phase,
     countdownMs,
     raceRemainingMs,
+    displayScore,
     playerScore,
     isLoading,
     refresh,
+    bridge,
   } = useContext(GiveawayContext);
 
   const token = authService.getSnapshot().context.user.rawToken as string;
@@ -116,6 +118,19 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
               {Math.ceil(raceRemainingMs / 1000)}
             </span>
           )}
+          {/* Rendered in HTML rather than canvas text so it stays crisp. */}
+          {phase === "racing" && minigame === "chop" && (
+            <span
+              className="font-secondary text-white"
+              style={{
+                fontSize: "28px",
+                lineHeight: 1,
+                textShadow: "2px 2px 0 rgba(0,0,0,0.7)",
+              }}
+            >
+              {t("giveaway.scoreValue", { score: displayScore })}
+            </span>
+          )}
         </div>
       )}
 
@@ -152,6 +167,13 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
               </div>
             </Panel>
           </div>
+        </div>
+      )}
+
+      {/* Log Chop instructions */}
+      {minigame === "chop" && phase === "racing" && !showResults && (
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10">
+          <Label type="vibrant">{t("giveaway.chopHint")}</Label>
         </div>
       )}
 
