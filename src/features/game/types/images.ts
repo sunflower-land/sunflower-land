@@ -1201,6 +1201,32 @@ import bigfinDoll from "assets/sfts/dolls/bigfin_doll.webp";
 import solarDoll from "assets/sfts/dolls/solar_doll.webp";
 import saltDoll from "assets/sfts/dolls/salt_doll.webp";
 import spaBear from "assets/sfts/bears/spa_bear.webp";
+import letterATile from "assets/sfts/tiles/letter_a_tile.png";
+import letterBTile from "assets/sfts/tiles/letter_b_tile.png";
+import letterCTile from "assets/sfts/tiles/letter_c_tile.png";
+import letterDTile from "assets/sfts/tiles/letter_d_tile.png";
+import letterETile from "assets/sfts/tiles/letter_e_tile.png";
+import letterFTile from "assets/sfts/tiles/letter_f_tile.png";
+import letterGTile from "assets/sfts/tiles/letter_g_tile.png";
+import letterHTile from "assets/sfts/tiles/letter_h_tile.png";
+import letterITile from "assets/sfts/tiles/letter_i_tile.png";
+import letterJTile from "assets/sfts/tiles/letter_j_tile.png";
+import letterKTile from "assets/sfts/tiles/letter_k_tile.png";
+import letterLTile from "assets/sfts/tiles/letter_l_tile.png";
+import letterMTile from "assets/sfts/tiles/letter_m_tile.png";
+import letterNTile from "assets/sfts/tiles/letter_n_tile.png";
+import letterOTile from "assets/sfts/tiles/letter_o_tile.png";
+import letterPTile from "assets/sfts/tiles/letter_p_tile.png";
+import letterQTile from "assets/sfts/tiles/letter_q_tile.png";
+import letterRTile from "assets/sfts/tiles/letter_r_tile.png";
+import letterSTile from "assets/sfts/tiles/letter_s_tile.png";
+import letterTTile from "assets/sfts/tiles/letter_t_tile.png";
+import letterUTile from "assets/sfts/tiles/letter_u_tile.png";
+import letterVTile from "assets/sfts/tiles/letter_v_tile.png";
+import letterWTile from "assets/sfts/tiles/letter_w_tile.png";
+import letterXTile from "assets/sfts/tiles/letter_x_tile.png";
+import letterYTile from "assets/sfts/tiles/letter_y_tile.png";
+import letterZTile from "assets/sfts/tiles/letter_z_tile.png";
 import anglerDoll from "assets/sfts/dolls/angler_doll.webp";
 import harvestDoll from "assets/sfts/dolls/harvest_doll.webp";
 import sizzleDoll from "assets/sfts/dolls/sizzler_doll.webp";
@@ -7228,6 +7254,110 @@ export const ITEM_DETAILS: Items = {
   "Jacuzzi Bear": {
     image: spaBear,
     description: translate("description.jacuzziBear"),
+  },
+  "Letter A Tile": {
+    image: letterATile,
+    description: translate("description.letterATile"),
+  },
+  "Letter B Tile": {
+    image: letterBTile,
+    description: translate("description.letterBTile"),
+  },
+  "Letter C Tile": {
+    image: letterCTile,
+    description: translate("description.letterCTile"),
+  },
+  "Letter D Tile": {
+    image: letterDTile,
+    description: translate("description.letterDTile"),
+  },
+  "Letter E Tile": {
+    image: letterETile,
+    description: translate("description.letterETile"),
+  },
+  "Letter F Tile": {
+    image: letterFTile,
+    description: translate("description.letterFTile"),
+  },
+  "Letter G Tile": {
+    image: letterGTile,
+    description: translate("description.letterGTile"),
+  },
+  "Letter H Tile": {
+    image: letterHTile,
+    description: translate("description.letterHTile"),
+  },
+  "Letter I Tile": {
+    image: letterITile,
+    description: translate("description.letterITile"),
+  },
+  "Letter J Tile": {
+    image: letterJTile,
+    description: translate("description.letterJTile"),
+  },
+  "Letter K Tile": {
+    image: letterKTile,
+    description: translate("description.letterKTile"),
+  },
+  "Letter L Tile": {
+    image: letterLTile,
+    description: translate("description.letterLTile"),
+  },
+  "Letter M Tile": {
+    image: letterMTile,
+    description: translate("description.letterMTile"),
+  },
+  "Letter N Tile": {
+    image: letterNTile,
+    description: translate("description.letterNTile"),
+  },
+  "Letter O Tile": {
+    image: letterOTile,
+    description: translate("description.letterOTile"),
+  },
+  "Letter P Tile": {
+    image: letterPTile,
+    description: translate("description.letterPTile"),
+  },
+  "Letter Q Tile": {
+    image: letterQTile,
+    description: translate("description.letterQTile"),
+  },
+  "Letter R Tile": {
+    image: letterRTile,
+    description: translate("description.letterRTile"),
+  },
+  "Letter S Tile": {
+    image: letterSTile,
+    description: translate("description.letterSTile"),
+  },
+  "Letter T Tile": {
+    image: letterTTile,
+    description: translate("description.letterTTile"),
+  },
+  "Letter U Tile": {
+    image: letterUTile,
+    description: translate("description.letterUTile"),
+  },
+  "Letter V Tile": {
+    image: letterVTile,
+    description: translate("description.letterVTile"),
+  },
+  "Letter W Tile": {
+    image: letterWTile,
+    description: translate("description.letterWTile"),
+  },
+  "Letter X Tile": {
+    image: letterXTile,
+    description: translate("description.letterXTile"),
+  },
+  "Letter Y Tile": {
+    image: letterYTile,
+    description: translate("description.letterYTile"),
+  },
+  "Letter Z Tile": {
+    image: letterZTile,
+    description: translate("description.letterZTile"),
   },
   Trash: {
     image: trash,

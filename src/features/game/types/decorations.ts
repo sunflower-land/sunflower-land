@@ -669,6 +669,189 @@ export const DECORATION_TEMPLATES = {
     },
     isWithdrawable: () => false,
   },
+  // Letter tiles
+  "Letter A Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter B Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter C Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter D Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter E Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter F Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter G Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter H Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter I Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter J Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter K Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter L Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter M Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter N Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter O Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter P Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter Q Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter R Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter S Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter T Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter U Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter V Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter W Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter X Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter Y Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter Z Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
 } satisfies Record<string, Template>;
 
 export type TemplateDecorationName = keyof typeof DECORATION_TEMPLATES;
