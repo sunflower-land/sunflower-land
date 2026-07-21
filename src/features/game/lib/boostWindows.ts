@@ -7,6 +7,7 @@ import type {
   GreenhouseFertiliser,
   PlacedItem,
 } from "../types/game";
+import type { AnimalType } from "../types/animals";
 import {
   getExpiryCooldown,
   type TemporaryCollectibleName,
@@ -134,6 +135,18 @@ export const GREENHOUSE_BOOST_SPEED = {
   "Tortoise Shrine": 1.5,
   // Per-pot fertiliser (not a collectible); windowed via getGreenhouseGlowWindows.
   "Greenhouse Glow": 1.25,
+} as const;
+
+/**
+ * Speed multipliers for the windowed barn/hen-house animal SLEEP boosts. Animals'
+ * only temporary boosts are the Collie Shrine (Cow/Sheep) and Bantam Shrine
+ * (Chicken) — no totems, no hourglasses apply to animal sleep (mirrors flowers/oil).
+ * Both are MIXED shrines: only their sleep-TIME half (legacy ×0.75) is windowed
+ * here; their feed-amount ×0.95 half stays baked in getBoostedFoodQuantity.
+ */
+export const ANIMAL_BOOST_SPEED = {
+  "Collie Shrine": 1.35,
+  "Bantam Shrine": 1.35,
 } as const;
 
 /** Window for the Power Hour buff (1h from activation), if active. */
@@ -294,6 +307,29 @@ export const getOilBoostWindows = (game: GameState): BoostWindow[] =>
     name: "Stag Shrine",
     speed: OIL_BOOST_SPEED["Stag Shrine"],
   });
+
+/**
+ * The windowed speed boosts that apply to a barn/hen-house animal's sleep. Coverage
+ * differs by species: Collie Shrine speeds up Cow/Sheep sleep, Bantam Shrine speeds
+ * up Chicken sleep (no totems — mirrors flowers/oil). Only the sleep-TIME half is
+ * windowed; the feed-amount half stays baked in getBoostedFoodQuantity. Empty set
+ * (no matching shrine) makes `computeReadyAt` reduce to `asleepAt + baseDurationMs`.
+ */
+export const getAnimalBoostWindows = (
+  game: GameState,
+  animalType: AnimalType,
+): BoostWindow[] =>
+  animalType === "Chicken"
+    ? getBoostWindows({
+        game,
+        name: "Bantam Shrine",
+        speed: ANIMAL_BOOST_SPEED["Bantam Shrine"],
+      })
+    : getBoostWindows({
+        game,
+        name: "Collie Shrine",
+        speed: ANIMAL_BOOST_SPEED["Collie Shrine"],
+      });
 
 /**
  * The Turbofruit Mix fertiliser's speed window for a fruit patch. Unlike the

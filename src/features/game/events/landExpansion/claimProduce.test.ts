@@ -3,6 +3,8 @@ import { claimProduce } from "./claimProduce";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { ANIMAL_SLEEP_DURATION } from "./feedAnimal";
 import type { GameState } from "features/game/types/game";
+import { getAnimalReadyAt } from "features/game/lib/animals";
+import { ANIMAL_BOOST_SPEED } from "features/game/lib/boostWindows";
 
 describe("claimProduce", () => {
   const now = Date.now();
@@ -2250,8 +2252,14 @@ describe("claimProduce", () => {
       createdAt: now,
     });
 
-    expect(state.barn.animals["0"].awakeAt).toEqual(
-      now + ANIMAL_SLEEP_DURATION * 0.75,
+    // Under SPEED_BOOSTS the Collie Shrine's sleep reduction is a LIVE window, not
+    // baked: awakeAt keeps the full (denormalised) duration + a baseDurationMs marker,
+    // and the derived ready time reflects the 1.35x speed (≈25% faster).
+    const animal = state.barn.animals["0"];
+    expect(animal.awakeAt).toEqual(now + ANIMAL_SLEEP_DURATION);
+    expect(animal.baseDurationMs).toEqual(ANIMAL_SLEEP_DURATION);
+    expect(getAnimalReadyAt(animal, state)).toEqual(
+      now + ANIMAL_SLEEP_DURATION / ANIMAL_BOOST_SPEED["Collie Shrine"],
     );
   });
   it("does not reduce the sleep time of chickens by 25% if a Collie Shrine is placed and ready", () => {
@@ -2346,8 +2354,14 @@ describe("claimProduce", () => {
       createdAt: now,
     });
 
-    expect(state.henHouse.animals["0"].awakeAt).toEqual(
-      now + ANIMAL_SLEEP_DURATION * 0.75,
+    // Under SPEED_BOOSTS the Bantam Shrine's sleep reduction is a LIVE window, not
+    // baked: awakeAt keeps the full duration + a baseDurationMs marker, and the
+    // derived ready time reflects the 1.35x speed (≈25% faster).
+    const animal = state.henHouse.animals["0"];
+    expect(animal.awakeAt).toEqual(now + ANIMAL_SLEEP_DURATION);
+    expect(animal.baseDurationMs).toEqual(ANIMAL_SLEEP_DURATION);
+    expect(getAnimalReadyAt(animal, state)).toEqual(
+      now + ANIMAL_SLEEP_DURATION / ANIMAL_BOOST_SPEED["Bantam Shrine"],
     );
   });
 });

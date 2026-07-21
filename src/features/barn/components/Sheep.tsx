@@ -13,6 +13,7 @@ import {
 import {
   getAnimalFavoriteFood,
   getAnimalLevel,
+  getAnimalReadyAt,
   getBoostedFoodQuantity,
   isAnimalFood,
 } from "features/game/lib/animals";
@@ -52,6 +53,7 @@ import { LockedAnimalModal } from "./LockedAnimalModal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
 import glow from "public/world/glow.png";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const _animalState = (state: AnimalMachineState) =>
   // Casting here because we know the value is always a string rather than an object
@@ -70,15 +72,19 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const { gameService, selectedItem, shortcutItem } = useContext(Context);
 
   const sheep = useSelector(gameService, _sheep(id));
+  const game = useSelector(gameService, _game);
+  // Live (windowed) wake time — earlier than the denormalised awakeAt under a
+  // Collie shrine. Drives the countdown, the machine and the instant-wake effect.
+  const readyAt = getAnimalReadyAt(sheep, game);
   const sheepService = useInterpret(animalMachine, {
     context: {
       animal: sheep,
+      game,
     },
   }) as unknown as AnimalMachineInterpreter;
 
   const sheepState = useSelector(sheepService, _animalState);
   const inventory = useSelector(gameService, _inventory);
-  const game = useSelector(gameService, _game);
   const [showDrops, setShowDrops] = useState(false);
   const [showNoFoodSelected, setShowNoFoodSelected] = useState(false);
   const [showAnimalDetails, setShowAnimalDetails] = useState(false);
@@ -96,6 +102,10 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const { play: playLevelUp } = useSound("level_up");
   const { play: playCureAnimal } = useSound("cure_animal");
   const { t } = useAppTranslation();
+  // Tick every second until the sheep is due to wake (`readyAt`), then stop — so
+  // the instant-wake effect fires on time without re-rendering a sleeping animal
+  // forever. `readyAt` already accounts for any Collie shrine boost.
+  const now = useNow({ live: true, autoEndAt: readyAt });
 
   const favFood = getAnimalFavoriteFood("Sheep", sheep.experience);
   const sleeping = sheepState === "sleeping";
@@ -127,15 +137,21 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
 
   const { name: mutantName } = sheep.reward?.items?.[0] ?? {};
 
+  // Keep the machine's game fresh so a shrine placed mid-sleep recomputes ready/love.
   useEffect(() => {
-    if (sheep.awakeAt < Date.now() && sheepState === "sleeping") {
+    sheepService.send({ type: "UPDATE_GAME", game });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [game]);
+
+  useEffect(() => {
+    if (readyAt < now && sheepState === "sleeping") {
       sheepService.send({
         type: "INSTANT_WAKE_UP",
         animal: sheep,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sheep.awakeAt]);
+  }, [readyAt, now]);
 
   useEffect(() => {
     if (sheep.state === "sick" && sheepState !== "sick") {
@@ -279,7 +295,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     const actions = gameService.getSnapshot().context.actions;
     const lastEventTime =
       actions.length > 0 ? actions[actions.length - 1]?.createdAt : undefined;
-    const currentTime = Date.now();
+    const currentTime = now;
 
     if (currentTime - (lastEventTime?.getTime() ?? 0) < 500) return;
 
@@ -547,7 +563,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
               <SleepingAnimalModal
                 id={sheep.id}
                 animal={sheep}
-                awakeAt={sheep.awakeAt}
+                awakeAt={readyAt}
                 onClose={() => setShowAnimalDetails(false)}
               />
             </CloseButtonPanel>

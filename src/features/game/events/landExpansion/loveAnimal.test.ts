@@ -459,30 +459,30 @@ describe("getNextLoveAvailableAt", () => {
   };
 
   it("opens at asleepAt + period when the animal has never been loved", () => {
-    expect(getNextLoveAvailableAt({ ...baseAnimal, lovedAt: 0 })).toBe(
-      asleepAt + third,
-    );
+    expect(
+      getNextLoveAvailableAt({ ...baseAnimal, lovedAt: 0 }, INITIAL_FARM),
+    ).toBe(asleepAt + third);
   });
 
   it("opens at lovedAt + period after a love inside the current cycle", () => {
     const lovedAt = asleepAt + third + 1_000;
-    expect(getNextLoveAvailableAt({ ...baseAnimal, lovedAt })).toBe(
-      lovedAt + third,
-    );
+    expect(
+      getNextLoveAvailableAt({ ...baseAnimal, lovedAt }, INITIAL_FARM),
+    ).toBe(lovedAt + third);
   });
 
   it("agrees with isAnimalNeedingLove at the gate boundary", () => {
     const animal = { ...baseAnimal, lovedAt: 0 };
-    const openAt = getNextLoveAvailableAt(animal);
+    const openAt = getNextLoveAvailableAt(animal, INITIAL_FARM);
     // Gate opens at the boundary — false strictly before, true at and after.
-    expect(isAnimalNeedingLove(animal, openAt - 1)).toBe(false);
-    expect(isAnimalNeedingLove(animal, openAt)).toBe(true);
+    expect(isAnimalNeedingLove(animal, INITIAL_FARM, openAt - 1)).toBe(false);
+    expect(isAnimalNeedingLove(animal, INITIAL_FARM, openAt)).toBe(true);
   });
 
   it("returns a value >= awakeAt when no slot remains this cycle", () => {
     const lovedAt = asleepAt + 2 * third + 1_000;
     expect(
-      getNextLoveAvailableAt({ ...baseAnimal, lovedAt }),
+      getNextLoveAvailableAt({ ...baseAnimal, lovedAt }, INITIAL_FARM),
     ).toBeGreaterThanOrEqual(awakeAt);
   });
 });

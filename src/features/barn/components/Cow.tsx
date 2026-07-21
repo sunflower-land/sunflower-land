@@ -13,9 +13,11 @@ import {
 import {
   getAnimalFavoriteFood,
   getAnimalLevel,
+  getAnimalReadyAt,
   getBoostedFoodQuantity,
   isAnimalFood,
 } from "features/game/lib/animals";
+import { useNow } from "lib/utils/hooks/useNow";
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
@@ -106,9 +108,15 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
   const cow = useSelector(gameService, _cow(id));
   const game = useSelector(gameService, _game);
+  // Live (windowed) wake time — earlier than the denormalised awakeAt under a
+  // Collie shrine. Drives the countdown, the machine and the instant-wake effect.
+  const readyAt = getAnimalReadyAt(cow, game);
+  // Tick every second until the cow is due to wake, then stop.
+  const now = useNow({ live: true, autoEndAt: readyAt });
   const cowService = useInterpret(animalMachine, {
     context: {
       animal: cow,
+      game,
     },
   }) as unknown as AnimalMachineInterpreter;
 
@@ -118,15 +126,21 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const [showLoveItem, setShowLoveItem] = useState<LoveAnimalItem>();
   const [showMutantAnimalModal, setShowMutantAnimalModal] = useState(false);
 
+  // Keep the machine's game fresh so a shrine placed mid-sleep recomputes ready/love.
   useEffect(() => {
-    if (cow.awakeAt < Date.now() && cowMachineState === "sleeping") {
+    cowService.send({ type: "UPDATE_GAME", game });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [game]);
+
+  useEffect(() => {
+    if (readyAt < now && cowMachineState === "sleeping") {
       cowService.send({
         type: "INSTANT_WAKE_UP",
         animal: cow,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cow.awakeAt]);
+  }, [readyAt, now]);
 
   useEffect(() => {
     if (cow.state === "sick" && cowMachineState !== "sick") {
@@ -580,7 +594,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
               <SleepingAnimalModal
                 id={cow.id}
                 animal={cow}
-                awakeAt={cow.awakeAt}
+                awakeAt={readyAt}
                 onClose={() => setShowAnimalDetails(false)}
               />
             </CloseButtonPanel>

@@ -44,13 +44,15 @@ export const SleepingAnimalModal = ({
   const { gameService } = useContext(Context);
   const [showConfirm, setShowConfirm] = useState(false);
   const { t } = useAppTranslation();
+  const state = useSelector(gameService, (state) => state.context.state);
+  // `awakeAt` is already the derived (windowed) ready time from the parent; the
+  // love window compresses with the same boost via the live-derived span.
   const { totalSeconds: secondsLeft } = useCountdown(awakeAt);
   const { totalSeconds: secondsUntilLove } = useCountdown(
-    getNextLoveAvailableAt(animal),
+    getNextLoveAvailableAt(animal, state),
   );
 
   const toy = getAnimalToy({ animal });
-  const state = useSelector(gameService, (state) => state.context.state);
 
   const { count } = getCountAndType(state, toy);
 

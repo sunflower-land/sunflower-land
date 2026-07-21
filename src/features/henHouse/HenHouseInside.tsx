@@ -33,6 +33,7 @@ import { PlayerModal } from "features/social/PlayerModal";
 import { hasFeatureAccess } from "lib/flags";
 import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { Context as AuthContext } from "features/auth/lib/Provider";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const _henHouse = (state: MachineState) => state.context.state.henHouse;
 const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
@@ -73,6 +74,7 @@ export const HenHouseInside: React.FC = () => {
   );
 
   const { t } = useAppTranslation();
+  const now = useNow();
 
   const [scrollIntoView] = useScrollIntoView();
   const navigate = useNavigate();
@@ -124,8 +126,14 @@ export const HenHouseInside: React.FC = () => {
 
   const validAnimalsCount = useMemo(() => {
     if (!deal) return 0;
-    return organizedAnimals.filter((animal) => isValidDeal({ animal, deal }))
-      .length;
+    return organizedAnimals.filter((animal) =>
+      isValidDeal({
+        animal,
+        deal,
+        game: context.visitorState ?? context.state,
+        now,
+      }),
+    ).length;
   }, [organizedAnimals, deal]);
   return (
     <>
@@ -239,7 +247,14 @@ export const HenHouseInside: React.FC = () => {
               >
                 <div className="flex flex-wrap w-full h-full">
                   {organizedAnimals.map((animal) => {
-                    const isValid = deal && isValidDeal({ animal, deal });
+                    const isValid =
+                      deal &&
+                      isValidDeal({
+                        animal,
+                        deal,
+                        game: context.visitorState ?? context.state,
+                        now,
+                      });
                     const { width, height } = ANIMALS[animal.type];
 
                     return (

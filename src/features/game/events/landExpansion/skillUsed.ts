@@ -31,6 +31,7 @@ import type { AOEItemName } from "features/game/expansion/placeable/lib/collisio
 import { FLOWER_SEEDS, FLOWERS } from "features/game/types/flowers";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import { isWearableActive } from "features/game/lib/wearables";
+import { getAnimalReadyAt } from "features/game/lib/animals";
 import { getPlotsToFertilise } from "./bulkFertilisePlot";
 import {
   getMaxStoredSaltCharges,
@@ -226,10 +227,13 @@ function useBarnyardRouse({
     const { animals } = game[building];
     if (!animals) return;
 
-    // Process each animal
+    // Process each animal — skip any already awake (windowed-aware ready time),
+    // then collapse the remaining sleep so it wakes now (baseDurationMs → 0).
     Object.values(animals).forEach((animal) => {
-      const { awakeAt } = animal;
-      if (awakeAt < createdAt) return;
+      if (getAnimalReadyAt(animal, game) < createdAt) return;
+      if (animal.baseDurationMs !== undefined) {
+        animal.baseDurationMs = 0;
+      }
       animal.awakeAt = createdAt;
     });
   });
@@ -468,7 +472,7 @@ export function powerSkillDisabledConditions({
     case "Barnyard Rouse": {
       if (
         Object.values({ ...henHouseAnimals, ...barnAnimals }).every(
-          ({ awakeAt }) => awakeAt < createdAt,
+          (animal) => getAnimalReadyAt(animal, state) < createdAt,
         )
       ) {
         return {

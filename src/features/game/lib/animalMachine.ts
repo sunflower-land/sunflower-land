@@ -1,9 +1,13 @@
 import { assign, createMachine, type Interpreter, type State } from "xstate";
-import type { Animal } from "../types/game";
+import type { Animal, GameState } from "../types/game";
 import { getNextLoveAvailableAt } from "../events/landExpansion/loveAnimal";
+import { getAnimalReadyAt } from "../lib/animals";
 
 interface TContext {
   animal?: Animal;
+  // Latest game state — needed to derive the live (windowed) ready/love times.
+  // Kept fresh via the UPDATE_GAME event so a shrine placed mid-sleep applies.
+  game?: GameState;
 }
 
 export type TState = {
@@ -25,6 +29,7 @@ type AnimalCureEvent = { type: "CURE"; animal: Animal };
 type AnimalSickEvent = { type: "SICK"; animal: Animal };
 type AnimalClaimProduceEvent = { type: "CLAIM_PRODUCE"; animal: Animal };
 type AnimalInstantWakeUpEvent = { type: "INSTANT_WAKE_UP"; animal: Animal };
+type AnimalUpdateGameEvent = { type: "UPDATE_GAME"; game: GameState };
 type TEvent =
   | AnimalFeedEvent
   | AnimalLoveEvent
@@ -32,7 +37,8 @@ type TEvent =
   | AnimalSickEvent
   | AnimalCureEvent
   | { type: "TICK" }
-  | AnimalInstantWakeUpEvent;
+  | AnimalInstantWakeUpEvent
+  | AnimalUpdateGameEvent;
 
 type MachineState = State<TContext, TEvent, MachineState>;
 
@@ -46,13 +52,19 @@ export type AnimalMachineInterpreter = Interpreter<
 const isAnimalSleeping = (context: TContext) => {
   if (!context.animal) return false;
 
-  return context.animal.awakeAt > Date.now();
+  // Windowed animals wake earlier than their denormalised `awakeAt`; derive the
+  // live ready time when the game is available (fall back to awakeAt otherwise).
+  const readyAt = context.game
+    ? getAnimalReadyAt(context.animal, context.game)
+    : context.animal.awakeAt;
+
+  return readyAt > Date.now();
 };
 
 const isAnimalNeedsLove = (context: TContext) => {
-  if (!context.animal) return false;
+  if (!context.animal || !context.game) return false;
 
-  return getNextLoveAvailableAt(context.animal) < Date.now();
+  return getNextLoveAvailableAt(context.animal, context.game) < Date.now();
 };
 
 export const animalMachine = createMachine<TContext, TEvent, TState>({
@@ -67,6 +79,14 @@ export const animalMachine = createMachine<TContext, TEvent, TState>({
     animal: undefined,
   },
   on: {
+    // Keep the latest game in context so windowed ready/love times stay live
+    // (e.g. a Collie/Bantam shrine placed while the animal sleeps).
+    UPDATE_GAME: {
+      actions: assign({
+        game: (_, event) => (event as AnimalUpdateGameEvent).game,
+      }),
+    },
+
     // If the animal is instant wake up it will be moved to the initial state.
     INSTANT_WAKE_UP: {
       target: "initial",
