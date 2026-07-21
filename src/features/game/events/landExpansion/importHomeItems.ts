@@ -375,6 +375,23 @@ function getImportStep({
 }
 
 /**
+ * Dig-up events for every item still placed in the old home — the same
+ * `*.removed` events the import uses, which hand each item back to the player's
+ * inventory. Used to clear out whatever the import couldn't move.
+ *
+ * Reuses {@link getImportStep} for the event shapes rather than repeating the
+ * per-kind literals; the destination passed here only shapes the place event,
+ * which is discarded.
+ */
+export function getHomeRemovalEvents(state: GameState): PlacementEvent[] {
+  return getHomeItems(state).map(
+    (item) =>
+      getImportStep({ item, location: "interior", coordinates: { x: 0, y: 0 } })
+        .events[0],
+  );
+}
+
+/**
  * Attempts to relocate one planned item by digging it up and placing it down in
  * a single step, applied purely to `state`. Returns the resulting state plus the
  * two events to dispatch — or `null` if the item can't be placed, in which case

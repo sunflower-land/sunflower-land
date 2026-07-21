@@ -13,7 +13,11 @@ import type {
   InventoryItemName,
 } from "features/game/types/game";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
-import { nextHomeExpansionTier } from "features/game/expansion/placeable/lib/interiorLayouts";
+import {
+  getHomeExpansionTileGain,
+  nextHomeExpansionTier,
+} from "features/game/expansion/placeable/lib/interiorLayouts";
+import { Label } from "components/ui/Label";
 import { HOME_EXPANSION_UPGRADE_REQUIREMENTS } from "../lib/upgradeRequirements";
 import { getKeys } from "lib/object";
 import upgradeImage from "assets/icons/upgrade_disc.png";
@@ -87,6 +91,9 @@ export const UpgradeButton: React.FC = () => {
   // on the same floor.
   const upgradeCopy = expansion ? "Unlock new room" : "Unlock new floor";
 
+  // Tiers are additive, so this is the extra floor space they're buying.
+  const newSquares = getHomeExpansionTileGain(targetTier, expansion);
+
   const onConfirm = () => {
     setError(null);
     const wasFirstUpgrade = !expansion;
@@ -113,7 +120,12 @@ export const UpgradeButton: React.FC = () => {
       <Modal show={open} onHide={() => setOpen(false)}>
         <CloseButtonPanel onClose={() => setOpen(false)} title="Upgrade home">
           <div className="p-2 flex flex-col gap-3 mb-1">
-            <p className="text-sm">{upgradeCopy}</p>
+            <div className="flex flex-col gap-2">
+              <p className="text-sm">{upgradeCopy}</p>
+              <Label type="success">
+                {`+${newSquares} new square${newSquares === 1 ? "" : "s"}`}
+              </Label>
+            </div>
             <div className="flex flex-col gap-1">
               <RequirementLabel
                 type="coins"

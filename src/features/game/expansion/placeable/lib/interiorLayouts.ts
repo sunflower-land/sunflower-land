@@ -2396,6 +2396,21 @@ export const HOME_EXPANSION_LAYOUTS: Record<
   ]),
 };
 
+/**
+ * How many new placement tiles upgrading to `to` unlocks.
+ *
+ * Tiers are strictly additive, so this is just the growth in tile count. With
+ * no `from` tier — the very first upgrade, which opens a brand new floor —
+ * every tile in the target layout is new.
+ */
+export function getHomeExpansionTileGain(
+  to: HomeExpansionTier,
+  from?: HomeExpansionTier,
+): number {
+  const target = HOME_EXPANSION_LAYOUTS[to].size;
+  return from ? target - HOME_EXPANSION_LAYOUTS[from].size : target;
+}
+
 export function isValidHomeExpansionTile(
   tier: HomeExpansionTier,
   x: number,

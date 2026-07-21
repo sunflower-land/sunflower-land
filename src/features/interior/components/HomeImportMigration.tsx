@@ -14,7 +14,9 @@ import type { GameState } from "features/game/types/game";
 import type { CollectibleName } from "features/game/types/craftables";
 import {
   getHomeImportPlan,
+  getHomeRemovalEvents,
   tryApplyImportStep,
+  type ImportPlacement,
 } from "features/game/events/landExpansion/importHomeItems";
 
 /** How many items are moved per narrated batch. */
@@ -31,7 +33,30 @@ const MAX_ITEM_DELAY_MS = 120;
 
 type Phase = "idle" | "running" | "done";
 
-type Leftover = { name: CollectibleName; count: number };
+/** A stack of same-named collectibles, used for both the "imported" summary and
+ *  the "couldn't be moved" list. */
+type ItemStack = { name: CollectibleName; count: number };
+
+/** Aggregates successfully-moved placements into displayable stacks. Only
+ *  collectibles are listed — bumpkins, farm hands, buds and pets have no
+ *  ITEM_DETAILS entry to draw a box from, though they still count towards the
+ *  imported total. */
+const summarise = (placements: ImportPlacement[]): ItemStack[] => {
+  const counts = placements.reduce<Partial<Record<CollectibleName, number>>>(
+    (acc, { item }) => {
+      if (item.kind !== "collectible") return acc;
+      const name = item.name as CollectibleName;
+      acc[name] = (acc[name] ?? 0) + 1;
+      return acc;
+    },
+    {},
+  );
+
+  return getObjectEntries(counts).map(([name, count]) => ({
+    name,
+    count: count as number,
+  }));
+};
 
 const chunk = <T,>(items: T[], size: number): T[][] => {
   const batches: T[][] = [];
@@ -48,7 +73,7 @@ const clamp = (value: number, min: number, max: number) =>
 
 /** Placed collectibles still sitting in the old home, aggregated by name —
  *  i.e. everything the import couldn't move (didn't fit or couldn't be moved). */
-const getHomeLeftover = (state: GameState): Leftover[] =>
+const getHomeLeftover = (state: GameState): ItemStack[] =>
   getObjectEntries(state.home.collectibles)
     .map(([name, items]) => ({
       name,
@@ -62,6 +87,8 @@ export type HomeImport = {
   start: () => void;
   /** Return to the idle phase (call when the modal closes). */
   reset: () => void;
+  /** Dig up everything the import left behind, returning it to the inventory. */
+  digUp: () => void;
   progress: {
     message: string;
     percentage: number;
@@ -71,8 +98,12 @@ export type HomeImport = {
     batchesDone: number;
     activeBatch: number;
   };
+  /** What actually made it across, aggregated by item. */
+  imported: ItemStack[];
+  /** How many items made it across, including farm hands / buds / pets. */
+  importedCount: number;
   /** Items left behind once the migration finishes. */
-  leftover: Leftover[];
+  leftover: ItemStack[];
 };
 
 /**
@@ -96,7 +127,9 @@ export function useHomeImport(): HomeImport {
   const [batchCount, setBatchCount] = useState(0);
   const [batchesDone, setBatchesDone] = useState(0);
   const [activeBatch, setActiveBatch] = useState(-1);
-  const [leftover, setLeftover] = useState<Leftover[]>([]);
+  const [imported, setImported] = useState<ItemStack[]>([]);
+  const [importedCount, setImportedCount] = useState(0);
+  const [leftover, setLeftover] = useState<ItemStack[]>([]);
 
   const aborted = useRef(false);
   const running = useRef(false);
@@ -122,9 +155,15 @@ export function useHomeImport(): HomeImport {
     setBatchCount(batches.length);
     setBatchesDone(0);
     setActiveBatch(-1);
+    setImported([]);
+    setImportedCount(0);
     setPhase("running");
 
-    let placed = 0;
+    // `attempted` drives the progress bar; `succeeded` records what actually
+    // landed, which is what the summary reports. They diverge when an item's
+    // spot is taken between planning and applying.
+    let attempted = 0;
+    const succeeded: ImportPlacement[] = [];
 
     for (let i = 0; i < batches.length; i++) {
       if (aborted.current) return;
@@ -151,10 +190,11 @@ export function useHomeImport(): HomeImport {
         const result = tryApplyImportStep(live, placement);
         if (result) {
           result.events.forEach((event) => gameService.send(event));
+          succeeded.push(placement);
         }
 
-        placed += 1;
-        setCompleted(placed);
+        attempted += 1;
+        setCompleted(attempted);
         await wait(itemDelay);
       }
 
@@ -169,8 +209,19 @@ export function useHomeImport(): HomeImport {
     running.current = false;
     if (aborted.current) return;
     setActiveBatch(-1);
+    setImported(summarise(succeeded));
+    setImportedCount(succeeded.length);
     setLeftover(getHomeLeftover(gameService.getSnapshot().context.state));
     setPhase("done");
+  };
+
+  // Everything the import couldn't move goes straight back to the inventory, so
+  // the old home is left empty before it's retired.
+  const digUp = () => {
+    if (running.current) return;
+    const state = gameService.getSnapshot().context.state;
+    getHomeRemovalEvents(state).forEach((event) => gameService.send(event));
+    setLeftover(getHomeLeftover(gameService.getSnapshot().context.state));
   };
 
   const reset = () => {
@@ -181,6 +232,8 @@ export function useHomeImport(): HomeImport {
     setBatchCount(0);
     setBatchesDone(0);
     setActiveBatch(-1);
+    setImported([]);
+    setImportedCount(0);
     setLeftover([]);
   };
 
@@ -199,6 +252,9 @@ export function useHomeImport(): HomeImport {
     phase,
     start: () => void start(),
     reset,
+    digUp,
+    imported,
+    importedCount,
     progress: {
       message,
       percentage,
@@ -277,24 +333,28 @@ export const MigrationRunningPanel: React.FC<{
 };
 
 export const MigrationDonePanel: React.FC<{
-  imported: number;
-  leftover: Leftover[];
+  imported: ItemStack[];
+  importedCount: number;
+  leftover: ItemStack[];
+  onDigUp: () => void;
   onClose: () => void;
-}> = ({ imported, leftover, onClose }) => (
+}> = ({ imported, importedCount, leftover, onDigUp, onClose }) => (
   <CloseButtonPanel onClose={onClose} title="Import complete">
     <div className="p-2 flex flex-col gap-2 items-center mb-1">
       <img src={SUNNYSIDE.icons.confirm} className="w-8" alt="Complete" />
       <p className="text-sm text-center">
-        {imported > 0
-          ? `Imported ${imported} item${imported === 1 ? "" : "s"} into your new home.`
+        {importedCount > 0
+          ? `Imported ${importedCount} item${
+              importedCount === 1 ? "" : "s"
+            } into your new home.`
           : "Nothing could be imported."}
       </p>
 
-      {leftover.length > 0 && (
+      {imported.length > 0 && (
         <div className="flex flex-col gap-1 items-center w-full">
-          <Label type="warning">{"These items could not be moved"}</Label>
-          <div className="flex flex-wrap justify-center">
-            {leftover.map(({ name, count }) => (
+          <Label type="success">{"Moved across"}</Label>
+          <div className="flex flex-wrap justify-center max-h-32 overflow-y-auto scrollable">
+            {imported.map(({ name, count }) => (
               <Box
                 key={name}
                 image={ITEM_DETAILS[name].image}
@@ -304,7 +364,35 @@ export const MigrationDonePanel: React.FC<{
           </div>
         </div>
       )}
+
+      {leftover.length > 0 && (
+        <div className="flex flex-col gap-1 items-center w-full">
+          <Label type="warning">{"These items could not be moved"}</Label>
+          <div className="flex flex-wrap justify-center max-h-32 overflow-y-auto scrollable">
+            {leftover.map(({ name, count }) => (
+              <Box
+                key={name}
+                image={ITEM_DETAILS[name].image}
+                count={new Decimal(count)}
+              />
+            ))}
+          </div>
+          <p className="text-xxs text-center">
+            {
+              "There was no room for these. You can dig them up to send them back to your inventory."
+            }
+          </p>
+        </div>
+      )}
     </div>
-    <Button onClick={onClose}>{"Close"}</Button>
+
+    {leftover.length > 0 ? (
+      <div className="flex space-x-1">
+        <Button onClick={onClose}>{"Close"}</Button>
+        <Button onClick={onDigUp}>{"Dig them up"}</Button>
+      </div>
+    ) : (
+      <Button onClick={onClose}>{"Close"}</Button>
+    )}
   </CloseButtonPanel>
 );

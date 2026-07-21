@@ -27,7 +27,6 @@ import {
 } from "./lib/interiorBackgrounds";
 import { LevelOneGridOverlay } from "./components/LevelOneGridOverlay";
 import { UpgradeButton } from "./components/UpgradeButton";
-import { ImportHomeButton } from "./components/ImportHomeButton";
 import { Bud } from "features/island/buds/Bud";
 import { PetNFT } from "features/island/pets/PetNFT";
 import { FarmHand } from "features/island/farmhand/FarmHand";
@@ -359,31 +358,6 @@ export const LevelOne: React.FC = () => {
               />
 
               {debug && <LevelOneGridOverlay tier={expansion} />}
-
-              {/*
-                Import-from-old-home button, pinned above the top-right corner
-                of the house layout. Some tiers' roof art runs flush to the
-                top edge of the background image with no headroom of its own
-                (see Interior.tsx for the same fix), so the button sits above
-                the background's top edge in the canvas gutter rather than
-                into it. Self-hides when the old home has no items left.
-              */}
-              {!landscaping && (
-                <div
-                  data-prevent-drag-scroll
-                  className="absolute z-30"
-                  style={{
-                    right: `${PIXEL_SCALE * 6}px`,
-                    top: `${
-                      canvasHeightPx -
-                      HOME_EXPANSION_BACKGROUND_NATIVE.height * PIXEL_SCALE -
-                      PIXEL_SCALE * 26
-                    }px`,
-                  }}
-                >
-                  <ImportHomeButton />
-                </div>
-              )}
 
               <LandscapingGrid />
 
