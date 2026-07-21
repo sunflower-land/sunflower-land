@@ -192,9 +192,32 @@ export const FeederMachineModal: React.FC<Props> = ({
     </div>
   );
 
-  // Only the feeds the player has left selected contribute to the mix.
-  const selectedFeeds = mixableFeeds.filter((feed) =>
-    isFeedSelected(feed.item),
+  const getFeedIngredientShortfalls = (
+    feed: (typeof mixableFeeds)[number],
+  ) =>
+    getKeys(feed.ingredients).reduce(
+      (shortfalls, ingredient) => {
+        const required = feed.ingredients[ingredient] ?? new Decimal(0);
+        const available = state.inventory[ingredient] ?? new Decimal(0);
+        const shortfall = required.sub(available);
+
+        if (shortfall.gt(0)) {
+          shortfalls[ingredient] = shortfall;
+        }
+
+        return shortfalls;
+      },
+      {} as GameState["inventory"],
+    );
+
+  // A feed with insufficient ingredients is shown for planning, but cannot be
+  // selected because the bulk action cannot produce it yet.
+  const canMixFeed = (feed: (typeof mixableFeeds)[number]) =>
+    getKeys(getFeedIngredientShortfalls(feed)).length === 0;
+
+  // Only feasible feeds the player has left selected contribute to the mix.
+  const selectedFeeds = mixableFeeds.filter(
+    (feed) => canMixFeed(feed) && isFeedSelected(feed.item),
   );
 
   // Sum the ingredients required across every selected feed.
@@ -248,7 +271,7 @@ export const FeederMachineModal: React.FC<Props> = ({
       .join(", ");
 
   const missingMessage = nothingSelected
-    ? t("feeder.nothingSelected")
+    ? t("feeder.nothingToMix")
     : t("feeder.missingIngredientsSummary", {
         ingredients: formatIngredientList(ingredientShortfalls),
       });
@@ -473,18 +496,57 @@ export const FeederMachineModal: React.FC<Props> = ({
                     {hasMixableFeeds && (
                       <div className="flex flex-col gap-2">
                         {mixableFeeds.map((feed) => {
+                          const feedIngredientShortfalls =
+                            getFeedIngredientShortfalls(feed);
+                          const feedCanBeMixed =
+                            getKeys(feedIngredientShortfalls).length === 0;
                           const selected = isFeedSelected(feed.item);
                           const ingredientList = formatIngredientList(
                             feed.ingredients,
                           );
-                          const needsText =
-                            feed.type === "medicine"
+                          const needsText = feedCanBeMixed
+                            ? feed.type === "medicine"
                               ? t("feeder.medicineFeedNeeds", {
                                   ingredients: ingredientList,
                                 })
                               : t("feeder.feedNeeds", {
                                   ingredients: ingredientList,
-                                });
+                                })
+                            : t("feeder.feedMissing", {
+                                ingredients: formatIngredientList(
+                                  feedIngredientShortfalls,
+                                ),
+                              });
+
+                          if (!feedCanBeMixed) {
+                            return (
+                              <ButtonPanel
+                                key={feed.item}
+                                variant="card"
+                                className="flex items-center gap-2"
+                              >
+                                <div
+                                  className="flex-none"
+                                  style={{
+                                    width: `${PIXEL_SCALE * 8}px`,
+                                    height: `${PIXEL_SCALE * 8}px`,
+                                  }}
+                                />
+                                <SquareIcon
+                                  icon={ITEM_DETAILS[feed.item].image}
+                                  width={9}
+                                />
+                                <div className="flex flex-col">
+                                  <span className="text-xs">
+                                    {`${feed.item} x${formatNumber(feed.missing)}`}
+                                  </span>
+                                  <span className="text-xxs text-red-500">
+                                    {needsText}
+                                  </span>
+                                </div>
+                              </ButtonPanel>
+                            );
+                          }
 
                           return (
                             <ButtonPanel
