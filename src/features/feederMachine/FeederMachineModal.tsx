@@ -157,24 +157,20 @@ export const FeederMachineModal: React.FC<Props> = ({
         <p className="text-xxs">{secondary}</p>
       </div>
       <div className="mt-auto w-full">
-        <Button variant="secondary" disabled>
+        <Button disabled>
           {t("feeder.nothingToMix")}
         </Button>
       </div>
     </>
   );
 
-  // Covered feeds are shown as full rows: icon, name, have/requested, check.
+  // Covered feeds are informational rows. Keep the confirmation icon in the
+  // same leading slot used by selectable feed cards so the list stays aligned.
   const renderCoveredRow = (feed: (typeof coveredFeeds)[number]) => (
-    <div key={`covered-${feed.item}`} className="flex items-center gap-2">
-      <SquareIcon icon={ITEM_DETAILS[feed.item].image} width={9} />
-      <div className="flex flex-col flex-1">
-        <span className="text-xs">{feed.item}</span>
-        <span className="text-xxs">{t("feeder.coveredByInventory")}</span>
-      </div>
-      <span className="text-xxs">
-        {`${formatNumber(feed.inInventory)}/${formatNumber(feed.requested)}`}
-      </span>
+    <div
+      key={`covered-${feed.item}`}
+      className="flex items-center gap-2 px-2"
+    >
       <img
         src={SUNNYSIDE.icons.confirm}
         alt=""
@@ -185,6 +181,14 @@ export const FeederMachineModal: React.FC<Props> = ({
           imageRendering: "pixelated",
         }}
       />
+      <SquareIcon icon={ITEM_DETAILS[feed.item].image} width={9} />
+      <div className="flex flex-col flex-1">
+        <span className="text-xs">{feed.item}</span>
+        <span className="text-xxs">{t("feeder.coveredByInventory")}</span>
+      </div>
+      <span className="text-xxs">
+        {`${formatNumber(feed.inInventory)}/${formatNumber(feed.requested)}`}
+      </span>
     </div>
   );
 
@@ -526,12 +530,6 @@ export const FeederMachineModal: React.FC<Props> = ({
                       <div className="flex flex-col gap-2">
                         {coveredFeeds.map(renderCoveredRow)}
                       </div>
-                    )}
-
-                    {allCovered && (
-                      <p className="text-xxs">
-                        {t("feeder.nothingNeedsMixing")}
-                      </p>
                     )}
                   </>
                 )}
