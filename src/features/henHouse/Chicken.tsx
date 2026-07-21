@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -145,6 +145,47 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chicken.state]);
+
+  const lastSynced = useRef({
+    state: chicken.state,
+    experience: chicken.experience,
+  });
+
+  // Sync the local machine when game state changes underneath it,
+  // e.g. via the Feed All button (bulk feed/cure/claim without a click).
+  useEffect(() => {
+    const prev = lastSynced.current;
+    lastSynced.current = {
+      state: chicken.state,
+      experience: chicken.experience,
+    };
+
+    if (
+      prev.state === chicken.state &&
+      prev.experience === chicken.experience
+    ) {
+      return;
+    }
+
+    const machineState = () => chickenService.getSnapshot().value;
+
+    if (machineState() === "sick" && chicken.state !== "sick") {
+      chickenService.send({ type: "CURE", animal: chicken });
+    }
+
+    if (machineState() === "ready" && chicken.state === "idle") {
+      chickenService.send({ type: "CLAIM_PRODUCE", animal: chicken });
+    }
+
+    if (
+      ["idle", "happy", "sad"].includes(machineState() as string) &&
+      ["happy", "sad", "ready"].includes(chicken.state) &&
+      machineState() !== chicken.state
+    ) {
+      chickenService.send({ type: "FEED", animal: chicken });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chicken.state, chicken.experience]);
 
   const [showDrops, setShowDrops] = useState(false);
   const [showAnimalDetails, setShowAnimalDetails] = useState(false);

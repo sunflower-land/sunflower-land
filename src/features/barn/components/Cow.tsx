@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
@@ -137,6 +137,38 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cow.state]);
+
+  const lastSynced = useRef({ state: cow.state, experience: cow.experience });
+
+  // Sync the local machine when game state changes underneath it,
+  // e.g. via the Feed All button (bulk feed/cure/claim without a click).
+  useEffect(() => {
+    const prev = lastSynced.current;
+    lastSynced.current = { state: cow.state, experience: cow.experience };
+
+    if (prev.state === cow.state && prev.experience === cow.experience) {
+      return;
+    }
+
+    const machineState = () => cowService.getSnapshot().value;
+
+    if (machineState() === "sick" && cow.state !== "sick") {
+      cowService.send({ type: "CURE", animal: cow });
+    }
+
+    if (machineState() === "ready" && cow.state === "idle") {
+      cowService.send({ type: "CLAIM_PRODUCE", animal: cow });
+    }
+
+    if (
+      ["idle", "happy", "sad"].includes(machineState() as string) &&
+      ["happy", "sad", "ready"].includes(cow.state) &&
+      machineState() !== cow.state
+    ) {
+      cowService.send({ type: "FEED", animal: cow });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cow.state, cow.experience]);
 
   const { t } = useAppTranslation();
 

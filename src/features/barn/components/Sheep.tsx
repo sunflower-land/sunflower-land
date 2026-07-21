@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -146,6 +146,41 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sheep.state]);
+
+  const lastSynced = useRef({
+    state: sheep.state,
+    experience: sheep.experience,
+  });
+
+  // Sync the local machine when game state changes underneath it,
+  // e.g. via the Feed All button (bulk feed/cure/claim without a click).
+  useEffect(() => {
+    const prev = lastSynced.current;
+    lastSynced.current = { state: sheep.state, experience: sheep.experience };
+
+    if (prev.state === sheep.state && prev.experience === sheep.experience) {
+      return;
+    }
+
+    const machineState = () => sheepService.getSnapshot().value;
+
+    if (machineState() === "sick" && sheep.state !== "sick") {
+      sheepService.send({ type: "CURE", animal: sheep });
+    }
+
+    if (machineState() === "ready" && sheep.state === "idle") {
+      sheepService.send({ type: "CLAIM_PRODUCE", animal: sheep });
+    }
+
+    if (
+      ["idle", "happy", "sad"].includes(machineState() as string) &&
+      ["happy", "sad", "ready"].includes(sheep.state) &&
+      machineState() !== sheep.state
+    ) {
+      sheepService.send({ type: "FEED", animal: sheep });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sheep.state, sheep.experience]);
 
   const feedSheep = (item?: InventoryItemName) => {
     const updatedState = gameService.send({
