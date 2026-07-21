@@ -11,16 +11,13 @@ import type { Detail } from "../actions/getFollowNetworkDetails";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const EMPTY_FARMS: number[] = [];
 
-const _cheeredFarmsToday = (state: MachineState) => {
+const _cheersGiven = (state: MachineState) => {
   const game = state.context.visitorState ?? state.context.state;
-  const today = new Date().toISOString().split("T")[0];
-
-  if (game.socialFarming.cheersGiven.date !== today) return EMPTY_FARMS;
-
-  return game.socialFarming.cheersGiven.farms;
+  return game.socialFarming.cheersGiven;
 };
 
 type Props = {
@@ -51,7 +48,12 @@ export const FollowList: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
   const { gameService } = useContext(Context);
-  const cheeredFarmsToday = useSelector(gameService, _cheeredFarmsToday);
+  // Minute granularity: the "cheered today" key only flips at UTC midnight.
+  const now = useNow({ live: true, intervalMs: 60_000 });
+  const cheersGiven = useSelector(gameService, _cheersGiven);
+  const today = new Date(now).toISOString().split("T")[0];
+  const cheeredFarmsToday =
+    cheersGiven.date === today ? cheersGiven.farms : EMPTY_FARMS;
   const [isScrollable, setIsScrollable] = useState(false);
   // Intersection observer to load more details when the loader is in view
   const { ref: intersectionRef, inView } = useInView({

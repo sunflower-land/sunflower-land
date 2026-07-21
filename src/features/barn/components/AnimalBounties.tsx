@@ -51,8 +51,8 @@ const ConfirmButton: React.FC<{
   className?: string;
   onClick: () => void;
 }> = ({ children, className, onClick }) => {
-  const [unlockAt] = useState(() => Date.now() + 1000);
-  const { totalSeconds } = useCountdown(unlockAt);
+  const mountedAt = useNow(); // live:false → stable snapshot at mount
+  const { totalSeconds } = useCountdown(mountedAt + 1000);
 
   return (
     <Button className={className} disabled={totalSeconds > 0} onClick={onClick}>

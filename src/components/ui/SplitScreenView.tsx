@@ -61,8 +61,9 @@ export const SplitScreenView: React.FC<Props> = ({
       }
     };
 
-    measure();
-
+    // ResizeObserver fires its callback once on observe() with the node's
+    // initial size, so it handles the first measurement too — no direct
+    // setState in the effect body is needed.
     const observer = new ResizeObserver(measure);
     observer.observe(node);
     window.addEventListener("resize", measure);

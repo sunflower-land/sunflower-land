@@ -583,7 +583,9 @@ const FeedContent: React.FC<FeedContentProps> = ({
   const { t } = useAppTranslation();
   const [canPaginate, setCanPaginate] = useState(false);
   const [hasMeasuredScroll, setHasMeasuredScroll] = useState(false);
-  const now = useNow({ live: true });
+  // Minute granularity is plenty — todayKey only flips at UTC midnight, so a
+  // 1s tick would reconcile the whole feed list every second for nothing.
+  const now = useNow({ live: true, intervalMs: 60_000 });
   const todayKey = getUTCDateKey(now);
 
   // Intersection observer to load more interactions when the loader is in view
@@ -690,7 +692,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
 
           return (
             <React.Fragment
-              key={`${interaction.sender.id}-${interaction.createdAt}`}
+              key={`${interaction.sender.id}-${interaction.createdAt}-${index}`}
             >
               {showOlderPostsSeparator && <OlderPostsSeparator />}
               <div
