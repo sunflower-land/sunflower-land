@@ -96,6 +96,7 @@ const ImportHomeFlow: React.FC<{ open: boolean; onClose: () => void }> = ({
     imported,
     importedCount,
     leftover,
+    leftoverCount,
   } = useHomeImport();
   const [plan, setPlan] = useState<HomeImportPlan | null>(null);
 
@@ -161,6 +162,7 @@ const ImportHomeFlow: React.FC<{ open: boolean; onClose: () => void }> = ({
           imported={imported}
           importedCount={importedCount}
           leftover={leftover}
+          leftoverCount={leftoverCount}
           onDigUp={digUp}
           onClose={handleClose}
         />
