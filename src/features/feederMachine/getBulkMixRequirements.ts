@@ -25,6 +25,7 @@ import {
   ANIMAL_LEVELS,
   type AnimalLevel,
   type AnimalType,
+  type FeedType,
 } from "features/game/types/animals";
 import { getKeys } from "lib/object";
 import { getIngredients } from "./feedMixed";
@@ -32,6 +33,20 @@ import { getIngredients } from "./feedMixed";
 type FeedRequestName = AnimalFoodName | AnimalMedicineName;
 type RequestTotals = Partial<Record<FeedRequestName, Decimal>>;
 type FeedRequest = { item: FeedRequestName; quantity: Decimal };
+
+/**
+ * Per-feed breakdown used by the Auto Mixer's "pick & mix" UI so each feed can
+ * be toggled on/off and the summary recomputed for just the selected feeds.
+ */
+export type BulkMixFeed = {
+  item: FeedRequestName;
+  type: FeedType;
+  requested: Decimal;
+  inInventory: Decimal;
+  missing: Decimal;
+  ingredients: GameState["inventory"];
+  coins: number;
+};
 
 const MAX_FEED_STEPS_TO_READY = 100;
 
@@ -65,6 +80,12 @@ const addToTotals = (
   item: FeedRequestName,
   amount: Decimal,
 ) => {
+  // A zero-quantity request means an item removed the need to mix this feed
+  // (e.g. Oracle Syringe makes Barn Delight free), so it isn't a real request.
+  if (amount.lte(0)) {
+    return;
+  }
+
   totals[item] = (totals[item] ?? new Decimal(0)).add(amount);
 };
 
@@ -213,6 +234,7 @@ export function getBulkMixRequirements(
 
   const missingRequests: RequestTotals = {};
   const ingredients: GameState["inventory"] = {};
+  const feeds: BulkMixFeed[] = [];
   let coins = 0;
 
   getKeys(requests).forEach((item) => {
@@ -221,30 +243,46 @@ export function getBulkMixRequirements(
     const difference = requested.sub(inInventory);
     const missing = difference.lessThan(0) ? new Decimal(0) : difference;
 
-    if (missing.lte(0)) {
-      return;
+    const feedIngredients: GameState["inventory"] = {};
+    let feedCoins = 0;
+
+    if (missing.gt(0)) {
+      missingRequests[item] = missing;
+
+      const { ingredients: mixIngredients } = getIngredients({
+        state: game,
+        name: item,
+      });
+
+      const feed = ANIMAL_FOODS[item];
+      feedCoins = (feed.coins ?? 0) * missing.toNumber();
+      coins += feedCoins;
+
+      getKeys(mixIngredients).forEach((ingredient) => {
+        const amount =
+          mixIngredients[ingredient]?.mul(missing) ?? new Decimal(0);
+        feedIngredients[ingredient] = amount;
+        ingredients[ingredient] = (
+          ingredients[ingredient] ?? new Decimal(0)
+        ).add(amount);
+      });
     }
 
-    missingRequests[item] = missing;
-
-    const { ingredients: mixIngredients } = getIngredients({
-      state: game,
-      name: item,
-    });
-
-    const feed = ANIMAL_FOODS[item];
-    coins += (feed.coins ?? 0) * missing.toNumber();
-
-    getKeys(mixIngredients).forEach((ingredient) => {
-      const current = ingredients[ingredient] ?? new Decimal(0);
-      const amount = mixIngredients[ingredient]?.mul(missing) ?? new Decimal(0);
-      ingredients[ingredient] = current.add(amount);
+    feeds.push({
+      item,
+      type: ANIMAL_FOODS[item].type,
+      requested,
+      inInventory,
+      missing,
+      ingredients: feedIngredients,
+      coins: feedCoins,
     });
   });
 
   return {
     requests,
     missingRequests,
+    feeds,
     requirements: {
       ingredients,
       coins,

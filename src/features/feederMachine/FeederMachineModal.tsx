@@ -7,6 +7,7 @@ import { Context } from "features/game/GameProvider";
 import type {
   AnimalFoodName,
   AnimalMedicineName,
+  GameState,
   InventoryItemName,
 } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -15,7 +16,10 @@ import { getKeys } from "lib/object";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
-import { OuterPanel } from "components/ui/Panel";
+import { ButtonPanel, OuterPanel } from "components/ui/Panel";
+import { SquareIcon } from "components/ui/SquareIcon";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import Decimal from "decimal.js-light";
 import {
   ANIMAL_FOODS,
@@ -59,11 +63,23 @@ export const FeederMachineModal: React.FC<Props> = ({
   const { coins } = ANIMAL_FOODS[selectedName];
 
   const { ingredients } = getIngredients({ state, name: selectedName });
-  const {
-    requests,
-    missingRequests,
-    requirements: bulkRequirements,
-  } = getBulkMixRequirements(state, building);
+  const { requests, feeds } = getBulkMixRequirements(state, building);
+
+  // Feeds that still need mixing become toggleable cards; fully-covered feeds
+  // are shown as informational rows.
+  const mixableFeeds = feeds.filter((feed) => feed.missing.gt(0));
+  const coveredFeeds = feeds.filter((feed) => feed.missing.lte(0));
+
+  // Track which feeds the player has toggled OFF. Everything mixable is
+  // selected by default, so storing only the deselections keeps the default
+  // in sync as requests change without a state-resetting effect.
+  const [deselectedFeeds, setDeselectedFeeds] = useState<
+    Partial<Record<BulkMixItem, boolean>>
+  >({});
+
+  const isFeedSelected = (item: BulkMixItem) => !deselectedFeeds[item];
+  const toggleFeed = (item: BulkMixItem) =>
+    setDeselectedFeeds((prev) => ({ ...prev, [item]: !prev[item] }));
 
   const groupedItems = getKeys(ANIMAL_FOODS).reduce(
     (acc, item) => {
@@ -102,48 +118,76 @@ export const FeederMachineModal: React.FC<Props> = ({
     shortcutItem(selectedName);
   };
 
-  const hasBulkRequests = getKeys(missingRequests).length > 0;
   const hasFeedRequests = getKeys(requests).length > 0;
 
-  const hasEnoughBulkIngredients = getKeys(bulkRequirements.ingredients).every(
-    (name) =>
-      (state.inventory[name] ?? new Decimal(0)).gte(
-        bulkRequirements.ingredients[name] ?? 0,
-      ),
+  // Only the feeds the player has left selected contribute to the mix.
+  const selectedFeeds = mixableFeeds.filter((feed) =>
+    isFeedSelected(feed.item),
   );
 
-  const hasEnoughBulkCoins = state.coins >= bulkRequirements.coins;
-
-  const missingIngredients = getKeys(bulkRequirements.ingredients).reduce(
-    (acc, ingredient) => {
-      const required =
-        bulkRequirements.ingredients[ingredient] ?? new Decimal(0);
-      const available = state.inventory[ingredient] ?? new Decimal(0);
-      const difference = required.sub(available);
-
-      if (difference.lte(0)) {
-        return acc;
-      }
-
-      acc[ingredient] = difference;
+  // Sum the ingredients required across every selected feed.
+  const selectedIngredients = selectedFeeds.reduce(
+    (acc, feed) => {
+      getKeys(feed.ingredients).forEach((ingredient) => {
+        acc[ingredient] = (acc[ingredient] ?? new Decimal(0)).add(
+          feed.ingredients[ingredient] ?? new Decimal(0),
+        );
+      });
       return acc;
     },
-    {} as Record<string, Decimal>,
+    {} as GameState["inventory"],
   );
 
+  const selectedCoins = selectedFeeds.reduce(
+    (total, feed) => total + feed.coins,
+    0,
+  );
+
+  const mixCount = selectedFeeds.reduce(
+    (total, feed) => total + feed.missing.toNumber(),
+    0,
+  );
+
+  // Ingredients where the player is short of what the selection requires.
+  const ingredientShortfalls = getKeys(selectedIngredients).reduce(
+    (acc, ingredient) => {
+      const need = selectedIngredients[ingredient] ?? new Decimal(0);
+      const have = state.inventory[ingredient] ?? new Decimal(0);
+      const short = need.sub(have);
+
+      if (short.gt(0)) {
+        acc[ingredient] = short;
+      }
+      return acc;
+    },
+    {} as GameState["inventory"],
+  );
+
+  const hasShortfall = getKeys(ingredientShortfalls).length > 0;
+  const hasEnoughCoins = state.coins >= selectedCoins;
+  const nothingSelected = mixCount === 0;
+  const blocked = nothingSelected || hasShortfall || !hasEnoughCoins;
+
+  const formatIngredientList = (list: GameState["inventory"]) =>
+    getKeys(list)
+      .map(
+        (ingredient) => `${formatNumber(list[ingredient] ?? 0)} ${ingredient}`,
+      )
+      .join(", ");
+
+  const missingMessage = nothingSelected
+    ? t("feeder.nothingSelected")
+    : t("feeder.missingIngredientsSummary", {
+        ingredients: formatIngredientList(ingredientShortfalls),
+      });
+
   const bulkMix = () => {
-    const mixedItems = getKeys(missingRequests).filter((item) => {
-      const amount = missingRequests[item]?.toNumber() ?? 0;
+    const mixedItems = selectedFeeds.map((feed) => feed.item);
 
-      return amount > 0;
-    }) as BulkMixItem[];
-
-    mixedItems.forEach((item) => {
-      const amount = missingRequests[item]?.toNumber() ?? 0;
-
+    selectedFeeds.forEach((feed) => {
       gameService.send("feed.mixed", {
-        item,
-        amount,
+        item: feed.item,
+        amount: feed.missing.toNumber(),
       });
     });
 
@@ -154,16 +198,6 @@ export const FeederMachineModal: React.FC<Props> = ({
 
     shortcutItems(mixedItems as InventoryItemName[], { activateFirst: false });
   };
-
-  const renderAmountLabel = (
-    item: keyof typeof ITEM_DETAILS,
-    amount: Decimal | number,
-    key: string,
-  ) => (
-    <Label key={key} icon={ITEM_DETAILS[item].image} type="default">
-      {formatNumber(amount)}
-    </Label>
-  );
 
   return (
     <Modal show={show} onHide={onClose}>
@@ -239,57 +273,62 @@ export const FeederMachineModal: React.FC<Props> = ({
         )}
         {tab === "automaticMixer" && (
           <SplitScreenView
+            mobileReversePanelOrder
             panel={
-              <div className="flex flex-col gap-2 min-h-56 sm:min-h-[19.5rem] w-full">
-                {getKeys(bulkRequirements.ingredients).length > 0 && (
+              <div className="flex flex-col gap-2 sm:min-h-[19.5rem] w-full">
+                {getKeys(selectedIngredients).length > 0 && (
                   <div className="flex flex-col gap-1 px-1 pt-1">
-                    <Label type="default">{t("feeder.ingredientsToMix")}</Label>
-                    <div className="flex flex-wrap gap-x-3 gap-y-1">
-                      {getKeys(bulkRequirements.ingredients).map((ingredient) =>
-                        renderAmountLabel(
-                          ingredient as keyof typeof ITEM_DETAILS,
-                          bulkRequirements.ingredients[ingredient] ??
-                            new Decimal(0),
-                          `required-ingredient-${ingredient}`,
-                        ),
-                      )}
+                    <Label type="default">{t("feeder.mixSummary")}</Label>
+                    <div className="flex flex-col gap-1">
+                      {getKeys(selectedIngredients).map((ingredient) => {
+                        const need =
+                          selectedIngredients[ingredient] ?? new Decimal(0);
+                        const have =
+                          state.inventory[ingredient] ?? new Decimal(0);
+                        const short = have.lessThan(need);
+                        const amounts = `${formatNumber(have)}/${formatNumber(
+                          need,
+                        )}`;
+
+                        return (
+                          <div
+                            key={`summary-${ingredient}`}
+                            className="flex items-center justify-between gap-2"
+                          >
+                            <div className="flex items-center gap-1">
+                              <SquareIcon
+                                icon={ITEM_DETAILS[ingredient].image}
+                                width={7}
+                              />
+                              <span className="text-xs">{ingredient}</span>
+                            </div>
+                            {short ? (
+                              <Label type="danger">{amounts}</Label>
+                            ) : (
+                              <span className="text-xs">{amounts}</span>
+                            )}
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
 
-                {getKeys(missingIngredients).length > 0 && (
+                {hasFeedRequests && (nothingSelected || hasShortfall) && (
                   <div className="flex flex-col gap-1 px-1">
-                    <Label type="danger">
-                      {t("feeder.missingIngredients")}
-                    </Label>
-                    <div className="flex flex-wrap gap-x-3 gap-y-1">
-                      {getKeys(missingIngredients).map((ingredient) =>
-                        renderAmountLabel(
-                          ingredient as keyof typeof ITEM_DETAILS,
-                          missingIngredients[ingredient] ?? new Decimal(0),
-                          `ingredient-${ingredient}`,
-                        ),
-                      )}
-                    </div>
+                    <Label type="danger">{missingMessage}</Label>
                   </div>
                 )}
 
                 <div className="mt-auto w-full">
-                  <Button
-                    disabled={
-                      !hasBulkRequests ||
-                      !hasEnoughBulkIngredients ||
-                      !hasEnoughBulkCoins
-                    }
-                    onClick={bulkMix}
-                  >
-                    {t("feeder.mixAll")}
+                  <Button disabled={blocked} onClick={bulkMix}>
+                    {t("feeder.mixSelected", { count: mixCount })}
                   </Button>
                 </div>
               </div>
             }
             content={
-              <div className="flex flex-col gap-2 p-1 min-h-56 sm:min-h-[19.5rem] w-full">
+              <div className="flex flex-col gap-2 p-1 sm:min-h-[19.5rem] w-full">
                 {!hasFeedRequests ? (
                   <div className="flex flex-col gap-2">
                     <p className="text-xs">
@@ -301,52 +340,71 @@ export const FeederMachineModal: React.FC<Props> = ({
                   </div>
                 ) : (
                   <>
-                    <div className="flex flex-col gap-1">
-                      <Label type="default">
-                        {t("feeder.combinedRequests")}
-                      </Label>
-                      <div className="flex flex-wrap gap-x-3 gap-y-1">
-                        {getKeys(requests).map((item) =>
-                          renderAmountLabel(
-                            item,
-                            requests[item] ?? 0,
-                            `${building}-${item}`,
-                          ),
-                        )}
-                      </div>
+                    <Label type="default">{t("feeder.chooseWhatToMix")}</Label>
+
+                    <div className="flex flex-col gap-2">
+                      {mixableFeeds.map((feed) => {
+                        const selected = isFeedSelected(feed.item);
+                        const ingredientList = formatIngredientList(
+                          feed.ingredients,
+                        );
+                        const needsText =
+                          feed.type === "medicine"
+                            ? t("feeder.medicineFeedNeeds", {
+                                ingredients: ingredientList,
+                              })
+                            : t("feeder.feedNeeds", {
+                                ingredients: ingredientList,
+                              });
+
+                        return (
+                          <ButtonPanel
+                            key={feed.item}
+                            variant="card"
+                            selected={selected}
+                            onClick={() => toggleFeed(feed.item)}
+                            className="flex items-center gap-2"
+                          >
+                            <div
+                              className="flex items-center justify-center flex-none"
+                              style={{
+                                width: `${PIXEL_SCALE * 8}px`,
+                                height: `${PIXEL_SCALE * 8}px`,
+                              }}
+                            >
+                              {selected && (
+                                <img
+                                  src={SUNNYSIDE.icons.confirm}
+                                  alt=""
+                                  className="w-full h-full"
+                                  style={{ imageRendering: "pixelated" }}
+                                />
+                              )}
+                            </div>
+                            <SquareIcon
+                              icon={ITEM_DETAILS[feed.item].image}
+                              width={9}
+                            />
+                            <div className="flex flex-col">
+                              <span className="text-xs">
+                                {`${feed.item} x${formatNumber(feed.missing)}`}
+                              </span>
+                              <span className="text-xxs">{needsText}</span>
+                            </div>
+                          </ButtonPanel>
+                        );
+                      })}
                     </div>
 
-                    <div className="flex flex-col gap-1 mt-2">
-                      <Label type="default">{t("feeder.youHave")}</Label>
-                      <div className="flex flex-wrap gap-x-3 gap-y-1">
-                        {getKeys(requests).map((item) =>
-                          renderAmountLabel(
-                            item,
-                            state.inventory[item] ?? 0,
-                            `available-${item}`,
-                          ),
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col gap-1">
-                      <Label type="warning">{t("feeder.needToMix")}</Label>
-                      {hasBulkRequests ? (
-                        <div className="flex flex-wrap gap-x-3 gap-y-1">
-                          {getKeys(missingRequests).map((item) =>
-                            renderAmountLabel(
-                              item,
-                              missingRequests[item] ?? 0,
-                              `missing-${item}`,
-                            ),
-                          )}
-                        </div>
-                      ) : (
-                        <p className="text-xs">
-                          {t("feeder.allRequestsCovered")}
-                        </p>
-                      )}
-                    </div>
+                    {coveredFeeds.map((feed) => (
+                      <p key={`covered-${feed.item}`} className="text-xxs">
+                        {t("feeder.coveredByInventory", {
+                          feed: feed.item,
+                          have: formatNumber(feed.inInventory),
+                          requested: formatNumber(feed.requested),
+                        })}
+                      </p>
+                    ))}
                   </>
                 )}
               </div>
