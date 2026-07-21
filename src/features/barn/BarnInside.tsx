@@ -37,6 +37,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { isBuildingDestroyed } from "features/island/buildings/components/building/Building";
+import { FeedAllButton } from "features/game/expansion/components/animals/FeedAllButton";
 
 export const EXTERIOR_ISLAND_BG: Record<LandBiomeName, string> = {
   "Basic Biome": SUNNYSIDE.land.basic_building_bg,
@@ -290,6 +291,9 @@ export const BarnInside: React.FC = () => {
                     }}
                     onClick={() => setShowModal(true)}
                   />
+
+                  <FeedAllButton building="Barn" />
+
                   <img
                     src={SUNNYSIDE.icons.upgrade_disc}
                     alt="Upgrade Building"

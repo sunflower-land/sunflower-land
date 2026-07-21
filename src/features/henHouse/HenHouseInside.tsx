@@ -33,6 +33,7 @@ import { PlayerModal } from "features/social/PlayerModal";
 import { hasFeatureAccess } from "lib/flags";
 import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { Context as AuthContext } from "features/auth/lib/Provider";
+import { FeedAllButton } from "features/game/expansion/components/animals/FeedAllButton";
 
 const _henHouse = (state: MachineState) => state.context.state.henHouse;
 const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
@@ -186,6 +187,8 @@ export const HenHouseInside: React.FC = () => {
                     }}
                     onClick={() => setShowModal(true)}
                   />
+
+                  <FeedAllButton building="Hen House" />
 
                   <Button
                     className="absolute -bottom-16"
