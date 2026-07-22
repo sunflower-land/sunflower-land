@@ -102,13 +102,17 @@ export const PetHouseInside: React.FC = () => {
     )
     .map(([id]) => Number(id));
   const nappingPetIds: Array<PetName | number> = [
-    ...activeCommonPetIds.filter((name) => isPetNapping(commonPets[name], now)),
-    ...activeNFTPetIds.filter((id) => isPetNapping(petNFTs[id], now)),
+    ...activeCommonPetIds.filter(
+      (name) =>
+        isPetNapping(commonPets[name], now) &&
+        !isPetNeglected(commonPets[name], now),
+    ),
+    ...activeNFTPetIds.filter(
+      (id) =>
+        isPetNapping(petNFTs[id], now) && !isPetNeglected(petNFTs[id], now),
+    ),
   ];
-  const hasNeglectedPet =
-    activeCommonPetIds.some((name) => isPetNeglected(commonPets[name], now)) ||
-    activeNFTPetIds.some((id) => isPetNeglected(petNFTs[id], now));
-  const showQuickPetAll = nappingPetIds.length > 0 && !hasNeglectedPet;
+  const showQuickPetAll = nappingPetIds.length > 0;
   const nappingPetNames = nappingPetIds
     .map((id) =>
       typeof id === "number" ? petNFTs[id]?.name : commonPets[id]?.name,
