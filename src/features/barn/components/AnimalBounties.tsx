@@ -427,9 +427,7 @@ export const AnimalDeal: React.FC<{
             <Button className="mr-1" onClick={onClose}>
               {t("cancel")}
             </Button>
-            <ConfirmButton key={confirmationKey} onClick={sell}>
-              {t("confirm")}
-            </ConfirmButton>
+            <Button onClick={sell}>{t("confirm")}</Button>
           </div>
         </Panel>
       )}
