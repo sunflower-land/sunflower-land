@@ -534,7 +534,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     if (needsLove) return chicken.item;
     return favFood;
   };
-  const showRequestBubble = sick || needsLove || (idle && !isLocked);
+  const showRequestBubble =
+    sick || needsLove || (idle && !isLocked && !showDrops);
 
   if (chickenMachineState === "initial") return null;
 

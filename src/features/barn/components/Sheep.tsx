@@ -482,7 +482,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     if (needsLove) return sheep.item;
     return favFood;
   };
-  const showRequestBubble = sick || needsLove || (idle && !isLocked);
+  const showRequestBubble =
+    sick || needsLove || (idle && !isLocked && !showDrops);
 
   if (sheepState === "initial") return null;
 

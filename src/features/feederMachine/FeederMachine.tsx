@@ -128,7 +128,7 @@ export const FeederMachine: React.FC<Props> = ({ building }) => {
           <img
             src={SUNNYSIDE.icons.lightning}
             alt={t("animals.feedAll")}
-            className="absolute z-30 pointer-events-none animate-pulse"
+            className="absolute z-30 pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 7}px`,
               top: `${-PIXEL_SCALE * 3}px`,
