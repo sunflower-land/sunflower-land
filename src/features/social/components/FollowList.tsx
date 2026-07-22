@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Label } from "components/ui/Label";
 import { FollowDetailPanel } from "./FollowDetailPanel";
@@ -8,6 +8,17 @@ import { useFollowNetwork } from "../hooks/useFollowNetwork";
 import { useInView } from "react-intersection-observer";
 import { Loading } from "features/auth/components";
 import type { Detail } from "../actions/getFollowNetworkDetails";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import type { MachineState } from "features/game/lib/gameMachine";
+import { useNow } from "lib/utils/hooks/useNow";
+
+const EMPTY_FARMS: number[] = [];
+
+const _cheersGiven = (state: MachineState) => {
+  const game = state.context.visitorState ?? state.context.state;
+  return game.socialFarming.cheersGiven;
+};
 
 type Props = {
   loggedInFarmId: number;
@@ -36,6 +47,13 @@ export const FollowList: React.FC<Props> = ({
   navigateToPlayer,
 }) => {
   const { t } = useTranslation();
+  const { gameService } = useContext(Context);
+  // Minute granularity: the "cheered today" key only flips at UTC midnight.
+  const now = useNow({ live: true, intervalMs: 60_000 });
+  const cheersGiven = useSelector(gameService, _cheersGiven);
+  const today = new Date(now).toISOString().split("T")[0];
+  const cheeredFarmsToday =
+    cheersGiven.date === today ? cheersGiven.farms : EMPTY_FARMS;
   const [isScrollable, setIsScrollable] = useState(false);
   // Intersection observer to load more details when the loader is in view
   const { ref: intersectionRef, inView } = useInView({
@@ -154,6 +172,7 @@ export const FollowList: React.FC<Props> = ({
               socialPoints={detail.socialPoints ?? 0}
               helpedThemToday={detail.helpedThemToday}
               helpedYouToday={detail.helpedYouToday}
+              cheeredThemToday={cheeredFarmsToday.includes(detail.id)}
               helpStreak={detail.helpStreak}
             />
           );

@@ -12,7 +12,12 @@ import type {
   HomeExpansionTier,
   InventoryItemName,
 } from "features/game/types/game";
-import { nextHomeExpansionTier } from "features/game/expansion/placeable/lib/interiorLayouts";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
+import {
+  getHomeExpansionTileGain,
+  nextHomeExpansionTier,
+} from "features/game/expansion/placeable/lib/interiorLayouts";
+import { Label } from "components/ui/Label";
 import { HOME_EXPANSION_UPGRADE_REQUIREMENTS } from "../lib/upgradeRequirements";
 import { getKeys } from "lib/object";
 import upgradeImage from "assets/icons/upgrade_disc.png";
@@ -32,8 +37,10 @@ const _hasInteriorAccess = (state: MachineState) =>
  * a MapPlacement by the caller so it sits on the gameboard at a chosen tile
  * (see UPGRADE_BUTTON_TILE in Interior.tsx / LevelOne.tsx).
  *
- * Self-hides when the `interiors` experiment is off, when the player isn't on volcano island,
- * and when the expansion is already maxed at level-one-full.
+ * Self-hides when the `interiors` experiment is off, when the player hasn't
+ * reached volcano yet (home expansions unlock at volcano and carry forward
+ * through every later ascension island), and when the expansion is already
+ * maxed at level-one-full.
  *
  * Clicking opens a small panel showing the next tier's coin + inventory cost
  * and a confirm button. Confirm dispatches the `interior.upgrade` event; on
@@ -54,8 +61,9 @@ export const UpgradeButton: React.FC = () => {
 
   // Hide for non-beta players.
   if (!hasAccess) return null;
-  // Only show on volcano.
-  if (island.type !== "volcano") return null;
+  // Home expansions unlock at volcano and stay available on every island
+  // reached after it (swamp, spooky, etc. — see ISLAND_EXPANSIONS ordering).
+  if (!hasRequiredIslandExpansion(island.type, "volcano")) return null;
 
   const targetTier: HomeExpansionTier | null = expansion
     ? nextHomeExpansionTier(expansion)
@@ -83,6 +91,9 @@ export const UpgradeButton: React.FC = () => {
   // on the same floor.
   const upgradeCopy = expansion ? "Unlock new room" : "Unlock new floor";
 
+  // Tiers are additive, so this is the extra floor space they're buying.
+  const newSquares = getHomeExpansionTileGain(targetTier, expansion);
+
   const onConfirm = () => {
     setError(null);
     const wasFirstUpgrade = !expansion;
@@ -109,7 +120,12 @@ export const UpgradeButton: React.FC = () => {
       <Modal show={open} onHide={() => setOpen(false)}>
         <CloseButtonPanel onClose={() => setOpen(false)} title="Upgrade home">
           <div className="p-2 flex flex-col gap-3 mb-1">
-            <p className="text-sm">{upgradeCopy}</p>
+            <div className="flex flex-col gap-2">
+              <p className="text-sm">{upgradeCopy}</p>
+              <Label type="success">
+                {`+${newSquares} new square${newSquares === 1 ? "" : "s"}`}
+              </Label>
+            </div>
             <div className="flex flex-col gap-1">
               <RequirementLabel
                 type="coins"

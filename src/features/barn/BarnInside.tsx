@@ -23,7 +23,7 @@ import { FeederMachine } from "features/feederMachine/FeederMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
 import { ANIMAL_HOUSE_IMAGES } from "features/henHouse/HenHouseInside";
-import type { Animal, AnimalBounty } from "features/game/types/game";
+import type { AnimalBounty } from "features/game/types/game";
 import { AnimalDeal, ExchangeHud } from "./components/AnimalBounties";
 import { Modal } from "components/ui/Modal";
 import classNames from "classnames";
@@ -69,7 +69,7 @@ export const BarnInside: React.FC = () => {
   const { gameService } = useContext(Context);
   const [showModal, setShowModal] = useState(!hasReadGuide());
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
-  const [selected, setSelected] = useState<Animal>();
+  const [selectedAnimalId, setSelectedAnimalId] = useState<string>();
   const [deal, setDeal] = useState<AnimalBounty>();
   const { authService } = useContext(AuthContext);
   const context = gameService.getSnapshot().context;
@@ -183,17 +183,20 @@ export const BarnInside: React.FC = () => {
         onClose={() => setShowUpgradeModal(false)}
       />
 
-      <Modal show={!!selected && !!deal} onHide={() => setSelected(undefined)}>
+      <Modal
+        show={!!selectedAnimalId && !!deal}
+        onHide={() => setSelectedAnimalId(undefined)}
+      >
         <AnimalDeal
           onClose={() => {
-            setSelected(undefined);
+            setSelectedAnimalId(undefined);
           }}
           onSold={() => {
             setDeal(undefined);
-            setSelected(undefined);
+            setSelectedAnimalId(undefined);
           }}
           deal={deal}
-          animal={selected}
+          animalId={selectedAnimalId}
         />
       </Modal>
       <>
@@ -268,7 +271,7 @@ export const BarnInside: React.FC = () => {
                             e.stopPropagation();
                             e.preventDefault();
                             if (!isValid) return;
-                            setSelected(animal);
+                            setSelectedAnimalId(animal.id.toString());
                           }
                         }}
                       >

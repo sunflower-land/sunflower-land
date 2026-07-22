@@ -7,6 +7,7 @@ import React, { useContext } from "react";
 
 import * as Auth from "features/auth/lib/Provider";
 import {
+  cacheShortcutItems,
   cacheShortcuts,
   getShortcuts,
 } from "features/farming/hud/lib/shortcuts";
@@ -28,6 +29,10 @@ import { initInteractionMetrics } from "./lib/interactionMetrics";
 
 interface GameContext {
   shortcutItem: (item: InventoryItemName) => void;
+  shortcutItems: (
+    items: InventoryItemName[],
+    options?: { activateFirst?: boolean },
+  ) => void;
   shortcuts: InventoryItemName[];
   selectedItem?: InventoryItemName;
   gameService: MachineInterpreter;
@@ -107,6 +112,22 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
     setShortcuts(items);
   }, []);
 
+  const shortcutItems = useCallback(
+    (
+      items: InventoryItemName[],
+      options?: {
+        activateFirst?: boolean;
+      },
+    ) => {
+      if (items.length === 0) return;
+
+      const newShortcuts = cacheShortcutItems(items, options);
+
+      setShortcuts(newShortcuts);
+    },
+    [],
+  );
+
   const toggleAnimations = () => {
     const newValue = !showAnimations;
 
@@ -134,6 +155,7 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
     <Context.Provider
       value={{
         shortcutItem,
+        shortcutItems,
         shortcuts,
         selectedItem,
         gameService,

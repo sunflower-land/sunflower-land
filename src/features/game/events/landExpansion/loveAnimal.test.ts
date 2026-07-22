@@ -2,6 +2,7 @@ import { INITIAL_FARM } from "features/game/lib/constants";
 import {
   getNextLoveAvailableAt,
   isAnimalNeedingLove,
+  isAnimalReadyForLove,
   loveAnimal,
 } from "./loveAnimal";
 import Decimal from "decimal.js-light";
@@ -477,6 +478,15 @@ describe("getNextLoveAvailableAt", () => {
     // Gate opens at the boundary — false strictly before, true at and after.
     expect(isAnimalNeedingLove(animal, openAt - 1)).toBe(false);
     expect(isAnimalNeedingLove(animal, openAt)).toBe(true);
+  });
+
+  it("only marks love ready while the animal is still asleep", () => {
+    const animal = { ...baseAnimal, lovedAt: 0 };
+    const openAt = getNextLoveAvailableAt(animal);
+
+    expect(isAnimalReadyForLove(animal, openAt)).toBe(true);
+    expect(isAnimalReadyForLove(animal, awakeAt)).toBe(false);
+    expect(isAnimalReadyForLove(animal, awakeAt + 1)).toBe(false);
   });
 
   it("returns a value >= awakeAt when no slot remains this cycle", () => {

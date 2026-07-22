@@ -4,6 +4,9 @@ import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { CONFIG } from "lib/config";
 import { upgradeSkill } from "./upgradeSkill";
 import { getAvailableBumpkinSkillPoints } from "./choseSkill";
+import { getSkillCooldown } from "./skillUsed";
+
+const HOUR = 60 * 60 * 1000;
 
 describe("upgradeSkill", () => {
   const dateNow = Date.now();
@@ -258,6 +261,112 @@ describe("upgradeSkill", () => {
         createdAt: dateNow,
       }),
     ).toThrow("This skill cannot be upgraded");
+  });
+
+  describe("power-skill cooldown re-anchoring on upgrade", () => {
+    // Instant Growth is a Tier 3 Crops power skill with a cooldown that shrinks
+    // per rank: rank 1 = 72h, rank 2 = 60h. Upgrading while it is on cooldown
+    // must NOT retroactively shorten the active cooldown — the current ready
+    // time (previousPowerUseAt + oldCooldown) has to stay put.
+    const cooldownState = (previousPowerUseAt?: number) => ({
+      ...TEST_FARM,
+      inventory: {
+        ...TEST_FARM.inventory,
+        "Ascension Shard": new Decimal(5),
+      },
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        experience: LEVEL_EXPERIENCE[20],
+        skills: { ...CROPS_TIER_3, "Instant Growth": 1 },
+        ...(previousPowerUseAt !== undefined
+          ? { previousPowerUseAt: { "Instant Growth": previousPowerUseAt } }
+          : {}),
+      },
+    });
+
+    it("preserves the current ready time when upgrading mid-cooldown", () => {
+      const usedAt = dateNow - HOUR; // 1h into a 72h cooldown
+      const result = upgradeSkill({
+        state: cooldownState(usedAt),
+        action: { type: "skill.upgraded", skill: "Instant Growth" },
+        createdAt: dateNow,
+      });
+
+      expect(result.bumpkin?.skills["Instant Growth"]).toEqual(2);
+
+      // Stamp is pushed forward by (72h - 60h) so the ready time is unchanged.
+      const newStamp = result.bumpkin?.previousPowerUseAt?.["Instant Growth"];
+      expect(newStamp).toEqual(usedAt + (72 * HOUR - 60 * HOUR));
+
+      // Ready time (stamp + rank-2 cooldown) equals the pre-upgrade ready time.
+      const newCooldown = getSkillCooldown({
+        cooldown: 72 * HOUR,
+        state: result,
+        skillName: "Instant Growth",
+      });
+      expect((newStamp ?? 0) + newCooldown).toEqual(usedAt + 72 * HOUR);
+    });
+
+    it("does not touch the stamp when the skill is already off cooldown", () => {
+      const usedAt = dateNow - 100 * HOUR; // past the 72h cooldown
+      const result = upgradeSkill({
+        state: cooldownState(usedAt),
+        action: { type: "skill.upgraded", skill: "Instant Growth" },
+        createdAt: dateNow,
+      });
+
+      expect(result.bumpkin?.previousPowerUseAt?.["Instant Growth"]).toEqual(
+        usedAt,
+      );
+    });
+
+    it("does not create a stamp when the power was never used", () => {
+      const result = upgradeSkill({
+        state: cooldownState(),
+        action: { type: "skill.upgraded", skill: "Instant Growth" },
+        createdAt: dateNow,
+      });
+
+      expect(
+        result.bumpkin?.previousPowerUseAt?.["Instant Growth"],
+      ).toBeUndefined();
+    });
+
+    it("keeps the ready time invariant with Luna's Crescent equipped", () => {
+      const usedAt = dateNow - HOUR;
+      const state = {
+        ...cooldownState(usedAt),
+        bumpkin: {
+          ...cooldownState(usedAt).bumpkin,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            tool: "Luna's Crescent" as const,
+          },
+        },
+      };
+
+      const oldCooldown = getSkillCooldown({
+        cooldown: 72 * HOUR,
+        state,
+        skillName: "Instant Growth",
+      });
+      const oldReadyAt = usedAt + oldCooldown;
+
+      const result = upgradeSkill({
+        state,
+        action: { type: "skill.upgraded", skill: "Instant Growth" },
+        createdAt: dateNow,
+      });
+
+      const newStamp =
+        result.bumpkin?.previousPowerUseAt?.["Instant Growth"] ?? 0;
+      const newCooldown = getSkillCooldown({
+        cooldown: 72 * HOUR,
+        state: result,
+        skillName: "Instant Growth",
+      });
+      expect(newStamp + newCooldown).toEqual(oldReadyAt);
+    });
   });
 
   describe("when ASCENSION_SKILLS is off (mainnet)", () => {

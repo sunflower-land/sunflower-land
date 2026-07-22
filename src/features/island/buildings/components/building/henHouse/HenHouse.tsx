@@ -11,7 +11,7 @@ import { useNavigate } from "react-router";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useSound } from "lib/utils/hooks/useSound";
 import { useNow } from "lib/utils/hooks/useNow";
-import { isAnimalNeedingLove } from "features/game/events/landExpansion/loveAnimal";
+import { isAnimalReadyForLove } from "features/game/events/landExpansion/loveAnimal";
 import classNames from "classnames";
 import { saveIslandScrollPosition } from "features/game/expansion/lib/islandScroll";
 
@@ -47,7 +47,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
   // game-state events, which wouldn't fire when crossing the time gate.
   const now = useNow({ live: true });
   const chickensNeedLove = Object.values(henHouseAnimals).some((animal) =>
-    isAnimalNeedingLove(animal, now),
+    isAnimalReadyForLove(animal, now),
   );
 
   const { play: barnAudio } = useSound("barn");

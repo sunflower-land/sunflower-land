@@ -42,6 +42,14 @@ export function isAnimalNeedingLove(animal: Animal, now: number): boolean {
   return getNextLoveAvailableAt(animal) <= now;
 }
 
+/**
+ * UI/action affordance form: the love window has opened and the animal is
+ * still asleep. Once the animal wakes, feeding becomes the next required action.
+ */
+export function isAnimalReadyForLove(animal: Animal, now: number): boolean {
+  return now < animal.awakeAt && isAnimalNeedingLove(animal, now);
+}
+
 export type LoveAnimalAction = {
   type: "animal.loved";
   animal: AnimalType;

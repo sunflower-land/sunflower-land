@@ -65,6 +65,13 @@ export type Lifecycle = {
 const URL = `${CONFIG.PROTECTED_IMAGE_URL}/crops`;
 const VOLCANO_URL = `${CONFIG.PROTECTED_IMAGE_URL}/volcano/crops`;
 
+// Crops with no Volcano Biome art in the images repo yet. Without this they
+// 404 and render as broken sprites for anyone on the Volcano Biome.
+const MISSING_VOLCANO_ART: CropName[] = ["Saltwort"];
+
+const volcanoUrl = (name: CropName) =>
+  MISSING_VOLCANO_ART.includes(name) ? URL : VOLCANO_URL;
+
 export const IMAGES: Record<CropName, string> = {
   Sunflower: "sunflower",
   Potato: "potato",
@@ -126,17 +133,21 @@ export const CROP_LIFECYCLE: Record<
     {} as Record<CropName, Lifecycle>,
   ),
   "Volcano Biome": getKeys(IMAGES).reduce(
-    (acc, name) => ({
-      ...acc,
-      [name]: {
-        seedling: `${VOLCANO_URL}/${IMAGES[name]}/seedling.png`,
-        halfway: `${VOLCANO_URL}/${IMAGES[name]}/halfway.png`,
-        almost: `${VOLCANO_URL}/${IMAGES[name]}/almost.png`,
-        ready: `${VOLCANO_URL}/${IMAGES[name]}/plant.png`,
-        crop: `${VOLCANO_URL}/${IMAGES[name]}/crop.png`,
-        seed: `${VOLCANO_URL}/${IMAGES[name]}/seed.png`,
-      },
-    }),
+    (acc, name) => {
+      const url = volcanoUrl(name);
+
+      return {
+        ...acc,
+        [name]: {
+          seedling: `${url}/${IMAGES[name]}/seedling.png`,
+          halfway: `${url}/${IMAGES[name]}/halfway.png`,
+          almost: `${url}/${IMAGES[name]}/almost.png`,
+          ready: `${url}/${IMAGES[name]}/plant.png`,
+          crop: `${url}/${IMAGES[name]}/crop.png`,
+          seed: `${url}/${IMAGES[name]}/seed.png`,
+        },
+      };
+    },
     {} as Record<CropName, Lifecycle>,
   ),
   "Swamp Biome": getKeys(IMAGES).reduce(

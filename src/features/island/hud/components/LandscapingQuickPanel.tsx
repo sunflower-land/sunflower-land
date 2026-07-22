@@ -35,7 +35,7 @@ import {
   BUILDINGS_DIMENSIONS,
   type BuildingName,
 } from "features/game/types/buildings";
-import { isPetNFTRevealed } from "features/game/types/pets";
+import { isPetNFTRevealed, PET_TYPES } from "features/game/types/pets";
 import { Box, type BoxProps } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -337,16 +337,23 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
   );
 
   // ── Chest inventory ────────────────────────────────────────────────────
-  const buds = getChestBuds(state);
+  // The Pet House only accepts pets - mirror Chest.tsx's petHouse gating so
+  // this panel doesn't offer decorations/boosts/buildings/etc that can't
+  // actually be placed there.
+  const buds = location === "petHouse" ? {} : getChestBuds(state);
   const petsNFTs = getChestPets(state.pets?.nfts ?? {});
-  const farmHands = getChestFarmHands(state.farmHands);
+  const farmHands =
+    location === "petHouse" ? {} : getChestFarmHands(state.farmHands);
   const chestMap = getChestItems(state);
   const biome = useMemo(() => getCurrentBiome(state.island), [state.island]);
 
   const collectibleNames = useMemo(
-    () => getKeys(chestMap).filter((item) => chestMap[item]?.gt(0)),
+    () =>
+      getKeys(chestMap)
+        .filter((item) => chestMap[item]?.gt(0))
+        .filter((item) => (location === "petHouse" ? item in PET_TYPES : true)),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [chestMap],
+    [chestMap, location],
   );
 
   // ── Group items (shared with the chest) ────────────────────────────────

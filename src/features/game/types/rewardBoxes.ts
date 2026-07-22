@@ -1,5 +1,6 @@
 import { getKeys } from "lib/object";
 import type {
+  GameState,
   Inventory,
   InventoryItemName,
   TemperateSeasonName,
@@ -64,6 +65,16 @@ export type RewardBoxReward = {
 type RewardBoxDetails = {
   rewards: RewardBoxReward[];
 };
+
+export type DisplayableRewardBoxName = Exclude<RewardBoxName, "Pet Egg">;
+
+export const isRewardBoxName = (name: string): name is RewardBoxName =>
+  name in REWARD_BOXES;
+
+export const isDisplayableRewardBoxName = (
+  name: string,
+): name is DisplayableRewardBoxName =>
+  isRewardBoxName(name) && name !== "Pet Egg";
 
 function getSeedSeasons(seedName: SeedName): TemperateSeasonName[] {
   return getKeys(SEASONAL_SEEDS).filter((season) =>
@@ -353,6 +364,45 @@ export const REWARD_BOXES: Record<RewardBoxName, RewardBoxDetails> = {
     ],
   },
 };
+
+export const getRewardBoxRewards = ({
+  name,
+  game,
+}: {
+  name: RewardBoxName;
+  game?: GameState;
+}): RewardBoxReward[] => {
+  let rewards =
+    name === "Pet Egg" && game
+      ? getPetRewardPool({ inventory: game.inventory })
+      : [...REWARD_BOXES[name].rewards];
+
+  if (name === "Bronze Food Box" || name === "Silver Food Box") {
+    rewards = rewards.map((reward) => {
+      if (!reward.items || !("Fermented Fish" in reward.items)) {
+        return reward;
+      }
+
+      const { ["Fermented Fish"]: fermentedFish, ...rest } = reward.items;
+
+      return {
+        ...reward,
+        items: {
+          ...rest,
+          "Surimi Rice Bowl": fermentedFish,
+        },
+      };
+    });
+  }
+
+  return rewards;
+};
+
+export const getRewardBoxRewardsForDisplay = ({
+  name,
+}: {
+  name: DisplayableRewardBoxName;
+}): RewardBoxReward[] => getRewardBoxRewards({ name });
 
 /**
  * Returns a list of pet rewards that the player does not already have.

@@ -207,6 +207,7 @@ export const Recipes: React.FC<Props> = ({
   return (
     <>
       <SplitScreenView
+        matchPanelHeight
         panel={
           <>
             <CraftingRequirements

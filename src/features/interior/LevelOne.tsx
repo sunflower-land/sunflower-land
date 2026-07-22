@@ -20,18 +20,13 @@ import {
   NON_COLLIDING_OBJECTS,
   FURNITURE_OBJECTS,
 } from "features/game/expansion/placeable/lib/collisionDetection";
-import {
-  getInteriorLayoutBounds,
-  HOME_EXPANSION_LAYOUTS,
-  INTERIOR_CANVAS,
-} from "features/game/expansion/placeable/lib/interiorLayouts";
+import { INTERIOR_CANVAS } from "features/game/expansion/placeable/lib/interiorLayouts";
 import {
   HOME_EXPANSION_BACKGROUNDS,
   HOME_EXPANSION_BACKGROUND_NATIVE,
 } from "./lib/interiorBackgrounds";
 import { LevelOneGridOverlay } from "./components/LevelOneGridOverlay";
 import { UpgradeButton } from "./components/UpgradeButton";
-import { ImportHomeButton } from "./components/ImportHomeButton";
 import { Bud } from "features/island/buds/Bud";
 import { PetNFT } from "features/island/pets/PetNFT";
 import { FarmHand } from "features/island/farmhand/FarmHand";
@@ -41,7 +36,6 @@ import type { Collectibles, HomeExpansionTier } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { animated } from "@react-spring/web";
 import { ZoomContext } from "components/ZoomProvider";
-import { InteriorBumpkins } from "features/home/components/InteriorBumpkins";
 
 const _landscaping = (state: MachineState) => state.matches("landscaping");
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
@@ -155,9 +149,6 @@ export const LevelOne: React.FC = () => {
 
   const canvasWidthPx = INTERIOR_CANVAS.width * GRID_WIDTH_PX;
   const canvasHeightPx = INTERIOR_CANVAS.height * GRID_WIDTH_PX;
-  const bumpkinLayerBounds = expansion
-    ? getInteriorLayoutBounds(HOME_EXPANSION_LAYOUTS[expansion])
-    : undefined;
 
   // Beta-only feature.
   if (!hasAccess) {
@@ -367,49 +358,6 @@ export const LevelOne: React.FC = () => {
               />
 
               {debug && <LevelOneGridOverlay tier={expansion} />}
-
-              {bumpkinLayerBounds && (
-                <div
-                  className="absolute pointer-events-none"
-                  style={{
-                    left: `${bumpkinLayerBounds.x * GRID_WIDTH_PX}px`,
-                    top: `${
-                      (INTERIOR_CANVAS.height - bumpkinLayerBounds.y) *
-                      GRID_WIDTH_PX
-                    }px`,
-                    width: `${bumpkinLayerBounds.width * GRID_WIDTH_PX}px`,
-                    height: `${bumpkinLayerBounds.height * GRID_WIDTH_PX}px`,
-                  }}
-                >
-                  <div
-                    className="absolute left-0 w-full pointer-events-auto"
-                    style={{ top: "-6rem" }}
-                  >
-                    <InteriorBumpkins location="level_one" />
-                  </div>
-                </div>
-              )}
-              {/*
-                Import-from-old-home button, pinned to the top-right corner of
-                the house layout (anchored to the background image's top edge).
-                Self-hides when the old home has no items left to import.
-              */}
-              {!landscaping && (
-                <div
-                  data-prevent-drag-scroll
-                  className="absolute z-30"
-                  style={{
-                    right: `${PIXEL_SCALE * 6}px`,
-                    top: `${
-                      canvasHeightPx -
-                      HOME_EXPANSION_BACKGROUND_NATIVE.height * PIXEL_SCALE +
-                      PIXEL_SCALE * 6
-                    }px`,
-                  }}
-                >
-                  <ImportHomeButton />
-                </div>
-              )}
 
               <LandscapingGrid />
 

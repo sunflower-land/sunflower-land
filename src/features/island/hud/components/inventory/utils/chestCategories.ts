@@ -14,6 +14,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import lightning from "assets/icons/lightning.png";
 import { getChestFlowers } from "./inventory";
 import { hasBoost } from "./boosts";
+import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 
 /**
  * The collectible chest categories (id + icon) in display order.
@@ -27,6 +28,7 @@ const CHEST_CATEGORIES_META = [
   { id: "resource.nodes", icon: SUNNYSIDE.resource.tree },
   { id: "buildings", icon: SUNNYSIDE.icons.hammer },
   { id: "boosts", icon: lightning },
+  { id: "temporaryBoosts", icon: SUNNYSIDE.icons.stopwatch },
   { id: "banners", icon: ITEM_DETAILS["Lifetime Farmer Banner"].image },
   { id: "beds", icon: ITEM_DETAILS["Basic Bed"].image },
   { id: "weatherItems", icon: ITEM_DETAILS["Tornado Pinwheel"].image },
@@ -102,8 +104,11 @@ export const getChestCategories = (
   const dollsSet = new Set(dolls);
   const petsSet = new Set(pets);
 
-  const boosts = collectibleNames
-    .filter((name) => hasBoost(name, state))
+  // Totems, hourglasses and shrines expire and need re-triggering - split
+  // them out from the "always on" boosts (EXPIRY_COOLDOWNS is the ground
+  // truth for what's temporary, shared with the renewal/expiry logic).
+  const temporaryBoosts = collectibleNames
+    .filter((name) => name in EXPIRY_COOLDOWNS)
     .filter(
       (name) =>
         !resourcesSet.has(name) &&
@@ -114,6 +119,21 @@ export const getChestCategories = (
         !flowersSet.has(name),
     );
 
+  const temporaryBoostsSet = new Set(temporaryBoosts);
+
+  const boosts = collectibleNames
+    .filter((name) => hasBoost(name, state))
+    .filter(
+      (name) =>
+        !resourcesSet.has(name) &&
+        !buildingsSet.has(name) &&
+        !monumentsSet.has(name) &&
+        !villageProjectsSet.has(name) &&
+        !bedsSet.has(name) &&
+        !flowersSet.has(name) &&
+        !temporaryBoostsSet.has(name),
+    );
+
   const boostsSet = new Set(boosts);
 
   const decorations = collectibleNames.filter(
@@ -121,6 +141,7 @@ export const getChestCategories = (
       !resourcesSet.has(name) &&
       !buildingsSet.has(name) &&
       !boostsSet.has(name) &&
+      !temporaryBoostsSet.has(name) &&
       !bannersSet.has(name) &&
       !bedsSet.has(name) &&
       !weatherItemsSet.has(name) &&
@@ -136,6 +157,7 @@ export const getChestCategories = (
     "resource.nodes": resources,
     buildings,
     boosts,
+    temporaryBoosts,
     banners,
     beds,
     weatherItems,

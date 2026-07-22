@@ -19,10 +19,10 @@ import { FeederMachineModal } from "./FeederMachineModal";
 const _state = (state: MachineState) => state.context.state;
 
 interface Props {
-  // When set and a golden asset covers this building, the machine becomes a
+  // A golden asset covering this building turns the machine into a
   // one-click feed-all trigger (shown with a lightning bolt). The crafting
   // modal stays reachable whenever medicine or feed is still needed.
-  building?: AnimalBuildingType;
+  building: AnimalBuildingType;
 }
 
 export const FeederMachine: React.FC<Props> = ({ building }) => {
@@ -38,7 +38,7 @@ export const FeederMachine: React.FC<Props> = ({ building }) => {
   const [, setWakeTick] = useState(0);
 
   const covered = useMemo(
-    () => (building ? getCoveredAnimalTypes({ state: game, building }) : []),
+    () => getCoveredAnimalTypes({ state: game, building }),
     [building, game],
   );
 
@@ -46,29 +46,25 @@ export const FeederMachine: React.FC<Props> = ({ building }) => {
   // Oracle Syringe equipped) need hand-crafted medicine, so the machine
   // must keep opening the crafting modal.
   const hasOracleSyringe = isWearableActive({ name: "Oracle Syringe", game });
-  const needsMedicine =
-    !!building &&
-    getValues(game[makeAnimalBuildingKey(building)].animals).some(
-      (animal) =>
-        animal.state === "sick" &&
-        !(hasOracleSyringe && covered.includes(animal.type)),
-    );
+  const needsMedicine = getValues(
+    game[makeAnimalBuildingKey(building)].animals,
+  ).some(
+    (animal) =>
+      animal.state === "sick" &&
+      !(hasOracleSyringe && covered.includes(animal.type)),
+  );
 
+  const targets = getFeedAllTargets({ state: game, building });
   const eligibleCount =
-    building && covered.length > 0
-      ? (({ toClaim, toCure, toFeed }) =>
-          toClaim.length + toCure.length + toFeed.length)(
-          getFeedAllTargets({ state: game, building }),
-        )
+    covered.length > 0
+      ? targets.toClaim.length + targets.toCure.length + targets.toFeed.length
       : 0;
 
   const allWakeTimes = useMemo(
     () =>
-      building
-        ? getValues(game[makeAnimalBuildingKey(building)].animals)
-            .filter((animal) => covered.includes(animal.type))
-            .map((animal) => animal.awakeAt)
-        : [],
+      getValues(game[makeAnimalBuildingKey(building)].animals)
+        .filter((animal) => covered.includes(animal.type))
+        .map((animal) => animal.awakeAt),
     [building, game, covered],
   );
   const nextWakeAt = Math.min(
@@ -92,7 +88,7 @@ export const FeederMachine: React.FC<Props> = ({ building }) => {
   const canFeedAll = covered.length > 0 && !needsMedicine && eligibleCount > 0;
 
   const handleClick = () => {
-    if (building && covered.length > 0 && !needsMedicine) {
+    if (covered.length > 0 && !needsMedicine) {
       // Re-derive eligibility from the live machine snapshot rather than
       // the render-scoped state, which can go stale (e.g. a double-tap
       // before React re-renders after the first click consumed every
@@ -147,6 +143,7 @@ export const FeederMachine: React.FC<Props> = ({ building }) => {
       <FeederMachineModal
         show={showFeederMachineModal}
         onClose={() => setFeederMachineModal(false)}
+        building={building}
       />
     </>
   );

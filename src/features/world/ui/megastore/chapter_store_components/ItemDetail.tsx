@@ -2,7 +2,7 @@ import React, { useContext, useLayoutEffect, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import Decimal from "decimal.js-light";
-import type { InventoryItemName, Keys } from "features/game/types/game";
+import type { InventoryItemName } from "features/game/types/game";
 
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
@@ -29,14 +29,16 @@ import {
 } from "features/game/types/megastore";
 import { getItemDescription } from "../ChapterStore";
 import { getKeys } from "lib/object";
-import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import {
   getChapterItemsCrafted,
   getChapterPurchaseCount,
   isKeyBoughtWithinChapter,
 } from "features/game/events/landExpansion/buyChapterItem";
-import { REWARD_BOXES } from "features/game/types/rewardBoxes";
+import {
+  isDisplayableRewardBoxName,
+  isRewardBoxName,
+} from "features/game/types/rewardBoxes";
 import { secondsToString } from "lib/utils/time";
 import {
   WEARABLE_RELEASES,
@@ -44,6 +46,7 @@ import {
 } from "features/game/types/withdrawables";
 
 import lockIcon from "assets/icons/lock.png";
+import { ChestRewardsList } from "components/ui/ChestRewardsList";
 
 interface ItemOverlayProps {
   item: ChapterStoreItem;
@@ -79,6 +82,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const [imageWidth, setImageWidth] = useState<number>(0);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
   const [confirmBuy, setConfirmBuy] = useState<boolean>(false);
+  const [showRewards, setShowRewards] = useState<boolean>(false);
 
   const now = useNow();
   const currentChapter = getCurrentChapter(now);
@@ -115,9 +119,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const itemName = isWearable
     ? (item as ChapterStoreWearable)?.wearable
     : (item as ChapterStoreCollectible)?.collectible;
-
-  const isKey = (name: InventoryItemName): name is Keys =>
-    name in ARTEFACT_SHOP_KEYS;
+  const rewardBoxName =
+    itemName && isDisplayableRewardBoxName(itemName) ? itemName : undefined;
 
   const reduction = isKeyBoughtWithinChapter(state, tiers, now, true) ? 0 : 1;
   const isRareUnlocked =
@@ -143,12 +146,10 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const description = getItemDescription(item);
   const { sfl = 0, coins: coinsCost = 0 } = item?.cost || {};
   const itemReq = item?.cost?.items;
+  const displayedImageWidth = isWearable ? PIXEL_SCALE * 50 : imageWidth;
 
   useLayoutEffect(() => {
-    if (isWearable) {
-      setImageWidth(PIXEL_SCALE * 50);
-      return;
-    }
+    if (isWearable) return;
 
     const imgElement = new Image();
 
@@ -160,7 +161,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     };
 
     imgElement.src = image;
-  }, []);
+  }, [image, isWearable]);
 
   const canBuy = () => {
     if (!item) return false;
@@ -256,7 +257,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     setShowSuccess(true);
     setConfirmBuy(false);
 
-    if (itemName && itemName in REWARD_BOXES) {
+    if (itemName && isRewardBoxName(itemName)) {
       onClose();
     }
   };
@@ -287,6 +288,191 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const isTradeable = isWearable
     ? !!WEARABLE_RELEASES[(item as ChapterStoreWearable)?.wearable]
     : !!INVENTORY_RELEASES[(item as ChapterStoreCollectible)?.collectible];
+
+  const renderItemRequirements = () => (
+    <>
+      {itemName && item?.cooldownMs ? (
+        <Label
+          type={itemInCooldown ? "danger" : "default"}
+          className="text-xxs"
+        >
+          {t("megastore.limit", {
+            time: secondsToString(
+              itemInCooldown
+                ? (item.cooldownMs - (now - boughtAt)) / 1000
+                : item.cooldownMs / 1000,
+              {
+                length: "short",
+              },
+            ),
+          })}
+        </Label>
+      ) : item?.limit === undefined ? null : (
+        <Label
+          type={chapterPurchaseCount >= item.limit ? "danger" : "default"}
+          className="text-xxs"
+        >
+          {t("season.megastore.crafting.limit", {
+            limit: Math.min(chapterPurchaseCount, item.limit),
+          })}
+        </Label>
+      )}
+      {(itemReq || !isTradeable) && (
+        <div className="flex w-full items-center justify-between gap-1">
+          {itemReq && (
+            <div className="flex flex-1 content-start flex-col flex-wrap gap-1">
+              {getKeys(itemReq).map((itemName, index) => {
+                return (
+                  <RequirementLabel
+                    key={index}
+                    type="item"
+                    item={itemName}
+                    showLabel
+                    balance={inventory[itemName] ?? new Decimal(0)}
+                    requirement={new Decimal(itemReq[itemName] ?? 0)}
+                  />
+                );
+              })}
+            </div>
+          )}
+          {!isTradeable && (
+            <Label type="formula" icon={lockIcon} className="text-xxs shrink-0">
+              {t("season.megastore.nonTradeable")}
+            </Label>
+          )}
+        </div>
+      )}
+      {item && sfl !== 0 && (
+        <div className="flex flex-1 items-end">
+          {/* FLOWER */}
+          <RequirementLabel
+            type="sfl"
+            balance={sflBalance}
+            requirement={SFLDiscount(state, new Decimal(item.cost.sfl), now)}
+          />
+        </div>
+      )}
+      {item && coinsCost > 0 && (
+        <div className="flex flex-1 items-end">
+          <RequirementLabel
+            type="coins"
+            balance={coinBalance}
+            requirement={coinsCost}
+          />
+        </div>
+      )}
+    </>
+  );
+
+  const renderBuyActions = () =>
+    !readonly && (
+      <>
+        {!showSuccess && (
+          <div
+            className={classNames("flex w-full", {
+              "space-x-1": confirmBuy,
+            })}
+          >
+            {confirmBuy && (
+              <Button onClick={() => setConfirmBuy(false)}>
+                {t("cancel")}
+              </Button>
+            )}
+
+            <Button
+              disabled={!canBuy() || (itemName && !!itemInCooldown)}
+              onClick={buttonHandler}
+            >
+              {getButtonLabel()}
+            </Button>
+          </div>
+        )}
+        {showSuccess && (
+          <div className="flex flex-col space-y-1">
+            <span className="p-2 text-xs">{getSuccessCopy()}</span>
+            <Button onClick={onClose}>{t("ok")}</Button>
+          </div>
+        )}
+      </>
+    );
+
+  if (rewardBoxName) {
+    return (
+      <InnerPanel className="shadow">
+        {isVisible && (
+          <>
+            <div className="flex flex-col items-center space-y-2">
+              <div className="flex items-center w-full">
+                <div style={{ width: `${PIXEL_SCALE * 9}px` }} />
+                <span className="flex-1 text-center">{itemName}</span>
+                <img
+                  src={SUNNYSIDE.icons.close}
+                  className="cursor-pointer"
+                  onClick={onClose}
+                  style={{
+                    width: `${PIXEL_SCALE * 9}px`,
+                  }}
+                />
+              </div>
+
+              {!showSuccess && (
+                <div className="w-full p-2 px-1 space-y-2">
+                  {showRewards ? (
+                    <div
+                      className="max-h-[150px] overflow-y-auto scrollable pr-1 cursor-pointer"
+                      onClick={() => setShowRewards(false)}
+                    >
+                      <ChestRewardsList
+                        type={rewardBoxName}
+                        showDescription={false}
+                        isFirstInMultiList
+                      />
+                    </div>
+                  ) : (
+                    <div
+                      className="flex items-center space-x-2 cursor-pointer"
+                      onClick={() => setShowRewards(true)}
+                    >
+                      <div
+                        className="relative rounded-md overflow-hidden shadow-md flex justify-center items-center shrink-0"
+                        style={{
+                          width: `${PIXEL_SCALE * 24}px`,
+                          height: `${PIXEL_SCALE * 24}px`,
+                          backgroundImage: `url(${SUNNYSIDE.ui.grey_background})`,
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
+                        }}
+                      >
+                        <img
+                          src={image}
+                          alt={itemName}
+                          style={{
+                            width: `${Math.min(imageWidth, PIXEL_SCALE * 20)}px`,
+                          }}
+                        />
+                      </div>
+                      {description && (
+                        <span className="text-xs leading-none flex-1">
+                          {description}
+                        </span>
+                      )}
+                      <Label type="default" className="shrink-0">
+                        {t("rewards")}
+                      </Label>
+                    </div>
+                  )}
+
+                  {renderItemRequirements()}
+                </div>
+              )}
+            </div>
+
+            {renderBuyActions()}
+          </>
+        )}
+      </InnerPanel>
+    );
+  }
 
   return (
     <InnerPanel className="shadow">
@@ -325,7 +511,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       alt={itemName}
                       className={"w-full"}
                       style={{
-                        width: `${imageWidth}px`,
+                        width: `${displayedImageWidth}px`,
                       }}
                     />
                   </div>
@@ -359,119 +545,13 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                         {description}
                       </span>
                     )}
-                    {itemName && item?.cooldownMs ? (
-                      <Label
-                        type={itemInCooldown ? "danger" : "default"}
-                        className="text-xxs"
-                      >
-                        {t("megastore.limit", {
-                          time: secondsToString(
-                            itemInCooldown
-                              ? (item.cooldownMs - (now - boughtAt)) / 1000
-                              : item.cooldownMs / 1000,
-                            {
-                              length: "short",
-                            },
-                          ),
-                        })}
-                      </Label>
-                    ) : item?.limit === undefined ? null : (
-                      <Label
-                        type={
-                          chapterPurchaseCount >= item.limit
-                            ? "danger"
-                            : "default"
-                        }
-                        className="text-xxs"
-                      >
-                        {t("season.megastore.crafting.limit", {
-                          limit: Math.min(chapterPurchaseCount, item.limit),
-                        })}
-                      </Label>
-                    )}
-                    {!isTradeable && (
-                      <Label
-                        type="formula"
-                        icon={lockIcon}
-                        className="text-xxs"
-                      >
-                        {t("season.megastore.nonTradeable")}
-                      </Label>
-                    )}
-                    {itemReq && (
-                      <div className="flex flex-1 content-start flex-col flex-wrap gap-1">
-                        {getKeys(itemReq).map((itemName, index) => {
-                          return (
-                            <RequirementLabel
-                              key={index}
-                              type="item"
-                              item={itemName}
-                              showLabel
-                              balance={inventory[itemName] ?? new Decimal(0)}
-                              requirement={new Decimal(itemReq[itemName] ?? 0)}
-                            />
-                          );
-                        })}
-                      </div>
-                    )}
-                    {item && sfl !== 0 && (
-                      <div className="flex flex-1 items-end">
-                        {/* FLOWER */}
-                        <RequirementLabel
-                          type="sfl"
-                          balance={sflBalance}
-                          requirement={SFLDiscount(
-                            state,
-                            new Decimal(item.cost.sfl),
-                            now,
-                          )}
-                        />
-                      </div>
-                    )}
-                    {item && coinsCost > 0 && (
-                      <div className="flex flex-1 items-end">
-                        <RequirementLabel
-                          type="coins"
-                          balance={coinBalance}
-                          requirement={coinsCost}
-                        />
-                      </div>
-                    )}
+                    {renderItemRequirements()}
                   </div>
                 </div>
               </div>
             )}
           </div>
-          {!readonly && (
-            <>
-              {!showSuccess && (
-                <div
-                  className={classNames("flex w-full", {
-                    "space-x-1": confirmBuy,
-                  })}
-                >
-                  {confirmBuy && (
-                    <Button onClick={() => setConfirmBuy(false)}>
-                      {t("cancel")}
-                    </Button>
-                  )}
-
-                  <Button
-                    disabled={!canBuy() || (itemName && !!itemInCooldown)}
-                    onClick={buttonHandler}
-                  >
-                    {getButtonLabel()}
-                  </Button>
-                </div>
-              )}
-              {showSuccess && (
-                <div className="flex flex-col space-y-1">
-                  <span className="p-2 text-xs">{getSuccessCopy()}</span>
-                  <Button onClick={onClose}>{t("ok")}</Button>
-                </div>
-              )}
-            </>
-          )}
+          {renderBuyActions()}
         </>
       )}
     </InnerPanel>

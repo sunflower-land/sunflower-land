@@ -13,7 +13,7 @@ import { useNow } from "lib/utils/hooks/useNow";
 import type { TemperateSeasonName } from "features/game/types/game";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import type { LandBiomeName } from "features/island/biomes/biomes";
-import { isAnimalNeedingLove } from "features/game/events/landExpansion/loveAnimal";
+import { isAnimalReadyForLove } from "features/game/events/landExpansion/loveAnimal";
 import classNames from "classnames";
 import { saveIslandScrollPosition } from "features/game/expansion/lib/islandScroll";
 
@@ -257,7 +257,7 @@ export const Barn: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
   // game-state events, which wouldn't fire when crossing the time gate.
   const now = useNow({ live: true });
   const animalsNeedLove = Object.values(barnAnimals).some((animal) =>
-    isAnimalNeedingLove(animal, now),
+    isAnimalReadyForLove(animal, now),
   );
   const handleClick = () => {
     if (isBuilt) {
