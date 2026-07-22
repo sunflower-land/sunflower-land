@@ -4209,6 +4209,120 @@ export const COLLECTIBLE_COMPONENTS: Record<
       }}
     />
   ),
+
+  // Lost Ascension chapter
+  "Ascended Chicken": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Ascended Chicken"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 24}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -4}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 24}px`,
+      }}
+    />
+  ),
+  "Ascended Cow": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Ascended Cow"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 29}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 1.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 29}px`,
+      }}
+    />
+  ),
+  "Ascended Sheep": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Ascended Sheep"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 33}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -0.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 33}px`,
+      }}
+    />
+  ),
+  "Ruins Flower": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Ruins Flower"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+    />
+  ),
+  Crocodile: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Crocodile"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+    />
+  ),
+  "Dumbo Octopus": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Dumbo Octopus"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+    />
+  ),
+  "Seahorse Dad": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Seahorse Dad"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+    />
+  ),
+  "Lost Ascension Banner": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Lost Ascension Banner"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 20}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * -2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 20}px`,
+      }}
+    />
+  ),
   "Blue Paint Bucket": (props: CollectibleProps) => (
     <ImageStyle
       {...props}

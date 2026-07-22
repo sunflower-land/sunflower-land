@@ -1565,6 +1565,18 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Saltwort: 3027,
   "Saltwort Seed": 3028,
   Saltbite: 3029,
+  // Lost Ascension chapter
+  Crocodile: 3030,
+  "Dumbo Octopus": 3031,
+  "Seahorse Dad": 3032,
+  "Ascended Chicken": 3033,
+  "Ascended Cow": 3034,
+  "Ascended Sheep": 3035,
+  "Ruins Flower": 3036,
+  "Lost Ascension Banner": 3037,
+  "Shiny Feather": 3038,
+  "Otter Pebble": 3039,
+  "Lost Ascension Raffle Ticket": 3040,
 };
 
 // The reverse of above

@@ -1506,6 +1506,16 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Crystal Shrimp": { width: 2, height: 2 },
   "Salt Awakening Banner": { width: 1, height: 2 },
 
+  // Lost Ascension chapter
+  "Ascended Chicken": { width: 1, height: 1 },
+  "Ascended Cow": { width: 2, height: 1 },
+  "Ascended Sheep": { width: 2, height: 1 },
+  "Ruins Flower": { width: 1, height: 1 },
+  Crocodile: { width: 2, height: 2 },
+  "Dumbo Octopus": { width: 2, height: 2 },
+  "Seahorse Dad": { width: 2, height: 2 },
+  "Lost Ascension Banner": { width: 1, height: 2 },
+
   "Fox Shrine": { width: 1, height: 1 },
   "Boar Shrine": { width: 1, height: 1 },
   "Hound Shrine": { width: 1, height: 1 },

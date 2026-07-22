@@ -270,7 +270,8 @@ export type MutantChicken =
   | "Janitor Chicken"
   | "Sleepy Chicken"
   | "Squid Chicken"
-  | "Flamingo Chicken";
+  | "Flamingo Chicken"
+  | "Ascended Chicken";
 
 export type MutantCow =
   | "Mootant"
@@ -279,7 +280,8 @@ export type MutantCow =
   | "Baby Cow"
   | "Astronaut Cow"
   | "Mermaid Cow"
-  | "Spa Cow";
+  | "Spa Cow"
+  | "Ascended Cow";
 
 export type MutantSheep =
   | "Toxic Tuft"
@@ -288,7 +290,8 @@ export type MutantSheep =
   | "Baby Sheep"
   | "Astronaut Sheep"
   | "Mermaid Sheep"
-  | "Spa Sheep";
+  | "Spa Sheep"
+  | "Ascended Sheep";
 
 export type MutantAnimal = MutantChicken | MutantCow | MutantSheep;
 
@@ -504,6 +507,10 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Salt Rock": { description: "Collected during the Salt Awakening." },
   "Salt Awakening Raffle Ticket": {
     description: "A raffle ticket for the Salt Awakening chapter.",
+  },
+  "Shiny Feather": { description: "Collected during the Lost Ascension." },
+  "Lost Ascension Raffle Ticket": {
+    description: "A raffle ticket for the Lost Ascension chapter.",
   },
   "Colors Token 2026": {
     description: translate("description.colorsToken2026"),

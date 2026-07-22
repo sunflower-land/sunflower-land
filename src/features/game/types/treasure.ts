@@ -30,7 +30,8 @@ export type BeachBountyChapterArtefact =
   | "Coprolite"
   | "Moon Crystal"
   | "Ammonite Shell"
-  | "Salt Dino Egg";
+  | "Salt Dino Egg"
+  | "Otter Pebble";
 
 export type ConsumableTreasure =
   | "Pirate Cake"
@@ -210,6 +211,16 @@ export const SELLABLE_TREASURES: Record<BeachBountyTreasure, SellableTreasure> =
         : {
             from: CHAPTERS["Salt Awakening"].startDate,
             to: CHAPTERS["Salt Awakening"].endDate,
+          }),
+    },
+    "Otter Pebble": {
+      sellPrice: 200,
+      description: "",
+      ...(hasChapterEnded("Lost Ascension", Date.now())
+        ? {}
+        : {
+            from: CHAPTERS["Lost Ascension"].startDate,
+            to: CHAPTERS["Lost Ascension"].endDate,
           }),
     },
   };
