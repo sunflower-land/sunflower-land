@@ -168,8 +168,23 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       sheepService.send({ type: "CURE", animal: sheep });
     }
 
+    // A bulk claim happens without a click — play the same drop animation
+    // and sounds as a manual claim before the sprite transitions.
+    const animateBulkClaim = async (
+      event: "CLAIM_PRODUCE" | "INSTANT_WAKE_UP",
+    ) => {
+      setShowDrops(true);
+      playProduceDrop();
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      playSheepCollect();
+      await new Promise((resolve) => setTimeout(resolve, 900));
+      playLevelUp();
+      sheepService.send({ type: event, animal: sheep });
+      setShowDrops(false);
+    };
+
     if (machineState() === "ready" && sheep.state === "idle") {
-      sheepService.send({ type: "CLAIM_PRODUCE", animal: sheep });
+      animateBulkClaim("CLAIM_PRODUCE");
     }
 
     if (
@@ -180,7 +195,7 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       // Bulk feeding can level an animal to ready and claim its produce in
       // the same event; INSTANT_WAKE_UP re-derives the machine state from
       // the animal, which maps an asleep animal to "sleeping".
-      sheepService.send({ type: "INSTANT_WAKE_UP", animal: sheep });
+      animateBulkClaim("INSTANT_WAKE_UP");
     }
 
     if (
