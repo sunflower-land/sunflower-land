@@ -987,7 +987,7 @@ const CHAPTER_MAP_PIECE_TRIGGERS: Partial<
     Sunfish: { marvel: "Deep Sea Pig", odds: 0.005 },
     Coelacanth: { marvel: "Deep Sea Pig", odds: 0.005 },
   },
-  "Lost Ascension": {
+  "Ascension Age": {
     "Red Snapper": { marvel: "Crocodile", odds: 0.008 },
     "Moray Eel": { marvel: "Crocodile", odds: 0.03 },
     "Olive Flounder": { marvel: "Dumbo Octopus", odds: 0.001 },
@@ -1019,9 +1019,9 @@ export const MAP_PIECE_CHAPTERS: Partial<
   "Deep Sea Pig": "Salt Awakening",
   "Deep Sea Slug": "Salt Awakening",
   "Crystal Shrimp": "Salt Awakening",
-  Crocodile: "Lost Ascension",
-  "Dumbo Octopus": "Lost Ascension",
-  "Seahorse Dad": "Lost Ascension",
+  Crocodile: "Ascension Age",
+  "Dumbo Octopus": "Ascension Age",
+  "Seahorse Dad": "Ascension Age",
 };
 
 export const MAP_PIECE_MARVELS: MarineMarvelName[] = [

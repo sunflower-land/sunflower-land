@@ -1565,7 +1565,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Saltwort: 3027,
   "Saltwort Seed": 3028,
   Saltbite: 3029,
-  // Lost Ascension chapter
+  // Ascension Age chapter
   Crocodile: 3030,
   "Dumbo Octopus": 3031,
   "Seahorse Dad": 3032,
@@ -1573,10 +1573,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Ascended Cow": 3034,
   "Ascended Sheep": 3035,
   "Ruins Flower": 3036,
-  "Lost Ascension Banner": 3037,
+  "Ascension Age Banner": 3037,
   "Shiny Feather": 3038,
   "Otter Pebble": 3039,
-  "Lost Ascension Raffle Ticket": 3040,
+  "Ascension Age Raffle Ticket": 3040,
   "Cloud Bed": 3041,
   "Ascension Monument": 3042,
   "Salt Rug": 3043,

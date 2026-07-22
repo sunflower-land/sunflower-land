@@ -92,7 +92,7 @@ export const CHAPTER_MUTANTS: Record<MutantsChapterName, ChapterMutantsData> = {
     Sheep: "Spa Sheep",
     banner: "?",
   },
-  "Lost Ascension": {
+  "Ascension Age": {
     Chicken: "Ascended Chicken",
     Flower: "Ruins Flower",
     Fish: ["Crocodile", "Dumbo Octopus", "Seahorse Dad"],

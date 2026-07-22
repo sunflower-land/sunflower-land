@@ -448,7 +448,7 @@ import saltAwakeningBanner from "assets/decorations/banners/salt_awakening_banne
 import saltAwakeningRaffleTicket from "assets/icons/salt_awakening_raffle_ticket.png";
 import saltDinoEgg from "assets/icons/salt_dino_egg.webp";
 
-// Lost Ascension
+// Ascension Age
 import ascendedChicken from "assets/sfts/ascended_chicken.webp";
 import ascendedCow from "assets/sfts/ascended_cow.webp";
 import ascendedSheep from "assets/sfts/ascended_sheep.webp";
@@ -456,7 +456,7 @@ import ruinsFlower from "assets/sfts/ruins_flower.webp";
 import crocodile from "assets/sfts/crocodile.webp";
 import dumboOctopus from "assets/sfts/dumbo_octopus.webp";
 import seahorseDad from "assets/sfts/seahorse_dad.webp";
-import lostAscensionBanner from "assets/decorations/banners/ascension_banner.webp";
+import ascensionAgeBanner from "assets/decorations/banners/ascension_banner.webp";
 import shinyFeather from "assets/icons/shiny_feather.webp";
 import otterPebble from "assets/icons/otter_pebble.webp";
 import cloudBed from "assets/bumpkins/cloud_bed.webp";
@@ -7923,18 +7923,18 @@ export const ITEM_DETAILS: Items = {
     image: shinyFeather,
     description: translate("description.shinyFeather"),
   },
-  "Lost Ascension Banner": {
-    image: lostAscensionBanner,
-    description: translate("description.lostAscensionBanner"),
+  "Ascension Age Banner": {
+    image: ascensionAgeBanner,
+    description: translate("description.ascensionAgeBanner"),
   },
   "Otter Pebble": {
     image: otterPebble,
     description: translate("description.otterPebble"),
   },
-  // TODO(Lost Ascension): replace placeholder art with the real raffle ticket
-  "Lost Ascension Raffle Ticket": {
+  // TODO(Ascension Age): replace placeholder art with the real raffle ticket
+  "Ascension Age Raffle Ticket": {
     image: saltAwakeningRaffleTicket,
-    description: translate("description.lostAscensionRaffleTicket"),
+    description: translate("description.ascensionAgeRaffleTicket"),
   },
   "Big Table": {
     image: bigTable,

@@ -216,11 +216,11 @@ export const SELLABLE_TREASURES: Record<BeachBountyTreasure, SellableTreasure> =
     "Otter Pebble": {
       sellPrice: 200,
       description: "",
-      ...(hasChapterEnded("Lost Ascension", Date.now())
+      ...(hasChapterEnded("Ascension Age", Date.now())
         ? {}
         : {
-            from: CHAPTERS["Lost Ascension"].startDate,
-            to: CHAPTERS["Lost Ascension"].endDate,
+            from: CHAPTERS["Ascension Age"].startDate,
+            to: CHAPTERS["Ascension Age"].endDate,
           }),
     },
   };

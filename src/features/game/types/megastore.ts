@@ -1255,6 +1255,6 @@ export const MEGASTORE: Record<ChapterName, ChapterStore> = {
   "Great Bloom": GREAT_BLOOM_ITEMS,
   "Better Together": BETTER_TOGETHER_ITEMS,
   "Paw Prints": PAW_PRINTS_ITEMS,
-  // TODO(Lost Ascension): populate the megastore when chapter content is defined
-  "Lost Ascension": EMPTY_SEASONAL_STORE,
+  // TODO(Ascension Age): populate the megastore when chapter content is defined
+  "Ascension Age": EMPTY_SEASONAL_STORE,
 };

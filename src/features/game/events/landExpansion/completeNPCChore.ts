@@ -116,8 +116,8 @@ export const CHAPTER_TICKET_BOOST_ITEMS: Record<
     rare: "Spa Robe",
     epic: "Spa Slippers",
   },
-  // TODO(Lost Ascension): real chapter wearables — placeholder reuses "Cow Scratcher"
-  "Lost Ascension": {
+  // TODO(Ascension Age): real chapter wearables — placeholder reuses "Cow Scratcher"
+  "Ascension Age": {
     basic: "Cow Scratcher",
     rare: "Cow Scratcher",
     epic: "Cow Scratcher",

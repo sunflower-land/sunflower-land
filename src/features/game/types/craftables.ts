@@ -1507,7 +1507,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Crystal Shrimp": { width: 2, height: 2 },
   "Salt Awakening Banner": { width: 1, height: 2 },
 
-  // Lost Ascension chapter
+  // Ascension Age chapter
   "Ascended Chicken": { width: 1, height: 1 },
   "Ascended Cow": { width: 2, height: 1 },
   "Ascended Sheep": { width: 2, height: 1 },
@@ -1515,7 +1515,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Crocodile: { width: 2, height: 2 },
   "Dumbo Octopus": { width: 2, height: 2 },
   "Seahorse Dad": { width: 2, height: 2 },
-  "Lost Ascension Banner": { width: 1, height: 2 },
+  "Ascension Age Banner": { width: 1, height: 2 },
 
   "Fox Shrine": { width: 1, height: 1 },
   "Boar Shrine": { width: 1, height: 1 },

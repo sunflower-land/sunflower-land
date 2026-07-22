@@ -1437,7 +1437,7 @@ export const ITEM_TRADE_TYPES: {
     "Salt Awakening Banner": "instant",
     "Salt Dino Egg": "instant",
 
-    // Lost Ascension Mutants + fish
+    // Ascension Age Mutants + fish
     "Ascended Chicken": "instant",
     "Ascended Cow": "instant",
     "Ascended Sheep": "instant",
@@ -1446,15 +1446,15 @@ export const ITEM_TRADE_TYPES: {
     "Dumbo Octopus": "instant",
     "Seahorse Dad": "instant",
 
-    // Lost Ascension Tickets + banner + artefact
+    // Ascension Age Tickets + banner + artefact
     "Shiny Feather": "instant",
-    "Lost Ascension Raffle Ticket": "instant",
-    "Lost Ascension Banner": "instant",
+    "Ascension Age Raffle Ticket": "instant",
+    "Ascension Age Banner": "instant",
     "Otter Pebble": "instant",
     "Cloud Bed": "instant",
     "Ascension Monument": "instant",
 
-    // Lost Ascension decorations
+    // Ascension Age decorations
     "Salt Rug": "instant",
     "Ascended Idol": "instant",
     "Ascended Wheel": "instant",

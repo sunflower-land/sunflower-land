@@ -93,7 +93,7 @@ export type ChapterDecorationName =
   | "Moon Fox Statue"
   | "Giant Acorn"
   | "Diving Helmet"
-  // Lost Ascension
+  // Ascension Age
   | "Salt Rug"
   | "Ascended Idol"
   | "Ascended Wheel"
@@ -689,7 +689,7 @@ export type DecorationName =
   | GiantFruit;
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
-  // Lost Ascension
+  // Ascension Age
   "Salt Rug": { width: 3, height: 2 },
   "Ascended Idol": { width: 3, height: 2 },
   "Ascended Wheel": { width: 2, height: 2 },

@@ -4,12 +4,12 @@ import { KNOWN_IDS } from "./index";
 import { ITEM_DETAILS } from "./images";
 import { COLLECTIBLES_DIMENSIONS } from "./craftables";
 
-// Lost Ascension runs [2026-08-03, 2026-11-02).
+// Ascension Age runs [2026-08-03, 2026-11-02).
 const IN_CHAPTER = new Date("2026-09-01T00:00:00.000Z").getTime();
 
-describe("Lost Ascension registration", () => {
+describe("Ascension Age registration", () => {
   it("resolves as the current chapter within its window", () => {
-    expect(getCurrentChapter(IN_CHAPTER)).toEqual("Lost Ascension");
+    expect(getCurrentChapter(IN_CHAPTER)).toEqual("Ascension Age");
   });
 
   it("maps the chapter to its marvel fish", () => {
@@ -17,7 +17,7 @@ describe("Lost Ascension registration", () => {
   });
 
   it("declares the chapter's mutant set", () => {
-    expect(CHAPTER_MUTANTS["Lost Ascension"]).toEqual({
+    expect(CHAPTER_MUTANTS["Ascension Age"]).toEqual({
       Chicken: "Ascended Chicken",
       Cow: "Ascended Cow",
       Sheep: "Ascended Sheep",
@@ -40,10 +40,10 @@ describe("Lost Ascension registration", () => {
     "Crocodile",
     "Dumbo Octopus",
     "Seahorse Dad",
-    "Lost Ascension Banner",
+    "Ascension Age Banner",
     "Shiny Feather",
     "Otter Pebble",
-    "Lost Ascension Raffle Ticket",
+    "Ascension Age Raffle Ticket",
     "Cloud Bed",
     "Ascension Monument",
     "Salt Rug",
@@ -66,14 +66,16 @@ describe("Lost Ascension registration", () => {
   });
 
   // Every new item except the icon-only coupons/artefact is placeable.
-  const NON_PLACEABLE: string[] = [
+  const NON_PLACEABLE = new Set<(typeof NEW_ITEMS)[number]>([
     "Shiny Feather",
     "Otter Pebble",
-    "Lost Ascension Raffle Ticket",
-  ];
-  const PLACEABLES = NEW_ITEMS.filter((name) => !NON_PLACEABLE.includes(name));
+    "Ascension Age Raffle Ticket",
+  ]);
+  const PLACEABLES = NEW_ITEMS.filter((name) => !NON_PLACEABLE.has(name));
 
   it.each(PLACEABLES)("gives %s placement dimensions", (name) => {
-    expect(COLLECTIBLES_DIMENSIONS[name]).toBeTruthy();
+    expect(
+      COLLECTIBLES_DIMENSIONS[name as keyof typeof COLLECTIBLES_DIMENSIONS],
+    ).toBeTruthy();
   });
 });

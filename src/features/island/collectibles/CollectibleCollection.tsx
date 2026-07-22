@@ -4225,7 +4225,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
     />
   ),
 
-  // Lost Ascension chapter
+  // Ascension Age chapter
   "Ascended Chicken": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
@@ -4324,10 +4324,10 @@ export const COLLECTIBLE_COMPONENTS: Record<
       }}
     />
   ),
-  "Lost Ascension Banner": (props: CollectibleProps) => (
+  "Ascension Age Banner": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
-      image={ITEM_DETAILS["Lost Ascension Banner"].image}
+      image={ITEM_DETAILS["Ascension Age Banner"].image}
       divStyle={{
         width: `${PIXEL_SCALE * 20}px`,
         bottom: `${PIXEL_SCALE * 2}px`,

@@ -185,7 +185,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     name: "Crystal Altar",
   },
   "Ascension Monument": {
-    description: "A monument raised to the Lost Ascension.",
+    description: "A monument raised to the Ascension Age.",
     decimals: 0,
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
@@ -14874,7 +14874,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     name: "Seahorse Dad",
   },
   "Shiny Feather": {
-    description: "Collected during the Lost Ascension chapter.",
+    description: "Collected during the Ascension Age chapter.",
     decimals: 0,
     attributes: [
       { trait_type: "Purpose", value: "Coupon" },
@@ -14883,28 +14883,28 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Shiny Feather",
   },
-  "Lost Ascension Raffle Ticket": {
-    description: "A raffle ticket for the Lost Ascension chapter.",
+  "Ascension Age Raffle Ticket": {
+    description: "A raffle ticket for the Ascension Age chapter.",
     decimals: 0,
     attributes: [
       { trait_type: "Purpose", value: "Coupon" },
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    name: "Lost Ascension Raffle Ticket",
+    name: "Ascension Age Raffle Ticket",
   },
-  "Lost Ascension Banner": {
-    description: "A banner for the Lost Ascension chapter.",
+  "Ascension Age Banner": {
+    description: "A banner for the Ascension Age chapter.",
     decimals: 0,
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    name: "Lost Ascension Banner",
+    name: "Ascension Age Banner",
   },
   "Otter Pebble": {
-    description: "A chapter artefact unearthed during Lost Ascension.",
+    description: "A chapter artefact unearthed during Ascension Age.",
     decimals: 0,
     attributes: [
       { trait_type: "Purpose", value: "Treasure" },
