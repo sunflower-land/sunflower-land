@@ -109,21 +109,25 @@ tracking, and `boostsUsedAt` — no re-implementation.
 
 ## Frontend
 
-New component: shared `FeedAllButton` used by `HenHouseInside.tsx` and
-`BarnInside.tsx` (suggested location:
-`src/features/game/expansion/components/animals/FeedAllButton.tsx`).
+**Redesigned 2026-07-22 (superseding the dedicated disc button):** the
+feed-all trigger lives on the existing feeder machine instead of a separate
+button. `FeederMachine` accepts an optional `building` prop (passed by
+`HenHouseInside.tsx` and `BarnInside.tsx`).
 
-- Position: directly below the market/shop disc (top `18px + disc height + gap`,
-  right `18px`), same disc visual language — `empty_disc.png` background with
-  a feed icon overlay, `alt` text from a new i18n key.
-- Visibility: only when the building's golden asset(s) are active; hidden
-  during bounty-deal mode (inside the existing `!deal` block).
-- Disabled state: greyed (reduced opacity, no pointer events) when
-  `getFeedAllTargets` returns no ids. A `setTimeout` to the soonest `awakeAt`
-  among covered sleeping animals re-evaluates so the button re-enables while
-  the screen stays open.
-- Click: `gameService.send({ type: "animals.fedAll", building })` and play
-  the `feed_animal` sound.
+- With a golden asset active, no sick animal needing hand-crafted medicine,
+  and at least one eligible animal, the machine shows a pulsing lightning
+  bolt (`SUNNYSIDE.icons.lightning`) in its top-right; clicking the machine
+  then sends `animals.fedAll` and plays the `feed_animal` sound instead of
+  opening the crafting modal.
+- The crafting modal stays reachable whenever the bulk action can't do
+  everything: a sick animal the action won't cure (uncovered species, or no
+  Oracle Syringe) keeps the machine in modal mode so medicine can be made,
+  and once every covered animal is asleep (no eligible targets, bolt hidden)
+  clicking opens the modal again — which also keeps feed craftable for
+  uncovered species under partial Barn coverage.
+- A `setTimeout` to the soonest `awakeAt` among covered sleeping animals
+  re-evaluates eligibility so the bolt reappears while the screen is open.
+- Click-time targets are re-derived (double-tap guard) before sending.
 
 ### Animal sprite sync
 
