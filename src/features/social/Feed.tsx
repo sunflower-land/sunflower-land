@@ -692,7 +692,10 @@ const FeedContent: React.FC<FeedContentProps> = ({
 
           return (
             <React.Fragment
-              key={`${interaction.sender.id}-${interaction.createdAt}-${index}`}
+              key={
+                interaction.id ??
+                `${interaction.type}-${interaction.sender.id}-${interaction.createdAt}`
+              }
             >
               {showOlderPostsSeparator && <OlderPostsSeparator />}
               <div
