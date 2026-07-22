@@ -1577,6 +1577,20 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Shiny Feather": 3038,
   "Otter Pebble": 3039,
   "Lost Ascension Raffle Ticket": 3040,
+  "Cloud Bed": 3041,
+  "Ascension Monument": 3042,
+  "Salt Rug": 3043,
+  "Ascended Idol": 3044,
+  "Ascended Wheel": 3045,
+  Astrolabe: 3046,
+  "Coat Rack": 3047,
+  Lampshade: 3048,
+  "Marble Head": 3049,
+  "Otty the Otter": 3050,
+  "Salt Worker Gnome": 3051,
+  "Shards Turtle": 3052,
+  Vibraphone: 3053,
+  "Winged Vase": 3054,
 };
 
 // The reverse of above

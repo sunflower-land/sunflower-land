@@ -44,6 +44,20 @@ describe("Lost Ascension registration", () => {
     "Shiny Feather",
     "Otter Pebble",
     "Lost Ascension Raffle Ticket",
+    "Cloud Bed",
+    "Ascension Monument",
+    "Salt Rug",
+    "Ascended Idol",
+    "Ascended Wheel",
+    "Astrolabe",
+    "Coat Rack",
+    "Lampshade",
+    "Marble Head",
+    "Otty the Otter",
+    "Salt Worker Gnome",
+    "Shards Turtle",
+    "Vibraphone",
+    "Winged Vase",
   ] as const;
 
   it.each(NEW_ITEMS)("registers %s in KNOWN_IDS + ITEM_DETAILS", (name) => {
@@ -51,16 +65,13 @@ describe("Lost Ascension registration", () => {
     expect(ITEM_DETAILS[name]?.image).toBeTruthy();
   });
 
-  const PLACEABLES = [
-    "Ascended Chicken",
-    "Ascended Cow",
-    "Ascended Sheep",
-    "Ruins Flower",
-    "Crocodile",
-    "Dumbo Octopus",
-    "Seahorse Dad",
-    "Lost Ascension Banner",
-  ] as const;
+  // Every new item except the icon-only coupons/artefact is placeable.
+  const NON_PLACEABLE: string[] = [
+    "Shiny Feather",
+    "Otter Pebble",
+    "Lost Ascension Raffle Ticket",
+  ];
+  const PLACEABLES = NEW_ITEMS.filter((name) => !NON_PLACEABLE.includes(name));
 
   it.each(PLACEABLES)("gives %s placement dimensions", (name) => {
     expect(COLLECTIBLES_DIMENSIONS[name]).toBeTruthy();

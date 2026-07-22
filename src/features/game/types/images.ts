@@ -459,6 +459,20 @@ import seahorseDad from "assets/sfts/seahorse_dad.webp";
 import lostAscensionBanner from "assets/decorations/banners/ascension_banner.webp";
 import shinyFeather from "assets/icons/shiny_feather.webp";
 import otterPebble from "assets/icons/otter_pebble.webp";
+import cloudBed from "assets/bumpkins/cloud_bed.webp";
+import ascensionMonument from "assets/monuments/ascension_monument_stage3.webp";
+import saltRug from "assets/sfts/salt_rug.webp";
+import ascendedIdol from "assets/sfts/ascended_idol.webp";
+import ascendedWheel from "assets/sfts/ascended_wheel.webp";
+import astrolabe from "assets/sfts/astrolabe.webp";
+import coatRack from "assets/sfts/coat_rack.webp";
+import lampshade from "assets/sfts/lampshade.webp";
+import marbleHead from "assets/sfts/marble_head.webp";
+import ottyTheOtter from "assets/sfts/otty_the_otter.webp";
+import saltWorkerGnome from "assets/sfts/salt_worker_gnome.webp";
+import shardsTurtle from "assets/sfts/shards_turtle.webp";
+import vibraphone from "assets/sfts/vibraphone.webp";
+import wingedVase from "assets/sfts/winged_vase.webp";
 
 // Compost
 import sproutMix from "assets/composters/sprout_mix.png";
@@ -4376,6 +4390,58 @@ export const ITEM_DETAILS: Items = {
     image: crystalAltar,
     description: "",
   },
+  "Ascension Monument": {
+    image: ascensionMonument,
+    description: translate("description.ascensionMonument"),
+  },
+  "Salt Rug": {
+    image: saltRug,
+    description: translate("description.saltRug"),
+  },
+  "Ascended Idol": {
+    image: ascendedIdol,
+    description: translate("description.ascendedIdol"),
+  },
+  "Ascended Wheel": {
+    image: ascendedWheel,
+    description: translate("description.ascendedWheel"),
+  },
+  Astrolabe: {
+    image: astrolabe,
+    description: translate("description.astrolabe"),
+  },
+  "Coat Rack": {
+    image: coatRack,
+    description: translate("description.coatRack"),
+  },
+  Lampshade: {
+    image: lampshade,
+    description: translate("description.lampshade"),
+  },
+  "Marble Head": {
+    image: marbleHead,
+    description: translate("description.marbleHead"),
+  },
+  "Otty the Otter": {
+    image: ottyTheOtter,
+    description: translate("description.ottyTheOtter"),
+  },
+  "Salt Worker Gnome": {
+    image: saltWorkerGnome,
+    description: translate("description.saltWorkerGnome"),
+  },
+  "Shards Turtle": {
+    image: shardsTurtle,
+    description: translate("description.shardsTurtle"),
+  },
+  Vibraphone: {
+    image: vibraphone,
+    description: translate("description.vibraphone"),
+  },
+  "Winged Vase": {
+    image: wingedVase,
+    description: translate("description.wingedVase"),
+  },
   "Dino Egg Trophy": {
     image: dinoEggTrophy,
     description: "",
@@ -4387,6 +4453,10 @@ export const ITEM_DETAILS: Items = {
   "Salt Crystal Bed": {
     image: saltCrystalBed,
     description: translate("description.saltCrystalBed"),
+  },
+  "Cloud Bed": {
+    image: cloudBed,
+    description: translate("description.cloudBed"),
   },
   "World Map Rug": {
     image: worldMapRug,

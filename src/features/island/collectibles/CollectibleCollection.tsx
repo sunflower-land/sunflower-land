@@ -834,6 +834,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
       project="Crystal Altar"
     />
   ),
+  "Ascension Monument": (props: CollectibleProps) => (
+    <Monument
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 44}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 44}px`,
+      }}
+      alt="Ascension Monument"
+      project="Ascension Monument"
+    />
+  ),
   "Dino Egg Trophy": () => <TemplateCollectible name="Dino Egg Trophy" />,
   "Salt Lamp": () => <TemplateCollectible name="Salt Lamp" />,
   "World Map Rug": () => <TemplateCollectible name="World Map Rug" />,
@@ -4323,6 +4338,18 @@ export const COLLECTIBLE_COMPONENTS: Record<
       }}
     />
   ),
+  "Salt Rug": () => <TemplateCollectible name="Salt Rug" />,
+  "Ascended Idol": () => <TemplateCollectible name="Ascended Idol" />,
+  "Ascended Wheel": () => <TemplateCollectible name="Ascended Wheel" />,
+  Astrolabe: () => <TemplateCollectible name="Astrolabe" />,
+  "Coat Rack": () => <TemplateCollectible name="Coat Rack" />,
+  Lampshade: () => <TemplateCollectible name="Lampshade" />,
+  "Marble Head": () => <TemplateCollectible name="Marble Head" />,
+  "Otty the Otter": () => <TemplateCollectible name="Otty the Otter" />,
+  "Salt Worker Gnome": () => <TemplateCollectible name="Salt Worker Gnome" />,
+  "Shards Turtle": () => <TemplateCollectible name="Shards Turtle" />,
+  Vibraphone: () => <TemplateCollectible name="Vibraphone" />,
+  "Winged Vase": () => <TemplateCollectible name="Winged Vase" />,
   "Blue Paint Bucket": (props: CollectibleProps) => (
     <ImageStyle
       {...props}

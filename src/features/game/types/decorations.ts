@@ -92,7 +92,20 @@ export type ChapterDecorationName =
   | "Squeaky Chicken"
   | "Moon Fox Statue"
   | "Giant Acorn"
-  | "Diving Helmet";
+  | "Diving Helmet"
+  // Lost Ascension
+  | "Salt Rug"
+  | "Ascended Idol"
+  | "Ascended Wheel"
+  | "Astrolabe"
+  | "Coat Rack"
+  | "Lampshade"
+  | "Marble Head"
+  | "Otty the Otter"
+  | "Salt Worker Gnome"
+  | "Shards Turtle"
+  | "Vibraphone"
+  | "Winged Vase";
 
 export type EventDecorationName =
   | "Jelly Lamp"
@@ -676,6 +689,20 @@ export type DecorationName =
   | GiantFruit;
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
+  // Lost Ascension
+  "Salt Rug": { width: 3, height: 2 },
+  "Ascended Idol": { width: 3, height: 2 },
+  "Ascended Wheel": { width: 2, height: 2 },
+  Astrolabe: { width: 2, height: 2 },
+  "Coat Rack": { width: 1, height: 2 },
+  Lampshade: { width: 1, height: 1 },
+  "Marble Head": { width: 1, height: 2 },
+  "Otty the Otter": { width: 1, height: 1 },
+  "Salt Worker Gnome": { width: 1, height: 1 },
+  "Shards Turtle": { width: 1, height: 2 },
+  Vibraphone: { width: 2, height: 2 },
+  "Winged Vase": { width: 1, height: 1 },
+
   "Diving Helmet": {
     width: 1,
     height: 2,
