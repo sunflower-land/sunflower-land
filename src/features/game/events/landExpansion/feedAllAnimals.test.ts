@@ -337,7 +337,12 @@ describe("feedAllAnimals", () => {
     expect(state.henHouse.animals["1"].experience).toBeGreaterThan(0);
     expect(state.henHouse.animals["2"].experience).toBeGreaterThan(0);
     expect(state.henHouse.animals["3"].experience).toBeGreaterThan(0);
-    expect(["happy", "ready"]).toContain(state.henHouse.animals["1"].state);
+    // A free feed levels the animal to ready, so the same click harvests
+    // its produce and puts it to sleep.
+    expect(state.henHouse.animals["1"].state).toEqual("idle");
+    expect(state.henHouse.animals["1"].asleepAt).toEqual(now);
+    expect(state.henHouse.animals["1"].awakeAt).toBeGreaterThan(now);
+    expect(state.inventory.Egg?.gte(3)).toBe(true);
     // No food consumed
     expect(state.inventory.Hay).toEqual(new Decimal(5));
     // Boost + activity tracked
@@ -383,7 +388,7 @@ describe("feedAllAnimals", () => {
     });
 
     expect(state.barn.animals["sheep"].experience).toBeGreaterThan(0);
-    expect(["happy", "ready"]).toContain(state.barn.animals["sheep"].state);
+    expect(state.barn.animals["sheep"].asleepAt).toEqual(now);
     expect(state.barn.animals["cow"].experience).toEqual(0);
     expect(state.barn.animals["cow"].state).toEqual("idle");
     expect(state.boostsUsedAt?.["Golden Sheep"]).toEqual(now);
@@ -512,7 +517,9 @@ describe("feedAllAnimals", () => {
     });
 
     const chicken = state.henHouse.animals["sick"];
-    expect(["happy", "ready"]).toContain(chicken.state);
+    // Cured, fed to ready, then harvested and put to sleep in one click
+    expect(chicken.state).toEqual("idle");
+    expect(chicken.asleepAt).toEqual(now);
     expect(chicken.experience).toBeGreaterThan(0);
     expect(state.inventory["Barn Delight"] ?? new Decimal(0)).toEqual(
       new Decimal(0),
@@ -542,6 +549,32 @@ describe("feedAllAnimals", () => {
     expect(state.henHouse.animals["chicken-0"].experience).toEqual(0);
     expect(state.henHouse.animals["chicken-1"].experience).toBeGreaterThan(0);
     expect(state.henHouse.animals["chicken-10"].experience).toBeGreaterThan(0);
+  });
+
+  it("harvests animals that become ready from feeding in the same click", () => {
+    const state = feedAllAnimals({
+      createdAt: now,
+      state: withGoldEgg({
+        ...GAME_STATE,
+        henHouse: {
+          ...GAME_STATE.henHouse,
+          animals: {
+            "1": makeAnimal({ id: "1", type: "Chicken", state: "idle" }),
+          },
+        },
+      }),
+      action: { type: "animals.fedAll", building: "Hen House" },
+    });
+
+    const chicken = state.henHouse.animals["1"];
+    // The free feed grants exactly the XP needed for the next level, which
+    // makes the animal ready; the same action then claims its produce.
+    expect(chicken.experience).toBeGreaterThan(0);
+    expect(chicken.state).toEqual("idle");
+    expect(chicken.asleepAt).toEqual(now);
+    expect(chicken.awakeAt).toBeGreaterThan(now);
+    expect(state.inventory.Egg?.gte(1)).toBe(true);
+    expect(state.farmActivity["Egg Collected"]).toEqual(1);
   });
 
   it("still claims a ready over-capacity animal without feeding it", () => {

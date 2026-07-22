@@ -174,6 +174,17 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (
       ["idle", "happy", "sad"].includes(machineState() as string) &&
+      sheep.state === "idle" &&
+      Date.now() < sheep.awakeAt
+    ) {
+      // Bulk feeding can level an animal to ready and claim its produce in
+      // the same event; INSTANT_WAKE_UP re-derives the machine state from
+      // the animal, which maps an asleep animal to "sleeping".
+      sheepService.send({ type: "INSTANT_WAKE_UP", animal: sheep });
+    }
+
+    if (
+      ["idle", "happy", "sad"].includes(machineState() as string) &&
       ["happy", "sad", "ready"].includes(sheep.state) &&
       machineState() !== sheep.state
     ) {

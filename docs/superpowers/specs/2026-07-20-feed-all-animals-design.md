@@ -14,11 +14,11 @@ new game event, `animals.fedAll`.
 Golden asset coverage (checked with `isCollectibleBuilt`, i.e. owned AND
 placed/active on the farm):
 
-| Species | Golden asset | Building   |
-| ------- | ------------ | ---------- |
-| Chicken | Gold Egg     | Hen House  |
-| Cow     | Golden Cow   | Barn       |
-| Sheep   | Golden Sheep | Barn       |
+| Species | Golden asset | Building  |
+| ------- | ------------ | --------- |
+| Chicken | Gold Egg     | Hen House |
+| Cow     | Golden Cow   | Barn      |
+| Sheep   | Golden Sheep | Barn      |
 
 ## Decisions (confirmed with product)
 
@@ -36,6 +36,12 @@ placed/active on the farm):
 4. **Ready animals**: the bulk action collects their produce (via the existing
    `claimProduce` logic, including rewards and mutant items). Claiming starts
    the sleep cycle, so these animals are not subsequently fed.
+   **One-click harvest (added 2026-07-22):** free feeding via a golden asset
+   always grants exactly the XP needed for the next level, so every fed animal
+   lands in `ready`. Rather than requiring a second click to harvest, the
+   action runs a final claim pass: any animal that became `ready` from this
+   action's feed (or cure-then-feed) has its produce claimed and goes to
+   sleep in the same click.
 5. Manual per-animal feeding continues to work exactly as before.
 
 ## Backend
@@ -59,9 +65,9 @@ backend implementation.
 ```ts
 export function getFeedAllTargets({ state, building, createdAt }): {
   toClaim: string[]; // animal ids, state "ready", awake
-  toCure: string[];  // animal ids, state "sick", awake, Oracle Syringe active
-  toFeed: string[];  // animal ids, state idle/sad/happy, awake, within capacity
-}
+  toCure: string[]; // animal ids, state "sick", awake, Oracle Syringe active
+  toFeed: string[]; // animal ids, state idle/sad/happy, awake, within capacity
+};
 ```
 
 Rules, evaluated per animal in the building:
@@ -93,6 +99,9 @@ authoritative.
    Oracle Syringe), then — if now feedable — `feedAnimal` with no item (free
    via the golden asset path).
 6. For each `toFeed` id: `feedAnimal` with no item.
+7. Final claim pass over `toCure` + `toFeed`: any animal now `ready`
+   (free feeds always level up) gets `claimProduce`, so one click feeds,
+   harvests and puts the building to sleep.
 
 Each composed call already handles XP, favourite-food logic, state
 transitions (`happy`/`ready`), produce drops, rewards, `farmActivity`

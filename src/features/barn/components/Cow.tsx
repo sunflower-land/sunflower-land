@@ -162,6 +162,17 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (
       ["idle", "happy", "sad"].includes(machineState() as string) &&
+      cow.state === "idle" &&
+      Date.now() < cow.awakeAt
+    ) {
+      // Bulk feeding can level an animal to ready and claim its produce in
+      // the same event; INSTANT_WAKE_UP re-derives the machine state from
+      // the animal, which maps an asleep animal to "sleeping".
+      cowService.send({ type: "INSTANT_WAKE_UP", animal: cow });
+    }
+
+    if (
+      ["idle", "happy", "sad"].includes(machineState() as string) &&
       ["happy", "sad", "ready"].includes(cow.state) &&
       machineState() !== cow.state
     ) {

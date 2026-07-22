@@ -170,5 +170,18 @@ export function feedAllAnimals({
     });
   });
 
+  // Feeding can level an animal up into "ready" — harvest those in the same
+  // action so a single click never leaves produce waiting behind it.
+  [...toCure, ...toFeed].forEach((id) => {
+    const animal = game[buildingKey].animals[id];
+    if (animal.state !== "ready") return;
+
+    game = claimProduce({
+      state: game,
+      action: { type: "produce.claimed", animal: animal.type, id },
+      createdAt,
+    });
+  });
+
   return game;
 }
