@@ -93,11 +93,12 @@ export const FeederMachine: React.FC<Props> = ({ building }) => {
 
   const handleClick = () => {
     if (building && covered.length > 0 && !needsMedicine) {
-      // Re-derive eligibility at click time rather than trusting the
-      // render-time value, which can go stale (e.g. a double-tap after the
-      // first click already consumed every target).
+      // Re-derive eligibility from the live machine snapshot rather than
+      // the render-scoped state, which can go stale (e.g. a double-tap
+      // before React re-renders after the first click consumed every
+      // target).
       const { toClaim, toCure, toFeed } = getFeedAllTargets({
-        state: game,
+        state: gameService.getSnapshot().context.state,
         building,
       });
       if (toClaim.length + toCure.length + toFeed.length > 0) {
@@ -128,11 +129,9 @@ export const FeederMachine: React.FC<Props> = ({ building }) => {
           <img
             src={SUNNYSIDE.icons.lightning}
             alt={t("animals.feedAll")}
-            className="absolute z-30 pointer-events-none img-highlight"
+            className="absolute z-30 top-0 -right-4 pointer-events-none img-highlight"
             style={{
               width: `${PIXEL_SCALE * 7}px`,
-              top: `${-PIXEL_SCALE * 3}px`,
-              right: `${-PIXEL_SCALE * 6}px`,
             }}
           />
         )}

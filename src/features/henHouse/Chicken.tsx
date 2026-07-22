@@ -401,6 +401,10 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
   const handleClick = async () => {
     if (disabled) return;
+    // A bulk-claim animation is in flight: the sprite still looks awake but
+    // the game-state animal is already asleep, so any feed/claim event would
+    // throw. Ignore clicks until the animation resolves.
+    if (showDrops) return;
 
     const showNoFoodPrompt = async () => {
       setShowNoFoodSelected(true);

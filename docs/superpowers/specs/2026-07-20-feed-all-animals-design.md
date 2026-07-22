@@ -115,8 +115,9 @@ button. `FeederMachine` accepts an optional `building` prop (passed by
 `HenHouseInside.tsx` and `BarnInside.tsx`).
 
 - With a golden asset active, no sick animal needing hand-crafted medicine,
-  and at least one eligible animal, the machine shows a pulsing lightning
-  bolt (`SUNNYSIDE.icons.lightning`) in its top-right; clicking the machine
+  and at least one eligible animal, the machine shows a static lightning
+  bolt (`SUNNYSIDE.icons.lightning`, `img-highlight` white outline) in its
+  top-right; clicking the machine
   then sends `animals.fedAll` and plays the `feed_animal` sound instead of
   opening the crafting modal.
 - The crafting modal stays reachable whenever the bulk action can't do

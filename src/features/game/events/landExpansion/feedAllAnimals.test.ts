@@ -577,6 +577,37 @@ describe("feedAllAnimals", () => {
     expect(state.farmActivity["Egg Collected"]).toEqual(1);
   });
 
+  it("cures a sick over-capacity animal without feeding or claiming it", () => {
+    const animals: Record<string, Animal> = {};
+    for (let i = 0; i < 11; i++) {
+      animals[`chicken-${i}`] = makeAnimal({
+        id: `chicken-${i}`,
+        type: "Chicken",
+        state: i === 0 ? "sick" : "idle",
+        createdAt: i + 1, // chicken-0 is oldest -> locked at capacity 10
+      });
+    }
+
+    const state = feedAllAnimals({
+      createdAt: now,
+      state: withOracleSyringe(
+        withGoldEgg({
+          ...GAME_STATE,
+          henHouse: { ...GAME_STATE.henHouse, level: 1, animals },
+        }),
+      ),
+      action: { type: "animals.fedAll", building: "Hen House" },
+    });
+
+    const chicken = state.henHouse.animals["chicken-0"];
+    // Cured (curing is allowed while capacity-locked)...
+    expect(state.farmActivity["Chicken Cured"]).toEqual(1);
+    // ...but not fed (locked) and therefore not claimed: awake and idle
+    expect(chicken.state).toEqual("idle");
+    expect(chicken.experience).toEqual(0);
+    expect(chicken.asleepAt).toEqual(0);
+  });
+
   it("still claims a ready over-capacity animal without feeding it", () => {
     const animals: Record<string, Animal> = {};
     for (let i = 0; i < 11; i++) {
