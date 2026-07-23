@@ -2106,6 +2106,14 @@ export const ITEM_TRADE_TYPES: {
     "Slime Wall Background": "instant",
     "Rainbow Wings": "onchain",
     "Butterfly Aura": "onchain",
+
+    // Ascension Age
+    "Ascension Staff": "instant",
+    "Ascension Wings": "instant",
+    "Salt Onesie": "instant",
+    "Swamp Armor": "instant",
+    "Swamp Lily Hat": "instant",
+    "Swamp Pants": "instant",
   },
 };
 

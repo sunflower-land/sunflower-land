@@ -21783,6 +21783,72 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Red Jelly Pants",
   },
+  "Ascension Staff": {
+    description:
+      "A staff crowned with a shard of pure ascension energy. It hums softly when the clouds part.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Tool" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Ascension Staff",
+  },
+  "Ascension Wings": {
+    description:
+      "Radiant wings said to carry Bumpkins beyond the clouds. No promises about the landing.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Wings" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Ascension Wings",
+  },
+  "Salt Onesie": {
+    description:
+      "Shake things up! A pinch of salt goes a long way, and this onesie carries plenty.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Onesie" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Salt Onesie",
+  },
+  "Swamp Armor": {
+    description:
+      "A chest plate woven from the swamp's toughest reeds. Smells faintly of bog water.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shirt" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Swamp Armor",
+  },
+  "Swamp Lily Hat": {
+    description:
+      "A blooming lily plucked straight from the swamp. The frogs are still deciding if they want it back.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Swamp Lily Hat",
+  },
+  "Swamp Pants": {
+    description:
+      "Mud-proof pants for wading through the murk. What's living in the pockets is your problem now.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Pants" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Swamp Pants",
+  },
   "Yellow Slime Puppet": {
     description:
       "A hand puppet made entirely of yellow ooze. It mimics your movements, though it looks slightly sticky.",

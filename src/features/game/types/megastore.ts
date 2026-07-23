@@ -129,6 +129,11 @@ export type ChapterWearableName = Extract<
   | "Spa Slippers"
   | "Bubble Aura"
   | "Deep Sea Salt Cave Background"
+
+  // Ascension Age
+  | "Swamp Lily Hat"
+  | "Swamp Armor"
+  | "Swamp Pants"
 >;
 
 export type MegastoreKeys = "Treasure Key" | "Rare Key" | "Luxury Key";

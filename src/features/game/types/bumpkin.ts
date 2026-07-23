@@ -169,7 +169,8 @@ export type BumpkinCoat =
   | "Easter Apron"
   | "Medic Apron"
   | "Alchemist Apron"
-  | "Victoria's Apron";
+  | "Victoria's Apron"
+  | "Swamp Armor";
 
 export type BumpkinTool =
   | "Farmer Pitchfork"
@@ -284,7 +285,8 @@ export type BumpkinNecklace =
   | "Cowbell Necklace"
   | "Obsidian Necklace"
   | "Trick and Treat"
-  | "Training Whistle";
+  | "Training Whistle"
+  | "Ascension Staff";
 
 export type BumpkinHat =
   | "Painter's Cap"
@@ -397,7 +399,8 @@ export type BumpkinHat =
   | "Aether Specs"
   | "Spa Hat"
   | "Clam Shell Hat"
-  | "Sad Slime Hat";
+  | "Sad Slime Hat"
+  | "Swamp Lily Hat";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -444,7 +447,8 @@ export type BumpkinPant =
   | "Neon Noiz Pants"
   | "404 Chic Skirt"
   | "Sad Slime Pants"
-  | "Red Jelly Pants";
+  | "Red Jelly Pants"
+  | "Swamp Pants";
 
 export type BumpkinDress =
   | "Royal Dress"
@@ -543,7 +547,8 @@ export type BumpkinSuit =
   | "Glacierguard Suit"
   | "Research Uniform"
   | "Sweet Devil Dress"
-  | "Spa Robe";
+  | "Spa Robe"
+  | "Salt Onesie";
 
 export type BumpkinWings =
   | "Angel Wings"
@@ -568,7 +573,8 @@ export type BumpkinWings =
   | "Underworld Stimpack"
   | "Sweet Devil Wings"
   | "Cardboard Wings"
-  | "Rainbow Wings";
+  | "Rainbow Wings"
+  | "Ascension Wings";
 
 export type BumpkinBeard =
   | "Wise Beard"
@@ -1240,6 +1246,12 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Sad Slime Hat": 573,
   "Sad Slime Pants": 574,
   "Red Jelly Pants": 575,
+  "Ascension Staff": 576,
+  "Ascension Wings": 577,
+  "Salt Onesie": 578,
+  "Swamp Armor": 579,
+  "Swamp Lily Hat": 580,
+  "Swamp Pants": 581,
 };
 
 // The reverse of above
@@ -1880,6 +1892,12 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Sad Slime Hat": "hat",
   "Sad Slime Pants": "pants",
   "Red Jelly Pants": "pants",
+  "Ascension Staff": "tool",
+  "Ascension Wings": "wings",
+  "Salt Onesie": "onesie",
+  "Swamp Armor": "shirt",
+  "Swamp Lily Hat": "hat",
+  "Swamp Pants": "pants",
 };
 
 /**Copied from BE just for hoarding checks */
