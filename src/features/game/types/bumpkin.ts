@@ -157,7 +157,8 @@ export type BumpkinShirt =
   | "404 Chic Top"
   | "Brasil Jersey"
   | "Blue Slime Shirt"
-  | "Slime Splattered Shirt";
+  | "Slime Splattered Shirt"
+  | "Swamp Armor";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -169,8 +170,7 @@ export type BumpkinCoat =
   | "Easter Apron"
   | "Medic Apron"
   | "Alchemist Apron"
-  | "Victoria's Apron"
-  | "Swamp Armor";
+  | "Victoria's Apron";
 
 export type BumpkinTool =
   | "Farmer Pitchfork"
@@ -236,7 +236,8 @@ export type BumpkinTool =
   | "Candy Halbred"
   | "Admin Fools Tools"
   | "Pistol Shrimp"
-  | "Yellow Slime Puppet";
+  | "Yellow Slime Puppet"
+  | "Ascension Staff";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -285,8 +286,7 @@ export type BumpkinNecklace =
   | "Cowbell Necklace"
   | "Obsidian Necklace"
   | "Trick and Treat"
-  | "Training Whistle"
-  | "Ascension Staff";
+  | "Training Whistle";
 
 export type BumpkinHat =
   | "Painter's Cap"
@@ -525,7 +525,8 @@ export type BumpkinOnesie =
   | "Raccoon Onesie"
   | "Frank Onesie"
   | "Cozy Reindeer Onesie"
-  | "Shrimp Onesie";
+  | "Shrimp Onesie"
+  | "Salt Onesie";
 
 // Goes over clothes
 export type BumpkinSuit =
@@ -547,8 +548,7 @@ export type BumpkinSuit =
   | "Glacierguard Suit"
   | "Research Uniform"
   | "Sweet Devil Dress"
-  | "Spa Robe"
-  | "Salt Onesie";
+  | "Spa Robe";
 
 export type BumpkinWings =
   | "Angel Wings"
