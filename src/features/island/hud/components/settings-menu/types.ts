@@ -25,7 +25,6 @@ export type SettingMenuId =
   | "experiments"
   | "economyEditor"
   | "interiorExperiment"
-  | "designShowcase"
   | "admin"
   | "faceRecognition"
 
