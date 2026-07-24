@@ -10,7 +10,6 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Label } from "components/ui/Label";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { hasFeatureAccess } from "lib/flags";
 import {
   getHomeImportPlan,
   hasHomeItemsToImport,
@@ -26,8 +25,6 @@ const _hasHomeItems = (state: MachineState) =>
   hasHomeItemsToImport(state.context.state);
 
 // Migration is a beta-only mechanic.
-const _canMigrate = (state: MachineState) =>
-  hasFeatureAccess(state.context.state, "HOME_ITEM_MIGRATION");
 
 /**
  * HUD notice shown while the player's old home still holds placed items.
@@ -41,7 +38,6 @@ export const ImportHomeWidget: React.FC = () => {
   const { gameService } = useContext(Context);
 
   const hasHomeItems = useSelector(gameService, _hasHomeItems);
-  const canMigrate = useSelector(gameService, _canMigrate);
   const [open, setOpen] = useState(false);
 
   // The prompt goes away as soon as the old home is empty — which happens
@@ -49,15 +45,16 @@ export const ImportHomeWidget: React.FC = () => {
   // migration would unmount (aborting it) and the player would never see the
   // completion summary. So only the panel is conditional; while the modal is
   // open the flow stays mounted regardless.
-  const showPrompt = hasHomeItems && canMigrate;
+  const showPrompt = hasHomeItems;
   if (!showPrompt && !open) return null;
 
   return (
     <>
+      {/* Click target is the whole bar — see HomeUpgradeWidget. */}
       {showPrompt && (
         <ColorPanel
           type="vibrant"
-          className="flex items-center p-1 py-2 cursor-pointer hover:brightness-110"
+          className="flex items-center w-52 p-1 py-2 cursor-pointer hover:brightness-110"
           onClick={() => setOpen(true)}
         >
           <img
@@ -68,7 +65,7 @@ export const ImportHomeWidget: React.FC = () => {
               height: `${PIXEL_SCALE * 11}px`,
             }}
           />
-          <div className="pr-1">
+          <div className="pr-1 min-w-0">
             <p className="text-xs leading-tight">
               {"Some items are in your old home."}
             </p>

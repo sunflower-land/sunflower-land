@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 
-//import worldMap from "assets/map/world_map.png";
-import worldMap from "public/world/colors_island_2026_assets/world_map.png";
+import worldMap from "assets/map/world_map.png";
 
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -16,7 +15,6 @@ import {
 import { Label } from "components/ui/Label";
 import { isMobile } from "mobile-device-detect";
 import { useSelector } from "@xstate/react";
-import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 
 const showDebugBorders = false;
 
@@ -41,10 +39,6 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     meetsLevelRequirement(ascension, { ascension: 0, level });
   const hasFaction = state.faction;
   const canTeleportToFactionHouse = hasLevel(7) && hasFaction;
-  const isColors2026EventActive = useTimeBasedFeatureAccess({
-    featureName: "COLORS_2026_EVENT_FLAG",
-    game: state,
-  });
 
   const getFactionHouseRoute = () => {
     switch (hasFaction?.name) {
@@ -460,56 +454,6 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           </span>
         )}
       </div>
-
-      {isColors2026EventActive && (
-        <div
-          style={{
-            width: "35%",
-            height: "14%",
-            border: showDebugBorders ? "2px solid red" : "",
-            position: "absolute",
-            right: "30%",
-            bottom: "3%",
-          }}
-          className={`flex justify-center items-center ${
-            hasLevel(2) ? "cursor-pointer" : "cursor-not-allowed"
-          }`}
-          onClick={() => {
-            if (!hasLevel(2)) return;
-            travel.play();
-            navigate("/world/colors_island_2026");
-            onClose();
-          }}
-        >
-          {!hasLevel(2) ? (
-            isMobile ? (
-              <img
-                src={SUNNYSIDE.icons.lock}
-                className="h-4 sm:h-6 ml-1 img-highlight"
-                onClick={() => {
-                  setShowPopup(true);
-                  setReqLvl(2);
-                  setTimeout(() => {
-                    setShowPopup(false);
-                  }, 1300);
-                }}
-              />
-            ) : (
-              <Label
-                type="default"
-                icon={SUNNYSIDE.icons.lock}
-                className="text-sm"
-              >
-                {t("world.lvl.requirement", { lvl: 2 })}
-              </Label>
-            )
-          ) : (
-            <span className="map-text text-xxs sm:text-sm">
-              {"Festival of Colors"}
-            </span>
-          )}
-        </div>
-      )}
 
       {showPopup && (
         <Label

@@ -422,6 +422,11 @@ export const INITIAL_FARM: GameState = {
     Celestine: new Decimal(1),
     "Red Balloon Flower": new Decimal(1),
     "Yellow Cosmos": new Decimal(1),
+    // Letter tiles - enough to spell FARM
+    "Letter F Tile": new Decimal(1),
+    "Letter A Tile": new Decimal(1),
+    "Letter R Tile": new Decimal(1),
+    "Letter M Tile": new Decimal(1),
   },
   previousInventory: {},
   wardrobe: {},

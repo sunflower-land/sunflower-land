@@ -116,6 +116,11 @@ export const CHAPTER_TICKET_BOOST_ITEMS: Record<
     rare: "Spa Robe",
     epic: "Spa Slippers",
   },
+  "Ascension Age": {
+    basic: "Swamp Lily Hat",
+    rare: "Swamp Armor",
+    epic: "Swamp Pants",
+  },
 };
 
 export function completeNPCChore({
