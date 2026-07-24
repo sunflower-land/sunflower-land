@@ -834,6 +834,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
       project="Crystal Altar"
     />
   ),
+  "Ascension Monument": (props: CollectibleProps) => (
+    <Monument
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 44}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 44}px`,
+      }}
+      alt="Ascension Monument"
+      project="Ascension Monument"
+    />
+  ),
   "Dino Egg Trophy": () => <TemplateCollectible name="Dino Egg Trophy" />,
   "Salt Lamp": () => <TemplateCollectible name="Salt Lamp" />,
   "World Map Rug": () => <TemplateCollectible name="World Map Rug" />,
@@ -4209,6 +4224,132 @@ export const COLLECTIBLE_COMPONENTS: Record<
       }}
     />
   ),
+
+  // Ascension Age chapter
+  "Ascended Chicken": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Ascended Chicken"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 24}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -4}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 24}px`,
+      }}
+    />
+  ),
+  "Ascended Cow": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Ascended Cow"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 29}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 1.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 29}px`,
+      }}
+    />
+  ),
+  "Ascended Sheep": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Ascended Sheep"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 33}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -0.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 33}px`,
+      }}
+    />
+  ),
+  "Ruins Flower": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Ruins Flower"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+    />
+  ),
+  Crocodile: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Crocodile"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+    />
+  ),
+  "Dumbo Octopus": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Dumbo Octopus"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+    />
+  ),
+  "Seahorse Dad": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Seahorse Dad"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+    />
+  ),
+  "Ascension Age Banner": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      image={ITEM_DETAILS["Ascension Age Banner"].image}
+      divStyle={{
+        width: `${PIXEL_SCALE * 20}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * -2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 20}px`,
+      }}
+    />
+  ),
+  "Salt Rug": () => <TemplateCollectible name="Salt Rug" />,
+  "Ascended Idol": () => <TemplateCollectible name="Ascended Idol" />,
+  "Ascended Wheel": () => <TemplateCollectible name="Ascended Wheel" />,
+  Astrolabe: () => <TemplateCollectible name="Astrolabe" />,
+  "Coat Rack": () => <TemplateCollectible name="Coat Rack" />,
+  Lampshade: () => <TemplateCollectible name="Lampshade" />,
+  "Marble Head": () => <TemplateCollectible name="Marble Head" />,
+  "Otty the Otter": () => <TemplateCollectible name="Otty the Otter" />,
+  "Salt Worker Gnome": () => <TemplateCollectible name="Salt Worker Gnome" />,
+  "Shards Turtle": () => <TemplateCollectible name="Shards Turtle" />,
+  Vibraphone: () => <TemplateCollectible name="Vibraphone" />,
+  "Winged Vase": () => <TemplateCollectible name="Winged Vase" />,
   "Blue Paint Bucket": (props: CollectibleProps) => (
     <ImageStyle
       {...props}

@@ -13,6 +13,7 @@ import betterTogetherBanner from "assets/decorations/banners/better_together_ban
 import pawPrintsBanner from "assets/decorations/banners/paw_prints_banner.webp";
 import crabChapterBanner from "assets/decorations/banners/crap_chapter_banner.webp";
 import saltAwakeningBanner from "assets/decorations/banners/salt_awakening_banner.webp";
+import ascensionAgeBanner from "assets/decorations/banners/ascension_banner.webp";
 import type { BeachBountyChapterArtefact } from "./treasure";
 import { getKeys } from "lib/object";
 import type { ChapterFish } from "./fishing";
@@ -33,7 +34,8 @@ export type ChapterName =
   | "Better Together"
   | "Paw Prints"
   | "Crabs and Traps"
-  | "Salt Awakening";
+  | "Salt Awakening"
+  | "Ascension Age";
 
 export const CHAPTER_ORDER: Record<ChapterName, number> = {
   "Solar Flare": 1,
@@ -50,6 +52,7 @@ export const CHAPTER_ORDER: Record<ChapterName, number> = {
   "Paw Prints": 12,
   "Crabs and Traps": 13,
   "Salt Awakening": 14,
+  "Ascension Age": 15,
 };
 
 type ChapterDates = { startDate: Date; endDate: Date; tasksBegin?: Date };
@@ -113,6 +116,11 @@ export const CHAPTERS: Record<ChapterName, ChapterDates> = {
     tasksBegin: new Date("2026-05-11T00:00:00.000Z"), // Visual only
     endDate: new Date("2026-08-03T00:00:00.000Z"),
   },
+  "Ascension Age": {
+    startDate: new Date("2026-08-03T00:00:00.000Z"),
+    tasksBegin: new Date("2026-08-10T00:00:00.000Z"), // Visual only
+    endDate: new Date("2026-11-02T00:00:00.000Z"),
+  },
 };
 
 export type ChapterTicket =
@@ -129,12 +137,14 @@ export type ChapterTicket =
   | "Bracelet"
   | "Pet Cookie"
   | "Floater"
-  | "Salt Rock";
+  | "Salt Rock"
+  | "Shiny Feather";
 
 export type ChapterRaffleTicket =
   | "Paw Prints Raffle Ticket"
   | "Crabs and Traps Raffle Ticket"
-  | "Salt Awakening Raffle Ticket";
+  | "Salt Awakening Raffle Ticket"
+  | "Ascension Age Raffle Ticket";
 
 export type ChapterBanner = `${ChapterName} Banner`;
 
@@ -153,6 +163,7 @@ export const CHAPTER_BANNERS: Record<ChapterBanner, ChapterName> = {
   "Paw Prints Banner": "Paw Prints",
   "Crabs and Traps Banner": "Crabs and Traps",
   "Salt Awakening Banner": "Salt Awakening",
+  "Ascension Age Banner": "Ascension Age",
 };
 
 export const CHAPTER_TICKET_NAME: Record<ChapterName, ChapterTicket> = {
@@ -170,6 +181,7 @@ export const CHAPTER_TICKET_NAME: Record<ChapterName, ChapterTicket> = {
   "Paw Prints": "Pet Cookie",
   "Crabs and Traps": "Floater",
   "Salt Awakening": "Salt Rock",
+  "Ascension Age": "Shiny Feather",
 };
 
 export const CHAPTER_RAFFLE_TICKET_NAME: Record<
@@ -190,6 +202,7 @@ export const CHAPTER_RAFFLE_TICKET_NAME: Record<
   "Paw Prints": "Paw Prints Raffle Ticket",
   "Crabs and Traps": "Crabs and Traps Raffle Ticket",
   "Salt Awakening": "Salt Awakening Raffle Ticket",
+  "Ascension Age": "Ascension Age Raffle Ticket",
 };
 
 export const CHAPTER_ARTEFACT_NAME: Record<
@@ -210,6 +223,7 @@ export const CHAPTER_ARTEFACT_NAME: Record<
   "Paw Prints": "Moon Crystal",
   "Crabs and Traps": "Ammonite Shell",
   "Salt Awakening": "Salt Dino Egg",
+  "Ascension Age": "Otter Pebble",
 };
 
 export const CHAPTER_MARVEL_FISH: Record<ChapterName, ChapterFish> = {
@@ -227,6 +241,8 @@ export const CHAPTER_MARVEL_FISH: Record<ChapterName, ChapterFish> = {
   "Paw Prints": "Super Star",
   "Crabs and Traps": "Giant Isopod",
   "Salt Awakening": "Deep Sea Pig",
+  // TODO(Ascension Age): confirm which of the 3 chapter fish is the marvel
+  "Ascension Age": "Crocodile",
 };
 
 export function getChapterMarvelFish(now: number): ChapterFish {
@@ -247,7 +263,7 @@ export function getCurrentChapter(now: number): ChapterName {
 
   if (!currentChapter) {
     if (CONFIG.PORTAL_APP) {
-      return "Salt Awakening";
+      return "Ascension Age";
     }
 
     throw new Error("No Chapter found");
@@ -325,6 +341,7 @@ export const CHAPTER_BANNER_IMAGES: Record<ChapterBanner, string> = {
   "Paw Prints Banner": pawPrintsBanner,
   "Crabs and Traps Banner": crabChapterBanner,
   "Salt Awakening Banner": saltAwakeningBanner,
+  "Ascension Age Banner": ascensionAgeBanner,
 };
 
 export function getChapterBannerImage(now: number) {

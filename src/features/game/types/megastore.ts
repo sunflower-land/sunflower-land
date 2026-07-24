@@ -129,6 +129,11 @@ export type ChapterWearableName = Extract<
   | "Spa Slippers"
   | "Bubble Aura"
   | "Deep Sea Salt Cave Background"
+
+  // Ascension Age
+  | "Swamp Lily Hat"
+  | "Swamp Armor"
+  | "Swamp Pants"
 >;
 
 export type MegastoreKeys = "Treasure Key" | "Rare Key" | "Luxury Key";
@@ -1255,4 +1260,6 @@ export const MEGASTORE: Record<ChapterName, ChapterStore> = {
   "Great Bloom": GREAT_BLOOM_ITEMS,
   "Better Together": BETTER_TOGETHER_ITEMS,
   "Paw Prints": PAW_PRINTS_ITEMS,
+  // TODO(Ascension Age): populate the megastore when chapter content is defined
+  "Ascension Age": EMPTY_SEASONAL_STORE,
 };

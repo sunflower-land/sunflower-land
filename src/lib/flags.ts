@@ -183,9 +183,6 @@ const FEATURE_FLAGS = {
   // baseDurationMs + true plantedAt model; when off, boosts stay discount-at-start.
   SPEED_BOOSTS: usernameFeatureFlag,
 
-  // Importing leftover items from the old home into the new interior.
-  HOME_ITEM_MIGRATION: betaFeatureFlag,
-
   SWAMP_ASCENSION: betaFeatureFlag,
 
   // Bulk Mixer tab in the feeder machine: mix the missing feed for every

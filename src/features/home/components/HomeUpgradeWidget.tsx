@@ -52,9 +52,11 @@ export const HomeUpgradeWidget: React.FC = () => {
 
   return (
     <>
+      {/* Click target is the whole bar — a fixed width rather than shrink-to-fit
+          so there's a consistent area to hit, not just the text. */}
       <ColorPanel
         type="vibrant"
-        className="flex items-center p-1 py-2 cursor-pointer hover:brightness-110"
+        className="flex items-center w-52 p-1 py-2 cursor-pointer hover:brightness-110"
         onClick={() => setShowModal(true)}
       >
         <img
@@ -65,7 +67,7 @@ export const HomeUpgradeWidget: React.FC = () => {
             height: `${PIXEL_SCALE * 11}px`,
           }}
         />
-        <div className="pr-1">
+        <div className="pr-1 min-w-0">
           <p className="text-xs leading-tight">{t("home.upgrade.widget")}</p>
           <p className="text-xxs underline">{t("home.upgrade.readMore")}</p>
         </div>
