@@ -7,7 +7,6 @@ import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { makeAnimalBuildingKey } from "features/game/lib/animals";
 import type { AnimalBuildingType } from "features/game/types/animals";
-import { isWearableActive } from "features/game/lib/wearables";
 import {
   getCoveredAnimalTypes,
   getFeedAllTargets,
@@ -43,18 +42,6 @@ export const FeederMachine: React.FC<Props> = ({ building }) => {
     [building, game],
   );
 
-  // Sick animals the bulk action cannot cure (uncovered species, or no
-  // Oracle Syringe equipped) need hand-crafted medicine, so the machine
-  // must keep opening the crafting modal.
-  const hasOracleSyringe = isWearableActive({ name: "Oracle Syringe", game });
-  const needsMedicine = getValues(
-    game[makeAnimalBuildingKey(building)].animals,
-  ).some(
-    (animal) =>
-      animal.state === "sick" &&
-      !(hasOracleSyringe && covered.includes(animal.type)),
-  );
-
   const targets = getFeedAllTargets({ state: game, building });
   const eligibleCount =
     covered.length > 0
@@ -87,10 +74,12 @@ export const FeederMachine: React.FC<Props> = ({ building }) => {
   }, [nextWakeAt]);
 
   const hasGoldenAsset = covered.length > 0;
-  const canFeedAll = hasGoldenAsset && !needsMedicine && eligibleCount > 0;
+  // Sick animals the action cannot cure are simply skipped (manual care);
+  // they do not block feeding the rest of the building.
+  const canFeedAll = hasGoldenAsset && eligibleCount > 0;
 
   const handleClick = () => {
-    if (covered.length > 0 && !needsMedicine) {
+    if (covered.length > 0) {
       // Re-derive eligibility from the live machine snapshot rather than
       // the render-scoped state, which can go stale (e.g. a double-tap
       // before React re-renders after the first click consumed every
