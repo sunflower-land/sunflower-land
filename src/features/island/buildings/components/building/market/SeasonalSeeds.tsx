@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { useSelector } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -52,8 +52,13 @@ import {
 import { NPC_WEARABLES } from "lib/npcs";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
+import { VIPAccess } from "features/game/components/VipAccess";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
+import vipIcon from "assets/icons/vip.webp";
 
 import { Restock } from "./restock/Restock";
+import { planSeedPurchases } from "./lib/planSeedPurchases";
 import type { BoostName, TemperateSeasonName } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
 import { secondsTillWeekReset } from "features/game/lib/factions";
@@ -94,9 +99,12 @@ const _state = (state: MachineState) => state.context.state;
 
 export const SeasonalSeeds: React.FC = () => {
   const { gameService, shortcutItem } = useContext(Context);
+  const { openModal } = useContext(ModalContext);
   const state = useSelector(gameService, _state);
   const { inventory, coins, island, bumpkin, season } = state;
   const currentSeason = season.season;
+  const isVIP = useVipAccess({ game: state });
+  const canShowBuyAll = hasRequiredIslandExpansion(island.type, "spring");
   // Sort the seeds by their default order
   const currentSeasonSeeds = getKeys(SEEDS).filter((seed) =>
     SEASONAL_SEEDS[currentSeason].includes(seed),
@@ -109,6 +117,8 @@ export const SeasonalSeeds: React.FC = () => {
     currentSeasonSeeds[0],
   );
   const [confirmBuyModal, showConfirmBuyModal] = useState(false);
+  const [confirmBuyAllModal, showConfirmBuyAllModal] = useState(false);
+  const [buyAllFailures, setBuyAllFailures] = useState<SeedName[]>([]);
 
   const [showBoosts, setShowBoosts] = useState(false);
 
@@ -384,6 +394,37 @@ export const SeasonalSeeds: React.FC = () => {
     ...(isCropWeek ? [CHAPTER_CROP_WEEK_SEED] : []),
   ];
 
+  const buyAllPlan = useMemo(
+    () =>
+      planSeedPurchases(state, [
+        ...currentSeasonSeeds,
+        ...cropMachineSeeds,
+        ...FULL_MOON_SEEDS,
+        ...(isCropWeek ? [CHAPTER_CROP_WEEK_SEED] : []),
+      ]),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [state, currentSeasonSeeds, cropMachineSeeds, isCropWeek],
+  );
+
+  const buyAllSeeds = () => {
+    const failures: SeedName[] = [];
+
+    buyAllPlan.purchases.forEach(({ seedName, amount }) => {
+      try {
+        gameService.send("seed.bought", { item: seedName, amount });
+      } catch (error) {
+        // Don't let one seed's edge case (e.g. a race with a state change
+        // since the plan was computed) abort the rest of the purchases.
+        failures.push(seedName);
+        // eslint-disable-next-line no-console
+        console.error(`[BuyAllSeeds] Failed to buy ${seedName}:`, error);
+      }
+    });
+
+    setBuyAllFailures(failures);
+    showConfirmBuyAllModal(false);
+  };
+
   const harvestCount = getHarvestCount();
 
   const seasons = getKeys(SEASONAL_SEEDS).filter((season) =>
@@ -539,6 +580,67 @@ export const SeasonalSeeds: React.FC = () => {
               </div>
             </div>
           )}
+          {canShowBuyAll && buyAllPlan.purchases.length > 0 && (
+            <div className="flex flex-col items-center mb-2">
+              <Button
+                className="relative"
+                onClick={() => {
+                  setBuyAllFailures([]);
+                  showConfirmBuyAllModal(true);
+                }}
+              >
+                <img
+                  src={vipIcon}
+                  alt="VIP"
+                  className="absolute w-6 sm:w-4 -top-[1px] -right-[2px]"
+                />
+                {t("seeds.buyAll")}
+              </Button>
+              {buyAllFailures.length > 0 && (
+                <Label type="danger" className="mt-1">
+                  {t("seeds.buyAllPartialFailure", {
+                    seeds: buyAllFailures.join(", "),
+                  })}
+                </Label>
+              )}
+            </div>
+          )}
+          <ConfirmationModal
+            show={confirmBuyAllModal}
+            onHide={() => showConfirmBuyAllModal(false)}
+            messages={[
+              t("confirmation.buyAllSeeds", {
+                seedTypes: buyAllPlan.purchases.length,
+                coinAmount: formatNumber(buyAllPlan.totalCost),
+              }),
+            ]}
+            bodyContent={
+              <div className="w-full flex flex-col items-center">
+                <div className="w-full max-h-32 overflow-y-auto scrollable mt-1">
+                  {buyAllPlan.purchases.map(({ seedName, amount }) => (
+                    <p key={seedName} className="text-xs w-full text-left">
+                      {`${amount} x ${seedName}`}
+                    </p>
+                  ))}
+                </div>
+                <div className="w-full flex justify-around mt-2 -mb-4">
+                  <div className="w-[95%]" />
+                  <VIPAccess
+                    isVIP={isVIP}
+                    onUpgrade={() => {
+                      showConfirmBuyAllModal(false);
+                      openModal("BUY_BANNER");
+                    }}
+                  />
+                </div>
+              </div>
+            }
+            onCancel={() => showConfirmBuyAllModal(false)}
+            onConfirm={buyAllSeeds}
+            confirmButtonLabel={t("seeds.buyAll")}
+            bumpkinParts={NPC_WEARABLES.betty}
+            disabled={!isVIP || coins < buyAllPlan.totalCost}
+          />
         </div>
       }
     />

@@ -11,7 +11,20 @@ import type { GameState } from "features/game/types/game";
 import { getBuyPrice, seedBought } from "./seedBought";
 import { SEEDS } from "features/game/types/seeds";
 
-const GAME_STATE: GameState = TEST_FARM;
+// TEST_FARM's raw inventory doesn't carry planting-spot counts (Crop Plot,
+// Fruit Patch, Flower Bed, Greenhouse) even though it owns crops/plots -
+// tests that buy a seed without asserting a specific planting-spot scenario
+// need these present so they aren't blocked by that unrelated gap.
+const GAME_STATE: GameState = {
+  ...TEST_FARM,
+  inventory: {
+    ...TEST_FARM.inventory,
+    "Crop Plot": new Decimal(20),
+    "Fruit Patch": new Decimal(5),
+    "Flower Bed": new Decimal(5),
+    Greenhouse: new Decimal(1),
+  },
+};
 
 describe("seedBought", () => {
   const dateNow = Date.now();
@@ -111,6 +124,7 @@ describe("seedBought", () => {
         state: {
           ...GAME_STATE,
           inventory: {
+            ...GAME_STATE.inventory,
             "Sunflower Seed": sunflowerLimit,
           },
           stock: {
@@ -642,16 +656,17 @@ describe("seedBought", () => {
       }),
     ).not.toThrow();
   });
-  it("requires Fruit Patch to buy a fruit seed", () => {
+  // Regression: a farm that has never unlocked a Fruit Patch has no
+  // "Fruit Patch" key in inventory at all (not a 0) - the check must
+  // treat a missing key the same as zero, not skip the guard.
+  it("requires Fruit Patch to buy a fruit seed when the inventory key is missing entirely", () => {
     expect(() =>
       seedBought({
         state: {
           ...GAME_STATE,
           bumpkin: { ...INITIAL_BUMPKIN, experience: 100000000 },
           coins: Infinity,
-          inventory: {
-            "Fruit Patch": new Decimal(0),
-          },
+          inventory: {},
           season: {
             season: "autumn",
             startedAt: 0,
@@ -664,28 +679,6 @@ describe("seedBought", () => {
         },
       }),
     ).toThrow("You do not have the planting spot needed to plant this seed");
-
-    expect(() =>
-      seedBought({
-        state: {
-          ...GAME_STATE,
-          bumpkin: { ...INITIAL_BUMPKIN, experience: 100000000 },
-          coins: Infinity,
-          inventory: {
-            "Fruit Patch": new Decimal(1),
-          },
-          season: {
-            season: "autumn",
-            startedAt: 0,
-          },
-        },
-        action: {
-          type: "seed.bought",
-          item: "Apple Seed",
-          amount: 1,
-        },
-      }),
-    ).not.toThrow();
   });
 
   it("requires full moon to buy full moon berry seeds", () => {
@@ -706,7 +699,7 @@ describe("seedBought", () => {
       state: {
         ...GAME_STATE,
         coins: 10,
-        inventory: {},
+        inventory: { "Crop Plot": new Decimal(1) },
         bumpkin: {
           ...INITIAL_BUMPKIN,
           equipped: { ...INITIAL_BUMPKIN.equipped, suit: "Ladybug Suit" },

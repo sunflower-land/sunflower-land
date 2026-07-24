@@ -19,6 +19,8 @@ import {
   type ChapterName,
 } from "features/game/types/chapters";
 import { CONFIG } from "lib/config";
+import { getShowcasedDesigns } from "features/game/actions/getShowcasedDesigns";
+import { hasUnseenDesigns } from "features/social/lib/seenDesigns";
 
 const CHAPTER_BANNERS: Record<ChapterName, string | undefined> = {
   "Solar Flare": undefined,
@@ -196,6 +198,8 @@ export class PlazaScene extends BaseScene {
 
     this.load.image("shop_icon", "world/shop_disc.png");
     this.load.image("trade_icon", "world/trade_icon.png");
+    this.load.image("showcase_board", "world/showcase_board.png");
+    this.load.image("speaker", "world/speaker.webp");
     this.load.image("balloon", `world/heart_air_balloon.webp`);
 
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
@@ -351,6 +355,8 @@ export class PlazaScene extends BaseScene {
         this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
+
+    this.addDesignShowcaseBoard();
 
     const prizesLabel = new Label(this, "PRIZES", "gold");
     prizesLabel.setPosition(560, 230);
@@ -858,6 +864,50 @@ export class PlazaScene extends BaseScene {
         this.layers["Club House Door"].setVisible(true);
       }
     });
+  }
+
+  /**
+   * Noticeboard that opens the Farm Design Showcase. It sits at a high depth so
+   * players walk behind it, and gets an unread icon while the showcase holds a
+   * design this player has not opened yet.
+   */
+  addDesignShowcaseBoard() {
+    const board = this.add.sprite(560, 339, "showcase_board").setDepth(1000000);
+
+    // Only the base of the board blocks movement, so players can walk behind it
+    this.physics.world.enable(board);
+    this.colliders?.add(board);
+    (board.body as Phaser.Physics.Arcade.Body)
+      .setSize(40, 8)
+      .setOffset(0, 22)
+      .setImmovable(true)
+      .setCollideWorldBounds(true);
+
+    let unreadIcon: Phaser.GameObjects.Image | undefined;
+
+    board.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (!this.checkDistanceToSprite(board, 75)) {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        return;
+      }
+
+      // The modal marks everything it loads as seen
+      unreadIcon?.destroy();
+      unreadIcon = undefined;
+
+      interactableModalManager.open("design_showcase");
+    });
+
+    const token = this.authService.getSnapshot().context.user.rawToken;
+    if (!token) return;
+
+    getShowcasedDesigns({ token })
+      .then((designs) => {
+        if (!board.active || !hasUnseenDesigns(designs)) return;
+
+        unreadIcon = this.add.image(560, 321, "speaker").setDepth(1000000000);
+      })
+      .catch(() => undefined);
   }
 
   syncPlaceables() {

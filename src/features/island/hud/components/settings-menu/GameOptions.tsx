@@ -63,7 +63,7 @@ import { ApiKey } from "./general-settings/ApiKey";
 import { ExperimentsSettings } from "./experiments-settings/ExperimentsSettings";
 import { EconomyEditorExperimentSettings } from "./experiments-settings/EconomyEditorExperimentSettings";
 import { InteriorExperimentSettings } from "./experiments-settings/InteriorExperimentSettings";
-import { DesignShowcaseSettings } from "./experiments-settings/DesignShowcaseSettings";
+import { ToolShopBuyAllExperimentSettings } from "./experiments-settings/ToolShopBuyAllExperimentSettings";
 import type { ContentComponentProps, SettingMenuId } from "./types";
 import { TwitterRewards } from "features/auth/components/Twitter/Twitter";
 import { TelegramBody } from "features/auth/components/Telegram/Telegram";
@@ -382,10 +382,10 @@ export const SETTING_MENUS: Record<SettingMenuId, SettingMenu> = {
     parent: "experiments",
     content: InteriorExperimentSettings,
   },
-  designShowcase: {
-    title: translate("gameOptions.experiments.designShowcase"),
+  toolShopBuyAll: {
+    title: translate("gameOptions.experiments.toolShopBuyAll"),
     parent: "experiments",
-    content: DesignShowcaseSettings,
+    content: ToolShopBuyAllExperimentSettings,
   },
 
   // Account

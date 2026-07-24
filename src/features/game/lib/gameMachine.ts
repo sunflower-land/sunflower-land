@@ -1702,6 +1702,12 @@ export function startGame(authContext: AuthContext) {
         airdrop: {
           on: {
             "airdrop.claimed": (GAME_EVENT_HANDLERS as any)["airdrop.claimed"],
+            "purchase.claimed": (GAME_EVENT_HANDLERS as any)[
+              "purchase.claimed"
+            ],
+            RESET: {
+              target: "refreshing",
+            },
             CLOSE: {
               target: "playing",
             },
@@ -1731,6 +1737,7 @@ export function startGame(authContext: AuthContext) {
             "purchase.claimed": (GAME_EVENT_HANDLERS as any)[
               "purchase.claimed"
             ],
+            "airdrop.claimed": (GAME_EVENT_HANDLERS as any)["airdrop.claimed"],
             RESET: {
               target: "refreshing",
             },

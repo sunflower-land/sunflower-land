@@ -615,6 +615,10 @@ import {
   type InteriorsEnabledAction,
 } from "./updateInteriorsEnabled";
 import {
+  updateToolShopSettings,
+  type UpdateToolShopSettingsAction,
+} from "./updateToolShopSettings";
+import {
   acknowledgeRewardBox,
   type AcknowledgeRewardBoxAction,
 } from "./landExpansion/acknowledgeRewardBox";
@@ -995,6 +999,7 @@ export type PlayingEvent =
   | UpdateNetworkAction
   | EconomiesEnabledAction
   | InteriorsEnabledAction
+  | UpdateToolShopSettingsAction
   | BuyMinigameItemAction
   | AcknowledgeRewardBoxAction
   | OpenRewardBoxAction
@@ -1300,6 +1305,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "network.updated": updateNetwork,
   "economies.enabled": updateEconomiesEnabled,
   "interiors.enabled": updateInteriorsEnabled,
+  "toolShop.settingsUpdated": updateToolShopSettings,
   "minigameItem.bought": buyEventShopItem,
   "rewardBox.acknowledged": acknowledgeRewardBox,
   "rewardBox.opened": openRewardBox,

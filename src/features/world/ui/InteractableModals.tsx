@@ -48,6 +48,7 @@ import { PetShop } from "features/pets/petShop/PetShop";
 import { LoveIslandNoticeboard } from "./loveRewardShop/LoveIslandNoticeboard";
 import { Rarecrows } from "./Rarecrows";
 import { ChapterRaffles } from "./chapterRaffles/ChapterRaffles";
+import { DesignShowcaseContent } from "features/social/DesignShowcase";
 import { FreeTrial } from "./FreeTrial";
 import { useNavigate } from "react-router";
 
@@ -154,6 +155,7 @@ type InteractableName =
   | "event_noticeboard"
   | "colors_2026"
   | "chapter_raffles"
+  | "design_showcase"
   | "free_trial";
 
 class InteractableModalManager {
@@ -249,6 +251,11 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       <Modal show={interactable === "chapter_raffles"} onHide={closeModal}>
         {" "}
         <ChapterRaffles onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "design_showcase"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal}>
+          <DesignShowcaseContent />
+        </CloseButtonPanel>
       </Modal>
       <Modal show={interactable === "rarecrows"} onHide={closeModal}>
         <Rarecrows onClose={closeModal} />

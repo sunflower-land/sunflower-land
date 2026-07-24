@@ -186,7 +186,7 @@ export function seedBought({ state, action, createdAt = Date.now() }: Options) {
 
     if (
       requiredPlantingSpot &&
-      stateCopy.inventory[requiredPlantingSpot]?.lessThan(1)
+      (stateCopy.inventory[requiredPlantingSpot] ?? new Decimal(0)).lessThan(1)
     ) {
       throw new Error(
         "You do not have the planting spot needed to plant this seed",

@@ -138,17 +138,27 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
   // ── Quick drag-and-drop state ──────────────────────────────────────────
   const dragRef = useRef<DragOrigin | null>(null);
   const wasDragRef = useRef(false);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
-  // Restore horizontal scroll position after item placement remounts the panel
-  useEffect(() => {
-    if (_savedScrollLeft > 0 && scrollContainerRef.current) {
-      const el = scrollContainerRef.current;
-      requestAnimationFrame(() => {
-        el.scrollLeft = _savedScrollLeft;
-      });
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  // The panel's DOM is torn down while an item is being placed (the whole grid
+  // is hidden unless the machine is idle), so restore on every remount of the
+  // scroll container - not just the first mount of this component.
+  const setScrollContainer = useCallback((el: HTMLDivElement | null) => {
+    scrollContainerRef.current = el;
+    if (!el || _savedScrollLeft <= 0) return;
+
+    el.scrollLeft = _savedScrollLeft;
+    // Item images can finish loading after mount and change the scroll width,
+    // so re-apply once layout has settled.
+    requestAnimationFrame(() => {
+      el.scrollLeft = _savedScrollLeft;
+    });
+  }, []);
+
+  // Keep the saved position in sync with wherever the player last scrolled to.
+  const handleScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
+    _savedScrollLeft = e.currentTarget.scrollLeft;
+  }, []);
 
   const computeGridPos = useCallback((clientX: number, clientY: number) => {
     // Use the actual land center (GenesisBlock element) as the coordinate origin,
@@ -224,7 +234,6 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
 
         drag.activated = true;
         wasDragRef.current = true;
-        _savedScrollLeft = scrollContainerRef.current?.scrollLeft ?? 0;
         sendSelect(drag.item, location, freshChild);
         freshChild.send("DRAG");
         onQuickDragChange(true);
@@ -429,7 +438,6 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
       wasDragRef.current = false;
       return;
     }
-    _savedScrollLeft = scrollContainerRef.current?.scrollLeft ?? 0;
     _savedPage = currentPage;
     doPlace(item);
   };
@@ -617,7 +625,8 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
               {/* Item grid */}
               <InnerPanel>
                 <div
-                  ref={scrollContainerRef}
+                  ref={setScrollContainer}
+                  onScroll={handleScroll}
                   className={classNames("flex items-center", {
                     "overflow-x-auto scrollable overflow-y-hidden pb-1":
                       !isMobile,

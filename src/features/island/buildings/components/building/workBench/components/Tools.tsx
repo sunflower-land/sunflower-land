@@ -1,4 +1,9 @@
-import React, { type SyntheticEvent, useContext, useState } from "react";
+import React, {
+  type SyntheticEvent,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 
@@ -32,6 +37,11 @@ import {
   getAscensionLevel,
   meetsLevelRequirement,
 } from "features/game/lib/level";
+import {
+  computeAffordableAmount,
+  planToolPurchases,
+} from "../lib/planToolPurchases";
+import { ToolBatchBuyModal } from "./ToolBatchBuyModal";
 
 const isLoveAnimalTool = (
   toolName: WorkbenchToolName | LoveAnimalItem,
@@ -43,6 +53,7 @@ export const Tools: React.FC = () => {
   const [selectedName, setSelectedName] = useState<
     WorkbenchToolName | LoveAnimalItem
   >("Axe");
+  const [showBatchBuy, setShowBatchBuy] = useState(false);
   const { gameService, shortcutItem } = useContext(Context);
 
   const state = useSelector(gameService, (state) => state.context.state);
@@ -79,7 +90,10 @@ export const Tools: React.FC = () => {
       amount,
     });
 
-    if (state.context.state.farmActivity?.["Axe Crafted"] === 1) {
+    if (
+      selectedName === "Axe" &&
+      state.context.state.farmActivity?.["Axe Crafted"] === amount
+    ) {
       gameAnalytics.trackMilestone({
         event: "Tutorial:AxeCrafted:Completed",
       });
@@ -101,6 +115,18 @@ export const Tools: React.FC = () => {
 
   const bulkToolCraftAmount = makeBulkBuyTools(stock);
   const { t } = useAppTranslation();
+
+  const maxAffordableAmount = () => {
+    if (isLoveAnimalTool(selectedName)) return 0;
+
+    return computeAffordableAmount(
+      stock.toDecimalPlaces(0, Decimal.ROUND_DOWN).toNumber(),
+      price,
+      state.coins,
+      selectedIngredients,
+      (name) => inventory[name] ?? new Decimal(0),
+    );
+  };
 
   const hasRequiredLevel = (tool: Tool) => {
     if (tool.requiredLevel === undefined) {
@@ -179,6 +205,19 @@ export const Tools: React.FC = () => {
             {t("craft")} {bulkToolCraftAmount}
           </Button>
         )}
+        {stock.greaterThan(bulkToolCraftAmount) &&
+          (() => {
+            const craftAllAmount = maxAffordableAmount();
+
+            return (
+              <Button
+                disabled={craftAllAmount <= 0}
+                onClick={(e) => craft(e, craftAllAmount)}
+              >
+                {t("craft")} {craftAllAmount}
+              </Button>
+            );
+          })()}
       </div>
     );
   };
@@ -192,6 +231,18 @@ export const Tools: React.FC = () => {
   );
 
   const ANIMAL_TOOLS = getKeys(LOVE_ANIMAL_TOOLS);
+
+  const buyAllEnabled = state.settings.toolShop?.buyAllEnabled ?? true;
+
+  const buyAllPlan = useMemo(
+    () =>
+      planToolPurchases(state, [
+        ...LAND_TOOLS.map(([toolName]) => toolName),
+        ...WATER_TOOLS.map(([toolName]) => toolName),
+      ]),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [state],
+  );
 
   return (
     <SplitScreenView
@@ -211,7 +262,7 @@ export const Tools: React.FC = () => {
         />
       }
       content={
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full relative">
           <Label type="default" className="mb-1.5">
             {t("landTools")}
           </Label>
@@ -279,6 +330,24 @@ export const Tools: React.FC = () => {
               );
             })}
           </div>
+          {buyAllEnabled && (
+            <div className="mt-2 mb-2">
+              <Button
+                disabled={LAND_TOOLS.length === 0 && WATER_TOOLS.length === 0}
+                onClick={() => setShowBatchBuy(true)}
+              >
+                {t("tools.batchBuy")}
+              </Button>
+            </div>
+          )}
+          <ToolBatchBuyModal
+            show={showBatchBuy}
+            onClose={() => setShowBatchBuy(false)}
+            tools={[...LAND_TOOLS, ...WATER_TOOLS]}
+            settings={state.settings.toolShop?.buyAll ?? {}}
+            plan={buyAllPlan}
+            coins={state.coins}
+          />
         </div>
       }
     />

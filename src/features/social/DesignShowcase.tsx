@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useSelector } from "@xstate/react";
 
-import { ButtonPanel, InnerPanel } from "components/ui/Panel";
+import { ButtonPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { Loading } from "features/auth/components";
 
@@ -16,12 +16,13 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { PlayerModal } from "features/social/PlayerModal";
 import { playerModalManager } from "features/social/lib/playerModalManager";
+import { QuickCheerButton } from "features/social/components/QuickCheerButton";
+import { markDesignsAsSeen } from "features/social/lib/seenDesigns";
 
 import { getShowcasedDesigns } from "features/game/actions/getShowcasedDesigns";
 import type { ShowcasedDesign } from "features/game/types/social";
 import type { Equipped } from "features/game/types/bumpkin";
 import type { MachineState } from "features/game/lib/gameMachine";
-import type { ContentComponentProps } from "../types";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 
@@ -55,7 +56,12 @@ const BumpkinAvatar: React.FC<{ parts: Equipped; size: number }> = ({
 const designAuthorName = (design: ShowcasedDesign) =>
   design.username ?? design.displayName ?? `#${design.farmId}`;
 
-export const DesignShowcaseSettings: React.FC<ContentComponentProps> = () => {
+/**
+ * The Farm Design Showcase gallery. Rendered inside the experiments settings
+ * panel and inside the Plaza noticeboard modal, so it brings no panel of its
+ * own.
+ */
+export const DesignShowcaseContent: React.FC = () => {
   const { gameService } = useContext(Context);
   const { authState } = useAuth();
   const { t } = useAppTranslation();
@@ -79,6 +85,9 @@ export const DesignShowcaseSettings: React.FC<ContentComponentProps> = () => {
         if (!active) return;
         setDesigns(data);
         setLoading(false);
+        // Opening the gallery counts as seeing everything in it, which clears
+        // the unread icon on the Plaza noticeboard.
+        markDesignsAsSeen(data);
       })
       .catch(() => {
         if (!active) return;
@@ -98,27 +107,22 @@ export const DesignShowcaseSettings: React.FC<ContentComponentProps> = () => {
       clothing: design.bumpkin,
     });
 
-  // Detail view for a single design: back button, full-size image, then a
-  // clickable NPC + name that opens the player model.
+  // Detail view for a single design: back button, then a header with the
+  // clickable NPC + name (opens the player modal) on the left and a quick cheer
+  // on the right, then the full-size image.
   if (selected) {
     return (
       <>
-        <InnerPanel className="p-1">
-          <div className="max-h-[450px] overflow-y-auto scrollable">
-            <div
-              className="flex items-center cursor-pointer mb-2 w-fit"
-              onClick={() => setSelected(undefined)}
-            >
-              <img src={SUNNYSIDE.icons.arrow_left} className="h-6 mr-2" />
-              <p className="text-xs underline">{t("back")}</p>
-            </div>
+        <div className="max-h-[450px] overflow-y-auto scrollable">
+          <div
+            className="flex items-center cursor-pointer mb-2 w-fit"
+            onClick={() => setSelected(undefined)}
+          >
+            <img src={SUNNYSIDE.icons.arrow_left} className="h-6 mr-2" />
+            <p className="text-xs underline">{t("back")}</p>
+          </div>
 
-            <img
-              src={selected.image}
-              className="w-full mb-2 rounded object-contain"
-              alt={designAuthorName(selected)}
-            />
-
+          <div className="flex items-center justify-between gap-2 mb-2">
             <div
               className="flex items-center gap-2 cursor-pointer w-fit"
               onClick={() => openAuthor(selected)}
@@ -136,8 +140,15 @@ export const DesignShowcaseSettings: React.FC<ContentComponentProps> = () => {
                 </span>
               </div>
             </div>
+            <QuickCheerButton farmId={selected.farmId} />
           </div>
-        </InnerPanel>
+
+          <img
+            src={selected.image}
+            className="w-full mb-2 rounded object-contain"
+            alt={designAuthorName(selected)}
+          />
+        </div>
         <PlayerModal
           loggedInFarmId={farmId}
           token={token}
@@ -149,56 +160,54 @@ export const DesignShowcaseSettings: React.FC<ContentComponentProps> = () => {
 
   return (
     <>
-      <InnerPanel>
-        <div className="flex items-center justify-between p-1">
-          <Label type="default">{t("designShowcase.heading")}</Label>
-        </div>
-        <p className="text-xs px-1 mb-2">{t("designShowcase.description")}</p>
+      <div className="flex items-center justify-between p-1">
+        <Label type="default">{t("designShowcase.heading")}</Label>
+      </div>
+      <p className="text-xs px-1 mb-2">{t("designShowcase.description")}</p>
 
-        <div
-          className="overflow-y-auto scrollable pr-1"
-          style={{ maxHeight: "350px" }}
-        >
-          {loading && <Loading />}
+      <div
+        className="overflow-y-auto scrollable pr-1"
+        style={{ maxHeight: "350px" }}
+      >
+        {loading && <Loading />}
 
-          {!loading && error && (
-            <p className="text-sm p-2">{t("designShowcase.error")}</p>
-          )}
+        {!loading && error && (
+          <p className="text-sm p-2">{t("designShowcase.error")}</p>
+        )}
 
-          {!loading && !error && designs.length === 0 && (
-            <p className="text-sm p-2">{t("designShowcase.empty")}</p>
-          )}
+        {!loading && !error && designs.length === 0 && (
+          <p className="text-sm p-2">{t("designShowcase.empty")}</p>
+        )}
 
-          {!loading && !error && designs.length > 0 && (
-            <div className="grid grid-cols-2 gap-2">
-              {designs.map((design) => (
-                <ButtonPanel
-                  key={design.messageId}
-                  onClick={() => setSelected(design)}
-                  className="flex flex-col"
-                >
-                  <div className="w-full aspect-square overflow-hidden rounded bg-brown-300">
-                    <img
-                      src={design.image}
-                      className="w-full h-full object-cover"
-                      alt={designAuthorName(design)}
-                    />
-                  </div>
-                  <div className="flex items-center gap-1 mt-1 overflow-hidden">
-                    <BumpkinAvatar parts={design.bumpkin} size={20} />
-                    <span className="text-xxs capitalize truncate">
-                      {designAuthorName(design)}
-                    </span>
-                  </div>
-                  <span className="text-xxs mt-0.5">
-                    {getRelativeTime(design.showcasedAt, now)}
+        {!loading && !error && designs.length > 0 && (
+          <div className="grid grid-cols-2 gap-2">
+            {designs.map((design) => (
+              <ButtonPanel
+                key={design.messageId}
+                onClick={() => setSelected(design)}
+                className="flex flex-col"
+              >
+                <div className="w-full aspect-square overflow-hidden rounded bg-brown-300">
+                  <img
+                    src={design.image}
+                    className="w-full h-full object-cover"
+                    alt={designAuthorName(design)}
+                  />
+                </div>
+                <div className="flex items-center gap-1 mt-1 overflow-hidden">
+                  <BumpkinAvatar parts={design.bumpkin} size={20} />
+                  <span className="text-xxs capitalize truncate">
+                    {designAuthorName(design)}
                   </span>
-                </ButtonPanel>
-              ))}
-            </div>
-          )}
-        </div>
-      </InnerPanel>
+                </div>
+                <span className="text-xxs mt-0.5">
+                  {getRelativeTime(design.showcasedAt, now)}
+                </span>
+              </ButtonPanel>
+            ))}
+          </div>
+        )}
+      </div>
       <PlayerModal
         loggedInFarmId={farmId}
         token={token}

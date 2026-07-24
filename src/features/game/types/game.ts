@@ -2173,6 +2173,17 @@ export interface GameState {
     network?: NetworkName;
     economiesEnabled?: boolean;
     interiorsEnabled?: boolean;
+    toolShop?: {
+      buyAllEnabled?: boolean;
+      buyAll?: Partial<
+        Record<
+          WorkbenchToolName,
+          {
+            blocked?: boolean;
+          }
+        >
+      >;
+    };
   };
   coins: number;
   balance: Decimal;

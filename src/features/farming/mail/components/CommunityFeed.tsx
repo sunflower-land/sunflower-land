@@ -20,6 +20,7 @@ import { CONFIG } from "lib/config";
 
 import { PlayerModal } from "features/social/PlayerModal";
 import { playerModalManager } from "features/social/lib/playerModalManager";
+import { QuickCheerButton } from "features/social/components/QuickCheerButton";
 
 import { getShowcasedTweets } from "features/game/actions/getShowcasedTweets";
 import type { ShowcasedTweet } from "features/game/types/social";
@@ -203,6 +204,7 @@ export const CommunityFeed: React.FC<Props> = ({ onAddPost, onRemoved }) => {
                       </a>
                     </div>
                   </div>
+                  <QuickCheerButton farmId={selected.authorFarmId} />
                 </div>
 
                 <NewsContent
