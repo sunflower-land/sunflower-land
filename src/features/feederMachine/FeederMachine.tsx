@@ -14,6 +14,7 @@ import {
 } from "features/game/events/landExpansion/feedAllAnimals";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getValues } from "lib/object";
+import classNames from "classnames";
 import { FeederMachineModal } from "./FeederMachineModal";
 
 const _state = (state: MachineState) => state.context.state;
@@ -85,7 +86,8 @@ export const FeederMachine: React.FC<Props> = ({ building }) => {
     return () => clearTimeout(timeout);
   }, [nextWakeAt]);
 
-  const canFeedAll = covered.length > 0 && !needsMedicine && eligibleCount > 0;
+  const hasGoldenAsset = covered.length > 0;
+  const canFeedAll = hasGoldenAsset && !needsMedicine && eligibleCount > 0;
 
   const handleClick = () => {
     if (covered.length > 0 && !needsMedicine) {
@@ -121,11 +123,14 @@ export const FeederMachine: React.FC<Props> = ({ building }) => {
           // Hover parent
           className="absolute top-0 -right-4 z-20"
         />
-        {canFeedAll && (
+        {hasGoldenAsset && (
           <img
             src={SUNNYSIDE.icons.lightning}
             alt={t("animals.feedAll")}
-            className="absolute z-30 top-0 -right-4 pointer-events-none img-highlight animate-pulse"
+            className={classNames(
+              "absolute z-30 top-0 -right-4 pointer-events-none img-highlight",
+              canFeedAll ? "animate-pulse" : "grayscale opacity-50",
+            )}
             style={{
               width: `${PIXEL_SCALE * 9}px`,
             }}
