@@ -577,7 +577,7 @@ describe("feedAllAnimals", () => {
     expect(state.farmActivity["Egg Collected"]).toEqual(1);
   });
 
-  it("cures a sick over-capacity animal without feeding or claiming it", () => {
+  it("ignores a sick over-capacity animal even with the Oracle Syringe", () => {
     const animals: Record<string, Animal> = {};
     for (let i = 0; i < 11; i++) {
       animals[`chicken-${i}`] = makeAnimal({
@@ -588,24 +588,31 @@ describe("feedAllAnimals", () => {
       });
     }
 
+    const base = withOracleSyringe(
+      withGoldEgg({
+        ...GAME_STATE,
+        henHouse: { ...GAME_STATE.henHouse, level: 1, animals },
+      }),
+    );
+
+    // Not targeted for curing (capacity-locked animals are skipped entirely)
+    expect(
+      getFeedAllTargets({ state: base, building: "Hen House", createdAt: now })
+        .toCure,
+    ).toEqual([]);
+
     const state = feedAllAnimals({
       createdAt: now,
-      state: withOracleSyringe(
-        withGoldEgg({
-          ...GAME_STATE,
-          henHouse: { ...GAME_STATE.henHouse, level: 1, animals },
-        }),
-      ),
+      state: base,
       action: { type: "animals.fedAll", building: "Hen House" },
     });
 
     const chicken = state.henHouse.animals["chicken-0"];
-    // Cured (curing is allowed while capacity-locked)...
-    expect(state.farmActivity["Chicken Cured"]).toEqual(1);
-    // ...but not fed (locked) and therefore not claimed: awake and idle
-    expect(chicken.state).toEqual("idle");
+    expect(chicken.state).toEqual("sick");
     expect(chicken.experience).toEqual(0);
-    expect(chicken.asleepAt).toEqual(0);
+    expect(state.farmActivity["Chicken Cured"]).toBeUndefined();
+    // The other chickens are still fed
+    expect(state.henHouse.animals["chicken-1"].experience).toBeGreaterThan(0);
   });
 
   it("still claims a ready over-capacity animal without feeding it", () => {

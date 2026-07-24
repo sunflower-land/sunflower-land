@@ -74,7 +74,10 @@ export function getFeedAllTargets({
     }
 
     if (animal.state === "sick") {
-      if (hasOracleSyringe) targets.toCure.push(id);
+      // Capacity-locked animals are ignored entirely, mirroring feeding.
+      if (hasOracleSyringe && isAnimalFeedable(buildingKey, state, id)) {
+        targets.toCure.push(id);
+      }
       return;
     }
 
