@@ -118,7 +118,7 @@ export const FeederMachine: React.FC<Props> = ({ building }) => {
             alt={t("animals.feedAll")}
             className={classNames(
               "absolute z-30 top-0 -right-4 pointer-events-none img-highlight",
-              canFeedAll ? "animate-pulse" : "grayscale opacity-50",
+              canFeedAll ? "animate-pulsate" : "grayscale opacity-50",
             )}
             style={{
               width: `${PIXEL_SCALE * 9}px`,
