@@ -370,7 +370,7 @@ export const INITIAL_EQUIPMENT: BumpkinParts = {
 
 export const INITIAL_BUMPKIN: Bumpkin = {
   equipped: INITIAL_EQUIPMENT as Equipped,
-  experience: 0,
+  experience: 10000,
 
   id: 1,
   skills: {},
@@ -619,6 +619,7 @@ export const INITIAL_FARM: GameState = {
       },
     ],
   },
+  username: "T",
   collectibles: {},
   pumpkinPlaza: {},
   auctioneer: {},
