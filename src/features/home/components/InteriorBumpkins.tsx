@@ -64,17 +64,31 @@ export const InteriorBumpkins: React.FC<Props> = ({ location = "home" }) => {
 
   return (
     <>
-      <div className="flex flex-wrap items-end gap-2 max-w-[70vw]">
+      <div className="flex flex-col sm:flex-row sm:flex-wrap items-center sm:items-end gap-2 max-w-[90vw] sm:max-w-[70vw]">
         <div
-          className="flex flex-wrap"
-          style={{ rowGap: `${32 * PIXEL_SCALE}px` }}
+          className="flex flex-nowrap sm:flex-wrap overflow-x-auto overflow-y-hidden sm:overflow-visible max-w-full"
+          style={{
+            rowGap: `${32 * PIXEL_SCALE}px`,
+            // NPCPlaceable renders above its own top (see `top: -12 * PIXEL_SCALE`
+            // below) at up to 2x its width in height - the scroll container needs
+            // headroom or a horizontal scrollbar clips the sprite's top on mobile,
+            // where `overflow-x-auto` forces `overflow-y` to also clip instead of
+            // staying visible (a CSS rule, not a Tailwind quirk) - explicitly
+            // pinning overflow-y-hidden keeps this scrolling horizontal-only.
+            paddingTop: `${44 * PIXEL_SCALE}px`,
+            marginTop: `${-44 * PIXEL_SCALE}px`,
+            // NPCPlaceable is 1.25x its own width, overhanging its right edge -
+            // without this the last sprite's overhang gets clipped by the
+            // scroll container's edge, showing as a sliced-off sliver.
+            paddingRight: `${8 * PIXEL_SCALE}px`,
+          }}
         >
           {(!isLandscaping ||
             !bumpkin.coordinates ||
             bumpkin.location !== location) && (
             <div
               className={classNames(
-                "mr-2",
+                "mr-2 shrink-0 relative",
                 isLandscaping && bumpkin.coordinates
                   ? "cursor-not-allowed opacity-75"
                   : "cursor-pointer",
@@ -123,7 +137,7 @@ export const InteriorBumpkins: React.FC<Props> = ({ location = "home" }) => {
           {unplacedFarmHandIds.map((id) => (
             <div
               key={id}
-              className="mr-2 cursor-pointer relative"
+              className="mr-2 shrink-0 cursor-pointer relative"
               onClick={() => {
                 if (isLandscaping) {
                   handlePlaceFarmHand(id);
