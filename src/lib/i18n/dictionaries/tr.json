@@ -9548,5 +9548,6 @@
   "gameOptions.experiments.toolShopBuyAllDescription": "Çalışma Tezgahı Araçları sekmesinde Toplu Satın Almayı deneyin - kilidi açılmış her aracın maksimum uygun miktarını tek seferde satın alın.",
   "gameOptions.experiments.toolShopBuyAllToggle": "Toplu Satın Alma Araçlarını Etkinleştir",
   "seeds.buyAll": "Tüm Tohumları Satın Alın",
-  "seeds.buyAllPartialFailure": "Satın alınamadı: {{seeds}}. Diğer tohumlarınız hala satın alındı."
+  "seeds.buyAllPartialFailure": "Satın alınamadı: {{seeds}}. Diğer tohumlarınız hala satın alındı.",
+  "description.rarecrows.linkTelegram": "Telgraf Bağlantısı"
 }

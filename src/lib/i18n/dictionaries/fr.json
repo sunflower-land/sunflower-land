@@ -9548,5 +9548,6 @@
   "gameOptions.experiments.toolShopBuyAllDescription": "Essayez Batch Buy dans l'onglet Workbench Tools : achetez la quantité maximale abordable de chaque outil débloqué en une seule fois.",
   "gameOptions.experiments.toolShopBuyAllToggle": "Activer les outils d'achat par lots",
   "seeds.buyAll": "Achetez toutes les graines",
-  "seeds.buyAllPartialFailure": "Impossible d'acheter : {{seeds}}. Vos autres graines ont quand même été achetées."
+  "seeds.buyAllPartialFailure": "Impossible d'acheter : {{seeds}}. Vos autres graines ont quand même été achetées.",
+  "description.rarecrows.linkTelegram": "Lien Telegram"
 }

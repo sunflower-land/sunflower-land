@@ -9548,5 +9548,6 @@
   "gameOptions.experiments.toolShopBuyAllDescription": "Pruebe la compra por lotes en la pestaña Herramientas de Workbench: compre la cantidad máxima asequible de cada herramienta desbloqueada de una sola vez.",
   "gameOptions.experiments.toolShopBuyAllToggle": "Habilitar las herramientas de compra por lotes",
   "seeds.buyAll": "Compra todas las semillas",
-  "seeds.buyAllPartialFailure": "No se pudo comprar: {{seeds}}. Tus otras semillas aún estaban compradas."
+  "seeds.buyAllPartialFailure": "No se pudo comprar: {{seeds}}. Tus otras semillas aún estaban compradas.",
+  "description.rarecrows.linkTelegram": "Enlace Telegram"
 }
