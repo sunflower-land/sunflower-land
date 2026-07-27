@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useMemo, useState } from "react";
 import Decimal from "decimal.js-light";
 
 import { Modal } from "components/ui/Modal";
+import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NumberInput } from "components/ui/NumberInput";
 import { Button } from "components/ui/Button";
@@ -14,7 +15,7 @@ import {
   ITEM_DETAILS,
   getTranslatedItemName,
 } from "features/game/types/images";
-import type { InventoryItemName } from "features/game/types/game";
+import type { Inventory, InventoryItemName } from "features/game/types/game";
 import type { WorkbenchToolName, Tool } from "features/game/types/tools";
 import type { ToolShopBuyAllSetting } from "features/game/events/updateToolShopSettings";
 import type { ToolPurchasePlan } from "../lib/planToolPurchases";
@@ -23,6 +24,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { formatNumber } from "lib/utils/formatNumber";
 import { getObjectEntries } from "lib/object";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { NPC_WEARABLES } from "lib/npcs";
 
 type Props = {
   show: boolean;
@@ -31,6 +33,7 @@ type Props = {
   settings: Partial<Record<WorkbenchToolName, ToolShopBuyAllSetting>>;
   plan: ToolPurchasePlan;
   coins: number;
+  stock: Inventory;
 };
 
 type ToolRowProps = {
@@ -38,19 +41,23 @@ type ToolRowProps = {
   checked: boolean;
   amount: number;
   maxAmount: number;
+  stockAmount: number;
   onToggle: () => void;
   onAmountChange: (value: number) => void;
 };
 
 /**
  * One tool entry as a two-line card: icon + name with the include checkbox
- * on the first line, amount input and 50%/Max controls on the second.
+ * on the first line, amount input and 50%/Max controls on the second. Shows
+ * a hint underneath when the affordable amount falls short of the full
+ * stock, mirroring the single-tool "Craft All" hint in Tools.tsx.
  */
 const ToolRow: React.FC<ToolRowProps> = ({
   toolName,
   checked,
   amount,
   maxAmount,
+  stockAmount,
   onToggle,
   onAmountChange,
 }) => {
@@ -104,6 +111,11 @@ const ToolRow: React.FC<ToolRowProps> = ({
           {t("tools.batchBuyMax")}
         </Button>
       </div>
+      {maxAmount < stockAmount && (
+        <p className="text-xxs text-center">
+          {t("tools.insufficientFundsForStock", { stockAmount })}
+        </p>
+      )}
     </InnerPanel>
   );
 };
@@ -139,6 +151,7 @@ export const ToolBatchBuyModal: React.FC<Props> = ({
   settings,
   plan,
   coins,
+  stock,
 }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
@@ -158,6 +171,7 @@ export const ToolBatchBuyModal: React.FC<Props> = ({
     Partial<Record<WorkbenchToolName, number>>
   >({});
   const [failures, setFailures] = useState<WorkbenchToolName[]>([]);
+  const [confirmBatchBuyModal, showConfirmBatchBuyModal] = useState(false);
 
   // The modal stays mounted between opens (only `show` toggles visibility),
   // so the draft needs to be re-synced from the latest plan/settings each
@@ -173,6 +187,7 @@ export const ToolBatchBuyModal: React.FC<Props> = ({
     setExcluded(new Set(blockedTools));
     setAmountDraft({ ...maxAmounts });
     setFailures([]);
+    showConfirmBatchBuyModal(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show]);
 
@@ -236,7 +251,29 @@ export const ToolBatchBuyModal: React.FC<Props> = ({
   const landTools = tools.filter(([, tool]) => tool.type === "land");
   const waterTools = tools.filter(([, tool]) => tool.type === "water");
 
-  const confirm = () => {
+  const costBreakdown = (
+    <>
+      <div className="flex items-center">
+        <img src={SUNNYSIDE.ui.coins} className="h-6 mr-1" />
+        <span className="text-xs">{formatNumber(totalCost)}</span>
+      </div>
+      {getObjectEntries(totalIngredients).map(
+        ([ingredientName, ingredientAmount]) => (
+          <div key={ingredientName} className="flex items-center">
+            <img
+              src={ITEM_DETAILS[ingredientName].image}
+              className="h-6 mr-1"
+            />
+            <span className="text-xs">
+              {formatNumber(ingredientAmount ?? new Decimal(0))}
+            </span>
+          </div>
+        ),
+      )}
+    </>
+  );
+
+  const buyAllTools = () => {
     const purchaseFailures: WorkbenchToolName[] = [];
 
     purchasesToMake.forEach(({ toolName }) => {
@@ -265,6 +302,7 @@ export const ToolBatchBuyModal: React.FC<Props> = ({
     });
 
     setFailures(purchaseFailures);
+    showConfirmBatchBuyModal(false);
     onClose();
   };
 
@@ -276,6 +314,9 @@ export const ToolBatchBuyModal: React.FC<Props> = ({
         checked={!excluded.has(toolName)}
         amount={amountDraft[toolName] ?? 0}
         maxAmount={maxAmounts[toolName] ?? 0}
+        stockAmount={(stock[toolName] ?? new Decimal(0))
+          .toDecimalPlaces(0, Decimal.ROUND_DOWN)
+          .toNumber()}
         onToggle={() => toggleExcluded(toolName)}
         onAmountChange={(value) => setAmount(toolName, value)}
       />
@@ -317,32 +358,35 @@ export const ToolBatchBuyModal: React.FC<Props> = ({
               {t("tools.batchBuyTotalCost")}
             </Label>
             <div className="flex flex-wrap items-center gap-2 px-1 mb-2">
-              <div className="flex items-center">
-                <img src={SUNNYSIDE.ui.coins} className="h-6 mr-1" />
-                <span className="text-xs">{formatNumber(totalCost)}</span>
-              </div>
-              {getObjectEntries(totalIngredients).map(
-                ([ingredientName, ingredientAmount]) => (
-                  <div key={ingredientName} className="flex items-center">
-                    <img
-                      src={ITEM_DETAILS[ingredientName].image}
-                      className="h-6 mr-1"
-                    />
-                    <span className="text-xs">
-                      {formatNumber(ingredientAmount ?? new Decimal(0))}
-                    </span>
-                  </div>
-                ),
-              )}
+              {costBreakdown}
             </div>
             <Button
-              onClick={confirm}
+              onClick={() => showConfirmBatchBuyModal(true)}
               disabled={purchasesToMake.length === 0 || totalCost > coins}
             >
               {t("tools.batchBuy")}
             </Button>
           </InnerPanel>
         </div>
+        <ConfirmationModal
+          show={confirmBatchBuyModal}
+          onHide={() => showConfirmBatchBuyModal(false)}
+          messages={[
+            t("confirmation.buyAllTools", {
+              toolTypes: purchasesToMake.length,
+            }),
+          ]}
+          bodyContent={
+            <div className="flex flex-wrap items-center gap-2 w-full mb-1">
+              {costBreakdown}
+            </div>
+          }
+          onCancel={() => showConfirmBatchBuyModal(false)}
+          onConfirm={buyAllTools}
+          confirmButtonLabel={t("tools.batchBuy")}
+          bumpkinParts={NPC_WEARABLES.blacksmith}
+          disabled={purchasesToMake.length === 0 || totalCost > coins}
+        />
       </CloseButtonPanel>
     </Modal>
   );
