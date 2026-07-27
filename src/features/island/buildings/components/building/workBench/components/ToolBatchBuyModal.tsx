@@ -303,7 +303,13 @@ export const ToolBatchBuyModal: React.FC<Props> = ({
 
     setFailures(purchaseFailures);
     showConfirmBatchBuyModal(false);
-    onClose();
+
+    // Keep the modal open on a partial failure so the player can see which
+    // tools didn't get bought (the failure Label below) - only close on a
+    // clean, fully successful purchase.
+    if (purchaseFailures.length === 0) {
+      onClose();
+    }
   };
 
   const renderRows = (columnTools: [WorkbenchToolName, Tool][]) =>
