@@ -65,11 +65,12 @@ const ToolRow: React.FC<ToolRowProps> = ({
           <img src={ITEM_DETAILS[toolName].image} className="h-6 shrink-0" />
           <span className="text-xs ml-1 truncate">{toolName}</span>
         </div>
-        <div
-          className="shrink-0"
-          aria-label={t("tools.excludeFromBatchBuy", { toolName })}
-        >
-          <Checkbox checked={checked} onChange={onToggle} />
+        <div className="shrink-0">
+          <Checkbox
+            checked={checked}
+            onChange={onToggle}
+            aria-label={t("tools.includeInBatchBuy", { toolName })}
+          />
         </div>
       </div>
       <div className="flex items-center gap-1">
