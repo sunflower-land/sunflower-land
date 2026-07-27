@@ -79,8 +79,8 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
 
   const expiresAt = createdAt + (EXPIRY_COOLDOWNS["Obsidian Shrine"] ?? 0);
   const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
-  const durationSeconds = EXPIRY_COOLDOWNS["Obsidian Shrine"] ?? 0;
-  const percentage = 100 - (secondsToExpire / durationSeconds) * 100;
+  const durationSeconds = (EXPIRY_COOLDOWNS["Obsidian Shrine"] ?? 0) / 1000;
+  const percentage = (secondsToExpire / durationSeconds) * 100;
   const hasExpired = secondsToExpire <= 0;
 
   const now = useNow({ live: !hasExpired, autoEndAt: expiresAt });
@@ -194,7 +194,7 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
               seconds={secondsToExpire}
               formatLength="medium"
               type="error"
-              percentage={percentage}
+              percentage={100}
             />
           </div>
         )}
