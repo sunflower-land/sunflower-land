@@ -9540,7 +9540,6 @@
   "tools.batchBuyMax": "马克斯",
   "tools.batchBuyHalf": "50%",
   "tools.batchBuyTotalCost": "总成本",
-  "tools.excludeFromBatchBuy": "从批量购买中排除 {{toolName}}",
   "confirmation.buyAllSeeds": "以总计 {{coinAmount}} 个硬币的价格购买最大可承受数量的 {{seedTypes}} 种子类型？",
   "confirmation.buyAllTools": "以总计 {{coinAmount}} 个硬币的价格购买最大可承受数量的 {{toolTypes}} 种工具类型？",
   "gameOptions.experiments.designShowcase": "设计展示",
@@ -9549,5 +9548,7 @@
   "gameOptions.experiments.toolShopBuyAllToggle": "启用批量购买工具",
   "seeds.buyAll": "购买所有种子",
   "seeds.buyAllPartialFailure": "无法购买：{{seeds}}。您的其他种子仍在购买中。",
-  "description.rarecrows.linkTelegram": "链接电报"
+  "description.rarecrows.linkTelegram": "链接电报",
+  "tools.includeInBatchBuy": "在批量购买中包含 {{toolName}}",
+  "animals.feedAll": "喂所有动物"
 }

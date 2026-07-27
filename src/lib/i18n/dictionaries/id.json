@@ -9540,7 +9540,6 @@
   "tools.batchBuyMax": "Max",
   "tools.batchBuyHalf": "50%",
   "tools.batchBuyTotalCost": "Total Biaya",
-  "tools.excludeFromBatchBuy": "Kecualikan {{toolName}} dari Batch Buy",
   "confirmation.buyAllSeeds": "Beli jumlah maksimum yang terjangkau dari jenis benih {{seedTypes}} seharga total {{coinAmount}} Koin?",
   "confirmation.buyAllTools": "Beli jumlah maksimum yang terjangkau dari jenis alat {{toolTypes}} untuk total {{coinAmount}} Koin?",
   "gameOptions.experiments.designShowcase": "Etalase desain",
@@ -9549,5 +9548,7 @@
   "gameOptions.experiments.toolShopBuyAllToggle": "Aktifkan Alat Beli Batch",
   "seeds.buyAll": "Beli Semua Benih",
   "seeds.buyAllPartialFailure": "Tidak dapat membeli: {{seeds}}. Benih Anda yang lain masih dibeli.",
-  "description.rarecrows.linkTelegram": "Tautan Telegram"
+  "description.rarecrows.linkTelegram": "Tautan Telegram",
+  "tools.includeInBatchBuy": "Sertakan {{toolName}} dalam Batch Buy",
+  "animals.feedAll": "Beri makan semua hewan"
 }

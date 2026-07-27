@@ -9540,7 +9540,6 @@
   "tools.batchBuyMax": "maksimum",
   "tools.batchBuyHalf": "%50",
   "tools.batchBuyTotalCost": "Toplam Maliyet",
-  "tools.excludeFromBatchBuy": "Toplu Satın Alma işleminden {{toolName}} hariç tut",
   "confirmation.buyAllSeeds": "Maksimum uygun fiyatlı {{seedTypes}} tohum türünü toplamda {{coinAmount}} karşılığında satın alın?",
   "confirmation.buyAllTools": "Maksimum uygun fiyatlı {{toolTypes}} araç türünü toplamda {{coinAmount}} karşılığında satın alın?",
   "gameOptions.experiments.designShowcase": "Tasarım vitrini",
@@ -9549,5 +9548,7 @@
   "gameOptions.experiments.toolShopBuyAllToggle": "Toplu Satın Alma Araçlarını Etkinleştir",
   "seeds.buyAll": "Tüm Tohumları Satın Alın",
   "seeds.buyAllPartialFailure": "Satın alınamadı: {{seeds}}. Diğer tohumlarınız hala satın alındı.",
-  "description.rarecrows.linkTelegram": "Telgraf Bağlantısı"
+  "description.rarecrows.linkTelegram": "Telgraf Bağlantısı",
+  "tools.includeInBatchBuy": "Toplu Satın Alma'ya {{toolName}} ekleyin",
+  "animals.feedAll": "Tüm hayvanları besleyin"
 }

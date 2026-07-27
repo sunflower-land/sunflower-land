@@ -9540,7 +9540,6 @@
   "tools.batchBuyMax": "マックス",
   "tools.batchBuyHalf": "50%",
   "tools.batchBuyTotalCost": "合計費用",
-  "tools.excludeFromBatchBuy": "{{toolName}} を一括購入から除外",
   "confirmation.buyAllSeeds": "{{seedTypes}} 種類のシードタイプを合計で {{coinAmount}} コインで購入できますか？",
   "confirmation.buyAllTools": "{{toolTypes}} 種類のツールを合計で {{coinAmount}} コインで購入できますか？",
   "gameOptions.experiments.designShowcase": "デザインショーケース",
@@ -9549,5 +9548,7 @@
   "gameOptions.experiments.toolShopBuyAllToggle": "一括購入ツールを有効にする",
   "seeds.buyAll": "すべてのシードを購入",
   "seeds.buyAllPartialFailure": "購入できませんでした:{{seeds}}。他のシードはまだ購入済みです。",
-  "description.rarecrows.linkTelegram": "リンクテレグラム"
+  "description.rarecrows.linkTelegram": "リンクテレグラム",
+  "tools.includeInBatchBuy": "一括購入に {{toolName}} を含める",
+  "animals.feedAll": "すべての動物に餌をやる"
 }

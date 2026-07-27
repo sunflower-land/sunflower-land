@@ -9540,7 +9540,6 @@
   "tools.batchBuyMax": "Max",
   "tools.batchBuyHalf": "50 %",
   "tools.batchBuyTotalCost": "Coût total",
-  "tools.excludeFromBatchBuy": "Exclure {{toolName}} de l'achat par lots",
   "confirmation.buyAllSeeds": "Achetez la quantité maximale abordable de types de graines {{seedTypes}} pour un total de {{coinAmount}} pièces ?",
   "confirmation.buyAllTools": "Achetez le montant maximum abordable de types d'outils {{toolTypes}} pour un total de {{coinAmount}} pièces ?",
   "gameOptions.experiments.designShowcase": "Vitrine de design",
@@ -9549,5 +9548,7 @@
   "gameOptions.experiments.toolShopBuyAllToggle": "Activer les outils d'achat par lots",
   "seeds.buyAll": "Achetez toutes les graines",
   "seeds.buyAllPartialFailure": "Impossible d'acheter : {{seeds}}. Vos autres graines ont quand même été achetées.",
-  "description.rarecrows.linkTelegram": "Lien Telegram"
+  "description.rarecrows.linkTelegram": "Lien Telegram",
+  "tools.includeInBatchBuy": "Inclure {{toolName}} dans l'achat par lots",
+  "animals.feedAll": "Nourrissez tous les animaux"
 }
