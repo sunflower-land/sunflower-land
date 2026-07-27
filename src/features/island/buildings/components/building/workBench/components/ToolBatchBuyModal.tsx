@@ -10,7 +10,10 @@ import { Checkbox } from "components/ui/Checkbox";
 import { InnerPanel } from "components/ui/Panel";
 
 import { Context } from "features/game/GameProvider";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import type { InventoryItemName } from "features/game/types/game";
 import type { WorkbenchToolName, Tool } from "features/game/types/tools";
 import type { ToolShopBuyAllSetting } from "features/game/events/updateToolShopSettings";
@@ -63,13 +66,17 @@ const ToolRow: React.FC<ToolRowProps> = ({
           }`}
         >
           <img src={ITEM_DETAILS[toolName].image} className="h-6 shrink-0" />
-          <span className="text-xs ml-1 truncate">{toolName}</span>
+          <span className="text-xs ml-1 truncate">
+            {getTranslatedItemName(toolName)}
+          </span>
         </div>
         <div className="shrink-0">
           <Checkbox
             checked={checked}
             onChange={onToggle}
-            aria-label={t("tools.includeInBatchBuy", { toolName })}
+            aria-label={t("tools.includeInBatchBuy", {
+              toolName: getTranslatedItemName(toolName),
+            })}
           />
         </div>
       </div>
@@ -300,7 +307,9 @@ export const ToolBatchBuyModal: React.FC<Props> = ({
             {failures.length > 0 && (
               <Label type="danger" className="mb-1.5">
                 {t("tools.buyAllPartialFailure", {
-                  tools: failures.join(", "),
+                  tools: failures
+                    .map((toolName) => getTranslatedItemName(toolName))
+                    .join(", "),
                 })}
               </Label>
             )}
