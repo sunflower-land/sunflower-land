@@ -5856,6 +5856,7 @@
   "feeder.foodTypes.food": "Food",
   "feeder.foodTypes.medicine": "Medicine",
   "animal.noMedicine": "No medicine available",
+  "animals.feedAll": "Feed all animals",
   "animal.overCapacity": "Over capacity! Your animal doesn't want to be fed.",
   "lockedAnimal.title": "Over Capacity",
   "lockedAnimal.locked": "Locked",
