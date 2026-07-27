@@ -1453,6 +1453,7 @@ export const ITEM_TRADE_TYPES: {
     "Otter Pebble": "instant",
     "Cloud Bed": "instant",
     "Ascension Monument": "instant",
+    "Buddha Statue": "instant",
 
     // Ascension Age decorations
     "Salt Rug": "instant",
@@ -2114,6 +2115,7 @@ export const ITEM_TRADE_TYPES: {
     "Swamp Armor": "instant",
     "Swamp Lily Hat": "instant",
     "Swamp Pants": "instant",
+    "Moon Hair": "instant",
   },
 };
 

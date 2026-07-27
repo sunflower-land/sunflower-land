@@ -850,6 +850,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
     />
   ),
   "Dino Egg Trophy": () => <TemplateCollectible name="Dino Egg Trophy" />,
+  "Buddha Statue": () => <TemplateCollectible name="Buddha Statue" />,
   "Salt Lamp": () => <TemplateCollectible name="Salt Lamp" />,
   "World Map Rug": () => <TemplateCollectible name="World Map Rug" />,
   "Ripped Salt Bag": () => <TemplateCollectible name="Ripped Salt Bag" />,

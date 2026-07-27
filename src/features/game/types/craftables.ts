@@ -1317,6 +1317,9 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "World Map Rug": { width: 3, height: 2 },
   "Ripped Salt Bag": { width: 1, height: 1 },
 
+  // Ascension Age
+  "Buddha Statue": { width: 2, height: 2 },
+
   // Spring Blossom SFTs
   "Flower Cart": { width: 2, height: 2 },
   "Blossom Royale": { width: 2, height: 2 },
