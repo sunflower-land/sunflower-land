@@ -9548,5 +9548,6 @@
   "gameOptions.experiments.toolShopBuyAllDescription": "Probieren Sie Batch Buy im Tab Workbench Tools aus — kaufen Sie die maximal erschwingliche Menge aller freigeschalteten Tools auf einmal.",
   "gameOptions.experiments.toolShopBuyAllToggle": "Batch Buy Tools aktivieren",
   "seeds.buyAll": "Kaufe alle Samen",
-  "seeds.buyAllPartialFailure": "Konnte nicht kaufen: {{seeds}}. Ihre anderen Samen wurden noch gekauft."
+  "seeds.buyAllPartialFailure": "Konnte nicht kaufen: {{seeds}}. Ihre anderen Samen wurden noch gekauft.",
+  "description.rarecrows.linkTelegram": "Telegram verlinken"
 }

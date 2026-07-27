@@ -9548,5 +9548,6 @@
   "gameOptions.experiments.toolShopBuyAllDescription": "Try Batch Buy in the Workbench Tools tab - buy the max affordable amount of every unlocked tool in one go.",
   "gameOptions.experiments.toolShopBuyAllToggle": "Enable Batch Buy Tools",
   "seeds.buyAll": "Buy All Seeds",
-  "seeds.buyAllPartialFailure": "Couldn't buy: {{seeds}}. Your other seeds were still purchased."
+  "seeds.buyAllPartialFailure": "Couldn't buy: {{seeds}}. Your other seeds were still purchased.",
+  "description.rarecrows.linkTelegram": "Link Telegram"
 }

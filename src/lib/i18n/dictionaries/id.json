@@ -9548,5 +9548,6 @@
   "gameOptions.experiments.toolShopBuyAllDescription": "Coba Batch Buy di tab Workbench Tools - beli jumlah maksimum yang terjangkau dari setiap alat yang tidak terkunci sekaligus.",
   "gameOptions.experiments.toolShopBuyAllToggle": "Aktifkan Alat Beli Batch",
   "seeds.buyAll": "Beli Semua Benih",
-  "seeds.buyAllPartialFailure": "Tidak dapat membeli: {{seeds}}. Benih Anda yang lain masih dibeli."
+  "seeds.buyAllPartialFailure": "Tidak dapat membeli: {{seeds}}. Benih Anda yang lain masih dibeli.",
+  "description.rarecrows.linkTelegram": "Tautan Telegram"
 }

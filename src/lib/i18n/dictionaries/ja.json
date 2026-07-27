@@ -9548,5 +9548,6 @@
   "gameOptions.experiments.toolShopBuyAllDescription": "Workbench の「ツール」タブで一括購入をお試しください。アンロックされたすべてのツールを一度に購入できるので、お手頃価格で購入できます。",
   "gameOptions.experiments.toolShopBuyAllToggle": "一括購入ツールを有効にする",
   "seeds.buyAll": "すべてのシードを購入",
-  "seeds.buyAllPartialFailure": "購入できませんでした:{{seeds}}。他のシードはまだ購入済みです。"
+  "seeds.buyAllPartialFailure": "購入できませんでした:{{seeds}}。他のシードはまだ購入済みです。",
+  "description.rarecrows.linkTelegram": "リンクテレグラム"
 }

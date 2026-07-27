@@ -9548,5 +9548,6 @@
   "gameOptions.experiments.toolShopBuyAllDescription": "Prova Batch Buy nella scheda Strumenti di Workbench: acquista la quantità massima conveniente di ogni strumento sbloccato in una volta sola.",
   "gameOptions.experiments.toolShopBuyAllToggle": "Abilita gli strumenti di acquisto in batch",
   "seeds.buyAll": "Acquista tutti i semi",
-  "seeds.buyAllPartialFailure": "Impossibile acquistare: {{seeds}}. Gli altri semi sono stati ancora acquistati."
+  "seeds.buyAllPartialFailure": "Impossibile acquistare: {{seeds}}. Gli altri semi sono stati ancora acquistati.",
+  "description.rarecrows.linkTelegram": "Link Telegram"
 }

@@ -9548,5 +9548,6 @@
   "gameOptions.experiments.toolShopBuyAllDescription": "尝试在 Workbench 工具选项卡中批量购买-一次性购买所有已解锁工具的最大可承受金额。",
   "gameOptions.experiments.toolShopBuyAllToggle": "启用批量购买工具",
   "seeds.buyAll": "购买所有种子",
-  "seeds.buyAllPartialFailure": "无法购买：{{seeds}}。您的其他种子仍在购买中。"
+  "seeds.buyAllPartialFailure": "无法购买：{{seeds}}。您的其他种子仍在购买中。",
+  "description.rarecrows.linkTelegram": "链接电报"
 }
