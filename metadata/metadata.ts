@@ -326,8 +326,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     name: "Dino Egg Trophy",
   },
   "Buddha Statue": {
-    description:
-      "A serene statue radiating calm across the farm. Found by those who dig deep enough.",
+    description: "A serene statue radiating calm across the farm.",
     decimals: 0,
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
