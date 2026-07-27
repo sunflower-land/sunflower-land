@@ -46,6 +46,9 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { PickServer } from "./plaza-settings/PickServer";
 import { PlazaShaderSettings } from "./plaza-settings/PlazaShaderSettings";
 import { Preferences } from "./general-settings/Preferences";
+import { DEV_TimeMachine } from "./developer-options/DEV_TimeMachine";
+import { CONFIG } from "lib/config";
+import { createPortal } from "react-dom";
 import type { AuthMachineState } from "features/auth/lib/authMachine";
 import {
   getSubscriptionsForFarmId,
@@ -227,6 +230,7 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
   const { gameService } = useContext(GameContext);
   const farmId = useSelector(gameService, _farmId);
   const [selected, setSelected] = useState<SettingMenuId>("main");
+  const [showTimeMachine, setShowTimeMachine] = useState(false);
   const isLinkingSocial = useSelector(gameService, _linkingSocial);
   const isLinkingSocialSuccess = useSelector(
     gameService,
@@ -257,20 +261,34 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
   const SelectedComponent = SETTING_MENUS[selected].content;
 
   return (
-    <Modal show={show} onHide={isLinkingInFlight ? undefined : onHide}>
-      <CloseButtonPanel
-        title={SETTING_MENUS[selected].title}
-        onBack={
-          !isLinkingInFlight && selected !== "main"
-            ? () => setSelected(SETTING_MENUS[selected].parent)
-            : undefined
-        }
-        onClose={isLinkingInFlight ? undefined : onHide}
-      >
-        <SelectedComponent onSubMenuClick={setSelected} onClose={onHide} />
-      </CloseButtonPanel>
-      <ReferralWidget />
-    </Modal>
+    <>
+      <Modal show={show} onHide={isLinkingInFlight ? undefined : onHide}>
+        <CloseButtonPanel
+          title={SETTING_MENUS[selected].title}
+          onBack={
+            !isLinkingInFlight && selected !== "main"
+              ? () => setSelected(SETTING_MENUS[selected].parent)
+              : undefined
+          }
+          onClose={isLinkingInFlight ? undefined : onHide}
+        >
+          <SelectedComponent
+            onSubMenuClick={setSelected}
+            onClose={onHide}
+            onTimeMachineToggle={() =>
+              setShowTimeMachine((visible) => !visible)
+            }
+          />
+        </CloseButtonPanel>
+        <ReferralWidget />
+      </Modal>
+      {CONFIG.NETWORK === "amoy" &&
+        showTimeMachine &&
+        createPortal(
+          <DEV_TimeMachine onClose={() => setShowTimeMachine(false)} />,
+          document.body,
+        )}
+    </>
   );
 };
 
