@@ -12,7 +12,7 @@
   "tools.batchBuyMax": "Max",
   "tools.batchBuyHalf": "50%",
   "tools.batchBuyTotalCost": "Total Cost",
-  "tools.excludeFromBatchBuy": "Exclude {{toolName}} from Batch Buy",
+  "tools.includeInBatchBuy": "Include {{toolName}} in Batch Buy",
   "fishingPuzzle.freeAttemptAvailable": "You have 1 free attempt available. Would you like to use it?",
   "guaranteedCatch.guide.info": "Buy using one of the following baits you are able to select one for the fish from the category as your guaranteed catch.",
   "guaranteedCatch.guide.title": "Guaranteed Fishing Guide",
