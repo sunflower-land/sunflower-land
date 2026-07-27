@@ -57,8 +57,7 @@ const CHAPTER_LAYERS: Record<ChapterName, string | undefined> = {
   "Paw Prints": "Paw Prints",
   "Crabs and Traps": "Crabs and Traps",
   "Salt Awakening": "Salt Awakening",
-  // TODO(Ascension Age): add Tiled chapter layer name
-  "Ascension Age": undefined,
+  "Ascension Age": "Ascension",
 };
 
 export type FactionNPC = {
