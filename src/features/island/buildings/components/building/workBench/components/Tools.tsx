@@ -187,24 +187,26 @@ export const Tools: React.FC = () => {
     }
 
     return (
-      <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-        <Button
-          disabled={lessFunds() || lessIngredients() || stock.lessThan(1)}
-          onClick={(e) => craft(e, 1)}
-        >
-          {t("craft")} {"1"}
-        </Button>
-        {bulkToolCraftAmount > 1 && (
+      <div className="flex flex-col space-y-1 w-full">
+        <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col">
           <Button
-            disabled={
-              lessFunds(bulkToolCraftAmount) ||
-              lessIngredients(bulkToolCraftAmount)
-            }
-            onClick={(e) => craft(e, bulkToolCraftAmount)}
+            disabled={lessFunds() || lessIngredients() || stock.lessThan(1)}
+            onClick={(e) => craft(e, 1)}
           >
-            {t("craft")} {bulkToolCraftAmount}
+            {t("craft")} {"1"}
           </Button>
-        )}
+          {bulkToolCraftAmount > 1 && (
+            <Button
+              disabled={
+                lessFunds(bulkToolCraftAmount) ||
+                lessIngredients(bulkToolCraftAmount)
+              }
+              onClick={(e) => craft(e, bulkToolCraftAmount)}
+            >
+              {t("craft")} {bulkToolCraftAmount}
+            </Button>
+          )}
+        </div>
         {stock.greaterThan(bulkToolCraftAmount) &&
           (() => {
             const craftAllAmount = maxAffordableAmount();
@@ -331,7 +333,7 @@ export const Tools: React.FC = () => {
             })}
           </div>
           {buyAllEnabled && (
-            <div className="mt-2 mb-2">
+            <div className="mt-2">
               <Button
                 disabled={LAND_TOOLS.length === 0 && WATER_TOOLS.length === 0}
                 onClick={() => setShowBatchBuy(true)}

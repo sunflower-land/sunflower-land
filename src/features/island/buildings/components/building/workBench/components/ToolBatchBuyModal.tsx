@@ -6,10 +6,14 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NumberInput } from "components/ui/NumberInput";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
+import { Checkbox } from "components/ui/Checkbox";
+import { InnerPanel } from "components/ui/Panel";
 
 import { Context } from "features/game/GameProvider";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import type { InventoryItemName } from "features/game/types/game";
 import type { WorkbenchToolName, Tool } from "features/game/types/tools";
 import type { ToolShopBuyAllSetting } from "features/game/events/updateToolShopSettings";
@@ -19,7 +23,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { formatNumber } from "lib/utils/formatNumber";
 import { getObjectEntries } from "lib/object";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { NPC_WEARABLES } from "lib/npcs";
 
 type Props = {
   show: boolean;
@@ -29,6 +32,100 @@ type Props = {
   plan: ToolPurchasePlan;
   coins: number;
 };
+
+type ToolRowProps = {
+  toolName: WorkbenchToolName;
+  checked: boolean;
+  amount: number;
+  maxAmount: number;
+  onToggle: () => void;
+  onAmountChange: (value: number) => void;
+};
+
+/**
+ * One tool entry as a two-line card: icon + name with the include checkbox
+ * on the first line, amount input and 50%/Max controls on the second.
+ */
+const ToolRow: React.FC<ToolRowProps> = ({
+  toolName,
+  checked,
+  amount,
+  maxAmount,
+  onToggle,
+  onAmountChange,
+}) => {
+  const { t } = useAppTranslation();
+  const disabled = !checked || maxAmount <= 0;
+
+  return (
+    <InnerPanel className="flex flex-col gap-1">
+      <div className="flex items-center gap-1">
+        <div
+          className={`flex flex-1 min-w-0 items-center ${
+            checked ? "" : "grayscale brightness-75"
+          }`}
+        >
+          <img src={ITEM_DETAILS[toolName].image} className="h-6 shrink-0" />
+          <span className="text-xs ml-1 truncate">
+            {getTranslatedItemName(toolName)}
+          </span>
+        </div>
+        <div className="shrink-0">
+          <Checkbox
+            checked={checked}
+            onChange={onToggle}
+            aria-label={t("tools.includeInBatchBuy", {
+              toolName: getTranslatedItemName(toolName),
+            })}
+          />
+        </div>
+      </div>
+      <div className="flex items-center gap-1">
+        <div className="flex-1 min-w-0">
+          <NumberInput
+            value={new Decimal(amount)}
+            maxDecimalPlaces={0}
+            onValueChange={(value) => onAmountChange(value.toNumber())}
+            readOnly={disabled}
+          />
+        </div>
+        <Button
+          className="w-12 shrink-0 text-xxs !py-0 !px-0"
+          disabled={disabled}
+          onClick={() => onAmountChange(Math.floor(maxAmount / 2))}
+        >
+          {t("tools.batchBuyHalf")}
+        </Button>
+        <Button
+          className="w-12 shrink-0 text-xxs !py-0 !px-0"
+          disabled={disabled}
+          onClick={() => onAmountChange(maxAmount)}
+        >
+          {t("tools.batchBuyMax")}
+        </Button>
+      </div>
+    </InnerPanel>
+  );
+};
+
+/**
+ * Titled group of tool rows. Rows scroll within the section on desktop
+ * (two columns side by side); on mobile the sections stack and the shared
+ * container in the modal body scrolls instead.
+ */
+const ToolSection: React.FC<React.PropsWithChildren<{ title: string }>> = ({
+  title,
+  children,
+}) => (
+  <div className="flex flex-col sm:w-1/2 sm:min-w-0">
+    <Label type="default" className="mb-1.5 shrink-0">
+      {title}
+    </Label>
+    <div className="flex flex-col gap-1 scrollable sm:flex-1 sm:min-h-0 sm:overflow-y-auto sm:pr-1">
+      {children}
+    </div>
+  </div>
+);
 
 /**
  * A single form that replaces the old two-step "open settings, close, click
@@ -171,130 +268,80 @@ export const ToolBatchBuyModal: React.FC<Props> = ({
     onClose();
   };
 
-  const renderColumn = (
-    title: string,
-    columnTools: [WorkbenchToolName, Tool][],
-  ) => (
-    <OuterPanel className="w-80">
-      <Label type="default" className="mb-1.5">
-        {title}
-      </Label>
-      <div className="flex flex-col max-h-[420px] overflow-y-auto scrollable">
-        {columnTools.map(([toolName]) => {
-          const isExcluded = excluded.has(toolName);
-          const maxAmount = maxAmounts[toolName] ?? 0;
-
-          return (
-            <InnerPanel
-              key={toolName}
-              className="flex items-center mb-1 w-full"
-            >
-              <div className="relative flex-1 min-w-0">
-                <ButtonPanel
-                  onClick={() => toggleExcluded(toolName)}
-                  aria-label={t("tools.excludeFromBatchBuy", { toolName })}
-                  className={`flex items-center w-full ${
-                    isExcluded ? "grayscale brightness-75" : ""
-                  }`}
-                >
-                  <img
-                    src={ITEM_DETAILS[toolName].image}
-                    className="h-6 shrink-0"
-                  />
-                  <span className="text-xs ml-1 whitespace-nowrap truncate">
-                    {toolName}
-                  </span>
-                </ButtonPanel>
-                {isExcluded && (
-                  <img
-                    src={SUNNYSIDE.icons.cancel}
-                    className="absolute top-1/2 left-6 -translate-x-1/2 -translate-y-1/2 h-5 w-5"
-                  />
-                )}
-              </div>
-              <div className="w-28 ml-1 shrink-0">
-                <NumberInput
-                  value={new Decimal(amountDraft[toolName] ?? 0)}
-                  maxDecimalPlaces={0}
-                  onValueChange={(value) =>
-                    setAmount(toolName, value.toNumber())
-                  }
-                  readOnly={isExcluded || maxAmount <= 0}
-                />
-                <div className="flex gap-1 mt-1">
-                  <Button
-                    className="w-1/2 text-xxs !py-0 !px-0"
-                    disabled={isExcluded || maxAmount <= 0}
-                    onClick={() =>
-                      setAmount(toolName, Math.floor(maxAmount / 2))
-                    }
-                  >
-                    {t("tools.batchBuyHalf")}
-                  </Button>
-                  <Button
-                    className="w-1/2 text-xxs !py-0 !px-0"
-                    disabled={isExcluded || maxAmount <= 0}
-                    onClick={() => setAmount(toolName, maxAmount)}
-                  >
-                    {t("tools.batchBuyMax")}
-                  </Button>
-                </div>
-              </div>
-            </InnerPanel>
-          );
-        })}
-      </div>
-    </OuterPanel>
-  );
+  const renderRows = (columnTools: [WorkbenchToolName, Tool][]) =>
+    columnTools.map(([toolName]) => (
+      <ToolRow
+        key={toolName}
+        toolName={toolName}
+        checked={!excluded.has(toolName)}
+        amount={amountDraft[toolName] ?? 0}
+        maxAmount={maxAmounts[toolName] ?? 0}
+        onToggle={() => toggleExcluded(toolName)}
+        onAmountChange={(value) => setAmount(toolName, value)}
+      />
+    ));
 
   return (
     <Modal show={show} onHide={onClose} dialogClassName="!max-w-[720px]">
+      {/* !max-h-none disables CloseButtonPanel's own 90vh scroll - the body
+          below is the single height authority, so no outer scrollbar can
+          appear. On mobile the body is a fixed height with the sections area
+          flexing/scrolling and the footer pinned; on desktop the columns get
+          an explicit height instead. */}
       <CloseButtonPanel
         title={t("tools.batchBuy")}
         onClose={onClose}
-        bumpkinParts={NPC_WEARABLES.blacksmith}
+        className="!max-h-none"
       >
-        <div className="flex flex-col p-1">
-          <div className="flex items-start justify-center space-x-4">
-            {renderColumn(t("landTools"), landTools)}
-            {renderColumn(t("waterTools"), waterTools)}
+        <div className="flex flex-col p-1 h-[calc(100dvh_-_120px)] sm:h-auto">
+          <div className="flex flex-col gap-2 scrollable flex-1 min-h-0 overflow-y-auto pr-1 sm:flex-row sm:flex-none sm:overflow-visible sm:h-[min(420px,60vh)] sm:pr-0">
+            <ToolSection title={t("landTools")}>
+              {renderRows(landTools)}
+            </ToolSection>
+            <ToolSection title={t("waterTools")}>
+              {renderRows(waterTools)}
+            </ToolSection>
           </div>
-          {failures.length > 0 && (
-            <Label type="danger" className="mt-2">
-              {t("tools.buyAllPartialFailure", {
-                tools: failures.join(", "),
-              })}
-            </Label>
-          )}
-          <Label type="default" className="mt-2 mb-1.5">
-            {t("tools.batchBuyTotalCost")}
-          </Label>
-          <div className="flex flex-wrap items-center gap-2 px-1">
-            <div className="flex items-center">
-              <img src={SUNNYSIDE.ui.coins} className="h-6 mr-1" />
-              <span className="text-xs">{formatNumber(totalCost)}</span>
-            </div>
-            {getObjectEntries(totalIngredients).map(
-              ([ingredientName, ingredientAmount]) => (
-                <div key={ingredientName} className="flex items-center">
-                  <img
-                    src={ITEM_DETAILS[ingredientName].image}
-                    className="h-6 mr-1"
-                  />
-                  <span className="text-xs">
-                    {formatNumber(ingredientAmount ?? new Decimal(0))}
-                  </span>
-                </div>
-              ),
+
+          <InnerPanel className="flex flex-col mt-2 shrink-0">
+            {failures.length > 0 && (
+              <Label type="danger" className="mb-1.5">
+                {t("tools.buyAllPartialFailure", {
+                  tools: failures
+                    .map((toolName) => getTranslatedItemName(toolName))
+                    .join(", "),
+                })}
+              </Label>
             )}
-          </div>
-          <Button
-            onClick={confirm}
-            className="mt-2"
-            disabled={purchasesToMake.length === 0 || totalCost > coins}
-          >
-            {t("tools.batchBuy")}
-          </Button>
+            <Label type="default" className="mb-1.5">
+              {t("tools.batchBuyTotalCost")}
+            </Label>
+            <div className="flex flex-wrap items-center gap-2 px-1 mb-2">
+              <div className="flex items-center">
+                <img src={SUNNYSIDE.ui.coins} className="h-6 mr-1" />
+                <span className="text-xs">{formatNumber(totalCost)}</span>
+              </div>
+              {getObjectEntries(totalIngredients).map(
+                ([ingredientName, ingredientAmount]) => (
+                  <div key={ingredientName} className="flex items-center">
+                    <img
+                      src={ITEM_DETAILS[ingredientName].image}
+                      className="h-6 mr-1"
+                    />
+                    <span className="text-xs">
+                      {formatNumber(ingredientAmount ?? new Decimal(0))}
+                    </span>
+                  </div>
+                ),
+              )}
+            </div>
+            <Button
+              onClick={confirm}
+              disabled={purchasesToMake.length === 0 || totalCost > coins}
+            >
+              {t("tools.batchBuy")}
+            </Button>
+          </InnerPanel>
         </div>
       </CloseButtonPanel>
     </Modal>

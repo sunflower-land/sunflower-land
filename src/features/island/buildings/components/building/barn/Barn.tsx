@@ -14,6 +14,7 @@ import type { TemperateSeasonName } from "features/game/types/game";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import type { LandBiomeName } from "features/island/biomes/biomes";
 import { isAnimalReadyForLove } from "features/game/events/landExpansion/loveAnimal";
+import { getOverCapacityAnimalIds } from "features/game/events/landExpansion/buyAnimal";
 import classNames from "classnames";
 import { saveIslandScrollPosition } from "features/game/expansion/lib/islandScroll";
 
@@ -223,8 +224,11 @@ export const BARN_IMAGES: Record<
 };
 
 const _hasHungryAnimals = (state: MachineState) => {
-  return Object.values(state.context.state.barn.animals).some(
-    (animal) => animal.awakeAt < Date.now(),
+  const game = state.context.state;
+  // Capacity-locked animals cannot be fed, so they never count as hungry.
+  const lockedIds = getOverCapacityAnimalIds("barn", game);
+  return Object.values(game.barn.animals).some(
+    (animal) => animal.awakeAt < Date.now() && !lockedIds.has(animal.id),
   );
 };
 

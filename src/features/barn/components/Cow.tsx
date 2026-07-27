@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
@@ -152,6 +152,64 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const { play: playProduceDrop } = useSound("produce_drop");
   const { play: playLevelUp } = useSound("level_up");
   const { play: playCureAnimal } = useSound("cure_animal");
+
+  const lastSynced = useRef({ state: cow.state, experience: cow.experience });
+
+  // Sync the local machine when game state changes underneath it,
+  // e.g. via the Feed All button (bulk feed/cure/claim without a click).
+  useEffect(() => {
+    const prev = lastSynced.current;
+    lastSynced.current = { state: cow.state, experience: cow.experience };
+
+    if (prev.state === cow.state && prev.experience === cow.experience) {
+      return;
+    }
+
+    const machineState = () => cowService.getSnapshot().value;
+
+    if (machineState() === "sick" && cow.state !== "sick") {
+      cowService.send({ type: "CURE", animal: cow });
+    }
+
+    // A bulk claim happens without a click — play the same drop animation
+    // and sounds as a manual claim before the sprite transitions.
+    const animateBulkClaim = async (
+      event: "CLAIM_PRODUCE" | "INSTANT_WAKE_UP",
+    ) => {
+      setShowDrops(true);
+      playProduceDrop();
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      playCowCollect();
+      await new Promise((resolve) => setTimeout(resolve, 900));
+      playLevelUp();
+      cowService.send({ type: event, animal: cow });
+      setShowDrops(false);
+    };
+
+    if (machineState() === "ready" && cow.state === "idle") {
+      animateBulkClaim("CLAIM_PRODUCE");
+    }
+
+    if (
+      ["idle", "happy", "sad"].includes(machineState() as string) &&
+      cow.state === "idle" &&
+      Date.now() < cow.awakeAt
+    ) {
+      // Bulk feeding can level an animal to ready and claim its produce in
+      // the same event; INSTANT_WAKE_UP re-derives the machine state from
+      // the animal, which maps an asleep animal to "sleeping".
+      animateBulkClaim("INSTANT_WAKE_UP");
+    }
+
+    if (
+      ["idle", "happy", "sad"].includes(machineState() as string) &&
+      ["happy", "sad", "ready"].includes(cow.state) &&
+      machineState() !== cow.state
+    ) {
+      cowService.send({ type: "FEED", animal: cow });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cow.state, cow.experience]);
 
   const favFood = getAnimalFavoriteFood("Cow", cow.experience);
   const sleeping = cowMachineState === "sleeping";
@@ -324,6 +382,10 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
   const handleClick = async () => {
     if (disabled) return;
+    // A bulk-claim animation is in flight: the sprite still looks awake but
+    // the game-state animal is already asleep, so any feed/claim event would
+    // throw. Ignore clicks until the animation resolves.
+    if (showDrops) return;
 
     const showNoFoodPrompt = async () => {
       setShowNoFoodSelected(true);
@@ -457,7 +519,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     if (needsLove) return cow.item;
     return favFood;
   };
-  const showRequestBubble = sick || needsLove || (idle && !isLocked);
+  const showRequestBubble =
+    sick || needsLove || (idle && !isLocked && !showDrops);
 
   if (cowMachineState === "initial") return null;
 

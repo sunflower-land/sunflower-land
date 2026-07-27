@@ -9540,7 +9540,6 @@
   "tools.batchBuyMax": "Max",
   "tools.batchBuyHalf": "50%",
   "tools.batchBuyTotalCost": "Costo totale",
-  "tools.excludeFromBatchBuy": "Escludere {{toolName}} dall'acquisto in batch",
   "confirmation.buyAllSeeds": "Vuoi acquistare la quantità massima accessibile di {{seedTypes}} tipi di semi per un totale di {{coinAmount}} monete?",
   "confirmation.buyAllTools": "Vuoi acquistare la quantità massima conveniente di {{toolTypes}} tipi di utensili per un totale di {{coinAmount}} monete?",
   "gameOptions.experiments.designShowcase": "Vetrina di design",
@@ -9549,5 +9548,7 @@
   "gameOptions.experiments.toolShopBuyAllToggle": "Abilita gli strumenti di acquisto in batch",
   "seeds.buyAll": "Acquista tutti i semi",
   "seeds.buyAllPartialFailure": "Impossibile acquistare: {{seeds}}. Gli altri semi sono stati ancora acquistati.",
-  "description.rarecrows.linkTelegram": "Link Telegram"
+  "description.rarecrows.linkTelegram": "Link Telegram",
+  "tools.includeInBatchBuy": "Includi {{toolName}} nell'acquisto in batch",
+  "animals.feedAll": "Dai da mangiare a tutti gli animali"
 }

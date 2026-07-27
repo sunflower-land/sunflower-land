@@ -293,6 +293,7 @@ export const BarnInside: React.FC = () => {
                     }}
                     onClick={() => setShowModal(true)}
                   />
+
                   <img
                     src={SUNNYSIDE.icons.upgrade_disc}
                     alt="Upgrade Building"

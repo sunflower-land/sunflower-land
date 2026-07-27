@@ -473,6 +473,10 @@ import {
 } from "./landExpansion/speedUpBuilding";
 import { buyAnimal, type BuyAnimalAction } from "./landExpansion/buyAnimal";
 import { feedAnimal, type FeedAnimalAction } from "./landExpansion/feedAnimal";
+import {
+  feedAllAnimals,
+  type FeedAllAnimalsAction,
+} from "./landExpansion/feedAllAnimals";
 import { loveAnimal, type LoveAnimalAction } from "./landExpansion/loveAnimal";
 import {
   feedMixed,
@@ -969,6 +973,7 @@ export type PlayingEvent =
   | BuyMoreDigsAction
   | BuyAnimalAction
   | FeedAnimalAction
+  | FeedAllAnimalsAction
   | LoveAnimalAction
   | UpgradeBuildingAction
   | StartCraftingAction
@@ -1271,6 +1276,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "shipment.restocked": shipmentRestock,
   "animal.bought": buyAnimal,
   "animal.fed": feedAnimal,
+  "animals.fedAll": feedAllAnimals,
   "animal.loved": loveAnimal,
   "feed.mixed": feedMixed,
   "skill.used": skillUse,

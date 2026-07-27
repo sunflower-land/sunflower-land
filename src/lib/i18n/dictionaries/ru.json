@@ -9540,7 +9540,6 @@
   "tools.batchBuyMax": "Max",
   "tools.batchBuyHalf": "50%",
   "tools.batchBuyTotalCost": "Total Cost",
-  "tools.excludeFromBatchBuy": "Exclude {{toolName}} from Batch Buy",
   "confirmation.buyAllSeeds": "Buy the max affordable amount of {{seedTypes}} seed types for {{coinAmount}} Coins total?",
   "confirmation.buyAllTools": "Buy the max affordable amount of {{toolTypes}} tool types for {{coinAmount}} Coins total?",
   "gameOptions.experiments.designShowcase": "Design showcase",
@@ -9549,5 +9548,7 @@
   "gameOptions.experiments.toolShopBuyAllToggle": "Enable Batch Buy Tools",
   "seeds.buyAll": "Buy All Seeds",
   "seeds.buyAllPartialFailure": "Couldn't buy: {{seeds}}. Your other seeds were still purchased.",
-  "description.rarecrows.linkTelegram": "Link Telegram"
+  "description.rarecrows.linkTelegram": "Link Telegram",
+  "tools.includeInBatchBuy": "Include {{toolName}} in Batch Buy",
+  "animals.feedAll": "Feed all animals"
 }
