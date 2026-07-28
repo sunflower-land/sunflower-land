@@ -16,6 +16,7 @@ import { Chicken } from "./Chicken";
 import shopDisc from "assets/icons/shop_disc.png";
 import { AnimalBuildingModal } from "features/game/expansion/components/animals/AnimalBuildingModal";
 import { FeederMachine } from "features/feederMachine/FeederMachine";
+import { FeedAllButton } from "features/game/expansion/components/animals/FeedAllButton";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
 import { Modal } from "components/ui/Modal";
 import {
@@ -229,6 +230,10 @@ export const HenHouseInside: React.FC = () => {
                 }}
               >
                 <FeederMachine building="Hen House" />
+              </div>
+
+              <div className="absolute -top-[11px] right-[29%]">
+                <FeedAllButton building="Hen House" />
               </div>
 
               <MapPlacement
