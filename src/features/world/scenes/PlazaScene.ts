@@ -19,6 +19,7 @@ import {
   type ChapterName,
 } from "features/game/types/chapters";
 import { CONFIG } from "lib/config";
+import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { getShowcasedDesigns } from "features/game/actions/getShowcasedDesigns";
 import { hasUnseenDesigns } from "features/social/lib/seenDesigns";
 
@@ -260,6 +261,8 @@ export class PlazaScene extends BaseScene {
 
     this.load.image("ronin_banner", "world/ronin_banner.webp");
 
+    this.load.image("yakkamon", "world/yakkamon.png");
+
     const chapter = getCurrentChapter(Date.now());
     // chapter = "Paw Prints"; // Testing only
     this.load.image("chapter_banner", CHAPTER_BANNERS[chapter as ChapterName]);
@@ -356,6 +359,8 @@ export class PlazaScene extends BaseScene {
     });
 
     this.addDesignShowcaseBoard();
+
+    this.addYakkamon();
 
     const prizesLabel = new Label(this, "PRIZES", "gold");
     prizesLabel.setPosition(560, 230);
@@ -861,6 +866,32 @@ export class PlazaScene extends BaseScene {
         await new Promise((res) => setTimeout(res, 1000));
 
         this.layers["Club House Door"].setVisible(true);
+      }
+    });
+  }
+
+  /**
+   * Yakkamon opens the pre-registration modal where players claim their sign up
+   * code. Placed on square (12, 18) of the Tiled map - the map is 16px per tile,
+   * and Phaser sprites are centre-anchored, hence the + 8 on each axis. The extra
+   * offsets nudge them off the tile centre to sit nicely against the scenery.
+   */
+  addYakkamon() {
+    const x = 12 * SQUARE_WIDTH + SQUARE_WIDTH / 2 + 10;
+    const y = 18 * SQUARE_WIDTH + SQUARE_WIDTH / 2 - 42;
+
+    const yakkamon = this.add.sprite(x, y, "yakkamon").setDepth(y);
+
+    const label = new Label(this, "YAKKAMON", "gold");
+    label.setPosition(x, y - 21);
+    label.setDepth(10000000);
+    this.add.existing(label);
+
+    yakkamon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (this.checkDistanceToSprite(yakkamon, 75)) {
+        interactableModalManager.open("yakkamon");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
   }
