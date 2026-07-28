@@ -82,7 +82,7 @@ export type ChapterCollectibleName =
   // Ascension Age
   | "Astrolabe"
   | "Ascension Monument"
-  | "Buddha Statue";
+  | "Otty the Otter";
 
 export type ChapterWearableName = Extract<
   BumpkinItem,
@@ -1270,7 +1270,7 @@ const ASCENSION_AGE_ITEMS: ChapterStore = {
         cost: { sfl: 0, items: { "Shiny Feather": 4000 } },
       },
       {
-        collectible: "Buddha Statue",
+        collectible: "Otty the Otter",
         limit: 1,
         cost: { sfl: 0, items: { "Otter Pebble": 250 } },
       },

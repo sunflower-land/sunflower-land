@@ -1055,7 +1055,7 @@ describe("buyChapterItem", () => {
       ).toThrow("Purchase limit reached");
     });
 
-    it("buys the Buddha Statue with Otter Pebbles and blocks a second purchase", () => {
+    it("buys the Otty the Otter with Otter Pebbles and blocks a second purchase", () => {
       const firstBuy = buyChapterItem({
         state: {
           ...mockState,
@@ -1065,13 +1065,13 @@ describe("buyChapterItem", () => {
         },
         action: {
           type: "chapterItem.bought",
-          name: "Buddha Statue",
+          name: "Otty the Otter",
           tier: "basic",
         },
         createdAt: ascensionAgeDate,
       });
 
-      expect(firstBuy.inventory["Buddha Statue"]).toEqual(new Decimal(1));
+      expect(firstBuy.inventory["Otty the Otter"]).toEqual(new Decimal(1));
       expect(firstBuy.inventory["Otter Pebble"]).toEqual(new Decimal(50));
 
       expect(() =>
@@ -1079,7 +1079,7 @@ describe("buyChapterItem", () => {
           state: firstBuy,
           action: {
             type: "chapterItem.bought",
-            name: "Buddha Statue",
+            name: "Otty the Otter",
             tier: "basic",
           },
           createdAt: ascensionAgeDate + 1000,

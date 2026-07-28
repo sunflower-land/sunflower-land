@@ -1453,7 +1453,6 @@ export const ITEM_TRADE_TYPES: {
     "Otter Pebble": "instant",
     "Cloud Bed": "instant",
     "Ascension Monument": "instant",
-    "Buddha Statue": "instant",
 
     // Ascension Age decorations
     "Salt Rug": "instant",
