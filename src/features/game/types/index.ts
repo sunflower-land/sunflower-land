@@ -1619,7 +1619,6 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Letter X Tile": 3078,
   "Letter Y Tile": 3079,
   "Letter Z Tile": 3080,
-  "Buddha Statue": 3081,
 };
 
 // The reverse of above
