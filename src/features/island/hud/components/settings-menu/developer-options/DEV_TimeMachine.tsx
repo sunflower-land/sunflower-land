@@ -14,12 +14,27 @@ interface DEVTimeMachineProps {
 const originalDate = window.Date;
 let timeMachineOffsetMs = 0;
 
+type TimeMachineDateArgs =
+  | []
+  | [value: number | string]
+  | [
+      year: number,
+      monthIndex: number,
+      date?: number,
+      hours?: number,
+      minutes?: number,
+      seconds?: number,
+      milliseconds?: number,
+    ];
+
 const TimeMachineDate = class extends originalDate {
-  constructor(...args: any[]) {
-    if (args.length > 0) {
-      super(...args);
-    } else {
+  constructor(...args: TimeMachineDateArgs) {
+    if (args.length === 0) {
       super(originalDate.now() + (timeMachineOffsetMs ?? 0));
+    } else if (args.length === 1) {
+      super(args[0]);
+    } else {
+      super(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
     }
   }
 };
