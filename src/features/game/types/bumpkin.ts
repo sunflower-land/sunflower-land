@@ -73,7 +73,8 @@ export type BumpkinHair =
   | "Two-toned Layered"
   | "Crimstone Spikes Hair"
   | "Corn Silk Hair"
-  | "Green Slime Hair";
+  | "Green Slime Hair"
+  | "Luna's Headpiece";
 
 export type BumpkinShirt =
   | "Pixel Perfect Hoodie"
@@ -1252,6 +1253,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Swamp Armor": 579,
   "Swamp Lily Hat": 580,
   "Swamp Pants": 581,
+  "Luna's Headpiece": 582,
 };
 
 // The reverse of above
@@ -1898,6 +1900,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Swamp Armor": "shirt",
   "Swamp Lily Hat": "hat",
   "Swamp Pants": "pants",
+  "Luna's Headpiece": "hair",
 };
 
 /**Copied from BE just for hoarding checks */
