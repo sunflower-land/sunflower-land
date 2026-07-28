@@ -20,6 +20,7 @@ import {
   hasReadGuide,
 } from "features/game/expansion/components/animals/AnimalBuildingModal";
 import { FeederMachine } from "features/feederMachine/FeederMachine";
+import { FeedAllButton } from "features/game/expansion/components/animals/FeedAllButton";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
 import { ANIMAL_HOUSE_IMAGES } from "features/henHouse/HenHouseInside";
@@ -235,6 +236,10 @@ export const BarnInside: React.FC = () => {
                 }}
               >
                 <FeederMachine building="Barn" />
+              </div>
+
+              <div className="absolute -top-[11px] right-[29%]">
+                <FeedAllButton building="Barn" />
               </div>
 
               <MapPlacement
