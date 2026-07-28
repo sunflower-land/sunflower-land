@@ -3946,7 +3946,6 @@
   "skill.seededBounty.buff": "+0.5 Sera üretimi verimi",
   "skill.seededBounty.debuff": "Dikilecek +1 sera tohumu",
   "skill.greasyPlants.buff": "+1 Sera üretim verimi",
-  "skill.greenhouseGamble": "%25 +1 sera ürünü olma şansı",
   "skill.floweryAbode.debuff": "+% 50 Çiçek büyüme süresi",
   "skill.compostingBonanza.buff": "Güçlendirirken kompostörleri bir saat daha hızlandırın",
   "skill.fruitfulBounty": "Çift Verimli Karışımın Etkisi",
@@ -9551,5 +9550,6 @@
   "description.rarecrows.linkTelegram": "Telgraf Bağlantısı",
   "tools.includeInBatchBuy": "Toplu Satın Alma'ya {{toolName}} ekleyin",
   "animals.feedAll": "Tüm hayvanları besleyin",
-  "description.bonusShinyFeather.boost": "+1 Parlak Tüy"
+  "description.bonusShinyFeather.boost": "+1 Parlak Tüy",
+  "skill.greenhouseGamble": "%30 +1 sera ürünü olma şansı"
 }

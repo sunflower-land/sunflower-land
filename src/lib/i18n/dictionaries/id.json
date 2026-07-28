@@ -3946,7 +3946,6 @@
   "skill.seededBounty.buff": "+0.5 Hasil produksi rumah kaca",
   "skill.seededBounty.debuff": "+1 Benih rumah kaca untuk ditanam",
   "skill.greasyPlants.buff": "+1 Rumah kaca menghasilkan hasil",
-  "skill.greenhouseGamble": "Peluang 25% +1 produk rumah kaca",
   "skill.floweryAbode.debuff": "+50% Waktu pertumbuhan bunga",
   "skill.compostingBonanza.buff": "Percepat komposter dengan satu jam tambahan saat meningkatkan",
   "skill.fruitfulBounty": "Efek Campuran Berbuah Ganda",
@@ -9551,5 +9550,6 @@
   "description.rarecrows.linkTelegram": "Tautan Telegram",
   "tools.includeInBatchBuy": "Sertakan {{toolName}} dalam Batch Buy",
   "animals.feedAll": "Beri makan semua hewan",
-  "description.bonusShinyFeather.boost": "+1 Shiny Feather"
+  "description.bonusShinyFeather.boost": "+1 Shiny Feather",
+  "skill.greenhouseGamble": "Peluang 30% +1 produk rumah kaca"
 }

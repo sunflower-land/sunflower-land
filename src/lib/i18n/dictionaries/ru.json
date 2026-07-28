@@ -4144,7 +4144,6 @@
   "skill.greasyPlants.buff": "+1 к урожаю тепличных культур",
   "skill.greasyPlants.debuff": "+100% расхода нефти в теплице",
   "skill.greenhouseGuru": "Возможность мгновенно вырастить весь урожай в теплице",
-  "skill.greenhouseGamble": "25% шанс получить +1 к урожаю тепличных культур",
   "skill.slickSaver": "-1 нефть для выращивания тепличного урожая",
   "skill.rockAndRoll": "+0.1 камень",
   "skill.ironBumpkin": "+0.1 железо",
@@ -9551,5 +9550,6 @@
   "description.rarecrows.linkTelegram": "Link Telegram",
   "tools.includeInBatchBuy": "Include {{toolName}} in Batch Buy",
   "animals.feedAll": "Feed all animals",
-  "description.bonusShinyFeather.boost": "+1 Shiny Feather"
+  "description.bonusShinyFeather.boost": "+1 Shiny Feather",
+  "skill.greenhouseGamble": "30% chance of +1 greenhouse produce"
 }

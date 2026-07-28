@@ -3946,7 +3946,6 @@
   "skill.seededBounty.buff": "+0,5 Rendimiento de productos de invernadero",
   "skill.seededBounty.debuff": "+1 semilla de invernadero para plantar",
   "skill.greasyPlants.buff": "+1 Rendimiento de productos de invernadero",
-  "skill.greenhouseGamble": "25% de probabilidad de obtener +1 producto de invernadero",
   "skill.floweryAbode.debuff": "+50% de tiempo de crecimiento de las flores",
   "skill.compostingBonanza.buff": "Acelere los compostadores una hora más al potenciarlos",
   "skill.fruitfulBounty": "Dobla el efecto del fertilizante de Mezcla Fructífera",
@@ -9551,5 +9550,6 @@
   "description.rarecrows.linkTelegram": "Enlace Telegram",
   "tools.includeInBatchBuy": "Incluir {{toolName}} en la compra por lotes",
   "animals.feedAll": "Alimenta a todos los animales",
-  "description.bonusShinyFeather.boost": "+1 Pluma brillante"
+  "description.bonusShinyFeather.boost": "+1 Pluma brillante",
+  "skill.greenhouseGamble": "30% de probabilidad de obtener +1 producto de invernadero"
 }

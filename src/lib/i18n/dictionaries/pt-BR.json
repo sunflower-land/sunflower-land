@@ -3946,7 +3946,6 @@
   "skill.seededBounty.buff": "+0,5 Rendimento de produção em estufa",
   "skill.seededBounty.debuff": "+1 semente de estufa para plantar",
   "skill.greasyPlants.buff": "+1 Rendimento de produção em estufa",
-  "skill.greenhouseGamble": "25% de chance de +1 produto de estufa",
   "skill.floweryAbode.debuff": "+50% de tempo de crescimento da flor",
   "skill.compostingBonanza.buff": "Acelere os compostores em mais uma hora ao impulsionar",
   "skill.fruitfulBounty": "Dobra o efeito do Fruitful Blend",
@@ -9551,5 +9550,6 @@
   "description.rarecrows.linkTelegram": "Link Telegram",
   "tools.includeInBatchBuy": "Incluir {{toolName}} na compra em lote",
   "animals.feedAll": "Alimente todos os animais",
-  "description.bonusShinyFeather.boost": "+1 Pena brilhante"
+  "description.bonusShinyFeather.boost": "+1 Pena brilhante",
+  "skill.greenhouseGamble": "30% de chance de +1 produto de estufa"
 }

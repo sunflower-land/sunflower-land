@@ -3946,7 +3946,6 @@
   "skill.seededBounty.buff": "+0,5 Rendimento dei prodotti in serra",
   "skill.seededBounty.debuff": "+1 seme in serra da piantare",
   "skill.greasyPlants.buff": "+1 Rendimento dei prodotti in serra",
-  "skill.greenhouseGamble": "25% di probabilità di +1 prodotto in serra",
   "skill.floweryAbode.debuff": "+50% tempo di crescita dei fiori",
   "skill.compostingBonanza.buff": "Velocizza le compostiere di un'ora in più durante il potenziamento",
   "skill.fruitfulBounty": "Effetto Double Fruitful Blend",
@@ -9551,5 +9550,6 @@
   "description.rarecrows.linkTelegram": "Link Telegram",
   "tools.includeInBatchBuy": "Includi {{toolName}} nell'acquisto in batch",
   "animals.feedAll": "Dai da mangiare a tutti gli animali",
-  "description.bonusShinyFeather.boost": "+1 Piuma lucida"
+  "description.bonusShinyFeather.boost": "+1 Piuma lucida",
+  "skill.greenhouseGamble": "30% di probabilità di +1 prodotto in serra"
 }
