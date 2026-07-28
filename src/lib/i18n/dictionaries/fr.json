@@ -9550,5 +9550,6 @@
   "seeds.buyAllPartialFailure": "Impossible d'acheter : {{seeds}}. Vos autres graines ont quand même été achetées.",
   "description.rarecrows.linkTelegram": "Lien Telegram",
   "tools.includeInBatchBuy": "Inclure {{toolName}} dans l'achat par lots",
-  "animals.feedAll": "Nourrissez tous les animaux"
+  "animals.feedAll": "Nourrissez tous les animaux",
+  "description.bonusShinyFeather.boost": "+1 plume brillante"
 }

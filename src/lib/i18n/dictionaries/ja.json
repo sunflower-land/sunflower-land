@@ -9550,5 +9550,6 @@
   "seeds.buyAllPartialFailure": "購入できませんでした:{{seeds}}。他のシードはまだ購入済みです。",
   "description.rarecrows.linkTelegram": "リンクテレグラム",
   "tools.includeInBatchBuy": "一括購入に {{toolName}} を含める",
-  "animals.feedAll": "すべての動物に餌をやる"
+  "animals.feedAll": "すべての動物に餌をやる",
+  "description.bonusShinyFeather.boost": "+1 シャイニーフェザー"
 }
