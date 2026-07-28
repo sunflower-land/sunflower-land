@@ -9550,5 +9550,6 @@
   "seeds.buyAllPartialFailure": "Tidak dapat membeli: {{seeds}}. Benih Anda yang lain masih dibeli.",
   "description.rarecrows.linkTelegram": "Tautan Telegram",
   "tools.includeInBatchBuy": "Sertakan {{toolName}} dalam Batch Buy",
-  "animals.feedAll": "Beri makan semua hewan"
+  "animals.feedAll": "Beri makan semua hewan",
+  "description.bonusShinyFeather.boost": "+1 Shiny Feather"
 }

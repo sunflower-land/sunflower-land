@@ -318,9 +318,9 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
         </Label>
       )}
       {(itemReq || !isTradeable) && (
-        <div className="flex w-full items-center justify-between gap-1">
+        <div className="flex w-full flex-col items-start gap-1">
           {itemReq && (
-            <div className="flex flex-1 content-start flex-col flex-wrap gap-1">
+            <div className="flex content-start flex-col flex-wrap gap-1">
               {getKeys(itemReq).map((itemName, index) => {
                 return (
                   <RequirementLabel
@@ -336,7 +336,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
             </div>
           )}
           {!isTradeable && (
-            <Label type="formula" icon={lockIcon} className="text-xxs shrink-0">
+            <Label type="formula" icon={lockIcon} className="text-xxs">
               {t("season.megastore.nonTradeable")}
             </Label>
           )}

@@ -9550,5 +9550,6 @@
   "seeds.buyAllPartialFailure": "Satın alınamadı: {{seeds}}. Diğer tohumlarınız hala satın alındı.",
   "description.rarecrows.linkTelegram": "Telgraf Bağlantısı",
   "tools.includeInBatchBuy": "Toplu Satın Alma'ya {{toolName}} ekleyin",
-  "animals.feedAll": "Tüm hayvanları besleyin"
+  "animals.feedAll": "Tüm hayvanları besleyin",
+  "description.bonusShinyFeather.boost": "+1 Parlak Tüy"
 }

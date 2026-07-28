@@ -9550,5 +9550,6 @@
   "seeds.buyAllPartialFailure": "无法购买：{{seeds}}。您的其他种子仍在购买中。",
   "description.rarecrows.linkTelegram": "链接电报",
   "tools.includeInBatchBuy": "在批量购买中包含 {{toolName}}",
-  "animals.feedAll": "喂所有动物"
+  "animals.feedAll": "喂所有动物",
+  "description.bonusShinyFeather.boost": "+1 闪亮的羽毛"
 }

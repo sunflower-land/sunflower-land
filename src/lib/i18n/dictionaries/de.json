@@ -9550,5 +9550,6 @@
   "seeds.buyAllPartialFailure": "Konnte nicht kaufen: {{seeds}}. Ihre anderen Samen wurden noch gekauft.",
   "description.rarecrows.linkTelegram": "Telegram verlinken",
   "tools.includeInBatchBuy": "{{toolName}} in Batch Buy einbeziehen",
-  "animals.feedAll": "Füttere alle Tiere"
+  "animals.feedAll": "Füttere alle Tiere",
+  "description.bonusShinyFeather.boost": "+1 Glänzende Feder"
 }

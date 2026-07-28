@@ -9550,5 +9550,6 @@
   "seeds.buyAllPartialFailure": "Impossibile acquistare: {{seeds}}. Gli altri semi sono stati ancora acquistati.",
   "description.rarecrows.linkTelegram": "Link Telegram",
   "tools.includeInBatchBuy": "Includi {{toolName}} nell'acquisto in batch",
-  "animals.feedAll": "Dai da mangiare a tutti gli animali"
+  "animals.feedAll": "Dai da mangiare a tutti gli animali",
+  "description.bonusShinyFeather.boost": "+1 Piuma lucida"
 }
