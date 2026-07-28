@@ -3946,7 +3946,6 @@
   "skill.seededBounty.buff": "+0.5 Ertrag von Gewächshausprodukten",
   "skill.seededBounty.debuff": "+1 Gewächshaussamen zum Pflanzen",
   "skill.greasyPlants.buff": "+1 Ertrag von Gewächshausprodukten",
-  "skill.greenhouseGamble": "25% Chance auf +1 Gewächshauserzeugnis",
   "skill.floweryAbode.debuff": "+50% Wachstumszeit der Blüten",
   "skill.compostingBonanza.buff": "Beschleunigen Sie Komposter beim Boosten um eine weitere Stunde",
   "skill.fruitfulBounty": "Der Effekt von Double Fruitful Blend",
@@ -9551,5 +9550,6 @@
   "description.rarecrows.linkTelegram": "Telegram verlinken",
   "tools.includeInBatchBuy": "{{toolName}} in Batch Buy einbeziehen",
   "animals.feedAll": "Füttere alle Tiere",
-  "description.bonusShinyFeather.boost": "+1 Glänzende Feder"
+  "description.bonusShinyFeather.boost": "+1 Glänzende Feder",
+  "skill.greenhouseGamble": "30% Chance auf +1 Gewächshauserzeugnis"
 }

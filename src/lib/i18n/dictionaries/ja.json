@@ -3946,7 +3946,6 @@
   "skill.seededBounty.buff": "+0.5 温室農産物の収量",
   "skill.seededBounty.debuff": "+1植える温室種子",
   "skill.greasyPlants.buff": "+1 温室農産物の収量",
-  "skill.greenhouseGamble": "25% の確率で温室農産物が+1個手に入る",
   "skill.floweryAbode.debuff": "+50% フラワーの成長時間",
   "skill.compostingBonanza.buff": "ブースト時にコンポスターの速度をさらに1時間上げる",
   "skill.fruitfulBounty": "ダブルフルーツフルブレンドの効果",
@@ -9551,5 +9550,6 @@
   "description.rarecrows.linkTelegram": "リンクテレグラム",
   "tools.includeInBatchBuy": "一括購入に {{toolName}} を含める",
   "animals.feedAll": "すべての動物に餌をやる",
-  "description.bonusShinyFeather.boost": "+1 シャイニーフェザー"
+  "description.bonusShinyFeather.boost": "+1 シャイニーフェザー",
+  "skill.greenhouseGamble": "30% の確率で温室農産物+1個獲得"
 }

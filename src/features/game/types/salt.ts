@@ -144,7 +144,7 @@ export const MAX_STORED_SALT_CHARGES_PER_NODE = 3; // 3 salt charges per node
 
 /**
  * The Sea Blessed chance (a prngChance percent) for a rank. Rank 2 is a
- * fractional 7.5%, which prngChance handles exactly — it compares a continuous
+ * fractional 6.5%, which prngChance handles exactly — it compares a continuous
  * prngValue * 100 against this, so there is no integer grid to truncate.
  */
 export function getSeaBlessedChance(gameState: GameState): number {

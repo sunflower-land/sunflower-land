@@ -3946,7 +3946,6 @@
   "skill.seededBounty.buff": "+0,5 Rendement des produits de serre",
   "skill.seededBounty.debuff": "+1 graine de serre à planter",
   "skill.greasyPlants.buff": "+1 Rendement des produits de serre",
-  "skill.greenhouseGamble": "25 % de chances d'obtenir +1 produit de serre",
   "skill.floweryAbode.debuff": "+50 % de temps de croissance des fleurs",
   "skill.compostingBonanza.buff": "Accélérez les composteurs d'une heure supplémentaire lors de la stimulation",
   "skill.fruitfulBounty": "Effet du Double Fruitful Blend",
@@ -9551,5 +9550,6 @@
   "description.rarecrows.linkTelegram": "Lien Telegram",
   "tools.includeInBatchBuy": "Inclure {{toolName}} dans l'achat par lots",
   "animals.feedAll": "Nourrissez tous les animaux",
-  "description.bonusShinyFeather.boost": "+1 plume brillante"
+  "description.bonusShinyFeather.boost": "+1 plume brillante",
+  "skill.greenhouseGamble": "30 % de chances d'obtenir +1 produit de serre"
 }

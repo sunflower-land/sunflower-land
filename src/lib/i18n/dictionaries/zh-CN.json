@@ -3946,7 +3946,6 @@
   "skill.seededBounty.buff": "+0.5 温室庄稼产量",
   "skill.seededBounty.debuff": "+1 温室种子种植消耗",
   "skill.greasyPlants.buff": "+1 温室庄稼产量",
-  "skill.greenhouseGamble": "增加 1 层 25% 几率 +1 温室庄稼产量的机会",
   "skill.floweryAbode.debuff": "+50% 花朵生长时间",
   "skill.compostingBonanza.buff": "堆肥箱加速时额外再加快一个小时",
   "skill.fruitfulBounty": "Fruitful Blend 效果翻倍",
@@ -9551,5 +9550,6 @@
   "description.rarecrows.linkTelegram": "链接电报",
   "tools.includeInBatchBuy": "在批量购买中包含 {{toolName}}",
   "animals.feedAll": "喂所有动物",
-  "description.bonusShinyFeather.boost": "+1 闪亮的羽毛"
+  "description.bonusShinyFeather.boost": "+1 闪亮的羽毛",
+  "skill.greenhouseGamble": "30% 几率获得 +1 种温室农产品"
 }

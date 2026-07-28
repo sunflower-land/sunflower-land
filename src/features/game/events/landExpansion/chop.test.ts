@@ -2162,7 +2162,7 @@ describe("chop — Trees skill rank upgrades", () => {
   });
 
   describe("Tree Turnaround — instant-recovery proc rate per rank", () => {
-    // rank1 = 15%, rank2 = 25%, rank3 = 40%. Magnitude is a fixed instant
+    // rank1 = 15%, rank2 = 25%, rank3 = 35%. Magnitude is a fixed instant
     // recovery (recoveryTimeMs = 0); otherwise the base recovery applies.
     const recoveryAtRank = (rank: number, counter: number) =>
       getTreeRecoveryTimeForDisplay({
@@ -2219,7 +2219,7 @@ describe("chop — Trees skill rank upgrades", () => {
           farmId,
           itemId,
           counter,
-          chance: 40,
+          chance: 35,
           criticalHitName: "Tree Turnaround",
         });
         if (procsAtRank3 && !procsAtRank2) {
