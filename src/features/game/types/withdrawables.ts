@@ -627,7 +627,7 @@ export const WEARABLE_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     tradeAt: CHAPTERS["Ascension Age"].endDate,
     withdrawAt: new Date("2026-11-30T00:00:00Z"),
   },
-  "Moon Hair": {
+  "Luna's Headpiece": {
     tradeAt: CHAPTERS["Ascension Age"].endDate,
     withdrawAt: new Date("2026-11-30T00:00:00Z"),
   },

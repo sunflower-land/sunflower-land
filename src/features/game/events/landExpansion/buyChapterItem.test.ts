@@ -1023,7 +1023,7 @@ describe("buyChapterItem", () => {
       expect(result.inventory["Shiny Feather"]).toEqual(new Decimal(1000));
     });
 
-    it("buys the Moon Hair with Shiny Feather and blocks a second purchase", () => {
+    it("buys the Luna's Headpiece with Shiny Feather and blocks a second purchase", () => {
       const firstBuy = buyChapterItem({
         state: {
           ...mockState,
@@ -1033,13 +1033,13 @@ describe("buyChapterItem", () => {
         },
         action: {
           type: "chapterItem.bought",
-          name: "Moon Hair",
+          name: "Luna's Headpiece",
           tier: "basic",
         },
         createdAt: ascensionAgeDate,
       });
 
-      expect(firstBuy.wardrobe["Moon Hair"]).toEqual(1);
+      expect(firstBuy.wardrobe["Luna's Headpiece"]).toEqual(1);
       expect(firstBuy.inventory["Shiny Feather"]).toEqual(new Decimal(1000));
 
       expect(() =>
@@ -1047,7 +1047,7 @@ describe("buyChapterItem", () => {
           state: firstBuy,
           action: {
             type: "chapterItem.bought",
-            name: "Moon Hair",
+            name: "Luna's Headpiece",
             tier: "basic",
           },
           createdAt: ascensionAgeDate + 1000,

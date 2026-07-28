@@ -2115,7 +2115,7 @@ export const ITEM_TRADE_TYPES: {
     "Swamp Armor": "instant",
     "Swamp Lily Hat": "instant",
     "Swamp Pants": "instant",
-    "Moon Hair": "instant",
+    "Luna's Headpiece": "instant",
   },
 };
 

@@ -139,7 +139,7 @@ export type ChapterWearableName = Extract<
   | "Swamp Lily Hat"
   | "Swamp Armor"
   | "Swamp Pants"
-  | "Moon Hair"
+  | "Luna's Headpiece"
 >;
 
 export type MegastoreKeys = "Treasure Key" | "Rare Key" | "Luxury Key";
@@ -1255,7 +1255,7 @@ const ASCENSION_AGE_ITEMS: ChapterStore = {
 
       // Premium chapter items
       {
-        wearable: "Moon Hair",
+        wearable: "Luna's Headpiece",
         limit: 1,
         cost: { sfl: 0, items: { "Shiny Feather": 9000 } },
       },

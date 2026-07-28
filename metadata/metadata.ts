@@ -21859,7 +21859,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Swamp Pants",
   },
-  "Moon Hair": {
+  "Luna's Headpiece": {
     description:
       "Hair kissed by moonlight, glowing softly with lunar energy. A favourite of night owls and stargazers.",
     decimals: 0,
@@ -21868,7 +21868,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    name: "Moon Hair",
+    name: "Luna's Headpiece",
   },
   "Yellow Slime Puppet": {
     description:
