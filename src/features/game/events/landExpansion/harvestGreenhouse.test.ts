@@ -819,14 +819,14 @@ describe("harvestGreenHouse ascension skill ranks", () => {
         farmId: 1,
         itemId,
         counter,
-        chance: 25,
+        chance: 30,
         criticalHitName: "Greenhouse Gamble",
       });
       const r2 = prngChance({
         farmId: 1,
         itemId,
         counter,
-        chance: 35,
+        chance: 40,
         criticalHitName: "Greenhouse Gamble",
       });
       if (r2 && !r1) {
@@ -854,14 +854,14 @@ describe("harvestGreenHouse ascension skill ranks", () => {
         farmId: 1,
         itemId,
         counter,
-        chance: 35,
+        chance: 40,
         criticalHitName: "Greenhouse Gamble",
       });
       const r3 = prngChance({
         farmId: 1,
         itemId,
         counter,
-        chance: 45,
+        chance: 50,
         criticalHitName: "Greenhouse Gamble",
       });
       if (r3 && !r2) {

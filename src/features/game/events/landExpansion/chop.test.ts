@@ -2219,7 +2219,7 @@ describe("chop — Trees skill rank upgrades", () => {
           farmId,
           itemId,
           counter,
-          chance: 40,
+          chance: 35,
           criticalHitName: "Tree Turnaround",
         });
         if (procsAtRank3 && !procsAtRank2) {
