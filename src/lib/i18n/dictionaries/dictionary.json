@@ -5149,7 +5149,7 @@
   "skill.greasyPlants.buff": "+1 Greenhouse produce yield",
   "skill.greasyPlants.debuff": "+100% Oil consumption in greenhouse",
   "skill.greenhouseGuru": "Ability to make all greenhouse produce currently growing ready to be harvested",
-  "skill.greenhouseGamble": "25% chance of +1 greenhouse produce",
+  "skill.greenhouseGamble": "30% chance of +1 greenhouse produce",
   "skill.slickSaver": "-1 Oil to grow greenhouse produce",
   "skill.glassRoom.ranked": "+{{value}} Greenhouse produce yield",
   "skill.seedyBusiness.ranked": "x{{value}} Greenhouse seeds cost",

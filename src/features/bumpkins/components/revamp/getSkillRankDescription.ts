@@ -360,7 +360,8 @@ export const getSkillRankDescription = (
       const penalty = SKILL_RANKS["No Axe No Worries"].ranks[i];
       return {
         buff: t("skill.noAxeNoWorries.buff"),
-        // Rank 3 removes the debuff entirely, so drop the debuff line.
+        // Every rank keeps a wood penalty; drop the line only if a future
+        // rank zeroes it.
         debuff:
           penalty > 0
             ? t("skill.noAxeNoWorries.debuff.ranked", { value: penalty })
