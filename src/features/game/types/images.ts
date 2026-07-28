@@ -4410,6 +4410,11 @@ export const ITEM_DETAILS: Items = {
     image: astrolabe,
     description: translate("description.astrolabe"),
   },
+  // TODO(Ascension Age): replace question mark placeholder with final art
+  "Buddha Statue": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.buddhaStatue"),
+  },
   "Coat Rack": {
     image: coatRack,
     description: translate("description.coatRack"),

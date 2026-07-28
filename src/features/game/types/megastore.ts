@@ -82,7 +82,7 @@ export type ChapterCollectibleName =
   // Ascension Age
   | "Astrolabe"
   | "Ascension Monument"
-  | "Ascended Idol";
+  | "Buddha Statue";
 
 export type ChapterWearableName = Extract<
   BumpkinItem,
@@ -139,7 +139,7 @@ export type ChapterWearableName = Extract<
   | "Swamp Lily Hat"
   | "Swamp Armor"
   | "Swamp Pants"
-  | "Luna's Headpiece"
+  | "Moon Hair"
 >;
 
 export type MegastoreKeys = "Treasure Key" | "Rare Key" | "Luxury Key";
@@ -1255,7 +1255,7 @@ const ASCENSION_AGE_ITEMS: ChapterStore = {
 
       // Premium chapter items
       {
-        wearable: "Luna's Headpiece",
+        wearable: "Moon Hair",
         limit: 1,
         cost: { sfl: 0, items: { "Shiny Feather": 9000 } },
       },
@@ -1270,7 +1270,7 @@ const ASCENSION_AGE_ITEMS: ChapterStore = {
         cost: { sfl: 0, items: { "Shiny Feather": 4000 } },
       },
       {
-        collectible: "Ascended Idol",
+        collectible: "Buddha Statue",
         limit: 1,
         cost: { sfl: 0, items: { "Otter Pebble": 250 } },
       },

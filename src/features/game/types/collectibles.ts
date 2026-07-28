@@ -153,7 +153,9 @@ export type SoldOutCollectibleName =
   | "Dino Egg Trophy"
   | "Salt Lamp"
   | "World Map Rug"
-  | "Ripped Salt Bag";
+  | "Ripped Salt Bag"
+  // Ascension Age
+  | "Buddha Statue";
 
 export type MegaStoreCollectibleName =
   | "Flower Cart"

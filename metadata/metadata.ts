@@ -325,6 +325,16 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Dino Egg Trophy",
   },
+  "Buddha Statue": {
+    description: "A serene statue radiating calm across the farm.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Buddha Statue",
+  },
   "Salt Lamp": {
     description: "A warm lamp carved from a glowing salt crystal.",
     decimals: 0,
@@ -21849,7 +21859,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Swamp Pants",
   },
-  "Luna's Headpiece": {
+  "Moon Hair": {
     description:
       "Hair kissed by moonlight, glowing softly with lunar energy. A favourite of night owls and stargazers.",
     decimals: 0,
@@ -21858,7 +21868,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    name: "Luna's Headpiece",
+    name: "Moon Hair",
   },
   "Yellow Slime Puppet": {
     description:
