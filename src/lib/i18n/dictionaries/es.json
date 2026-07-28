@@ -5530,7 +5530,6 @@
   "bounties.bonus.allCompleted": "¡Se han completado todas las recompensas!",
   "bounties.bonus.headToPoppy": "¡Dirígete a Poppy para reclamar tu bonificación!",
   "bounties.bonus.clickToClaim": "Reclamar bonificación",
-  "bounties.bonus.getBonus": "¡Consigue 50 {{chapterTicket}} s de bonificación por completar todas las recompensas!",
   "description.bronzeFoodBox": "Una caja de comida de bronce",
   "description.silverFoodBox": "Una caja de comida plateada",
   "description.goldFoodBox": "Una caja de comida dorada",
@@ -9551,5 +9550,6 @@
   "tools.includeInBatchBuy": "Incluir {{toolName}} en la compra por lotes",
   "animals.feedAll": "Alimenta a todos los animales",
   "description.bonusShinyFeather.boost": "+1 Pluma brillante",
-  "skill.greenhouseGamble": "30% de probabilidad de obtener +1 producto de invernadero"
+  "skill.greenhouseGamble": "30% de probabilidad de obtener +1 producto de invernadero",
+  "bounties.bonus.getBonus": "¡Consigue bonificaciones de {{amount}} {{chapterTicket}} s por completar todas las recompensas!"
 }

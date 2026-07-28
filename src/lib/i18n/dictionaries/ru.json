@@ -4068,7 +4068,6 @@
   "bounties.bonus.allCompleted": "Все заказы выполнены!",
   "bounties.bonus.headToPoppy": "Отправляйся к Poppy, чтобы забрать бонус!",
   "bounties.bonus.clickToClaim": "Забрать бонус",
-  "bounties.bonus.getBonus": "Получи дополнительные 50 {{chapterTicket}} за полностью закрытую доску!",
   "bountyType.label": "Заказы за {{type}}",
   "npcDialogues.chase.intro1": "Привет, Бампкин! Животные придут на Землю Подсолнухов 1 ноября.",
   "npcDialogues.chase.intro2": "Тем не менее, я немного не в себе. Мое стадо таинственным образом пропало без вести - как будто оно исчезло из воздуха!",
@@ -9551,5 +9550,6 @@
   "tools.includeInBatchBuy": "Include {{toolName}} in Batch Buy",
   "animals.feedAll": "Feed all animals",
   "description.bonusShinyFeather.boost": "+1 Shiny Feather",
-  "skill.greenhouseGamble": "30% chance of +1 greenhouse produce"
+  "skill.greenhouseGamble": "30% chance of +1 greenhouse produce",
+  "bounties.bonus.getBonus": "Get Bonus {{amount}} {{chapterTicket}}s for completing all bounties!"
 }

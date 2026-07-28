@@ -5530,7 +5530,6 @@
   "bounties.bonus.allCompleted": "Semua Hadiah Selesai!",
   "bounties.bonus.headToPoppy": "Pergilah ke Poppy untuk mengklaim bonus Anda!",
   "bounties.bonus.clickToClaim": "Klaim bonus",
-  "bounties.bonus.getBonus": "Dapatkan Bonus 50 {{chapterTicket}} s untuk menyelesaikan semua hadiah!",
   "description.bronzeFoodBox": "Kotak makanan perunggu",
   "description.silverFoodBox": "Kotak makanan perak",
   "description.goldFoodBox": "Kotak makanan emas",
@@ -9551,5 +9550,6 @@
   "tools.includeInBatchBuy": "Sertakan {{toolName}} dalam Batch Buy",
   "animals.feedAll": "Beri makan semua hewan",
   "description.bonusShinyFeather.boost": "+1 Shiny Feather",
-  "skill.greenhouseGamble": "Peluang 30% +1 produk rumah kaca"
+  "skill.greenhouseGamble": "Peluang 30% +1 produk rumah kaca",
+  "bounties.bonus.getBonus": "Dapatkan Bonus {{amount}} {{chapterTicket}} s untuk menyelesaikan semua hadiah!"
 }

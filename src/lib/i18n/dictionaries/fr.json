@@ -5530,7 +5530,6 @@
   "bounties.bonus.allCompleted": "Toutes les primes sont terminées !",
   "bounties.bonus.headToPoppy": "Rendez-vous sur Poppy pour réclamer votre bonus !",
   "bounties.bonus.clickToClaim": "Réclamer une prime",
-  "bounties.bonus.getBonus": "Obtenez un bonus de 50 {{chapterTicket}} s en complétant toutes les primes !",
   "description.bronzeFoodBox": "Une boîte à nourriture en bronze",
   "description.silverFoodBox": "Une boîte à nourriture en argent",
   "description.goldFoodBox": "Une boîte à nourriture dorée",
@@ -9551,5 +9550,6 @@
   "tools.includeInBatchBuy": "Inclure {{toolName}} dans l'achat par lots",
   "animals.feedAll": "Nourrissez tous les animaux",
   "description.bonusShinyFeather.boost": "+1 plume brillante",
-  "skill.greenhouseGamble": "30 % de chances d'obtenir +1 produit de serre"
+  "skill.greenhouseGamble": "30 % de chances d'obtenir +1 produit de serre",
+  "bounties.bonus.getBonus": "Obtenez un bonus de {{amount}} {{chapterTicket}} s en terminant toutes les primes !"
 }

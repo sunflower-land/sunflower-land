@@ -5530,7 +5530,6 @@
   "bounties.bonus.allCompleted": "Alle Bounties abgeschlossen!",
   "bounties.bonus.headToPoppy": "Gehe zu Poppy, um deinen Bonus zu beanspruchen!",
   "bounties.bonus.clickToClaim": "Bonus einfordern",
-  "bounties.bonus.getBonus": "Erhalte 50 {{chapterTicket}} s Bonus, wenn du alle Bounties abschließt!",
   "description.bronzeFoodBox": "Eine bronzene Lebensmittelbox",
   "description.silverFoodBox": "Eine silberne Lebensmittelbox",
   "description.goldFoodBox": "Eine goldene Lebensmittelbox",
@@ -9551,5 +9550,6 @@
   "tools.includeInBatchBuy": "{{toolName}} in Batch Buy einbeziehen",
   "animals.feedAll": "Füttere alle Tiere",
   "description.bonusShinyFeather.boost": "+1 Glänzende Feder",
-  "skill.greenhouseGamble": "30% Chance auf +1 Gewächshauserzeugnis"
+  "skill.greenhouseGamble": "30% Chance auf +1 Gewächshauserzeugnis",
+  "bounties.bonus.getBonus": "Erhalte den Bonus {{amount}} {{chapterTicket}} s, wenn du alle Bounties abschließt!"
 }

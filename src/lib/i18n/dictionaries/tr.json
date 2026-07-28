@@ -5530,7 +5530,6 @@
   "bounties.bonus.allCompleted": "Tüm Ödüller Tamamlandı!",
   "bounties.bonus.headToPoppy": "Bonusunuzu almak için Poppy\"ye gidin!",
   "bounties.bonus.clickToClaim": "Bonus talep et",
-  "bounties.bonus.getBonus": "Tüm ödülleri tamamladığınızda 50 {{chapterTicket}} s Bonus kazanın!",
   "description.bronzeFoodBox": "Bronz yemek kutusu",
   "description.silverFoodBox": "Gümüş bir yemek kutusu",
   "description.goldFoodBox": "Altın yiyecek kutusu",
@@ -9551,5 +9550,6 @@
   "tools.includeInBatchBuy": "Toplu Satın Alma'ya {{toolName}} ekleyin",
   "animals.feedAll": "Tüm hayvanları besleyin",
   "description.bonusShinyFeather.boost": "+1 Parlak Tüy",
-  "skill.greenhouseGamble": "%30 +1 sera ürünü olma şansı"
+  "skill.greenhouseGamble": "%30 +1 sera ürünü olma şansı",
+  "bounties.bonus.getBonus": "Tüm ödülleri tamamladığınızda Bonus {{amount}} {{chapterTicket}} s alın!"
 }

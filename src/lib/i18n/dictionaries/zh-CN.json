@@ -5530,7 +5530,6 @@
   "bounties.bonus.allCompleted": "所有赏金任务都已完成！",
   "bounties.bonus.headToPoppy": "前往 Poppy 处领取奖励！",
   "bounties.bonus.clickToClaim": "申领奖励",
-  "bounties.bonus.getBonus": "完成所有赏金任务可获得 50 {{chapterTicket}} 的奖励！",
   "description.bronzeFoodBox": "青铜食物宝箱",
   "description.silverFoodBox": "白银食物宝箱",
   "description.goldFoodBox": "黄金食物宝箱",
@@ -9551,5 +9550,6 @@
   "tools.includeInBatchBuy": "在批量购买中包含 {{toolName}}",
   "animals.feedAll": "喂所有动物",
   "description.bonusShinyFeather.boost": "+1 闪亮的羽毛",
-  "skill.greenhouseGamble": "30% 几率获得 +1 种温室农产品"
+  "skill.greenhouseGamble": "30% 几率获得 +1 种温室农产品",
+  "bounties.bonus.getBonus": "完成所有赏金即可获得奖励 {{amount}} {{chapterTicket}} s！"
 }

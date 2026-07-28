@@ -5530,7 +5530,6 @@
   "bounties.bonus.allCompleted": "すべてのバウンティが完了しました！",
   "bounties.bonus.headToPoppy": "ポピーに行ってボーナスを受け取りましょう！",
   "bounties.bonus.clickToClaim": "クレームボーナス",
-  "bounties.bonus.getBonus": "すべてのバウンティを完了するとボーナス50 {{chapterTicket}} がもらえます！",
   "description.bronzeFoodBox": "ブロンズフードボックス",
   "description.silverFoodBox": "シルバーフードボックス",
   "description.goldFoodBox": "ゴールドフードボックス",
@@ -9551,5 +9550,6 @@
   "tools.includeInBatchBuy": "一括購入に {{toolName}} を含める",
   "animals.feedAll": "すべての動物に餌をやる",
   "description.bonusShinyFeather.boost": "+1 シャイニーフェザー",
-  "skill.greenhouseGamble": "30% の確率で温室農産物+1個獲得"
+  "skill.greenhouseGamble": "30% の確率で温室農産物+1個獲得",
+  "bounties.bonus.getBonus": "すべてのバウンティをクリアするとボーナス {{amount}} {{chapterTicket}} がもらえます！"
 }

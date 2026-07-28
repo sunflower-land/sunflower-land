@@ -5530,7 +5530,6 @@
   "bounties.bonus.allCompleted": "Tutti i premi completati!",
   "bounties.bonus.headToPoppy": "Vai su Poppy per richiedere il tuo bonus!",
   "bounties.bonus.clickToClaim": "Richiedi il bonus",
-  "bounties.bonus.getBonus": "Ottieni un bonus di 50 {{chapterTicket}} per aver completato tutte le taglie!",
   "description.bronzeFoodBox": "Una scatola per alimenti in bronzo",
   "description.silverFoodBox": "Una scatola per alimenti in argento",
   "description.goldFoodBox": "Una scatola per alimenti dorata",
@@ -9551,5 +9550,6 @@
   "tools.includeInBatchBuy": "Includi {{toolName}} nell'acquisto in batch",
   "animals.feedAll": "Dai da mangiare a tutti gli animali",
   "description.bonusShinyFeather.boost": "+1 Piuma lucida",
-  "skill.greenhouseGamble": "30% di probabilità di +1 prodotto in serra"
+  "skill.greenhouseGamble": "30% di probabilità di +1 prodotto in serra",
+  "bounties.bonus.getBonus": "Ottieni bonus {{amount}} {{chapterTicket}} per aver completato tutte le taglie!"
 }

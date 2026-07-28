@@ -5530,7 +5530,6 @@
   "bounties.bonus.allCompleted": "Todas as recompensas concluídas!",
   "bounties.bonus.headToPoppy": "Vá até Poppy para reivindicar seu bônus!",
   "bounties.bonus.clickToClaim": "Reivindique bônus",
-  "bounties.bonus.getBonus": "Ganhe bônus de 50 {{chapterTicket}} s por completar todas as recompensas!",
   "description.bronzeFoodBox": "Uma caixa de comida de bronze",
   "description.silverFoodBox": "Uma caixa de comida prateada",
   "description.goldFoodBox": "Uma caixa de comida dourada",
@@ -9551,5 +9550,6 @@
   "tools.includeInBatchBuy": "Incluir {{toolName}} na compra em lote",
   "animals.feedAll": "Alimente todos os animais",
   "description.bonusShinyFeather.boost": "+1 Pena brilhante",
-  "skill.greenhouseGamble": "30% de chance de +1 produto de estufa"
+  "skill.greenhouseGamble": "30% de chance de +1 produto de estufa",
+  "bounties.bonus.getBonus": "Ganhe bônus {{amount}} {{chapterTicket}} s por completar todas as recompensas!"
 }
