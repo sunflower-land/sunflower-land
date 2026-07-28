@@ -25,13 +25,19 @@ export const FeedAllButton: React.FC<{ building: AnimalBuildingType }> = ({
   const game = useSelector(gameService, _state);
   const { play: playFeedAnimal } = useSound("feed_animal");
 
-  // Bumped when the soonest sleeping animal wakes so eligibility re-evaluates
-  const [, setWakeTick] = useState(0);
+  // The clock eligibility is judged against. Advanced by the effect below
+  // whenever the soonest sleeping animal wakes, so the button re-evaluates
+  // without reading Date.now() during render (the compiler memoises on it).
+  const [now, setNow] = useState(Date.now);
 
-  const covered = getCoveredAnimalTypes({ state: game, building });
+  const covered = useMemo(
+    () => getCoveredAnimalTypes({ state: game, building }),
+    [building, game],
+  );
   const { toClaim, toCure, toFeed } = getFeedAllTargets({
     state: game,
     building,
+    createdAt: now,
   });
   const eligibleCount = toClaim.length + toCure.length + toFeed.length;
 
@@ -43,23 +49,24 @@ export const FeedAllButton: React.FC<{ building: AnimalBuildingType }> = ({
         .map((animal) => animal.awakeAt),
     [buildingKey, game, covered],
   );
-  const nextWakeAt = Math.min(
-    ...allWakeTimes.filter(
-      // eslint-disable-next-line react-hooks/purity
-      (awakeAt) => awakeAt > Date.now(),
-    ),
-  );
 
   useEffect(() => {
-    if (!isFinite(nextWakeAt)) return;
+    const nextWakeAt = Math.min(
+      ...allWakeTimes.filter((awakeAt) => awakeAt > now),
+    );
 
+    if (!Number.isFinite(nextWakeAt)) return;
+
+    // `now` re-arms the chain: each firing schedules the following wake.
+    // A stale `now` (e.g. throttled timers) clamps to 0, fires immediately
+    // and self-corrects.
     const timeout = setTimeout(
-      () => setWakeTick((tick) => tick + 1),
-      nextWakeAt - Date.now() + 100,
+      () => setNow(Date.now()),
+      Math.max(0, nextWakeAt - now + 100),
     );
 
     return () => clearTimeout(timeout);
-  }, [nextWakeAt]);
+  }, [allWakeTimes, now]);
 
   if (covered.length === 0) return null;
 
