@@ -4,7 +4,10 @@ import {
 } from "../../types/craftables";
 import type { GameState, PlacedItem } from "features/game/types/game";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import type { PlaceableLocation } from "features/game/types/collectibles";
+import {
+  PLACEABLE_LOCATIONS,
+  type PlaceableLocation,
+} from "features/game/types/collectibles";
 import { produce } from "immer";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import {
@@ -23,6 +26,7 @@ import type { Coordinates } from "features/game/expansion/components/MapPlacemen
 import { COMPETITION_POINTS } from "features/game/types/competitions";
 import { populateSaltFarm } from "features/game/types/salt";
 import { refreshBasicScarecrowTimeAOE } from "features/game/lib/aoe";
+import { getCollectiblesAcrossLocations } from "features/game/lib/getCollectiblesAcrossLocations";
 
 export type PlaceCollectibleAction = {
   type: "collectible.placed";
@@ -90,8 +94,17 @@ export function placeCollectible({
         action.name as MonumentName,
       ) ?? false;
 
+    // Monuments obtained outside of `buyMonument` (rewards, trades) have no
+    // village project, so seed one the first time they are placed. Only ever on
+    // a first placement — otherwise removing and re-placing a monument whose
+    // project has already been consumed would restart it for free, skipping the
+    // `project.started` cost.
+    const hasBeenPlacedBefore =
+      getCollectiblesAcrossLocations(stateCopy, action.name).length > 0;
+
     if (
       isMonument &&
+      !hasBeenPlacedBefore &&
       !stateCopy.socialFarming.villageProjects[action.name as MonumentName] &&
       !isInCompletedProjects
     ) {
@@ -167,18 +180,14 @@ export function placeCollectible({
       return stateCopy;
     }
 
-    // If no existing collectible is found, search for it in other locations, and move it to the new location
-    // Define which locations to search based on target location
-    const otherLocations: PlaceableLocation[] =
-      action.location === "home"
-        ? ["farm", "petHouse"]
-        : action.location === "petHouse"
-          ? ["farm", "home"]
-          : action.location === "interior"
-            ? ["farm", "home", "level_one"]
-            : action.location === "level_one"
-              ? ["farm", "home", "interior"]
-              : ["home", "petHouse"]; // farm
+    // If no existing collectible is found, search for it in other locations, and move it to the new location.
+    // Every other location must be searched: missing one creates a duplicate
+    // placement instead of moving the existing one, which silently drops the
+    // instance's state (e.g. a weather item's `used` flag would be lost, renewing
+    // it for free).
+    const otherLocations: PlaceableLocation[] = PLACEABLE_LOCATIONS.filter(
+      (location) => location !== action.location,
+    );
 
     const getCollectiblesForLocation = (
       loc: PlaceableLocation,
@@ -188,12 +197,12 @@ export function placeCollectible({
           return stateCopy.home.collectibles[action.name] ?? [];
         case "petHouse":
           return isPetCollectible(action.name)
-            ? (stateCopy.petHouse.pets[action.name] ?? [])
+            ? (stateCopy.petHouse?.pets[action.name] ?? [])
             : [];
         case "interior":
-          return stateCopy.interior.ground.collectibles[action.name] ?? [];
+          return stateCopy.interior?.ground.collectibles[action.name] ?? [];
         case "level_one":
-          return stateCopy.interior.level_one?.collectibles[action.name] ?? [];
+          return stateCopy.interior?.level_one?.collectibles[action.name] ?? [];
         case "farm":
         default:
           return stateCopy.collectibles[action.name] ?? [];
@@ -214,10 +223,12 @@ export function placeCollectible({
           }
           break;
         case "interior":
-          stateCopy.interior.ground.collectibles[action.name] = items;
+          if (stateCopy.interior) {
+            stateCopy.interior.ground.collectibles[action.name] = items;
+          }
           break;
         case "level_one":
-          if (stateCopy.interior.level_one) {
+          if (stateCopy.interior?.level_one) {
             stateCopy.interior.level_one.collectibles[action.name] = items;
           }
           break;
