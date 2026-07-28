@@ -37,6 +37,8 @@ export const NO_BONUS_BOUNTIES_WEEK = [
   "2026-04-06", // Crabs and Traps Auction Week
   "2026-05-04", // Salt Awakening Rest Week
   "2026-07-06", // Salt Awakening Auction Week
+  "2026-08-03", // Ascension Age Rest Week
+  "2026-10-05", // Ascension Age Auction Week
 ];
 
 const TICKET_BONUS_AMOUNT = 50;
