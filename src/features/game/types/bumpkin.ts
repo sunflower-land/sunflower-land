@@ -74,7 +74,8 @@ export type BumpkinHair =
   | "Crimstone Spikes Hair"
   | "Corn Silk Hair"
   | "Green Slime Hair"
-  | "Luna's Headpiece";
+  | "Luna's Headpiece"
+  | "Surfer Hair";
 
 export type BumpkinShirt =
   | "Pixel Perfect Hoodie"
@@ -171,7 +172,8 @@ export type BumpkinCoat =
   | "Easter Apron"
   | "Medic Apron"
   | "Alchemist Apron"
-  | "Victoria's Apron";
+  | "Victoria's Apron"
+  | "Spooky Coat";
 
 export type BumpkinTool =
   | "Farmer Pitchfork"
@@ -267,7 +269,8 @@ export type BumpkinShoe =
   | "404 Chic Boots"
   | "Spa Slippers"
   | "Blue Jelly Shoes"
-  | "Sad Slime Slippers";
+  | "Sad Slime Slippers"
+  | "Crystal Shoes";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -449,7 +452,8 @@ export type BumpkinPant =
   | "404 Chic Skirt"
   | "Sad Slime Pants"
   | "Red Jelly Pants"
-  | "Swamp Pants";
+  | "Swamp Pants"
+  | "Marble Pants";
 
 export type BumpkinDress =
   | "Royal Dress"
@@ -1254,6 +1258,10 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Swamp Lily Hat": 580,
   "Swamp Pants": 581,
   "Luna's Headpiece": 582,
+  "Crystal Shoes": 583,
+  "Marble Pants": 584,
+  "Spooky Coat": 585,
+  "Surfer Hair": 586,
 };
 
 // The reverse of above
@@ -1901,6 +1909,10 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Swamp Lily Hat": "hat",
   "Swamp Pants": "pants",
   "Luna's Headpiece": "hair",
+  "Crystal Shoes": "shoes",
+  "Marble Pants": "pants",
+  "Spooky Coat": "coat",
+  "Surfer Hair": "hair",
 };
 
 /**Copied from BE just for hoarding checks */
