@@ -3,6 +3,7 @@ import { getKeys } from "lib/object";
 import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import type { SpecialEventName } from "features/game/types/specialEvents";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
 
 export type CompleteSpecialEventTaskAction = {
@@ -66,6 +67,13 @@ export function completeSpecialEventTask({
     const balance = stateCopy.balance;
     if (balance.lt(sfl)) throw new Error("SFL requirement not met");
     stateCopy.balance = balance.minus(sfl);
+    if (sfl > 0) {
+      stateCopy.farmActivity = trackFarmActivity(
+        "SFL Spent",
+        stateCopy.farmActivity,
+        new Decimal(sfl),
+      );
+    }
 
     stateCopy.inventory = getKeys(items).reduce((inventory, item) => {
       const inventoryAmount = inventory[item] ?? new Decimal(0);

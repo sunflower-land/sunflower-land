@@ -78,6 +78,20 @@ describe("buyChapterItem", () => {
     expect(result.balance).toEqual(new Decimal(990));
   });
 
+  it("tracks SFL Spent farm activity when buying an item", () => {
+    const result = buyChapterItem({
+      state: mockState,
+      action: {
+        type: "chapterItem.bought",
+        name: "Treasure Key",
+        tier: "basic",
+      },
+      createdAt: mockDate,
+    });
+
+    expect(result.farmActivity["SFL Spent"]).toEqual(10);
+  });
+
   it("subtracts items when buying an item", () => {
     const result = buyChapterItem({
       state: mockState,

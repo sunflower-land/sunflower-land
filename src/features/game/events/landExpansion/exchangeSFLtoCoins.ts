@@ -1,4 +1,6 @@
+import Decimal from "decimal.js-light";
 import type { GameState } from "features/game/types/game";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { produce } from "immer";
 
 type ExchangePackage = { sfl: number; coins: number };
@@ -48,6 +50,11 @@ export function exchangeSFLtoCoins({
 
     game.balance = balance.minus(sfl);
     game.coins += coins;
+    game.farmActivity = trackFarmActivity(
+      "SFL Spent",
+      game.farmActivity,
+      new Decimal(sfl),
+    );
 
     return game;
   });

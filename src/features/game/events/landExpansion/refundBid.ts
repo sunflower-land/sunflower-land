@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { getKeys } from "lib/object";
 import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 
 export type RefundBidAction = {
   type: "bid.refunded";
@@ -27,6 +28,13 @@ export function refundBid({ state }: Options) {
 
     // Add FLOWER back to balance
     game.balance = game.balance.add(bid.sfl);
+    if (bid.sfl > 0) {
+      game.farmActivity = trackFarmActivity(
+        "SFL Spent",
+        game.farmActivity,
+        new Decimal(-bid.sfl),
+      );
+    }
 
     delete game.auctioneer.bid;
 

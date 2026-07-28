@@ -68,6 +68,11 @@ export function buyEventShopItem({
       }
 
       stateCopy.balance = balance.sub(new Decimal(cost));
+      stateCopy.farmActivity = trackFarmActivity(
+        "SFL Spent",
+        stateCopy.farmActivity,
+        new Decimal(cost),
+      );
     }
 
     getObjectEntries(items).forEach(([item, amount]) => {

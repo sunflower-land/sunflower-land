@@ -64,6 +64,31 @@ describe("refundBid", () => {
     expect(state.balance).toEqual(new Decimal(5));
   });
 
+  it("decrements SFL Spent farm activity when refunding sfl", () => {
+    const state = refundBid({
+      action: {
+        type: "bid.refunded",
+      },
+      state: {
+        ...TEST_FARM,
+        farmActivity: { "SFL Spent": 20 },
+        auctioneer: {
+          bid: {
+            collectible: "Beta Bear",
+            tickets: 3,
+            biddedAt: Date.now(),
+            ingredients: { Gold: 4 },
+            sfl: 5,
+            auctionId: "test-drop-1",
+            type: "collectible",
+          },
+        },
+      },
+    });
+
+    expect(state.farmActivity["SFL Spent"]).toEqual(15);
+  });
+
   it("removes bid", () => {
     const state = refundBid({
       action: {

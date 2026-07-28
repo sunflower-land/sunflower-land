@@ -172,6 +172,49 @@ describe("minigame.itemPurchased", () => {
     });
   });
 
+  it("tracks SFL Spent farm activity", () => {
+    const state = purchaseMinigameItem({
+      state: {
+        ...TEST_FARM,
+        balance: new Decimal(25),
+        minigames: {
+          prizes: {},
+          games: {},
+        },
+      },
+      action: {
+        id: "chicken-rescue",
+        type: "minigame.itemPurchased",
+        sfl: 10,
+        items: {},
+      },
+    });
+
+    expect(state.farmActivity["SFL Spent"]).toEqual(10);
+  });
+
+  it("does not track SFL Spent when no sfl is spent", () => {
+    const state = purchaseMinigameItem({
+      state: {
+        ...TEST_FARM,
+        balance: new Decimal(25),
+        inventory: { Sunflower: new Decimal(5) },
+        minigames: {
+          prizes: {},
+          games: {},
+        },
+      },
+      action: {
+        id: "chicken-rescue",
+        type: "minigame.itemPurchased",
+        sfl: 0,
+        items: { Sunflower: 5 },
+      },
+    });
+
+    expect(state.farmActivity["SFL Spent"]).toBeUndefined();
+  });
+
   it("stores multiple purchases", () => {
     const state = purchaseMinigameItem({
       state: {
