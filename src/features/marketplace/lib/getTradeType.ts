@@ -1455,18 +1455,18 @@ export const ITEM_TRADE_TYPES: {
     "Ascension Monument": "instant",
 
     // Ascension Age decorations
-    "Salt Rug": "instant",
-    "Ascended Idol": "instant",
+    "Salt Rug": "onchain",
+    "Ascended Idol": "onchain",
     "Ascended Wheel": "instant",
     Astrolabe: "instant",
-    "Coat Rack": "instant",
+    "Coat Rack": "onchain",
     Lampshade: "instant",
     "Marble Head": "instant",
     "Otty the Otter": "instant",
-    "Salt Worker Gnome": "instant",
+    "Salt Worker Gnome": "onchain",
     "Shards Turtle": "instant",
-    Vibraphone: "instant",
-    "Winged Vase": "instant",
+    Vibraphone: "onchain",
+    "Winged Vase": "onchain",
     "Big Table": "instant",
     Crate: "instant",
     "Empty Pot": "instant",
@@ -2118,7 +2118,7 @@ export const ITEM_TRADE_TYPES: {
     "Crystal Shoes": "instant",
     "Marble Pants": "instant",
     "Spooky Coat": "instant",
-    "Surfer Hair": "instant",
+    "Surfer Hair": "onchain",
   },
 };
 

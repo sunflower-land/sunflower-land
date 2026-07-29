@@ -427,6 +427,30 @@ export const CHAPTER_COLLECTIONS: Partial<
       },
     },
   }),
+  "Ascension Age": buildChapterCollection({
+    chapter: "Ascension Age",
+    overrides: {
+      auctioneer: {
+        collectibles: [
+          "Salt Rug",
+          "Coat Rack",
+          "Vibraphone",
+          "Winged Vase",
+          "Ascended Idol",
+          "Salt Worker Gnome",
+        ],
+        wearables: ["Surfer Hair"],
+      },
+      other: {
+        collectibles: [
+          "Ascension Age Banner",
+          ...getObjectEntries(CHAPTER_CRAFTING_ITEMS)
+            .filter((item) => item[1] === "Ascension Age")
+            .map((item) => item[0]),
+        ],
+      },
+    },
+  }),
 };
 
 /** Flattens source-keyed collection into collectibles and wearables arrays for the grid. */

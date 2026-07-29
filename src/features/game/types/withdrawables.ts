@@ -1714,6 +1714,30 @@ export const INVENTORY_RELEASES: InventoryReleases = {
     tradeAt: CHAPTERS["Ascension Age"].endDate,
     withdrawAt: new Date("2026-11-30T00:00:00Z"),
   },
+  "Salt Rug": {
+    tradeAt: CHAPTERS["Ascension Age"].endDate,
+    withdrawAt: new Date("2026-11-30T00:00:00Z"),
+  },
+  "Coat Rack": {
+    tradeAt: CHAPTERS["Ascension Age"].endDate,
+    withdrawAt: new Date("2026-11-30T00:00:00Z"),
+  },
+  Vibraphone: {
+    tradeAt: CHAPTERS["Ascension Age"].endDate,
+    withdrawAt: new Date("2026-11-30T00:00:00Z"),
+  },
+  "Winged Vase": {
+    tradeAt: CHAPTERS["Ascension Age"].endDate,
+    withdrawAt: new Date("2026-11-30T00:00:00Z"),
+  },
+  "Ascended Idol": {
+    tradeAt: CHAPTERS["Ascension Age"].endDate,
+    withdrawAt: new Date("2026-11-30T00:00:00Z"),
+  },
+  "Salt Worker Gnome": {
+    tradeAt: CHAPTERS["Ascension Age"].endDate,
+    withdrawAt: new Date("2026-11-30T00:00:00Z"),
+  },
   CluckCoin: {
     tradeAt: new Date("2025-01-01T00:00:00.000Z"),
   },
