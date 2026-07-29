@@ -239,6 +239,8 @@ import iron from "assets/resources/iron_ore.png";
 import gold from "assets/resources/gold_ore.png";
 import crimstone from "assets/resources/crimstone.png";
 import sunstone from "assets/resources/sunstone/sunstone.png";
+import ascensionShard from "assets/resources/ascension_crystal/ascension_shard.webp";
+import ascensionCrystalRock from "assets/resources/ascension_crystal/crystal_rock_1.webp";
 import honey from "assets/resources/honey.png";
 import apple from "assets/resources/apple.png";
 import orange from "assets/resources/orange.png";
@@ -1943,7 +1945,7 @@ export const ITEM_DETAILS: Items = {
     translatedName: translate("resource.sunstone"),
   },
   "Ascension Shard": {
-    image: sunstone,
+    image: ascensionShard,
     description: COMMODITIES["Ascension Shard"].description,
   },
   Oil: {
@@ -3585,9 +3587,8 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.lava.pit"),
     translatedName: translate("node.lavaPit"),
   },
-  // TODO: replace placeholder art once the Ascension Crystal asset lands.
   "Ascension Crystal": {
-    image: sunstoneRock,
+    image: ascensionCrystalRock,
     description: translate("description.ascensionCrystal"),
   },
   Tree: {

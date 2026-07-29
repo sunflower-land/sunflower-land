@@ -9,12 +9,11 @@ import type {
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
-import { canMine } from "features/game/lib/resourceNodes";
+import { ASCENSION_SHARDS_PER_MINE } from "features/game/events/landExpansion/mineAscensionCrystal";
 import { useSound } from "lib/utils/hooks/useSound";
 
-// Placeholder art: reuses the Sunstone visuals until dedicated crystal art lands.
-import { DepletingSunstone } from "../sunstone/components/DepletingSunstone";
-import { RecoveredSunstone } from "../sunstone/components/RecoveredSunstone";
+import { RecoveredAscensionCrystal } from "./components/RecoveredAscensionCrystal";
+import { DepletingAscensionCrystal } from "./components/DepletingAscensionCrystal";
 
 const HITS = 3;
 const tool = "Gold Pickaxe";
@@ -24,7 +23,6 @@ const HasTool = (inventory: Partial<Record<InventoryItemName, Decimal>>) => {
 };
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
-const selectGame = (state: MachineState) => state.context.state;
 
 // Cheap field comparator (avoids per-frame JSON.stringify in a resource-heavy
 // scene). Single-use nodes only change via mine/move, so these fields suffice.
@@ -75,7 +73,6 @@ export const AscensionCrystal: React.FC<Props> = ({ id }) => {
     };
   }, []);
 
-  const game = useSelector(gameService, selectGame);
   const resource = useSelector(
     gameService,
     (state) => state.context.state.ascensionCrystals[id],
@@ -92,7 +89,6 @@ export const AscensionCrystal: React.FC<Props> = ({ id }) => {
   if (!resource) return null;
 
   const hasTool = HasTool(inventory);
-  const mined = !canMine(resource, "Ascension Crystal", game);
 
   const strike = () => {
     if (!hasTool) return;
@@ -116,7 +112,7 @@ export const AscensionCrystal: React.FC<Props> = ({ id }) => {
     miningFallAudio();
 
     if (showAnimations) {
-      setCollectingAmount(1);
+      setCollectingAmount(ASCENSION_SHARDS_PER_MINE);
       collectingTimeout.current = setTimeout(() => {
         setCollectingAmount(0);
         collectingTimeout.current = null;
@@ -126,23 +122,14 @@ export const AscensionCrystal: React.FC<Props> = ({ id }) => {
 
   return (
     <div className="relative w-full h-full">
-      {/* Resource ready to collect */}
-      {!mined && (
-        <div ref={divRef} className="absolute w-full h-full" onClick={strike}>
-          <RecoveredSunstone
-            hasTool={hasTool}
-            touchCount={touchCount}
-            minesLeft={resource.minesLeft}
-          />
-        </div>
-      )}
+      {/* Resource ready to collect — a placed crystal is always mineable */}
+      <div ref={divRef} className="absolute w-full h-full" onClick={strike}>
+        <RecoveredAscensionCrystal hasTool={hasTool} touchCount={touchCount} />
+      </div>
 
       {/* Depleting resource animation */}
       {collectingAmount > 0 && (
-        <DepletingSunstone
-          resourceAmount={collectingAmount}
-          minesLeft={resource.minesLeft}
-        />
+        <DepletingAscensionCrystal resourceAmount={collectingAmount} />
       )}
     </div>
   );
