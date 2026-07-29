@@ -460,6 +460,7 @@ import dumboOctopus from "assets/sfts/dumbo_octopus.webp";
 import seahorseDad from "assets/sfts/seahorse_dad.webp";
 import ascensionAgeBanner from "assets/decorations/banners/ascension_banner.webp";
 import shinyFeather from "assets/icons/shiny_feather.webp";
+import ascensionAgeRaffleTicket from "assets/icons/ascension_age_raffle_ticket.png";
 import otterPebble from "assets/icons/otter_pebble.webp";
 import cloudBed from "assets/bumpkins/cloud_bed.webp";
 import ascensionMonument from "assets/monuments/ascension_monument_stage3.webp";
@@ -8036,9 +8037,8 @@ export const ITEM_DETAILS: Items = {
     image: otterPebble,
     description: translate("description.otterPebble"),
   },
-  // TODO(Ascension Age): replace placeholder art with the real raffle ticket
   "Ascension Age Raffle Ticket": {
-    image: saltAwakeningRaffleTicket,
+    image: ascensionAgeRaffleTicket,
     description: translate("description.ascensionAgeRaffleTicket"),
   },
   "Big Table": {
