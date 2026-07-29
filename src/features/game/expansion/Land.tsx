@@ -24,6 +24,9 @@ import { getGameGrid } from "./placeable/lib/makeGrid";
 import { LandscapingHud } from "features/island/hud/LandscapingHud";
 import { Mushroom } from "features/island/mushrooms/Mushroom";
 import { MUSHROOM_DIMENSIONS, RESOURCE_DIMENSIONS } from "../types/resources";
+import { DepletingAscensionCrystal } from "./components/resources/ascensionCrystal/components/DepletingAscensionCrystal";
+import { useMinedCrystalGhosts } from "./components/resources/ascensionCrystal/useMinedCrystalGhosts";
+import { ASCENSION_SHARDS_PER_MINE } from "../events/landExpansion/mineAscensionCrystal";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
 import { Bud } from "features/island/buds/Bud";
 import { Fisherman } from "features/island/fisherman/Fisherman";
@@ -766,8 +769,13 @@ export const LandComponent: React.FC = () => {
       });
   }, [sunstones]);
 
+  // Mining deletes the crystal, unmounting its element on the same update —
+  // the "+shards" feedback must render from here, where the node's tile is
+  // still known (see useMinedCrystalGhosts).
+  const minedCrystalGhosts = useMinedCrystalGhosts(ascensionCrystals);
+
   const ascensionCrystalElements = useMemo(() => {
-    return getObjectEntries(ascensionCrystals)
+    const crystalElements = getObjectEntries(ascensionCrystals)
       .filter(
         ([, crystal]) => crystal.x !== undefined && crystal.y !== undefined,
       )
@@ -796,7 +804,20 @@ export const LandComponent: React.FC = () => {
           </MapPlacement>
         );
       });
-  }, [ascensionCrystals]);
+
+    const ghostElements = minedCrystalGhosts.map(({ id, x, y }) => (
+      <MapPlacement
+        key={`ascension-crystal-ghost-${id}`}
+        x={x}
+        y={y}
+        {...RESOURCE_DIMENSIONS["Ascension Crystal"]}
+      >
+        <DepletingAscensionCrystal resourceAmount={ASCENSION_SHARDS_PER_MINE} />
+      </MapPlacement>
+    ));
+
+    return [...crystalElements, ...ghostElements];
+  }, [ascensionCrystals, minedCrystalGhosts]);
 
   const beehiveElements = useMemo(() => {
     return getObjectEntries(beehives)
