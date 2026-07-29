@@ -439,7 +439,7 @@ export const CHAPTER_COLLECTIONS: Partial<
           "Ascended Idol",
           "Salt Worker Gnome",
         ],
-        wearables: ["Surfer Hair"],
+        wearables: ["Surfer Hair", "Rice Shirt", "Alchemist Apron"],
       },
       other: {
         collectibles: [
