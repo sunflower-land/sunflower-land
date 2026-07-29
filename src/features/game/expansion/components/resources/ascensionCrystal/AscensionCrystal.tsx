@@ -9,11 +9,9 @@ import type {
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
-import { ASCENSION_SHARDS_PER_MINE } from "features/game/events/landExpansion/mineAscensionCrystal";
 import { useSound } from "lib/utils/hooks/useSound";
 
 import { RecoveredAscensionCrystal } from "./components/RecoveredAscensionCrystal";
-import { DepletingAscensionCrystal } from "./components/DepletingAscensionCrystal";
 
 const HITS = 3;
 const tool = "Gold Pickaxe";
@@ -38,15 +36,9 @@ interface Props {
 }
 
 export const AscensionCrystal: React.FC<Props> = ({ id }) => {
-  const { gameService, shortcutItem, showAnimations } = useContext(Context);
+  const { gameService, shortcutItem } = useContext(Context);
 
   const [touchCount, setTouchCount] = useState(0);
-
-  // Drives the "popping out" animation. State (not a ref) so the render output
-  // never depends on mutable ref state — keeps React Compiler / concurrent
-  // rendering happy.
-  const [collectingAmount, setCollectingAmount] = useState(0);
-  const collectingTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const divRef = useRef<HTMLDivElement>(null);
 
   const { play: miningFallAudio } = useSound("mining_fall");
@@ -64,15 +56,6 @@ export const AscensionCrystal: React.FC<Props> = ({ id }) => {
     };
   }, []);
 
-  // Clear any pending animation timeout on unmount (mining deletes the node).
-  useEffect(() => {
-    return () => {
-      if (collectingTimeout.current) {
-        clearTimeout(collectingTimeout.current);
-      }
-    };
-  }, []);
-
   const resource = useSelector(
     gameService,
     (state) => state.context.state.ascensionCrystals[id],
@@ -86,6 +69,8 @@ export const AscensionCrystal: React.FC<Props> = ({ id }) => {
 
   // Single-use: mining deletes the node, so the selector briefly returns
   // undefined before this element unmounts. Bail out instead of crashing.
+  // The "+shards" collect feedback outlives this unmount — Land renders it
+  // via useMinedCrystalGhosts.
   if (!resource) return null;
 
   const hasTool = HasTool(inventory);
@@ -110,14 +95,6 @@ export const AscensionCrystal: React.FC<Props> = ({ id }) => {
     });
 
     miningFallAudio();
-
-    if (showAnimations) {
-      setCollectingAmount(ASCENSION_SHARDS_PER_MINE);
-      collectingTimeout.current = setTimeout(() => {
-        setCollectingAmount(0);
-        collectingTimeout.current = null;
-      }, 3000);
-    }
   };
 
   return (
@@ -126,11 +103,6 @@ export const AscensionCrystal: React.FC<Props> = ({ id }) => {
       <div ref={divRef} className="absolute w-full h-full" onClick={strike}>
         <RecoveredAscensionCrystal hasTool={hasTool} touchCount={touchCount} />
       </div>
-
-      {/* Depleting resource animation */}
-      {collectingAmount > 0 && (
-        <DepletingAscensionCrystal resourceAmount={collectingAmount} />
-      )}
     </div>
   );
 };
