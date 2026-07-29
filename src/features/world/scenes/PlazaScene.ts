@@ -9,7 +9,7 @@ import { PlaceableContainer } from "../containers/PlaceableContainer";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import type { NPCName } from "lib/npcs";
 import type { FactionName } from "features/game/types/game";
-import { translate } from "lib/i18n/translate";
+import { translateForBubble } from "lib/i18n/translate";
 import { capitalize } from "lib/utils/capitalize";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { DogContainer } from "../containers/DogContainer";
@@ -325,7 +325,7 @@ export class PlazaScene extends BaseScene {
       if (this.checkDistanceToSprite(weatherShop, 75)) {
         interactableModalManager.open("weather_shop");
       } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
 
@@ -336,7 +336,7 @@ export class PlazaScene extends BaseScene {
       if (this.checkDistanceToSprite(rarecrows, 75)) {
         interactableModalManager.open("rarecrows");
       } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
 
@@ -345,7 +345,7 @@ export class PlazaScene extends BaseScene {
       if (this.checkDistanceToSprite(petShop, 75)) {
         interactableModalManager.open("pet_shop");
       } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
 
@@ -354,7 +354,7 @@ export class PlazaScene extends BaseScene {
       if (this.checkDistanceToSprite(prizesChest, 100)) {
         interactableModalManager.open("chapter_raffles");
       } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
 
@@ -486,7 +486,7 @@ export class PlazaScene extends BaseScene {
       if (this.checkDistanceToSprite(basicChest, 75)) {
         interactableModalManager.open("basic_chest");
       } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
 
@@ -503,7 +503,7 @@ export class PlazaScene extends BaseScene {
       if (this.checkDistanceToSprite(luxuryChest, 75)) {
         interactableModalManager.open("luxury_chest");
       } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
 
@@ -564,7 +564,7 @@ export class PlazaScene extends BaseScene {
       if (this.checkDistanceToSprite(fatChicken, 75)) {
         interactableModalManager.open("fat_chicken");
       } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
 
@@ -586,7 +586,7 @@ export class PlazaScene extends BaseScene {
         if (this.checkDistanceToSprite(bud, 75)) {
           interactableModalManager.open("bud");
         } else {
-          this.currentPlayer?.speak(translate("base.iam.far.away"));
+          this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
         }
       });
 
@@ -700,7 +700,7 @@ export class PlazaScene extends BaseScene {
         if (this.checkDistanceToSprite(bud3, 75)) {
           interactableModalManager.open("bud");
         } else {
-          this.currentPlayer?.speak(translate("base.iam.far.away"));
+          this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
         }
       });
 
@@ -722,7 +722,7 @@ export class PlazaScene extends BaseScene {
         if (this.checkDistanceToSprite(turtle, 75)) {
           interactableModalManager.open("bud");
         } else {
-          this.currentPlayer?.speak(translate("base.iam.far.away"));
+          this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
         }
       });
 
@@ -747,7 +747,7 @@ export class PlazaScene extends BaseScene {
         if (this.checkDistanceToSprite(chest, 75)) {
           interactableModalManager.open("clubhouse_reward");
         } else {
-          this.currentPlayer?.speak(translate("base.iam.far.away"));
+          this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
         }
       });
 
@@ -891,7 +891,7 @@ export class PlazaScene extends BaseScene {
       if (this.checkDistanceToSprite(yakkamon, 75)) {
         interactableModalManager.open("yakkamon");
       } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
   }
@@ -917,7 +917,7 @@ export class PlazaScene extends BaseScene {
 
     board.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (!this.checkDistanceToSprite(board, 75)) {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
         return;
       }
 
