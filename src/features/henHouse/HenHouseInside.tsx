@@ -232,7 +232,7 @@ export const HenHouseInside: React.FC = () => {
                 <FeederMachine building="Hen House" />
               </div>
 
-              <div className="absolute -top-[11px] right-[29%]">
+              <div className="absolute -top-[11px] left-1/2 translate-x-[58px]">
                 <FeedAllButton building="Hen House" />
               </div>
 

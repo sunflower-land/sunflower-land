@@ -238,7 +238,7 @@ export const BarnInside: React.FC = () => {
                 <FeederMachine building="Barn" />
               </div>
 
-              <div className="absolute -top-[11px] right-[29%]">
+              <div className="absolute -top-[11px] left-1/2 translate-x-[58px]">
                 <FeedAllButton building="Barn" />
               </div>
 
