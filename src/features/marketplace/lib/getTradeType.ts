@@ -2110,7 +2110,7 @@ export const ITEM_TRADE_TYPES: {
     // Ascension Age
     "Ascension Staff": "instant",
     "Ascension Wings": "instant",
-    "Salt Onesie": "instant",
+    "Salt Bottle Onesie": "instant",
     "Swamp Armor": "instant",
     "Swamp Lily Hat": "instant",
     "Swamp Pants": "instant",

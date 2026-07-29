@@ -531,7 +531,7 @@ export type BumpkinOnesie =
   | "Frank Onesie"
   | "Cozy Reindeer Onesie"
   | "Shrimp Onesie"
-  | "Salt Onesie";
+  | "Salt Bottle Onesie";
 
 // Goes over clothes
 export type BumpkinSuit =
@@ -1253,7 +1253,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Red Jelly Pants": 575,
   "Ascension Staff": 576,
   "Ascension Wings": 577,
-  "Salt Onesie": 578,
+  "Salt Bottle Onesie": 578,
   "Swamp Armor": 579,
   "Swamp Lily Hat": 580,
   "Swamp Pants": 581,
@@ -1904,7 +1904,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Red Jelly Pants": "pants",
   "Ascension Staff": "tool",
   "Ascension Wings": "wings",
-  "Salt Onesie": "onesie",
+  "Salt Bottle Onesie": "onesie",
   "Swamp Armor": "shirt",
   "Swamp Lily Hat": "hat",
   "Swamp Pants": "pants",
