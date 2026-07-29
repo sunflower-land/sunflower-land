@@ -421,6 +421,57 @@ export const Gifts: React.FC<{
     )
     .sort((a, b) => getKeys(FLOWERS).indexOf(a) - getKeys(FLOWERS).indexOf(b));
 
+  const [favoriteFlowers, setFavoriteFlowers] =
+    useState<FlowerName[]>(getFavoriteFlowers);
+  const favoritedOwnedFlowers = flowers.filter((flower) =>
+    favoriteFlowers.includes(flower),
+  );
+  const otherFlowers = flowers.filter(
+    (flower) => !favoriteFlowers.includes(flower),
+  );
+
+  const toggleFavorite = (flower: FlowerName) => {
+    setFavoriteFlowers((previous) => {
+      if (previous.includes(flower)) {
+        const next = previous.filter((f) => f !== flower);
+        saveFavoriteFlowers(next);
+        return next;
+      }
+
+      if (previous.length >= MAX_FAVORITE_FLOWERS) return previous;
+
+      const next = [...previous, flower];
+      saveFavoriteFlowers(next);
+      return next;
+    });
+  };
+
+  // A press-and-hold on a flower toggles its favorite status instead of
+  // selecting it - the timer is cancelled on release/leave so a normal tap
+  // still selects normally.
+  const longPressTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const longPressTriggered = useRef(false);
+
+  const startLongPress = (flower: FlowerName) => {
+    longPressTriggered.current = false;
+    longPressTimer.current = setTimeout(() => {
+      longPressTriggered.current = true;
+      toggleFavorite(flower);
+    }, 500);
+  };
+
+  const cancelLongPress = () => {
+    if (longPressTimer.current) clearTimeout(longPressTimer.current);
+  };
+
+  const onFlowerClick = (flower: FlowerName) => {
+    if (longPressTriggered.current) {
+      longPressTriggered.current = false;
+      return;
+    }
+    setSelected(flower);
+  };
+
   const onGift = async () => {
     const previous = game.npcs?.[name]?.friendship?.points ?? 0;
     const state = gameService.send("flowers.gifted", {
@@ -525,17 +576,54 @@ export const Gifts: React.FC<{
           <p className="text-xs mb-2">{`${t("bumpkin.delivery.noFlowers")}`}</p>
         )}
         {flowers.length > 0 && (
-          <div className="flex w-full flex-wrap mb-2">
-            {flowers.map((flower) => (
-              <Box
-                key={flower}
-                onClick={() => setSelected(flower as FlowerName)}
-                image={ITEM_DETAILS[flower].image}
-                isSelected={selected === flower}
-                count={game.inventory[flower]}
-              />
-            ))}
-          </div>
+          <>
+            <Label
+              type="info"
+              className="mb-1.5 ml-1"
+              icon={SUNNYSIDE.icons.heart}
+            >
+              {`${t("bumpkin.delivery.favoriteFlowerHint")} (${favoriteFlowers.length}/${MAX_FAVORITE_FLOWERS})`}
+            </Label>
+            {favoriteFlowers.length > 0 && (
+              <>
+                <Label
+                  type="default"
+                  className="mb-1 ml-1"
+                  icon={SUNNYSIDE.icons.heart}
+                >
+                  {`${t("favorites")} (${favoriteFlowers.length}/${MAX_FAVORITE_FLOWERS})`}
+                </Label>
+                <div className="flex w-full flex-wrap mb-2">
+                  {favoritedOwnedFlowers.map((flower) => (
+                    <Box
+                      key={flower}
+                      onClick={() => onFlowerClick(flower)}
+                      onPointerDown={() => startLongPress(flower)}
+                      onPointerUp={cancelLongPress}
+                      image={ITEM_DETAILS[flower].image}
+                      secondaryImage={SUNNYSIDE.icons.heart}
+                      isSelected={selected === flower}
+                      count={game.inventory[flower]}
+                    />
+                  ))}
+                </div>
+                <div className="border-t border-brown-600 mb-2 w-full" />
+              </>
+            )}
+            <div className="flex w-full flex-wrap mb-2">
+              {otherFlowers.map((flower) => (
+                <Box
+                  key={flower}
+                  onClick={() => onFlowerClick(flower)}
+                  onPointerDown={() => startLongPress(flower)}
+                  onPointerUp={cancelLongPress}
+                  image={ITEM_DETAILS[flower].image}
+                  isSelected={selected === flower}
+                  count={game.inventory[flower]}
+                />
+              ))}
+            </div>
+          </>
         )}
       </InnerPanel>
 
@@ -594,6 +682,28 @@ function acknowledgeGiftInfoRead() {
 
 function hasReadGiftInfo() {
   return !!localStorage.getItem(LOCAL_STORAGE_KEY);
+}
+
+// Favorite flowers are a purely client-side UI convenience (a quick-pick
+// shortlist in the gift flower grid) - stored in localStorage rather than
+// game state, so no server-side schema/event is needed for this.
+export const MAX_FAVORITE_FLOWERS = 5;
+const FAVORITE_FLOWERS_KEY = `favorite-flowers.${host}-${window.location.pathname}`;
+
+function getFavoriteFlowers(): FlowerName[] {
+  try {
+    const raw = localStorage.getItem(FAVORITE_FLOWERS_KEY);
+    if (!raw) return [];
+
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? (parsed as FlowerName[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveFavoriteFlowers(flowers: FlowerName[]) {
+  localStorage.setItem(FAVORITE_FLOWERS_KEY, JSON.stringify(flowers));
 }
 const BumpkinGiftBar: React.FC<{
   game: GameState;

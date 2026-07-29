@@ -60,6 +60,7 @@ export interface BoxProps {
   onDragOver?: (e: React.DragEvent<HTMLDivElement>) => void;
   onDrop?: (e: React.DragEvent<HTMLDivElement>) => void;
   onPointerDown?: (e: React.PointerEvent<HTMLDivElement>) => void;
+  onPointerUp?: (e: React.PointerEvent<HTMLDivElement>) => void;
   style?: React.CSSProperties;
   /**
    * Custom content to show inside the box (e.g. Bumpkin).
@@ -90,6 +91,7 @@ export const Box: React.FC<BoxProps> = ({
   onDragOver,
   onDrop,
   onPointerDown,
+  onPointerUp,
   style,
   children,
 }) => {
@@ -118,8 +120,12 @@ export const Box: React.FC<BoxProps> = ({
     <div
       className={`relative ${className}`}
       onMouseEnter={() => setIsHover(true)}
-      onMouseLeave={() => setIsHover(false)}
+      onMouseLeave={(e) => {
+        setIsHover(false);
+        onPointerUp?.(e as unknown as React.PointerEvent<HTMLDivElement>);
+      }}
       onPointerDown={onPointerDown}
+      onPointerUp={onPointerUp}
       style={style}
     >
       <div
