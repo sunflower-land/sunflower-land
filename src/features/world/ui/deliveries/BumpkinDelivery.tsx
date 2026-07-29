@@ -434,21 +434,28 @@ export const Gifts: React.FC<{
     (flower) => !favoriteFlowers.includes(flower),
   );
 
+  // Persisting here (rather than inside the setFavoriteFlowers updater) keeps
+  // the updater a pure state calculation, as React requires - updaters can be
+  // invoked more than once (e.g. Strict Mode), which would otherwise risk
+  // duplicate/stale writes to localStorage.
+  useEffect(() => {
+    if (!hasFavoriteFlowersAccess) return;
+
+    saveFavoriteFlowers(favoriteFlowers);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [favoriteFlowers]);
+
   const toggleFavorite = (flower: FlowerName) => {
     if (!hasFavoriteFlowersAccess) return;
 
     setFavoriteFlowers((previous) => {
       if (previous.includes(flower)) {
-        const next = previous.filter((f) => f !== flower);
-        saveFavoriteFlowers(next);
-        return next;
+        return previous.filter((f) => f !== flower);
       }
 
       if (previous.length >= MAX_FAVORITE_FLOWERS) return previous;
 
-      const next = [...previous, flower];
-      saveFavoriteFlowers(next);
-      return next;
+      return [...previous, flower];
     });
   };
 
