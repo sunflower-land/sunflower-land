@@ -193,6 +193,73 @@ describe("Place Collectible", () => {
     expect(state.collectibles["Big Orange"]).toHaveLength(1);
   });
 
+  it("does not restart a village project when re-placing a monument", () => {
+    const dateNow = Date.now();
+    const state = placeCollectible({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Basic Cooking Pot": new Decimal(1),
+        },
+        collectibles: {
+          // Previously placed, then removed - its project has already been
+          // consumed, so restarting it must go through `project.started`
+          "Basic Cooking Pot": [{ id: "123", removedAt: dateNow }],
+        },
+      },
+      action: {
+        id: "123",
+        type: "collectible.placed",
+        name: "Basic Cooking Pot",
+        coordinates: {
+          x: 0,
+          y: 0,
+        },
+        location: "farm",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(
+      state.socialFarming.villageProjects["Basic Cooking Pot"],
+    ).toBeUndefined();
+  });
+
+  it("does not restart a village project when moving a monument out of the home", () => {
+    const dateNow = Date.now();
+    const state = placeCollectible({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Basic Cooking Pot": new Decimal(1),
+        },
+        collectibles: {},
+        home: {
+          ...GAME_STATE.home,
+          collectibles: {
+            "Basic Cooking Pot": [{ id: "123", removedAt: dateNow }],
+          },
+        },
+      },
+      action: {
+        id: "456",
+        type: "collectible.placed",
+        name: "Basic Cooking Pot",
+        coordinates: {
+          x: 0,
+          y: 0,
+        },
+        location: "farm",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(
+      state.socialFarming.villageProjects["Basic Cooking Pot"],
+    ).toBeUndefined();
+    expect(state.collectibles["Basic Cooking Pot"]).toHaveLength(1);
+  });
+
   it("Cannot place a building", () => {
     expect(() =>
       placeCollectible({
@@ -600,6 +667,77 @@ describe("Place Collectible", () => {
           coordinates: { x: 0, y: 0 },
         },
       ]);
+    });
+
+    it("moves an unplaced interior collectible to the farm rather than creating a duplicate", () => {
+      const state = placeCollectible({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            "Tornado Pinwheel": new Decimal(1),
+          },
+          collectibles: {},
+          interior: {
+            ground: {
+              collectibles: {
+                // Removed from the interior, so it has no coordinates
+                "Tornado Pinwheel": [{ id: "interior-1", used: true }],
+              },
+            },
+          },
+        },
+        action: {
+          id: "new-id",
+          type: "collectible.placed",
+          name: "Tornado Pinwheel",
+          coordinates: { x: 1, y: 1 },
+          location: "farm",
+        },
+      });
+
+      // The same instance is moved across — a weather item's `used` flag must
+      // survive the move, otherwise it is renewed for free.
+      expect(state.collectibles["Tornado Pinwheel"]).toEqual([
+        { id: "interior-1", used: true, coordinates: { x: 1, y: 1 } },
+      ]);
+      expect(state.interior.ground.collectibles["Tornado Pinwheel"]).toEqual(
+        [],
+      );
+    });
+
+    it("moves an unplaced level_one collectible to the home rather than creating a duplicate", () => {
+      const state = placeCollectible({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            "Tornado Pinwheel": new Decimal(1),
+          },
+          collectibles: {},
+          interior: {
+            ground: { collectibles: {} },
+            expansion: "level-one-start",
+            level_one: {
+              collectibles: {
+                "Tornado Pinwheel": [{ id: "lo-1", used: true }],
+              },
+            },
+          },
+        },
+        action: {
+          id: "new-id",
+          type: "collectible.placed",
+          name: "Tornado Pinwheel",
+          coordinates: { x: 1, y: 1 },
+          location: "home",
+        },
+      });
+
+      expect(state.home.collectibles["Tornado Pinwheel"]).toEqual([
+        { id: "lo-1", used: true, coordinates: { x: 1, y: 1 } },
+      ]);
+      expect(
+        state.interior.level_one!.collectibles["Tornado Pinwheel"],
+      ).toEqual([]);
     });
 
     it("rejects placing on level_one before the upgrade has been bought", () => {
