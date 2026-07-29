@@ -195,6 +195,10 @@ const FEATURE_FLAGS = {
   // expansion, level bands). Skill *effects* still apply off the stored rank
   // regardless of this flag; only purchasing new ranks is gated here.
   ASCENSION_SKILLS: betaFeatureFlag,
+
+  // Beta testers can grab a Yakkamon pre-registration code before the level
+  // tiers open to everyone else. The server enforces the same rule.
+  YAKKAMON_BETA_ACCESS: betaFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
