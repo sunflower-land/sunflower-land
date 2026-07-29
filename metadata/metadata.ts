@@ -21805,7 +21805,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Ascension Wings",
   },
-  "Salt Onesie": {
+  "Salt Bottle Onesie": {
     description:
       "Shake things up! A pinch of salt goes a long way, and this onesie carries plenty.",
     decimals: 0,
@@ -21814,7 +21814,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    name: "Salt Onesie",
+    name: "Salt Bottle Onesie",
   },
   "Swamp Armor": {
     description:
