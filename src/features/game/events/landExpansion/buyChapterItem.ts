@@ -256,7 +256,7 @@ export function buyChapterItem({
     copy.balance = copy.balance.minus(_sfl);
     if (_sfl.gt(0)) {
       copy.farmActivity = trackFarmActivity(
-        "SFL Spent",
+        "FLOWER Spent",
         copy.farmActivity,
         _sfl,
       );

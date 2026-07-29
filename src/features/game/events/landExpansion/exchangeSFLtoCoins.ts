@@ -51,7 +51,7 @@ export function exchangeSFLtoCoins({
     game.balance = balance.minus(sfl);
     game.coins += coins;
     game.farmActivity = trackFarmActivity(
-      "SFL Spent",
+      "FLOWER Spent",
       game.farmActivity,
       new Decimal(sfl),
     );

@@ -64,14 +64,14 @@ describe("refundBid", () => {
     expect(state.balance).toEqual(new Decimal(5));
   });
 
-  it("decrements SFL Spent farm activity when refunding sfl", () => {
+  it("decrements FLOWER Spent farm activity when refunding sfl", () => {
     const state = refundBid({
       action: {
         type: "bid.refunded",
       },
       state: {
         ...TEST_FARM,
-        farmActivity: { "SFL Spent": 20 },
+        farmActivity: { "FLOWER Spent": 20 },
         auctioneer: {
           bid: {
             collectible: "Beta Bear",
@@ -86,7 +86,7 @@ describe("refundBid", () => {
       },
     });
 
-    expect(state.farmActivity["SFL Spent"]).toEqual(15);
+    expect(state.farmActivity["FLOWER Spent"]).toEqual(15);
   });
 
   it("removes bid", () => {

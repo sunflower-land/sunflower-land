@@ -69,7 +69,7 @@ export function buyEventShopItem({
 
       stateCopy.balance = balance.sub(new Decimal(cost));
       stateCopy.farmActivity = trackFarmActivity(
-        "SFL Spent",
+        "FLOWER Spent",
         stateCopy.farmActivity,
         new Decimal(cost),
       );

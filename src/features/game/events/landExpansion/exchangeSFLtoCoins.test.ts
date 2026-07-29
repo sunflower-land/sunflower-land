@@ -27,7 +27,7 @@ describe("exchangeSFLtoCoins", () => {
     ).toThrow("Not enough SFL");
   });
 
-  it("tracks SFL Spent farm activity", () => {
+  it("tracks FLOWER Spent farm activity", () => {
     const state = exchangeSFLtoCoins({
       state: {
         ...TEST_FARM,
@@ -36,20 +36,20 @@ describe("exchangeSFLtoCoins", () => {
       action: { type: "sfl.exchanged", packageId: 2 },
     });
 
-    expect(state.farmActivity["SFL Spent"]).toEqual(30);
+    expect(state.farmActivity["FLOWER Spent"]).toEqual(30);
   });
 
-  it("accumulates SFL Spent farm activity", () => {
+  it("accumulates FLOWER Spent farm activity", () => {
     const state = exchangeSFLtoCoins({
       state: {
         ...TEST_FARM,
         balance: new Decimal(1),
-        farmActivity: { "SFL Spent": 5 },
+        farmActivity: { "FLOWER Spent": 5 },
       },
       action: { type: "sfl.exchanged", packageId: 1 },
     });
 
-    expect(state.farmActivity["SFL Spent"]).toEqual(6);
+    expect(state.farmActivity["FLOWER Spent"]).toEqual(6);
   });
 
   it("exchanges 1 sfl for 160 coins", () => {

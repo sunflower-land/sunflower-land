@@ -92,7 +92,7 @@ describe("joinFaction", () => {
     expect(state.balance).toEqual(new Decimal(90));
   });
 
-  it("tracks SFL Spent farm activity when joining", () => {
+  it("tracks FLOWER Spent farm activity when joining", () => {
     const state = joinFaction({
       state: {
         ...TEST_FARM,
@@ -105,7 +105,7 @@ describe("joinFaction", () => {
       },
     });
 
-    expect(state.farmActivity["SFL Spent"]).toEqual(10);
+    expect(state.farmActivity["FLOWER Spent"]).toEqual(10);
   });
 
   it("throws an error if the player doesn't have enough SFL", () => {

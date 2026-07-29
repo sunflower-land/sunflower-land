@@ -78,7 +78,7 @@ describe("buyChapterItem", () => {
     expect(result.balance).toEqual(new Decimal(990));
   });
 
-  it("tracks SFL Spent farm activity when buying an item", () => {
+  it("tracks FLOWER Spent farm activity when buying an item", () => {
     const result = buyChapterItem({
       state: mockState,
       action: {
@@ -89,7 +89,7 @@ describe("buyChapterItem", () => {
       createdAt: mockDate,
     });
 
-    expect(result.farmActivity["SFL Spent"]).toEqual(10);
+    expect(result.farmActivity["FLOWER Spent"]).toEqual(10);
   });
 
   it("subtracts items when buying an item", () => {

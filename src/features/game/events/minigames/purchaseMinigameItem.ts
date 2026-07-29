@@ -113,7 +113,7 @@ export function purchaseMinigameItem({
     game.balance = game.balance.sub(action.sfl);
     if (action.sfl > 0) {
       game.farmActivity = trackFarmActivity(
-        "SFL Spent",
+        "FLOWER Spent",
         game.farmActivity,
         new Decimal(action.sfl),
       );

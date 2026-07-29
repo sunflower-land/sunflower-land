@@ -90,7 +90,7 @@ export function joinFaction({
     stateCopy.balance = state.balance.sub(action.sfl);
     if (action.sfl > 0) {
       stateCopy.farmActivity = trackFarmActivity(
-        "SFL Spent",
+        "FLOWER Spent",
         stateCopy.farmActivity,
         new Decimal(action.sfl),
       );

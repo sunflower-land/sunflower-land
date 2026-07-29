@@ -172,7 +172,7 @@ describe("minigame.itemPurchased", () => {
     });
   });
 
-  it("tracks SFL Spent farm activity", () => {
+  it("tracks FLOWER Spent farm activity", () => {
     const state = purchaseMinigameItem({
       state: {
         ...TEST_FARM,
@@ -190,10 +190,10 @@ describe("minigame.itemPurchased", () => {
       },
     });
 
-    expect(state.farmActivity["SFL Spent"]).toEqual(10);
+    expect(state.farmActivity["FLOWER Spent"]).toEqual(10);
   });
 
-  it("does not track SFL Spent when no sfl is spent", () => {
+  it("does not track FLOWER Spent when no sfl is spent", () => {
     const state = purchaseMinigameItem({
       state: {
         ...TEST_FARM,
@@ -212,7 +212,7 @@ describe("minigame.itemPurchased", () => {
       },
     });
 
-    expect(state.farmActivity["SFL Spent"]).toBeUndefined();
+    expect(state.farmActivity["FLOWER Spent"]).toBeUndefined();
   });
 
   it("stores multiple purchases", () => {

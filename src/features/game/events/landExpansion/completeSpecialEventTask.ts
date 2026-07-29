@@ -69,7 +69,7 @@ export function completeSpecialEventTask({
     stateCopy.balance = balance.minus(sfl);
     if (sfl > 0) {
       stateCopy.farmActivity = trackFarmActivity(
-        "SFL Spent",
+        "FLOWER Spent",
         stateCopy.farmActivity,
         new Decimal(sfl),
       );

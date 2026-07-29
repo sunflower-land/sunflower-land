@@ -34,7 +34,7 @@ export function cancelBid({ state, action }: Options) {
     game.balance = game.balance.add(bid.sfl);
     if (bid.sfl > 0) {
       game.farmActivity = trackFarmActivity(
-        "SFL Spent",
+        "FLOWER Spent",
         game.farmActivity,
         new Decimal(-bid.sfl),
       );

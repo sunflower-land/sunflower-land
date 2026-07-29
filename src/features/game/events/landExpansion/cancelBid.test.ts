@@ -52,7 +52,7 @@ describe("cancelBid", () => {
     ).toThrow("Auction does not match active bid");
   });
 
-  it("decrements SFL Spent farm activity when cancelling a bid", () => {
+  it("decrements FLOWER Spent farm activity when cancelling a bid", () => {
     const state = cancelBid({
       action: {
         type: "bid.cancelled",
@@ -60,11 +60,11 @@ describe("cancelBid", () => {
       },
       state: {
         ...GAME_STATE,
-        farmActivity: { "SFL Spent": 25 },
+        farmActivity: { "FLOWER Spent": 25 },
       },
     });
 
-    expect(state.farmActivity["SFL Spent"]).toEqual(15);
+    expect(state.farmActivity["FLOWER Spent"]).toEqual(15);
   });
 
   it("restores escrowed resources and clears the bid", () => {

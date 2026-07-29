@@ -374,7 +374,7 @@ describe("completeEventTask", () => {
     expect(state.balance).toEqual(new Decimal(1));
   });
 
-  it("tracks SFL Spent farm activity for sfl requirements", () => {
+  it("tracks FLOWER Spent farm activity for sfl requirements", () => {
     const state = completeSpecialEventTask({
       createdAt: now,
       action: {
@@ -406,7 +406,7 @@ describe("completeEventTask", () => {
       },
     });
 
-    expect(state.farmActivity["SFL Spent"]).toEqual(1);
+    expect(state.farmActivity["FLOWER Spent"]).toEqual(1);
   });
 
   it("marks the task as completed", () => {

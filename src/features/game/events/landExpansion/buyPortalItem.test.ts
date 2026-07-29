@@ -209,7 +209,7 @@ describe("minigameItem.bought", () => {
     });
   });
 
-  it("tracks SFL Spent farm activity", () => {
+  it("tracks FLOWER Spent farm activity", () => {
     const state = buyEventShopItem({
       createdAt: now,
       action: {
@@ -233,7 +233,7 @@ describe("minigameItem.bought", () => {
       },
     });
 
-    expect(state.farmActivity["SFL Spent"]).toEqual(20);
+    expect(state.farmActivity["FLOWER Spent"]).toEqual(20);
   });
 
   it("buys a collectible with VIP discount", () => {
