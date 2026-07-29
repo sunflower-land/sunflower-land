@@ -8,6 +8,7 @@ import { BANNERS } from "features/game/types/banners";
 import { BED_FARMHAND_COUNT } from "features/game/types/beds";
 import { WEATHER_SHOP_ITEM_COSTS } from "features/game/types/calendar";
 import { DOLLS } from "features/game/lib/crafting";
+import { LETTER_TILES } from "features/game/types/decorations";
 import { PET_TYPES } from "features/game/types/pets";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -36,6 +37,7 @@ const CHEST_CATEGORIES_META = [
   { id: "villageProjects", icon: ITEM_DETAILS["Big Orange"].image },
   { id: "dolls", icon: ITEM_DETAILS["Doll"].image },
   { id: "flowers", icon: ITEM_DETAILS["Prism Petal"].image },
+  { id: "letterTiles", icon: ITEM_DETAILS["Letter A Tile"].image },
   { id: "decorations", icon: ITEM_DETAILS["Basic Bear"].image },
 ] as const satisfies readonly { id: TranslationKeys; icon: string }[];
 
@@ -91,6 +93,7 @@ export const getChestCategories = (
   );
   const dolls = collectibleNames.filter((name) => name in DOLLS);
   const pets = collectibleNames.filter((name) => name in PET_TYPES);
+  const letterTiles = collectibleNames.filter((name) => name in LETTER_TILES);
 
   // Sets for O(1) lookups when computing the catch-all categories below.
   const resourcesSet = new Set(resources);
@@ -103,6 +106,7 @@ export const getChestCategories = (
   const flowersSet = new Set<CollectibleName>(flowers);
   const dollsSet = new Set(dolls);
   const petsSet = new Set(pets);
+  const letterTilesSet = new Set(letterTiles);
 
   // Totems, hourglasses and shrines expire and need re-triggering - split
   // them out from the "always on" boosts (EXPIRY_COOLDOWNS is the ground
@@ -116,7 +120,8 @@ export const getChestCategories = (
         !monumentsSet.has(name) &&
         !villageProjectsSet.has(name) &&
         !bedsSet.has(name) &&
-        !flowersSet.has(name),
+        !flowersSet.has(name) &&
+        !letterTilesSet.has(name),
     );
 
   const temporaryBoostsSet = new Set(temporaryBoosts);
@@ -131,7 +136,8 @@ export const getChestCategories = (
         !villageProjectsSet.has(name) &&
         !bedsSet.has(name) &&
         !flowersSet.has(name) &&
-        !temporaryBoostsSet.has(name),
+        !temporaryBoostsSet.has(name) &&
+        !letterTilesSet.has(name),
     );
 
   const boostsSet = new Set(boosts);
@@ -149,7 +155,8 @@ export const getChestCategories = (
       !dollsSet.has(name) &&
       !petsSet.has(name) &&
       !flowersSet.has(name) &&
-      !villageProjectsSet.has(name),
+      !villageProjectsSet.has(name) &&
+      !letterTilesSet.has(name),
   );
 
   const itemsById: Record<ChestCategoryId, CollectibleName[]> = {
@@ -165,6 +172,7 @@ export const getChestCategories = (
     villageProjects,
     dolls,
     flowers,
+    letterTiles,
     decorations,
   };
 
