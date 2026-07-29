@@ -72,7 +72,7 @@ import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { getChapterTaskPoints } from "features/game/types/tracks";
 import chapterPointsIcon from "assets/icons/red_medal_short.webp";
-import { hasTimeBasedFeatureAccess } from "lib/flags";
+import { hasFeatureAccess, hasTimeBasedFeatureAccess } from "lib/flags";
 
 const OrderCard: React.FC<{
   order: Order;
@@ -421,8 +421,12 @@ export const Gifts: React.FC<{
     )
     .sort((a, b) => getKeys(FLOWERS).indexOf(a) - getKeys(FLOWERS).indexOf(b));
 
-  const [favoriteFlowers, setFavoriteFlowers] =
-    useState<FlowerName[]>(getFavoriteFlowers);
+  // Beta-gated: press-and-hold-to-favorite is still being validated.
+  const hasFavoriteFlowersAccess = hasFeatureAccess(game, "FAVORITE_FLOWERS");
+
+  const [favoriteFlowers, setFavoriteFlowers] = useState<FlowerName[]>(() =>
+    hasFavoriteFlowersAccess ? getFavoriteFlowers() : [],
+  );
   const favoritedOwnedFlowers = flowers.filter((flower) =>
     favoriteFlowers.includes(flower),
   );
@@ -431,6 +435,8 @@ export const Gifts: React.FC<{
   );
 
   const toggleFavorite = (flower: FlowerName) => {
+    if (!hasFavoriteFlowersAccess) return;
+
     setFavoriteFlowers((previous) => {
       if (previous.includes(flower)) {
         const next = previous.filter((f) => f !== flower);
@@ -453,6 +459,8 @@ export const Gifts: React.FC<{
   const longPressTriggered = useRef(false);
 
   const startLongPress = (flower: FlowerName) => {
+    if (!hasFavoriteFlowersAccess) return;
+
     longPressTriggered.current = false;
     longPressTimer.current = setTimeout(() => {
       longPressTriggered.current = true;
@@ -577,13 +585,15 @@ export const Gifts: React.FC<{
         )}
         {flowers.length > 0 && (
           <>
-            <Label
-              type="info"
-              className="mb-1.5 ml-1"
-              icon={SUNNYSIDE.icons.heart}
-            >
-              {`${t("bumpkin.delivery.favoriteFlowerHint")} (${favoriteFlowers.length}/${MAX_FAVORITE_FLOWERS})`}
-            </Label>
+            {hasFavoriteFlowersAccess && (
+              <Label
+                type="info"
+                className="mb-1.5 ml-1"
+                icon={SUNNYSIDE.icons.heart}
+              >
+                {`${t("bumpkin.delivery.favoriteFlowerHint")} (${favoriteFlowers.length}/${MAX_FAVORITE_FLOWERS})`}
+              </Label>
+            )}
             {favoriteFlowers.length > 0 && (
               <>
                 <Label
@@ -601,7 +611,11 @@ export const Gifts: React.FC<{
                       onPointerDown={() => startLongPress(flower)}
                       onPointerUp={cancelLongPress}
                       image={ITEM_DETAILS[flower].image}
-                      secondaryImage={SUNNYSIDE.icons.heart}
+                      secondaryImage={
+                        BUMPKIN_FLOWER_BONUSES[name]?.[flower]
+                          ? lightning
+                          : SUNNYSIDE.icons.heart
+                      }
                       isSelected={selected === flower}
                       count={game.inventory[flower]}
                     />
@@ -618,6 +632,11 @@ export const Gifts: React.FC<{
                   onPointerDown={() => startLongPress(flower)}
                   onPointerUp={cancelLongPress}
                   image={ITEM_DETAILS[flower].image}
+                  secondaryImage={
+                    BUMPKIN_FLOWER_BONUSES[name]?.[flower]
+                      ? lightning
+                      : undefined
+                  }
                   isSelected={selected === flower}
                   count={game.inventory[flower]}
                 />
