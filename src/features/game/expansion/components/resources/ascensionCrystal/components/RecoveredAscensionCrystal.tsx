@@ -6,7 +6,7 @@ import Spritesheet, {
 
 // No dedicated strike art — the sunstone spark sheet is neutral impact sparks.
 import strikeSheet from "assets/resources/sunstone/sunstone_rock_spark.png";
-import crystalRock from "assets/resources/ascension_crystal/crystal_rock_1.webp";
+import crystalRock from "assets/resources/ascension_crystal/ascension_crystal.webp";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 

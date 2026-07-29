@@ -240,7 +240,7 @@ import gold from "assets/resources/gold_ore.png";
 import crimstone from "assets/resources/crimstone.png";
 import sunstone from "assets/resources/sunstone/sunstone.png";
 import ascensionShard from "assets/resources/ascension_crystal/ascension_shard.webp";
-import ascensionCrystalRock from "assets/resources/ascension_crystal/crystal_rock_1.webp";
+import ascensionCrystalRock from "assets/resources/ascension_crystal/ascension_crystal.webp";
 import honey from "assets/resources/honey.png";
 import apple from "assets/resources/apple.png";
 import orange from "assets/resources/orange.png";
