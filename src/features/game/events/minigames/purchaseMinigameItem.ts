@@ -8,6 +8,7 @@ import {
   SUPPORTED_MINIGAMES,
 } from "features/game/types/minigames";
 import { COMMODITIES, type CommodityName } from "features/game/types/resources";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { produce } from "immer";
 
 export type MinigameCurrency = CropName | PatchFruitName | CommodityName;
@@ -110,6 +111,13 @@ export function purchaseMinigameItem({
 
     // Burn the FLOWER
     game.balance = game.balance.sub(action.sfl);
+    if (action.sfl > 0) {
+      game.farmActivity = trackFarmActivity(
+        "FLOWER Spent",
+        game.farmActivity,
+        new Decimal(action.sfl),
+      );
+    }
 
     return game;
   });

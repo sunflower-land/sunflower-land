@@ -21805,7 +21805,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Ascension Wings",
   },
-  "Salt Onesie": {
+  "Salt Bottle Onesie": {
     description:
       "Shake things up! A pinch of salt goes a long way, and this onesie carries plenty.",
     decimals: 0,
@@ -21814,7 +21814,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    name: "Salt Onesie",
+    name: "Salt Bottle Onesie",
   },
   "Swamp Armor": {
     description:
@@ -21848,6 +21848,61 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Swamp Pants",
+  },
+  "Luna's Headpiece": {
+    description:
+      "Hair kissed by moonlight, glowing softly with lunar energy. A favourite of night owls and stargazers.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hair" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Luna's Headpiece",
+  },
+  "Crystal Shoes": {
+    description:
+      "Footwear cut from a single crystal node and polished to a shine. They chime softly with every step.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shoes" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Crystal Shoes",
+  },
+  "Marble Pants": {
+    description:
+      "Trousers with the cool veined sheen of polished marble. Far comfier than they have any right to be.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Pants" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Marble Pants",
+  },
+  "Spooky Coat": {
+    description:
+      "A tattered coat with a fur collar that never quite stops shivering. Something followed it home.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Coat" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Spooky Coat",
+  },
+  "Surfer Hair": {
+    description:
+      "Sun-bleached locks with the salt still in them. Permanently windswept, even indoors.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hair" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Surfer Hair",
   },
   "Yellow Slime Puppet": {
     description:

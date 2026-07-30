@@ -92,6 +92,22 @@ describe("joinFaction", () => {
     expect(state.balance).toEqual(new Decimal(90));
   });
 
+  it("tracks FLOWER Spent farm activity when joining", () => {
+    const state = joinFaction({
+      state: {
+        ...TEST_FARM,
+        balance: new Decimal(100),
+      },
+      action: {
+        type: "faction.joined",
+        faction: "sunflorians",
+        sfl: 10,
+      },
+    });
+
+    expect(state.farmActivity["FLOWER Spent"]).toEqual(10);
+  });
+
   it("throws an error if the player doesn't have enough SFL", () => {
     expect(() =>
       joinFaction({

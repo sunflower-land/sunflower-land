@@ -498,20 +498,20 @@ describe("Sea Blessed rank", () => {
 
   it("scales the chance with rank", () => {
     expect(getSeaBlessedChance(gameWithRank(1))).toBe(5);
-    expect(getSeaBlessedChance(gameWithRank(2))).toBe(7.5);
-    expect(getSeaBlessedChance(gameWithRank(3))).toBe(10);
+    expect(getSeaBlessedChance(gameWithRank(2))).toBe(6.5);
+    expect(getSeaBlessedChance(gameWithRank(3))).toBe(8);
   });
 
   // Guards rank 2's fractional half-percent end to end, at the generator rather
-  // than at the call site. farmId 1 / counter 2 is a witness: its prng value
-  // lands in [7, 7.5), so it misses at rank 1's 5% and would also miss if 7.5
-  // were ever truncated to 7 — it only fires if the full 7.5 reaches prngChance.
-  it("rolls rank 2 at the full 7.5%, not a truncated 7%", () => {
+  // than at the call site. farmId 1 / counter 82 is a witness: its prng value
+  // lands in [6, 6.5), so it misses at rank 1's 5% and would also miss if 6.5
+  // were ever truncated to 6 — it only fires if the full 6.5 reaches prngChance.
+  it("rolls rank 2 at the full 6.5%, not a truncated 6%", () => {
     const roll = (chance: number) =>
       prngChance({
         farmId: 1,
         itemId: KNOWN_IDS["Salt"],
-        counter: 2,
+        counter: 82,
         chance,
         criticalHitName: "Sea Blessed",
       });
@@ -519,7 +519,7 @@ describe("Sea Blessed rank", () => {
     expect(roll(getSeaBlessedChance(gameWithRank(1)))).toBe(false);
     expect(roll(getSeaBlessedChance(gameWithRank(2)))).toBe(true);
     // The truncation this guards against:
-    expect(roll(7)).toBe(false);
+    expect(roll(6)).toBe(false);
   });
 
   it("rolls a higher rank whenever a lower rank hits", () => {

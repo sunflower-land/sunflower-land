@@ -37,7 +37,10 @@ import { Button } from "components/ui/Button";
 import confetti from "canvas-confetti";
 import flowerIcon from "assets/icons/flower_token.webp";
 import chapterPoints from "assets/icons/red_medal_short.webp";
-import { NO_BONUS_BOUNTIES_WEEK } from "features/game/events/landExpansion/claimBountyBonus";
+import {
+  getBountyBonusAmount,
+  NO_BONUS_BOUNTIES_WEEK,
+} from "features/game/events/landExpansion/claimBountyBonus";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -522,7 +525,10 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
             )}
           </div>
           <p className="text-xs ml-1">
-            {t("bounties.bonus.getBonus", { chapterTicket })}
+            {t("bounties.bonus.getBonus", {
+              amount: getBountyBonusAmount(now),
+              chapterTicket,
+            })}
           </p>
           {!readonly && (
             <Button

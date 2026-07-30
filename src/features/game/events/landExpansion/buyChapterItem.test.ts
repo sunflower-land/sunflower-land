@@ -78,6 +78,20 @@ describe("buyChapterItem", () => {
     expect(result.balance).toEqual(new Decimal(990));
   });
 
+  it("tracks FLOWER Spent farm activity when buying an item", () => {
+    const result = buyChapterItem({
+      state: mockState,
+      action: {
+        type: "chapterItem.bought",
+        name: "Treasure Key",
+        tier: "basic",
+      },
+      createdAt: mockDate,
+    });
+
+    expect(result.farmActivity["FLOWER Spent"]).toEqual(10);
+  });
+
   it("subtracts items when buying an item", () => {
     const result = buyChapterItem({
       state: mockState,
@@ -878,6 +892,234 @@ describe("buyChapterItem", () => {
           createdAt: saltAwakeningDate,
         }),
       ).toThrow("Purchase limit reached");
+    });
+  });
+
+  describe("Ascension Age megastore", () => {
+    const ascensionAgeDate = new Date("2026-08-10T00:00:00Z").getTime();
+
+    it("buys the Swamp Lily Hat with coins", () => {
+      const result = buyChapterItem({
+        state: {
+          ...mockState,
+          coins: 6000,
+        },
+        action: {
+          type: "chapterItem.bought",
+          name: "Swamp Lily Hat",
+          tier: "basic",
+        },
+        createdAt: ascensionAgeDate,
+      });
+
+      expect(result.coins).toEqual(1000);
+      expect(result.wardrobe["Swamp Lily Hat"]).toEqual(1);
+    });
+
+    it("buys the Swamp Armor with FLOWER", () => {
+      const result = buyChapterItem({
+        state: {
+          ...mockState,
+          balance: new Decimal(100),
+        },
+        action: {
+          type: "chapterItem.bought",
+          name: "Swamp Armor",
+          tier: "basic",
+        },
+        createdAt: ascensionAgeDate,
+      });
+
+      expect(result.balance).toEqual(new Decimal(90));
+      expect(result.wardrobe["Swamp Armor"]).toEqual(1);
+    });
+
+    it("buys the Swamp Pants with FLOWER", () => {
+      const result = buyChapterItem({
+        state: {
+          ...mockState,
+          balance: new Decimal(100),
+        },
+        action: {
+          type: "chapterItem.bought",
+          name: "Swamp Pants",
+          tier: "basic",
+        },
+        createdAt: ascensionAgeDate,
+      });
+
+      expect(result.balance).toEqual(new Decimal(50));
+      expect(result.wardrobe["Swamp Pants"]).toEqual(1);
+    });
+
+    it("allows buying an hourglass repeatedly with Shiny Feather", () => {
+      const firstBuy = buyChapterItem({
+        state: {
+          ...mockState,
+          inventory: {
+            "Shiny Feather": new Decimal(500),
+          },
+        },
+        action: {
+          type: "chapterItem.bought",
+          name: "Fisher's Hourglass",
+          tier: "basic",
+        },
+        createdAt: ascensionAgeDate,
+      });
+
+      expect(firstBuy.inventory["Fisher's Hourglass"]).toEqual(new Decimal(1));
+      expect(firstBuy.inventory["Shiny Feather"]).toEqual(new Decimal(300));
+
+      const secondBuy = buyChapterItem({
+        state: firstBuy,
+        action: {
+          type: "chapterItem.bought",
+          name: "Fisher's Hourglass",
+          tier: "basic",
+        },
+        createdAt: ascensionAgeDate + 1000,
+      });
+
+      expect(secondBuy.inventory["Fisher's Hourglass"]).toEqual(new Decimal(2));
+      expect(secondBuy.inventory["Shiny Feather"]).toEqual(new Decimal(100));
+    });
+
+    it("buys the Astrolabe with Shiny Feather and blocks a second purchase", () => {
+      const firstBuy = buyChapterItem({
+        state: {
+          ...mockState,
+          inventory: {
+            "Shiny Feather": new Decimal(20000),
+          },
+        },
+        action: {
+          type: "chapterItem.bought",
+          name: "Astrolabe",
+          tier: "basic",
+        },
+        createdAt: ascensionAgeDate,
+      });
+
+      expect(firstBuy.inventory["Astrolabe"]).toEqual(new Decimal(1));
+      expect(firstBuy.inventory["Shiny Feather"]).toEqual(new Decimal(11000));
+
+      expect(() =>
+        buyChapterItem({
+          state: firstBuy,
+          action: {
+            type: "chapterItem.bought",
+            name: "Astrolabe",
+            tier: "basic",
+          },
+          createdAt: ascensionAgeDate + 1000,
+        }),
+      ).toThrow("Purchase limit reached");
+    });
+
+    it("buys the Ascension Monument with Shiny Feather", () => {
+      const result = buyChapterItem({
+        state: {
+          ...mockState,
+          inventory: {
+            "Shiny Feather": new Decimal(5000),
+          },
+        },
+        action: {
+          type: "chapterItem.bought",
+          name: "Ascension Monument",
+          tier: "basic",
+        },
+        createdAt: ascensionAgeDate,
+      });
+
+      expect(result.inventory["Ascension Monument"]).toEqual(new Decimal(1));
+      expect(result.inventory["Shiny Feather"]).toEqual(new Decimal(1000));
+    });
+
+    it("buys the Luna's Headpiece with Shiny Feather and blocks a second purchase", () => {
+      const firstBuy = buyChapterItem({
+        state: {
+          ...mockState,
+          inventory: {
+            "Shiny Feather": new Decimal(10000),
+          },
+        },
+        action: {
+          type: "chapterItem.bought",
+          name: "Luna's Headpiece",
+          tier: "basic",
+        },
+        createdAt: ascensionAgeDate,
+      });
+
+      expect(firstBuy.wardrobe["Luna's Headpiece"]).toEqual(1);
+      expect(firstBuy.inventory["Shiny Feather"]).toEqual(new Decimal(1000));
+
+      expect(() =>
+        buyChapterItem({
+          state: firstBuy,
+          action: {
+            type: "chapterItem.bought",
+            name: "Luna's Headpiece",
+            tier: "basic",
+          },
+          createdAt: ascensionAgeDate + 1000,
+        }),
+      ).toThrow("Purchase limit reached");
+    });
+
+    it("buys the Otty the Otter with Otter Pebbles and blocks a second purchase", () => {
+      const firstBuy = buyChapterItem({
+        state: {
+          ...mockState,
+          inventory: {
+            "Otter Pebble": new Decimal(300),
+          },
+        },
+        action: {
+          type: "chapterItem.bought",
+          name: "Otty the Otter",
+          tier: "basic",
+        },
+        createdAt: ascensionAgeDate,
+      });
+
+      expect(firstBuy.inventory["Otty the Otter"]).toEqual(new Decimal(1));
+      expect(firstBuy.inventory["Otter Pebble"]).toEqual(new Decimal(50));
+
+      expect(() =>
+        buyChapterItem({
+          state: firstBuy,
+          action: {
+            type: "chapterItem.bought",
+            name: "Otty the Otter",
+            tier: "basic",
+          },
+          createdAt: ascensionAgeDate + 1000,
+        }),
+      ).toThrow("Purchase limit reached");
+    });
+
+    it("does not offer Ascension Age items before the chapter starts", () => {
+      const saltAwakeningDate = new Date("2026-07-27T00:00:00Z").getTime();
+
+      expect(() =>
+        buyChapterItem({
+          state: {
+            ...mockState,
+            inventory: {
+              "Shiny Feather": new Decimal(20000),
+            },
+          },
+          action: {
+            type: "chapterItem.bought",
+            name: "Astrolabe",
+            tier: "basic",
+          },
+          createdAt: saltAwakeningDate,
+        }),
+      ).toThrow("Item not found in the chapter store");
     });
   });
 });

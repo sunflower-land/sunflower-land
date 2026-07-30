@@ -254,6 +254,13 @@ export function buyChapterItem({
 
     // Deduct resources
     copy.balance = copy.balance.minus(_sfl);
+    if (_sfl.gt(0)) {
+      copy.farmActivity = trackFarmActivity(
+        "FLOWER Spent",
+        copy.farmActivity,
+        _sfl,
+      );
+    }
     if (coins > 0) {
       copy.coins = currentCoins - coins;
     }

@@ -103,6 +103,23 @@ describe("claimBountyBonus", () => {
     expect(result.bounties.bonusClaimedAt).toBe(createdAt);
   });
 
+  it("claims a boosted bonus of 100 tickets from Ascension Age onwards", () => {
+    const ascensionCreatedAt = new Date("2026-08-11").getTime();
+
+    const result = claimBountyBonus({
+      state: GAME_STATE,
+      action: {
+        type: "claim.bountyBoardBonus",
+      },
+      createdAt: ascensionCreatedAt,
+    });
+
+    expect(result.inventory[getChapterTicket(ascensionCreatedAt)]).toEqual(
+      new Decimal(100),
+    );
+    expect(result.bounties.bonusClaimedAt).toBe(ascensionCreatedAt);
+  });
+
   it("adds to existing seasonal tickets if player has some", () => {
     const result = claimBountyBonus({
       state: {

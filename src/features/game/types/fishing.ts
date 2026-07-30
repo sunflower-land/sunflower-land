@@ -779,8 +779,8 @@ export const MAP_PUZZLE_DIFFICULTY: Record<MarineMarvelName, number> = {
   "Deep Sea Slug": 4,
   "Crystal Shrimp": 3,
   Crocodile: 3,
-  "Dumbo Octopus": 4,
-  "Seahorse Dad": 3,
+  "Dumbo Octopus": 3,
+  "Seahorse Dad": 4,
 };
 
 export function getDailyFishingCount(state: GameState): number {
@@ -988,12 +988,12 @@ const CHAPTER_MAP_PIECE_TRIGGERS: Partial<
     Coelacanth: { marvel: "Deep Sea Pig", odds: 0.005 },
   },
   "Ascension Age": {
-    "Red Snapper": { marvel: "Crocodile", odds: 0.008 },
-    "Moray Eel": { marvel: "Crocodile", odds: 0.03 },
-    "Olive Flounder": { marvel: "Dumbo Octopus", odds: 0.001 },
-    Napoleanfish: { marvel: "Dumbo Octopus", odds: 0.01 },
-    Angelfish: { marvel: "Seahorse Dad", odds: 0.005 },
-    Porgy: { marvel: "Seahorse Dad", odds: 0.005 },
+    "Red Snapper": { marvel: "Crocodile", odds: 0.005 },
+    "Moray Eel": { marvel: "Crocodile", odds: 0.015 },
+    "Olive Flounder": { marvel: "Dumbo Octopus", odds: 0.005 },
+    Napoleanfish: { marvel: "Dumbo Octopus", odds: 0.005 },
+    Angelfish: { marvel: "Seahorse Dad", odds: 0.001 },
+    Porgy: { marvel: "Seahorse Dad", odds: 0.01 },
   },
 };
 

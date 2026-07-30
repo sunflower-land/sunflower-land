@@ -985,7 +985,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     disabled: false,
     upgrade: {
       maxLevel: 3,
-      effect: { kind: "flatDebuff", ranks: [1, 0.75, 0.5] },
+      effect: { kind: "flatDebuff", ranks: [1, 0.9, 0.8] },
     },
     requirements: {
       points: 1,
@@ -1035,7 +1035,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     tree: "Fruit Patch",
     upgrade: {
       maxLevel: 3,
-      effect: { kind: "additiveYield", ranks: [1, 1.5, 2] },
+      effect: { kind: "additiveYield", ranks: [1, 1.25, 1.5] },
     },
     requirements: {
       points: 2,
@@ -1387,7 +1387,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     tree: "Trees",
     upgrade: {
       maxLevel: 3,
-      effect: { kind: "chance", ranks: [15, 25, 40] } as const,
+      effect: { kind: "chance", ranks: [15, 25, 35] } as const,
     },
     requirements: {
       points: 3,
@@ -2478,7 +2478,7 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     image: greenhouse_gamble,
     upgrade: {
       maxLevel: 3,
-      effect: { kind: "chance", ranks: [25, 35, 45] },
+      effect: { kind: "chance", ranks: [30, 40, 50] },
     },
   },
   "Slick Saver": {
@@ -4366,9 +4366,9 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     upgrade: {
       maxLevel: 3,
       // prngChance percent of restoring a charge to 4 Salt Nodes. Rank 2 is a
-      // fractional 7.5% — prngChance compares a continuous prngValue * 100
+      // fractional 6.5% — prngChance compares a continuous prngValue * 100
       // against this, so it needs no tenths workaround.
-      effect: { kind: "chance", ranks: [5, 7.5, 10] } as const,
+      effect: { kind: "chance", ranks: [5, 6.5, 8] } as const,
     },
     disabled: false,
     requirements: {

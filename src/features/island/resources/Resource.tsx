@@ -210,15 +210,14 @@ export const READONLY_RESOURCE_COMPONENTS = ({
         }}
       />
     ),
-    // TODO: placeholder art — anchored groundwork, no instances spawn yet.
     "Ascension Crystal": () => (
       <img
         src={ITEM_DETAILS["Ascension Crystal"].image}
         className="absolute h-auto w-full"
         style={{
-          width: `${PIXEL_SCALE * 24}px`,
+          width: `${PIXEL_SCALE * 27}px`,
           bottom: `${PIXEL_SCALE * 1}px`,
-          left: `${PIXEL_SCALE * 4}px`,
+          left: `${PIXEL_SCALE * 2}px`,
         }}
       />
     ),
