@@ -1993,7 +1993,6 @@
   "stopGoblin.left": "Tentatives restantes: {{attemptsLeft}}",
   "swarming.tooLongToFarm": "Faites attention, vous avez mis trop de temps pour cultiver vos cultures!",
   "swarming.goblinsTakenOver": "Les Gobelins ont envahi votre ferme. Vous devez attendre qu'ils partent.",
-  "tieBreaker.closeBid": "Si près ! Vous avez mis exactement les mêmes ressources que l'offre de {{supply}}. Le tie-breaker est choisi en fonction du Bumpkin qui a le plus d'expérience. Malheureusement, vous avez perdu.",
   "tieBreaker.betterLuck": "Il est temps de manger plus de gâteaux ! Meilleure chance la prochaine fois.",
   "tieBreaker.refund": "Remboursement de ressources",
   "time.second.full": "seconde",
@@ -9572,5 +9571,6 @@
   "yakkamon.copyCode": "Copier le code",
   "yakkamon.notClaimable": "Vous ne pouvez pas réclamer de code pour l'instant. Revenez quand votre niveau sera ouvert.",
   "yakkamon.error": "Quelque chose s'est mal passé. Veuillez réessayer.",
-  "letterTiles": "Carreaux de lettres"
+  "letterTiles": "Carreaux de lettres",
+  "tieBreaker.ascensionRule": "Un bris d'égalité est choisi par le Bumpkin qui a le plus d'Ascension, de niveau et d'expérience. Tu as malheureusement perdu."
 }

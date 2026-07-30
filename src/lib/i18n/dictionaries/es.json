@@ -2785,7 +2785,6 @@
   "swarming.tooLongToFarm": "Presta atención, has tardado demasiado en cultivar tus cultivos!",
   "swarming.goblinsTakenOver": "Los goblins se han apoderado de tu granja. Debes esperar a que se vayan",
   "tieBreaker.tiebreaker": "Desempate",
-  "tieBreaker.closeBid": "El desempate es elegido por el Bumpkin con más experiencia. Lamentablemente perdiste.",
   "tieBreaker.betterLuck": "Es hora de comer más tartas! Más suerte la próxima vez.",
   "tieBreaker.refund": "Reembolsar recurso",
   "time.second.full": "segundo",
@@ -9572,5 +9571,6 @@
   "yakkamon.copyCode": "Copiar código",
   "yakkamon.notClaimable": "Todavía no puedes solicitar un código. Vuelve a comprobarlo cuando se abra tu nivel.",
   "yakkamon.error": "Algo salió mal. Por favor, inténtelo de nuevo.",
-  "letterTiles": "Azulejos de letras"
+  "letterTiles": "Azulejos de letras",
+  "tieBreaker.ascensionRule": "Un desempate es elegido por el Bumpkin que tenga la ascensión más alta, luego el nivel y luego la experiencia. Lamentablemente perdiste."
 }

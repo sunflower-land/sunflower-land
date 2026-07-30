@@ -2818,7 +2818,6 @@
   "swarming.tooLongToFarm": "Perhatikan, Anda butuh waktu terlalu lama untuk menanam tanaman Anda!",
   "swarming.goblinsTakenOver": "Para Goblin telah mengambil alih peternakan Anda. Anda harus menunggu mereka pergi",
   "tieBreaker.tiebreaker": "Pemecah tiap",
-  "tieBreaker.closeBid": "Tie breaker dipilih oleh Bumpkin mana pun yang memiliki lebih banyak pengalaman. Sayangnya kau kalah.",
   "tieBreaker.betterLuck": "Saatnya makan kue lagi! Lebih baik keberuntungan lain kali.",
   "tieBreaker.refund": "Sumber pengembalian dana",
   "time.second.full": "detik",
@@ -9572,5 +9571,6 @@
   "yakkamon.copyCode": "Salin kode",
   "yakkamon.notClaimable": "Anda belum dapat mengklaim kode. Periksa kembali ketika tingkat Anda terbuka.",
   "yakkamon.error": "Ada yang tidak beres. Silakan coba lagi.",
-  "letterTiles": "Ubin Surat"
+  "letterTiles": "Ubin Surat",
+  "tieBreaker.ascensionRule": "Tie breaker dipilih oleh Bumpkin mana pun yang memiliki Ascension yang lebih tinggi, kemudian level, lalu pengalaman. Sayangnya kau kalah."
 }

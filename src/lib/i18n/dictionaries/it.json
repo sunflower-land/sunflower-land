@@ -2783,7 +2783,6 @@
   "swarming.tooLongToFarm": "Fai attenzione, hai impiegato troppo tempo per coltivare i tuoi raccolti!",
   "swarming.goblinsTakenOver": "I Goblin si sono impadroniti della tua fattoria. Devi aspettare che se ne vadano",
   "tieBreaker.tiebreaker": "Tie-break",
-  "tieBreaker.closeBid": "Il pareggio viene scelto dal Bumpkin che ha più esperienza. Purtroppo hai perso.",
   "tieBreaker.betterLuck": "È ora di mangiare altre torte! La prossima volta sarà meglio.",
   "tieBreaker.refund": "Risorsa di rimborso",
   "time.second.full": "secondo",
@@ -9572,5 +9571,6 @@
   "yakkamon.copyCode": "Copia codice",
   "yakkamon.notClaimable": "Non puoi ancora richiedere un codice. Ricontrolla quando riaprirà il tuo livello.",
   "yakkamon.error": "Qualcosa è andato storto. Per favore riprova.",
-  "letterTiles": "Piastrelle con lettere"
+  "letterTiles": "Piastrelle con lettere",
+  "tieBreaker.ascensionRule": "Il pareggio viene scelto dal Bumpkin con l'Ascensione, poi il livello e poi l'esperienza più alti. Purtroppo hai perso."
 }

@@ -3486,7 +3486,6 @@
   "swarming.tooLongToFarm": "Уффффф, ты слишком долго собирал урожай!",
   "swarming.goblinsTakenOver": "Гоблины захватили твою ферму. Тебе придется подождать, пока они уйдут.",
   "tieBreaker.tiebreaker": "Одинаковые ставки",
-  "tieBreaker.closeBid": "В этом случае артефакт уходит тому, у кого больше опыта. К сожалению, ты проиграл.",
   "tieBreaker.betterLuck": "Время съесть еще тортов! В следующий раз повезет больше.",
   "tieBreaker.refund": "Забрать ставку",
   "time.millisecond.full": "миллисекунда",
@@ -9572,5 +9571,6 @@
   "yakkamon.copyCode": "Copy code",
   "yakkamon.notClaimable": "You can't claim a code just yet. Check back when your tier opens.",
   "yakkamon.error": "Something went wrong. Please try again.",
-  "letterTiles": "Letter Tiles"
+  "letterTiles": "Letter Tiles",
+  "tieBreaker.ascensionRule": "A tie breaker is chosen by whichever Bumpkin has the higher Ascension, then level, then experience. Unfortunately you lost."
 }

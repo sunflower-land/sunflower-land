@@ -2818,7 +2818,6 @@
   "swarming.tooLongToFarm": "注意してください、作物の栽培に時間がかかりすぎました！",
   "swarming.goblinsTakenOver": "ゴブリンがあなたの農場を乗っ取った。彼らが去るのを待たなければなりません。",
   "tieBreaker.tiebreaker": "タイブレーカー",
-  "tieBreaker.closeBid": "タイブレーカーは、バンプキンの経験が豊富な人が選びます。残念ながら君は負けた。",
   "tieBreaker.betterLuck": "ケーキをもっと食べる時間です！次回は頑張ってください。",
   "tieBreaker.refund": "返金リソース",
   "time.second.full": "第二",
@@ -9572,5 +9571,6 @@
   "yakkamon.copyCode": "コードをコピー",
   "yakkamon.notClaimable": "まだコードを申請することはできません。ティアが開いたらもう一度確認してください。",
   "yakkamon.error": "何かがおかしくなった。もう一度試してください。",
-  "letterTiles": "レタータイル"
+  "letterTiles": "レタータイル",
+  "tieBreaker.ascensionRule": "タイブレーカーは、バンプキンのアセンションが高い方によって選ばれ、次にレベル、そして経験値が上がります。残念ながらあなたは負けました。"
 }

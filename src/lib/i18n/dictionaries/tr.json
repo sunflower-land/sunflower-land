@@ -1996,7 +1996,6 @@
   "swarming.tooLongToFarm": "Dikkat edin, mahsullerinizi yetiştirmek çok uzun sürdü!",
   "swarming.goblinsTakenOver": "Goblinler çiftliğinizi ele geçirdi. Gitmelerini beklemelisin",
   "tieBreaker.tiebreaker": "Eşitliği bozan",
-  "tieBreaker.closeBid": " Beraberliği bozan kişi, hangisi daha fazla deneyime sahip olursa olsun, Bumpkin tarafından seçilir. Ne yazık ki kaybettin.",
   "tieBreaker.betterLuck": "Biraz daha pasta yeme zamanı! Bir dahaki sefere daha iyi şanslar.",
   "tieBreaker.refund": "Geri ödeme kaynağı",
   "time.second.full": "saniye",
@@ -9572,5 +9571,6 @@
   "yakkamon.copyCode": "Kodu kopyala",
   "yakkamon.notClaimable": "Henüz bir kod talep edemezsiniz. Katmanınız açıldığında tekrar kontrol edin.",
   "yakkamon.error": "Bir şeyler ters gitti. Lütfen tekrar deneyin.",
-  "letterTiles": "Mektup Fayansları"
+  "letterTiles": "Mektup Fayansları",
+  "tieBreaker.ascensionRule": "Hangi Bumpkin daha yüksek Yükseliş, daha sonra seviye, sonra deneyime sahip olursa olsun, beraberlik kırıcı seçilir. Maalesef kaybettin."
 }

@@ -2900,7 +2900,6 @@
   "swarming.tooLongToFarm": "注意，您收割庄稼慢了一步！",
   "swarming.goblinsTakenOver": "哥布林占领了您的农场。您必须等他们离开",
   "tieBreaker.tiebreaker": "平手决胜",
-  "tieBreaker.closeBid": "平手决胜青睐经验更丰富的乡包佬。不幸的是您输了。",
   "tieBreaker.betterLuck": "是时候多吃点蛋糕了！下次好运。",
   "tieBreaker.refund": "退还资源",
   "trading.you.receive": "您将收到",
@@ -9572,5 +9571,6 @@
   "yakkamon.copyCode": "复制代码",
   "yakkamon.notClaimable": "你暂时无法申领验证码。请回来查看您的等级何时开放。",
   "yakkamon.error": "出了点问题。请再试一次。",
-  "letterTiles": "信件图块"
+  "letterTiles": "信件图块",
+  "tieBreaker.ascensionRule": "决胜局由哪个 Bumpkin 拥有更高的 Ascension 来选择，然后是等级，然后是经验。不幸的是你输了。"
 }
