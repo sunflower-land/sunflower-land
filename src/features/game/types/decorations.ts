@@ -856,6 +856,63 @@ export const DECORATION_TEMPLATES = {
 
 export type TemplateDecorationName = keyof typeof DECORATION_TEMPLATES;
 
+export type LetterTileName =
+  | "Letter A Tile"
+  | "Letter B Tile"
+  | "Letter C Tile"
+  | "Letter D Tile"
+  | "Letter E Tile"
+  | "Letter F Tile"
+  | "Letter G Tile"
+  | "Letter H Tile"
+  | "Letter I Tile"
+  | "Letter J Tile"
+  | "Letter K Tile"
+  | "Letter L Tile"
+  | "Letter M Tile"
+  | "Letter N Tile"
+  | "Letter O Tile"
+  | "Letter P Tile"
+  | "Letter Q Tile"
+  | "Letter R Tile"
+  | "Letter S Tile"
+  | "Letter T Tile"
+  | "Letter U Tile"
+  | "Letter V Tile"
+  | "Letter W Tile"
+  | "Letter X Tile"
+  | "Letter Y Tile"
+  | "Letter Z Tile";
+
+export const LETTER_TILES: Record<LetterTileName, object> = {
+  "Letter A Tile": {},
+  "Letter B Tile": {},
+  "Letter C Tile": {},
+  "Letter D Tile": {},
+  "Letter E Tile": {},
+  "Letter F Tile": {},
+  "Letter G Tile": {},
+  "Letter H Tile": {},
+  "Letter I Tile": {},
+  "Letter J Tile": {},
+  "Letter K Tile": {},
+  "Letter L Tile": {},
+  "Letter M Tile": {},
+  "Letter N Tile": {},
+  "Letter O Tile": {},
+  "Letter P Tile": {},
+  "Letter Q Tile": {},
+  "Letter R Tile": {},
+  "Letter S Tile": {},
+  "Letter T Tile": {},
+  "Letter U Tile": {},
+  "Letter V Tile": {},
+  "Letter W Tile": {},
+  "Letter X Tile": {},
+  "Letter Y Tile": {},
+  "Letter Z Tile": {},
+};
+
 export type DecorationName =
   | DollName
   | AchievementDecorationName
