@@ -4279,7 +4279,7 @@
   "swarming.tooLongToFarm": "Pay attention, you took too long to farm your crops!",
   "swarming.goblinsTakenOver": "The Goblins have taken over your farm. You must wait for them to leave",
   "tieBreaker.tiebreaker": "Tiebreaker",
-  "tieBreaker.ascensionRule": "A tie breaker is chosen by whichever Bumpkin has the higher Ascension, then level. Unfortunately you lost.",
+  "tieBreaker.ascensionRule": "A tie breaker is chosen by whichever Bumpkin has the higher Ascension, then level, then experience. Unfortunately you lost.",
   "tieBreaker.betterLuck": "Time to eat some more cakes! Better luck next time.",
   "tieBreaker.refund": "Refund resource",
   "time.millisecond.full": "millisecond",
