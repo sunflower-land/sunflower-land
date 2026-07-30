@@ -1208,6 +1208,9 @@ export type Bid = {
   ingredients: Partial<Record<InventoryItemName, number>>;
   biddedAt: number;
   tickets: number;
+  // Set when placing the bid incremented "FLOWER Spent" - bids placed
+  // before that tracking existed must not decrement it on cancel/refund
+  flowerSpentTracked?: boolean;
 } & (
   | {
       type: "collectible";
