@@ -14,7 +14,7 @@ describe("Ascension Age registration", () => {
   });
 
   it("maps the chapter to its marvel fish", () => {
-    expect(getChapterMarvelFish(IN_CHAPTER)).toEqual("Crocodile");
+    expect(getChapterMarvelFish(IN_CHAPTER)).toEqual("Seahorse Dad");
   });
 
   it("declares the chapter's mutant set", () => {

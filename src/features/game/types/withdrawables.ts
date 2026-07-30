@@ -1714,6 +1714,14 @@ export const INVENTORY_RELEASES: InventoryReleases = {
   },
 
   // Ascension Age Collectibles
+  Crocodile: {
+    tradeAt: CHAPTERS["Ascension Age"].endDate,
+    withdrawAt: new Date("2026-11-30T00:00:00Z"),
+  },
+  "Dumbo Octopus": {
+    tradeAt: CHAPTERS["Ascension Age"].endDate,
+    withdrawAt: new Date("2026-11-30T00:00:00Z"),
+  },
   Astrolabe: {
     tradeAt: CHAPTERS["Ascension Age"].endDate,
     withdrawAt: new Date("2026-11-30T00:00:00Z"),
