@@ -9571,5 +9571,6 @@
   "yakkamon.codeDescription": "Bunu güvende tut. Yakkamon\"a kaydolmak için ihtiyacınız olacak.",
   "yakkamon.copyCode": "Kodu kopyala",
   "yakkamon.notClaimable": "Henüz bir kod talep edemezsiniz. Katmanınız açıldığında tekrar kontrol edin.",
-  "yakkamon.error": "Bir şeyler ters gitti. Lütfen tekrar deneyin."
+  "yakkamon.error": "Bir şeyler ters gitti. Lütfen tekrar deneyin.",
+  "letterTiles": "Mektup Fayansları"
 }

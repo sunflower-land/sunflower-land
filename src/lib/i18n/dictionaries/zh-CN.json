@@ -9571,5 +9571,6 @@
   "yakkamon.codeDescription": "请妥善保管。你需要它来注册 Yakkamon。",
   "yakkamon.copyCode": "复制代码",
   "yakkamon.notClaimable": "你暂时无法申领验证码。请回来查看您的等级何时开放。",
-  "yakkamon.error": "出了点问题。请再试一次。"
+  "yakkamon.error": "出了点问题。请再试一次。",
+  "letterTiles": "信件图块"
 }

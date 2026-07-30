@@ -9571,5 +9571,6 @@
   "yakkamon.codeDescription": "Gardez-le en lieu sûr. Vous en aurez besoin pour vous inscrire à Yakkamon.",
   "yakkamon.copyCode": "Copier le code",
   "yakkamon.notClaimable": "Vous ne pouvez pas réclamer de code pour l'instant. Revenez quand votre niveau sera ouvert.",
-  "yakkamon.error": "Quelque chose s'est mal passé. Veuillez réessayer."
+  "yakkamon.error": "Quelque chose s'est mal passé. Veuillez réessayer.",
+  "letterTiles": "Carreaux de lettres"
 }

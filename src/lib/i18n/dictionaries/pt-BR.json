@@ -9571,5 +9571,6 @@
   "yakkamon.codeDescription": "Mantenha isso seguro. Você precisará dele para se inscrever no Yakkamon.",
   "yakkamon.copyCode": "Copiar código",
   "yakkamon.notClaimable": "Você ainda não pode reivindicar um código. Verifique novamente quando seu nível for aberto.",
-  "yakkamon.error": "Algo deu errado. Por favor, tente novamente."
+  "yakkamon.error": "Algo deu errado. Por favor, tente novamente.",
+  "letterTiles": "Telhas de letras"
 }

@@ -9571,5 +9571,6 @@
   "yakkamon.codeDescription": "Mantén esto a salvo. Lo necesitarás para registrarte en Yakkamon.",
   "yakkamon.copyCode": "Copiar código",
   "yakkamon.notClaimable": "Todavía no puedes solicitar un código. Vuelve a comprobarlo cuando se abra tu nivel.",
-  "yakkamon.error": "Algo salió mal. Por favor, inténtelo de nuevo."
+  "yakkamon.error": "Algo salió mal. Por favor, inténtelo de nuevo.",
+  "letterTiles": "Azulejos de letras"
 }

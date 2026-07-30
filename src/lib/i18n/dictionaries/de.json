@@ -9571,5 +9571,6 @@
   "yakkamon.codeDescription": "Bewahren Sie das sicher auf. Sie benötigen es, um sich für Yakkamon anzumelden.",
   "yakkamon.copyCode": "Code kopieren",
   "yakkamon.notClaimable": "Sie können noch keinen Code beanspruchen. Schauen Sie noch einmal vorbei, wenn Ihre Stufe eröffnet wird.",
-  "yakkamon.error": "Etwas ist schief gelaufen. Bitte versuchen Sie es erneut."
+  "yakkamon.error": "Etwas ist schief gelaufen. Bitte versuchen Sie es erneut.",
+  "letterTiles": "Buchstabenkacheln"
 }

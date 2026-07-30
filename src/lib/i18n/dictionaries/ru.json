@@ -9571,5 +9571,6 @@
   "yakkamon.codeDescription": "Keep this safe. You will need it to sign up for Yakkamon.",
   "yakkamon.copyCode": "Copy code",
   "yakkamon.notClaimable": "You can't claim a code just yet. Check back when your tier opens.",
-  "yakkamon.error": "Something went wrong. Please try again."
+  "yakkamon.error": "Something went wrong. Please try again.",
+  "letterTiles": "Letter Tiles"
 }

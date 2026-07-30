@@ -9571,5 +9571,6 @@
   "yakkamon.codeDescription": "これを安全に保管してください。ヤッカモンに申し込む際に必要になります。",
   "yakkamon.copyCode": "コードをコピー",
   "yakkamon.notClaimable": "まだコードを申請することはできません。ティアが開いたらもう一度確認してください。",
-  "yakkamon.error": "何かがおかしくなった。もう一度試してください。"
+  "yakkamon.error": "何かがおかしくなった。もう一度試してください。",
+  "letterTiles": "レタータイル"
 }
