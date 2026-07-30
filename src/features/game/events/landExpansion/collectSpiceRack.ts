@@ -12,6 +12,7 @@ import { getAgingOutput } from "features/game/types/agingFormulas";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { hasPlacedAgingShed } from "./hasPlacedAgingShed";
 import { getStampedAgerLevel } from "features/game/lib/agingShed";
+import { isWearableActive } from "features/game/lib/wearables";
 
 export type CollectSpiceRackAction = {
   type: "spiceRack.collected";
@@ -56,7 +57,7 @@ export function collectSpiceRack({
 
       for (const [item, amount] of getObjectEntries(recipeDef.outputs)) {
         const prev = game.inventory[item] ?? new Decimal(0);
-        const add = getAgingOutput(
+        let add = getAgingOutput(
           game,
           amount ?? new Decimal(0),
           item,
@@ -67,6 +68,10 @@ export function collectSpiceRack({
             counter,
           },
         );
+
+        if (isWearableActive({ game, name: "Salt Bottle Onesie" })) {
+          add = add.add(1);
+        }
 
         game.inventory[item] = prev.add(add);
       }

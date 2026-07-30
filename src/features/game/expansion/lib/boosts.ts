@@ -8,7 +8,9 @@ import {
   type Consumable,
   type CookableName,
   FISH_CONSUMABLES,
+  isAgedFish,
   isCookable,
+  isPrimeAgedFish,
 } from "features/game/types/consumables";
 import {
   getExpiryCooldown,
@@ -404,6 +406,14 @@ export const getFoodExpBoost = ({
   ) {
     boostedExp = boostedExp.mul(2);
     boostsUsed.push({ name: "Hungry Hare", value: "x2" });
+  }
+
+  if (
+    (isAgedFish(food.name) || isPrimeAgedFish(food.name)) &&
+    isCollectibleBuilt({ name: "Astrolabe", game })
+  ) {
+    boostedExp = boostedExp.mul(1.05);
+    boostsUsed.push({ name: "Astrolabe", value: "x1.05" });
   }
 
   // Munching Mastery - +5%/+10%/+15% exp boost (scales with rank)

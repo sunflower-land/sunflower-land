@@ -418,4 +418,58 @@ describe("collectSpiceRack", () => {
       expect(state.inventory["Refined Salt"]?.toNumber()).toEqual(3);
     });
   });
+  describe("Salt Bottle Onesie", () => {
+    const readyJob = {
+      id: "a",
+      recipe: "Refined Salt" as const,
+      startedAt: createdAt - 1,
+      readyAt: createdAt - 1,
+    };
+
+    it("adds +1 output per collect when equipped", () => {
+      const state = collectSpiceRack({
+        state: createFermentationTestState({
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            equipped: {
+              ...INITIAL_BUMPKIN.equipped,
+              onesie: "Salt Bottle Onesie",
+            },
+          },
+          agingShed: {
+            ...createInitialAgingShed(),
+            racks: {
+              ...createInitialAgingShed().racks,
+              spice: [readyJob],
+            },
+          },
+        }),
+        action: { type: "spiceRack.collected" },
+        createdAt,
+        farmId: 1,
+      });
+
+      expect(state.inventory["Refined Salt"]?.toNumber()).toEqual(2);
+    });
+
+    it("does not add when the onesie is only in the wardrobe", () => {
+      const state = collectSpiceRack({
+        state: createFermentationTestState({
+          wardrobe: { "Salt Bottle Onesie": 1 },
+          agingShed: {
+            ...createInitialAgingShed(),
+            racks: {
+              ...createInitialAgingShed().racks,
+              spice: [readyJob],
+            },
+          },
+        }),
+        action: { type: "spiceRack.collected" },
+        createdAt,
+        farmId: 1,
+      });
+
+      expect(state.inventory["Refined Salt"]?.toNumber()).toEqual(1);
+    });
+  });
 });

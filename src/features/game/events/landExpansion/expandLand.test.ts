@@ -274,6 +274,68 @@ describe("expandLand", () => {
 });
 
 describe("expansionRequirements", () => {
+  it("reduces expansion time by 20% when the Ascension Monument is complete", () => {
+    const base = expansionRequirements({ game: TEST_FARM });
+
+    const { requirements, boostsUsed } = expansionRequirements({
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Ascension Monument": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+        socialFarming: {
+          ...TEST_FARM.socialFarming,
+          villageProjects: {
+            "Ascension Monument": { cheers: 1000 },
+          },
+        },
+      },
+    });
+
+    expect(requirements?.seconds).toEqual(
+      (base.requirements?.seconds ?? 0) * 0.8,
+    );
+    expect(boostsUsed).toContainEqual({
+      name: "Ascension Monument",
+      value: "x0.8",
+    });
+  });
+
+  it("does not reduce expansion time while the Ascension Monument is incomplete", () => {
+    const base = expansionRequirements({ game: TEST_FARM });
+
+    const { requirements } = expansionRequirements({
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Ascension Monument": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+        socialFarming: {
+          ...TEST_FARM.socialFarming,
+          villageProjects: {
+            "Ascension Monument": { cheers: 999 },
+          },
+        },
+      },
+    });
+
+    expect(requirements?.seconds).toEqual(base.requirements?.seconds);
+  });
+
   it("returns normal expansion requirements", () => {
     const { requirements } = expansionRequirements({ game: TEST_FARM });
 

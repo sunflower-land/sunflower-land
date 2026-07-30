@@ -18,7 +18,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import shadow from "assets/npcs/shadow.png";
 import coins from "assets/icons/coins.webp";
 import potionPoint from "assets/icons/potion_point.png";
-import { GAME_FEE } from "features/game/events/landExpansion/startPotion";
+import { getPotionHouseFee } from "features/game/events/landExpansion/startPotion";
 
 interface Props {
   potionHouseService: PotionHouseMachineInterpreter;
@@ -111,7 +111,10 @@ export const Experiment: React.FC<Props> = ({ potionHouseService }) => {
   const showStartButton =
     !potionHouse || potionHouse?.game.status === "finished";
 
-  const cost = GAME_FEE * multiplier;
+  const { fee: cost } = getPotionHouseFee({
+    game: gameService.getSnapshot().context.state,
+    multiplier,
+  });
 
   return (
     <>

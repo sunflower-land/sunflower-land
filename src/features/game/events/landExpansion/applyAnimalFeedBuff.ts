@@ -7,6 +7,7 @@ import type {
   GameState,
 } from "features/game/types/game";
 import { makeAnimalBuildingKey } from "features/game/lib/animals";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { isAnimalNeedingLove } from "./loveAnimal";
 
 export const ANIMAL_FEED_BUFF_ITEMS: AnimalFeedBuffName[] = [
@@ -93,7 +94,9 @@ export function applyAnimalFeedBuff({
 
     animal.feedBuff = {
       name: action.item,
-      harvestsRemaining: 3,
+      harvestsRemaining: isCollectibleBuilt({ game: copy, name: "Vibraphone" })
+        ? 6
+        : 3,
     };
 
     return copy;

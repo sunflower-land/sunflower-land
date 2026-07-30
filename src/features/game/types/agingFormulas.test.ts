@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { KNOWN_IDS } from "features/game/types";
+import { INITIAL_FARM } from "features/game/lib/constants";
 import { prngChance } from "lib/prng";
 import type { GameState, Skills } from "./game";
 import {
@@ -15,7 +16,10 @@ import {
 } from "./agingFormulas";
 
 function stateWithSkills(skills: Skills): GameState {
-  return { bumpkin: { skills } } as GameState;
+  return {
+    ...INITIAL_FARM,
+    bumpkin: { ...INITIAL_FARM.bumpkin, skills },
+  } as GameState;
 }
 
 describe("getRefinedSaltChance", () => {
@@ -392,5 +396,163 @@ describe("getBoostedAgingSaltCost", () => {
     expect(getBoostedAgingSaltCost(baseXP, stateWithSkills({ Ager: 3 }))).toBe(
       base * 4,
     );
+  });
+});
+
+describe("Winged Vase prime aging boost", () => {
+  const placedVase = {
+    "Winged Vase": [{ id: "1", createdAt: 0, coordinates: { x: 0, y: 0 } }],
+  };
+
+  it("adds 14 percentage points when placed", () => {
+    expect(
+      getPrimeAgedChance({ ...INITIAL_FARM, collectibles: placedVase }),
+    ).toBe(24);
+  });
+
+  it("stacks additively after the Fish Smoking multiplier", () => {
+    expect(
+      getPrimeAgedChance({
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: { "Fish Smoking": 1 },
+        },
+        collectibles: placedVase,
+      }),
+    ).toBe(34);
+  });
+
+  it("does not apply when only in the inventory", () => {
+    expect(
+      getPrimeAgedChance({
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Winged Vase": new Decimal(1),
+        },
+      }),
+    ).toBe(10);
+  });
+});
+
+describe("Surfer Hair salt cost discount", () => {
+  const baseXP = 100;
+
+  it("halves the aging salt cost when equipped", () => {
+    expect(
+      getBoostedAgingSaltCost(baseXP, {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: { ...INITIAL_FARM.bumpkin.equipped, hair: "Surfer Hair" },
+        },
+      }),
+    ).toBe(getAgingSaltCost(baseXP) * 0.5);
+  });
+
+  it("halves the Ager-scaled cost", () => {
+    expect(
+      getBoostedAgingSaltCost(baseXP, {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: { Ager: 1 },
+          equipped: { ...INITIAL_FARM.bumpkin.equipped, hair: "Surfer Hair" },
+        },
+      }),
+    ).toBe(getAgingSaltCost(baseXP) * 2 * 0.5);
+  });
+
+  it("does not discount when not equipped", () => {
+    expect(getBoostedAgingSaltCost(baseXP, INITIAL_FARM)).toBe(
+      getAgingSaltCost(baseXP),
+    );
+  });
+});
+
+describe("Astrolabe aging output doubling", () => {
+  const farmId = 1;
+  const withAstrolabe = (skills: Skills = {} as Skills): GameState => ({
+    ...INITIAL_FARM,
+    bumpkin: { ...INITIAL_FARM.bumpkin, skills },
+    collectibles: {
+      Astrolabe: [{ id: "1", createdAt: 0, coordinates: { x: 0, y: 0 } }],
+    },
+  });
+
+  const roll = (counter: number) =>
+    prngChance({
+      farmId,
+      itemId: KNOWN_IDS["Salt"],
+      counter,
+      chance: 25,
+      criticalHitName: "Astrolabe",
+    });
+
+  const counters = Array.from({ length: 100 }, (_, i) => i);
+  const hitCounter = counters.find((c) => roll(c));
+  const missCounter = counters.find((c) => !roll(c));
+
+  it("doubles the output on a 25% PRNG hit", () => {
+    expect(hitCounter).toBeDefined();
+    expect(
+      getAgingOutput(withAstrolabe(), new Decimal(3), "Salt", 0, {
+        farmId,
+        itemId: KNOWN_IDS["Salt"],
+        counter: hitCounter!,
+      }).toNumber(),
+    ).toBe(6);
+  });
+
+  it("keeps the base output on a PRNG miss", () => {
+    expect(missCounter).toBeDefined();
+    expect(
+      getAgingOutput(withAstrolabe(), new Decimal(3), "Salt", 0, {
+        farmId,
+        itemId: KNOWN_IDS["Salt"],
+        counter: missCounter!,
+      }).toNumber(),
+    ).toBe(3);
+  });
+
+  it("doubles the post-Ager amount", () => {
+    expect(hitCounter).toBeDefined();
+    expect(
+      getAgingOutput(
+        withAstrolabe({ Ager: 3 } as Skills),
+        new Decimal(1),
+        "Salt",
+        3,
+        {
+          farmId,
+          itemId: KNOWN_IDS["Salt"],
+          counter: hitCounter!,
+        },
+      ).toNumber(),
+    ).toBe(8);
+  });
+
+  it("does not roll when Astrolabe is only in the inventory", () => {
+    expect(hitCounter).toBeDefined();
+    expect(
+      getAgingOutput(
+        {
+          ...INITIAL_FARM,
+          inventory: {
+            ...INITIAL_FARM.inventory,
+            Astrolabe: new Decimal(1),
+          },
+        },
+        new Decimal(3),
+        "Salt",
+        0,
+        {
+          farmId,
+          itemId: KNOWN_IDS["Salt"],
+          counter: hitCounter!,
+        },
+      ).toNumber(),
+    ).toBe(3);
   });
 });

@@ -788,4 +788,101 @@ describe("harvestBeehive", () => {
       expect(harvestWithRank(3).inventory.Honey).toEqual(new Decimal(1.2));
     });
   });
+  it("adds +0.05 honey when harvesting a full beehive with Ruins Flower placed", () => {
+    const beehiveId = "1234";
+    const now = Date.now();
+    const tenMinutesAgo = now - 10 * 60 * 1000;
+
+    const gameState = harvestBeehive({
+      state: {
+        ...TEST_FARM,
+        collectibles: {
+          "Ruins Flower": [
+            { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 } },
+          ],
+        },
+        beehives: {
+          [beehiveId]: {
+            ...DEFAULT_BEEHIVE,
+            honey: {
+              updatedAt: tenMinutesAgo,
+              produced: DEFAULT_HONEY_PRODUCTION_TIME,
+            },
+          },
+        },
+      },
+      action: {
+        type: "beehive.harvested",
+        id: beehiveId,
+      },
+      createdAt: now,
+    });
+
+    expect(gameState.inventory.Honey).toEqual(new Decimal(1.05));
+  });
+
+  it("does not add honey for a partial hive with Ruins Flower placed", () => {
+    const beehiveId = "1234";
+    const now = Date.now();
+    const tenMinutesAgo = now - 10 * 60 * 1000;
+
+    const gameState = harvestBeehive({
+      state: {
+        ...TEST_FARM,
+        collectibles: {
+          "Ruins Flower": [
+            { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 } },
+          ],
+        },
+        beehives: {
+          [beehiveId]: {
+            ...DEFAULT_BEEHIVE,
+            honey: {
+              updatedAt: tenMinutesAgo,
+              produced: DEFAULT_HONEY_PRODUCTION_TIME / 2,
+            },
+          },
+        },
+      },
+      action: {
+        type: "beehive.harvested",
+        id: beehiveId,
+      },
+      createdAt: now,
+    });
+
+    expect(gameState.inventory.Honey).toEqual(new Decimal(0.5));
+  });
+
+  it("does not add honey when Ruins Flower is only in the inventory", () => {
+    const beehiveId = "1234";
+    const now = Date.now();
+    const tenMinutesAgo = now - 10 * 60 * 1000;
+
+    const gameState = harvestBeehive({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          ...TEST_FARM.inventory,
+          "Ruins Flower": new Decimal(1),
+        },
+        beehives: {
+          [beehiveId]: {
+            ...DEFAULT_BEEHIVE,
+            honey: {
+              updatedAt: tenMinutesAgo,
+              produced: DEFAULT_HONEY_PRODUCTION_TIME,
+            },
+          },
+        },
+      },
+      action: {
+        type: "beehive.harvested",
+        id: beehiveId,
+      },
+      createdAt: now,
+    });
+
+    expect(gameState.inventory.Honey).toEqual(new Decimal(1));
+  });
 });

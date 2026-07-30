@@ -137,11 +137,20 @@ export function harvestBeehive({
       honeyProduced,
     );
 
+    let honeyHarvested = new Decimal(totalHoneyProduced);
+    if (
+      isFull &&
+      isCollectibleBuilt({ game: stateCopy, name: "Ruins Flower" })
+    ) {
+      honeyHarvested = honeyHarvested.add(0.05);
+      boostsUsed.push({ name: "Ruins Flower", value: "+0.05" });
+    }
+
     stateCopy.beehives[action.id].honey.produced = 0;
     stateCopy.beehives[action.id].honey.updatedAt = createdAt;
     stateCopy.inventory.Honey = (
       stateCopy.inventory.Honey ?? new Decimal(0)
-    ).add(new Decimal(totalHoneyProduced));
+    ).add(honeyHarvested);
 
     // If the beehive is full, check, apply and update swarm
     if (isFull) {
@@ -162,7 +171,7 @@ export function harvestBeehive({
     stateCopy.farmActivity = trackFarmActivity(
       `Honey Harvested`,
       stateCopy.farmActivity,
-      new Decimal(totalHoneyProduced),
+      honeyHarvested,
     );
 
     const updatedBeehives = updateBeehives({ game: stateCopy, createdAt });

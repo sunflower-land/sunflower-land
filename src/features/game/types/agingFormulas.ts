@@ -3,6 +3,8 @@ import { prngChance } from "lib/prng";
 import type { GameState, InventoryItemName } from "./game";
 import type { FermentationBait } from "./fishing";
 import { SKILL_RANKS, getSkillLevel } from "./bumpkinSkills";
+import { isCollectibleBuilt } from "../lib/collectibleBuilt";
+import { isWearableActive } from "../lib/wearables";
 import {
   PRIME_AGED_BASE_CHANCE,
   getAgingSaltCost,
@@ -65,6 +67,9 @@ export function getPrimeAgedChance(state: GameState): number {
   if ((state.sculptures?.["Salt Sculpture"]?.level ?? 0) >= 2) {
     chance += 4;
   }
+  if (isCollectibleBuilt({ game: state, name: "Winged Vase" })) {
+    chance += 14;
+  }
   return chance;
 }
 
@@ -124,6 +129,22 @@ export function getAgingOutput(
     output = output.add(SKILL_RANKS["Bacalhau"].ranks[bacalhauLevel - 1]);
   }
 
+  // 25% chance of doubling the final amount — the doubling applies after every
+  // other boost so the expected yield matches a flat x1.25 at any Ager rank.
+  if (prngArgs && isCollectibleBuilt({ game: state, name: "Astrolabe" })) {
+    const { farmId, itemId, counter } = prngArgs;
+    const isDoubled = prngChance({
+      farmId,
+      itemId,
+      counter,
+      chance: 25,
+      criticalHitName: "Astrolabe",
+    });
+    if (isDoubled) {
+      output = output.mul(2);
+    }
+  }
+
   return output;
 }
 
@@ -135,7 +156,12 @@ export function getBoostedAgingSaltCost(
   state: GameState,
   agerLevel?: number,
 ): number {
-  return getAgingSaltCost(baseXP) * getAgingInputMultiplier(state, agerLevel);
+  let cost =
+    getAgingSaltCost(baseXP) * getAgingInputMultiplier(state, agerLevel);
+  if (isWearableActive({ game: state, name: "Surfer Hair" })) {
+    cost *= 0.5;
+  }
+  return cost;
 }
 
 export function getBoostedAgingFishCost(

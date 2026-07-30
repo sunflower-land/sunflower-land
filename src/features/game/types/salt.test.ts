@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import type { GameState } from "features/game/types/game";
 import {
   BASE_SALT_YIELD,
@@ -452,6 +453,44 @@ describe("Salty Seas rank", () => {
     expect(
       getSaltChargeGenerationTime({ gameState: gameWithRank(3) }).boostsUsed,
     ).toContainEqual({ name: "Salty Seas", value: "x0.8" });
+  });
+});
+
+describe("Salt Worker Gnome", () => {
+  const gameWithGnome = (): GameState => ({
+    ...INITIAL_FARM,
+    collectibles: {
+      "Salt Worker Gnome": [
+        { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 } },
+      ],
+    },
+  });
+
+  it("shortens the charge interval by 30% when placed", () => {
+    expect(
+      getSaltChargeGenerationTime({ gameState: gameWithGnome() })
+        .chargeGenerationTimeMs,
+    ).toEqual(SALT_CHARGE_GENERATION_TIME * 0.7);
+  });
+
+  it("reports the multiplier in boostsUsed", () => {
+    expect(
+      getSaltChargeGenerationTime({ gameState: gameWithGnome() }).boostsUsed,
+    ).toContainEqual({ name: "Salt Worker Gnome", value: "x0.7" });
+  });
+
+  it("does not shorten the interval when only in the inventory", () => {
+    expect(
+      getSaltChargeGenerationTime({
+        gameState: {
+          ...INITIAL_FARM,
+          inventory: {
+            ...INITIAL_FARM.inventory,
+            "Salt Worker Gnome": new Decimal(1),
+          },
+        },
+      }).chargeGenerationTimeMs,
+    ).toEqual(SALT_CHARGE_GENERATION_TIME);
   });
 });
 

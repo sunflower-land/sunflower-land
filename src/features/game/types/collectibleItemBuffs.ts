@@ -2356,6 +2356,116 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: SUNNYSIDE.icons.plant,
     },
   ],
+  Astrolabe: () => [
+    {
+      shortDescription: translate("description.astrolabe.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+    },
+    {
+      shortDescription: translate("description.astrolabe.boost.2"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+  ],
+  "Ascension Monument": () => [
+    {
+      shortDescription: translate("description.ascensionMonument.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+  ],
+  "Otty the Otter": () => [
+    {
+      shortDescription: translate("description.ottyTheOtter.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Rod"].image,
+    },
+    {
+      shortDescription: translate("description.ottyTheOtter.boost.2"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
+  ],
+  "Ascended Chicken": () => [
+    {
+      shortDescription: translate("description.ascendedChicken.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Egg"].image,
+    },
+  ],
+  "Ascended Sheep": () => [
+    {
+      shortDescription: translate("description.ascendedSheep.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Wool"].image,
+    },
+  ],
+  "Ascended Cow": () => [
+    {
+      shortDescription: translate("description.ascendedCow.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: SUNNYSIDE.animals.cowSleeping,
+    },
+  ],
+  "Ruins Flower": () => [
+    {
+      shortDescription: translate("description.ruinsFlower.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Honey"].image,
+    },
+  ],
+  "Dumbo Octopus": () => [
+    {
+      shortDescription: translate("description.dumboOctopus.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
+  ],
+  "Ascended Idol": () => [
+    {
+      shortDescription: translate("description.ascendedIdol.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Salt Rake"].image,
+    },
+  ],
+  "Salt Worker Gnome": () => [
+    {
+      shortDescription: translate("description.saltWorkerGnome.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS["Salt"].image,
+    },
+    {
+      shortDescription: translate("description.saltWorkerGnome.boost.2"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Salt"].image,
+    },
+  ],
+  "Winged Vase": () => [
+    {
+      shortDescription: translate("description.wingedVase.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+    },
+  ],
+  Vibraphone: () => [
+    {
+      shortDescription: translate("description.vibraphone.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Salt Lick"].image,
+    },
+  ],
 
   // All items go above this line
 
