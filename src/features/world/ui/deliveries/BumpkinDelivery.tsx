@@ -601,7 +601,7 @@ export const Gifts: React.FC<{
                 {`${t("bumpkin.delivery.favoriteFlowerHint")} (${favoriteFlowers.length}/${MAX_FAVORITE_FLOWERS})`}
               </Label>
             )}
-            {favoriteFlowers.length > 0 && (
+            {hasFavoriteFlowersAccess && favoriteFlowers.length > 0 && (
               <>
                 <Label
                   type="default"
