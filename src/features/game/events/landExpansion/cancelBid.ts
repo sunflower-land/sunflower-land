@@ -32,7 +32,7 @@ export function cancelBid({ state, action }: Options) {
     });
 
     game.balance = game.balance.add(bid.sfl);
-    if (bid.sfl > 0) {
+    if (bid.sfl > 0 && bid.flowerSpentTracked) {
       game.farmActivity = trackFarmActivity(
         "FLOWER Spent",
         game.farmActivity,

@@ -81,12 +81,37 @@ describe("refundBid", () => {
             sfl: 5,
             auctionId: "test-drop-1",
             type: "collectible",
+            flowerSpentTracked: true,
           },
         },
       },
     });
 
     expect(state.farmActivity["FLOWER Spent"]).toEqual(15);
+  });
+
+  it("does not write FLOWER Spent when refunding a legacy bid without the tracked marker", () => {
+    const state = refundBid({
+      action: {
+        type: "bid.refunded",
+      },
+      state: {
+        ...TEST_FARM,
+        auctioneer: {
+          bid: {
+            collectible: "Beta Bear",
+            tickets: 3,
+            biddedAt: Date.now(),
+            ingredients: { Gold: 4 },
+            sfl: 5,
+            auctionId: "test-drop-1",
+            type: "collectible",
+          },
+        },
+      },
+    });
+
+    expect(state.farmActivity["FLOWER Spent"]).toBeUndefined();
   });
 
   it("removes bid", () => {
