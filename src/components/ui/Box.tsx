@@ -126,6 +126,7 @@ export const Box: React.FC<BoxProps> = ({
       }}
       onPointerDown={onPointerDown}
       onPointerUp={onPointerUp}
+      onPointerCancel={onPointerUp}
       style={style}
     >
       <div
