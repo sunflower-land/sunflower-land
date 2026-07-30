@@ -24,7 +24,7 @@ import {
 } from "./marketplaceFilters";
 import { BUD_BOOST_FILTER_OPTIONS } from "./budBoostFilters";
 import type { TranslationKeys } from "lib/i18n/dictionaries/types";
-import ENGLISH_TERMS from "lib/i18n/dictionaries/dictionary.json";
+import { translate } from "lib/i18n/translate";
 
 type Translate = (key: TranslationKeys) => string;
 
@@ -158,7 +158,7 @@ export const getPetTraitGroups = (
   },
 ];
 
-const englishT: Translate = (key) => ENGLISH_TERMS[key];
+const englishT: Translate = (key) => translate(key, { lng: "en" });
 
 // The collection view keeps its existing static English labels. The filters
 // receive the current locale through the factories above.
