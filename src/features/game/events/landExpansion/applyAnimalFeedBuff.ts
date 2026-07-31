@@ -44,6 +44,19 @@ export function isAnimalFeedBuffItem(item: string): item is AnimalFeedBuffName {
   return ANIMAL_FEED_BUFF_ITEMS.includes(item as AnimalFeedBuffName);
 }
 
+export const BASE_FEED_BUFF_HARVESTS = 3;
+
+export function getAnimalHarvests(game: GameState): number {
+  let harvests = BASE_FEED_BUFF_HARVESTS;
+
+  // Vibraphone doubles how many harvests a feed buff lasts
+  if (isCollectibleBuilt({ game, name: "Vibraphone" })) {
+    harvests *= 2;
+  }
+
+  return harvests;
+}
+
 export function applyAnimalFeedBuff({
   state,
   action,
@@ -94,9 +107,7 @@ export function applyAnimalFeedBuff({
 
     animal.feedBuff = {
       name: action.item,
-      harvestsRemaining: isCollectibleBuilt({ game: copy, name: "Vibraphone" })
-        ? 6
-        : 3,
+      harvestsRemaining: getAnimalHarvests(copy),
     };
 
     return copy;
