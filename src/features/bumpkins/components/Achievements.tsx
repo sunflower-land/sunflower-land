@@ -1,4 +1,3 @@
-import { useActor } from "@xstate/react";
 import React, { useContext, useState } from "react";
 
 import { Context } from "features/game/GameProvider";
@@ -21,6 +20,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import type { GameState } from "features/game/types/game";
+import { useSelector } from "@xstate/react";
 
 const CONTENT_HEIGHT = 350;
 interface Props {
@@ -51,11 +51,7 @@ const getDefaultSelectedAchievement = (state: GameState, now: number) => {
 
 export const Achievements: React.FC<Props> = ({ onBack, readonly }) => {
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, (state) => state.context.state);
   const now = useNow({
     live: true,
     autoEndAt: TIME_BASED_FEATURE_FLAG_WINDOWS.SWAMP_ASCENSION.start.getTime(),
