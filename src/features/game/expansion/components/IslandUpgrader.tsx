@@ -48,13 +48,11 @@ export const UPGRADE_RAFTS: Record<IslandType, string | null> = {
   spring: SUNNYSIDE.land.desertRaft,
   desert: SUNNYSIDE.land.volcanoRaft,
   volcano: SUNNYSIDE.land.volcanoRaft, // Next prestige after volcano
-  // Ascension islands chain onward (swamp → … → marble → marble); reuse the
-  // volcano raft stub like the preview/message/description assets do.
-  swamp: SUNNYSIDE.land.volcanoRaft,
-  spooky: SUNNYSIDE.land.volcanoRaft,
-  crystal: SUNNYSIDE.land.volcanoRaft,
-  galaxy: SUNNYSIDE.land.volcanoRaft,
-  marble: SUNNYSIDE.land.volcanoRaft,
+  swamp: SUNNYSIDE.land.swampRaft,
+  spooky: SUNNYSIDE.land.spookyRaft,
+  crystal: SUNNYSIDE.land.crystalRaft,
+  galaxy: SUNNYSIDE.land.galaxyRaft,
+  marble: SUNNYSIDE.land.marbleRaft,
 };
 
 const UPGRADE_PREVIEW: Record<IslandType, string | null> = {

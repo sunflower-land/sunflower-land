@@ -244,6 +244,11 @@ export const SUNNYSIDE = {
     springRaft: `${CONFIG.PROTECTED_IMAGE_URL}/land/prestige_raft.png`,
     desertRaft: `${CONFIG.PROTECTED_IMAGE_URL}/land/desert_prestige_raft.png`,
     volcanoRaft: `${CONFIG.PROTECTED_IMAGE_URL}/land/volcano_prestige_raft.webp`,
+    swampRaft: `${CONFIG.PROTECTED_IMAGE_URL}/land/swamp_raft.webp`,
+    spookyRaft: `${CONFIG.PROTECTED_IMAGE_URL}/land/spooky_raft.webp`,
+    crystalRaft: `${CONFIG.PROTECTED_IMAGE_URL}/land/crystal_raft.webp`,
+    galaxyRaft: `${CONFIG.PROTECTED_IMAGE_URL}/land/galaxy_raft.webp`,
+    marbleRaft: `${CONFIG.PROTECTED_IMAGE_URL}/land/marble_raft.webp`,
     rewardsRaft: `${CONFIG.PROTECTED_IMAGE_URL}/land/rewards_raft.png`,
 
     vip_volcano_island: `${CONFIG.PROTECTED_IMAGE_URL}/land/vip_volcano_island.webp`,
