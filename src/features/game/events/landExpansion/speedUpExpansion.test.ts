@@ -2,6 +2,7 @@ import { INITIAL_FARM } from "features/game/lib/constants";
 import { speedUpExpansion } from "./speedUpExpansion";
 import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
+import { TIME_BASED_FEATURE_FLAG_WINDOWS } from "lib/flags";
 
 describe("instantExpand", () => {
   it("requires expansion is in progress", () => {
@@ -115,9 +116,12 @@ describe("instantExpand", () => {
   });
 
   describe("when SWAMP_ASCENSION is off (mainnet)", () => {
-    // The flag is on by default in tests (amoy), so force mainnet to exercise
-    // the flag-off threshold ("desert"): desert and every island beyond it
+    // SWAMP_ASCENSION is a time-based flag: beta/testnet OR past its window
+    // start. Force mainnet AND evaluate before the window opens to exercise the
+    // flag-off threshold ("desert"): desert and every island beyond it
     // (volcano, swamp) are blocked from speeding up.
+    const beforeWindow =
+      TIME_BASED_FEATURE_FLAG_WINDOWS.SWAMP_ASCENSION.start.getTime() - 1;
     let previousNetwork: (typeof CONFIG)["NETWORK"];
     beforeEach(() => {
       previousNetwork = CONFIG.NETWORK;
@@ -139,9 +143,10 @@ describe("instantExpand", () => {
             },
             expansionConstruction: {
               createdAt: 0,
-              readyAt: Date.now() + 1000,
+              readyAt: beforeWindow + 1000,
             },
           },
+          createdAt: beforeWindow,
         }),
       ).toThrow("You can't speed up the expansion on this island");
     });
@@ -158,9 +163,10 @@ describe("instantExpand", () => {
             },
             expansionConstruction: {
               createdAt: 0,
-              readyAt: Date.now() + 1000,
+              readyAt: beforeWindow + 1000,
             },
           },
+          createdAt: beforeWindow,
         }),
       ).toThrow("You can't speed up the expansion on this island");
     });

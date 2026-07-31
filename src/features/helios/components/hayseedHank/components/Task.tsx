@@ -7,6 +7,8 @@ import { formatNumber } from "lib/utils/formatNumber";
 import React, { useContext } from "react";
 import { GUIDE_PATHS, type GuidePath } from "../lib/guide";
 import type { GameState } from "features/game/types/game";
+import { TIME_BASED_FEATURE_FLAG_WINDOWS } from "lib/flags";
+import { useNow } from "lib/utils/hooks/useNow";
 import { getKeys } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useActor } from "@xstate/react";
@@ -30,7 +32,12 @@ export const GuideTask: React.FC<GuideTaskProps> = ({
 }) => {
   const { t } = useAppTranslation();
   const achievement = ACHIEVEMENTS()[task];
-  const progress = achievement.progress(state);
+  const now = useNow({
+    live: true,
+    autoEndAt: TIME_BASED_FEATURE_FLAG_WINDOWS.SWAMP_ASCENSION.start.getTime(),
+    intervalMs: 60 * 1000,
+  });
+  const progress = achievement.progress(state, now);
 
   const progressPercentage =
     Math.min(1, progress / achievement.requirement) * 100;

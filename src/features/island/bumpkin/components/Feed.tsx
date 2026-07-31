@@ -91,7 +91,7 @@ export const Feed: React.FC<Props> = ({
 
     const ascensionLevel = game.island.ascensionLevel ?? 0;
     const previousExperience = bumpkin?.experience ?? 0;
-    const maxLevel = getMaxBumpkinLevel(game);
+    const maxLevel = getMaxBumpkinLevel(game, now);
     // Track the total level (across ascension bands) so milestones still fire
     // correctly if a feed ever crosses an ascension boundary.
     let previousLevel: number = getTotalBumpkinLevel({

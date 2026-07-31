@@ -49,6 +49,7 @@ import {
 import { getSkillCooldown } from "features/game/events/landExpansion/skillUsed";
 import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/choseSkill";
 import { useNow } from "lib/utils/hooks/useNow";
+import { TIME_BASED_FEATURE_FLAG_WINDOWS } from "lib/flags";
 
 export type ViewState =
   | "home"
@@ -133,7 +134,12 @@ export const BumpkinModal: React.FC<Props> = ({
   const { openModal } = useContext(ModalContext);
   const experience = useSelector(gameService, _experience);
   const ascensionLevel = gameState.island.ascensionLevel ?? 0;
-  const maxBumpkinLevel = getMaxBumpkinLevel(gameState);
+  const now = useNow({
+    live: true,
+    autoEndAt: TIME_BASED_FEATURE_FLAG_WINDOWS.SWAMP_ASCENSION.start.getTime(),
+    intervalMs: 60 * 1000,
+  });
+  const maxBumpkinLevel = getMaxBumpkinLevel(gameState, now);
   const isAscended = ascensionLevel >= 1;
   const ascension = getAscensionLevel({
     experience,
@@ -156,7 +162,6 @@ export const BumpkinModal: React.FC<Props> = ({
     return stored && valid.includes(stored) ? stored : initialTab;
   });
   const { t } = useAppTranslation();
-  const now = useNow();
 
   useEffect(() => {
     if (!readonly) {
@@ -204,7 +209,7 @@ export const BumpkinModal: React.FC<Props> = ({
   >(undefined);
 
   const availableFood = getAvailableFood(inventory);
-  const availableSkillPoints = getAvailableBumpkinSkillPoints(gameState);
+  const availableSkillPoints = getAvailableBumpkinSkillPoints(gameState, now);
 
   if (view === "achievements") {
     return (

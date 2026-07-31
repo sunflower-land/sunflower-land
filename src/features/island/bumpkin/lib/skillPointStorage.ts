@@ -13,11 +13,14 @@ export function getAcknowledgedSkillPointsForBumpkin(id: number) {
   return getAcknowledgedSkillPoints()[id] ?? 0;
 }
 
-export function hasUnacknowledgedSkillPoints(game?: GameState) {
+export function hasUnacknowledgedSkillPoints(
+  game: GameState | undefined,
+  now: number,
+) {
   const bumpkin = game?.bumpkin;
   if (!bumpkin) return false;
 
-  const availableSkillPoints = getAvailableBumpkinSkillPoints(game);
+  const availableSkillPoints = getAvailableBumpkinSkillPoints(game, now);
   const acknowledgedSkillPoints = getAcknowledgedSkillPointsForBumpkin(
     bumpkin.id,
   );
@@ -25,11 +28,14 @@ export function hasUnacknowledgedSkillPoints(game?: GameState) {
   return availableSkillPoints > Number(acknowledgedSkillPoints);
 }
 
-export function acknowledgeSkillPoints(game?: GameState) {
+export function acknowledgeSkillPoints(
+  game: GameState | undefined,
+  now: number,
+) {
   const bumpkin = game?.bumpkin;
   if (!bumpkin) return;
 
-  const availableSkillPoints = getAvailableBumpkinSkillPoints(game);
+  const availableSkillPoints = getAvailableBumpkinSkillPoints(game, now);
   const currentAcknowledgedSkillPoints = getAcknowledgedSkillPoints();
 
   const newValue = {

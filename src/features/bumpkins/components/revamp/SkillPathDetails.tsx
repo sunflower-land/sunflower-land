@@ -35,7 +35,9 @@ import {
   SKILL_POINTS_PER_TIER,
 } from "features/game/events/landExpansion/choseSkill";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { hasFeatureAccess } from "lib/flags";
+import { TIME_BASED_FEATURE_FLAG_WINDOWS } from "lib/flags";
+import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
+import { useNow } from "lib/utils/hooks/useNow";
 import Decimal from "decimal.js-light";
 
 // Icon imports
@@ -194,7 +196,12 @@ export const SkillPathDetails: React.FC<Props> = ({
   });
   const { buff, debuff } = boosts;
 
-  const availableSkillPoints = getAvailableBumpkinSkillPoints(state);
+  const now = useNow({
+    live: true,
+    autoEndAt: TIME_BASED_FEATURE_FLAG_WINDOWS.SWAMP_ASCENSION.start.getTime(),
+    intervalMs: 60 * 1000,
+  });
+  const availableSkillPoints = getAvailableBumpkinSkillPoints(state, now);
   const { availableTier, totalUsedSkillPoints } = getUnlockedTierForTree(
     tree,
     bumpkin,
@@ -217,7 +224,10 @@ export const SkillPathDetails: React.FC<Props> = ({
 
   // The three panel modes. Upgrades only exist behind ASCENSION_SKILLS, so
   // non-Crops trees and flag-off players resolve to Locked -> Maxed (no ranks).
-  const upgradesEnabled = hasFeatureAccess(state, "ASCENSION_SKILLS");
+  const upgradesEnabled = useTimeBasedFeatureAccess({
+    featureName: "ASCENSION_SKILLS",
+    game: state,
+  });
   const canUpgradeHere = upgradesEnabled && !!upgrade;
   const isLocked = !hasSelectedSkill;
   const isUpgradable =
@@ -654,12 +664,7 @@ export const SkillPathDetails: React.FC<Props> = ({
                             overlayIcon={
                               <img
                                 src={
-                                  isSkillMaxed ||
-                                  (!hasFeatureAccess(
-                                    state,
-                                    "ASCENSION_SKILLS",
-                                  ) &&
-                                    hasSkill)
+                                  isSkillMaxed || (!upgradesEnabled && hasSkill)
                                     ? SUNNYSIDE.icons.confirm
                                     : !tierUnlocked
                                       ? SUNNYSIDE.icons.lock

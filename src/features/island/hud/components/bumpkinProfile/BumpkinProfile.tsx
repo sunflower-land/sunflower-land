@@ -14,6 +14,8 @@ import {
   acknowledgeSkillPoints,
   hasUnacknowledgedSkillPoints,
 } from "features/island/bumpkin/lib/skillPointStorage";
+import { TIME_BASED_FEATURE_FLAG_WINDOWS } from "lib/flags";
+import { useNow } from "lib/utils/hooks/useNow";
 import Spritesheet, {
   type SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
@@ -225,13 +227,18 @@ export const BumpkinProfile: React.FC = () => {
 
   const experience = state.bumpkin?.experience ?? 0;
   const ascensionLevel = state.island.ascensionLevel ?? 0;
-  const maxLevel = getMaxBumpkinLevel(state);
+  const now = useNow({
+    live: true,
+    autoEndAt: TIME_BASED_FEATURE_FLAG_WINDOWS.SWAMP_ASCENSION.start.getTime(),
+    intervalMs: 60 * 1000,
+  });
+  const maxLevel = getMaxBumpkinLevel(state, now);
   const level = getAscensionLevel({
     experience,
     ascensionLevel,
     maxLevel,
   }).level;
-  const showSkillPointAlert = hasUnacknowledgedSkillPoints(state);
+  const showSkillPointAlert = hasUnacknowledgedSkillPoints(state, now);
 
   useEffect(() => {
     goToProgress();
@@ -243,7 +250,7 @@ export const BumpkinProfile: React.FC = () => {
     setViewSkillsTab(showSkillPointAlert);
     setShowModal(true);
     if (showSkillPointAlert) {
-      acknowledgeSkillPoints(state);
+      acknowledgeSkillPoints(state, now);
     }
   };
 

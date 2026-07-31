@@ -65,7 +65,7 @@ export type AchievementName =
 export type Achievement = {
   description: string;
   introduction?: string[];
-  progress: (game: GameState) => number;
+  progress: (game: GameState, now: number) => number;
   requirement: number;
   coins: number;
   rewards?: Inventory;
@@ -226,11 +226,11 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   // Cooking
   "Busy Bumpkin": {
     description: translate("busyBumpkin.description"),
-    progress: (gameState: GameState) =>
+    progress: (gameState: GameState, now: number) =>
       getTotalBumpkinLevel({
         experience: gameState.bumpkin.experience || 0,
         ascensionLevel: gameState.island.ascensionLevel ?? 0,
-        maxLevel: getMaxBumpkinLevel(gameState),
+        maxLevel: getMaxBumpkinLevel(gameState, now),
       }),
     requirement: 2,
     coins: 10,
@@ -278,11 +278,11 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   },
   "Brilliant Bumpkin": {
     description: translate("brilliantBumpkin.description"),
-    progress: (gameState: GameState) =>
+    progress: (gameState: GameState, now: number) =>
       getTotalBumpkinLevel({
         experience: gameState.bumpkin.experience || 0,
         ascensionLevel: gameState.island.ascensionLevel ?? 0,
-        maxLevel: getMaxBumpkinLevel(gameState),
+        maxLevel: getMaxBumpkinLevel(gameState, now),
       }),
     requirement: 20,
     coins: 0,

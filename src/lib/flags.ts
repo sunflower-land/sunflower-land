@@ -95,6 +95,14 @@ export const TIME_BASED_FEATURE_FLAG_WINDOWS = {
     start: new Date("2026-09-07T00:00:00Z"),
     end: null,
   },
+  ASCENSION_SKILLS: {
+    start: new Date("2026-08-03T00:00:00Z"),
+    end: null,
+  },
+  SWAMP_ASCENSION: {
+    start: new Date("2026-08-03T00:00:00Z"),
+    end: null,
+  },
 } satisfies Record<string, TimeBasedFeatureWindow>;
 
 /** All time-based flags receive the full window; start-only helpers ignore `end`. */
@@ -113,6 +121,8 @@ export const TIME_BASED_FEATURE_FLAGS: Record<
   APRIL_FOOLS_EVENT_FLAG: betaTimePeriodFeatureFlag,
   RONIN_WAYPOINT_DEPRECATION: timePeriodFeatureFlag,
   COLORS_2026_EVENT_FLAG: betaTimePeriodFeatureFlag,
+  ASCENSION_SKILLS: betaTimePeriodFeatureFlag,
+  SWAMP_ASCENSION: betaTimePeriodFeatureFlag,
   // Testnet-only bypass before the date (not beta), so live testers can reach A2.
   SPOOKY_ASCENSION: timePeriodFeatureFlag,
 };
@@ -183,18 +193,9 @@ const FEATURE_FLAGS = {
   // baseDurationMs + true plantedAt model; when off, boosts stay discount-at-start.
   SPEED_BOOSTS: usernameFeatureFlag,
 
-  SWAMP_ASCENSION: betaFeatureFlag,
-
   // Bulk Mixer tab in the feeder machine: mix the missing feed for every
   // waiting animal at once. Beta-pass / testnet only until it ships.
   BULK_MIXER: betaFeatureFlag,
-
-  // Per-rank skill upgrades (spend Ascension Shards + skill points to rank up a
-  // skill). Kept on its own flag so the upgrade UI + `skill.upgraded` event can
-  // be toggled independently of the rest of the ascension system (islands,
-  // expansion, level bands). Skill *effects* still apply off the stored rank
-  // regardless of this flag; only purchasing new ranks is gated here.
-  ASCENSION_SKILLS: betaFeatureFlag,
 
   // Beta testers can grab a Yakkamon pre-registration code before the level
   // tiers open to everyone else. The server enforces the same rule.
