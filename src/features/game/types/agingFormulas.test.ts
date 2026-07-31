@@ -45,21 +45,24 @@ describe("getRefinedSaltChance", () => {
 
 describe("getPrimeAgedChance", () => {
   it("defaults to 10%", () => {
-    expect(getPrimeAgedChance(stateWithSkills({} as Skills))).toBe(10);
+    expect(getPrimeAgedChance(stateWithSkills({} as Skills)).chance).toBe(10);
   });
 
   it("doubles to 20% with Fish Smoking", () => {
     expect(
-      getPrimeAgedChance(stateWithSkills({ "Fish Smoking": 1 } as Skills)),
+      getPrimeAgedChance(stateWithSkills({ "Fish Smoking": 1 } as Skills))
+        .chance,
     ).toBe(20);
   });
 
   it("triples at Fish Smoking rank 2 and quadruples at rank 3", () => {
     expect(
-      getPrimeAgedChance(stateWithSkills({ "Fish Smoking": 2 } as Skills)),
+      getPrimeAgedChance(stateWithSkills({ "Fish Smoking": 2 } as Skills))
+        .chance,
     ).toBe(30);
     expect(
-      getPrimeAgedChance(stateWithSkills({ "Fish Smoking": 3 } as Skills)),
+      getPrimeAgedChance(stateWithSkills({ "Fish Smoking": 3 } as Skills))
+        .chance,
     ).toBe(40);
   });
 });
@@ -74,7 +77,7 @@ describe("getAgingOutput", () => {
         farmId,
         itemId: KNOWN_IDS.Salt,
         counter: 0,
-      }).toNumber(),
+      }).output.toNumber(),
     ).toBe(3);
   });
 
@@ -85,7 +88,7 @@ describe("getAgingOutput", () => {
         farmId,
         itemId: KNOWN_IDS["Pickled Radish"],
         counter: 0,
-      }).toNumber(),
+      }).output.toNumber(),
     ).toBe(4);
   });
 
@@ -97,7 +100,7 @@ describe("getAgingOutput", () => {
         farmId,
         itemId: KNOWN_IDS["Pickled Radish"],
         counter: 0,
-      }).toNumber();
+      }).output.toNumber();
 
     expect(collect(2)).toBe(6);
     expect(collect(3)).toBe(8);
@@ -111,7 +114,7 @@ describe("getAgingOutput", () => {
         farmId,
         itemId: KNOWN_IDS["Pickled Radish"],
         counter: 0,
-      }).toNumber(),
+      }).output.toNumber(),
     ).toBe(2);
   });
 
@@ -124,7 +127,7 @@ describe("getAgingOutput", () => {
         farmId,
         itemId: KNOWN_IDS["Pickled Radish"],
         counter: 0,
-      }).toNumber(),
+      }).output.toNumber(),
     ).toBe(4);
   });
 
@@ -136,7 +139,7 @@ describe("getAgingOutput", () => {
         farmId,
         itemId: KNOWN_IDS["Pickled Radish"],
         counter: 0,
-      }).toNumber(),
+      }).output.toNumber(),
     ).toBe(4);
   });
 
@@ -150,7 +153,7 @@ describe("getAgingOutput", () => {
           new Decimal(1),
           bait,
           0,
-        ).toNumber(),
+        ).output.toNumber(),
       ).toBe(1);
     });
 
@@ -161,7 +164,7 @@ describe("getAgingOutput", () => {
           new Decimal(1),
           bait,
           0,
-        ).toNumber();
+        ).output.toNumber();
 
       expect(collect(1)).toBe(2);
       expect(collect(2)).toBe(3);
@@ -175,7 +178,7 @@ describe("getAgingOutput", () => {
           new Decimal(1),
           "Salt",
           0,
-        ).toNumber(),
+        ).output.toNumber(),
       ).toBe(1);
     });
   });
@@ -215,7 +218,7 @@ describe("getAgingOutput", () => {
           farmId,
           itemId: refinedSaltId,
           counter: 4,
-        }).toNumber(),
+        }).output.toNumber(),
       ).toBe(2);
     });
 
@@ -226,7 +229,7 @@ describe("getAgingOutput", () => {
           farmId,
           itemId: KNOWN_IDS.Salt,
           counter: 4,
-        }).toNumber(),
+        }).output.toNumber(),
       ).toBe(2);
     });
 
@@ -236,7 +239,7 @@ describe("getAgingOutput", () => {
           farmId,
           itemId: refinedSaltId,
           counter: 4,
-        }).toNumber(),
+        }).output.toNumber(),
       ).toBe(3);
     });
 
@@ -246,7 +249,7 @@ describe("getAgingOutput", () => {
           farmId,
           itemId: refinedSaltId,
           counter: 0,
-        }).toNumber(),
+        }).output.toNumber(),
       ).toBe(2);
     });
 
@@ -260,7 +263,7 @@ describe("getAgingOutput", () => {
           farmId,
           itemId: refinedSaltId,
           counter: 4,
-        }).toNumber(),
+        }).output.toNumber(),
       ).toBe(5);
     });
   });
@@ -332,7 +335,7 @@ describe("stamped Ager level for in-progress jobs", () => {
 
     // Job was stamped at rank 1, player is now rank 3: show what was charged.
     expect(getAgingInputMultiplier(rankedUp, 1)).toBe(2);
-    expect(getBoostedAgingSaltCost(baseXP, rankedUp, 1)).toBe(base * 2);
+    expect(getBoostedAgingSaltCost(baseXP, rankedUp, 1).cost).toBe(base * 2);
     expect(getBoostedAgingFishCost(rankedUp, 1)).toBe(2);
   });
 
@@ -343,7 +346,7 @@ describe("stamped Ager level for in-progress jobs", () => {
     const base = getAgingSaltCost(baseXP);
 
     expect(getAgingInputMultiplier(rankedUp, 0)).toBe(1);
-    expect(getBoostedAgingSaltCost(baseXP, rankedUp, 0)).toBe(base);
+    expect(getBoostedAgingSaltCost(baseXP, rankedUp, 0).cost).toBe(base);
     expect(getBoostedAgingFishCost(rankedUp, 0)).toBe(1);
   });
 
@@ -351,9 +354,9 @@ describe("stamped Ager level for in-progress jobs", () => {
     // Empty panels preview an unstarted job, so they still read live.
     const base = getAgingSaltCost(baseXP);
     expect(getAgingInputMultiplier(stateWithSkills({ Ager: 3 }))).toBe(4);
-    expect(getBoostedAgingSaltCost(baseXP, stateWithSkills({ Ager: 2 }))).toBe(
-      base * 3,
-    );
+    expect(
+      getBoostedAgingSaltCost(baseXP, stateWithSkills({ Ager: 2 })).cost,
+    ).toBe(base * 3);
     expect(getBoostedAgingFishCost(stateWithSkills({ Ager: 2 }))).toBe(3);
   });
 });
@@ -378,24 +381,26 @@ describe("getBoostedAgingSaltCost", () => {
 
   it("matches base salt cost without Ager", () => {
     const base = getAgingSaltCost(baseXP);
-    expect(getBoostedAgingSaltCost(baseXP, stateWithSkills({}))).toBe(base);
+    expect(getBoostedAgingSaltCost(baseXP, stateWithSkills({})).cost).toBe(
+      base,
+    );
   });
 
   it("doubles salt cost with Ager (Aging Rack)", () => {
     const base = getAgingSaltCost(baseXP);
-    expect(getBoostedAgingSaltCost(baseXP, stateWithSkills({ Ager: 1 }))).toBe(
-      base * 2,
-    );
+    expect(
+      getBoostedAgingSaltCost(baseXP, stateWithSkills({ Ager: 1 })).cost,
+    ).toBe(base * 2);
   });
 
   it("scales the salt cost with Ager rank", () => {
     const base = getAgingSaltCost(baseXP);
-    expect(getBoostedAgingSaltCost(baseXP, stateWithSkills({ Ager: 2 }))).toBe(
-      base * 3,
-    );
-    expect(getBoostedAgingSaltCost(baseXP, stateWithSkills({ Ager: 3 }))).toBe(
-      base * 4,
-    );
+    expect(
+      getBoostedAgingSaltCost(baseXP, stateWithSkills({ Ager: 2 })).cost,
+    ).toBe(base * 3);
+    expect(
+      getBoostedAgingSaltCost(baseXP, stateWithSkills({ Ager: 3 })).cost,
+    ).toBe(base * 4);
   });
 });
 
@@ -406,7 +411,7 @@ describe("Winged Vase prime aging boost", () => {
 
   it("adds 14 percentage points when placed", () => {
     expect(
-      getPrimeAgedChance({ ...INITIAL_FARM, collectibles: placedVase }),
+      getPrimeAgedChance({ ...INITIAL_FARM, collectibles: placedVase }).chance,
     ).toBe(24);
   });
 
@@ -419,7 +424,7 @@ describe("Winged Vase prime aging boost", () => {
           skills: { "Fish Smoking": 1 },
         },
         collectibles: placedVase,
-      }),
+      }).chance,
     ).toBe(34);
   });
 
@@ -431,7 +436,7 @@ describe("Winged Vase prime aging boost", () => {
           ...INITIAL_FARM.inventory,
           "Winged Vase": new Decimal(1),
         },
-      }),
+      }).chance,
     ).toBe(10);
   });
 });
@@ -447,7 +452,7 @@ describe("Surfer Hair salt cost discount", () => {
           ...INITIAL_FARM.bumpkin,
           equipped: { ...INITIAL_FARM.bumpkin.equipped, hair: "Surfer Hair" },
         },
-      }),
+      }).cost,
     ).toBe(getAgingSaltCost(baseXP) * 0.5);
   });
 
@@ -460,12 +465,12 @@ describe("Surfer Hair salt cost discount", () => {
           skills: { Ager: 1 },
           equipped: { ...INITIAL_FARM.bumpkin.equipped, hair: "Surfer Hair" },
         },
-      }),
+      }).cost,
     ).toBe(getAgingSaltCost(baseXP) * 2 * 0.5);
   });
 
   it("does not discount when not equipped", () => {
-    expect(getBoostedAgingSaltCost(baseXP, INITIAL_FARM)).toBe(
+    expect(getBoostedAgingSaltCost(baseXP, INITIAL_FARM).cost).toBe(
       getAgingSaltCost(baseXP),
     );
   });
@@ -501,7 +506,7 @@ describe("Astrolabe aging output doubling", () => {
         farmId,
         itemId: KNOWN_IDS["Salt"],
         counter: hitCounter!,
-      }).toNumber(),
+      }).output.toNumber(),
     ).toBe(6);
   });
 
@@ -512,7 +517,7 @@ describe("Astrolabe aging output doubling", () => {
         farmId,
         itemId: KNOWN_IDS["Salt"],
         counter: missCounter!,
-      }).toNumber(),
+      }).output.toNumber(),
     ).toBe(3);
   });
 
@@ -529,7 +534,7 @@ describe("Astrolabe aging output doubling", () => {
           itemId: KNOWN_IDS["Salt"],
           counter: hitCounter!,
         },
-      ).toNumber(),
+      ).output.toNumber(),
     ).toBe(8);
   });
 
@@ -552,7 +557,7 @@ describe("Astrolabe aging output doubling", () => {
           itemId: KNOWN_IDS["Salt"],
           counter: hitCounter!,
         },
-      ).toNumber(),
+      ).output.toNumber(),
     ).toBe(3);
   });
 });

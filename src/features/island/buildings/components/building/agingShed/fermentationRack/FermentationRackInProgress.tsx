@@ -51,7 +51,7 @@ export const FermentationRackInProgress: React.FC<Props> = ({
   // The job is already running, so both its output and the ingredients it was
   // charged read from the rank stamped at start, not the player's live rank.
   const agerLevel = getStampedAgerLevel(job.skills);
-  const outputAmount = getAgingOutput(
+  const { output: outputAmount } = getAgingOutput(
     state,
     outputEntry?.[1] ?? new Decimal(0),
     outputItem,

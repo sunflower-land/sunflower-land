@@ -205,7 +205,7 @@ describe("collectAgedFish", () => {
           farmId,
           itemId: agedItemId,
           counter: 0,
-          chance: getPrimeAgedChance(createFermentationTestState()),
+          chance: getPrimeAgedChance(createFermentationTestState()).chance,
           criticalHitName: primeName,
         }),
       ).toBe(false);
@@ -217,7 +217,7 @@ describe("collectAgedFish", () => {
           farmId,
           itemId: agedItemId,
           counter: 9,
-          chance: getPrimeAgedChance(createFermentationTestState()),
+          chance: getPrimeAgedChance(createFermentationTestState()).chance,
           criticalHitName: primeName,
         }),
       ).toBe(true);

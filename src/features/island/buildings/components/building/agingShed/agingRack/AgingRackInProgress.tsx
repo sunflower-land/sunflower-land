@@ -49,7 +49,7 @@ export const AgingRackInProgress: React.FC<Props> = ({
   const outputLabel = ITEM_DETAILS[agedName]?.translatedName ?? agedName;
   // The slot is already running, so show the salt it was charged at its
   // stamped Ager rank rather than recomputing from the player's live rank.
-  const saltCost = getBoostedAgingSaltCost(
+  const { cost: saltCost } = getBoostedAgingSaltCost(
     getFishBaseXP(slot.fish),
     game,
     getStampedAgerLevel(slot.skills),

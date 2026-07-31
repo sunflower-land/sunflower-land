@@ -4,8 +4,10 @@ import { ANIMALS, type AnimalType } from "features/game/types/animals";
 import type {
   Animal,
   AnimalFeedBuffName,
+  BoostName,
   GameState,
 } from "features/game/types/game";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { makeAnimalBuildingKey } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { isAnimalNeedingLove } from "./loveAnimal";
@@ -46,15 +48,20 @@ export function isAnimalFeedBuffItem(item: string): item is AnimalFeedBuffName {
 
 export const BASE_FEED_BUFF_HARVESTS = 3;
 
-export function getAnimalHarvests(game: GameState): number {
+export function getAnimalHarvests(game: GameState): {
+  harvests: number;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
   let harvests = BASE_FEED_BUFF_HARVESTS;
+  const boostsUsed: { name: BoostName; value: string }[] = [];
 
   // Vibraphone doubles how many harvests a feed buff lasts
   if (isCollectibleBuilt({ game, name: "Vibraphone" })) {
     harvests *= 2;
+    boostsUsed.push({ name: "Vibraphone", value: "x2" });
   }
 
-  return harvests;
+  return { harvests, boostsUsed };
 }
 
 export function applyAnimalFeedBuff({
@@ -105,10 +112,18 @@ export function applyAnimalFeedBuff({
 
     copy.inventory[action.item] = count.minus(1);
 
+    const { harvests, boostsUsed } = getAnimalHarvests(copy);
+
     animal.feedBuff = {
       name: action.item,
-      harvestsRemaining: getAnimalHarvests(copy),
+      harvestsRemaining: harvests,
     };
+
+    copy.boostsUsedAt = updateBoostUsed({
+      game: copy,
+      boostNames: boostsUsed,
+      createdAt,
+    });
 
     return copy;
   });
