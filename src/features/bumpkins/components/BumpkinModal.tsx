@@ -134,12 +134,17 @@ export const BumpkinModal: React.FC<Props> = ({
   const { openModal } = useContext(ModalContext);
   const experience = useSelector(gameService, _experience);
   const ascensionLevel = gameState.island.ascensionLevel ?? 0;
-  const now = useNow({
+  // Mount snapshot, as before — drives the power-skill cooldown readiness check.
+  const now = useNow();
+  // Separate bounded clock for the flag-derived values, so the level cap and
+  // skill-point count flip when the window opens without pinning the cooldown
+  // clock to that window.
+  const featureNow = useNow({
     live: true,
     autoEndAt: TIME_BASED_FEATURE_FLAG_WINDOWS.SWAMP_ASCENSION.start.getTime(),
     intervalMs: 60 * 1000,
   });
-  const maxBumpkinLevel = getMaxBumpkinLevel(gameState, now);
+  const maxBumpkinLevel = getMaxBumpkinLevel(gameState, featureNow);
   const isAscended = ascensionLevel >= 1;
   const ascension = getAscensionLevel({
     experience,
@@ -209,7 +214,10 @@ export const BumpkinModal: React.FC<Props> = ({
   >(undefined);
 
   const availableFood = getAvailableFood(inventory);
-  const availableSkillPoints = getAvailableBumpkinSkillPoints(gameState, now);
+  const availableSkillPoints = getAvailableBumpkinSkillPoints(
+    gameState,
+    featureNow,
+  );
 
   if (view === "achievements") {
     return (

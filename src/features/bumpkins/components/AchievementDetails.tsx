@@ -11,8 +11,6 @@ import { Button } from "components/ui/Button";
 import type { GameState } from "features/game/types/game";
 import { InnerPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { TIME_BASED_FEATURE_FLAG_WINDOWS } from "lib/flags";
-import { useNow } from "lib/utils/hooks/useNow";
 import { getKeys } from "lib/object";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { setImageWidth } from "lib/images";
@@ -29,6 +27,7 @@ interface Props {
   name: AchievementName;
   state: GameState;
   readonly: boolean;
+  now: number;
 }
 
 export const AchievementDetails: React.FC<Props> = ({
@@ -36,13 +35,9 @@ export const AchievementDetails: React.FC<Props> = ({
   onClaim,
   name,
   state,
+  now,
 }) => {
   const achievement = ACHIEVEMENTS()[name];
-  const now = useNow({
-    live: true,
-    autoEndAt: TIME_BASED_FEATURE_FLAG_WINDOWS.SWAMP_ASCENSION.start.getTime(),
-    intervalMs: 60 * 1000,
-  });
   const progress = achievement.progress(state, now);
   const isComplete = progress >= achievement.requirement;
 

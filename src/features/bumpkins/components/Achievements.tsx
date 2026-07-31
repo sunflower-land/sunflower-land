@@ -86,6 +86,7 @@ export const Achievements: React.FC<Props> = ({ onBack, readonly }) => {
           onClaim={claim}
           state={state}
           readonly={readonly}
+          now={now}
         />
       </div>
       <div className="w-full mt-2">

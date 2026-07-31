@@ -11,7 +11,9 @@ import {
 import { upgradeRock } from "../events/landExpansion/upgradeRock";
 import { SWAMP_BASE_NODES } from "../expansion/lib/ascension";
 
-const now = Date.now();
+// Fixed, pre-window instant: these cases cover the legacy (SWAMP_ASCENSION off)
+// layouts, so pin the clock rather than letting it drift past the window start.
+const now = new Date("2026-07-01T00:00:00Z").getTime();
 
 describe("getLand", () => {
   it("returns a basic land", () => {
