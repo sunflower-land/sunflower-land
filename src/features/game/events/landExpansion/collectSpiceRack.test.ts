@@ -10,6 +10,8 @@ import {
 import { getObjectEntries } from "lib/object";
 import { collectSpiceRack } from "./collectSpiceRack";
 import { startSpiceRack } from "./startSpiceRack";
+import { prngChance } from "lib/prng";
+import { KNOWN_IDS } from "features/game/types";
 import {
   createFermentationTestState,
   FERMENTATION_TEST_NOW,
@@ -470,6 +472,67 @@ describe("collectSpiceRack", () => {
       });
 
       expect(state.inventory["Refined Salt"]?.toNumber()).toEqual(1);
+    });
+  });
+  describe("Astrolabe batch collection counters", () => {
+    const farmId = 1;
+    const roll = (counter: number) =>
+      prngChance({
+        farmId,
+        itemId: KNOWN_IDS["Refined Salt"],
+        counter,
+        chance: 25,
+        criticalHitName: "Astrolabe",
+      });
+
+    it("advances the PRNG counter per job so batched identical jobs roll independently", () => {
+      // Pick a base where consecutive rolls differ, so a shared counter would
+      // produce a different total than per-job counters.
+      const base = Array.from({ length: 100 }, (_, i) => i).find(
+        (b) => roll(b) !== roll(b + 1),
+      );
+      expect(base).toBeDefined();
+
+      const expected = (roll(base!) ? 2 : 1) + (roll(base! + 1) ? 2 : 1);
+
+      const state = collectSpiceRack({
+        state: createFermentationTestState({
+          collectibles: {
+            Astrolabe: [{ id: "1", createdAt: 0, coordinates: { x: 0, y: 0 } }],
+          },
+          farmActivity: {
+            [spiceRackCollectedActivity("Refined Salt")]: base!,
+          },
+          agingShed: {
+            ...createInitialAgingShed(),
+            level: 2,
+            racks: {
+              ...createInitialAgingShed().racks,
+              spice: [
+                {
+                  id: "a",
+                  recipe: "Refined Salt" as const,
+                  startedAt: createdAt - 2,
+                  readyAt: createdAt - 2,
+                },
+                {
+                  id: "b",
+                  recipe: "Refined Salt" as const,
+                  startedAt: createdAt - 1,
+                  readyAt: createdAt - 1,
+                },
+              ],
+            },
+          },
+        }),
+        action: { type: "spiceRack.collected" },
+        createdAt,
+        farmId,
+      });
+
+      // Exactly one of the two jobs doubles (3), never both (4) or neither (2).
+      expect(state.inventory["Refined Salt"]?.toNumber()).toEqual(expected);
+      expect(expected).toEqual(3);
     });
   });
 });
