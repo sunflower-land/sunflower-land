@@ -4,7 +4,6 @@ import { createInitialAgingShed } from "features/game/lib/agingShed";
 import { KNOWN_IDS } from "features/game/types";
 import { prngChance } from "lib/prng";
 import { getPrimeAgedChance } from "features/game/types/agingFormulas";
-import type { GameState } from "features/game/types/game";
 import { collectAgedFish } from "./collectAgedFish";
 import {
   createFermentationTestState,
@@ -206,7 +205,7 @@ describe("collectAgedFish", () => {
           farmId,
           itemId: agedItemId,
           counter: 0,
-          chance: getPrimeAgedChance({ bumpkin: { skills: {} } } as GameState),
+          chance: getPrimeAgedChance(createFermentationTestState()),
           criticalHitName: primeName,
         }),
       ).toBe(false);
@@ -218,7 +217,7 @@ describe("collectAgedFish", () => {
           farmId,
           itemId: agedItemId,
           counter: 9,
-          chance: getPrimeAgedChance({ bumpkin: { skills: {} } } as GameState),
+          chance: getPrimeAgedChance(createFermentationTestState()),
           criticalHitName: primeName,
         }),
       ).toBe(true);
