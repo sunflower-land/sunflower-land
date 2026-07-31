@@ -188,7 +188,7 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
     const level = getTotalBumpkinLevel({
       experience: bumpkinExperience,
       ascensionLevel: gameState.island.ascensionLevel ?? 0,
-      maxLevel: getMaxBumpkinLevel(gameState),
+      maxLevel: getMaxBumpkinLevel(gameState, now),
     });
     const vipGiftItem = hasVip ? getVipDailyBonusItem(level) : null;
     if (vipGiftItem) {

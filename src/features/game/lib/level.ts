@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import type { GameState } from "features/game/types/game";
-import { hasFeatureAccess } from "lib/flags";
+import { hasTimeBasedFeatureAccess } from "lib/flags";
 import { translate } from "lib/i18n/translate";
 
 export type BumpkinLevel =
@@ -419,8 +419,11 @@ export const PRE_ASCENSION_MAX_LEVEL: BumpkinLevel = 150;
  * pass this as the `maxLevel` arg to `getBumpkinLevel`/`isMaxLevel`/`getExperienceToNextLevel`
  * at ascension-aware call sites. Flag-off keeps the legacy 200 cap.
  */
-export const getMaxBumpkinLevel = (game: GameState): BumpkinLevel =>
-  hasFeatureAccess(game, "SWAMP_ASCENSION")
+export const getMaxBumpkinLevel = (
+  game: GameState,
+  now: number,
+): BumpkinLevel =>
+  hasTimeBasedFeatureAccess({ featureName: "SWAMP_ASCENSION", game, now })
     ? PRE_ASCENSION_MAX_LEVEL
     : MAX_BUMPKIN_LEVEL;
 

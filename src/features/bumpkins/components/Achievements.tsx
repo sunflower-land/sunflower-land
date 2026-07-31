@@ -6,6 +6,8 @@ import {
   type AchievementName,
   ACHIEVEMENTS,
 } from "features/game/types/achievements";
+import { TIME_BASED_FEATURE_FLAG_WINDOWS } from "lib/flags";
+import { useNow } from "lib/utils/hooks/useNow";
 import { getKeys } from "lib/object";
 import { ITEM_DETAILS } from "features/game/types/images";
 import classNames from "classnames";
@@ -27,7 +29,7 @@ interface Props {
   readonly: boolean;
 }
 
-const getDefaultSelectedAchievement = (state: GameState) => {
+const getDefaultSelectedAchievement = (state: GameState, now: number) => {
   const achievements = ACHIEVEMENTS();
   const bumpkinAchievements = state.bumpkin?.achievements || {};
   const achievementKeys = getKeys(achievements).filter((achievement) => {
@@ -37,7 +39,7 @@ const getDefaultSelectedAchievement = (state: GameState) => {
 
   const firstUnclaimedAchievementName = achievementKeys.find((name) => {
     const achievement = achievements[name];
-    const progress = achievement.progress(state);
+    const progress = achievement.progress(state, now);
     const isComplete = progress >= achievement.requirement;
     const isAlreadyClaimed = !!bumpkinAchievements[name];
 
@@ -54,8 +56,13 @@ export const Achievements: React.FC<Props> = ({ onBack, readonly }) => {
       context: { state },
     },
   ] = useActor(gameService);
+  const now = useNow({
+    live: true,
+    autoEndAt: TIME_BASED_FEATURE_FLAG_WINDOWS.SWAMP_ASCENSION.start.getTime(),
+    intervalMs: 60 * 1000,
+  });
   const [selected, setSelected] = useState<AchievementName>(
-    getDefaultSelectedAchievement(state),
+    getDefaultSelectedAchievement(state, now),
   );
 
   const achievements = ACHIEVEMENTS();
@@ -79,6 +86,7 @@ export const Achievements: React.FC<Props> = ({ onBack, readonly }) => {
           onClaim={claim}
           state={state}
           readonly={readonly}
+          now={now}
         />
       </div>
       <div className="w-full mt-2">
@@ -94,7 +102,7 @@ export const Achievements: React.FC<Props> = ({ onBack, readonly }) => {
             .map((name) => {
               const achievement = achievements[name];
 
-              const progress = achievement.progress(state);
+              const progress = achievement.progress(state, now);
               const isComplete = progress >= achievement.requirement;
 
               const bumpkinAchievements = state.bumpkin?.achievements || {};

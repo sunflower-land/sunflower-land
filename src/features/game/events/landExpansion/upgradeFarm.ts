@@ -14,7 +14,7 @@ import type {
   TemperateSeasonName,
 } from "features/game/types/game";
 import { ASCENSION_ISLANDS } from "features/game/types/game";
-import { hasFeatureAccess, hasTimeBasedFeatureAccess } from "lib/flags";
+import { hasTimeBasedFeatureAccess } from "lib/flags";
 import { getAscensionLevel, getMaxBumpkinLevel } from "features/game/lib/level";
 import {
   getTotalBaseResourceEquivalents,
@@ -1269,7 +1269,13 @@ function transitionToIsland({
     game.layouts = [...(game.layouts ?? []), ascensionLayout];
   }
 
-  if (hasFeatureAccess(game, "SWAMP_ASCENSION")) {
+  if (
+    hasTimeBasedFeatureAccess({
+      featureName: "SWAMP_ASCENSION",
+      game,
+      now: createdAt,
+    })
+  ) {
     // Every island upgrade (basic + ascension) reconciles the player's resources
     // against the new island's floor via the shared `getMissingResources`
     // back-pay (same as revealLand's: per-tier/forging-safe, depletion-aware) and
@@ -1280,6 +1286,7 @@ function transitionToIsland({
     const bundle = getMissingResources({
       game,
       expansion: game.inventory["Basic Land"]?.toNumber() ?? 0,
+      now: createdAt,
     });
     if (getObjectEntries(bundle).length > 0) {
       game.airdrops = [
@@ -1336,7 +1343,14 @@ export function upgrade({ state, createdAt = Date.now(), farmId }: Options) {
     upcoming.upgrade,
   );
 
-  if (targetIsAscension && !hasFeatureAccess(game, "SWAMP_ASCENSION")) {
+  if (
+    targetIsAscension &&
+    !hasTimeBasedFeatureAccess({
+      featureName: "SWAMP_ASCENSION",
+      game,
+      now: createdAt,
+    })
+  ) {
     throw new Error("Swamp ascension is not yet available");
   }
 
@@ -1364,7 +1378,7 @@ export function upgrade({ state, createdAt = Date.now(), farmId }: Options) {
     !getAscensionLevel({
       experience: game.bumpkin.experience ?? 0,
       ascensionLevel: game.island.ascensionLevel ?? 0,
-      maxLevel: getMaxBumpkinLevel(game),
+      maxLevel: getMaxBumpkinLevel(game, createdAt),
     }).isReadyToAscend
   ) {
     throw new Error("Player has not met the level requirements");

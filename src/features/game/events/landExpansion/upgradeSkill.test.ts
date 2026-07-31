@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { TEST_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { CONFIG } from "lib/config";
+import { TIME_BASED_FEATURE_FLAG_WINDOWS } from "lib/flags";
 import { upgradeSkill } from "./upgradeSkill";
 import { getAvailableBumpkinSkillPoints } from "./choseSkill";
 import { getSkillCooldown } from "./skillUsed";
@@ -62,7 +63,7 @@ describe("upgradeSkill", () => {
         skills: { ...CROPS_TIER_3 },
       },
     };
-    const before = getAvailableBumpkinSkillPoints(state);
+    const before = getAvailableBumpkinSkillPoints(state, dateNow);
 
     const result = upgradeSkill({
       state,
@@ -73,7 +74,7 @@ describe("upgradeSkill", () => {
     expect(result.bumpkin?.skills["Strong Roots"]).toEqual(2);
     expect(result.inventory["Ascension Shard"]).toEqual(new Decimal(3));
     // Tier 2 rank-up costs 3 skill points.
-    expect(getAvailableBumpkinSkillPoints(result)).toEqual(before - 3);
+    expect(getAvailableBumpkinSkillPoints(result, dateNow)).toEqual(before - 3);
   });
 
   it("spends a tier-scaled cost for a tier 3 skill (3 shards, 6 skill points)", () => {
@@ -90,7 +91,7 @@ describe("upgradeSkill", () => {
         skills: { ...CROPS_TIER_3, "Acre Farm": 1 },
       },
     };
-    const before = getAvailableBumpkinSkillPoints(state);
+    const before = getAvailableBumpkinSkillPoints(state, dateNow);
 
     const result = upgradeSkill({
       state,
@@ -101,7 +102,7 @@ describe("upgradeSkill", () => {
     expect(result.bumpkin?.skills["Acre Farm"]).toEqual(2);
     expect(result.inventory["Ascension Shard"]).toEqual(new Decimal(2));
     // Tier 3 rank-up costs 6 skill points.
-    expect(getAvailableBumpkinSkillPoints(result)).toEqual(before - 6);
+    expect(getAvailableBumpkinSkillPoints(result, dateNow)).toEqual(before - 6);
   });
 
   it("upgrades a rank 2 skill to rank 3 and keeps point accounting aligned", () => {
@@ -118,7 +119,7 @@ describe("upgradeSkill", () => {
         skills: { ...CROPS_TIER_3, "Green Thumb": 2 },
       },
     };
-    const before = getAvailableBumpkinSkillPoints(state);
+    const before = getAvailableBumpkinSkillPoints(state, dateNow);
 
     const result = upgradeSkill({
       state,
@@ -129,7 +130,7 @@ describe("upgradeSkill", () => {
     expect(result.bumpkin?.skills["Green Thumb"]).toEqual(3);
     expect(result.inventory["Ascension Shard"]).toEqual(new Decimal(4));
     // Tier 1 rank-up costs 1 skill point; available drops by exactly that.
-    expect(getAvailableBumpkinSkillPoints(result)).toEqual(before - 1);
+    expect(getAvailableBumpkinSkillPoints(result, dateNow)).toEqual(before - 1);
   });
 
   it("throws when the tree tier is not unlocked", () => {
@@ -370,8 +371,11 @@ describe("upgradeSkill", () => {
   });
 
   describe("when ASCENSION_SKILLS is off (mainnet)", () => {
-    // The flag is on by default in tests (amoy), so force mainnet to exercise
-    // the flag-off path.
+    // ASCENSION_SKILLS is a time-based flag: beta/testnet OR past its window
+    // start. Force mainnet AND evaluate before the window opens so this stays
+    // the flag-off path once the window start date passes.
+    const beforeWindow =
+      TIME_BASED_FEATURE_FLAG_WINDOWS.ASCENSION_SKILLS.start.getTime() - 1;
     let previousNetwork: (typeof CONFIG)["NETWORK"];
     beforeEach(() => {
       previousNetwork = CONFIG.NETWORK;
@@ -397,7 +401,7 @@ describe("upgradeSkill", () => {
             },
           },
           action: { type: "skill.upgraded", skill: "Green Thumb" },
-          createdAt: dateNow,
+          createdAt: beforeWindow,
         }),
       ).toThrow("Skill upgrades are not available");
     });

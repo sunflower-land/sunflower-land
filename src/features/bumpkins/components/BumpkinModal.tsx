@@ -49,6 +49,7 @@ import {
 import { getSkillCooldown } from "features/game/events/landExpansion/skillUsed";
 import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/choseSkill";
 import { useNow } from "lib/utils/hooks/useNow";
+import { TIME_BASED_FEATURE_FLAG_WINDOWS } from "lib/flags";
 
 export type ViewState =
   | "home"
@@ -133,7 +134,17 @@ export const BumpkinModal: React.FC<Props> = ({
   const { openModal } = useContext(ModalContext);
   const experience = useSelector(gameService, _experience);
   const ascensionLevel = gameState.island.ascensionLevel ?? 0;
-  const maxBumpkinLevel = getMaxBumpkinLevel(gameState);
+  // Mount snapshot, as before — drives the power-skill cooldown readiness check.
+  const now = useNow();
+  // Separate bounded clock for the flag-derived values, so the level cap and
+  // skill-point count flip when the window opens without pinning the cooldown
+  // clock to that window.
+  const featureNow = useNow({
+    live: true,
+    autoEndAt: TIME_BASED_FEATURE_FLAG_WINDOWS.SWAMP_ASCENSION.start.getTime(),
+    intervalMs: 60 * 1000,
+  });
+  const maxBumpkinLevel = getMaxBumpkinLevel(gameState, featureNow);
   const isAscended = ascensionLevel >= 1;
   const ascension = getAscensionLevel({
     experience,
@@ -156,7 +167,6 @@ export const BumpkinModal: React.FC<Props> = ({
     return stored && valid.includes(stored) ? stored : initialTab;
   });
   const { t } = useAppTranslation();
-  const now = useNow();
 
   useEffect(() => {
     if (!readonly) {
@@ -204,7 +214,10 @@ export const BumpkinModal: React.FC<Props> = ({
   >(undefined);
 
   const availableFood = getAvailableFood(inventory);
-  const availableSkillPoints = getAvailableBumpkinSkillPoints(gameState);
+  const availableSkillPoints = getAvailableBumpkinSkillPoints(
+    gameState,
+    featureNow,
+  );
 
   if (view === "achievements") {
     return (

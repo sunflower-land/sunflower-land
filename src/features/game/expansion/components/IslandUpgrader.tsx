@@ -22,6 +22,7 @@ import {
   ASCENSION_BUMPKIN_LEVEL,
 } from "features/game/events/landExpansion/upgradeFarm";
 import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
+import { useNow } from "lib/utils/hooks/useNow";
 import {
   getAscensionLevel,
   getMaxBumpkinLevel,
@@ -33,7 +34,7 @@ import { createPortal } from "react-dom";
 import confetti from "canvas-confetti";
 import type { AscensionIslandType, IslandType } from "features/game/types/game";
 import { ASCENSION_ISLANDS, getIslandName } from "features/game/types/game";
-import { hasFeatureAccess, TIME_BASED_FEATURE_FLAG_WINDOWS } from "lib/flags";
+import { TIME_BASED_FEATURE_FLAG_WINDOWS } from "lib/flags";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Transition } from "@headlessui/react";
@@ -124,6 +125,15 @@ const IslandUpgraderModal: React.FC<{
     featureName: "SPOOKY_ASCENSION",
     game: gameState.context.state,
   });
+  const hasSwampAscensionAccess = useTimeBasedFeatureAccess({
+    featureName: "SWAMP_ASCENSION",
+    game: gameState.context.state,
+  });
+  const now = useNow({
+    live: true,
+    autoEndAt: TIME_BASED_FEATURE_FLAG_WINDOWS.SWAMP_ASCENSION.start.getTime(),
+    intervalMs: 60 * 1000,
+  });
   // Match the reducer's authoritative A1→A2 condition (ascensionLevel === 1) so
   // the button can't enable an upgrade the server rejects, or vice versa.
   const isNextAscensionLocked =
@@ -162,7 +172,7 @@ const IslandUpgraderModal: React.FC<{
       // Mirror the server gate: the pre-ascension cap drops to 150 under
       // SWAMP_ASCENSION, so without this a maxed level-150 player would be
       // measured against the legacy 200 cap and never show as ready.
-      maxLevel: getMaxBumpkinLevel(gameState.context.state),
+      maxLevel: getMaxBumpkinLevel(gameState.context.state, now),
     }).isReadyToAscend;
 
   if (showConfirmation) {
@@ -213,9 +223,7 @@ const IslandUpgraderModal: React.FC<{
     return getKeys(temporaryCollectibles).length > 0;
   };
 
-  const flagAllows =
-    !isAscensionUpgrade ||
-    hasFeatureAccess(gameState.context.state, "SWAMP_ASCENSION");
+  const flagAllows = !isAscensionUpgrade || hasSwampAscensionAccess;
   const hasUpgrade = isLandUpgradable(island.type) && flagAllows;
 
   // Ascension upgrades carry their (level-scaled) cost in getAscensionUpgradeCost,

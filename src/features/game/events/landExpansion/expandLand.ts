@@ -6,7 +6,7 @@ import {
 import { getKeys } from "lib/object";
 import type { BoostName, GameState } from "features/game/types/game";
 import { ASCENSION_ISLANDS } from "features/game/types/game";
-import { hasFeatureAccess } from "lib/flags";
+import { hasTimeBasedFeatureAccess } from "lib/flags";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { mfTrack } from "lib/moonforgeAnalytics";
 
@@ -47,7 +47,11 @@ export function expandLand({ state, createdAt = Date.now() }: Options) {
     // ascension island while the flag was on if it is later turned off.
     if (
       (ASCENSION_ISLANDS as readonly string[]).includes(game.island.type) &&
-      !hasFeatureAccess(game, "SWAMP_ASCENSION")
+      !hasTimeBasedFeatureAccess({
+        featureName: "SWAMP_ASCENSION",
+        game,
+        now: createdAt,
+      })
     ) {
       throw new Error("Swamp ascension is not yet available");
     }
@@ -66,7 +70,7 @@ export function expandLand({ state, createdAt = Date.now() }: Options) {
       throw new Error("No more land expansions available");
     }
 
-    const land = getLand({ game });
+    const land = getLand({ game, now: createdAt });
     if (!land) {
       throw new Error("Land Does Not Exists");
     }

@@ -7,11 +7,12 @@ import { formatNumber } from "lib/utils/formatNumber";
 import React, { useContext } from "react";
 import { GUIDE_PATHS, type GuidePath } from "../lib/guide";
 import type { GameState } from "features/game/types/game";
+import { TIME_BASED_FEATURE_FLAG_WINDOWS } from "lib/flags";
+import { useNow } from "lib/utils/hooks/useNow";
 import { getKeys } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onOpenGuide: (guide: GuidePath) => void;
@@ -22,15 +23,16 @@ interface GuideTaskProps {
   state: GameState;
   task: AchievementName;
   onNeedHelp?: (guide: GuidePath) => void;
+  now: number;
 }
 export const GuideTask: React.FC<GuideTaskProps> = ({
   state,
   task,
   onNeedHelp,
+  now,
 }) => {
-  const { t } = useAppTranslation();
   const achievement = ACHIEVEMENTS()[task];
-  const progress = achievement.progress(state);
+  const progress = achievement.progress(state, now);
 
   const progressPercentage =
     Math.min(1, progress / achievement.requirement) * 100;
@@ -88,11 +90,15 @@ export const GuideTask: React.FC<GuideTaskProps> = ({
     </>
   );
 };
+
 export const Task: React.FC<Props> = ({ onOpenGuide, task }) => {
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-
-  const state = gameState.context.state;
+  const state = useSelector(gameService, (state) => state.context.state);
+  const now = useNow({
+    live: true,
+    autoEndAt: TIME_BASED_FEATURE_FLAG_WINDOWS.SWAMP_ASCENSION.start.getTime(),
+    intervalMs: 60 * 1000,
+  });
 
   if (!task) {
     return (
@@ -108,6 +114,7 @@ export const Task: React.FC<Props> = ({ onOpenGuide, task }) => {
         state={state}
         task={task}
         onNeedHelp={(guide) => onOpenGuide(guide)}
+        now={now}
       />
     </div>
   );
