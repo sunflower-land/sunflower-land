@@ -47,11 +47,11 @@ export const UPGRADE_RAFTS: Record<IslandType, string | null> = {
   basic: SUNNYSIDE.land.springRaft,
   spring: SUNNYSIDE.land.desertRaft,
   desert: SUNNYSIDE.land.volcanoRaft,
-  volcano: SUNNYSIDE.land.volcanoRaft, // Next prestige after volcano
-  swamp: SUNNYSIDE.land.swampRaft,
-  spooky: SUNNYSIDE.land.spookyRaft,
-  crystal: SUNNYSIDE.land.crystalRaft,
-  galaxy: SUNNYSIDE.land.galaxyRaft,
+  volcano: SUNNYSIDE.land.swampRaft,
+  swamp: SUNNYSIDE.land.spookyRaft,
+  spooky: SUNNYSIDE.land.crystalRaft,
+  crystal: SUNNYSIDE.land.galaxyRaft,
+  galaxy: SUNNYSIDE.land.marbleRaft,
   marble: SUNNYSIDE.land.marbleRaft,
 };
 
