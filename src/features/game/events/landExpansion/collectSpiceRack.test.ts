@@ -481,7 +481,7 @@ describe("collectSpiceRack", () => {
         farmId,
         itemId: KNOWN_IDS["Refined Salt"],
         counter,
-        chance: 25,
+        chance: 15,
         criticalHitName: "Astrolabe",
       });
 

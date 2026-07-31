@@ -5,6 +5,7 @@ import type { FermentationBait } from "./fishing";
 import { SKILL_RANKS, getSkillLevel } from "./bumpkinSkills";
 import { isCollectibleBuilt } from "../lib/collectibleBuilt";
 import { isWearableActive } from "../lib/wearables";
+import { isAgedFish, isPrimeAgedFish } from "./consumables";
 import {
   PRIME_AGED_BASE_CHANCE,
   getAgingSaltCost,
@@ -118,6 +119,30 @@ export function getAgingOutput(
     boostsUsed.push({ name: "Ager", value: `x${m}` });
   }
 
+  // 15% chance of doubling — applies to the post-Ager amount only, before the
+  // additive bonuses (Refiner/Bacalhau) so those are never doubled. Aged and
+  // Prime Aged fish are excluded: Astrolabe boosts only the fermentation and
+  // spice racks, not the aging rack.
+  if (
+    prngArgs &&
+    !isAgedFish(item) &&
+    !isPrimeAgedFish(item) &&
+    isCollectibleBuilt({ game: state, name: "Astrolabe" })
+  ) {
+    const { farmId, itemId, counter } = prngArgs;
+    const isDoubled = prngChance({
+      farmId,
+      itemId,
+      counter,
+      chance: 15,
+      criticalHitName: "Astrolabe",
+    });
+    if (isDoubled) {
+      output = output.mul(2);
+      boostsUsed.push({ name: "Astrolabe", value: "x2" });
+    }
+  }
+
   if (prngArgs) {
     const { farmId, itemId, counter } = prngArgs;
     const refinerLevel = getSkillLevel(skills, "Refiner");
@@ -141,23 +166,6 @@ export function getAgingOutput(
     const v = SKILL_RANKS["Bacalhau"].ranks[bacalhauLevel - 1];
     output = output.add(v);
     boostsUsed.push({ name: "Bacalhau", value: `+${v}` });
-  }
-
-  // 25% chance of doubling the final amount — the doubling applies after every
-  // other boost so the expected yield matches a flat x1.25 at any Ager rank.
-  if (prngArgs && isCollectibleBuilt({ game: state, name: "Astrolabe" })) {
-    const { farmId, itemId, counter } = prngArgs;
-    const isDoubled = prngChance({
-      farmId,
-      itemId,
-      counter,
-      chance: 25,
-      criticalHitName: "Astrolabe",
-    });
-    if (isDoubled) {
-      output = output.mul(2);
-      boostsUsed.push({ name: "Astrolabe", value: "x2" });
-    }
   }
 
   return { output, boostsUsed };

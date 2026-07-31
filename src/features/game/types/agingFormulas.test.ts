@@ -476,7 +476,7 @@ describe("Surfer Hair salt cost discount", () => {
   });
 });
 
-describe("Astrolabe aging output doubling", () => {
+describe("Astrolabe output doubling (fermentation & spice racks)", () => {
   const farmId = 1;
   const withAstrolabe = (skills: Skills = {} as Skills): GameState => ({
     ...INITIAL_FARM,
@@ -491,7 +491,7 @@ describe("Astrolabe aging output doubling", () => {
       farmId,
       itemId: KNOWN_IDS["Salt"],
       counter,
-      chance: 25,
+      chance: 15,
       criticalHitName: "Astrolabe",
     });
 
@@ -499,7 +499,7 @@ describe("Astrolabe aging output doubling", () => {
   const hitCounter = counters.find((c) => roll(c));
   const missCounter = counters.find((c) => !roll(c));
 
-  it("doubles the output on a 25% PRNG hit", () => {
+  it("doubles the output on a 15% PRNG hit", () => {
     expect(hitCounter).toBeDefined();
     expect(
       getAgingOutput(withAstrolabe(), new Decimal(3), "Salt", 0, {
@@ -521,6 +521,46 @@ describe("Astrolabe aging output doubling", () => {
     ).toBe(3);
   });
 
+  it("does not double Aged fish output (aging rack)", () => {
+    const agedHit = counters.find((c) =>
+      prngChance({
+        farmId,
+        itemId: KNOWN_IDS["Aged Anchovy"],
+        counter: c,
+        chance: 15,
+        criticalHitName: "Astrolabe",
+      }),
+    );
+    expect(agedHit).toBeDefined();
+    expect(
+      getAgingOutput(withAstrolabe(), new Decimal(1), "Aged Anchovy", 0, {
+        farmId,
+        itemId: KNOWN_IDS["Aged Anchovy"],
+        counter: agedHit!,
+      }).output.toNumber(),
+    ).toBe(1);
+  });
+
+  it("does not double Prime Aged fish output (aging rack)", () => {
+    const primeHit = counters.find((c) =>
+      prngChance({
+        farmId,
+        itemId: KNOWN_IDS["Prime Aged Anchovy"],
+        counter: c,
+        chance: 15,
+        criticalHitName: "Astrolabe",
+      }),
+    );
+    expect(primeHit).toBeDefined();
+    expect(
+      getAgingOutput(withAstrolabe(), new Decimal(1), "Prime Aged Anchovy", 0, {
+        farmId,
+        itemId: KNOWN_IDS["Prime Aged Anchovy"],
+        counter: primeHit!,
+      }).output.toNumber(),
+    ).toBe(1);
+  });
+
   it("doubles the post-Ager amount", () => {
     expect(hitCounter).toBeDefined();
     expect(
@@ -536,6 +576,59 @@ describe("Astrolabe aging output doubling", () => {
         },
       ).output.toNumber(),
     ).toBe(8);
+  });
+
+  it("doubles before additive bonuses are applied", () => {
+    const baitRoll = (counter: number) =>
+      prngChance({
+        farmId,
+        itemId: KNOWN_IDS["Capsule Bait"],
+        counter,
+        chance: 15,
+        criticalHitName: "Astrolabe",
+      });
+    const baitHitCounter = Array.from({ length: 100 }, (_, i) => i).find((c) =>
+      baitRoll(c),
+    );
+    expect(baitHitCounter).toBeDefined();
+
+    // Doubling applies to the post-Ager amount only; the additive Bacalhau
+    // bonus lands afterwards, undoubled: 1 x2 +1 = 3 (not (1+1) x2 = 4).
+    expect(
+      getAgingOutput(
+        withAstrolabe({ Bacalhau: 1 } as Skills),
+        new Decimal(1),
+        "Capsule Bait",
+        0,
+        {
+          farmId,
+          itemId: KNOWN_IDS["Capsule Bait"],
+          counter: baitHitCounter!,
+        },
+      ).output.toNumber(),
+    ).toBe(3);
+  });
+
+  it("does not proc in the old 15-25% band", () => {
+    // A counter that hits at 25% but not at 15% must no longer double.
+    const bandCounter = counters.find(
+      (c) =>
+        prngChance({
+          farmId,
+          itemId: KNOWN_IDS["Salt"],
+          counter: c,
+          chance: 25,
+          criticalHitName: "Astrolabe",
+        }) && !roll(c),
+    );
+    expect(bandCounter).toBeDefined();
+    expect(
+      getAgingOutput(withAstrolabe(), new Decimal(3), "Salt", 0, {
+        farmId,
+        itemId: KNOWN_IDS["Salt"],
+        counter: bandCounter!,
+      }).output.toNumber(),
+    ).toBe(3);
   });
 
   it("does not roll when Astrolabe is only in the inventory", () => {

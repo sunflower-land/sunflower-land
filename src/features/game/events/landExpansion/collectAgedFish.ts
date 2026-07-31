@@ -70,7 +70,7 @@ export function collectAgedFish({
         getAgingOutput(
           game,
           new Decimal(1),
-          slot.fish,
+          agedName,
           getStampedAgerLevel(slot.skills),
           {
             farmId,
