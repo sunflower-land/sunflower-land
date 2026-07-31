@@ -8,7 +8,7 @@ import { Box as UiBox } from "components/ui/Box";
 import { PotionBox } from "./PotionBox";
 import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import type { PotionHouseMachineInterpreter } from "./lib/potionHouseMachine";
 import { calculateScore } from "features/game/events/landExpansion/mixPotion";
 import { MixingPotion } from "./MixingPotion";
@@ -42,7 +42,11 @@ export const Experiment: React.FC<Props> = ({ potionHouseService }) => {
     context: { guessSpot, currentGuess, isNewGame, feedbackText },
   } = potionState;
 
-  const potionHouse = gameService.getSnapshot().context.state.potionHouse;
+  const potionHouse = useSelector(
+    gameService,
+    (state) => state.context.state.potionHouse,
+  );
+  const state = useSelector(gameService, (state) => state.context.state);
   const previousAttempts = potionHouse?.game.attempts ?? [];
   const lastAttempt = previousAttempts[previousAttempts.length - 1] ?? [];
 
@@ -111,10 +115,7 @@ export const Experiment: React.FC<Props> = ({ potionHouseService }) => {
   const showStartButton =
     !potionHouse || potionHouse?.game.status === "finished";
 
-  const { fee: cost } = getPotionHouseFee({
-    game: gameService.getSnapshot().context.state,
-    multiplier,
-  });
+  const { fee: cost } = getPotionHouseFee({ game: state, multiplier });
 
   return (
     <>
@@ -272,9 +273,7 @@ export const Experiment: React.FC<Props> = ({ potionHouseService }) => {
           <div className="flex flex-col items-center gap-1 w-full">
             <Button
               onClick={handleStart}
-              disabled={
-                (gameService.getSnapshot().context.state.coins ?? 0) < cost
-              }
+              disabled={(state.coins ?? 0) < cost}
               className="h-fit w-fit"
             >
               <div className="flex items-center">
