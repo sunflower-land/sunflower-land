@@ -18,7 +18,7 @@ import {
   isFullMoonBerry,
 } from "features/game/events/landExpansion/seedBought";
 import { getCropPlotTime } from "features/game/events/landExpansion/plant";
-import { INITIAL_STOCK, INVENTORY_LIMIT } from "features/game/lib/constants";
+import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { makeBulkBuySeeds } from "./lib/makeBulkBuyAmount";
 import {
   getAscensionLevel,
@@ -152,7 +152,6 @@ export const SeasonalSeeds: React.FC = () => {
   };
 
   const stock = state.stock[selectedName] || new Decimal(0);
-  const maxStock = INITIAL_STOCK(state)[selectedName];
   const inventoryLimit = INVENTORY_LIMIT(state)[selectedName] ?? new Decimal(0);
   const inventoryAmount = setPrecision(
     inventory[selectedName] ?? new Decimal(0),
@@ -438,7 +437,6 @@ export const SeasonalSeeds: React.FC = () => {
         <SeedRequirements
           gameState={state}
           stock={stock}
-          maxStock={maxStock}
           details={{
             item: selectedName,
             seasons,

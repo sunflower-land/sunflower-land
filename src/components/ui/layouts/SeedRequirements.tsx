@@ -37,7 +37,6 @@ import {
 } from "features/game/events/landExpansion/supplyCropMachine";
 import { useActiveBuff } from "features/game/types/buffs";
 import { useNow } from "lib/utils/hooks/useNow";
-import stockIcon from "assets/icons/stock.webp";
 
 /**
  * The props for the details for items.
@@ -99,7 +98,6 @@ interface RequirementsProps {
  * The props for the component.
  * @param gameState The game state.
  * @param stock The stock of the item available to craft.  Undefined if the stock is unlimited.
- * @param maxStock The maximum stock available after a restock.
  * @param isLimitedItem true if the item quantity is limited to a certain number in the blockchain, else false. Defaults to false.
  * @param details The item details.
  * @param boost The available boost of the item.
@@ -110,7 +108,6 @@ interface RequirementsProps {
 interface Props {
   gameState: GameState;
   stock?: Decimal;
-  maxStock?: Decimal;
   isLimitedItem?: boolean;
   details: ItemDetailsProps;
   requirements?: RequirementsProps;
@@ -161,7 +158,6 @@ const PLANTING_SPOT_ICONS: Partial<Record<Seed["plantingSpot"], string>> = {
 export const SeedRequirements: React.FC<Props> = ({
   gameState,
   stock,
-  maxStock,
   isLimitedItem = false,
   limit,
   details,
@@ -188,48 +184,26 @@ export const SeedRequirements: React.FC<Props> = ({
   const getStock = () => {
     if (!stock) return <></>;
 
+    if (stock.lessThanOrEqualTo(0)) {
+      return (
+        <div className="flex justify-center mt-0 sm:mb-1">
+          <Label type="danger">{t("statements.soldOut")}</Label>
+        </div>
+      );
+    }
+
     const { count, limit } = getDetails(gameState, details);
 
     const isInventoryFull =
       limit === undefined ? false : count.greaterThanOrEqualTo(limit);
 
-    if (stock.lessThanOrEqualTo(0)) {
-      return (
-        <div className="flex flex-col items-center mt-0 sm:mb-1">
-          <Label type="danger">{t("statements.soldOut")}</Label>
-          <div className="flex gap-2 mt-1">
-            <Label type="default" icon={SUNNYSIDE.icons.basket}>
-              {limit.toString()}
-            </Label>
-            {maxStock && (
-              <Label type="info" icon={stockIcon}>
-                {maxStock.toString()}
-              </Label>
-            )}
-          </div>
-        </div>
-      );
-    }
-
     return (
-      <div className="flex flex-col items-center mt-0 sm:mb-1">
+      <div className="flex justify-center mt-0 sm:mb-1">
         <Label type={isInventoryFull ? "danger" : "info"}>
           {isLimitedItem
-            ? t("stock.left", { stock })
-            : t("stock.inStock", {
-                stock,
-              })}
+            ? t("stock.left", { stock: stock })
+            : t("stock.inStock", { stock: stock })}
         </Label>
-        <div className="flex gap-2 mt-1">
-          <Label type="default" icon={SUNNYSIDE.icons.basket}>
-            {limit.toString()}
-          </Label>
-          {maxStock && (
-            <Label type="info" icon={stockIcon}>
-              {maxStock.toString()}
-            </Label>
-          )}
-        </div>
       </div>
     );
   };
