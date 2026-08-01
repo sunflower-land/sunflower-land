@@ -21,11 +21,15 @@ interface Props {
   auctionService: MachineInterpreter;
   onSelect: (id: string) => void;
   game: GameState;
+  scrollContainerRef: React.RefCallback<HTMLDivElement>;
+  onScroll: React.UIEventHandler<HTMLDivElement>;
 }
 export const Auctions: React.FC<Props> = ({
   auctionService,
   onSelect,
   game,
+  scrollContainerRef,
+  onScroll,
 }) => {
   const [auctioneerState] = useActor(auctionService);
   const { t } = useAppTranslation();
@@ -39,6 +43,8 @@ export const Auctions: React.FC<Props> = ({
 
   return (
     <div
+      ref={scrollContainerRef}
+      onScroll={onScroll}
       style={{ maxHeight: "300px" }}
       className="overflow-y-auto scrollable flex flex-wrap pt-1.5 pr-0.5"
     >
