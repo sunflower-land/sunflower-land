@@ -30,20 +30,12 @@ import { SELLABLE } from "features/game/events/landExpansion/sellCrop";
 import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/lib/greenhouseGrowTimes";
 import { useGame } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import {
-  isFullMoonBerry,
-  isGreenhouseCropSeed,
-  isGreenhouseFruitSeed,
-} from "features/game/events/landExpansion/seedBought";
+import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
 import fullMoon from "assets/icons/full_moon.png";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 import type { BoostName, GameState } from "features/game/types/game";
 import { getCropPlotTime } from "features/game/events/landExpansion/plant";
-import {
-  getFruitPatchTime,
-  isAdvancedFruitSeed,
-  isBasicFruitSeed,
-} from "features/game/events/landExpansion/fruitPlanted";
+import { getFruitPatchTime } from "features/game/events/landExpansion/fruitPlanted";
 import {
   getGreenhouseCropTime,
   SEED_TO_PLANT,
@@ -53,6 +45,7 @@ import { useNow } from "lib/utils/hooks/useNow";
 import {
   INITIAL_STOCK,
   INVENTORY_LIMIT,
+  getSeedInventoryLimitMultiplier,
   isBuildingReady,
 } from "features/game/lib/constants";
 import stockIcon from "assets/icons/stock.webp";
@@ -363,10 +356,16 @@ const SeedCapacityLimits: React.FC<{
   showBoostsKey: string | null;
   setShowBoostsKey: (key: string | null) => void;
 }> = ({ seed, state, showBoostsKey, setShowBoostsKey }) => {
-  const inventoryLimit = INVENTORY_LIMIT(state)[seed];
-  const restockLimit = INITIAL_STOCK(state)[seed];
-  const baseRestockLimit = INITIAL_STOCK()[seed];
-  const baseInventoryLimit = getBaseInventoryLimit(seed);
+  const { inventoryLimit, restockLimit, baseRestockLimit, baseInventoryLimit } =
+    useMemo(
+      () => ({
+        inventoryLimit: INVENTORY_LIMIT(state)[seed],
+        restockLimit: INITIAL_STOCK(state)[seed],
+        baseRestockLimit: INITIAL_STOCK()[seed],
+        baseInventoryLimit: getBaseInventoryLimit(seed),
+      }),
+      [seed, state],
+    );
 
   if (
     !inventoryLimit ||
@@ -474,16 +473,11 @@ const getBaseInventoryLimit = (seed: SeedName) => {
 
   if (isFullMoonBerry(seed)) return baseRestockLimit.add(10);
 
-  const multiplier =
-    isGreenhouseCropSeed(seed) || isGreenhouseFruitSeed(seed)
-      ? 5
-      : isBasicFruitSeed(seed as never)
-        ? 2
-        : isAdvancedFruitSeed(seed as never)
-          ? 1.5
-          : 2.5;
-
-  return new Decimal(Math.ceil(baseRestockLimit.mul(multiplier).toNumber()));
+  return new Decimal(
+    Math.ceil(
+      baseRestockLimit.mul(getSeedInventoryLimitMultiplier(seed)).toNumber(),
+    ),
+  );
 };
 
 const getSeedCapacityBoosts = (state: GameState, seed: SeedName) => {
@@ -495,8 +489,7 @@ const getSeedCapacityBoosts = (state: GameState, seed: SeedName) => {
 
   const crimeFruitLevel = getSkillLevel(state.bumpkin.skills, "Crime Fruit");
   if (crimeFruitLevel && (seed === "Tomato Seed" || seed === "Lemon Seed")) {
-    const bonus =
-      SKILL_RANKS["Crime Fruit"].ranks["Tomato Seed"]?.[crimeFruitLevel - 1];
+    const bonus = SKILL_RANKS["Crime Fruit"].ranks[seed]?.[crimeFruitLevel - 1];
     if (bonus) boosts.push({ name: "Crime Fruit", value: `+${bonus}` });
   }
 
