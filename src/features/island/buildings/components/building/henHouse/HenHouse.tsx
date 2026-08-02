@@ -13,6 +13,7 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { useNow } from "lib/utils/hooks/useNow";
 import { isAnimalReadyForLove } from "features/game/events/landExpansion/loveAnimal";
 import { getOverCapacityAnimalIds } from "features/game/events/landExpansion/buyAnimal";
+import { isAnimalCoveredByGoldenAsset } from "features/game/events/landExpansion/feedAllAnimals";
 import classNames from "classnames";
 import { saveIslandScrollPosition } from "features/game/expansion/lib/islandScroll";
 
@@ -33,6 +34,7 @@ const _hasSickChickens = (state: MachineState) => {
 
 const _henHouseAnimals = (state: MachineState) =>
   state.context.state.henHouse.animals;
+const _game = (state: MachineState) => state.context.state;
 
 const _buildingLevel = (state: MachineState) =>
   state.context.state.henHouse.level;
@@ -44,14 +46,19 @@ export const ChickenHouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
   const hasHungryChickens = useSelector(gameService, _hasHungryChickens);
   const hasSickChickens = useSelector(gameService, _hasSickChickens);
   const henHouseAnimals = useSelector(gameService, _henHouseAnimals);
+  const game = useSelector(gameService, _game);
   const buildingLevel = useSelector(gameService, _buildingLevel);
 
   // useNow drives a tick every second so the alert flips on as soon as
   // the love window opens — the underlying gate values only change on
   // game-state events, which wouldn't fire when crossing the time gate.
   const now = useNow({ live: true });
-  const chickensNeedLove = Object.values(henHouseAnimals).some((animal) =>
-    isAnimalReadyForLove(animal, now),
+  const chickensNeedLove = Object.values(henHouseAnimals).some(
+    (animal) =>
+      !isAnimalCoveredByGoldenAsset({
+        state: game,
+        animalType: animal.type,
+      }) && isAnimalReadyForLove(animal, now),
   );
 
   const { play: barnAudio } = useSound("barn");
