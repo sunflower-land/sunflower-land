@@ -212,7 +212,8 @@ export const getSeedInventoryLimitMultiplier = (seed: SeedName) => {
   return 2.5;
 };
 
-// Inventory limit is 2.5x the initial stock for seeds
+// Seed limits use initial stock: 5x greenhouse, 2x basic fruit, 1.5x advanced
+// fruit, and 2.5x otherwise. Full Moon Berries have a fixed limit of 10.
 export const INVENTORY_LIMIT = (state: GameState): InventoryLimit => {
   return {
     ...getObjectEntries(INITIAL_STOCK(state)).reduce<InventoryLimit>(
