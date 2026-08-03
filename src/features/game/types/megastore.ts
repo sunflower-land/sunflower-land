@@ -1270,6 +1270,16 @@ const ASCENSION_AGE_ITEMS: ChapterStore = {
         cost: { sfl: 0, items: { "Shiny Feather": 4000 } },
       },
       {
+        collectible: "Cornucopia",
+        limit: 1,
+        cost: { sfl: 0, items: { "Shiny Feather": 9000 } },
+      },
+      {
+        collectible: "Teamwork Monument",
+        limit: 1,
+        cost: { sfl: 0, items: { "Shiny Feather": 6000 } },
+      },
+      {
         collectible: "Otty the Otter",
         limit: 1,
         cost: { sfl: 0, items: { "Otter Pebble": 250 } },

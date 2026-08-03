@@ -1037,6 +1037,70 @@ describe("buyChapterItem", () => {
       expect(result.inventory["Shiny Feather"]).toEqual(new Decimal(1000));
     });
 
+    it("buys the Cornucopia with Shiny Feather and blocks a second purchase", () => {
+      const firstBuy = buyChapterItem({
+        state: {
+          ...mockState,
+          inventory: {
+            "Shiny Feather": new Decimal(20000),
+          },
+        },
+        action: {
+          type: "chapterItem.bought",
+          name: "Cornucopia",
+          tier: "basic",
+        },
+        createdAt: ascensionAgeDate,
+      });
+
+      expect(firstBuy.inventory["Cornucopia"]).toEqual(new Decimal(1));
+      expect(firstBuy.inventory["Shiny Feather"]).toEqual(new Decimal(11000));
+
+      expect(() =>
+        buyChapterItem({
+          state: firstBuy,
+          action: {
+            type: "chapterItem.bought",
+            name: "Cornucopia",
+            tier: "basic",
+          },
+          createdAt: ascensionAgeDate + 1000,
+        }),
+      ).toThrow("Purchase limit reached");
+    });
+
+    it("buys the Teamwork Monument with Shiny Feather and blocks a second purchase", () => {
+      const firstBuy = buyChapterItem({
+        state: {
+          ...mockState,
+          inventory: {
+            "Shiny Feather": new Decimal(10000),
+          },
+        },
+        action: {
+          type: "chapterItem.bought",
+          name: "Teamwork Monument",
+          tier: "basic",
+        },
+        createdAt: ascensionAgeDate,
+      });
+
+      expect(firstBuy.inventory["Teamwork Monument"]).toEqual(new Decimal(1));
+      expect(firstBuy.inventory["Shiny Feather"]).toEqual(new Decimal(4000));
+
+      expect(() =>
+        buyChapterItem({
+          state: firstBuy,
+          action: {
+            type: "chapterItem.bought",
+            name: "Teamwork Monument",
+            tier: "basic",
+          },
+          createdAt: ascensionAgeDate + 1000,
+        }),
+      ).toThrow("Purchase limit reached");
+    });
+
     it("buys the Moon Hair with Shiny Feather and blocks a second purchase", () => {
       const firstBuy = buyChapterItem({
         state: {
