@@ -1185,5 +1185,89 @@ describe("buyChapterItem", () => {
         }),
       ).toThrow("Item not found in the chapter store");
     });
+
+    // These monuments carried over from previous chapters, so a chapter-scoped
+    // `limit` isn't enough — a player who already owns one (from any source)
+    // must not be able to buy another via the store.
+    describe("inventoryLimit", () => {
+      it("blocks buying the Cornucopia when the player already owns one", () => {
+        expect(() =>
+          buyChapterItem({
+            state: {
+              ...mockState,
+              inventory: {
+                "Shiny Feather": new Decimal(20000),
+                Cornucopia: new Decimal(1),
+              },
+            },
+            action: {
+              type: "chapterItem.bought",
+              name: "Cornucopia",
+              tier: "basic",
+            },
+            createdAt: ascensionAgeDate,
+          }),
+        ).toThrow("Inventory limit reached");
+      });
+
+      it("blocks buying the Teamwork Monument when the player already owns one", () => {
+        expect(() =>
+          buyChapterItem({
+            state: {
+              ...mockState,
+              inventory: {
+                "Shiny Feather": new Decimal(20000),
+                "Teamwork Monument": new Decimal(1),
+              },
+            },
+            action: {
+              type: "chapterItem.bought",
+              name: "Teamwork Monument",
+              tier: "basic",
+            },
+            createdAt: ascensionAgeDate,
+          }),
+        ).toThrow("Inventory limit reached");
+      });
+
+      it("blocks buying the Ascension Monument when the player already owns one", () => {
+        expect(() =>
+          buyChapterItem({
+            state: {
+              ...mockState,
+              inventory: {
+                "Shiny Feather": new Decimal(20000),
+                "Ascension Monument": new Decimal(1),
+              },
+            },
+            action: {
+              type: "chapterItem.bought",
+              name: "Ascension Monument",
+              tier: "basic",
+            },
+            createdAt: ascensionAgeDate,
+          }),
+        ).toThrow("Inventory limit reached");
+      });
+
+      it("allows buying the Cornucopia when the player does not own one", () => {
+        const result = buyChapterItem({
+          state: {
+            ...mockState,
+            inventory: {
+              "Shiny Feather": new Decimal(20000),
+            },
+          },
+          action: {
+            type: "chapterItem.bought",
+            name: "Cornucopia",
+            tier: "basic",
+          },
+          createdAt: ascensionAgeDate,
+        });
+
+        expect(result.inventory["Cornucopia"]).toEqual(new Decimal(1));
+      });
+    });
   });
 });
