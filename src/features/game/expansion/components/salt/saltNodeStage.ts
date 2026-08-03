@@ -18,10 +18,16 @@ export function canInstantHarvestSaltNode({
   visiting,
   storedCharges,
   availableRakes,
+  rakeFree = false,
 }: {
   visiting: boolean;
   storedCharges: number;
   availableRakes: number;
+  /**
+   * Ascended Idol lets a node be harvested without spending a Salt Rake,
+   * mirroring how Foreman Beaver removes the Axe requirement for chopping.
+   */
+  rakeFree?: boolean;
 }) {
-  return !visiting && storedCharges > 0 && availableRakes > 0;
+  return !visiting && storedCharges > 0 && (rakeFree || availableRakes > 0);
 }
