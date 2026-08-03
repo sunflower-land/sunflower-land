@@ -1822,6 +1822,7 @@
   "fishing.shrimpOnesie.singleReel": "+1 random fish on next reel",
   "fishing.shrimpOnesie.bulkReel": "+1 random fish on {{reels}} reels in this cast",
   "fishing.shrimpOnesie.bonus": "Shrimp Onesie +{{amount}}",
+  "fishing.ottyTheOtter.bonus": "Otty the Otter +{{amount}}",
   "fishing.extras": "Extras",
   "fishing.lookingMoreReels": "Ahhh you're looking for more reels? No worries! You can select a multiplier on the fish tab and purchase more reels with gems just before you cast. Or you can check out the boost options below!",
   "fishing.finishReels": "Finish your reels before buying more",
