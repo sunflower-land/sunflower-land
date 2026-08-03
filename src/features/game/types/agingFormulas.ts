@@ -171,6 +171,40 @@ export function getAgingOutput(
   return { output, boostsUsed };
 }
 
+// Spice rack output = the shared aging output plus the Salt Bottle Onesie's flat
+// +1. Lives here rather than in the reducer so the spice-rack panels can preview
+// it without importing an event module.
+export function getSpiceRackOutput({
+  game,
+  baseAmount,
+  item,
+  agerLevel,
+  prngArgs,
+}: {
+  game: GameState;
+  baseAmount: Decimal;
+  item: InventoryItemName;
+  agerLevel: number;
+  prngArgs?: { farmId: number; itemId: number; counter: number };
+}): { output: Decimal; boostsUsed: { name: BoostName; value: string }[] } {
+  const { output, boostsUsed } = getAgingOutput(
+    game,
+    baseAmount,
+    item,
+    agerLevel,
+    prngArgs,
+  );
+
+  let total = output;
+
+  if (isWearableActive({ game, name: "Salt Bottle Onesie" })) {
+    total = total.add(1);
+    boostsUsed.push({ name: "Salt Bottle Onesie", value: "+1" });
+  }
+
+  return { output: total, boostsUsed };
+}
+
 // `agerLevel` is optional and threads through to getAgingInputMultiplier — omit
 // it to charge/preview at the live rank, pass a job's stamped rank to show what
 // that job actually cost.

@@ -13,12 +13,23 @@ import {
   getBoostedAgingTimeMs,
   getPrimeAgedChance,
   getRefinedSaltChance,
+  getSpiceRackOutput,
 } from "./agingFormulas";
 
 function stateWithSkills(skills: Skills): GameState {
   return {
     ...INITIAL_FARM,
     bumpkin: { ...INITIAL_FARM.bumpkin, skills },
+  } as GameState;
+}
+
+function stateWithOnesie(onesie?: string): GameState {
+  return {
+    ...INITIAL_FARM,
+    bumpkin: {
+      ...INITIAL_FARM.bumpkin,
+      equipped: { ...INITIAL_FARM.bumpkin.equipped, onesie },
+    },
   } as GameState;
 }
 
@@ -64,6 +75,46 @@ describe("getPrimeAgedChance", () => {
       getPrimeAgedChance(stateWithSkills({ "Fish Smoking": 3 } as Skills))
         .chance,
     ).toBe(40);
+  });
+});
+
+describe("getSpiceRackOutput", () => {
+  it("matches the base aging output without Salt Bottle Onesie", () => {
+    expect(
+      getSpiceRackOutput({
+        game: stateWithOnesie(),
+        baseAmount: new Decimal(3),
+        item: "Refined Salt",
+        agerLevel: 0,
+      }).output.toNumber(),
+    ).toBe(3);
+  });
+
+  it("adds +1 when Salt Bottle Onesie is equipped", () => {
+    const { output, boostsUsed } = getSpiceRackOutput({
+      game: stateWithOnesie("Salt Bottle Onesie"),
+      baseAmount: new Decimal(3),
+      item: "Refined Salt",
+      agerLevel: 0,
+    });
+
+    expect(output.toNumber()).toBe(4);
+    expect(boostsUsed).toContainEqual({
+      name: "Salt Bottle Onesie",
+      value: "+1",
+    });
+  });
+
+  it("applies the +1 on top of the stamped Ager multiplier", () => {
+    // Ager rank 1 doubles, so 2 -> 4, then the onesie adds its flat 1.
+    expect(
+      getSpiceRackOutput({
+        game: stateWithOnesie("Salt Bottle Onesie"),
+        baseAmount: new Decimal(2),
+        item: "Refined Salt",
+        agerLevel: 1,
+      }).output.toNumber(),
+    ).toBe(5);
   });
 });
 

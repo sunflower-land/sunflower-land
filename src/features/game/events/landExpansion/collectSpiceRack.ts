@@ -7,52 +7,16 @@ import {
   spiceRackCollectedActivity,
 } from "features/game/types/spiceRack";
 import { getObjectEntries } from "lib/object";
-import type {
-  BoostName,
-  GameState,
-  InventoryItemName,
-} from "features/game/types/game";
-import { getAgingOutput } from "features/game/types/agingFormulas";
+import type { BoostName, GameState } from "features/game/types/game";
+import { getSpiceRackOutput } from "features/game/types/agingFormulas";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { hasPlacedAgingShed } from "./hasPlacedAgingShed";
 import { getStampedAgerLevel } from "features/game/lib/agingShed";
-import { isWearableActive } from "features/game/lib/wearables";
 
 export type CollectSpiceRackAction = {
   type: "spiceRack.collected";
 };
-
-export function getSpiceRackOutput({
-  game,
-  baseAmount,
-  item,
-  agerLevel,
-  prngArgs,
-}: {
-  game: GameState;
-  baseAmount: Decimal;
-  item: InventoryItemName;
-  agerLevel: number;
-  prngArgs?: { farmId: number; itemId: number; counter: number };
-}): { output: Decimal; boostsUsed: { name: BoostName; value: string }[] } {
-  const { output, boostsUsed } = getAgingOutput(
-    game,
-    baseAmount,
-    item,
-    agerLevel,
-    prngArgs,
-  );
-
-  let total = output;
-
-  if (isWearableActive({ game, name: "Salt Bottle Onesie" })) {
-    total = total.add(1);
-    boostsUsed.push({ name: "Salt Bottle Onesie", value: "+1" });
-  }
-
-  return { output: total, boostsUsed };
-}
 
 type Options = {
   state: Readonly<GameState>;

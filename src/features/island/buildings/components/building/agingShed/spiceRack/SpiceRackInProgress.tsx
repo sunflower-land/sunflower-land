@@ -16,8 +16,8 @@ import type { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getAgingInputMultiplier,
-  getAgingOutput,
   getRefinedSaltChance,
+  getSpiceRackOutput,
 } from "features/game/types/agingFormulas";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -55,12 +55,12 @@ export const SpiceRackInProgress: React.FC<Props> = ({
   // The job is already running, so both its output and the ingredients it was
   // charged read from the rank stamped at start, not the player's live rank.
   const agerLevel = getStampedAgerLevel(job.skills);
-  const { output: outputAmount } = getAgingOutput(
-    state,
-    outputEntry?.[1] ?? new Decimal(0),
-    outputItem,
+  const { output: outputAmount } = getSpiceRackOutput({
+    game: state,
+    baseAmount: outputEntry?.[1] ?? new Decimal(0),
+    item: outputItem,
     agerLevel,
-  );
+  });
 
   const timeRemainingMs = Math.max(0, job.readyAt - now);
   const isReady = timeRemainingMs <= 0;

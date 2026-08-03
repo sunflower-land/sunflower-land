@@ -15,8 +15,8 @@ import {
 } from "features/game/types/spiceRack";
 import {
   getAgingInputMultiplier,
-  getAgingOutput,
   getRefinedSaltChance,
+  getSpiceRackOutput,
 } from "features/game/types/agingFormulas";
 import type { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -81,12 +81,12 @@ export const SpiceRackEmpty: React.FC<Props> = ({
     !!selectedRecipeId && !!recipeDef && shedPlaced && !isVisiting;
 
   const recipeOutputQuantity = selectedRecipeId
-    ? getAgingOutput(
-        gameState,
-        recipeDef?.outputs[selectedRecipeId] ?? new Decimal(0),
-        selectedRecipeId,
-        getSkillLevel(gameState.bumpkin.skills, "Ager"),
-      ).output
+    ? getSpiceRackOutput({
+        game: gameState,
+        baseAmount: recipeDef?.outputs[selectedRecipeId] ?? new Decimal(0),
+        item: selectedRecipeId,
+        agerLevel: getSkillLevel(gameState.bumpkin.skills, "Ager"),
+      }).output
     : undefined;
 
   return (
