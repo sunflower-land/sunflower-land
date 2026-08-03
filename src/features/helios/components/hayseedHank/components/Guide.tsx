@@ -2,8 +2,6 @@ import React, { useContext } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ButtonPanel, OuterPanel } from "components/ui/Panel";
 import { ACHIEVEMENTS } from "features/game/types/achievements";
-import { TIME_BASED_FEATURE_FLAG_WINDOWS } from "lib/flags";
-import { useNow } from "lib/utils/hooks/useNow";
 import { getKeys } from "lib/object";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
@@ -22,11 +20,6 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
   const { t } = useAppTranslation();
 
   const state = gameState.context.state;
-  const now = useNow({
-    live: true,
-    autoEndAt: TIME_BASED_FEATURE_FLAG_WINDOWS.SWAMP_ASCENSION.start.getTime(),
-    intervalMs: 60 * 1000,
-  });
 
   return (
     <div className="h-full pt-1.5 pr-0.5">
@@ -60,7 +53,7 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
 
           {GUIDE_PATHS[selected].achievements.map((name) => (
             <OuterPanel className="mt-2 !p-1" key={name}>
-              <GuideTask state={state} task={name} now={now} />
+              <GuideTask state={state} task={name} />
             </OuterPanel>
           ))}
         </div>
@@ -105,7 +98,7 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
                     <div className="flex items-center">
                       {achievements.map((name) => {
                         const achievement = ACHIEVEMENTS()[name];
-                        const progress = achievement.progress(state, now);
+                        const progress = achievement.progress(state);
                         const isComplete = progress >= achievement.requirement;
 
                         if (isComplete) {

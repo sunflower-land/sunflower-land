@@ -27,7 +27,6 @@ interface Props {
   name: AchievementName;
   state: GameState;
   readonly: boolean;
-  now: number;
 }
 
 export const AchievementDetails: React.FC<Props> = ({
@@ -35,10 +34,9 @@ export const AchievementDetails: React.FC<Props> = ({
   onClaim,
   name,
   state,
-  now,
 }) => {
   const achievement = ACHIEVEMENTS()[name];
-  const progress = achievement.progress(state, now);
+  const progress = achievement.progress(state);
   const isComplete = progress >= achievement.requirement;
 
   const bumpkinAchievements = state.bumpkin?.achievements || {};

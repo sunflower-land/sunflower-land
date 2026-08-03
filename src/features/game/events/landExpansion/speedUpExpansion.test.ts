@@ -1,8 +1,6 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { speedUpExpansion } from "./speedUpExpansion";
 import Decimal from "decimal.js-light";
-import { CONFIG } from "lib/config";
-import { TIME_BASED_FEATURE_FLAG_WINDOWS } from "lib/flags";
 
 describe("instantExpand", () => {
   it("requires expansion is in progress", () => {
@@ -113,63 +111,6 @@ describe("instantExpand", () => {
         },
       }),
     ).toThrow("You can't speed up the expansion on this island");
-  });
-
-  describe("when SWAMP_ASCENSION is off (mainnet)", () => {
-    // SWAMP_ASCENSION is a time-based flag: beta/testnet OR past its window
-    // start. Force mainnet AND evaluate before the window opens to exercise the
-    // flag-off threshold ("desert"): desert and every island beyond it
-    // (volcano, swamp) are blocked from speeding up.
-    const beforeWindow =
-      TIME_BASED_FEATURE_FLAG_WINDOWS.SWAMP_ASCENSION.start.getTime() - 1;
-    let previousNetwork: (typeof CONFIG)["NETWORK"];
-    beforeEach(() => {
-      previousNetwork = CONFIG.NETWORK;
-      CONFIG.NETWORK = "mainnet";
-    });
-    afterEach(() => {
-      CONFIG.NETWORK = previousNetwork;
-    });
-
-    it("cannot speed up expansion on desert island", () => {
-      expect(() =>
-        speedUpExpansion({
-          action: { type: "expansion.spedUp" },
-          state: {
-            ...INITIAL_FARM,
-            island: {
-              ...INITIAL_FARM.island,
-              type: "desert",
-            },
-            expansionConstruction: {
-              createdAt: 0,
-              readyAt: beforeWindow + 1000,
-            },
-          },
-          createdAt: beforeWindow,
-        }),
-      ).toThrow("You can't speed up the expansion on this island");
-    });
-
-    it("cannot speed up expansion on volcano island", () => {
-      expect(() =>
-        speedUpExpansion({
-          action: { type: "expansion.spedUp" },
-          state: {
-            ...INITIAL_FARM,
-            island: {
-              ...INITIAL_FARM.island,
-              type: "volcano",
-            },
-            expansionConstruction: {
-              createdAt: 0,
-              readyAt: beforeWindow + 1000,
-            },
-          },
-          createdAt: beforeWindow,
-        }),
-      ).toThrow("You can't speed up the expansion on this island");
-    });
   });
 
   describe("Dino Egg Trophy coin payment", () => {

@@ -95,14 +95,6 @@ export const TIME_BASED_FEATURE_FLAG_WINDOWS = {
     start: new Date("2026-09-07T00:00:00Z"),
     end: null,
   },
-  ASCENSION_SKILLS: {
-    start: new Date("2026-08-03T00:00:00Z"),
-    end: null,
-  },
-  SWAMP_ASCENSION: {
-    start: new Date("2026-08-03T00:00:00Z"),
-    end: null,
-  },
 } satisfies Record<string, TimeBasedFeatureWindow>;
 
 /** All time-based flags receive the full window; start-only helpers ignore `end`. */
@@ -121,8 +113,6 @@ export const TIME_BASED_FEATURE_FLAGS: Record<
   APRIL_FOOLS_EVENT_FLAG: betaTimePeriodFeatureFlag,
   RONIN_WAYPOINT_DEPRECATION: timePeriodFeatureFlag,
   COLORS_2026_EVENT_FLAG: betaTimePeriodFeatureFlag,
-  ASCENSION_SKILLS: betaTimePeriodFeatureFlag,
-  SWAMP_ASCENSION: betaTimePeriodFeatureFlag,
   // Testnet-only bypass before the date (not beta), so live testers can reach A2.
   SPOOKY_ASCENSION: timePeriodFeatureFlag,
 };

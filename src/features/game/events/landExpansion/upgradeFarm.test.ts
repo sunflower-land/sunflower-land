@@ -2236,7 +2236,6 @@ describe("upgradeFarm", () => {
     });
 
     const land = getLand({
-      now: Date.now(),
       game: {
         ...upgradedState,
         inventory: {
@@ -2279,7 +2278,6 @@ describe("upgradeFarm", () => {
     expect(upgradedState.inventory["Sacred Tree"]).toEqual(new Decimal(1));
 
     const land = getLand({
-      now: Date.now(),
       game: {
         ...upgradedState,
         inventory: {
@@ -2348,7 +2346,6 @@ describe("upgradeFarm", () => {
     });
 
     const land = getLand({
-      now: Date.now(),
       game: {
         ...upgradedState,
         inventory: {
@@ -2417,7 +2414,6 @@ describe("upgradeFarm", () => {
     });
 
     const land = getLand({
-      now: Date.now(),
       game: {
         ...upgradedState,
         inventory: {
@@ -2486,7 +2482,6 @@ describe("upgradeFarm", () => {
     });
 
     const land = getLand({
-      now: Date.now(),
       game: {
         ...upgradedState,
         inventory: {

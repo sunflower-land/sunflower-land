@@ -11,7 +11,6 @@ import {
   SUNSTONE_MINES,
 } from "features/game/types/expansions";
 import type { Airdrop, GameState } from "features/game/types/game";
-import { hasTimeBasedFeatureAccess } from "lib/flags";
 
 import { getKeys } from "lib/object";
 import { pickEmptyPosition } from "features/game/expansion/placeable/lib/collisionDetection";
@@ -72,7 +71,7 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
     // 10-23, spring 17-20). A pending construction for one of those rows would
     // surface here — not expected, as those were UI-capped (basic 9 / spring 16)
     // long ago and constructions are short-lived.
-    const land = getLand({ game, now: createdAt });
+    const land = getLand({ game });
     if (!land) {
       throw new Error("Land Does Not Exists");
     }
@@ -208,16 +207,7 @@ export function revealLand({ state, createdAt = Date.now() }: Options) {
 
     // Add Ascension Crystals (single-use nodes; placed by getAscensionLayout on
     // the first N expansions of an ascension band — see getExpansionCrystalCount).
-    // Gated by the feature flag so the forward grant can never run while the
-    // ascension system is disabled (the back-pay reconciliation is gated too).
-    if (
-      hasTimeBasedFeatureAccess({
-        featureName: "SWAMP_ASCENSION",
-        game,
-        now: createdAt,
-      }) &&
-      land.ascensionCrystals?.length
-    ) {
+    if (land.ascensionCrystals?.length) {
       game.ascensionCrystals = game.ascensionCrystals ?? {};
       land.ascensionCrystals.forEach((coords) => {
         game.ascensionCrystals[randomUUID()] = {
@@ -587,7 +577,6 @@ export function getRewards({
   const missingNodes = getMissingResources({
     game,
     expansion: expansions.toNumber(),
-    now: createdAt,
   });
 
   const hasMissing = getKeys(missingNodes).some(

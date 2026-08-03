@@ -8,8 +8,6 @@ import {
 
 import { Modal } from "components/ui/Modal";
 import { Label } from "components/ui/Label";
-import { TIME_BASED_FEATURE_FLAG_WINDOWS } from "lib/flags";
-import { useNow } from "lib/utils/hooks/useNow";
 import { getKeys } from "lib/object";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
@@ -62,12 +60,7 @@ export const SkillCategoryList: React.FC<{
     useState(false);
 
   const { bumpkin, inventory } = state;
-  const now = useNow({
-    live: true,
-    autoEndAt: TIME_BASED_FEATURE_FLAG_WINDOWS.SWAMP_ASCENSION.start.getTime(),
-    intervalMs: 60 * 1000,
-  });
-  const availableSkillPoints = getAvailableBumpkinSkillPoints(state, now);
+  const availableSkillPoints = getAvailableBumpkinSkillPoints(state);
   const { previousFreeSkillResetAt = 0, paidSkillResets = 0, skills } = bumpkin;
 
   const hasSkills = getKeys(skills).length > 0;

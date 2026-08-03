@@ -11,14 +11,9 @@ import {
 import { upgradeRock } from "../events/landExpansion/upgradeRock";
 import { SWAMP_BASE_NODES } from "../expansion/lib/ascension";
 
-// Fixed, pre-window instant: these cases cover the legacy (SWAMP_ASCENSION off)
-// layouts, so pin the clock rather than letting it drift past the window start.
-const now = new Date("2026-07-01T00:00:00Z").getTime();
-
 describe("getLand", () => {
   it("returns a basic land", () => {
     const land = getLand({
-      now,
       game: {
         ...TEST_FARM,
         inventory: {
@@ -33,7 +28,6 @@ describe("getLand", () => {
 
   it("returns a spring land", () => {
     const land = getLand({
-      now,
       game: {
         ...TEST_FARM,
         island: {
@@ -51,7 +45,6 @@ describe("getLand", () => {
 
   it("does not return resources if player already has expected resources", () => {
     const land = getLand({
-      now,
       game: {
         ...TEST_FARM,
         island: {
@@ -81,7 +74,6 @@ describe("getLand", () => {
 
   it("only returns spring resources if they previously had basic resources", () => {
     const land = getLand({
-      now,
       game: {
         ...TEST_FARM,
         island: {
@@ -113,7 +105,6 @@ describe("getLand", () => {
   // Flower bed and honey temp disabled
   it.skip("returns spring resources if they had bought resource nodes", () => {
     const land = getLand({
-      now,
       game: {
         ...TEST_FARM,
         island: {
@@ -205,7 +196,6 @@ describe("getExpectedResources", () => {
     });
 
     const resources = getExpectedResources({
-      now,
       game: {
         ...farm,
         inventory: {
@@ -224,7 +214,6 @@ describe("getExpectedResources", () => {
 
   it("returns the correct resources when upgrading from L2 -> L3", () => {
     const resources = getExpectedResources({
-      now,
       game: {
         ...TEST_FARM,
         inventory: {
@@ -250,7 +239,6 @@ describe("getExpectedResources", () => {
 
   it("returns 20 when on spring expansion 16 (18 trees) and have purchased 2 trees", () => {
     const resources = getExpectedResources({
-      now,
       game: {
         ...TEST_FARM,
         inventory: {
@@ -271,7 +259,6 @@ describe("getExpectedResources", () => {
 
   it("returns 16 when on spring expansion 16 (18 trees) and have purchased 2 trees, and upgraded 1 ancient tree", () => {
     const resources = getExpectedResources({
-      now,
       game: {
         ...TEST_FARM,
         inventory: {
@@ -293,7 +280,6 @@ describe("getExpectedResources", () => {
 
   it("returns 4 when on spring expansion 16 (18 trees) and have purchased 2 trees, and upgraded 1 sacred tree and 4 ancient trees", () => {
     const resources = getExpectedResources({
-      now,
       game: {
         ...TEST_FARM,
         inventory: {
@@ -316,7 +302,6 @@ describe("getExpectedResources", () => {
 
   it("returns 0 when on spring expansion 16 (18 trees) and have purchased 2 trees, and upgraded 1 sacred tree and 5 ancient trees", () => {
     const resources = getExpectedResources({
-      now,
       game: {
         ...TEST_FARM,
         inventory: {
@@ -339,7 +324,6 @@ describe("getExpectedResources", () => {
 
   it("returns 0 when on spring expansion 16 (18 trees) and have purchased 2 trees, and upgraded 1 sacred tree and 5 ancient trees", () => {
     const resources = getExpectedResources({
-      now,
       game: {
         ...TEST_FARM,
         inventory: {
@@ -362,7 +346,6 @@ describe("getExpectedResources", () => {
 
   it("returns 5 ancient trees when on spring expansion 16 (18 trees) and upgraded 5 ancient trees", () => {
     const resources = getExpectedResources({
-      now,
       game: {
         ...TEST_FARM,
         inventory: {
@@ -384,7 +367,6 @@ describe("getExpectedResources", () => {
 
   it("returns 1 ancient tree when on spring expansion 16 (18 trees) and upgraded 1 sacred tree and 5 ancient trees", () => {
     const resources = getExpectedResources({
-      now,
       game: {
         ...TEST_FARM,
         inventory: {
@@ -407,7 +389,6 @@ describe("getExpectedResources", () => {
 
   it("returns 1 sacred tree when on spring expansion 16 (18 trees) and upgraded 1 sacred tree and 5 ancient trees", () => {
     const resources = getExpectedResources({
-      now,
       game: {
         ...TEST_FARM,
         inventory: {
@@ -577,7 +558,6 @@ describe("getExpansionRequirements", () => {
 describe("getLand (ascension path)", () => {
   it("returns a non-null layout for a swamp island with ascensionLevel 1", () => {
     const land = getLand({
-      now,
       game: {
         ...TEST_FARM,
         island: { type: "swamp", ascensionLevel: 1 },
@@ -595,7 +575,6 @@ describe("getLand (ascension path)", () => {
     // Even a known static island type is overridden by ascensionLevel > 0,
     // because the ascension check comes after and always wins.
     const land = getLand({
-      now,
       game: {
         ...TEST_FARM,
         island: { type: "swamp", ascensionLevel: 2 },
@@ -611,7 +590,6 @@ describe("getLand (ascension path)", () => {
 
   it("places the dripped Crop Plot dealt to expansion 32", () => {
     const land = getLand({
-      now,
       game: {
         ...TEST_FARM,
         island: { type: "swamp", ascensionLevel: 1 },
@@ -630,7 +608,6 @@ describe("getLand (ascension path)", () => {
 
   it("returns null when island type is unknown (no branch matches) and ascensionLevel is absent", () => {
     const land = getLand({
-      now,
       game: {
         ...TEST_FARM,
         // Swamp with no ascensionLevel: none of the static branches match and

@@ -13,10 +13,7 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { useSelector } from "@xstate/react";
 import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { getYakkamonCode } from "features/game/actions/getYakkamonCode";
-import {
-  getMaxBumpkinLevel,
-  getTotalBumpkinLevel,
-} from "features/game/lib/level";
+import { getTotalBumpkinLevel } from "features/game/lib/level";
 import { hasFeatureAccess } from "lib/flags";
 import { useNow } from "lib/utils/hooks/useNow";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -62,7 +59,6 @@ export const Yakkamon: React.FC<Props> = ({ onClose }) => {
   const level = getTotalBumpkinLevel({
     experience: state.bumpkin?.experience ?? 0,
     ascensionLevel: state.island.ascensionLevel ?? 0,
-    maxLevel: getMaxBumpkinLevel(state, now),
   });
 
   const isBetaTester = hasFeatureAccess(state, "YAKKAMON_BETA_ACCESS");

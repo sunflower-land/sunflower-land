@@ -7,9 +7,7 @@ import {
   getAscensionDisplayText,
   getAscensionLevel,
   getExperienceToNextLevel,
-  getMaxBumpkinLevel,
   isMaxLevel,
-  type BumpkinLevel as BumpkinLevelValue,
 } from "features/game/lib/level";
 
 import { AchievementsModal } from "./Achievements";
@@ -49,7 +47,6 @@ import {
 import { getSkillCooldown } from "features/game/events/landExpansion/skillUsed";
 import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/choseSkill";
 import { useNow } from "lib/utils/hooks/useNow";
-import { TIME_BASED_FEATURE_FLAG_WINDOWS } from "lib/flags";
 
 export type ViewState =
   | "home"
@@ -64,17 +61,14 @@ const _experience = (state: MachineState) =>
 export const BumpkinLevel: React.FC<{
   experience?: number;
   ascensionLevel?: number;
-  maxLevel?: BumpkinLevelValue;
-}> = ({ experience = 0, ascensionLevel = 0, maxLevel }) => {
+}> = ({ experience = 0, ascensionLevel = 0 }) => {
   const ascension =
     ascensionLevel >= 1
       ? getAscensionLevel({ experience, ascensionLevel })
       : undefined;
-  const atMax = ascension
-    ? ascension.isReadyToAscend
-    : isMaxLevel(experience, maxLevel);
+  const atMax = ascension ? ascension.isReadyToAscend : isMaxLevel(experience);
   const { currentExperienceProgress, experienceToNextLevel } =
-    ascension ?? getExperienceToNextLevel(experience, maxLevel);
+    ascension ?? getExperienceToNextLevel(experience);
 
   const getProgressPercentage = () => {
     let progressRatio = 1;
@@ -136,26 +130,16 @@ export const BumpkinModal: React.FC<Props> = ({
   const ascensionLevel = gameState.island.ascensionLevel ?? 0;
   // Mount snapshot, as before — drives the power-skill cooldown readiness check.
   const now = useNow();
-  // Separate bounded clock for the flag-derived values, so the level cap and
-  // skill-point count flip when the window opens without pinning the cooldown
-  // clock to that window.
-  const featureNow = useNow({
-    live: true,
-    autoEndAt: TIME_BASED_FEATURE_FLAG_WINDOWS.SWAMP_ASCENSION.start.getTime(),
-    intervalMs: 60 * 1000,
-  });
-  const maxBumpkinLevel = getMaxBumpkinLevel(gameState, featureNow);
   const isAscended = ascensionLevel >= 1;
   const ascension = getAscensionLevel({
     experience,
     ascensionLevel,
-    maxLevel: maxBumpkinLevel,
   });
   // Displayed level: within-ascension (0..50) when ascended, else the capped Bumpkin level.
   const level = ascension.level;
   const maxLevel = isAscended
     ? ascension.isReadyToAscend
-    : isMaxLevel(experience, maxBumpkinLevel);
+    : isMaxLevel(experience);
   // Fires the level-up modal once per level; the within-ascension (or legacy) level
   // increments per level-up and resets on ascend (no spurious modal on prestige).
   const currentBumpkinLevel = ascension.level;
@@ -214,10 +198,7 @@ export const BumpkinModal: React.FC<Props> = ({
   >(undefined);
 
   const availableFood = getAvailableFood(inventory);
-  const availableSkillPoints = getAvailableBumpkinSkillPoints(
-    gameState,
-    featureNow,
-  );
+  const availableSkillPoints = getAvailableBumpkinSkillPoints(gameState);
 
   if (view === "achievements") {
     return (
@@ -309,7 +290,6 @@ export const BumpkinModal: React.FC<Props> = ({
             <BumpkinLevel
               experience={bumpkin.experience}
               ascensionLevel={ascensionLevel}
-              maxLevel={maxBumpkinLevel}
             />
           </div>
           {availableSkillPoints > 0 && (

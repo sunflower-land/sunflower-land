@@ -13,7 +13,6 @@ import {
   getExpectedAscensionCrystals,
 } from "../expansion/lib/ascension";
 import { getKeys } from "lib/object";
-import { hasTimeBasedFeatureAccess } from "lib/flags";
 import type { LevelRequirement } from "features/game/lib/level";
 import {
   ADVANCED_RESOURCES,
@@ -72,11 +71,9 @@ const isAdvancedResource = (
 export function getExpectedResources({
   game,
   expansion,
-  now,
 }: {
   game: GameState;
   expansion: number;
-  now: number;
 }): Record<ResourceName, number> {
   const baseNodes = getExpansionNodes({
     island: game.island.type,
@@ -128,17 +125,11 @@ export function getExpectedResources({
   // and only when the ascension feature is live. Override the base (0) with the
   // cumulative expected so revealLand's missing-node airdrop can back-pay legacy
   // players who progressed before the feature shipped.
-  expectedResources["Ascension Crystal"] = hasTimeBasedFeatureAccess({
-    featureName: "SWAMP_ASCENSION",
-    game,
-    now,
-  })
-    ? getExpectedAscensionCrystals({
-        islandType: game.island.type,
-        ascensionLevel: game.island.ascensionLevel ?? 0,
-        basicLand: expansion,
-      })
-    : 0;
+  expectedResources["Ascension Crystal"] = getExpectedAscensionCrystals({
+    islandType: game.island.type,
+    ascensionLevel: game.island.ascensionLevel ?? 0,
+    basicLand: expansion,
+  });
 
   return expectedResources;
 }
@@ -169,13 +160,11 @@ export const SUNSTONE_MINES = 10;
 export function getMissingResources({
   game,
   expansion,
-  now,
 }: {
   game: GameState;
   expansion: number;
-  now: number;
 }): Partial<Record<ResourceName, number>> {
-  const expected = getExpectedResources({ game, expansion, now });
+  const expected = getExpectedResources({ game, expansion });
 
   // Items already promised by an un-collected missing-resources airdrop are not
   // yet in inventory; counting them as still-missing would duplicate the grant
@@ -231,13 +220,7 @@ export function getMissingResources({
  * @param game - The current game state
  * @returns The next land expansion layout with resource placements capped by available resources, or `null` if no layout exists for the computed expansion
  */
-export function getLand({
-  game,
-  now,
-}: {
-  game: GameState;
-  now: number;
-}): Layout | null {
+export function getLand({ game }: { game: GameState }): Layout | null {
   const expansion = (game.inventory["Basic Land"]?.toNumber() ?? 0) + 1;
 
   let land: Layout | null = null;
@@ -272,7 +255,6 @@ export function getLand({
   const expectedResources = getExpectedResources({
     game,
     expansion,
-    now,
   });
 
   const totalTrees = game.inventory.Tree?.toNumber() ?? 0;
