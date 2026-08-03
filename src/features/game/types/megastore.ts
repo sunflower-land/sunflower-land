@@ -1230,7 +1230,7 @@ const ASCENSION_AGE_ITEMS: ChapterStore = {
       },
       {
         collectible: "Ore Hourglass",
-        cost: { sfl: 0, items: { "Shiny Feather": 150 } },
+        cost: { sfl: 0, items: { "Shiny Feather": 400 } },
       },
       {
         collectible: "Timber Hourglass",
@@ -1242,7 +1242,7 @@ const ASCENSION_AGE_ITEMS: ChapterStore = {
       },
       {
         collectible: "Orchard Hourglass",
-        cost: { sfl: 0, items: { "Shiny Feather": 400 } },
+        cost: { sfl: 0, items: { "Shiny Feather": 200 } },
       },
       {
         collectible: "Fisher's Hourglass",
