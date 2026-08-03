@@ -9596,5 +9596,6 @@
   "description.riceShirt.boost": "-50% de aceite para plantar arroz",
   "description.riceShirt.boost.2": "+1 Arroz",
   "description.alchemistApron.boost": "-50% de tarifa de Potion House",
-  "description.saltBottleOnesie.boost": "+1 salida Spice Rack"
+  "description.saltBottleOnesie.boost": "+1 salida Spice Rack",
+  "islandupgrade.warningAscend": "El diseño de tu granja viene contigo: tus objetos permanecen donde los colocaste. Todo lo que no puedas colocar en la nueva isla volverá a tu inventario, donde podrás acceder a él desde tu cofre."
 }

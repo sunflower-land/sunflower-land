@@ -9596,5 +9596,6 @@
   "description.riceShirt.boost": "-50% の油で田植え用",
   "description.riceShirt.boost.2": "+1 ライス",
   "description.alchemistApron.boost": "-50% ポーションハウス手数料",
-  "description.saltBottleOnesie.boost": "+1 スパイスラック出力"
+  "description.saltBottleOnesie.boost": "+1 スパイスラック出力",
+  "islandupgrade.warningAscend": "農場のレイアウトはあなた次第です。アイテムは置いた場所にとどまります。新しい島に置けないものはすべてインベントリに戻され、宝箱からアクセスできます。"
 }

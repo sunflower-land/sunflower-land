@@ -9596,5 +9596,6 @@
   "description.riceShirt.boost": "-50% Oil to plant Rice",
   "description.riceShirt.boost.2": "+1 Rice",
   "description.alchemistApron.boost": "-50% Potion House fee",
-  "description.saltBottleOnesie.boost": "+1 Spice Rack output"
+  "description.saltBottleOnesie.boost": "+1 Spice Rack output",
+  "islandupgrade.warningAscend": "Your farm layout comes with you - your items stay where you placed them. Anything that can't be placed on the new island will be returned to your inventory, where you can access it in your chest."
 }

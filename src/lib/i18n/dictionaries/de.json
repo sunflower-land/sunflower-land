@@ -9596,5 +9596,6 @@
   "description.riceShirt.boost": "-50% Öl zum Anpflanzen von Reis",
   "description.riceShirt.boost.2": "+1 Reis",
   "description.alchemistApron.boost": "-50% Gebühr für das Zaubertrankhaus",
-  "description.saltBottleOnesie.boost": "+1 Spice Rack-Ausgang"
+  "description.saltBottleOnesie.boost": "+1 Spice Rack-Ausgang",
+  "islandupgrade.warningAscend": "Dein Farm-Layout kommt mit — deine Gegenstände bleiben dort, wo du sie platziert hast. Alles, was nicht auf der neuen Insel platziert werden kann, wird wieder in dein Inventar aufgenommen, wo du es in deiner Truhe aufrufen kannst."
 }
