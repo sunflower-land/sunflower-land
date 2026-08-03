@@ -9597,5 +9597,6 @@
   "description.riceShirt.boost.2": "+1 Riso",
   "description.alchemistApron.boost": "-50% commissione Pozione House",
   "description.saltBottleOnesie.boost": "+1 uscita Spice Rack",
-  "islandupgrade.warningAscend": "Il layout della fattoria viene fornito con te: i tuoi oggetti rimangono dove li hai posizionati. Tutto ciò che non può essere collocato sulla nuova isola verrà riportato nel tuo inventario, dove potrai accedervi dal baule."
+  "islandupgrade.warningAscend": "Il layout della fattoria viene fornito con te: i tuoi oggetti rimangono dove li hai posizionati. Tutto ciò che non può essere collocato sulla nuova isola verrà riportato nel tuo inventario, dove potrai accedervi dal baule.",
+  "season.megastore.alreadyOwned": "Già posseduto"
 }

@@ -9597,5 +9597,6 @@
   "description.riceShirt.boost.2": "+1 Arroz",
   "description.alchemistApron.boost": "-50% de taxa da Potion House",
   "description.saltBottleOnesie.boost": "+1 saída Spice Rack",
-  "islandupgrade.warningAscend": "O layout da sua fazenda vem com você - seus itens ficam onde você os colocou. Qualquer coisa que não puder ser colocada na nova ilha será devolvida ao seu inventário, onde você poderá acessá-la em seu baú."
+  "islandupgrade.warningAscend": "O layout da sua fazenda vem com você - seus itens ficam onde você os colocou. Qualquer coisa que não puder ser colocada na nova ilha será devolvida ao seu inventário, onde você poderá acessá-la em seu baú.",
+  "season.megastore.alreadyOwned": "Já possuído"
 }

@@ -9597,5 +9597,6 @@
   "description.riceShirt.boost.2": "+1 Riz",
   "description.alchemistApron.boost": "-50 % sur les frais de Potion House",
   "description.saltBottleOnesie.boost": "+1 sortie Spice Rack",
-  "islandupgrade.warningAscend": "L'aménagement de votre ferme est livré avec vous : vos objets restent là où vous les avez placés. Tout ce qui ne peut pas être placé sur la nouvelle île sera renvoyé dans votre inventaire, où vous pourrez y accéder dans votre coffre."
+  "islandupgrade.warningAscend": "L'aménagement de votre ferme est livré avec vous : vos objets restent là où vous les avez placés. Tout ce qui ne peut pas être placé sur la nouvelle île sera renvoyé dans votre inventaire, où vous pourrez y accéder dans votre coffre.",
+  "season.megastore.alreadyOwned": "Déjà possédé"
 }

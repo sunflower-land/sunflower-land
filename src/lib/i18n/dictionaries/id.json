@@ -9597,5 +9597,6 @@
   "description.riceShirt.boost.2": "+1 Rice",
   "description.alchemistApron.boost": "-50% biaya Rumah Ramuan",
   "description.saltBottleOnesie.boost": "+1 keluaran Rak Rempah",
-  "islandupgrade.warningAscend": "Tata letak pertanian Anda menyertainya - barang-barang Anda tetap di tempat Anda meletakkannya. Apa pun yang tidak dapat ditempatkan di pulau baru akan dikembalikan ke inventaris Anda, di mana Anda dapat mengaksesnya di dada Anda."
+  "islandupgrade.warningAscend": "Tata letak pertanian Anda menyertainya - barang-barang Anda tetap di tempat Anda meletakkannya. Apa pun yang tidak dapat ditempatkan di pulau baru akan dikembalikan ke inventaris Anda, di mana Anda dapat mengaksesnya di dada Anda.",
+  "season.megastore.alreadyOwned": "Sudah dimiliki"
 }

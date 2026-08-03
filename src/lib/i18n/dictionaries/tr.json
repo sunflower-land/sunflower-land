@@ -9597,5 +9597,6 @@
   "description.riceShirt.boost.2": "+1 Rice",
   "description.alchemistApron.boost": "-50% İksir Evi ücreti",
   "description.saltBottleOnesie.boost": "+1 Baharat Rafı çıkışı",
-  "islandupgrade.warningAscend": "Çiftlik düzeniniz sizinle birlikte gelir - eşyalarınız yerleştirdiğiniz yerde kalır. Yeni adaya yerleştirilemeyen her şey, göğsünüzden erişebileceğiniz envanterinize iade edilecektir."
+  "islandupgrade.warningAscend": "Çiftlik düzeniniz sizinle birlikte gelir - eşyalarınız yerleştirdiğiniz yerde kalır. Yeni adaya yerleştirilemeyen her şey, göğsünüzden erişebileceğiniz envanterinize iade edilecektir.",
+  "season.megastore.alreadyOwned": "Zaten sahip olundu"
 }

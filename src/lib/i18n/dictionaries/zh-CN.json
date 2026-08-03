@@ -9597,5 +9597,6 @@
   "description.riceShirt.boost.2": "+1 赖斯",
   "description.alchemistApron.boost": "-50% 药水屋费用",
   "description.saltBottleOnesie.boost": "+1 香料架输出",
-  "islandupgrade.warningAscend": "你的农场布局随你而来——你的物品会留在你放置的地方。任何无法放置在新岛屿上的东西都将返回到你的物品栏中，你可以在宝箱中使用它。"
+  "islandupgrade.warningAscend": "你的农场布局随你而来——你的物品会留在你放置的地方。任何无法放置在新岛屿上的东西都将返回到你的物品栏中，你可以在宝箱中使用它。",
+  "season.megastore.alreadyOwned": "已经拥有"
 }

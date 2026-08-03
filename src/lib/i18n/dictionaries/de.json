@@ -9597,5 +9597,6 @@
   "description.riceShirt.boost.2": "+1 Reis",
   "description.alchemistApron.boost": "-50% Gebühr für das Zaubertrankhaus",
   "description.saltBottleOnesie.boost": "+1 Spice Rack-Ausgang",
-  "islandupgrade.warningAscend": "Dein Farm-Layout kommt mit — deine Gegenstände bleiben dort, wo du sie platziert hast. Alles, was nicht auf der neuen Insel platziert werden kann, wird wieder in dein Inventar aufgenommen, wo du es in deiner Truhe aufrufen kannst."
+  "islandupgrade.warningAscend": "Dein Farm-Layout kommt mit — deine Gegenstände bleiben dort, wo du sie platziert hast. Alles, was nicht auf der neuen Insel platziert werden kann, wird wieder in dein Inventar aufgenommen, wo du es in deiner Truhe aufrufen kannst.",
+  "season.megastore.alreadyOwned": "Bereits im Besitz"
 }
