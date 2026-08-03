@@ -880,6 +880,35 @@ describe("castRod", () => {
 });
 
 describe("getDailyFishingLimit", () => {
+  it("increases fishing limit by 5 when Otty the Otter is placed", () => {
+    const { limit } = getDailyFishingLimit(
+      {
+        ...TEST_FARM,
+        collectibles: {
+          "Otty the Otter": [
+            { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 } },
+          ],
+        },
+      },
+      Date.now(),
+    );
+    expect(limit).toEqual(25);
+  });
+
+  it("does not increase the limit when Otty the Otter is only in the inventory", () => {
+    const { limit } = getDailyFishingLimit(
+      {
+        ...TEST_FARM,
+        inventory: {
+          ...TEST_FARM.inventory,
+          "Otty the Otter": new Decimal(1),
+        },
+      },
+      Date.now(),
+    );
+    expect(limit).toEqual(20);
+  });
+
   it("increases fishing limit by 10 when Angler Waders is equipped", () => {
     const { limit } = getDailyFishingLimit(
       {

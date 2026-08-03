@@ -16,6 +16,7 @@ import {
   type Requirements,
 } from "features/game/types/expansions";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { isMonumentActive } from "features/game/types/monuments";
 import { ISLAND_MAX_EXPANSION } from "features/game/expansion/lib/expansionRequirements";
 import { produce } from "immer";
 import { trackFarmActivity } from "features/game/types/farmActivity";
@@ -188,5 +189,13 @@ export const expansionRequirements = ({
     boostsUsed.push({ name: "Grinx's Hammer", value: "x0.5" });
   }
 
-  return { requirements: { ...requirements, resources }, boostsUsed };
+  let seconds = requirements.seconds;
+
+  // -20% expansion time once the monument's cheers are complete
+  if (isMonumentActive({ game, monument: "Ascension Monument" })) {
+    seconds *= 0.8;
+    boostsUsed.push({ name: "Ascension Monument", value: "x0.8" });
+  }
+
+  return { requirements: { ...requirements, resources, seconds }, boostsUsed };
 };

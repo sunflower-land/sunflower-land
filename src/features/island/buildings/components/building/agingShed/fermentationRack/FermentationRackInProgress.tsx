@@ -13,6 +13,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getAgingInputMultiplier,
   getAgingOutput,
+  getAstrolabeDoubleChance,
 } from "features/game/types/agingFormulas";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -51,7 +52,7 @@ export const FermentationRackInProgress: React.FC<Props> = ({
   // The job is already running, so both its output and the ingredients it was
   // charged read from the rank stamped at start, not the player's live rank.
   const agerLevel = getStampedAgerLevel(job.skills);
-  const outputAmount = getAgingOutput(
+  const { output: outputAmount } = getAgingOutput(
     state,
     outputEntry?.[1] ?? new Decimal(0),
     outputItem,
@@ -140,6 +141,13 @@ export const FermentationRackInProgress: React.FC<Props> = ({
             />
           </div>
         </div>
+        {getAstrolabeDoubleChance(state) > 0 && (
+          <Label type="vibrant" className="text-xxs mx-2 mb-1">
+            {t("agingShed.astrolabe.doubleChance", {
+              chance: getAstrolabeDoubleChance(state),
+            })}
+          </Label>
+        )}
         {collectError && (
           <Label type="danger" className="text-xs mb-2 mx-2">
             {collectError}

@@ -12,6 +12,7 @@ import {
 import { getSkillLevel } from "features/game/types/bumpkinSkills";
 import { getObjectEntries } from "lib/object";
 import type { GameState } from "features/game/types/game";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getAgingInputMultiplier } from "features/game/types/agingFormulas";
 import { hasPlacedAgingShed } from "./hasPlacedAgingShed";
 import { grantFermentationRecipeOutputs } from "./grantFermentationRecipeOutputs";
@@ -77,7 +78,17 @@ export function startFermentation({
     const agerLevel = getSkillLevel(game.bumpkin.skills, "Ager");
 
     if (durationSeconds === 0) {
-      grantFermentationRecipeOutputs(game, action.recipe, farmId, agerLevel);
+      const boostsUsed = grantFermentationRecipeOutputs(
+        game,
+        action.recipe,
+        farmId,
+        agerLevel,
+      );
+      game.boostsUsedAt = updateBoostUsed({
+        game,
+        boostNames: boostsUsed,
+        createdAt,
+      });
       return;
     }
 

@@ -76,7 +76,7 @@ export const AgingRackPanel: React.FC = () => {
 
   const fishCost = getBoostedAgingFishCost(state);
   const saltNeeded = selectedFish
-    ? getBoostedAgingSaltCost(getFishBaseXP(selectedFish), state)
+    ? getBoostedAgingSaltCost(getFishBaseXP(selectedFish), state).cost
     : undefined;
   const hasSalt = saltNeeded
     ? (merged["Salt"] ?? new Decimal(0)).gte(saltNeeded)
@@ -147,7 +147,7 @@ export const AgingRackPanel: React.FC = () => {
     return undefined;
   })();
 
-  const primeAgedChance = getPrimeAgedChance(state);
+  const { chance: primeAgedChance } = getPrimeAgedChance(state);
 
   return (
     <>

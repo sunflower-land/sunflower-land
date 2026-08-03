@@ -15,6 +15,7 @@ import {
   type GreenHouseFruitName,
   PATCH_FRUIT,
   type PatchFruitName,
+  isFullMoonFruit,
 } from "features/game/types/fruits";
 import type {
   BoostName,
@@ -122,6 +123,15 @@ export function getFruitYield({
   ) {
     amount += 1;
     boostsUsed.push({ name: "Black Bearry", value: "+1" });
+  }
+
+  if (
+    isFruit(name) &&
+    isFullMoonFruit(name) &&
+    isWearableActive({ name: "Moon Hair", game })
+  ) {
+    amount += 0.5;
+    boostsUsed.push({ name: "Moon Hair", value: "+0.5" });
   }
 
   if (isFruit(name) && isCollectibleBuilt({ name: "Macaw", game })) {

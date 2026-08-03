@@ -11,8 +11,9 @@ import type {
   AgedFishName,
   PrimeAgedFishName,
 } from "features/game/types/fishing";
-import type { GameState } from "features/game/types/game";
+import type { BoostName, GameState } from "features/game/types/game";
 import { trackFarmActivity } from "features/game/types/farmActivity";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { hasPlacedAgingShed } from "./hasPlacedAgingShed";
 import { prngChance } from "lib/prng";
 import { getStampedAgerLevel } from "features/game/lib/agingShed";
@@ -55,6 +56,7 @@ export function collectAgedFish({
     );
 
     const results: AgingCollectResult[] = [];
+    const boostsUsed: { name: BoostName; value: string }[] = [];
 
     ready.forEach((slot) => {
       const agedName: AgedFishName = `Aged ${slot.fish}`;
@@ -64,25 +66,31 @@ export function collectAgedFish({
         (game.farmActivity[`${agedName} Collected`] ?? 0) +
         (game.farmActivity[`${primeAgedName} Collected`] ?? 0);
 
-      const outputAmount = getAgingOutput(
-        game,
-        new Decimal(1),
-        slot.fish,
-        getStampedAgerLevel(slot.skills),
-        {
-          farmId,
-          itemId: KNOWN_IDS[slot.fish],
-          counter,
-        },
-      );
+      const { output: outputAmount, boostsUsed: outputBoostsUsed } =
+        getAgingOutput(
+          game,
+          new Decimal(1),
+          agedName,
+          getStampedAgerLevel(slot.skills),
+          {
+            farmId,
+            itemId: KNOWN_IDS[slot.fish],
+            counter,
+          },
+        );
+      boostsUsed.push(...outputBoostsUsed);
 
+      const { chance, boostsUsed: chanceBoostsUsed } = getPrimeAgedChance(game);
       const isPrime = prngChance({
         farmId,
         itemId: KNOWN_IDS[agedName],
         counter,
-        chance: getPrimeAgedChance(game),
+        chance,
         criticalHitName: primeAgedName,
       });
+      if (isPrime) {
+        boostsUsed.push(...chanceBoostsUsed);
+      }
 
       const outputName = isPrime ? primeAgedName : agedName;
 
@@ -99,5 +107,11 @@ export function collectAgedFish({
     });
 
     game.agingShed.lastAgingCollect = results;
+
+    game.boostsUsedAt = updateBoostUsed({
+      game,
+      boostNames: boostsUsed,
+      createdAt,
+    });
   });
 }
