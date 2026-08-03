@@ -47,8 +47,11 @@ export const AgingRackInProgress: React.FC<Props> = ({
 
   const agedName: AgedFishName = `Aged ${slot.fish}`;
   const outputLabel = ITEM_DETAILS[agedName]?.translatedName ?? agedName;
-  // The slot is already running, so show the salt it was charged at its
-  // stamped Ager rank rather than recomputing from the player's live rank.
+  // Ager is stamped because collect pays out at the rank the inputs were
+  // charged at; Surfer Hair has no payout side so it is only ever read live.
+  // The result can therefore differ from what was actually debited if the hair
+  // is unequipped mid-job — acceptable, as the slot cannot be cancelled and
+  // nothing re-reads this cost. It is a display of a sunk charge.
   const { cost: saltCost } = getBoostedAgingSaltCost(
     getFishBaseXP(slot.fish),
     game,
