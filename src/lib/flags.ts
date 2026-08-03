@@ -89,8 +89,8 @@ export const TIME_BASED_FEATURE_FLAG_WINDOWS = {
     end: null,
   },
   // Ascending from Swamp (A1) into the next island (Spooky, A2) unlocks on this
-  // date. Testnet bypasses; the first ascension (Volcano → Swamp / A0 → A1) is
-  // gated separately by SWAMP_ASCENSION and is unaffected.
+  // date. Testnet bypasses. The first ascension (Volcano → Swamp / A0 → A1) is not
+  // time-gated — it unlocks on the standard level-150 / expansion / resource costs.
   SPOOKY_ASCENSION: {
     start: new Date("2026-09-07T00:00:00Z"),
     end: null,
