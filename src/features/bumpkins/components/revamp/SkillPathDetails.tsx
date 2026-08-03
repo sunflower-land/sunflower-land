@@ -35,9 +35,6 @@ import {
   SKILL_POINTS_PER_TIER,
 } from "features/game/events/landExpansion/choseSkill";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { TIME_BASED_FEATURE_FLAG_WINDOWS } from "lib/flags";
-import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
-import { useNow } from "lib/utils/hooks/useNow";
 import Decimal from "decimal.js-light";
 
 // Icon imports
@@ -196,12 +193,7 @@ export const SkillPathDetails: React.FC<Props> = ({
   });
   const { buff, debuff } = boosts;
 
-  const now = useNow({
-    live: true,
-    autoEndAt: TIME_BASED_FEATURE_FLAG_WINDOWS.SWAMP_ASCENSION.start.getTime(),
-    intervalMs: 60 * 1000,
-  });
-  const availableSkillPoints = getAvailableBumpkinSkillPoints(state, now);
+  const availableSkillPoints = getAvailableBumpkinSkillPoints(state);
   const { availableTier, totalUsedSkillPoints } = getUnlockedTierForTree(
     tree,
     bumpkin,
@@ -222,13 +214,9 @@ export const SkillPathDetails: React.FC<Props> = ({
   const shardBalance = state.inventory["Ascension Shard"] ?? new Decimal(0);
   const upgradeCost = getSkillUpgradeCost(tier);
 
-  // The three panel modes. Upgrades only exist behind ASCENSION_SKILLS, so
-  // non-Crops trees and flag-off players resolve to Locked -> Maxed (no ranks).
-  const upgradesEnabled = useTimeBasedFeatureAccess({
-    featureName: "ASCENSION_SKILLS",
-    game: state,
-  });
-  const canUpgradeHere = upgradesEnabled && !!upgrade;
+  // The three panel modes. Skills without an `upgrade` have no ranks, so they
+  // resolve to Locked -> Maxed.
+  const canUpgradeHere = !!upgrade;
   const isLocked = !hasSelectedSkill;
   const isUpgradable =
     hasSelectedSkill && canUpgradeHere && currentLevel < maxLevel;
@@ -250,7 +238,7 @@ export const SkillPathDetails: React.FC<Props> = ({
     hasSelectedSkill && (!canUpgradeHere || currentLevel >= maxLevel);
   const boostLabelType = isLocked ? "success" : "info";
 
-  // Real per-rank boost copy (shown behind ASCENSION_SKILLS). The current-rank
+  // Real per-rank boost copy. The current-rank
   // description replaces the static boost text; the next-rank one previews the
   // upgrade reward. Cooldown skills (Instant Growth) keep their static boost
   // pill because the cooldown pill already shows the scaled number.
@@ -636,13 +624,11 @@ export const SkillPathDetails: React.FC<Props> = ({
                           bumpkin.skills[
                             skill.name as BumpkinRevampSkillName
                           ] ?? 0;
-                        // "Maxed" = at its top rank (upgradeable skills need the
-                        // flag on to have ranks; otherwise owning it is maxed).
-                        const skillMaxLevel =
-                          upgradesEnabled && skill.upgrade
-                            ? skill.upgrade.maxLevel
-                            : 1;
-                        const hasSkill = !!skillLevel;
+                        // "Maxed" = at its top rank; skills without ranks are
+                        // maxed as soon as they are owned.
+                        const skillMaxLevel = skill.upgrade
+                          ? skill.upgrade.maxLevel
+                          : 1;
                         const isSkillMaxed = skillLevel >= skillMaxLevel;
                         const { name, image, tree, npc, power, boosts } = skill;
                         const { boostTypeIcon, boostedItemIcon } = boosts.buff;
@@ -664,7 +650,7 @@ export const SkillPathDetails: React.FC<Props> = ({
                             overlayIcon={
                               <img
                                 src={
-                                  isSkillMaxed || (!upgradesEnabled && hasSkill)
+                                  isSkillMaxed
                                     ? SUNNYSIDE.icons.confirm
                                     : !tierUnlocked
                                       ? SUNNYSIDE.icons.lock

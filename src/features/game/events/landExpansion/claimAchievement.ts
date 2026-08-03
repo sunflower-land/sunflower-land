@@ -21,11 +21,7 @@ type Options = {
   createdAt?: number;
 };
 
-export function claimAchievement({
-  state,
-  action,
-  createdAt = Date.now(),
-}: Options): GameState {
+export function claimAchievement({ state, action }: Options): GameState {
   return produce(state, (stateCopy) => {
     const bumpkin = stateCopy.bumpkin;
     const achievement = ACHIEVEMENTS()[action.achievement];
@@ -38,7 +34,7 @@ export function claimAchievement({
       throw new Error(translate("claimAchievement.alreadyHave"));
     }
 
-    if (achievement.progress(stateCopy, createdAt) < achievement.requirement) {
+    if (achievement.progress(stateCopy) < achievement.requirement) {
       throw new Error(translate("claimAchievement.requirementsNotMet"));
     }
 

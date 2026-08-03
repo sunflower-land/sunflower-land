@@ -22,10 +22,8 @@ import {
   ASCENSION_BUMPKIN_LEVEL,
 } from "features/game/events/landExpansion/upgradeFarm";
 import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
-import { useNow } from "lib/utils/hooks/useNow";
 import {
   getAscensionLevel,
-  getMaxBumpkinLevel,
   LEVELS_PER_ASCENSION,
 } from "features/game/lib/level";
 import type { CollectibleName } from "features/game/types/craftables";
@@ -125,15 +123,6 @@ const IslandUpgraderModal: React.FC<{
     featureName: "SPOOKY_ASCENSION",
     game: gameState.context.state,
   });
-  const hasSwampAscensionAccess = useTimeBasedFeatureAccess({
-    featureName: "SWAMP_ASCENSION",
-    game: gameState.context.state,
-  });
-  const now = useNow({
-    live: true,
-    autoEndAt: TIME_BASED_FEATURE_FLAG_WINDOWS.SWAMP_ASCENSION.start.getTime(),
-    intervalMs: 60 * 1000,
-  });
   // Match the reducer's authoritative A1→A2 condition (ascensionLevel === 1) so
   // the button can't enable an upgrade the server rejects, or vice versa.
   const isNextAscensionLocked =
@@ -151,9 +140,7 @@ const IslandUpgraderModal: React.FC<{
   const remainingExpansions =
     upgrade.expansions - (inventory["Basic Land"]?.toNumber() ?? 0);
 
-  // Ascension upgrades (volcano -> swamp onward) are gated behind the
-  // SWAMP_ASCENSION feature flag; basic-island upgrades are unaffected. Computed
-  // up here so the confirmation panel below can switch its copy too.
+  // Computed up here so the confirmation panel below can switch its copy too.
   const nextIsland = isLandUpgradable(island.type)
     ? ISLAND_UPGRADE[island.type].upgrade
     : undefined;
@@ -169,10 +156,6 @@ const IslandUpgraderModal: React.FC<{
     getAscensionLevel({
       experience: bumpkin.experience ?? 0,
       ascensionLevel: island.ascensionLevel ?? 0,
-      // Mirror the server gate: the pre-ascension cap drops to 150 under
-      // SWAMP_ASCENSION, so without this a maxed level-150 player would be
-      // measured against the legacy 200 cap and never show as ready.
-      maxLevel: getMaxBumpkinLevel(gameState.context.state, now),
     }).isReadyToAscend;
 
   if (showConfirmation) {
@@ -229,8 +212,7 @@ const IslandUpgraderModal: React.FC<{
     return getKeys(temporaryCollectibles).length > 0;
   };
 
-  const flagAllows = !isAscensionUpgrade || hasSwampAscensionAccess;
-  const hasUpgrade = isLandUpgradable(island.type) && flagAllows;
+  const hasUpgrade = isLandUpgradable(island.type);
 
   // Ascension upgrades carry their (level-scaled) cost in getAscensionUpgradeCost,
   // not in ISLAND_UPGRADE[...].items (which is empty for them).

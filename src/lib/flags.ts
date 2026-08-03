@@ -89,18 +89,10 @@ export const TIME_BASED_FEATURE_FLAG_WINDOWS = {
     end: null,
   },
   // Ascending from Swamp (A1) into the next island (Spooky, A2) unlocks on this
-  // date. Testnet bypasses; the first ascension (Volcano → Swamp / A0 → A1) is
-  // gated separately by SWAMP_ASCENSION and is unaffected.
+  // date. Testnet bypasses. The first ascension (Volcano → Swamp / A0 → A1) is not
+  // time-gated — it unlocks on the standard level-150 / expansion / resource costs.
   SPOOKY_ASCENSION: {
     start: new Date("2026-09-07T00:00:00Z"),
-    end: null,
-  },
-  ASCENSION_SKILLS: {
-    start: new Date("2026-08-03T00:00:00Z"),
-    end: null,
-  },
-  SWAMP_ASCENSION: {
-    start: new Date("2026-08-03T00:00:00Z"),
     end: null,
   },
 } satisfies Record<string, TimeBasedFeatureWindow>;
@@ -121,8 +113,6 @@ export const TIME_BASED_FEATURE_FLAGS: Record<
   APRIL_FOOLS_EVENT_FLAG: betaTimePeriodFeatureFlag,
   RONIN_WAYPOINT_DEPRECATION: timePeriodFeatureFlag,
   COLORS_2026_EVENT_FLAG: betaTimePeriodFeatureFlag,
-  ASCENSION_SKILLS: betaTimePeriodFeatureFlag,
-  SWAMP_ASCENSION: betaTimePeriodFeatureFlag,
   // Testnet-only bypass before the date (not beta), so live testers can reach A2.
   SPOOKY_ASCENSION: timePeriodFeatureFlag,
 };

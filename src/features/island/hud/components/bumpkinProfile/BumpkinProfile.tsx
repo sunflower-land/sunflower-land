@@ -5,17 +5,11 @@ import { useActor } from "@xstate/react";
 import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Context } from "features/game/GameProvider";
-import {
-  getAscensionLevel,
-  getMaxBumpkinLevel,
-  type BumpkinLevel,
-} from "features/game/lib/level";
+import { getAscensionLevel } from "features/game/lib/level";
 import {
   acknowledgeSkillPoints,
   hasUnacknowledgedSkillPoints,
 } from "features/island/bumpkin/lib/skillPointStorage";
-import { TIME_BASED_FEATURE_FLAG_WINDOWS } from "lib/flags";
-import { useNow } from "lib/utils/hooks/useNow";
 import Spritesheet, {
   type SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
@@ -75,9 +69,8 @@ interface AvatarProps {
   onClick?: () => void;
   powerSkillsReady: boolean;
   // On ascension islands the badge shows the within-ascension level (1..50);
-  // otherwise the legacy Bumpkin level (capped by `maxLevel`).
+  // otherwise the legacy Bumpkin level (capped at the pre-ascension max).
   ascensionLevel?: number;
-  maxLevel?: BumpkinLevel;
 }
 
 export const BumpkinAvatar: React.FC<AvatarProps> = ({
@@ -86,14 +79,13 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
   onClick,
   powerSkillsReady,
   ascensionLevel = 0,
-  maxLevel,
 }) => {
   const { showAnimations } = useContext(Context);
 
   const progressBarEl = useRef<SpriteSheetInstance>(undefined);
 
   const experience = bumpkin?.experience ?? 0;
-  const ascension = getAscensionLevel({ experience, ascensionLevel, maxLevel });
+  const ascension = getAscensionLevel({ experience, ascensionLevel });
   const level = ascension.level;
 
   useEffect(() => {
@@ -227,18 +219,11 @@ export const BumpkinProfile: React.FC = () => {
 
   const experience = state.bumpkin?.experience ?? 0;
   const ascensionLevel = state.island.ascensionLevel ?? 0;
-  const now = useNow({
-    live: true,
-    autoEndAt: TIME_BASED_FEATURE_FLAG_WINDOWS.SWAMP_ASCENSION.start.getTime(),
-    intervalMs: 60 * 1000,
-  });
-  const maxLevel = getMaxBumpkinLevel(state, now);
   const level = getAscensionLevel({
     experience,
     ascensionLevel,
-    maxLevel,
   }).level;
-  const showSkillPointAlert = hasUnacknowledgedSkillPoints(state, now);
+  const showSkillPointAlert = hasUnacknowledgedSkillPoints(state);
 
   useEffect(() => {
     goToProgress();
@@ -250,7 +235,7 @@ export const BumpkinProfile: React.FC = () => {
     setViewSkillsTab(showSkillPointAlert);
     setShowModal(true);
     if (showSkillPointAlert) {
-      acknowledgeSkillPoints(state, now);
+      acknowledgeSkillPoints(state);
     }
   };
 
@@ -258,7 +243,7 @@ export const BumpkinProfile: React.FC = () => {
     if (progressBarEl.current) {
       const experience = state.bumpkin?.experience ?? 0;
       const { currentExperienceProgress, experienceToNextLevel } =
-        getAscensionLevel({ experience, ascensionLevel, maxLevel });
+        getAscensionLevel({ experience, ascensionLevel });
 
       let percent = currentExperienceProgress / experienceToNextLevel;
       // Progress bar cant go further than 100%
@@ -323,7 +308,6 @@ export const BumpkinProfile: React.FC = () => {
         <BumpkinAvatar
           bumpkin={state.bumpkin}
           ascensionLevel={ascensionLevel}
-          maxLevel={maxLevel}
           onClick={handleShowHomeModal}
           showSkillPointAlert={
             showSkillPointAlert && !gameState.matches("visiting")

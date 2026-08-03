@@ -8,7 +8,6 @@ import {
   getSkillUpgradeTierRequirement,
 } from "features/game/types/bumpkinSkills";
 import type { GameState } from "features/game/types/game";
-import { hasTimeBasedFeatureAccess } from "lib/flags";
 import {
   getAvailableBumpkinSkillPoints,
   getUnlockedTierForTree,
@@ -36,16 +35,6 @@ export function upgradeSkill({
 
     if (!bumpkin) {
       throw new Error("You do not have a Bumpkin!");
-    }
-
-    if (
-      !hasTimeBasedFeatureAccess({
-        featureName: "ASCENSION_SKILLS",
-        game,
-        now: createdAt,
-      })
-    ) {
-      throw new Error("Skill upgrades are not available");
     }
 
     const skillData: BumpkinSkillRevamp =
@@ -88,7 +77,7 @@ export function upgradeSkill({
 
     const cost = getSkillUpgradeCost(skillData.requirements.tier);
 
-    if (getAvailableBumpkinSkillPoints(game, createdAt) < cost.points) {
+    if (getAvailableBumpkinSkillPoints(game) < cost.points) {
       throw new Error("You do not have enough skill points");
     }
 
