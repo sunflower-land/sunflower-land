@@ -26,6 +26,7 @@ import {
 import {
   getAgingInputMultiplier,
   getAgingOutput,
+  getAstrolabeDoubleChance,
 } from "features/game/types/agingFormulas";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -248,6 +249,14 @@ export const FermentationRackEmpty: React.FC<Props> = ({
                 waitSeconds={recipeDef.durationSeconds}
               />
             </div>
+          )}
+
+          {getAstrolabeDoubleChance(gameState) > 0 && (
+            <Label type="vibrant" className="text-xxs mx-2 mb-1">
+              {t("agingShed.astrolabe.doubleChance", {
+                chance: getAstrolabeDoubleChance(gameState),
+              })}
+            </Label>
           )}
         </InnerPanel>
       )}

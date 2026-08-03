@@ -9344,6 +9344,7 @@
   "agingShed.agingRack.output": "Output",
   "agingShed.agingRack.or": "OR",
   "agingShed.agingRack.outputChance": "{{item}} - Chance: {{chance}}%",
+  "agingShed.astrolabe.doubleChance": "{{chance}}% Chance to double output",
   "agingShed.agingRack.agedFishLabel": "Aged {{fish}}",
   "agingShed.agingRack.primeAgedFishLabel": "Prime Aged {{fish}}",
   "agingShed.agingRack.fishOptionDetail": "{{saltCost}} {{salt}} · {{time}}",

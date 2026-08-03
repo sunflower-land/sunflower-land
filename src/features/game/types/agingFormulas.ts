@@ -82,6 +82,20 @@ export function getPrimeAgedChance(state: GameState): {
   return { chance, boostsUsed };
 }
 
+/** Astrolabe's chance to double fermentation and spice rack output. */
+export const ASTROLABE_DOUBLE_CHANCE = 15;
+
+/**
+ * 0 when Astrolabe is not placed. Note this is the raw collectible chance — the
+ * aging rack is excluded at the call site in getAgingOutput, not here, because
+ * the exclusion depends on the item being produced.
+ */
+export function getAstrolabeDoubleChance(state: GameState): number {
+  return isCollectibleBuilt({ game: state, name: "Astrolabe" })
+    ? ASTROLABE_DOUBLE_CHANCE
+    : 0;
+}
+
 /**
  * The Ager input cost multiplier.
  *
@@ -119,22 +133,23 @@ export function getAgingOutput(
     boostsUsed.push({ name: "Ager", value: `x${m}` });
   }
 
-  // 15% chance of doubling — applies to the post-Ager amount only, before the
+  // Chance of doubling — applies to the post-Ager amount only, before the
   // additive bonuses (Refiner/Bacalhau) so those are never doubled. Aged and
   // Prime Aged fish are excluded: Astrolabe boosts only the fermentation and
   // spice racks, not the aging rack.
+  const astrolabeChance = getAstrolabeDoubleChance(state);
   if (
     prngArgs &&
     !isAgedFish(item) &&
     !isPrimeAgedFish(item) &&
-    isCollectibleBuilt({ game: state, name: "Astrolabe" })
+    astrolabeChance > 0
   ) {
     const { farmId, itemId, counter } = prngArgs;
     const isDoubled = prngChance({
       farmId,
       itemId,
       counter,
-      chance: 15,
+      chance: astrolabeChance,
       criticalHitName: "Astrolabe",
     });
     if (isDoubled) {

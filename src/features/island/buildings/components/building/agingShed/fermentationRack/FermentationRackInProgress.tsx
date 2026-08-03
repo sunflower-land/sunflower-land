@@ -13,6 +13,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getAgingInputMultiplier,
   getAgingOutput,
+  getAstrolabeDoubleChance,
 } from "features/game/types/agingFormulas";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -140,6 +141,13 @@ export const FermentationRackInProgress: React.FC<Props> = ({
             />
           </div>
         </div>
+        {getAstrolabeDoubleChance(state) > 0 && (
+          <Label type="vibrant" className="text-xxs mx-2 mb-1">
+            {t("agingShed.astrolabe.doubleChance", {
+              chance: getAstrolabeDoubleChance(state),
+            })}
+          </Label>
+        )}
         {collectError && (
           <Label type="danger" className="text-xs mb-2 mx-2">
             {collectError}

@@ -16,6 +16,7 @@ import type { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getAgingInputMultiplier,
+  getAstrolabeDoubleChance,
   getRefinedSaltChance,
   getSpiceRackOutput,
 } from "features/game/types/agingFormulas";
@@ -148,6 +149,14 @@ export const SpiceRackInProgress: React.FC<Props> = ({
         {getRefinedSaltChance(state) > 0 && (
           <Label type="vibrant" className="text-xxs mx-2 mb-1">
             {`${getRefinedSaltChance(state)}% Chance of +1 Refined Salt`}
+          </Label>
+        )}
+
+        {getAstrolabeDoubleChance(state) > 0 && (
+          <Label type="vibrant" className="text-xxs mx-2 mb-1">
+            {t("agingShed.astrolabe.doubleChance", {
+              chance: getAstrolabeDoubleChance(state),
+            })}
           </Label>
         )}
 

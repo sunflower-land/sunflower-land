@@ -6,6 +6,7 @@ import type { GameState, Skills } from "./game";
 import {
   getAgingInputMultiplier,
   getAgingOutput,
+  getAstrolabeDoubleChance,
   getAgingSaltCost,
   getAgingTimeMs,
   getBoostedAgingFishCost,
@@ -452,6 +453,32 @@ describe("getBoostedAgingSaltCost", () => {
     expect(
       getBoostedAgingSaltCost(baseXP, stateWithSkills({ Ager: 3 })).cost,
     ).toBe(base * 4);
+  });
+});
+
+describe("getAstrolabeDoubleChance", () => {
+  it("returns 0 when Astrolabe is not placed", () => {
+    expect(getAstrolabeDoubleChance(INITIAL_FARM)).toBe(0);
+  });
+
+  it("returns 0 when Astrolabe is only in the inventory", () => {
+    expect(
+      getAstrolabeDoubleChance({
+        ...INITIAL_FARM,
+        inventory: { ...INITIAL_FARM.inventory, Astrolabe: new Decimal(1) },
+      }),
+    ).toBe(0);
+  });
+
+  it("returns 15 when placed", () => {
+    expect(
+      getAstrolabeDoubleChance({
+        ...INITIAL_FARM,
+        collectibles: {
+          Astrolabe: [{ id: "1", createdAt: 0, coordinates: { x: 0, y: 0 } }],
+        },
+      }),
+    ).toBe(15);
   });
 });
 

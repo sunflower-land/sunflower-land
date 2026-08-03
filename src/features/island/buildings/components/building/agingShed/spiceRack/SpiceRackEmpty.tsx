@@ -15,6 +15,7 @@ import {
 } from "features/game/types/spiceRack";
 import {
   getAgingInputMultiplier,
+  getAstrolabeDoubleChance,
   getRefinedSaltChance,
   getSpiceRackOutput,
 } from "features/game/types/agingFormulas";
@@ -191,6 +192,14 @@ export const SpiceRackEmpty: React.FC<Props> = ({
                 {`${getRefinedSaltChance(gameState)}% Chance of +1 Refined Salt `}
               </Label>
             )}
+
+          {canShowRequirements && getAstrolabeDoubleChance(gameState) > 0 && (
+            <Label type="vibrant" className="text-xxs mx-2 mb-1">
+              {t("agingShed.astrolabe.doubleChance", {
+                chance: getAstrolabeDoubleChance(gameState),
+              })}
+            </Label>
+          )}
         </InnerPanel>
       )}
 
