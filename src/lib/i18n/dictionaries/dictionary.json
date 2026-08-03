@@ -2837,6 +2837,7 @@
   "islandupgrade.ascendIntro": "A greater island awaits. Ascend to unlock exotic resources and a new chapter for your farm.",
   "islandupgrade.ascendConfirmation": "Ascending resets your level to 1 and begins anew — your skills, items and expansions come with you.",
   "islandupgrade.confirmAscend": "Are you sure you want to ascend to a new island?",
+  "islandupgrade.warningAscend": "Your farm layout comes with you - your items stay where you placed them. Anything that can't be placed on the new island will be returned to your inventory, where you can access it in your chest.",
   "islandupgrade.locked": "Locked",
   "islandupgrade.exploring": "Exploring",
   "islandupgrade.welcomePetalParadise": "Welcome to Petal Paradise!",

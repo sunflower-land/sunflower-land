@@ -187,7 +187,13 @@ const IslandUpgraderModal: React.FC<{
               ? t("islandupgrade.confirmAscend")
               : t("islandupgrade.confirmUpgrade")}
           </p>
-          <p className="text-xs mt-2">{t("islandupgrade.warning1")}</p>
+          {/* Ascension (volcano onward) preserves the arrangement rather than
+              digging everything up - see transitionToIsland in upgradeFarm.ts. */}
+          <p className="text-xs mt-2">
+            {isAscensionUpgrade
+              ? t("islandupgrade.warningAscend")
+              : t("islandupgrade.warning1")}
+          </p>
         </div>
 
         <div className="flex">
