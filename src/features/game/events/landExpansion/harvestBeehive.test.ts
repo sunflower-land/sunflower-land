@@ -1,5 +1,9 @@
 import type { Beehive, CropPlot, FlowerBed } from "features/game/types/game";
-import { HARVEST_BEEHIVE_ERRORS, harvestBeehive } from "./harvestBeehive";
+import {
+  HARVEST_BEEHIVE_ERRORS,
+  getFullHiveHoneyYield,
+  harvestBeehive,
+} from "./harvestBeehive";
 import {
   TEST_FARM,
   INITIAL_BUMPKIN,
@@ -884,5 +888,131 @@ describe("harvestBeehive", () => {
     });
 
     expect(gameState.inventory.Honey).toEqual(new Decimal(1));
+  });
+});
+
+describe("getFullHiveHoneyYield", () => {
+  const now = Date.now();
+
+  const DEFAULT_BEEHIVE: Beehive = {
+    x: 3,
+    y: 3,
+    swarm: false,
+    honey: { updatedAt: 0, produced: 0 },
+    flowers: [],
+  };
+
+  it("returns a full hive's base amount with no boosts", () => {
+    expect(getFullHiveHoneyYield(TEST_FARM).yield).toEqual(1);
+  });
+
+  it("adds Ruins Flower's flat +0.05 when it is placed", () => {
+    const { yield: honeyYield, boostsUsed } = getFullHiveHoneyYield({
+      ...TEST_FARM,
+      collectibles: {
+        ...TEST_FARM.collectibles,
+        "Ruins Flower": [
+          {
+            id: "1",
+            createdAt: 0,
+            coordinates: { x: 0, y: 0 },
+            readyAt: 0,
+          },
+        ],
+      },
+    });
+
+    expect(honeyYield).toEqual(1.05);
+    expect(boostsUsed).toContainEqual({
+      name: "Ruins Flower",
+      value: "+0.05",
+    });
+  });
+
+  it("does not add anything when Ruins Flower is only in the inventory", () => {
+    expect(
+      getFullHiveHoneyYield({
+        ...TEST_FARM,
+        inventory: {
+          ...TEST_FARM.inventory,
+          "Ruins Flower": new Decimal(1),
+        },
+      }).yield,
+    ).toEqual(1);
+  });
+
+  it("is not scaled by the honey multiplier", () => {
+    const beehiveId = "1234";
+    // Honeycomb Shield takes the multiplier to 2. If Ruins Flower were folded
+    // into the multiplier the payout would be (1 + 0.05) * 2 = 2.1; it is a
+    // flat post-multiplier add, so it must be 1 * 2 + 0.05 = 2.05.
+    const state = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...TEST_FARM.bumpkin,
+        equipped: {
+          ...TEST_FARM.bumpkin.equipped,
+          secondaryTool: "Honeycomb Shield" as const,
+        },
+      },
+      collectibles: {
+        ...TEST_FARM.collectibles,
+        "Ruins Flower": [
+          { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 }, readyAt: 0 },
+        ],
+      },
+    };
+
+    const gameState = harvestBeehive({
+      state: {
+        ...state,
+        beehives: {
+          [beehiveId]: {
+            ...DEFAULT_BEEHIVE,
+            honey: {
+              updatedAt: now - 10 * 60 * 1000,
+              produced: DEFAULT_HONEY_PRODUCTION_TIME,
+            },
+          },
+        },
+      },
+      action: { type: "beehive.harvested", id: beehiveId },
+      createdAt: now,
+    });
+
+    expect(gameState.inventory.Honey).toEqual(new Decimal(2.05));
+    expect(getFullHiveHoneyYield(state).yield).toEqual(2.05);
+  });
+
+  it("matches what a full hive actually pays out", () => {
+    const beehiveId = "1234";
+    const collectibles = {
+      ...TEST_FARM.collectibles,
+      "Ruins Flower": [
+        { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 }, readyAt: 0 },
+      ],
+    };
+
+    const gameState = harvestBeehive({
+      state: {
+        ...TEST_FARM,
+        collectibles,
+        beehives: {
+          [beehiveId]: {
+            ...DEFAULT_BEEHIVE,
+            honey: {
+              updatedAt: now - 10 * 60 * 1000,
+              produced: DEFAULT_HONEY_PRODUCTION_TIME,
+            },
+          },
+        },
+      },
+      action: { type: "beehive.harvested", id: beehiveId },
+      createdAt: now,
+    });
+
+    expect(gameState.inventory.Honey).toEqual(
+      new Decimal(getFullHiveHoneyYield({ ...TEST_FARM, collectibles }).yield),
+    );
   });
 });
