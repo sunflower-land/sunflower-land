@@ -386,4 +386,29 @@ describe("getBulkMixRequirements", () => {
     expect(missingRequests["Kernel Blend"]).toEqual(new Decimal(5));
     expect(requirements.ingredients.Corn).toEqual(new Decimal(5));
   });
+
+  it("ignores negligible decimal remainders after mixing", () => {
+    const { feeds, missingRequests } = getBulkMixRequirements(
+      {
+        ...INITIAL_FARM,
+        inventory: {
+          "Kernel Blend": new Decimal("14.9999999999999999"),
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "0": animal({ state: "idle", type: "Cow" }),
+          },
+        },
+      },
+      "Barn",
+    );
+
+    const kernelBlend = feeds.find((feed) => feed.item === "Kernel Blend");
+
+    expect(kernelBlend?.requested).toEqual(new Decimal(15));
+    expect(kernelBlend?.missing).toEqual(new Decimal(0));
+    expect(kernelBlend?.ingredients).toEqual({});
+    expect(missingRequests["Kernel Blend"]).toBeUndefined();
+  });
 });

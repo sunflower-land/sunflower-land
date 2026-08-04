@@ -48,6 +48,43 @@ export function getIngredients({
   return { ingredients };
 }
 
+export function getMaxFeedMixAmount({
+  state,
+  name,
+}: {
+  state: GameState;
+  name: AnimalFoodName | AnimalMedicineName;
+}) {
+  const { coins } = ANIMAL_FOODS[name];
+  const { ingredients } = getIngredients({ state, name });
+
+  const limits = getKeys(ingredients).reduce<number[]>(
+    (amounts, ingredient) => {
+      const required = ingredients[ingredient];
+      if (!required || required.lessThanOrEqualTo(0)) return amounts;
+
+      const available = state.inventory[ingredient] ?? new Decimal(0);
+      amounts.push(
+        available
+          .div(required)
+          .toDecimalPlaces(0, Decimal.ROUND_DOWN)
+          .toNumber(),
+      );
+
+      return amounts;
+    },
+    [],
+  );
+
+  if (coins && coins > 0) {
+    limits.push(Math.floor(state.coins / coins));
+  }
+
+  if (limits.length === 0) return 0;
+
+  return Math.max(0, Math.min(Number.MAX_SAFE_INTEGER, ...limits));
+}
+
 /**
  * Mixes one feed into an existing draft. Kept separate from the event so the
  * bulk mixer can apply several feeds within a single `produce` cycle - and so
@@ -123,6 +160,10 @@ export function applyMix(
 export function feedMixed({ state, action }: Options) {
   return produce(state, (copy) => {
     const { item, amount = 1 } = action;
+
+    if (!Number.isSafeInteger(amount) || amount <= 0) {
+      throw new Error("Invalid amount");
+    }
 
     return applyMix(copy, { item, amount });
   });
