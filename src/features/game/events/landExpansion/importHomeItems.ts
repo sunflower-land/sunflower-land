@@ -401,6 +401,15 @@ export function getHomeRemovalEvents(state: GameState): PlacementEvent[] {
  * event and hoping the place succeeds, we run both reducers up front and only
  * commit when the place actually lands, so an item is never dug up into the
  * inventory and stranded there.
+ *
+ * It only works because the place reducers reject everything the API's do —
+ * collision included. The plan is computed once at the start of the migration
+ * but applied over several seconds and across autosaves, so a spot that was
+ * free at planning time can be taken by the time we get to it. Catching that
+ * here costs the player one item (reported as "could not be moved", and picked
+ * up by re-running the import); missing it costs them the whole save, because
+ * the API reduces the batch as a unit and one "Building collides" rejects every
+ * event in it.
  */
 export function tryApplyImportStep(
   state: GameState,

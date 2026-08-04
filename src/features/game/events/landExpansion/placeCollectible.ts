@@ -27,6 +27,7 @@ import { COMPETITION_POINTS } from "features/game/types/competitions";
 import { populateSaltFarm } from "features/game/types/salt";
 import { refreshBasicScarecrowTimeAOE } from "features/game/lib/aoe";
 import { getCollectiblesAcrossLocations } from "features/game/lib/getCollectiblesAcrossLocations";
+import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 
 export type PlaceCollectibleAction = {
   type: "collectible.placed";
@@ -151,9 +152,36 @@ export function placeCollectible({
     }
 
     // For level_one, the floor must already be unlocked (player has bought the
-    // first interior.upgrade) before any placement is allowed.
+    // first interior.upgrade) before any placement is allowed. Run this before
+    // collision detection so the user gets a meaningful error instead of a
+    // generic "collides" message (collision returns true when level_one is
+    // missing because it can't validate a floor that doesn't exist).
     if (action.location === "level_one" && !stateCopy.interior.level_one) {
       throw new Error("Level one floor has not been unlocked");
+    }
+
+    // Mirrors the same check in the API's placeCollectible reducer. The UI
+    // placement flows already block a colliding drop before dispatching, so
+    // this is a no-op for them — it exists so that callers which reduce
+    // speculatively (the home import's `tryApplyImportStep`) find out here
+    // rather than having the server reject the whole save batch. Keep the two
+    // implementations in lockstep: anything accepted here and rejected there
+    // fails at save time with "Building collides".
+    const dimensions = COLLECTIBLES_DIMENSIONS[collectible];
+    const collides = detectCollision({
+      state,
+      position: {
+        x: action.coordinates.x,
+        y: action.coordinates.y,
+        height: dimensions.height,
+        width: dimensions.width,
+      },
+      name: collectible,
+      location: action.location,
+    });
+
+    if (collides) {
+      throw new Error("Building collides");
     }
 
     // Search for existing collectible in current location
