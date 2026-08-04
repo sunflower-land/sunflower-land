@@ -33,11 +33,12 @@ import {
   type FeedType,
 } from "features/game/types/animals";
 import { Label } from "components/ui/Label";
-import { getIngredients } from "./feedMixed";
+import { getIngredients, getMaxFeedMixAmount } from "./feedMixed";
 import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
 import { getBulkMixRequirements } from "./getBulkMixRequirements";
 import { formatNumber } from "lib/utils/formatNumber";
 import { hasFeatureAccess } from "lib/flags";
+import { BulkMixModal } from "./BulkMixModal";
 
 interface Props {
   show: boolean;
@@ -72,11 +73,14 @@ export const FeederMachineModal: React.FC<Props> = ({
   const [isSpiceSelected, setIsSpiceSelected] = useState(false);
   const [tab, setTab] = useState<Tab>("food");
   const [showMixInfo, setShowMixInfo] = useState(false);
+  const [showBulkMixModal, setShowBulkMixModal] = useState(false);
+  const [customMixAmount, setCustomMixAmount] = useState(new Decimal(0));
   const { coins } = ANIMAL_FOODS[selectedName];
 
   const showBulkMixer = hasFeatureAccess(state, "BULK_MIXER");
 
   const { ingredients } = getIngredients({ state, name: selectedName });
+  const maxMixAmount = getMaxFeedMixAmount({ state, name: selectedName });
   const spices = ANIMAL_FEED_BUFFS.filter((item) =>
     state.inventory[item]?.gt(0),
   );
@@ -125,6 +129,7 @@ export const FeederMachineModal: React.FC<Props> = ({
   const onSelect = (item: AnimalFoodName | AnimalMedicineName) => {
     setSelectedName(item);
     setIsSpiceSelected(false);
+    setCustomMixAmount(new Decimal(0));
     shortcutItem(item);
   };
 
@@ -152,6 +157,24 @@ export const FeederMachineModal: React.FC<Props> = ({
     });
 
     shortcutItem(selectedName);
+  };
+
+  const closeBulkMixModal = () => {
+    setShowBulkMixModal(false);
+    setCustomMixAmount(new Decimal(0));
+  };
+
+  const mixCustomAmount = () => {
+    if (
+      !customMixAmount.isInteger() ||
+      customMixAmount.lessThanOrEqualTo(0) ||
+      customMixAmount.greaterThan(maxMixAmount)
+    ) {
+      return;
+    }
+
+    mix(customMixAmount.toNumber());
+    closeBulkMixModal();
   };
 
   const hasFeedRequests = getKeys(requests).length > 0;
@@ -269,6 +292,7 @@ export const FeederMachineModal: React.FC<Props> = ({
   // has to be reset on the way out or it reappears on the next open.
   const closeModal = () => {
     setShowMixInfo(false);
+    closeBulkMixModal();
     onClose();
   };
 
@@ -318,19 +342,29 @@ export const FeederMachineModal: React.FC<Props> = ({
                       resources: ingredients,
                     }}
                     actionView={
-                      <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-                        <Button
-                          disabled={lessFunds() || lessIngredients()}
-                          onClick={() => mix()}
-                        >
-                          {t("mix.one")}
-                        </Button>
-                        <Button
-                          disabled={lessFunds(10) || lessIngredients(10)}
-                          onClick={() => mix(10)}
-                        >
-                          {t("mix.ten")}
-                        </Button>
+                      <div className="flex flex-col w-full">
+                        <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
+                          <Button
+                            disabled={lessFunds() || lessIngredients()}
+                            onClick={() => mix()}
+                          >
+                            {t("mix.one")}
+                          </Button>
+                          <Button
+                            disabled={lessFunds(10) || lessIngredients(10)}
+                            onClick={() => mix(10)}
+                          >
+                            {t("mix.ten")}
+                          </Button>
+                        </div>
+                        {maxMixAmount > 10 && (
+                          <Button
+                            className="mt-1"
+                            onClick={() => setShowBulkMixModal(true)}
+                          >
+                            {t("feeder.mixInBulk")}
+                          </Button>
+                        )}
                       </div>
                     }
                   />
@@ -568,6 +602,15 @@ export const FeederMachineModal: React.FC<Props> = ({
           )}
         </CloseButtonPanel>
       </div>
+      <BulkMixModal
+        show={showBulkMixModal}
+        onClose={closeBulkMixModal}
+        ingredients={ingredients}
+        maxAmount={maxMixAmount}
+        amount={customMixAmount}
+        setAmount={setCustomMixAmount}
+        onMix={mixCustomAmount}
+      />
     </Modal>
   );
 };
