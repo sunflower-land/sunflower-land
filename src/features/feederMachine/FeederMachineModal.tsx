@@ -483,19 +483,24 @@ export const FeederMachineModal: React.FC<Props> = ({
                         </Label>
                         {/* Where the amounts come from - the requirement is
                           planned per animal, so it is not obvious. */}
-                        <img
-                          src={SUNNYSIDE.icons.expression_confused}
-                          alt=""
-                          className="cursor-pointer"
-                          style={{ width: `${PIXEL_SCALE * 7}px` }}
+                        <button
+                          type="button"
+                          className="flex cursor-pointer"
+                          aria-label={t("info")}
                           onClick={(e) => {
                             e.stopPropagation();
                             setShowMixInfo((visible) => !visible);
                           }}
-                        />
+                        >
+                          <img
+                            src={SUNNYSIDE.icons.expression_confused}
+                            alt=""
+                            style={{ width: `${PIXEL_SCALE * 7}px` }}
+                          />
+                        </button>
                         {showMixInfo && (
                           <InnerPanel
-                            className="absolute top-6 left-0 z-10 w-full"
+                            className="absolute top-6 left-0 z-10 w-full p-1"
                             onClick={(e) => e.stopPropagation()}
                           >
                             <span className="text-xxs">
@@ -555,7 +560,14 @@ export const FeederMachineModal: React.FC<Props> = ({
                                   toggling a second time. */}
                                 <div
                                   className="flex-none"
-                                  onClick={(event) => event.stopPropagation()}
+                                  onClick={(event) => {
+                                    // A disabled checkbox toggles nothing, so
+                                    // let the click through to dismiss the
+                                    // explainer like any other click.
+                                    if (feedCanBeMixed) {
+                                      event.stopPropagation();
+                                    }
+                                  }}
                                 >
                                   <Checkbox
                                     checked={selected}

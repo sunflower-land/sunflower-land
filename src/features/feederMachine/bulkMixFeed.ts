@@ -28,14 +28,14 @@ const MAX_BULK_MIX_ENTRIES = getKeys(ANIMAL_FOODS).length;
 const MAX_BULK_MIX_AMOUNT = 1000;
 
 export function bulkMixFeed({ state, action }: Options) {
+  if (action.feeds.length < 1 || action.feeds.length > MAX_BULK_MIX_ENTRIES) {
+    throw new Error("Invalid bulk mix entries");
+  }
+
   // One entry per feed - repeating an item would multiply the per-feed cap.
   const items = new Set(action.feeds.map(({ item }) => item));
 
-  if (
-    action.feeds.length < 1 ||
-    action.feeds.length > MAX_BULK_MIX_ENTRIES ||
-    items.size !== action.feeds.length
-  ) {
+  if (items.size !== action.feeds.length) {
     throw new Error("Invalid bulk mix entries");
   }
 

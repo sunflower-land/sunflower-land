@@ -4910,7 +4910,7 @@
   "feeder.bulkMixerEmptyDescription": "When animals need food, you can mix the missing feed for everyone in one click.",
   "feeder.selectFoodsToMix": "Select foods to mix",
   "feeder.ingredientsExplainer": "The bulk mixer suggests the amount of feed needed to take every waiting animal to ready, minus the feed you have.",
-  "feeder.haveRequiredIngredients": "Have required ingredients",
+  "feeder.haveRequiredIngredients": "You have the required ingredients",
   "feeder.bulkMix": "Bulk Mix",
   "feeder.nothingNeedsMixing": "Nothing needs mixing right now.",
   "feeder.allRequestsCoveredLabel": "All requests covered",
