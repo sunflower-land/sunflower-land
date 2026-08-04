@@ -78,7 +78,9 @@ export const RecoveredOilReserve: React.FC<Props> = ({
           The spurt art carries no rim of its own, so it layers over the reserve
           rather than replacing it, leaving the rim showing around the gusher.
           Not a click target: its plume overhangs the tile, and making that
-          overhang clickable would steal clicks from whatever sits above. */}
+          overhang clickable would steal clicks from whatever sits above. Purely
+          decorative, so it stays out of the accessibility tree - the reserve
+          underneath is the thing you interact with. */}
       {bonusDrill && (
         <img
           src={spurtingWell}
@@ -89,7 +91,8 @@ export const RecoveredOilReserve: React.FC<Props> = ({
             left: `${PIXEL_SCALE * SPURTING_WELL_LEFT}px`,
             bottom: `${PIXEL_SCALE * SPURTING_WELL_BOTTOM}px`,
           }}
-          alt="Spurting oil well"
+          alt=""
+          aria-hidden
         />
       )}
       {/* No tool warning */}
