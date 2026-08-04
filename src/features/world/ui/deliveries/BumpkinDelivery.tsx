@@ -72,7 +72,7 @@ import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { getChapterTaskPoints } from "features/game/types/tracks";
 import chapterPointsIcon from "assets/icons/red_medal_short.webp";
-import { hasTimeBasedFeatureAccess } from "lib/flags";
+import { hasFeatureAccess, hasTimeBasedFeatureAccess } from "lib/flags";
 
 const OrderCard: React.FC<{
   order: Order;
@@ -421,6 +421,72 @@ export const Gifts: React.FC<{
     )
     .sort((a, b) => getKeys(FLOWERS).indexOf(a) - getKeys(FLOWERS).indexOf(b));
 
+  // Beta-gated: press-and-hold-to-favorite is still being validated.
+  const hasFavoriteFlowersAccess = hasFeatureAccess(game, "FAVORITE_FLOWERS");
+
+  const [favoriteFlowers, setFavoriteFlowers] = useState<FlowerName[]>(() =>
+    hasFavoriteFlowersAccess ? getFavoriteFlowers() : [],
+  );
+  const favoritedOwnedFlowers = flowers.filter((flower) =>
+    favoriteFlowers.includes(flower),
+  );
+  const otherFlowers = flowers.filter(
+    (flower) => !favoriteFlowers.includes(flower),
+  );
+
+  // Persisting here (rather than inside the setFavoriteFlowers updater) keeps
+  // the updater a pure state calculation, as React requires - updaters can be
+  // invoked more than once (e.g. Strict Mode), which would otherwise risk
+  // duplicate/stale writes to localStorage.
+  useEffect(() => {
+    if (!hasFavoriteFlowersAccess) return;
+
+    saveFavoriteFlowers(favoriteFlowers);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [favoriteFlowers]);
+
+  const toggleFavorite = (flower: FlowerName) => {
+    if (!hasFavoriteFlowersAccess) return;
+
+    setFavoriteFlowers((previous) => {
+      if (previous.includes(flower)) {
+        return previous.filter((f) => f !== flower);
+      }
+
+      if (previous.length >= MAX_FAVORITE_FLOWERS) return previous;
+
+      return [...previous, flower];
+    });
+  };
+
+  // A press-and-hold on a flower toggles its favorite status instead of
+  // selecting it - the timer is cancelled on release/leave so a normal tap
+  // still selects normally.
+  const longPressTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const longPressTriggered = useRef(false);
+
+  const startLongPress = (flower: FlowerName) => {
+    if (!hasFavoriteFlowersAccess) return;
+
+    longPressTriggered.current = false;
+    longPressTimer.current = setTimeout(() => {
+      longPressTriggered.current = true;
+      toggleFavorite(flower);
+    }, 500);
+  };
+
+  const cancelLongPress = () => {
+    if (longPressTimer.current) clearTimeout(longPressTimer.current);
+  };
+
+  const onFlowerClick = (flower: FlowerName) => {
+    if (longPressTriggered.current) {
+      longPressTriggered.current = false;
+      return;
+    }
+    setSelected(flower);
+  };
+
   const onGift = async () => {
     const previous = game.npcs?.[name]?.friendship?.points ?? 0;
     const state = gameService.send("flowers.gifted", {
@@ -525,17 +591,65 @@ export const Gifts: React.FC<{
           <p className="text-xs mb-2">{`${t("bumpkin.delivery.noFlowers")}`}</p>
         )}
         {flowers.length > 0 && (
-          <div className="flex w-full flex-wrap mb-2">
-            {flowers.map((flower) => (
-              <Box
-                key={flower}
-                onClick={() => setSelected(flower as FlowerName)}
-                image={ITEM_DETAILS[flower].image}
-                isSelected={selected === flower}
-                count={game.inventory[flower]}
-              />
-            ))}
-          </div>
+          <>
+            {hasFavoriteFlowersAccess && (
+              <Label
+                type="info"
+                className="mb-1.5 ml-1"
+                icon={SUNNYSIDE.icons.heart}
+              >
+                {`${t("bumpkin.delivery.favoriteFlowerHint")} (${favoriteFlowers.length}/${MAX_FAVORITE_FLOWERS})`}
+              </Label>
+            )}
+            {hasFavoriteFlowersAccess && favoriteFlowers.length > 0 && (
+              <>
+                <Label
+                  type="default"
+                  className="mb-1 ml-1"
+                  icon={SUNNYSIDE.icons.heart}
+                >
+                  {`${t("favorites")} (${favoriteFlowers.length}/${MAX_FAVORITE_FLOWERS})`}
+                </Label>
+                <div className="flex w-full flex-wrap mb-2">
+                  {favoritedOwnedFlowers.map((flower) => (
+                    <Box
+                      key={flower}
+                      onClick={() => onFlowerClick(flower)}
+                      onPointerDown={() => startLongPress(flower)}
+                      onPointerUp={cancelLongPress}
+                      image={ITEM_DETAILS[flower].image}
+                      secondaryImage={
+                        BUMPKIN_FLOWER_BONUSES[name]?.[flower]
+                          ? lightning
+                          : SUNNYSIDE.icons.heart
+                      }
+                      isSelected={selected === flower}
+                      count={game.inventory[flower]}
+                    />
+                  ))}
+                </div>
+                <div className="border-t border-brown-600 mb-2 w-full" />
+              </>
+            )}
+            <div className="flex w-full flex-wrap mb-2">
+              {otherFlowers.map((flower) => (
+                <Box
+                  key={flower}
+                  onClick={() => onFlowerClick(flower)}
+                  onPointerDown={() => startLongPress(flower)}
+                  onPointerUp={cancelLongPress}
+                  image={ITEM_DETAILS[flower].image}
+                  secondaryImage={
+                    BUMPKIN_FLOWER_BONUSES[name]?.[flower]
+                      ? lightning
+                      : undefined
+                  }
+                  isSelected={selected === flower}
+                  count={game.inventory[flower]}
+                />
+              ))}
+            </div>
+          </>
         )}
       </InnerPanel>
 
@@ -594,6 +708,28 @@ function acknowledgeGiftInfoRead() {
 
 function hasReadGiftInfo() {
   return !!localStorage.getItem(LOCAL_STORAGE_KEY);
+}
+
+// Favorite flowers are a purely client-side UI convenience (a quick-pick
+// shortlist in the gift flower grid) - stored in localStorage rather than
+// game state, so no server-side schema/event is needed for this.
+export const MAX_FAVORITE_FLOWERS = 5;
+const FAVORITE_FLOWERS_KEY = `favorite-flowers.${host}-${window.location.pathname}`;
+
+function getFavoriteFlowers(): FlowerName[] {
+  try {
+    const raw = localStorage.getItem(FAVORITE_FLOWERS_KEY);
+    if (!raw) return [];
+
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? (parsed as FlowerName[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveFavoriteFlowers(flowers: FlowerName[]) {
+  localStorage.setItem(FAVORITE_FLOWERS_KEY, JSON.stringify(flowers));
 }
 const BumpkinGiftBar: React.FC<{
   game: GameState;
