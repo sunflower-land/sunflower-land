@@ -21,7 +21,8 @@ import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { SquareIcon } from "components/ui/SquareIcon";
+import { SmallBox } from "components/ui/SmallBox";
+import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 import Decimal from "decimal.js-light";
 import {
@@ -154,25 +155,6 @@ export const FeederMachineModal: React.FC<Props> = ({
         return t("feeder.freeFeed.Sheep");
     }
   };
-
-  // The calm "nothing to do" summary shared by the covered (3a) and
-  // free-feeding (4a) states: green status, two lines, muted button.
-  const renderCalmPanel = (
-    label: string,
-    primary: string,
-    secondary: string,
-  ) => (
-    <>
-      <div className="flex flex-col gap-2 px-1 pt-1">
-        <Label type="success">{label}</Label>
-        <p className="text-xs">{primary}</p>
-        <p className="text-xxs">{secondary}</p>
-      </div>
-      <div className="mt-auto w-full">
-        <Button disabled>{t("feeder.nothingToMix")}</Button>
-      </div>
-    </>
-  );
 
   const getFeedIngredientShortfalls = (feed: (typeof mixableFeeds)[number]) =>
     getKeys(feed.ingredients).reduce(
@@ -352,240 +334,184 @@ export const FeederMachineModal: React.FC<Props> = ({
             />
           )}
           {tab === "automaticMixer" && showBulkMixer && (
-            <SplitScreenView
-              mobileReversePanelOrder
-              panel={
-                <div className="flex flex-col gap-2 sm:min-h-[19.5rem] w-full">
-                  {freeFeeding ? (
-                    renderCalmPanel(
-                      t("feeder.freeFeedingActive"),
-                      t("feeder.freeFeedingDescription", { building }),
-                      t("feeder.freeFeedingWakeUp"),
-                    )
-                  ) : allCovered ? (
-                    renderCalmPanel(
-                      t("feeder.allRequestsCoveredLabel"),
-                      t("feeder.canFeedAnimals", { count: animalsWaiting }),
-                      t("feeder.headToBuildingToFeed", { building }),
-                    )
-                  ) : (
-                    <>
-                      <div className="flex flex-col gap-1 px-1 pt-1">
-                        <Label type="default">{t("ingredients")}</Label>
-                        {nothingSelected ? (
-                          <span className="text-xs">
-                            {t("feeder.nothingSelected")}
-                          </span>
-                        ) : (
-                          <div className="flex flex-col gap-1">
-                            {getKeys(selectedIngredients).map((ingredient) => {
-                              const need =
-                                selectedIngredients[ingredient] ??
-                                new Decimal(0);
-                              const have =
-                                state.inventory[ingredient] ?? new Decimal(0);
-                              const short = have.lessThan(need);
-
-                              return (
-                                <div
-                                  key={`summary-${ingredient}`}
-                                  className="flex items-center justify-between gap-2"
-                                >
-                                  <div className="flex items-center gap-1">
-                                    <SquareIcon
-                                      icon={ITEM_DETAILS[ingredient].image}
-                                      width={7}
-                                    />
-                                    <span className="text-xs">
-                                      {ingredient}
-                                    </span>
-                                  </div>
-                                  {short ? (
-                                    // Each feed is affordable on its own, so a
-                                    // shortfall only shows up once the selection
-                                    // shares an ingredient - show the gap.
-                                    <Label type="danger">
-                                      {`${formatNumber(have)}/${formatNumber(need)}`}
-                                    </Label>
-                                  ) : (
-                                    <span className="text-xs">
-                                      {formatNumber(need)}
-                                    </span>
-                                  )}
-                                </div>
-                              );
-                            })}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="mt-auto w-full">
-                        <Button disabled={blocked} onClick={bulkMix}>
-                          {t("feeder.bulkMix")}
-                        </Button>
-                      </div>
-                    </>
-                  )}
-                </div>
-              }
-              content={
-                <div className="flex flex-col gap-2 p-1 sm:min-h-[19.5rem] w-full">
-                  {freeFeeding ? (
-                    <>
-                      <Label type="default">{t("feeder.noMixingNeeded")}</Label>
-                      <div className="flex flex-col gap-2">
-                        {freeFeedBoosts.map((boost) => (
-                          <div
-                            key={boost.item}
-                            className="flex items-center gap-2"
-                          >
-                            <SquareIcon
-                              icon={
-                                boost.source === "collectible"
-                                  ? ITEM_DETAILS[boost.item].image
-                                  : getWearableImage(boost.item)
-                              }
-                              width={9}
-                            />
-                            <div className="flex flex-col flex-1 gap-1">
-                              <span className="text-xs">{boost.item}</span>
-                              <Label type="info">
-                                {boost.source === "collectible"
-                                  ? freeFeedLabel(boost.animalType)
-                                  : t("feeder.freeCureLabel")}
-                              </Label>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                      {/* Barn Delight footnote only applies when sick animals
-                        aren't already being cured for free. */}
-                      {!curesSickForFree && (
-                        <p className="text-xxs">
-                          {t("feeder.freeFeedSickFootnote")}
-                        </p>
-                      )}
-                    </>
-                  ) : !hasFeedRequests ? (
-                    <div className="flex flex-col gap-2">
-                      <p className="text-xs">
-                        {t("feeder.noRequestsForBuilding")}
-                      </p>
-                      <p className="text-xs">
-                        {t("feeder.bulkMixerEmptyDescription")}
-                      </p>
-                    </div>
-                  ) : (
-                    <>
-                      <div className="flex items-center gap-1 relative">
-                        <Label type="default">
-                          {t("feeder.selectFoodsToMix")}
-                        </Label>
-                        {/* Where the amounts come from - the requirement is
-                          planned per animal, so it is not obvious. */}
-                        <button
-                          type="button"
-                          className="flex cursor-pointer"
-                          aria-label={t("info")}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setShowMixInfo((visible) => !visible);
-                          }}
-                        >
-                          <img
-                            src={SUNNYSIDE.icons.expression_confused}
-                            alt=""
-                            style={{ width: `${PIXEL_SCALE * 7}px` }}
-                          />
-                        </button>
-                        {showMixInfo && (
-                          <InnerPanel
-                            className="absolute top-6 left-0 z-10 w-full p-1"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <span className="text-xxs">
-                              {t("feeder.ingredientsExplainer")}
-                            </span>
-                          </InnerPanel>
-                        )}
-                      </div>
-
-                      {hasMixableFeeds && (
-                        <div className="flex flex-col gap-2">
-                          {mixableFeeds.map((feed) => {
-                            const feedIngredientShortfalls =
-                              getFeedIngredientShortfalls(feed);
-                            const feedCanBeMixed =
-                              getKeys(feedIngredientShortfalls).length === 0;
-                            const selected =
-                              feedCanBeMixed && isFeedSelected(feed.item);
-
-                            return (
-                              <InnerPanel
-                                key={feed.item}
-                                className={classNames(
-                                  "flex items-center gap-2 px-1",
-                                  { "cursor-pointer": feedCanBeMixed },
-                                )}
-                                onClick={
-                                  feedCanBeMixed
-                                    ? () => toggleFeed(feed.item)
-                                    : undefined
-                                }
-                              >
-                                <SquareIcon
-                                  icon={ITEM_DETAILS[feed.item].image}
-                                  width={9}
-                                />
-                                <div className="flex flex-col flex-1">
-                                  <span className="text-xs">
-                                    {`${feed.item} x${formatNumber(feed.missing)}`}
-                                  </span>
-                                  {feedCanBeMixed ? (
-                                    <span className="text-xxs">
-                                      {t("feeder.haveRequiredIngredients")}
-                                    </span>
-                                  ) : (
-                                    <span className="text-xxs text-red-500">
-                                      {t("feeder.missingIngredientsSummary", {
-                                        ingredients: formatIngredientList(
-                                          feedIngredientShortfalls,
-                                        ),
-                                      })}
-                                    </span>
-                                  )}
-                                </div>
-                                {/* The row is a click target too, so keep the
-                                  checkbox's own click from bubbling into it and
-                                  toggling a second time. */}
-                                <div
-                                  className="flex-none"
-                                  onClick={(event) => {
-                                    // A disabled checkbox toggles nothing, so
-                                    // let the click through to dismiss the
-                                    // explainer like any other click.
-                                    if (feedCanBeMixed) {
-                                      event.stopPropagation();
-                                    }
-                                  }}
-                                >
-                                  <Checkbox
-                                    checked={selected}
-                                    disabled={!feedCanBeMixed}
-                                    onChange={() => selectFeed(feed.item)}
-                                    aria-label={feed.item}
-                                  />
-                                </div>
-                              </InnerPanel>
-                            );
-                          })}
+            <InnerPanel className="flex flex-col gap-2 p-1 w-full">
+              {freeFeeding ? (
+                <>
+                  <Label type="success">{t("feeder.freeFeedingActive")}</Label>
+                  <p className="text-xs">
+                    {t("feeder.freeFeedingDescription", { building })}
+                  </p>
+                  <div className="flex flex-col gap-1">
+                    {freeFeedBoosts.map((boost) => (
+                      <InnerPanel
+                        key={boost.item}
+                        className="flex gap-1 items-center w-full"
+                      >
+                        <SmallBox
+                          image={
+                            boost.source === "collectible"
+                              ? ITEM_DETAILS[boost.item].image
+                              : getWearableImage(boost.item)
+                          }
+                        />
+                        <div className="flex flex-col flex-1 justify-center -mt-0.5">
+                          <p className="text-xs mb-0.5">{boost.item}</p>
+                          <p className="text-xxs">
+                            {boost.source === "collectible"
+                              ? freeFeedLabel(boost.animalType)
+                              : t("feeder.freeCureLabel")}
+                          </p>
                         </div>
-                      )}
-                    </>
+                      </InnerPanel>
+                    ))}
+                  </div>
+                  {/* Barn Delight footnote only applies when sick animals
+                      aren't already being cured for free. */}
+                  {!curesSickForFree && (
+                    <p className="text-xxs">
+                      {t("feeder.freeFeedSickFootnote")}
+                    </p>
                   )}
-                </div>
-              }
-            />
+                </>
+              ) : allCovered ? (
+                <>
+                  <Label type="success">
+                    {t("feeder.allRequestsCoveredLabel")}
+                  </Label>
+                  <p className="text-xs">
+                    {t("feeder.canFeedAnimals", { count: animalsWaiting })}
+                  </p>
+                  <p className="text-xxs">
+                    {t("feeder.headToBuildingToFeed", { building })}
+                  </p>
+                </>
+              ) : !hasFeedRequests ? (
+                <>
+                  <p className="text-xs">{t("feeder.noRequestsForBuilding")}</p>
+                  <p className="text-xs">
+                    {t("feeder.bulkMixerEmptyDescription")}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <div className="flex items-center justify-between gap-1 relative">
+                    <Label type="default">{t("feeder.selectFoodsToMix")}</Label>
+                    {/* Where the amounts come from - the requirement is
+                        planned per animal, so it is not obvious. */}
+                    <button
+                      type="button"
+                      className="flex cursor-pointer pr-1"
+                      aria-label={t("info")}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowMixInfo((visible) => !visible);
+                      }}
+                    >
+                      <img
+                        src={SUNNYSIDE.icons.expression_confused}
+                        alt=""
+                        style={{ width: `${PIXEL_SCALE * 7}px` }}
+                      />
+                    </button>
+                    {showMixInfo && (
+                      <InnerPanel
+                        className="absolute top-6 left-0 z-10 w-full p-1"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <span className="text-xxs">
+                          {t("feeder.ingredientsExplainer")}
+                        </span>
+                      </InnerPanel>
+                    )}
+                  </div>
+
+                  {/* There are only ever a handful of feeds, so the list needs
+                      no scroll container of its own - the modal scrolls. */}
+                  <div className="flex flex-col gap-1">
+                    {mixableFeeds.map((feed) => {
+                      const feedCanBeMixed = canMixFeed(feed);
+                      const selected =
+                        feedCanBeMixed && isFeedSelected(feed.item);
+
+                      return (
+                        <InnerPanel
+                          key={feed.item}
+                          className={classNames("flex gap-1 items-center", {
+                            "cursor-pointer": feedCanBeMixed,
+                          })}
+                          onClick={
+                            feedCanBeMixed
+                              ? () => toggleFeed(feed.item)
+                              : undefined
+                          }
+                        >
+                          <SmallBox image={ITEM_DETAILS[feed.item].image} />
+                          <div className="flex flex-col flex-1 justify-center -mt-0.5">
+                            <p className="text-xs">
+                              {`${feed.item} x${formatNumber(feed.missing)}`}
+                            </p>
+                          </div>
+                          {/* Selecting a feed confirms the player can afford
+                              it, so the requirement labels carry the whole
+                              story - they turn red on the ones falling
+                              short. */}
+                          <div className="flex flex-col gap-1">
+                            {getKeys(feed.ingredients).map((ingredient) => (
+                              <RequirementLabel
+                                key={`${feed.item}-${ingredient}`}
+                                type="item"
+                                item={ingredient}
+                                balance={
+                                  state.inventory[ingredient] ?? new Decimal(0)
+                                }
+                                requirement={
+                                  feed.ingredients[ingredient] ?? new Decimal(0)
+                                }
+                              />
+                            ))}
+                          </div>
+                          {/* The panel is a click target too, so keep the
+                              checkbox's own click from bubbling into it and
+                              toggling a second time. */}
+                          <div
+                            className="flex-none"
+                            onClick={(event) => {
+                              // A disabled checkbox toggles nothing, so let the
+                              // click through to dismiss the explainer like any
+                              // other click.
+                              if (feedCanBeMixed) {
+                                event.stopPropagation();
+                              }
+                            }}
+                          >
+                            <Checkbox
+                              checked={selected}
+                              disabled={!feedCanBeMixed}
+                              onChange={() => selectFeed(feed.item)}
+                              aria-label={feed.item}
+                            />
+                          </div>
+                        </InnerPanel>
+                      );
+                    })}
+                  </div>
+
+                  {/* Each feed is affordable on its own, so a shortfall here
+                      only appears when the selection shares an ingredient. */}
+                  {hasShortfall && (
+                    <Label type="danger">
+                      {t("feeder.missingIngredientsSummary", {
+                        ingredients: formatIngredientList(ingredientShortfalls),
+                      })}
+                    </Label>
+                  )}
+
+                  <Button disabled={blocked} onClick={bulkMix}>
+                    {t("feeder.bulkMix")}
+                  </Button>
+                </>
+              )}
+            </InnerPanel>
           )}
         </CloseButtonPanel>
       </div>
