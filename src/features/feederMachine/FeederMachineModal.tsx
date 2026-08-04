@@ -1,10 +1,11 @@
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { Modal } from "components/ui/Modal";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
 import type {
+  AnimalFeedBuffName,
   AnimalFoodName,
   AnimalMedicineName,
   GameState,
@@ -33,6 +34,7 @@ import {
 } from "features/game/types/animals";
 import { Label } from "components/ui/Label";
 import { getIngredients } from "./feedMixed";
+import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
 import { getBulkMixRequirements } from "./getBulkMixRequirements";
 import { formatNumber } from "lib/utils/formatNumber";
 import { hasFeatureAccess } from "lib/flags";
@@ -50,6 +52,10 @@ const FOOD_TYPE_TERMS = {
   medicine: "feeder.foodTypes.medicine",
 } as const;
 
+const ANIMAL_FEED_BUFFS: AnimalFeedBuffName[] = ["Salt Lick", "Honey Treat"];
+
+type Tab = "food" | "automaticMixer";
+
 export const FeederMachineModal: React.FC<Props> = ({
   show,
   onClose,
@@ -57,21 +63,28 @@ export const FeederMachineModal: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
   const { gameService, shortcutItem, shortcutItems } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, (state) => state.context.state);
   const [selectedName, setSelectedName] = useState<
     AnimalFoodName | AnimalMedicineName
   >("Hay");
-  const [tab, setTab] = useState<"food" | "automaticMixer">("food");
+  const [selectedSpice, setSelectedSpice] =
+    useState<AnimalFeedBuffName>("Honey Treat");
+  const [isSpiceSelected, setIsSpiceSelected] = useState(false);
+  const [tab, setTab] = useState<Tab>("food");
   const [showMixInfo, setShowMixInfo] = useState(false);
   const { coins } = ANIMAL_FOODS[selectedName];
 
   const showBulkMixer = hasFeatureAccess(state, "BULK_MIXER");
 
   const { ingredients } = getIngredients({ state, name: selectedName });
+  const spices = ANIMAL_FEED_BUFFS.filter((item) =>
+    state.inventory[item]?.gt(0),
+  );
+  const hasSpices = spices.length > 0;
+  const selectedSpiceItem = spices.includes(selectedSpice)
+    ? selectedSpice
+    : undefined;
+  const showSpiceDetails = isSpiceSelected && hasSpices && !!selectedSpiceItem;
   const { requests, feeds, animalsWaiting, freeFeedBoosts } =
     getBulkMixRequirements(state, building);
 
@@ -111,6 +124,13 @@ export const FeederMachineModal: React.FC<Props> = ({
 
   const onSelect = (item: AnimalFoodName | AnimalMedicineName) => {
     setSelectedName(item);
+    setIsSpiceSelected(false);
+    shortcutItem(item);
+  };
+
+  const onSelectSpice = (item: AnimalFeedBuffName) => {
+    setSelectedSpice(item);
+    setIsSpiceSelected(true);
     shortcutItem(item);
   };
 
@@ -284,30 +304,37 @@ export const FeederMachineModal: React.FC<Props> = ({
           {tab === "food" && (
             <SplitScreenView
               panel={
-                <CraftingRequirements
-                  gameState={state}
-                  details={{ item: selectedName }}
-                  requirements={{
-                    coins,
-                    resources: ingredients,
-                  }}
-                  actionView={
-                    <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-                      <Button
-                        disabled={lessFunds() || lessIngredients()}
-                        onClick={() => mix()}
-                      >
-                        {t("mix.one")}
-                      </Button>
-                      <Button
-                        disabled={lessFunds(10) || lessIngredients(10)}
-                        onClick={() => mix(10)}
-                      >
-                        {t("mix.ten")}
-                      </Button>
-                    </div>
-                  }
-                />
+                showSpiceDetails ? (
+                  <InventoryItemDetails
+                    game={state}
+                    details={{ item: selectedSpiceItem as InventoryItemName }}
+                  />
+                ) : (
+                  <CraftingRequirements
+                    gameState={state}
+                    details={{ item: selectedName }}
+                    requirements={{
+                      coins,
+                      resources: ingredients,
+                    }}
+                    actionView={
+                      <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
+                        <Button
+                          disabled={lessFunds() || lessIngredients()}
+                          onClick={() => mix()}
+                        >
+                          {t("mix.one")}
+                        </Button>
+                        <Button
+                          disabled={lessFunds(10) || lessIngredients(10)}
+                          onClick={() => mix(10)}
+                        >
+                          {t("mix.ten")}
+                        </Button>
+                      </div>
+                    }
+                  />
+                )
               }
               content={
                 <div className="flex flex-col">
@@ -320,7 +347,9 @@ export const FeederMachineModal: React.FC<Props> = ({
                         {items.map((item) => (
                           <Box
                             key={item.name}
-                            isSelected={selectedName === item.name}
+                            isSelected={
+                              !isSpiceSelected && selectedName === item.name
+                            }
                             onClick={() => onSelect(item.name)}
                             image={ITEM_DETAILS[item.name].image}
                             count={state.inventory[item.name]}
@@ -329,6 +358,30 @@ export const FeederMachineModal: React.FC<Props> = ({
                       </div>
                     </div>
                   ))}
+                  {hasSpices && (
+                    <div className="flex flex-col">
+                      <Label
+                        type="default"
+                        icon={ITEM_DETAILS["Honey Treat"].image}
+                        className="mb-1"
+                      >
+                        {t("spices")}
+                      </Label>
+                      <div className="flex flex-wrap mb-2">
+                        {spices.map((item) => (
+                          <Box
+                            key={item}
+                            isSelected={
+                              isSpiceSelected && selectedSpiceItem === item
+                            }
+                            onClick={() => onSelectSpice(item)}
+                            image={ITEM_DETAILS[item].image}
+                            count={state.inventory[item]}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               }
             />
