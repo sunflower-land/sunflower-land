@@ -74,6 +74,10 @@ describe("Place Collectible", () => {
           "Brazilian Flag": new Decimal(1),
         },
         collectibles: {},
+        // (0, 0) is a crop plot on INITIAL_FARM. The reducer now runs the same
+        // collision check as the API, so clear the land the placement needs.
+        crops: {},
+        buildings: {},
       },
       action: {
         id: "123",
@@ -94,6 +98,7 @@ describe("Place Collectible", () => {
     const state = placeCollectible({
       state: {
         ...GAME_STATE,
+        buildings: {},
         inventory: {
           Scarecrow: new Decimal(2),
         },
@@ -101,7 +106,7 @@ describe("Place Collectible", () => {
           Scarecrow: [
             {
               id: "123",
-              coordinates: { x: 1, y: 1 },
+              coordinates: { x: -1, y: -1 },
             },
           ],
         },
@@ -112,8 +117,8 @@ describe("Place Collectible", () => {
         type: "collectible.placed",
         name: "Scarecrow",
         coordinates: {
-          x: 0,
-          y: 0,
+          x: 1,
+          y: 1,
         },
         location: "farm",
       },
@@ -122,11 +127,11 @@ describe("Place Collectible", () => {
     expect(state.collectibles["Scarecrow"]).toHaveLength(2);
     expect(state.collectibles["Scarecrow"]?.[0]).toEqual({
       id: expect.any(String),
-      coordinates: { x: 1, y: 1 },
+      coordinates: { x: -1, y: -1 },
     });
     expect(state.collectibles["Scarecrow"]?.[1]).toEqual({
       id: expect.any(String),
-      coordinates: { x: 0, y: 0 },
+      coordinates: { x: 1, y: 1 },
     });
   });
 
@@ -141,6 +146,7 @@ describe("Place Collectible", () => {
         buildings: {},
         trees: {},
         stones: {},
+        crops: {},
       },
       action: {
         id: "123",
@@ -171,6 +177,7 @@ describe("Place Collectible", () => {
         buildings: {},
         trees: {},
         stones: {},
+        crops: {},
         socialFarming: {
           ...GAME_STATE.socialFarming,
           completedProjects: ["Big Orange"],
@@ -206,6 +213,7 @@ describe("Place Collectible", () => {
           // consumed, so restarting it must go through `project.started`
           "Basic Cooking Pot": [{ id: "123", removedAt: dateNow }],
         },
+        crops: {},
       },
       action: {
         id: "123",
@@ -234,6 +242,7 @@ describe("Place Collectible", () => {
           "Basic Cooking Pot": new Decimal(1),
         },
         collectibles: {},
+        crops: {},
         home: {
           ...GAME_STATE.home,
           collectibles: {
@@ -586,6 +595,14 @@ describe("Place Collectible", () => {
       const state = placeCollectible({
         state: {
           ...GAME_STATE,
+          buildings: {},
+          trees: {},
+          stones: {},
+          iron: {},
+          gold: {},
+          crops: {},
+          fruitPatches: {},
+          collectibles: {},
           inventory: {
             Flicker: new Decimal(1),
           },
@@ -598,7 +615,7 @@ describe("Place Collectible", () => {
           id: "3",
           type: "collectible.placed",
           name: "Flicker",
-          coordinates: { x: 10, y: 10 },
+          coordinates: { x: 2, y: 2 }, // Use empty farm coordinates
           location: "farm",
         },
         createdAt: dateNow,
@@ -624,8 +641,10 @@ describe("Place Collectible", () => {
           id: "ground-1",
           type: "collectible.placed",
           name: "Abandoned Bear",
-          // (-7, -3) → layout tile (5, 9) — valid wood-floor tile on basic.
-          coordinates: { x: -7, y: -3 },
+          // (-5, -5) → layout tile (7, 7) — a valid wood-floor tile on the
+          // basic island layout (the default for TEST_FARM). The basic tent
+          // only spans tiles x 3-8, y 2-7.
+          coordinates: { x: -5, y: -5 },
           location: "interior",
         },
       });
@@ -633,7 +652,7 @@ describe("Place Collectible", () => {
       expect(state.interior.ground.collectibles["Abandoned Bear"]).toEqual([
         {
           id: "ground-1",
-          coordinates: { x: -7, y: -3 },
+          coordinates: { x: -5, y: -5 },
         },
       ]);
     });
