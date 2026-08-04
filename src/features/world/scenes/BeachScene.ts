@@ -11,6 +11,7 @@ import { getUTCDateString } from "lib/utils/time";
 import type { BumpkinContainer } from "../containers/BumpkinContainer";
 import { getKeys } from "lib/object";
 import {
+  CHAPTER_ARTEFACT,
   DESERT_GRID_HEIGHT,
   DESERT_GRID_WIDTH,
   getArtefactsFound,
@@ -18,6 +19,7 @@ import {
   hasClaimedReward,
   secondsTillDesertStorm,
 } from "features/game/types/desert";
+import { ITEM_DETAILS } from "features/game/types/images";
 import { ProgressBarContainer } from "../containers/ProgressBarContainer";
 import { npcModalManager } from "../ui/NPCModals";
 import { hasReadDesertNotice as hasReadDesertNotice } from "../ui/beach/DesertNoticeboard";
@@ -150,15 +152,16 @@ export class BeachScene extends BaseScene {
     this.load.image("cockle_shell", "world/cockle_shell.webp");
     this.load.image("hieroglyph", "world/hieroglyph.webp");
     this.load.image("vase", "world/vase.webp");
-    this.load.image("scarab", "world/scarab.webp");
-    this.load.image("cow_skull", "world/cow_skull.webp");
-    this.load.image("ancient_clock", "world/ancient_clock.png");
-    this.load.image("broken_pillar", "world/broken_pillar.webp");
-    this.load.image("coprolite", "world/coprolite.webp");
-    this.load.image("moon_crystal", "world/moon_crystal.webp");
     this.load.image("sand", "world/sand.webp");
-    this.load.image("ammonite_shell", "world/ammonite_shell.webp");
-    this.load.image("salt_dino_egg", "world/salt_dino_egg.webp");
+
+    // Chapter artefacts - derived from CHAPTER_ARTEFACT so that adding a
+    // chapter does not require uploading a copy of its artefact to public/
+    new Set(Object.values(CHAPTER_ARTEFACT)).forEach((artefact) =>
+      this.load.image(
+        convertToSnakeCase(artefact),
+        ITEM_DETAILS[artefact].image,
+      ),
+    );
 
     this.load.image("shovel_select", "world/shovel_select_new.webp");
     this.load.image("confirm_select", "world/select_confirm_new.webp");

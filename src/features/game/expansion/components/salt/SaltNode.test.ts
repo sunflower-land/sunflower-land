@@ -48,4 +48,35 @@ describe("canInstantHarvestSaltNode", () => {
       }),
     ).toBe(false);
   });
+
+  it("does not require a rake when harvesting is rake free", () => {
+    expect(
+      canInstantHarvestSaltNode({
+        visiting: false,
+        storedCharges: 1,
+        availableRakes: 0,
+        rakeFree: true,
+      }),
+    ).toBe(true);
+  });
+
+  it("still requires charges and a non-visiting farm when rake free", () => {
+    expect(
+      canInstantHarvestSaltNode({
+        visiting: false,
+        storedCharges: 0,
+        availableRakes: 0,
+        rakeFree: true,
+      }),
+    ).toBe(false);
+
+    expect(
+      canInstantHarvestSaltNode({
+        visiting: true,
+        storedCharges: 1,
+        availableRakes: 0,
+        rakeFree: true,
+      }),
+    ).toBe(false);
+  });
 });

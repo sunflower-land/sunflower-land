@@ -1228,6 +1228,11 @@ import basicBiome from "assets/icons/islands/basic.webp";
 import springBiome from "assets/icons/islands/spring.webp";
 import desertBiome from "assets/icons/islands/desert.webp";
 import volcanoBiome from "assets/icons/islands/volcano.webp";
+import swampBiome from "assets/icons/islands/swamp.webp";
+import spookyBiome from "assets/icons/islands/spooky.webp";
+import crystalBiome from "assets/icons/islands/crystal.webp";
+import galaxyBiome from "assets/icons/islands/galaxy.webp";
+import marbleBiome from "assets/icons/islands/marble.webp";
 
 import farmerMonument from "assets/monuments/shovel_monument.webp";
 import minerMonument from "assets/monuments/pickaxe_monument.webp";
@@ -6939,25 +6944,28 @@ export const ITEM_DETAILS: Items = {
       "A volcano biome that provides a volcano income and a volcano life.",
   },
   "Swamp Biome": {
-    image: volcanoBiome,
+    image: swampBiome,
     description: "A swamp biome that provides a swamp income and a swamp life.",
   },
-  // Ascension biomes (spooky onward)
   "Spooky Biome": {
-    image: volcanoBiome,
-    description: "A swamp biome that provides a swamp income and a swamp life.",
+    image: spookyBiome,
+    description:
+      "A spooky biome that provides a spooky income and a spooky life.",
   },
   "Crystal Biome": {
-    image: volcanoBiome,
-    description: "A swamp biome that provides a swamp income and a swamp life.",
+    image: crystalBiome,
+    description:
+      "A crystal biome that provides a crystal income and a crystal life.",
   },
   "Galaxy Biome": {
-    image: volcanoBiome,
-    description: "A swamp biome that provides a swamp income and a swamp life.",
+    image: galaxyBiome,
+    description:
+      "A galaxy biome that provides a galaxy income and a galaxy life.",
   },
   "Marble Age Biome": {
-    image: volcanoBiome,
-    description: "A swamp biome that provides a swamp income and a swamp life.",
+    image: marbleBiome,
+    description:
+      "A marble biome that provides a marble income and a marble life.",
   },
   Bracelet: {
     image: bracelet,

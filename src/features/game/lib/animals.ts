@@ -173,6 +173,11 @@ function getEggYieldBoosts(game: GameState): {
     boostsUsed.push({ name: "Squid Chicken", value: "+0.1" });
   }
 
+  if (isCollectibleBuilt({ name: "Ascended Chicken", game })) {
+    boost = boost.plus(0.1);
+    boostsUsed.push({ name: "Ascended Chicken", value: "+0.1" });
+  }
+
   const abundantHarvest = getAbundantHarvestBoost(game);
   if (abundantHarvest) {
     boost = boost.plus(abundantHarvest.value);
@@ -285,6 +290,11 @@ function getWoolYieldBoosts(game: GameState): {
   if (isCollectibleBuilt({ name: "Astronaut Sheep", game })) {
     boost = boost.plus(0.1);
     boostsUsed.push({ name: "Astronaut Sheep", value: "+0.1" });
+  }
+
+  if (isCollectibleBuilt({ name: "Ascended Sheep", game })) {
+    boost = boost.plus(0.05);
+    boostsUsed.push({ name: "Ascended Sheep", value: "+0.05" });
   }
 
   const abundantHarvest = getAbundantHarvestBoost(game);
@@ -706,6 +716,11 @@ export function getBoostedAwakeAt({
     if (isCollectibleBuilt({ name: "Mammoth", game })) {
       totalDuration *= 0.75;
       boostsUsed.push({ name: "Mammoth", value: "x0.75" });
+    }
+
+    if (isCollectibleBuilt({ name: "Ascended Cow", game })) {
+      totalDuration *= 0.975;
+      boostsUsed.push({ name: "Ascended Cow", value: "x0.975" });
     }
   }
 

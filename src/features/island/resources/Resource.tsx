@@ -1,7 +1,11 @@
 import React, { useContext, type JSX } from "react";
 
-import { PIXEL_SCALE } from "features/game/lib/constants";
-import type { ResourceName } from "features/game/types/resources";
+import { PIXEL_SCALE, SQUARE_WIDTH } from "features/game/lib/constants";
+import {
+  RESOURCE_DIMENSIONS,
+  type ResourceName,
+  type TreeName,
+} from "features/game/types/resources";
 import { Gold } from "features/game/expansion/components/resources/gold/Gold";
 import { Iron } from "features/game/expansion/components/resources/iron/Iron";
 import { Stone } from "features/game/expansion/components/resources/stone/Stone";
@@ -22,9 +26,13 @@ import { Sunstone } from "features/game/expansion/components/resources/sunstone/
 import { AscensionCrystal } from "features/game/expansion/components/resources/ascensionCrystal/AscensionCrystal";
 import { OilReserve } from "features/game/expansion/components/resources/oilReserve/OilReserve";
 import { LavaPit } from "features/game/expansion/components/lavaPit/LavaPit";
-import { TREE_VARIANTS } from "../lib/alternateArt";
+import { TREE_SIZE_VARIANTS, TREE_VARIANTS } from "../lib/alternateArt";
 import { getCurrentBiome } from "../biomes/biomes";
 import type { GameState, TemperateSeasonName } from "features/game/types/game";
+
+/** The 2x2 footprint a tree sprite is laid out against, in game pixels. */
+const TREE_TILE_WIDTH = RESOURCE_DIMENSIONS.Tree.width * SQUARE_WIDTH;
+const TREE_TILE_HEIGHT = RESOURCE_DIMENSIONS.Tree.height * SQUARE_WIDTH;
 
 export interface ResourceProps {
   name: ResourceName;
@@ -45,6 +53,20 @@ export const READONLY_RESOURCE_COMPONENTS = ({
   island: GameState["island"];
 }): Record<ResourceName, () => JSX.Element> => {
   const currentBiome = getCurrentBiome(island);
+
+  // Ascension biomes draw their trees on their own canvas rather than the
+  // 26x34 one every other biome shares, so the sprite drives its own layout.
+  // It sits in normal flow from the top of the tile, hence offsetting it to
+  // centre the trunk and drop the base onto the bottom of that tile.
+  const treeStyle = (tree: TreeName) => {
+    const { width, height } = TREE_SIZE_VARIANTS(currentBiome, tree);
+
+    return {
+      width: `${PIXEL_SCALE * width}px`,
+      bottom: `${PIXEL_SCALE * (height - TREE_TILE_HEIGHT)}px`,
+      left: `${PIXEL_SCALE * ((TREE_TILE_WIDTH - width) / 2)}px`,
+    };
+  };
 
   return {
     "Crop Plot": () => (
@@ -153,11 +175,7 @@ export const READONLY_RESOURCE_COMPONENTS = ({
       <img
         src={TREE_VARIANTS(currentBiome, season, "Tree")}
         className="relative pointer-events-none"
-        style={{
-          width: `${PIXEL_SCALE * 26}px`,
-          bottom: `${PIXEL_SCALE * 2}px`,
-          left: `${PIXEL_SCALE * 3}px`,
-        }}
+        style={treeStyle("Tree")}
       />
     ),
     "Fruit Patch": () => (
@@ -231,22 +249,14 @@ export const READONLY_RESOURCE_COMPONENTS = ({
       <img
         src={TREE_VARIANTS(currentBiome, season, "Ancient Tree")}
         className="relative pointer-events-none"
-        style={{
-          width: `${PIXEL_SCALE * 26}px`,
-          bottom: `${PIXEL_SCALE * 2}px`,
-          left: `${PIXEL_SCALE * 3}px`,
-        }}
+        style={treeStyle("Ancient Tree")}
       />
     ),
     "Sacred Tree": () => (
       <img
         src={TREE_VARIANTS(currentBiome, season, "Sacred Tree")}
         className="relative pointer-events-none"
-        style={{
-          width: `${PIXEL_SCALE * 26}px`,
-          bottom: `${PIXEL_SCALE * 2}px`,
-          left: `${PIXEL_SCALE * 3}px`,
-        }}
+        style={treeStyle("Sacred Tree")}
       />
     ),
     "Refined Iron Rock": () => (

@@ -504,6 +504,47 @@ describe("plantGreenhouse", () => {
     expect(state.inventory.Olive).toEqual(new Decimal(2));
   });
 
+  it("boosts +1 Rice yield with Rice Shirt equipped", () => {
+    const state = harvestGreenHouse({
+      farmId: 1,
+      action: { type: "greenhouse.harvested", id: 1 },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            shirt: "Rice Shirt",
+          },
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {
+              plant: {
+                name: "Rice",
+                plantedAt: Date.now() - 72 * 60 * 60 * 1000,
+              },
+            },
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: Date.now(),
+    });
+
+    expect(state.inventory.Rice).toEqual(new Decimal(2));
+  });
+
   it("boosts +1 Rice yield with Non La Hat equipped", () => {
     const state = harvestGreenHouse({
       farmId: 1,

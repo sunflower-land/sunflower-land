@@ -34,7 +34,6 @@ import coinsIcon from "assets/icons/coins_stack.webp";
 import vipIcon from "assets/icons/vip.webp";
 import {
   getAscensionLevel,
-  getMaxBumpkinLevel,
   getTotalBumpkinLevel,
   meetsLevelRequirement,
 } from "../lib/level";
@@ -188,7 +187,6 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
     const level = getTotalBumpkinLevel({
       experience: bumpkinExperience,
       ascensionLevel: gameState.island.ascensionLevel ?? 0,
-      maxLevel: getMaxBumpkinLevel(gameState),
     });
     const vipGiftItem = hasVip ? getVipDailyBonusItem(level) : null;
     if (vipGiftItem) {

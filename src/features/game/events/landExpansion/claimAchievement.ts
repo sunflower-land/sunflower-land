@@ -18,6 +18,7 @@ export type ClaimAchievementAction = {
 type Options = {
   state: Readonly<GameState>;
   action: ClaimAchievementAction;
+  createdAt?: number;
 };
 
 export function claimAchievement({ state, action }: Options): GameState {

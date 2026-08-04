@@ -1784,6 +1784,93 @@ describe("plantGreenhouse", () => {
     expect(state.greenhouse.oil).toEqual(47);
   });
 
+  it("halves Rice oil usage with Rice Shirt equipped", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        seed: "Rice Seed",
+        id: 1,
+      },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            shirt: "Rice Shirt",
+          },
+        },
+        inventory: {
+          "Rice Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    // Rice costs 4 oil, halved to 2
+    expect(state.greenhouse.oil).toEqual(48);
+  });
+
+  it("does not halve Grape oil usage with Rice Shirt equipped", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        seed: "Grape Seed",
+        id: 1,
+      },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            shirt: "Rice Shirt",
+          },
+        },
+        inventory: {
+          "Grape Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.oil).toEqual(47);
+  });
+
   it("requires 1 more seed with Seeded Bounty skill", () => {
     const now = Date.now();
     const state = plantGreenhouse({

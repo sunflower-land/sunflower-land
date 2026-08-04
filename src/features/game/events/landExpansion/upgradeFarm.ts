@@ -14,8 +14,8 @@ import type {
   TemperateSeasonName,
 } from "features/game/types/game";
 import { ASCENSION_ISLANDS } from "features/game/types/game";
-import { hasFeatureAccess, hasTimeBasedFeatureAccess } from "lib/flags";
-import { getAscensionLevel, getMaxBumpkinLevel } from "features/game/lib/level";
+import { hasTimeBasedFeatureAccess } from "lib/flags";
+import { getAscensionLevel } from "features/game/lib/level";
 import {
   getTotalBaseResourceEquivalents,
   topUpResourceToMinimum,
@@ -1269,42 +1269,40 @@ function transitionToIsland({
     game.layouts = [...(game.layouts ?? []), ascensionLayout];
   }
 
-  if (hasFeatureAccess(game, "SWAMP_ASCENSION")) {
-    // Every island upgrade (basic + ascension) reconciles the player's resources
-    // against the new island's floor via the shared `getMissingResources`
-    // back-pay (same as revealLand's: per-tier/forging-safe, depletion-aware) and
-    // delivers any shortfall — nodes, sunstones, and the upgrade's Ascension
-    // Crystals — through a side-island reward chest rather than topping up
-    // inventory. The `missing-resources` id prefix lets revealLand's back-pay
-    // dedup so the same items are never granted twice.
-    const bundle = getMissingResources({
-      game,
-      expansion: game.inventory["Basic Land"]?.toNumber() ?? 0,
-    });
-    if (getObjectEntries(bundle).length > 0) {
-      game.airdrops = [
-        ...(game.airdrops ?? []),
-        {
-          // Unique per upgrade so `claimAirdrop` (which removes every airdrop
-          // matching the claimed id) never drops a pending chest: ascension
-          // islands key on the strictly-increasing ascension level (incl. the
-          // infinite marble→marble loop); basic islands key on the target island
-          // (each is reached once in the linear progression).
-          id: isAscensionTarget
-            ? `missing-resources-ascension-${game.island.ascensionLevel}`
-            : `missing-resources-upgrade-${target}`,
-          createdAt,
-          coordinates: pickAscensionChestPosition(game, setup),
-          items: bundle,
-          wearables: {},
-          sfl: 0,
-          coins: 0,
-          message: isAscensionTarget
-            ? "Ascension rewards! Collect them and place them on your island."
-            : "Upgrade rewards! Collect them and place them on your island.",
-        },
-      ];
-    }
+  // Every island upgrade (basic + ascension) reconciles the player's resources
+  // against the new island's floor via the shared `getMissingResources`
+  // back-pay (same as revealLand's: per-tier/forging-safe, depletion-aware) and
+  // delivers any shortfall — nodes, sunstones, and the upgrade's Ascension
+  // Crystals — through a side-island reward chest rather than topping up
+  // inventory. The `missing-resources` id prefix lets revealLand's back-pay
+  // dedup so the same items are never granted twice.
+  const bundle = getMissingResources({
+    game,
+    expansion: game.inventory["Basic Land"]?.toNumber() ?? 0,
+  });
+  if (getObjectEntries(bundle).length > 0) {
+    game.airdrops = [
+      ...(game.airdrops ?? []),
+      {
+        // Unique per upgrade so `claimAirdrop` (which removes every airdrop
+        // matching the claimed id) never drops a pending chest: ascension
+        // islands key on the strictly-increasing ascension level (incl. the
+        // infinite marble→marble loop); basic islands key on the target island
+        // (each is reached once in the linear progression).
+        id: isAscensionTarget
+          ? `missing-resources-ascension-${game.island.ascensionLevel}`
+          : `missing-resources-upgrade-${target}`,
+        createdAt,
+        coordinates: pickAscensionChestPosition(game, setup),
+        items: bundle,
+        wearables: {},
+        sfl: 0,
+        coins: 0,
+        message: isAscensionTarget
+          ? "Ascension rewards! Collect them and place them on your island."
+          : "Upgrade rewards! Collect them and place them on your island.",
+      },
+    ];
   }
 
   game = cloneDeep(game);
@@ -1336,10 +1334,6 @@ export function upgrade({ state, createdAt = Date.now(), farmId }: Options) {
     upcoming.upgrade,
   );
 
-  if (targetIsAscension && !hasFeatureAccess(game, "SWAMP_ASCENSION")) {
-    throw new Error("Swamp ascension is not yet available");
-  }
-
   // Temporary: ascending from Swamp (A1) into the next island (A2) is gated behind
   // the SPOOKY_ASCENSION window (testnet bypasses). The first ascension (A0 → A1)
   // is unaffected.
@@ -1364,7 +1358,6 @@ export function upgrade({ state, createdAt = Date.now(), farmId }: Options) {
     !getAscensionLevel({
       experience: game.bumpkin.experience ?? 0,
       ascensionLevel: game.island.ascensionLevel ?? 0,
-      maxLevel: getMaxBumpkinLevel(game),
     }).isReadyToAscend
   ) {
     throw new Error("Player has not met the level requirements");

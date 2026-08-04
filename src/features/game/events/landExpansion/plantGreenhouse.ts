@@ -20,6 +20,7 @@ import {
 } from "features/game/lib/collectibleBuilt";
 import { getCropTime } from "./plant";
 import { getFruitTime } from "./fruitPlanted";
+import { isWearableActive } from "features/game/lib/wearables";
 import { hasFeatureAccess } from "lib/flags";
 import type { Resource } from "features/game/lib/getBudYieldBoosts";
 import { produce } from "immer";
@@ -236,6 +237,11 @@ export function getOilUsage({
     const v = SKILL_RANKS["Slick Saver"].ranks[slickSaverLevel - 1];
     usage -= v;
     boostsUsed.push({ name: "Slick Saver", value: `-${v}` });
+  }
+
+  if (seed === "Rice Seed" && isWearableActive({ name: "Rice Shirt", game })) {
+    usage *= 0.5;
+    boostsUsed.push({ name: "Rice Shirt", value: "x0.5" });
   }
 
   return { usage, boostsUsed };

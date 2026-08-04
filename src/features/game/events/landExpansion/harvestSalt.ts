@@ -13,6 +13,7 @@ import {
   type SaltSyncOptions,
 } from "features/game/types/salt";
 import { produce } from "immer";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
 import { trackFarmActivity } from "features/game/types/farmActivity";
@@ -83,16 +84,23 @@ export function harvestSalt({
     }
 
     const legacyReadySlots = syncedNode.salt.harvesting?.slots.length ?? 0;
+    const rakeFree = isCollectibleBuilt({ game: copy, name: "Ascended Idol" });
     const availableRakes = copy.inventory["Salt Rake"] ?? new Decimal(0);
-    if (availableRakes.lt(1)) {
+    if (!rakeFree && availableRakes.lt(1)) {
       throw new Error(HARVEST_SALT_ERRORS.NOT_ENOUGH_SALT_RAKES);
     }
     const { saltYield: saltPerRake, boostsUsed: saltYieldBoostsUsed } =
       getSaltYieldPerRake(copy, createdAt);
     const legacySalt = legacyReadySlots * saltPerRake;
 
+    if (rakeFree) {
+      saltYieldBoostsUsed.push({ name: "Ascended Idol", value: "Free" });
+    }
+
     const saltInInventory = copy.inventory["Salt"] ?? new Decimal(0);
-    copy.inventory["Salt Rake"] = availableRakes.sub(1);
+    if (!rakeFree) {
+      copy.inventory["Salt Rake"] = availableRakes.sub(1);
+    }
     copy.inventory["Salt"] = saltInInventory.add(saltPerRake + legacySalt);
 
     const wasFullBeforeHarvest = storedCharges === maxCharges;

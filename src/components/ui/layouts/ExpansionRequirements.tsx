@@ -39,7 +39,6 @@ import {
   useExpansionCoinCostWithVip,
   useVipAccess,
 } from "lib/utils/hooks/useVipAccess";
-import { hasFeatureAccess } from "lib/flags";
 /**
  * The props for the component.
  * @param gameState The game state.
@@ -237,10 +236,7 @@ export const Expanding: React.FC<{
     readyAt ?? 0,
   );
 
-  const hasAccess = !hasRequiredIslandExpansion(
-    state.island.type,
-    hasFeatureAccess(state, "SWAMP_ASCENSION") ? "swamp" : "desert",
-  );
+  const hasAccess = !hasRequiredIslandExpansion(state.island.type, "swamp");
 
   const payment = useSpeedUpPayment({ readyAt, game: state });
   const cost =
