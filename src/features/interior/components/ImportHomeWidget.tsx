@@ -5,7 +5,7 @@ import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { Button } from "components/ui/Button";
 import { Modal } from "components/ui/Modal";
-import { ColorPanel, Panel } from "components/ui/Panel";
+import { ButtonPanel, ColorPanel, Panel } from "components/ui/Panel";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Label } from "components/ui/Label";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -19,6 +19,7 @@ import {
   MigrationDonePanel,
   MigrationRunningPanel,
   useHomeImport,
+  type ImportMode,
 } from "./HomeImportMigration";
 
 const _hasHomeItems = (state: MachineState) =>
@@ -79,6 +80,37 @@ export const ImportHomeWidget: React.FC = () => {
   );
 };
 
+/** One of the two mutually exclusive destinations on the import modal's first
+ *  page. Selecting is separate from confirming, so the player can compare what
+ *  each choice would do (the counts below react to the selection) before
+ *  committing with the button. */
+const ImportOption: React.FC<{
+  icon: string;
+  title: string;
+  description: string;
+  selected: boolean;
+  onClick: () => void;
+}> = ({ icon, title, description, selected, onClick }) => (
+  <ButtonPanel
+    selected={selected}
+    onClick={onClick}
+    className="flex items-center gap-2 p-1"
+  >
+    <img
+      src={icon}
+      className="object-contain shrink-0 ml-1"
+      style={{
+        width: `${PIXEL_SCALE * 9}px`,
+        height: `${PIXEL_SCALE * 9}px`,
+      }}
+    />
+    <div className="min-w-0">
+      <p className="text-xs leading-tight">{title}</p>
+      <p className="text-xxs leading-tight">{description}</p>
+    </div>
+  </ButtonPanel>
+);
+
 const ImportHomeFlow: React.FC<{ open: boolean; onClose: () => void }> = ({
   open,
   onClose,
@@ -86,7 +118,9 @@ const ImportHomeFlow: React.FC<{ open: boolean; onClose: () => void }> = ({
   const { gameService } = useContext(Context);
   const {
     phase,
+    mode,
     start,
+    sendToInventory,
     reset,
     digUp,
     progress,
@@ -96,12 +130,14 @@ const ImportHomeFlow: React.FC<{ open: boolean; onClose: () => void }> = ({
     leftoverCount,
   } = useHomeImport();
   const [plan, setPlan] = useState<HomeImportPlan | null>(null);
+  const [choice, setChoice] = useState<ImportMode>("place");
 
   // Compute the plan up front from a live snapshot so the confirm screen's
   // counts match what the migration will do.
   useEffect(() => {
     if (!open) return;
     reset();
+    setChoice("place");
     setPlan(getHomeImportPlan(gameService.getSnapshot().context.state));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
@@ -113,6 +149,11 @@ const ImportHomeFlow: React.FC<{ open: boolean; onClose: () => void }> = ({
 
   const willFit = plan?.placements.length ?? 0;
   const wontFit = plan?.unplaced.length ?? 0;
+  const total = plan?.total ?? 0;
+
+  // Placing needs somewhere for at least one item to land; sending everything to
+  // the inventory only needs there to be something in the old home at all.
+  const confirmCount = choice === "place" ? willFit : total;
 
   return (
     <Modal
@@ -123,27 +164,64 @@ const ImportHomeFlow: React.FC<{ open: boolean; onClose: () => void }> = ({
     >
       {phase === "idle" && (
         <CloseButtonPanel onClose={handleClose} title="Import items">
-          <div className="p-2 flex flex-col gap-3 mb-1">
+          <div className="p-2 flex flex-col gap-2 mb-1">
             <p className="text-sm">
-              {
-                "You still have items in your old home. Would you like to instantly import them into your new home? The layout will not be preserved."
-              }
+              {`You still have ${total} item${
+                total === 1 ? "" : "s"
+              } in your old home. What would you like to do with them?`}
             </p>
+
             <div className="flex flex-col gap-1">
-              <Label type="default">
-                {`${willFit} item${willFit === 1 ? "" : "s"} will be imported`}
-              </Label>
-              {wontFit > 0 && (
-                <Label type="warning">
-                  {`${wontFit} item${
-                    wontFit === 1 ? " won't" : "s won't"
-                  } fit and will stay in your old home`}
+              <ImportOption
+                icon={SUNNYSIDE.icons.hammer}
+                title="Place them for me"
+                description="Items are moved straight into your new home. The layout will not be preserved."
+                selected={choice === "place"}
+                onClick={() => setChoice("place")}
+              />
+              <ImportOption
+                icon={SUNNYSIDE.icons.basket}
+                title="Send to my inventory"
+                description="Items go back into your inventory so you can place them yourself."
+                selected={choice === "inventory"}
+                onClick={() => setChoice("inventory")}
+              />
+            </div>
+
+            <div className="flex flex-col gap-1">
+              {choice === "place" ? (
+                <>
+                  <Label type="default">
+                    {`${willFit} item${
+                      willFit === 1 ? "" : "s"
+                    } will be imported`}
+                  </Label>
+                  {wontFit > 0 && (
+                    <Label type="warning">
+                      {`${wontFit} item${
+                        wontFit === 1 ? " won't" : "s won't"
+                      } fit and will stay in your old home`}
+                    </Label>
+                  )}
+                </>
+              ) : (
+                <Label type="default">
+                  {`${total} item${
+                    total === 1 ? "" : "s"
+                  } will be sent to your inventory`}
                 </Label>
               )}
             </div>
           </div>
-          <Button disabled={willFit === 0} onClick={start}>
-            {willFit === 0 ? "Nothing to import" : "Import"}
+          <Button
+            disabled={confirmCount === 0}
+            onClick={choice === "place" ? start : sendToInventory}
+          >
+            {confirmCount === 0
+              ? "Nothing to import"
+              : choice === "place"
+                ? "Import"
+                : "Send to inventory"}
           </Button>
         </CloseButtonPanel>
       )}
@@ -156,6 +234,7 @@ const ImportHomeFlow: React.FC<{ open: boolean; onClose: () => void }> = ({
 
       {phase === "done" && (
         <MigrationDonePanel
+          mode={mode}
           imported={imported}
           importedCount={importedCount}
           leftover={leftover}
