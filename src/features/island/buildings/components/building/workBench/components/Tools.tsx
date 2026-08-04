@@ -9,8 +9,12 @@ import Decimal from "decimal.js-light";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
+import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { Context } from "features/game/GameProvider";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 
 import {
   type WorkbenchToolName,
@@ -32,6 +36,8 @@ import type { IslandType, LoveAnimalItem } from "features/game/types/game";
 import { getIslandName } from "features/game/types/game";
 import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 import { Restock } from "../../market/restock/Restock";
+import { NPC_WEARABLES } from "lib/npcs";
+import { formatNumber } from "lib/utils/formatNumber";
 import { getObjectEntries } from "lib/object";
 import {
   getAscensionLevel,
@@ -54,6 +60,7 @@ export const Tools: React.FC = () => {
     WorkbenchToolName | LoveAnimalItem
   >("Axe");
   const [showBatchBuy, setShowBatchBuy] = useState(false);
+  const [confirmCraftAllModal, showConfirmCraftAllModal] = useState(false);
   const { gameService, shortcutItem } = useContext(Context);
 
   const state = useSelector(gameService, (state) => state.context.state);
@@ -83,8 +90,8 @@ export const Tools: React.FC = () => {
     shortcutItem(toolName);
   };
 
-  const craft = (event: SyntheticEvent, amount: number) => {
-    event.stopPropagation();
+  const craft = (event: SyntheticEvent | undefined, amount: number) => {
+    event?.stopPropagation();
     const state = gameService.send("tool.crafted", {
       tool: selectedName,
       amount,
@@ -210,19 +217,43 @@ export const Tools: React.FC = () => {
         {stock.greaterThan(bulkToolCraftAmount) &&
           (() => {
             const craftAllAmount = maxAffordableAmount();
+            const stockAmount = stock
+              .toDecimalPlaces(0, Decimal.ROUND_DOWN)
+              .toNumber();
+
+            const displayAmount =
+              craftAllAmount > 0 ? craftAllAmount : stockAmount;
 
             return (
-              <Button
-                disabled={craftAllAmount <= 0}
-                onClick={(e) => craft(e, craftAllAmount)}
-              >
-                {t("craft")} {craftAllAmount}
-              </Button>
+              <>
+                <Button
+                  disabled={craftAllAmount <= 0}
+                  onClick={(e) => {
+                    if (craftAllAmount > 10) {
+                      e.stopPropagation();
+                      showConfirmCraftAllModal(true);
+                    } else {
+                      craft(e, craftAllAmount);
+                    }
+                  }}
+                >
+                  {t("craft")} {displayAmount}
+                </Button>
+                {craftAllAmount < stockAmount && (
+                  <p className="text-xxs text-center mb-1">
+                    {t("tools.insufficientFundsForStock", {
+                      stockAmount,
+                    })}
+                  </p>
+                )}
+              </>
             );
           })()}
       </div>
     );
   };
+
+  const craftAllAmount = maxAffordableAmount();
 
   const LAND_TOOLS = getObjectEntries(WORKBENCH_TOOLS).filter(
     ([, tool]) => !tool.disabled && tool.type === "land",
@@ -249,19 +280,68 @@ export const Tools: React.FC = () => {
   return (
     <SplitScreenView
       panel={
-        <CraftingRequirements
-          gameState={state}
-          stock={isLoveAnimalTool(selectedName) ? undefined : stock}
-          details={{
-            item: selectedName,
-          }}
-          limit={isLoveAnimalTool(selectedName) ? 1 : undefined}
-          requirements={{
-            coins: price,
-            resources: selectedIngredients,
-          }}
-          actionView={getAction()}
-        />
+        <>
+          <CraftingRequirements
+            gameState={state}
+            stock={isLoveAnimalTool(selectedName) ? undefined : stock}
+            details={{
+              item: selectedName,
+            }}
+            limit={isLoveAnimalTool(selectedName) ? 1 : undefined}
+            requirements={{
+              coins: price,
+              resources: selectedIngredients,
+            }}
+            actionView={getAction()}
+          />
+          <ConfirmationModal
+            show={confirmCraftAllModal}
+            onHide={() => showConfirmCraftAllModal(false)}
+            messages={[
+              t("confirmation.craftTools", {
+                toolNo: craftAllAmount,
+                toolName: getTranslatedItemName(selectedName),
+              }),
+            ]}
+            bodyContent={
+              <div className="flex flex-wrap items-center gap-2 w-full mb-1">
+                <div className="flex items-center">
+                  <img src={SUNNYSIDE.ui.coins} className="h-6 mr-1" />
+                  <span className="text-xs">
+                    {formatNumber(new Decimal(price).mul(craftAllAmount))}
+                  </span>
+                </div>
+                {getObjectEntries(selectedIngredients).map(
+                  ([ingredientName, ingredientAmount]) => {
+                    if (!ingredientAmount) return null;
+
+                    return (
+                      <div key={ingredientName} className="flex items-center">
+                        <img
+                          src={ITEM_DETAILS[ingredientName].image}
+                          className="h-6 mr-1"
+                        />
+                        <span className="text-xs">
+                          {formatNumber(ingredientAmount.mul(craftAllAmount))}
+                        </span>
+                      </div>
+                    );
+                  },
+                )}
+              </div>
+            }
+            onCancel={() => showConfirmCraftAllModal(false)}
+            onConfirm={() => {
+              craft(undefined, craftAllAmount);
+              showConfirmCraftAllModal(false);
+            }}
+            confirmButtonLabel={`${t("craft")} ${craftAllAmount}`}
+            bumpkinParts={NPC_WEARABLES.blacksmith}
+            disabled={
+              lessFunds(craftAllAmount) || lessIngredients(craftAllAmount)
+            }
+          />
+        </>
       }
       content={
         <div className="flex flex-col w-full relative">
@@ -349,6 +429,7 @@ export const Tools: React.FC = () => {
             settings={state.settings.toolShop?.buyAll ?? {}}
             plan={buyAllPlan}
             coins={state.coins}
+            stock={state.stock}
           />
         </div>
       }
