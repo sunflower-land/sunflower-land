@@ -1208,6 +1208,9 @@ export type Bid = {
   ingredients: Partial<Record<InventoryItemName, number>>;
   biddedAt: number;
   tickets: number;
+  // Set when placing the bid incremented "FLOWER Spent" - bids placed
+  // before that tracking existed must not decrement it on cancel/refund
+  flowerSpentTracked?: boolean;
 } & (
   | {
       type: "collectible";
@@ -1598,6 +1601,12 @@ type FishingSpot = {
    * UI can attribute the extra fish to the wearable.
    */
   shrimpOnesieBonus?: Partial<Record<InventoryItemName, number>>;
+  /**
+   * Per-fish breakdown of bonus units Otty the Otter added during this cast.
+   * Already included in `caught`; surfaced separately so the catch UI can
+   * attribute the extra fish to the collectible.
+   */
+  ottyBonus?: Partial<Record<InventoryItemName, number>>;
   guaranteedCatch?: FishName;
   maps?: Partial<Record<MarineMarvelName, number>>;
   /**

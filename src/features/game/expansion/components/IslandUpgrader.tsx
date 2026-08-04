@@ -24,7 +24,6 @@ import {
 import { useTimeBasedFeatureAccess } from "lib/utils/hooks/useTimeBasedFeatureAccess";
 import {
   getAscensionLevel,
-  getMaxBumpkinLevel,
   LEVELS_PER_ASCENSION,
 } from "features/game/lib/level";
 import type { CollectibleName } from "features/game/types/craftables";
@@ -33,7 +32,7 @@ import { createPortal } from "react-dom";
 import confetti from "canvas-confetti";
 import type { AscensionIslandType, IslandType } from "features/game/types/game";
 import { ASCENSION_ISLANDS, getIslandName } from "features/game/types/game";
-import { hasFeatureAccess, TIME_BASED_FEATURE_FLAG_WINDOWS } from "lib/flags";
+import { TIME_BASED_FEATURE_FLAG_WINDOWS } from "lib/flags";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Transition } from "@headlessui/react";
@@ -47,14 +46,12 @@ export const UPGRADE_RAFTS: Record<IslandType, string | null> = {
   basic: SUNNYSIDE.land.springRaft,
   spring: SUNNYSIDE.land.desertRaft,
   desert: SUNNYSIDE.land.volcanoRaft,
-  volcano: SUNNYSIDE.land.volcanoRaft, // Next prestige after volcano
-  // Ascension islands chain onward (swamp → … → marble → marble); reuse the
-  // volcano raft stub like the preview/message/description assets do.
-  swamp: SUNNYSIDE.land.volcanoRaft,
-  spooky: SUNNYSIDE.land.volcanoRaft,
-  crystal: SUNNYSIDE.land.volcanoRaft,
-  galaxy: SUNNYSIDE.land.volcanoRaft,
-  marble: SUNNYSIDE.land.volcanoRaft,
+  volcano: SUNNYSIDE.land.swampRaft,
+  swamp: SUNNYSIDE.land.spookyRaft,
+  spooky: SUNNYSIDE.land.crystalRaft,
+  crystal: SUNNYSIDE.land.galaxyRaft,
+  galaxy: SUNNYSIDE.land.marbleRaft,
+  marble: SUNNYSIDE.land.marbleRaft,
 };
 
 const UPGRADE_PREVIEW: Record<IslandType, string | null> = {
@@ -143,9 +140,7 @@ const IslandUpgraderModal: React.FC<{
   const remainingExpansions =
     upgrade.expansions - (inventory["Basic Land"]?.toNumber() ?? 0);
 
-  // Ascension upgrades (volcano -> swamp onward) are gated behind the
-  // SWAMP_ASCENSION feature flag; basic-island upgrades are unaffected. Computed
-  // up here so the confirmation panel below can switch its copy too.
+  // Computed up here so the confirmation panel below can switch its copy too.
   const nextIsland = isLandUpgradable(island.type)
     ? ISLAND_UPGRADE[island.type].upgrade
     : undefined;
@@ -161,10 +156,6 @@ const IslandUpgraderModal: React.FC<{
     getAscensionLevel({
       experience: bumpkin.experience ?? 0,
       ascensionLevel: island.ascensionLevel ?? 0,
-      // Mirror the server gate: the pre-ascension cap drops to 150 under
-      // SWAMP_ASCENSION, so without this a maxed level-150 player would be
-      // measured against the legacy 200 cap and never show as ready.
-      maxLevel: getMaxBumpkinLevel(gameState.context.state),
     }).isReadyToAscend;
 
   if (showConfirmation) {
@@ -179,7 +170,13 @@ const IslandUpgraderModal: React.FC<{
               ? t("islandupgrade.confirmAscend")
               : t("islandupgrade.confirmUpgrade")}
           </p>
-          <p className="text-xs mt-2">{t("islandupgrade.warning1")}</p>
+          {/* Ascension (volcano onward) preserves the arrangement rather than
+              digging everything up - see transitionToIsland in upgradeFarm.ts. */}
+          <p className="text-xs mt-2">
+            {isAscensionUpgrade
+              ? t("islandupgrade.warningAscend")
+              : t("islandupgrade.warning1")}
+          </p>
         </div>
 
         <div className="flex">
@@ -215,10 +212,7 @@ const IslandUpgraderModal: React.FC<{
     return getKeys(temporaryCollectibles).length > 0;
   };
 
-  const flagAllows =
-    !isAscensionUpgrade ||
-    hasFeatureAccess(gameState.context.state, "SWAMP_ASCENSION");
-  const hasUpgrade = isLandUpgradable(island.type) && flagAllows;
+  const hasUpgrade = isLandUpgradable(island.type);
 
   // Ascension upgrades carry their (level-scaled) cost in getAscensionUpgradeCost,
   // not in ISLAND_UPGRADE[...].items (which is empty for them).

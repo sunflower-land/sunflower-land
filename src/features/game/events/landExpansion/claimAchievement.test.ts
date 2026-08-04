@@ -65,6 +65,28 @@ describe("claim achievements", () => {
     expect(state.bumpkin?.achievements?.["Busy Bumpkin"]).toBe(1);
   });
 
+  it("claims High Roller by combining legacy SFL Spent and FLOWER Spent", () => {
+    const state = claimAchievement({
+      state: {
+        ...GAME_STATE,
+        farmActivity: {
+          "SFL Spent": 4000,
+          "FLOWER Spent": 3500,
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          achievements: undefined,
+        },
+      },
+      action: {
+        type: "achievement.claimed",
+        achievement: "High Roller",
+      },
+    });
+
+    expect(state.bumpkin?.achievements?.["High Roller"]).toBe(1);
+  });
+
   it("claims busy bumpkin coin rewards", () => {
     const coins = 0;
     const experience = 250;

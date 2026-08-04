@@ -2,7 +2,8 @@ import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
 import { hasPlacedAgingShed } from "./hasPlacedAgingShed";
 import { grantFermentationRecipeOutputs } from "./grantFermentationRecipeOutputs";
-import type { GameState } from "features/game/types/game";
+import type { BoostName, GameState } from "features/game/types/game";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getStampedAgerLevel } from "features/game/lib/agingShed";
 
 export type CollectFermentationAction = {
@@ -42,13 +43,23 @@ export function collectFermentation({
       (job) => job.readyAt > createdAt,
     );
 
+    const boostsUsed: { name: BoostName; value: string }[] = [];
+
     ready.forEach((job) => {
-      grantFermentationRecipeOutputs(
-        game,
-        job.recipe,
-        farmId,
-        getStampedAgerLevel(job.skills),
+      boostsUsed.push(
+        ...grantFermentationRecipeOutputs(
+          game,
+          job.recipe,
+          farmId,
+          getStampedAgerLevel(job.skills),
+        ),
       );
+    });
+
+    game.boostsUsedAt = updateBoostUsed({
+      game,
+      boostNames: boostsUsed,
+      createdAt,
     });
   });
 }

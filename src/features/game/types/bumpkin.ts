@@ -74,7 +74,7 @@ export type BumpkinHair =
   | "Crimstone Spikes Hair"
   | "Corn Silk Hair"
   | "Green Slime Hair"
-  | "Luna's Headpiece"
+  | "Moon Hair"
   | "Surfer Hair";
 
 export type BumpkinShirt =
@@ -1257,7 +1257,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Swamp Armor": 579,
   "Swamp Lily Hat": 580,
   "Swamp Pants": 581,
-  "Luna's Headpiece": 582,
+  "Moon Hair": 582,
   "Crystal Shoes": 583,
   "Marble Pants": 584,
   "Spooky Coat": 585,
@@ -1908,7 +1908,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Swamp Armor": "shirt",
   "Swamp Lily Hat": "hat",
   "Swamp Pants": "pants",
-  "Luna's Headpiece": "hair",
+  "Moon Hair": "hair",
   "Crystal Shoes": "shoes",
   "Marble Pants": "pants",
   "Spooky Coat": "coat",

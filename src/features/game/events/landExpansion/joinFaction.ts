@@ -7,6 +7,7 @@ import type {
 } from "features/game/types/game";
 import { produce } from "immer";
 import { mfTrack } from "lib/moonforgeAnalytics";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 
 export const FACTIONS: FactionName[] = [
   "bumpkins",
@@ -87,6 +88,13 @@ export function joinFaction({
     }
 
     stateCopy.balance = state.balance.sub(action.sfl);
+    if (action.sfl > 0) {
+      stateCopy.farmActivity = trackFarmActivity(
+        "FLOWER Spent",
+        stateCopy.farmActivity,
+        new Decimal(action.sfl),
+      );
+    }
 
     const banner = FACTION_BANNERS[action.faction];
 

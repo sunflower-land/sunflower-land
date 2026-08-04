@@ -50,7 +50,7 @@ function hasEnoughAgingIngredients(
   gameState: GameState,
 ): boolean {
   const baseXP = getFishBaseXP(fishName);
-  const saltCost = getBoostedAgingSaltCost(baseXP, gameState);
+  const { cost: saltCost } = getBoostedAgingSaltCost(baseXP, gameState);
   const fishCost = getBoostedAgingFishCost(gameState);
   return (
     (merged["Salt"]?.gte(saltCost) && merged[fishName]?.gte(fishCost)) ?? false
@@ -85,7 +85,7 @@ export const AgingRackEmpty: React.FC<Props> = ({
     .sort((a, b) => FISH[a].experience - FISH[b].experience)
     .map((fishName) => {
       const baseXP = getFishBaseXP(fishName);
-      const saltCost = getBoostedAgingSaltCost(baseXP, gameState);
+      const { cost: saltCost } = getBoostedAgingSaltCost(baseXP, gameState);
       const timeMs = getBoostedAgingTimeMs(baseXP, gameState);
       const saltLabel = ITEM_DETAILS["Salt"]?.translatedName ?? "Salt";
 
@@ -173,7 +173,7 @@ const SelectedFishDetails: React.FC<{
     { name: BoostName; value: string }[] | undefined
   >(undefined);
   const { t } = useAppTranslation();
-  const primeAgedChance = getPrimeAgedChance(gameState);
+  const { chance: primeAgedChance } = getPrimeAgedChance(gameState);
   const agedChance = 100 - primeAgedChance;
   const selectedFishLabel =
     ITEM_DETAILS[selectedFish]?.translatedName ?? selectedFish;
@@ -182,7 +182,7 @@ const SelectedFishDetails: React.FC<{
         saltCost: getBoostedAgingSaltCost(
           getFishBaseXP(selectedFish),
           gameState,
-        ),
+        ).cost,
         fishCost: getBoostedAgingFishCost(gameState),
         timeMs: getBoostedAgingTimeMs(getFishBaseXP(selectedFish), gameState),
       }

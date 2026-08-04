@@ -1407,7 +1407,6 @@ describe("upgradeFarm", () => {
       action: { type: "farm.upgraded" },
       state: {
         ...INITIAL_FARM,
-        username: "elias",
         coins: 100000,
         bumpkin: { ...INITIAL_FARM.bumpkin, experience: readyXp },
         island: { type: "swamp", ascensionLevel: 1 },
@@ -1635,9 +1634,6 @@ describe("upgradeFarm", () => {
       },
       inventory: {
         ...INITIAL_FARM.inventory,
-        // Beta Pass so the SWAMP_ASCENSION beta gate passes on mainnet and the
-        // temporary A2 lock is the check under test.
-        "Beta Pass": new Decimal(1),
         // Meets the expansion requirement but holds no ascension-cost items, so a
         // player past the temporary gate lands on the cost check.
         "Basic Land": new Decimal(42),
@@ -1766,8 +1762,6 @@ describe("upgradeFarm", () => {
       action: { type: "farm.upgraded" },
       state: {
         ...INITIAL_FARM,
-        // Team username so SWAMP_ASCENSION passes on mainnet.
-        username: "elias",
         coins: 100000,
         bumpkin: { ...INITIAL_FARM.bumpkin, experience: readyXp },
         island: { type: "swamp", ascensionLevel: 1 },

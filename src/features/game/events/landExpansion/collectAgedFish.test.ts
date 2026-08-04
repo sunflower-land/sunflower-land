@@ -4,7 +4,6 @@ import { createInitialAgingShed } from "features/game/lib/agingShed";
 import { KNOWN_IDS } from "features/game/types";
 import { prngChance } from "lib/prng";
 import { getPrimeAgedChance } from "features/game/types/agingFormulas";
-import type { GameState } from "features/game/types/game";
 import { collectAgedFish } from "./collectAgedFish";
 import {
   createFermentationTestState,
@@ -197,6 +196,38 @@ describe("collectAgedFish", () => {
     expect(aged + prime).toBe(2);
   });
 
+  it("does not double aged fish output with Astrolabe placed", () => {
+    const astrolabeHit = Array.from({ length: 100 }, (_, i) => i).find((c) =>
+      prngChance({
+        farmId: 1,
+        itemId: KNOWN_IDS["Anchovy"],
+        counter: c,
+        chance: 15,
+        criticalHitName: "Astrolabe",
+      }),
+    );
+    expect(astrolabeHit).toBeDefined();
+
+    const state = collectAgedFish({
+      state: stateWithAgingSlots(
+        [{ fish: "Anchovy", readyAt: createdAt - 1 }],
+        {
+          collectibles: {
+            Astrolabe: [{ id: "1", createdAt: 0, coordinates: { x: 0, y: 0 } }],
+          },
+          farmActivity: { "Aged Anchovy Collected": astrolabeHit! },
+        },
+      ),
+      action: { type: "agingRack.collected" },
+      farmId: 1,
+      createdAt,
+    });
+
+    const aged = state.inventory["Aged Anchovy"]?.toNumber() ?? 0;
+    const prime = state.inventory["Prime Aged Anchovy"]?.toNumber() ?? 0;
+    expect(aged + prime).toBe(1);
+  });
+
   describe("prime aged PRNG", () => {
     const { farmId, agedItemId, primeName } = PRIME_AGED_PRNG_FIXTURE;
 
@@ -206,7 +237,7 @@ describe("collectAgedFish", () => {
           farmId,
           itemId: agedItemId,
           counter: 0,
-          chance: getPrimeAgedChance({ bumpkin: { skills: {} } } as GameState),
+          chance: getPrimeAgedChance(createFermentationTestState()).chance,
           criticalHitName: primeName,
         }),
       ).toBe(false);
@@ -218,7 +249,7 @@ describe("collectAgedFish", () => {
           farmId,
           itemId: agedItemId,
           counter: 9,
-          chance: getPrimeAgedChance({ bumpkin: { skills: {} } } as GameState),
+          chance: getPrimeAgedChance(createFermentationTestState()).chance,
           criticalHitName: primeName,
         }),
       ).toBe(true);

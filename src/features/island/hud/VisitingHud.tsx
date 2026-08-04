@@ -5,7 +5,7 @@ import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
-import { BumpkinProfile } from "./components/BumpkinProfile";
+import { BumpkinProfile } from "./components/bumpkinProfile/BumpkinProfile";
 import { Settings } from "./components/Settings";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import Decimal from "decimal.js-light";

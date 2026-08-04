@@ -285,8 +285,8 @@ export function getWeeklyReward({
   game: GameState;
   streak: number;
 }): DailyRewardDefinition {
-  const index = streak % WEEKLY_REWARDS(game).length;
-  return WEEKLY_REWARDS(game)[index];
+  const rewards = WEEKLY_REWARDS(game);
+  return rewards[streak % rewards.length];
 }
 
 export function getMilestoneRewards({

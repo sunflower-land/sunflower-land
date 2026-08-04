@@ -209,6 +209,33 @@ describe("minigameItem.bought", () => {
     });
   });
 
+  it("tracks FLOWER Spent farm activity", () => {
+    const state = buyEventShopItem({
+      createdAt: now,
+      action: {
+        id: "festival-of-colors-2025",
+        name: "Floating Toy",
+        type: "minigameItem.bought",
+      },
+      state: {
+        ...INITIAL_FARM,
+        balance: new Decimal(100),
+        inventory: { "Colors Token 2025": new Decimal(1000) },
+        minigames: {
+          prizes: {},
+          games: {
+            "festival-of-colors-2025": {
+              highscore: 0,
+              history: {},
+            },
+          },
+        },
+      },
+    });
+
+    expect(state.farmActivity["FLOWER Spent"]).toEqual(20);
+  });
+
   it("buys a collectible with VIP discount", () => {
     const state = buyEventShopItem({
       createdAt: now,

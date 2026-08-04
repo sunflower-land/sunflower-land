@@ -241,8 +241,7 @@ export const CHAPTER_MARVEL_FISH: Record<ChapterName, ChapterFish> = {
   "Paw Prints": "Super Star",
   "Crabs and Traps": "Giant Isopod",
   "Salt Awakening": "Deep Sea Pig",
-  // TODO(Ascension Age): confirm which of the 3 chapter fish is the marvel
-  "Ascension Age": "Crocodile",
+  "Ascension Age": "Seahorse Dad",
 };
 
 export function getChapterMarvelFish(now: number): ChapterFish {

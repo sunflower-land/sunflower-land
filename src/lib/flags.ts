@@ -89,8 +89,8 @@ export const TIME_BASED_FEATURE_FLAG_WINDOWS = {
     end: null,
   },
   // Ascending from Swamp (A1) into the next island (Spooky, A2) unlocks on this
-  // date. Testnet bypasses; the first ascension (Volcano → Swamp / A0 → A1) is
-  // gated separately by SWAMP_ASCENSION and is unaffected.
+  // date. Testnet bypasses. The first ascension (Volcano → Swamp / A0 → A1) is not
+  // time-gated — it unlocks on the standard level-150 / expansion / resource costs.
   SPOOKY_ASCENSION: {
     start: new Date("2026-09-07T00:00:00Z"),
     end: null,
@@ -183,18 +183,9 @@ const FEATURE_FLAGS = {
   // baseDurationMs + true plantedAt model; when off, boosts stay discount-at-start.
   SPEED_BOOSTS: usernameFeatureFlag,
 
-  SWAMP_ASCENSION: betaFeatureFlag,
-
   // Bulk Mixer tab in the feeder machine: mix the missing feed for every
   // waiting animal at once. Beta-pass / testnet only until it ships.
   BULK_MIXER: betaFeatureFlag,
-
-  // Per-rank skill upgrades (spend Ascension Shards + skill points to rank up a
-  // skill). Kept on its own flag so the upgrade UI + `skill.upgraded` event can
-  // be toggled independently of the rest of the ascension system (islands,
-  // expansion, level bands). Skill *effects* still apply off the stored rank
-  // regardless of this flag; only purchasing new ranks is gated here.
-  ASCENSION_SKILLS: betaFeatureFlag,
 
   // Beta testers can grab a Yakkamon pre-registration code before the level
   // tiers open to everyone else. The server enforces the same rule.
