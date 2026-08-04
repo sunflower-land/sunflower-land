@@ -187,6 +187,27 @@ describe("bulkMixFeed", () => {
     ).toThrow("Invalid bulk mix amount");
   });
 
+  it("rejects a feed listed more than once", () => {
+    expect(() =>
+      bulkMixFeed({
+        state: {
+          ...INITIAL_FARM,
+          inventory: {
+            Corn: new Decimal(10000),
+          },
+        },
+        action: {
+          type: "feeds.bulkMixed",
+          // Repeating an item would multiply the per-feed cap.
+          feeds: [
+            { item: "Kernel Blend", amount: 1000 },
+            { item: "Kernel Blend", amount: 1000 },
+          ],
+        },
+      }),
+    ).toThrow("Invalid bulk mix entries");
+  });
+
   it("rejects an empty or oversized list of feeds", () => {
     expect(() =>
       bulkMixFeed({

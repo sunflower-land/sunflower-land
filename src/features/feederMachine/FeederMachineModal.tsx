@@ -89,6 +89,13 @@ export const FeederMachineModal: React.FC<Props> = ({
   const toggleFeed = (item: BulkMixItem) =>
     setDeselectedFeeds((prev) => ({ ...prev, [item]: !prev[item] }));
 
+  // The checkbox stops its click reaching the panel, so it dismisses the mix
+  // explainer itself to match every other click in the modal.
+  const selectFeed = (item: BulkMixItem) => {
+    setShowMixInfo(false);
+    toggleFeed(item);
+  };
+
   const groupedItems = getKeys(ANIMAL_FOODS).reduce(
     (acc, item) => {
       const type = ANIMAL_FOODS[item].type;
@@ -256,15 +263,22 @@ export const FeederMachineModal: React.FC<Props> = ({
     shortcutItems(mixedItems as InventoryItemName[], { activateFirst: false });
   };
 
+  // This component stays mounted while the modal is hidden, so the explainer
+  // has to be reset on the way out or it reappears on the next open.
+  const closeModal = () => {
+    setShowMixInfo(false);
+    onClose();
+  };
+
   return (
-    <Modal show={show} onHide={onClose}>
+    <Modal show={show} onHide={closeModal}>
       {/* A click anywhere in the panel dismisses the mix explainer. The popup
           and its icon stop propagation so they are not caught by this. The
           modal stops mouse events reaching the document, so this cannot be a
           document-level listener. */}
       <div onClick={() => setShowMixInfo(false)}>
         <CloseButtonPanel
-          onClose={onClose}
+          onClose={closeModal}
           container={OuterPanel}
           tabs={[
             {
@@ -476,7 +490,7 @@ export const FeederMachineModal: React.FC<Props> = ({
                           style={{ width: `${PIXEL_SCALE * 8}px` }}
                           onClick={(e) => {
                             e.stopPropagation();
-                            setShowMixInfo(!showMixInfo);
+                            setShowMixInfo((visible) => !visible);
                           }}
                         />
                         {showMixInfo && (
@@ -536,14 +550,17 @@ export const FeederMachineModal: React.FC<Props> = ({
                                     </span>
                                   )}
                                 </div>
-                                {/* The whole row is the click target, so the
-                                  checkbox only mirrors the selection - it must
-                                  not toggle a second time when clicked. */}
-                                <div className="flex-none pointer-events-none">
+                                {/* The row is a click target too, so keep the
+                                  checkbox's own click from bubbling into it and
+                                  toggling a second time. */}
+                                <div
+                                  className="flex-none"
+                                  onClick={(event) => event.stopPropagation()}
+                                >
                                   <Checkbox
                                     checked={selected}
                                     disabled={!feedCanBeMixed}
-                                    onChange={() => toggleFeed(feed.item)}
+                                    onChange={() => selectFeed(feed.item)}
                                     aria-label={feed.item}
                                   />
                                 </div>
