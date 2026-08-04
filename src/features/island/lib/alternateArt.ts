@@ -11,20 +11,31 @@ import autumnCactiStump from "assets/resources/tree/autumn_cacti_stump.webp";
 import type { LandBiomeName } from "../biomes/biomes";
 import type { TreeName } from "features/game/types/resources";
 
+/** Which biome's tree art to read out of `SUNNYSIDE.resource`. */
 const BIOME_NAME_KEYS: Record<
   LandBiomeName,
-  "basic" | "spring" | "desert" | "volcano"
+  keyof Pick<
+    typeof SUNNYSIDE.resource,
+    | "basic"
+    | "spring"
+    | "desert"
+    | "volcano"
+    | "swamp"
+    | "spooky"
+    | "crystal"
+    | "galaxy"
+    | "marble"
+  >
 > = {
   "Basic Biome": "basic",
   "Spring Biome": "spring",
   "Desert Biome": "desert",
   "Volcano Biome": "volcano",
-  "Swamp Biome": "basic",
-  // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": "basic",
-  "Crystal Biome": "basic",
-  "Galaxy Biome": "basic",
-  "Marble Age Biome": "basic",
+  "Swamp Biome": "swamp",
+  "Spooky Biome": "spooky",
+  "Crystal Biome": "crystal",
+  "Galaxy Biome": "galaxy",
+  "Marble Age Biome": "marble",
 };
 
 export const FIRE_PIT_VARIANTS: Record<
@@ -464,35 +475,34 @@ export const BUSH_VARIANTS: Record<
     winter: SUNNYSIDE.resource.volcano.winter.bush,
   },
   "Swamp Biome": {
-    spring: SUNNYSIDE.resource.basic.spring.bush,
-    summer: SUNNYSIDE.resource.basic.summer.bush,
-    autumn: SUNNYSIDE.resource.basic.autumn.bush,
-    winter: SUNNYSIDE.resource.basic.winter.bush,
+    spring: SUNNYSIDE.resource.swamp.spring.bush,
+    summer: SUNNYSIDE.resource.swamp.summer.bush,
+    autumn: SUNNYSIDE.resource.swamp.autumn.bush,
+    winter: SUNNYSIDE.resource.swamp.winter.bush,
   },
-  // Ascension biomes (spooky onward) reuse the swamp art for now.
   "Spooky Biome": {
-    spring: SUNNYSIDE.resource.basic.spring.bush,
-    summer: SUNNYSIDE.resource.basic.summer.bush,
-    autumn: SUNNYSIDE.resource.basic.autumn.bush,
-    winter: SUNNYSIDE.resource.basic.winter.bush,
+    spring: SUNNYSIDE.resource.spooky.spring.bush,
+    summer: SUNNYSIDE.resource.spooky.summer.bush,
+    autumn: SUNNYSIDE.resource.spooky.autumn.bush,
+    winter: SUNNYSIDE.resource.spooky.winter.bush,
   },
   "Crystal Biome": {
-    spring: SUNNYSIDE.resource.basic.spring.bush,
-    summer: SUNNYSIDE.resource.basic.summer.bush,
-    autumn: SUNNYSIDE.resource.basic.autumn.bush,
-    winter: SUNNYSIDE.resource.basic.winter.bush,
+    spring: SUNNYSIDE.resource.crystal.spring.bush,
+    summer: SUNNYSIDE.resource.crystal.summer.bush,
+    autumn: SUNNYSIDE.resource.crystal.autumn.bush,
+    winter: SUNNYSIDE.resource.crystal.winter.bush,
   },
   "Galaxy Biome": {
-    spring: SUNNYSIDE.resource.basic.spring.bush,
-    summer: SUNNYSIDE.resource.basic.summer.bush,
-    autumn: SUNNYSIDE.resource.basic.autumn.bush,
-    winter: SUNNYSIDE.resource.basic.winter.bush,
+    spring: SUNNYSIDE.resource.galaxy.spring.bush,
+    summer: SUNNYSIDE.resource.galaxy.summer.bush,
+    autumn: SUNNYSIDE.resource.galaxy.autumn.bush,
+    winter: SUNNYSIDE.resource.galaxy.winter.bush,
   },
   "Marble Age Biome": {
-    spring: SUNNYSIDE.resource.basic.spring.bush,
-    summer: SUNNYSIDE.resource.basic.summer.bush,
-    autumn: SUNNYSIDE.resource.basic.autumn.bush,
-    winter: SUNNYSIDE.resource.basic.winter.bush,
+    spring: SUNNYSIDE.resource.marble.spring.bush,
+    summer: SUNNYSIDE.resource.marble.summer.bush,
+    autumn: SUNNYSIDE.resource.marble.autumn.bush,
+    winter: SUNNYSIDE.resource.marble.winter.bush,
   },
 };
 
@@ -520,6 +530,37 @@ export const TREE_VARIANTS = (
   season: TemperateSeasonName,
   tree: TreeName,
 ) => SUNNYSIDE.resource[BIOME_NAME_KEYS[biome]][season][tree];
+
+type TreeSize = {
+  /** Width of the sprite's own canvas, in game pixels. */
+  width: number;
+  /** Height of the sprite's own canvas, in game pixels. */
+  height: number;
+};
+
+/** Canvas every tree sprite is drawn on unless it says otherwise. */
+export const DEFAULT_TREE_SIZE: TreeSize = { width: 26, height: 34 };
+
+/**
+ * The ascension biomes' `Tree` sprites were each drawn on their own canvas
+ * rather than the shared 26x34 one, so their size has to travel with them for
+ * the trunk to stay centred and on the ground. Their ancient/sacred trees are
+ * still basic art, so they keep the shared canvas.
+ */
+const ASCENSION_TREE_SIZES: Partial<Record<LandBiomeName, TreeSize>> = {
+  "Swamp Biome": { width: 28, height: 38 },
+  "Spooky Biome": { width: 23, height: 31 },
+  "Crystal Biome": { width: 24, height: 34 },
+  "Galaxy Biome": { width: 32, height: 34 },
+  "Marble Age Biome": { width: 28, height: 35 },
+};
+
+export const TREE_SIZE_VARIANTS = (
+  biome: LandBiomeName,
+  tree: TreeName,
+): TreeSize =>
+  (tree === "Tree" ? ASCENSION_TREE_SIZES[biome] : undefined) ??
+  DEFAULT_TREE_SIZE;
 
 export const STUMP_VARIANTS: Record<
   LandBiomeName,
