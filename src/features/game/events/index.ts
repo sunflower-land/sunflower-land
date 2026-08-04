@@ -483,6 +483,10 @@ import {
   type FeedMixedAction,
 } from "features/feederMachine/feedMixed";
 import {
+  bulkMixFeed,
+  type BulkMixFeedAction,
+} from "features/feederMachine/bulkMixFeed";
+import {
   upgradeBuilding,
   type UpgradeBuildingAction,
 } from "./landExpansion/upgradeBuilding";
@@ -854,6 +858,7 @@ export type PlayingEvent =
   | BulkSellBountyAction
   | ClaimBountyBonusAction
   | FeedMixedAction
+  | BulkMixFeedAction
   | InstantExpand
   | InstantCookRecipe
   | ShipmentRestockAction
@@ -1279,6 +1284,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "animals.fedAll": feedAllAnimals,
   "animal.loved": loveAnimal,
   "feed.mixed": feedMixed,
+  "feeds.bulkMixed": bulkMixFeed,
   "skill.used": skillUse,
   "building.upgraded": upgradeBuilding,
   "crafting.started": startCrafting,

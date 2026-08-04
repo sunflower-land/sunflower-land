@@ -275,11 +275,11 @@ export const FeederMachineModal: React.FC<Props> = ({
   const bulkMix = () => {
     const mixedItems = selectedFeeds.map((feed) => feed.item);
 
-    selectedFeeds.forEach((feed) => {
-      gameService.send("feed.mixed", {
+    gameService.send("feeds.bulkMixed", {
+      feeds: selectedFeeds.map((feed) => ({
         item: feed.item,
         amount: feed.missing.toNumber(),
-      });
+      })),
     });
 
     if (mixedItems.length === 1) {
