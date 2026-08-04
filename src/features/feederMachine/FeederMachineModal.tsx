@@ -487,7 +487,7 @@ export const FeederMachineModal: React.FC<Props> = ({
                           src={SUNNYSIDE.icons.expression_confused}
                           alt=""
                           className="cursor-pointer"
-                          style={{ width: `${PIXEL_SCALE * 8}px` }}
+                          style={{ width: `${PIXEL_SCALE * 7}px` }}
                           onClick={(e) => {
                             e.stopPropagation();
                             setShowMixInfo((visible) => !visible);
@@ -516,7 +516,7 @@ export const FeederMachineModal: React.FC<Props> = ({
                               feedCanBeMixed && isFeedSelected(feed.item);
 
                             return (
-                              <div
+                              <InnerPanel
                                 key={feed.item}
                                 className={classNames(
                                   "flex items-center gap-2 px-1",
@@ -564,7 +564,7 @@ export const FeederMachineModal: React.FC<Props> = ({
                                     aria-label={feed.item}
                                   />
                                 </div>
-                              </div>
+                              </InnerPanel>
                             );
                           })}
                         </div>
