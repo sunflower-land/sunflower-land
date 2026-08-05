@@ -3,6 +3,7 @@ import { expandLand, expansionRequirements } from "./expandLand";
 import { ascensionBaseline } from "features/game/lib/level";
 import Decimal from "decimal.js-light";
 import { BB_TO_GEM_RATIO } from "features/game/types/game";
+import { CONFIG } from "lib/config";
 
 describe("expandLand", () => {
   it("does not allow expanding basic island past 9 (must upgrade)", () => {
@@ -455,5 +456,191 @@ describe("expansionRequirements", () => {
       Obsidian: 26,
     });
     expect(requirements?.seconds).toBe(84 * HOUR);
+  });
+});
+
+describe("Ascension Age VIP expansion time boost", () => {
+  // The boost window's testnet bypass would mask the pre-cutover behaviour
+  // (local .env runs jest on amoy), so exercise mainnet semantics here.
+  let previousNetwork: (typeof CONFIG)["NETWORK"];
+
+  beforeEach(() => {
+    previousNetwork = CONFIG.NETWORK;
+    CONFIG.NETWORK = "mainnet";
+  });
+
+  afterEach(() => {
+    CONFIG.NETWORK = previousNetwork;
+  });
+
+  // Desert expansion 21: 48 hours base build time.
+  const BASE_SECONDS = 48 * 60 * 60;
+  const BOOSTED_SECONDS = 155520; // 48h × 0.9 = 43.2h
+
+  // Golden timestamps for the boost window — if the dates in
+  // TIME_BASED_FEATURE_FLAG_WINDOWS.ASCENSION_AGE_VIP_EXPANSION move, these bite.
+  const BEFORE_START = new Date("2026-08-09T23:59:59Z").getTime();
+  const DURING = new Date("2026-08-10T00:00:01Z").getTime();
+  const AFTER_END = new Date("2026-11-02T00:00:01Z").getTime();
+
+  const desertExpansionState = (vip: boolean, now: number) => ({
+    ...TEST_FARM,
+    bumpkin: {
+      ...INITIAL_BUMPKIN,
+      experience: 1000000000,
+    },
+    inventory: {
+      "Basic Land": new Decimal(20),
+      Wood: new Decimal(550),
+      Stone: new Decimal(150),
+      Iron: new Decimal(30),
+      Gold: new Decimal(25),
+      Crimstone: new Decimal(45),
+      Oil: new Decimal(350),
+      Gem: new Decimal(4 * BB_TO_GEM_RATIO),
+    },
+    coins: 10000,
+    island: { type: "desert" as const },
+    ...(vip
+      ? {
+          vip: {
+            expiresAt: now + 86400000,
+            trialStartedAt: undefined,
+            bundles: [],
+          },
+        }
+      : {}),
+  });
+
+  it("shortens the build by 10% for VIP holders during the boost window", () => {
+    const state = expandLand({
+      action: { type: "land.expanded", farmId: 0 },
+      state: desertExpansionState(true, DURING),
+      createdAt: DURING,
+    });
+
+    expect(state.expansionConstruction?.readyAt).toEqual(
+      DURING + BOOSTED_SECONDS * 1000,
+    );
+    expect(state.boostsUsedAt?.["VIP Access"]).toEqual(DURING);
+  });
+
+  it("does not shorten the build for VIP holders before the boost starts", () => {
+    const state = expandLand({
+      action: { type: "land.expanded", farmId: 0 },
+      state: desertExpansionState(true, BEFORE_START),
+      createdAt: BEFORE_START,
+    });
+
+    expect(state.expansionConstruction?.readyAt).toEqual(
+      BEFORE_START + BASE_SECONDS * 1000,
+    );
+    expect(state.boostsUsedAt?.["VIP Access"]).toBeUndefined();
+  });
+
+  it("does not shorten the build for VIP holders once the chapter has ended", () => {
+    const state = expandLand({
+      action: { type: "land.expanded", farmId: 0 },
+      state: desertExpansionState(true, AFTER_END),
+      createdAt: AFTER_END,
+    });
+
+    expect(state.expansionConstruction?.readyAt).toEqual(
+      AFTER_END + BASE_SECONDS * 1000,
+    );
+  });
+
+  it("does not shorten the build for players without VIP", () => {
+    const state = expandLand({
+      action: { type: "land.expanded", farmId: 0 },
+      state: desertExpansionState(false, DURING),
+      createdAt: DURING,
+    });
+
+    expect(state.expansionConstruction?.readyAt).toEqual(
+      DURING + BASE_SECONDS * 1000,
+    );
+  });
+
+  it("stacks multiplicatively with the Ascension Monument boost", () => {
+    const base = desertExpansionState(true, DURING);
+    const state = expandLand({
+      action: { type: "land.expanded", farmId: 0 },
+      state: {
+        ...base,
+        inventory: {
+          ...base.inventory,
+          "Ascension Monument": new Decimal(1),
+        },
+        collectibles: {
+          "Ascension Monument": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        socialFarming: {
+          ...base.socialFarming,
+          villageProjects: {
+            "Ascension Monument": { cheers: 1000000 },
+          },
+        },
+      },
+      createdAt: DURING,
+    });
+
+    // 48h × 0.8 (monument) × 0.9 (VIP) = 34.56h
+    expect(state.expansionConstruction?.readyAt).toEqual(
+      DURING + 124416 * 1000,
+    );
+  });
+
+  it("reports the original time and the boost behind it", () => {
+    const { requirements, baseTimeSeconds, timeBoostsUsed, boostsUsed } =
+      expansionRequirements({
+        game: desertExpansionState(true, DURING),
+        now: DURING,
+      });
+
+    expect(requirements?.seconds).toEqual(BOOSTED_SECONDS);
+    expect(baseTimeSeconds).toEqual(BASE_SECONDS);
+    expect(timeBoostsUsed).toEqual([{ name: "VIP Access", value: "x0.9" }]);
+    expect(boostsUsed).toEqual([{ name: "VIP Access", value: "x0.9" }]);
+  });
+
+  it("reports no time boost when the perk does not apply", () => {
+    const { requirements, baseTimeSeconds, timeBoostsUsed } =
+      expansionRequirements({
+        game: desertExpansionState(false, DURING),
+        now: DURING,
+      });
+
+    expect(requirements?.seconds).toEqual(BASE_SECONDS);
+    expect(baseTimeSeconds).toEqual(BASE_SECONDS);
+    expect(timeBoostsUsed).toHaveLength(0);
+  });
+
+  it("keeps resource boosts out of the time boost list", () => {
+    const base = desertExpansionState(true, DURING);
+    const { timeBoostsUsed, boostsUsed } = expansionRequirements({
+      game: {
+        ...base,
+        collectibles: {
+          "Grinx's Hammer": [
+            { coordinates: { x: 1, y: 1 }, createdAt: 0, id: "1", readyAt: 0 },
+          ],
+        },
+      },
+      now: DURING,
+    });
+
+    expect(timeBoostsUsed).toEqual([{ name: "VIP Access", value: "x0.9" }]);
+    expect(boostsUsed).toEqual([
+      { name: "Grinx's Hammer", value: "x0.5" },
+      { name: "VIP Access", value: "x0.9" },
+    ]);
   });
 });

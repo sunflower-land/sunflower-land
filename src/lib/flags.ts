@@ -95,6 +95,14 @@ export const TIME_BASED_FEATURE_FLAG_WINDOWS = {
     start: new Date("2026-09-07T00:00:00Z"),
     end: null,
   },
+  // Ascension Age chapter VIP perk: VIP holders expand their land 10% faster.
+  // Live from Mon 10th Aug 2026 (when the chapter's tasks begin) until the
+  // chapter ends — the end date must match CHAPTERS["Ascension Age"].endDate.
+  // Testnet bypasses the start date so testers can verify ahead of the cutover.
+  ASCENSION_AGE_VIP_EXPANSION: {
+    start: new Date("2026-08-10T00:00:00Z"),
+    end: new Date("2026-11-02T00:00:00Z"),
+  },
 } satisfies Record<string, TimeBasedFeatureWindow>;
 
 /** All time-based flags receive the full window; start-only helpers ignore `end`. */
@@ -115,6 +123,7 @@ export const TIME_BASED_FEATURE_FLAGS: Record<
   COLORS_2026_EVENT_FLAG: betaTimePeriodFeatureFlag,
   // Testnet-only bypass before the date (not beta), so live testers can reach A2.
   SPOOKY_ASCENSION: timePeriodFeatureFlag,
+  ASCENSION_AGE_VIP_EXPANSION: timePeriodFeatureFlag,
 };
 
 /**

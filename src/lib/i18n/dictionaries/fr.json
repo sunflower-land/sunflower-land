@@ -7216,7 +7216,6 @@
   "fishing.shrimpOnesie.bulkReel": "+1 poisson aléatoire sur les rouleaux {{reels}} dans ce casting",
   "fishing.shrimpOnesie.bonus": "Onesie aux crevettes + {{amount}}",
   "description.shrimpOnesie.boost": "+1 poisson aléatoire tous les 15 moulinets",
-  "vip.benefit.bonusSaltYield": "+2 points de sel par râteau pendant le chapitre Salt Awakening",
   "description.spaSheep.boost": "+5 points d'expérience pour les moutons grâce aux outils Animal Affection",
   "description.obsidianShrine.buff": "Récoltez, plantez et fertilisez en vrac vos cultures, vos fruits et vos serres",
   "obsidianShrine.noEligiblePots": "Pas de pots de serre à fertiliser",
