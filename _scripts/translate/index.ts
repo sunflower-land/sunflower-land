@@ -260,8 +260,19 @@ const translateLanguage = async (
       const failure = validateTranslation(key, english[key], translation);
       if (failure) {
         failures.push(failure);
-        // Better an untranslated string than a broken one.
-        result[key] = english[key];
+        // Omit the key rather than pinning it to the English string.
+        //
+        // i18next is configured with fallbackLng: "en", so an absent key already
+        // renders English -- identical to what the player would see either way.
+        // The difference is the next run: a key pinned to English looks
+        // translated, and since en.json advances at the end of this run the
+        // delta never picks it up again, so it stays English forever. An absent
+        // key is retried automatically.
+        //
+        // Deleting also matters when a previously-good translation is now stale
+        // because the English changed: keeping it would ship a translation of
+        // copy that no longer exists.
+        delete result[key];
       } else {
         result[key] = translation;
       }

@@ -51,9 +51,9 @@ export const validateTranslation = (
   }
 
   const expected = placeholdersIn(source);
-  if (!expected.length) return undefined;
-
   const actual = placeholdersIn(translated);
+  if (!expected.length && !actual.length) return undefined;
+
   const tally = (list: string[]) =>
     list.reduce<Record<string, number>>(
       (acc, p) => ({ ...acc, [p]: (acc[p] ?? 0) + 1 }),
@@ -62,7 +62,14 @@ export const validateTranslation = (
 
   const want = tally(expected);
   const got = tally(actual);
-  const wrong = Object.keys(want).filter((p) => want[p] !== (got[p] ?? 0));
+
+  // Compared in both directions. Checking only that every source placeholder
+  // survives would let an invented one through -- a translation that adds
+  // {{amount}} where the source had none renders the literal braces in-game,
+  // because nothing supplies that value.
+  const wrong = [
+    ...new Set([...Object.keys(want), ...Object.keys(got)]),
+  ].filter((p) => (want[p] ?? 0) !== (got[p] ?? 0));
 
   if (wrong.length) {
     return {
