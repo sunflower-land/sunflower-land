@@ -16,6 +16,7 @@
     "metadata": "NODE_PATH=./src NODE_ENV=metadata vite-node --project metadata/node.tsconfig.json metadata/generateMetadata.ts",
     "images": "NODE_PATH=./src NODE_ENV=metadata vite-node --project metadata/node.tsconfig.json metadata/generateImages.ts",
     "translate": "NODE_PATH=./src NODE_ENV=metadata vite-node --project metadata/node.tsconfig.json _scripts/translate.ts",
+    "translate:ai": "NODE_PATH=./src NODE_ENV=metadata vite-node --project metadata/node.tsconfig.json _scripts/translate/index.ts",
     "prepare": "husky install"
   },
   "jest": {
@@ -156,6 +157,7 @@
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "lint-staged": ">=10",
+    "openai": "^7.4.0",
     "page-lifecycle": "^0.1.2",
     "postcss": "^8.4.17",
     "prettier": "^3.3.2",

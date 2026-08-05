@@ -1,0 +1,168 @@
+name: Translate (AI)
+
+# Context-aware translator (`yarn translate:ai`), replacing the per-string AWS
+# pass in translate.yml.
+#
+# Currently PR-scoped: it runs inside a pull request and commits back to that
+# PR's own branch, so the translation diff is reviewable before anything reaches
+# main. translate.yml (AWS) remains the production path meanwhile.
+#
+# ---------------------------------------------------------------------------
+# CUTOVER TO PRODUCTION
+#
+#   1. Uncomment the `push:` trigger below.
+#   2. Delete .github/workflows/translate.yml (the AWS pipeline).
+#   3. Optionally drop the `pull_request:` trigger, or keep it -- it is useful
+#      for previewing translation changes on a PR before they land on main.
+#
+# Everything else is already trigger-agnostic: the checkout ref, concurrency
+# group, and commit target all resolve correctly for both events. No other edits
+# are needed.
+#
+# Until step 2 is done, do NOT enable the push trigger -- both workflows would
+# translate main and race each other. The concurrency group below is
+# deliberately shared with translate.yml (`testnet-translate`) so that if they
+# do briefly overlap, they serialise instead of colliding.
+# ---------------------------------------------------------------------------
+
+on:
+  # Production trigger. See CUTOVER above before enabling.
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - src/lib/i18n/dictionaries/dictionary.json
+
+  # `synchronize` fires on every push to an open PR, so each push re-translates
+  # whatever changed. `opened` covers the initial push.
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - src/lib/i18n/dictionaries/dictionary.json
+      - _scripts/translate/**
+      - .github/workflows/translate-ai.yml
+
+  # Manual runs for sampling without having to touch the dictionary. Defaults to
+  # a cheap two-language run. There is deliberately no "translate everything"
+  # input -- a full backfill is a considered decision, not a button.
+  workflow_dispatch:
+    inputs:
+      languages:
+        description: "Comma-separated language codes (blank = all)"
+        required: false
+        default: "ja,de"
+      keys:
+        description: "Comma-separated translation keys to force-translate (blank = changed keys only)"
+        required: false
+        default: ""
+      limit:
+        description: "Cap the number of keys translated per language"
+        required: false
+        default: ""
+
+concurrency:
+  # Per-PR while testing; on main, shares translate.yml's group so the two can
+  # never translate main concurrently during the cutover.
+  group: "${{ github.event_name == 'pull_request' && format('translate-ai-{0}', github.event.pull_request.number) || 'testnet-translate' }}"
+  # Superseding a PR run is fine -- the delta is recomputed from scratch each
+  # time. On main, runs queue instead, so no push gets silently skipped.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+    environment: develop
+
+    # Fork PRs get no secrets and cannot be pushed to, so the job would fail
+    # halfway rather than usefully. Skip them outright. Always true for push
+    # and workflow_dispatch.
+    if: >-
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name == github.repository
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout target branch
+        uses: actions/checkout@v4
+        with:
+          # head_ref is set only for pull_request events, where a default
+          # checkout would land on the detached merge commit and could not be
+          # pushed back to. ref_name covers push and workflow_dispatch.
+          ref: ${{ github.head_ref || github.ref_name }}
+          token: ${{ secrets.TRANSLATOR_GITHUB_TOKEN }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run AI translation
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          TRANSLATE_MODEL: ${{ vars.TRANSLATE_MODEL }}
+          # Passed through the environment rather than interpolated into the
+          # script body, so a dispatch input cannot inject shell.
+          #
+          # ⚠️ TEMPORARY — REMOVE BEFORE MERGE ⚠️
+          # workflow_dispatch is unavailable until this file is on the default
+          # branch, and the dictionary delta is currently empty, so a plain PR
+          # run would translate nothing. These defaults force a small, cheap run
+          # over the known-bad keys so the pipeline can be exercised end to end.
+          # Revert both lines to `${{ inputs.languages }}` / `${{ inputs.keys }}`
+          # before this merges.
+          LANGUAGES: ${{ inputs.languages || 'ja,de' }}
+          KEYS: ${{ inputs.keys || 'plant,build,on,coins,gems,landTools,ok' }}
+          LIMIT: ${{ inputs.limit }}
+        run: |
+          ARGS=()
+          if [ -n "$LANGUAGES" ]; then ARGS+=("--only=$LANGUAGES"); fi
+          if [ -n "$KEYS" ]; then ARGS+=("--keys=$KEYS"); fi
+          if [ -n "$LIMIT" ]; then ARGS+=("--limit=$LIMIT"); fi
+          yarn translate:ai "${ARGS[@]}"
+
+      - name: Summarise diff
+        run: |
+          {
+            echo "## Translation diff"
+            echo
+            if git diff --quiet -- src/lib/i18n/dictionaries; then
+              echo "No translation changes."
+            else
+              echo '```'
+              git --no-pager diff --stat -- src/lib/i18n/dictionaries
+              echo '```'
+              echo
+              echo "<details><summary>Changed strings</summary>"
+              echo
+              echo '```diff'
+              git --no-pager diff -U0 -- src/lib/i18n/dictionaries | grep -E '^[+-]\s+"' | head -300
+              echo '```'
+              echo
+              echo "</details>"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Configure Git user
+        run: |
+          git config --global user.name "Translator Bot"
+          git config --global user.email "translator@sunflower-land.com"
+
+      - uses: EndBug/add-and-commit@v9
+        with:
+          # [skip ci] is load-bearing: the checkout uses a PAT, so without it
+          # this push would retrigger the workflow on its own commit.
+          message: "[BOT] Update translations (AI) [skip ci]"
+          committer_name: Translator Bot
+          committer_email: translator@sunflower-land.com
+          add: src/lib/i18n/dictionaries/*.json
+          commit: --no-verify
+          # Another commit can land between checkout and push -- likely on main,
+          # possible on a shared PR branch. Rebase onto it rather than failing.
+          # --autostash is required because the dictionaries are dirty at this
+          # point; a plain pull refuses to run with local modifications.
+          pull: "--rebase --autostash"
