@@ -111,12 +111,11 @@ jobs:
           # ⚠️ TEMPORARY — REMOVE BEFORE MERGE ⚠️
           # workflow_dispatch is unavailable until this file is on the default
           # branch, and the dictionary delta is currently empty, so a plain PR
-          # run would translate nothing. These defaults force a small, cheap run
+          # run would translate nothing. This default forces a small, cheap run
           # over the known-bad keys so the pipeline can be exercised end to end.
-          # Revert both lines to `${{ inputs.languages }}` / `${{ inputs.keys }}`
-          # before this merges.
-          LANGUAGES: ${{ inputs.languages || 'ja,de' }}
+          # Revert to `${{ inputs.keys }}` before this merges.
           KEYS: ${{ inputs.keys || 'plant,build,on,coins,gems,landTools,ok' }}
+          LANGUAGES: ${{ inputs.languages }}
           LIMIT: ${{ inputs.limit }}
         run: |
           ARGS=()
