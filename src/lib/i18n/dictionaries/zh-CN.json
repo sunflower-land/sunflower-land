@@ -8101,5 +8101,6 @@
   "season.megastore.alreadyOwned": "已拥有",
   "feeder.selectFoodsToMix": "选择要混合的饲料",
   "feeder.ingredientsExplainer": "批量搅拌机会计算出满足所有待喂食动物所需的饲料量，并自动扣除您当前已拥有的饲料。",
-  "feeder.bulkMix": "批量混合"
+  "feeder.bulkMix": "批量混合",
+  "vip.benefit.expansionSpeed": "《升天纪元》章节期间的扩展时间 -10%（世界标准时间 2026 年 8 月 10 日午夜开始）"
 }

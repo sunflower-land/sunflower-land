@@ -8101,5 +8101,6 @@
   "season.megastore.alreadyOwned": "Уже есть",
   "feeder.selectFoodsToMix": "Выбери корма для смешивания",
   "feeder.ingredientsExplainer": "Миксер считает, сколько корма не хватает, чтобы накормить всех ждущих животных, за вычетом того, что у тебя уже есть.",
-  "feeder.bulkMix": "Смешать всё"
+  "feeder.bulkMix": "Смешать всё",
+  "vip.benefit.expansionSpeed": "-10% Expansion time during Ascension Age Chapter (Starts on 10th August 2026 Midnight UTC)"
 }

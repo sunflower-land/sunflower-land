@@ -8101,5 +8101,6 @@
   "season.megastore.alreadyOwned": "Zaten sahip olundu",
   "feeder.selectFoodsToMix": "Karıştırılacak yiyecekleri seçin",
   "feeder.ingredientsExplainer": "Toplu karıştırıcı, sahip olduğunuz yem hariç, bekleyen her hayvanı hazır hale getirmek için gereken yem miktarını önerir.",
-  "feeder.bulkMix": "Toplu Karışım"
+  "feeder.bulkMix": "Toplu Karışım",
+  "vip.benefit.expansionSpeed": "Yükseliş Çağı Bölümü sırasında %-10 Genişleme süresi (10 Ağustos 2026 Gece Yarısı UTC tarihinde başlar)"
 }

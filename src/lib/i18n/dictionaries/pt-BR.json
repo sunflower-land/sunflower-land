@@ -8101,5 +8101,6 @@
   "season.megastore.alreadyOwned": "Já possuído",
   "feeder.selectFoodsToMix": "Selecione alimentos para misturar",
   "feeder.ingredientsExplainer": "O misturador a granel sugere a quantidade de ração necessária para preparar cada animal que espera, menos a ração que você tem.",
-  "feeder.bulkMix": "Mistura a granel"
+  "feeder.bulkMix": "Mistura a granel",
+  "vip.benefit.expansionSpeed": "-10% de tempo de expansão durante o Capítulo da Era da Ascensão (começa em 10 de agosto de 2026, meia-noite UTC)"
 }

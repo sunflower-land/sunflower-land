@@ -8101,5 +8101,6 @@
   "season.megastore.alreadyOwned": "Ya poseído",
   "feeder.selectFoodsToMix": "Seleccione los alimentos para mezclar",
   "feeder.ingredientsExplainer": "La batidora a granel sugiere la cantidad de alimento necesaria para preparar a todos los animales que esperan, menos el alimento que tienes.",
-  "feeder.bulkMix": "Mezcla a granel"
+  "feeder.bulkMix": "Mezcla a granel",
+  "vip.benefit.expansionSpeed": "-10% de tiempo de expansión durante el capítulo de la Era de la Ascensión (comienza el 10 de agosto de 2026 a medianoche, hora peninsular española)"
 }

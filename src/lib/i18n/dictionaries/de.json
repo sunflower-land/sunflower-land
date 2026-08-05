@@ -8101,5 +8101,6 @@
   "season.megastore.alreadyOwned": "Bereits im Besitz",
   "feeder.selectFoodsToMix": "Wählen Sie Lebensmittel zum Mischen aus",
   "feeder.ingredientsExplainer": "Der Bulk-Mixer schlägt die Futtermenge vor, die benötigt wird, um jedes wartende Tier fertig zu stellen, abzüglich des Futters, das Sie haben.",
-  "feeder.bulkMix": "Bulk-Mix"
+  "feeder.bulkMix": "Bulk-Mix",
+  "vip.benefit.expansionSpeed": "-10% Erweiterungszeit während des Kapitels „Das Zeitalter des Aufstiegs“ (Beginnt am 10. August 2026 um Mitternacht UTC)"
 }

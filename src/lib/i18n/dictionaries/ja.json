@@ -8101,5 +8101,6 @@
   "season.megastore.alreadyOwned": "すでに所有しています",
   "feeder.selectFoodsToMix": "混ぜる食品を選択してください",
   "feeder.ingredientsExplainer": "バルクミキサーは、待っているすべての動物を準備するのに必要な飼料の量から、あなたが持っている飼料を差し引いたものを提案します。",
-  "feeder.bulkMix": "バルクミックス"
+  "feeder.bulkMix": "バルクミックス",
+  "vip.benefit.expansionSpeed": "アセンション・エイジ・チャプターでは 10% 拡張時間 (2026年8月10日の午前0時 (UTC) に開始)"
 }

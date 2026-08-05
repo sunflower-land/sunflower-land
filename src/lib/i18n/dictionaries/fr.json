@@ -8101,5 +8101,6 @@
   "season.megastore.alreadyOwned": "Déjà possédé",
   "feeder.selectFoodsToMix": "Sélectionnez les aliments à mélanger",
   "feeder.ingredientsExplainer": "Le mélangeur de vrac indique la quantité de nourriture nécessaire pour préparer chaque animal en attente, moins la nourriture dont vous disposez.",
-  "feeder.bulkMix": "Mélange en vrac"
+  "feeder.bulkMix": "Mélange en vrac",
+  "vip.benefit.expansionSpeed": "-10 % de temps d'extension pendant le chapitre Ascension Age (à partir du 10 août 2026 à minuit, heure de Paris)"
 }
