@@ -36,9 +36,10 @@ import coinsIcon from "assets/icons/coins.webp";
 import { formatNumber } from "lib/utils/formatNumber";
 import {
   useExpansionCoinCostWithVip,
-  useExpansionSecondsWithVip,
   useVipAccess,
 } from "lib/utils/hooks/useVipAccess";
+import { useNow } from "lib/utils/hooks/useNow";
+import { hasVipExpansionSpeedBoost } from "features/game/lib/vipAccess";
 /**
  * The props for the component.
  * @param gameState The game state.
@@ -80,6 +81,7 @@ export const ExpansionRequirements: React.FC<Props> = ({
 }: Props) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
+  const now = useNow();
 
   // Compare the player's standing against the (ascension, level) requirement —
   // matching the `expandLand` gate.
@@ -102,12 +104,9 @@ export const ExpansionRequirements: React.FC<Props> = ({
     coins: effectiveCoinCost,
   };
 
-  // Ascension Age chapter perk: VIP holders build 10% faster.
-  const effectiveSeconds = useExpansionSecondsWithVip({
-    seconds: requirements.seconds,
-    game: state,
-  });
-  const showVipTimeBoost = effectiveSeconds < requirements.seconds;
+  // Ascension Age chapter perk: VIP holders build 10% faster. `requirements`
+  // already carries the shortened time — this only picks the timer's icon.
+  const showVipTimeBoost = hasVipExpansionSpeedBoost({ game: state, now });
 
   const onExpand = () => {
     gameService.send("land.expanded");
@@ -149,26 +148,17 @@ export const ExpansionRequirements: React.FC<Props> = ({
         </div>
       </InnerPanel>
       <InnerPanel className="relative flex flex-col mb-1">
-        <div className="p-1 flex justify-between items-center gap-1 mb-1">
+        <div className="p-1 flex justify-between items-center mb-1">
           <Label type={"default"} icon={SUNNYSIDE.icons.basket}>
             {t("requirements")}
           </Label>
-          <div className="flex items-center justify-end flex-wrap gap-x-1">
-            {showVipTimeBoost && (
-              <span className="line-through text-xxs whitespace-nowrap">
-                {secondsToString(requirements.seconds, { length: "short" })}
-              </span>
-            )}
-            <Label
-              type="info"
-              icon={SUNNYSIDE.icons.stopwatch}
-              secondaryIcon={
-                showVipTimeBoost ? vipIcon : SUNNYSIDE.icons.hammer
-              }
-            >
-              {secondsToString(effectiveSeconds, { length: "medium" })}
-            </Label>
-          </div>
+          <Label
+            type="info"
+            icon={SUNNYSIDE.icons.stopwatch}
+            secondaryIcon={showVipTimeBoost ? vipIcon : SUNNYSIDE.icons.hammer}
+          >
+            {secondsToString(requirements.seconds, { length: "medium" })}
+          </Label>
         </div>
 
         {!!requirements.coins && !showVipDiscount && (

@@ -22,7 +22,7 @@ import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import {
   EXPANSION_VIP_TIME_MULTIPLIER,
   getExpansionCoinCostWithVip,
-  getExpansionSecondsWithVip,
+  hasVipExpansionSpeedBoost,
 } from "features/game/lib/vipAccess";
 
 export type ExpandLandAction = {
@@ -54,7 +54,10 @@ export function expandLand({ state, createdAt = Date.now() }: Options) {
 
     const bumpkin = game.bumpkin;
 
-    const { requirements, boostsUsed } = expansionRequirements({ game });
+    const { requirements, boostsUsed } = expansionRequirements({
+      game,
+      now: createdAt,
+    });
     if (!requirements) {
       throw new Error("No more land expansions available");
     }
@@ -111,24 +114,9 @@ export function expandLand({ state, createdAt = Date.now() }: Options) {
       game.inventory,
     );
 
-    // Ascension Age chapter perk: VIP holders build 10% faster. Kept out of
-    // `expansionRequirements` (like the VIP coin discount) so the UI can show
-    // the full requirement alongside the discounted one.
-    const effectiveSeconds = getExpansionSecondsWithVip({
-      seconds: requirements.seconds,
-      game,
-      now: createdAt,
-    });
-    if (effectiveSeconds < requirements.seconds) {
-      boostsUsed.push({
-        name: "VIP Access",
-        value: `x${EXPANSION_VIP_TIME_MULTIPLIER}`,
-      });
-    }
-
     game.expansionConstruction = {
       createdAt,
-      readyAt: createdAt + effectiveSeconds * 1000,
+      readyAt: createdAt + requirements.seconds * 1000,
     };
 
     // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client_type=gtag#tutorial_complete
@@ -158,8 +146,10 @@ export function expandLand({ state, createdAt = Date.now() }: Options) {
 
 export const expansionRequirements = ({
   game,
+  now = Date.now(),
 }: {
   game: GameState;
+  now?: number;
 }): {
   requirements: Requirements | undefined;
   boostsUsed: { name: BoostName; value: string }[];
@@ -198,6 +188,15 @@ export const expansionRequirements = ({
   if (isMonumentActive({ game, monument: "Ascension Monument" })) {
     seconds *= 0.8;
     boostsUsed.push({ name: "Ascension Monument", value: "x0.8" });
+  }
+
+  // Ascension Age chapter perk: -10% expansion time for VIP holders
+  if (hasVipExpansionSpeedBoost({ game, now })) {
+    seconds = Math.round(seconds * EXPANSION_VIP_TIME_MULTIPLIER);
+    boostsUsed.push({
+      name: "VIP Access",
+      value: `x${EXPANSION_VIP_TIME_MULTIPLIER}`,
+    });
   }
 
   return { requirements: { ...requirements, resources, seconds }, boostsUsed };

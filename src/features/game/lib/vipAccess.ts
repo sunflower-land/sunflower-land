@@ -101,21 +101,3 @@ export const hasVipExpansionSpeedBoost = ({
     game,
     now,
   });
-
-/**
- * Expansion build time after the Ascension Age VIP speed perk. Returns the
- * unboosted seconds when the perk does not apply.
- */
-export const getExpansionSecondsWithVip = ({
-  seconds,
-  game,
-  now,
-}: {
-  seconds: number;
-  game: GameState;
-  now: number;
-}): number => {
-  if (!hasVipExpansionSpeedBoost({ game, now })) return seconds;
-
-  return Math.round(seconds * EXPANSION_VIP_TIME_MULTIPLIER);
-};

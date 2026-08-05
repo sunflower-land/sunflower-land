@@ -597,4 +597,24 @@ describe("Ascension Age VIP expansion time boost", () => {
       DURING + 124416 * 1000,
     );
   });
+
+  it("shortens the requirement itself, alongside the monument boost", () => {
+    const { requirements, boostsUsed } = expansionRequirements({
+      game: desertExpansionState(true, DURING),
+      now: DURING,
+    });
+
+    expect(requirements?.seconds).toEqual(BOOSTED_SECONDS);
+    expect(boostsUsed).toEqual([{ name: "VIP Access", value: "x0.9" }]);
+  });
+
+  it("leaves the requirement untouched when the perk does not apply", () => {
+    const { requirements, boostsUsed } = expansionRequirements({
+      game: desertExpansionState(false, DURING),
+      now: DURING,
+    });
+
+    expect(requirements?.seconds).toEqual(BASE_SECONDS);
+    expect(boostsUsed).toHaveLength(0);
+  });
 });

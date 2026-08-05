@@ -250,7 +250,8 @@ export const UpcomingExpansion: React.FC = () => {
   const { openModal } = useContext(ModalContext);
 
   const state = gameState.context.state;
-  const { requirements } = expansionRequirements({ game: state });
+  const now = useNow();
+  const { requirements } = expansionRequirements({ game: state, now });
 
   const expansions =
     (gameState.context.state.inventory["Basic Land"]?.toNumber() ?? 3) + 1;
