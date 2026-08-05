@@ -28,18 +28,38 @@ const _hasHomeItems = (state: MachineState) =>
 // Migration is a beta-only mechanic.
 
 /**
+ * Whether the flow has already opened itself this page load.
+ *
+ * Module-level rather than component state on purpose: the widget is mounted by
+ * the Hud, which remounts on every interior route change, so component state
+ * would re-prompt each time the player took the stairs between floors. One
+ * prompt per page load, then the bar below is the way back in.
+ */
+let hasAutoOpened = false;
+
+/**
  * HUD notice shown while the player's old home still holds placed items.
  *
  * Replaces the in-world "Import items" button that used to float above the
  * roof: it lives in the bottom HUD widget column alongside the other notices
  * (see {@link Hud}), so it stacks predictably and never lands on the artwork.
  * Self-hides once the old home is empty.
+ *
+ * Opens itself the first time a player with un-migrated items walks into the
+ * house — the old home is being retired, so this is a prompt rather than
+ * something to discover. It stays dismissible.
  */
 export const ImportHomeWidget: React.FC = () => {
   const { gameService } = useContext(Context);
 
   const hasHomeItems = useSelector(gameService, _hasHomeItems);
-  const [open, setOpen] = useState(false);
+  // Opened from the initialiser rather than an effect so there's no first frame
+  // with the modal shut — same shape as Home's intro and VisitingHud's guide.
+  const [open, setOpen] = useState(() => hasHomeItems && !hasAutoOpened);
+
+  useEffect(() => {
+    if (open) hasAutoOpened = true;
+  }, [open]);
 
   // The prompt goes away as soon as the old home is empty — which happens
   // *during* a successful import. The flow itself has to outlive that, or the
