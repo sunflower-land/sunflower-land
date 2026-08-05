@@ -63,6 +63,11 @@ Hard rules:
 5. LENGTH. This is a pixel-art UI with tight bounds. Where a language offers a
    shorter natural equivalent, take it. Never pad.
 
+   Brevity never outranks meaning. If a label belongs to a parallel set --
+   "Land Tools" beside "Water Tools" and "Animal Tools" -- keep the word that
+   distinguishes it. Shortening it to plain "Tools" collides with its siblings
+   and is a worse outcome than a long label.
+
 6. LEAVE UNKNOWNS ALONE. If a string contains a capitalised game term that is not
    in the glossary, reproduce it in English rather than inventing a translation.
 

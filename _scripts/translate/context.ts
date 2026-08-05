@@ -96,16 +96,12 @@ export const siblingContext = (
   existing: Record<string, string>,
   limit = 6,
 ): { en: string; translated: string }[] => {
-  const namespace = key.includes(".")
-    ? key.slice(0, key.lastIndexOf("."))
-    : undefined;
-  if (!namespace) return [];
-
+  const isSibling = related(key);
   const siblings: { en: string; translated: string }[] = [];
 
   for (const candidate of Object.keys(english)) {
     if (candidate === key) continue;
-    if (!candidate.startsWith(`${namespace}.`)) continue;
+    if (!isSibling(candidate)) continue;
 
     const translated = existing[candidate];
     if (!translated) continue;
@@ -115,4 +111,29 @@ export const siblingContext = (
   }
 
   return siblings;
+};
+
+/**
+ * Decides what counts as a neighbour of `key`.
+ *
+ * Dotted keys use their namespace. Dotless top-level labels have no namespace to
+ * group by, so they fall back to a shared trailing camelCase word -- which pairs
+ * `landTools` with `waterTools` and `animalTools`.
+ *
+ * That pairing matters: without it the model translated `landTools` in isolation
+ * and rendered it de "Werkzeuge" (plain "Tools"), silently colliding with the
+ * two labels it is meant to be distinguished from. Dotless keys are exactly the
+ * short, ambiguous ones that need the most context, so leaving them bare was the
+ * worst place to have a gap.
+ */
+const related = (key: string): ((candidate: string) => boolean) => {
+  if (key.includes(".")) {
+    const namespace = key.slice(0, key.lastIndexOf("."));
+    return (candidate) => candidate.startsWith(`${namespace}.`);
+  }
+
+  const tail = key.match(/[A-Z][a-z]+$/)?.[0];
+  if (!tail) return () => false;
+
+  return (candidate) => !candidate.includes(".") && candidate.endsWith(tail);
 };

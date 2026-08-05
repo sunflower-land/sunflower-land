@@ -19,7 +19,7 @@ export const LANGUAGE_BRIEFS: Record<LanguageCode, string> = {
     "Use du/dein, never Sie -- this is a casual farming game.",
     'Toggle states are "An"/"Aus", never "Auf"/"Zu". `on` currently ships as "Auf", which is a preposition.',
     "Button labels are imperative verbs: Bauen, Pflanzen, Ernten -- not the noun form.",
-    "German compounds run long; prefer the shorter synonym when a label sits on a HUD chip.",
+    "German compounds run long. Prefer a shorter synonym where one exists, but never by deleting a distinguishing word -- 'Land Tools' must not become plain 'Werkzeuge' when 'Wasserwerkzeuge' sits next to it.",
   ].join("\n"),
 
   es: [

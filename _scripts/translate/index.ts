@@ -131,9 +131,14 @@ const translateLanguage = async (
   const existing = readTerms(path.join(DICTIONARIES, `${language}.json`));
 
   // Start from what already shipped, dropping keys no longer in the dictionary.
+  //
+  // Iteration order is the EXISTING file's, not the dictionary's. Rebuilding in
+  // dictionary order rewrites all 9,592 lines on every run, which buries three
+  // real changes in a 15,000-line reorder and makes the diff unreviewable.
+  // Keys new to this language are appended as they are translated below.
   const result: Terms = {};
-  for (const key of getKeys(english)) {
-    if (existing[key]) result[key] = existing[key];
+  for (const key of getKeys(existing)) {
+    if (english[key] !== undefined) result[key] = existing[key];
   }
 
   if (EXCLUDED.includes(language)) {
