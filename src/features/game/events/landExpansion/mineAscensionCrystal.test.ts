@@ -2,7 +2,6 @@ import Decimal from "decimal.js-light";
 import { TEST_FARM, INITIAL_BUMPKIN } from "../../lib/constants";
 import type { GameState } from "../../types/game";
 import {
-  ASCENSION_SHARDS_PER_MINE,
   EVENT_ERRORS,
   type MineAscensionCrystalAction,
   mineAscensionCrystal,
@@ -141,10 +140,9 @@ describe("mineAscensionCrystal", () => {
 
     const game = mineAscensionCrystal(payload);
 
+    // Burns 1 Gold Pickaxe and yields the agreed 3 shards.
     expect(game.inventory["Gold Pickaxe"]).toEqual(new Decimal(0));
-    expect(game.inventory["Ascension Shard"]).toEqual(
-      new Decimal(ASCENSION_SHARDS_PER_MINE),
-    );
+    expect(game.inventory["Ascension Shard"]).toEqual(new Decimal(3));
     // Single-use: the node is removed and the rock count decremented.
     expect(game.ascensionCrystals["0"]).toBeUndefined();
     expect(game.inventory["Ascension Crystal"]).toEqual(new Decimal(1));
@@ -170,9 +168,37 @@ describe("mineAscensionCrystal", () => {
 
     const game = mineAscensionCrystal(payload);
 
-    expect(game.inventory["Ascension Shard"]).toEqual(
-      new Decimal(5 + ASCENSION_SHARDS_PER_MINE),
-    );
+    expect(game.inventory["Ascension Shard"]).toEqual(new Decimal(8));
+  });
+
+  it("yields 3 shards per crystal across repeated mines", () => {
+    const mine = (state: GameState, index: string) =>
+      mineAscensionCrystal({
+        state,
+        createdAt: Date.now(),
+        action: {
+          type: "ascensionCrystal.mined",
+          index,
+        } as MineAscensionCrystalAction,
+      });
+
+    const start: GameState = {
+      ...GAME_STATE,
+      bumpkin: INITIAL_BUMPKIN,
+      inventory: {
+        "Gold Pickaxe": new Decimal(2),
+        "Ascension Crystal": new Decimal(2),
+      },
+    };
+
+    const game = mine(mine(start, "0"), "1");
+
+    // Two crystals mined at 3 shards each, both nodes consumed.
+    expect(game.inventory["Ascension Shard"]).toEqual(new Decimal(6));
+    expect(game.inventory["Ascension Crystal"]).toEqual(new Decimal(0));
+    expect(game.inventory["Gold Pickaxe"]).toEqual(new Decimal(0));
+    expect(game.ascensionCrystals["0"]).toBeUndefined();
+    expect(game.ascensionCrystals["1"]).toBeUndefined();
   });
 
   describe("BumpkinActivity", () => {

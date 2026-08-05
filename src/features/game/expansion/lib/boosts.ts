@@ -8,7 +8,9 @@ import {
   type Consumable,
   type CookableName,
   FISH_CONSUMABLES,
+  isAgedFish,
   isCookable,
+  isPrimeAgedFish,
 } from "features/game/types/consumables";
 import {
   getExpiryCooldown,
@@ -23,7 +25,12 @@ import {
   meetsLevelRequirement,
 } from "features/game/lib/level";
 import { isWearableActive } from "features/game/lib/wearables";
-import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
+import {
+  SKILL_RANKS,
+  getSkillLevel,
+  downgradeChapterCropWeekSkills,
+} from "features/game/types/bumpkinSkills";
+import { CHAPTER_CROP_WEEK_RECIPE } from "features/game/types/chapterCropWeek";
 import type { SellableItem } from "features/game/events/landExpansion/sellCrop";
 import {
   FACTION_ITEMS,
@@ -276,8 +283,15 @@ export const getCookingTime = ({
     boostsUsed.push({ name: "Desert Gnome", value: "x0.9" });
   }
 
+  // Saltbite (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Cooking-skill
+  // ranks — its cook-time reductions cap at rank 1 (base skill still applies).
+  const cookSkills =
+    item === CHAPTER_CROP_WEEK_RECIPE
+      ? downgradeChapterCropWeekSkills(bumpkin?.skills ?? {})
+      : (bumpkin?.skills ?? {});
+
   // -10%/-20%/-30% on Fire Pit + Kitchen with Fast Feasts skill (scales w/ rank)
-  const fastFeastsLevel = getSkillLevel(bumpkin?.skills ?? {}, "Fast Feasts");
+  const fastFeastsLevel = getSkillLevel(cookSkills, "Fast Feasts");
   if (
     (buildingName === "Fire Pit" || buildingName === "Kitchen") &&
     fastFeastsLevel
@@ -289,10 +303,7 @@ export const getCookingTime = ({
   }
 
   // -10%/-20%/-30% on Cakes with Frosted Cakes skill (scales with rank)
-  const frostedCakesLevel = getSkillLevel(
-    bumpkin?.skills ?? {},
-    "Frosted Cakes",
-  );
+  const frostedCakesLevel = getSkillLevel(cookSkills, "Frosted Cakes");
   if (item in COOKABLE_CAKES && frostedCakesLevel) {
     const multiplier =
       1 - SKILL_RANKS["Frosted Cakes"].ranks[frostedCakesLevel - 1];
@@ -397,6 +408,14 @@ export const getFoodExpBoost = ({
     boostsUsed.push({ name: "Hungry Hare", value: "x2" });
   }
 
+  if (
+    (isAgedFish(food.name) || isPrimeAgedFish(food.name)) &&
+    isCollectibleBuilt({ name: "Astrolabe", game })
+  ) {
+    boostedExp = boostedExp.mul(1.05);
+    boostsUsed.push({ name: "Astrolabe", value: "x1.05" });
+  }
+
   // Munching Mastery - +5%/+10%/+15% exp boost (scales with rank)
   const munchingMasteryLevel = getSkillLevel(skills, "Munching Mastery");
   if (munchingMasteryLevel) {
@@ -428,10 +447,13 @@ export const getFoodExpBoost = ({
     boostsUsed.push({ name: "Drive-Through Deli", value: `x${multiplier}` });
   }
 
-  // Buzzworthy Treats - 10% exp boost on honey foods
-  if (isFoodMadeWithHoney(food) && skills["Buzzworthy Treats"]) {
-    boostedExp = boostedExp.mul(1.1);
-    boostsUsed.push({ name: "Buzzworthy Treats", value: "x1.1" });
+  // Buzzworthy Treats - +10%/+20%/+30% exp boost on honey foods
+  const buzzworthyTreatsLevel = getSkillLevel(skills, "Buzzworthy Treats");
+  if (isFoodMadeWithHoney(food) && buzzworthyTreatsLevel) {
+    const multiplier =
+      1 + SKILL_RANKS["Buzzworthy Treats"].ranks[buzzworthyTreatsLevel - 1];
+    boostedExp = boostedExp.mul(multiplier);
+    boostsUsed.push({ name: "Buzzworthy Treats", value: `x${multiplier}` });
   }
 
   // Swiss Whiskers - +500 exp on cheese recipes

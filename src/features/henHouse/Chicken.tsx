@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -174,6 +174,73 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const { play: playLevelUp } = useSound("level_up");
   const { play: playCureAnimal } = useSound("cure_animal");
 
+  const lastSynced = useRef({
+    state: chicken.state,
+    experience: chicken.experience,
+  });
+
+  // Sync the local machine when game state changes underneath it,
+  // e.g. via the Feed All button (bulk feed/cure/claim without a click).
+  useEffect(() => {
+    const prev = lastSynced.current;
+    lastSynced.current = {
+      state: chicken.state,
+      experience: chicken.experience,
+    };
+
+    if (
+      prev.state === chicken.state &&
+      prev.experience === chicken.experience
+    ) {
+      return;
+    }
+
+    const machineState = () => chickenService.getSnapshot().value;
+
+    if (machineState() === "sick" && chicken.state !== "sick") {
+      chickenService.send({ type: "CURE", animal: chicken });
+    }
+
+    // A bulk claim happens without a click — play the same drop animation
+    // and sounds as a manual claim before the sprite transitions.
+    const animateBulkClaim = async (
+      event: "CLAIM_PRODUCE" | "INSTANT_WAKE_UP",
+    ) => {
+      setShowDrops(true);
+      playProduceDrop();
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      playChickenCollect();
+      await new Promise((resolve) => setTimeout(resolve, 900));
+      playLevelUp();
+      chickenService.send({ type: event, animal: chicken });
+      setShowDrops(false);
+    };
+
+    if (machineState() === "ready" && chicken.state === "idle") {
+      animateBulkClaim("CLAIM_PRODUCE");
+    }
+
+    if (
+      ["idle", "happy", "sad"].includes(machineState() as string) &&
+      chicken.state === "idle" &&
+      Date.now() < chicken.awakeAt
+    ) {
+      // Bulk feeding can level an animal to ready and claim its produce in
+      // the same event; INSTANT_WAKE_UP re-derives the machine state from
+      // the animal, which maps an asleep animal to "sleeping".
+      animateBulkClaim("INSTANT_WAKE_UP");
+    }
+
+    if (
+      ["idle", "happy", "sad"].includes(machineState() as string) &&
+      ["happy", "sad", "ready"].includes(chicken.state) &&
+      machineState() !== chicken.state
+    ) {
+      chickenService.send({ type: "FEED", animal: chicken });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chicken.state, chicken.experience]);
+
   const { foodQuantity: requiredFoodQty } = getBoostedFoodQuantity({
     animalType: "Chicken",
     foodQuantity: REQUIRED_FOOD_QTY.Chicken,
@@ -334,6 +401,10 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
   const handleClick = async () => {
     if (disabled) return;
+    // A bulk-claim animation is in flight: the sprite still looks awake but
+    // the game-state animal is already asleep, so any feed/claim event would
+    // throw. Ignore clicks until the animation resolves.
+    if (showDrops) return;
 
     const showNoFoodPrompt = async () => {
       setShowNoFoodSelected(true);
@@ -467,7 +538,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     if (needsLove) return chicken.item;
     return favFood;
   };
-  const showRequestBubble = sick || needsLove || (idle && !isLocked);
+  const showRequestBubble =
+    sick || needsLove || (idle && !isLocked && !showDrops);
 
   if (chickenMachineState === "initial") return null;
 

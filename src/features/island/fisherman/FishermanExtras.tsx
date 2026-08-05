@@ -30,6 +30,7 @@ import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuff
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 import { getDailyFishingLimit } from "features/game/types/fishing";
 import { getWearableImage } from "features/game/lib/getWearableImage";
+import { useNow } from "lib/utils/hooks/useNow";
 
 interface BoostReelItem {
   location: string;
@@ -189,7 +190,10 @@ export const FishermanExtras: React.FC<{
   const { t } = useAppTranslation();
 
   const reelsLeft = getRemainingReels(state);
-  const { boostsUsed } = getDailyFishingLimit(state, Date.now());
+  // The daily limit rolls over at UTC midnight, so this must stay live —
+  // a captured timestamp would leave the boost highlights stale after a reset.
+  const now = useNow({ live: true });
+  const { boostsUsed } = getDailyFishingLimit(state, now);
   const activeBoosts = new Set<BoostName>(
     boostsUsed.map((boost) => boost.name),
   );

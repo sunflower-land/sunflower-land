@@ -239,6 +239,8 @@ import iron from "assets/resources/iron_ore.png";
 import gold from "assets/resources/gold_ore.png";
 import crimstone from "assets/resources/crimstone.png";
 import sunstone from "assets/resources/sunstone/sunstone.png";
+import ascensionShard from "assets/resources/ascension_crystal/ascension_shard.webp";
+import ascensionCrystalRock from "assets/resources/ascension_crystal/ascension_crystal.webp";
 import honey from "assets/resources/honey.png";
 import apple from "assets/resources/apple.png";
 import orange from "assets/resources/orange.png";
@@ -447,6 +449,33 @@ import saltRockTicket from "assets/icons/salt_rock_ticket.webp";
 import saltAwakeningBanner from "assets/decorations/banners/salt_awakening_banner.webp";
 import saltAwakeningRaffleTicket from "assets/icons/salt_awakening_raffle_ticket.png";
 import saltDinoEgg from "assets/icons/salt_dino_egg.webp";
+
+// Ascension Age
+import ascendedChicken from "assets/sfts/ascended_chicken.webp";
+import ascendedCow from "assets/sfts/ascended_cow.webp";
+import ascendedSheep from "assets/sfts/ascended_sheep.webp";
+import ruinsFlower from "assets/sfts/ruins_flower.webp";
+import crocodile from "assets/sfts/crocodile.webp";
+import dumboOctopus from "assets/sfts/dumbo_octopus.webp";
+import seahorseDad from "assets/sfts/seahorse_dad.webp";
+import ascensionAgeBanner from "assets/decorations/banners/ascension_banner.webp";
+import shinyFeather from "assets/icons/shiny_feather.webp";
+import ascensionAgeRaffleTicket from "assets/icons/ascension_age_raffle_ticket.png";
+import otterPebble from "assets/icons/otter_pebble.webp";
+import cloudBed from "assets/bumpkins/cloud_bed.webp";
+import ascensionMonument from "assets/monuments/ascension_monument_stage3.webp";
+import saltRug from "assets/sfts/salt_rug.webp";
+import ascendedIdol from "assets/sfts/ascended_idol.webp";
+import ascendedWheel from "assets/sfts/ascended_wheel.webp";
+import astrolabe from "assets/sfts/astrolabe.webp";
+import coatRack from "assets/sfts/coat_rack.webp";
+import lampshade from "assets/sfts/lampshade.webp";
+import marbleHead from "assets/sfts/marble_head.webp";
+import ottyTheOtter from "assets/sfts/otty_the_otter.webp";
+import saltWorkerGnome from "assets/sfts/salt_worker_gnome.webp";
+import shardsTurtle from "assets/sfts/shards_turtle.webp";
+import vibraphone from "assets/sfts/vibraphone.webp";
+import wingedVase from "assets/sfts/winged_vase.webp";
 
 // Compost
 import sproutMix from "assets/composters/sprout_mix.png";
@@ -1199,6 +1228,11 @@ import basicBiome from "assets/icons/islands/basic.webp";
 import springBiome from "assets/icons/islands/spring.webp";
 import desertBiome from "assets/icons/islands/desert.webp";
 import volcanoBiome from "assets/icons/islands/volcano.webp";
+import swampBiome from "assets/icons/islands/swamp.webp";
+import spookyBiome from "assets/icons/islands/spooky.webp";
+import crystalBiome from "assets/icons/islands/crystal.webp";
+import galaxyBiome from "assets/icons/islands/galaxy.webp";
+import marbleBiome from "assets/icons/islands/marble.webp";
 
 import farmerMonument from "assets/monuments/shovel_monument.webp";
 import minerMonument from "assets/monuments/pickaxe_monument.webp";
@@ -1917,7 +1951,7 @@ export const ITEM_DETAILS: Items = {
     translatedName: translate("resource.sunstone"),
   },
   "Ascension Shard": {
-    image: sunstone,
+    image: ascensionShard,
     description: COMMODITIES["Ascension Shard"].description,
   },
   Oil: {
@@ -3559,9 +3593,8 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.lava.pit"),
     translatedName: translate("node.lavaPit"),
   },
-  // TODO: replace placeholder art once the Ascension Crystal asset lands.
   "Ascension Crystal": {
-    image: sunstoneRock,
+    image: ascensionCrystalRock,
     description: translate("description.ascensionCrystal"),
   },
   Tree: {
@@ -4364,6 +4397,58 @@ export const ITEM_DETAILS: Items = {
     image: crystalAltar,
     description: "",
   },
+  "Ascension Monument": {
+    image: ascensionMonument,
+    description: translate("description.ascensionMonument"),
+  },
+  "Salt Rug": {
+    image: saltRug,
+    description: translate("description.saltRug"),
+  },
+  "Ascended Idol": {
+    image: ascendedIdol,
+    description: translate("description.ascendedIdol"),
+  },
+  "Ascended Wheel": {
+    image: ascendedWheel,
+    description: translate("description.ascendedWheel"),
+  },
+  Astrolabe: {
+    image: astrolabe,
+    description: translate("description.astrolabe"),
+  },
+  "Coat Rack": {
+    image: coatRack,
+    description: translate("description.coatRack"),
+  },
+  Lampshade: {
+    image: lampshade,
+    description: translate("description.lampshade"),
+  },
+  "Marble Head": {
+    image: marbleHead,
+    description: translate("description.marbleHead"),
+  },
+  "Otty the Otter": {
+    image: ottyTheOtter,
+    description: translate("description.ottyTheOtter"),
+  },
+  "Salt Worker Gnome": {
+    image: saltWorkerGnome,
+    description: translate("description.saltWorkerGnome"),
+  },
+  "Shards Turtle": {
+    image: shardsTurtle,
+    description: translate("description.shardsTurtle"),
+  },
+  Vibraphone: {
+    image: vibraphone,
+    description: translate("description.vibraphone"),
+  },
+  "Winged Vase": {
+    image: wingedVase,
+    description: translate("description.wingedVase"),
+  },
   "Dino Egg Trophy": {
     image: dinoEggTrophy,
     description: "",
@@ -4375,6 +4460,10 @@ export const ITEM_DETAILS: Items = {
   "Salt Crystal Bed": {
     image: saltCrystalBed,
     description: translate("description.saltCrystalBed"),
+  },
+  "Cloud Bed": {
+    image: cloudBed,
+    description: translate("description.cloudBed"),
   },
   "World Map Rug": {
     image: worldMapRug,
@@ -6855,25 +6944,28 @@ export const ITEM_DETAILS: Items = {
       "A volcano biome that provides a volcano income and a volcano life.",
   },
   "Swamp Biome": {
-    image: volcanoBiome,
+    image: swampBiome,
     description: "A swamp biome that provides a swamp income and a swamp life.",
   },
-  // Ascension biomes (spooky onward)
   "Spooky Biome": {
-    image: volcanoBiome,
-    description: "A swamp biome that provides a swamp income and a swamp life.",
+    image: spookyBiome,
+    description:
+      "A spooky biome that provides a spooky income and a spooky life.",
   },
   "Crystal Biome": {
-    image: volcanoBiome,
-    description: "A swamp biome that provides a swamp income and a swamp life.",
+    image: crystalBiome,
+    description:
+      "A crystal biome that provides a crystal income and a crystal life.",
   },
   "Galaxy Biome": {
-    image: volcanoBiome,
-    description: "A swamp biome that provides a swamp income and a swamp life.",
+    image: galaxyBiome,
+    description:
+      "A galaxy biome that provides a galaxy income and a galaxy life.",
   },
   "Marble Age Biome": {
-    image: volcanoBiome,
-    description: "A swamp biome that provides a swamp income and a swamp life.",
+    image: marbleBiome,
+    description:
+      "A marble biome that provides a marble income and a marble life.",
   },
   Bracelet: {
     image: bracelet,
@@ -7146,6 +7238,110 @@ export const ITEM_DETAILS: Items = {
   "Jacuzzi Bear": {
     image: spaBear,
     description: translate("description.jacuzziBear"),
+  },
+  "Letter A Tile": {
+    image: SUNNYSIDE.tiles.letterATile,
+    description: translate("description.letterATile"),
+  },
+  "Letter B Tile": {
+    image: SUNNYSIDE.tiles.letterBTile,
+    description: translate("description.letterBTile"),
+  },
+  "Letter C Tile": {
+    image: SUNNYSIDE.tiles.letterCTile,
+    description: translate("description.letterCTile"),
+  },
+  "Letter D Tile": {
+    image: SUNNYSIDE.tiles.letterDTile,
+    description: translate("description.letterDTile"),
+  },
+  "Letter E Tile": {
+    image: SUNNYSIDE.tiles.letterETile,
+    description: translate("description.letterETile"),
+  },
+  "Letter F Tile": {
+    image: SUNNYSIDE.tiles.letterFTile,
+    description: translate("description.letterFTile"),
+  },
+  "Letter G Tile": {
+    image: SUNNYSIDE.tiles.letterGTile,
+    description: translate("description.letterGTile"),
+  },
+  "Letter H Tile": {
+    image: SUNNYSIDE.tiles.letterHTile,
+    description: translate("description.letterHTile"),
+  },
+  "Letter I Tile": {
+    image: SUNNYSIDE.tiles.letterITile,
+    description: translate("description.letterITile"),
+  },
+  "Letter J Tile": {
+    image: SUNNYSIDE.tiles.letterJTile,
+    description: translate("description.letterJTile"),
+  },
+  "Letter K Tile": {
+    image: SUNNYSIDE.tiles.letterKTile,
+    description: translate("description.letterKTile"),
+  },
+  "Letter L Tile": {
+    image: SUNNYSIDE.tiles.letterLTile,
+    description: translate("description.letterLTile"),
+  },
+  "Letter M Tile": {
+    image: SUNNYSIDE.tiles.letterMTile,
+    description: translate("description.letterMTile"),
+  },
+  "Letter N Tile": {
+    image: SUNNYSIDE.tiles.letterNTile,
+    description: translate("description.letterNTile"),
+  },
+  "Letter O Tile": {
+    image: SUNNYSIDE.tiles.letterOTile,
+    description: translate("description.letterOTile"),
+  },
+  "Letter P Tile": {
+    image: SUNNYSIDE.tiles.letterPTile,
+    description: translate("description.letterPTile"),
+  },
+  "Letter Q Tile": {
+    image: SUNNYSIDE.tiles.letterQTile,
+    description: translate("description.letterQTile"),
+  },
+  "Letter R Tile": {
+    image: SUNNYSIDE.tiles.letterRTile,
+    description: translate("description.letterRTile"),
+  },
+  "Letter S Tile": {
+    image: SUNNYSIDE.tiles.letterSTile,
+    description: translate("description.letterSTile"),
+  },
+  "Letter T Tile": {
+    image: SUNNYSIDE.tiles.letterTTile,
+    description: translate("description.letterTTile"),
+  },
+  "Letter U Tile": {
+    image: SUNNYSIDE.tiles.letterUTile,
+    description: translate("description.letterUTile"),
+  },
+  "Letter V Tile": {
+    image: SUNNYSIDE.tiles.letterVTile,
+    description: translate("description.letterVTile"),
+  },
+  "Letter W Tile": {
+    image: SUNNYSIDE.tiles.letterWTile,
+    description: translate("description.letterWTile"),
+  },
+  "Letter X Tile": {
+    image: SUNNYSIDE.tiles.letterXTile,
+    description: translate("description.letterXTile"),
+  },
+  "Letter Y Tile": {
+    image: SUNNYSIDE.tiles.letterYTile,
+    description: translate("description.letterYTile"),
+  },
+  "Letter Z Tile": {
+    image: SUNNYSIDE.tiles.letterZTile,
+    description: translate("description.letterZTile"),
   },
   Trash: {
     image: trash,
@@ -7808,6 +8004,50 @@ export const ITEM_DETAILS: Items = {
   "Salt Dino Egg": {
     image: saltDinoEgg,
     description: translate("description.saltDinoEgg"),
+  },
+  "Ascended Chicken": {
+    image: ascendedChicken,
+    description: translate("description.ascendedChicken"),
+  },
+  "Ascended Cow": {
+    image: ascendedCow,
+    description: translate("description.ascendedCow"),
+  },
+  "Ascended Sheep": {
+    image: ascendedSheep,
+    description: translate("description.ascendedSheep"),
+  },
+  "Ruins Flower": {
+    image: ruinsFlower,
+    description: translate("description.ruinsFlower"),
+  },
+  Crocodile: {
+    image: crocodile,
+    description: translate("description.crocodile"),
+  },
+  "Dumbo Octopus": {
+    image: dumboOctopus,
+    description: translate("description.dumboOctopus"),
+  },
+  "Seahorse Dad": {
+    image: seahorseDad,
+    description: translate("description.seahorseDad"),
+  },
+  "Shiny Feather": {
+    image: shinyFeather,
+    description: translate("description.shinyFeather"),
+  },
+  "Ascension Age Banner": {
+    image: ascensionAgeBanner,
+    description: translate("description.ascensionAgeBanner"),
+  },
+  "Otter Pebble": {
+    image: otterPebble,
+    description: translate("description.otterPebble"),
+  },
+  "Ascension Age Raffle Ticket": {
+    image: ascensionAgeRaffleTicket,
+    description: translate("description.ascensionAgeRaffleTicket"),
   },
   "Big Table": {
     image: bigTable,

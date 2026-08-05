@@ -8,12 +8,14 @@ import { BANNERS } from "features/game/types/banners";
 import { BED_FARMHAND_COUNT } from "features/game/types/beds";
 import { WEATHER_SHOP_ITEM_COSTS } from "features/game/types/calendar";
 import { DOLLS } from "features/game/lib/crafting";
+import { LETTER_TILES } from "features/game/types/decorations";
 import { PET_TYPES } from "features/game/types/pets";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import lightning from "assets/icons/lightning.png";
 import { getChestFlowers } from "./inventory";
 import { hasBoost } from "./boosts";
+import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 
 /**
  * The collectible chest categories (id + icon) in display order.
@@ -27,6 +29,7 @@ const CHEST_CATEGORIES_META = [
   { id: "resource.nodes", icon: SUNNYSIDE.resource.tree },
   { id: "buildings", icon: SUNNYSIDE.icons.hammer },
   { id: "boosts", icon: lightning },
+  { id: "temporaryBoosts", icon: SUNNYSIDE.icons.stopwatch },
   { id: "banners", icon: ITEM_DETAILS["Lifetime Farmer Banner"].image },
   { id: "beds", icon: ITEM_DETAILS["Basic Bed"].image },
   { id: "weatherItems", icon: ITEM_DETAILS["Tornado Pinwheel"].image },
@@ -34,6 +37,7 @@ const CHEST_CATEGORIES_META = [
   { id: "villageProjects", icon: ITEM_DETAILS["Big Orange"].image },
   { id: "dolls", icon: ITEM_DETAILS["Doll"].image },
   { id: "flowers", icon: ITEM_DETAILS["Prism Petal"].image },
+  { id: "letterTiles", icon: ITEM_DETAILS["Letter A Tile"].image },
   { id: "decorations", icon: ITEM_DETAILS["Basic Bear"].image },
 ] as const satisfies readonly { id: TranslationKeys; icon: string }[];
 
@@ -89,6 +93,7 @@ export const getChestCategories = (
   );
   const dolls = collectibleNames.filter((name) => name in DOLLS);
   const pets = collectibleNames.filter((name) => name in PET_TYPES);
+  const letterTiles = collectibleNames.filter((name) => name in LETTER_TILES);
 
   // Sets for O(1) lookups when computing the catch-all categories below.
   const resourcesSet = new Set(resources);
@@ -101,6 +106,25 @@ export const getChestCategories = (
   const flowersSet = new Set<CollectibleName>(flowers);
   const dollsSet = new Set(dolls);
   const petsSet = new Set(pets);
+  const letterTilesSet = new Set(letterTiles);
+
+  // Totems, hourglasses and shrines expire and need re-triggering - split
+  // them out from the "always on" boosts (EXPIRY_COOLDOWNS is the ground
+  // truth for what's temporary, shared with the renewal/expiry logic).
+  const temporaryBoosts = collectibleNames
+    .filter((name) => name in EXPIRY_COOLDOWNS)
+    .filter(
+      (name) =>
+        !resourcesSet.has(name) &&
+        !buildingsSet.has(name) &&
+        !monumentsSet.has(name) &&
+        !villageProjectsSet.has(name) &&
+        !bedsSet.has(name) &&
+        !flowersSet.has(name) &&
+        !letterTilesSet.has(name),
+    );
+
+  const temporaryBoostsSet = new Set(temporaryBoosts);
 
   const boosts = collectibleNames
     .filter((name) => hasBoost(name, state))
@@ -111,7 +135,9 @@ export const getChestCategories = (
         !monumentsSet.has(name) &&
         !villageProjectsSet.has(name) &&
         !bedsSet.has(name) &&
-        !flowersSet.has(name),
+        !flowersSet.has(name) &&
+        !temporaryBoostsSet.has(name) &&
+        !letterTilesSet.has(name),
     );
 
   const boostsSet = new Set(boosts);
@@ -121,6 +147,7 @@ export const getChestCategories = (
       !resourcesSet.has(name) &&
       !buildingsSet.has(name) &&
       !boostsSet.has(name) &&
+      !temporaryBoostsSet.has(name) &&
       !bannersSet.has(name) &&
       !bedsSet.has(name) &&
       !weatherItemsSet.has(name) &&
@@ -128,7 +155,8 @@ export const getChestCategories = (
       !dollsSet.has(name) &&
       !petsSet.has(name) &&
       !flowersSet.has(name) &&
-      !villageProjectsSet.has(name),
+      !villageProjectsSet.has(name) &&
+      !letterTilesSet.has(name),
   );
 
   const itemsById: Record<ChestCategoryId, CollectibleName[]> = {
@@ -136,6 +164,7 @@ export const getChestCategories = (
     "resource.nodes": resources,
     buildings,
     boosts,
+    temporaryBoosts,
     banners,
     beds,
     weatherItems,
@@ -143,6 +172,7 @@ export const getChestCategories = (
     villageProjects,
     dolls,
     flowers,
+    letterTiles,
     decorations,
   };
 

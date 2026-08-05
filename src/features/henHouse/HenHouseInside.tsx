@@ -16,13 +16,14 @@ import { Chicken } from "./Chicken";
 import shopDisc from "assets/icons/shop_disc.png";
 import { AnimalBuildingModal } from "features/game/expansion/components/animals/AnimalBuildingModal";
 import { FeederMachine } from "features/feederMachine/FeederMachine";
+import { FeedAllButton } from "features/game/expansion/components/animals/FeedAllButton";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
 import { Modal } from "components/ui/Modal";
 import {
   AnimalDeal,
   ExchangeHud,
 } from "features/barn/components/AnimalBounties";
-import type { Animal, AnimalBounty } from "features/game/types/game";
+import type { AnimalBounty } from "features/game/types/game";
 import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
 import classNames from "classnames";
 import { EXTERIOR_ISLAND_BG } from "features/barn/BarnInside";
@@ -53,7 +54,7 @@ export const HenHouseInside: React.FC = () => {
   const [showModal, setShowModal] = useState(!hasReadGuide());
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [deal, setDeal] = useState<AnimalBounty>();
-  const [selected, setSelected] = useState<Animal>();
+  const [selectedAnimalId, setSelectedAnimalId] = useState<string>();
 
   const henHouse = useSelector(gameService, _henHouse);
   const token = useSelector(authService, _token);
@@ -147,17 +148,20 @@ export const HenHouseInside: React.FC = () => {
         onClose={() => setShowUpgradeModal(false)}
       />
 
-      <Modal show={!!selected && !!deal} onHide={() => setSelected(undefined)}>
+      <Modal
+        show={!!selectedAnimalId && !!deal}
+        onHide={() => setSelectedAnimalId(undefined)}
+      >
         <AnimalDeal
           onClose={() => {
-            setSelected(undefined);
+            setSelectedAnimalId(undefined);
           }}
           onSold={() => {
             setDeal(undefined);
-            setSelected(undefined);
+            setSelectedAnimalId(undefined);
           }}
           deal={deal}
-          animal={selected}
+          animalId={selectedAnimalId}
         />
       </Modal>
       <div
@@ -225,7 +229,11 @@ export const HenHouseInside: React.FC = () => {
                   transform: "translateX(-50%)",
                 }}
               >
-                <FeederMachine />
+                <FeederMachine building="Hen House" />
+              </div>
+
+              <div className="absolute -top-[11px] left-1/2 translate-x-[58px]">
+                <FeedAllButton building="Hen House" />
               </div>
 
               <MapPlacement
@@ -263,7 +271,7 @@ export const HenHouseInside: React.FC = () => {
 
                             if (!isValid) return;
 
-                            setSelected(animal);
+                            setSelectedAnimalId(animal.id.toString());
                           }
                         }}
                       >

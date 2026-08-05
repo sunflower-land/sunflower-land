@@ -1585,6 +1585,56 @@ describe("deliver", () => {
 
     expect(state.coins).toEqual(160);
   });
+
+  // Victoria's Secretary — +50%/+75%/+100% Coins on Victoria deliveries
+  // (rank 1 == current +50%).
+  it.each([
+    [1, 150],
+    [2, 175],
+    [3, 200],
+  ])(
+    "scales Victoria's Secretary coin bonus at rank %i",
+    (rank, expectedCoins) => {
+      const state = deliverOrder({
+        state: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            skills: {
+              "Victoria's Secretary": rank,
+            },
+          },
+          inventory: {
+            Sunflower: new Decimal(60),
+          },
+          delivery: {
+            ...TEST_FARM.delivery,
+            fulfilledCount: 3,
+            orders: [
+              {
+                id: "123",
+                createdAt: 0,
+                readyAt: new Date("2023-10-31T15:00:00Z").getTime(),
+                from: "victoria",
+                items: {
+                  Sunflower: 50,
+                },
+                reward: { coins: 100 },
+              },
+            ],
+          },
+        },
+        action: {
+          id: "123",
+          type: "order.delivered",
+        },
+        createdAt: new Date("2024-05-10T16:00:00Z").getTime(),
+      });
+
+      expect(state.coins).toEqual(expectedCoins);
+    },
+  );
+
   it("add 20% coins bonus if has Forge-Ward Profits skill on Blacksmith's orders with Coins reward", () => {
     const state = deliverOrder({
       state: {

@@ -26,6 +26,7 @@ import {
 import {
   getAgingInputMultiplier,
   getAgingOutput,
+  getAstrolabeDoubleChance,
 } from "features/game/types/agingFormulas";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -33,6 +34,7 @@ import { useVisiting } from "lib/utils/visitUtils";
 import { getObjectEntries } from "lib/object";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { getItemDescription } from "features/game/lib/getItemDescription";
+import { getSkillLevel } from "features/game/types/bumpkinSkills";
 
 function getMergedInventory(state: GameState): Inventory {
   return {
@@ -125,8 +127,8 @@ export const FermentationRackEmpty: React.FC<Props> = ({
           getFermentationRecipe(recipeId).outputs[selectedItem] ??
             new Decimal(0),
           selectedItem,
-          !!gameState.bumpkin.skills["Ager"],
-        )
+          getSkillLevel(gameState.bumpkin.skills, "Ager"),
+        ).output
       : undefined;
 
   return (
@@ -247,6 +249,14 @@ export const FermentationRackEmpty: React.FC<Props> = ({
                 waitSeconds={recipeDef.durationSeconds}
               />
             </div>
+          )}
+
+          {getAstrolabeDoubleChance(gameState) > 0 && (
+            <Label type="vibrant" className="text-xxs mx-2 mb-1">
+              {t("agingShed.astrolabe.doubleChance", {
+                chance: getAstrolabeDoubleChance(gameState),
+              })}
+            </Label>
           )}
         </InnerPanel>
       )}

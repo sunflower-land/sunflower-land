@@ -52,6 +52,42 @@ describe("cancelBid", () => {
     ).toThrow("Auction does not match active bid");
   });
 
+  it("decrements FLOWER Spent farm activity when cancelling a bid", () => {
+    const state = cancelBid({
+      action: {
+        type: "bid.cancelled",
+        auctionId: "test-drop-1",
+      },
+      state: {
+        ...GAME_STATE,
+        farmActivity: { "FLOWER Spent": 25 },
+        auctioneer: {
+          bid: {
+            ...GAME_STATE.auctioneer.bid!,
+            flowerSpentTracked: true,
+          },
+        },
+      },
+    });
+
+    expect(state.farmActivity["FLOWER Spent"]).toEqual(15);
+  });
+
+  it("does not decrement FLOWER Spent when cancelling a legacy bid without the tracked marker", () => {
+    const state = cancelBid({
+      action: {
+        type: "bid.cancelled",
+        auctionId: "test-drop-1",
+      },
+      state: {
+        ...GAME_STATE,
+        farmActivity: { "FLOWER Spent": 25 },
+      },
+    });
+
+    expect(state.farmActivity["FLOWER Spent"]).toEqual(25);
+  });
+
   it("restores escrowed resources and clears the bid", () => {
     const state = cancelBid({
       action: {

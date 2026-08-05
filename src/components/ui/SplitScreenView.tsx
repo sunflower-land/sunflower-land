@@ -1,4 +1,4 @@
-import React, { type JSX } from "react";
+import React, { type JSX, useEffect, useRef, useState } from "react";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 
@@ -12,6 +12,7 @@ import classNames from "classnames";
  * @param panel The top or right panel view.
  * @param content The bottom or left content view.
  * @param mobileReversePanelOrder Whether to show the panel below the content on mobile.
+ * @param matchPanelHeight On desktop, caps the content column's height to the panel column's actual rendered height (measured live), instead of a fixed max-height, so the two columns' borders line up regardless of how much either side renders.
  */
 interface Props {
   divRef?: React.RefObject<HTMLDivElement | null>;
@@ -23,6 +24,7 @@ interface Props {
   panel: JSX.Element;
   content: JSX.Element;
   mobileReversePanelOrder?: boolean;
+  matchPanelHeight?: boolean;
 }
 
 /**
@@ -39,7 +41,39 @@ export const SplitScreenView: React.FC<Props> = ({
   panel: header,
   content,
   tallDesktopContent = false,
+  matchPanelHeight = false,
 }) => {
+  const headerRef = useRef<HTMLDivElement | null>(null);
+  const [panelHeight, setPanelHeight] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    if (!matchPanelHeight || !showHeader || !headerRef.current) return;
+
+    const node = headerRef.current;
+
+    const measure = () => {
+      // Only constrain on desktop (sm+); mobile stacks the panels, where the
+      // fixed tallMobileContent/max-h caps below already apply.
+      if (window.innerWidth >= 640) {
+        setPanelHeight(node.offsetHeight);
+      } else {
+        setPanelHeight(undefined);
+      }
+    };
+
+    // ResizeObserver fires its callback once on observe() with the node's
+    // initial size, so it handles the first measurement too — no direct
+    // setState in the effect body is needed.
+    const observer = new ResizeObserver(measure);
+    observer.observe(node);
+    window.addEventListener("resize", measure);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [matchPanelHeight, showHeader]);
+
   return (
     <div
       className={classNames("flex sm:flex-row", {
@@ -59,6 +93,11 @@ export const SplitScreenView: React.FC<Props> = ({
           "flex-col": !contentScrollable,
           "mt-1 sm:mt-0": !mobileReversePanelOrder,
         })}
+        style={
+          matchPanelHeight && showHeader && panelHeight
+            ? { maxHeight: `${panelHeight}px` }
+            : undefined
+        }
         divRef={divRef}
       >
         {content}
@@ -69,6 +108,7 @@ export const SplitScreenView: React.FC<Props> = ({
             "lg:w-1/4": wideModal,
             "mt-1 sm:mt-0": mobileReversePanelOrder,
           })}
+          divRef={headerRef}
         >
           {header}
         </InnerPanel>

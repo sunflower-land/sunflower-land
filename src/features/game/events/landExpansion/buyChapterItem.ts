@@ -60,6 +60,19 @@ function getItemName(item: ChapterStoreItem): ChapterTierItemName {
   return isCollectible(item) ? item.collectible : item.wearable;
 }
 
+// How many copies of a store item the player currently owns — collectibles are
+// counted from the inventory, wearables from the wardrobe. This is the basis
+// for `inventoryLimit`, which (unlike the chapter-scoped `limit`) caps total
+// ownership regardless of how or when the copies were acquired.
+export function getStoreItemOwnedCount(
+  game: GameState,
+  item: ChapterStoreItem,
+): number {
+  return isCollectible(item)
+    ? (game.inventory[item.collectible]?.toNumber() ?? 0)
+    : (game.wardrobe[item.wearable] ?? 0);
+}
+
 // Helper to create farm activity name from chapter item
 function toBoughtActivityName(
   itemName: ChapterTierItemName,
@@ -227,6 +240,15 @@ export function buyChapterItem({
       }
     }
 
+    // Items with an explicit `inventoryLimit` cap how many copies a player may
+    // ever own. This blocks re-buying an item the player already holds — even
+    // one acquired in a previous chapter or from another source.
+    if (item.inventoryLimit !== undefined) {
+      if (getStoreItemOwnedCount(copy, item) >= item.inventoryLimit) {
+        throw new Error("Inventory limit reached");
+      }
+    }
+
     // Check if player has enough resources
     const { sfl, items, coins = 0 } = item.cost;
 
@@ -254,6 +276,13 @@ export function buyChapterItem({
 
     // Deduct resources
     copy.balance = copy.balance.minus(_sfl);
+    if (_sfl.gt(0)) {
+      copy.farmActivity = trackFarmActivity(
+        "FLOWER Spent",
+        copy.farmActivity,
+        _sfl,
+      );
+    }
     if (coins > 0) {
       copy.coins = currentCoins - coins;
     }

@@ -270,7 +270,8 @@ export type MutantChicken =
   | "Janitor Chicken"
   | "Sleepy Chicken"
   | "Squid Chicken"
-  | "Flamingo Chicken";
+  | "Flamingo Chicken"
+  | "Ascended Chicken";
 
 export type MutantCow =
   | "Mootant"
@@ -279,7 +280,8 @@ export type MutantCow =
   | "Baby Cow"
   | "Astronaut Cow"
   | "Mermaid Cow"
-  | "Spa Cow";
+  | "Spa Cow"
+  | "Ascended Cow";
 
 export type MutantSheep =
   | "Toxic Tuft"
@@ -288,7 +290,8 @@ export type MutantSheep =
   | "Baby Sheep"
   | "Astronaut Sheep"
   | "Mermaid Sheep"
-  | "Spa Sheep";
+  | "Spa Sheep"
+  | "Ascended Sheep";
 
 export type MutantAnimal = MutantChicken | MutantCow | MutantSheep;
 
@@ -504,6 +507,10 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Salt Rock": { description: "Collected during the Salt Awakening." },
   "Salt Awakening Raffle Ticket": {
     description: "A raffle ticket for the Salt Awakening chapter.",
+  },
+  "Shiny Feather": { description: translate("description.shinyFeather") },
+  "Ascension Age Raffle Ticket": {
+    description: translate("description.ascensionAgeRaffleTicket"),
   },
   "Colors Token 2026": {
     description: translate("description.colorsToken2026"),
@@ -1102,6 +1109,13 @@ export type SavedLayout = {
   name: string;
   createdAt: number;
   updatedAt: number;
+  /**
+   * Marks the auto-managed "Ascension Layout" captured when the player first
+   * ascends (volcano→swamp) and re-applied on later ascensions. It is protected:
+   * the player cannot delete, rename, or overwrite it, and it does not count
+   * against the manual `MAX_SAVED_LAYOUTS` limit.
+   */
+  auto?: boolean;
   collectibles: Partial<Record<CollectibleName, LayoutPlacement[]>>;
   buildings: Partial<Record<BuildingName, LayoutPlacement[]>>;
   resources: {
@@ -1194,6 +1208,9 @@ export type Bid = {
   ingredients: Partial<Record<InventoryItemName, number>>;
   biddedAt: number;
   tickets: number;
+  // Set when placing the bid incremented "FLOWER Spent" - bids placed
+  // before that tracking existed must not decrement it on cancel/refund
+  flowerSpentTracked?: boolean;
 } & (
   | {
       type: "collectible";
@@ -1307,7 +1324,8 @@ export type BedName =
   | "Pearl Bed"
   | "Double Bed"
   | "Messy Bed"
-  | "Salt Crystal Bed";
+  | "Salt Crystal Bed"
+  | "Cloud Bed";
 
 export type RecipeCraftableName =
   | "Cushion"
@@ -1583,6 +1601,12 @@ type FishingSpot = {
    * UI can attribute the extra fish to the wearable.
    */
   shrimpOnesieBonus?: Partial<Record<InventoryItemName, number>>;
+  /**
+   * Per-fish breakdown of bonus units Otty the Otter added during this cast.
+   * Already included in `caught`; surfaced separately so the catch UI can
+   * attribute the extra fish to the collectible.
+   */
+  ottyBonus?: Partial<Record<InventoryItemName, number>>;
   guaranteedCatch?: FishName;
   maps?: Partial<Record<MarineMarvelName, number>>;
   /**
@@ -2158,6 +2182,17 @@ export interface GameState {
     network?: NetworkName;
     economiesEnabled?: boolean;
     interiorsEnabled?: boolean;
+    toolShop?: {
+      buyAllEnabled?: boolean;
+      buyAll?: Partial<
+        Record<
+          WorkbenchToolName,
+          {
+            blocked?: boolean;
+          }
+        >
+      >;
+    };
   };
   coins: number;
   balance: Decimal;

@@ -94,8 +94,10 @@ export function getToolPrice(
     price = price * SKILL_RANKS["Frugal Miner"].ranks[frugalMinerLevel - 1];
   }
 
-  if (bumpkin.skills["Cheap Rakes"] && name === "Salt Rake") {
-    price = price * 0.8;
+  // Cheap Rakes: Salt Rake coin cost multiplier (scales with rank)
+  const cheapRakesLevel = getSkillLevel(bumpkin.skills, "Cheap Rakes");
+  if (cheapRakesLevel && name === "Salt Rake") {
+    price = price * SKILL_RANKS["Cheap Rakes"].ranks[cheapRakesLevel - 1];
   }
 
   if (

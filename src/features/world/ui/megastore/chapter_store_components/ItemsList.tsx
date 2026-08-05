@@ -41,6 +41,7 @@ import {
   getChapterItemsCrafted,
   getChapterPurchaseCount,
   getStore,
+  getStoreItemOwnedCount,
   isBoxBoughtWithinChapter,
   isKeyBoughtWithinChapter,
   isPetEggBoughtWithinChapter,
@@ -324,6 +325,16 @@ export const ItemsList: React.FC<Props> = ({
 
             const balanceOfItem = getBalanceOfItem(item);
 
+            // An item is "maxed" (shown with a confirm tick) when either the
+            // chapter purchase limit is hit, or the player already owns as many
+            // copies as the item's `inventoryLimit` allows.
+            const isChapterLimitReached =
+              item.limit !== undefined && balanceOfItem >= item.limit;
+            const isInventoryLimitReached =
+              item.inventoryLimit !== undefined &&
+              getStoreItemOwnedCount(state, item) >= item.inventoryLimit;
+            const isMaxed = isChapterLimitReached || isInventoryLimitReached;
+
             return (
               <div
                 id={`mega-store-item-${getItemName(item)}`}
@@ -350,11 +361,9 @@ export const ItemsList: React.FC<Props> = ({
                       />
                     )}
                     {/* Confirm Icon for non-key items */}
-                    {balanceOfItem > 0 &&
-                      !isItemKey &&
+                    {!isItemKey &&
                       !isItemFlowerBox &&
-                      item.limit !== undefined &&
-                      balanceOfItem >= item.limit &&
+                      isMaxed &&
                       (tier === "basic" ||
                         (tier === "rare" && isRareUnlocked) ||
                         (tier === "epic" && isEpicUnlocked) ||

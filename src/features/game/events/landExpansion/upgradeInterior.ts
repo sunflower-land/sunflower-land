@@ -6,6 +6,7 @@ import type {
   InventoryItemName,
 } from "features/game/types/game";
 import { nextHomeExpansionTier } from "features/game/expansion/placeable/lib/interiorLayouts";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import {
   HOME_EXPANSION_UPGRADE_REQUIREMENTS,
   type UpgradeCost,
@@ -14,7 +15,7 @@ import { getKeys } from "lib/object";
 
 export enum UPGRADE_INTERIOR_ERRORS {
   NO_ACCESS = "Home expansions are not available for this player",
-  NOT_ON_VOLCANO = "Interior upgrades are only available on volcano island",
+  NOT_ON_VOLCANO = "Interior upgrades are only available from volcano island onwards",
   ALREADY_MAXED = "Interior is already at maximum tier (level-one-full)",
   INSUFFICIENT_COINS = "Not enough coins to perform this upgrade",
   INSUFFICIENT_INVENTORY = "Not enough inventory items to perform this upgrade",
@@ -73,7 +74,7 @@ export function upgradeInterior({
     if (!game.settings.interiorsEnabled) {
       throw new Error(UPGRADE_INTERIOR_ERRORS.NO_ACCESS);
     }
-    if (game.island.type !== "volcano") {
+    if (!hasRequiredIslandExpansion(game.island.type, "volcano")) {
       throw new Error(UPGRADE_INTERIOR_ERRORS.NOT_ON_VOLCANO);
     }
 

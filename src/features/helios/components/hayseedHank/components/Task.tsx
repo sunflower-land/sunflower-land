@@ -9,9 +9,8 @@ import { GUIDE_PATHS, type GuidePath } from "../lib/guide";
 import type { GameState } from "features/game/types/game";
 import { getKeys } from "lib/object";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onOpenGuide: (guide: GuidePath) => void;
@@ -28,7 +27,6 @@ export const GuideTask: React.FC<GuideTaskProps> = ({
   task,
   onNeedHelp,
 }) => {
-  const { t } = useAppTranslation();
   const achievement = ACHIEVEMENTS()[task];
   const progress = achievement.progress(state);
 
@@ -88,11 +86,10 @@ export const GuideTask: React.FC<GuideTaskProps> = ({
     </>
   );
 };
+
 export const Task: React.FC<Props> = ({ onOpenGuide, task }) => {
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-
-  const state = gameState.context.state;
+  const state = useSelector(gameService, (state) => state.context.state);
 
   if (!task) {
     return (

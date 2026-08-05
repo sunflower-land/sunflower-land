@@ -306,8 +306,10 @@ const PowerSkillsContent: React.FC<{
                       className="mb-2"
                     >
                       {t("skill.cooldown", {
+                        // "medium" (two units) so half-day cooldowns don't
+                        // collapse: 2.5d must read "2d 12h", not a truncated "2d".
                         cooldown: millisecondsToString(boostedCooldown, {
-                          length: "short",
+                          length: "medium",
                           isShortFormat: true,
                           removeTrailingZeros: true,
                         }),

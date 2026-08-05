@@ -4,7 +4,10 @@ import {
 } from "../../types/craftables";
 import type { GameState, PlacedItem } from "features/game/types/game";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import type { PlaceableLocation } from "features/game/types/collectibles";
+import {
+  PLACEABLE_LOCATIONS,
+  type PlaceableLocation,
+} from "features/game/types/collectibles";
 import { produce } from "immer";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import {
@@ -23,6 +26,8 @@ import type { Coordinates } from "features/game/expansion/components/MapPlacemen
 import { COMPETITION_POINTS } from "features/game/types/competitions";
 import { populateSaltFarm } from "features/game/types/salt";
 import { refreshBasicScarecrowTimeAOE } from "features/game/lib/aoe";
+import { getCollectiblesAcrossLocations } from "features/game/lib/getCollectiblesAcrossLocations";
+import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 
 export type PlaceCollectibleAction = {
   type: "collectible.placed";
@@ -90,8 +95,17 @@ export function placeCollectible({
         action.name as MonumentName,
       ) ?? false;
 
+    // Monuments obtained outside of `buyMonument` (rewards, trades) have no
+    // village project, so seed one the first time they are placed. Only ever on
+    // a first placement — otherwise removing and re-placing a monument whose
+    // project has already been consumed would restart it for free, skipping the
+    // `project.started` cost.
+    const hasBeenPlacedBefore =
+      getCollectiblesAcrossLocations(stateCopy, action.name).length > 0;
+
     if (
       isMonument &&
+      !hasBeenPlacedBefore &&
       !stateCopy.socialFarming.villageProjects[action.name as MonumentName] &&
       !isInCompletedProjects
     ) {
@@ -138,9 +152,36 @@ export function placeCollectible({
     }
 
     // For level_one, the floor must already be unlocked (player has bought the
-    // first interior.upgrade) before any placement is allowed.
+    // first interior.upgrade) before any placement is allowed. Run this before
+    // collision detection so the user gets a meaningful error instead of a
+    // generic "collides" message (collision returns true when level_one is
+    // missing because it can't validate a floor that doesn't exist).
     if (action.location === "level_one" && !stateCopy.interior.level_one) {
       throw new Error("Level one floor has not been unlocked");
+    }
+
+    // Mirrors the same check in the API's placeCollectible reducer. The UI
+    // placement flows already block a colliding drop before dispatching, so
+    // this is a no-op for them — it exists so that callers which reduce
+    // speculatively (the home import's `tryApplyImportStep`) find out here
+    // rather than having the server reject the whole save batch. Keep the two
+    // implementations in lockstep: anything accepted here and rejected there
+    // fails at save time with "Building collides".
+    const dimensions = COLLECTIBLES_DIMENSIONS[collectible];
+    const collides = detectCollision({
+      state,
+      position: {
+        x: action.coordinates.x,
+        y: action.coordinates.y,
+        height: dimensions.height,
+        width: dimensions.width,
+      },
+      name: collectible,
+      location: action.location,
+    });
+
+    if (collides) {
+      throw new Error("Building collides");
     }
 
     // Search for existing collectible in current location
@@ -167,18 +208,14 @@ export function placeCollectible({
       return stateCopy;
     }
 
-    // If no existing collectible is found, search for it in other locations, and move it to the new location
-    // Define which locations to search based on target location
-    const otherLocations: PlaceableLocation[] =
-      action.location === "home"
-        ? ["farm", "petHouse"]
-        : action.location === "petHouse"
-          ? ["farm", "home"]
-          : action.location === "interior"
-            ? ["farm", "home", "level_one"]
-            : action.location === "level_one"
-              ? ["farm", "home", "interior"]
-              : ["home", "petHouse"]; // farm
+    // If no existing collectible is found, search for it in other locations, and move it to the new location.
+    // Every other location must be searched: missing one creates a duplicate
+    // placement instead of moving the existing one, which silently drops the
+    // instance's state (e.g. a weather item's `used` flag would be lost, renewing
+    // it for free).
+    const otherLocations: PlaceableLocation[] = PLACEABLE_LOCATIONS.filter(
+      (location) => location !== action.location,
+    );
 
     const getCollectiblesForLocation = (
       loc: PlaceableLocation,
@@ -188,12 +225,12 @@ export function placeCollectible({
           return stateCopy.home.collectibles[action.name] ?? [];
         case "petHouse":
           return isPetCollectible(action.name)
-            ? (stateCopy.petHouse.pets[action.name] ?? [])
+            ? (stateCopy.petHouse?.pets[action.name] ?? [])
             : [];
         case "interior":
-          return stateCopy.interior.ground.collectibles[action.name] ?? [];
+          return stateCopy.interior?.ground.collectibles[action.name] ?? [];
         case "level_one":
-          return stateCopy.interior.level_one?.collectibles[action.name] ?? [];
+          return stateCopy.interior?.level_one?.collectibles[action.name] ?? [];
         case "farm":
         default:
           return stateCopy.collectibles[action.name] ?? [];
@@ -214,10 +251,12 @@ export function placeCollectible({
           }
           break;
         case "interior":
-          stateCopy.interior.ground.collectibles[action.name] = items;
+          if (stateCopy.interior) {
+            stateCopy.interior.ground.collectibles[action.name] = items;
+          }
           break;
         case "level_one":
-          if (stateCopy.interior.level_one) {
+          if (stateCopy.interior?.level_one) {
             stateCopy.interior.level_one.collectibles[action.name] = items;
           }
           break;

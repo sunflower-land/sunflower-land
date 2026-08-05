@@ -61,7 +61,12 @@ import {
   type FarmActivityName,
 } from "features/game/types/farmActivity";
 import { isBuffActive } from "features/game/types/buffs";
-import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
+import {
+  SKILL_RANKS,
+  getSkillLevel,
+  downgradeChapterCropWeekSkills,
+} from "features/game/types/bumpkinSkills";
+import { CHAPTER_CROP_WEEK_CROP } from "features/game/types/chapterCropWeek";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
 import { mfTrack } from "lib/moonforgeAnalytics";
@@ -321,7 +326,13 @@ export function getCropYieldAmount({
 
   const { bumpkin, buds, aoe } = game;
   const updatedAoe = cloneDeep(aoe);
-  const skills = bumpkin?.skills ?? {};
+  // Saltwort (the CHAPTER_CROP_WEEK event crop) ignores upgraded Crops-skill ranks
+  // (base skill still applies) — cap here so every downstream yield/AOE read uses
+  // the neutralised ranks without touching the player's stored skills.
+  const skills =
+    crop === CHAPTER_CROP_WEEK_CROP
+      ? downgradeChapterCropWeekSkills(bumpkin?.skills ?? {})
+      : (bumpkin?.skills ?? {});
   const itemId = KNOWN_IDS[crop];
   const criticalDrop = (
     criticalHitName: CriticalHitName,
@@ -901,11 +912,16 @@ export function getCropYieldAmount({
       name: "Bee Swarm Bonus",
       value: `+${(0.2 * count).toFixed(1)}`,
     });
-    if (skills["Pollen Power Up"]) {
-      perSwarm += 0.1;
+    const pollenPowerUpLevel = getSkillLevel(skills, "Pollen Power Up");
+    if (pollenPowerUpLevel) {
+      const bonus =
+        SKILL_RANKS["Pollen Power Up"].ranks[pollenPowerUpLevel - 1];
+      perSwarm += bonus;
       boostsUsed.push({
         name: "Pollen Power Up",
-        value: `+${(0.1 * count).toFixed(1)}`,
+        // toFixed(2) then back to Number to drop float noise AND trailing
+        // zeros, so rank 1 still reads "+0.1" (not "+0.10").
+        value: `+${Number((bonus * count).toFixed(2))}`,
       });
     }
     amount += perSwarm * count;

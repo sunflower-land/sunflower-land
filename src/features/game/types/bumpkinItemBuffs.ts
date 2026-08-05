@@ -1097,6 +1097,54 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS.Salt.image,
     },
   ],
+  "Moon Hair": [
+    {
+      shortDescription: translate("description.moonHair.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+    {
+      shortDescription: translate("description.moonHair.boost.2"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+  ],
+  "Surfer Hair": [
+    {
+      shortDescription: translate("description.surferHair.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Salt.image,
+    },
+  ],
+  "Rice Shirt": [
+    {
+      shortDescription: translate("description.riceShirt.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Oil.image,
+    },
+    {
+      shortDescription: translate("description.riceShirt.boost.2"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Rice.image,
+    },
+  ],
+  "Alchemist Apron": [
+    {
+      shortDescription: translate("description.alchemistApron.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+  ],
+  "Salt Bottle Onesie": [
+    {
+      shortDescription: translate("description.saltBottleOnesie.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+  ],
 
   // Add items above this line
   ...SPECIAL_ITEM_LABELS,

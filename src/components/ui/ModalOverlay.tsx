@@ -11,12 +11,15 @@ import React, { useState } from "react";
 interface Props {
   show: boolean;
   className?: string;
+  // Width classes for the centered panel. Defaults to "w-full sm:w-5/6".
+  panelClassName?: string;
   onBackdropClick: () => void;
 }
 
 export const ModalOverlay: React.FC<React.PropsWithChildren<Props>> = ({
   show,
   className,
+  panelClassName = "w-full sm:w-5/6",
   children,
   onBackdropClick,
 }) => {
@@ -51,7 +54,7 @@ export const ModalOverlay: React.FC<React.PropsWithChildren<Props>> = ({
         leaveTo="scale-0"
         beforeEnter={() => setHideChildren(false)}
         afterLeave={() => setHideChildren(true)}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform w-full sm:w-5/6 z-50"
+        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform z-50 ${panelClassName}`}
         as="div"
       >
         {!hideChildren && <>{children}</>}

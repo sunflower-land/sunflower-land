@@ -77,7 +77,12 @@ export type ChapterCollectibleName =
   | "Salt Lamp"
   | "Salt Crystal Bed"
   | "World Map Rug"
-  | "Ripped Salt Bag";
+  | "Ripped Salt Bag"
+
+  // Ascension Age
+  | "Astrolabe"
+  | "Ascension Monument"
+  | "Otty the Otter";
 
 export type ChapterWearableName = Extract<
   BumpkinItem,
@@ -129,6 +134,12 @@ export type ChapterWearableName = Extract<
   | "Spa Slippers"
   | "Bubble Aura"
   | "Deep Sea Salt Cave Background"
+
+  // Ascension Age
+  | "Swamp Lily Hat"
+  | "Swamp Armor"
+  | "Swamp Pants"
+  | "Moon Hair"
 >;
 
 export type MegastoreKeys = "Treasure Key" | "Rare Key" | "Luxury Key";
@@ -142,6 +153,12 @@ type SeasonalStoreBase = {
   cooldownMs?: number;
   // Maximum purchases of this item per chapter. Omit for unlimited.
   limit?: number;
+  // Maximum copies of this item a player may ever own (collectibles counted
+  // from inventory, wearables from wardrobe). Unlike the chapter-scoped
+  // `limit`, once the player holds this many the item can no longer be
+  // bought — even copies acquired in a previous chapter or from another
+  // source count. Omit for no ownership cap.
+  inventoryLimit?: number;
 };
 
 export type ChapterStoreWearable = SeasonalStoreBase & {
@@ -1192,6 +1209,106 @@ const SALT_AWAKENING_ITEMS: ChapterStore = {
   },
 };
 
+const ASCENSION_AGE_ITEMS: ChapterStore = {
+  basic: {
+    items: [
+      // Swamp shop items
+      {
+        wearable: "Swamp Lily Hat",
+        limit: 1,
+        cost: { coins: 5000, sfl: 0, items: {} },
+      },
+      {
+        wearable: "Swamp Armor",
+        limit: 1,
+        cost: { sfl: 10, items: {} },
+      },
+      {
+        wearable: "Swamp Pants",
+        limit: 1,
+        cost: { sfl: 50, items: {} },
+      },
+
+      // Hourglasses (infinitely buyable throughout the chapter)
+      {
+        collectible: "Gourmet Hourglass",
+        cost: { sfl: 0, items: { "Shiny Feather": 100 } },
+      },
+      {
+        collectible: "Ore Hourglass",
+        cost: { sfl: 0, items: { "Shiny Feather": 400 } },
+      },
+      {
+        collectible: "Timber Hourglass",
+        cost: { sfl: 0, items: { "Shiny Feather": 200 } },
+      },
+      {
+        collectible: "Blossom Hourglass",
+        cost: { sfl: 0, items: { "Shiny Feather": 200 } },
+      },
+      {
+        collectible: "Orchard Hourglass",
+        cost: { sfl: 0, items: { "Shiny Feather": 200 } },
+      },
+      {
+        collectible: "Fisher's Hourglass",
+        cost: { sfl: 0, items: { "Shiny Feather": 200 } },
+      },
+      {
+        collectible: "Harvest Hourglass",
+        cost: { sfl: 0, items: { "Shiny Feather": 200 } },
+      },
+
+      // Premium chapter items
+      {
+        wearable: "Moon Hair",
+        limit: 1,
+        cost: { sfl: 0, items: { "Shiny Feather": 9000 } },
+      },
+      {
+        collectible: "Astrolabe",
+        limit: 1,
+        cost: { sfl: 0, items: { "Shiny Feather": 9000 } },
+      },
+      {
+        collectible: "Ascension Monument",
+        limit: 1,
+        inventoryLimit: 1,
+        cost: { sfl: 0, items: { "Shiny Feather": 4000 } },
+      },
+      {
+        collectible: "Cornucopia",
+        limit: 1,
+        inventoryLimit: 1,
+        cost: { sfl: 0, items: { "Shiny Feather": 9000 } },
+      },
+      {
+        collectible: "Teamwork Monument",
+        limit: 1,
+        inventoryLimit: 1,
+        cost: { sfl: 0, items: { "Shiny Feather": 6000 } },
+      },
+      {
+        collectible: "Otty the Otter",
+        limit: 1,
+        cost: { sfl: 0, items: { "Otter Pebble": 250 } },
+      },
+    ],
+  },
+  rare: {
+    items: [],
+    requirement: 0,
+  },
+  epic: {
+    items: [],
+    requirement: 0,
+  },
+  mega: {
+    items: [],
+    requirement: 0,
+  },
+};
+
 export const MEGASTORE: Record<ChapterName, ChapterStore> = {
   "Catch the Kraken": EMPTY_SEASONAL_STORE,
   "Clash of Factions": EMPTY_SEASONAL_STORE,
@@ -1255,4 +1372,5 @@ export const MEGASTORE: Record<ChapterName, ChapterStore> = {
   "Great Bloom": GREAT_BLOOM_ITEMS,
   "Better Together": BETTER_TOGETHER_ITEMS,
   "Paw Prints": PAW_PRINTS_ITEMS,
+  "Ascension Age": ASCENSION_AGE_ITEMS,
 };

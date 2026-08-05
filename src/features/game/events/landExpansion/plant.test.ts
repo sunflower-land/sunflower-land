@@ -1497,6 +1497,29 @@ describe("plant", () => {
       expect(time).toEqual(baseHarvestSeconds * 0.925);
     });
 
+    it("neutralises a rank 3 Green Thumb on the Saltwort event crop (x0.95, not x0.925)", () => {
+      const baseHarvestSeconds = CROPS["Saltwort"].harvestSeconds;
+      const { time } = getCropPlotTime({
+        crop: "Saltwort",
+        game: {
+          ...FARM_WITH_PLOTS,
+          collectibles: {},
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: {
+              "Green Thumb": 3,
+            },
+          },
+        },
+        plot: { ...plot, x: 0, y: -3 },
+        createdAt: dateNow,
+      });
+
+      // Saltwort (event crop) uses the rank-1 multiplier (x0.95); Corn above
+      // (a non-event crop) still gets the full rank-3 x0.925.
+      expect(time).toEqual(baseHarvestSeconds * 0.95);
+    });
+
     it("applies a +12.5% speed boost on advanced crops with rank 2 Strong Roots skill", () => {
       const baseHarvestSeconds = CROPS["Radish"].harvestSeconds;
       const { time } = getCropPlotTime({

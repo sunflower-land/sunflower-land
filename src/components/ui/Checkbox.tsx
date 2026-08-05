@@ -8,12 +8,14 @@ export interface CheckboxProps {
   checked: boolean;
   onChange: (checked: boolean) => void;
   disabled?: boolean;
+  "aria-label"?: string;
 }
 
 export const Checkbox: React.FC<CheckboxProps> = ({
   checked,
   onChange,
   disabled = false,
+  "aria-label": ariaLabel,
 }) => {
   const handleClick = () => {
     if (!disabled) {
@@ -22,7 +24,21 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   };
 
   return (
-    <div className="relative" onClick={handleClick}>
+    <div
+      className="relative"
+      role="checkbox"
+      aria-checked={checked}
+      aria-disabled={disabled || undefined}
+      aria-label={ariaLabel}
+      tabIndex={disabled ? -1 : 0}
+      onClick={handleClick}
+      onKeyDown={(event) => {
+        if (event.key === " " || event.key === "Enter") {
+          event.preventDefault();
+          handleClick();
+        }
+      }}
+    >
       <div
         className={classNames("bg-brown-100 relative cursor-pointer", {
           "bg-brown-100 cursor-not-allowed opacity-75": disabled,

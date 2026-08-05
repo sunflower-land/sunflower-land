@@ -68,6 +68,9 @@ import poseidonThroneTwo from "assets/monuments/poseidons_throne_stage2.webp";
 import crystalAltarOne from "assets/monuments/crystal_altar_1.webp";
 import crystalAltarTwo from "assets/monuments/crystal_altar_2.webp";
 import crystalAltarThree from "assets/monuments/crystal_altar_3.webp";
+import ascensionMonumentOne from "assets/monuments/ascension_monument_stage1.webp";
+import ascensionMonumentTwo from "assets/monuments/ascension_monument_stage2.webp";
+import ascensionMonumentThree from "assets/monuments/ascension_monument_stage3.webp";
 
 import { getPlayer } from "features/social/actions/getPlayer";
 import { useAuth } from "features/auth/lib/Provider";
@@ -156,6 +159,11 @@ export const PROJECT_IMAGES: Record<
     empty: crystalAltarOne,
     halfway: crystalAltarTwo,
     ready: crystalAltarThree,
+  },
+  "Ascension Monument": {
+    empty: ascensionMonumentOne,
+    halfway: ascensionMonumentTwo,
+    ready: ascensionMonumentThree,
   },
 };
 

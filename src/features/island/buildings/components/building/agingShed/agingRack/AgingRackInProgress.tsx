@@ -5,7 +5,10 @@ import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Box } from "components/ui/Box";
-import type { AgingRackSlot } from "features/game/lib/agingShed";
+import {
+  getStampedAgerLevel,
+  type AgingRackSlot,
+} from "features/game/lib/agingShed";
 import { getFishBaseXP } from "features/game/types/aging";
 import { getBoostedAgingSaltCost } from "features/game/types/agingFormulas";
 import type { AgedFishName } from "features/game/types/fishing";
@@ -44,7 +47,16 @@ export const AgingRackInProgress: React.FC<Props> = ({
 
   const agedName: AgedFishName = `Aged ${slot.fish}`;
   const outputLabel = ITEM_DETAILS[agedName]?.translatedName ?? agedName;
-  const saltCost = getBoostedAgingSaltCost(getFishBaseXP(slot.fish), game);
+  // Ager is stamped because collect pays out at the rank the inputs were
+  // charged at; Surfer Hair has no payout side so it is only ever read live.
+  // The result can therefore differ from what was actually debited if the hair
+  // is unequipped mid-job — acceptable, as the slot cannot be cancelled and
+  // nothing re-reads this cost. It is a display of a sunk charge.
+  const { cost: saltCost } = getBoostedAgingSaltCost(
+    getFishBaseXP(slot.fish),
+    game,
+    getStampedAgerLevel(slot.skills),
+  );
   const food: Consumable = CONSUMABLES[agedName];
   const baseXp = food.experience;
   const boostedXp = getFoodExpBoost({ food, game, createdAt: now });

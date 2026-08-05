@@ -7,6 +7,8 @@ import {
   getDrilledAt,
   canDrillOilReserve,
   getOilReserveReadyAt,
+  getOilDropAmount,
+  getOilRecoveryTimeForDisplay,
 } from "./drillOilReserve";
 import { TEST_FARM } from "features/game/lib/constants";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
@@ -950,6 +952,60 @@ describe("drillOilReserve", () => {
       // Marker cleared; legacy back-date folds in the permanent Dev Wrench (x0.5).
       expect(reserve.oil.baseDurationMs).toBeUndefined();
       expect(reserve.oil.drilledAt).toBe(now - BASE_MS * 0.5);
+    });
+  });
+
+  describe("Machinery skill upgrades (ranks)", () => {
+    const reserveNoBonus = {
+      x: 1,
+      y: 1,
+      createdAt: 0,
+      drilled: 0,
+      oil: { drilledAt: 0 },
+    };
+
+    describe("Oil Extraction (getOilDropAmount +yield)", () => {
+      // Rank 1 reproduces the pre-upgrade +1.
+      it.each([
+        [1, 1],
+        [2, 1.5],
+        [3, 2],
+      ])("rank %i => +%f Oil", (rank, bonus) => {
+        const { amount } = getOilDropAmount(
+          {
+            ...TEST_FARM,
+            bumpkin: {
+              ...TEST_FARM.bumpkin,
+              skills: { "Oil Extraction": rank },
+            },
+          },
+          reserveNoBonus,
+        );
+        expect(amount).toBe(BASE_OIL_DROP_AMOUNT + bonus);
+      });
+    });
+
+    describe("Oil Be Back (getOilRecoveryTimeForDisplay xtime)", () => {
+      // Rank 1 reproduces the pre-upgrade x0.8.
+      it.each([
+        [1, 0.8],
+        [2, 0.7],
+        [3, 0.6],
+      ])("rank %i => x%f recovery time", (rank, mult) => {
+        const { recoveryTimeMs } = getOilRecoveryTimeForDisplay({
+          game: {
+            ...TEST_FARM,
+            bumpkin: {
+              ...TEST_FARM.bumpkin,
+              skills: { "Oil Be Back": rank },
+            },
+          },
+        });
+        expect(recoveryTimeMs).toBeCloseTo(
+          OIL_RESERVE_RECOVERY_TIME * mult * 1000,
+          5,
+        );
+      });
     });
   });
 });

@@ -205,7 +205,7 @@ describe("fruitTreeRemoved", () => {
     expect(state.inventory.Wood).toStrictEqual(new Decimal(3));
   });
 
-  it("applies a +1.5 wood reward on removal with Fruity Woody skill at rank 2", () => {
+  it("applies a +1.25 wood reward on removal with Fruity Woody skill at rank 2", () => {
     const state = removeFruitTree({
       state: {
         ...GAME_STATE,
@@ -224,10 +224,10 @@ describe("fruitTreeRemoved", () => {
       },
     });
 
-    expect(state.inventory.Wood).toStrictEqual(new Decimal(3.5));
+    expect(state.inventory.Wood).toStrictEqual(new Decimal(3.25));
   });
 
-  it("applies a +2 wood reward on removal with Fruity Woody skill at rank 3", () => {
+  it("applies a +1.5 wood reward on removal with Fruity Woody skill at rank 3", () => {
     const state = removeFruitTree({
       state: {
         ...GAME_STATE,
@@ -246,13 +246,13 @@ describe("fruitTreeRemoved", () => {
       },
     });
 
-    expect(state.inventory.Wood).toStrictEqual(new Decimal(4));
+    expect(state.inventory.Wood).toStrictEqual(new Decimal(3.5));
   });
 
   it.each([
     [1, 1],
-    [2, 1.25],
-    [3, 1.5],
+    [2, 1.1],
+    [3, 1.2],
   ])(
     "shrinks the No Axe No Worries wood penalty at rank %i (final Wood %f)",
     (rank, expectedWood) => {

@@ -15,6 +15,8 @@ import {
 import type { FishName } from "features/game/types/fishing";
 import type { GameState } from "features/game/types/game";
 import { hasPlacedAgingShed } from "./hasPlacedAgingShed";
+import { getSkillLevel } from "features/game/types/bumpkinSkills";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type StartAgingAction = {
   type: "agingRack.started";
@@ -57,7 +59,10 @@ export function startAging({
 
     const baseXP = getFishBaseXP(action.fish);
     const fishCost = getBoostedAgingFishCost(game);
-    const saltCost = getBoostedAgingSaltCost(baseXP, game);
+    const { cost: saltCost, boostsUsed } = getBoostedAgingSaltCost(
+      baseXP,
+      game,
+    );
 
     const fishCount = game.inventory[action.fish] ?? new Decimal(0);
     if (fishCount.lessThan(fishCost)) {
@@ -77,11 +82,18 @@ export function startAging({
       fish: action.fish,
       startedAt: createdAt,
       readyAt: createdAt + getBoostedAgingTimeMs(baseXP, game),
-      // Marks whether the Ager skill was applied at the time of starting
-      skills: { Ager: !!game.bumpkin.skills["Ager"] },
+      // Stamps the Ager rank applied at the time of starting, so collect pays
+      // out at the rank whose inputs were charged above.
+      skills: { Ager: getSkillLevel(game.bumpkin.skills, "Ager") },
     };
 
     game.agingShed.racks.aging = [...queue, slot];
     delete game.agingShed.lastAgingCollect;
+
+    game.boostsUsedAt = updateBoostUsed({
+      game,
+      boostNames: boostsUsed,
+      createdAt,
+    });
   });
 }

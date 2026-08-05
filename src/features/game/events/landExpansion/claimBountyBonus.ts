@@ -2,7 +2,11 @@ import Decimal from "decimal.js-light";
 import { getWeekKey, weekResetsAt } from "features/game/lib/factions";
 import { ANIMALS } from "features/game/types/animals";
 import type { GameState } from "features/game/types/game";
-import { getChapterTicket } from "features/game/types/chapters";
+import {
+  CHAPTER_ORDER,
+  getChapterTicket,
+  getCurrentChapter,
+} from "features/game/types/chapters";
 import { produce } from "immer";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 
@@ -33,9 +37,20 @@ export const NO_BONUS_BOUNTIES_WEEK = [
   "2026-04-06", // Crabs and Traps Auction Week
   "2026-05-04", // Salt Awakening Rest Week
   "2026-07-06", // Salt Awakening Auction Week
+  "2026-08-03", // Ascension Age Rest Week
+  "2026-10-05", // Ascension Age Auction Week
 ];
 
 const TICKET_BONUS_AMOUNT = 50;
+const ASCENSION_TICKET_BONUS_AMOUNT = 100;
+
+export function getBountyBonusAmount(now: number): number {
+  const chapter = getCurrentChapter(now);
+
+  return CHAPTER_ORDER[chapter] >= CHAPTER_ORDER["Ascension Age"]
+    ? ASCENSION_TICKET_BONUS_AMOUNT
+    : TICKET_BONUS_AMOUNT;
+}
 
 export function claimBountyBonus({
   state,
@@ -86,15 +101,14 @@ export function claimBountyBonus({
 
     // Claim bonus
     const ticket = getChapterTicket(createdAt);
-    inventory[ticket] = (inventory[ticket] ?? new Decimal(0)).add(
-      TICKET_BONUS_AMOUNT,
-    );
+    const bonusAmount = getBountyBonusAmount(createdAt);
+    inventory[ticket] = (inventory[ticket] ?? new Decimal(0)).add(bonusAmount);
     bounties.bonusClaimedAt = createdAt;
 
     draft.farmActivity = trackFarmActivity(
       `${ticket} Collected`,
       draft.farmActivity,
-      new Decimal(TICKET_BONUS_AMOUNT),
+      new Decimal(bonusAmount),
     );
 
     return draft;

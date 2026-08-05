@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
 import {
   getAnimalLevel,
   makeAnimalBuildingKey,
@@ -39,6 +40,14 @@ export function getNextLoveAvailableAt(animal: Animal): number {
  */
 export function isAnimalNeedingLove(animal: Animal, now: number): boolean {
   return getNextLoveAvailableAt(animal) <= now;
+}
+
+/**
+ * UI/action affordance form: the love window has opened and the animal is
+ * still asleep. Once the animal wakes, feeding becomes the next required action.
+ */
+export function isAnimalReadyForLove(animal: Animal, now: number): boolean {
+  return now < animal.awakeAt && isAnimalNeedingLove(animal, now);
 }
 
 export type LoveAnimalAction = {
@@ -209,8 +218,15 @@ export function getAnimalXP({
   let animalXP = ITEM_XP[name];
   let multiplier = 1;
 
-  if (state.bumpkin.skills["Heartwarming Instruments"]) {
-    multiplier += 0.5;
+  const heartwarmingInstrumentsLevel = getSkillLevel(
+    state.bumpkin.skills,
+    "Heartwarming Instruments",
+  );
+  if (heartwarmingInstrumentsLevel) {
+    multiplier +=
+      SKILL_RANKS["Heartwarming Instruments"].ranks[
+        heartwarmingInstrumentsLevel - 1
+      ];
   }
 
   if (

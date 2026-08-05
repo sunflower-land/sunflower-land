@@ -19,12 +19,12 @@ const NO_EDGE: CropAlternateArt = {
   "Spring Biome": SUNNYSIDE.land.noEdge,
   "Desert Biome": SUNNYSIDE.land.desertNoEdge,
   "Volcano Biome": SUNNYSIDE.land.volcanoNoEdge,
-  "Swamp Biome": SUNNYSIDE.land.volcanoNoEdge,
+  "Swamp Biome": SUNNYSIDE.land.noEdge,
   // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": SUNNYSIDE.land.volcanoNoEdge,
-  "Crystal Biome": SUNNYSIDE.land.volcanoNoEdge,
-  "Galaxy Biome": SUNNYSIDE.land.volcanoNoEdge,
-  "Marble Age Biome": SUNNYSIDE.land.volcanoNoEdge,
+  "Spooky Biome": SUNNYSIDE.land.noEdge,
+  "Crystal Biome": SUNNYSIDE.land.noEdge,
+  "Galaxy Biome": SUNNYSIDE.land.noEdge,
+  "Marble Age Biome": SUNNYSIDE.land.noEdge,
 };
 
 const TOP_RIGHT_BOTTOM_LEFT: CropAlternateArt = {
@@ -32,12 +32,12 @@ const TOP_RIGHT_BOTTOM_LEFT: CropAlternateArt = {
   "Spring Biome": SUNNYSIDE.land.fullEdge,
   "Desert Biome": SUNNYSIDE.land.desertFullEdge,
   "Volcano Biome": SUNNYSIDE.land.volcanoFullEdge,
-  "Swamp Biome": SUNNYSIDE.land.volcanoFullEdge,
+  "Swamp Biome": SUNNYSIDE.land.fullEdge,
   // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": SUNNYSIDE.land.volcanoFullEdge,
-  "Crystal Biome": SUNNYSIDE.land.volcanoFullEdge,
-  "Galaxy Biome": SUNNYSIDE.land.volcanoFullEdge,
-  "Marble Age Biome": SUNNYSIDE.land.volcanoFullEdge,
+  "Spooky Biome": SUNNYSIDE.land.fullEdge,
+  "Crystal Biome": SUNNYSIDE.land.fullEdge,
+  "Galaxy Biome": SUNNYSIDE.land.fullEdge,
+  "Marble Age Biome": SUNNYSIDE.land.fullEdge,
 };
 
 const TOP_LEFT: CropAlternateArt = {
@@ -45,12 +45,12 @@ const TOP_LEFT: CropAlternateArt = {
   "Spring Biome": SUNNYSIDE.land.topAndLeftEdge,
   "Desert Biome": SUNNYSIDE.land.desertTopAndLeftEdge,
   "Volcano Biome": SUNNYSIDE.land.volcanoTopAndLeftEdge,
-  "Swamp Biome": SUNNYSIDE.land.volcanoTopAndLeftEdge,
+  "Swamp Biome": SUNNYSIDE.land.topAndLeftEdge,
   // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": SUNNYSIDE.land.volcanoTopAndLeftEdge,
-  "Crystal Biome": SUNNYSIDE.land.volcanoTopAndLeftEdge,
-  "Galaxy Biome": SUNNYSIDE.land.volcanoTopAndLeftEdge,
-  "Marble Age Biome": SUNNYSIDE.land.volcanoTopAndLeftEdge,
+  "Spooky Biome": SUNNYSIDE.land.topAndLeftEdge,
+  "Crystal Biome": SUNNYSIDE.land.topAndLeftEdge,
+  "Galaxy Biome": SUNNYSIDE.land.topAndLeftEdge,
+  "Marble Age Biome": SUNNYSIDE.land.topAndLeftEdge,
 };
 
 const TOP_RIGHT: CropAlternateArt = {
@@ -58,12 +58,12 @@ const TOP_RIGHT: CropAlternateArt = {
   "Spring Biome": SUNNYSIDE.land.topAndRightEdge,
   "Desert Biome": SUNNYSIDE.land.desertTopAndRightEdge,
   "Volcano Biome": SUNNYSIDE.land.volcanoTopAndRightEdge,
-  "Swamp Biome": SUNNYSIDE.land.volcanoTopAndRightEdge,
+  "Swamp Biome": SUNNYSIDE.land.topAndRightEdge,
   // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": SUNNYSIDE.land.volcanoTopAndRightEdge,
-  "Crystal Biome": SUNNYSIDE.land.volcanoTopAndRightEdge,
-  "Galaxy Biome": SUNNYSIDE.land.volcanoTopAndRightEdge,
-  "Marble Age Biome": SUNNYSIDE.land.volcanoTopAndRightEdge,
+  "Spooky Biome": SUNNYSIDE.land.topAndRightEdge,
+  "Crystal Biome": SUNNYSIDE.land.topAndRightEdge,
+  "Galaxy Biome": SUNNYSIDE.land.topAndRightEdge,
+  "Marble Age Biome": SUNNYSIDE.land.topAndRightEdge,
 };
 
 const BOTTOM_LEFT: CropAlternateArt = {
@@ -71,12 +71,12 @@ const BOTTOM_LEFT: CropAlternateArt = {
   "Spring Biome": SUNNYSIDE.land.bottomAndLeftEdge,
   "Desert Biome": SUNNYSIDE.land.desertBottomAndLeftEdge,
   "Volcano Biome": SUNNYSIDE.land.volcanoBottomAndLeftEdge,
-  "Swamp Biome": SUNNYSIDE.land.volcanoBottomAndLeftEdge,
+  "Swamp Biome": SUNNYSIDE.land.bottomAndLeftEdge,
   // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": SUNNYSIDE.land.volcanoBottomAndLeftEdge,
-  "Crystal Biome": SUNNYSIDE.land.volcanoBottomAndLeftEdge,
-  "Galaxy Biome": SUNNYSIDE.land.volcanoBottomAndLeftEdge,
-  "Marble Age Biome": SUNNYSIDE.land.volcanoBottomAndLeftEdge,
+  "Spooky Biome": SUNNYSIDE.land.bottomAndLeftEdge,
+  "Crystal Biome": SUNNYSIDE.land.bottomAndLeftEdge,
+  "Galaxy Biome": SUNNYSIDE.land.bottomAndLeftEdge,
+  "Marble Age Biome": SUNNYSIDE.land.bottomAndLeftEdge,
 };
 
 const RIGHT_BOTTOM: CropAlternateArt = {
@@ -84,12 +84,12 @@ const RIGHT_BOTTOM: CropAlternateArt = {
   "Spring Biome": SUNNYSIDE.land.bottomAndRightEdge,
   "Desert Biome": SUNNYSIDE.land.desertBottomAndRightEdge,
   "Volcano Biome": SUNNYSIDE.land.volcanoBottomAndRightEdge,
-  "Swamp Biome": SUNNYSIDE.land.volcanoBottomAndRightEdge,
+  "Swamp Biome": SUNNYSIDE.land.bottomAndRightEdge,
   // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": SUNNYSIDE.land.volcanoBottomAndRightEdge,
-  "Crystal Biome": SUNNYSIDE.land.volcanoBottomAndRightEdge,
-  "Galaxy Biome": SUNNYSIDE.land.volcanoBottomAndRightEdge,
-  "Marble Age Biome": SUNNYSIDE.land.volcanoBottomAndRightEdge,
+  "Spooky Biome": SUNNYSIDE.land.bottomAndRightEdge,
+  "Crystal Biome": SUNNYSIDE.land.bottomAndRightEdge,
+  "Galaxy Biome": SUNNYSIDE.land.bottomAndRightEdge,
+  "Marble Age Biome": SUNNYSIDE.land.bottomAndRightEdge,
 };
 
 const TOP: CropAlternateArt = {
@@ -97,12 +97,12 @@ const TOP: CropAlternateArt = {
   "Spring Biome": SUNNYSIDE.land.topEdge,
   "Desert Biome": SUNNYSIDE.land.desertTopEdge,
   "Volcano Biome": SUNNYSIDE.land.volcanoTopEdge,
-  "Swamp Biome": SUNNYSIDE.land.volcanoTopEdge,
+  "Swamp Biome": SUNNYSIDE.land.topEdge,
   // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": SUNNYSIDE.land.volcanoTopEdge,
-  "Crystal Biome": SUNNYSIDE.land.volcanoTopEdge,
-  "Galaxy Biome": SUNNYSIDE.land.volcanoTopEdge,
-  "Marble Age Biome": SUNNYSIDE.land.volcanoTopEdge,
+  "Spooky Biome": SUNNYSIDE.land.topEdge,
+  "Crystal Biome": SUNNYSIDE.land.topEdge,
+  "Galaxy Biome": SUNNYSIDE.land.topEdge,
+  "Marble Age Biome": SUNNYSIDE.land.topEdge,
 };
 
 const RIGHT: CropAlternateArt = {
@@ -110,12 +110,12 @@ const RIGHT: CropAlternateArt = {
   "Spring Biome": SUNNYSIDE.land.rightEdge,
   "Desert Biome": SUNNYSIDE.land.desertRightEdge,
   "Volcano Biome": SUNNYSIDE.land.volcanoRightEdge,
-  "Swamp Biome": SUNNYSIDE.land.volcanoRightEdge,
+  "Swamp Biome": SUNNYSIDE.land.rightEdge,
   // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": SUNNYSIDE.land.volcanoRightEdge,
-  "Crystal Biome": SUNNYSIDE.land.volcanoRightEdge,
-  "Galaxy Biome": SUNNYSIDE.land.volcanoRightEdge,
-  "Marble Age Biome": SUNNYSIDE.land.volcanoRightEdge,
+  "Spooky Biome": SUNNYSIDE.land.rightEdge,
+  "Crystal Biome": SUNNYSIDE.land.rightEdge,
+  "Galaxy Biome": SUNNYSIDE.land.rightEdge,
+  "Marble Age Biome": SUNNYSIDE.land.rightEdge,
 };
 
 const BOTTOM: CropAlternateArt = {
@@ -123,12 +123,12 @@ const BOTTOM: CropAlternateArt = {
   "Spring Biome": SUNNYSIDE.land.bottomEdge,
   "Desert Biome": SUNNYSIDE.land.desertBottomEdge,
   "Volcano Biome": SUNNYSIDE.land.volcanoBottomEdge,
-  "Swamp Biome": SUNNYSIDE.land.volcanoBottomEdge,
+  "Swamp Biome": SUNNYSIDE.land.bottomEdge,
   // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": SUNNYSIDE.land.volcanoBottomEdge,
-  "Crystal Biome": SUNNYSIDE.land.volcanoBottomEdge,
-  "Galaxy Biome": SUNNYSIDE.land.volcanoBottomEdge,
-  "Marble Age Biome": SUNNYSIDE.land.volcanoBottomEdge,
+  "Spooky Biome": SUNNYSIDE.land.bottomEdge,
+  "Crystal Biome": SUNNYSIDE.land.bottomEdge,
+  "Galaxy Biome": SUNNYSIDE.land.bottomEdge,
+  "Marble Age Biome": SUNNYSIDE.land.bottomEdge,
 };
 
 const LEFT: CropAlternateArt = {
@@ -136,12 +136,12 @@ const LEFT: CropAlternateArt = {
   "Spring Biome": SUNNYSIDE.land.leftEdge,
   "Desert Biome": SUNNYSIDE.land.desertLeftEdge,
   "Volcano Biome": SUNNYSIDE.land.volcanoLeftEdge,
-  "Swamp Biome": SUNNYSIDE.land.volcanoLeftEdge,
+  "Swamp Biome": SUNNYSIDE.land.leftEdge,
   // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": SUNNYSIDE.land.volcanoLeftEdge,
-  "Crystal Biome": SUNNYSIDE.land.volcanoLeftEdge,
-  "Galaxy Biome": SUNNYSIDE.land.volcanoLeftEdge,
-  "Marble Age Biome": SUNNYSIDE.land.volcanoLeftEdge,
+  "Spooky Biome": SUNNYSIDE.land.leftEdge,
+  "Crystal Biome": SUNNYSIDE.land.leftEdge,
+  "Galaxy Biome": SUNNYSIDE.land.leftEdge,
+  "Marble Age Biome": SUNNYSIDE.land.leftEdge,
 };
 
 const TOP_BOTTOM: CropAlternateArt = {
@@ -149,12 +149,12 @@ const TOP_BOTTOM: CropAlternateArt = {
   "Spring Biome": SUNNYSIDE.land.topAndBottomEdge,
   "Desert Biome": SUNNYSIDE.land.desertTopAndBottomEdge,
   "Volcano Biome": SUNNYSIDE.land.volcanoTopAndBottomEdge,
-  "Swamp Biome": SUNNYSIDE.land.volcanoTopAndBottomEdge,
+  "Swamp Biome": SUNNYSIDE.land.topAndBottomEdge,
   // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": SUNNYSIDE.land.volcanoTopAndBottomEdge,
-  "Crystal Biome": SUNNYSIDE.land.volcanoTopAndBottomEdge,
-  "Galaxy Biome": SUNNYSIDE.land.volcanoTopAndBottomEdge,
-  "Marble Age Biome": SUNNYSIDE.land.volcanoTopAndBottomEdge,
+  "Spooky Biome": SUNNYSIDE.land.topAndBottomEdge,
+  "Crystal Biome": SUNNYSIDE.land.topAndBottomEdge,
+  "Galaxy Biome": SUNNYSIDE.land.topAndBottomEdge,
+  "Marble Age Biome": SUNNYSIDE.land.topAndBottomEdge,
 };
 
 const RIGHT_LEFT: CropAlternateArt = {
@@ -162,12 +162,12 @@ const RIGHT_LEFT: CropAlternateArt = {
   "Spring Biome": SUNNYSIDE.land.rightAndLeftEdge,
   "Desert Biome": SUNNYSIDE.land.desertRightAndLeftEdge,
   "Volcano Biome": SUNNYSIDE.land.volcanoRightAndLeftEdge,
-  "Swamp Biome": SUNNYSIDE.land.volcanoRightAndLeftEdge,
+  "Swamp Biome": SUNNYSIDE.land.rightAndLeftEdge,
   // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": SUNNYSIDE.land.volcanoRightAndLeftEdge,
-  "Crystal Biome": SUNNYSIDE.land.volcanoRightAndLeftEdge,
-  "Galaxy Biome": SUNNYSIDE.land.volcanoRightAndLeftEdge,
-  "Marble Age Biome": SUNNYSIDE.land.volcanoRightAndLeftEdge,
+  "Spooky Biome": SUNNYSIDE.land.rightAndLeftEdge,
+  "Crystal Biome": SUNNYSIDE.land.rightAndLeftEdge,
+  "Galaxy Biome": SUNNYSIDE.land.rightAndLeftEdge,
+  "Marble Age Biome": SUNNYSIDE.land.rightAndLeftEdge,
 };
 
 const TOP_BOTTOM_LEFT: CropAlternateArt = {
@@ -175,12 +175,12 @@ const TOP_BOTTOM_LEFT: CropAlternateArt = {
   "Spring Biome": SUNNYSIDE.land.topLeftAndBottomEdge,
   "Desert Biome": SUNNYSIDE.land.desertTopLeftAndBottomEdge,
   "Volcano Biome": SUNNYSIDE.land.volcanoTopLeftAndBottomEdge,
-  "Swamp Biome": SUNNYSIDE.land.volcanoTopLeftAndBottomEdge,
+  "Swamp Biome": SUNNYSIDE.land.topLeftAndBottomEdge,
   // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": SUNNYSIDE.land.volcanoTopLeftAndBottomEdge,
-  "Crystal Biome": SUNNYSIDE.land.volcanoTopLeftAndBottomEdge,
-  "Galaxy Biome": SUNNYSIDE.land.volcanoTopLeftAndBottomEdge,
-  "Marble Age Biome": SUNNYSIDE.land.volcanoTopLeftAndBottomEdge,
+  "Spooky Biome": SUNNYSIDE.land.topLeftAndBottomEdge,
+  "Crystal Biome": SUNNYSIDE.land.topLeftAndBottomEdge,
+  "Galaxy Biome": SUNNYSIDE.land.topLeftAndBottomEdge,
+  "Marble Age Biome": SUNNYSIDE.land.topLeftAndBottomEdge,
 };
 
 const TOP_RIGHT_BOTTOM: CropAlternateArt = {
@@ -188,12 +188,12 @@ const TOP_RIGHT_BOTTOM: CropAlternateArt = {
   "Spring Biome": SUNNYSIDE.land.topRightAndBottomEdge,
   "Desert Biome": SUNNYSIDE.land.desertTopRightAndBottomEdge,
   "Volcano Biome": SUNNYSIDE.land.volcanoTopRightAndBottomEdge,
-  "Swamp Biome": SUNNYSIDE.land.volcanoTopRightAndBottomEdge,
+  "Swamp Biome": SUNNYSIDE.land.topRightAndBottomEdge,
   // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": SUNNYSIDE.land.volcanoTopRightAndBottomEdge,
-  "Crystal Biome": SUNNYSIDE.land.volcanoTopRightAndBottomEdge,
-  "Galaxy Biome": SUNNYSIDE.land.volcanoTopRightAndBottomEdge,
-  "Marble Age Biome": SUNNYSIDE.land.volcanoTopRightAndBottomEdge,
+  "Spooky Biome": SUNNYSIDE.land.topRightAndBottomEdge,
+  "Crystal Biome": SUNNYSIDE.land.topRightAndBottomEdge,
+  "Galaxy Biome": SUNNYSIDE.land.topRightAndBottomEdge,
+  "Marble Age Biome": SUNNYSIDE.land.topRightAndBottomEdge,
 };
 
 const TOP_RIGHT_LEFT: CropAlternateArt = {
@@ -201,12 +201,12 @@ const TOP_RIGHT_LEFT: CropAlternateArt = {
   "Spring Biome": SUNNYSIDE.land.topRightAndLeftEdge,
   "Desert Biome": SUNNYSIDE.land.desertTopRightAndLeftEdge,
   "Volcano Biome": SUNNYSIDE.land.volcanoTopRightAndLeftEdge,
-  "Swamp Biome": SUNNYSIDE.land.volcanoTopRightAndLeftEdge,
+  "Swamp Biome": SUNNYSIDE.land.topRightAndLeftEdge,
   // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": SUNNYSIDE.land.volcanoTopRightAndLeftEdge,
-  "Crystal Biome": SUNNYSIDE.land.volcanoTopRightAndLeftEdge,
-  "Galaxy Biome": SUNNYSIDE.land.volcanoTopRightAndLeftEdge,
-  "Marble Age Biome": SUNNYSIDE.land.volcanoTopRightAndLeftEdge,
+  "Spooky Biome": SUNNYSIDE.land.topRightAndLeftEdge,
+  "Crystal Biome": SUNNYSIDE.land.topRightAndLeftEdge,
+  "Galaxy Biome": SUNNYSIDE.land.topRightAndLeftEdge,
+  "Marble Age Biome": SUNNYSIDE.land.topRightAndLeftEdge,
 };
 
 const RIGHT_BOTTOM_LEFT: CropAlternateArt = {
@@ -214,12 +214,12 @@ const RIGHT_BOTTOM_LEFT: CropAlternateArt = {
   "Spring Biome": SUNNYSIDE.land.rightBottomAndLeftEdge,
   "Desert Biome": SUNNYSIDE.land.desertRightBottomAndLeftEdge,
   "Volcano Biome": SUNNYSIDE.land.volcanoRightBottomAndLeftEdge,
-  "Swamp Biome": SUNNYSIDE.land.volcanoRightBottomAndLeftEdge,
+  "Swamp Biome": SUNNYSIDE.land.rightBottomAndLeftEdge,
   // Ascension biomes (spooky onward) reuse the swamp art for now.
-  "Spooky Biome": SUNNYSIDE.land.volcanoRightBottomAndLeftEdge,
-  "Crystal Biome": SUNNYSIDE.land.volcanoRightBottomAndLeftEdge,
-  "Galaxy Biome": SUNNYSIDE.land.volcanoRightBottomAndLeftEdge,
-  "Marble Age Biome": SUNNYSIDE.land.volcanoRightBottomAndLeftEdge,
+  "Spooky Biome": SUNNYSIDE.land.rightBottomAndLeftEdge,
+  "Crystal Biome": SUNNYSIDE.land.rightBottomAndLeftEdge,
+  "Galaxy Biome": SUNNYSIDE.land.rightBottomAndLeftEdge,
+  "Marble Age Biome": SUNNYSIDE.land.rightBottomAndLeftEdge,
 };
 
 const IMAGE_PATHS: Record<string, CropAlternateArt> = {

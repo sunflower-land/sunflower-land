@@ -21,6 +21,7 @@ import { SEASONAL_SEEDS } from "features/game/types/seeds";
 import { getKeys } from "lib/object";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { hasFeatureAccess } from "lib/flags";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 
 export type PlantFlowerAction = {
   type: "flower.planted";
@@ -82,19 +83,27 @@ export const getFlowerTime = (
     boostsUsed.push({ name: "Blossom Hourglass", value: "x0.75" });
   }
 
-  if (bumpkin.skills["Blooming Boost"]) {
-    seconds *= 0.9;
-    boostsUsed.push({ name: "Blooming Boost", value: "x0.9" });
+  const bloomingBoostLevel = getSkillLevel(bumpkin.skills, "Blooming Boost");
+  if (bloomingBoostLevel) {
+    const multiplier =
+      SKILL_RANKS["Blooming Boost"].ranks[bloomingBoostLevel - 1];
+    seconds *= multiplier;
+    boostsUsed.push({ name: "Blooming Boost", value: `x${multiplier}` });
   }
 
-  if (bumpkin.skills["Flower Power"]) {
-    seconds *= 0.8;
-    boostsUsed.push({ name: "Flower Power", value: "x0.8" });
+  const flowerPowerLevel = getSkillLevel(bumpkin.skills, "Flower Power");
+  if (flowerPowerLevel) {
+    const multiplier = SKILL_RANKS["Flower Power"].ranks[flowerPowerLevel - 1];
+    seconds *= multiplier;
+    boostsUsed.push({ name: "Flower Power", value: `x${multiplier}` });
   }
 
-  if (bumpkin.skills["Flowery Abode"]) {
-    seconds *= 1.5;
-    boostsUsed.push({ name: "Flowery Abode", value: "x1.5" });
+  const floweryAbodeLevel = getSkillLevel(bumpkin.skills, "Flowery Abode");
+  if (floweryAbodeLevel) {
+    const multiplier =
+      SKILL_RANKS["Flowery Abode"].growth[floweryAbodeLevel - 1];
+    seconds *= multiplier;
+    boostsUsed.push({ name: "Flowery Abode", value: `x${multiplier}` });
   }
 
   return { seconds, boostsUsed };

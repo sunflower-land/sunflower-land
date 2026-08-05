@@ -17,6 +17,7 @@ import {
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 
 export type AddSeedsInput = {
   type: CropSeedName;
@@ -35,29 +36,54 @@ type SupplyCropMachineOptions = {
   createdAt?: number;
 };
 
-export const MAX_QUEUE_SIZE = (state: GameState): number =>
-  state.bumpkin.skills["Field Expansion Module"] ? 10 : 5;
+const BASE_QUEUE_SIZE = 5;
+export const MAX_QUEUE_SIZE = (state: GameState): number => {
+  const level = getSkillLevel(state.bumpkin.skills, "Field Expansion Module");
+  return level
+    ? BASE_QUEUE_SIZE + SKILL_RANKS["Field Expansion Module"].ranks[level - 1]
+    : BASE_QUEUE_SIZE;
+};
 
-export const CROP_MACHINE_PLOTS = (state: GameState): number =>
-  state.bumpkin.skills["Field Extension Module"] ? 15 : 10;
+const BASE_CROP_MACHINE_PLOTS = 10;
+export const CROP_MACHINE_PLOTS = (state: GameState): number => {
+  const level = getSkillLevel(state.bumpkin.skills, "Field Extension Module");
+  return level
+    ? BASE_CROP_MACHINE_PLOTS +
+        SKILL_RANKS["Field Extension Module"].ranks[level - 1]
+    : BASE_CROP_MACHINE_PLOTS;
+};
 
 export const OIL_PER_HOUR_CONSUMPTION = (state: GameState) => {
+  const { skills } = state.bumpkin;
   let addtionalOil = 1;
-  if (state.bumpkin.skills["Crop Processor Unit"]) {
-    addtionalOil += 0.1;
+
+  const cropProcessorUnitLevel = getSkillLevel(skills, "Crop Processor Unit");
+  if (cropProcessorUnitLevel) {
+    addtionalOil +=
+      SKILL_RANKS["Crop Processor Unit"].oilPenalty[cropProcessorUnitLevel - 1];
   }
-  if (state.bumpkin.skills["Rapid Rig"]) {
-    addtionalOil += 0.4;
+
+  const rapidRigLevel = getSkillLevel(skills, "Rapid Rig");
+  if (rapidRigLevel) {
+    addtionalOil += SKILL_RANKS["Rapid Rig"].oilPenalty[rapidRigLevel - 1];
   }
 
   let oilReduction = 1;
 
-  if (state.bumpkin.skills["Oil Gadget"]) {
-    oilReduction -= 0.1;
+  const oilGadgetLevel = getSkillLevel(skills, "Oil Gadget");
+  if (oilGadgetLevel) {
+    oilReduction -= SKILL_RANKS["Oil Gadget"].ranks[oilGadgetLevel - 1];
   }
 
-  if (state.bumpkin.skills["Efficiency Extension Module"]) {
-    oilReduction -= 0.3;
+  const efficiencyExtensionModuleLevel = getSkillLevel(
+    skills,
+    "Efficiency Extension Module",
+  );
+  if (efficiencyExtensionModuleLevel) {
+    oilReduction -=
+      SKILL_RANKS["Efficiency Extension Module"].ranks[
+        efficiencyExtensionModuleLevel - 1
+      ];
   }
 
   const oilConsumedPerHour = addtionalOil * oilReduction;
@@ -65,8 +91,14 @@ export const OIL_PER_HOUR_CONSUMPTION = (state: GameState) => {
   return oilConsumedPerHour;
 };
 // 2 days worth of oil
-export const MAX_OIL_CAPACITY_IN_HOURS = (state: GameState) =>
-  state.bumpkin.skills["Leak-Proof Tank"] ? 48 * 3 : 48;
+const BASE_OIL_CAPACITY_IN_HOURS = 48;
+export const MAX_OIL_CAPACITY_IN_HOURS = (state: GameState) => {
+  const level = getSkillLevel(state.bumpkin.skills, "Leak-Proof Tank");
+  return level
+    ? BASE_OIL_CAPACITY_IN_HOURS *
+        SKILL_RANKS["Leak-Proof Tank"].ranks[level - 1]
+    : BASE_OIL_CAPACITY_IN_HOURS;
+};
 
 export const MAX_OIL_CAPACITY_IN_MILLIS = (state: GameState) =>
   MAX_OIL_CAPACITY_IN_HOURS(state) * 60 * 60 * 1000;
@@ -83,14 +115,22 @@ export function calculateCropTime(
 
   let milliSeconds = CROPS[cropName].harvestSeconds * 1000;
 
-  if (state.bumpkin.skills?.["Crop Processor Unit"]) {
-    milliSeconds = milliSeconds * 0.95;
-    boostUsed.push({ name: "Crop Processor Unit", value: "x0.95" });
+  const cropProcessorUnitLevel = getSkillLevel(
+    state.bumpkin.skills,
+    "Crop Processor Unit",
+  );
+  if (cropProcessorUnitLevel) {
+    const v =
+      SKILL_RANKS["Crop Processor Unit"].growth[cropProcessorUnitLevel - 1];
+    milliSeconds = milliSeconds * v;
+    boostUsed.push({ name: "Crop Processor Unit", value: `x${v}` });
   }
 
-  if (state.bumpkin.skills?.["Rapid Rig"]) {
-    milliSeconds = milliSeconds * 0.8;
-    boostUsed.push({ name: "Rapid Rig", value: "x0.8" });
+  const rapidRigLevel = getSkillLevel(state.bumpkin.skills, "Rapid Rig");
+  if (rapidRigLevel) {
+    const v = SKILL_RANKS["Rapid Rig"].growth[rapidRigLevel - 1];
+    milliSeconds = milliSeconds * v;
+    boostUsed.push({ name: "Rapid Rig", value: `x${v}` });
   }
 
   if (isCollectibleBuilt({ game: state, name: "Groovy Gramophone" })) {

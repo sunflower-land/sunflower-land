@@ -83,13 +83,21 @@ describe("upgradeInterior (interior.upgrade)", () => {
     ).toHaveLength(1);
   });
 
-  it("rejects upgrade when not on volcano island", () => {
+  it("rejects upgrade when not yet on volcano island", () => {
     expect(() =>
       upgradeInterior({
         state: { ...richVolcanoState(), island: { type: "spring" } },
         action: { type: "interior.upgrade" },
       }),
     ).toThrow(UPGRADE_INTERIOR_ERRORS.NOT_ON_VOLCANO);
+  });
+
+  it("allows upgrade on ascension islands past volcano", () => {
+    const next = upgradeInterior({
+      state: { ...richVolcanoState(), island: { type: "swamp" } },
+      action: { type: "interior.upgrade" },
+    });
+    expect(next.interior.expansion).toBe("level-one-start");
   });
 
   it("rejects upgrade once expansion is level-one-full", () => {

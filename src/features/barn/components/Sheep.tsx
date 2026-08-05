@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -147,6 +147,67 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sheep.state]);
 
+  const lastSynced = useRef({
+    state: sheep.state,
+    experience: sheep.experience,
+  });
+
+  // Sync the local machine when game state changes underneath it,
+  // e.g. via the Feed All button (bulk feed/cure/claim without a click).
+  useEffect(() => {
+    const prev = lastSynced.current;
+    lastSynced.current = { state: sheep.state, experience: sheep.experience };
+
+    if (prev.state === sheep.state && prev.experience === sheep.experience) {
+      return;
+    }
+
+    const machineState = () => sheepService.getSnapshot().value;
+
+    if (machineState() === "sick" && sheep.state !== "sick") {
+      sheepService.send({ type: "CURE", animal: sheep });
+    }
+
+    // A bulk claim happens without a click — play the same drop animation
+    // and sounds as a manual claim before the sprite transitions.
+    const animateBulkClaim = async (
+      event: "CLAIM_PRODUCE" | "INSTANT_WAKE_UP",
+    ) => {
+      setShowDrops(true);
+      playProduceDrop();
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      playSheepCollect();
+      await new Promise((resolve) => setTimeout(resolve, 900));
+      playLevelUp();
+      sheepService.send({ type: event, animal: sheep });
+      setShowDrops(false);
+    };
+
+    if (machineState() === "ready" && sheep.state === "idle") {
+      animateBulkClaim("CLAIM_PRODUCE");
+    }
+
+    if (
+      ["idle", "happy", "sad"].includes(machineState() as string) &&
+      sheep.state === "idle" &&
+      Date.now() < sheep.awakeAt
+    ) {
+      // Bulk feeding can level an animal to ready and claim its produce in
+      // the same event; INSTANT_WAKE_UP re-derives the machine state from
+      // the animal, which maps an asleep animal to "sleeping".
+      animateBulkClaim("INSTANT_WAKE_UP");
+    }
+
+    if (
+      ["idle", "happy", "sad"].includes(machineState() as string) &&
+      ["happy", "sad", "ready"].includes(sheep.state) &&
+      machineState() !== sheep.state
+    ) {
+      sheepService.send({ type: "FEED", animal: sheep });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sheep.state, sheep.experience]);
+
   const feedSheep = (item?: InventoryItemName) => {
     const updatedState = gameService.send({
       type: "animal.fed",
@@ -288,6 +349,10 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
 
   const handleClick = async () => {
     if (disabled) return;
+    // A bulk-claim animation is in flight: the sprite still looks awake but
+    // the game-state animal is already asleep, so any feed/claim event would
+    // throw. Ignore clicks until the animation resolves.
+    if (showDrops) return;
 
     const showNoFoodPrompt = async () => {
       setShowNoFoodSelected(true);
@@ -421,7 +486,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     if (needsLove) return sheep.item;
     return favFood;
   };
-  const showRequestBubble = sick || needsLove || (idle && !isLocked);
+  const showRequestBubble =
+    sick || needsLove || (idle && !isLocked && !showDrops);
 
   if (sheepState === "initial") return null;
 

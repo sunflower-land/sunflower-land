@@ -155,7 +155,7 @@ export const LUXURY_REWARDS = (now: number): RewardBoxReward[] => [
   { items: { "Grape Juice": 10 }, weighting: 25 * CHEST_MULTIPLIER },
   { items: { Sunstone: 3 }, weighting: 25 * CHEST_MULTIPLIER },
   { items: { "Prize Ticket": 1 }, weighting: 50 * CHEST_MULTIPLIER },
-  ...getChapterMegastoreChestRewards(now, 7 * CHEST_MULTIPLIER),
+  ...getChapterMegastoreChestRewards(now, 1.9 * CHEST_MULTIPLIER),
 ];
 
 export const BUD_BOX_REWARDS: RewardBoxReward[] = [

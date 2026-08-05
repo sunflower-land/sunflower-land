@@ -1,25 +1,17 @@
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import type { BedName } from "features/game/types/game";
-import { NPCIcon, NPCPlaceable } from "features/island/bumpkin/components/NPC";
+import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import React, { useContext } from "react";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getKeys } from "lib/object";
 import { BumpkinEquip } from "features/bumpkins/components/BumpkinEquip";
 import { Context } from "features/game/GameProvider";
+import { BedsMigrationModal } from "./BedsMigrationModal";
 import { Button } from "components/ui/Button";
 import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { ITEM_DETAILS } from "features/game/types/images";
-import {
-  BED_FARMHAND_COUNT,
-  getPlacedBedNames,
-} from "features/game/types/beds";
-import { BED_WIDTH } from "features/island/collectibles/components/Bed";
-import { Label } from "components/ui/Label";
-import { Panel } from "components/ui/Panel";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import type { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
@@ -28,13 +20,6 @@ import type { PlaceableLocation } from "features/game/types/collectibles";
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _farmHands = (state: MachineState) =>
   state.context.state.farmHands.bumpkins;
-const _collectibles = (state: MachineState) => state.context.state.collectibles;
-const _homeCollectibles = (state: MachineState) =>
-  state.context.state.home.collectibles;
-const _interiorCollectibles = (state: MachineState) =>
-  state.context.state.interior.ground.collectibles;
-const _levelOneCollectibles = (state: MachineState) =>
-  state.context.state.interior.level_one?.collectibles;
 const _isLandscaping = (state: MachineState) => state.matches("landscaping");
 
 type Props = {
@@ -51,34 +36,11 @@ export const InteriorBumpkins: React.FC<Props> = ({ location = "home" }) => {
 
   const bumpkin = useSelector(gameService, _bumpkin);
   const farmHands = useSelector(gameService, _farmHands);
-  const collectibles = useSelector(gameService, _collectibles);
-  const homeCollectibles = useSelector(gameService, _homeCollectibles);
-  const interiorCollectibles = useSelector(gameService, _interiorCollectibles);
-  const levelOneCollectibles = useSelector(gameService, _levelOneCollectibles);
   const isLandscaping = useSelector(gameService, _isLandscaping);
 
   const unplacedFarmHandIds = getKeys(farmHands).filter(
     (id) => !farmHands[id].coordinates,
   );
-
-  const count = getKeys(farmHands).length + 1;
-  const max = Object.keys(BED_FARMHAND_COUNT).length;
-
-  // Beds placed anywhere count — farm, home interior and both /interior floors.
-  const uniqueBeds = getPlacedBedNames({
-    collectibles,
-    home: { collectibles: homeCollectibles },
-    interior: {
-      ground: { collectibles: interiorCollectibles },
-      level_one: levelOneCollectibles
-        ? { collectibles: levelOneCollectibles }
-        : undefined,
-    },
-  });
-
-  const beds = getKeys(BED_FARMHAND_COUNT)
-    .sort((a, b) => BED_FARMHAND_COUNT[a] - BED_FARMHAND_COUNT[b])
-    .filter((bedName) => uniqueBeds.has(bedName));
 
   const handlePlaceFarmHand = (id: string) => {
     const landscaping = gameService.getSnapshot().children
@@ -102,8 +64,11 @@ export const InteriorBumpkins: React.FC<Props> = ({ location = "home" }) => {
 
   return (
     <>
-      <div className="flex justify-between items-end">
-        <div className="flex">
+      <div className="flex flex-wrap items-end gap-2 max-w-[70vw]">
+        <div
+          className="flex flex-wrap"
+          style={{ rowGap: `${32 * PIXEL_SCALE}px` }}
+        >
           {(!isLandscaping ||
             !bumpkin.coordinates ||
             bumpkin.location !== location) && (
@@ -213,71 +178,11 @@ export const InteriorBumpkins: React.FC<Props> = ({ location = "home" }) => {
         )}
       </div>
 
-      <Modal
+      {/* Shared with the interior HUD's beds button — see BedsMigrationModal. */}
+      <BedsMigrationModal
         show={showBuyFarmHand}
         onHide={() => setShowBuyFarmHandModal(false)}
-      >
-        <Panel>
-          <div className="p-1 flex justify-between">
-            <Label type="default" icon={ITEM_DETAILS["Basic Bed"].image}>
-              {t("bedsMigration.label")}
-            </Label>
-            <Label type="default" icon={SUNNYSIDE.icons.player}>
-              {t("bedsMigration.farmHandCount", { count, max })}
-            </Label>
-          </div>
-          <div className="flex p-2 flex-col space-y-1 mb-2 text-xs">
-            <span className="">{t("bedsMigration.bedsNeededDescription")}</span>
-            <span className="">
-              {t("bedsMigration.bedsNeededDescription2")}
-            </span>
-          </div>
-          <div className="flex flex-col items-center">
-            <div className="flex start"></div>
-
-            <div className="grid grid-cols-4 mb-2 w-full">
-              {beds.map((bed, i) => {
-                const equipments = [bumpkin, ...Object.values(farmHands)].map(
-                  (f) => f.equipped,
-                );
-
-                const equipment = equipments[i];
-
-                return (
-                  <InteriorBed
-                    bed={bed}
-                    equipment={equipment}
-                    isPlaced={true}
-                    key={bed}
-                  />
-                );
-              })}
-              {getKeys(BED_FARMHAND_COUNT)
-                .filter((bed) => !beds.includes(bed))
-                .map((bed, i) => {
-                  const equipments = [bumpkin, ...Object.values(farmHands)]
-                    .map((f) => f.equipped)
-                    .slice(beds.length);
-
-                  const equipment = equipments[i];
-
-                  return (
-                    <InteriorBed
-                      bed={bed}
-                      equipment={equipment}
-                      isPlaced={false}
-                      key={bed}
-                    />
-                  );
-                })}
-            </div>
-          </div>
-
-          <Button onClick={() => setShowBuyFarmHandModal(false)}>
-            {t("close")}
-          </Button>
-        </Panel>
-      </Modal>
+      />
 
       <Modal
         show={showBumpkinModal}
@@ -336,52 +241,5 @@ export const InteriorBumpkins: React.FC<Props> = ({ location = "home" }) => {
         </CloseButtonPanel>
       </Modal>
     </>
-  );
-};
-
-const InteriorBed: React.FC<{
-  bed: BedName;
-  equipment?: BumpkinParts;
-  isPlaced: boolean;
-}> = ({ bed, equipment, isPlaced }) => {
-  const { t } = useAppTranslation();
-
-  return (
-    <div className="flex flex-col items-center w-full" key={bed}>
-      <Label type={isPlaced ? (equipment ? "warning" : "success") : "default"}>
-        <span className="text-xxs">
-          {isPlaced
-            ? equipment
-              ? t("bedsMigration.status.occupied")
-              : t("bedsMigration.status.unoccupied")
-            : t("bedsMigration.status.notPlaced")}
-        </span>
-      </Label>
-      <span className={`text-xxs text-center`}>{bed.split(" ")[0]}</span>
-      <span className={`text-xxs text-center mb-1`}>{bed.split(" ")[1]}</span>
-
-      <div
-        className="flex justify-center relative"
-        key={bed}
-        style={{
-          width: `${22 * PIXEL_SCALE}px`,
-        }}
-      >
-        <div>
-          <img
-            src={ITEM_DETAILS[bed as BedName].image}
-            style={{
-              width: `${BED_WIDTH[bed as BedName] * PIXEL_SCALE}px`,
-            }}
-            className={`${isPlaced ? "opacity-100" : "opacity-50"}`}
-          />
-        </div>
-        {equipment && (
-          <div className="absolute">
-            <NPCIcon key={JSON.stringify(equipment)} parts={equipment} />
-          </div>
-        )}
-      </div>
-    </div>
   );
 };

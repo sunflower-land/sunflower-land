@@ -861,6 +861,39 @@ describe("feedBumpkin", () => {
     );
   });
 
+  describe("Buzzworthy Treats ranks", () => {
+    const feedWithRank = (rank: number) =>
+      feedBumpkin({
+        state: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            skills: { "Buzzworthy Treats": rank },
+          },
+          inventory: {
+            "Honey Cake": new Decimal(2),
+          },
+        },
+        action: {
+          type: "bumpkin.feed",
+          food: "Honey Cake",
+          amount: 1,
+        },
+      });
+
+    it("gives +20% XP on honey food at rank 2", () => {
+      expect(feedWithRank(2).bumpkin?.experience).toBe(
+        new Decimal(CONSUMABLES["Honey Cake"].experience).mul(1.2).toNumber(),
+      );
+    });
+
+    it("gives +30% XP on honey food at rank 3", () => {
+      expect(feedWithRank(3).bumpkin?.experience).toBe(
+        new Decimal(CONSUMABLES["Honey Cake"].experience).mul(1.3).toNumber(),
+      );
+    });
+  });
+
   it("does not apply Buzzworthy Treats on food made without Honey", () => {
     const result = feedBumpkin({
       state: {
@@ -939,6 +972,88 @@ describe("feedBumpkin", () => {
               readyAt: 0,
             },
           ],
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Boiled Eggs",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Boiled Eggs"].experience).toNumber(),
+    );
+  });
+  it("provides 5% more experience on Aged fish when Astrolabe is placed", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: 0,
+        },
+        collectibles: {
+          Astrolabe: [{ id: "1", createdAt: 0, coordinates: { x: 0, y: 0 } }],
+        },
+        inventory: {
+          "Aged Anchovy": new Decimal(1),
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Aged Anchovy",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Aged Anchovy"].experience).mul(1.05).toNumber(),
+    );
+  });
+
+  it("provides 5% more experience on Prime Aged fish when Astrolabe is placed", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: 0,
+        },
+        collectibles: {
+          Astrolabe: [{ id: "1", createdAt: 0, coordinates: { x: 0, y: 0 } }],
+        },
+        inventory: {
+          "Prime Aged Anchovy": new Decimal(1),
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Prime Aged Anchovy",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Prime Aged Anchovy"].experience)
+        .mul(1.05)
+        .toNumber(),
+    );
+  });
+
+  it("does not boost non-aged food with Astrolabe placed", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: 0,
+        },
+        collectibles: {
+          Astrolabe: [{ id: "1", createdAt: 0, coordinates: { x: 0, y: 0 } }],
+        },
+        inventory: {
+          "Boiled Eggs": new Decimal(1),
         },
       },
       action: {
