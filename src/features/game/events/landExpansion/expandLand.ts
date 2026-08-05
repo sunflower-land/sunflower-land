@@ -19,7 +19,11 @@ import { ISLAND_MAX_EXPANSION } from "features/game/expansion/lib/expansionRequi
 import { produce } from "immer";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
-import { getExpansionCoinCostWithVip } from "features/game/lib/vipAccess";
+import {
+  EXPANSION_VIP_TIME_MULTIPLIER,
+  getExpansionCoinCostWithVip,
+  getExpansionSecondsWithVip,
+} from "features/game/lib/vipAccess";
 
 export type ExpandLandAction = {
   type: "land.expanded";
@@ -107,9 +111,24 @@ export function expandLand({ state, createdAt = Date.now() }: Options) {
       game.inventory,
     );
 
+    // Ascension Age chapter perk: VIP holders build 10% faster. Kept out of
+    // `expansionRequirements` (like the VIP coin discount) so the UI can show
+    // the full requirement alongside the discounted one.
+    const effectiveSeconds = getExpansionSecondsWithVip({
+      seconds: requirements.seconds,
+      game,
+      now: createdAt,
+    });
+    if (effectiveSeconds < requirements.seconds) {
+      boostsUsed.push({
+        name: "VIP Access",
+        value: `x${EXPANSION_VIP_TIME_MULTIPLIER}`,
+      });
+    }
+
     game.expansionConstruction = {
       createdAt,
-      readyAt: createdAt + requirements.seconds * 1000,
+      readyAt: createdAt + effectiveSeconds * 1000,
     };
 
     // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client_type=gtag#tutorial_complete

@@ -5536,6 +5536,7 @@
   "vip.benefit.bonusDelivery": "Bonus Delivery & Chore Rewards",
   "vip.benefit.reputation": "{{points}} Reputation Points",
   "vip.benefit.bonusSaltYield": "+2 Salt per Rake during Salt Awakening Chapter",
+  "vip.benefit.expansionSpeed": "-10% Expansion time during Ascension Age Chapter (Starts on 10th August 2026 Midnight UTC)",
   "vip.savings.title": "VIP Savings",
   "vip.savings.description": "Track how much you've saved and earned with VIP perks.",
   "vip.savings.coinsSaved": "Coins Saved",

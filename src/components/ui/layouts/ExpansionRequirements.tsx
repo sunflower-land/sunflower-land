@@ -23,7 +23,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { ResizableBar } from "../ProgressBar";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
-import { expansionRequirements } from "features/game/events/landExpansion/expandLand";
 import { Button } from "../Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useSpeedUpPayment } from "features/game/lib/useSpeedUpPayment";
@@ -37,6 +36,7 @@ import coinsIcon from "assets/icons/coins.webp";
 import { formatNumber } from "lib/utils/formatNumber";
 import {
   useExpansionCoinCostWithVip,
+  useExpansionSecondsWithVip,
   useVipAccess,
 } from "lib/utils/hooks/useVipAccess";
 /**
@@ -102,6 +102,13 @@ export const ExpansionRequirements: React.FC<Props> = ({
     coins: effectiveCoinCost,
   };
 
+  // Ascension Age chapter perk: VIP holders build 10% faster.
+  const effectiveSeconds = useExpansionSecondsWithVip({
+    seconds: requirements.seconds,
+    game: state,
+  });
+  const showVipTimeBoost = effectiveSeconds < requirements.seconds;
+
   const onExpand = () => {
     gameService.send("land.expanded");
     gameService.send("SAVE");
@@ -142,17 +149,26 @@ export const ExpansionRequirements: React.FC<Props> = ({
         </div>
       </InnerPanel>
       <InnerPanel className="relative flex flex-col mb-1">
-        <div className="p-1 flex justify-between items-center mb-1">
+        <div className="p-1 flex justify-between items-center gap-1 mb-1">
           <Label type={"default"} icon={SUNNYSIDE.icons.basket}>
             {t("requirements")}
           </Label>
-          <Label
-            type="info"
-            icon={SUNNYSIDE.icons.stopwatch}
-            secondaryIcon={SUNNYSIDE.icons.hammer}
-          >
-            {secondsToString(requirements.seconds, { length: "medium" })}
-          </Label>
+          <div className="flex items-center justify-end flex-wrap gap-x-1">
+            {showVipTimeBoost && (
+              <span className="line-through text-xxs whitespace-nowrap">
+                {secondsToString(requirements.seconds, { length: "short" })}
+              </span>
+            )}
+            <Label
+              type="info"
+              icon={SUNNYSIDE.icons.stopwatch}
+              secondaryIcon={
+                showVipTimeBoost ? vipIcon : SUNNYSIDE.icons.hammer
+              }
+            >
+              {secondsToString(effectiveSeconds, { length: "medium" })}
+            </Label>
+          </div>
         </div>
 
         {!!requirements.coins && !showVipDiscount && (
@@ -230,8 +246,13 @@ export const Expanding: React.FC<{
 }> = ({ state, onClose, onInstantExpanded, readyAt }) => {
   const { t } = useAppTranslation();
 
-  const { requirements } = expansionRequirements({ game: state });
-  const totalSeconds = requirements?.seconds ?? 0;
+  // Read the length of the build from the construction itself rather than
+  // re-deriving it — boosts (Ascension Monument, VIP speed) are baked into
+  // `readyAt` when the expansion starts and may no longer apply now.
+  const construction = state.expansionConstruction;
+  const totalSeconds = construction
+    ? (construction.readyAt - construction.createdAt) / 1000
+    : 0;
   const { totalSeconds: secondsTillReady, ...ready } = useCountdown(
     readyAt ?? 0,
   );

@@ -1,6 +1,7 @@
 import {
   VIP_TRIAL_PERIOD_MS,
   getExpansionCoinCostWithVip,
+  getExpansionSecondsWithVip,
   hasVipAccess,
 } from "features/game/lib/vipAccess";
 import type { GameState } from "features/game/types/game";
@@ -38,4 +39,25 @@ export const useExpansionCoinCostWithVip = ({
   const now = useNow({ live: true, autoEndAt });
 
   return getExpansionCoinCostWithVip({ coins, game, now });
+};
+
+/**
+ * Expansion build time in seconds after the Ascension Age VIP speed perk.
+ * Returns the unboosted seconds when the perk does not apply.
+ */
+export const useExpansionSecondsWithVip = ({
+  seconds,
+  game,
+}: {
+  seconds: number;
+  game: GameState;
+}): number => {
+  const autoEndAt = Math.max(
+    game.vip?.expiresAt ?? 0,
+    (game.vip?.trialStartedAt ?? 0) + VIP_TRIAL_PERIOD_MS,
+  );
+
+  const now = useNow({ live: true, autoEndAt });
+
+  return getExpansionSecondsWithVip({ seconds, game, now });
 };
