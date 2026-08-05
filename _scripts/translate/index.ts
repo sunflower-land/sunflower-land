@@ -25,6 +25,7 @@ import { getKeys } from "../../src/lib/object";
 
 import { buildCallSiteIndex, siblingContext } from "./context";
 import { buildGlossary, relevantGlossary } from "./glossary";
+import { mirrorEnglish, seedFromExisting, type Terms } from "./merge";
 import { translateChunk, type TranslationRequest } from "./provider";
 import { validateTranslation, type ValidationFailure } from "./validate";
 
@@ -38,8 +39,6 @@ const EXCLUDED: LanguageCode[] = ["ru"];
 
 const CHUNK_SIZE = 50;
 const CONCURRENCY = 4;
-
-type Terms = Record<string, string>;
 
 const args = process.argv.slice(2);
 const flag = (name: string): string | undefined =>
@@ -131,19 +130,11 @@ const translateLanguage = async (
   const existing = readTerms(path.join(DICTIONARIES, `${language}.json`));
 
   // Start from what already shipped, dropping keys no longer in the dictionary.
-  //
-  // Iteration order is the EXISTING file's, not the dictionary's. Rebuilding in
-  // dictionary order rewrites all 9,592 lines on every run, which buries three
-  // real changes in a 15,000-line reorder and makes the diff unreviewable.
   // Keys new to this language are appended as they are translated below.
-  const result: Terms = {};
-  for (const key of getKeys(existing)) {
-    if (english[key] !== undefined) result[key] = existing[key];
-  }
+  const result: Terms = seedFromExisting(existing, english);
 
   if (EXCLUDED.includes(language)) {
-    for (const key of getKeys(english)) result[key] = english[key];
-    writeTerms(target, result);
+    writeTerms(target, mirrorEnglish(result, english, previousEnglish));
     console.log(`${language}: excluded from translation, mirrored English`);
     return;
   }
