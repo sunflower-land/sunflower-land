@@ -12,7 +12,10 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";
 import { getKeys, getObjectEntries } from "lib/object";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import {
   TREASURE_TOOLS,
   type TreasureToolName,
@@ -175,7 +178,7 @@ const ToolContent: React.FC<ToolContentProps> = ({ selectedName }) => {
                 className="h-8 mr-2"
               />
               <span className="text-sm">
-                {maxAffordableAmount} {selectedName}
+                {maxAffordableAmount} {getTranslatedItemName(selectedName)}
               </span>
             </div>
             <div className="flex flex-wrap justify-center items-center gap-2 mb-3">
