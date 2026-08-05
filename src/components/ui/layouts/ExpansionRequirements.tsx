@@ -5,19 +5,19 @@ import {
 } from "features/game/lib/level";
 import { getKeys } from "lib/object";
 import type {
+  BoostName,
   Bumpkin,
   GameState,
   ExpansionRequirements as IExpansionRequirements,
   Inventory,
 } from "features/game/types/game";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import { Label } from "../Label";
 import { SquareIcon } from "../SquareIcon";
-import { secondsToString } from "lib/utils/time";
 import { InnerPanel } from "../Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
@@ -38,8 +38,7 @@ import {
   useExpansionCoinCostWithVip,
   useVipAccess,
 } from "lib/utils/hooks/useVipAccess";
-import { useNow } from "lib/utils/hooks/useNow";
-import { hasVipExpansionSpeedBoost } from "features/game/lib/vipAccess";
+import { BoostsDisplay } from "./BoostsDisplay";
 /**
  * The props for the component.
  * @param gameState The game state.
@@ -53,6 +52,10 @@ interface Props {
   bumpkin: Bumpkin;
   details: DetailsProps;
   requirements: IExpansionRequirements;
+  /** Build time before any time boost — struck through when one applies. */
+  baseTimeSeconds: number;
+  /** Time boosts behind the shortened build, listed in the boosts popover. */
+  timeBoostsUsed: { name: BoostName; value: string }[];
   state: GameState;
   onClose: () => void;
 }
@@ -75,13 +78,15 @@ export const ExpansionRequirements: React.FC<Props> = ({
   bumpkin,
   details,
   requirements,
+  baseTimeSeconds,
+  timeBoostsUsed,
   coins,
   state,
   onClose,
 }: Props) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const now = useNow();
+  const [showTimeBoosts, setShowTimeBoosts] = useState(false);
 
   // Compare the player's standing against the (ascension, level) requirement —
   // matching the `expandLand` gate.
@@ -104,9 +109,10 @@ export const ExpansionRequirements: React.FC<Props> = ({
     coins: effectiveCoinCost,
   };
 
-  // Ascension Age chapter perk: VIP holders build 10% faster. `requirements`
-  // already carries the shortened time — this only picks the timer's icon.
-  const showVipTimeBoost = hasVipExpansionSpeedBoost({ game: state, now });
+  // `requirements.seconds` already carries any shortening (Ascension Monument,
+  // VIP) — show it against the original, with the boosts behind the tap.
+  const isTimeBoosted =
+    timeBoostsUsed.length > 0 && requirements.seconds < baseTimeSeconds;
 
   const onExpand = () => {
     gameService.send("land.expanded");
@@ -152,13 +158,35 @@ export const ExpansionRequirements: React.FC<Props> = ({
           <Label type={"default"} icon={SUNNYSIDE.icons.basket}>
             {t("requirements")}
           </Label>
-          <Label
-            type="info"
-            icon={SUNNYSIDE.icons.stopwatch}
-            secondaryIcon={showVipTimeBoost ? vipIcon : SUNNYSIDE.icons.hammer}
+          <div
+            className={`flex flex-row items-center ${
+              isTimeBoosted ? "cursor-pointer" : ""
+            }`}
+            onClick={
+              isTimeBoosted
+                ? () => setShowTimeBoosts(!showTimeBoosts)
+                : undefined
+            }
           >
-            {secondsToString(requirements.seconds, { length: "medium" })}
-          </Label>
+            {isTimeBoosted && (
+              <RequirementLabel
+                type="time"
+                waitSeconds={requirements.seconds}
+                boosted
+              />
+            )}
+            <RequirementLabel
+              type="time"
+              waitSeconds={baseTimeSeconds}
+              strikethrough={isTimeBoosted}
+            />
+            <BoostsDisplay
+              boosts={timeBoostsUsed}
+              show={showTimeBoosts}
+              state={state}
+              onClick={() => setShowTimeBoosts(!showTimeBoosts)}
+            />
+          </div>
         </div>
 
         {!!requirements.coins && !showVipDiscount && (

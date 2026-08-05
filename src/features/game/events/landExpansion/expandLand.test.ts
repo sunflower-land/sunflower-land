@@ -598,23 +598,49 @@ describe("Ascension Age VIP expansion time boost", () => {
     );
   });
 
-  it("shortens the requirement itself, alongside the monument boost", () => {
-    const { requirements, boostsUsed } = expansionRequirements({
-      game: desertExpansionState(true, DURING),
-      now: DURING,
-    });
+  it("reports the original time and the boost behind it", () => {
+    const { requirements, baseTimeSeconds, timeBoostsUsed, boostsUsed } =
+      expansionRequirements({
+        game: desertExpansionState(true, DURING),
+        now: DURING,
+      });
 
     expect(requirements?.seconds).toEqual(BOOSTED_SECONDS);
+    expect(baseTimeSeconds).toEqual(BASE_SECONDS);
+    expect(timeBoostsUsed).toEqual([{ name: "VIP Access", value: "x0.9" }]);
     expect(boostsUsed).toEqual([{ name: "VIP Access", value: "x0.9" }]);
   });
 
-  it("leaves the requirement untouched when the perk does not apply", () => {
-    const { requirements, boostsUsed } = expansionRequirements({
-      game: desertExpansionState(false, DURING),
+  it("reports no time boost when the perk does not apply", () => {
+    const { requirements, baseTimeSeconds, timeBoostsUsed } =
+      expansionRequirements({
+        game: desertExpansionState(false, DURING),
+        now: DURING,
+      });
+
+    expect(requirements?.seconds).toEqual(BASE_SECONDS);
+    expect(baseTimeSeconds).toEqual(BASE_SECONDS);
+    expect(timeBoostsUsed).toHaveLength(0);
+  });
+
+  it("keeps resource boosts out of the time boost list", () => {
+    const base = desertExpansionState(true, DURING);
+    const { timeBoostsUsed, boostsUsed } = expansionRequirements({
+      game: {
+        ...base,
+        collectibles: {
+          "Grinx's Hammer": [
+            { coordinates: { x: 1, y: 1 }, createdAt: 0, id: "1", readyAt: 0 },
+          ],
+        },
+      },
       now: DURING,
     });
 
-    expect(requirements?.seconds).toEqual(BASE_SECONDS);
-    expect(boostsUsed).toHaveLength(0);
+    expect(timeBoostsUsed).toEqual([{ name: "VIP Access", value: "x0.9" }]);
+    expect(boostsUsed).toEqual([
+      { name: "Grinx's Hammer", value: "x0.5" },
+      { name: "VIP Access", value: "x0.9" },
+    ]);
   });
 });

@@ -251,7 +251,8 @@ export const UpcomingExpansion: React.FC = () => {
 
   const state = gameState.context.state;
   const now = useNow();
-  const { requirements } = expansionRequirements({ game: state, now });
+  const { requirements, baseTimeSeconds, timeBoostsUsed } =
+    expansionRequirements({ game: state, now });
 
   const expansions =
     (gameState.context.state.inventory["Basic Land"]?.toNumber() ?? 3) + 1;
@@ -344,6 +345,8 @@ export const UpcomingExpansion: React.FC = () => {
             }}
             onClose={() => setShowBumpkinModal(false)}
             requirements={requirements as IExpansionRequirements}
+            baseTimeSeconds={baseTimeSeconds}
+            timeBoostsUsed={timeBoostsUsed}
           />
         </CloseButtonPanel>
       </Modal>
