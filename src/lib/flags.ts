@@ -159,6 +159,12 @@ const FEATURE_FLAGS = {
   // Permanent Feature Flags
   ADMIN_DASHBOARDS: usernameFeatureFlag,
   AIRDROP_PLAYER: adminFeatureFlag,
+
+  // Shows the admin "Create / End Giveaway" controls on the town-hall giveaway
+  // board. The server enforces the real allowlist (GIVEAWAY_ADMIN_FARM_IDS), so
+  // this only gates the UI. Open to everyone in local development.
+  GIVEAWAY_ADMIN: (game: GameState) =>
+    import.meta.env.DEV || usernameFeatureFlag(game) || adminFeatureFlag(game),
   STREAMER_HAT: (game) =>
     (game.wardrobe["Streamer Hat"] ?? 0) > 0 || testnetFeatureFlag(),
 

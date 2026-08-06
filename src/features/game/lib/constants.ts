@@ -671,7 +671,9 @@ export const INITIAL_FARM: GameState = {
       total: 10,
     },
   },
-  farmActivity: {},
+  farmActivity: {
+    "welcome Bonus Claimed": 1, // Skips welcome screen
+  },
   milestones: {},
   specialEvents: {
     history: {},

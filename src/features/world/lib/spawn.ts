@@ -182,4 +182,19 @@ export const SPAWNS: () => SpawnLocation = () => ({
       y: 290,
     },
   },
+  // Giveaway race: left-hand side of the run.json map, in the middle 8-tile
+  // lane (the top and bottom 8 rows are trees).
+  giveaway_race: {
+    default: {
+      x: 32,
+      y: 192,
+    },
+  },
+  // Log Chop: centre of the woodlands map — trees are scattered around here.
+  giveaway_chop: {
+    default: {
+      x: 400,
+      y: 208,
+    },
+  },
 });

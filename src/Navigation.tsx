@@ -47,6 +47,12 @@ const World = lazy(() =>
   import("features/world/World").then((m) => ({ default: m.World })),
 );
 
+const GiveawayApp = lazy(() =>
+  import("features/giveaway/GiveawayApp").then((m) => ({
+    default: m.GiveawayApp,
+  })),
+);
+
 const selectState = (state: AuthMachineState) => ({
   isAuthorised: state.matches("connected"),
   isVisiting: state.matches("visiting"),
@@ -238,6 +244,14 @@ export const Navigation: React.FC = () => {
                                 <Route
                                   path="/economy-editor/edit/:slug"
                                   element={<PlayerEconomyEditorEdit />}
+                                />
+                                <Route
+                                  path="/giveaway/play/:id"
+                                  element={
+                                    <GameWrapper>
+                                      <GiveawayApp />
+                                    </GameWrapper>
+                                  }
                                 />
                                 <Route
                                   path="/interior"

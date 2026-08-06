@@ -63,7 +63,13 @@ type EffectName =
   | "liquidity.registered"
   | "appInstall.generate"
   | "farmHand.unlocked"
-  | "economies.exchanged";
+  | "economies.exchanged"
+  | "giveaway.created"
+  | "giveaway.joined"
+  | "giveaway.progressed"
+  | "giveaway.submitted"
+  | "giveaway.ended"
+  | "giveaway.claimed";
 
 type VisitEffectName = "farm.helped" | "farm.cheered" | "farm.followed";
 
@@ -131,7 +137,13 @@ export type StateMachineStateName =
   | "generatingAppInstall"
   | "pickingUpWaterTrap"
   | "resettingPetRequests"
-  | "exchangingEconomy";
+  | "exchangingEconomy"
+  | "creatingGiveaway"
+  | "joiningGiveaway"
+  | "progressingGiveaway"
+  | "submittingGiveaway"
+  | "endingGiveaway"
+  | "claimingGiveaway";
 
 export type StateMachineVisitStateName =
   | "helpingFarm"
@@ -195,6 +207,12 @@ export const STATE_MACHINE_EFFECTS: Record<
   "leagues.updated": "updatingLeagues",
   "appInstall.generate": "generatingAppInstall",
   "economies.exchanged": "exchangingEconomy",
+  "giveaway.created": "creatingGiveaway",
+  "giveaway.joined": "joiningGiveaway",
+  "giveaway.progressed": "progressingGiveaway",
+  "giveaway.submitted": "submittingGiveaway",
+  "giveaway.ended": "endingGiveaway",
+  "giveaway.claimed": "claimingGiveaway",
 };
 
 export const STATE_MACHINE_VISIT_EFFECTS: Record<
