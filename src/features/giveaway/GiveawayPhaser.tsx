@@ -13,25 +13,21 @@ import * as Auth from "features/auth/lib/Provider";
 import {
   mmoMachine,
   type MachineInterpreter as MMOMachineInterpreter,
-  type SceneId,
 } from "features/world/mmoMachine";
 import { GiveawayContext } from "./lib/GiveawayProvider";
-import { RaceScene, RACE_SCENE_ID } from "./scenes/RaceScene";
-import { ChopScene, CHOP_SCENE_ID } from "./scenes/ChopScene";
-import { type MinigameType, DEFAULT_MINIGAME } from "./lib/minigames";
+import { RACE_SCENE_ID } from "./scenes/RaceScene";
+import { GIVEAWAY_SCENE_LIST } from "./scenes/registry";
+import {
+  type MinigameType,
+  DEFAULT_MINIGAME,
+  GIVEAWAY_MINIGAMES,
+} from "./lib/minigames";
 
-/**
- * Which scene runs for each mini-game type. New scenes plug in here; types that
- * aren't implemented yet fall back to the race scene.
- */
-const SCENE_BY_TYPE: Partial<Record<MinigameType, SceneId>> = {
-  race: RACE_SCENE_ID,
-  chop: CHOP_SCENE_ID,
-};
-
-export const GiveawayPhaser: React.FC<{ minigame?: MinigameType }> = ({
-  minigame = DEFAULT_MINIGAME,
-}) => {
+export const GiveawayPhaser: React.FC<{
+  minigame?: MinigameType;
+  /** Per-game input channel (shape depends on the game — see each scene). */
+  controls?: unknown;
+}> = ({ minigame = DEFAULT_MINIGAME, controls }) => {
   const { gameService } = useContext(GameContext);
   const { authService } = useContext(Auth.Context);
   const { bridge } = useContext(GiveawayContext);
@@ -41,13 +37,19 @@ export const GiveawayPhaser: React.FC<{ minigame?: MinigameType }> = ({
   const game = useRef<Game>(undefined);
   const parentRef = useRef<HTMLDivElement>(null);
 
-  const sceneKey = SCENE_BY_TYPE[minigame] ?? RACE_SCENE_ID;
+  const sceneKey =
+    GIVEAWAY_MINIGAMES.find((m) => m.type === minigame)?.sceneId ??
+    RACE_SCENE_ID;
 
   // Connect to the MMO exactly like the world does, but with the giveaway scene
-  // as our `sceneId` — the room is shared per server, so BaseScene renders every
-  // other player whose `sceneId` matches (with their REAL clothing), and the
-  // mmoMachine routes giveaway scenes to the stream server so we're all in one
-  // room. Offline (no ROOM_URL) the machine simply never gets a server.
+  // as our `sceneId` — BaseScene then renders every other player whose `sceneId`
+  // matches (with their REAL clothing), and the mmoMachine routes giveaway
+  // scenes to the shared `sunflorea_party_games` room so we're all together.
+  //
+  // This is driven solely by CONFIG.ROOM_URL and is INDEPENDENT of the API: in
+  // local/mock mode (no API_URL) the giveaway DATA is mocked, but the MMO still
+  // connects to whatever ROOM_URL is set. With no ROOM_URL, the machine simply
+  // never gets a server (you play solo).
   const gameContext = gameService.getSnapshot().context;
   const mmoService = useInterpret(mmoMachine, {
     context: {
@@ -64,13 +66,6 @@ export const GiveawayPhaser: React.FC<{ minigame?: MinigameType }> = ({
     },
   }) as unknown as MMOMachineInterpreter;
 
-  const mmoServer = useSelector(mmoService, (s) => s.context.server);
-
-  // Keep the joined room in the registry so BaseScene can read it.
-  useEffect(() => {
-    game.current?.registry.set("mmoServer", mmoServer);
-  }, [mmoServer]);
-
   useEffect(() => {
     return () => {
       mmoService.getSnapshot().context.server?.leave();
@@ -80,8 +75,9 @@ export const GiveawayPhaser: React.FC<{ minigame?: MinigameType }> = ({
   useEffect(() => {
     // Preloader loads the shared Sunflower Land assets (Bumpkin silhouettes,
     // shadows, label ninepatch) that BumpkinContainer depends on, then starts
-    // the chosen scene via the `initialScene` registry value.
-    const scenes = [Preloader, RaceScene, ChopScene];
+    // the chosen scene via the `initialScene` registry value. The scene list is
+    // derived from the game config (see scenes/registry.ts).
+    const scenes = [Preloader, ...GIVEAWAY_SCENE_LIST];
 
     const config: Phaser.Types.Core.GameConfig = {
       type: AUTO,
@@ -139,9 +135,20 @@ export const GiveawayPhaser: React.FC<{ minigame?: MinigameType }> = ({
       "mmoServer",
       mmoService.getSnapshot().context.server,
     );
+    game.current.registry.set("gameControls", controls);
     game.current.registry.set("navigate", navigate);
 
+    // Push the joined room into the registry the moment the machine connects
+    // (and on any reconnect). BaseScene reads `mmoServer` from here every frame
+    // for both rendering other players AND broadcasting our own position, so a
+    // reliable, render-independent update is essential — otherwise you only ever
+    // see yourself and nothing you do is broadcast.
+    const subscription = mmoService.subscribe((state) => {
+      game.current?.registry.set("mmoServer", state.context.server);
+    });
+
     return () => {
+      subscription.unsubscribe();
       game.current?.destroy(true);
     };
     // Intentionally mount once — `bridge` is a stable object whose getters read

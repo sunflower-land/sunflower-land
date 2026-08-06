@@ -34,8 +34,15 @@ const prizeRewardLabel = (tier: PrizeTier) => {
  * The ranked top 10, with each position's prize shown on the right of its row.
  * Self-fetching by `id` (shares the SWR cache key with the mini-game provider),
  * so it can be dropped into the town-hall panel or the race results overlay.
+ *
+ * `playerScore` (the local final score) is shown as a "Your score" row above
+ * the board when the player finished outside the top 10 — the server board only
+ * carries scores for the top 10, so we fall back to the score the client knows.
  */
-export const GiveawayLeaderboard: React.FC<{ id: string }> = ({ id }) => {
+export const GiveawayLeaderboard: React.FC<{
+  id: string;
+  playerScore?: number;
+}> = ({ id, playerScore }) => {
   const { t } = useAppTranslation();
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(GameContext);
@@ -50,6 +57,14 @@ export const GiveawayLeaderboard: React.FC<{ id: string }> = ({ id }) => {
 
   if (!board) return <Loading />;
 
+  // Show a "Your score" row only when the player isn't already in the visible
+  // top 10. Their rank comes from the full participant order; their score from
+  // the local submission (the board omits scores below the top 10).
+  const inTop10 = board.leaderboard.some((row) => row.farmId === playerId);
+  const playerRank = board.participants.indexOf(playerId);
+  const showYourScore =
+    !inTop10 && (playerScore !== undefined || playerRank >= 0);
+
   return (
     <InnerPanel className="p-2">
       <div className="flex justify-between mb-1">
@@ -58,6 +73,16 @@ export const GiveawayLeaderboard: React.FC<{ id: string }> = ({ id }) => {
           {t("giveaway.participants", { count: board.totalParticipants })}
         </span>
       </div>
+
+      {showYourScore && (
+        <div className="flex items-center gap-2 text-xs py-0.5 px-1 mb-1 bg-white bg-opacity-30 rounded-sm">
+          <span className="w-8 shrink-0">
+            {playerRank >= 0 ? toOrdinalSuffix(playerRank + 1) : "-"}
+          </span>
+          <span className="flex-1 truncate">{t("giveaway.you")}</span>
+          <span className="w-10 shrink-0 text-right">{playerScore ?? "-"}</span>
+        </div>
+      )}
 
       {board.leaderboard.length === 0 && (
         <p className="text-xs p-1">{t("giveaway.noScores")}</p>

@@ -26,7 +26,7 @@ export const RACE_MAX_DISTANCE =
   MAX_SPEED * (RACE_DURATION_MS / 1000) + MAX_WOBBLE * 2;
 
 /** FNV-1a style hash of a string → unsigned 32-bit int. */
-function hashString(str: string): number {
+export function hashString(str: string): number {
   let h = 2166136261 >>> 0;
   for (let i = 0; i < str.length; i += 1) {
     h ^= str.charCodeAt(i);
@@ -40,7 +40,7 @@ export function seedFor(farmId: number, giveawayId: string): number {
 }
 
 /** Mulberry32 PRNG — returns a function yielding deterministic floats in [0,1). */
-function mulberry32(seed: number): () => number {
+export function mulberry32(seed: number): () => number {
   let a = seed >>> 0;
   return () => {
     a |= 0;

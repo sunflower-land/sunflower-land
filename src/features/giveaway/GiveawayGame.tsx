@@ -22,7 +22,11 @@ import {
   GiveawayLeaderboard,
   prizeForPosition,
 } from "./ui/GiveawayLeaderboard";
+import { RaceButtons } from "./ui/RaceButtons";
+import { EggButtons } from "./ui/EggButtons";
 import { type MinigameType, DEFAULT_MINIGAME } from "./lib/minigames";
+import type { RaceControls } from "./lib/raceControls";
+import type { EggControls } from "./lib/eggControls";
 
 export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
   minigame = DEFAULT_MINIGAME,
@@ -62,6 +66,41 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
 
   const finished =
     playerScore !== undefined || phase === "ended" || phase === "complete";
+
+  // The per-game input channel shared with the Phaser scene, created exactly
+  // once (a stable object, so the Phaser game never re-mounts). Race uses a
+  // colour target + a press queue; Egg Catch uses a held direction.
+  const [raceTarget, setRaceTarget] = useState<number | null>(null);
+  // Latest resolved press, for button feedback. `nonce` bumps every press so the
+  // HUD re-animates even when the same button is hit twice in a row.
+  const [raceFeedback, setRaceFeedback] = useState<{
+    color: number;
+    correct: boolean;
+    nonce: number;
+  }>();
+  const [controls] = useState<RaceControls | EggControls>(() => {
+    if (minigame === "eggs") {
+      // Mutated through `set` (a method) rather than by assignment, so the
+      // scene reads a live `move` without tripping the no-mutate-state rule.
+      const egg: EggControls = {
+        move: 0,
+        set: (dir) => {
+          egg.move = dir;
+        },
+      };
+      return egg;
+    }
+    return {
+      setTarget: setRaceTarget,
+      queue: [],
+      onFeedback: (color, correct) =>
+        setRaceFeedback((prev) => ({
+          color,
+          correct,
+          nonce: (prev?.nonce ?? 0) + 1,
+        })),
+    };
+  });
 
   // The management / results panel, opened from the disc button. It defaults to
   // open once the event finishes (so results surface without a tap); once the
@@ -126,7 +165,30 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
 
   return (
     <div className="absolute inset-0">
-      <GiveawayPhaser minigame={minigame} />
+      <GiveawayPhaser minigame={minigame} controls={controls} />
+
+      {/* Race: the four colour buttons + how-to hint. Shown from the lobby (so
+          players see the controls before the start) through the race itself;
+          presses only count once racing, when a colour lights up. */}
+      {minigame === "race" &&
+        (phase === "lobby" || phase === "racing") &&
+        !finished && (
+          <>
+            <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-10">
+              <Label type="vibrant">{t("giveaway.raceHint")}</Label>
+            </div>
+            <RaceButtons
+              target={raceTarget}
+              feedback={raceFeedback}
+              onPress={(color) => (controls as RaceControls).queue.push(color)}
+            />
+          </>
+        )}
+
+      {/* Egg Catch: mobile left/right (also driven by arrows / A-D in the scene) */}
+      {minigame === "eggs" && phase === "racing" && !finished && (
+        <EggButtons onMove={(dir) => (controls as EggControls).set(dir)} />
+      )}
 
       {/* Status banner + the big 30s race clock */}
       {board && !finished && (
@@ -146,19 +208,20 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
               {Math.ceil(raceRemainingMs / 1000)}
             </span>
           )}
-          {/* Rendered in HTML rather than canvas text so it stays crisp. */}
-          {phase === "racing" && minigame === "chop" && (
-            <span
-              className="font-secondary text-white"
-              style={{
-                fontSize: "28px",
-                lineHeight: 1,
-                textShadow: "2px 2px 0 rgba(0,0,0,0.7)",
-              }}
-            >
-              {t("giveaway.scoreValue", { score: displayScore })}
-            </span>
-          )}
+          {/* Point-based games show a live score, in HTML so it stays crisp. */}
+          {phase === "racing" &&
+            (minigame === "chop" || minigame === "eggs") && (
+              <span
+                className="font-secondary text-white"
+                style={{
+                  fontSize: "28px",
+                  lineHeight: 1,
+                  textShadow: "2px 2px 0 rgba(0,0,0,0.7)",
+                }}
+              >
+                {t("giveaway.scoreValue", { score: displayScore })}
+              </span>
+            )}
         </div>
       )}
 
@@ -221,6 +284,13 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
         </div>
       )}
 
+      {/* Egg Catch instructions (sits above the corner move buttons) */}
+      {minigame === "eggs" && phase === "racing" && !finished && (
+        <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-10">
+          <Label type="vibrant">{t("giveaway.eggHint")}</Label>
+        </div>
+      )}
+
       {/* Management / results & leaderboard */}
       <Modal show={panelOpen && !!board} onHide={() => setPanelOverride(false)}>
         {board && (
@@ -229,17 +299,11 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
             onClose={() => setPanelOverride(false)}
           >
             <div className="flex flex-col gap-2 p-1">
-              {/* Your own score, once you've finished. */}
-              {playerScore !== undefined && (
-                <Label type="info">
-                  {t("giveaway.yourScore", { score: playerScore })}
-                </Label>
-              )}
-
               {board.status === "complete" ? (
-                // Finalised — show the ranked board and (winners) the claim.
+                // Finalised — show the ranked board (your own score sits above it
+                // when you finished outside the top 10) and, for winners, claim.
                 <>
-                  <GiveawayLeaderboard id={id} />
+                  <GiveawayLeaderboard id={id} playerScore={playerScore} />
                   {canClaim &&
                     !claimed &&
                     (isClaiming ? (
@@ -255,7 +319,12 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
                 // ends the event. Until then, wait (or, for the host, finish).
                 <>
                   {playerScore !== undefined && (
-                    <p className="text-xs">{t("giveaway.finishedWaiting")}</p>
+                    <>
+                      <Label type="info">
+                        {t("giveaway.yourScore", { score: playerScore })}
+                      </Label>
+                      <p className="text-xs">{t("giveaway.finishedWaiting")}</p>
+                    </>
                   )}
                   {isAdmin ? (
                     isEnding ? (

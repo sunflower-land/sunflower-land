@@ -2,43 +2,28 @@ import mapJson from "assets/map/run.json";
 import type { SceneId } from "features/world/mmoMachine";
 import { BaseScene } from "features/world/scenes/BaseScene";
 import { SQUARE_WIDTH } from "features/game/lib/constants";
-import { SUNNYSIDE } from "assets/sunnyside";
 import type { GiveawayBridge } from "../lib/bridge";
 import { isRaceOver, seedFor } from "../lib/sim";
+import { RACE_COLORS, type RaceControls } from "../lib/raceControls";
+import { renderRoomPlayers } from "./renderRoomPlayers";
 
 /** Scene key — referenced by GiveawayPhaser's SCENE_BY_TYPE map. */
 export const RACE_SCENE_ID = "giveaway_race";
 
-// --- Pace model -------------------------------------------------------------
-// Auto-runner feel: every 4s the runner picks one of ten fixed paces at random.
-// The spread is deliberately wide so gear changes are obvious on screen, and the
-// pick is weighted by where you are relative to the pack.
+// --- Hop mechanic -----------------------------------------------------------
+// You don't run automatically any more — a colour prompt shows which of the four
+// buttons (red/green/yellow/blue → A/S/D/F) to press. Each correct press hops
+// you one square down the track (in an arc) and rolls a new colour. Tap fast =
+// move fast. Distance covered in the 30s is your score.
 
-/**
- * The ten paces, px/second (slowest → fastest). A ~3× spread: wide enough to
- * read on screen, but not so wide that the runner lurches between a crawl and a
- * sprint. The average (~38px/s) is what sets the distance budget.
- */
-const RUN_SPEEDS = [18, 22, 26, 30, 35, 40, 45, 50, 55, 60];
-
-/** Pace is re-rolled on this fixed cadence. */
-const PACE_INTERVAL_MS = 4000;
-
-/**
- * Consecutive paces must differ by at least this many gears, so a re-roll is
- * never an imperceptible nudge to a neighbouring speed.
- */
-const MIN_GEAR_JUMP = 2;
-
-/**
- * How quickly the runner eases toward a newly picked pace (per second). Lower =
- * more gradual; at 1.2 a gear change glides in over ~2s rather than snapping,
- * which also keeps the motion smooth.
- */
-const SPEED_SMOOTHING = 1.2;
-
-/** The pace at which the walk animation plays at its natural rate. */
-const ANIM_REFERENCE_SPEED = 38;
+/** How far a correct press moves you — one full square per hop. */
+const HOP_DISTANCE = SQUARE_WIDTH;
+/** How far a WRONG press knocks you back — one square the other way. */
+const WRONG_PENALTY = SQUARE_WIDTH;
+/** Duration of a single hop (horizontal glide + arc). */
+const HOP_MS = 200;
+/** Apex height of the hop arc (px) — the body lifts, the shadow stays put. */
+const ARC_HEIGHT = 12;
 
 // The map is 24 tiles high: the top 8 and bottom 8 rows are trees, and the
 // middle 8 are the runnable lane. Runners start at a random Y within it.
@@ -46,31 +31,24 @@ const RUN_BAND_TOP = 8 * SQUARE_WIDTH; // y = 128
 const RUN_BAND_BOTTOM = 16 * SQUARE_WIDTH; // y = 256
 /** Keeps runners clear of the tree line at either edge of the lane. */
 const LANE_PADDING = 8;
+/** ± horizontal jitter on the start line, in px. */
+const START_JITTER_X = 20;
 
 /** One tile of track = one metre of distance. */
 const PIXELS_PER_METRE = SQUARE_WIDTH;
 
-// --- Other runners -----------------------------------------------------------
-// Everyone else who joined arrives over the MMO: they're all on the stream
-// server with their giveaway scene as `sceneId`, so BaseScene renders them from
-// the room state with their REAL clothing + username, and moves them to the
-// positions they broadcast. We just line ourselves up and broadcast our own.
-/** ± horizontal jitter on the start line, in px. */
-const START_JITTER_X = 20;
-
-/** Distance from the pack (px) at which the weighting is fully applied. */
-const PACK_BIAS_RANGE = 160;
-/** 0 = always uniform, 1 = heavily biased. */
-const PACK_BIAS_STRENGTH = 0.9;
-
 /**
  * The giveaway running race.
  *
- * Renders the `run.json` Tiled map (24 tiles high — trees top and bottom, an
- * 8-tile runnable lane through the middle) and automates the local player:
- * keyboard/joystick control is disabled and the Bumpkin runs on its own once
- * the countdown finishes. Other runners aren't simulated here — their positions
- * arrive over the MMO, so we keep broadcasting ours via `sendPositionToServer`.
+ * A colour-matching hop race: a coloured cue floats over your Bumpkin and one of
+ * the four buttons (red/green/yellow/blue, mapped to A/S/D/F + on-screen taps)
+ * is highlighted. Press the matching one to hop forward and roll a new colour;
+ * over 30s the distance you cover is your score. Keyboard is handled here; taps
+ * arrive from the React button HUD via the shared `raceControls` channel.
+ *
+ * Every player drives their OWN Bumpkin, so movement is real: each hop moves us
+ * and we broadcast it (`sendPositionToServer`), and BaseScene renders + moves
+ * everyone else from the room state with their real clothing.
  */
 export class RaceScene extends BaseScene {
   sceneId: SceneId = "giveaway_race";
@@ -79,21 +57,22 @@ export class RaceScene extends BaseScene {
   private maxX = Number.POSITIVE_INFINITY;
   /** X of the start line (before the local player's own jitter). */
   private lineX = 0;
-  /** The pace we're easing toward, and the one actually applied this frame. */
-  private targetSpeed = 0;
-  private currentSpeed = 0;
-  private nextPaceAt = 0;
-  private lastGear = -1;
   private finished = false;
-  /** "This is you" arrow that hovers above the local player. */
-  private marker?: Phaser.GameObjects.Image;
+  /** Whether taps/keys currently count (mirrors the `racing` phase). */
+  private isRacing = false;
+  /** The colour you must press right now, or null when not racing. */
+  private targetColor: number | null = null;
+  /** The coloured cue that floats above your head (also marks "this is you"). */
+  private cue?: Phaser.GameObjects.Arc;
+  /** Baseline sprite Y, captured so the hop bob always returns home. */
+  private spriteBaseY?: number;
 
   constructor() {
     super({
       name: "giveaway_race",
       map: { json: mapJson },
       audio: { fx: { walk_key: "dirt_footstep" } },
-      // The race drives the Bumpkin — no keyboard / joystick control.
+      // We drive the Bumpkin from button presses, not the movement keys.
       controls: { enabled: false },
     });
   }
@@ -102,9 +81,16 @@ export class RaceScene extends BaseScene {
     return this.registry.get("giveawayBridge") as GiveawayBridge | undefined;
   }
 
-  preload() {
-    super.preload();
-    this.load.image("race_marker", SUNNYSIDE.icons.arrow_down);
+  private get controls(): RaceControls | undefined {
+    return this.registry.get("gameControls") as RaceControls | undefined;
+  }
+
+  /**
+   * Render everyone else in the party room (ignoring `sceneId`, unlike BaseScene)
+   * so remote racers actually show up. See renderRoomPlayers for why.
+   */
+  updateOtherPlayers() {
+    renderRoomPlayers(this);
   }
 
   async create() {
@@ -118,25 +104,31 @@ export class RaceScene extends BaseScene {
     this.currentPlayer?.teleport(this.lineX + spot.x, spot.y);
 
     this.startX = this.currentPlayer?.x ?? 0;
-    // Never run off the end of the map.
+    // Never hop off the end of the map.
     this.maxX = this.map.widthInPixels - SQUARE_WIDTH * 2;
 
-    // Softly follow the player (a lerp, not a hard lock) so the Bumpkin stays
-    // on screen but visibly drifts ahead when it speeds up and back when it
-    // slows — the pace changes read on screen.
+    // Softly follow the player (a lerp, not a hard lock) so hops read as forward
+    // progress while keeping the Bumpkin comfortably on screen.
     if (this.currentPlayer) {
-      this.cameras.main.startFollow(this.currentPlayer, true, 0.06, 0.1);
+      this.cameras.main.startFollow(this.currentPlayer, true, 0.08, 0.1);
     }
 
-    // `pixelArt: true` turns on roundPixels, which snaps both the sprite and the
-    // camera to whole pixels every frame — their relative position then shimmers
-    // by ±1px, which reads as jitter. Render sub-pixel instead.
+    // `pixelArt: true` turns on roundPixels, which snaps sprite + camera to whole
+    // pixels every frame; their relative position then shimmers by ±1px, which
+    // reads as jitter. Render sub-pixel instead.
     this.cameras.main.roundPixels = false;
 
-    // A marker so you can pick yourself out of a crowded field.
-    this.marker = this.add
-      .image(0, 0, "race_marker")
-      .setDepth(Number.MAX_SAFE_INTEGER);
+    // The colour cue above your head — its fill is the colour you must press.
+    this.cue = this.add
+      .circle(0, 0, 4, RACE_COLORS[0].hex, 1)
+      .setStrokeStyle(1, 0x000000, 0.4)
+      .setDepth(Number.MAX_SAFE_INTEGER)
+      .setVisible(false);
+
+    // Keyboard: A/S/D/F map to the four colours. Taps come in via the queue.
+    RACE_COLORS.forEach((color, index) => {
+      this.input.keyboard?.on(`keydown-${color.key}`, () => this.press(index));
+    });
   }
 
   /** Deterministic lane + start-line offset for a runner (same on every client). */
@@ -153,122 +145,103 @@ export class RaceScene extends BaseScene {
     return { x, y };
   }
 
-  /**
-   * Where we sit relative to the pack: +1 = far ahead, -1 = far behind, 0 =
-   * with the pack (or running alone). Other runners' positions come from the
-   * MMO via `playerEntities`.
-   */
-  private packBias(): number {
-    const me = this.currentPlayer;
-    if (!me) return 0;
+  /** Roll the next colour to press and tell the HUD to highlight it. */
+  private pickTarget() {
+    this.targetColor = Math.floor(Math.random() * RACE_COLORS.length);
+    this.cue?.setFillStyle(RACE_COLORS[this.targetColor].hex).setVisible(true);
+    this.controls?.setTarget(this.targetColor);
+  }
 
-    const others = Object.values(this.playerEntities);
-    if (others.length === 0) return 0;
+  private clearTarget() {
+    if (this.targetColor === null) return;
+    this.targetColor = null;
+    this.cue?.setVisible(false);
+    this.controls?.setTarget(null);
+  }
 
-    const packX = others.reduce((sum, p) => sum + p.x, 0) / others.length;
-    return Phaser.Math.Clamp((me.x - packX) / PACK_BIAS_RANGE, -1, 1);
+  /** Handle a colour press (from a key or a tapped button). */
+  private press(color: number) {
+    if (!this.isRacing || this.finished) return;
+    if (!this.currentPlayer) return;
+
+    const correct = color === this.targetColor;
+    // Forward one square on a hit, back one square on a miss.
+    this.hop(correct ? HOP_DISTANCE : -WRONG_PENALTY);
+    if (correct) this.pickTarget();
+
+    // Tell the HUD so it can animate the button (and cross a wrong one).
+    this.controls?.onFeedback(color, correct);
   }
 
   /**
-   * Pick one of the ten paces at random, weighted by pack position: trailing
-   * runners favour the faster gears (catch-up), leaders favour the slower ones
-   * so the pack stays together. Flip the sign on `-bias` to invert that.
-   * Gears within MIN_GEAR_JUMP of the current one are excluded so the change
-   * always reads on screen.
+   * Hop one square in an arc — the body glides across while lifting up and back
+   * down (the shadow stays on the ground). Retargeted from the current position
+   * so rapid taps chain into continuous hopping.
    */
-  private pickSpeed(): number {
-    const bias = this.packBias();
-    const mid = (RUN_SPEEDS.length - 1) / 2;
+  private hop(dx: number) {
+    const player = this.currentPlayer;
+    if (!player) return;
 
-    const eligible = RUN_SPEEDS.map((_, i) => i).filter(
-      (i) => this.lastGear < 0 || Math.abs(i - this.lastGear) >= MIN_GEAR_JUMP,
-    );
+    const targetX = Phaser.Math.Clamp(player.x + dx, this.startX, this.maxX);
 
-    const weights = eligible.map((i) =>
-      Math.max(0.05, 1 + PACK_BIAS_STRENGTH * -bias * ((i - mid) / mid)),
-    );
+    player.faceRight();
 
-    const total = weights.reduce((a, b) => a + b, 0);
-    let roll = Math.random() * total;
-    let picked = eligible[eligible.length - 1];
-    for (let k = 0; k < eligible.length; k += 1) {
-      roll -= weights[k];
-      if (roll <= 0) {
-        picked = eligible[k];
-        break;
-      }
+    // Horizontal glide.
+    this.tweens.killTweensOf(player);
+    this.tweens.add({
+      targets: player,
+      x: targetX,
+      duration: HOP_MS,
+      ease: "Linear",
+    });
+
+    // Vertical arc (up then down) — combined with the glide it reads as a hop.
+    const sprite = player.sprite;
+    if (sprite) {
+      if (this.spriteBaseY === undefined) this.spriteBaseY = sprite.y;
+      this.tweens.killTweensOf(sprite);
+      sprite.y = this.spriteBaseY;
+      this.tweens.add({
+        targets: sprite,
+        y: this.spriteBaseY - ARC_HEIGHT,
+        duration: HOP_MS / 2,
+        yoyo: true,
+        ease: "Quad.easeOut",
+      });
     }
-
-    this.lastGear = picked;
-    return RUN_SPEEDS[picked];
-  }
-
-  /** Re-roll the target pace and schedule the next change. */
-  private rollPace(now: number) {
-    this.targetSpeed = this.pickSpeed();
-    this.nextPaceAt = now + PACE_INTERVAL_MS;
   }
 
   /**
-   * Ease the applied speed toward the target. Exponential smoothing keeps this
-   * frame-rate independent, so gear changes glide rather than snapping (which
-   * is what made the running look jerky).
-   */
-  private easeSpeed(deltaMs: number): number {
-    const t = 1 - Math.exp(-SPEED_SMOOTHING * (deltaMs / 1000));
-    this.currentSpeed += (this.targetSpeed - this.currentSpeed) * t;
-
-    // Settle cleanly instead of creeping toward zero forever.
-    if (this.targetSpeed === 0 && this.currentSpeed < 1) this.currentSpeed = 0;
-
-    return this.currentSpeed;
-  }
-
-  /**
-   * Replaces BaseScene's input-driven movement entirely, so the keyboard can't
-   * move the Bumpkin — the race does.
+   * Replaces BaseScene's input-driven movement: the movement keys never drive
+   * the Bumpkin, only the colour presses do.
    */
   updatePlayer() {
     const player = this.currentPlayer;
     if (!player?.body) return;
 
-    const body = player.body as Phaser.Physics.Arcade.Body;
+    // The player only moves in discrete hops — no physics velocity.
+    (player.body as Phaser.Physics.Arcade.Body).setVelocity(0, 0);
+
     const bridge = this.bridge;
     const now = Date.now();
-
     const elapsed = bridge ? now - bridge.getRaceStartAt() : 0;
     const over = isRaceOver(elapsed);
-    const racing = bridge?.getPhase() === "racing" && !over && !this.finished;
+    this.isRacing = bridge?.getPhase() === "racing" && !over && !this.finished;
 
-    if (racing && player.x < this.maxX) {
-      if (now >= this.nextPaceAt) this.rollPace(now);
+    // Start the colour prompt when the race opens; clear it when it closes.
+    if (this.isRacing) {
+      if (this.targetColor === null) this.pickTarget();
     } else {
-      // Ease to a stop rather than halting dead.
-      this.targetSpeed = 0;
+      this.clearTarget();
     }
 
-    const deltaMs = this.game.loop.delta;
-    const speed = this.easeSpeed(deltaMs);
-
-    // Integrate the position ourselves rather than handing arcade a velocity:
-    // there's nothing to collide with on the track, and doing it here keeps
-    // full sub-pixel precision instead of being quantised by the physics step.
-    body.setVelocity(0, 0);
-    if (speed > 0) {
-      player.x = Math.min(this.maxX, player.x + speed * (deltaMs / 1000));
-    }
-
-    if (speed > 0) {
-      player.faceRight();
-      player.walk();
-      // The walk animation is authored at a fixed 10fps, so without this the
-      // legs cycle identically at every pace. Scale playback with speed.
-      if (player.sprite?.anims) {
-        player.sprite.anims.timeScale = speed / ANIM_REFERENCE_SPEED;
+    // Drain taps from the React button HUD (press() guards on the racing state).
+    const controls = this.controls;
+    if (controls) {
+      while (controls.queue.length) {
+        const color = controls.queue.shift();
+        if (color !== undefined) this.press(color);
       }
-    } else {
-      player.idle();
-      if (player.sprite?.anims) player.sprite.anims.timeScale = 1;
     }
 
     const metres = Math.max(
@@ -283,20 +256,18 @@ export class RaceScene extends BaseScene {
       bridge.onFinish(metres);
     }
 
-    // Keep the "you" marker hovering above the local player, with a gentle bob
-    // driven off the clock (a tween would fight this per-frame positioning).
-    this.marker?.setPosition(
+    // Keep the colour cue hovering above the local player, with a gentle bob.
+    this.cue?.setPosition(
       player.x,
-      player.y - 24 + Math.sin(this.time.now / 200) * 2,
+      player.y - 26 + Math.sin(this.time.now / 200) * 2,
     );
 
-    // Keep broadcasting our position so other players see us run.
+    // Broadcast our position every frame so other players see us hop across.
     this.sendPositionToServer();
 
     this.soundEffects?.forEach((audio) =>
       audio.setVolumeAndPan(player.x, player.y),
     );
-    this.walkAudioController?.handleWalkSound(speed > 0);
 
     player.setDepth(Math.floor(player.y));
   }

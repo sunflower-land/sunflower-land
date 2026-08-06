@@ -109,8 +109,15 @@ export class ChopScene extends BaseScene {
     {
       container: BumpkinContainer;
       tree: Phaser.GameObjects.Image;
+      /** Next time (ms) this chopper swings. */
+      nextSwingAt: number;
+      /** Multiplier on the leg time, so they don't all swing in lockstep. */
+      cadence: number;
     }
   >();
+
+  /** Outfit keys whose axe sheet is loaded or in-flight (avoids re-loading). */
+  private axeLoading = new Set<string>();
 
   // Timing bar parts (world-space, so the camera zoom scales them for free).
   private track?: Phaser.GameObjects.Rectangle;
@@ -148,9 +155,9 @@ export class ChopScene extends BaseScene {
   }
 
   /**
-   * The outfit that needs a real axe-swing sheet: only the local player. Remote
-   * players' outfits arrive at runtime over the MMO (we can't preload sheets for
-   * them), so they chop with BumpkinContainer's baked `dig()` animation instead.
+   * The outfit preloaded up front: only the local player's (known before the
+   * scene starts). Remote players' outfits arrive at runtime over the MMO, so
+   * their axe sheets are loaded on demand — see `ensureAxe`.
    */
   private axeOutfits(): { key: string; clothing: BumpkinParts }[] {
     const clothing = this.gameState?.bumpkin?.equipped as
@@ -158,6 +165,39 @@ export class ChopScene extends BaseScene {
       | undefined;
     if (!clothing) return [];
     return [{ key: tokenUriBuilder(clothing), clothing }];
+  }
+
+  /**
+   * Load a remote player's axe-swing sheet on the fly and build its animation,
+   * so everyone chops with a real axe (not the baked `dig` shovel). Mirrors how
+   * BumpkinContainer lazy-loads its own sheets: queue the file, build the anim
+   * on completion, then kick the loader. No-op once loaded / in-flight.
+   */
+  private ensureAxe(clothing?: Player["clothing"]) {
+    if (!clothing) return;
+    const key = tokenUriBuilder(clothing as unknown as BumpkinParts);
+    const animKey = `axe-anim-${key}`;
+    if (this.anims.exists(animKey) || this.axeLoading.has(key)) return;
+
+    this.axeLoading.add(key);
+    this.load.spritesheet(
+      `axe-${key}`,
+      getAnimationUrl(clothing as unknown as BumpkinParts, ["axe"]),
+      { frameWidth: 96, frameHeight: 64 },
+    );
+    this.load.once(`filecomplete-spritesheet-axe-${key}`, () => {
+      if (this.anims.exists(animKey) || !this.textures.exists(`axe-${key}`)) {
+        return;
+      }
+      this.anims.create({
+        key: animKey,
+        frames: this.anims.generateFrameNumbers(`axe-${key}`),
+        frameRate: 10,
+        // One swing per tap — it rests on the first frame in between.
+        repeat: 0,
+      });
+    });
+    this.load.start();
   }
 
   /** Animation key for an outfit's axe swing. */
@@ -281,10 +321,10 @@ export class ChopScene extends BaseScene {
     const player = this.currentPlayer;
     if (!server || !player) return;
 
-    // Drop anyone who left the room or switched away from this scene.
+    // Drop anyone who left the room. (No sceneId filter — the party room only
+    // holds giveaway players; see renderRoomPlayers for the full reasoning.)
     for (const [sessionId, chopper] of this.choppers) {
-      const remote = server.state.players.get(sessionId);
-      if (!remote || remote.sceneId !== this.scene.key) {
+      if (!server.state.players.get(sessionId)) {
         chopper.container.destroy();
         chopper.tree.destroy();
         this.choppers.delete(sessionId);
@@ -293,7 +333,6 @@ export class ChopScene extends BaseScene {
 
     server.state.players.forEach((remote, sessionId) => {
       if (sessionId === server.sessionId) return;
-      if (remote.sceneId !== this.scene.key) return;
 
       const existing = this.choppers.get(sessionId);
       if (existing) {
@@ -304,7 +343,8 @@ export class ChopScene extends BaseScene {
 
       if (this.choppers.size >= CHOPPER_SPOTS.length) return;
 
-      const spot = CHOPPER_SPOTS[this.choppers.size];
+      const index = this.choppers.size;
+      const spot = CHOPPER_SPOTS[index];
       const x = player.x + spot.x;
       const y = player.y + spot.y;
 
@@ -319,7 +359,14 @@ export class ChopScene extends BaseScene {
         container.setDepth(y);
         container.faceRight();
         const tree = this.addTree(x + TREE_OFFSET_X, y + 2);
-        this.choppers.set(sessionId, { container, tree });
+        // Load their axe sheet so they chop with an axe, like everyone else.
+        this.ensureAxe(remote.clothing);
+        this.choppers.set(sessionId, {
+          container,
+          tree,
+          nextSwingAt: 0,
+          cadence: 0.85 + ((index * 37) % 45) / 100,
+        });
       } catch {
         // A single failed Bumpkin shouldn't take the scene down.
       }
@@ -438,19 +485,24 @@ export class ChopScene extends BaseScene {
   }
 
   /**
-   * The NPCs chop on the same rhythm as the bar (so they speed up with it),
-   * each offset a little so they aren't in lockstep. Everyone rests on the
-   * first frame between swings.
+   * Remote players chop with a real axe on the same rhythm as the bar (so they
+   * speed up with it), each offset a little so they aren't in lockstep. Their
+   * axe sheet is loaded on demand (see ensureAxe); until it's ready, swing/rest
+   * simply no-op and they stand still. Everyone rests on the first frame between
+   * swings.
    */
-  /**
-   * Remote players chop with the baked `dig()` swing (we can't preload a real
-   * axe sheet for their runtime clothing). It loops on its own, so we just kick
-   * it off while the round is live and let them idle otherwise.
-   */
-  private updateChoppers(racing: boolean) {
-    this.choppers.forEach(({ container }) => {
-      if (racing) container.dig();
-      else container.idle();
+  private updateChoppers(now: number, racing: boolean) {
+    const legMs = this.currentPeriodMs / 2;
+
+    this.choppers.forEach((chopper) => {
+      if (racing && now >= chopper.nextSwingAt) {
+        chopper.nextSwingAt = now + legMs * chopper.cadence;
+        this.swing(chopper.container);
+      } else if (racing) {
+        this.restPose(chopper.container);
+      } else {
+        chopper.container.idle();
+      }
     });
   }
 
@@ -480,7 +532,7 @@ export class ChopScene extends BaseScene {
     // Remote players are drawn + kept in sync by updateOtherPlayers() (called by
     // BaseScene each frame from the room state); here we just animate them.
     this.restPose(player);
-    this.updateChoppers(racing);
+    this.updateChoppers(now, racing);
 
     if (racing) {
       this.chopping = true;

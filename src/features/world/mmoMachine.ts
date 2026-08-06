@@ -46,6 +46,7 @@ export type Scenes = {
   love_island: Room<PlazaRoomState> | undefined;
   giveaway_race: Room<PlazaRoomState> | undefined;
   giveaway_chop: Room<PlazaRoomState> | undefined;
+  giveaway_eggs: Room<PlazaRoomState> | undefined;
 };
 
 export type SceneId = keyof Scenes;
@@ -86,7 +87,8 @@ export type ServerId =
   | "sunflorea_magic"
   | "sunflorea_kale"
   | "sunflorea_flower"
-  | "sunflorea_stream";
+  | "sunflorea_stream"
+  | "sunflorea_party_games";
 
 export type ServerName =
   | "Bliss"
@@ -297,15 +299,22 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
             return { ...server, population };
           });
 
-          // Stream + giveaway mini-games all share the stream server, so
-          // everyone in the community event ends up in the same room.
-          if (
-            context.sceneId === "stream" ||
-            context.sceneId === "giveaway_race" ||
-            context.sceneId === "giveaway_chop"
-          ) {
+          // The stream (town hall) has its own dedicated server.
+          if (context.sceneId === "stream") {
             const client = new Client(url);
             return { client, serverId: "sunflorea_stream", servers };
+          }
+
+          // Giveaway mini-games share ONE dedicated "party games" server —
+          // separate from the stream/town-hall crowd, but together so everyone
+          // in the event sees each other.
+          if (
+            context.sceneId === "giveaway_race" ||
+            context.sceneId === "giveaway_chop" ||
+            context.sceneId === "giveaway_eggs"
+          ) {
+            const client = new Client(url);
+            return { client, serverId: "sunflorea_party_games", servers };
           }
 
           const server = pickServer(servers);

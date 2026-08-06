@@ -197,4 +197,12 @@ export const SPAWNS: () => SpawnLocation = () => ({
       y: 208,
     },
   },
+  // Egg Catch: everyone shares one spawn so they share the same field; the
+  // catch line sits here with ~150px of room above for eggs to fall into.
+  giveaway_eggs: {
+    default: {
+      x: 400,
+      y: 300,
+    },
+  },
 });

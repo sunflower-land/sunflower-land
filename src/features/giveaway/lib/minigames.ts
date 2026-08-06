@@ -1,13 +1,18 @@
+import type { SceneId } from "features/world/mmoMachine";
+
 /**
- * The catalogue of giveaway mini-games the admin can pick from when setting up a
- * giveaway. `race` is the only playable one today; the others are placeholders
- * so the dropdown shows the intended line-up and new types slot in here.
+ * THE config for community games. This one array is the single place you add a
+ * new game: give it a `type`, a `name`, a `description`, a `sceneId`, and flip
+ * `available` on. Then build one Phaser scene and register it in
+ * `scenes/registry.ts` under the same `type`. That's the whole checklist —
+ * everything else (the lobby, the 30s clock, joining, scoring, the leaderboard,
+ * prize claiming, the create dropdown) is shared and reads from here.
  *
  * NOTE: the backend giveaway object has no `type` field yet, so the chosen type
  * is carried to the play screen via a `?type=` query param. Players who join via
  * the lobby (no query param) fall back to `race`.
  */
-export type MinigameType = "race" | "chop" | "puzzle" | "trivia";
+export type MinigameType = "race" | "chop" | "eggs" | "puzzle" | "trivia";
 
 export type GiveawayMinigame = {
   type: MinigameType;
@@ -16,6 +21,8 @@ export type GiveawayMinigame = {
   description: string;
   /** Whether the mini-game is actually implemented and playable. */
   available: boolean;
+  /** The MMO scene id / Phaser scene key its gameplay runs in (playable games). */
+  sceneId?: SceneId;
 };
 
 export const GIVEAWAY_MINIGAMES: GiveawayMinigame[] = [
@@ -24,12 +31,21 @@ export const GIVEAWAY_MINIGAMES: GiveawayMinigame[] = [
     name: "Weekly Stream Race",
     description: "A community race — the fastest Bumpkins win prizes!",
     available: true,
+    sceneId: "giveaway_race",
   },
   {
     type: "chop",
     name: "Log Chop",
     description: "Chop in rhythm — the most points wins prizes!",
     available: true,
+    sceneId: "giveaway_chop",
+  },
+  {
+    type: "eggs",
+    name: "Egg Catch",
+    description: "Catch the falling eggs — dodge the bombs, grab the gold!",
+    available: true,
+    sceneId: "giveaway_eggs",
   },
   {
     type: "puzzle",
