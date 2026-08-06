@@ -193,12 +193,12 @@ export const PetsTab: React.FC<Props> = ({ activePets }) => {
         <div className="flex flex-row gap-1 w-full">
           {areSomePetsNeglected && !isBulkFetch && (
             <Button className="flex-1 min-w-0" onClick={handleBulkNeglect}>
-              {`Cheer All`}
+              {t("pets.cheerAll")}
             </Button>
           )}
           {areSomePetsNapping && !areSomePetsNeglected && !isBulkFetch && (
             <Button className="flex-1 min-w-0" onClick={handleBulkPet}>
-              {`Pet All`}
+              {t("pets.petAll")}
             </Button>
           )}
           {!isBulkFetch && (
