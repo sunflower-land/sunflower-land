@@ -205,6 +205,11 @@ const FEATURE_FLAGS = {
   // Beta testers can grab a Yakkamon pre-registration code before the level
   // tiers open to everyone else. The server enforces the same rule.
   YAKKAMON_BETA_ACCESS: betaFeatureFlag,
+
+  // Redesigned Pet House modal: separate Pets / Feed / Guides tabs, the
+  // Included/Excluded Foods board, and pet sort. Beta-pass / testnet only
+  // until it's had time to bake — a bug here shouldn't affect all players.
+  PET_HOUSE_TABS: betaFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
