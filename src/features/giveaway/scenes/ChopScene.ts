@@ -1,9 +1,11 @@
-import mapJson from "assets/map/woodlands.json";
+// run.json has no Collision/Interactable object layers, so hiding its tilemap
+// (below) leaves nothing behind — woodlands.json's object layers rendered as
+// Phaser missing-texture boxes once the map was hidden.
+import mapJson from "assets/map/run.json";
 import type { SceneId } from "features/world/mmoMachine";
 import { BaseScene } from "features/world/scenes/BaseScene";
 import { BumpkinContainer } from "features/world/containers/BumpkinContainer";
 import type { Player } from "features/world/types/Room";
-import { NPC_WEARABLES, type NPCName } from "lib/npcs";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getAnimationUrl } from "features/world/lib/animations";
 import { tokenUriBuilder, type BumpkinParts } from "lib/utils/tokenUriBuilder";
@@ -72,18 +74,6 @@ const CHOPPER_SPOTS: { x: number; y: number }[] = (() => {
     .slice(0, MAX_CHOPPERS);
 })();
 
-const CLOTHING_POOL: NPCName[] = [
-  "pumpkin' pete",
-  "betty",
-  "hank",
-  "grubnuk",
-  "raven",
-  "old salty",
-  "cornwell",
-  "billy",
-  "bailey",
-];
-
 /**
  * Log Chop.
  *
@@ -104,17 +94,23 @@ export class ChopScene extends BaseScene {
   private phase = 0;
   private markerOffset = 0;
   private finished = false;
-  private nextProgressAt = 0;
 
   /** Current sweep duration — drives both the bar and the swing speed. */
   private currentPeriodMs = SWING_PERIOD_START_MS;
 
-  private choppers: {
-    container: BumpkinContainer;
-    nextSwingAt: number;
-    /** Multiplier on the leg time, so they don't all swing together. */
-    cadence: number;
-  }[] = [];
+  /**
+   * Other players in the room, keyed by MMO session id and drawn at a fixed
+   * spot (not their broadcast position — everyone stands at their own spawn, so
+   * real positions would stack). Their clothing + username come from the room
+   * state, exactly like the plaza.
+   */
+  private choppers = new Map<
+    string,
+    {
+      container: BumpkinContainer;
+      tree: Phaser.GameObjects.Image;
+    }
+  >();
 
   // Timing bar parts (world-space, so the camera zoom scales them for free).
   private track?: Phaser.GameObjects.Rectangle;
@@ -151,20 +147,17 @@ export class ChopScene extends BaseScene {
     );
   }
 
-  /** Every distinct outfit that needs an axe animation: the player + the NPCs. */
+  /**
+   * The outfit that needs a real axe-swing sheet: only the local player. Remote
+   * players' outfits arrive at runtime over the MMO (we can't preload sheets for
+   * them), so they chop with BumpkinContainer's baked `dig()` animation instead.
+   */
   private axeOutfits(): { key: string; clothing: BumpkinParts }[] {
-    const outfits = [
-      this.gameState?.bumpkin?.equipped as BumpkinParts | undefined,
-      ...CLOTHING_POOL.map((npc) => NPC_WEARABLES[npc] as BumpkinParts),
-    ].filter(Boolean) as BumpkinParts[];
-
-    const seen = new Set<string>();
-    return outfits.flatMap((clothing) => {
-      const key = tokenUriBuilder(clothing);
-      if (seen.has(key)) return [];
-      seen.add(key);
-      return [{ key, clothing }];
-    });
+    const clothing = this.gameState?.bumpkin?.equipped as
+      | BumpkinParts
+      | undefined;
+    if (!clothing) return [];
+    return [{ key: tokenUriBuilder(clothing), clothing }];
   }
 
   /** Animation key for an outfit's axe swing. */
@@ -228,8 +221,16 @@ export class ChopScene extends BaseScene {
 
     // A plain green field — the forest we plant below is the only scenery, so
     // hide the tilemap the BaseScene needs. (BaseScene requires a map to build
-    // the scene; we just don't draw it.)
+    // the scene; we just don't draw it.) Also hide any collision objects so
+    // they don't show as missing-texture boxes.
     this.map.layers.forEach((layer) => layer.tilemapLayer?.setVisible(false));
+    this.colliders
+      ?.getChildren()
+      .forEach((c) =>
+        (c as unknown as Phaser.GameObjects.Components.Visible).setVisible?.(
+          false,
+        ),
+      );
     this.cameras.main.setBackgroundColor("#63c74d");
 
     // See RaceScene: pixelArt implies roundPixels, which makes the lerping
@@ -251,56 +252,78 @@ export class ChopScene extends BaseScene {
       });
     });
 
-    this.plantScenery(player.x, player.y);
+    // The tree the local player is chopping.
+    this.addTree(player.x + TREE_OFFSET_X, player.y + 2);
+
     this.buildMeter(player.x, player.y);
     this.bindInput();
   }
 
+  private addTree(x: number, y: number): Phaser.GameObjects.Image {
+    return (
+      this.add
+        .image(x, y, "chop_tree")
+        .setOrigin(0.5, 1)
+        // Depth by Y so trees layer correctly against the Bumpkins.
+        .setDepth(y)
+    );
+  }
+
   /**
-   * The player's tree, plus a Bumpkin and their own tree at each fixed spot —
-   * enough of a crowd that it reads as other people playing along.
+   * BaseScene renders remote players at the positions they broadcast — but in
+   * Log Chop nobody moves, so everyone sits on their own spawn and they'd stack.
+   * Instead we place each player from the room at a fixed spot around us, with
+   * their REAL clothing + username from the room state (same source as the
+   * plaza) and their own tree. Filled in join order, up to MAX_CHOPPERS.
    */
-  private plantScenery(playerX: number, playerY: number) {
-    // The tree the local player is chopping.
-    this.addTree(playerX + TREE_OFFSET_X, playerY + 2);
+  updateOtherPlayers() {
+    const server = this.mmoServer;
+    const player = this.currentPlayer;
+    if (!server || !player) return;
 
-    CHOPPER_SPOTS.forEach((spot, i) => {
-      const x = playerX + spot.x;
-      const y = playerY + spot.y;
-
-      // A random outfit per spot, chosen once at the start of the round.
-      this.addChopper(x, y, Phaser.Utils.Array.GetRandom(CLOTHING_POOL), i);
-      this.addTree(x + TREE_OFFSET_X, y + 2);
-    });
-  }
-
-  private addTree(x: number, y: number) {
-    this.add
-      .image(x, y, "chop_tree")
-      .setOrigin(0.5, 1)
-      // Depth by Y so trees layer correctly against the Bumpkins.
-      .setDepth(y);
-  }
-
-  private addChopper(x: number, y: number, npc: NPCName, i: number) {
-    try {
-      const clothing = NPC_WEARABLES[npc];
-      const container = new BumpkinContainer({
-        scene: this,
-        x,
-        y,
-        clothing: clothing as unknown as Player["clothing"],
-      });
-      container.setDepth(y);
-      container.faceRight();
-      this.choppers.push({
-        container,
-        nextSwingAt: 0,
-        cadence: 0.85 + ((i * 37) % 45) / 100,
-      });
-    } catch {
-      // A single failed Bumpkin shouldn't take the scene down.
+    // Drop anyone who left the room or switched away from this scene.
+    for (const [sessionId, chopper] of this.choppers) {
+      const remote = server.state.players.get(sessionId);
+      if (!remote || remote.sceneId !== this.scene.key) {
+        chopper.container.destroy();
+        chopper.tree.destroy();
+        this.choppers.delete(sessionId);
+      }
     }
+
+    server.state.players.forEach((remote, sessionId) => {
+      if (sessionId === server.sessionId) return;
+      if (remote.sceneId !== this.scene.key) return;
+
+      const existing = this.choppers.get(sessionId);
+      if (existing) {
+        // Keep their clothing in sync if they change it mid-round.
+        existing.container.changeClothing(remote.clothing);
+        return;
+      }
+
+      if (this.choppers.size >= CHOPPER_SPOTS.length) return;
+
+      const spot = CHOPPER_SPOTS[this.choppers.size];
+      const x = player.x + spot.x;
+      const y = player.y + spot.y;
+
+      try {
+        const container = new BumpkinContainer({
+          scene: this,
+          x,
+          y,
+          clothing: remote.clothing,
+          name: remote.username ?? `#${remote.farmId}`,
+        });
+        container.setDepth(y);
+        container.faceRight();
+        const tree = this.addTree(x + TREE_OFFSET_X, y + 2);
+        this.choppers.set(sessionId, { container, tree });
+      } catch {
+        // A single failed Bumpkin shouldn't take the scene down.
+      }
+    });
   }
 
   /** The timing bar, drawn in world space just above the player's head. */
@@ -419,16 +442,15 @@ export class ChopScene extends BaseScene {
    * each offset a little so they aren't in lockstep. Everyone rests on the
    * first frame between swings.
    */
-  private updateChoppers(now: number, racing: boolean) {
-    const legMs = this.currentPeriodMs / 2;
-
-    this.choppers.forEach((chopper) => {
-      if (racing && now >= chopper.nextSwingAt) {
-        chopper.nextSwingAt = now + legMs * chopper.cadence;
-        this.swing(chopper.container);
-      } else {
-        this.restPose(chopper.container);
-      }
+  /**
+   * Remote players chop with the baked `dig()` swing (we can't preload a real
+   * axe sheet for their runtime clothing). It loops on its own, so we just kick
+   * it off while the round is live and let them idle otherwise.
+   */
+  private updateChoppers(racing: boolean) {
+    this.choppers.forEach(({ container }) => {
+      if (racing) container.dig();
+      else container.idle();
     });
   }
 
@@ -455,8 +477,10 @@ export class ChopScene extends BaseScene {
       part?.setVisible(racing),
     );
 
+    // Remote players are drawn + kept in sync by updateOtherPlayers() (called by
+    // BaseScene each frame from the room state); here we just animate them.
     this.restPose(player);
-    this.updateChoppers(now, racing);
+    this.updateChoppers(racing);
 
     if (racing) {
       this.chopping = true;
@@ -484,11 +508,6 @@ export class ChopScene extends BaseScene {
       if (leg !== this.currentLeg) {
         this.currentLeg = leg;
         this.armed = true;
-      }
-
-      if (bridge && now >= this.nextProgressAt) {
-        this.nextProgressAt = now + 5000;
-        bridge.onProgress(this.score);
       }
     } else if (this.chopping) {
       this.chopping = false;

@@ -1,19 +1,10 @@
 import mapJson from "assets/map/run.json";
 import type { SceneId } from "features/world/mmoMachine";
 import { BaseScene } from "features/world/scenes/BaseScene";
-import { BumpkinContainer } from "features/world/containers/BumpkinContainer";
-import type { Player } from "features/world/types/Room";
-import { NPC_WEARABLES, type NPCName } from "lib/npcs";
 import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import type { GiveawayBridge } from "../lib/bridge";
-import {
-  isRaceOver,
-  seedFor,
-  getRacerProfile,
-  distanceAt,
-  type RacerProfile,
-} from "../lib/sim";
+import { isRaceOver, seedFor } from "../lib/sim";
 
 /** Scene key — referenced by GiveawayPhaser's SCENE_BY_TYPE map. */
 export const RACE_SCENE_ID = "giveaway_race";
@@ -60,33 +51,12 @@ const LANE_PADDING = 8;
 const PIXELS_PER_METRE = SQUARE_WIDTH;
 
 // --- Other runners -----------------------------------------------------------
-// Everyone who joined (from the polled participant list — both clients see the
-// same set) is drawn as a Bumpkin, simulated deterministically so it stays
-// roughly consistent across screens. Each gets a random lane + a small ± start
-// offset so the line-up looks natural. (Real per-frame positions would need an
-// MMO room for the giveaway scene — backend work.)
-const MAX_OTHER_RACERS = 30;
+// Everyone else who joined arrives over the MMO: they're all on the stream
+// server with their giveaway scene as `sceneId`, so BaseScene renders them from
+// the room state with their REAL clothing + username, and moves them to the
+// positions they broadcast. We just line ourselves up and broadcast our own.
 /** ± horizontal jitter on the start line, in px. */
 const START_JITTER_X = 20;
-
-const CLOTHING_POOL: NPCName[] = [
-  "pumpkin' pete",
-  "betty",
-  "hank",
-  "grubnuk",
-  "raven",
-  "old salty",
-  "cornwell",
-  "billy",
-  "bailey",
-];
-
-type OtherRacer = {
-  farmId: number;
-  profile: RacerProfile;
-  container: BumpkinContainer;
-  startX: number;
-};
 
 /** Distance from the pack (px) at which the weighting is fully applied. */
 const PACK_BIAS_RANGE = 160;
@@ -117,9 +87,6 @@ export class RaceScene extends BaseScene {
   private finished = false;
   /** "This is you" arrow that hovers above the local player. */
   private marker?: Phaser.GameObjects.Image;
-  /** Every other joined player, drawn + simulated. */
-  private others: OtherRacer[] = [];
-  private otherIds = new Set<number>();
 
   constructor() {
     super({
@@ -184,42 +151,6 @@ export class RaceScene extends BaseScene {
         (2 * START_JITTER_X)) -
       START_JITTER_X;
     return { x, y };
-  }
-
-  /** Draw a Bumpkin for anyone who has joined but isn't yet on screen. */
-  private syncOthers() {
-    const bridge = this.bridge;
-    if (!bridge) return;
-
-    for (const farmId of bridge.getParticipants()) {
-      if (farmId === bridge.playerId || this.otherIds.has(farmId)) continue;
-      if (this.others.length >= MAX_OTHER_RACERS) break;
-      this.otherIds.add(farmId);
-
-      try {
-        const spot = this.staggerFor(farmId);
-        const startX = this.lineX + spot.x;
-        const clothing =
-          NPC_WEARABLES[CLOTHING_POOL[farmId % CLOTHING_POOL.length]];
-        const container = new BumpkinContainer({
-          scene: this,
-          x: startX,
-          y: spot.y,
-          clothing: clothing as unknown as Player["clothing"],
-          name: bridge.getUsernames()[farmId] ?? `#${farmId}`,
-        });
-        container.faceRight();
-        container.idle();
-        this.others.push({
-          farmId,
-          profile: getRacerProfile(farmId, bridge.giveawayId),
-          container,
-          startX,
-        });
-      } catch {
-        // A single failed Bumpkin shouldn't break the scene.
-      }
-    }
   }
 
   /**
@@ -352,10 +283,6 @@ export class RaceScene extends BaseScene {
       bridge.onFinish(metres);
     }
 
-    // Draw + move everyone else who joined.
-    this.syncOthers();
-    this.updateOthers(elapsed);
-
     // Keep the "you" marker hovering above the local player, with a gentle bob
     // driven off the clock (a tween would fight this per-frame positioning).
     this.marker?.setPosition(
@@ -372,21 +299,5 @@ export class RaceScene extends BaseScene {
     this.walkAudioController?.handleWalkSound(speed > 0);
 
     player.setDepth(Math.floor(player.y));
-  }
-
-  /** Position + animate the other runners from the deterministic sim. */
-  private updateOthers(elapsedMs: number) {
-    // The race clock is running (0 before start, capped once over).
-    const moving = elapsedMs > 0 && !isRaceOver(elapsedMs);
-
-    this.others.forEach(({ container, profile, startX }) => {
-      container.x = Math.min(
-        this.maxX,
-        startX + distanceAt(profile, elapsedMs),
-      );
-      container.setDepth(Math.floor(container.y));
-      if (moving) container.walk();
-      else container.idle();
-    });
   }
 }

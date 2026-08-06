@@ -297,8 +297,13 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
             return { ...server, population };
           });
 
-          // If in stream scene, join stream server
-          if (context.sceneId === "stream") {
+          // Stream + giveaway mini-games all share the stream server, so
+          // everyone in the community event ends up in the same room.
+          if (
+            context.sceneId === "stream" ||
+            context.sceneId === "giveaway_race" ||
+            context.sceneId === "giveaway_chop"
+          ) {
             const client = new Client(url);
             return { client, serverId: "sunflorea_stream", servers };
           }
