@@ -54,7 +54,16 @@ export const BulkFeedFoodBoard: React.FC<Props> = ({
     <div className="flex flex-col gap-1 p-1">
       <div
         className="flex flex-row items-center justify-between cursor-pointer"
+        role="button"
+        tabIndex={0}
+        aria-expanded={isExpanded}
         onClick={() => setIsExpanded((prev) => !prev)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setIsExpanded((prev) => !prev);
+          }
+        }}
       >
         <Label type="default">
           {t("pets.bulkFeedPreferences")}
