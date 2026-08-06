@@ -21,6 +21,7 @@ export interface FoodButtonPanelProps {
   disabled?: boolean;
   selected?: boolean;
   locked?: boolean;
+  excluded?: boolean;
   className?: string;
 }
 
@@ -34,6 +35,7 @@ export const FoodButtonPanel: React.FC<FoodButtonPanelProps> = ({
   disabled,
   selected,
   locked,
+  excluded,
   className,
 }) => {
   const { t } = useAppTranslation();
@@ -56,6 +58,7 @@ export const FoodButtonPanel: React.FC<FoodButtonPanelProps> = ({
         className={classNames(
           "flex flex-row p-0 overflow-hidden items-center relative",
           { "cursor-pointer": !!onClick && !disabled },
+          { "opacity-50": excluded && !locked && !foodFed },
           className,
         )}
         onClick={disabled ? undefined : onClick}
@@ -65,16 +68,25 @@ export const FoodButtonPanel: React.FC<FoodButtonPanelProps> = ({
         {locked && (
           <img
             src={SUNNYSIDE.icons.lock}
-            alt="Locked"
+            alt={t("locked")}
             className="absolute top-0 left-0 w-4 h-4 object-contain z-10"
           />
         )}
 
-        {(foodFed || selected) && (
+        {!locked && (foodFed || selected) && (
           <img
             src={SUNNYSIDE.icons.confirm}
             alt={foodFed ? t("pets.foodFedToday") : t("selected")}
             className="absolute top-0 left-0 w-5 h-5 object-contain z-10"
+          />
+        )}
+
+        {!locked && !foodFed && !selected && excluded && (
+          <img
+            src={SUNNYSIDE.icons.cancel}
+            alt={t("pets.excludedFromBulkFeed")}
+            title={t("pets.excludedFromBulkFeed")}
+            className="absolute top-0 left-0 w-4 h-4 object-contain z-10"
           />
         )}
 
