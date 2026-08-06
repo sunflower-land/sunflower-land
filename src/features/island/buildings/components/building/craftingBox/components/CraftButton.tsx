@@ -82,60 +82,75 @@ export const CraftButton: React.FC<{
     isQueueFull || isCraftingBoxEmpty || !hasRequiredIngredients;
   const addToQueueHandler = onAddToQueue ?? handleCraft;
 
+  // Every branch below renders inside this same fixed-height, two-row slot
+  // stack. The exact button/label in each row can change (Add/Craft on top,
+  // Remove/Instant/Collect on bottom), but the row heights themselves never
+  // do — otherwise a quick second click lands on whatever button reflowed
+  // into the first click's position instead of the one the player saw.
+  const ROW_CLASS = "min-h-[46px] flex items-center justify-center w-full";
+
   if (isViewingQueuedRecipe && handleCancelQueuedItem) {
     return (
-      <div className="flex flex-col items-center justify-center gap-1 mt-2">
-        <Button
-          className="relative"
-          onClick={addToQueueHandler}
-          disabled={addToQueueDisabled}
-        >
-          <img
-            src={vipIcon}
-            alt="VIP"
-            className="absolute w-6 sm:w-4 -top-[1px] -right-[2px]"
-          />
-          {t("recipes.addToQueue")}
-        </Button>
-        <Button onClick={handleCancelQueuedItem}>{t("remove")}</Button>
+      <div className="flex flex-col items-center justify-center gap-1 mt-2 w-full">
+        <div className={ROW_CLASS}>
+          <Button
+            className="relative"
+            onClick={addToQueueHandler}
+            disabled={addToQueueDisabled}
+          >
+            <img
+              src={vipIcon}
+              alt="VIP"
+              className="absolute w-4 -top-[1px] -right-[2px]"
+            />
+            {t("recipes.addToQueue")}
+          </Button>
+        </div>
+        <div className={ROW_CLASS}>
+          <Button onClick={handleCancelQueuedItem}>{t("remove")}</Button>
+        </div>
       </div>
     );
   }
 
   if (isCrafting || isPending) {
     return (
-      <div className="flex flex-col items-center justify-center gap-1 mt-2">
-        <Button
-          className="relative"
-          onClick={addToQueueHandler}
-          disabled={addToQueueDisabled}
-        >
-          <img
-            src={vipIcon}
-            alt="VIP"
-            className="absolute w-4 -top-[1px] -right-[2px]"
-          />
-          {t("recipes.addToQueue")}
-        </Button>
-        {isViewingReadyItem && (
-          <Button onClick={handleCollect}>{t("collect")}</Button>
-        )}
-        {!isPreparingQueueSlot && !isViewingReadyItem && (
+      <div className="flex flex-col items-center justify-center gap-1 mt-2 w-full">
+        <div className={ROW_CLASS}>
           <Button
-            disabled={!payment.canAfford || isPending}
-            onClick={() => setShowConfirmation(true)}
+            className="relative"
+            onClick={addToQueueHandler}
+            disabled={addToQueueDisabled}
           >
-            <div className="flex items-center justify-center gap-1">
-              <img src={fastForward} className="h-5" />
-              {!payment.canPayWithCoins && (
-                <>
-                  <span className="text-sm flex items-center">{cost}</span>
-                  <img src={costIcon} className="h-5" />
-                </>
-              )}
-            </div>
+            <img
+              src={vipIcon}
+              alt="VIP"
+              className="absolute w-4 -top-[1px] -right-[2px]"
+            />
+            {t("recipes.addToQueue")}
           </Button>
-        )}
+        </div>
+        <div className={ROW_CLASS}>
+          {isViewingReadyItem && (
+            <Button onClick={handleCollect}>{t("collect")}</Button>
+          )}
+          {!isPreparingQueueSlot && !isViewingReadyItem && (
+            <Button
+              disabled={!payment.canAfford || isPending}
+              onClick={() => setShowConfirmation(true)}
+            >
+              <div className="flex items-center justify-center gap-1">
+                <img src={fastForward} className="h-5" />
+                {!payment.canPayWithCoins && (
+                  <>
+                    <span className="text-sm flex items-center">{cost}</span>
+                    <img src={costIcon} className="h-5" />
+                  </>
+                )}
+              </div>
+            </Button>
+          )}
+        </div>
         <ConfirmationModal
           show={showConfirmation}
           onHide={() => setShowConfirmation(false)}
@@ -156,21 +171,24 @@ export const CraftButton: React.FC<{
   }
 
   return (
-    <div className="flex flex-col items-center justify-center gap-1 mt-2">
-      <Button
-        className="mt-2"
-        onClick={handleCraft}
-        disabled={isCraftingBoxEmpty || !hasRequiredIngredients}
-      >
-        {t("craft")}
-      </Button>
-      <Button disabled>
-        <div className="flex items-center justify-center gap-1">
-          <img src={fastForward} className="h-5" />
-          <span className="text-sm flex items-center">{0}</span>
-          <img src={ITEM_DETAILS["Gem"].image} className="h-5" />
-        </div>
-      </Button>
+    <div className="flex flex-col items-center justify-center gap-1 mt-2 w-full">
+      <div className={ROW_CLASS}>
+        <Button
+          onClick={handleCraft}
+          disabled={isCraftingBoxEmpty || !hasRequiredIngredients}
+        >
+          {t("craft")}
+        </Button>
+      </div>
+      <div className={ROW_CLASS}>
+        <Button disabled>
+          <div className="flex items-center justify-center gap-1">
+            <img src={fastForward} className="h-5" />
+            <span className="text-sm flex items-center">{0}</span>
+            <img src={ITEM_DETAILS["Gem"].image} className="h-5" />
+          </div>
+        </Button>
+      </div>
     </div>
   );
 };
