@@ -8149,5 +8149,8 @@
   "giveaway.finishedWaiting": "Kau sudah selesai! Menunggu orang lain...",
   "giveaway.waitingHost": "Menunggu tuan rumah menyelesaikan acara...",
   "giveaway.claimPrize": "Klaim hadiah",
-  "giveaway.goHome": "Pulanglah"
+  "giveaway.goHome": "Pulanglah",
+  "giveaway.you": "Anda",
+  "giveaway.eggHint": "Bergerak untuk menangkap — hindari bom!",
+  "giveaway.raceHint": "Ketuk yang benar untuk bergerak maju"
 }

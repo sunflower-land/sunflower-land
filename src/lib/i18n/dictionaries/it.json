@@ -8149,5 +8149,8 @@
   "giveaway.finishedWaiting": "Hai finito! Aspettando gli altri...",
   "giveaway.waitingHost": "Aspettando che l'host finisca l'evento...",
   "giveaway.claimPrize": "Richiedi il premio",
-  "giveaway.goHome": "Vai a casa"
+  "giveaway.goHome": "Vai a casa",
+  "giveaway.you": "Tu",
+  "giveaway.eggHint": "Muoviti per catturare: schiva le bombe!",
+  "giveaway.raceHint": "Tocca quello corretto per andare avanti"
 }

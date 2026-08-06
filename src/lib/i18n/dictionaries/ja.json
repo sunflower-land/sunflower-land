@@ -8149,5 +8149,8 @@
   "giveaway.finishedWaiting": "終わったね！他の人を待っている...",
   "giveaway.waitingHost": "ホストがイベントを終了するのを待っています...",
   "giveaway.claimPrize": "賞品を請求する",
-  "giveaway.goHome": "家に帰る"
+  "giveaway.goHome": "家に帰る",
+  "giveaway.you": "あなた",
+  "giveaway.eggHint": "移動してキャッチしよう。爆弾をかわそう！",
+  "giveaway.raceHint": "正しいものをタップして次に進む"
 }

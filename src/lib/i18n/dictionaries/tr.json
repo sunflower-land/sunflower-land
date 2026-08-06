@@ -8149,5 +8149,8 @@
   "giveaway.finishedWaiting": "Bitirdin! Başkalarını bekliyorum...",
   "giveaway.waitingHost": "Ev sahibinin etkinliği bitirmesini bekliyorum...",
   "giveaway.claimPrize": "Ödülü talep et",
-  "giveaway.goHome": "Eve git"
+  "giveaway.goHome": "Eve git",
+  "giveaway.you": "Sen",
+  "giveaway.eggHint": "Yakalamak için hareket edin - bombalardan kaçın!",
+  "giveaway.raceHint": "İlerlemek için doğru olana dokunun"
 }
