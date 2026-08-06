@@ -6862,6 +6862,8 @@
   "pets.excludedFromBulkFeed": "Excluded from Bulk Feed",
   "pets.tabFeed": "Feed",
   "pets.tabPets": "Pets",
+  "pets.cheerAll": "Cheer All",
+  "pets.petAll": "Pet All",
   "pets.tabGuides": "Guides",
   "pets.sortBy": "Sort: {{option}}",
   "pets.sortDefault": "Default",
