@@ -7,8 +7,6 @@ import { getKeys } from "lib/object";
 import type { Physics } from "phaser";
 import { hasFeatureAccess } from "lib/flags";
 import { npcModalManager } from "../ui/NPCModals";
-import { interactableModalManager } from "../ui/InteractableModals";
-import { Label } from "../containers/Label";
 
 const BUMPKINS: NPCBumpkin[] = [
   {
@@ -33,7 +31,6 @@ export class StreamScene extends BaseScene {
   async preload() {
     super.preload();
     this.load.image("speaker", "world/speaker.webp");
-    this.load.image("giveaway_gift", "world/vip_gift.png");
   }
 
   async create() {
@@ -55,23 +52,11 @@ export class StreamScene extends BaseScene {
       });
     }
 
+    // Clicking the streamer (speaker) opens the streams + community games modal.
     const image = this.add.image(215, 102, "speaker");
     image.on("pointerdown", () => {
       npcModalManager.open("streamer");
     });
-
-    // Town-hall giveaway board — opens the giveaway modal.
-    const giveaway = this.add
-      .sprite(120, 150, "giveaway_gift")
-      .setInteractive({ cursor: "pointer" });
-    giveaway.on("pointerdown", () => {
-      interactableModalManager.open("giveaway_board");
-    });
-
-    const giveawayLabel = new Label(this, "GIVEAWAY", "brown");
-    giveawayLabel.setPosition(120, 135);
-    giveawayLabel.setDepth(10000000);
-    this.add.existing(giveawayLabel);
   }
 
   update() {

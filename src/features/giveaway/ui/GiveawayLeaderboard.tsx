@@ -82,9 +82,11 @@ export const GiveawayLeaderboard: React.FC<{ id: string }> = ({ id }) => {
             <span className="flex-1 truncate">
               {row.username ?? `#${row.farmId}`}
             </span>
+            {/* Their score. */}
+            <span className="w-10 shrink-0 text-right">{row.score}</span>
             {/* The prize for finishing in this position. */}
             {prize && (
-              <span className="flex items-center gap-1 shrink-0">
+              <span className="flex items-center gap-1 shrink-0 w-14 justify-end">
                 {prizeRewardLabel(prize)}
                 {!!prize.coins && (
                   <img src={coinsIcon} className="h-4" alt="coins" />

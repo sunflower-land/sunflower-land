@@ -1,16 +1,20 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSelector } from "@xstate/react";
 import { useNavigate } from "react-router";
 
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
+import { Modal } from "components/ui/Modal";
+import { RoundButton } from "components/ui/RoundButton";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Loading } from "features/auth/components";
 import { Context as GameContext } from "features/game/GameProvider";
 import * as Auth from "features/auth/lib/Provider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
-import { toOrdinalSuffix } from "features/retreat/components/auctioneer/AuctionLeaderboardTable";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { GiveawayPhaser } from "./GiveawayPhaser";
 import { GiveawayContext } from "./lib/GiveawayProvider";
@@ -37,7 +41,6 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
     playerScore,
     isLoading,
     refresh,
-    bridge,
   } = useContext(GiveawayContext);
 
   const token = authService.getSnapshot().context.user.rawToken as string;
@@ -57,6 +60,33 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
         state.matches("endingGiveawayFailed"),
     }));
 
+  const finished =
+    playerScore !== undefined || phase === "ended" || phase === "complete";
+
+  // The management / results panel, opened from the disc button. It defaults to
+  // open once the event finishes (so results surface without a tap); once the
+  // player opens or closes it, their choice takes over. `undefined` = follow the
+  // default, avoiding a setState-in-effect.
+  const [panelOverride, setPanelOverride] = useState<boolean | undefined>(
+    undefined,
+  );
+  const panelOpen = panelOverride ?? finished;
+
+  // Hide the claim button as soon as it's used. Optimistic: an "already claimed"
+  // error is effectively claimed too, so we don't put it back on failure.
+  const [claimed, setClaimed] = useState(false);
+
+  // "You missed the start" — you joined a live game whose race already began
+  // (its start time is before you arrived). Derived off the mount time so no
+  // setState-in-effect is needed.
+  const [mountedAt] = useState(() => Date.now());
+  const [missedDismissed, setMissedDismissed] = useState(false);
+  const missedStart =
+    !!board &&
+    board.status === "live" &&
+    board.startAt < mountedAt &&
+    !missedDismissed;
+
   // Once the admin finalises, refresh so positions/prizes appear.
   useEffect(() => {
     if (endSettled) {
@@ -64,12 +94,6 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
       refresh();
     }
   }, [endSettled, gameService, refresh]);
-
-  const finishEvent = () =>
-    gameService.send("giveaway.ended", {
-      effect: { type: "giveaway.ended", giveawayId: id },
-      authToken: token,
-    });
 
   useEffect(() => {
     if (claimSuccess || claimFailed) {
@@ -79,6 +103,20 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
     }
   }, [claimSuccess, claimFailed, gameService]);
 
+  const finishEvent = () =>
+    gameService.send("giveaway.ended", {
+      effect: { type: "giveaway.ended", giveawayId: id },
+      authToken: token,
+    });
+
+  const claim = () => {
+    setClaimed(true);
+    gameService.send("giveaway.claimed", {
+      effect: { type: "giveaway.claimed", giveawayId: id },
+      authToken: token,
+    });
+  };
+
   const playerRow = board?.leaderboard.find((r) => r.farmId === playerId);
   const prizeTier =
     playerRow && board
@@ -86,22 +124,12 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
       : undefined;
   const canClaim = board?.status === "complete" && !!prizeTier;
 
-  const claim = () =>
-    gameService.send("giveaway.claimed", {
-      effect: { type: "giveaway.claimed", giveawayId: id },
-      authToken: token,
-    });
-
-  // The results panel shows once the player finishes, or once the event is over.
-  const showResults =
-    playerScore !== undefined || phase === "ended" || phase === "complete";
-
   return (
     <div className="absolute inset-0">
       <GiveawayPhaser minigame={minigame} />
 
       {/* Status banner + the big 30s race clock */}
-      {board && !showResults && (
+      {board && !finished && (
         <div className="absolute top-2 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1">
           <Label type="info">{board.title}</Label>
           {phase === "racing" && (
@@ -131,6 +159,19 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
               {t("giveaway.scoreValue", { score: displayScore })}
             </span>
           )}
+        </div>
+      )}
+
+      {/* Management / results disc — always available, top-right. */}
+      {board && (
+        <div className="absolute top-2 right-2 z-20">
+          <RoundButton onClick={() => setPanelOverride(true)}>
+            <img
+              src={SUNNYSIDE.icons.settings}
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+              style={{ width: `${PIXEL_SCALE * 12}px` }}
+            />
+          </RoundButton>
         </div>
       )}
 
@@ -164,6 +205,9 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
                     count: board.totalParticipants,
                   })}
                 </span>
+                <Button onClick={() => navigate("/world/stream")}>
+                  {t("giveaway.goHome")}
+                </Button>
               </div>
             </Panel>
           </div>
@@ -171,72 +215,84 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
       )}
 
       {/* Log Chop instructions */}
-      {minigame === "chop" && phase === "racing" && !showResults && (
+      {minigame === "chop" && phase === "racing" && !finished && (
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10">
           <Label type="vibrant">{t("giveaway.chopHint")}</Label>
         </div>
       )}
 
-      {/* Results / leaderboard */}
-      {showResults && board && (
-        <div className="absolute inset-0 flex items-center justify-center z-10 overflow-y-auto pointer-events-none">
-          <div className="pointer-events-auto w-full max-w-md my-4">
-            <Panel>
-              <div className="flex flex-col gap-2 p-1">
-                <div className="flex justify-between items-center gap-1">
-                  <Label type="success">{board.title}</Label>
-                  <div className="flex items-center gap-1">
-                    {playerScore !== undefined && (
-                      <Label type="info">
-                        {t("giveaway.yourScore", { score: playerScore })}
-                      </Label>
-                    )}
-                    {/* Your finishing position (only known inside the top 10). */}
-                    {playerRow && (
-                      <Label type="default">
-                        {toOrdinalSuffix(playerRow.position)}
-                      </Label>
-                    )}
-                  </div>
-                </div>
+      {/* Management / results & leaderboard */}
+      <Modal show={panelOpen && !!board} onHide={() => setPanelOverride(false)}>
+        {board && (
+          <CloseButtonPanel
+            title={board.title}
+            onClose={() => setPanelOverride(false)}
+          >
+            <div className="flex flex-col gap-2 p-1">
+              {/* Your own score, once you've finished. */}
+              {playerScore !== undefined && (
+                <Label type="info">
+                  {t("giveaway.yourScore", { score: playerScore })}
+                </Label>
+              )}
 
-                {phase === "racing" && playerScore !== undefined && (
-                  <p className="text-xs">{t("giveaway.finishedWaiting")}</p>
-                )}
-
-                <GiveawayLeaderboard id={id} />
-
-                <Button onClick={() => refresh()}>
-                  {t("giveaway.refreshBoard")}
-                </Button>
-
-                {/* The creator decides when the event is finalised — this
-                    assigns positions and sends out the prizes. */}
-                {isAdmin &&
-                  board.status !== "complete" &&
-                  (isEnding ? (
-                    <Loading text={t("giveaway.finishing")} />
+              {board.status === "complete" ? (
+                // Finalised — show the ranked board and (winners) the claim.
+                <>
+                  <GiveawayLeaderboard id={id} />
+                  {canClaim &&
+                    !claimed &&
+                    (isClaiming ? (
+                      <Loading text={t("claiming")} />
+                    ) : (
+                      <Button onClick={claim}>
+                        {t("giveaway.claimPrize")}
+                      </Button>
+                    ))}
+                </>
+              ) : (
+                // Not finalised yet — the leaderboard only appears once the host
+                // ends the event. Until then, wait (or, for the host, finish).
+                <>
+                  {playerScore !== undefined && (
+                    <p className="text-xs">{t("giveaway.finishedWaiting")}</p>
+                  )}
+                  {isAdmin ? (
+                    isEnding ? (
+                      <Loading text={t("giveaway.finishing")} />
+                    ) : (
+                      <Button onClick={finishEvent}>
+                        {t("giveaway.finishEvent")}
+                      </Button>
+                    )
                   ) : (
-                    <Button onClick={finishEvent}>
-                      {t("giveaway.finishEvent")}
-                    </Button>
-                  ))}
+                    playerScore !== undefined && (
+                      <Loading text={t("giveaway.waitingHost")} />
+                    )
+                  )}
+                </>
+              )}
 
-                {canClaim &&
-                  (isClaiming ? (
-                    <Loading text={t("claiming")} />
-                  ) : (
-                    <Button onClick={claim}>{t("giveaway.claimPrize")}</Button>
-                  ))}
+              <Button onClick={() => navigate("/world/stream")}>
+                {t("giveaway.goHome")}
+              </Button>
+            </div>
+          </CloseButtonPanel>
+        )}
+      </Modal>
 
-                <Button onClick={() => navigate("/world/plaza")}>
-                  {t("giveaway.backToTown")}
-                </Button>
-              </div>
-            </Panel>
+      {/* Joined a live game that already kicked off. */}
+      <Modal show={missedStart} onHide={() => setMissedDismissed(true)}>
+        <CloseButtonPanel onClose={() => setMissedDismissed(true)}>
+          <div className="flex flex-col items-center gap-2 p-2">
+            <Label type="danger">{t("giveaway.missedStartTitle")}</Label>
+            <p className="text-sm text-center">{t("giveaway.missedStart")}</p>
+            <Button onClick={() => navigate("/world/stream")}>
+              {t("giveaway.goHome")}
+            </Button>
           </div>
-        </div>
-      )}
+        </CloseButtonPanel>
+      </Modal>
     </div>
   );
 };

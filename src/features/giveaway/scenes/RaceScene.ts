@@ -1,10 +1,19 @@
 import mapJson from "assets/map/run.json";
 import type { SceneId } from "features/world/mmoMachine";
 import { BaseScene } from "features/world/scenes/BaseScene";
+import { BumpkinContainer } from "features/world/containers/BumpkinContainer";
+import type { Player } from "features/world/types/Room";
+import { NPC_WEARABLES, type NPCName } from "lib/npcs";
 import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import type { GiveawayBridge } from "../lib/bridge";
-import { isRaceOver } from "../lib/sim";
+import {
+  isRaceOver,
+  seedFor,
+  getRacerProfile,
+  distanceAt,
+  type RacerProfile,
+} from "../lib/sim";
 
 /** Scene key — referenced by GiveawayPhaser's SCENE_BY_TYPE map. */
 export const RACE_SCENE_ID = "giveaway_race";
@@ -47,14 +56,37 @@ const RUN_BAND_BOTTOM = 16 * SQUARE_WIDTH; // y = 256
 /** Keeps runners clear of the tree line at either edge of the lane. */
 const LANE_PADDING = 8;
 
-/** How quickly the camera eases toward the centre of the race (per second). */
-const CAMERA_SMOOTHING = 2.5;
-
 /** One tile of track = one metre of distance. */
 const PIXELS_PER_METRE = SQUARE_WIDTH;
 
-/** How often the metres covered are reported to the server mid-race. */
-const PROGRESS_INTERVAL_MS = 5000;
+// --- Other runners -----------------------------------------------------------
+// Everyone who joined (from the polled participant list — both clients see the
+// same set) is drawn as a Bumpkin, simulated deterministically so it stays
+// roughly consistent across screens. Each gets a random lane + a small ± start
+// offset so the line-up looks natural. (Real per-frame positions would need an
+// MMO room for the giveaway scene — backend work.)
+const MAX_OTHER_RACERS = 30;
+/** ± horizontal jitter on the start line, in px. */
+const START_JITTER_X = 20;
+
+const CLOTHING_POOL: NPCName[] = [
+  "pumpkin' pete",
+  "betty",
+  "hank",
+  "grubnuk",
+  "raven",
+  "old salty",
+  "cornwell",
+  "billy",
+  "bailey",
+];
+
+type OtherRacer = {
+  farmId: number;
+  profile: RacerProfile;
+  container: BumpkinContainer;
+  startX: number;
+};
 
 /** Distance from the pack (px) at which the weighting is fully applied. */
 const PACK_BIAS_RANGE = 160;
@@ -75,15 +107,19 @@ export class RaceScene extends BaseScene {
 
   private startX = 0;
   private maxX = Number.POSITIVE_INFINITY;
+  /** X of the start line (before the local player's own jitter). */
+  private lineX = 0;
   /** The pace we're easing toward, and the one actually applied this frame. */
   private targetSpeed = 0;
   private currentSpeed = 0;
   private nextPaceAt = 0;
-  private nextProgressAt = 0;
   private lastGear = -1;
   private finished = false;
   /** "This is you" arrow that hovers above the local player. */
   private marker?: Phaser.GameObjects.Image;
+  /** Every other joined player, drawn + simulated. */
+  private others: OtherRacer[] = [];
+  private otherIds = new Set<number>();
 
   constructor() {
     super({
@@ -107,28 +143,23 @@ export class RaceScene extends BaseScene {
   async create() {
     super.create();
 
-    // Line up at a random height within the running lane, so runners spread out
-    // across it instead of stacking on one row.
-    this.currentPlayer?.teleport(
-      this.currentPlayer.x,
-      Phaser.Math.Between(
-        RUN_BAND_TOP + LANE_PADDING,
-        RUN_BAND_BOTTOM - LANE_PADDING,
-      ),
-    );
+    this.lineX = this.currentPlayer?.x ?? 0;
+
+    // Line up at a random height in the lane + a small ± offset on the start
+    // line, so runners spread out instead of stacking on one row/column.
+    const spot = this.staggerFor(this.bridge?.playerId ?? 0);
+    this.currentPlayer?.teleport(this.lineX + spot.x, spot.y);
 
     this.startX = this.currentPlayer?.x ?? 0;
     // Never run off the end of the map.
     this.maxX = this.map.widthInPixels - SQUARE_WIDTH * 2;
 
-    // Frame the whole race rather than the local player: BaseScene follows the
-    // player (pinning them to screen centre), but we want the midpoint of the
-    // field centred so you can see who's ahead of you. See centreOnRace().
-    this.cameras.main.stopFollow();
-    this.cameras.main.centerOn(
-      this.currentPlayer?.x ?? 0,
-      (RUN_BAND_TOP + RUN_BAND_BOTTOM) / 2,
-    );
+    // Softly follow the player (a lerp, not a hard lock) so the Bumpkin stays
+    // on screen but visibly drifts ahead when it speeds up and back when it
+    // slows — the pace changes read on screen.
+    if (this.currentPlayer) {
+      this.cameras.main.startFollow(this.currentPlayer, true, 0.06, 0.1);
+    }
 
     // `pixelArt: true` turns on roundPixels, which snaps both the sprite and the
     // camera to whole pixels every frame — their relative position then shimmers
@@ -141,25 +172,54 @@ export class RaceScene extends BaseScene {
       .setDepth(Number.MAX_SAFE_INTEGER);
   }
 
-  /**
-   * Centre the camera on the middle of the field (midpoint of the frontmost and
-   * backmost runner) so the whole race stays in shot, easing so it doesn't snap
-   * as runners shuffle. Vertically it stays locked to the running lane.
-   */
-  private centreOnRace(deltaMs: number) {
-    const camera = this.cameras.main;
+  /** Deterministic lane + start-line offset for a runner (same on every client). */
+  private staggerFor(farmId: number): { x: number; y: number } {
+    const s = seedFor(farmId, this.bridge?.giveawayId ?? "");
+    const y =
+      RUN_BAND_TOP +
+      LANE_PADDING +
+      ((s % 1000) / 1000) * (RUN_BAND_BOTTOM - RUN_BAND_TOP - 2 * LANE_PADDING);
+    const x =
+      ((((s >> 10) % (2 * START_JITTER_X)) + 2 * START_JITTER_X) %
+        (2 * START_JITTER_X)) -
+      START_JITTER_X;
+    return { x, y };
+  }
 
-    const xs = [
-      ...(this.currentPlayer ? [this.currentPlayer.x] : []),
-      ...Object.values(this.playerEntities).map((p) => p.x),
-    ];
-    if (xs.length === 0) return;
+  /** Draw a Bumpkin for anyone who has joined but isn't yet on screen. */
+  private syncOthers() {
+    const bridge = this.bridge;
+    if (!bridge) return;
 
-    const centre = (Math.min(...xs) + Math.max(...xs)) / 2;
-    const target = centre - this.scale.width / camera.zoom / 2;
+    for (const farmId of bridge.getParticipants()) {
+      if (farmId === bridge.playerId || this.otherIds.has(farmId)) continue;
+      if (this.others.length >= MAX_OTHER_RACERS) break;
+      this.otherIds.add(farmId);
 
-    const t = 1 - Math.exp(-CAMERA_SMOOTHING * (deltaMs / 1000));
-    camera.scrollX += (target - camera.scrollX) * t;
+      try {
+        const spot = this.staggerFor(farmId);
+        const startX = this.lineX + spot.x;
+        const clothing =
+          NPC_WEARABLES[CLOTHING_POOL[farmId % CLOTHING_POOL.length]];
+        const container = new BumpkinContainer({
+          scene: this,
+          x: startX,
+          y: spot.y,
+          clothing: clothing as unknown as Player["clothing"],
+          name: bridge.getUsernames()[farmId] ?? `#${farmId}`,
+        });
+        container.faceRight();
+        container.idle();
+        this.others.push({
+          farmId,
+          profile: getRacerProfile(farmId, bridge.giveawayId),
+          container,
+          startX,
+        });
+      } catch {
+        // A single failed Bumpkin shouldn't break the scene.
+      }
+    }
   }
 
   /**
@@ -285,18 +345,16 @@ export class RaceScene extends BaseScene {
       Math.round((player.x - this.startX) / PIXELS_PER_METRE),
     );
 
-    // Keep the server board live while running.
-    if (bridge && racing && now >= this.nextProgressAt) {
-      this.nextProgressAt = now + PROGRESS_INTERVAL_MS;
-      bridge.onProgress(metres);
-    }
-
-    // Report the final distance once the clock is up. The runner eases to a
-    // stop via targetSpeed above rather than halting mid-stride.
+    // Report the final distance once — only when the clock is up. (No mid-race
+    // submissions; those flashed a loading modal every few seconds.)
     if (bridge && !this.finished && bridge.getPhase() === "racing" && over) {
       this.finished = true;
       bridge.onFinish(metres);
     }
+
+    // Draw + move everyone else who joined.
+    this.syncOthers();
+    this.updateOthers(elapsed);
 
     // Keep the "you" marker hovering above the local player, with a gentle bob
     // driven off the clock (a tween would fight this per-frame positioning).
@@ -304,8 +362,6 @@ export class RaceScene extends BaseScene {
       player.x,
       player.y - 24 + Math.sin(this.time.now / 200) * 2,
     );
-
-    this.centreOnRace(deltaMs);
 
     // Keep broadcasting our position so other players see us run.
     this.sendPositionToServer();
@@ -316,5 +372,21 @@ export class RaceScene extends BaseScene {
     this.walkAudioController?.handleWalkSound(speed > 0);
 
     player.setDepth(Math.floor(player.y));
+  }
+
+  /** Position + animate the other runners from the deterministic sim. */
+  private updateOthers(elapsedMs: number) {
+    // The race clock is running (0 before start, capped once over).
+    const moving = elapsedMs > 0 && !isRaceOver(elapsedMs);
+
+    this.others.forEach(({ container, profile, startX }) => {
+      container.x = Math.min(
+        this.maxX,
+        startX + distanceAt(profile, elapsedMs),
+      );
+      container.setDepth(Math.floor(container.y));
+      if (moving) container.walk();
+      else container.idle();
+    });
   }
 }

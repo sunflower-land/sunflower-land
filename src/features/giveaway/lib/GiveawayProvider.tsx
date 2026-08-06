@@ -92,14 +92,11 @@ export const GiveawayProvider: React.FC<
     boardRef.current = board;
   }, [board]);
 
-  // `liveScore` is the best metres reported so far (mid-race or final);
-  // `playerScore` is only set once the race actually ends, and drives the
-  // results overlay.
-  const [liveScore, setLiveScore] = useState(0);
   /** Score shown in the HUD as it changes (display only — never submitted). */
   const [displayScore, setDisplayScore] = useState(0);
+  // The final score, set once when the game ends — the only score submitted.
   const [playerScore, setPlayerScore] = useState<number | undefined>(undefined);
-  const lastSubmittedRef = useRef(-1);
+  const submittedRef = useRef(false);
 
   // Stable bridge object handed to Phaser once (see GiveawayPhaser).
   const bridge = useMemo<GiveawayBridge>(
@@ -118,39 +115,37 @@ export const GiveawayProvider: React.FC<
         ),
       getPhase: () => getPhase(boardRef.current, Date.now()),
       getRaceStartAt: () => boardRef.current?.startAt ?? Date.now(),
-      onProgress: (metres: number) =>
-        setLiveScore((prev) => Math.max(prev, metres)),
+      // We only submit the final score, so mid-game progress is display-only.
+      onProgress: () => {},
       onScoreChange: setDisplayScore,
-      onFinish: (metres: number) => {
-        setLiveScore((prev) => Math.max(prev, metres));
-        setPlayerScore((prev) => prev ?? metres);
-      },
+      onFinish: (score: number) => setPlayerScore((prev) => prev ?? score),
     }),
     // playerId / playerClothing are stable for the session; id is fixed per route.
     [id, playerId, playerClothing],
   );
 
-  // Push the metres covered to the server whenever they've increased and the
-  // game machine is idle. The scene reports every 5s during the race and once
-  // more at the finish; `giveaway.submitted` keeps the best score, and distance
-  // only ever grows, so repeated sends are safe.
+  // Submit the final score ONCE, when the game ends and the machine is idle.
+  // (No mid-game submissions — that flashed a loading modal every few seconds.)
   useEffect(() => {
-    // Offline / UI mode: no backend — keep the local score for the results
-    // overlay and skip the effect.
-    if (!CONFIG.API_URL) return;
-    if (liveScore <= lastSubmittedRef.current) return;
+    if (playerScore === undefined || submittedRef.current) return;
+
+    // Offline / UI mode: no backend — keep the local score for the results view.
+    if (!CONFIG.API_URL) {
+      submittedRef.current = true;
+      return;
+    }
     if (!isPlaying) return;
 
-    lastSubmittedRef.current = liveScore;
+    submittedRef.current = true;
     gameService.send("giveaway.submitted", {
       effect: {
         type: "giveaway.submitted",
         giveawayId: id,
-        score: liveScore,
+        score: playerScore,
       },
       authToken: token,
     });
-  }, [liveScore, isPlaying, gameService, id, token]);
+  }, [playerScore, isPlaying, gameService, id, token]);
 
   // Auto-acknowledge the effect result so the machine returns to `playing`, then
   // refresh the board to show the just-submitted score.

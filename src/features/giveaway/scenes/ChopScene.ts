@@ -38,12 +38,12 @@ const GOOD_POINTS = 3;
 const METER_OFFSET_Y = 46;
 
 // --- Scenery ----------------------------------------------------------------
-/** How many chopping spots surround the player. */
-const CHOPPER_COUNT = 15;
+/** Max other players drawn around you (hard-coded spots, filled as they join). */
+const MAX_CHOPPERS = 20;
 /** How far to the right of a Bumpkin their tree sits. */
 const TREE_OFFSET_X = 20;
 /** Grid the chopping spots are laid out on, centred on the player. */
-const SPOT_COLS = 5;
+const SPOT_COLS = 6;
 const SPOT_ROWS = 4;
 const SPOT_SPACING_X = 95;
 const SPOT_SPACING_Y = 58;
@@ -51,9 +51,9 @@ const SPOT_SPACING_Y = 58;
 const CLEARING = 34;
 
 /**
- * Fixed, evenly-spaced spots around the player — one tree and one Bumpkin each.
- * Built once from a grid, minus anything crowding the player, keeping the
- * `CHOPPER_COUNT` closest so the field stays balanced around the centre.
+ * Fixed, evenly-spaced spots around the player — one tree + one player each,
+ * filled in join order. Built once from a grid (minus anything crowding the
+ * player), nearest-first so the crowd stays balanced around the centre.
  */
 const CHOPPER_SPOTS: { x: number; y: number }[] = (() => {
   const spots: { x: number; y: number }[] = [];
@@ -69,7 +69,7 @@ const CHOPPER_SPOTS: { x: number; y: number }[] = (() => {
 
   return spots
     .sort((a, b) => Math.hypot(a.x, a.y) - Math.hypot(b.x, b.y))
-    .slice(0, CHOPPER_COUNT);
+    .slice(0, MAX_CHOPPERS);
 })();
 
 const CLOTHING_POOL: NPCName[] = [

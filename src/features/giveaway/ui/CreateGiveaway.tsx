@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSelector } from "@xstate/react";
 import { useNavigate } from "react-router";
 import type Decimal from "decimal.js-light";
@@ -21,6 +21,7 @@ import {
   minigameName,
   type MinigameType,
 } from "../lib/minigames";
+import { rememberGiveawayType } from "../lib/giveawayType";
 
 const MINUTE = 60 * 1000;
 
@@ -34,9 +35,10 @@ export const CreateGiveaway: React.FC<{ onBack: () => void }> = ({
   const token = authService.getSnapshot().context.user.rawToken as string;
 
   const [minigame, setMinigame] = useState<MinigameType>(DEFAULT_MINIGAME);
-  const [title, setTitle] = useState("Weekly Stream Race");
+  // The title tracks the chosen mini-game until the admin types their own.
+  const [title, setTitle] = useState(minigameName(DEFAULT_MINIGAME));
+  const [titleEdited, setTitleEdited] = useState(false);
   const [lobbyMinutes, setLobbyMinutes] = useState(2);
-  const [durationMinutes, setDurationMinutes] = useState(10);
   const [first, setFirst] = useState(1000);
   const [second, setSecond] = useState(250);
   const [third, setThird] = useState(100);
@@ -53,17 +55,24 @@ export const CreateGiveaway: React.FC<{ onBack: () => void }> = ({
     }),
   );
 
+  // Remember the chosen mini-game against the new id (the API doesn't store it),
+  // so joining it later opens the right game rather than the default race.
+  useEffect(() => {
+    if (isSuccess && createdId) rememberGiveawayType(createdId, minigame);
+  }, [isSuccess, createdId, minigame]);
+
   const create = () => {
     const startAt = Date.now() + lobbyMinutes * MINUTE;
-    const endAt = startAt + durationMinutes * MINUTE;
     const prizes: PrizeTier[] = [
       { from: 1, to: 1, coins: first },
       { from: 2, to: 3, coins: second },
       { from: 4, to: 10, coins: third },
     ];
 
+    // No `endAt` — the admin ends the giveaway manually and the API no longer
+    // accepts it.
     gameService.send("giveaway.created", {
-      effect: { type: "giveaway.created", title, prizes, startAt, endAt },
+      effect: { type: "giveaway.created", title, prizes, startAt },
       authToken: token,
     });
   };
@@ -108,33 +117,30 @@ export const CreateGiveaway: React.FC<{ onBack: () => void }> = ({
         options={GIVEAWAY_MINIGAMES.map((m) => m.type)}
         value={minigame}
         getOptionLabel={(v) => minigameName(v as MinigameType)}
-        onChange={(v) => setMinigame(v as MinigameType)}
+        onChange={(v) => {
+          const type = v as MinigameType;
+          setMinigame(type);
+          if (!titleEdited) setTitle(minigameName(type));
+        }}
       />
 
       <TextInput
         value={title}
-        onValueChange={setTitle}
+        onValueChange={(v) => {
+          setTitle(v);
+          setTitleEdited(true);
+        }}
         placeholder={t("giveaway.title")}
         maxLength={100}
       />
 
-      <div className="flex gap-2">
-        <div className="flex-1">
-          <span className="text-xxs">{t("giveaway.lobbyMinutes")}</span>
-          <NumberInput
-            value={lobbyMinutes}
-            maxDecimalPlaces={0}
-            onValueChange={(v: Decimal) => setLobbyMinutes(v.toNumber())}
-          />
-        </div>
-        <div className="flex-1">
-          <span className="text-xxs">{t("giveaway.durationMinutes")}</span>
-          <NumberInput
-            value={durationMinutes}
-            maxDecimalPlaces={0}
-            onValueChange={(v: Decimal) => setDurationMinutes(v.toNumber())}
-          />
-        </div>
+      <div>
+        <span className="text-xxs">{t("giveaway.lobbyMinutes")}</span>
+        <NumberInput
+          value={lobbyMinutes}
+          maxDecimalPlaces={0}
+          onValueChange={(v: Decimal) => setLobbyMinutes(v.toNumber())}
+        />
       </div>
 
       <InnerPanel className="flex flex-col gap-1 p-2">

@@ -53,12 +53,6 @@ const GiveawayApp = lazy(() =>
   })),
 );
 
-const GiveawayCreatorArea = lazy(() =>
-  import("features/giveaway/ui/GiveawayCreatorArea").then((m) => ({
-    default: m.GiveawayCreatorArea,
-  })),
-);
-
 const selectState = (state: AuthMachineState) => ({
   isAuthorised: state.matches("connected"),
   isVisiting: state.matches("visiting"),
@@ -250,14 +244,6 @@ export const Navigation: React.FC = () => {
                                 <Route
                                   path="/economy-editor/edit/:slug"
                                   element={<PlayerEconomyEditorEdit />}
-                                />
-                                <Route
-                                  path="/giveaway/create"
-                                  element={
-                                    <GameWrapper>
-                                      <GiveawayCreatorArea />
-                                    </GameWrapper>
-                                  }
                                 />
                                 <Route
                                   path="/giveaway/play/:id"
