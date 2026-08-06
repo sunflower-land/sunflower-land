@@ -132,7 +132,7 @@ export const PetLevelsAndPerks: React.FC<{ onBack: () => void }> = ({
   ];
 
   return (
-    <InnerPanel className="relative overflow-y-auto max-h-[350px] scrollable">
+    <InnerPanel className="relative overflow-y-auto max-h-[70vh] scrollable">
       <div className="flex items-center gap-2">
         <img
           src={arrow_left}
