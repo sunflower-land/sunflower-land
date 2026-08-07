@@ -42,6 +42,15 @@ import {
 } from "features/game/events/landExpansion/plantGreenhouse";
 import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
 import { useNow } from "lib/utils/hooks/useNow";
+import {
+  INITIAL_STOCK,
+  INVENTORY_LIMIT,
+  getSeedInventoryLimitMultiplier,
+  isBuildingReady,
+} from "features/game/lib/constants";
+import stockIcon from "assets/icons/stock.webp";
+import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
+import Decimal from "decimal.js-light";
 
 type GrowthTime = {
   seconds: number;
@@ -69,6 +78,10 @@ export const CropGuide = () => {
             {
               text: t("cropGuide.payAttentionToSeason"),
               icon: seasonIcon,
+            },
+            {
+              text: t("cropGuide.capacityLimits"),
+              icon: SUNNYSIDE.icons.basket,
             },
             ...(gameState.context.state.island.type === "basic"
               ? [
@@ -258,6 +271,12 @@ export const CropRow: React.FC<{
             <p className="text-xxs">{coins.toLocaleString()}</p>
           </div>
         </div>
+        <SeedCapacityLimits
+          seed={seed}
+          state={state}
+          showBoostsKey={showBoostsKey}
+          setShowBoostsKey={setShowBoostsKey}
+        />
       </div>
 
       <div className="flex items-center shrink-0">
@@ -320,6 +339,12 @@ export const FlowerRow: React.FC<{
             setShowBoostsKey={setShowBoostsKey}
           />
         </div>
+        <SeedCapacityLimits
+          seed={seed}
+          state={state}
+          showBoostsKey={showBoostsKey}
+          setShowBoostsKey={setShowBoostsKey}
+        />
       </div>
 
       <div className="flex items-center shrink-0">
@@ -333,6 +358,152 @@ export const FlowerRow: React.FC<{
       </div>
     </div>
   );
+};
+
+const SeedCapacityLimits: React.FC<{
+  seed: SeedName;
+  state: GameState;
+  showBoostsKey: string | null;
+  setShowBoostsKey: (key: string | null) => void;
+}> = ({ seed, state, showBoostsKey, setShowBoostsKey }) => {
+  const { inventoryLimit, restockLimit, baseRestockLimit, baseInventoryLimit } =
+    useMemo(
+      () => ({
+        inventoryLimit: INVENTORY_LIMIT(state)[seed],
+        restockLimit: INITIAL_STOCK(state)[seed],
+        baseRestockLimit: INITIAL_STOCK()[seed],
+        baseInventoryLimit: getBaseInventoryLimit(seed),
+      }),
+      [seed, state],
+    );
+
+  if (
+    !inventoryLimit ||
+    !restockLimit ||
+    !baseInventoryLimit ||
+    !baseRestockLimit
+  ) {
+    return null;
+  }
+
+  return (
+    <div className="flex flex-col gap-1 ml-2">
+      <CapacityLimit
+        seed={seed}
+        baseAmount={baseInventoryLimit.toString()}
+        amount={inventoryLimit.toString()}
+        icon={SUNNYSIDE.icons.basket}
+        boostKey={`${seed}-inventory-limit`}
+        state={state}
+        showBoostsKey={showBoostsKey}
+        setShowBoostsKey={setShowBoostsKey}
+      />
+      <CapacityLimit
+        seed={seed}
+        baseAmount={baseRestockLimit.toString()}
+        amount={restockLimit.toString()}
+        icon={stockIcon}
+        boostKey={`${seed}-restock-limit`}
+        state={state}
+        showBoostsKey={showBoostsKey}
+        setShowBoostsKey={setShowBoostsKey}
+      />
+    </div>
+  );
+};
+
+const CapacityLimit: React.FC<{
+  seed: SeedName;
+  baseAmount: string;
+  amount: string;
+  icon: string;
+  boostKey: string;
+  state: GameState;
+  showBoostsKey: string | null;
+  setShowBoostsKey: (key: string | null) => void;
+}> = ({
+  seed,
+  baseAmount,
+  amount,
+  icon,
+  boostKey,
+  state,
+  showBoostsKey,
+  setShowBoostsKey,
+}) => {
+  const anchorRef = useRef<HTMLButtonElement>(null);
+  const boosts = getSeedCapacityBoosts(state, seed);
+  const isBoosted = amount !== baseAmount && boosts.length > 0;
+
+  if (!isBoosted) return <CapacityAmount amount={amount} icon={icon} />;
+
+  return (
+    <button
+      ref={anchorRef}
+      type="button"
+      className="flex items-center cursor-pointer relative"
+      aria-expanded={showBoostsKey === boostKey}
+      aria-controls={`${boostKey}-panel`}
+      onClick={(e) => {
+        e.stopPropagation();
+        setShowBoostsKey(showBoostsKey === boostKey ? null : boostKey);
+      }}
+    >
+      <img src={SUNNYSIDE.icons.lightning} className="w-3 mr-1" />
+      <CapacityAmount amount={amount} icon={icon} />
+      <p className="text-xxs line-through ml-1">{baseAmount}</p>
+      <BoostsDisplay
+        boosts={boosts}
+        show={showBoostsKey === boostKey}
+        state={state}
+        onClick={() =>
+          setShowBoostsKey(showBoostsKey === boostKey ? null : boostKey)
+        }
+        className="-translate-x-1/2"
+        portalAlign="center"
+        anchorRef={anchorRef}
+      />
+    </button>
+  );
+};
+
+const CapacityAmount: React.FC<{ amount: string; icon: string }> = ({
+  amount,
+  icon,
+}) => (
+  <div className="flex items-center">
+    <img src={icon} className="w-3 mr-1" />
+    <p className="text-xxs">{amount}</p>
+  </div>
+);
+
+const getBaseInventoryLimit = (seed: SeedName) => {
+  const baseRestockLimit = INITIAL_STOCK()[seed];
+  if (!baseRestockLimit) return undefined;
+
+  if (isFullMoonBerry(seed)) return baseRestockLimit.add(10);
+
+  return new Decimal(
+    Math.ceil(
+      baseRestockLimit.mul(getSeedInventoryLimitMultiplier(seed)).toNumber(),
+    ),
+  );
+};
+
+const getSeedCapacityBoosts = (state: GameState, seed: SeedName) => {
+  const boosts: { name: BoostName; value: string }[] = [];
+
+  if (isBuildingReady(state.buildings.Warehouse ?? [])) {
+    boosts.push({ name: "Warehouse", value: "+20%" });
+  }
+
+  const crimeFruitLevel = getSkillLevel(state.bumpkin.skills, "Crime Fruit");
+  if (crimeFruitLevel && (seed === "Tomato Seed" || seed === "Lemon Seed")) {
+    const bonus = SKILL_RANKS["Crime Fruit"].ranks[seed]?.[crimeFruitLevel - 1];
+    if (bonus) boosts.push({ name: "Crime Fruit", value: `+${bonus}` });
+  }
+
+  return boosts;
 };
 
 const getSeedGrowthTime = ({

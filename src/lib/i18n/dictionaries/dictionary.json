@@ -5617,6 +5617,7 @@
   "description.artichoke": "A hearty veggie.",
   "cropGuide.payAttentionToSeason": "Pay attention to the season. Certain produce can only be planted during a specific time.",
   "cropGuide.earnCoins": "To earn coins, you'll need to plant and harvest!",
+  "cropGuide.capacityLimits": "Use the basket to check your seed limit and the stock icon to see how much will be available after restocking.",
   "cropGuide.crops": "Crops",
   "cropGuide.fruits": "Fruits",
   "cropGuide.fruitPatchRequired": "Fruit patch required",

@@ -1,5 +1,10 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_STOCK, INVENTORY_LIMIT, TEST_FARM } from "./constants";
+import {
+  getSeedInventoryLimitMultiplier,
+  INITIAL_STOCK,
+  INVENTORY_LIMIT,
+  TEST_FARM,
+} from "./constants";
 import { getObjectEntries } from "lib/object";
 import {
   isFullMoonBerry,
@@ -11,6 +16,17 @@ import {
   isAdvancedFruitSeed,
   isBasicFruitSeed,
 } from "../events/landExpansion/fruitPlanted";
+
+describe("getSeedInventoryLimitMultiplier", () => {
+  it.each([
+    ["Sunflower Seed", 2.5],
+    ["Blueberry Seed", 2],
+    ["Apple Seed", 1.5],
+    ["Grape Seed", 5],
+  ] as const)("returns %s for %d", (seed, multiplier) => {
+    expect(getSeedInventoryLimitMultiplier(seed)).toBe(multiplier);
+  });
+});
 
 describe("INITIAL_STOCK", () => {
   it("does not increase stock of tools if Toolshed is placed but NOT ready", () => {
