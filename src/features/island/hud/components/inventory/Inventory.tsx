@@ -170,7 +170,11 @@ export const Inventory: React.FC<Props> = ({
       </div>
 
       <InventoryItemsModal
-        key={isOpen ? `open-${!!showPlaceFirstHelper}` : "closed"}
+        key={
+          isOpen
+            ? `open-${!!showPlaceFirstHelper}`
+            : `closed-${inventoryRestore?.tab ?? "none"}`
+        }
         show={isOpen || !!inventoryRestore}
         onHide={closeInventory}
         state={state}
