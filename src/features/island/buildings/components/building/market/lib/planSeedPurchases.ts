@@ -93,9 +93,11 @@ export function planSeedPurchases(
 
     const stock = state.stock[seedName] ?? new Decimal(0);
     const inventoryLimit = inventoryLimits[seedName] ?? new Decimal(0);
+    // Rounded down to a whole seed: see the matching comment in
+    // SeasonalSeeds.tsx for why this must be 0 decimal places, not 2.
     const inventoryAmount = setPrecision(
       state.inventory[seedName] ?? new Decimal(0),
-      2,
+      0,
     );
     const bulkBuyLimit = inventoryLimit.minus(inventoryAmount);
 
