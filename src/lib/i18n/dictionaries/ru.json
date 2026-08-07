@@ -8152,5 +8152,7 @@
   "giveaway.goHome": "Go home",
   "giveaway.you": "You",
   "giveaway.eggHint": "Move to catch — dodge the bombs!",
-  "giveaway.raceHint": "Tap the correct one to move forward"
+  "giveaway.raceHint": "Tap the correct one to move forward",
+  "gameOptions.experiments.communityGames": "Community Games",
+  "gameOptions.experiments.communityGamesDescription": "Play the community mini-games we run during the weekly streams — race, log chop and egg catch. Join whatever's live, or view recent results."
 }

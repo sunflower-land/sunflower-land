@@ -8152,5 +8152,7 @@
   "giveaway.goHome": "Rentrez chez vous",
   "giveaway.you": "Vous",
   "giveaway.eggHint": "Déplacez-vous pour attraper et esquivez les bombes !",
-  "giveaway.raceHint": "Appuyez sur la bonne option pour avancer"
+  "giveaway.raceHint": "Appuyez sur la bonne option pour avancer",
+  "gameOptions.experiments.communityGames": "Jeux communautaires",
+  "gameOptions.experiments.communityGamesDescription": "Jouez aux mini-jeux communautaires que nous organisons pendant les diffusions hebdomadaires : course, coupe de bois et pêche aux œufs. Participez à la diffusion en direct ou consultez les résultats récents."
 }

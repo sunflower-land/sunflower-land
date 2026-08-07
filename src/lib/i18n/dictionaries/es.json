@@ -8152,5 +8152,7 @@
   "giveaway.goHome": "Ve a casa",
   "giveaway.you": "Tú",
   "giveaway.eggHint": "¡Muévete para atrapar, esquiva las bombas!",
-  "giveaway.raceHint": "Pulsa el botón correcto para seguir adelante"
+  "giveaway.raceHint": "Pulsa el botón correcto para seguir adelante",
+  "gameOptions.experiments.communityGames": "Juegos comunitarios",
+  "gameOptions.experiments.communityGamesDescription": "Juega a los minijuegos comunitarios que lanzamos durante las retransmisiones semanales: carreras, chuletas de troncos y captura de huevos. Únete a lo que esté en directo o consulta los resultados recientes."
 }

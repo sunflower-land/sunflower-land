@@ -1917,6 +1917,8 @@
   "gameOptions.experiments.toolShopBuyAll": "Batch Buy Tools",
   "gameOptions.experiments.toolShopBuyAllDescription": "Try Batch Buy in the Workbench Tools tab - buy the max affordable amount of every unlocked tool in one go.",
   "gameOptions.experiments.toolShopBuyAllToggle": "Enable Batch Buy Tools",
+  "gameOptions.experiments.communityGames": "Community Games",
+  "gameOptions.experiments.communityGamesDescription": "Play the community mini-games we run during the weekly streams — race, log chop and egg catch. Join whatever's live, or view recent results.",
   "designShowcase.heading": "Featured designs",
   "designShowcase.description": "A showcase of standout farm designs from the community.",
   "designShowcase.error": "Something went wrong loading the featured designs.",
