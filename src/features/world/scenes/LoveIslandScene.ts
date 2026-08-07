@@ -4,7 +4,7 @@ import loveIslandTileset from "assets/map/love_island_tileset.json";
 import type { SceneId } from "../mmoMachine";
 import { BaseScene, type NPCBumpkin } from "./BaseScene";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { translate } from "lib/i18n/translate";
+import { translateForBubble } from "lib/i18n/translate";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { getKeys } from "lib/object";
 import type { TemperateSeasonName } from "features/game/types/game";
@@ -78,7 +78,7 @@ export class LoveIslandScene extends BaseScene {
       if (this.checkDistanceToSprite(this.loveBox!, 150)) {
         interactableModalManager.open("petal_puzzle_prize");
       } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
 
@@ -87,7 +87,7 @@ export class LoveIslandScene extends BaseScene {
       if (this.checkDistanceToSprite(shop, 75)) {
         interactableModalManager.open("floating_island_shop");
       } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
 
@@ -123,7 +123,7 @@ export class LoveIslandScene extends BaseScene {
       if (this.checkDistanceToSprite(portal, 40)) {
         interactableModalManager.open("flower_exchange");
       } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
 
