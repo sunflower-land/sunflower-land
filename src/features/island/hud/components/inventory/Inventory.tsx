@@ -73,9 +73,7 @@ export const Inventory: React.FC<Props> = ({
   const navigate = useNavigate();
   const { openMarketplace } = useMarketplaceNavigation();
   const [isOpen, setIsOpen] = useState(false);
-  const [basketItem, setBasketItem] = useState<InventoryItemName | undefined>(
-    selectedItem,
-  );
+  const [basketItem, setBasketItem] = useState<InventoryItemName>();
   const showPlaceFirstHelper =
     location !== "petHouse" && hasChestItemAndNoCollectiblesPlaced(state);
 
@@ -206,7 +204,9 @@ export const Inventory: React.FC<Props> = ({
         isFarming={isFarming}
         isFullUser={isFullUser}
         location={location}
-        defaultToChest={showPlaceFirstHelper}
+        defaultToChest={
+          showPlaceFirstHelper || inventoryRestore?.tab === "Chest"
+        }
       />
     </>
   );
