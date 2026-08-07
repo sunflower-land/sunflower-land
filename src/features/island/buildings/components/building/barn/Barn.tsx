@@ -15,6 +15,7 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import type { LandBiomeName } from "features/island/biomes/biomes";
 import { isAnimalReadyForLove } from "features/game/events/landExpansion/loveAnimal";
 import { getOverCapacityAnimalIds } from "features/game/events/landExpansion/buyAnimal";
+import { isAnimalCoveredByGoldenAsset } from "features/game/events/landExpansion/feedAllAnimals";
 import classNames from "classnames";
 import { saveIslandScrollPosition } from "features/game/expansion/lib/islandScroll";
 
@@ -239,6 +240,7 @@ const _hasSickAnimals = (state: MachineState) => {
 };
 
 const _barnAnimals = (state: MachineState) => state.context.state.barn.animals;
+const _game = (state: MachineState) => state.context.state;
 
 const _barnLevel = (state: MachineState) => {
   return state.context.state.barn.level;
@@ -254,14 +256,19 @@ export const Barn: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
 
   const hasHungryAnimals = useSelector(gameService, _hasHungryAnimals);
   const barnAnimals = useSelector(gameService, _barnAnimals);
+  const game = useSelector(gameService, _game);
   const hasSickAnimals = useSelector(gameService, _hasSickAnimals);
 
   // useNow drives a tick every second so the alert flips on as soon as
   // the love window opens — the underlying gate values only change on
   // game-state events, which wouldn't fire when crossing the time gate.
   const now = useNow({ live: true });
-  const animalsNeedLove = Object.values(barnAnimals).some((animal) =>
-    isAnimalReadyForLove(animal, now),
+  const animalsNeedLove = Object.values(barnAnimals).some(
+    (animal) =>
+      !isAnimalCoveredByGoldenAsset({
+        state: game,
+        animalType: animal.type,
+      }) && isAnimalReadyForLove(animal, now),
   );
   const handleClick = () => {
     if (isBuilt) {

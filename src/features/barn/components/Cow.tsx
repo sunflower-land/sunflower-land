@@ -44,7 +44,7 @@ import {
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
 import { isAnimalFeedable } from "features/game/events/landExpansion/buyAnimal";
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { isAnimalCoveredByGoldenAsset } from "features/game/events/landExpansion/feedAllAnimals";
 import { isWearableActive } from "features/game/lib/wearables";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -229,9 +229,9 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     animal: cow,
   });
 
-  const hasGoldenCow = isCollectibleBuilt({
-    name: "Golden Cow",
-    game,
+  const hasGoldenCow = isAnimalCoveredByGoldenAsset({
+    state: game,
+    animalType: "Cow",
   });
 
   const hasOracleSyringeEquipped = isWearableActive({
@@ -395,7 +395,12 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (sick) return onSickClick();
 
-    if (needsLove) return onLoveClick();
+    if (needsLove) {
+      if (!hasGoldenCow) return onLoveClick();
+
+      handleShowDetails();
+      return;
+    }
 
     const hasBuffSelected = selectedItem && isAnimalFeedBuffItem(selectedItem);
 
@@ -520,7 +525,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     return favFood;
   };
   const showRequestBubble =
-    sick || needsLove || (idle && !isLocked && !showDrops);
+    sick || (needsLove && !hasGoldenCow) || (idle && !isLocked && !showDrops);
 
   if (cowMachineState === "initial") return null;
 
