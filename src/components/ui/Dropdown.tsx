@@ -18,6 +18,14 @@ interface DropdownProps {
   showSearch?: boolean;
   /** Display text per option value (e.g. name + id); stored `value` stays the raw option string. */
   getOptionLabel?: (value: string) => string;
+  /**
+   * Optional external open-state control, for parents rendering several
+   * Dropdowns that should mutually close (e.g. a list of pickers where only
+   * one should be expanded at a time). Omit both to keep the default
+   * self-contained behaviour.
+   */
+  isOpen?: boolean;
+  onOpenChange?: (isOpen: boolean) => void;
 }
 
 export const Dropdown: React.FC<DropdownProps> = ({
@@ -31,10 +39,20 @@ export const Dropdown: React.FC<DropdownProps> = ({
   maxHeight = 14,
   showSearch = false,
   getOptionLabel,
+  isOpen: controlledIsOpen,
+  onOpenChange,
 }) => {
   const labelFor = (v: string) => getOptionLabel?.(v) ?? v;
   const isControlled = value !== undefined;
-  const [isOpen, setIsOpen] = useState(false);
+  const isOpenControlled = controlledIsOpen !== undefined;
+  const [internalIsOpen, setInternalIsOpen] = useState(false);
+  const isOpen = isOpenControlled ? controlledIsOpen : internalIsOpen;
+  const setIsOpen = (next: boolean) => {
+    if (!isOpenControlled) {
+      setInternalIsOpen(next);
+    }
+    onOpenChange?.(next);
+  };
   const [isFocused, setIsFocused] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
