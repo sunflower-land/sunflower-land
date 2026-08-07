@@ -8149,5 +8149,8 @@
   "giveaway.finishedWaiting": "你说完了！等着别人...",
   "giveaway.waitingHost": "正在等待主持人完成活动...",
   "giveaway.claimPrize": "领取奖品",
-  "giveaway.goHome": "回家"
+  "giveaway.goHome": "回家",
+  "giveaway.you": "你",
+  "giveaway.eggHint": "移动捕捉——躲避炸弹！",
+  "giveaway.raceHint": "点击正确的按钮向前移动"
 }
