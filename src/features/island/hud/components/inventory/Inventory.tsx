@@ -44,9 +44,14 @@ interface Props {
 
 const isInventoryRestore = (
   restore: MarketplaceInterfaceRestore | undefined,
-): restore is InventoryMarketplaceRestore =>
-  restore?.type === "inventory" &&
-  (restore.tab === "Basket" || restore.tab === "Chest");
+): restore is InventoryMarketplaceRestore => {
+  const candidate = restore as Partial<InventoryMarketplaceRestore> | undefined;
+
+  return (
+    candidate?.type === "inventory" &&
+    (candidate.tab === "Basket" || candidate.tab === "Chest")
+  );
+};
 
 export const Inventory: React.FC<Props> = ({
   state,

@@ -40,12 +40,12 @@ export const useMarketplaceNavigation = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const openMarketplace = ({
+  const openMarketplace = <TRestore extends MarketplaceInterfaceRestore>({
     item,
     restore,
   }: {
     item?: MarketplaceItemTarget;
-    restore?: MarketplaceInterfaceRestore;
+    restore?: TRestore;
   } = {}) => {
     const marketplaceBase = location.pathname.includes("/world")
       ? "/world/marketplace"
