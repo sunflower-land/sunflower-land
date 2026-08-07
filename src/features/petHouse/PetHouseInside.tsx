@@ -30,8 +30,16 @@ import { PetHouseModal } from "features/island/buildings/components/building/pet
 import { PlayerModal } from "features/social/PlayerModal";
 import { hasFeatureAccess } from "lib/flags";
 import { useLandscapingGridBackgroundImage } from "features/island/landscaping/LandscapingGrid";
+import {
+  isPetNapping,
+  isPetNeglected,
+  type PetName,
+} from "features/game/types/pets";
+import { useNow } from "lib/utils/hooks/useNow";
 
 import followIcon from "assets/icons/follow.webp";
+import sleepIcon from "assets/icons/sleep.webp";
+import unfollowIcon from "assets/icons/unfollow.webp";
 
 export const PET_HOUSE_IMAGES: Record<
   number,
@@ -82,6 +90,41 @@ export const PetHouseInside: React.FC = () => {
   const pets = useSelector(gameService, _petHousePets);
   const biome = useSelector(gameService, _biome);
   const gridBackgroundImage = useLandscapingGridBackgroundImage();
+  const now = useNow({ live: true });
+
+  const commonPets = state.pets?.common ?? {};
+  const activeCommonPetIds = getKeys(pets).filter((name) =>
+    pets[name]?.some((pet) => !!pet.coordinates),
+  );
+  const activeNFTPetIds = Object.entries(petNFTs)
+    .filter(
+      ([, petNFT]) => !!petNFT.coordinates && petNFT.location === "petHouse",
+    )
+    .map(([id]) => Number(id));
+  const nappingPetIds: Array<PetName | number> = [
+    ...activeCommonPetIds.filter(
+      (name) =>
+        isPetNapping(commonPets[name], now) &&
+        !isPetNeglected(commonPets[name], now),
+    ),
+    ...activeNFTPetIds.filter(
+      (id) =>
+        isPetNapping(petNFTs[id], now) && !isPetNeglected(petNFTs[id], now),
+    ),
+  ];
+  const showQuickPetAll = nappingPetIds.length > 0;
+  const nappingPetNames = nappingPetIds
+    .map((id) =>
+      typeof id === "number" ? petNFTs[id]?.name : commonPets[id]?.name,
+    )
+    .filter(Boolean)
+    .join(", ");
+
+  const handlePetAll = () => {
+    nappingPetIds.forEach((petId) => {
+      gameService.send("pet.pet", { petId });
+    });
+  };
 
   const level = petHouse.level;
   const nextLevel = Math.min(level + 1, 3);
@@ -274,6 +317,43 @@ export const PetHouseInside: React.FC = () => {
                   }}
                 />
               </div>
+
+              {showQuickPetAll && (
+                <button
+                  type="button"
+                  aria-label={t("pets.petPet", { pet: nappingPetNames })}
+                  className="absolute cursor-pointer z-10 hover:img-highlight p-0 border-0 bg-transparent"
+                  style={{
+                    width: `${PIXEL_SCALE * 18}px`,
+                    height: `${PIXEL_SCALE * 19}px`,
+                    right: `${15 * PIXEL_SCALE}px`,
+                    top: `${-20 * PIXEL_SCALE}px`,
+                  }}
+                  onClick={handlePetAll}
+                >
+                  <img className="w-full" src={SUNNYSIDE.icons.disc} alt="" />
+                  <img
+                    className="absolute"
+                    src={unfollowIcon}
+                    alt=""
+                    style={{
+                      width: `${PIXEL_SCALE * 10}px`,
+                      right: `${PIXEL_SCALE * 4}px`,
+                      top: `${PIXEL_SCALE * 4}px`,
+                    }}
+                  />
+                  <img
+                    className="absolute"
+                    src={sleepIcon}
+                    alt=""
+                    style={{
+                      width: `${PIXEL_SCALE * 6}px`,
+                      right: `${PIXEL_SCALE * 4}px`,
+                      top: `${PIXEL_SCALE * 4}px`,
+                    }}
+                  />
+                </button>
+              )}
 
               <img
                 src={SUNNYSIDE.icons.upgrade_disc}
