@@ -284,14 +284,16 @@ export const BulkBountyAnimalPicker: React.FC<PickerProps> = ({
                       }}
                     />
                   )}
-                  <img
-                    src={SUNNYSIDE.animals.chickenShadow}
-                    className="absolute left-1/2 -translate-x-1/2 z-10"
-                    style={{
-                      width: `${PIXEL_SCALE * 18}px`,
-                      bottom: `${PIXEL_SCALE * -2}px`,
-                    }}
-                  />
+                  {animal.type === "Chicken" && (
+                    <img
+                      src={SUNNYSIDE.animals.chickenShadow}
+                      className="absolute left-1/2 -translate-x-1/2 z-10"
+                      style={{
+                        width: `${PIXEL_SCALE * 18}px`,
+                        bottom: `${PIXEL_SCALE * -2}px`,
+                      }}
+                    />
+                  )}
                   <img
                     src={ITEM_DETAILS[animal.type].image}
                     className="w-10 relative z-20"
