@@ -4,8 +4,12 @@ import classNames from "classnames";
 import { Button } from "components/ui/Button";
 import { HudContainer } from "components/ui/HudContainer";
 import { Label } from "components/ui/Label";
+import { Modal } from "components/ui/Modal";
 import { ButtonPanel, InnerPanel, Panel } from "components/ui/Panel";
-import { getSickAnimalRewardAmount } from "features/game/events/landExpansion/sellAnimal";
+import {
+  getSickAnimalRewardAmount,
+  isValidDeal,
+} from "features/game/events/landExpansion/sellAnimal";
 import {
   generateBountyCoins,
   generateBountyTicket,
@@ -15,6 +19,7 @@ import { getAnimalLevel } from "features/game/lib/animals";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { weekResetsAt } from "features/game/lib/factions";
 import type { MachineState } from "features/game/lib/gameMachine";
+import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { getKeys } from "lib/object";
 import type {
   Animal,
@@ -42,7 +47,9 @@ import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import chapterPoints from "assets/icons/red_medal_short.webp";
 
 import { getChapterTaskPoints } from "features/game/types/tracks";
-const _exchange = (state: MachineState) => state.context.state.bounties;
+import { BulkBountyAnimalPicker, BulkBountyCard } from "./BulkBountyCard";
+
+const _game = (state: MachineState) => state.context.state;
 
 interface Props {
   type: InventoryItemName[];
@@ -50,6 +57,38 @@ interface Props {
   reward?: "coins" | "tickets";
   readonly?: boolean;
 }
+
+/**
+ * Renders a reward amount, showing a strikethrough original alongside the
+ * sick-discounted amount when they differ. Shared by the single-sell
+ * AnimalDeal confirmation so the sick reward reduction is easy to compare.
+ */
+export const renderSickRewardLabel = (
+  amount: number,
+  label: string,
+  icon: string,
+) => {
+  const sickAmount = getSickAnimalRewardAmount(amount);
+
+  if (amount === sickAmount) {
+    return (
+      <Label type="warning" icon={icon} className="text-sm">
+        {`x ${sickAmount} ${label}`}
+      </Label>
+    );
+  }
+
+  return (
+    <>
+      <Label type="warning" icon={icon} className="text-sm">
+        <span className="line-through">{`x ${amount} ${label}`}</span>
+      </Label>
+      <Label type="warning" icon={icon} className="text-sm">
+        {`x ${sickAmount} ${label}`}
+      </Label>
+    </>
+  );
+};
 
 const ConfirmButton: React.FC<{
   children: React.ReactNode;
@@ -73,13 +112,84 @@ export const AnimalBounties: React.FC<Props> = ({
   readonly,
 }) => {
   const { gameService } = useContext(Context);
-  const exchange = useSelector(gameService, _exchange);
+  const state = useSelector(gameService, _game);
+  const exchange = state.bounties;
 
   const { t } = useAppTranslation();
   const now = useNow({ live: true, intervalMs: 60_000 });
   const chapterTicket = getChapterTicket(now);
-  const state = gameService.getSnapshot().context.state;
   const { requests = [] } = exchange;
+  const isMobile = useIsMobile();
+
+  const [confirmationSale, setConfirmationSale] = useState<{
+    deal: AnimalBounty;
+    animalId: string;
+  }>();
+  // Only one bounty card's animal list may be expanded at a time.
+  const [expandedRequestId, setExpandedRequestId] = useState<string | null>(
+    null,
+  );
+  const expandedPickerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!expandedRequestId) return;
+
+    const animationFrame = window.requestAnimationFrame(() => {
+      expandedPickerRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+      });
+    });
+
+    return () => window.cancelAnimationFrame(animationFrame);
+  }, [expandedRequestId]);
+
+  const eligibleAnimalsByRequest = useMemo(() => {
+    const map: Record<string, Animal[]> = {};
+    requests.forEach((request) => {
+      if (!type.includes(request.name)) return;
+      const animals =
+        request.name === "Chicken"
+          ? state.henHouse.animals
+          : state.barn.animals;
+      map[request.id] = Object.values(animals).filter((animal) =>
+        isValidDeal({ animal, deal: request }),
+      );
+    });
+    return map;
+  }, [requests, type, state.henHouse.animals, state.barn.animals]);
+
+  const handleSellAnimal = (deal: AnimalBounty, animalId: string) => {
+    const currentState = gameService.getSnapshot().context.state;
+    const currentAnimal =
+      deal.name === "Chicken"
+        ? currentState.henHouse.animals[animalId]
+        : currentState.barn.animals[animalId];
+    const isCompleted = currentState.bounties.completed.some(
+      (completed) => completed.id === deal.id,
+    );
+
+    if (
+      !currentAnimal ||
+      isCompleted ||
+      !isValidDeal({ animal: currentAnimal, deal })
+    ) {
+      return;
+    }
+
+    const hasUpcomingMutant = !!currentAnimal.reward?.items?.[0]?.name;
+
+    if (currentAnimal.state === "sick" || hasUpcomingMutant) {
+      setConfirmationSale({ deal, animalId });
+      return;
+    }
+
+    gameService.send("animal.sold", {
+      requestId: deal.id,
+      animalId,
+    });
+    setExpandedRequestId(null);
+  };
 
   const { deals, dealsByType } = useMemo(() => {
     let filtered = requests.filter((deal) =>
@@ -127,7 +237,7 @@ export const AnimalBounties: React.FC<Props> = ({
         "overflow-y-auto max-h-[500px] scrollable": !readonly,
       })}
     >
-      <div className="p-1">
+      <div className="p-1" onClick={() => setExpandedRequestId(null)}>
         <div className="flex justify-between items-center mb-2">
           <Label type="default">{t("bounties.board")}</Label>
           {hasDeals && (
@@ -150,6 +260,12 @@ export const AnimalBounties: React.FC<Props> = ({
             }
             return a.level - b.level;
           });
+          const cardsPerRow = isMobile ? 3 : 4;
+          const dealRows = Array.from(
+            { length: Math.ceil(sortedDeals.length / cardsPerRow) },
+            (_, index) =>
+              sortedDeals.slice(index * cardsPerRow, (index + 1) * cardsPerRow),
+          );
 
           return (
             <div key={itemType}>
@@ -169,17 +285,79 @@ export const AnimalBounties: React.FC<Props> = ({
                       : getTranslatedItemName(itemType as InventoryItemName),
                 })}
               </Label>
-              <div className="flex flex-wrap">
-                {sortedDeals.map((deal) => (
-                  <BountyCard
-                    key={deal.id}
-                    deal={deal}
-                    onExchanging={onExchanging}
-                    state={state}
-                    now={now}
-                  />
-                ))}
-              </div>
+              {!readonly ? (
+                <div>
+                  {dealRows.map((row, rowIndex) => {
+                    const isExpandedDeal = (deal: AnimalBounty) =>
+                      deal.id === expandedRequestId &&
+                      !state.bounties.completed.some(
+                        (completed) => completed.id === deal.id,
+                      ) &&
+                      (eligibleAnimalsByRequest[deal.id]?.length ?? 0) > 0;
+                    const expandedDeal = row.find(isExpandedDeal);
+                    const expandedColumn = row.findIndex(isExpandedDeal);
+
+                    return (
+                      <React.Fragment
+                        key={`${itemType}-${rowIndex}-${row[0]?.id}`}
+                      >
+                        <div className="flex">
+                          {row.map((deal) => (
+                            <BulkBountyCard
+                              key={deal.id}
+                              deal={deal}
+                              state={state}
+                              now={now}
+                              eligibleAnimals={
+                                eligibleAnimalsByRequest[deal.id] ?? []
+                              }
+                              isSold={
+                                !!state.bounties.completed.find(
+                                  (completed) => completed.id === deal.id,
+                                )
+                              }
+                              isExpanded={isExpandedDeal(deal)}
+                              onExpandedChange={(isExpanded) =>
+                                setExpandedRequestId(
+                                  isExpanded ? deal.id : null,
+                                )
+                              }
+                            />
+                          ))}
+                        </div>
+
+                        {expandedDeal && (
+                          <div ref={expandedPickerRef}>
+                            <BulkBountyAnimalPicker
+                              deal={expandedDeal}
+                              anchorColumn={expandedColumn}
+                              cardsPerRow={cardsPerRow}
+                              eligibleAnimals={
+                                eligibleAnimalsByRequest[expandedDeal.id] ?? []
+                              }
+                              onSell={(animal) =>
+                                handleSellAnimal(expandedDeal, animal.id)
+                              }
+                            />
+                          </div>
+                        )}
+                      </React.Fragment>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="flex flex-wrap">
+                  {sortedDeals.map((deal) => (
+                    <BountyCard
+                      key={deal.id}
+                      deal={deal}
+                      onExchanging={onExchanging}
+                      state={state}
+                      now={now}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           );
         })}
@@ -192,6 +370,21 @@ export const AnimalBounties: React.FC<Props> = ({
           </div>
         )}
       </div>
+
+      <Modal
+        show={!!confirmationSale}
+        onHide={() => setConfirmationSale(undefined)}
+      >
+        <AnimalDeal
+          deal={confirmationSale?.deal}
+          animalId={confirmationSale?.animalId}
+          onClose={() => setConfirmationSale(undefined)}
+          onSold={() => {
+            setConfirmationSale(undefined);
+            setExpandedRequestId(null);
+          }}
+        />
+      </Modal>
     </InnerPanel>
   );
 };
@@ -227,10 +420,11 @@ export const AnimalDeal: React.FC<{
   const animal = activeAnimalOverride?.animal ?? getAnimal(state);
   const showStateChangeWarning =
     activeAnimalOverride?.showStateChangeWarning ?? false;
+  const hasUpcomingMutant = !!animal?.reward?.items?.[0]?.name;
 
   const confirmationKey = `${animalId ?? ""}-${animal?.state ?? ""}-${
     showStateChangeWarning ? "changed" : "current"
-  }`;
+  }-${hasUpcomingMutant ? "mutant" : "regular"}`;
 
   useEffect(() => {
     if (animal) {
@@ -244,9 +438,18 @@ export const AnimalDeal: React.FC<{
   }
 
   const sell = () => {
-    const currentAnimal = getAnimal(gameService.getSnapshot().context.state);
+    const currentState = gameService.getSnapshot().context.state;
+    const currentAnimal = getAnimal(currentState);
+    const isCompleted = currentState.bounties.completed.some(
+      (completed) => completed.id === deal.id,
+    );
 
-    if (!currentAnimal) {
+    if (
+      !currentAnimal ||
+      isCompleted ||
+      !isValidDeal({ animal: currentAnimal, deal })
+    ) {
+      onClose();
       return;
     }
 
@@ -293,28 +496,14 @@ export const AnimalDeal: React.FC<{
     pointsAwarded = getChapterTaskPoints({ task: "bounty", points });
   }
 
-  const renderSickReward = (amount: number, label: string, icon: string) => {
-    const sickAmount = getSickAnimalRewardAmount(amount);
-
-    if (amount === sickAmount) {
-      return (
-        <Label type="warning" icon={icon} className="text-sm">
-          {`x ${sickAmount} ${label}`}
-        </Label>
-      );
-    }
-
-    return (
-      <>
-        <Label type="warning" icon={icon} className="text-sm">
-          <span className="line-through">{`x ${amount} ${label}`}</span>
-        </Label>
-        <Label type="warning" icon={icon} className="text-sm">
-          {`x ${sickAmount} ${label}`}
-        </Label>
-      </>
-    );
-  };
+  const mutantWarning = hasUpcomingMutant && (
+    <div className="mb-2">
+      <Label type="info" className="mb-1">
+        {t("sleepingAnimal.mutantClue1", { type: animal.type })}
+      </Label>
+      <p>{t("sleepingAnimal.mutantClue2")}</p>
+    </div>
+  );
 
   return (
     <>
@@ -326,49 +515,56 @@ export const AnimalDeal: React.FC<{
                 {t("bounties.sell.animal.stateChanged")}
               </Label>
             )}
+            {mutantWarning}
             <p className="mb-1">{t("bounties.sell.animal.sick")}</p>
             <Label type="danger" className="my-2">
               {t("bounties.sell.animal.sickReducedBounty")}
             </Label>
-            <div className="flex flex-col space-y-1 my-3">
-              {deal.coins && (
-                <div className="flex items-center space-x-1">
-                  {renderSickReward(coins, t("coins"), SUNNYSIDE.ui.coinsImg)}
-                </div>
-              )}
-              {getKeys(deal.items ?? {}).map((name) => {
-                let amount = deal.items?.[name] ?? 0;
-
-                if (name === chapterTicket) {
-                  amount = generateBountyTicket({
-                    game: state,
-                    bounty: deal,
-                    now,
-                  });
-                }
-
-                return (
-                  <div className="flex items-center space-x-1" key={name}>
-                    {renderSickReward(
-                      amount,
-                      getTranslatedItemName(name),
-                      ITEM_DETAILS[name].image,
+            {!hasUpcomingMutant && (
+              <div className="flex flex-col space-y-1 my-3">
+                {deal.coins && (
+                  <div className="flex items-center space-x-1">
+                    {renderSickRewardLabel(
+                      coins,
+                      t("coins"),
+                      SUNNYSIDE.ui.coinsImg,
                     )}
                   </div>
-                );
-              })}
+                )}
+                {getKeys(deal.items ?? {}).map((name) => {
+                  let amount = deal.items?.[name] ?? 0;
 
-              {!!deal.items?.[chapterTicket] && (
-                <Label type={"vibrant"} icon={chapterPoints} className="ml-2">
-                  {t("bounties.chapterPoints.earned", {
-                    points: pointsAwarded,
-                    chapter: t(
-                      `chapter.name.${toTraitValueId(chapter)}` as TranslationKeys,
-                    ),
-                  })}
-                </Label>
-              )}
-            </div>
+                  if (name === chapterTicket) {
+                    amount = generateBountyTicket({
+                      game: state,
+                      bounty: deal,
+                      now,
+                    });
+                  }
+
+                  return (
+                    <div className="flex items-center space-x-1" key={name}>
+                      {renderSickRewardLabel(
+                        amount,
+                        getTranslatedItemName(name),
+                        ITEM_DETAILS[name].image,
+                      )}
+                    </div>
+                  );
+                })}
+
+                {!!deal.items?.[chapterTicket] && (
+                  <Label type={"vibrant"} icon={chapterPoints} className="ml-2">
+                    {t("bounties.chapterPoints.earned", {
+                      points: pointsAwarded,
+                      chapter: t(
+                        `chapter.name.${toTraitValueId(chapter)}` as TranslationKeys,
+                      ),
+                    })}
+                  </Label>
+                )}
+              </div>
+            )}
           </div>
           <div className="flex space-x-1">
             <Button onClick={onClose}>{t("cancel")}</Button>
@@ -378,57 +574,62 @@ export const AnimalDeal: React.FC<{
           </div>
         </Panel>
       ) : (
-        <Panel>
+        <Panel
+          bumpkinParts={hasUpcomingMutant ? NPC_WEARABLES.grabnab : undefined}
+        >
           <div className="p-2">
             {showStateChangeWarning && (
               <Label type="danger" className="mb-2">
                 {t("bounties.sell.animal.stateChanged")}
               </Label>
             )}
-            <div className="mb-2 flex flex-wrap">
-              <Label
-                type="default"
-                icon={ITEM_DETAILS[animal.type].image}
-                className="mr-2"
-              >
-                {t("bounties.animal.levelLabel", {
-                  level: getAnimalLevel(animal.experience, animal.type),
-                  animal: getTranslatedItemName(animal.type),
-                })}
-              </Label>
-              {!!deal.coins && (
-                <Label type="warning" icon={SUNNYSIDE.ui.coinsImg}>
-                  {coins}
-                </Label>
-              )}
-
-              {getKeys(deal.items ?? {}).map((name) => (
+            {mutantWarning}
+            {!hasUpcomingMutant && (
+              <div className="mb-2 flex flex-wrap">
                 <Label
-                  key={name}
-                  type="warning"
-                  icon={ITEM_DETAILS[name].image}
+                  type="default"
+                  icon={ITEM_DETAILS[animal.type].image}
+                  className="mr-2"
                 >
-                  {name !== chapterTicket
-                    ? deal.items?.[name]
-                    : generateBountyTicket({
-                        game: state,
-                        bounty: deal,
-                        now,
-                      })}
-                </Label>
-              ))}
-
-              {!!deal.items?.[chapterTicket] && (
-                <Label type={"vibrant"} icon={chapterPoints} className="ml-2">
-                  {t("bounties.chapterPoints.earned", {
-                    points: pointsAwarded,
-                    chapter: t(
-                      `chapter.name.${toTraitValueId(chapter)}` as TranslationKeys,
-                    ),
+                  {t("bounties.animal.levelLabel", {
+                    level: getAnimalLevel(animal.experience, animal.type),
+                    animal: getTranslatedItemName(animal.type),
                   })}
                 </Label>
-              )}
-            </div>
+                {!!deal.coins && (
+                  <Label type="warning" icon={SUNNYSIDE.ui.coinsImg}>
+                    {coins}
+                  </Label>
+                )}
+
+                {getKeys(deal.items ?? {}).map((name) => (
+                  <Label
+                    key={name}
+                    type="warning"
+                    icon={ITEM_DETAILS[name].image}
+                  >
+                    {name !== chapterTicket
+                      ? deal.items?.[name]
+                      : generateBountyTicket({
+                          game: state,
+                          bounty: deal,
+                          now,
+                        })}
+                  </Label>
+                ))}
+
+                {!!deal.items?.[chapterTicket] && (
+                  <Label type={"vibrant"} icon={chapterPoints} className="ml-2">
+                    {t("bounties.chapterPoints.earned", {
+                      points: pointsAwarded,
+                      chapter: t(
+                        `chapter.name.${toTraitValueId(chapter)}` as TranslationKeys,
+                      ),
+                    })}
+                  </Label>
+                )}
+              </div>
+            )}
 
             <p>
               {deal.coins
