@@ -4132,6 +4132,7 @@
   "bounties.bulkSell.mutantOption": "Mutant clue",
   "bounties.bulkSell.mutantWarning": "This animal is glowing — it may drop a mutant. Selling it forfeits that chance.",
   "bounties.bulkSell.autoSelect": "Auto-select lowest level",
+  "bounties.bulkSell.autoSelectHint": "Won't pick an animal more than {{maxOvershoot}} levels above a bounty's requirement.",
   "bounties.bulkSell.reviewButton": "Review & Sell ({{count}})",
   "bounties.bulkSell.summaryTitle": "Confirm bulk sale",
   "bounties.bulkSell.summaryCount": "Selling {{count}} animal(s)",

@@ -55,6 +55,7 @@ import { BulkBountyCard } from "./BulkBountyCard";
 import { BulkAnimalSaleConfirmation } from "./BulkAnimalSaleConfirmation";
 
 const _exchange = (state: MachineState) => state.context.state.bounties;
+const _gameState = (state: MachineState) => state.context.state;
 
 interface Props {
   type: InventoryItemName[];
@@ -120,11 +121,15 @@ export const AnimalBounties: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const { openModal } = useContext(ModalContext);
   const exchange = useSelector(gameService, _exchange);
+  // Subscribed (not a raw getSnapshot() read) so this component always
+  // re-renders with the state XState has actually committed — a direct
+  // getSnapshot() call in the render body can momentarily observe a stale
+  // context on the same tick as a local setState-triggered re-render.
+  const state = useSelector(gameService, _gameState);
 
   const { t } = useAppTranslation();
   const now = useNow({ live: true, intervalMs: 60_000 });
   const chapterTicket = getChapterTicket(now);
-  const state = gameService.getSnapshot().context.state;
   const { requests = [] } = exchange;
   const isVIP = useVipAccess({ game: state });
 
@@ -200,6 +205,12 @@ export const AnimalBounties: React.FC<Props> = ({
     setExpandedRequestId(null);
   };
 
+  // Auto-select never picks an animal more than this many levels above a
+  // bounty's minimum requirement — overshooting wastes a highly-leveled
+  // animal on a bounty that would have accepted a much weaker one for the
+  // same reward.
+  const AUTO_SELECT_MAX_LEVEL_OVERSHOOT = 3;
+
   const handleAutoSelect = () => {
     setSelections((current) => {
       const next = { ...current };
@@ -209,7 +220,16 @@ export const AnimalBounties: React.FC<Props> = ({
         ),
       );
 
-      deals.forEach((deal) => {
+      // Chapter-ticket bounties are prioritized first: if there aren't
+      // enough eligible animals to fill every open bounty, the ticket
+      // rewards should be the ones that end up claimed, not left empty.
+      const dealsByPriority = [...deals].sort((a, b) => {
+        const aHasTicket = a.items?.[chapterTicket] !== undefined;
+        const bHasTicket = b.items?.[chapterTicket] !== undefined;
+        return Number(bHasTicket) - Number(aHasTicket);
+      });
+
+      dealsByPriority.forEach((deal) => {
         if (next[deal.id]) return;
         if (state.bounties.completed.some((c) => c.id === deal.id)) return;
 
@@ -218,7 +238,9 @@ export const AnimalBounties: React.FC<Props> = ({
             (animal) =>
               animal.state !== "sick" &&
               !animal.reward?.items?.length &&
-              !taken.has(getAnimalKey(deal.id, animal.id)),
+              !taken.has(getAnimalKey(deal.id, animal.id)) &&
+              getAnimalLevel(animal.experience, animal.type) - deal.level <=
+                AUTO_SELECT_MAX_LEVEL_OVERSHOOT,
           )
           .sort((a, b) => a.experience - b.experience)[0];
 
@@ -344,8 +366,11 @@ export const AnimalBounties: React.FC<Props> = ({
                 {t("bountyType.label", { type: itemType })}
               </Label>
               <div className="flex flex-wrap">
-                {sortedDeals.map((deal) =>
-                  isBulkSell ? (
+                {sortedDeals.map((deal) => {
+                  const dealIsSold = !!state.bounties.completed.find(
+                    (c) => c.id === deal.id,
+                  );
+                  return isBulkSell ? (
                     <BulkBountyCard
                       key={deal.id}
                       deal={deal}
@@ -360,9 +385,7 @@ export const AnimalBounties: React.FC<Props> = ({
                       onSelect={(animalId) =>
                         handleSelectAnimal(deal.id, animalId)
                       }
-                      isSold={
-                        !!state.bounties.completed.find((c) => c.id === deal.id)
-                      }
+                      isSold={dealIsSold}
                       isExpanded={expandedRequestId === deal.id}
                       onExpandedChange={(isExpanded) =>
                         setExpandedRequestId(isExpanded ? deal.id : null)
@@ -377,8 +400,8 @@ export const AnimalBounties: React.FC<Props> = ({
                       state={state}
                       now={now}
                     />
-                  ),
-                )}
+                  );
+                })}
               </div>
             </div>
           );
@@ -393,9 +416,16 @@ export const AnimalBounties: React.FC<Props> = ({
         )}
 
         {isBulkSell && isVIP && (
-          <Button className="mt-2" onClick={handleAutoSelect}>
-            {t("bounties.bulkSell.autoSelect")}
-          </Button>
+          <>
+            <Button className="mt-2" onClick={handleAutoSelect}>
+              {t("bounties.bulkSell.autoSelect")}
+            </Button>
+            <p className="text-xxs italic mt-1">
+              {t("bounties.bulkSell.autoSelectHint", {
+                maxOvershoot: AUTO_SELECT_MAX_LEVEL_OVERSHOOT,
+              })}
+            </p>
+          </>
         )}
 
         {isBulkSell && (

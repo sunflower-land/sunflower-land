@@ -151,21 +151,34 @@ export const BulkBountyCard: React.FC<Props> = ({
                       {selectedAnimalLabel ?? t("bounties.bulkSell.pickAnimal")}
                     </span>
                   </span>
-                  {locked ? (
-                    <img
-                      src={SUNNYSIDE.icons.lock}
-                      alt="locked"
-                      className="w-4 h-4"
-                    />
-                  ) : (
-                    <img
-                      src={SUNNYSIDE.icons.chevron_down}
-                      alt="expand"
-                      className={classNames("w-4 h-4 transition-transform", {
-                        "rotate-180": isExpanded,
-                      })}
-                    />
-                  )}
+                  <span className="flex items-center gap-1">
+                    {!locked && !!selectedAnimalId && (
+                      <img
+                        src={SUNNYSIDE.icons.cancel}
+                        alt={t("cancel")}
+                        className="w-4 h-4 cursor-pointer"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onSelect(undefined);
+                        }}
+                      />
+                    )}
+                    {locked ? (
+                      <img
+                        src={SUNNYSIDE.icons.lock}
+                        alt="locked"
+                        className="w-4 h-4"
+                      />
+                    ) : (
+                      <img
+                        src={SUNNYSIDE.icons.chevron_down}
+                        alt="expand"
+                        className={classNames("w-4 h-4 transition-transform", {
+                          "rotate-180": isExpanded,
+                        })}
+                      />
+                    )}
+                  </span>
                 </Label>
 
                 {!locked && isExpanded && (
