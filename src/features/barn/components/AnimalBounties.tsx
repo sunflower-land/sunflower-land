@@ -1,20 +1,27 @@
 import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
+import vipIcon from "assets/icons/vip.webp";
 import classNames from "classnames";
 import { Button } from "components/ui/Button";
 import { HudContainer } from "components/ui/HudContainer";
 import { Label } from "components/ui/Label";
 import { ButtonPanel, InnerPanel, Panel } from "components/ui/Panel";
-import { getSickAnimalRewardAmount } from "features/game/events/landExpansion/sellAnimal";
+import {
+  getSickAnimalRewardAmount,
+  isValidDeal,
+} from "features/game/events/landExpansion/sellAnimal";
 import {
   generateBountyCoins,
   generateBountyTicket,
 } from "features/game/events/landExpansion/sellBounty";
 import { Context, useGame } from "features/game/GameProvider";
+import { VIPAccess } from "features/game/components/VipAccess";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getAnimalLevel } from "features/game/lib/animals";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { weekResetsAt } from "features/game/lib/factions";
 import type { MachineState } from "features/game/lib/gameMachine";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 import { getKeys } from "lib/object";
 import type {
   Animal,
@@ -33,10 +40,20 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES } from "lib/npcs";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
-import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import chapterPoints from "assets/icons/red_medal_short.webp";
 
 import { getChapterTaskPoints } from "features/game/types/tracks";
+import { BulkBountyCard } from "./BulkBountyCard";
+import { BulkAnimalSaleConfirmation } from "./BulkAnimalSaleConfirmation";
+
 const _exchange = (state: MachineState) => state.context.state.bounties;
 
 interface Props {
@@ -45,6 +62,39 @@ interface Props {
   reward?: "coins" | "tickets";
   readonly?: boolean;
 }
+
+/**
+ * Renders a reward amount, showing a strikethrough original alongside the
+ * sick-discounted amount when they differ. Shared by the single-sell
+ * AnimalDeal confirmation and the bulk-sell picker/summary so the "sick"
+ * visual language stays consistent across both flows.
+ */
+export const renderSickRewardLabel = (
+  amount: number,
+  label: string,
+  icon: string,
+) => {
+  const sickAmount = getSickAnimalRewardAmount(amount);
+
+  if (amount === sickAmount) {
+    return (
+      <Label type="warning" icon={icon} className="text-sm">
+        {`x ${sickAmount} ${label}`}
+      </Label>
+    );
+  }
+
+  return (
+    <>
+      <Label type="warning" icon={icon} className="text-sm">
+        <span className="line-through">{`x ${amount} ${label}`}</span>
+      </Label>
+      <Label type="warning" icon={icon} className="text-sm">
+        {`x ${sickAmount} ${label}`}
+      </Label>
+    </>
+  );
+};
 
 const ConfirmButton: React.FC<{
   children: React.ReactNode;
@@ -68,6 +118,7 @@ export const AnimalBounties: React.FC<Props> = ({
   readonly,
 }) => {
   const { gameService } = useContext(Context);
+  const { openModal } = useContext(ModalContext);
   const exchange = useSelector(gameService, _exchange);
 
   const { t } = useAppTranslation();
@@ -75,6 +126,117 @@ export const AnimalBounties: React.FC<Props> = ({
   const chapterTicket = getChapterTicket(now);
   const state = gameService.getSnapshot().context.state;
   const { requests = [] } = exchange;
+  const isVIP = useVipAccess({ game: state });
+
+  const [isBulkSell, setIsBulkSell] = useState(false);
+  const [selections, setSelections] = useState<Record<string, string>>({});
+  const [showSummary, setShowSummary] = useState(false);
+  // Only one bulk-sell card's animal list may be expanded at a time.
+  const [expandedRequestId, setExpandedRequestId] = useState<string | null>(
+    null,
+  );
+
+  // Animal ids are only unique per-building (henHouse and barn both start
+  // fresh animals at "0", "1", "2", ...), so cross-building comparisons must
+  // key on (building, animalId), not animalId alone — mirrors the same fix
+  // in bulkSellAnimal.ts's duplicate check.
+  const buildingByRequestId = useMemo(() => {
+    const map: Record<string, "henHouse" | "barn"> = {};
+    requests.forEach((request) => {
+      map[request.id] = request.name === "Chicken" ? "henHouse" : "barn";
+    });
+    return map;
+  }, [requests]);
+
+  const getAnimalKey = useCallback(
+    (requestId: string, animalId: string) =>
+      `${buildingByRequestId[requestId]}:${animalId}`,
+    [buildingByRequestId],
+  );
+
+  const takenAnimalKeys = useMemo(
+    () =>
+      new Set(
+        getKeys(selections).map((requestId) =>
+          getAnimalKey(requestId, selections[requestId]),
+        ),
+      ),
+    [selections, getAnimalKey],
+  );
+
+  const eligibleAnimalsByRequest = useMemo(() => {
+    const map: Record<string, Animal[]> = {};
+    requests.forEach((request) => {
+      if (!type.includes(request.name)) return;
+      const animals =
+        request.name === "Chicken"
+          ? state.henHouse.animals
+          : state.barn.animals;
+      map[request.id] = Object.values(animals).filter((animal) =>
+        isValidDeal({ animal, deal: request }),
+      );
+    });
+    return map;
+  }, [requests, type, state.henHouse.animals, state.barn.animals]);
+
+  const handleSelectAnimal = (
+    requestId: string,
+    animalId: string | undefined,
+  ) => {
+    setSelections((current) => {
+      const next = { ...current };
+      if (animalId === undefined) {
+        delete next[requestId];
+      } else {
+        next[requestId] = animalId;
+      }
+      return next;
+    });
+  };
+
+  const handleToggleBulkSell = () => {
+    setIsBulkSell((current) => !current);
+    setSelections({});
+    setExpandedRequestId(null);
+  };
+
+  const handleAutoSelect = () => {
+    setSelections((current) => {
+      const next = { ...current };
+      const taken = new Set(
+        getKeys(next).map((requestId) =>
+          getAnimalKey(String(requestId), next[requestId]),
+        ),
+      );
+
+      deals.forEach((deal) => {
+        if (next[deal.id]) return;
+        if (state.bounties.completed.some((c) => c.id === deal.id)) return;
+
+        const candidate = (eligibleAnimalsByRequest[deal.id] ?? [])
+          .filter(
+            (animal) =>
+              animal.state !== "sick" &&
+              !animal.reward?.items?.length &&
+              !taken.has(getAnimalKey(deal.id, animal.id)),
+          )
+          .sort((a, b) => a.experience - b.experience)[0];
+
+        if (candidate) {
+          next[deal.id] = candidate.id;
+          taken.add(getAnimalKey(deal.id, candidate.id));
+        }
+      });
+
+      return next;
+    });
+    setExpandedRequestId(null);
+  };
+
+  const salesToConfirm = getKeys(selections).map((requestId) => ({
+    requestId,
+    animalId: selections[requestId],
+  }));
 
   const { deals, dealsByType } = useMemo(() => {
     let filtered = requests.filter((deal) =>
@@ -125,16 +287,38 @@ export const AnimalBounties: React.FC<Props> = ({
       <div className="p-1">
         <div className="flex justify-between items-center mb-2">
           <Label type="default">{t("bounties.board")}</Label>
-          {hasDeals && (
-            <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-              <TimerDisplay time={expiresAt} />
-            </Label>
-          )}
+          <div className="flex items-center gap-2">
+            {hasDeals && (
+              <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+                <TimerDisplay time={expiresAt} />
+              </Label>
+            )}
+            {!readonly && hasDeals && (
+              <Label
+                type={isBulkSell ? "vibrant" : "default"}
+                icon={vipIcon}
+                className="cursor-pointer"
+                onClick={handleToggleBulkSell}
+              >
+                {t("bounties.bulkSell")}
+              </Label>
+            )}
+          </div>
         </div>
 
         {hasDeals && <p className="text-xs mb-3">{t("bounties.board.info")}</p>}
         {deals.length === 0 && (
           <p className="text-xs mb-3">{t("bounties.board.empty")}</p>
+        )}
+
+        {isBulkSell && !isVIP && (
+          <div className="mb-3">
+            <VIPAccess
+              isVIP={false}
+              text={t("bounties.bulkSell.vipRequired")}
+              onUpgrade={() => openModal("BUY_BANNER")}
+            />
+          </div>
         )}
 
         {Object.entries(dealsByType).map(([itemType, deals]) => {
@@ -160,15 +344,41 @@ export const AnimalBounties: React.FC<Props> = ({
                 {t("bountyType.label", { type: itemType })}
               </Label>
               <div className="flex flex-wrap">
-                {sortedDeals.map((deal) => (
-                  <BountyCard
-                    key={deal.id}
-                    deal={deal}
-                    onExchanging={onExchanging}
-                    state={state}
-                    now={now}
-                  />
-                ))}
+                {sortedDeals.map((deal) =>
+                  isBulkSell ? (
+                    <BulkBountyCard
+                      key={deal.id}
+                      deal={deal}
+                      state={state}
+                      now={now}
+                      eligibleAnimals={eligibleAnimalsByRequest[deal.id] ?? []}
+                      selectedAnimalId={selections[deal.id]}
+                      takenAnimalKeys={takenAnimalKeys}
+                      getAnimalKey={(animalId) =>
+                        getAnimalKey(deal.id, animalId)
+                      }
+                      onSelect={(animalId) =>
+                        handleSelectAnimal(deal.id, animalId)
+                      }
+                      isSold={
+                        !!state.bounties.completed.find((c) => c.id === deal.id)
+                      }
+                      isExpanded={expandedRequestId === deal.id}
+                      onExpandedChange={(isExpanded) =>
+                        setExpandedRequestId(isExpanded ? deal.id : null)
+                      }
+                      locked={!isVIP}
+                    />
+                  ) : (
+                    <BountyCard
+                      key={deal.id}
+                      deal={deal}
+                      onExchanging={onExchanging}
+                      state={state}
+                      now={now}
+                    />
+                  ),
+                )}
               </div>
             </div>
           );
@@ -181,7 +391,37 @@ export const AnimalBounties: React.FC<Props> = ({
             </p>
           </div>
         )}
+
+        {isBulkSell && isVIP && (
+          <Button className="mt-2" onClick={handleAutoSelect}>
+            {t("bounties.bulkSell.autoSelect")}
+          </Button>
+        )}
+
+        {isBulkSell && (
+          <Button
+            className="mt-2"
+            disabled={salesToConfirm.length === 0}
+            onClick={() => setShowSummary(true)}
+          >
+            {t("bounties.bulkSell.reviewButton", {
+              count: salesToConfirm.length,
+            })}
+          </Button>
+        )}
       </div>
+
+      <BulkAnimalSaleConfirmation
+        show={showSummary}
+        sales={salesToConfirm}
+        onCancel={() => setShowSummary(false)}
+        onConfirm={() => {
+          setShowSummary(false);
+          setSelections({});
+          setIsBulkSell(false);
+          setExpandedRequestId(null);
+        }}
+      />
     </InnerPanel>
   );
 };
@@ -283,29 +523,6 @@ export const AnimalDeal: React.FC<{
     pointsAwarded = getChapterTaskPoints({ task: "bounty", points });
   }
 
-  const renderSickReward = (amount: number, label: string, icon: string) => {
-    const sickAmount = getSickAnimalRewardAmount(amount);
-
-    if (amount === sickAmount) {
-      return (
-        <Label type="warning" icon={icon} className="text-sm">
-          {`x ${sickAmount} ${label}`}
-        </Label>
-      );
-    }
-
-    return (
-      <>
-        <Label type="warning" icon={icon} className="text-sm">
-          <span className="line-through">{`x ${amount} ${label}`}</span>
-        </Label>
-        <Label type="warning" icon={icon} className="text-sm">
-          {`x ${sickAmount} ${label}`}
-        </Label>
-      </>
-    );
-  };
-
   return (
     <>
       {animal.state === "sick" ? (
@@ -323,7 +540,7 @@ export const AnimalDeal: React.FC<{
             <div className="flex flex-col space-y-1 my-3">
               {deal.coins && (
                 <div className="flex items-center space-x-1">
-                  {renderSickReward(coins, "coins", SUNNYSIDE.ui.coinsImg)}
+                  {renderSickRewardLabel(coins, "coins", SUNNYSIDE.ui.coinsImg)}
                 </div>
               )}
               {getKeys(deal.items ?? {}).map((name) => {
@@ -339,7 +556,11 @@ export const AnimalDeal: React.FC<{
 
                 return (
                   <div className="flex items-center space-x-1" key={name}>
-                    {renderSickReward(amount, name, ITEM_DETAILS[name].image)}
+                    {renderSickRewardLabel(
+                      amount,
+                      name,
+                      ITEM_DETAILS[name].image,
+                    )}
                   </div>
                 );
               })}

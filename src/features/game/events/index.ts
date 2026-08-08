@@ -492,6 +492,10 @@ import {
 } from "./landExpansion/upgradeBuilding";
 import { sellAnimal, type SellAnimalAction } from "./landExpansion/sellAnimal";
 import {
+  bulkSellAnimal,
+  type BulkSellAnimalAction,
+} from "./landExpansion/bulkSellAnimal";
+import {
   startCrafting,
   type StartCraftingAction,
 } from "./landExpansion/startCrafting";
@@ -851,6 +855,7 @@ export type PlayingEvent =
   | SpeedUpUpgradeAction
   | ResourceBoughtAction
   | SellAnimalAction
+  | BulkSellAnimalAction
   | SpeedUpBuilding
   | SacrificeBearAction
   | SpeedUpCollectible
@@ -1153,6 +1158,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "obsidian.exchanged": exchangeObsidian,
   "resource.bought": buyResource,
   "animal.sold": sellAnimal,
+  "animals.bulkSold": bulkSellAnimal,
   "building.spedUp": speedUpBuilding,
   "bear.sacrificed": sacrificeBear,
   "collectible.spedUp": speedUpCollectible,
