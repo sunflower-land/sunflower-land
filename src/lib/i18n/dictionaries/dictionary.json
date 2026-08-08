@@ -4134,7 +4134,7 @@
   "bounties.bulkSell.autoSelect": "Auto-select lowest level",
   "bounties.bulkSell.reviewButton": "Review & Sell ({{count}})",
   "bounties.bulkSell.summaryTitle": "Confirm bulk sale",
-  "bounties.bulkSell.summaryCount": "Selling {{count}} animals",
+  "bounties.bulkSell.summaryCount": "Selling {{count}} animal(s)",
   "bounties.bulkSell.sickWarning": "{{count}} sick animal(s) included at a reduced reward.",
   "bounties.bulkSell.mutantSummaryWarning": "{{count}} animal(s) glowing with a mutant clue will be sold, forfeiting the chance.",
   "bounties.bulkSell.skippedWarning": "{{count}} selection(s) will be skipped: no longer eligible.",

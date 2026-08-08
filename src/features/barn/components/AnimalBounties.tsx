@@ -40,7 +40,14 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES } from "lib/npcs";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
-import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import chapterPoints from "assets/icons/red_medal_short.webp";
 
 import { getChapterTaskPoints } from "features/game/types/tracks";
@@ -129,9 +136,32 @@ export const AnimalBounties: React.FC<Props> = ({
     null,
   );
 
-  const takenAnimalIds = useMemo(
-    () => new Set(Object.values(selections)),
-    [selections],
+  // Animal ids are only unique per-building (henHouse and barn both start
+  // fresh animals at "0", "1", "2", ...), so cross-building comparisons must
+  // key on (building, animalId), not animalId alone — mirrors the same fix
+  // in bulkSellAnimal.ts's duplicate check.
+  const buildingByRequestId = useMemo(() => {
+    const map: Record<string, "henHouse" | "barn"> = {};
+    requests.forEach((request) => {
+      map[request.id] = request.name === "Chicken" ? "henHouse" : "barn";
+    });
+    return map;
+  }, [requests]);
+
+  const getAnimalKey = useCallback(
+    (requestId: string, animalId: string) =>
+      `${buildingByRequestId[requestId]}:${animalId}`,
+    [buildingByRequestId],
+  );
+
+  const takenAnimalKeys = useMemo(
+    () =>
+      new Set(
+        getKeys(selections).map((requestId) =>
+          getAnimalKey(requestId, selections[requestId]),
+        ),
+      ),
+    [selections, getAnimalKey],
   );
 
   const eligibleAnimalsByRequest = useMemo(() => {
@@ -173,7 +203,11 @@ export const AnimalBounties: React.FC<Props> = ({
   const handleAutoSelect = () => {
     setSelections((current) => {
       const next = { ...current };
-      const taken = new Set(Object.values(next));
+      const taken = new Set(
+        getKeys(next).map((requestId) =>
+          getAnimalKey(String(requestId), next[requestId]),
+        ),
+      );
 
       deals.forEach((deal) => {
         if (next[deal.id]) return;
@@ -184,13 +218,13 @@ export const AnimalBounties: React.FC<Props> = ({
             (animal) =>
               animal.state !== "sick" &&
               !animal.reward?.items?.length &&
-              !taken.has(animal.id),
+              !taken.has(getAnimalKey(deal.id, animal.id)),
           )
           .sort((a, b) => a.experience - b.experience)[0];
 
         if (candidate) {
           next[deal.id] = candidate.id;
-          taken.add(candidate.id);
+          taken.add(getAnimalKey(deal.id, candidate.id));
         }
       });
 
@@ -319,7 +353,10 @@ export const AnimalBounties: React.FC<Props> = ({
                       now={now}
                       eligibleAnimals={eligibleAnimalsByRequest[deal.id] ?? []}
                       selectedAnimalId={selections[deal.id]}
-                      takenAnimalIds={takenAnimalIds}
+                      takenAnimalKeys={takenAnimalKeys}
+                      getAnimalKey={(animalId) =>
+                        getAnimalKey(deal.id, animalId)
+                      }
                       onSelect={(animalId) =>
                         handleSelectAnimal(deal.id, animalId)
                       }

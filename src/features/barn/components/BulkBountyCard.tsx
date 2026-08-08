@@ -8,7 +8,10 @@ import {
   isMaxLevel as isMaxAnimalLevel,
 } from "features/game/lib/animals";
 import { ANIMAL_LEVELS, type AnimalLevel } from "features/game/types/animals";
-import { generateBountyCoins } from "features/game/events/landExpansion/sellBounty";
+import {
+  generateBountyCoins,
+  generateBountyTicket,
+} from "features/game/events/landExpansion/sellBounty";
 import { getChapterTicket } from "features/game/types/chapters";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "lib/object";
@@ -23,8 +26,12 @@ interface Props {
   /** Animals passing isValidDeal for this deal, pre-filtered by the parent. */
   eligibleAnimals: Animal[];
   selectedAnimalId?: string;
-  /** Animals picked by OTHER bounty cards in this same bulk-sell session. */
-  takenAnimalIds: Set<string>;
+  /** Building-qualified ("henHouse:0"/"barn:0") animal keys picked by OTHER
+   * bounty cards in this same bulk-sell session — building-qualified
+   * because henHouse and barn animal ids both restart at "0". */
+  takenAnimalKeys: Set<string>;
+  /** Builds this card's building-qualified key for a raw animal id. */
+  getAnimalKey: (animalId: string) => string;
   onSelect: (animalId: string | undefined) => void;
   isSold: boolean;
   /** Whether THIS card's animal list is the one currently expanded, so the
@@ -61,7 +68,8 @@ export const BulkBountyCard: React.FC<Props> = ({
   now,
   eligibleAnimals,
   selectedAnimalId,
-  takenAnimalIds,
+  takenAnimalKeys,
+  getAnimalKey,
   onSelect,
   isSold,
   isExpanded,
@@ -76,7 +84,8 @@ export const BulkBountyCard: React.FC<Props> = ({
   const selectableAnimals = eligibleAnimals
     .filter(
       (animal) =>
-        !takenAnimalIds.has(animal.id) || animal.id === selectedAnimalId,
+        !takenAnimalKeys.has(getAnimalKey(animal.id)) ||
+        animal.id === selectedAnimalId,
     )
     .sort((a, b) => a.experience - b.experience);
 
@@ -252,7 +261,14 @@ export const BulkBountyCard: React.FC<Props> = ({
                       SUNNYSIDE.ui.coinsImg,
                     )}
                   {getKeys(deal.items ?? {}).map((name) => {
-                    const amount = deal.items?.[name] ?? 0;
+                    const amount =
+                      name === chapterTicket
+                        ? generateBountyTicket({
+                            game: state,
+                            bounty: deal,
+                            now,
+                          })
+                        : (deal.items?.[name] ?? 0);
                     return (
                       <React.Fragment key={name}>
                         {renderSickRewardLabel(
