@@ -145,6 +145,9 @@ export const AnimalBounties: React.FC<Props> = ({
   }, [expandedRequestId]);
 
   const eligibleAnimalsByRequest = useMemo(() => {
+    // isValidDeal checks Date.now(), so refresh eligibility when now updates.
+    void now;
+
     const map: Record<string, Animal[]> = {};
     requests.forEach((request) => {
       if (!type.includes(request.name)) return;
@@ -157,7 +160,7 @@ export const AnimalBounties: React.FC<Props> = ({
       );
     });
     return map;
-  }, [requests, type, state.henHouse.animals, state.barn.animals]);
+  }, [requests, type, state.henHouse.animals, state.barn.animals, now]);
 
   const handleSellAnimal = (deal: AnimalBounty, animalId: string) => {
     const currentState = gameService.getSnapshot().context.state;
@@ -327,7 +330,10 @@ export const AnimalBounties: React.FC<Props> = ({
                         </div>
 
                         {expandedDeal && (
-                          <div ref={expandedPickerRef}>
+                          <div
+                            ref={expandedPickerRef}
+                            onClick={(event) => event.stopPropagation()}
+                          >
                             <BulkBountyAnimalPicker
                               deal={expandedDeal}
                               anchorColumn={expandedColumn}
