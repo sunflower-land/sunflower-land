@@ -579,6 +579,48 @@ describe("getBulkAnimalSaleSummary", () => {
     ).toEqual(snapshot);
   });
 
+  it("counts animals carrying a pending mutant reward", () => {
+    const [mutantId, plainId] = Object.keys(INITIAL_FARM.henHouse.animals);
+
+    const state = {
+      ...INITIAL_FARM,
+      ...VIP_STATE,
+      henHouse: {
+        ...INITIAL_FARM.henHouse,
+        animals: {
+          ...INITIAL_FARM.henHouse.animals,
+          [mutantId]: {
+            ...INITIAL_FARM.henHouse.animals[mutantId],
+            experience: 1000,
+            reward: { items: [{ name: "Speed Chicken" as const, amount: 1 }] },
+          },
+          [plainId]: {
+            ...INITIAL_FARM.henHouse.animals[plainId],
+            experience: 1000,
+          },
+        },
+      },
+      bounties: {
+        completed: [],
+        requests: [
+          { id: "mutant-deal", coins: 100, level: 1, name: "Chicken" as const },
+          { id: "plain-deal", coins: 100, level: 1, name: "Chicken" as const },
+        ],
+      },
+    };
+
+    const summary = getBulkAnimalSaleSummary({
+      state,
+      sales: [
+        { requestId: "mutant-deal", animalId: mutantId },
+        { requestId: "plain-deal", animalId: plainId },
+      ],
+      now,
+    });
+
+    expect(summary.mutantReadyCount).toEqual(1);
+  });
+
   it("reports skipped entries with a reason instead of throwing", () => {
     const chickenId = Object.keys(INITIAL_FARM.henHouse.animals)[0];
 

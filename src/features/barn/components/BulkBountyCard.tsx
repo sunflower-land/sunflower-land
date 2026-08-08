@@ -1,5 +1,6 @@
 import React from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
+import glow from "public/world/glow.png";
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import {
@@ -87,6 +88,8 @@ export const BulkBountyCard: React.FC<Props> = ({
     ? `Lvl ${getAnimalLevel(selectedAnimal.experience, selectedAnimal.type)} ${selectedAnimal.type}`
     : undefined;
 
+  const isSelectedAnimalMutantReady = !!selectedAnimal?.reward?.items?.length;
+
   return (
     <div className="w-full pb-1.5">
       <div
@@ -119,23 +122,25 @@ export const BulkBountyCard: React.FC<Props> = ({
               </Label>
             ) : (
               <>
-                <div
+                <Label
+                  type={selectedAnimalId ? "success" : "default"}
                   onClick={() => !locked && onExpandedChange(!isExpanded)}
-                  className={classNames(
-                    "flex items-center justify-between gap-1 p-1 rounded border border-transparent",
-                    {
-                      "bg-[#e4a672] border-black": !!selectedAnimalId,
-                      "cursor-pointer hover:bg-[rgba(0,0,0,0.1)]": !locked,
-                      "opacity-50 cursor-not-allowed": locked,
-                    },
-                  )}
+                  className={classNames("w-full justify-between !flex", {
+                    "cursor-pointer hover:brightness-110": !locked,
+                    "opacity-50 cursor-not-allowed": locked,
+                  })}
                 >
-                  <span
-                    className={classNames("text-xs font-secondary", {
-                      "text-gray-500": !selectedAnimalLabel,
-                    })}
-                  >
-                    {selectedAnimalLabel ?? t("bounties.bulkSell.pickAnimal")}
+                  <span className="flex items-center gap-1">
+                    {!!selectedAnimalId && (
+                      <img
+                        src={SUNNYSIDE.icons.confirm}
+                        alt="selected"
+                        className="w-4 h-4 flex-none"
+                      />
+                    )}
+                    <span className="text-xs font-secondary">
+                      {selectedAnimalLabel ?? t("bounties.bulkSell.pickAnimal")}
+                    </span>
                   </span>
                   {locked ? (
                     <img
@@ -152,33 +157,35 @@ export const BulkBountyCard: React.FC<Props> = ({
                       })}
                     />
                   )}
-                </div>
+                </Label>
 
                 {!locked && isExpanded && (
                   <div className="flex flex-col gap-1 mt-1 max-h-[180px] overflow-y-auto scrollable">
                     {selectableAnimals.map((animal) => {
                       const isSelected = animal.id === selectedAnimalId;
                       const isSick = animal.state === "sick";
+                      const isMutantReady = !!animal.reward?.items?.length;
                       const { level, isMaxLevel, xpToNext } =
                         getXpToNextLevel(animal);
 
                       return (
-                        <div
+                        <Label
                           key={animal.id}
+                          type={isSelected ? "success" : "default"}
                           onClick={() => {
                             onSelect(isSelected ? undefined : animal.id);
                             onExpandedChange(false);
                           }}
-                          className={classNames(
-                            "flex items-center justify-between gap-1 p-1 cursor-pointer rounded border",
-                            {
-                              "bg-[#e4a672] border-black": isSelected,
-                              "border-transparent hover:bg-[rgba(0,0,0,0.1)]":
-                                !isSelected,
-                            },
-                          )}
+                          className="w-full justify-between !flex cursor-pointer hover:brightness-110"
                         >
-                          <div className="flex items-center gap-1 min-w-0">
+                          <span className="flex items-center gap-1 min-w-0">
+                            {isSelected && (
+                              <img
+                                src={SUNNYSIDE.icons.confirm}
+                                alt="selected"
+                                className="w-4 h-4 flex-none"
+                              />
+                            )}
                             <img
                               src={ITEM_DETAILS[deal.name].image}
                               className="w-5 flex-none"
@@ -191,21 +198,45 @@ export const BulkBountyCard: React.FC<Props> = ({
                                 {t("bounties.bulkSell.sickOption")}
                               </Label>
                             )}
-                          </div>
-                          <span className="text-xxs font-secondary text-right whitespace-nowrap">
-                            {isMaxLevel
-                              ? t("sleepingAnimal.xpToNextCycle", { xpToNext })
-                              : t("sleepingAnimal.xpToNextLevel", {
-                                  xpToNext,
-                                  level: level + 1,
-                                })}
+                            {isMutantReady && (
+                              <Label
+                                type="vibrant"
+                                icon={glow}
+                                className="text-xxs"
+                              >
+                                {t("bounties.bulkSell.mutantOption")}
+                              </Label>
+                            )}
                           </span>
-                        </div>
+                          <span className="text-xxs font-secondary text-right whitespace-nowrap">
+                            <span className="block">
+                              {t("sleepingAnimal.xp", {
+                                experience: animal.experience,
+                              })}
+                            </span>
+                            <span className="block">
+                              {isMaxLevel
+                                ? t("sleepingAnimal.xpToNextCycle", {
+                                    xpToNext,
+                                  })
+                                : t("sleepingAnimal.xpToNextLevel", {
+                                    xpToNext,
+                                    level: level + 1,
+                                  })}
+                            </span>
+                          </span>
+                        </Label>
                       );
                     })}
                   </div>
                 )}
               </>
+            )}
+
+            {isSelectedAnimalMutantReady && (
+              <Label type="vibrant" icon={glow} className="mt-1">
+                {t("bounties.bulkSell.mutantWarning")}
+              </Label>
             )}
 
             {selectedAnimal?.state === "sick" && (

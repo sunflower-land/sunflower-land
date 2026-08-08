@@ -56,7 +56,7 @@ export const BulkAnimalSaleConfirmation: React.FC<Props> = ({
       ]}
       bodyContent={
         <div className="flex flex-col gap-1 w-full mt-2">
-          <div className="flex flex-wrap gap-1 justify-center">
+          <div className="flex flex-wrap gap-2 justify-center">
             {summary.coins > 0 && (
               <Label type="warning" icon={SUNNYSIDE.ui.coinsImg}>
                 {summary.coins}
@@ -68,6 +68,13 @@ export const BulkAnimalSaleConfirmation: React.FC<Props> = ({
               </Label>
             ))}
           </div>
+          {summary.mutantReadyCount > 0 && (
+            <Label type="vibrant" className="mt-1">
+              {t("bounties.bulkSell.mutantSummaryWarning", {
+                count: summary.mutantReadyCount,
+              })}
+            </Label>
+          )}
           {summary.sickAnimalCount > 0 && (
             <Label type="danger" className="mt-1">
               {t("bounties.bulkSell.sickWarning", {

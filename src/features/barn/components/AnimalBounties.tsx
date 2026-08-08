@@ -170,6 +170,35 @@ export const AnimalBounties: React.FC<Props> = ({
     setExpandedRequestId(null);
   };
 
+  const handleAutoSelect = () => {
+    setSelections((current) => {
+      const next = { ...current };
+      const taken = new Set(Object.values(next));
+
+      deals.forEach((deal) => {
+        if (next[deal.id]) return;
+        if (state.bounties.completed.some((c) => c.id === deal.id)) return;
+
+        const candidate = (eligibleAnimalsByRequest[deal.id] ?? [])
+          .filter(
+            (animal) =>
+              animal.state !== "sick" &&
+              !animal.reward?.items?.length &&
+              !taken.has(animal.id),
+          )
+          .sort((a, b) => a.experience - b.experience)[0];
+
+        if (candidate) {
+          next[deal.id] = candidate.id;
+          taken.add(candidate.id);
+        }
+      });
+
+      return next;
+    });
+    setExpandedRequestId(null);
+  };
+
   const salesToConfirm = getKeys(selections).map((requestId) => ({
     requestId,
     animalId: selections[requestId],
@@ -224,7 +253,7 @@ export const AnimalBounties: React.FC<Props> = ({
       <div className="p-1">
         <div className="flex justify-between items-center mb-2">
           <Label type="default">{t("bounties.board")}</Label>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-2">
             {hasDeals && (
               <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
                 <TimerDisplay time={expiresAt} />
@@ -324,6 +353,12 @@ export const AnimalBounties: React.FC<Props> = ({
               {t("bounties.board.ticketAmount", { chapterTicket })}
             </p>
           </div>
+        )}
+
+        {isBulkSell && isVIP && (
+          <Button className="mt-2" onClick={handleAutoSelect}>
+            {t("bounties.bulkSell.autoSelect")}
+          </Button>
         )}
 
         {isBulkSell && (

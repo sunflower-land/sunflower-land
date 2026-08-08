@@ -100,6 +100,7 @@ export type BulkAnimalSaleSummary = {
   coins: number;
   items: Partial<Record<InventoryItemName, number>>;
   sickAnimalCount: number;
+  mutantReadyCount: number;
   skipped: { requestId: string; animalId: string; reason: string }[];
 };
 
@@ -117,6 +118,7 @@ export function getBulkAnimalSaleSummary({
     coins: 0,
     items: {},
     sickAnimalCount: 0,
+    mutantReadyCount: 0,
     skipped: [],
   };
 
@@ -189,6 +191,9 @@ export function getBulkAnimalSaleSummary({
     summary.totalAnimals += 1;
     if (isSick) {
       summary.sickAnimalCount += 1;
+    }
+    if (animal.reward?.items?.length) {
+      summary.mutantReadyCount += 1;
     }
   });
 
