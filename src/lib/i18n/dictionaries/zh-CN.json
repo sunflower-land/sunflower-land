@@ -8166,5 +8166,9 @@
   "giveaway.trivia.wrong": "错了！",
   "giveaway.trivia.question": "问题 {{current}}/{{total}}",
   "giveaway.trivia.seconds": "⚡ {{seconds}} s",
-  "giveaway.trivia.points": "+ {{points}}"
+  "giveaway.trivia.points": "+ {{points}}",
+  "giveaway.fishing.cast": "演员",
+  "giveaway.fishing.miss": "小姐",
+  "giveaway.fishHint": "当鱼漂浮在你面前时，点击即可施放！",
+  "giveaway.trivia.answerWas": "答案是"
 }

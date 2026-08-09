@@ -8166,5 +8166,9 @@
   "giveaway.trivia.wrong": "Falsch!",
   "giveaway.trivia.question": "Frage {{current}}/{{total}}",
   "giveaway.trivia.seconds": "⚡ {{seconds}} s",
-  "giveaway.trivia.points": "+ {{points}}"
+  "giveaway.trivia.points": "+ {{points}}",
+  "giveaway.fishing.cast": "BESETZUNG",
+  "giveaway.fishing.miss": "Fräulein",
+  "giveaway.fishHint": "Tippe, um zu werfen, wenn ein Fisch vor dir driftet!",
+  "giveaway.trivia.answerWas": "Die Antwort war"
 }

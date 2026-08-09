@@ -8166,5 +8166,9 @@
   "giveaway.trivia.wrong": "間違っている!",
   "giveaway.trivia.question": "質問 {{current}}/{{total}}",
   "giveaway.trivia.seconds": "⚡ {{seconds}}",
-  "giveaway.trivia.points": "+ {{points}}"
+  "giveaway.trivia.points": "+ {{points}}",
+  "giveaway.fishing.cast": "キャスト",
+  "giveaway.fishing.miss": "ミス",
+  "giveaway.fishHint": "目の前に魚が漂ってきたらタップしてキャストしよう！",
+  "giveaway.trivia.answerWas": "その答えは"
 }

@@ -8166,5 +8166,9 @@
   "giveaway.trivia.wrong": "Wrong!",
   "giveaway.trivia.question": "Question {{current}} / {{total}}",
   "giveaway.trivia.seconds": "⚡ {{seconds}}s",
-  "giveaway.trivia.points": "+{{points}}"
+  "giveaway.trivia.points": "+{{points}}",
+  "giveaway.fishing.cast": "CAST",
+  "giveaway.fishing.miss": "Miss",
+  "giveaway.fishHint": "Tap to cast when a fish drifts in front of you!",
+  "giveaway.trivia.answerWas": "The answer was"
 }
