@@ -8154,5 +8154,9 @@
   "giveaway.eggHint": "Yakalamak için hareket edin - bombalardan kaçın!",
   "giveaway.raceHint": "İlerlemek için doğru olana dokunun",
   "gameOptions.experiments.communityGames": "Topluluk Oyunları",
-  "gameOptions.experiments.communityGamesDescription": "Haftalık yayınlar sırasında yürüttüğümüz topluluk mini oyunlarını oynayın - yarış, kütük doğrama ve yumurta yakalama. Canlı olanlara katılın, veya son sonuçları görüntüleyin."
+  "gameOptions.experiments.communityGamesDescription": "Haftalık yayınlar sırasında yürüttüğümüz topluluk mini oyunlarını oynayın - yarış, kütük doğrama ve yumurta yakalama. Canlı olanlara katılın, veya son sonuçları görüntüleyin.",
+  "giveaway.jump": "ZIPLAMAK",
+  "giveaway.jumpHint": "Daha yükseğe zıplamak için yüzük tepeye çarptığında dokunun!",
+  "giveaway.leaderboardWaiting": "Oyuncuların katılmasını bekliyorum...",
+  "giveaway.leaderboardOffline": "Topluluk sunucusuna bağlandığınızda canlı sıralamalar görünür."
 }

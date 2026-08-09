@@ -8154,5 +8154,9 @@
   "giveaway.eggHint": "¡Muévete para atrapar, esquiva las bombas!",
   "giveaway.raceHint": "Pulsa el botón correcto para seguir adelante",
   "gameOptions.experiments.communityGames": "Juegos comunitarios",
-  "gameOptions.experiments.communityGamesDescription": "Juega a los minijuegos comunitarios que lanzamos durante las retransmisiones semanales: carreras, chuletas de troncos y captura de huevos. Únete a lo que esté en directo o consulta los resultados recientes."
+  "gameOptions.experiments.communityGamesDescription": "Juega a los minijuegos comunitarios que lanzamos durante las retransmisiones semanales: carreras, chuletas de troncos y captura de huevos. Únete a lo que esté en directo o consulta los resultados recientes.",
+  "giveaway.jump": "SALTAR",
+  "giveaway.jumpHint": "¡Toca cuando el anillo llegue a la cima para saltar más alto!",
+  "giveaway.leaderboardWaiting": "Esperando a que los jugadores se unan...",
+  "giveaway.leaderboardOffline": "Las clasificaciones en vivo aparecen una vez que te conectas al servidor de la comunidad."
 }

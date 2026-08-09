@@ -8154,5 +8154,9 @@
   "giveaway.eggHint": "Beweg dich, um zu fangen — weiche den Bomben aus!",
   "giveaway.raceHint": "Tippen Sie auf das richtige, um fortzufahren",
   "gameOptions.experiments.communityGames": "Community-Spiele",
-  "gameOptions.experiments.communityGamesDescription": "Spiele die Community-Minispiele, die wir während der wöchentlichen Streams anbieten — Rennen, Holzhacken und Eierfangen. Tritt den Live-Spielen bei oder sieh dir die neuesten Ergebnisse an."
+  "gameOptions.experiments.communityGamesDescription": "Spiele die Community-Minispiele, die wir während der wöchentlichen Streams anbieten — Rennen, Holzhacken und Eierfangen. Tritt den Live-Spielen bei oder sieh dir die neuesten Ergebnisse an.",
+  "giveaway.jump": "SPRINGEN",
+  "giveaway.jumpHint": "Tippe, wenn der Ring die Spitze erreicht, um höher zu springen!",
+  "giveaway.leaderboardWaiting": "Ich warte darauf, dass Spieler beitreten...",
+  "giveaway.leaderboardOffline": "Live-Rankings werden angezeigt, sobald du mit dem Community-Server verbunden bist."
 }
