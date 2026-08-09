@@ -63,6 +63,8 @@ export class RaceScene extends BaseScene {
   private targetColor: number | null = null;
   /** The coloured cue that floats above your head (also marks "this is you"). */
   private cue?: Phaser.GameObjects.Arc;
+  /** The keyboard letter (A/S/D/F) shown inside the cue. */
+  private cueLabel?: Phaser.GameObjects.Text;
   /** Baseline sprite Y, captured so the hop bob always returns home. */
   private spriteBaseY?: number;
 
@@ -117,10 +119,24 @@ export class RaceScene extends BaseScene {
     // reads as jitter. Render sub-pixel instead.
     this.cameras.main.roundPixels = false;
 
-    // The colour cue above your head — its fill is the colour you must press.
+    // The colour cue above your head — its fill is the colour you must press,
+    // and the keyboard letter for that colour sits inside it.
     this.cue = this.add
-      .circle(0, 0, 4, RACE_COLORS[0].hex, 1)
-      .setStrokeStyle(1, 0x000000, 0.4)
+      .circle(0, 0, 7, RACE_COLORS[0].hex, 1)
+      .setStrokeStyle(1, 0x000000, 0.5)
+      .setDepth(Number.MAX_SAFE_INTEGER)
+      .setVisible(false);
+    this.cueLabel = this.add
+      .text(0, 0, "", {
+        fontFamily: "system-ui, -apple-system, sans-serif",
+        fontSize: "9px",
+        fontStyle: "bold",
+        color: "#ffffff",
+        stroke: "#000000",
+        strokeThickness: 2,
+      })
+      .setOrigin(0.5)
+      .setResolution(4)
       .setDepth(Number.MAX_SAFE_INTEGER)
       .setVisible(false);
 
@@ -147,7 +163,9 @@ export class RaceScene extends BaseScene {
   /** Roll the next colour to press and tell the HUD to highlight it. */
   private pickTarget() {
     this.targetColor = Math.floor(Math.random() * RACE_COLORS.length);
-    this.cue?.setFillStyle(RACE_COLORS[this.targetColor].hex).setVisible(true);
+    const color = RACE_COLORS[this.targetColor];
+    this.cue?.setFillStyle(color.hex).setVisible(true);
+    this.cueLabel?.setText(color.key).setVisible(true);
     this.controls?.setTarget(this.targetColor);
   }
 
@@ -155,6 +173,7 @@ export class RaceScene extends BaseScene {
     if (this.targetColor === null) return;
     this.targetColor = null;
     this.cue?.setVisible(false);
+    this.cueLabel?.setVisible(false);
     this.controls?.setTarget(null);
   }
 
@@ -255,11 +274,11 @@ export class RaceScene extends BaseScene {
       bridge.onFinish(metres);
     }
 
-    // Keep the colour cue hovering above the local player, with a gentle bob.
-    this.cue?.setPosition(
-      player.x,
-      player.y - 26 + Math.sin(this.time.now / 200) * 2,
-    );
+    // Keep the colour cue (and its letter) hovering above the local player,
+    // with a gentle bob.
+    const cueY = player.y - 26 + Math.sin(this.time.now / 200) * 2;
+    this.cue?.setPosition(player.x, cueY);
+    this.cueLabel?.setPosition(player.x, cueY);
 
     // Broadcast our position every frame so other players see us hop across.
     this.sendPositionToServer();
