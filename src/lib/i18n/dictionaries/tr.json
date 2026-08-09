@@ -8152,5 +8152,7 @@
   "giveaway.goHome": "Eve git",
   "giveaway.you": "Sen",
   "giveaway.eggHint": "Yakalamak için hareket edin - bombalardan kaçın!",
-  "giveaway.raceHint": "İlerlemek için doğru olana dokunun"
+  "giveaway.raceHint": "İlerlemek için doğru olana dokunun",
+  "gameOptions.experiments.communityGames": "Topluluk Oyunları",
+  "gameOptions.experiments.communityGamesDescription": "Haftalık yayınlar sırasında yürüttüğümüz topluluk mini oyunlarını oynayın - yarış, kütük doğrama ve yumurta yakalama. Canlı olanlara katılın, veya son sonuçları görüntüleyin."
 }

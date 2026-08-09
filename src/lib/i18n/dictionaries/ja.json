@@ -8152,5 +8152,7 @@
   "giveaway.goHome": "家に帰る",
   "giveaway.you": "あなた",
   "giveaway.eggHint": "移動してキャッチしよう。爆弾をかわそう！",
-  "giveaway.raceHint": "正しいものをタップして次に進む"
+  "giveaway.raceHint": "正しいものをタップして次に進む",
+  "gameOptions.experiments.communityGames": "コミュニティゲーム",
+  "gameOptions.experiments.communityGamesDescription": "毎週配信しているコミュニティミニゲーム（レース、ログチョップ、エッグキャッチ）をプレイしましょう。ライブ配信に参加したり、最近の試合結果を確認したりできます。"
 }

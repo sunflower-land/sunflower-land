@@ -8152,5 +8152,7 @@
   "giveaway.goHome": "Vá para casa",
   "giveaway.you": "Você",
   "giveaway.eggHint": "Mova-se para pegar — evite as bombas!",
-  "giveaway.raceHint": "Toque no correto para seguir em frente"
+  "giveaway.raceHint": "Toque no correto para seguir em frente",
+  "gameOptions.experiments.communityGames": "Jogos comunitários",
+  "gameOptions.experiments.communityGamesDescription": "Jogue os minijogos comunitários que realizamos durante as transmissões semanais: corrida, corte de troncos e captura de ovos. Participe do que estiver ao vivo ou veja os resultados recentes."
 }

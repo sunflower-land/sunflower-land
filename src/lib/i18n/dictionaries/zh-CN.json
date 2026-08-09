@@ -8152,5 +8152,7 @@
   "giveaway.goHome": "回家",
   "giveaway.you": "你",
   "giveaway.eggHint": "移动捕捉——躲避炸弹！",
-  "giveaway.raceHint": "点击正确的按钮向前移动"
+  "giveaway.raceHint": "点击正确的按钮向前移动",
+  "gameOptions.experiments.communityGames": "社区游戏",
+  "gameOptions.experiments.communityGamesDescription": "畅玩我们在每周直播中举办的社区小游戏——竞赛、砍伐原木和抓蛋。加入任何直播节目，或查看最近的结果。"
 }

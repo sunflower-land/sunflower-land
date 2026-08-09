@@ -8152,5 +8152,7 @@
   "giveaway.goHome": "Vai a casa",
   "giveaway.you": "Tu",
   "giveaway.eggHint": "Muoviti per catturare: schiva le bombe!",
-  "giveaway.raceHint": "Tocca quello corretto per andare avanti"
+  "giveaway.raceHint": "Tocca quello corretto per andare avanti",
+  "gameOptions.experiments.communityGames": "Giochi comunitari",
+  "gameOptions.experiments.communityGamesDescription": "Gioca ai minigiochi della community che organizziamo durante gli stream settimanali: race, log chop e egg catch. Unisciti a ciò che è in diretta o visualizza i risultati recenti."
 }

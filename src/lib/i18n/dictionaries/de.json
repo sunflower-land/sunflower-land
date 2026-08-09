@@ -8152,5 +8152,7 @@
   "giveaway.goHome": "Geh nach Hause",
   "giveaway.you": "Du",
   "giveaway.eggHint": "Beweg dich, um zu fangen — weiche den Bomben aus!",
-  "giveaway.raceHint": "Tippen Sie auf das richtige, um fortzufahren"
+  "giveaway.raceHint": "Tippen Sie auf das richtige, um fortzufahren",
+  "gameOptions.experiments.communityGames": "Community-Spiele",
+  "gameOptions.experiments.communityGamesDescription": "Spiele die Community-Minispiele, die wir während der wöchentlichen Streams anbieten — Rennen, Holzhacken und Eierfangen. Tritt den Live-Spielen bei oder sieh dir die neuesten Ergebnisse an."
 }
