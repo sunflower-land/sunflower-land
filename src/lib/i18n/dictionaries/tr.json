@@ -8166,5 +8166,9 @@
   "giveaway.trivia.wrong": "Yanlış!",
   "giveaway.trivia.question": "Soru {{current}}/{{total}}",
   "giveaway.trivia.seconds": "⚡ {{seconds}} s",
-  "giveaway.trivia.points": "+ {{points}}"
+  "giveaway.trivia.points": "+ {{points}}",
+  "giveaway.fishing.cast": "OYUNCU KADROSU",
+  "giveaway.fishing.miss": "Bayan",
+  "giveaway.fishHint": "Önünüzde bir balık sürüklendiğinde atmak için dokunun!",
+  "giveaway.trivia.answerWas": "Cevap şuydu:"
 }

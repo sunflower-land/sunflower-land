@@ -8166,5 +8166,9 @@
   "giveaway.trivia.wrong": "¡Incorrecto!",
   "giveaway.trivia.question": "Pregunta {{current}}/{{total}}",
   "giveaway.trivia.seconds": "⚡ {{seconds}}",
-  "giveaway.trivia.points": "+ {{points}}"
+  "giveaway.trivia.points": "+ {{points}}",
+  "giveaway.fishing.cast": "ELENCO",
+  "giveaway.fishing.miss": "Señorita",
+  "giveaway.fishHint": "¡Toca para lanzar cuando un pez pase frente a ti!",
+  "giveaway.trivia.answerWas": "La respuesta fue"
 }

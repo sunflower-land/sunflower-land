@@ -8166,5 +8166,9 @@
   "giveaway.trivia.wrong": "Salah!",
   "giveaway.trivia.question": "Pertanyaan {{current}}/{{total}}",
   "giveaway.trivia.seconds": "⚡ {{seconds}} s",
-  "giveaway.trivia.points": "+ {{points}}"
+  "giveaway.trivia.points": "+ {{points}}",
+  "giveaway.fishing.cast": "PEMERAN",
+  "giveaway.fishing.miss": "Nona",
+  "giveaway.fishHint": "Ketuk untuk melemparkan saat ikan melayang di depan Anda!",
+  "giveaway.trivia.answerWas": "Jawabannya adalah"
 }

@@ -8166,5 +8166,9 @@
   "giveaway.trivia.wrong": "Faux !",
   "giveaway.trivia.question": "Question {{current}}/{{total}}",
   "giveaway.trivia.seconds": "⚡ {{seconds}} s",
-  "giveaway.trivia.points": "+ {{points}}"
+  "giveaway.trivia.points": "+ {{points}}",
+  "giveaway.fishing.cast": "CASTING",
+  "giveaway.fishing.miss": "Mademoiselle",
+  "giveaway.fishHint": "Touchez pour lancer lorsqu'un poisson dérive devant vous !",
+  "giveaway.trivia.answerWas": "La réponse était"
 }
