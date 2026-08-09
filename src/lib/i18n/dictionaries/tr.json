@@ -8158,5 +8158,13 @@
   "giveaway.jump": "ZIPLAMAK",
   "giveaway.jumpHint": "Daha yükseğe zıplamak için yüzük tepeye çarptığında dokunun!",
   "giveaway.leaderboardWaiting": "Oyuncuların katılmasını bekliyorum...",
-  "giveaway.leaderboardOffline": "Topluluk sunucusuna bağlandığınızda canlı sıralamalar görünür."
+  "giveaway.leaderboardOffline": "Topluluk sunucusuna bağlandığınızda canlı sıralamalar görünür.",
+  "giveaway.trivia.title": "Eğlencelik Bilgi",
+  "giveaway.trivia.rules": "Alttaki doğru cevaba dokunun. Ne kadar hızlı doğru cevap verirseniz, o kadar çok puan kazanırsınız!",
+  "giveaway.trivia.getReady": "Hazır ol...",
+  "giveaway.trivia.correct": "Doğru!",
+  "giveaway.trivia.wrong": "Yanlış!",
+  "giveaway.trivia.question": "Soru {{current}}/{{total}}",
+  "giveaway.trivia.seconds": "⚡ {{seconds}} s",
+  "giveaway.trivia.points": "+ {{points}}"
 }

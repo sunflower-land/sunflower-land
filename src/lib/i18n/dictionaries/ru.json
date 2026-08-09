@@ -8158,5 +8158,13 @@
   "giveaway.jump": "JUMP",
   "giveaway.jumpHint": "Tap when the ring hits the top to jump higher!",
   "giveaway.leaderboardWaiting": "Waiting for players to join…",
-  "giveaway.leaderboardOffline": "Live rankings appear once you're connected to the community server."
+  "giveaway.leaderboardOffline": "Live rankings appear once you're connected to the community server.",
+  "giveaway.trivia.title": "Trivia",
+  "giveaway.trivia.rules": "Tap the correct answer at the bottom. The faster you answer correctly, the more points you win!",
+  "giveaway.trivia.getReady": "Get ready…",
+  "giveaway.trivia.correct": "Correct!",
+  "giveaway.trivia.wrong": "Wrong!",
+  "giveaway.trivia.question": "Question {{current}} / {{total}}",
+  "giveaway.trivia.seconds": "⚡ {{seconds}}s",
+  "giveaway.trivia.points": "+{{points}}"
 }

@@ -8158,5 +8158,13 @@
   "giveaway.jump": "SALTARE",
   "giveaway.jumpHint": "Tocca quando l'anello raggiunge la cima per saltare più in alto!",
   "giveaway.leaderboardWaiting": "In attesa che i giocatori si uniscano...",
-  "giveaway.leaderboardOffline": "Le classifiche in tempo reale vengono visualizzate una volta che ti connetti al server della community."
+  "giveaway.leaderboardOffline": "Le classifiche in tempo reale vengono visualizzate una volta che ti connetti al server della community.",
+  "giveaway.trivia.title": "Curiosità",
+  "giveaway.trivia.rules": "Tocca la risposta corretta in basso. Più velocemente rispondi correttamente, più punti vinci!",
+  "giveaway.trivia.getReady": "Preparati...",
+  "giveaway.trivia.correct": "Corretto!",
+  "giveaway.trivia.wrong": "Sbagliato!",
+  "giveaway.trivia.question": "Domanda {{current}}/{{total}}",
+  "giveaway.trivia.seconds": "⚡ {{seconds}} s",
+  "giveaway.trivia.points": "+ {{points}}"
 }

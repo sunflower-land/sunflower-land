@@ -8158,5 +8158,13 @@
   "giveaway.jump": "跳",
   "giveaway.jumpHint": "当戒指击中顶部时点按即可跳得更高！",
   "giveaway.leaderboardWaiting": "等待玩家加入...",
-  "giveaway.leaderboardOffline": "当你连接到社区服务器后，即会显示实时排名。"
+  "giveaway.leaderboardOffline": "当你连接到社区服务器后，即会显示实时排名。",
+  "giveaway.trivia.title": "琐事",
+  "giveaway.trivia.rules": "点击底部的正确答案。你正确回答的速度越快，你赢得的分数就越多！",
+  "giveaway.trivia.getReady": "做好准备...",
+  "giveaway.trivia.correct": "正确！",
+  "giveaway.trivia.wrong": "错了！",
+  "giveaway.trivia.question": "问题 {{current}}/{{total}}",
+  "giveaway.trivia.seconds": "⚡ {{seconds}} s",
+  "giveaway.trivia.points": "+ {{points}}"
 }

@@ -8158,5 +8158,13 @@
   "giveaway.jump": "ジャンプ",
   "giveaway.jumpHint": "リングが上部に当たったらタップすると、高くジャンプできます！",
   "giveaway.leaderboardWaiting": "プレイヤーの参加を待っています...",
-  "giveaway.leaderboardOffline": "コミュニティサーバーに接続すると、ライブランキングが表示されます。"
+  "giveaway.leaderboardOffline": "コミュニティサーバーに接続すると、ライブランキングが表示されます。",
+  "giveaway.trivia.title": "トリビア",
+  "giveaway.trivia.rules": "下部の正解をタップします。正解が早ければ早いほど、より多くのポイントを獲得できます！",
+  "giveaway.trivia.getReady": "準備をしなさい...",
+  "giveaway.trivia.correct": "正しい!",
+  "giveaway.trivia.wrong": "間違っている!",
+  "giveaway.trivia.question": "質問 {{current}}/{{total}}",
+  "giveaway.trivia.seconds": "⚡ {{seconds}}",
+  "giveaway.trivia.points": "+ {{points}}"
 }

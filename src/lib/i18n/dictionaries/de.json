@@ -8158,5 +8158,13 @@
   "giveaway.jump": "SPRINGEN",
   "giveaway.jumpHint": "Tippe, wenn der Ring die Spitze erreicht, um höher zu springen!",
   "giveaway.leaderboardWaiting": "Ich warte darauf, dass Spieler beitreten...",
-  "giveaway.leaderboardOffline": "Live-Rankings werden angezeigt, sobald du mit dem Community-Server verbunden bist."
+  "giveaway.leaderboardOffline": "Live-Rankings werden angezeigt, sobald du mit dem Community-Server verbunden bist.",
+  "giveaway.trivia.title": "Wissenswertes",
+  "giveaway.trivia.rules": "Tippe unten auf die richtige Antwort. Je schneller du richtig antwortest, desto mehr Punkte gewinnst du!",
+  "giveaway.trivia.getReady": "Mach dich bereit...",
+  "giveaway.trivia.correct": "Richtig!",
+  "giveaway.trivia.wrong": "Falsch!",
+  "giveaway.trivia.question": "Frage {{current}}/{{total}}",
+  "giveaway.trivia.seconds": "⚡ {{seconds}} s",
+  "giveaway.trivia.points": "+ {{points}}"
 }

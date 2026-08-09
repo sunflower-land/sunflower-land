@@ -8158,5 +8158,13 @@
   "giveaway.jump": "MELOMPAT",
   "giveaway.jumpHint": "Ketuk saat cincin menyentuh bagian atas untuk melompat lebih tinggi!",
   "giveaway.leaderboardWaiting": "Menunggu pemain bergabung...",
-  "giveaway.leaderboardOffline": "Peringkat langsung muncul setelah Anda terhubung ke server komunitas."
+  "giveaway.leaderboardOffline": "Peringkat langsung muncul setelah Anda terhubung ke server komunitas.",
+  "giveaway.trivia.title": "Trivia",
+  "giveaway.trivia.rules": "Ketuk jawaban yang benar di bagian bawah. Semakin cepat Anda menjawab dengan benar, semakin banyak poin yang Anda menangkan!",
+  "giveaway.trivia.getReady": "Bersiaplah...",
+  "giveaway.trivia.correct": "Benar!",
+  "giveaway.trivia.wrong": "Salah!",
+  "giveaway.trivia.question": "Pertanyaan {{current}}/{{total}}",
+  "giveaway.trivia.seconds": "⚡ {{seconds}} s",
+  "giveaway.trivia.points": "+ {{points}}"
 }
