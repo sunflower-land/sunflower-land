@@ -8170,5 +8170,8 @@
   "giveaway.fishing.cast": "OYUNCU KADROSU",
   "giveaway.fishing.miss": "Bayan",
   "giveaway.fishHint": "Önünüzde bir balık sürüklendiğinde atmak için dokunun!",
-  "giveaway.trivia.answerWas": "Cevap şuydu:"
+  "giveaway.trivia.answerWas": "Cevap şuydu:",
+  "giveaway.beta": "Beta",
+  "giveaway.communityGameSoon": "Topluluk oyunu yakında!",
+  "giveaway.communityGameLive": "Topluluk oyunu canlı!"
 }

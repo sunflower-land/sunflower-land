@@ -8170,5 +8170,8 @@
   "giveaway.fishing.cast": "CAST",
   "giveaway.fishing.miss": "Perdere",
   "giveaway.fishHint": "Tocca per lanciare quando un pesce va alla deriva davanti a te!",
-  "giveaway.trivia.answerWas": "La risposta è stata"
+  "giveaway.trivia.answerWas": "La risposta è stata",
+  "giveaway.beta": "Beta",
+  "giveaway.communityGameSoon": "Presto un gioco comunitario!",
+  "giveaway.communityGameLive": "Partita comunitaria in diretta!"
 }

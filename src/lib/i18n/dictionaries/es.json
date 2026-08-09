@@ -8170,5 +8170,8 @@
   "giveaway.fishing.cast": "ELENCO",
   "giveaway.fishing.miss": "Señorita",
   "giveaway.fishHint": "¡Toca para lanzar cuando un pez pase frente a ti!",
-  "giveaway.trivia.answerWas": "La respuesta fue"
+  "giveaway.trivia.answerWas": "La respuesta fue",
+  "giveaway.beta": "Beta",
+  "giveaway.communityGameSoon": "¡Pronto juego comunitario!",
+  "giveaway.communityGameLive": "¡Juego comunitario en vivo!"
 }
