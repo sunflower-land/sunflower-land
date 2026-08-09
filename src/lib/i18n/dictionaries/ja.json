@@ -8154,5 +8154,9 @@
   "giveaway.eggHint": "移動してキャッチしよう。爆弾をかわそう！",
   "giveaway.raceHint": "正しいものをタップして次に進む",
   "gameOptions.experiments.communityGames": "コミュニティゲーム",
-  "gameOptions.experiments.communityGamesDescription": "毎週配信しているコミュニティミニゲーム（レース、ログチョップ、エッグキャッチ）をプレイしましょう。ライブ配信に参加したり、最近の試合結果を確認したりできます。"
+  "gameOptions.experiments.communityGamesDescription": "毎週配信しているコミュニティミニゲーム（レース、ログチョップ、エッグキャッチ）をプレイしましょう。ライブ配信に参加したり、最近の試合結果を確認したりできます。",
+  "giveaway.jump": "ジャンプ",
+  "giveaway.jumpHint": "リングが上部に当たったらタップすると、高くジャンプできます！",
+  "giveaway.leaderboardWaiting": "プレイヤーの参加を待っています...",
+  "giveaway.leaderboardOffline": "コミュニティサーバーに接続すると、ライブランキングが表示されます。"
 }

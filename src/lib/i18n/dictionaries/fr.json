@@ -8154,5 +8154,9 @@
   "giveaway.eggHint": "Déplacez-vous pour attraper et esquivez les bombes !",
   "giveaway.raceHint": "Appuyez sur la bonne option pour avancer",
   "gameOptions.experiments.communityGames": "Jeux communautaires",
-  "gameOptions.experiments.communityGamesDescription": "Jouez aux mini-jeux communautaires que nous organisons pendant les diffusions hebdomadaires : course, coupe de bois et pêche aux œufs. Participez à la diffusion en direct ou consultez les résultats récents."
+  "gameOptions.experiments.communityGamesDescription": "Jouez aux mini-jeux communautaires que nous organisons pendant les diffusions hebdomadaires : course, coupe de bois et pêche aux œufs. Participez à la diffusion en direct ou consultez les résultats récents.",
+  "giveaway.jump": "SAUTER",
+  "giveaway.jumpHint": "Touchez lorsque l'anneau touche le haut pour sauter plus haut !",
+  "giveaway.leaderboardWaiting": "En attendant que les joueurs rejoignent...",
+  "giveaway.leaderboardOffline": "Les classements en direct apparaissent une fois que vous êtes connecté au serveur communautaire."
 }

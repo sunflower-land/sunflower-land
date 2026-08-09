@@ -8154,5 +8154,9 @@
   "giveaway.eggHint": "Move to catch — dodge the bombs!",
   "giveaway.raceHint": "Tap the correct one to move forward",
   "gameOptions.experiments.communityGames": "Community Games",
-  "gameOptions.experiments.communityGamesDescription": "Play the community mini-games we run during the weekly streams — race, log chop and egg catch. Join whatever's live, or view recent results."
+  "gameOptions.experiments.communityGamesDescription": "Play the community mini-games we run during the weekly streams — race, log chop and egg catch. Join whatever's live, or view recent results.",
+  "giveaway.jump": "JUMP",
+  "giveaway.jumpHint": "Tap when the ring hits the top to jump higher!",
+  "giveaway.leaderboardWaiting": "Waiting for players to join…",
+  "giveaway.leaderboardOffline": "Live rankings appear once you're connected to the community server."
 }

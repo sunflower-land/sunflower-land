@@ -8154,5 +8154,9 @@
   "giveaway.eggHint": "Muoviti per catturare: schiva le bombe!",
   "giveaway.raceHint": "Tocca quello corretto per andare avanti",
   "gameOptions.experiments.communityGames": "Giochi comunitari",
-  "gameOptions.experiments.communityGamesDescription": "Gioca ai minigiochi della community che organizziamo durante gli stream settimanali: race, log chop e egg catch. Unisciti a ciò che è in diretta o visualizza i risultati recenti."
+  "gameOptions.experiments.communityGamesDescription": "Gioca ai minigiochi della community che organizziamo durante gli stream settimanali: race, log chop e egg catch. Unisciti a ciò che è in diretta o visualizza i risultati recenti.",
+  "giveaway.jump": "SALTARE",
+  "giveaway.jumpHint": "Tocca quando l'anello raggiunge la cima per saltare più in alto!",
+  "giveaway.leaderboardWaiting": "In attesa che i giocatori si uniscano...",
+  "giveaway.leaderboardOffline": "Le classifiche in tempo reale vengono visualizzate una volta che ti connetti al server della community."
 }

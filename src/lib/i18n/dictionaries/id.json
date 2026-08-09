@@ -8154,5 +8154,9 @@
   "giveaway.eggHint": "Bergerak untuk menangkap — hindari bom!",
   "giveaway.raceHint": "Ketuk yang benar untuk bergerak maju",
   "gameOptions.experiments.communityGames": "Permainan Komunitas",
-  "gameOptions.experiments.communityGamesDescription": "Mainkan mini-game komunitas yang kami jalankan selama streaming mingguan — balapan, potong kayu, dan tangkapan telur. Bergabunglah dengan apa pun yang sedang berlangsung, atau lihat hasil terbaru."
+  "gameOptions.experiments.communityGamesDescription": "Mainkan mini-game komunitas yang kami jalankan selama streaming mingguan — balapan, potong kayu, dan tangkapan telur. Bergabunglah dengan apa pun yang sedang berlangsung, atau lihat hasil terbaru.",
+  "giveaway.jump": "MELOMPAT",
+  "giveaway.jumpHint": "Ketuk saat cincin menyentuh bagian atas untuk melompat lebih tinggi!",
+  "giveaway.leaderboardWaiting": "Menunggu pemain bergabung...",
+  "giveaway.leaderboardOffline": "Peringkat langsung muncul setelah Anda terhubung ke server komunitas."
 }

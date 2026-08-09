@@ -8154,5 +8154,9 @@
   "giveaway.eggHint": "Mova-se para pegar — evite as bombas!",
   "giveaway.raceHint": "Toque no correto para seguir em frente",
   "gameOptions.experiments.communityGames": "Jogos comunitários",
-  "gameOptions.experiments.communityGamesDescription": "Jogue os minijogos comunitários que realizamos durante as transmissões semanais: corrida, corte de troncos e captura de ovos. Participe do que estiver ao vivo ou veja os resultados recentes."
+  "gameOptions.experiments.communityGamesDescription": "Jogue os minijogos comunitários que realizamos durante as transmissões semanais: corrida, corte de troncos e captura de ovos. Participe do que estiver ao vivo ou veja os resultados recentes.",
+  "giveaway.jump": "PULAR",
+  "giveaway.jumpHint": "Toque quando o anel atingir o topo para pular mais alto!",
+  "giveaway.leaderboardWaiting": "Esperando que os jogadores entrem...",
+  "giveaway.leaderboardOffline": "As classificações ao vivo aparecem quando você está conectado ao servidor da comunidade."
 }
