@@ -31,8 +31,6 @@ const RUN_BAND_TOP = 8 * SQUARE_WIDTH; // y = 128
 const RUN_BAND_BOTTOM = 16 * SQUARE_WIDTH; // y = 256
 /** Keeps runners clear of the tree line at either edge of the lane. */
 const LANE_PADDING = 8;
-/** ± horizontal jitter on the start line, in px. */
-const START_JITTER_X = 20;
 
 /** One tile of track = one metre of distance. */
 const PIXELS_PER_METRE = SQUARE_WIDTH;
@@ -131,18 +129,18 @@ export class RaceScene extends BaseScene {
     });
   }
 
-  /** Deterministic lane + start-line offset for a runner (same on every client). */
+  /**
+   * Deterministic starting lane for a runner (same on every client). Only the
+   * Y (lane) is spread — every racer starts at the SAME X so the leaderboard can
+   * turn their broadcast X straight into distance run.
+   */
   private staggerFor(farmId: number): { x: number; y: number } {
     const s = seedFor(farmId, this.bridge?.giveawayId ?? "");
     const y =
       RUN_BAND_TOP +
       LANE_PADDING +
       ((s % 1000) / 1000) * (RUN_BAND_BOTTOM - RUN_BAND_TOP - 2 * LANE_PADDING);
-    const x =
-      ((((s >> 10) % (2 * START_JITTER_X)) + 2 * START_JITTER_X) %
-        (2 * START_JITTER_X)) -
-      START_JITTER_X;
-    return { x, y };
+    return { x: 0, y };
   }
 
   /** Roll the next colour to press and tell the HUD to highlight it. */

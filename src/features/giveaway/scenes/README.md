@@ -5,8 +5,8 @@ stream. An admin sets one up, players join, everyone plays the **same game at th
 same time**, scores are submitted, and winners claim prizes.
 
 This folder holds the Phaser **scenes** — one per mini-game (`RaceScene`,
-`ChopScene`, `EggScene`). This doc is the short version of how the whole thing
-hangs together so a new game can be spun up quickly.
+`ChopScene`, `EggScene`, `JumpScene`). This doc is the short version of how the
+whole thing hangs together so a new game can be spun up quickly.
 
 ---
 

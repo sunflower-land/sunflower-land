@@ -55,6 +55,10 @@ export class EggScene extends BaseScene {
 
   private score = 0;
   private finished = false;
+  // Throttle for the score/position broadcast.
+  private lastBroadcastAt = 0;
+  private lastBroadcastX = Number.NaN;
+  private lastBroadcastScore = -1;
 
   private schedule: FallingEgg[] = [];
   /** Next egg in the (time-sorted) schedule not yet spawned. */
@@ -81,11 +85,6 @@ export class EggScene extends BaseScene {
 
   private get controls(): EggControls | undefined {
     return this.registry.get("gameControls") as EggControls | undefined;
-  }
-
-  /** Render every other catcher in the party room (ignoring `sceneId`). */
-  updateOtherPlayers() {
-    renderRoomPlayers(this);
   }
 
   preload() {
@@ -274,8 +273,20 @@ export class EggScene extends BaseScene {
       bridge.onFinish(this.score);
     }
 
-    // Broadcast our position so everyone sees us dart left and right.
-    this.sendPositionToServer();
+    // Broadcast our X (so everyone sees us dart left/right) AND our score as the
+    // Y coordinate, which is all the leaderboard reads. Remote catchers are drawn
+    // on the catch line regardless (see updateOtherPlayers), so the score-as-Y
+    // never actually moves them.
+    if (
+      now - this.lastBroadcastAt > 90 &&
+      (player.x !== this.lastBroadcastX ||
+        this.score !== this.lastBroadcastScore)
+    ) {
+      this.lastBroadcastAt = now;
+      this.lastBroadcastX = player.x;
+      this.lastBroadcastScore = this.score;
+      this.mmoServer?.send(0, { x: player.x, y: this.score });
+    }
 
     this.soundEffects?.forEach((audio) =>
       audio.setVolumeAndPan(player.x, player.y),
@@ -283,5 +294,10 @@ export class EggScene extends BaseScene {
     this.walkAudioController?.handleWalkSound(dir !== 0);
 
     player.setDepth(Math.floor(player.y));
+  }
+
+  /** Draw other catchers on the catch line; their broadcast Y is score, not height. */
+  updateOtherPlayers() {
+    renderRoomPlayers(this, { pinY: this.catchLineY });
   }
 }

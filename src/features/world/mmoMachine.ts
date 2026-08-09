@@ -47,6 +47,7 @@ export type Scenes = {
   giveaway_race: Room<PlazaRoomState> | undefined;
   giveaway_chop: Room<PlazaRoomState> | undefined;
   giveaway_eggs: Room<PlazaRoomState> | undefined;
+  giveaway_jump: Room<PlazaRoomState> | undefined;
 };
 
 export type SceneId = keyof Scenes;
@@ -311,7 +312,8 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
           if (
             context.sceneId === "giveaway_race" ||
             context.sceneId === "giveaway_chop" ||
-            context.sceneId === "giveaway_eggs"
+            context.sceneId === "giveaway_eggs" ||
+            context.sceneId === "giveaway_jump"
           ) {
             const client = new Client(url);
             return { client, serverId: "sunflorea_party_games", servers };

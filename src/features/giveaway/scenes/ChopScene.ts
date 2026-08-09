@@ -11,6 +11,7 @@ import { getAnimationUrl } from "features/world/lib/animations";
 import { tokenUriBuilder, type BumpkinParts } from "lib/utils/tokenUriBuilder";
 import type { GiveawayBridge } from "../lib/bridge";
 import { isRaceOver, RACE_DURATION_MS } from "../lib/sim";
+import { DEFAULT_CLOTHING } from "./renderRoomPlayers";
 
 /** Scene key — referenced by GiveawayPhaser's SCENE_BY_TYPE map. */
 export const CHOP_SCENE_ID = "giveaway_chop";
@@ -94,6 +95,9 @@ export class ChopScene extends BaseScene {
   private phase = 0;
   private markerOffset = 0;
   private finished = false;
+  // Throttle for the score broadcast (score sent as the Y coordinate).
+  private lastBroadcastAt = 0;
+  private lastBroadcastScore = -1;
 
   /** Current sweep duration — drives both the bar and the swing speed. */
   private currentPeriodMs = SWING_PERIOD_START_MS;
@@ -353,7 +357,7 @@ export class ChopScene extends BaseScene {
           scene: this,
           x,
           y,
-          clothing: remote.clothing,
+          clothing: remote.clothing?.body ? remote.clothing : DEFAULT_CLOTHING,
           name: remote.username ?? `#${remote.farmId}`,
         });
         container.setDepth(y);
@@ -571,7 +575,18 @@ export class ChopScene extends BaseScene {
       bridge.onFinish(this.score);
     }
 
-    this.sendPositionToServer();
+    // We don't move, so instead of our position we broadcast our SCORE as the Y
+    // coordinate — the only thing the leaderboard reads. (Remote choppers are
+    // drawn at fixed spots, so this never affects rendering.)
+    if (
+      now - this.lastBroadcastAt > 150 &&
+      this.score !== this.lastBroadcastScore
+    ) {
+      this.lastBroadcastAt = now;
+      this.lastBroadcastScore = this.score;
+      this.mmoServer?.send(0, { x: player.x, y: this.score });
+    }
+
     player.setDepth(Math.floor(player.y));
   }
 }

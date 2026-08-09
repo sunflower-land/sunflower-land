@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useSelector } from "@xstate/react";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { useInterpret, useSelector } from "@xstate/react";
 import { useNavigate } from "react-router";
 
 import { Panel } from "components/ui/Panel";
@@ -16,6 +16,11 @@ import { hasFeatureAccess } from "lib/flags";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
+import {
+  mmoMachine,
+  type MachineInterpreter as MMOMachineInterpreter,
+  type MMOContext,
+} from "features/world/mmoMachine";
 import { GiveawayPhaser } from "./GiveawayPhaser";
 import { GiveawayContext } from "./lib/GiveawayProvider";
 import {
@@ -24,9 +29,16 @@ import {
 } from "./ui/GiveawayLeaderboard";
 import { RaceButtons } from "./ui/RaceButtons";
 import { EggButtons } from "./ui/EggButtons";
-import { type MinigameType, DEFAULT_MINIGAME } from "./lib/minigames";
+import { JumpButton } from "./ui/JumpButton";
+import { GameLeaderboard } from "./ui/GameLeaderboard";
+import {
+  type MinigameType,
+  DEFAULT_MINIGAME,
+  GIVEAWAY_MINIGAMES,
+} from "./lib/minigames";
 import type { RaceControls } from "./lib/raceControls";
 import type { EggControls } from "./lib/eggControls";
+import type { JumpControls } from "./lib/jumpControls";
 
 export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
   minigame = DEFAULT_MINIGAME,
@@ -53,6 +65,55 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
   const gameState = useSelector(gameService, (state) => state.context.state);
   const isAdmin = hasFeatureAccess(gameState, "GIVEAWAY_ADMIN");
 
+  // The one MMO connection for this event — shared by the Phaser game (rendering
+  // other players) and the leaderboard (ranking by their broadcast positions).
+  // Routed to the party-games room by the giveaway scene id.
+  const sceneId =
+    GIVEAWAY_MINIGAMES.find((m) => m.type === minigame)?.sceneId ??
+    "giveaway_race";
+  const gameContext = gameService.getSnapshot().context;
+  const mmoService = useInterpret(mmoMachine, {
+    context: {
+      jwt: authService.getSnapshot().context.user.rawToken,
+      farmId: gameContext.farmId,
+      bumpkin: gameState.bumpkin,
+      pets: gameState.pets,
+      faction: gameState.faction?.name,
+      sceneId,
+      experience: gameState.bumpkin?.experience ?? 0,
+      isCommunity: false,
+      moderation: gameContext.moderation,
+      username: gameState.username,
+    },
+  }) as unknown as MMOMachineInterpreter;
+
+  useEffect(() => {
+    return () => {
+      mmoService.getSnapshot().context.server?.leave();
+    };
+  }, [mmoService]);
+
+  // The joined room, for the leaderboard. The subscribe writes it to a ref
+  // (synchronous, always current — like the scene's registry), and a poll pulls
+  // it into state every 400ms. Pull-based so it can't lag behind the scene the
+  // way a push (setState-in-subscribe) did — the room shows up within a tick.
+  const serverRef = useRef<MMOContext["server"]>(
+    mmoService.getSnapshot().context.server,
+  );
+  const [mmoServer, setMmoServer] = useState<MMOContext["server"]>(
+    mmoService.getSnapshot().context.server,
+  );
+  useEffect(() => {
+    const sub = mmoService.subscribe((state) => {
+      serverRef.current = state.context.server;
+    });
+    const poll = setInterval(() => setMmoServer(serverRef.current), 400);
+    return () => {
+      sub.unsubscribe();
+      clearInterval(poll);
+    };
+  }, [mmoService]);
+
   const { isClaiming, claimSuccess, claimFailed, isEnding, endSettled } =
     useSelector(gameService, (state) => ({
       isClaiming: state.matches("claimingGiveaway"),
@@ -78,7 +139,7 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
     correct: boolean;
     nonce: number;
   }>();
-  const [controls] = useState<RaceControls | EggControls>(() => {
+  const [controls] = useState<RaceControls | EggControls | JumpControls>(() => {
     if (minigame === "eggs") {
       // Mutated through `set` (a method) rather than by assignment, so the
       // scene reads a live `move` without tripping the no-mutate-state rule.
@@ -89,6 +150,17 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
         },
       };
       return egg;
+    }
+    if (minigame === "jump") {
+      const jumpControls: JumpControls = {
+        taps: 0,
+        theta: 0,
+        lastTap: null,
+        tap: () => {
+          jumpControls.taps += 1;
+        },
+      };
+      return jumpControls;
     }
     return {
       setTarget: setRaceTarget,
@@ -165,7 +237,14 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
 
   return (
     <div className="absolute inset-0">
-      <GiveawayPhaser minigame={minigame} controls={controls} />
+      <GiveawayPhaser
+        minigame={minigame}
+        mmoService={mmoService}
+        controls={controls}
+      />
+
+      {/* Live MMO-position leaderboard, top-left. */}
+      <GameLeaderboard server={mmoServer} minigame={minigame} />
 
       {/* Race: the four colour buttons + how-to hint. Shown from the lobby (so
           players see the controls before the start) through the race itself;
@@ -190,6 +269,11 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
         <EggButtons onMove={(dir) => (controls as EggControls).set(dir)} />
       )}
 
+      {/* Jumper: tap button with the spinning ring (also driven by SPACE) */}
+      {minigame === "jump" && phase === "racing" && !finished && (
+        <JumpButton controls={controls as JumpControls} />
+      )}
+
       {/* Status banner + the big 30s race clock */}
       {board && !finished && (
         <div className="absolute top-2 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1">
@@ -210,7 +294,9 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
           )}
           {/* Point-based games show a live score, in HTML so it stays crisp. */}
           {phase === "racing" &&
-            (minigame === "chop" || minigame === "eggs") && (
+            (minigame === "chop" ||
+              minigame === "eggs" ||
+              minigame === "jump") && (
               <span
                 className="font-secondary text-white"
                 style={{
@@ -288,6 +374,13 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
       {minigame === "eggs" && phase === "racing" && !finished && (
         <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-10">
           <Label type="vibrant">{t("giveaway.eggHint")}</Label>
+        </div>
+      )}
+
+      {/* Jumper instructions (sits above the tap button) */}
+      {minigame === "jump" && phase === "racing" && !finished && (
+        <div className="absolute bottom-40 left-1/2 -translate-x-1/2 z-10">
+          <Label type="vibrant">{t("giveaway.jumpHint")}</Label>
         </div>
       )}
 

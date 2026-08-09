@@ -205,4 +205,12 @@ export const SPAWNS: () => SpawnLocation = () => ({
       y: 300,
     },
   },
+  // Jumper: everyone starts on the same base line and climbs straight up from
+  // here (lower on the map so there's headroom above to rise into).
+  giveaway_jump: {
+    default: {
+      x: 400,
+      y: 340,
+    },
+  },
 });

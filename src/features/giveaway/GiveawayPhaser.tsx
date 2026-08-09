@@ -4,16 +4,13 @@ import NinePatchPlugin from "phaser3-rex-plugins/plugins/ninepatch-plugin.js";
 import NinePatch2Plugin from "phaser3-rex-plugins/plugins/ninepatch2-plugin.js";
 import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin.js";
 import { PhaserNavMeshPlugin } from "phaser-navmesh";
-import { useInterpret, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { useNavigate } from "react-router";
 
 import { Preloader } from "features/world/scenes/Preloader";
 import { Context as GameContext } from "features/game/GameProvider";
 import * as Auth from "features/auth/lib/Provider";
-import {
-  mmoMachine,
-  type MachineInterpreter as MMOMachineInterpreter,
-} from "features/world/mmoMachine";
+import type { MachineInterpreter as MMOMachineInterpreter } from "features/world/mmoMachine";
 import { GiveawayContext } from "./lib/GiveawayProvider";
 import { RACE_SCENE_ID } from "./scenes/RaceScene";
 import { GIVEAWAY_SCENE_LIST } from "./scenes/registry";
@@ -25,9 +22,11 @@ import {
 
 export const GiveawayPhaser: React.FC<{
   minigame?: MinigameType;
+  /** The shared MMO connection (created by GiveawayGame). */
+  mmoService: MMOMachineInterpreter;
   /** Per-game input channel (shape depends on the game — see each scene). */
   controls?: unknown;
-}> = ({ minigame = DEFAULT_MINIGAME, controls }) => {
+}> = ({ minigame = DEFAULT_MINIGAME, mmoService, controls }) => {
   const { gameService } = useContext(GameContext);
   const { authService } = useContext(Auth.Context);
   const { bridge } = useContext(GiveawayContext);
@@ -40,37 +39,6 @@ export const GiveawayPhaser: React.FC<{
   const sceneKey =
     GIVEAWAY_MINIGAMES.find((m) => m.type === minigame)?.sceneId ??
     RACE_SCENE_ID;
-
-  // Connect to the MMO exactly like the world does, but with the giveaway scene
-  // as our `sceneId` — BaseScene then renders every other player whose `sceneId`
-  // matches (with their REAL clothing), and the mmoMachine routes giveaway
-  // scenes to the shared `sunflorea_party_games` room so we're all together.
-  //
-  // This is driven solely by CONFIG.ROOM_URL and is INDEPENDENT of the API: in
-  // local/mock mode (no API_URL) the giveaway DATA is mocked, but the MMO still
-  // connects to whatever ROOM_URL is set. With no ROOM_URL, the machine simply
-  // never gets a server (you play solo).
-  const gameContext = gameService.getSnapshot().context;
-  const mmoService = useInterpret(mmoMachine, {
-    context: {
-      jwt: authService.getSnapshot().context.user.rawToken,
-      farmId: gameContext.farmId,
-      bumpkin: gameState.bumpkin,
-      pets: gameState.pets,
-      faction: gameState.faction?.name,
-      sceneId: sceneKey,
-      experience: gameState.bumpkin?.experience ?? 0,
-      isCommunity: false,
-      moderation: gameContext.moderation,
-      username: gameState.username,
-    },
-  }) as unknown as MMOMachineInterpreter;
-
-  useEffect(() => {
-    return () => {
-      mmoService.getSnapshot().context.server?.leave();
-    };
-  }, [mmoService]);
 
   useEffect(() => {
     // Preloader loads the shared Sunflower Land assets (Bumpkin silhouettes,

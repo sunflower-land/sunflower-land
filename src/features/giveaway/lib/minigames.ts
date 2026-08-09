@@ -12,7 +12,13 @@ import type { SceneId } from "features/world/mmoMachine";
  * is carried to the play screen via a `?type=` query param. Players who join via
  * the lobby (no query param) fall back to `race`.
  */
-export type MinigameType = "race" | "chop" | "eggs" | "puzzle" | "trivia";
+export type MinigameType =
+  | "race"
+  | "chop"
+  | "eggs"
+  | "jump"
+  | "puzzle"
+  | "trivia";
 
 export type GiveawayMinigame = {
   type: MinigameType;
@@ -46,6 +52,13 @@ export const GIVEAWAY_MINIGAMES: GiveawayMinigame[] = [
     description: "Catch the falling eggs — dodge the bombs, grab the gold!",
     available: true,
     sceneId: "giveaway_eggs",
+  },
+  {
+    type: "jump",
+    name: "Jumper",
+    description: "Time your taps to leap higher — climb the furthest to win!",
+    available: true,
+    sceneId: "giveaway_jump",
   },
   {
     type: "puzzle",
