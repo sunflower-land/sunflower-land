@@ -6,6 +6,7 @@ import type { SceneId } from "features/world/mmoMachine";
 import { BaseScene } from "features/world/scenes/BaseScene";
 import type { GiveawayBridge } from "../lib/bridge";
 import { isRaceOver } from "../lib/sim";
+import { serverNow } from "../lib/serverClock";
 import type { EggControls } from "../lib/eggControls";
 import { renderRoomPlayers } from "./renderRoomPlayers";
 import {
@@ -223,7 +224,7 @@ export class EggScene extends BaseScene {
     body.setVelocity(0, 0);
 
     const bridge = this.bridge;
-    const now = Date.now();
+    const now = serverNow();
     const elapsed = bridge ? now - bridge.getRaceStartAt() : 0;
     const over = isRaceOver(elapsed);
     const racing = bridge?.getPhase() === "racing" && !over && !this.finished;

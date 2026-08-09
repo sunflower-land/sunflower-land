@@ -30,6 +30,7 @@ import {
 import { RaceButtons } from "./ui/RaceButtons";
 import { EggButtons } from "./ui/EggButtons";
 import { JumpButton } from "./ui/JumpButton";
+import { TriviaPanel } from "./ui/TriviaPanel";
 import { GameLeaderboard } from "./ui/GameLeaderboard";
 import {
   type MinigameType,
@@ -39,6 +40,8 @@ import {
 import type { RaceControls } from "./lib/raceControls";
 import type { EggControls } from "./lib/eggControls";
 import type { JumpControls } from "./lib/jumpControls";
+import type { TriviaControls } from "./lib/triviaControls";
+import { syncServerClock, resetServerClock } from "./lib/serverClock";
 
 export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
   minigame = DEFAULT_MINIGAME,
@@ -107,10 +110,16 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
     const sub = mmoService.subscribe((state) => {
       serverRef.current = state.context.server;
     });
-    const poll = setInterval(() => setMmoServer(serverRef.current), 400);
+    const poll = setInterval(() => {
+      setMmoServer(serverRef.current);
+      // Sync our clock to the room's authoritative time so everyone runs the
+      // game on the same timeline (see serverClock).
+      syncServerClock(serverRef.current?.state?.serverTime ?? 0);
+    }, 400);
     return () => {
       sub.unsubscribe();
       clearInterval(poll);
+      resetServerClock();
     };
   }, [mmoService]);
 
@@ -139,7 +148,9 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
     correct: boolean;
     nonce: number;
   }>();
-  const [controls] = useState<RaceControls | EggControls | JumpControls>(() => {
+  const [controls] = useState<
+    RaceControls | EggControls | JumpControls | TriviaControls
+  >(() => {
     if (minigame === "eggs") {
       // Mutated through `set` (a method) rather than by assignment, so the
       // scene reads a live `move` without tripping the no-mutate-state rule.
@@ -150,6 +161,17 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
         },
       };
       return egg;
+    }
+    if (minigame === "trivia") {
+      const trivia: TriviaControls = {
+        pending: null,
+        picked: null,
+        lastResult: null,
+        pick: (answer) => {
+          trivia.pending = answer;
+        },
+      };
+      return trivia;
     }
     if (minigame === "jump") {
       const jumpControls: JumpControls = {
@@ -274,11 +296,17 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
         <JumpButton controls={controls as JumpControls} />
       )}
 
+      {/* Trivia: question + four answer buttons (also 1-4 keys in the scene) */}
+      {minigame === "trivia" && phase === "racing" && !finished && (
+        <TriviaPanel controls={controls as TriviaControls} />
+      )}
+
       {/* Status banner + the big 30s race clock */}
       {board && !finished && (
         <div className="absolute top-2 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1">
           <Label type="info">{board.title}</Label>
-          {phase === "racing" && (
+          {/* Trivia shows its own per-question countdown in the panel instead. */}
+          {phase === "racing" && minigame !== "trivia" && (
             <span
               className="font-secondary"
               style={{

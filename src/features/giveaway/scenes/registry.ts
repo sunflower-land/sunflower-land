@@ -2,6 +2,7 @@ import type { MinigameType } from "../lib/minigames";
 import { RaceScene } from "./RaceScene";
 import { ChopScene } from "./ChopScene";
 import { EggScene } from "./EggScene";
+import { TriviaScene } from "./TriviaScene";
 import { JumpScene } from "./JumpScene";
 
 /**
@@ -19,6 +20,7 @@ export const GIVEAWAY_SCENES: Partial<
   chop: ChopScene,
   eggs: EggScene,
   jump: JumpScene,
+  trivia: TriviaScene,
 };
 
 /** Every registered scene class, for the Phaser `scene` list. */

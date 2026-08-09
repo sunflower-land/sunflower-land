@@ -49,16 +49,6 @@ export const GameLeaderboard: React.FC<{
     return () => clearInterval(interval);
   }, []);
 
-  // TEMP diagnostic — logs every render (~every 400ms via the tick) what the
-  // BOARD sees, so we can compare with the scene's `[giveaway] render` log.
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log("[giveaway] leaderboard", {
-      hasServer: !!server,
-      count: server?.state?.players?.size ?? -1,
-    });
-  });
-
   const connected = !!server;
   const rows: Row[] = [];
   if (server) {
@@ -80,12 +70,26 @@ export const GameLeaderboard: React.FC<{
       .forEach((p, i) => rows.push({ ...p, position: i + 1 }));
   }
 
-  // TEMP diagnostic — size vs rows built in the SAME render pass.
+  // TEMP diagnostic — full picture of what THIS client sees in the room, so we
+  // can tell whether a newly-joined player is missing from `state.players`
+  // (backend replication) vs present but not scored/ranked (frontend logic).
   // eslint-disable-next-line no-console
-  console.log("[giveaway] lb-render", {
+  console.log("[giveaway] leaderboard", {
+    minigame,
+    hasServer: !!server,
+    selfSessionId: server?.sessionId,
     size: server?.state?.players?.size ?? -1,
     rows: rows.length,
-    minigame,
+    players: server
+      ? [...server.state.players.entries()].map(([sessionId, p]) => ({
+          sessionId,
+          farmId: p.farmId,
+          username: p.username,
+          x: Math.round(p.x),
+          y: Math.round(p.y),
+          score: scoreFromPosition(minigame, p.x, p.y),
+        }))
+      : [],
   });
 
   const unit = scoreUnit(minigame);

@@ -61,15 +61,16 @@ export const GIVEAWAY_MINIGAMES: GiveawayMinigame[] = [
     sceneId: "giveaway_jump",
   },
   {
+    type: "trivia",
+    name: "Trivia",
+    description: "Answer the questions — most points wins prizes!",
+    available: true,
+    sceneId: "giveaway_trivia",
+  },
+  {
     type: "puzzle",
     name: "Puzzle (coming soon)",
     description: "Solve the puzzle to win prizes!",
-    available: false,
-  },
-  {
-    type: "trivia",
-    name: "Trivia (coming soon)",
-    description: "Answer fastest to win prizes!",
     available: false,
   },
 ];

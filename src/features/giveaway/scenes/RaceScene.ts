@@ -4,6 +4,7 @@ import { BaseScene } from "features/world/scenes/BaseScene";
 import { SQUARE_WIDTH } from "features/game/lib/constants";
 import type { GiveawayBridge } from "../lib/bridge";
 import { isRaceOver, seedFor } from "../lib/sim";
+import { serverNow } from "../lib/serverClock";
 import { RACE_COLORS, type RaceControls } from "../lib/raceControls";
 import { renderRoomPlayers } from "./renderRoomPlayers";
 
@@ -221,7 +222,7 @@ export class RaceScene extends BaseScene {
     (player.body as Phaser.Physics.Arcade.Body).setVelocity(0, 0);
 
     const bridge = this.bridge;
-    const now = Date.now();
+    const now = serverNow();
     const elapsed = bridge ? now - bridge.getRaceStartAt() : 0;
     const over = isRaceOver(elapsed);
     this.isRacing = bridge?.getPhase() === "racing" && !over && !this.finished;

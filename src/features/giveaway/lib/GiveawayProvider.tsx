@@ -12,6 +12,7 @@ import type { GiveawayLeaderboardResponse } from "./types";
 import { getPhase, type GiveawayPhase } from "./phase";
 import type { GiveawayBridge } from "./bridge";
 import { RACE_DURATION_MS } from "./sim";
+import { serverNow } from "./serverClock";
 
 const BOARD_POLL_MS = 5000;
 
@@ -68,10 +69,11 @@ export const GiveawayProvider: React.FC<
   );
 
   // A ticking clock so the countdowns update and the phase auto-advances.
-  // Sub-second so the 30s race clock doesn't visibly stutter.
-  const [now, setNow] = useState(() => Date.now());
+  // Sub-second so the 30s race clock doesn't visibly stutter. Uses the
+  // server-corrected clock so every player's countdown lines up.
+  const [now, setNow] = useState(() => serverNow());
   useEffect(() => {
-    const interval = setInterval(() => setNow(Date.now()), 250);
+    const interval = setInterval(() => setNow(serverNow()), 250);
     return () => clearInterval(interval);
   }, []);
 
@@ -113,8 +115,8 @@ export const GiveawayProvider: React.FC<
           },
           {},
         ),
-      getPhase: () => getPhase(boardRef.current, Date.now()),
-      getRaceStartAt: () => boardRef.current?.startAt ?? Date.now(),
+      getPhase: () => getPhase(boardRef.current, serverNow()),
+      getRaceStartAt: () => boardRef.current?.startAt ?? serverNow(),
       // We only submit the final score, so mid-game progress is display-only.
       onProgress: () => {},
       onScoreChange: setDisplayScore,

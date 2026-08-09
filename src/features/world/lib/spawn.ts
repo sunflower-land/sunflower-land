@@ -213,4 +213,12 @@ export const SPAWNS: () => SpawnLocation = () => ({
       y: 340,
     },
   },
+  // Trivia: shared centre — the four answer columns fan out either side, and the
+  // players cluster just above this line.
+  giveaway_trivia: {
+    default: {
+      x: 400,
+      y: 240,
+    },
+  },
 });
