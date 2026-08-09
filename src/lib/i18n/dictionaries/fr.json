@@ -8158,5 +8158,13 @@
   "giveaway.jump": "SAUTER",
   "giveaway.jumpHint": "Touchez lorsque l'anneau touche le haut pour sauter plus haut !",
   "giveaway.leaderboardWaiting": "En attendant que les joueurs rejoignent...",
-  "giveaway.leaderboardOffline": "Les classements en direct apparaissent une fois que vous êtes connecté au serveur communautaire."
+  "giveaway.leaderboardOffline": "Les classements en direct apparaissent une fois que vous êtes connecté au serveur communautaire.",
+  "giveaway.trivia.title": "Anecdotes",
+  "giveaway.trivia.rules": "Appuyez sur la bonne réponse en bas de la page. Plus vite tu réponds correctement, plus tu gagnes de points !",
+  "giveaway.trivia.getReady": "Préparez-vous...",
+  "giveaway.trivia.correct": "C'est exact !",
+  "giveaway.trivia.wrong": "Faux !",
+  "giveaway.trivia.question": "Question {{current}}/{{total}}",
+  "giveaway.trivia.seconds": "⚡ {{seconds}} s",
+  "giveaway.trivia.points": "+ {{points}}"
 }

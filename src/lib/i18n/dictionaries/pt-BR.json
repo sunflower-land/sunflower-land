@@ -8158,5 +8158,13 @@
   "giveaway.jump": "PULAR",
   "giveaway.jumpHint": "Toque quando o anel atingir o topo para pular mais alto!",
   "giveaway.leaderboardWaiting": "Esperando que os jogadores entrem...",
-  "giveaway.leaderboardOffline": "As classificações ao vivo aparecem quando você está conectado ao servidor da comunidade."
+  "giveaway.leaderboardOffline": "As classificações ao vivo aparecem quando você está conectado ao servidor da comunidade.",
+  "giveaway.trivia.title": "Trivialidades",
+  "giveaway.trivia.rules": "Toque na resposta correta na parte inferior. Quanto mais rápido você responder corretamente, mais pontos você ganha!",
+  "giveaway.trivia.getReady": "Prepare-se...",
+  "giveaway.trivia.correct": "Correto!",
+  "giveaway.trivia.wrong": "Errado!",
+  "giveaway.trivia.question": "Pergunta {{current}}/{{total}}",
+  "giveaway.trivia.seconds": "⚡ {{seconds}} s",
+  "giveaway.trivia.points": "+ {{points}}"
 }
