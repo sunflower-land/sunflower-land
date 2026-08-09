@@ -8,6 +8,10 @@ import type {
 import { CONFIG } from "lib/config";
 import cactiStump from "assets/resources/tree/cacti_stump.webp";
 import autumnCactiStump from "assets/resources/tree/autumn_cacti_stump.webp";
+import greenhouseWorkingSpring from "assets/greenhouse/greenhouse_working_spring.webp";
+import greenhouseWorkingSummer from "assets/greenhouse/greenhouse_working_summer.webp";
+import greenhouseWorkingAutumn from "assets/greenhouse/greenhouse_working_autumn.webp";
+import greenhouseWorkingWinter from "assets/greenhouse/greenhouse_working_winter.webp";
 import type { LandBiomeName } from "../biomes/biomes";
 import type { TreeName } from "features/game/types/resources";
 
@@ -629,6 +633,16 @@ export const GREENHOUSE_VARIANTS: Record<TemperateSeasonName, string> = {
   autumn: SUNNYSIDE.seasons.autumn.greenhouse,
   winter: SUNNYSIDE.seasons.winter.greenhouse,
 };
+
+// Shown instead of GREENHOUSE_VARIANTS while a plant is growing: closed door,
+// fogged glass and rising steam replace the old floating smoke overlay.
+export const GREENHOUSE_WORKING_VARIANTS: Record<TemperateSeasonName, string> =
+  {
+    spring: greenhouseWorkingSpring,
+    summer: greenhouseWorkingSummer,
+    autumn: greenhouseWorkingAutumn,
+    winter: greenhouseWorkingWinter,
+  };
 
 export const WATER_WELL_VARIANTS: Record<
   TemperateSeasonName,

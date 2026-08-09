@@ -11,13 +11,10 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import { Label } from "components/ui/Label";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { formatNumber } from "lib/utils/formatNumber";
 import { GreenhouseOilModal } from "./GreenhouseOilModal";
 
 const selectOil = (state: MachineState) => state.context.state.greenhouse.oil;
-const isPlanting = (state: MachineState) =>
-  Object.values(state.context.state.greenhouse.pots).some((pot) => !!pot.plant);
 
 export const GreenhouseOil: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -26,7 +23,6 @@ export const GreenhouseOil: React.FC = () => {
   const { t } = useAppTranslation();
 
   const barrelOil = useSelector(gameService, selectOil);
-  const plantsAreActive = useSelector(gameService, isPlanting);
 
   return (
     <>
@@ -56,18 +52,6 @@ export const GreenhouseOil: React.FC = () => {
           }}
         />
       </div>
-
-      {plantsAreActive && (
-        <img
-          src={SUNNYSIDE.building.smoke}
-          className="absolute"
-          style={{
-            width: `${PIXEL_SCALE * 20}px`,
-            left: `${PIXEL_SCALE * 58}px`,
-            bottom: `${PIXEL_SCALE * 30}px`,
-          }}
-        />
-      )}
 
       <GreenhouseOilModal show={showModal} onHide={() => setShowModal(false)} />
     </>

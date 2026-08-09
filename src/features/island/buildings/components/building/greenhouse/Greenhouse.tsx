@@ -12,8 +12,10 @@ import { isGreenhouseReady } from "features/game/events/landExpansion/greenhouse
 import type { GreenHouseCropName } from "features/game/types/crops";
 import type { GreenHouseFruitName } from "features/game/types/fruits";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { GREENHOUSE_VARIANTS } from "features/island/lib/alternateArt";
-import { SUNNYSIDE } from "assets/sunnyside";
+import {
+  GREENHOUSE_VARIANTS,
+  GREENHOUSE_WORKING_VARIANTS,
+} from "features/island/lib/alternateArt";
 import { saveIslandScrollPosition } from "features/game/expansion/lib/islandScroll";
 import { useNow } from "lib/utils/hooks/useNow";
 
@@ -63,19 +65,12 @@ export const Greenhouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
   return (
     <div className="absolute h-full w-full">
       <BuildingImageWrapper name="Greenhouse" onClick={handleClick}>
-        {hasActivePlants && (
-          <img
-            src={SUNNYSIDE.building.smoke}
-            className="absolute pointer-events-none"
-            style={{
-              width: `${PIXEL_SCALE * 20}px`,
-              left: `calc(${PIXEL_SCALE * 26}px - 50px)`,
-              bottom: `calc(${PIXEL_SCALE * 46}px + 30px)`,
-            }}
-          />
-        )}
         <img
-          src={GREENHOUSE_VARIANTS[season]}
+          src={
+            hasActivePlants
+              ? GREENHOUSE_WORKING_VARIANTS[season]
+              : GREENHOUSE_VARIANTS[season]
+          }
           className="absolute pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 78}px`,
