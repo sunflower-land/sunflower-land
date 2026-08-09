@@ -7,9 +7,9 @@ import type { MinigameType } from "./minigames";
  *
  * - **race** — the X they've run (distance from the start line), in metres.
  * - **jump** — the height climbed (up = smaller Y), in metres.
- * - **chop / eggs / trivia** — the player's position isn't their score, so the
- *   scene broadcasts its points AS the Y coordinate (see each scene); the score
- *   is just that Y.
+ * - **chop / eggs / trivia / fishing** — the player's position isn't their
+ *   score, so the scene broadcasts its points AS the Y coordinate (see each
+ *   scene); the score is just that Y.
  *
  * Baselines match the giveaway spawns in `world/lib/spawn.ts`.
  */
@@ -30,6 +30,7 @@ export function scoreFromPosition(
     case "chop":
     case "eggs":
     case "trivia":
+    case "fishing":
       return Math.max(0, Math.round(y));
     default:
       return 0;

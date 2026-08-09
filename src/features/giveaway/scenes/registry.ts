@@ -4,6 +4,7 @@ import { ChopScene } from "./ChopScene";
 import { EggScene } from "./EggScene";
 import { TriviaScene } from "./TriviaScene";
 import { JumpScene } from "./JumpScene";
+import { FishingScene } from "./FishingScene";
 
 /**
  * Maps each playable game `type` to the Phaser scene that runs it. This is the
@@ -21,6 +22,7 @@ export const GIVEAWAY_SCENES: Partial<
   eggs: EggScene,
   jump: JumpScene,
   trivia: TriviaScene,
+  fishing: FishingScene,
 };
 
 /** Every registered scene class, for the Phaser `scene` list. */

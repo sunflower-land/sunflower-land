@@ -53,8 +53,11 @@ const ANSWER_FONT: React.CSSProperties = {
 
 type Result = NonNullable<TriviaControls["lastResult"]>;
 
-/** Big centre pop when a question resolves — time taken + points won. */
-const ResultPopup: React.FC<{ result: Result }> = ({ result }) => {
+/** Big centre pop when a question resolves — the correct answer + your result. */
+const ResultPopup: React.FC<{ result: Result; correctAnswer: string }> = ({
+  result,
+  correctAnswer,
+}) => {
   const { t } = useAppTranslation();
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -85,6 +88,18 @@ const ResultPopup: React.FC<{ result: Result }> = ({ result }) => {
                 ? t("giveaway.trivia.correct")
                 : t("giveaway.trivia.wrong")}
             </span>
+            {/* Always spell out the correct answer, so it's unmistakable. */}
+            <span className="text-xxs opacity-80">
+              {t("giveaway.trivia.answerWas")}
+            </span>
+            <div
+              className="px-3 py-1 rounded-lg"
+              style={{ background: "#3d9440", border: "2px solid #000000" }}
+            >
+              <span style={{ ...ANSWER_FONT, fontSize: "18px" }}>
+                {correctAnswer}
+              </span>
+            </div>
             {result.correct && (
               <>
                 <span className="text-sm">
@@ -245,15 +260,19 @@ export const TriviaPanel: React.FC<{ controls: TriviaControls }> = ({
                   boxShadow: ring,
                 }}
               />
-              {/* The answer, in a bold pill at the bottom of the quadrant. */}
+              {/* The answer, in a bold pill at the bottom of the quadrant. The
+                  correct one gets a ✓ and a white border on the reveal. */}
               <div
-                className="relative m-3 px-3 py-2 rounded-xl text-center"
+                className="relative m-3 px-3 py-2 rounded-xl text-center flex items-center gap-1"
                 style={{
                   background: ANSWERS[i].solid,
-                  border: "3px solid rgba(0,0,0,0.55)",
+                  border: isCorrect
+                    ? "3px solid #ffffff"
+                    : "3px solid rgba(0,0,0,0.55)",
                   maxWidth: "90%",
                 }}
               >
+                {isCorrect && <span style={ANSWER_FONT}>{"✓"}</span>}
                 <span style={ANSWER_FONT}>{answer}</span>
               </div>
             </button>
@@ -266,6 +285,7 @@ export const TriviaPanel: React.FC<{ controls: TriviaControls }> = ({
         <ResultPopup
           key={controls.lastResult.nonce}
           result={controls.lastResult}
+          correctAnswer={question.answers[question.correct]}
         />
       )}
     </>

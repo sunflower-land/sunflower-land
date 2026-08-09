@@ -200,7 +200,7 @@ export class TriviaScene extends BaseScene {
       if (gotIt) {
         points = speedPoints(this.answerAtMs);
         this.score += points;
-        player.cheer();
+        this.cheerThenIdle(player);
         bridge?.onScoreChange(this.score);
       } else {
         this.showDeath(player);
@@ -219,8 +219,24 @@ export class TriviaScene extends BaseScene {
       const answer = this.answerFromBroadcast(
         this.mmoServer?.state.players.get(sessionId)?.x ?? -1,
       );
-      if (answer === correct) container.cheer();
+      if (answer === correct) this.cheerThenIdle(container);
       else this.showDeath(container);
+    });
+  }
+
+  /**
+   * Play the cheer (jump) animation and, once it finishes, settle back to idle —
+   * so a correct answer's celebration plays all the way out instead of freezing
+   * on its last frame until the next question resets everyone.
+   */
+  private cheerThenIdle(c: BumpkinContainer) {
+    c.cheer();
+    const sprite = c.sprite;
+    if (!sprite) return;
+    // The cheer animation is finite (repeat: 2); when it completes, go idle.
+    sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => {
+      // Skip if the container was torn down or already moved on.
+      if (c.active) c.idle();
     });
   }
 

@@ -31,6 +31,7 @@ import { RaceButtons } from "./ui/RaceButtons";
 import { EggButtons } from "./ui/EggButtons";
 import { JumpButton } from "./ui/JumpButton";
 import { TriviaPanel } from "./ui/TriviaPanel";
+import { FishButton } from "./ui/FishButton";
 import { GameLeaderboard } from "./ui/GameLeaderboard";
 import {
   type MinigameType,
@@ -41,6 +42,7 @@ import type { RaceControls } from "./lib/raceControls";
 import type { EggControls } from "./lib/eggControls";
 import type { JumpControls } from "./lib/jumpControls";
 import type { TriviaControls } from "./lib/triviaControls";
+import type { FishingControls } from "./lib/fishingControls";
 import { syncServerClock, resetServerClock } from "./lib/serverClock";
 
 export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
@@ -149,7 +151,7 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
     nonce: number;
   }>();
   const [controls] = useState<
-    RaceControls | EggControls | JumpControls | TriviaControls
+    RaceControls | EggControls | JumpControls | TriviaControls | FishingControls
   >(() => {
     if (minigame === "eggs") {
       // Mutated through `set` (a method) rather than by assignment, so the
@@ -172,6 +174,17 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
         },
       };
       return trivia;
+    }
+    if (minigame === "fishing") {
+      const fishing: FishingControls = {
+        casts: 0,
+        lastResult: null,
+        casting: false,
+        cast: () => {
+          fishing.casts += 1;
+        },
+      };
+      return fishing;
     }
     if (minigame === "jump") {
       const jumpControls: JumpControls = {
@@ -301,6 +314,11 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
         <TriviaPanel controls={controls as TriviaControls} />
       )}
 
+      {/* Fishing: tap to cast (also SPACE in the scene) */}
+      {minigame === "fishing" && phase === "racing" && !finished && (
+        <FishButton controls={controls as FishingControls} />
+      )}
+
       {/* Status banner + the big 30s race clock */}
       {board && !finished && (
         <div className="absolute top-2 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1">
@@ -324,7 +342,8 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
           {phase === "racing" &&
             (minigame === "chop" ||
               minigame === "eggs" ||
-              minigame === "jump") && (
+              minigame === "jump" ||
+              minigame === "fishing") && (
               <span
                 className="font-secondary text-white"
                 style={{
@@ -409,6 +428,13 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
       {minigame === "jump" && phase === "racing" && !finished && (
         <div className="absolute bottom-40 left-1/2 -translate-x-1/2 z-10">
           <Label type="vibrant">{t("giveaway.jumpHint")}</Label>
+        </div>
+      )}
+
+      {/* Fishing instructions (sits above the cast button) */}
+      {minigame === "fishing" && phase === "racing" && !finished && (
+        <div className="absolute bottom-40 left-1/2 -translate-x-1/2 z-10">
+          <Label type="vibrant">{t("giveaway.fishHint")}</Label>
         </div>
       )}
 

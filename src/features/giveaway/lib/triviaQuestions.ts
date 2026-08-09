@@ -335,44 +335,95 @@ const animalBuilding: Template = (rand) => {
   return c && { question: `Which animal lives in the ${building}?`, ...c };
 };
 
-const TEMPLATES: Template[] = [
-  cropImage,
-  imageId(FLOWER_NAMES, "What flower is this?"),
-  imageId(FISH_NAMES, "What fish is this?"),
-  imageId(DISH_NAMES, "What dish is this?"),
-  npcWho,
-  cropSell,
-  seedPrice,
-  cropGrow,
-  sellMost,
-  exoticMost,
-  notAFish,
-  cookBuilding,
-  animalBuilding,
+/**
+ * Templates grouped by TOPIC. A round draws one question from each of several
+ * distinct topics (see `generateQuestion`), so you never get six crop questions
+ * in a row — the mixture is guaranteed, only which topics/items vary by seed.
+ */
+interface Category {
+  key: string;
+  templates: Template[];
+}
+
+const CATEGORIES: Category[] = [
+  {
+    key: "crop",
+    templates: [cropImage, cropSell, seedPrice, cropGrow, sellMost],
+  },
+  { key: "flower", templates: [imageId(FLOWER_NAMES, "What flower is this?")] },
+  {
+    key: "fish",
+    templates: [imageId(FISH_NAMES, "What fish is this?"), notAFish],
+  },
+  {
+    key: "cooking",
+    templates: [imageId(DISH_NAMES, "What dish is this?"), cookBuilding],
+  },
+  { key: "npc", templates: [npcWho] },
+  { key: "exotic", templates: [exoticMost] },
+  { key: "animal", templates: [animalBuilding] },
 ];
 
+/** Every template, flattened — used as a last-resort fallback sweep. */
+const ALL_TEMPLATES = CATEGORIES.flatMap((c) => c.templates);
+
+/** A deterministic per-giveaway ordering of the topics (same on every client). */
+function categoryOrder(giveawayId: string): Category[] {
+  const rand = mulberry32(hashString(`trivia-cats:${giveawayId}`));
+  const order = [...CATEGORIES];
+  for (let i = order.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(rand() * (i + 1));
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  return order;
+}
+
+/** The ordered topics a round will cover — one per question. Exported so the
+ * variety guarantee (distinct topics across a round) is testable. */
+export function topicsForRound(giveawayId: string, count: number): string[] {
+  const order = categoryOrder(giveawayId);
+  return Array.from({ length: count }, (_, i) => order[i % order.length].key);
+}
+
+/** Try a list of templates (seeded per attempt) until one builds a question. */
+function buildFrom(
+  templates: Template[],
+  giveawayId: string,
+  index: number,
+): TriviaQuestion | null {
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    const rand = mulberry32(
+      hashString(`trivia:${giveawayId}:${index}:${attempt}`),
+    );
+    const template = templates[Math.floor(rand() * templates.length)];
+    const q = template(rand);
+    if (q) return q;
+  }
+  return null;
+}
+
 /**
- * Deterministic question for a round — identical on every client. Picks a
- * template by seed and retries a few offsets if a template can't build a fair
- * question this seed.
+ * Deterministic question for a round — identical on every client. Question N
+ * comes from the Nth topic in this giveaway's shuffled topic order, so a round
+ * of six spans six different topics (crop, fish, npc, cooking, …). Within the
+ * topic the specific template + item are seed-picked. Falls back across all
+ * templates only if a topic can't produce a fair question this seed.
  */
 export function generateQuestion(
   giveawayId: string,
   index: number,
 ): TriviaQuestion {
-  for (let attempt = 0; attempt < 12; attempt += 1) {
-    const rand = mulberry32(
-      hashString(`trivia:${giveawayId}:${index}:${attempt}`),
-    );
-    const template = TEMPLATES[Math.floor(rand() * TEMPLATES.length)];
-    const q = template(rand);
-    if (q) return q;
-  }
-  // Fallback (should never hit): a trivially valid question.
-  return {
-    question: "What crop is this?",
-    image: image("Sunflower"),
-    answers: ["Sunflower", "Potato", "Pumpkin", "Carrot"],
-    correct: 0,
-  };
+  const order = categoryOrder(giveawayId);
+  const category = order[index % order.length];
+
+  return (
+    buildFrom(category.templates, giveawayId, index) ??
+    buildFrom(ALL_TEMPLATES, giveawayId, index) ?? {
+      // Fallback (should never hit): a trivially valid question.
+      question: "What crop is this?",
+      image: image("Sunflower"),
+      answers: ["Sunflower", "Potato", "Pumpkin", "Carrot"],
+      correct: 0,
+    }
+  );
 }

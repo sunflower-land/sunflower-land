@@ -221,4 +221,12 @@ export const SPAWNS: () => SpawnLocation = () => ({
       y: 240,
     },
   },
+  // Fishing: everyone sits along the bank above a horizontal river; the scene
+  // re-places each angler at a seeded random X along it (see FishingScene).
+  giveaway_fishing: {
+    default: {
+      x: 400,
+      y: 200,
+    },
+  },
 });

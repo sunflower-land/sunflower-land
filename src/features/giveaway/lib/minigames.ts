@@ -18,7 +18,8 @@ export type MinigameType =
   | "eggs"
   | "jump"
   | "puzzle"
-  | "trivia";
+  | "trivia"
+  | "fishing";
 
 export type GiveawayMinigame = {
   type: MinigameType;
@@ -66,6 +67,13 @@ export const GIVEAWAY_MINIGAMES: GiveawayMinigame[] = [
     description: "Answer the questions — most points wins prizes!",
     available: true,
     sceneId: "giveaway_trivia",
+  },
+  {
+    type: "fishing",
+    name: "Fishing Frenzy",
+    description: "Time your cast to hook the fish — the biggest catch wins!",
+    available: true,
+    sceneId: "giveaway_fishing",
   },
   {
     type: "puzzle",
