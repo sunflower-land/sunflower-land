@@ -153,9 +153,13 @@ export const SeasonalSeeds: React.FC = () => {
 
   const stock = state.stock[selectedName] || new Decimal(0);
   const inventoryLimit = INVENTORY_LIMIT(state)[selectedName] ?? new Decimal(0);
+  // Rounded down to a whole seed: seeds are discrete units, and comparing
+  // against inventoryLimit at 2 decimal places lets a stray fractional
+  // remainder (e.g. from a historical bug) permanently block purchases
+  // even though the player has less than one whole seed of headroom left.
   const inventoryAmount = setPrecision(
     inventory[selectedName] ?? new Decimal(0),
-    2,
+    0,
   );
   const bulkBuyLimit = inventoryLimit.minus(inventoryAmount);
   // Calculates the difference between amount in inventory and the inventory limit

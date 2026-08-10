@@ -1,6 +1,10 @@
 import Decimal from "decimal.js-light";
 
-import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
+import {
+  INITIAL_BUMPKIN,
+  INVENTORY_LIMIT,
+  TEST_FARM,
+} from "features/game/lib/constants";
 import type { GameState } from "features/game/types/game";
 import {
   CHAPTER_CROP_WEEK,
@@ -149,6 +153,26 @@ describe("planSeedPurchases", () => {
     const plan = planSeedPurchases(state, ["Sunflower Seed"]);
 
     expect(plan.purchases).toHaveLength(0);
+  });
+
+  it("still plans a purchase when inventory has a stray fractional remainder below the limit", () => {
+    // Simulates a historical bug that left a fractional amount in the
+    // inventory (seeds are always meant to be whole units). The player is
+    // still one whole seed under the limit and should get a plan.
+    const sunflowerLimit =
+      INVENTORY_LIMIT(GAME_STATE)["Sunflower Seed"] ?? new Decimal(0);
+    const state: GameState = {
+      ...GAME_STATE,
+      inventory: {
+        ...GAME_STATE.inventory,
+        "Sunflower Seed": sunflowerLimit.minus(1).plus(0.5),
+      },
+    };
+
+    const plan = planSeedPurchases(state, ["Sunflower Seed"]);
+
+    expect(plan.purchases).toHaveLength(1);
+    expect(plan.purchases[0].amount).toBe(1);
   });
 
   it("skips full moon seeds outside of a full moon", () => {

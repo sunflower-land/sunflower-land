@@ -203,7 +203,12 @@ export function seedBought({ state, action, createdAt = Date.now() }: Options) {
     const oldAmount = stateCopy.inventory[item] ?? new Decimal(0);
 
     const inventoryLimit = INVENTORY_LIMIT(state)[item] ?? new Decimal(0);
-    if (oldAmount.add(amount).gt(inventoryLimit)) {
+    // Rounded down to a whole seed before comparing: seeds are discrete
+    // units, and a stray fractional remainder in oldAmount (e.g. from a
+    // historical bug) should not permanently block purchases when the
+    // player has less than one whole seed of headroom left.
+    const wholeOldAmount = oldAmount.toDecimalPlaces(0, Decimal.ROUND_DOWN);
+    if (wholeOldAmount.add(amount).gt(inventoryLimit)) {
       throw new Error("Can't buy more seeds than the inventory limit");
     }
 

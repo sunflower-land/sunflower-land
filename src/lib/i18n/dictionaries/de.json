@@ -8170,5 +8170,19 @@
   "giveaway.fishing.cast": "BESETZUNG",
   "giveaway.fishing.miss": "Fräulein",
   "giveaway.fishHint": "Tippe, um zu werfen, wenn ein Fisch vor dir driftet!",
-  "giveaway.trivia.answerWas": "Die Antwort war"
+  "giveaway.trivia.answerWas": "Die Antwort war",
+  "giveaway.beta": "Betaversion",
+  "giveaway.communityGameSoon": "Bald Community-Spiel!",
+  "giveaway.communityGameLive": "Community-Spiel live!",
+  "tools.insufficientFundsForStock": "Nicht genug Münzen oder Ressourcen, um alle {{stockAmount}} auf Lager herzustellen",
+  "fishingPuzzle.freeAttemptAvailable": "Sie haben 1 kostenlosen Versuch zur Verfügung. Möchtest du es benutzen?",
+  "confirmation.buyAllTools": "Die maximal erschwingliche Menge an {{toolTypes}} Werkzeugtypen kaufen?",
+  "confirmation.craftTools": "Bist du sicher, dass du {{toolNo}} {{toolName}} s herstellen willst?",
+  "timeMachine.time": "Zeit",
+  "timeMachine.reset": "Zurücksetzen",
+  "timeMachine.outsideChapter": "Außerhalb eines Kapitels",
+  "timeMachine.backDay": "-1d",
+  "timeMachine.backHour": "-1 h",
+  "timeMachine.forwardHour": "+1 Stunde",
+  "timeMachine.forwardDay": "+1d"
 }

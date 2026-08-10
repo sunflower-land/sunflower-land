@@ -12,7 +12,10 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";
 import { getKeys, getObjectEntries } from "lib/object";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import {
   TREASURE_TOOLS,
   type TreasureToolName,
@@ -44,6 +47,10 @@ import { isMobile } from "mobile-device-detect";
 import { Restock } from "features/island/buildings/components/building/market/restock/Restock";
 import { useNow } from "lib/utils/hooks/useNow";
 import type { MachineState } from "features/game/lib/gameMachine";
+import { computeAffordableAmount } from "features/island/buildings/components/building/workBench/lib/planToolPurchases";
+import { Modal } from "components/ui/Modal";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { formatNumber } from "lib/utils/formatNumber";
 
 interface ToolContentProps {
   selectedName: TreasureToolName;
@@ -56,6 +63,7 @@ const ToolContent: React.FC<ToolContentProps> = ({ selectedName }) => {
   const { gameService, shortcutItem } = useContext(Context);
 
   const state = useSelector(gameService, _state);
+  const [showMaxConfirm, setShowMaxConfirm] = useState(false);
 
   const stock = state.stock[selectedName] || new Decimal(0);
   const selected = TREASURE_TOOLS[selectedName];
@@ -74,6 +82,16 @@ const ToolContent: React.FC<ToolContentProps> = ({ selectedName }) => {
       ingredients?.mul(amount).greaterThan(inventory[name] || 0),
     );
 
+  const stockAmount = stock.toDecimalPlaces(0, Decimal.ROUND_DOWN).toNumber();
+
+  const maxAffordableAmount = computeAffordableAmount(
+    stockAmount,
+    price,
+    state.coins,
+    selectedIngredients,
+    (name) => inventory[name] ?? new Decimal(0),
+  );
+
   const craft = (event: SyntheticEvent, amount: number) => {
     event.stopPropagation();
     gameService.send("tool.crafted", {
@@ -84,43 +102,124 @@ const ToolContent: React.FC<ToolContentProps> = ({ selectedName }) => {
     shortcutItem(selectedName);
   };
 
+  const confirmBuyMax = () => {
+    gameService.send("tool.crafted", {
+      tool: selectedName,
+      amount: maxAffordableAmount,
+    });
+
+    shortcutItem(selectedName);
+    setShowMaxConfirm(false);
+  };
+
   return (
-    <CraftingRequirements
-      gameState={state}
-      stock={stock}
-      details={{ item: selectedName }}
-      requirements={{
-        coins: price,
-        resources: selectedIngredients,
-      }}
-      actionView={
-        <>
-          {stock.equals(0) ? (
-            <Restock npc={"jafar"} />
-          ) : (
-            <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-              <Button
-                disabled={lessFunds() || lessIngredients() || stock.lessThan(1)}
-                onClick={(e) => craft(e, 1)}
-              >
-                {t("craft")} {"1"}
-              </Button>
-              {bulkToolCraftAmount > 1 && (
-                <Button
-                  disabled={
-                    lessFunds(bulkToolCraftAmount) ||
-                    lessIngredients(bulkToolCraftAmount)
-                  }
-                  onClick={(e) => craft(e, bulkToolCraftAmount)}
-                >
-                  {t("craft")} {bulkToolCraftAmount}
-                </Button>
+    <>
+      <CraftingRequirements
+        gameState={state}
+        stock={stock}
+        details={{ item: selectedName }}
+        requirements={{
+          coins: price,
+          resources: selectedIngredients,
+        }}
+        actionView={
+          <>
+            {stock.equals(0) ? (
+              <Restock npc={"jafar"} />
+            ) : (
+              <div className="flex flex-col space-y-1 w-full">
+                <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col">
+                  <Button
+                    disabled={
+                      lessFunds() || lessIngredients() || stock.lessThan(1)
+                    }
+                    onClick={(e) => craft(e, 1)}
+                  >
+                    {t("craft")} {"1"}
+                  </Button>
+                  {bulkToolCraftAmount > 1 && (
+                    <Button
+                      disabled={
+                        lessFunds(bulkToolCraftAmount) ||
+                        lessIngredients(bulkToolCraftAmount)
+                      }
+                      onClick={(e) => craft(e, bulkToolCraftAmount)}
+                    >
+                      {t("craft")} {bulkToolCraftAmount}
+                    </Button>
+                  )}
+                </div>
+                {stockAmount > bulkToolCraftAmount && (
+                  <Button
+                    disabled={maxAffordableAmount <= 0}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowMaxConfirm(true);
+                    }}
+                  >
+                    {t("craft")}{" "}
+                    {`${maxAffordableAmount > 0 ? maxAffordableAmount : stockAmount}`}
+                  </Button>
+                )}
+              </div>
+            )}
+          </>
+        }
+      />
+      <Modal show={showMaxConfirm} onHide={() => setShowMaxConfirm(false)}>
+        <CloseButtonPanel onClose={() => setShowMaxConfirm(false)}>
+          <div className="flex flex-col items-center p-1">
+            <p className="text-sm mb-2 text-center">
+              {t("marketplace.areYouSureBulkBuy")}
+            </p>
+            <div className="flex items-center mb-3">
+              <img
+                src={ITEM_DETAILS[selectedName].image}
+                className="h-8 mr-2"
+              />
+              <span className="text-sm">
+                {maxAffordableAmount} {getTranslatedItemName(selectedName)}
+              </span>
+            </div>
+            <div className="flex flex-wrap justify-center items-center gap-2 mb-3">
+              <div className="flex items-center">
+                <img src={SUNNYSIDE.ui.coins} className="h-6 mr-1" />
+                <span className="text-xs">
+                  {formatNumber(price * maxAffordableAmount)}
+                </span>
+              </div>
+              {getObjectEntries(selectedIngredients).map(
+                ([ingredientName, ingredientAmount]) =>
+                  ingredientAmount && (
+                    <div key={ingredientName} className="flex items-center">
+                      <img
+                        src={ITEM_DETAILS[ingredientName].image}
+                        className="h-6 mr-1"
+                      />
+                      <span className="text-xs">
+                        {formatNumber(
+                          ingredientAmount.mul(maxAffordableAmount),
+                        )}
+                      </span>
+                    </div>
+                  ),
               )}
             </div>
-          )}
-        </>
-      }
-    />
+            <div className="flex w-full space-x-1">
+              <Button onClick={() => setShowMaxConfirm(false)}>
+                {t("cancel")}
+              </Button>
+              <Button
+                disabled={maxAffordableAmount <= 0}
+                onClick={confirmBuyMax}
+              >
+                {t("confirm")}
+              </Button>
+            </div>
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+    </>
   );
 };
 

@@ -141,6 +141,37 @@ describe("seedBought", () => {
     ).toThrow("Can't buy more seeds than the inventory limit");
   });
 
+  it("allows buying up to the limit even if inventory has a stray fractional remainder below it", () => {
+    const sunflowerLimit =
+      INVENTORY_LIMIT(GAME_STATE)["Sunflower Seed"] ?? new Decimal(0);
+
+    // Simulates a historical bug that left a fractional amount in the
+    // inventory (seeds are always meant to be whole units). The player is
+    // still one whole seed under the limit and should be able to buy.
+    const state = seedBought({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          ...GAME_STATE.inventory,
+          "Sunflower Seed": sunflowerLimit.minus(1).plus(0.5),
+        },
+        stock: {
+          "Sunflower Seed": new Decimal(1),
+        },
+        coins: 100,
+      },
+      action: {
+        type: "seed.bought",
+        item: "Sunflower Seed",
+        amount: 1,
+      },
+    });
+
+    expect(state.inventory["Sunflower Seed"]).toEqual(
+      sunflowerLimit.minus(1).plus(0.5).plus(1),
+    );
+  });
+
   it("subtracts the coins on purchase", () => {
     const coins = 1;
     const balance = new Decimal(1);

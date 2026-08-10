@@ -17,6 +17,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { randomID } from "lib/utils/random";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useScrollRestoration } from "lib/utils/hooks/useScrollRestoration";
 
 const historyFetcher = async ([, token]: [string, string]): Promise<
   Auction[]
@@ -65,6 +66,8 @@ export const AuctionHistory: React.FC = () => {
   }>();
 
   const now = useNow();
+  const { scrollContainerRef, handleScroll } =
+    useScrollRestoration<HTMLDivElement>();
 
   const {
     data: auctions,
@@ -233,6 +236,8 @@ export const AuctionHistory: React.FC = () => {
     <div>
       <div className="p-2">
         <div
+          ref={scrollContainerRef}
+          onScroll={handleScroll}
           className="max-h-52 overflow-y-auto scrollable pr-1"
           data-testid="auction-history-list"
         >

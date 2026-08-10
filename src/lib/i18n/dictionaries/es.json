@@ -8170,5 +8170,19 @@
   "giveaway.fishing.cast": "ELENCO",
   "giveaway.fishing.miss": "Señorita",
   "giveaway.fishHint": "¡Toca para lanzar cuando un pez pase frente a ti!",
-  "giveaway.trivia.answerWas": "La respuesta fue"
+  "giveaway.trivia.answerWas": "La respuesta fue",
+  "giveaway.beta": "Beta",
+  "giveaway.communityGameSoon": "¡Pronto juego comunitario!",
+  "giveaway.communityGameLive": "¡Juego comunitario en vivo!",
+  "tools.insufficientFundsForStock": "No hay suficientes monedas o recursos para crear todos los {{stockAmount}} en stock",
+  "fishingPuzzle.freeAttemptAvailable": "Tienes 1 intento gratuito disponible. ¿Te gustaría usarlo?",
+  "confirmation.buyAllTools": "¿Comprar la cantidad máxima asequible de tipos de herramientas {{toolTypes}}?",
+  "confirmation.craftTools": "¿Estás seguro de que quieres crear {{toolNo}} {{toolName}} s?",
+  "timeMachine.time": "Hora",
+  "timeMachine.reset": "Reiniciar",
+  "timeMachine.outsideChapter": "Fuera de un capítulo",
+  "timeMachine.backDay": "-1d",
+  "timeMachine.backHour": "-1h",
+  "timeMachine.forwardHour": "+1 hora",
+  "timeMachine.forwardDay": "+1 día"
 }

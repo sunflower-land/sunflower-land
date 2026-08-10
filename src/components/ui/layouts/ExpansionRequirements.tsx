@@ -39,6 +39,9 @@ import {
   useVipAccess,
 } from "lib/utils/hooks/useVipAccess";
 import { BoostsDisplay } from "./BoostsDisplay";
+import { getNextExpansionNodePreview } from "features/game/types/expansions";
+import { ExpansionNodePreview } from "./ExpansionNodePreview";
+
 /**
  * The props for the component.
  * @param gameState The game state.
@@ -138,6 +141,7 @@ export const ExpansionRequirements: React.FC<Props> = ({
   };
 
   const canExpand = craftingRequirementsMet(state, requirementsWithVipCoins);
+  const expansionNodes = getNextExpansionNodePreview({ game: state });
 
   return (
     <>
@@ -239,6 +243,8 @@ export const ExpansionRequirements: React.FC<Props> = ({
         })}
       </InnerPanel>
 
+      <ExpansionNodePreview nodes={expansionNodes} />
+
       {!hasLevel && (
         <InnerPanel className="mb-1">
           <Label type="danger" icon={SUNNYSIDE.icons.lock}>
@@ -278,6 +284,7 @@ export const Expanding: React.FC<{
   const hasAccess = !hasRequiredIslandExpansion(state.island.type, "swamp");
 
   const payment = useSpeedUpPayment({ readyAt, game: state });
+  const expansionNodes = getNextExpansionNodePreview({ game: state });
   const cost =
     payment.paymentMethod === "coins" ? payment.coinCost : payment.gemCost;
   const costIcon =
@@ -318,6 +325,8 @@ export const Expanding: React.FC<{
         </div>
         {hasAccess && <SpeedUpPaymentSelector payment={payment} />}
       </div>
+
+      <ExpansionNodePreview nodes={expansionNodes} />
 
       <div className="flex">
         <Button onClick={onClose}>{t("close")}</Button>

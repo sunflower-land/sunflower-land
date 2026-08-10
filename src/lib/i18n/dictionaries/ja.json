@@ -8170,5 +8170,19 @@
   "giveaway.fishing.cast": "キャスト",
   "giveaway.fishing.miss": "ミス",
   "giveaway.fishHint": "目の前に魚が漂ってきたらタップしてキャストしよう！",
-  "giveaway.trivia.answerWas": "その答えは"
+  "giveaway.trivia.answerWas": "その答えは",
+  "giveaway.beta": "ベータ",
+  "giveaway.communityGameSoon": "もうすぐコミュニティゲーム！",
+  "giveaway.communityGameLive": "コミュニティゲームライブ！",
+  "tools.insufficientFundsForStock": "コインまたはリソースが不足しているため、在庫の {{stockAmount}} をすべてクラフトできません",
+  "fishingPuzzle.freeAttemptAvailable": "無料で試用できるのは 1 回です。使ってみませんか？",
+  "confirmation.buyAllTools": "{{toolTypes}} 種類のツールタイプを手頃な価格で購入しますか？",
+  "confirmation.craftTools": "本当に {{toolNo}} {{toolName}} を作りたいですか？",
+  "timeMachine.time": "時間",
+  "timeMachine.reset": "リセット",
+  "timeMachine.outsideChapter": "チャプターの外",
+  "timeMachine.backDay": "-1d",
+  "timeMachine.backHour": "-1h",
+  "timeMachine.forwardHour": "+1h",
+  "timeMachine.forwardDay": "+1d"
 }

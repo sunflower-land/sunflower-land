@@ -205,40 +205,32 @@ export const INITIAL_STOCK = (
 
 type InventoryLimit = Partial<Record<SeedName, Decimal>>;
 
-// Inventory limit is 2.5x the initial stock for seeds
+export const getSeedInventoryLimitMultiplier = (seed: SeedName) => {
+  if (isGreenhouseCropSeed(seed) || isGreenhouseFruitSeed(seed)) return 5;
+  if (isBasicFruitSeed(seed as PatchFruitSeedName)) return 2;
+  if (isAdvancedFruitSeed(seed as PatchFruitSeedName)) return 1.5;
+
+  return 2.5;
+};
+
+// Seed limits use initial stock: 5x greenhouse, 2x basic fruit, 1.5x advanced
+// fruit, and 2.5x otherwise. Full Moon Berries have a fixed limit of 10.
 export const INVENTORY_LIMIT = (state: GameState): InventoryLimit => {
   return {
     ...getObjectEntries(INITIAL_STOCK(state)).reduce<InventoryLimit>(
       (acc, [key, value]) => {
         if (!isSeed(key)) return acc;
-        if (isGreenhouseCropSeed(key) || isGreenhouseFruitSeed(key)) {
-          acc[key] = new Decimal(
-            Math.ceil((value ?? new Decimal(0)).mul(5).toNumber()),
-          );
-          return acc;
-        }
-
         if (isFullMoonBerry(key)) {
           acc[key] = new Decimal(10);
           return acc;
         }
 
-        if (isBasicFruitSeed(key as PatchFruitSeedName)) {
-          acc[key] = new Decimal(
-            Math.ceil((value ?? new Decimal(0)).mul(2).toNumber()),
-          );
-          return acc;
-        }
-
-        if (isAdvancedFruitSeed(key as PatchFruitSeedName)) {
-          acc[key] = new Decimal(
-            Math.ceil((value ?? new Decimal(0)).mul(1.5).toNumber()),
-          );
-          return acc;
-        }
-
         acc[key] = new Decimal(
-          Math.ceil((value ?? new Decimal(0)).mul(2.5).toNumber()),
+          Math.ceil(
+            (value ?? new Decimal(0))
+              .mul(getSeedInventoryLimitMultiplier(key))
+              .toNumber(),
+          ),
         );
         return acc;
       },

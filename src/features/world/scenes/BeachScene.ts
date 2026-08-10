@@ -4,7 +4,7 @@ import type { SceneId } from "../mmoMachine";
 import { BaseScene, type NPCBumpkin } from "./BaseScene";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { interactableModalManager } from "../ui/InteractableModals";
-import { translate } from "lib/i18n/translate";
+import { translateForBubble } from "lib/i18n/translate";
 import type { InventoryItemName } from "features/game/types/game";
 
 import { getUTCDateString } from "lib/utils/time";
@@ -294,7 +294,7 @@ export class BeachScene extends BaseScene {
       if (this.checkDistanceToSprite(treasureShop, 75)) {
         npcModalManager.open("jafar");
       } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
 
@@ -364,7 +364,7 @@ export class BeachScene extends BaseScene {
       if (this.checkDistanceToSprite(chest, 75)) {
         interactableModalManager.open("rare_chest");
       } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
 
@@ -395,7 +395,7 @@ export class BeachScene extends BaseScene {
       if (this.checkDistanceToSprite(pirateChest, 75)) {
         interactableModalManager.open("pirate_chest");
       } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
 
@@ -1378,7 +1378,7 @@ export class BeachScene extends BaseScene {
     if (this.percentageTreasuresFound >= 100 && !this.hasClaimedStreakReward) {
       if (this.alreadyNotifiedOfClaim) return;
 
-      this.npcs.digby?.speak(translate("digby.claimPrize"));
+      this.npcs.digby?.speak(translateForBubble("digby.claimPrize"));
       this.alreadyNotifiedOfClaim = true;
       return;
     }
@@ -1386,7 +1386,7 @@ export class BeachScene extends BaseScene {
     if (!this.hasDigsLeft) {
       if (this.alreadyWarnedOfNoDigs) return;
 
-      this.npcs.digby?.speak(translate("digby.noDigsLeft"));
+      this.npcs.digby?.speak(translateForBubble("digby.noDigsLeft"));
       this.alreadyWarnedOfNoDigs = true;
 
       return;
@@ -1404,13 +1404,13 @@ export class BeachScene extends BaseScene {
       this.selectedItem !== "Sand Drill" &&
       !this.isAncientShovelActive
     ) {
-      this.npcs.digby?.speak(translate("digby.noShovels"));
+      this.npcs.digby?.speak(translateForBubble("digby.noShovels"));
 
       return;
     }
 
     if (this.selectedItem === "Sand Drill" && sandDrills.lt(1)) {
-      this.npcs.digby?.speak(translate("digby.noDrills"));
+      this.npcs.digby?.speak(translateForBubble("digby.noDrills"));
 
       return;
     }

@@ -23,6 +23,10 @@ import {
   toTraitValueId,
 } from "./marketplaceFilters";
 import { BUD_BOOST_FILTER_OPTIONS } from "./budBoostFilters";
+import type { TranslationKeys } from "lib/i18n/dictionaries/types";
+import { translate } from "lib/i18n/translate";
+
+type Translate = (key: TranslationKeys) => string;
 
 export interface TraitOptionDefinition {
   label: string;
@@ -36,108 +40,130 @@ export interface TraitGroupDefinition<T extends string> {
   options: TraitOptionDefinition[];
 }
 
+const toCamelCase = (value: string) =>
+  value
+    .split(/[^a-z0-9]+/i)
+    .filter(Boolean)
+    .map((word, index) =>
+      index === 0
+        ? word.toLowerCase()
+        : `${word[0].toUpperCase()}${word.slice(1).toLowerCase()}`,
+    )
+    .join("");
+
 // Converts a string list (often readonly) into label/value pairs used by the UI.
-const mapOptions = (values: readonly string[]) =>
+const mapOptions = (values: readonly string[], prefix: string, t: Translate) =>
   values.map((value) => ({
-    label: value,
+    label: t(`${prefix}.${toTraitValueId(value)}` as TranslationKeys),
     value: toTraitValueId(value),
   }));
 
-export const BUD_TRAIT_GROUPS: TraitGroupDefinition<BudTrait>[] = [
+export const getBudTraitGroups = (
+  t: Translate,
+): TraitGroupDefinition<BudTrait>[] => [
   {
     trait: "type",
-    label: "Type",
+    label: t("filter.type"),
     options: BUD_TYPES.map((type) => ({
-      label: type.name,
+      label: t(`bud.type.${toTraitValueId(type.name)}` as TranslationKeys),
       value: toTraitValueId(type.name),
     })),
   },
   {
     trait: "aura",
-    label: "Aura",
+    label: t("filter.aura"),
     options: BUD_AURAS.map((aura) => ({
-      label: aura.name === "No Aura" ? "None" : aura.name,
+      label: t(`bud.aura.${toTraitValueId(aura.name)}` as TranslationKeys),
       value: toTraitValueId(aura.name),
     })),
   },
   {
     trait: "stem",
-    label: "Stem",
+    label: t("bud.trait.stem"),
     options: BUD_STEMS.map((stem) => ({
-      label: stem.name,
+      label: t(`bud.stem.${toTraitValueId(stem.name)}` as TranslationKeys),
       value: toTraitValueId(stem.name),
     })),
   },
   {
     trait: "colour",
-    label: "Colour",
+    label: t("filter.colour"),
     options: BUD_COLOURS.map((colour) => ({
-      label: colour.name,
+      label: t(`colour.${toTraitValueId(colour.name)}` as TranslationKeys),
       value: toTraitValueId(colour.name),
     })),
   },
   {
     trait: "boost",
-    label: "Boost",
+    label: t("filter.boost"),
     options: BUD_BOOST_FILTER_OPTIONS.map((boost) => ({
-      label: boost,
+      label: t(`bud.boost.${toTraitValueId(boost)}` as TranslationKeys),
       value: toTraitValueId(boost),
     })),
   },
 ];
 
-export const PET_TRAIT_GROUPS: TraitGroupDefinition<PetTrait>[] = [
+export const getPetTraitGroups = (
+  t: Translate,
+): TraitGroupDefinition<PetTrait>[] => [
   {
     trait: "type",
-    label: "Breed",
-    options: mapOptions(PET_NFT_TYPES),
+    label: t("filter.breed"),
+    options: mapOptions(PET_NFT_TYPES, "pet.breed", t),
   },
   {
     trait: "category",
-    label: "Category",
-    options: mapOptions(PET_CATEGORY_NAMES),
+    label: t("filter.category"),
+    options: mapOptions(PET_CATEGORY_NAMES, "pet.category", t),
   },
   {
     trait: "resource",
-    label: "Resource",
+    label: t("filter.resource"),
     options: Object.values(FETCHES_BY_CATEGORY).map((resource) => ({
-      label: resource,
+      label: t(`resource.${toCamelCase(resource)}` as TranslationKeys),
       value: toTraitValueId(resource),
       icon: ITEM_DETAILS[resource].image,
     })),
   },
   {
     trait: "aura",
-    label: "Aura",
+    label: t("filter.aura"),
     options: AURA_TRAITS.map((aura) => ({
-      label: aura === "No Aura" ? "None" : aura,
+      label: t(`pet.aura.${toTraitValueId(aura)}` as TranslationKeys),
       value: toTraitValueId(aura),
     })),
   },
   {
     trait: "bib",
-    label: "Bib",
-    options: mapOptions(BIB_TRAITS),
+    label: t("filter.bib"),
+    options: mapOptions(BIB_TRAITS, "pet.bib", t),
   },
   {
     trait: "fur",
-    label: "Fur",
-    options: mapOptions(FUR_TRAITS),
+    label: t("filter.fur"),
+    options: mapOptions(FUR_TRAITS, "colour", t),
   },
   {
     trait: "accessory",
-    label: "Accessory",
-    options: mapOptions(ACCESSORY_TRAITS),
+    label: t("filter.accessory"),
+    options: mapOptions(ACCESSORY_TRAITS, "pet.accessory", t),
   },
   {
     trait: "level",
-    label: "Level",
+    label: t("filter.level"),
     options: PET_LEVEL_FILTERS.map((range) => ({
-      label: range.label,
+      label: t(`pet.level.${range.value}` as TranslationKeys),
       value: range.value,
     })),
   },
 ];
+
+const englishT: Translate = (key) => translate(key, { lng: "en" });
+
+// The collection view keeps its existing static English labels. The filters
+// receive the current locale through the factories above.
+export const BUD_TRAIT_GROUPS = getBudTraitGroups(englishT);
+export const PET_TRAIT_GROUPS = getPetTraitGroups(englishT);
 
 export const createTraitLabelLookup = <T extends string>(
   groups: TraitGroupDefinition<T>[],
