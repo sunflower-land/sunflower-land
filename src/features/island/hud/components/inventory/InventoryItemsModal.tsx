@@ -27,6 +27,10 @@ interface Props {
   state: GameState;
   selectedBasketItem?: InventoryItemName;
   onSelectBasketItem: (name: InventoryItemName) => void;
+  onOpenMarketplace?: (
+    name: InventoryItemName,
+    tab: "Basket" | "Chest",
+  ) => void;
   selectedChestItem?: LandscapingPlaceableType;
   onSelectChestItem: (item: LandscapingPlaceableType) => void;
   onPlace?: (name: LandscapingPlaceable) => void;
@@ -53,6 +57,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
   state,
   selectedBasketItem,
   onSelectBasketItem,
+  onOpenMarketplace,
   selectedChestItem,
   onSelectChestItem,
   onDepositClick,
@@ -112,6 +117,9 @@ export const InventoryItemsModal: React.FC<Props> = ({
             gameState={state}
             selected={selectedBasketItem}
             onSelect={onSelectBasketItem}
+            onOpenMarketplace={
+              onOpenMarketplace && ((item) => onOpenMarketplace(item, "Basket"))
+            }
           />
         )}
         {currentTab === "Chest" && (
@@ -124,6 +132,9 @@ export const InventoryItemsModal: React.FC<Props> = ({
             onPlaceNFT={isFarming ? onPlaceNFT : undefined}
             onDepositClick={isFullUser ? onDepositClick : undefined}
             onPlaceFarmHand={isFarming ? onPlaceFarmHand : undefined}
+            onOpenMarketplace={
+              onOpenMarketplace && ((item) => onOpenMarketplace(item, "Chest"))
+            }
             isSaving={isSaving}
             location={location}
           />

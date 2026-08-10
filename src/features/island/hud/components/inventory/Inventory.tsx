@@ -1,5 +1,6 @@
 import PubSub from "pubsub-js";
 import React, { useContext, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router";
 import { Box } from "components/ui/Box";
 import { InventoryItemsModal } from "./InventoryItemsModal";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -19,6 +20,12 @@ import { ChestButton } from "./ChestButton";
 import { hasChestItemAndNoCollectiblesPlaced } from "./utils/inventory";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
+import {
+  type InventoryMarketplaceRestore,
+  type MarketplaceInterfaceRestore,
+  useMarketplaceNavigation,
+} from "features/marketplace/lib/navigation";
+import { KNOWN_IDS } from "features/game/types";
 
 interface Props {
   state: GameState;
@@ -34,6 +41,17 @@ interface Props {
   hideActions: boolean;
   location?: PlaceableLocation;
 }
+
+const isInventoryRestore = (
+  restore: MarketplaceInterfaceRestore | undefined,
+): restore is InventoryMarketplaceRestore => {
+  const candidate = restore as Partial<InventoryMarketplaceRestore> | undefined;
+
+  return (
+    candidate?.type === "inventory" &&
+    (candidate.tab === "Basket" || candidate.tab === "Chest")
+  );
+};
 
 export const Inventory: React.FC<Props> = ({
   state,
@@ -51,7 +69,11 @@ export const Inventory: React.FC<Props> = ({
 }) => {
   const { shortcuts } = useContext(Context);
   const { t } = useAppTranslation();
+  const routerLocation = useLocation();
+  const navigate = useNavigate();
+  const { openMarketplace } = useMarketplaceNavigation();
   const [isOpen, setIsOpen] = useState(false);
+  const [basketItem, setBasketItem] = useState<InventoryItemName>();
   const showPlaceFirstHelper =
     location !== "petHouse" && hasChestItemAndNoCollectiblesPlaced(state);
 
@@ -65,10 +87,35 @@ export const Inventory: React.FC<Props> = ({
     };
   }, []);
 
+  const marketplaceRestore = routerLocation.state?.marketplaceRestore as
+    | MarketplaceInterfaceRestore
+    | undefined;
+  const inventoryRestore = isInventoryRestore(marketplaceRestore)
+    ? marketplaceRestore
+    : undefined;
+
+  const closeInventory = () => {
+    setIsOpen(false);
+
+    if (inventoryRestore) {
+      navigate(`${routerLocation.pathname}${routerLocation.search}`, {
+        replace: true,
+        state: undefined,
+      });
+    }
+  };
+
   const [selectedChestItem, setSelectedChestItem] =
     useState<LandscapingPlaceableType>();
 
+  const restoredChestItem: LandscapingPlaceableType | undefined =
+    inventoryRestore?.tab === "Chest" && inventoryRestore.selectedItem
+      ? { name: inventoryRestore.selectedItem as CollectibleName }
+      : undefined;
+
   const handleBasketItemClick = (item: InventoryItemName) => {
+    setBasketItem(item);
+
     if (!shortcutItem) return;
 
     shortcutItem(item);
@@ -128,15 +175,44 @@ export const Inventory: React.FC<Props> = ({
       </div>
 
       <InventoryItemsModal
-        key={isOpen ? `open-${!!showPlaceFirstHelper}` : "closed"}
-        show={isOpen}
-        onHide={() => {
-          setIsOpen(false);
-        }}
+        key={
+          isOpen
+            ? `open-${!!showPlaceFirstHelper}`
+            : `closed-${inventoryRestore?.tab ?? "none"}`
+        }
+        show={isOpen || !!inventoryRestore}
+        onHide={closeInventory}
         state={state}
-        selectedBasketItem={selectedItem}
+        selectedBasketItem={
+          basketItem ??
+          (inventoryRestore?.tab === "Basket"
+            ? inventoryRestore.selectedItem
+            : undefined) ??
+          selectedItem
+        }
         onSelectBasketItem={handleBasketItemClick}
-        selectedChestItem={selectedChestItem}
+        onOpenMarketplace={(item, tab) => {
+          if (tab === "Basket") {
+            setBasketItem(item);
+          } else {
+            setSelectedChestItem({ name: item as CollectibleName });
+          }
+
+          setIsOpen(false);
+
+          openMarketplace({
+            item: {
+              collection: "collectibles",
+              id: KNOWN_IDS[item],
+            },
+            restore: {
+              type: "inventory",
+              tab,
+              selectedItem: item,
+            },
+          });
+        }}
+        selectedChestItem={selectedChestItem ?? restoredChestItem}
         onSelectChestItem={setSelectedChestItem}
         onPlace={onPlace}
         onPlaceNFT={onPlaceNFT}
@@ -146,7 +222,9 @@ export const Inventory: React.FC<Props> = ({
         isFarming={isFarming}
         isFullUser={isFullUser}
         location={location}
-        defaultToChest={showPlaceFirstHelper}
+        defaultToChest={
+          showPlaceFirstHelper || inventoryRestore?.tab === "Chest"
+        }
       />
     </>
   );
