@@ -47,13 +47,13 @@ export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   bert: 2,
   miranda: 2,
   finley: 2,
-  raven: 3,
-  finn: 4,
-  timmy: 4,
-  cornwell: 4,
+  raven: 4,
+  finn: 5,
+  timmy: 5,
+  cornwell: 3,
   tywin: 10,
   jester: 4,
-  pharaoh: 5,
+  pharaoh: 6,
 };
 
 const isFruit = (name: PatchFruitName) => name in PATCH_FRUIT;
