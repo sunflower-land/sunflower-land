@@ -68,8 +68,6 @@ export class TriviaScene extends BaseScene {
   private lastBroadcastAt = 0;
   private lastBroadcastAnswer = Number.NaN;
   private lastBroadcastScore = -1;
-  // TEMP diagnostic throttle.
-  private lastLogAt = 0;
 
   /** Other players, keyed by session, with a stable in-quadrant offset. */
   private others = new Map<
@@ -383,22 +381,6 @@ export class TriviaScene extends BaseScene {
       this.mmoServer?.send(0, { x: answer, y: this.score, points: this.score });
     }
 
-    // TEMP diagnostic — what the SCENE (registry server) sees in the room, once
-    // a second, to compare with the leaderboard's `[giveaway] leaderboard` log.
-    if (now - this.lastLogAt > 1000) {
-      this.lastLogAt = now;
-      // eslint-disable-next-line no-console
-      console.log("[giveaway] trivia-scene", {
-        hasServer: !!this.mmoServer,
-        selfSessionId: this.mmoServer?.sessionId,
-        size: this.mmoServer?.state?.players?.size ?? -1,
-        myScore: this.score,
-        myAnswer: answer,
-        round: round.index,
-        phase: this.phase,
-      });
-    }
-
     player.setDepth(Math.floor(player.y));
   }
 
@@ -424,8 +406,11 @@ export class TriviaScene extends BaseScene {
       // would render a duplicate of your own Bumpkin).
       if (remote.farmId === this.bridge?.playerId) return;
 
+      // Before any question (intro / lobby) everyone gathers in the centre —
+      // ignore their broadcast X (a not-yet-broadcast player defaults to 0,
+      // which would otherwise read as answer 0 and drop them in a quadrant).
       const answer = this.answerFromBroadcast(remote.x);
-      const inNeutral = answer === null;
+      const inNeutral = this.phase === "intro" || answer === null;
       const target = inNeutral
         ? { x: this.centerX, y: this.centerY }
         : this.quadCenter(answer);

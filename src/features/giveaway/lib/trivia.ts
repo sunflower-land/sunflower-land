@@ -71,5 +71,5 @@ export function questionForRound(
   giveawayId: string,
   index: number,
 ): TriviaQuestion {
-  return generateQuestion(giveawayId, index);
+  return generateQuestion(giveawayId, index, TRIVIA_ROUNDS);
 }

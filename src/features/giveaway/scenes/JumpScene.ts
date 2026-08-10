@@ -275,10 +275,12 @@ export class JumpScene extends BaseScene {
     this.sendPositionToServer();
 
     // Submit our climbed height as live leaderboard `points` when it changes.
+    // Send x/y too so it's a well-formed position input (the server applies
+    // points off the same message it uses for movement).
     const metres = Math.round((this.startY - this.bankedY) / PIXELS_PER_METRE);
     if (metres !== this.lastPointsSent) {
       this.lastPointsSent = metres;
-      this.mmoServer?.send(0, { points: metres });
+      this.mmoServer?.send(0, { x: player.x, y: player.y, points: metres });
     }
 
     this.soundEffects?.forEach((audio) =>

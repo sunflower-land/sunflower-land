@@ -367,27 +367,62 @@ const CATEGORIES: Category[] = [
 /** Every template, flattened — used as a last-resort fallback sweep. */
 const ALL_TEMPLATES = CATEGORIES.flatMap((c) => c.templates);
 
-/** A deterministic per-giveaway ordering of the topics (same on every client). */
-function categoryOrder(giveawayId: string): Category[] {
-  const rand = mulberry32(hashString(`trivia-cats:${giveawayId}`));
-  const order = [...CATEGORIES];
-  for (let i = order.length - 1; i > 0; i -= 1) {
+/** Default round length — kept in sync with TRIVIA_ROUNDS (passed in below). */
+const DEFAULT_ROUND = 10;
+
+/**
+ * A deterministic plan of `count` DISTINCT templates for a round (same on every
+ * client). One topic each first (spreads the mixture); any extra questions come
+ * only from topics that still have an unused template (crop/fish/cooking), so no
+ * single-template topic like "exotic" ever repeats its one fixed question — the
+ * bug where "Which Exotic Crop is the most valuable?" kept reappearing.
+ */
+function roundTemplates(giveawayId: string, count: number): Template[] {
+  const rand = mulberry32(hashString(`trivia-plan:${giveawayId}`));
+
+  const cats = [...CATEGORIES];
+  for (let i = cats.length - 1; i > 0; i -= 1) {
     const j = Math.floor(rand() * (i + 1));
-    [order[i], order[j]] = [order[j], order[i]];
+    [cats[i], cats[j]] = [cats[j], cats[i]];
   }
-  return order;
+
+  const plan: Template[] = [];
+  const used = new Map<string, Set<Template>>();
+  const spare = (c: Category) =>
+    c.templates.length - (used.get(c.key)?.size ?? 0);
+  const take = (c: Category) => {
+    const seen = used.get(c.key) ?? new Set<Template>();
+    const avail = c.templates.filter((tpl) => !seen.has(tpl));
+    const tpl = avail[Math.floor(rand() * avail.length)];
+    seen.add(tpl);
+    used.set(c.key, seen);
+    plan.push(tpl);
+  };
+
+  // First pass: one distinct topic each.
+  for (const c of cats) {
+    if (plan.length >= count) break;
+    take(c);
+  }
+  // Extra questions: only from topics that still have an unused template.
+  let guard = 0;
+  while (plan.length < count && guard < count * 4) {
+    guard += 1;
+    const withSpare = cats.filter((c) => spare(c) > 0);
+    if (withSpare.length === 0) break;
+    take(withSpare[Math.floor(rand() * withSpare.length)]);
+  }
+  // Safety pad (only if there genuinely aren't enough distinct templates).
+  while (plan.length < count) {
+    plan.push(cats[plan.length % cats.length].templates[0]);
+  }
+
+  return plan;
 }
 
-/** The ordered topics a round will cover — one per question. Exported so the
- * variety guarantee (distinct topics across a round) is testable. */
-export function topicsForRound(giveawayId: string, count: number): string[] {
-  const order = categoryOrder(giveawayId);
-  return Array.from({ length: count }, (_, i) => order[i % order.length].key);
-}
-
-/** Try a list of templates (seeded per attempt) until one builds a question. */
-function buildFrom(
-  templates: Template[],
+/** Build a question from one template, retrying a few seeds; null if it can't. */
+function build(
+  template: Template,
   giveawayId: string,
   index: number,
 ): TriviaQuestion | null {
@@ -395,35 +430,75 @@ function buildFrom(
     const rand = mulberry32(
       hashString(`trivia:${giveawayId}:${index}:${attempt}`),
     );
-    const template = templates[Math.floor(rand() * templates.length)];
     const q = template(rand);
     if (q) return q;
   }
   return null;
 }
 
+const FALLBACK: TriviaQuestion = {
+  question: "What crop is this?",
+  image: image("Sunflower"),
+  answers: ["Sunflower", "Potato", "Pumpkin", "Carrot"],
+  correct: 0,
+};
+
 /**
- * Deterministic question for a round — identical on every client. Question N
- * comes from the Nth topic in this giveaway's shuffled topic order, so a round
- * of six spans six different topics (crop, fish, npc, cooking, …). Within the
- * topic the specific template + item are seed-picked. Falls back across all
- * templates only if a topic can't produce a fair question this seed.
+ * Build a whole round of `count` questions, guaranteed distinct (no repeated
+ * question text — the exotic-crop-spam fix). Uses the round plan's template for
+ * each slot; if that one fails or would duplicate an earlier question, it sweeps
+ * the other templates for a fresh one. Deterministic, so every client agrees.
+ */
+function generateRound(giveawayId: string, count: number): TriviaQuestion[] {
+  const plan = roundTemplates(giveawayId, count);
+  const round: TriviaQuestion[] = [];
+  const seen = new Set<string>();
+
+  for (let index = 0; index < count; index += 1) {
+    let q = build(plan[index % plan.length], giveawayId, index);
+
+    // Failed, or its text already appeared this round — find a fresh template.
+    if (!q || seen.has(q.question)) {
+      const order = [...ALL_TEMPLATES];
+      const rand = mulberry32(hashString(`trivia-alt:${giveawayId}:${index}`));
+      for (let i = order.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(rand() * (i + 1));
+        [order[i], order[j]] = [order[j], order[i]];
+      }
+      for (const template of order) {
+        const alt = build(template, giveawayId, index);
+        if (alt && !seen.has(alt.question)) {
+          q = alt;
+          break;
+        }
+      }
+    }
+
+    if (!q) q = FALLBACK;
+    seen.add(q.question);
+    round.push(q);
+  }
+
+  return round;
+}
+
+/** Rounds are deterministic, so cache each giveaway's round (built once). */
+const roundCache = new Map<string, TriviaQuestion[]>();
+
+/**
+ * Deterministic question for a round — identical on every client. Delegates to
+ * `generateRound`, which guarantees the round's questions are all distinct.
  */
 export function generateQuestion(
   giveawayId: string,
   index: number,
+  count: number = DEFAULT_ROUND,
 ): TriviaQuestion {
-  const order = categoryOrder(giveawayId);
-  const category = order[index % order.length];
-
-  return (
-    buildFrom(category.templates, giveawayId, index) ??
-    buildFrom(ALL_TEMPLATES, giveawayId, index) ?? {
-      // Fallback (should never hit): a trivially valid question.
-      question: "What crop is this?",
-      image: image("Sunflower"),
-      answers: ["Sunflower", "Potato", "Pumpkin", "Carrot"],
-      correct: 0,
-    }
-  );
+  const key = `${giveawayId}:${count}`;
+  let round = roundCache.get(key);
+  if (!round) {
+    round = generateRound(giveawayId, count);
+    roundCache.set(key, round);
+  }
+  return round[index % round.length];
 }

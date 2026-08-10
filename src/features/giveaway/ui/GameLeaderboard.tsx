@@ -27,6 +27,35 @@ type Row = {
 };
 
 /**
+ * Snapshot the room's players into a ranked row list. Colyseus mutates the room
+ * state in place (the `server` reference never changes), so reading it directly
+ * in render gets memoised to stale output — we snapshot into React state on an
+ * interval instead (see below), and this is the pure builder for that snapshot.
+ */
+function buildRows(server: MMOContext["server"]): Row[] {
+  if (!server) return [];
+
+  const players: Omit<Row, "position">[] = [];
+  server.state.players.forEach((p, sessionId) => {
+    players.push({
+      sessionId,
+      farmId: p.farmId,
+      username: p.username,
+      clothing: p.clothing?.body
+        ? (p.clothing as unknown as Row["clothing"])
+        : DEFAULT_PARTS,
+      // Standardised: every game submits its live score as `points`.
+      score: Math.max(0, Math.round(p.points ?? 0)),
+      isSelf: sessionId === server.sessionId,
+    });
+  });
+
+  return players
+    .sort((a, b) => b.score - a.score)
+    .map((p, i) => ({ ...p, position: i + 1 }));
+}
+
+/**
  * A live mini leaderboard, top-left. Every mini-game submits its score live to
  * the MMO as the player's `points` field, so this just ranks players by their
  * `points` (highest first) — one standard source for all games. Shows the top
@@ -41,36 +70,18 @@ export const GameLeaderboard: React.FC<{
 }> = ({ server, minigame }) => {
   const { t } = useAppTranslation();
 
-  // Re-read the room state a few times a second, since Colyseus mutates it in
-  // place without re-rendering React.
-  const [, setTick] = useState(0);
+  // Colyseus mutates the room in place, so reading it directly in render gets
+  // memoised to stale output (the `server` reference never changes). Instead we
+  // snapshot it into React state a few times a second — a fresh array each tick
+  // that the render actually re-consumes. The lazy initialiser seeds the first
+  // frame; the interval keeps it live (and re-seeds if `server` swaps).
+  const [rows, setRows] = useState<Row[]>(() => buildRows(server));
   useEffect(() => {
-    const interval = setInterval(() => setTick((n) => n + 1), 400);
+    const interval = setInterval(() => setRows(buildRows(server)), 400);
     return () => clearInterval(interval);
-  }, []);
+  }, [server]);
 
   const connected = !!server;
-  const rows: Row[] = [];
-  if (server) {
-    const players: Omit<Row, "position">[] = [];
-    server.state.players.forEach((p, sessionId) => {
-      players.push({
-        sessionId,
-        farmId: p.farmId,
-        username: p.username,
-        clothing: p.clothing?.body
-          ? (p.clothing as unknown as Row["clothing"])
-          : DEFAULT_PARTS,
-        // Standardised: every game submits its live score as `points`.
-        score: Math.max(0, Math.round(p.points ?? 0)),
-        isSelf: sessionId === server.sessionId,
-      });
-    });
-    players
-      .sort((a, b) => b.score - a.score)
-      .forEach((p, i) => rows.push({ ...p, position: i + 1 }));
-  }
-
   const unit = scoreUnit(minigame);
   const top = rows.slice(0, MAX_ROWS);
   const self = rows.find((r) => r.isSelf);

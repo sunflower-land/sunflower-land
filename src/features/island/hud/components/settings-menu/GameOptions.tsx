@@ -67,7 +67,6 @@ import { ExperimentsSettings } from "./experiments-settings/ExperimentsSettings"
 import { EconomyEditorExperimentSettings } from "./experiments-settings/EconomyEditorExperimentSettings";
 import { InteriorExperimentSettings } from "./experiments-settings/InteriorExperimentSettings";
 import { ToolShopBuyAllExperimentSettings } from "./experiments-settings/ToolShopBuyAllExperimentSettings";
-import { CommunityGamesExperimentSettings } from "./experiments-settings/CommunityGamesExperimentSettings";
 import type { ContentComponentProps, SettingMenuId } from "./types";
 import { TwitterRewards } from "features/auth/components/Twitter/Twitter";
 import { TelegramBody } from "features/auth/components/Telegram/Telegram";
@@ -406,12 +405,6 @@ export const SETTING_MENUS: Record<SettingMenuId, SettingMenu> = {
     parent: "experiments",
     content: ToolShopBuyAllExperimentSettings,
   },
-  communityGames: {
-    title: translate("gameOptions.experiments.communityGames"),
-    parent: "experiments",
-    content: CommunityGamesExperimentSettings,
-  },
-
   // Account
   faceRecognition: {
     title: translate("gameOptions.faceRecognition"),

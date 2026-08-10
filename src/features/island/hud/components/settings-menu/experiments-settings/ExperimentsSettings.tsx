@@ -22,12 +22,6 @@ export const ExperimentsSettings: React.FC<ContentComponentProps> = ({
       >
         <span>{t("gameOptions.experiments.interiors")}</span>
       </Button>
-      <Button
-        className="self-start"
-        onClick={() => onSubMenuClick("communityGames")}
-      >
-        <span>{t("gameOptions.experiments.communityGames")}</span>
-      </Button>
     </div>
   );
 };

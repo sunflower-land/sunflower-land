@@ -98,6 +98,18 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
     };
   }, [mmoService]);
 
+  // Once the event is over, drop off the party server (frees the connection —
+  // the results screen reads the finalised board from the API, not the MMO).
+  // The authoritative clear-out is the server ending the room; this is the
+  // client leaving promptly so nobody lingers on it.
+  const leftRoomRef = useRef(false);
+  useEffect(() => {
+    if ((phase === "complete" || phase === "ended") && !leftRoomRef.current) {
+      leftRoomRef.current = true;
+      mmoService.getSnapshot().context.server?.leave();
+    }
+  }, [phase, mmoService]);
+
   // The joined room, for the leaderboard. The subscribe writes it to a ref
   // (synchronous, always current — like the scene's registry), and a poll pulls
   // it into state every 400ms. Pull-based so it can't lag behind the scene the

@@ -41,4 +41,15 @@ describe("trivia question generator", () => {
       }
     }
   });
+
+  it("never repeats a question within a 10-question round", () => {
+    for (let g = 0; g < 60; g += 1) {
+      const round = Array.from(
+        { length: 10 },
+        (_, i) => generateQuestion(`round-${g}`, i, 10).question,
+      );
+      // Every question in the round is distinct — no exotic-crop spam.
+      expect(new Set(round).size).toBe(10);
+    }
+  });
 });

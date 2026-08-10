@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { CloseButtonPanel } from "../../CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { GiveawayBoardContent } from "features/giveaway/ui/GiveawayBoardContent";
 
 type StreamSchedule = {
   day: number; // 0 = Sunday, 1 = Monday, etc.
@@ -336,29 +335,14 @@ export const StreamsContent: React.FC = () => {
 
 export const Streams: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { t } = useAppTranslation();
-  const [tab, setTab] = useState<"streams" | "games">("streams");
 
   return (
     <CloseButtonPanel
       bumpkinParts={NPC_WEARABLES.streamer}
       onClose={onClose}
-      currentTab={tab}
-      setCurrentTab={setTab}
-      tabs={[
-        {
-          icon: SUNNYSIDE.icons.expression_chat,
-          name: t("streams.title"),
-          id: "streams",
-        },
-        {
-          icon: SUNNYSIDE.icons.treasure,
-          name: t("giveaway.communityGames"),
-          id: "games",
-        },
-      ]}
+      title={t("streams.title")}
     >
-      {tab === "streams" && <StreamsContent />}
-      {tab === "games" && <GiveawayBoardContent />}
+      <StreamsContent />
     </CloseButtonPanel>
   );
 };

@@ -6,7 +6,6 @@ import useSWR from "swr";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
-import { Tab } from "components/ui/Tab";
 import { Loading } from "features/auth/components";
 import { Context as GameContext } from "features/game/GameProvider";
 import * as Auth from "features/auth/lib/Provider";
@@ -28,12 +27,14 @@ import {
 import { recallGiveawayType } from "../lib/giveawayType";
 
 /**
- * The Community Games panel body (no CloseButtonPanel of its own, so it can sit
- * inside the streamer modal's tab or the plaza board). Lists what's on and
- * recently finished, lets admins create a giveaway inline, and drops the player
- * into the event — all management and results live inside the event itself.
+ * The Community Games panel body. The Play / Results tabs live on the wrapping
+ * CloseButtonPanel (see GiveawayBoard) — this just renders the current tab.
+ * Lists what's on and recently finished, lets admins create a giveaway inline,
+ * and drops the player into the event.
  */
-export const GiveawayBoardContent: React.FC = () => {
+export const GiveawayBoardContent: React.FC<{ tab: "play" | "results" }> = ({
+  tab,
+}) => {
   const { t } = useAppTranslation();
   const navigate = useNavigate();
   const { gameService } = useContext(GameContext);
@@ -44,7 +45,6 @@ export const GiveawayBoardContent: React.FC = () => {
   const isAdmin = hasFeatureAccess(gameState, "GIVEAWAY_ADMIN");
 
   const [showCreate, setShowCreate] = useState(false);
-  const [tab, setTab] = useState<"play" | "results">("play");
   const [joining, setJoining] = useState<{ id: string; type: MinigameType }>();
 
   const now = useNow({ live: true, intervalMs: 1000 });
@@ -105,24 +105,6 @@ export const GiveawayBoardContent: React.FC = () => {
 
   return (
     <div className="flex flex-col">
-      {/* Play / Results tabs. */}
-      <div className="flex mb-1">
-        <Tab
-          isFirstTab
-          isActive={tab === "play"}
-          onClick={() => setTab("play")}
-        >
-          <span className="text-xs">{t("giveaway.play")}</span>
-        </Tab>
-        <Tab
-          isFirstTab={false}
-          isActive={tab === "results"}
-          onClick={() => setTab("results")}
-        >
-          <span className="text-xs">{t("giveaway.results")}</span>
-        </Tab>
-      </div>
-
       {!feed && <Loading />}
 
       {/* PLAY — what's on now / coming up, and (for admins) create a new one. */}
