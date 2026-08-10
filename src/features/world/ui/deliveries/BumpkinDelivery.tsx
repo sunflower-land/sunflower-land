@@ -421,69 +421,26 @@ export const Gifts: React.FC<{
     )
     .sort((a, b) => getKeys(FLOWERS).indexOf(a) - getKeys(FLOWERS).indexOf(b));
 
-  // Beta-gated: press-and-hold-to-favorite is still being validated.
-  const hasFavoriteFlowersAccess = hasFeatureAccess(game, "FAVORITE_FLOWERS");
-
-  const [favoriteFlowers, setFavoriteFlowers] = useState<FlowerName[]>(() =>
-    hasFavoriteFlowersAccess ? getFavoriteFlowers() : [],
+  // Beta-gated: the recent-gifts shortlist UX is still being validated.
+  const hasRecentGiftFlowersAccess = hasFeatureAccess(
+    game,
+    "RECENT_GIFT_FLOWERS",
   );
-  const favoritedOwnedFlowers = flowers.filter((flower) =>
-    favoriteFlowers.includes(flower),
+
+  // No favoriting step: the shortlist is derived from this NPC's own gift
+  // history (most recent first), so it's populated automatically the moment
+  // the player has gifted them anything.
+  const [recentFlowers, setRecentFlowers] = useState<FlowerName[]>(() =>
+    hasRecentGiftFlowersAccess ? getRecentGiftFlowers(name) : [],
+  );
+  const recentOwnedFlowers = recentFlowers.filter((flower) =>
+    flowers.includes(flower),
   );
   const otherFlowers = flowers.filter(
-    (flower) => !favoriteFlowers.includes(flower),
+    (flower) => !recentOwnedFlowers.includes(flower),
   );
 
-  // Persisting here (rather than inside the setFavoriteFlowers updater) keeps
-  // the updater a pure state calculation, as React requires - updaters can be
-  // invoked more than once (e.g. Strict Mode), which would otherwise risk
-  // duplicate/stale writes to localStorage.
-  useEffect(() => {
-    if (!hasFavoriteFlowersAccess) return;
-
-    saveFavoriteFlowers(favoriteFlowers);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [favoriteFlowers]);
-
-  const toggleFavorite = (flower: FlowerName) => {
-    if (!hasFavoriteFlowersAccess) return;
-
-    setFavoriteFlowers((previous) => {
-      if (previous.includes(flower)) {
-        return previous.filter((f) => f !== flower);
-      }
-
-      if (previous.length >= MAX_FAVORITE_FLOWERS) return previous;
-
-      return [...previous, flower];
-    });
-  };
-
-  // A press-and-hold on a flower toggles its favorite status instead of
-  // selecting it - the timer is cancelled on release/leave so a normal tap
-  // still selects normally.
-  const longPressTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
-  const longPressTriggered = useRef(false);
-
-  const startLongPress = (flower: FlowerName) => {
-    if (!hasFavoriteFlowersAccess) return;
-
-    longPressTriggered.current = false;
-    longPressTimer.current = setTimeout(() => {
-      longPressTriggered.current = true;
-      toggleFavorite(flower);
-    }, 500);
-  };
-
-  const cancelLongPress = () => {
-    if (longPressTimer.current) clearTimeout(longPressTimer.current);
-  };
-
   const onFlowerClick = (flower: FlowerName) => {
-    if (longPressTriggered.current) {
-      longPressTriggered.current = false;
-      return;
-    }
     setSelected(flower);
   };
 
@@ -496,6 +453,11 @@ export const Gifts: React.FC<{
 
     const difference =
       (state.context.state.npcs?.[name]?.friendship?.points ?? 0) - previous;
+
+    if (hasRecentGiftFlowersAccess && selected) {
+      const updated = recordRecentGiftFlower(name, selected);
+      setRecentFlowers(updated);
+    }
 
     if (BUMPKIN_FLOWER_BONUSES[name]?.[selected as FlowerName]) {
       setMessage(
@@ -592,36 +554,25 @@ export const Gifts: React.FC<{
         )}
         {flowers.length > 0 && (
           <>
-            {hasFavoriteFlowersAccess && (
-              <Label
-                type="info"
-                className="mb-1.5 ml-1"
-                icon={SUNNYSIDE.icons.heart}
-              >
-                {`${t("bumpkin.delivery.favoriteFlowerHint")} (${favoriteFlowers.length}/${MAX_FAVORITE_FLOWERS})`}
-              </Label>
-            )}
-            {hasFavoriteFlowersAccess && favoriteFlowers.length > 0 && (
+            {hasRecentGiftFlowersAccess && recentOwnedFlowers.length > 0 && (
               <>
                 <Label
                   type="default"
                   className="mb-1 ml-1"
-                  icon={SUNNYSIDE.icons.heart}
+                  icon={SUNNYSIDE.icons.stopwatch}
                 >
-                  {`${t("favorites")} (${favoriteFlowers.length}/${MAX_FAVORITE_FLOWERS})`}
+                  {t("bumpkin.delivery.recentlyGifted")}
                 </Label>
                 <div className="flex w-full flex-wrap mb-2">
-                  {favoritedOwnedFlowers.map((flower) => (
+                  {recentOwnedFlowers.map((flower) => (
                     <Box
                       key={flower}
                       onClick={() => onFlowerClick(flower)}
-                      onPointerDown={() => startLongPress(flower)}
-                      onPointerUp={cancelLongPress}
                       image={ITEM_DETAILS[flower].image}
                       secondaryImage={
                         BUMPKIN_FLOWER_BONUSES[name]?.[flower]
                           ? lightning
-                          : SUNNYSIDE.icons.heart
+                          : undefined
                       }
                       isSelected={selected === flower}
                       count={game.inventory[flower]}
@@ -636,8 +587,6 @@ export const Gifts: React.FC<{
                 <Box
                   key={flower}
                   onClick={() => onFlowerClick(flower)}
-                  onPointerDown={() => startLongPress(flower)}
-                  onPointerUp={cancelLongPress}
                   image={ITEM_DETAILS[flower].image}
                   secondaryImage={
                     BUMPKIN_FLOWER_BONUSES[name]?.[flower]
@@ -710,15 +659,17 @@ function hasReadGiftInfo() {
   return !!localStorage.getItem(LOCAL_STORAGE_KEY);
 }
 
-// Favorite flowers are a purely client-side UI convenience (a quick-pick
-// shortlist in the gift flower grid) - stored in localStorage rather than
-// game state, so no server-side schema/event is needed for this.
-export const MAX_FAVORITE_FLOWERS = 5;
-const FAVORITE_FLOWERS_KEY = `favorite-flowers.${host}-${window.location.pathname}`;
+// Recent gift flowers are a purely client-side UI convenience (a quick-pick
+// shortlist in the gift flower grid, derived from what the player already
+// gave this NPC - no manual favoriting step) - stored in localStorage rather
+// than game state, so no server-side schema/event is needed for this.
+export const MAX_RECENT_GIFT_FLOWERS = 3;
+const recentGiftFlowersKey = (npc: NPCName) =>
+  `recent-gift-flowers.${host}-${window.location.pathname}.${npc}`;
 
-function getFavoriteFlowers(): FlowerName[] {
+function getRecentGiftFlowers(npc: NPCName): FlowerName[] {
   try {
-    const raw = localStorage.getItem(FAVORITE_FLOWERS_KEY);
+    const raw = localStorage.getItem(recentGiftFlowersKey(npc));
     if (!raw) return [];
 
     const parsed = JSON.parse(raw);
@@ -728,8 +679,20 @@ function getFavoriteFlowers(): FlowerName[] {
   }
 }
 
-function saveFavoriteFlowers(flowers: FlowerName[]) {
-  localStorage.setItem(FAVORITE_FLOWERS_KEY, JSON.stringify(flowers));
+// Moves `flower` to the front of this NPC's recent list (de-duped), capped
+// at MAX_RECENT_GIFT_FLOWERS, and persists the result.
+function recordRecentGiftFlower(
+  npc: NPCName,
+  flower: FlowerName,
+): FlowerName[] {
+  const previous = getRecentGiftFlowers(npc);
+  const updated = [flower, ...previous.filter((f) => f !== flower)].slice(
+    0,
+    MAX_RECENT_GIFT_FLOWERS,
+  );
+
+  localStorage.setItem(recentGiftFlowersKey(npc), JSON.stringify(updated));
+  return updated;
 }
 const BumpkinGiftBar: React.FC<{
   game: GameState;

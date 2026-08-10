@@ -200,10 +200,11 @@ const FEATURE_FLAGS = {
   // tiers open to everyone else. The server enforces the same rule.
   YAKKAMON_BETA_ACCESS: betaFeatureFlag,
 
-  // Press-and-hold to star a flower as a favorite in the NPC gift flow.
-  // Client-side only (localStorage), but still gated behind beta access
-  // while the UX is validated.
-  FAVORITE_FLOWERS: betaFeatureFlag,
+  // Surfaces the 3 flowers most recently gifted to each NPC as a quick-pick
+  // shortlist in the gift flow, with no manual favoriting step. Client-side
+  // only (localStorage), but still gated behind beta access while the UX is
+  // validated.
+  RECENT_GIFT_FLOWERS: betaFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

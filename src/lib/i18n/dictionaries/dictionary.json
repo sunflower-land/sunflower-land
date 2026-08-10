@@ -588,7 +588,7 @@
   "cooking.building.runtime": "Runtime {{time}}",
   "bumpkin.delivery.selectFlower": "Select a flower",
   "bumpkin.delivery.noFlowers": "Oh no, you don't have any flowers to gift!",
-  "bumpkin.delivery.favoriteFlowerHint": "Press and hold a flower to star it as a favorite",
+  "bumpkin.delivery.recentlyGifted": "Recently gifted",
   "bumpkin.delivery.thanks": "Gee Wizz thanks Bumpkin!!!",
   "bumpkin.delivery.waiting": "I've been waiting for this. Thanks a bunch! Come back soon for more deliveries.",
   "bumpkin.delivery.proveYourself": "Prove yourself worthy. Level up {{missingLevels}} more times.",
