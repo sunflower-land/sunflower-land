@@ -31,7 +31,7 @@ import type {
   Order,
 } from "features/game/types/game";
 import { hasOrderRequirements } from "features/island/delivery/components/Orders";
-import { translate } from "lib/i18n/translate";
+import { translateForBubble } from "lib/i18n/translate";
 import type { Room } from "colyseus.js";
 
 import defaultTilesetConfig from "assets/map/tileset.json";
@@ -497,7 +497,7 @@ export abstract class BaseScene extends Phaser.Scene {
           );
 
           if (distance > 50) {
-            this.currentPlayer?.speak(translate("base.far.away"));
+            this.currentPlayer?.speak(translateForBubble("base.far.away"));
             return;
           }
 
@@ -533,7 +533,7 @@ export abstract class BaseScene extends Phaser.Scene {
         );
 
         if (closestDistance > 50) {
-          this.currentPlayer?.speak(translate("base.far.away"));
+          this.currentPlayer?.speak(translateForBubble("base.far.away"));
           return;
         }
 
@@ -1049,7 +1049,7 @@ export abstract class BaseScene extends Phaser.Scene {
     const sender = this.findBumpkinByFarmId(interaction.senderId);
 
     if (reason === "timeout") {
-      sender?.speak(translate("microInteraction.maybe.later"));
+      sender?.speak(translateForBubble("microInteraction.maybe.later"));
     }
   }
 
@@ -1085,8 +1085,8 @@ export abstract class BaseScene extends Phaser.Scene {
     ) {
       switch (interaction) {
         case "wave_ack": {
-          sender.speak(translate("microInteraction.great.to.see.you"));
-          receiver.speak(translate("microInteraction.hey.there"));
+          sender.speak(translateForBubble("microInteraction.great.to.see.you"));
+          receiver.speak(translateForBubble("microInteraction.hey.there"));
 
           // Determine the other participant for wave tracking
           const currentFarmId = this.currentPlayer?.farmId;
@@ -1186,9 +1186,11 @@ export abstract class BaseScene extends Phaser.Scene {
           break;
         }
         case "cheer_ack":
-          sender.speak(translate("microInteraction.here.s.a.cheer.for.you"));
+          sender.speak(
+            translateForBubble("microInteraction.here.s.a.cheer.for.you"),
+          );
           setTimeout(() => {
-            receiver.speak(translate("microInteraction.thanks"));
+            receiver.speak(translateForBubble("microInteraction.thanks"));
           }, 1000);
           if (this.currentPlayer?.farmId === receiverId) {
             setTimeout(() => {
@@ -1361,7 +1363,9 @@ export abstract class BaseScene extends Phaser.Scene {
               );
 
               if (distance > 50) {
-                this.currentPlayer?.speak(translate("base.iam.far.away"));
+                this.currentPlayer?.speak(
+                  translateForBubble("base.iam.far.away"),
+                );
                 return;
               }
 
@@ -1688,7 +1692,7 @@ export abstract class BaseScene extends Phaser.Scene {
       if (!npc) return;
 
       if (distance > 50) {
-        entity.speak(translate("base.far.away"));
+        entity.speak(translateForBubble("base.far.away"));
         return;
       }
 
@@ -2348,7 +2352,7 @@ export abstract class BaseScene extends Phaser.Scene {
         );
 
         if (distance > 50) {
-          container.speak(translate("base.far.away"));
+          container.speak(translateForBubble("base.far.away"));
           return;
         }
         npcModalManager.open(bumpkin.npc);

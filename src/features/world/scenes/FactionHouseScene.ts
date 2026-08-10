@@ -1,6 +1,6 @@
 import { BaseScene } from "./BaseScene";
 import { interactableModalManager } from "../ui/InteractableModals";
-import { translate } from "lib/i18n/translate";
+import { translateForBubble } from "lib/i18n/translate";
 import { getFactionPrize } from "../ui/factions/weeklyPrize/FactionWeeklyPrize";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { getWeekKey } from "features/game/lib/factions";
@@ -253,7 +253,7 @@ export abstract class FactionHouseScene extends BaseScene {
           if (this.checkDistanceToSprite(basicChest, 75)) {
             interactableModalManager.open("weekly_faction_prize");
           } else {
-            this.currentPlayer?.speak(translate("base.iam.far.away"));
+            this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
           }
         });
       this.physics.add.existing(basicChest);
