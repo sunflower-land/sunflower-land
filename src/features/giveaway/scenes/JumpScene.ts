@@ -280,7 +280,12 @@ export class JumpScene extends BaseScene {
     const metres = Math.round((this.startY - this.bankedY) / PIXELS_PER_METRE);
     if (metres !== this.lastPointsSent) {
       this.lastPointsSent = metres;
-      this.mmoServer?.send(0, { x: player.x, y: player.y, points: metres });
+      this.mmoServer?.send(0, {
+        x: player.x,
+        y: player.y,
+        points: metres,
+        giveawayId: this.bridge?.giveawayId,
+      });
     }
 
     this.soundEffects?.forEach((audio) =>

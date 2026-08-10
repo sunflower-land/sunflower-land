@@ -1,72 +1,50 @@
 import type { BaseScene } from "features/world/scenes/BaseScene";
 import type { Player } from "features/world/types/Room";
 import { NPC_WEARABLES } from "lib/npcs";
+import type { GiveawayBridge } from "../lib/bridge";
 
 /** Fallback outfit when the room doesn't replicate a player's clothing. */
 export const DEFAULT_CLOTHING = NPC_WEARABLES[
   "pumpkin' pete"
 ] as unknown as Player["clothing"];
 
+/** True if a remote player belongs to the giveaway this scene is running. The
+ * party room holds everyone across concurrent / back-to-back giveaways, each
+ * tagged with their current `giveawayId`, so we only show players in ours. */
+export function inThisGiveaway(scene: BaseScene, player: Player): boolean {
+  const gid = (scene.registry.get("giveawayBridge") as GiveawayBridge)
+    ?.giveawayId;
+  // Before we know our own id, show everyone (avoids a blank scene).
+  return !gid || player.giveawayId === gid;
+}
+
 /**
- * Render EVERY other player in the room at the position they broadcast.
- *
- * The giveaway `party_games` room only ever holds giveaway players (and during an
- * event everyone's in the same game), so we deliberately do NOT filter by
- * `sceneId` — that filter silently hid everyone whenever the room didn't
- * replicate a (correct) `sceneId`. We also fall back to a default outfit if the
- * room doesn't replicate `clothing`, so a slim room state still shows people.
+ * Render every other player in the CURRENT giveaway at the position they
+ * broadcast. Players tagged with a different `giveawayId` (a concurrent or
+ * previous game they never left) are filtered out. Falls back to a default
+ * outfit if the room doesn't replicate `clothing`.
  *
  * `pinY` fixes every remote's Y to a constant (used by Egg Catch, whose players
  * broadcast their SCORE as the Y coordinate rather than a real height).
  */
-/** TEMP diagnostic throttle. */
-let _dbgAt = 0;
-
 export function renderRoomPlayers(
   scene: BaseScene,
   opts: { lerp?: number; pinY?: number } = {},
 ) {
   const { lerp = 0.2, pinY } = opts;
   const server = scene.mmoServer;
-
-  // TEMP DIAGNOSTIC — logs once a second so we can see, per client: whether the
-  // room is wired, how many players are in OUR state, how many we've drawn, and
-  // each player's sceneId / position / whether their clothing replicated.
-  const nowMs = Date.now();
-  if (nowMs - _dbgAt > 1000) {
-    _dbgAt = nowMs;
-    const players: unknown[] = [];
-    server?.state.players.forEach((p, sid) =>
-      players.push({
-        sid,
-        farmId: p.farmId,
-        sceneId: p.sceneId,
-        x: Math.round(p.x),
-        y: Math.round(p.y),
-        body: p.clothing?.body ?? null,
-        self: sid === server.sessionId,
-      }),
-    );
-    // eslint-disable-next-line no-console
-    console.log("[giveaway] render", {
-      hasServer: !!server,
-      self: server?.sessionId,
-      sceneKey: scene.scene.key,
-      count: players.length,
-      drawn: Object.keys(scene.playerEntities).length,
-      players,
-    });
-  }
-
   if (!server) return;
 
-  // Drop anyone who has left the room.
+  // Drop anyone who has left the room OR is no longer in our giveaway.
   Object.keys(scene.playerEntities).forEach((sessionId) => {
-    if (!server.state.players.get(sessionId)) scene.destroyPlayer(sessionId);
+    const player = server.state.players.get(sessionId);
+    if (!player || !inThisGiveaway(scene, player))
+      scene.destroyPlayer(sessionId);
   });
 
   server.state.players.forEach((player, sessionId) => {
     if (sessionId === server.sessionId) return;
+    if (!inThisGiveaway(scene, player)) return;
 
     const targetY = pinY ?? player.y;
 

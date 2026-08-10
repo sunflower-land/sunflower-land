@@ -32,11 +32,16 @@ type Row = {
  * in render gets memoised to stale output — we snapshot into React state on an
  * interval instead (see below), and this is the pure builder for that snapshot.
  */
-function buildRows(server: MMOContext["server"]): Row[] {
+function buildRows(server: MMOContext["server"], giveawayId?: string): Row[] {
   if (!server) return [];
 
   const players: Omit<Row, "position">[] = [];
   server.state.players.forEach((p, sessionId) => {
+    const isSelf = sessionId === server.sessionId;
+    // Only rank players in THIS giveaway (the party room holds players across
+    // concurrent / back-to-back games). Always keep yourself on the board.
+    if (giveawayId && !isSelf && p.giveawayId !== giveawayId) return;
+
     players.push({
       sessionId,
       farmId: p.farmId,
@@ -46,7 +51,7 @@ function buildRows(server: MMOContext["server"]): Row[] {
         : DEFAULT_PARTS,
       // Standardised: every game submits its live score as `points`.
       score: Math.max(0, Math.round(p.points ?? 0)),
-      isSelf: sessionId === server.sessionId,
+      isSelf,
     });
   });
 
@@ -67,7 +72,9 @@ export const GameLeaderboard: React.FC<{
   /** The joined room, handed down from GiveawayGame (same object the scene uses). */
   server: MMOContext["server"];
   minigame: MinigameType;
-}> = ({ server, minigame }) => {
+  /** Only rank players tagged with this giveaway's id. */
+  giveawayId: string;
+}> = ({ server, minigame, giveawayId }) => {
   const { t } = useAppTranslation();
 
   // Colyseus mutates the room in place, so reading it directly in render gets
@@ -75,11 +82,14 @@ export const GameLeaderboard: React.FC<{
   // snapshot it into React state a few times a second — a fresh array each tick
   // that the render actually re-consumes. The lazy initialiser seeds the first
   // frame; the interval keeps it live (and re-seeds if `server` swaps).
-  const [rows, setRows] = useState<Row[]>(() => buildRows(server));
+  const [rows, setRows] = useState<Row[]>(() => buildRows(server, giveawayId));
   useEffect(() => {
-    const interval = setInterval(() => setRows(buildRows(server)), 400);
+    const interval = setInterval(
+      () => setRows(buildRows(server, giveawayId)),
+      400,
+    );
     return () => clearInterval(interval);
-  }, [server]);
+  }, [server, giveawayId]);
 
   const connected = !!server;
   const unit = scoreUnit(minigame);

@@ -291,7 +291,7 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
       />
 
       {/* Live MMO-position leaderboard, top-left. */}
-      <GameLeaderboard server={mmoServer} minigame={minigame} />
+      <GameLeaderboard server={mmoServer} minigame={minigame} giveawayId={id} />
 
       {/* Race: the four colour buttons + how-to hint. Shown from the lobby (so
           players see the controls before the start) through the race itself;

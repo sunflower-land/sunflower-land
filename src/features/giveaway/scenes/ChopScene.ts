@@ -12,7 +12,7 @@ import { tokenUriBuilder, type BumpkinParts } from "lib/utils/tokenUriBuilder";
 import type { GiveawayBridge } from "../lib/bridge";
 import { isRaceOver, RACE_DURATION_MS } from "../lib/sim";
 import { serverNow } from "../lib/serverClock";
-import { DEFAULT_CLOTHING } from "./renderRoomPlayers";
+import { DEFAULT_CLOTHING, inThisGiveaway } from "./renderRoomPlayers";
 
 /** Scene key — referenced by GiveawayPhaser's SCENE_BY_TYPE map. */
 export const CHOP_SCENE_ID = "giveaway_chop";
@@ -326,10 +326,11 @@ export class ChopScene extends BaseScene {
     const player = this.currentPlayer;
     if (!server || !player) return;
 
-    // Drop anyone who left the room. (No sceneId filter — the party room only
-    // holds giveaway players; see renderRoomPlayers for the full reasoning.)
+    // Drop anyone who left the room or is no longer in our giveaway (the party
+    // room holds players across concurrent / back-to-back games).
     for (const [sessionId, chopper] of this.choppers) {
-      if (!server.state.players.get(sessionId)) {
+      const remote = server.state.players.get(sessionId);
+      if (!remote || !inThisGiveaway(this, remote)) {
         chopper.container.destroy();
         chopper.tree.destroy();
         this.choppers.delete(sessionId);
@@ -338,6 +339,7 @@ export class ChopScene extends BaseScene {
 
     server.state.players.forEach((remote, sessionId) => {
       if (sessionId === server.sessionId) return;
+      if (!inThisGiveaway(this, remote)) return;
 
       const existing = this.choppers.get(sessionId);
       if (existing) {
@@ -589,6 +591,7 @@ export class ChopScene extends BaseScene {
         x: player.x,
         y: this.score,
         points: this.score,
+        giveawayId: this.bridge?.giveawayId,
       });
     }
 

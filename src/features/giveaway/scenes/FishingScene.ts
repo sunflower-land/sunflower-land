@@ -16,7 +16,7 @@ import {
   FISH_POOL,
   type StreamFish,
 } from "../lib/fishing";
-import { DEFAULT_CLOTHING } from "./renderRoomPlayers";
+import { DEFAULT_CLOTHING, inThisGiveaway } from "./renderRoomPlayers";
 
 /** Scene key — referenced by the game config (see scenes/registry.ts). */
 export const FISHING_SCENE_ID = "giveaway_fishing";
@@ -598,6 +598,7 @@ export class FishingScene extends BaseScene {
         x: player.x,
         y: this.score,
         points: this.score,
+        giveawayId: this.bridge?.giveawayId,
       });
     }
 
@@ -618,7 +619,8 @@ export class FishingScene extends BaseScene {
     const racing = this.bridge?.getPhase() === "racing" && !this.finished;
 
     for (const [sessionId, angler] of this.anglers) {
-      if (!server.state.players.get(sessionId)) {
+      const remote = server.state.players.get(sessionId);
+      if (!remote || !inThisGiveaway(this, remote)) {
         angler.container.destroy();
         this.usedSlots.delete(angler.slot);
         this.anglers.delete(sessionId);
@@ -627,6 +629,7 @@ export class FishingScene extends BaseScene {
 
     server.state.players.forEach((remote, sessionId) => {
       if (sessionId === server.sessionId) return;
+      if (!inThisGiveaway(this, remote)) return;
 
       let entry = this.anglers.get(sessionId);
       if (!entry) {

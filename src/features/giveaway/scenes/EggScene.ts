@@ -290,6 +290,7 @@ export class EggScene extends BaseScene {
         x: player.x,
         y: this.score,
         points: this.score,
+        giveawayId: this.bridge?.giveawayId,
       });
     }
 

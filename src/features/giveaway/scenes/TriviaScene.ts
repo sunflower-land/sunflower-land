@@ -17,7 +17,7 @@ import {
   TRIVIA_INTRO_MS,
   type TriviaPhase,
 } from "../lib/trivia";
-import { DEFAULT_CLOTHING } from "./renderRoomPlayers";
+import { DEFAULT_CLOTHING, inThisGiveaway } from "./renderRoomPlayers";
 
 /** Scene key — referenced by the game config (see scenes/registry.ts). */
 export const TRIVIA_SCENE_ID = "giveaway_trivia";
@@ -378,7 +378,12 @@ export class TriviaScene extends BaseScene {
       this.lastBroadcastAt = now;
       this.lastBroadcastAnswer = answer;
       this.lastBroadcastScore = this.score;
-      this.mmoServer?.send(0, { x: answer, y: this.score, points: this.score });
+      this.mmoServer?.send(0, {
+        x: answer,
+        y: this.score,
+        points: this.score,
+        giveawayId: this.bridge?.giveawayId,
+      });
     }
 
     player.setDepth(Math.floor(player.y));
@@ -394,7 +399,8 @@ export class TriviaScene extends BaseScene {
     if (!server) return;
 
     for (const [sessionId, other] of this.others) {
-      if (!server.state.players.get(sessionId)) {
+      const remote = server.state.players.get(sessionId);
+      if (!remote || !inThisGiveaway(this, remote)) {
         other.container.destroy();
         this.others.delete(sessionId);
       }
@@ -405,6 +411,8 @@ export class TriviaScene extends BaseScene {
       // Guard against a self-echo arriving under a different session id (it
       // would render a duplicate of your own Bumpkin).
       if (remote.farmId === this.bridge?.playerId) return;
+      // Only players in this giveaway (the party room holds concurrent games).
+      if (!inThisGiveaway(this, remote)) return;
 
       // Before any question (intro / lobby) everyone gathers in the centre —
       // ignore their broadcast X (a not-yet-broadcast player defaults to 0,

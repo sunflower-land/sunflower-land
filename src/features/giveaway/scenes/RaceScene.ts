@@ -295,7 +295,12 @@ export class RaceScene extends BaseScene {
     // points off the same message it uses for movement).
     if (metres !== this.lastPointsSent) {
       this.lastPointsSent = metres;
-      this.mmoServer?.send(0, { x: player.x, y: player.y, points: metres });
+      this.mmoServer?.send(0, {
+        x: player.x,
+        y: player.y,
+        points: metres,
+        giveawayId: this.bridge?.giveawayId,
+      });
     }
 
     this.soundEffects?.forEach((audio) =>
