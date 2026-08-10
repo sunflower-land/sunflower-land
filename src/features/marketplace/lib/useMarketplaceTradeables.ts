@@ -1,5 +1,5 @@
 import { useActor } from "@xstate/react";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import useSWRImmutable from "swr/immutable";
 import * as Auth from "features/auth/lib/Provider";
 import type { Marketplace } from "features/game/types/marketplace";
@@ -42,9 +42,19 @@ export const useMarketplaceTradeables = ({
   const [authState] = useActor(authService);
   const token = authState.context.user.rawToken as string | undefined;
   const filterKey = [...new Set(filters)].sort().join(",");
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    // Let the interface paint before starting the optional marketplace lookup.
+    const id = window.setTimeout(() => setReady(true), 0);
+
+    return () => window.clearTimeout(id);
+  }, []);
 
   const { data } = useSWRImmutable(
-    enabled && token ? ["marketplace-tradeables", filterKey, token] : null,
+    ready && enabled && token
+      ? ["marketplace-tradeables", filterKey, token]
+      : null,
     ([, requestedFilters, authToken]: [string, string, string]) =>
       loadMarketplace({ filters: requestedFilters, token: authToken }),
   );

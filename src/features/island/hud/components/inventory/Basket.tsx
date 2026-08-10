@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
@@ -65,7 +65,6 @@ import {
   PURCHASEABLE_BAIT,
 } from "features/game/types/fishing";
 import { Label } from "components/ui/Label";
-import { Button } from "components/ui/Button";
 import { KNOWN_IDS } from "features/game/types";
 import { useMarketplaceTradeables } from "features/marketplace/lib/useMarketplaceTradeables";
 import {
@@ -100,8 +99,6 @@ import {
 import { ANIMAL_FEED_BUFF_ITEMS } from "features/game/events/landExpansion/applyAnimalFeedBuff";
 import { InventoryFilters } from "./InventoryFilters";
 
-const INVENTORY_MARKETPLACE_FILTERS = ["collectibles", "resources"] as const;
-
 interface Prop {
   gameState: GameState;
   selected?: InventoryItemName;
@@ -120,8 +117,6 @@ export const Basket: React.FC<Prop> = ({
   const [showBoosts, setShowBoosts] = useState(false);
   const [search, setSearch] = useState("");
   const [activeCategories, setActiveCategories] = useState<string[]>([]);
-  const [loadMarketplaceTradeables, setLoadMarketplaceTradeables] =
-    useState(false);
 
   const toggleCategory = (id: string) =>
     setActiveCategories((prev) =>
@@ -129,19 +124,8 @@ export const Basket: React.FC<Prop> = ({
     );
 
   const { t } = useAppTranslation();
-  const { isTradeable } = useMarketplaceTradeables({
-    filters: INVENTORY_MARKETPLACE_FILTERS,
-    enabled: loadMarketplaceTradeables,
-  });
+  const { isTradeable } = useMarketplaceTradeables();
 
-  useEffect(() => {
-    // Let the inventory paint before starting the optional marketplace lookup.
-    const id = window.setTimeout(() => {
-      setLoadMarketplaceTradeables(true);
-    }, 0);
-
-    return () => window.clearTimeout(id);
-  }, []);
   const { inventory } = gameState;
   const basketMap = getBasketItems(inventory);
 
@@ -603,15 +587,11 @@ export const Basket: React.FC<Prop> = ({
                   ? getBaseHarvestTime(selectedItem)
                   : undefined,
                 timeBoostsUsed: seedHarvestTime?.boostsUsed,
-                showOpenSeaLink: true,
+                onMarketplaceClick:
+                  onOpenMarketplace && canOpenMarketplace
+                    ? () => onOpenMarketplace(selectedItem)
+                    : undefined,
               }}
-              actionView={
-                onOpenMarketplace && canOpenMarketplace ? (
-                  <Button onClick={() => onOpenMarketplace(selectedItem)}>
-                    {t("marketplace")}
-                  </Button>
-                ) : undefined
-              }
             />
           )
         }

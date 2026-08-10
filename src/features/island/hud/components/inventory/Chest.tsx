@@ -67,6 +67,8 @@ import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { FarmHandDetails } from "components/ui/layouts/FarmHandDetails";
 import { getBudImage } from "lib/buds/types";
 import { InventoryFilters } from "./InventoryFilters";
+import { KNOWN_IDS } from "features/game/types";
+import { useMarketplaceTradeables } from "features/marketplace/lib/useMarketplaceTradeables";
 
 export const ITEM_ICONS: (
   season: TemperateSeasonName,
@@ -102,6 +104,7 @@ interface PanelContentProps {
   onPlace?: (name: LandscapingPlaceable) => void;
   onPlaceNFT?: (id: string, nft: NFTName) => void;
   onPlaceFarmHand?: (id: string) => void;
+  onOpenMarketplace?: () => void;
   isSaving?: boolean;
 }
 
@@ -110,6 +113,7 @@ const PanelContent: React.FC<PanelContentProps> = ({
   onPlace,
   onPlaceNFT,
   onPlaceFarmHand,
+  onOpenMarketplace,
   selectedChestItem,
   closeModal,
   state,
@@ -205,7 +209,7 @@ const PanelContent: React.FC<PanelContentProps> = ({
         item: selectedChestItem.name,
       }}
       properties={{
-        showOpenSeaLink: true,
+        onMarketplaceClick: onOpenMarketplace,
       }}
       actionView={
         onPlace && (
@@ -227,6 +231,7 @@ interface Props {
   onPlaceNFT?: (id: string, nft: NFTName) => void;
   onPlaceFarmHand?: (id: string) => void;
   onDepositClick?: () => void;
+  onOpenMarketplace?: (name: CollectibleName) => void;
   isSaving?: boolean;
   location?: PlaceableLocation;
 }
@@ -241,11 +246,13 @@ export const Chest: React.FC<Props> = ({
   onPlaceNFT,
   onPlaceFarmHand,
   onDepositClick,
+  onOpenMarketplace,
   location,
 }: Props) => {
   const divRef = useRef<HTMLDivElement>(null);
   const [search, setSearch] = useState("");
   const [activeCategories, setActiveCategories] = useState<string[]>([]);
+  const { isTradeable } = useMarketplaceTradeables();
 
   const toggleCategory = (id: string) =>
     setActiveCategories((prev) =>
@@ -315,6 +322,20 @@ export const Chest: React.FC<Props> = ({
   };
 
   const selectedChestItem = getSelectedChestItems();
+
+  const selectedCollectible =
+    selectedChestItem && collectibles[selectedChestItem.name as CollectibleName]
+      ? (selectedChestItem.name as CollectibleName)
+      : undefined;
+  const openMarketplace =
+    onOpenMarketplace &&
+    selectedCollectible &&
+    isTradeable({
+      collection: "collectibles",
+      id: KNOWN_IDS[selectedCollectible],
+    })
+      ? () => onOpenMarketplace(selectedCollectible)
+      : undefined;
 
   const handleItemClick = (item: LandscapingPlaceableType) => {
     onSelect(item);
@@ -436,6 +457,7 @@ export const Chest: React.FC<Props> = ({
             onPlace={onPlace}
             onPlaceNFT={onPlaceNFT}
             onPlaceFarmHand={onPlaceFarmHand}
+            onOpenMarketplace={openMarketplace}
             isSaving={isSaving}
             buds={buds}
             pets={petsNFTs}

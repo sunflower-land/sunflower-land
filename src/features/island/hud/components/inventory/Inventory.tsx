@@ -108,6 +108,11 @@ export const Inventory: React.FC<Props> = ({
   const [selectedChestItem, setSelectedChestItem] =
     useState<LandscapingPlaceableType>();
 
+  const restoredChestItem: LandscapingPlaceableType | undefined =
+    inventoryRestore?.tab === "Chest" && inventoryRestore.selectedItem
+      ? { name: inventoryRestore.selectedItem as CollectibleName }
+      : undefined;
+
   const handleBasketItemClick = (item: InventoryItemName) => {
     setBasketItem(item);
 
@@ -179,11 +184,20 @@ export const Inventory: React.FC<Props> = ({
         onHide={closeInventory}
         state={state}
         selectedBasketItem={
-          basketItem ?? inventoryRestore?.selectedItem ?? selectedItem
+          basketItem ??
+          (inventoryRestore?.tab === "Basket"
+            ? inventoryRestore.selectedItem
+            : undefined) ??
+          selectedItem
         }
         onSelectBasketItem={handleBasketItemClick}
-        onOpenMarketplace={(item) => {
-          setBasketItem(item);
+        onOpenMarketplace={(item, tab) => {
+          if (tab === "Basket") {
+            setBasketItem(item);
+          } else {
+            setSelectedChestItem({ name: item as CollectibleName });
+          }
+
           setIsOpen(false);
 
           openMarketplace({
@@ -193,12 +207,12 @@ export const Inventory: React.FC<Props> = ({
             },
             restore: {
               type: "inventory",
-              tab: "Basket",
+              tab,
               selectedItem: item,
             },
           });
         }}
-        selectedChestItem={selectedChestItem}
+        selectedChestItem={selectedChestItem ?? restoredChestItem}
         onSelectChestItem={setSelectedChestItem}
         onPlace={onPlace}
         onPlaceNFT={onPlaceNFT}
