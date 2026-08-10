@@ -8331,5 +8331,8 @@
   "colour.dark-red": "Rouge foncé",
   "colour.dark-green": "Vert foncé",
   "colour.dark-teal": "Turquoise foncé",
-  "pets.foodFedToday": "Food Feed Today"
+  "pets.foodFedToday": "Food Feed Today",
+  "giveaway.play": "Jouez",
+  "giveaway.noGamesScheduled": "Aucun party game n'est prévu pour le moment",
+  "giveaway.noResults": "Aucun jeu n'est encore terminé. Revenez après le prochain !"
 }

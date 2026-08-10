@@ -8331,5 +8331,8 @@
   "colour.dark-red": "Dunkel-Rot",
   "colour.dark-green": "Dunkelgrün",
   "colour.dark-teal": "Dunkelblaugrün",
-  "pets.foodFedToday": "Heute ernährtes Essen"
+  "pets.foodFedToday": "Heute ernährtes Essen",
+  "giveaway.play": "Abspielen",
+  "giveaway.noGamesScheduled": "Im Moment sind keine Partyspiele geplant",
+  "giveaway.noResults": "Noch keine fertigen Spiele — schaut nach dem nächsten wieder rein!"
 }

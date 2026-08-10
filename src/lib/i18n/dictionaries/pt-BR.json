@@ -8331,5 +8331,8 @@
   "colour.dark-red": "Vermelho escuro",
   "colour.dark-green": "Verde escuro",
   "colour.dark-teal": "Dark-Teal",
-  "pets.foodFedToday": "Alimentação alimentada hoje"
+  "pets.foodFedToday": "Alimentação alimentada hoje",
+  "giveaway.play": "Jogar",
+  "giveaway.noGamesScheduled": "Não há jogos de festa programados no momento",
+  "giveaway.noResults": "Ainda não há jogos finalizados — volte depois do próximo!"
 }

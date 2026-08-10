@@ -8331,5 +8331,8 @@
   "colour.dark-red": "Koyu Kırmızı",
   "colour.dark-green": "Koyu Yeşil",
   "colour.dark-teal": "Koyu Mavi",
-  "pets.foodFedToday": "Bugün Gıda Fed"
+  "pets.foodFedToday": "Bugün Gıda Fed",
+  "giveaway.play": "Oyna",
+  "giveaway.noGamesScheduled": "Şu anda programlanmış parti oyunları yok",
+  "giveaway.noResults": "Henüz bitmiş oyun yok - bir sonrakinden sonra tekrar kontrol edin!"
 }

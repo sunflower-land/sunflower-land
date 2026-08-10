@@ -8331,5 +8331,8 @@
   "colour.dark-red": "Rosso scuro",
   "colour.dark-green": "Verde scuro",
   "colour.dark-teal": "Teal scuro",
-  "pets.foodFedToday": "Food Fed oggi"
+  "pets.foodFedToday": "Food Fed oggi",
+  "giveaway.play": "Gioca",
+  "giveaway.noGamesScheduled": "Non ci sono partite di società in programma al momento",
+  "giveaway.noResults": "Nessun gioco ancora finito: ricontrolla dopo il prossimo!"
 }
