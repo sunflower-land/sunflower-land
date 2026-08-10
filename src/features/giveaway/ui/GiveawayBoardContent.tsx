@@ -6,6 +6,7 @@ import useSWR from "swr";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
+import { Tab } from "components/ui/Tab";
 import { Loading } from "features/auth/components";
 import { Context as GameContext } from "features/game/GameProvider";
 import * as Auth from "features/auth/lib/Provider";
@@ -43,6 +44,7 @@ export const GiveawayBoardContent: React.FC = () => {
   const isAdmin = hasFeatureAccess(gameState, "GIVEAWAY_ADMIN");
 
   const [showCreate, setShowCreate] = useState(false);
+  const [tab, setTab] = useState<"play" | "results">("play");
   const [joining, setJoining] = useState<{ id: string; type: MinigameType }>();
 
   const now = useNow({ live: true, intervalMs: 1000 });
@@ -102,65 +104,94 @@ export const GiveawayBoardContent: React.FC = () => {
   const past = feed?.recent ?? [];
 
   return (
-    <div className="flex flex-col gap-2 p-1">
-      {isAdmin && (
-        <Button onClick={() => setShowCreate(true)}>
-          {t("giveaway.create")}
-        </Button>
-      )}
+    <div className="flex flex-col">
+      {/* Play / Results tabs. */}
+      <div className="flex mb-1">
+        <Tab
+          isFirstTab
+          isActive={tab === "play"}
+          onClick={() => setTab("play")}
+        >
+          <span className="text-xs">{t("giveaway.play")}</span>
+        </Tab>
+        <Tab
+          isFirstTab={false}
+          isActive={tab === "results"}
+          onClick={() => setTab("results")}
+        >
+          <span className="text-xs">{t("giveaway.results")}</span>
+        </Tab>
+      </div>
 
       {!feed && <Loading />}
 
-      {feed && active.length === 0 && past.length === 0 && (
-        <p className="text-sm p-1">{t("giveaway.none")}</p>
+      {/* PLAY — what's on now / coming up, and (for admins) create a new one. */}
+      {feed && tab === "play" && (
+        <div className="flex flex-col gap-2 p-1">
+          {active.map((giveaway) => {
+            const type = typeFor(giveaway.id, giveaway.title);
+            const isLive = giveaway.status === "live";
+
+            return (
+              <InnerPanel key={giveaway.id} className="flex flex-col gap-2 p-2">
+                <div className="flex justify-between items-center gap-1">
+                  <Label type="default">{giveaway.title}</Label>
+                  {isLive ? (
+                    <Label type="danger">{t("giveaway.gameLive")}</Label>
+                  ) : (
+                    <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+                      {startsInLabel(giveaway.startAt)}
+                    </Label>
+                  )}
+                </div>
+
+                <p className="text-xs">{minigameDescription(type)}</p>
+
+                {isLive ? (
+                  // A live game can't be joined — you'd have missed the start.
+                  <p className="text-xxs italic">
+                    {t("giveaway.waitingResults")}
+                  </p>
+                ) : isJoining && joining?.id === giveaway.id ? (
+                  <Loading text={t("giveaway.joining")} />
+                ) : (
+                  <Button onClick={() => join(giveaway.id, type)}>
+                    {t("giveaway.clickToJoin")}
+                  </Button>
+                )}
+
+                {/* Admins can still slip into a live game to run / finish it. */}
+                {isLive && isAdmin && (
+                  <Button
+                    className="w-auto text-xxs"
+                    onClick={() => enter(giveaway.id, type)}
+                  >
+                    {t("giveaway.enter")}
+                  </Button>
+                )}
+              </InnerPanel>
+            );
+          })}
+
+          {/* Nothing scheduled — a friendly note. */}
+          {active.length === 0 && (
+            <p className="text-sm text-center p-2">
+              {t("giveaway.noGamesScheduled")}
+            </p>
+          )}
+
+          {/* Admins create a new game from the bottom of the Play tab. */}
+          {isAdmin && (
+            <Button onClick={() => setShowCreate(true)}>
+              {t("giveaway.create")}
+            </Button>
+          )}
+        </div>
       )}
 
-      {active.map((giveaway) => {
-        const type = typeFor(giveaway.id, giveaway.title);
-        const isLive = giveaway.status === "live";
-
-        return (
-          <InnerPanel key={giveaway.id} className="flex flex-col gap-2 p-2">
-            <div className="flex justify-between items-center gap-1">
-              <Label type="default">{giveaway.title}</Label>
-              {isLive ? (
-                <Label type="danger">{t("giveaway.gameLive")}</Label>
-              ) : (
-                <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-                  {startsInLabel(giveaway.startAt)}
-                </Label>
-              )}
-            </div>
-
-            <p className="text-xs">{minigameDescription(type)}</p>
-
-            {isLive ? (
-              // A live game can't be joined — you'd have missed the start.
-              <p className="text-xxs italic">{t("giveaway.waitingResults")}</p>
-            ) : isJoining && joining?.id === giveaway.id ? (
-              <Loading text={t("giveaway.joining")} />
-            ) : (
-              <Button onClick={() => join(giveaway.id, type)}>
-                {t("giveaway.clickToJoin")}
-              </Button>
-            )}
-
-            {/* Admins can still slip into a live game to run / finish it. */}
-            {isLive && isAdmin && (
-              <Button
-                className="w-auto text-xxs"
-                onClick={() => enter(giveaway.id, type)}
-              >
-                {t("giveaway.enter")}
-              </Button>
-            )}
-          </InnerPanel>
-        );
-      })}
-
-      {past.length > 0 && (
-        <>
-          <Label type="default">{t("giveaway.pastResults")}</Label>
+      {/* RESULTS — recently finished games. */}
+      {feed && tab === "results" && (
+        <div className="flex flex-col gap-2 p-1">
           {past.map((giveaway) => (
             <InnerPanel
               key={giveaway.id}
@@ -187,7 +218,11 @@ export const GiveawayBoardContent: React.FC = () => {
               </Button>
             </InnerPanel>
           ))}
-        </>
+
+          {past.length === 0 && (
+            <p className="text-sm text-center p-2">{t("giveaway.noResults")}</p>
+          )}
+        </div>
       )}
     </div>
   );

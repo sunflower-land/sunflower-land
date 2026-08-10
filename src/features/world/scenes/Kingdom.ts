@@ -9,6 +9,7 @@ import {
   getChampionsLeaderboard,
 } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { interactableModalManager } from "../ui/InteractableModals";
+import { Label } from "../containers/Label";
 import { translateForBubble } from "lib/i18n/translate";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 
@@ -229,6 +230,25 @@ export class KingdomScene extends BaseScene {
         this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
+
+    // Community games portal — same idea as the mini-game portal above, tucked
+    // just below-right of Gambit. Opens the Community Games board.
+    const communityPortal = this.add.sprite(405, 741, "portal");
+    communityPortal.play("portal_anim", true);
+    communityPortal
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        if (this.checkDistanceToSprite(communityPortal, 40)) {
+          interactableModalManager.open("giveaway_board");
+        } else {
+          this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+        }
+      });
+
+    const communityLabel = new Label(this, "BETA", "vibrant");
+    communityLabel.setPosition(405, 725);
+    communityLabel.setDepth(10000000);
+    this.add.existing(communityLabel);
 
     const board1 = this.add.sprite(328, 620, "sunflorian_board");
 

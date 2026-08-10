@@ -373,7 +373,7 @@ export class PlazaScene extends BaseScene {
       if (this.checkDistanceToSprite(giveaway, 100)) {
         interactableModalManager.open("giveaway_board");
       } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
 

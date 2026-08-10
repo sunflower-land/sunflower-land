@@ -401,7 +401,7 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
                     count: board.totalParticipants,
                   })}
                 </span>
-                <Button onClick={() => navigate("/world/stream")}>
+                <Button onClick={() => navigate("/world/kingdom")}>
                   {t("giveaway.goHome")}
                 </Button>
               </div>
@@ -489,7 +489,7 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
                 </>
               )}
 
-              <Button onClick={() => navigate("/world/stream")}>
+              <Button onClick={() => navigate("/world/kingdom")}>
                 {t("giveaway.goHome")}
               </Button>
             </div>
@@ -503,7 +503,7 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
           <div className="flex flex-col items-center gap-2 p-2">
             <Label type="danger">{t("giveaway.missedStartTitle")}</Label>
             <p className="text-sm text-center">{t("giveaway.missedStart")}</p>
-            <Button onClick={() => navigate("/world/stream")}>
+            <Button onClick={() => navigate("/world/kingdom")}>
               {t("giveaway.goHome")}
             </Button>
           </div>
