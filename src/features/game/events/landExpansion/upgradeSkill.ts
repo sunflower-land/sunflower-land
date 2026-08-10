@@ -8,7 +8,6 @@ import {
   getSkillUpgradeTierRequirement,
 } from "features/game/types/bumpkinSkills";
 import type { GameState } from "features/game/types/game";
-import { hasFeatureAccess } from "lib/flags";
 import {
   getAvailableBumpkinSkillPoints,
   getUnlockedTierForTree,
@@ -36,10 +35,6 @@ export function upgradeSkill({
 
     if (!bumpkin) {
       throw new Error("You do not have a Bumpkin!");
-    }
-
-    if (!hasFeatureAccess(game, "ASCENSION_SKILLS")) {
-      throw new Error("Skill upgrades are not available");
     }
 
     const skillData: BumpkinSkillRevamp =

@@ -7,9 +7,10 @@ import {
   spiceRackCollectedActivity,
 } from "features/game/types/spiceRack";
 import { getObjectEntries } from "lib/object";
-import type { GameState } from "features/game/types/game";
-import { getAgingOutput } from "features/game/types/agingFormulas";
+import type { BoostName, GameState } from "features/game/types/game";
+import { getSpiceRackOutput } from "features/game/types/agingFormulas";
 import { trackFarmActivity } from "features/game/types/farmActivity";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { hasPlacedAgingShed } from "./hasPlacedAgingShed";
 import { getStampedAgerLevel } from "features/game/lib/agingShed";
 
@@ -48,6 +49,8 @@ export function collectSpiceRack({
 
     game.agingShed.racks.spice = queue.filter((job) => job.readyAt > createdAt);
 
+    const boostsUsed: { name: BoostName; value: string }[] = [];
+
     ready.forEach((job) => {
       const recipeDef = getSpiceRackRecipe(job.recipe);
       const counter =
@@ -56,17 +59,19 @@ export function collectSpiceRack({
 
       for (const [item, amount] of getObjectEntries(recipeDef.outputs)) {
         const prev = game.inventory[item] ?? new Decimal(0);
-        const add = getAgingOutput(
-          game,
-          amount ?? new Decimal(0),
-          item,
-          agerLevel,
-          {
-            farmId,
-            itemId: KNOWN_IDS[item],
-            counter,
-          },
-        );
+        const { output: add, boostsUsed: outputBoostsUsed } =
+          getSpiceRackOutput({
+            game,
+            baseAmount: amount ?? new Decimal(0),
+            item,
+            agerLevel,
+            prngArgs: {
+              farmId,
+              itemId: KNOWN_IDS[item],
+              counter,
+            },
+          });
+        boostsUsed.push(...outputBoostsUsed);
 
         game.inventory[item] = prev.add(add);
       }
@@ -78,6 +83,12 @@ export function collectSpiceRack({
         game.farmActivity,
         new Decimal(1),
       );
+    });
+
+    game.boostsUsedAt = updateBoostUsed({
+      game,
+      boostNames: boostsUsed,
+      createdAt,
     });
   });
 }

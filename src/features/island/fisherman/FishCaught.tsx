@@ -18,6 +18,7 @@ interface Props {
   farmActivity: GameState["farmActivity"];
   caught: Partial<Record<InventoryItemName, number>>;
   shrimpOnesieBonus?: Partial<Record<InventoryItemName, number>>;
+  ottyBonus?: Partial<Record<InventoryItemName, number>>;
   onClaim: () => void;
   multiplier?: number;
   difficultCatch: {
@@ -31,6 +32,7 @@ export const FishCaught: React.FC<Props> = ({
   farmActivity,
   caught,
   shrimpOnesieBonus,
+  ottyBonus,
   maps,
   onClaim,
   multiplier = 1,
@@ -139,6 +141,7 @@ export const FishCaught: React.FC<Props> = ({
                     (!farmActivity[`${name} Caught`] ||
                       farmActivity[`${name} Caught`] === 0);
                   const shrimpBonus = shrimpOnesieBonus?.[name] ?? 0;
+                  const otterBonus = ottyBonus?.[name] ?? 0;
 
                   return (
                     <InnerPanel
@@ -158,6 +161,13 @@ export const FishCaught: React.FC<Props> = ({
                               <Label type="vibrant" icon={lightning}>
                                 {t("fishing.shrimpOnesie.bonus", {
                                   amount: shrimpBonus,
+                                })}
+                              </Label>
+                            )}
+                            {otterBonus > 0 && (
+                              <Label type="vibrant" icon={lightning}>
+                                {t("fishing.ottyTheOtter.bonus", {
+                                  amount: otterBonus,
                                 })}
                               </Label>
                             )}
@@ -224,6 +234,7 @@ export const FishCaught: React.FC<Props> = ({
             (!farmActivity[`${name} Caught`] ||
               farmActivity[`${name} Caught`] === 0);
           const shrimpBonus = shrimpOnesieBonus?.[name] ?? 0;
+          const otterBonus = ottyBonus?.[name] ?? 0;
 
           return (
             <div
@@ -240,6 +251,11 @@ export const FishCaught: React.FC<Props> = ({
               {shrimpBonus > 0 && (
                 <Label type="vibrant" icon={lightning} className="mb-2">
                   {t("fishing.shrimpOnesie.bonus", { amount: shrimpBonus })}
+                </Label>
+              )}
+              {otterBonus > 0 && (
+                <Label type="vibrant" icon={lightning} className="mb-2">
+                  {t("fishing.ottyTheOtter.bonus", { amount: otterBonus })}
                 </Label>
               )}
               <img src={ITEM_DETAILS[name]?.image} className="h-12 mb-2" />

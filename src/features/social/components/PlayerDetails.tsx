@@ -8,6 +8,11 @@ import basicIsland from "assets/icons/islands/basic.webp";
 import springIsland from "assets/icons/islands/spring.webp";
 import desertIsland from "assets/icons/islands/desert.webp";
 import volcanoIsland from "assets/icons/islands/volcano.webp";
+import swampIsland from "assets/icons/islands/swamp.webp";
+import spookyIsland from "assets/icons/islands/spooky.webp";
+import crystalIsland from "assets/icons/islands/crystal.webp";
+import galaxyIsland from "assets/icons/islands/galaxy.webp";
+import marbleIsland from "assets/icons/islands/marble.webp";
 import flowerIcon from "assets/icons/flower_token.webp";
 import cheer from "assets/icons/cheer.webp";
 import socialPointsIcon from "assets/icons/social_score.webp";
@@ -58,12 +63,11 @@ const ISLAND_ICONS: Record<IslandType, string> = {
   spring: springIsland,
   desert: desertIsland,
   volcano: volcanoIsland,
-  swamp: volcanoIsland,
-  // Ascension islands (spooky onward) reuse the swamp value for now.
-  spooky: volcanoIsland,
-  crystal: volcanoIsland,
-  galaxy: volcanoIsland,
-  marble: volcanoIsland,
+  swamp: swampIsland,
+  spooky: spookyIsland,
+  crystal: crystalIsland,
+  galaxy: galaxyIsland,
+  marble: marbleIsland,
 };
 
 type Props = {

@@ -50,24 +50,29 @@ export function getRequiredAxeAmount(inventory: Inventory, game: GameState) {
 }
 
 export function getWoodReward({ state }: { state: GameState }) {
-  let woodReward = 1;
-  // Fruity Woody: +1/+1.5/+2 Wood when removing a fruit tree (scales with rank)
+  // Decimal arithmetic: rank values like 0.9 are not float-exact, and the
+  // result lands in the player's inventory verbatim.
+  let woodReward = new Decimal(1);
+  // Fruity Woody: +1/+1.25/+1.5 Wood when removing a fruit tree (scales with rank)
   const fruityWoodyLevel = getSkillLevel(state.bumpkin.skills, "Fruity Woody");
   if (fruityWoodyLevel) {
-    woodReward += SKILL_RANKS["Fruity Woody"].ranks[fruityWoodyLevel - 1];
+    woodReward = woodReward.add(
+      SKILL_RANKS["Fruity Woody"].ranks[fruityWoodyLevel - 1],
+    );
   }
 
-  // No Axe No Worries: wood penalty shrinks with rank (-1 / -0.5 / none)
+  // No Axe No Worries: wood penalty shrinks with rank (-1 / -0.9 / -0.8)
   const noAxeNoWorriesLevel = getSkillLevel(
     state.bumpkin.skills,
     "No Axe No Worries",
   );
   if (noAxeNoWorriesLevel) {
-    woodReward -=
-      SKILL_RANKS["No Axe No Worries"].ranks[noAxeNoWorriesLevel - 1];
+    woodReward = woodReward.sub(
+      SKILL_RANKS["No Axe No Worries"].ranks[noAxeNoWorriesLevel - 1],
+    );
   }
 
-  return { woodReward };
+  return { woodReward: woodReward.toNumber() };
 }
 
 export function removeFruitTree({

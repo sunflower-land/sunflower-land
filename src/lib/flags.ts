@@ -89,11 +89,19 @@ export const TIME_BASED_FEATURE_FLAG_WINDOWS = {
     end: null,
   },
   // Ascending from Swamp (A1) into the next island (Spooky, A2) unlocks on this
-  // date. Testnet bypasses; the first ascension (Volcano → Swamp / A0 → A1) is
-  // gated separately by SWAMP_ASCENSION and is unaffected.
+  // date. Testnet bypasses. The first ascension (Volcano → Swamp / A0 → A1) is not
+  // time-gated — it unlocks on the standard level-150 / expansion / resource costs.
   SPOOKY_ASCENSION: {
     start: new Date("2026-09-07T00:00:00Z"),
     end: null,
+  },
+  // Ascension Age chapter VIP perk: VIP holders expand their land 10% faster.
+  // Live from Mon 10th Aug 2026 (when the chapter's tasks begin) until the
+  // chapter ends — the end date must match CHAPTERS["Ascension Age"].endDate.
+  // Testnet bypasses the start date so testers can verify ahead of the cutover.
+  ASCENSION_AGE_VIP_EXPANSION: {
+    start: new Date("2026-08-10T00:00:00Z"),
+    end: new Date("2026-11-02T00:00:00Z"),
   },
 } satisfies Record<string, TimeBasedFeatureWindow>;
 
@@ -115,6 +123,7 @@ export const TIME_BASED_FEATURE_FLAGS: Record<
   COLORS_2026_EVENT_FLAG: betaTimePeriodFeatureFlag,
   // Testnet-only bypass before the date (not beta), so live testers can reach A2.
   SPOOKY_ASCENSION: timePeriodFeatureFlag,
+  ASCENSION_AGE_VIP_EXPANSION: timePeriodFeatureFlag,
 };
 
 /**
@@ -150,6 +159,12 @@ const FEATURE_FLAGS = {
   // Permanent Feature Flags
   ADMIN_DASHBOARDS: usernameFeatureFlag,
   AIRDROP_PLAYER: adminFeatureFlag,
+
+  // Shows the admin "Create / End Giveaway" controls on the town-hall giveaway
+  // board. The server enforces the real allowlist (GIVEAWAY_ADMIN_FARM_IDS), so
+  // this only gates the UI. Open to everyone in local development.
+  GIVEAWAY_ADMIN: (game: GameState) =>
+    import.meta.env.DEV || usernameFeatureFlag(game) || adminFeatureFlag(game),
   STREAMER_HAT: (game) =>
     (game.wardrobe["Streamer Hat"] ?? 0) > 0 || testnetFeatureFlag(),
 
@@ -183,18 +198,13 @@ const FEATURE_FLAGS = {
   // baseDurationMs + true plantedAt model; when off, boosts stay discount-at-start.
   SPEED_BOOSTS: usernameFeatureFlag,
 
-  SWAMP_ASCENSION: betaFeatureFlag,
-
   // Bulk Mixer tab in the feeder machine: mix the missing feed for every
   // waiting animal at once. Beta-pass / testnet only until it ships.
   BULK_MIXER: betaFeatureFlag,
 
-  // Per-rank skill upgrades (spend Ascension Shards + skill points to rank up a
-  // skill). Kept on its own flag so the upgrade UI + `skill.upgraded` event can
-  // be toggled independently of the rest of the ascension system (islands,
-  // expansion, level bands). Skill *effects* still apply off the stored rank
-  // regardless of this flag; only purchasing new ranks is gated here.
-  ASCENSION_SKILLS: betaFeatureFlag,
+  // Beta testers can grab a Yakkamon pre-registration code before the level
+  // tiers open to everyone else. The server enforces the same rule.
+  YAKKAMON_BETA_ACCESS: betaFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

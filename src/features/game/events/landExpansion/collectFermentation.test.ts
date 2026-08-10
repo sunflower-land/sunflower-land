@@ -9,6 +9,8 @@ import {
   type LegacyFermentationRecipeName,
 } from "features/game/types/fermentation";
 import { getFishNamesByTier } from "features/game/types/fishing";
+import { prngChance } from "lib/prng";
+import { KNOWN_IDS } from "features/game/types";
 import { getObjectEntries } from "lib/object";
 import { collectFermentation } from "./collectFermentation";
 import {
@@ -106,6 +108,50 @@ describe("collectFermentation", () => {
     expect(state.agingShed.racks.fermentation[0].id).toEqual("b");
     expect(state.inventory.Salt?.toNumber()).toEqual(15);
     expect(state.farmActivity["Salt Fermented"]).toEqual(15);
+  });
+
+  it("doubles fermentation output on a 15% Astrolabe hit", () => {
+    const past = createdAt - 1;
+    const astrolabeHit = Array.from({ length: 100 }, (_, i) => i).find((c) =>
+      prngChance({
+        farmId: 1,
+        itemId: KNOWN_IDS["Pickled Radish"],
+        counter: c,
+        chance: 15,
+        criticalHitName: "Astrolabe",
+      }),
+    );
+    expect(astrolabeHit).toBeDefined();
+
+    const state = collectFermentation({
+      state: createFermentationTestState({
+        collectibles: {
+          Astrolabe: [{ id: "1", createdAt: 0, coordinates: { x: 0, y: 0 } }],
+        },
+        farmActivity: { "Pickled Radish Fermented": astrolabeHit! },
+        agingShed: {
+          ...createInitialAgingShed(),
+          racks: {
+            ...createInitialAgingShed().racks,
+            fermentation: [
+              {
+                id: "x",
+                recipe: "Pickled Radish",
+                startedAt: past,
+                readyAt: past,
+              },
+            ],
+          },
+        },
+      }),
+      action: { type: "fermentation.collected" },
+      farmId: 1,
+      createdAt,
+    });
+
+    // Base 1 Pickled Radish doubled by the Astrolabe proc, on top of the
+    // preset activity counter.
+    expect(state.inventory["Pickled Radish"]?.toNumber()).toEqual(2);
   });
 
   it("collects multiple ready jobs at once", () => {

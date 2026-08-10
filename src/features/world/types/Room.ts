@@ -122,6 +122,9 @@ export interface PlazaRoomState extends Schema {
   mapWidth: number;
   mapHeight: number;
 
+  /** Authoritative server clock (epoch ms); 0 when the room doesn't publish it. */
+  serverTime: number;
+
   players: MapSchema<Player>;
   buds: MapSchema<Bud>;
   pets: MapSchema<Pet>;

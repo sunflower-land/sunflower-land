@@ -336,4 +336,89 @@ describe("applyAnimalFeedBuff", () => {
     });
     expect(state.henHouse.animals[chickenId].multiplier).toBeUndefined();
   });
+  it("doubles the feed buff duration to 6 harvests when Vibraphone is placed", () => {
+    const chickenId = "c1";
+    const state = applyAnimalFeedBuff({
+      createdAt: now,
+      state: {
+        ...GAME_STATE,
+        collectibles: {
+          Vibraphone: [{ id: "1", createdAt: 0, coordinates: { x: 0, y: 0 } }],
+        },
+        inventory: {
+          ...GAME_STATE.inventory,
+          "Salt Lick": new Decimal(1),
+        },
+        henHouse: {
+          ...GAME_STATE.henHouse,
+          animals: {
+            [chickenId]: {
+              id: chickenId,
+              type: "Chicken",
+              createdAt: 0,
+              state: "idle",
+              experience: 0,
+              asleepAt: now - 100_000,
+              awakeAt: now - 50_000,
+              lovedAt: now - 100_000,
+              item: "Petting Hand",
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.feedBuffApplied",
+        animal: "Chicken",
+        id: chickenId,
+        item: "Salt Lick",
+      },
+    });
+
+    expect(state.henHouse.animals[chickenId].feedBuff).toEqual({
+      name: "Salt Lick",
+      harvestsRemaining: 6,
+    });
+  });
+
+  it("keeps 3 harvests when Vibraphone is only in the inventory", () => {
+    const chickenId = "c1";
+    const state = applyAnimalFeedBuff({
+      createdAt: now,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          ...GAME_STATE.inventory,
+          Vibraphone: new Decimal(1),
+          "Salt Lick": new Decimal(1),
+        },
+        henHouse: {
+          ...GAME_STATE.henHouse,
+          animals: {
+            [chickenId]: {
+              id: chickenId,
+              type: "Chicken",
+              createdAt: 0,
+              state: "idle",
+              experience: 0,
+              asleepAt: now - 100_000,
+              awakeAt: now - 50_000,
+              lovedAt: now - 100_000,
+              item: "Petting Hand",
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.feedBuffApplied",
+        animal: "Chicken",
+        id: chickenId,
+        item: "Salt Lick",
+      },
+    });
+
+    expect(state.henHouse.animals[chickenId].feedBuff).toEqual({
+      name: "Salt Lick",
+      harvestsRemaining: 3,
+    });
+  });
 });

@@ -504,6 +504,47 @@ describe("plantGreenhouse", () => {
     expect(state.inventory.Olive).toEqual(new Decimal(2));
   });
 
+  it("boosts +1 Rice yield with Rice Shirt equipped", () => {
+    const state = harvestGreenHouse({
+      farmId: 1,
+      action: { type: "greenhouse.harvested", id: 1 },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            shirt: "Rice Shirt",
+          },
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {
+              plant: {
+                name: "Rice",
+                plantedAt: Date.now() - 72 * 60 * 60 * 1000,
+              },
+            },
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: Date.now(),
+    });
+
+    expect(state.inventory.Rice).toEqual(new Decimal(2));
+  });
+
   it("boosts +1 Rice yield with Non La Hat equipped", () => {
     const state = harvestGreenHouse({
       farmId: 1,
@@ -809,8 +850,8 @@ describe("harvestGreenHouse ascension skill ranks", () => {
     );
   });
 
-  // Greenhouse Gamble chance [25, 35, 45] — locate a counter in the r2-only
-  // band (procs at 35 but not 25) to prove rank 2 procs where rank 1 does not.
+  // Greenhouse Gamble chance [30, 40, 50] — locate a counter in the r2-only
+  // band (procs at 40 but not 30) to prove rank 2 procs where rank 1 does not.
   it("procs Greenhouse Gamble at rank 2 where rank 1 would not", () => {
     const itemId = KNOWN_IDS["Rice"];
     let boundary = -1;
@@ -819,14 +860,14 @@ describe("harvestGreenHouse ascension skill ranks", () => {
         farmId: 1,
         itemId,
         counter,
-        chance: 25,
+        chance: 30,
         criticalHitName: "Greenhouse Gamble",
       });
       const r2 = prngChance({
         farmId: 1,
         itemId,
         counter,
-        chance: 35,
+        chance: 40,
         criticalHitName: "Greenhouse Gamble",
       });
       if (r2 && !r1) {
@@ -854,14 +895,14 @@ describe("harvestGreenHouse ascension skill ranks", () => {
         farmId: 1,
         itemId,
         counter,
-        chance: 35,
+        chance: 40,
         criticalHitName: "Greenhouse Gamble",
       });
       const r3 = prngChance({
         farmId: 1,
         itemId,
         counter,
-        chance: 45,
+        chance: 50,
         criticalHitName: "Greenhouse Gamble",
       });
       if (r3 && !r2) {

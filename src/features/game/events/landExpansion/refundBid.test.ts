@@ -64,6 +64,56 @@ describe("refundBid", () => {
     expect(state.balance).toEqual(new Decimal(5));
   });
 
+  it("decrements FLOWER Spent farm activity when refunding sfl", () => {
+    const state = refundBid({
+      action: {
+        type: "bid.refunded",
+      },
+      state: {
+        ...TEST_FARM,
+        farmActivity: { "FLOWER Spent": 20 },
+        auctioneer: {
+          bid: {
+            collectible: "Beta Bear",
+            tickets: 3,
+            biddedAt: Date.now(),
+            ingredients: { Gold: 4 },
+            sfl: 5,
+            auctionId: "test-drop-1",
+            type: "collectible",
+            flowerSpentTracked: true,
+          },
+        },
+      },
+    });
+
+    expect(state.farmActivity["FLOWER Spent"]).toEqual(15);
+  });
+
+  it("does not write FLOWER Spent when refunding a legacy bid without the tracked marker", () => {
+    const state = refundBid({
+      action: {
+        type: "bid.refunded",
+      },
+      state: {
+        ...TEST_FARM,
+        auctioneer: {
+          bid: {
+            collectible: "Beta Bear",
+            tickets: 3,
+            biddedAt: Date.now(),
+            ingredients: { Gold: 4 },
+            sfl: 5,
+            auctionId: "test-drop-1",
+            type: "collectible",
+          },
+        },
+      },
+    });
+
+    expect(state.farmActivity["FLOWER Spent"]).toBeUndefined();
+  });
+
   it("removes bid", () => {
     const state = refundBid({
       action: {

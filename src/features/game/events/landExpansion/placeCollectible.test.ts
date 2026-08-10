@@ -74,6 +74,10 @@ describe("Place Collectible", () => {
           "Brazilian Flag": new Decimal(1),
         },
         collectibles: {},
+        // (0, 0) is a crop plot on INITIAL_FARM. The reducer now runs the same
+        // collision check as the API, so clear the land the placement needs.
+        crops: {},
+        buildings: {},
       },
       action: {
         id: "123",
@@ -94,6 +98,7 @@ describe("Place Collectible", () => {
     const state = placeCollectible({
       state: {
         ...GAME_STATE,
+        buildings: {},
         inventory: {
           Scarecrow: new Decimal(2),
         },
@@ -101,7 +106,7 @@ describe("Place Collectible", () => {
           Scarecrow: [
             {
               id: "123",
-              coordinates: { x: 1, y: 1 },
+              coordinates: { x: -1, y: -1 },
             },
           ],
         },
@@ -112,8 +117,8 @@ describe("Place Collectible", () => {
         type: "collectible.placed",
         name: "Scarecrow",
         coordinates: {
-          x: 0,
-          y: 0,
+          x: 1,
+          y: 1,
         },
         location: "farm",
       },
@@ -122,11 +127,11 @@ describe("Place Collectible", () => {
     expect(state.collectibles["Scarecrow"]).toHaveLength(2);
     expect(state.collectibles["Scarecrow"]?.[0]).toEqual({
       id: expect.any(String),
-      coordinates: { x: 1, y: 1 },
+      coordinates: { x: -1, y: -1 },
     });
     expect(state.collectibles["Scarecrow"]?.[1]).toEqual({
       id: expect.any(String),
-      coordinates: { x: 0, y: 0 },
+      coordinates: { x: 1, y: 1 },
     });
   });
 
@@ -141,6 +146,7 @@ describe("Place Collectible", () => {
         buildings: {},
         trees: {},
         stones: {},
+        crops: {},
       },
       action: {
         id: "123",
@@ -171,6 +177,7 @@ describe("Place Collectible", () => {
         buildings: {},
         trees: {},
         stones: {},
+        crops: {},
         socialFarming: {
           ...GAME_STATE.socialFarming,
           completedProjects: ["Big Orange"],
@@ -191,6 +198,75 @@ describe("Place Collectible", () => {
 
     expect(state.socialFarming.villageProjects["Big Orange"]).toBeUndefined();
     expect(state.collectibles["Big Orange"]).toHaveLength(1);
+  });
+
+  it("does not restart a village project when re-placing a monument", () => {
+    const dateNow = Date.now();
+    const state = placeCollectible({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Basic Cooking Pot": new Decimal(1),
+        },
+        collectibles: {
+          // Previously placed, then removed - its project has already been
+          // consumed, so restarting it must go through `project.started`
+          "Basic Cooking Pot": [{ id: "123", removedAt: dateNow }],
+        },
+        crops: {},
+      },
+      action: {
+        id: "123",
+        type: "collectible.placed",
+        name: "Basic Cooking Pot",
+        coordinates: {
+          x: 0,
+          y: 0,
+        },
+        location: "farm",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(
+      state.socialFarming.villageProjects["Basic Cooking Pot"],
+    ).toBeUndefined();
+  });
+
+  it("does not restart a village project when moving a monument out of the home", () => {
+    const dateNow = Date.now();
+    const state = placeCollectible({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Basic Cooking Pot": new Decimal(1),
+        },
+        collectibles: {},
+        crops: {},
+        home: {
+          ...GAME_STATE.home,
+          collectibles: {
+            "Basic Cooking Pot": [{ id: "123", removedAt: dateNow }],
+          },
+        },
+      },
+      action: {
+        id: "456",
+        type: "collectible.placed",
+        name: "Basic Cooking Pot",
+        coordinates: {
+          x: 0,
+          y: 0,
+        },
+        location: "farm",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(
+      state.socialFarming.villageProjects["Basic Cooking Pot"],
+    ).toBeUndefined();
+    expect(state.collectibles["Basic Cooking Pot"]).toHaveLength(1);
   });
 
   it("Cannot place a building", () => {
@@ -519,6 +595,14 @@ describe("Place Collectible", () => {
       const state = placeCollectible({
         state: {
           ...GAME_STATE,
+          buildings: {},
+          trees: {},
+          stones: {},
+          iron: {},
+          gold: {},
+          crops: {},
+          fruitPatches: {},
+          collectibles: {},
           inventory: {
             Flicker: new Decimal(1),
           },
@@ -531,7 +615,7 @@ describe("Place Collectible", () => {
           id: "3",
           type: "collectible.placed",
           name: "Flicker",
-          coordinates: { x: 10, y: 10 },
+          coordinates: { x: 2, y: 2 }, // Use empty farm coordinates
           location: "farm",
         },
         createdAt: dateNow,
@@ -557,8 +641,10 @@ describe("Place Collectible", () => {
           id: "ground-1",
           type: "collectible.placed",
           name: "Abandoned Bear",
-          // (-7, -3) → layout tile (5, 9) — valid wood-floor tile on basic.
-          coordinates: { x: -7, y: -3 },
+          // (-5, -5) → layout tile (7, 7) — a valid wood-floor tile on the
+          // basic island layout (the default for TEST_FARM). The basic tent
+          // only spans tiles x 3-8, y 2-7.
+          coordinates: { x: -5, y: -5 },
           location: "interior",
         },
       });
@@ -566,7 +652,7 @@ describe("Place Collectible", () => {
       expect(state.interior.ground.collectibles["Abandoned Bear"]).toEqual([
         {
           id: "ground-1",
-          coordinates: { x: -7, y: -3 },
+          coordinates: { x: -5, y: -5 },
         },
       ]);
     });
@@ -600,6 +686,77 @@ describe("Place Collectible", () => {
           coordinates: { x: 0, y: 0 },
         },
       ]);
+    });
+
+    it("moves an unplaced interior collectible to the farm rather than creating a duplicate", () => {
+      const state = placeCollectible({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            "Tornado Pinwheel": new Decimal(1),
+          },
+          collectibles: {},
+          interior: {
+            ground: {
+              collectibles: {
+                // Removed from the interior, so it has no coordinates
+                "Tornado Pinwheel": [{ id: "interior-1", used: true }],
+              },
+            },
+          },
+        },
+        action: {
+          id: "new-id",
+          type: "collectible.placed",
+          name: "Tornado Pinwheel",
+          coordinates: { x: 1, y: 1 },
+          location: "farm",
+        },
+      });
+
+      // The same instance is moved across — a weather item's `used` flag must
+      // survive the move, otherwise it is renewed for free.
+      expect(state.collectibles["Tornado Pinwheel"]).toEqual([
+        { id: "interior-1", used: true, coordinates: { x: 1, y: 1 } },
+      ]);
+      expect(state.interior.ground.collectibles["Tornado Pinwheel"]).toEqual(
+        [],
+      );
+    });
+
+    it("moves an unplaced level_one collectible to the home rather than creating a duplicate", () => {
+      const state = placeCollectible({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            "Tornado Pinwheel": new Decimal(1),
+          },
+          collectibles: {},
+          interior: {
+            ground: { collectibles: {} },
+            expansion: "level-one-start",
+            level_one: {
+              collectibles: {
+                "Tornado Pinwheel": [{ id: "lo-1", used: true }],
+              },
+            },
+          },
+        },
+        action: {
+          id: "new-id",
+          type: "collectible.placed",
+          name: "Tornado Pinwheel",
+          coordinates: { x: 1, y: 1 },
+          location: "home",
+        },
+      });
+
+      expect(state.home.collectibles["Tornado Pinwheel"]).toEqual([
+        { id: "lo-1", used: true, coordinates: { x: 1, y: 1 } },
+      ]);
+      expect(
+        state.interior.level_one!.collectibles["Tornado Pinwheel"],
+      ).toEqual([]);
     });
 
     it("rejects placing on level_one before the upgrade has been bought", () => {

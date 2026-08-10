@@ -1,8 +1,5 @@
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
-import {
-  getMaxBumpkinLevel,
-  getTotalBumpkinLevel,
-} from "features/game/lib/level";
+import { getTotalBumpkinLevel } from "features/game/lib/level";
 import {
   type BumpkinRevampSkillName,
   BUMPKIN_REVAMP_SKILL_TREE,
@@ -26,7 +23,7 @@ type Options = {
   createdAt?: number;
 };
 
-export const getAvailableBumpkinSkillPoints = (game?: GameState) => {
+export const getAvailableBumpkinSkillPoints = (game: GameState | undefined) => {
   const bumpkin = game?.bumpkin;
   if (!bumpkin) return 0;
 
@@ -34,7 +31,6 @@ export const getAvailableBumpkinSkillPoints = (game?: GameState) => {
   const earnedSkillPoints = getTotalBumpkinLevel({
     experience: bumpkin.experience,
     ascensionLevel: game.island.ascensionLevel ?? 0,
-    maxLevel: getMaxBumpkinLevel(game),
   });
   const skillsClaimed = Object.keys(bumpkin.skills) as BumpkinRevampSkillName[];
 

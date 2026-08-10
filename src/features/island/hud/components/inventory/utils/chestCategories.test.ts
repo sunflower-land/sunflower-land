@@ -44,4 +44,26 @@ describe("getChestCategories", () => {
 
     expect(temporaryBoosts?.items).toEqual([]);
   });
+
+  it("groups letter tiles into their own category", () => {
+    const categories = getChestCategories(state, [
+      "Letter A Tile",
+      "Letter F Tile",
+      "Letter M Tile",
+      "Basic Scarecrow",
+    ]);
+
+    const letterTiles = categories.find((c) => c.id === "letterTiles");
+    const decorations = categories.find((c) => c.id === "decorations");
+
+    expect(letterTiles?.items).toEqual(
+      expect.arrayContaining([
+        "Letter A Tile",
+        "Letter F Tile",
+        "Letter M Tile",
+      ]),
+    );
+    expect(letterTiles?.items).toHaveLength(3);
+    expect(decorations?.items).not.toContain("Letter A Tile");
+  });
 });

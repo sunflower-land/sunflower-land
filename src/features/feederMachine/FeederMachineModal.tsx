@@ -1,10 +1,11 @@
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { Modal } from "components/ui/Modal";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
 import type {
+  AnimalFeedBuffName,
   AnimalFoodName,
   AnimalMedicineName,
   GameState,
@@ -16,10 +17,13 @@ import { getKeys } from "lib/object";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
-import { ButtonPanel, OuterPanel } from "components/ui/Panel";
-import { SquareIcon } from "components/ui/SquareIcon";
+import { Checkbox } from "components/ui/Checkbox";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
+import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SmallBox } from "components/ui/SmallBox";
+import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 import Decimal from "decimal.js-light";
 import {
@@ -30,6 +34,7 @@ import {
 } from "features/game/types/animals";
 import { Label } from "components/ui/Label";
 import { getIngredients } from "./feedMixed";
+import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
 import { getBulkMixRequirements } from "./getBulkMixRequirements";
 import { formatNumber } from "lib/utils/formatNumber";
 import { hasFeatureAccess } from "lib/flags";
@@ -47,6 +52,10 @@ const FOOD_TYPE_TERMS = {
   medicine: "feeder.foodTypes.medicine",
 } as const;
 
+const ANIMAL_FEED_BUFFS: AnimalFeedBuffName[] = ["Salt Lick", "Honey Treat"];
+
+type Tab = "food" | "automaticMixer";
+
 export const FeederMachineModal: React.FC<Props> = ({
   show,
   onClose,
@@ -54,27 +63,34 @@ export const FeederMachineModal: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
   const { gameService, shortcutItem, shortcutItems } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, (state) => state.context.state);
   const [selectedName, setSelectedName] = useState<
     AnimalFoodName | AnimalMedicineName
   >("Hay");
-  const [tab, setTab] = useState<"food" | "automaticMixer">("food");
+  const [selectedSpice, setSelectedSpice] =
+    useState<AnimalFeedBuffName>("Honey Treat");
+  const [isSpiceSelected, setIsSpiceSelected] = useState(false);
+  const [tab, setTab] = useState<Tab>("food");
+  const [showMixInfo, setShowMixInfo] = useState(false);
   const { coins } = ANIMAL_FOODS[selectedName];
 
   const showBulkMixer = hasFeatureAccess(state, "BULK_MIXER");
 
   const { ingredients } = getIngredients({ state, name: selectedName });
+  const spices = ANIMAL_FEED_BUFFS.filter((item) =>
+    state.inventory[item]?.gt(0),
+  );
+  const hasSpices = spices.length > 0;
+  const selectedSpiceItem = spices.includes(selectedSpice)
+    ? selectedSpice
+    : undefined;
+  const showSpiceDetails = isSpiceSelected && hasSpices && !!selectedSpiceItem;
   const { requests, feeds, animalsWaiting, freeFeedBoosts } =
     getBulkMixRequirements(state, building);
 
-  // Feeds that still need mixing become toggleable cards; fully-covered feeds
-  // are shown as informational rows.
+  // Only feeds that still need mixing are listed - a feed the inventory
+  // already covers is not something the player has to act on.
   const mixableFeeds = feeds.filter((feed) => feed.missing.gt(0));
-  const coveredFeeds = feeds.filter((feed) => feed.missing.lte(0));
 
   // Track which feeds the player has toggled OFF. Everything mixable is
   // selected by default, so storing only the deselections keeps the default
@@ -86,6 +102,13 @@ export const FeederMachineModal: React.FC<Props> = ({
   const isFeedSelected = (item: BulkMixItem) => !deselectedFeeds[item];
   const toggleFeed = (item: BulkMixItem) =>
     setDeselectedFeeds((prev) => ({ ...prev, [item]: !prev[item] }));
+
+  // The checkbox stops its click reaching the panel, so it dismisses the mix
+  // explainer itself to match every other click in the modal.
+  const selectFeed = (item: BulkMixItem) => {
+    setShowMixInfo(false);
+    toggleFeed(item);
+  };
 
   const groupedItems = getKeys(ANIMAL_FOODS).reduce(
     (acc, item) => {
@@ -101,6 +124,13 @@ export const FeederMachineModal: React.FC<Props> = ({
 
   const onSelect = (item: AnimalFoodName | AnimalMedicineName) => {
     setSelectedName(item);
+    setIsSpiceSelected(false);
+    shortcutItem(item);
+  };
+
+  const onSelectSpice = (item: AnimalFeedBuffName) => {
+    setSelectedSpice(item);
+    setIsSpiceSelected(true);
     shortcutItem(item);
   };
 
@@ -146,50 +176,6 @@ export const FeederMachineModal: React.FC<Props> = ({
     }
   };
 
-  // The calm "nothing to do" summary shared by the covered (3a) and
-  // free-feeding (4a) states: green status, two lines, muted button.
-  const renderCalmPanel = (
-    label: string,
-    primary: string,
-    secondary: string,
-  ) => (
-    <>
-      <div className="flex flex-col gap-2 px-1 pt-1">
-        <Label type="success">{label}</Label>
-        <p className="text-xs">{primary}</p>
-        <p className="text-xxs">{secondary}</p>
-      </div>
-      <div className="mt-auto w-full">
-        <Button disabled>{t("feeder.nothingToMix")}</Button>
-      </div>
-    </>
-  );
-
-  // Covered feeds are informational rows. Keep the confirmation icon in the
-  // same leading slot used by selectable feed cards so the list stays aligned.
-  const renderCoveredRow = (feed: (typeof coveredFeeds)[number]) => (
-    <div key={`covered-${feed.item}`} className="flex items-center gap-2 px-2">
-      <img
-        src={SUNNYSIDE.icons.confirm}
-        alt=""
-        className="flex-none"
-        style={{
-          width: `${PIXEL_SCALE * 8}px`,
-          height: `${PIXEL_SCALE * 8}px`,
-          imageRendering: "pixelated",
-        }}
-      />
-      <SquareIcon icon={ITEM_DETAILS[feed.item].image} width={9} />
-      <div className="flex flex-col flex-1">
-        <span className="text-xs">{feed.item}</span>
-        <span className="text-xxs">{t("feeder.coveredByInventory")}</span>
-      </div>
-      <span className="text-xxs">
-        {`${formatNumber(feed.inInventory)}/${formatNumber(feed.requested)}`}
-      </span>
-    </div>
-  );
-
   const getFeedIngredientShortfalls = (feed: (typeof mixableFeeds)[number]) =>
     getKeys(feed.ingredients).reduce(
       (shortfalls, ingredient) => {
@@ -234,11 +220,6 @@ export const FeederMachineModal: React.FC<Props> = ({
     0,
   );
 
-  const mixCount = selectedFeeds.reduce(
-    (total, feed) => total + feed.missing.toNumber(),
-    0,
-  );
-
   // Ingredients where the player is short of what the selection requires.
   const ingredientShortfalls = getKeys(selectedIngredients).reduce(
     (acc, ingredient) => {
@@ -256,7 +237,7 @@ export const FeederMachineModal: React.FC<Props> = ({
 
   const hasShortfall = getKeys(ingredientShortfalls).length > 0;
   const hasEnoughCoins = state.coins >= selectedCoins;
-  const nothingSelected = mixCount === 0;
+  const nothingSelected = selectedFeeds.length === 0;
   const blocked = nothingSelected || hasShortfall || !hasEnoughCoins;
 
   const formatIngredientList = (list: GameState["inventory"]) =>
@@ -266,20 +247,14 @@ export const FeederMachineModal: React.FC<Props> = ({
       )
       .join(", ");
 
-  const missingMessage = nothingSelected
-    ? t("feeder.nothingToMix")
-    : t("feeder.missingIngredientsSummary", {
-        ingredients: formatIngredientList(ingredientShortfalls),
-      });
-
   const bulkMix = () => {
     const mixedItems = selectedFeeds.map((feed) => feed.item);
 
-    selectedFeeds.forEach((feed) => {
-      gameService.send("feed.mixed", {
+    gameService.send("feeds.bulkMixed", {
+      feeds: selectedFeeds.map((feed) => ({
         item: feed.item,
         amount: feed.missing.toNumber(),
-      });
+      })),
     });
 
     if (mixedItems.length === 1) {
@@ -290,316 +265,309 @@ export const FeederMachineModal: React.FC<Props> = ({
     shortcutItems(mixedItems as InventoryItemName[], { activateFirst: false });
   };
 
+  // This component stays mounted while the modal is hidden, so the explainer
+  // has to be reset on the way out or it reappears on the next open.
+  const closeModal = () => {
+    setShowMixInfo(false);
+    onClose();
+  };
+
   return (
-    <Modal show={show} onHide={onClose}>
-      <CloseButtonPanel
-        onClose={onClose}
-        container={OuterPanel}
-        tabs={[
-          {
-            id: "food",
-            icon: ITEM_DETAILS.Hay.image,
-            name: t("feeder.foodTypes.food"),
-          },
-          ...(showBulkMixer
-            ? [
-                {
-                  id: "automaticMixer" as const,
-                  icon: ITEM_DETAILS["Mixed Grain"].image,
-                  name: t("feeder.bulkMixer"),
-                },
-              ]
-            : []),
-        ]}
-        currentTab={tab}
-        setCurrentTab={setTab}
-      >
-        {tab === "food" && (
-          <SplitScreenView
-            panel={
-              <CraftingRequirements
-                gameState={state}
-                details={{ item: selectedName }}
-                requirements={{
-                  coins,
-                  resources: ingredients,
-                }}
-                actionView={
-                  <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-                    <Button
-                      disabled={lessFunds() || lessIngredients()}
-                      onClick={() => mix()}
-                    >
-                      {t("mix.one")}
-                    </Button>
-                    <Button
-                      disabled={lessFunds(10) || lessIngredients(10)}
-                      onClick={() => mix(10)}
-                    >
-                      {t("mix.ten")}
-                    </Button>
-                  </div>
-                }
-              />
-            }
-            content={
-              <div className="flex flex-col">
-                {Object.entries(groupedItems).map(([type, items]) => (
-                  <div key={type} className="flex flex-col">
-                    <Label type="default" className="mb-1">
-                      {t(FOOD_TYPE_TERMS[type as FeedType])}
-                    </Label>
-                    <div className="flex flex-wrap mb-2">
-                      {items.map((item) => (
-                        <Box
-                          key={item.name}
-                          isSelected={selectedName === item.name}
-                          onClick={() => onSelect(item.name)}
-                          image={ITEM_DETAILS[item.name].image}
-                          count={state.inventory[item.name]}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            }
-          />
-        )}
-        {tab === "automaticMixer" && showBulkMixer && (
-          <SplitScreenView
-            mobileReversePanelOrder
-            panel={
-              <div className="flex flex-col gap-2 sm:min-h-[19.5rem] w-full">
-                {freeFeeding ? (
-                  renderCalmPanel(
-                    t("feeder.freeFeedingActive"),
-                    t("feeder.freeFeedingDescription", { building }),
-                    t("feeder.freeFeedingWakeUp"),
-                  )
-                ) : allCovered ? (
-                  renderCalmPanel(
-                    t("feeder.allRequestsCoveredLabel"),
-                    t("feeder.canFeedAnimals", { count: animalsWaiting }),
-                    t("feeder.headToBuildingToFeed", { building }),
-                  )
+    <Modal show={show} onHide={closeModal}>
+      {/* A click anywhere in the panel dismisses the mix explainer. The popup
+          and its icon stop propagation so they are not caught by this. The
+          modal stops mouse events reaching the document, so this cannot be a
+          document-level listener. */}
+      <div onClick={() => setShowMixInfo(false)}>
+        <CloseButtonPanel
+          onClose={closeModal}
+          container={OuterPanel}
+          tabs={[
+            {
+              id: "food",
+              icon: ITEM_DETAILS.Hay.image,
+              name: t("feeder.foodTypes.food"),
+            },
+            ...(showBulkMixer
+              ? [
+                  {
+                    id: "automaticMixer" as const,
+                    icon: ITEM_DETAILS["Mixed Grain"].image,
+                    name: t("feeder.bulkMixer"),
+                  },
+                ]
+              : []),
+          ]}
+          currentTab={tab}
+          setCurrentTab={setTab}
+        >
+          {tab === "food" && (
+            <SplitScreenView
+              panel={
+                showSpiceDetails ? (
+                  <InventoryItemDetails
+                    game={state}
+                    details={{ item: selectedSpiceItem as InventoryItemName }}
+                  />
                 ) : (
-                  <>
-                    {getKeys(selectedIngredients).length > 0 && (
-                      <div className="flex flex-col gap-1 px-1 pt-1">
-                        <Label type="default">{t("feeder.mixSummary")}</Label>
-                        <div className="flex flex-col gap-1">
-                          {getKeys(selectedIngredients).map((ingredient) => {
-                            const need =
-                              selectedIngredients[ingredient] ?? new Decimal(0);
-                            const have =
-                              state.inventory[ingredient] ?? new Decimal(0);
-                            const short = have.lessThan(need);
-                            const amounts = `${formatNumber(
-                              have,
-                            )}/${formatNumber(need)}`;
-
-                            return (
-                              <div
-                                key={`summary-${ingredient}`}
-                                className="flex items-center justify-between gap-2"
-                              >
-                                <div className="flex items-center gap-1">
-                                  <SquareIcon
-                                    icon={ITEM_DETAILS[ingredient].image}
-                                    width={7}
-                                  />
-                                  <span className="text-xs">{ingredient}</span>
-                                </div>
-                                {short ? (
-                                  <Label type="danger">{amounts}</Label>
-                                ) : (
-                                  <span className="text-xs">{amounts}</span>
-                                )}
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
-
-                    {hasFeedRequests && (nothingSelected || hasShortfall) && (
-                      <div className="flex flex-col gap-1 px-1">
-                        <Label type="danger">{missingMessage}</Label>
-                      </div>
-                    )}
-
-                    <div className="mt-auto w-full">
-                      <Button disabled={blocked} onClick={bulkMix}>
-                        {t("feeder.mixSelected", { count: mixCount })}
-                      </Button>
-                    </div>
-                  </>
-                )}
-              </div>
-            }
-            content={
-              <div className="flex flex-col gap-2 p-1 sm:min-h-[19.5rem] w-full">
-                {freeFeeding ? (
-                  <>
-                    <Label type="default">{t("feeder.noMixingNeeded")}</Label>
-                    <div className="flex flex-col gap-2">
-                      {freeFeedBoosts.map((boost) => (
-                        <div
-                          key={boost.item}
-                          className="flex items-center gap-2"
+                  <CraftingRequirements
+                    gameState={state}
+                    details={{ item: selectedName }}
+                    requirements={{
+                      coins,
+                      resources: ingredients,
+                    }}
+                    actionView={
+                      <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
+                        <Button
+                          disabled={lessFunds() || lessIngredients()}
+                          onClick={() => mix()}
                         >
-                          <SquareIcon
-                            icon={
-                              boost.source === "collectible"
-                                ? ITEM_DETAILS[boost.item].image
-                                : getWearableImage(boost.item)
+                          {t("mix.one")}
+                        </Button>
+                        <Button
+                          disabled={lessFunds(10) || lessIngredients(10)}
+                          onClick={() => mix(10)}
+                        >
+                          {t("mix.ten")}
+                        </Button>
+                      </div>
+                    }
+                  />
+                )
+              }
+              content={
+                <div className="flex flex-col">
+                  {Object.entries(groupedItems).map(([type, items]) => (
+                    <div key={type} className="flex flex-col">
+                      <Label type="default" className="mb-1">
+                        {t(FOOD_TYPE_TERMS[type as FeedType])}
+                      </Label>
+                      <div className="flex flex-wrap mb-2">
+                        {items.map((item) => (
+                          <Box
+                            key={item.name}
+                            isSelected={
+                              !isSpiceSelected && selectedName === item.name
                             }
-                            width={9}
+                            onClick={() => onSelect(item.name)}
+                            image={ITEM_DETAILS[item.name].image}
+                            count={state.inventory[item.name]}
                           />
-                          <div className="flex flex-col flex-1 gap-1">
-                            <span className="text-xs">{boost.item}</span>
-                            <Label type="info">
-                              {boost.source === "collectible"
-                                ? freeFeedLabel(boost.animalType)
-                                : t("feeder.freeCureLabel")}
-                            </Label>
-                          </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
-                    {/* Barn Delight footnote only applies when sick animals
-                        aren't already being cured for free. */}
-                    {!curesSickForFree && (
-                      <p className="text-xxs">
-                        {t("feeder.freeFeedSickFootnote")}
-                      </p>
-                    )}
-                  </>
-                ) : !hasFeedRequests ? (
-                  <div className="flex flex-col gap-2">
-                    <p className="text-xs">
-                      {t("feeder.noRequestsForBuilding")}
-                    </p>
-                    <p className="text-xs">
-                      {t("feeder.bulkMixerEmptyDescription")}
-                    </p>
-                  </div>
-                ) : (
-                  <>
-                    <Label type="default">
-                      {allCovered
-                        ? t("feeder.feedRequests")
-                        : t("feeder.chooseWhatToMix")}
-                    </Label>
-
-                    {hasMixableFeeds && (
-                      <div className="flex flex-col gap-2">
-                        {mixableFeeds.map((feed) => {
-                          const feedIngredientShortfalls =
-                            getFeedIngredientShortfalls(feed);
-                          const feedCanBeMixed =
-                            getKeys(feedIngredientShortfalls).length === 0;
-                          const selected = isFeedSelected(feed.item);
-                          const ingredientList = formatIngredientList(
-                            feed.ingredients,
-                          );
-                          const needsText = feedCanBeMixed
-                            ? feed.type === "medicine"
-                              ? t("feeder.medicineFeedNeeds", {
-                                  ingredients: ingredientList,
-                                })
-                              : t("feeder.feedNeeds", {
-                                  ingredients: ingredientList,
-                                })
-                            : t("feeder.feedMissing", {
-                                ingredients: formatIngredientList(
-                                  feedIngredientShortfalls,
-                                ),
-                              });
-
-                          if (!feedCanBeMixed) {
-                            return (
-                              <ButtonPanel
-                                key={feed.item}
-                                variant="card"
-                                className="flex items-center gap-2"
-                              >
-                                <div
-                                  className="flex-none"
-                                  style={{
-                                    width: `${PIXEL_SCALE * 8}px`,
-                                    height: `${PIXEL_SCALE * 8}px`,
-                                  }}
-                                />
-                                <SquareIcon
-                                  icon={ITEM_DETAILS[feed.item].image}
-                                  width={9}
-                                />
-                                <div className="flex flex-col">
-                                  <span className="text-xs">
-                                    {`${feed.item} x${formatNumber(feed.missing)}`}
-                                  </span>
-                                  <span className="text-xxs text-red-500">
-                                    {needsText}
-                                  </span>
-                                </div>
-                              </ButtonPanel>
-                            );
+                  ))}
+                  {hasSpices && (
+                    <div className="flex flex-col">
+                      <Label
+                        type="default"
+                        icon={ITEM_DETAILS["Honey Treat"].image}
+                        className="mb-1"
+                      >
+                        {t("spices")}
+                      </Label>
+                      <div className="flex flex-wrap mb-2">
+                        {spices.map((item) => (
+                          <Box
+                            key={item}
+                            isSelected={
+                              isSpiceSelected && selectedSpiceItem === item
+                            }
+                            onClick={() => onSelectSpice(item)}
+                            image={ITEM_DETAILS[item].image}
+                            count={state.inventory[item]}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              }
+            />
+          )}
+          {tab === "automaticMixer" && showBulkMixer && (
+            <InnerPanel className="flex flex-col gap-2 p-1 w-full">
+              {freeFeeding ? (
+                <>
+                  <Label type="success">{t("feeder.freeFeedingActive")}</Label>
+                  <p className="text-xs">
+                    {t("feeder.freeFeedingDescription", { building })}
+                  </p>
+                  <div className="flex flex-col gap-1">
+                    {freeFeedBoosts.map((boost) => (
+                      <InnerPanel
+                        key={boost.item}
+                        className="flex gap-1 items-center w-full"
+                      >
+                        <SmallBox
+                          image={
+                            boost.source === "collectible"
+                              ? ITEM_DETAILS[boost.item].image
+                              : getWearableImage(boost.item)
                           }
+                        />
+                        <div className="flex flex-col flex-1 justify-center -mt-0.5">
+                          <p className="text-xs mb-0.5">{boost.item}</p>
+                          <p className="text-xxs">
+                            {boost.source === "collectible"
+                              ? freeFeedLabel(boost.animalType)
+                              : t("feeder.freeCureLabel")}
+                          </p>
+                        </div>
+                      </InnerPanel>
+                    ))}
+                  </div>
+                  {/* Barn Delight footnote only applies when sick animals
+                      aren't already being cured for free. */}
+                  {!curesSickForFree && (
+                    <p className="text-xxs">
+                      {t("feeder.freeFeedSickFootnote")}
+                    </p>
+                  )}
+                </>
+              ) : allCovered ? (
+                <>
+                  <Label type="success">
+                    {t("feeder.allRequestsCoveredLabel")}
+                  </Label>
+                  <p className="text-xs">
+                    {t("feeder.canFeedAnimals", { count: animalsWaiting })}
+                  </p>
+                  <p className="text-xxs">
+                    {t("feeder.headToBuildingToFeed", { building })}
+                  </p>
+                </>
+              ) : !hasFeedRequests ? (
+                <>
+                  <p className="text-xs">{t("feeder.noRequestsForBuilding")}</p>
+                  <p className="text-xs">
+                    {t("feeder.bulkMixerEmptyDescription")}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <div className="flex items-center justify-between gap-1 relative">
+                    <Label type="default">{t("feeder.selectFoodsToMix")}</Label>
+                    {/* Where the amounts come from - the requirement is
+                        planned per animal, so it is not obvious. */}
+                    <button
+                      type="button"
+                      className="flex cursor-pointer pr-1"
+                      aria-label={t("info")}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowMixInfo((visible) => !visible);
+                      }}
+                    >
+                      <img
+                        src={SUNNYSIDE.icons.expression_confused}
+                        alt=""
+                        style={{ width: `${PIXEL_SCALE * 7}px` }}
+                      />
+                    </button>
+                    {showMixInfo && (
+                      <InnerPanel
+                        className="absolute top-6 left-0 z-10 w-full p-1"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <span className="text-xxs">
+                          {t("feeder.ingredientsExplainer")}
+                        </span>
+                      </InnerPanel>
+                    )}
+                  </div>
 
-                          return (
-                            <ButtonPanel
-                              key={feed.item}
-                              variant="card"
-                              selected={selected}
-                              onClick={() => toggleFeed(feed.item)}
-                              className="flex items-center gap-2"
-                            >
-                              <div
-                                className="flex items-center justify-center flex-none"
-                                style={{
-                                  width: `${PIXEL_SCALE * 8}px`,
-                                  height: `${PIXEL_SCALE * 8}px`,
-                                }}
-                              >
-                                {selected && (
-                                  <img
-                                    src={SUNNYSIDE.icons.confirm}
-                                    alt=""
-                                    className="w-full h-full"
-                                    style={{ imageRendering: "pixelated" }}
-                                  />
-                                )}
-                              </div>
-                              <SquareIcon
-                                icon={ITEM_DETAILS[feed.item].image}
-                                width={9}
+                  {/* There are only ever a handful of feeds, so the list needs
+                      no scroll container of its own - the modal scrolls. */}
+                  <div className="flex flex-col gap-1">
+                    {mixableFeeds.map((feed) => {
+                      const feedCanBeMixed = canMixFeed(feed);
+                      const selected =
+                        feedCanBeMixed && isFeedSelected(feed.item);
+
+                      return (
+                        <InnerPanel
+                          key={feed.item}
+                          className={classNames("flex gap-1 items-center", {
+                            "cursor-pointer": feedCanBeMixed,
+                          })}
+                          onClick={
+                            feedCanBeMixed
+                              ? () => toggleFeed(feed.item)
+                              : undefined
+                          }
+                        >
+                          <SmallBox image={ITEM_DETAILS[feed.item].image} />
+                          <div className="flex flex-col flex-1 justify-center -mt-0.5">
+                            <p className="text-xs">
+                              {`${feed.item} x${formatNumber(feed.missing)}`}
+                            </p>
+                          </div>
+                          {/* Selecting a feed confirms the player can afford
+                              it, so the requirement labels carry the whole
+                              story - they turn red on the ones falling
+                              short. */}
+                          <div className="flex flex-col gap-1">
+                            {getKeys(feed.ingredients).map((ingredient) => (
+                              <RequirementLabel
+                                key={`${feed.item}-${ingredient}`}
+                                type="item"
+                                item={ingredient}
+                                balance={
+                                  state.inventory[ingredient] ?? new Decimal(0)
+                                }
+                                requirement={
+                                  feed.ingredients[ingredient] ?? new Decimal(0)
+                                }
                               />
-                              <div className="flex flex-col">
-                                <span className="text-xs">
-                                  {`${feed.item} x${formatNumber(feed.missing)}`}
-                                </span>
-                                <span className="text-xxs">{needsText}</span>
-                              </div>
-                            </ButtonPanel>
-                          );
-                        })}
-                      </div>
-                    )}
+                            ))}
+                          </div>
+                          {/* The panel is a click target too, so keep the
+                              checkbox's own click from bubbling into it and
+                              toggling a second time. */}
+                          <div
+                            className="flex-none"
+                            onClick={(event) => {
+                              // A disabled checkbox toggles nothing, so let the
+                              // click through to dismiss the explainer like any
+                              // other click.
+                              if (feedCanBeMixed) {
+                                event.stopPropagation();
+                              }
+                            }}
+                          >
+                            <Checkbox
+                              checked={selected}
+                              disabled={!feedCanBeMixed}
+                              onChange={() => selectFeed(feed.item)}
+                              aria-label={feed.item}
+                            />
+                          </div>
+                        </InnerPanel>
+                      );
+                    })}
+                  </div>
 
-                    {coveredFeeds.length > 0 && (
-                      <div className="flex flex-col gap-2">
-                        {coveredFeeds.map(renderCoveredRow)}
-                      </div>
-                    )}
-                  </>
-                )}
-              </div>
-            }
-          />
-        )}
-      </CloseButtonPanel>
+                  {/* Each feed is affordable on its own, so a shortfall here
+                      only appears when the selection shares an ingredient. */}
+                  {hasShortfall && (
+                    <Label type="danger">
+                      {t("feeder.missingIngredientsSummary", {
+                        ingredients: formatIngredientList(ingredientShortfalls),
+                      })}
+                    </Label>
+                  )}
+
+                  <Button disabled={blocked} onClick={bulkMix}>
+                    {t("feeder.bulkMix")}
+                  </Button>
+                </>
+              )}
+            </InnerPanel>
+          )}
+        </CloseButtonPanel>
+      </div>
     </Modal>
   );
 };

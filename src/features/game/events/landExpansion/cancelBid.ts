@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import type { GameState } from "features/game/types/game";
 import { getKeys } from "lib/object";
 import { produce } from "immer";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 
 export type CancelBidAction = {
   type: "bid.cancelled";
@@ -31,6 +32,13 @@ export function cancelBid({ state, action }: Options) {
     });
 
     game.balance = game.balance.add(bid.sfl);
+    if (bid.sfl > 0 && bid.flowerSpentTracked) {
+      game.farmActivity = trackFarmActivity(
+        "FLOWER Spent",
+        game.farmActivity,
+        new Decimal(-bid.sfl),
+      );
+    }
 
     delete game.auctioneer.bid;
 

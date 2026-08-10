@@ -338,9 +338,9 @@ export const ToolBatchBuyModal: React.FC<Props> = ({
       <CloseButtonPanel
         title={t("tools.batchBuy")}
         onClose={onClose}
-        className="!max-h-none"
+        className="!max-h-none safe-mx safe-my"
       >
-        <div className="flex flex-col p-1 h-[calc(100dvh_-_120px)] sm:h-auto">
+        <div className="flex flex-col p-1 h-[calc(100dvh_-_120px_-_env(safe-area-inset-top)_-_env(safe-area-inset-bottom))] sm:h-auto">
           <div className="flex flex-col gap-2 scrollable flex-1 min-h-0 overflow-y-auto pr-1 sm:flex-row sm:flex-none sm:overflow-visible sm:h-[min(420px,60vh)] sm:pr-0">
             <ToolSection title={t("landTools")}>
               {renderRows(landTools)}

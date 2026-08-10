@@ -167,4 +167,23 @@ describe("reelRod", () => {
 
     expect(state.boostsUsedAt?.["Anemone Flower"]).toBeUndefined();
   });
+  it("clears the Otty the Otter bonus breakdown from the wharf", () => {
+    const state = reelRod({
+      action: { type: "rod.reeled" },
+      state: {
+        ...farm,
+        fishing: {
+          ...farm.fishing,
+          wharf: {
+            castedAt: Date.now(),
+            caught: { Anchovy: 2 },
+            ottyBonus: { Anchovy: 1 },
+          },
+        },
+      },
+    });
+
+    expect(state.fishing.wharf.ottyBonus).toBeUndefined();
+    expect(state.inventory.Anchovy).toEqual(new Decimal(2));
+  });
 });

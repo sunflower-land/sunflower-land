@@ -57,7 +57,7 @@ export const CropGuide = () => {
   const [showBoostsKey, setShowBoostsKey] = useState<string | null>(null);
 
   return (
-    <InnerPanel className="scrollable max-h-[300px] overflow-y-scroll">
+    <InnerPanel className="scrollable max-h-[300px] overflow-y-scroll overflow-x-hidden">
       <div className="p-1">
         <NoticeboardItems
           items={[
@@ -236,15 +236,15 @@ export const CropRow: React.FC<{
         alternateBg ? "bg-[#ead4aa] rounded-md" : ""
       }`}
     >
-      <div className="flex items-center">
-        <div className="flex items-center w-32 mr-2">
+      <div className="flex items-center flex-1 min-w-0">
+        <div className="flex items-center w-24 sm:w-32 mr-2 shrink-0">
           <img src={ITEM_DETAILS[crop].image} className="w-6 h-auto mr-2" />
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <p className="text-xs">{crop}</p>
             <p className="text-xxs">{t(getCropCategory(crop))}</p>
           </div>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col min-w-0">
           <GrowthTimeCell
             boostKey={`${seed}-growth-time`}
             baseSeconds={seconds}
@@ -260,11 +260,17 @@ export const CropRow: React.FC<{
         </div>
       </div>
 
-      <div className="flex items-center">
+      <div className="flex items-center shrink-0">
         {seasons.map((season) => (
-          <img key={season} src={SEASON_ICONS[season]} className="w-6 ml-1" />
+          <img
+            key={season}
+            src={SEASON_ICONS[season]}
+            className="w-5 sm:w-6 ml-1"
+          />
         ))}
-        {isFullMoonBerry(seed) && <img src={fullMoon} className="w-6 ml-1" />}
+        {isFullMoonBerry(seed) && (
+          <img src={fullMoon} className="w-5 sm:w-6 ml-1" />
+        )}
       </div>
     </div>
   );
@@ -296,15 +302,15 @@ export const FlowerRow: React.FC<{
         alternateBg ? "bg-[#ead4aa] rounded-md" : ""
       }`}
     >
-      <div className="flex items-center">
-        <div className="flex items-center w-32 mr-2">
+      <div className="flex items-center flex-1 min-w-0">
+        <div className="flex items-center w-24 sm:w-32 mr-2 shrink-0">
           <img src={ITEM_DETAILS[seed].image} className="w-6 h-auto mr-2" />
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <p className="text-xs">{seed}</p>
             <p className="text-xxs">{`Flower`}</p>
           </div>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col min-w-0">
           <GrowthTimeCell
             boostKey={`${seed}-growth-time`}
             baseSeconds={seconds}
@@ -316,9 +322,13 @@ export const FlowerRow: React.FC<{
         </div>
       </div>
 
-      <div className="flex items-center">
+      <div className="flex items-center shrink-0">
         {seasons.map((season) => (
-          <img key={season} src={SEASON_ICONS[season]} className="w-6 ml-1" />
+          <img
+            key={season}
+            src={SEASON_ICONS[season]}
+            className="w-5 sm:w-6 ml-1"
+          />
         ))}
       </div>
     </div>
@@ -406,7 +416,7 @@ const GrowthTimeCell: React.FC<{
         setShowBoostsKey(showBoostsKey === boostKey ? null : boostKey);
       }}
     >
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-x-2">
         <div className="flex items-center">
           <img src={SUNNYSIDE.icons.lightning} className="w-3 mr-1" />
           <p className="text-xxs">

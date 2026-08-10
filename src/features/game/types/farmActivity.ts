@@ -221,6 +221,7 @@ export type FarmActivityName =
   | "Coins Spent"
   | "Coins Earned"
   | "SFL Spent"
+  | "FLOWER Spent"
   | "SFL Earned"
   | "Mutant Chicken Found"
   | "Building Constructed"

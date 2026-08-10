@@ -35,6 +35,14 @@ const MAX_ITEM_DELAY_MS = 120;
 
 type Phase = "idle" | "running" | "done";
 
+/**
+ * What the player chose to do with their old-home items:
+ *  - `place`     → auto-place them into the new interior (the batched migration)
+ *  - `inventory` → dig everything up and hand it back to the inventory, leaving
+ *                  the player to place things themselves later
+ */
+export type ImportMode = "place" | "inventory";
+
 /** A stack of same-named collectibles, used for both the "imported" summary and
  *  the "couldn't be moved" list. */
 type ItemStack = { name: CollectibleName; count: number };
@@ -58,6 +66,11 @@ const summarise = (items: ImportItem[]): ItemStack[] => {
     count: count as number,
   }));
 };
+
+/** Identity for a single placed item, so a before/after pass over the old home
+ *  can tell which items actually left. The lone bumpkin has no id. */
+const itemKey = ({ kind, name, id }: ImportItem) =>
+  `${kind}:${name}:${id ?? ""}`;
 
 /** Total items represented by a stack list, so callers can tell how many
  *  leftovers aren't drawable as boxes. */
@@ -93,8 +106,13 @@ const getHomeLeftover = (
 
 export type HomeImport = {
   phase: Phase;
+  /** Which of the two flows produced the current progress/summary. */
+  mode: ImportMode;
   /** Begin the batched migration. No-op if already running. */
   start: () => void;
+  /** Dig everything out of the old home and into the inventory in one go,
+   *  skipping the placement migration entirely. */
+  sendToInventory: () => void;
   /** Return to the idle phase (call when the modal closes). */
   reset: () => void;
   /** Dig up everything the import left behind, returning it to the inventory. */
@@ -108,9 +126,10 @@ export type HomeImport = {
     batchesDone: number;
     activeBatch: number;
   };
-  /** What actually made it across, aggregated by item. */
+  /** What actually made it out of the old home, aggregated by item — placed in
+   *  the interior in `place` mode, returned to the inventory in `inventory`. */
   imported: ItemStack[];
-  /** How many items made it across, including farm hands / buds / pets. */
+  /** How many items made it out, including farm hands / buds / pets. */
   importedCount: number;
   /** Items left behind once the migration finishes, as drawable stacks. Only
    *  collectibles appear here — see {@link leftoverCount} for the true total. */
@@ -135,6 +154,7 @@ export function useHomeImport(): HomeImport {
   const { gameService } = useContext(Context);
 
   const [phase, setPhase] = useState<Phase>("idle");
+  const [mode, setMode] = useState<ImportMode>("place");
   const [total, setTotal] = useState(0);
   const [completed, setCompleted] = useState(0);
   const [batchCount, setBatchCount] = useState(0);
@@ -164,6 +184,7 @@ export function useHomeImport(): HomeImport {
 
     running.current = true;
     aborted.current = false;
+    setMode("place");
     setTotal(plan.placements.length);
     setCompleted(0);
     setBatchCount(batches.length);
@@ -236,6 +257,35 @@ export function useHomeImport(): HomeImport {
     setPhase("done");
   };
 
+  /**
+   * The "I'll place them myself" route: every item is dug up out of the old home
+   * and handed back to the inventory in one go. No planning, batching or
+   * narration is needed — nothing has to find a spot, so it can't fail or be
+   * left behind, and the summary is shown straight away.
+   */
+  const sendToInventory = () => {
+    if (running.current) return;
+
+    const state = gameService.getSnapshot().context.state;
+    const items = getHomeItems(state);
+    getHomeRemovalEvents(state).forEach((event) => gameService.send(event));
+
+    // Anything still in the old home afterwards refused to move, so report only
+    // what actually reached the inventory.
+    const remainingItems = getHomeItems(
+      gameService.getSnapshot().context.state,
+    );
+    const stillThere = new Set(remainingItems.map(itemKey));
+    const moved = items.filter((item) => !stillThere.has(itemKey(item)));
+
+    setMode("inventory");
+    setImported(summarise(moved));
+    setImportedCount(moved.length);
+    setLeftover(summarise(remainingItems));
+    setLeftoverCount(remainingItems.length);
+    setPhase("done");
+  };
+
   // Everything the import couldn't move goes straight back to the inventory, so
   // the old home is left empty before it's retired.
   const digUp = () => {
@@ -251,6 +301,7 @@ export function useHomeImport(): HomeImport {
   const reset = () => {
     if (running.current) return;
     setPhase("idle");
+    setMode("place");
     setTotal(0);
     setCompleted(0);
     setBatchCount(0);
@@ -275,7 +326,9 @@ export function useHomeImport(): HomeImport {
 
   return {
     phase,
+    mode,
     start: () => void start(),
+    sendToInventory,
     reset,
     digUp,
     imported,
@@ -359,6 +412,7 @@ export const MigrationRunningPanel: React.FC<{
 };
 
 export const MigrationDonePanel: React.FC<{
+  mode: ImportMode;
   imported: ItemStack[];
   importedCount: number;
   leftover: ItemStack[];
@@ -366,6 +420,7 @@ export const MigrationDonePanel: React.FC<{
   onDigUp: () => void;
   onClose: () => void;
 }> = ({
+  mode,
   imported,
   importedCount,
   leftover,
@@ -376,22 +431,34 @@ export const MigrationDonePanel: React.FC<{
   // Farm hands, buds and pets have no box to draw, so account for them
   // separately rather than letting them vanish from the report.
   const undrawable = leftoverCount - stackTotal(leftover);
+  const toInventory = mode === "inventory";
+
+  const summary = (() => {
+    if (importedCount === 0) {
+      return toInventory
+        ? "Nothing could be moved."
+        : "Nothing could be imported.";
+    }
+    const plural = importedCount === 1 ? "" : "s";
+    return toInventory
+      ? `Moved ${importedCount} item${plural} into your inventory.`
+      : `Imported ${importedCount} item${plural} into your new home.`;
+  })();
 
   return (
-    <CloseButtonPanel onClose={onClose} title="Import complete">
+    <CloseButtonPanel
+      onClose={onClose}
+      title={toInventory ? "Items collected" : "Import complete"}
+    >
       <div className="p-2 flex flex-col gap-2 items-center mb-1">
         <img src={SUNNYSIDE.icons.confirm} className="w-8" alt="Complete" />
-        <p className="text-sm text-center">
-          {importedCount > 0
-            ? `Imported ${importedCount} item${
-                importedCount === 1 ? "" : "s"
-              } into your new home.`
-            : "Nothing could be imported."}
-        </p>
+        <p className="text-sm text-center">{summary}</p>
 
         {imported.length > 0 && (
           <div className="flex flex-col gap-1 items-center w-full">
-            <Label type="success">{"Moved across"}</Label>
+            <Label type="success">
+              {toInventory ? "Sent to your inventory" : "Moved across"}
+            </Label>
             <div className="flex flex-wrap justify-center max-h-32 overflow-y-auto scrollable">
               {imported.map(({ name, count }) => (
                 <Box
@@ -426,9 +493,9 @@ export const MigrationDonePanel: React.FC<{
               </p>
             )}
             <p className="text-xxs text-center">
-              {
-                "There was no room for these. You can dig them up to send them back to your inventory."
-              }
+              {toInventory
+                ? "You can try again to send these back to your inventory."
+                : "There was no room for these. You can dig them up to send them back to your inventory."}
             </p>
           </div>
         )}

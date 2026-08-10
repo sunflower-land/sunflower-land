@@ -271,7 +271,12 @@ export function getBulkMixRequirements(
     const requested = requests[item] ?? new Decimal(0);
     const inInventory = game.inventory[item] ?? new Decimal(0);
     const difference = requested.sub(inInventory);
-    const missing = difference.lessThan(0) ? new Decimal(0) : difference;
+    // Feeds are mixed in whole units, but boosts like Fat Chicken and Medic
+    // Apron make the requirement fractional, so round the shortfall up. The
+    // surplus stays in the inventory for the next feed.
+    const missing = difference.lessThan(0)
+      ? new Decimal(0)
+      : difference.toDecimalPlaces(0, Decimal.ROUND_CEIL);
 
     const feedIngredients: GameState["inventory"] = {};
     let feedCoins = 0;

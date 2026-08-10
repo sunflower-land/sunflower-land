@@ -32,6 +32,7 @@ import {
   type WorkbenchToolName,
 } from "../types/tools";
 import { createInitialAgingShed } from "./agingShed";
+import { randomID } from "lib/utils/random";
 
 // Our "zoom" factor
 export const PIXEL_SCALE = 2.625;
@@ -370,7 +371,7 @@ export const INITIAL_EQUIPMENT: BumpkinParts = {
 
 export const INITIAL_BUMPKIN: Bumpkin = {
   equipped: INITIAL_EQUIPMENT as Equipped,
-  experience: 0,
+  experience: 1000,
 
   id: 1,
   skills: {},
@@ -619,7 +620,7 @@ export const INITIAL_FARM: GameState = {
       },
     ],
   },
-  username: "T",
+  username: randomID(),
   collectibles: {},
   pumpkinPlaza: {},
   auctioneer: {},
@@ -671,7 +672,9 @@ export const INITIAL_FARM: GameState = {
       total: 10,
     },
   },
-  farmActivity: {},
+  farmActivity: {
+    "welcome Bonus Claimed": 1, // Skips welcome screen
+  },
   milestones: {},
   specialEvents: {
     history: {},

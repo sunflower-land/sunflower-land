@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
-import { CONFIG } from "lib/config";
 import { upgradeSkill } from "./upgradeSkill";
 import { getAvailableBumpkinSkillPoints } from "./choseSkill";
 import { getSkillCooldown } from "./skillUsed";
@@ -366,40 +365,6 @@ describe("upgradeSkill", () => {
         skillName: "Instant Growth",
       });
       expect(newStamp + newCooldown).toEqual(oldReadyAt);
-    });
-  });
-
-  describe("when ASCENSION_SKILLS is off (mainnet)", () => {
-    // The flag is on by default in tests (amoy), so force mainnet to exercise
-    // the flag-off path.
-    let previousNetwork: (typeof CONFIG)["NETWORK"];
-    beforeEach(() => {
-      previousNetwork = CONFIG.NETWORK;
-      CONFIG.NETWORK = "mainnet";
-    });
-    afterEach(() => {
-      CONFIG.NETWORK = previousNetwork;
-    });
-
-    it("throws because skill upgrades are not available", () => {
-      expect(() =>
-        upgradeSkill({
-          state: {
-            ...TEST_FARM,
-            inventory: {
-              ...TEST_FARM.inventory,
-              "Ascension Shard": new Decimal(5),
-            },
-            bumpkin: {
-              ...INITIAL_BUMPKIN,
-              experience: LEVEL_EXPERIENCE[5],
-              skills: { "Green Thumb": 1 },
-            },
-          },
-          action: { type: "skill.upgraded", skill: "Green Thumb" },
-          createdAt: dateNow,
-        }),
-      ).toThrow("Skill upgrades are not available");
     });
   });
 });

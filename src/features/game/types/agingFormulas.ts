@@ -1,8 +1,11 @@
 import type Decimal from "decimal.js-light";
 import { prngChance } from "lib/prng";
-import type { GameState, InventoryItemName } from "./game";
+import type { BoostName, GameState, InventoryItemName } from "./game";
 import type { FermentationBait } from "./fishing";
 import { SKILL_RANKS, getSkillLevel } from "./bumpkinSkills";
+import { isCollectibleBuilt } from "../lib/collectibleBuilt";
+import { isWearableActive } from "../lib/wearables";
+import { isAgedFish, isPrimeAgedFish } from "./consumables";
 import {
   PRIME_AGED_BASE_CHANCE,
   getAgingSaltCost,
@@ -55,17 +58,42 @@ export function getBoostedAgingTimeMs(
   return timeMs;
 }
 
-export function getPrimeAgedChance(state: GameState): number {
+export function getPrimeAgedChance(state: GameState): {
+  chance: number;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
   const skills = state.bumpkin?.skills;
   let chance = PRIME_AGED_BASE_CHANCE * 100;
+  const boostsUsed: { name: BoostName; value: string }[] = [];
   const fishSmokingLevel = getSkillLevel(skills ?? {}, "Fish Smoking");
   if (fishSmokingLevel) {
-    chance *= SKILL_RANKS["Fish Smoking"].ranks[fishSmokingLevel - 1];
+    const m = SKILL_RANKS["Fish Smoking"].ranks[fishSmokingLevel - 1];
+    chance *= m;
+    boostsUsed.push({ name: "Fish Smoking", value: `x${m}` });
   }
   if ((state.sculptures?.["Salt Sculpture"]?.level ?? 0) >= 2) {
     chance += 4;
+    boostsUsed.push({ name: "Salt Sculpture", value: "+4" });
   }
-  return chance;
+  if (isCollectibleBuilt({ game: state, name: "Winged Vase" })) {
+    chance += 14;
+    boostsUsed.push({ name: "Winged Vase", value: "+14" });
+  }
+  return { chance, boostsUsed };
+}
+
+/** Astrolabe's chance to double fermentation and spice rack output. */
+export const ASTROLABE_DOUBLE_CHANCE = 15;
+
+/**
+ * 0 when Astrolabe is not placed. Note this is the raw collectible chance — the
+ * aging rack is excluded at the call site in getAgingOutput, not here, because
+ * the exclusion depends on the item being produced.
+ */
+export function getAstrolabeDoubleChance(state: GameState): number {
+  return isCollectibleBuilt({ game: state, name: "Astrolabe" })
+    ? ASTROLABE_DOUBLE_CHANCE
+    : 0;
 }
 
 /**
@@ -95,11 +123,39 @@ export function getAgingOutput(
   // the player's live rank — the inputs were already charged at this rank.
   agerLevel: number,
   prngArgs?: { farmId: number; itemId: number; counter: number },
-): Decimal {
+): { output: Decimal; boostsUsed: { name: BoostName; value: string }[] } {
   const skills = state.bumpkin.skills;
   let output = baseAmount;
+  const boostsUsed: { name: BoostName; value: string }[] = [];
   if (agerLevel) {
-    output = output.mul(SKILL_RANKS["Ager"].ranks[agerLevel - 1]);
+    const m = SKILL_RANKS["Ager"].ranks[agerLevel - 1];
+    output = output.mul(m);
+    boostsUsed.push({ name: "Ager", value: `x${m}` });
+  }
+
+  // Chance of doubling — applies to the post-Ager amount only, before the
+  // additive bonuses (Refiner/Bacalhau) so those are never doubled. Aged and
+  // Prime Aged fish are excluded: Astrolabe boosts only the fermentation and
+  // spice racks, not the aging rack.
+  const astrolabeChance = getAstrolabeDoubleChance(state);
+  if (
+    prngArgs &&
+    !isAgedFish(item) &&
+    !isPrimeAgedFish(item) &&
+    astrolabeChance > 0
+  ) {
+    const { farmId, itemId, counter } = prngArgs;
+    const isDoubled = prngChance({
+      farmId,
+      itemId,
+      counter,
+      chance: astrolabeChance,
+      criticalHitName: "Astrolabe",
+    });
+    if (isDoubled) {
+      output = output.mul(2);
+      boostsUsed.push({ name: "Astrolabe", value: "x2" });
+    }
   }
 
   if (prngArgs) {
@@ -115,16 +171,53 @@ export function getAgingOutput(
       });
       if (isBonus) {
         output = output.add(1);
+        boostsUsed.push({ name: "Refiner", value: "+1" });
       }
     }
   }
 
   const bacalhauLevel = getSkillLevel(skills, "Bacalhau");
   if (bacalhauLevel && isBaitItem(item)) {
-    output = output.add(SKILL_RANKS["Bacalhau"].ranks[bacalhauLevel - 1]);
+    const v = SKILL_RANKS["Bacalhau"].ranks[bacalhauLevel - 1];
+    output = output.add(v);
+    boostsUsed.push({ name: "Bacalhau", value: `+${v}` });
   }
 
-  return output;
+  return { output, boostsUsed };
+}
+
+// Spice rack output = the shared aging output plus the Salt Bottle Onesie's flat
+// +1. Lives here rather than in the reducer so the spice-rack panels can preview
+// it without importing an event module.
+export function getSpiceRackOutput({
+  game,
+  baseAmount,
+  item,
+  agerLevel,
+  prngArgs,
+}: {
+  game: GameState;
+  baseAmount: Decimal;
+  item: InventoryItemName;
+  agerLevel: number;
+  prngArgs?: { farmId: number; itemId: number; counter: number };
+}): { output: Decimal; boostsUsed: { name: BoostName; value: string }[] } {
+  const { output, boostsUsed } = getAgingOutput(
+    game,
+    baseAmount,
+    item,
+    agerLevel,
+    prngArgs,
+  );
+
+  let total = output;
+
+  if (isWearableActive({ game, name: "Salt Bottle Onesie" })) {
+    total = total.add(1);
+    boostsUsed.push({ name: "Salt Bottle Onesie", value: "+1" });
+  }
+
+  return { output: total, boostsUsed };
 }
 
 // `agerLevel` is optional and threads through to getAgingInputMultiplier — omit
@@ -134,8 +227,18 @@ export function getBoostedAgingSaltCost(
   baseXP: number,
   state: GameState,
   agerLevel?: number,
-): number {
-  return getAgingSaltCost(baseXP) * getAgingInputMultiplier(state, agerLevel);
+): { cost: number; boostsUsed: { name: BoostName; value: string }[] } {
+  const boostsUsed: { name: BoostName; value: string }[] = [];
+  const multiplier = getAgingInputMultiplier(state, agerLevel);
+  let cost = getAgingSaltCost(baseXP) * multiplier;
+  if (multiplier !== 1) {
+    boostsUsed.push({ name: "Ager", value: `x${multiplier}` });
+  }
+  if (isWearableActive({ game: state, name: "Surfer Hair" })) {
+    cost *= 0.5;
+    boostsUsed.push({ name: "Surfer Hair", value: "x0.5" });
+  }
+  return { cost, boostsUsed };
 }
 
 export function getBoostedAgingFishCost(

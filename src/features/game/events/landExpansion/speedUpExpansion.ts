@@ -8,7 +8,6 @@ import {
 } from "features/game/lib/getInstantGems";
 import Decimal from "decimal.js-light";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
-import { hasFeatureAccess } from "lib/flags";
 
 export type InstantExpand = {
   type: "expansion.spedUp";
@@ -43,12 +42,7 @@ export function speedUpExpansion({
       throw new Error("Expansion not in progress");
     }
 
-    if (
-      hasRequiredIslandExpansion(
-        game.island.type,
-        hasFeatureAccess(game, "SWAMP_ASCENSION") ? "swamp" : "desert",
-      )
-    ) {
+    if (hasRequiredIslandExpansion(game.island.type, "swamp")) {
       throw new Error("You can't speed up the expansion on this island");
     }
 

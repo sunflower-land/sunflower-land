@@ -50,6 +50,8 @@ import { Rarecrows } from "./Rarecrows";
 import { ChapterRaffles } from "./chapterRaffles/ChapterRaffles";
 import { DesignShowcaseContent } from "features/social/DesignShowcase";
 import { FreeTrial } from "./FreeTrial";
+import { Yakkamon } from "./yakkamon/Yakkamon";
+import { GiveawayBoard } from "features/giveaway/ui/GiveawayBoard";
 import { useNavigate } from "react-router";
 
 type InteractableName =
@@ -156,7 +158,9 @@ type InteractableName =
   | "colors_2026"
   | "chapter_raffles"
   | "design_showcase"
-  | "free_trial";
+  | "giveaway_board"
+  | "free_trial"
+  | "yakkamon";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -221,6 +225,9 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       <Modal show={interactable === "free_trial"} onHide={closeModal}>
         <FreeTrial onClose={closeModal} />
       </Modal>
+      <Modal show={interactable === "giveaway_board"} onHide={closeModal}>
+        <GiveawayBoard onClose={closeModal} />
+      </Modal>
 
       {/* TODO - make smoother opening */}
       {interactable === "auction_item" && (
@@ -259,6 +266,9 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       </Modal>
       <Modal show={interactable === "rarecrows"} onHide={closeModal}>
         <Rarecrows onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "yakkamon"} onHide={closeModal}>
+        <Yakkamon onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "desert_noticeboard"} onHide={closeModal}>
         <DesertNoticeboard onClose={closeModal} />
