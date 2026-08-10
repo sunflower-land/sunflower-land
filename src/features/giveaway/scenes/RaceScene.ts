@@ -67,6 +67,8 @@ export class RaceScene extends BaseScene {
   private cueLabel?: Phaser.GameObjects.Text;
   /** Baseline sprite Y, captured so the hop bob always returns home. */
   private spriteBaseY?: number;
+  /** Last distance (metres) sent to the room as our leaderboard `points`. */
+  private lastPointsSent = -1;
 
   constructor() {
     super({
@@ -147,17 +149,22 @@ export class RaceScene extends BaseScene {
   }
 
   /**
-   * Deterministic starting lane for a runner (same on every client). Only the
-   * Y (lane) is spread — every racer starts at the SAME X so the leaderboard can
-   * turn their broadcast X straight into distance run.
+   * Deterministic starting spot for a runner (same on every client) — spread
+   * across the lane (Y) and fanned a little behind the start line (X) so the
+   * whole field is visible in the lobby instead of stacking on one point. Each
+   * racer measures distance from their OWN start, and the leaderboard reads the
+   * `points` they submit, so a fanned start doesn't affect scoring.
    */
   private staggerFor(farmId: number): { x: number; y: number } {
     const s = seedFor(farmId, this.bridge?.giveawayId ?? "");
+    const fy = (s % 1000) / 1000;
+    const fx = (Math.floor(s / 1000) % 1000) / 1000;
     const y =
       RUN_BAND_TOP +
       LANE_PADDING +
-      ((s % 1000) / 1000) * (RUN_BAND_BOTTOM - RUN_BAND_TOP - 2 * LANE_PADDING);
-    return { x: 0, y };
+      fy * (RUN_BAND_BOTTOM - RUN_BAND_TOP - 2 * LANE_PADDING);
+    // Fan up to 56px behind the start line.
+    return { x: -fx * 56, y };
   }
 
   /** Roll the next colour to press and tell the HUD to highlight it. */
@@ -282,6 +289,12 @@ export class RaceScene extends BaseScene {
 
     // Broadcast our position every frame so other players see us hop across.
     this.sendPositionToServer();
+
+    // Submit our distance as live leaderboard `points` whenever it changes.
+    if (metres !== this.lastPointsSent) {
+      this.lastPointsSent = metres;
+      this.mmoServer?.send(0, { points: metres });
+    }
 
     this.soundEffects?.forEach((audio) =>
       audio.setVolumeAndPan(player.x, player.y),

@@ -126,6 +126,20 @@ export class TriviaScene extends BaseScene {
     this.cameras.main.centerOn(this.centerX, this.centerY);
     this.cameras.main.roundPixels = false;
 
+    // A faint neutral zone in the very middle — where players gather between
+    // questions before committing to one of the four quadrants.
+    this.add
+      .rectangle(
+        this.centerX,
+        this.centerY,
+        this.quadDx,
+        this.quadDy,
+        0xffffff,
+        0.06,
+      )
+      .setStrokeStyle(1, 0xffffff, 0.18)
+      .setDepth(0);
+
     // Preload our own death sheet so the reveal plays instantly.
     this.ensureDeath(player.clothing);
 
@@ -150,6 +164,17 @@ export class TriviaScene extends BaseScene {
     return {
       x: c.x + Phaser.Math.Between(-this.quadDx * 0.45, this.quadDx * 0.45),
       y: c.y + Phaser.Math.Between(-this.quadDy * 0.45, this.quadDy * 0.45),
+    };
+  }
+
+  /** A random spot inside the small neutral zone in the very middle — where
+   * everyone waits between questions before committing to a quadrant. */
+  private neutralSpot(): { x: number; y: number } {
+    const rx = this.quadDx * 0.35;
+    const ry = this.quadDy * 0.35;
+    return {
+      x: this.centerX + Phaser.Math.Between(-rx, rx),
+      y: this.centerY + Phaser.Math.Between(-ry, ry),
     };
   }
 
@@ -300,13 +325,26 @@ export class TriviaScene extends BaseScene {
     // Only "answer" accepts picks; the lobby/intro/reveal all reject them.
     this.phase = racing ? round.phase : "intro";
 
-    // New question: stand everyone back up (their positions are kept). A kept
-    // answer counts as locked in at t=0 (fastest) until they change it.
+    // New question: everyone stands back up and walks back to the neutral zone
+    // in the middle, clearing their previous answer — a fresh, unbiased start
+    // each question (broadcasting -1 sends the remotes back to the middle too).
     if (racing && round.index !== this.lastResetRound) {
       this.lastResetRound = round.index;
       this.answerAtMs = 0;
+      this.currentAnswer = null;
+      if (this.controls) this.controls.picked = null;
       this.resetAppearance(player);
       this.others.forEach(({ container }) => this.resetAppearance(container));
+
+      const spot = this.neutralSpot();
+      this.tweens.killTweensOf(player);
+      this.tweens.add({
+        targets: player,
+        x: spot.x,
+        y: spot.y,
+        duration: 250,
+        ease: "Quad.easeOut",
+      });
     }
 
     // Apply a tapped answer from the button HUD.
@@ -342,7 +380,7 @@ export class TriviaScene extends BaseScene {
       this.lastBroadcastAt = now;
       this.lastBroadcastAnswer = answer;
       this.lastBroadcastScore = this.score;
-      this.mmoServer?.send(0, { x: answer, y: this.score });
+      this.mmoServer?.send(0, { x: answer, y: this.score, points: this.score });
     }
 
     // TEMP diagnostic — what the SCENE (registry server) sees in the room, once
@@ -382,12 +420,15 @@ export class TriviaScene extends BaseScene {
 
     server.state.players.forEach((remote, sessionId) => {
       if (sessionId === server.sessionId) return;
+      // Guard against a self-echo arriving under a different session id (it
+      // would render a duplicate of your own Bumpkin).
+      if (remote.farmId === this.bridge?.playerId) return;
 
       const answer = this.answerFromBroadcast(remote.x);
-      const target =
-        answer === null
-          ? { x: this.centerX, y: this.centerY }
-          : this.quadCenter(answer);
+      const inNeutral = answer === null;
+      const target = inNeutral
+        ? { x: this.centerX, y: this.centerY }
+        : this.quadCenter(answer);
 
       let entry = this.others.get(sessionId);
       if (!entry) {
@@ -423,8 +464,10 @@ export class TriviaScene extends BaseScene {
       }
 
       const { container, ox, oy } = entry;
-      const tx = target.x + ox;
-      const ty = target.y + oy;
+      // Cluster tighter in the small neutral zone; spread out in a quadrant.
+      const spread = inNeutral ? 0.55 : 1;
+      const tx = target.x + ox * spread;
+      const ty = target.y + oy * spread;
       if (tx > container.x + 0.5) container.faceRight();
       else if (tx < container.x - 0.5) container.faceLeft();
       container.x = Phaser.Math.Linear(container.x, tx, 0.2);

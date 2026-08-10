@@ -11,6 +11,8 @@ export interface InputData {
   y: number;
   tick: number;
   text: string;
+  /** Community-game score, sent live so the room stores it on the player. */
+  points?: number;
 }
 
 export interface Player extends Schema {
@@ -19,6 +21,9 @@ export interface Player extends Schema {
   faction?: FactionName;
   x: number;
   y: number;
+  /** Community-game score, submitted live by the mini-game the player is in.
+   * Authoritative for the giveaway leaderboard. Optional until the room syncs it. */
+  points?: number;
   experience: number;
   // Ascension band — needed to read `experience` as a level. Optional until the MMO
   // server syncs it; consumers default to 0 (legacy pre-ascension reading) meanwhile.

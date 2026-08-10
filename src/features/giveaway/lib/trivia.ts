@@ -5,7 +5,7 @@ export type { TriviaQuestion } from "./triviaQuestions";
 /**
  * Trivia mini-game timing.
  *
- * A round of trivia is six questions, each a 10s answer window then a 3s
+ * A round of trivia is ten questions, each a 10s answer window then a 3s
  * reveal, preceded by a rules intro. Questions are generated deterministically
  * from (giveawayId, roundIndex) — see triviaQuestions.ts — so every player sees
  * the identical question (image and all) at the same time.
@@ -35,8 +35,8 @@ export function speedPoints(answeredAtMs: number): number {
 
 export type TriviaPhase = "intro" | "answer" | "feedback";
 
-/** A round of trivia is six questions. */
-export const TRIVIA_ROUNDS = 6;
+/** A round of trivia is ten questions. */
+export const TRIVIA_ROUNDS = 10;
 
 /** Total trivia game length — its own duration, not the shared 30s race. */
 export const TRIVIA_GAME_MS = TRIVIA_INTRO_MS + TRIVIA_ROUNDS * TRIVIA_ROUND_MS;

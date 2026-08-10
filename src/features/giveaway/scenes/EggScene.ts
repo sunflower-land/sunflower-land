@@ -286,7 +286,11 @@ export class EggScene extends BaseScene {
       this.lastBroadcastAt = now;
       this.lastBroadcastX = player.x;
       this.lastBroadcastScore = this.score;
-      this.mmoServer?.send(0, { x: player.x, y: this.score });
+      this.mmoServer?.send(0, {
+        x: player.x,
+        y: this.score,
+        points: this.score,
+      });
     }
 
     this.soundEffects?.forEach((audio) =>

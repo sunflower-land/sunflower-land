@@ -585,7 +585,11 @@ export class ChopScene extends BaseScene {
     ) {
       this.lastBroadcastAt = now;
       this.lastBroadcastScore = this.score;
-      this.mmoServer?.send(0, { x: player.x, y: this.score });
+      this.mmoServer?.send(0, {
+        x: player.x,
+        y: this.score,
+        points: this.score,
+      });
     }
 
     player.setDepth(Math.floor(player.y));

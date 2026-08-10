@@ -3,7 +3,7 @@ import type { SceneId } from "features/world/mmoMachine";
 import { BaseScene } from "features/world/scenes/BaseScene";
 import { SQUARE_WIDTH } from "features/game/lib/constants";
 import type { GiveawayBridge } from "../lib/bridge";
-import { isRaceOver, RACE_DURATION_MS } from "../lib/sim";
+import { isRaceOver, RACE_DURATION_MS, seedFor } from "../lib/sim";
 import { serverNow } from "../lib/serverClock";
 import type { JumpControls } from "../lib/jumpControls";
 import {
@@ -61,6 +61,8 @@ export class JumpScene extends BaseScene {
   private airborne = false;
   /** Marker angle around the ring (radians). */
   private theta = 0;
+  /** Last height (metres) sent to the room as our leaderboard `points`. */
+  private lastPointsSent = -1;
 
   constructor() {
     super({
@@ -76,6 +78,15 @@ export class JumpScene extends BaseScene {
     return this.registry.get("giveawayBridge") as GiveawayBridge | undefined;
   }
 
+  /** Deterministic horizontal start (same on every client) so climbers fan out
+   * across the base line instead of stacking on one spawn. */
+  private staggerX(farmId: number, baseX: number): number {
+    const s = seedFor(farmId, this.bridge?.giveawayId ?? "");
+    const frac = (s % 1000) / 1000;
+    const spread = 200;
+    return baseX - spread / 2 + frac * spread;
+  }
+
   private get controls(): JumpControls | undefined {
     return this.registry.get("gameControls") as JumpControls | undefined;
   }
@@ -85,6 +96,14 @@ export class JumpScene extends BaseScene {
 
     const player = this.currentPlayer;
     if (!player) return;
+
+    // Fan players out across the base line by a seeded X, so the whole field is
+    // visible in the lobby instead of everyone stacking on one spawn and jumping
+    // in the same spot. Climbing is purely vertical, so this offset persists.
+    player.teleport(
+      this.staggerX(this.bridge?.playerId ?? 0, player.x),
+      player.y,
+    );
 
     this.startY = player.y;
     this.bankedY = player.y;
@@ -254,6 +273,13 @@ export class JumpScene extends BaseScene {
 
     // Broadcast our height so everyone sees us climb.
     this.sendPositionToServer();
+
+    // Submit our climbed height as live leaderboard `points` when it changes.
+    const metres = Math.round((this.startY - this.bankedY) / PIXELS_PER_METRE);
+    if (metres !== this.lastPointsSent) {
+      this.lastPointsSent = metres;
+      this.mmoServer?.send(0, { points: metres });
+    }
 
     this.soundEffects?.forEach((audio) =>
       audio.setVolumeAndPan(player.x, player.y),

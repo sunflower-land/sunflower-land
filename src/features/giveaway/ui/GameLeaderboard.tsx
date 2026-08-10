@@ -7,7 +7,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES } from "lib/npcs";
 import type { MMOContext } from "features/world/mmoMachine";
 import type { MinigameType } from "../lib/minigames";
-import { scoreFromPosition, scoreUnit } from "../lib/gameScore";
+import { scoreUnit } from "../lib/gameScore";
 
 /** Fallback avatar when the room doesn't replicate a player's clothing. */
 const DEFAULT_PARTS = NPC_WEARABLES[
@@ -27,10 +27,10 @@ type Row = {
 };
 
 /**
- * A live mini leaderboard, top-left. It ranks players purely by the position
- * they broadcast to the MMO — race by X, jump by height, chop/eggs by the score
- * they send as their Y (see gameScore.ts). Shows the top 10, plus your own row
- * below if you've slipped out of it; your row is highlighted yellow.
+ * A live mini leaderboard, top-left. Every mini-game submits its score live to
+ * the MMO as the player's `points` field, so this just ranks players by their
+ * `points` (highest first) — one standard source for all games. Shows the top
+ * 10, plus your own row below if you've slipped out of it (highlighted yellow).
  *
  * Desktop shows NPC + username + score; mobile drops the username.
  */
@@ -61,7 +61,8 @@ export const GameLeaderboard: React.FC<{
         clothing: p.clothing?.body
           ? (p.clothing as unknown as Row["clothing"])
           : DEFAULT_PARTS,
-        score: scoreFromPosition(minigame, p.x, p.y),
+        // Standardised: every game submits its live score as `points`.
+        score: Math.max(0, Math.round(p.points ?? 0)),
         isSelf: sessionId === server.sessionId,
       });
     });
@@ -69,28 +70,6 @@ export const GameLeaderboard: React.FC<{
       .sort((a, b) => b.score - a.score)
       .forEach((p, i) => rows.push({ ...p, position: i + 1 }));
   }
-
-  // TEMP diagnostic — full picture of what THIS client sees in the room, so we
-  // can tell whether a newly-joined player is missing from `state.players`
-  // (backend replication) vs present but not scored/ranked (frontend logic).
-  // eslint-disable-next-line no-console
-  console.log("[giveaway] leaderboard", {
-    minigame,
-    hasServer: !!server,
-    selfSessionId: server?.sessionId,
-    size: server?.state?.players?.size ?? -1,
-    rows: rows.length,
-    players: server
-      ? [...server.state.players.entries()].map(([sessionId, p]) => ({
-          sessionId,
-          farmId: p.farmId,
-          username: p.username,
-          x: Math.round(p.x),
-          y: Math.round(p.y),
-          score: scoreFromPosition(minigame, p.x, p.y),
-        }))
-      : [],
-  });
 
   const unit = scoreUnit(minigame);
   const top = rows.slice(0, MAX_ROWS);

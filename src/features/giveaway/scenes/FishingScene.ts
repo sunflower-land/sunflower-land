@@ -1,7 +1,7 @@
 import mapJson from "assets/map/run.json";
 import type { SceneId } from "features/world/mmoMachine";
 import { BaseScene } from "features/world/scenes/BaseScene";
-import { BumpkinContainer } from "features/world/containers/BumpkinContainer";
+import type { BumpkinContainer } from "features/world/containers/BumpkinContainer";
 import type { Player } from "features/world/types/Room";
 import { getAnimationUrl } from "features/world/lib/animations";
 import { tokenUriBuilder, type BumpkinParts } from "lib/utils/tokenUriBuilder";
@@ -37,11 +37,14 @@ const FISH_SIZE = 16;
 
 // --- Cast mechanic ----------------------------------------------------------
 /** When (ms into the cast) the lure hits the water — the catch is judged here. */
-const LURE_LAND_MS = 420;
-/** Total cast time before you can cast again. */
-const CAST_TOTAL_MS = 850;
+const LURE_LAND_MS = 500;
+/** Total cast+reel time before you can cast again — you have to wait out the
+ *  reel (shown by the progress bar under the angler), so you can't just spam. */
+const CAST_TOTAL_MS = 2800;
 /** How close (world px) a fish must be to where the lure lands to be caught. */
 const CATCH_RADIUS = 20;
+/** Width of the reel progress bar under the angler (world px). */
+const CAST_BAR_W = 22;
 
 // --- Remote liveliness ------------------------------------------------------
 const REMOTE_CAST_MIN_MS = 1800;
@@ -89,6 +92,10 @@ export class FishingScene extends BaseScene {
   private casting = false;
   private castElapsed = 0;
   private catchDone = false;
+  /** A little progress bar under the angler that fills as the line reels in —
+   * you can cast again once it's full. */
+  private castBarBg?: Phaser.GameObjects.Rectangle;
+  private castBarFill?: Phaser.GameObjects.Rectangle;
 
   // Broadcast throttle.
   private lastBroadcastAt = 0;
@@ -206,8 +213,41 @@ export class FishingScene extends BaseScene {
     this.schedule = fishSchedule(this.bridge?.giveawayId ?? "");
     this.schedule.forEach((f) => this.fishById.set(f.id, f));
 
+    // The reel progress bar under the angler (hidden until casting).
+    this.castBarBg = this.add
+      .rectangle(0, 0, CAST_BAR_W + 2, 5, 0x000000, 0.6)
+      .setDepth(1e6)
+      .setVisible(false);
+    this.castBarFill = this.add
+      .rectangle(0, 0, CAST_BAR_W, 3, 0x63c74d, 1)
+      .setOrigin(0, 0.5)
+      .setDepth(1e6 + 1)
+      .setVisible(false);
+
     // Cast: SPACE from the keyboard, or the button via the queue.
     this.input.keyboard?.on("keydown-SPACE", () => this.cast());
+  }
+
+  /** Fill the reel bar under the angler as the cast runs; hide it when idle. */
+  private updateCastBar(player: BumpkinContainer) {
+    const bg = this.castBarBg;
+    const fill = this.castBarFill;
+    if (!bg || !fill) return;
+
+    if (!this.casting) {
+      bg.setVisible(false);
+      fill.setVisible(false);
+      return;
+    }
+
+    const progress = Phaser.Math.Clamp(this.castElapsed / CAST_TOTAL_MS, 0, 1);
+    const barY = player.y + 14;
+    bg.setPosition(player.x, barY).setVisible(true).setDepth(1e6);
+    fill
+      .setPosition(player.x - CAST_BAR_W / 2, barY)
+      .setSize(CAST_BAR_W * progress, 3)
+      .setVisible(true)
+      .setDepth(1e6 + 1);
   }
 
   /**
@@ -534,6 +574,9 @@ export class FishingScene extends BaseScene {
     // Rod-ready pose between casts (BumpkinContainer would otherwise idle it).
     if (!this.casting) this.restPose(player);
 
+    // Fill the reel bar while a cast is in flight.
+    this.updateCastBar(player);
+
     this.updateFish(elapsed, racing);
 
     // Submit the final score once, when the clock is up.
@@ -551,7 +594,11 @@ export class FishingScene extends BaseScene {
       this.lastBroadcastAt = now;
       if (heartbeat) this.lastHeartbeatAt = now;
       this.lastBroadcastScore = this.score;
-      this.mmoServer?.send(0, { x: player.x, y: this.score });
+      this.mmoServer?.send(0, {
+        x: player.x,
+        y: this.score,
+        points: this.score,
+      });
     }
 
     player.setDepth(Math.floor(player.y));
@@ -589,14 +636,20 @@ export class FishingScene extends BaseScene {
           while (this.usedSlots.has(slot)) slot += 1;
           this.usedSlots.add(slot);
 
-          const container = new BumpkinContainer({
-            scene: this,
+          // Use createPlayer so anglers get the standard username tag below the
+          // Bumpkin (like everywhere else), not a custom floating label.
+          const container = this.createPlayer({
             x: this.anglerSlotX(slot),
             y: this.bankY,
+            farmId: remote.farmId,
+            username: remote.username,
+            faction: remote.faction,
             clothing: remote.clothing?.body
               ? remote.clothing
               : DEFAULT_CLOTHING,
-            name: remote.username ?? `#${remote.farmId}`,
+            isCurrentPlayer: false,
+            npc: remote.npc,
+            experience: remote.experience,
           });
           container.setDepth(this.bankY);
           container.faceRight();
