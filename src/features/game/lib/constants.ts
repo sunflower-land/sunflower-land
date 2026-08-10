@@ -363,7 +363,7 @@ export const INITIAL_EQUIPMENT: BumpkinParts = {
 
 export const INITIAL_BUMPKIN: Bumpkin = {
   equipped: INITIAL_EQUIPMENT as Equipped,
-  experience: 1000,
+  experience: 0, // Leave it at 0 so that feedBumpkin Tests don't fail
 
   id: 1,
   skills: {},
