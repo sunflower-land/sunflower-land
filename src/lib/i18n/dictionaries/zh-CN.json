@@ -8331,5 +8331,8 @@
   "colour.dark-red": "深红色",
   "colour.dark-green": "深绿色",
   "colour.dark-teal": "深蓝绿色",
-  "pets.foodFedToday": "今日粮食"
+  "pets.foodFedToday": "今日粮食",
+  "giveaway.play": "播放",
+  "giveaway.noGamesScheduled": "目前没有预定派对游戏",
+  "giveaway.noResults": "还没有完成的游戏——下个游戏之后再来看看！"
 }

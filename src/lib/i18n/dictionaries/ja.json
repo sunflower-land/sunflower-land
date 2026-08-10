@@ -8331,5 +8331,8 @@
   "colour.dark-red": "ダークレッド",
   "colour.dark-green": "ダークグリーン",
   "colour.dark-teal": "ダークティール",
-  "pets.foodFedToday": "フード・フィード・トゥデイ"
+  "pets.foodFedToday": "フード・フィード・トゥデイ",
+  "giveaway.play": "再生",
+  "giveaway.noGamesScheduled": "現在、予定されているパーティーゲームはありません",
+  "giveaway.noResults": "終了したゲームはまだありません。次のゲームが終わったら、もう一度確認してください!"
 }
