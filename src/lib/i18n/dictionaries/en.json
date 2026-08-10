@@ -6752,6 +6752,7 @@
   "pets.fossilShellRewards": "Fossil Shell Rewards",
   "pets.xp": "{{currentProgress}}/{{experienceBetweenLevels}}",
   "pets.energy": "{{energy}} Energy",
+  "pets.foodFedToday": "Food Fed Today",
   "pets.requestsToday": "Today's food requests",
   "pets.requestsReset": "Food requests reset",
   "pets.getNewRequests": "Get new food requests",
