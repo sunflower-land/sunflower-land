@@ -66,7 +66,7 @@ export const CropGuide = () => {
   const [showBoostsKey, setShowBoostsKey] = useState<string | null>(null);
 
   return (
-    <InnerPanel className="scrollable max-h-[300px] overflow-y-scroll overflow-x-hidden">
+    <InnerPanel className="scrollable max-h-[360px] overflow-y-scroll overflow-x-hidden">
       <div className="p-1">
         <NoticeboardItems
           items={[
