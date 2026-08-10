@@ -9,7 +9,7 @@ import { PlaceableContainer } from "../containers/PlaceableContainer";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import type { NPCName } from "lib/npcs";
 import type { FactionName } from "features/game/types/game";
-import { translateForBubble } from "lib/i18n/translate";
+import { translate, translateForBubble } from "lib/i18n/translate";
 import { capitalize } from "lib/utils/capitalize";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { DogContainer } from "../containers/DogContainer";

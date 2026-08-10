@@ -314,10 +314,7 @@ export const Filters: React.FC<{
       const banner: ChapterBanner = `${chapter} Banner`;
 
       return {
-        label:
-          chapter === "Winds of Change"
-            ? t("whatsOn.windsOfChange")
-            : t(`chapter.name.${toTraitValueId(chapter)}` as TranslationKeys),
+        label: t(`chapter.name.${toTraitValueId(chapter)}` as TranslationKeys),
         value: toTraitValueId(chapter),
         icon: CHAPTER_BANNER_IMAGES[banner],
       };
