@@ -8173,5 +8173,9 @@
   "giveaway.trivia.answerWas": "La réponse était",
   "giveaway.beta": "Bêta",
   "giveaway.communityGameSoon": "Bientôt un jeu communautaire !",
-  "giveaway.communityGameLive": "Jeu communautaire en direct !"
+  "giveaway.communityGameLive": "Jeu communautaire en direct !",
+  "tools.insufficientFundsForStock": "Pas assez de pièces ou de ressources pour fabriquer tous les {{stockAmount}} en stock",
+  "fishingPuzzle.freeAttemptAvailable": "Vous avez 1 essai gratuit disponible. Vous souhaitez l'utiliser ?",
+  "confirmation.buyAllTools": "Acheter le montant maximum abordable de types d'outils {{toolTypes}} ?",
+  "confirmation.craftTools": "Êtes-vous sûr de vouloir créer des {{toolNo}} {{toolName}} s ?"
 }

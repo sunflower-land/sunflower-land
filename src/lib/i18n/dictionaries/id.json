@@ -8173,5 +8173,9 @@
   "giveaway.trivia.answerWas": "Jawabannya adalah",
   "giveaway.beta": "Beta",
   "giveaway.communityGameSoon": "Game komunitas segera!",
-  "giveaway.communityGameLive": "Permainan komunitas langsung!"
+  "giveaway.communityGameLive": "Permainan komunitas langsung!",
+  "tools.insufficientFundsForStock": "Tidak cukup koin atau sumber daya untuk membuat semua {{stockAmount}} dalam stok",
+  "fishingPuzzle.freeAttemptAvailable": "Anda memiliki 1 percobaan gratis yang tersedia. Apakah Anda ingin menggunakannya?",
+  "confirmation.buyAllTools": "Beli jenis alat {{toolTypes}} dalam jumlah maksimum yang terjangkau?",
+  "confirmation.craftTools": "Apakah Anda yakin ingin membuat {{toolNo}} {{toolName}} s?"
 }

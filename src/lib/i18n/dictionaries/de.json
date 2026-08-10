@@ -8173,5 +8173,9 @@
   "giveaway.trivia.answerWas": "Die Antwort war",
   "giveaway.beta": "Betaversion",
   "giveaway.communityGameSoon": "Bald Community-Spiel!",
-  "giveaway.communityGameLive": "Community-Spiel live!"
+  "giveaway.communityGameLive": "Community-Spiel live!",
+  "tools.insufficientFundsForStock": "Nicht genug Münzen oder Ressourcen, um alle {{stockAmount}} auf Lager herzustellen",
+  "fishingPuzzle.freeAttemptAvailable": "Sie haben 1 kostenlosen Versuch zur Verfügung. Möchtest du es benutzen?",
+  "confirmation.buyAllTools": "Die maximal erschwingliche Menge an {{toolTypes}} Werkzeugtypen kaufen?",
+  "confirmation.craftTools": "Bist du sicher, dass du {{toolNo}} {{toolName}} s herstellen willst?"
 }
