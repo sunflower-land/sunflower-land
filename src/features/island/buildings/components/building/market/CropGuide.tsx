@@ -250,33 +250,37 @@ export const CropRow: React.FC<{
       }`}
     >
       <div className="flex items-center flex-1 min-w-0">
-        <div className="flex items-center w-24 sm:w-32 mr-2 shrink-0">
+        <div className="flex items-center min-w-24 max-w-32 sm:min-w-32 sm:max-w-40 mr-4 shrink-0">
           <img src={ITEM_DETAILS[crop].image} className="w-6 h-auto mr-2" />
           <div className="flex-1 min-w-0">
-            <p className="text-xs">{crop}</p>
+            <p className="text-xs break-words" title={crop}>
+              {crop}
+            </p>
             <p className="text-xxs">{t(getCropCategory(crop))}</p>
           </div>
         </div>
-        <div className="flex flex-col min-w-0">
-          <GrowthTimeCell
-            boostKey={`${seed}-growth-time`}
-            baseSeconds={seconds}
-            boostedTime={boostedTime}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:gap-x-2">
+          <div className="flex flex-col min-w-0">
+            <GrowthTimeCell
+              boostKey={`${seed}-growth-time`}
+              baseSeconds={seconds}
+              boostedTime={boostedTime}
+              state={state}
+              showBoostsKey={showBoostsKey}
+              setShowBoostsKey={setShowBoostsKey}
+            />
+            <div className="flex items-center">
+              <img src={SUNNYSIDE.ui.coins} className="w-3 mr-1" />
+              <p className="text-xxs">{coins.toLocaleString()}</p>
+            </div>
+          </div>
+          <SeedCapacityLimits
+            seed={seed}
             state={state}
             showBoostsKey={showBoostsKey}
             setShowBoostsKey={setShowBoostsKey}
           />
-          <div className="flex items-center">
-            <img src={SUNNYSIDE.ui.coins} className="w-3 mr-1" />
-            <p className="text-xxs">{coins.toLocaleString()}</p>
-          </div>
         </div>
-        <SeedCapacityLimits
-          seed={seed}
-          state={state}
-          showBoostsKey={showBoostsKey}
-          setShowBoostsKey={setShowBoostsKey}
-        />
       </div>
 
       <div className="flex items-center shrink-0">
@@ -322,29 +326,33 @@ export const FlowerRow: React.FC<{
       }`}
     >
       <div className="flex items-center flex-1 min-w-0">
-        <div className="flex items-center w-24 sm:w-32 mr-2 shrink-0">
+        <div className="flex items-center min-w-24 max-w-32 sm:min-w-32 sm:max-w-40 mr-4 shrink-0">
           <img src={ITEM_DETAILS[seed].image} className="w-6 h-auto mr-2" />
           <div className="flex-1 min-w-0">
-            <p className="text-xs">{seed}</p>
+            <p className="text-xs break-words" title={seed}>
+              {seed}
+            </p>
             <p className="text-xxs">{`Flower`}</p>
           </div>
         </div>
-        <div className="flex flex-col min-w-0">
-          <GrowthTimeCell
-            boostKey={`${seed}-growth-time`}
-            baseSeconds={seconds}
-            boostedTime={boostedTime}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:gap-x-2">
+          <div className="flex flex-col min-w-0">
+            <GrowthTimeCell
+              boostKey={`${seed}-growth-time`}
+              baseSeconds={seconds}
+              boostedTime={boostedTime}
+              state={state}
+              showBoostsKey={showBoostsKey}
+              setShowBoostsKey={setShowBoostsKey}
+            />
+          </div>
+          <SeedCapacityLimits
+            seed={seed}
             state={state}
             showBoostsKey={showBoostsKey}
             setShowBoostsKey={setShowBoostsKey}
           />
         </div>
-        <SeedCapacityLimits
-          seed={seed}
-          state={state}
-          showBoostsKey={showBoostsKey}
-          setShowBoostsKey={setShowBoostsKey}
-        />
       </div>
 
       <div className="flex items-center shrink-0">
@@ -387,7 +395,7 @@ const SeedCapacityLimits: React.FC<{
   }
 
   return (
-    <div className="flex flex-col gap-1 ml-2">
+    <div className="flex flex-col gap-1 sm:ml-2">
       <CapacityLimit
         seed={seed}
         baseAmount={baseInventoryLimit.toString()}
@@ -449,9 +457,9 @@ const CapacityLimit: React.FC<{
         setShowBoostsKey(showBoostsKey === boostKey ? null : boostKey);
       }}
     >
-      <img src={SUNNYSIDE.icons.lightning} className="w-3 mr-1" />
       <CapacityAmount amount={amount} icon={icon} />
-      <p className="text-xxs line-through ml-1">{baseAmount}</p>
+      <img src={SUNNYSIDE.icons.lightning} className="w-3 mx-1" />
+      <p className="text-xxs line-through">{baseAmount}</p>
       <BoostsDisplay
         boosts={boosts}
         show={showBoostsKey === boostKey}
@@ -587,9 +595,9 @@ const GrowthTimeCell: React.FC<{
         setShowBoostsKey(showBoostsKey === boostKey ? null : boostKey);
       }}
     >
-      <div className="flex flex-wrap items-center gap-x-2">
+      <div className="flex items-center">
         <div className="flex items-center">
-          <img src={SUNNYSIDE.icons.lightning} className="w-3 mr-1" />
+          <img src={SUNNYSIDE.icons.stopwatch} className="w-3 mr-1" />
           <p className="text-xxs">
             {secondsToString(boostedTime.seconds, {
               length: showMediumTime ? "medium" : "short",
@@ -597,7 +605,7 @@ const GrowthTimeCell: React.FC<{
           </p>
         </div>
         <div className="flex items-center">
-          <img src={SUNNYSIDE.icons.stopwatch} className="w-3 mr-1" />
+          <img src={SUNNYSIDE.icons.lightning} className="w-3 mx-1" />
           <p className="text-xxs line-through">
             {secondsToString(baseSeconds, {
               length: showMediumTime ? "medium" : "short",
