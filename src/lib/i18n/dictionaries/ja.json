@@ -8177,5 +8177,12 @@
   "tools.insufficientFundsForStock": "コインまたはリソースが不足しているため、在庫の {{stockAmount}} をすべてクラフトできません",
   "fishingPuzzle.freeAttemptAvailable": "無料で試用できるのは 1 回です。使ってみませんか？",
   "confirmation.buyAllTools": "{{toolTypes}} 種類のツールタイプを手頃な価格で購入しますか？",
-  "confirmation.craftTools": "本当に {{toolNo}} {{toolName}} を作りたいですか？"
+  "confirmation.craftTools": "本当に {{toolNo}} {{toolName}} を作りたいですか？",
+  "timeMachine.time": "時間",
+  "timeMachine.reset": "リセット",
+  "timeMachine.outsideChapter": "チャプターの外",
+  "timeMachine.backDay": "-1d",
+  "timeMachine.backHour": "-1h",
+  "timeMachine.forwardHour": "+1h",
+  "timeMachine.forwardDay": "+1d"
 }

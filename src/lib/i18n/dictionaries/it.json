@@ -8177,5 +8177,12 @@
   "tools.insufficientFundsForStock": "Monete o risorse insufficienti per creare tutti i {{stockAmount}} in magazzino",
   "fishingPuzzle.freeAttemptAvailable": "Hai a disposizione 1 tentativo gratuito. Vuoi utilizzarlo?",
   "confirmation.buyAllTools": "Vuoi acquistare la quantità massima conveniente di {{toolTypes}} tipi di utensili?",
-  "confirmation.craftTools": "Sei sicuro di voler creare {{toolNo}} {{toolName}} s?"
+  "confirmation.craftTools": "Sei sicuro di voler creare {{toolNo}} {{toolName}} s?",
+  "timeMachine.time": "Ora",
+  "timeMachine.reset": "Reimposta",
+  "timeMachine.outsideChapter": "Fuori da un capitolo",
+  "timeMachine.backDay": "-1d",
+  "timeMachine.backHour": "-1h",
+  "timeMachine.forwardHour": "+1h",
+  "timeMachine.forwardDay": "+1d"
 }

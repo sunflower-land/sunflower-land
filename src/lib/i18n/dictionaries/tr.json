@@ -8177,5 +8177,12 @@
   "tools.insufficientFundsForStock": "Stoktaki tüm {{stockAmount}} oluşturmak için yeterli madeni para veya kaynak yok",
   "fishingPuzzle.freeAttemptAvailable": "Kullanılabilir 1 ücretsiz denemeniz var. Kullanmak ister misin?",
   "confirmation.buyAllTools": "Maksimum uygun fiyatlı miktarda {{toolTypes}} araç türleri satın alın?",
-  "confirmation.craftTools": "{{toolNo}} {{toolName}} s yapmak istediğinizden emin misiniz?"
+  "confirmation.craftTools": "{{toolNo}} {{toolName}} s yapmak istediğinizden emin misiniz?",
+  "timeMachine.time": "Zaman",
+  "timeMachine.reset": "Sıfırla",
+  "timeMachine.outsideChapter": "Bir bölümün dışında",
+  "timeMachine.backDay": "-1 gün",
+  "timeMachine.backHour": "-1 saat",
+  "timeMachine.forwardHour": "+1saat",
+  "timeMachine.forwardDay": "+1d"
 }

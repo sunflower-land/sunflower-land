@@ -8177,5 +8177,12 @@
   "tools.insufficientFundsForStock": "Tidak cukup koin atau sumber daya untuk membuat semua {{stockAmount}} dalam stok",
   "fishingPuzzle.freeAttemptAvailable": "Anda memiliki 1 percobaan gratis yang tersedia. Apakah Anda ingin menggunakannya?",
   "confirmation.buyAllTools": "Beli jenis alat {{toolTypes}} dalam jumlah maksimum yang terjangkau?",
-  "confirmation.craftTools": "Apakah Anda yakin ingin membuat {{toolNo}} {{toolName}} s?"
+  "confirmation.craftTools": "Apakah Anda yakin ingin membuat {{toolNo}} {{toolName}} s?",
+  "timeMachine.time": "Waktu",
+  "timeMachine.reset": "Setel ulang",
+  "timeMachine.outsideChapter": "Di luar sebuah chapter",
+  "timeMachine.backDay": "-1d",
+  "timeMachine.backHour": "-1 jam",
+  "timeMachine.forwardHour": "+1jam",
+  "timeMachine.forwardDay": "+1d"
 }

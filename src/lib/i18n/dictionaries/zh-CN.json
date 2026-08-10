@@ -8177,5 +8177,12 @@
   "tools.insufficientFundsForStock": "没有足够的硬币或资源来制作所有库存 {{stockAmount}}",
   "fishingPuzzle.freeAttemptAvailable": "您有 1 次免费试用。你想用它吗？",
   "confirmation.buyAllTools": "购买最大可承受数量的 {{toolTypes}} 工具类型？",
-  "confirmation.craftTools": "你确定要制作 {{toolNo}} {{toolName}} s 吗？"
+  "confirmation.craftTools": "你确定要制作 {{toolNo}} {{toolName}} s 吗？",
+  "timeMachine.time": "时间",
+  "timeMachine.reset": "重置",
+  "timeMachine.outsideChapter": "在章节之外",
+  "timeMachine.backDay": "-1d",
+  "timeMachine.backHour": "-1 小时",
+  "timeMachine.forwardHour": "+1 小时",
+  "timeMachine.forwardDay": "+1d"
 }

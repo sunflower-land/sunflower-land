@@ -8177,5 +8177,12 @@
   "tools.insufficientFundsForStock": "Not enough coins or resources to craft all {{stockAmount}} in stock",
   "fishingPuzzle.freeAttemptAvailable": "You have 1 free attempt available. Would you like to use it?",
   "confirmation.buyAllTools": "Buy the max affordable amount of {{toolTypes}} tool types?",
-  "confirmation.craftTools": "Are you sure you want to craft {{toolNo}} {{toolName}}s?"
+  "confirmation.craftTools": "Are you sure you want to craft {{toolNo}} {{toolName}}s?",
+  "timeMachine.time": "Time",
+  "timeMachine.reset": "Reset",
+  "timeMachine.outsideChapter": "Outside a chapter",
+  "timeMachine.backDay": "-1d",
+  "timeMachine.backHour": "-1h",
+  "timeMachine.forwardHour": "+1h",
+  "timeMachine.forwardDay": "+1d"
 }
