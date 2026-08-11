@@ -7131,7 +7131,6 @@
   "playerEconomyEditor.itemCard.visibleInInventory": "Afficher dans l'inventaire du tableau de bord",
   "agingShed.fermentation.selectRecipeRequired": "Veuillez sélectionner une recette",
   "description.skillResetTicket": "Un ticket qui vous permet de réinitialiser vos compétences gratuitement.",
-  "description.skillResetTicketWarning": "Compte comme une réinitialisation de la gemme ; le temps libre est inchangé.",
   "skillReset.ticket": "Réinitialisation du ticket",
   "skillReset.ticketDescription": "Utilisez un ticket de réinitialisation des compétences pour réinitialiser toutes vos compétences.",
   "obsidianShrine.fertilise": "Fertilisez tout",
@@ -8360,5 +8359,6 @@
   "buildings.deli": "Épicerie",
   "buildings.smoothieShack": "Smoothie Shack",
   "confirmation.feedAllFoods": "Donnez à votre Bumpkin tous les aliments {{count}} pour {{xp}} XP ?",
-  "confirmation.enterAmountToFeed": "Entrez la quantité à alimenter :"
+  "confirmation.enterAmountToFeed": "Entrez la quantité à alimenter :",
+  "description.skillResetTicketWarning": "Cela n'affecte pas le prix de réinitialisation des gemmes ; le temps gratuit est inchangé."
 }

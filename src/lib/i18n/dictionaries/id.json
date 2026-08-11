@@ -7131,7 +7131,6 @@
   "playerEconomyEditor.itemCard.visibleInInventory": "Tampilkan di inventaris dasbor",
   "agingShed.fermentation.selectRecipeRequired": "Silakan pilih resep",
   "description.skillResetTicket": "Tiket yang memungkinkan Anda mengatur ulang keterampilan Anda secara gratis.",
-  "description.skillResetTicketWarning": "Dihitung sebagai reset permata; timer gratis tidak berubah.",
   "skillReset.ticket": "Reset Tiket",
   "skillReset.ticketDescription": "Gunakan Tiket Reset Keterampilan untuk mengatur ulang semua keterampilan Anda.",
   "obsidianShrine.fertilise": "Pupuk Semua",
@@ -8360,5 +8359,6 @@
   "buildings.deli": "Deli",
   "buildings.smoothieShack": "Smoothie Shack",
   "confirmation.feedAllFoods": "Beri makan Bumpkin Anda semua makanan {{count}} untuk {{xp}} XP?",
-  "confirmation.enterAmountToFeed": "Masukkan Jumlah untuk Umpan:"
+  "confirmation.enterAmountToFeed": "Masukkan Jumlah untuk Umpan:",
+  "description.skillResetTicketWarning": "Tidak mempengaruhi harga reset permata; timer gratis tidak berubah."
 }

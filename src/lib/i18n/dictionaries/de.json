@@ -7131,7 +7131,6 @@
   "playerEconomyEditor.itemCard.visibleInInventory": "Im Inventar im Dashboard anzeigen",
   "agingShed.fermentation.selectRecipeRequired": "Bitte wählen Sie ein Rezept aus",
   "description.skillResetTicket": "Ein Ticket, mit dem du deine Fähigkeiten kostenlos zurücksetzen kannst.",
-  "description.skillResetTicketWarning": "Gilt als Edelstein-Reset; die freie Zeit bleibt unverändert.",
   "skillReset.ticket": "Ticket zurücksetzen",
   "skillReset.ticketDescription": "Benutze ein Skill Reset Ticket, um alle deine Fähigkeiten zurückzusetzen.",
   "obsidianShrine.fertilise": "Alles düngen",
@@ -8360,5 +8359,6 @@
   "buildings.deli": "Feinkostgeschäft",
   "buildings.smoothieShack": "Smoothie-Bude",
   "confirmation.feedAllFoods": "Füttere deinen Bumpkin mit allen {{count}} Lebensmitteln für {{xp}} XP?",
-  "confirmation.enterAmountToFeed": "Geben Sie den zu fütternden Betrag ein:"
+  "confirmation.enterAmountToFeed": "Geben Sie den zu fütternden Betrag ein:",
+  "description.skillResetTicketWarning": "Wirkt sich nicht auf den Preis für das Zurücksetzen der Edelsteine aus; die Gratiszeit bleibt unverändert."
 }

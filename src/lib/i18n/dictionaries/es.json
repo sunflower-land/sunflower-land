@@ -7131,7 +7131,6 @@
   "playerEconomyEditor.itemCard.visibleInInventory": "Mostrar en el inventario del tablero",
   "agingShed.fermentation.selectRecipeRequired": "Seleccione una receta",
   "description.skillResetTicket": "Un ticket que te permite restablecer tus habilidades de forma gratuita.",
-  "description.skillResetTicketWarning": "Cuenta como el restablecimiento de una gema; el temporizador gratuito no cambia.",
   "skillReset.ticket": "Restablecimiento de entradas",
   "skillReset.ticketDescription": "Usa un ticket de restablecimiento de habilidades para restablecer todas tus habilidades.",
   "obsidianShrine.fertilise": "Fertilizar todo",
@@ -8360,5 +8359,6 @@
   "buildings.deli": "Delicatessen",
   "buildings.smoothieShack": "Smoothie Shack",
   "confirmation.feedAllFoods": "¿Le das a tu Bumpkin todos los alimentos de {{count}} por {{xp}} XP?",
-  "confirmation.enterAmountToFeed": "Ingresa la cantidad a alimentar:"
+  "confirmation.enterAmountToFeed": "Ingresa la cantidad a alimentar:",
+  "description.skillResetTicketWarning": "No afecta al precio de restablecimiento de la gema; el temporizador gratuito no cambia."
 }

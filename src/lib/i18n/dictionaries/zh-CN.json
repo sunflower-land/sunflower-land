@@ -7131,7 +7131,6 @@
   "playerEconomyEditor.itemCard.visibleInInventory": "在仪表盘物品栏中显示",
   "agingShed.fermentation.selectRecipeRequired": "请选择配方",
   "description.skillResetTicket": "可让你免费重置一次技能的凭证。",
-  "description.skillResetTicketWarning": "计为一次钻石重置；免费重置的倒计时不受影响。",
   "skillReset.ticket": "技能重置券",
   "skillReset.ticketDescription": "使用技能重置券来重置你的所有技能。",
   "obsidianShrine.fertilise": "全部施肥",
@@ -8360,5 +8359,6 @@
   "buildings.deli": "熟食店",
   "buildings.smoothieShack": "冰沙小屋",
   "confirmation.feedAllFoods": "用 {{xp}} 经验值喂你的 Bumpkin 所有 {{count}} 食物？",
-  "confirmation.enterAmountToFeed": "输入要喂养的金额："
+  "confirmation.enterAmountToFeed": "输入要喂养的金额：",
+  "description.skillResetTicketWarning": "不影响宝石重置价格；免费计时器不变。"
 }
