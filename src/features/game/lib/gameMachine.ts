@@ -1181,7 +1181,13 @@ export function startGame(authContext: AuthContext) {
               // 2. From a VISIT event passed back to the machine which will include a farmId in the payload
 
               if (!(event as VisitEvent).landId) {
-                farmId = Number(window.location.href.split("/").pop());
+                // Take the segment straight after `/visit/`, not the last one —
+                // the visit routes have sub-paths (`/visit/1/home`,
+                // `/visit/1/interior`, `/visit/1/level_one`), so popping the
+                // last segment yields the surface name and parses to NaN.
+                farmId = Number(
+                  window.location.href.split("/visit/").pop()?.split("/")[0],
+                );
               } else {
                 farmId = (event as VisitEvent).landId;
               }
