@@ -205,6 +205,12 @@ const FEATURE_FLAGS = {
   // Beta testers can grab a Yakkamon pre-registration code before the level
   // tiers open to everyone else. The server enforces the same rule.
   YAKKAMON_BETA_ACCESS: betaFeatureFlag,
+
+  // Surfaces the 3 flowers most recently gifted to each NPC as a quick-pick
+  // shortlist in the gift flow, with no manual favoriting step. Client-side
+  // only (localStorage), but still gated behind beta access while the UX is
+  // validated.
+  RECENT_GIFT_FLOWERS: betaFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
