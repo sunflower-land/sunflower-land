@@ -199,7 +199,7 @@ describe("resetSkills", () => {
       expect(state.bumpkin?.skills).toEqual({});
     });
 
-    it("increments paidSkillResets when using a ticket", () => {
+    it("does not increment paidSkillResets when using a ticket", () => {
       const state = resetSkills({
         state: {
           ...INITIAL_FARM,
@@ -216,7 +216,7 @@ describe("resetSkills", () => {
         createdAt: dateNow,
       });
 
-      expect(state.bumpkin?.paidSkillResets).toEqual(2);
+      expect(state.bumpkin?.paidSkillResets).toEqual(1);
     });
 
     it("does not touch previousFreeSkillResetAt when using a ticket", () => {

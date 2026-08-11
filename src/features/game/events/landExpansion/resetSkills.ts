@@ -76,7 +76,6 @@ export function resetSkills({
     }
 
     const { paymentType } = action;
-    let didPaidReset = false;
 
     switch (paymentType) {
       case "free": {
@@ -105,10 +104,12 @@ export function resetSkills({
         }
 
         game.inventory.Gem = game.inventory.Gem?.minus(gemCost);
-        didPaidReset = true;
+        bumpkin.paidSkillResets = paidSkillResets + 1;
         break;
       }
       case "ticket": {
+        // Tickets are complimentary giveaways (e.g. beta rewards) and do not
+        // count towards the escalating gem cost.
         const ticketBalance =
           game.inventory["Skill Reset Ticket"] ?? new Decimal(0);
 
@@ -117,17 +118,12 @@ export function resetSkills({
         }
 
         game.inventory["Skill Reset Ticket"] = ticketBalance.minus(1);
-        didPaidReset = true;
         break;
       }
       default: {
         const _exhaustive: never = paymentType;
         throw new Error(`Unknown payment type: ${_exhaustive}`);
       }
-    }
-
-    if (didPaidReset) {
-      bumpkin.paidSkillResets = paidSkillResets + 1;
     }
 
     // Refund Ascension Shards spent on skill upgrades. Rank is stored as the
