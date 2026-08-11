@@ -372,6 +372,7 @@ export const FlowerRow: React.FC<{
   const seasons = getKeys(SEASONAL_SEEDS).filter((season) =>
     SEASONAL_SEEDS[season].includes(seed as SeedName),
   );
+  const { t } = useAppTranslation();
   const boostedTime = useMemo(() => getFlowerTime(seed, state), [seed, state]);
 
   return (
@@ -387,7 +388,7 @@ export const FlowerRow: React.FC<{
             <p className="text-xs break-words" title={seed}>
               {seed}
             </p>
-            <p className="text-xxs">{`Flower`}</p>
+            <p className="text-xxs">{t("crops.flower")}</p>
           </div>
         </div>
         <div className="flex flex-col">
