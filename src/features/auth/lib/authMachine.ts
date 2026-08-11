@@ -9,7 +9,10 @@ import {
 import { login, type Token, decodeToken } from "../actions/login";
 import { randomID } from "lib/utils/random";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
-import { trackTutorialStep } from "lib/moonforgeTutorial";
+import {
+  trackTutorialStep,
+  type TutorialAuthMethod,
+} from "lib/moonforgeTutorial";
 import type { loadSession } from "features/game/actions/loadSession";
 import { getToken, removeJWT, saveJWT } from "../actions/social";
 import { signUp, type UTM } from "../actions/signup";
@@ -18,6 +21,27 @@ import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { removeMinigameJWTs } from "features/world/ui/community/actions/portal";
 
 export const ART_MODE = !CONFIG.API_URL;
+
+/**
+ * Which branch out of the welcome screen the player took, remembered until
+ * authentication actually succeeds.
+ *
+ * `tutorial_step_completed` must fire on completion, not intent. Pressing
+ * SIGN_IN/SIGNUP only says the player tried; the wallet may never connect and
+ * the account may never be created. The branch is therefore recorded here and
+ * the event is emitted from `authorising.onDone`, where a token exists.
+ *
+ * Analytics-only, deliberately outside the machine's context so no game state
+ * or transition behaviour changes.
+ */
+let pendingAuthMethod: TutorialAuthMethod | undefined;
+
+function trackAuthCompleted() {
+  if (!pendingAuthMethod) return;
+
+  trackTutorialStep("auth", { method: pendingAuthMethod });
+  pendingAuthMethod = undefined;
+}
 
 const getFarmIdFromUrl = () => {
   const paths = window.location.href.split("/visit/");
@@ -261,14 +285,16 @@ export const authMachine = createMachine(
             target: "signIn",
             actions: () => {
               onboardingAnalytics.logEvent("connect_wallet");
-              trackTutorialStep("connect_wallet");
+              // Intent only - the completed event fires from
+              // `authorising.onDone`, once a token actually exists.
+              pendingAuthMethod = "wallet";
             },
           },
           SIGNUP: {
             target: "signUp",
             actions: () => {
               onboardingAnalytics.logEvent("create_account");
-              trackTutorialStep("create_account");
+              pendingAuthMethod = "account";
             },
           },
         },
@@ -304,7 +330,10 @@ export const authMachine = createMachine(
           onDone: [
             {
               target: "verifying",
-              actions: ["assignToken"],
+              // `login` resolved and a token is being assigned, so the auth
+              // milestone has genuinely completed here - not back on the
+              // welcome screen's button press.
+              actions: ["assignToken", trackAuthCompleted],
             },
           ],
           onError: {
