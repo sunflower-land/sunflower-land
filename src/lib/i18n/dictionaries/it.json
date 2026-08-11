@@ -6551,7 +6551,6 @@
   "petGuide.levelPerks.lvl100": "+0,10 risorse di recupero extra (0,25 in totale, esclude Fossil Shell)",
   "petGuide.levelPerks.lvl150": "+0,25 risorse aggiuntive per il recupero di Moonfur (0,50 in totale) (solo NFT)",
   "description.oaken.boost": "+0,25 Ghianda",
-  "withdraw.duplicate.waitMessage": "Se sei su una rete pubblica o condivisa, potresti dover attendere, come previsto. Le reti pubbliche o condivise possono richiedere una breve attesa a causa dell'uso eccessivo. Le reti molto occupate possono richiedere fino a 2 settimane a seconda dell'utilizzo. Questa protezione si applica automaticamente e non è uno sciopero o un avvertimento.",
   "marketplace.new": "Nuovo",
   "marketplace.cluckCoin.minigameName": "Minigioco Chicken Rescue",
   "marketplace.cluckCoin.builtBy": "Costruito da Adam",
@@ -8350,5 +8349,6 @@
   "bounties.bonus.completeAll": "Completa tutte le taglie",
   "bounties.bonus.progress": "{{completed}}/{{total}} completato",
   "bounties.bonus.ready": "Bonus pronto!",
-  "bounties.bonus.title": "Bonus ricompensa"
+  "bounties.bonus.title": "Bonus ricompensa",
+  "withdraw.duplicate.waitMessage": "Il blocco riguarda il tuo account, non il tuo dispositivo o la tua rete: il passaggio a una rete o dispositivo diverso non lo annullerà. Deve eseguire il suo corso, che può richiedere fino a 14 giorni a seconda dell'utilizzo. Questa impostazione viene applicata automaticamente e non costituisce un avvertimento o uno sciopero nei confronti del tuo account."
 }

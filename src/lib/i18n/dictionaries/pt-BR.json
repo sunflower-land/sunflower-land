@@ -6551,7 +6551,6 @@
   "petGuide.levelPerks.lvl100": "+0,10 recurso de busca extra (0,25 no total, exclui Fossil Shell)",
   "petGuide.levelPerks.lvl150": "+0,25 recurso extra de busca de Moonfur (0,50 no total) (somente NFT)",
   "description.oaken.boost": "+0,25 Bolota",
-  "withdraw.duplicate.waitMessage": "Se você estiver em uma rede pública ou compartilhada, talvez precise esperar — isso é esperado. Redes públicas ou compartilhadas podem exigir uma pequena espera devido ao uso excessivo. Redes muito ocupadas podem exigir até 2 semanas, dependendo do uso. Essa proteção se aplica automaticamente e não é um aviso ou aviso.",
   "marketplace.new": "Novo",
   "marketplace.cluckCoin.minigameName": "Minijogo Chicken Rescue",
   "marketplace.cluckCoin.builtBy": "Construído por Adam",
@@ -8350,5 +8349,6 @@
   "bounties.bonus.completeAll": "Complete todas as recompensas",
   "bounties.bonus.progress": "{{completed}}/{{total}} concluído",
   "bounties.bonus.ready": "Bônus pronto!",
-  "bounties.bonus.title": "Bônus de recompensa"
+  "bounties.bonus.title": "Bônus de recompensa",
+  "withdraw.duplicate.waitMessage": "Essa retenção está na sua conta, não no seu dispositivo ou rede - mudar para uma rede ou dispositivo diferente não a cancelará. Ele precisa seguir seu curso, o que pode levar até 14 dias, dependendo do uso. Isso é aplicado automaticamente e não é um aviso ou aviso contra sua conta."
 }

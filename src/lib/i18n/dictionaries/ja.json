@@ -6551,7 +6551,6 @@
   "petGuide.levelPerks.lvl100": "+0.10 追加フェッチリソース (合計 0.25、フォッシル・シェルを除く)",
   "petGuide.levelPerks.lvl150": "+0.25 個のムーンファーフェッチリソース (合計 0.50) (NFT のみ)",
   "description.oaken.boost": "+0.25 エイコーン",
-  "withdraw.duplicate.waitMessage": "パブリックネットワークまたは共有ネットワークを使用している場合は、しばらく待つ必要があるかもしれません。これは当然のことです。パブリックネットワークや共有ネットワークでは、使用頻度が高くなるため、少し待つ必要がある場合があります。非常に負荷の高いネットワークは、使用状況によっては最長で 2 週間かかる場合があります。この保護措置は自動的に適用され、ストライキや警告ではありません。",
   "marketplace.new": "新規",
   "marketplace.cluckCoin.minigameName": "チキンレスキューミニゲーム",
   "marketplace.cluckCoin.builtBy": "アダムによって建てられました",
@@ -8350,5 +8349,6 @@
   "bounties.bonus.completeAll": "すべてのバウンティをクリアする",
   "bounties.bonus.progress": "{{completed}}/{{total}} が完了しました",
   "bounties.bonus.ready": "ボーナス準備完了！",
-  "bounties.bonus.title": "バウンティボーナス"
+  "bounties.bonus.title": "バウンティボーナス",
+  "withdraw.duplicate.waitMessage": "この保留は、デバイスやネットワークではなく、アカウントに適用されます。別のネットワークやデバイスに切り替えても、解除されません。コースを実行する必要があり、使用状況によっては最長で14日かかる場合があります。これは自動的に適用され、アカウントに対する違反警告や警告ではありません。"
 }

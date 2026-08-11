@@ -6551,7 +6551,6 @@
   "petGuide.levelPerks.lvl100": "+0.10 ekstra getirme kaynağı (toplam 0.25, Fosil Shell hariç)",
   "petGuide.levelPerks.lvl150": "+0.25 ekstra Moonfur getirme kaynağı (toplam 0,50) (yalnızca NFT)",
   "description.oaken.boost": "+0.25 Meşe palamudu",
-  "withdraw.duplicate.waitMessage": "Genel veya paylaşılan bir ağdaysanız beklemeniz gerekebilir - bu bekleniyor. Genel veya paylaşılan ağlar aşırı kullanım nedeniyle kısa bir bekleme gerektirebilir. Çok yoğun ağlar, kullanıma bağlı olarak 2 haftaya kadar sürebilir. Bu koruma otomatik olarak uygulanır ve bir grev veya uyarı değildir.",
   "marketplace.new": "Yeni",
   "marketplace.cluckCoin.minigameName": "Tavuk Kurtarma mini oyunu",
   "marketplace.cluckCoin.builtBy": "Adam tarafından inşa edildi",
@@ -8350,5 +8349,6 @@
   "bounties.bonus.completeAll": "Tüm ödülleri tamamla",
   "bounties.bonus.progress": "{{completed}}/{{total}} tamamlandı",
   "bounties.bonus.ready": "Bonus hazır!",
-  "bounties.bonus.title": "Ödül Bonusu"
+  "bounties.bonus.title": "Ödül Bonusu",
+  "withdraw.duplicate.waitMessage": "Bu bekleme hesabınızda, cihazınızda veya ağınızda değil - farklı bir ağa veya cihaza geçmek onu kaldırmaz. Kullanıma bağlı olarak 14 güne kadar sürebilen kursunu sürdürmesi gerekiyor. Bu otomatik olarak uygulanır ve hesabınıza yönelik bir saldırı veya uyarı değildir."
 }
