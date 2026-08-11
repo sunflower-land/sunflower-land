@@ -49,7 +49,7 @@ export const BulkFeedModal: React.FC<BulkFeedProps> = ({
       <Panel className="w-4/5 m-auto" bumpkinParts={bumpkinParts}>
         <div className="flex flex-col items-center">
           <p className="text-sm text-start w-full mb-1">
-            {t("confirmation.enterAmount")}
+            {t("confirmation.enterAmountToFeed")}
           </p>
           <div className="flex items-center w-full">
             <NumberInput

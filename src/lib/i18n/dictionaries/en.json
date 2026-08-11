@@ -786,6 +786,7 @@
   "confirmation.buyAllTools": "Buy the max affordable amount of {{toolTypes}} tool types?",
   "confirmation.craftTools": "Are you sure you want to craft {{toolNo}} {{toolName}}s?",
   "confirmation.enterAmount": "Enter Amount to Sell:",
+  "confirmation.enterAmountToFeed": "Enter Amount to Feed:",
   "confirmation.sellSeasonalArtefact": "This bounty is a seasonal artefact! Are you sure you want to sell it?",
   "confirmation.valuableTreasure": "This bounty is very valuable! Are you sure you want to sell it?",
   "faction-intro.one": "Welcome to your new faction house... We need your help to become more powerful and dominate the kingdom.",
