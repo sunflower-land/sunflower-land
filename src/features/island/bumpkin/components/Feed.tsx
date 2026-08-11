@@ -29,7 +29,9 @@ import {
   groupFoodByCategory,
 } from "features/game/lib/availableFood";
 import { BulkFeedModal } from "components/ui/BulkFeedModal";
+import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import type { Equipped } from "features/game/types/bumpkin";
+import { formatNumber } from "lib/utils/formatNumber";
 
 const FOOD_CATEGORY_ICONS: Record<FoodCategory, string> = {
   "Fire Pit": SUNNYSIDE.icons.firePitIcon,
@@ -85,6 +87,7 @@ export const Feed: React.FC<Props> = ({
 }) => {
   const [showBoosts, setShowBoosts] = useState(false);
   const [showBulkFeedModal, setShowBulkFeedModal] = useState(false);
+  const [showEatAllFoodsModal, setShowEatAllFoodsModal] = useState(false);
   const [customFeedAmount, setCustomFeedAmount] = useState(new Decimal(0));
   const { gameService } = useContext(Context);
   const now = useNow({ live: true });
@@ -104,7 +107,6 @@ export const Feed: React.FC<Props> = ({
   const isDrink = !!activeSelected && isJuice(activeSelected.name);
   const feedVerb = activeSelected ? (isDrink ? t("drink") : t("eat")) : "";
   const bulkFeedLabel = isDrink ? t("drinkInBulk") : t("eatInBulk");
-  const eatAllLabel = isDrink ? t("drinkAll") : t("eatAll");
 
   const closeBulkFeedModal = () => {
     setShowBulkFeedModal(false);
@@ -178,6 +180,31 @@ export const Feed: React.FC<Props> = ({
     );
   };
 
+  const feedAllFoods = () => {
+    const feedItems = food
+      .map((item) => ({
+        food: item.name,
+        amount: (inventory[item.name] ?? new Decimal(0)).toNumber(),
+      }))
+      .filter((item) => item.amount > 0);
+
+    if (feedItems.length === 0) return;
+
+    trackFeedMilestones(() => {
+      let newState = gameService.send("bumpkin.feed", {
+        food: feedItems[0].food,
+        amount: feedItems[0].amount,
+      });
+      for (const item of feedItems.slice(1)) {
+        newState = gameService.send("bumpkin.feed", {
+          food: item.food,
+          amount: item.amount,
+        });
+      }
+      return newState;
+    });
+  };
+
   const { boostedExp, boostsUsed } = getFoodExpBoost({
     food: activeSelected,
     game,
@@ -203,36 +230,12 @@ export const Feed: React.FC<Props> = ({
             }}
             actionView={
               <div className="flex flex-col w-full space-y-1">
-                <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-                  {inventoryFoodCount.greaterThan(1) && (
-                    <Button onClick={() => feed(1)}>{`${feedVerb} 1`}</Button>
-                  )}
-                  {inventoryFoodCount.greaterThan(0) && (
-                    <Button
-                      onClick={() =>
-                        feed(
-                          inventoryFoodCount.greaterThan(10)
-                            ? 10
-                            : inventoryFoodCount.toNumber(),
-                        )
-                      }
-                    >
-                      {`${feedVerb} ${
-                        inventoryFoodCount.greaterThan(10)
-                          ? 10
-                          : inventoryFoodCount
-                      }`}
-                    </Button>
-                  )}
-                </div>
-                {inventoryFoodCount.greaterThan(10) && (
+                {inventoryFoodCount.greaterThan(0) && (
+                  <Button onClick={() => feed(1)}>{`${feedVerb} 1`}</Button>
+                )}
+                {inventoryFoodCount.greaterThan(1) && (
                   <Button onClick={() => setShowBulkFeedModal(true)}>
                     {bulkFeedLabel}
-                  </Button>
-                )}
-                {inventoryFoodCount.greaterThan(10) && (
-                  <Button onClick={() => feed(inventoryFoodCount.toNumber())}>
-                    {eatAllLabel}
                   </Button>
                 )}
               </div>
@@ -266,6 +269,14 @@ export const Feed: React.FC<Props> = ({
                 </div>
               );
             })}
+            <div className="flex w-full ml-2 mt-1 mb-2">
+              <span
+                className="text-xs underline cursor-pointer"
+                onClick={() => setShowEatAllFoodsModal(true)}
+              >
+                {t("eatAllFoods")}
+              </span>
+            </div>
           </>
         }
       />
@@ -282,6 +293,41 @@ export const Feed: React.FC<Props> = ({
         }}
         xpAmount={boostedExp.mul(customFeedAmount)}
         feedLabel={feedVerb}
+        bumpkinParts={bumpkin.equipped as Equipped}
+      />
+      <ConfirmationModal
+        show={showEatAllFoodsModal}
+        onHide={() => setShowEatAllFoodsModal(false)}
+        messages={
+          showEatAllFoodsModal
+            ? [
+                t("confirmation.feedAllFoods", {
+                  count: food.reduce(
+                    (sum, item) =>
+                      sum + (inventory[item.name]?.toNumber() ?? 0),
+                    0,
+                  ),
+                  xp: formatNumber(
+                    food.reduce((sum, item) => {
+                      const amount = inventory[item.name] ?? new Decimal(0);
+                      const { boostedExp: itemBoostedExp } = getFoodExpBoost({
+                        food: item,
+                        game,
+                        createdAt: now,
+                      });
+                      return sum.add(itemBoostedExp.mul(amount));
+                    }, new Decimal(0)),
+                  ),
+                }),
+              ]
+            : []
+        }
+        onCancel={() => setShowEatAllFoodsModal(false)}
+        onConfirm={() => {
+          feedAllFoods();
+          setShowEatAllFoodsModal(false);
+        }}
+        confirmButtonLabel={t("eatAllFoods")}
         bumpkinParts={bumpkin.equipped as Equipped}
       />
     </>
