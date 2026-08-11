@@ -1,5 +1,6 @@
 import { MoonForgeAnalytics, MoonForgeErrorTracker } from "lib/moonforge";
 import {
+  mfExperiment,
   mfIdentify,
   mfScreen,
   mfSetScene,
@@ -121,6 +122,33 @@ describe("moonforgeAnalytics", () => {
 
       const init = fetchMock.mock.calls[0][1];
       expect(init.keepalive).toBe(true);
+    });
+
+    it("records experiment assignment so a holdout can be analysed later", () => {
+      mfExperiment("purchase_prompt_holdout", "control");
+
+      const body = JSON.parse(
+        (fetchMock.mock.calls[0][1] as { body: string }).body,
+      );
+      expect(body.payload.name).toBe("experiment_assigned");
+      expect(body.payload.data).toMatchObject({
+        experiment_id: "purchase_prompt_holdout",
+        variant: "control",
+      });
+    });
+
+    it("mfExperiment never throws into game code even if the SDK throws", () => {
+      const spy = jest
+        .spyOn(MoonForgeAnalytics, "trackEvent")
+        .mockImplementation(() => {
+          throw new Error("boom");
+        });
+
+      expect(() =>
+        mfExperiment("purchase_prompt_holdout", "control"),
+      ).not.toThrow();
+
+      spy.mockRestore();
     });
   });
 });

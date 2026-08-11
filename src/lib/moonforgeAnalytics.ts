@@ -80,3 +80,23 @@ export function mfSetScene(sceneName: string): void {
     console.log(`MoonForge analytics error: `, e);
   }
 }
+
+/**
+ * Records which variant of an experiment a player was assigned.
+ *
+ * This does not establish causation on its own. It is what makes a holdout
+ * measurable after the fact - without it, the experiment that would settle
+ * "does spend drive retention or the reverse" cannot be analysed once it has
+ * already run.
+ */
+export function mfExperiment(experimentId: string, variant: string): void {
+  try {
+    MoonForgeAnalytics.trackEvent("experiment_assigned", {
+      experiment_id: experimentId,
+      variant,
+    });
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.log(`MoonForge analytics error: `, e);
+  }
+}
