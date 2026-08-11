@@ -9,19 +9,31 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { Button } from "components/ui/Button";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Panel } from "components/ui/Panel";
+import { PendingTransactionClaimNotice } from "../PendingTransactionClaimNotice";
 
 interface ClaimPurchaseProps {
   sfl: number;
   onClaim: () => void;
   onClose: () => void;
+  hasPendingTransaction?: boolean;
 }
 
 export const ClaimPurchase: React.FC<ClaimPurchaseProps> = ({
   sfl,
   onClaim,
   onClose,
+  hasPendingTransaction,
 }) => {
   const { t } = useAppTranslation();
+
+  if (hasPendingTransaction) {
+    return (
+      <Panel bumpkinParts={NPC_WEARABLES["hammerin harry"]}>
+        <PendingTransactionClaimNotice onClose={onClose} />
+      </Panel>
+    );
+  }
+
   return (
     <Panel bumpkinParts={NPC_WEARABLES["hammerin harry"]}>
       <div className="p-1">
