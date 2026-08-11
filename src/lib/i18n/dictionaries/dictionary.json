@@ -2859,6 +2859,8 @@
   "marketplace.congratulationsItemSold": "Congratulations, your item has sold!",
   "marketplace.youHaveHadSales": "Your item(s) sold while you were away!",
   "marketplace.offersWereAccepted": "One or more offers were accepted while you were away!",
+  "marketplace.claimBlockedByTransaction.label": "Pending transaction",
+  "marketplace.claimBlockedByTransaction.message": "You have a withdrawal transaction waiting to be submitted. Please submit it before you can claim your marketplace sales.",
   "marketplace.cancelListing": "Cancel Listing",
   "marketplace.bulkCancel": "Cancel all",
   "marketplace.bulkCancel.label": "Cancel {{type}}",
