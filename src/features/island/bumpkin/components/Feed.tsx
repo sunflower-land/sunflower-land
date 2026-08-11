@@ -29,9 +29,7 @@ import {
   groupFoodByCategory,
 } from "features/game/lib/availableFood";
 import { BulkFeedModal } from "components/ui/BulkFeedModal";
-import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import type { Equipped } from "features/game/types/bumpkin";
-import { formatNumber } from "lib/utils/formatNumber";
 
 const FOOD_CATEGORY_ICONS: Record<FoodCategory, string> = {
   "Fire Pit": SUNNYSIDE.icons.firePitIcon,
@@ -88,11 +86,6 @@ export const Feed: React.FC<Props> = ({
   const [showBoosts, setShowBoosts] = useState(false);
   const [showBulkFeedModal, setShowBulkFeedModal] = useState(false);
   const [customFeedAmount, setCustomFeedAmount] = useState(new Decimal(0));
-  const [categoryToFeed, setCategoryToFeed] = useState<{
-    category: FoodCategory;
-    items: Consumable[];
-    isDrink: boolean;
-  } | null>(null);
   const { gameService } = useContext(Context);
   const now = useNow({ live: true });
   const inventory = useSelector(gameService, _inventory);
@@ -111,6 +104,7 @@ export const Feed: React.FC<Props> = ({
   const isDrink = !!activeSelected && isJuice(activeSelected.name);
   const feedVerb = activeSelected ? (isDrink ? t("drink") : t("eat")) : "";
   const bulkFeedLabel = isDrink ? t("drinkInBulk") : t("eatInBulk");
+  const eatAllLabel = isDrink ? t("drinkAll") : t("eatAll");
 
   const closeBulkFeedModal = () => {
     setShowBulkFeedModal(false);
@@ -139,8 +133,7 @@ export const Feed: React.FC<Props> = ({
   }
 
   // Reports level-up (and first-feed tutorial) milestones by diffing the
-  // bumpkin's total level before and after a feed, so it works whether one
-  // food or a whole batch of foods was fed in a single event.
+  // bumpkin's total level before and after a feed.
   const trackFeedMilestones = (
     send: () => ReturnType<typeof gameService.send>,
   ) => {
@@ -182,21 +175,6 @@ export const Feed: React.FC<Props> = ({
         food: activeSelected.name,
         amount,
       }),
-    );
-  };
-
-  const feedCategory = (items: Consumable[]) => {
-    const feedItems = items
-      .map((item) => ({
-        food: item.name,
-        amount: (inventory[item.name] ?? new Decimal(0)).toNumber(),
-      }))
-      .filter((item) => item.amount > 0);
-
-    if (feedItems.length === 0) return;
-
-    trackFeedMilestones(() =>
-      gameService.send("bumpkin.bulkFeed", { items: feedItems }),
     );
   };
 
@@ -252,6 +230,11 @@ export const Feed: React.FC<Props> = ({
                     {bulkFeedLabel}
                   </Button>
                 )}
+                {inventoryFoodCount.greaterThan(10) && (
+                  <Button onClick={() => feed(inventoryFoodCount.toNumber())}>
+                    {eatAllLabel}
+                  </Button>
+                )}
               </div>
             }
           />
@@ -259,29 +242,12 @@ export const Feed: React.FC<Props> = ({
         content={
           <>
             {groupFoodByCategory(food).map(({ category, items }) => {
-              const categoryIsDrink = items.every((item) => isJuice(item.name));
-
               return (
                 <div key={category} className="flex flex-col w-full">
                   <div className="flex items-center ml-2 mb-1">
                     <Label type="default" icon={FOOD_CATEGORY_ICONS[category]}>
                       {t(FOOD_CATEGORY_LABEL_KEYS[category])}
                     </Label>
-                    <button
-                      type="button"
-                      className="text-xs underline cursor-pointer ml-2"
-                      onClick={() =>
-                        setCategoryToFeed({
-                          category,
-                          items,
-                          isDrink: categoryIsDrink,
-                        })
-                      }
-                    >
-                      {categoryIsDrink
-                        ? t("drinkAllCategory")
-                        : t("eatAllCategory")}
-                    </button>
                   </div>
                   <div className="flex flex-wrap mb-2">
                     {items.map((item) => (
@@ -316,43 +282,6 @@ export const Feed: React.FC<Props> = ({
         }}
         xpAmount={boostedExp.mul(customFeedAmount)}
         feedLabel={feedVerb}
-        bumpkinParts={bumpkin.equipped as Equipped}
-      />
-      <ConfirmationModal
-        show={!!categoryToFeed}
-        onHide={() => setCategoryToFeed(null)}
-        messages={
-          categoryToFeed
-            ? [
-                t("confirmation.feedCategory", {
-                  count: categoryToFeed.items.reduce(
-                    (sum, item) =>
-                      sum + (inventory[item.name]?.toNumber() ?? 0),
-                    0,
-                  ),
-                  xp: formatNumber(
-                    categoryToFeed.items.reduce((sum, item) => {
-                      const amount = inventory[item.name] ?? new Decimal(0);
-                      const { boostedExp: itemBoostedExp } = getFoodExpBoost({
-                        food: item,
-                        game,
-                        createdAt: now,
-                      });
-                      return sum.add(itemBoostedExp.mul(amount));
-                    }, new Decimal(0)),
-                  ),
-                }),
-              ]
-            : []
-        }
-        onCancel={() => setCategoryToFeed(null)}
-        onConfirm={() => {
-          if (categoryToFeed) feedCategory(categoryToFeed.items);
-          setCategoryToFeed(null);
-        }}
-        confirmButtonLabel={
-          categoryToFeed?.isDrink ? t("drinkAllCategory") : t("eatAllCategory")
-        }
         bumpkinParts={bumpkin.equipped as Equipped}
       />
     </>
