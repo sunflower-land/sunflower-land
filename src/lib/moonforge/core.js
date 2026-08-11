@@ -194,6 +194,10 @@ export async function postEvent(payload, { beacon = false } = {}) {
   try {
     const res = await fetchWithTimeout(url, {
       method: "POST",
+      // A mobile browser may background or unload the page before an
+      // ordinary fetch completes; keepalive lets the request outlive that,
+      // which is how session_start events from mobile players were being
+      // lost while their gameplay events still arrived.
       keepalive: true,
       headers: {
         "Content-Type": "application/json",

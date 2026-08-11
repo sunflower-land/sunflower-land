@@ -115,5 +115,12 @@ describe("moonforgeAnalytics", () => {
 
       spy.mockRestore();
     });
+
+    it("sends with keepalive so a backgrounded mobile tab still delivers", () => {
+      mfTrack("session_start");
+
+      const init = fetchMock.mock.calls[0][1];
+      expect(init.keepalive).toBe(true);
+    });
   });
 });
