@@ -202,8 +202,8 @@ export const Feed: React.FC<Props> = ({
               gameState: game,
             }}
             actionView={
-              <div className="flex flex-col w-full">
-                <div className="flex space-x-1 mb-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
+              <div className="flex flex-col w-full space-y-1">
+                <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
                   {inventoryFoodCount.greaterThan(1) && (
                     <Button onClick={() => feed(1)}>{`${feedVerb} 1`}</Button>
                   )}
