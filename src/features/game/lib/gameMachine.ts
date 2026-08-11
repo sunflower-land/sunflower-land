@@ -75,6 +75,7 @@ import type { RaffleSnapshotWinner } from "features/world/ui/chapterRaffles/acti
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { mfIdentify, mfSetUser, mfTrack } from "lib/moonforgeAnalytics";
+import { trackTutorialStep } from "lib/moonforgeTutorial";
 import { portal } from "features/world/ui/community/actions/portal";
 
 import { CONFIG } from "lib/config";
@@ -2792,6 +2793,7 @@ export function startGame(authContext: AuthContext) {
               id: context.farmId,
             });
             onboardingAnalytics.logEvent("login");
+            trackTutorialStep("login");
           }
         },
         assignUrl: (context) => {

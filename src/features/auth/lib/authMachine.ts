@@ -9,6 +9,7 @@ import {
 import { login, type Token, decodeToken } from "../actions/login";
 import { randomID } from "lib/utils/random";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
+import { trackTutorialStep } from "lib/moonforgeTutorial";
 import type { loadSession } from "features/game/actions/loadSession";
 import { getToken, removeJWT, saveJWT } from "../actions/social";
 import { signUp, type UTM } from "../actions/signup";
@@ -258,11 +259,17 @@ export const authMachine = createMachine(
         on: {
           SIGN_IN: {
             target: "signIn",
-            actions: () => onboardingAnalytics.logEvent("connect_wallet"),
+            actions: () => {
+              onboardingAnalytics.logEvent("connect_wallet");
+              trackTutorialStep("connect_wallet");
+            },
           },
           SIGNUP: {
             target: "signUp",
-            actions: () => onboardingAnalytics.logEvent("create_account"),
+            actions: () => {
+              onboardingAnalytics.logEvent("create_account");
+              trackTutorialStep("create_account");
+            },
           },
         },
       },
