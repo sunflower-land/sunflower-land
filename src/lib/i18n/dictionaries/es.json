@@ -8334,5 +8334,8 @@
   "pets.foodFedToday": "Food Fed Today",
   "giveaway.play": "Juega",
   "giveaway.noGamesScheduled": "No hay juegos de fiesta programados en este momento",
-  "giveaway.noResults": "Aún no hay juegos terminados. ¡Vuelve después del próximo!"
+  "giveaway.noResults": "Aún no hay juegos terminados. ¡Vuelve después del próximo!",
+  "favorites": "Favoritos",
+  "bumpkin.delivery.recentlyGifted": "Recién regalado",
+  "bumpkin.delivery.thanks": "¡¡¡Gee Wizz le da las gracias a Bumpkin!!!"
 }

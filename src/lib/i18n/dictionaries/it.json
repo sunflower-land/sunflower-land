@@ -8334,5 +8334,8 @@
   "pets.foodFedToday": "Food Fed oggi",
   "giveaway.play": "Gioca",
   "giveaway.noGamesScheduled": "Non ci sono partite di società in programma al momento",
-  "giveaway.noResults": "Nessun gioco ancora finito: ricontrolla dopo il prossimo!"
+  "giveaway.noResults": "Nessun gioco ancora finito: ricontrolla dopo il prossimo!",
+  "favorites": "Preferiti",
+  "bumpkin.delivery.recentlyGifted": "Regalato di recente",
+  "bumpkin.delivery.thanks": "Accidenti Wizz grazie Bumpkin!!!"
 }

@@ -8334,5 +8334,8 @@
   "pets.foodFedToday": "フード・フィード・トゥデイ",
   "giveaway.play": "再生",
   "giveaway.noGamesScheduled": "現在、予定されているパーティーゲームはありません",
-  "giveaway.noResults": "終了したゲームはまだありません。次のゲームが終わったら、もう一度確認してください!"
+  "giveaway.noResults": "終了したゲームはまだありません。次のゲームが終わったら、もう一度確認してください!",
+  "favorites": "お気に入り",
+  "bumpkin.delivery.recentlyGifted": "最近贈られたプレゼント",
+  "bumpkin.delivery.thanks": "ジー・ウィズ、バンプキンに感謝!!!"
 }

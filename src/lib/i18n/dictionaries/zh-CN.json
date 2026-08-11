@@ -8334,5 +8334,8 @@
   "pets.foodFedToday": "今日粮食",
   "giveaway.play": "播放",
   "giveaway.noGamesScheduled": "目前没有预定派对游戏",
-  "giveaway.noResults": "还没有完成的游戏——下个游戏之后再来看看！"
+  "giveaway.noResults": "还没有完成的游戏——下个游戏之后再来看看！",
+  "favorites": "最爱",
+  "bumpkin.delivery.recentlyGifted": "最近有礼物",
+  "bumpkin.delivery.thanks": "哎哟 Wizz 谢谢 Bumpkin！！"
 }

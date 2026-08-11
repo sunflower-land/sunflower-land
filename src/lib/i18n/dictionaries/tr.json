@@ -8334,5 +8334,8 @@
   "pets.foodFedToday": "Bugün Gıda Fed",
   "giveaway.play": "Oyna",
   "giveaway.noGamesScheduled": "Şu anda programlanmış parti oyunları yok",
-  "giveaway.noResults": "Henüz bitmiş oyun yok - bir sonrakinden sonra tekrar kontrol edin!"
+  "giveaway.noResults": "Henüz bitmiş oyun yok - bir sonrakinden sonra tekrar kontrol edin!",
+  "favorites": "Favoriler",
+  "bumpkin.delivery.recentlyGifted": "Yakın zamanda yetenekli",
+  "bumpkin.delivery.thanks": "Tanrım Wizz teşekkürler Bumpkin!!!"
 }
