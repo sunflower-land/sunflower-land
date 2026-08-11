@@ -6551,7 +6551,6 @@
   "petGuide.levelPerks.lvl100": "+0.10 追加フェッチリソース (合計 0.25、フォッシル・シェルを除く)",
   "petGuide.levelPerks.lvl150": "+0.25 個のムーンファーフェッチリソース (合計 0.50) (NFT のみ)",
   "description.oaken.boost": "+0.25 エイコーン",
-  "withdraw.duplicate.waitMessage": "パブリックネットワークまたは共有ネットワークを使用している場合は、しばらく待つ必要があるかもしれません。これは当然のことです。パブリックネットワークや共有ネットワークでは、使用頻度が高くなるため、少し待つ必要がある場合があります。非常に負荷の高いネットワークは、使用状況によっては最長で 2 週間かかる場合があります。この保護措置は自動的に適用され、ストライキや警告ではありません。",
   "marketplace.new": "新規",
   "marketplace.cluckCoin.minigameName": "チキンレスキューミニゲーム",
   "marketplace.cluckCoin.builtBy": "アダムによって建てられました",
@@ -8341,5 +8340,15 @@
   "feeder.enterMixAmount": "混ぜる量を入力:",
   "feeder.mix": "ミックス",
   "feeder.ingredientsToMix": "混ぜる材料",
-  "feeder.ingredientsExplainer": "バルクミキサーは、待っているすべての動物を準備するのに必要な飼料の量から、あなたが持っている飼料を差し引いたものを提案します。不足分は端数を切り上げて全飼料とします。"
+  "feeder.ingredientsExplainer": "バルクミキサーは、待っているすべての動物を準備するのに必要な飼料の量から、あなたが持っている飼料を差し引いたものを提案します。不足分は端数を切り上げて全飼料とします。",
+  "marketplace.claimBlockedByTransaction.label": "保留中の取引",
+  "marketplace.claimBlockedByTransaction.message": "送信待ちの出金取引があります。マーケットプレイスでの売り上げを申請する前に送信してください。",
+  "bounties.bonus.claimAmount": "クレーム {{amount}} {{chapterTicket}} s",
+  "bounties.bonus.claimed": "ボーナスを請求しました",
+  "bounties.bonus.claimedDescription": "{{amount}} {{chapterTicket}} がインベントリに追加されました。",
+  "bounties.bonus.completeAll": "すべてのバウンティをクリアする",
+  "bounties.bonus.progress": "{{completed}}/{{total}} が完了しました",
+  "bounties.bonus.ready": "ボーナス準備完了！",
+  "bounties.bonus.title": "バウンティボーナス",
+  "withdraw.duplicate.waitMessage": "この保留は、デバイスやネットワークではなく、アカウントに適用されます。別のネットワークやデバイスに切り替えても、解除されません。コースを実行する必要があり、使用状況によっては最長で14日かかる場合があります。これは自動的に適用され、アカウントに対する違反警告や警告ではありません。"
 }

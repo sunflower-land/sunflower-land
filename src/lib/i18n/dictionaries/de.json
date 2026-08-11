@@ -6551,7 +6551,6 @@
   "petGuide.levelPerks.lvl100": "+0,10 zusätzliche Fetch-Ressource (insgesamt 0,25, ohne Fossil Shell)",
   "petGuide.levelPerks.lvl150": "+0,25 zusätzliche Moonfur-Futch-Ressource (insgesamt 0,50) (nur NFT)",
   "description.oaken.boost": "+0.25 Eichel",
-  "withdraw.duplicate.waitMessage": "Wenn Sie sich in einem öffentlichen oder gemeinsam genutzten Netzwerk befinden, müssen Sie möglicherweise warten — das ist normal. Bei öffentlichen oder gemeinsam genutzten Netzwerken kann es aufgrund einer Überlastung zu einer kurzen Wartezeit kommen. Bei stark ausgelasteten Netzwerken kann es je nach Nutzung bis zu 2 Wochen dauern. Diese Schutzmaßnahme gilt automatisch und ist kein Hinweis oder eine Warnung.",
   "marketplace.new": "Neu",
   "marketplace.cluckCoin.minigameName": "Chicken Rescue Minispiel",
   "marketplace.cluckCoin.builtBy": "Gebaut von Adam",
@@ -8341,5 +8340,15 @@
   "feeder.enterMixAmount": "Geben Sie die Menge ein, die gemischt werden soll:",
   "feeder.mix": "Mischen",
   "feeder.ingredientsToMix": "Zutaten zum Mischen",
-  "feeder.ingredientsExplainer": "Der Bulk-Mixer schlägt die Futtermenge vor, die benötigt wird, um jedes wartende Tier fertig zu stellen, abzüglich des Futters, das Sie haben. Bruchteile von Fehlmengen werden auf ganze Futtermittel aufgerundet."
+  "feeder.ingredientsExplainer": "Der Bulk-Mixer schlägt die Futtermenge vor, die benötigt wird, um jedes wartende Tier fertig zu stellen, abzüglich des Futters, das Sie haben. Bruchteile von Fehlmengen werden auf ganze Futtermittel aufgerundet.",
+  "marketplace.claimBlockedByTransaction.label": "Ausstehende Transaktion",
+  "marketplace.claimBlockedByTransaction.message": "Sie haben eine Auszahlungstransaktion, die darauf wartet, eingereicht zu werden. Bitte reichen Sie es ein, bevor Sie Ihre Marketplace-Verkäufe geltend machen können.",
+  "bounties.bonus.claimAmount": "Anspruch {{amount}} {{chapterTicket}} s",
+  "bounties.bonus.claimed": "Bonus beansprucht",
+  "bounties.bonus.claimedDescription": "{{amount}} {{chapterTicket}} wird Ihrem Inventar hinzugefügt.",
+  "bounties.bonus.completeAll": "Schließe alle Kopfgeldjäger ab",
+  "bounties.bonus.progress": "{{completed}}/{{total}} abgeschlossen",
+  "bounties.bonus.ready": "Bonus bereit!",
+  "bounties.bonus.title": "Kopfgeld-Bonus",
+  "withdraw.duplicate.waitMessage": "Diese Sperre gilt für Ihr Konto, nicht für Ihr Gerät oder Netzwerk. Wenn Sie zu einem anderen Netzwerk oder Gerät wechseln, wird sie nicht aufgehoben. Es muss seinen Lauf nehmen, was je nach Nutzung bis zu 14 Tage dauern kann. Dies wird automatisch angewendet und stellt keine Verwarnung oder Verwarnung gegen dein Konto dar."
 }

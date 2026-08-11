@@ -1,5 +1,5 @@
 import { SUNNYSIDE } from "assets/sunnyside";
-import React, { useContext, useEffect, useCallback } from "react";
+import React, { useContext, useEffect, useCallback, useRef } from "react";
 import sflIcon from "assets/icons/flower_token.webp";
 import { MarketplaceNavigation } from "./components/home/MarketplaceHome";
 import { useLocation, useNavigate } from "react-router";
@@ -28,23 +28,27 @@ export const Marketplace: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useAppTranslation();
+  // Product navigation replaces location.state, so retain the state from when
+  // the marketplace was opened until it is closed.
+  const marketplaceNavigation = useRef(
+    getMarketplaceNavigationState(location.state),
+  );
 
   const handleClose = useCallback(() => {
-    const marketplaceNavigation = getMarketplaceNavigationState(location.state);
     const defaultRoute = location.pathname.includes("/world")
       ? "/world/plaza"
       : "/";
 
     const returnTo =
-      marketplaceNavigation?.returnTo ?? fromRoute ?? defaultRoute;
+      marketplaceNavigation.current?.returnTo ?? fromRoute ?? defaultRoute;
 
     navigate(returnTo, {
       replace: true,
-      state: marketplaceNavigation?.restore
-        ? { marketplaceRestore: marketplaceNavigation.restore }
+      state: marketplaceNavigation.current?.restore
+        ? { marketplaceRestore: marketplaceNavigation.current.restore }
         : undefined,
     });
-  }, [location.pathname, location.state, fromRoute, navigate]);
+  }, [location.pathname, fromRoute, navigate]);
 
   // exit marketplace if Escape key is pressed
   useEffect(() => {

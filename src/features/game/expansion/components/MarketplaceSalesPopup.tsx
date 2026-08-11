@@ -21,6 +21,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { isTradeResource } from "features/game/actions/tradeLimits";
 import { KNOWN_ITEMS } from "features/game/types";
 import { fallbackDisplayNameForMinigameCurrencyKey } from "features/marketplace/lib/minigameMarketplaceCopy";
+import { PendingTransactionClaimNotice } from "features/marketplace/components/PendingTransactionClaimNotice";
 
 /**
  * Display listings that have been fulfilled
@@ -31,12 +32,20 @@ export const MarketplaceSalesPopup: React.FC = () => {
 
   const { t } = useAppTranslation();
 
-  const { trades } = state.context.state;
+  const { trades, transaction } = state.context.state;
   const soldListingIds = getKeys(trades.listings ?? {}).filter(
     (id) => !!trades.listings?.[id].fulfilledAt,
   );
 
   if (soldListingIds.length === 0) return null;
+
+  if (transaction) {
+    return (
+      <PendingTransactionClaimNotice
+        onClose={() => gameService.send("CLOSE")}
+      />
+    );
+  }
 
   const claimAll = () => {
     gameService.send("purchase.claimed", {

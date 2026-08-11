@@ -6575,7 +6575,6 @@
   "petGuide.levelPerks.lvl100": "+0.1 дополнительного ресурса (0.25 всего, без учёта ископаемой раковины)",
   "petGuide.levelPerks.lvl150": "+0.25 дополнительного Moonfur (0.5 всего) (только NFT)",
   "description.oaken.boost": "+0.25 жёлудь",
-  "withdraw.duplicate.waitMessage": "Если ты используешь публичную или общую сеть, возможно, придётся подождать - это нормально. Такие сети могут требовать ожидания из-за перегрузки. В очень загруженных случаях ожидание может достигать 2 недель. Эта защита применяется автоматически и не является предупреждением или нарушением.",
   "marketplace.new": "Новое",
   "marketplace.cluckCoin.minigameName": "Мини-игра «Спасение кур»",
   "marketplace.cluckCoin.builtBy": "Автор: Adam",
@@ -8341,5 +8340,15 @@
   "feeder.enterMixAmount": "Enter Amount to Mix:",
   "feeder.mix": "Mix",
   "feeder.ingredientsToMix": "Ingredients to mix",
-  "feeder.ingredientsExplainer": "The bulk mixer suggests the amount of feed needed to take every waiting animal to ready, minus the feed you have. Fractional shortfalls are rounded up to whole feeds."
+  "feeder.ingredientsExplainer": "The bulk mixer suggests the amount of feed needed to take every waiting animal to ready, minus the feed you have. Fractional shortfalls are rounded up to whole feeds.",
+  "marketplace.claimBlockedByTransaction.label": "Pending transaction",
+  "marketplace.claimBlockedByTransaction.message": "You have a withdrawal transaction waiting to be submitted. Please submit it before you can claim your marketplace sales.",
+  "bounties.bonus.claimAmount": "Claim {{amount}} {{chapterTicket}}s",
+  "bounties.bonus.claimed": "Bonus claimed",
+  "bounties.bonus.claimedDescription": "{{amount}} {{chapterTicket}}s added to your inventory.",
+  "bounties.bonus.completeAll": "Complete all bounties",
+  "bounties.bonus.progress": "{{completed}}/{{total}} completed",
+  "bounties.bonus.ready": "Bonus ready!",
+  "bounties.bonus.title": "Bounty Bonus",
+  "withdraw.duplicate.waitMessage": "This hold is on your account, not your device or network - switching to a different network or device will not lift it. It needs to run its course, which can take up to 14 days depending on usage. This is applied automatically and isn't a strike or warning against your account."
 }

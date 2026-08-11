@@ -6551,7 +6551,6 @@
   "petGuide.levelPerks.lvl100": "+0,10 ressource de récupération supplémentaire (0,25 au total, hors Fossil Shell)",
   "petGuide.levelPerks.lvl150": "+0,25 ressource de récupération Moonfur supplémentaire (0,50 au total) (NFT uniquement)",
   "description.oaken.boost": "+0,25 Gland",
-  "withdraw.duplicate.waitMessage": "Si vous êtes sur un réseau public ou partagé, vous devrez peut-être attendre, c'est normal. Les réseaux publics ou partagés peuvent nécessiter une courte attente en raison d'une utilisation excessive. Les réseaux très fréquentés peuvent nécessiter jusqu'à 2 semaines selon l'utilisation. Cette mesure de protection s'applique automatiquement et ne constitue ni une grève ni un avertissement.",
   "marketplace.new": "Nouveau",
   "marketplace.cluckCoin.minigameName": "Mini-jeu Chicken Rescue",
   "marketplace.cluckCoin.builtBy": "Construit par Adam",
@@ -8341,5 +8340,15 @@
   "feeder.enterMixAmount": "Entrez la quantité à mélanger :",
   "feeder.mix": "Mélangez",
   "feeder.ingredientsToMix": "Ingrédients à mélanger",
-  "feeder.ingredientsExplainer": "Le mélangeur de vrac indique la quantité de nourriture nécessaire pour préparer chaque animal en attente, moins la nourriture dont vous disposez. Les déficits fractionnaires sont arrondis aux aliments entiers."
+  "feeder.ingredientsExplainer": "Le mélangeur de vrac indique la quantité de nourriture nécessaire pour préparer chaque animal en attente, moins la nourriture dont vous disposez. Les déficits fractionnaires sont arrondis aux aliments entiers.",
+  "marketplace.claimBlockedByTransaction.label": "Transaction en attente",
+  "marketplace.claimBlockedByTransaction.message": "Vous avez une opération de retrait qui attend d'être soumise. Veuillez le soumettre avant de pouvoir réclamer vos ventes sur la place de marché.",
+  "bounties.bonus.claimAmount": "Réclamation {{amount}} {{chapterTicket}} s",
+  "bounties.bonus.claimed": "Bonus réclamé",
+  "bounties.bonus.claimedDescription": "{{amount}} {{chapterTicket}} est ajouté à votre inventaire.",
+  "bounties.bonus.completeAll": "Terminez toutes les primes",
+  "bounties.bonus.progress": "{{completed}}/{{total}} terminé",
+  "bounties.bonus.ready": "Le bonus est prêt !",
+  "bounties.bonus.title": "Bonus de prime",
+  "withdraw.duplicate.waitMessage": "Cette suspension concerne votre compte, et non votre appareil ou votre réseau. Le fait de passer à un autre réseau ou à un autre appareil ne la supprimera pas. Il doit suivre son cours, ce qui peut prendre jusqu'à 14 jours selon l'utilisation. Cette mesure est appliquée automatiquement et ne constitue pas une grève ou un avertissement à l'encontre de votre compte."
 }

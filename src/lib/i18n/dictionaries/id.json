@@ -6551,7 +6551,6 @@
   "petGuide.levelPerks.lvl100": "+0,10 sumber daya pengambilan tambahan (0,25 total, tidak termasuk Fosil Shell)",
   "petGuide.levelPerks.lvl150": "+0.25 sumber daya pengambilan Moonfur tambahan (total 0,50) (hanya NFT)",
   "description.oaken.boost": "+0.25 Acorn",
-  "withdraw.duplicate.waitMessage": "Jika Anda berada di jaringan publik atau bersama, Anda mungkin perlu menunggu — itu yang diharapkan. Jaringan publik atau bersama mungkin memerlukan penantian singkat karena penggunaan yang berlebihan. Jaringan yang sangat sibuk mungkin memerlukan hingga 2 minggu tergantung pada penggunaan. Perlindungan ini berlaku secara otomatis dan bukan merupakan pemogokan atau peringatan.",
   "marketplace.new": "Baru",
   "marketplace.cluckCoin.minigameName": "Minigame Penyelamatan Ayam",
   "marketplace.cluckCoin.builtBy": "Dibangun oleh Adam",
@@ -8341,5 +8340,15 @@
   "feeder.enterMixAmount": "Masukkan Jumlah untuk Campur:",
   "feeder.mix": "Campur",
   "feeder.ingredientsToMix": "Bahan untuk dicampur",
-  "feeder.ingredientsExplainer": "Mixer massal menyarankan jumlah pakan yang dibutuhkan untuk menyiapkan setiap hewan yang menunggu, dikurangi pakan yang Anda miliki. Kekurangan fraksional dibulatkan ke seluruh umpan."
+  "feeder.ingredientsExplainer": "Mixer massal menyarankan jumlah pakan yang dibutuhkan untuk menyiapkan setiap hewan yang menunggu, dikurangi pakan yang Anda miliki. Kekurangan fraksional dibulatkan ke seluruh umpan.",
+  "marketplace.claimBlockedByTransaction.label": "Transaksi yang tertunda",
+  "marketplace.claimBlockedByTransaction.message": "Anda memiliki transaksi penarikan yang menunggu untuk dikirimkan. Silakan kirimkan sebelum Anda dapat mengklaim penjualan pasar Anda.",
+  "bounties.bonus.claimAmount": "Klaim {{amount}} {{chapterTicket}} s",
+  "bounties.bonus.claimed": "Bonus diklaim",
+  "bounties.bonus.claimedDescription": "{{amount}} {{chapterTicket}} s ditambahkan ke inventaris Anda.",
+  "bounties.bonus.completeAll": "Selesaikan semua hadiah",
+  "bounties.bonus.progress": "{{completed}}/{{total}} selesai",
+  "bounties.bonus.ready": "Bonus siap!",
+  "bounties.bonus.title": "Bonus Bounty",
+  "withdraw.duplicate.waitMessage": "Penahanan ini ada di akun Anda, bukan perangkat atau jaringan Anda - beralih ke jaringan atau perangkat yang berbeda tidak akan mengangkatnya. Perlu menjalankan jalurnya, yang bisa memakan waktu hingga 14 hari tergantung pada penggunaan. Ini diterapkan secara otomatis dan bukan merupakan pemogokan atau peringatan terhadap akun Anda."
 }

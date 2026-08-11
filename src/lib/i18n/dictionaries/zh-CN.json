@@ -6551,7 +6551,6 @@
   "petGuide.levelPerks.lvl100": "+0.10 额外拾取资源（总计 0.25，不包括化石贝壳）",
   "petGuide.levelPerks.lvl150": "+0.25 额外的月光绒拾取资源（总计 0.50 个）（仅限 NFT）",
   "description.oaken.boost": "+0.25 橡果",
-  "withdraw.duplicate.waitMessage": "如果您使用的是公共或共享网络，可能需要稍作等待——请放心，这是正常现象。公共网络可能会因请求频繁而触发短暂停留；对于极度拥挤的网络，视具体情况，等待时间最长可达 2 周。此项安全机制为系统自动执行，并非针对您账号的违规警告或惩罚记录。",
   "marketplace.new": "新品",
   "marketplace.cluckCoin.minigameName": "「贪救鸡」小游戏",
   "marketplace.cluckCoin.builtBy": "开发者：Adam",
@@ -8340,6 +8339,16 @@
   "feeder.mixInBulk": "批量混合",
   "feeder.enterMixAmount": "输入混合数量：",
   "feeder.mix": "混合",
-  "feeder.ingredientsToMix": "待混合材料",
-  "feeder.ingredientsExplainer": "批量搅拌机会计算出满足所有待喂食动物所需的饲料量，并自动扣除您当前已拥有的饲料。不足的零头将向上取整为完整的饲料。"
+  "feeder.ingredientsToMix": "要混合的食材",
+  "feeder.ingredientsExplainer": "散装搅拌器会建议将每只等待的动物准备就绪所需的饲料量减去您的饲料量。小数缺口四舍五入为整数。",
+  "marketplace.claimBlockedByTransaction.label": "待处理交易",
+  "marketplace.claimBlockedByTransaction.message": "您有一笔提款交易等待提交。请先提交，然后才能申报您的商城销售额。",
+  "bounties.bonus.claimAmount": "索赔 {{amount}} {{chapterTicket}} s",
+  "bounties.bonus.claimed": "已领取奖金",
+  "bounties.bonus.claimedDescription": "{{amount}} {{chapterTicket}} 已添加到您的库存中。",
+  "bounties.bonus.completeAll": "完成所有赏金",
+  "bounties.bonus.progress": "{{completed}}/{{total}} 已完成",
+  "bounties.bonus.ready": "奖金准备好了！",
+  "bounties.bonus.title": "赏金奖励",
+  "withdraw.duplicate.waitMessage": "此冻结属于您的账户，而不是您的设备或网络——切换到其他网络或设备不会解除冻结。它需要运行其课程，这可能需要长达 14 天的时间，具体视使用情况而定。这是自动应用的，不是针对您的账户的罢工或警告。"
 }

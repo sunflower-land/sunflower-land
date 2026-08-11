@@ -6551,7 +6551,6 @@
   "petGuide.levelPerks.lvl100": "+0.10 ekstra getirme kaynağı (toplam 0.25, Fosil Shell hariç)",
   "petGuide.levelPerks.lvl150": "+0.25 ekstra Moonfur getirme kaynağı (toplam 0,50) (yalnızca NFT)",
   "description.oaken.boost": "+0.25 Meşe palamudu",
-  "withdraw.duplicate.waitMessage": "Genel veya paylaşılan bir ağdaysanız beklemeniz gerekebilir - bu bekleniyor. Genel veya paylaşılan ağlar aşırı kullanım nedeniyle kısa bir bekleme gerektirebilir. Çok yoğun ağlar, kullanıma bağlı olarak 2 haftaya kadar sürebilir. Bu koruma otomatik olarak uygulanır ve bir grev veya uyarı değildir.",
   "marketplace.new": "Yeni",
   "marketplace.cluckCoin.minigameName": "Tavuk Kurtarma mini oyunu",
   "marketplace.cluckCoin.builtBy": "Adam tarafından inşa edildi",
@@ -8341,5 +8340,15 @@
   "feeder.enterMixAmount": "Karıştırılacak Miktarı Girin:",
   "feeder.mix": "Karıştırın",
   "feeder.ingredientsToMix": "Karıştırılacak malzemeler",
-  "feeder.ingredientsExplainer": "Toplu karıştırıcı, sahip olduğunuz yem hariç, bekleyen her hayvanı hazır hale getirmek için gereken yem miktarını önerir. Kesirli eksiklikler tüm beslemelere yuvarlanır."
+  "feeder.ingredientsExplainer": "Toplu karıştırıcı, sahip olduğunuz yem hariç, bekleyen her hayvanı hazır hale getirmek için gereken yem miktarını önerir. Kesirli eksiklikler tüm beslemelere yuvarlanır.",
+  "marketplace.claimBlockedByTransaction.label": "Bekleyen işlem",
+  "marketplace.claimBlockedByTransaction.message": "Gönderilmeyi bekleyen bir para çekme işleminiz var. Lütfen pazar yeri satışlarınızı talep etmeden önce gönderin.",
+  "bounties.bonus.claimAmount": "Talep edin {{amount}} {{chapterTicket}} s",
+  "bounties.bonus.claimed": "Talep edilen bonus",
+  "bounties.bonus.claimedDescription": "{{amount}} {{chapterTicket}} s envanterinize eklendi.",
+  "bounties.bonus.completeAll": "Tüm ödülleri tamamla",
+  "bounties.bonus.progress": "{{completed}}/{{total}} tamamlandı",
+  "bounties.bonus.ready": "Bonus hazır!",
+  "bounties.bonus.title": "Ödül Bonusu",
+  "withdraw.duplicate.waitMessage": "Bu bekleme hesabınızda, cihazınızda veya ağınızda değil - farklı bir ağa veya cihaza geçmek onu kaldırmaz. Kullanıma bağlı olarak 14 güne kadar sürebilen kursunu sürdürmesi gerekiyor. Bu otomatik olarak uygulanır ve hesabınıza yönelik bir saldırı veya uyarı değildir."
 }
