@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 
 import levelIcon from "assets/icons/level_up.png";
 
@@ -193,6 +199,27 @@ export const BumpkinModal: React.FC<Props> = ({
   const hasLeveledUp = currentBumpkinLevel > acknowledgedLevel;
   const acknowledgeLevelUp = () => setAcknowledgedLevel(currentBumpkinLevel);
 
+  // The LevelUp screen fully unmounts Feed and replaces it, so Feed's own
+  // scrollable content panel (the one inside its SplitScreenView, not this
+  // component's outer wrapper) gets torn down and remounted at scrollTop 0
+  // once the player acknowledges the level up. Track the last scroll
+  // position from here (which doesn't unmount) via a ref threaded down into
+  // Feed's content panel, and restore it as soon as Feed remounts.
+  const feedContentRef = useRef<HTMLDivElement>(null);
+  const lastFeedScrollTop = useRef(0);
+  useLayoutEffect(() => {
+    const el = feedContentRef.current;
+    if (!el) return;
+
+    el.scrollTop = lastFeedScrollTop.current;
+
+    const onScroll = () => {
+      lastFeedScrollTop.current = el.scrollTop;
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onScroll);
+  }, [hasLeveledUp, tab]);
+
   const [selectedFoodName, setSelectedFoodName] = useState<
     ConsumableName | undefined
   >(undefined);
@@ -354,6 +381,7 @@ export const BumpkinModal: React.FC<Props> = ({
                 food={availableFood}
                 selectedName={selectedFoodName}
                 setSelectedName={setSelectedFoodName}
+                contentRef={feedContentRef}
               />
             )}
           </>
