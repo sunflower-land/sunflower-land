@@ -17,6 +17,7 @@ import {
 } from "features/game/types/salt";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { canInstantHarvestSaltNode, getSaltNodeSprite } from "./saltNodeStage";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 interface Props {
   id: string;
@@ -42,6 +43,10 @@ export const SaltNode: React.FC<Props> = ({ id, visiting, position }) => {
   const { chargeGenerationTimeMs: chargeIntervalMs } =
     getSaltChargeGenerationTime({ gameState });
   const availableRakes = Math.floor(inventory["Salt Rake"]?.toNumber() ?? 0);
+  const rakeFree = isCollectibleBuilt({
+    name: "Ascended Idol",
+    game: gameState,
+  });
 
   const maxCharges = getMaxStoredSaltCharges(
     gameState.sculptures?.["Salt Sculpture"]?.level ?? 0,
@@ -62,8 +67,9 @@ export const SaltNode: React.FC<Props> = ({ id, visiting, position }) => {
     : 0;
 
   const showNextChargePanel = showInfoPanel && storedCharges === 0;
-  const showNoRakesPanel =
-    showInfoPanel && !visiting && storedCharges > 0 && availableRakes === 0;
+  const missingRakes =
+    !visiting && !rakeFree && storedCharges > 0 && availableRakes === 0;
+  const showNoRakesPanel = showInfoPanel && missingRakes;
 
   if (!node) return null;
 
@@ -73,6 +79,7 @@ export const SaltNode: React.FC<Props> = ({ id, visiting, position }) => {
     visiting,
     storedCharges,
     availableRakes,
+    rakeFree,
   });
 
   const getStyle = (): React.CSSProperties | undefined => {
@@ -108,12 +115,13 @@ export const SaltNode: React.FC<Props> = ({ id, visiting, position }) => {
         onClick={() => {
           if (canHarvest) {
             gameService.send("salt.harvested", { id });
-            shortcutItem("Salt Rake");
+            if (!rakeFree) {
+              shortcutItem("Salt Rake");
+            }
           }
         }}
       >
-        {(storedCharges === 0 ||
-          (!visiting && storedCharges > 0 && availableRakes === 0)) && (
+        {(storedCharges === 0 || missingRakes) && (
           <div
             className="flex justify-center absolute w-full pointer-events-none z-30"
             style={style}
@@ -125,7 +133,7 @@ export const SaltNode: React.FC<Props> = ({ id, visiting, position }) => {
                 showTimeLeft={showNextChargePanel}
               />
             )}
-            {!visiting && storedCharges > 0 && availableRakes === 0 && (
+            {missingRakes && (
               <InnerPanel
                 className={classNames(
                   "absolute transition-opacity w-fit z-[999] pointer-events-none",

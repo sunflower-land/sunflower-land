@@ -42,7 +42,7 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {
   calculateSwarmBoost,
-  getHoneyMultiplier,
+  getFullHiveHoneyYield,
 } from "features/game/events/landExpansion/harvestBeehive";
 import { useNow } from "lib/utils/hooks/useNow";
 import {
@@ -109,7 +109,9 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   const currentFlowerId = useSelector(beehiveService, _currentFlowerId);
   const showBeeAnimation = useSelector(beehiveService, _showBeeAnimation);
 
-  const { multiplier: honeyMultiplier } = getHoneyMultiplier(gameState);
+  // Full-hive yield, not the bare multiplier — the label below describes a full
+  // hive, which is exactly when Ruins Flower's flat bonus applies.
+  const { yield: honeyPerFullHive } = getFullHiveHoneyYield(gameState);
 
   const handleBeeAnimationEnd = useCallback(() => {
     beehiveService.send("BEE_ANIMATION_DONE");
@@ -385,7 +387,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
                 </Label>
                 <div className="text-xs mb-0.5">
                   {t("beehive.honeyPerFullHive", {
-                    multiplier: formatNumber(honeyMultiplier),
+                    multiplier: formatNumber(honeyPerFullHive),
                   })}
                 </div>
               </div>

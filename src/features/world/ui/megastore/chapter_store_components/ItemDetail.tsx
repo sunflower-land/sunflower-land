@@ -33,6 +33,7 @@ import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import {
   getChapterItemsCrafted,
   getChapterPurchaseCount,
+  getStoreItemOwnedCount,
   isKeyBoughtWithinChapter,
 } from "features/game/events/landExpansion/buyChapterItem";
 import {
@@ -143,6 +144,13 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     now,
   });
 
+  // Items with an `inventoryLimit` can't be re-bought once the player owns that
+  // many copies — including copies from a previous chapter or other source.
+  const isInventoryLimitReached =
+    !!item &&
+    item.inventoryLimit !== undefined &&
+    getStoreItemOwnedCount(state, item) >= item.inventoryLimit;
+
   const description = getItemDescription(item);
   const { sfl = 0, coins: coinsCost = 0 } = item?.cost || {};
   const itemReq = item?.cost?.items;
@@ -182,6 +190,9 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
         return false;
       }
     }
+
+    // Items with an `inventoryLimit` can't be bought once already owned.
+    if (isInventoryLimitReached) return false;
 
     if (itemReq) {
       const hasRequirements = getKeys(itemReq).every((name) => {
@@ -306,6 +317,10 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
               },
             ),
           })}
+        </Label>
+      ) : isInventoryLimitReached ? (
+        <Label type="danger" className="text-xxs">
+          {t("season.megastore.alreadyOwned")}
         </Label>
       ) : item?.limit === undefined ? null : (
         <Label

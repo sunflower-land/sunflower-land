@@ -11,7 +11,6 @@ import {
 import { produce } from "immer";
 import {
   getAscensionLevel,
-  getMaxBumpkinLevel,
   getTotalBumpkinLevel,
   meetsLevelRequirement,
 } from "features/game/lib/level";
@@ -151,7 +150,6 @@ export function claimDailyReward({
       const level = getTotalBumpkinLevel({
         experience: game.bumpkin.experience ?? 0,
         ascensionLevel: game.island.ascensionLevel ?? 0,
-        maxLevel: getMaxBumpkinLevel(game),
       });
       const vipBonusItem = getVipDailyBonusItem(level);
       if (vipBonusItem) {

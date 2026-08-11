@@ -48,4 +48,5 @@ export type SettingMenuId =
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
   onClose: () => void;
+  onTimeMachineToggle?: () => void;
 }

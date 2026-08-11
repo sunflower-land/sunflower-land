@@ -1,9 +1,7 @@
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router";
-import { DEV_TimeMachine } from "./DEV_TimeMachine";
-import { createPortal } from "react-dom";
 import type { ContentComponentProps } from "../types";
 import { CONFIG } from "lib/config";
 import { Context as GameContext } from "features/game/GameProvider";
@@ -13,12 +11,11 @@ import { useSelector } from "@xstate/react";
 export const DeveloperOptions: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
   onClose,
+  onTimeMachineToggle,
 }) => {
   const { gameService, setFromRoute } = useContext(GameContext);
   const { t } = useAppTranslation();
   const navigate = useNavigate();
-  const [showTimeMachine, setShowTimeMachine] = useState(false);
-
   const game = useSelector(gameService, (state) => state.context.state);
   const hasAdminDashboards = hasFeatureAccess(game, "ADMIN_DASHBOARDS");
 
@@ -72,17 +69,11 @@ export const DeveloperOptions: React.FC<ContentComponentProps> = ({
           </>
         )}
         {CONFIG.NETWORK === "amoy" && (
-          <Button
-            onClick={() => setShowTimeMachine(!showTimeMachine)}
-            className="p-1"
-          >
+          <Button onClick={onTimeMachineToggle} className="p-1">
             {t("gameOptions.developerOptions.timeMachine")}
           </Button>
         )}
       </div>
-      {CONFIG.NETWORK === "amoy" &&
-        showTimeMachine &&
-        createPortal(<DEV_TimeMachine />, document.body)}
     </>
   );
 };

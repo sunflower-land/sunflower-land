@@ -5,25 +5,24 @@ import {
 } from "features/game/lib/level";
 import { getKeys } from "lib/object";
 import type {
+  BoostName,
   Bumpkin,
   GameState,
   ExpansionRequirements as IExpansionRequirements,
   Inventory,
 } from "features/game/types/game";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import { Label } from "../Label";
 import { SquareIcon } from "../SquareIcon";
-import { secondsToString } from "lib/utils/time";
 import { InnerPanel } from "../Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { ResizableBar } from "../ProgressBar";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
-import { expansionRequirements } from "features/game/events/landExpansion/expandLand";
 import { Button } from "../Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useSpeedUpPayment } from "features/game/lib/useSpeedUpPayment";
@@ -39,7 +38,10 @@ import {
   useExpansionCoinCostWithVip,
   useVipAccess,
 } from "lib/utils/hooks/useVipAccess";
-import { hasFeatureAccess } from "lib/flags";
+import { BoostsDisplay } from "./BoostsDisplay";
+import { getNextExpansionNodePreview } from "features/game/types/expansions";
+import { ExpansionNodePreview } from "./ExpansionNodePreview";
+
 /**
  * The props for the component.
  * @param gameState The game state.
@@ -53,6 +55,10 @@ interface Props {
   bumpkin: Bumpkin;
   details: DetailsProps;
   requirements: IExpansionRequirements;
+  /** Build time before any time boost — struck through when one applies. */
+  baseTimeSeconds: number;
+  /** Time boosts behind the shortened build, listed in the boosts popover. */
+  timeBoostsUsed: { name: BoostName; value: string }[];
   state: GameState;
   onClose: () => void;
 }
@@ -75,12 +81,15 @@ export const ExpansionRequirements: React.FC<Props> = ({
   bumpkin,
   details,
   requirements,
+  baseTimeSeconds,
+  timeBoostsUsed,
   coins,
   state,
   onClose,
 }: Props) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
+  const [showTimeBoosts, setShowTimeBoosts] = useState(false);
 
   // Compare the player's standing against the (ascension, level) requirement —
   // matching the `expandLand` gate.
@@ -102,6 +111,11 @@ export const ExpansionRequirements: React.FC<Props> = ({
     ...requirements,
     coins: effectiveCoinCost,
   };
+
+  // `requirements.seconds` already carries any shortening (Ascension Monument,
+  // VIP) — show it against the original, with the boosts behind the tap.
+  const isTimeBoosted =
+    timeBoostsUsed.length > 0 && requirements.seconds < baseTimeSeconds;
 
   const onExpand = () => {
     gameService.send("land.expanded");
@@ -127,6 +141,7 @@ export const ExpansionRequirements: React.FC<Props> = ({
   };
 
   const canExpand = craftingRequirementsMet(state, requirementsWithVipCoins);
+  const expansionNodes = getNextExpansionNodePreview({ game: state });
 
   return (
     <>
@@ -147,13 +162,35 @@ export const ExpansionRequirements: React.FC<Props> = ({
           <Label type={"default"} icon={SUNNYSIDE.icons.basket}>
             {t("requirements")}
           </Label>
-          <Label
-            type="info"
-            icon={SUNNYSIDE.icons.stopwatch}
-            secondaryIcon={SUNNYSIDE.icons.hammer}
+          <div
+            className={`flex flex-row items-center ${
+              isTimeBoosted ? "cursor-pointer" : ""
+            }`}
+            onClick={
+              isTimeBoosted
+                ? () => setShowTimeBoosts(!showTimeBoosts)
+                : undefined
+            }
           >
-            {secondsToString(requirements.seconds, { length: "medium" })}
-          </Label>
+            {isTimeBoosted && (
+              <RequirementLabel
+                type="time"
+                waitSeconds={requirements.seconds}
+                boosted
+              />
+            )}
+            <RequirementLabel
+              type="time"
+              waitSeconds={baseTimeSeconds}
+              strikethrough={isTimeBoosted}
+            />
+            <BoostsDisplay
+              boosts={timeBoostsUsed}
+              show={showTimeBoosts}
+              state={state}
+              onClick={() => setShowTimeBoosts(!showTimeBoosts)}
+            />
+          </div>
         </div>
 
         {!!requirements.coins && !showVipDiscount && (
@@ -206,6 +243,8 @@ export const ExpansionRequirements: React.FC<Props> = ({
         })}
       </InnerPanel>
 
+      <ExpansionNodePreview nodes={expansionNodes} />
+
       {!hasLevel && (
         <InnerPanel className="mb-1">
           <Label type="danger" icon={SUNNYSIDE.icons.lock}>
@@ -231,18 +270,21 @@ export const Expanding: React.FC<{
 }> = ({ state, onClose, onInstantExpanded, readyAt }) => {
   const { t } = useAppTranslation();
 
-  const { requirements } = expansionRequirements({ game: state });
-  const totalSeconds = requirements?.seconds ?? 0;
+  // Read the length of the build from the construction itself rather than
+  // re-deriving it — boosts (Ascension Monument, VIP speed) are baked into
+  // `readyAt` when the expansion starts and may no longer apply now.
+  const construction = state.expansionConstruction;
+  const totalSeconds = construction
+    ? (construction.readyAt - construction.createdAt) / 1000
+    : 0;
   const { totalSeconds: secondsTillReady, ...ready } = useCountdown(
     readyAt ?? 0,
   );
 
-  const hasAccess = !hasRequiredIslandExpansion(
-    state.island.type,
-    hasFeatureAccess(state, "SWAMP_ASCENSION") ? "swamp" : "desert",
-  );
+  const hasAccess = !hasRequiredIslandExpansion(state.island.type, "swamp");
 
   const payment = useSpeedUpPayment({ readyAt, game: state });
+  const expansionNodes = getNextExpansionNodePreview({ game: state });
   const cost =
     payment.paymentMethod === "coins" ? payment.coinCost : payment.gemCost;
   const costIcon =
@@ -283,6 +325,8 @@ export const Expanding: React.FC<{
         </div>
         {hasAccess && <SpeedUpPaymentSelector payment={payment} />}
       </div>
+
+      <ExpansionNodePreview nodes={expansionNodes} />
 
       <div className="flex">
         <Button onClick={onClose}>{t("close")}</Button>

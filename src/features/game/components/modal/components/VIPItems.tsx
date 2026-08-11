@@ -353,11 +353,11 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
                     }
                   : undefined,
               },
-              ...(currentChapter === "Salt Awakening"
+              ...(currentChapter === "Ascension Age"
                 ? [
                     {
-                      text: t("vip.benefit.bonusSaltYield"),
-                      icon: ITEM_DETAILS["Salt"].image,
+                      text: t("vip.benefit.expansionSpeed"),
+                      icon: SUNNYSIDE.icons.stopwatch,
                     },
                   ]
                 : []),

@@ -278,4 +278,112 @@ describe("getBulkMixRequirements", () => {
     expect(kernelBlend?.ingredients).toEqual({});
     expect(missingRequests["Kernel Blend"]).toBeUndefined();
   });
+
+  it("rounds a fractional food shortfall up to a whole feed", () => {
+    const { requests, missingRequests, feeds, requirements } =
+      getBulkMixRequirements(
+        {
+          ...INITIAL_FARM,
+          inventory: {},
+          collectibles: {
+            ...INITIAL_FARM.collectibles,
+            // Fat Chicken cuts chicken feed to x0.9.
+            "Fat Chicken": [
+              {
+                id: "1",
+                createdAt: 0,
+                coordinates: { x: 0, y: 0 },
+                readyAt: 0,
+              },
+            ],
+          },
+          henHouse: {
+            ...INITIAL_FARM.henHouse,
+            animals: {
+              "0": chicken("sad"),
+            },
+          },
+        },
+        "Hen House",
+      );
+
+    const kernelBlend = feeds.find((feed) => feed.item === "Kernel Blend");
+
+    // The real requirement stays exact, but feeds are mixed in whole units.
+    expect(requests["Kernel Blend"]).toEqual(new Decimal(0.9));
+    expect(kernelBlend?.requested).toEqual(new Decimal(0.9));
+    expect(missingRequests["Kernel Blend"]).toEqual(new Decimal(1));
+    expect(kernelBlend?.missing).toEqual(new Decimal(1));
+
+    // Ingredients are charged for the whole feed that gets mixed.
+    expect(kernelBlend?.ingredients.Corn).toEqual(new Decimal(1));
+    expect(requirements.ingredients.Corn).toEqual(new Decimal(1));
+  });
+
+  it("rounds a fractional medicine shortfall up to a whole feed", () => {
+    const { requests, missingRequests, feeds } = getBulkMixRequirements(
+      {
+        ...INITIAL_FARM,
+        inventory: {},
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin.equipped,
+            // Medic Apron halves the Barn Delight cure cost.
+            coat: "Medic Apron",
+          },
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": chicken("sick"),
+          },
+        },
+      },
+      "Hen House",
+    );
+
+    const barnDelight = feeds.find((feed) => feed.item === "Barn Delight");
+
+    expect(requests["Barn Delight"]).toEqual(new Decimal(0.5));
+    expect(missingRequests["Barn Delight"]).toEqual(new Decimal(1));
+    expect(barnDelight?.missing).toEqual(new Decimal(1));
+    expect(barnDelight?.ingredients.Lemon).toEqual(new Decimal(5));
+    expect(barnDelight?.ingredients.Honey).toEqual(new Decimal(3));
+  });
+
+  it("rounds up the shortfall left after inventory is applied", () => {
+    const { requests, missingRequests, requirements } = getBulkMixRequirements(
+      {
+        ...INITIAL_FARM,
+        inventory: {
+          "Kernel Blend": new Decimal(10),
+        },
+        collectibles: {
+          ...INITIAL_FARM.collectibles,
+          // Dr Cow cuts cow feed to x0.95, so 3 feeds cost 14.25.
+          "Dr Cow": [
+            {
+              id: "1",
+              createdAt: 0,
+              coordinates: { x: 0, y: 0 },
+              readyAt: 0,
+            },
+          ],
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "0": animal({ state: "idle", type: "Cow" }),
+          },
+        },
+      },
+      "Barn",
+    );
+
+    expect(requests["Kernel Blend"]).toEqual(new Decimal(14.25));
+    // 14.25 - 10 = 4.25 still to mix, rounded up to 5 whole feeds.
+    expect(missingRequests["Kernel Blend"]).toEqual(new Decimal(5));
+    expect(requirements.ingredients.Corn).toEqual(new Decimal(5));
+  });
 });

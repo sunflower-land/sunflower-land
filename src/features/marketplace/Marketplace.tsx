@@ -13,6 +13,7 @@ import { MarketplaceIntroduction } from "./components/MarketplaceIntroduction";
 import { formatNumber } from "lib/utils/formatNumber";
 import { PlayerModal } from "features/social/PlayerModal";
 import * as Auth from "features/auth/lib/Provider";
+import { getMarketplaceNavigationState } from "./lib/navigation";
 
 const _balance = (state: MachineState) => state.context.state.balance;
 const _farmId = (state: MachineState) => state.context.farmId ?? 0;
@@ -29,12 +30,21 @@ export const Marketplace: React.FC = () => {
   const { t } = useAppTranslation();
 
   const handleClose = useCallback(() => {
+    const marketplaceNavigation = getMarketplaceNavigationState(location.state);
     const defaultRoute = location.pathname.includes("/world")
       ? "/world/plaza"
       : "/";
 
-    fromRoute ? navigate(fromRoute) : navigate(defaultRoute);
-  }, [location.pathname, fromRoute, navigate]);
+    const returnTo =
+      marketplaceNavigation?.returnTo ?? fromRoute ?? defaultRoute;
+
+    navigate(returnTo, {
+      replace: true,
+      state: marketplaceNavigation?.restore
+        ? { marketplaceRestore: marketplaceNavigation.restore }
+        : undefined,
+    });
+  }, [location.pathname, location.state, fromRoute, navigate]);
 
   // exit marketplace if Escape key is pressed
   useEffect(() => {

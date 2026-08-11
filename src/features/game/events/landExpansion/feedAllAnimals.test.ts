@@ -5,6 +5,7 @@ import {
   feedAllAnimals,
   getCoveredAnimalTypes,
   getFeedAllTargets,
+  isAnimalCoveredByGoldenAsset,
 } from "./feedAllAnimals";
 
 const now = Date.now();
@@ -65,6 +66,31 @@ const withOracleSyringe = (state: GameState): GameState => ({
     ...state.bumpkin,
     equipped: { ...state.bumpkin.equipped, wings: "Oracle Syringe" },
   },
+});
+
+describe("isAnimalCoveredByGoldenAsset", () => {
+  it("matches an active golden asset to its animal type", () => {
+    const state = withGoldenCow(GAME_STATE);
+
+    expect(isAnimalCoveredByGoldenAsset({ state, animalType: "Cow" })).toBe(
+      true,
+    );
+    expect(isAnimalCoveredByGoldenAsset({ state, animalType: "Sheep" })).toBe(
+      false,
+    );
+  });
+
+  it("does not cover an animal when the golden asset is owned but not placed", () => {
+    const state: GameState = {
+      ...GAME_STATE,
+      inventory: { ...GAME_STATE.inventory, "Gold Egg": new Decimal(1) },
+      collectibles: {},
+    };
+
+    expect(isAnimalCoveredByGoldenAsset({ state, animalType: "Chicken" })).toBe(
+      false,
+    );
+  });
 });
 
 describe("getCoveredAnimalTypes", () => {

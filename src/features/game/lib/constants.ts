@@ -32,6 +32,7 @@ import {
   type WorkbenchToolName,
 } from "../types/tools";
 import { createInitialAgingShed } from "./agingShed";
+import { randomID } from "lib/utils/random";
 
 // Our "zoom" factor
 export const PIXEL_SCALE = 2.625;
@@ -204,40 +205,32 @@ export const INITIAL_STOCK = (
 
 type InventoryLimit = Partial<Record<SeedName, Decimal>>;
 
-// Inventory limit is 2.5x the initial stock for seeds
+export const getSeedInventoryLimitMultiplier = (seed: SeedName) => {
+  if (isGreenhouseCropSeed(seed) || isGreenhouseFruitSeed(seed)) return 5;
+  if (isBasicFruitSeed(seed as PatchFruitSeedName)) return 2;
+  if (isAdvancedFruitSeed(seed as PatchFruitSeedName)) return 1.5;
+
+  return 2.5;
+};
+
+// Seed limits use initial stock: 5x greenhouse, 2x basic fruit, 1.5x advanced
+// fruit, and 2.5x otherwise. Full Moon Berries have a fixed limit of 10.
 export const INVENTORY_LIMIT = (state: GameState): InventoryLimit => {
   return {
     ...getObjectEntries(INITIAL_STOCK(state)).reduce<InventoryLimit>(
       (acc, [key, value]) => {
         if (!isSeed(key)) return acc;
-        if (isGreenhouseCropSeed(key) || isGreenhouseFruitSeed(key)) {
-          acc[key] = new Decimal(
-            Math.ceil((value ?? new Decimal(0)).mul(5).toNumber()),
-          );
-          return acc;
-        }
-
         if (isFullMoonBerry(key)) {
           acc[key] = new Decimal(10);
           return acc;
         }
 
-        if (isBasicFruitSeed(key as PatchFruitSeedName)) {
-          acc[key] = new Decimal(
-            Math.ceil((value ?? new Decimal(0)).mul(2).toNumber()),
-          );
-          return acc;
-        }
-
-        if (isAdvancedFruitSeed(key as PatchFruitSeedName)) {
-          acc[key] = new Decimal(
-            Math.ceil((value ?? new Decimal(0)).mul(1.5).toNumber()),
-          );
-          return acc;
-        }
-
         acc[key] = new Decimal(
-          Math.ceil((value ?? new Decimal(0)).mul(2.5).toNumber()),
+          Math.ceil(
+            (value ?? new Decimal(0))
+              .mul(getSeedInventoryLimitMultiplier(key))
+              .toNumber(),
+          ),
         );
         return acc;
       },
@@ -370,7 +363,7 @@ export const INITIAL_EQUIPMENT: BumpkinParts = {
 
 export const INITIAL_BUMPKIN: Bumpkin = {
   equipped: INITIAL_EQUIPMENT as Equipped,
-  experience: 0,
+  experience: 0, // Leave it at 0 so that feedBumpkin Tests don't fail
 
   id: 1,
   skills: {},
@@ -619,7 +612,7 @@ export const INITIAL_FARM: GameState = {
       },
     ],
   },
-  username: "T",
+  username: randomID(),
   collectibles: {},
   pumpkinPlaza: {},
   auctioneer: {},
@@ -671,7 +664,9 @@ export const INITIAL_FARM: GameState = {
       total: 10,
     },
   },
-  farmActivity: {},
+  farmActivity: {
+    "welcome Bonus Claimed": 1, // Skips welcome screen
+  },
   milestones: {},
   specialEvents: {
     history: {},

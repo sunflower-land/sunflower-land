@@ -43,7 +43,7 @@ import {
 } from "features/game/events/landExpansion/feedAnimal";
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
 import { isAnimalFeedable } from "features/game/events/landExpansion/buyAnimal";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { isAnimalCoveredByGoldenAsset } from "features/game/events/landExpansion/feedAllAnimals";
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
 import { isWearableActive } from "features/game/lib/wearables";
 import { Modal } from "components/ui/Modal";
@@ -248,9 +248,9 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     animal: chicken,
   });
 
-  const hasGoldEgg = isCollectibleBuilt({
-    name: "Gold Egg",
-    game,
+  const hasGoldEgg = isAnimalCoveredByGoldenAsset({
+    state: game,
+    animalType: "Chicken",
   });
 
   const hasOracleSyringeEquipped = isWearableActive({
@@ -414,7 +414,12 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (sick) return onSickClick();
 
-    if (needsLove) return onLoveClick();
+    if (needsLove) {
+      if (!hasGoldEgg) return onLoveClick();
+
+      handleShowDetails();
+      return;
+    }
 
     const hasBuffSelected = selectedItem && isAnimalFeedBuffItem(selectedItem);
 
@@ -539,7 +544,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     return favFood;
   };
   const showRequestBubble =
-    sick || needsLove || (idle && !isLocked && !showDrops);
+    sick || (needsLove && !hasGoldEgg) || (idle && !isLocked && !showDrops);
 
   if (chickenMachineState === "initial") return null;
 

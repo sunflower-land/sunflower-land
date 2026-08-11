@@ -867,6 +867,55 @@ describe("fruitHarvested", () => {
 
   describe("getFruitYield", () => {
     const farmId = 1;
+    it("gives +0.5 full moon fruit yield when Moon Hair is equipped", () => {
+      const { amount, boostsUsed } = getFruitYield({
+        prngArgs: { counter: 0, farmId },
+        game: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...TEST_FARM.bumpkin,
+            equipped: {
+              ...TEST_FARM.bumpkin.equipped,
+              hair: "Moon Hair",
+            },
+          },
+        },
+        name: "Celestine",
+      });
+
+      expect(amount).toEqual(1.5);
+      expect(boostsUsed).toContainEqual({ name: "Moon Hair", value: "+0.5" });
+    });
+
+    it("does not boost non full moon fruit with Moon Hair equipped", () => {
+      const { amount } = getFruitYield({
+        prngArgs: { counter: 0, farmId },
+        game: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...TEST_FARM.bumpkin,
+            equipped: {
+              ...TEST_FARM.bumpkin.equipped,
+              hair: "Moon Hair",
+            },
+          },
+        },
+        name: "Apple",
+      });
+
+      expect(amount).toEqual(1);
+    });
+
+    it("does not boost full moon fruit without Moon Hair equipped", () => {
+      const { amount } = getFruitYield({
+        prngArgs: { counter: 0, farmId },
+        game: TEST_FARM,
+        name: "Celestine",
+      });
+
+      expect(amount).toEqual(1);
+    });
+
     it("provides no bonuses", () => {
       const { amount } = getFruitYield({
         prngArgs: { counter: 0, farmId },

@@ -65,6 +65,8 @@ import {
   PURCHASEABLE_BAIT,
 } from "features/game/types/fishing";
 import { Label } from "components/ui/Label";
+import { KNOWN_IDS } from "features/game/types";
+import { useMarketplaceTradeables } from "features/marketplace/lib/useMarketplaceTradeables";
 import {
   FLOWERS,
   FLOWER_SEEDS,
@@ -101,9 +103,15 @@ interface Prop {
   gameState: GameState;
   selected?: InventoryItemName;
   onSelect: (name: InventoryItemName) => void;
+  onOpenMarketplace?: (name: InventoryItemName) => void;
 }
 
-export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
+export const Basket: React.FC<Prop> = ({
+  gameState,
+  selected,
+  onSelect,
+  onOpenMarketplace,
+}) => {
   const divRef = useRef<HTMLDivElement>(null);
   const now = useNow({ live: true });
   const [showBoosts, setShowBoosts] = useState(false);
@@ -116,6 +124,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     );
 
   const { t } = useAppTranslation();
+  const { isTradeable } = useMarketplaceTradeables();
 
   const { inventory } = gameState;
   const basketMap = getBasketItems(inventory);
@@ -139,6 +148,10 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   }
 
   const selectedItem = selected ?? getKeys(basketMap)[0] ?? "Sunflower Seed";
+  const canOpenMarketplace = isTradeable({
+    collection: "collectibles",
+    id: KNOWN_IDS[selectedItem],
+  });
 
   const isPatchFruitSeed = (
     selected: InventoryItemName,
@@ -574,7 +587,10 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
                   ? getBaseHarvestTime(selectedItem)
                   : undefined,
                 timeBoostsUsed: seedHarvestTime?.boostsUsed,
-                showOpenSeaLink: true,
+                onMarketplaceClick:
+                  onOpenMarketplace && canOpenMarketplace
+                    ? () => onOpenMarketplace(selectedItem)
+                    : undefined,
               }}
             />
           )

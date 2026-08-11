@@ -4,13 +4,14 @@ import type { SceneId } from "../mmoMachine";
 import { BaseScene, type NPCBumpkin } from "./BaseScene";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { interactableModalManager } from "../ui/InteractableModals";
-import { translate } from "lib/i18n/translate";
+import { translateForBubble } from "lib/i18n/translate";
 import type { InventoryItemName } from "features/game/types/game";
 
 import { getUTCDateString } from "lib/utils/time";
 import type { BumpkinContainer } from "../containers/BumpkinContainer";
 import { getKeys } from "lib/object";
 import {
+  CHAPTER_ARTEFACT,
   DESERT_GRID_HEIGHT,
   DESERT_GRID_WIDTH,
   getArtefactsFound,
@@ -18,6 +19,7 @@ import {
   hasClaimedReward,
   secondsTillDesertStorm,
 } from "features/game/types/desert";
+import { ITEM_DETAILS } from "features/game/types/images";
 import { ProgressBarContainer } from "../containers/ProgressBarContainer";
 import { npcModalManager } from "../ui/NPCModals";
 import { hasReadDesertNotice as hasReadDesertNotice } from "../ui/beach/DesertNoticeboard";
@@ -150,15 +152,16 @@ export class BeachScene extends BaseScene {
     this.load.image("cockle_shell", "world/cockle_shell.webp");
     this.load.image("hieroglyph", "world/hieroglyph.webp");
     this.load.image("vase", "world/vase.webp");
-    this.load.image("scarab", "world/scarab.webp");
-    this.load.image("cow_skull", "world/cow_skull.webp");
-    this.load.image("ancient_clock", "world/ancient_clock.png");
-    this.load.image("broken_pillar", "world/broken_pillar.webp");
-    this.load.image("coprolite", "world/coprolite.webp");
-    this.load.image("moon_crystal", "world/moon_crystal.webp");
     this.load.image("sand", "world/sand.webp");
-    this.load.image("ammonite_shell", "world/ammonite_shell.webp");
-    this.load.image("salt_dino_egg", "world/salt_dino_egg.webp");
+
+    // Chapter artefacts - derived from CHAPTER_ARTEFACT so that adding a
+    // chapter does not require uploading a copy of its artefact to public/
+    new Set(Object.values(CHAPTER_ARTEFACT)).forEach((artefact) =>
+      this.load.image(
+        convertToSnakeCase(artefact),
+        ITEM_DETAILS[artefact].image,
+      ),
+    );
 
     this.load.image("shovel_select", "world/shovel_select_new.webp");
     this.load.image("confirm_select", "world/select_confirm_new.webp");
@@ -291,7 +294,7 @@ export class BeachScene extends BaseScene {
       if (this.checkDistanceToSprite(treasureShop, 75)) {
         npcModalManager.open("jafar");
       } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
 
@@ -361,7 +364,7 @@ export class BeachScene extends BaseScene {
       if (this.checkDistanceToSprite(chest, 75)) {
         interactableModalManager.open("rare_chest");
       } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
 
@@ -392,7 +395,7 @@ export class BeachScene extends BaseScene {
       if (this.checkDistanceToSprite(pirateChest, 75)) {
         interactableModalManager.open("pirate_chest");
       } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
 
@@ -1375,7 +1378,7 @@ export class BeachScene extends BaseScene {
     if (this.percentageTreasuresFound >= 100 && !this.hasClaimedStreakReward) {
       if (this.alreadyNotifiedOfClaim) return;
 
-      this.npcs.digby?.speak(translate("digby.claimPrize"));
+      this.npcs.digby?.speak(translateForBubble("digby.claimPrize"));
       this.alreadyNotifiedOfClaim = true;
       return;
     }
@@ -1383,7 +1386,7 @@ export class BeachScene extends BaseScene {
     if (!this.hasDigsLeft) {
       if (this.alreadyWarnedOfNoDigs) return;
 
-      this.npcs.digby?.speak(translate("digby.noDigsLeft"));
+      this.npcs.digby?.speak(translateForBubble("digby.noDigsLeft"));
       this.alreadyWarnedOfNoDigs = true;
 
       return;
@@ -1401,13 +1404,13 @@ export class BeachScene extends BaseScene {
       this.selectedItem !== "Sand Drill" &&
       !this.isAncientShovelActive
     ) {
-      this.npcs.digby?.speak(translate("digby.noShovels"));
+      this.npcs.digby?.speak(translateForBubble("digby.noShovels"));
 
       return;
     }
 
     if (this.selectedItem === "Sand Drill" && sandDrills.lt(1)) {
-      this.npcs.digby?.speak(translate("digby.noDrills"));
+      this.npcs.digby?.speak(translateForBubble("digby.noDrills"));
 
       return;
     }

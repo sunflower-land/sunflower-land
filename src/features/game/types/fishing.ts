@@ -822,6 +822,12 @@ export function getDailyFishingLimit(
     boostsUsed.push({ name: "Deep Sea Slug", value: "+5" });
   }
 
+  // +5 daily limit if player has Otty the Otter
+  if (isCollectibleBuilt({ name: "Otty the Otter", game })) {
+    limit += 5;
+    boostsUsed.push({ name: "Otty the Otter", value: "+5" });
+  }
+
   const skills = game.bumpkin?.skills ?? {};
 
   // +5/+7/+10 daily limit per rank if player has Fisherman's 5 Fold skill

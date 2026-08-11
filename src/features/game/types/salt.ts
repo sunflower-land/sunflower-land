@@ -3,6 +3,7 @@ import type { Coordinates } from "../expansion/components/MapPlacement";
 import { getWharfCoordinates } from "../expansion/lib/constants";
 import type { BoostName, GameState, InventoryItemName } from "./game";
 import { getObjectEntries } from "lib/object";
+import { isCollectibleBuilt } from "../lib/collectibleBuilt";
 import { isWearableActive } from "../lib/wearables";
 import { hasVipAccess } from "../lib/vipAccess";
 import { getCurrentChapter } from "./chapters";
@@ -136,6 +137,11 @@ export function getSaltChargeGenerationTime({
     boostsUsed.push({ name: "Salt Sculpture", value: "x0.95" });
   }
 
+  if (isCollectibleBuilt({ game: gameState, name: "Salt Worker Gnome" })) {
+    chargeGenerationTimeMs *= 0.7;
+    boostsUsed.push({ name: "Salt Worker Gnome", value: "x0.7" });
+  }
+
   return { chargeGenerationTimeMs, boostsUsed };
 }
 
@@ -206,6 +212,11 @@ export function getSaltYieldPerRake(
   ) {
     saltYield += 2;
     boostsUsed.push({ name: "VIP Access", value: "+2" });
+  }
+
+  if (isCollectibleBuilt({ game: gameState, name: "Salt Worker Gnome" })) {
+    saltYield += 2;
+    boostsUsed.push({ name: "Salt Worker Gnome", value: "+2" });
   }
 
   return { saltYield, boostsUsed };

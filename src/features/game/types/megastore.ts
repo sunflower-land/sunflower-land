@@ -139,7 +139,7 @@ export type ChapterWearableName = Extract<
   | "Swamp Lily Hat"
   | "Swamp Armor"
   | "Swamp Pants"
-  | "Luna's Headpiece"
+  | "Moon Hair"
 >;
 
 export type MegastoreKeys = "Treasure Key" | "Rare Key" | "Luxury Key";
@@ -153,6 +153,12 @@ type SeasonalStoreBase = {
   cooldownMs?: number;
   // Maximum purchases of this item per chapter. Omit for unlimited.
   limit?: number;
+  // Maximum copies of this item a player may ever own (collectibles counted
+  // from inventory, wearables from wardrobe). Unlike the chapter-scoped
+  // `limit`, once the player holds this many the item can no longer be
+  // bought — even copies acquired in a previous chapter or from another
+  // source count. Omit for no ownership cap.
+  inventoryLimit?: number;
 };
 
 export type ChapterStoreWearable = SeasonalStoreBase & {
@@ -1230,7 +1236,7 @@ const ASCENSION_AGE_ITEMS: ChapterStore = {
       },
       {
         collectible: "Ore Hourglass",
-        cost: { sfl: 0, items: { "Shiny Feather": 150 } },
+        cost: { sfl: 0, items: { "Shiny Feather": 400 } },
       },
       {
         collectible: "Timber Hourglass",
@@ -1242,7 +1248,7 @@ const ASCENSION_AGE_ITEMS: ChapterStore = {
       },
       {
         collectible: "Orchard Hourglass",
-        cost: { sfl: 0, items: { "Shiny Feather": 400 } },
+        cost: { sfl: 0, items: { "Shiny Feather": 200 } },
       },
       {
         collectible: "Fisher's Hourglass",
@@ -1255,7 +1261,7 @@ const ASCENSION_AGE_ITEMS: ChapterStore = {
 
       // Premium chapter items
       {
-        wearable: "Luna's Headpiece",
+        wearable: "Moon Hair",
         limit: 1,
         cost: { sfl: 0, items: { "Shiny Feather": 9000 } },
       },
@@ -1267,7 +1273,20 @@ const ASCENSION_AGE_ITEMS: ChapterStore = {
       {
         collectible: "Ascension Monument",
         limit: 1,
+        inventoryLimit: 1,
         cost: { sfl: 0, items: { "Shiny Feather": 4000 } },
+      },
+      {
+        collectible: "Cornucopia",
+        limit: 1,
+        inventoryLimit: 1,
+        cost: { sfl: 0, items: { "Shiny Feather": 9000 } },
+      },
+      {
+        collectible: "Teamwork Monument",
+        limit: 1,
+        inventoryLimit: 1,
+        cost: { sfl: 0, items: { "Shiny Feather": 6000 } },
       },
       {
         collectible: "Otty the Otter",

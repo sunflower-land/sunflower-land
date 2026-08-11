@@ -13,7 +13,6 @@ import {
   getExpectedAscensionCrystals,
 } from "../expansion/lib/ascension";
 import { getKeys } from "lib/object";
-import { hasFeatureAccess } from "lib/flags";
 import type { LevelRequirement } from "features/game/lib/level";
 import {
   ADVANCED_RESOURCES,
@@ -126,16 +125,11 @@ export function getExpectedResources({
   // and only when the ascension feature is live. Override the base (0) with the
   // cumulative expected so revealLand's missing-node airdrop can back-pay legacy
   // players who progressed before the feature shipped.
-  expectedResources["Ascension Crystal"] = hasFeatureAccess(
-    game,
-    "SWAMP_ASCENSION",
-  )
-    ? getExpectedAscensionCrystals({
-        islandType: game.island.type,
-        ascensionLevel: game.island.ascensionLevel ?? 0,
-        basicLand: expansion,
-      })
-    : 0;
+  expectedResources["Ascension Crystal"] = getExpectedAscensionCrystals({
+    islandType: game.island.type,
+    ascensionLevel: game.island.ascensionLevel ?? 0,
+    basicLand: expansion,
+  });
 
   return expectedResources;
 }
@@ -2069,11 +2063,6 @@ export type Layout = {
   ascensionCrystals?: Coordinates[];
 };
 
-// --- Expansion node counts (derived) -------------------------------------
-// How many of each resource node a player should have at each expansion is
-// derived from the layouts above (arrival row + cumulative layout counts) so the
-// counts can never drift from the actual map. Mirror of the BE.
-
 /** Maps each `Layout` resource array to its `Nodes` (resource-count) key. */
 const LAYOUT_FIELD_TO_NODE = {
   plots: "Crop Plot",
@@ -2089,6 +2078,46 @@ const LAYOUT_FIELD_TO_NODE = {
   oilReserves: "Oil Reserve",
   lavaPits: "Lava Pit",
 } as const satisfies Partial<Record<keyof Layout, keyof Nodes>>;
+
+export type ExpansionNodePreviewItem = {
+  name: ResourceName;
+  count: number;
+};
+
+const EXPANSION_NODE_PREVIEW_FIELDS = {
+  ...LAYOUT_FIELD_TO_NODE,
+  ascensionCrystals: "Ascension Crystal",
+} as const satisfies Partial<Record<keyof Layout, ResourceName>>;
+
+/**
+ * Returns the resource nodes that will materialize with the player's next land.
+ * `getLand` remains the source of truth, including availability adjustments for
+ * nodes the player has already received, bought, or upgraded.
+ */
+export function getNextExpansionNodePreview({
+  game,
+}: {
+  game: GameState;
+}): ExpansionNodePreviewItem[] {
+  const land = getLand({ game });
+
+  if (!land) {
+    return [];
+  }
+
+  return getKeys(EXPANSION_NODE_PREVIEW_FIELDS).flatMap((field) => {
+    const count = land[field]?.length ?? 0;
+
+    return count > 0
+      ? [{ name: EXPANSION_NODE_PREVIEW_FIELDS[field], count }]
+      : [];
+  });
+}
+
+// --- Expansion node counts (derived) -------------------------------------
+// How many of each resource node a player should have at each expansion is
+// derived from the layouts above (arrival row + cumulative layout counts) so the
+// counts can never drift from the actual map. Mirror of the BE.
 
 /**
  * Counts the resource nodes placed by a single expansion's `Layout`.

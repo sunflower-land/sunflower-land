@@ -81,7 +81,7 @@ export const PetShrine: React.FC<
   const expiresAt = createdAt + (EXPIRY_COOLDOWNS[name] ?? 0);
 
   const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
-  const durationSeconds = EXPIRY_COOLDOWNS[name] ?? 0;
+  const durationSeconds = (EXPIRY_COOLDOWNS[name] ?? 0) / 1000;
   const percentage = 100 - (secondsToExpire / durationSeconds) * 100;
   const hasExpired = secondsToExpire <= 0;
 

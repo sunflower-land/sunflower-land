@@ -627,19 +627,7 @@ export const WEARABLE_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     tradeAt: CHAPTERS["Ascension Age"].endDate,
     withdrawAt: new Date("2026-11-30T00:00:00Z"),
   },
-  "Luna's Headpiece": {
-    tradeAt: CHAPTERS["Ascension Age"].endDate,
-    withdrawAt: new Date("2026-11-30T00:00:00Z"),
-  },
-  "Crystal Shoes": {
-    tradeAt: CHAPTERS["Ascension Age"].endDate,
-    withdrawAt: new Date("2026-11-30T00:00:00Z"),
-  },
-  "Marble Pants": {
-    tradeAt: CHAPTERS["Ascension Age"].endDate,
-    withdrawAt: new Date("2026-11-30T00:00:00Z"),
-  },
-  "Spooky Coat": {
+  "Moon Hair": {
     tradeAt: CHAPTERS["Ascension Age"].endDate,
     withdrawAt: new Date("2026-11-30T00:00:00Z"),
   },
@@ -652,6 +640,18 @@ export const WEARABLE_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     withdrawAt: new Date("2026-11-30T00:00:00Z"),
   },
   "Alchemist Apron": {
+    tradeAt: CHAPTERS["Ascension Age"].endDate,
+    withdrawAt: new Date("2026-11-30T00:00:00Z"),
+  },
+  "Salt Bottle Onesie": {
+    tradeAt: CHAPTERS["Ascension Age"].endDate,
+    withdrawAt: new Date("2026-11-30T00:00:00Z"),
+  },
+  "Blue Rose Dress": {
+    tradeAt: CHAPTERS["Ascension Age"].endDate,
+    withdrawAt: new Date("2026-11-30T00:00:00Z"),
+  },
+  "Fairy Sandals": {
     tradeAt: CHAPTERS["Ascension Age"].endDate,
     withdrawAt: new Date("2026-11-30T00:00:00Z"),
   },
@@ -1751,6 +1751,34 @@ export const INVENTORY_RELEASES: InventoryReleases = {
     withdrawAt: new Date("2026-11-30T00:00:00Z"),
   },
   "Salt Worker Gnome": {
+    tradeAt: CHAPTERS["Ascension Age"].endDate,
+    withdrawAt: new Date("2026-11-30T00:00:00Z"),
+  },
+  "Ascended Wheel": {
+    tradeAt: CHAPTERS["Ascension Age"].endDate,
+    withdrawAt: new Date("2026-11-30T00:00:00Z"),
+  },
+  Lampshade: {
+    tradeAt: CHAPTERS["Ascension Age"].endDate,
+    withdrawAt: new Date("2026-11-30T00:00:00Z"),
+  },
+  "Marble Head": {
+    tradeAt: CHAPTERS["Ascension Age"].endDate,
+    withdrawAt: new Date("2026-11-30T00:00:00Z"),
+  },
+  "Ascended Chicken": {
+    tradeAt: CHAPTERS["Ascension Age"].endDate,
+    withdrawAt: new Date("2026-11-30T00:00:00Z"),
+  },
+  "Ascended Cow": {
+    tradeAt: CHAPTERS["Ascension Age"].endDate,
+    withdrawAt: new Date("2026-11-30T00:00:00Z"),
+  },
+  "Ascended Sheep": {
+    tradeAt: CHAPTERS["Ascension Age"].endDate,
+    withdrawAt: new Date("2026-11-30T00:00:00Z"),
+  },
+  "Ruins Flower": {
     tradeAt: CHAPTERS["Ascension Age"].endDate,
     withdrawAt: new Date("2026-11-30T00:00:00Z"),
   },

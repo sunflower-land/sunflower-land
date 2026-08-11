@@ -241,7 +241,8 @@ export const PetCard: React.FC<Props> = ({
                 (item) => item.petId === petName && item.food === food,
               );
 
-            const isDisabled = !canFeed || alreadyFed || isFoodLocked;
+            const isDisabled =
+              (!canFeed && !isSelected) || alreadyFed || isFoodLocked;
 
             const xp = getPetExperience({
               basePetXP: getPetRequestXP(food),

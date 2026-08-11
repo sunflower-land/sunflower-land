@@ -74,6 +74,11 @@ export function getGreenhouseCropYieldAmount({
       amount += 0.25;
       boostsUsed.push({ name: "Rice Panda", value: "+0.25" });
     }
+
+    if (crop === "Rice" && isWearableActive({ name: "Rice Shirt", game })) {
+      amount += 1;
+      boostsUsed.push({ name: "Rice Shirt", value: "+1" });
+    }
   } else {
     const { amount: fruitAmount, boostsUsed: fruitBoostsUsed } = getFruitYield({
       name: crop,

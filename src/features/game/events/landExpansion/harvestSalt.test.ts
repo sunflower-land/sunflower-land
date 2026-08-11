@@ -569,4 +569,157 @@ describe("harvestSalt", () => {
       expect(state.saltFarm.nodes["1"].salt.storedCharges).toBe(0);
     });
   });
+
+  describe("Ascended Idol", () => {
+    const placedIdol = {
+      "Ascended Idol": [{ id: "1", createdAt: 0, coordinates: { x: 0, y: 0 } }],
+    };
+
+    it("harvests without any Salt Rake when Ascended Idol is placed", () => {
+      const state = harvestSalt({
+        state: {
+          ...INITIAL_FARM,
+          collectibles: placedIdol,
+          inventory: {
+            ...INITIAL_FARM.inventory,
+            Salt: new Decimal(0),
+            "Salt Rake": new Decimal(0),
+          },
+          saltFarm: {
+            ...INITIAL_FARM.saltFarm,
+            nodes: {
+              "0": {
+                createdAt: now - 1000,
+                salt: { storedCharges: 2, nextChargeAt: now + 10_000 },
+              },
+            },
+          },
+        },
+        action: { type: "salt.harvested", id: "0" },
+        createdAt: now,
+        farmId: 1,
+      });
+
+      expect(state.inventory["Salt"]).toEqual(new Decimal(BASE_SALT_YIELD));
+      expect(state.saltFarm.nodes["0"].salt.storedCharges).toBe(1);
+    });
+
+    it("does not consume a Salt Rake when Ascended Idol is placed", () => {
+      const state = harvestSalt({
+        state: {
+          ...INITIAL_FARM,
+          collectibles: placedIdol,
+          inventory: {
+            ...INITIAL_FARM.inventory,
+            Salt: new Decimal(0),
+            "Salt Rake": new Decimal(2),
+          },
+          saltFarm: {
+            ...INITIAL_FARM.saltFarm,
+            nodes: {
+              "0": {
+                createdAt: now - 1000,
+                salt: { storedCharges: 2, nextChargeAt: now + 10_000 },
+              },
+            },
+          },
+        },
+        action: { type: "salt.harvested", id: "0" },
+        createdAt: now,
+        farmId: 1,
+      });
+
+      expect(state.inventory["Salt Rake"]).toEqual(new Decimal(2));
+      expect(state.inventory["Salt"]).toEqual(new Decimal(BASE_SALT_YIELD));
+    });
+
+    it("still requires a Salt Rake when Ascended Idol is only in the inventory", () => {
+      expect(() =>
+        harvestSalt({
+          state: {
+            ...INITIAL_FARM,
+            inventory: {
+              ...INITIAL_FARM.inventory,
+              "Ascended Idol": new Decimal(1),
+              "Salt Rake": new Decimal(0),
+            },
+            saltFarm: {
+              ...INITIAL_FARM.saltFarm,
+              nodes: {
+                "0": {
+                  createdAt: now - 1000,
+                  salt: { storedCharges: 2, nextChargeAt: now + 10_000 },
+                },
+              },
+            },
+          },
+          action: { type: "salt.harvested", id: "0" },
+          createdAt: now,
+          farmId: 1,
+        }),
+      ).toThrow(HARVEST_SALT_ERRORS.NOT_ENOUGH_SALT_RAKES);
+    });
+  });
+
+  describe("Salt Worker Gnome", () => {
+    it("grants +2 salt per harvest when placed", () => {
+      const state = harvestSalt({
+        state: {
+          ...INITIAL_FARM,
+          collectibles: {
+            "Salt Worker Gnome": [
+              { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 } },
+            ],
+          },
+          inventory: {
+            ...INITIAL_FARM.inventory,
+            Salt: new Decimal(0),
+            "Salt Rake": new Decimal(2),
+          },
+          saltFarm: {
+            ...INITIAL_FARM.saltFarm,
+            nodes: {
+              "0": {
+                createdAt: now - 1000,
+                salt: { storedCharges: 2, nextChargeAt: now + 10_000 },
+              },
+            },
+          },
+        },
+        action: { type: "salt.harvested", id: "0" },
+        createdAt: now,
+        farmId: 1,
+      });
+
+      expect(state.inventory["Salt"]).toEqual(new Decimal(BASE_SALT_YIELD + 2));
+    });
+
+    it("does not boost yield when Salt Worker Gnome is only in the inventory", () => {
+      const state = harvestSalt({
+        state: {
+          ...INITIAL_FARM,
+          inventory: {
+            ...INITIAL_FARM.inventory,
+            "Salt Worker Gnome": new Decimal(1),
+            Salt: new Decimal(0),
+            "Salt Rake": new Decimal(2),
+          },
+          saltFarm: {
+            ...INITIAL_FARM.saltFarm,
+            nodes: {
+              "0": {
+                createdAt: now - 1000,
+                salt: { storedCharges: 2, nextChargeAt: now + 10_000 },
+              },
+            },
+          },
+        },
+        action: { type: "salt.harvested", id: "0" },
+        createdAt: now,
+        farmId: 1,
+      });
+
+      expect(state.inventory["Salt"]).toEqual(new Decimal(BASE_SALT_YIELD));
+    });
+  });
 });

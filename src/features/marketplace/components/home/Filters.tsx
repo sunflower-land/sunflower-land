@@ -17,8 +17,8 @@ import {
   toTraitValueId,
 } from "features/marketplace/lib/marketplaceFilters";
 import {
-  BUD_TRAIT_GROUPS,
-  PET_TRAIT_GROUPS,
+  getBudTraitGroups,
+  getPetTraitGroups,
   type TraitGroupDefinition,
 } from "features/marketplace/lib/traitOptions";
 import { getKeys, getValues } from "lib/object";
@@ -30,6 +30,7 @@ import {
 } from "features/game/types/chapters";
 import { CHAPTER_COLLECTIONS } from "features/game/types/collections";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { useNow } from "lib/utils/hooks/useNow";
 import { Context } from "features/game/GameProvider";
 import * as Auth from "features/auth/lib/Provider";
@@ -55,6 +56,8 @@ export const Filters: React.FC<{
   const chapterParam = queryParams.get("chapter") ?? "";
   const ownershipParam = queryParams.get("ownership") ?? "";
   const { t } = useAppTranslation();
+  const budTraitGroups = getBudTraitGroups(t);
+  const petTraitGroups = getPetTraitGroups(t);
   const now = useNow();
   const isWorldRoute = pathname.includes("/world");
   // Determine which collection is currently active based on the filters parameter
@@ -311,7 +314,7 @@ export const Filters: React.FC<{
       const banner: ChapterBanner = `${chapter} Banner`;
 
       return {
-        label: chapter,
+        label: t(`chapter.name.${toTraitValueId(chapter)}` as TranslationKeys),
         value: toTraitValueId(chapter),
         icon: CHAPTER_BANNER_IMAGES[banner],
       };
@@ -547,7 +550,7 @@ export const Filters: React.FC<{
         getValues(expandedTraitGroups).filter(Boolean).length === 0,
       hasOptions: true,
       options: isCollectionActive("buds")
-        ? buildTraitGroups("buds", BUD_TRAIT_GROUPS)
+        ? buildTraitGroups("buds", budTraitGroups)
         : undefined,
     },
     // Pets
@@ -567,7 +570,7 @@ export const Filters: React.FC<{
         getValues(expandedTraitGroups).filter(Boolean).length === 0,
       hasOptions: true,
       options: isCollectionActive("pets")
-        ? buildTraitGroups("pets", PET_TRAIT_GROUPS)
+        ? buildTraitGroups("pets", petTraitGroups)
         : undefined,
     },
     {

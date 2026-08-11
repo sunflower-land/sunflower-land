@@ -64,6 +64,12 @@ const applySwarmBoostToCrops = (
   );
 };
 
+/** Flat honey Ruins Flower adds to a full hive. */
+export const RUINS_FLOWER_HONEY_BONUS = 0.05;
+
+/** Normalised production of a full hive — see harvestBeehive's honeyProduced. */
+const FULL_HIVE_HONEY = 1;
+
 export const getHoneyMultiplier = (game: GameState) => {
   const { bumpkin } = game;
 
@@ -104,6 +110,26 @@ const getTotalHoneyProduced = (
   return { amount: honeyProduced * multiplier, boostsUsed };
 };
 
+/**
+ * Honey a *full* hive yields, for display.
+ *
+ * Runs the same path the payout does: harvestBeehive normalises production so a
+ * full hive is exactly 1, then adds Ruins Flower's flat bonus to the resulting
+ * amount. Deriving this from getHoneyMultiplier instead would add an absolute
+ * to a rate — the two happen to be equal at a full hive, but only by accident
+ * of that normalisation.
+ */
+export const getFullHiveHoneyYield = (game: GameState) => {
+  const { amount, boostsUsed } = getTotalHoneyProduced(game, FULL_HIVE_HONEY);
+
+  if (isCollectibleBuilt({ name: "Ruins Flower", game })) {
+    boostsUsed.push({ name: "Ruins Flower", value: "+0.05" });
+    return { yield: amount + RUINS_FLOWER_HONEY_BONUS, boostsUsed };
+  }
+
+  return { yield: amount, boostsUsed };
+};
+
 export function harvestBeehive({
   state,
   action,
@@ -137,11 +163,20 @@ export function harvestBeehive({
       honeyProduced,
     );
 
+    let honeyHarvested = new Decimal(totalHoneyProduced);
+    if (
+      isFull &&
+      isCollectibleBuilt({ game: stateCopy, name: "Ruins Flower" })
+    ) {
+      honeyHarvested = honeyHarvested.add(RUINS_FLOWER_HONEY_BONUS);
+      boostsUsed.push({ name: "Ruins Flower", value: "+0.05" });
+    }
+
     stateCopy.beehives[action.id].honey.produced = 0;
     stateCopy.beehives[action.id].honey.updatedAt = createdAt;
     stateCopy.inventory.Honey = (
       stateCopy.inventory.Honey ?? new Decimal(0)
-    ).add(new Decimal(totalHoneyProduced));
+    ).add(honeyHarvested);
 
     // If the beehive is full, check, apply and update swarm
     if (isFull) {
@@ -162,7 +197,7 @@ export function harvestBeehive({
     stateCopy.farmActivity = trackFarmActivity(
       `Honey Harvested`,
       stateCopy.farmActivity,
-      new Decimal(totalHoneyProduced),
+      honeyHarvested,
     );
 
     const updatedBeehives = updateBeehives({ game: stateCopy, createdAt });

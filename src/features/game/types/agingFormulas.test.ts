@@ -1,10 +1,12 @@
 import Decimal from "decimal.js-light";
 import { KNOWN_IDS } from "features/game/types";
+import { INITIAL_FARM } from "features/game/lib/constants";
 import { prngChance } from "lib/prng";
 import type { GameState, Skills } from "./game";
 import {
   getAgingInputMultiplier,
   getAgingOutput,
+  getAstrolabeDoubleChance,
   getAgingSaltCost,
   getAgingTimeMs,
   getBoostedAgingFishCost,
@@ -12,10 +14,24 @@ import {
   getBoostedAgingTimeMs,
   getPrimeAgedChance,
   getRefinedSaltChance,
+  getSpiceRackOutput,
 } from "./agingFormulas";
 
 function stateWithSkills(skills: Skills): GameState {
-  return { bumpkin: { skills } } as GameState;
+  return {
+    ...INITIAL_FARM,
+    bumpkin: { ...INITIAL_FARM.bumpkin, skills },
+  } as GameState;
+}
+
+function stateWithOnesie(onesie?: string): GameState {
+  return {
+    ...INITIAL_FARM,
+    bumpkin: {
+      ...INITIAL_FARM.bumpkin,
+      equipped: { ...INITIAL_FARM.bumpkin.equipped, onesie },
+    },
+  } as GameState;
 }
 
 describe("getRefinedSaltChance", () => {
@@ -41,22 +57,65 @@ describe("getRefinedSaltChance", () => {
 
 describe("getPrimeAgedChance", () => {
   it("defaults to 10%", () => {
-    expect(getPrimeAgedChance(stateWithSkills({} as Skills))).toBe(10);
+    expect(getPrimeAgedChance(stateWithSkills({} as Skills)).chance).toBe(10);
   });
 
   it("doubles to 20% with Fish Smoking", () => {
     expect(
-      getPrimeAgedChance(stateWithSkills({ "Fish Smoking": 1 } as Skills)),
+      getPrimeAgedChance(stateWithSkills({ "Fish Smoking": 1 } as Skills))
+        .chance,
     ).toBe(20);
   });
 
   it("triples at Fish Smoking rank 2 and quadruples at rank 3", () => {
     expect(
-      getPrimeAgedChance(stateWithSkills({ "Fish Smoking": 2 } as Skills)),
+      getPrimeAgedChance(stateWithSkills({ "Fish Smoking": 2 } as Skills))
+        .chance,
     ).toBe(30);
     expect(
-      getPrimeAgedChance(stateWithSkills({ "Fish Smoking": 3 } as Skills)),
+      getPrimeAgedChance(stateWithSkills({ "Fish Smoking": 3 } as Skills))
+        .chance,
     ).toBe(40);
+  });
+});
+
+describe("getSpiceRackOutput", () => {
+  it("matches the base aging output without Salt Bottle Onesie", () => {
+    expect(
+      getSpiceRackOutput({
+        game: stateWithOnesie(),
+        baseAmount: new Decimal(3),
+        item: "Refined Salt",
+        agerLevel: 0,
+      }).output.toNumber(),
+    ).toBe(3);
+  });
+
+  it("adds +1 when Salt Bottle Onesie is equipped", () => {
+    const { output, boostsUsed } = getSpiceRackOutput({
+      game: stateWithOnesie("Salt Bottle Onesie"),
+      baseAmount: new Decimal(3),
+      item: "Refined Salt",
+      agerLevel: 0,
+    });
+
+    expect(output.toNumber()).toBe(4);
+    expect(boostsUsed).toContainEqual({
+      name: "Salt Bottle Onesie",
+      value: "+1",
+    });
+  });
+
+  it("applies the +1 on top of the stamped Ager multiplier", () => {
+    // Ager rank 1 doubles, so 2 -> 4, then the onesie adds its flat 1.
+    expect(
+      getSpiceRackOutput({
+        game: stateWithOnesie("Salt Bottle Onesie"),
+        baseAmount: new Decimal(2),
+        item: "Refined Salt",
+        agerLevel: 1,
+      }).output.toNumber(),
+    ).toBe(5);
   });
 });
 
@@ -70,7 +129,7 @@ describe("getAgingOutput", () => {
         farmId,
         itemId: KNOWN_IDS.Salt,
         counter: 0,
-      }).toNumber(),
+      }).output.toNumber(),
     ).toBe(3);
   });
 
@@ -81,7 +140,7 @@ describe("getAgingOutput", () => {
         farmId,
         itemId: KNOWN_IDS["Pickled Radish"],
         counter: 0,
-      }).toNumber(),
+      }).output.toNumber(),
     ).toBe(4);
   });
 
@@ -93,7 +152,7 @@ describe("getAgingOutput", () => {
         farmId,
         itemId: KNOWN_IDS["Pickled Radish"],
         counter: 0,
-      }).toNumber();
+      }).output.toNumber();
 
     expect(collect(2)).toBe(6);
     expect(collect(3)).toBe(8);
@@ -107,7 +166,7 @@ describe("getAgingOutput", () => {
         farmId,
         itemId: KNOWN_IDS["Pickled Radish"],
         counter: 0,
-      }).toNumber(),
+      }).output.toNumber(),
     ).toBe(2);
   });
 
@@ -120,7 +179,7 @@ describe("getAgingOutput", () => {
         farmId,
         itemId: KNOWN_IDS["Pickled Radish"],
         counter: 0,
-      }).toNumber(),
+      }).output.toNumber(),
     ).toBe(4);
   });
 
@@ -132,7 +191,7 @@ describe("getAgingOutput", () => {
         farmId,
         itemId: KNOWN_IDS["Pickled Radish"],
         counter: 0,
-      }).toNumber(),
+      }).output.toNumber(),
     ).toBe(4);
   });
 
@@ -146,7 +205,7 @@ describe("getAgingOutput", () => {
           new Decimal(1),
           bait,
           0,
-        ).toNumber(),
+        ).output.toNumber(),
       ).toBe(1);
     });
 
@@ -157,7 +216,7 @@ describe("getAgingOutput", () => {
           new Decimal(1),
           bait,
           0,
-        ).toNumber();
+        ).output.toNumber();
 
       expect(collect(1)).toBe(2);
       expect(collect(2)).toBe(3);
@@ -171,7 +230,7 @@ describe("getAgingOutput", () => {
           new Decimal(1),
           "Salt",
           0,
-        ).toNumber(),
+        ).output.toNumber(),
       ).toBe(1);
     });
   });
@@ -211,7 +270,7 @@ describe("getAgingOutput", () => {
           farmId,
           itemId: refinedSaltId,
           counter: 4,
-        }).toNumber(),
+        }).output.toNumber(),
       ).toBe(2);
     });
 
@@ -222,7 +281,7 @@ describe("getAgingOutput", () => {
           farmId,
           itemId: KNOWN_IDS.Salt,
           counter: 4,
-        }).toNumber(),
+        }).output.toNumber(),
       ).toBe(2);
     });
 
@@ -232,7 +291,7 @@ describe("getAgingOutput", () => {
           farmId,
           itemId: refinedSaltId,
           counter: 4,
-        }).toNumber(),
+        }).output.toNumber(),
       ).toBe(3);
     });
 
@@ -242,7 +301,7 @@ describe("getAgingOutput", () => {
           farmId,
           itemId: refinedSaltId,
           counter: 0,
-        }).toNumber(),
+        }).output.toNumber(),
       ).toBe(2);
     });
 
@@ -256,7 +315,7 @@ describe("getAgingOutput", () => {
           farmId,
           itemId: refinedSaltId,
           counter: 4,
-        }).toNumber(),
+        }).output.toNumber(),
       ).toBe(5);
     });
   });
@@ -328,7 +387,7 @@ describe("stamped Ager level for in-progress jobs", () => {
 
     // Job was stamped at rank 1, player is now rank 3: show what was charged.
     expect(getAgingInputMultiplier(rankedUp, 1)).toBe(2);
-    expect(getBoostedAgingSaltCost(baseXP, rankedUp, 1)).toBe(base * 2);
+    expect(getBoostedAgingSaltCost(baseXP, rankedUp, 1).cost).toBe(base * 2);
     expect(getBoostedAgingFishCost(rankedUp, 1)).toBe(2);
   });
 
@@ -339,7 +398,7 @@ describe("stamped Ager level for in-progress jobs", () => {
     const base = getAgingSaltCost(baseXP);
 
     expect(getAgingInputMultiplier(rankedUp, 0)).toBe(1);
-    expect(getBoostedAgingSaltCost(baseXP, rankedUp, 0)).toBe(base);
+    expect(getBoostedAgingSaltCost(baseXP, rankedUp, 0).cost).toBe(base);
     expect(getBoostedAgingFishCost(rankedUp, 0)).toBe(1);
   });
 
@@ -347,9 +406,9 @@ describe("stamped Ager level for in-progress jobs", () => {
     // Empty panels preview an unstarted job, so they still read live.
     const base = getAgingSaltCost(baseXP);
     expect(getAgingInputMultiplier(stateWithSkills({ Ager: 3 }))).toBe(4);
-    expect(getBoostedAgingSaltCost(baseXP, stateWithSkills({ Ager: 2 }))).toBe(
-      base * 3,
-    );
+    expect(
+      getBoostedAgingSaltCost(baseXP, stateWithSkills({ Ager: 2 })).cost,
+    ).toBe(base * 3);
     expect(getBoostedAgingFishCost(stateWithSkills({ Ager: 2 }))).toBe(3);
   });
 });
@@ -374,23 +433,302 @@ describe("getBoostedAgingSaltCost", () => {
 
   it("matches base salt cost without Ager", () => {
     const base = getAgingSaltCost(baseXP);
-    expect(getBoostedAgingSaltCost(baseXP, stateWithSkills({}))).toBe(base);
+    expect(getBoostedAgingSaltCost(baseXP, stateWithSkills({})).cost).toBe(
+      base,
+    );
   });
 
   it("doubles salt cost with Ager (Aging Rack)", () => {
     const base = getAgingSaltCost(baseXP);
-    expect(getBoostedAgingSaltCost(baseXP, stateWithSkills({ Ager: 1 }))).toBe(
-      base * 2,
-    );
+    expect(
+      getBoostedAgingSaltCost(baseXP, stateWithSkills({ Ager: 1 })).cost,
+    ).toBe(base * 2);
   });
 
   it("scales the salt cost with Ager rank", () => {
     const base = getAgingSaltCost(baseXP);
-    expect(getBoostedAgingSaltCost(baseXP, stateWithSkills({ Ager: 2 }))).toBe(
-      base * 3,
+    expect(
+      getBoostedAgingSaltCost(baseXP, stateWithSkills({ Ager: 2 })).cost,
+    ).toBe(base * 3);
+    expect(
+      getBoostedAgingSaltCost(baseXP, stateWithSkills({ Ager: 3 })).cost,
+    ).toBe(base * 4);
+  });
+});
+
+describe("getAstrolabeDoubleChance", () => {
+  it("returns 0 when Astrolabe is not placed", () => {
+    expect(getAstrolabeDoubleChance(INITIAL_FARM)).toBe(0);
+  });
+
+  it("returns 0 when Astrolabe is only in the inventory", () => {
+    expect(
+      getAstrolabeDoubleChance({
+        ...INITIAL_FARM,
+        inventory: { ...INITIAL_FARM.inventory, Astrolabe: new Decimal(1) },
+      }),
+    ).toBe(0);
+  });
+
+  it("returns 15 when placed", () => {
+    expect(
+      getAstrolabeDoubleChance({
+        ...INITIAL_FARM,
+        collectibles: {
+          Astrolabe: [{ id: "1", createdAt: 0, coordinates: { x: 0, y: 0 } }],
+        },
+      }),
+    ).toBe(15);
+  });
+});
+
+describe("Winged Vase prime aging boost", () => {
+  const placedVase = {
+    "Winged Vase": [{ id: "1", createdAt: 0, coordinates: { x: 0, y: 0 } }],
+  };
+
+  it("adds 14 percentage points when placed", () => {
+    expect(
+      getPrimeAgedChance({ ...INITIAL_FARM, collectibles: placedVase }).chance,
+    ).toBe(24);
+  });
+
+  it("stacks additively after the Fish Smoking multiplier", () => {
+    expect(
+      getPrimeAgedChance({
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: { "Fish Smoking": 1 },
+        },
+        collectibles: placedVase,
+      }).chance,
+    ).toBe(34);
+  });
+
+  it("does not apply when only in the inventory", () => {
+    expect(
+      getPrimeAgedChance({
+        ...INITIAL_FARM,
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Winged Vase": new Decimal(1),
+        },
+      }).chance,
+    ).toBe(10);
+  });
+});
+
+describe("Surfer Hair salt cost discount", () => {
+  const baseXP = 100;
+
+  it("halves the aging salt cost when equipped", () => {
+    expect(
+      getBoostedAgingSaltCost(baseXP, {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: { ...INITIAL_FARM.bumpkin.equipped, hair: "Surfer Hair" },
+        },
+      }).cost,
+    ).toBe(getAgingSaltCost(baseXP) * 0.5);
+  });
+
+  it("halves the Ager-scaled cost", () => {
+    expect(
+      getBoostedAgingSaltCost(baseXP, {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: { Ager: 1 },
+          equipped: { ...INITIAL_FARM.bumpkin.equipped, hair: "Surfer Hair" },
+        },
+      }).cost,
+    ).toBe(getAgingSaltCost(baseXP) * 2 * 0.5);
+  });
+
+  it("does not discount when not equipped", () => {
+    expect(getBoostedAgingSaltCost(baseXP, INITIAL_FARM).cost).toBe(
+      getAgingSaltCost(baseXP),
     );
-    expect(getBoostedAgingSaltCost(baseXP, stateWithSkills({ Ager: 3 }))).toBe(
-      base * 4,
+  });
+});
+
+describe("Astrolabe output doubling (fermentation & spice racks)", () => {
+  const farmId = 1;
+  const withAstrolabe = (skills: Skills = {} as Skills): GameState => ({
+    ...INITIAL_FARM,
+    bumpkin: { ...INITIAL_FARM.bumpkin, skills },
+    collectibles: {
+      Astrolabe: [{ id: "1", createdAt: 0, coordinates: { x: 0, y: 0 } }],
+    },
+  });
+
+  const roll = (counter: number) =>
+    prngChance({
+      farmId,
+      itemId: KNOWN_IDS["Salt"],
+      counter,
+      chance: 15,
+      criticalHitName: "Astrolabe",
+    });
+
+  const counters = Array.from({ length: 100 }, (_, i) => i);
+  const hitCounter = counters.find((c) => roll(c));
+  const missCounter = counters.find((c) => !roll(c));
+
+  it("doubles the output on a 15% PRNG hit", () => {
+    expect(hitCounter).toBeDefined();
+    expect(
+      getAgingOutput(withAstrolabe(), new Decimal(3), "Salt", 0, {
+        farmId,
+        itemId: KNOWN_IDS["Salt"],
+        counter: hitCounter!,
+      }).output.toNumber(),
+    ).toBe(6);
+  });
+
+  it("keeps the base output on a PRNG miss", () => {
+    expect(missCounter).toBeDefined();
+    expect(
+      getAgingOutput(withAstrolabe(), new Decimal(3), "Salt", 0, {
+        farmId,
+        itemId: KNOWN_IDS["Salt"],
+        counter: missCounter!,
+      }).output.toNumber(),
+    ).toBe(3);
+  });
+
+  it("does not double Aged fish output (aging rack)", () => {
+    const agedHit = counters.find((c) =>
+      prngChance({
+        farmId,
+        itemId: KNOWN_IDS["Aged Anchovy"],
+        counter: c,
+        chance: 15,
+        criticalHitName: "Astrolabe",
+      }),
     );
+    expect(agedHit).toBeDefined();
+    expect(
+      getAgingOutput(withAstrolabe(), new Decimal(1), "Aged Anchovy", 0, {
+        farmId,
+        itemId: KNOWN_IDS["Aged Anchovy"],
+        counter: agedHit!,
+      }).output.toNumber(),
+    ).toBe(1);
+  });
+
+  it("does not double Prime Aged fish output (aging rack)", () => {
+    const primeHit = counters.find((c) =>
+      prngChance({
+        farmId,
+        itemId: KNOWN_IDS["Prime Aged Anchovy"],
+        counter: c,
+        chance: 15,
+        criticalHitName: "Astrolabe",
+      }),
+    );
+    expect(primeHit).toBeDefined();
+    expect(
+      getAgingOutput(withAstrolabe(), new Decimal(1), "Prime Aged Anchovy", 0, {
+        farmId,
+        itemId: KNOWN_IDS["Prime Aged Anchovy"],
+        counter: primeHit!,
+      }).output.toNumber(),
+    ).toBe(1);
+  });
+
+  it("doubles the post-Ager amount", () => {
+    expect(hitCounter).toBeDefined();
+    expect(
+      getAgingOutput(
+        withAstrolabe({ Ager: 3 } as Skills),
+        new Decimal(1),
+        "Salt",
+        3,
+        {
+          farmId,
+          itemId: KNOWN_IDS["Salt"],
+          counter: hitCounter!,
+        },
+      ).output.toNumber(),
+    ).toBe(8);
+  });
+
+  it("doubles before additive bonuses are applied", () => {
+    const baitRoll = (counter: number) =>
+      prngChance({
+        farmId,
+        itemId: KNOWN_IDS["Capsule Bait"],
+        counter,
+        chance: 15,
+        criticalHitName: "Astrolabe",
+      });
+    const baitHitCounter = Array.from({ length: 100 }, (_, i) => i).find((c) =>
+      baitRoll(c),
+    );
+    expect(baitHitCounter).toBeDefined();
+
+    // Doubling applies to the post-Ager amount only; the additive Bacalhau
+    // bonus lands afterwards, undoubled: 1 x2 +1 = 3 (not (1+1) x2 = 4).
+    expect(
+      getAgingOutput(
+        withAstrolabe({ Bacalhau: 1 } as Skills),
+        new Decimal(1),
+        "Capsule Bait",
+        0,
+        {
+          farmId,
+          itemId: KNOWN_IDS["Capsule Bait"],
+          counter: baitHitCounter!,
+        },
+      ).output.toNumber(),
+    ).toBe(3);
+  });
+
+  it("does not proc in the old 15-25% band", () => {
+    // A counter that hits at 25% but not at 15% must no longer double.
+    const bandCounter = counters.find(
+      (c) =>
+        prngChance({
+          farmId,
+          itemId: KNOWN_IDS["Salt"],
+          counter: c,
+          chance: 25,
+          criticalHitName: "Astrolabe",
+        }) && !roll(c),
+    );
+    expect(bandCounter).toBeDefined();
+    expect(
+      getAgingOutput(withAstrolabe(), new Decimal(3), "Salt", 0, {
+        farmId,
+        itemId: KNOWN_IDS["Salt"],
+        counter: bandCounter!,
+      }).output.toNumber(),
+    ).toBe(3);
+  });
+
+  it("does not roll when Astrolabe is only in the inventory", () => {
+    expect(hitCounter).toBeDefined();
+    expect(
+      getAgingOutput(
+        {
+          ...INITIAL_FARM,
+          inventory: {
+            ...INITIAL_FARM.inventory,
+            Astrolabe: new Decimal(1),
+          },
+        },
+        new Decimal(3),
+        "Salt",
+        0,
+        {
+          farmId,
+          itemId: KNOWN_IDS["Salt"],
+          counter: hitCounter!,
+        },
+      ).output.toNumber(),
+    ).toBe(3);
   });
 });

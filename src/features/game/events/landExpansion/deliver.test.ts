@@ -2747,7 +2747,9 @@ describe("deliver", () => {
     });
 
     expect(state.wardrobe["Basic Hair"]).toEqual(0);
-    expect(state.inventory[getChapterTicket(mockDate)]).toEqual(new Decimal(4));
+    expect(state.inventory[getChapterTicket(mockDate)]).toEqual(
+      new Decimal(TICKET_REWARDS.cornwell),
+    );
   });
 
   it("tracks the bumpkin activity", () => {

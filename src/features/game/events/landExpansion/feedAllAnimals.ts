@@ -19,6 +19,19 @@ export const GOLDEN_ANIMAL_ASSETS: Record<AnimalType, CollectibleName> = {
   Sheep: "Golden Sheep",
 };
 
+export function isAnimalCoveredByGoldenAsset({
+  state,
+  animalType,
+}: {
+  state: GameState;
+  animalType: AnimalType;
+}): boolean {
+  return isCollectibleBuilt({
+    name: GOLDEN_ANIMAL_ASSETS[animalType],
+    game: state,
+  });
+}
+
 export function getCoveredAnimalTypes({
   state,
   building,
@@ -29,7 +42,7 @@ export function getCoveredAnimalTypes({
   return getKeys(ANIMALS).filter(
     (type) =>
       ANIMALS[type].buildingRequired === building &&
-      isCollectibleBuilt({ name: GOLDEN_ANIMAL_ASSETS[type], game: state }),
+      isAnimalCoveredByGoldenAsset({ state, animalType: type }),
   );
 }
 
