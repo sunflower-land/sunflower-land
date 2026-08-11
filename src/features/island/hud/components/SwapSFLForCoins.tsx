@@ -94,7 +94,10 @@ export const SwapSFLForCoins: React.FC<{ onClose: () => void }> = ({
                       width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
                     }}
                   >
-                    <span className="pl-1 sm:pl-0">{`${option.sfl} FLOWER`}</span>
+                    <span className="pl-1 sm:pl-0">
+                      {option.sfl}
+                      <span className="hidden sm:inline">{` FLOWER`}</span>
+                    </span>
                   </Label>
                 </ButtonPanel>
               );
