@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import type { GameState } from "features/game/types/game";
-import { claimBountyBonus } from "./claimBountyBonus";
+import { claimBountyBonus, isBountyBonusClaimed } from "./claimBountyBonus";
 import { getChapterTicket } from "features/game/types/chapters";
 import { getWeekKey } from "features/game/lib/factions";
 
@@ -68,6 +68,24 @@ describe("claimBountyBonus", () => {
     ).toThrow("Bounty Board not completed");
   });
 
+  it("throws an error if there are no mega bounties", () => {
+    expect(() =>
+      claimBountyBonus({
+        state: {
+          ...GAME_STATE,
+          bounties: {
+            completed: [],
+            requests: [],
+          },
+        },
+        action: {
+          type: "claim.bountyBoardBonus",
+        },
+        createdAt,
+      }),
+    ).toThrow("No mega bounties to claim");
+  });
+
   it("throws an error if bonus was already claimed this week", () => {
     const currentWeek = getWeekKey({ date: new Date(createdAt) });
     const weekStart = new Date(currentWeek).getTime();
@@ -88,6 +106,45 @@ describe("claimBountyBonus", () => {
         createdAt,
       }),
     ).toThrow("Bounty Bonus already claimed for the week");
+  });
+
+  it("throws an error when repeated claims have the same timestamp", () => {
+    expect(() =>
+      claimBountyBonus({
+        state: {
+          ...GAME_STATE,
+          bounties: {
+            ...GAME_STATE.bounties,
+            bonusClaimedAt: createdAt,
+          },
+        },
+        action: {
+          type: "claim.bountyBoardBonus",
+        },
+        createdAt,
+      }),
+    ).toThrow("Bounty Bonus already claimed for the week");
+  });
+
+  it("treats a claim at the exact start of the week as claimed", () => {
+    const currentWeek = getWeekKey({ date: new Date(createdAt) });
+    const weekStart = new Date(currentWeek).getTime();
+
+    expect(
+      isBountyBonusClaimed({
+        bounties: { bonusClaimedAt: weekStart },
+        now: createdAt,
+      }),
+    ).toBe(true);
+  });
+
+  it("treats a newer claim timestamp in the current week as claimed", () => {
+    expect(
+      isBountyBonusClaimed({
+        bounties: { bonusClaimedAt: createdAt + 1000 },
+        now: createdAt,
+      }),
+    ).toBe(true);
   });
 
   it("claims bonus and adds 50 seasonal tickets", () => {

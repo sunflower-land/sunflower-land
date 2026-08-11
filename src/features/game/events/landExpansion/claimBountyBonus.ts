@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { getWeekKey, weekResetsAt } from "features/game/lib/factions";
 import { ANIMALS } from "features/game/types/animals";
-import type { GameState } from "features/game/types/game";
+import type { Bounties, GameState } from "features/game/types/game";
 import {
   CHAPTER_ORDER,
   getChapterTicket,
@@ -52,6 +52,21 @@ export function getBountyBonusAmount(now: number): number {
     : TICKET_BONUS_AMOUNT;
 }
 
+export function isBountyBonusClaimed({
+  bounties,
+  now,
+}: {
+  bounties: Pick<Bounties, "bonusClaimedAt">;
+  now: number;
+}): boolean {
+  const currentWeek = getWeekKey({ date: new Date(now) });
+  const weekStart = new Date(currentWeek).getTime();
+  const weekEnd = weekResetsAt({ date: new Date(now) });
+  const bonusClaimedAt = bounties.bonusClaimedAt ?? 0;
+
+  return bonusClaimedAt >= weekStart && bonusClaimedAt < weekEnd;
+}
+
 export function claimBountyBonus({
   state,
   createdAt = Date.now(),
@@ -81,21 +96,7 @@ export function claimBountyBonus({
       throw new Error("Bounty Bonus not available for this week");
     }
 
-    // If bonus already claimed for the week, throw error
-    const currentWeekEnd = weekResetsAt({ date: new Date(createdAt) });
-    const { bonusClaimedAt = 0 } = bounties;
-    const weekStart = new Date(currentWeek).getTime();
-
-    // Check if:
-    // 1. A bonus was claimed after the start of this week
-    // 2. This claim attempt is after the last bonus claim
-    // 3. This claim attempt is before the end of the week
-    // If all true, then player already claimed bonus this week
-    if (
-      bonusClaimedAt > weekStart &&
-      createdAt > bonusClaimedAt &&
-      createdAt < currentWeekEnd
-    ) {
+    if (isBountyBonusClaimed({ bounties, now: createdAt })) {
       throw new Error("Bounty Bonus already claimed for the week");
     }
 

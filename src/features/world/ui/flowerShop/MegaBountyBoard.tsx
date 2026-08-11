@@ -10,7 +10,6 @@ import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import type {
-  Bounties,
   BountyRequest,
   InventoryItemName,
 } from "features/game/types/game";
@@ -39,6 +38,7 @@ import flowerIcon from "assets/icons/flower_token.webp";
 import chapterPoints from "assets/icons/red_medal_short.webp";
 import {
   getBountyBonusAmount,
+  isBountyBonusClaimed,
   NO_BONUS_BOUNTIES_WEEK,
 } from "features/game/events/landExpansion/claimBountyBonus";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
@@ -71,14 +71,82 @@ export const MegaBountyBoard: React.FC<{ onClose: () => void }> = ({
 const getRequiredCount = (bounty: BountyRequest) =>
   BOUNTY_CATEGORIES["Mark Bounties"](bounty) ? bounty.quantity : 1;
 
-const isBonusClaimed = (exchange: Bounties, now: number) => {
-  const nowDate = new Date(now);
-  const currentWeek = getWeekKey({ date: nowDate });
-  const weekStart = new Date(currentWeek).getTime();
-  const weekEnd = weekResetsAt({ date: nowDate });
-  const lastClaim = exchange.bonusClaimedAt ?? 0;
+export const BountyBonusPanel: React.FC<{
+  chapterTicket: InventoryItemName;
+  amount: number;
+  completedCount: number;
+  totalCount: number;
+  bonusClaimed: boolean;
+  onClaim: () => void;
+}> = ({
+  chapterTicket,
+  amount,
+  completedCount,
+  totalCount,
+  bonusClaimed,
+  onClaim,
+}) => {
+  const { t } = useAppTranslation();
+  const isAllBountiesCompleted =
+    totalCount > 0 && completedCount === totalCount;
 
-  return lastClaim > weekStart && lastClaim < now && now < weekEnd;
+  return (
+    <InnerPanel className="flex flex-col justify-center gap-2 mb-1">
+      <div className="flex items-center gap-2 justify-between">
+        <Label
+          type="default"
+          className="ml-1"
+          icon={ITEM_DETAILS[chapterTicket].image}
+        >
+          {t("bounties.bonus.title")}
+        </Label>
+        {bonusClaimed ? (
+          <Label
+            type="success"
+            className="ml-1"
+            secondaryIcon={SUNNYSIDE.icons.confirm}
+          >
+            {t("bounties.bonus.allCompleted")}
+          </Label>
+        ) : isAllBountiesCompleted ? (
+          <Label type="vibrant" className="ml-1">
+            {t("bounties.bonus.ready")}
+          </Label>
+        ) : (
+          <Label type="default" className="ml-1">
+            {t("bounties.bonus.progress", {
+              completed: completedCount,
+              total: totalCount,
+            })}
+          </Label>
+        )}
+      </div>
+      <p className="text-xs ml-1">
+        {bonusClaimed
+          ? t("bounties.bonus.claimedDescription", {
+              amount,
+              chapterTicket,
+            })
+          : t("bounties.bonus.getBonus", {
+              amount,
+              chapterTicket,
+            })}
+      </p>
+      <Button
+        onClick={onClaim}
+        disabled={bonusClaimed || !isAllBountiesCompleted}
+      >
+        {bonusClaimed
+          ? t("bounties.bonus.claimed")
+          : isAllBountiesCompleted
+            ? t("bounties.bonus.claimAmount", {
+                amount,
+                chapterTicket,
+              })
+            : t("bounties.bonus.completeAll")}
+      </Button>
+    </InnerPanel>
+  );
 };
 
 export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
@@ -86,7 +154,7 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
 }) => {
   const { t } = useAppTranslation();
   const { gameService, showAnimations } = useContext(Context);
-  const now = useNow();
+  const now = useNow({ live: true });
 
   const [selectedBounty, setSelectedBounty] = useState<BountyRequest>();
   const [isBulkSell, setIsBulkSell] = useState(false);
@@ -97,7 +165,10 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
     gameService,
     (state) => state.context.state.bounties,
   );
-  const bonusClaimed = isBonusClaimed(exchange, now);
+  const bonusClaimed = isBountyBonusClaimed({
+    bounties: exchange,
+    now,
+  });
 
   const endTime = weekResetsAt();
   const { totalSeconds: secondsRemaining } = useCountdown(endTime);
@@ -172,15 +243,30 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
     };
   };
 
-  const isAllBountiesCompleted = allBounties.every((bounty) =>
-    exchange.completed.find((completed) => completed.id === bounty.id),
-  );
+  const completedBountiesCount = allBounties.filter((bounty) =>
+    exchange.completed.some((completed) => completed.id === bounty.id),
+  ).length;
 
-  const noBonusBountiesWeek = NO_BONUS_BOUNTIES_WEEK.includes(getWeekKey());
+  const noBonusBountiesWeek = NO_BONUS_BOUNTIES_WEEK.includes(
+    getWeekKey({ date: new Date(now) }),
+  );
   const chapterTicket = getChapterTicket(now);
+  const bountyBonusAmount = getBountyBonusAmount(now);
 
   const handleBonusClaim = () => {
+    const currentBounties = gameService.getSnapshot().context.state.bounties;
+
+    if (
+      isBountyBonusClaimed({
+        bounties: currentBounties,
+        now: Date.now(),
+      })
+    ) {
+      return;
+    }
+
     gameService.send("claim.bountyBoardBonus");
+    if (showAnimations) confetti();
   };
 
   // Self-contained memo: declares its helpers inside so the dependency list
@@ -502,43 +588,15 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
           </>
         )}
       </InnerPanel>
-      {!noBonusBountiesWeek && !readonly && (
-        <InnerPanel className="flex flex-col justify-center gap-2 mb-1">
-          <div className="flex items-center gap-2 justify-between">
-            <Label
-              type="default"
-              className="ml-1"
-              icon={ITEM_DETAILS[chapterTicket].image}
-            >
-              {`Bounty Bonus`}
-            </Label>
-            {isAllBountiesCompleted && (
-              <Label
-                type="success"
-                className="ml-1"
-                secondaryIcon={
-                  bonusClaimed ? SUNNYSIDE.icons.confirm : undefined
-                }
-              >
-                {t("bounties.bonus.allCompleted")}
-              </Label>
-            )}
-          </div>
-          <p className="text-xs ml-1">
-            {t("bounties.bonus.getBonus", {
-              amount: getBountyBonusAmount(now),
-              chapterTicket,
-            })}
-          </p>
-          {!readonly && (
-            <Button
-              onClick={handleBonusClaim}
-              disabled={bonusClaimed || !isAllBountiesCompleted || readonly}
-            >
-              {t("bounties.bonus.clickToClaim", { chapterTicket })}
-            </Button>
-          )}
-        </InnerPanel>
+      {!noBonusBountiesWeek && !readonly && allBounties.length > 0 && (
+        <BountyBonusPanel
+          chapterTicket={chapterTicket}
+          amount={bountyBonusAmount}
+          completedCount={completedBountiesCount}
+          totalCount={allBounties.length}
+          bonusClaimed={bonusClaimed}
+          onClaim={handleBonusClaim}
+        />
       )}
     </>
   );
