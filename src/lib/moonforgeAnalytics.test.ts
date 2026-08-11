@@ -103,5 +103,17 @@ describe("moonforgeAnalytics", () => {
 
       spy.mockRestore();
     });
+
+    it("identifies with a farm-scoped id so sessions join across visits", () => {
+      const spy = jest.spyOn(MoonForgeAnalytics, "identify");
+
+      mfIdentify("account123", { farmId: 456 });
+
+      expect(spy).toHaveBeenCalledWith("account123", {
+        farmId: 456,
+      });
+
+      spy.mockRestore();
+    });
   });
 });

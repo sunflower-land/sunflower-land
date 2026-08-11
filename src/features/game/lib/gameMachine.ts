@@ -603,7 +603,8 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
               if (stateName !== "claimingAuctionRaffle") return false;
               if (event.data.state.transaction) return false;
               const prize = event.data.effect?.prize as
-                RaffleSnapshotWinner | undefined;
+                | RaffleSnapshotWinner
+                | undefined;
               if (!prize?.onChain) return false;
               return !!prize;
             },
@@ -2775,6 +2776,15 @@ export function startGame(authContext: AuthContext) {
       actions: {
         initialiseAnalytics: (context, event: any) => {
           if (!ART_MODE) {
+            // Identify first: any event emitted after this attaches to a
+            // durable id rather than the SDK's anonymous one, which
+            // regenerates per session and is what makes players look like
+            // one-day visitors.
+            mfIdentify(`account${event.data.analyticsId}`, {
+              farmId: context.farmId,
+            });
+            mfSetUser(`account${event.data.analyticsId}`);
+
             gameAnalytics.initialise({
               id: event.data.analyticsId,
             });
@@ -2782,10 +2792,6 @@ export function startGame(authContext: AuthContext) {
               id: context.farmId,
             });
             onboardingAnalytics.logEvent("login");
-            mfIdentify(`account${event.data.analyticsId}`, {
-              farmId: context.farmId,
-            });
-            mfSetUser(`account${event.data.analyticsId}`);
           }
         },
         assignUrl: (context) => {
