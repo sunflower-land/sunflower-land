@@ -295,6 +295,22 @@ img {
   animation: pulsate 1s infinite;
 }
 
+/* 7 frame sparkle spritesheet. The frame width is set by the component so the
+   sprite always steps a whole frame at a time. */
+@keyframes sparkle-burst {
+  to {
+    background-position-x: calc(var(--sparkle-frame-width) * -7);
+  }
+}
+
+.sparkle-burst {
+  background-repeat: no-repeat;
+  background-size: calc(var(--sparkle-frame-width) * 7) 100%;
+  background-position-x: 0;
+  image-rendering: pixelated;
+  animation: sparkle-burst 1s steps(7) infinite;
+}
+
 .two-line-ellipsis {
   text-overflow: ellipsis;
   overflow: hidden;

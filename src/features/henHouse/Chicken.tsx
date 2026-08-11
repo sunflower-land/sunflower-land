@@ -45,13 +45,13 @@ import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
 import { isAnimalFeedable } from "features/game/events/landExpansion/buyAnimal";
 import { isAnimalCoveredByGoldenAsset } from "features/game/events/landExpansion/feedAllAnimals";
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
+import { MutantSparkles } from "features/farming/animals/components/MutantSparkles";
 import { isWearableActive } from "features/game/lib/wearables";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
 import { SleepingAnimalModal } from "features/barn/components/SleepingAnimalModal";
 import { LockedAnimalModal } from "features/barn/components/LockedAnimalModal";
-import glow from "public/world/glow.png";
 
 export const CHICKEN_EMOTION_ICONS: Record<
   Exclude<TState["value"], "idle" | "needsLove" | "initial" | "sick">,
@@ -574,19 +574,6 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
         />
       )}
 
-      {/* Upcoming Mutant Sign */}
-      {mutantName && (
-        <img
-          src={glow}
-          className="absolute animate-pulsate pointer-events-none"
-          style={{
-            bottom: "-6px",
-            maxWidth: "85px",
-            maxHeight: "85px",
-          }}
-        />
-      )}
-
       <div
         className="relative cursor-pointer w-full h-full flex items-center justify-center"
         style={{
@@ -633,6 +620,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
               },
             )}
           />
+          {/* Upcoming Mutant Sign */}
+          {mutantName && <MutantSparkles />}
           {/* Emotion */}
           {!idle && !needsLove && !sick && (
             <img

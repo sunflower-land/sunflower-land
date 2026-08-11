@@ -44,6 +44,7 @@ import {
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
 import { isAnimalFeedable } from "features/game/events/landExpansion/buyAnimal";
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
+import { MutantSparkles } from "features/farming/animals/components/MutantSparkles";
 import { isAnimalCoveredByGoldenAsset } from "features/game/events/landExpansion/feedAllAnimals";
 import { isWearableActive } from "features/game/lib/wearables";
 import { Modal } from "components/ui/Modal";
@@ -51,7 +52,6 @@ import { SleepingAnimalModal } from "./SleepingAnimalModal";
 import { LockedAnimalModal } from "./LockedAnimalModal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
-import glow from "public/world/glow.png";
 
 const _animalState = (state: AnimalMachineState) =>
   // Casting here because we know the value is always a string rather than an object
@@ -523,22 +523,6 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
         />
       )}
 
-      {/* Upcoming Mutant Sign */}
-      {mutantName && (
-        <img
-          src={glow}
-          className="absolute animate-pulsate pointer-events-none"
-          style={{
-            bottom: "-22px",
-            left: "-25px",
-            width: "160%",
-            height: "160%",
-            maxWidth: `${GRID_WIDTH_PX * 40}px`,
-            maxHeight: `${GRID_WIDTH_PX * 40}px`,
-          }}
-        />
-      )}
-
       <div
         className="relative flex items-center justify-center cursor-pointer"
         style={{
@@ -570,6 +554,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
               "absolute ml-[1px] mt-[2px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
             )}
           />
+          {/* Upcoming Mutant Sign */}
+          {mutantName && <MutantSparkles />}
           {/* Emotion */}
           {!idle && !needsLove && !sick && (
             <img

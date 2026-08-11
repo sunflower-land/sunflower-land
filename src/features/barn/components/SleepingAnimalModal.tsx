@@ -25,7 +25,7 @@ import {
 } from "features/game/events/landExpansion/loveAnimal";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { useSelector } from "@xstate/react";
-import glow from "public/world/glow.png";
+import { SparkleBurst } from "features/farming/animals/components/MutantSparkles";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { isAnimalCoveredByGoldenAsset } from "features/game/events/landExpansion/feedAllAnimals";
 
@@ -199,7 +199,11 @@ export const SleepingAnimalModal = ({
 
         {mutantName && (
           <div className="flex p-1 items-center w-[330px]">
-            <img src={glow} className="w-6 mr-2" />
+            <SparkleBurst
+              width={24}
+              duration={1.05}
+              className="mr-2 shrink-0"
+            />
             <div>
               <p className="text-sm mr-2">
                 {t("sleepingAnimal.mutantClue1", { type: animal.type })}

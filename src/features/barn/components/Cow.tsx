@@ -44,6 +44,7 @@ import {
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
 import { isAnimalFeedable } from "features/game/events/landExpansion/buyAnimal";
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
+import { MutantSparkles } from "features/farming/animals/components/MutantSparkles";
 import { isAnimalCoveredByGoldenAsset } from "features/game/events/landExpansion/feedAllAnimals";
 import { isWearableActive } from "features/game/lib/wearables";
 import { Modal } from "components/ui/Modal";
@@ -51,7 +52,6 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
 import { SleepingAnimalModal } from "./SleepingAnimalModal";
 import { LockedAnimalModal } from "./LockedAnimalModal";
-import glow from "public/world/glow.png";
 
 export const ANIMAL_EMOTION_ICONS: Record<
   Exclude<TState["value"], "idle" | "needsLove" | "initial" | "sick">,
@@ -555,22 +555,6 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
         />
       )}
 
-      {/* Upcoming Mutant Sign */}
-      {mutantName && (
-        <img
-          src={glow}
-          className="absolute animate-pulsate pointer-events-none"
-          style={{
-            bottom: "-28px",
-            left: "-27.5px",
-            width: "165%",
-            height: "165%",
-            maxWidth: `${GRID_WIDTH_PX * 40}px`,
-            maxHeight: `${GRID_WIDTH_PX * 40}px`,
-          }}
-        />
-      )}
-
       <div
         className="relative flex items-center justify-center cursor-pointer"
         style={{
@@ -600,6 +584,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
               "absolute ml-[1px] mt-[2px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
             )}
           />
+          {/* Upcoming Mutant Sign */}
+          {mutantName && <MutantSparkles />}
           {/* Emotion */}
           {!idle && !needsLove && !sick && (
             <img
