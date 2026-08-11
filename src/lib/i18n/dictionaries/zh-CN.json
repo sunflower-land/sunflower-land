@@ -8341,5 +8341,14 @@
   "feeder.enterMixAmount": "输入要混合的量：",
   "feeder.mix": "混合",
   "feeder.ingredientsToMix": "要混合的食材",
-  "feeder.ingredientsExplainer": "散装搅拌器会建议将每只等待的动物准备就绪所需的饲料量减去您的饲料量。小数缺口四舍五入为整数。"
+  "feeder.ingredientsExplainer": "散装搅拌器会建议将每只等待的动物准备就绪所需的饲料量减去您的饲料量。小数缺口四舍五入为整数。",
+  "marketplace.claimBlockedByTransaction.label": "待处理交易",
+  "marketplace.claimBlockedByTransaction.message": "您有一笔提款交易等待提交。请先提交，然后才能申报您的商城销售额。",
+  "bounties.bonus.claimAmount": "索赔 {{amount}} {{chapterTicket}} s",
+  "bounties.bonus.claimed": "已领取奖金",
+  "bounties.bonus.claimedDescription": "{{amount}} {{chapterTicket}} 已添加到您的库存中。",
+  "bounties.bonus.completeAll": "完成所有赏金",
+  "bounties.bonus.progress": "{{completed}}/{{total}} 已完成",
+  "bounties.bonus.ready": "奖金准备好了！",
+  "bounties.bonus.title": "赏金奖励"
 }

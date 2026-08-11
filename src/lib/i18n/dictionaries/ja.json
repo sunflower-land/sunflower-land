@@ -8341,5 +8341,14 @@
   "feeder.enterMixAmount": "混ぜる量を入力:",
   "feeder.mix": "ミックス",
   "feeder.ingredientsToMix": "混ぜる材料",
-  "feeder.ingredientsExplainer": "バルクミキサーは、待っているすべての動物を準備するのに必要な飼料の量から、あなたが持っている飼料を差し引いたものを提案します。不足分は端数を切り上げて全飼料とします。"
+  "feeder.ingredientsExplainer": "バルクミキサーは、待っているすべての動物を準備するのに必要な飼料の量から、あなたが持っている飼料を差し引いたものを提案します。不足分は端数を切り上げて全飼料とします。",
+  "marketplace.claimBlockedByTransaction.label": "保留中の取引",
+  "marketplace.claimBlockedByTransaction.message": "送信待ちの出金取引があります。マーケットプレイスでの売り上げを申請する前に送信してください。",
+  "bounties.bonus.claimAmount": "クレーム {{amount}} {{chapterTicket}} s",
+  "bounties.bonus.claimed": "ボーナスを請求しました",
+  "bounties.bonus.claimedDescription": "{{amount}} {{chapterTicket}} がインベントリに追加されました。",
+  "bounties.bonus.completeAll": "すべてのバウンティをクリアする",
+  "bounties.bonus.progress": "{{completed}}/{{total}} が完了しました",
+  "bounties.bonus.ready": "ボーナス準備完了！",
+  "bounties.bonus.title": "バウンティボーナス"
 }

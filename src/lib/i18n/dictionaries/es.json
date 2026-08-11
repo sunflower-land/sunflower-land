@@ -8341,5 +8341,14 @@
   "feeder.enterMixAmount": "Introduzca la cantidad a mezclar:",
   "feeder.mix": "Mezcla",
   "feeder.ingredientsToMix": "Ingredientes para mezclar",
-  "feeder.ingredientsExplainer": "La batidora a granel sugiere la cantidad de alimento necesaria para preparar a todos los animales que esperan, menos el alimento que tienes. Los déficits fraccionarios se redondean a piensos enteros."
+  "feeder.ingredientsExplainer": "La batidora a granel sugiere la cantidad de alimento necesaria para preparar a todos los animales que esperan, menos el alimento que tienes. Los déficits fraccionarios se redondean a piensos enteros.",
+  "marketplace.claimBlockedByTransaction.label": "Transacción pendiente",
+  "marketplace.claimBlockedByTransaction.message": "Tienes una transacción de retiro pendiente de ser enviada. Envíala antes de poder reclamar tus ventas en el mercado.",
+  "bounties.bonus.claimAmount": "Reclamación {{amount}} {{chapterTicket}} s",
+  "bounties.bonus.claimed": "Bonificación reclamada",
+  "bounties.bonus.claimedDescription": "Se ha añadido {{amount}} {{chapterTicket}} a tu inventario.",
+  "bounties.bonus.completeAll": "Completa todas las recompensas",
+  "bounties.bonus.progress": "{{completed}}/{{total}} completado",
+  "bounties.bonus.ready": "¡Listo para el bono!",
+  "bounties.bonus.title": "Bono de recompensa"
 }

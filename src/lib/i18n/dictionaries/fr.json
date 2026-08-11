@@ -8341,5 +8341,14 @@
   "feeder.enterMixAmount": "Entrez la quantité à mélanger :",
   "feeder.mix": "Mélangez",
   "feeder.ingredientsToMix": "Ingrédients à mélanger",
-  "feeder.ingredientsExplainer": "Le mélangeur de vrac indique la quantité de nourriture nécessaire pour préparer chaque animal en attente, moins la nourriture dont vous disposez. Les déficits fractionnaires sont arrondis aux aliments entiers."
+  "feeder.ingredientsExplainer": "Le mélangeur de vrac indique la quantité de nourriture nécessaire pour préparer chaque animal en attente, moins la nourriture dont vous disposez. Les déficits fractionnaires sont arrondis aux aliments entiers.",
+  "marketplace.claimBlockedByTransaction.label": "Transaction en attente",
+  "marketplace.claimBlockedByTransaction.message": "Vous avez une opération de retrait qui attend d'être soumise. Veuillez le soumettre avant de pouvoir réclamer vos ventes sur la place de marché.",
+  "bounties.bonus.claimAmount": "Réclamation {{amount}} {{chapterTicket}} s",
+  "bounties.bonus.claimed": "Bonus réclamé",
+  "bounties.bonus.claimedDescription": "{{amount}} {{chapterTicket}} est ajouté à votre inventaire.",
+  "bounties.bonus.completeAll": "Terminez toutes les primes",
+  "bounties.bonus.progress": "{{completed}}/{{total}} terminé",
+  "bounties.bonus.ready": "Le bonus est prêt !",
+  "bounties.bonus.title": "Bonus de prime"
 }

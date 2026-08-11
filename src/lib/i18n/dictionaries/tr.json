@@ -8341,5 +8341,14 @@
   "feeder.enterMixAmount": "Karıştırılacak Miktarı Girin:",
   "feeder.mix": "Karıştırın",
   "feeder.ingredientsToMix": "Karıştırılacak malzemeler",
-  "feeder.ingredientsExplainer": "Toplu karıştırıcı, sahip olduğunuz yem hariç, bekleyen her hayvanı hazır hale getirmek için gereken yem miktarını önerir. Kesirli eksiklikler tüm beslemelere yuvarlanır."
+  "feeder.ingredientsExplainer": "Toplu karıştırıcı, sahip olduğunuz yem hariç, bekleyen her hayvanı hazır hale getirmek için gereken yem miktarını önerir. Kesirli eksiklikler tüm beslemelere yuvarlanır.",
+  "marketplace.claimBlockedByTransaction.label": "Bekleyen işlem",
+  "marketplace.claimBlockedByTransaction.message": "Gönderilmeyi bekleyen bir para çekme işleminiz var. Lütfen pazar yeri satışlarınızı talep etmeden önce gönderin.",
+  "bounties.bonus.claimAmount": "Talep edin {{amount}} {{chapterTicket}} s",
+  "bounties.bonus.claimed": "Talep edilen bonus",
+  "bounties.bonus.claimedDescription": "{{amount}} {{chapterTicket}} s envanterinize eklendi.",
+  "bounties.bonus.completeAll": "Tüm ödülleri tamamla",
+  "bounties.bonus.progress": "{{completed}}/{{total}} tamamlandı",
+  "bounties.bonus.ready": "Bonus hazır!",
+  "bounties.bonus.title": "Ödül Bonusu"
 }

@@ -8341,5 +8341,14 @@
   "feeder.enterMixAmount": "Geben Sie die Menge ein, die gemischt werden soll:",
   "feeder.mix": "Mischen",
   "feeder.ingredientsToMix": "Zutaten zum Mischen",
-  "feeder.ingredientsExplainer": "Der Bulk-Mixer schlägt die Futtermenge vor, die benötigt wird, um jedes wartende Tier fertig zu stellen, abzüglich des Futters, das Sie haben. Bruchteile von Fehlmengen werden auf ganze Futtermittel aufgerundet."
+  "feeder.ingredientsExplainer": "Der Bulk-Mixer schlägt die Futtermenge vor, die benötigt wird, um jedes wartende Tier fertig zu stellen, abzüglich des Futters, das Sie haben. Bruchteile von Fehlmengen werden auf ganze Futtermittel aufgerundet.",
+  "marketplace.claimBlockedByTransaction.label": "Ausstehende Transaktion",
+  "marketplace.claimBlockedByTransaction.message": "Sie haben eine Auszahlungstransaktion, die darauf wartet, eingereicht zu werden. Bitte reichen Sie es ein, bevor Sie Ihre Marketplace-Verkäufe geltend machen können.",
+  "bounties.bonus.claimAmount": "Anspruch {{amount}} {{chapterTicket}} s",
+  "bounties.bonus.claimed": "Bonus beansprucht",
+  "bounties.bonus.claimedDescription": "{{amount}} {{chapterTicket}} wird Ihrem Inventar hinzugefügt.",
+  "bounties.bonus.completeAll": "Schließe alle Kopfgeldjäger ab",
+  "bounties.bonus.progress": "{{completed}}/{{total}} abgeschlossen",
+  "bounties.bonus.ready": "Bonus bereit!",
+  "bounties.bonus.title": "Kopfgeld-Bonus"
 }

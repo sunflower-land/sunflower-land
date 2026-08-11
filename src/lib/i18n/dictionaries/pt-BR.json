@@ -8341,5 +8341,14 @@
   "feeder.enterMixAmount": "Insira a quantidade a ser misturada:",
   "feeder.mix": "Misturar",
   "feeder.ingredientsToMix": "Ingredientes para misturar",
-  "feeder.ingredientsExplainer": "O misturador a granel sugere a quantidade de ração necessária para preparar cada animal que espera, menos a ração que você tem. Os déficits fracionários são arredondados para feeds inteiros."
+  "feeder.ingredientsExplainer": "O misturador a granel sugere a quantidade de ração necessária para preparar cada animal que espera, menos a ração que você tem. Os déficits fracionários são arredondados para feeds inteiros.",
+  "marketplace.claimBlockedByTransaction.label": "Transação pendente",
+  "marketplace.claimBlockedByTransaction.message": "Você tem uma transação de saque esperando para ser enviada. Envie-o antes de poder reivindicar suas vendas no mercado.",
+  "bounties.bonus.claimAmount": "Reclamação {{amount}} {{chapterTicket}} s",
+  "bounties.bonus.claimed": "Bônus reivindicado",
+  "bounties.bonus.claimedDescription": "{{amount}} {{chapterTicket}} é adicionado ao seu inventário.",
+  "bounties.bonus.completeAll": "Complete todas as recompensas",
+  "bounties.bonus.progress": "{{completed}}/{{total}} concluído",
+  "bounties.bonus.ready": "Bônus pronto!",
+  "bounties.bonus.title": "Bônus de recompensa"
 }

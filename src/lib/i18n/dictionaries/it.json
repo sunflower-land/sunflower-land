@@ -8341,5 +8341,14 @@
   "feeder.enterMixAmount": "Inserisci la quantità da mescolare:",
   "feeder.mix": "Miscelare",
   "feeder.ingredientsToMix": "Ingredienti da mescolare",
-  "feeder.ingredientsExplainer": "Il bulk mixer suggerisce la quantità di mangime necessaria per preparare tutti gli animali in attesa, meno il mangime che hai. Le carenze frazionarie vengono arrotondate ai mangimi interi."
+  "feeder.ingredientsExplainer": "Il bulk mixer suggerisce la quantità di mangime necessaria per preparare tutti gli animali in attesa, meno il mangime che hai. Le carenze frazionarie vengono arrotondate ai mangimi interi.",
+  "marketplace.claimBlockedByTransaction.label": "Transazione in sospeso",
+  "marketplace.claimBlockedByTransaction.message": "Hai una transazione di prelievo in attesa di essere inviata. Inviala prima di poter rivendicare le vendite effettuate sul marketplace.",
+  "bounties.bonus.claimAmount": "Richiesta {{amount}} {{chapterTicket}} s",
+  "bounties.bonus.claimed": "Bonus richiesto",
+  "bounties.bonus.claimedDescription": "{{amount}} {{chapterTicket}} è stato aggiunto al tuo inventario.",
+  "bounties.bonus.completeAll": "Completa tutte le taglie",
+  "bounties.bonus.progress": "{{completed}}/{{total}} completato",
+  "bounties.bonus.ready": "Bonus pronto!",
+  "bounties.bonus.title": "Bonus ricompensa"
 }
