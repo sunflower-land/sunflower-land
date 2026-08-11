@@ -8350,5 +8350,15 @@
   "bounties.bonus.progress": "{{completed}}/{{total}} completed",
   "bounties.bonus.ready": "Bonus ready!",
   "bounties.bonus.title": "Bounty Bonus",
-  "withdraw.duplicate.waitMessage": "This hold is on your account, not your device or network - switching to a different network or device will not lift it. It needs to run its course, which can take up to 14 days depending on usage. This is applied automatically and isn't a strike or warning against your account."
+  "withdraw.duplicate.waitMessage": "This hold is on your account, not your device or network - switching to a different network or device will not lift it. It needs to run its course, which can take up to 14 days depending on usage. This is applied automatically and isn't a strike or warning against your account.",
+  "drinkInBulk": "Drink in Bulk",
+  "eatInBulk": "Eat in Bulk",
+  "eatAllFoods": "Eat All Foods",
+  "buildings.firePit": "Fire Pit",
+  "buildings.kitchen": "Kitchen",
+  "buildings.bakery": "Bakery",
+  "buildings.deli": "Deli",
+  "buildings.smoothieShack": "Smoothie Shack",
+  "confirmation.feedAllFoods": "Feed your Bumpkin all {{count}} foods for {{xp}} XP?",
+  "confirmation.enterAmountToFeed": "Enter Amount to Feed:"
 }

@@ -8350,5 +8350,15 @@
   "bounties.bonus.progress": "{{completed}}/{{total}} selesai",
   "bounties.bonus.ready": "Bonus siap!",
   "bounties.bonus.title": "Bonus Bounty",
-  "withdraw.duplicate.waitMessage": "Penahanan ini ada di akun Anda, bukan perangkat atau jaringan Anda - beralih ke jaringan atau perangkat yang berbeda tidak akan mengangkatnya. Perlu menjalankan jalurnya, yang bisa memakan waktu hingga 14 hari tergantung pada penggunaan. Ini diterapkan secara otomatis dan bukan merupakan pemogokan atau peringatan terhadap akun Anda."
+  "withdraw.duplicate.waitMessage": "Penahanan ini ada di akun Anda, bukan perangkat atau jaringan Anda - beralih ke jaringan atau perangkat yang berbeda tidak akan mengangkatnya. Perlu menjalankan jalurnya, yang bisa memakan waktu hingga 14 hari tergantung pada penggunaan. Ini diterapkan secara otomatis dan bukan merupakan pemogokan atau peringatan terhadap akun Anda.",
+  "drinkInBulk": "Minum dalam jumlah besar",
+  "eatInBulk": "Makan dalam jumlah besar",
+  "eatAllFoods": "Makan Semua Makanan",
+  "buildings.firePit": "Lubang Api",
+  "buildings.kitchen": "Dapur",
+  "buildings.bakery": "Toko Roti",
+  "buildings.deli": "Deli",
+  "buildings.smoothieShack": "Smoothie Shack",
+  "confirmation.feedAllFoods": "Beri makan Bumpkin Anda semua makanan {{count}} untuk {{xp}} XP?",
+  "confirmation.enterAmountToFeed": "Masukkan Jumlah untuk Umpan:"
 }

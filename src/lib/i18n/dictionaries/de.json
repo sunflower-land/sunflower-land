@@ -8350,5 +8350,15 @@
   "bounties.bonus.progress": "{{completed}}/{{total}} abgeschlossen",
   "bounties.bonus.ready": "Bonus bereit!",
   "bounties.bonus.title": "Kopfgeld-Bonus",
-  "withdraw.duplicate.waitMessage": "Diese Sperre gilt für Ihr Konto, nicht für Ihr Gerät oder Netzwerk. Wenn Sie zu einem anderen Netzwerk oder Gerät wechseln, wird sie nicht aufgehoben. Es muss seinen Lauf nehmen, was je nach Nutzung bis zu 14 Tage dauern kann. Dies wird automatisch angewendet und stellt keine Verwarnung oder Verwarnung gegen dein Konto dar."
+  "withdraw.duplicate.waitMessage": "Diese Sperre gilt für Ihr Konto, nicht für Ihr Gerät oder Netzwerk. Wenn Sie zu einem anderen Netzwerk oder Gerät wechseln, wird sie nicht aufgehoben. Es muss seinen Lauf nehmen, was je nach Nutzung bis zu 14 Tage dauern kann. Dies wird automatisch angewendet und stellt keine Verwarnung oder Verwarnung gegen dein Konto dar.",
+  "drinkInBulk": "In großen Mengen trinken",
+  "eatInBulk": "Essen Sie in großen Mengen",
+  "eatAllFoods": "Iss alle Lebensmittel",
+  "buildings.firePit": "Feuerstelle",
+  "buildings.kitchen": "Küche",
+  "buildings.bakery": "Bäckerei",
+  "buildings.deli": "Feinkostgeschäft",
+  "buildings.smoothieShack": "Smoothie-Bude",
+  "confirmation.feedAllFoods": "Füttere deinen Bumpkin mit allen {{count}} Lebensmitteln für {{xp}} XP?",
+  "confirmation.enterAmountToFeed": "Geben Sie den zu fütternden Betrag ein:"
 }

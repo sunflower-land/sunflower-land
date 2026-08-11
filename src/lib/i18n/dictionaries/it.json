@@ -8350,5 +8350,15 @@
   "bounties.bonus.progress": "{{completed}}/{{total}} completato",
   "bounties.bonus.ready": "Bonus pronto!",
   "bounties.bonus.title": "Bonus ricompensa",
-  "withdraw.duplicate.waitMessage": "Il blocco riguarda il tuo account, non il tuo dispositivo o la tua rete: il passaggio a una rete o dispositivo diverso non lo annullerà. Deve eseguire il suo corso, che può richiedere fino a 14 giorni a seconda dell'utilizzo. Questa impostazione viene applicata automaticamente e non costituisce un avvertimento o uno sciopero nei confronti del tuo account."
+  "withdraw.duplicate.waitMessage": "Il blocco riguarda il tuo account, non il tuo dispositivo o la tua rete: il passaggio a una rete o dispositivo diverso non lo annullerà. Deve eseguire il suo corso, che può richiedere fino a 14 giorni a seconda dell'utilizzo. Questa impostazione viene applicata automaticamente e non costituisce un avvertimento o uno sciopero nei confronti del tuo account.",
+  "drinkInBulk": "Bere alla rinfusa",
+  "eatInBulk": "Mangia alla rinfusa",
+  "eatAllFoods": "Mangia tutti i cibi",
+  "buildings.firePit": "Braciere",
+  "buildings.kitchen": "Cucina",
+  "buildings.bakery": "Panetteria",
+  "buildings.deli": "Gastronomia",
+  "buildings.smoothieShack": "Smoothie Shack",
+  "confirmation.feedAllFoods": "Dai da mangiare al tuo Bumpkin tutti gli alimenti {{count}} per {{xp}} XP?",
+  "confirmation.enterAmountToFeed": "Inserisci l'importo da alimentare:"
 }

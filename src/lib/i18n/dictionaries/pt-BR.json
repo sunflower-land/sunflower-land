@@ -8350,5 +8350,15 @@
   "bounties.bonus.progress": "{{completed}}/{{total}} concluído",
   "bounties.bonus.ready": "Bônus pronto!",
   "bounties.bonus.title": "Bônus de recompensa",
-  "withdraw.duplicate.waitMessage": "Essa retenção está na sua conta, não no seu dispositivo ou rede - mudar para uma rede ou dispositivo diferente não a cancelará. Ele precisa seguir seu curso, o que pode levar até 14 dias, dependendo do uso. Isso é aplicado automaticamente e não é um aviso ou aviso contra sua conta."
+  "withdraw.duplicate.waitMessage": "Essa retenção está na sua conta, não no seu dispositivo ou rede - mudar para uma rede ou dispositivo diferente não a cancelará. Ele precisa seguir seu curso, o que pode levar até 14 dias, dependendo do uso. Isso é aplicado automaticamente e não é um aviso ou aviso contra sua conta.",
+  "drinkInBulk": "Beba a granel",
+  "eatInBulk": "Coma a granel",
+  "eatAllFoods": "Coma todos os alimentos",
+  "buildings.firePit": "Poço de fogo",
+  "buildings.kitchen": "Cozinha",
+  "buildings.bakery": "Padaria",
+  "buildings.deli": "Deli",
+  "buildings.smoothieShack": "Smoothie Shack",
+  "confirmation.feedAllFoods": "Alimente seu Bumpkin com todos os alimentos {{count}} por {{xp}} XP?",
+  "confirmation.enterAmountToFeed": "Insira a quantidade a ser alimentada:"
 }

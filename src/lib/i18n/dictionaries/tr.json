@@ -8350,5 +8350,15 @@
   "bounties.bonus.progress": "{{completed}}/{{total}} tamamlandı",
   "bounties.bonus.ready": "Bonus hazır!",
   "bounties.bonus.title": "Ödül Bonusu",
-  "withdraw.duplicate.waitMessage": "Bu bekleme hesabınızda, cihazınızda veya ağınızda değil - farklı bir ağa veya cihaza geçmek onu kaldırmaz. Kullanıma bağlı olarak 14 güne kadar sürebilen kursunu sürdürmesi gerekiyor. Bu otomatik olarak uygulanır ve hesabınıza yönelik bir saldırı veya uyarı değildir."
+  "withdraw.duplicate.waitMessage": "Bu bekleme hesabınızda, cihazınızda veya ağınızda değil - farklı bir ağa veya cihaza geçmek onu kaldırmaz. Kullanıma bağlı olarak 14 güne kadar sürebilen kursunu sürdürmesi gerekiyor. Bu otomatik olarak uygulanır ve hesabınıza yönelik bir saldırı veya uyarı değildir.",
+  "drinkInBulk": "Toplu olarak iç",
+  "eatInBulk": "Toplu olarak yiyin",
+  "eatAllFoods": "Tüm Yiyecekleri Ye",
+  "buildings.firePit": "Ateş Çukuru",
+  "buildings.kitchen": "Mutfak",
+  "buildings.bakery": "Fırıncılık",
+  "buildings.deli": "Şarküteri",
+  "buildings.smoothieShack": "Smoothie Kulübesi",
+  "confirmation.feedAllFoods": "Bumpkin'inizi {{xp}} XP karşılığında tüm {{count}} yiyecekleri besleyin?",
+  "confirmation.enterAmountToFeed": "Beslenecek Miktarı Girin:"
 }

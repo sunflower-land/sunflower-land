@@ -8350,5 +8350,15 @@
   "bounties.bonus.progress": "{{completed}}/{{total}} terminé",
   "bounties.bonus.ready": "Le bonus est prêt !",
   "bounties.bonus.title": "Bonus de prime",
-  "withdraw.duplicate.waitMessage": "Cette suspension concerne votre compte, et non votre appareil ou votre réseau. Le fait de passer à un autre réseau ou à un autre appareil ne la supprimera pas. Il doit suivre son cours, ce qui peut prendre jusqu'à 14 jours selon l'utilisation. Cette mesure est appliquée automatiquement et ne constitue pas une grève ou un avertissement à l'encontre de votre compte."
+  "withdraw.duplicate.waitMessage": "Cette suspension concerne votre compte, et non votre appareil ou votre réseau. Le fait de passer à un autre réseau ou à un autre appareil ne la supprimera pas. Il doit suivre son cours, ce qui peut prendre jusqu'à 14 jours selon l'utilisation. Cette mesure est appliquée automatiquement et ne constitue pas une grève ou un avertissement à l'encontre de votre compte.",
+  "drinkInBulk": "Boire en vrac",
+  "eatInBulk": "Consommez en vrac",
+  "eatAllFoods": "Mangez tous les aliments",
+  "buildings.firePit": "Foyer",
+  "buildings.kitchen": "Cuisine",
+  "buildings.bakery": "Boulangerie",
+  "buildings.deli": "Épicerie",
+  "buildings.smoothieShack": "Smoothie Shack",
+  "confirmation.feedAllFoods": "Donnez à votre Bumpkin tous les aliments {{count}} pour {{xp}} XP ?",
+  "confirmation.enterAmountToFeed": "Entrez la quantité à alimenter :"
 }

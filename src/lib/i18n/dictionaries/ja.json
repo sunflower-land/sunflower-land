@@ -8350,5 +8350,15 @@
   "bounties.bonus.progress": "{{completed}}/{{total}} が完了しました",
   "bounties.bonus.ready": "ボーナス準備完了！",
   "bounties.bonus.title": "バウンティボーナス",
-  "withdraw.duplicate.waitMessage": "この保留は、デバイスやネットワークではなく、アカウントに適用されます。別のネットワークやデバイスに切り替えても、解除されません。コースを実行する必要があり、使用状況によっては最長で14日かかる場合があります。これは自動的に適用され、アカウントに対する違反警告や警告ではありません。"
+  "withdraw.duplicate.waitMessage": "この保留は、デバイスやネットワークではなく、アカウントに適用されます。別のネットワークやデバイスに切り替えても、解除されません。コースを実行する必要があり、使用状況によっては最長で14日かかる場合があります。これは自動的に適用され、アカウントに対する違反警告や警告ではありません。",
+  "drinkInBulk": "まとめて飲む",
+  "eatInBulk": "まとめて食べる",
+  "eatAllFoods": "すべての食べ物を食べる",
+  "buildings.firePit": "ファイヤーピット",
+  "buildings.kitchen": "キッチン",
+  "buildings.bakery": "ベーカリー",
+  "buildings.deli": "デリ",
+  "buildings.smoothieShack": "スムージーシャック",
+  "confirmation.feedAllFoods": "バンプキンに {{count}} 個の食べ物をすべて {{xp}} XPで食べさせますか？",
+  "confirmation.enterAmountToFeed": "供給量を入力:"
 }
