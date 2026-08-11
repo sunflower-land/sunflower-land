@@ -52,6 +52,7 @@ export type BulkMixFeed = {
 };
 
 const MAX_FEED_STEPS_TO_READY = 100;
+const MIX_AMOUNT_EPSILON = new Decimal("0.000000000001");
 
 const isAnimalAwakeAndRequestingFood = (animal: Animal) => {
   return (
@@ -88,7 +89,7 @@ const addToTotals = (
 ) => {
   // A zero-quantity request means an item removed the need to mix this feed
   // (e.g. Oracle Syringe makes Barn Delight free), so it isn't a real request.
-  if (amount.lte(0)) {
+  if (amount.lte(MIX_AMOUNT_EPSILON)) {
     return;
   }
 
@@ -274,7 +275,7 @@ export function getBulkMixRequirements(
     // Feeds are mixed in whole units, but boosts like Fat Chicken and Medic
     // Apron make the requirement fractional, so round the shortfall up. The
     // surplus stays in the inventory for the next feed.
-    const missing = difference.lessThan(0)
+    const missing = difference.lte(MIX_AMOUNT_EPSILON)
       ? new Decimal(0)
       : difference.toDecimalPlaces(0, Decimal.ROUND_CEIL);
 
