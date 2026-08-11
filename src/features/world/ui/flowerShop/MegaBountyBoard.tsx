@@ -106,7 +106,7 @@ export const BountyBonusPanel: React.FC<{
             className="ml-1"
             secondaryIcon={SUNNYSIDE.icons.confirm}
           >
-            {t("bounties.bonus.claimed")}
+            {t("bounties.bonus.allCompleted")}
           </Label>
         ) : isAllBountiesCompleted ? (
           <Label type="vibrant" className="ml-1">
