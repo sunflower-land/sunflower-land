@@ -286,6 +286,29 @@ export const NPCModals: React.FC<Props> = ({ id }) => {
         {npc === "eldric" && <FactionShop onClose={closeModal} />}
         {npc === "murmur" && <SecretMinigamesHubModal onClose={closeModal} />}
         {npc === "pet" && <FactionPetPanel onClose={closeModal} />}
+
+        {npc === "Slime Jim" && (
+          <SpeakingModal
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES["Slime Jim"]}
+            message={[
+              {
+                text: translate("npc.Modal.slimeJim"),
+              },
+            ]}
+          />
+        )}
+        {npc === "Slime Joe" && (
+          <SpeakingModal
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES["Slime Joe"]}
+            message={[
+              {
+                text: translate("npc.Modal.slimeJoe"),
+              },
+            ]}
+          />
+        )}
       </Modal>
 
       {npc === "hammerin harry" && (

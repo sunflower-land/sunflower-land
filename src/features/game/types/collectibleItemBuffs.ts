@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import type { BedName, GameState, InventoryItemName } from "./game";
 import type { BuffLabel } from ".";
 import powerup from "assets/icons/level_up.png";
@@ -18,6 +19,8 @@ import { getKeys, getObjectEntries } from "lib/object";
 import { BED_FARMHAND_COUNT } from "./beds";
 import { isCollectibleBuilt, getExpiryCooldown } from "../lib/collectibleBuilt";
 import { hasFeatureAccess } from "lib/flags";
+import { SKILL_RANKS, getSkillLevel } from "./bumpkinSkills";
+import { FRUITFUL_BLEND_YIELD } from "./fertilisers";
 
 type FertiliserBuffLabelName =
   | "Sprout Mix"
@@ -56,6 +59,10 @@ export function getFertiliserBuffLabels({
   }
 
   if (fertiliser === "Fruitful Blend") {
+    const fruitfulBountyLevel = getSkillLevel(
+      game.bumpkin.skills,
+      "Fruitful Bounty",
+    );
     return [
       {
         shortDescription: translate("description.fruitful.blend.boost"),
@@ -63,11 +70,23 @@ export function getFertiliserBuffLabels({
         boostTypeIcon: powerup,
         boostedItemIcon: ITEM_DETAILS["Fruit Patch"].image,
       },
-      ...(game.bumpkin.skills["Fruitful Bounty"]
+      ...(fruitfulBountyLevel
         ? [
             {
               shortDescription: translate(
-                "description.fruitful.bounty.skill.boost",
+                "description.fruitful.bounty.skill.boost.ranked",
+                {
+                  // Marginal yield the skill adds on top of Fruitful Blend's
+                  // base +0.1, which it multiplies. Decimal because the base
+                  // is 0.1: a plain 0.1 * 3 yields 0.30000000000000004.
+                  value: new Decimal(FRUITFUL_BLEND_YIELD)
+                    .mul(
+                      SKILL_RANKS["Fruitful Bounty"].ranks[
+                        fruitfulBountyLevel - 1
+                      ] - 1,
+                    )
+                    .toNumber(),
+                },
               ),
               labelType: "success" as const,
               boostTypeIcon: powerup,
@@ -717,36 +736,47 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: SUNNYSIDE.animalFoods.kernel_blend,
     },
   ],
-  Bale: ({ bumpkin }) => [
-    {
-      shortDescription: bumpkin.skills["Double Bale"]
-        ? translate("description.bale.eggBoost.boosted")
-        : translate("description.bale.eggBoost"),
-      labelType: "success",
-      boostTypeIcon: powerup,
-      boostedItemIcon: SUNNYSIDE.resource.egg,
-    },
-    ...(bumpkin.skills["Bale Economy"]
-      ? ([
-          {
-            shortDescription: bumpkin.skills["Double Bale"]
-              ? translate("description.bale.milkBoost.boosted")
-              : translate("description.bale.milkBoost"),
-            labelType: "success",
-            boostTypeIcon: powerup,
-            boostedItemIcon: SUNNYSIDE.resource.milk,
-          },
-          {
-            shortDescription: bumpkin.skills["Double Bale"]
-              ? translate("description.bale.woolBoost.boosted")
-              : translate("description.bale.woolBoost"),
-            labelType: "success",
-            boostTypeIcon: powerup,
-            boostedItemIcon: SUNNYSIDE.resource.wool,
-          },
-        ] as BuffLabel[])
-      : []),
-  ],
+  Bale: ({ bumpkin }) => {
+    // Double Bale multiplies Bale's +0.1 base by its rank (x2 / x2.5 / x3), so
+    // the label must reflect the owned rank rather than a hardcoded +0.2.
+    const doubleBaleLevel = getSkillLevel(bumpkin.skills, "Double Bale");
+    const baleValue = doubleBaleLevel
+      ? new Decimal(0.1)
+          .mul(SKILL_RANKS["Double Bale"].ranks[doubleBaleLevel - 1])
+          .toNumber()
+      : 0.1;
+
+    return [
+      {
+        shortDescription: translate("description.bale.eggBoost", {
+          value: baleValue,
+        }),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.resource.egg,
+      },
+      ...(bumpkin.skills["Bale Economy"]
+        ? ([
+            {
+              shortDescription: translate("description.bale.milkBoost", {
+                value: baleValue,
+              }),
+              labelType: "success",
+              boostTypeIcon: powerup,
+              boostedItemIcon: SUNNYSIDE.resource.milk,
+            },
+            {
+              shortDescription: translate("description.bale.woolBoost", {
+                value: baleValue,
+              }),
+              labelType: "success",
+              boostTypeIcon: powerup,
+              boostedItemIcon: SUNNYSIDE.resource.wool,
+            },
+          ] as BuffLabel[])
+        : []),
+    ];
+  },
 
   // Resources
   "Woody the Beaver": () => [
@@ -2324,6 +2354,116 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       labelType: "vibrant",
       boostTypeIcon: lightning,
       boostedItemIcon: SUNNYSIDE.icons.plant,
+    },
+  ],
+  Astrolabe: () => [
+    {
+      shortDescription: translate("description.astrolabe.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+    },
+    {
+      shortDescription: translate("description.astrolabe.boost.2"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+  ],
+  "Ascension Monument": () => [
+    {
+      shortDescription: translate("description.ascensionMonument.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+  ],
+  "Otty the Otter": () => [
+    {
+      shortDescription: translate("description.ottyTheOtter.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Rod"].image,
+    },
+    {
+      shortDescription: translate("description.ottyTheOtter.boost.2"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
+  ],
+  "Ascended Chicken": () => [
+    {
+      shortDescription: translate("description.ascendedChicken.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Egg"].image,
+    },
+  ],
+  "Ascended Sheep": () => [
+    {
+      shortDescription: translate("description.ascendedSheep.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Wool"].image,
+    },
+  ],
+  "Ascended Cow": () => [
+    {
+      shortDescription: translate("description.ascendedCow.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: SUNNYSIDE.animals.cowSleeping,
+    },
+  ],
+  "Ruins Flower": () => [
+    {
+      shortDescription: translate("description.ruinsFlower.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Honey"].image,
+    },
+  ],
+  "Dumbo Octopus": () => [
+    {
+      shortDescription: translate("description.dumboOctopus.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
+  ],
+  "Ascended Idol": () => [
+    {
+      shortDescription: translate("description.ascendedIdol.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Salt Rake"].image,
+    },
+  ],
+  "Salt Worker Gnome": () => [
+    {
+      shortDescription: translate("description.saltWorkerGnome.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS["Salt"].image,
+    },
+    {
+      shortDescription: translate("description.saltWorkerGnome.boost.2"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Salt"].image,
+    },
+  ],
+  "Winged Vase": () => [
+    {
+      shortDescription: translate("description.wingedVase.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+    },
+  ],
+  Vibraphone: () => [
+    {
+      shortDescription: translate("description.vibraphone.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Salt Lick"].image,
     },
   ],
 

@@ -1,11 +1,13 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useState } from "react";
 import { FeederMachineModal } from "./FeederMachineModal";
 
-export const FeederMachine: React.FC = () => {
-  const { t } = useAppTranslation();
+interface Props {
+  building: "Hen House" | "Barn";
+}
+
+export const FeederMachine: React.FC<Props> = ({ building }) => {
   const [showFeederMachineModal, setFeederMachineModal] = useState(false);
   const feederMachineImage = SUNNYSIDE.building.feederMachine;
 
@@ -35,6 +37,7 @@ export const FeederMachine: React.FC = () => {
       <FeederMachineModal
         show={showFeederMachineModal}
         onClose={() => setFeederMachineModal(false)}
+        building={building}
       />
     </>
   );

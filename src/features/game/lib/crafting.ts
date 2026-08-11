@@ -79,7 +79,11 @@ export type RecipeCollectibleName = Extract<
   | RecipeCraftableName
   | Exclude<
       BedName,
-      "Double Bed" | "Messy Bed" | "Pearl Bed" | "Salt Crystal Bed"
+      | "Double Bed"
+      | "Messy Bed"
+      | "Pearl Bed"
+      | "Salt Crystal Bed"
+      | "Cloud Bed"
     >
   | DollName
   | CraftableBearName,

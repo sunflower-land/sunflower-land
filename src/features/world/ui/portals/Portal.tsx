@@ -35,7 +35,7 @@ type PortalPurchase = {
  */
 const DOMAIN_MAP: Partial<Record<MinigameName, string>> = {
   "festival-of-colors-2025": "festival-of-colors",
-  "april-fools": "halloween",
+  "colors-2026": "halloween",
   "chaacs-temple": "chaacs-temple.minigames",
   /** Host: `https://chicken-rescue-v2.minigames.sunflower-land.com` */
   "chicken-rescue-v2": "chicken-rescue-v2.minigames",

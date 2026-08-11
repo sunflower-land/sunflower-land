@@ -473,11 +473,19 @@ import {
 } from "./landExpansion/speedUpBuilding";
 import { buyAnimal, type BuyAnimalAction } from "./landExpansion/buyAnimal";
 import { feedAnimal, type FeedAnimalAction } from "./landExpansion/feedAnimal";
+import {
+  feedAllAnimals,
+  type FeedAllAnimalsAction,
+} from "./landExpansion/feedAllAnimals";
 import { loveAnimal, type LoveAnimalAction } from "./landExpansion/loveAnimal";
 import {
   feedMixed,
   type FeedMixedAction,
 } from "features/feederMachine/feedMixed";
+import {
+  bulkMixFeed,
+  type BulkMixFeedAction,
+} from "features/feederMachine/bulkMixFeed";
 import {
   upgradeBuilding,
   type UpgradeBuildingAction,
@@ -611,6 +619,10 @@ import {
   type InteriorsEnabledAction,
 } from "./updateInteriorsEnabled";
 import {
+  updateToolShopSettings,
+  type UpdateToolShopSettingsAction,
+} from "./updateToolShopSettings";
+import {
   acknowledgeRewardBox,
   type AcknowledgeRewardBoxAction,
 } from "./landExpansion/acknowledgeRewardBox";
@@ -695,6 +707,10 @@ import {
   type DeleteLayoutAction,
 } from "./landExpansion/deleteLayout";
 import {
+  saveAscensionLayout,
+  type SaveAscensionLayoutAction,
+} from "./landExpansion/saveAscensionLayout";
+import {
   wakeAnimal,
   type WakeUpAnimalAction,
 } from "./landExpansion/wakeUpAnimal";
@@ -748,6 +764,7 @@ import {
   type UpgradeTreeAction,
 } from "./landExpansion/upgradeTree";
 import { bulkFeedPets, type BulkFeedPetsAction } from "./pets/bulkFeedPets";
+import { bulkFetchPets, type BulkFetchPetsAction } from "./pets/bulkFetchPets";
 import { type NeglectPetAction, neglectPet } from "./pets/neglectPet";
 import { petPet, type PetPetAction } from "./pets/petPet";
 import { fetchPet, type FetchPetAction } from "./pets/fetchPet";
@@ -841,6 +858,7 @@ export type PlayingEvent =
   | BulkSellBountyAction
   | ClaimBountyBonusAction
   | FeedMixedAction
+  | BulkMixFeedAction
   | InstantExpand
   | InstantCookRecipe
   | ShipmentRestockAction
@@ -953,12 +971,14 @@ export type PlayingEvent =
   | WalkPetAction
   | FetchPetAction
   | BulkFeedPetsAction
+  | BulkFetchPetsAction
   | NeglectPetAction
   | PetPetAction
   | LeaveFactionAction
   | BuyMoreDigsAction
   | BuyAnimalAction
   | FeedAnimalAction
+  | FeedAllAnimalsAction
   | LoveAnimalAction
   | UpgradeBuildingAction
   | StartCraftingAction
@@ -984,6 +1004,7 @@ export type PlayingEvent =
   | UpdateNetworkAction
   | EconomiesEnabledAction
   | InteriorsEnabledAction
+  | UpdateToolShopSettingsAction
   | BuyMinigameItemAction
   | AcknowledgeRewardBoxAction
   | OpenRewardBoxAction
@@ -1085,6 +1106,7 @@ export type PlacementEvent =
   | RemoveBeehiveAction
   | RemoveAllAction
   | SaveLayoutAction
+  | SaveAscensionLayoutAction
   | ApplyLayoutAction
   | RenameLayoutAction
   | DeleteLayoutAction
@@ -1253,13 +1275,16 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "pet.walked": walkPet,
   "pet.fetched": fetchPet,
   "pets.bulkFeed": bulkFeedPets,
+  "pets.bulkFetch": bulkFetchPets,
   "pet.neglected": neglectPet,
   "desert.digsBought": buyMoreDigs,
   "shipment.restocked": shipmentRestock,
   "animal.bought": buyAnimal,
   "animal.fed": feedAnimal,
+  "animals.fedAll": feedAllAnimals,
   "animal.loved": loveAnimal,
   "feed.mixed": feedMixed,
+  "feeds.bulkMixed": bulkMixFeed,
   "skill.used": skillUse,
   "building.upgraded": upgradeBuilding,
   "crafting.started": startCrafting,
@@ -1286,6 +1311,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "network.updated": updateNetwork,
   "economies.enabled": updateEconomiesEnabled,
   "interiors.enabled": updateInteriorsEnabled,
+  "toolShop.settingsUpdated": updateToolShopSettings,
   "minigameItem.bought": buyEventShopItem,
   "rewardBox.acknowledged": acknowledgeRewardBox,
   "rewardBox.opened": openRewardBox,
@@ -1393,6 +1419,7 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "beehive.removed": removeBeehive,
   "items.removed": removeAll,
   "layout.saved": saveLayout,
+  "layout.ascensionSaved": saveAscensionLayout,
   "layout.applied": applyLayout,
   "layout.renamed": renameLayout,
   "layout.deleted": deleteLayout,

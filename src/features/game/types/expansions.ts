@@ -13,7 +13,6 @@ import {
   getExpectedAscensionCrystals,
 } from "../expansion/lib/ascension";
 import { getKeys } from "lib/object";
-import { hasFeatureAccess } from "lib/flags";
 import type { LevelRequirement } from "features/game/lib/level";
 import {
   ADVANCED_RESOURCES,
@@ -126,18 +125,93 @@ export function getExpectedResources({
   // and only when the ascension feature is live. Override the base (0) with the
   // cumulative expected so revealLand's missing-node airdrop can back-pay legacy
   // players who progressed before the feature shipped.
-  expectedResources["Ascension Crystal"] = hasFeatureAccess(
-    game,
-    "SWAMP_ASCENSION",
-  )
-    ? getExpectedAscensionCrystals({
-        islandType: game.island.type,
-        ascensionLevel: game.island.ascensionLevel ?? 0,
-        basicLand: expansion,
-      })
-    : 0;
+  expectedResources["Ascension Crystal"] = getExpectedAscensionCrystals({
+    islandType: game.island.type,
+    ascensionLevel: game.island.ascensionLevel ?? 0,
+    basicLand: expansion,
+  });
 
   return expectedResources;
+}
+
+/**
+ * Mines a full sunstone rock holds before it depletes and is removed from the
+ * farm (see mineSunstone). Used when reconciling how many rocks a player has
+ * mined to depletion so they are not re-granted.
+ */
+export const SUNSTONE_MINES = 10;
+
+/**
+ * Resource/node counts the player is owed but does not yet have — the shared
+ * back-pay reconciliation used by BOTH `revealLand`'s missing-resources airdrop
+ * and the ascension reward chest. For each node type it is the expected amount
+ * (per-tier, from `getExpectedResources`, which subtracts forged/burned nodes)
+ * minus what the player owns in inventory, minus what an un-collected
+ * `missing-resources` airdrop already promises. Finite resources are credited
+ * for legitimate consumption so they are never resurrected: Sunstone Rocks for
+ * rocks mined to depletion, Ascension Crystals for crystals mined (single-use).
+ *
+ * Counting per-tier (not base-equivalents) is what makes this forging-safe: a
+ * player who forges 4 Trees → 1 Ancient Tree has `expected.Tree` reduced by the
+ * burn, so the base Trees are not re-granted.
+ *
+ * @returns Only positive shortfalls, keyed by resource name.
+ */
+export function getMissingResources({
+  game,
+  expansion,
+}: {
+  game: GameState;
+  expansion: number;
+}): Partial<Record<ResourceName, number>> {
+  const expected = getExpectedResources({ game, expansion });
+
+  // Items already promised by an un-collected missing-resources airdrop are not
+  // yet in inventory; counting them as still-missing would duplicate the grant
+  // if the player reveals/ascends again before collecting the previous airdrop.
+  const pendingMissing: Partial<Record<ResourceName, number>> = {};
+  (game.airdrops ?? [])
+    .filter((airdrop) => airdrop.id.startsWith("missing-resources"))
+    .forEach((airdrop) => {
+      getKeys(expected).forEach((key) => {
+        pendingMissing[key] =
+          (pendingMissing[key] ?? 0) + (airdrop.items[key] ?? 0);
+      });
+    });
+
+  const missing: Partial<Record<ResourceName, number>> = {};
+  getKeys(expected).forEach((key) => {
+    let shortfall =
+      (expected[key] ?? 0) -
+      (game.inventory[key]?.toNumber() ?? 0) -
+      (pendingMissing[key] ?? 0);
+
+    // Sunstone rocks are finite: once mined to depletion a rock is removed from
+    // inventory. Subtract the depletions so they are not re-granted. Each rock
+    // holds SUNSTONE_MINES mines; mines spent on rocks the player still owns are
+    // not depletions, so exclude them before dividing.
+    if (key === "Sunstone Rock") {
+      const lifetimeMines = game.farmActivity?.["Sunstone Mined"] ?? 0;
+      const minesOnLiveRocks = Object.values(game.sunstones ?? {}).reduce(
+        (total, rock) => total + (SUNSTONE_MINES - rock.minesLeft),
+        0,
+      );
+      const depleted = Math.floor(
+        Math.max(0, lifetimeMines - minesOnLiveRocks) / SUNSTONE_MINES,
+      );
+      shortfall -= depleted;
+    }
+
+    // Ascension Crystals are single-use: each mine destroys one crystal and
+    // decrements inventory. Subtract mined crystals so they are not resurrected.
+    if (key === "Ascension Crystal") {
+      shortfall -= game.farmActivity?.["Ascension Crystal Mined"] ?? 0;
+    }
+
+    if (shortfall > 0) missing[key] = shortfall;
+  });
+
+  return missing;
 }
 
 /**
@@ -1989,11 +2063,6 @@ export type Layout = {
   ascensionCrystals?: Coordinates[];
 };
 
-// --- Expansion node counts (derived) -------------------------------------
-// How many of each resource node a player should have at each expansion is
-// derived from the layouts above (arrival row + cumulative layout counts) so the
-// counts can never drift from the actual map. Mirror of the BE.
-
 /** Maps each `Layout` resource array to its `Nodes` (resource-count) key. */
 const LAYOUT_FIELD_TO_NODE = {
   plots: "Crop Plot",
@@ -2009,6 +2078,46 @@ const LAYOUT_FIELD_TO_NODE = {
   oilReserves: "Oil Reserve",
   lavaPits: "Lava Pit",
 } as const satisfies Partial<Record<keyof Layout, keyof Nodes>>;
+
+export type ExpansionNodePreviewItem = {
+  name: ResourceName;
+  count: number;
+};
+
+const EXPANSION_NODE_PREVIEW_FIELDS = {
+  ...LAYOUT_FIELD_TO_NODE,
+  ascensionCrystals: "Ascension Crystal",
+} as const satisfies Partial<Record<keyof Layout, ResourceName>>;
+
+/**
+ * Returns the resource nodes that will materialize with the player's next land.
+ * `getLand` remains the source of truth, including availability adjustments for
+ * nodes the player has already received, bought, or upgraded.
+ */
+export function getNextExpansionNodePreview({
+  game,
+}: {
+  game: GameState;
+}): ExpansionNodePreviewItem[] {
+  const land = getLand({ game });
+
+  if (!land) {
+    return [];
+  }
+
+  return getKeys(EXPANSION_NODE_PREVIEW_FIELDS).flatMap((field) => {
+    const count = land[field]?.length ?? 0;
+
+    return count > 0
+      ? [{ name: EXPANSION_NODE_PREVIEW_FIELDS[field], count }]
+      : [];
+  });
+}
+
+// --- Expansion node counts (derived) -------------------------------------
+// How many of each resource node a player should have at each expansion is
+// derived from the layouts above (arrival row + cumulative layout counts) so the
+// counts can never drift from the actual map. Mirror of the BE.
 
 /**
  * Counts the resource nodes placed by a single expansion's `Layout`.

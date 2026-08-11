@@ -15,6 +15,23 @@ import { isCookingBuilding } from "./isCookingBuilding";
 import { isWearableActive } from "features/game/lib/wearables";
 import { assertCookableName } from "features/game/types/consumables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import {
+  SKILL_RANKS,
+  getSkillLevel,
+  downgradeChapterCropWeekSkills,
+} from "features/game/types/bumpkinSkills";
+import { CHAPTER_CROP_WEEK_RECIPE } from "features/game/types/chapterCropWeek";
+
+/**
+ * The Double Nom rank a recipe was cooked at, so its +food collects at the rank
+ * whose ingredient cost was paid. Legacy recipes stored a boolean (`true` = the
+ * old single-rank behaviour); new recipes store the numeric rank.
+ */
+export const getRecipeDoubleNomLevel = (recipe: BuildingProduct): number => {
+  const stored = recipe.skills?.["Double Nom"];
+  if (stored === true) return 1;
+  return typeof stored === "number" ? stored : 0;
+};
 
 export type CollectRecipeAction = {
   type: "recipes.collected";
@@ -46,21 +63,31 @@ export const getCookingAmount = ({
   let amount = 1;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
-  // Double Nom - Guarantee +1 food
-  if (recipe.skills?.["Double Nom"] && isCookingBuilding(building)) {
-    amount += 1;
-    boostsUsed.push({ name: "Double Nom", value: "+1" });
+  // Double Nom - Guarantee +1/+2/+3 food (at the rank the recipe was cooked at)
+  const doubleNomLevel = getRecipeDoubleNomLevel(recipe);
+  if (doubleNomLevel && isCookingBuilding(building)) {
+    const bonus = SKILL_RANKS["Double Nom"].food[doubleNomLevel - 1];
+    amount += bonus;
+    boostsUsed.push({ name: "Double Nom", value: `+${bonus}` });
   }
 
-  // Fiery Jackpot - 20% Chance to double the amount from Fire Pit
+  // Fiery Jackpot - 20%/25%/30% chance of +1 food from Fire Pit (scales w/ rank).
+  // Saltbite (the CHAPTER_CROP_WEEK event recipe) ignores upgraded ranks — the
+  // live read caps at rank 1 (Double Nom above reads the recipe snapshot instead,
+  // so it already reflects the rank paid at cook time).
+  const fieryJackpotSkills =
+    recipeName === CHAPTER_CROP_WEEK_RECIPE
+      ? downgradeChapterCropWeekSkills(game.bumpkin.skills)
+      : game.bumpkin.skills;
+  const fieryJackpotLevel = getSkillLevel(fieryJackpotSkills, "Fiery Jackpot");
   if (
     building === "Fire Pit" &&
-    game.bumpkin.skills["Fiery Jackpot"] &&
+    fieryJackpotLevel &&
     prngChance({
       farmId,
       itemId: KNOWN_IDS[recipeName],
       counter,
-      chance: 20,
+      chance: SKILL_RANKS["Fiery Jackpot"].ranks[fieryJackpotLevel - 1],
       criticalHitName: "Fiery Jackpot",
     })
   ) {

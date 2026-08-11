@@ -5,6 +5,7 @@ import { makeGame } from "../lib/transforms";
 import { getRecordHash } from "lib/stateHash";
 
 const API_URL = CONFIG.API_URL;
+const API2_URL = CONFIG.API2_URL;
 
 type EffectName =
   | "marketplace.listingPurchased"
@@ -62,7 +63,13 @@ type EffectName =
   | "liquidity.registered"
   | "appInstall.generate"
   | "farmHand.unlocked"
-  | "economies.exchanged";
+  | "economies.exchanged"
+  | "giveaway.created"
+  | "giveaway.joined"
+  | "giveaway.progressed"
+  | "giveaway.submitted"
+  | "giveaway.ended"
+  | "giveaway.claimed";
 
 type VisitEffectName = "farm.helped" | "farm.cheered" | "farm.followed";
 
@@ -130,7 +137,13 @@ export type StateMachineStateName =
   | "generatingAppInstall"
   | "pickingUpWaterTrap"
   | "resettingPetRequests"
-  | "exchangingEconomy";
+  | "exchangingEconomy"
+  | "creatingGiveaway"
+  | "joiningGiveaway"
+  | "progressingGiveaway"
+  | "submittingGiveaway"
+  | "endingGiveaway"
+  | "claimingGiveaway";
 
 export type StateMachineVisitStateName =
   | "helpingFarm"
@@ -194,6 +207,12 @@ export const STATE_MACHINE_EFFECTS: Record<
   "leagues.updated": "updatingLeagues",
   "appInstall.generate": "generatingAppInstall",
   "economies.exchanged": "exchangingEconomy",
+  "giveaway.created": "creatingGiveaway",
+  "giveaway.joined": "joiningGiveaway",
+  "giveaway.progressed": "progressingGiveaway",
+  "giveaway.submitted": "submittingGiveaway",
+  "giveaway.ended": "endingGiveaway",
+  "giveaway.claimed": "claimingGiveaway",
 };
 
 export const STATE_MACHINE_VISIT_EFFECTS: Record<
@@ -220,57 +239,71 @@ type Request = {
 
 export async function postEffect(
   request: Request,
+  retries = 0,
 ): Promise<{ gameState: GameState; data: any }> {
-  const stateHash = request.state
-    ? await getRecordHash(request.state as unknown as Record<string, unknown>)
-    : undefined;
+  try {
+    const stateHash = request.state
+      ? await getRecordHash(request.state as unknown as Record<string, unknown>)
+      : undefined;
 
-  const response = await window.fetch(`${API_URL}/event/${request.farmId}`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      "X-Transaction-ID": request.transactionId,
-      Authorization: `Bearer ${request.token}`,
-      accept: "application/json",
-      ...((window as any)["x-amz-ttl"]
-        ? { "X-Amz-TTL": (window as any)["x-amz-ttl"] }
-        : {}),
-    },
-    body: JSON.stringify({
-      event: request.effect,
-      createdAt: new Date().toISOString(),
-      ...(stateHash ? { stateHash } : {}),
-    }),
-  });
+    // Use API2 unless we are retrying, and then fall back to the original API.
+    const apiUrl = retries === 0 ? API2_URL : API_URL;
 
-  if (response.status === 429) {
-    throw new Error(ERRORS.EFFECT_TOO_MANY_REQUESTS);
+    const response = await window.fetch(`${apiUrl}/event/${request.farmId}`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        "X-Transaction-ID": request.transactionId,
+        Authorization: `Bearer ${request.token}`,
+        accept: "application/json",
+        ...((window as any)["x-amz-ttl"]
+          ? { "X-Amz-TTL": (window as any)["x-amz-ttl"] }
+          : {}),
+      },
+      body: JSON.stringify({
+        event: request.effect,
+        createdAt: new Date().toISOString(),
+        ...(stateHash ? { stateHash } : {}),
+      }),
+    });
+
+    if (response.status === 429) {
+      throw new Error(ERRORS.EFFECT_TOO_MANY_REQUESTS);
+    }
+
+    if (response.status === 400) {
+      const { errorCode } = await response.json();
+
+      throw new Error(errorCode ?? ERRORS.EFFECT_SERVER_ERROR);
+    }
+
+    if (response.status !== 200 || !response.ok) {
+      throw new Error(ERRORS.EFFECT_SERVER_ERROR);
+    }
+
+    const { gameState, data } = await response.json();
+
+    const mergedGameState = request.state
+      ? // Response may be pruned (diff); merge over the current client state
+        ({
+          ...request.state,
+          ...gameState,
+        } as GameState)
+      : (gameState as GameState);
+
+    return {
+      gameState: makeGame(mergedGameState),
+      data,
+    };
+  } catch (e) {
+    // First attempt goes to API2 - retry once against the original API
+    // before surfacing the error.
+    if (retries === 0) {
+      return await postEffect(request, retries + 1);
+    }
+
+    throw e;
   }
-
-  if (response.status === 400) {
-    const { errorCode } = await response.json();
-
-    throw new Error(errorCode ?? ERRORS.EFFECT_SERVER_ERROR);
-  }
-
-  if (response.status !== 200 || !response.ok) {
-    throw new Error(ERRORS.EFFECT_SERVER_ERROR);
-  }
-
-  const { gameState, data } = await response.json();
-
-  const mergedGameState = request.state
-    ? // Response may be pruned (diff); merge over the current client state
-      ({
-        ...request.state,
-        ...gameState,
-      } as GameState)
-    : (gameState as GameState);
-
-  return {
-    gameState: makeGame(mergedGameState),
-    data,
-  };
 }
 
 /** Client-only effect fields to strip before sending to backend (not in API schema) */

@@ -14,6 +14,7 @@ import {
 } from "features/game/lib/collectibleBuilt";
 import { GOLD_RECOVERY_TIME } from "features/game/lib/constants";
 import { FACTION_ITEMS } from "features/game/lib/factions";
+import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { isWearableActive } from "features/game/lib/wearables";
@@ -138,14 +139,18 @@ export function getGoldRecoveryTimeForDisplay({
     boostsUsed.push({ name: "Mole Shrine", value: "x0.75" });
   }
 
-  if (game.bumpkin.skills["Midas Sprint"]) {
-    totalSeconds = totalSeconds * 0.9;
-    boostsUsed.push({ name: "Midas Sprint", value: "x0.9" });
+  const midasSprintLevel = getSkillLevel(game.bumpkin.skills, "Midas Sprint");
+  if (midasSprintLevel) {
+    const v = SKILL_RANKS["Midas Sprint"].ranks[midasSprintLevel - 1];
+    totalSeconds = totalSeconds * v;
+    boostsUsed.push({ name: "Midas Sprint", value: `x${v}` });
   }
 
-  if (game.bumpkin.skills["Midas Rush"]) {
-    totalSeconds = totalSeconds * 0.8;
-    boostsUsed.push({ name: "Midas Rush", value: "x0.8" });
+  const midasRushLevel = getSkillLevel(game.bumpkin.skills, "Midas Rush");
+  if (midasRushLevel) {
+    const v = SKILL_RANKS["Midas Rush"].ranks[midasRushLevel - 1];
+    totalSeconds = totalSeconds * v;
+    boostsUsed.push({ name: "Midas Rush", value: `x${v}` });
   }
 
   return {
@@ -223,9 +228,11 @@ export function getGoldDropAmount({
     boostsUsed.push({ name: "Gold Rush", value: "+0.5" });
   }
 
-  if (skills["Golden Touch"]) {
-    amount += 0.5;
-    boostsUsed.push({ name: "Golden Touch", value: "+0.5" });
+  const goldenTouchLevel = getSkillLevel(skills, "Golden Touch");
+  if (goldenTouchLevel) {
+    const v = SKILL_RANKS["Golden Touch"].ranks[goldenTouchLevel - 1];
+    amount += v;
+    boostsUsed.push({ name: "Golden Touch", value: `+${v}` });
   }
 
   if (

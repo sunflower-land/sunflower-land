@@ -23,6 +23,9 @@ export function deleteLayout({ state, action }: Options): GameState {
     if (!layouts[action.layoutId]) {
       throw new Error("Layout does not exist");
     }
+    if (layouts[action.layoutId].auto) {
+      throw new Error("The Ascension Layout cannot be deleted");
+    }
 
     layouts.splice(action.layoutId, 1);
     stateCopy.layouts = layouts;

@@ -23,12 +23,12 @@ import confetti from "canvas-confetti";
 import type { BumpkinItem } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
-  APRIL_FOOLS_EVENT_ITEMS,
+  COLORS_2026_EVENT_ITEMS,
   type EventStoreCollectible,
   type EventStoreItem,
   type EventStoreWearable,
   type EventTierItemName,
-} from "features/game/types/aprilFoolsEventShop";
+} from "features/game/types/colors2026EventShop";
 import { getItemDescription } from "../EventStore";
 import { getKeys } from "lib/object";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
@@ -41,7 +41,7 @@ interface ItemOverlayProps {
   image: string;
   isWearable: boolean;
   buff?: BuffLabel[];
-  tier?: "basic" | "rare" | "epic" | "mega";
+  tier?: "basic" | "rare" | "epic" | "mega" | "extra";
   isVisible: boolean;
   onClose: () => void;
   readonly?: boolean;
@@ -74,7 +74,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const now = useNow();
   const chapterTicket = getChapterTicket(now);
   const chapterArtefact = getChapterArtefact(now);
-  const eventStore = APRIL_FOOLS_EVENT_ITEMS;
+  const eventStore = COLORS_2026_EVENT_ITEMS;
   const tiers =
     tier === "basic"
       ? "basic"
@@ -84,10 +84,12 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
           ? "epic"
           : tier === "mega"
             ? "mega"
-            : "basic";
+            : tier === "extra"
+              ? "extra"
+              : "basic";
 
   const shop =
-    gameService.getSnapshot().context.state.minigames.games["april-fools"]
+    gameService.getSnapshot().context.state.minigames.games["colors-2026"]
       ?.shop;
 
   const eventCollectiblesCrafted = Object.keys(shop?.items ?? {}).length;
@@ -107,18 +109,20 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     tiers === "epic" && eventItemsCrafted >= eventStore.epic.requirement;
   const isMegaUnlocked =
     tier === "mega" && eventItemsCrafted >= eventStore.mega.requirement;
+  const isExtraUnlocked =
+    tier === "extra" && eventItemsCrafted >= eventStore.extra.requirement;
 
   const itemsCrafted = isWearable
-    ? (state.minigames.games["april-fools"]?.shop?.wearables?.[
+    ? (state.minigames.games["colors-2026"]?.shop?.wearables?.[
         itemName as BumpkinItem
       ] ?? 0)
-    : (state.minigames.games["april-fools"]?.shop?.items?.[
+    : (state.minigames.games["colors-2026"]?.shop?.items?.[
         itemName as InventoryItemName
       ] ?? 0);
 
   const canCraftMore =
     itemsCrafted <
-    (MINIGAME_SHOP_ITEMS["april-fools"]?.[itemName as EventTierItemName]?.max ??
+    (MINIGAME_SHOP_ITEMS["colors-2026"]?.[itemName as EventTierItemName]?.max ??
       1);
 
   const description = getItemDescription(item);
@@ -150,6 +154,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
       if (tier === "rare" && !isRareUnlocked) return false;
       if (tier === "epic" && !isEpicUnlocked) return false;
       if (tier === "mega" && !isMegaUnlocked) return false;
+      if (tier === "extra" && !isExtraUnlocked) return false;
     }
 
     if (!canCraftMore) {
@@ -205,7 +210,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     if (!item) return;
 
     gameService.send("minigameItem.bought", {
-      id: "april-fools",
+      id: "colors-2026",
       name: itemName,
     });
 
@@ -349,7 +354,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       {t("season.megastore.crafting.limit.max", {
                         limit: itemsCrafted,
                         max:
-                          MINIGAME_SHOP_ITEMS["april-fools"]?.[
+                          MINIGAME_SHOP_ITEMS["colors-2026"]?.[
                             itemName as EventTierItemName
                           ]?.max ?? 1,
                       })}

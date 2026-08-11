@@ -1156,6 +1156,51 @@ describe("mineStone", () => {
       expect(amount.toNumber()).toEqual(0.5);
     });
 
+    const stoneAmountWithSkills = (skills: Record<string, number>) => {
+      const counter = findNonCriticalCounter();
+      return getStoneDropAmount({
+        game: {
+          ...INITIAL_FARM,
+          bumpkin: { ...TEST_BUMPKIN, skills },
+        },
+        rock: {
+          createdAt: now - 5 * 60 * 1000,
+          stone: { minedAt: now - 5 * 60 * 1000 },
+          x: 0,
+          y: 0,
+        },
+        createdAt: now,
+        id: "0",
+        farmId,
+        counter,
+        itemId,
+      }).amount.toNumber();
+    };
+
+    it("applies +0.15 Stone with Rock'N'Roll at rank 2", () => {
+      expect(stoneAmountWithSkills({ "Rock'N'Roll": 2 })).toEqual(1.15);
+    });
+
+    it("applies +0.2 Stone with Rock'N'Roll at rank 3", () => {
+      expect(stoneAmountWithSkills({ "Rock'N'Roll": 3 })).toEqual(1.2);
+    });
+
+    it("applies +1.4 Stone with Rocky Favor at rank 2", () => {
+      expect(stoneAmountWithSkills({ "Rocky Favor": 2 })).toEqual(2.4);
+    });
+
+    it("applies +1.8 Stone with Rocky Favor at rank 3", () => {
+      expect(stoneAmountWithSkills({ "Rocky Favor": 3 })).toEqual(2.8);
+    });
+
+    it("applies -0.6 Stone with Ferrous Favor at rank 2", () => {
+      expect(stoneAmountWithSkills({ "Ferrous Favor": 2 })).toEqual(0.4);
+    });
+
+    it("applies -0.7 Stone with Ferrous Favor at rank 3", () => {
+      expect(stoneAmountWithSkills({ "Ferrous Favor": 3 })).toEqual(0.3);
+    });
+
     it("applies +1 Native bonus drop via PRNG", () => {
       // Find a counter that triggers Native but not Rock Golem
       function findNativeOnlyCounter() {
@@ -1407,6 +1452,32 @@ describe("mineStone", () => {
       },
     });
     expect(time).toEqual(now - STONE_RECOVERY_TIME * 0.2 * 1000);
+  });
+
+  it("reduces the cooldown further with Speed Miner at rank 2 (x0.75)", () => {
+    const now = Date.now();
+    const { time } = getMinedAt({
+      skills: { "Speed Miner": 2 },
+      createdAt: now,
+      game: {
+        ...GAME_STATE,
+        bumpkin: { ...TEST_BUMPKIN, skills: { "Speed Miner": 2 } },
+      },
+    });
+    expect(time).toEqual(now - STONE_RECOVERY_TIME * 0.25 * 1000);
+  });
+
+  it("reduces the cooldown further with Speed Miner at rank 3 (x0.7)", () => {
+    const now = Date.now();
+    const { time } = getMinedAt({
+      skills: { "Speed Miner": 3 },
+      createdAt: now,
+      game: {
+        ...GAME_STATE,
+        bumpkin: { ...TEST_BUMPKIN, skills: { "Speed Miner": 3 } },
+      },
+    });
+    expect(time).toEqual(now - STONE_RECOVERY_TIME * 0.3 * 1000);
   });
 
   it("applies a Ore Hourglass boost of -50% recovery time for 3 hours", () => {

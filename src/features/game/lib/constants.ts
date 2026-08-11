@@ -10,6 +10,7 @@ import {
 import { getKeys } from "lib/object";
 import { type BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import type { Equipped } from "../types/bumpkin";
+import { SKILL_RANKS, getSkillLevel } from "../types/bumpkinSkills";
 import { isSeed, type SeedName } from "../types/seeds";
 import { makeAnimalBuilding } from "./animals";
 import type { ChoreBoard } from "../types/choreBoard";
@@ -31,6 +32,7 @@ import {
   type WorkbenchToolName,
 } from "../types/tools";
 import { createInitialAgingShed } from "./agingShed";
+import { randomID } from "lib/utils/random";
 
 // Our "zoom" factor
 export const PIXEL_SCALE = 2.625;
@@ -79,16 +81,34 @@ export const INITIAL_STOCK = (
     );
   }
 
-  // increase Axe stock by 50 if player has More Axes skill
-  if (state?.bumpkin?.skills["More Axes"]) {
-    tools.Axe = new Decimal(Math.ceil(tools.Axe.toNumber() + 50));
+  // increase Axe stock if player has the More Axes skill (scales with rank)
+  const moreAxesLevel = state?.bumpkin
+    ? getSkillLevel(state.bumpkin.skills, "More Axes")
+    : 0;
+  if (moreAxesLevel) {
+    tools.Axe = new Decimal(
+      Math.ceil(
+        tools.Axe.add(
+          SKILL_RANKS["More Axes"].ranks.Axe[moreAxesLevel - 1] ?? 0,
+        ).toNumber(),
+      ),
+    );
   }
 
-  if (state?.bumpkin?.skills["More Picks"]) {
-    tools.Pickaxe = tools.Pickaxe.add(new Decimal(70));
-    tools["Stone Pickaxe"] = tools["Stone Pickaxe"].add(new Decimal(20));
-    tools["Iron Pickaxe"] = tools["Iron Pickaxe"].add(new Decimal(7));
-    tools["Gold Pickaxe"] = tools["Gold Pickaxe"].add(new Decimal(2));
+  const morePicksLevel = state?.bumpkin
+    ? getSkillLevel(state.bumpkin.skills, "More Picks")
+    : 0;
+
+  if (morePicksLevel) {
+    getObjectEntries(SKILL_RANKS["More Picks"].ranks).forEach(
+      ([toolName, effect]) => {
+        tools[toolName] = new Decimal(
+          Math.ceil(
+            tools[toolName].add(effect[morePicksLevel - 1] ?? 0).toNumber(),
+          ),
+        );
+      },
+    );
   }
 
   const seeds: Record<SeedName, Decimal> = {
@@ -154,9 +174,18 @@ export const INITIAL_STOCK = (
     );
   }
 
-  if (state?.bumpkin.skills["Crime Fruit"]) {
-    seeds["Tomato Seed"] = seeds["Tomato Seed"].add(10);
-    seeds["Lemon Seed"] = seeds["Lemon Seed"].add(10);
+  // Crime Fruit: +10/+20/+30 Tomato & Lemon Seed stock (scales with rank)
+  const crimeFruitLevel = state?.bumpkin
+    ? getSkillLevel(state.bumpkin.skills, "Crime Fruit")
+    : 0;
+  if (crimeFruitLevel) {
+    const { ranks } = SKILL_RANKS["Crime Fruit"];
+    seeds["Tomato Seed"] = seeds["Tomato Seed"].add(
+      ranks["Tomato Seed"]?.[crimeFruitLevel - 1] ?? 0,
+    );
+    seeds["Lemon Seed"] = seeds["Lemon Seed"].add(
+      ranks["Lemon Seed"]?.[crimeFruitLevel - 1] ?? 0,
+    );
   }
 
   const restockables: Record<StockableName, Decimal> = {
@@ -176,40 +205,32 @@ export const INITIAL_STOCK = (
 
 type InventoryLimit = Partial<Record<SeedName, Decimal>>;
 
-// Inventory limit is 2.5x the initial stock for seeds
+export const getSeedInventoryLimitMultiplier = (seed: SeedName) => {
+  if (isGreenhouseCropSeed(seed) || isGreenhouseFruitSeed(seed)) return 5;
+  if (isBasicFruitSeed(seed as PatchFruitSeedName)) return 2;
+  if (isAdvancedFruitSeed(seed as PatchFruitSeedName)) return 1.5;
+
+  return 2.5;
+};
+
+// Seed limits use initial stock: 5x greenhouse, 2x basic fruit, 1.5x advanced
+// fruit, and 2.5x otherwise. Full Moon Berries have a fixed limit of 10.
 export const INVENTORY_LIMIT = (state: GameState): InventoryLimit => {
   return {
     ...getObjectEntries(INITIAL_STOCK(state)).reduce<InventoryLimit>(
       (acc, [key, value]) => {
         if (!isSeed(key)) return acc;
-        if (isGreenhouseCropSeed(key) || isGreenhouseFruitSeed(key)) {
-          acc[key] = new Decimal(
-            Math.ceil((value ?? new Decimal(0)).mul(5).toNumber()),
-          );
-          return acc;
-        }
-
         if (isFullMoonBerry(key)) {
           acc[key] = new Decimal(10);
           return acc;
         }
 
-        if (isBasicFruitSeed(key as PatchFruitSeedName)) {
-          acc[key] = new Decimal(
-            Math.ceil((value ?? new Decimal(0)).mul(2).toNumber()),
-          );
-          return acc;
-        }
-
-        if (isAdvancedFruitSeed(key as PatchFruitSeedName)) {
-          acc[key] = new Decimal(
-            Math.ceil((value ?? new Decimal(0)).mul(1.5).toNumber()),
-          );
-          return acc;
-        }
-
         acc[key] = new Decimal(
-          Math.ceil((value ?? new Decimal(0)).mul(2.5).toNumber()),
+          Math.ceil(
+            (value ?? new Decimal(0))
+              .mul(getSeedInventoryLimitMultiplier(key))
+              .toNumber(),
+          ),
         );
         return acc;
       },
@@ -342,7 +363,7 @@ export const INITIAL_EQUIPMENT: BumpkinParts = {
 
 export const INITIAL_BUMPKIN: Bumpkin = {
   equipped: INITIAL_EQUIPMENT as Equipped,
-  experience: 0,
+  experience: 0, // Leave it at 0 so that feedBumpkin Tests don't fail
 
   id: 1,
   skills: {},
@@ -394,6 +415,11 @@ export const INITIAL_FARM: GameState = {
     Celestine: new Decimal(1),
     "Red Balloon Flower": new Decimal(1),
     "Yellow Cosmos": new Decimal(1),
+    // Letter tiles - enough to spell FARM
+    "Letter F Tile": new Decimal(1),
+    "Letter A Tile": new Decimal(1),
+    "Letter R Tile": new Decimal(1),
+    "Letter M Tile": new Decimal(1),
   },
   previousInventory: {},
   wardrobe: {},
@@ -586,6 +612,7 @@ export const INITIAL_FARM: GameState = {
       },
     ],
   },
+  username: randomID(),
   collectibles: {},
   pumpkinPlaza: {},
   auctioneer: {},
@@ -637,7 +664,9 @@ export const INITIAL_FARM: GameState = {
       total: 10,
     },
   },
-  farmActivity: {},
+  farmActivity: {
+    "welcome Bonus Claimed": 1, // Skips welcome screen
+  },
   milestones: {},
   specialEvents: {
     history: {},

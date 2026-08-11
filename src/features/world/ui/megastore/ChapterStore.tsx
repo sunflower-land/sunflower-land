@@ -107,6 +107,7 @@ export const ChapterStore: React.FC<{
     <>
       <ModalOverlay
         show={!!selectedItem}
+        panelClassName="w-full sm:w-11/12"
         onBackdropClick={() => setSelectedItem(null)}
       >
         <ItemDetail
@@ -139,7 +140,7 @@ export const ChapterStore: React.FC<{
       </div>
       <div
         className={classNames("flex flex-col p-1 pt-1", {
-          ["max-h-[400px] overflow-y-auto scrollable"]: !readonly,
+          ["max-h-[500px] overflow-y-auto scrollable"]: !readonly,
         })}
       >
         <span className="text-xs px-1 pb-3">

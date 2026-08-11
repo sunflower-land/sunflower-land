@@ -47,6 +47,21 @@ describe("renameLayout", () => {
     ).toThrow("Layout does not exist");
   });
 
+  it("throws when renaming the protected Ascension Layout", () => {
+    const built = withLayout();
+    const state: GameState = {
+      ...built,
+      layouts: built.layouts!.map((layout) => ({ ...layout, auto: true })),
+    };
+    expect(() =>
+      renameLayout({
+        state,
+        action: { type: "layout.renamed", layoutId: 0, name: "New Name" },
+        createdAt,
+      }),
+    ).toThrow("The Ascension Layout cannot be renamed");
+  });
+
   it("rejects empty / too-long names", () => {
     expect(() =>
       renameLayout({

@@ -6,6 +6,7 @@ import {
 import type { CompostBuilding, GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 
 export type AccelerateComposterAction = {
   type: "compost.accelerated";
@@ -21,12 +22,17 @@ type Options = {
 export function getSpeedUpCost(gameState: GameState, composter: ComposterName) {
   let { resourceBoostRequirements } = composterDetails[composter];
 
-  if (gameState.bumpkin.skills["Composting Bonanza"]) {
+  const { skills } = gameState.bumpkin;
+
+  // Composting Bonanza's 2x resource debuff is flat across ranks.
+  if (skills["Composting Bonanza"]) {
     resourceBoostRequirements *= 2;
   }
 
-  if (gameState.bumpkin.skills["Feathery Business"]) {
-    resourceBoostRequirements *= 2;
+  const featheryBusinessLevel = getSkillLevel(skills, "Feathery Business");
+  if (featheryBusinessLevel) {
+    resourceBoostRequirements *=
+      SKILL_RANKS["Feathery Business"].ranks[featheryBusinessLevel - 1];
   }
 
   return { resourceBoostRequirements };
@@ -41,8 +47,13 @@ export function getSpeedUpTime({
 }) {
   let { resourceBoostMilliseconds } = composterDetails[composter];
 
-  if (state.bumpkin.skills["Composting Bonanza"]) {
-    resourceBoostMilliseconds += 60 * 60 * 1000;
+  const compostingBonanzaLevel = getSkillLevel(
+    state.bumpkin.skills,
+    "Composting Bonanza",
+  );
+  if (compostingBonanzaLevel) {
+    resourceBoostMilliseconds +=
+      SKILL_RANKS["Composting Bonanza"].ranks[compostingBonanzaLevel - 1];
   }
 
   return { resourceBoostMilliseconds };

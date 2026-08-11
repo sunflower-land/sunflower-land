@@ -21,6 +21,8 @@ export interface FetchButtonPanelProps {
   locked?: boolean;
   className?: string;
   fetchAmount: Decimal;
+  /** Planned number of fetches to run (shown as an "xN" badge in bulk mode). */
+  plannedAmount?: number;
 }
 
 export const FetchButtonPanel: React.FC<FetchButtonPanelProps> = ({
@@ -33,6 +35,7 @@ export const FetchButtonPanel: React.FC<FetchButtonPanelProps> = ({
   locked,
   className,
   fetchAmount,
+  plannedAmount,
 }) => {
   const fetchImage = ITEM_DETAILS[fetch]?.image;
 
@@ -49,6 +52,18 @@ export const FetchButtonPanel: React.FC<FetchButtonPanelProps> = ({
       >
         {inventoryCount.toString()}
       </Label>
+      {/* Planned fetch count - top left (bulk fetch mode) */}
+      {typeof plannedAmount === "number" && plannedAmount > 0 && (
+        <Label
+          className="absolute z-20 -top-2 -left-1"
+          type="success"
+          style={{
+            height: "24px",
+          }}
+        >
+          {`x${plannedAmount}`}
+        </Label>
+      )}
       <ButtonPanel
         className={classNames(
           "flex flex-row p-0 overflow-hidden items-center relative",

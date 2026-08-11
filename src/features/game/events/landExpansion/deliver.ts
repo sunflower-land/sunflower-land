@@ -27,6 +27,7 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 
 import {
   isCoinNPC,
@@ -46,13 +47,13 @@ export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   bert: 2,
   miranda: 2,
   finley: 2,
-  raven: 3,
-  finn: 4,
-  timmy: 4,
-  cornwell: 4,
+  raven: 4,
+  finn: 5,
+  timmy: 5,
+  cornwell: 3,
   tywin: 10,
   jester: 4,
-  pharaoh: 5,
+  pharaoh: 6,
 };
 
 const isFruit = (name: PatchFruitName) => name in PATCH_FRUIT;
@@ -242,62 +243,94 @@ export function getOrderSellPrice<T>(
   let mul = 1;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
-  if (
-    order.from === "betty" &&
-    game.bumpkin?.skills["Betty's Friend"] &&
-    order.reward.coins
-  ) {
-    mul += 0.3;
-    boostsUsed.push({ name: "Betty's Friend", value: "+30%" });
+  const bettysFriendLevel = game.bumpkin
+    ? getSkillLevel(game.bumpkin.skills, "Betty's Friend")
+    : 0;
+  if (order.from === "betty" && bettysFriendLevel && order.reward.coins) {
+    const b = SKILL_RANKS["Betty's Friend"].ranks[bettysFriendLevel - 1];
+    mul += b;
+    boostsUsed.push({
+      name: "Betty's Friend",
+      value: `+${new Decimal(b).mul(100).toNumber()}%`,
+    });
   }
 
+  const victoriasSecretaryLevel = game.bumpkin
+    ? getSkillLevel(game.bumpkin.skills, "Victoria's Secretary")
+    : 0;
   if (
     order.from === "victoria" &&
-    game.bumpkin?.skills["Victoria's Secretary"] &&
+    victoriasSecretaryLevel &&
     order.reward.coins
   ) {
-    mul += 0.5;
-    boostsUsed.push({ name: "Victoria's Secretary", value: "+50%" });
+    const b =
+      SKILL_RANKS["Victoria's Secretary"].ranks[victoriasSecretaryLevel - 1];
+    mul += b;
+    boostsUsed.push({
+      name: "Victoria's Secretary",
+      value: `+${new Decimal(b).mul(100).toNumber()}%`,
+    });
   }
 
+  const forgeWardProfitsLevel = game.bumpkin
+    ? getSkillLevel(game.bumpkin.skills, "Forge-Ward Profits")
+    : 0;
   if (
     order.from === "blacksmith" &&
-    game.bumpkin?.skills["Forge-Ward Profits"] &&
+    forgeWardProfitsLevel &&
     order.reward.coins
   ) {
-    mul += 0.2;
-    boostsUsed.push({ name: "Forge-Ward Profits", value: "+20%" });
+    const b =
+      SKILL_RANKS["Forge-Ward Profits"].ranks[forgeWardProfitsLevel - 1];
+    mul += b;
+    boostsUsed.push({
+      name: "Forge-Ward Profits",
+      value: `+${new Decimal(b).mul(100).toNumber()}%`,
+    });
   }
 
-  // Fruity Profit - 50% Coins bonus if fruit
-  if (
-    game.bumpkin?.skills["Fruity Profit"] &&
-    order.reward.coins &&
-    order.from === "tango"
-  ) {
+  // Fruity Profit - 50%/75%/100% Coins bonus on Tango fruit deliveries (scales with rank)
+  const fruityProfitLevel = game.bumpkin
+    ? getSkillLevel(game.bumpkin.skills, "Fruity Profit")
+    : 0;
+  if (fruityProfitLevel && order.reward.coins && order.from === "tango") {
     const items = getKeys(order.items);
     if (items.some((name) => isFruit(name as PatchFruitName))) {
-      mul += 0.5;
-      boostsUsed.push({ name: "Fruity Profit", value: "+50%" });
+      const b = SKILL_RANKS["Fruity Profit"].ranks[fruityProfitLevel - 1];
+      mul += b;
+      boostsUsed.push({
+        name: "Fruity Profit",
+        value: `+${new Decimal(b).mul(100).toNumber()}%`,
+      });
     }
   }
 
-  // Fishy Fortune - 50% Coins bonus if Corale NPC
-  if (
-    game.bumpkin?.skills["Fishy Fortune"] &&
-    order.reward.coins &&
-    order.from === "corale"
-  ) {
-    mul += 1;
-    boostsUsed.push({ name: "Fishy Fortune", value: "+100%" });
+  // Fishy Fortune - +100%/+125%/+150% Coins bonus on Corale deliveries (scales with rank)
+  const fishyFortuneLevel = game.bumpkin
+    ? getSkillLevel(game.bumpkin.skills, "Fishy Fortune")
+    : 0;
+  if (fishyFortuneLevel && order.reward.coins && order.from === "corale") {
+    const b = SKILL_RANKS["Fishy Fortune"].ranks[fishyFortuneLevel - 1];
+    mul += b;
+    boostsUsed.push({
+      name: "Fishy Fortune",
+      value: `+${new Decimal(b).mul(100).toNumber()}%`,
+    });
   }
 
-  // Nom Nom - 10% bonus with food orders
-  if (game.bumpkin?.skills["Nom Nom"]) {
+  // Nom Nom - +10%/+30%/+50% bonus with food orders (scales with rank)
+  const nomNomLevel = game.bumpkin
+    ? getSkillLevel(game.bumpkin.skills, "Nom Nom")
+    : 0;
+  if (nomNomLevel) {
     const items = getKeys(order.items);
     if (items.some((name) => name in CONSUMABLES && !(name in FISH))) {
-      mul += 0.1;
-      boostsUsed.push({ name: "Nom Nom", value: "+10%" });
+      const b = SKILL_RANKS["Nom Nom"].ranks[nomNomLevel - 1];
+      mul += b;
+      boostsUsed.push({
+        name: "Nom Nom",
+        value: `+${new Decimal(b).mul(100).toNumber()}%`,
+      });
     }
   }
 

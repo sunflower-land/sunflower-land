@@ -514,6 +514,174 @@ describe("claimProduce", () => {
     expect(state.henHouse.animals["0"].awakeAt).toEqual(boostedAwakeAt);
   });
 
+  it("gives +0.1 eggs for chickens when an Ascended Chicken is placed", () => {
+    const chickenId = "123";
+
+    const newState = claimProduce({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Ascended Chicken": new Decimal(1),
+        },
+        collectibles: {
+          "Ascended Chicken": [
+            {
+              id: "ascended",
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+              readyAt: now,
+            },
+          ],
+        },
+        henHouse: {
+          ...GAME_STATE.henHouse,
+          animals: {
+            [chickenId]: {
+              id: chickenId,
+              type: "Chicken",
+              createdAt: 0,
+              state: "ready",
+              experience: 60,
+              asleepAt: 0,
+              awakeAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Chicken", id: chickenId },
+      createdAt: now,
+    });
+
+    expect(newState.inventory.Egg).toEqual(new Decimal(1.1));
+  });
+
+  it("does not boost eggs when an Ascended Chicken is only in the inventory", () => {
+    const chickenId = "123";
+
+    const newState = claimProduce({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Ascended Chicken": new Decimal(1),
+        },
+        henHouse: {
+          ...GAME_STATE.henHouse,
+          animals: {
+            [chickenId]: {
+              id: chickenId,
+              type: "Chicken",
+              createdAt: 0,
+              state: "ready",
+              experience: 60,
+              asleepAt: 0,
+              awakeAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Chicken", id: chickenId },
+      createdAt: now,
+    });
+
+    expect(newState.inventory.Egg).toEqual(new Decimal(1));
+  });
+
+  it("gives +0.05 Wool for sheep when Ascended Sheep is placed", () => {
+    const sheepId = "123";
+
+    const newState = claimProduce({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Ascended Sheep": new Decimal(1),
+        },
+        collectibles: {
+          "Ascended Sheep": [
+            {
+              id: "ascended-1",
+              createdAt: now,
+              coordinates: { x: 0, y: 0 },
+              readyAt: now,
+            },
+          ],
+        },
+        barn: {
+          ...GAME_STATE.barn,
+          animals: {
+            [sheepId]: {
+              id: sheepId,
+              type: "Sheep",
+              createdAt: 0,
+              state: "ready",
+              experience: 240,
+              asleepAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+              awakeAt: 0,
+            },
+          },
+        },
+      },
+      action: { type: "produce.claimed", animal: "Sheep", id: sheepId },
+      createdAt: now,
+    });
+
+    expect(newState.inventory.Wool).toEqual(new Decimal(1.05));
+  });
+
+  it("reduces cow sleep time by 2.5% when an Ascended Cow is placed", () => {
+    const cowId = "123";
+
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Ascended Cow": new Decimal(1),
+        },
+        collectibles: {
+          "Ascended Cow": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        barn: {
+          ...GAME_STATE.barn,
+          animals: {
+            [cowId]: {
+              id: cowId,
+              type: "Cow",
+              createdAt: 0,
+              state: "ready",
+              experience: 360,
+              asleepAt: 0,
+              lovedAt: 0,
+              item: "Petting Hand",
+              awakeAt: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "produce.claimed",
+        animal: "Cow",
+        id: cowId,
+      },
+    });
+
+    const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION * 0.975;
+
+    expect(state.barn.animals[cowId].awakeAt).toEqual(boostedAwakeAt);
+  });
+
   it("gives +0.25 yield for all produce for cows when a Cattlegrim is being worn", () => {
     const cowId = "123";
 

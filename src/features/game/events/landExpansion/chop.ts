@@ -13,6 +13,7 @@ import {
   getTreeBoostWindows,
 } from "features/game/lib/boostWindows";
 import { KNOWN_IDS } from "features/game/types";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 
 import type {
@@ -133,14 +134,27 @@ export function getWoodDropAmount({
     boostsUsed.push({ name: "Lumberjack", value: "x1.1" });
   }
 
-  if (bumpkin.skills["Tough Tree"] && getPrngChance(10, "Tough Tree")) {
+  const toughTreeLevel = getSkillLevel(bumpkin.skills, "Tough Tree");
+  if (
+    toughTreeLevel &&
+    getPrngChance(
+      SKILL_RANKS["Tough Tree"].ranks[toughTreeLevel - 1],
+      "Tough Tree",
+    )
+  ) {
     amount = amount.mul(3);
     boostsUsed.push({ name: "Tough Tree", value: "x3" });
   }
 
-  if (bumpkin.skills["Lumberjack's Extra"]) {
-    amount = amount.add(0.1);
-    boostsUsed.push({ name: "Lumberjack's Extra", value: "+0.1" });
+  const lumberjacksExtraLevel = getSkillLevel(
+    bumpkin.skills,
+    "Lumberjack's Extra",
+  );
+  if (lumberjacksExtraLevel) {
+    const v =
+      SKILL_RANKS["Lumberjack's Extra"].ranks[lumberjacksExtraLevel - 1];
+    amount = amount.add(v);
+    boostsUsed.push({ name: "Lumberjack's Extra", value: `+${v}` });
   }
 
   if (isCollectibleBuilt({ name: "Wood Nymph Wendy", game })) {
@@ -226,12 +240,13 @@ export function getTreeRecoveryTimeForDisplay({
   let totalSeconds = TREE_RECOVERY_TIME;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
+  const treeTurnaroundLevel = getSkillLevel(bumpkin.skills, "Tree Turnaround");
   if (
-    bumpkin.skills["Tree Turnaround"] &&
+    treeTurnaroundLevel &&
     prngArgs &&
     prngChance({
       ...prngArgs,
-      chance: 15,
+      chance: SKILL_RANKS["Tree Turnaround"].ranks[treeTurnaroundLevel - 1],
       criticalHitName: "Tree Turnaround",
     })
   ) {
@@ -258,9 +273,11 @@ export function getTreeRecoveryTimeForDisplay({
       boostsUsed.push({ name: "Apprentice Beaver", value: "x0.5" });
   }
 
-  if (bumpkin.skills["Tree Charge"]) {
-    boostsUsed.push({ name: "Tree Charge", value: "x0.9" });
-    totalSeconds = totalSeconds * 0.9;
+  const treeChargeLevel = getSkillLevel(bumpkin.skills, "Tree Charge");
+  if (treeChargeLevel) {
+    const m = SKILL_RANKS["Tree Charge"].ranks[treeChargeLevel - 1];
+    boostsUsed.push({ name: "Tree Charge", value: `x${m}` });
+    totalSeconds = totalSeconds * m;
   }
 
   // Under SPEED_BOOSTS the temporary tree boosts (totems, Timber Hourglass,
@@ -385,13 +402,14 @@ export function getReward({
   reward: Reward | undefined;
   boostsUsed: { name: BoostName; value: string }[];
 } {
+  const moneyTreeLevel = getSkillLevel(skills, "Money Tree");
   if (
-    skills["Money Tree"] &&
+    moneyTreeLevel &&
     prngChance({
       farmId,
       itemId,
       counter,
-      chance: 1,
+      chance: SKILL_RANKS["Money Tree"].ranks[moneyTreeLevel - 1],
       criticalHitName: "Money Tree",
     })
   ) {

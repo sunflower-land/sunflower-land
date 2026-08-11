@@ -612,6 +612,64 @@ describe("mineIron", () => {
     expect(game.inventory.Iron).toEqual(new Decimal(2));
   });
 
+  const ironAmountWithSkills = (skills: Record<string, number>) => {
+    const counter = findNonCriticalCounter();
+    const game = mineIron({
+      state: {
+        ...GAME_STATE,
+        iron: {
+          0: { createdAt: now, stone: { minedAt: 0 }, x: 1, y: 1 },
+        },
+        bumpkin: { ...TEST_BUMPKIN, skills },
+        inventory: { "Stone Pickaxe": new Decimal(2) },
+        farmActivity: { "Iron Rock Mined": counter },
+      },
+      createdAt: now,
+      action: {
+        type: "ironRock.mined",
+        index: "0",
+      } as LandExpansionIronMineAction,
+      farmId,
+    });
+    return game.inventory.Iron;
+  };
+
+  it("adds +0.15 iron with Iron Bumpkin at rank 2", () => {
+    expect(ironAmountWithSkills({ "Iron Bumpkin": 2 })).toEqual(
+      new Decimal(1.15),
+    );
+  });
+
+  it("adds +0.2 iron with Iron Bumpkin at rank 3", () => {
+    expect(ironAmountWithSkills({ "Iron Bumpkin": 3 })).toEqual(
+      new Decimal(1.2),
+    );
+  });
+
+  it("adds +1.5 iron with Ferrous Favor at rank 2", () => {
+    expect(ironAmountWithSkills({ "Ferrous Favor": 2 })).toEqual(
+      new Decimal(2.5),
+    );
+  });
+
+  it("adds +2 iron with Ferrous Favor at rank 3", () => {
+    expect(ironAmountWithSkills({ "Ferrous Favor": 3 })).toEqual(
+      new Decimal(3),
+    );
+  });
+
+  it("removes 0.6 iron with Rocky Favor debuff at rank 2", () => {
+    expect(ironAmountWithSkills({ "Rocky Favor": 2 })).toEqual(
+      new Decimal(0.4),
+    );
+  });
+
+  it("removes 0.7 iron with Rocky Favor debuff at rank 3", () => {
+    expect(ironAmountWithSkills({ "Rocky Favor": 3 })).toEqual(
+      new Decimal(0.3),
+    );
+  });
+
   it("adds +0.5 iron when gold is within Emerald Turtle AoE", () => {
     const counter = findNonCriticalCounter();
     const payload = {
@@ -1423,6 +1481,30 @@ describe("getMinedAt", () => {
       },
     });
     expect(time).toEqual(now - IRON_RECOVERY_TIME * 0.3 * 1000);
+  });
+
+  it("reduces the cooldown further with Iron Hustle at rank 2 (x0.65)", () => {
+    const now = Date.now();
+    const { time } = getMinedAt({
+      createdAt: now,
+      game: {
+        ...GAME_STATE,
+        bumpkin: { ...TEST_BUMPKIN, skills: { "Iron Hustle": 2 } },
+      },
+    });
+    expect(time).toEqual(now - IRON_RECOVERY_TIME * 0.35 * 1000);
+  });
+
+  it("reduces the cooldown further with Iron Hustle at rank 3 (x0.6)", () => {
+    const now = Date.now();
+    const { time } = getMinedAt({
+      createdAt: now,
+      game: {
+        ...GAME_STATE,
+        bumpkin: { ...TEST_BUMPKIN, skills: { "Iron Hustle": 3 } },
+      },
+    });
+    expect(time).toEqual(now - IRON_RECOVERY_TIME * 0.4 * 1000);
   });
 });
 

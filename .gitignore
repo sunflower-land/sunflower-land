@@ -53,3 +53,5 @@ cache
 /.claude/
 
 /*.json
+/docs/superpowers/
+/AGENTS.md

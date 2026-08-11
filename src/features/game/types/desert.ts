@@ -32,6 +32,7 @@ export const CHAPTER_ARTEFACT: Record<ChapterName, BeachBountyChapterArtefact> =
     "Paw Prints": "Moon Crystal",
     "Crabs and Traps": "Ammonite Shell",
     "Salt Awakening": "Salt Dino Egg",
+    "Ascension Age": "Otter Pebble",
   };
 
 export const DIGGING_FORMATIONS = {

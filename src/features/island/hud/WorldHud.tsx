@@ -24,6 +24,7 @@ import { MarketplaceButton } from "./components/MarketplaceButton";
 import chest from "assets/icons/chest.png";
 import { StreamCountdown } from "./components/streamCountdown/StreamCountdown";
 import { FloatingIslandCountdown } from "./components/FloatingIslandCountdown";
+import { CommunityGameCountdown } from "features/giveaway/ui/CommunityGameCountdown";
 import { HudBumpkin } from "./components/bumpkinProfile/HudBumpkin";
 import classNames from "classnames";
 import { Feed } from "features/social/Feed";
@@ -153,6 +154,8 @@ const HudComponent: React.FC<Props> = ({
         >
           <TransactionCountdown />
           <StreamCountdown />
+          {/* Community games widget — only while in the Kingdom (polls every 30s). */}
+          {scene === "kingdom" && <CommunityGameCountdown />}
           <RaffleWidget />
           <FloatingIslandCountdown />
           <AuctionCountdown />

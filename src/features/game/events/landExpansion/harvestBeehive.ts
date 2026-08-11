@@ -10,6 +10,7 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 
 export const HARVEST_BEEHIVE_ERRORS = {
   BEEHIVE_NOT_PLACED: "harvestBeeHive.notPlaced",
@@ -32,8 +33,10 @@ export const calculateSwarmBoost = (amount: number, game: GameState) => {
 
   let boost = amount + 0.2;
 
-  if (bumpkin.skills["Pollen Power Up"]) {
-    boost += 0.1; // 0.3
+  const pollenPowerUpLevel = getSkillLevel(bumpkin.skills, "Pollen Power Up");
+  if (pollenPowerUpLevel) {
+    // +0.1 / +0.15 / +0.2 on top of the base +0.2 (total 0.3 / 0.35 / 0.4)
+    boost += SKILL_RANKS["Pollen Power Up"].ranks[pollenPowerUpLevel - 1];
   }
 
   return boost;
@@ -61,6 +64,12 @@ const applySwarmBoostToCrops = (
   );
 };
 
+/** Flat honey Ruins Flower adds to a full hive. */
+export const RUINS_FLOWER_HONEY_BONUS = 0.05;
+
+/** Normalised production of a full hive — see harvestBeehive's honeyProduced. */
+const FULL_HIVE_HONEY = 1;
+
 export const getHoneyMultiplier = (game: GameState) => {
   const { bumpkin } = game;
 
@@ -77,9 +86,11 @@ export const getHoneyMultiplier = (game: GameState) => {
     boostsUsed.push({ name: "Honeycomb Shield", value: "+1" });
   }
 
-  if (bumpkin.skills["Sweet Bonus"]) {
-    multiplier += 0.1;
-    boostsUsed.push({ name: "Sweet Bonus", value: "+0.1" });
+  const sweetBonusLevel = getSkillLevel(bumpkin.skills, "Sweet Bonus");
+  if (sweetBonusLevel) {
+    const bonus = SKILL_RANKS["Sweet Bonus"].ranks[sweetBonusLevel - 1];
+    multiplier += bonus;
+    boostsUsed.push({ name: "Sweet Bonus", value: `+${bonus}` });
   }
 
   if (isCollectibleBuilt({ name: "King of Bears", game })) {
@@ -97,6 +108,26 @@ const getTotalHoneyProduced = (
   const { multiplier, boostsUsed } = getHoneyMultiplier(game);
 
   return { amount: honeyProduced * multiplier, boostsUsed };
+};
+
+/**
+ * Honey a *full* hive yields, for display.
+ *
+ * Runs the same path the payout does: harvestBeehive normalises production so a
+ * full hive is exactly 1, then adds Ruins Flower's flat bonus to the resulting
+ * amount. Deriving this from getHoneyMultiplier instead would add an absolute
+ * to a rate — the two happen to be equal at a full hive, but only by accident
+ * of that normalisation.
+ */
+export const getFullHiveHoneyYield = (game: GameState) => {
+  const { amount, boostsUsed } = getTotalHoneyProduced(game, FULL_HIVE_HONEY);
+
+  if (isCollectibleBuilt({ name: "Ruins Flower", game })) {
+    boostsUsed.push({ name: "Ruins Flower", value: "+0.05" });
+    return { yield: amount + RUINS_FLOWER_HONEY_BONUS, boostsUsed };
+  }
+
+  return { yield: amount, boostsUsed };
 };
 
 export function harvestBeehive({
@@ -132,11 +163,20 @@ export function harvestBeehive({
       honeyProduced,
     );
 
+    let honeyHarvested = new Decimal(totalHoneyProduced);
+    if (
+      isFull &&
+      isCollectibleBuilt({ game: stateCopy, name: "Ruins Flower" })
+    ) {
+      honeyHarvested = honeyHarvested.add(RUINS_FLOWER_HONEY_BONUS);
+      boostsUsed.push({ name: "Ruins Flower", value: "+0.05" });
+    }
+
     stateCopy.beehives[action.id].honey.produced = 0;
     stateCopy.beehives[action.id].honey.updatedAt = createdAt;
     stateCopy.inventory.Honey = (
       stateCopy.inventory.Honey ?? new Decimal(0)
-    ).add(new Decimal(totalHoneyProduced));
+    ).add(honeyHarvested);
 
     // If the beehive is full, check, apply and update swarm
     if (isFull) {
@@ -157,7 +197,7 @@ export function harvestBeehive({
     stateCopy.farmActivity = trackFarmActivity(
       `Honey Harvested`,
       stateCopy.farmActivity,
-      new Decimal(totalHoneyProduced),
+      honeyHarvested,
     );
 
     const updatedBeehives = updateBeehives({ game: stateCopy, createdAt });

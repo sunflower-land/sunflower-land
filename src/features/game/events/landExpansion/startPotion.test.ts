@@ -135,4 +135,39 @@ describe("startPotion", () => {
     expect(newState.coins).toEqual(coins - GAME_FEE * multiplier);
     expect(newState.farmActivity["Coins Spent"]).toEqual(GAME_FEE * multiplier);
   });
+  it("halves the fee when Alchemist Apron is equipped", () => {
+    const newState = startPotion({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          equipped: {
+            ...GAME_STATE.bumpkin.equipped,
+            coat: "Alchemist Apron",
+          },
+        },
+      },
+      action: {
+        type: "potion.started",
+        multiplier: 1,
+      },
+    });
+
+    expect(newState.coins).toEqual(GAME_STATE.coins - GAME_FEE * 0.5);
+  });
+
+  it("does not discount when Alchemist Apron is only in the wardrobe", () => {
+    const newState = startPotion({
+      state: {
+        ...GAME_STATE,
+        wardrobe: { "Alchemist Apron": 1 },
+      },
+      action: {
+        type: "potion.started",
+        multiplier: 1,
+      },
+    });
+
+    expect(newState.coins).toEqual(GAME_STATE.coins - GAME_FEE);
+  });
 });

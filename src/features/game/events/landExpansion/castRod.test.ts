@@ -880,6 +880,35 @@ describe("castRod", () => {
 });
 
 describe("getDailyFishingLimit", () => {
+  it("increases fishing limit by 5 when Otty the Otter is placed", () => {
+    const { limit } = getDailyFishingLimit(
+      {
+        ...TEST_FARM,
+        collectibles: {
+          "Otty the Otter": [
+            { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 } },
+          ],
+        },
+      },
+      Date.now(),
+    );
+    expect(limit).toEqual(25);
+  });
+
+  it("does not increase the limit when Otty the Otter is only in the inventory", () => {
+    const { limit } = getDailyFishingLimit(
+      {
+        ...TEST_FARM,
+        inventory: {
+          ...TEST_FARM.inventory,
+          "Otty the Otter": new Decimal(1),
+        },
+      },
+      Date.now(),
+    );
+    expect(limit).toEqual(20);
+  });
+
   it("increases fishing limit by 10 when Angler Waders is equipped", () => {
     const { limit } = getDailyFishingLimit(
       {
@@ -927,6 +956,54 @@ describe("getDailyFishingLimit", () => {
       Date.now(),
     );
     expect(limit).toEqual(25);
+  });
+
+  it("scales Fisherman's 5 Fold with rank (+10 at rank 3)", () => {
+    const { limit } = getDailyFishingLimit(
+      {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "Fisherman's 5 Fold": 3,
+          },
+        },
+      },
+      Date.now(),
+    );
+    expect(limit).toEqual(30);
+  });
+
+  it("scales Fisherman's 10 Fold with rank (+25 at rank 3)", () => {
+    const { limit } = getDailyFishingLimit(
+      {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "Fisherman's 10 Fold": 3,
+          },
+        },
+      },
+      Date.now(),
+    );
+    expect(limit).toEqual(45);
+  });
+
+  it("scales More With Less with rank (+50 at rank 3)", () => {
+    const { limit } = getDailyFishingLimit(
+      {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "More With Less": 3,
+          },
+        },
+      },
+      Date.now(),
+    );
+    expect(limit).toEqual(70);
   });
 
   it("increases fishing limit by 5 with Reelmaster's Chair", () => {

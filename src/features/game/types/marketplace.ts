@@ -402,8 +402,8 @@ export function getMarketPrice({
 
 const ISLAND_RESOURCE_TAXES: Record<IslandType, number> = {
   basic: 1,
-  spring: 0.5,
-  desert: 0.2,
+  spring: 0.55,
+  desert: 0.25,
   volcano: 0.15,
   swamp: 0.15,
   // Ascension islands (spooky onward) reuse the swamp value for now.

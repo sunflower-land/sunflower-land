@@ -9,7 +9,7 @@ import { PlaceableContainer } from "../containers/PlaceableContainer";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import type { NPCName } from "lib/npcs";
 import type { FactionName } from "features/game/types/game";
-import { translate } from "lib/i18n/translate";
+import { translateForBubble } from "lib/i18n/translate";
 import { capitalize } from "lib/utils/capitalize";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { DogContainer } from "../containers/DogContainer";
@@ -19,6 +19,9 @@ import {
   type ChapterName,
 } from "features/game/types/chapters";
 import { CONFIG } from "lib/config";
+import { SQUARE_WIDTH } from "features/game/lib/constants";
+import { getShowcasedDesigns } from "features/game/actions/getShowcasedDesigns";
+import { hasUnseenDesigns } from "features/social/lib/seenDesigns";
 
 const CHAPTER_BANNERS: Record<ChapterName, string | undefined> = {
   "Solar Flare": undefined,
@@ -35,6 +38,7 @@ const CHAPTER_BANNERS: Record<ChapterName, string | undefined> = {
   "Paw Prints": "world/paw_prints_banner.webp",
   "Crabs and Traps": "world/crap_chapter_banner.webp",
   "Salt Awakening": "world/salt_awakening_banner.webp",
+  "Ascension Age": "world/ascension_banner.webp",
 };
 
 // Tiled Layer names that get enabled during a chapter
@@ -54,6 +58,7 @@ const CHAPTER_LAYERS: Record<ChapterName, string | undefined> = {
   "Paw Prints": "Paw Prints",
   "Crabs and Traps": "Crabs and Traps",
   "Salt Awakening": "Salt Awakening",
+  "Ascension Age": "Ascension",
 };
 
 export type FactionNPC = {
@@ -193,6 +198,8 @@ export class PlazaScene extends BaseScene {
 
     this.load.image("shop_icon", "world/shop_disc.png");
     this.load.image("trade_icon", "world/trade_icon.png");
+    this.load.image("showcase_board", "world/showcase_board.png");
+    this.load.image("speaker", "world/speaker.webp");
     this.load.image("balloon", `world/heart_air_balloon.webp`);
 
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
@@ -253,6 +260,8 @@ export class PlazaScene extends BaseScene {
     this.load.image("squirrel_onesie_npc", "world/squirrel_onesie_npc.webp");
 
     this.load.image("ronin_banner", "world/ronin_banner.webp");
+
+    this.load.image("yakkamon", "world/yakkamon.png");
 
     const chapter = getCurrentChapter(Date.now());
     // chapter = "Paw Prints"; // Testing only
@@ -316,7 +325,7 @@ export class PlazaScene extends BaseScene {
       if (this.checkDistanceToSprite(weatherShop, 75)) {
         interactableModalManager.open("weather_shop");
       } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
 
@@ -327,7 +336,7 @@ export class PlazaScene extends BaseScene {
       if (this.checkDistanceToSprite(rarecrows, 75)) {
         interactableModalManager.open("rarecrows");
       } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
 
@@ -336,7 +345,7 @@ export class PlazaScene extends BaseScene {
       if (this.checkDistanceToSprite(petShop, 75)) {
         interactableModalManager.open("pet_shop");
       } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
 
@@ -345,14 +354,33 @@ export class PlazaScene extends BaseScene {
       if (this.checkDistanceToSprite(prizesChest, 100)) {
         interactableModalManager.open("chapter_raffles");
       } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
+
+    this.addDesignShowcaseBoard();
+
+    this.addYakkamon();
 
     const prizesLabel = new Label(this, "PRIZES", "gold");
     prizesLabel.setPosition(560, 230);
     prizesLabel.setDepth(10000000);
     this.add.existing(prizesLabel);
+
+    // Town-hall giveaway board — opens the giveaway modal.
+    const giveaway = this.add.sprite(300, 250, "vip_gift");
+    giveaway.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (this.checkDistanceToSprite(giveaway, 100)) {
+        interactableModalManager.open("giveaway_board");
+      } else {
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+      }
+    });
+
+    const giveawayLabel = new Label(this, "GIVEAWAY", "brown");
+    giveawayLabel.setPosition(300, 235);
+    giveawayLabel.setDepth(10000000);
+    this.add.existing(giveawayLabel);
 
     let bumpkins = PLAZA_BUMPKINS;
     const now = Date.now();
@@ -473,7 +501,7 @@ export class PlazaScene extends BaseScene {
       if (this.checkDistanceToSprite(basicChest, 75)) {
         interactableModalManager.open("basic_chest");
       } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
 
@@ -490,7 +518,7 @@ export class PlazaScene extends BaseScene {
       if (this.checkDistanceToSprite(luxuryChest, 75)) {
         interactableModalManager.open("luxury_chest");
       } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
 
@@ -551,7 +579,7 @@ export class PlazaScene extends BaseScene {
       if (this.checkDistanceToSprite(fatChicken, 75)) {
         interactableModalManager.open("fat_chicken");
       } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
 
@@ -573,7 +601,7 @@ export class PlazaScene extends BaseScene {
         if (this.checkDistanceToSprite(bud, 75)) {
           interactableModalManager.open("bud");
         } else {
-          this.currentPlayer?.speak(translate("base.iam.far.away"));
+          this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
         }
       });
 
@@ -687,7 +715,7 @@ export class PlazaScene extends BaseScene {
         if (this.checkDistanceToSprite(bud3, 75)) {
           interactableModalManager.open("bud");
         } else {
-          this.currentPlayer?.speak(translate("base.iam.far.away"));
+          this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
         }
       });
 
@@ -709,7 +737,7 @@ export class PlazaScene extends BaseScene {
         if (this.checkDistanceToSprite(turtle, 75)) {
           interactableModalManager.open("bud");
         } else {
-          this.currentPlayer?.speak(translate("base.iam.far.away"));
+          this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
         }
       });
 
@@ -734,7 +762,7 @@ export class PlazaScene extends BaseScene {
         if (this.checkDistanceToSprite(chest, 75)) {
           interactableModalManager.open("clubhouse_reward");
         } else {
-          this.currentPlayer?.speak(translate("base.iam.far.away"));
+          this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
         }
       });
 
@@ -855,6 +883,76 @@ export class PlazaScene extends BaseScene {
         this.layers["Club House Door"].setVisible(true);
       }
     });
+  }
+
+  /**
+   * Yakkamon opens the pre-registration modal where players claim their sign up
+   * code. Placed on square (12, 18) of the Tiled map - the map is 16px per tile,
+   * and Phaser sprites are centre-anchored, hence the + 8 on each axis. The extra
+   * offsets nudge them off the tile centre to sit nicely against the scenery.
+   */
+  addYakkamon() {
+    const x = 12 * SQUARE_WIDTH + SQUARE_WIDTH / 2 + 10;
+    const y = 18 * SQUARE_WIDTH + SQUARE_WIDTH / 2 - 42;
+
+    const yakkamon = this.add.sprite(x, y, "yakkamon").setDepth(y);
+
+    const label = new Label(this, "YAKKAMON", "gold");
+    label.setPosition(x, y - 21);
+    label.setDepth(10000000);
+    this.add.existing(label);
+
+    yakkamon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (this.checkDistanceToSprite(yakkamon, 75)) {
+        interactableModalManager.open("yakkamon");
+      } else {
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+      }
+    });
+  }
+
+  /**
+   * Noticeboard that opens the Farm Design Showcase. It sits at a high depth so
+   * players walk behind it, and gets an unread icon while the showcase holds a
+   * design this player has not opened yet.
+   */
+  addDesignShowcaseBoard() {
+    const board = this.add.sprite(560, 339, "showcase_board").setDepth(1000000);
+
+    // Only the base of the board blocks movement, so players can walk behind it
+    this.physics.world.enable(board);
+    this.colliders?.add(board);
+    (board.body as Phaser.Physics.Arcade.Body)
+      .setSize(40, 8)
+      .setOffset(0, 22)
+      .setImmovable(true)
+      .setCollideWorldBounds(true);
+
+    let unreadIcon: Phaser.GameObjects.Image | undefined;
+
+    board.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (!this.checkDistanceToSprite(board, 75)) {
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+        return;
+      }
+
+      // The modal marks everything it loads as seen
+      unreadIcon?.destroy();
+      unreadIcon = undefined;
+
+      interactableModalManager.open("design_showcase");
+    });
+
+    const token = this.authService.getSnapshot().context.user.rawToken;
+    if (!token) return;
+
+    getShowcasedDesigns({ token })
+      .then((designs) => {
+        if (!board.active || !hasUnseenDesigns(designs)) return;
+
+        unreadIcon = this.add.image(560, 321, "speaker").setDepth(1000000000);
+      })
+      .catch(() => undefined);
   }
 
   syncPlaceables() {

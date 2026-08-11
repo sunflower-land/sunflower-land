@@ -240,6 +240,65 @@ describe("mineCrimstone", () => {
     expect(game.inventory.Crimstone?.toNumber()).toEqual(2);
   });
 
+  // Fire Kissed only applies on the 5th consecutive mine (minesLeft === 1),
+  // added on top of the base 1 + the +2 Streak Bonus. Use a createdAt that is
+  // past the recovery time (so the rock is mineable) but within the reset
+  // window (recovery + 24h), otherwise the reducer resets minesLeft back to 5.
+  const readyAt = (CRIMSTONE_RECOVERY_TIME + 60 * 60) * 1000;
+  const crimstoneOnFifthMine = (skills: Record<string, number>) => {
+    const game = mineCrimstone({
+      state: {
+        ...GAME_STATE,
+        inventory: { "Gold Pickaxe": new Decimal(1) },
+        bumpkin: { ...GAME_STATE.bumpkin, skills },
+        crimstones: {
+          0: { stone: { minedAt: 0 }, x: 1, y: 1, minesLeft: 1 },
+        },
+      },
+      action: {
+        type: "crimstoneRock.mined",
+        expansionIndex: 0,
+        index: 0,
+      } as MineCrimstoneAction,
+      createdAt: readyAt,
+      farmId: FARM_ID,
+    });
+    return game.inventory.Crimstone?.toNumber();
+  };
+
+  it("adds +1 Crimstone with Fire Kissed rank 1 on the 5th mine", () => {
+    expect(crimstoneOnFifthMine({ "Fire Kissed": 1 })).toEqual(4);
+  });
+
+  it("adds +1.35 Crimstone with Fire Kissed rank 2 on the 5th mine", () => {
+    expect(crimstoneOnFifthMine({ "Fire Kissed": 2 })).toEqual(4.35);
+  });
+
+  it("adds +1.75 Crimstone with Fire Kissed rank 3 on the 5th mine", () => {
+    expect(crimstoneOnFifthMine({ "Fire Kissed": 3 })).toEqual(4.75);
+  });
+
+  it("does not apply Fire Kissed before the 5th mine", () => {
+    const game = mineCrimstone({
+      state: {
+        ...GAME_STATE,
+        inventory: { "Gold Pickaxe": new Decimal(1) },
+        bumpkin: { ...GAME_STATE.bumpkin, skills: { "Fire Kissed": 3 } },
+        crimstones: {
+          0: { stone: { minedAt: 0 }, x: 1, y: 1, minesLeft: 3 },
+        },
+      },
+      action: {
+        type: "crimstoneRock.mined",
+        expansionIndex: 0,
+        index: 0,
+      } as MineCrimstoneAction,
+      createdAt: readyAt,
+      farmId: FARM_ID,
+    });
+    expect(game.inventory.Crimstone?.toNumber()).toEqual(1);
+  });
+
   it("resets minesLeft after 24 hours", () => {
     const payload = {
       state: {
@@ -500,6 +559,30 @@ describe("mineCrimstone — SPEED_BOOSTS speed windows", () => {
 
     expect(game.crimstones[0].stone.minedAt).toEqual(now);
     expect(game.crimstones[0].stone.baseDurationMs).toEqual(BASE_MS * 0.85);
+  });
+
+  it("folds a rank 2 Fireside Alchemist boost (x0.75) into baseDurationMs", () => {
+    const game = mineFirstCrimstone({
+      ...baseState,
+      bumpkin: {
+        ...baseState.bumpkin,
+        skills: { "Fireside Alchemist": 2 },
+      },
+    });
+
+    expect(game.crimstones[0].stone.baseDurationMs).toEqual(BASE_MS * 0.75);
+  });
+
+  it("folds a rank 3 Fireside Alchemist boost (x0.6) into baseDurationMs", () => {
+    const game = mineFirstCrimstone({
+      ...baseState,
+      bumpkin: {
+        ...baseState.bumpkin,
+        skills: { "Fireside Alchemist": 3 },
+      },
+    });
+
+    expect(game.crimstones[0].stone.baseDurationMs).toEqual(BASE_MS * 0.6);
   });
 
   it("excludes a temporary Mole Shrine from baseDurationMs (applied as a window)", () => {

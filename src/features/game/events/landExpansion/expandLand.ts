@@ -5,8 +5,6 @@ import {
 } from "features/game/lib/level";
 import { getKeys } from "lib/object";
 import type { BoostName, GameState } from "features/game/types/game";
-import { ASCENSION_ISLANDS } from "features/game/types/game";
-import { hasFeatureAccess } from "lib/flags";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { mfTrack } from "lib/moonforgeAnalytics";
 
@@ -16,11 +14,16 @@ import {
   type Requirements,
 } from "features/game/types/expansions";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { isMonumentActive } from "features/game/types/monuments";
 import { ISLAND_MAX_EXPANSION } from "features/game/expansion/lib/expansionRequirements";
 import { produce } from "immer";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
-import { getExpansionCoinCostWithVip } from "features/game/lib/vipAccess";
+import {
+  EXPANSION_VIP_TIME_MULTIPLIER,
+  getExpansionCoinCostWithVip,
+  hasVipExpansionSpeedBoost,
+} from "features/game/lib/vipAccess";
 
 export type ExpandLandAction = {
   type: "land.expanded";
@@ -42,16 +45,6 @@ type Options = {
  */
 export function expandLand({ state, createdAt = Date.now() }: Options) {
   return produce(state, (game) => {
-    // Expanding ascension islands (swamp onward) is gated behind the flag — same
-    // as the upgrade that lands you there. Guards farms that reached an
-    // ascension island while the flag was on if it is later turned off.
-    if (
-      (ASCENSION_ISLANDS as readonly string[]).includes(game.island.type) &&
-      !hasFeatureAccess(game, "SWAMP_ASCENSION")
-    ) {
-      throw new Error("Swamp ascension is not yet available");
-    }
-
     // At an island's expansion cap the player must upgrade to gain more land.
     // Legacy farms already beyond the cap may remain but cannot expand further.
     const maxExpansion = ISLAND_MAX_EXPANSION[game.island.type];
@@ -61,7 +54,10 @@ export function expandLand({ state, createdAt = Date.now() }: Options) {
 
     const bumpkin = game.bumpkin;
 
-    const { requirements, boostsUsed } = expansionRequirements({ game });
+    const { requirements, boostsUsed } = expansionRequirements({
+      game,
+      now: createdAt,
+    });
     if (!requirements) {
       throw new Error("No more land expansions available");
     }
@@ -150,15 +146,22 @@ export function expandLand({ state, createdAt = Date.now() }: Options) {
 
 export const expansionRequirements = ({
   game,
+  now = Date.now(),
 }: {
   game: GameState;
+  now?: number;
 }): {
   requirements: Requirements | undefined;
+  /** Build time before any time boost, for the struck-through original. */
+  baseTimeSeconds: number;
+  /** The subset of `boostsUsed` that shortened the build. */
+  timeBoostsUsed: { name: BoostName; value: string }[];
   boostsUsed: { name: BoostName; value: string }[];
 } => {
   const level = (game.inventory["Basic Land"]?.toNumber() ?? 0) + 1;
 
   const boostsUsed: { name: BoostName; value: string }[] = [];
+  const timeBoostsUsed: { name: BoostName; value: string }[] = [];
 
   const requirements = getExpansionRequirements({
     island: game.island.type,
@@ -167,7 +170,12 @@ export const expansionRequirements = ({
   });
 
   if (!requirements) {
-    return { requirements: undefined, boostsUsed };
+    return {
+      requirements: undefined,
+      baseTimeSeconds: 0,
+      timeBoostsUsed,
+      boostsUsed,
+    };
   }
 
   let resources = requirements.resources;
@@ -184,5 +192,29 @@ export const expansionRequirements = ({
     boostsUsed.push({ name: "Grinx's Hammer", value: "x0.5" });
   }
 
-  return { requirements: { ...requirements, resources }, boostsUsed };
+  let seconds = requirements.seconds;
+
+  // -20% expansion time once the monument's cheers are complete
+  if (isMonumentActive({ game, monument: "Ascension Monument" })) {
+    seconds *= 0.8;
+    timeBoostsUsed.push({ name: "Ascension Monument", value: "x0.8" });
+  }
+
+  // Ascension Age chapter perk: -10% expansion time for VIP holders
+  if (hasVipExpansionSpeedBoost({ game, now })) {
+    seconds = Math.round(seconds * EXPANSION_VIP_TIME_MULTIPLIER);
+    timeBoostsUsed.push({
+      name: "VIP Access",
+      value: `x${EXPANSION_VIP_TIME_MULTIPLIER}`,
+    });
+  }
+
+  boostsUsed.push(...timeBoostsUsed);
+
+  return {
+    requirements: { ...requirements, resources, seconds },
+    baseTimeSeconds: requirements.seconds,
+    timeBoostsUsed,
+    boostsUsed,
+  };
 };

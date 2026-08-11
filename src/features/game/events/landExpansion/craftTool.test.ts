@@ -85,6 +85,52 @@ describe("craftTool", () => {
     expect(state.inventory["Wood"]).toEqual(new Decimal(7));
   });
 
+  it("applies Reel Deal rank 1 (x0.5) to the Rod coin cost", () => {
+    const coins = 100;
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins,
+        inventory: { Wood: new Decimal(10), Stone: new Decimal(10) },
+        bumpkin: {
+          ...TEST_FARM.bumpkin,
+          skills: { "Reel Deal": 1 },
+        },
+      },
+      action: {
+        type: "tool.crafted",
+        tool: "Rod",
+      },
+    });
+
+    // Rod base price is 20; x0.5 => 10.
+    expect(state.coins).toEqual(coins - 10);
+    expect(state.inventory["Rod"]).toEqual(new Decimal(1));
+  });
+
+  it("scales Reel Deal with rank (x0.4 at rank 3)", () => {
+    const coins = 100;
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins,
+        inventory: { Wood: new Decimal(10), Stone: new Decimal(10) },
+        bumpkin: {
+          ...TEST_FARM.bumpkin,
+          skills: { "Reel Deal": 3 },
+        },
+      },
+      action: {
+        type: "tool.crafted",
+        tool: "Rod",
+      },
+    });
+
+    // Rod base price is 20; x0.4 => 8.
+    expect(state.coins).toEqual(coins - 8);
+    expect(state.inventory["Rod"]).toEqual(new Decimal(1));
+  });
+
   it("does not craft a tool that is not in stock", () => {
     expect(() =>
       craftTool({
@@ -172,6 +218,53 @@ describe("craftTool", () => {
 
     expect(state.coins).toEqual(84);
   });
+
+  it("Axes cost 25% less coins with Feller's Discount skill at rank 2", () => {
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins: 100,
+        inventory: {},
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: {
+            "Feller's Discount": 2,
+          },
+        },
+      },
+      action: {
+        type: "tool.crafted",
+        tool: "Axe",
+      },
+    });
+
+    // Axe base price 20 coins * 0.75 = 15 => 100 - 15 = 85
+    expect(state.coins).toEqual(85);
+  });
+
+  it("Axes cost 30% less coins with Feller's Discount skill at rank 3", () => {
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins: 100,
+        inventory: {},
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: {
+            "Feller's Discount": 3,
+          },
+        },
+      },
+      action: {
+        type: "tool.crafted",
+        tool: "Axe",
+      },
+    });
+
+    // Axe base price 20 coins * 0.7 = 14 => 100 - 14 = 86
+    expect(state.coins).toEqual(86);
+  });
+
   it("pickaxe cost 20% less coins with  skill", () => {
     const state = craftTool({
       state: {
@@ -194,6 +287,38 @@ describe("craftTool", () => {
     });
 
     expect(state.coins).toEqual(84);
+  });
+  it("pickaxe cost 30% less coins with Frugal Miner at rank 2", () => {
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins: 100,
+        inventory: { Wood: new Decimal(3) },
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: { "Frugal Miner": 2 },
+        },
+      },
+      action: { type: "tool.crafted", tool: "Pickaxe" },
+    });
+
+    expect(state.coins).toEqual(86);
+  });
+  it("pickaxe cost 40% less coins with Frugal Miner at rank 3", () => {
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins: 100,
+        inventory: { Wood: new Decimal(3) },
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: { "Frugal Miner": 3 },
+        },
+      },
+      action: { type: "tool.crafted", tool: "Pickaxe" },
+    });
+
+    expect(state.coins).toEqual(88);
   });
   it("stone pickaxe cost 20% less coins with  skill", () => {
     const state = craftTool({
@@ -300,6 +425,45 @@ describe("craftTool", () => {
     expect(state.inventory["Oil Drill"]).toEqual(new Decimal(1));
   });
 
+  // Rank 1 (20 Wool) is covered above; ranks scale the wool cost down.
+  it.each([
+    [2, 15],
+    [3, 10],
+  ])(
+    "crafts oil drill with %i Oil Rig rank => %i wool instead of leather",
+    (rank, wool) => {
+      const state = craftTool({
+        state: {
+          ...GAME_STATE,
+          coins: 100,
+          inventory: {
+            Wool: new Decimal(wool),
+            Wood: new Decimal(20),
+            Iron: new Decimal(9),
+            Leather: new Decimal(10),
+          },
+          bumpkin: {
+            ...GAME_STATE.bumpkin,
+            skills: {
+              "Oil Rig": rank,
+            },
+          },
+          island: {
+            type: "desert",
+          },
+        },
+        action: {
+          type: "tool.crafted",
+          tool: "Oil Drill",
+        },
+      });
+
+      expect(state.inventory["Wool"]).toEqual(new Decimal(0));
+      expect(state.inventory["Leather"]).toEqual(new Decimal(10));
+      expect(state.inventory["Oil Drill"]).toEqual(new Decimal(1));
+    },
+  );
+
   it("does not craft a tool if the bumpkin level is below the required level", () => {
     expect(() =>
       craftTool({
@@ -389,6 +553,31 @@ describe("craftTool", () => {
     });
 
     expect(state.coins).toEqual(84);
+  });
+
+  it("scales the Cheap Rakes discount with rank", () => {
+    // Salt Rake base cost is 20 coins: x0.7 -> 14 spent, x0.6 -> 12 spent.
+    const craftAtRank = (rank: number) =>
+      craftTool({
+        state: {
+          ...GAME_STATE,
+          coins: 100,
+          inventory: { Wood: new Decimal(10) },
+          bumpkin: {
+            ...GAME_STATE.bumpkin,
+            skills: {
+              "Cheap Rakes": rank,
+            },
+          },
+        },
+        action: {
+          type: "tool.crafted",
+          tool: "Salt Rake",
+        },
+      }).coins;
+
+    expect(craftAtRank(2)).toEqual(86);
+    expect(craftAtRank(3)).toEqual(88);
   });
 
   it("Salt Rakes cost 10% less with Salt Sculpture level 4", () => {

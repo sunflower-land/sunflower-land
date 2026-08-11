@@ -1,29 +1,16 @@
-import React, { useContext } from "react";
-import { useLocation, useNavigate } from "react-router";
+import React from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import tradeIcon from "assets/icons/trade.png";
-import { Context } from "features/game/GameProvider";
 import { RoundButton } from "components/ui/RoundButton";
+import { useMarketplaceNavigation } from "features/marketplace/lib/navigation";
 
 export const MarketplaceButton = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { setFromRoute } = useContext(Context);
-
-  const isWorldRoute = location.pathname.includes("/world");
+  const { openMarketplace } = useMarketplaceNavigation();
 
   return (
     <RoundButton
       onClick={() => {
-        if (isWorldRoute) {
-          // Navigate to base world route with marketplace
-          navigate("/world/marketplace/hot");
-        } else {
-          // Land context remains the same
-          navigate("/marketplace/hot");
-        }
-
-        setFromRoute(location.pathname);
+        openMarketplace();
       }}
     >
       <img

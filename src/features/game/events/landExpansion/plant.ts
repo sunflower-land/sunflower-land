@@ -34,7 +34,10 @@ import {
   type SeedName,
   SEEDS,
 } from "features/game/types/seeds";
-import { CHAPTER_CROP_WEEK_SEED } from "features/game/types/chapterCropWeek";
+import {
+  CHAPTER_CROP_WEEK_CROP,
+  CHAPTER_CROP_WEEK_SEED,
+} from "features/game/types/chapterCropWeek";
 import {
   isWithinAOE,
   type Position,
@@ -62,6 +65,11 @@ import {
   trackFarmActivity,
 } from "features/game/types/farmActivity";
 import { isBuffActive } from "features/game/types/buffs";
+import {
+  SKILL_RANKS,
+  getSkillLevel,
+  downgradeChapterCropWeekSkills,
+} from "features/game/types/bumpkinSkills";
 import { isAutumnCrop, isSummerCrop } from "./harvest";
 import { getKeys } from "lib/object";
 import { mfTrack } from "lib/moonforgeAnalytics";
@@ -210,7 +218,12 @@ export function getCropTime({
   let multiplier = 1;
   const boostsUsed: { name: BoostName; value: string }[] = [];
   const { inventory, buds = {}, bumpkin } = game;
-  const skills = bumpkin?.skills ?? {};
+  // Saltwort is the CHAPTER_CROP_WEEK event crop: neutralise upgraded Crops skills
+  // (they still apply at rank 1) so the event crop isn't boosted by ascension ranks.
+  const skills =
+    crop === CHAPTER_CROP_WEEK_CROP
+      ? downgradeChapterCropWeekSkills(bumpkin?.skills ?? {})
+      : (bumpkin?.skills ?? {});
 
   if (inventory["Seed Specialist"]?.gte(1)) {
     multiplier = multiplier * 0.9;
@@ -269,9 +282,11 @@ export function getCropTime({
     boostsUsed.push({ name: "Harvest Hourglass", value: "x0.75" });
   }
 
-  if (skills["Strong Roots"] && isAdvancedCrop(crop)) {
-    multiplier = multiplier * 0.9;
-    boostsUsed.push({ name: "Strong Roots", value: "x0.9" });
+  const strongRootsLevel = getSkillLevel(skills, "Strong Roots");
+  if (strongRootsLevel && isAdvancedCrop(crop)) {
+    const m = SKILL_RANKS["Strong Roots"].ranks[strongRootsLevel - 1];
+    multiplier = multiplier * m;
+    boostsUsed.push({ name: "Strong Roots", value: `x${m}` });
   }
 
   // Apply bud speed boosts
@@ -302,10 +317,12 @@ export const getCropPlotTime = ({
   aoe: AOE;
   boostsUsed: { name: BoostName; value: string }[];
 } => {
-  const {
-    aoe,
-    bumpkin: { skills },
-  } = game;
+  const { aoe } = game;
+  // Saltwort (the CHAPTER_CROP_WEEK event crop) ignores upgraded Crops-skill ranks.
+  const skills =
+    crop === CHAPTER_CROP_WEEK_CROP
+      ? downgradeChapterCropWeekSkills(game.bumpkin.skills)
+      : game.bumpkin.skills;
   const updatedAoe = cloneDeep(aoe);
 
   let seconds = CROPS[crop].harvestSeconds;
@@ -339,9 +356,11 @@ export const getCropPlotTime = ({
     boostsUsed.push({ name: "Autumn's Embrace", value: "x0.5" });
   }
 
-  if (skills["Green Thumb"]) {
-    seconds = seconds * 0.95;
-    boostsUsed.push({ name: "Green Thumb", value: "x0.95" });
+  const greenThumbLevel = getSkillLevel(skills, "Green Thumb");
+  if (greenThumbLevel) {
+    const m = SKILL_RANKS["Green Thumb"].ranks[greenThumbLevel - 1];
+    seconds = seconds * m;
+    boostsUsed.push({ name: "Green Thumb", value: `x${m}` });
   }
 
   // Under the SPEED_BOOSTS model the Sparrow Shrine is a retroactive speed-rate

@@ -5,6 +5,8 @@ import {
   type BumpkinRevampSkillName,
   BUMPKIN_REVAMP_SKILL_TREE,
   type BumpkinSkillRevamp,
+  getSkillLevel,
+  isUpgradeableSkillName,
 } from "features/game/types/bumpkinSkills";
 import type { BoostName, InventoryItemName } from "features/game/types/game";
 import type { GameState } from "features/game/types/game";
@@ -41,6 +43,20 @@ const isBud = (boost: BoostName): boost is BudNFTName =>
 
 const isCalendarEvent = (boost: BoostName): boost is SeasonalEventName =>
   boost in CALENDAR_EVENT_ICONS;
+
+// Roman-numeral rank suffix shown after an upgradeable skill's boost (rank
+// 1..maxLevel). This is the only cue that distinguishes ranks for skills whose
+// boost value is identical across ranks (e.g. Tough Tree "x3", Money Tree).
+const RANK_NUMERALS = ["I", "II", "III"] as const;
+
+const getSkillRankSuffix = (boost: BoostName, state: GameState): string => {
+  if (!isBumpkinSkill(boost) || !isUpgradeableSkillName(boost)) return "";
+  // getSkillLevel clamps to the skill's maxLevel, so the index is always valid
+  // today; guarding on the numeral keeps it correct if a maxLevel ever exceeds
+  // the table (and covers the not-owned level-0 case → no suffix).
+  const numeral = RANK_NUMERALS[getSkillLevel(state.bumpkin.skills, boost) - 1];
+  return numeral ? ` ${numeral}` : "";
+};
 
 export const getBoostLabel = (
   name: BoostName,
@@ -257,7 +273,7 @@ export const BoostsDisplay: React.FC<{
               icon={getBoostIcon(buff.name, state)}
               className="ml-3"
             >
-              {`${buff.value} ${getBoostLabel(buff.name, t)}`}
+              {`${buff.value} ${getBoostLabel(buff.name, t)}${getSkillRankSuffix(buff.name, state)}`}
             </Label>
           ))}
         </div>

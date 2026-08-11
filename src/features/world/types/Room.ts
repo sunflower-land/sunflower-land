@@ -11,6 +11,12 @@ export interface InputData {
   y: number;
   tick: number;
   text: string;
+  /** Community-game score, sent live so the room stores it on the player. */
+  points?: number;
+  /** The community game the player is currently in. Sent on entry + every
+   * update; the room resets points when it changes, and clients filter the
+   * board/other players by it so different games never mix. */
+  giveawayId?: string;
 }
 
 export interface Player extends Schema {
@@ -19,6 +25,12 @@ export interface Player extends Schema {
   faction?: FactionName;
   x: number;
   y: number;
+  /** Community-game score, submitted live by the mini-game the player is in.
+   * Authoritative for the giveaway leaderboard. Optional until the room syncs it. */
+  points?: number;
+  /** The community game this player is currently in — clients filter the board
+   * and rendered players by it, so different/back-to-back games never mix. */
+  giveawayId?: string;
   experience: number;
   // Ascension band — needed to read `experience` as a level. Optional until the MMO
   // server syncs it; consumers default to 0 (legacy pre-ascension reading) meanwhile.
@@ -121,6 +133,9 @@ export interface GiantFlower extends Schema {
 export interface PlazaRoomState extends Schema {
   mapWidth: number;
   mapHeight: number;
+
+  /** Authoritative server clock (epoch ms); 0 when the room doesn't publish it. */
+  serverTime: number;
 
   players: MapSchema<Player>;
   buds: MapSchema<Bud>;

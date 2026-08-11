@@ -29,6 +29,8 @@ import {
 import { LandscapeButton } from "./components/LandscapeButton";
 import { InteriorFloorNav } from "features/interior/components/InteriorFloorNav";
 import { InteriorBedsButton } from "features/interior/components/InteriorBedsButton";
+import { HomeUpgradeWidget } from "features/home/components/HomeUpgradeWidget";
+import { ImportHomeWidget } from "features/interior/components/ImportHomeWidget";
 import { StreamCountdown } from "./components/streamCountdown/StreamCountdown";
 import { HudBumpkin } from "./components/bumpkinProfile/HudBumpkin";
 import { WorldFeedButton } from "features/social/components/WorldFeedButton";
@@ -116,7 +118,26 @@ const HudComponent: React.FC<{
         {location === "level_one" && <InteriorFloorNav floor="level_one" />}
         <TravelButton location={location} />
       </div>
-      <div className="absolute bottom-0 pb-2 pl-3 left-16 flex flex-col space-y-2.5">
+
+      {/*
+        The interior surfaces have no floating farm hand row — the Bumpkin and
+        each farm hand live on the "Farm Hands" tab of the beds modal instead
+        (see BedsMigrationModal, opened by InteriorBedsButton). The row is still
+        rendered in LandscapingHud, where it's the handle for placing them.
+      */}
+
+      {/*
+        `items-start` so each widget keeps its natural width. Without it the
+        column shrink-wraps to the widest child and stretches the rest to match,
+        which the (much wider) home upgrade notice would have done to them.
+      */}
+      <div className="absolute bottom-0 pb-2 pl-3 left-16 flex flex-col items-start space-y-2.5">
+        {/* Retirement notice for the old home — see HomeUpgradeWidget. */}
+        {location === "home" && <HomeUpgradeWidget />}
+        {/* The mirror of the above, once they're in the new room. */}
+        {(location === "interior" || location === "level_one") && (
+          <ImportHomeWidget />
+        )}
         <RaffleWidget />
         <TransactionCountdown />
         <StreamCountdown />

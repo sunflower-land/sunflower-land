@@ -49,7 +49,7 @@ export const TieBreaker: React.FC<Props> = ({
         {`So close! You bid the exact same resources as the ${toOrdinalSuffix(
           results.supply,
         )} bid.`}{" "}
-        {t("tieBreaker.closeBid")}
+        {t("tieBreaker.ascensionRule")}
       </p>
       <p className="text-xs  mb-1 text-center px-2">
         {t("tieBreaker.betterLuck")}

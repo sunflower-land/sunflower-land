@@ -15,6 +15,7 @@ import {
   type GreenHouseFruitName,
   PATCH_FRUIT,
   type PatchFruitName,
+  isFullMoonFruit,
 } from "features/game/types/fruits";
 import type {
   BoostName,
@@ -34,6 +35,7 @@ import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
 import { isFruitReadyToHarvest } from "./fruitPatchReadiness";
+import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
 
 export type HarvestFruitAction = {
   type: "fruit.harvested";
@@ -92,10 +94,17 @@ export function getFruitYield({
     const criticalDrop = (criticalHitName: CriticalHitName, chance: number) =>
       prngChance({ ...prngArgs, itemId, chance, criticalHitName });
 
-    // Generous Orchard: 20% chance of +1 patch fruit
+    // Generous Orchard: 20%/30%/50% chance of +1 patch fruit (scales with rank)
+    const generousOrchardLevel = getSkillLevel(
+      bumpkin.skills,
+      "Generous Orchard",
+    );
     if (
-      bumpkin.skills["Generous Orchard"] &&
-      criticalDrop("Generous Orchard", 20) &&
+      generousOrchardLevel &&
+      criticalDrop(
+        "Generous Orchard",
+        SKILL_RANKS["Generous Orchard"].ranks[generousOrchardLevel - 1],
+      ) &&
       isFruit(name)
     ) {
       amount += 1;
@@ -116,14 +125,27 @@ export function getFruitYield({
     boostsUsed.push({ name: "Black Bearry", value: "+1" });
   }
 
+  if (
+    isFruit(name) &&
+    isFullMoonFruit(name) &&
+    isWearableActive({ name: "Moon Hair", game })
+  ) {
+    amount += 0.5;
+    boostsUsed.push({ name: "Moon Hair", value: "+0.5" });
+  }
+
   if (isFruit(name) && isCollectibleBuilt({ name: "Macaw", game })) {
-    if (bumpkin.skills["Loyal Macaw"]) {
-      amount += 0.2;
-      boostsUsed.push({ name: "Loyal Macaw", value: "+0.2" });
+    // Loyal Macaw multiplies Macaw's base +0.1 yield by 2x/3x/4x (scales with rank)
+    const loyalMacawLevel = getSkillLevel(bumpkin.skills, "Loyal Macaw");
+    if (loyalMacawLevel) {
+      // Loyal Macaw subsumes the base Macaw yield, so only its entry is recorded.
+      const value = SKILL_RANKS["Loyal Macaw"].ranks[loyalMacawLevel - 1];
+      amount += value;
+      boostsUsed.push({ name: "Loyal Macaw", value: `+${value}` });
     } else {
       amount += 0.1;
+      boostsUsed.push({ name: "Macaw", value: "+0.1" });
     }
-    boostsUsed.push({ name: "Macaw", value: "+0.1" });
   }
 
   if (isFruit(name) && isWearableActive({ name: "Camel Onesie", game })) {
@@ -142,9 +164,11 @@ export function getFruitYield({
     boostsUsed.push({ name: "Fruit Picker Apron", value: "+0.1" });
   }
 
-  if (isFruit(name) && bumpkin.skills["Fruitful Fumble"]) {
-    amount += 0.1;
-    boostsUsed.push({ name: "Fruitful Fumble", value: "+0.1" });
+  const fruitfulFumbleLevel = getSkillLevel(bumpkin.skills, "Fruitful Fumble");
+  if (isFruit(name) && fruitfulFumbleLevel) {
+    const value = SKILL_RANKS["Fruitful Fumble"].ranks[fruitfulFumbleLevel - 1];
+    amount += value;
+    boostsUsed.push({ name: "Fruitful Fumble", value: `+${value}` });
   }
 
   //Faction Quiver
@@ -228,13 +252,17 @@ export function getFruitYield({
     boostsUsed.push({ name: "Grape Pants", value: "+0.2" });
   }
 
-  if (bumpkin.skills["Zesty Vibes"] && !isGreenhouseFruit(name)) {
+  const zestyVibesLevel = getSkillLevel(bumpkin.skills, "Zesty Vibes");
+  if (zestyVibesLevel && !isGreenhouseFruit(name)) {
+    const { buff, debuff } = SKILL_RANKS["Zesty Vibes"];
     if (name === "Tomato" || name === "Lemon") {
-      amount += 1;
-      boostsUsed.push({ name: "Zesty Vibes", value: "+1" });
+      const up = buff[zestyVibesLevel - 1];
+      amount += up;
+      boostsUsed.push({ name: "Zesty Vibes", value: `+${up}` });
     } else {
-      amount -= 0.25;
-      boostsUsed.push({ name: "Zesty Vibes", value: "-0.25" });
+      const down = debuff[zestyVibesLevel - 1];
+      amount -= down;
+      boostsUsed.push({ name: "Zesty Vibes", value: `-${down}` });
     }
   }
 

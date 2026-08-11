@@ -2,6 +2,9 @@ import {
   type BumpkinRevampSkillName,
   BUMPKIN_REVAMP_SKILL_TREE,
   type BumpkinSkillRevamp,
+  SKILL_RANKS,
+  getSkillLevel,
+  isUpgradeableSkillName,
 } from "features/game/types/bumpkinSkills";
 import { getKeys } from "lib/object";
 import type {
@@ -247,11 +250,23 @@ function useSaltSurge({
 export function getSkillCooldown({
   cooldown,
   state,
+  skillName,
 }: {
   cooldown: number;
   state: GameState;
+  skillName?: BumpkinRevampSkillName;
 }) {
-  let boostedCooldown = new Decimal(cooldown);
+  // Upgradeable power skills (e.g. Instant Growth) scale their cooldown by rank.
+  let base = cooldown;
+  if (skillName && isUpgradeableSkillName(skillName)) {
+    const effect = SKILL_RANKS[skillName];
+    const level = getSkillLevel(state.bumpkin.skills, skillName);
+    if (effect.kind === "cooldown" && level) {
+      base = effect.ranks[level - 1];
+    }
+  }
+
+  let boostedCooldown = new Decimal(base);
   if (isWearableActive({ name: "Luna's Crescent", game: state })) {
     boostedCooldown = boostedCooldown.mul(0.5);
   }
@@ -290,7 +305,11 @@ export function powerSkillDisabledConditions({
   } & BumpkinSkillRevamp;
   const { cooldown, items } = requirements;
 
-  const boostedCooldown = getSkillCooldown({ cooldown: cooldown ?? 0, state });
+  const boostedCooldown = getSkillCooldown({
+    cooldown: cooldown ?? 0,
+    state,
+    skillName,
+  });
 
   const nextSkillUse = (previousPowerUseAt?.[skillName] ?? 0) + boostedCooldown;
 

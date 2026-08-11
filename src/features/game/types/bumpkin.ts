@@ -22,7 +22,8 @@ export type BumpkinBackground =
   | "Sky Island Background"
   | "Holiday Feast Background"
   | "Faulty Barrier Background"
-  | "Deep Sea Salt Cave Background";
+  | "Deep Sea Salt Cave Background"
+  | "Slime Wall Background";
 
 export type BumpkinBody =
   | "Beige Farmer Potion"
@@ -71,7 +72,10 @@ export type BumpkinHair =
   | "Frizzy Bob Cut"
   | "Two-toned Layered"
   | "Crimstone Spikes Hair"
-  | "Corn Silk Hair";
+  | "Corn Silk Hair"
+  | "Green Slime Hair"
+  | "Moon Hair"
+  | "Surfer Hair";
 
 export type BumpkinShirt =
   | "Pixel Perfect Hoodie"
@@ -153,7 +157,10 @@ export type BumpkinShirt =
   | "Fish Hook Vest"
   | "Neon Noiz Jacket"
   | "404 Chic Top"
-  | "Brasil Jersey";
+  | "Brasil Jersey"
+  | "Blue Slime Shirt"
+  | "Slime Splattered Shirt"
+  | "Swamp Armor";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -165,7 +172,8 @@ export type BumpkinCoat =
   | "Easter Apron"
   | "Medic Apron"
   | "Alchemist Apron"
-  | "Victoria's Apron";
+  | "Victoria's Apron"
+  | "Spooky Coat";
 
 export type BumpkinTool =
   | "Farmer Pitchfork"
@@ -230,7 +238,9 @@ export type BumpkinTool =
   | "Luna's Crescent"
   | "Candy Halbred"
   | "Admin Fools Tools"
-  | "Pistol Shrimp";
+  | "Pistol Shrimp"
+  | "Yellow Slime Puppet"
+  | "Ascension Staff";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -257,7 +267,10 @@ export type BumpkinShoe =
   | "Beast Shoes"
   | "Neon Noiz Shoes"
   | "404 Chic Boots"
-  | "Spa Slippers";
+  | "Spa Slippers"
+  | "Blue Jelly Shoes"
+  | "Sad Slime Slippers"
+  | "Crystal Shoes";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -389,7 +402,9 @@ export type BumpkinHat =
   | "Fish Hook Hat"
   | "Aether Specs"
   | "Spa Hat"
-  | "Clam Shell Hat";
+  | "Clam Shell Hat"
+  | "Sad Slime Hat"
+  | "Swamp Lily Hat";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -434,7 +449,11 @@ export type BumpkinPant =
   | "Comfy Xmas Pants"
   | "Fish Hook Waders"
   | "Neon Noiz Pants"
-  | "404 Chic Skirt";
+  | "404 Chic Skirt"
+  | "Sad Slime Pants"
+  | "Red Jelly Pants"
+  | "Swamp Pants"
+  | "Marble Pants";
 
 export type BumpkinDress =
   | "Royal Dress"
@@ -511,7 +530,8 @@ export type BumpkinOnesie =
   | "Raccoon Onesie"
   | "Frank Onesie"
   | "Cozy Reindeer Onesie"
-  | "Shrimp Onesie";
+  | "Shrimp Onesie"
+  | "Salt Bottle Onesie";
 
 // Goes over clothes
 export type BumpkinSuit =
@@ -557,7 +577,9 @@ export type BumpkinWings =
   | "Slime Wings"
   | "Underworld Stimpack"
   | "Sweet Devil Wings"
-  | "Cardboard Wings";
+  | "Cardboard Wings"
+  | "Rainbow Wings"
+  | "Ascension Wings";
 
 export type BumpkinBeard =
   | "Wise Beard"
@@ -573,7 +595,8 @@ export type BumpkinAura =
   | "Diamond Snow Aura"
   | "Paw Aura"
   | "Glitch Aura"
-  | "Bubble Aura";
+  | "Bubble Aura"
+  | "Butterfly Aura";
 
 export type BumpkinEyes =
   | "Bumpkin Eyes"
@@ -1214,6 +1237,31 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Clam Shell Hat": 561,
   "Shrimp Onesie": 562,
   "Brasil Jersey": 563,
+
+  //Festival of Colors 2026
+  "Rainbow Wings": 564,
+  "Butterfly Aura": 565,
+  "Slime Wall Background": 566,
+  "Green Slime Hair": 567,
+  "Blue Slime Shirt": 568,
+  "Slime Splattered Shirt": 569,
+  "Yellow Slime Puppet": 570,
+  "Blue Jelly Shoes": 571,
+  "Sad Slime Slippers": 572,
+  "Sad Slime Hat": 573,
+  "Sad Slime Pants": 574,
+  "Red Jelly Pants": 575,
+  "Ascension Staff": 576,
+  "Ascension Wings": 577,
+  "Salt Bottle Onesie": 578,
+  "Swamp Armor": 579,
+  "Swamp Lily Hat": 580,
+  "Swamp Pants": 581,
+  "Moon Hair": 582,
+  "Crystal Shoes": 583,
+  "Marble Pants": 584,
+  "Spooky Coat": 585,
+  "Surfer Hair": 586,
 };
 
 // The reverse of above
@@ -1842,6 +1890,29 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Clam Shell Hat": "hat",
   "Shrimp Onesie": "onesie",
   "Brasil Jersey": "shirt",
+  "Rainbow Wings": "wings",
+  "Butterfly Aura": "aura",
+  "Slime Wall Background": "background",
+  "Green Slime Hair": "hair",
+  "Blue Slime Shirt": "shirt",
+  "Slime Splattered Shirt": "shirt",
+  "Yellow Slime Puppet": "tool",
+  "Blue Jelly Shoes": "shoes",
+  "Sad Slime Slippers": "shoes",
+  "Sad Slime Hat": "hat",
+  "Sad Slime Pants": "pants",
+  "Red Jelly Pants": "pants",
+  "Ascension Staff": "tool",
+  "Ascension Wings": "wings",
+  "Salt Bottle Onesie": "onesie",
+  "Swamp Armor": "shirt",
+  "Swamp Lily Hat": "hat",
+  "Swamp Pants": "pants",
+  "Moon Hair": "hair",
+  "Crystal Shoes": "shoes",
+  "Marble Pants": "pants",
+  "Spooky Coat": "coat",
+  "Surfer Hair": "hair",
 };
 
 /**Copied from BE just for hoarding checks */

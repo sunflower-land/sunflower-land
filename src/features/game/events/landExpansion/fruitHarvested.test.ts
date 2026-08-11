@@ -867,6 +867,55 @@ describe("fruitHarvested", () => {
 
   describe("getFruitYield", () => {
     const farmId = 1;
+    it("gives +0.5 full moon fruit yield when Moon Hair is equipped", () => {
+      const { amount, boostsUsed } = getFruitYield({
+        prngArgs: { counter: 0, farmId },
+        game: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...TEST_FARM.bumpkin,
+            equipped: {
+              ...TEST_FARM.bumpkin.equipped,
+              hair: "Moon Hair",
+            },
+          },
+        },
+        name: "Celestine",
+      });
+
+      expect(amount).toEqual(1.5);
+      expect(boostsUsed).toContainEqual({ name: "Moon Hair", value: "+0.5" });
+    });
+
+    it("does not boost non full moon fruit with Moon Hair equipped", () => {
+      const { amount } = getFruitYield({
+        prngArgs: { counter: 0, farmId },
+        game: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...TEST_FARM.bumpkin,
+            equipped: {
+              ...TEST_FARM.bumpkin.equipped,
+              hair: "Moon Hair",
+            },
+          },
+        },
+        name: "Apple",
+      });
+
+      expect(amount).toEqual(1);
+    });
+
+    it("does not boost full moon fruit without Moon Hair equipped", () => {
+      const { amount } = getFruitYield({
+        prngArgs: { counter: 0, farmId },
+        game: TEST_FARM,
+        name: "Celestine",
+      });
+
+      expect(amount).toEqual(1);
+    });
+
     it("provides no bonuses", () => {
       const { amount } = getFruitYield({
         prngArgs: { counter: 0, farmId },
@@ -893,6 +942,36 @@ describe("fruitHarvested", () => {
       });
 
       expect(amount).toEqual(1.1);
+    });
+    it("gives +0.15 basic fruit yield with Fruitful Fumble skill at rank 2", () => {
+      const { amount } = getFruitYield({
+        prngArgs: { counter: 0, farmId },
+        game: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...TEST_FARM.bumpkin,
+            skills: { "Fruitful Fumble": 2 },
+          },
+        },
+        name: "Blueberry",
+      });
+
+      expect(amount).toEqual(1.15);
+    });
+    it("gives +0.2 basic fruit yield with Fruitful Fumble skill at rank 3", () => {
+      const { amount } = getFruitYield({
+        prngArgs: { counter: 0, farmId },
+        game: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...TEST_FARM.bumpkin,
+            skills: { "Fruitful Fumble": 3 },
+          },
+        },
+        name: "Blueberry",
+      });
+
+      expect(amount).toEqual(1.2);
     });
     it("give +0.1 fruit yield when macaw is placed", () => {
       const { amount } = getFruitYield({
@@ -940,6 +1019,41 @@ describe("fruitHarvested", () => {
 
       expect(amount).toEqual(1.2);
     });
+    it.each([
+      [2, 1.25, "+0.25"],
+      [3, 1.3, "+0.3"],
+    ])(
+      "scales Loyal Macaw with Macaw placed at rank %i",
+      (rank, expected, boostValue) => {
+        const { amount, boostsUsed } = getFruitYield({
+          prngArgs: { counter: 0, farmId },
+          game: {
+            ...INITIAL_FARM,
+            bumpkin: {
+              ...INITIAL_FARM.bumpkin,
+              skills: { "Loyal Macaw": rank },
+            },
+            collectibles: {
+              Macaw: [
+                {
+                  coordinates: { x: 1, y: 1 },
+                  createdAt: 0,
+                  id: "123",
+                  readyAt: 0,
+                },
+              ],
+            },
+          },
+          name: "Apple",
+        });
+
+        expect(amount).toEqual(expected);
+        // Drift-free display value, and no double-counted base Macaw entry.
+        expect(boostsUsed).toEqual([
+          { name: "Loyal Macaw", value: boostValue },
+        ]);
+      },
+    );
     it("gives +0.2 fruit yield when Fruitful Bounty is claimed and Fruitful Blend is applied", () => {
       const { amount } = getFruitYield({
         prngArgs: { counter: 0, farmId },
@@ -1017,6 +1131,34 @@ describe("fruitHarvested", () => {
       });
       expect(amount).toEqual(0.75);
     });
+    it("gives +1.5 Lemon yield when Zesty Vibes skill at rank 2", () => {
+      const { amount } = getFruitYield({
+        prngArgs: { counter: 0, farmId },
+        game: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...TEST_FARM.bumpkin,
+            skills: { "Zesty Vibes": 2 },
+          },
+        },
+        name: "Lemon",
+      });
+      expect(amount).toEqual(2.5);
+    });
+    it("gives -0.4 fruit yield for other fruit when Zesty Vibes skill at rank 2", () => {
+      const { amount } = getFruitYield({
+        prngArgs: { counter: 0, farmId },
+        game: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...TEST_FARM.bumpkin,
+            skills: { "Zesty Vibes": 2 },
+          },
+        },
+        name: "Apple",
+      });
+      expect(amount).toEqual(0.6);
+    });
     it("gives +1 fruit yield when Generous Orchard triggers (prng 20%)", () => {
       const itemId = KNOWN_IDS["Apple"];
       let triggerCounter: number | null = null;
@@ -1047,6 +1189,56 @@ describe("fruitHarvested", () => {
         name: "Apple",
       });
       expect(amount).toEqual(2);
+    });
+    it("scales Generous Orchard trigger chance with rank (50% at rank 3)", () => {
+      const itemId = KNOWN_IDS["Apple"];
+      // A counter that triggers under a 50% chance (rank 3) but NOT a 20% chance
+      // (rank 1) — proves the rank drives the prng chance argument.
+      let counter: number | null = null;
+      for (let c = 0; c < 1000; c++) {
+        const args = { farmId, itemId, counter: c } as const;
+        const at50 = prngChance({
+          ...args,
+          chance: 50,
+          criticalHitName: "Generous Orchard",
+        });
+        const at20 = prngChance({
+          ...args,
+          chance: 20,
+          criticalHitName: "Generous Orchard",
+        });
+        if (at50 && !at20) {
+          counter = c;
+          break;
+        }
+      }
+      expect(counter).not.toBeNull();
+
+      const rank1 = getFruitYield({
+        prngArgs: { counter: counter!, farmId },
+        game: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...TEST_FARM.bumpkin,
+            skills: { "Generous Orchard": 1 },
+          },
+        },
+        name: "Apple",
+      });
+      expect(rank1.amount).toEqual(1);
+
+      const rank3 = getFruitYield({
+        prngArgs: { counter: counter!, farmId },
+        game: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...TEST_FARM.bumpkin,
+            skills: { "Generous Orchard": 3 },
+          },
+        },
+        name: "Apple",
+      });
+      expect(rank3.amount).toEqual(2);
     });
     it("gives +0.25 fruit yield when faction wings equipped", () => {
       const { amount } = getFruitYield({

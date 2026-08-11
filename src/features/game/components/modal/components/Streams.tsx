@@ -333,8 +333,16 @@ export const StreamsContent: React.FC = () => {
   );
 };
 
-export const Streams: React.FC<{ onClose: () => void }> = ({ onClose }) => (
-  <CloseButtonPanel bumpkinParts={NPC_WEARABLES.streamer} onClose={onClose}>
-    <StreamsContent />
-  </CloseButtonPanel>
-);
+export const Streams: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+  const { t } = useAppTranslation();
+
+  return (
+    <CloseButtonPanel
+      bumpkinParts={NPC_WEARABLES.streamer}
+      onClose={onClose}
+      title={t("streams.title")}
+    >
+      <StreamsContent />
+    </CloseButtonPanel>
+  );
+};

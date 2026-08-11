@@ -1455,6 +1455,134 @@ describe("plant", () => {
       expect(time).toEqual(baseHarvestSeconds);
     });
 
+    it("applies a +6% speed boost with rank 2 Green Thumb skill", () => {
+      const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
+      const { time } = getCropPlotTime({
+        crop: "Corn",
+        game: {
+          ...FARM_WITH_PLOTS,
+          collectibles: {},
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: {
+              "Green Thumb": 2,
+            },
+          },
+        },
+        plot: { ...plot, x: 0, y: -3 },
+        createdAt: dateNow,
+      });
+
+      expect(time).toEqual(baseHarvestSeconds * 0.94);
+    });
+
+    it("applies a +7.5% speed boost with rank 3 Green Thumb skill", () => {
+      const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
+      const { time } = getCropPlotTime({
+        crop: "Corn",
+        game: {
+          ...FARM_WITH_PLOTS,
+          collectibles: {},
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: {
+              "Green Thumb": 3,
+            },
+          },
+        },
+        plot: { ...plot, x: 0, y: -3 },
+        createdAt: dateNow,
+      });
+
+      expect(time).toEqual(baseHarvestSeconds * 0.925);
+    });
+
+    it("neutralises a rank 3 Green Thumb on the Saltwort event crop (x0.95, not x0.925)", () => {
+      const baseHarvestSeconds = CROPS["Saltwort"].harvestSeconds;
+      const { time } = getCropPlotTime({
+        crop: "Saltwort",
+        game: {
+          ...FARM_WITH_PLOTS,
+          collectibles: {},
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: {
+              "Green Thumb": 3,
+            },
+          },
+        },
+        plot: { ...plot, x: 0, y: -3 },
+        createdAt: dateNow,
+      });
+
+      // Saltwort (event crop) uses the rank-1 multiplier (x0.95); Corn above
+      // (a non-event crop) still gets the full rank-3 x0.925.
+      expect(time).toEqual(baseHarvestSeconds * 0.95);
+    });
+
+    it("applies a +12.5% speed boost on advanced crops with rank 2 Strong Roots skill", () => {
+      const baseHarvestSeconds = CROPS["Radish"].harvestSeconds;
+      const { time } = getCropPlotTime({
+        crop: "Radish",
+        game: {
+          ...FARM_WITH_PLOTS,
+          collectibles: {},
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: {
+              "Strong Roots": 2,
+            },
+          },
+        },
+        plot: { ...plot, x: 0, y: -3 },
+        createdAt: dateNow,
+      });
+
+      expect(time).toEqual(baseHarvestSeconds * 0.875);
+    });
+
+    it("applies a +15% speed boost on advanced crops with rank 3 Strong Roots skill", () => {
+      const baseHarvestSeconds = CROPS["Radish"].harvestSeconds;
+      const { time } = getCropPlotTime({
+        crop: "Radish",
+        game: {
+          ...FARM_WITH_PLOTS,
+          collectibles: {},
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: {
+              "Strong Roots": 3,
+            },
+          },
+        },
+        plot: { ...plot, x: 0, y: -3 },
+        createdAt: dateNow,
+      });
+
+      expect(time).toEqual(baseHarvestSeconds * 0.85);
+    });
+
+    it("does not apply a rank 3 Strong Roots speed boost on Sunflower", () => {
+      const baseHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
+      const { time } = getCropPlotTime({
+        crop: "Sunflower",
+        game: {
+          ...FARM_WITH_PLOTS,
+          collectibles: {},
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            skills: {
+              "Strong Roots": 3,
+            },
+          },
+        },
+        plot: { ...plot, x: 0, y: -3 },
+        createdAt: dateNow,
+      });
+
+      expect(time).toEqual(baseHarvestSeconds);
+    });
+
     it("does not reduce the base plot time for Sunshower under SPEED_BOOSTS (applied as a speed window)", () => {
       const baseHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
       const { time } = getCropPlotTime({

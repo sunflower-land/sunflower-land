@@ -848,6 +848,49 @@ describe("fruitPlanted", () => {
     expect(state.fruitPatches[patchIndex].fruit?.harvestsLeft).toEqual(7);
   });
 
+  it.each([
+    [2, 8],
+    [3, 9],
+  ])(
+    "scales Immortal Pear harvest bonus with Pear Turbocharge rank %i",
+    (rank, expected) => {
+      const patchIndex = "1";
+      const state = plantFruit({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            skills: { "Pear Turbocharge": rank },
+          },
+          inventory: {
+            "Apple Seed": new Decimal(5),
+            "Immortal Pear": new Decimal(1),
+          },
+          collectibles: {
+            "Immortal Pear": [
+              {
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                id: "123",
+                readyAt: 0,
+              },
+            ],
+          },
+        },
+        createdAt: dateNow,
+        harvestsLeft: () => 5,
+        action: {
+          type: "fruit.planted",
+          index: patchIndex,
+          seed: "Apple Seed",
+        },
+      });
+      expect(state.fruitPatches[patchIndex].fruit?.harvestsLeft).toEqual(
+        expected,
+      );
+    },
+  );
+
   it("does not accept harvest count above Immortal Pear range with Pear Turbocharge", () => {
     expect(() =>
       plantFruit({
@@ -1150,6 +1193,36 @@ describe("getFruitTime", () => {
 
     expect(time).toEqual(plantSeconds * 0.9);
   });
+  it("applies a 15% growth speed boost on Fruit seeds with Catchup skill at rank 2", () => {
+    const seed = "Tomato Seed";
+    const plantSeconds = PATCH_FRUIT_SEEDS[seed].plantSeconds;
+    const { seconds: time } = getFruitPatchTime(seed, {
+      ...TEST_FARM,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        skills: {
+          Catchup: 2,
+        },
+      },
+    });
+
+    expect(time).toEqual(plantSeconds * 0.85);
+  });
+  it("applies a 20% growth speed boost on Fruit seeds with Catchup skill at rank 3", () => {
+    const seed = "Tomato Seed";
+    const plantSeconds = PATCH_FRUIT_SEEDS[seed].plantSeconds;
+    const { seconds: time } = getFruitPatchTime(seed, {
+      ...TEST_FARM,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        skills: {
+          Catchup: 3,
+        },
+      },
+    });
+
+    expect(time).toEqual(plantSeconds * 0.8);
+  });
   it("takes 25% faster to grow Apples with Long Pickings skill, but Oranges take 10% longer to grow", () => {
     const applePlantSeconds = PATCH_FRUIT_SEEDS["Apple Seed"].plantSeconds;
     const { seconds: appleTime } = getFruitPatchTime("Apple Seed", {
@@ -1244,6 +1317,46 @@ describe("getFruitTime", () => {
     expect(orangeTime).toEqual(orangePlantSeconds * 0.75);
     expect(blueberryTime).toEqual(blueberryPlantSeconds * 0.75);
   });
+  it.each([
+    [2, 0.65, 1.125],
+    [3, 0.55, 1.15],
+  ])(
+    "scales Long Pickings buff/debuff at rank %i (Apple buff, Orange debuff)",
+    (rank, buff, debuff) => {
+      const applePlantSeconds = PATCH_FRUIT_SEEDS["Apple Seed"].plantSeconds;
+      const { seconds: appleTime } = getFruitPatchTime("Apple Seed", {
+        ...TEST_FARM,
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Long Pickings": rank } },
+      });
+      const orangePlantSeconds = PATCH_FRUIT_SEEDS["Orange Seed"].plantSeconds;
+      const { seconds: orangeTime } = getFruitPatchTime("Orange Seed", {
+        ...TEST_FARM,
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Long Pickings": rank } },
+      });
+      expect(appleTime).toEqual(applePlantSeconds * buff);
+      expect(orangeTime).toEqual(orangePlantSeconds * debuff);
+    },
+  );
+  it.each([
+    [2, 0.65, 1.125],
+    [3, 0.55, 1.15],
+  ])(
+    "scales Short Pickings buff/debuff at rank %i (Orange buff, Apple debuff)",
+    (rank, buff, debuff) => {
+      const orangePlantSeconds = PATCH_FRUIT_SEEDS["Orange Seed"].plantSeconds;
+      const { seconds: orangeTime } = getFruitPatchTime("Orange Seed", {
+        ...TEST_FARM,
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Short Pickings": rank } },
+      });
+      const applePlantSeconds = PATCH_FRUIT_SEEDS["Apple Seed"].plantSeconds;
+      const { seconds: appleTime } = getFruitPatchTime("Apple Seed", {
+        ...TEST_FARM,
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Short Pickings": rank } },
+      });
+      expect(orangeTime).toEqual(orangePlantSeconds * buff);
+      expect(appleTime).toEqual(applePlantSeconds * debuff);
+    },
+  );
 });
 
 describe("plantFruit — SPEED_BOOSTS speed windows", () => {

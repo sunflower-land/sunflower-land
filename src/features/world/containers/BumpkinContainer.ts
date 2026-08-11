@@ -26,6 +26,7 @@ const NAME_ALIASES: Partial<Record<NPCName, string>> = {
   "pumpkin' pete": "pete",
   "hammerin harry": "auctions",
 };
+const DELIVERY_ICON_DEPTH = 1000001;
 export const NPCS_WITH_ALERTS: Partial<Record<NPCName, boolean>> = {};
 
 export class BumpkinContainer extends Phaser.GameObjects.Container {
@@ -160,6 +161,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         text.toUpperCase(),
         labelType,
         labelIconKey,
+        labelIconKey ? DELIVERY_ICON_DEPTH : undefined,
       );
       this.add(label);
 

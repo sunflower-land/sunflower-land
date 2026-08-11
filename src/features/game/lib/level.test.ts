@@ -1,13 +1,13 @@
 import {
   isMaxLevel,
   LEVEL_EXPERIENCE,
-  MAX_BUMPKIN_LEVEL,
   bandXp,
   levelXp,
   ascensionBaseline,
   getAscensionLevel,
   LEVELS_PER_ASCENSION,
   ASCENSION_TOTAL_WEIGHT,
+  PRE_ASCENSION_MAX_LEVEL,
 } from "./level";
 
 describe("getBumpkinLevel", () => {
@@ -33,44 +33,38 @@ describe("getBumpkinLevel", () => {
 
 describe("isMaxLevel", () => {
   it("returns false if 1 exp away from max level", () => {
-    const bumpkinExp = LEVEL_EXPERIENCE[MAX_BUMPKIN_LEVEL] - 1;
+    const bumpkinExp = LEVEL_EXPERIENCE[PRE_ASCENSION_MAX_LEVEL] - 1;
     expect(isMaxLevel(bumpkinExp)).toBeFalsy();
   });
   it("returns false if 0 exp away from max level", () => {
-    const bumpkinExp = LEVEL_EXPERIENCE[MAX_BUMPKIN_LEVEL];
+    const bumpkinExp = LEVEL_EXPERIENCE[PRE_ASCENSION_MAX_LEVEL];
     expect(isMaxLevel(bumpkinExp)).toBeTruthy();
   });
   it("returns false if 1 exp above max level", () => {
-    const bumpkinExp = LEVEL_EXPERIENCE[MAX_BUMPKIN_LEVEL] + 1;
+    const bumpkinExp = LEVEL_EXPERIENCE[PRE_ASCENSION_MAX_LEVEL] + 1;
     expect(isMaxLevel(bumpkinExp)).toBeTruthy();
   });
 });
 
-describe("getBumpkinLevel - maxLevel cap", () => {
-  it("caps at the provided maxLevel (150)", () => {
+describe("getBumpkinLevel - pre-ascension cap", () => {
+  it("caps at the pre-ascension max (150)", () => {
     expect(
       getAscensionLevel({
         experience: LEVEL_EXPERIENCE[150],
         ascensionLevel: 0,
-        maxLevel: 150,
       }).level,
     ).toEqual(150);
     expect(
       getAscensionLevel({
         experience: 1e15,
         ascensionLevel: 0,
-        maxLevel: 150,
       }).level,
     ).toEqual(150);
   });
-  it("keeps the legacy 200 cap by default", () => {
-    expect(
-      getAscensionLevel({ experience: 1e15, ascensionLevel: 0 }).level,
-    ).toEqual(200);
-  });
-  it("treats level 150 as max when capped at 150", () => {
-    expect(isMaxLevel(LEVEL_EXPERIENCE[150], 150)).toBeTruthy();
-    expect(isMaxLevel(LEVEL_EXPERIENCE[150] - 1, 150)).toBeFalsy();
+
+  it("treats level 150 as max", () => {
+    expect(isMaxLevel(LEVEL_EXPERIENCE[150])).toBeTruthy();
+    expect(isMaxLevel(LEVEL_EXPERIENCE[150] - 1)).toBeFalsy();
   });
 });
 

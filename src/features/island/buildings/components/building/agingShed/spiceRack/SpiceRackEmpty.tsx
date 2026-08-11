@@ -15,8 +15,9 @@ import {
 } from "features/game/types/spiceRack";
 import {
   getAgingInputMultiplier,
-  getAgingOutput,
+  getAstrolabeDoubleChance,
   getRefinedSaltChance,
+  getSpiceRackOutput,
 } from "features/game/types/agingFormulas";
 import type { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -25,6 +26,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useVisiting } from "lib/utils/visitUtils";
 import { getObjectEntries } from "lib/object";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
+import { getSkillLevel } from "features/game/types/bumpkinSkills";
 
 function getPrimaryOutputItem(
   recipeId: SpiceRackRecipeName,
@@ -80,12 +82,12 @@ export const SpiceRackEmpty: React.FC<Props> = ({
     !!selectedRecipeId && !!recipeDef && shedPlaced && !isVisiting;
 
   const recipeOutputQuantity = selectedRecipeId
-    ? getAgingOutput(
-        gameState,
-        recipeDef?.outputs[selectedRecipeId] ?? new Decimal(0),
-        selectedRecipeId,
-        !!gameState.bumpkin.skills["Ager"],
-      )
+    ? getSpiceRackOutput({
+        game: gameState,
+        baseAmount: recipeDef?.outputs[selectedRecipeId] ?? new Decimal(0),
+        item: selectedRecipeId,
+        agerLevel: getSkillLevel(gameState.bumpkin.skills, "Ager"),
+      }).output
     : undefined;
 
   return (
@@ -190,6 +192,14 @@ export const SpiceRackEmpty: React.FC<Props> = ({
                 {`${getRefinedSaltChance(gameState)}% Chance of +1 Refined Salt `}
               </Label>
             )}
+
+          {canShowRequirements && getAstrolabeDoubleChance(gameState) > 0 && (
+            <Label type="vibrant" className="text-xxs mx-2 mb-1">
+              {t("agingShed.astrolabe.doubleChance", {
+                chance: getAstrolabeDoubleChance(gameState),
+              })}
+            </Label>
+          )}
         </InnerPanel>
       )}
 

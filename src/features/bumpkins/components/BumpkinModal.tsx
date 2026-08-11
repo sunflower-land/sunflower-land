@@ -7,9 +7,7 @@ import {
   getAscensionDisplayText,
   getAscensionLevel,
   getExperienceToNextLevel,
-  getMaxBumpkinLevel,
   isMaxLevel,
-  type BumpkinLevel as BumpkinLevelValue,
 } from "features/game/lib/level";
 
 import { AchievementsModal } from "./Achievements";
@@ -63,17 +61,14 @@ const _experience = (state: MachineState) =>
 export const BumpkinLevel: React.FC<{
   experience?: number;
   ascensionLevel?: number;
-  maxLevel?: BumpkinLevelValue;
-}> = ({ experience = 0, ascensionLevel = 0, maxLevel }) => {
+}> = ({ experience = 0, ascensionLevel = 0 }) => {
   const ascension =
     ascensionLevel >= 1
       ? getAscensionLevel({ experience, ascensionLevel })
       : undefined;
-  const atMax = ascension
-    ? ascension.isReadyToAscend
-    : isMaxLevel(experience, maxLevel);
+  const atMax = ascension ? ascension.isReadyToAscend : isMaxLevel(experience);
   const { currentExperienceProgress, experienceToNextLevel } =
-    ascension ?? getExperienceToNextLevel(experience, maxLevel);
+    ascension ?? getExperienceToNextLevel(experience);
 
   const getProgressPercentage = () => {
     let progressRatio = 1;
@@ -133,18 +128,18 @@ export const BumpkinModal: React.FC<Props> = ({
   const { openModal } = useContext(ModalContext);
   const experience = useSelector(gameService, _experience);
   const ascensionLevel = gameState.island.ascensionLevel ?? 0;
-  const maxBumpkinLevel = getMaxBumpkinLevel(gameState);
+  // Mount snapshot, as before — drives the power-skill cooldown readiness check.
+  const now = useNow();
   const isAscended = ascensionLevel >= 1;
   const ascension = getAscensionLevel({
     experience,
     ascensionLevel,
-    maxLevel: maxBumpkinLevel,
   });
   // Displayed level: within-ascension (0..50) when ascended, else the capped Bumpkin level.
   const level = ascension.level;
   const maxLevel = isAscended
     ? ascension.isReadyToAscend
-    : isMaxLevel(experience, maxBumpkinLevel);
+    : isMaxLevel(experience);
   // Fires the level-up modal once per level; the within-ascension (or legacy) level
   // increments per level-up and resets on ascend (no spurious modal on prestige).
   const currentBumpkinLevel = ascension.level;
@@ -156,7 +151,6 @@ export const BumpkinModal: React.FC<Props> = ({
     return stored && valid.includes(stored) ? stored : initialTab;
   });
   const { t } = useAppTranslation();
-  const now = useNow();
 
   useEffect(() => {
     if (!readonly) {
@@ -185,6 +179,7 @@ export const BumpkinModal: React.FC<Props> = ({
         const boostedCooldown = getSkillCooldown({
           cooldown: skill.requirements.cooldown ?? 0,
           state: gameState,
+          skillName: skill.name as BumpkinRevampSkillName,
         });
         const nextSkillUse =
           (gameState.bumpkin?.previousPowerUseAt?.[
@@ -295,7 +290,6 @@ export const BumpkinModal: React.FC<Props> = ({
             <BumpkinLevel
               experience={bumpkin.experience}
               ascensionLevel={ascensionLevel}
-              maxLevel={maxBumpkinLevel}
             />
           </div>
           {availableSkillPoints > 0 && (

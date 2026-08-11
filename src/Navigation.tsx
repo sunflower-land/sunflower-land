@@ -47,6 +47,12 @@ const World = lazy(() =>
   import("features/world/World").then((m) => ({ default: m.World })),
 );
 
+const GiveawayApp = lazy(() =>
+  import("features/giveaway/GiveawayApp").then((m) => ({
+    default: m.GiveawayApp,
+  })),
+);
+
 const selectState = (state: AuthMachineState) => ({
   isAuthorised: state.matches("connected"),
   isVisiting: state.matches("visiting"),
@@ -240,6 +246,14 @@ export const Navigation: React.FC = () => {
                                   element={<PlayerEconomyEditorEdit />}
                                 />
                                 <Route
+                                  path="/giveaway/play/:id"
+                                  element={
+                                    <GameWrapper>
+                                      <GiveawayApp />
+                                    </GameWrapper>
+                                  }
+                                />
+                                <Route
                                   path="/interior"
                                   element={
                                     <GameWrapper>
@@ -249,6 +263,38 @@ export const Navigation: React.FC = () => {
                                 />
                                 <Route
                                   path="/level_one"
+                                  element={
+                                    <GameWrapper>
+                                      <LevelOne />
+                                    </GameWrapper>
+                                  }
+                                />
+                                {/*
+                                  Visiting someone with the interiors experiment
+                                  on lands here rather than on their /home.
+
+                                  Deliberately top-level rather than inside
+                                  Game's visiting <Routes>: that tree renders
+                                  inside LandExpansion's ScrollContainer and
+                                  GameBoard, and GameBoard already applies the
+                                  ZoomContext scale. Interior/LevelOne bring
+                                  their own scroll container and their own
+                                  scaled canvas, so nesting them there gives
+                                  two scrollers and a doubled zoom. React
+                                  Router ranks these above the `/visit/*`
+                                  LandExpansion route, so they win regardless
+                                  of ordering.
+                                */}
+                                <Route
+                                  path="/visit/:id/interior"
+                                  element={
+                                    <GameWrapper>
+                                      <Interior />
+                                    </GameWrapper>
+                                  }
+                                />
+                                <Route
+                                  path="/visit/:id/level_one"
                                   element={
                                     <GameWrapper>
                                       <LevelOne />

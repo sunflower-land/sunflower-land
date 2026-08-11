@@ -7,6 +7,7 @@ import {
   getExpansionNodes,
   getExpansionRequirements,
   getLand,
+  getNextExpansionNodePreview,
 } from "./expansions";
 import { upgradeRock } from "../events/landExpansion/upgradeRock";
 import { SWAMP_BASE_NODES } from "../expansion/lib/ascension";
@@ -620,5 +621,78 @@ describe("getLand (ascension path)", () => {
       },
     });
     expect(land).toBeNull();
+  });
+});
+
+describe("getNextExpansionNodePreview", () => {
+  it("returns all materialized node types and counts for the next expansion", () => {
+    const game = {
+      ...TEST_FARM,
+      inventory: {
+        ...TEST_FARM.inventory,
+        "Basic Land": new Decimal(3),
+      },
+    };
+
+    expect(getNextExpansionNodePreview({ game })).toEqual([
+      { name: "Crop Plot", count: 9 },
+      { name: "Tree", count: 2 },
+      { name: "Stone Rock", count: 1 },
+      { name: "Iron Rock", count: 1 },
+    ]);
+  });
+
+  it("excludes nodes the player has already received", () => {
+    const game = {
+      ...TEST_FARM,
+      inventory: {
+        ...TEST_FARM.inventory,
+        "Basic Land": new Decimal(3),
+        "Crop Plot": new Decimal(9),
+        Tree: new Decimal(5),
+        "Stone Rock": new Decimal(3),
+        "Iron Rock": new Decimal(1),
+      },
+    };
+
+    expect(getNextExpansionNodePreview({ game })).toEqual([]);
+  });
+
+  it("returns an empty preview when there is no next expansion", () => {
+    const game = {
+      ...TEST_FARM,
+      island: { type: "swamp" as const },
+      inventory: {
+        ...TEST_FARM.inventory,
+        "Basic Land": new Decimal(42),
+      },
+    };
+
+    expect(getNextExpansionNodePreview({ game })).toEqual([]);
+  });
+
+  it("uses the same next layout while construction is active", () => {
+    const game = {
+      ...TEST_FARM,
+      island: { type: "swamp" as const, ascensionLevel: 1 },
+      inventory: {
+        ...TEST_FARM.inventory,
+        "Basic Land": new Decimal(31),
+        "Crop Plot": new Decimal(0),
+      },
+    };
+    const beforeConstruction = getNextExpansionNodePreview({ game });
+    const duringConstruction = getNextExpansionNodePreview({
+      game: {
+        ...game,
+        expansionConstruction: { createdAt: 100, readyAt: 200 },
+      },
+    });
+
+    expect(duringConstruction).toEqual(beforeConstruction);
+    expect(duringConstruction).toContainEqual({
+      name: "Crop Plot",
+      count: 1,
+    });
   });
 });

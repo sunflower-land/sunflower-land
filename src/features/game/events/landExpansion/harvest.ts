@@ -61,6 +61,12 @@ import {
   type FarmActivityName,
 } from "features/game/types/farmActivity";
 import { isBuffActive } from "features/game/types/buffs";
+import {
+  SKILL_RANKS,
+  getSkillLevel,
+  downgradeChapterCropWeekSkills,
+} from "features/game/types/bumpkinSkills";
+import { CHAPTER_CROP_WEEK_CROP } from "features/game/types/chapterCropWeek";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
 import { mfTrack } from "lib/moonforgeAnalytics";
@@ -320,7 +326,13 @@ export function getCropYieldAmount({
 
   const { bumpkin, buds, aoe } = game;
   const updatedAoe = cloneDeep(aoe);
-  const skills = bumpkin?.skills ?? {};
+  // Saltwort (the CHAPTER_CROP_WEEK event crop) ignores upgraded Crops-skill ranks
+  // (base skill still applies) — cap here so every downstream yield/AOE read uses
+  // the neutralised ranks without touching the player's stored skills.
+  const skills =
+    crop === CHAPTER_CROP_WEEK_CROP
+      ? downgradeChapterCropWeekSkills(bumpkin?.skills ?? {})
+      : (bumpkin?.skills ?? {});
   const itemId = KNOWN_IDS[crop];
   const criticalDrop = (
     criticalHitName: CriticalHitName,
@@ -572,13 +584,80 @@ export function getCropYieldAmount({
       if (canUseAoe) {
         setAOELastUsed(updatedAoe, "Scary Mike", { dx, dy }, createdAt);
 
-        if (game.bumpkin.skills["Horror Mike"]) {
-          amount = amount + 0.3;
-          boostsUsed.push({ name: "Horror Mike", value: "+0.3" });
+        const horrorMikeLevel = getSkillLevel(skills, "Horror Mike");
+        if (horrorMikeLevel) {
+          // Base Scary Mike +0.2 plus the skill's marginal bonus, rounded to
+          // avoid float drift (0.2 + 0.1 = 0.30000000000000004).
+          const total =
+            Math.round(
+              (0.2 + SKILL_RANKS["Horror Mike"].aoeYield[horrorMikeLevel - 1]) *
+                100,
+            ) / 100;
+          amount = amount + total;
+          boostsUsed.push({ name: "Horror Mike", value: `+${total}` });
         } else {
           amount = amount + 0.2;
           boostsUsed.push({ name: "Scary Mike", value: "+0.2" });
         }
+      }
+    }
+  }
+
+  // Chonky Scarecrow: adds a rank-scaled yield to basic crops inside the Basic
+  // Scarecrow AOE. This is net-new (the collectible itself only reduces growth
+  // time), and rank 1 grants no yield, so we skip when the bonus is 0. Uses a
+  // dedicated "Chonky Scarecrow" cooldown slot so it never clobbers the Basic
+  // Scarecrow growth-time AOE's slot.
+  const chonkyScarecrowLevel = getSkillLevel(skills, "Chonky Scarecrow");
+  if (
+    chonkyScarecrowLevel &&
+    SKILL_RANKS["Chonky Scarecrow"].aoeYield[chonkyScarecrowLevel - 1] > 0 &&
+    isCollectibleOnFarm({ name: "Basic Scarecrow", game }) &&
+    isPlotCrop(crop) &&
+    isBasicCrop(crop) &&
+    plot &&
+    plot.x !== undefined &&
+    plot.y !== undefined
+  ) {
+    const coordinates = game.collectibles["Basic Scarecrow"]![0].coordinates!;
+
+    const plotPosition = {
+      x: plot.x,
+      y: plot.y,
+      ...RESOURCE_DIMENSIONS["Crop Plot"],
+    };
+
+    const basicScarecrowPosition = {
+      ...COLLECTIBLES_DIMENSIONS["Basic Scarecrow"],
+      ...coordinates,
+    };
+
+    if (
+      isWithinAOE(
+        "Basic Scarecrow",
+        basicScarecrowPosition,
+        plotPosition,
+        skills,
+      )
+    ) {
+      const dx = plot.x - coordinates.x;
+      const dy = plot.y - coordinates.y;
+
+      const canUseAoe = canUseYieldBoostAOE(
+        updatedAoe,
+        "Chonky Scarecrow",
+        { dx, dy },
+        getCropGrowDurationMs(crop, plot?.crop, game, plot?.fertiliser),
+        createdAt,
+      );
+
+      if (canUseAoe) {
+        setAOELastUsed(updatedAoe, "Chonky Scarecrow", { dx, dy }, createdAt);
+
+        const bonus =
+          SKILL_RANKS["Chonky Scarecrow"].aoeYield[chonkyScarecrowLevel - 1];
+        amount = amount + bonus;
+        boostsUsed.push({ name: "Chonky Scarecrow", value: `+${bonus}` });
       }
     }
   }
@@ -674,9 +753,18 @@ export function getCropYieldAmount({
           { dx, dy },
           createdAt,
         );
-        if (game.bumpkin.skills["Laurie's Gains"]) {
-          amount = amount + 0.3;
-          boostsUsed.push({ name: "Laurie's Gains", value: "+0.3" });
+        const lauriesGainsLevel = getSkillLevel(skills, "Laurie's Gains");
+        if (lauriesGainsLevel) {
+          // Base Laurie +0.2 plus the skill's marginal bonus, rounded to avoid
+          // float drift (0.2 + 0.1 = 0.30000000000000004).
+          const total =
+            Math.round(
+              (0.2 +
+                SKILL_RANKS["Laurie's Gains"].aoeYield[lauriesGainsLevel - 1]) *
+                100,
+            ) / 100;
+          amount = amount + total;
+          boostsUsed.push({ name: "Laurie's Gains", value: `+${total}` });
         } else {
           amount = amount + 0.2;
           boostsUsed.push({ name: "Laurie the Chuckle Crow", value: "+0.2" });
@@ -824,11 +912,16 @@ export function getCropYieldAmount({
       name: "Bee Swarm Bonus",
       value: `+${(0.2 * count).toFixed(1)}`,
     });
-    if (skills["Pollen Power Up"]) {
-      perSwarm += 0.1;
+    const pollenPowerUpLevel = getSkillLevel(skills, "Pollen Power Up");
+    if (pollenPowerUpLevel) {
+      const bonus =
+        SKILL_RANKS["Pollen Power Up"].ranks[pollenPowerUpLevel - 1];
+      perSwarm += bonus;
       boostsUsed.push({
         name: "Pollen Power Up",
-        value: `+${(0.1 * count).toFixed(1)}`,
+        // toFixed(2) then back to Number to drop float noise AND trailing
+        // zeros, so rank 1 still reads "+0.1" (not "+0.10").
+        value: `+${Number((bonus * count).toFixed(2))}`,
       });
     }
     amount += perSwarm * count;
@@ -839,49 +932,56 @@ export function getCropYieldAmount({
     boostsUsed.push({ name: "Soybliss", value: "+1" });
   }
 
-  if (skills["Young Farmer"] && isBasicCrop(crop)) {
-    amount += 0.1;
-    boostsUsed.push({ name: "Young Farmer", value: "+0.1" });
+  const youngFarmerLevel = getSkillLevel(skills, "Young Farmer");
+  if (youngFarmerLevel && isBasicCrop(crop)) {
+    const v = SKILL_RANKS["Young Farmer"].ranks[youngFarmerLevel - 1];
+    amount += v;
+    boostsUsed.push({ name: "Young Farmer", value: `+${v}` });
   }
 
-  if (skills["Experienced Farmer"] && isMediumCrop(crop)) {
-    amount += 0.1;
-    boostsUsed.push({ name: "Experienced Farmer", value: "+0.1" });
+  const experiencedFarmerLevel = getSkillLevel(skills, "Experienced Farmer");
+  if (experiencedFarmerLevel && isMediumCrop(crop)) {
+    const v =
+      SKILL_RANKS["Experienced Farmer"].ranks[experiencedFarmerLevel - 1];
+    amount += v;
+    boostsUsed.push({ name: "Experienced Farmer", value: `+${v}` });
   }
 
-  if (skills["Old Farmer"] && isAdvancedCrop(crop)) {
-    amount += 0.1;
-    boostsUsed.push({ name: "Old Farmer", value: "+0.1" });
+  const oldFarmerLevel = getSkillLevel(skills, "Old Farmer");
+  if (oldFarmerLevel && isAdvancedCrop(crop)) {
+    const v = SKILL_RANKS["Old Farmer"].ranks[oldFarmerLevel - 1];
+    amount += v;
+    boostsUsed.push({ name: "Old Farmer", value: `+${v}` });
   }
 
-  if (skills["Acre Farm"] && isAdvancedCrop(crop)) {
-    amount += 1;
-    boostsUsed.push({ name: "Acre Farm", value: "+1" });
+  const acreFarmLevel = getSkillLevel(skills, "Acre Farm");
+  if (acreFarmLevel) {
+    const { buff, debuff } = SKILL_RANKS["Acre Farm"];
+    const up = buff[acreFarmLevel - 1];
+    const down = debuff[acreFarmLevel - 1];
+    if (isAdvancedCrop(crop)) {
+      amount += up;
+      boostsUsed.push({ name: "Acre Farm", value: `+${up}` });
+    }
+    if (isMediumCrop(crop) || isBasicCrop(crop)) {
+      amount -= down;
+      boostsUsed.push({ name: "Acre Farm", value: `-${down}` });
+    }
   }
 
-  if (skills["Acre Farm"] && isMediumCrop(crop)) {
-    amount -= 0.5;
-    boostsUsed.push({ name: "Acre Farm", value: "-0.5" });
-  }
-
-  if (skills["Acre Farm"] && isBasicCrop(crop)) {
-    amount -= 0.5;
-    boostsUsed.push({ name: "Acre Farm", value: "-0.5" });
-  }
-
-  if (skills["Hectare Farm"] && isAdvancedCrop(crop)) {
-    amount -= 0.5;
-    boostsUsed.push({ name: "Hectare Farm", value: "-0.5" });
-  }
-
-  if (skills["Hectare Farm"] && isMediumCrop(crop)) {
-    amount += 1;
-    boostsUsed.push({ name: "Hectare Farm", value: "+1" });
-  }
-
-  if (skills["Hectare Farm"] && isBasicCrop(crop)) {
-    amount += 1;
-    boostsUsed.push({ name: "Hectare Farm", value: "+1" });
+  const hectareFarmLevel = getSkillLevel(skills, "Hectare Farm");
+  if (hectareFarmLevel) {
+    const { buff, debuff } = SKILL_RANKS["Hectare Farm"];
+    const up = buff[hectareFarmLevel - 1];
+    const down = debuff[hectareFarmLevel - 1];
+    if (isMediumCrop(crop) || isBasicCrop(crop)) {
+      amount += up;
+      boostsUsed.push({ name: "Hectare Farm", value: `+${up}` });
+    }
+    if (isAdvancedCrop(crop)) {
+      amount -= down;
+      boostsUsed.push({ name: "Hectare Farm", value: `-${down}` });
+    }
   }
 
   if (isCollectibleBuilt({ game, name: "Giant Onion" }) && crop === "Onion") {
@@ -952,10 +1052,14 @@ export function getReward({
       criticalHitName,
     });
 
+  const goldenSunflowerLevel = getSkillLevel(skills, "Golden Sunflower");
   if (
-    skills["Golden Sunflower"] &&
+    goldenSunflowerLevel &&
     crop === "Sunflower" &&
-    getPrngChance("Golden Sunflower", 1 / 7)
+    getPrngChance(
+      "Golden Sunflower",
+      SKILL_RANKS["Golden Sunflower"].ranks[goldenSunflowerLevel - 1],
+    )
   ) {
     items.push({
       amount: 0.35,

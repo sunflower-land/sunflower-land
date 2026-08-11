@@ -964,6 +964,82 @@ describe("isWithinAOE", () => {
 
     expect(cropPlot).toBe(false);
   });
+
+  // Rank-scaled AOE size. The placeable sits at (0, 0) with height 2, so with
+  // the bounds formula topLeft = { x: -xLeft, y: -2 }, bottomRight =
+  // { x: xRight, y: -2 - (depth - 1) } the footprints are:
+  //   base (no skill) {1,1,3} -> x in [-1, 1],  y in [-4,  -2]
+  //   rank 1          {3,3,7} -> x in [-3, 3],  y in [-8,  -2]
+  //   rank 2          {4,3,8} -> x in [-4, 3],  y in [-9,  -2]  (extra LEFT column)
+  //   rank 3          {4,4,9} -> x in [-4, 4],  y in [-10, -2]  (extra RIGHT column)
+  describe("rank-scaled AOE size", () => {
+    const aoeItem: Position = { x: 0, y: 0, height: 2, width: 1 };
+    const tile = (x: number, y: number): Position => ({
+      x,
+      y,
+      height: 1,
+      width: 1,
+    });
+
+    // [tileX, tileY, rank (0 = no skill), expected]
+    const BOUNDARY_CASES: [number, number, number, boolean][] = [
+      // x = -2 column: outside the base 3x3, inside from rank 1 upwards.
+      [-2, -2, 0, false],
+      [-2, -2, 1, true],
+      // y = -8 row: deeper than the base footprint, reached from rank 1.
+      [0, -8, 0, false],
+      [0, -8, 1, true],
+      // x = -4 left column: only reachable at rank >= 2.
+      [-4, -2, 1, false],
+      [-4, -2, 2, true],
+      [-4, -2, 3, true],
+      // y = -9 row (depth 8): inside at rank 2 & 3, outside at rank 1.
+      [0, -9, 1, false],
+      [0, -9, 2, true],
+      [0, -9, 3, true],
+      // x = 4 right column: only reachable at rank 3.
+      [4, -2, 1, false],
+      [4, -2, 2, false],
+      [4, -2, 3, true],
+      // y = -10 row (depth 9): inside only at rank 3.
+      [0, -10, 1, false],
+      [0, -10, 2, false],
+      [0, -10, 3, true],
+    ];
+
+    it.each(BOUNDARY_CASES)(
+      "Basic Scarecrow (Chonky Scarecrow) at rank %#: tile (%i, %i) rank %i -> %s",
+      (x, y, rank, expected) => {
+        const skills = rank === 0 ? {} : { "Chonky Scarecrow": rank };
+
+        expect(
+          isWithinAOE("Basic Scarecrow", aoeItem, tile(x, y), skills),
+        ).toBe(expected);
+      },
+    );
+
+    it.each(BOUNDARY_CASES)(
+      "Scary Mike (Horror Mike) at rank %#: tile (%i, %i) rank %i -> %s",
+      (x, y, rank, expected) => {
+        const skills = rank === 0 ? {} : { "Horror Mike": rank };
+
+        expect(isWithinAOE("Scary Mike", aoeItem, tile(x, y), skills)).toBe(
+          expected,
+        );
+      },
+    );
+
+    it.each(BOUNDARY_CASES)(
+      "Laurie the Chuckle Crow (Laurie's Gains) at rank %#: tile (%i, %i) rank %i -> %s",
+      (x, y, rank, expected) => {
+        const skills = rank === 0 ? {} : { "Laurie's Gains": rank };
+
+        expect(
+          isWithinAOE("Laurie the Chuckle Crow", aoeItem, tile(x, y), skills),
+        ).toBe(expected);
+      },
+    );
+  });
 });
 
 describe("detectPetHouseCollision", () => {

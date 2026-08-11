@@ -401,6 +401,35 @@ describe("mineGold", () => {
     expect(game.inventory.Gold).toEqual(new Decimal(1.5));
   });
 
+  const goldAmountWithSkills = (skills: Record<string, number>) => {
+    const counter = findNonCriticalCounter();
+    const game = mineGold({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        bumpkin: { ...TEST_BUMPKIN, skills },
+        inventory: { "Iron Pickaxe": new Decimal(1) },
+        farmActivity: { "Gold Rock Mined": counter },
+      },
+      createdAt: now,
+      action: {
+        type: "goldRock.mined",
+        index: "0",
+      } as LandExpansionGoldMineAction,
+    });
+    return game.inventory.Gold;
+  };
+
+  it("adds +0.75 gold with Golden Touch at rank 2", () => {
+    expect(goldAmountWithSkills({ "Golden Touch": 2 })).toEqual(
+      new Decimal(1.75),
+    );
+  });
+
+  it("adds +1 gold with Golden Touch at rank 3", () => {
+    expect(goldAmountWithSkills({ "Golden Touch": 3 })).toEqual(new Decimal(2));
+  });
+
   it("dos not apply boost when Nugget (T3 Mole) is placed but not ready", () => {
     const counter = findNonCriticalCounter();
     const payload = {
@@ -1256,6 +1285,57 @@ describe("mineGold", () => {
     });
 
     expect(time).toEqual(now - GOLD_RECOVERY_TIME * 1000 * 0.1);
+  });
+
+  const goldRecoveryReductionWithSkills = (skills: Record<string, number>) => {
+    const now = Date.now();
+    const { time } = getMinedAt({
+      prngArgs: { farmId: 1, itemId: KNOWN_IDS["Gold Rock"], counter: 0 },
+      game: {
+        ...INITIAL_FARM,
+        bumpkin: { ...INITIAL_FARM.bumpkin, skills },
+      },
+      createdAt: now,
+    });
+    // Return the elapsed reduction as a fraction of the base recovery time.
+    return (now - time) / (GOLD_RECOVERY_TIME * 1000);
+  };
+
+  it("applies -12.5% recovery time with Midas Sprint at rank 2", () => {
+    expect(goldRecoveryReductionWithSkills({ "Midas Sprint": 2 })).toBeCloseTo(
+      0.125,
+    );
+  });
+
+  it("applies -15% recovery time with Midas Sprint at rank 3", () => {
+    expect(goldRecoveryReductionWithSkills({ "Midas Sprint": 3 })).toBeCloseTo(
+      0.15,
+    );
+  });
+
+  it("applies -20% recovery time with Midas Rush at rank 1", () => {
+    expect(goldRecoveryReductionWithSkills({ "Midas Rush": 1 })).toBeCloseTo(
+      0.2,
+    );
+  });
+
+  it("applies -25% recovery time with Midas Rush at rank 2", () => {
+    expect(goldRecoveryReductionWithSkills({ "Midas Rush": 2 })).toBeCloseTo(
+      0.25,
+    );
+  });
+
+  it("applies -30% recovery time with Midas Rush at rank 3", () => {
+    expect(goldRecoveryReductionWithSkills({ "Midas Rush": 3 })).toBeCloseTo(
+      0.3,
+    );
+  });
+
+  it("stacks Midas Sprint and Midas Rush multiplicatively at rank 3", () => {
+    // 0.85 (Sprint III) * 0.7 (Rush III) = 0.595 remaining => 40.5% reduction
+    expect(
+      goldRecoveryReductionWithSkills({ "Midas Sprint": 3, "Midas Rush": 3 }),
+    ).toBeCloseTo(0.405);
   });
 
   it("applies a boost of -15% recovery time when Pickaxe Shark is equipped", () => {

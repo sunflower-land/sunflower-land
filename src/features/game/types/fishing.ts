@@ -14,6 +14,7 @@ import type { ChapterName } from "./chapters";
 import { getCurrentChapter } from "./chapters";
 import { hasVipAccess } from "../lib/vipAccess";
 import type { CrustaceanChum } from "./crustaceans";
+import { getSkillLevel, SKILL_RANKS } from "./bumpkinSkills";
 
 export type PurchaseableBait = "Fishing Lure";
 export type GuaranteedBait =
@@ -99,7 +100,10 @@ export type MarineMarvelName =
   | "Dollocaris"
   | "Deep Sea Pig"
   | "Deep Sea Slug"
-  | "Crystal Shrimp";
+  | "Crystal Shrimp"
+  | "Crocodile"
+  | "Dumbo Octopus"
+  | "Seahorse Dad";
 
 export type OldFishName = "Kraken Tentacle";
 
@@ -307,6 +311,9 @@ export type ChapterFish = Extract<
   | "Deep Sea Pig"
   | "Deep Sea Slug"
   | "Crystal Shrimp"
+  | "Crocodile"
+  | "Dumbo Octopus"
+  | "Seahorse Dad"
 >;
 
 export const CHAPTER_FISH: Record<ChapterFish, Fish> = {
@@ -389,6 +396,24 @@ export const CHAPTER_FISH: Record<ChapterFish, Fish> = {
     seasons: [],
   },
   "Crystal Shrimp": {
+    baits: [],
+    type: "chapter",
+    likes: [],
+    seasons: [],
+  },
+  Crocodile: {
+    baits: [],
+    type: "chapter",
+    likes: [],
+    seasons: [],
+  },
+  "Dumbo Octopus": {
+    baits: [],
+    type: "chapter",
+    likes: [],
+    seasons: [],
+  },
+  "Seahorse Dad": {
     baits: [],
     type: "chapter",
     likes: [],
@@ -753,6 +778,9 @@ export const MAP_PUZZLE_DIFFICULTY: Record<MarineMarvelName, number> = {
   "Deep Sea Pig": 3,
   "Deep Sea Slug": 4,
   "Crystal Shrimp": 3,
+  Crocodile: 3,
+  "Dumbo Octopus": 3,
+  "Seahorse Dad": 4,
 };
 
 export function getDailyFishingCount(state: GameState): number {
@@ -794,22 +822,38 @@ export function getDailyFishingLimit(
     boostsUsed.push({ name: "Deep Sea Slug", value: "+5" });
   }
 
-  // +5 daily limit if player had Fisherman's 5 Fold skill
-  if (game.bumpkin?.skills["Fisherman's 5 Fold"]) {
+  // +5 daily limit if player has Otty the Otter
+  if (isCollectibleBuilt({ name: "Otty the Otter", game })) {
     limit += 5;
-    boostsUsed.push({ name: "Fisherman's 5 Fold", value: "+5" });
+    boostsUsed.push({ name: "Otty the Otter", value: "+5" });
   }
 
-  // +10 daily limit if player had Fisherman's 10 Fold skill
-  if (game.bumpkin?.skills["Fisherman's 10 Fold"]) {
-    limit += 10;
-    boostsUsed.push({ name: "Fisherman's 10 Fold", value: "+10" });
+  const skills = game.bumpkin?.skills ?? {};
+
+  // +5/+7/+10 daily limit per rank if player has Fisherman's 5 Fold skill
+  const fishermansFiveFoldLevel = getSkillLevel(skills, "Fisherman's 5 Fold");
+  if (fishermansFiveFoldLevel) {
+    const bonus =
+      SKILL_RANKS["Fisherman's 5 Fold"].ranks[fishermansFiveFoldLevel - 1];
+    limit += bonus;
+    boostsUsed.push({ name: "Fisherman's 5 Fold", value: `+${bonus}` });
   }
 
-  // +10 daily limit if player has the More With Less skill
-  if (game.bumpkin?.skills["More With Less"]) {
-    limit += 10;
-    boostsUsed.push({ name: "More With Less", value: "+10" });
+  // +10/+18/+25 daily limit per rank if player has Fisherman's 10 Fold skill
+  const fishermansTenFoldLevel = getSkillLevel(skills, "Fisherman's 10 Fold");
+  if (fishermansTenFoldLevel) {
+    const bonus =
+      SKILL_RANKS["Fisherman's 10 Fold"].ranks[fishermansTenFoldLevel - 1];
+    limit += bonus;
+    boostsUsed.push({ name: "Fisherman's 10 Fold", value: `+${bonus}` });
+  }
+
+  // +10/+30/+50 daily limit per rank if player has the More With Less skill
+  const moreWithLessLevel = getSkillLevel(skills, "More With Less");
+  if (moreWithLessLevel) {
+    const bonus = SKILL_RANKS["More With Less"].ranks[moreWithLessLevel - 1];
+    limit += bonus;
+    boostsUsed.push({ name: "More With Less", value: `+${bonus}` });
   }
 
   // +5 daily limit if player has Saw Fish
@@ -949,6 +993,14 @@ const CHAPTER_MAP_PIECE_TRIGGERS: Partial<
     Sunfish: { marvel: "Deep Sea Pig", odds: 0.005 },
     Coelacanth: { marvel: "Deep Sea Pig", odds: 0.005 },
   },
+  "Ascension Age": {
+    "Red Snapper": { marvel: "Crocodile", odds: 0.005 },
+    "Moray Eel": { marvel: "Crocodile", odds: 0.015 },
+    "Olive Flounder": { marvel: "Dumbo Octopus", odds: 0.005 },
+    Napoleanfish: { marvel: "Dumbo Octopus", odds: 0.005 },
+    Angelfish: { marvel: "Seahorse Dad", odds: 0.001 },
+    Porgy: { marvel: "Seahorse Dad", odds: 0.01 },
+  },
 };
 
 export function getMapPieceFishTriggers(
@@ -973,6 +1025,9 @@ export const MAP_PIECE_CHAPTERS: Partial<
   "Deep Sea Pig": "Salt Awakening",
   "Deep Sea Slug": "Salt Awakening",
   "Crystal Shrimp": "Salt Awakening",
+  Crocodile: "Ascension Age",
+  "Dumbo Octopus": "Ascension Age",
+  "Seahorse Dad": "Ascension Age",
 };
 
 export const MAP_PIECE_MARVELS: MarineMarvelName[] = [

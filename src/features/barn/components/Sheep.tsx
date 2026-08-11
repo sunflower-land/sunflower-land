@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -44,14 +44,14 @@ import {
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
 import { isAnimalFeedable } from "features/game/events/landExpansion/buyAnimal";
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { MutantSparkles } from "features/farming/animals/components/MutantSparkles";
+import { isAnimalCoveredByGoldenAsset } from "features/game/events/landExpansion/feedAllAnimals";
 import { isWearableActive } from "features/game/lib/wearables";
 import { Modal } from "components/ui/Modal";
 import { SleepingAnimalModal } from "./SleepingAnimalModal";
 import { LockedAnimalModal } from "./LockedAnimalModal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
-import glow from "public/world/glow.png";
 
 const _animalState = (state: AnimalMachineState) =>
   // Casting here because we know the value is always a string rather than an object
@@ -115,9 +115,9 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     animal: sheep,
   });
 
-  const hasGoldenSheep = isCollectibleBuilt({
-    name: "Golden Sheep",
-    game,
+  const hasGoldenSheep = isAnimalCoveredByGoldenAsset({
+    state: game,
+    animalType: "Sheep",
   });
 
   const hasOracleSyringeEquipped = isWearableActive({
@@ -146,6 +146,67 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sheep.state]);
+
+  const lastSynced = useRef({
+    state: sheep.state,
+    experience: sheep.experience,
+  });
+
+  // Sync the local machine when game state changes underneath it,
+  // e.g. via the Feed All button (bulk feed/cure/claim without a click).
+  useEffect(() => {
+    const prev = lastSynced.current;
+    lastSynced.current = { state: sheep.state, experience: sheep.experience };
+
+    if (prev.state === sheep.state && prev.experience === sheep.experience) {
+      return;
+    }
+
+    const machineState = () => sheepService.getSnapshot().value;
+
+    if (machineState() === "sick" && sheep.state !== "sick") {
+      sheepService.send({ type: "CURE", animal: sheep });
+    }
+
+    // A bulk claim happens without a click — play the same drop animation
+    // and sounds as a manual claim before the sprite transitions.
+    const animateBulkClaim = async (
+      event: "CLAIM_PRODUCE" | "INSTANT_WAKE_UP",
+    ) => {
+      setShowDrops(true);
+      playProduceDrop();
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      playSheepCollect();
+      await new Promise((resolve) => setTimeout(resolve, 900));
+      playLevelUp();
+      sheepService.send({ type: event, animal: sheep });
+      setShowDrops(false);
+    };
+
+    if (machineState() === "ready" && sheep.state === "idle") {
+      animateBulkClaim("CLAIM_PRODUCE");
+    }
+
+    if (
+      ["idle", "happy", "sad"].includes(machineState() as string) &&
+      sheep.state === "idle" &&
+      Date.now() < sheep.awakeAt
+    ) {
+      // Bulk feeding can level an animal to ready and claim its produce in
+      // the same event; INSTANT_WAKE_UP re-derives the machine state from
+      // the animal, which maps an asleep animal to "sleeping".
+      animateBulkClaim("INSTANT_WAKE_UP");
+    }
+
+    if (
+      ["idle", "happy", "sad"].includes(machineState() as string) &&
+      ["happy", "sad", "ready"].includes(sheep.state) &&
+      machineState() !== sheep.state
+    ) {
+      sheepService.send({ type: "FEED", animal: sheep });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sheep.state, sheep.experience]);
 
   const feedSheep = (item?: InventoryItemName) => {
     const updatedState = gameService.send({
@@ -288,6 +349,10 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
 
   const handleClick = async () => {
     if (disabled) return;
+    // A bulk-claim animation is in flight: the sprite still looks awake but
+    // the game-state animal is already asleep, so any feed/claim event would
+    // throw. Ignore clicks until the animation resolves.
+    if (showDrops) return;
 
     const showNoFoodPrompt = async () => {
       setShowNoFoodSelected(true);
@@ -297,7 +362,12 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
 
     if (sick) return onSickClick();
 
-    if (needsLove) return onLoveClick();
+    if (needsLove) {
+      if (!hasGoldenSheep) return onLoveClick();
+
+      handleShowDetails();
+      return;
+    }
 
     const hasBuffSelected = selectedItem && isAnimalFeedBuffItem(selectedItem);
 
@@ -421,7 +491,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     if (needsLove) return sheep.item;
     return favFood;
   };
-  const showRequestBubble = sick || needsLove || (idle && !isLocked);
+  const showRequestBubble =
+    sick || (needsLove && !hasGoldenSheep) || (idle && !isLocked && !showDrops);
 
   if (sheepState === "initial") return null;
 
@@ -448,22 +519,6 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
           onContinue={() => {
             setShowMutantAnimalModal(false);
             onReadyClick();
-          }}
-        />
-      )}
-
-      {/* Upcoming Mutant Sign */}
-      {mutantName && (
-        <img
-          src={glow}
-          className="absolute animate-pulsate pointer-events-none"
-          style={{
-            bottom: "-22px",
-            left: "-25px",
-            width: "160%",
-            height: "160%",
-            maxWidth: `${GRID_WIDTH_PX * 40}px`,
-            maxHeight: `${GRID_WIDTH_PX * 40}px`,
           }}
         />
       )}
@@ -499,6 +554,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
               "absolute ml-[1px] mt-[2px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
             )}
           />
+          {/* Upcoming Mutant Sign */}
+          {mutantName && <MutantSparkles />}
           {/* Emotion */}
           {!idle && !needsLove && !sick && (
             <img

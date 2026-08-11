@@ -279,7 +279,10 @@ describe("tryApplyImportStep", () => {
         height: 1,
       },
       location: "interior" as const,
-      coordinates: { x: 0, y: 0 },
+      // (-5, -5) → layout tile (7, 7). TEST_FARM is a basic island, whose tent
+      // interior only spans tiles x 3-8, y 2-7, so the placement has to land on
+      // a real floor tile or the reducer collides — same as the API's.
+      coordinates: { x: -5, y: -5 },
     };
 
     const result = tryApplyImportStep(state, placement);

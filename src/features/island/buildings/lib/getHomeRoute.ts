@@ -1,12 +1,14 @@
+import { getInteriorRoute } from "features/interior/lib/interiorRoutes";
 import type { GameState } from "features/game/types/game";
 
 /**
  * Where clicking the player's home building (tent / house / manor / mansion /
  * town center) should navigate.
  *
- * Visiting another farm always lands on that farm's `/home`. For the player's
- * own home, the `interiors` experiment toggle (settings menu → Experiments)
- * routes to the new `/interior` surface instead of the legacy `/home`.
+ * `game` is whichever farm the building belongs to — while visiting that is the
+ * *visited* farm's state — so the `interiors` experiment toggle (settings menu →
+ * Experiments) is always read off the owner of the house rather than the player
+ * looking at it. Players without the toggle keep the legacy `/home` surface.
  */
 export function getHomeRoute({
   game,
@@ -17,6 +19,13 @@ export function getHomeRoute({
   isVisiting: boolean;
   farmId: number;
 }): string {
-  if (isVisiting) return `/visit/${farmId}/home`;
-  return game.settings.interiorsEnabled ? "/interior" : "/home";
+  const interiorsEnabled = !!game.settings.interiorsEnabled;
+
+  if (isVisiting) {
+    return interiorsEnabled
+      ? getInteriorRoute({ floor: "ground", visitedFarmId: farmId })
+      : `/visit/${farmId}/home`;
+  }
+
+  return interiorsEnabled ? getInteriorRoute({ floor: "ground" }) : "/home";
 }

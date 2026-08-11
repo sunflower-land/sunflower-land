@@ -348,6 +348,7 @@ export type BlockchainEvent =
   | CommunityEvent
   | SellMarketResourceEvent
   | { type: "REFRESH" }
+  | { type: "DAILY_RESET" }
   | { type: "ACKNOWLEDGE" }
   | { type: "CONTINUE"; id?: string }
   | { type: "RESET" }
@@ -863,6 +864,8 @@ export type BlockchainState = {
     | "blacklisted"
     | "somethingArrived"
     | "seasonChanged"
+    | "dailyReset"
+    | "dailyResetting"
     | "randomising"
     | "competition"
     | "jinAirdrop"
@@ -1177,7 +1180,13 @@ export function startGame(authContext: AuthContext) {
               // 2. From a VISIT event passed back to the machine which will include a farmId in the payload
 
               if (!(event as VisitEvent).landId) {
-                farmId = Number(window.location.href.split("/").pop());
+                // Take the segment straight after `/visit/`, not the last one —
+                // the visit routes have sub-paths (`/visit/1/home`,
+                // `/visit/1/interior`, `/visit/1/level_one`), so popping the
+                // last segment yields the surface name and parses to NaN.
+                farmId = Number(
+                  window.location.href.split("/visit/").pop()?.split("/")[0],
+                );
               } else {
                 farmId = (event as VisitEvent).landId;
               }
@@ -1623,6 +1632,41 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
+        dailyReset: {
+          on: {
+            "daily.reset": (GAME_EVENT_HANDLERS as any)["daily.reset"],
+            CONTINUE: {
+              target: "dailyResetting",
+            },
+          },
+        },
+        dailyResetting: {
+          entry: "setTransactionId",
+          invoke: {
+            src: async (context, event) => {
+              const farmId = context.visitorId ?? context.farmId;
+              const data = await saveGame(
+                context,
+                event,
+                farmId,
+                authContext.user.rawToken as string,
+              );
+
+              return data;
+            },
+            onDone: {
+              // Re-run the announcement guards so any new-day modal can pop up
+              target: "notifying",
+              actions: assign((context: Context, event) =>
+                handleSuccessfulSave(context, event),
+              ),
+            },
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
+          },
+        },
         calendarEvent: {
           on: {
             "daily.reset": (GAME_EVENT_HANDLERS as any)["daily.reset"],
@@ -1663,6 +1707,12 @@ export function startGame(authContext: AuthContext) {
         airdrop: {
           on: {
             "airdrop.claimed": (GAME_EVENT_HANDLERS as any)["airdrop.claimed"],
+            "purchase.claimed": (GAME_EVENT_HANDLERS as any)[
+              "purchase.claimed"
+            ],
+            RESET: {
+              target: "refreshing",
+            },
             CLOSE: {
               target: "playing",
             },
@@ -1692,6 +1742,7 @@ export function startGame(authContext: AuthContext) {
             "purchase.claimed": (GAME_EVENT_HANDLERS as any)[
               "purchase.claimed"
             ],
+            "airdrop.claimed": (GAME_EVENT_HANDLERS as any)["airdrop.claimed"],
             RESET: {
               target: "refreshing",
             },
@@ -1845,6 +1896,9 @@ export function startGame(authContext: AuthContext) {
             },
             REFRESH: {
               target: "loading",
+            },
+            DAILY_RESET: {
+              target: "dailyReset",
             },
             LANDSCAPE: {
               target: "landscaping",

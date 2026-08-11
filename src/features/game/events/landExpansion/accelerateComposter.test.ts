@@ -1,5 +1,9 @@
 import type { GameState } from "features/game/types/game";
-import { accelerateComposter } from "./accelerateComposter";
+import {
+  accelerateComposter,
+  getSpeedUpCost,
+  getSpeedUpTime,
+} from "./accelerateComposter";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import Decimal from "decimal.js-light";
 import { composterDetails } from "features/game/types/composters";
@@ -345,5 +349,56 @@ describe("accelerateComposter", () => {
 
     expect(state.inventory.Egg).toEqual(new Decimal(30));
     expect(state.inventory.Feather).toEqual(new Decimal(0));
+  });
+});
+
+describe("accelerateComposter skill ranks", () => {
+  const stateWithSkills = (
+    skills: GameState["bumpkin"]["skills"],
+  ): GameState => ({
+    ...GAME_STATE,
+    bumpkin: { ...INITIAL_BUMPKIN, skills },
+  });
+
+  const base = composterDetails["Premium Composter"];
+
+  it.each([
+    [1, 2],
+    [2, 1.5],
+    [3, 1],
+  ])("Feathery Business rank %i costs %fx Feathers", (rank, mult) => {
+    const { resourceBoostRequirements } = getSpeedUpCost(
+      stateWithSkills({ "Feathery Business": rank }),
+      "Premium Composter",
+    );
+    expect(resourceBoostRequirements).toBe(
+      base.resourceBoostRequirements * mult,
+    );
+  });
+
+  it.each([
+    [1, 1],
+    [2, 1.5],
+    [3, 2],
+  ])("Composting Bonanza rank %i speeds up by +%fhr", (rank, hours) => {
+    const { resourceBoostMilliseconds } = getSpeedUpTime({
+      state: stateWithSkills({ "Composting Bonanza": rank }),
+      composter: "Premium Composter",
+    });
+    expect(resourceBoostMilliseconds).toBe(
+      base.resourceBoostMilliseconds + hours * 60 * 60 * 1000,
+    );
+  });
+
+  it("keeps the flat 2x resource debuff on Composting Bonanza at every rank", () => {
+    [1, 2, 3].forEach((rank) => {
+      const { resourceBoostRequirements } = getSpeedUpCost(
+        stateWithSkills({ "Composting Bonanza": rank }),
+        "Premium Composter",
+      );
+      expect(resourceBoostRequirements).toBe(
+        base.resourceBoostRequirements * 2,
+      );
+    });
   });
 });

@@ -50,6 +50,7 @@ import type { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { LandscapingChest } from "./components/LandscapingChest";
 import { LandscapingQuickPanel } from "./components/LandscapingQuickPanel";
 import { InteriorFloorNav } from "features/interior/components/InteriorFloorNav";
+import { InteriorBumpkins } from "features/home/components/InteriorBumpkins";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -241,6 +242,17 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
           <InteriorFloorNav
             floor={location === "interior" ? "ground" : "level_one"}
           />
+        </div>
+      )}
+
+      {/*
+        Farm hand / bumpkin line — see Hud.tsx for why this lives in the HUD
+        rather than the gameboard (early home-expansion tiers have a room too
+        narrow for the row, which overlapped the in-world Upgrade button).
+      */}
+      {(location === "interior" || location === "level_one") && (
+        <div className="absolute top-16 left-1/2 -translate-x-1/2">
+          <InteriorBumpkins location={location} />
         </div>
       )}
 

@@ -14,6 +14,7 @@ export const MarketplaceSearch: React.FC<{
           icon={SUNNYSIDE.icons.search}
           value={search}
           onValueChange={setSearch}
+          onCancel={() => setSearch("")}
         />
       </div>
     </div>

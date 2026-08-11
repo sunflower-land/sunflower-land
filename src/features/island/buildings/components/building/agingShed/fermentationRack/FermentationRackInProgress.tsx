@@ -13,6 +13,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getAgingInputMultiplier,
   getAgingOutput,
+  getAstrolabeDoubleChance,
 } from "features/game/types/agingFormulas";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -22,6 +23,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Box } from "components/ui/Box";
 import { useSelector } from "@xstate/react";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
+import { getStampedAgerLevel } from "features/game/lib/agingShed";
 
 type Props = {
   job: FermentationJob;
@@ -47,11 +49,14 @@ export const FermentationRackInProgress: React.FC<Props> = ({
   const recipeDef = getFermentationRecipe(job.recipe);
   const outputEntry = getObjectEntries(recipeDef.outputs)[0];
   const outputItem = outputEntry?.[0];
-  const outputAmount = getAgingOutput(
+  // The job is already running, so both its output and the ingredients it was
+  // charged read from the rank stamped at start, not the player's live rank.
+  const agerLevel = getStampedAgerLevel(job.skills);
+  const { output: outputAmount } = getAgingOutput(
     state,
     outputEntry?.[1] ?? new Decimal(0),
     outputItem,
-    !!job.skills?.Ager,
+    agerLevel,
   );
 
   const timeRemainingMs = Math.max(0, job.readyAt - now);
@@ -114,7 +119,7 @@ export const FermentationRackInProgress: React.FC<Props> = ({
 
             {getObjectEntries(recipeDef.ingredients).map(([itemName, need]) => {
               const needDecimal = new Decimal(need ?? 0).mul(
-                getAgingInputMultiplier(state),
+                getAgingInputMultiplier(state, agerLevel),
               );
               const balanceDecimal =
                 state.inventory[itemName] ?? new Decimal(0);
@@ -136,6 +141,13 @@ export const FermentationRackInProgress: React.FC<Props> = ({
             />
           </div>
         </div>
+        {getAstrolabeDoubleChance(state) > 0 && (
+          <Label type="vibrant" className="text-xxs mx-2 mb-1">
+            {t("agingShed.astrolabe.doubleChance", {
+              chance: getAstrolabeDoubleChance(state),
+            })}
+          </Label>
+        )}
         {collectError && (
           <Label type="danger" className="text-xs mb-2 mx-2">
             {collectError}

@@ -92,7 +92,20 @@ export type ChapterDecorationName =
   | "Squeaky Chicken"
   | "Moon Fox Statue"
   | "Giant Acorn"
-  | "Diving Helmet";
+  | "Diving Helmet"
+  // Ascension Age
+  | "Salt Rug"
+  | "Ascended Idol"
+  | "Ascended Wheel"
+  | "Astrolabe"
+  | "Coat Rack"
+  | "Lampshade"
+  | "Marble Head"
+  | "Otty the Otter"
+  | "Salt Worker Gnome"
+  | "Shards Turtle"
+  | "Vibraphone"
+  | "Winged Vase";
 
 export type EventDecorationName =
   | "Jelly Lamp"
@@ -206,7 +219,23 @@ export type EventDecorationName =
   | "Goblin Rug"
   | "Pet Rug"
   | "Jester in a box"
-  | "The Sunflower Man Statue";
+  | "The Sunflower Man Statue"
+  | "Blue Paint Bucket"
+  | "Green Paint Bucket"
+  | "Purple Paint Bucket"
+  | "Yellow Paint Bucket"
+  | "Color Wheel"
+  | "Dhol Drum"
+  | "Mimic Slime Ball"
+  | "Mimic Winged Slime Ball"
+  | "Pork Jelly"
+  | "Rainbow Pork Jelly"
+  | "Slime Totem"
+  | "Giant Donut"
+  | "Fool's Gold"
+  | "Golden Slime Trophy"
+  | "Silver Slime Trophy"
+  | "Bronze Slime Trophy";
 
 export type TileName =
   | "Black Tile"
@@ -640,9 +669,249 @@ export const DECORATION_TEMPLATES = {
     },
     isWithdrawable: () => false,
   },
+  // Letter tiles
+  "Letter A Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter B Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter C Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter D Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter E Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter F Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter G Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter H Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter I Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter J Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter K Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter L Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter M Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter N Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter O Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter P Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter Q Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter R Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter S Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter T Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter U Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter V Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter W Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter X Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter Y Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Letter Z Tile": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
 } satisfies Record<string, Template>;
 
 export type TemplateDecorationName = keyof typeof DECORATION_TEMPLATES;
+
+export type LetterTileName =
+  | "Letter A Tile"
+  | "Letter B Tile"
+  | "Letter C Tile"
+  | "Letter D Tile"
+  | "Letter E Tile"
+  | "Letter F Tile"
+  | "Letter G Tile"
+  | "Letter H Tile"
+  | "Letter I Tile"
+  | "Letter J Tile"
+  | "Letter K Tile"
+  | "Letter L Tile"
+  | "Letter M Tile"
+  | "Letter N Tile"
+  | "Letter O Tile"
+  | "Letter P Tile"
+  | "Letter Q Tile"
+  | "Letter R Tile"
+  | "Letter S Tile"
+  | "Letter T Tile"
+  | "Letter U Tile"
+  | "Letter V Tile"
+  | "Letter W Tile"
+  | "Letter X Tile"
+  | "Letter Y Tile"
+  | "Letter Z Tile";
+
+export const LETTER_TILES: Record<LetterTileName, object> = {
+  "Letter A Tile": {},
+  "Letter B Tile": {},
+  "Letter C Tile": {},
+  "Letter D Tile": {},
+  "Letter E Tile": {},
+  "Letter F Tile": {},
+  "Letter G Tile": {},
+  "Letter H Tile": {},
+  "Letter I Tile": {},
+  "Letter J Tile": {},
+  "Letter K Tile": {},
+  "Letter L Tile": {},
+  "Letter M Tile": {},
+  "Letter N Tile": {},
+  "Letter O Tile": {},
+  "Letter P Tile": {},
+  "Letter Q Tile": {},
+  "Letter R Tile": {},
+  "Letter S Tile": {},
+  "Letter T Tile": {},
+  "Letter U Tile": {},
+  "Letter V Tile": {},
+  "Letter W Tile": {},
+  "Letter X Tile": {},
+  "Letter Y Tile": {},
+  "Letter Z Tile": {},
+};
 
 export type DecorationName =
   | DollName
@@ -660,6 +929,20 @@ export type DecorationName =
   | GiantFruit;
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
+  // Ascension Age
+  "Salt Rug": { width: 3, height: 2 },
+  "Ascended Idol": { width: 3, height: 2 },
+  "Ascended Wheel": { width: 2, height: 2 },
+  Astrolabe: { width: 2, height: 2 },
+  "Coat Rack": { width: 1, height: 2 },
+  Lampshade: { width: 1, height: 1 },
+  "Marble Head": { width: 1, height: 2 },
+  "Otty the Otter": { width: 1, height: 1 },
+  "Salt Worker Gnome": { width: 1, height: 1 },
+  "Shards Turtle": { width: 1, height: 2 },
+  Vibraphone: { width: 2, height: 2 },
+  "Winged Vase": { width: 1, height: 1 },
+
   "Diving Helmet": {
     width: 1,
     height: 2,
@@ -1527,6 +1810,70 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   Stool: {
     width: 1,
     height: 1,
+  },
+  "Blue Paint Bucket": {
+    width: 1,
+    height: 2,
+  },
+  "Green Paint Bucket": {
+    width: 1,
+    height: 2,
+  },
+  "Purple Paint Bucket": {
+    width: 1,
+    height: 2,
+  },
+  "Yellow Paint Bucket": {
+    width: 1,
+    height: 2,
+  },
+  "Color Wheel": {
+    width: 2,
+    height: 2,
+  },
+  "Dhol Drum": {
+    width: 2,
+    height: 2,
+  },
+  "Mimic Slime Ball": {
+    width: 1,
+    height: 1,
+  },
+  "Mimic Winged Slime Ball": {
+    width: 1,
+    height: 1,
+  },
+  "Pork Jelly": {
+    width: 1,
+    height: 1,
+  },
+  "Rainbow Pork Jelly": {
+    width: 1,
+    height: 1,
+  },
+  "Slime Totem": {
+    width: 2,
+    height: 2,
+  },
+  "Giant Donut": {
+    width: 2,
+    height: 2,
+  },
+  "Fool's Gold": {
+    width: 2,
+    height: 2,
+  },
+  "Golden Slime Trophy": {
+    width: 1,
+    height: 2,
+  },
+  "Silver Slime Trophy": {
+    width: 1,
+    height: 2,
+  },
+  "Bronze Slime Trophy": {
+    width: 1,
+    height: 2,
   },
 };
 

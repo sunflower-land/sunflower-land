@@ -8,7 +8,9 @@ import {
   type Consumable,
   type CookableName,
   FISH_CONSUMABLES,
+  isAgedFish,
   isCookable,
+  isPrimeAgedFish,
 } from "features/game/types/consumables";
 import {
   getExpiryCooldown,
@@ -23,6 +25,12 @@ import {
   meetsLevelRequirement,
 } from "features/game/lib/level";
 import { isWearableActive } from "features/game/lib/wearables";
+import {
+  SKILL_RANKS,
+  getSkillLevel,
+  downgradeChapterCropWeekSkills,
+} from "features/game/types/bumpkinSkills";
+import { CHAPTER_CROP_WEEK_RECIPE } from "features/game/types/chapterCropWeek";
 import type { SellableItem } from "features/game/events/landExpansion/sellCrop";
 import {
   FACTION_ITEMS,
@@ -115,9 +123,11 @@ export const getSellPrice = ({
     multiplier += specialEventMultiplier - 1;
   }
 
-  if (bumpkin.skills["Coin Swindler"] && item.name in CROPS) {
-    multiplier += 0.1;
-    boostUsed.push({ name: "Coin Swindler", value: "+0.1" });
+  const coinSwindlerLevel = getSkillLevel(bumpkin.skills, "Coin Swindler");
+  if (coinSwindlerLevel && item.name in CROPS) {
+    const b = SKILL_RANKS["Coin Swindler"].ranks[coinSwindlerLevel - 1];
+    multiplier += b;
+    boostUsed.push({ name: "Coin Swindler", value: `+${b}` });
   }
 
   return { price: price * multiplier, boostsUsed: boostUsed };
@@ -273,22 +283,32 @@ export const getCookingTime = ({
     boostsUsed.push({ name: "Desert Gnome", value: "x0.9" });
   }
 
-  // 10% reduction on Fire Pit with Fast Feasts skill
-  if (buildingName === "Fire Pit" && bumpkin?.skills["Fast Feasts"]) {
-    reducedSecs = reducedSecs.mul(0.9);
-    boostsUsed.push({ name: "Fast Feasts", value: "x0.9" });
+  // Saltbite (the CHAPTER_CROP_WEEK event recipe) ignores upgraded Cooking-skill
+  // ranks — its cook-time reductions cap at rank 1 (base skill still applies).
+  const cookSkills =
+    item === CHAPTER_CROP_WEEK_RECIPE
+      ? downgradeChapterCropWeekSkills(bumpkin?.skills ?? {})
+      : (bumpkin?.skills ?? {});
+
+  // -10%/-20%/-30% on Fire Pit + Kitchen with Fast Feasts skill (scales w/ rank)
+  const fastFeastsLevel = getSkillLevel(cookSkills, "Fast Feasts");
+  if (
+    (buildingName === "Fire Pit" || buildingName === "Kitchen") &&
+    fastFeastsLevel
+  ) {
+    const multiplier =
+      1 - SKILL_RANKS["Fast Feasts"].ranks[fastFeastsLevel - 1];
+    reducedSecs = reducedSecs.mul(multiplier);
+    boostsUsed.push({ name: "Fast Feasts", value: `x${multiplier}` });
   }
 
-  // 10% reduction on Kitchen with Fast Feasts skill
-  if (buildingName === "Kitchen" && bumpkin?.skills["Fast Feasts"]) {
-    reducedSecs = reducedSecs.mul(0.9);
-    boostsUsed.push({ name: "Fast Feasts", value: "x0.9" });
-  }
-
-  // 10% reduction on Cakes with Frosted Cakes skill
-  if (item in COOKABLE_CAKES && bumpkin?.skills["Frosted Cakes"]) {
-    reducedSecs = reducedSecs.mul(0.9);
-    boostsUsed.push({ name: "Frosted Cakes", value: "x0.9" });
+  // -10%/-20%/-30% on Cakes with Frosted Cakes skill (scales with rank)
+  const frostedCakesLevel = getSkillLevel(cookSkills, "Frosted Cakes");
+  if (item in COOKABLE_CAKES && frostedCakesLevel) {
+    const multiplier =
+      1 - SKILL_RANKS["Frosted Cakes"].ranks[frostedCakesLevel - 1];
+    reducedSecs = reducedSecs.mul(multiplier);
+    boostsUsed.push({ name: "Frosted Cakes", value: `x${multiplier}` });
   }
 
   return { reducedSecs: reducedSecs.toNumber(), boostsUsed };
@@ -366,9 +386,13 @@ export const getFoodExpBoost = ({
     boostsUsed.push({ name: "Skill Shrimpy", value: "x1.2" });
   }
 
-  if (food.name in FISH_CONSUMABLES && !!skills["Fishy Feast"]) {
-    boostedExp = boostedExp.mul(1.2);
-    boostsUsed.push({ name: "Fishy Feast", value: "x1.2" });
+  // Fishy Feast: +20%/+25%/+30% Bumpkin XP from fish (scales with rank)
+  const fishyFeastLevel = getSkillLevel(skills, "Fishy Feast");
+  if (food.name in FISH_CONSUMABLES && fishyFeastLevel) {
+    const multiplier =
+      1 + SKILL_RANKS["Fishy Feast"].ranks[fishyFeastLevel - 1];
+    boostedExp = boostedExp.mul(multiplier);
+    boostsUsed.push({ name: "Fishy Feast", value: `x${multiplier}` });
   }
 
   if (hasVipAccess({ game, now: createdAt })) {
@@ -384,36 +408,52 @@ export const getFoodExpBoost = ({
     boostsUsed.push({ name: "Hungry Hare", value: "x2" });
   }
 
-  // Munching Mastery - 5% exp boost
-  if (skills["Munching Mastery"]) {
+  if (
+    (isAgedFish(food.name) || isPrimeAgedFish(food.name)) &&
+    isCollectibleBuilt({ name: "Astrolabe", game })
+  ) {
     boostedExp = boostedExp.mul(1.05);
-    boostsUsed.push({ name: "Munching Mastery", value: "x1.05" });
+    boostsUsed.push({ name: "Astrolabe", value: "x1.05" });
   }
 
-  // Juicy Boost - 10% exp boost on juice
+  // Munching Mastery - +5%/+10%/+15% exp boost (scales with rank)
+  const munchingMasteryLevel = getSkillLevel(skills, "Munching Mastery");
+  if (munchingMasteryLevel) {
+    const multiplier =
+      1 + SKILL_RANKS["Munching Mastery"].ranks[munchingMasteryLevel - 1];
+    boostedExp = boostedExp.mul(multiplier);
+    boostsUsed.push({ name: "Munching Mastery", value: `x${multiplier}` });
+  }
+
+  // Juicy Boost - +10%/+20%/+30% exp boost on juice (scales with rank)
+  const juicyBoostLevel = getSkillLevel(skills, "Juicy Boost");
   if (
     isCookable(food) &&
     food.building === "Smoothie Shack" &&
-    skills["Juicy Boost"]
+    juicyBoostLevel
   ) {
-    boostedExp = boostedExp.mul(1.1);
-    boostsUsed.push({ name: "Juicy Boost", value: "x1.1" });
+    const multiplier =
+      1 + SKILL_RANKS["Juicy Boost"].ranks[juicyBoostLevel - 1];
+    boostedExp = boostedExp.mul(multiplier);
+    boostsUsed.push({ name: "Juicy Boost", value: `x${multiplier}` });
   }
 
-  // Drive-Through Deli - 15% exp boost on Deli
-  if (
-    isCookable(food) &&
-    food.building === "Deli" &&
-    skills["Drive-Through Deli"]
-  ) {
-    boostedExp = boostedExp.mul(1.15);
-    boostsUsed.push({ name: "Drive-Through Deli", value: "x1.15" });
+  // Drive-Through Deli - +15%/+20%/+25% exp boost on Deli (scales with rank)
+  const driveThroughDeliLevel = getSkillLevel(skills, "Drive-Through Deli");
+  if (isCookable(food) && food.building === "Deli" && driveThroughDeliLevel) {
+    const multiplier =
+      1 + SKILL_RANKS["Drive-Through Deli"].ranks[driveThroughDeliLevel - 1];
+    boostedExp = boostedExp.mul(multiplier);
+    boostsUsed.push({ name: "Drive-Through Deli", value: `x${multiplier}` });
   }
 
-  // Buzzworthy Treats - 10% exp boost on honey foods
-  if (isFoodMadeWithHoney(food) && skills["Buzzworthy Treats"]) {
-    boostedExp = boostedExp.mul(1.1);
-    boostsUsed.push({ name: "Buzzworthy Treats", value: "x1.1" });
+  // Buzzworthy Treats - +10%/+20%/+30% exp boost on honey foods
+  const buzzworthyTreatsLevel = getSkillLevel(skills, "Buzzworthy Treats");
+  if (isFoodMadeWithHoney(food) && buzzworthyTreatsLevel) {
+    const multiplier =
+      1 + SKILL_RANKS["Buzzworthy Treats"].ranks[buzzworthyTreatsLevel - 1];
+    boostedExp = boostedExp.mul(multiplier);
+    boostsUsed.push({ name: "Buzzworthy Treats", value: `x${multiplier}` });
   }
 
   // Swiss Whiskers - +500 exp on cheese recipes

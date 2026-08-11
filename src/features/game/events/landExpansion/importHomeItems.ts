@@ -375,6 +375,23 @@ function getImportStep({
 }
 
 /**
+ * Dig-up events for every item still placed in the old home — the same
+ * `*.removed` events the import uses, which hand each item back to the player's
+ * inventory. Used to clear out whatever the import couldn't move.
+ *
+ * Reuses {@link getImportStep} for the event shapes rather than repeating the
+ * per-kind literals; the destination passed here only shapes the place event,
+ * which is discarded.
+ */
+export function getHomeRemovalEvents(state: GameState): PlacementEvent[] {
+  return getHomeItems(state).map(
+    (item) =>
+      getImportStep({ item, location: "interior", coordinates: { x: 0, y: 0 } })
+        .events[0],
+  );
+}
+
+/**
  * Attempts to relocate one planned item by digging it up and placing it down in
  * a single step, applied purely to `state`. Returns the resulting state plus the
  * two events to dispatch — or `null` if the item can't be placed, in which case
@@ -384,6 +401,15 @@ function getImportStep({
  * event and hoping the place succeeds, we run both reducers up front and only
  * commit when the place actually lands, so an item is never dug up into the
  * inventory and stranded there.
+ *
+ * It only works because the place reducers reject everything the API's do —
+ * collision included. The plan is computed once at the start of the migration
+ * but applied over several seconds and across autosaves, so a spot that was
+ * free at planning time can be taken by the time we get to it. Catching that
+ * here costs the player one item (reported as "could not be moved", and picked
+ * up by re-running the import); missing it costs them the whole save, because
+ * the API reduces the batch as a unit and one "Building collides" rejects every
+ * event in it.
  */
 export function tryApplyImportStep(
   state: GameState,

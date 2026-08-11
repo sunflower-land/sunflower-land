@@ -184,6 +184,136 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Crystal Altar",
   },
+  "Ascension Monument": {
+    description: "A monument raised to the Ascension Age.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Ascension Monument",
+  },
+  "Salt Rug": {
+    description: "A finely woven rug recovered from the ascended ruins.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Salt Rug",
+  },
+  "Ascended Idol": {
+    description: "A golden idol that watches over the clouds.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Ascended Idol",
+  },
+  "Ascended Wheel": {
+    description: "An ancient wheel that still turns with celestial power.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Ascended Wheel",
+  },
+  Astrolabe: {
+    description: "A jewelled device for charting the heavens.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Astrolabe",
+  },
+  "Coat Rack": {
+    description: "A tidy rack for a well-dressed bumpkin.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Coat Rack",
+  },
+  Lampshade: {
+    description: "A cozy little lamp for the ascended home.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Lampshade",
+  },
+  "Marble Head": {
+    description: "A weathered marble bust from a forgotten age.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Marble Head",
+  },
+  "Otty the Otter": {
+    description: "Otty the otter, a cheerful companion of the ruins.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Otty the Otter",
+  },
+  "Salt Worker Gnome": {
+    description: "A hardy gnome who toils in the salt ruins.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Salt Worker Gnome",
+  },
+  "Shards Turtle": {
+    description: "A turtle carrying crystalline shards on its shell.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Shards Turtle",
+  },
+  Vibraphone: {
+    description: "A shimmering instrument that rings across the ruins.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Vibraphone",
+  },
+  "Winged Vase": {
+    description: "A delicate vase graced with celestial wings.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Winged Vase",
+  },
   "Dino Egg Trophy": {
     description:
       "A trophy carved in the likeness of a salt-fossilised dino egg.",
@@ -214,6 +344,16 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Salt Crystal Bed",
+  },
+  "Cloud Bed": {
+    description: "A dreamy bed floating on a soft cloud.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Cloud Bed",
   },
   "World Map Rug": {
     description: "A woven rug charting the saltwater seas.",
@@ -14663,6 +14803,313 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Salt Dino Egg",
   },
+  "Ascended Chicken": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Ascended Chicken",
+  },
+  "Ascended Cow": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Ascended Cow",
+  },
+  "Ascended Sheep": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Ascended Sheep",
+  },
+  "Ruins Flower": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Ruins Flower",
+  },
+  Crocodile: {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Crocodile",
+  },
+  "Dumbo Octopus": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Dumbo Octopus",
+  },
+  "Seahorse Dad": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Seahorse Dad",
+  },
+  "Shiny Feather": {
+    description: "Collected during the Ascension Age chapter.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Shiny Feather",
+  },
+  "Ascension Age Raffle Ticket": {
+    description: "A raffle ticket for the Ascension Age chapter.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Ascension Age Raffle Ticket",
+  },
+  "Ascension Age Banner": {
+    description: "A banner for the Ascension Age chapter.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Ascension Age Banner",
+  },
+  "Otter Pebble": {
+    description: "A chapter artefact unearthed during Ascension Age.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Treasure" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Otter Pebble",
+  },
+  "Colors Token 2026": {
+    description:
+      "Use this in the Festival of Colors event shop before the event ends!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Colors Token 2026",
+  },
+  "Colors Ticket 2026": {
+    description:
+      "Hold this for a chance to win $FLOWER after the Festival of Colors event ends!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Colors Ticket 2026",
+  },
+  "Blue Paint Bucket": {
+    description:
+      "Looks like a bucket of blue paint, but the way it's staring back at you suggests it's actually a very wet slime.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Blue Paint Bucket",
+  },
+  "Green Paint Bucket": {
+    description:
+      "Fresh green paint? Don't be fooled by the handle... That's definitely a slime trying its best to look useful.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Green Paint Bucket",
+  },
+  "Purple Paint Bucket": {
+    description:
+      "A regal, mysterious purple hue. It's 90% paint, 10% bucket, and 100% a squishy slime in disguise.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Purple Paint Bucket",
+  },
+  "Yellow Paint Bucket": {
+    description:
+      "Vibrant yellow paint that jiggles when you move it. A masterpiece of slime camouflage architecture.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Yellow Paint Bucket",
+  },
+  "Color Wheel": {
+    description:
+      "An explosion of colors in wheel form. Great for mesmerizing Moonseekers or deciding what color to paint your house.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Color Wheel",
+  },
+  "Dhol Drum": {
+    description:
+      "Beat it loud and feel the rhythm! Perfect for festival celebrations or annoying your neighbors at 2 AM.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Dhol Drum",
+  },
+  "Mimic Slime Ball": {
+    description:
+      "Looks like a regular slime ball, but if you get too close, it might just try to bite your fingers off.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Mimic Slime Ball",
+  },
+  "Mimic Winged Slime Ball": {
+    description: "It has wings and tries its best to look like a slime ball.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Mimic Winged Slime Ball",
+  },
+  "Pork Jelly": {
+    description:
+      "Classic pork jelly. It jiggles in a deeply mesmerizing way when you poke it.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Pork Jelly",
+  },
+  "Rainbow Pork Jelly": {
+    description:
+      "A magical, multi-colored jelly that vibrates with porcine energy. Fascinating, and probably very sticky.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Rainbow Pork Jelly",
+  },
+  "Slime Totem": {
+    description:
+      "A totem celebrating the glory of the world's jelly-themed creatures. The slimes seem to show it some respect.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Slime Totem",
+  },
+  "Giant Donut": {
+    description:
+      "A monumental, perfectly frosted donut. Far too large to eat in one bite, but no one is stopping you from trying.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Giant Donut",
+  },
+  "Fool's Gold": {
+    description:
+      "All that glitters is not gold, but at least this one looks nice on a shelf.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Fool's Gold",
+  },
+  "Golden Slime Trophy": {
+    description:
+      "The ultimate gold podium trophy. The absolute pinnacle of victory, shining bright for the true champion of the event.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Golden Slime Trophy",
+  },
+  "Silver Slime Trophy": {
+    description:
+      "A shiny silver podium trophy. A brilliant reward that shows you came incredibly close to absolute slime perfection.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Silver Slime Trophy",
+  },
+  "Bronze Slime Trophy": {
+    description:
+      "A solid bronze podium trophy. Third place is still a podium finish, and the slimes are proud of you.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Bronze Slime Trophy",
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
@@ -21280,5 +21727,258 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     name: "Brasil Jersey",
+  },
+  "Green Slime Hair": {
+    description:
+      "Gel-infused hair that stays perfectly in place, mostly because it's literally made of green slime.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hair" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Green Slime Hair",
+  },
+  "Blue Slime Shirt": {
+    description:
+      "Cold, squishy, and surprisingly fashionable. It oozes confidence—and actual blue slime.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shirt" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Blue Slime Shirt",
+  },
+  "Slime Splattered Shirt": {
+    description:
+      "Either you just survived a massive slime explosion, or you are making a very bold fashion statement.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shirt" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Slime Splattered Shirt",
+  },
+  "Sad Slime Pants": {
+    description:
+      "They sag a little bit at the knees. They aren't poorly tailored; they are just having a rough day.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Pants" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Sad Slime Pants",
+  },
+  "Red Jelly Pants": {
+    description:
+      "Wobbly trousers with a translucent strawberry tint. Do not sit too close to a campfire.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Pants" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Red Jelly Pants",
+  },
+  "Ascension Staff": {
+    description:
+      "A staff crowned with a shard of pure ascension energy. It hums softly when the clouds part.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Tool" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Ascension Staff",
+  },
+  "Ascension Wings": {
+    description:
+      "Radiant wings said to carry Bumpkins beyond the clouds. No promises about the landing.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Wings" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Ascension Wings",
+  },
+  "Salt Bottle Onesie": {
+    description:
+      "Shake things up! A pinch of salt goes a long way, and this onesie carries plenty.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Onesie" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Salt Bottle Onesie",
+  },
+  "Swamp Armor": {
+    description:
+      "A chest plate woven from the swamp's toughest reeds. Smells faintly of bog water.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shirt" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Swamp Armor",
+  },
+  "Swamp Lily Hat": {
+    description:
+      "A blooming lily plucked straight from the swamp. The frogs are still deciding if they want it back.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Swamp Lily Hat",
+  },
+  "Swamp Pants": {
+    description:
+      "Mud-proof pants for wading through the murk. What's living in the pockets is your problem now.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Pants" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Swamp Pants",
+  },
+  "Moon Hair": {
+    description:
+      "Hair kissed by moonlight, glowing softly with lunar energy. A favourite of night owls and stargazers.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hair" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Moon Hair",
+  },
+  "Crystal Shoes": {
+    description:
+      "Footwear cut from a single crystal node and polished to a shine. They chime softly with every step.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shoes" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Crystal Shoes",
+  },
+  "Marble Pants": {
+    description:
+      "Trousers with the cool veined sheen of polished marble. Far comfier than they have any right to be.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Pants" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Marble Pants",
+  },
+  "Spooky Coat": {
+    description:
+      "A tattered coat with a fur collar that never quite stops shivering. Something followed it home.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Coat" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Spooky Coat",
+  },
+  "Surfer Hair": {
+    description:
+      "Sun-bleached locks with the salt still in them. Permanently windswept, even indoors.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hair" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Surfer Hair",
+  },
+  "Yellow Slime Puppet": {
+    description:
+      "A hand puppet made entirely of yellow ooze. It mimics your movements, though it looks slightly sticky.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Yellow Slime Puppet",
+  },
+  "Blue Jelly Shoes": {
+    description:
+      "Every single step you take makes a squelching sound. Incredibly comfortable, heavily distracting.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shoes" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Blue Jelly Shoes",
+  },
+  "Sad Slime Slippers": {
+    description:
+      "Comfortable footwear that looks like it's about to burst into tears. Keep them away from salt.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shoes" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Sad Slime Slippers",
+  },
+  "Sad Slime Hat": {
+    description:
+      "A melting hat that droops over your eyes. It perfectly matches your mood on a rainy Monday morning.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Sad Slime Hat",
+  },
+  "Slime Wall Background": {
+    description:
+      "Transform your backdrop into a living, pulsating wall of pure ooze. Great for insulation, terrible for smell.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Background" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Slime Wall Background",
+  },
+  "Rainbow Wings": {
+    description:
+      "Beautiful, translucent wings that reflect every color of the spectrum. You feel lighter just looking at them.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Wings" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Rainbow Wings",
+  },
+  "Butterfly Aura": {
+    description:
+      "A whimsical swarm of colorful butterflies constantly fluttering around you wherever you go.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Aura" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    name: "Butterfly Aura",
   },
 };

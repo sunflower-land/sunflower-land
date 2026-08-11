@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
-import { KNOWN_IDS } from "features/game/types";
 import type {
   BoostName,
   GameState,
@@ -56,7 +55,7 @@ interface HarvestsRequirementProps {
  * @param baseXp The base XP before boosts (for strikethrough display).
  * @param showBoosts Whether the boost panel is visible.
  * @param setShowBoosts Callback to toggle the boost panel.
- * @param showOpenSeaLink Whether to show the open sea link or not.
+ * @param onMarketplaceClick Callback to open the item in the marketplace. The link is hidden when not provided.
  */
 interface PropertiesProps {
   timeSeconds?: number;
@@ -68,7 +67,7 @@ interface PropertiesProps {
   baseXp?: number;
   showBoosts?: boolean;
   setShowBoosts?: (show: boolean) => void;
-  showOpenSeaLink?: boolean;
+  onMarketplaceClick?: () => void;
 }
 
 /**
@@ -258,6 +257,15 @@ export const InventoryItemDetails: React.FC<Props> = ({
       return <RequirementLabel type="xp" xp={properties.xp} />;
     };
 
+    // Without any content the divider would show as an empty line
+    const hasContent =
+      !!properties.timeSeconds ||
+      !!properties.harvests ||
+      !!properties.xp ||
+      !!properties.onMarketplaceClick;
+
+    if (!hasContent) return <></>;
+
     return (
       <div
         className={classNames(
@@ -280,18 +288,14 @@ export const InventoryItemDetails: React.FC<Props> = ({
         {/* XP display */}
         {getXPDisplay()}
 
-        {/* OpenSea link */}
-        {properties.showOpenSeaLink && (
-          <a
-            href={`https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/${
-              KNOWN_IDS[details.item]
-            }`}
-            className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
-            target="_blank"
-            rel="noopener noreferrer"
+        {/* Marketplace link */}
+        {properties.onMarketplaceClick && (
+          <span
+            className="underline text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
+            onClick={properties.onMarketplaceClick}
           >
-            {t("opensea")}
-          </a>
+            {t("marketplace")}
+          </span>
         )}
       </div>
     );

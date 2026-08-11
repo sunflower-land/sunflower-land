@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -14,10 +14,11 @@ import {
 } from "features/game/types/beds";
 import { BED_WIDTH } from "features/island/collectibles/components/Bed";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
+import { BumpkinEquip } from "features/bumpkins/components/BumpkinEquip";
 
 import { Modal } from "components/ui/Modal";
-import { Panel } from "components/ui/Panel";
-import { Button } from "components/ui/Button";
+import { ButtonPanel } from "components/ui/Panel";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Label } from "components/ui/Label";
 
 import type { BedName } from "features/game/types/game";
@@ -39,15 +40,28 @@ interface Props {
   onHide: () => void;
 }
 
+type TabId = "beds" | "farmHands";
+
+/** Who the equip modal is currently open for. The player's own Bumpkin has no
+ *  id, hence the union rather than a nullable string. */
+type Selected = { type: "bumpkin" } | { type: "farmHand"; id: string };
+
 /**
- * Beds-migration modal listing every bed type the player needs to craft to
- * unlock more farm hands, along with the current occupancy. Lives in
- * features/home for historical reasons but is rendered from both the Home
- * page (via InteriorBumpkins) and the Interior HUD (via InteriorBedsButton).
+ * "My Beds" modal, opened from the interior HUD (via InteriorBedsButton) and
+ * from the Home page's farm hand row.
+ *
+ * Two tabs:
+ *  - Beds — every bed type, which are placed, and who is sleeping in them.
+ *  - Farm Hands — the player's Bumpkin and each farm hand on a button; picking
+ *    one opens its equip screen. This replaced the floating farm hand row that
+ *    used to sit in the interior HUD.
  */
 export const BedsMigrationModal: React.FC<Props> = ({ show, onHide }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
+
+  const [tab, setTab] = useState<TabId>("beds");
+  const [selected, setSelected] = useState<Selected>();
 
   const bumpkin = useSelector(gameService, _bumpkin);
   const farmHands = useSelector(gameService, _farmHands);
@@ -75,54 +89,142 @@ export const BedsMigrationModal: React.FC<Props> = ({ show, onHide }) => {
     .sort((a, b) => BED_FARMHAND_COUNT[a] - BED_FARMHAND_COUNT[b])
     .filter((bedName) => uniqueBeds.has(bedName));
 
+  const unplacedBeds = getKeys(BED_FARMHAND_COUNT).filter(
+    (bed) => !beds.includes(bed),
+  );
+
+  // Occupants are handed out in order: the player first, then each farm hand,
+  // filling placed beds before unplaced ones.
+  const occupants = [bumpkin, ...Object.values(farmHands)].map(
+    (f) => f.equipped,
+  );
+
+  const selectedEquipment =
+    selected?.type === "farmHand"
+      ? farmHands[selected.id]?.equipped
+      : bumpkin?.equipped;
+
   return (
-    <Modal show={show} onHide={onHide}>
-      <Panel>
-        <div className="p-1 flex justify-between">
-          <Label type="default" icon={ITEM_DETAILS["Basic Bed"].image}>
-            {t("bedsMigration.label")}
-          </Label>
-          <Label type="default" icon={SUNNYSIDE.icons.player}>
-            {t("bedsMigration.farmHandCount", { count, max })}
-          </Label>
-        </div>
-        <div className="flex p-2 flex-col space-y-1 mb-2 text-xs">
-          <span>{t("bedsMigration.bedsNeededDescription")}</span>
-          <span>{t("bedsMigration.bedsNeededDescription2")}</span>
-        </div>
-        <div className="flex flex-col items-center">
-          <div className="grid grid-cols-4 mb-2 w-full">
-            {beds.map((bed, i) => {
-              const equipment = [bumpkin, ...Object.values(farmHands)].map(
-                (f) => f.equipped,
-              )[i];
-              return (
-                <BedCell bed={bed} equipment={equipment} isPlaced key={bed} />
-              );
-            })}
-            {getKeys(BED_FARMHAND_COUNT)
-              .filter((bed) => !beds.includes(bed))
-              .map((bed, i) => {
-                const equipment = [bumpkin, ...Object.values(farmHands)]
-                  .map((f) => f.equipped)
-                  .slice(beds.length)[i];
-                return (
+    <>
+      <Modal show={show} onHide={onHide}>
+        <CloseButtonPanel
+          onClose={onHide}
+          currentTab={tab}
+          setCurrentTab={setTab}
+          tabs={[
+            {
+              id: "beds",
+              icon: ITEM_DETAILS["Basic Bed"].image,
+              name: t("beds"),
+            },
+            {
+              id: "farmHands",
+              icon: SUNNYSIDE.icons.player,
+              name: t("farmHands"),
+            },
+          ]}
+        >
+          <div className="p-1 flex justify-end">
+            <Label type="default" icon={SUNNYSIDE.icons.player}>
+              {t("bedsMigration.farmHandCount", { count, max })}
+            </Label>
+          </div>
+
+          {tab === "beds" && (
+            <>
+              <div className="flex p-2 flex-col space-y-1 mb-2 text-xs">
+                <span>{t("bedsMigration.bedsNeededDescription")}</span>
+                <span>{t("bedsMigration.bedsNeededDescription2")}</span>
+              </div>
+              <div className="grid grid-cols-4 mb-2 w-full">
+                {beds.map((bed, i) => (
                   <BedCell
                     bed={bed}
-                    equipment={equipment}
+                    equipment={occupants[i]}
+                    isPlaced
+                    key={bed}
+                  />
+                ))}
+                {unplacedBeds.map((bed, i) => (
+                  <BedCell
+                    bed={bed}
+                    equipment={occupants.slice(beds.length)[i]}
                     isPlaced={false}
                     key={bed}
                   />
-                );
-              })}
-          </div>
-        </div>
+                ))}
+              </div>
+            </>
+          )}
 
-        <Button onClick={onHide}>{t("close")}</Button>
-      </Panel>
-    </Modal>
+          {tab === "farmHands" && (
+            <div className="p-1 flex flex-col gap-2 mb-1">
+              <p className="text-xs">
+                {t("bedsMigration.bedsNeededDescription3")}
+              </p>
+              <div className="grid grid-cols-3 gap-1">
+                <FarmHandCell
+                  equipment={bumpkin?.equipped}
+                  name={t("you")}
+                  onClick={() => setSelected({ type: "bumpkin" })}
+                />
+                {getKeys(farmHands).map((id) => (
+                  <FarmHandCell
+                    key={id}
+                    equipment={farmHands[id].equipped}
+                    name={`${t("farmHand")} #${id}`}
+                    onClick={() => setSelected({ type: "farmHand", id })}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal show={!!selected} onHide={() => setSelected(undefined)} size="lg">
+        <CloseButtonPanel
+          bumpkinParts={selectedEquipment}
+          onClose={() => setSelected(undefined)}
+          onBack={() => setSelected(undefined)}
+          tabs={[
+            { id: "equip", icon: SUNNYSIDE.icons.wardrobe, name: t("equip") },
+          ]}
+        >
+          <BumpkinEquip
+            farmHandId={selected?.type === "farmHand" ? selected.id : undefined}
+            equipment={selectedEquipment as BumpkinParts}
+            onEquip={(equipment) => {
+              if (selected?.type === "farmHand") {
+                gameService.send("farmHand.equipped", {
+                  id: selected.id,
+                  equipment,
+                });
+              } else {
+                gameService.send("bumpkin.equipped", { equipment });
+              }
+            }}
+          />
+        </CloseButtonPanel>
+      </Modal>
+    </>
   );
 };
+
+/** One selectable Bumpkin / farm hand in the Farm Hands tab. */
+const FarmHandCell: React.FC<{
+  equipment?: BumpkinParts;
+  name: string;
+  onClick: () => void;
+}> = ({ equipment, name, onClick }) => (
+  <ButtonPanel
+    onClick={onClick}
+    className="flex flex-col items-center justify-center gap-1 py-2"
+  >
+    {equipment && <NPCIcon key={JSON.stringify(equipment)} parts={equipment} />}
+    <span className="text-xxs text-center">{name}</span>
+  </ButtonPanel>
+);
 
 const BedCell: React.FC<{
   bed: BedName;

@@ -52,6 +52,7 @@ export class StreamScene extends BaseScene {
       });
     }
 
+    // Clicking the streamer (speaker) opens the streams + community games modal.
     const image = this.add.image(215, 102, "speaker");
     image.on("pointerdown", () => {
       npcModalManager.open("streamer");

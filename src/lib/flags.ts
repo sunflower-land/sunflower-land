@@ -80,9 +80,28 @@ export const TIME_BASED_FEATURE_FLAG_WINDOWS = {
     start: new Date("2026-04-01T00:00:00Z"),
     end: new Date("2026-04-08T00:00:00Z"),
   },
+  COLORS_2026_EVENT_FLAG: {
+    start: new Date("2026-07-13T00:00:00Z"),
+    end: new Date("2026-07-23T00:00:00Z"),
+  },
   RONIN_WAYPOINT_DEPRECATION: {
     start: WAYPOINT_WALLET_ENDDATE,
     end: null,
+  },
+  // Ascending from Swamp (A1) into the next island (Spooky, A2) unlocks on this
+  // date. Testnet bypasses. The first ascension (Volcano → Swamp / A0 → A1) is not
+  // time-gated — it unlocks on the standard level-150 / expansion / resource costs.
+  SPOOKY_ASCENSION: {
+    start: new Date("2026-09-07T00:00:00Z"),
+    end: null,
+  },
+  // Ascension Age chapter VIP perk: VIP holders expand their land 10% faster.
+  // Live from Mon 10th Aug 2026 (when the chapter's tasks begin) until the
+  // chapter ends — the end date must match CHAPTERS["Ascension Age"].endDate.
+  // Testnet bypasses the start date so testers can verify ahead of the cutover.
+  ASCENSION_AGE_VIP_EXPANSION: {
+    start: new Date("2026-08-10T00:00:00Z"),
+    end: new Date("2026-11-02T00:00:00Z"),
   },
 } satisfies Record<string, TimeBasedFeatureWindow>;
 
@@ -101,6 +120,10 @@ export const TIME_BASED_FEATURE_FLAGS: Record<
   TICKETS_FROM_FLOWER_NPC: timePeriodFeatureFlag,
   APRIL_FOOLS_EVENT_FLAG: betaTimePeriodFeatureFlag,
   RONIN_WAYPOINT_DEPRECATION: timePeriodFeatureFlag,
+  COLORS_2026_EVENT_FLAG: betaTimePeriodFeatureFlag,
+  // Testnet-only bypass before the date (not beta), so live testers can reach A2.
+  SPOOKY_ASCENSION: timePeriodFeatureFlag,
+  ASCENSION_AGE_VIP_EXPANSION: timePeriodFeatureFlag,
 };
 
 /**
@@ -136,6 +159,12 @@ const FEATURE_FLAGS = {
   // Permanent Feature Flags
   ADMIN_DASHBOARDS: usernameFeatureFlag,
   AIRDROP_PLAYER: adminFeatureFlag,
+
+  // Shows the admin "Create / End Giveaway" controls on the town-hall giveaway
+  // board. The server enforces the real allowlist (GIVEAWAY_ADMIN_FARM_IDS), so
+  // this only gates the UI. Open to everyone in local development.
+  GIVEAWAY_ADMIN: (game: GameState) =>
+    import.meta.env.DEV || usernameFeatureFlag(game) || adminFeatureFlag(game),
   STREAMER_HAT: (game) =>
     (game.wardrobe["Streamer Hat"] ?? 0) > 0 || testnetFeatureFlag(),
 
@@ -169,10 +198,19 @@ const FEATURE_FLAGS = {
   // baseDurationMs + true plantedAt model; when off, boosts stay discount-at-start.
   SPEED_BOOSTS: usernameFeatureFlag,
 
-  // Importing leftover items from the old home into the new interior.
-  HOME_ITEM_MIGRATION: betaFeatureFlag,
+  // Bulk Mixer tab in the feeder machine: mix the missing feed for every
+  // waiting animal at once. Beta-pass / testnet only until it ships.
+  BULK_MIXER: betaFeatureFlag,
 
-  SWAMP_ASCENSION: testnetFeatureFlag,
+  // Beta testers can grab a Yakkamon pre-registration code before the level
+  // tiers open to everyone else. The server enforces the same rule.
+  YAKKAMON_BETA_ACCESS: betaFeatureFlag,
+
+  // Surfaces the 3 flowers most recently gifted to each NPC as a quick-pick
+  // shortlist in the gift flow, with no manual favoriting step. Client-side
+  // only (localStorage), but still gated behind beta access while the UX is
+  // validated.
+  RECENT_GIFT_FLOWERS: betaFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

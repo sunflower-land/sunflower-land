@@ -1505,6 +1505,136 @@ describe("deliver", () => {
 
     expect(state.coins).toEqual(130);
   });
+
+  it("add 45% coins bonus if has Betty's Friend skill rank 2 on Betty's orders with Coins reward", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Betty's Friend": 2,
+          },
+        },
+        inventory: {
+          Sunflower: new Decimal(60),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 3,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: new Date("2023-10-31T15:00:00Z").getTime(),
+              from: "betty",
+              items: {
+                Sunflower: 50,
+              },
+              reward: { coins: 100 },
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: new Date("2024-05-10T16:00:00Z").getTime(),
+    });
+
+    expect(state.coins).toEqual(145);
+  });
+
+  it("add 60% coins bonus if has Betty's Friend skill rank 3 on Betty's orders with Coins reward", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Betty's Friend": 3,
+          },
+        },
+        inventory: {
+          Sunflower: new Decimal(60),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 3,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: new Date("2023-10-31T15:00:00Z").getTime(),
+              from: "betty",
+              items: {
+                Sunflower: 50,
+              },
+              reward: { coins: 100 },
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: new Date("2024-05-10T16:00:00Z").getTime(),
+    });
+
+    expect(state.coins).toEqual(160);
+  });
+
+  // Victoria's Secretary — +50%/+75%/+100% Coins on Victoria deliveries
+  // (rank 1 == current +50%).
+  it.each([
+    [1, 150],
+    [2, 175],
+    [3, 200],
+  ])(
+    "scales Victoria's Secretary coin bonus at rank %i",
+    (rank, expectedCoins) => {
+      const state = deliverOrder({
+        state: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            skills: {
+              "Victoria's Secretary": rank,
+            },
+          },
+          inventory: {
+            Sunflower: new Decimal(60),
+          },
+          delivery: {
+            ...TEST_FARM.delivery,
+            fulfilledCount: 3,
+            orders: [
+              {
+                id: "123",
+                createdAt: 0,
+                readyAt: new Date("2023-10-31T15:00:00Z").getTime(),
+                from: "victoria",
+                items: {
+                  Sunflower: 50,
+                },
+                reward: { coins: 100 },
+              },
+            ],
+          },
+        },
+        action: {
+          id: "123",
+          type: "order.delivered",
+        },
+        createdAt: new Date("2024-05-10T16:00:00Z").getTime(),
+      });
+
+      expect(state.coins).toEqual(expectedCoins);
+    },
+  );
+
   it("add 20% coins bonus if has Forge-Ward Profits skill on Blacksmith's orders with Coins reward", () => {
     const state = deliverOrder({
       state: {
@@ -1543,6 +1673,44 @@ describe("deliver", () => {
     });
 
     expect(state.coins).toEqual(120);
+  });
+
+  const blacksmithCoinsWithForgeWard = (rank: number) => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: { "Forge-Ward Profits": rank },
+        },
+        inventory: { Wood: new Decimal(50) },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 3,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: new Date("2023-10-31T15:00:00Z").getTime(),
+              from: "blacksmith",
+              items: { Wood: 50 },
+              reward: { coins: 100 },
+            },
+          ],
+        },
+      },
+      action: { id: "123", type: "order.delivered" },
+      createdAt: new Date("2024-05-10T16:00:00Z").getTime(),
+    });
+    return state.coins;
+  };
+
+  it("adds 30% coins bonus with Forge-Ward Profits at rank 2", () => {
+    expect(blacksmithCoinsWithForgeWard(2)).toEqual(130);
+  });
+
+  it("adds 40% coins bonus with Forge-Ward Profits at rank 3", () => {
+    expect(blacksmithCoinsWithForgeWard(3)).toEqual(140);
   });
 
   it("does not add 30% coins bonus if has Betty's Friend skill on non Betty's orders with Coins reward", () => {
@@ -1626,6 +1794,88 @@ describe("deliver", () => {
     expect(state.coins).toEqual(480);
   });
 
+  it("gives 75% more Coins on fruit deliveries with Fruity Profit skill at rank 2", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        coins: 0,
+        inventory: {
+          Orange: new Decimal(5),
+          Grape: new Decimal(2),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "tango",
+              items: {
+                Orange: 5,
+                Grape: 2,
+              },
+              reward: { coins: 320 },
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Fruity Profit": 2,
+          },
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.coins).toEqual(560);
+  });
+
+  it("gives 100% more Coins on fruit deliveries with Fruity Profit skill at rank 3", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        coins: 0,
+        inventory: {
+          Orange: new Decimal(5),
+          Grape: new Decimal(2),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "tango",
+              items: {
+                Orange: 5,
+                Grape: 2,
+              },
+              reward: { coins: 320 },
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Fruity Profit": 3,
+          },
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.coins).toEqual(640);
+  });
+
   it("does not give Fruity Profit bonus if item is not fruit", () => {
     const state = deliverOrder({
       state: {
@@ -1704,6 +1954,45 @@ describe("deliver", () => {
     expect(state.coins).toEqual(640);
   });
 
+  it("scales Fishy Fortune with rank (+150% coins at rank 3)", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        coins: 0,
+        inventory: {
+          "Sunflower Cake": new Decimal(1),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "corale",
+              items: {
+                "Sunflower Cake": 1,
+              },
+              reward: { coins: 320 },
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Fishy Fortune": 3,
+          },
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.coins).toEqual(800);
+  });
+
   it("gives 10% more revenue on completed food orders with Nom Nom skill", () => {
     const state = deliverOrder({
       state: {
@@ -1741,6 +2030,45 @@ describe("deliver", () => {
     });
 
     expect(state.coins).toEqual(352);
+  });
+  it("gives 50% more revenue on completed food orders with Nom Nom rank 3", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        coins: 0,
+        inventory: {
+          "Sunflower Cake": new Decimal(1),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "betty",
+              items: {
+                "Sunflower Cake": 1,
+              },
+              reward: { coins: 320 },
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Nom Nom": 3,
+          },
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    // 320 x 1.5 (rank 3 = +50%)
+    expect(state.coins).toEqual(480);
   });
   it("does not give 10% more revenue on completed fish orders with Nom Nom skill", () => {
     const state = deliverOrder({
@@ -2419,7 +2747,9 @@ describe("deliver", () => {
     });
 
     expect(state.wardrobe["Basic Hair"]).toEqual(0);
-    expect(state.inventory[getChapterTicket(mockDate)]).toEqual(new Decimal(4));
+    expect(state.inventory[getChapterTicket(mockDate)]).toEqual(
+      new Decimal(TICKET_REWARDS.cornwell),
+    );
   });
 
   it("tracks the bumpkin activity", () => {

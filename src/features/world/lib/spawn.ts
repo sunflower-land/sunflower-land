@@ -182,4 +182,51 @@ export const SPAWNS: () => SpawnLocation = () => ({
       y: 290,
     },
   },
+  // Giveaway race: left-hand side of the run.json map, in the middle 8-tile
+  // lane (the top and bottom 8 rows are trees).
+  giveaway_race: {
+    default: {
+      x: 32,
+      y: 192,
+    },
+  },
+  // Log Chop: centre of the woodlands map — trees are scattered around here.
+  giveaway_chop: {
+    default: {
+      x: 400,
+      y: 208,
+    },
+  },
+  // Egg Catch: everyone shares one spawn so they share the same field; the
+  // catch line sits here with ~150px of room above for eggs to fall into.
+  giveaway_eggs: {
+    default: {
+      x: 400,
+      y: 300,
+    },
+  },
+  // Jumper: everyone starts on the same base line and climbs straight up from
+  // here (lower on the map so there's headroom above to rise into).
+  giveaway_jump: {
+    default: {
+      x: 400,
+      y: 340,
+    },
+  },
+  // Trivia: shared centre — the four answer columns fan out either side, and the
+  // players cluster just above this line.
+  giveaway_trivia: {
+    default: {
+      x: 400,
+      y: 240,
+    },
+  },
+  // Fishing: everyone sits along the bank above a horizontal river; the scene
+  // re-places each angler at a seeded random X along it (see FishingScene).
+  giveaway_fishing: {
+    default: {
+      x: 400,
+      y: 200,
+    },
+  },
 });

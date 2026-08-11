@@ -35,7 +35,7 @@ import {
   BUILDINGS_DIMENSIONS,
   type BuildingName,
 } from "features/game/types/buildings";
-import { isPetNFTRevealed } from "features/game/types/pets";
+import { isPetNFTRevealed, PET_TYPES } from "features/game/types/pets";
 import { Box, type BoxProps } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -138,17 +138,27 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
   // ── Quick drag-and-drop state ──────────────────────────────────────────
   const dragRef = useRef<DragOrigin | null>(null);
   const wasDragRef = useRef(false);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
-  // Restore horizontal scroll position after item placement remounts the panel
-  useEffect(() => {
-    if (_savedScrollLeft > 0 && scrollContainerRef.current) {
-      const el = scrollContainerRef.current;
-      requestAnimationFrame(() => {
-        el.scrollLeft = _savedScrollLeft;
-      });
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  // The panel's DOM is torn down while an item is being placed (the whole grid
+  // is hidden unless the machine is idle), so restore on every remount of the
+  // scroll container - not just the first mount of this component.
+  const setScrollContainer = useCallback((el: HTMLDivElement | null) => {
+    scrollContainerRef.current = el;
+    if (!el || _savedScrollLeft <= 0) return;
+
+    el.scrollLeft = _savedScrollLeft;
+    // Item images can finish loading after mount and change the scroll width,
+    // so re-apply once layout has settled.
+    requestAnimationFrame(() => {
+      el.scrollLeft = _savedScrollLeft;
+    });
+  }, []);
+
+  // Keep the saved position in sync with wherever the player last scrolled to.
+  const handleScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
+    _savedScrollLeft = e.currentTarget.scrollLeft;
+  }, []);
 
   const computeGridPos = useCallback((clientX: number, clientY: number) => {
     // Use the actual land center (GenesisBlock element) as the coordinate origin,
@@ -224,7 +234,6 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
 
         drag.activated = true;
         wasDragRef.current = true;
-        _savedScrollLeft = scrollContainerRef.current?.scrollLeft ?? 0;
         sendSelect(drag.item, location, freshChild);
         freshChild.send("DRAG");
         onQuickDragChange(true);
@@ -337,16 +346,23 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
   );
 
   // ── Chest inventory ────────────────────────────────────────────────────
-  const buds = getChestBuds(state);
+  // The Pet House only accepts pets - mirror Chest.tsx's petHouse gating so
+  // this panel doesn't offer decorations/boosts/buildings/etc that can't
+  // actually be placed there.
+  const buds = location === "petHouse" ? {} : getChestBuds(state);
   const petsNFTs = getChestPets(state.pets?.nfts ?? {});
-  const farmHands = getChestFarmHands(state.farmHands);
+  const farmHands =
+    location === "petHouse" ? {} : getChestFarmHands(state.farmHands);
   const chestMap = getChestItems(state);
   const biome = useMemo(() => getCurrentBiome(state.island), [state.island]);
 
   const collectibleNames = useMemo(
-    () => getKeys(chestMap).filter((item) => chestMap[item]?.gt(0)),
+    () =>
+      getKeys(chestMap)
+        .filter((item) => chestMap[item]?.gt(0))
+        .filter((item) => (location === "petHouse" ? item in PET_TYPES : true)),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [chestMap],
+    [chestMap, location],
   );
 
   // ── Group items (shared with the chest) ────────────────────────────────
@@ -422,7 +438,6 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
       wasDragRef.current = false;
       return;
     }
-    _savedScrollLeft = scrollContainerRef.current?.scrollLeft ?? 0;
     _savedPage = currentPage;
     doPlace(item);
   };
@@ -610,7 +625,8 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
               {/* Item grid */}
               <InnerPanel>
                 <div
-                  ref={scrollContainerRef}
+                  ref={setScrollContainer}
+                  onScroll={handleScroll}
                   className={classNames("flex items-center", {
                     "overflow-x-auto scrollable overflow-y-hidden pb-1":
                       !isMobile,

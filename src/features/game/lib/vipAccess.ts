@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { hasTimeBasedFeatureAccess } from "lib/flags";
 import type { GameState, InventoryItemName } from "../types/game";
 
 export const VIP_TRIAL_PERIOD_MS = 1000 * 60 * 60 * 24 * 7;
@@ -79,3 +80,24 @@ export const getExpansionCoinCostWithVip = ({
   const discount = Math.max(EXPANSION_VIP_DISCOUNT_FIXED, discount20);
   return Math.max(0, fullCost - discount);
 };
+
+/** Ascension Age chapter perk: VIP holders expand 10% faster. */
+export const EXPANSION_VIP_TIME_MULTIPLIER = 0.9;
+
+/**
+ * Whether the Ascension Age VIP expansion-speed perk applies at `now` — the
+ * player holds VIP and the chapter's boost window is open.
+ */
+export const hasVipExpansionSpeedBoost = ({
+  game,
+  now,
+}: {
+  game: GameState;
+  now: number;
+}): boolean =>
+  hasVipAccess({ game, now }) &&
+  hasTimeBasedFeatureAccess({
+    featureName: "ASCENSION_AGE_VIP_EXPANSION",
+    game,
+    now,
+  });

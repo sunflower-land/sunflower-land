@@ -21,6 +21,7 @@ import {
 import { PET_NFT_DIMENSIONS } from "features/game/types/pets";
 import {
   detectCollision,
+  detectWaterCollision,
   type Position,
 } from "features/game/expansion/placeable/lib/collisionDetection";
 import type { LandscapingPlaceable } from "features/game/expansion/placeable/landscapingMachine";
@@ -197,6 +198,43 @@ const copyCoordinates = (item: PlacedResource): LayoutCoordinates => {
   return coordinates;
 };
 
+/** Collision box for a placeable by name; unknown names fall back to 1x1. */
+const dimensionsFor = (name: string): { width: number; height: number } =>
+  PLACEABLE_DIMENSIONS[name] ?? { width: 1, height: 1 };
+
+/**
+ * True when a placeable's full footprint sits within the first `maxExpansions`
+ * land bounding boxes. Mirrors the on-land test `detectCollision` uses, so
+ * trimming a snapshot to N expansions keeps exactly the items that would still
+ * fit once the layout is re-applied on an N-expansion island.
+ */
+const isWithinExpansions = (
+  coordinates: { x: number; y: number },
+  dimensions: { width: number; height: number },
+  maxExpansions: number,
+): boolean =>
+  !detectWaterCollision(maxExpansions, {
+    x: coordinates.x,
+    y: coordinates.y,
+    width: dimensions.width,
+    height: dimensions.height,
+  });
+
+/**
+ * Retain a placeable only when its footprint fits within the first
+ * `maxExpansions` expansions. With no `maxExpansions`, everything placed is
+ * kept. Shared by {@link snapshotFarm} (live state) and {@link trimSavedLayout}
+ * (stored layout).
+ */
+const isKept = (
+  coordinates: { x: number; y: number } | undefined,
+  name: string,
+  maxExpansions?: number,
+): boolean =>
+  !!coordinates &&
+  (maxExpansions === undefined ||
+    isWithinExpansions(coordinates, dimensionsFor(name), maxExpansions));
+
 /**
  * Snapshot the current farm arrangement into the position maps stored on a
  * {@link SavedLayout}. Captures every placed item (those with coordinates),
@@ -205,6 +243,7 @@ const copyCoordinates = (item: PlacedResource): LayoutCoordinates => {
  */
 export function snapshotFarm(
   state: GameState,
+  options: { maxExpansions?: number } = {},
 ): Pick<
   SavedLayout,
   | "collectibles"
@@ -216,11 +255,13 @@ export function snapshotFarm(
   | "bumpkin"
   | "land"
 > {
+  const { maxExpansions } = options;
+
   const collectibles: SavedLayout["collectibles"] = {};
   getObjectEntries(state.collectibles).forEach(([name, group]) => {
     if (!group) return;
     const placed = group
-      .filter((item) => !!item.coordinates)
+      .filter((item) => isKept(item.coordinates, name, maxExpansions))
       .map((item) => ({
         id: item.id,
         coordinates: { ...item.coordinates } as LayoutCoordinates,
@@ -233,7 +274,7 @@ export function snapshotFarm(
   getObjectEntries(state.buildings).forEach(([name, group]) => {
     if (!group) return;
     const placed = group
-      .filter((item) => !!item.coordinates)
+      .filter((item) => isKept(item.coordinates, name, maxExpansions))
       .map((item) => ({
         id: item.id,
         coordinates: { ...item.coordinates } as LayoutCoordinates,
@@ -243,10 +284,12 @@ export function snapshotFarm(
   });
 
   const resources = emptyResources();
-  RESOURCE_BUCKETS.forEach(({ key, get }) => {
+  RESOURCE_BUCKETS.forEach(({ key, get, resourceName }) => {
     const bucket = get(state);
     Object.entries(bucket).forEach(([id, item]) => {
       if (item.x === undefined || item.y === undefined) return;
+      if (!isKept({ x: item.x, y: item.y }, resourceName, maxExpansions))
+        return;
       resources[key][id] = copyCoordinates(item);
     });
   });
@@ -256,42 +299,150 @@ export function snapshotFarm(
   const buds: NonNullable<SavedLayout["buds"]> = {};
   Object.entries(state.buds ?? {}).forEach(([id, bud]) => {
     if (!isOnFarm(bud)) return;
-    buds[id] = { ...(bud.coordinates as LayoutCoordinates) };
+    const coordinates = bud.coordinates as LayoutCoordinates;
+    if (!isKept(coordinates, "Bud", maxExpansions)) return;
+    buds[id] = { ...coordinates };
   });
 
   const petNFTs: NonNullable<SavedLayout["petNFTs"]> = {};
   Object.entries(state.pets?.nfts ?? {}).forEach(([id, pet]) => {
     if (!isOnFarm(pet)) return;
-    petNFTs[id] = { ...(pet.coordinates as LayoutCoordinates) };
+    const coordinates = pet.coordinates as LayoutCoordinates;
+    if (
+      maxExpansions !== undefined &&
+      !isWithinExpansions(coordinates, PET_NFT_DIMENSIONS, maxExpansions)
+    ) {
+      return;
+    }
+    petNFTs[id] = { ...coordinates };
   });
 
   // FarmHands (extra bumpkins) carry a `flipped` flag like the main Bumpkin.
   const farmHands: NonNullable<SavedLayout["farmHands"]> = {};
   Object.entries(state.farmHands?.bumpkins ?? {}).forEach(([id, farmHand]) => {
     if (!isOnFarm(farmHand)) return;
+    const coordinates = farmHand.coordinates as LayoutCoordinates;
+    if (!isKept(coordinates, "Bumpkin", maxExpansions)) return;
     farmHands[id] = {
-      ...(farmHand.coordinates as LayoutCoordinates),
+      ...coordinates,
       ...(farmHand.flipped !== undefined ? { flipped: farmHand.flipped } : {}),
     };
   });
 
-  const bumpkin = isOnFarm(state.bumpkin)
-    ? {
-        ...(state.bumpkin.coordinates as LayoutCoordinates),
-        ...(state.bumpkin.flipped !== undefined
-          ? { flipped: state.bumpkin.flipped }
-          : {}),
-      }
-    : undefined;
+  const bumpkin =
+    isOnFarm(state.bumpkin) &&
+    isKept(
+      state.bumpkin.coordinates as LayoutCoordinates,
+      "Bumpkin",
+      maxExpansions,
+    )
+      ? {
+          ...(state.bumpkin.coordinates as LayoutCoordinates),
+          ...(state.bumpkin.flipped !== undefined
+            ? { flipped: state.bumpkin.flipped }
+            : {}),
+        }
+      : undefined;
 
   const land = {
-    expansions: state.inventory["Basic Land"]?.toNumber() ?? 3,
+    expansions: maxExpansions ?? state.inventory["Basic Land"]?.toNumber() ?? 3,
     island: { ...state.island },
   };
 
   // Every bucket is always present (empty when nothing is placed) so that
   // overwriting a layout — `{ ...existing, ...snapshot }` — fully replaces the
   // old arrangement instead of leaving stale buds/pets/farmhands/bumpkin behind.
+  return {
+    collectibles,
+    buildings,
+    resources,
+    land,
+    buds,
+    petNFTs,
+    farmHands,
+    bumpkin,
+  };
+}
+
+/**
+ * Trim an already-stored layout to the first `maxExpansions` expansions,
+ * dropping every placement whose footprint falls outside that land, and stamp
+ * its land extent to `maxExpansions`. Mirrors {@link snapshotFarm}'s trimming
+ * but reads from a {@link SavedLayout}'s position maps instead of live state —
+ * used to promote an existing saved layout into the Ascension Layout, which
+ * must always fit a 30-land island.
+ */
+export function trimSavedLayout(
+  layout: SavedLayout,
+  maxExpansions: number,
+  fallbackIsland: GameState["island"],
+): Pick<
+  SavedLayout,
+  | "collectibles"
+  | "buildings"
+  | "resources"
+  | "buds"
+  | "petNFTs"
+  | "farmHands"
+  | "bumpkin"
+  | "land"
+> {
+  const collectibles: SavedLayout["collectibles"] = {};
+  getObjectEntries(layout.collectibles).forEach(([name, placements]) => {
+    if (!placements) return;
+    const kept = placements
+      .filter((p) => isKept(p.coordinates, name, maxExpansions))
+      .map((p) => ({ ...p, coordinates: { ...p.coordinates } }));
+    if (kept.length > 0) collectibles[name] = kept;
+  });
+
+  const buildings: SavedLayout["buildings"] = {};
+  getObjectEntries(layout.buildings).forEach(([name, placements]) => {
+    if (!placements) return;
+    const kept = placements
+      .filter((p) => isKept(p.coordinates, name, maxExpansions))
+      .map((p) => ({ ...p, coordinates: { ...p.coordinates } }));
+    if (kept.length > 0) buildings[name] = kept;
+  });
+
+  const resources = emptyResources();
+  RESOURCE_BUCKETS.forEach(({ key, resourceName }) => {
+    const bucket = layout.resources[key] ?? {};
+    Object.entries(bucket).forEach(([id, coordinates]) => {
+      if (isKept(coordinates, resourceName, maxExpansions))
+        resources[key][id] = { ...coordinates };
+    });
+  });
+
+  const buds: NonNullable<SavedLayout["buds"]> = {};
+  Object.entries(layout.buds ?? {}).forEach(([id, coordinates]) => {
+    if (isKept(coordinates, "Bud", maxExpansions))
+      buds[id] = { ...coordinates };
+  });
+
+  const petNFTs: NonNullable<SavedLayout["petNFTs"]> = {};
+  Object.entries(layout.petNFTs ?? {}).forEach(([id, coordinates]) => {
+    if (isWithinExpansions(coordinates, PET_NFT_DIMENSIONS, maxExpansions)) {
+      petNFTs[id] = { ...coordinates };
+    }
+  });
+
+  const farmHands: NonNullable<SavedLayout["farmHands"]> = {};
+  Object.entries(layout.farmHands ?? {}).forEach(([id, placement]) => {
+    if (isKept(placement, "Bumpkin", maxExpansions))
+      farmHands[id] = { ...placement };
+  });
+
+  const bumpkin =
+    layout.bumpkin && isKept(layout.bumpkin, "Bumpkin", maxExpansions)
+      ? { ...layout.bumpkin }
+      : undefined;
+
+  const land = {
+    expansions: maxExpansions,
+    island: layout.land?.island ?? fallbackIsland,
+  };
+
   return {
     collectibles,
     buildings,
@@ -856,6 +1007,33 @@ export function applyFarmLayout(
         : undefined,
     });
   }
+
+  // Exact restore: applying a layout yields exactly the saved snapshot, so lift
+  // every placed item the layout does NOT represent too — its instance (with any
+  // timers) is kept; it simply returns to inventory. Resources are lifted in full
+  // above; mirror that for the name/id-keyed categories. The player's own Bumpkin
+  // is intentionally left alone — it is the avatar and is always captured on-farm.
+  getObjectEntries(state.collectibles).forEach(([name, items]) => {
+    if (layout.collectibles[name]) return;
+    items?.forEach((item) => {
+      item.coordinates = undefined;
+    });
+  });
+  getObjectEntries(state.buildings).forEach(([name, items]) => {
+    if (layout.buildings[name]) return;
+    items?.forEach((item) => {
+      item.coordinates = undefined;
+    });
+  });
+  Object.entries(state.buds ?? {}).forEach(([id, bud]) => {
+    if (!layout.buds?.[id]) bud.coordinates = undefined;
+  });
+  Object.entries(state.pets?.nfts ?? {}).forEach(([id, pet]) => {
+    if (!layout.petNFTs?.[id]) pet.coordinates = undefined;
+  });
+  Object.entries(state.farmHands?.bumpkins ?? {}).forEach(([id, fh]) => {
+    if (!layout.farmHands?.[id]) fh.coordinates = undefined;
+  });
 
   // Everything is now lifted. Place each slot in turn against the live draft
   // (non-layout items + already-placed slots). A blocked slot stays unplaced

@@ -22,6 +22,7 @@ import { AuctionsComingSoon } from "./AuctionsComingSoon";
 import { GameWallet } from "features/wallet/Wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
+import { useScrollRestoration } from "lib/utils/hooks/useScrollRestoration";
 
 interface Props {
   auctionService: MachineInterpreter;
@@ -37,6 +38,8 @@ export const AuctioneerContent: React.FC<Props> = ({
   const [auctioneerState, send] = useActor(auctionService);
 
   const [selectedAuctionId, setSelectedAuctionId] = useState<string>();
+  const { scrollContainerRef, handleScroll } =
+    useScrollRestoration<HTMLDivElement>();
 
   if (auctioneerState.matches("noAccess")) {
     return <AuctionsComingSoon />;
@@ -194,6 +197,8 @@ export const AuctioneerContent: React.FC<Props> = ({
       auctionService={auctionService}
       onSelect={(id) => setSelectedAuctionId(id)}
       game={gameState}
+      scrollContainerRef={scrollContainerRef}
+      onScroll={handleScroll}
     />
   );
 };

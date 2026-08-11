@@ -182,10 +182,10 @@ export const Tradeable: React.FC<{ hideLimited?: boolean }> = ({
   }
 
   const onBack = () => {
-    const { route, scrollPosition } = location.state ?? {};
+    const { route, scrollPosition, ...navigationState } = location.state ?? {};
 
     if (route) {
-      navigate(route, { state: { scrollPosition } });
+      navigate(route, { state: { ...navigationState, scrollPosition } });
     } else {
       navigate(-1);
     }

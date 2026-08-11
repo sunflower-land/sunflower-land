@@ -8,6 +8,7 @@ import {
   LOVE_ANIMAL_TOOLS,
 } from "features/game/types/tools";
 import { trackFarmActivity } from "features/game/types/farmActivity";
+import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 import cloneDeep from "lodash.clonedeep";
 
 import type { GameState, IslandType } from "../../types/game";
@@ -66,14 +67,20 @@ export function getToolPrice(
   // Default price
   let price = tool.price;
 
-  // Feller's Discount Skill: 20% off on Axes
-  if (bumpkin.skills["Feller's Discount"] && name === "Axe") {
-    price = price * 0.8;
+  // Feller's Discount Skill: axe coin cost multiplier (scales with rank)
+  const fellersDiscountLevel = getSkillLevel(
+    bumpkin.skills,
+    "Feller's Discount",
+  );
+  if (fellersDiscountLevel && name === "Axe") {
+    price =
+      price * SKILL_RANKS["Feller's Discount"].ranks[fellersDiscountLevel - 1];
   }
 
-  // Reel Deal: 50% off fishing rods
-  if (bumpkin.skills["Reel Deal"] && name === "Rod") {
-    price *= 0.5;
+  // Reel Deal: rod coin cost multiplier x0.5/x0.4/x0.3 (scales with rank)
+  const reelDealLevel = getSkillLevel(bumpkin.skills, "Reel Deal");
+  if (reelDealLevel && name === "Rod") {
+    price = price * SKILL_RANKS["Reel Deal"].ranks[reelDealLevel - 1];
   }
 
   // Artist's Discount Skill: 10% off
@@ -81,12 +88,16 @@ export function getToolPrice(
     price = price * 0.9;
   }
 
-  if (bumpkin.skills["Frugal Miner"] && isPickaxe(name as WorkbenchToolName)) {
-    price = price * 0.8;
+  // Frugal Miner: pickaxe coin cost multiplier (scales with rank)
+  const frugalMinerLevel = getSkillLevel(bumpkin.skills, "Frugal Miner");
+  if (frugalMinerLevel && isPickaxe(name as WorkbenchToolName)) {
+    price = price * SKILL_RANKS["Frugal Miner"].ranks[frugalMinerLevel - 1];
   }
 
-  if (bumpkin.skills["Cheap Rakes"] && name === "Salt Rake") {
-    price = price * 0.8;
+  // Cheap Rakes: Salt Rake coin cost multiplier (scales with rank)
+  const cheapRakesLevel = getSkillLevel(bumpkin.skills, "Cheap Rakes");
+  if (cheapRakesLevel && name === "Salt Rake") {
+    price = price * SKILL_RANKS["Cheap Rakes"].ranks[cheapRakesLevel - 1];
   }
 
   if (

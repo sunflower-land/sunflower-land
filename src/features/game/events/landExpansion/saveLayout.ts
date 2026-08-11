@@ -44,6 +44,9 @@ export function saveLayout({
       if (!existing) {
         throw new Error("Layout does not exist");
       }
+      if (existing.auto) {
+        throw new Error("The Ascension Layout cannot be overwritten");
+      }
       layouts[action.layoutId] = {
         ...existing,
         ...snapshot,
@@ -52,7 +55,10 @@ export function saveLayout({
         updatedAt: createdAt,
       };
     } else {
-      if (layouts.length >= MAX_SAVED_LAYOUTS) {
+      // The auto-managed Ascension Layout is exempt from the manual limit.
+      if (
+        layouts.filter((layout) => !layout.auto).length >= MAX_SAVED_LAYOUTS
+      ) {
         throw new Error("Maximum number of layouts reached");
       }
       layouts.push({

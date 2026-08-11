@@ -25,7 +25,7 @@ export type SettingMenuId =
   | "experiments"
   | "economyEditor"
   | "interiorExperiment"
-  | "designShowcase"
+  | "toolShopBuyAll"
   | "admin"
   | "faceRecognition"
 
@@ -48,4 +48,5 @@ export type SettingMenuId =
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
   onClose: () => void;
+  onTimeMachineToggle?: () => void;
 }

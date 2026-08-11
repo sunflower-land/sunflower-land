@@ -32,6 +32,10 @@
     "transform": {
       "^.+\\.(js|jsx|ts|tsx)$": "esbuild-runner/jest"
     },
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "<rootDir>/.claude/worktrees/"
+    ],
     "setupFiles": [
       "<rootDir>/test/env.ts",
       "<rootDir>/test/setup.ts"

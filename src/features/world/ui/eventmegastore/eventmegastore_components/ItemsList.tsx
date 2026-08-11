@@ -23,12 +23,12 @@ import type { BumpkinItem } from "features/game/types/bumpkin";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
-  APRIL_FOOLS_EVENT_ITEMS,
+  COLORS_2026_EVENT_ITEMS,
   type EventStoreCollectible,
   type EventStoreItem,
   type EventStoreTier,
   type EventStoreWearable,
-} from "features/game/types/aprilFoolsEventShop";
+} from "features/game/types/colors2026EventShop";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
@@ -65,13 +65,13 @@ export const ItemsList: React.FC<Props> = ({
     // Handling all types or specific ones if provided
     if (type === "wearables" || (!type && "wearable" in item)) {
       return (
-        state.minigames.games["april-fools"]?.shop?.wearables?.[
+        state.minigames.games["colors-2026"]?.shop?.wearables?.[
           (item as EventStoreWearable).wearable as BumpkinItem
         ] ?? 0
       );
     } else {
       return (
-        state.minigames.games["april-fools"]?.shop?.items?.[
+        state.minigames.games["colors-2026"]?.shop?.items?.[
           (item as EventStoreCollectible).collectible as InventoryItemName
         ] ?? 0
       );
@@ -140,24 +140,27 @@ export const ItemsList: React.FC<Props> = ({
     return "requirement" in tier;
   };
 
-  const tierData = APRIL_FOOLS_EVENT_ITEMS[tier];
+  const tierData = COLORS_2026_EVENT_ITEMS[tier];
   const requirements = hasRequirement(tierData) ? tierData.requirement : 0;
 
   const eventItemsCrafted =
-    Object.keys(state.minigames.games["april-fools"]?.shop?.items ?? {})
+    Object.keys(state.minigames.games["colors-2026"]?.shop?.items ?? {})
       .length +
-    Object.keys(state.minigames.games["april-fools"]?.shop?.wearables ?? {})
+    Object.keys(state.minigames.games["colors-2026"]?.shop?.wearables ?? {})
       .length;
 
   const isRareUnlocked =
     tier === "rare" &&
-    eventItemsCrafted >= APRIL_FOOLS_EVENT_ITEMS.rare.requirement;
+    eventItemsCrafted >= COLORS_2026_EVENT_ITEMS.rare.requirement;
   const isEpicUnlocked =
     tier === "epic" &&
-    eventItemsCrafted >= APRIL_FOOLS_EVENT_ITEMS.epic.requirement;
+    eventItemsCrafted >= COLORS_2026_EVENT_ITEMS.epic.requirement;
   const isMegaUnlocked =
     tier === "mega" &&
-    eventItemsCrafted >= APRIL_FOOLS_EVENT_ITEMS.mega.requirement;
+    eventItemsCrafted >= COLORS_2026_EVENT_ITEMS.mega.requirement;
+  const isExtraUnlocked =
+    tier === "extra" &&
+    eventItemsCrafted >= COLORS_2026_EVENT_ITEMS.extra.requirement;
 
   const tierpercentage = eventItemsCrafted;
 
@@ -185,7 +188,9 @@ export const ItemsList: React.FC<Props> = ({
                       ? lock
                       : !isMegaUnlocked && tier === "mega"
                         ? lock
-                        : ""
+                        : !isExtraUnlocked && tier === "extra"
+                          ? lock
+                          : ""
                 }
                 type={
                   tier === "basic"
@@ -196,7 +201,9 @@ export const ItemsList: React.FC<Props> = ({
                         ? "vibrant"
                         : tier === "mega" && isMegaUnlocked
                           ? "warning"
-                          : "danger"
+                          : tier === "extra" && isExtraUnlocked
+                            ? "warning"
+                            : "danger"
                 }
               >
                 {itemsLabel}
@@ -204,7 +211,10 @@ export const ItemsList: React.FC<Props> = ({
             )}
           </div>
           <div className="w-1/10">
-            {(tier === "rare" || tier === "epic" || tier === "mega") && (
+            {(tier === "rare" ||
+              tier === "epic" ||
+              tier === "mega" ||
+              tier === "extra") && (
               <ResizableBar
                 percentage={percentage}
                 type={"progress"}
@@ -219,7 +229,7 @@ export const ItemsList: React.FC<Props> = ({
       )}
       {tier === "rare" && !isRareUnlocked && (
         <span className="text-xs py-1">
-          {t("megaStore.tier.rare.requirements", {
+          {t("eventStore.tier.rare.requirements", {
             requirements: requirements - tierpercentage,
             tier: tier,
           })}
@@ -228,7 +238,7 @@ export const ItemsList: React.FC<Props> = ({
 
       {tier === "epic" && !isEpicUnlocked && (
         <span className="text-xs py-1">
-          {t("megaStore.tier.epic.requirements", {
+          {t("eventStore.tier.epic.requirements", {
             requirements: requirements - tierpercentage,
             tier: tier,
           })}
@@ -237,7 +247,16 @@ export const ItemsList: React.FC<Props> = ({
 
       {tier === "mega" && !isMegaUnlocked && (
         <span className="text-xs py-1">
-          {t("megaStore.tier.mega.requirements", {
+          {t("eventStore.tier.mega.requirements", {
+            requirements: requirements - tierpercentage,
+            tier: tier,
+          })}
+        </span>
+      )}
+
+      {tier === "extra" && !isExtraUnlocked && (
+        <span className="text-xs py-1">
+          {t("eventStore.tier.extra.requirements", {
             requirements: requirements - tierpercentage,
             tier: tier,
           })}
@@ -293,7 +312,8 @@ export const ItemsList: React.FC<Props> = ({
 
                     {((tier === "rare" && !isRareUnlocked) ||
                       (tier === "epic" && !isEpicUnlocked) ||
-                      (tier === "mega" && !isMegaUnlocked)) && (
+                      (tier === "mega" && !isMegaUnlocked) ||
+                      (tier === "extra" && !isExtraUnlocked)) && (
                       <img
                         src={lock}
                         className="absolute -right-2 -top-2"
