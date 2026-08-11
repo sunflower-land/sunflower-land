@@ -8100,7 +8100,6 @@
   "islandupgrade.warningAscend": "農場のレイアウトはあなた次第です。アイテムは置いた場所にとどまります。新しい島に置けないものはすべてインベントリに戻され、宝箱からアクセスできます。",
   "season.megastore.alreadyOwned": "すでに所有しています",
   "feeder.selectFoodsToMix": "混ぜる食品を選択してください",
-  "feeder.ingredientsExplainer": "バルクミキサーは、待っているすべての動物を準備するのに必要な飼料の量から、あなたが持っている飼料を差し引いたものを提案します。",
   "feeder.bulkMix": "バルクミックス",
   "vip.benefit.expansionSpeed": "アセンション・エイジ・チャプターでは 10% 拡張時間 (2026年8月10日の午前0時 (UTC) に開始)",
   "giveaway.title": "プレゼント",
@@ -8337,5 +8336,10 @@
   "giveaway.noResults": "終了したゲームはまだありません。次のゲームが終わったら、もう一度確認してください!",
   "favorites": "お気に入り",
   "bumpkin.delivery.recentlyGifted": "最近贈られたプレゼント",
-  "bumpkin.delivery.thanks": "ジー・ウィズ、バンプキンに感謝!!!"
+  "bumpkin.delivery.thanks": "ジー・ウィズ、バンプキンに感謝!!!",
+  "feeder.mixInBulk": "ミックス・イン・バルク",
+  "feeder.enterMixAmount": "混ぜる量を入力:",
+  "feeder.mix": "ミックス",
+  "feeder.ingredientsToMix": "混ぜる材料",
+  "feeder.ingredientsExplainer": "バルクミキサーは、待っているすべての動物を準備するのに必要な飼料の量から、あなたが持っている飼料を差し引いたものを提案します。不足分は端数を切り上げて全飼料とします。"
 }

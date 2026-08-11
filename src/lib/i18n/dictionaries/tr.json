@@ -8100,7 +8100,6 @@
   "islandupgrade.warningAscend": "Çiftlik düzeniniz sizinle birlikte gelir - eşyalarınız yerleştirdiğiniz yerde kalır. Yeni adaya yerleştirilemeyen her şey, göğsünüzden erişebileceğiniz envanterinize iade edilecektir.",
   "season.megastore.alreadyOwned": "Zaten sahip olundu",
   "feeder.selectFoodsToMix": "Karıştırılacak yiyecekleri seçin",
-  "feeder.ingredientsExplainer": "Toplu karıştırıcı, sahip olduğunuz yem hariç, bekleyen her hayvanı hazır hale getirmek için gereken yem miktarını önerir.",
   "feeder.bulkMix": "Toplu Karışım",
   "vip.benefit.expansionSpeed": "Yükseliş Çağı Bölümü sırasında %-10 Genişleme süresi (10 Ağustos 2026 Gece Yarısı UTC tarihinde başlar)",
   "giveaway.title": "Çekiliş",
@@ -8337,5 +8336,10 @@
   "giveaway.noResults": "Henüz bitmiş oyun yok - bir sonrakinden sonra tekrar kontrol edin!",
   "favorites": "Favoriler",
   "bumpkin.delivery.recentlyGifted": "Yakın zamanda yetenekli",
-  "bumpkin.delivery.thanks": "Tanrım Wizz teşekkürler Bumpkin!!!"
+  "bumpkin.delivery.thanks": "Tanrım Wizz teşekkürler Bumpkin!!!",
+  "feeder.mixInBulk": "Toplu olarak karıştırın",
+  "feeder.enterMixAmount": "Karıştırılacak Miktarı Girin:",
+  "feeder.mix": "Karıştırın",
+  "feeder.ingredientsToMix": "Karıştırılacak malzemeler",
+  "feeder.ingredientsExplainer": "Toplu karıştırıcı, sahip olduğunuz yem hariç, bekleyen her hayvanı hazır hale getirmek için gereken yem miktarını önerir. Kesirli eksiklikler tüm beslemelere yuvarlanır."
 }

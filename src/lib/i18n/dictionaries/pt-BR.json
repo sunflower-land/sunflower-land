@@ -8100,7 +8100,6 @@
   "islandupgrade.warningAscend": "O layout da sua fazenda vem com você - seus itens ficam onde você os colocou. Qualquer coisa que não puder ser colocada na nova ilha será devolvida ao seu inventário, onde você poderá acessá-la em seu baú.",
   "season.megastore.alreadyOwned": "Já possuído",
   "feeder.selectFoodsToMix": "Selecione alimentos para misturar",
-  "feeder.ingredientsExplainer": "O misturador a granel sugere a quantidade de ração necessária para preparar cada animal que espera, menos a ração que você tem.",
   "feeder.bulkMix": "Mistura a granel",
   "vip.benefit.expansionSpeed": "-10% de tempo de expansão durante o Capítulo da Era da Ascensão (começa em 10 de agosto de 2026, meia-noite UTC)",
   "giveaway.title": "Sorteio",
@@ -8337,5 +8336,10 @@
   "giveaway.noResults": "Ainda não há jogos finalizados — volte depois do próximo!",
   "favorites": "Preferidos",
   "bumpkin.delivery.recentlyGifted": "Recentemente dotado",
-  "bumpkin.delivery.thanks": "Caramba, Wizz, obrigado, Bumpkin!!!"
+  "bumpkin.delivery.thanks": "Caramba, Wizz, obrigado, Bumpkin!!!",
+  "feeder.mixInBulk": "Misture a granel",
+  "feeder.enterMixAmount": "Insira a quantidade a ser misturada:",
+  "feeder.mix": "Misturar",
+  "feeder.ingredientsToMix": "Ingredientes para misturar",
+  "feeder.ingredientsExplainer": "O misturador a granel sugere a quantidade de ração necessária para preparar cada animal que espera, menos a ração que você tem. Os déficits fracionários são arredondados para feeds inteiros."
 }

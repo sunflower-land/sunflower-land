@@ -8100,7 +8100,6 @@
   "islandupgrade.warningAscend": "Tata letak pertanian Anda menyertainya - barang-barang Anda tetap di tempat Anda meletakkannya. Apa pun yang tidak dapat ditempatkan di pulau baru akan dikembalikan ke inventaris Anda, di mana Anda dapat mengaksesnya di dada Anda.",
   "season.megastore.alreadyOwned": "Sudah dimiliki",
   "feeder.selectFoodsToMix": "Pilih makanan untuk dicampur",
-  "feeder.ingredientsExplainer": "Mixer massal menyarankan jumlah pakan yang dibutuhkan untuk menyiapkan setiap hewan yang menunggu, dikurangi pakan yang Anda miliki.",
   "feeder.bulkMix": "Campuran Massal",
   "vip.benefit.expansionSpeed": "-10% waktu ekspansi selama Bab Ascension Age (Dimulai pada 10 Agustus 2026 Tengah Malam UTC)",
   "giveaway.title": "Giveaway",
@@ -8337,5 +8336,10 @@
   "giveaway.noResults": "Belum ada game yang selesai - periksa kembali setelah yang berikutnya!",
   "favorites": "Favorit",
   "bumpkin.delivery.recentlyGifted": "Baru-baru ini berbakat",
-  "bumpkin.delivery.thanks": "Wah Wizz terima kasih Bumpkin!!!"
+  "bumpkin.delivery.thanks": "Wah Wizz terima kasih Bumpkin!!!",
+  "feeder.mixInBulk": "Campur dalam jumlah besar",
+  "feeder.enterMixAmount": "Masukkan Jumlah untuk Campur:",
+  "feeder.mix": "Campur",
+  "feeder.ingredientsToMix": "Bahan untuk dicampur",
+  "feeder.ingredientsExplainer": "Mixer massal menyarankan jumlah pakan yang dibutuhkan untuk menyiapkan setiap hewan yang menunggu, dikurangi pakan yang Anda miliki. Kekurangan fraksional dibulatkan ke seluruh umpan."
 }
