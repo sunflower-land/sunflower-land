@@ -8100,7 +8100,6 @@
   "islandupgrade.warningAscend": "您的农场布局将随您一起迁移——物品会保留在您原先放置的位置。任何无法放置在新岛屿上的物品都将退回至您的库存，您可以随时在箱子中查看。",
   "season.megastore.alreadyOwned": "已拥有",
   "feeder.selectFoodsToMix": "选择要混合的饲料",
-  "feeder.ingredientsExplainer": "批量搅拌机会计算出满足所有待喂食动物所需的饲料量，并自动扣除您当前已拥有的饲料。",
   "feeder.bulkMix": "批量混合",
   "vip.benefit.expansionSpeed": "《升天纪元》章节期间的扩展时间 -10%（世界标准时间 2026 年 8 月 10 日午夜开始）",
   "giveaway.title": "赠品",
@@ -8337,5 +8336,10 @@
   "giveaway.noResults": "还没有完成的游戏——下个游戏之后再来看看！",
   "favorites": "最爱",
   "bumpkin.delivery.recentlyGifted": "最近有礼物",
-  "bumpkin.delivery.thanks": "哎哟 Wizz 谢谢 Bumpkin！！"
+  "bumpkin.delivery.thanks": "哎哟 Wizz 谢谢 Bumpkin！！",
+  "feeder.mixInBulk": "批量混合",
+  "feeder.enterMixAmount": "输入要混合的量：",
+  "feeder.mix": "混合",
+  "feeder.ingredientsToMix": "要混合的食材",
+  "feeder.ingredientsExplainer": "散装搅拌器会建议将每只等待的动物准备就绪所需的饲料量减去您的饲料量。小数缺口四舍五入为整数。"
 }

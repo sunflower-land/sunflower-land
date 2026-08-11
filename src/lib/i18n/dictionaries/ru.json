@@ -8100,7 +8100,6 @@
   "islandupgrade.warningAscend": "Планировка твоей фермы переносится вместе с тобой - предметы остаются там, где ты их разместил. Всё, что не помещается на новом острове, вернётся в инвентарь, откуда его можно будет забрать из сундука.",
   "season.megastore.alreadyOwned": "Уже есть",
   "feeder.selectFoodsToMix": "Выбери корма для смешивания",
-  "feeder.ingredientsExplainer": "Миксер считает, сколько корма не хватает, чтобы накормить всех ждущих животных, за вычетом того, что у тебя уже есть.",
   "feeder.bulkMix": "Смешать всё",
   "vip.benefit.expansionSpeed": "-10% Expansion time during Ascension Age Chapter (Starts on 10th August 2026 Midnight UTC)",
   "giveaway.title": "Giveaway",
@@ -8337,5 +8336,10 @@
   "giveaway.noResults": "No finished games yet — check back after the next one!",
   "favorites": "Favorites",
   "bumpkin.delivery.recentlyGifted": "Recently gifted",
-  "bumpkin.delivery.thanks": "Gee Wizz thanks Bumpkin!!!"
+  "bumpkin.delivery.thanks": "Gee Wizz thanks Bumpkin!!!",
+  "feeder.mixInBulk": "Mix in Bulk",
+  "feeder.enterMixAmount": "Enter Amount to Mix:",
+  "feeder.mix": "Mix",
+  "feeder.ingredientsToMix": "Ingredients to mix",
+  "feeder.ingredientsExplainer": "The bulk mixer suggests the amount of feed needed to take every waiting animal to ready, minus the feed you have. Fractional shortfalls are rounded up to whole feeds."
 }

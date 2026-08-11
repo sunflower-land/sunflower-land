@@ -8100,7 +8100,6 @@
   "islandupgrade.warningAscend": "Dein Farm-Layout kommt mit — deine Gegenstände bleiben dort, wo du sie platziert hast. Alles, was nicht auf der neuen Insel platziert werden kann, wird wieder in dein Inventar aufgenommen, wo du es in deiner Truhe aufrufen kannst.",
   "season.megastore.alreadyOwned": "Bereits im Besitz",
   "feeder.selectFoodsToMix": "Wählen Sie Lebensmittel zum Mischen aus",
-  "feeder.ingredientsExplainer": "Der Bulk-Mixer schlägt die Futtermenge vor, die benötigt wird, um jedes wartende Tier fertig zu stellen, abzüglich des Futters, das Sie haben.",
   "feeder.bulkMix": "Bulk-Mix",
   "vip.benefit.expansionSpeed": "-10% Erweiterungszeit während des Kapitels „Das Zeitalter des Aufstiegs“ (Beginnt am 10. August 2026 um Mitternacht UTC)",
   "giveaway.title": "Werbegeschenk",
@@ -8337,5 +8336,10 @@
   "giveaway.noResults": "Noch keine fertigen Spiele — schaut nach dem nächsten wieder rein!",
   "favorites": "Favoriten",
   "bumpkin.delivery.recentlyGifted": "Kürzlich verschenkt",
-  "bumpkin.delivery.thanks": "Gee Wizz danke Bumpkin!!!"
+  "bumpkin.delivery.thanks": "Gee Wizz danke Bumpkin!!!",
+  "feeder.mixInBulk": "In großen Mengen mischen",
+  "feeder.enterMixAmount": "Geben Sie die Menge ein, die gemischt werden soll:",
+  "feeder.mix": "Mischen",
+  "feeder.ingredientsToMix": "Zutaten zum Mischen",
+  "feeder.ingredientsExplainer": "Der Bulk-Mixer schlägt die Futtermenge vor, die benötigt wird, um jedes wartende Tier fertig zu stellen, abzüglich des Futters, das Sie haben. Bruchteile von Fehlmengen werden auf ganze Futtermittel aufgerundet."
 }

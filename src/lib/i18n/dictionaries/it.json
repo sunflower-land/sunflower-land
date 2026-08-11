@@ -8100,7 +8100,6 @@
   "islandupgrade.warningAscend": "Il layout della fattoria viene fornito con te: i tuoi oggetti rimangono dove li hai posizionati. Tutto ciò che non può essere collocato sulla nuova isola verrà riportato nel tuo inventario, dove potrai accedervi dal baule.",
   "season.megastore.alreadyOwned": "Già posseduto",
   "feeder.selectFoodsToMix": "Seleziona gli alimenti da mescolare",
-  "feeder.ingredientsExplainer": "Il bulk mixer suggerisce la quantità di mangime necessaria per preparare tutti gli animali in attesa, meno il mangime che hai.",
   "feeder.bulkMix": "Miscela sfusa",
   "vip.benefit.expansionSpeed": "-10% di tempo di espansione durante il capitolo dell'Era dell'Ascensione (inizia il 10 agosto 2026 a mezzanotte UTC)",
   "giveaway.title": "Giveaway",
@@ -8337,5 +8336,10 @@
   "giveaway.noResults": "Nessun gioco ancora finito: ricontrolla dopo il prossimo!",
   "favorites": "Preferiti",
   "bumpkin.delivery.recentlyGifted": "Regalato di recente",
-  "bumpkin.delivery.thanks": "Accidenti Wizz grazie Bumpkin!!!"
+  "bumpkin.delivery.thanks": "Accidenti Wizz grazie Bumpkin!!!",
+  "feeder.mixInBulk": "Mescolare alla rinfusa",
+  "feeder.enterMixAmount": "Inserisci la quantità da mescolare:",
+  "feeder.mix": "Miscelare",
+  "feeder.ingredientsToMix": "Ingredienti da mescolare",
+  "feeder.ingredientsExplainer": "Il bulk mixer suggerisce la quantità di mangime necessaria per preparare tutti gli animali in attesa, meno il mangime che hai. Le carenze frazionarie vengono arrotondate ai mangimi interi."
 }

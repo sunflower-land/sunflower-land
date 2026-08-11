@@ -8100,7 +8100,6 @@
   "islandupgrade.warningAscend": "El diseño de tu granja viene contigo: tus objetos permanecen donde los colocaste. Todo lo que no puedas colocar en la nueva isla volverá a tu inventario, donde podrás acceder a él desde tu cofre.",
   "season.megastore.alreadyOwned": "Ya poseído",
   "feeder.selectFoodsToMix": "Seleccione los alimentos para mezclar",
-  "feeder.ingredientsExplainer": "La batidora a granel sugiere la cantidad de alimento necesaria para preparar a todos los animales que esperan, menos el alimento que tienes.",
   "feeder.bulkMix": "Mezcla a granel",
   "vip.benefit.expansionSpeed": "-10% de tiempo de expansión durante el capítulo de la Era de la Ascensión (comienza el 10 de agosto de 2026 a medianoche, hora peninsular española)",
   "giveaway.title": "Sorteo",
@@ -8337,5 +8336,10 @@
   "giveaway.noResults": "Aún no hay juegos terminados. ¡Vuelve después del próximo!",
   "favorites": "Favoritos",
   "bumpkin.delivery.recentlyGifted": "Recién regalado",
-  "bumpkin.delivery.thanks": "¡¡¡Gee Wizz le da las gracias a Bumpkin!!!"
+  "bumpkin.delivery.thanks": "¡¡¡Gee Wizz le da las gracias a Bumpkin!!!",
+  "feeder.mixInBulk": "Mezcle a granel",
+  "feeder.enterMixAmount": "Introduzca la cantidad a mezclar:",
+  "feeder.mix": "Mezcla",
+  "feeder.ingredientsToMix": "Ingredientes para mezclar",
+  "feeder.ingredientsExplainer": "La batidora a granel sugiere la cantidad de alimento necesaria para preparar a todos los animales que esperan, menos el alimento que tienes. Los déficits fraccionarios se redondean a piensos enteros."
 }
