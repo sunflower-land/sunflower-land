@@ -406,6 +406,9 @@ export const LEVEL_EXPERIENCE: Record<BumpkinLevel, number> = {
   200: 244_206_000,
 };
 
+/** Highest level in the `LEVEL_EXPERIENCE` table — the ceiling for table-keyed reward curves. */
+export const MAX_BUMPKIN_LEVEL: BumpkinLevel = 200;
+
 /** Pre-ascension level cap — levels above become ascension bands (see `getAscensionLevel`). */
 export const PRE_ASCENSION_MAX_LEVEL: BumpkinLevel = 150;
 
