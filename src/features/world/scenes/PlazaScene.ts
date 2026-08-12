@@ -22,6 +22,11 @@ import { CONFIG } from "lib/config";
 import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { getShowcasedDesigns } from "features/game/actions/getShowcasedDesigns";
 import { hasUnseenDesigns } from "features/social/lib/seenDesigns";
+import type { ShowcasedDesign } from "features/game/types/social";
+import { BumpkinContainer } from "../containers/BumpkinContainer";
+import { getAnimationUrl } from "../lib/animations";
+import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
+import type { Player } from "../types/Room";
 
 const CHAPTER_BANNERS: Record<ChapterName, string | undefined> = {
   "Solar Flare": undefined,
@@ -68,6 +73,27 @@ export type FactionNPC = {
   direction?: "left" | "right";
   faction: Omit<FactionName, "nightshades">;
 };
+
+/**
+ * Standing spots inside the fenced field below the Design Showcase board,
+ * one per showcased designer. The field is the collision block at
+ * x 524-644, y 364-416 on the plaza map.
+ */
+const SHOWCASE_FIELD_SPOTS: {
+  x: number;
+  y: number;
+  direction: "left" | "right";
+}[] = [
+  { x: 540, y: 392, direction: "right" },
+  { x: 584, y: 402, direction: "left" },
+  { x: 628, y: 392, direction: "left" },
+];
+
+/**
+ * Gardeners sit above every map layer (buildings, decorations, the board's
+ * base) but below the board's unread icon (1000000000).
+ */
+const SHOWCASE_GARDENER_DEPTH = 100000000;
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
@@ -943,16 +969,113 @@ export class PlazaScene extends BaseScene {
       interactableModalManager.open("design_showcase");
     });
 
-    const token = this.authService.getSnapshot().context.user.rawToken;
-    if (!token) return;
+    const token = this.authService.getSnapshot().context.user.rawToken ?? "";
 
     getShowcasedDesigns({ token })
       .then((designs) => {
-        if (!board.active || !hasUnseenDesigns(designs)) return;
+        if (!board.active) return;
 
-        unreadIcon = this.add.image(560, 321, "speaker").setDepth(1000000000);
+        if (hasUnseenDesigns(designs)) {
+          unreadIcon = this.add.image(560, 321, "speaker").setDepth(1000000000);
+        }
+
+        this.addShowcaseGardeners(designs, () => {
+          unreadIcon?.destroy();
+          unreadIcon = undefined;
+        });
       })
       .catch(() => undefined);
+  }
+
+  /**
+   * Spawns the three most recently showcased designers as bumpkins watering
+   * the fenced field below the Design Showcase board. Clicking one opens the
+   * showcase, just like the board itself.
+   */
+  addShowcaseGardeners(designs: ShowcasedDesign[], onOpen: () => void) {
+    const latest = [...designs]
+      .sort((a, b) => b.showcasedAt - a.showcasedAt)
+      .slice(0, SHOWCASE_FIELD_SPOTS.length);
+
+    latest.forEach((design, i) => {
+      const { x, y, direction } = SHOWCASE_FIELD_SPOTS[i];
+      const clothing = { ...design.bumpkin, updatedAt: 0 };
+
+      const gardener: BumpkinContainer = new BumpkinContainer({
+        scene: this,
+        x,
+        y,
+        clothing,
+        direction,
+        onClick: () => {
+          const distance = Phaser.Math.Distance.BetweenPoints(
+            gardener,
+            this.currentPlayer as BumpkinContainer,
+          );
+
+          if (distance > 75) {
+            this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+            return;
+          }
+
+          onOpen();
+          interactableModalManager.open("design_showcase");
+        },
+      });
+      gardener.setDepth(SHOWCASE_GARDENER_DEPTH);
+
+      this.keepWatering(gardener, clothing);
+    });
+  }
+
+  /**
+   * Loads the outfit's watering spritesheet (BumpkinContainer only bakes
+   * idle/walking/dig/drilling into its own sheets) and keeps the loop playing.
+   * Re-asserted every frame because BumpkinContainer swaps to its own idle
+   * animation once its base sheet finishes loading.
+   */
+  private keepWatering(
+    container: BumpkinContainer,
+    clothing: Player["clothing"],
+  ) {
+    const outfitKey = tokenUriBuilder(clothing);
+    const sheetKey = `watering-${outfitKey}`;
+    const animKey = `watering-anim-${outfitKey}`;
+
+    if (!this.anims.exists(animKey) && !this.textures.exists(sheetKey)) {
+      this.load.spritesheet(sheetKey, getAnimationUrl(clothing, ["watering"]), {
+        frameWidth: 96,
+        frameHeight: 64,
+      });
+      this.load.once(`filecomplete-spritesheet-${sheetKey}`, () => {
+        if (this.anims.exists(animKey) || !this.textures.exists(sheetKey)) {
+          return;
+        }
+
+        this.anims.create({
+          key: animKey,
+          frames: this.anims.generateFrameNumbers(sheetKey),
+          frameRate: 10,
+          repeat: -1,
+        });
+      });
+      this.load.start();
+    }
+
+    const reassert = () => {
+      if (!container.active) {
+        this.events.off("update", reassert);
+        return;
+      }
+
+      const sprite = container.sprite;
+      if (!sprite?.active || !this.anims.exists(animKey)) return;
+
+      if (sprite.anims.getName() !== animKey || !sprite.anims.isPlaying) {
+        sprite.play(animKey, true);
+      }
+    };
+    this.events.on("update", reassert);
   }
 
   syncPlaceables() {
