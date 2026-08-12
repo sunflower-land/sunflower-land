@@ -191,8 +191,20 @@ describe("pre-identification event buffering", () => {
     await Promise.resolve();
     await Promise.resolve();
 
-    // The identify call itself still posts - it is never buffered - but it
+    // Two things have to hold together. The identify call itself is never
+    // buffered, so it must still go out - asserting only that session_start
+    // stayed queued would pass even if identify sent nothing at all. And it
     // must not release the queued event.
+    expect(sent).toHaveLength(1);
+    expect(sent[0]).toEqual({
+      type: "identify",
+      payload: {
+        game: "11111111-1111-1111-1111-111111111111",
+        id: "",
+        data: {},
+        timestamp: expect.any(Number),
+      },
+    });
     expect(sentNames()).not.toContain("session_start");
   });
 });
