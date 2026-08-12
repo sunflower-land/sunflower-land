@@ -288,8 +288,31 @@ export function isHelpComplete({ game }: { game: GameState }) {
 export function getHelpRequired({ game }: { game: GameState }) {
   const villageProjects = game.socialFarming.villageProjects;
   const collectibles = game.collectibles;
-  const homeCollectibles = game.home.collectibles;
   const petHouseCollectibles = game.petHouse?.pets ?? {};
+
+  /**
+   * Every placement surface that sits *inside* the player's house: the legacy
+   * `home` room plus the two interior floors that replaced it. They all report
+   * into the same `home` bucket, which is what the house building badge and the
+   * VisitorGuide read — as far as a visitor is concerned it is one building.
+   *
+   * Without the interior floors here, a project or pet that has been imported
+   * out of the old home is invisible to the whole help system: it isn't counted
+   * on the house, `isHelpComplete` returns true without it, and the visitor is
+   * never sent inside to help with it.
+   */
+  const insideHouse = [
+    game.home.collectibles,
+    game.interior?.ground.collectibles,
+    game.interior?.level_one?.collectibles,
+  ];
+
+  const isPlacedInsideHouse = (name: MonumentName | PetName) =>
+    insideHouse.some((c) => !!c?.[name]?.some((item) => !!item.coordinates));
+
+  /** Pet NFTs carry their surface on the item rather than in a keyed bucket. */
+  const HOUSE_LOCATIONS = ["home", "interior", "level_one"];
+
   const clutterLocations = game.socialFarming.clutter?.locations;
   const pets = game.pets;
   const isPetHousePlaced = !!game.buildings["Pet House"]?.some(
@@ -322,9 +345,7 @@ export function getHelpRequired({ game }: { game: GameState }) {
       const isProjectPlacedOnLand = !!collectibles[monument]?.some(
         (item) => !!item.coordinates,
       );
-      const isProjectPlacedInHome = !!homeCollectibles[monument]?.some(
-        (item) => !!item.coordinates,
-      );
+      const isProjectPlacedInHome = isPlacedInsideHouse(monument);
 
       if (isProjectPlacedOnLand) {
         acc.pendingLandProjects = [...acc.pendingLandProjects, monument];
@@ -362,9 +383,7 @@ export function getHelpRequired({ game }: { game: GameState }) {
       const isPetPlacedOnLand = !!collectibles[name]?.some(
         (item) => !!item.coordinates,
       );
-      const isPetPlacedOnHome = !!homeCollectibles[name]?.some(
-        (item) => !!item.coordinates,
-      );
+      const isPetPlacedOnHome = isPlacedInsideHouse(name);
       const isPetPlacedOnPetHouse = !!petHouseCollectibles[name]?.some(
         (item) => !!item.coordinates,
       );
@@ -417,7 +436,7 @@ export function getHelpRequired({ game }: { game: GameState }) {
           return acc;
         }
 
-        if (pet.location === "home") {
+        if (HOUSE_LOCATIONS.includes(pet.location ?? "")) {
           acc.pendingHomeNftPets = [...acc.pendingHomeNftPets, pet.name];
 
           return acc;

@@ -82,6 +82,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { FarmHelped } from "features/island/hud/components/FarmHelped";
 import { getPartialInstantGrowPrice } from "features/game/events/landExpansion/instaGrowProject";
 import { getKeys } from "lib/object";
+import { getCollectiblesAcrossLocations } from "features/game/lib/getCollectiblesAcrossLocations";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { EffectSuccess } from "features/game/expansion/components/effects/EffectSuccess";
 
@@ -494,14 +495,24 @@ const _cheers = (project: MonumentName) => (state: MachineState) => {
   );
 };
 
+/**
+ * A placed monument with no village project behind it — either never started,
+ * or already completed and cashed in. It renders the "start project" flow
+ * instead of a progress bar, and visitors must not be able to cheer it.
+ *
+ * Placement is checked across *all* surfaces (farm, home and both interior
+ * floors). Missing the interior floors here left a pot moved inside looking
+ * like a live project stuck at 0%: the owner got the progress modal rather than
+ * the start prompt, and a visitor's cheer threw "Project not found".
+ */
 const _isInactive = (project: MonumentName) => (state: MachineState) => {
   const gameState = state.context.state;
-  const isPlaced =
-    gameState.collectibles[project]?.some((c) => !!c.coordinates) ||
-    gameState.home.collectibles[project]?.some((c) => !!c.coordinates);
+  const isPlaced = getCollectiblesAcrossLocations(gameState, project).some(
+    (c) => !!c.coordinates,
+  );
   const hasVillageProject =
     !!gameState.socialFarming.villageProjects?.[project];
-  return !!isPlaced && !hasVillageProject;
+  return isPlaced && !hasVillageProject;
 };
 
 const _cheersAvailable = (state: MachineState) => {

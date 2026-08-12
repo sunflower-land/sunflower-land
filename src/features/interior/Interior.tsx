@@ -39,6 +39,10 @@ import { ZoomContext } from "components/ZoomProvider";
 import { useVisiting } from "lib/utils/visitUtils";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { getInteriorExitRoute, getInteriorRoute } from "./lib/interiorRoutes";
+import { PlayerModal } from "features/social/PlayerModal";
+import { Context as AuthContext } from "features/auth/lib/Provider";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
+import { hasFeatureAccess } from "lib/flags";
 
 const _landscaping = (state: MachineState) => state.matches("landscaping");
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
@@ -49,6 +53,7 @@ const _hasInteriorAccess = (state: MachineState) =>
   !!state.context.state.settings.interiorsEnabled;
 const _expansion = (state: MachineState) =>
   state.context.state.interior.expansion;
+const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
 
 const _interiorCollectibles = (state: MachineState) => {
   // Only the ground level is rendered for now. When additional levels are
@@ -97,6 +102,7 @@ const _interiorFarmHands = (state: MachineState) => {
  */
 export const Interior: React.FC = () => {
   const { gameService } = useContext(Context);
+  const { authService } = useContext(AuthContext);
   const { scale } = useContext(ZoomContext);
   const [params] = useSearchParams();
   const [scrollIntoView] = useScrollIntoView();
@@ -110,6 +116,20 @@ export const Interior: React.FC = () => {
   const island = useSelector(gameService, _island);
   const hasAccess = useSelector(gameService, _hasInteriorAccess);
   const expansion = useSelector(gameService, _expansion);
+  const token = useSelector(authService, _token);
+
+  // The world feed (rendered by both HUDs) opens the player modal, so the modal
+  // has to be mounted on this surface too — same as /home and the other farm
+  // interiors. While visiting, `farmId` is the visited farm, so the logged-in
+  // player is `visitorId`.
+  const { visitorId, farmId, visitorState, state } =
+    gameService.getSnapshot().context;
+  const loggedInFarmId = visitorId ?? farmId;
+  const hasAirdropAccess = hasFeatureAccess(
+    visitorState ?? state,
+    "AIRDROP_PLAYER",
+  );
+
   // Center the canvas in the viewport on mount. GenesisBlock sits at the
   // canvas centre — same anchor MapPlacement uses to render placed items
   // and Placeable uses for its drag-coord origin.
@@ -428,6 +448,12 @@ export const Interior: React.FC = () => {
       {!landscaping && !isVisiting && <Hud isFarming location="interior" />}
       {landscaping && <LandscapingHud location="interior" />}
       {isVisiting && <VisitingHud />}
+
+      <PlayerModal
+        loggedInFarmId={loggedInFarmId}
+        token={token}
+        hasAirdropAccess={hasAirdropAccess}
+      />
     </>
   );
 };
