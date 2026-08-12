@@ -137,6 +137,27 @@ describe("moonforgeAnalytics", () => {
       });
     });
 
+    // trackEvent returns postEvent's promise, so a collector failure rejects
+    // rather than throwing. A try/catch alone leaves that unhandled in the
+    // player's browser.
+    it("mfExperiment handles a rejected trackEvent without an unhandled rejection", async () => {
+      const spy = jest
+        .spyOn(MoonForgeAnalytics, "trackEvent")
+        .mockReturnValue(Promise.reject(new Error("collector down")) as never);
+
+      const unhandled: unknown[] = [];
+      const onUnhandled = (e: unknown) => unhandled.push(e);
+      process.on("unhandledRejection", onUnhandled);
+
+      expect(() => mfExperiment("exp", "control")).not.toThrow();
+
+      await new Promise((r) => setTimeout(r, 10));
+      process.off("unhandledRejection", onUnhandled);
+
+      expect(unhandled).toHaveLength(0);
+      spy.mockRestore();
+    });
+
     it("mfExperiment never throws into game code even if the SDK throws", () => {
       const spy = jest
         .spyOn(MoonForgeAnalytics, "trackEvent")

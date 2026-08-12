@@ -51,3 +51,37 @@ export function trackTutorialStep(
 ): void {
   mfTrack("tutorial_step_completed", { step, ...properties });
 }
+
+const LOGIN_STEP_KEY_PREFIX = "mf_tutorial_login_";
+
+function loginStepKey(farmId: number | string): string {
+  return `${LOGIN_STEP_KEY_PREFIX}${farmId}`;
+}
+
+/**
+ * Whether this account has already recorded the `login` tutorial step.
+ *
+ * Scoped per farm rather than global, so a second account on the same device
+ * still records its own first login.
+ *
+ * Storage failures (private browsing, a webview that refuses localStorage)
+ * report `false`. That re-emits rather than suppressing: an over-counted step
+ * is visible and correctable in analysis, whereas a silently missing one looks
+ * like real drop-off.
+ */
+export function hasCompletedLoginStep(farmId: number | string): boolean {
+  try {
+    return localStorage.getItem(loginStepKey(farmId)) !== null;
+  } catch {
+    return false;
+  }
+}
+
+/** Records that this account has passed the `login` tutorial step. */
+export function markLoginStepCompleted(farmId: number | string): void {
+  try {
+    localStorage.setItem(loginStepKey(farmId), "1");
+  } catch {
+    // Never throws into game code, consistent with the analytics wrappers.
+  }
+}

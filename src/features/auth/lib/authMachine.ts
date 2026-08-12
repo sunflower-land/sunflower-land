@@ -36,12 +36,25 @@ export const ART_MODE = !CONFIG.API_URL;
  */
 let pendingAuthMethod: TutorialAuthMethod | undefined;
 
-function trackAuthCompleted() {
-  if (!pendingAuthMethod) return;
+/**
+ * Emit the auth milestone once the chosen path has actually completed.
+ *
+ * The two paths complete at different points. A returning player signing in
+ * with a wallet is done when `login` resolves. A new player signing up is not
+ * - `login` resolving only means they are authorised; the account itself does
+ * not exist until `signUp` resolves in the `creating` state. Emitting both at
+ * `authorising.onDone` would count an account as created for every player who
+ * authorised and then abandoned the farm-creation step.
+ */
+function trackAuthCompleted(method: TutorialAuthMethod) {
+  if (pendingAuthMethod !== method) return;
 
-  trackTutorialStep("auth", { method: pendingAuthMethod });
+  trackTutorialStep("auth", { method });
   pendingAuthMethod = undefined;
 }
+
+const trackWalletAuthCompleted = () => trackAuthCompleted("wallet");
+const trackAccountAuthCompleted = () => trackAuthCompleted("account");
 
 const getFarmIdFromUrl = () => {
   const paths = window.location.href.split("/visit/");
@@ -330,10 +343,10 @@ export const authMachine = createMachine(
           onDone: [
             {
               target: "verifying",
-              // `login` resolved and a token is being assigned, so the auth
-              // milestone has genuinely completed here - not back on the
-              // welcome screen's button press.
-              actions: ["assignToken", trackAuthCompleted],
+              // `login` resolved, which completes the wallet path only. The
+              // account path is not finished until `signUp` resolves in
+              // `creating`, so it is emitted there instead.
+              actions: ["assignToken", trackWalletAuthCompleted],
             },
           ],
           onError: {
@@ -441,7 +454,9 @@ export const authMachine = createMachine(
           onDone: [
             {
               target: "connected",
-              actions: ["assignToken", "saveToken"],
+              // The account now genuinely exists - this is where the account
+              // path's auth milestone completes.
+              actions: ["assignToken", "saveToken", trackAccountAuthCompleted],
             },
           ],
           onError: [

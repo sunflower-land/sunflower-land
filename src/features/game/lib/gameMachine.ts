@@ -75,7 +75,11 @@ import type { RaffleSnapshotWinner } from "features/world/ui/chapterRaffles/acti
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { mfIdentify, mfSetUser, mfTrack } from "lib/moonforgeAnalytics";
-import { trackTutorialStep } from "lib/moonforgeTutorial";
+import {
+  hasCompletedLoginStep,
+  markLoginStepCompleted,
+  trackTutorialStep,
+} from "lib/moonforgeTutorial";
 import { portal } from "features/world/ui/community/actions/portal";
 
 import { CONFIG } from "lib/config";
@@ -2793,7 +2797,20 @@ export function startGame(authContext: AuthContext) {
               id: context.farmId,
             });
             onboardingAnalytics.logEvent("login");
-            trackTutorialStep("login");
+
+            // `initialiseAnalytics` runs on every session load, including
+            // REFRESH, so an unguarded call emits `login` once per session
+            // rather than once per player. A tutorial funnel step with more
+            // events than players makes the drop-off between steps
+            // uninterpretable, so the milestone is marked per account and
+            // emitted only the first time.
+            //
+            // The marker is written before the event is sent: a failed write
+            // should suppress a duplicate, not license one.
+            if (!hasCompletedLoginStep(context.farmId)) {
+              markLoginStepCompleted(context.farmId);
+              trackTutorialStep("login");
+            }
           }
         },
         assignUrl: (context) => {

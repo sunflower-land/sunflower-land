@@ -1,5 +1,10 @@
 import { MoonForgeAnalytics } from "lib/moonforge";
-import { TUTORIAL_STEPS, trackTutorialStep } from "./moonforgeTutorial";
+import {
+  TUTORIAL_STEPS,
+  hasCompletedLoginStep,
+  markLoginStepCompleted,
+  trackTutorialStep,
+} from "./moonforgeTutorial";
 
 describe("moonforgeTutorial", () => {
   afterEach(() => {
@@ -58,5 +63,67 @@ describe("moonforgeTutorial", () => {
     trackTutorialStep("auth", { method: "carrier_pigeon" });
 
     expect(trackEventSpy).toHaveBeenCalled();
+  });
+});
+
+// `initialiseAnalytics` runs on every session load, including REFRESH, so
+// without a marker the `login` step would emit once per session rather than
+// once per player - producing a funnel step with more events than players.
+describe("login step marker", () => {
+  beforeEach(() => localStorage.clear());
+
+  it("reports not-completed for an account that has never logged in", () => {
+    expect(hasCompletedLoginStep(123)).toBe(false);
+  });
+
+  it("reports completed only after the marker is written", () => {
+    markLoginStepCompleted(123);
+
+    expect(hasCompletedLoginStep(123)).toBe(true);
+  });
+
+  it("emits once across an initial load followed by REFRESH", () => {
+    const emit = (farmId: number) => {
+      if (!hasCompletedLoginStep(farmId)) {
+        markLoginStepCompleted(farmId);
+        trackTutorialStep("login");
+        return true;
+      }
+      return false;
+    };
+
+    expect(emit(123)).toBe(true);
+    expect(emit(123)).toBe(false);
+    expect(emit(123)).toBe(false);
+  });
+
+  it("scopes the marker per account, so a second farm still records its first login", () => {
+    markLoginStepCompleted(123);
+
+    expect(hasCompletedLoginStep(456)).toBe(false);
+  });
+
+  // Private browsing and some webviews refuse localStorage. Re-emitting is the
+  // safer failure: an over-counted step is visible in analysis, a missing one
+  // looks like real drop-off.
+  it("reports not-completed when storage is unavailable", () => {
+    const spy = jest.spyOn(Storage.prototype, "getItem").mockImplementation(() => {
+      throw new Error("storage disabled");
+    });
+
+    expect(() => hasCompletedLoginStep(123)).not.toThrow();
+    expect(hasCompletedLoginStep(123)).toBe(false);
+
+    spy.mockRestore();
+  });
+
+  it("never throws when the marker cannot be written", () => {
+    const spy = jest.spyOn(Storage.prototype, "setItem").mockImplementation(() => {
+      throw new Error("quota exceeded");
+    });
+
+    expect(() => markLoginStepCompleted(123)).not.toThrow();
+
+    spy.mockRestore();
   });
 });

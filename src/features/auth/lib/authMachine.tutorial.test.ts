@@ -91,7 +91,10 @@ describe("authMachine tutorial instrumentation", () => {
     service.stop();
   });
 
-  it("reports method 'account' for the signup branch", async () => {
+  // Authorising is not account creation. A player who authorises and then
+  // abandons the farm-creation step has not created an account, so counting
+  // one here would overstate the step for every abandoned signup.
+  it("reports nothing for the signup branch until the account exists", async () => {
     const service = startAtWelcome(async () => ({ token: "token" }));
 
     service.send({ type: "SIGNUP" });
@@ -99,9 +102,7 @@ describe("authMachine tutorial instrumentation", () => {
 
     await new Promise((r) => setTimeout(r, 0));
 
-    expect(trackTutorialStep).toHaveBeenCalledWith("auth", {
-      method: "account",
-    });
+    expect(trackTutorialStep).not.toHaveBeenCalled();
 
     service.stop();
   });
