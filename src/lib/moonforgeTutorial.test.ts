@@ -118,9 +118,11 @@ describe("login step marker", () => {
   // safer failure: an over-counted step is visible in analysis, a missing one
   // looks like real drop-off.
   it("reports not-completed when storage is unavailable", () => {
-    const spy = jest.spyOn(Storage.prototype, "getItem").mockImplementation(() => {
-      throw new Error("storage disabled");
-    });
+    const spy = jest
+      .spyOn(Storage.prototype, "getItem")
+      .mockImplementation(() => {
+        throw new Error("storage disabled");
+      });
 
     expect(() => hasCompletedLoginStep(123)).not.toThrow();
     expect(hasCompletedLoginStep(123)).toBe(false);
@@ -129,9 +131,11 @@ describe("login step marker", () => {
   });
 
   it("never throws when the marker cannot be written", () => {
-    const spy = jest.spyOn(Storage.prototype, "setItem").mockImplementation(() => {
-      throw new Error("quota exceeded");
-    });
+    const spy = jest
+      .spyOn(Storage.prototype, "setItem")
+      .mockImplementation(() => {
+        throw new Error("quota exceeded");
+      });
 
     expect(() => markLoginStepCompleted(123)).not.toThrow();
 

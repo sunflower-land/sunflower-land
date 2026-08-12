@@ -160,9 +160,9 @@ describe("pre-identification event buffering", () => {
     await Promise.resolve();
     await Promise.resolve();
 
-    expect(
-      sentNames().filter((n) => n === "session_start").length,
-    ).toBe(afterFirst);
+    expect(sentNames().filter((n) => n === "session_start").length).toBe(
+      afterFirst,
+    );
   });
 
   // A reset is a logout. Leaving `identified` set would send the next
