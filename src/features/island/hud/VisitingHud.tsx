@@ -134,10 +134,22 @@ export const VisitingHud: React.FC = () => {
   };
 
   useEffect(() => {
-    window.addEventListener("popstate", handleEndVisit);
+    const handlePopState = () => {
+      /**
+       * Backing out of a room inside the visited farm — /visit/:id/interior →
+       * /visit/:id — is navigation *within* the visit, so it should just land
+       * the player on the farm they're visiting. Only a pop that leaves the
+       * visit routes altogether ends the visit.
+       */
+      if (window.location.hash.includes("/visit/")) return;
+
+      handleEndVisit();
+    };
+
+    window.addEventListener("popstate", handlePopState);
 
     return () => {
-      window.removeEventListener("popstate", handleEndVisit);
+      window.removeEventListener("popstate", handlePopState);
     };
   }, []);
 
