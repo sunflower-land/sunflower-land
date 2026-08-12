@@ -98,6 +98,8 @@ describe("pre-identification event buffering", () => {
   // A logged-out visitor never identifies. Holding their events forever would
   // lose them entirely, which is worse than an anonymous id.
   it("flushes anonymously when identification never arrives", async () => {
+    const anonymousId = MoonForgeAnalytics.getDistinctId();
+
     MoonForgeAnalytics.trackEvent("session_start");
     await Promise.resolve();
     expect(sent).toHaveLength(0);
@@ -107,7 +109,9 @@ describe("pre-identification event buffering", () => {
     await Promise.resolve();
 
     expect(sentNames()).toContain("session_start");
-    expect(sentIds()[0]).not.toBe("account456");
+    // The event still carries the id it was created with - the flush releases
+    // it, it does not invent an identity.
+    expect(sentIds()[0]).toBe(anonymousId);
   });
 
   // session_end is emitted at page teardown. Buffering one loses it outright.
@@ -125,15 +129,22 @@ describe("pre-identification event buffering", () => {
     expect(sent.some((b) => b.type === "identify")).toBe(true);
   });
 
-  it("stops buffering rather than growing without bound", async () => {
+  // The cap is 50. Event 51 drains the queue and then sends itself, so by
+  // event 60 everything has gone out in order rather than accumulating.
+  it("drains in order once the buffer reaches capacity", async () => {
     for (let i = 0; i < 60; i++) {
       MoonForgeAnalytics.trackEvent(`event_${i}`);
     }
     await Promise.resolve();
     await Promise.resolve();
 
-    // Past the cap, events go out immediately rather than accumulating.
-    expect(sent.length).toBeGreaterThan(0);
+    // Event 51 hits the cap: it drains the 50 ahead of it, then sends itself.
+    // Buffering then re-arms, so 52-60 are held for the next release - the cap
+    // is a pressure valve, not a permanent disable.
+    expect(sent).toHaveLength(51);
+    expect(sentNames()).toEqual(
+      Array.from({ length: 51 }, (_, i) => `event_${i}`),
+    );
   });
 
   it("is idempotent — a second identify does not resend the buffer", async () => {
@@ -152,5 +163,36 @@ describe("pre-identification event buffering", () => {
     expect(
       sentNames().filter((n) => n === "session_start").length,
     ).toBe(afterFirst);
+  });
+
+  // A reset is a logout. Leaving `identified` set would send the next
+  // player's pre-identify events under their fresh anonymous id.
+  it("re-arms buffering after a reset", async () => {
+    MoonForgeAnalytics.identify("account456");
+    await Promise.resolve();
+    await Promise.resolve();
+
+    MoonForgeAnalytics.reset();
+    sent = [];
+
+    MoonForgeAnalytics.trackEvent("session_start");
+    await Promise.resolve();
+
+    expect(sent).toHaveLength(0);
+  });
+
+  // Marking identified without a real id would flush under the anonymous one,
+  // which is precisely what buffering exists to prevent.
+  it("does not release the buffer when identify is called without an id", async () => {
+    MoonForgeAnalytics.trackEvent("session_start");
+    await Promise.resolve();
+
+    MoonForgeAnalytics.identify("");
+    await Promise.resolve();
+    await Promise.resolve();
+
+    // The identify call itself still posts - it is never buffered - but it
+    // must not release the queued event.
+    expect(sentNames()).not.toContain("session_start");
   });
 });
