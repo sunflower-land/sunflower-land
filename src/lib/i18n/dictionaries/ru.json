@@ -7145,7 +7145,6 @@
   "playerEconomyEditor.itemCard.visibleInInventory": "Показывать в панели инвенторя",
   "agingShed.fermentation.selectRecipeRequired": "Пожалуйста, выбери рецепт",
   "description.skillResetTicket": "Билет, позволяющий бесплатно сбросить навыки.",
-  "description.skillResetTicketWarning": "Считается как сброс за гемы; таймер бесплатного сброса не изменится.",
   "skillReset.ticket": "Сброс билетом",
   "skillReset.ticketDescription": "Используй Skill Reset Ticket, чтобы сбросить все навыки.",
   "obsidianShrine.fertilise": "Удобрить всё",
@@ -8360,5 +8359,6 @@
   "buildings.deli": "Deli",
   "buildings.smoothieShack": "Smoothie Shack",
   "confirmation.feedAllFoods": "Feed your Bumpkin all {{count}} foods for {{xp}} XP?",
-  "confirmation.enterAmountToFeed": "Enter Amount to Feed:"
+  "confirmation.enterAmountToFeed": "Enter Amount to Feed:",
+  "description.skillResetTicketWarning": "Doesn't affect the gem reset price; free timer unchanged."
 }

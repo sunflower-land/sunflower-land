@@ -7131,7 +7131,6 @@
   "playerEconomyEditor.itemCard.visibleInInventory": "Kontrol paneli envanterinde göster",
   "agingShed.fermentation.selectRecipeRequired": "Lütfen bir tarif seçin",
   "description.skillResetTicket": "Becerilerinizi ücretsiz olarak sıfırlamanıza izin veren bir bilet.",
-  "description.skillResetTicketWarning": "Mücevher sıfırlaması olarak sayılır; serbest zamanlayıcı değişmedi.",
   "skillReset.ticket": "Bilet Sıfırlama",
   "skillReset.ticketDescription": "Tüm becerilerinizi sıfırlamak için Beceri Sıfırlama Bileti kullanın.",
   "obsidianShrine.fertilise": "Tümünü Gübreleyin",
@@ -8360,5 +8359,6 @@
   "buildings.deli": "Şarküteri",
   "buildings.smoothieShack": "Smoothie Kulübesi",
   "confirmation.feedAllFoods": "Bumpkin'inizi {{xp}} XP karşılığında tüm {{count}} yiyecekleri besleyin?",
-  "confirmation.enterAmountToFeed": "Beslenecek Miktarı Girin:"
+  "confirmation.enterAmountToFeed": "Beslenecek Miktarı Girin:",
+  "description.skillResetTicketWarning": "Mücevher sıfırlama fiyatını etkilemez; ücretsiz zamanlayıcı değişmedi."
 }

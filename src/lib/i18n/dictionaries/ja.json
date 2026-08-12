@@ -7131,7 +7131,6 @@
   "playerEconomyEditor.itemCard.visibleInInventory": "ダッシュボードインベントリに表示",
   "agingShed.fermentation.selectRecipeRequired": "レシピを選択してください",
   "description.skillResetTicket": "無料でスキルをリセットできるチケット。",
-  "description.skillResetTicketWarning": "ジェムリセットとしてカウントされます。フリータイマーは変わりません。",
   "skillReset.ticket": "チケットリセット",
   "skillReset.ticketDescription": "スキルリセットチケットを使用して、すべてのスキルをリセットします。",
   "obsidianShrine.fertilise": "すべて施肥する",
@@ -8360,5 +8359,6 @@
   "buildings.deli": "デリ",
   "buildings.smoothieShack": "スムージーシャック",
   "confirmation.feedAllFoods": "バンプキンに {{count}} 個の食べ物をすべて {{xp}} XPで食べさせますか？",
-  "confirmation.enterAmountToFeed": "供給量を入力:"
+  "confirmation.enterAmountToFeed": "供給量を入力:",
+  "description.skillResetTicketWarning": "ジェムリセット価格には影響しません。フリータイマーは変わりません。"
 }

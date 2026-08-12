@@ -7131,7 +7131,6 @@
   "playerEconomyEditor.itemCard.visibleInInventory": "Mostrar no inventário do painel",
   "agingShed.fermentation.selectRecipeRequired": "Selecione uma receita",
   "description.skillResetTicket": "Um tíquete que permite que você redefina suas habilidades gratuitamente.",
-  "description.skillResetTicketWarning": "Conta como uma reinicialização de gema; o cronômetro livre não foi alterado.",
   "skillReset.ticket": "Redefinição de tíquete",
   "skillReset.ticketDescription": "Use um tíquete de redefinição de habilidade para redefinir todas as suas habilidades.",
   "obsidianShrine.fertilise": "Fertilize tudo",
@@ -8360,5 +8359,6 @@
   "buildings.deli": "Deli",
   "buildings.smoothieShack": "Smoothie Shack",
   "confirmation.feedAllFoods": "Alimente seu Bumpkin com todos os alimentos {{count}} por {{xp}} XP?",
-  "confirmation.enterAmountToFeed": "Insira a quantidade a ser alimentada:"
+  "confirmation.enterAmountToFeed": "Insira a quantidade a ser alimentada:",
+  "description.skillResetTicketWarning": "Não afeta o preço de redefinição da gema; o cronômetro gratuito não foi alterado."
 }
