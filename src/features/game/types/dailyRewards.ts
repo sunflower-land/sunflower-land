@@ -3,6 +3,8 @@ import type { BoostName, GameState, InventoryItemName } from "./game";
 import {
   getAscensionLevel,
   getExperienceToNextLevel,
+  getTotalBumpkinLevel,
+  MAX_BUMPKIN_LEVEL,
   meetsLevelRequirement,
 } from "../lib/level";
 import {
@@ -145,7 +147,17 @@ const WEEKLY_REWARDS: (game: GameState) => DailyRewardDefinition[] = (
     experience: game.bumpkin.experience ?? 0,
     ascensionLevel: game.island.ascensionLevel ?? 0,
   });
-  const level = ascension.level;
+  // Monotonic total level (ascension-aware) — the reward curve below is keyed to the
+  // historical 1..200 scale, so an ascended player must read as 150+, not their 1..50
+  // within-ascension level. Clamped at MAX_BUMPKIN_LEVEL to keep calculateXPPotion in domain.
+  // Mirror of the backend (`domain/game/types/dailyRewards.ts`).
+  const level = Math.min(
+    getTotalBumpkinLevel({
+      experience: game.bumpkin.experience ?? 0,
+      ascensionLevel: game.island.ascensionLevel ?? 0,
+    }),
+    MAX_BUMPKIN_LEVEL,
+  );
   const { experienceToNextLevel } = getExperienceToNextLevel(
     game.bumpkin?.experience ?? 0,
   );

@@ -104,3 +104,45 @@ describe("getRewardsForStreak — VIP banner perk chapter cutoff", () => {
     expect(defaultReward.items?.["Salt Awakening Banner"]).toBeUndefined();
   });
 });
+
+describe("getRewardsForStreak — ascension-aware reward scaling", () => {
+  // A1 L50 (ready to ascend) → total Bumpkin level 200, so the reward curve keys off
+  // 200 / 25 = 8. The bug scaled off the within-ascension level (50 → 50 / 25 = 2),
+  // handing an ascended player only 10 Axes / 10 Rods instead of 40.
+  const ascendedFarm: GameState = {
+    ...TEST_FARM,
+    bumpkin: { ...TEST_FARM.bumpkin, experience: 150_000_000 },
+    island: { ...TEST_FARM.island, ascensionLevel: 1 },
+    farmActivity: { ...TEST_FARM.farmActivity, "Daily Reward Collected": 100 },
+  };
+
+  it("scales the Tool Cache to the ascended player's total level, not their within-ascension level", () => {
+    const { rewards } = getRewardsForStreak({
+      game: ascendedFarm,
+      streak: 7, // 7 % 7 === 0 → weekly-day-1-tool-cache
+      currentDate: new Date(PAW_PRINTS_NOW).toISOString(),
+      now: PAW_PRINTS_NOW,
+    });
+
+    const toolCache = rewards.find((r) => r.id === "weekly-day-1-tool-cache")!;
+    expect(toolCache.items).toEqual({
+      Axe: 40,
+      Pickaxe: 16,
+      "Stone Pickaxe": 8,
+    });
+  });
+
+  it("scales the Angler Pack to the ascended player's total level, not their within-ascension level", () => {
+    const { rewards } = getRewardsForStreak({
+      game: ascendedFarm,
+      streak: 10, // 10 % 7 === 3 → weekly-day-4-angler-pack
+      currentDate: new Date(PAW_PRINTS_NOW).toISOString(),
+      now: PAW_PRINTS_NOW,
+    });
+
+    const anglerPack = rewards.find(
+      (r) => r.id === "weekly-day-4-angler-pack",
+    )!;
+    expect(anglerPack.items).toEqual({ Rod: 40, Earthworm: 24, Grub: 16 });
+  });
+});
