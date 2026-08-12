@@ -39,6 +39,10 @@ import { ZoomContext } from "components/ZoomProvider";
 import { useVisiting } from "lib/utils/visitUtils";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { getInteriorExitRoute, getInteriorRoute } from "./lib/interiorRoutes";
+import { PlayerModal } from "features/social/PlayerModal";
+import { Context as AuthContext } from "features/auth/lib/Provider";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
+import { hasFeatureAccess } from "lib/flags";
 
 const _landscaping = (state: MachineState) => state.matches("landscaping");
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
@@ -50,6 +54,7 @@ const _expansion = (state: MachineState) =>
   state.context.state.interior.expansion;
 const _hasInteriorAccess = (state: MachineState) =>
   !!state.context.state.settings.interiorsEnabled;
+const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
 
 const EMPTY_COLLECTIBLES: Collectibles = {};
 
@@ -118,6 +123,7 @@ const UPGRADE_POSITIONS: Partial<
  */
 export const LevelOne: React.FC = () => {
   const { gameService } = useContext(Context);
+  const { authService } = useContext(AuthContext);
   const { scale } = useContext(ZoomContext);
   const [params] = useSearchParams();
   const navigate = useNavigate();
@@ -132,6 +138,17 @@ export const LevelOne: React.FC = () => {
   const expansion = useSelector(gameService, _expansion);
   const hasAccess = useSelector(gameService, _hasInteriorAccess);
   const levelOneFarmHands = useSelector(gameService, _levelOneFarmHands);
+  const token = useSelector(authService, _token);
+
+  // See Interior.tsx — the world feed opens the player modal, so it has to be
+  // mounted here too.
+  const { visitorId, farmId, visitorState, state } =
+    gameService.getSnapshot().context;
+  const loggedInFarmId = visitorId ?? farmId;
+  const hasAirdropAccess = hasFeatureAccess(
+    visitorState ?? state,
+    "AIRDROP_PLAYER",
+  );
   const { collectibles, positions: levelOnePositions } = useSelector(
     gameService,
     _levelOneCollectibles,
@@ -450,6 +467,12 @@ export const LevelOne: React.FC = () => {
       {!landscaping && !isVisiting && <Hud isFarming location="level_one" />}
       {landscaping && <LandscapingHud location="level_one" />}
       {isVisiting && <VisitingHud />}
+
+      <PlayerModal
+        loggedInFarmId={loggedInFarmId}
+        token={token}
+        hasAirdropAccess={hasAirdropAccess}
+      />
     </>
   );
 };
