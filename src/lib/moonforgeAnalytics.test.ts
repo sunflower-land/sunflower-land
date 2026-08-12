@@ -41,6 +41,14 @@ describe("moonforgeAnalytics", () => {
   });
 
   describe("after the SDK is initialised", () => {
+    // Events are buffered until the player is identified, so that
+    // session_start and other boot-time events can be attributed to the
+    // account rather than an anonymous id. These cases assert the envelope
+    // and delivery, so they start from the identified state.
+    beforeEach(() => {
+      MoonForgeAnalytics.markIdentified();
+    });
+
     beforeAll(() => {
       MoonForgeAnalytics.init({
         gameId: TEST_GAME_ID,

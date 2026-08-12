@@ -30,6 +30,8 @@ export interface MoonForgeGameState {
 }
 
 export const MoonForgeAnalytics: {
+  markIdentified(): void;
+  resetBuffering(): void;
   init(options: MoonForgeInitOptions): MoonForgeInitOptions | undefined;
   trackEvent(
     name: string,
