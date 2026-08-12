@@ -83,6 +83,10 @@ describe("login step marker", () => {
   });
 
   it("emits once across an initial load followed by REFRESH", () => {
+    const trackEventSpy = jest.spyOn(MoonForgeAnalytics, "trackEvent");
+
+    // Mirrors the guard in gameMachine's initialiseAnalytics, which runs on
+    // every session load including REFRESH.
     const emit = (farmId: number) => {
       if (!hasCompletedLoginStep(farmId)) {
         markLoginStepCompleted(farmId);
@@ -95,6 +99,13 @@ describe("login step marker", () => {
     expect(emit(123)).toBe(true);
     expect(emit(123)).toBe(false);
     expect(emit(123)).toBe(false);
+
+    // The boolean alone would pass even if the event were never sent, so
+    // assert on the tracker itself.
+    expect(trackEventSpy).toHaveBeenCalledTimes(1);
+    expect(trackEventSpy).toHaveBeenCalledWith("tutorial_step_completed", {
+      step: "login",
+    });
   });
 
   it("scopes the marker per account, so a second farm still records its first login", () => {
