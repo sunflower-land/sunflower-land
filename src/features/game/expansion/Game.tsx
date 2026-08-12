@@ -25,6 +25,7 @@ import { Swarming } from "../components/Swarming";
 import { Cooldown } from "../components/Cooldown";
 import { Route, Routes } from "react-router";
 import { Land } from "./Land";
+import { PhaserLand } from "./phaser/PhaserLand";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
 
@@ -423,6 +424,8 @@ const GameContent: React.FC = () => {
           </Route>
           {/* Legacy route */}
           <Route path="/farm" element={<Land />} />
+          {/* MVP canvas port of the Land render layer (crops only) */}
+          <Route path="/farm-phaser" element={<PhaserLand />} />
           <Route path="/home" element={<Home />} />
           {hasAccess("GreenHouse") && (
             <Route path="/greenhouse" element={<GreenhouseInside />} />
