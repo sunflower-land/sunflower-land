@@ -1,5 +1,5 @@
 import { SUNNYSIDE } from "assets/sunnyside";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
@@ -72,6 +72,7 @@ import { LockedOrderCard } from "./LockedOrderCard";
 import { pixelVibrantBorderStyle } from "features/game/lib/style";
 import { getChapterTaskPoints } from "features/game/types/tracks";
 import { hasTimeBasedFeatureAccess } from "lib/flags";
+import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -137,6 +138,8 @@ export const DeliveryOrders: React.FC<Props> = ({
 
   const [showSkipDialog, setShowSkipDialog] = useState(false);
   const [isRevealing, setIsRevealing] = useState(false);
+  const [showTicketBoosts, setShowTicketBoosts] = useState(false);
+  const ticketBoostsAnchorRef = useRef<HTMLDivElement>(null);
 
   const now = useNow({ live: true });
   const chapterTicket = getChapterTicket(now);
@@ -274,11 +277,12 @@ export const DeliveryOrders: React.FC<Props> = ({
     )
     .find((npc) => isBelowLevel(NPC_DELIVERY_LEVELS[npc]));
 
-  const { amount: baseTickets } = generateDeliveryTickets({
-    game: state,
-    npc: previewOrder.from,
-    now,
-  });
+  const { amount: baseTickets, boostsUsed: ticketBoostsUsed } =
+    generateDeliveryTickets({
+      game: state,
+      npc: previewOrder.from,
+      now,
+    });
 
   // During ticket freeze (holiday), quest ticket deliveries are blocked.
   // Coin deliveries can still be completed but award 0 tickets.
@@ -688,17 +692,40 @@ export const DeliveryOrders: React.FC<Props> = ({
                         </Label>
                       )}
                       {(!!ticketDisplay || isFrozenQuestOrder) && (
-                        <Label
-                          type="warning"
-                          className="whitespace-nowrap"
-                          icon={ITEM_DETAILS[chapterTicket].image}
+                        <div
+                          ref={ticketBoostsAnchorRef}
+                          className={classNames("relative", {
+                            "cursor-pointer": ticketBoostsUsed.length > 0,
+                          })}
+                          onClick={(e) => {
+                            if (ticketBoostsUsed.length === 0) return;
+                            e.stopPropagation();
+                            setShowTicketBoosts((prev) => !prev);
+                          }}
                         >
-                          <span className={!isMobile ? "text-xxs" : ""}>
-                            {`${
-                              isFrozenQuestOrder ? baseTickets : ticketDisplay
-                            } ${chapterTicket}`}
-                          </span>
-                        </Label>
+                          <Label
+                            type="warning"
+                            className="whitespace-nowrap"
+                            icon={ITEM_DETAILS[chapterTicket].image}
+                          >
+                            <span className={!isMobile ? "text-xxs" : ""}>
+                              {`${
+                                isFrozenQuestOrder ? baseTickets : ticketDisplay
+                              } ${chapterTicket}`}
+                            </span>
+                          </Label>
+                          {ticketBoostsUsed.length > 0 && showTicketBoosts && (
+                            <BoostsDisplay
+                              boosts={ticketBoostsUsed}
+                              show={showTicketBoosts}
+                              state={state}
+                              onClick={() => setShowTicketBoosts(false)}
+                              anchorRef={ticketBoostsAnchorRef}
+                              portalAlign="right"
+                              portalPlacement="auto"
+                            />
+                          )}
+                        </div>
                       )}
                     </div>
                   </div>

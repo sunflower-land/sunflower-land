@@ -13,7 +13,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES, type NPCName } from "lib/npcs";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import chapterPoints from "assets/icons/red_medal_short.webp";
 
 import {
@@ -46,6 +46,7 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { useNow } from "lib/utils/hooks/useNow";
 import { pixelVibrantBorderStyle } from "features/game/lib/style";
 import { getChapterTaskPoints } from "features/game/types/tracks";
+import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 
 interface Props {
   state: GameState;
@@ -108,7 +109,7 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
   const chapterTicket = getChapterTicket(now);
   const chapter = getCurrentChapter(now);
 
-  const rewards = generateChoreRewards({
+  const { items: rewards } = generateChoreRewards({
     game: state,
     chore: previewChore as NpcChore,
     now: new Date(),
@@ -417,16 +418,40 @@ export const ChoreRewardLabel: React.FC<{
 }> = ({ chore, state }) => {
   const now = useNow();
   const ticket = getChapterTicket(now);
+  const [showBoosts, setShowBoosts] = useState(false);
+  const boostsAnchorRef = useRef<HTMLDivElement>(null);
 
   if (chore.reward.items[ticket]) {
+    const { items, boostsUsed } = generateChoreRewards({
+      game: state,
+      chore,
+      now: new Date(),
+    });
+    const isBoosted = boostsUsed.length > 0;
+
     return (
-      <Label type={"warning"} icon={ITEM_DETAILS[ticket].image}>
-        {generateChoreRewards({
-          game: state,
-          chore,
-          now: new Date(),
-        })[ticket] ?? 0}
-      </Label>
+      <div
+        ref={boostsAnchorRef}
+        className={classNames("relative", { "cursor-pointer": isBoosted })}
+        onClick={(e) => {
+          if (!isBoosted) return;
+          e.stopPropagation();
+          setShowBoosts((prev) => !prev);
+        }}
+      >
+        <Label type={"warning"} icon={ITEM_DETAILS[ticket].image}>
+          {items[ticket] ?? 0}
+        </Label>
+        {isBoosted && showBoosts && (
+          <BoostsDisplay
+            boosts={boostsUsed}
+            show={showBoosts}
+            state={state}
+            onClick={() => setShowBoosts(false)}
+            anchorRef={boostsAnchorRef}
+          />
+        )}
+      </div>
     );
   }
 

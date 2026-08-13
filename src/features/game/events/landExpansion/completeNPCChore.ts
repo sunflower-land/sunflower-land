@@ -1,5 +1,9 @@
 import Decimal from "decimal.js-light";
-import type { GameState, InventoryItemName } from "features/game/types/game";
+import type {
+  BoostName,
+  GameState,
+  InventoryItemName,
+} from "features/game/types/game";
 import {
   getChoreProgress,
   NPC_CHORES,
@@ -151,7 +155,7 @@ export function completeNPCChore({
     // Mark chore as completed
     chore.completedAt = createdAt;
 
-    const items = generateChoreRewards({
+    const { items } = generateChoreRewards({
       game: draft,
       chore,
       now: new Date(createdAt),
@@ -236,17 +240,23 @@ export function generateChoreRewards({
   game: GameState;
   chore: NpcChore;
   now: Date;
-}) {
-  if (!chore) return {};
+}): {
+  items: Partial<Record<InventoryItemName, number>>;
+  boostsUsed: { name: BoostName; value: string }[];
+} {
+  const boostsUsed: { name: BoostName; value: string }[] = [];
+
+  if (!chore) return { items: {}, boostsUsed };
 
   const items = Object.assign({}, chore.reward.items) ?? {};
 
   const ticket = getChapterTicket(now.getTime());
-  if (!items[ticket]) return items;
+  if (!items[ticket]) return { items, boostsUsed };
   let amount = items[ticket] ?? 0;
 
   if (hasVipAccess({ game, now: now.getTime() })) {
     amount += 2;
+    boostsUsed.push({ name: "VIP Access", value: "+2" });
   }
   const chapter = getCurrentChapter(now.getTime());
   const chapterBoost = CHAPTER_TICKET_BOOST_ITEMS[chapter];
@@ -255,15 +265,17 @@ export function generateChoreRewards({
     if (isCollectible(item)) {
       if (isCollectibleBuilt({ game, name: item })) {
         amount += 1;
+        boostsUsed.push({ name: item, value: "+1" });
       }
     } else {
       if (isWearableActive({ game, name: item })) {
         amount += 1;
+        boostsUsed.push({ name: item, value: "+1" });
       }
     }
   });
 
   items[ticket] = amount;
 
-  return items;
+  return { items, boostsUsed };
 }

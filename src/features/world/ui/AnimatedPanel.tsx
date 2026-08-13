@@ -22,8 +22,19 @@ export const AnimatedPanel: React.FC<PropsWithChildren<Props>> = ({
     <>
       {onBackdropClick && show && (
         <div
-          className="fixed inset-0 z-30"
+          // onClick alone is unreliable on mobile Safari for a plain
+          // (non-button) div — taps outside the panel could be silently
+          // swallowed, leaving the trigger itself as the only way to
+          // close. onTouchEnd covers touch input directly; preventDefault
+          // stops it from also firing a synthetic click on whatever it
+          // lands on underneath.
+          className="fixed inset-0 z-30 cursor-pointer"
           onClick={(event) => {
+            event.stopPropagation();
+            onBackdropClick();
+          }}
+          onTouchEnd={(event) => {
+            event.preventDefault();
             event.stopPropagation();
             onBackdropClick();
           }}
