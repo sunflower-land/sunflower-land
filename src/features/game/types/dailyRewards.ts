@@ -125,6 +125,13 @@ const POTION_XP_CURVE_TUNING = 1.5;
 const LN_200 = Math.log(200);
 
 /**
+ * Day-5 (Growth Feast) XP for ascended players, granted per total Bumpkin level.
+ * Linear (not band-XP-scaled) so the reward stays ascension-aware and monotonic
+ * without compounding — see `WEEKLY_REWARDS` for why the legacy curve can't be used.
+ */
+const DAILY_XP_PER_TOTAL_LEVEL = 1000;
+
+/**
  * Calculates:
  * L3 + 0.42 * ((ln(200) - ln(value)) / ln(200)) ^ L2
  */
@@ -143,21 +150,23 @@ export function calculateXPPotion(
 const WEEKLY_REWARDS: (game: GameState) => DailyRewardDefinition[] = (
   game: GameState,
 ) => {
+  const ascensionLevel = game.island.ascensionLevel ?? 0;
   const ascension = getAscensionLevel({
     experience: game.bumpkin.experience ?? 0,
-    ascensionLevel: game.island.ascensionLevel ?? 0,
+    ascensionLevel,
   });
-  // Monotonic total level (ascension-aware) — the reward curve below is keyed to the
-  // historical 1..200 scale, so an ascended player must read as 150+, not their 1..50
-  // within-ascension level. Clamped at MAX_BUMPKIN_LEVEL to keep calculateXPPotion in domain.
+  // Monotonic total level (ascension-aware): 1..150 pre-ascension, then +50 per band
+  // (A1 L1 → 151, A1 L50 → 200, A2 L50 → 250, …). Uncapped — every scaled reward (tools,
+  // coins) must keep growing with ascension, so A2 L50 reads 250, not a 200-clamped 200.
   // Mirror of the backend (`domain/game/types/dailyRewards.ts`).
-  const level = Math.min(
-    getTotalBumpkinLevel({
-      experience: game.bumpkin.experience ?? 0,
-      ascensionLevel: game.island.ascensionLevel ?? 0,
-    }),
-    MAX_BUMPKIN_LEVEL,
-  );
+  const totalLevel = getTotalBumpkinLevel({
+    experience: game.bumpkin.experience ?? 0,
+    ascensionLevel,
+  });
+  // `calculateXPPotion` is only defined on the historical 1..200 domain (its ln term goes
+  // negative past 200). Non-ascended players never exceed 150, so this clamp is just a
+  // safety net for that one call — item/coin scaling reads the uncapped `totalLevel`.
+  const potionLevel = Math.min(totalLevel, MAX_BUMPKIN_LEVEL);
   const { experienceToNextLevel } = getExperienceToNextLevel(
     game.bumpkin?.experience ?? 0,
   );
@@ -167,7 +176,17 @@ const WEEKLY_REWARDS: (game: GameState) => DailyRewardDefinition[] = (
     return Math.max(1, Math.floor(base * baseMultiplier));
   };
 
-  const day2Xp = calculateXPPotion(level, experienceToNextLevel);
+  // Day-5 (Growth Feast) XP. Pre-ascension keeps the historical fraction-of-next-level
+  // curve. Once ascended, that curve is unusable: `getExperienceToNextLevel` caps at
+  // level 150 (a flat 2,290,000) and `calculateXPPotion`'s percentage pins to its 0.04
+  // floor once total level clamps at 200 — so every ascended player got an identical,
+  // ascension-blind 91,600 (A1 L50 == A2 L50). Instead scale linearly off the monotonic
+  // total level: ascension-aware, a bump (not a drop) at the ascension boundary, and a
+  // low linear — not band-XP-exponential — curve so this one chest can't compound XP.
+  const day2Xp =
+    ascensionLevel >= 1
+      ? DAILY_XP_PER_TOTAL_LEVEL * totalLevel
+      : calculateXPPotion(potionLevel, experienceToNextLevel);
 
   const loveBox = (() => {
     if (meetsLevelRequirement(ascension, { ascension: 0, level: 101 })) {
@@ -185,9 +204,9 @@ const WEEKLY_REWARDS: (game: GameState) => DailyRewardDefinition[] = (
       id: "weekly-day-1-tool-cache",
       label: "Tool Cache",
       items: {
-        Axe: scaleAmount(5, level / 25),
-        Pickaxe: scaleAmount(2, level / 25),
-        "Stone Pickaxe": scaleAmount(1, level / 25),
+        Axe: scaleAmount(5, totalLevel / 25),
+        Pickaxe: scaleAmount(2, totalLevel / 25),
+        "Stone Pickaxe": scaleAmount(1, totalLevel / 25),
       },
     },
     {
@@ -206,9 +225,9 @@ const WEEKLY_REWARDS: (game: GameState) => DailyRewardDefinition[] = (
       id: "weekly-day-4-angler-pack",
       label: "Angler Pack",
       items: {
-        Rod: scaleAmount(5, Math.max(1, Math.floor(level / 25))),
-        Earthworm: scaleAmount(3, Math.max(1, Math.floor(level / 25))),
-        Grub: scaleAmount(2, Math.max(1, Math.floor(level / 25))),
+        Rod: scaleAmount(5, Math.max(1, Math.floor(totalLevel / 25))),
+        Earthworm: scaleAmount(3, Math.max(1, Math.floor(totalLevel / 25))),
+        Grub: scaleAmount(2, Math.max(1, Math.floor(totalLevel / 25))),
       },
     },
     {
@@ -219,7 +238,7 @@ const WEEKLY_REWARDS: (game: GameState) => DailyRewardDefinition[] = (
     {
       id: "weekly-day-6-coin-stash",
       label: "Coin Stash",
-      coins: Math.floor(500 * (level / 25)),
+      coins: Math.floor(500 * (totalLevel / 25)),
     },
     {
       id: "weekly-mega-box",
