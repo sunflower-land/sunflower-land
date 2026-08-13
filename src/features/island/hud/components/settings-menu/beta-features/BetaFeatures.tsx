@@ -6,7 +6,7 @@ import type { ContentComponentProps } from "../types";
 export const BetaFeatures: React.FC<ContentComponentProps> = () => {
   const { t } = useAppTranslation();
 
-  const features = BETA_FEATURE_NAMES.filter((name) => name !== "JEST_TEST");
+  const features = BETA_FEATURE_NAMES.filter((name) => !name.endsWith("_TEST"));
 
   return (
     <div className="flex flex-col gap-2 m-1 min-h-[200px] content-start">
