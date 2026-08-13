@@ -1,11 +1,9 @@
 import React, { useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { SplitScreenView } from "components/ui/SplitScreenView";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
-import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { Button } from "components/ui/Button";
 import { getKeys } from "lib/object";
 import {
@@ -13,11 +11,9 @@ import {
   ANIMALS,
   type AnimalType,
 } from "features/game/types/animals";
-import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import type { AnimalBounty, AnimalBuildingKey } from "features/game/types/game";
-import Decimal from "decimal.js-light";
 import {
   getAscensionLevel,
   meetsLevelRequirement,
@@ -32,15 +28,16 @@ import {
   getAnimalMaturityTimeForDisplay,
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
-import { AnimalBounties } from "features/barn/components/AnimalBounties";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import classNames from "classnames";
-import { isMobile } from "mobile-device-detect";
 import { SICK_ANIMAL_REWARD_MULTIPLIER } from "features/game/events/landExpansion/sellAnimal";
 import { formatNumber } from "lib/utils/formatNumber";
 import { SquareIcon } from "components/ui/SquareIcon";
+import { AnimalBounties } from "features/barn/components/AnimalBounties";
+import { RequirementLabel } from "components/ui/RequirementsLabel";
+import { secondsToString } from "lib/utils/time";
 
 function acknowledgeIntro() {
   localStorage.setItem(
@@ -65,6 +62,8 @@ type Props = {
   buildingName: AnimalBuildingType;
   onClose: () => void;
   onExchanging: (deal: AnimalBounty) => void;
+  sellContent?: React.ReactNode;
+  onTabChange?: (tab: "buy" | "sell" | "guide") => void;
 };
 
 const _state = (state: MachineState) => state.context.state;
@@ -76,6 +75,8 @@ export const AnimalBuildingModal: React.FC<Props> = ({
   buildingName,
   onClose,
   onExchanging,
+  sellContent,
+  onTabChange,
 }) => {
   const { gameService } = useContext(Context);
   const [showIntro, setShowIntro] = useState(!hasReadIntro());
@@ -83,8 +84,6 @@ export const AnimalBuildingModal: React.FC<Props> = ({
   const [currentTab, setCurrentTab] = useState<Tab>(
     !hasReadGuide() ? "guide" : "buy",
   );
-  const [showTimeBoosts, setShowTimeBoosts] = useState(false);
-
   const state = useSelector(gameService, _state);
   const bumpkin = useSelector(gameService, _bumpkin);
   // camelCase buildingKey eg. henHouse
@@ -97,12 +96,10 @@ export const AnimalBuildingModal: React.FC<Props> = ({
     (animal) => ANIMALS[animal].buildingRequired === buildingName,
   );
 
-  const [selectedName, setSelectedName] = useState<AnimalType>(animals[0]);
-
-  const handleBuyAnimal = () => {
+  const handleBuyAnimal = (animal: AnimalType) => {
     gameService.send({
       type: "animal.bought",
-      animal: selectedName,
+      animal,
       id: uuidv4().slice(0, 8),
     });
   };
@@ -122,17 +119,8 @@ export const AnimalBuildingModal: React.FC<Props> = ({
     ascensionLevel: state.island.ascensionLevel ?? 0,
   });
 
-  const hasRequiredLevel = () =>
-    meetsLevelRequirement(ascension, ANIMALS[selectedName].levelRequired);
-
-  const atMaxCapacity =
-    getTotalAnimalsInBuilding() >=
-    getBoostedAnimalCapacity(buildingKey, state).capacity;
-
-  const maturityTime = getAnimalMaturityTimeForDisplay({
-    animalType: selectedName,
-    game: state,
-  });
+  const capacity = getBoostedAnimalCapacity(buildingKey, state).capacity;
+  const atMaxCapacity = getTotalAnimalsInBuilding() >= capacity;
 
   if (showIntro) {
     return (
@@ -194,89 +182,102 @@ export const AnimalBuildingModal: React.FC<Props> = ({
         },
       ]}
       currentTab={currentTab}
-      setCurrentTab={setCurrentTab}
-      className="relative"
+      setCurrentTab={(tab) => {
+        if (typeof tab === "function") return;
+        setCurrentTab(tab);
+        onTabChange?.(tab);
+      }}
+      className="relative max-h-[50vh]"
       container={OuterPanel}
     >
       {currentTab === "buy" && (
-        <SplitScreenView
-          panel={
-            <CraftingRequirements
-              gameState={state}
-              details={{
-                item: selectedName,
-              }}
-              requirements={{
-                coins: ANIMALS[selectedName].coins,
-                showCoinsIfFree: true,
-                timeSeconds: Math.ceil(maturityTime.maturityTimeMs / 1000),
-                baseTimeSeconds: Math.ceil(maturityTime.baseTimeMs / 1000),
-                timeBoostsUsed: maturityTime.boostsUsed,
-                level: ANIMALS[selectedName].levelRequired,
-              }}
-              showTimeBoosts={showTimeBoosts}
-              setShowTimeBoosts={setShowTimeBoosts}
-              label={
-                atMaxCapacity ? (
-                  <Label type="danger">
-                    {t("animals.buildingIsFull", { buildingName })}
-                  </Label>
-                ) : undefined
-              }
-              actionView={
-                <Button
-                  disabled={!hasRequiredLevel || atMaxCapacity}
-                  onClick={handleBuyAnimal}
-                  className="w-full"
-                >
-                  {t("animals.buy", { animal: selectedName })}
-                </Button>
-              }
-            />
-          }
-          content={
-            <div className="pl-1">
-              <div
-                className={classNames("flex flex-wrap", {
-                  "mb-8": isMobile,
-                })}
-              >
-                {animals.map((name: AnimalType) => (
-                  <Box
-                    isSelected={selectedName === name}
-                    key={name}
-                    onClick={() => {
-                      setSelectedName(name);
-                      setShowTimeBoosts(false);
-                    }}
-                    image={ITEM_DETAILS[name].image}
-                    showOverlay={!hasRequiredLevel()}
-                    secondaryImage={
-                      !hasRequiredLevel() ? SUNNYSIDE.icons.lock : undefined
-                    }
-                    count={new Decimal(getAnimalCount(name))}
-                  />
-                ))}
-              </div>
-              <Label
-                type={atMaxCapacity ? "danger" : "info"}
-                className="mt-1 sm:mt-0 sm:absolute sm:bottom-2 sm:left-2"
-              >
-                {`${getTotalAnimalsInBuilding()}/${
-                  getBoostedAnimalCapacity(buildingKey, state).capacity
-                } ${t("capacity")}`}
+        <InnerPanel className="p-1">
+          <div className="flex items-center justify-between mb-1">
+            <Label type={atMaxCapacity ? "danger" : "info"}>
+              {`${getTotalAnimalsInBuilding()}/${capacity} ${t("capacity")}`}
+            </Label>
+            {atMaxCapacity && (
+              <Label type="danger">
+                {t("animals.buildingIsFull", { buildingName })}
               </Label>
-            </div>
-          }
-        />
+            )}
+          </div>
+
+          <div
+            className={classNames("grid gap-1", {
+              "grid-cols-1": animals.length === 1,
+              "grid-cols-1 sm:grid-cols-2": animals.length > 1,
+            })}
+          >
+            {animals.map((name) => {
+              const details = ANIMALS[name];
+              const hasRequiredLevel = meetsLevelRequirement(
+                ascension,
+                details.levelRequired,
+              );
+              const maturityTime = getAnimalMaturityTimeForDisplay({
+                animalType: name,
+                game: state,
+              });
+
+              return (
+                <InnerPanel key={name} className="p-1 flex flex-col">
+                  <div className="flex flex-1 items-center gap-2">
+                    <div className="relative flex-none px-2">
+                      <img src={ITEM_DETAILS[name].image} className="w-12" />
+                      <Label
+                        type="default"
+                        className="absolute -top-1 -right-1"
+                      >
+                        {getAnimalCount(name)}
+                      </Label>
+                    </div>
+
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm mb-1">{name}</p>
+                      <p className="text-xxs mb-2">
+                        {ITEM_DETAILS[name].description}
+                      </p>
+                      <div className="flex flex-wrap items-center gap-y-1 gap-x-2 pl-2">
+                        <Label type="warning" icon={SUNNYSIDE.ui.coinsImg}>
+                          {details.coins}
+                        </Label>
+                        <Label type="default" icon={SUNNYSIDE.icons.stopwatch}>
+                          {secondsToString(
+                            Math.ceil(maturityTime.maturityTimeMs / 1000),
+                            { length: "short" },
+                          )}
+                        </Label>
+                        <RequirementLabel
+                          type="level"
+                          currentLevel={ascension}
+                          requirement={details.levelRequired}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <Button
+                    disabled={!hasRequiredLevel || atMaxCapacity}
+                    onClick={() => handleBuyAnimal(name)}
+                    className="w-full mt-2"
+                  >
+                    {t("animals.buy", { animal: name })}
+                  </Button>
+                </InnerPanel>
+              );
+            })}
+          </div>
+        </InnerPanel>
       )}
 
-      {currentTab === "sell" && (
-        <AnimalBounties
-          type={buildingName === "Barn" ? ["Cow", "Sheep"] : ["Chicken"]}
-          onExchanging={onExchanging}
-        />
-      )}
+      {currentTab === "sell" &&
+        (sellContent ?? (
+          <AnimalBounties
+            type={buildingName === "Barn" ? ["Cow", "Sheep"] : ["Chicken"]}
+            onExchanging={onExchanging}
+          />
+        ))}
 
       {currentTab === "guide" && (
         <>
