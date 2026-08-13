@@ -2,8 +2,8 @@ import type { GiveawayLeaderboardResponse } from "./types";
 
 /**
  * The mini-game lifecycle, derived from the server giveaway status + the clock.
- * This is the reusable layer shared by every giveaway mini-game (race, and
- * future puzzle/trivia); only the Phaser scene differs per type.
+ * This is the reusable layer shared by every giveaway mini-game (race, chop,
+ * jumper, trivia); only the Phaser scene differs per type.
  *
  * loading  - board not yet fetched
  * lobby    - joined, paused, waiting for the event to start (status upcoming)

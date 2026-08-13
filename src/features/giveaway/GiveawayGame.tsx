@@ -28,10 +28,8 @@ import {
   prizeForPosition,
 } from "./ui/GiveawayLeaderboard";
 import { RaceButtons } from "./ui/RaceButtons";
-import { EggButtons } from "./ui/EggButtons";
 import { JumpButton } from "./ui/JumpButton";
 import { TriviaPanel } from "./ui/TriviaPanel";
-import { FishButton } from "./ui/FishButton";
 import { GameLeaderboard } from "./ui/GameLeaderboard";
 import {
   type MinigameType,
@@ -39,10 +37,8 @@ import {
   GIVEAWAY_MINIGAMES,
 } from "./lib/minigames";
 import type { RaceControls } from "./lib/raceControls";
-import type { EggControls } from "./lib/eggControls";
 import type { JumpControls } from "./lib/jumpControls";
 import type { TriviaControls } from "./lib/triviaControls";
-import type { FishingControls } from "./lib/fishingControls";
 import { syncServerClock, resetServerClock } from "./lib/serverClock";
 
 export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
@@ -153,7 +149,7 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
 
   // The per-game input channel shared with the Phaser scene, created exactly
   // once (a stable object, so the Phaser game never re-mounts). Race uses a
-  // colour target + a press queue; Egg Catch uses a held direction.
+  // colour target + a press queue; Jumper counts taps.
   const [raceTarget, setRaceTarget] = useState<number | null>(null);
   // Latest resolved press, for button feedback. `nonce` bumps every press so the
   // HUD re-animates even when the same button is hit twice in a row.
@@ -162,64 +158,44 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
     correct: boolean;
     nonce: number;
   }>();
-  const [controls] = useState<
-    RaceControls | EggControls | JumpControls | TriviaControls | FishingControls
-  >(() => {
-    if (minigame === "eggs") {
-      // Mutated through `set` (a method) rather than by assignment, so the
-      // scene reads a live `move` without tripping the no-mutate-state rule.
-      const egg: EggControls = {
-        move: 0,
-        set: (dir) => {
-          egg.move = dir;
-        },
+  const [controls] = useState<RaceControls | JumpControls | TriviaControls>(
+    () => {
+      if (minigame === "trivia") {
+        // Mutated through `pick` (a method) rather than by assignment, so the
+        // scene reads a live answer without tripping the no-mutate-state rule.
+        const trivia: TriviaControls = {
+          pending: null,
+          picked: null,
+          lastResult: null,
+          pick: (answer) => {
+            trivia.pending = answer;
+          },
+        };
+        return trivia;
+      }
+      if (minigame === "jump") {
+        const jumpControls: JumpControls = {
+          taps: 0,
+          theta: 0,
+          lastTap: null,
+          tap: () => {
+            jumpControls.taps += 1;
+          },
+        };
+        return jumpControls;
+      }
+      return {
+        setTarget: setRaceTarget,
+        queue: [],
+        onFeedback: (color, correct) =>
+          setRaceFeedback((prev) => ({
+            color,
+            correct,
+            nonce: (prev?.nonce ?? 0) + 1,
+          })),
       };
-      return egg;
-    }
-    if (minigame === "trivia") {
-      const trivia: TriviaControls = {
-        pending: null,
-        picked: null,
-        lastResult: null,
-        pick: (answer) => {
-          trivia.pending = answer;
-        },
-      };
-      return trivia;
-    }
-    if (minigame === "fishing") {
-      const fishing: FishingControls = {
-        casts: 0,
-        lastResult: null,
-        casting: false,
-        cast: () => {
-          fishing.casts += 1;
-        },
-      };
-      return fishing;
-    }
-    if (minigame === "jump") {
-      const jumpControls: JumpControls = {
-        taps: 0,
-        theta: 0,
-        lastTap: null,
-        tap: () => {
-          jumpControls.taps += 1;
-        },
-      };
-      return jumpControls;
-    }
-    return {
-      setTarget: setRaceTarget,
-      queue: [],
-      onFeedback: (color, correct) =>
-        setRaceFeedback((prev) => ({
-          color,
-          correct,
-          nonce: (prev?.nonce ?? 0) + 1,
-        })),
-    };
-  });
+    },
+  );
 
   // The management / results panel, opened from the disc button. It defaults to
   // open once the event finishes (so results surface without a tap); once the
@@ -311,11 +287,6 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
           </>
         )}
 
-      {/* Egg Catch: mobile left/right (also driven by arrows / A-D in the scene) */}
-      {minigame === "eggs" && phase === "racing" && !finished && (
-        <EggButtons onMove={(dir) => (controls as EggControls).set(dir)} />
-      )}
-
       {/* Jumper: tap button with the spinning ring (also driven by SPACE) */}
       {minigame === "jump" && phase === "racing" && !finished && (
         <JumpButton controls={controls as JumpControls} />
@@ -324,11 +295,6 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
       {/* Trivia: question + four answer buttons (also 1-4 keys in the scene) */}
       {minigame === "trivia" && phase === "racing" && !finished && (
         <TriviaPanel controls={controls as TriviaControls} />
-      )}
-
-      {/* Fishing: tap to cast (also SPACE in the scene) */}
-      {minigame === "fishing" && phase === "racing" && !finished && (
-        <FishButton controls={controls as FishingControls} />
       )}
 
       {/* Status banner + the big 30s race clock */}
@@ -352,10 +318,7 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
           )}
           {/* Point-based games show a live score, in HTML so it stays crisp. */}
           {phase === "racing" &&
-            (minigame === "chop" ||
-              minigame === "eggs" ||
-              minigame === "jump" ||
-              minigame === "fishing") && (
+            (minigame === "chop" || minigame === "jump") && (
               <span
                 className="font-secondary text-white"
                 style={{
@@ -429,24 +392,10 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
         </div>
       )}
 
-      {/* Egg Catch instructions (sits above the corner move buttons) */}
-      {minigame === "eggs" && phase === "racing" && !finished && (
-        <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-10">
-          <Label type="vibrant">{t("giveaway.eggHint")}</Label>
-        </div>
-      )}
-
       {/* Jumper instructions (sits above the tap button) */}
       {minigame === "jump" && phase === "racing" && !finished && (
         <div className="absolute bottom-40 left-1/2 -translate-x-1/2 z-10">
           <Label type="vibrant">{t("giveaway.jumpHint")}</Label>
-        </div>
-      )}
-
-      {/* Fishing instructions (sits above the cast button) */}
-      {minigame === "fishing" && phase === "racing" && !finished && (
-        <div className="absolute bottom-40 left-1/2 -translate-x-1/2 z-10">
-          <Label type="vibrant">{t("giveaway.fishHint")}</Label>
         </div>
       )}
 

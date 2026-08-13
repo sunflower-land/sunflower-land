@@ -197,14 +197,6 @@ export const SPAWNS: () => SpawnLocation = () => ({
       y: 208,
     },
   },
-  // Egg Catch: everyone shares one spawn so they share the same field; the
-  // catch line sits here with ~150px of room above for eggs to fall into.
-  giveaway_eggs: {
-    default: {
-      x: 400,
-      y: 300,
-    },
-  },
   // Jumper: everyone starts on the same base line and climbs straight up from
   // here (lower on the map so there's headroom above to rise into).
   giveaway_jump: {
@@ -219,14 +211,6 @@ export const SPAWNS: () => SpawnLocation = () => ({
     default: {
       x: 400,
       y: 240,
-    },
-  },
-  // Fishing: everyone sits along the bank above a horizontal river; the scene
-  // re-places each angler at a seeded random X along it (see FishingScene).
-  giveaway_fishing: {
-    default: {
-      x: 400,
-      y: 200,
     },
   },
 });

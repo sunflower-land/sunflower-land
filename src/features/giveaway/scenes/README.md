@@ -5,7 +5,7 @@ stream. An admin sets one up, players join, everyone plays the **same game at th
 same time**, scores are submitted, and winners claim prizes.
 
 This folder holds the Phaser **scenes** — one per mini-game (`RaceScene`,
-`ChopScene`, `EggScene`, `JumpScene`). This doc is the short version of how the
+`ChopScene`, `JumpScene`, `TriviaScene`). This doc is the short version of how the
 whole thing hangs together so a new game can be spun up quickly.
 
 ---
@@ -148,8 +148,8 @@ class — Phaser only). Adding a game is: **one config entry + one scene.**
 >
 > - **Race** — colour buttons: `RaceControls` (`setTarget` + a press `queue`) /
 >   [`RaceButtons`](../ui/RaceButtons.tsx).
-> - **Egg Catch** — left/right: `EggControls` (a held `move` + `set`) /
->   [`EggButtons`](../ui/EggButtons.tsx).
+> - **Jumper** — one tap button: `JumpControls` (a `taps` counter + `tap`) /
+>   [`JumpButton`](../ui/JumpButton.tsx).
 >
 > Note the lint quirk: the shared object comes from `useState`, so mutate it
 > through a **method** (`queue.push(...)`, `set(...)`) — never by assignment.

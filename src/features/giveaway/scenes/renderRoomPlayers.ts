@@ -23,15 +23,12 @@ export function inThisGiveaway(scene: BaseScene, player: Player): boolean {
  * broadcast. Players tagged with a different `giveawayId` (a concurrent or
  * previous game they never left) are filtered out. Falls back to a default
  * outfit if the room doesn't replicate `clothing`.
- *
- * `pinY` fixes every remote's Y to a constant (used by Egg Catch, whose players
- * broadcast their SCORE as the Y coordinate rather than a real height).
  */
 export function renderRoomPlayers(
   scene: BaseScene,
-  opts: { lerp?: number; pinY?: number } = {},
+  opts: { lerp?: number } = {},
 ) {
-  const { lerp = 0.2, pinY } = opts;
+  const { lerp = 0.2 } = opts;
   const server = scene.mmoServer;
   if (!server) return;
 
@@ -46,7 +43,7 @@ export function renderRoomPlayers(
     if (sessionId === server.sessionId) return;
     if (!inThisGiveaway(scene, player)) return;
 
-    const targetY = pinY ?? player.y;
+    const targetY = player.y;
 
     let entity = scene.playerEntities[sessionId];
     if (!entity) {
