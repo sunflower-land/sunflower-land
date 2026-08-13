@@ -697,8 +697,27 @@ export const DeliveryOrders: React.FC<Props> = ({
                           className={classNames("relative", {
                             "cursor-pointer": ticketBoostsUsed.length > 0,
                           })}
+                          role={
+                            ticketBoostsUsed.length > 0 ? "button" : undefined
+                          }
+                          tabIndex={ticketBoostsUsed.length > 0 ? 0 : undefined}
+                          aria-expanded={
+                            ticketBoostsUsed.length > 0
+                              ? showTicketBoosts
+                              : undefined
+                          }
                           onClick={(e) => {
                             if (ticketBoostsUsed.length === 0) return;
+                            e.stopPropagation();
+                            setShowTicketBoosts((prev) => !prev);
+                          }}
+                          onKeyDown={(e) => {
+                            if (
+                              ticketBoostsUsed.length === 0 ||
+                              (e.key !== "Enter" && e.key !== " ")
+                            )
+                              return;
+                            e.preventDefault();
                             e.stopPropagation();
                             setShowTicketBoosts((prev) => !prev);
                           }}

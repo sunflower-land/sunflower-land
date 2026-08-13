@@ -673,6 +673,7 @@ const Deal: React.FC<{
   const tickets = generateBountyTicket({
     game: state,
     bounty,
+    now,
   });
   const ticketBoostsUsed = getBountyTicketBoosts({ game: state, bounty, now });
   const [showTicketBoosts, setShowTicketBoosts] = useState(false);
@@ -742,12 +743,7 @@ const Deal: React.FC<{
                       }
                     >
                       {`Reward: ${
-                        isChapterTicket
-                          ? generateBountyTicket({
-                              game: state,
-                              bounty,
-                            })
-                          : bounty.items?.[name]
+                        isChapterTicket ? tickets : bounty.items?.[name]
                       } ${name}s`}
                     </Label>
                   );
@@ -765,7 +761,16 @@ const Deal: React.FC<{
                       key={`${name}-${bounty.id}-reward-label`}
                       ref={ticketBoostsAnchorRef}
                       className="relative cursor-pointer"
+                      role="button"
+                      tabIndex={0}
+                      aria-expanded={showTicketBoosts}
                       onClick={(e) => {
+                        e.stopPropagation();
+                        setShowTicketBoosts((prev) => !prev);
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key !== "Enter" && e.key !== " ") return;
+                        e.preventDefault();
                         e.stopPropagation();
                         setShowTicketBoosts((prev) => !prev);
                       }}

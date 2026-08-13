@@ -433,8 +433,17 @@ export const ChoreRewardLabel: React.FC<{
       <div
         ref={boostsAnchorRef}
         className={classNames("relative", { "cursor-pointer": isBoosted })}
+        role={isBoosted ? "button" : undefined}
+        tabIndex={isBoosted ? 0 : undefined}
+        aria-expanded={isBoosted ? showBoosts : undefined}
         onClick={(e) => {
           if (!isBoosted) return;
+          e.stopPropagation();
+          setShowBoosts((prev) => !prev);
+        }}
+        onKeyDown={(e) => {
+          if (!isBoosted || (e.key !== "Enter" && e.key !== " ")) return;
+          e.preventDefault();
           e.stopPropagation();
           setShowBoosts((prev) => !prev);
         }}
