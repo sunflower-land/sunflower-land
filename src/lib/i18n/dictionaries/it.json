@@ -8356,5 +8356,9 @@
   "buildings.smoothieShack": "Smoothie Shack",
   "confirmation.feedAllFoods": "Dai da mangiare al tuo Bumpkin tutti gli alimenti {{count}} per {{xp}} XP?",
   "confirmation.enterAmountToFeed": "Inserisci l'importo da alimentare:",
-  "description.skillResetTicketWarning": "Non influisce sul prezzo di ripristino delle gemme; il timer gratuito è invariato."
+  "description.skillResetTicketWarning": "Non influisce sul prezzo di ripristino delle gemme; il timer gratuito è invariato.",
+  "withdraw.flower.dailyLimit": "Prelievo massimo di 50.000 FLOWER al giorno.",
+  "gameOptions.experiments.customCursor": "Cursore personalizzato",
+  "gameOptions.experiments.customCursorDescription": "Prova il cursore pixel art. Si preme verso il basso quando fai clic e si illumina su qualsiasi cosa cliccabile.",
+  "gameOptions.experiments.customCursorToggle": "Abilita cursore personalizzato"
 }

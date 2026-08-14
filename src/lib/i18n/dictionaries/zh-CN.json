@@ -8356,5 +8356,9 @@
   "buildings.smoothieShack": "冰沙小屋",
   "confirmation.feedAllFoods": "用 {{xp}} 经验值喂你的 Bumpkin 所有 {{count}} 食物？",
   "confirmation.enterAmountToFeed": "输入要喂养的金额：",
-  "description.skillResetTicketWarning": "不影响宝石重置价格；免费计时器不变。"
+  "description.skillResetTicketWarning": "不影响宝石重置价格；免费计时器不变。",
+  "withdraw.flower.dailyLimit": "每天最多提取 50,000 个 FLOWER。",
+  "gameOptions.experiments.customCursor": "自定义光标",
+  "gameOptions.experiments.customCursorDescription": "试试像素艺术光标。当你点击时它会向下按下，任何可点击的东西都会亮起来。",
+  "gameOptions.experiments.customCursorToggle": "启用自定义光标"
 }

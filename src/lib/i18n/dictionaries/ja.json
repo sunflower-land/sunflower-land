@@ -8356,5 +8356,9 @@
   "buildings.smoothieShack": "スムージーシャック",
   "confirmation.feedAllFoods": "バンプキンに {{count}} 個の食べ物をすべて {{xp}} XPで食べさせますか？",
   "confirmation.enterAmountToFeed": "供給量を入力:",
-  "description.skillResetTicketWarning": "ジェムリセット価格には影響しません。フリータイマーは変わりません。"
+  "description.skillResetTicketWarning": "ジェムリセット価格には影響しません。フリータイマーは変わりません。",
+  "withdraw.flower.dailyLimit": "1日あたり最大5万本のフラワーを引き出すことができます。",
+  "gameOptions.experiments.customCursor": "カスタムカーソル",
+  "gameOptions.experiments.customCursorDescription": "ピクセルアートカーソルを試してみてください。クリックすると押し下げられ、クリック可能なものの上からライトが点灯します。",
+  "gameOptions.experiments.customCursorToggle": "カスタムカーソルを有効にする"
 }
