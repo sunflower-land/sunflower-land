@@ -3,6 +3,7 @@ import Decimal from "decimal.js-light";
 import { sdk } from "@farcaster/miniapp-sdk";
 
 import { initialiseFont } from "./fonts";
+import { initialiseCustomCursor } from "./customCursor";
 import { initMetaPixel } from "lib/analytics/meta";
 import { MoonForgeAnalytics } from "lib/moonforge";
 import { MOONFORGE_GAME_ID } from "lib/moonforgeAnalytics";
@@ -42,6 +43,7 @@ export async function initialise() {
   Decimal.set({ toExpNeg: -30 });
 
   initialiseFont();
+  initialiseCustomCursor();
   initMetaPixel();
   initMoonForge();
 
