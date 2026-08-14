@@ -211,6 +211,8 @@ export const WithdrawFlower: React.FC<Props> = ({
             <WalletAddressLabel walletAddress={address} />
           </div>
         </div>
+
+        <p className="text-xxs mt-3">{t("withdraw.flower.dailyLimit")}</p>
       </div>
 
       <Button

@@ -3814,6 +3814,7 @@
   "withdraw.pet.confirmation1": "Withdrawing will wipe your pet's energy and experience. Are you sure you want to continue?",
   "withdraw.pet.confirmation2": "This withdrawal wipes your pet's energy and experience completely. This action cannot be undone. Proceed?",
   "withdraw.flower.minimumWithdrawal": "Minimum withdrawal amount is 5 FLOWER.",
+  "withdraw.flower.dailyLimit": "Maximum 50,000 FLOWER withdrawal per day.",
   "withdraw.boostedItem.timeLeft": "Withdrawable in {{time}}",
   "withdraw.pet.notRevealed": "Pet will be revealed on {{date}}",
   "withdraw.pet.withdrawableFrom": "Withdrawable from {{date}}",
