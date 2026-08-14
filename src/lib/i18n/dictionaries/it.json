@@ -8360,5 +8360,22 @@
   "withdraw.flower.dailyLimit": "Prelievo massimo di 50.000 FLOWER al giorno.",
   "gameOptions.experiments.customCursor": "Cursore personalizzato",
   "gameOptions.experiments.customCursorDescription": "Prova il cursore pixel art. Si preme verso il basso quando fai clic e si illumina su qualsiasi cosa cliccabile.",
-  "gameOptions.experiments.customCursorToggle": "Abilita cursore personalizzato"
+  "gameOptions.experiments.customCursorToggle": "Abilita cursore personalizzato",
+  "giveaway.pop.title": "Zucca Pop",
+  "giveaway.pop.banked": "{{count}} bancario",
+  "giveaway.pop.rules": "Tocca l'ACQUA per far crescere la tua zucca. I più grandi abbeveratoi non fanno scoppiare niente a quell'altezza, tutti gli altri depositano le proprie acque. Vince il totale più alto dopo cinque round!",
+  "giveaway.pop.topPercent": "Top {{percent}}% di pop in ogni round",
+  "giveaway.pop.round": "Turno {{current}}/{{total}}",
+  "giveaway.pop.water": "ACQUA",
+  "giveaway.pop.hint": "Parchi d'acqua: basta non finire tra i primi 30%!",
+  "giveaway.pop.safe": "Sicuro!",
+  "giveaway.pop.popped": "È SPUNTATO!",
+  "giveaway.pop.safeBy": "Hai innaffiato {{waters}} volte: chiunque su {{cap}} + è saltato fuori.",
+  "giveaway.pop.tooKeen": "Troppo entusiasta: {{waters}} acque e il limite era {{cap}}.",
+  "giveaway.pop.poppedCount": "{{count}} sono spuntate le zucche",
+  "giveaway.pop.waters": "{{count}} acque",
+  "giveaway.pop.andMore": "+ {{count}} altro",
+  "giveaway.pop.bankedRound": "+ {{count}} bancario",
+  "giveaway.pop.bankedNothing": "Niente è andato a ruba in questo round",
+  "giveaway.pop.totalBanked": "Totale bancario: {{count}}"
 }

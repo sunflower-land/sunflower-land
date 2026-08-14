@@ -8360,5 +8360,22 @@
   "withdraw.flower.dailyLimit": "1日あたり最大5万本のフラワーを引き出すことができます。",
   "gameOptions.experiments.customCursor": "カスタムカーソル",
   "gameOptions.experiments.customCursorDescription": "ピクセルアートカーソルを試してみてください。クリックすると押し下げられ、クリック可能なものの上からライトが点灯します。",
-  "gameOptions.experiments.customCursorToggle": "カスタムカーソルを有効にする"
+  "gameOptions.experiments.customCursorToggle": "カスタムカーソルを有効にする",
+  "giveaway.pop.title": "パンプキンポップ",
+  "giveaway.pop.banked": "{{count}} 銀行に預けられています",
+  "giveaway.pop.rules": "水をタップしてカボチャを育ててください。一番大きな水やり者は飛び出して、その周りには何も溜めません。他のみんなは水を溜めます。5ラウンド後に最大の合計が勝ちます！",
+  "giveaway.pop.topPercent": "各ラウンドでトップ {{percent}} %ポップ",
+  "giveaway.pop.round": "ラウンド {{current}}/{{total}}",
+  "giveaway.pop.water": "水",
+  "giveaway.pop.hint": "ウォーターロット — 上位30％に入らないようにしてください！",
+  "giveaway.pop.safe": "安全!",
+  "giveaway.pop.popped": "飛び出した!",
+  "giveaway.pop.safeBy": "{{waters}} 回水をやりました—[ 1@/$] +の誰かが飛び出しました。",
+  "giveaway.pop.tooKeen": "あまりにも鋭い — {{waters}} ウォーターズ、上限は {{cap}} でした。",
+  "giveaway.pop.poppedCount": "{{count}} パンプキンが飛び出した",
+  "giveaway.pop.waters": "{{count}} ウォーターズ",
+  "giveaway.pop.andMore": "+ {{count}} もっと",
+  "giveaway.pop.bankedRound": "+ {{count}} バンキング済み",
+  "giveaway.pop.bankedNothing": "このラウンドは何も銀行に預けられなかった",
+  "giveaway.pop.totalBanked": "銀行取引総額:{{count}}"
 }

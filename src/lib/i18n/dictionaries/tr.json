@@ -8360,5 +8360,22 @@
   "withdraw.flower.dailyLimit": "Günde maksimum 50.000 ÇIÇEK çekme.",
   "gameOptions.experiments.customCursor": "Özel imleç",
   "gameOptions.experiments.customCursorDescription": "Piksel sanat imlecini deneyin. Tıkladığınızda aşağı basar ve tıklanabilir herhangi bir şeyin üzerinde yanar.",
-  "gameOptions.experiments.customCursorToggle": "Özel imleci etkinleştir"
+  "gameOptions.experiments.customCursorToggle": "Özel imleci etkinleştir",
+  "giveaway.pop.title": "Balkabağı Pop",
+  "giveaway.pop.banked": "{{count}} bankaya alındı",
+  "giveaway.pop.rules": "Balkabağınızı büyütmek için SU musluğunu kullanın. En büyük sular patlıyor ve etrafta hiçbir şey birikmiyor - diğer herkes sularını saklıyor. Beş turdan sonra en büyük toplam kazanır!",
+  "giveaway.pop.topPercent": "Her turda en yüksek {{percent}} %pop",
+  "giveaway.pop.round": "Yuvarlak {{current}}/{{total}}",
+  "giveaway.pop.water": "SU",
+  "giveaway.pop.hint": "Çok su - sadece ilk %30'da bitirmeyin!",
+  "giveaway.pop.safe": "Güvenli!",
+  "giveaway.pop.popped": "PATLADI!",
+  "giveaway.pop.safeBy": "{{waters}} kez suladınız - {{cap}} +üzerindeki herkes patladı.",
+  "giveaway.pop.tooKeen": "Çok keskin — {{waters}} sular ve kapak {{cap}} idi.",
+  "giveaway.pop.poppedCount": "{{count}} balkabağı patladı",
+  "giveaway.pop.waters": "{{count}} sular",
+  "giveaway.pop.andMore": "+ {{count}} daha fazla",
+  "giveaway.pop.bankedRound": "+ {{count}} bankaya alındı",
+  "giveaway.pop.bankedNothing": "Hiçbir şey bu turda saklanmadı",
+  "giveaway.pop.totalBanked": "Toplam banka hesabı: {{count}}"
 }

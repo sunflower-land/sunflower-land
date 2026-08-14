@@ -8360,5 +8360,22 @@
   "withdraw.flower.dailyLimit": "Penarikan maksimum 50.000 FLOWER per hari.",
   "gameOptions.experiments.customCursor": "Kursor kustom",
   "gameOptions.experiments.customCursorDescription": "Coba kursor seni piksel. Ini menekan ke bawah ketika Anda mengklik dan menyala di atas apa pun yang dapat diklik.",
-  "gameOptions.experiments.customCursorToggle": "Aktifkan kursor kustom"
+  "gameOptions.experiments.customCursorToggle": "Aktifkan kursor kustom",
+  "giveaway.pop.title": "Pumpkin Pop",
+  "giveaway.pop.banked": "{{count}} dibankir",
+  "giveaway.pop.rules": "Keran AIR untuk menumbuhkan labu Anda. Penyiram terbesar meledak dan tidak ada yang mengelilinginya — semua orang membanjiri perairan mereka. Total terbesar setelah lima putaran menang!",
+  "giveaway.pop.topPercent": "Top {{percent}}% pop setiap putaran",
+  "giveaway.pop.round": "Bulat {{current}}/{{total}}",
+  "giveaway.pop.water": "AIR",
+  "giveaway.pop.hint": "Banyak air — jangan sampai selesai di 30% teratas!",
+  "giveaway.pop.safe": "Aman!",
+  "giveaway.pop.popped": "MELETUS!",
+  "giveaway.pop.safeBy": "Anda menyiram {{waters}} kali — siapa pun di {{cap}} + muncul.",
+  "giveaway.pop.tooKeen": "Terlalu tajam — {{waters}} air, dan tutupnya adalah {{cap}}.",
+  "giveaway.pop.poppedCount": "{{count}} labu muncul",
+  "giveaway.pop.waters": "{{count}} perairan",
+  "giveaway.pop.andMore": "+ {{count}} lebih",
+  "giveaway.pop.bankedRound": "+ {{count}} ditaruh",
+  "giveaway.pop.bankedNothing": "Tidak ada yang menyisihkan putaran ini",
+  "giveaway.pop.totalBanked": "Total perbankan: {{count}}"
 }
