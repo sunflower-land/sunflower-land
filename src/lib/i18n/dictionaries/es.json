@@ -8357,5 +8357,8 @@
   "confirmation.feedAllFoods": "¿Le das a tu Bumpkin todos los alimentos de {{count}} por {{xp}} XP?",
   "confirmation.enterAmountToFeed": "Ingresa la cantidad a alimentar:",
   "description.skillResetTicketWarning": "No afecta al precio de restablecimiento de la gema; el temporizador gratuito no cambia.",
-  "withdraw.flower.dailyLimit": "Retiro máximo de 50 000 FLOWER por día."
+  "withdraw.flower.dailyLimit": "Retiro máximo de 50 000 FLOWER por día.",
+  "gameOptions.experiments.customCursor": "Cursor personalizado",
+  "gameOptions.experiments.customCursorDescription": "Prueba con el cursor de pixel art. Presiona hacia abajo cuando haces clic y se ilumina sobre cualquier elemento en el que se pueda hacer clic.",
+  "gameOptions.experiments.customCursorToggle": "Activar cursor personalizado"
 }

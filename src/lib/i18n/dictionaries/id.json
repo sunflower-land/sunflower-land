@@ -8357,5 +8357,8 @@
   "confirmation.feedAllFoods": "Beri makan Bumpkin Anda semua makanan {{count}} untuk {{xp}} XP?",
   "confirmation.enterAmountToFeed": "Masukkan Jumlah untuk Umpan:",
   "description.skillResetTicketWarning": "Tidak mempengaruhi harga reset permata; timer gratis tidak berubah.",
-  "withdraw.flower.dailyLimit": "Penarikan maksimum 50.000 FLOWER per hari."
+  "withdraw.flower.dailyLimit": "Penarikan maksimum 50.000 FLOWER per hari.",
+  "gameOptions.experiments.customCursor": "Kursor kustom",
+  "gameOptions.experiments.customCursorDescription": "Coba kursor seni piksel. Ini menekan ke bawah ketika Anda mengklik dan menyala di atas apa pun yang dapat diklik.",
+  "gameOptions.experiments.customCursorToggle": "Aktifkan kursor kustom"
 }
