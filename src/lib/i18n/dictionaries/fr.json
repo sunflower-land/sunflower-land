@@ -8356,5 +8356,6 @@
   "buildings.smoothieShack": "Smoothie Shack",
   "confirmation.feedAllFoods": "Donnez à votre Bumpkin tous les aliments {{count}} pour {{xp}} XP ?",
   "confirmation.enterAmountToFeed": "Entrez la quantité à alimenter :",
-  "description.skillResetTicketWarning": "Cela n'affecte pas le prix de réinitialisation des gemmes ; le temps gratuit est inchangé."
+  "description.skillResetTicketWarning": "Cela n'affecte pas le prix de réinitialisation des gemmes ; le temps gratuit est inchangé.",
+  "withdraw.flower.dailyLimit": "Maximum de 50 000 fleurs retirées par jour."
 }

@@ -8356,5 +8356,6 @@
   "buildings.smoothieShack": "Smoothie Shack",
   "confirmation.feedAllFoods": "Beri makan Bumpkin Anda semua makanan {{count}} untuk {{xp}} XP?",
   "confirmation.enterAmountToFeed": "Masukkan Jumlah untuk Umpan:",
-  "description.skillResetTicketWarning": "Tidak mempengaruhi harga reset permata; timer gratis tidak berubah."
+  "description.skillResetTicketWarning": "Tidak mempengaruhi harga reset permata; timer gratis tidak berubah.",
+  "withdraw.flower.dailyLimit": "Penarikan maksimum 50.000 FLOWER per hari."
 }

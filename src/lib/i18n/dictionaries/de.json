@@ -8356,5 +8356,6 @@
   "buildings.smoothieShack": "Smoothie-Bude",
   "confirmation.feedAllFoods": "Füttere deinen Bumpkin mit allen {{count}} Lebensmitteln für {{xp}} XP?",
   "confirmation.enterAmountToFeed": "Geben Sie den zu fütternden Betrag ein:",
-  "description.skillResetTicketWarning": "Wirkt sich nicht auf den Preis für das Zurücksetzen der Edelsteine aus; die Gratiszeit bleibt unverändert."
+  "description.skillResetTicketWarning": "Wirkt sich nicht auf den Preis für das Zurücksetzen der Edelsteine aus; die Gratiszeit bleibt unverändert.",
+  "withdraw.flower.dailyLimit": "Maximal 50.000 FLOWER-Abhebungen pro Tag."
 }

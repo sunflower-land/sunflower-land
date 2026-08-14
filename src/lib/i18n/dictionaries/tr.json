@@ -8356,5 +8356,6 @@
   "buildings.smoothieShack": "Smoothie Kulübesi",
   "confirmation.feedAllFoods": "Bumpkin'inizi {{xp}} XP karşılığında tüm {{count}} yiyecekleri besleyin?",
   "confirmation.enterAmountToFeed": "Beslenecek Miktarı Girin:",
-  "description.skillResetTicketWarning": "Mücevher sıfırlama fiyatını etkilemez; ücretsiz zamanlayıcı değişmedi."
+  "description.skillResetTicketWarning": "Mücevher sıfırlama fiyatını etkilemez; ücretsiz zamanlayıcı değişmedi.",
+  "withdraw.flower.dailyLimit": "Günde maksimum 50.000 ÇIÇEK çekme."
 }

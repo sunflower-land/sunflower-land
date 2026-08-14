@@ -8356,5 +8356,6 @@
   "buildings.smoothieShack": "Smoothie Shack",
   "confirmation.feedAllFoods": "¿Le das a tu Bumpkin todos los alimentos de {{count}} por {{xp}} XP?",
   "confirmation.enterAmountToFeed": "Ingresa la cantidad a alimentar:",
-  "description.skillResetTicketWarning": "No afecta al precio de restablecimiento de la gema; el temporizador gratuito no cambia."
+  "description.skillResetTicketWarning": "No afecta al precio de restablecimiento de la gema; el temporizador gratuito no cambia.",
+  "withdraw.flower.dailyLimit": "Retiro máximo de 50 000 FLOWER por día."
 }

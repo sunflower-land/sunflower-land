@@ -8356,5 +8356,6 @@
   "buildings.smoothieShack": "Smoothie Shack",
   "confirmation.feedAllFoods": "Feed your Bumpkin all {{count}} foods for {{xp}} XP?",
   "confirmation.enterAmountToFeed": "Enter Amount to Feed:",
-  "description.skillResetTicketWarning": "Doesn't affect the gem reset price; free timer unchanged."
+  "description.skillResetTicketWarning": "Doesn't affect the gem reset price; free timer unchanged.",
+  "withdraw.flower.dailyLimit": "Maximum 50,000 FLOWER withdrawal per day."
 }
