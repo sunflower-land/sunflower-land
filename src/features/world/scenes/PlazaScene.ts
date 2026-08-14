@@ -215,8 +215,6 @@ export class PlazaScene extends BaseScene {
   preload() {
     this.load.audio("chime", SOUNDS.notifications.chime);
 
-    this.load.image("vip_gift", "world/vip_gift.png");
-
     this.load.image("rarecrows", "world/rarecrows.webp");
 
     this.load.image("page", "world/page.png");
@@ -392,21 +390,6 @@ export class PlazaScene extends BaseScene {
     prizesLabel.setPosition(560, 230);
     prizesLabel.setDepth(10000000);
     this.add.existing(prizesLabel);
-
-    // Town-hall giveaway board — opens the giveaway modal.
-    const giveaway = this.add.sprite(300, 250, "vip_gift");
-    giveaway.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      if (this.checkDistanceToSprite(giveaway, 100)) {
-        interactableModalManager.open("giveaway_board");
-      } else {
-        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
-      }
-    });
-
-    const giveawayLabel = new Label(this, "GIVEAWAY", "brown");
-    giveawayLabel.setPosition(300, 235);
-    giveawayLabel.setDepth(10000000);
-    this.add.existing(giveawayLabel);
 
     let bumpkins = PLAZA_BUMPKINS;
     const now = Date.now();
