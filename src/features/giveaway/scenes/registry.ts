@@ -3,6 +3,7 @@ import { RaceScene } from "./RaceScene";
 import { ChopScene } from "./ChopScene";
 import { TriviaScene } from "./TriviaScene";
 import { JumpScene } from "./JumpScene";
+import { PopScene } from "./PopScene";
 
 /**
  * Maps each playable game `type` to the Phaser scene that runs it. This is the
@@ -19,6 +20,7 @@ export const GIVEAWAY_SCENES: Partial<
   chop: ChopScene,
   jump: JumpScene,
   trivia: TriviaScene,
+  pop: PopScene,
 };
 
 /** Every registered scene class, for the Phaser `scene` list. */

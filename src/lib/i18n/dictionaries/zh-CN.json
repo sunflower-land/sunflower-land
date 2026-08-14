@@ -8139,7 +8139,7 @@
   "giveaway.startingIn": "距离开始",
   "giveaway.chopHint": "按空格键或点击树木",
   "giveaway.scoreValue": "得分：{{score}}",
-  "giveaway.yourScore": "{{score}} 米",
+  "giveaway.yourScore": "{{score}}{{unit}}",
   "giveaway.refreshBoard": "刷新排行榜",
   "giveaway.finishEvent": "结束活动",
   "giveaway.finishing": "正在结束活动...",

@@ -8139,7 +8139,7 @@
   "giveaway.startingIn": "Başlangıç:",
   "giveaway.chopHint": "Boşluk tuşuna basın veya ağaca dokunun",
   "giveaway.scoreValue": "Puan {{score}}",
-  "giveaway.yourScore": "{{score}} m",
+  "giveaway.yourScore": "{{score}}{{unit}}",
   "giveaway.refreshBoard": "Liderlik tablosunu yenileyin",
   "giveaway.finishEvent": "Etkinliği Bitir",
   "giveaway.finishing": "Bitirme etkinliği...",

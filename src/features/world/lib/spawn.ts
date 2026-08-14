@@ -213,4 +213,13 @@ export const SPAWNS: () => SpawnLocation = () => ({
       y: 240,
     },
   },
+  // Pumpkin Pop: you stand in the middle of the patch and the other growers'
+  // plots are laid out in a grid around you, so there needs to be room on all
+  // four sides.
+  giveaway_pop: {
+    default: {
+      x: 400,
+      y: 208,
+    },
+  },
 });

@@ -8139,7 +8139,7 @@
   "giveaway.startingIn": "Mulai dari",
   "giveaway.chopHint": "Tekan spasi atau ketuk pohon",
   "giveaway.scoreValue": "Skor {{score}}",
-  "giveaway.yourScore": "{{score}} m",
+  "giveaway.yourScore": "{{score}}{{unit}}",
   "giveaway.refreshBoard": "Segarkan papan peringkat",
   "giveaway.finishEvent": "Selesaikan Acara",
   "giveaway.finishing": "Menyelesaikan acara...",

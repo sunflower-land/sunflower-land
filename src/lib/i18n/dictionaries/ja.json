@@ -8139,7 +8139,7 @@
   "giveaway.startingIn": "で始める",
   "giveaway.chopHint": "スペースキーを押すか、ツリーをタップします",
   "giveaway.scoreValue": "スコア {{score}}",
-  "giveaway.yourScore": "{{score}} m",
+  "giveaway.yourScore": "{{score}}{{unit}}",
   "giveaway.refreshBoard": "リーダーボードを更新",
   "giveaway.finishEvent": "終了イベント",
   "giveaway.finishing": "終了イベント...",

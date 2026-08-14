@@ -8139,7 +8139,7 @@
   "giveaway.startingIn": "Empezando en",
   "giveaway.chopHint": "Presiona la barra espaciadora o toca el árbol",
   "giveaway.scoreValue": "Puntuación {{score}}",
-  "giveaway.yourScore": "{{score}} m",
+  "giveaway.yourScore": "{{score}}{{unit}}",
   "giveaway.refreshBoard": "Actualizar la tabla de clasificación",
   "giveaway.finishEvent": "Finalizar evento",
   "giveaway.finishing": "Finalizando el evento...",

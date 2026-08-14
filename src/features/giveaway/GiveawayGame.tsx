@@ -30,6 +30,8 @@ import {
 import { RaceButtons } from "./ui/RaceButtons";
 import { JumpButton } from "./ui/JumpButton";
 import { TriviaPanel } from "./ui/TriviaPanel";
+import { WaterButton } from "./ui/WaterButton";
+import { PopPanel } from "./ui/PopPanel";
 import { GameLeaderboard } from "./ui/GameLeaderboard";
 import {
   type MinigameType,
@@ -39,6 +41,8 @@ import {
 import type { RaceControls } from "./lib/raceControls";
 import type { JumpControls } from "./lib/jumpControls";
 import type { TriviaControls } from "./lib/triviaControls";
+import type { PopControls } from "./lib/popControls";
+import { scoreUnit } from "./lib/gameScore";
 import { syncServerClock, resetServerClock } from "./lib/serverClock";
 
 export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
@@ -158,44 +162,61 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
     correct: boolean;
     nonce: number;
   }>();
-  const [controls] = useState<RaceControls | JumpControls | TriviaControls>(
-    () => {
-      if (minigame === "trivia") {
-        // Mutated through `pick` (a method) rather than by assignment, so the
-        // scene reads a live answer without tripping the no-mutate-state rule.
-        const trivia: TriviaControls = {
-          pending: null,
-          picked: null,
-          lastResult: null,
-          pick: (answer) => {
-            trivia.pending = answer;
-          },
-        };
-        return trivia;
-      }
-      if (minigame === "jump") {
-        const jumpControls: JumpControls = {
-          taps: 0,
-          theta: 0,
-          lastTap: null,
-          tap: () => {
-            jumpControls.taps += 1;
-          },
-        };
-        return jumpControls;
-      }
-      return {
-        setTarget: setRaceTarget,
-        queue: [],
-        onFeedback: (color, correct) =>
-          setRaceFeedback((prev) => ({
-            color,
-            correct,
-            nonce: (prev?.nonce ?? 0) + 1,
-          })),
+  const [controls] = useState<
+    RaceControls | JumpControls | TriviaControls | PopControls
+  >(() => {
+    if (minigame === "pop") {
+      // Pumpkin Pop's round clock lives in the scene, which publishes it here
+      // for the HUD to read (see PopControls) — one clock, no drift.
+      const pop: PopControls = {
+        taps: 0,
+        water: () => {
+          pop.taps += 1;
+        },
+        round: 1,
+        phase: "intro",
+        msLeft: 0,
+        myWaters: 0,
+        banked: 0,
+        reveal: null,
       };
-    },
-  );
+      return pop;
+    }
+    if (minigame === "trivia") {
+      // Mutated through `pick` (a method) rather than by assignment, so the
+      // scene reads a live answer without tripping the no-mutate-state rule.
+      const trivia: TriviaControls = {
+        pending: null,
+        picked: null,
+        lastResult: null,
+        pick: (answer) => {
+          trivia.pending = answer;
+        },
+      };
+      return trivia;
+    }
+    if (minigame === "jump") {
+      const jumpControls: JumpControls = {
+        taps: 0,
+        theta: 0,
+        lastTap: null,
+        tap: () => {
+          jumpControls.taps += 1;
+        },
+      };
+      return jumpControls;
+    }
+    return {
+      setTarget: setRaceTarget,
+      queue: [],
+      onFeedback: (color, correct) =>
+        setRaceFeedback((prev) => ({
+          color,
+          correct,
+          nonce: (prev?.nonce ?? 0) + 1,
+        })),
+    };
+  });
 
   // The management / results panel, opened from the disc button. It defaults to
   // open once the event finishes (so results surface without a tap); once the
@@ -297,25 +318,37 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
         <TriviaPanel controls={controls as TriviaControls} />
       )}
 
+      {/* Pumpkin Pop: round clock + pop reveals, and the water button (SPACE
+          also works, handled in the scene) */}
+      {minigame === "pop" && phase === "racing" && !finished && (
+        <>
+          <PopPanel controls={controls as PopControls} />
+          <WaterButton controls={controls as PopControls} />
+        </>
+      )}
+
       {/* Status banner + the big 30s race clock */}
       {board && !finished && (
         <div className="absolute top-2 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1">
           <Label type="info">{board.title}</Label>
-          {/* Trivia shows its own per-question countdown in the panel instead. */}
-          {phase === "racing" && minigame !== "trivia" && (
-            <span
-              className="font-secondary"
-              style={{
-                fontSize: "64px",
-                lineHeight: 1,
-                // Runs red for the last 5 seconds.
-                color: raceRemainingMs <= 5000 ? "#e43b44" : "#ffffff",
-                textShadow: "3px 3px 0 rgba(0,0,0,0.7)",
-              }}
-            >
-              {Math.ceil(raceRemainingMs / 1000)}
-            </span>
-          )}
+          {/* Trivia and Pumpkin Pop run their own multi-round clocks, shown in
+              their own panels, so they skip the shared 30s one. */}
+          {phase === "racing" &&
+            minigame !== "trivia" &&
+            minigame !== "pop" && (
+              <span
+                className="font-secondary"
+                style={{
+                  fontSize: "64px",
+                  lineHeight: 1,
+                  // Runs red for the last 5 seconds.
+                  color: raceRemainingMs <= 5000 ? "#e43b44" : "#ffffff",
+                  textShadow: "3px 3px 0 rgba(0,0,0,0.7)",
+                }}
+              >
+                {Math.ceil(raceRemainingMs / 1000)}
+              </span>
+            )}
           {/* Point-based games show a live score, in HTML so it stays crisp. */}
           {phase === "racing" &&
             (minigame === "chop" || minigame === "jump") && (
@@ -429,7 +462,10 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
                   {playerScore !== undefined && (
                     <>
                       <Label type="info">
-                        {t("giveaway.yourScore", { score: playerScore })}
+                        {t("giveaway.yourScore", {
+                          score: playerScore,
+                          unit: scoreUnit(minigame),
+                        })}
                       </Label>
                       <p className="text-xs">{t("giveaway.finishedWaiting")}</p>
                     </>

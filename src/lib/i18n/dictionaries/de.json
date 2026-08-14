@@ -8139,7 +8139,7 @@
   "giveaway.startingIn": "Beginnt in",
   "giveaway.chopHint": "Drücken Sie die Leertaste oder tippen Sie auf den Baum",
   "giveaway.scoreValue": "Ergebnis {{score}}",
-  "giveaway.yourScore": "{{score}} m",
+  "giveaway.yourScore": "{{score}}{{unit}}",
   "giveaway.refreshBoard": "Bestenliste aktualisieren",
   "giveaway.finishEvent": "Veranstaltung beenden",
   "giveaway.finishing": "Abschlussveranstaltung...",
