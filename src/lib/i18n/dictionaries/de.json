@@ -8360,5 +8360,22 @@
   "withdraw.flower.dailyLimit": "Maximal 50.000 FLOWER-Abhebungen pro Tag.",
   "gameOptions.experiments.customCursor": "Benutzerdefinierter Mauszeiger",
   "gameOptions.experiments.customCursorDescription": "Probiere den Pixel-Art-Cursor aus. Er drückt beim Klicken nach unten und leuchtet über allem, was anklickbar ist, auf.",
-  "gameOptions.experiments.customCursorToggle": "Benutzerdefinierten Cursor aktivieren"
+  "gameOptions.experiments.customCursorToggle": "Benutzerdefinierten Cursor aktivieren",
+  "giveaway.pop.title": "Pumpkin Pop",
+  "giveaway.pop.banked": "{{count}} überwiesen",
+  "giveaway.pop.rules": "Leitungswasser, um deinen Kürbis wachsen zu lassen. Die größten Wasserspender platzen und legen NICHTS so rund an die Ufer — alle anderen haben ihr Wasser. Die größte Summe nach fünf Runden gewinnt!",
+  "giveaway.pop.topPercent": "Top {{percent}}% Pop in jeder Runde",
+  "giveaway.pop.round": "Runde {{current}}/{{total}}",
+  "giveaway.pop.water": "WASSER",
+  "giveaway.pop.hint": "Viel Wasser — nur nicht unter den besten 30% landen!",
+  "giveaway.pop.safe": "Sicher!",
+  "giveaway.pop.popped": "IST GEKNALLT!",
+  "giveaway.pop.safeBy": "Du hast {{waters}} mal gewässert — jeder auf {{cap}} + hat geknallt.",
+  "giveaway.pop.tooKeen": "Zu scharf — {{waters}} Wasser, und die Obergrenze war {{cap}}.",
+  "giveaway.pop.poppedCount": "{{count}} Kürbisse sind aufgeplatzt",
+  "giveaway.pop.waters": "{{count}} Gewässer",
+  "giveaway.pop.andMore": "+ {{count}} mehr",
+  "giveaway.pop.bankedRound": "+ {{count}} überwiesen",
+  "giveaway.pop.bankedNothing": "Nichts hat diese Runde gebankt",
+  "giveaway.pop.totalBanked": "Bankgeschäfte insgesamt: {{count}}"
 }

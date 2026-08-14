@@ -8360,5 +8360,22 @@
   "withdraw.flower.dailyLimit": "每天最多提取 50,000 个 FLOWER。",
   "gameOptions.experiments.customCursor": "自定义光标",
   "gameOptions.experiments.customCursorDescription": "试试像素艺术光标。当你点击时它会向下按下，任何可点击的东西都会亮起来。",
-  "gameOptions.experiments.customCursorToggle": "启用自定义光标"
+  "gameOptions.experiments.customCursorToggle": "启用自定义光标",
+  "giveaway.pop.title": "南瓜流行音乐",
+  "giveaway.pop.banked": "{{count}} 已存款",
+  "giveaway.pop.rules": "自来水来种南瓜。最大的供水商在那一轮水中一无所获，其他所有人都在蓄水。五轮后的最大总数获胜！",
+  "giveaway.pop.topPercent": "每回合 Top {{percent}}% 弹出",
+  "giveaway.pop.round": "回合 {{current}}/{{total}}",
+  "giveaway.pop.water": "水",
+  "giveaway.pop.hint": "很多水 — 只是没有进入前 30%！",
+  "giveaway.pop.safe": "安全！",
+  "giveaway.pop.popped": "弹出！",
+  "giveaway.pop.safeBy": "你浇水 {{waters}} 次 —— {{cap}} + 上的任何人都会弹出。",
+  "giveaway.pop.tooKeen": "太热衷了—— {{waters}} 水，上限是 [1@/美元]。",
+  "giveaway.pop.poppedCount": "{{count}} 南瓜爆了",
+  "giveaway.pop.waters": "{{count}} 水域",
+  "giveaway.pop.andMore": "+ {{count}} 更多",
+  "giveaway.pop.bankedRound": "+ {{count}} 已存款",
+  "giveaway.pop.bankedNothing": "这一轮什么都没存钱",
+  "giveaway.pop.totalBanked": "存款总额：{{count}}"
 }

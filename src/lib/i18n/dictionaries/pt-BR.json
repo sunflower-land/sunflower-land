@@ -8360,5 +8360,22 @@
   "withdraw.flower.dailyLimit": "Máximo de 50.000 retiradas de FLOWER por dia.",
   "gameOptions.experiments.customCursor": "Cursor personalizado",
   "gameOptions.experiments.customCursorDescription": "Experimente o cursor de pixel art. Ele é pressionado quando você clica e acende sobre qualquer coisa clicável.",
-  "gameOptions.experiments.customCursorToggle": "Ativar cursor personalizado"
+  "gameOptions.experiments.customCursorToggle": "Ativar cursor personalizado",
+  "giveaway.pop.title": "Pop de abóbora",
+  "giveaway.pop.banked": "{{count}} depositado",
+  "giveaway.pop.rules": "Toque em ÁGUA para cultivar sua abóbora. Os maiores bebedouros estouram e não depositam NADA naquela rodada — todos os outros banham suas águas. O maior total após cinco rodadas vence!",
+  "giveaway.pop.topPercent": "Top {{percent}}% de estourar a cada rodada",
+  "giveaway.pop.round": "Rodada {{current}}/{{total}}",
+  "giveaway.pop.water": "ÁGUA",
+  "giveaway.pop.hint": "Muita água — só não termine entre os 30% melhores!",
+  "giveaway.pop.safe": "Seguro!",
+  "giveaway.pop.popped": "ESTOUROU!",
+  "giveaway.pop.safeBy": "Você regou {{waters}} vezes — qualquer pessoa com {{cap}} + estourou.",
+  "giveaway.pop.tooKeen": "Muito forte — {{waters}} águas, e o limite era {{cap}}.",
+  "giveaway.pop.poppedCount": "{{count}} abóboras estouradas",
+  "giveaway.pop.waters": "{{count}} águas",
+  "giveaway.pop.andMore": "+ {{count}} mais",
+  "giveaway.pop.bankedRound": "+ {{count}} depositado",
+  "giveaway.pop.bankedNothing": "Nada foi depositado nesta rodada",
+  "giveaway.pop.totalBanked": "Total bancado: {{count}}"
 }

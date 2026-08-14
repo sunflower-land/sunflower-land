@@ -8360,5 +8360,22 @@
   "withdraw.flower.dailyLimit": "Retiro máximo de 50 000 FLOWER por día.",
   "gameOptions.experiments.customCursor": "Cursor personalizado",
   "gameOptions.experiments.customCursorDescription": "Prueba con el cursor de pixel art. Presiona hacia abajo cuando haces clic y se ilumina sobre cualquier elemento en el que se pueda hacer clic.",
-  "gameOptions.experiments.customCursorToggle": "Activar cursor personalizado"
+  "gameOptions.experiments.customCursorToggle": "Activar cursor personalizado",
+  "giveaway.pop.title": "Pop de calabaza",
+  "giveaway.pop.banked": "{{count}} depositado",
+  "giveaway.pop.rules": "Toca AGUA para cultivar tu calabaza. Los bebedores más grandes reventan y no acumulan NADA tan redondo: todos los demás riegan sus aguas. ¡El mayor total después de cinco rondas gana!",
+  "giveaway.pop.topPercent": "El porcentaje superior de {{percent}}% de descuento en cada ronda",
+  "giveaway.pop.round": "Redondo {{current}}/{{total}}",
+  "giveaway.pop.water": "AGUA",
+  "giveaway.pop.hint": "Mucha agua, ¡pero no termines entre el 30% superior!",
+  "giveaway.pop.safe": "¡Seguro!",
+  "giveaway.pop.popped": "REVENTÓ!",
+  "giveaway.pop.safeBy": "Regaste {{waters}} veces; cualquiera que tuviera {{cap}} + reventó.",
+  "giveaway.pop.tooKeen": "Demasiado entusiasta: {{waters}} aguas y el límite era {{cap}}.",
+  "giveaway.pop.poppedCount": "{{count}} calabazas reventadas",
+  "giveaway.pop.waters": "{{count}} aguas",
+  "giveaway.pop.andMore": "+ {{count}} más",
+  "giveaway.pop.bankedRound": "+ {{count}} depositado",
+  "giveaway.pop.bankedNothing": "Nada ha ganado en esta ronda",
+  "giveaway.pop.totalBanked": "Total depositado: {{count}}"
 }

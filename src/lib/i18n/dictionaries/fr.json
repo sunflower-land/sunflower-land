@@ -8360,5 +8360,22 @@
   "withdraw.flower.dailyLimit": "Maximum de 50 000 fleurs retirées par jour.",
   "gameOptions.experiments.customCursor": "Curseur personnalisé",
   "gameOptions.experiments.customCursorDescription": "Essayez le curseur en pixel art. Il appuie dessus lorsque vous cliquez et s'allume au-dessus de tout ce qui est cliquable.",
-  "gameOptions.experiments.customCursorToggle": "Activer le curseur personnalisé"
+  "gameOptions.experiments.customCursorToggle": "Activer le curseur personnalisé",
+  "giveaway.pop.title": "Pop à la citrouille",
+  "giveaway.pop.banked": "{{count}} mis en banque",
+  "giveaway.pop.rules": "Tapez de l'EAU pour faire pousser votre citrouille. Les plus gros abreuvoirs n'éclatent et ne versent RIEN de tel, tous les autres. Le plus gros total après cinq manches gagne !",
+  "giveaway.pop.topPercent": "Top {{percent}} % de pop à chaque round",
+  "giveaway.pop.round": "Tour {{current}}/{{total}}",
+  "giveaway.pop.water": "EAU",
+  "giveaway.pop.hint": "Beaucoup d'eau, mais ne terminez pas dans le top 30 % !",
+  "giveaway.pop.safe": "Sûr !",
+  "giveaway.pop.popped": "SAUTÉ !",
+  "giveaway.pop.safeBy": "Vous avez arrosé {{waters}} fois — n'importe qui sur {{cap}} + a sauté.",
+  "giveaway.pop.tooKeen": "Trop vif — {{waters}} eaux, et le plafond était de {{cap}}.",
+  "giveaway.pop.poppedCount": "{{count}} citrouilles sautées",
+  "giveaway.pop.waters": "{{count}} eaux",
+  "giveaway.pop.andMore": "+ {{count}} plus",
+  "giveaway.pop.bankedRound": "+ {{count}} mis en banque",
+  "giveaway.pop.bankedNothing": "Rien n'a été enregistré ce round",
+  "giveaway.pop.totalBanked": "Total bancaire : {{count}}"
 }

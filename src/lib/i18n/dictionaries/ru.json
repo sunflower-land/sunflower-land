@@ -8360,5 +8360,22 @@
   "withdraw.flower.dailyLimit": "Maximum 50,000 FLOWER withdrawal per day.",
   "gameOptions.experiments.customCursor": "Custom cursor",
   "gameOptions.experiments.customCursorDescription": "Try the pixel art cursor. It presses down when you click and lights up over anything clickable.",
-  "gameOptions.experiments.customCursorToggle": "Enable custom cursor"
+  "gameOptions.experiments.customCursorToggle": "Enable custom cursor",
+  "giveaway.pop.title": "Pumpkin Pop",
+  "giveaway.pop.banked": "{{count}} banked",
+  "giveaway.pop.rules": "Tap WATER to grow your pumpkin. The biggest waterers pop and bank NOTHING that round — everyone else banks their waters. Biggest total after five rounds wins!",
+  "giveaway.pop.topPercent": "Top {{percent}}% pop each round",
+  "giveaway.pop.round": "Round {{current}} / {{total}}",
+  "giveaway.pop.water": "WATER",
+  "giveaway.pop.hint": "Water lots — just don't finish in the top 30%!",
+  "giveaway.pop.safe": "Safe!",
+  "giveaway.pop.popped": "POPPED!",
+  "giveaway.pop.safeBy": "You watered {{waters}} times — anyone on {{cap}}+ popped.",
+  "giveaway.pop.tooKeen": "Too keen — {{waters}} waters, and the cap was {{cap}}.",
+  "giveaway.pop.poppedCount": "{{count}} pumpkins popped",
+  "giveaway.pop.waters": "{{count}} waters",
+  "giveaway.pop.andMore": "+{{count}} more",
+  "giveaway.pop.bankedRound": "+{{count}} banked",
+  "giveaway.pop.bankedNothing": "Nothing banked this round",
+  "giveaway.pop.totalBanked": "Total banked: {{count}}"
 }
