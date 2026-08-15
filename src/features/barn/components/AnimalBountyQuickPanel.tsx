@@ -160,7 +160,9 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
           <Label
             type="formula"
             className="absolute -top-3 -left-1 whitespace-nowrap text-xxs"
-          >{`Lvl ${deal.level}+`}</Label>
+          >
+            {t("bounties.minLevel", { level: deal.level })}
+          </Label>
 
           {isSold && (
             <Label type="success" className="absolute -top-2 -right-1 text-xxs">
@@ -210,7 +212,7 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
   };
 
   return (
-    <InnerPanel>
+    <InnerPanel className="flex min-h-0 flex-1 flex-col overflow-hidden">
       <div className="flex items-center justify-between mb-1">
         <Label type="default">{t("bounties.board")}</Label>
         <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
@@ -219,11 +221,14 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
       </div>
       <p className="text-xs mb-2">{t("bounties.board.info")}</p>
 
-      <div className="scrollable max-h-[55vh] overflow-y-auto overflow-x-hidden pb-1">
+      <div className="scrollable min-h-0 flex-1 overflow-y-auto overflow-x-hidden pb-1">
         {deals.length > 0 ? (
-          <div className="py-2">
+          <div className="flex flex-col py-2 sm:flex-row sm:flex-wrap sm:items-start sm:gap-x-3 sm:gap-y-3">
             {dealGroups.map((group) => (
-              <div key={group.id} className="mb-3">
+              <div
+                key={group.id}
+                className="mb-3 sm:w-fit sm:flex-none sm:mb-0"
+              >
                 <Label type="default" icon={group.icon} className="mb-2 ml-2">
                   {group.label}
                 </Label>

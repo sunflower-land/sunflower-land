@@ -150,6 +150,32 @@ export const BarnInside: React.FC = () => {
   }, [animalCount, sickAnimalCount, floorWidth]);
   const currentBiome = getCurrentBiome(island);
 
+  const handleAnimalSale = (animalId: string) => {
+    if (!deal) return;
+
+    const state = gameService.getSnapshot().context.state;
+    const animal = state.barn.animals[animalId];
+    const isCompleted = state.bounties.completed.some(
+      (completed) => completed.id === deal.id,
+    );
+
+    if (!animal || isCompleted || !isValidDeal({ animal, deal })) return;
+
+    const requiresConfirmation =
+      animal.state === "sick" || !!animal.reward?.items?.[0]?.name;
+
+    if (requiresConfirmation) {
+      setSelectedAnimalId(animalId);
+      return;
+    }
+
+    gameService.send("animal.sold", {
+      requestId: deal.id,
+      animalId,
+    });
+    setDeal(undefined);
+  };
+
   const calendarEvent = isBuildingDestroyed({
     name: "Barn",
     calendar: context.state.calendar,
@@ -286,7 +312,7 @@ export const BarnInside: React.FC = () => {
                             e.stopPropagation();
                             e.preventDefault();
                             if (!isValid) return;
-                            setSelectedAnimalId(animal.id.toString());
+                            handleAnimalSale(animal.id.toString());
                           }
                         }}
                       >

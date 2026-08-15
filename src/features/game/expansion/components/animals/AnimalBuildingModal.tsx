@@ -187,7 +187,11 @@ export const AnimalBuildingModal: React.FC<Props> = ({
         setCurrentTab(tab);
         onTabChange?.(tab);
       }}
-      className="relative max-h-[50vh]"
+      className="relative !max-h-[50vh] !overflow-y-hidden flex flex-col"
+      contentClassName={classNames("min-h-0 flex-1", {
+        "flex flex-col overflow-hidden": currentTab === "sell",
+        "overflow-y-auto scrollable": currentTab !== "sell",
+      })}
       container={OuterPanel}
     >
       {currentTab === "buy" && (
@@ -239,26 +243,27 @@ export const AnimalBuildingModal: React.FC<Props> = ({
                         {ITEM_DETAILS[name].description}
                       </p>
                       <div className="flex flex-wrap items-center gap-y-1 gap-x-2 pl-2">
-                        <Label type="warning" icon={SUNNYSIDE.ui.coinsImg}>
-                          {details.coins}
-                        </Label>
+                        <RequirementLabel
+                          type="coins"
+                          balance={state.coins}
+                          requirement={details.coins}
+                        />
                         <Label type="default" icon={SUNNYSIDE.icons.stopwatch}>
                           {secondsToString(
                             Math.ceil(maturityTime.maturityTimeMs / 1000),
                             { length: "short" },
                           )}
                         </Label>
-                        <RequirementLabel
-                          type="level"
-                          currentLevel={ascension}
-                          requirement={details.levelRequired}
-                        />
                       </div>
                     </div>
                   </div>
 
                   <Button
-                    disabled={!hasRequiredLevel || atMaxCapacity}
+                    disabled={
+                      !hasRequiredLevel ||
+                      atMaxCapacity ||
+                      state.coins < details.coins
+                    }
                     onClick={() => handleBuyAnimal(name)}
                     className="w-full mt-2"
                   >

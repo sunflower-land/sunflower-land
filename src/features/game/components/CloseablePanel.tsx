@@ -34,6 +34,7 @@ interface Props<T extends string> {
   onBack?: () => void;
   bumpkinParts?: Partial<Equipped>;
   className?: string;
+  contentClassName?: string;
   container?: React.FC<PanelProps>;
   children?: React.ReactNode;
 }
@@ -61,6 +62,7 @@ export const CloseButtonPanel = <T extends string>({
   bumpkinParts,
   secondaryAction,
   className,
+  contentClassName,
   children,
   container: Container = Panel,
 }: Props<T>) => {
@@ -164,7 +166,7 @@ export const CloseButtonPanel = <T extends string>({
       )}
 
       {/* Content */}
-      <div>
+      <div className={contentClassName}>
         {title && (
           <div className="flex text-center">
             {(showCloseButton || showBackButton) && !tabs && (

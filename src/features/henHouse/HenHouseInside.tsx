@@ -122,6 +122,32 @@ export const HenHouseInside: React.FC = () => {
 
   const nextLevel = Math.min(level + 1, 3);
 
+  const handleAnimalSale = (animalId: string) => {
+    if (!deal) return;
+
+    const state = gameService.getSnapshot().context.state;
+    const animal = state.henHouse.animals[animalId];
+    const isCompleted = state.bounties.completed.some(
+      (completed) => completed.id === deal.id,
+    );
+
+    if (!animal || isCompleted || !isValidDeal({ animal, deal })) return;
+
+    const requiresConfirmation =
+      animal.state === "sick" || !!animal.reward?.items?.[0]?.name;
+
+    if (requiresConfirmation) {
+      setSelectedAnimalId(animalId);
+      return;
+    }
+
+    gameService.send("animal.sold", {
+      requestId: deal.id,
+      animalId,
+    });
+    setDeal(undefined);
+  };
+
   return (
     <>
       {showModal && (
@@ -199,6 +225,16 @@ export const HenHouseInside: React.FC = () => {
                     onClick={() => setShowModal(true)}
                   />
 
+                  <img
+                    src={SUNNYSIDE.icons.upgrade_disc}
+                    alt="Upgrade Building"
+                    className="absolute top-[18px] left-[18px] cursor-pointer z-10"
+                    style={{
+                      width: `${PIXEL_SCALE * 18}px`,
+                    }}
+                    onClick={() => setShowUpgradeModal(true)}
+                  />
+
                   <Button
                     className="absolute -bottom-16"
                     onClick={() => navigate("/")}
@@ -208,15 +244,6 @@ export const HenHouseInside: React.FC = () => {
                 </>
               )}
 
-              <img
-                src={SUNNYSIDE.icons.upgrade_disc}
-                alt="Upgrade Building"
-                className="absolute top-[18px] left-[18px] cursor-pointer z-10"
-                style={{
-                  width: `${PIXEL_SCALE * 18}px`,
-                }}
-                onClick={() => setShowUpgradeModal(true)}
-              />
               <img
                 src={ANIMAL_HOUSE_IMAGES[level].src}
                 id={Section.GenesisBlock}
@@ -279,7 +306,7 @@ export const HenHouseInside: React.FC = () => {
 
                             if (!isValid) return;
 
-                            setSelectedAnimalId(animal.id.toString());
+                            handleAnimalSale(animal.id.toString());
                           }
                         }}
                       >
