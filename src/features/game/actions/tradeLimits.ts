@@ -49,12 +49,12 @@ export type TradeResource = Extract<
 
 export const TRADE_LIMITS: Record<TradeResource, number> = {
   // Crops
-  Sunflower: 4000,
-  Potato: 3000,
-  Rhubarb: 2000,
-  Pumpkin: 2000,
-  Zucchini: 2000,
-  Carrot: 2000,
+  Sunflower: 10000,
+  Potato: 10000,
+  Rhubarb: 10000,
+  Pumpkin: 4000,
+  Zucchini: 4000,
+  Carrot: 4000,
   Yam: 2000,
   Cabbage: 2000,
   Broccoli: 2000,
