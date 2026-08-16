@@ -240,7 +240,7 @@ export const SleepingAnimalModal = ({
             <img
               src={SUNNYSIDE.icons.basket}
               alt={t("sleepingAnimal.production")}
-              className="w-6 mr-2 shrink-0"
+              className="w-6 mr-0 shrink-0"
             />
             <span aria-hidden="true" className="mr-2 text-sm">
               {":"}
