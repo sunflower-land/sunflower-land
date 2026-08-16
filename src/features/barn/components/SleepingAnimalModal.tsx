@@ -59,7 +59,9 @@ const ProductionResource: React.FC<{
         className="w-5 mr-1"
       />
       <span className="text-xs whitespace-nowrap">{resource}</span>
-      <img src={SUNNYSIDE.icons.x} alt="times" className="w-3 mx-1" />
+      <span aria-hidden="true" className="mx-1 text-xs">
+        ×
+      </span>
       <span className="text-xs whitespace-nowrap">{formatNumber(amount)}</span>
       {hasBoosts && (
         <img
