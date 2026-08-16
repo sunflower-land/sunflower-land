@@ -46,8 +46,9 @@ const ProductionResource: React.FC<{
   amount: number;
   boosts: { name: BoostName; value: string }[];
   state: GameState;
-}> = ({ resource, amount, boosts, state }) => {
-  const [showBoosts, setShowBoosts] = useState(false);
+  showBoosts: boolean;
+  onToggle: () => void;
+}> = ({ resource, amount, boosts, state, showBoosts, onToggle }) => {
   const anchorRef = useRef<HTMLButtonElement>(null);
   const hasBoosts = boosts.length > 0;
 
@@ -87,14 +88,14 @@ const ProductionResource: React.FC<{
       type="button"
       className="relative flex items-center py-0.5 cursor-pointer whitespace-nowrap"
       aria-expanded={showBoosts}
-      onClick={() => setShowBoosts((show) => !show)}
+      onClick={onToggle}
     >
       {content}
       <BoostsDisplay
         boosts={boosts}
         show={showBoosts}
         state={state}
-        onClick={() => setShowBoosts((show) => !show)}
+        onClick={onToggle}
         anchorRef={anchorRef}
         portalAlign="center"
       />
@@ -117,6 +118,8 @@ export const SleepingAnimalModal = ({
 }: Props) => {
   const { gameService } = useContext(Context);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [activeProductionResource, setActiveProductionResource] =
+    useState<AnimalResource | null>(null);
   const { t } = useAppTranslation();
   const { totalSeconds: secondsLeft } = useCountdown(awakeAt);
   const { totalSeconds: secondsUntilLove } = useCountdown(
@@ -241,6 +244,12 @@ export const SleepingAnimalModal = ({
                   amount={amount}
                   boosts={boostsUsed}
                   state={state}
+                  showBoosts={activeProductionResource === resource}
+                  onToggle={() =>
+                    setActiveProductionResource((active) =>
+                      active === resource ? null : resource,
+                    )
+                  }
                 />
               ))}
             </div>
