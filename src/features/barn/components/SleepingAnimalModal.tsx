@@ -236,6 +236,9 @@ export const SleepingAnimalModal = ({
             className="flex text-sm p-1 items-center"
             aria-label={t("sleepingAnimal.production")}
           >
+            <span className="mr-2 whitespace-nowrap">
+              {t("sleepingAnimal.production")}
+            </span>
             <div className="flex flex-nowrap items-center gap-x-3 whitespace-nowrap">
               {production.map(({ resource, amount, boostsUsed }) => (
                 <ProductionResource
