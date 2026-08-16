@@ -58,11 +58,11 @@ const ProductionResource: React.FC<{
         alt={resource}
         className="w-5 mr-1"
       />
-      <span className="text-xs whitespace-nowrap">{resource}</span>
-      <span aria-hidden="true" className="mx-1 text-xs">
+      <span className="text-sm whitespace-nowrap">{resource}</span>
+      <span aria-hidden="true" className="mx-1 text-sm">
         ×
       </span>
-      <span className="text-xs whitespace-nowrap">{formatNumber(amount)}</span>
+      <span className="text-sm whitespace-nowrap">{formatNumber(amount)}</span>
       {hasBoosts && (
         <img
           src={SUNNYSIDE.icons.lightning}
