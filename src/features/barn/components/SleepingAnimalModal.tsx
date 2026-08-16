@@ -61,7 +61,7 @@ const ProductionResource: React.FC<{
       />
       <span className="text-sm whitespace-nowrap">{resource}</span>
       <span aria-hidden="true" className="mx-1 text-sm">
-        ×
+        {"×"}
       </span>
       <span className="text-sm whitespace-nowrap">{formatNumber(amount)}</span>
       {hasBoosts && (
