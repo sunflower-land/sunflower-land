@@ -7880,7 +7880,6 @@
   "skill.floweryAbode.buff.ranked": "+ {{value}} Geschwindigkeit der Honigproduktion",
   "skill.floweryAbode.debuff.ranked": "+ {{value}}% Wachstumszeit der Blüte",
   "skill.petalBlessed.ranked": "Ernten Sie sofort alle Blumen. {{value}} Abklingzeit",
-  "reputation.cropkeeper.withdraw": "FLOWER zurückziehen",
   "skill.efficientBin.ranked": "+ {{value}} Sprossenmischung",
   "skill.turboCharged.ranked": "+ {{value}} Fruchtbare Mischung",
   "skill.wormyTreat.ranked": "+ {{value}} Würmer",
@@ -8377,5 +8376,6 @@
   "giveaway.pop.andMore": "+ {{count}} mehr",
   "giveaway.pop.bankedRound": "+ {{count}} überwiesen",
   "giveaway.pop.bankedNothing": "Nichts hat diese Runde gebankt",
-  "giveaway.pop.totalBanked": "Bankgeschäfte insgesamt: {{count}}"
+  "giveaway.pop.totalBanked": "Bankgeschäfte insgesamt: {{count}}",
+  "reputation.grandHarvester.withdraw": "FLOWER zurückziehen"
 }

@@ -7881,7 +7881,6 @@
   "skill.floweryAbode.buff.ranked": "+{{value}} 蜂蜜生产速度（收满蜂箱或种下新一批花后生效）",
   "skill.floweryAbode.debuff.ranked": "+{{value}}% 花朵生长时间",
   "skill.petalBlessed.ranked": "令正在生长的所有花卉立刻可供收获。{{value}} 冷却时间",
-  "reputation.cropkeeper.withdraw": "提取 FLOWER",
   "skill.efficientBin.ranked": "+{{value}} Sprout Mix",
   "skill.turboCharged.ranked": "+{{value}} Fruitful Blend",
   "skill.wormyTreat.ranked": "+{{value}} 蠕虫",
@@ -8377,5 +8376,6 @@
   "giveaway.pop.andMore": "+ {{count}} 更多",
   "giveaway.pop.bankedRound": "+ {{count}} 已存款",
   "giveaway.pop.bankedNothing": "这一轮什么都没存钱",
-  "giveaway.pop.totalBanked": "存款总额：{{count}}"
+  "giveaway.pop.totalBanked": "存款总额：{{count}}",
+  "reputation.grandHarvester.withdraw": "撤回鲜花"
 }

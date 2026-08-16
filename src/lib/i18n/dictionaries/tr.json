@@ -7880,7 +7880,6 @@
   "skill.floweryAbode.buff.ranked": "+ {{value}} Bal üretim hızı",
   "skill.floweryAbode.debuff.ranked": "+ {{value}} %Çiçek büyüme süresi",
   "skill.petalBlessed.ranked": "Tüm çiçekleri anında hasat edin. {{value}} bekleme süresi",
-  "reputation.cropkeeper.withdraw": "ÇIÇEĞİ çekin",
   "skill.efficientBin.ranked": "+ {{value}} Filiz Karışımı",
   "skill.turboCharged.ranked": "+ {{value}} Verimli Karışım",
   "skill.wormyTreat.ranked": "+ {{value}} Solucanlar",
@@ -8377,5 +8376,6 @@
   "giveaway.pop.andMore": "+ {{count}} daha fazla",
   "giveaway.pop.bankedRound": "+ {{count}} bankaya alındı",
   "giveaway.pop.bankedNothing": "Hiçbir şey bu turda saklanmadı",
-  "giveaway.pop.totalBanked": "Toplam banka hesabı: {{count}}"
+  "giveaway.pop.totalBanked": "Toplam banka hesabı: {{count}}",
+  "reputation.grandHarvester.withdraw": "ÇIÇEĞİ çekin"
 }

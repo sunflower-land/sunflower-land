@@ -7880,7 +7880,6 @@
   "skill.floweryAbode.buff.ranked": "+ {{value}} Velocità di produzione del miele",
   "skill.floweryAbode.debuff.ranked": "+ {{value}}% Tempo di crescita dei fiori",
   "skill.petalBlessed.ranked": "Raccogli istantaneamente tutti i fiori. {{value}} tempo di recupero",
-  "reputation.cropkeeper.withdraw": "Ritira FLOWER",
   "skill.efficientBin.ranked": "+ {{value}} Miscela di germogli",
   "skill.turboCharged.ranked": "+ {{value}} Miscela fruttuosa",
   "skill.wormyTreat.ranked": "+ {{value}} Vermi",
@@ -8377,5 +8376,6 @@
   "giveaway.pop.andMore": "+ {{count}} altro",
   "giveaway.pop.bankedRound": "+ {{count}} bancario",
   "giveaway.pop.bankedNothing": "Niente è andato a ruba in questo round",
-  "giveaway.pop.totalBanked": "Totale bancario: {{count}}"
+  "giveaway.pop.totalBanked": "Totale bancario: {{count}}",
+  "reputation.grandHarvester.withdraw": "Ritira FLOWER"
 }

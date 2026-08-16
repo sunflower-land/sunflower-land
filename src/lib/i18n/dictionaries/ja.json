@@ -7880,7 +7880,6 @@
   "skill.floweryAbode.buff.ranked": "+ {{value}} ハチミツ生産速度",
   "skill.floweryAbode.debuff.ranked": "+ {{value}}% 花の成長時間",
   "skill.petalBlessed.ranked": "すべての花を即座に収穫する。{{value}} クールダウン",
-  "reputation.cropkeeper.withdraw": "花を撤回",
   "skill.efficientBin.ranked": "+ {{value}} スプラウトミックス",
   "skill.turboCharged.ranked": "+ {{value}} フルーツフルブレンド",
   "skill.wormyTreat.ranked": "+ {{value}} ワーム",
@@ -8377,5 +8376,6 @@
   "giveaway.pop.andMore": "+ {{count}} もっと",
   "giveaway.pop.bankedRound": "+ {{count}} バンキング済み",
   "giveaway.pop.bankedNothing": "このラウンドは何も銀行に預けられなかった",
-  "giveaway.pop.totalBanked": "銀行取引総額:{{count}}"
+  "giveaway.pop.totalBanked": "銀行取引総額:{{count}}",
+  "reputation.grandHarvester.withdraw": "花を撤回"
 }
