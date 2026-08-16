@@ -527,7 +527,12 @@ export function getResourceDropAmount({
   if (budUsed)
     boostsUsed.push({ name: budUsed, value: `+${yieldBoost.toString()}` });
 
-  if (multiplier) amount = amount.mul(multiplier);
+  if (multiplier) {
+    amount = amount.mul(multiplier);
+    if (multiplier !== 1) {
+      boostsUsed.push({ name: "Buckaroo", value: `x${multiplier}` });
+    }
+  }
 
   if (animal.feedBuff?.name === "Salt Lick") {
     amount = amount.mul(1.05);

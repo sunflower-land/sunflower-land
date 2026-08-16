@@ -2056,6 +2056,7 @@ export type BoostName =
 
 export type SpecialBoostName =
   | `${SeasonalEventName}`
+  | "Buckaroo"
   | "Power hour"
   | "VIP Access"
   | "Faction Pet"

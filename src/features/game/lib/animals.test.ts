@@ -239,6 +239,20 @@ describe("Animals skill ranks", () => {
     expect(amount).toEqual(1.58);
   });
 
+  it("attributes an animal critical drop multiplier to Buckaroo", () => {
+    const { amount, boostsUsed } = getResourceDropAmount({
+      game: withSkills({ Buckaroo: 1 }),
+      animalType: "Cow",
+      resource: "Milk",
+      baseAmount: 1,
+      multiplier: 2,
+      animal: { ...ANIMAL, type: "Cow" },
+    });
+
+    expect(amount).toEqual(2);
+    expect(boostsUsed).toContainEqual({ name: "Buckaroo", value: "x2" });
+  });
+
   describe("Featherweight", () => {
     it.each([
       [1, 0.35],
