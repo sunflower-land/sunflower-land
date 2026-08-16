@@ -337,6 +337,10 @@ export const WEARABLE_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     tradeAt: new Date("2025-04-08"),
     withdrawAt: CHAPTERS["Winds of Change"].endDate,
   },
+  "Locust Onesie": {
+    tradeAt: new Date("2025-04-08"),
+    withdrawAt: CHAPTERS["Winds of Change"].endDate,
+  },
   "Glacial Plume": {
     tradeAt: new Date("2025-04-08"),
     withdrawAt: CHAPTERS["Winds of Change"].endDate,
