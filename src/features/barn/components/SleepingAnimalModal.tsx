@@ -49,6 +49,7 @@ const ProductionResource: React.FC<{
   showBoosts: boolean;
   onToggle: () => void;
 }> = ({ resource, amount, boosts, state, showBoosts, onToggle }) => {
+  const { t } = useAppTranslation();
   const anchorRef = useRef<HTMLButtonElement>(null);
   const hasBoosts = boosts.length > 0;
 
@@ -67,7 +68,7 @@ const ProductionResource: React.FC<{
       {hasBoosts && (
         <img
           src={SUNNYSIDE.icons.lightning}
-          alt="Boosted"
+          alt={t("cropMachine.boosted")}
           className="w-3 ml-1"
         />
       )}

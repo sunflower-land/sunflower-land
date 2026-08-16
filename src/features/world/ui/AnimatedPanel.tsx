@@ -23,7 +23,10 @@ export const AnimatedPanel: React.FC<PropsWithChildren<Props>> = ({
       {onBackdropClick && show && (
         <div
           className="fixed inset-0 z-30"
-          onClick={onBackdropClick}
+          onClick={(event) => {
+            event.stopPropagation();
+            onBackdropClick();
+          }}
           aria-hidden="true"
         />
       )}
