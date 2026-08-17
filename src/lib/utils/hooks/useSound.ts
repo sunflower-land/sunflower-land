@@ -80,7 +80,8 @@ const SPECS = {
   feed_animal: { src: SOUNDS.animals.feed_animal, volume: 0.05 },
   level_up: { src: SOUNDS.notifications.level_up, volume: 0.05 },
   cure_animal: { src: SOUNDS.animals.cure_animal, volume: 0.05 },
-  chop: { src: SOUNDS.resources.chop, volume: 0.1 },
+  // Classic CDN cue, re-mastered through the soundgen QC pass (public/audio)
+  chop: { src: generated("chop"), volume: 0.1 },
   tree_fall: { src: SOUNDS.resources.tree_fall, volume: 0.1 },
   mining_fall: { src: SOUNDS.resources.mining_fall, volume: 0.1 },
   mining: { src: SOUNDS.resources.mining, volume: 0.1 },
@@ -93,7 +94,8 @@ const SPECS = {
     loop: true,
   },
   burning: { src: SOUNDS.loops.fire, volume: 0.25, channel: "ambience" },
-  harvest: { src: SOUNDS.resources.harvest, volume: 0.05 },
+  // Classic CDN cue, re-mastered through the soundgen QC pass (public/audio)
+  harvest: { src: generated("harvest"), volume: 0.08 },
   plant: { src: SOUNDS.resources.plant, volume: 0.05 },
   bakery: { src: SOUNDS.buildings.kitchen, volume: 0.25 },
   blacksmith: { src: SOUNDS.buildings.blacksmith, volume: 0.05 },
