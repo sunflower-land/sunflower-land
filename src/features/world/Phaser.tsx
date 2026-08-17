@@ -397,7 +397,6 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
                 x: player.x,
                 y: player.y,
                 clothing: player.clothing,
-                moderation: player.moderation,
                 sceneId: player.sceneId,
               });
             } else {
@@ -409,7 +408,6 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
                 x: player.x,
                 y: player.y,
                 clothing: player.clothing,
-                moderation: player.moderation,
                 experience: player.experience,
                 sceneId: player.sceneId,
               });

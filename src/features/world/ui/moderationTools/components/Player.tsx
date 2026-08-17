@@ -18,6 +18,8 @@ import { MuteModal } from "./Mute";
 import { UnMuteModal } from "./Unmute";
 import { InnerPanel } from "components/ui/Panel";
 import { formatNumber } from "lib/utils/formatNumber";
+import type { Moderation } from "features/game/lib/gameMachine";
+import { getActiveMute } from "../lib/useModerationHistory";
 
 interface Props {
   player?: Player;
@@ -25,6 +27,12 @@ interface Props {
   authState: any;
   moderatorFarmId: number;
   scene: any;
+  /**
+   * This player's mute/kick record, requested from the server by the panel —
+   * it is no longer replicated in the room state. `undefined` while the request
+   * is in flight, which renders the same as "never moderated".
+   */
+  moderationRecord?: Moderation;
   onClose: () => void;
 }
 
@@ -36,6 +44,7 @@ type Event = {
 };
 
 export const PlayerModal: React.FC<Props> = ({
+  moderationRecord,
   player,
   messages,
   authState,
@@ -79,7 +88,8 @@ export const PlayerModal: React.FC<Props> = ({
 
   const getModerationEvents = () => {
     const events: Event[] = [];
-    /* player.moderation?.kicked.forEach((kicked) => {
+
+    moderationRecord?.kicked.forEach((kicked) => {
       events.push({
         type: "kick",
         at: kicked.kickedAt,
@@ -87,7 +97,7 @@ export const PlayerModal: React.FC<Props> = ({
         reason: kicked.reason,
       });
     });
-    player.moderation?.muted.forEach((muted) => {
+    moderationRecord?.muted.forEach((muted) => {
       events.push({
         type: "mute",
         at: muted.mutedAt,
@@ -96,18 +106,12 @@ export const PlayerModal: React.FC<Props> = ({
       });
     });
 
-    return events.sort((a, b) => {
-      return new Date(b.at).getTime() - new Date(a.at).getTime();
-    }); */
-    return events;
+    return events.sort((a, b) => b.at - a.at);
   };
 
-  /* const latestMute = player.moderation?.muted.sort(
-    (a, b) => b.mutedUntil - a.mutedUntil,
-  )[0];
-  const isMuted = latestMute && latestMute.mutedUntil > Date.now(); */
-  const latestMute = { mutedUntil: 0 };
-  const isMuted = false;
+  const activeMute = getActiveMute(moderationRecord);
+  const latestMute = { mutedUntil: activeMute?.mutedUntil ?? 0 };
+  const isMuted = !!activeMute;
 
   return (
     <>

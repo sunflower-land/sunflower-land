@@ -13,11 +13,9 @@ import { PlayerList } from "./tabs/PlayerList";
 import { ChatHistory } from "./tabs/ChatHistory";
 import { Actions } from "./tabs/Actions";
 
-import type {
-  MachineInterpreter,
-  Moderation,
-} from "features/game/lib/gameMachine";
+import type { MachineInterpreter } from "features/game/lib/gameMachine";
 import { RoundButton } from "components/ui/RoundButton";
+import { useModerationHistory } from "./lib/useModerationHistory";
 
 export type Message = {
   farmId: number;
@@ -35,7 +33,6 @@ export type Player = {
   x: number;
   y: number;
   clothing: BumpkinParts;
-  moderation?: Moderation;
   experience: number;
   // Ascension band — needed to read `experience` as a level. Optional until the MMO
   // server syncs it; consumers default to 0 (legacy pre-ascension reading) meanwhile.
@@ -66,6 +63,10 @@ export const ModerationTools: React.FC<Props> = ({
   const toggleModerationTool = () => {
     setShowModerationTool(!showModerationTool);
   };
+
+  // Moderation history is no longer part of the replicated room state — it is
+  // requested while the panel is open. See `useModerationHistory`.
+  const { history } = useModerationHistory(scene, showModerationTool);
 
   return (
     <>
@@ -100,6 +101,7 @@ export const ModerationTools: React.FC<Props> = ({
               messages={messages}
               authState={authState.context.user}
               moderatorFarmId={moderatorFarmId}
+              moderationHistory={history}
             />
           )}
           {tab === "chat" && (

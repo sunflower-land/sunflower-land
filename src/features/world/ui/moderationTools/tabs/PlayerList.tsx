@@ -9,6 +9,10 @@ import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { OuterPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
+import {
+  getActiveMute,
+  type ModerationHistory,
+} from "../lib/useModerationHistory";
 
 type Props = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -18,6 +22,11 @@ type Props = {
   moderatorFarmId: number;
   players: Player[];
   messages: Message[];
+  /**
+   * Mute/kick records, keyed by farm id, requested from the server while the
+   * panel is open — it is no longer replicated in the room state.
+   */
+  moderationHistory: ModerationHistory;
 };
 
 export const isModerator = (player: Player) => {
@@ -34,6 +43,7 @@ export const PlayerList: React.FC<Props> = ({
   messages,
   authState,
   moderatorFarmId,
+  moderationHistory,
 }) => {
   const [step, setStep] = useState<"MAIN" | "PLAYER">("MAIN");
 
@@ -67,13 +77,9 @@ export const PlayerList: React.FC<Props> = ({
         <>
           <div className="flex flex-col items-start gap-2 ml-1 mt-2 h-96 overflow-y-auto scrollable">
             {Players.map((player) => {
-              /* const latestMute = player.moderation?.muted.sort(
-                (a, b) => b.mutedUntil - a.mutedUntil,
-              )[0];
-
-              const isMuted = latestMute && latestMute.mutedUntil > Date.now(); */
-              const latestMute = { mutedUntil: 0 };
-              const isMuted = false;
+              const activeMute = getActiveMute(
+                moderationHistory[player.farmId],
+              );
 
               return (
                 <OuterPanel className="w-full" key={player.playerId}>
@@ -88,11 +94,11 @@ export const PlayerList: React.FC<Props> = ({
                           {isModerator(player) && (
                             <Label type="warning">{"Moderator"}</Label>
                           )}
-                          {isMuted && (
+                          {activeMute && (
                             <Label type="danger" icon={SUNNYSIDE.icons.timer}>
                               {"Muted for "}
                               {calculateMuteTime(
-                                latestMute.mutedUntil,
+                                activeMute.mutedUntil,
                                 "remaining",
                               )}
                             </Label>
@@ -155,6 +161,11 @@ export const PlayerList: React.FC<Props> = ({
           authState={authState}
           moderatorFarmId={moderatorFarmId}
           scene={scene}
+          moderationRecord={
+            selectedPlayer
+              ? moderationHistory[selectedPlayer.farmId]
+              : undefined
+          }
           onClose={() => setStep("MAIN")}
         />
       )}
