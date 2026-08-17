@@ -22,6 +22,7 @@ import type {
 } from "features/game/lib/gameMachine";
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import confetti from "canvas-confetti";
+import { useSound } from "lib/utils/hooks/useSound";
 import { ResourceTable } from "./ResourceTable";
 import { formatNumber } from "lib/utils/formatNumber";
 import { useParams } from "react-router";
@@ -79,6 +80,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
   disabled,
 }) => {
   const { gameService, showAnimations } = useContext(Context);
+  const celebrationSound = useSound("celebration");
   const { t } = useAppTranslation();
   const params = useParams();
 
@@ -174,6 +176,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
     "marketplacePurchasingSuccess",
     () => {
       reload();
+      celebrationSound.play();
       if (showAnimations) confetti();
     },
   );
@@ -199,6 +202,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
     () => {
       reload();
       handleClearBulkBuy();
+      celebrationSound.play();
       if (showAnimations) confetti();
     },
   );

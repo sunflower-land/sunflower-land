@@ -13,6 +13,7 @@ import sflIcon from "assets/icons/flower_token.webp";
 import { GameWallet } from "features/wallet/Wallet";
 import { Context } from "features/game/GameProvider";
 import confetti from "canvas-confetti";
+import { useSound } from "lib/utils/hooks/useSound";
 import {
   type BlockchainEvent,
   type Context as ContextType,
@@ -68,6 +69,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   display,
   disabled,
 }) => {
+  const celebrationSound = useSound("celebration");
   const { gameService } = useContext(Context);
   const balance = useSelector(gameService, _balance);
   const game = useSelector(gameService, selectGameState);
@@ -102,7 +104,10 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
     gameService,
     "marketplacePurchasing",
     "marketplacePurchasingSuccess",
-    confetti,
+    () => {
+      celebrationSound.play();
+      confetti();
+    },
     cheapestListing?.type === "instant",
   );
 

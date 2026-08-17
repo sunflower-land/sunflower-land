@@ -38,6 +38,7 @@ import { OPEN_SEA_WEARABLES } from "metadata/metadata";
 import { RECIPES } from "features/game/lib/crafting";
 import blueLightning from "assets/icons/blue_lightning.png";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useSound } from "lib/utils/hooks/useSound";
 import { ChestRewardsList } from "components/ui/ChestRewardsList";
 import {
   isDisplayableRewardBoxName,
@@ -53,6 +54,8 @@ interface ClaimRewardProps {
   label?: string;
   /** Item that was a VIP bonus gift – show crown icon next to it */
   vipGiftItem?: InventoryItemName;
+  /** Set false when the caller already plays its own fanfare */
+  playSound?: boolean;
 }
 
 export const ClaimReward: React.FC<ClaimRewardProps> = ({
@@ -61,13 +64,16 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
   onClose,
   label,
   vipGiftItem,
+  playSound = true,
 }) => {
   const { t } = useAppTranslation();
   const { showAnimations } = useContext(Context);
+  const celebrationSound = useSound("celebration");
 
   useEffect(() => {
+    if (playSound) celebrationSound.play();
     if (showAnimations) confetti();
-  }, [showAnimations]);
+  }, [showAnimations, playSound, celebrationSound]);
 
   return (
     <>

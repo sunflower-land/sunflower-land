@@ -5,8 +5,8 @@ import { useState, useEffect } from "react";
 const LOCAL_STORAGE_KEY = "settings.disabledSongs";
 const ENABLED_SONGS_EVENT = "enabledSongsChanged";
 
-// The classic originals start out of the rotation - opt back in via the panel
-const DEFAULT_DISABLED = ["willow_tree", "mountain_escape"];
+// Every song (classic originals included) is in the rotation by default
+const DEFAULT_DISABLED: string[] = [];
 
 export function getDisabledSongs(): string[] {
   try {

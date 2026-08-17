@@ -113,6 +113,8 @@ const SPECS = {
   compost_collect: { src: generated("compost_collect"), volume: 0.08 },
   chest_open: { src: generated("chest_open"), volume: 0.1 },
   daily_chest_epic: { src: generated("daily_chest_epic"), volume: 0.1 },
+  // Confetti / reward-reveal fanfare (ClaimReward and other confetti pops)
+  celebration: { src: generated("celebration"), volume: 0.1 },
   place_item: { src: generated("place_item"), volume: 0.08 },
   pet_pet: { src: generated("pet_pet"), volume: 0.08 },
   // Generic cue bank - reused across many call sites

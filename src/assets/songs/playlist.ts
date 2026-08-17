@@ -10,9 +10,7 @@ export interface Song {
 }
 
 // Generated tracks (see sound-generation/soundset.manifest.json) are
-// served locally from public/audio; the "Remastered" ones are the classic
-// tracks time-stretched to the tempo of the generated set and run back
-// through the generator as init audio.
+// served locally from public/audio.
 export const SONGS: Song[] = [
   {
     id: "willow_tree",
@@ -25,18 +23,6 @@ export const SONGS: Song[] = [
     artist: "Romy & Rick",
     name: "Mountain Escape",
     path: SOUNDS.songs.mountain_escape,
-  },
-  {
-    id: "willow_tree_remastered",
-    artist: "Romy × DJ Cluck Daddy",
-    name: "Willow Tree (Remastered)",
-    path: "/audio/willow_tree_remastered.m4a",
-  },
-  {
-    id: "mountain_escape_remastered",
-    artist: "Romy & Rick × DJ Cluck Daddy",
-    name: "Mountain Escape (Remastered)",
-    path: "/audio/mountain_escape_remastered.m4a",
   },
   {
     id: "sunny_meadows",
@@ -75,9 +61,7 @@ const FARMING_ORDER: string[] = [
   "sunny_meadows",
   "mountain_escape",
   "island_hoedown",
-  "willow_tree_remastered",
   "moonlit_orchard",
-  "mountain_escape_remastered",
   "seaside_stroll",
   "goblin_jamboree",
 ];
@@ -86,10 +70,8 @@ const GOBLIN_ORDER: string[] = [
   "goblin_jamboree",
   "mountain_escape",
   "island_hoedown",
-  "mountain_escape_remastered",
   "willow_tree",
   "seaside_stroll",
-  "willow_tree_remastered",
   "moonlit_orchard",
   "sunny_meadows",
 ];

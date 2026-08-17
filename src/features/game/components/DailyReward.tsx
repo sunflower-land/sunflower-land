@@ -215,6 +215,8 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
 
     return (
       <ClaimReward
+        // daily_chest_epic already played on claim
+        playSound={false}
         reward={{
           items,
           wearables: {},
