@@ -84,6 +84,7 @@ import {
 } from "../actions/sellMarketResource";
 import { setCachedMarketPrices } from "features/world/ui/market/lib/marketCache";
 import { OFFLINE_FARM } from "./landData";
+import { mergeLocalVisitProgress } from "./mergeLocalVisitProgress";
 import { isValidRedirect } from "features/portal/lib/portalUtil";
 import {
   type Effect,
@@ -755,7 +756,10 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
           const { visitedFarmState, ...rest } = data;
 
           return {
-            state: makeGame(visitedFarmState),
+            state: mergeLocalVisitProgress(
+              makeGame(visitedFarmState),
+              context.state,
+            ),
             data: rest,
             visitorState: gameState,
           };
