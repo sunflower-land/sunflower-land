@@ -43,22 +43,30 @@ const MIN_FLOWER_WITHDRAW_AMOUNT = new Decimal(5);
 const FlowerBreakdown: React.FC<{
   balance: Decimal;
   unlockedFlower: Decimal;
-}> = ({ balance, unlockedFlower }) => {
+  /** Highlights the available row when the player has asked for too much */
+  exceeded?: boolean;
+}> = ({ balance, unlockedFlower, exceeded }) => {
   const { t } = useAppTranslation();
 
   return (
-    <div className="flex flex-col gap-1">
-      <div className="flex items-center justify-between">
+    <div className="flex flex-col gap-1 w-full">
+      <div className="flex items-center justify-between gap-2">
         <span className="text-xs">{t("withdraw.flower.total")}</span>
         <span className="text-xs font-secondary">
           {formatNumber(balance, { decimalPlaces: 4 })}
         </span>
       </div>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2">
         <span className="text-xs">{t("withdraw.flower.available")}</span>
-        <span className="text-xs font-secondary">
-          {formatNumber(unlockedFlower, { decimalPlaces: 4 })}
-        </span>
+        {exceeded ? (
+          <Label type="danger">
+            {formatNumber(unlockedFlower, { decimalPlaces: 4 })}
+          </Label>
+        ) : (
+          <span className="text-xs font-secondary">
+            {formatNumber(unlockedFlower, { decimalPlaces: 4 })}
+          </span>
+        )}
       </div>
     </div>
   );
@@ -202,7 +210,7 @@ export const WithdrawFlower: React.FC<Props> = ({
         </InnerPanel>
       </ModalOverlay>
       <div className="p-2 mb-2">
-        <div className="flex flex-col items-start gap-2">
+        <div className="flex flex-col items-stretch gap-2">
           {hasAccess ? (
             <p className="text-xs">
               {t("withdraw.sfl.available", {
@@ -214,6 +222,7 @@ export const WithdrawFlower: React.FC<Props> = ({
               <FlowerBreakdown
                 balance={balance}
                 unlockedFlower={unlockedFlower}
+                exceeded={amount.greaterThan(available)}
               />
               <p className="text-xs">
                 {t("withdraw.flower.unlocked.explanation")}
