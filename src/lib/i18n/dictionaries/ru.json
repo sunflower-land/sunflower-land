@@ -7880,7 +7880,6 @@
   "skill.floweryAbode.buff.ranked": "+{{value}} к скорости производства мёда",
   "skill.floweryAbode.debuff.ranked": "+{{value}}% времени роста цветов",
   "skill.petalBlessed.ranked": "Мгновенно собирает все цветы. Перезарядка: {{value}}",
-  "reputation.cropkeeper.withdraw": "Вывести FLOWER",
   "skill.efficientBin.ranked": "+{{value}} ростковая смесь",
   "skill.turboCharged.ranked": "+{{value}} фруктовая смесь",
   "skill.wormyTreat.ranked": "+{{value}} червей",
@@ -8377,5 +8376,6 @@
   "giveaway.pop.andMore": "+{{count}} more",
   "giveaway.pop.bankedRound": "+{{count}} banked",
   "giveaway.pop.bankedNothing": "Nothing banked this round",
-  "giveaway.pop.totalBanked": "Total banked: {{count}}"
+  "giveaway.pop.totalBanked": "Total banked: {{count}}",
+  "reputation.grandHarvester.withdraw": "Withdraw FLOWER"
 }

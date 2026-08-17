@@ -7880,7 +7880,6 @@
   "skill.floweryAbode.buff.ranked": "+ {{value}} Kecepatan produksi madu",
   "skill.floweryAbode.debuff.ranked": "+ {{value}}% Waktu pertumbuhan bunga",
   "skill.petalBlessed.ranked": "Panen semua bunga secara instan. {{value}} cooldown",
-  "reputation.cropkeeper.withdraw": "Tarik BUNGA",
   "skill.efficientBin.ranked": "+ {{value}} Campuran Kecambah",
   "skill.turboCharged.ranked": "+ {{value}} Campuran Berbuah",
   "skill.wormyTreat.ranked": "+ {{value}} Cacing",
@@ -8377,5 +8376,6 @@
   "giveaway.pop.andMore": "+ {{count}} lebih",
   "giveaway.pop.bankedRound": "+ {{count}} ditaruh",
   "giveaway.pop.bankedNothing": "Tidak ada yang menyisihkan putaran ini",
-  "giveaway.pop.totalBanked": "Total perbankan: {{count}}"
+  "giveaway.pop.totalBanked": "Total perbankan: {{count}}",
+  "reputation.grandHarvester.withdraw": "Tarik BUNGA"
 }

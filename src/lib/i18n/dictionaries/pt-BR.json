@@ -7880,7 +7880,6 @@
   "skill.floweryAbode.buff.ranked": "+ {{value}} Velocidade de produção de mel",
   "skill.floweryAbode.debuff.ranked": "+ {{value}}% Tempo de crescimento da flor",
   "skill.petalBlessed.ranked": "Colha instantaneamente todas as flores. {{value}} tempo de recarga",
-  "reputation.cropkeeper.withdraw": "Retirar FLOWER",
   "skill.efficientBin.ranked": "+ {{value}} Mistura de brotos",
   "skill.turboCharged.ranked": "+ {{value}} Mistura frutífera",
   "skill.wormyTreat.ranked": "+ {{value}} Minhocas",
@@ -8377,5 +8376,6 @@
   "giveaway.pop.andMore": "+ {{count}} mais",
   "giveaway.pop.bankedRound": "+ {{count}} depositado",
   "giveaway.pop.bankedNothing": "Nada foi depositado nesta rodada",
-  "giveaway.pop.totalBanked": "Total bancado: {{count}}"
+  "giveaway.pop.totalBanked": "Total bancado: {{count}}",
+  "reputation.grandHarvester.withdraw": "Retirar FLOWER"
 }

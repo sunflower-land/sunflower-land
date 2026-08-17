@@ -7880,7 +7880,6 @@
   "skill.floweryAbode.buff.ranked": "+ {{value}} Vitesse de production de miel",
   "skill.floweryAbode.debuff.ranked": "+ {{value}} % Temps de croissance des fleurs",
   "skill.petalBlessed.ranked": "Récoltez instantanément toutes les fleurs. {{value}} temps de recharge",
-  "reputation.cropkeeper.withdraw": "Retirer la FLEUR",
   "skill.efficientBin.ranked": "+ {{value}} Mélange à germes",
   "skill.turboCharged.ranked": "+ {{value}} Mélange fructueux",
   "skill.wormyTreat.ranked": "+ {{value}} Vers",
@@ -8377,5 +8376,6 @@
   "giveaway.pop.andMore": "+ {{count}} plus",
   "giveaway.pop.bankedRound": "+ {{count}} mis en banque",
   "giveaway.pop.bankedNothing": "Rien n'a été enregistré ce round",
-  "giveaway.pop.totalBanked": "Total bancaire : {{count}}"
+  "giveaway.pop.totalBanked": "Total bancaire : {{count}}",
+  "reputation.grandHarvester.withdraw": "Retirer la FLEUR"
 }
