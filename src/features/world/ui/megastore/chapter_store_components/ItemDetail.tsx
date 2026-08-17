@@ -48,6 +48,7 @@ import {
 
 import lockIcon from "assets/icons/lock.png";
 import { ChestRewardsList } from "components/ui/ChestRewardsList";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface ItemOverlayProps {
   item: ChapterStoreItem;
@@ -84,6 +85,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
   const [confirmBuy, setConfirmBuy] = useState<boolean>(false);
   const [showRewards, setShowRewards] = useState<boolean>(false);
+
+  const buySound = useSound("coins_spend");
 
   const now = useNow();
   const currentChapter = getCurrentChapter(now);
@@ -254,6 +257,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const handleBuy = () => {
     if (!item || !itemName) return;
 
+    buySound.play();
     gameService.send("chapterItem.bought", {
       name: itemName,
       tier: tiers,

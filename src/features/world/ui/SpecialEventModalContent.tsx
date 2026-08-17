@@ -28,6 +28,7 @@ import classNames from "classnames";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useNow } from "lib/utils/hooks/useNow";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { useSound } from "lib/utils/hooks/useSound";
 
 export const Dialogue: React.FC<{
   message: string;
@@ -112,9 +113,12 @@ export const SpecialEventModalContent: React.FC<{
   const now = useNow({ live: true });
   const { totalSeconds: secondsRemaining } = useCountdown(event.endAt);
 
+  const taskSound = useSound("confirm_soft");
+
   const claimReward = (day: number) => {
     task.current = event.tasks[day - 1];
 
+    taskSound.play();
     gameService.send("specialEvent.taskCompleted", {
       event: eventName,
       task: day,

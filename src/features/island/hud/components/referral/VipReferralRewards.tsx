@@ -18,6 +18,7 @@ import flowerIcon from "assets/icons/flower_token.webp";
 import vipIcon from "assets/icons/vip.webp";
 import lockIcon from "assets/icons/lock.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useSound } from "lib/utils/hooks/useSound";
 import {
   type ReferralReward,
   VIP_REFERRAL_MILESTONE_THRESHOLDS,
@@ -80,11 +81,14 @@ export const VipReferralRewards: React.FC = () => {
   const { gameService, showAnimations } = useContext(Context);
   const referrals = useSelector(gameService, _referrals);
 
+  const claimRewardSound = useSound("claim_reward");
+
   const totalVIPReferrals = referrals?.totalVIPReferrals ?? 0;
   const claimedMilestones = referrals?.vipMilestonesClaimed ?? {};
   const commissionReached = totalVIPReferrals >= FLOWER_COMMISSION_THRESHOLD;
 
   const handleClaim = (milestone: number) => {
+    claimRewardSound.play();
     gameService.send("referral.vipMilestonesClaimed", { milestone });
     if (showAnimations) confetti();
   };

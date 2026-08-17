@@ -34,6 +34,7 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { BoostInfoPanel } from "./BoostInfoPanel";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface Props {
   bumpkinParts: Equipped;
@@ -68,6 +69,8 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
     getFactionWeekEndTime({ date: new Date(now) }),
   );
 
+  const deliverSound = useSound("confirm_soft");
+
   if (!kitchen || kitchen.requests.length === 0) {
     return (
       <CloseButtonPanel bumpkinParts={bumpkinParts}>
@@ -83,6 +86,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
   }
 
   const handleDeliver = (amount = 1) => {
+    deliverSound.play();
     gameService.send({
       type: "factionKitchen.delivered",
       resourceIndex: selectedRequestIdx,

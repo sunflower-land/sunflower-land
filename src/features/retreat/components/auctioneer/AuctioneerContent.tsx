@@ -23,6 +23,7 @@ import { GameWallet } from "features/wallet/Wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
 import { useScrollRestoration } from "lib/utils/hooks/useScrollRestoration";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface Props {
   auctionService: MachineInterpreter;
@@ -40,6 +41,8 @@ export const AuctioneerContent: React.FC<Props> = ({
   const [selectedAuctionId, setSelectedAuctionId] = useState<string>();
   const { scrollContainerRef, handleScroll } =
     useScrollRestoration<HTMLDivElement>();
+
+  const bidSound = useSound("confirm_soft");
 
   if (auctioneerState.matches("noAccess")) {
     return <AuctionsComingSoon />;
@@ -99,6 +102,7 @@ export const AuctioneerContent: React.FC<Props> = ({
         auction={auction}
         maxTickets={9999999} // TODO
         onBid={(tickets: number) => {
+          bidSound.play();
           auctionService.send("BID", { auctionId: auction.auctionId, tickets });
         }}
         onBack={() => auctionService.send("CANCEL")}

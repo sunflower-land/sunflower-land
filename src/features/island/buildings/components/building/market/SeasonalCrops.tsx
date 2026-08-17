@@ -39,6 +39,7 @@ import {
 } from "features/game/types/chapterCropWeek";
 import { hasUpgradedChapterCropWeekSkill } from "features/game/types/bumpkinSkills";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useSound } from "lib/utils/hooks/useSound";
 import { SpecialEventPanel } from "../SpecialEventPanel";
 
 const _state = (state: MachineState) => state.context.state;
@@ -68,7 +69,10 @@ export const SeasonalCrops: React.FC = () => {
 
   const divRef = useRef<HTMLDivElement>(null);
 
+  const coinsSpendSound = useSound("coins_spend");
+
   const sell = (amount: Decimal) => {
+    coinsSpendSound.play();
     if (isExoticCrop(selected.name)) {
       gameService.send("treasure.sold", {
         item: selected.name,

@@ -39,6 +39,7 @@ import {
 import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const AcceptOfferContent: React.FC<{
   onClose: () => void;
@@ -85,8 +86,11 @@ const AcceptOfferContent: React.FC<{
     confetti,
   );
 
+  const acceptSound = useSound("sfl");
+
   const confirm = async () => {
     if (accountTradedRecently) return;
+    acceptSound.play();
     gameService.send("marketplace.offerAccepted", {
       effect: {
         type: "marketplace.offerAccepted",

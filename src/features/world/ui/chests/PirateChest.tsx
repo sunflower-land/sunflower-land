@@ -18,6 +18,7 @@ import { Modal } from "components/ui/Modal";
 import { ChestRewardsList } from "components/ui/ChestRewardsList";
 import rewardsIcon from "assets/icons/stock.webp";
 import type { PanelTabs } from "features/game/components/CloseablePanel";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface PirateChestContentProps {
   setIsLoading?: (isLoading: boolean) => void;
@@ -38,6 +39,8 @@ const PirateChestContent: React.FC<PirateChestContentProps> = ({
   const [gameState] = useActor(gameService);
   const { state } = gameState.context;
 
+  const chestSound = useSound("chest_open");
+
   const piratePotionEquipped = isWearableActive({
     game: state,
     name: "Pirate Potion",
@@ -55,6 +58,7 @@ const PirateChestContent: React.FC<PirateChestContentProps> = ({
 
     await new Promise((resolve) => setTimeout(resolve, 5000));
 
+    chestSound.play();
     gameService.send("REVEAL", {
       event: {
         type: "pirateChest.opened",

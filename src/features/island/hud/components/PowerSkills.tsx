@@ -32,6 +32,7 @@ import { getPlotsToFertilise } from "features/game/events/landExpansion/bulkFert
 import { getRelativeTime, millisecondsToString } from "lib/utils/time";
 import { ConfirmButton } from "components/ui/ConfirmButton";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface PowerSkillsProps {
   onHide: () => void;
@@ -73,6 +74,8 @@ const PowerSkillsContent: React.FC<{
   const { bumpkin, fruitPatches, inventory } = state;
   const { skills, previousPowerUseAt } = bumpkin;
   const now = useNow();
+
+  const unlockSparkleSound = useSound("unlock_sparkle");
 
   const powerSkills = getPowerSkills();
   const powerSkillsUnlocked = powerSkills.filter(
@@ -117,6 +120,8 @@ const PowerSkillsContent: React.FC<{
     : [];
 
   const useSkill = () => {
+    unlockSparkleSound.play();
+
     if (isCropFertiliserSkill) {
       gameService.send("plots.bulkFertilised", {
         fertiliser: skillName === "Sprout Surge" ? "Sprout Mix" : "Rapid Root",

@@ -40,6 +40,7 @@ import classNames from "classnames";
 import { isMobile } from "mobile-device-detect";
 import { SICK_ANIMAL_REWARD_MULTIPLIER } from "features/game/events/landExpansion/sellAnimal";
 import { formatNumber } from "lib/utils/formatNumber";
+import { useSound } from "lib/utils/hooks/useSound";
 import { SquareIcon } from "components/ui/SquareIcon";
 
 function acknowledgeIntro() {
@@ -99,7 +100,10 @@ export const AnimalBuildingModal: React.FC<Props> = ({
 
   const [selectedName, setSelectedName] = useState<AnimalType>(animals[0]);
 
+  const barnSound = useSound("barn");
+
   const handleBuyAnimal = () => {
+    barnSound.play();
     gameService.send({
       type: "animal.bought",
       animal: selectedName,

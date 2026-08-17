@@ -13,6 +13,7 @@ import {
   MinigameCurrencyDisclaimerPanel,
   showsMinigameCurrencyDisclaimer,
 } from "./MinigameCurrencyDisclaimerPanel";
+import { useSound } from "lib/utils/hooks/useSound";
 
 type PurchaseModalContentProps = {
   authToken: string;
@@ -37,6 +38,8 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
 
+  const purchaseSound = useSound("coins_spend");
+
   const collection = tradeable.collection;
   const display = getTradeableDisplay({
     id: tradeable.id,
@@ -45,6 +48,7 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
   });
 
   const confirm = async () => {
+    purchaseSound.play();
     gameService.send("marketplace.listingPurchased", {
       effect: {
         type: "marketplace.listingPurchased",

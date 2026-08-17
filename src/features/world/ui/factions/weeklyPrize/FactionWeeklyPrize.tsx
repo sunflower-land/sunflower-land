@@ -8,6 +8,7 @@ import { getKeys } from "lib/object";
 import type { GameState } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useSound } from "lib/utils/hooks/useSound";
 import React, { useContext, useState } from "react";
 
 export function getFactionPrize({ game }: { game: GameState }) {
@@ -38,6 +39,8 @@ export const FactionWeeklyPrize: React.FC<Props> = ({ onClose }) => {
   });
   const [reward] = useState(prize);
 
+  const claimSound = useSound("claim_reward");
+
   if (!reward) {
     return (
       <Panel>
@@ -53,6 +56,7 @@ export const FactionWeeklyPrize: React.FC<Props> = ({ onClose }) => {
   }
 
   const claim = () => {
+    claimSound.play();
     gameService.send("faction.prizeClaimed", {
       week,
     });

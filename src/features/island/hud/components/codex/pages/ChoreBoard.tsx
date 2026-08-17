@@ -44,6 +44,7 @@ import { isMobile } from "mobile-device-detect";
 import { Context } from "features/game/GameProvider";
 import { formatNumber } from "lib/utils/formatNumber";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useSound } from "lib/utils/hooks/useSound";
 import { pixelVibrantBorderStyle } from "features/game/lib/style";
 import { getChapterTaskPoints } from "features/game/types/tracks";
 
@@ -92,7 +93,10 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
         }),
     );
 
+  const claimRewardSound = useSound("claim_reward");
+
   const handleCompleteChore = (npcName: NPCName) => {
+    claimRewardSound.play();
     gameService.send({
       type: "chore.fulfilled",
       npcName,

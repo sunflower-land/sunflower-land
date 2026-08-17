@@ -53,6 +53,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import { useVipAccess } from "lib/utils/hooks/useVipAccess";
+import { useSound } from "lib/utils/hooks/useSound";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import vipIcon from "assets/icons/vip.webp";
@@ -125,6 +126,8 @@ export const SeasonalSeeds: React.FC = () => {
   const selected = SEEDS[selectedName];
   const { t } = useAppTranslation();
 
+  const shopSound = useSound("shop");
+
   const { price } = getBuyPrice(selectedName, selected, state);
 
   const onSeedClick = (seedName: SeedName) => {
@@ -133,6 +136,7 @@ export const SeasonalSeeds: React.FC = () => {
   };
 
   const buy = (amount = 1) => {
+    shopSound.play();
     const state = gameService.send("seed.bought", {
       item: selectedName,
       amount,

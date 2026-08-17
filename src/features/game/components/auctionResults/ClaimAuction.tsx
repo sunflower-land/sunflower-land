@@ -8,10 +8,13 @@ import { useContext } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Transaction } from "features/island/hud/Transaction";
 import { getAuctionItemImage } from "features/retreat/components/auctioneer/lib/getAuctionItemDisplay";
+import { useSound } from "lib/utils/hooks/useSound";
 
 export const ClaimAuction: React.FC = () => {
   const { gameService } = useContext(GameContext);
   const { t } = useAppTranslation();
+
+  const claimSound = useSound("claim_reward");
 
   const bid = gameService.getSnapshot().context.state.auctioneer.bid!;
   const image = getAuctionItemImage(bid);
@@ -33,6 +36,7 @@ export const ClaimAuction: React.FC = () => {
         </div>
         <Winner
           onMint={() => {
+            claimSound.play();
             gameService.send("auction.claimed", {
               effect: {
                 type: "auction.claimed",

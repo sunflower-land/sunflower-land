@@ -15,6 +15,7 @@ import {
 } from "features/game/types/spiceRack";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useSound } from "lib/utils/hooks/useSound";
 import { useVisiting } from "lib/utils/visitUtils";
 import type { Inventory, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -87,6 +88,9 @@ export const SpiceRackPanel: React.FC = () => {
   const [startError, setStartError] = useState<string | undefined>();
   const [collectError, setCollectError] = useState<string | undefined>();
 
+  const machineWhirSound = useSound("machine_whir");
+  const claimRewardSound = useSound("claim_reward");
+
   const maxSlots = getMaxSpiceRackSlots(state.agingShed.level);
   const slotsFull = queue.length >= maxSlots;
 
@@ -124,6 +128,7 @@ export const SpiceRackPanel: React.FC = () => {
     setStartError(undefined);
 
     try {
+      machineWhirSound.play();
       gameService.send("spiceRack.started", {
         recipe: recipeId,
         jobId: uuidv4().slice(0, 8),
@@ -138,6 +143,7 @@ export const SpiceRackPanel: React.FC = () => {
     setCollectError(undefined);
 
     try {
+      claimRewardSound.play();
       gameService.send("spiceRack.collected");
       gameService.send("SAVE");
       setSelectedSlotId(null);

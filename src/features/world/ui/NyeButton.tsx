@@ -9,6 +9,7 @@ import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { useActor } from "@xstate/react";
 import { translate } from "lib/i18n/translate";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface Props {
   onClose: () => void;
@@ -21,6 +22,8 @@ export const NyeButton: React.FC<Props> = ({ onClose }) => {
   const [gameState] = useActor(gameService);
 
   const now = useNow();
+
+  const claimSound = useSound("claim_reward");
 
   const hasClaimed = !!gameState.context.state.wardrobe?.["New Years Tiara"];
 
@@ -39,6 +42,7 @@ export const NyeButton: React.FC<Props> = ({ onClose }) => {
             coins: 0,
           }}
           onClaim={() => {
+            claimSound.play();
             gameService.send("bonus.claimed", {
               name: "2024-nye-bonus",
             });

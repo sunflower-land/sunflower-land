@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
+import { useSound } from "lib/utils/hooks/useSound";
 import { useSelector } from "@xstate/react";
 import { COMPOSTER_IMAGES, ComposterModal } from "./ComposterModal";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -34,6 +35,9 @@ interface Props {
 }
 export const Composter: React.FC<Props> = ({ name }) => {
   const { gameService, showAnimations, showTimers } = useContext(Context);
+
+  const compostStartSound = useSound("compost_start");
+  const compostCollectSound = useSound("compost_collect");
   const [showModal, setShowModal] = useState(false);
 
   const [_, setRender] = useState<number>(0);
@@ -57,6 +61,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
   const startComposter = () => {
     // Simulate delayed closing of lid
     setTimeout(() => {
+      compostStartSound.play();
       gameService.send("composter.started", {
         buildingId: composter!.id,
         building: name,
@@ -67,6 +72,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
   const handleClick = () => setShowModal(true);
 
   const handleCollect = () => {
+    compostCollectSound.play();
     const state = gameService.send("compost.collected", {
       buildingId: composter!.id,
       building: name,

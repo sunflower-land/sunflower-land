@@ -32,6 +32,7 @@ import { FarmHelped } from "features/island/hud/components/FarmHelped";
 import helpIcon from "assets/icons/help.webp";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import type { GameState } from "features/game/types/game";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const ProjectModal: React.FC<{
   project: MonumentName;
@@ -144,9 +145,11 @@ export const Monument: React.FC<MonumentProps> = (input) => {
 
   const [isCompleting, setIsCompleting] = useState(false);
   const [showHelped, setShowHelped] = useState(false);
+  const claimRewardSound = useSound("claim_reward");
 
   // V2 - local only event
   const handleHelpProject = async () => {
+    claimRewardSound.play();
     gameService.send("project.helped", {
       project: input.project,
       totalHelpedToday: totalHelpedToday ?? 0,

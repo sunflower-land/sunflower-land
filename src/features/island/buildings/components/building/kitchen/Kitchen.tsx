@@ -49,6 +49,7 @@ export const Kitchen: React.FC<Props> = ({
   const { play: bakeryAudio } = useSound("bakery");
 
   const handleCook = (item: CookableName) => {
+    bakeryAudio();
     gameService?.send({
       type: "recipe.cooked",
       item,

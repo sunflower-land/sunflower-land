@@ -73,6 +73,7 @@ import { getCountAndType } from "features/island/hud/components/inventory/utils/
 import { getChapterTaskPoints } from "features/game/types/tracks";
 import chapterPointsIcon from "assets/icons/red_medal_short.webp";
 import { hasFeatureAccess, hasTimeBasedFeatureAccess } from "lib/flags";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const OrderCard: React.FC<{
   order: Order;
@@ -414,6 +415,8 @@ export const Gifts: React.FC<{
 
   const now = useNow({ live: true });
 
+  const giftedSound = useSound("unlock_sparkle");
+
   const flowers = getKeys(game.inventory)
     .filter(
       (item): item is FlowerName =>
@@ -446,6 +449,7 @@ export const Gifts: React.FC<{
 
   const onGift = async () => {
     const previous = game.npcs?.[name]?.friendship?.points ?? 0;
+    giftedSound.play();
     const state = gameService.send("flowers.gifted", {
       bumpkin: name,
       flower: selected,
@@ -836,6 +840,10 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   const now = useNow({ live: true, intervalMs: 60_000 });
 
+  const deliveredSound = useSound("claim_reward");
+  const skippedSound = useSound("no");
+  const giftClaimedSound = useSound("claim_reward");
+
   const game = gameState.context.state;
   const [showFlowers, setShowFlowers] = useState(false);
   const [showSkipDialog, setShowSkipDialog] = useState(false);
@@ -868,6 +876,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const skip = (id: string) => {
     setShowSkipDialog(false);
     setIsSkipping(true);
+    skippedSound.play();
     gameService.send("order.skipped", { id });
     gameService.send("SAVE");
   };
@@ -878,6 +887,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const isHoliday = holiday === today;
 
   const deliver = () => {
+    deliveredSound.play();
     gameService.send("order.delivered", {
       id: delivery?.id,
       friendship: true,
@@ -983,6 +993,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
           reward={gift}
           onClose={() => setGift(undefined)}
           onClaim={() => {
+            giftClaimedSound.play();
             gameService.send("gift.claimed", { bumpkin: npc });
             onClose && onClose();
           }}

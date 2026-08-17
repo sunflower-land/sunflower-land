@@ -55,3 +55,6 @@ cache
 /*.json
 /docs/superpowers/
 /AGENTS.md
+
+# Local sound-generation skill workspace (manifest + generated intermediates)
+/sound-generation/

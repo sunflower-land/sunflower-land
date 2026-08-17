@@ -27,6 +27,7 @@ import springWharf from "assets/wharf/spring_wharf.png";
 import desertWharf from "assets/wharf/desert_wharf.png";
 import volcanoWharf from "assets/wharf/volcano_wharf.png";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 3;
@@ -51,6 +52,8 @@ const WHARF: Record<Exclude<IslandType, "basic">, string> = {
 export const Fisherman: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const { gameService } = useContext(Context);
+
+  const fishingCastSound = useSound("fishing_cast");
 
   const expansionCount = useSelector(gameService, expansions);
   const isVisiting = useSelector(gameService, _isVisiting);
@@ -156,6 +159,7 @@ export const Fisherman: React.FC = () => {
     guaranteedCatch?: FishName,
     reelPacksToBuy?: number,
   ) => {
+    fishingCastSound.play();
     gameService.send("rod.casted", {
       bait,
       chum,

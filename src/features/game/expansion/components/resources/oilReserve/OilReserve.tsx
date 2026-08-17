@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { RecoveredOilReserve } from "./components/RecoveredOilReserve";
 import { Context } from "features/game/GameProvider";
+import { useSound } from "lib/utils/hooks/useSound";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type { OilReserve as IOilReserve } from "features/game/types/game";
 import { useSelector } from "@xstate/react";
@@ -52,6 +53,7 @@ const areBoostWindowsEqual = (a: BoostWindow[], b: BoostWindow[]) =>
 
 export const OilReserve: React.FC<Props> = ({ id }) => {
   const { gameService } = useContext(Context);
+  const miningSound = useSound("mining");
   const [drilling, setDrilling] = useState(false);
   const [oilHarvested, setOilHarvested] = useState(0);
 
@@ -139,6 +141,7 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
   const handleDrill = async () => {
     if (!ready || drills.lessThan(requiredDrillAmount)) return;
 
+    miningSound.play();
     gameService.send({ type: "oilReserve.drilled", id });
 
     setDrilling(true);

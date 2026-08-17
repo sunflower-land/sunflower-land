@@ -19,6 +19,7 @@ import {
 import { capitalize } from "lodash";
 import { getObjectEntries } from "lib/object";
 import { useSelector } from "@xstate/react";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface RestockModalProps {
   onClose: () => void;
@@ -41,6 +42,8 @@ export const NPCRestockModal: React.FC<RestockModalProps> = ({
   const { gameService, showAnimations } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
 
+  const shopSound = useSound("shop");
+
   const { gemPrice, shopName, restockItem, categoryLabel } = RestockItems[npc];
   const canRestock = state.inventory["Gem"]?.gte(gemPrice);
 
@@ -50,6 +53,7 @@ export const NPCRestockModal: React.FC<RestockModalProps> = ({
       return;
     }
 
+    shopSound.play();
     gameService.send("npc.restocked", { npc });
 
     gameAnalytics.trackSink({

@@ -53,6 +53,7 @@ import nightshadeEmblem from "assets/icons/nightshade_emblem.webp";
 import xpIcon from "assets/icons/xp.png";
 import { useNow } from "lib/utils/hooks/useNow";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const FACTION_EMBLEM_ICONS: Record<FactionName, string> = {
   goblins: goblinEmblem,
@@ -292,9 +293,12 @@ const FactionPetContent: React.FC<{
   const [selectedRequestIdx, setSelectedRequestIdx] = useState(0);
   const [showBoostInfo, setShowBoostInfo] = useState(false);
 
+  const feedSound = useSound("feed_animal");
+
   const selectedRequest = pet.requests[selectedRequestIdx] as FactionPetRequest;
 
   const handleFeed = (amount = 1) => {
+    feedSound.play();
     gameService.send({
       type: "factionPet.fed",
       requestIndex: selectedRequestIdx,

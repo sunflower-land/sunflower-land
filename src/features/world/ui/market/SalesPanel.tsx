@@ -28,6 +28,7 @@ import {
 } from "features/game/lib/gameMachine";
 import { LastUpdatedAt } from "components/LastUpdatedAt";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useSound } from "lib/utils/hooks/useSound";
 
 export const MARKET_BUNDLES: Record<TradeableName, number> = {
   // Crops
@@ -92,6 +93,8 @@ export const SalesPanel: React.FC<{
     isAccountTradedWithin90Days(s.context),
   );
 
+  const sellSound = useSound("sfl");
+
   const onSell = (item: TradeableName) => {
     // Open Confirmation modal
     setConfirm(true);
@@ -101,6 +104,7 @@ export const SalesPanel: React.FC<{
   const confirmSell = (pricePerUnit: number) => {
     setConfirm(false);
     if (accountTradedRecently) return;
+    sellSound.play();
     gameService.send({
       type: "SELL_MARKET_RESOURCE",
       item: selected,

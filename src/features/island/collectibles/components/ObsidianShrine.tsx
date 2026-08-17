@@ -56,6 +56,7 @@ import { ChestReward } from "features/island/common/chest-reward/ChestReward";
 import type { FarmActivityName } from "features/game/types/farmActivity";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { isWearableActive } from "features/game/lib/wearables";
+import { useSound } from "lib/utils/hooks/useSound";
 
 type AnyCompostName =
   | CropCompostName
@@ -147,7 +148,10 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
     return combined;
   }, [readyPlots, state.bumpkin?.skills, state.farmActivity, farmId]);
 
+  const harvestSound = useSound("harvest");
+
   const doHarvestAll = () => {
+    harvestSound.play();
     gameService.send("crops.bulkHarvested", {});
   };
 
@@ -393,6 +397,7 @@ const PlantSection: React.FC<{
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const now = useNow({ live: true });
+  const plantSound = useSound("plant");
 
   const [selectedSeed, setSelectedSeed] = useState<CropSeedName | null>(
     () => localStorage.getItem(SEED_STORAGE_KEY) as CropSeedName | null,
@@ -432,6 +437,7 @@ const PlantSection: React.FC<{
   const plantAll = () => {
     if (!effectiveSeed) return;
 
+    plantSound.play();
     const updatedState = gameService.send("seeds.bulkPlanted", {
       seed: effectiveSeed,
     });
@@ -561,6 +567,7 @@ const FertiliseSection: React.FC<{
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const now = useNow({ live: true });
+  const plantSound = useSound("plant");
 
   const [selectedFertiliser, setSelectedFertiliser] =
     useState<AnyCompostName | null>(
@@ -590,6 +597,7 @@ const FertiliseSection: React.FC<{
   const applyAll = () => {
     if (!effectiveFertiliser || eligibleCount === 0 || ownedCount === 0) return;
 
+    plantSound.play();
     if (effectiveFertiliser in CROP_COMPOST) {
       gameService.send("plots.bulkFertilised", {
         fertiliser: effectiveFertiliser as CropCompostName,

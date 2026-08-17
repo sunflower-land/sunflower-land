@@ -7,6 +7,7 @@ import React from "react";
 import socialScoreIcon from "assets/icons/social_score.webp";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useVipAccess } from "lib/utils/hooks/useVipAccess";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface Props {
   onClose: () => void;
@@ -17,7 +18,10 @@ export const FarmHelped: React.FC<Props> = ({ onClose }) => {
 
   const { t } = useAppTranslation();
 
+  const confirmSoftSound = useSound("confirm_soft");
+
   const handleClean = () => {
+    confirmSoftSound.play();
     gameService.send("farm.helped", {
       effect: {
         type: "farm.helped",

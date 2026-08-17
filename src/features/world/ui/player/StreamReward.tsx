@@ -6,6 +6,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { millisecondsToString } from "lib/utils/time";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useSound } from "lib/utils/hooks/useSound";
 import * as Auth from "features/auth/lib/Provider";
 import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
@@ -85,6 +86,8 @@ export const StreamReward: React.FC<{ streamerId: number }> = ({
     intervalMs: 60000,
   });
 
+  const claimSound = useSound("claim_reward");
+
   const timeToNextClaim =
     streamHatLastClaimed === 0
       ? 0
@@ -105,6 +108,7 @@ export const StreamReward: React.FC<{ streamerId: number }> = ({
   const hasReachedLimit = !isNewDay && (dailyCount ?? 0) >= 10;
 
   const claimReward = () => {
+    claimSound.play();
     gameService.send("streamReward.claimed", {
       effect: { type: "streamReward.claimed", streamerId },
       authToken: authService.getSnapshot().context.user.rawToken as string,

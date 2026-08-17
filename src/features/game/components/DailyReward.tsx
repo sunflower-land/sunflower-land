@@ -39,6 +39,7 @@ import {
 } from "../lib/level";
 import { getVipDailyBonusItem } from "../lib/vipAccess";
 import { useVipAccess } from "lib/utils/hooks/useVipAccess";
+import { useSound } from "lib/utils/hooks/useSound";
 
 export const DAILY_REWARD_IMAGES: Record<DailyRewardName, string> = {
   "default-reward": SUNNYSIDE.icons.expression_confused,
@@ -95,6 +96,9 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
   const { gameService } = useGame();
   const { t } = useAppTranslation();
 
+  // The daily chest gets the big celebratory open, not the standard creak
+  const chestOpenSound = useSound("daily_chest_epic");
+
   const bumpkinExperience = useSelector(gameService, _bumpkinExperience);
   const dailyRewards = useSelector(gameService, _dailyRewards);
   const gameState = useSelector(gameService, _gameState);
@@ -115,6 +119,7 @@ export const DailyRewardClaim: React.FC<{ showClose?: boolean }> = ({
     const lastCollectedAt =
       dailyRewards?.chest?.collectedAt ?? gameState.createdAt ?? now;
 
+    chestOpenSound.play();
     gameService.send("dailyReward.claimed");
     gameService.send("CONTINUE");
 

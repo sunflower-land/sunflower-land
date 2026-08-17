@@ -21,6 +21,7 @@ import rewardsIcon from "assets/icons/stock.webp";
 import basicChest from "public/world/basic_chest.png";
 import rareChest from "public/world/wooden_chest.png";
 import luxuryChest from "public/world/luxury_chest.png";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface Props {
   onClose: () => void;
@@ -71,6 +72,8 @@ export const TreasureChest: React.FC<Props> = ({
 
   const [isRevealing, setIsRevealing] = useState(false);
 
+  const chestSound = useSound("chest_open");
+
   const hasKey = !!gameState.context.state.inventory[type]?.gte(1);
 
   const open = async () => {
@@ -79,6 +82,7 @@ export const TreasureChest: React.FC<Props> = ({
 
     await new Promise((resolve) => setTimeout(resolve, 5000));
 
+    chestSound.play();
     gameService.send("REVEAL", {
       event: {
         key: type,

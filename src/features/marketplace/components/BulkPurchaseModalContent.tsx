@@ -13,6 +13,7 @@ import {
   MinigameCurrencyDisclaimerPanel,
   showsMinigameCurrencyDisclaimer,
 } from "./MinigameCurrencyDisclaimerPanel";
+import { useSound } from "lib/utils/hooks/useSound";
 
 type BulkPurchaseModalContentProps = {
   authToken: string;
@@ -32,6 +33,8 @@ export const BulkPurchaseModalContent: React.FC<
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
 
+  const purchaseSound = useSound("coins_spend");
+
   const collection = tradeable.collection;
   const display = getTradeableDisplay({
     id: tradeable.id,
@@ -40,6 +43,7 @@ export const BulkPurchaseModalContent: React.FC<
   });
 
   const confirm = async () => {
+    purchaseSound.play();
     gameService.send("marketplace.buyBulkResources", {
       effect: {
         type: "marketplace.buyBulkResources",

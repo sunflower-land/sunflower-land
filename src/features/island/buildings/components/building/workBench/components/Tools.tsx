@@ -48,6 +48,7 @@ import {
   planToolPurchases,
 } from "../lib/planToolPurchases";
 import { ToolBatchBuyModal } from "./ToolBatchBuyModal";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const isLoveAnimalTool = (
   toolName: WorkbenchToolName | LoveAnimalItem,
@@ -64,6 +65,8 @@ export const Tools: React.FC = () => {
   const { gameService, shortcutItem } = useContext(Context);
 
   const state = useSelector(gameService, (state) => state.context.state);
+
+  const craftItemSound = useSound("craft_item");
 
   const selected = isLoveAnimalTool(selectedName)
     ? LOVE_ANIMAL_TOOLS[selectedName]
@@ -92,6 +95,7 @@ export const Tools: React.FC = () => {
 
   const craft = (event: SyntheticEvent | undefined, amount: number) => {
     event?.stopPropagation();
+    craftItemSound.play();
     const state = gameService.send("tool.crafted", {
       tool: selectedName,
       amount,

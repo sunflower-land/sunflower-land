@@ -23,6 +23,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES } from "lib/npcs";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useSound } from "lib/utils/hooks/useSound";
 import React, { useContext, useState } from "react";
 
 interface Props {
@@ -207,7 +208,9 @@ export const Deal: React.FC<{
   const { t } = useAppTranslation();
   const now = useNow();
   const ticket = getChapterTicket(now);
+  const sellSound = useSound("sfl");
   const sell = () => {
+    sellSound.play();
     gameService.send("bounty.sold", {
       requestId: deal.id,
     });

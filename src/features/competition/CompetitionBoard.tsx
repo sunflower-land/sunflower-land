@@ -42,6 +42,7 @@ import lockIcon from "assets/icons/lock.png";
 import calendarIcon from "assets/icons/calendar.webp";
 import { useNow } from "lib/utils/hooks/useNow";
 import { LastUpdatedAt } from "components/LastUpdatedAt";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const _state = (state: MachineState) => state.context.state;
 
@@ -59,6 +60,8 @@ export const CompetitionModal: React.FC<{
   const [showIntro, setShowIntro] = useState(!competitions.progress.TESTING);
 
   const [isConnecting] = useState(false);
+
+  const joinSound = useSound("confirm_soft");
 
   if (isConnecting) {
     return (
@@ -94,6 +97,7 @@ export const CompetitionModal: React.FC<{
         <div className="flex">
           <Button
             onClick={() => {
+              joinSound.play();
               gameService.send("competition.started", {
                 name: competitionName,
               });

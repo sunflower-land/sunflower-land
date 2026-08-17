@@ -33,6 +33,7 @@ import type { Interaction } from "./types/types";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import silhouette from "assets/npcs/silhouette.webp";
 import { playerModalManager } from "./lib/playerModalManager";
+import { useSound } from "lib/utils/hooks/useSound";
 import { useSocial } from "./hooks/useSocial";
 import { useInView } from "react-intersection-observer";
 import { Loading } from "features/auth/components";
@@ -163,6 +164,7 @@ export const Feed: React.FC<Props> = ({
     mutate,
   } = useFeedInteractions(token, farmId, selectedFilter, type === "world");
   const { setUnreadCount, lastAcknowledged, clearUnread } = useFeed();
+  const panelSlideSound = useSound("panel_slide");
 
   // Handle clicks outside the feed to close it
   useEffect(() => {
@@ -198,6 +200,7 @@ export const Feed: React.FC<Props> = ({
 
   useEffect(() => {
     if (showFeed) {
+      panelSlideSound.play();
       clearUnread(0);
     }
   }, [showFeed]);

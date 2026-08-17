@@ -19,6 +19,7 @@ import {
 import { NaturalImage } from "components/ui/NaturalImage";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import type { Equipped } from "features/game/types/bumpkin";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface BedProps {
   name: BedName;
@@ -94,6 +95,7 @@ export const Bed: React.FC<BedProps> = ({ name }) => {
     _unlockingFarmhandSuccess,
   );
   const latestFarmhand = useSelector(gameService, _latestFarmhand);
+  const unlockSparkleSound = useSound("unlock_sparkle");
 
   // Limit: main bumpkin + farmhands must not exceed bed count (e.g. 11 beds = 1 main + 10 farmhands max)
   const bumpkinCount = getKeys(farmhands).length + 1;
@@ -132,6 +134,7 @@ export const Bed: React.FC<BedProps> = ({ name }) => {
   };
 
   const unlockFarmhand = () => {
+    unlockSparkleSound.play();
     gameService.send("farmHand.unlocked", {
       effect: { type: "farmHand.unlocked" },
     });

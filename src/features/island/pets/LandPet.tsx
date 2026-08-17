@@ -12,12 +12,14 @@ import { PetSprite } from "./PetSprite";
 import { _petData } from "./lib/petShared";
 import { PetModal } from "./PetModal";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useSound } from "lib/utils/hooks/useSound";
 
 export const LandPet: React.FC<{ name: PetName }> = ({ name }) => {
   const [showPetModal, setShowPetModal] = useState(false);
   const [showPositiveXpPopup, setShowPositiveXpPopup] = useState(false);
   const [showNegativeXpPopup, setShowNegativeXpPopup] = useState(false);
   const { gameService } = useContext(Context);
+  const petPetSound = useSound("pet_pet");
 
   const petData = useSelector(gameService, _petData(name));
   const now = useNow({ live: true });
@@ -34,6 +36,7 @@ export const LandPet: React.FC<{ name: PetName }> = ({ name }) => {
       setShowNegativeXpPopup(true);
       window.setTimeout(() => setShowNegativeXpPopup(false), 1000);
     } else if (isNapping) {
+      petPetSound.play();
       gameService.send("pet.pet", {
         petId: name,
       });

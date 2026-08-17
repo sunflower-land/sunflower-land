@@ -43,6 +43,7 @@ import type {
   InventoryItemName,
 } from "features/game/types/game";
 import { useVipAccess } from "lib/utils/hooks/useVipAccess";
+import { useSound } from "lib/utils/hooks/useSound";
 import { Queue } from "./Queue";
 import vipIcon from "assets/icons/vip.webp";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
@@ -103,6 +104,9 @@ export const Recipes: React.FC<Props> = ({
   const availableSlots = useVipAccess({ game: state }) ? MAX_COOKING_SLOTS : 1;
   const now = useNow({ live: true });
 
+  const harvestSound = useSound("harvest");
+  const coinsSpendSound = useSound("coins_spend");
+
   // The limited-time Chapter Crop Week recipe (surfaced in its own panel).
   const eventRecipe = recipes.find(
     (recipe) => recipe.name === CHAPTER_CROP_WEEK_RECIPE,
@@ -150,6 +154,7 @@ export const Recipes: React.FC<Props> = ({
   const cook = () => onCook(selected.name);
 
   const collect = () => {
+    harvestSound.play();
     gameService.send("recipes.collected", {
       buildingId,
       building: buildingName,
@@ -160,6 +165,7 @@ export const Recipes: React.FC<Props> = ({
     cost: number,
     paymentMethod: "gems" | "coins" = "gems",
   ) => {
+    coinsSpendSound.play();
     gameService.send("recipe.spedUp", {
       buildingId,
       buildingName,

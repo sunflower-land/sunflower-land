@@ -51,6 +51,7 @@ import { computeAffordableAmount } from "features/island/buildings/components/bu
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { formatNumber } from "lib/utils/formatNumber";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface ToolContentProps {
   selectedName: TreasureToolName;
@@ -64,6 +65,8 @@ const ToolContent: React.FC<ToolContentProps> = ({ selectedName }) => {
 
   const state = useSelector(gameService, _state);
   const [showMaxConfirm, setShowMaxConfirm] = useState(false);
+
+  const craftSound = useSound("craft_item");
 
   const stock = state.stock[selectedName] || new Decimal(0);
   const selected = TREASURE_TOOLS[selectedName];
@@ -94,6 +97,7 @@ const ToolContent: React.FC<ToolContentProps> = ({ selectedName }) => {
 
   const craft = (event: SyntheticEvent, amount: number) => {
     event.stopPropagation();
+    craftSound.play();
     gameService.send("tool.crafted", {
       tool: selectedName,
       amount,
@@ -103,6 +107,7 @@ const ToolContent: React.FC<ToolContentProps> = ({ selectedName }) => {
   };
 
   const confirmBuyMax = () => {
+    craftSound.play();
     gameService.send("tool.crafted", {
       tool: selectedName,
       amount: maxAffordableAmount,
@@ -241,6 +246,8 @@ const CollectibleContent: React.FC<CollectibleContentProps> = ({
   ] = useActor(gameService);
   const { inventory, pumpkinPlaza } = state;
 
+  const craftSound = useSound("craft_item");
+
   const isKey = (name: TreasureCollectibleItem | Keys): name is Keys =>
     name in ARTEFACT_SHOP_KEYS;
 
@@ -260,6 +267,7 @@ const CollectibleContent: React.FC<CollectibleContentProps> = ({
   const isBoost = COLLECTIBLE_BUFF_LABELS[selectedName]?.(state);
 
   const craft = () => {
+    craftSound.play();
     gameService.send("collectible.crafted", {
       name: selectedName,
     });
@@ -333,6 +341,8 @@ const WearableContent: React.FC<WearableContentProps> = ({ selectedName }) => {
   const inventory = state.inventory;
   const wardrobe = state.wardrobe;
 
+  const buySound = useSound("coins_spend");
+
   if (!selected) return null;
 
   const lessIngredients = () =>
@@ -343,6 +353,7 @@ const WearableContent: React.FC<WearableContentProps> = ({ selectedName }) => {
   const isBoost = BUMPKIN_ITEM_BUFF_LABELS[selectedName];
 
   const craft = () => {
+    buySound.play();
     gameService.send("wearable.bought", {
       name: selectedName,
     });

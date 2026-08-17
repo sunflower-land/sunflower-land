@@ -17,6 +17,7 @@ import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 import { CLUTTER, type ClutterName } from "features/game/types/clutter";
 import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
 import { getWearableImage } from "features/game/lib/getWearableImage";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const BULK_BURN_AMOUNT = 10;
 
@@ -34,7 +35,10 @@ export const Incinerator: React.FC = () => {
 
   const [selectedName, setSelectedName] = useState<ClutterName>(clutter[0]);
 
+  const burnSound = useSound("burning");
+
   const burn = (amount = 1) => {
+    burnSound.play();
     gameService.send("clutter.burned", {
       item: selectedName,
       amount,

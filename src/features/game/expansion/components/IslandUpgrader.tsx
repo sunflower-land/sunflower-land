@@ -41,6 +41,7 @@ import { Loading } from "features/auth/components";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
+import { useSound } from "lib/utils/hooks/useSound";
 
 export const UPGRADE_RAFTS: Record<IslandType, string | null> = {
   basic: SUNNYSIDE.land.springRaft,
@@ -384,7 +385,10 @@ export const IslandUpgrader: React.FC<Props> = ({ offset }) => {
 
   const [scrollIntoView] = useScrollIntoView();
 
+  const travelSound = useSound("travel");
+
   const onUpgrade = async () => {
+    travelSound.play();
     setShowTravelAnimation(true);
 
     await new Promise((resolve) => setTimeout(resolve, 2000));

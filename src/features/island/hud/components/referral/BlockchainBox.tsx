@@ -7,6 +7,7 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useSound } from "lib/utils/hooks/useSound";
 
 export const BlockchainBox: React.FC = () => {
   const { gameService, gameState } = useGame();
@@ -15,6 +16,8 @@ export const BlockchainBox: React.FC = () => {
   const [showWalletWall, setShowWalletWall] = useState(false);
 
   const { t } = useAppTranslation();
+
+  const unlockSparkleSound = useSound("unlock_sparkle");
 
   const wallet = gameState.context.linkedWallet;
 
@@ -28,6 +31,7 @@ export const BlockchainBox: React.FC = () => {
   };
 
   const handleOpenBox = async () => {
+    unlockSparkleSound.play();
     gameService.send("blockchainBox.claimed", {
       effect: {
         type: "blockchainBox.claimed",

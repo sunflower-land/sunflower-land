@@ -24,6 +24,7 @@ import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
 import type { UpgradeTreeAction } from "features/game/events/landExpansion/upgradeTree";
 import type { UpgradeRockAction } from "features/game/events/landExpansion/upgradeRock";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
+import { useSound } from "lib/utils/hooks/useSound";
 
 export const Forge: React.FC = () => {
   const { gameService, showAnimations } = useContext(Context);
@@ -31,6 +32,8 @@ export const Forge: React.FC = () => {
   const [selectedResource, setSelectedResource] =
     useState<UpgradedResourceName>("Ancient Tree");
   const [showSuccess, setShowSuccess] = useState(false);
+
+  const forgeSound = useSound("machine_whir");
 
   const state = useSelector(gameService, (state) => state.context.state);
   const skills = useSelector(
@@ -42,6 +45,7 @@ export const Forge: React.FC = () => {
   const biome = getCurrentBiome(state.island);
 
   const forge = () => {
+    forgeSound.play();
     if (selectedResource.includes("Tree")) {
       gameService.send({
         type: "tree.upgraded",

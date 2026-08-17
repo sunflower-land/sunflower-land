@@ -52,6 +52,7 @@ import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { COMPETITION_POINTS } from "features/game/types/competitions";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useSound } from "lib/utils/hooks/useSound";
 import {
   needsPlacementConfirmation,
   PlacementConfirmationModal,
@@ -113,6 +114,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
   const child = gameService.getSnapshot().children
     .landscaping as MachineInterpreter;
   const { t } = useAppTranslation();
+  const placeItemSound = useSound("place_item");
   const [
     {
       context: {
@@ -259,6 +261,8 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
     if (!placeable) return;
 
+    placeItemSound.play();
+
     const items = getChestItems(state);
 
     const available =
@@ -343,6 +347,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     location,
     maximum,
     placeable,
+    placeItemSound,
     previousPosition,
     requirements,
     send,

@@ -2,12 +2,8 @@ import React, { useRef, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { AudioControlsProvider } from "features/game/components/AudioControlsContext";
-import {
-  getFarmingSong,
-  getFarmingSongCount,
-  getGoblinSong,
-  getGoblinSongCount,
-} from "assets/songs/playlist";
+import { getSongs } from "assets/songs/playlist";
+import { useEnabledSongs } from "lib/utils/hooks/useEnabledSongs";
 import settings from "assets/icons/settings.png";
 import { GameOptionsModal } from "./settings-menu/GameOptions";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -29,32 +25,34 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
 
   // music controls
 
-  const [songIndex, setSongIndex] = useState<number>(0);
+  const [currentSongId, setCurrentSongId] = useState<string>();
   const musicPlayer = useRef<HTMLAudioElement>(null);
+  const { isSongEnabled } = useEnabledSongs();
 
-  const getSongCount = () => {
-    return isFarming ? getFarmingSongCount() : getGoblinSongCount();
-  };
+  const allSongs = getSongs(isFarming);
+  const enabledSongs = allSongs.filter(({ id }) => isSongEnabled(id));
+  // Defensive: never leave the player without a source
+  const playlist = enabledSongs.length > 0 ? enabledSongs : allSongs;
+
+  // A deselected song can still be played directly from the panel - it
+  // just won't be part of the rotation once it ends
+  const song = allSongs.find(({ id }) => id === currentSongId) ?? playlist[0];
+
+  // -1 when the current song is not in the rotation; next then starts at 0
+  const currentIndex = playlist.findIndex(({ id }) => id === song.id);
 
   const handlePreviousSong = () => {
-    const songCount = getSongCount();
-    if (songIndex === 0) {
-      setSongIndex(songCount - 1);
-    } else {
-      setSongIndex(songIndex - 1);
-    }
+    const previous =
+      playlist[(currentIndex - 1 + playlist.length) % playlist.length];
+    setCurrentSongId(previous.id);
   };
 
   const handleNextSong = () => {
-    const songCount = getSongCount();
-    if (songCount === songIndex + 1) {
-      setSongIndex(0);
-    } else {
-      setSongIndex(songIndex + 1);
-    }
+    const next = playlist[(currentIndex + 1) % playlist.length];
+    setCurrentSongId(next.id);
   };
 
-  const song = isFarming ? getFarmingSong(songIndex) : getGoblinSong(songIndex);
+  const handlePlaySong = (id: string) => setCurrentSongId(id);
 
   if (isVisiting) {
     return null;
@@ -66,6 +64,7 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
       song={song}
       handlePreviousSong={handlePreviousSong}
       handleNextSong={handleNextSong}
+      handlePlaySong={handlePlaySong}
     >
       <audio
         ref={musicPlayer}

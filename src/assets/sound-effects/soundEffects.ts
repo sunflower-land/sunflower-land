@@ -4,7 +4,12 @@
 
 import { CONFIG } from "lib/config";
 
-export type Footsteps = "dirt_footstep" | "wood_footstep" | "sand_footstep";
+export type Footsteps =
+  | "dirt_footstep"
+  | "wood_footstep"
+  | "sand_footstep"
+  | "sand_footstep_desert"
+  | "mud_footstep";
 
 export const SOUNDS = {
   ui: {

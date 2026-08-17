@@ -27,6 +27,7 @@ import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import Decimal from "decimal.js-light";
 import { SEEDS } from "features/game/types/seeds";
 import { WORKBENCH_TOOLS, TREASURE_TOOLS } from "features/game/types/tools";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 3;
@@ -44,6 +45,9 @@ export const RestockBoat: React.FC = () => {
   const expansionCount = useSelector(gameService, expansions);
   const state = useSelector(gameService, _state);
   const showShip = useSelector(gameService, canRestock);
+
+  const shopSound = useSound("shop");
+
   if (!showShip) return null;
   const getShipmentAmount = (item: StockableName, amount: number): Decimal => {
     const totalStock = INITIAL_STOCK(state)[item];
@@ -159,6 +163,7 @@ export const RestockBoat: React.FC = () => {
           </div>
           <Button
             onClick={() => {
+              shopSound.play();
               gameService.send("shipment.restocked");
 
               if (showAnimations) confetti();

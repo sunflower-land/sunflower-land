@@ -24,6 +24,7 @@ import lock from "assets/icons/lock.png";
 import trade from "assets/icons/trade.png";
 import { BulkRemoveTrades } from "../BulkRemoveListings";
 import { Button } from "components/ui/Button";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
@@ -89,6 +90,8 @@ export const MyOffers: React.FC<Props> = ({ fullHeight = false }) => {
 
   const navigate = useNavigate();
 
+  const claimSound = useSound("claim_reward");
+
   if (getKeys(filteredOffers).length === 0) return null;
 
   const escrowedSFL = getKeys(offers).reduce(
@@ -99,6 +102,7 @@ export const MyOffers: React.FC<Props> = ({ fullHeight = false }) => {
   const claim = () => {
     const offer = offers[claimId as string];
 
+    claimSound.play();
     gameService.send("offer.claimed", {
       tradeIds: [claimId],
     });

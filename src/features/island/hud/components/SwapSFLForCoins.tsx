@@ -18,6 +18,7 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { Button } from "components/ui/Button";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const COIN_IMAGES = [coinsScattered, coinsIcon, coinsStack];
 
@@ -35,7 +36,10 @@ export const SwapSFLForCoins: React.FC<{ onClose: () => void }> = ({
     number | undefined
   >(undefined);
 
+  const sflSound = useSound("sfl");
+
   const handleSFLtoCoinsExchange = (packageId: number) => {
+    sflSound.play();
     gameService.send("sfl.exchanged", { packageId });
     setExchangePackageId(undefined);
     onClose();

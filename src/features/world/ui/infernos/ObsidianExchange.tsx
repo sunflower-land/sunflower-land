@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { OBSIDIAN_PRICE } from "features/game/events/landExpansion/exchangeObsidian";
+import { useSound } from "lib/utils/hooks/useSound";
 
 export const ObsidianExchange: React.FC<{ onClose: () => void }> = ({
   onClose,
@@ -23,7 +24,12 @@ export const ObsidianExchange: React.FC<{ onClose: () => void }> = ({
 
   const { t } = useAppTranslation();
 
-  const buy = () => gameService.send("obsidian.exchanged");
+  const exchangeSound = useSound("craft_item");
+
+  const buy = () => {
+    exchangeSound.play();
+    gameService.send("obsidian.exchanged");
+  };
 
   if (showIntro) {
     return (

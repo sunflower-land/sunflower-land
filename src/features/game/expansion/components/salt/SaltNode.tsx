@@ -18,6 +18,7 @@ import {
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { canInstantHarvestSaltNode, getSaltNodeSprite } from "./saltNodeStage";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface Props {
   id: string;
@@ -39,6 +40,7 @@ export const SaltNode: React.FC<Props> = ({ id, visiting, position }) => {
   const inventory = useSelector(gameService, _inventory);
   const [showInfoPanel, setShowInfoPanel] = useState(false);
   const now = useNow({ live: true });
+  const miningSound = useSound("mining");
 
   const { chargeGenerationTimeMs: chargeIntervalMs } =
     getSaltChargeGenerationTime({ gameState });
@@ -114,6 +116,7 @@ export const SaltNode: React.FC<Props> = ({ id, visiting, position }) => {
         onMouseLeave={() => setShowInfoPanel(false)}
         onClick={() => {
           if (canHarvest) {
+            miningSound.play();
             gameService.send("salt.harvested", { id });
             if (!rakeFree) {
               shortcutItem("Salt Rake");

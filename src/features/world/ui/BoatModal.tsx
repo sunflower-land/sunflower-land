@@ -5,6 +5,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface Props {
   isOpen: boolean;
@@ -18,6 +19,8 @@ export const BoatModal: React.FC<Props> = ({ isOpen, closeModal, id }) => {
   const { t } = useAppTranslation();
   const navigate = useNavigate();
 
+  const travelSound = useSound("travel");
+
   useEffect(() => {
     if (isOpen) {
       gameService.send("SAVE");
@@ -30,7 +33,10 @@ export const BoatModal: React.FC<Props> = ({ isOpen, closeModal, id }) => {
         <p className="mb-3">{t("interactableModals.returnhome.message")}</p>
       </div>
       <Button
-        onClick={() => navigate(`/`)}
+        onClick={() => {
+          travelSound.play();
+          navigate(`/`);
+        }}
         disabled={gameState.matches("autosaving")}
       >
         {gameState.matches("autosaving") ? t("saving") : t("go.home")}

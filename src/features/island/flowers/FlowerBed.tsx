@@ -23,6 +23,7 @@ import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { translate } from "lib/i18n/translate";
 import { FLOWER_VARIANTS } from "../lib/alternateArt";
+import { useSound } from "lib/utils/hooks/useSound";
 import { getCurrentBiome } from "../biomes/biomes";
 
 import chest from "assets/icons/chest.png";
@@ -276,6 +277,8 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
   const instaGrowCost = calculateInstaGrowCost(secondsLeft);
   const playerObsidian = inventory.Obsidian ?? new Decimal(0);
 
+  const flowerHarvestSound = useSound("flower_harvest");
+
   const handlePlotClick = () => {
     if (isGrowing) {
       setShowInstaGrowModal(true);
@@ -287,6 +290,7 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
       return;
     }
 
+    flowerHarvestSound.play();
     gameService.send({
       type: "flower.harvested",
       id,
@@ -296,6 +300,7 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
   const handleCongratulationsClose = () => {
     setShowCongratulationsModal(false);
 
+    flowerHarvestSound.play();
     gameService.send({
       type: "flower.harvested",
       id,

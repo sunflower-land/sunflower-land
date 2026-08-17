@@ -43,6 +43,7 @@ import { FishermanPuzzle } from "features/island/fisherman/FishingPuzzle";
 import { Panel } from "components/ui/Panel";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const HITBOX_SIZE_PX = 50;
 
@@ -132,6 +133,9 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const readyMarvel = useSelector(gameService, _marvel);
   const { fishing, farmActivity, island } = state;
 
+  const fishingBiteSound = useSound("fishing_bite");
+  const fishingCatchSound = useSound("fishing_catch");
+
   // Catches cases where players try reset their fishing challenge
   useEffect(() => {
     didRefresh.current = !!fishing.wharf.caught;
@@ -175,6 +179,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
 
   const onWaitFinish = () => {
     if (fishing.wharf.caught) {
+      fishingBiteSound.play();
       spriteRef.current?.setStartAt(FISHING_FRAMES.reeling.startAt);
       spriteRef.current?.setEndAt(FISHING_FRAMES.reeling.endAt);
       setShowReelLabel(true);
@@ -209,6 +214,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
       setShowChallenge(true);
     } else {
       // Instantly reel in
+      fishingCatchSound.play();
       spriteRef.current?.setStartAt(FISHING_FRAMES.caught.startAt);
       spriteRef.current?.setEndAt(FISHING_FRAMES.caught.endAt);
     }
@@ -220,6 +226,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const onChallengeWon = () => {
     setDifficultCatch([]);
     setShowChallenge(false);
+    fishingCatchSound.play();
     spriteRef.current?.setStartAt(FISHING_FRAMES.caught.startAt);
     spriteRef.current?.setEndAt(FISHING_FRAMES.caught.endAt);
   };
@@ -242,6 +249,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
 
   const claim = () => {
     if (fishing.wharf.caught) {
+      // The catch cue already played at the moment of reeling in
       const state = gameService.send("rod.reeled");
 
       const totalFishCaught = getKeys(FISH).reduce(

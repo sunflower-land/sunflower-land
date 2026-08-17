@@ -72,6 +72,7 @@ import { LockedOrderCard } from "./LockedOrderCard";
 import { pixelVibrantBorderStyle } from "features/game/lib/style";
 import { getChapterTaskPoints } from "features/game/types/tracks";
 import { hasTimeBasedFeatureAccess } from "lib/flags";
+import { useSound } from "lib/utils/hooks/useSound";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -140,6 +141,7 @@ export const DeliveryOrders: React.FC<Props> = ({
 
   const now = useNow({ live: true });
   const chapterTicket = getChapterTicket(now);
+  const noSound = useSound("no");
 
   const orders = delivery.orders
     .filter((order) => now >= order.readyAt)
@@ -168,6 +170,7 @@ export const DeliveryOrders: React.FC<Props> = ({
   const skip = () => {
     setShowSkipDialog(false);
     onSelect(undefined);
+    noSound.play();
     gameService.send("order.skipped", { id: previewOrder?.id });
     gameService.send("SAVE");
   };

@@ -21,6 +21,7 @@ import { SquareIcon } from "../SquareIcon";
 import { InnerPanel } from "../Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { useSound } from "lib/utils/hooks/useSound";
 import { ResizableBar } from "../ProgressBar";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { Button } from "../Button";
@@ -91,6 +92,8 @@ export const ExpansionRequirements: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const [showTimeBoosts, setShowTimeBoosts] = useState(false);
 
+  const upgradeBuildSound = useSound("upgrade_build");
+
   // Compare the player's standing against the (ascension, level) requirement —
   // matching the `expandLand` gate.
   const ascensionLevel = state.island.ascensionLevel ?? 0;
@@ -118,6 +121,7 @@ export const ExpansionRequirements: React.FC<Props> = ({
     timeBoostsUsed.length > 0 && requirements.seconds < baseTimeSeconds;
 
   const onExpand = () => {
+    upgradeBuildSound.play();
     gameService.send("land.expanded");
     gameService.send("SAVE");
 
@@ -270,6 +274,8 @@ export const Expanding: React.FC<{
 }> = ({ state, onClose, onInstantExpanded, readyAt }) => {
   const { t } = useAppTranslation();
 
+  const sflSound = useSound("sfl");
+
   // Read the length of the build from the construction itself rather than
   // re-deriving it — boosts (Ascension Monument, VIP speed) are baked into
   // `readyAt` when the expansion starts and may no longer apply now.
@@ -334,7 +340,10 @@ export const Expanding: React.FC<{
           <Button
             disabled={!payment.canAfford}
             className="relative ml-1"
-            onClick={() => onInstantExpanded(cost, payment.paymentMethod)}
+            onClick={() => {
+              sflSound.play();
+              onInstantExpanded(cost, payment.paymentMethod);
+            }}
           >
             {t("gems.speedUp")}
             {!payment.canPayWithCoins && (

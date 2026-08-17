@@ -25,6 +25,7 @@ import { Button } from "components/ui/Button";
 import { useNavigate } from "react-router";
 import { LeaveFaction } from "../LeaveFaction";
 import { LastUpdatedAt } from "components/LastUpdatedAt";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface Props {
   emblem: FactionEmblem;
@@ -38,6 +39,7 @@ export const Emblems: React.FC<Props> = ({ emblem, factionName }) => {
   const [showLeaveFaction, setShowLeaveFaction] = useState(false);
   const { t } = useAppTranslation();
   const navigate = useNavigate();
+  const leaveSound = useSound("no");
 
   useEffect(() => {
     const load = async () => {
@@ -52,6 +54,7 @@ export const Emblems: React.FC<Props> = ({ emblem, factionName }) => {
   }, []);
 
   const leave = () => {
+    leaveSound.play();
     gameService.send("faction.left");
     gameService.send("SAVE");
     navigate("/world/kingdom");

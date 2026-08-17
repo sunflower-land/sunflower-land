@@ -10,6 +10,7 @@ import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "./AuctionDetails";
 import { GameWallet } from "features/wallet/Wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface Props {
   onMint: (id: string) => void;
@@ -23,6 +24,7 @@ export const Winner: React.FC<Props> = ({ onMint, bid, farmId, results }) => {
   const deadline = results.endAt + 24 * 60 * 60 * 1000;
   const countdown = useCountdown(deadline);
   const { t } = useAppTranslation();
+  const mintSound = useSound("unlock_sparkle");
   if (showConfirmation) {
     return (
       <GameWallet action="auction">
@@ -41,7 +43,13 @@ export const Winner: React.FC<Props> = ({ onMint, bid, farmId, results }) => {
             >
               {t("read.more")}
             </a>
-            <Button className="mt-2" onClick={() => onMint(bid.auctionId)}>
+            <Button
+              className="mt-2"
+              onClick={() => {
+                mintSound.play();
+                onMint(bid.auctionId);
+              }}
+            >
               {t("mint")}
             </Button>
           </div>
