@@ -7880,7 +7880,6 @@
   "skill.floweryAbode.buff.ranked": "+{{value}} к скорости производства мёда",
   "skill.floweryAbode.debuff.ranked": "+{{value}}% времени роста цветов",
   "skill.petalBlessed.ranked": "Мгновенно собирает все цветы. Перезарядка: {{value}}",
-  "reputation.cropkeeper.withdraw": "Вывести FLOWER",
   "skill.efficientBin.ranked": "+{{value}} ростковая смесь",
   "skill.turboCharged.ranked": "+{{value}} фруктовая смесь",
   "skill.wormyTreat.ranked": "+{{value}} червей",
@@ -8377,5 +8376,11 @@
   "giveaway.pop.andMore": "+{{count}} ещё",
   "giveaway.pop.bankedRound": "+{{count}} сохранено",
   "giveaway.pop.bankedNothing": "В этом раунде ничего не сохранено",
-  "giveaway.pop.totalBanked": "Всего сохранено: {{count}}"
+  "giveaway.pop.totalBanked": "Всего сохранено: {{count}}",
+  "reputation.grandHarvester.withdraw": "Вывести FLOWER",
+  "withdraw.flower.total": "Всего FLOWER",
+  "withdraw.flower.available": "Доступно для вывода",
+  "withdraw.flower.locked": "FLOWER заблокировано",
+  "withdraw.flower.unlocked.explanation": "Ты можешь вывести весь FLOWER, который внёс и не потратил в игре. Для вывода FLOWER, заработанного в игре, нужна репутация «Великий сборщик».",
+  "withdraw.flower.upgrade": "Достигни репутации «Великий сборщик», чтобы вывести FLOWER, заработанные в игре."
 }
