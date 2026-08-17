@@ -8377,5 +8377,10 @@
   "giveaway.pop.bankedRound": "+ {{count}} mis en banque",
   "giveaway.pop.bankedNothing": "Rien n'a été enregistré ce round",
   "giveaway.pop.totalBanked": "Total bancaire : {{count}}",
-  "reputation.grandHarvester.withdraw": "Retirer la FLEUR"
+  "reputation.grandHarvester.withdraw": "Retirer la FLEUR",
+  "withdraw.flower.total": "Nombre total de fleurs",
+  "withdraw.flower.available": "Disponible pour le retrait",
+  "withdraw.flower.locked": "FLEUR verrouillée",
+  "withdraw.flower.unlocked.explanation": "Vous pouvez retirer toutes les FLEURS que vous avez déposées et que vous n'avez pas utilisées dans le jeu. La FLOWER gagnée dans le jeu nécessite la réputation de Grand Harvester pour être retirée.",
+  "withdraw.flower.upgrade": "Atteins Grand Harvester pour retirer la FLEUR que tu as gagnée en jeu."
 }

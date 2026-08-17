@@ -8377,5 +8377,10 @@
   "giveaway.pop.bankedRound": "+ {{count}} ditaruh",
   "giveaway.pop.bankedNothing": "Tidak ada yang menyisihkan putaran ini",
   "giveaway.pop.totalBanked": "Total perbankan: {{count}}",
-  "reputation.grandHarvester.withdraw": "Tarik BUNGA"
+  "reputation.grandHarvester.withdraw": "Tarik BUNGA",
+  "withdraw.flower.total": "Total BUNGA",
+  "withdraw.flower.available": "Tersedia untuk ditarik",
+  "withdraw.flower.locked": "BUNGA terkunci",
+  "withdraw.flower.unlocked.explanation": "Anda dapat menarik BUNGA apa pun yang Anda setorkan dan belum digunakan dalam permainan. FLOWER yang diperoleh dalam permainan membutuhkan reputasi Grand Harvester untuk ditarik.",
+  "withdraw.flower.upgrade": "Raih Grand Harvester untuk menarik BUNGA yang Anda peroleh dalam game."
 }

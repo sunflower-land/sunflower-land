@@ -8377,5 +8377,10 @@
   "giveaway.pop.bankedRound": "+ {{count}} überwiesen",
   "giveaway.pop.bankedNothing": "Nichts hat diese Runde gebankt",
   "giveaway.pop.totalBanked": "Bankgeschäfte insgesamt: {{count}}",
-  "reputation.grandHarvester.withdraw": "FLOWER zurückziehen"
+  "reputation.grandHarvester.withdraw": "FLOWER zurückziehen",
+  "withdraw.flower.total": "FLOWER insgesamt",
+  "withdraw.flower.available": "Verfügbar zum Abheben",
+  "withdraw.flower.locked": "FLOWER gesperrt",
+  "withdraw.flower.unlocked.explanation": "Du kannst dir jede FLOWER auszahlen lassen, die du eingezahlt und nicht im Spiel benutzt hast. FLOWER, die man sich im Spiel verdient hat, benötigt den Ruf von Grand Harvester, um sich das Geld auszahlen zu lassen.",
+  "withdraw.flower.upgrade": "Erreiche Grand Harvester, um dir die im Spiel verdiente BLUME abzuholen."
 }

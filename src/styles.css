@@ -1678,18 +1678,23 @@ th {
 }
 
 /* Custom pixel art cursor (Sunnyside). While the mouse button is held
-   anywhere on the page, :root:active swaps in a variant of the same art
-   rotated 20deg counter-clockwise. Its hotspot (8 0) keeps the bottom-right
-   corner of the artwork at the same screen position as the idle frame, so the
-   cursor appears to pivot around its bottom-right corner, tipping down into
-   the click. */
+   anywhere on the page, html.custom-cursor:active swaps in a variant of the
+   same art rotated 20deg counter-clockwise. Its hotspot (8 0) keeps the
+   bottom-right corner of the artwork at the same screen position as the idle
+   frame, so the cursor appears to pivot around its bottom-right corner,
+   tipping down into the click.
+
+   NOTE: the pressed swap is deliberately gated behind .custom-cursor. These
+   are inherited custom properties on <html>, so changing them on press forces
+   a style recalc of the entire document — that must not happen for players
+   who haven't opted in. */
 :root {
   /* default arrow is greyed out; the full-colour "lit" variant lights it up
      over clickable elements */
   --cursor-arrow: url("./assets/ui/cursors/pointer.png") 0 0, auto;
   --cursor-arrow-lit: url("./assets/ui/cursors/pointer_lit.png") 0 0, pointer;
 }
-:root:active {
+html.custom-cursor:active {
   --cursor-arrow: url("./assets/ui/cursors/pointer_pressed.png") 3 0, auto;
   --cursor-arrow-lit:
     url("./assets/ui/cursors/pointer_lit_pressed.png") 3 0, pointer;
