@@ -44,6 +44,9 @@ const WARDROBE_PART_ORDER: BumpkinPart[] = [
   "beard",
   "background",
   "hair",
+  "body",
+  "eyes",
+  "mouth",
   "tool",
   "secondaryTool",
 ];
@@ -59,11 +62,15 @@ export const Wardrobe: React.FC<Props> = ({ state }) => {
   const [activeCategories, setActiveCategories] = useState<string[]>([]);
   const [selected, setSelected] = useState<BumpkinItem | undefined>();
 
-  const equippedElsewhere = new Set<BumpkinItem>(
-    Object.values(state.farmHands.bumpkins).flatMap((farmHand) =>
-      getKeys(farmHand.equipped).map((part) => farmHand.equipped[part]),
-    ) as BumpkinItem[],
-  );
+  const equippedItems = new Set<BumpkinItem>([
+    ...(Object.values(state.bumpkin?.equipped ?? {}) as BumpkinItem[]),
+    ...Object.values(state.farmHands.bumpkins).flatMap(
+      (farmHand) =>
+        getKeys(farmHand.equipped).map(
+          (part) => farmHand.equipped[part],
+        ) as BumpkinItem[],
+    ),
+  ]);
 
   const owned = getKeys(state.wardrobe).filter(
     (item) => (state.wardrobe[item] ?? 0) > 0,
@@ -101,10 +108,12 @@ export const Wardrobe: React.FC<Props> = ({ state }) => {
     }))
     .filter((group) => group.items.length > 0);
 
+  const visibleItems = new Set(visibleGroups.flatMap((group) => group.items));
+
   const selectedItem =
-    selected && owned.includes(selected)
+    selected && visibleItems.has(selected)
       ? selected
-      : (visibleGroups[0]?.items[0] ?? owned[0]);
+      : visibleGroups[0]?.items[0];
 
   if (owned.length === 0) {
     return (
@@ -142,11 +151,7 @@ export const Wardrobe: React.FC<Props> = ({ state }) => {
           selectedItem && (
             <WardrobeItemDetails
               item={selectedItem}
-              isEquipped={
-                Object.values(state.bumpkin?.equipped ?? {}).includes(
-                  selectedItem,
-                ) || equippedElsewhere.has(selectedItem)
-              }
+              isEquipped={equippedItems.has(selectedItem)}
             />
           )
         }
@@ -175,10 +180,7 @@ export const Wardrobe: React.FC<Props> = ({ state }) => {
                       BUMPKIN_ITEM_BUFF_LABELS[item] &&
                       !SPECIAL_ITEM_LABELS[item];
                     const specialItem = SPECIAL_ITEM_LABELS[item];
-                    const isEquipped =
-                      Object.values(state.bumpkin?.equipped ?? {}).includes(
-                        item,
-                      ) || equippedElsewhere.has(item);
+                    const isEquipped = equippedItems.has(item);
                     const amountOwned = state.wardrobe[item] ?? 0;
 
                     return (
