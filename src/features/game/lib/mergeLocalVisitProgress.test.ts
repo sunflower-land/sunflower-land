@@ -35,7 +35,7 @@ describe("mergeLocalVisitProgress", () => {
     expect(merged.pets?.common?.Barkley?.visitedAt).toEqual(123);
   });
 
-  it("does not overwrite a fresh visitedAt with an older/missing local one", () => {
+  it("does not overwrite a fresh visitedAt with a missing local one", () => {
     const localState: GameState = {
       ...INITIAL_FARM,
       pets: {
@@ -57,6 +57,33 @@ describe("mergeLocalVisitProgress", () => {
     const merged = mergeLocalVisitProgress(freshState, localState);
 
     expect(merged.pets?.common?.Barkley?.visitedAt).toEqual(456);
+  });
+
+  it("does not regress a fresher server visitedAt with an older local one", () => {
+    const localState: GameState = {
+      ...INITIAL_FARM,
+      pets: {
+        common: {
+          // Stale local progress from before the visitor's session started.
+          Barkley: { ...basePet, name: "Barkley" as PetName, visitedAt: 100 },
+        },
+      },
+    };
+
+    const freshState: GameState = {
+      ...INITIAL_FARM,
+      pets: {
+        common: {
+          // Server has a newer help record (e.g. help recorded through
+          // another client) than the local one.
+          Barkley: { ...basePet, name: "Barkley" as PetName, visitedAt: 999 },
+        },
+      },
+    };
+
+    const merged = mergeLocalVisitProgress(freshState, localState);
+
+    expect(merged.pets?.common?.Barkley?.visitedAt).toEqual(999);
   });
 
   it("carries over NFT pet visitedAt", () => {
@@ -126,6 +153,34 @@ describe("mergeLocalVisitProgress", () => {
     expect(
       merged.socialFarming.villageProjects["Farmer's Monument"]?.cheers,
     ).toEqual(2);
+  });
+
+  it("does not regress a fresher server helpedAt with an older local one", () => {
+    const localState: GameState = {
+      ...INITIAL_FARM,
+      socialFarming: {
+        ...INITIAL_FARM.socialFarming,
+        villageProjects: {
+          "Farmer's Monument": { cheers: 1, helpedAt: 100 },
+        },
+      },
+    };
+
+    const freshState: GameState = {
+      ...INITIAL_FARM,
+      socialFarming: {
+        ...INITIAL_FARM.socialFarming,
+        villageProjects: {
+          "Farmer's Monument": { cheers: 4, helpedAt: 999 },
+        },
+      },
+    };
+
+    const merged = mergeLocalVisitProgress(freshState, localState);
+
+    expect(
+      merged.socialFarming.villageProjects["Farmer's Monument"]?.helpedAt,
+    ).toEqual(999);
   });
 
   it("leaves pets untouched when there is no local progress to merge", () => {

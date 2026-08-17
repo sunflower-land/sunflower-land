@@ -16,6 +16,21 @@ import type { GameState } from "../types/game";
  * of the Pet House help, so its "needs help" badge reappears and clicking
  * it again re-attempts to help instead of entering.
  */
+/**
+ * Returns whichever timestamp is later, treating a missing one as "never".
+ * Keeping the later value (rather than always preferring local) means a
+ * fresher server-side update - e.g. help recorded through another client -
+ * is never regressed by an older local timestamp.
+ */
+function latestTimestamp(
+  a: number | undefined,
+  b: number | undefined,
+): number | undefined {
+  if (a === undefined) return b;
+  if (b === undefined) return a;
+  return Math.max(a, b);
+}
+
 export function mergeLocalVisitProgress(
   freshState: GameState,
   localState: GameState,
@@ -24,9 +39,10 @@ export function mergeLocalVisitProgress(
   getKeys(localState.pets?.common ?? {}).forEach((name) => {
     const freshPet = mergedCommonPets[name];
     const localVisitedAt = localState.pets?.common?.[name]?.visitedAt;
+    const merged = latestTimestamp(freshPet?.visitedAt, localVisitedAt);
 
-    if (freshPet && localVisitedAt) {
-      mergedCommonPets[name] = { ...freshPet, visitedAt: localVisitedAt };
+    if (freshPet && merged !== undefined) {
+      mergedCommonPets[name] = { ...freshPet, visitedAt: merged };
     }
   });
 
@@ -34,9 +50,10 @@ export function mergeLocalVisitProgress(
   getKeys(localState.pets?.nfts ?? {}).forEach((id) => {
     const freshPet = mergedNftPets[id];
     const localVisitedAt = localState.pets?.nfts?.[id]?.visitedAt;
+    const merged = latestTimestamp(freshPet?.visitedAt, localVisitedAt);
 
-    if (freshPet && localVisitedAt) {
-      mergedNftPets[id] = { ...freshPet, visitedAt: localVisitedAt };
+    if (freshPet && merged !== undefined) {
+      mergedNftPets[id] = { ...freshPet, visitedAt: merged };
     }
   });
 
@@ -45,11 +62,12 @@ export function mergeLocalVisitProgress(
     const freshProject = mergedVillageProjects[name];
     const localHelpedAt =
       localState.socialFarming.villageProjects[name]?.helpedAt;
+    const merged = latestTimestamp(freshProject?.helpedAt, localHelpedAt);
 
-    if (freshProject && localHelpedAt) {
+    if (freshProject && merged !== undefined) {
       mergedVillageProjects[name] = {
         ...freshProject,
-        helpedAt: localHelpedAt,
+        helpedAt: merged,
       };
     }
   });
