@@ -8377,5 +8377,10 @@
   "giveaway.pop.bankedRound": "+ {{count}} depositado",
   "giveaway.pop.bankedNothing": "Nada ha ganado en esta ronda",
   "giveaway.pop.totalBanked": "Total depositado: {{count}}",
-  "reputation.grandHarvester.withdraw": "Retirar FLOWER"
+  "reputation.grandHarvester.withdraw": "Retirar FLOWER",
+  "withdraw.flower.total": "FLOR total",
+  "withdraw.flower.available": "Disponible para retirar",
+  "withdraw.flower.locked": "FLOWER bloqueado",
+  "withdraw.flower.unlocked.explanation": "Puedes retirar cualquier FLOR que hayas depositado y que no hayas usado en el juego. Las FLORES que consigas en el juego requieren la reputación de Gran Cosechador para retirarlas.",
+  "withdraw.flower.upgrade": "Llega a Gran Cosechador para retirar la FLOR que has ganado en el juego."
 }

@@ -8377,5 +8377,10 @@
   "giveaway.pop.bankedRound": "+ {{count}} バンキング済み",
   "giveaway.pop.bankedNothing": "このラウンドは何も銀行に預けられなかった",
   "giveaway.pop.totalBanked": "銀行取引総額:{{count}}",
-  "reputation.grandHarvester.withdraw": "花を撤回"
+  "reputation.grandHarvester.withdraw": "花を撤回",
+  "withdraw.flower.total": "トータルフラワー",
+  "withdraw.flower.available": "出金可能",
+  "withdraw.flower.locked": "フラワーロック",
+  "withdraw.flower.unlocked.explanation": "入金したFLOWERでゲームで使用していないFLOWERは出金できます。ゲーム内で獲得したFLOWERを引き出すには、グランドハーベスターの評価が必要です。",
+  "withdraw.flower.upgrade": "グランドハーベスターに到達して、ゲーム内で獲得した花を引き出してください。"
 }

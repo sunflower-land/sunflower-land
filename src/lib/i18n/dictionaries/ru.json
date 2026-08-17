@@ -8377,5 +8377,10 @@
   "giveaway.pop.bankedRound": "+{{count}} banked",
   "giveaway.pop.bankedNothing": "Nothing banked this round",
   "giveaway.pop.totalBanked": "Total banked: {{count}}",
-  "reputation.grandHarvester.withdraw": "Withdraw FLOWER"
+  "reputation.grandHarvester.withdraw": "Withdraw FLOWER",
+  "withdraw.flower.total": "Total FLOWER",
+  "withdraw.flower.available": "Available to withdraw",
+  "withdraw.flower.locked": "FLOWER locked",
+  "withdraw.flower.unlocked.explanation": "You can withdraw any FLOWER you deposited and haven't used in the game. FLOWER earned inside the game requires the Grand Harvester reputation to withdraw.",
+  "withdraw.flower.upgrade": "Reach Grand Harvester to withdraw the FLOWER you earned in-game."
 }

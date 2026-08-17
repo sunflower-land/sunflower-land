@@ -8377,5 +8377,10 @@
   "giveaway.pop.bankedRound": "+ {{count}} bancario",
   "giveaway.pop.bankedNothing": "Niente è andato a ruba in questo round",
   "giveaway.pop.totalBanked": "Totale bancario: {{count}}",
-  "reputation.grandHarvester.withdraw": "Ritira FLOWER"
+  "reputation.grandHarvester.withdraw": "Ritira FLOWER",
+  "withdraw.flower.total": "Total FLOWER",
+  "withdraw.flower.available": "Disponibile per il prelievo",
+  "withdraw.flower.locked": "FIORE bloccato",
+  "withdraw.flower.unlocked.explanation": "Puoi prelevare qualsiasi FIORE che hai depositato e non hai utilizzato nel gioco. I FIORI guadagnati all'interno del gioco richiedono il ritiro della reputazione di Grand Harvester.",
+  "withdraw.flower.upgrade": "Raggiungi Grand Harvester per ritirare il FIORE che hai guadagnato nel gioco."
 }

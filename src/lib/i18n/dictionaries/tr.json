@@ -8377,5 +8377,10 @@
   "giveaway.pop.bankedRound": "+ {{count}} bankaya alındı",
   "giveaway.pop.bankedNothing": "Hiçbir şey bu turda saklanmadı",
   "giveaway.pop.totalBanked": "Toplam banka hesabı: {{count}}",
-  "reputation.grandHarvester.withdraw": "ÇIÇEĞİ çekin"
+  "reputation.grandHarvester.withdraw": "ÇIÇEĞİ çekin",
+  "withdraw.flower.total": "Toplam ÇIÇEK",
+  "withdraw.flower.available": "Geri çekilebilecek",
+  "withdraw.flower.locked": "ÇIÇEK kilitli",
+  "withdraw.flower.unlocked.explanation": "Oyunda yatırdığınız ve kullanmadığınız herhangi bir ÇIÇEĞI çekebilirsiniz. Oyunda kazanılan ÇIÇEK, Grand Harvester itibarının geri çekilmesini gerektirir.",
+  "withdraw.flower.upgrade": "Oyunda kazandığınız ÇIÇEĞI geri çekmek için Grand Harvester'a ulaşın."
 }

@@ -8377,5 +8377,10 @@
   "giveaway.pop.bankedRound": "+ {{count}} 已存款",
   "giveaway.pop.bankedNothing": "这一轮什么都没存钱",
   "giveaway.pop.totalBanked": "存款总额：{{count}}",
-  "reputation.grandHarvester.withdraw": "撤回鲜花"
+  "reputation.grandHarvester.withdraw": "撤回鲜花",
+  "withdraw.flower.total": "花朵总数",
+  "withdraw.flower.available": "可以提款",
+  "withdraw.flower.locked": "花已锁定",
+  "withdraw.flower.unlocked.explanation": "您可以提取您存入但尚未在游戏中使用的任何FLOWER。在游戏中获得的 FLOWER 需要撤回大收割者的声望。",
+  "withdraw.flower.upgrade": "到达 Grand Harvester 提取你在游戏中获得的花。"
 }
