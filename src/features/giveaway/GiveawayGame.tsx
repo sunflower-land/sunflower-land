@@ -87,7 +87,6 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
       sceneId,
       experience: gameState.bumpkin?.experience ?? 0,
       isCommunity: false,
-      moderation: gameContext.moderation,
       username: gameState.username,
     },
   }) as unknown as MMOMachineInterpreter;

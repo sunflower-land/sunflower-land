@@ -12,7 +12,6 @@ import type {
 import type { Pets } from "features/game/types/pets";
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { SPAWNS } from "./lib/spawn";
-import type { Moderation } from "features/game/lib/gameMachine";
 import { MAX_PLAYERS } from "./lib/availableRooms";
 import type { NPCName } from "lib/npcs";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
@@ -170,7 +169,6 @@ export interface MMOContext {
   experience: number;
   isCommunity?: boolean;
   firstDeliveryNpc?: NPCName;
-  moderation: Moderation;
   totalDeliveries: number;
   dailyStreak: number;
   isVip: boolean;
@@ -250,10 +248,6 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
     isVip: false,
     createdAt: 0,
     islandType: "basic",
-    moderation: {
-      kicked: [],
-      muted: [],
-    },
     playerCoordinates: undefined,
   },
   states: {
@@ -372,7 +366,6 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
             y: SPAWNS().plaza.default.y,
             sceneId: context.sceneId,
             experience: context.experience,
-            moderation: context.moderation,
             username: context.username,
             faction: context.faction,
             totalDeliveries: context.totalDeliveries,
@@ -431,7 +424,6 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
               y: SPAWNS().plaza.default.y,
               sceneId: context.sceneId,
               experience: context.experience,
-              moderation: context.moderation,
               totalDeliveries: context.totalDeliveries,
               dailyStreak: context.dailyStreak,
               isVip: context.isVip,

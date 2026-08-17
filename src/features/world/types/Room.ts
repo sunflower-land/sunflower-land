@@ -2,10 +2,10 @@ import type { Schema, MapSchema, ArraySchema } from "@colyseus/schema";
 import type { NPCName } from "lib/npcs";
 import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import type { SceneId } from "../mmoMachine";
-// NOTE: `moderation` is deliberately absent from `Player` below. It used to be
-// replicated behind a `@filter`, which forced the server to re-encode the room
-// per client on every patch. Moderators now request it — see
-// `ui/moderationTools/lib/useModerationHistory`.
+// NOTE: `moderation` is deliberately absent from `Player` below, and should
+// stay that way. It was replicated behind a `@filter`, which forced the server
+// to re-encode the whole room separately for every client on every patch. The
+// MMO no longer carries moderation state at all.
 import type { FactionName } from "features/game/types/game";
 import type { PetNFTType } from "features/game/types/pets";
 
