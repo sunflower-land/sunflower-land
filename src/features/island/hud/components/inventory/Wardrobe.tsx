@@ -3,7 +3,7 @@ import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { SplitScreenView } from "components/ui/SplitScreenView";
-import { WardrobeFilters } from "./WardrobeFilters";
+import { InventoryFilters } from "./InventoryFilters";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "lib/object";
@@ -26,11 +26,6 @@ import {
   pixelGrayBorderStyle,
   pixelVibrantBorderStyle,
 } from "features/game/lib/style";
-
-type BoostFilterId = "withBoost" | "withoutBoost";
-
-const hasBoost = (item: BumpkinItem) =>
-  !!BUMPKIN_ITEM_BUFF_LABELS[item] || !!SPECIAL_ITEM_LABELS[item];
 
 // Order the wearable slots the way a player thinks about an outfit, rather
 // than the internal Wallet key order.
@@ -62,7 +57,6 @@ export const Wardrobe: React.FC<Props> = ({ state }) => {
   const { t } = useAppTranslation();
   const [search, setSearch] = useState("");
   const [activeCategories, setActiveCategories] = useState<string[]>([]);
-  const [boostFilter, setBoostFilter] = useState<BoostFilterId>();
   const [selected, setSelected] = useState<BumpkinItem | undefined>();
 
   const equippedElsewhere = new Set<BumpkinItem>(
@@ -86,21 +80,15 @@ export const Wardrobe: React.FC<Props> = ({ state }) => {
   const matchesSearch = (item: BumpkinItem) =>
     !query || item.toLowerCase().includes(query);
 
-  const toggleSlotCategory = (id: string) =>
+  const toggleCategory = (id: string) =>
     setActiveCategories((prev) =>
       prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id],
     );
 
-  const slotCategories = groups.map((group) => ({
+  const filterCategories = groups.map((group) => ({
     id: group.part,
     label: t(`equip.${group.part}`),
   }));
-
-  const matchesBoostFilter = (item: BumpkinItem) => {
-    if (boostFilter === "withBoost") return hasBoost(item);
-    if (boostFilter === "withoutBoost") return !hasBoost(item);
-    return true;
-  };
 
   const visibleGroups = groups
     .filter(
@@ -109,7 +97,7 @@ export const Wardrobe: React.FC<Props> = ({ state }) => {
     )
     .map((group) => ({
       ...group,
-      items: group.items.filter(matchesSearch).filter(matchesBoostFilter),
+      items: group.items.filter(matchesSearch),
     }))
     .filter((group) => group.items.length > 0);
 
@@ -137,15 +125,13 @@ export const Wardrobe: React.FC<Props> = ({ state }) => {
 
   return (
     <>
-      <WardrobeFilters
+      <InventoryFilters
         search={search}
         onSearchChange={setSearch}
-        slotCategories={slotCategories}
-        activeSlotCategories={activeCategories}
-        onToggleSlotCategory={toggleSlotCategory}
-        onClearSlotCategories={() => setActiveCategories([])}
-        boostFilter={boostFilter}
-        onSetBoostFilter={setBoostFilter}
+        categories={filterCategories}
+        activeCategories={activeCategories}
+        onToggleCategory={toggleCategory}
+        onClearCategories={() => setActiveCategories([])}
       />
       <SplitScreenView
         divRef={divRef}
