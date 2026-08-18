@@ -72,8 +72,13 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
 
   useEffect(() => {
     if (playSound) celebrationSound.play();
+    // Only on mount - toggling animations must not replay the fanfare
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if (showAnimations) confetti();
-  }, [showAnimations, playSound, celebrationSound]);
+  }, [showAnimations]);
 
   return (
     <>

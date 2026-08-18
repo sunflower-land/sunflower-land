@@ -43,7 +43,11 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
 
   const handlePreviousSong = () => {
     const previous =
-      playlist[(currentIndex - 1 + playlist.length) % playlist.length];
+      playlist[
+        currentIndex === -1
+          ? playlist.length - 1
+          : (currentIndex - 1 + playlist.length) % playlist.length
+      ];
     setCurrentSongId(previous.id);
   };
 

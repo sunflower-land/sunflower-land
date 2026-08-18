@@ -22,7 +22,11 @@ export function getDisabledSongs(): string[] {
 }
 
 function cacheDisabledSongs(ids: string[]) {
-  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(ids));
+  try {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(ids));
+  } catch {
+    // Storage full/unavailable - still update the running session
+  }
   window.dispatchEvent(new CustomEvent(ENABLED_SONGS_EVENT, { detail: ids }));
 }
 

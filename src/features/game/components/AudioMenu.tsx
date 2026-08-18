@@ -32,6 +32,7 @@ const VolumeSlider: React.FC<{
   channel: VolumeChannel;
   disabled: boolean;
 }> = ({ label, channel, disabled }) => {
+  const { t } = useAppTranslation();
   const { volume, setVolume } = useAudioVolume(channel);
 
   return (
@@ -44,7 +45,7 @@ const VolumeSlider: React.FC<{
         value={volume}
         onChange={setVolume}
         disabled={disabled}
-        aria-label={`${label} volume`}
+        aria-label={t("audio.volumeOf", { label })}
       />
     </div>
   );
@@ -75,7 +76,7 @@ export const AudioMenuContent: React.FC<Props> = ({
         <img
           src={isAudioMuted ? sound_off : sound_on}
           className="hover:img-highlight"
-          alt="mute / unmute all audio button"
+          alt={t("audio.muteAll")}
           style={{
             width: `${PIXEL_SCALE * 13}px`,
           }}
@@ -121,7 +122,7 @@ export const AudioMenuContent: React.FC<Props> = ({
               src={arrow_previous}
               className="cursor-pointer hover:img-highlight"
               onClick={handlePreviousSong}
-              alt="previous song button"
+              alt={t("audio.previousSong")}
               style={{
                 width: `${PIXEL_SCALE * 11}px`,
               }}
@@ -130,7 +131,7 @@ export const AudioMenuContent: React.FC<Props> = ({
               src={isMusicPaused ? play : pause}
               className="cursor-pointer hover:img-highlight"
               onClick={toggleMusicPaused}
-              alt="play / pause song button"
+              alt={t("audio.playPause")}
               style={{
                 width: `${PIXEL_SCALE * 10}px`,
               }}
@@ -139,7 +140,7 @@ export const AudioMenuContent: React.FC<Props> = ({
               src={arrow_next}
               className="cursor-pointer hover:img-highlight"
               onClick={handleNextSong}
-              alt="next song button"
+              alt={t("audio.nextSong")}
               style={{
                 width: `${PIXEL_SCALE * 11}px`,
               }}
@@ -165,7 +166,7 @@ export const AudioMenuContent: React.FC<Props> = ({
                 onChange={() => {
                   if (!lastEnabled) toggleSong(id);
                 }}
-                aria-label={`include ${name} in playlist`}
+                aria-label={t("audio.includeInPlaylist", { name })}
               />
               {/* Clicking the song plays it right away */}
               <div

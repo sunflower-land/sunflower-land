@@ -363,6 +363,15 @@ export abstract class BaseScene extends Phaser.Scene {
         VOLUME_CHANGED_EVENT as any,
         this.onVolumeChanged,
       );
+      // Cleaned up here (not in the MMO shutdown) so scenes without MMO
+      // don't leak the window listeners
+      this.events.once("shutdown", () => {
+        window.removeEventListener(AUDIO_MUTED_EVENT as any, this.onAudioMuted);
+        window.removeEventListener(
+          VOLUME_CHANGED_EVENT as any,
+          this.onVolumeChanged,
+        );
+      });
 
       if (this.options.mmo.enabled) {
         this.initialiseMMO();
@@ -1553,12 +1562,6 @@ export abstract class BaseScene extends Phaser.Scene {
         removeMessageListener();
         removeReactionListener();
         removeActionListener?.();
-
-        window.removeEventListener(AUDIO_MUTED_EVENT as any, this.onAudioMuted);
-        window.removeEventListener(
-          VOLUME_CHANGED_EVENT as any,
-          this.onVolumeChanged,
-        );
         this.input.off("pointerdown"); // clean up pointerdown event listener
       });
     };

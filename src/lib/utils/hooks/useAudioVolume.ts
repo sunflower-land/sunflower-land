@@ -18,14 +18,24 @@ export interface VolumeChangedDetail {
 const clamp = (value: number) => Math.min(1, Math.max(0, value));
 
 export function getVolumeSetting(channel: VolumeChannel): number {
-  const cached = localStorage.getItem(STORAGE_KEYS[channel]);
-  const value = cached ? Number(JSON.parse(cached)) : NaN;
-  return Number.isFinite(value) ? clamp(value) : 1;
+  // Runs at module load (useSound builds its Howls with it), so a corrupt
+  // or unavailable localStorage must fall back rather than throw
+  try {
+    const cached = localStorage.getItem(STORAGE_KEYS[channel]);
+    const value = cached ? Number(cached) : NaN;
+    return Number.isFinite(value) ? clamp(value) : 1;
+  } catch {
+    return 1;
+  }
 }
 
 export function cacheVolumeSetting(channel: VolumeChannel, value: number) {
   const clamped = clamp(value);
-  localStorage.setItem(STORAGE_KEYS[channel], JSON.stringify(clamped));
+  try {
+    localStorage.setItem(STORAGE_KEYS[channel], JSON.stringify(clamped));
+  } catch {
+    // Storage full/unavailable - still update the running session
+  }
   window.dispatchEvent(
     new CustomEvent<VolumeChangedDetail>(VOLUME_CHANGED_EVENT, {
       detail: { channel, value: clamped },
