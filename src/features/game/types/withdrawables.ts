@@ -804,6 +804,56 @@ export const WEARABLE_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     tradeAt: new Date("2026-04-17T00:00:00Z"),
     withdrawAt: new Date("2026-04-17T00:00:00Z"),
   },
+
+  // Colors Event 2026
+  "Rainbow Wings": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
+  "Butterfly Aura": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
+  "Slime Wall Background": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
+  "Green Slime Hair": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
+  "Blue Slime Shirt": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
+  "Slime Splattered Shirt": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
+  "Yellow Slime Puppet": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
+  "Blue Jelly Shoes": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
+  "Sad Slime Slippers": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
+  "Sad Slime Hat": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
+  "Sad Slime Pants": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
+  "Red Jelly Pants": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
 };
 
 type InventoryReleases = Partial<Record<InventoryItemName, Releases>>;
@@ -1937,6 +1987,56 @@ export const INVENTORY_RELEASES: InventoryReleases = {
   "The Sunflower Man Statue": {
     tradeAt: new Date("2026-04-17T00:00:00Z"),
     withdrawAt: new Date("2026-04-17T00:00:00Z"),
+  },
+
+  // Colors Event 2026
+  "Blue Paint Bucket": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
+  "Green Paint Bucket": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
+  "Purple Paint Bucket": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
+  "Yellow Paint Bucket": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
+  "Color Wheel": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
+  "Dhol Drum": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
+  "Mimic Slime Ball": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
+  "Mimic Winged Slime Ball": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
+  "Pork Jelly": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
+  "Rainbow Pork Jelly": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
+  "Slime Totem": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
+  "Giant Donut": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
   },
 
   // Tutorial marketplace item
