@@ -5,8 +5,8 @@ stream. An admin sets one up, players join, everyone plays the **same game at th
 same time**, scores are submitted, and winners claim prizes.
 
 This folder holds the Phaser **scenes** — one per mini-game (`RaceScene`,
-`ChopScene`, `EggScene`, `JumpScene`). This doc is the short version of how the
-whole thing hangs together so a new game can be spun up quickly.
+`ChopScene`, `JumpScene`, `TriviaScene`, `PopScene`). This doc is the short version
+of how the whole thing hangs together so a new game can be spun up quickly.
 
 ---
 
@@ -45,6 +45,14 @@ the clock, so you never manage it yourself:
 
 The clock is fixed at **30s** (`RACE_DURATION_MS` in
 [`../lib/sim.ts`](../lib/sim.ts)), anchored to `bridge.getRaceStartAt()`.
+
+**Running longer than 30s.** A multi-round game keeps its own duration and derives
+rounds from the same `getRaceStartAt()` anchor — see `TRIVIA_GAME_MS`/`triviaRound`
+in [`../lib/trivia.ts`](../lib/trivia.ts) and `POP_GAME_MS`/`popRound` in
+[`../lib/pop.ts`](../lib/pop.ts). If you do that, opt out of the shared 30s
+countdown in [`../GiveawayGame.tsx`](../GiveawayGame.tsx) and show your own, and
+widen `RACE_WINDOW_MS` in [`../lib/mockGiveaways.ts`](../lib/mockGiveaways.ts) so
+the offline fixture doesn't re-anchor mid-game.
 
 ---
 
@@ -148,8 +156,13 @@ class — Phaser only). Adding a game is: **one config entry + one scene.**
 >
 > - **Race** — colour buttons: `RaceControls` (`setTarget` + a press `queue`) /
 >   [`RaceButtons`](../ui/RaceButtons.tsx).
-> - **Egg Catch** — left/right: `EggControls` (a held `move` + `set`) /
->   [`EggButtons`](../ui/EggButtons.tsx).
+> - **Jumper** — one tap button: `JumpControls` (a `taps` counter + `tap`) /
+>   [`JumpButton`](../ui/JumpButton.tsx).
+> - **Pumpkin Pop** — a tap button _plus_ a round HUD: the channel runs both ways
+>   (`PopControls` — the button bumps `taps`; the scene publishes the round, the
+>   clock and each round's pop reveal back for [`PopPanel`](../ui/PopPanel.tsx) to
+>   render). Keeping the clock in the scene means the panel can't drift out of
+>   step with what's happening on screen.
 >
 > Note the lint quirk: the shared object comes from `useState`, so mutate it
 > through a **method** (`queue.push(...)`, `set(...)`) — never by assignment.

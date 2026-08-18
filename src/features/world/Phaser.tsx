@@ -8,12 +8,6 @@ import { PhaserNavMeshPlugin } from "phaser-navmesh";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 
-import { Kicked } from "./ui/moderationTools/components/Kicked";
-import {
-  Muted,
-  calculateMuteTime,
-} from "./ui/moderationTools/components/Muted";
-
 import { PlazaScene } from "./scenes/PlazaScene";
 
 import { InteractableModals } from "./ui/InteractableModals";
@@ -26,7 +20,7 @@ import {
 } from "./mmoMachine";
 import { Context } from "features/game/GameProvider";
 import { Modal } from "components/ui/Modal";
-import { InnerPanel, Panel } from "components/ui/Panel";
+import { Panel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Preloader } from "./scenes/Preloader";
 import type { EquipBumpkinAction } from "features/game/events/landExpansion/equip";
@@ -35,13 +29,8 @@ import { CommunityModals } from "./ui/CommunityModalManager";
 import { CommunityToasts } from "./ui/CommunityToastManager";
 import { useLocation, useNavigate } from "react-router";
 import { prepareAPI } from "features/community/lib/CommunitySDK";
-import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
-import SoundOffIcon from "assets/icons/sound_off.png";
-import type {
-  Moderation,
-  UpdateUsernameEvent,
-} from "features/game/lib/gameMachine";
+import type { UpdateUsernameEvent } from "features/game/lib/gameMachine";
 import { BeachScene } from "./scenes/BeachScene";
 import type { Inventory } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -78,18 +67,6 @@ const _scene = (state: MachineState) => state.context.sceneId;
 const _rawToken = (state: AuthMachineState) =>
   state.context.user.rawToken ?? "";
 
-type Player = {
-  playerId: string;
-  username: string;
-  farmId: number;
-  clothing: BumpkinParts;
-  x: number;
-  y: number;
-  moderation?: Moderation;
-  experience: number;
-  sceneId: SceneId;
-};
-
 export type Message = {
   farmId: number;
   username: string;
@@ -97,13 +74,6 @@ export type Message = {
   text: string;
   sceneId: SceneId;
   sentAt: number;
-};
-
-export type ModerationEvent = {
-  type: "kick" | "mute";
-  farmId: number;
-  arg: string;
-  mutedUntil?: number;
 };
 
 interface Props {
@@ -127,11 +97,6 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
   const loggedInFarmId = useSelector(gameService, _loggedInFarmId);
   const state = useSelector(gameService, _state);
 
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [players, setPlayers] = useState<Player[]>([]);
-  const [isMuted, setIsMuted] = useState<ModerationEvent | undefined>();
-  const [MuteEvent, setMuteEvent] = useState<ModerationEvent | undefined>();
-  const [KickEvent, setKickEvent] = useState<ModerationEvent | undefined>();
   const [loaded, setLoaded] = useState(false);
 
   const navigate = useNavigate();
@@ -329,118 +294,14 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
   }, [route, location.key, previousSceneOverride]);
 
   useEffect(() => {
-    // Listen to moderation events
-    mmoService
-      .getSnapshot()
-      .context.server?.onMessage(
-        "moderation_event",
-        (event: ModerationEvent) => {
-          const clientFarmId = loggedInFarmId;
-          if (!clientFarmId || clientFarmId !== event.farmId) return;
-
-          switch (event.type) {
-            case "kick":
-              setKickEvent(event);
-              break;
-            case "mute":
-              setIsMuted(event);
-              setMuteEvent(event);
-              break;
-            default:
-              break;
-          }
-        },
-      );
-
-    // Update Messages on change
-    mmoService.getSnapshot().context.server?.state.messages.onChange(() => {
-      const currentScene =
-        game.current?.scene.getScenes(true)[0]?.scene.key ?? scene;
-
-      const sceneMessages = mmoService
-        .getSnapshot()
-        .context.server?.state.messages.filter(
-          (m) => m.sceneId === currentScene,
-        ) as Message[];
-
-      setMessages(
-        sceneMessages.map((m) => ({
-          farmId: m.farmId ?? 0,
-          username: m.username,
-          text: m.text,
-          sessionId: m.sessionId,
-          sceneId: m.sceneId,
-          sentAt: m.sentAt,
-        })) ?? [],
-      );
-      updateMessages();
-    });
-
-    // Update Players on change
-    mmoService.getSnapshot().context.server?.state.players.onChange(() => {
-      const playersMap = mmoService.getSnapshot().context.server?.state.players;
-
-      if (playersMap) {
-        setPlayers((currentPlayers) => {
-          const updatedPlayers: Player[] = [];
-
-          playersMap.forEach((player, playerId) => {
-            const existingPlayer = currentPlayers.find(
-              (p) => p.playerId === playerId,
-            );
-
-            // do we really need to update the player when they move?
-            if (existingPlayer) {
-              // Update existing player's data
-              updatedPlayers.push({
-                ...existingPlayer,
-                x: player.x,
-                y: player.y,
-                clothing: player.clothing,
-                moderation: player.moderation,
-                sceneId: player.sceneId,
-              });
-            } else {
-              // Add new player
-              updatedPlayers.push({
-                playerId,
-                farmId: player.farmId,
-                username: player.username,
-                x: player.x,
-                y: player.y,
-                clothing: player.clothing,
-                moderation: player.moderation,
-                experience: player.experience,
-                sceneId: player.sceneId,
-              });
-            }
-          });
-
-          // Remove players who left the server
-          return updatedPlayers.filter((updatedPlayer) =>
-            playersMap.has(updatedPlayer.playerId),
-          );
-        });
-      }
-    });
-
+    // NOTE: this used to also subscribe to `state.messages.onChange` and
+    // `state.players.onChange`, rebuilding React arrays of every message and
+    // every player on EVERY patch (20x/sec) and re-rendering the HUD each time.
+    // Both existed only to feed the moderation tools, which have been removed.
     mmoBus.listen((message) => {
       mmoService.getSnapshot().context.server?.send(0, message);
     });
   }, [mmoService.getSnapshot().context.server]);
-
-  useEffect(() => {
-    if (isMuted?.mutedUntil) {
-      const { mutedUntil } = isMuted;
-      const interval = setInterval(() => {
-        if (new Date().getTime() > mutedUntil) {
-          setIsMuted(undefined);
-        }
-      }, 1000);
-
-      return () => clearInterval(interval);
-    }
-  }, [isMuted]);
 
   useEffect(() => {
     const item = toastsList.filter((toast) => !toast.hidden)[0];
@@ -455,37 +316,6 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
     }
   }, [toastsList]);
 
-  // Listen to state change from trading -> playing
-  const updateMessages = () => {
-    // Load active scene in Phaser, otherwise fallback to route
-    const currentScene =
-      game.current?.scene.getScenes(true)[0]?.scene.key ?? scene;
-
-    const sceneMessages = mmoService
-      .getSnapshot()
-      .context.server?.state.messages.filter(
-        (m) => m.sceneId === currentScene,
-      ) as Message[];
-
-    const filteredMessages = sceneMessages.filter(
-      (m) =>
-        !JSON.parse(
-          localStorage.getItem("plaza-settings.mutedFarmIds") ?? "[]",
-        ).includes(m.farmId),
-    );
-
-    setMessages(
-      filteredMessages.map((m) => ({
-        farmId: m.farmId ?? 0,
-        username: m.username,
-        text: m.text,
-        sessionId: m.sessionId,
-        sceneId: m.sceneId,
-        sentAt: m.sentAt,
-      })) ?? [],
-    );
-  };
-
   const ref = useRef<HTMLDivElement>(null);
 
   return (
@@ -493,28 +323,11 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
       <WorldHud
         scene={scene}
         server={mmoService.getSnapshot().context.server?.name}
-        messages={messages}
-        players={players}
       />
       <div id="game-content" ref={ref} />
 
       {/* Hud Components should all be inside here. - ie. components positioned absolutely to the window */}
       <HudContainer>
-        {isMuted && (
-          <InnerPanel className="fixed top-2 left-1/2 -translate-x-1/2 flex items-center cursor-pointer">
-            <img src={SoundOffIcon} className="h-8 mr-2 ml-1" />
-            <div className="flex flex-col p-1">
-              <span className="text-sm">{t("chat.mute")}</span>
-              <span className="text-xxs">
-                {t("chat.again")}{" "}
-                {isMuted.mutedUntil
-                  ? calculateMuteTime(isMuted.mutedUntil, "remaining")
-                  : "Unknown"}
-              </span>
-            </div>
-          </InnerPanel>
-        )}
-
         <CommunityToasts />
         <PlayerInteractionMenu />
 
@@ -540,20 +353,6 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
       </HudContainer>
 
       {/* Modals */}
-      {MuteEvent && (
-        <Muted event={MuteEvent} onClose={() => setMuteEvent(undefined)} />
-      )}
-
-      {KickEvent && (
-        <Kicked
-          event={KickEvent}
-          onClose={() => {
-            setKickEvent(undefined);
-            navigate(`/`);
-          }}
-        />
-      )}
-
       <NPCModals id={loggedInFarmId} />
       <PlayerSelectionList />
       <PlayerModal

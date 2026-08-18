@@ -1677,6 +1677,61 @@ th {
   transform: scaleX(-1) translateX(50%);
 }
 
+/* Custom pixel art cursor (Sunnyside). While the mouse button is held
+   anywhere on the page, html.custom-cursor:active swaps in a variant of the
+   same art rotated 20deg counter-clockwise. Its hotspot (8 0) keeps the
+   bottom-right corner of the artwork at the same screen position as the idle
+   frame, so the cursor appears to pivot around its bottom-right corner,
+   tipping down into the click.
+
+   NOTE: the pressed swap is deliberately gated behind .custom-cursor. These
+   are inherited custom properties on <html>, so changing them on press forces
+   a style recalc of the entire document — that must not happen for players
+   who haven't opted in. */
+:root {
+  /* default arrow is greyed out; the full-colour "lit" variant lights it up
+     over clickable elements */
+  --cursor-arrow: url("./assets/ui/cursors/pointer.png") 0 0, auto;
+  --cursor-arrow-lit: url("./assets/ui/cursors/pointer_lit.png") 0 0, pointer;
+}
+html.custom-cursor:active {
+  --cursor-arrow: url("./assets/ui/cursors/pointer_pressed.png") 3 0, auto;
+  --cursor-arrow-lit:
+    url("./assets/ui/cursors/pointer_lit_pressed.png") 3 0, pointer;
+}
+
+/* Experimental, opt-in via Settings -> Advanced -> Experiments. The
+   `custom-cursor` class is toggled on <html> by lib/utils/customCursor.ts. */
+html.custom-cursor,
+.custom-cursor body,
+.custom-cursor .cursor-default {
+  cursor: var(--cursor-arrow);
+}
+
+.custom-cursor button:not(:disabled),
+.custom-cursor a,
+.custom-cursor select,
+.custom-cursor summary,
+.custom-cursor [role="button"],
+.custom-cursor .cursor-pointer,
+.custom-cursor .cursor-grab,
+.custom-cursor .cursor-grabbing {
+  cursor: var(--cursor-arrow-lit);
+}
+
+/* Disabled elements keep the greyed arrow — they just don't light up */
+.custom-cursor button:disabled,
+.custom-cursor .cursor-not-allowed {
+  cursor: var(--cursor-arrow);
+}
+
+/* Keep the text beam on typing fields */
+.custom-cursor
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+.custom-cursor textarea {
+  cursor: auto;
+}
+
 /* Pixel-styled range slider (audio settings) */
 .pixel-range {
   -webkit-appearance: none;
@@ -1709,4 +1764,9 @@ th {
 
 .pixel-range:disabled {
   cursor: not-allowed;
+}
+
+.pixel-range:focus-visible {
+  outline: 2px solid #f4e2c2;
+  outline-offset: 2px;
 }

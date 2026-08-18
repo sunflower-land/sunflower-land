@@ -599,7 +599,7 @@ export abstract class BaseScene extends Phaser.Scene {
     container.add(buttonImage);
     container.add(iconImage);
     buttonImage.setDisplaySize(14, 14);
-    buttonImage.setInteractive({ useHandCursor: true });
+    buttonImage.setInteractive();
     buttonImage.on("pointerdown", () => {
       this.sound.play("button");
       buttonImage.setTexture("round_button_pressed");

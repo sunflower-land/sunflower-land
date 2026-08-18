@@ -12,14 +12,7 @@ import type { SceneId } from "features/world/mmoMachine";
  * is carried to the play screen via a `?type=` query param. Players who join via
  * the lobby (no query param) fall back to `race`.
  */
-export type MinigameType =
-  | "race"
-  | "chop"
-  | "eggs"
-  | "jump"
-  | "puzzle"
-  | "trivia"
-  | "fishing";
+export type MinigameType = "race" | "chop" | "jump" | "trivia" | "pop";
 
 export type GiveawayMinigame = {
   type: MinigameType;
@@ -48,13 +41,6 @@ export const GIVEAWAY_MINIGAMES: GiveawayMinigame[] = [
     sceneId: "giveaway_chop",
   },
   {
-    type: "eggs",
-    name: "Egg Catch",
-    description: "Catch the falling eggs — dodge the bombs, grab the gold!",
-    available: true,
-    sceneId: "giveaway_eggs",
-  },
-  {
     type: "jump",
     name: "Jumper",
     description: "Time your taps to leap higher — climb the furthest to win!",
@@ -69,17 +55,12 @@ export const GIVEAWAY_MINIGAMES: GiveawayMinigame[] = [
     sceneId: "giveaway_trivia",
   },
   {
-    type: "fishing",
-    name: "Fishing Frenzy",
-    description: "Time your cast to hook the fish — the biggest catch wins!",
+    type: "pop",
+    name: "Pumpkin Pop",
+    description:
+      "Water your pumpkin over five rounds — but the top 30% pop each round!",
     available: true,
-    sceneId: "giveaway_fishing",
-  },
-  {
-    type: "puzzle",
-    name: "Puzzle (coming soon)",
-    description: "Solve the puzzle to win prizes!",
-    available: false,
+    sceneId: "giveaway_pop",
   },
 ];
 
@@ -104,7 +85,6 @@ export function minigameDescription(type: MinigameType): string {
  */
 export function minigameFromTitle(title: string): MinigameType | undefined {
   const lower = title.toLowerCase();
-  return GIVEAWAY_MINIGAMES.find((m) =>
-    lower.includes(m.name.replace(/\s*\(coming soon\)/i, "").toLowerCase()),
-  )?.type;
+  return GIVEAWAY_MINIGAMES.find((m) => lower.includes(m.name.toLowerCase()))
+    ?.type;
 }

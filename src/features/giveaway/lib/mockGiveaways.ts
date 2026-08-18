@@ -4,6 +4,7 @@ import type {
   PrizeTier,
 } from "./types";
 import { TRIVIA_GAME_MS } from "./trivia";
+import { POP_GAME_MS } from "./pop";
 
 /**
  * Offline/UI mode fixtures. When `CONFIG.API_URL` is unset there's no backend to
@@ -15,9 +16,10 @@ import { TRIVIA_GAME_MS } from "./trivia";
 /** Short lobby so you see the countdown, then the race auto-starts. */
 const LOBBY_MS = 2000;
 const DURATION_MS = 5 * 60 * 1000;
-/** Lobby + longest possible game (trivia runs longest); after this a cycle is
- * considered finished and the board re-anchors for a fresh countdown. */
-const RACE_WINDOW_MS = LOBBY_MS + Math.max(30000, TRIVIA_GAME_MS) + 5000;
+/** Lobby + the longest game on offer; after this a cycle is considered
+ * finished and the board re-anchors for a fresh countdown. */
+const RACE_WINDOW_MS =
+  LOBBY_MS + Math.max(30000, TRIVIA_GAME_MS, POP_GAME_MS) + 5000;
 
 export const MOCK_GIVEAWAY_ID = "local-race";
 export const MOCK_PAST_GIVEAWAY_ID = "local-race-past";

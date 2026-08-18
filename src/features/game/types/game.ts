@@ -1994,6 +1994,16 @@ export type PetHouseBuilding = UpgradableBuilding & {
 export type Bank = {
   taxFreeSFL: number;
   withdrawnAmount: number;
+  /**
+   * How much of the player's FLOWER balance came from a deposit and has not
+   * been spent yet.
+   *
+   * Deposited FLOWER is never locked in the game - a player can always withdraw
+   * up to this amount without meeting the reputation requirement. Increases on
+   * deposit, decreases whenever FLOWER leaves the balance (spends, trades and
+   * withdrawals).
+   */
+  unlockedFlower?: number;
 };
 
 export type TemperateSeasonName = "spring" | "summer" | "autumn" | "winter";

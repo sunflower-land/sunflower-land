@@ -28,10 +28,10 @@ import {
   prizeForPosition,
 } from "./ui/GiveawayLeaderboard";
 import { RaceButtons } from "./ui/RaceButtons";
-import { EggButtons } from "./ui/EggButtons";
 import { JumpButton } from "./ui/JumpButton";
 import { TriviaPanel } from "./ui/TriviaPanel";
-import { FishButton } from "./ui/FishButton";
+import { WaterButton } from "./ui/WaterButton";
+import { PopPanel } from "./ui/PopPanel";
 import { GameLeaderboard } from "./ui/GameLeaderboard";
 import {
   type MinigameType,
@@ -39,10 +39,10 @@ import {
   GIVEAWAY_MINIGAMES,
 } from "./lib/minigames";
 import type { RaceControls } from "./lib/raceControls";
-import type { EggControls } from "./lib/eggControls";
 import type { JumpControls } from "./lib/jumpControls";
 import type { TriviaControls } from "./lib/triviaControls";
-import type { FishingControls } from "./lib/fishingControls";
+import type { PopControls } from "./lib/popControls";
+import { scoreUnit } from "./lib/gameScore";
 import { syncServerClock, resetServerClock } from "./lib/serverClock";
 
 export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
@@ -87,7 +87,6 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
       sceneId,
       experience: gameState.bumpkin?.experience ?? 0,
       isCommunity: false,
-      moderation: gameContext.moderation,
       username: gameState.username,
     },
   }) as unknown as MMOMachineInterpreter;
@@ -153,7 +152,7 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
 
   // The per-game input channel shared with the Phaser scene, created exactly
   // once (a stable object, so the Phaser game never re-mounts). Race uses a
-  // colour target + a press queue; Egg Catch uses a held direction.
+  // colour target + a press queue; Jumper counts taps.
   const [raceTarget, setRaceTarget] = useState<number | null>(null);
   // Latest resolved press, for button feedback. `nonce` bumps every press so the
   // HUD re-animates even when the same button is hit twice in a row.
@@ -163,20 +162,28 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
     nonce: number;
   }>();
   const [controls] = useState<
-    RaceControls | EggControls | JumpControls | TriviaControls | FishingControls
+    RaceControls | JumpControls | TriviaControls | PopControls
   >(() => {
-    if (minigame === "eggs") {
-      // Mutated through `set` (a method) rather than by assignment, so the
-      // scene reads a live `move` without tripping the no-mutate-state rule.
-      const egg: EggControls = {
-        move: 0,
-        set: (dir) => {
-          egg.move = dir;
+    if (minigame === "pop") {
+      // Pumpkin Pop's round clock lives in the scene, which publishes it here
+      // for the HUD to read (see PopControls) — one clock, no drift.
+      const pop: PopControls = {
+        taps: 0,
+        water: () => {
+          pop.taps += 1;
         },
+        round: 1,
+        phase: "intro",
+        msLeft: 0,
+        myWaters: 0,
+        banked: 0,
+        reveal: null,
       };
-      return egg;
+      return pop;
     }
     if (minigame === "trivia") {
+      // Mutated through `pick` (a method) rather than by assignment, so the
+      // scene reads a live answer without tripping the no-mutate-state rule.
       const trivia: TriviaControls = {
         pending: null,
         picked: null,
@@ -186,17 +193,6 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
         },
       };
       return trivia;
-    }
-    if (minigame === "fishing") {
-      const fishing: FishingControls = {
-        casts: 0,
-        lastResult: null,
-        casting: false,
-        cast: () => {
-          fishing.casts += 1;
-        },
-      };
-      return fishing;
     }
     if (minigame === "jump") {
       const jumpControls: JumpControls = {
@@ -311,11 +307,6 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
           </>
         )}
 
-      {/* Egg Catch: mobile left/right (also driven by arrows / A-D in the scene) */}
-      {minigame === "eggs" && phase === "racing" && !finished && (
-        <EggButtons onMove={(dir) => (controls as EggControls).set(dir)} />
-      )}
-
       {/* Jumper: tap button with the spinning ring (also driven by SPACE) */}
       {minigame === "jump" && phase === "racing" && !finished && (
         <JumpButton controls={controls as JumpControls} />
@@ -326,36 +317,40 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
         <TriviaPanel controls={controls as TriviaControls} />
       )}
 
-      {/* Fishing: tap to cast (also SPACE in the scene) */}
-      {minigame === "fishing" && phase === "racing" && !finished && (
-        <FishButton controls={controls as FishingControls} />
+      {/* Pumpkin Pop: round clock + pop reveals, and the water button (SPACE
+          also works, handled in the scene) */}
+      {minigame === "pop" && phase === "racing" && !finished && (
+        <>
+          <PopPanel controls={controls as PopControls} />
+          <WaterButton controls={controls as PopControls} />
+        </>
       )}
 
       {/* Status banner + the big 30s race clock */}
       {board && !finished && (
         <div className="absolute top-2 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1">
           <Label type="info">{board.title}</Label>
-          {/* Trivia shows its own per-question countdown in the panel instead. */}
-          {phase === "racing" && minigame !== "trivia" && (
-            <span
-              className="font-secondary"
-              style={{
-                fontSize: "64px",
-                lineHeight: 1,
-                // Runs red for the last 5 seconds.
-                color: raceRemainingMs <= 5000 ? "#e43b44" : "#ffffff",
-                textShadow: "3px 3px 0 rgba(0,0,0,0.7)",
-              }}
-            >
-              {Math.ceil(raceRemainingMs / 1000)}
-            </span>
-          )}
+          {/* Trivia and Pumpkin Pop run their own multi-round clocks, shown in
+              their own panels, so they skip the shared 30s one. */}
+          {phase === "racing" &&
+            minigame !== "trivia" &&
+            minigame !== "pop" && (
+              <span
+                className="font-secondary"
+                style={{
+                  fontSize: "64px",
+                  lineHeight: 1,
+                  // Runs red for the last 5 seconds.
+                  color: raceRemainingMs <= 5000 ? "#e43b44" : "#ffffff",
+                  textShadow: "3px 3px 0 rgba(0,0,0,0.7)",
+                }}
+              >
+                {Math.ceil(raceRemainingMs / 1000)}
+              </span>
+            )}
           {/* Point-based games show a live score, in HTML so it stays crisp. */}
           {phase === "racing" &&
-            (minigame === "chop" ||
-              minigame === "eggs" ||
-              minigame === "jump" ||
-              minigame === "fishing") && (
+            (minigame === "chop" || minigame === "jump") && (
               <span
                 className="font-secondary text-white"
                 style={{
@@ -429,24 +424,10 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
         </div>
       )}
 
-      {/* Egg Catch instructions (sits above the corner move buttons) */}
-      {minigame === "eggs" && phase === "racing" && !finished && (
-        <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-10">
-          <Label type="vibrant">{t("giveaway.eggHint")}</Label>
-        </div>
-      )}
-
       {/* Jumper instructions (sits above the tap button) */}
       {minigame === "jump" && phase === "racing" && !finished && (
         <div className="absolute bottom-40 left-1/2 -translate-x-1/2 z-10">
           <Label type="vibrant">{t("giveaway.jumpHint")}</Label>
-        </div>
-      )}
-
-      {/* Fishing instructions (sits above the cast button) */}
-      {minigame === "fishing" && phase === "racing" && !finished && (
-        <div className="absolute bottom-40 left-1/2 -translate-x-1/2 z-10">
-          <Label type="vibrant">{t("giveaway.fishHint")}</Label>
         </div>
       )}
 
@@ -480,7 +461,10 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
                   {playerScore !== undefined && (
                     <>
                       <Label type="info">
-                        {t("giveaway.yourScore", { score: playerScore })}
+                        {t("giveaway.yourScore", {
+                          score: playerScore,
+                          unit: scoreUnit(minigame),
+                        })}
                       </Label>
                       <p className="text-xs">{t("giveaway.finishedWaiting")}</p>
                     </>

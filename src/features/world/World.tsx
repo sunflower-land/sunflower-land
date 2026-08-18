@@ -130,7 +130,6 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
       sceneId: (name ?? "plaza") as SceneId,
       experience: gameState.context.state.bumpkin?.experience ?? 0,
       isCommunity,
-      moderation: gameState.context.moderation,
       username: gameState.context.state.username,
     },
   }) as unknown as MMOMachineInterpreter;
