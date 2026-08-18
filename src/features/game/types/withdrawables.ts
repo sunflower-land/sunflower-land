@@ -2038,6 +2038,22 @@ export const INVENTORY_RELEASES: InventoryReleases = {
     tradeAt: new Date("2026-08-20T00:00:00Z"),
     withdrawAt: new Date("2026-08-20T00:00:00Z"),
   },
+  "Fool's Gold": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
+  "Golden Slime Trophy": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
+  "Silver Slime Trophy": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
+  "Bronze Slime Trophy": {
+    tradeAt: new Date("2026-08-20T00:00:00Z"),
+    withdrawAt: new Date("2026-08-20T00:00:00Z"),
+  },
 
   // Tutorial marketplace item
   "Stone Beetle": {
