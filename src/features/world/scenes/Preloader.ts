@@ -120,7 +120,7 @@ export abstract class Preloader extends Phaser.Scene {
         // this.scene.start("ExternalScene");
       });
     } catch (error) {
-      errorLogger(error);
+      errorLogger(error as Error);
     }
   }
 }

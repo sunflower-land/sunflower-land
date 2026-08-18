@@ -65,7 +65,7 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
 
   useEffect(() => {
     const errorLogger = createErrorLogger("react_error_modal", farmId ?? 0);
-    errorLogger({ error, transactionId, stack, date });
+    errorLogger({ error, transactionId, stack, meta: { date } });
   }, []);
 
   if (error?.includes("Returned values aren't valid")) {

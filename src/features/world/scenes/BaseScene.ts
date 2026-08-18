@@ -543,7 +543,7 @@ export abstract class BaseScene extends Phaser.Scene {
       // this.physics.world.fixedStep = false; // activates sync
       // this.physics.world.fixedStep = true; // deactivates sync (default)
     } catch (error) {
-      errorLogger(JSON.stringify(error));
+      errorLogger(error as Error);
     }
 
     this.setUpNavMesh();
