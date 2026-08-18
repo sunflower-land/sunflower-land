@@ -121,7 +121,7 @@ const SPECS = {
   confirm_soft: { src: generated("confirm_soft"), volume: 0.08 },
   claim_reward: { src: generated("claim_reward"), volume: 0.09 },
   craft_item: { src: generated("craft_item"), volume: 0.09 },
-  coins_spend: { src: generated("coins_spend"), volume: 0.08 },
+  coins_spend: { src: generated("coins_spend"), volume: 0.1 },
   machine_whir: { src: generated("machine_whir"), volume: 0.08 },
   paper_open: { src: generated("paper_open"), volume: 0.08 },
   panel_slide: { src: generated("panel_slide"), volume: 0.08 },
