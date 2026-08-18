@@ -162,8 +162,6 @@ if (typeof window !== "undefined") {
   );
 }
 
-let lastSoundPlayedAt = 0;
-
 export const useSound = (sound: SoundName, play = false) => {
   const howl = HOWLERS[sound];
 
@@ -187,11 +185,6 @@ export const useSound = (sound: SoundName, play = false) => {
   return useMemo(
     () => ({
       play: () => {
-        // Debounce
-        const now = Date.now();
-        if (now - lastSoundPlayedAt < 15) return;
-
-        lastSoundPlayedAt = now;
         // Randomize pitch for variety
         howl.rate(1 - PITCH_VARIANCE / 2 + Math.random() * PITCH_VARIANCE);
         howl.play();
