@@ -8382,5 +8382,12 @@
   "withdraw.flower.available": "Available to withdraw",
   "withdraw.flower.locked": "FLOWER locked",
   "withdraw.flower.unlocked.explanation": "You can withdraw any FLOWER you deposited and haven't used in the game. FLOWER earned inside the game requires the Grand Harvester reputation to withdraw.",
-  "withdraw.flower.upgrade": "Reach Grand Harvester to withdraw the FLOWER you earned in-game."
+  "withdraw.flower.upgrade": "Reach Grand Harvester to withdraw the FLOWER you earned in-game.",
+  "error.connection.title": "Connection problem",
+  "error.connection.status": "Could not reach the server",
+  "error.connection.description": "Your last request never reached Sunflower Land. This is usually an unstable connection (mobile data, switching networks or the app being in the background), or a VPN, firewall or ad blocker blocking requests. Please try again.",
+  "error.connection.retry": "Try again",
+  "error.offline.title": "You're offline",
+  "error.offline.status": "No internet connection",
+  "error.offline.description": "It looks like your device is not connected to the internet. Check your Wi-Fi or mobile data and try again once you're back online."
 }

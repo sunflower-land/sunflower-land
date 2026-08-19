@@ -8382,5 +8382,12 @@
   "withdraw.flower.available": "Disponível para saque",
   "withdraw.flower.locked": "FLOWER bloqueada",
   "withdraw.flower.unlocked.explanation": "Você pode sacar qualquer FLOR que depositou e não tenha usado no jogo. O FLOWER obtido no jogo exige que a reputação de Grand Harvester seja retirada.",
-  "withdraw.flower.upgrade": "Alcance o Grand Harvester para retirar a FLOR que você ganhou no jogo."
+  "withdraw.flower.upgrade": "Alcance o Grand Harvester para retirar a FLOR que você ganhou no jogo.",
+  "error.connection.title": "Problema de conexão",
+  "error.connection.status": "Não foi possível acessar o servidor",
+  "error.connection.description": "Seu último pedido nunca chegou à Sunflower Land. Geralmente, é uma conexão instável (dados móveis, troca de redes ou o aplicativo em segundo plano) ou uma VPN, firewall ou bloqueador de anúncios bloqueando solicitações. Por favor, tente novamente.",
+  "error.connection.retry": "Tente novamente",
+  "error.offline.title": "Você está offline",
+  "error.offline.status": "Sem conexão com a internet",
+  "error.offline.description": "Parece que seu dispositivo não está conectado à internet. Verifique seu Wi-Fi ou dados móveis e tente novamente quando estiver online novamente."
 }
