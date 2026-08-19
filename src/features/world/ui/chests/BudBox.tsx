@@ -24,6 +24,7 @@ import {
 import { ChestRewardsList } from "components/ui/ChestRewardsList";
 import { useNow } from "lib/utils/hooks/useNow";
 import type { PanelTabs } from "features/game/components/CloseablePanel";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface Props {
   onClose: () => void;
@@ -77,12 +78,15 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
 
   const [isRevealing, setIsRevealing] = useState(false);
 
+  const chestSound = useSound("chest_open");
+
   const open = async () => {
     setIsLoading && setIsLoading(true);
     setIsPicking(true);
 
     await new Promise((resolve) => setTimeout(resolve, 5000));
 
+    chestSound.play();
     gameService.send("REVEAL", {
       event: {
         type: "budBox.opened",

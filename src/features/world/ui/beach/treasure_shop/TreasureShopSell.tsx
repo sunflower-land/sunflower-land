@@ -20,6 +20,7 @@ import { BulkSellModal } from "components/ui/BulkSellModal";
 import { CHAPTER_ARTEFACT } from "features/game/types/desert";
 import { getCurrentChapter } from "features/game/types/chapters";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useSound } from "lib/utils/hooks/useSound";
 
 export const TreasureShopSell: React.FC = () => {
   const { t } = useAppTranslation();
@@ -47,6 +48,8 @@ export const TreasureShopSell: React.FC = () => {
 
   const divRef = useRef<HTMLDivElement>(null);
 
+  const sellSound = useSound("sfl");
+
   const inventory = state.inventory;
 
   const { price } = getSellPrice(selected, state);
@@ -54,6 +57,7 @@ export const TreasureShopSell: React.FC = () => {
   const coinAmount = price * customAmount.toNumber();
 
   const sell = (amount = 1) => {
+    sellSound.play();
     gameService.send("treasure.sold", {
       item: selectedName,
       amount,

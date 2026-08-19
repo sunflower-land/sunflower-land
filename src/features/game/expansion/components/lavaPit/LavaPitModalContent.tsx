@@ -25,6 +25,7 @@ import { IngredientsPopover } from "components/ui/IngredientsPopover";
 import { useNow } from "lib/utils/hooks/useNow";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 import { LAVA_PIT_TIME } from "features/game/events/landExpansion/startLavaPit";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _lavaPit = (id: string) => (state: MachineState) =>
@@ -58,12 +59,16 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
   const [showBoosts, setShowBoosts] = useState(false);
   const now = useNow({ live: true });
   const isLavaPitTimeBoosted = boostsUsed.length > 0;
+  const machineWhirSound = useSound("machine_whir");
+  const claimRewardSound = useSound("claim_reward");
 
   const throwResourcesIntoPit = () => {
+    machineWhirSound.play();
     gameService.send("lavaPit.started", { id });
   };
 
   const collectLavaPit = () => {
+    claimRewardSound.play();
     gameService.send("lavaPit.collected", { id });
   };
 

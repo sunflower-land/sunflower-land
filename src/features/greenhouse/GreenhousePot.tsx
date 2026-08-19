@@ -24,6 +24,7 @@ import type {
 } from "features/game/types/crops";
 import type { GreenHouseFruitName } from "features/game/types/fruits";
 import { Context } from "features/game/GameProvider";
+import { useSound } from "lib/utils/hooks/useSound";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { ProgressBar } from "components/ui/ProgressBar";
@@ -135,6 +136,8 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
   } = useContext(Context);
 
   const { t } = useAppTranslation();
+  const plantSound = useSound("plant");
+  const harvestSound = useSound("harvest");
   const [showHarvested, setShowHarvested] = useState(false);
   const [showQuickSelect, setShowQuickSelect] = useState(false);
   const [showTimeRemaining, setShowTimeRemaining] = useState(false);
@@ -250,6 +253,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
       return;
     }
 
+    plantSound.play();
     gameService.send("greenhouse.planted", { id, seed });
   };
 
@@ -260,6 +264,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
 
   const tryApplyGreenhouseFertiliser = (item?: InventoryItemName) => {
     if (!canApplyGreenhouseFertiliser(item)) return false;
+    plantSound.play();
     gameService.send("greenhouse.fertilised", {
       id,
       fertiliser: (item ?? selectedItem) as GreenhouseCompostName,
@@ -385,6 +390,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
         }).amount,
     );
 
+    harvestSound.play();
     gameService.send("greenhouse.harvested", { id });
 
     if (showAnimations) {

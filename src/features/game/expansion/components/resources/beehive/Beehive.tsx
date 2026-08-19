@@ -12,6 +12,7 @@ import lightning from "assets/icons/lightning.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
+import { useSound } from "lib/utils/hooks/useSound";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { useInterpret, useSelector } from "@xstate/react";
 import { Bar } from "components/ui/ProgressBar";
@@ -118,8 +119,12 @@ export const Beehive: React.FC<Props> = ({ id }) => {
     if (!honeyReady) setShowProducingBee(true);
   }, [honeyReady, beehiveService]);
 
+  const honeyCollectSound = useSound("honey_collect");
+
   const handleHarvestHoney = () => {
     setShowHoneyLevelModal(false);
+
+    honeyCollectSound.play();
 
     const hadSwarm = hive.swarm;
     const state = gameService.send("beehive.harvested", { id });

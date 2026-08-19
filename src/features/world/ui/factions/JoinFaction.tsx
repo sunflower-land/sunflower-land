@@ -55,6 +55,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
   const farmId = useSelector(gameService, _farmId);
 
   const recruiterVoice = useSound(FACTION_RECRUITERS[faction] as any);
+  const joinSound = useSound("upgrade_build");
 
   const sameFaction = joinedFaction && joinedFaction.name === faction;
   const hasSFL = gameService.getSnapshot().context.state.balance.gte(cost);
@@ -110,6 +111,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
   }, [joinedFaction]);
 
   const handlePledge = () => {
+    joinSound.play();
     gameService.send("faction.joined", { faction, sfl: cost });
     recruiterVoice.play();
   };

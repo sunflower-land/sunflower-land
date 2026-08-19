@@ -52,7 +52,8 @@ export class WoodlandsScene extends BaseScene {
         imageKey: IS_EASTER ? "easter-tileset" : "seasonal-tileset",
         defaultTilesetConfig: IS_EASTER ? rabbitTileset : seasonal_tileset,
       },
-      audio: { fx: { walk_key: "dirt_footstep" } },
+      // Damp forest floor - squishy mud underfoot
+      audio: { fx: { walk_key: "mud_footstep" } },
     });
   }
 

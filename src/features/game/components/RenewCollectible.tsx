@@ -15,6 +15,7 @@ import { COLLECTIBLE_BUFF_LABELS } from "../types/collectibleItemBuffs";
 import Decimal from "decimal.js-light";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useSound } from "lib/utils/hooks/useSound";
 
 type Props = {
   show: boolean;
@@ -37,11 +38,15 @@ export const RenewCollectible: React.FC<Props> = ({
   const gameState = useSelector(gameService, _gameState);
   const chestItems = getChestItems(gameState);
 
+  const machineSound = useSound("machine_whir");
+
   const handleRenew = () => {
+    machineSound.play();
     gameService.send("collectible.renewed", { name, location, id });
   };
 
   const handleRemove = () => {
+    machineSound.play();
     gameService.send("collectible.burned", { name, location, id });
   };
 

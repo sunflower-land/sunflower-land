@@ -10,6 +10,7 @@ import coinIcon from "assets/icons/coins.webp";
 import powerupIcon from "assets/icons/level_up.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import confetti from "canvas-confetti";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface Props {
   onClose: () => void;
@@ -17,9 +18,11 @@ interface Props {
 
 export const FreeTrial: React.FC<Props> = ({ onClose }) => {
   const { gameService } = React.useContext(Context);
+  const celebrationSound = useSound("celebration");
   const { t } = useAppTranslation();
   const handleStartTrial = () => {
     gameService.send("trial.started");
+    celebrationSound.play();
     confetti();
     onClose();
   };

@@ -26,6 +26,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useMemo, useState } from "react";
 import { isFoodAlreadyFed, PetCard, fetchSelectionKey } from "./PetCard";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useSound } from "lib/utils/hooks/useSound";
 import { PetInfo } from "./PetInfo";
 import { BulkFetchInputs } from "./BulkFetchInputs";
 import { planBulkFetch, type BulkFetchPlan } from "./planBulkFetch";
@@ -80,6 +81,9 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
     (state) => state.context.state.inventory,
   );
   const state = useSelector(gameService, (state) => state.context.state);
+
+  const feedAnimalSound = useSound("feed_animal");
+  const claimRewardSound = useSound("claim_reward");
 
   // The planner turns the typed quantities into concrete per-pet fetches; the
   // pet cards then show those pre-selected, minus anything deselected. Only
@@ -325,6 +329,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
   })();
 
   const handleFeed = (petId: PetName | number, food: CookableName) => {
+    feedAnimalSound.play();
     const state = gameService.send("pet.fed", { petId, food });
 
     const hasVictoriaApron = isWearableActive({
@@ -350,6 +355,7 @@ export const ManagePets: React.FC<Props> = ({ activePets }) => {
   };
 
   const handleFetch = (petId: PetName | number, fetch: PetResourceName) => {
+    claimRewardSound.play();
     gameService.send("pet.fetched", { petId, fetch });
   };
 

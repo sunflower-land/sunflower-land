@@ -24,6 +24,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import confetti from "canvas-confetti";
+import { useSound } from "lib/utils/hooks/useSound";
 import { useSpeedUpPayment } from "features/game/lib/useSpeedUpPayment";
 import { SpeedUpPaymentSelector } from "features/game/components/SpeedUpPaymentSelector";
 import { gameAnalytics } from "lib/gameAnalytics";
@@ -65,6 +66,7 @@ const InProgressCollectible: React.FC<Props> = ({
   index,
 }) => {
   const { gameService, showAnimations, showTimers } = useContext(Context);
+  const celebrationSound = useSound("celebration");
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
   const skills = useSelector(gameService, _skills);
   const now = useNow({ live: true, autoEndAt: readyAt });
@@ -99,6 +101,7 @@ const InProgressCollectible: React.FC<Props> = ({
     });
 
     setShowModal(false);
+    celebrationSound.play();
     if (showAnimations) confetti();
   };
 

@@ -23,6 +23,7 @@ import { useActor } from "@xstate/react";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { secondsToString } from "lib/utils/time";
 import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
+import { useSound } from "lib/utils/hooks/useSound";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SEASONAL_SEEDS } from "features/game/types/seeds";
 import { SEASON_ICONS } from "../buildings/components/building/market/SeasonalSeeds";
@@ -44,6 +45,8 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
     },
   ] = useActor(gameService);
   const { inventory, flowers } = state;
+
+  const flowerPlantSound = useSound("flower_plant");
 
   const [selecting, setSelecting] = useState<"seed" | "crossbreed" | null>(
     "seed",
@@ -75,6 +78,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
   };
 
   const plant = () => {
+    flowerPlantSound.play();
     gameService.send({
       type: "flower.planted",
       id,

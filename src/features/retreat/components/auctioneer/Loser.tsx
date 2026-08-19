@@ -7,6 +7,7 @@ import type { AuctionResults } from "features/game/lib/auctionMachine";
 import { Context } from "features/game/GameProvider";
 import { AuctionLeaderboardTable } from "./AuctionLeaderboardTable";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useSound } from "lib/utils/hooks/useSound";
 interface Props {
   onRefund: () => void;
   results: AuctionResults;
@@ -18,7 +19,10 @@ export const Loser: React.FC<Props> = ({ farmId, onRefund, results }) => {
 
   const { gameService } = useContext(Context);
 
+  const refundSound = useSound("no");
+
   const refund = () => {
+    refundSound.play();
     gameService.send("bid.refunded");
     onRefund();
     gameService.send("SAVE");

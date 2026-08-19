@@ -1731,3 +1731,42 @@ html.custom-cursor,
 .custom-cursor textarea {
   cursor: auto;
 }
+
+/* Pixel-styled range slider (audio settings) */
+.pixel-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 12px;
+  border: 2px solid #945542;
+  border-radius: 0;
+  outline: none;
+  cursor: pointer;
+}
+
+.pixel-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 20px;
+  background: #f4e2c2;
+  border: 2px solid #945542;
+  box-shadow: inset -2px -2px 0 rgba(148, 85, 66, 0.4);
+}
+
+.pixel-range::-moz-range-thumb {
+  width: 12px;
+  height: 20px;
+  background: #f4e2c2;
+  border: 2px solid #945542;
+  border-radius: 0;
+  box-shadow: inset -2px -2px 0 rgba(148, 85, 66, 0.4);
+}
+
+.pixel-range:disabled {
+  cursor: not-allowed;
+}
+
+.pixel-range:focus-visible {
+  outline: 2px solid #f4e2c2;
+  outline-offset: 2px;
+}

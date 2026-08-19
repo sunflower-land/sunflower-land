@@ -12,6 +12,7 @@ import { isHelpComplete } from "features/game/types/monuments";
 import { FarmHelped } from "../hud/components/FarmHelped";
 import type { GameState } from "features/game/types/game";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface Props {
   id: string;
@@ -82,9 +83,11 @@ export const ClutterItem: React.FC<
   const { gameService } = useContext(Context);
   const farmId = useSelector(gameService, _farmId);
   const totalHelpedToday = useSelector(gameService, _totalHelpedToday);
+  const claimRewardSound = useSound("claim_reward");
 
   // V2 - local only event
   const handleHelpFarm = async () => {
+    claimRewardSound.play();
     gameService.send("garbage.collected", {
       id,
       visitedFarmId: farmId,

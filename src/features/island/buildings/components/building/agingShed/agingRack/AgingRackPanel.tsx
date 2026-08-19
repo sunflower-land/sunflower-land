@@ -24,6 +24,7 @@ import {
 } from "features/island/hud/components/inventory/utils/inventory";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useSound } from "lib/utils/hooks/useSound";
 import { useVisiting } from "lib/utils/visitUtils";
 import { secondsToString } from "lib/utils/time";
 import { AgingRackEmpty } from "./AgingRackEmpty";
@@ -62,6 +63,9 @@ export const AgingRackPanel: React.FC = () => {
   const [startError, setStartError] = useState<string | undefined>();
   const [collectError, setCollectError] = useState<string | undefined>();
 
+  const machineWhirSound = useSound("machine_whir");
+  const claimRewardSound = useSound("claim_reward");
+
   const maxSlots = getAgingSlotCount(state.agingShed.level);
   const slotsFull = queue.length >= maxSlots;
   const shedPlaced = hasPlacedAgingShed(state);
@@ -97,6 +101,7 @@ export const AgingRackPanel: React.FC = () => {
     if (!canStart || !selectedFish) return;
     setStartError(undefined);
     try {
+      machineWhirSound.play();
       gameService.send("agingRack.started", {
         fish: selectedFish,
         slotId: uuidv4().slice(0, 8),
@@ -110,6 +115,7 @@ export const AgingRackPanel: React.FC = () => {
   const handleCollect = () => {
     setCollectError(undefined);
     try {
+      claimRewardSound.play();
       gameService.send("agingRack.collected");
       gameService.send("SAVE");
       setSelectedSlotId(null);

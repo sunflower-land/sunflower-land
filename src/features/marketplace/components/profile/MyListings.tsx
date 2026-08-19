@@ -26,6 +26,7 @@ import {
 } from "features/game/types/marketplace";
 import { Button } from "components/ui/Button";
 import { BulkRemoveTrades } from "../BulkRemoveListings";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const _isCancellingOffer = (state: MachineState) =>
   state.matches("marketplaceListingCancelling");
@@ -70,6 +71,8 @@ export const MyListings: React.FC<Props> = ({ fullHeight = false }) => {
 
   const navigate = useNavigate();
 
+  const claimSound = useSound("claim_reward");
+
   const listings = trades.listings ?? {};
 
   const filteredListings =
@@ -103,6 +106,7 @@ export const MyListings: React.FC<Props> = ({ fullHeight = false }) => {
   const claim = () => {
     const listing = listings[claimId as string];
 
+    claimSound.play();
     gameService.send("purchase.claimed", {
       tradeIds: [claimId],
     });

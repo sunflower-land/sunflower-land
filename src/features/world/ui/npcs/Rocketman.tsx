@@ -26,6 +26,7 @@ import {
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { useVipAccess } from "lib/utils/hooks/useVipAccess";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface Props {
   onClose: () => void;
@@ -140,7 +141,10 @@ export const FlowerExchange: React.FC<FlowerExchangeProps> = ({ onClose }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const loveCharmIcon = ITEM_DETAILS["Love Charm"].image;
 
+  const exchangeSound = useSound("coins_spend");
+
   const handleExchange = () => {
+    exchangeSound.play();
     gameService.send("exchange.flower", { amount: loveCharms });
     onClose();
   };

@@ -17,6 +17,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const COOLDOWN = 1000 * 60 * 60 * 24 * 30; // 30 days
 const gemCost = 250;
@@ -61,6 +62,8 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
   const alreadyHaveUsername = !!currentUsername;
   const { t } = useAppTranslation();
 
+  const usernameSound = useSound("confirm_soft");
+
   // debounced function to check if username is available
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedCheckUsername = useCallback(
@@ -81,6 +84,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
     setTab(1);
     setState("loading");
     try {
+      usernameSound.play();
       gameService.send("username.changed", {
         effect: { type: "username.changed", username: username as string },
         authToken: authState.context.user.rawToken as string,

@@ -1,6 +1,7 @@
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { AuctioneerModal } from "features/retreat/components/auctioneer/AuctioneerModal";
+import { useSound } from "lib/utils/hooks/useSound";
 import React, { useContext } from "react";
 
 interface Props {
@@ -19,6 +20,8 @@ export const AuctionHouseModal: React.FC<Props> = ({
     context: { state, linkedWallet },
   } = gameState;
 
+  const claimSound = useSound("claim_reward");
+
   return (
     <AuctioneerModal
       farmId={id}
@@ -30,6 +33,7 @@ export const AuctionHouseModal: React.FC<Props> = ({
       }}
       onMint={() => {
         closeModal();
+        claimSound.play();
         gameService.send("auction.claimed", {
           effect: {
             type: "auction.claimed",

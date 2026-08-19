@@ -35,6 +35,7 @@ import { SFLDiscount } from "features/game/lib/SFLDiscount";
 
 import { REWARD_BOXES } from "features/game/types/rewardBoxes";
 import { MINIGAME_SHOP_ITEMS } from "features/game/types/minigameShop";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface ItemOverlayProps {
   item: EventStoreItem | null;
@@ -70,6 +71,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const [confirmBuy, setConfirmBuy] = useState<boolean>(false);
   //For Discount
   const state = useSelector(gameService, _state);
+
+  const buySound = useSound("coins_spend");
 
   const now = useNow();
   const chapterTicket = getChapterTicket(now);
@@ -209,6 +212,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const handleBuy = () => {
     if (!item) return;
 
+    buySound.play();
     gameService.send("minigameItem.bought", {
       id: "colors-2026",
       name: itemName,

@@ -13,6 +13,7 @@ import {
   type CrustaceanName,
 } from "features/game/types/crustaceans";
 import confetti from "canvas-confetti";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const _state = (state: MachineState) => state.context.state;
 
@@ -26,6 +27,7 @@ export const CrustaceanCaught: React.FC<Props> = ({
   onClose,
 }) => {
   const { gameService, showAnimations } = useContext(Context);
+  const celebrationSound = useSound("celebration");
   const state = useSelector(gameService, _state);
   const { t } = useAppTranslation();
 
@@ -37,10 +39,11 @@ export const CrustaceanCaught: React.FC<Props> = ({
     (state.farmActivity[`${caughtItem} Caught`] ?? 0) === caughtAmount;
 
   useEffect(() => {
+    if (newCatch) celebrationSound.play();
     if (newCatch && showAnimations) {
       confetti();
     }
-  }, [newCatch, showAnimations]);
+  }, [newCatch, showAnimations, celebrationSound]);
 
   if (!caughtItem) {
     return null;

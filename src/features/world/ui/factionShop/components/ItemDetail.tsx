@@ -30,6 +30,7 @@ import {
   type FactionShopItem,
   type FactionShopItemName,
 } from "features/game/types/factionShop";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface ItemOverlayProps {
   item: FactionShopItem | null;
@@ -72,6 +73,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const [imageWidth, setImageWidth] = useState<number>(0);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
   const [confirmBuy, setConfirmBuy] = useState<boolean>(false);
+
+  const buySound = useSound("coins_spend");
 
   useLayoutEffect(() => {
     if (isWearable) {
@@ -153,6 +156,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const handleBuy = () => {
     if (!item) return;
 
+    buySound.play();
     gameService.send("factionShopItem.bought", {
       item: item.name,
     });

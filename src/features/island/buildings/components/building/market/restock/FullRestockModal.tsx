@@ -14,6 +14,7 @@ import confetti from "canvas-confetti";
 import { Box } from "components/ui/Box";
 import { INITIAL_STOCK, type StockableName } from "features/game/lib/constants";
 import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
+import { useSound } from "lib/utils/hooks/useSound";
 import { SEEDS } from "features/game/types/seeds";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { getObjectEntries } from "lib/object";
@@ -37,6 +38,8 @@ export const FullRestockModal: React.FC<RestockModalProps> = ({
   const { gameService, showAnimations } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
 
+  const shopSound = useSound("shop");
+
   const canRestock = state.inventory["Gem"]?.gte(20);
 
   const handleRestock = () => {
@@ -45,6 +48,7 @@ export const FullRestockModal: React.FC<RestockModalProps> = ({
       return;
     }
 
+    shopSound.play();
     gameService.send("shops.restocked");
 
     gameAnalytics.trackSink({

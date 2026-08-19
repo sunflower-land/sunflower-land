@@ -30,6 +30,7 @@ import { RequiredReputation } from "features/island/hud/components/reputation/Re
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getKeys } from "lib/object";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const _balance = (state: MachineState) => state.context.state.balance;
 const _usd = (state: MachineState) => state.context.prices.sfl?.usd ?? 0.0;
@@ -59,6 +60,8 @@ export const MakeOffer: React.FC<{
   const [quantity, setQuantity] = useState(0);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
+  const offerSound = useSound("confirm_soft");
+
   const isResource =
     display.type === "collectibles" &&
     isTradeResource(KNOWN_ITEMS[Number(itemId)]);
@@ -80,6 +83,7 @@ export const MakeOffer: React.FC<{
   };
 
   const confirm = async ({ signature }: { signature?: string }) => {
+    offerSound.play();
     gameService.send("marketplace.offerMade", {
       effect: {
         type: "marketplace.offerMade",

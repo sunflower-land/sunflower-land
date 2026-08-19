@@ -14,6 +14,7 @@ import { isTouchDevice } from "../lib/device";
 import { SPAWNS, type SpawnFromId } from "../lib/spawn";
 import {
   type AudioController,
+  type Sound,
   WalkAudioController,
 } from "../lib/AudioController";
 import { createErrorLogger } from "lib/errorLogger";
@@ -43,6 +44,11 @@ import {
   AUDIO_MUTED_EVENT,
   getAudioMutedSetting,
 } from "lib/utils/hooks/useIsAudioMuted";
+import {
+  getVolumeSetting,
+  VOLUME_CHANGED_EVENT,
+  type VolumeChangedDetail,
+} from "lib/utils/hooks/useAudioVolume";
 import { NightShaderPipeline } from "../shaders/nightShader";
 import {
   PLAZA_SHADER_EVENT,
@@ -223,6 +229,12 @@ export abstract class BaseScene extends Phaser.Scene {
     this.sound.mute = event.detail;
   };
 
+  private onVolumeChanged = (event: CustomEvent<VolumeChangedDetail>) => {
+    if (event.detail.channel === "sfx") {
+      this.sound.volume = event.detail.value;
+    }
+  };
+
   /**
    * Changes the shader when the event is triggered.
    * @param event The event.
@@ -344,6 +356,22 @@ export abstract class BaseScene extends Phaser.Scene {
       // set audio mute state and listen for changes
       this.sound.mute = getAudioMutedSetting();
       window.addEventListener(AUDIO_MUTED_EVENT as any, this.onAudioMuted);
+
+      // Phaser cues are all sound effects - scale them with the SFX slider
+      this.sound.volume = getVolumeSetting("sfx");
+      window.addEventListener(
+        VOLUME_CHANGED_EVENT as any,
+        this.onVolumeChanged,
+      );
+      // Cleaned up here (not in the MMO shutdown) so scenes without MMO
+      // don't leak the window listeners
+      this.events.once("shutdown", () => {
+        window.removeEventListener(AUDIO_MUTED_EVENT as any, this.onAudioMuted);
+        window.removeEventListener(
+          VOLUME_CHANGED_EVENT as any,
+          this.onVolumeChanged,
+        );
+      });
 
       if (this.options.mmo.enabled) {
         this.initialiseMMO();
@@ -1534,8 +1562,6 @@ export abstract class BaseScene extends Phaser.Scene {
         removeMessageListener();
         removeReactionListener();
         removeActionListener?.();
-
-        window.removeEventListener(AUDIO_MUTED_EVENT as any, this.onAudioMuted);
         this.input.off("pointerdown"); // clean up pointerdown event listener
       });
     };
@@ -1560,6 +1586,12 @@ export abstract class BaseScene extends Phaser.Scene {
     this.walkAudioController = new WalkAudioController(
       this.sound.add(this.options.audio.fx.walk_key),
     );
+  }
+
+  // Scenes with mixed terrain (e.g. beach vs desert sand) swap keys per frame
+  public setWalkAudioKey(key: Footsteps) {
+    const sound = (this.sound.get(key) ?? this.sound.add(key)) as Sound;
+    this.walkAudioController?.setWalkSound(sound);
   }
 
   public initialiseControls() {
@@ -2408,6 +2440,9 @@ export abstract class BaseScene extends Phaser.Scene {
    */
   protected changeScene = (scene: SceneId) => {
     this.isCameraFading = true;
+
+    // Warp whoosh as the fade starts - covers every warp/portal/door
+    this.sound.play("travel", { volume: 0.3 });
 
     this.currentPlayer?.stopSpeaking();
     this.cameras.main.fadeOut(500);

@@ -17,6 +17,7 @@ import { useGame } from "features/game/GameProvider";
 import upIcon from "assets/icons/level_up.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ConfirmButton } from "components/ui/ConfirmButton";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface Props {
   game: GameState;
@@ -28,12 +29,15 @@ export const Buy: React.FC<Props> = ({ game }) => {
   const [selected, setSelected] = useState<ResourceName>("Crop Plot");
   const [bought, setBought] = useState<ResourceName>();
 
+  const buySound = useSound("coins_spend");
+
   const island = RESOURCE_NODE_PRICES[selected]?.requiredIsland ?? "basic";
   const hasAccess = hasRequiredIslandExpansion(game.island.type, island);
 
   const price = getResourcePrice({ gameState: game, resourceName: selected });
 
   const buy = async () => {
+    buySound.play();
     gameService.send("resource.bought", {
       name: selected,
     });

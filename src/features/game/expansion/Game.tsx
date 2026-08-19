@@ -338,7 +338,29 @@ const isLeagueResultsReleased = (state: MachineState) =>
 
 const GameContent: React.FC = () => {
   const { gameService } = useContext(Context);
-  useSound("desert", true);
+
+  // Sparse ambience - a lone bird chirp every 8-20s over real silence,
+  // instead of a looping bed with a baked-in noise floor
+  const birdChirp1 = useSound("bird_chirp_1");
+  const birdChirp2 = useSound("bird_chirp_2");
+  const birdChirp3 = useSound("bird_chirp_3");
+  useEffect(() => {
+    const chirps = [birdChirp1, birdChirp2, birdChirp3];
+    let timeout: ReturnType<typeof setTimeout>;
+
+    const scheduleChirp = () => {
+      timeout = setTimeout(
+        () => {
+          chirps[Math.floor(Math.random() * chirps.length)].play();
+          scheduleChirp();
+        },
+        8000 + Math.random() * 12000,
+      );
+    };
+
+    scheduleChirp();
+    return () => clearTimeout(timeout);
+  }, [birdChirp1, birdChirp2, birdChirp3]);
 
   const isVisiting = useSelector(gameService, _isVisiting);
 

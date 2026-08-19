@@ -26,6 +26,7 @@ import {
 import type { FloatingShopItem } from "features/game/types/floatingIsland";
 import { getKeys } from "lib/object";
 import { ChestRewardsList } from "components/ui/ChestRewardsList";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface ItemOverlayProps {
   item: FloatingShopItem | null;
@@ -195,6 +196,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
   const [confirmBuy, setConfirmBuy] = useState<boolean>(false);
 
+  const buySound = useSound("coins_spend");
+
   const description = getItemDescription(item);
   const rewardBoxName =
     item && !isWearable && isDisplayableRewardBoxName(item.name)
@@ -256,6 +259,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const handleBuy = () => {
     if (!item) return;
 
+    buySound.play();
     gameService.send("floatingShopItem.bought", {
       name: item.name,
     });

@@ -46,6 +46,7 @@ import {
   secondsLeftInChapter,
 } from "features/game/types/chapters";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useSound } from "lib/utils/hooks/useSound";
 import { Box } from "components/ui/Box";
 
 const FISH_BY_TYPE = getFishByType();
@@ -67,6 +68,8 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
 
   const { t } = useAppTranslation();
   const [selectedMilestone, setSelectedMilestone] = useState<MilestoneName>();
+
+  const claimRewardSound = useSound("claim_reward");
 
   const { farmActivity, milestones } = state;
 
@@ -149,6 +152,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached, state }) => {
   }, [snapToSection]);
 
   const handleClaimReward = (milestone: MilestoneName) => {
+    claimRewardSound.play();
     gameService.send("milestone.claimed", { milestone });
     onMilestoneReached(milestone);
     setSelectedMilestone(undefined);

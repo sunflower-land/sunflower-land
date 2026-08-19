@@ -24,6 +24,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import sflIcon from "assets/icons/flower_token.webp";
 import { type IPortalDonation, PortalDonation } from "./PortalDonation";
 import { getCachedFont } from "lib/utils/fonts";
+import { useSound } from "lib/utils/hooks/useSound";
 
 type PortalPurchase = {
   sfl: number;
@@ -107,6 +108,10 @@ export const Portal: React.FC<Props> = ({
   const [donation, setDonation] = useState<IPortalDonation | undefined>();
 
   const { t } = useAppTranslation();
+
+  const attemptSound = useSound("confirm_soft");
+  const purchaseSound = useSound("coins_spend");
+  const prizeSound = useSound("claim_reward");
 
   /**
    * Parent auth/farm context updates often (token refresh, SAVE, etc.). Those must not
@@ -195,6 +200,7 @@ export const Portal: React.FC<Props> = ({
 
     if (event.data.event === "attemptStarted") {
       // Start the minigame attempt
+      attemptSound.play();
       gameService.send("minigame.attemptStarted", {
         id: portalName,
       });
@@ -224,6 +230,7 @@ export const Portal: React.FC<Props> = ({
   }, []);
 
   const confirmPurchase = () => {
+    purchaseSound.play();
     gameService.send("minigame.itemPurchased", {
       id: portalName,
       sfl: purchase?.sfl,
@@ -246,6 +253,7 @@ export const Portal: React.FC<Props> = ({
   };
 
   const onClaim = () => {
+    prizeSound.play();
     gameService.send("minigame.prizeClaimed", {
       id: portalName,
     });

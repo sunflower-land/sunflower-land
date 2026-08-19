@@ -29,6 +29,7 @@ import type {
   Bumpkin,
 } from "features/game/types/game";
 import { expansionRequirements } from "features/game/events/landExpansion/expandLand";
+import { useSound } from "lib/utils/hooks/useSound";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ExpansionRequirements } from "components/ui/layouts/ExpansionRequirements";
@@ -249,6 +250,8 @@ export const UpcomingExpansion: React.FC = () => {
 
   const { openModal } = useContext(ModalContext);
 
+  const expansionRevealSound = useSound("expansion_reveal");
+
   const state = gameState.context.state;
   const now = useNow();
   const { requirements, baseTimeSeconds, timeBoostsUsed } =
@@ -258,6 +261,7 @@ export const UpcomingExpansion: React.FC = () => {
     (gameState.context.state.inventory["Basic Land"]?.toNumber() ?? 3) + 1;
 
   const onReveal = () => {
+    expansionRevealSound.play();
     gameService.send("land.revealed");
     gameService.send("SAVE");
 

@@ -31,11 +31,25 @@ export abstract class Preloader extends Phaser.Scene {
       this.load.audio("dirt_footstep", SOUNDS.footsteps.dirt);
       this.load.audio("wood_footstep", SOUNDS.footsteps.wood);
       this.load.audio("sand_footstep", SOUNDS.footsteps.sand);
+      // Generated terrain variants (public/audio, see sound-generation/)
+      this.load.audio(
+        "sand_footstep_desert",
+        "/audio/sand_footstep_desert.m4a",
+      );
+      this.load.audio("mud_footstep", "/audio/mud_footstep.m4a");
       this.load.audio("nature_1", SOUNDS.loops.nature_1);
       this.load.audio("boat", SOUNDS.loops.engine);
       this.load.audio("dig", SOUNDS.desert.dig);
       this.load.audio("drill", SOUNDS.desert.drill);
       this.load.audio("reveal", SOUNDS.desert.reveal);
+      // BaseScene's round icon buttons play "button" - the generated
+      // tactile pop, same cue the React HUD uses
+      this.load.audio("button", "/audio/ui_click.m4a");
+      // Generated cues (public/audio, see sound-generation/): plaza dog
+      // barks, and a warp whoosh
+      this.load.audio("dog_bark_1", "/audio/dog_bark_1.m4a");
+      this.load.audio("dog_bark_2", "/audio/dog_bark_2.m4a");
+      this.load.audio("travel", SOUNDS.ui.travel);
 
       // Phaser assets must be served from an URL
       this.load.image(

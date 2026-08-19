@@ -87,7 +87,11 @@ export class BeachScene extends BaseScene {
   digbyAlertSprite: Phaser.GameObjects.Sprite | undefined;
 
   constructor() {
-    super({ name: "beach", map: { json: mapJSON } });
+    super({
+      name: "beach",
+      map: { json: mapJSON },
+      audio: { fx: { walk_key: "sand_footstep" } },
+    });
   }
 
   preload() {
@@ -1647,6 +1651,13 @@ export class BeachScene extends BaseScene {
 
   public update() {
     if (!this.currentPlayer) return;
+
+    // The dig site's dry desert sand crunches differently to beach sand
+    this.setWalkAudioKey(
+      this.isPlayerInDigArea(this.currentPlayer.x, this.currentPlayer.y)
+        ? "sand_footstep_desert"
+        : "sand_footstep",
+    );
 
     this.handleDigbyAlertSprite();
 

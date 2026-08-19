@@ -25,6 +25,7 @@ import type { CropMachineBuilding } from "features/game/types/game";
 
 import type { AddSeedsInput } from "features/game/events/landExpansion/supplyCropMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const _cropMachine = (id: string) => (state: MachineState) => {
   const machines = state.context.state.buildings["Crop Machine"];
@@ -76,8 +77,12 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
   const running = useSelector(cropMachineService, _running);
   const paused = useSelector(cropMachineService, _paused);
 
+  const machineWhirSound = useSound("machine_whir");
+  const harvestSound = useSound("harvest");
+
   const handleClick = () => setShowModal(true);
   const handleAddSeeds = (seeds: AddSeedsInput) => {
+    machineWhirSound.play();
     const updated = gameService.send({
       type: "cropMachine.supplied",
       seeds,
@@ -100,6 +105,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
   };
 
   const handleHarvestPack = (packIndex: number) => {
+    harvestSound.play();
     const updated = gameService.send({
       type: "cropMachine.harvested",
       packIndex,
@@ -142,6 +148,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
   };
 
   const handleAddOil = (oil: number) => {
+    machineWhirSound.play();
     const updated = gameService.send({
       type: "cropMachine.oilSupplied",
       oil,

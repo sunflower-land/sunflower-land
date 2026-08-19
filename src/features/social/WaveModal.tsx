@@ -4,6 +4,7 @@ import { Context } from "features/game/GameProvider";
 import { type WaveModalData, waveModalManager } from "./lib/waveModalManager";
 import { useTranslation } from "react-i18next";
 import confetti from "canvas-confetti";
+import { useSound } from "lib/utils/hooks/useSound";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
@@ -12,6 +13,7 @@ const _username = (state: MachineState) => state.context.state.username;
 
 export const WaveModal: React.FC = () => {
   const { gameService } = useContext(Context);
+  const celebrationSound = useSound("celebration");
   const { t } = useTranslation();
   const username = useSelector(gameService, _username);
 
@@ -36,6 +38,7 @@ export const WaveModal: React.FC = () => {
 
   const claimTiara = () => {
     gameService.send("bonus.claimed", { name: "2026-tiara-wave" });
+    celebrationSound.play();
     confetti();
     closeModal();
   };

@@ -46,6 +46,7 @@ import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
 import { getChapterTaskPoints } from "features/game/types/tracks";
 import { ANIMALS } from "features/game/types/animals";
+import { useSound } from "lib/utils/hooks/useSound";
 
 export const MegaBountyBoard: React.FC<{ onClose: () => void }> = ({
   onClose,
@@ -170,6 +171,9 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
     now,
   });
 
+  const bulkSellSound = useSound("sfl");
+  const bonusClaimSound = useSound("claim_reward");
+
   const endTime = weekResetsAt();
   const { totalSeconds: secondsRemaining } = useCountdown(endTime);
   const showDanger = secondsRemaining < 60 * 60 * 24;
@@ -265,6 +269,7 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
       return;
     }
 
+    bonusClaimSound.play();
     gameService.send("claim.bountyBoardBonus");
     if (showAnimations) confetti();
   };
@@ -342,6 +347,7 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
       return;
     }
 
+    bulkSellSound.play();
     gameService.send("bounty.bulkSold", {
       requestIds: validSells,
     });
@@ -615,6 +621,9 @@ const Deal: React.FC<{
   const { t } = useAppTranslation();
   const { gameService, showAnimations } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
+
+  const sellSound = useSound("sfl");
+
   const buttonHandler = () => {
     if (!confirmExchange) {
       setConfirmExchange(true);
@@ -639,6 +648,7 @@ const Deal: React.FC<{
   };
 
   const sell = () => {
+    sellSound.play();
     gameService.send("bounty.sold", {
       requestId: bounty.id,
     });

@@ -13,6 +13,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import type { Announcements } from "features/game/types/announcements";
 import classNames from "classnames";
 import type { MachineState } from "features/game/lib/gameMachine";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const _mailboxRead = (state: MachineState) => state.context.state.mailbox.read;
 
@@ -25,6 +26,8 @@ export const Mail: React.FC<Props> = ({ setSelected, announcements }) => {
   const mailboxRead = useSelector(gameService, _mailboxRead);
 
   const { t } = useAppTranslation();
+
+  const paperOpenSound = useSound("paper_open");
 
   let ids = mailboxRead.map((item) => item.id);
 
@@ -49,6 +52,7 @@ export const Mail: React.FC<Props> = ({ setSelected, announcements }) => {
   }
 
   const open = (id: string) => {
+    paperOpenSound.play();
     setSelected(id);
 
     const read = mailboxRead.find((item) => item.id === id);

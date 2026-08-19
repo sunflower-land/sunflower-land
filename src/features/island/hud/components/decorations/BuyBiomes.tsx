@@ -12,6 +12,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import Decimal from "decimal.js-light";
 import { Label } from "components/ui/Label";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
+import { useSound } from "lib/utils/hooks/useSound";
 import type { IslandType } from "features/game/types/game";
 import { getIslandName } from "features/game/types/game";
 
@@ -21,6 +22,8 @@ export const BuyBiomes: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [selected, setSelected] = useState<LandBiomeName>(
     getKeys(LAND_BIOMES)[0],
   );
+
+  const upgradeBuildSound = useSound("upgrade_build");
 
   const biome = LAND_BIOMES[selected];
   const { coins: coinPrice, ingredients } = biome;
@@ -39,6 +42,7 @@ export const BuyBiomes: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     );
 
   const buyBiome = () => {
+    upgradeBuildSound.play();
     gameService.send("biome.bought", { biome: selected });
     gameService.send("biome.applied", { biome: selected });
     onClose();

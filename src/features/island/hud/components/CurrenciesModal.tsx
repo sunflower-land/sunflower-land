@@ -100,6 +100,7 @@ export const CurrenciesModal: React.FC<Props> = ({
 
   const navigate = useNavigate();
   const travel = useSound("travel");
+  const coinsSpend = useSound("coins_spend");
 
   const canAccessRetreat = meetsLevelRequirement(
     getAscensionLevel({ experience, ascensionLevel }),
@@ -150,6 +151,7 @@ export const CurrenciesModal: React.FC<Props> = ({
     quote: number,
     bundle: number | typeof STARTER_PACK,
   ) => {
+    coinsSpend.play();
     gameService.send("gems.bought", {
       effect: {
         type: "gems.bought",

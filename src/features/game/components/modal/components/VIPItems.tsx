@@ -44,6 +44,7 @@ import type { GameState, VIP } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
 import { VIPSavings } from "./VIPSavings";
 import { useVipAccess } from "lib/utils/hooks/useVipAccess";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _vip = (state: MachineState) => state.context.state.vip;
@@ -141,7 +142,10 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
   const gemBalance = inventory["Gem"] ?? new Decimal(0);
   const hasLifetimeBanner = useSelector(gameService, _hasLifetimeFarmerBanner);
 
+  const purchaseSound = useSound("unlock_sparkle");
+
   const handlePurchase = () => {
+    purchaseSound.play();
     gameService.send("vip.bought", {
       effect: { type: "vip.bought", bundle: selected },
       authToken: authService.getSnapshot().context.user.rawToken as string,

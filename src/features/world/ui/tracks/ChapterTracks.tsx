@@ -41,6 +41,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { NaturalImage } from "components/ui/NaturalImage";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { useSound } from "lib/utils/hooks/useSound";
 
 type TrackProgress = {
   points: number;
@@ -497,6 +498,7 @@ export const MilestoneDetails: React.FC<{
   const state = gameState.context.state;
   const progress = getTrackProgress({ state, chapter });
   const hasVip = useVipAccess({ game: state });
+  const claimSound = useSound("unlock_sparkle");
   if (!details) return null;
 
   const pointsProgress = Math.min(progress.points, details.points);
@@ -546,6 +548,7 @@ export const MilestoneDetails: React.FC<{
       {canClaim && (
         <Button
           onClick={() => {
+            claimSound.play();
             gameService.send("trackMilestone.claimed", {
               track: details.track,
             });

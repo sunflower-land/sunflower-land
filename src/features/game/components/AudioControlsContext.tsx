@@ -3,12 +3,17 @@ import { Howler } from "howler";
 import type { Song } from "assets/songs/playlist";
 import { useIsAudioMuted } from "lib/utils/hooks/useIsAudioMuted";
 import { useIsMusicPaused } from "lib/utils/hooks/useIsMusicPaused";
+import { useAudioVolume } from "lib/utils/hooks/useAudioVolume";
+
+// The authored mix level of the music player at a full music slider
+const MUSIC_BASE_VOLUME = 0.15;
 
 export interface AudioControls {
   musicPlayer: React.RefObject<HTMLAudioElement | null>;
   song: Song;
   handlePreviousSong: () => void;
   handleNextSong: () => void;
+  handlePlaySong: (id: string) => void;
 }
 
 const AudioControlsContext = createContext<AudioControls | null>(null);
@@ -19,6 +24,7 @@ export const AudioControlsProvider: React.FC<
   const { musicPlayer } = controls;
   const { isAudioMuted } = useIsAudioMuted();
   const { isMusicPaused } = useIsMusicPaused();
+  const { volume: musicVolume } = useAudioVolume("music");
 
   useEffect(() => {
     Howler.mute(isAudioMuted);
@@ -30,15 +36,15 @@ export const AudioControlsProvider: React.FC<
 
     // Modifying HTMLAudioElement properties is necessary for audio control
     // eslint-disable-next-line react-hooks/immutability
-    player.volume = 0.15;
+    player.volume = MUSIC_BASE_VOLUME * musicVolume;
 
     if (isMusicPaused) {
       player.pause();
     } else {
       player.play();
-      player.muted = false;
+      player.muted = isAudioMuted;
     }
-  }, [isMusicPaused, musicPlayer]);
+  }, [isMusicPaused, isAudioMuted, musicVolume, musicPlayer]);
 
   useEffect(() => {
     // https://developer.mozilla.org/en-US/docs/Web/API/Document/visibilitychange_event
@@ -49,7 +55,7 @@ export const AudioControlsProvider: React.FC<
       if (document.visibilityState === "visible") {
         if (!isMusicPaused) {
           player.play();
-          player.muted = false;
+          player.muted = isAudioMuted;
         }
         Howler.mute(isAudioMuted);
       } else {
@@ -72,12 +78,7 @@ export const AudioControlsProvider: React.FC<
   );
 };
 
-export const useAudioControls = (): AudioControls => {
-  const ctx = useContext(AudioControlsContext);
-  if (!ctx) {
-    throw new Error(
-      "useAudioControls must be used within an AudioControlsProvider",
-    );
-  }
-  return ctx;
-};
+// Null outside the game (e.g. the login screen's settings menu), where
+// there is no music player - callers must handle the missing controls
+export const useAudioControls = (): AudioControls | null =>
+  useContext(AudioControlsContext);

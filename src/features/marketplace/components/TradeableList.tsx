@@ -44,6 +44,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useSound } from "lib/utils/hooks/useSound";
 
 type TradeableListItemProps = {
   authToken: string;
@@ -89,6 +90,8 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   const accountTradedRecently = useSelector(gameService, (s) =>
     isAccountTradedWithin90Days(s.context),
   );
+
+  const listSound = useSound("shop");
 
   const { state } = gameState.context;
 
@@ -151,6 +154,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
 
   const confirm = async ({ signature }: { signature?: string }) => {
     if (accountTradedRecently) return;
+    listSound.play();
     gameService.send("marketplace.listed", {
       effect: {
         type: "marketplace.listed",

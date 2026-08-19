@@ -15,6 +15,18 @@ export class WalkAudioController {
     this.walkSound = walkSound;
   }
 
+  // Swap terrains mid-walk (e.g. beach sand -> desert sand) without a gap
+  setWalkSound(walkSound: Sound): void {
+    if (walkSound === this.walkSound) return;
+
+    const wasPlaying = this.walkSound.isPlaying;
+    if (wasPlaying) this.walkSound.stop();
+    this.walkSound = walkSound;
+    if (wasPlaying) {
+      this.walkSound.play({ loop: true, volume: 0.07, rate: 0.62 });
+    }
+  }
+
   handleWalkSound(isWalking: boolean): void {
     if (isWalking) {
       if (!this.walkSound.isPlaying) {

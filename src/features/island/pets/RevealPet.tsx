@@ -19,6 +19,7 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import { useDeepEffect } from "lib/utils/hooks/useDeepEffect";
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import confetti from "canvas-confetti";
+import { useSound } from "lib/utils/hooks/useSound";
 import powerup from "assets/icons/level_up.png";
 import { useImagePreload } from "lib/utils/hooks/useImagePreload";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
@@ -52,6 +53,7 @@ const _revealed = (state: MachineState) => state.matches("revealed");
 export const RevealPet: React.FC = () => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
+  const celebrationSound = useSound("celebration");
 
   const nftPets = useSelector(gameService, _nftPets);
   const playing = useSelector(gameService, _playing);
@@ -74,7 +76,10 @@ export const RevealPet: React.FC = () => {
     if (unrevealedPet) setRevealingPetId(unrevealedPet.id);
   }, [unrevealedPet]);
 
-  useOnMachineTransition(gameService, "revealing", "revealed", confetti);
+  useOnMachineTransition(gameService, "revealing", "revealed", () => {
+    celebrationSound.play();
+    confetti();
+  });
 
   const petToBeRevealed: PetNFT | undefined =
     revealingPetId !== undefined ? nftPets[revealingPetId] : undefined;

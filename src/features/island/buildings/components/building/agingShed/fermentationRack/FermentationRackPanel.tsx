@@ -20,6 +20,7 @@ import {
 } from "features/game/types/fermentation";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useSound } from "lib/utils/hooks/useSound";
 import { useVisiting } from "lib/utils/visitUtils";
 import { getAgingInputMultiplier } from "features/game/types/agingFormulas";
 import type {
@@ -116,6 +117,9 @@ export const FermentationRackPanel: React.FC = () => {
   const [startError, setStartError] = useState<string | undefined>();
   const [collectError, setCollectError] = useState<string | undefined>();
 
+  const machineWhirSound = useSound("machine_whir");
+  const claimRewardSound = useSound("claim_reward");
+
   const maxSlots = getMaxFermentationSlots(state.agingShed.level);
   const slotsFull = queue.length >= maxSlots;
 
@@ -192,6 +196,7 @@ export const FermentationRackPanel: React.FC = () => {
     setStartError(undefined);
 
     try {
+      machineWhirSound.play();
       gameService.send("fermentation.started", {
         recipe: recipeId,
         jobId: uuidv4().slice(0, 8),
@@ -206,6 +211,7 @@ export const FermentationRackPanel: React.FC = () => {
     setCollectError(undefined);
 
     try {
+      claimRewardSound.play();
       gameService.send("fermentation.collected");
       gameService.send("SAVE");
       setSelectedSlotId(null);

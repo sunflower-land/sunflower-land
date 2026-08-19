@@ -34,6 +34,7 @@ import {
   makeUpgradableBuildingKey,
 } from "features/game/events/landExpansion/upgradeBuilding";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useSound } from "lib/utils/hooks/useSound";
 import { WeatherAffectedModal } from "features/island/plots/components/AffectedModal";
 
 interface Prop {
@@ -83,10 +84,13 @@ const InProgressBuilding: React.FC<Prop> = ({
 
   const isUpgradable = useSelector(gameService, _isUpgradable(name));
 
+  const coinsSpendSound = useSound("coins_spend");
+
   const onSpeedUp = (
     cost: number,
     paymentMethod: "gems" | "coins" = "gems",
   ) => {
+    coinsSpendSound.play();
     if (isUpgradable) {
       gameService.send("upgrade.spedUp", { name, paymentMethod });
     } else {

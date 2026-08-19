@@ -38,6 +38,7 @@ import {
 } from "features/island/biomes/biomes";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { useSound } from "lib/utils/hooks/useSound";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -77,8 +78,11 @@ export const UpgradeBuildingContent: React.FC<Omit<Props, "show">> = ({
   );
   const isCurrentlyUpgrading = !!upgradeReadyAt && secondsLeft > 0;
 
+  const upgradeBuildSound = useSound("upgrade_build");
+
   const upgrade = () => {
     // Implement the upgrade logic here
+    upgradeBuildSound.play();
     gameService.send("building.upgraded", {
       buildingType: buildingName,
     });

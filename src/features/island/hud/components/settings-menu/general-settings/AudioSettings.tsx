@@ -3,12 +3,16 @@ import { AudioMenuContent } from "features/game/components/AudioMenu";
 import { useAudioControls } from "features/game/components/AudioControlsContext";
 
 export const AudioSettings: React.FC = () => {
-  const { song, handlePreviousSong, handleNextSong } = useAudioControls();
+  // Null on the login screen - the panel then renders without the
+  // now-playing display and transport controls
+  const controls = useAudioControls();
+
   return (
     <AudioMenuContent
-      song={song}
-      handlePreviousSong={handlePreviousSong}
-      handleNextSong={handleNextSong}
+      song={controls?.song}
+      handlePreviousSong={controls?.handlePreviousSong}
+      handleNextSong={controls?.handleNextSong}
+      handlePlaySong={controls?.handlePlaySong}
     />
   );
 };

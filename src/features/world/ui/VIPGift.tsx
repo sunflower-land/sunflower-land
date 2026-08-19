@@ -11,6 +11,7 @@ import React, { useContext, useState } from "react";
 import { Revealed } from "features/game/components/Revealed";
 import { Loading } from "features/auth/components";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const MONTHLY_REWARDS_DATES = [
   "2025-07-01",
@@ -51,11 +52,14 @@ export const VIPGiftContent: React.FC<Props> = ({ onClose }) => {
   // Just a prolonged UI state to show the shuffle of items animation
   const [isPicking, setIsPicking] = useState(false);
 
+  const giftSound = useSound("claim_reward");
+
   const open = async () => {
     setIsPicking(true);
 
     await new Promise((resolve) => setTimeout(resolve, 5000));
 
+    giftSound.play();
     gameService.send("REVEAL", {
       event: {
         type: "vipChest.opened",

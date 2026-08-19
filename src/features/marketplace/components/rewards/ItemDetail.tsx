@@ -27,6 +27,7 @@ import {
   CONSUMABLES,
 } from "features/game/types/consumables";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface Props {
   onClose: () => void;
@@ -41,6 +42,8 @@ export const ItemDetail: React.FC<Props> = ({ onClose, itemName }) => {
   const state = useSelector(gameService, (state) => state.context.state);
   const { ingredients, items, image, description } = TRADE_REWARDS[itemName];
   const now = useNow({ live: true });
+
+  const buySound = useSound("claim_reward");
 
   useLayoutEffect(() => {
     const imgElement = new Image();
@@ -77,6 +80,7 @@ export const ItemDetail: React.FC<Props> = ({ onClose, itemName }) => {
   };
 
   const handleBuy = () => {
+    buySound.play();
     gameService.send("reward.redeemed", {
       item: itemName,
     });

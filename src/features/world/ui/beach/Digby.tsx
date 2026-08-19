@@ -45,6 +45,7 @@ import {
 import { ChestRewardsList } from "components/ui/ChestRewardsList";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useSound } from "lib/utils/hooks/useSound";
 
 export function hasReadDigbyIntro() {
   return !!localStorage.getItem("digging.intro");
@@ -164,6 +165,8 @@ export const DailyPuzzle: React.FC = () => {
   const [isPicking, setIsPicking] = useState(false);
   const [isRevealing, setIsRevealing] = useState(false);
 
+  const revealSound = useSound("unlock_sparkle");
+
   const now = useNow();
 
   const { patterns, completedPatterns = [] } =
@@ -196,6 +199,7 @@ export const DailyPuzzle: React.FC = () => {
 
     await new Promise((resolve) => setTimeout(resolve, 5000));
 
+    revealSound.play();
     gameService.send("REVEAL", {
       event: {
         type: "diggingReward.collected",
@@ -494,6 +498,8 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   );
   const [showConfirm, setShowConfirm] = useState(false);
 
+  const buyDigsSound = useSound("coins_spend");
+
   const inventory = gameState.context.state.inventory;
   const digsLeft = getRemainingDigs(gameState.context.state);
 
@@ -514,6 +520,7 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   const confirmBuyMoreDigs = () => {
     onClose();
+    buyDigsSound.play();
     gameService.send("desert.digsBought");
 
     gameAnalytics.trackSink({

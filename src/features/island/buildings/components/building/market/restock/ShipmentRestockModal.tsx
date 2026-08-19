@@ -14,6 +14,7 @@ import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext } from "react";
 import stockIcon from "assets/icons/stock.webp";
+import { useSound } from "lib/utils/hooks/useSound";
 
 export const ShipmentRestockModal: React.FC<{
   onClose: () => void;
@@ -23,7 +24,10 @@ export const ShipmentRestockModal: React.FC<{
   const { gameService, showAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const shopSound = useSound("shop");
+
   const replenish = () => {
+    shopSound.play();
     gameService.send("shipment.restocked");
 
     if (showAnimations) confetti();

@@ -79,6 +79,12 @@ export class DogContainer extends Phaser.GameObjects.Container {
         this.dogMessages[Math.floor(Math.random() * this.dogMessages.length)],
       );
 
+      // A happy bark - two takes plus a little pitch wobble for variety
+      this.scene.sound.play(Math.random() < 0.5 ? "dog_bark_1" : "dog_bark_2", {
+        volume: 0.3,
+        rate: 0.95 + Math.random() * 0.1,
+      });
+
       // Emit reaction event to scene
       onPatted();
     });

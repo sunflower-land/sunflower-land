@@ -61,6 +61,7 @@ export const FirePit: React.FC<Props> = ({ buildingId, isBuilt, island }) => {
   const { play: bakeryAudio } = useSound("bakery");
 
   const handleCook = (item: CookableName) => {
+    bakeryAudio();
     gameService?.send({
       type: "recipe.cooked",
       item,

@@ -18,6 +18,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { randomID } from "lib/utils/random";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
+import { useSound } from "lib/utils/hooks/useSound";
 import { loadRaffles } from "./actions/loadRaffles";
 import type { RaffleDefinition } from "../../../retreat/components/auctioneer/types";
 import { getKeys } from "lib/object";
@@ -44,6 +45,7 @@ export const UpcomingRaffles: React.FC = () => {
   const token = authState.context.user.rawToken as string | undefined;
 
   const [selectedRaffleId, setSelectedRaffleId] = useState<string>();
+  const enterSound = useSound("confirm_soft");
   const [entryAmounts, setEntryAmounts] = useState<
     Partial<Record<InventoryItemName, Decimal>>
   >({});
@@ -141,6 +143,7 @@ export const UpcomingRaffles: React.FC = () => {
           <Button
             className="ml-1"
             onClick={() => {
+              enterSound.play();
               gameService.send("auctionRaffle.entered", {
                 effect: {
                   type: "auctionRaffle.entered",

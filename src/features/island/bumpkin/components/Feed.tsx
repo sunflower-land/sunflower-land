@@ -32,6 +32,7 @@ import { BulkFeedModal } from "components/ui/BulkFeedModal";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import type { Equipped } from "features/game/types/bumpkin";
 import { formatNumber } from "lib/utils/formatNumber";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const FOOD_CATEGORY_ICONS: Record<FoodCategory, string> = {
   "Fire Pit": SUNNYSIDE.icons.firePitIcon,
@@ -95,6 +96,7 @@ export const Feed: React.FC<Props> = ({
   const bumpkin = useSelector(gameService, _bumpkin);
   const game = useSelector(gameService, _game);
   const { t } = useAppTranslation();
+  const feedAnimalSound = useSound("feed_animal");
   // Derive the "active" selected food from the current props so that
   // we never point at a food item that is no longer available.
   const activeSelected =
@@ -172,6 +174,7 @@ export const Feed: React.FC<Props> = ({
   const feed = (amount: number) => {
     if (!activeSelected) return;
 
+    feedAnimalSound.play();
     trackFeedMilestones(() =>
       gameService.send("bumpkin.feed", {
         food: activeSelected.name,

@@ -26,6 +26,7 @@ import * as Auth from "features/auth/lib/Provider";
 import { AcceptOffer } from "./AcceptOffer";
 import type { AuthMachineState } from "features/auth/lib/authMachine";
 import confetti from "canvas-confetti";
+import { useSound } from "lib/utils/hooks/useSound";
 import { ResourceTable } from "./ResourceTable";
 import { formatNumber } from "lib/utils/formatNumber";
 import { getBasketItems } from "features/island/hud/components/inventory/utils/inventory";
@@ -72,6 +73,7 @@ export const TradeableOffers: React.FC<{
 }) => {
   const { authService } = useContext(Auth.Context);
   const { gameService, showAnimations } = useContext(Context);
+  const celebrationSound = useSound("celebration");
   const { t } = useAppTranslation();
   const { id } = useParams();
 
@@ -125,6 +127,7 @@ export const TradeableOffers: React.FC<{
     "playing",
     () => {
       reload();
+      celebrationSound.play();
       if (showAnimations) confetti();
     },
   );

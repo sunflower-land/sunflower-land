@@ -17,6 +17,7 @@ import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { shortenCount } from "lib/utils/formatNumber";
 import raffleIcon from "assets/icons/raffle_icon.png";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const raffleResultsFetcher = async ([, raffleId, token]: [
   string,
@@ -38,6 +39,7 @@ export const ChapterRaffleResult: React.FC<{
   const { authState } = AuthProvider.useAuth();
   const { gameState, gameService } = useGame();
   const token = authState.context.user.rawToken as string | undefined;
+  const claimSound = useSound("claim_reward");
 
   const {
     data: selectedRaffleResults,
@@ -93,6 +95,7 @@ export const ChapterRaffleResult: React.FC<{
                   onClose();
 
                   if (isActiveEntry) {
+                    claimSound.play();
                     gameService.send("auctionRaffle.claimed", {
                       effect: {
                         type: "auctionRaffle.claimed",
@@ -144,6 +147,7 @@ export const ChapterRaffleResult: React.FC<{
       {canClaim && (
         <Button
           onClick={() => {
+            claimSound.play();
             gameService.send("auctionRaffle.claimed", {
               effect: {
                 type: "auctionRaffle.claimed",
@@ -162,6 +166,7 @@ export const ChapterRaffleResult: React.FC<{
       {canDismiss && (
         <Button
           onClick={() => {
+            claimSound.play();
             gameService.send("auctionRaffle.claimed", {
               effect: { type: "auctionRaffle.claimed", raffleId: id },
             });
