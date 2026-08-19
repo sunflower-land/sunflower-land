@@ -7,7 +7,8 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { CONFIG } from "lib/config";
-import { createErrorLogger } from "lib/errorLogger";
+import { createErrorLogger, isNetworkError } from "lib/errorLogger";
+import { ConnectionError } from "./ConnectionError";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SystemMessageWidget } from "features/announcements/SystemMessageWidget";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -64,9 +65,23 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
   const { t } = useAppTranslation();
 
   useEffect(() => {
+    // Known backend rejections and network failures are filtered inside the logger.
     const errorLogger = createErrorLogger("react_error_modal", farmId ?? 0);
     errorLogger({ error, transactionId, stack, meta: { date } });
   }, []);
+
+  // "Failed to fetch" & friends: the request never reached the server. Tell
+  // the player it's their connection rather than "something went wrong".
+  if (isNetworkError(error)) {
+    return (
+      <ConnectionError
+        farmId={farmId}
+        error={error}
+        transactionId={transactionId}
+        onAcknowledge={onAcknowledge}
+      />
+    );
+  }
 
   if (error?.includes("Returned values aren't valid")) {
     return (

@@ -1,4 +1,8 @@
-import { buildErrorReport } from "./errorLogger";
+import {
+  buildErrorReport,
+  createErrorLogger,
+  isNetworkError,
+} from "./errorLogger";
 
 describe("buildErrorReport", () => {
   it("sends the legacy modal shape as a code + transaction id", () => {
@@ -53,5 +57,63 @@ describe("buildErrorReport", () => {
       errorId: "e1",
       meta: { screen: "plaza" },
     });
+  });
+});
+
+describe("isNetworkError", () => {
+  it("recognises browser fetch failures in every shape the logger accepts", () => {
+    expect(isNetworkError(new TypeError("Failed to fetch"))).toBe(true);
+    expect(isNetworkError("Failed to fetch")).toBe(true);
+    expect(isNetworkError({ error: "Failed to fetch" })).toBe(true);
+    expect(isNetworkError({ message: "Load failed" })).toBe(true);
+    expect(
+      isNetworkError("NetworkError when attempting to fetch resource."),
+    ).toBe(true);
+  });
+
+  it("does not match real errors", () => {
+    expect(isNetworkError("EF-001")).toBe(false);
+    expect(isNetworkError(new Error("Failed to fetch liquidity data"))).toBe(
+      false,
+    );
+    expect(isNetworkError({ error: "ALREADY_BOUGHT" })).toBe(false);
+    expect(isNetworkError(undefined)).toBe(false);
+  });
+});
+
+describe("createErrorLogger", () => {
+  const fetchMock = jest.fn().mockResolvedValue({ ok: true });
+  const originalFetch = global.fetch;
+
+  beforeEach(() => {
+    fetchMock.mockClear();
+    global.fetch = fetchMock as unknown as typeof fetch;
+  });
+
+  afterEach(() => {
+    global.fetch = originalFetch;
+  });
+
+  it("does not report expected backend rejections such as trading errors", async () => {
+    const log = createErrorLogger("react_error_modal", 1);
+    await log({ error: "ALREADY_BOUGHT", transactionId: "t-already" });
+    await log({ error: "TRADE_NOT_FOUND", transactionId: "t-notfound" });
+    await log("INSUFFICIENT_FLOWER");
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("does not report network failures", async () => {
+    const log = createErrorLogger("react_error_modal", 1);
+    await log({ error: "Failed to fetch", transactionId: "t-fetch" });
+    await log(new TypeError("Load failed"));
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("still reports unexpected errors", async () => {
+    const log = createErrorLogger("react_error_modal", 1);
+    await log({ error: "EF-001", transactionId: "t-ef001-unique" });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+    expect(body.code).toBe("EF-001");
   });
 });
