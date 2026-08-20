@@ -22,6 +22,7 @@ import { ToastPanel } from "../toast/ToastPanel";
 import { Panel } from "components/ui/Panel";
 
 import { Swarming } from "../components/Swarming";
+import { Captcha } from "../components/captcha/Captcha";
 import { Cooldown } from "../components/Cooldown";
 import { Route, Routes } from "react-router";
 import { Land } from "./Land";
@@ -248,6 +249,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   linkWallet: true,
   dailyReward: true,
   starterOffer: true,
+  captcha: true,
 };
 
 // State change selectors
@@ -274,6 +276,7 @@ const isRefreshing = (state: MachineState) => state.matches("refreshing");
 const isBuyingSFL = (state: MachineState) => state.matches("buyingSFL");
 const isError = (state: MachineState) => state.matches("error");
 const isSwarming = (state: MachineState) => state.matches("swarming");
+const isCaptcha = (state: MachineState) => state.matches("captcha");
 const isPurchasing = (state: MachineState) =>
   state.matches("purchasing") || state.matches("buyingBlockBucks");
 
@@ -492,6 +495,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const error = useSelector(gameService, isError);
   const purchasing = useSelector(gameService, isPurchasing);
   const swarming = useSelector(gameService, isSwarming);
+  const captcha = useSelector(gameService, isCaptcha);
   const coolingDown = useSelector(gameService, isCoolingDown);
   const depositing = useSelector(gameService, isDepositing);
   const loadingLandToVisit = useSelector(gameService, isLoadingLandToVisit);
@@ -718,6 +722,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             {error && <ErrorMessage errorCode={errorCode as ErrorCode} />}
             {purchasing && <Purchasing />}
             {swarming && <Swarming />}
+            {captcha && <Captcha />}
             {coolingDown && <Cooldown />}
             {dailyReward && <DailyRewardClaim showClose />}
             {transacting && <Transaction />}

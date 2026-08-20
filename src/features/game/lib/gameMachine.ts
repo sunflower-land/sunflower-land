@@ -126,6 +126,10 @@ import {
   getRoninWaypointPopupShown,
 } from "features/roninMigration/roninWaypointPopup";
 import { isDailyRewardReady } from "../events/landExpansion/claimDailyReward";
+import {
+  isCaptchaRequired,
+  logSaveActivity,
+} from "../components/captcha/lib/captchaActivity";
 import { getDailyRewardLastAcknowledged } from "../components/DailyReward";
 import type { LanguageCode } from "lib/i18n/dictionaries/language";
 import { getAscensionLevel, meetsLevelRequirement } from "./level";
@@ -368,6 +372,7 @@ export type BlockchainEvent =
   | { type: "END_VISIT" }
   | { type: "PERSONHOOD_FINISHED"; verified: boolean }
   | { type: "PERSONHOOD_CANCELLED" }
+  | { type: "CAPTCHA_SOLVED" }
   | GameEvent
   | LandscapeEvent
   | VisitEvent
@@ -401,6 +406,12 @@ const playingEventHandler = (
   const immediateSave = options?.immediateSave === true;
   return {
     [eventName]: [
+      // The player has been playing non-stop (per the local activity log) -
+      // block the event and send them into the captcha state.
+      {
+        target: "#captcha",
+        cond: (context: Context) => !context.visitorId && isCaptchaRequired(),
+      },
       {
         ...(immediateSave ? { target: "autosaving" as const } : {}),
         actions: assign(
@@ -489,28 +500,36 @@ function createPlacementEventHandlers(
   ].reduce(
     (events, eventName) => ({
       ...events,
-      [eventName]: {
-        ...(immediateSave ? { target: "autosaving" as const } : {}),
-        actions: assign((context: Context, event: PlacementEvent) => {
-          const createdAt = new Date();
+      [eventName]: [
+        // The player has been playing non-stop (per the local activity log) -
+        // block the event and send them into the captcha state.
+        {
+          target: "#captcha",
+          cond: (context: Context) => !context.visitorId && isCaptchaRequired(),
+        },
+        {
+          ...(immediateSave ? { target: "autosaving" as const } : {}),
+          actions: assign((context: Context, event: PlacementEvent) => {
+            const createdAt = new Date();
 
-          return {
-            state: processEvent({
-              state: context.state as GameState,
-              action: event,
-              farmId: context.farmId,
-              createdAt: createdAt.getTime(),
-            }) as GameState,
-            actions: [
-              ...context.actions,
-              {
-                ...event,
-                createdAt,
-              },
-            ],
-          };
-        }),
-      },
+            return {
+              state: processEvent({
+                state: context.state as GameState,
+                action: event,
+                farmId: context.farmId,
+                createdAt: createdAt.getTime(),
+              }) as GameState,
+              actions: [
+                ...context.actions,
+                {
+                  ...event,
+                  createdAt,
+                },
+              ],
+            };
+          }),
+        },
+      ],
     }),
     {},
   );
@@ -855,6 +874,7 @@ export type BlockchainState = {
     | "error"
     | "refreshing"
     | "swarming"
+    | "captcha"
     | "mailbox"
     | "transacting"
     | "depositing"
@@ -935,6 +955,9 @@ export const saveGame = async (
     transactionId: context.transactionId as string,
     state: context.state,
   });
+
+  // Local activity log used to decide when a non-stop player owes a captcha
+  logSaveActivity();
 
   return {
     saveAt,
@@ -2705,6 +2728,14 @@ export function startGame(authContext: AuthContext) {
           on: {
             REFRESH: {
               target: "loading",
+            },
+          },
+        },
+        captcha: {
+          id: "captcha",
+          on: {
+            CAPTCHA_SOLVED: {
+              target: "playing",
             },
           },
         },
