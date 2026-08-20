@@ -8382,5 +8382,15 @@
   "withdraw.flower.available": "Geri çekilebilecek",
   "withdraw.flower.locked": "ÇIÇEK kilitli",
   "withdraw.flower.unlocked.explanation": "Oyunda yatırdığınız ve kullanmadığınız herhangi bir ÇIÇEĞI çekebilirsiniz. Oyunda kazanılan ÇIÇEK, Grand Harvester itibarının geri çekilmesini gerektirir.",
-  "withdraw.flower.upgrade": "Oyunda kazandığınız ÇIÇEĞI geri çekmek için Grand Harvester'a ulaşın."
+  "withdraw.flower.upgrade": "Oyunda kazandığınız ÇIÇEĞI geri çekmek için Grand Harvester'a ulaşın.",
+  "error.connection.title": "Bağlantı sorunu",
+  "error.connection.status": "Sunucuya ulaşılamadı",
+  "error.connection.description": "Son isteğiniz Ayçiçeği Ülkesine ulaşmadı. Bu genellikle dengesiz bir bağlantı (mobil veri, geçiş ağları veya uygulamanın arka planda olması) veya bir VPN, güvenlik duvarı veya reklam engelleyici engelleme istekleridir. Lütfen tekrar deneyin.",
+  "error.connection.retry": "Tekrar dene",
+  "error.offline.title": "Çevrimdışındasın",
+  "error.offline.status": "İnternet bağlantısı yok",
+  "error.offline.description": "Cihazınız internete bağlı değil gibi görünüyor. Wi-Fi veya mobil verilerinizi kontrol edin ve tekrar çevrimiçi olduğunuzda tekrar deneyin.",
+  "gameOptions.betaFeatures": "Beta Özellikleri",
+  "gameOptions.betaFeatures.description": "Beta erişiminiz var! Bu özellikler aktif olarak test edilmektedir ve önceden haber verilmeksizin değiştirilebilir veya kaldırılabilir.",
+  "gameOptions.betaFeatures.empty": "Şu anda hiçbir beta özelliği etkin değil. Yakında tekrar kontrol edin!"
 }

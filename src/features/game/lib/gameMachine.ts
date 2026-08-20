@@ -75,6 +75,11 @@ import type { RaffleSnapshotWinner } from "features/world/ui/chapterRaffles/acti
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { mfIdentify, mfSetUser, mfTrack } from "lib/moonforgeAnalytics";
+import {
+  hasCompletedLoginStep,
+  markLoginStepCompleted,
+  trackTutorialStep,
+} from "lib/moonforgeTutorial";
 import { portal } from "features/world/ui/community/actions/portal";
 
 import { CONFIG } from "lib/config";
@@ -2776,6 +2781,15 @@ export function startGame(authContext: AuthContext) {
       actions: {
         initialiseAnalytics: (context, event: any) => {
           if (!ART_MODE) {
+            // Identify first: any event emitted after this attaches to a
+            // durable id rather than the SDK's anonymous one, which
+            // regenerates per session and is what makes players look like
+            // one-day visitors.
+            mfIdentify(`account${event.data.analyticsId}`, {
+              farmId: context.farmId,
+            });
+            mfSetUser(`account${event.data.analyticsId}`);
+
             gameAnalytics.initialise({
               id: event.data.analyticsId,
             });
@@ -2783,10 +2797,20 @@ export function startGame(authContext: AuthContext) {
               id: context.farmId,
             });
             onboardingAnalytics.logEvent("login");
-            mfIdentify(`account${event.data.analyticsId}`, {
-              farmId: context.farmId,
-            });
-            mfSetUser(`account${event.data.analyticsId}`);
+
+            // `initialiseAnalytics` runs on every session load, including
+            // REFRESH, so an unguarded call emits `login` once per session
+            // rather than once per player. A tutorial funnel step with more
+            // events than players makes the drop-off between steps
+            // uninterpretable, so the milestone is marked per account and
+            // emitted only the first time.
+            //
+            // The marker is written before the event is sent: a failed write
+            // should suppress a duplicate, not license one.
+            if (!hasCompletedLoginStep(context.farmId)) {
+              markLoginStepCompleted(context.farmId);
+              trackTutorialStep("login");
+            }
           }
         },
         assignUrl: (context) => {

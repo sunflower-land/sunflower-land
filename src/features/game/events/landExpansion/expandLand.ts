@@ -6,7 +6,7 @@ import {
 import { getKeys } from "lib/object";
 import type { BoostName, GameState } from "features/game/types/game";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
-import { mfTrack } from "lib/moonforgeAnalytics";
+import { trackTutorialStep } from "lib/moonforgeTutorial";
 
 import {
   getExpansionRequirements,
@@ -122,7 +122,7 @@ export function expandLand({ state, createdAt = Date.now() }: Options) {
     // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client_type=gtag#tutorial_complete
     if (game.inventory["Basic Land"]?.eq(3)) {
       onboardingAnalytics.logEvent("tutorial_complete");
-      mfTrack("tutorial_step_completed", { step: "expand_to_3_land" });
+      trackTutorialStep("expand_to_3_land");
     }
 
     //developers.google.com/analytics/devguides/collection/ga4/reference/events?sjid=11955999175679069053-AP&client_type=gtag#level_up

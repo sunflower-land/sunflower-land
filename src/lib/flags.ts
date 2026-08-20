@@ -24,7 +24,7 @@ const usernameFeatureFlag = (game: GameState) => {
   );
 };
 
-const betaFeatureFlag = ({ inventory }: GameState) =>
+export const betaFeatureFlag = ({ inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" || !!inventory?.["Beta Pass"]?.gt(0);
 
 export const testnetFeatureFlag = () => CONFIG.NETWORK === "amoy";
@@ -218,3 +218,13 @@ export type FeatureName = keyof typeof FEATURE_FLAGS;
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
   return FEATURE_FLAGS[featureName](game);
 };
+
+/**
+ * The feature names currently gated behind `betaFeatureFlag` (Beta Pass /
+ * testnet). Derived from FEATURE_FLAGS by identity so this list can't drift
+ * from the flags it's reporting on - a feature only needs to be flagged with
+ * betaFeatureFlag once to show up here, nothing else to maintain.
+ */
+export const BETA_FEATURE_NAMES = (
+  Object.keys(FEATURE_FLAGS) as FeatureName[]
+).filter((name) => FEATURE_FLAGS[name] === betaFeatureFlag);

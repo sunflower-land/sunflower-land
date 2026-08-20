@@ -8382,5 +8382,15 @@
   "withdraw.flower.available": "Disponible para retirar",
   "withdraw.flower.locked": "FLOWER bloqueado",
   "withdraw.flower.unlocked.explanation": "Puedes retirar cualquier FLOR que hayas depositado y que no hayas usado en el juego. Las FLORES que consigas en el juego requieren la reputación de Gran Cosechador para retirarlas.",
-  "withdraw.flower.upgrade": "Llega a Gran Cosechador para retirar la FLOR que has ganado en el juego."
+  "withdraw.flower.upgrade": "Llega a Gran Cosechador para retirar la FLOR que has ganado en el juego.",
+  "error.connection.title": "Problema de conexión",
+  "error.connection.status": "No se pudo acceder al servidor",
+  "error.connection.description": "Tu última solicitud nunca llegó a Sunflower Land. Por lo general, se trata de una conexión inestable (datos móviles, cambio de red o la aplicación en segundo plano) o de solicitudes de bloqueo de VPN, firewall o bloqueador de anuncios. Vuelva a intentarlo.",
+  "error.connection.retry": "Inténtalo de nuevo",
+  "error.offline.title": "Estás desconectado",
+  "error.offline.status": "Sin conexión a internet",
+  "error.offline.description": "Parece que el dispositivo no está conectado a Internet. Comprueba la red wifi o los datos móviles e inténtalo de nuevo cuando vuelvas a conectarte.",
+  "gameOptions.betaFeatures": "Características beta",
+  "gameOptions.betaFeatures.description": "¡Tienes acceso a la beta! Estas funciones se están probando activamente y pueden cambiar o eliminarse sin previo aviso.",
+  "gameOptions.betaFeatures.empty": "No hay ninguna función beta activa en este momento. ¡Vuelve pronto!"
 }

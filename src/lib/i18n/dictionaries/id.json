@@ -8382,5 +8382,15 @@
   "withdraw.flower.available": "Tersedia untuk ditarik",
   "withdraw.flower.locked": "BUNGA terkunci",
   "withdraw.flower.unlocked.explanation": "Anda dapat menarik BUNGA apa pun yang Anda setorkan dan belum digunakan dalam permainan. FLOWER yang diperoleh dalam permainan membutuhkan reputasi Grand Harvester untuk ditarik.",
-  "withdraw.flower.upgrade": "Raih Grand Harvester untuk menarik BUNGA yang Anda peroleh dalam game."
+  "withdraw.flower.upgrade": "Raih Grand Harvester untuk menarik BUNGA yang Anda peroleh dalam game.",
+  "error.connection.title": "Masalah koneksi",
+  "error.connection.status": "Tidak dapat mencapai server",
+  "error.connection.description": "Permintaan terakhir Anda tidak pernah mencapai Tanah Bunga Matahari. Ini biasanya koneksi yang tidak stabil (data seluler, jaringan switching atau aplikasi berada di latar belakang), atau permintaan pemblokiran VPN, firewall, atau pemblokir iklan. Silakan coba lagi.",
+  "error.connection.retry": "Coba lagi",
+  "error.offline.title": "Anda sedang offline",
+  "error.offline.status": "Tidak ada koneksi internet",
+  "error.offline.description": "Sepertinya perangkat Anda tidak terhubung ke internet. Periksa Wi-Fi atau data seluler Anda dan coba lagi setelah Anda kembali online.",
+  "gameOptions.betaFeatures": "Fitur Beta",
+  "gameOptions.betaFeatures.description": "Anda memiliki akses beta! Fitur-fitur ini sedang diuji secara aktif dan dapat berubah atau dihapus tanpa pemberitahuan.",
+  "gameOptions.betaFeatures.empty": "Tidak ada fitur beta yang aktif saat ini. Periksa kembali segera!"
 }

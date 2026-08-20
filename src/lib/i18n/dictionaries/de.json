@@ -8382,5 +8382,15 @@
   "withdraw.flower.available": "Verfügbar zum Abheben",
   "withdraw.flower.locked": "FLOWER gesperrt",
   "withdraw.flower.unlocked.explanation": "Du kannst dir jede FLOWER auszahlen lassen, die du eingezahlt und nicht im Spiel benutzt hast. FLOWER, die man sich im Spiel verdient hat, benötigt den Ruf von Grand Harvester, um sich das Geld auszahlen zu lassen.",
-  "withdraw.flower.upgrade": "Erreiche Grand Harvester, um dir die im Spiel verdiente BLUME abzuholen."
+  "withdraw.flower.upgrade": "Erreiche Grand Harvester, um dir die im Spiel verdiente BLUME abzuholen.",
+  "error.connection.title": "Problem mit der Verbindung",
+  "error.connection.status": "Der Server konnte nicht erreicht werden",
+  "error.connection.description": "Ihre letzte Anfrage hat Sunflower Land nie erreicht. Dies ist normalerweise eine instabile Verbindung (mobile Daten, wechselnde Netzwerke oder die App läuft im Hintergrund) oder ein VPN, eine Firewall oder ein Werbeblocker, der Anfragen blockiert. Bitte versuche es erneut.",
+  "error.connection.retry": "Versuche es noch einmal",
+  "error.offline.title": "Du bist offline",
+  "error.offline.status": "Keine Internetverbindung",
+  "error.offline.description": "Es sieht so aus, als ob Ihr Gerät nicht mit dem Internet verbunden ist. Überprüfe deine WLAN- oder Mobilfunkdaten und versuche es erneut, sobald du wieder online bist.",
+  "gameOptions.betaFeatures": "Beta-Funktionen",
+  "gameOptions.betaFeatures.description": "Du hast Beta-Zugang! Diese Funktionen werden aktiv getestet und können ohne vorherige Ankündigung geändert oder entfernt werden.",
+  "gameOptions.betaFeatures.empty": "Derzeit sind keine Beta-Funktionen aktiv. Schauen Sie bald wieder vorbei!"
 }

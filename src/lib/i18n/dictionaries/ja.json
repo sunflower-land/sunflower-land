@@ -8382,5 +8382,15 @@
   "withdraw.flower.available": "出金可能",
   "withdraw.flower.locked": "フラワーロック",
   "withdraw.flower.unlocked.explanation": "入金したFLOWERでゲームで使用していないFLOWERは出金できます。ゲーム内で獲得したFLOWERを引き出すには、グランドハーベスターの評価が必要です。",
-  "withdraw.flower.upgrade": "グランドハーベスターに到達して、ゲーム内で獲得した花を引き出してください。"
+  "withdraw.flower.upgrade": "グランドハーベスターに到達して、ゲーム内で獲得した花を引き出してください。",
+  "error.connection.title": "接続問題",
+  "error.connection.status": "サーバーにアクセスできませんでした",
+  "error.connection.description": "前回のリクエストがサンフラワーランドに届きませんでした。これは通常、接続が不安定な場合（モバイルデータ、ネットワークの切り替え、アプリがバックグラウンドにある）か、VPN、ファイアウォール、または広告ブロッカーによるリクエストのブロックが原因です。もう一度試してください。",
+  "error.connection.retry": "もう一度やり直してください",
+  "error.offline.title": "オフラインです",
+  "error.offline.status": "インターネット接続なし",
+  "error.offline.description": "デバイスがインターネットに接続されていないようです。Wi-Fi またはモバイルデータを確認し、オンラインに戻ってからもう一度試してください。",
+  "gameOptions.betaFeatures": "ベータ機能",
+  "gameOptions.betaFeatures.description": "ベータ版にアクセスできます！これらの機能は活発にテストされており、予告なく変更または削除されることがあります。",
+  "gameOptions.betaFeatures.empty": "現在、ベータ版機能はありません。すぐにもう一度チェックしてください！"
 }
