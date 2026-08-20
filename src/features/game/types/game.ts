@@ -2165,6 +2165,16 @@ export interface GameState {
 
   verified?: boolean;
 
+  /**
+   * When the player last accepted the Terms & Conditions (epoch ms).
+   *
+   * Undefined for players who have never accepted them. Re-acceptance is
+   * forced once the acceptance is older than
+   * {@link TCS_ACKNOWLEDGEMENT_DURATION} - see the `termsAndConditions` state
+   * in `gameMachine`.
+   */
+  tcsAcknowledged?: number;
+
   gems: {
     history?: Record<string, { spent: number; coinsSpent?: number }>;
   };

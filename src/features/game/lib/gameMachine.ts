@@ -114,6 +114,7 @@ import {
   getActiveCalendarEvent,
   type SeasonalEventName,
 } from "../types/calendar";
+import { hasAcknowledgedTcs } from "../events/landExpansion/acknowledgeTcs";
 import { getConnection, getChainId } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { depositFlower } from "lib/blockchain/DepositFlower";
@@ -836,6 +837,7 @@ export type BlockchainState = {
     | "portalling"
     | "introduction"
     | "welcome"
+    | "termsAndConditions"
     | "investigating"
     | "gems"
     | "communityCoin"
@@ -1293,6 +1295,13 @@ export function startGame(authContext: AuthContext) {
         },
         notifying: {
           always: [
+            // The T&C gate must stay first - the player cannot see anything
+            // else until they have accepted the current terms.
+            {
+              target: "termsAndConditions",
+              cond: (context) =>
+                !hasAcknowledgedTcs({ game: context.state, now: Date.now() }),
+            },
             {
               target: "welcome",
               cond: (context) => {
@@ -2596,6 +2605,17 @@ export function startGame(authContext: AuthContext) {
         welcome: {
           on: {
             "bonus.claimed": (GAME_EVENT_HANDLERS as any)["bonus.claimed"],
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+          },
+        },
+
+        termsAndConditions: {
+          on: {
+            "tcs.acknowledged": (GAME_EVENT_HANDLERS as any)[
+              "tcs.acknowledged"
+            ],
             ACKNOWLEDGE: {
               target: "notifying",
             },
