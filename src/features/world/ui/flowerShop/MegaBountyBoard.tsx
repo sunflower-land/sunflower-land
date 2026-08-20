@@ -1,4 +1,10 @@
-import React, { useContext, useLayoutEffect, useMemo, useState } from "react";
+import React, {
+  useContext,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
@@ -31,7 +37,9 @@ import {
   BOUNTY_CATEGORIES,
   canSellBounty,
   generateBountyTicket,
+  getBountyTicketBoosts,
 } from "features/game/events/landExpansion/sellBounty";
+import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 import { Button } from "components/ui/Button";
 import confetti from "canvas-confetti";
 import flowerIcon from "assets/icons/flower_token.webp";
@@ -665,7 +673,11 @@ const Deal: React.FC<{
   const tickets = generateBountyTicket({
     game: state,
     bounty,
+    now,
   });
+  const ticketBoostsUsed = getBountyTicketBoosts({ game: state, bounty, now });
+  const [showTicketBoosts, setShowTicketBoosts] = useState(false);
+  const ticketBoostsAnchorRef = useRef<HTMLDivElement>(null);
 
   return (
     <InnerPanel className="shadow">
@@ -720,9 +732,10 @@ const Deal: React.FC<{
                   />
                 </div>
                 {getKeys(bounty.items ?? {}).map((name) => {
-                  return (
+                  const isChapterTicket = name === getChapterTicket(now);
+
+                  const label = (
                     <Label
-                      key={`${name}-${bounty.id}-reward-label`}
                       type={isSold ? "success" : "warning"}
                       icon={ITEM_DETAILS[name].image}
                       secondaryIcon={
@@ -730,14 +743,51 @@ const Deal: React.FC<{
                       }
                     >
                       {`Reward: ${
-                        name !== getChapterTicket(now)
-                          ? bounty.items?.[name]
-                          : generateBountyTicket({
-                              game: state,
-                              bounty,
-                            })
+                        isChapterTicket ? tickets : bounty.items?.[name]
                       } ${name}s`}
                     </Label>
+                  );
+
+                  if (!isChapterTicket || ticketBoostsUsed.length === 0) {
+                    return (
+                      <div key={`${name}-${bounty.id}-reward-label`}>
+                        {label}
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <div
+                      key={`${name}-${bounty.id}-reward-label`}
+                      ref={ticketBoostsAnchorRef}
+                      className="relative cursor-pointer"
+                      role="button"
+                      tabIndex={0}
+                      aria-expanded={showTicketBoosts}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowTicketBoosts((prev) => !prev);
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key !== "Enter" && e.key !== " ") return;
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setShowTicketBoosts((prev) => !prev);
+                      }}
+                    >
+                      {label}
+                      {showTicketBoosts && (
+                        <BoostsDisplay
+                          boosts={ticketBoostsUsed}
+                          show={showTicketBoosts}
+                          state={state}
+                          onClick={() => setShowTicketBoosts(false)}
+                          anchorRef={ticketBoostsAnchorRef}
+                          portalAlign="right"
+                          portalPlacement="auto"
+                        />
+                      )}
+                    </div>
                   );
                 })}
                 {!!tickets && (

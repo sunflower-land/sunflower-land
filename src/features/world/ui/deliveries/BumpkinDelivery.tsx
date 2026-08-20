@@ -58,6 +58,7 @@ import {
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { formatNumber } from "lib/utils/formatNumber";
+import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 import {
   getAscensionLevel,
   levelRequirementToTotal,
@@ -101,12 +102,15 @@ const OrderCard: React.FC<{
   const { t } = useAppTranslation();
   const { holiday } = getBumpkinHoliday({ now });
   const isHoliday = holiday === new Date(now).toISOString().split("T")[0];
+  const [showTicketBoosts, setShowTicketBoosts] = useState(false);
+  const ticketBoostsAnchorRef = useRef<HTMLDivElement>(null);
 
-  const { amount: baseTickets } = generateDeliveryTickets({
-    game,
-    npc: order.from,
-    now,
-  });
+  const { amount: baseTickets, boostsUsed: ticketBoostsUsed } =
+    generateDeliveryTickets({
+      game,
+      npc: order.from,
+      now,
+    });
   const tickets = isHoliday && !isTicketNPC(order.from) ? 0 : baseTickets;
   // Hide ticket count on frozen quest orders (holiday) to avoid mixed messaging
   const ticketDisplay =
@@ -240,7 +244,38 @@ const OrderCard: React.FC<{
                       )}
                       {!!ticketDisplay && (
                         <div className="flex items-center space-x-3 mr-1">
-                          <div className="flex items-center">
+                          <div
+                            ref={ticketBoostsAnchorRef}
+                            className={classNames("flex items-center", {
+                              "cursor-pointer": ticketBoostsUsed.length > 0,
+                            })}
+                            role={
+                              ticketBoostsUsed.length > 0 ? "button" : undefined
+                            }
+                            tabIndex={
+                              ticketBoostsUsed.length > 0 ? 0 : undefined
+                            }
+                            aria-expanded={
+                              ticketBoostsUsed.length > 0
+                                ? showTicketBoosts
+                                : undefined
+                            }
+                            onClick={(e) => {
+                              if (ticketBoostsUsed.length === 0) return;
+                              e.stopPropagation();
+                              setShowTicketBoosts((prev) => !prev);
+                            }}
+                            onKeyDown={(e) => {
+                              if (
+                                ticketBoostsUsed.length === 0 ||
+                                (e.key !== "Enter" && e.key !== " ")
+                              )
+                                return;
+                              e.preventDefault();
+                              e.stopPropagation();
+                              setShowTicketBoosts((prev) => !prev);
+                            }}
+                          >
                             <span className="text-xs mx-1">
                               {ticketDisplay}
                             </span>
@@ -248,6 +283,18 @@ const OrderCard: React.FC<{
                               src={ITEM_DETAILS[getChapterTicket(now)].image}
                               className="h-4 w-auto"
                             />
+                            {ticketBoostsUsed.length > 0 &&
+                              showTicketBoosts && (
+                                <BoostsDisplay
+                                  boosts={ticketBoostsUsed}
+                                  show={showTicketBoosts}
+                                  state={game}
+                                  onClick={() => setShowTicketBoosts(false)}
+                                  anchorRef={ticketBoostsAnchorRef}
+                                  portalAlign="right"
+                                  portalPlacement="auto"
+                                />
+                              )}
                           </div>
                         </div>
                       )}
