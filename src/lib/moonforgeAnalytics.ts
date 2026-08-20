@@ -80,3 +80,34 @@ export function mfSetScene(sceneName: string): void {
     console.log(`MoonForge analytics error: `, e);
   }
 }
+
+/**
+ * Records which variant of an experiment a player was assigned.
+ *
+ * This does not establish causation on its own. It is what makes a holdout
+ * measurable after the fact - without it, the experiment that would settle
+ * "does spend drive retention or the reverse" cannot be analysed once it has
+ * already run.
+ */
+export function mfExperiment(experimentId: string, variant: string): void {
+  try {
+    // `trackEvent` returns the underlying `postEvent` promise, so a network or
+    // collector failure surfaces as a rejection rather than a synchronous
+    // throw - which the catch below would never see. Without the rejection
+    // handler this produces an unhandled rejection in the player's browser.
+    const result = MoonForgeAnalytics.trackEvent("experiment_assigned", {
+      experiment_id: experimentId,
+      variant,
+    }) as unknown;
+
+    if (result instanceof Promise) {
+      result.catch((e) => {
+        // eslint-disable-next-line no-console
+        console.log(`MoonForge analytics error: `, e);
+      });
+    }
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.log(`MoonForge analytics error: `, e);
+  }
+}
