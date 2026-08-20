@@ -8389,5 +8389,8 @@
   "error.connection.retry": "もう一度やり直してください",
   "error.offline.title": "オフラインです",
   "error.offline.status": "インターネット接続なし",
-  "error.offline.description": "デバイスがインターネットに接続されていないようです。Wi-Fi またはモバイルデータを確認し、オンラインに戻ってからもう一度試してください。"
+  "error.offline.description": "デバイスがインターネットに接続されていないようです。Wi-Fi またはモバイルデータを確認し、オンラインに戻ってからもう一度試してください。",
+  "gameOptions.betaFeatures": "ベータ機能",
+  "gameOptions.betaFeatures.description": "ベータ版にアクセスできます！これらの機能は活発にテストされており、予告なく変更または削除されることがあります。",
+  "gameOptions.betaFeatures.empty": "現在、ベータ版機能はありません。すぐにもう一度チェックしてください！"
 }

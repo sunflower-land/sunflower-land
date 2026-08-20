@@ -8389,5 +8389,8 @@
   "error.connection.retry": "Coba lagi",
   "error.offline.title": "Anda sedang offline",
   "error.offline.status": "Tidak ada koneksi internet",
-  "error.offline.description": "Sepertinya perangkat Anda tidak terhubung ke internet. Periksa Wi-Fi atau data seluler Anda dan coba lagi setelah Anda kembali online."
+  "error.offline.description": "Sepertinya perangkat Anda tidak terhubung ke internet. Periksa Wi-Fi atau data seluler Anda dan coba lagi setelah Anda kembali online.",
+  "gameOptions.betaFeatures": "Fitur Beta",
+  "gameOptions.betaFeatures.description": "Anda memiliki akses beta! Fitur-fitur ini sedang diuji secara aktif dan dapat berubah atau dihapus tanpa pemberitahuan.",
+  "gameOptions.betaFeatures.empty": "Tidak ada fitur beta yang aktif saat ini. Periksa kembali segera!"
 }

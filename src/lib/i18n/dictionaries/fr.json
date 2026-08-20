@@ -8389,5 +8389,8 @@
   "error.connection.retry": "Essayez à nouveau",
   "error.offline.title": "Vous êtes hors ligne",
   "error.offline.status": "Pas de connexion Internet",
-  "error.offline.description": "Il semble que votre appareil n'est pas connecté à Internet. Vérifiez votre Wi-Fi ou vos données mobiles et réessayez une fois que vous êtes de nouveau en ligne."
+  "error.offline.description": "Il semble que votre appareil n'est pas connecté à Internet. Vérifiez votre Wi-Fi ou vos données mobiles et réessayez une fois que vous êtes de nouveau en ligne.",
+  "gameOptions.betaFeatures": "Fonctionnalités bêta",
+  "gameOptions.betaFeatures.description": "Vous avez accès à la version bêta ! Ces fonctionnalités sont activement testées et peuvent être modifiées ou supprimées sans préavis.",
+  "gameOptions.betaFeatures.empty": "Aucune fonctionnalité bêta n'est active pour le moment. Revenez bientôt !"
 }

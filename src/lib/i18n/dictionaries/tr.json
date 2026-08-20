@@ -8389,5 +8389,8 @@
   "error.connection.retry": "Tekrar dene",
   "error.offline.title": "Çevrimdışındasın",
   "error.offline.status": "İnternet bağlantısı yok",
-  "error.offline.description": "Cihazınız internete bağlı değil gibi görünüyor. Wi-Fi veya mobil verilerinizi kontrol edin ve tekrar çevrimiçi olduğunuzda tekrar deneyin."
+  "error.offline.description": "Cihazınız internete bağlı değil gibi görünüyor. Wi-Fi veya mobil verilerinizi kontrol edin ve tekrar çevrimiçi olduğunuzda tekrar deneyin.",
+  "gameOptions.betaFeatures": "Beta Özellikleri",
+  "gameOptions.betaFeatures.description": "Beta erişiminiz var! Bu özellikler aktif olarak test edilmektedir ve önceden haber verilmeksizin değiştirilebilir veya kaldırılabilir.",
+  "gameOptions.betaFeatures.empty": "Şu anda hiçbir beta özelliği etkin değil. Yakında tekrar kontrol edin!"
 }

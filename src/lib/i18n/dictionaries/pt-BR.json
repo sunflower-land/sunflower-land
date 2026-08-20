@@ -8389,5 +8389,8 @@
   "error.connection.retry": "Tente novamente",
   "error.offline.title": "Você está offline",
   "error.offline.status": "Sem conexão com a internet",
-  "error.offline.description": "Parece que seu dispositivo não está conectado à internet. Verifique seu Wi-Fi ou dados móveis e tente novamente quando estiver online novamente."
+  "error.offline.description": "Parece que seu dispositivo não está conectado à internet. Verifique seu Wi-Fi ou dados móveis e tente novamente quando estiver online novamente.",
+  "gameOptions.betaFeatures": "Características beta",
+  "gameOptions.betaFeatures.description": "Você tem acesso à versão beta! Esses recursos estão sendo testados ativamente e podem ser alterados ou removidos sem aviso prévio.",
+  "gameOptions.betaFeatures.empty": "Nenhum recurso beta está ativo no momento. Volte em breve!"
 }

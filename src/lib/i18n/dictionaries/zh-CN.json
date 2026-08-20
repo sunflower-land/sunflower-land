@@ -8389,5 +8389,8 @@
   "error.connection.retry": "再试一次",
   "error.offline.title": "你处于离线状态",
   "error.offline.status": "没有互联网连接",
-  "error.offline.description": "看来你的设备没有连接到互联网。检查您的 Wi-Fi 或移动数据，并在重新上线后重试。"
+  "error.offline.description": "看来你的设备没有连接到互联网。检查您的 Wi-Fi 或移动数据，并在重新上线后重试。",
+  "gameOptions.betaFeatures": "测试版功能",
+  "gameOptions.betaFeatures.description": "你有测试版访问权限！这些功能正在积极测试中，可能会更改或删除，恕不另行通知。",
+  "gameOptions.betaFeatures.empty": "目前没有测试版功能处于活动状态。稍后再回来看看！"
 }
