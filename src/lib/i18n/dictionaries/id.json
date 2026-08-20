@@ -8392,5 +8392,11 @@
   "error.offline.description": "Sepertinya perangkat Anda tidak terhubung ke internet. Periksa Wi-Fi atau data seluler Anda dan coba lagi setelah Anda kembali online.",
   "gameOptions.betaFeatures": "Fitur Beta",
   "gameOptions.betaFeatures.description": "Anda memiliki akses beta! Fitur-fitur ini sedang diuji secara aktif dan dapat berubah atau dihapus tanpa pemberitahuan.",
-  "gameOptions.betaFeatures.empty": "Tidak ada fitur beta yang aktif saat ini. Periksa kembali segera!"
+  "gameOptions.betaFeatures.empty": "Tidak ada fitur beta yang aktif saat ini. Periksa kembali segera!",
+  "wardrobe": "Lemari pakaian",
+  "wardrobe.equipped": "Dilengkapi",
+  "wardrobe.notEquipped": "Tidak dilengkapi",
+  "wardrobe.equipHint": "Kunjungi tab Equip Bumpkin Anda untuk mengganti pakaian.",
+  "statements.empty.wardrobe": "Lemari pakaianmu kosong. Wearables yang Anda kumpulkan akan muncul di sini.",
+  "sleepingAnimal.production": "Produksi:"
 }

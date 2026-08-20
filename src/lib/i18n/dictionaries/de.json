@@ -8392,5 +8392,11 @@
   "error.offline.description": "Es sieht so aus, als ob Ihr Gerät nicht mit dem Internet verbunden ist. Überprüfe deine WLAN- oder Mobilfunkdaten und versuche es erneut, sobald du wieder online bist.",
   "gameOptions.betaFeatures": "Beta-Funktionen",
   "gameOptions.betaFeatures.description": "Du hast Beta-Zugang! Diese Funktionen werden aktiv getestet und können ohne vorherige Ankündigung geändert oder entfernt werden.",
-  "gameOptions.betaFeatures.empty": "Derzeit sind keine Beta-Funktionen aktiv. Schauen Sie bald wieder vorbei!"
+  "gameOptions.betaFeatures.empty": "Derzeit sind keine Beta-Funktionen aktiv. Schauen Sie bald wieder vorbei!",
+  "wardrobe": "Garderobe",
+  "wardrobe.equipped": "Ausgerüstet",
+  "wardrobe.notEquipped": "Nicht ausgestattet",
+  "wardrobe.equipHint": "Besuche den Ausrüstungs-Tab deines Bumpkins, um die Kleidung zu ändern.",
+  "statements.empty.wardrobe": "Dein Kleiderschrank ist leer. Wearables, die du sammelst, werden hier angezeigt.",
+  "sleepingAnimal.production": "Produktion:"
 }

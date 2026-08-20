@@ -8392,5 +8392,11 @@
   "error.offline.description": "看来你的设备没有连接到互联网。检查您的 Wi-Fi 或移动数据，并在重新上线后重试。",
   "gameOptions.betaFeatures": "测试版功能",
   "gameOptions.betaFeatures.description": "你有测试版访问权限！这些功能正在积极测试中，可能会更改或删除，恕不另行通知。",
-  "gameOptions.betaFeatures.empty": "目前没有测试版功能处于活动状态。稍后再回来看看！"
+  "gameOptions.betaFeatures.empty": "目前没有测试版功能处于活动状态。稍后再回来看看！",
+  "wardrobe": "衣柜",
+  "wardrobe.equipped": "已装备",
+  "wardrobe.notEquipped": "没有装备",
+  "wardrobe.equipHint": "访问你的 Bumpkin's Equip 选项卡来更换服装。",
+  "statements.empty.wardrobe": "你的衣柜是空的。您收集的可穿戴设备将显示在这里。",
+  "sleepingAnimal.production": "制作："
 }

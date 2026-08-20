@@ -8392,5 +8392,11 @@
   "error.offline.description": "Cihazınız internete bağlı değil gibi görünüyor. Wi-Fi veya mobil verilerinizi kontrol edin ve tekrar çevrimiçi olduğunuzda tekrar deneyin.",
   "gameOptions.betaFeatures": "Beta Özellikleri",
   "gameOptions.betaFeatures.description": "Beta erişiminiz var! Bu özellikler aktif olarak test edilmektedir ve önceden haber verilmeksizin değiştirilebilir veya kaldırılabilir.",
-  "gameOptions.betaFeatures.empty": "Şu anda hiçbir beta özelliği etkin değil. Yakında tekrar kontrol edin!"
+  "gameOptions.betaFeatures.empty": "Şu anda hiçbir beta özelliği etkin değil. Yakında tekrar kontrol edin!",
+  "wardrobe": "Dolap",
+  "wardrobe.equipped": "Donanımlı",
+  "wardrobe.notEquipped": "Donanmamış",
+  "wardrobe.equipHint": "Kıyafetleri değiştirmek için Bumpkin'in Donanım sekmesini ziyaret edin.",
+  "statements.empty.wardrobe": "Gardırobun boş. Topladığınız giyilebilir ürünler burada görünecek.",
+  "sleepingAnimal.production": "Üretim:"
 }
