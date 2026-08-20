@@ -299,6 +299,7 @@ const isRefundingAuction = (state: MachineState) =>
 const isPromoing = (state: MachineState) => state.matches("promo");
 const isBlacklisted = (state: MachineState) => state.matches("blacklisted");
 const getBanReason = (state: MachineState) => state.context.banReason;
+const getBanMessage = (state: MachineState) => state.context.banMessage;
 const hasAirdrop = (state: MachineState) => state.matches("airdrop");
 const isOnChainRaffleAcknowledgment = (state: MachineState) =>
   state.matches("onChainRaffleAcknowledgment");
@@ -499,6 +500,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const promo = useSelector(gameService, isPromoing);
   const blacklisted = useSelector(gameService, isBlacklisted);
   const banReason = useSelector(gameService, getBanReason);
+  const banMessage = useSelector(gameService, getBanMessage);
   const airdrop = useSelector(gameService, hasAirdrop);
   const onChainRaffleAcknowledgment = useSelector(
     gameService,
@@ -649,7 +651,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
       <Ocean>
         <Modal show backdrop={false}>
           <Panel>
-            <Blacklisted banReason={banReason} />
+            <Blacklisted banReason={banReason} banMessage={banMessage} />
           </Panel>
         </Modal>
       </Ocean>

@@ -218,6 +218,7 @@ export interface Context {
   accountTradedAt?: string;
   onChainRaffleReward?: RaffleSnapshotWinner;
   banReason?: string;
+  banMessage?: string;
 }
 
 const NINETY_DAYS_MS = 90 * 24 * 60 * 60 * 1000;
@@ -1104,6 +1105,7 @@ export function startGame(authContext: AuthContext) {
                 accountTradedAt: response.accountTradedAt,
                 totalHelpedToday: response.totalHelpedToday,
                 banReason: response.banReason,
+                banMessage: response.banMessage,
                 socialDetails: response.socialDetails,
               };
             },
@@ -1120,6 +1122,7 @@ export function startGame(authContext: AuthContext) {
                 },
                 actions: assign((_, event) => ({
                   banReason: event.data.banReason,
+                  banMessage: event.data.banMessage,
                 })),
               },
               {

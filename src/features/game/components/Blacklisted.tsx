@@ -7,9 +7,18 @@ import { InnerPanel } from "components/ui/Panel";
 
 interface Props {
   banReason?: string;
+  /**
+   * Free text written by the enforcement action itself, shown verbatim.
+   *
+   * Takes precedence over `banReason` when both are present: it was authored
+   * for this specific ban, whereas `banReason` only picks between the two
+   * canned explanations below. Server-authored, so unlike the rest of this
+   * panel it is not translated.
+   */
+  banMessage?: string;
 }
 
-export const Blacklisted: React.FC<Props> = ({ banReason }) => {
+export const Blacklisted: React.FC<Props> = ({ banReason, banMessage }) => {
   const { t } = useAppTranslation();
   const [showInfo, setShowInfo] = useState(false);
 
@@ -19,12 +28,14 @@ export const Blacklisted: React.FC<Props> = ({ banReason }) => {
         {t("farm.banned")}
       </Label>
       <p className="text-xs my-2">{t("statements.blacklist.one")}</p>
-      {banReason && (
+      {(banMessage || banReason) && (
         <InnerPanel className="mb-2 -mx-1 -mr-1">
           <p className="text-xs">
-            {banReason === "multi_accounting"
-              ? t("statements.blacklist.multiAccounting")
-              : t("statements.blacklist.funnelling")}
+            {banMessage
+              ? banMessage
+              : banReason === "multi_accounting"
+                ? t("statements.blacklist.multiAccounting")
+                : t("statements.blacklist.funnelling")}
           </p>
         </InnerPanel>
       )}
@@ -37,11 +48,20 @@ export const Blacklisted: React.FC<Props> = ({ banReason }) => {
         </p>
       ) : (
         <div className="flex flex-col w-full mt-1">
-          <p className="text-xs mb-2">
-            {banReason === "multi_accounting"
-              ? t("statements.blacklist.tos.multiAccounting")
-              : t("statements.blacklist.tos.funnelling")}
-          </p>
+          {/*
+            A custom message already explains this specific ban, and the canned
+            paragraphs below are written about multi accounting and funnelling
+            — pairing one of those with an unrelated custom message would tell
+            the player the wrong thing. So when a custom message is present, go
+            straight to the contact link.
+          */}
+          {!banMessage && (
+            <p className="text-xs mb-2">
+              {banReason === "multi_accounting"
+                ? t("statements.blacklist.tos.multiAccounting")
+                : t("statements.blacklist.tos.funnelling")}
+            </p>
+          )}
           <a
             href="https://tripy-discord-bot-production.up.railway.app/chat"
             target="_blank"

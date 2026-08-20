@@ -46,6 +46,7 @@ type Response = {
   accountTradedAt?: string;
   totalHelpedToday: number;
   banReason?: string;
+  banMessage?: string;
 };
 
 export type SocialDetails = {
@@ -165,6 +166,7 @@ export async function loadSession(
       accountTradedAt,
       totalHelpedToday,
       banReason,
+      banMessage,
     } = await sanitizeHTTPResponse<{
       farm: any;
       startedAt: string;
@@ -196,6 +198,7 @@ export async function loadSession(
       accountTradedAt?: string;
       totalHelpedToday: number;
       banReason?: string;
+      banMessage?: string;
     }>(response);
 
     saveSession(farm.id);
@@ -223,6 +226,7 @@ export async function loadSession(
       accountTradedAt,
       totalHelpedToday,
       banReason,
+      banMessage,
     };
   } catch (e) {
     // First attempt goes to API2 - retry once against the original API
