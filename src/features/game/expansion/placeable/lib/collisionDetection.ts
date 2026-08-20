@@ -423,6 +423,7 @@ export const NON_COLLIDING_OBJECTS: InventoryItemName[] = [
   "Green Field Rug",
   "Fancy Rug",
   "Gaucho Rug",
+  "Salt Rug",
   "Sunflorian Faction Rug",
   "Bumpkin Faction Rug",
   "Goblin Faction Rug",
