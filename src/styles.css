@@ -1677,6 +1677,11 @@ th {
   transform: scaleX(-1) translateX(50%);
 }
 
+/* Keep visitor action icons readable when their collectible is flipped. */
+.flipped .monument-help-action img {
+  transform: none;
+}
+
 /* Custom pixel art cursor (Sunnyside). While the mouse button is held
    anywhere on the page, html.custom-cursor:active swaps in a variant of the
    same art rotated 20deg counter-clockwise. Its hotspot (8 0) keeps the
