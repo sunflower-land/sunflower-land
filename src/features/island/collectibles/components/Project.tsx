@@ -680,7 +680,7 @@ export const Project: React.FC<ProjectProps> = (input) => {
               }}
             >
               <div
-                className="relative mr-2"
+                className="monument-help-action relative mr-2"
                 style={{ width: `${PIXEL_SCALE * 20}px` }}
               >
                 <img className="w-full" src={SUNNYSIDE.icons.disc} />
