@@ -6,9 +6,12 @@ import { Context as GameContext } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type { ContentComponentProps } from "../types";
 import lockIcon from "assets/icons/lock.png";
+import { betaFeatureFlag } from "lib/flags";
 
 const _canRefresh = (state: MachineState) => !state.context.state.transaction;
 const _hideRefresh = (state: MachineState) => !state.context.nftId;
+const _hasBetaAccess = (state: MachineState) =>
+  betaFeatureFlag(state.context.state);
 
 export const Advanced: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
@@ -19,6 +22,7 @@ export const Advanced: React.FC<ContentComponentProps> = ({
 
   const canRefresh = useSelector(gameService, _canRefresh);
   const hideRefresh = useSelector(gameService, _hideRefresh);
+  const hasBetaAccess = useSelector(gameService, _hasBetaAccess);
 
   const refreshSession = () => {
     gameService.send("RESET");
@@ -36,6 +40,11 @@ export const Advanced: React.FC<ContentComponentProps> = ({
       <Button onClick={() => onSubMenuClick("experiments")}>
         <span>{t("experiments")}</span>
       </Button>
+      {hasBetaAccess && (
+        <Button onClick={() => onSubMenuClick("betaFeatures")}>
+          <span>{t("gameOptions.betaFeatures")}</span>
+        </Button>
+      )}
       {!hideRefresh && (
         <Button
           onClick={refreshSession}

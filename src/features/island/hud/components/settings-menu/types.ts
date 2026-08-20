@@ -27,6 +27,7 @@ export type SettingMenuId =
   | "interiorExperiment"
   | "toolShopBuyAll"
   | "customCursor"
+  | "betaFeatures"
   | "admin"
   | "faceRecognition"
 

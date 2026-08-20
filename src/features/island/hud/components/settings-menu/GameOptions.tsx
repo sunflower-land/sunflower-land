@@ -64,6 +64,7 @@ import { DEV_PlayerSearch } from "./developer-options/DEV_PlayerSearch";
 import { DEV_ErrorSearch } from "./developer-options/DEV_ErrorSearch";
 import { ApiKey } from "./general-settings/ApiKey";
 import { ExperimentsSettings } from "./experiments-settings/ExperimentsSettings";
+import { BetaFeatures } from "./beta-features/BetaFeatures";
 import { EconomyEditorExperimentSettings } from "./experiments-settings/EconomyEditorExperimentSettings";
 import { InteriorExperimentSettings } from "./experiments-settings/InteriorExperimentSettings";
 import { ToolShopBuyAllExperimentSettings } from "./experiments-settings/ToolShopBuyAllExperimentSettings";
@@ -410,6 +411,11 @@ export const SETTING_MENUS: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.experiments.customCursor"),
     parent: "experiments",
     content: CustomCursorExperimentSettings,
+  },
+  betaFeatures: {
+    title: translate("gameOptions.betaFeatures"),
+    parent: "advanced",
+    content: BetaFeatures,
   },
   // Account
   faceRecognition: {
