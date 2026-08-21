@@ -45,7 +45,7 @@ export const TermsAndConditions: React.FC = () => {
   return (
     <div className="flex flex-col">
       <div className="p-1">
-        <Label type="info" icon={SUNNYSIDE.icons.expression_alerted}>
+        <Label type="info" className="mb-2">
           {t("tcs.title")}
         </Label>
         <NoticeboardItems
