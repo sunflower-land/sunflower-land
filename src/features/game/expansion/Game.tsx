@@ -90,6 +90,7 @@ import {
 import { LoveCharm } from "./components/LoveCharm";
 import { ClaimReferralRewards } from "./components/ClaimReferralRewards";
 import { ReferralsAnnouncement } from "./components/ReferralsAnnouncement";
+import { TermsAndConditions } from "./components/TermsAndConditions";
 import { SoftBan } from "features/retreat/components/personhood/SoftBan";
 import { RewardBox } from "features/rewardBoxes/RewardBox";
 import { SystemMessageWidget } from "features/announcements/SystemMessageWidget";
@@ -219,6 +220,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   depositing: true,
   introduction: false,
   welcome: true,
+  termsAndConditions: true,
   vip: true,
   transacting: true,
   auctionResults: false,
@@ -250,6 +252,8 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
 
 // State change selectors
 const isWelcome = (state: MachineState) => state.matches("welcome");
+const isTermsAndConditions = (state: MachineState) =>
+  state.matches("termsAndConditions");
 const isLoading = (state: MachineState) =>
   state.matches("loading") || state.matches("portalling");
 const isPortalling = (state: MachineState) => state.matches("portalling");
@@ -469,6 +473,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
 
   const loading = useSelector(gameService, isLoading);
   const welcome = useSelector(gameService, isWelcome);
+  const termsAndConditions = useSelector(gameService, isTermsAndConditions);
   const portalling = useSelector(gameService, isPortalling);
   const trading = useSelector(gameService, isTrading);
   const traded = useSelector(gameService, isTraded);
@@ -717,6 +722,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             {dailyReward && <DailyRewardClaim showClose />}
             {transacting && <Transaction />}
             {welcome && <Welcome />}
+            {termsAndConditions && <TermsAndConditions />}
             {depositing && <Loading text={t("depositing")} />}
             {trading && <Loading text={t("trading")} />}
             {traded && <Traded />}

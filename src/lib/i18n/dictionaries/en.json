@@ -8398,5 +8398,11 @@
   "yakkamon.codeDescription": "Keep this safe. You will need it to sign up for Yakkamon.",
   "yakkamon.copyCode": "Copy code",
   "yakkamon.notClaimable": "You can't claim a code just yet. Check back when your tier opens.",
-  "yakkamon.error": "Something went wrong. Please try again."
+  "yakkamon.error": "Something went wrong. Please try again.",
+  "tcs.title": "Rules",
+  "tcs.rule.one": "Sunflower Land is a game - not a financial product.",
+  "tcs.rule.two": "1 account per player (no sharing)",
+  "tcs.rule.three": "Respect the rules - no botting/automation tools",
+  "tcs.agree": "I have read and agree to the {{terms}}.",
+  "tcs.terms": "Terms and Conditions"
 }
