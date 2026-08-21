@@ -8398,5 +8398,11 @@
   "wardrobe.notEquipped": "未装備",
   "wardrobe.equipHint": "「バンプキンの装備」タブで衣装を変更してください。",
   "statements.empty.wardrobe": "あなたのワードローブは空です。集めたウェアラブルはここに表示されます。",
-  "sleepingAnimal.production": "プロダクション:"
+  "sleepingAnimal.production": "プロダクション:",
+  "tcs.title": "ルール",
+  "tcs.rule.one": "サンフラワーランドはゲームであり、金融商品ではありません。",
+  "tcs.rule.two": "1 プレイヤーにつき 1 アカウント (共有なし)",
+  "tcs.rule.three": "ルールを守る-ボトリング/自動化ツールは不要",
+  "tcs.agree": "{{terms}} を読み、同意しました。",
+  "tcs.terms": "利用規約"
 }

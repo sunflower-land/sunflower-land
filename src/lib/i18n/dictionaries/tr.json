@@ -8398,5 +8398,11 @@
   "wardrobe.notEquipped": "Donanmamış",
   "wardrobe.equipHint": "Kıyafetleri değiştirmek için Bumpkin'in Donanım sekmesini ziyaret edin.",
   "statements.empty.wardrobe": "Gardırobun boş. Topladığınız giyilebilir ürünler burada görünecek.",
-  "sleepingAnimal.production": "Üretim:"
+  "sleepingAnimal.production": "Üretim:",
+  "tcs.title": "Kuralları",
+  "tcs.rule.one": "Ayçiçeği Ülkesi bir oyundur - finansal bir ürün değil.",
+  "tcs.rule.two": "Oyuncu başına 1 hesap (paylaşım yok)",
+  "tcs.rule.three": "Kurallara saygı gösterin - şişirme/otomasyon araçları yok",
+  "tcs.agree": "Okudum ve kabul ediyorum {{terms}}.",
+  "tcs.terms": "Şartlar ve Koşullar"
 }

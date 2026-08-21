@@ -8398,5 +8398,11 @@
   "wardrobe.notEquipped": "Tidak dilengkapi",
   "wardrobe.equipHint": "Kunjungi tab Equip Bumpkin Anda untuk mengganti pakaian.",
   "statements.empty.wardrobe": "Lemari pakaianmu kosong. Wearables yang Anda kumpulkan akan muncul di sini.",
-  "sleepingAnimal.production": "Produksi:"
+  "sleepingAnimal.production": "Produksi:",
+  "tcs.title": "Aturan",
+  "tcs.rule.one": "Sunflower Land adalah permainan - bukan produk keuangan.",
+  "tcs.rule.two": "1 akun per pemain (tidak berbagi)",
+  "tcs.rule.three": "Hormati aturan - tidak ada alat pembotolan/otomatisasi",
+  "tcs.agree": "Saya telah membaca dan menyetujui {{terms}}.",
+  "tcs.terms": "Syarat dan Ketentuan"
 }

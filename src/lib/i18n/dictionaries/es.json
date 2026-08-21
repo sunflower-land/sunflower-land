@@ -8398,5 +8398,11 @@
   "wardrobe.notEquipped": "No equipado",
   "wardrobe.equipHint": "Visita la pestaña Equipa de tu Bumpkin para cambiarte de atuendo.",
   "statements.empty.wardrobe": "Tu armario está vacío. Los wearables que colecciones aparecerán aquí.",
-  "sleepingAnimal.production": "Producción:"
+  "sleepingAnimal.production": "Producción:",
+  "tcs.title": "Reglas",
+  "tcs.rule.one": "Sunflower Land es un juego, no un producto financiero.",
+  "tcs.rule.two": "1 cuenta por jugador (no se puede compartir)",
+  "tcs.rule.three": "Respete las reglas: no utilice herramientas de embotellado o automatización",
+  "tcs.agree": "He leído y acepto el {{terms}}.",
+  "tcs.terms": "Términos y condiciones"
 }

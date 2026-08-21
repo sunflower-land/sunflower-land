@@ -8398,5 +8398,11 @@
   "wardrobe.notEquipped": "没有装备",
   "wardrobe.equipHint": "访问你的 Bumpkin's Equip 选项卡来更换服装。",
   "statements.empty.wardrobe": "你的衣柜是空的。您收集的可穿戴设备将显示在这里。",
-  "sleepingAnimal.production": "制作："
+  "sleepingAnimal.production": "制作：",
+  "tcs.title": "规则",
+  "tcs.rule.one": "向日葵乐园是一款游戏，而不是金融产品。",
+  "tcs.rule.two": "每位玩家 1 个账号（不可共享）",
+  "tcs.rule.three": "遵守规则-没有装瓶/自动化工具",
+  "tcs.agree": "我已阅读并同意 {{terms}}。",
+  "tcs.terms": "条款和条件"
 }
