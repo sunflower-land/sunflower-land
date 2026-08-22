@@ -6,7 +6,10 @@ import type {
   InventoryItemName,
   TemperateSeasonName,
 } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import React, { type JSX } from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
@@ -107,7 +110,6 @@ export const InventoryItemDetails: React.FC<Props> = ({
       ITEM_ICONS(game.season.season, getCurrentBiome(game.island), hasLevel)[
         details.item
       ] ?? item.image;
-    const title = item.translatedName ?? details.item;
 
     const description = getItemDescription({ item: details.item, game });
 
@@ -126,7 +128,7 @@ export const InventoryItemDetails: React.FC<Props> = ({
             </div>
           )}
           <span className={classNames("", { "sm:text-center": !wideLayout })}>
-            {title}
+            {getTranslatedItemName(details.item)}
           </span>
         </div>
         <span

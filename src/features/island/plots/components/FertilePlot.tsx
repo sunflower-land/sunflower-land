@@ -1,7 +1,10 @@
 import React, { useContext, useMemo, useState, type JSX } from "react";
 
 import { CROPS, type CropName } from "features/game/types/crops";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { type GrowthStage, Soil } from "features/island/plots/components/Soil";
 import { Bar, ProgressBar } from "components/ui/ProgressBar";
@@ -313,7 +316,7 @@ export const FertilePlot: React.FC<Props> = ({
         >
           <TimerPopover
             image={ITEM_DETAILS[cropName].image}
-            description={cropName}
+            description={getTranslatedItemName(cropName)}
             showPopover={showTimerPopover && !isApplyingFertiliser}
             timeLeft={timeLeft}
             speed={speed}

@@ -317,10 +317,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
               <img src={ITEM_DETAILS.Honey.image} className="w-4 mr-1" />
               <span>
                 {t("honey")}
-                {":"}{" "}
-                {Number(honeyAmount) < 1
-                  ? `${honeyPercentageDisplay} ${t("full")}`
-                  : t("full")}
+                {":"} {honeyPercentageDisplay} {t("full")}
               </span>
             </div>
           </InfoPopover>

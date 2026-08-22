@@ -18,6 +18,7 @@ import { ZoomContext } from "components/ZoomProvider";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
+import { getTranslatedItemName } from "features/game/types/images";
 
 const tool = "Gold Pickaxe";
 
@@ -148,7 +149,7 @@ export const RecoveredAscensionCrystal: React.FC<Props> = ({
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xs mx-1 p-1">
               <span>
-                {t("craft")} {tool.toLowerCase()}
+                {t("craft")} {getTranslatedItemName(tool).toLowerCase()}
               </span>
             </div>
           </InnerPanel>

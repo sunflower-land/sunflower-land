@@ -17,7 +17,10 @@ import {
 } from "features/game/types/agingFormulas";
 import type { FishName } from "features/game/types/fishing";
 import type { GameState, Inventory } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import {
   getBasketItems,
   getChestItems,
@@ -140,8 +143,7 @@ export const AgingRackPanel: React.FC = () => {
     if (selectedFish && !hasSalt)
       return t("agingShed.agingRack.insufficientSalt");
     if (selectedFish && !hasFish) {
-      const name =
-        ITEM_DETAILS[selectedFish]?.translatedName ?? String(selectedFish);
+      const name = getTranslatedItemName(selectedFish);
       return t("agingShed.agingRack.insufficientFish", { item: name });
     }
     return undefined;

@@ -1,6 +1,9 @@
 import React, { useContext, useRef, useState } from "react";
 import { InnerPanel } from "components/ui/Panel";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { Label } from "components/ui/Label";
@@ -349,7 +352,7 @@ const NodeRow: React.FC<NodeRowProps> = ({
   });
 
   const resourceName = node.resourceName
-    ? (ITEM_DETAILS[node.resourceName]?.translatedName ?? node.resourceName)
+    ? getTranslatedItemName(node.resourceName)
     : node.resourceLabelKey
       ? translate(node.resourceLabelKey)
       : "";
