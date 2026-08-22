@@ -50,6 +50,8 @@ import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { GameWallet } from "features/wallet/Wallet";
 import { DepositFlower } from "features/island/hud/components/deposit/DepositFlower";
+import { areFlowerTransfersFrozen } from "../lib/flowerTransferFreeze";
+import { FlowerTransfersFrozen } from "./FlowerTransfersFrozen";
 
 import { WithdrawItemGrid } from "./withdraw/WithdrawItemGrid";
 import { WithdrawItemDetail } from "./withdraw/WithdrawItemDetail";
@@ -723,6 +725,14 @@ export const Deposit: React.FC<Props> = ({ onClose }) => {
   const [page, setPage] = useState<DepositPage>("main");
 
   if (page === "flower") {
+    // Only FLOWER is frozen; depositing collectibles stays open. Closed
+    // before DepositFlower so no deposit address is ever handed out.
+    if (areFlowerTransfersFrozen()) {
+      return (
+        <FlowerTransfersFrozen flow="deposit" onBack={() => setPage("main")} />
+      );
+    }
+
     return <DepositFlower onClose={() => setPage("main")} />;
   }
 
