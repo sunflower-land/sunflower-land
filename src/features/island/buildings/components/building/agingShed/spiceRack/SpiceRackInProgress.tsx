@@ -13,7 +13,10 @@ import {
   type SpiceRackRecipeName,
 } from "features/game/types/spiceRack";
 import type { InventoryItemName } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import {
   getAgingInputMultiplier,
   getAstrolabeDoubleChance,
@@ -76,7 +79,7 @@ export const SpiceRackInProgress: React.FC<Props> = ({
         <div className="flex justify-between items-start">
           {outputItem && (
             <Label type="default" className="text-xs">
-              {`${ITEM_DETAILS[outputItem]?.translatedName ?? String(outputItem)} x${outputAmount.toString()}`}
+              {`${getTranslatedItemName(outputItem)} x${outputAmount.toString()}`}
             </Label>
           )}
           <Label

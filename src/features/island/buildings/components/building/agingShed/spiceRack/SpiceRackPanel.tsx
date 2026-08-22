@@ -17,7 +17,10 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
 import { useVisiting } from "lib/utils/visitUtils";
 import type { Inventory, InventoryItemName } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { mergeBasketAndChestInventory } from "features/island/hud/components/inventory/utils/inventory";
 import { getObjectEntries } from "lib/object";
 import { secondsToString } from "lib/utils/time";
@@ -162,9 +165,7 @@ export const SpiceRackPanel: React.FC = () => {
     }
 
     if (selectedRecipeId && insufficientIngredient) {
-      const name =
-        ITEM_DETAILS[insufficientIngredient]?.translatedName ??
-        String(insufficientIngredient);
+      const name = getTranslatedItemName(insufficientIngredient);
 
       return t("agingShed.spice.insufficientIngredient", { item: name });
     }

@@ -11,7 +11,10 @@ import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Box } from "components/ui/Box";
 
@@ -89,7 +92,7 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
       tabs={[
         {
           id: "lavaPit",
-          name: "Lava Pit",
+          name: getTranslatedItemName("Lava Pit"),
           icon: ITEM_DETAILS["Lava Pit"].image,
         },
       ]}
@@ -153,7 +156,7 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
           )}
 
           {lavaPitInProgress && canCollect && (
-            <Label type="success">{"Ready"}</Label>
+            <Label type="success">{t("ready")}</Label>
           )}
           {lavaPitInProgress && !canCollect && (
             <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
@@ -201,7 +204,7 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
             <div>
               <div className="flex flex-wrap items-start">
                 <Label type="default" className="mr-1 mb-1">
-                  {`${obsidianYield} x Obsidian`}
+                  {`${obsidianYield} x ${getTranslatedItemName("Obsidian")}`}
                 </Label>
               </div>
               <p className="text-xs ml-0.5">
