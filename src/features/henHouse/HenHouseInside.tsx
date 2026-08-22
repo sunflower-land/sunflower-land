@@ -19,10 +19,9 @@ import { FeederMachine } from "features/feederMachine/FeederMachine";
 import { FeedAllButton } from "features/game/expansion/components/animals/FeedAllButton";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
 import { Modal } from "components/ui/Modal";
-import {
-  AnimalDeal,
-  ExchangeHud,
-} from "features/barn/components/AnimalBounties";
+import { AnimalDeal } from "features/barn/components/AnimalBounties";
+import { AnimalBountyQuickPanel } from "features/barn/components/AnimalBountyQuickPanel";
+import { HudContainer } from "components/ui/HudContainer";
 import type { AnimalBounty } from "features/game/types/game";
 import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
 import classNames from "classnames";
@@ -123,23 +122,58 @@ export const HenHouseInside: React.FC = () => {
 
   const nextLevel = Math.min(level + 1, 3);
 
-  const validAnimalsCount = useMemo(() => {
-    if (!deal) return 0;
-    return organizedAnimals.filter((animal) => isValidDeal({ animal, deal }))
-      .length;
-  }, [organizedAnimals, deal]);
+  const handleAnimalSale = (animalId: string) => {
+    if (!deal) return;
+
+    const state = gameService.getSnapshot().context.state;
+    const animal = state.henHouse.animals[animalId];
+    const isCompleted = state.bounties.completed.some(
+      (completed) => completed.id === deal.id,
+    );
+
+    if (!animal || isCompleted || !isValidDeal({ animal, deal })) return;
+
+    const requiresConfirmation =
+      animal.state === "sick" || !!animal.reward?.items?.[0]?.name;
+
+    if (requiresConfirmation) {
+      setSelectedAnimalId(animalId);
+      return;
+    }
+
+    gameService.send("animal.sold", {
+      requestId: deal.id,
+      animalId,
+    });
+    setDeal(undefined);
+  };
+
   return (
     <>
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <AnimalBuildingModal
-          buildingName="Hen House"
-          onClose={() => setShowModal(false)}
-          onExchanging={(deal) => {
-            setShowModal(false);
-            setDeal(deal);
-          }}
-        />
-      </Modal>
+      {showModal && (
+        <HudContainer zIndex="z-50">
+          <div className="absolute bottom-0 left-0 right-0">
+            <AnimalBuildingModal
+              buildingName="Hen House"
+              onClose={() => {
+                setShowModal(false);
+                setDeal(undefined);
+              }}
+              onExchanging={setDeal}
+              onTabChange={(tab) => {
+                if (tab !== "sell") setDeal(undefined);
+              }}
+              sellContent={
+                <AnimalBountyQuickPanel
+                  animalTypes={["Chicken"]}
+                  selectedDeal={deal}
+                  onSelect={setDeal}
+                />
+              }
+            />
+          </div>
+        </HudContainer>
+      )}
       <UpgradeBuildingModal
         buildingName="Hen House"
         currentLevel={level}
@@ -179,7 +213,7 @@ export const HenHouseInside: React.FC = () => {
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <div className="relative w-full h-full">
             <div className={"relative w-full h-full"}>
-              {!deal && (
+              {!deal && !showModal && (
                 <>
                   <img
                     src={shopDisc}
@@ -191,6 +225,16 @@ export const HenHouseInside: React.FC = () => {
                     onClick={() => setShowModal(true)}
                   />
 
+                  <img
+                    src={SUNNYSIDE.icons.upgrade_disc}
+                    alt="Upgrade Building"
+                    className="absolute top-[18px] left-[18px] cursor-pointer z-10"
+                    style={{
+                      width: `${PIXEL_SCALE * 18}px`,
+                    }}
+                    onClick={() => setShowUpgradeModal(true)}
+                  />
+
                   <Button
                     className="absolute -bottom-16"
                     onClick={() => navigate("/")}
@@ -200,15 +244,6 @@ export const HenHouseInside: React.FC = () => {
                 </>
               )}
 
-              <img
-                src={SUNNYSIDE.icons.upgrade_disc}
-                alt="Upgrade Building"
-                className="absolute top-[18px] left-[18px] cursor-pointer z-10"
-                style={{
-                  width: `${PIXEL_SCALE * 18}px`,
-                }}
-                onClick={() => setShowUpgradeModal(true)}
-              />
               <img
                 src={ANIMAL_HOUSE_IMAGES[level].src}
                 id={Section.GenesisBlock}
@@ -271,7 +306,7 @@ export const HenHouseInside: React.FC = () => {
 
                             if (!isValid) return;
 
-                            setSelectedAnimalId(animal.id.toString());
+                            handleAnimalSale(animal.id.toString());
                           }
                         }}
                       >
@@ -286,17 +321,7 @@ export const HenHouseInside: React.FC = () => {
         </div>
       </div>
 
-      {!deal && <Hud isFarming={false} location="home" />}
-
-      {deal && (
-        <ExchangeHud
-          deal={deal}
-          onClose={() => {
-            setDeal(undefined);
-          }}
-          validAnimalsCount={validAnimalsCount}
-        />
-      )}
+      {!deal && !showModal && <Hud isFarming={false} location="home" />}
       <PlayerModal
         loggedInFarmId={loggedInFarmId}
         token={token}

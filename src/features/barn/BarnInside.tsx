@@ -25,8 +25,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
 import { ANIMAL_HOUSE_IMAGES } from "features/henHouse/HenHouseInside";
 import type { AnimalBounty } from "features/game/types/game";
-import { AnimalDeal, ExchangeHud } from "./components/AnimalBounties";
+import { AnimalDeal } from "./components/AnimalBounties";
+import { AnimalBountyQuickPanel } from "./components/AnimalBountyQuickPanel";
 import { Modal } from "components/ui/Modal";
+import { HudContainer } from "components/ui/HudContainer";
 import classNames from "classnames";
 import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
@@ -148,11 +150,31 @@ export const BarnInside: React.FC = () => {
   }, [animalCount, sickAnimalCount, floorWidth]);
   const currentBiome = getCurrentBiome(island);
 
-  const validAnimalsCount = useMemo(() => {
-    if (!deal) return 0;
-    return organizedAnimals.filter((animal) => isValidDeal({ animal, deal }))
-      .length;
-  }, [organizedAnimals, deal]);
+  const handleAnimalSale = (animalId: string) => {
+    if (!deal) return;
+
+    const state = gameService.getSnapshot().context.state;
+    const animal = state.barn.animals[animalId];
+    const isCompleted = state.bounties.completed.some(
+      (completed) => completed.id === deal.id,
+    );
+
+    if (!animal || isCompleted || !isValidDeal({ animal, deal })) return;
+
+    const requiresConfirmation =
+      animal.state === "sick" || !!animal.reward?.items?.[0]?.name;
+
+    if (requiresConfirmation) {
+      setSelectedAnimalId(animalId);
+      return;
+    }
+
+    gameService.send("animal.sold", {
+      requestId: deal.id,
+      animalId,
+    });
+    setDeal(undefined);
+  };
 
   const calendarEvent = isBuildingDestroyed({
     name: "Barn",
@@ -165,16 +187,30 @@ export const BarnInside: React.FC = () => {
 
   return (
     <>
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <AnimalBuildingModal
-          buildingName="Barn"
-          onClose={() => setShowModal(false)}
-          onExchanging={(deal) => {
-            setShowModal(false);
-            setDeal(deal);
-          }}
-        />
-      </Modal>
+      {showModal && (
+        <HudContainer zIndex="z-50">
+          <div className="absolute bottom-0 left-0 right-0">
+            <AnimalBuildingModal
+              buildingName="Barn"
+              onClose={() => {
+                setShowModal(false);
+                setDeal(undefined);
+              }}
+              onExchanging={setDeal}
+              onTabChange={(tab) => {
+                if (tab !== "sell") setDeal(undefined);
+              }}
+              sellContent={
+                <AnimalBountyQuickPanel
+                  animalTypes={["Cow", "Sheep"]}
+                  selectedDeal={deal}
+                  onSelect={setDeal}
+                />
+              }
+            />
+          </div>
+        </HudContainer>
+      )}
 
       <UpgradeBuildingModal
         buildingName="Barn"
@@ -276,7 +312,7 @@ export const BarnInside: React.FC = () => {
                             e.stopPropagation();
                             e.preventDefault();
                             if (!isValid) return;
-                            setSelectedAnimalId(animal.id.toString());
+                            handleAnimalSale(animal.id.toString());
                           }
                         }}
                       >
@@ -287,7 +323,7 @@ export const BarnInside: React.FC = () => {
                 </div>
               </MapPlacement>
 
-              {!deal && (
+              {!deal && !showModal && (
                 <>
                   <img
                     src={shopDisc}
@@ -322,17 +358,7 @@ export const BarnInside: React.FC = () => {
         </div>
       </>
 
-      {!deal && <Hud isFarming={false} location="home" />}
-
-      {deal && (
-        <ExchangeHud
-          deal={deal}
-          onClose={() => {
-            setDeal(undefined);
-          }}
-          validAnimalsCount={validAnimalsCount}
-        />
-      )}
+      {!deal && !showModal && <Hud isFarming={false} location="home" />}
 
       <PlayerModal
         loggedInFarmId={loggedInFarmId}
