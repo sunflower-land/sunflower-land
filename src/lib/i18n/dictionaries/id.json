@@ -8404,5 +8404,9 @@
   "tcs.rule.two": "1 akun per pemain (tidak berbagi)",
   "tcs.rule.three": "Hormati aturan - tidak ada alat pembotolan/otomatisasi",
   "tcs.agree": "Saya telah membaca dan menyetujui {{terms}}.",
-  "tcs.terms": "Syarat dan Ketentuan"
+  "tcs.terms": "Syarat dan Ketentuan",
+  "flowerTransfersFrozen.title": "Dinonaktifkan sementara",
+  "flowerTransfersFrozen.withdraw": "Penarikan FLOWER dinonaktifkan sementara saat kami menyelidiki masalah. BUNGA Anda aman, dan Anda masih dapat menarik barang koleksi, barang yang dapat dikenakan, kuncup, dan hewan peliharaan.",
+  "flowerTransfersFrozen.deposit": "Deposit FLOWER dinonaktifkan sementara saat kami menyelidiki masalah. Tolong jangan mengirim BUNGA apa pun ke peternakan Anda sampai mereka dibuka kembali. Menyimpan barang koleksi, barang yang dapat dikenakan, kuncup, dan hewan peliharaan tidak terpengaruh.",
+  "flowerTransfersFrozen.until": "Setoran dan penarikan FLOWER dibuka kembali pada {{date}}."
 }

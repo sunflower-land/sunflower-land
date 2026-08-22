@@ -8404,5 +8404,9 @@
   "tcs.rule.two": "1 cuenta por jugador (no se puede compartir)",
   "tcs.rule.three": "Respete las reglas: no utilice herramientas de embotellado o automatización",
   "tcs.agree": "He leído y acepto el {{terms}}.",
-  "tcs.terms": "Términos y condiciones"
+  "tcs.terms": "Términos y condiciones",
+  "flowerTransfersFrozen.title": "Desactivado temporalmente",
+  "flowerTransfersFrozen.withdraw": "Los retiros de FLOWER se desactivan temporalmente mientras investigamos un problema. Tu FLOWER está a salvo y puedes seguir retirando objetos coleccionables, prendas de vestir, cogollos y mascotas.",
+  "flowerTransfersFrozen.deposit": "Los depósitos de FLOWER se desactivan temporalmente mientras investigamos un problema. No envíes ningún FLOWER a tu granja hasta que vuelvan a abrir. El depósito de objetos coleccionables, prendas de vestir, auriculares y mascotas no se verá afectado.",
+  "flowerTransfersFrozen.until": "Los depósitos y retiros de FLOWER vuelven a abrirse el {{date}}."
 }

@@ -8404,5 +8404,9 @@
   "tcs.rule.two": "Oyuncu başına 1 hesap (paylaşım yok)",
   "tcs.rule.three": "Kurallara saygı gösterin - şişirme/otomasyon araçları yok",
   "tcs.agree": "Okudum ve kabul ediyorum {{terms}}.",
-  "tcs.terms": "Şartlar ve Koşullar"
+  "tcs.terms": "Şartlar ve Koşullar",
+  "flowerTransfersFrozen.title": "Geçici olarak devre dışı",
+  "flowerTransfersFrozen.withdraw": "Bir sorunu araştırırken FLOWER para çekme işlemleri geçici olarak devre dışı bırakılır. FLOWER'ınız güvende ve yine de koleksiyon eşyalarını, giyilebilir cihazları, tomurcukları ve evcil hayvanları geri çekebilirsiniz.",
+  "flowerTransfersFrozen.deposit": "Bir sorunu araştırırken FLOWER yatakları geçici olarak devre dışı bırakılır. Lütfen yeniden açılana kadar çiftliğinize ÇIÇEK göndermeyin. Koleksiyon eşyalarının, giyilebilir cihazların, tomurcukların ve evcil hayvanların depolanması etkilenmez.",
+  "flowerTransfersFrozen.until": "FLOWER para yatırma ve çekme işlemleri {{date}} 'de yeniden açılır."
 }

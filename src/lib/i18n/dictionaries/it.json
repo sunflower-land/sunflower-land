@@ -8404,5 +8404,9 @@
   "tcs.rule.two": "1 account per giocatore (nessuna condivisione)",
   "tcs.rule.three": "Rispetta le regole: niente strumenti di botting/automazione",
   "tcs.agree": "Ho letto e accetto il {{terms}}.",
-  "tcs.terms": "Termini e condizioni"
+  "tcs.terms": "Termini e condizioni",
+  "flowerTransfersFrozen.title": "Temporaneamente disabile",
+  "flowerTransfersFrozen.withdraw": "I prelievi di FLOWER sono temporaneamente disabilitati mentre esaminiamo un problema. Il tuo FLOWER è al sicuro e puoi comunque prelevare oggetti da collezione, dispositivi indossabili, boccioli e animali domestici.",
+  "flowerTransfersFrozen.deposit": "I depositi FLOWER sono temporaneamente disattivati mentre esaminiamo un problema. Ti preghiamo di non inviare FIORI alla tua fattoria fino alla riapertura. Il deposito di oggetti da collezione, indossabili, boccioli e animali domestici è inalterato.",
+  "flowerTransfersFrozen.until": "I depositi e i prelievi FLOWER riaprono il {{date}}."
 }

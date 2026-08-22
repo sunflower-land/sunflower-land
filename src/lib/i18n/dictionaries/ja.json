@@ -8404,5 +8404,9 @@
   "tcs.rule.two": "1 プレイヤーにつき 1 アカウント (共有なし)",
   "tcs.rule.three": "ルールを守る-ボトリング/自動化ツールは不要",
   "tcs.agree": "{{terms}} を読み、同意しました。",
-  "tcs.terms": "利用規約"
+  "tcs.terms": "利用規約",
+  "flowerTransfersFrozen.title": "一時的に無効",
+  "flowerTransfersFrozen.withdraw": "問題を調査している間、FLOWERの出金は一時的に無効になります。FLOWERは安全ですが、収集品、ウェアラブル、イヤホン、ペットは引き続き引き出すことができます。",
+  "flowerTransfersFrozen.deposit": "問題を調査している間、FLOWERデポジットは一時的に無効になります。農場が再開するまでFLOWERを送らないでください。収集品、ウェアラブル、イヤホン、ペットを預けても影響はありません。",
+  "flowerTransfersFrozen.until": "FLOWERの入金と出金は {{date}} に再開されます。"
 }
