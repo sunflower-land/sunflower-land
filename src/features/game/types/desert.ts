@@ -4,6 +4,7 @@ import { type ChapterName, getCurrentChapter } from "./chapters";
 import type { BeachBountyChapterArtefact } from "./treasure";
 import { isCollectibleBuilt } from "../lib/collectibleBuilt";
 import { isWearableActive } from "../lib/wearables";
+import type Decimal from "decimal.js-light";
 
 export const DESERT_GRID_HEIGHT = 10;
 export const DESERT_GRID_WIDTH = 10;
@@ -34,6 +35,30 @@ export const CHAPTER_ARTEFACT: Record<ChapterName, BeachBountyChapterArtefact> =
     "Salt Awakening": "Salt Dino Egg",
     "Ascension Age": "Otter Pebble",
   };
+
+const CHAPTER_ARTEFACTS = new Set<BeachBountyChapterArtefact>(
+  Object.values(CHAPTER_ARTEFACT),
+);
+
+export function isChapterArtefact(
+  name: InventoryItemName,
+): name is BeachBountyChapterArtefact {
+  return CHAPTER_ARTEFACTS.has(name as BeachBountyChapterArtefact);
+}
+
+export function shouldHideChapterArtefact({
+  name,
+  currentChapterArtefact,
+  amount,
+}: {
+  name: InventoryItemName;
+  currentChapterArtefact: BeachBountyChapterArtefact;
+  amount: Decimal;
+}) {
+  return (
+    isChapterArtefact(name) && name !== currentChapterArtefact && amount.lte(0)
+  );
+}
 
 export const DIGGING_FORMATIONS = {
   // Horizontal Zig Zag - X Coins
