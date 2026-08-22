@@ -62,7 +62,15 @@ export const RotateCollectibleGame: React.FC<CaptchaGameProps> = ({
             style={{ width: `${PIXEL_SCALE * 11}px` }}
           />
         </Button>
-        <div className="flex items-center justify-center w-24 h-24">
+        <div
+          className="flex items-center justify-center w-24 h-24 rounded-md"
+          style={{
+            backgroundImage: `url(${SUNNYSIDE.announcement.grass_bg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            imageRendering: "pixelated",
+          }}
+        >
           <img
             src={ITEM_DETAILS[item].image}
             className="w-16 h-16 object-contain transition-transform duration-200"

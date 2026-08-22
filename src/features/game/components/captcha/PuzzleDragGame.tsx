@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
+import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CROPS, type CropName } from "features/game/types/crops";
 import { getKeys } from "lib/object";
@@ -23,6 +24,7 @@ export const PuzzleDragGame: React.FC<CaptchaGameProps> = ({
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageRef = useRef<HTMLImageElement | undefined>(undefined);
+  const backgroundRef = useRef<HTMLImageElement | undefined>(undefined);
   const silhouetteRef = useRef<HTMLCanvasElement | undefined>(undefined);
   const piecePosRef = useRef<Position>({
     x: 15,
@@ -50,9 +52,27 @@ export const PuzzleDragGame: React.FC<CaptchaGameProps> = ({
     ctx.imageSmoothingEnabled = false;
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-    // Backdrop
-    ctx.fillStyle = "#ead4aa";
-    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    // Grass backdrop, scaled to cover the canvas (flat colour until loaded)
+    const background = backgroundRef.current;
+    if (background) {
+      const scale = Math.max(
+        CANVAS_WIDTH / background.width,
+        CANVAS_HEIGHT / background.height,
+      );
+      const width = background.width * scale;
+      const height = background.height * scale;
+
+      ctx.drawImage(
+        background,
+        (CANVAS_WIDTH - width) / 2,
+        (CANVAS_HEIGHT - height) / 2,
+        width,
+        height,
+      );
+    } else {
+      ctx.fillStyle = "#ead4aa";
+      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    }
 
     // The empty puzzle slot (silhouette of the crop)
     if (silhouetteRef.current) {
@@ -84,6 +104,15 @@ export const PuzzleDragGame: React.FC<CaptchaGameProps> = ({
   };
 
   useEffect(() => {
+    const background = new Image();
+
+    background.onload = () => {
+      backgroundRef.current = background;
+      draw();
+    };
+
+    background.src = SUNNYSIDE.announcement.grass_bg;
+
     const image = new Image();
 
     image.onload = () => {

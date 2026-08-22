@@ -52,6 +52,23 @@ export const DeveloperOptions: React.FC<ContentComponentProps> = ({
             {`Error Search`}
           </Button>
         )}
+        {isModerator && (
+          <Button
+            onClick={() => {
+              // Fires on your own farm - handy for testing the captcha flow
+              gameService.send("admin.captchaTriggered", {
+                effect: {
+                  type: "admin.captchaTriggered",
+                  farmId: gameService.state.context.farmId,
+                },
+              });
+              onClose();
+            }}
+            className="p-1"
+          >
+            {`Trigger Captcha`}
+          </Button>
+        )}
         {hasAdminDashboards && (
           <>
             <Button

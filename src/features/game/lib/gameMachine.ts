@@ -126,10 +126,6 @@ import {
   getRoninWaypointPopupShown,
 } from "features/roninMigration/roninWaypointPopup";
 import { isDailyRewardReady } from "../events/landExpansion/claimDailyReward";
-import {
-  isCaptchaRequired,
-  logSaveActivity,
-} from "../components/captcha/lib/captchaActivity";
 import { getDailyRewardLastAcknowledged } from "../components/DailyReward";
 import type { LanguageCode } from "lib/i18n/dictionaries/language";
 import { getAscensionLevel, meetsLevelRequirement } from "./level";
@@ -372,7 +368,6 @@ export type BlockchainEvent =
   | { type: "END_VISIT" }
   | { type: "PERSONHOOD_FINISHED"; verified: boolean }
   | { type: "PERSONHOOD_CANCELLED" }
-  | { type: "CAPTCHA_SOLVED" }
   | GameEvent
   | LandscapeEvent
   | VisitEvent
@@ -406,11 +401,12 @@ const playingEventHandler = (
   const immediateSave = options?.immediateSave === true;
   return {
     [eventName]: [
-      // The player has been playing non-stop (per the local activity log) -
-      // block the event and send them into the captcha state.
+      // The API has flagged non-stop play (`captcha.required` on the game
+      // state) - block the event and send them into the captcha state.
       {
         target: "#captcha",
-        cond: (context: Context) => !context.visitorId && isCaptchaRequired(),
+        cond: (context: Context) =>
+          !context.visitorId && !!context.state.captcha?.required,
       },
       {
         ...(immediateSave ? { target: "autosaving" as const } : {}),
@@ -501,11 +497,12 @@ function createPlacementEventHandlers(
     (events, eventName) => ({
       ...events,
       [eventName]: [
-        // The player has been playing non-stop (per the local activity log) -
-        // block the event and send them into the captcha state.
+        // The API has flagged non-stop play (`captcha.required` on the game
+        // state) - block the event and send them into the captcha state.
         {
           target: "#captcha",
-          cond: (context: Context) => !context.visitorId && isCaptchaRequired(),
+          cond: (context: Context) =>
+            !context.visitorId && !!context.state.captcha?.required,
         },
         {
           ...(immediateSave ? { target: "autosaving" as const } : {}),
@@ -955,9 +952,6 @@ export const saveGame = async (
     transactionId: context.transactionId as string,
     state: context.state,
   });
-
-  // Local activity log used to decide when a non-stop player owes a captcha
-  logSaveActivity();
 
   return {
     saveAt,
@@ -2734,7 +2728,15 @@ export function startGame(authContext: AuthContext) {
         captcha: {
           id: "captcha",
           on: {
-            CAPTCHA_SOLVED: {
+            // Posts the `captcha.succeeded` effect - the response's game
+            // state comes back with `captcha.required` cleared.
+            "captcha.succeeded": {
+              target: "solvingCaptcha",
+            },
+            // Offered by the lockout countdown screen so the player can look
+            // around while they wait. `captcha.required` is still set, so
+            // their next interaction lands straight back here.
+            CLOSE: {
               target: "playing",
             },
           },

@@ -1,25 +1,30 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { Context } from "features/game/GameProvider";
+import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CountdownLabel } from "components/ui/CountdownLabel";
-import { randomInt } from "lib/utils/random";
+import { randomInt, randomID } from "lib/utils/random";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { postEffect } from "features/game/actions/effect";
 
 import { RotateCollectibleGame } from "./RotateCollectibleGame";
 import { PuzzleDragGame } from "./PuzzleDragGame";
-import type { CaptchaGameProps } from "./types";
+import type { CaptchaGameName, CaptchaGameProps } from "./types";
 import {
+  CAPTCHA_LOCK_MS,
   clearCaptchaLock,
   getCaptchaLockedUntil,
   lockCaptcha,
 } from "./lib/captchaLock";
-import { markCaptchaSolved } from "./lib/captchaActivity";
 
 // Register new captcha minigames here - one is dealt at random each attempt
-const MINIGAMES: React.FC<CaptchaGameProps>[] = [
-  RotateCollectibleGame,
-  PuzzleDragGame,
+const MINIGAMES: {
+  name: CaptchaGameName;
+  component: React.FC<CaptchaGameProps>;
+}[] = [
+  { name: "rotate", component: RotateCollectibleGame },
+  { name: "jigsaw", component: PuzzleDragGame },
 ];
 
 const MAX_FAILURES = 2;
@@ -31,7 +36,18 @@ export const Captcha: React.FC = () => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
 
-  const [lockedUntil, setLockedUntil] = useState(getCaptchaLockedUntil);
+  const [lockedUntil, setLockedUntil] = useState<number | undefined>(() => {
+    // The farm's `captcha.failedAt` also arms the lock, so clearing local
+    // storage or refreshing right after failing doesn't reset the strikes
+    const failedAt = gameService.state.context.state.captcha?.failedAt ?? 0;
+    const serverLock = failedAt + CAPTCHA_LOCK_MS;
+
+    const localLock = getCaptchaLockedUntil() ?? 0;
+
+    const lock = Math.max(localLock, serverLock > Date.now() ? serverLock : 0);
+
+    return lock > Date.now() ? lock : undefined;
+  });
   const [failures, setFailures] = useState(0);
   const [deal, setDeal] = useState(() => ({
     id: 0,
@@ -73,18 +89,34 @@ export const Captcha: React.FC = () => {
     return () => clearInterval(interval);
   }, [lockedUntil]);
 
+  const game = MINIGAMES[deal.gameIndex];
+
   const onSuccess = () => {
     setResult("correct");
 
-    // Let the tick animation play before returning to the game
+    // Let the tick animation play before firing the effect - its response
+    // comes back with `captcha.required` cleared. The game name feeds the
+    // farm activity stats (e.g. "Rotate Captcha Succeeded").
     feedbackTimerRef.current = window.setTimeout(() => {
-      markCaptchaSolved();
-      gameService.send("CAPTCHA_SOLVED");
+      gameService.send("captcha.succeeded", {
+        effect: { type: "captcha.succeeded", game: game.name },
+      });
     }, FEEDBACK_MS);
   };
 
   const onFailure = () => {
     setResult("wrong");
+
+    // Record which game they failed against the farm. Fire-and-forget - the
+    // modal keeps its own flow (next game / lockout) regardless of the
+    // request outcome.
+    const { farmId, rawToken } = gameService.state.context;
+    postEffect({
+      farmId: Number(farmId),
+      token: rawToken as string,
+      transactionId: randomID(),
+      effect: { type: "captcha.failed", game: game.name },
+    }).catch(() => undefined);
 
     // Let the cross animation play before dealing the next attempt (or locking)
     feedbackTimerRef.current = window.setTimeout(() => {
@@ -109,14 +141,21 @@ export const Captcha: React.FC = () => {
 
   if (lockedUntil) {
     return (
-      <div className="flex flex-col items-center p-2">
-        <span className="text-center text-base">{t("captcha.locked")}</span>
-        <img src={SUNNYSIDE.icons.stopwatch} className="h-8 my-2" />
-        <p className="text-sm text-center mb-3">
-          {t("captcha.locked.description")}
-        </p>
-        {secondsLeft > 0 && <CountdownLabel timeLeft={secondsLeft} />}
-      </div>
+      <>
+        <div className="flex flex-col items-center p-2">
+          <span className="text-center text-base">{t("captcha.locked")}</span>
+          <img src={SUNNYSIDE.icons.stopwatch} className="h-8 my-2" />
+          <p className="text-sm text-center mb-3">
+            {t("captcha.locked.description")}
+          </p>
+          {secondsLeft > 0 && <CountdownLabel timeLeft={secondsLeft} />}
+        </div>
+        {/* Let them look around while they wait - their next interaction
+            brings the captcha straight back */}
+        <Button className="mt-2" onClick={() => gameService.send("CLOSE")}>
+          {t("close")}
+        </Button>
+      </>
     );
   }
 
@@ -147,7 +186,7 @@ export const Captcha: React.FC = () => {
     );
   }
 
-  const Minigame = MINIGAMES[deal.gameIndex];
+  const Minigame = game.component;
 
   return (
     <div className="flex flex-col items-center p-2">
