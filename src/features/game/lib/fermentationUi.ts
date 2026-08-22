@@ -8,7 +8,7 @@ import {
   type StartableFermentationRecipeName,
 } from "features/game/types/fermentation";
 import type { Inventory, InventoryItemName } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import { getTranslatedItemName } from "features/game/types/images";
 import { getObjectEntries } from "lib/object";
 import { secondsToString } from "lib/utils/time";
 import {
@@ -255,17 +255,13 @@ export function getFermentationOutputGroups(
   return groups;
 }
 
-function ingredientDisplayName(name: InventoryItemName): string {
-  return ITEM_DETAILS[name]?.translatedName ?? String(name);
-}
-
 /** Human-readable ingredients + duration for a fermentation recipe variant. */
 export function formatRecipeVariantLabel(
   recipeId: FermentationRecipeName,
 ): string {
   const def = getFermentationRecipe(recipeId);
   const parts = getObjectEntries(def.ingredients).map(([name, qty]) => {
-    const label = ingredientDisplayName(name);
+    const label = getTranslatedItemName(name);
     const n = qty ?? new Decimal(0);
     return `${label} x${n.toString()}`;
   });

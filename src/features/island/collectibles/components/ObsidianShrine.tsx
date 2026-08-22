@@ -8,7 +8,10 @@ import { ProgressBar } from "components/ui/ProgressBar";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { Modal } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
@@ -266,7 +269,7 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
         <OuterPanel>
           <div className="flex items-center justify-between flex-wrap gap-1 px-1 mb-1">
             <Label type="default" icon={ITEM_DETAILS["Obsidian Shrine"].image}>
-              {"Obsidian Shrine"}
+              {getTranslatedItemName("Obsidian Shrine")}
             </Label>
             <Label type="info" secondaryIcon={SUNNYSIDE.icons.stopwatch}>
               {t("time.remaining", {
@@ -487,7 +490,7 @@ const PlantSection: React.FC<{
                   ITEM_DETAILS[SEEDS[effectiveSeed].yield as CropName]?.image
                 }
               >
-                {effectiveSeed}
+                {getTranslatedItemName(effectiveSeed)}
               </Label>
               <Label type="info" secondaryIcon={SUNNYSIDE.icons.stopwatch}>
                 {secondsToString(getPlantSeconds(effectiveSeed, state, now), {
@@ -505,7 +508,9 @@ const PlantSection: React.FC<{
             {plotsCount === 0
               ? t("obsidianShrine.noPlots")
               : effectiveSeed
-                ? t("obsidianShrine.plant", { seed: effectiveSeed })
+                ? t("obsidianShrine.plant", {
+                    seed: getTranslatedItemName(effectiveSeed),
+                  })
                 : t("obsidianShrine.selectSeed")}
           </Button>
         </>

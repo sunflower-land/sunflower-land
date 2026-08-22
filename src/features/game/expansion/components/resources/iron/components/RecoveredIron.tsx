@@ -17,6 +17,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
 import type { IronRockName } from "features/game/types/resources";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
+import { getTranslatedItemName } from "features/game/types/images";
 import type {
   GameState,
   InventoryItemName,
@@ -149,7 +150,7 @@ const RecoveredIronComponent: React.FC<Props> = ({
               <span>
                 {t("craft")}{" "}
                 {requiredToolAmount.sub(inventory[tool] ?? 0).toString()}{" "}
-                {tool.toLowerCase()}
+                {getTranslatedItemName(tool).toLowerCase()}
               </span>
             </div>
           </InnerPanel>

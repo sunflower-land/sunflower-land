@@ -12,7 +12,10 @@ import type {
   Rock,
   Tree,
 } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import React, {
   type Dispatch,
   type SetStateAction,
@@ -51,7 +54,6 @@ import {
   RESOURCE_STATE_ACCESSORS,
 } from "features/game/types/resources";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
-import { capitalize } from "lib/utils/capitalize";
 import classNames from "classnames";
 import { getItemDescription } from "features/game/lib/getItemDescription";
 
@@ -172,14 +174,14 @@ function getDetails(
       ? INVENTORY_LIMIT(game)[details.item]
       : undefined;
 
-    const { image: defaultImage, translatedName } = ITEM_DETAILS[details.item];
+    const { image: defaultImage } = ITEM_DETAILS[details.item];
     const description = getItemDescription({ item: details.item, game });
 
     const image =
       ITEM_ICONS(game.season.season, getCurrentBiome(game.island))[
         details.item
       ] ?? defaultImage;
-    const name = translatedName ?? details.item;
+    const name = getTranslatedItemName(details.item);
 
     return { count, description, image, name, limit };
   }
@@ -344,7 +346,7 @@ export const CraftingRequirements: React.FC<Props> = ({
             icon={SEASON_ICONS[gameState.season.season]}
             className="-mb-3.5"
           >
-            {capitalize(gameState.season.season)}
+            {t(`season.${gameState.season.season}`)}
           </Label>
         )}
         <div

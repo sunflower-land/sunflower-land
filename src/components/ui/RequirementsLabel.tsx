@@ -3,7 +3,10 @@ import React, { useContext } from "react";
 import type { InventoryItemName } from "features/game/types/game";
 import { LABEL_STYLES, Label } from "./Label";
 import { SquareIcon } from "./SquareIcon";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import levelup from "assets/icons/level_up.png";
 import flowerIcon from "assets/icons/flower_token.webp";
 import coins from "assets/icons/coins.webp";
@@ -382,20 +385,6 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       default:
         return requirementMet ? "transparent" : "danger";
     }
-  };
-
-  const getTranslatedItemName = (item: InventoryItemName | BumpkinItem) => {
-    const isInventoryItemName = (
-      item: InventoryItemName | BumpkinItem,
-    ): item is InventoryItemName => {
-      return item in ITEM_DETAILS;
-    };
-
-    if (isInventoryItemName(item)) {
-      return ITEM_DETAILS[item].translatedName ?? item;
-    }
-
-    return item;
   };
 
   return (

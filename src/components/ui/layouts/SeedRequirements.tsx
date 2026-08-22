@@ -10,7 +10,10 @@ import type {
   InventoryItemName,
   TemperateSeasonName,
 } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import React, { type JSX } from "react";
 import { Label } from "../Label";
 import { RequirementLabel } from "../RequirementsLabel";
@@ -139,7 +142,7 @@ function getDetails(
       ITEM_ICONS(game.season.season, getCurrentBiome(game.island))[
         details.item
       ] ?? ITEM_DETAILS[details.item].image,
-    name: ITEM_DETAILS[details.item].translatedName ?? details.item,
+    name: getTranslatedItemName(details.item),
     limit: limit as Decimal,
   };
 }

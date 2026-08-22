@@ -27,7 +27,10 @@ import {
   getFishProcessingTime,
   MAX_FISH_PROCESSING_SLOTS,
 } from "features/game/events/landExpansion/processResource";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { InProgressInfo } from "../InProgressInfo";
 import { Queue } from "../Queue";
@@ -124,7 +127,11 @@ export const FishMarketModal: React.FC<Props> = ({
     <Modal show={isOpen} onHide={onClose}>
       <CloseButtonPanel
         tabs={[
-          { id: "fishMarket", icon: SUNNYSIDE.icons.fish, name: "Fish Market" },
+          {
+            id: "fishMarket",
+            icon: SUNNYSIDE.icons.fish,
+            name: getTranslatedItemName("Fish Market"),
+          },
         ]}
         bumpkinParts={NPC_WEARABLES.neville}
         onClose={onClose}
@@ -159,7 +166,7 @@ export const FishMarketModal: React.FC<Props> = ({
                           : () => onProcess(selected)
                       }
                     >
-                      {processing ? t("recipes.addToQueue") : "Process"}
+                      {processing ? t("recipes.addToQueue") : t("process")}
                     </Button>
                   )}
                   <Button

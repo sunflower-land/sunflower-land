@@ -15,6 +15,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
+import { getTranslatedItemName } from "features/game/types/images";
 import type { StoneRockName } from "features/game/types/resources";
 import type {
   GameState,
@@ -179,7 +180,7 @@ const RecoveredStoneComponent: React.FC<Props> = ({
               <span>
                 {t("craft")}{" "}
                 {requiredToolAmount.sub(inventory[tool] ?? 0).toString()}{" "}
-                {tool.toLowerCase()}
+                {getTranslatedItemName(tool).toLowerCase()}
               </span>
             </div>
           </InnerPanel>

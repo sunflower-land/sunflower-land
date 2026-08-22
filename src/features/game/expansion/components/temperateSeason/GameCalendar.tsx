@@ -7,7 +7,6 @@ import calendarIcon from "assets/icons/calendar.webp";
 import { PIXEL_SCALE } from "../../../lib/constants";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
-import { capitalize } from "lib/utils/capitalize";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useTranslation } from "react-i18next";
@@ -242,7 +241,7 @@ export const GameCalendar: React.FC = () => {
               </div>
               <div className="flex items-center space-x-1">
                 <span className="text-xs sm:text-sm">
-                  {capitalize(season.season)}
+                  {t(`season.${season.season}`)}
                 </span>
                 <img src={seasonDetails.icon} className="w-5 sm:w-6" />
               </div>
