@@ -1,5 +1,11 @@
 import { createPortal } from "react-dom";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useActor } from "@xstate/react";
 
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -24,6 +30,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import sflIcon from "assets/icons/flower_token.webp";
 import { type IPortalDonation, PortalDonation } from "./PortalDonation";
 import { getCachedFont } from "lib/utils/fonts";
+
+const PORTAL_LOAD_TIMEOUT_MS = 30_000;
 
 type PortalPurchase = {
   sfl: number;
@@ -183,62 +191,83 @@ export const Portal: React.FC<Props> = ({
     };
   }, [portalName, playUrl, iframeBaseUrl, loadAttempt]);
 
-  // Function to handle messages from the iframe
-  const handleMessage = (event: any) => {
-    if (event.data?.event === "closePortal") {
-      // Close the modal when the message is received
-      setLoading(false);
-      setUrl("");
-      onClose();
-    }
+  const handleMessage = useCallback(
+    (event: MessageEvent) => {
+      const iframeWindow = iframeRef.current?.contentWindow;
+      const iframeOrigin = url
+        ? new URL(url, window.location.origin).origin
+        : undefined;
 
-    if (event.data?.event === "claimPrize") {
-      // Close the modal when the message is received
-      setLoading(false);
-      setIsComplete(true);
-      return;
-    }
+      if (
+        !iframeWindow ||
+        !iframeOrigin ||
+        event.source !== iframeWindow ||
+        event.origin !== iframeOrigin
+      ) {
+        return;
+      }
 
-    if (event.data.event === "purchase") {
-      // Purchase the item
-      setPurchase(event.data);
-      return;
-    }
+      const eventName = event.data?.event;
 
-    if (event.data.event === "donated") {
-      setDonation(event.data);
-      return;
-    }
+      if (eventName === "closePortal") {
+        setLoading(false);
+        setUrl("");
+        onClose();
+      }
 
-    if (event.data.event === "attemptStarted") {
-      // Start the minigame attempt
-      gameService.send("minigame.attemptStarted", {
-        id: portalName,
-      });
-      gameService.send("SAVE");
-      return;
-    }
+      if (eventName === "claimPrize") {
+        setLoading(false);
+        setIsComplete(true);
+        return;
+      }
 
-    if (event.data.event === "scoreSubmitted") {
-      // Submit the minigame score
-      gameService.send("minigame.scoreSubmitted", {
-        score: event.data.score,
-        id: portalName,
-      });
-      gameService.send("SAVE");
-      return;
-    }
-  };
+      if (eventName === "purchase") {
+        setPurchase(event.data);
+        return;
+      }
+
+      if (eventName === "donated") {
+        setDonation(event.data);
+        return;
+      }
+
+      if (eventName === "attemptStarted") {
+        gameService.send("minigame.attemptStarted", {
+          id: portalName,
+        });
+        gameService.send("SAVE");
+        return;
+      }
+
+      if (eventName === "scoreSubmitted") {
+        gameService.send("minigame.scoreSubmitted", {
+          score: event.data.score,
+          id: portalName,
+        });
+        gameService.send("SAVE");
+      }
+    },
+    [gameService, onClose, portalName, url],
+  );
 
   useEffect(() => {
-    // Add event listener to listen for messages from any origin
     window.addEventListener("message", handleMessage);
 
     return () => {
-      // Remove the event listener when the component is unmounted
       window.removeEventListener("message", handleMessage);
     };
-  }, []);
+  }, [handleMessage]);
+
+  useEffect(() => {
+    if (!url || !loading) return;
+
+    const timeout = window.setTimeout(() => {
+      setLoading(false);
+      setLoadFailed(true);
+    }, PORTAL_LOAD_TIMEOUT_MS);
+
+    return () => window.clearTimeout(timeout);
+  }, [loading, url]);
 
   const confirmPurchase = () => {
     gameService.send("minigame.itemPurchased", {
@@ -320,10 +349,6 @@ export const Portal: React.FC<Props> = ({
               ref={iframeRef} // Set ref to the iframe
               title={portalName}
               onLoad={() => setLoading(false)}
-              onError={() => {
-                setLoading(false);
-                setLoadFailed(true);
-              }}
             />
           </div>,
           document.body,
