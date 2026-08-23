@@ -277,7 +277,9 @@ export const ResourceOffer: React.FC<Props> = ({
           }}
         >
           <span className="text-xs">
-            {t("bumpkinTrade.pricePerUnit", { resource: itemName })}
+            {t("bumpkinTrade.pricePerUnit", {
+              resource: getTranslatedItemName(itemName),
+            })}
           </span>
           <p className="text-xs font-secondary">
             {new Decimal(quantity).equals(0)

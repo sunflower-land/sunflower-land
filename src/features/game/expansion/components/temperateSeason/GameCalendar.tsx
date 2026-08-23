@@ -9,7 +9,6 @@ import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { useTranslation } from "react-i18next";
 import {
   type CalendarEventName,
   SEASON_DETAILS,
@@ -25,6 +24,7 @@ import {
 import { SeasonsIntroduction } from "./SeasonsIntroduction";
 import { RoundButton } from "components/ui/RoundButton";
 import { isMobile } from "mobile-device-detect";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export type LocalCalendarDetails = {
   dateNumber: number;
@@ -173,7 +173,7 @@ export const GameCalendar: React.FC = () => {
     getHasReadTemperateSeasonTutorial(),
   );
 
-  const { t } = useTranslation();
+  const { t } = useAppTranslation();
   useUiRefresher({ delay: ONE_MINUTE });
 
   const now = new Date();

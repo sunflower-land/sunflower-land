@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Label } from "components/ui/Label";
-import { useTranslation } from "react-i18next";
 import { getKeys } from "lib/object";
 import {
   getLavaPitRequirements,
@@ -28,6 +27,7 @@ import { IngredientsPopover } from "components/ui/IngredientsPopover";
 import { useNow } from "lib/utils/hooks/useNow";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 import { LAVA_PIT_TIME } from "features/game/events/landExpansion/startLavaPit";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _lavaPit = (id: string) => (state: MachineState) =>
@@ -45,7 +45,7 @@ interface Props {
 }
 
 export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
-  const { t } = useTranslation();
+  const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
   const inventory = useSelector(gameService, _inventory);
