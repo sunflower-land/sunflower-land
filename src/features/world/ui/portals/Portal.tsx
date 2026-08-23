@@ -100,6 +100,8 @@ export const Portal: React.FC<Props> = ({
   const [url, setUrl] = useState<string>();
 
   const [loading, setLoading] = useState(true);
+  const [loadFailed, setLoadFailed] = useState(false);
+  const [loadAttempt, setLoadAttempt] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const [purchase, setPurchase] = useState<PortalPurchase | undefined>(
     undefined,
@@ -125,46 +127,61 @@ export const Portal: React.FC<Props> = ({
   }, [rawToken, farmId]);
 
   useEffect(() => {
+    let cancelled = false;
+
     const load = async () => {
       setLoading(true);
+      setLoadFailed(false);
+      setUrl(undefined);
 
-      let token = "";
-      if (CONFIG.API_URL) {
-        const { token: portalToken } = await portal({
-          portalId: portalName,
-          token: rawTokenRef.current as string,
-          farmId: farmIdRef.current,
-        });
-        token = portalToken;
+      try {
+        let token = "";
+        if (CONFIG.API_URL) {
+          const { token: portalToken } = await portal({
+            portalId: portalName,
+            token: rawTokenRef.current as string,
+            farmId: farmIdRef.current,
+          });
+          token = portalToken;
+        }
+
+        const baseUrl = resolveMinigameIframeBaseUrl(
+          portalName,
+          playUrl,
+          iframeBaseUrl,
+        );
+
+        const language = localStorage.getItem("language") || "en";
+        const font = getCachedFont();
+
+        const params = new URLSearchParams();
+        params.set("jwt", token);
+        params.set("network", CONFIG.NETWORK);
+        params.set("language", language);
+        params.set("font", font);
+        if (CONFIG.API_URL) {
+          params.set("apiUrl", CONFIG.API_URL);
+        }
+
+        const nextUrl = `${baseUrl}?${params.toString()}`;
+
+        if (!cancelled) {
+          setUrl(nextUrl);
+        }
+      } catch {
+        if (!cancelled) {
+          setLoading(false);
+          setLoadFailed(true);
+        }
       }
-
-      const baseUrl = resolveMinigameIframeBaseUrl(
-        portalName,
-        playUrl,
-        iframeBaseUrl,
-      );
-
-      const language = localStorage.getItem("language") || "en";
-      const font = getCachedFont();
-
-      const params = new URLSearchParams();
-      params.set("jwt", token);
-      params.set("network", CONFIG.NETWORK);
-      params.set("language", language);
-      params.set("font", font);
-      if (CONFIG.API_URL) {
-        params.set("apiUrl", CONFIG.API_URL);
-      }
-
-      const nextUrl = `${baseUrl}?${params.toString()}`;
-
-      setUrl(nextUrl);
-
-      setLoading(false);
     };
 
     load();
-  }, [portalName, playUrl, iframeBaseUrl]);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [portalName, playUrl, iframeBaseUrl, loadAttempt]);
 
   // Function to handle messages from the iframe
   const handleMessage = (event: any) => {
@@ -253,10 +270,6 @@ export const Portal: React.FC<Props> = ({
     onClose();
   };
 
-  if (loading) {
-    return <Loading />;
-  }
-
   if (isComplete) {
     const prize = gameState.context.state.minigames.prizes[portalName];
 
@@ -276,22 +289,45 @@ export const Portal: React.FC<Props> = ({
     );
   }
 
+  if (loadFailed) {
+    return (
+      <div className="flex min-h-[48px] items-center gap-2 p-1 pr-12">
+        <Label type="danger">{t("error")}</Label>
+        <Button onClick={() => setLoadAttempt((attempt) => attempt + 1)}>
+          {t("retry")}
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <>
-      {createPortal(
-        <div
-          data-html2canvas-ignore="true"
-          aria-label="Hud"
-          className="fixed inset-0 z-50"
-        >
-          <iframe
-            src={url}
-            className="w-full h-full absolute z-10"
-            ref={iframeRef} // Set ref to the iframe
-          />
-        </div>,
-        document.body,
+      {loading && (
+        <div className="flex min-h-[48px] items-center pr-12">
+          <Loading />
+        </div>
       )}
+      {url &&
+        createPortal(
+          <div
+            data-html2canvas-ignore="true"
+            aria-label="Hud"
+            className={`fixed inset-0 z-50 ${loading ? "invisible" : ""}`}
+          >
+            <iframe
+              src={url}
+              className="w-full h-full absolute z-10"
+              ref={iframeRef} // Set ref to the iframe
+              title={portalName}
+              onLoad={() => setLoading(false)}
+              onError={() => {
+                setLoading(false);
+                setLoadFailed(true);
+              }}
+            />
+          </div>,
+          document.body,
+        )}
       {purchase &&
         createPortal(
           <div
