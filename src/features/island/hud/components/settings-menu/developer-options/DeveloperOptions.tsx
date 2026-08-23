@@ -27,6 +27,8 @@ export const DeveloperOptions: React.FC<ContentComponentProps> = ({
 
   const hasAirdrop = hasFeatureAccess(game, "AIRDROP_PLAYER");
   const isModerator = hasFeatureAccess(game, "MODERATOR");
+  const hasTriggerCaptcha =
+    isModerator || hasFeatureAccess(game, "TRIGGER_CAPTCHA");
 
   return (
     <>
@@ -52,7 +54,7 @@ export const DeveloperOptions: React.FC<ContentComponentProps> = ({
             {`Error Search`}
           </Button>
         )}
-        {isModerator && (
+        {hasTriggerCaptcha && (
           <Button
             onClick={() => {
               // Fires on your own farm - handy for testing the captcha flow
