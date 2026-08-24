@@ -8404,9 +8404,5 @@
   "tcs.rule.two": "1 conta por jogador (sem compartilhamento)",
   "tcs.rule.three": "Respeite as regras - sem ferramentas de engarrafamento/automação",
   "tcs.agree": "Eu li e concordo com o {{terms}}.",
-  "tcs.terms": "Termos e condições",
-  "flowerTransfersFrozen.title": "Desativado temporariamente",
-  "flowerTransfersFrozen.withdraw": "Os saques do FLOWER são temporariamente desativados enquanto investigamos um problema. Sua FLOR está segura e você ainda pode retirar itens colecionáveis, vestíveis, botões e animais de estimação.",
-  "flowerTransfersFrozen.deposit": "Os depósitos de FLOWER são temporariamente desativados enquanto investigamos um problema. Por favor, não envie nenhuma FLOR para sua fazenda até que ela reabra. O depósito de itens colecionáveis, vestíveis, botões e animais de estimação não é afetado.",
-  "flowerTransfersFrozen.until": "Os depósitos e retiradas de FLOWER reabrem em {{date}}."
+  "tcs.terms": "Termos e condições"
 }

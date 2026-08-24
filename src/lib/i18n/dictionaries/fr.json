@@ -8404,9 +8404,5 @@
   "tcs.rule.two": "1 compte par joueur (pas de partage)",
   "tcs.rule.three": "Respectez les règles : pas d'outils de botting/d'automatisation",
   "tcs.agree": "J'ai lu et j'accepte le {{terms}}.",
-  "tcs.terms": "Termes et conditions",
-  "flowerTransfersFrozen.title": "Désactivé temporairement",
-  "flowerTransfersFrozen.withdraw": "Les retraits FLOWER sont temporairement désactivés pendant que nous étudions un problème. Votre FLEUR est en sécurité et vous pouvez toujours retirer des objets de collection, des objets portables, des bourgeons et des animaux de compagnie.",
-  "flowerTransfersFrozen.deposit": "Les dépôts FLOWER sont temporairement désactivés pendant que nous étudions un problème. Merci de ne pas envoyer de FLEURS à votre ferme avant sa réouverture. Le dépôt d'objets de collection, d'appareils portables, d'écouteurs et d'animaux de compagnie n'est pas affecté.",
-  "flowerTransfersFrozen.until": "Les dépôts et les retraits FLOWER rouvrent le {{date}}."
+  "tcs.terms": "Termes et conditions"
 }

@@ -8404,9 +8404,5 @@
   "tcs.rule.two": "1 Konto pro Spieler (kein Teilen)",
   "tcs.rule.three": "Respektiere die Regeln — keine Abfüll-/Automatisierungstools",
   "tcs.agree": "Ich habe {{terms}} gelesen und bin damit einverstanden.",
-  "tcs.terms": "Allgemeine Geschäftsbedingungen",
-  "flowerTransfersFrozen.title": "Vorübergehend deaktiviert",
-  "flowerTransfersFrozen.withdraw": "FLOWER-Auszahlungen sind vorübergehend deaktiviert, während wir ein Problem untersuchen. Deine FLOWER ist sicher und du kannst weiterhin Sammlerstücke, Wearables, Blüten und Haustiere abheben.",
-  "flowerTransfersFrozen.deposit": "FLOWER-Einzahlungen werden vorübergehend deaktiviert, während wir ein Problem untersuchen. Bitte schicke keine FLOWERS an deine Farm, bis sie wieder geöffnet sind. Das Hinterlegen von Sammlerstücken, Wearables, Knospen und Haustieren bleibt davon unberührt.",
-  "flowerTransfersFrozen.until": "FLOWER-Ein- und Auszahlungen werden am {{date}} wieder geöffnet."
+  "tcs.terms": "Allgemeine Geschäftsbedingungen"
 }

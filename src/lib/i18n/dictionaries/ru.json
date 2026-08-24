@@ -8404,9 +8404,5 @@
   "tcs.rule.two": "1 account per player (no sharing)",
   "tcs.rule.three": "Respect the rules - no botting/automation tools",
   "tcs.agree": "I have read and agree to the {{terms}}.",
-  "tcs.terms": "Terms and Conditions",
-  "flowerTransfersFrozen.title": "Temporarily disabled",
-  "flowerTransfersFrozen.withdraw": "FLOWER withdrawals are temporarily disabled while we investigate an issue. Your FLOWER is safe, and you can still withdraw collectibles, wearables, buds and pets.",
-  "flowerTransfersFrozen.deposit": "FLOWER deposits are temporarily disabled while we investigate an issue. Please don't send any FLOWER to your farm until they reopen. Depositing collectibles, wearables, buds and pets is unaffected.",
-  "flowerTransfersFrozen.until": "FLOWER deposits and withdrawals reopen on {{date}}."
+  "tcs.terms": "Terms and Conditions"
 }

@@ -28,8 +28,6 @@ import { FaceRecognition } from "features/retreat/components/personhood/FaceReco
 import { GameWallet } from "features/wallet/Wallet";
 import { WithdrawPets } from "./WithdrawPets";
 import petNFTEgg from "assets/icons/pet_nft_egg.png";
-import { areFlowerTransfersFrozen } from "../lib/flowerTransferFreeze";
-import { FlowerTransfersFrozen } from "./FlowerTransfersFrozen";
 
 const getPageIcon = (page: Page) => {
   switch (page) {
@@ -218,8 +216,6 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
 
   const [page, setPage] = useState<Page>("main");
 
-  const flowerFrozen = areFlowerTransfersFrozen();
-
   const onWithdrawTokens = async (sfl: string, chainId: number) => {
     if (accountTradedRecently) return;
     gameService.send("TRANSACT", {
@@ -291,11 +287,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
         !["items", "wearables", "buds", "pets"].includes(page) && (
           <NavigationMenu page={page} setPage={setPage} />
         )}
-      {/* NavigationMenu above already renders the back arrow for this page. */}
-      {page === "tokens" && flowerFrozen && (
-        <FlowerTransfersFrozen flow="withdraw" />
-      )}
-      {page === "tokens" && !flowerFrozen && (
+      {page === "tokens" && (
         <GameWallet action="withdrawFlower">
           <WithdrawFlower
             onWithdraw={onWithdrawTokens}
