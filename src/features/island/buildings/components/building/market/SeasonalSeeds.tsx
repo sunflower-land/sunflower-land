@@ -590,7 +590,11 @@ export const SeasonalSeeds: React.FC = () => {
                 className="relative"
                 onClick={() => {
                   setBuyAllFailures([]);
-                  showConfirmBuyAllModal(true);
+                  if (isVIP && buyAllPlan.totalCost === 0) {
+                    buyAllSeeds();
+                  } else {
+                    showConfirmBuyAllModal(true);
+                  }
                 }}
               >
                 <img
