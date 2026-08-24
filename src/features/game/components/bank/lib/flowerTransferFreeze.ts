@@ -18,7 +18,7 @@
  * This is a client-side gate. The API still accepts `withdraw.flower` and
  * `flower.depositStarted`, so anyone driving those directly is unaffected.
  */
-export const FLOWER_TRANSFERS_FROZEN_UNTIL = new Date(Date.UTC(2026, 7, 24));
+export const FLOWER_TRANSFERS_FROZEN_UNTIL = new Date(Date.UTC(2026, 7, 25));
 
 export const areFlowerTransfersFrozen = (now: number = Date.now()): boolean =>
   now < FLOWER_TRANSFERS_FROZEN_UNTIL.getTime();
