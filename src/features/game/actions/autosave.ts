@@ -158,8 +158,8 @@ export async function autosave(request: Request, retries = 0) {
   });
 
   if (response.status === 503) {
-    const data = await response.json();
-    if (data.message === "Temporary maintenance") {
+    const data = await response.json().catch(() => null);
+    if (data?.message === "Temporary maintenance") {
       throw new Error(ERRORS.MAINTENANCE);
     } else {
       // Throttling. Do exponential backoff with jitter
