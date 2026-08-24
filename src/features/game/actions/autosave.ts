@@ -35,8 +35,7 @@ type Request = {
   state: GameState;
 };
 
-const API_URL = CONFIG.API_URL;
-const API2_URL = CONFIG.API2_URL;
+const API2_URL = CONFIG.API2_URL ?? CONFIG.API_URL;
 
 const EXCLUDED_EVENTS: GameEventName<GameEvent>[] = ["bot.detected"];
 
@@ -86,7 +85,7 @@ export async function autosaveRequest(
     actions: any[];
     stateHash?: Record<keyof GameState, string>;
   },
-  apiUrl: string = API_URL,
+  apiUrl: string = API2_URL,
 ) {
   const ttl = (window as any)["x-amz-ttl"];
 
@@ -129,119 +128,103 @@ export async function autosaveRequest(
 let autosaveErrors = 0;
 
 export async function autosave(request: Request, retries = 0) {
-  if (!API_URL) return { verified: true };
+  if (!API2_URL) return { verified: true };
 
-  try {
-    // Shorten the payload
-    const events = squashEvents(request.actions);
+  // Shorten the payload
+  const events = squashEvents(request.actions);
 
-    // Serialize values before sending
-    const actions = serialize(events);
+  // Serialize values before sending
+  const actions = serialize(events);
 
-    if (actions.length === 0) {
-      return { verified: true };
-    }
+  if (actions.length === 0) {
+    return { verified: true };
+  }
 
-    if (autosaveErrors) {
-      await new Promise((res) => setTimeout(res, autosaveErrors * 5000));
-    }
+  if (autosaveErrors) {
+    await new Promise((res) => setTimeout(res, autosaveErrors * 5000));
+  }
 
-    // eslint-disable-next-line no-console
-    console.time("getGameHash");
-    const stateHash = await getGameHash(request.state);
-    // eslint-disable-next-line no-console
-    console.timeEnd("getGameHash");
+  // eslint-disable-next-line no-console
+  console.time("getGameHash");
+  const stateHash = await getGameHash(request.state);
+  // eslint-disable-next-line no-console
+  console.timeEnd("getGameHash");
 
-    // Use API2 unless we are retrying, and then fall back to the original API.
-    const apiUrl = retries === 0 ? API2_URL : API_URL;
+  const response = await autosaveRequest({
+    ...request,
+    actions,
+    stateHash,
+  });
 
-    const response = await autosaveRequest(
-      {
-        ...request,
-        actions,
-        stateHash,
-      },
-      apiUrl,
-    );
+  if (response.status === 503) {
+    const data = await response.json().catch(() => null);
+    if (data?.message === "Temporary maintenance") {
+      throw new Error(ERRORS.MAINTENANCE);
+    } else {
+      // Throttling. Do exponential backoff with jitter
+      const backoff = Math.min(1000 * Math.pow(2, retries), 10000);
+      const jitter = Math.random() * 1000;
 
-    if (response.status === 503) {
-      const data = await response.json();
-      if (data.message === "Temporary maintenance") {
-        throw new Error(ERRORS.MAINTENANCE);
-      } else {
-        // Throttling. Do exponential backoff with jitter
-        const backoff = Math.min(1000 * Math.pow(2, retries), 10000);
-        const jitter = Math.random() * 1000;
+      await new Promise((resolve) => setTimeout(resolve, backoff + jitter));
 
-        await new Promise((resolve) => setTimeout(resolve, backoff + jitter));
-
-        if (retries < 3) {
-          return await autosave(request, retries + 1);
-        }
-
-        throw new Error(ERRORS.AUTOSAVE_SERVER_ERROR);
+      if (retries < 3) {
+        return await autosave(request, retries + 1);
       }
-    }
 
-    if (response.status === 401) {
-      // The BE tags disabled-login as a 401 with a structured body so we
-      // can route the user to the dedicated GoogleLoginDisabled screen
-      // instead of the generic SessionExpired one.
-      const data = await response.json().catch(() => null);
-      if (data?.errorCode === ERRORS.GOOGLE_LOGIN_DISABLED) {
-        throw new Error(ERRORS.GOOGLE_LOGIN_DISABLED);
-      }
-      throw new Error(ERRORS.SESSION_EXPIRED);
-    }
-
-    if (response.status === 400) {
-      throw new Error(ERRORS.AUTOSAVE_CLOCK_ERROR);
-    }
-
-    if (response.status === 403) {
-      throw new Error(ERRORS.AUTOSAVE_CLIENT_ERROR);
-    }
-
-    if (response.status === 409) {
-      throw new Error(ERRORS.MULTIPLE_DEVICES_OPEN);
-    }
-
-    if (response.status === 429) {
-      throw new Error(ERRORS.TOO_MANY_REQUESTS);
-    }
-
-    if (response.status !== 200 || !response.ok) {
-      autosaveErrors += 1;
       throw new Error(ERRORS.AUTOSAVE_SERVER_ERROR);
     }
-
-    autosaveErrors = 0;
-
-    // eslint-disable-next-line prefer-const
-    let { farm, changeset, announcements } = await sanitizeHTTPResponse<{
-      farm: any;
-      changeset: any;
-      announcements: any;
-    }>(response);
-
-    farm.id = request.farmId;
-
-    // Merge the changes over the previous
-    farm = {
-      ...request.state,
-      ...farm,
-    };
-
-    const game = makeGame(farm);
-
-    return { verified: true, farm: game, changeset, announcements };
-  } catch (e) {
-    // First attempt goes to API2 - retry once against the original API
-    // before surfacing the error.
-    if (retries === 0) {
-      return await autosave(request, retries + 1);
-    }
-
-    throw e;
   }
+
+  if (response.status === 401) {
+    // The BE tags disabled-login as a 401 with a structured body so we
+    // can route the user to the dedicated GoogleLoginDisabled screen
+    // instead of the generic SessionExpired one.
+    const data = await response.json().catch(() => null);
+    if (data?.errorCode === ERRORS.GOOGLE_LOGIN_DISABLED) {
+      throw new Error(ERRORS.GOOGLE_LOGIN_DISABLED);
+    }
+    throw new Error(ERRORS.SESSION_EXPIRED);
+  }
+
+  if (response.status === 400) {
+    throw new Error(ERRORS.AUTOSAVE_CLOCK_ERROR);
+  }
+
+  if (response.status === 403) {
+    throw new Error(ERRORS.AUTOSAVE_CLIENT_ERROR);
+  }
+
+  if (response.status === 409) {
+    throw new Error(ERRORS.MULTIPLE_DEVICES_OPEN);
+  }
+
+  if (response.status === 429) {
+    throw new Error(ERRORS.TOO_MANY_REQUESTS);
+  }
+
+  if (response.status !== 200 || !response.ok) {
+    autosaveErrors += 1;
+    throw new Error(ERRORS.AUTOSAVE_SERVER_ERROR);
+  }
+
+  autosaveErrors = 0;
+
+  // eslint-disable-next-line prefer-const
+  let { farm, changeset, announcements } = await sanitizeHTTPResponse<{
+    farm: any;
+    changeset: any;
+    announcements: any;
+  }>(response);
+
+  farm.id = request.farmId;
+
+  // Merge the changes over the previous
+  farm = {
+    ...request.state,
+    ...farm,
+  };
+
+  const game = makeGame(farm);
+
+  return { verified: true, farm: game, changeset, announcements };
 }
