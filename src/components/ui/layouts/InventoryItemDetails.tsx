@@ -12,6 +12,8 @@ import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { Label } from "../Label";
+import { isPreActionBoosted } from "features/game/lib/timerDisplay";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
@@ -49,6 +51,7 @@ interface HarvestsRequirementProps {
  * @param timeSeconds The wait time in seconds for using the item.
  * @param baseTimeSeconds The base wait time before boosts (for strikethrough display).
  * @param timeBoostsUsed The boosts applied to the grow time (for clickable boost display).
+ * @param timeSpeed Live speed-window rate for this activity; > 1 shows the rate.
  * @param harvests The min/max harvests for the item.
  * @param xp The XP gained for consuming the item.
  * @param xpBoostsUsed The boosts applied to food XP (for clickable boost display).
@@ -61,6 +64,7 @@ interface PropertiesProps {
   timeSeconds?: number;
   baseTimeSeconds?: number;
   timeBoostsUsed?: { name: BoostName; value: string }[];
+  timeSpeed?: number;
   harvests?: HarvestsRequirementProps;
   xp?: Decimal;
   xpBoostsUsed?: { name: BoostName; value: string }[];
@@ -176,11 +180,14 @@ export const InventoryItemDetails: React.FC<Props> = ({
     const getTimeDisplay = () => {
       if (!properties.timeSeconds) return <></>;
 
-      const isTimeBoosted =
-        properties.timeBoostsUsed &&
-        properties.timeBoostsUsed.length > 0 &&
-        properties.baseTimeSeconds !== undefined &&
-        properties.timeSeconds !== properties.baseTimeSeconds;
+      const hasNamedBoosts = (properties.timeBoostsUsed?.length ?? 0) > 0;
+      const speed = properties.timeSpeed ?? 1;
+      const isTimeBoosted = isPreActionBoosted({
+        displaySeconds: properties.timeSeconds,
+        baseSeconds: properties.baseTimeSeconds,
+        speed,
+        hasNamedBoosts,
+      });
 
       if (
         isTimeBoosted &&
@@ -190,24 +197,44 @@ export const InventoryItemDetails: React.FC<Props> = ({
       ) {
         return (
           <div
-            className="flex flex-col items-center cursor-pointer"
-            onClick={() => properties.setShowBoosts?.(!properties.showBoosts)}
+            className={classNames("flex flex-col items-center", {
+              // Only itemisable (named) boosts open the breakdown; a live speed
+              // window has no name to list.
+              "cursor-pointer": hasNamedBoosts,
+            })}
+            onClick={() =>
+              hasNamedBoosts &&
+              properties.setShowBoosts?.(!properties.showBoosts)
+            }
           >
             <RequirementLabel
               type="time"
               waitSeconds={properties.timeSeconds}
               boosted
             />
-            <RequirementLabel
-              type="time"
-              waitSeconds={properties.baseTimeSeconds ?? 0}
-              strikethrough
-            />
+            {properties.baseTimeSeconds !== undefined &&
+              properties.timeSeconds !== properties.baseTimeSeconds && (
+                <RequirementLabel
+                  type="time"
+                  waitSeconds={properties.baseTimeSeconds}
+                  strikethrough
+                />
+              )}
+            {speed > 1 && (
+              <Label type="transparent" icon={SUNNYSIDE.icons.lightning}>
+                {t("description.boostedSpeed", {
+                  speed: Number(speed.toFixed(2)),
+                })}
+              </Label>
+            )}
             <BoostsDisplay
               boosts={properties.timeBoostsUsed}
-              show={properties.showBoosts}
+              show={hasNamedBoosts && properties.showBoosts}
               state={game}
-              onClick={() => properties.setShowBoosts?.(!properties.showBoosts)}
+              onClick={() =>
+                hasNamedBoosts &&
+                properties.setShowBoosts?.(!properties.showBoosts)
+              }
             />
           </div>
         );

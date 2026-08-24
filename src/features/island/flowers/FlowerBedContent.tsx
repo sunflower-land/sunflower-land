@@ -23,6 +23,10 @@ import { useActor } from "@xstate/react";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { secondsToString } from "lib/utils/time";
 import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
+import { useNow } from "lib/utils/hooks/useNow";
+import type { GameState } from "features/game/types/game";
+import { getPreActionDisplay } from "features/game/lib/timerDisplay";
+import { getSeedBoostWindows } from "features/game/lib/seedBoostWindows";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SEASONAL_SEEDS } from "features/game/types/seeds";
 import { SEASON_ICONS } from "../buildings/components/building/market/SeasonalSeeds";
@@ -34,6 +38,28 @@ interface Props {
   id: string;
   onClose: () => void;
 }
+
+/**
+ * The grow time to show for a seed the player is considering. A live speed
+ * window isn't folded into `getFlowerTime`, so surface it: the current rate in
+ * the speed view, or the real "plant now → ready in X" in the actual-time view
+ * (which credits only the part of the grow the Blossom Hourglass still covers).
+ */
+const useFlowerSeedTime = (state: GameState, seed?: FlowerSeedName) => {
+  const { showActualTime } = useContext(Context);
+  const now = useNow();
+
+  if (!seed) return { displaySeconds: 0, speed: 1 };
+
+  return getPreActionDisplay({
+    showActualTime,
+    seconds: getFlowerTime(seed, state).seconds,
+    baseSeconds: FLOWER_SEEDS[seed].plantSeconds,
+    namedBoostCount: getFlowerTime(seed, state).boostsUsed.length,
+    windows: getSeedBoostWindows(state, seed),
+    at: now,
+  });
+};
 
 export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
   const { t } = useAppTranslation();
@@ -51,6 +77,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
   const [seed, setSeed] = useState<FlowerSeedName>();
 
   const [crossbreed, setCrossBreed] = useState<FlowerCrossBreedName>();
+  const selectedSeedTime = useFlowerSeedTime(state, seed);
 
   const selectSeed = (name: FlowerSeedName) => {
     setSeed(name);
@@ -173,9 +200,11 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
                   type="info"
                   className="whitespace-nowrap"
                 >
-                  {secondsToString(getFlowerTime(seed, state).seconds, {
+                  {secondsToString(selectedSeedTime.displaySeconds, {
                     length: "medium",
                   })}
+                  {selectedSeedTime.speed > 1 &&
+                    ` (${Number(selectedSeedTime.speed.toFixed(2))}x)`}
                 </Label>
               </div>
             </div>
@@ -277,13 +306,11 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
                   </Label>
                   {hasSeedRequirements ? (
                     <Label type={"info"} icon={SUNNYSIDE.icons.stopwatch}>
-                      {secondsToString(
-                        getFlowerTime(
-                          seed,
-                          gameService.getSnapshot().context.state,
-                        ).seconds,
-                        { length: "medium" },
-                      )}
+                      {secondsToString(selectedSeedTime.displaySeconds, {
+                        length: "medium",
+                      })}
+                      {selectedSeedTime.speed > 1 &&
+                        ` (${Number(selectedSeedTime.speed.toFixed(2))}x)`}
                     </Label>
                   ) : (
                     <Label type={"danger"}>{`1 ${seed} required`}</Label>

@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
+import { Context } from "features/game/GameProvider";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
@@ -85,6 +86,8 @@ import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
 import { CLUTTER } from "features/game/types/clutter";
 import { PET_RESOURCES } from "features/game/types/pets";
 import { useNow } from "lib/utils/hooks/useNow";
+import { getPreActionDisplay } from "features/game/lib/timerDisplay";
+import { getSeedBoostWindows } from "features/game/lib/seedBoostWindows";
 import { PROCESSED_RESOURCES } from "features/game/types/processedFood";
 import { CRUSTACEANS_DESCRIPTIONS } from "features/game/types/crustaceans";
 import { FERMENTATION_PRODUCTS } from "features/game/types/fermentationProducts";
@@ -112,6 +115,7 @@ export const Basket: React.FC<Prop> = ({
   onSelect,
   onOpenMarketplace,
 }) => {
+  const { showActualTime } = useContext(Context);
   const divRef = useRef<HTMLDivElement>(null);
   const now = useNow({ live: true });
   const [showBoosts, setShowBoosts] = useState(false);
@@ -215,6 +219,21 @@ export const Basket: React.FC<Prop> = ({
   const seedHarvestTime = isSeed(selectedItem)
     ? getHarvestTime(selectedItem)
     : undefined;
+
+  // A live speed window isn't folded into the grow time — surface it as the
+  // current rate, or (in the actual-time view) as a projected "plant now → ready
+  // in X" that credits only the part of the grow the booster still covers.
+  const seedTimeDisplay =
+    isSeed(selectedItem) && seedHarvestTime
+      ? getPreActionDisplay({
+          showActualTime,
+          seconds: seedHarvestTime.seconds,
+          baseSeconds: getBaseHarvestTime(selectedItem),
+          namedBoostCount: seedHarvestTime.boostsUsed.length,
+          windows: getSeedBoostWindows(gameState, selectedItem),
+          at: now,
+        })
+      : undefined;
 
   const foodExpBoost = isFood(selectedItem)
     ? getFoodExpBoost({
@@ -582,7 +601,8 @@ export const Basket: React.FC<Prop> = ({
                   showBoosts,
                   setShowBoosts,
                 }),
-                timeSeconds: seedHarvestTime?.seconds,
+                timeSeconds: seedTimeDisplay?.displaySeconds,
+                timeSpeed: seedTimeDisplay?.speed,
                 baseTimeSeconds: isSeed(selectedItem)
                   ? getBaseHarvestTime(selectedItem)
                   : undefined,

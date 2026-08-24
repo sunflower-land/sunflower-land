@@ -22,7 +22,9 @@ import {
   getEnableQuickSelectSetting,
 } from "features/farming/hud/lib/quickSelect";
 import {
+  cacheShowActualTimeSetting,
   cacheShowTimersSetting,
+  getShowActualTimeSetting,
   getShowTimersSetting,
 } from "features/farming/hud/lib/timers";
 import { initInteractionMetrics } from "./lib/interactionMetrics";
@@ -42,6 +44,12 @@ interface GameContext {
   toggleQuickSelect: () => void;
   showTimers: boolean;
   toggleTimers: () => void;
+  /**
+   * Which reading a boosted timer shows: the remaining WORK (false, the default)
+   * or the actual wall-clock time until ready (true). See `timerDisplay.ts`.
+   */
+  showActualTime: boolean;
+  toggleActualTime: () => void;
   fromRoute?: string;
   setFromRoute: (route: string) => void;
 }
@@ -96,6 +104,9 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
     getEnableQuickSelectSetting(),
   );
   const [showTimers, setShowTimers] = useState<boolean>(getShowTimersSetting());
+  const [showActualTime, setShowActualTime] = useState<boolean>(
+    getShowActualTimeSetting(),
+  );
   const [fromRoute, setFromRoute] = useState<string | undefined>();
 
   const shortcutItem = useCallback((item: InventoryItemName) => {
@@ -149,6 +160,13 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
     cacheShowTimersSetting(newValue);
   };
 
+  const toggleActualTime = () => {
+    const newValue = !showActualTime;
+
+    setShowActualTime(newValue);
+    cacheShowActualTimeSetting(newValue);
+  };
+
   const selectedItem = shortcuts.length > 0 ? shortcuts[0] : undefined;
 
   return (
@@ -165,6 +183,8 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
         toggleQuickSelect,
         showTimers,
         toggleTimers,
+        showActualTime,
+        toggleActualTime,
         fromRoute,
         setFromRoute,
       }}

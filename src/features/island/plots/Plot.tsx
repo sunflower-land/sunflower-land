@@ -380,7 +380,6 @@ export const Plot: React.FC<Props> = ({ id }) => {
           touchCount={touchCount}
           showTimers={showTimers}
           boostWindows={cropBoostWindows}
-          now={now}
         />
       </div>
       {reward && (

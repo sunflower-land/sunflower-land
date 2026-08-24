@@ -18,7 +18,14 @@ import { SUNNYSIDE } from "assets/sunnyside";
 interface Props {
   island: GameState["island"];
   patchFruitName: PatchFruitName;
+  /** The reading to display, per the player's timer setting. */
   timeLeft: number;
+  /**
+   * Remaining WORK in seconds — how grown the fruit actually is. Drives the
+   * progress bar, which must not move when the player switches which reading the
+   * label shows. Falls back to `timeLeft` (identical when unboosted).
+   */
+  workLeftSeconds?: number;
   /** Cycle length (s) — progress denominator; defaults to base plant time. */
   totalSeconds?: number;
   /** Current effective grow speed; shows a lightning when > 1. */
@@ -44,6 +51,7 @@ export const FruitSeedling: React.FC<Props> = ({
   patchFruitName,
   island,
   timeLeft,
+  workLeftSeconds,
   totalSeconds,
   speed,
 }) => {
@@ -57,7 +65,9 @@ export const FruitSeedling: React.FC<Props> = ({
   const cycleSeconds = totalSeconds ?? plantSeconds;
   const isBoosted = speed !== undefined && speed > 1;
   const growPercentage =
-    cycleSeconds > 0 ? 100 - (timeLeft / cycleSeconds) * 100 : 0;
+    cycleSeconds > 0
+      ? 100 - ((workLeftSeconds ?? timeLeft) / cycleSeconds) * 100
+      : 0;
   const isAlmostReady = growPercentage >= 50;
   const isHalfway = growPercentage >= 25 && !isAlmostReady;
 

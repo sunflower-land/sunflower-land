@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { IRON_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
-import { getTimeLeft } from "lib/utils/time";
 import type { InventoryItemName, Rock, Skills } from "features/game/types/game";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { useSelector } from "@xstate/react";
@@ -16,15 +15,12 @@ import { RecoveredIron } from "./components/RecoveredIron";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getIronDropAmount } from "features/game/events/landExpansion/ironMine";
 import type { IronRockName, RockName } from "features/game/types/resources";
-import { useNow } from "lib/utils/hooks/useNow";
 import { KNOWN_IDS } from "features/game/types";
 import {
-  computeReadyAt,
-  getEffectiveSpeedAt,
   getMineBoostWindows,
-  workAccruedAt,
   type BoostWindow,
 } from "features/game/lib/boostWindows";
+import { useNodeTimer } from "features/game/lib/useNodeTimer";
 
 const HITS = 3;
 const tool = "Stone Pickaxe";
@@ -134,45 +130,16 @@ export const Iron: React.FC<Props> = ({ id }) => {
   const hasTool = HasTool(inventory, resource);
 
   const { minedAt, baseDurationMs } = resource.stone;
-  // Speed-rate model (baseDurationMs set): derive the ready time live from the
-  // boost windows. Legacy rocks use the back-dated minedAt + base recovery.
-  const readyAt =
-    baseDurationMs !== undefined
-      ? computeReadyAt({
-          startedAt: minedAt,
-          baseDurationMs,
-          windows: mineBoostWindows,
-        })
-      : minedAt + IRON_RECOVERY_TIME * 1000;
-
-  // Coarse 1s clock to pick the current boost speed; only windowed rocks are
-  // boosted. Tick the countdown faster (1000/speed) so it drops ~1s per visual
-  // tick rather than jumping by `speed` each second.
-  const tickNow = useNow({
-    live: baseDurationMs !== undefined,
-    autoEndAt: readyAt,
+  const {
+    now,
+    speed,
+    displaySeconds: timeLeft,
+  } = useNodeTimer({
+    startedAt: minedAt,
+    baseDurationMs,
+    windows: mineBoostWindows,
+    legacyReadyAt: minedAt + IRON_RECOVERY_TIME * 1000,
   });
-  const speed =
-    baseDurationMs !== undefined
-      ? getEffectiveSpeedAt({ at: tickNow, windows: mineBoostWindows })
-      : 1;
-  const intervalMs = Math.max(Math.round(1000 / Math.max(speed, 1)), 250);
-  const now = useNow({ live: true, autoEndAt: readyAt, intervalMs });
-  // For windowed rocks the remaining time is remaining *work* (in base
-  // duration), so it visibly ticks down faster while a boost window is active.
-  const timeLeft =
-    baseDurationMs !== undefined
-      ? Math.max(
-          (baseDurationMs -
-            workAccruedAt({
-              startedAt: minedAt,
-              at: now,
-              windows: mineBoostWindows,
-            })) /
-            1000,
-          0,
-        )
-      : getTimeLeft(resource.stone.minedAt, IRON_RECOVERY_TIME, now);
   const mined = !canMine(resource, ironRockName, state, now);
 
   useUiRefresher({ active: mined });

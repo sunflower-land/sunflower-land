@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
-import { getTimeLeft } from "lib/utils/time";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import type {
   GameState,
@@ -20,17 +19,14 @@ import { DepletedCrimstone } from "./components/DepletedCrimstone";
 import { getCrimstoneStage } from "./getCrimstoneStage";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getCrimstoneDropAmount } from "features/game/events/landExpansion/mineCrimstone";
-import { useNow } from "lib/utils/hooks/useNow";
 import { isWearableActive } from "features/game/lib/wearables";
 import { Transition } from "@headlessui/react";
 import lightning from "assets/icons/lightning.png";
 import {
-  computeReadyAt,
-  getEffectiveSpeedAt,
   getMineBoostWindows,
-  workAccruedAt,
   type BoostWindow,
 } from "features/game/lib/boostWindows";
+import { useNodeTimer } from "features/game/lib/useNodeTimer";
 
 const HITS = 3;
 const tool = "Gold Pickaxe";
@@ -124,48 +120,22 @@ export const Crimstone: React.FC<Props> = ({ id }) => {
   const hasTool = HasTool(inventory, state);
 
   const { minedAt, baseDurationMs } = resource.stone;
-  // Speed-rate model (baseDurationMs set): derive the ready time live from the
-  // boost windows. Legacy rocks use the back-dated minedAt + base recovery.
-  const readyAt =
-    baseDurationMs !== undefined
-      ? computeReadyAt({
-          startedAt: minedAt,
-          baseDurationMs,
-          windows: mineBoostWindows,
-        })
-      : minedAt + CRIMSTONE_RECOVERY_TIME * 1000;
-
-  // Coarse 1s clock to pick the current boost speed; only windowed rocks are
-  // boosted. Tick the countdown faster (1000/speed) so it drops ~1s per visual
-  // tick rather than jumping by `speed` each second.
-  const tickNow = useNow({
-    live: baseDurationMs !== undefined,
-    autoEndAt: readyAt,
+  const {
+    now,
+    readyAt,
+    speed,
+    displaySeconds: timeLeft,
+  } = useNodeTimer({
+    startedAt: minedAt,
+    baseDurationMs,
+    windows: mineBoostWindows,
+    legacyReadyAt: minedAt + CRIMSTONE_RECOVERY_TIME * 1000,
   });
-  const speed =
-    baseDurationMs !== undefined
-      ? getEffectiveSpeedAt({ at: tickNow, windows: mineBoostWindows })
-      : 1;
-  const intervalMs = Math.max(Math.round(1000 / Math.max(speed, 1)), 250);
-  const now = useNow({ live: true, autoEndAt: readyAt, intervalMs });
 
+  // Keyed off the wall clock and readyAt, so the art is unaffected by which
+  // reading the timer label is showing.
   const crimstoneStage = getCrimstoneStage(resource.minesLeft, now, readyAt);
 
-  // For windowed rocks the remaining time is remaining *work* (in base
-  // duration), so it visibly ticks down faster while a boost window is active.
-  const timeLeft =
-    baseDurationMs !== undefined
-      ? Math.max(
-          (baseDurationMs -
-            workAccruedAt({
-              startedAt: minedAt,
-              at: now,
-              windows: mineBoostWindows,
-            })) /
-            1000,
-          0,
-        )
-      : getTimeLeft(resource.stone.minedAt, CRIMSTONE_RECOVERY_TIME, now);
   const mined = !canMine(resource, "Crimstone Rock", state, now);
 
   const [isAnimationRunning, setIsAnimationRunning] = useState(false);
