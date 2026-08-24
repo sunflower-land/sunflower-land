@@ -8404,5 +8404,16 @@
   "tcs.rule.two": "Oyuncu başına 1 hesap (paylaşım yok)",
   "tcs.rule.three": "Kurallara saygı gösterin - şişirme/otomasyon araçları yok",
   "tcs.agree": "Okudum ve kabul ediyorum {{terms}}.",
-  "tcs.terms": "Şartlar ve Koşullar"
+  "tcs.terms": "Şartlar ve Koşullar",
+  "captcha.title": "Hızlı kontrol!",
+  "captcha.description": "Çiftçiliğe devam etmek için bu mücadeleyi tamamlayın.",
+  "captcha.locked": "Captcha'da 2 kez başarısız oldun!",
+  "captcha.locked.description": "Lütfen bekleyin, sonra tekrar deneyebilirsiniz.",
+  "captcha.rotate.instructions": "Öğeyi dik olana kadar döndürün, ardından gönderin.",
+  "captcha.puzzle.instructions": "Kırpmayı boş yuvaya sürükleyin.",
+  "captcha.correct": "Doğru!",
+  "captcha.wrong": "Tam olarak değil!",
+  "captcha.wrong.retry": "İşte bir tane daha geliyor...",
+  "solving.captcha": "Doğrulama",
+  "triggering.captcha": "Captcha'yı tetikleme"
 }

@@ -8404,5 +8404,16 @@
   "tcs.rule.two": "1 Konto pro Spieler (kein Teilen)",
   "tcs.rule.three": "Respektiere die Regeln — keine Abfüll-/Automatisierungstools",
   "tcs.agree": "Ich habe {{terms}} gelesen und bin damit einverstanden.",
-  "tcs.terms": "Allgemeine Geschäftsbedingungen"
+  "tcs.terms": "Allgemeine Geschäftsbedingungen",
+  "captcha.title": "Schneller Check!",
+  "captcha.description": "Schließe diese Herausforderung ab, um weiter zu farmen.",
+  "captcha.locked": "Du hast das Captcha 2 mal nicht bestanden!",
+  "captcha.locked.description": "Bitte warten Sie, dann können Sie es erneut versuchen.",
+  "captcha.rotate.instructions": "Drehen Sie den Artikel, bis er aufrecht steht, und senden Sie ihn dann ab.",
+  "captcha.puzzle.instructions": "Ziehen Sie den Zuschnitt in den leeren Steckplatz.",
+  "captcha.correct": "Richtig!",
+  "captcha.wrong": "Nicht ganz!",
+  "captcha.wrong.retry": "Hier kommt noch einer...",
+  "solving.captcha": "Verifizieren",
+  "triggering.captcha": "Captcha auslösen"
 }

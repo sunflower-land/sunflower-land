@@ -8404,5 +8404,16 @@
   "tcs.rule.two": "每位玩家 1 个账号（不可共享）",
   "tcs.rule.three": "遵守规则-没有装瓶/自动化工具",
   "tcs.agree": "我已阅读并同意 {{terms}}。",
-  "tcs.terms": "条款和条件"
+  "tcs.terms": "条款和条件",
+  "captcha.title": "快速检查！",
+  "captcha.description": "完成此挑战以继续耕种。",
+  "captcha.locked": "你验证码失败了 2 次！",
+  "captcha.locked.description": "请稍候，然后你可以再试一次。",
+  "captcha.rotate.instructions": "旋转物品直至其直立，然后提交。",
+  "captcha.puzzle.instructions": "将作物拖到空槽中。",
+  "captcha.correct": "正确！",
+  "captcha.wrong": "不完全是！",
+  "captcha.wrong.retry": "又来了一个...",
+  "solving.captcha": "正在验证",
+  "triggering.captcha": "触发验证码"
 }

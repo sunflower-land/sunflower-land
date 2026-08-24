@@ -8404,5 +8404,16 @@
   "tcs.rule.two": "1 account per giocatore (nessuna condivisione)",
   "tcs.rule.three": "Rispetta le regole: niente strumenti di botting/automazione",
   "tcs.agree": "Ho letto e accetto il {{terms}}.",
-  "tcs.terms": "Termini e condizioni"
+  "tcs.terms": "Termini e condizioni",
+  "captcha.title": "Controllo rapido!",
+  "captcha.description": "Completa questa sfida per continuare a coltivare.",
+  "captcha.locked": "Hai fallito il captcha 2 volte!",
+  "captcha.locked.description": "Attendi, poi puoi riprovare.",
+  "captcha.rotate.instructions": "Ruota l'elemento finché non è in posizione verticale, quindi invia.",
+  "captcha.puzzle.instructions": "Trascina il ritaglio nello slot vuoto.",
+  "captcha.correct": "Corretto!",
+  "captcha.wrong": "Non proprio!",
+  "captcha.wrong.retry": "Eccone un altro...",
+  "solving.captcha": "Verifica",
+  "triggering.captcha": "Attivazione del captcha"
 }

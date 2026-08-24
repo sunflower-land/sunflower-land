@@ -8404,5 +8404,16 @@
   "tcs.rule.two": "1 akun per pemain (tidak berbagi)",
   "tcs.rule.three": "Hormati aturan - tidak ada alat pembotolan/otomatisasi",
   "tcs.agree": "Saya telah membaca dan menyetujui {{terms}}.",
-  "tcs.terms": "Syarat dan Ketentuan"
+  "tcs.terms": "Syarat dan Ketentuan",
+  "captcha.title": "Cek cepat!",
+  "captcha.description": "Selesaikan tantangan ini untuk terus bertani.",
+  "captcha.locked": "Anda gagal captcha 2 kali!",
+  "captcha.locked.description": "Harap tunggu, maka Anda dapat mencoba lagi.",
+  "captcha.rotate.instructions": "Putar item sampai tegak, lalu kirimkan.",
+  "captcha.puzzle.instructions": "Seret pemotongan ke slot kosong.",
+  "captcha.correct": "Benar!",
+  "captcha.wrong": "Tidak cukup!",
+  "captcha.wrong.retry": "Ini dia yang lain...",
+  "solving.captcha": "Memverifikasi",
+  "triggering.captcha": "Memicu captcha"
 }

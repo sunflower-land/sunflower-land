@@ -2175,6 +2175,19 @@ export interface GameState {
    */
   tcsAcknowledged?: number;
 
+  /**
+   * Anti-botting captcha progress. The API raises and lowers `required`.
+   * Per-game success/fail counts live in `farmActivity`.
+   */
+  captcha?: {
+    /** Whether the player must solve a captcha before continuing */
+    required?: boolean;
+    /** When the player last solved a captcha */
+    solvedAt?: number;
+    /** When the player last failed an attempt - drives the lockout */
+    failedAt?: number;
+  };
+
   gems: {
     history?: Record<string, { spent: number; coinsSpent?: number }>;
   };

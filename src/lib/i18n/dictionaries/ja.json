@@ -8404,5 +8404,16 @@
   "tcs.rule.two": "1 プレイヤーにつき 1 アカウント (共有なし)",
   "tcs.rule.three": "ルールを守る-ボトリング/自動化ツールは不要",
   "tcs.agree": "{{terms}} を読み、同意しました。",
-  "tcs.terms": "利用規約"
+  "tcs.terms": "利用規約",
+  "captcha.title": "クイックチェック！",
+  "captcha.description": "このチャレンジをクリアして農業を続けましょう。",
+  "captcha.locked": "キャプチャに 2 回失敗しました！",
+  "captcha.locked.description": "しばらく待ってから、もう一度試してください。",
+  "captcha.rotate.instructions": "アイテムが直立するまで回転させてから、送信します。",
+  "captcha.puzzle.instructions": "クロップを空のスロットにドラッグします。",
+  "captcha.correct": "正しい!",
+  "captcha.wrong": "そうでもない！",
+  "captcha.wrong.retry": "もう一つ来た...",
+  "solving.captcha": "検証中",
+  "triggering.captcha": "キャプチャをトリガーする"
 }
