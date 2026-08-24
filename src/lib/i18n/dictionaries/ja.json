@@ -8408,5 +8408,16 @@
   "flowerTransfersFrozen.title": "一時的に無効",
   "flowerTransfersFrozen.withdraw": "問題を調査している間、FLOWERの出金は一時的に無効になります。FLOWERは安全ですが、収集品、ウェアラブル、イヤホン、ペットは引き続き引き出すことができます。",
   "flowerTransfersFrozen.deposit": "問題を調査している間、FLOWERデポジットは一時的に無効になります。農場が再開するまでFLOWERを送らないでください。収集品、ウェアラブル、イヤホン、ペットを預けても影響はありません。",
-  "flowerTransfersFrozen.until": "FLOWERの入金と出金は {{date}} に再開されます。"
+  "flowerTransfersFrozen.until": "FLOWERの入金と出金は {{date}} に再開されます。",
+  "captcha.title": "クイックチェック！",
+  "captcha.description": "このチャレンジをクリアして農業を続けましょう。",
+  "captcha.locked": "キャプチャに 2 回失敗しました！",
+  "captcha.locked.description": "しばらく待ってから、もう一度試してください。",
+  "captcha.rotate.instructions": "アイテムが直立するまで回転させてから、送信します。",
+  "captcha.puzzle.instructions": "クロップを空のスロットにドラッグします。",
+  "captcha.correct": "正しい!",
+  "captcha.wrong": "そうでもない！",
+  "captcha.wrong.retry": "もう一つ来た...",
+  "solving.captcha": "検証中",
+  "triggering.captcha": "キャプチャをトリガーする"
 }

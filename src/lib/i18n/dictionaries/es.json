@@ -8408,5 +8408,16 @@
   "flowerTransfersFrozen.title": "Desactivado temporalmente",
   "flowerTransfersFrozen.withdraw": "Los retiros de FLOWER se desactivan temporalmente mientras investigamos un problema. Tu FLOWER está a salvo y puedes seguir retirando objetos coleccionables, prendas de vestir, cogollos y mascotas.",
   "flowerTransfersFrozen.deposit": "Los depósitos de FLOWER se desactivan temporalmente mientras investigamos un problema. No envíes ningún FLOWER a tu granja hasta que vuelvan a abrir. El depósito de objetos coleccionables, prendas de vestir, auriculares y mascotas no se verá afectado.",
-  "flowerTransfersFrozen.until": "Los depósitos y retiros de FLOWER vuelven a abrirse el {{date}}."
+  "flowerTransfersFrozen.until": "Los depósitos y retiros de FLOWER vuelven a abrirse el {{date}}.",
+  "captcha.title": "¡Comprobación rápida!",
+  "captcha.description": "Completa este desafío para seguir cultivando.",
+  "captcha.locked": "¡Fallaste el captcha 2 veces!",
+  "captcha.locked.description": "Espere y, a continuación, puede volver a intentarlo.",
+  "captcha.rotate.instructions": "Gire el artículo hasta que quede en posición vertical y, a continuación, envíelo.",
+  "captcha.puzzle.instructions": "Arrastra la cosecha a la ranura vacía.",
+  "captcha.correct": "¡Correcto!",
+  "captcha.wrong": "¡No del todo!",
+  "captcha.wrong.retry": "Aquí viene otro...",
+  "solving.captcha": "Verificación",
+  "triggering.captcha": "Activar captcha"
 }

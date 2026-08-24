@@ -8408,5 +8408,16 @@
   "flowerTransfersFrozen.title": "暂时禁用",
   "flowerTransfersFrozen.withdraw": "在我们调查问题时，FLOWER 提款暂时被禁用。你的 FLOWER 是安全的，你仍然可以提取收藏品、可穿戴设备、花蕾和宠物。",
   "flowerTransfersFrozen.deposit": "在我们调查问题时，FLOWER 存款暂时被禁用。在农场重新开放之前，请不要将任何鲜花送到您的农场。存放收藏品、可穿戴设备、花蕾和宠物不受影响。",
-  "flowerTransfersFrozen.until": "FLOWER 存款和提款将于 {{date}} 重新开放。"
+  "flowerTransfersFrozen.until": "FLOWER 存款和提款将于 {{date}} 重新开放。",
+  "captcha.title": "快速检查！",
+  "captcha.description": "完成此挑战以继续耕种。",
+  "captcha.locked": "你验证码失败了 2 次！",
+  "captcha.locked.description": "请稍候，然后你可以再试一次。",
+  "captcha.rotate.instructions": "旋转物品直至其直立，然后提交。",
+  "captcha.puzzle.instructions": "将作物拖到空槽中。",
+  "captcha.correct": "正确！",
+  "captcha.wrong": "不完全是！",
+  "captcha.wrong.retry": "又来了一个...",
+  "solving.captcha": "正在验证",
+  "triggering.captcha": "触发验证码"
 }

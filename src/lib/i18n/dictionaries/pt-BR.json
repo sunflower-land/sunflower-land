@@ -8408,5 +8408,16 @@
   "flowerTransfersFrozen.title": "Desativado temporariamente",
   "flowerTransfersFrozen.withdraw": "Os saques do FLOWER são temporariamente desativados enquanto investigamos um problema. Sua FLOR está segura e você ainda pode retirar itens colecionáveis, vestíveis, botões e animais de estimação.",
   "flowerTransfersFrozen.deposit": "Os depósitos de FLOWER são temporariamente desativados enquanto investigamos um problema. Por favor, não envie nenhuma FLOR para sua fazenda até que ela reabra. O depósito de itens colecionáveis, vestíveis, botões e animais de estimação não é afetado.",
-  "flowerTransfersFrozen.until": "Os depósitos e retiradas de FLOWER reabrem em {{date}}."
+  "flowerTransfersFrozen.until": "Os depósitos e retiradas de FLOWER reabrem em {{date}}.",
+  "captcha.title": "Verificação rápida!",
+  "captcha.description": "Complete este desafio para continuar cultivando.",
+  "captcha.locked": "Você falhou no captcha 2 vezes!",
+  "captcha.locked.description": "Aguarde e tente novamente.",
+  "captcha.rotate.instructions": "Gire o item até que ele fique na posição vertical e, em seguida, envie.",
+  "captcha.puzzle.instructions": "Arraste o recorte até o espaço vazio.",
+  "captcha.correct": "Correto!",
+  "captcha.wrong": "Não é bem assim!",
+  "captcha.wrong.retry": "Aí vem outro...",
+  "solving.captcha": "Verificando",
+  "triggering.captcha": "Ativando o captcha"
 }

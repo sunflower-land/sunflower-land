@@ -8408,5 +8408,16 @@
   "flowerTransfersFrozen.title": "Dinonaktifkan sementara",
   "flowerTransfersFrozen.withdraw": "Penarikan FLOWER dinonaktifkan sementara saat kami menyelidiki masalah. BUNGA Anda aman, dan Anda masih dapat menarik barang koleksi, barang yang dapat dikenakan, kuncup, dan hewan peliharaan.",
   "flowerTransfersFrozen.deposit": "Deposit FLOWER dinonaktifkan sementara saat kami menyelidiki masalah. Tolong jangan mengirim BUNGA apa pun ke peternakan Anda sampai mereka dibuka kembali. Menyimpan barang koleksi, barang yang dapat dikenakan, kuncup, dan hewan peliharaan tidak terpengaruh.",
-  "flowerTransfersFrozen.until": "Setoran dan penarikan FLOWER dibuka kembali pada {{date}}."
+  "flowerTransfersFrozen.until": "Setoran dan penarikan FLOWER dibuka kembali pada {{date}}.",
+  "captcha.title": "Cek cepat!",
+  "captcha.description": "Selesaikan tantangan ini untuk terus bertani.",
+  "captcha.locked": "Anda gagal captcha 2 kali!",
+  "captcha.locked.description": "Harap tunggu, maka Anda dapat mencoba lagi.",
+  "captcha.rotate.instructions": "Putar item sampai tegak, lalu kirimkan.",
+  "captcha.puzzle.instructions": "Seret pemotongan ke slot kosong.",
+  "captcha.correct": "Benar!",
+  "captcha.wrong": "Tidak cukup!",
+  "captcha.wrong.retry": "Ini dia yang lain...",
+  "solving.captcha": "Memverifikasi",
+  "triggering.captcha": "Memicu captcha"
 }

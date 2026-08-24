@@ -8408,5 +8408,16 @@
   "flowerTransfersFrozen.title": "Désactivé temporairement",
   "flowerTransfersFrozen.withdraw": "Les retraits FLOWER sont temporairement désactivés pendant que nous étudions un problème. Votre FLEUR est en sécurité et vous pouvez toujours retirer des objets de collection, des objets portables, des bourgeons et des animaux de compagnie.",
   "flowerTransfersFrozen.deposit": "Les dépôts FLOWER sont temporairement désactivés pendant que nous étudions un problème. Merci de ne pas envoyer de FLEURS à votre ferme avant sa réouverture. Le dépôt d'objets de collection, d'appareils portables, d'écouteurs et d'animaux de compagnie n'est pas affecté.",
-  "flowerTransfersFrozen.until": "Les dépôts et les retraits FLOWER rouvrent le {{date}}."
+  "flowerTransfersFrozen.until": "Les dépôts et les retraits FLOWER rouvrent le {{date}}.",
+  "captcha.title": "Vérification rapide !",
+  "captcha.description": "Relevez ce défi pour continuer à cultiver.",
+  "captcha.locked": "Tu as échoué 2 fois au captcha !",
+  "captcha.locked.description": "Veuillez patienter, puis réessayer.",
+  "captcha.rotate.instructions": "Faites pivoter l'élément jusqu'à ce qu'il soit à la verticale, puis soumettez-le.",
+  "captcha.puzzle.instructions": "Faites glisser le recadrage dans l'emplacement vide.",
+  "captcha.correct": "C'est exact !",
+  "captcha.wrong": "Pas tout à fait !",
+  "captcha.wrong.retry": "En voici une autre...",
+  "solving.captcha": "Vérification",
+  "triggering.captcha": "Déclenchement du captcha"
 }
