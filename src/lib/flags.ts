@@ -170,6 +170,8 @@ const FEATURE_FLAGS = {
 
   // Temporary Feature Flags
   FACE_RECOGNITION_TEST: betaFeatureFlag,
+  // The developer-options button that forces a captcha on your own farm
+  TRIGGER_CAPTCHA: betaFeatureFlag,
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
 
   LEAGUES: () => false,

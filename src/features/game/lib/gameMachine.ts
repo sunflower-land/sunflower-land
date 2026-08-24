@@ -401,6 +401,13 @@ const playingEventHandler = (
   const immediateSave = options?.immediateSave === true;
   return {
     [eventName]: [
+      // The API has flagged non-stop play (`captcha.required` on the game
+      // state) - block the event and send them into the captcha state.
+      {
+        target: "#captcha",
+        cond: (context: Context) =>
+          !context.visitorId && !!context.state.captcha?.required,
+      },
       {
         ...(immediateSave ? { target: "autosaving" as const } : {}),
         actions: assign(
@@ -489,28 +496,37 @@ function createPlacementEventHandlers(
   ].reduce(
     (events, eventName) => ({
       ...events,
-      [eventName]: {
-        ...(immediateSave ? { target: "autosaving" as const } : {}),
-        actions: assign((context: Context, event: PlacementEvent) => {
-          const createdAt = new Date();
+      [eventName]: [
+        // The API has flagged non-stop play (`captcha.required` on the game
+        // state) - block the event and send them into the captcha state.
+        {
+          target: "#captcha",
+          cond: (context: Context) =>
+            !context.visitorId && !!context.state.captcha?.required,
+        },
+        {
+          ...(immediateSave ? { target: "autosaving" as const } : {}),
+          actions: assign((context: Context, event: PlacementEvent) => {
+            const createdAt = new Date();
 
-          return {
-            state: processEvent({
-              state: context.state as GameState,
-              action: event,
-              farmId: context.farmId,
-              createdAt: createdAt.getTime(),
-            }) as GameState,
-            actions: [
-              ...context.actions,
-              {
-                ...event,
-                createdAt,
-              },
-            ],
-          };
-        }),
-      },
+            return {
+              state: processEvent({
+                state: context.state as GameState,
+                action: event,
+                farmId: context.farmId,
+                createdAt: createdAt.getTime(),
+              }) as GameState,
+              actions: [
+                ...context.actions,
+                {
+                  ...event,
+                  createdAt,
+                },
+              ],
+            };
+          }),
+        },
+      ],
     }),
     {},
   );
@@ -855,6 +871,7 @@ export type BlockchainState = {
     | "error"
     | "refreshing"
     | "swarming"
+    | "captcha"
     | "mailbox"
     | "transacting"
     | "depositing"
@@ -2705,6 +2722,22 @@ export function startGame(authContext: AuthContext) {
           on: {
             REFRESH: {
               target: "loading",
+            },
+          },
+        },
+        captcha: {
+          id: "captcha",
+          on: {
+            // Posts the `captcha.succeeded` effect - the response's game
+            // state comes back with `captcha.required` cleared.
+            "captcha.succeeded": {
+              target: "solvingCaptcha",
+            },
+            // Offered by the lockout countdown screen so the player can look
+            // around while they wait. `captcha.required` is still set, so
+            // their next interaction lands straight back here.
+            CLOSE: {
+              target: "playing",
             },
           },
         },

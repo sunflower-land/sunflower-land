@@ -17,6 +17,9 @@ type EffectName =
   | "reward.airdropped"
   | "faceRecognition.started"
   | "faceRecognition.completed"
+  | "captcha.succeeded"
+  | "captcha.failed"
+  | "admin.captchaTriggered"
   | "flower.depositStarted"
   | "sfl.depositStarted"
   | "telegram.linked"
@@ -87,6 +90,8 @@ export type StateMachineEffectName = Exclude<
   | "farm.unfollowed"
   | "message.sent"
   | "liquidity.registered"
+  // Fired inline from the captcha modal - no machine state
+  | "captcha.failed"
 >;
 
 export type StateMachineVisitEffectName = VisitEffectName;
@@ -101,6 +106,8 @@ export type StateMachineStateName =
   | "airdroppingReward"
   | "startingFaceRecognition"
   | "completingFaceRecognition"
+  | "solvingCaptcha"
+  | "triggeringCaptcha"
   | "depositingFlower"
   | "depositingSFL"
   | "linkingTelegram"
@@ -170,6 +177,8 @@ export const STATE_MACHINE_EFFECTS: Record<
   "reward.airdropped": "airdroppingReward",
   "faceRecognition.started": "startingFaceRecognition",
   "faceRecognition.completed": "completingFaceRecognition",
+  "captcha.succeeded": "solvingCaptcha",
+  "admin.captchaTriggered": "triggeringCaptcha",
   "flower.depositStarted": "depositingFlower",
   "sfl.depositStarted": "depositingSFL",
   "telegram.linked": "linkingTelegram",
