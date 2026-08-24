@@ -275,9 +275,9 @@ export async function postEffect(
   }
 
   if (response.status === 400) {
-    const { errorCode } = await response.json();
+    const data = await response.json().catch(() => null);
 
-    throw new Error(errorCode ?? ERRORS.EFFECT_SERVER_ERROR);
+    throw new Error(data?.errorCode ?? ERRORS.EFFECT_SERVER_ERROR);
   }
 
   if (response.status !== 200 || !response.ok) {
