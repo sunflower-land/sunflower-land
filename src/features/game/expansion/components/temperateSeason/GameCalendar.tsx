@@ -261,15 +261,17 @@ export const GameCalendar: React.FC = () => {
           </div>
           {/* Make me a grid of 7 days */}
           <div className="grid grid-cols-7 gap-2 mb-2">
-            {[
-              "days.mon",
-              "days.tue",
-              "days.wed",
-              "days.thu",
-              "days.fri",
-              "days.sat",
-              "days.sun",
-            ].map((day) => (
+            {(
+              [
+                "days.mon",
+                "days.tue",
+                "days.wed",
+                "days.thu",
+                "days.fri",
+                "days.sat",
+                "days.sun",
+              ] as const
+            ).map((day) => (
               <div key={day} className="flex flex-col ml-1 text-xs sm:text-sm">
                 {t(day)}
               </div>
