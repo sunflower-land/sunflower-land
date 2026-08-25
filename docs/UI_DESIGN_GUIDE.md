@@ -11,6 +11,9 @@ Panels group areas of content inside a modal.
 - **`InnerPanel`**: when a UI has lots of information or several distinct use cases, break the content up with inner panels. Example: fishing — choosing bait, choosing chum, etc. If it is a single form where everything is required, keep it together; if there are optional/separate steps, split them into inner panels.
 - **`ColorPanel`**: used to call attention to information, mainly as widgets. Never embed one inside an `InnerPanel` — it should sit directly under a modal or under another inner panel. Typical layout: icon on the left, text on the right.
 - **`ButtonPanel`**: use for any larger clickable element in the game (e.g. a delivery card). Its light colour implies clickability. For a normal action, use `Button`; for a clickable card, use `ButtonPanel`. Button panels should be roughly square in shape, with their content **centred**. To show a price or reward on a card, use an absolutely positioned label stretching the full width of the bottom edge (the "buy Gems" float pattern).
+- Content is wrapped in its own element with its own padding (p-1).
+- Action rows (any element containing a button or group of buttons) are siblings of the content element, never nested inside it.
+- An action row must have no left, right, or bottom padding. Its buttons run flush to the panel's left, right, and bottom edges. Top padding, top margin, or a top border is allowed, to separate it from the content above. If there are two buttons in the action row they should have `gap-1` between them.
 
 ### Padding & hierarchy inside a panel
 
@@ -46,7 +49,6 @@ Panels group areas of content inside a modal.
 - **Floating labels**: labels can be absolutely positioned on the top right of a button — half on, half off, ~2 PIXEL_SCALE in from the right. Use these to convey extra information in a simple UI, e.g. the reason a button is disabled, or a `warning` label showing a cost/prize ("50 Gems").
 - **Secondary actions**: for smaller actions that are not the main call to action (e.g. "Eat all food", or a link elsewhere), use plain underlined text instead of a button.
 - `RoundButton`: only for buttons **inside the game world**, not the UI layer. Anything clickable in-game should use a round button.
-- When a button or buttons are used in a panel they should always be a sibling to the content and have 0 padding around it on the left, right or bottom.
 
 ## Boxes & selection
 
