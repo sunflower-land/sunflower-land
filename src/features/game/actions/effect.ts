@@ -3,6 +3,7 @@ import { ERRORS } from "lib/errors";
 import type { GameState } from "../types/game";
 import { makeGame } from "../lib/transforms";
 import { getRecordHash } from "lib/stateHash";
+import { secureFetch } from "lib/requestToken";
 
 const API2_URL = CONFIG.API2_URL ?? CONFIG.API_URL;
 
@@ -252,7 +253,7 @@ export async function postEffect(
     ? await getRecordHash(request.state as unknown as Record<string, unknown>)
     : undefined;
 
-  const response = await window.fetch(`${API2_URL}/event/${request.farmId}`, {
+  const response = await secureFetch(`${API2_URL}/event/${request.farmId}`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",

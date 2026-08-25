@@ -57,7 +57,9 @@ export default defineConfig(() => {
         ],
         injectManifest: {
           maximumFileSizeToCacheInBytes: 15000000,
-          globPatterns: ["assets/*.{jpg,mp3,svg,gif,png,webp}"],
+          // wasm: the request-token module must be available offline so the
+          // PWA can still initialise sessions.
+          globPatterns: ["assets/*.{jpg,mp3,svg,gif,png,webp,wasm}"],
           globIgnores: ["**/*.{js,css,html}"],
         },
         filename: "sw.ts",

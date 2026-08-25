@@ -8,6 +8,7 @@
 
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
+import { secureFetch } from "lib/requestToken";
 import { translate } from "./i18n/translate";
 const API_URL = CONFIG.API_URL;
 
@@ -43,7 +44,7 @@ export const saveUsername = async (
   farmId: number,
   username: string,
 ) => {
-  const response = await window.fetch(`${API_URL}/username/${farmId}`, {
+  const response = await secureFetch(`${API_URL}/username/${farmId}`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",

@@ -1,6 +1,7 @@
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
+import { initRequestTokens } from "lib/requestToken";
 import { sanitizeHTTPResponse } from "lib/network";
 import { makeGame } from "../lib/transforms";
 import type { GameState, Purchase } from "../types/game";
@@ -162,6 +163,7 @@ export async function loadSession(
     totalHelpedToday,
     banReason,
     banMessage,
+    sessionSecret,
   } = await sanitizeHTTPResponse<{
     farm: any;
     startedAt: string;
@@ -194,7 +196,16 @@ export async function loadSession(
     totalHelpedToday: number;
     banReason?: string;
     banMessage?: string;
+    /**
+     * One-time per-session secret for request tokens. Consumed here and
+     * handed straight to the WASM module — never returned to callers.
+     */
+    sessionSecret?: string;
   }>(response);
+
+  // Initialise request tokens before any protected request can fire. The
+  // secret is not part of this function's return value by design.
+  await initRequestTokens({ sessionId, sessionSecret });
 
   saveSession(farm.id);
 

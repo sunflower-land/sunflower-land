@@ -1,5 +1,6 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
+import { secureFetch } from "lib/requestToken";
 import { randomID } from "lib/utils/random";
 import type { PlayerEconomyConfig } from "./types";
 
@@ -209,7 +210,7 @@ export async function postPlayerEconomyActionedEvent(opts: {
     eventPayload.amounts = opts.amounts;
   }
 
-  const response = await fetch(`${base}/event/${opts.farmId}`, {
+  const response = await secureFetch(`${base}/event/${opts.farmId}`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
@@ -264,7 +265,7 @@ export async function postEconomyPurchasedEvent(opts: {
   const base = CONFIG.API_URL;
   if (!base) throw new Error("API_URL is not configured");
 
-  const response = await fetch(`${base}/event/${opts.farmId}`, {
+  const response = await secureFetch(`${base}/event/${opts.farmId}`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
