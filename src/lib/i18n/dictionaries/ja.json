@@ -8415,5 +8415,6 @@
   "captcha.wrong": "そうでもない！",
   "captcha.wrong.retry": "もう一つ来た...",
   "solving.captcha": "検証中",
-  "triggering.captcha": "キャプチャをトリガーする"
+  "triggering.captcha": "キャプチャをトリガーする",
+  "gameOptions.generalSettings.actualTime": "実際の時間を表示"
 }

@@ -8415,5 +8415,6 @@
   "captcha.wrong": "Tam olarak değil!",
   "captcha.wrong.retry": "İşte bir tane daha geliyor...",
   "solving.captcha": "Doğrulama",
-  "triggering.captcha": "Captcha'yı tetikleme"
+  "triggering.captcha": "Captcha'yı tetikleme",
+  "gameOptions.generalSettings.actualTime": "Gerçek zamanı göster"
 }

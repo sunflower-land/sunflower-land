@@ -1929,6 +1929,7 @@
   "gameOptions.generalSettings.darkMode": "Dark Mode",
   "gameOptions.generalSettings.appearance": "Appearance",
   "gameOptions.generalSettings.behaviour": "Behaviour",
+  "gameOptions.generalSettings.actualTime": "Show actual time",
   "gameOptions.generalSettings.font": "Font",
   "gameOptions.generalSettings.preferences": "Preferences",
   "gameOptions.generalSettings.playerEconomiesDescription": "Turn on experimental player-economy features: token dashboards, the economy editor, and minigame listings in the marketplace. You can switch this off anytime.",

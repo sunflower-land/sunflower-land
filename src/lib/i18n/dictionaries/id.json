@@ -8415,5 +8415,6 @@
   "captcha.wrong": "Tidak cukup!",
   "captcha.wrong.retry": "Ini dia yang lain...",
   "solving.captcha": "Memverifikasi",
-  "triggering.captcha": "Memicu captcha"
+  "triggering.captcha": "Memicu captcha",
+  "gameOptions.generalSettings.actualTime": "Tampilkan waktu aktual"
 }

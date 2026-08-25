@@ -8415,5 +8415,6 @@
   "captcha.wrong": "Pas tout à fait !",
   "captcha.wrong.retry": "En voici une autre...",
   "solving.captcha": "Vérification",
-  "triggering.captcha": "Déclenchement du captcha"
+  "triggering.captcha": "Déclenchement du captcha",
+  "gameOptions.generalSettings.actualTime": "Afficher l'heure réelle"
 }

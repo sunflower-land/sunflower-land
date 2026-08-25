@@ -8415,5 +8415,6 @@
   "captcha.wrong": "不完全是！",
   "captcha.wrong.retry": "又来了一个...",
   "solving.captcha": "正在验证",
-  "triggering.captcha": "触发验证码"
+  "triggering.captcha": "触发验证码",
+  "gameOptions.generalSettings.actualTime": "显示实际时间"
 }
