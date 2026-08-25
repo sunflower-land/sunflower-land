@@ -8418,6 +8418,7 @@
   "captcha.correct": "Верно!",
   "captcha.wrong": "Не совсем!",
   "captcha.wrong.retry": "А вот и следующая...",
-  "solving.captcha": "Проверка",
-  "triggering.captcha": "Запуск капчи"
+  "solving.captcha": "Проверяем...",
+  "triggering.captcha": "Подготовка капчи...",
+  "gameOptions.generalSettings.actualTime": "Показывать реальное время"
 }
