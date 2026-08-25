@@ -1,33 +1,42 @@
 # request-token (WASM)
 
-The client half of the anti-bot request-token layer. A small Rust module
-that holds the per-session secret in WASM memory and computes one
-HMAC-SHA256 token per protected API request:
+The client half of the anti-bot / anti-scraping layer. A small Rust module
+that holds the session code in WASM memory and computes one HMAC-SHA256
+token per protected API request:
 
 ```
-computeToken(sessionId, timestamp, counter)
-  = hex(HMAC-SHA256(secret, `${sessionId}:${timestamp}:${counter}`))
+computeToken(timestamp) = hex(HMAC-SHA256(sessionCode, `${timestamp}`))
 ```
 
-The server half (secret issuance + verification) lives in
-`sunflower-land-api` — see `docs/request-tokens.md` there for the full
-design, the protected-endpoint list, and the `REQUEST_TOKENS_MODE`
-(off / log / enforce) rollout switch.
+The session code comes from `/session` and carries an expiry. The server
+re-derives it from the caller's JWT address plus the `X-Expires` header, so
+verification is stateless — which is why read-only endpoints (marketplace
+GETs) are protected as cheaply as mutations.
+
+The server half lives in `sunflower-land-api` — see `docs/request-tokens.md`
+there for the full design, the protected-endpoint list, the honest
+threat-model table, and the `REQUEST_TOKENS_MODE` (off / log / enforce)
+rollout switch.
 
 ## How it's used
 
 - `src/lib/requestToken/index.ts` — `initRequestTokens()` is called inside
-  `loadSession()` with the one-time `sessionSecret` from the `/session`
-  response; the secret goes straight into WASM and is not kept in JS.
-- `secureFetch()` wraps every protected (state-mutating) request: it
-  serialises dispatch (so counters arrive at the server in order) and
-  attaches `X-Token` / `X-Timestamp` / `X-Counter`.
-- If no secret was issued (old API, init failure) the wrapper degrades to
+  `loadSession()` with the `sessionCode` + expiry from the `/session`
+  response; the code goes straight into WASM and is not kept in JS.
+- `secureFetch()` wraps every protected request — mutations and the
+  read-only endpoints we don't want scraped — attaching `X-Token`,
+  `X-Timestamp` and `X-Expires`.
+- No queueing and no counter: each token stands alone, so concurrent,
+  out-of-order and retried requests are all fine. (An earlier counter-based
+  design had to serialise every request and still produced false
+  rejections when effects overlapped autosaves.)
+- If no code was issued (old API, init failure) the wrapper degrades to
   plain `fetch` — the game never breaks because of this layer.
 
 Be honest about what this buys: the repo is public, so the algorithm is
-public. This raises the floor (no raw endpoint scripts, no replays, bots
-must maintain live sessions) — it does not prove our client binary ran.
+public. It stops JWT-copying and raw endpoint scripts, and forces callers
+through a live `/session` handshake — it does not prove our client ran,
+and a captured token is replayable within its 30s window.
 
 ## Building
 
@@ -44,8 +53,7 @@ cargo install wasm-pack --version 0.15.0 --locked
 cargo test
 wasm-pack build --target web --release \
   --out-dir ../../src/lib/requestToken/wasm --out-name request_token
-rm -f ../../src/lib/requestToken/wasm/.gitignore \
-      ../../src/lib/requestToken/wasm/package.json
+rm -f ../../src/lib/requestToken/wasm/{.gitignore,package.json,README.md}
 ```
 
 Commit the regenerated `wasm/` output together with the source change.

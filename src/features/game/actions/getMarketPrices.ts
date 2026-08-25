@@ -1,5 +1,5 @@
 import { CONFIG } from "lib/config";
-import { fetchWithRetry } from "lib/fetchWithRetry";
+import { secureFetch } from "lib/requestToken";
 import { ERRORS } from "lib/errors";
 import type { TradeableName } from "./sellMarketResource";
 
@@ -18,7 +18,7 @@ export async function getMarketPrices(
   // Append the `type` query parameter to the URL
   const url = new URL(`${API_URL}/market/${farmId}`);
 
-  const response = await fetchWithRetry(url.toString(), {
+  const response = await secureFetch(url.toString(), {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",

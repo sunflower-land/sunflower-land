@@ -30,7 +30,12 @@ const {
 } = require("./index") as typeof import("./index");
 /* eslint-enable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
 
-const SECRET_HEX = nodeCrypto.randomBytes(32).toString("hex");
+const SESSION_CODE = nodeCrypto.randomBytes(32).toString("hex");
+const EXPIRES_AT = Math.floor(Date.now() / 1000) + 24 * 60 * 60;
+const session = {
+  sessionCode: SESSION_CODE,
+  sessionCodeExpiresAt: EXPIRES_AT,
+};
 
 describe("requestToken WebCrypto fallback", () => {
   let fetchMock: jest.Mock;
@@ -46,22 +51,22 @@ describe("requestToken WebCrypto fallback", () => {
     (fetchMock.mock.calls[0][1]?.headers ?? {}) as Record<string, string>;
 
   it("activates via WebCrypto when the WASM module fails to load", async () => {
-    await initRequestTokens({ sessionId: "s1", sessionSecret: SECRET_HEX });
+    await initRequestTokens(session);
 
     expect(requestTokensActive()).toBe(true);
   });
 
   it("produces the same token the server (and WASM module) would compute", async () => {
-    await initRequestTokens({ sessionId: "s1", sessionSecret: SECRET_HEX });
+    await initRequestTokens(session);
 
     await secureFetch("https://api.test/autosave/1", { method: "POST" });
 
     const headers = sentHeaders();
-    expect(headers["X-Counter"]).toBe("1");
+    expect(headers["X-Expires"]).toBe(String(EXPIRES_AT));
 
     const expected = nodeCrypto
-      .createHmac("sha256", Buffer.from(SECRET_HEX, "hex"))
-      .update(`s1:${headers["X-Timestamp"]}:1`)
+      .createHmac("sha256", SESSION_CODE)
+      .update(`${headers["X-Timestamp"]}`)
       .digest("hex");
 
     expect(headers["X-Token"]).toBe(expected);
@@ -74,7 +79,7 @@ describe("requestToken WebCrypto fallback", () => {
     });
 
     clearRequestTokens();
-    await initRequestTokens({ sessionId: "s1", sessionSecret: SECRET_HEX });
+    await initRequestTokens(session);
 
     expect(requestTokensActive()).toBe(false);
 

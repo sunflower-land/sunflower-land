@@ -152,7 +152,8 @@ export async function loadSession(request: Request): Promise<Response> {
     totalHelpedToday,
     banReason,
     banMessage,
-    sessionSecret,
+    sessionCode,
+    sessionCodeExpiresAt,
   } = await sanitizeHTTPResponse<{
     farm: any;
     startedAt: string;
@@ -186,15 +187,16 @@ export async function loadSession(request: Request): Promise<Response> {
     banReason?: string;
     banMessage?: string;
     /**
-     * One-time per-session secret for request tokens. Consumed here and
-     * handed straight to the WASM module — never returned to callers.
+     * Request-token code + expiry. Consumed here and handed straight to
+     * the token module — never returned to callers.
      */
-    sessionSecret?: string;
+    sessionCode?: string;
+    sessionCodeExpiresAt?: number;
   }>(response);
 
   // Initialise request tokens before any protected request can fire. The
-  // secret is not part of this function's return value by design.
-  await initRequestTokens({ sessionId, sessionSecret });
+  // code is not part of this function's return value by design.
+  await initRequestTokens({ sessionCode, sessionCodeExpiresAt });
 
   saveSession(farm.id);
 

@@ -51,12 +51,12 @@ jobs:
         working-directory: wasm/request-token
         run: |
           wasm-pack build --target web --release --out-dir /tmp/request-token-build --out-name request_token
-          rm -f /tmp/request-token-build/.gitignore /tmp/request-token-build/package.json
+          rm -f /tmp/request-token-build/.gitignore /tmp/request-token-build/package.json /tmp/request-token-build/README.md
 
       - name: Verify committed artifact matches source
         run: |
           if ! diff -r src/lib/requestToken/wasm /tmp/request-token-build; then
             echo "::error::Committed WASM artifact differs from wasm/request-token source."
-            echo "Rebuild with: cd wasm/request-token && wasm-pack build --target web --release --out-dir ../../src/lib/requestToken/wasm --out-name request_token && rm -f ../../src/lib/requestToken/wasm/.gitignore ../../src/lib/requestToken/wasm/package.json"
+            echo "Rebuild with: cd wasm/request-token && wasm-pack build --target web --release --out-dir ../../src/lib/requestToken/wasm --out-name request_token && rm -f ../../src/lib/requestToken/wasm/{.gitignore,package.json,README.md}"
             exit 1
           fi

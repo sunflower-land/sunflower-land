@@ -1,14 +1,19 @@
-//! Per-session request token computation.
+//! Request token computation.
 //!
-//! The session secret is handed to `initSession` once, straight after the
+//! The session code is handed to `initSession` once, straight after the
 //! `/session` response arrives, and lives only in WASM linear memory from
 //! then on. `computeToken` derives one token per protected request:
 //!
-//!   HMAC-SHA256(secret, "{sessionId}:{timestamp}:{counter}") as lowercase hex
+//!   HMAC-SHA256(sessionCode, "{timestamp}") as lowercase hex
 //!
-//! The server recomputes the same MAC from the farm document's copy of the
-//! secret, so the message layout here must match
+//! The code itself is bound (server-side) to the caller's address and an
+//! expiry, so the server can re-derive it from the JWT plus the X-Expires
+//! header and check this MAC. The message layout here must match
 //! `sunflower-land-api/src/domain/game/lib/requestToken.ts` exactly.
+//!
+//! There is deliberately no request counter: requests fire concurrently
+//! and out of order in the real client, and a counter made that a source
+//! of false rejections.
 
 use hmac::{Hmac, Mac};
 use sha2::Sha256;
@@ -18,26 +23,26 @@ use wasm_bindgen::prelude::*;
 type HmacSha256 = Hmac<Sha256>;
 
 thread_local! {
-    static SECRET: RefCell<Option<Vec<u8>>> = const { RefCell::new(None) };
+    static SESSION_CODE: RefCell<Option<Vec<u8>>> = const { RefCell::new(None) };
 }
 
-/// Store the per-session secret. Called once per session; calling again
-/// (e.g. after a re-login) replaces the previous secret, which is zeroed
-/// before being dropped.
+/// Store the session code. Called once per session; calling again (e.g.
+/// after a re-login) replaces the previous code, which is zeroed before
+/// being dropped.
 #[wasm_bindgen(js_name = initSession)]
-pub fn init_session(secret: &[u8]) {
-    SECRET.with(|s| {
+pub fn init_session(code: &str) {
+    SESSION_CODE.with(|s| {
         if let Some(old) = s.borrow_mut().take() {
             drop(zero(old));
         }
-        *s.borrow_mut() = Some(secret.to_vec());
+        *s.borrow_mut() = Some(code.as_bytes().to_vec());
     });
 }
 
-/// Forget the secret (logout / session end).
+/// Forget the session code (logout / session end).
 #[wasm_bindgen(js_name = clearSession)]
 pub fn clear_session() {
-    SECRET.with(|s| {
+    SESSION_CODE.with(|s| {
         if let Some(old) = s.borrow_mut().take() {
             drop(zero(old));
         }
@@ -46,31 +51,29 @@ pub fn clear_session() {
 
 #[wasm_bindgen(js_name = hasSession)]
 pub fn has_session() -> bool {
-    SECRET.with(|s| s.borrow().is_some())
+    SESSION_CODE.with(|s| s.borrow().is_some())
 }
 
 /// Compute the token for one protected request.
 ///
-/// `timestamp` is unix seconds rounded to the coarse window by the caller;
-/// `counter` is the caller's monotonic request counter. Both are formatted
-/// in decimal, matching the values sent in the X-Timestamp / X-Counter
-/// headers verbatim.
+/// `timestamp` is unix seconds, formatted in decimal — exactly the value
+/// sent in the X-Timestamp header.
 #[wasm_bindgen(js_name = computeToken)]
-pub fn compute_token(session_id: &str, timestamp: u32, counter: u32) -> Result<String, JsError> {
-    SECRET.with(|s| {
+pub fn compute_token(timestamp: u32) -> Result<String, JsError> {
+    SESSION_CODE.with(|s| {
         let borrowed = s.borrow();
-        let secret = borrowed
+        let code = borrowed
             .as_ref()
             .ok_or_else(|| JsError::new("Session not initialised"))?;
 
-        Ok(mac_hex(secret, session_id, timestamp, counter))
+        Ok(mac_hex(code, timestamp))
     })
 }
 
-fn mac_hex(secret: &[u8], session_id: &str, timestamp: u32, counter: u32) -> String {
+fn mac_hex(code: &[u8], timestamp: u32) -> String {
     // HMAC accepts any key length, so new_from_slice cannot fail.
-    let mut mac = HmacSha256::new_from_slice(secret).expect("HMAC accepts any key length");
-    mac.update(format!("{session_id}:{timestamp}:{counter}").as_bytes());
+    let mut mac = HmacSha256::new_from_slice(code).expect("HMAC accepts any key length");
+    mac.update(format!("{timestamp}").as_bytes());
     hex(&mac.finalize().into_bytes())
 }
 
@@ -111,10 +114,10 @@ mod tests {
     // a drift in message layout on either side fails a test.
     #[test]
     fn token_vector_matches_server() {
-        let secret = b"0123456789abcdef0123456789abcdef"; // 32 bytes
+        let code = b"0123456789abcdef0123456789abcdef";
         assert_eq!(
-            mac_hex(secret, "session-abc", 1_700_000_000, 7),
-            "338d69c4d0833fd26ad07e75b8d4ceba6913a59ef8171e1f6b9fd6668968216e"
+            mac_hex(code, 1_700_000_000),
+            "6458320a3e327061ab7bfe28ace9cb02bb2b840c75b483a0c002831176bd6256"
         );
     }
 }

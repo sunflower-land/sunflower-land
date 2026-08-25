@@ -1,59 +1,64 @@
 /**
- * Per-session request tokens — the client half of the bot-friction layer.
+ * Request tokens — the client half of the anti-bot / anti-scraping layer.
  *
- * The `/session` response hands us a one-time `sessionSecret`. It is passed
- * straight into the WASM module (`initSession`) and not kept in JS. Every
- * protected request then goes through `secureFetch`, which attaches:
+ * The `/session` response hands us a `sessionCode` and its expiry. The code
+ * goes straight into the WASM module and is not kept in JS. Every protected
+ * request then carries:
  *
- *   X-Token     HMAC-SHA256(secret, `${sessionId}:${timestamp}:${counter}`)
- *   X-Timestamp unix seconds, rounded to the nearest 5s window
- *   X-Counter   monotonic per-session counter, incremented per request
+ *   X-Token     HMAC-SHA256(sessionCode, `${timestamp}`) as hex
+ *   X-Timestamp unix seconds, when the request was made
+ *   X-Expires   the code's expiry, so the server can re-derive the code
  *
- * Protected requests are serialised: each one waits for the previous
- * response before dispatch, so counters arrive at the server in order.
- * (The server rejects counters that are not strictly increasing.)
+ * There is no request counter and no queueing: requests may fire
+ * concurrently, out of order, or be retried, and each one stands alone.
+ * (An earlier design used a monotonic counter, which meant serialising
+ * every request and still produced false rejections whenever effects and
+ * autosaves overlapped.)
  *
- * If no secret has been issued (old API version, or init failed) requests
- * are sent without headers — the server's log-only mode tolerates that, and
- * the layer degrades to plain fetch rather than breaking the game.
+ * The code is bound server-side to this account, so lifting it into
+ * another session is useless. It expires on its own; the client picks up a
+ * fresh one on its next `/session`.
+ *
+ * If no code was issued (older API) or the token layer can't start, calls
+ * fall through as plain fetch — the game never breaks because of this.
+ *
+ * To watch this work step by step, see ./debug.ts (enable with
+ * `localStorage.setItem("requestTokenDebug", "true")`).
  */
 
+import { codePrefix, requestTokenDebug } from "./debug";
 import { createSubtleFallback } from "./fallback";
 import { loadWasm, type TokenModule } from "./loader";
 
-const TIMESTAMP_WINDOW_SECONDS = 5;
-
 let tokenModule: TokenModule | undefined;
-let sessionId: string | undefined;
-let counter = 0;
-
-// Tail of the protected-request queue. Each secureFetch chains onto this so
-// requests dispatch strictly one at a time, in counter order.
-let queueTail: Promise<void> = Promise.resolve();
-
-function decodeHex(hex: string): Uint8Array {
-  if (hex.length % 2 !== 0 || /[^0-9a-fA-F]/.test(hex)) {
-    throw new Error("Invalid session secret encoding");
-  }
-  const bytes = new Uint8Array(hex.length / 2);
-  for (let i = 0; i < bytes.length; i++) {
-    bytes[i] = parseInt(hex.slice(i * 2, i * 2 + 2), 16);
-  }
-  return bytes;
-}
+let expiresAt: number | undefined;
+/** Which implementation is live — traced, never used for logic. */
+let implementation: "wasm" | "webcrypto" | undefined;
 
 /**
  * Initialise the token layer from the `/session` response. Safe to call on
- * every session start — a fresh session replaces the secret and resets the
- * counter. A missing secret (API not yet rolled out) leaves the layer off.
+ * every session start — a fresh session replaces the code.
  */
 export async function initRequestTokens(params: {
-  sessionId: string;
-  sessionSecret?: string;
+  sessionCode?: string;
+  sessionCodeExpiresAt?: number;
 }): Promise<void> {
-  if (!params.sessionSecret) {
+  requestTokenDebug("1. /session response received", {
+    sessionCode: codePrefix(params.sessionCode),
+    sessionCodeExpiresAt: params.sessionCodeExpiresAt,
+    expiresIn: params.sessionCodeExpiresAt
+      ? `${Math.round(params.sessionCodeExpiresAt - Date.now() / 1000)}s`
+      : undefined,
+  });
+
+  if (!params.sessionCode || !params.sessionCodeExpiresAt) {
+    requestTokenDebug(
+      "2. no code issued → layer stays OFF (requests send no headers)",
+      { reason: "server returned no sessionCode (old API, or no server key)" },
+    );
     tokenModule?.clearSession();
-    sessionId = undefined;
+    expiresAt = undefined;
+    implementation = undefined;
     return;
   }
 
@@ -61,89 +66,118 @@ export async function initRequestTokens(params: {
     if (!tokenModule) {
       try {
         tokenModule = await loadWasm();
+        implementation = "wasm";
+        requestTokenDebug("2. WASM module loaded", {
+          implementation,
+        });
       } catch (e) {
         // Older engines (pre reference-types, ~2021) and some embedded
         // webviews can't instantiate the WASM module. Compute identical
         // tokens via WebCrypto instead — the game already requires
         // crypto.subtle, so this runs anywhere the game runs.
+        tokenModule = createSubtleFallback();
+        implementation = "webcrypto";
+        requestTokenDebug("2. WASM unavailable → WebCrypto fallback", {
+          implementation,
+          error: (e as Error)?.message,
+        });
         // eslint-disable-next-line no-console
         console.error("Request token WASM unavailable, using fallback", e);
-        tokenModule = createSubtleFallback();
       }
     }
 
-    await tokenModule.initSession(decodeHex(params.sessionSecret));
-    sessionId = params.sessionId;
-    counter = 0;
+    await tokenModule.initSession(params.sessionCode);
+    expiresAt = params.sessionCodeExpiresAt;
+
+    requestTokenDebug("3. session code stored in module → layer is ON", {
+      implementation,
+      sessionCode: codePrefix(params.sessionCode),
+      note: "the code is held inside the module; JS keeps only the expiry",
+    });
   } catch (e) {
     // Never let token setup take the game down — degrade to plain fetch.
+    requestTokenDebug("3. init FAILED → layer stays OFF", {
+      error: (e as Error)?.message,
+    });
     // eslint-disable-next-line no-console
     console.error("Request token init failed", e);
-    sessionId = undefined;
+    expiresAt = undefined;
   }
 }
 
-/** Forget the session secret (logout). */
+/** Forget the session code (logout). */
 export function clearRequestTokens() {
+  requestTokenDebug("session cleared (logout)");
   tokenModule?.clearSession();
-  sessionId = undefined;
-  counter = 0;
+  expiresAt = undefined;
+  implementation = undefined;
 }
 
 export function requestTokensActive(): boolean {
-  return !!sessionId && !!tokenModule?.hasSession();
+  return !!expiresAt && !!tokenModule?.hasSession();
 }
 
-async function tokenHeaders(): Promise<Record<string, string>> {
-  if (!requestTokensActive()) return {};
+async function tokenHeaders(
+  url: string,
+): Promise<Record<string, string> | undefined> {
+  if (!requestTokensActive()) {
+    requestTokenDebug("request sent WITHOUT token headers (layer off)", {
+      url,
+    });
+    return undefined;
+  }
 
-  const timestamp =
-    Math.round(Date.now() / 1000 / TIMESTAMP_WINDOW_SECONDS) *
-    TIMESTAMP_WINDOW_SECONDS;
+  const timestamp = Math.floor(Date.now() / 1000);
 
-  counter += 1;
+  const token = await (tokenModule as TokenModule).computeToken(timestamp);
 
-  const token = await (tokenModule as TokenModule).computeToken(
-    sessionId as string,
-    timestamp,
-    counter,
-  );
-
-  return {
+  const headers = {
     "X-Token": token,
     "X-Timestamp": String(timestamp),
-    "X-Counter": String(counter),
+    "X-Expires": String(expiresAt),
   };
+
+  requestTokenDebug("signing request", {
+    url,
+    implementation,
+    // Exactly what gets HMAC'd — the server rebuilds this same string.
+    message: `${timestamp}`,
+    "X-Token": token,
+    "X-Timestamp": headers["X-Timestamp"],
+    "X-Expires": headers["X-Expires"],
+    codeExpiresIn: `${Math.round((expiresAt as number) - timestamp)}s`,
+  });
+
+  return headers;
 }
 
 /**
- * Drop-in replacement for `window.fetch` on protected (state-mutating)
- * endpoints. Serialises dispatch and attaches the token headers.
+ * Drop-in replacement for `window.fetch` on protected endpoints — both the
+ * state-mutating ones and the read-only ones we don't want scraped.
  */
 export async function secureFetch(
   input: RequestInfo | URL,
   init?: RequestInit,
 ): Promise<Response> {
-  const previous = queueTail;
+  const url = typeof input === "string" ? input : String(input);
 
-  let release!: () => void;
-  queueTail = new Promise((res) => (release = res));
+  const headers = {
+    ...init?.headers,
+    ...(await tokenHeaders(url)),
+  };
 
-  // Wait for the previous protected request to settle so counters arrive
-  // in order. The previous slot always releases (finally below), so this
-  // cannot deadlock.
-  await previous;
+  const response = await window.fetch(input, { ...init, headers });
 
-  try {
-    // Headers are computed at dispatch time, not enqueue time, so the
-    // timestamp window is fresh even after queueing behind a slow save.
-    const headers = {
-      ...init?.headers,
-      ...(await tokenHeaders()),
-    };
-
-    return await window.fetch(input, { ...init, headers });
-  } finally {
-    release();
+  if (response.status === 403) {
+    // Not necessarily us — but this is the shape a rejection takes, and
+    // it is the first thing to check when a protected call starts failing.
+    requestTokenDebug("response 403 — could be a rejected token (RT-001)", {
+      url,
+      hint: "check the API logs for requestToken.rejected with this address",
+    });
+  } else {
+    requestTokenDebug("response received", { url, status: response.status });
   }
+
+  return response;
 }
