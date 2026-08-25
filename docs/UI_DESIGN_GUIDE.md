@@ -24,6 +24,7 @@ Panels group areas of content inside a modal.
 - Labels are for short text only — never more than 3–4 words. Never put long text inside a label.
 - Labels are **not clickable**. If something needs to be clickable, use a `Button` or a `Chip`.
 - Use default labels to break up categories in a long list of items.
+- Always be mindful of how many labels are on a single component. Too many labels is very distracting.
 
 ### Label types & colour meanings
 
@@ -45,6 +46,7 @@ Panels group areas of content inside a modal.
 - **Floating labels**: labels can be absolutely positioned on the top right of a button — half on, half off, ~2 PIXEL_SCALE in from the right. Use these to convey extra information in a simple UI, e.g. the reason a button is disabled, or a `warning` label showing a cost/prize ("50 Gems").
 - **Secondary actions**: for smaller actions that are not the main call to action (e.g. "Eat all food", or a link elsewhere), use plain underlined text instead of a button.
 - `RoundButton`: only for buttons **inside the game world**, not the UI layer. Anything clickable in-game should use a round button.
+- When a button or buttons are used in a panel they should always be a sibling to the content and have 0 padding around it on the left, right or bottom.
 
 ## Boxes & selection
 
@@ -63,8 +65,9 @@ Panels group areas of content inside a modal.
 ## Layout & alignment
 
 - **Left-align everything** by default.
+- Everything should be vertically aligned in a row.
 - The only centre-aligned case: a details/mini view on the right (e.g. the right side of a `SplitScreenView`).
-- If you have a lot of text, break it up with labels. Use an icon on the left with text on the right to break the monotony of long content.
+- If you have a lot of text, either use line breaks or break it up with labels as headers for the next content. Use an icon on the left with text on the right to break the monotony of long content. If you find there is a large amount of text, first try to see if you can condense it. Long text is not something we want to encourage.
 - **Align numbers in a column**: for anything form-related with scaling costs (e.g. inputting how much to buy), lay values out table-style so numbers sit directly below each other for easy comparison. Use the same pattern for showing counts of things (e.g. replenish stock — all the seeds that are coming).
 
 ## Animations & effects
@@ -76,5 +79,5 @@ Panels group areas of content inside a modal.
 
 - **Genius has the least moving parts.** If you find yourself adding new pages, modals, and forms to convey a message, the design is becoming more complex than our game designs should be. The ideal is a single modal: the player makes a choice, then does an action.
 - **Confirmations**: any action spending meaningful player resources (Gems, FLOWER, Coins, or any high amount) must show a confirmation pop-up.
-- **Players do not read text.** Never rely on text to convey complex UI — use icons, labels, and layout.
+- **Players do not read text.** Never rely on text to convey complex UI — use icons, labels, and layout. If you need a lot of text the UX is too complicated - simplify.
 - **Minimise clicks** for actions players repeat many times a day. More complex flows (one-off setup, enabling a feature or mechanic) can afford more steps.
