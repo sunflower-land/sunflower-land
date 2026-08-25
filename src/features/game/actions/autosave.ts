@@ -35,7 +35,7 @@ type Request = {
   state: GameState;
 };
 
-const API2_URL = CONFIG.API2_URL ?? CONFIG.API_URL;
+const API_URL = CONFIG.API_URL;
 
 const EXCLUDED_EVENTS: GameEventName<GameEvent>[] = ["bot.detected"];
 
@@ -85,7 +85,7 @@ export async function autosaveRequest(
     actions: any[];
     stateHash?: Record<keyof GameState, string>;
   },
-  apiUrl: string = API2_URL,
+  apiUrl: string = API_URL,
 ) {
   const ttl = (window as any)["x-amz-ttl"];
 
@@ -128,7 +128,7 @@ export async function autosaveRequest(
 let autosaveErrors = 0;
 
 export async function autosave(request: Request, retries = 0) {
-  if (!API2_URL) return { verified: true };
+  if (!API_URL) return { verified: true };
 
   // Shorten the payload
   const events = squashEvents(request.actions);

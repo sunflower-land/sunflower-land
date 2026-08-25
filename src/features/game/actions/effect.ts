@@ -4,7 +4,7 @@ import type { GameState } from "../types/game";
 import { makeGame } from "../lib/transforms";
 import { getRecordHash } from "lib/stateHash";
 
-const API2_URL = CONFIG.API2_URL ?? CONFIG.API_URL;
+const API_URL = CONFIG.API_URL;
 
 type EffectName =
   | "marketplace.listingPurchased"
@@ -252,7 +252,7 @@ export async function postEffect(
     ? await getRecordHash(request.state as unknown as Record<string, unknown>)
     : undefined;
 
-  const response = await window.fetch(`${API2_URL}/event/${request.farmId}`, {
+  const response = await window.fetch(`${API_URL}/event/${request.farmId}`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
