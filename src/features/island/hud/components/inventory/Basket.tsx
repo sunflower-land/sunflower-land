@@ -234,7 +234,11 @@ export const Basket: React.FC<Prop> = ({
   const seedWindowedBoosts =
     isSeed(selectedItem) && seedHarvestTime
       ? getBoostContributionEntries({
-          contributions: getSeedBoostContributions(gameState, selectedItem),
+          contributions: getSeedBoostContributions(
+            gameState,
+            selectedItem,
+            now,
+          ),
           seconds: seedHarvestTime.seconds,
           at: now,
           showActualTime,

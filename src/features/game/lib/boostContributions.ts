@@ -52,38 +52,52 @@ const collectible = (
 
 /**
  * The two totems are one boost for a given activity (they never stack), so their
- * windows merge into a single set. Attribute it to whichever is placed, matching
- * how the legacy baked path recorded it — Super Totem wins when both are.
+ * windows merge into a single set for the timing. The label has to come from
+ * whichever is actually running at `at` — Super Totem wins when both are,
+ * matching how the legacy baked path recorded it.
+ *
+ * Note this cannot key off "has any windows": `getBoostWindows` includes
+ * finalised intervals from `boostHistory`, so a Super Totem burned earlier this
+ * week would otherwise take the credit from a Time Warp Totem running now.
  */
-const totems = (game: GameState, speed: number): BoostContribution => ({
-  name: getBoostWindows({ game, name: "Super Totem", speed }).length
-    ? "Super Totem"
-    : "Time Warp Totem",
-  windows: getMergedTotemWindows(game, speed),
-});
+const totems = (
+  game: GameState,
+  speed: number,
+  at: number,
+): BoostContribution => {
+  const superTotem = getBoostWindows({ game, name: "Super Totem", speed });
 
-const cropPlot = (game: GameState): BoostContribution[] => [
+  return {
+    name:
+      getEffectiveSpeedAt({ at, windows: superTotem }) > 1
+        ? "Super Totem"
+        : "Time Warp Totem",
+    windows: getMergedTotemWindows(game, speed),
+  };
+};
+
+const cropPlot = (game: GameState, at: number): BoostContribution[] => [
   collectible(game, "Sparrow Shrine", CROP_PLOT_BOOST_SPEED["Sparrow Shrine"]),
   collectible(
     game,
     "Harvest Hourglass",
     CROP_PLOT_BOOST_SPEED["Harvest Hourglass"],
   ),
-  totems(game, CROP_PLOT_BOOST_SPEED["Super Totem"]),
+  totems(game, CROP_PLOT_BOOST_SPEED["Super Totem"], at),
   { name: "Power hour", windows: getPowerHourWindows(game) },
   // A season Guardian doubles the sunshower rate rather than adding a window of
   // its own, so the whole thing is attributed to the event.
   { name: "sunshower", windows: getSunshowerWindows(game) },
 ];
 
-const tree = (game: GameState): BoostContribution[] => [
-  totems(game, TREE_BOOST_SPEED["Super Totem"]),
+const tree = (game: GameState, at: number): BoostContribution[] => [
+  totems(game, TREE_BOOST_SPEED["Super Totem"], at),
   collectible(game, "Timber Hourglass", TREE_BOOST_SPEED["Timber Hourglass"]),
   collectible(game, "Badger Shrine", TREE_BOOST_SPEED["Badger Shrine"]),
 ];
 
-const fruit = (game: GameState): BoostContribution[] => [
-  totems(game, FRUIT_BOOST_SPEED["Super Totem"]),
+const fruit = (game: GameState, at: number): BoostContribution[] => [
+  totems(game, FRUIT_BOOST_SPEED["Super Totem"], at),
   collectible(
     game,
     "Orchard Hourglass",
@@ -92,7 +106,7 @@ const fruit = (game: GameState): BoostContribution[] => [
   collectible(game, "Toucan Shrine", FRUIT_BOOST_SPEED["Toucan Shrine"]),
 ];
 
-const flower = (game: GameState): BoostContribution[] => [
+const flower = (game: GameState, at: number): BoostContribution[] => [
   collectible(
     game,
     "Blossom Hourglass",
@@ -101,15 +115,16 @@ const flower = (game: GameState): BoostContribution[] => [
   collectible(game, "Moth Shrine", FLOWER_BOOST_SPEED["Moth Shrine"]),
 ];
 
-const oil = (game: GameState): BoostContribution[] => [
+const oil = (game: GameState, at: number): BoostContribution[] => [
   collectible(game, "Stag Shrine", OIL_BOOST_SPEED["Stag Shrine"]),
 ];
 
 const greenhouse = (
   game: GameState,
   plant: GreenHouseCropName | GreenHouseFruitName,
+  at: number,
 ): BoostContribution[] => [
-  totems(game, GREENHOUSE_BOOST_SPEED["Super Totem"]),
+  totems(game, GREENHOUSE_BOOST_SPEED["Super Totem"], at),
   collectible(
     game,
     "Tortoise Shrine",
@@ -128,13 +143,17 @@ const greenhouse = (
       ),
 ];
 
-const mine = (game: GameState, rock: RockName): BoostContribution[] => {
+const mine = (
+  game: GameState,
+  rock: RockName,
+  at: number,
+): BoostContribution[] => {
   switch (rock) {
     case "Stone Rock":
     case "Fused Stone Rock":
     case "Reinforced Stone Rock":
       return [
-        totems(game, MINE_BOOST_SPEED["Super Totem"]),
+        totems(game, MINE_BOOST_SPEED["Super Totem"], at),
         collectible(game, "Ore Hourglass", MINE_BOOST_SPEED["Ore Hourglass"]),
         collectible(game, "Badger Shrine", MINE_BOOST_SPEED["Badger Shrine"]),
       ];
@@ -145,7 +164,7 @@ const mine = (game: GameState, rock: RockName): BoostContribution[] => {
     case "Pure Gold Rock":
     case "Prime Gold Rock":
       return [
-        totems(game, MINE_BOOST_SPEED["Super Totem"]),
+        totems(game, MINE_BOOST_SPEED["Super Totem"], at),
         collectible(game, "Ore Hourglass", MINE_BOOST_SPEED["Ore Hourglass"]),
         collectible(game, "Mole Shrine", MINE_BOOST_SPEED["Mole Shrine"]),
       ];
@@ -163,24 +182,30 @@ const mine = (game: GameState, rock: RockName): BoostContribution[] => {
 export function getSeedBoostContributions(
   game: GameState,
   seed: SeedName,
+  at: number,
 ): BoostContribution[] {
-  if (isFlowerSeed(seed)) return flower(game);
-  if (isPatchFruitSeed(seed)) return fruit(game);
+  if (isFlowerSeed(seed)) return flower(game, at);
+  if (isPatchFruitSeed(seed)) return fruit(game, at);
   if (seed in GREENHOUSE_SEEDS || seed in GREENHOUSE_FRUIT_SEEDS) {
-    return greenhouse(game, SEED_TO_PLANT[seed as keyof typeof SEED_TO_PLANT]);
+    return greenhouse(
+      game,
+      SEED_TO_PLANT[seed as keyof typeof SEED_TO_PLANT],
+      at,
+    );
   }
 
-  return cropPlot(game);
+  return cropPlot(game, at);
 }
 
 /** The named boosts that would speed up this node — mirrors getNodeBoostWindows. */
 export function getNodeBoostContributions(
   game: GameState,
   node: ResourceName,
+  at: number,
 ): BoostContribution[] {
-  if (node === "Tree") return tree(game);
-  if (node === "Oil Reserve") return oil(game);
-  if (node.endsWith("Rock")) return mine(game, node as RockName);
+  if (node === "Tree") return tree(game, at);
+  if (node === "Oil Reserve") return oil(game, at);
+  if (node.endsWith("Rock")) return mine(game, node as RockName, at);
 
   return [];
 }

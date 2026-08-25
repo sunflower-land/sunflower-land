@@ -398,7 +398,7 @@ const NodeRow: React.FC<NodeRowProps> = ({
   // rate in the speed view, the time each one actually saves in the other.
   const windowedBoosts = getBoostContributionEntries({
     contributions: node.nodeName
-      ? getNodeBoostContributions(state, node.nodeName)
+      ? getNodeBoostContributions(state, node.nodeName, now)
       : [],
     seconds: recoveryTimeMs / 1000,
     at: now,

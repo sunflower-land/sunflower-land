@@ -51,7 +51,7 @@ describe("contributions match the window builders", () => {
     "Rice Seed",
     "Grape Seed",
   ])("%s", (seed) => {
-    expect(flatten(getSeedBoostContributions(BOOSTED, seed))).toEqual(
+    expect(flatten(getSeedBoostContributions(BOOSTED, seed, at))).toEqual(
       getSeedBoostWindows(BOOSTED, seed),
     );
   });
@@ -65,7 +65,7 @@ describe("contributions match the window builders", () => {
     "Sunstone Rock",
     "Oil Reserve",
   ])("%s", (node) => {
-    expect(flatten(getNodeBoostContributions(BOOSTED, node))).toEqual(
+    expect(flatten(getNodeBoostContributions(BOOSTED, node, at))).toEqual(
       getNodeBoostWindows(BOOSTED, node),
     );
   });
@@ -75,7 +75,7 @@ describe("getBoostContributionEntries", () => {
   const format = (seconds: number) => `${Math.round(seconds / 60)}m`;
   const entries = (showActualTime: boolean, seconds = 4 * HOUR) =>
     getBoostContributionEntries({
-      contributions: getNodeBoostContributions(BOOSTED, "Tree"),
+      contributions: getNodeBoostContributions(BOOSTED, "Tree", at),
       seconds,
       at,
       showActualTime,
@@ -121,7 +121,7 @@ describe("getBoostContributionEntries", () => {
   it("leaves out a booster that is no longer running", () => {
     // Nothing placed → nothing to list, in either view.
     const none = getBoostContributionEntries({
-      contributions: getNodeBoostContributions(TEST_FARM, "Tree"),
+      contributions: getNodeBoostContributions(TEST_FARM, "Tree", at),
       seconds: 4 * HOUR,
       at,
       showActualTime: true,
@@ -130,5 +130,59 @@ describe("getBoostContributionEntries", () => {
     });
 
     expect(none).toEqual([]);
+  });
+});
+
+describe("totem attribution", () => {
+  const format = (seconds: number) => `${Math.round(seconds / 60)}m`;
+
+  it("credits the totem that is actually running, not one burned earlier", () => {
+    // A Super Totem burned last week leaves a finalised interval in
+    // boostHistory. The Time Warp Totem running now must take the credit.
+    const game: GameState = {
+      ...TEST_FARM,
+      collectibles: {
+        ...TEST_FARM.collectibles,
+        "Time Warp Totem": place("1", 0),
+      },
+      boostHistory: {
+        "Super Totem": [
+          { from: createdAt - 8 * 60 * 60 * 1000, to: createdAt - 1000 },
+        ],
+      },
+    };
+
+    const entries = getBoostContributionEntries({
+      contributions: getNodeBoostContributions(game, "Tree", at),
+      seconds: 4 * HOUR,
+      at,
+      showActualTime: false,
+      formatSeconds: format,
+      formatSpeed: (speed) => `Speed: ${speed}x`,
+    });
+
+    expect(entries).toEqual([{ name: "Time Warp Totem", value: "Speed: 2x" }]);
+  });
+
+  it("credits the Super Totem while it is the one running", () => {
+    const game: GameState = {
+      ...TEST_FARM,
+      collectibles: {
+        ...TEST_FARM.collectibles,
+        "Super Totem": place("1", 0),
+        "Time Warp Totem": place("2", 1),
+      },
+    };
+
+    const entries = getBoostContributionEntries({
+      contributions: getNodeBoostContributions(game, "Tree", at),
+      seconds: 4 * HOUR,
+      at,
+      showActualTime: false,
+      formatSeconds: format,
+      formatSpeed: (speed) => `Speed: ${speed}x`,
+    });
+
+    expect(entries).toEqual([{ name: "Super Totem", value: "Speed: 2x" }]);
   });
 });

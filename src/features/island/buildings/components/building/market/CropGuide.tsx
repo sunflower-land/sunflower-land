@@ -657,7 +657,7 @@ const GrowthTimeCell: React.FC<{
   // than being baked into it), so name them for the boost panel: their rate in
   // the speed view, the time each one actually saves in the other.
   const windowedBoosts = getBoostContributionEntries({
-    contributions: getSeedBoostContributions(state, seed),
+    contributions: getSeedBoostContributions(state, seed, now),
     seconds: boostedTime.seconds,
     at: now,
     showActualTime,

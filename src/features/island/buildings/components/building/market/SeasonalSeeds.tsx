@@ -355,7 +355,7 @@ export const SeasonalSeeds: React.FC = () => {
   const plantBoostsUsed = [
     ...plantTime.boostsUsed,
     ...getBoostContributionEntries({
-      contributions: getSeedBoostContributions(state, selectedName),
+      contributions: getSeedBoostContributions(state, selectedName, now),
       seconds: plantTime.seconds,
       at: now,
       showActualTime,
