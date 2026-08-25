@@ -280,7 +280,13 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     setShowFeedXP(true);
     setTimeout(() => setShowFeedXP(false), 700);
 
-    const updatedChicken = updatedState.context.state.henHouse.animals[id];
+    // Resolve before handing it to the machine: the raw record carries the
+    // stale cached `awakeAt`, and the machine's sleep guard has no game state
+    // of its own to re-derive from.
+    const updatedChicken = resolveAnimal(
+      updatedState.context.state.henHouse.animals[id],
+      updatedState.context.state,
+    );
 
     chickenService.send({
       type: "FEED",
@@ -311,7 +317,13 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     setShowLoveItem(item as LoveAnimalItem);
     setTimeout(() => setShowLoveItem(undefined), 700);
 
-    const updatedChicken = updatedState.context.state.henHouse.animals[id];
+    // Resolve before handing it to the machine: the raw record carries the
+    // stale cached `awakeAt`, and the machine's sleep guard has no game state
+    // of its own to re-derive from.
+    const updatedChicken = resolveAnimal(
+      updatedState.context.state.henHouse.animals[id],
+      updatedState.context.state,
+    );
 
     chickenService.send({
       type: "LOVE",
@@ -328,7 +340,13 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       id: chicken.id,
     });
 
-    const updatedChicken = updatedState.context.state.henHouse.animals[id];
+    // Resolve before handing it to the machine: the raw record carries the
+    // stale cached `awakeAt`, and the machine's sleep guard has no game state
+    // of its own to re-derive from.
+    const updatedChicken = resolveAnimal(
+      updatedState.context.state.henHouse.animals[id],
+      updatedState.context.state,
+    );
 
     chickenService.send({
       type: "CLAIM_PRODUCE",
@@ -343,7 +361,13 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       id: chicken.id,
     });
 
-    const updatedChicken = updatedState.context.state.henHouse.animals[id];
+    // Resolve before handing it to the machine: the raw record carries the
+    // stale cached `awakeAt`, and the machine's sleep guard has no game state
+    // of its own to re-derive from.
+    const updatedChicken = resolveAnimal(
+      updatedState.context.state.henHouse.animals[id],
+      updatedState.context.state,
+    );
 
     chickenService.send({
       type: "CURE",

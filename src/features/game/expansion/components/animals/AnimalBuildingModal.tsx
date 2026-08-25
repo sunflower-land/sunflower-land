@@ -33,6 +33,7 @@ import {
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
 import { getAnimalBoostWindows } from "features/game/lib/boostWindows";
+import { hasFeatureAccess } from "lib/flags";
 import {
   getBoostContributionEntries,
   getAnimalBoostContributions,
@@ -147,13 +148,23 @@ export const AnimalBuildingModal: React.FC<Props> = ({
     animalType: selectedName,
     game: state,
   });
+  // Gate on the SAME flag `getBoostedAwakeAt` uses to decide what it bakes.
+  // Flag-off it still bakes the shrine into `maturityTimeMs`, so projecting
+  // through the windows as well would count it twice (and list a boost the
+  // player isn't on). The windows themselves exist regardless of the flag.
+  const boostsWindowed = hasFeatureAccess(state, "SPEED_BOOSTS");
+  const maturityWindows = boostsWindowed
+    ? getAnimalBoostWindows(state, selectedName)
+    : [];
   // The windowed shrine isn't in `boostsUsed` (it applies over the sleep rather
   // than being baked into it), so name it for the boost panel: its rate in the
   // speed view, the time it actually saves in the other.
   const maturityBoostsUsed = [
     ...maturityTime.boostsUsed,
     ...getBoostContributionEntries({
-      contributions: getAnimalBoostContributions(state, selectedName),
+      contributions: boostsWindowed
+        ? getAnimalBoostContributions(state, selectedName)
+        : [],
       seconds: maturityTime.maturityTimeMs / 1000,
       at: now,
       showActualTime,
@@ -168,7 +179,7 @@ export const AnimalBuildingModal: React.FC<Props> = ({
       seconds: maturityTime.maturityTimeMs / 1000,
       baseSeconds: maturityTime.baseTimeMs / 1000,
       namedBoostCount: maturityBoostsUsed.length,
-      windows: getAnimalBoostWindows(state, selectedName),
+      windows: maturityWindows,
       at: now,
     });
 
