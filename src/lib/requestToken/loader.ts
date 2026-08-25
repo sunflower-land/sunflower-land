@@ -1,32 +1,46 @@
 /**
- * Loads and instantiates the request-token WASM module. Kept separate from
- * index.ts so tests can mock the loader — `import.meta.url` and .wasm
- * instantiation don't work under jest.
+ * Loads the request-token signer at runtime.
+ *
+ * The module is NOT part of this bundle. It is built and deployed from a
+ * private repo (workspace/wasm-token) with a client key compiled into it,
+ * and fetched from its own host — which is the point: the key is not in
+ * this public repo, and it is not in anything we publish here.
+ *
+ * Kept separate from index.ts so tests can mock it; `import()` of a remote
+ * URL and WebAssembly instantiation don't work under jest.
  */
-// eslint-disable-next-line @typescript-eslint/consistent-type-imports
-export type WasmModule = typeof import("./wasm/request_token");
+import { CONFIG } from "lib/config";
 
-/**
- * What the token layer needs from an implementation. Satisfied by the WASM
- * module (sync) and by the WebCrypto fallback (async) — callers must await
- * both initSession and computeToken.
- */
+/** Matches the wasm-token module's exports. */
 export type TokenModule = {
-  initSession(sessionCode: string): void | Promise<void>;
+  initSession(sessionCode: string): void;
   clearSession(): void;
   hasSession(): boolean;
-  computeToken(timestamp: number): string | Promise<string>;
+  /** Returns `"{timestamp}:{token}"`. */
+  signRequest(method: string, path: string, body: string): string;
 };
 
-let loaded: Promise<WasmModule> | undefined;
+const baseUrl = (CONFIG.WASM_TOKEN_URL ?? "").replace(/\/$/, "");
 
-export function loadWasm(): Promise<WasmModule> {
+let loaded: Promise<TokenModule> | undefined;
+
+export function loadTokenModule(): Promise<TokenModule> {
   loaded ??= (async () => {
-    const module = await import("./wasm/request_token");
+    if (!baseUrl) {
+      throw new Error("WASM_TOKEN_URL is not configured");
+    }
+
+    const dir = `${baseUrl}/wasm`;
+
+    // The glue is an ES module served from the token host; the vite build
+    // must not try to resolve it at build time, hence the variable URL.
+    const module = await import(/* @vite-ignore */ `${dir}/request_token.js`);
+
     await module.default({
-      module_or_path: new URL("./wasm/request_token_bg.wasm", import.meta.url),
+      module_or_path: `${dir}/request_token_bg.wasm`,
     });
-    return module;
+
+    return module as TokenModule;
   })();
 
   return loaded;

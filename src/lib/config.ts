@@ -5,6 +5,14 @@ const TREASURY_ADDRESS = import.meta.env.VITE_TREASURY_ADDRESS as string;
 const POLYGON_CHAIN_ID = NETWORK === "mainnet" ? 137 : 80002;
 
 const API_URL = import.meta.env.VITE_API_URL;
+/**
+ * Host serving the request-token signer (the private wasm-token repo's
+ * build output). The module is fetched from here at runtime rather than
+ * bundled, so the client key it carries never enters this repo.
+ */
+const WASM_TOKEN_URL = import.meta.env.VITE_WASM_TOKEN_URL as
+  | string
+  | undefined;
 const ROOM_URL = import.meta.env.VITE_ROOM_URL;
 
 const WISHING_WELL_CONTRACT = import.meta.env.VITE_WISHING_WELL_CONTRACT;
@@ -111,6 +119,7 @@ export const CONFIG = {
   DONATION_ADDRESS,
   TREASURY_ADDRESS,
   API_URL,
+  WASM_TOKEN_URL,
   DISCORD_REDIRECT,
 
   WISHING_WELL_CONTRACT,

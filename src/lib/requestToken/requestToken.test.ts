@@ -1,12 +1,16 @@
 const initSession = jest.fn();
 const clearSession = jest.fn();
-const computeToken = jest.fn((timestamp: number) => `tok-${timestamp}`);
+const signRequest = jest.fn(
+  (method: string, path: string, body: string) =>
+    // Stands in for the real signer: "{timestamp}:{token}".
+    `1787695409:tok(${method}|${path}|${body.length})`,
+);
 let codeSet = false;
 
 // esbuild-runner does not hoist jest.mock, so register the mock explicitly
 // before requiring the module under test.
 jest.doMock("./loader", () => ({
-  loadWasm: () =>
+  loadTokenModule: () =>
     Promise.resolve({
       initSession: (code: string) => {
         codeSet = true;
@@ -17,7 +21,7 @@ jest.doMock("./loader", () => ({
         clearSession();
       },
       hasSession: () => codeSet,
-      computeToken,
+      signRequest,
     }),
 }));
 
@@ -56,7 +60,7 @@ describe("requestToken", () => {
     expect(sentHeaders(0)["X-Token"]).toBeUndefined();
   });
 
-  it("passes the session code into the module", async () => {
+  it("passes the session code into the signer", async () => {
     await initRequestTokens(session);
 
     expect(initSession).toHaveBeenCalledWith(SESSION_CODE);
@@ -66,14 +70,24 @@ describe("requestToken", () => {
   it("attaches token, timestamp and expiry headers", async () => {
     await initRequestTokens(session);
 
-    await secureFetch("https://api.test/autosave/1", { method: "POST" });
+    await secureFetch("https://api.test/autosave/1", {
+      method: "POST",
+      body: '{"a":1}',
+    });
 
     const headers = sentHeaders(0);
-    const timestamp = Number(headers["X-Timestamp"]);
-
-    expect(headers["X-Token"]).toBe(`tok-${timestamp}`);
+    expect(headers["X-Token"]).toBe("tok(POST|/autosave/1|7)");
+    expect(headers["X-Timestamp"]).toBe("1787695409");
     expect(headers["X-Expires"]).toBe(String(EXPIRES_AT));
-    expect(Math.abs(timestamp - Date.now() / 1000)).toBeLessThan(5);
+  });
+
+  it("signs the method, path and body of the actual request", async () => {
+    await initRequestTokens(session);
+
+    await secureFetch("https://api.test/marketplace?filters=a,b");
+
+    // GET with no body, and the query string is deliberately not signed.
+    expect(signRequest).toHaveBeenLastCalledWith("GET", "/marketplace", "");
   });
 
   it("keeps existing headers when attaching token headers", async () => {
@@ -90,8 +104,6 @@ describe("requestToken", () => {
   it("signs concurrent requests independently, in any order", async () => {
     await initRequestTokens(session);
 
-    // No queueing: both requests dispatch immediately. This is the case
-    // that a monotonic counter used to reject.
     const resolvers: Array<() => void> = [];
     fetchMock.mockImplementation(
       () =>
@@ -100,6 +112,8 @@ describe("requestToken", () => {
         }),
     );
 
+    // No queueing: both dispatch immediately. This is the case a monotonic
+    // counter used to reject.
     const first = secureFetch("https://api.test/autosave/1", {
       method: "POST",
     });
@@ -107,8 +121,6 @@ describe("requestToken", () => {
 
     await new Promise((res) => setTimeout(res, 0));
     expect(fetchMock).toHaveBeenCalledTimes(2);
-
-    // Both carry a valid, self-contained token — order is irrelevant.
     expect(sentHeaders(0)["X-Token"]).toBeDefined();
     expect(sentHeaders(1)["X-Token"]).toBeDefined();
 
@@ -151,5 +163,38 @@ describe("requestToken", () => {
     await expect(secureFetch("https://api.test/autosave/1")).rejects.toThrow(
       "network down",
     );
+  });
+});
+
+describe("requestToken when the signer cannot be loaded", () => {
+  let fetchMock: jest.Mock;
+
+  beforeEach(() => {
+    jest.resetModules();
+    fetchMock = jest.fn().mockResolvedValue({ ok: true });
+    (window as unknown as { fetch: unknown }).fetch = fetchMock;
+    jest.spyOn(console, "error").mockImplementation(() => undefined);
+  });
+
+  it("degrades to plain fetch rather than breaking the game", async () => {
+    jest.doMock("./loader", () => ({
+      loadTokenModule: () => Promise.reject(new Error("offline")),
+    }));
+
+    /* eslint-disable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
+    const tokens = require("./index") as typeof import("./index");
+    /* eslint-enable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
+
+    await tokens.initRequestTokens(session);
+    await tokens.secureFetch("https://api.test/autosave/1", {
+      method: "POST",
+    });
+
+    expect(tokens.requestTokensActive()).toBe(false);
+    const headers = (fetchMock.mock.calls[0][1]?.headers ?? {}) as Record<
+      string,
+      string
+    >;
+    expect(headers["X-Token"]).toBeUndefined();
   });
 });

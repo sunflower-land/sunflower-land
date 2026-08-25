@@ -1,3 +1,0 @@
-# Rust build intermediates — never committed; the shipped artifact lives
-# in src/lib/requestToken/wasm/ and CI rebuilds it from source to verify.
-target/

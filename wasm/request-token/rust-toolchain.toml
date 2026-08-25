@@ -1,5 +1,0 @@
-# Pinned so local builds and the CI verification job produce byte-identical
-# artifacts. Bump this together with a rebuild of src/lib/requestToken/wasm.
-[toolchain]
-channel = "1.98.0"
-targets = ["wasm32-unknown-unknown"]
