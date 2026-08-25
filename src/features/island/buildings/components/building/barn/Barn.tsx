@@ -15,6 +15,7 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import type { LandBiomeName } from "features/island/biomes/biomes";
 import { isAnimalReadyForLove } from "features/game/events/landExpansion/loveAnimal";
 import { getOverCapacityAnimalIds } from "features/game/events/landExpansion/buyAnimal";
+import { getAnimalReadyAt } from "features/game/lib/animals";
 import { isAnimalCoveredByGoldenAsset } from "features/game/events/landExpansion/feedAllAnimals";
 import classNames from "classnames";
 import { saveIslandScrollPosition } from "features/game/expansion/lib/islandScroll";
@@ -229,7 +230,8 @@ const _hasHungryAnimals = (state: MachineState) => {
   // Capacity-locked animals cannot be fed, so they never count as hungry.
   const lockedIds = getOverCapacityAnimalIds("barn", game);
   return Object.values(game.barn.animals).some(
-    (animal) => animal.awakeAt < Date.now() && !lockedIds.has(animal.id),
+    (animal) =>
+      getAnimalReadyAt(animal, game) < Date.now() && !lockedIds.has(animal.id),
   );
 };
 
@@ -268,7 +270,7 @@ export const Barn: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
       !isAnimalCoveredByGoldenAsset({
         state: game,
         animalType: animal.type,
-      }) && isAnimalReadyForLove(animal, now),
+      }) && isAnimalReadyForLove(animal, now, getAnimalReadyAt(animal, game)),
   );
   const handleClick = () => {
     if (isBuilt) {

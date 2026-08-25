@@ -11,6 +11,7 @@ import { produce } from "immer";
 import type { ComposterName } from "features/game/types/composters";
 import { createInitialAgingShed } from "features/game/lib/agingShed";
 import {
+  getAnimalBoostWindows,
   getGreenhouseBoostWindows,
   getGreenhouseGlowWindows,
   pauseWindowedTimer,
@@ -161,7 +162,17 @@ export function placeBuilding({
               0,
               createdAt - existingBuilding.removedAt,
             );
-            animal.asleepAt = animal.asleepAt + timeOffset;
+            // Windowed animals bank the sleep done before the lift (shrinks
+            // baseDurationMs), else legacy shift. Behaviour-identical to the
+            // shift when unboosted, but it stops the lifted animal re-earning
+            // boost credit over a different stretch of the shrine windows.
+            animal.asleepAt = pauseWindowedTimer({
+              timer: animal,
+              startedAt: animal.asleepAt,
+              removedAt: existingBuilding.removedAt,
+              createdAt,
+              windows: getAnimalBoostWindows(stateCopy, animal.type),
+            });
             animal.awakeAt = animal.awakeAt + timeOffset;
             animal.lovedAt = animal.lovedAt + timeOffset;
           }

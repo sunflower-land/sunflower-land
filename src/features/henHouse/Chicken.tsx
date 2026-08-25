@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -16,6 +16,7 @@ import {
   getAnimalLevel,
   getBoostedFoodQuantity,
   isAnimalFood,
+  resolveAnimal,
 } from "features/game/lib/animals";
 import classNames from "classnames";
 import { LevelProgress } from "features/game/expansion/components/animals/LevelProgress";
@@ -116,8 +117,15 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 }) => {
   const { gameService, selectedItem, shortcutItem } = useContext(Context);
   const { t } = useAppTranslation();
-  const chicken = useSelector(gameService, _chicken(id));
+  const storedChicken = useSelector(gameService, _chicken(id));
   const game = useSelector(gameService, _game);
+  // The animal machine has no access to game state, so every consumer below —
+  // the machine included — is handed the animal with its live windowed wake time
+  // substituted in. Read-only: nothing here writes an animal back.
+  const chicken = useMemo(
+    () => resolveAnimal(storedChicken, game),
+    [storedChicken, game],
+  );
   const inventory = useSelector(gameService, _inventory);
   const chickenService = useInterpret(animalMachine, {
     context: { animal: chicken },

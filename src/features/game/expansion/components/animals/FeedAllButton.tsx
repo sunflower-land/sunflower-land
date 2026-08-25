@@ -5,7 +5,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
-import { makeAnimalBuildingKey } from "features/game/lib/animals";
+import {
+  getAnimalReadyAt,
+  makeAnimalBuildingKey,
+} from "features/game/lib/animals";
 import type { AnimalBuildingType } from "features/game/types/animals";
 import {
   getCoveredAnimalTypes,
@@ -46,7 +49,7 @@ export const FeedAllButton: React.FC<{ building: AnimalBuildingType }> = ({
     () =>
       getValues(game[buildingKey].animals)
         .filter((animal) => covered.includes(animal.type))
-        .map((animal) => animal.awakeAt),
+        .map((animal) => getAnimalReadyAt(animal, game)),
     [buildingKey, game, covered],
   );
 

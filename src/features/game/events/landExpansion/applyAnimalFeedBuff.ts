@@ -2,13 +2,15 @@ import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import { ANIMALS, type AnimalType } from "features/game/types/animals";
 import type {
-  Animal,
   AnimalFeedBuffName,
   BoostName,
   GameState,
 } from "features/game/types/game";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
-import { makeAnimalBuildingKey } from "features/game/lib/animals";
+import {
+  getAnimalReadyAt,
+  makeAnimalBuildingKey,
+} from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { isAnimalNeedingLove } from "./loveAnimal";
 
@@ -25,8 +27,8 @@ export enum APPLY_ANIMAL_FEED_BUFF_ERRORS {
   NEEDS_LOVE = "Pet your animal before using this",
 }
 
-function isAnimalAsleep(animal: Animal, now: number): boolean {
-  return now < animal.awakeAt;
+function isAnimalAsleep(now: number, readyAt: number): boolean {
+  return now < readyAt;
 }
 
 export type ApplyAnimalFeedBuffAction = {
@@ -90,9 +92,11 @@ export function applyAnimalFeedBuff({
       throw new Error(APPLY_ANIMAL_FEED_BUFF_ERRORS.SICK);
     }
 
+    const readyAt = getAnimalReadyAt(animal, copy);
+
     if (
-      isAnimalAsleep(animal, createdAt) &&
-      isAnimalNeedingLove(animal, createdAt)
+      isAnimalAsleep(createdAt, readyAt) &&
+      isAnimalNeedingLove(animal, createdAt, readyAt)
     ) {
       throw new Error(APPLY_ANIMAL_FEED_BUFF_ERRORS.NEEDS_LOVE);
     }

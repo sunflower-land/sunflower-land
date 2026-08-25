@@ -32,6 +32,17 @@ import {
   getAnimalMaturityTimeForDisplay,
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
+import { getAnimalBoostWindows } from "features/game/lib/boostWindows";
+import {
+  getBoostContributionEntries,
+  getAnimalBoostContributions,
+} from "features/game/lib/boostContributions";
+import {
+  getPreActionDisplay,
+  PRE_ACTION_TICK_MS,
+} from "features/game/lib/timerDisplay";
+import { useNow } from "lib/utils/hooks/useNow";
+import { secondsToString } from "lib/utils/time";
 import { AnimalBounties } from "features/barn/components/AnimalBounties";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -77,7 +88,7 @@ export const AnimalBuildingModal: React.FC<Props> = ({
   onClose,
   onExchanging,
 }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, showActualTime } = useContext(Context);
   const [showIntro, setShowIntro] = useState(!hasReadIntro());
   type Tab = "buy" | "sell" | "guide";
   const [currentTab, setCurrentTab] = useState<Tab>(
@@ -98,6 +109,9 @@ export const AnimalBuildingModal: React.FC<Props> = ({
   );
 
   const [selectedName, setSelectedName] = useState<AnimalType>(animals[0]);
+  // Minute granularity: the projection goes stale as the shrine burns down, but
+  // the panel renders whole minutes (see PRE_ACTION_TICK_MS).
+  const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
 
   const handleBuyAnimal = () => {
     gameService.send({
@@ -133,6 +147,30 @@ export const AnimalBuildingModal: React.FC<Props> = ({
     animalType: selectedName,
     game: state,
   });
+  // The windowed shrine isn't in `boostsUsed` (it applies over the sleep rather
+  // than being baked into it), so name it for the boost panel: its rate in the
+  // speed view, the time it actually saves in the other.
+  const maturityBoostsUsed = [
+    ...maturityTime.boostsUsed,
+    ...getBoostContributionEntries({
+      contributions: getAnimalBoostContributions(state, selectedName),
+      seconds: maturityTime.maturityTimeMs / 1000,
+      at: now,
+      showActualTime,
+      formatSeconds: (seconds) =>
+        secondsToString(seconds, { length: "medium" }),
+      formatSpeed: (speed) => t("description.boostedSpeed", { speed }),
+    }),
+  ];
+  const { displaySeconds: maturityDisplaySeconds, speed: maturitySpeed } =
+    getPreActionDisplay({
+      showActualTime,
+      seconds: maturityTime.maturityTimeMs / 1000,
+      baseSeconds: maturityTime.baseTimeMs / 1000,
+      namedBoostCount: maturityBoostsUsed.length,
+      windows: getAnimalBoostWindows(state, selectedName),
+      at: now,
+    });
 
   if (showIntro) {
     return (
@@ -209,9 +247,10 @@ export const AnimalBuildingModal: React.FC<Props> = ({
               requirements={{
                 coins: ANIMALS[selectedName].coins,
                 showCoinsIfFree: true,
-                timeSeconds: Math.ceil(maturityTime.maturityTimeMs / 1000),
+                timeSeconds: Math.ceil(maturityDisplaySeconds),
                 baseTimeSeconds: Math.ceil(maturityTime.baseTimeMs / 1000),
-                timeBoostsUsed: maturityTime.boostsUsed,
+                timeBoostsUsed: maturityBoostsUsed,
+                timeSpeed: maturitySpeed,
                 level: ANIMALS[selectedName].levelRequired,
               }}
               showTimeBoosts={showTimeBoosts}

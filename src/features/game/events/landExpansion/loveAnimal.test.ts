@@ -7,6 +7,8 @@ import {
 } from "./loveAnimal";
 import Decimal from "decimal.js-light";
 import { ANIMAL_SLEEP_DURATION } from "./feedAnimal";
+import { getAnimalReadyAt } from "features/game/lib/animals";
+import type { Animal, GameState } from "features/game/types/game";
 
 describe("loveAnimal", () => {
   const now = Date.now();
@@ -460,39 +462,106 @@ describe("getNextLoveAvailableAt", () => {
   };
 
   it("opens at asleepAt + period when the animal has never been loved", () => {
-    expect(getNextLoveAvailableAt({ ...baseAnimal, lovedAt: 0 })).toBe(
+    expect(getNextLoveAvailableAt({ ...baseAnimal, lovedAt: 0 }, awakeAt)).toBe(
       asleepAt + third,
     );
   });
 
   it("opens at lovedAt + period after a love inside the current cycle", () => {
     const lovedAt = asleepAt + third + 1_000;
-    expect(getNextLoveAvailableAt({ ...baseAnimal, lovedAt })).toBe(
+    expect(getNextLoveAvailableAt({ ...baseAnimal, lovedAt }, awakeAt)).toBe(
       lovedAt + third,
     );
   });
 
   it("agrees with isAnimalNeedingLove at the gate boundary", () => {
     const animal = { ...baseAnimal, lovedAt: 0 };
-    const openAt = getNextLoveAvailableAt(animal);
+    const openAt = getNextLoveAvailableAt(animal, awakeAt);
     // Gate opens at the boundary — false strictly before, true at and after.
-    expect(isAnimalNeedingLove(animal, openAt - 1)).toBe(false);
-    expect(isAnimalNeedingLove(animal, openAt)).toBe(true);
+    expect(isAnimalNeedingLove(animal, openAt - 1, awakeAt)).toBe(false);
+    expect(isAnimalNeedingLove(animal, openAt, awakeAt)).toBe(true);
   });
 
   it("only marks love ready while the animal is still asleep", () => {
     const animal = { ...baseAnimal, lovedAt: 0 };
-    const openAt = getNextLoveAvailableAt(animal);
+    const openAt = getNextLoveAvailableAt(animal, awakeAt);
 
-    expect(isAnimalReadyForLove(animal, openAt)).toBe(true);
-    expect(isAnimalReadyForLove(animal, awakeAt)).toBe(false);
-    expect(isAnimalReadyForLove(animal, awakeAt + 1)).toBe(false);
+    expect(isAnimalReadyForLove(animal, openAt, awakeAt)).toBe(true);
+    expect(isAnimalReadyForLove(animal, awakeAt, awakeAt)).toBe(false);
+    expect(isAnimalReadyForLove(animal, awakeAt + 1, awakeAt)).toBe(false);
   });
 
   it("returns a value >= awakeAt when no slot remains this cycle", () => {
     const lovedAt = asleepAt + 2 * third + 1_000;
     expect(
-      getNextLoveAvailableAt({ ...baseAnimal, lovedAt }),
+      getNextLoveAvailableAt({ ...baseAnimal, lovedAt }, awakeAt),
     ).toBeGreaterThanOrEqual(awakeAt);
+  });
+});
+// FE + BE jest run amoy, so SPEED_BOOSTS is ON by default here.
+describe("love cadence under a windowed sleep", () => {
+  const SLEEP = 24 * 60 * 60 * 1000;
+  const now = Date.now();
+
+  const withShrine: GameState = {
+    ...INITIAL_FARM,
+    collectibles: {
+      "Bantam Shrine": [
+        {
+          id: "bantam",
+          createdAt: now,
+          readyAt: now,
+          coordinates: { x: 0, y: 0 },
+        },
+      ],
+    },
+  };
+
+  const animal: Animal = {
+    id: "c1",
+    type: "Chicken",
+    state: "idle",
+    createdAt: 0,
+    experience: 0,
+    asleepAt: now,
+    awakeAt: now + SLEEP / 1.35,
+    baseDurationMs: SLEEP,
+    lovedAt: 0,
+    item: "Petting Hand",
+  };
+
+  it("splits the PROJECTED sleep into thirds, not the un-boosted one", () => {
+    const readyAt = getAnimalReadyAt(animal, withShrine);
+    const third = (readyAt - animal.asleepAt) / 3;
+
+    expect(readyAt).toEqual(now + SLEEP / 1.35);
+    expect(getNextLoveAvailableAt(animal, readyAt)).toEqual(now + third);
+    // A shrine shortens the wall clock, so the love slots arrive sooner too.
+    expect(getNextLoveAvailableAt(animal, readyAt)).toBeLessThan(
+      now + SLEEP / 3,
+    );
+  });
+
+  it("still leaves both love slots reachable before the animal wakes", () => {
+    const readyAt = getAnimalReadyAt(animal, withShrine);
+    const third = (readyAt - animal.asleepAt) / 3;
+
+    const afterFirst = { ...animal, lovedAt: now + third };
+    const secondAt = getNextLoveAvailableAt(afterFirst, readyAt);
+
+    expect(secondAt).toBeLessThan(readyAt);
+    expect(isAnimalReadyForLove(afterFirst, secondAt, readyAt)).toBe(true);
+  });
+
+  it("is unchanged for a legacy (unmarked) animal", () => {
+    const legacy: Animal = {
+      ...animal,
+      awakeAt: now + SLEEP,
+      baseDurationMs: undefined,
+    };
+    const readyAt = getAnimalReadyAt(legacy, withShrine);
+
+    expect(readyAt).toEqual(legacy.awakeAt);
+    expect(getNextLoveAvailableAt(legacy, readyAt)).toEqual(now + SLEEP / 3);
   });
 });

@@ -12,6 +12,7 @@ import {
   type TemporaryCollectibleName,
 } from "./collectibleBuilt";
 import { getCollectiblesAcrossLocations } from "./getCollectiblesAcrossLocations";
+import type { AnimalType } from "../types/animals";
 import type { RockName } from "../types/resources";
 import type { GreenHouseCropName } from "../types/crops";
 import type { GreenHouseFruitName } from "../types/fruits";
@@ -112,6 +113,19 @@ export const FLOWER_BOOST_SPEED = {
  */
 export const OIL_BOOST_SPEED = {
   "Stag Shrine": 1.35,
+} as const;
+
+/**
+ * Speed multipliers for the windowed animal-sleep boosts — the only two
+ * temporary boosts on an animal's sleep (no totems apply, mirroring oil and
+ * flowers). Which one covers an animal is decided by its type, so they never
+ * stack with each other: Collie Shrine speeds up Cows and Sheep, Bantam Shrine
+ * Chickens. Both are MIXED boosts — only their sleep-TIME half is windowed here;
+ * their ×0.95 feed-cost half stays baked in `getBoostedFoodQuantity`.
+ */
+export const ANIMAL_BOOST_SPEED = {
+  "Collie Shrine": 1.35,
+  "Bantam Shrine": 1.35,
 } as const;
 
 /**
@@ -294,6 +308,22 @@ export const getOilBoostWindows = (game: GameState): BoostWindow[] =>
     name: "Stag Shrine",
     speed: OIL_BOOST_SPEED["Stag Shrine"],
   });
+
+/**
+ * The windowed speed boosts that apply to an animal's sleep. Exactly one shrine
+ * can ever cover an animal (Chickens → Bantam, Cows/Sheep → Collie), and no
+ * totems apply. Only the sleep-TIME half is windowed; the shrines' ×0.95
+ * feed-cost half stays baked. Empty set (no shrine) makes `computeReadyAt`
+ * reduce to `asleepAt + baseDurationMs`.
+ */
+export const getAnimalBoostWindows = (
+  game: GameState,
+  animalType: AnimalType,
+): BoostWindow[] => {
+  const name = animalType === "Chicken" ? "Bantam Shrine" : "Collie Shrine";
+
+  return getBoostWindows({ game, name, speed: ANIMAL_BOOST_SPEED[name] });
+};
 
 /**
  * The Turbofruit Mix fertiliser's speed window for a fruit patch. Unlike the

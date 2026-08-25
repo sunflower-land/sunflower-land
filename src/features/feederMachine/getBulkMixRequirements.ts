@@ -9,6 +9,7 @@ import { isAnimalFeedable } from "features/game/events/landExpansion/buyAnimal";
 import {
   getAnimalFavoriteFood,
   getAnimalLevel,
+  getAnimalReadyAt,
   getBoostedFoodQuantity,
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
@@ -54,9 +55,9 @@ export type BulkMixFeed = {
 const MAX_FEED_STEPS_TO_READY = 100;
 const MIX_AMOUNT_EPSILON = new Decimal("0.000000000001");
 
-const isAnimalAwakeAndRequestingFood = (animal: Animal) => {
+const isAnimalAwakeAndRequestingFood = (animal: Animal, game: GameState) => {
   return (
-    animal.awakeAt <= Date.now() &&
+    getAnimalReadyAt(animal, game) <= Date.now() &&
     (animal.state === "idle" ||
       animal.state === "happy" ||
       animal.state === "sad")
@@ -191,7 +192,7 @@ const getAnimalFeedRequests = ({
     return [{ item: "Barn Delight", quantity: new Decimal(amount) }];
   }
 
-  if (!isAnimalAwakeAndRequestingFood(animal)) {
+  if (!isAnimalAwakeAndRequestingFood(animal, game)) {
     return [];
   }
 

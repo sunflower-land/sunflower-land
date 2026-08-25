@@ -36,6 +36,7 @@ import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 
 const _henHouse = (state: MachineState) => state.context.state.henHouse;
+const _game = (state: MachineState) => state.context.state;
 const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
 
 export const ANIMAL_HOUSE_IMAGES: Record<
@@ -57,6 +58,7 @@ export const HenHouseInside: React.FC = () => {
   const [selectedAnimalId, setSelectedAnimalId] = useState<string>();
 
   const henHouse = useSelector(gameService, _henHouse);
+  const game = useSelector(gameService, _game);
   const token = useSelector(authService, _token);
   const level = henHouse.level;
 
@@ -125,9 +127,10 @@ export const HenHouseInside: React.FC = () => {
 
   const validAnimalsCount = useMemo(() => {
     if (!deal) return 0;
-    return organizedAnimals.filter((animal) => isValidDeal({ animal, deal }))
-      .length;
-  }, [organizedAnimals, deal]);
+    return organizedAnimals.filter((animal) =>
+      isValidDeal({ animal, deal, game }),
+    ).length;
+  }, [organizedAnimals, deal, game]);
   return (
     <>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
@@ -244,7 +247,7 @@ export const HenHouseInside: React.FC = () => {
               >
                 <div className="flex flex-wrap w-full h-full">
                   {organizedAnimals.map((animal) => {
-                    const isValid = deal && isValidDeal({ animal, deal });
+                    const isValid = deal && isValidDeal({ animal, deal, game });
                     const { width, height } = ANIMALS[animal.type];
 
                     return (

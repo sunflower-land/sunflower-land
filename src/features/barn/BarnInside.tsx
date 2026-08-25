@@ -53,6 +53,7 @@ export const EXTERIOR_ISLAND_BG: Record<LandBiomeName, string> = {
 };
 
 const _barn = (state: MachineState) => state.context.state.barn;
+const _game = (state: MachineState) => state.context.state;
 const _island = (state: MachineState) => state.context.state.island;
 const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
 
@@ -83,6 +84,7 @@ export const BarnInside: React.FC = () => {
 
   const token = useSelector(authService, _token);
   const barn = useSelector(gameService, _barn);
+  const game = useSelector(gameService, _game);
   const island = useSelector(gameService, _island);
   const level = barn.level;
 
@@ -150,9 +152,10 @@ export const BarnInside: React.FC = () => {
 
   const validAnimalsCount = useMemo(() => {
     if (!deal) return 0;
-    return organizedAnimals.filter((animal) => isValidDeal({ animal, deal }))
-      .length;
-  }, [organizedAnimals, deal]);
+    return organizedAnimals.filter((animal) =>
+      isValidDeal({ animal, deal, game }),
+    ).length;
+  }, [organizedAnimals, deal, game]);
 
   const calendarEvent = isBuildingDestroyed({
     name: "Barn",
@@ -250,7 +253,7 @@ export const BarnInside: React.FC = () => {
               >
                 <div className="flex flex-wrap w-full h-full">
                   {organizedAnimals.map((animal) => {
-                    const isValid = deal && isValidDeal({ animal, deal });
+                    const isValid = deal && isValidDeal({ animal, deal, game });
                     const Component =
                       BARN_ANIMAL_COMPONENTS[animal.type as BarnAnimal];
                     const { width, height } = ANIMALS[animal.type];

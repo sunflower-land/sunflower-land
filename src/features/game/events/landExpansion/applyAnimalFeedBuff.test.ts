@@ -190,6 +190,7 @@ describe("applyAnimalFeedBuff", () => {
           item: "Petting Hand",
         },
         createdAt,
+        awakeAt,
       ),
     ).toBe(true);
 

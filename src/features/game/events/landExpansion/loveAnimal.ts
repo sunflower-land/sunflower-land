@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { getSkillLevel, SKILL_RANKS } from "features/game/types/bumpkinSkills";
 import {
   getAnimalLevel,
+  getAnimalReadyAt,
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
@@ -21,14 +22,25 @@ import { produce } from "immer";
  * Earliest timestamp at which this animal's current sleep cycle would
  * permit `loveAnimal`. Mirrors the two throw-gates below: both
  * `asleepAt + period` and `lovedAt + period` must have elapsed, where
- * `period = (awakeAt - asleepAt) / 3`. Callers should still check
- * `t < animal.awakeAt` — once the animal is awake the cycle is over
+ * `period = (readyAt - asleepAt) / 3`. Callers should still check
+ * `t < readyAt` — once the animal is awake the cycle is over
  * and no further love applies. The returned value can therefore be
- * `>= awakeAt` when no slot remains in this cycle (e.g. both slots
+ * `>= readyAt` when no slot remains in this cycle (e.g. both slots
  * already used); the caller decides how to render that.
+ *
+ * `readyAt` is the animal's live wake time (`getAnimalReadyAt`), which under the
+ * speed-rate model moves as a shrine is placed or expires. The cadence is thus
+ * thirds of the PROJECTED sleep, not thirds of the remaining work: a shrine
+ * running out mid-sleep pushes a nearly-open love slot back out. Deliberate —
+ * the alternative (work-based thirds) drifts away from the wall-clock rhythm
+ * players actually schedule around. Required rather than defaulted so every
+ * caller has to decide where its wake time comes from.
  */
-export function getNextLoveAvailableAt(animal: Animal): number {
-  const third = (animal.awakeAt - animal.asleepAt) / 3;
+export function getNextLoveAvailableAt(
+  animal: Animal,
+  readyAt: number,
+): number {
+  const third = (readyAt - animal.asleepAt) / 3;
   return Math.max(animal.asleepAt + third, animal.lovedAt + third);
 }
 
@@ -38,16 +50,24 @@ export function getNextLoveAvailableAt(animal: Animal): number {
  * the original `loveAnimal` reducer's `if (createdAt < boundary) throw` semantics
  * (rejects strictly before, accepts at equality).
  */
-export function isAnimalNeedingLove(animal: Animal, now: number): boolean {
-  return getNextLoveAvailableAt(animal) <= now;
+export function isAnimalNeedingLove(
+  animal: Animal,
+  now: number,
+  readyAt: number,
+): boolean {
+  return getNextLoveAvailableAt(animal, readyAt) <= now;
 }
 
 /**
  * UI/action affordance form: the love window has opened and the animal is
  * still asleep. Once the animal wakes, feeding becomes the next required action.
  */
-export function isAnimalReadyForLove(animal: Animal, now: number): boolean {
-  return now < animal.awakeAt && isAnimalNeedingLove(animal, now);
+export function isAnimalReadyForLove(
+  animal: Animal,
+  now: number,
+  readyAt: number,
+): boolean {
+  return now < readyAt && isAnimalNeedingLove(animal, now, readyAt);
 }
 
 export type LoveAnimalAction = {
@@ -73,12 +93,14 @@ export function loveAnimal({
     const buildingKey = makeAnimalBuildingKey(buildingRequired);
     const animal = copy[buildingKey].animals[action.id];
 
-    if (createdAt > animal.awakeAt) {
+    const readyAt = getAnimalReadyAt(animal, copy);
+
+    if (createdAt > readyAt) {
       throw new Error("The animal is not sleeping");
     }
 
     // You can love an animal twice in a night — see getNextLoveAvailableAt.
-    if (!isAnimalNeedingLove(animal, createdAt)) {
+    if (!isAnimalNeedingLove(animal, createdAt, readyAt)) {
       throw new Error("The animal cannot be loved yet");
     }
 

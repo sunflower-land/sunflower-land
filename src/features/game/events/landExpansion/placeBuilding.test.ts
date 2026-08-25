@@ -3,6 +3,7 @@ import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
 import { createInitialAgingShed } from "../../lib/agingShed";
 import type { GameState } from "../../types/game";
+import { getAnimalReadyAt } from "../../lib/animals";
 import { placeBuilding } from "./placeBuilding";
 import { RECIPES } from "features/game/lib/crafting";
 
@@ -956,5 +957,61 @@ describe("Place building", () => {
     expect(state.henHouse.animals["123"].asleepAt).toEqual(dateNow - 180000);
     expect(state.henHouse.animals["456"].asleepAt).toEqual(dateNow - 180000);
     expect(state.henHouse.animals["789"].asleepAt).toEqual(dateNow - 180000);
+  });
+  // FE + BE jest run amoy, so SPEED_BOOSTS is ON by default here.
+  it("banks a windowed animal's sleep across a lift instead of shifting it", () => {
+    const SLEEP = 24 * 60 * 60 * 1000;
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Basic Land": new Decimal(10),
+          "Hen House": new Decimal(1),
+        },
+        buildings: {
+          "Hen House": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt: dateNow - 120000,
+            },
+          ],
+        },
+        henHouse: {
+          level: 1,
+          animals: {
+            "123": {
+              type: "Chicken",
+              id: "123",
+              state: "idle",
+              createdAt: dateNow - 180000,
+              experience: 1000,
+              asleepAt: dateNow - 180000,
+              awakeAt: dateNow - 180000 + SLEEP,
+              baseDurationMs: SLEEP,
+              lovedAt: 0,
+              item: "Brush",
+            },
+          },
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Hen House",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    const animal = state.henHouse.animals["123"];
+    // Sleep resumes from now, with the 60s slept before the lift banked out of
+    // the remaining duration — the 120s the building spent lifted doesn't count.
+    expect(animal.asleepAt).toEqual(dateNow);
+    expect(animal.baseDurationMs).toEqual(SLEEP - 60000);
+    // Total sleep is unchanged, and it certainly doesn't complete on placement.
+    expect(getAnimalReadyAt(animal, state)).toEqual(dateNow + SLEEP - 60000);
   });
 });

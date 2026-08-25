@@ -5,7 +5,10 @@ import {
 } from "features/game/types/animals";
 import type { CollectibleName } from "features/game/types/craftables";
 import type { GameState } from "features/game/types/game";
-import { makeAnimalBuildingKey } from "features/game/lib/animals";
+import {
+  getAnimalReadyAt,
+  makeAnimalBuildingKey,
+} from "features/game/lib/animals";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { isWearableActive } from "features/game/lib/wearables";
 import { getKeys } from "lib/object";
@@ -78,7 +81,7 @@ export function getFeedAllTargets({
 
     // Sleeping animals (including needsLove, which only occurs while
     // asleep) are never touched by the bulk action.
-    if (createdAt < animal.awakeAt) return;
+    if (createdAt < getAnimalReadyAt(animal, state)) return;
 
     if (animal.state === "ready") {
       // Capacity lock does not block claiming, matching the manual UI.

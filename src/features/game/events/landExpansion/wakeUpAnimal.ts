@@ -3,6 +3,7 @@ import { ANIMALS, type AnimalType } from "features/game/types/animals";
 import type { Animal, GameState } from "features/game/types/game";
 import {
   getAnimalLevel,
+  getAnimalReadyAt,
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
 import type { DollName } from "features/game/lib/crafting";
@@ -78,7 +79,7 @@ export function wakeAnimal({
       );
     }
 
-    if (createdAt > animal.awakeAt) {
+    if (createdAt > getAnimalReadyAt(animal, copy)) {
       throw new Error("Animal not asleep");
     }
 
@@ -99,6 +100,9 @@ export function wakeAnimal({
     copy.inventory[toy] = (copy.inventory[toy] ?? new Decimal(0)).minus(1);
 
     animal.awakeAt = createdAt;
+    // Drop the windowed marker so the wake time is exactly this instant rather
+    // than being re-derived from `asleepAt` + the shrine windows.
+    delete animal.baseDurationMs;
 
     return copy;
   });
