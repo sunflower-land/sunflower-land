@@ -19,6 +19,10 @@ import {
   isPreActionBoosted,
 } from "features/game/lib/timerDisplay";
 import { getNodeBoostWindows } from "features/game/lib/seedBoostWindows";
+import {
+  getBoostContributionEntries,
+  getNodeBoostContributions,
+} from "features/game/lib/boostContributions";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getTreeRecoveryTimeForDisplay } from "features/game/events/landExpansion/chop";
 import { getStoneRecoveryTimeForDisplay } from "features/game/events/landExpansion/stoneMine";
@@ -290,7 +294,6 @@ const CooldownCell: React.FC<{
   // no name attached to it, so it shortens the time (or shows its rate) without
   // making the cell clickable.
   const hasNamedBoosts = cooldown.boostsUsed.length > 0;
-  const isSpedUp = cooldown.speed > 1;
   const hasBoosts = isPreActionBoosted({
     displaySeconds: cooldown.recoverySeconds,
     baseSeconds: cooldown.baseSeconds,
@@ -329,11 +332,6 @@ const CooldownCell: React.FC<{
               {cooldown.recoverySeconds > 0 ? recoveryTimeStr : t("instant")}
             </span>
           </div>
-          {isSpedUp && (
-            <span className="text-xxs">{`${Number(
-              cooldown.speed.toFixed(2),
-            )}x`}</span>
-          )}
           {cooldown.baseSeconds > 0 && (
             <div className="flex items-center">
               <img
@@ -394,11 +392,25 @@ const NodeRow: React.FC<NodeRowProps> = ({
   const windows = node.nodeName
     ? getNodeBoostWindows(state, node.nodeName)
     : [];
+  // The windowed boosters aren't in `boostsUsed` (they apply over the recovery
+  // rather than being baked into it), so name them for the boost panel: their
+  // rate in the speed view, the time each one actually saves in the other.
+  const windowedBoosts = getBoostContributionEntries({
+    contributions: node.nodeName
+      ? getNodeBoostContributions(state, node.nodeName)
+      : [],
+    seconds: recoveryTimeMs / 1000,
+    at: now,
+    showActualTime,
+    formatSeconds: (seconds) => secondsToString(seconds, { length: "medium" }),
+    formatSpeed: (speed) => translate("description.boostedSpeed", { speed }),
+  });
+  const allBoostsUsed = [...boostsUsed, ...windowedBoosts];
   const { displaySeconds, speed } = getPreActionDisplay({
     showActualTime,
     seconds: recoveryTimeMs / 1000,
     baseSeconds: baseTimeMs / 1000,
-    namedBoostCount: boostsUsed.length,
+    namedBoostCount: allBoostsUsed.length,
     windows,
     at: now,
   });
@@ -416,7 +428,7 @@ const NodeRow: React.FC<NodeRowProps> = ({
     nodeLabel: translate(node.recoveryLabelKey),
     baseSeconds: baseTimeMs / 1000,
     recoverySeconds: displaySeconds,
-    boostsUsed,
+    boostsUsed: allBoostsUsed,
     speed,
   };
 

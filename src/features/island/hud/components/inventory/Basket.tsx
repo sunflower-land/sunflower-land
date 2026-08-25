@@ -86,8 +86,13 @@ import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
 import { CLUTTER } from "features/game/types/clutter";
 import { PET_RESOURCES } from "features/game/types/pets";
 import { useNow } from "lib/utils/hooks/useNow";
+import { secondsToString } from "lib/utils/time";
 import { getPreActionDisplay } from "features/game/lib/timerDisplay";
 import { getSeedBoostWindows } from "features/game/lib/seedBoostWindows";
+import {
+  getBoostContributionEntries,
+  getSeedBoostContributions,
+} from "features/game/lib/boostContributions";
 import { PROCESSED_RESOURCES } from "features/game/types/processedFood";
 import { CRUSTACEANS_DESCRIPTIONS } from "features/game/types/crustaceans";
 import { FERMENTATION_PRODUCTS } from "features/game/types/fermentationProducts";
@@ -223,13 +228,31 @@ export const Basket: React.FC<Prop> = ({
   // A live speed window isn't folded into the grow time — surface it as the
   // current rate, or (in the actual-time view) as a projected "plant now → ready
   // in X" that credits only the part of the grow the booster still covers.
+  // The windowed boosters aren't in `boostsUsed` (they apply over the grow rather
+  // than being baked into it), so name them for the boost panel: their rate in
+  // the speed view, the time each one actually saves in the other.
+  const seedWindowedBoosts =
+    isSeed(selectedItem) && seedHarvestTime
+      ? getBoostContributionEntries({
+          contributions: getSeedBoostContributions(gameState, selectedItem),
+          seconds: seedHarvestTime.seconds,
+          at: now,
+          showActualTime,
+          formatSeconds: (seconds) =>
+            secondsToString(seconds, { length: "medium" }),
+          formatSpeed: (speed) => t("description.boostedSpeed", { speed }),
+        })
+      : [];
+  const seedBoostsUsed = seedHarvestTime
+    ? [...seedHarvestTime.boostsUsed, ...seedWindowedBoosts]
+    : undefined;
   const seedTimeDisplay =
     isSeed(selectedItem) && seedHarvestTime
       ? getPreActionDisplay({
           showActualTime,
           seconds: seedHarvestTime.seconds,
           baseSeconds: getBaseHarvestTime(selectedItem),
-          namedBoostCount: seedHarvestTime.boostsUsed.length,
+          namedBoostCount: seedBoostsUsed?.length ?? 0,
           windows: getSeedBoostWindows(gameState, selectedItem),
           at: now,
         })
@@ -606,7 +629,7 @@ export const Basket: React.FC<Prop> = ({
                 baseTimeSeconds: isSeed(selectedItem)
                   ? getBaseHarvestTime(selectedItem)
                   : undefined,
-                timeBoostsUsed: seedHarvestTime?.boostsUsed,
+                timeBoostsUsed: seedBoostsUsed,
                 onMarketplaceClick:
                   onOpenMarketplace && canOpenMarketplace
                     ? () => onOpenMarketplace(selectedItem)

@@ -355,13 +355,6 @@ export const SeedRequirements: React.FC<Props> = ({
               strikethrough={isTimeBoosted}
             />
           )}
-          {speed > 1 && (
-            <Label type="transparent" icon={SUNNYSIDE.icons.lightning}>
-              {t("description.boostedSpeed", {
-                speed: Number(speed.toFixed(2)),
-              })}
-            </Label>
-          )}
           <BoostsDisplay
             boosts={time?.boostsUsed ?? []}
             show={hasNamedBoosts && showBoosts}

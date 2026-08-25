@@ -84,6 +84,10 @@ import { useNow } from "lib/utils/hooks/useNow";
 import { getPreActionDisplay } from "features/game/lib/timerDisplay";
 import { getSeedBoostWindows } from "features/game/lib/seedBoostWindows";
 import {
+  getBoostContributionEntries,
+  getSeedBoostContributions,
+} from "features/game/lib/boostContributions";
+import {
   CHAPTER_CROP_WEEK,
   CHAPTER_CROP_WEEK_SEED,
   isChapterCropWeekActive,
@@ -342,12 +346,27 @@ export const SeasonalSeeds: React.FC = () => {
   // the actual-time view) the real "plant now → ready in X", which credits only
   // the part of the grow the booster still covers.
   const plantTime = getPlantSeconds();
+  // The windowed boosters aren't in `boostsUsed` (they apply over the grow rather
+  // than being baked into it), so name them for the boost panel: their rate in
+  // the speed view, the time each one actually saves in the other.
+  const plantBoostsUsed = [
+    ...plantTime.boostsUsed,
+    ...getBoostContributionEntries({
+      contributions: getSeedBoostContributions(state, selectedName),
+      seconds: plantTime.seconds,
+      at: now,
+      showActualTime,
+      formatSeconds: (seconds) =>
+        secondsToString(seconds, { length: "medium" }),
+      formatSpeed: (speed) => t("description.boostedSpeed", { speed }),
+    }),
+  ];
   const { displaySeconds: plantDisplaySeconds, speed: plantSpeed } =
     getPreActionDisplay({
       showActualTime,
       seconds: plantTime.seconds,
       baseSeconds: baseTime,
-      namedBoostCount: plantTime.boostsUsed.length,
+      namedBoostCount: plantBoostsUsed.length,
       windows: getSeedBoostWindows(state, selectedName),
       at: now,
     });
@@ -480,7 +499,10 @@ export const SeasonalSeeds: React.FC = () => {
                   maxHarvest: harvestCount[1],
                 }
               : undefined,
-            time: { ...plantTime, seconds: plantDisplaySeconds },
+            time: {
+              seconds: plantDisplaySeconds,
+              boostsUsed: plantBoostsUsed,
+            },
             baseTimeSeconds: baseTime,
             timeSpeed: plantSpeed,
             restriction: {

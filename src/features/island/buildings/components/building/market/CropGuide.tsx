@@ -31,6 +31,7 @@ import { SELLABLE } from "features/game/events/landExpansion/sellCrop";
 import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/lib/greenhouseGrowTimes";
 import { useGame } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { translate } from "lib/i18n/translate";
 import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
 import fullMoon from "assets/icons/full_moon.png";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
@@ -47,6 +48,10 @@ import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
 import { getPreActionDisplay } from "features/game/lib/timerDisplay";
 import { getSeedBoostWindows } from "features/game/lib/seedBoostWindows";
+import {
+  getBoostContributionEntries,
+  getSeedBoostContributions,
+} from "features/game/lib/boostContributions";
 import {
   INITIAL_STOCK,
   INVENTORY_LIMIT,
@@ -635,16 +640,27 @@ const GrowthTimeCell: React.FC<{
   // A live speed window isn't folded into `boostedTime` — show it as the current
   // rate, or (in the actual-time view) as the real "plant now → ready in X",
   // which credits only the part of the grow the booster still covers.
+  // The windowed boosters aren't in `boostsUsed` (they apply over the grow rather
+  // than being baked into it), so name them for the boost panel: their rate in
+  // the speed view, the time each one actually saves in the other.
+  const windowedBoosts = getBoostContributionEntries({
+    contributions: getSeedBoostContributions(state, seed),
+    seconds: boostedTime.seconds,
+    at: now,
+    showActualTime,
+    formatSeconds: (seconds) => secondsToString(seconds, { length: "medium" }),
+    formatSpeed: (speed) => translate("description.boostedSpeed", { speed }),
+  });
+  const boostsUsed = [...boostedTime.boostsUsed, ...windowedBoosts];
   const {
     displaySeconds,
-    speed,
     hasNamedBoosts,
     isBoosted: isTimeBoosted,
   } = getPreActionDisplay({
     showActualTime,
     seconds: boostedTime.seconds,
     baseSeconds,
-    namedBoostCount: boostedTime.boostsUsed.length,
+    namedBoostCount: boostsUsed.length,
     windows: getSeedBoostWindows(state, seed),
     at: now,
   });
@@ -697,13 +713,10 @@ const GrowthTimeCell: React.FC<{
               })}
             </p>
           )}
-          {speed > 1 && (
-            <p className="text-xxs">{`${Number(speed.toFixed(2))}x`}</p>
-          )}
         </div>
       </div>
       <BoostsDisplay
-        boosts={boostedTime.boostsUsed}
+        boosts={boostsUsed}
         show={hasNamedBoosts && showBoostsKey === boostKey}
         state={state}
         onClick={() =>

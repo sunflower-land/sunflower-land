@@ -13,7 +13,6 @@ import { SquareIcon } from "../SquareIcon";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { Label } from "../Label";
 import { isPreActionBoosted } from "features/game/lib/timerDisplay";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
@@ -220,13 +219,6 @@ export const InventoryItemDetails: React.FC<Props> = ({
                   strikethrough
                 />
               )}
-            {speed > 1 && (
-              <Label type="transparent" icon={SUNNYSIDE.icons.lightning}>
-                {t("description.boostedSpeed", {
-                  speed: Number(speed.toFixed(2)),
-                })}
-              </Label>
-            )}
             <BoostsDisplay
               boosts={properties.timeBoostsUsed}
               show={hasNamedBoosts && properties.showBoosts}
