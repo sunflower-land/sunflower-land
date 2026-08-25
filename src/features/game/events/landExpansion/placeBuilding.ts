@@ -11,7 +11,6 @@ import { produce } from "immer";
 import type { ComposterName } from "features/game/types/composters";
 import { createInitialAgingShed } from "features/game/lib/agingShed";
 import {
-  getAnimalBoostWindows,
   getGreenhouseBoostWindows,
   getGreenhouseGlowWindows,
   pauseWindowedTimer,
@@ -162,17 +161,17 @@ export function placeBuilding({
               0,
               createdAt - existingBuilding.removedAt,
             );
-            // Windowed animals bank the sleep done before the lift (shrinks
-            // baseDurationMs), else legacy shift. Behaviour-identical to the
-            // shift when unboosted, but it stops the lifted animal re-earning
-            // boost credit over a different stretch of the shrine windows.
-            animal.asleepAt = pauseWindowedTimer({
-              timer: animal,
-              startedAt: animal.asleepAt,
-              removedAt: existingBuilding.removedAt,
-              createdAt,
-              windows: getAnimalBoostWindows(stateCopy, animal.type),
-            });
+            // Animals shift all three timestamps together instead of using
+            // `pauseWindowedTimer`, even when windowed. `asleepAt` is the
+            // love-cadence anchor as well as the sleep timer's start, so moving
+            // it independently of `awakeAt`/`lovedAt` compresses the cycle and
+            // re-opens love slots the player has already spent — the same
+            // reason `migrateSpeedBoosts` refuses to freeze animals. A windowed
+            // sleep keeps its full `baseDurationMs` and resumes from the
+            // shifted start, so the lifted interval still doesn't count toward
+            // it; the cost is that boost credit re-accrues over a shifted
+            // stretch of the shrine window, negligible against a 7-day shrine.
+            animal.asleepAt = animal.asleepAt + timeOffset;
             animal.awakeAt = animal.awakeAt + timeOffset;
             animal.lovedAt = animal.lovedAt + timeOffset;
           }
