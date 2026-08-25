@@ -137,7 +137,7 @@ export const GREENHOUSE_BOOST_SPEED = {
 } as const;
 
 /** Window for the Power Hour buff (1h from activation), if active. */
-const getPowerHourWindows = (game: GameState): BoostWindow[] => {
+export const getPowerHourWindows = (game: GameState): BoostWindow[] => {
   const buff = game.buffs?.["Power hour"];
   if (buff?.startedAt === undefined) return [];
   return [
@@ -155,7 +155,7 @@ const getPowerHourWindows = (game: GameState): BoostWindow[] => {
  * runs from `startedAt` to the next UTC midnight. A built season Guardian doubles
  * the boost (2× → 4×).
  */
-const getSunshowerWindows = (game: GameState): BoostWindow[] => {
+export const getSunshowerWindows = (game: GameState): BoostWindow[] => {
   const startedAt = game.calendar?.sunshower?.startedAt;
   if (startedAt === undefined) return [];
 

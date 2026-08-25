@@ -12,6 +12,8 @@ export const BehaviourSettings: React.FC = () => {
     toggleQuickSelect,
     showTimers,
     toggleTimers,
+    showActualTime,
+    toggleActualTime,
   } = useContext(Context);
 
   return (
@@ -30,6 +32,11 @@ export const BehaviourSettings: React.FC = () => {
         label={"Quick Select"}
       />
       <Switch checked={showTimers} onChange={toggleTimers} label={"Timers"} />
+      <Switch
+        checked={showActualTime}
+        onChange={toggleActualTime}
+        label={t("gameOptions.generalSettings.actualTime")}
+      />
     </div>
   );
 };

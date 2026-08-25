@@ -30,11 +30,10 @@ import { ProgressBar } from "components/ui/ProgressBar";
 import { getGreenhouseCropYieldAmount } from "features/game/events/landExpansion/harvestGreenHouse";
 import { getGreenhouseReadyAt } from "features/game/events/landExpansion/greenhouseReadiness";
 import {
-  getEffectiveSpeedAt,
   getGreenhouseBoostWindows,
   getGreenhouseGlowWindows,
-  workAccruedAt,
 } from "features/game/lib/boostWindows";
+import { useNodeTimer } from "features/game/lib/useNodeTimer";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getOilUsage,
@@ -45,7 +44,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { formatNumber } from "lib/utils/formatNumber";
-import { useNow } from "lib/utils/hooks/useNow";
 import {
   GREENHOUSE_COMPOST,
   type GreenhouseCompostName,
@@ -180,40 +178,22 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
   // so visual progress is preserved (readiness already accounts for it).
   const bankedWorkMs = growingPlant?.boostedTime ?? 0;
 
-  // Coarse 1s clock to pick the current boost speed; only windowed plants are
-  // boosted. Tick the countdown faster (1000/speed) so it drops ~1s per visual
-  // tick rather than jumping by `speed` each real second.
-  const tickNow = useNow({
-    live: !!growingPlant && baseDurationMs !== undefined,
-    autoEndAt: readyAt,
+  const { now, speed, workLeftSeconds, displaySeconds } = useNodeTimer({
+    startedAt: plantedAt,
+    baseDurationMs,
+    windows: boostWindows,
+    legacyReadyAt: readyAt,
+    live: !!growingPlant,
   });
-  const speed =
-    baseDurationMs !== undefined
-      ? getEffectiveSpeedAt({ at: tickNow, windows: boostWindows })
-      : 1;
-  const intervalMs = Math.max(Math.round(1000 / Math.max(speed, 1)), 250);
-  const now = useNow({ live: !!growingPlant, autoEndAt: readyAt, intervalMs });
 
-  // Remaining time is remaining *work* (in base duration) for windowed plants,
-  // so it ticks down faster while a boost window is active; legacy counts down
-  // to the back-dated readyAt.
+  // Remaining WORK — drives the progress fill and the "is it still growing"
+  // gates below, so neither moves when the player switches reading.
   const secondsLeft =
-    baseDurationMs !== undefined
-      ? Math.max(
-          Math.ceil(
-            (baseDurationMs -
-              workAccruedAt({
-                startedAt: plantedAt,
-                at: now,
-                windows: boostWindows,
-              })) /
-              1000,
-          ),
-          0,
-        )
-      : readyAt > 0
-        ? Math.max(Math.ceil((readyAt - now) / 1000), 0)
-        : 0;
+    readyAt > 0 || baseDurationMs !== undefined
+      ? Math.max(Math.ceil(workLeftSeconds), 0)
+      : 0;
+  // The reading the player has chosen, for the labels.
+  const displaySecondsLeft = Math.max(Math.ceil(displaySeconds), 0);
   const totalSeconds =
     baseDurationMs !== undefined
       ? (baseDurationMs + bankedWorkMs) / 1000
@@ -439,7 +419,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
         >
           <ProgressBar
             percentage={percentage}
-            seconds={secondsLeft}
+            seconds={displaySecondsLeft}
             formatLength="short"
             type="progress"
           />
@@ -463,7 +443,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
           image={ITEM_DETAILS[pot.plant.name].image}
           description={pot.plant.name}
           showPopover={showTimeRemaining && !canApplyGreenhouseFertiliser()}
-          timeLeft={secondsLeft}
+          timeLeft={displaySecondsLeft}
           speed={speed}
         />
       </Transition>

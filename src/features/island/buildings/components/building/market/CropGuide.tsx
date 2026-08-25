@@ -1,7 +1,7 @@
 import { InnerPanel } from "components/ui/Panel";
 import { Chip } from "components/ui/Chip";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React, { useMemo, useRef, useState } from "react";
+import React, { useContext, useMemo, useRef, useState } from "react";
 import { SEASON_ICONS } from "./SeasonalSeeds";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
@@ -31,6 +31,7 @@ import { SELLABLE } from "features/game/events/landExpansion/sellCrop";
 import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/lib/greenhouseGrowTimes";
 import { useGame } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { translate } from "lib/i18n/translate";
 import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
 import fullMoon from "assets/icons/full_moon.png";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
@@ -43,6 +44,17 @@ import {
 } from "features/game/events/landExpansion/plantGreenhouse";
 import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
 import { useNow } from "lib/utils/hooks/useNow";
+import classNames from "classnames";
+import { Context } from "features/game/GameProvider";
+import {
+  getPreActionDisplay,
+  PRE_ACTION_TICK_MS,
+} from "features/game/lib/timerDisplay";
+import { getSeedBoostWindows } from "features/game/lib/seedBoostWindows";
+import {
+  getBoostContributionEntries,
+  getSeedBoostContributions,
+} from "features/game/lib/boostContributions";
 import {
   INITIAL_STOCK,
   INVENTORY_LIMIT,
@@ -65,7 +77,9 @@ export const CropGuide = () => {
   const state = gameState.context.state;
   const inventory = state.inventory;
   const { t } = useAppTranslation();
-  const now = useNow();
+  // Ticks slowly so a guide left open follows a booster burning down. One clock
+  // for the whole guide: a per-row one would mean an interval per listed seed.
+  const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
   const [showBoostsKey, setShowBoostsKey] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] =
     useState<GuideCategory>("crops");
@@ -242,6 +256,7 @@ export const CropGuide = () => {
               seed={seed}
               seconds={FLOWER_SEEDS[seed].plantSeconds}
               state={state}
+              now={now}
               alternateBg={index % 2 === 0}
               showBoostsKey={showBoostsKey}
               setShowBoostsKey={setShowBoostsKey}
@@ -318,6 +333,8 @@ export const CropRow: React.FC<{
           <div className="flex flex-col min-w-0">
             <GrowthTimeCell
               boostKey={`${seed}-growth-time`}
+              seed={seed}
+              now={now}
               baseSeconds={seconds}
               boostedTime={boostedTime}
               state={state}
@@ -358,6 +375,8 @@ export const FlowerRow: React.FC<{
   seed: FlowerSeedName;
   seconds: number;
   state: GameState;
+  /** Shared guide clock; the growth-time projection is relative to it. */
+  now: number;
   alternateBg?: boolean;
   showBoostsKey: string | null;
   setShowBoostsKey: (key: string | null) => void;
@@ -365,6 +384,7 @@ export const FlowerRow: React.FC<{
   seed,
   seconds,
   state,
+  now,
   alternateBg,
   showBoostsKey,
   setShowBoostsKey,
@@ -395,6 +415,8 @@ export const FlowerRow: React.FC<{
           <div className="flex flex-col min-w-0">
             <GrowthTimeCell
               boostKey={`${seed}-growth-time`}
+              seed={seed}
+              now={now}
               baseSeconds={seconds}
               boostedTime={boostedTime}
               state={state}
@@ -607,24 +629,55 @@ const getSeedGrowthTime = ({
 
 const GrowthTimeCell: React.FC<{
   boostKey: string;
+  seed: SeedName;
   baseSeconds: number;
   boostedTime: GrowthTime;
   state: GameState;
+  /** Shared guide clock; the projections below are relative to it. */
+  now: number;
   showBoostsKey: string | null;
   setShowBoostsKey: (key: string | null) => void;
 }> = ({
   boostKey,
+  seed,
   baseSeconds,
   boostedTime,
   state,
+  now,
   showBoostsKey,
   setShowBoostsKey,
 }) => {
+  const { showActualTime } = useContext(Context);
   const anchorRef = useRef<HTMLButtonElement>(null);
-  const isTimeBoosted =
-    boostedTime.boostsUsed.length > 0 && boostedTime.seconds !== baseSeconds;
-  const showMediumTime =
-    Math.max(baseSeconds, boostedTime.seconds) > 24 * 60 * 60;
+
+  // A live speed window isn't folded into `boostedTime` — show it as the current
+  // rate, or (in the actual-time view) as the real "plant now → ready in X",
+  // which credits only the part of the grow the booster still covers.
+  // The windowed boosters aren't in `boostsUsed` (they apply over the grow rather
+  // than being baked into it), so name them for the boost panel: their rate in
+  // the speed view, the time each one actually saves in the other.
+  const windowedBoosts = getBoostContributionEntries({
+    contributions: getSeedBoostContributions(state, seed, now),
+    seconds: boostedTime.seconds,
+    at: now,
+    showActualTime,
+    formatSeconds: (seconds) => secondsToString(seconds, { length: "medium" }),
+    formatSpeed: (speed) => translate("description.boostedSpeed", { speed }),
+  });
+  const boostsUsed = [...boostedTime.boostsUsed, ...windowedBoosts];
+  const {
+    displaySeconds,
+    hasNamedBoosts,
+    isBoosted: isTimeBoosted,
+  } = getPreActionDisplay({
+    showActualTime,
+    seconds: boostedTime.seconds,
+    baseSeconds,
+    namedBoostCount: boostsUsed.length,
+    windows: getSeedBoostWindows(state, seed),
+    at: now,
+  });
+  const showMediumTime = Math.max(baseSeconds, displaySeconds) > 24 * 60 * 60;
 
   if (!isTimeBoosted) {
     return (
@@ -643,10 +696,15 @@ const GrowthTimeCell: React.FC<{
     <button
       ref={anchorRef}
       type="button"
-      className="flex items-center mr-2 cursor-pointer relative"
-      aria-expanded={showBoostsKey === boostKey}
+      className={classNames("flex items-center mr-2 relative", {
+        // Only named boosts can be itemised, so only they open the breakdown.
+        "cursor-pointer": hasNamedBoosts,
+      })}
+      disabled={!hasNamedBoosts}
+      aria-expanded={hasNamedBoosts && showBoostsKey === boostKey}
       aria-controls={`${boostKey}-panel`}
       onClick={(e) => {
+        if (!hasNamedBoosts) return;
         e.stopPropagation();
         setShowBoostsKey(showBoostsKey === boostKey ? null : boostKey);
       }}
@@ -655,23 +713,25 @@ const GrowthTimeCell: React.FC<{
         <div className="flex items-center">
           <img src={SUNNYSIDE.icons.stopwatch} className="w-3 mr-1" />
           <p className="text-xxs">
-            {secondsToString(boostedTime.seconds, {
+            {secondsToString(displaySeconds, {
               length: showMediumTime ? "medium" : "short",
             })}
           </p>
         </div>
         <div className="flex items-center">
           <img src={SUNNYSIDE.icons.lightning} className="w-3 mx-1" />
-          <p className="text-xxs line-through">
-            {secondsToString(baseSeconds, {
-              length: showMediumTime ? "medium" : "short",
-            })}
-          </p>
+          {displaySeconds !== baseSeconds && (
+            <p className="text-xxs line-through">
+              {secondsToString(baseSeconds, {
+                length: showMediumTime ? "medium" : "short",
+              })}
+            </p>
+          )}
         </div>
       </div>
       <BoostsDisplay
-        boosts={boostedTime.boostsUsed}
-        show={showBoostsKey === boostKey}
+        boosts={boostsUsed}
+        show={hasNamedBoosts && showBoostsKey === boostKey}
         state={state}
         onClick={() =>
           setShowBoostsKey(showBoostsKey === boostKey ? null : boostKey)

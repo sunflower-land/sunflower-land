@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { TREE_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
-import { getTimeLeft } from "lib/utils/time";
 import type {
   GameState,
   InventoryItemName,
@@ -16,12 +15,10 @@ import {
   getWoodDropAmount,
 } from "features/game/events/landExpansion/chop";
 import {
-  computeReadyAt,
-  getEffectiveSpeedAt,
   getTreeBoostWindows,
-  workAccruedAt,
   type BoostWindow,
 } from "features/game/lib/boostWindows";
+import { useNodeTimer } from "features/game/lib/useNodeTimer";
 import { KNOWN_IDS } from "features/game/types";
 import type { TreeName } from "features/game/types/resources";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
@@ -43,7 +40,6 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { setPrecision } from "lib/utils/formatNumber";
 import { Transition } from "@headlessui/react";
 import lightning from "assets/icons/lightning.png";
-import { useNow } from "lib/utils/hooks/useNow";
 import type { FarmActivityName } from "features/game/types/farmActivity";
 
 const HITS = 3;
@@ -160,48 +156,18 @@ export const Tree: React.FC<Props> = ({ id }) => {
   const hasTool = HasTool(inventory, game, id);
 
   const { choppedAt, baseDurationMs } = resource.wood;
-  // Speed-rate model (baseDurationMs set): derive the ready time live from the
-  // boost windows. Legacy trees use the back-dated choppedAt + base recovery.
-  const readyAt =
-    baseDurationMs !== undefined
-      ? computeReadyAt({
-          startedAt: choppedAt,
-          baseDurationMs,
-          windows: treeBoostWindows,
-        })
-      : choppedAt + TREE_RECOVERY_TIME * 1000;
-
-  // Coarse 1s clock to pick the current boost speed; only windowed trees are
-  // boosted. Gated to windowed trees and stopped at readyAt so recovered/legacy
-  // trees don't re-render every second. Tick the countdown faster (1000/speed)
-  // so it drops ~1s per visual tick rather than jumping by `speed` each second.
-  const tickNow = useNow({
-    live: baseDurationMs !== undefined,
-    autoEndAt: readyAt,
+  const {
+    now,
+    readyAt,
+    speed,
+    displaySeconds: timeLeft,
+  } = useNodeTimer({
+    startedAt: choppedAt,
+    baseDurationMs,
+    windows: treeBoostWindows,
+    legacyReadyAt: choppedAt + TREE_RECOVERY_TIME * 1000,
   });
-  const speed =
-    baseDurationMs !== undefined
-      ? getEffectiveSpeedAt({ at: tickNow, windows: treeBoostWindows })
-      : 1;
-  const intervalMs = Math.max(Math.round(1000 / Math.max(speed, 1)), 250);
-  const now = useNow({ live: true, autoEndAt: readyAt, intervalMs });
   const isSeasoned = isSeasonedPlayer({ game, verified, now });
-
-  // For windowed trees the remaining time is remaining *work* (in base
-  // duration), so it visibly ticks down faster while a boost window is active.
-  const timeLeft =
-    baseDurationMs !== undefined
-      ? Math.max(
-          (baseDurationMs -
-            workAccruedAt({
-              startedAt: choppedAt,
-              at: now,
-              windows: treeBoostWindows,
-            })) /
-            1000,
-          0,
-        )
-      : getTimeLeft(choppedAt, TREE_RECOVERY_TIME, now);
   const chopped = now <= readyAt;
 
   const [isAnimationRunning, setIsAnimationRunning] = useState(false);
