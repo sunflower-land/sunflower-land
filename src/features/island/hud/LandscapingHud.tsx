@@ -269,7 +269,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
               top: `${PIXEL_SCALE * 31}px`,
             }}
           >
-            <RoundButton onClick={toggleRemovalMode}>
+            <RoundButton className="mb-3.5" onClick={toggleRemovalMode}>
               <img
                 src={SUNNYSIDE.icons.cancel}
                 className="absolute group-active:translate-y-[2px]"
@@ -277,6 +277,18 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                   top: `${PIXEL_SCALE * 5.5}px`,
                   left: `${PIXEL_SCALE * 5.5}px`,
                   width: `${PIXEL_SCALE * 11}px`,
+                }}
+              />
+            </RoundButton>
+
+            <RoundButton onClick={removeAll}>
+              <img
+                src={cleanBroom}
+                className="absolute group-active:translate-y-[2px]"
+                style={{
+                  top: `${PIXEL_SCALE * 5}px`,
+                  left: `${PIXEL_SCALE * 5}px`,
+                  width: `${PIXEL_SCALE * 13}px`,
                 }}
               />
             </RoundButton>
@@ -368,18 +380,6 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                   />
                 </>
               )}
-
-              <RoundButton className="mb-3.5" onClick={removeAll}>
-                <img
-                  src={cleanBroom}
-                  className="absolute group-active:translate-y-[2px]"
-                  style={{
-                    top: `${PIXEL_SCALE * 5}px`,
-                    left: `${PIXEL_SCALE * 5}px`,
-                    width: `${PIXEL_SCALE * 13}px`,
-                  }}
-                />
-              </RoundButton>
 
               {location === "farm" &&
                 hasFeatureAccess(gameState, "SAVED_LAYOUTS") && (
