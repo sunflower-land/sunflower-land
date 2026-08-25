@@ -57,7 +57,7 @@ export type SocialDetails = {
   disabled?: boolean;
 };
 
-const API_URL = CONFIG.API_URL;
+const API2_URL = CONFIG.API2_URL ?? CONFIG.API_URL;
 
 let loadSessionErrors = 0;
 
@@ -73,7 +73,7 @@ export async function loadSession(
 
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const response = await window.fetch(`${API_URL}/session`, {
+  const response = await window.fetch(`${API2_URL}/session`, {
     method: "POST",
     //mode: "no-cors",
     headers: {
