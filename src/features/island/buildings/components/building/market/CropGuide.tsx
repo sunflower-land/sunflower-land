@@ -46,7 +46,10 @@ import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
 import { useNow } from "lib/utils/hooks/useNow";
 import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
-import { getPreActionDisplay } from "features/game/lib/timerDisplay";
+import {
+  getPreActionDisplay,
+  PRE_ACTION_TICK_MS,
+} from "features/game/lib/timerDisplay";
 import { getSeedBoostWindows } from "features/game/lib/seedBoostWindows";
 import {
   getBoostContributionEntries,
@@ -74,7 +77,9 @@ export const CropGuide = () => {
   const state = gameState.context.state;
   const inventory = state.inventory;
   const { t } = useAppTranslation();
-  const now = useNow();
+  // Ticks slowly so a guide left open follows a booster burning down. One clock
+  // for the whole guide: a per-row one would mean an interval per listed seed.
+  const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
   const [showBoostsKey, setShowBoostsKey] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] =
     useState<GuideCategory>("crops");
@@ -251,6 +256,7 @@ export const CropGuide = () => {
               seed={seed}
               seconds={FLOWER_SEEDS[seed].plantSeconds}
               state={state}
+              now={now}
               alternateBg={index % 2 === 0}
               showBoostsKey={showBoostsKey}
               setShowBoostsKey={setShowBoostsKey}
@@ -328,6 +334,7 @@ export const CropRow: React.FC<{
             <GrowthTimeCell
               boostKey={`${seed}-growth-time`}
               seed={seed}
+              now={now}
               baseSeconds={seconds}
               boostedTime={boostedTime}
               state={state}
@@ -368,6 +375,8 @@ export const FlowerRow: React.FC<{
   seed: FlowerSeedName;
   seconds: number;
   state: GameState;
+  /** Shared guide clock; the growth-time projection is relative to it. */
+  now: number;
   alternateBg?: boolean;
   showBoostsKey: string | null;
   setShowBoostsKey: (key: string | null) => void;
@@ -375,6 +384,7 @@ export const FlowerRow: React.FC<{
   seed,
   seconds,
   state,
+  now,
   alternateBg,
   showBoostsKey,
   setShowBoostsKey,
@@ -406,6 +416,7 @@ export const FlowerRow: React.FC<{
             <GrowthTimeCell
               boostKey={`${seed}-growth-time`}
               seed={seed}
+              now={now}
               baseSeconds={seconds}
               boostedTime={boostedTime}
               state={state}
@@ -622,6 +633,8 @@ const GrowthTimeCell: React.FC<{
   baseSeconds: number;
   boostedTime: GrowthTime;
   state: GameState;
+  /** Shared guide clock; the projections below are relative to it. */
+  now: number;
   showBoostsKey: string | null;
   setShowBoostsKey: (key: string | null) => void;
 }> = ({
@@ -630,12 +643,12 @@ const GrowthTimeCell: React.FC<{
   baseSeconds,
   boostedTime,
   state,
+  now,
   showBoostsKey,
   setShowBoostsKey,
 }) => {
   const { showActualTime } = useContext(Context);
   const anchorRef = useRef<HTMLButtonElement>(null);
-  const now = useNow();
 
   // A live speed window isn't folded into `boostedTime` — show it as the current
   // rate, or (in the actual-time view) as the real "plant now → ready in X",
@@ -687,6 +700,7 @@ const GrowthTimeCell: React.FC<{
         // Only named boosts can be itemised, so only they open the breakdown.
         "cursor-pointer": hasNamedBoosts,
       })}
+      disabled={!hasNamedBoosts}
       aria-expanded={hasNamedBoosts && showBoostsKey === boostKey}
       aria-controls={`${boostKey}-panel`}
       onClick={(e) => {

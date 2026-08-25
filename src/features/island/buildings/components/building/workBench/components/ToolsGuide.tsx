@@ -17,6 +17,7 @@ import { useNow } from "lib/utils/hooks/useNow";
 import {
   getPreActionDisplay,
   isPreActionBoosted,
+  PRE_ACTION_TICK_MS,
 } from "features/game/lib/timerDisplay";
 import { getNodeBoostWindows } from "features/game/lib/seedBoostWindows";
 import {
@@ -181,8 +182,8 @@ export const ToolsGuide: React.FC = () => {
   const state = useSelector(gameService, (state) => state.context.state);
   const { t } = useAppTranslation();
   const [showBoostsKey, setShowBoostsKey] = useState<string | null>(null);
-  // Snapshot at open — the projected times don't need to tick inside a panel.
-  const now = useNow();
+  // Ticks slowly so a guide left open follows a booster burning down.
+  const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
 
   return (
     <InnerPanel className="scrollable max-h-[450px] overflow-y-auto w-full min-w-full">

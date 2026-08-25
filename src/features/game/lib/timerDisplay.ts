@@ -72,6 +72,16 @@ export function getSurfacedSpeed({
 }
 
 /**
+ * How often a pre-action panel re-reads the clock.
+ *
+ * These projections go stale as a booster burns down — a panel left open would
+ * otherwise keep showing the saving that applied when it was opened. They are
+ * rendered at minute granularity, and a guide can list dozens of rows, so a
+ * once-a-minute tick keeps them honest without a per-second re-render storm.
+ */
+export const PRE_ACTION_TICK_MS = 60 * 1000;
+
+/**
  * "Start this now — how long until it's ready?", given the live boost windows.
  *
  * For the pre-action panels (seed shop, guides), which show a duration for a task

@@ -25,7 +25,10 @@ import { secondsToString } from "lib/utils/time";
 import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
 import { useNow } from "lib/utils/hooks/useNow";
 import type { GameState } from "features/game/types/game";
-import { getPreActionDisplay } from "features/game/lib/timerDisplay";
+import {
+  getPreActionDisplay,
+  PRE_ACTION_TICK_MS,
+} from "features/game/lib/timerDisplay";
 import { getSeedBoostWindows } from "features/game/lib/seedBoostWindows";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SEASONAL_SEEDS } from "features/game/types/seeds";
@@ -47,7 +50,7 @@ interface Props {
  */
 const useFlowerSeedTime = (state: GameState, seed?: FlowerSeedName) => {
   const { showActualTime } = useContext(Context);
-  const now = useNow();
+  const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
 
   if (!seed) return { displaySeconds: 0, speed: 1 };
 

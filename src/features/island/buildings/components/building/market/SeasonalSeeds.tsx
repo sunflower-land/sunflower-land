@@ -81,7 +81,10 @@ import {
 import { isFullMoon } from "features/game/types/calendar";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { useNow } from "lib/utils/hooks/useNow";
-import { getPreActionDisplay } from "features/game/lib/timerDisplay";
+import {
+  getPreActionDisplay,
+  PRE_ACTION_TICK_MS,
+} from "features/game/lib/timerDisplay";
 import { getSeedBoostWindows } from "features/game/lib/seedBoostWindows";
 import {
   getBoostContributionEntries,
@@ -116,7 +119,7 @@ export const SeasonalSeeds: React.FC = () => {
     SEASONAL_SEEDS[currentSeason].includes(seed),
   );
 
-  const now = useNow();
+  const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
   const isCropWeek = isChapterCropWeekActive(now);
 
   const [selectedName, setSelectedName] = useState<SeedName>(
