@@ -1,25 +1,22 @@
 const initSession = jest.fn();
 const clearSession = jest.fn();
-const computeToken = jest.fn(
-  (sessionId: string, timestamp: number, counter: number) =>
-    `tok-${sessionId}-${timestamp}-${counter}`,
-);
-let secretSet = false;
+const computeToken = jest.fn((timestamp: number) => `tok-${timestamp}`);
+let codeSet = false;
 
 // esbuild-runner does not hoist jest.mock, so register the mock explicitly
 // before requiring the module under test.
 jest.doMock("./loader", () => ({
   loadWasm: () =>
     Promise.resolve({
-      initSession: (secret: Uint8Array) => {
-        secretSet = true;
-        initSession(secret);
+      initSession: (code: string) => {
+        codeSet = true;
+        initSession(code);
       },
       clearSession: () => {
-        secretSet = false;
+        codeSet = false;
         clearSession();
       },
-      hasSession: () => secretSet,
+      hasSession: () => codeSet,
       computeToken,
     }),
 }));
@@ -33,7 +30,10 @@ const {
 } = require("./index") as typeof import("./index");
 /* eslint-enable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
 
-const SECRET_HEX = "00ff10a5" + "00".repeat(28); // 32 bytes
+const SESSION_CODE = "a".repeat(64);
+const EXPIRES_AT = Math.floor(Date.now() / 1000) + 24 * 60 * 60;
+
+const session = { sessionCode: SESSION_CODE, sessionCodeExpiresAt: EXPIRES_AT };
 
 describe("requestToken", () => {
   let fetchMock: jest.Mock;
@@ -48,54 +48,38 @@ describe("requestToken", () => {
   const sentHeaders = (call: number) =>
     (fetchMock.mock.calls[call][1]?.headers ?? {}) as Record<string, string>;
 
-  it("sends no token headers when no secret was issued", async () => {
-    await initRequestTokens({ sessionId: "s1", sessionSecret: undefined });
-    await secureFetch("https://api.test/autosave/1", { method: "POST" });
+  it("sends no token headers when no code was issued", async () => {
+    await initRequestTokens({});
+    await secureFetch("https://api.test/marketplace");
 
     expect(requestTokensActive()).toBe(false);
     expect(sentHeaders(0)["X-Token"]).toBeUndefined();
-    expect(sentHeaders(0)["X-Counter"]).toBeUndefined();
   });
 
-  it("passes the decoded secret bytes into the module", async () => {
-    await initRequestTokens({ sessionId: "s1", sessionSecret: SECRET_HEX });
+  it("passes the session code into the module", async () => {
+    await initRequestTokens(session);
 
-    const bytes = initSession.mock.calls[0][0] as Uint8Array;
-    expect(Array.from(bytes.slice(0, 4))).toEqual([0x00, 0xff, 0x10, 0xa5]);
-    expect(bytes).toHaveLength(32);
+    expect(initSession).toHaveBeenCalledWith(SESSION_CODE);
     expect(requestTokensActive()).toBe(true);
   });
 
-  it("degrades to plain fetch on a malformed secret", async () => {
-    await initRequestTokens({ sessionId: "s1", sessionSecret: "not-hex!" });
-    await secureFetch("https://api.test/autosave/1", { method: "POST" });
-
-    expect(requestTokensActive()).toBe(false);
-    expect(sentHeaders(0)["X-Token"]).toBeUndefined();
-  });
-
-  it("attaches token headers with an incrementing counter", async () => {
-    await initRequestTokens({ sessionId: "s1", sessionSecret: SECRET_HEX });
+  it("attaches token, timestamp and expiry headers", async () => {
+    await initRequestTokens(session);
 
     await secureFetch("https://api.test/autosave/1", { method: "POST" });
-    await secureFetch("https://api.test/event/1", { method: "POST" });
 
-    expect(sentHeaders(0)["X-Counter"]).toBe("1");
-    expect(sentHeaders(1)["X-Counter"]).toBe("2");
-    expect(sentHeaders(0)["X-Token"]).toBe(
-      `tok-s1-${sentHeaders(0)["X-Timestamp"]}-1`,
-    );
+    const headers = sentHeaders(0);
+    const timestamp = Number(headers["X-Timestamp"]);
 
-    const timestamp = Number(sentHeaders(0)["X-Timestamp"]);
-    expect(timestamp % 5).toBe(0);
-    expect(Math.abs(timestamp - Date.now() / 1000)).toBeLessThan(10);
+    expect(headers["X-Token"]).toBe(`tok-${timestamp}`);
+    expect(headers["X-Expires"]).toBe(String(EXPIRES_AT));
+    expect(Math.abs(timestamp - Date.now() / 1000)).toBeLessThan(5);
   });
 
   it("keeps existing headers when attaching token headers", async () => {
-    await initRequestTokens({ sessionId: "s1", sessionSecret: SECRET_HEX });
+    await initRequestTokens(session);
 
-    await secureFetch("https://api.test/autosave/1", {
-      method: "POST",
+    await secureFetch("https://api.test/marketplace", {
       headers: { Authorization: "Bearer jwt" },
     });
 
@@ -103,20 +87,11 @@ describe("requestToken", () => {
     expect(sentHeaders(0)["X-Token"]).toBeDefined();
   });
 
-  it("resets the counter on a new session", async () => {
-    await initRequestTokens({ sessionId: "s1", sessionSecret: SECRET_HEX });
-    await secureFetch("https://api.test/event/1", { method: "POST" });
+  it("signs concurrent requests independently, in any order", async () => {
+    await initRequestTokens(session);
 
-    await initRequestTokens({ sessionId: "s2", sessionSecret: SECRET_HEX });
-    await secureFetch("https://api.test/event/1", { method: "POST" });
-
-    expect(sentHeaders(1)["X-Counter"]).toBe("1");
-    expect(sentHeaders(1)["X-Token"]).toContain("tok-s2-");
-  });
-
-  it("dispatches concurrent requests one at a time, in counter order", async () => {
-    await initRequestTokens({ sessionId: "s1", sessionSecret: SECRET_HEX });
-
+    // No queueing: both requests dispatch immediately. This is the case
+    // that a monotonic counter used to reject.
     const resolvers: Array<() => void> = [];
     fetchMock.mockImplementation(
       () =>
@@ -130,38 +105,51 @@ describe("requestToken", () => {
     });
     const second = secureFetch("https://api.test/event/1", { method: "POST" });
 
-    // Let pending async work settle: only the first request may have
-    // dispatched (token computation is async, so a macrotask tick is
-    // needed rather than a couple of bare microtask flushes).
-    await new Promise((res) => setTimeout(res, 0));
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-
-    resolvers[0]();
-    await first;
-    // Second dispatches only after the first response settled.
     await new Promise((res) => setTimeout(res, 0));
     expect(fetchMock).toHaveBeenCalledTimes(2);
-    expect(sentHeaders(0)["X-Counter"]).toBe("1");
-    expect(sentHeaders(1)["X-Counter"]).toBe("2");
 
+    // Both carry a valid, self-contained token — order is irrelevant.
+    expect(sentHeaders(0)["X-Token"]).toBeDefined();
+    expect(sentHeaders(1)["X-Token"]).toBeDefined();
+
+    // Resolve out of order; neither request depends on the other.
     resolvers[1]();
-    await second;
+    resolvers[0]();
+    await Promise.all([first, second]);
   });
 
-  it("releases the queue when a request rejects", async () => {
-    await initRequestTokens({ sessionId: "s1", sessionSecret: SECRET_HEX });
+  it("replaces the code on a new session", async () => {
+    await initRequestTokens(session);
+
+    const newCode = "b".repeat(64);
+    await initRequestTokens({
+      sessionCode: newCode,
+      sessionCodeExpiresAt: EXPIRES_AT + 60,
+    });
+
+    await secureFetch("https://api.test/marketplace");
+
+    expect(initSession).toHaveBeenLastCalledWith(newCode);
+    expect(sentHeaders(0)["X-Expires"]).toBe(String(EXPIRES_AT + 60));
+  });
+
+  it("stops attaching headers after logout", async () => {
+    await initRequestTokens(session);
+    clearRequestTokens();
+
+    await secureFetch("https://api.test/marketplace");
+
+    expect(requestTokensActive()).toBe(false);
+    expect(sentHeaders(0)["X-Token"]).toBeUndefined();
+  });
+
+  it("propagates fetch rejections unchanged", async () => {
+    await initRequestTokens(session);
 
     fetchMock.mockRejectedValueOnce(new Error("network down"));
 
-    await expect(
-      secureFetch("https://api.test/autosave/1", { method: "POST" }),
-    ).rejects.toThrow("network down");
-
-    fetchMock.mockResolvedValueOnce({ ok: true });
-    const response = await secureFetch("https://api.test/event/1", {
-      method: "POST",
-    });
-    expect(response.ok).toBe(true);
-    expect(sentHeaders(1)["X-Counter"]).toBe("2");
+    await expect(secureFetch("https://api.test/autosave/1")).rejects.toThrow(
+      "network down",
+    );
   });
 });

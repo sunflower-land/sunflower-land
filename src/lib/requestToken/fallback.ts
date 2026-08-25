@@ -10,20 +10,20 @@ import type { TokenModule } from "./loader";
  * browser can't run WASM.
  *
  * The game already requires `crypto.subtle` (state hashing on every save),
- * so this fallback runs anywhere the game itself runs. The secret is
- * imported as a NON-extractable CryptoKey and the raw bytes are dropped —
+ * so this fallback runs anywhere the game itself runs. The code is
+ * imported as a NON-extractable CryptoKey and the string is dropped —
  * comparable to the WASM module's "held in WASM memory" posture.
  */
 export function createSubtleFallback(): TokenModule {
   let key: CryptoKey | undefined;
 
   return {
-    async initSession(secret: Uint8Array) {
+    async initSession(sessionCode: string) {
       key = await globalThis.crypto.subtle.importKey(
         "raw",
-        secret as BufferSource,
+        new TextEncoder().encode(sessionCode),
         { name: "HMAC", hash: "SHA-256" },
-        false, // not extractable — the secret can't be read back out
+        false, // not extractable — the code can't be read back out
         ["sign"],
       );
     },
@@ -36,12 +36,10 @@ export function createSubtleFallback(): TokenModule {
       return !!key;
     },
 
-    async computeToken(sessionId: string, timestamp: number, counter: number) {
+    async computeToken(timestamp: number) {
       if (!key) throw new Error("Session not initialised");
 
-      const message = new TextEncoder().encode(
-        `${sessionId}:${timestamp}:${counter}`,
-      );
+      const message = new TextEncoder().encode(`${timestamp}`);
       const mac = await globalThis.crypto.subtle.sign("HMAC", key, message);
 
       return Array.from(new Uint8Array(mac))

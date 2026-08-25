@@ -3,6 +3,7 @@ import type {
   TradeableDetails,
 } from "features/game/types/marketplace";
 import { CONFIG } from "lib/config";
+import { secureFetch } from "lib/requestToken";
 import { ERRORS } from "lib/errors";
 
 const API_URL = CONFIG.API_URL;
@@ -47,7 +48,7 @@ export async function loadTradeable({
     url.searchParams.set("economy", economy);
   }
 
-  const response = await window.fetch(url.toString(), {
+  const response = await secureFetch(url.toString(), {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",

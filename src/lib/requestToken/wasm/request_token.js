@@ -1,7 +1,7 @@
 /* @ts-self-types="./request_token.d.ts" */
 
 /**
- * Forget the secret (logout / session end).
+ * Forget the session code (logout / session end).
  */
 export function clearSession() {
   wasm.clearSession();
@@ -10,38 +10,28 @@ export function clearSession() {
 /**
  * Compute the token for one protected request.
  *
- * `timestamp` is unix seconds rounded to the coarse window by the caller;
- * `counter` is the caller's monotonic request counter. Both are formatted
- * in decimal, matching the values sent in the X-Timestamp / X-Counter
- * headers verbatim.
- * @param {string} session_id
+ * `timestamp` is unix seconds, formatted in decimal — exactly the value
+ * sent in the X-Timestamp header.
  * @param {number} timestamp
- * @param {number} counter
  * @returns {string}
  */
-export function computeToken(session_id, timestamp, counter) {
-  let deferred3_0;
-  let deferred3_1;
+export function computeToken(timestamp) {
+  let deferred2_0;
+  let deferred2_1;
   try {
-    const ptr0 = passStringToWasm0(
-      session_id,
-      wasm.__wbindgen_malloc,
-      wasm.__wbindgen_realloc,
-    );
-    const len0 = WASM_VECTOR_LEN;
-    const ret = wasm.computeToken(ptr0, len0, timestamp, counter);
-    var ptr2 = ret[0];
-    var len2 = ret[1];
+    const ret = wasm.computeToken(timestamp);
+    var ptr1 = ret[0];
+    var len1 = ret[1];
     if (ret[3]) {
-      ptr2 = 0;
-      len2 = 0;
+      ptr1 = 0;
+      len1 = 0;
       throw takeFromExternrefTable0(ret[2]);
     }
-    deferred3_0 = ptr2;
-    deferred3_1 = len2;
-    return getStringFromWasm0(ptr2, len2);
+    deferred2_0 = ptr1;
+    deferred2_1 = len1;
+    return getStringFromWasm0(ptr1, len1);
   } finally {
-    wasm.__wbindgen_free(deferred3_0, deferred3_1, 1);
+    wasm.__wbindgen_free(deferred2_0, deferred2_1, 1);
   }
 }
 
@@ -54,13 +44,17 @@ export function hasSession() {
 }
 
 /**
- * Store the per-session secret. Called once per session; calling again
- * (e.g. after a re-login) replaces the previous secret, which is zeroed
- * before being dropped.
- * @param {Uint8Array} secret
+ * Store the session code. Called once per session; calling again (e.g.
+ * after a re-login) replaces the previous code, which is zeroed before
+ * being dropped.
+ * @param {string} code
  */
-export function initSession(secret) {
-  const ptr0 = passArray8ToWasm0(secret, wasm.__wbindgen_malloc);
+export function initSession(code) {
+  const ptr0 = passStringToWasm0(
+    code,
+    wasm.__wbindgen_malloc,
+    wasm.__wbindgen_realloc,
+  );
   const len0 = WASM_VECTOR_LEN;
   wasm.initSession(ptr0, len0);
 }
@@ -100,13 +94,6 @@ function getUint8ArrayMemory0() {
     cachedUint8ArrayMemory0 = new Uint8Array(wasm.memory.buffer);
   }
   return cachedUint8ArrayMemory0;
-}
-
-function passArray8ToWasm0(arg, malloc) {
-  const ptr = malloc(arg.length * 1, 1) >>> 0;
-  getUint8ArrayMemory0().set(arg, ptr / 1);
-  WASM_VECTOR_LEN = arg.length;
-  return ptr;
 }
 
 function passStringToWasm0(arg, malloc, realloc) {

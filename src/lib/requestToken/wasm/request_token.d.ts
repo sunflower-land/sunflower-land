@@ -2,32 +2,26 @@
 /* eslint-disable */
 
 /**
- * Forget the secret (logout / session end).
+ * Forget the session code (logout / session end).
  */
 export function clearSession(): void;
 
 /**
  * Compute the token for one protected request.
  *
- * `timestamp` is unix seconds rounded to the coarse window by the caller;
- * `counter` is the caller's monotonic request counter. Both are formatted
- * in decimal, matching the values sent in the X-Timestamp / X-Counter
- * headers verbatim.
+ * `timestamp` is unix seconds, formatted in decimal — exactly the value
+ * sent in the X-Timestamp header.
  */
-export function computeToken(
-  session_id: string,
-  timestamp: number,
-  counter: number,
-): string;
+export function computeToken(timestamp: number): string;
 
 export function hasSession(): boolean;
 
 /**
- * Store the per-session secret. Called once per session; calling again
- * (e.g. after a re-login) replaces the previous secret, which is zeroed
- * before being dropped.
+ * Store the session code. Called once per session; calling again (e.g.
+ * after a re-login) replaces the previous code, which is zeroed before
+ * being dropped.
  */
-export function initSession(secret: Uint8Array): void;
+export function initSession(code: string): void;
 
 export type InitInput =
   | RequestInfo
@@ -38,16 +32,13 @@ export type InitInput =
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
-  readonly computeToken: (
-    a: number,
-    b: number,
-    c: number,
-    d: number,
-  ) => [number, number, number, number];
+  readonly computeToken: (a: number) => [number, number, number, number];
   readonly hasSession: () => number;
   readonly initSession: (a: number, b: number) => void;
   readonly clearSession: () => void;
   readonly __wbindgen_externrefs: WebAssembly.Table;
+  readonly __externref_table_dealloc: (a: number) => void;
+  readonly __wbindgen_free: (a: number, b: number, c: number) => void;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (
     a: number,
@@ -55,8 +46,6 @@ export interface InitOutput {
     c: number,
     d: number,
   ) => number;
-  readonly __externref_table_dealloc: (a: number) => void;
-  readonly __wbindgen_free: (a: number, b: number, c: number) => void;
   readonly __wbindgen_start: () => void;
 }
 

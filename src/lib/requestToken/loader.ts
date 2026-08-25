@@ -12,14 +12,10 @@ export type WasmModule = typeof import("./wasm/request_token");
  * both initSession and computeToken.
  */
 export type TokenModule = {
-  initSession(secret: Uint8Array): void | Promise<void>;
+  initSession(sessionCode: string): void | Promise<void>;
   clearSession(): void;
   hasSession(): boolean;
-  computeToken(
-    sessionId: string,
-    timestamp: number,
-    counter: number,
-  ): string | Promise<string>;
+  computeToken(timestamp: number): string | Promise<string>;
 };
 
 let loaded: Promise<WasmModule> | undefined;

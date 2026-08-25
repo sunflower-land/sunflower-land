@@ -1,4 +1,5 @@
 import type { MarketplaceTrends } from "features/game/types/marketplace";
+import { secureFetch } from "lib/requestToken";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 
@@ -11,7 +12,7 @@ export async function loadTrends({
 }): Promise<MarketplaceTrends> {
   const url = new URL(`${API_URL}/marketplace/trends`);
 
-  const response = await window.fetch(url.toString(), {
+  const response = await secureFetch(url.toString(), {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",
