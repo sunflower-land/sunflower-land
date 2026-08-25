@@ -27,7 +27,7 @@ Panels group areas of content inside a modal.
 - Labels are for short text only — never more than 3–4 words. Never put long text inside a label.
 - Labels are **not clickable**. If something needs to be clickable, use a `Button` or a `Chip`.
 - Use default labels to break up categories in a long list of items.
-- Always be mindful of how many labels are on a single component. Too many labels are very distracting.
+- Always be mindful of how many labels are on a single component. Too many labels are visually distracting.
 
 ### Label types & colour meanings
 
