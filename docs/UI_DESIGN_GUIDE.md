@@ -67,7 +67,7 @@ Panels group areas of content inside a modal.
 ## Layout & alignment
 
 - **Left-align everything** by default.
-- Everything should be vertically aligned in a row.
+- Any element with flex and a horizontal direction gets `items-center`. This is the default, not a choice — write it on every row, even when the children happen to be the same height and it looks identical without it. Only exception: when a row pairs a fixed-height element (icon, avatar, checkbox) with text that wraps to multiple lines, use items-start so the fixed element aligns to the first line rather than floating to the middle of the block.
 - The only centre-aligned case: a details/mini view on the right (e.g. the right side of a `SplitScreenView`).
 - If you have a lot of text, either use line breaks or break it up with labels as headers for the next content. Use an icon on the left with text on the right to break the monotony of long content. If you find there is a large amount of text, first try to see if you can condense it. Long text is not something we want to encourage.
 - **Align numbers in a column**: for anything form-related with scaling costs (e.g. inputting how much to buy), lay values out table-style so numbers sit directly below each other for easy comparison. Use the same pattern for showing counts of things (e.g. replenish stock — all the seeds that are coming).
