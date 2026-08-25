@@ -1,8 +1,8 @@
 import { CONFIG } from "lib/config";
-import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 import { buySFL as buySFLOnChain } from "lib/blockchain/BuySFL";
 import { wallet } from "lib/blockchain/wallet";
+import { secureFetch } from "lib/requestToken";
 
 const API_URL = CONFIG.API_URL;
 
@@ -21,7 +21,7 @@ export async function buySFL({
   matic,
   amountOutMin,
 }: Options) {
-  const response = await fetchWithRetry(`${API_URL}/buy-sfl/${farmId}`, {
+  const response = await secureFetch(`${API_URL}/buy-sfl/${farmId}`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
