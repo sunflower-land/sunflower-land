@@ -2004,6 +2004,14 @@ export type Bank = {
    * withdrawals).
    */
   unlockedFlower?: number;
+  /**
+   * When the player last started a FLOWER withdrawal.
+   *
+   * Withdrawing FLOWER locks every Bud for
+   * `FLOWER_WITHDRAW_BUD_COOLDOWN_DAYS` - see
+   * `hasBoostRestriction` in withdrawRestrictions.
+   */
+  withdrawnAt?: number;
 };
 
 export type TemperateSeasonName = "spring" | "summer" | "autumn" | "winter";

@@ -103,25 +103,33 @@ const isChristmasTreeRestricted = (
   };
 };
 
-export function hasBoostRestriction({
+/**
+ * Withdrawing FLOWER locks every Bud the player owns for this many days.
+ *
+ * Unlike the boost cooldowns above this is not tied to a specific item - a
+ * single FLOWER withdrawal restricts the whole collection.
+ */
+export const FLOWER_WITHDRAW_BUD_COOLDOWN_DAYS = 7;
+
+type Restriction = { isRestricted: boolean; cooldownTimeLeft: number };
+
+const NO_RESTRICTION: Restriction = {
+  isRestricted: false,
+  cooldownTimeLeft: 0,
+};
+
+const getBoostCooldown = ({
   boostUsedAt,
-  createdAt = Date.now(),
+  createdAt,
   item,
 }: {
   boostUsedAt: BoostUsedAt | undefined;
-  createdAt?: number;
+  createdAt: number;
   item: BoostName;
-}): { isRestricted: boolean; cooldownTimeLeft: number } {
-  // Special handling for Christmas tree seasonal restriction
-  if (item === "Christmas Tree" || item === "Festive Tree") {
-    return isChristmasTreeRestricted(createdAt);
-  }
+}): Restriction => {
+  const itemBoostUsedAt = boostUsedAt?.[item];
 
-  if (!boostUsedAt) return { isRestricted: false, cooldownTimeLeft: 0 };
-
-  const itemBoostUsedAt = boostUsedAt[item];
-
-  if (!itemBoostUsedAt) return { isRestricted: false, cooldownTimeLeft: 0 };
+  if (!itemBoostUsedAt) return NO_RESTRICTION;
 
   // Get cooldown days from configuration or use default
   const cooldownDays =
@@ -133,4 +141,61 @@ export function hasBoostRestriction({
     isRestricted: itemBoostUsedAt > createdAt - cooldownMs,
     cooldownTimeLeft: cooldownMs - (createdAt - itemBoostUsedAt),
   };
+};
+
+/**
+ * The Bud lock a FLOWER withdrawal puts in place. Applies to every Bud the
+ * player owns, on top of each Bud's own boost cooldown.
+ */
+export const getFlowerWithdrawCooldown = ({
+  flowerWithdrawnAt,
+  createdAt,
+}: {
+  flowerWithdrawnAt: number | undefined;
+  createdAt: number;
+}): Restriction => {
+  if (!flowerWithdrawnAt) return NO_RESTRICTION;
+
+  const cooldownMs = ONE_DAY * FLOWER_WITHDRAW_BUD_COOLDOWN_DAYS;
+
+  return {
+    isRestricted: flowerWithdrawnAt > createdAt - cooldownMs,
+    cooldownTimeLeft: cooldownMs - (createdAt - flowerWithdrawnAt),
+  };
+};
+
+export function hasBoostRestriction({
+  boostUsedAt,
+  createdAt = Date.now(),
+  item,
+  flowerWithdrawnAt,
+}: {
+  boostUsedAt: BoostUsedAt | undefined;
+  createdAt?: number;
+  item: BoostName;
+  /**
+   * When the player last started a FLOWER withdrawal (`bank.withdrawnAt`).
+   * Locks every Bud for FLOWER_WITHDRAW_BUD_COOLDOWN_DAYS.
+   */
+  flowerWithdrawnAt?: number;
+}): Restriction {
+  // Special handling for Christmas tree seasonal restriction
+  if (item === "Christmas Tree" || item === "Festive Tree") {
+    return isChristmasTreeRestricted(createdAt);
+  }
+
+  const boostCooldown = getBoostCooldown({ boostUsedAt, createdAt, item });
+
+  if (!isBudBoost(item)) return boostCooldown;
+
+  const flowerCooldown = getFlowerWithdrawCooldown({
+    flowerWithdrawnAt,
+    createdAt,
+  });
+
+  // A bud can be locked by its own boost cooldown and by a FLOWER withdrawal
+  // at the same time - whichever has the most time left wins.
+  return flowerCooldown.cooldownTimeLeft > boostCooldown.cooldownTimeLeft
+    ? flowerCooldown
+    : boostCooldown;
 }

@@ -11,7 +11,11 @@ import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
-import { hasBoostRestriction } from "features/game/types/withdrawRestrictions";
+import {
+  FLOWER_WITHDRAW_BUD_COOLDOWN_DAYS,
+  getFlowerWithdrawCooldown,
+  hasBoostRestriction,
+} from "features/game/types/withdrawRestrictions";
 import { secondsToString } from "lib/utils/time";
 import type { BoostName } from "features/game/types/game";
 import { getBudImage } from "lib/buds/types";
@@ -71,10 +75,19 @@ export const WithdrawBuds: React.FC<Props> = ({
     return <RequiredReputation reputation={Reputation.Seedling} />;
   }
 
+  // Withdrawing FLOWER locks every Bud, on top of each Bud's boost cooldown
+  const flowerWithdrawnAt = state.bank?.withdrawnAt;
+  const flowerLock = getFlowerWithdrawCooldown({
+    flowerWithdrawnAt,
+    createdAt: now,
+  });
+
   const getRestrictionStatus = (itemName: BoostName) => {
     const { isRestricted, cooldownTimeLeft } = hasBoostRestriction({
       boostUsedAt: state.boostsUsedAt,
+      flowerWithdrawnAt,
       item: itemName,
+      createdAt: now,
     });
     return { isRestricted, cooldownTimeLeft };
   };
@@ -130,6 +143,13 @@ export const WithdrawBuds: React.FC<Props> = ({
       removeTrailingZeros: true,
     });
 
+    // hasBoostRestriction returns whichever lock has the most time left, so a
+    // matching time means the FLOWER withdrawal is what is holding this Bud.
+    const isFlowerLocked =
+      isRestricted &&
+      flowerLock.isRestricted &&
+      cooldownTimeLeft === flowerLock.cooldownTimeLeft;
+
     // A placed Bud is removed from the farm when withdrawn — warn on select.
     const isPlaced = !!buds[budId]?.coordinates;
 
@@ -145,13 +165,23 @@ export const WithdrawBuds: React.FC<Props> = ({
       inUseWarning: isPlaced ? t("withdraw.placedBud.warning") : undefined,
       locked: isRestricted,
       lockReason: isRestricted
-        ? t("withdraw.boostedItem.timeLeft", { time: cooldownText })
+        ? t(
+            isFlowerLocked
+              ? "withdraw.flowerCooldown.timeLeft"
+              : "withdraw.boostedItem.timeLeft",
+            { time: cooldownText },
+          )
         : undefined,
       status: isRestricted
         ? {
             type: "warning" as const,
             icon: SUNNYSIDE.icons.timer,
-            text: t("withdraw.status.cooldown", { time: cooldownText }),
+            text: t(
+              isFlowerLocked
+                ? "withdraw.flowerCooldown.status"
+                : "withdraw.status.cooldown",
+              { time: cooldownText },
+            ),
           }
         : { type: "success" as const, text: t("withdraw.status.withdrawable") },
     };
@@ -176,7 +206,18 @@ export const WithdrawBuds: React.FC<Props> = ({
       withdrawDisabled={withdrawDisabled}
       walletAddress={wallet.getConnection() || "XXXX"}
       onBack={onBack}
-      intro={t("withdraw.restricted.description")}
+      intro={
+        flowerLock.isRestricted
+          ? t("withdraw.flowerCooldown.description", {
+              days: FLOWER_WITHDRAW_BUD_COOLDOWN_DAYS,
+              time: secondsToString(flowerLock.cooldownTimeLeft / 1000, {
+                length: "medium",
+                isShortFormat: true,
+                removeTrailingZeros: true,
+              }),
+            })
+          : t("withdraw.restricted.description")
+      }
     />
   );
 };
