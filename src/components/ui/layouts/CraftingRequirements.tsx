@@ -53,7 +53,6 @@ import {
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
 import { capitalize } from "lib/utils/capitalize";
 import classNames from "classnames";
-import { isPreActionBoosted } from "features/game/lib/timerDisplay";
 import { getItemDescription } from "features/game/lib/getItemDescription";
 
 function getResourceTier(name: UpgradedResourceName): number | undefined {
@@ -508,12 +507,17 @@ export const CraftingRequirements: React.FC<Props> = ({
               const baseTimeSeconds = requirements.baseTimeSeconds;
               const timeBoostsUsed = requirements.timeBoostsUsed;
               const hasNamedBoosts = !!(timeBoostsUsed?.length ?? 0);
-              const isTimeBoosted = isPreActionBoosted({
-                displaySeconds: requirements.timeSeconds,
-                baseSeconds: baseTimeSeconds,
-                speed: requirements.timeSpeed ?? 1,
-                hasNamedBoosts,
-              });
+              // Deliberately NOT `isPreActionBoosted`: this layout is shared by
+              // Recipes / FishMarket / UpcomingExpansion / the seed panels, and
+              // that helper also treats "shorter than base with no named boost"
+              // as boosted. Keeping the original rule means players without
+              // SPEED_BOOSTS see exactly what they see today; a live speed
+              // window is the only thing that adds to it.
+              const isTimeBoosted =
+                (requirements.timeSpeed ?? 1) > 1 ||
+                (baseTimeSeconds != null &&
+                  requirements.timeSeconds < baseTimeSeconds &&
+                  hasNamedBoosts);
 
               if (
                 isTimeBoosted &&
