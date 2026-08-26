@@ -8420,5 +8420,8 @@
   "captcha.wrong.retry": "А вот и следующая...",
   "solving.captcha": "Проверяем...",
   "triggering.captcha": "Подготовка капчи...",
-  "gameOptions.generalSettings.actualTime": "Показывать реальное время"
+  "gameOptions.generalSettings.actualTime": "Показывать реальное время",
+  "description.bantamShrine.buff.speed": "x1.35 скорость пробуждения куриц",
+  "description.collieShrine.buff.speed": "x1.35 скорость пробуждения коров",
+  "description.collieShrine.buff.2.speed": "x1.35 скорость пробуждения овец"
 }
