@@ -39,6 +39,8 @@ import { SparkleBurst } from "features/farming/animals/components/MutantSparkles
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { isAnimalCoveredByGoldenAsset } from "features/game/events/landExpansion/feedAllAnimals";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
+import { useNodeTimer } from "features/game/lib/useNodeTimer";
+import { getAnimalBoostWindows } from "features/game/lib/boostWindows";
 import { formatNumber } from "lib/utils/formatNumber";
 
 const ProductionResource: React.FC<{
@@ -122,13 +124,23 @@ export const SleepingAnimalModal = ({
   const [activeProductionResource, setActiveProductionResource] =
     useState<AnimalResource | null>(null);
   const { t } = useAppTranslation();
-  const { totalSeconds: secondsLeft } = useCountdown(awakeAt);
+  const state = useSelector(gameService, (state) => state.context.state);
+
+  // `awakeAt` is already the live windowed wake time — the animal components
+  // resolve it before rendering this modal (see `resolveAnimal`).
+  const { displaySeconds: secondsLeft, speed } = useNodeTimer({
+    startedAt: animal.asleepAt,
+    baseDurationMs: animal.baseDurationMs,
+    windows: getAnimalBoostWindows(state, animal.type),
+    legacyReadyAt: awakeAt,
+  });
+  // The love slot is a wall-clock boundary, not a work timer, so it counts down
+  // in real time regardless of the display setting.
   const { totalSeconds: secondsUntilLove } = useCountdown(
-    getNextLoveAvailableAt(animal),
+    getNextLoveAvailableAt(animal, awakeAt),
   );
 
   const toy = getAnimalToy({ animal });
-  const state = useSelector(gameService, (state) => state.context.state);
   const isCoveredByGoldenAsset = isAnimalCoveredByGoldenAsset({
     state,
     animalType: animal.type,
@@ -231,6 +243,19 @@ export const SleepingAnimalModal = ({
             {" "}
             {`${t("wakesIn")} ${secondsToString(secondsLeft, { length: "medium" })}`}
           </span>
+          {speed > 1 && (
+            <Label
+              type="transparent"
+              icon={SUNNYSIDE.icons.lightning}
+              className="self-center"
+            >
+              <span className="whitespace-nowrap">
+                {t("description.boostedSpeed", {
+                  speed: Number(speed.toFixed(2)),
+                })}
+              </span>
+            </Label>
+          )}
         </div>
         {production.length > 0 && (
           <div

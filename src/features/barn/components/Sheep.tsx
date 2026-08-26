@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -15,6 +15,7 @@ import {
   getAnimalLevel,
   getBoostedFoodQuantity,
   isAnimalFood,
+  resolveAnimal,
 } from "features/game/lib/animals";
 import classNames from "classnames";
 import { RequestBubble } from "features/game/expansion/components/animals/RequestBubble";
@@ -69,7 +70,15 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
 }) => {
   const { gameService, selectedItem, shortcutItem } = useContext(Context);
 
-  const sheep = useSelector(gameService, _sheep(id));
+  const storedSheep = useSelector(gameService, _sheep(id));
+  const game = useSelector(gameService, _game);
+  // The animal machine has no access to game state, so every consumer below —
+  // the machine included — is handed the animal with its live windowed wake time
+  // substituted in. Read-only: nothing here writes an animal back.
+  const sheep = useMemo(
+    () => resolveAnimal(storedSheep, game),
+    [storedSheep, game],
+  );
   const sheepService = useInterpret(animalMachine, {
     context: {
       animal: sheep,
@@ -78,7 +87,6 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
 
   const sheepState = useSelector(sheepService, _animalState);
   const inventory = useSelector(gameService, _inventory);
-  const game = useSelector(gameService, _game);
   const [showDrops, setShowDrops] = useState(false);
   const [showNoFoodSelected, setShowNoFoodSelected] = useState(false);
   const [showAnimalDetails, setShowAnimalDetails] = useState(false);
@@ -219,7 +227,13 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     setShowFeedXP(true);
     setTimeout(() => setShowFeedXP(false), 700);
 
-    const updatedSheep = updatedState.context.state.barn.animals[id];
+    // Resolve before handing it to the machine: the raw record carries the
+    // stale cached `awakeAt`, and the machine's sleep guard has no game state
+    // of its own to re-derive from.
+    const updatedSheep = resolveAnimal(
+      updatedState.context.state.barn.animals[id],
+      updatedState.context.state,
+    );
 
     sheepService.send({
       type: "FEED",
@@ -250,7 +264,13 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
     setShowLoveItem(item as LoveAnimalItem);
     setTimeout(() => setShowLoveItem(undefined), 700);
 
-    const updatedSheep = updatedState.context.state.barn.animals[id];
+    // Resolve before handing it to the machine: the raw record carries the
+    // stale cached `awakeAt`, and the machine's sleep guard has no game state
+    // of its own to re-derive from.
+    const updatedSheep = resolveAnimal(
+      updatedState.context.state.barn.animals[id],
+      updatedState.context.state,
+    );
 
     sheepService.send({
       type: "LOVE",
@@ -267,7 +287,13 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       id: sheep.id,
     });
 
-    const updatedSheep = updatedState.context.state.barn.animals[id];
+    // Resolve before handing it to the machine: the raw record carries the
+    // stale cached `awakeAt`, and the machine's sleep guard has no game state
+    // of its own to re-derive from.
+    const updatedSheep = resolveAnimal(
+      updatedState.context.state.barn.animals[id],
+      updatedState.context.state,
+    );
 
     sheepService.send({
       type: "CLAIM_PRODUCE",
@@ -283,7 +309,13 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       id: sheep.id,
     });
 
-    const updatedSheep = updatedState.context.state.barn.animals[id];
+    // Resolve before handing it to the machine: the raw record carries the
+    // stale cached `awakeAt`, and the machine's sleep guard has no game state
+    // of its own to re-derive from.
+    const updatedSheep = resolveAnimal(
+      updatedState.context.state.barn.animals[id],
+      updatedState.context.state,
+    );
 
     sheepService.send({
       type: "CURE",

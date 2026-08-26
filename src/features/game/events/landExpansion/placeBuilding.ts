@@ -161,6 +161,16 @@ export function placeBuilding({
               0,
               createdAt - existingBuilding.removedAt,
             );
+            // Animals shift all three timestamps together instead of using
+            // `pauseWindowedTimer`, even when windowed. `asleepAt` is the
+            // love-cadence anchor as well as the sleep timer's start, so moving
+            // it independently of `awakeAt`/`lovedAt` compresses the cycle and
+            // re-opens love slots the player has already spent — the same
+            // reason `migrateSpeedBoosts` refuses to freeze animals. A windowed
+            // sleep keeps its full `baseDurationMs` and resumes from the
+            // shifted start, so the lifted interval still doesn't count toward
+            // it; the cost is that boost credit re-accrues over a shifted
+            // stretch of the shrine window, negligible against a 7-day shrine.
             animal.asleepAt = animal.asleepAt + timeOffset;
             animal.awakeAt = animal.awakeAt + timeOffset;
             animal.lovedAt = animal.lovedAt + timeOffset;

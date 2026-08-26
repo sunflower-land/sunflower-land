@@ -1969,9 +1969,23 @@ export type Animal = {
   createdAt: number;
   experience: number;
   asleepAt: number;
+  /**
+   * The animal's wake time. Under the speed-rate model (`baseDurationMs` set)
+   * this is a non-authoritative CACHE of the wake time projected at sleep — the
+   * live value is derived by `getAnimalReadyAt`, since a shrine placed or burned
+   * mid-sleep moves it. Legacy (unmarked) animals, and any animal woken
+   * instantly, carry the authoritative value here.
+   */
   awakeAt: number;
   lovedAt: number;
   item: LoveAnimalItem;
+  /**
+   * The sleep's un-boosted work with permanent boosts folded in. Present only on
+   * sleeps started under the speed-rate model; its absence selects the legacy
+   * baked `awakeAt` (the read path keys off the marker, NOT the flag). No
+   * `boostedTime` counterpart — animal sleep has no progress bar.
+   */
+  baseDurationMs?: number;
   multiplier?: number;
   reward?: Reward;
   feedBuff?: AnimalFeedBuff;

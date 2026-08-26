@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import {
   getAnimalFavoriteFood,
+  getAnimalReadyAt,
   getBoostedAwakeAt,
   getBoostedFoodQuantity,
   getResourceDropAmount,
@@ -369,6 +370,173 @@ describe("Animals skill ranks", () => {
       });
 
       expect(awakeAt).toEqual(ANIMAL_SLEEP_DURATION * multiplier);
+    });
+  });
+});
+
+// FE + BE jest run amoy, so SPEED_BOOSTS is ON by default here.
+describe("SPEED_BOOSTS (windowed animal sleep)", () => {
+  const HOUR = 60 * 60 * 1000;
+  const now = Date.now();
+
+  const withShrine = (
+    name: "Collie Shrine" | "Bantam Shrine",
+    createdAt: number,
+  ): GameState => ({
+    ...INITIAL_FARM,
+    collectibles: {
+      [name]: [
+        { id: "1", createdAt, readyAt: createdAt, coordinates: { x: 0, y: 0 } },
+      ],
+    },
+  });
+
+  const sleeping = (
+    overrides: Partial<Animal> & Pick<Animal, "type">,
+  ): Animal => ({
+    ...ANIMAL,
+    asleepAt: now,
+    awakeAt: now + ANIMAL_SLEEP_DURATION,
+    ...overrides,
+  });
+
+  describe("getBoostedAwakeAt", () => {
+    it("excludes the Collie Shrine from baseDurationMs and boostsUsed", () => {
+      const { baseDurationMs, boostsUsed } = getBoostedAwakeAt({
+        animalType: "Sheep",
+        createdAt: now,
+        game: withShrine("Collie Shrine", now),
+      });
+
+      expect(baseDurationMs).toEqual(ANIMAL_SLEEP_DURATION);
+      expect(boostsUsed).not.toContainEqual(
+        expect.objectContaining({ name: "Collie Shrine" }),
+      );
+    });
+
+    it("excludes the Bantam Shrine from baseDurationMs and boostsUsed", () => {
+      const { baseDurationMs, boostsUsed } = getBoostedAwakeAt({
+        animalType: "Chicken",
+        createdAt: now,
+        game: withShrine("Bantam Shrine", now),
+      });
+
+      expect(baseDurationMs).toEqual(ANIMAL_SLEEP_DURATION);
+      expect(boostsUsed).not.toContainEqual(
+        expect.objectContaining({ name: "Bantam Shrine" }),
+      );
+    });
+
+    it("keeps permanent boosts baked into baseDurationMs", () => {
+      const { baseDurationMs, boostsUsed } = getBoostedAwakeAt({
+        animalType: "Sheep",
+        createdAt: now,
+        game: {
+          ...withShrine("Collie Shrine", now),
+          collectibles: {
+            ...withShrine("Collie Shrine", now).collectibles,
+            "Farm Dog": [
+              {
+                id: "2",
+                createdAt: 0,
+                readyAt: 0,
+                coordinates: { x: 2, y: 2 },
+              },
+            ],
+          },
+        },
+      });
+
+      expect(baseDurationMs).toEqual(ANIMAL_SLEEP_DURATION * 0.75);
+      expect(boostsUsed).toContainEqual({ name: "Farm Dog", value: "x0.75" });
+    });
+
+    it("caches the projected wake time in awakeAt", () => {
+      const { awakeAt } = getBoostedAwakeAt({
+        animalType: "Chicken",
+        createdAt: now,
+        game: withShrine("Bantam Shrine", now),
+      });
+
+      expect(awakeAt).toEqual(now + ANIMAL_SLEEP_DURATION / 1.35);
+    });
+  });
+
+  describe("getAnimalReadyAt", () => {
+    it("falls back to the stored awakeAt for a legacy (unmarked) animal", () => {
+      const animal = sleeping({ type: "Sheep" });
+
+      expect(
+        getAnimalReadyAt(animal, withShrine("Collie Shrine", now)),
+      ).toEqual(animal.awakeAt);
+    });
+
+    it("runs a fully-covered sleep at the shrine's rate", () => {
+      const animal = sleeping({
+        type: "Sheep",
+        baseDurationMs: ANIMAL_SLEEP_DURATION,
+      });
+
+      expect(
+        getAnimalReadyAt(animal, withShrine("Collie Shrine", now)),
+      ).toEqual(now + ANIMAL_SLEEP_DURATION / 1.35);
+    });
+
+    it("shortens a sleep already in progress when a shrine is placed", () => {
+      // The whole point of the model: the shrine goes down 6h in and still
+      // speeds up the remaining 18h.
+      const animal = sleeping({
+        type: "Chicken",
+        baseDurationMs: ANIMAL_SLEEP_DURATION,
+      });
+      const placedAt = now + 6 * HOUR;
+
+      const readyAt = getAnimalReadyAt(
+        animal,
+        withShrine("Bantam Shrine", placedAt),
+      );
+
+      expect(readyAt).toEqual(placedAt + (18 * HOUR) / 1.35);
+    });
+
+    it("credits only the overlap when the shrine expires mid-sleep", () => {
+      // Shrine placed 7 days - 4h before the animal fell asleep, so it covers
+      // only the first 4 hours; the rest runs at 1x.
+      const shrineAt = now - (7 * 24 * HOUR - 4 * HOUR);
+      const animal = sleeping({
+        type: "Sheep",
+        baseDurationMs: ANIMAL_SLEEP_DURATION,
+      });
+
+      const readyAt = getAnimalReadyAt(
+        animal,
+        withShrine("Collie Shrine", shrineAt),
+      );
+
+      // 4h of wall clock burns 4h * 1.35 of work; the remaining work runs at 1x.
+      const worked = 4 * HOUR * 1.35;
+      expect(readyAt).toEqual(
+        now + 4 * HOUR + (ANIMAL_SLEEP_DURATION - worked),
+      );
+      expect(readyAt).toBeGreaterThan(now + ANIMAL_SLEEP_DURATION / 1.35);
+    });
+
+    it("does not apply a Collie Shrine to chickens (or Bantam to sheep)", () => {
+      const chicken = sleeping({
+        type: "Chicken",
+        baseDurationMs: ANIMAL_SLEEP_DURATION,
+      });
+      const sheep = sleeping({
+        type: "Sheep",
+        baseDurationMs: ANIMAL_SLEEP_DURATION,
+      });
+
+      expect(
+        getAnimalReadyAt(chicken, withShrine("Collie Shrine", now)),
+      ).toEqual(now + ANIMAL_SLEEP_DURATION);
+      expect(getAnimalReadyAt(sheep, withShrine("Bantam Shrine", now))).toEqual(
+        now + ANIMAL_SLEEP_DURATION,
+      );
     });
   });
 });

@@ -124,6 +124,8 @@ interface RequirementsProps {
   timeSeconds?: number;
   baseTimeSeconds?: number;
   timeBoostsUsed?: { name: BoostName; value: string }[];
+  /** Live speed-window rate for this activity; > 1 shows the boosted layout. */
+  timeSpeed?: number;
   level?: LevelRequirement;
 }
 
@@ -504,10 +506,18 @@ export const CraftingRequirements: React.FC<Props> = ({
             (() => {
               const baseTimeSeconds = requirements.baseTimeSeconds;
               const timeBoostsUsed = requirements.timeBoostsUsed;
+              const hasNamedBoosts = !!(timeBoostsUsed?.length ?? 0);
+              // Deliberately NOT `isPreActionBoosted`: this layout is shared by
+              // Recipes / FishMarket / UpcomingExpansion / the seed panels, and
+              // that helper also treats "shorter than base with no named boost"
+              // as boosted. Keeping the original rule means players without
+              // SPEED_BOOSTS see exactly what they see today; a live speed
+              // window is the only thing that adds to it.
               const isTimeBoosted =
-                baseTimeSeconds != null &&
-                requirements.timeSeconds < baseTimeSeconds &&
-                !!(timeBoostsUsed?.length ?? 0);
+                (requirements.timeSpeed ?? 1) > 1 ||
+                (baseTimeSeconds != null &&
+                  requirements.timeSeconds < baseTimeSeconds &&
+                  hasNamedBoosts);
 
               if (
                 isTimeBoosted &&
@@ -517,20 +527,32 @@ export const CraftingRequirements: React.FC<Props> = ({
                 return (
                   <div
                     ref={timeBoostsRef}
-                    className="flex flex-row sm:flex-col items-center cursor-pointer"
-                    onClick={() => setShowTimeBoosts(!showTimeBoosts)}
+                    className={classNames(
+                      "flex flex-row sm:flex-col items-center",
+                      {
+                        // Only itemisable (named) boosts open the breakdown; a
+                        // live speed window has no name to list.
+                        "cursor-pointer": hasNamedBoosts,
+                      },
+                    )}
+                    onClick={() =>
+                      hasNamedBoosts && setShowTimeBoosts(!showTimeBoosts)
+                    }
                   >
                     <RequirementLabel
                       type="time"
                       waitSeconds={requirements.timeSeconds}
                       boosted
                     />
-                    <RequirementLabel
-                      type="time"
-                      waitSeconds={baseTimeSeconds ?? 0}
-                      strikethrough
-                    />
-                    {showTimeBoosts && (
+                    {baseTimeSeconds !== undefined &&
+                      requirements.timeSeconds !== baseTimeSeconds && (
+                        <RequirementLabel
+                          type="time"
+                          waitSeconds={baseTimeSeconds}
+                          strikethrough
+                        />
+                      )}
+                    {hasNamedBoosts && showTimeBoosts && (
                       <BoostsDisplay
                         boosts={timeBoostsUsed ?? []}
                         show={showTimeBoosts}

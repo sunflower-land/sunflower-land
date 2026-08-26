@@ -6,6 +6,7 @@ import {
   getSkillLevel,
   isUpgradeableSkillName,
 } from "features/game/types/bumpkinSkills";
+import { getAnimalReadyAt } from "features/game/lib/animals";
 import { getKeys } from "lib/object";
 import type {
   GameState,
@@ -228,9 +229,11 @@ function useBarnyardRouse({
 
     // Process each animal
     Object.values(animals).forEach((animal) => {
-      const { awakeAt } = animal;
-      if (awakeAt < createdAt) return;
+      if (getAnimalReadyAt(animal, game) < createdAt) return;
       animal.awakeAt = createdAt;
+      // Drop the windowed marker so the wake time is exactly this instant rather
+      // than being re-derived from `asleepAt` + the shrine windows.
+      delete animal.baseDurationMs;
     });
   });
 
@@ -468,7 +471,7 @@ export function powerSkillDisabledConditions({
     case "Barnyard Rouse": {
       if (
         Object.values({ ...henHouseAnimals, ...barnAnimals }).every(
-          ({ awakeAt }) => awakeAt < createdAt,
+          (animal) => getAnimalReadyAt(animal, state) < createdAt,
         )
       ) {
         return {

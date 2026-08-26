@@ -3,6 +3,8 @@ import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
 import { createInitialAgingShed } from "../../lib/agingShed";
 import type { GameState } from "../../types/game";
+import { getAnimalReadyAt } from "../../lib/animals";
+import { getNextLoveAvailableAt, isAnimalNeedingLove } from "./loveAnimal";
 import { placeBuilding } from "./placeBuilding";
 import { RECIPES } from "features/game/lib/crafting";
 
@@ -956,5 +958,125 @@ describe("Place building", () => {
     expect(state.henHouse.animals["123"].asleepAt).toEqual(dateNow - 180000);
     expect(state.henHouse.animals["456"].asleepAt).toEqual(dateNow - 180000);
     expect(state.henHouse.animals["789"].asleepAt).toEqual(dateNow - 180000);
+  });
+  // FE + BE jest run amoy, so SPEED_BOOSTS is ON by default here.
+  it("shifts a windowed animal's sleep across a lift without losing duration", () => {
+    const SLEEP = 24 * 60 * 60 * 1000;
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Basic Land": new Decimal(10),
+          "Hen House": new Decimal(1),
+        },
+        buildings: {
+          "Hen House": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt: dateNow - 120000,
+            },
+          ],
+        },
+        henHouse: {
+          level: 1,
+          animals: {
+            "123": {
+              type: "Chicken",
+              id: "123",
+              state: "idle",
+              createdAt: dateNow - 180000,
+              experience: 1000,
+              asleepAt: dateNow - 180000,
+              awakeAt: dateNow - 180000 + SLEEP,
+              baseDurationMs: SLEEP,
+              lovedAt: 0,
+              item: "Brush",
+            },
+          },
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Hen House",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    const animal = state.henHouse.animals["123"];
+    // The sleep resumes from a start shifted by the 120s the building spent
+    // lifted, keeping its full duration — so the lifted interval doesn't count
+    // and the animal certainly doesn't complete on placement.
+    expect(animal.asleepAt).toEqual(dateNow - 60000);
+    expect(animal.baseDurationMs).toEqual(SLEEP);
+    expect(getAnimalReadyAt(animal, state)).toEqual(dateNow - 60000 + SLEEP);
+  });
+  // Regression: the lift must not hand back a love slot. `asleepAt` is the love
+  // cadence anchor as well as the sleep timer's start, so moving it forward
+  // compresses the cycle and re-opens slots the player already spent — the same
+  // reason migrateSpeedBoosts refuses to freeze animals.
+  it("does not grant an extra love slot when a windowed animal's building is lifted", () => {
+    const HOUR = 60 * 60 * 1000;
+    const SLEEP = 24 * HOUR;
+    const asleepAt = dateNow - 20 * HOUR;
+
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Basic Land": new Decimal(10),
+          "Hen House": new Decimal(1),
+        },
+        buildings: {
+          "Hen House": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt: dateNow - 60000,
+            },
+          ],
+        },
+        henHouse: {
+          level: 1,
+          animals: {
+            "123": {
+              type: "Chicken",
+              id: "123",
+              state: "idle",
+              createdAt: asleepAt,
+              experience: 1000,
+              asleepAt,
+              awakeAt: asleepAt + SLEEP,
+              baseDurationMs: SLEEP,
+              // Both slots of this cycle already spent (8h and 16h in).
+              lovedAt: asleepAt + 16 * HOUR,
+              item: "Brush",
+            },
+          },
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Hen House",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    const animal = state.henHouse.animals["123"];
+    const readyAt = getAnimalReadyAt(animal, state);
+
+    // No slot remains this cycle, so the next one must fall at or after waking.
+    expect(getNextLoveAvailableAt(animal, readyAt)).toBeGreaterThanOrEqual(
+      readyAt,
+    );
+    expect(isAnimalNeedingLove(animal, readyAt - 1, readyAt)).toBe(false);
   });
 });

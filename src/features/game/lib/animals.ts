@@ -27,6 +27,8 @@ import {
 } from "./collectibleBuilt";
 import { getBudYieldBoosts } from "./getBudYieldBoosts";
 import { isWearableActive } from "./wearables";
+import { computeReadyAt, getAnimalBoostWindows } from "./boostWindows";
+import { hasFeatureAccess } from "lib/flags";
 import Decimal from "decimal.js-light";
 import { getSkillLevel, SKILL_RANKS } from "../types/bumpkinSkills";
 
@@ -658,6 +660,17 @@ export function getBoostedFoodQuantity({
   return { foodQuantity: baseFoodQuantity, boostsUsed };
 }
 
+/**
+ * The animal's sleep duration with its boosts applied, plus the wake time that
+ * follows from starting it at `createdAt`.
+ *
+ * Legacy model: every boost — including the two temporary pet shrines — is baked
+ * into the returned duration. Speed-rate model (SPEED_BOOSTS): the shrines are
+ * excluded from BOTH the duration and `boostsUsed` and derived live from windows
+ * instead, so what remains is the permanent-boost-only base duration returned as
+ * `baseDurationMs`. Mirrors `getOilRecoveryTimeForDisplay`; returns no
+ * `baseDurationMs` flag-off, so a flag-off re-sleep reverts the animal to legacy.
+ */
 export function getBoostedAwakeAt({
   animalType,
   createdAt,
@@ -668,9 +681,11 @@ export function getBoostedAwakeAt({
   game: GameState;
 }): {
   awakeAt: number;
+  baseDurationMs?: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
   const sleepDuration = ANIMAL_SLEEP_DURATION;
+  const boostsWindowed = hasFeatureAccess(game, "SPEED_BOOSTS");
   const { bumpkin } = game;
   const twoHoursInMs = 2 * 60 * 60 * 1000;
 
@@ -746,6 +761,7 @@ export function getBoostedAwakeAt({
   }
 
   if (
+    !boostsWindowed &&
     (isCow || isSheep) &&
     isTemporaryCollectibleActive({ name: "Collie Shrine", game })
   ) {
@@ -754,6 +770,7 @@ export function getBoostedAwakeAt({
   }
 
   if (
+    !boostsWindowed &&
     isChicken &&
     isTemporaryCollectibleActive({ name: "Bantam Shrine", game })
   ) {
@@ -761,8 +778,65 @@ export function getBoostedAwakeAt({
     boostsUsed.push({ name: "Bantam Shrine", value: "x0.75" });
   }
 
+  if (boostsWindowed) {
+    // The stored wake time is only a cache of the projection made now (see
+    // `Animal.awakeAt`); `getAnimalReadyAt` re-derives it live off the windows.
+    return {
+      awakeAt: computeReadyAt({
+        startedAt: createdAt,
+        baseDurationMs: totalDuration,
+        windows: getAnimalBoostWindows(game, animalType),
+      }),
+      baseDurationMs: totalDuration,
+      boostsUsed,
+    };
+  }
+
   // Add the boosted duration to the created time
   return { awakeAt: createdAt + totalDuration, boostsUsed };
+}
+
+/**
+ * When a sleeping animal actually wakes, across both boost models. Animals put to
+ * sleep under the speed-rate model (with `baseDurationMs`) derive their wake time
+ * live from the shrine windows; legacy animals use their baked `awakeAt`.
+ *
+ * `baseDurationMs` is a PERMANENT per-animal migration marker: the read path keys
+ * off its presence, NOT the `SPEED_BOOSTS` flag (matching `getMineReadyAt`). An
+ * animal put to sleep while the flag was on therefore keeps windowed timing even
+ * if the flag is later disabled — it stores the real `asleepAt` plus a
+ * permanent-boost-only `baseDurationMs`, so falling back to the cached `awakeAt`
+ * would freeze it at whatever projection happened to be made at sleep. Instant
+ * wake (doll / Barnyard Rouse) clears the marker, so this returns that instant.
+ */
+export function getAnimalReadyAt(animal: Animal, game: GameState): number {
+  const { baseDurationMs, asleepAt, awakeAt } = animal;
+
+  if (baseDurationMs === undefined) return awakeAt;
+
+  return computeReadyAt({
+    startedAt: asleepAt,
+    baseDurationMs,
+    windows: getAnimalBoostWindows(game, animal.type),
+  });
+}
+
+/**
+ * A DISPLAY-ONLY copy of the animal with its live wake time substituted into
+ * `awakeAt`.
+ *
+ * The animal xstate machine holds only `{ animal }` in context and has no access
+ * to game state, so its `isAnimalSleeping` / `isAnimalNeedsLove` guards cannot
+ * derive the windowed wake time themselves. Components resolve the animal once
+ * and hand the machine (and the sleeping modal) this copy instead of threading a
+ * `readyAt` through every event payload.
+ *
+ * NEVER persist or send this — it is a derived view, and writing it back would
+ * bake a projection into state that is supposed to stay live. Safe as-is because
+ * every mutation goes through `gameService` by animal id.
+ */
+export function resolveAnimal(animal: Animal, game: GameState): Animal {
+  return { ...animal, awakeAt: getAnimalReadyAt(animal, game) };
 }
 
 export function getAnimalMaturityTimeForDisplay({
@@ -777,7 +851,7 @@ export function getAnimalMaturityTimeForDisplay({
   boostsUsed: { name: BoostName; value: string }[];
 } {
   const createdAt = 0;
-  const { awakeAt, boostsUsed } = getBoostedAwakeAt({
+  const { awakeAt, baseDurationMs, boostsUsed } = getBoostedAwakeAt({
     animalType,
     createdAt,
     game,
@@ -785,7 +859,10 @@ export function getAnimalMaturityTimeForDisplay({
 
   return {
     baseTimeMs: ANIMAL_SLEEP_DURATION,
-    maturityTimeMs: awakeAt - createdAt,
+    // Windowed: the permanent-boost-only duration. The shrines are excluded here
+    // and surfaced by the caller as a live projection instead — projecting off a
+    // `createdAt` of 0 would sit an epoch away from any real window.
+    maturityTimeMs: baseDurationMs ?? awakeAt - createdAt,
     boostsUsed,
   };
 }

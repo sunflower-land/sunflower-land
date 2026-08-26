@@ -1,4 +1,5 @@
 import {
+  getAnimalBoostContributions,
   getBoostContributionEntries,
   getNodeBoostContributions,
   getSeedBoostContributions,
@@ -8,6 +9,8 @@ import { TEST_FARM } from "./constants";
 import type { GameState } from "../types/game";
 import type { SeedName } from "../types/seeds";
 import type { ResourceName } from "../types/resources";
+import type { AnimalType } from "../types/animals";
+import { getAnimalBoostWindows } from "./boostWindows";
 
 const createdAt = 1_000_000;
 const at = createdAt + 1000;
@@ -35,6 +38,8 @@ const BOOSTED: GameState = {
     "Moth Shrine": place("11", 10),
     "Stag Shrine": place("12", 11),
     "Tortoise Shrine": place("13", 12),
+    "Collie Shrine": place("14", 13),
+    "Bantam Shrine": place("15", 14),
   },
 };
 
@@ -53,6 +58,12 @@ describe("contributions match the window builders", () => {
   ])("%s", (seed) => {
     expect(flatten(getSeedBoostContributions(BOOSTED, seed, at))).toEqual(
       getSeedBoostWindows(BOOSTED, seed),
+    );
+  });
+
+  it.each<AnimalType>(["Chicken", "Cow", "Sheep"])("%s", (animalType) => {
+    expect(flatten(getAnimalBoostContributions(BOOSTED, animalType))).toEqual(
+      getAnimalBoostWindows(BOOSTED, animalType),
     );
   });
 

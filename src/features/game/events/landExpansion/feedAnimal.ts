@@ -18,6 +18,7 @@ import type {
 import {
   getAnimalFavoriteFood,
   getAnimalLevel,
+  getAnimalReadyAt,
   getBoostedFoodQuantity,
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
@@ -209,7 +210,7 @@ export function feedAnimal({
 
     const beforeFeedXp = animal.experience;
 
-    if (createdAt < animal.awakeAt && animal.state !== "sick") {
+    if (createdAt < getAnimalReadyAt(animal, copy) && animal.state !== "sick") {
       throw new Error("Animal is asleep");
     }
 

@@ -7,7 +7,9 @@ import { GREENHOUSE_SEEDS } from "../types/crops";
 import { SEED_TO_PLANT } from "../events/landExpansion/plantGreenhouse";
 import type { GreenHouseCropName } from "../types/crops";
 import type { GreenHouseFruitName } from "../types/fruits";
+import type { AnimalType } from "../types/animals";
 import {
+  ANIMAL_BOOST_SPEED,
   CROP_PLOT_BOOST_SPEED,
   FLOWER_BOOST_SPEED,
   FRUIT_BOOST_SPEED,
@@ -115,6 +117,19 @@ const flower = (game: GameState, at: number): BoostContribution[] => [
   collectible(game, "Moth Shrine", FLOWER_BOOST_SPEED["Moth Shrine"]),
 ];
 
+/**
+ * Animal sleep has exactly one temporary boost, decided by the animal's type, so
+ * there is nothing for the totem merge to do here — mirrors `getAnimalBoostWindows`.
+ */
+const animal = (
+  game: GameState,
+  animalType: AnimalType,
+): BoostContribution[] => {
+  const name = animalType === "Chicken" ? "Bantam Shrine" : "Collie Shrine";
+
+  return [collectible(game, name, ANIMAL_BOOST_SPEED[name])];
+};
+
 const oil = (game: GameState, at: number): BoostContribution[] => [
   collectible(game, "Stag Shrine", OIL_BOOST_SPEED["Stag Shrine"]),
 ];
@@ -195,6 +210,14 @@ export function getSeedBoostContributions(
   }
 
   return cropPlot(game, at);
+}
+
+/** The named boosts that would speed up this animal's sleep. */
+export function getAnimalBoostContributions(
+  game: GameState,
+  animalType: AnimalType,
+): BoostContribution[] {
+  return animal(game, animalType);
 }
 
 /** The named boosts that would speed up this node — mirrors getNodeBoostWindows. */

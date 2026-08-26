@@ -3,6 +3,7 @@ import { claimProduce } from "./claimProduce";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { ANIMAL_SLEEP_DURATION } from "./feedAnimal";
 import type { GameState } from "features/game/types/game";
+import { CONFIG } from "lib/config";
 
 describe("claimProduce", () => {
   const now = Date.now();
@@ -2374,127 +2375,207 @@ describe("claimProduce", () => {
     expect(state.inventory.Wool).toEqual(new Decimal(1.1));
   });
 
-  it("reduces the sleep time by 25% if a Collie Shrine is placed and ready", () => {
-    const state = claimProduce({
-      state: {
-        ...INITIAL_FARM,
-        buildings: {
-          Barn: [
-            {
-              id: "barn",
-              readyAt: now,
-              createdAt: now,
-              coordinates: { x: 0, y: 0 },
-            },
-          ],
-        },
-        barn: {
-          level: 3,
-          animals: {
-            "0": {
-              ...INITIAL_FARM.barn.animals["0"],
-              state: "ready",
-              type: "Sheep",
-              experience: 60,
-            },
-          },
-        },
-        collectibles: {
-          "Collie Shrine": [
-            {
-              id: "collie",
-              readyAt: now,
-              createdAt: now,
-              coordinates: { x: 0, y: 0 },
-            },
-          ],
-        },
-      },
-      action: {
-        type: "produce.claimed",
-        animal: "Sheep",
-        id: "0",
-      },
-      createdAt: now,
+  // The two pet shrines are the only TEMPORARY sleep boosts, so under
+  // SPEED_BOOSTS they leave the baked duration entirely and are derived from
+  // windows instead (see the windowed describe below). Jest runs amoy, so these
+  // legacy discount-at-start assertions are pinned to mainnet.
+  describe("sleep boosts (legacy baked, mainnet)", () => {
+    const originalNetwork = CONFIG.NETWORK;
+    beforeAll(() => {
+      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+    });
+    afterAll(() => {
+      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
     });
 
-    expect(state.barn.animals["0"].awakeAt).toEqual(
-      now + ANIMAL_SLEEP_DURATION * 0.75,
-    );
-  });
-  it("does not reduce the sleep time of chickens by 25% if a Collie Shrine is placed and ready", () => {
-    const state = claimProduce({
-      state: {
-        ...INITIAL_FARM,
-        buildings: {
-          "Hen House": [
-            {
-              id: "henHouse",
-              readyAt: now,
-              createdAt: now,
-              coordinates: { x: 0, y: 0 },
+    it("reduces the sleep time by 25% if a Collie Shrine is placed and ready", () => {
+      const state = claimProduce({
+        state: {
+          ...INITIAL_FARM,
+          buildings: {
+            Barn: [
+              {
+                id: "barn",
+                readyAt: now,
+                createdAt: now,
+                coordinates: { x: 0, y: 0 },
+              },
+            ],
+          },
+          barn: {
+            level: 3,
+            animals: {
+              "0": {
+                ...INITIAL_FARM.barn.animals["0"],
+                state: "ready",
+                type: "Sheep",
+                experience: 60,
+              },
             },
-          ],
+          },
+          collectibles: {
+            "Collie Shrine": [
+              {
+                id: "collie",
+                readyAt: now,
+                createdAt: now,
+                coordinates: { x: 0, y: 0 },
+              },
+            ],
+          },
         },
-        henHouse: {
-          level: 3,
-          animals: {
-            "0": {
-              ...INITIAL_FARM.henHouse.animals["0"],
-              state: "ready",
-              type: "Chicken",
-              experience: 60,
+        action: {
+          type: "produce.claimed",
+          animal: "Sheep",
+          id: "0",
+        },
+        createdAt: now,
+      });
+
+      expect(state.barn.animals["0"].awakeAt).toEqual(
+        now + ANIMAL_SLEEP_DURATION * 0.75,
+      );
+    });
+    it("does not reduce the sleep time of chickens by 25% if a Collie Shrine is placed and ready", () => {
+      const state = claimProduce({
+        state: {
+          ...INITIAL_FARM,
+          buildings: {
+            "Hen House": [
+              {
+                id: "henHouse",
+                readyAt: now,
+                createdAt: now,
+                coordinates: { x: 0, y: 0 },
+              },
+            ],
+          },
+          henHouse: {
+            level: 3,
+            animals: {
+              "0": {
+                ...INITIAL_FARM.henHouse.animals["0"],
+                state: "ready",
+                type: "Chicken",
+                experience: 60,
+              },
+            },
+          },
+          collectibles: {
+            "Collie Shrine": [
+              {
+                id: "collie",
+                readyAt: now,
+                createdAt: now,
+                coordinates: { x: 0, y: 0 },
+              },
+            ],
+          },
+        },
+        action: {
+          type: "produce.claimed",
+          animal: "Chicken",
+          id: "0",
+        },
+        createdAt: now,
+      });
+
+      expect(state.henHouse.animals["0"].awakeAt).toEqual(
+        now + ANIMAL_SLEEP_DURATION,
+      );
+    });
+    it("reduces the sleep time of chickens by 25% if a Bantam Shrine is placed and ready", () => {
+      const state = claimProduce({
+        state: {
+          ...INITIAL_FARM,
+          buildings: {
+            "Hen House": [
+              {
+                id: "henHouse",
+                readyAt: now,
+                createdAt: now,
+                coordinates: { x: 0, y: 0 },
+              },
+            ],
+          },
+          henHouse: {
+            level: 3,
+            animals: {
+              "0": {
+                ...INITIAL_FARM.henHouse.animals["0"],
+                state: "ready",
+                type: "Chicken",
+                experience: 60,
+              },
+            },
+          },
+          collectibles: {
+            "Bantam Shrine": [
+              {
+                id: "bantam",
+                readyAt: now,
+                createdAt: now,
+                coordinates: { x: 0, y: 0 },
+              },
+            ],
+          },
+        },
+        action: {
+          type: "produce.claimed",
+          animal: "Chicken",
+          id: "0",
+        },
+        createdAt: now,
+      });
+
+      expect(state.henHouse.animals["0"].awakeAt).toEqual(
+        now + ANIMAL_SLEEP_DURATION * 0.75,
+      );
+    });
+  });
+
+  // FE + BE jest run amoy, so SPEED_BOOSTS is ON by default here.
+  describe("SPEED_BOOSTS (windowed sleep)", () => {
+    const sleepingChicken = (game: GameState) =>
+      claimProduce({
+        state: {
+          ...game,
+          buildings: {
+            "Hen House": [
+              {
+                id: "henHouse",
+                readyAt: now,
+                createdAt: now,
+                coordinates: { x: 0, y: 0 },
+              },
+            ],
+          },
+          henHouse: {
+            level: 3,
+            animals: {
+              "0": {
+                ...INITIAL_FARM.henHouse.animals["0"],
+                state: "ready",
+                type: "Chicken",
+                experience: 60,
+              },
             },
           },
         },
-        collectibles: {
-          "Collie Shrine": [
-            {
-              id: "collie",
-              readyAt: now,
-              createdAt: now,
-              coordinates: { x: 0, y: 0 },
-            },
-          ],
-        },
-      },
-      action: {
-        type: "produce.claimed",
-        animal: "Chicken",
-        id: "0",
-      },
-      createdAt: now,
+        action: { type: "produce.claimed", animal: "Chicken", id: "0" },
+        createdAt: now,
+      }).henHouse.animals["0"];
+
+    it("stores the real asleepAt + a permanent-only baseDurationMs", () => {
+      const animal = sleepingChicken(INITIAL_FARM);
+
+      expect(animal.asleepAt).toEqual(now);
+      expect(animal.baseDurationMs).toEqual(ANIMAL_SLEEP_DURATION);
     });
 
-    expect(state.henHouse.animals["0"].awakeAt).toEqual(
-      now + ANIMAL_SLEEP_DURATION,
-    );
-  });
-  it("reduces the sleep time of chickens by 25% if a Bantam Shrine is placed and ready", () => {
-    const state = claimProduce({
-      state: {
+    it("leaves the Bantam Shrine out of baseDurationMs and caches the projection", () => {
+      const animal = sleepingChicken({
         ...INITIAL_FARM,
-        buildings: {
-          "Hen House": [
-            {
-              id: "henHouse",
-              readyAt: now,
-              createdAt: now,
-              coordinates: { x: 0, y: 0 },
-            },
-          ],
-        },
-        henHouse: {
-          level: 3,
-          animals: {
-            "0": {
-              ...INITIAL_FARM.henHouse.animals["0"],
-              state: "ready",
-              type: "Chicken",
-              experience: 60,
-            },
-          },
-        },
         collectibles: {
           "Bantam Shrine": [
             {
@@ -2505,17 +2586,34 @@ describe("claimProduce", () => {
             },
           ],
         },
-      },
-      action: {
-        type: "produce.claimed",
-        animal: "Chicken",
-        id: "0",
-      },
-      createdAt: now,
+      });
+
+      expect(animal.baseDurationMs).toEqual(ANIMAL_SLEEP_DURATION);
+      expect(animal.awakeAt).toEqual(now + ANIMAL_SLEEP_DURATION / 1.35);
     });
 
-    expect(state.henHouse.animals["0"].awakeAt).toEqual(
-      now + ANIMAL_SLEEP_DURATION * 0.75,
-    );
+    it("drops the marker on a flag-off re-sleep, reverting to legacy", () => {
+      const originalNetwork = CONFIG.NETWORK;
+      (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+      try {
+        const animal = sleepingChicken({
+          ...INITIAL_FARM,
+          henHouse: {
+            ...INITIAL_FARM.henHouse,
+            animals: {
+              "0": {
+                ...INITIAL_FARM.henHouse.animals["0"],
+                baseDurationMs: ANIMAL_SLEEP_DURATION,
+              },
+            },
+          },
+        });
+
+        expect(animal.baseDurationMs).toBeUndefined();
+        expect(animal.awakeAt).toEqual(now + ANIMAL_SLEEP_DURATION);
+      } finally {
+        (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+      }
+    });
   });
 });
