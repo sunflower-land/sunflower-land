@@ -8416,5 +8416,8 @@
   "captcha.wrong.retry": "Hier kommt noch einer...",
   "solving.captcha": "Verifizieren",
   "triggering.captcha": "Captcha auslösen",
-  "gameOptions.generalSettings.actualTime": "Aktuelle Uhrzeit anzeigen"
+  "gameOptions.generalSettings.actualTime": "Aktuelle Uhrzeit anzeigen",
+  "description.bantamShrine.buff.speed": "1.35x Schlafgeschwindigkeit bei Hühnern",
+  "description.collieShrine.buff.speed": "1,35x Schlafgeschwindigkeit bei Kühen",
+  "description.collieShrine.buff.2.speed": "1,35x Schlafgeschwindigkeit bei Schafen"
 }

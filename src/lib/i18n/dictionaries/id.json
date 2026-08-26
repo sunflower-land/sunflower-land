@@ -8416,5 +8416,8 @@
   "captcha.wrong.retry": "Ini dia yang lain...",
   "solving.captcha": "Memverifikasi",
   "triggering.captcha": "Memicu captcha",
-  "gameOptions.generalSettings.actualTime": "Tampilkan waktu aktual"
+  "gameOptions.generalSettings.actualTime": "Tampilkan waktu aktual",
+  "description.bantamShrine.buff.speed": "1.35x Kecepatan Tidur Ayam",
+  "description.collieShrine.buff.speed": "1.35x Kecepatan Tidur Sapi",
+  "description.collieShrine.buff.2.speed": "1.35x Kecepatan Tidur Domba"
 }

@@ -8416,5 +8416,8 @@
   "captcha.wrong.retry": "En voici une autre...",
   "solving.captcha": "Vérification",
   "triggering.captcha": "Déclenchement du captcha",
-  "gameOptions.generalSettings.actualTime": "Afficher l'heure réelle"
+  "gameOptions.generalSettings.actualTime": "Afficher l'heure réelle",
+  "description.bantamShrine.buff.speed": "1,35 fois la vitesse de sommeil des poulets",
+  "description.collieShrine.buff.speed": "1,35 fois la vitesse de sommeil des vaches",
+  "description.collieShrine.buff.2.speed": "1,35 fois la vitesse de sommeil des moutons"
 }

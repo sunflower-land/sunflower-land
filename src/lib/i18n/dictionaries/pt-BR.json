@@ -8416,5 +8416,8 @@
   "captcha.wrong.retry": "Aí vem outro...",
   "solving.captcha": "Verificando",
   "triggering.captcha": "Ativando o captcha",
-  "gameOptions.generalSettings.actualTime": "Mostrar hora real"
+  "gameOptions.generalSettings.actualTime": "Mostrar hora real",
+  "description.bantamShrine.buff.speed": "1,35x Velocidade de sono da galinha",
+  "description.collieShrine.buff.speed": "1,35 vezes a velocidade de sono da vaca",
+  "description.collieShrine.buff.2.speed": "1,35x Velocidade de sono de ovelhas"
 }

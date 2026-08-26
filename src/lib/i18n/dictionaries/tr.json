@@ -8416,5 +8416,8 @@
   "captcha.wrong.retry": "İşte bir tane daha geliyor...",
   "solving.captcha": "Doğrulama",
   "triggering.captcha": "Captcha'yı tetikleme",
-  "gameOptions.generalSettings.actualTime": "Gerçek zamanı göster"
+  "gameOptions.generalSettings.actualTime": "Gerçek zamanı göster",
+  "description.bantamShrine.buff.speed": "1.35x Tavuk Uyku Hızı",
+  "description.collieShrine.buff.speed": "1.35x İnek Uyku Hızı",
+  "description.collieShrine.buff.2.speed": "1.35x Koyun Uyku Hızı"
 }

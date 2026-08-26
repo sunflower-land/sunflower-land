@@ -8416,5 +8416,8 @@
   "captcha.wrong.retry": "もう一つ来た...",
   "solving.captcha": "検証中",
   "triggering.captcha": "キャプチャをトリガーする",
-  "gameOptions.generalSettings.actualTime": "実際の時間を表示"
+  "gameOptions.generalSettings.actualTime": "実際の時間を表示",
+  "description.bantamShrine.buff.speed": "1.35x チキンスリープスピード",
+  "description.collieShrine.buff.speed": "1.35x カウ・スリープ・スピード",
+  "description.collieShrine.buff.2.speed": "1.35x ヒツジの睡眠速度"
 }

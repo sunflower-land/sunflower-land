@@ -8416,5 +8416,8 @@
   "captcha.wrong.retry": "又来了一个...",
   "solving.captcha": "正在验证",
   "triggering.captcha": "触发验证码",
-  "gameOptions.generalSettings.actualTime": "显示实际时间"
+  "gameOptions.generalSettings.actualTime": "显示实际时间",
+  "description.bantamShrine.buff.speed": "1.35 倍小鸡睡眠速度",
+  "description.collieShrine.buff.speed": "1.35 倍奶牛睡眠速度",
+  "description.collieShrine.buff.2.speed": "1.35 倍绵羊睡眠速度"
 }

@@ -8416,5 +8416,8 @@
   "captcha.wrong.retry": "Here comes another one...",
   "solving.captcha": "Verifying",
   "triggering.captcha": "Triggering captcha",
-  "gameOptions.generalSettings.actualTime": "Show actual time"
+  "gameOptions.generalSettings.actualTime": "Show actual time",
+  "description.bantamShrine.buff.speed": "1.35x Chicken Sleep Speed",
+  "description.collieShrine.buff.speed": "1.35x Cow Sleep Speed",
+  "description.collieShrine.buff.2.speed": "1.35x Sheep Sleep Speed"
 }

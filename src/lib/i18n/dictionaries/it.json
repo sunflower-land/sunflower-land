@@ -8416,5 +8416,8 @@
   "captcha.wrong.retry": "Eccone un altro...",
   "solving.captcha": "Verifica",
   "triggering.captcha": "Attivazione del captcha",
-  "gameOptions.generalSettings.actualTime": "Mostra l'ora effettiva"
+  "gameOptions.generalSettings.actualTime": "Mostra l'ora effettiva",
+  "description.bantamShrine.buff.speed": "Velocità di sonno del pollo 1,35x",
+  "description.collieShrine.buff.speed": "Velocità di sonno della mucca 1,35x",
+  "description.collieShrine.buff.2.speed": "Velocità di sonno delle pecore 1,35x"
 }
