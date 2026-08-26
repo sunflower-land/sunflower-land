@@ -5,6 +5,7 @@ import { Context as GameContext } from "features/game/GameProvider";
 import { CONFIG } from "lib/config";
 import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
+import { secureFetch } from "lib/requestToken";
 import { randomID } from "lib/utils/random";
 import type {
   EconomyPlayersResponse,
@@ -269,7 +270,7 @@ export function useEditorApi() {
       throw new Error(ERRORS.SESSION_EXPIRED);
     }
 
-    const response = await fetchWithRetry(`${CONFIG.API_URL}/event/${farmId}`, {
+    const response = await secureFetch(`${CONFIG.API_URL}/event/${farmId}`, {
       method: "POST",
       headers: eventHeaders(token),
       body: JSON.stringify({
@@ -412,24 +413,21 @@ export function useEditorApi() {
         return [];
       }
 
-      const response = await fetchWithRetry(
-        `${CONFIG.API_URL}/event/${farmId}`,
-        {
-          method: "POST",
-          headers: eventHeaders(token),
-          body: JSON.stringify({
-            event: {
-              type: "economy.prepare-upload",
-              slug: slug.trim(),
-              files: files.map(({ path, contentType }) => ({
-                path,
-                contentType,
-              })),
-            },
-            createdAt: new Date().toISOString(),
-          }),
-        },
-      );
+      const response = await secureFetch(`${CONFIG.API_URL}/event/${farmId}`, {
+        method: "POST",
+        headers: eventHeaders(token),
+        body: JSON.stringify({
+          event: {
+            type: "economy.prepare-upload",
+            slug: slug.trim(),
+            files: files.map(({ path, contentType }) => ({
+              path,
+              contentType,
+            })),
+          },
+          createdAt: new Date().toISOString(),
+        }),
+      });
 
       if (response.status === 429) {
         throw new Error(ERRORS.EFFECT_TOO_MANY_REQUESTS);

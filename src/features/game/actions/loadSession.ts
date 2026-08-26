@@ -2,6 +2,7 @@ import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
+import { initRequestTokens } from "lib/requestToken";
 import { sanitizeHTTPResponse } from "lib/network";
 import { makeGame } from "../lib/transforms";
 import type { GameState, Purchase } from "../types/game";
@@ -151,6 +152,8 @@ export async function loadSession(request: Request): Promise<Response> {
     totalHelpedToday,
     banReason,
     banMessage,
+    sessionCode,
+    sessionCodeExpiresAt,
   } = await sanitizeHTTPResponse<{
     farm: any;
     startedAt: string;
@@ -183,7 +186,17 @@ export async function loadSession(request: Request): Promise<Response> {
     totalHelpedToday: number;
     banReason?: string;
     banMessage?: string;
+    /**
+     * Request-token code + expiry. Consumed here and handed straight to
+     * the token module — never returned to callers.
+     */
+    sessionCode?: string;
+    sessionCodeExpiresAt?: number;
   }>(response);
+
+  // Initialise request tokens before any protected request can fire. The
+  // code is not part of this function's return value by design.
+  await initRequestTokens({ sessionCode, sessionCodeExpiresAt });
 
   saveSession(farm.id);
 

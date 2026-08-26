@@ -1,6 +1,6 @@
 import { transfer } from "lib/blockchain/Farm";
 import { CONFIG } from "lib/config";
-import { fetchWithRetry } from "lib/fetchWithRetry";
+import { secureFetch } from "lib/requestToken";
 
 type Request = {
   farmId: number;
@@ -13,7 +13,7 @@ type Request = {
 const API_URL = CONFIG.API_URL;
 
 export async function transferAccount(request: Request) {
-  const response = await fetchWithRetry(
+  const response = await secureFetch(
     `${API_URL}/transfer-owner/${request.farmId}`,
     {
       method: "POST",

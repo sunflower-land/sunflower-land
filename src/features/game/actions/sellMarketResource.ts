@@ -1,6 +1,6 @@
 import { CONFIG } from "lib/config";
-import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
+import { secureFetch } from "lib/requestToken";
 import type { GameState, InventoryItemName } from "../types/game";
 import { makeGame } from "../lib/transforms";
 
@@ -63,7 +63,7 @@ type Response = {
 export async function sellMarketResourceRequest(
   request: Request,
 ): Promise<Response> {
-  const response = await fetchWithRetry(`${API_URL}/market/${request.farmId}`, {
+  const response = await secureFetch(`${API_URL}/market/${request.farmId}`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",

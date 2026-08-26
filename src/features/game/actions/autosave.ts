@@ -1,5 +1,4 @@
 import { CONFIG } from "lib/config";
-import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 import { sanitizeHTTPResponse } from "lib/network";
 import type { GameEvent, GameEventName } from "../events";
@@ -12,6 +11,7 @@ import type { GameState } from "../types/game";
 import { AUTO_SAVE_INTERVAL } from "../expansion/Game";
 import { flushMetrics } from "../lib/interactionMetrics";
 import { getRecordHash } from "lib/stateHash";
+import { secureFetch } from "lib/requestToken";
 
 type StateHash = Record<keyof GameState, string>;
 
@@ -99,7 +99,7 @@ export async function autosaveRequest(
   }, AUTO_SAVE_INTERVAL);
 
   try {
-    return await fetchWithRetry(`${apiUrl}/autosave/${request.farmId}`, {
+    return await secureFetch(`${apiUrl}/autosave/${request.farmId}`, {
       method: "POST",
       headers: {
         ...{

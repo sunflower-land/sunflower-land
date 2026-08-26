@@ -1,9 +1,9 @@
 import { CONFIG } from "lib/config";
-import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 import type { GameState } from "../types/game";
 import { makeGame } from "../lib/transforms";
 import { getRecordHash } from "lib/stateHash";
+import { secureFetch } from "lib/requestToken";
 
 const API_URL = CONFIG.API_URL;
 
@@ -253,7 +253,7 @@ export async function postEffect(
     ? await getRecordHash(request.state as unknown as Record<string, unknown>)
     : undefined;
 
-  const response = await fetchWithRetry(`${API_URL}/event/${request.farmId}`, {
+  const response = await secureFetch(`${API_URL}/event/${request.farmId}`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
