@@ -1689,16 +1689,10 @@ th {
    Deliberately no custom properties and no per-click state on <html>/<body>:
    `cursor` is inherited, so changing it (or a variable it reads) on the root
    forces a style recalc of the whole document on every mousedown/mouseup.
-   The arrow is set once on the root and inherited everywhere; the pressed
-   frame is a plain `:active` rule on clickable elements only, so pressing
-   only restyles the element under the pointer.
-
-   The pressed frame is the same art rotated 20deg counter-clockwise. Its
-   hotspot (3 0) keeps the bottom-right corner of the artwork at the same
-   screen position as the idle frame, so the cursor appears to pivot around
-   its bottom-right corner, tipping down into the click. */
+   The arrow is set once on the root and inherited everywhere; the explicit
+   list below only overrides elements where Tailwind's preflight or the UA
+   stylesheet set their own `cursor` (buttons, links, :disabled, .cursor-*). */
 html.custom-cursor,
-.custom-cursor body,
 .custom-cursor .cursor-default,
 .custom-cursor .cursor-not-allowed,
 .custom-cursor button,
@@ -1714,15 +1708,16 @@ html.custom-cursor,
     auto;
 }
 
-/* Tips into the click while a clickable element is pressed */
-.custom-cursor button:not(:disabled):active,
-.custom-cursor a:active,
-.custom-cursor select:active,
-.custom-cursor summary:active,
-.custom-cursor [role="button"]:active,
-.custom-cursor .cursor-pointer:active,
-.custom-cursor .cursor-grab:active,
-.custom-cursor .cursor-grabbing:active {
+/* Pressed frame: the same art rotated 20deg counter-clockwise. Its hotspot
+   (3 0) keeps the bottom-right corner of the artwork at the same screen
+   position as the idle frame, so the cursor appears to pivot around its
+   bottom-right corner, tipping down into the click.
+
+   `:active` matches the pressed element AND every ancestor up to <html>, so
+   a plain `:active` rule would restyle the root on every click. Instead this
+   targets only the innermost active element - the one with no active
+   descendant - and only below <body>, so the root and body never change. */
+.custom-cursor body :active:not(input, textarea, :has(:active)) {
   cursor:
     url("./assets/ui/cursors/pointer_pressed.png") 3 0,
     auto;
