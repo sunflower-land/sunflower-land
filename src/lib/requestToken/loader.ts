@@ -9,8 +9,6 @@
  * Kept separate from index.ts so tests can mock it; `import()` of a remote
  * URL and WebAssembly instantiation don't work under jest.
  */
-import { CONFIG } from "lib/config";
-
 /** Matches the wasm-token module's exports. */
 export type TokenModule = {
   initSession(sessionCode: string): void;
@@ -20,24 +18,30 @@ export type TokenModule = {
   signRequest(method: string, path: string, body: string): string;
 };
 
-const baseUrl = (CONFIG.WASM_TOKEN_URL ?? "").replace(/\/$/, "");
+/**
+ * Always the deployed module — including in local development, so there is
+ * only ever one artifact in play and it is the one production runs.
+ *
+ * In production this is same-origin with the game (/play, /testnet, /pwa),
+ * so nothing extra is needed. From localhost it is cross-origin: the fetch
+ * only succeeds if the bucket allows that origin, and if it doesn't the
+ * layer simply stays off (see initRequestTokens) — which is harmless while
+ * REQUEST_TOKENS_MODE is "log".
+ */
+export const SIGNER_URL = "https://sunflower-land.com/wasm";
 
 let loaded: Promise<TokenModule> | undefined;
 
 export function loadTokenModule(): Promise<TokenModule> {
   loaded ??= (async () => {
-    if (!baseUrl) {
-      throw new Error("WASM_TOKEN_URL is not configured");
-    }
-
-    const dir = `${baseUrl}/wasm`;
-
     // The glue is an ES module served from the token host; the vite build
     // must not try to resolve it at build time, hence the variable URL.
-    const module = await import(/* @vite-ignore */ `${dir}/request_token.js`);
+    const module = await import(
+      /* @vite-ignore */ `${SIGNER_URL}/request_token.js`
+    );
 
     await module.default({
-      module_or_path: `${dir}/request_token_bg.wasm`,
+      module_or_path: `${SIGNER_URL}/request_token_bg.wasm`,
     });
 
     return module as TokenModule;

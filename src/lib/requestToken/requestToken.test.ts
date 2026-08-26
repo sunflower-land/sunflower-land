@@ -10,6 +10,7 @@ let codeSet = false;
 // esbuild-runner does not hoist jest.mock, so register the mock explicitly
 // before requiring the module under test.
 jest.doMock("./loader", () => ({
+  SIGNER_URL: "https://sunflower-land.com/wasm",
   loadTokenModule: () =>
     Promise.resolve({
       initSession: (code: string) => {
@@ -173,7 +174,6 @@ describe("requestToken when the signer cannot be loaded", () => {
     jest.resetModules();
     fetchMock = jest.fn().mockResolvedValue({ ok: true });
     (window as unknown as { fetch: unknown }).fetch = fetchMock;
-    jest.spyOn(console, "error").mockImplementation(() => undefined);
   });
 
   it("degrades to plain fetch rather than breaking the game", async () => {
@@ -196,5 +196,57 @@ describe("requestToken when the signer cannot be loaded", () => {
       string
     >;
     expect(headers["X-Token"]).toBeUndefined();
+  });
+});
+
+describe("requestToken while the signer is still loading", () => {
+  let fetchMock: jest.Mock;
+
+  beforeEach(() => {
+    jest.resetModules();
+    fetchMock = jest.fn().mockResolvedValue({ ok: true });
+    (window as unknown as { fetch: unknown }).fetch = fetchMock;
+  });
+
+  it("waits for an in-flight signer load rather than racing it", async () => {
+    let releaseLoad!: () => void;
+    const slowLoad = new Promise<void>((res) => (releaseLoad = res));
+
+    jest.doMock("./loader", () => ({
+      SIGNER_URL: "https://sunflower-land.com/wasm",
+      loadTokenModule: async () => {
+        await slowLoad;
+        return {
+          initSession: () => undefined,
+          clearSession: () => undefined,
+          hasSession: () => true,
+          signRequest,
+        };
+      },
+    }));
+
+    /* eslint-disable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
+    const tokens = require("./index") as typeof import("./index");
+    /* eslint-enable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
+
+    // Session starts, signer is still downloading.
+    const initing = tokens.initRequestTokens(session);
+
+    // A protected request fires during that window — as marketplace calls
+    // do on a cold load. It must wait, not go out unsigned.
+    const inFlight = tokens.secureFetch("https://api.test/marketplace");
+
+    await new Promise((res) => setTimeout(res, 0));
+    expect(fetchMock).not.toHaveBeenCalled();
+
+    releaseLoad();
+    await initing;
+    await inFlight;
+
+    const headers = (fetchMock.mock.calls[0][1]?.headers ?? {}) as Record<
+      string,
+      string
+    >;
+    expect(headers["X-Token"]).toBeDefined();
   });
 });
