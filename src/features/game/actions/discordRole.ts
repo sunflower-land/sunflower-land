@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 
 const API_URL = CONFIG.API_URL;
@@ -18,7 +19,7 @@ type Options = {
 };
 
 export async function addDiscordRole({ farmId, token, role }: Options) {
-  const response = await window.fetch(`${API_URL}/discordRole/${farmId}`, {
+  const response = await fetchWithRetry(`${API_URL}/discordRole/${farmId}`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",

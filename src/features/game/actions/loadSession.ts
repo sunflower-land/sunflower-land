@@ -1,5 +1,6 @@
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 import { sanitizeHTTPResponse } from "lib/network";
 import { makeGame } from "../lib/transforms";
@@ -61,10 +62,7 @@ const API_URL = CONFIG.API_URL;
 
 let loadSessionErrors = 0;
 
-export async function loadSession(
-  request: Request,
-  retries = 0,
-): Promise<Response> {
+export async function loadSession(request: Request): Promise<Response> {
   if (loadSessionErrors) {
     await new Promise((res) => setTimeout(res, loadSessionErrors * 5000));
   }
@@ -73,7 +71,7 @@ export async function loadSession(
 
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const response = await window.fetch(`${API_URL}/session`, {
+  const response = await fetchWithRetry(`${API_URL}/session`, {
     method: "POST",
     //mode: "no-cors",
     headers: {
@@ -95,19 +93,10 @@ export async function loadSession(
     const data = await response.json().catch(() => null);
     if (data?.message === "Temporary maintenance") {
       throw new Error(ERRORS.MAINTENANCE);
-    } else {
-      // Throttling. Do exponential backoff with jitter
-      const backoff = Math.min(1000 * Math.pow(2, retries), 10000);
-      const jitter = Math.random() * 1000;
-
-      await new Promise((resolve) => setTimeout(resolve, backoff + jitter));
-
-      if (retries < 3) {
-        return await loadSession(request, retries + 1);
-      }
-
-      throw new Error(ERRORS.SESSION_SERVER_ERROR);
     }
+
+    // Retries are handled by fetchWithRetry; a 503 here is terminal
+    throw new Error(ERRORS.SESSION_SERVER_ERROR);
   }
 
   if (response.status === 429) {

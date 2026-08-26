@@ -1,6 +1,7 @@
 import jwt_decode from "jwt-decode";
 import type { Token } from "features/auth/actions/login";
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 
 type Request = {
@@ -29,7 +30,7 @@ export async function portal(request: Request) {
   }
 
   // Uses same autosave event driven endpoint
-  const response = await window.fetch(
+  const response = await fetchWithRetry(
     `${API_URL}/portal/${request.portalId}/login`,
     {
       method: "POST",

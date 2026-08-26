@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 
 const API_URL = CONFIG.API_URL;
@@ -8,7 +9,7 @@ const API_URL = CONFIG.API_URL;
  */
 export async function generateTestLand() {
   // Call backend expand-land
-  const response = await window.fetch(`${API_URL}/land-test`, {
+  const response = await fetchWithRetry(`${API_URL}/land-test`, {
     method: "GET",
     //mode: "no-cors",
     headers: {

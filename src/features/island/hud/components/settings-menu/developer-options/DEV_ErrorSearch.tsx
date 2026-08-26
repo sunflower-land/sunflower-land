@@ -4,6 +4,7 @@ import { Label } from "components/ui/Label";
 import { TextInput } from "components/ui/TextInput";
 import type { ContentComponentProps } from "../types";
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useActor } from "@xstate/react";
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -92,7 +93,7 @@ export const DEV_ErrorSearch: React.FC<ContentComponentProps> = () => {
     setResult(null);
 
     try {
-      const response = await window.fetch(
+      const response = await fetchWithRetry(
         `${CONFIG.API_URL}/support/transactionLookup`,
         {
           method: "POST",
@@ -107,6 +108,7 @@ export const DEV_ErrorSearch: React.FC<ContentComponentProps> = () => {
             api,
           }),
         },
+        { idempotent: true },
       );
 
       const raw = await response.text();

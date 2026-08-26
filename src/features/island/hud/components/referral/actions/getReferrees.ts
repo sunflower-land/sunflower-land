@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 
 type Request = {
   token: string;
@@ -23,7 +24,7 @@ export const getReferrees = async ({
   token,
   farmId,
 }: Request): Promise<Response> => {
-  const res = await fetch(
+  const res = await fetchWithRetry(
     `${CONFIG.API_URL}/data?type=referralRewards&id=${farmId}`,
     {
       headers: {

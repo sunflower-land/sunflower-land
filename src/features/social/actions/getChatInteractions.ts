@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import type { Interaction } from "../types/types";
 
 type Request = {
@@ -14,7 +15,7 @@ export const getChatInteractions = async ({
   followedPlayerId,
   cursor,
 }: Request): Promise<Interaction[]> => {
-  const res = await fetch(
+  const res = await fetchWithRetry(
     `${CONFIG.API_URL}/data?type=chatInteractions&farmId=${farmId}&followedPlayerId=${followedPlayerId}&cursor=${cursor}`,
     {
       headers: {

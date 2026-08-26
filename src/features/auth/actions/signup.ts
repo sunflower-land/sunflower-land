@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 import { getMetaBrowserIdentifiers } from "lib/analytics/meta";
 import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
@@ -32,7 +33,7 @@ export async function signUp({
 }: Request) {
   const { fbp, fbc } = getMetaBrowserIdentifiers();
 
-  const response = await window.fetch(`${CONFIG.API_URL}/signup`, {
+  const response = await fetchWithRetry(`${CONFIG.API_URL}/signup`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",

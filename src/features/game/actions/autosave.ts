@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 import { sanitizeHTTPResponse } from "lib/network";
 import type { GameEvent, GameEventName } from "../events";
@@ -98,7 +99,7 @@ export async function autosaveRequest(
   }, AUTO_SAVE_INTERVAL);
 
   try {
-    return await window.fetch(`${apiUrl}/autosave/${request.farmId}`, {
+    return await fetchWithRetry(`${apiUrl}/autosave/${request.farmId}`, {
       method: "POST",
       headers: {
         ...{
@@ -127,7 +128,7 @@ export async function autosaveRequest(
 
 let autosaveErrors = 0;
 
-export async function autosave(request: Request, retries = 0) {
+export async function autosave(request: Request) {
   if (!API_URL) return { verified: true };
 
   // Shorten the payload
@@ -160,19 +161,10 @@ export async function autosave(request: Request, retries = 0) {
     const data = await response.json().catch(() => null);
     if (data?.message === "Temporary maintenance") {
       throw new Error(ERRORS.MAINTENANCE);
-    } else {
-      // Throttling. Do exponential backoff with jitter
-      const backoff = Math.min(1000 * Math.pow(2, retries), 10000);
-      const jitter = Math.random() * 1000;
-
-      await new Promise((resolve) => setTimeout(resolve, backoff + jitter));
-
-      if (retries < 3) {
-        return await autosave(request, retries + 1);
-      }
-
-      throw new Error(ERRORS.AUTOSAVE_SERVER_ERROR);
     }
+
+    // Retries are handled by fetchWithRetry; a 503 here is terminal
+    throw new Error(ERRORS.AUTOSAVE_SERVER_ERROR);
   }
 
   if (response.status === 401) {

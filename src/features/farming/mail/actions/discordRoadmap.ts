@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 
 export type DiscordRoadmapItem = {
   id: string;
@@ -119,7 +120,7 @@ export const getDiscordRoadmapData = async ({
   const url = new URL(DISCORD_ROADMAP_API_URL);
   url.searchParams.set("type", "discordRoadmap");
 
-  const res = await window.fetch(url.toString(), {
+  const res = await fetchWithRetry(url.toString(), {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",

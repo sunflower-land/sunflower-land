@@ -1,6 +1,7 @@
 import { buyGemsMATIC } from "lib/blockchain/BuyGems";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 
 export type Currency = "MATIC";
@@ -25,18 +26,21 @@ type Response = {
 const API_URL = CONFIG.API_URL;
 
 export async function buyBlockBucks(request: Request): Promise<Response> {
-  const response = await window.fetch(`${API_URL}/buy-gems/${request.farmId}`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      Authorization: `Bearer ${request.token}`,
-      "X-Transaction-ID": request.transactionId,
+  const response = await fetchWithRetry(
+    `${API_URL}/buy-gems/${request.farmId}`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        Authorization: `Bearer ${request.token}`,
+        "X-Transaction-ID": request.transactionId,
+      },
+      body: JSON.stringify({
+        type: request.type,
+        amount: request.amount,
+      }),
     },
-    body: JSON.stringify({
-      type: request.type,
-      amount: request.amount,
-    }),
-  });
+  );
 
   if (response.status === 409) {
     const { error } = await response.json();
@@ -66,7 +70,7 @@ export async function buyBlockBucksMATIC(transaction: any) {
 export async function buyBlockBucksXsolla(
   request: Omit<Request, "type"> & { amount: number | "STARTER_PACK" },
 ): Promise<{ url: string }> {
-  const response = await window.fetch(
+  const response = await fetchWithRetry(
     `${API_URL}/payments/create/${request.farmId}`,
     {
       method: "POST",

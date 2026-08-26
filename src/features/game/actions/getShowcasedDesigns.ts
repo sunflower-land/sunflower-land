@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 import { NPC_WEARABLES } from "lib/npcs";
 import { getKeys } from "lib/object";
@@ -49,7 +50,7 @@ async function fetchShowcasedDesigns({
   const url = new URL(`${CONFIG.API_URL}/data`);
   url.searchParams.set("type", "design.showcased");
 
-  const response = await window.fetch(url, {
+  const response = await fetchWithRetry(url, {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",

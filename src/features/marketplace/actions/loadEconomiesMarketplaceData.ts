@@ -7,6 +7,7 @@ import type {
   Tradeable,
 } from "features/game/types/marketplace";
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 
 const API_URL = CONFIG.API_URL;
@@ -243,7 +244,7 @@ export async function loadMarketplaceEconomiesPage({
   const url = new URL(`${API_URL}/data`);
   url.searchParams.set("type", "marketplaceEconomies");
 
-  const response = await window.fetch(url.toString(), {
+  const response = await fetchWithRetry(url.toString(), {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",
@@ -302,7 +303,7 @@ export async function loadEconomiesListPage({
   url.searchParams.set("type", "economies");
   url.searchParams.set("farmId", String(farmId));
 
-  const response = await window.fetch(url.toString(), {
+  const response = await fetchWithRetry(url.toString(), {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",

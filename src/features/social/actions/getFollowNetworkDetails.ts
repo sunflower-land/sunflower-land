@@ -1,5 +1,6 @@
 import type { Equipped } from "features/game/types/bumpkin";
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 
 type Request = {
   token: string;
@@ -50,7 +51,7 @@ export const getFollowNetworkDetails = async ({
     url.searchParams.set("nextCursor", JSON.stringify(nextCursor));
   }
 
-  const res = await fetch(url, {
+  const res = await fetchWithRetry(url, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

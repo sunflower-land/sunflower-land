@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 import type { GiveawaysResponse } from "../lib/types";
 import { mockGiveaways } from "../lib/mockGiveaways";
@@ -20,7 +21,7 @@ export async function getGiveaways({
   const url = new URL(`${CONFIG.API_URL}/data`);
   url.searchParams.set("type", "giveaways");
 
-  const response = await window.fetch(url, {
+  const response = await fetchWithRetry(url, {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",

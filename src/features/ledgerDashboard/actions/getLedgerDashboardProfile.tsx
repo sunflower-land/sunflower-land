@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 
 type LedgerEntry = {
   type: string;
@@ -18,7 +19,7 @@ export const getLedgerDashboardProfile = async (
   token: string,
   id: string,
 ): Promise<LedgerDashboardProfileData> => {
-  const res = await fetch(`${CONFIG.API_URL}/ledger-dashboard/${id}`, {
+  const res = await fetchWithRetry(`${CONFIG.API_URL}/ledger-dashboard/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

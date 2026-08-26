@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 import type { GameState } from "../types/game";
 import { makeGame } from "../lib/transforms";
@@ -252,7 +253,7 @@ export async function postEffect(
     ? await getRecordHash(request.state as unknown as Record<string, unknown>)
     : undefined;
 
-  const response = await window.fetch(`${API_URL}/event/${request.farmId}`, {
+  const response = await fetchWithRetry(`${API_URL}/event/${request.farmId}`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",

@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 import {
   type Leaderboards,
@@ -198,7 +199,7 @@ export async function getLeaderboard<T>({
     url.searchParams.set("limit", String(limit));
   }
 
-  const response = await window.fetch(url.toString(), {
+  const response = await fetchWithRetry(url.toString(), {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",
@@ -238,7 +239,7 @@ export async function getLeaguesLeaderboard({
     url.searchParams.set("leagueId", leagueId);
   }
 
-  const response = await window.fetch(url.toString(), {
+  const response = await fetchWithRetry(url.toString(), {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",
@@ -277,7 +278,7 @@ export async function getCompetitionLeaderboard({
 
   const url = `${API_URL}/leaderboard/competition/${farmId}?name=${name}`;
 
-  const response = await window.fetch(url, {
+  const response = await fetchWithRetry(url, {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",
@@ -324,7 +325,7 @@ export async function getChampionsLeaderboard<T>({
 
   const url = `${API_URL}/leaderboard/kingdom/${farmId}?date=${date}`;
 
-  const response = await window.fetch(url, {
+  const response = await fetchWithRetry(url, {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",
@@ -456,7 +457,7 @@ export async function getPortalLeaderboard({
 
   const url = `${API_URL}/leaderboard/portals/${farmId}?name=${name}&from=${from}&to=${to}`;
 
-  const response = await window.fetch(url, {
+  const response = await fetchWithRetry(url, {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",

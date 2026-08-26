@@ -1,6 +1,7 @@
 import jwt_decode from "jwt-decode";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 
 type Request = {
@@ -12,7 +13,7 @@ type Request = {
 const API_URL = CONFIG.API_URL;
 
 export async function loginRequest(request: Request) {
-  const response = await window.fetch(`${API_URL}/login`, {
+  const response = await fetchWithRetry(`${API_URL}/login`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",

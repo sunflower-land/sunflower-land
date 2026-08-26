@@ -1,5 +1,6 @@
 import type { InventoryItemName, Wardrobe } from "features/game/types/game";
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 
 type Request = {
@@ -13,7 +14,7 @@ const API_URL = CONFIG.API_URL;
 
 export async function reset(request: Request) {
   // Uses same autosave event driven endpoint
-  const response = await window.fetch(`${API_URL}/reset/${request.farmId}`, {
+  const response = await fetchWithRetry(`${API_URL}/reset/${request.farmId}`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",

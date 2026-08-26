@@ -1,4 +1,5 @@
 import { CONFIG } from "./config";
+import { fetchWithRetry } from "./fetchWithRetry";
 import { ERRORS } from "./errors";
 
 type Source =
@@ -229,7 +230,7 @@ export const createErrorLogger = (source: Source, farmId: number) => {
       sent.add(key);
       if (errorsEmitted-- <= 0) return;
 
-      await fetch(`${CONFIG.API_URL}/support/errors`, {
+      await fetchWithRetry(`${CONFIG.API_URL}/support/errors`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(report),

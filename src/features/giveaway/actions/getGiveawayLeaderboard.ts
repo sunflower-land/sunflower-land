@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 import type { GiveawayLeaderboardResponse } from "../lib/types";
 import { mockGiveawayLeaderboard } from "../lib/mockGiveaways";
@@ -22,7 +23,7 @@ export async function getGiveawayLeaderboard({
   url.searchParams.set("type", "giveawayLeaderboard");
   url.searchParams.set("id", id);
 
-  const response = await window.fetch(url, {
+  const response = await fetchWithRetry(url, {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",

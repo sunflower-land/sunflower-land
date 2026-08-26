@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -81,7 +82,7 @@ export async function loadRaffleResults(
       entries: 0,
     };
   }
-  const response = await window.fetch(
+  const response = await fetchWithRetry(
     `${API_URL}/data?type=raffleResults&id=${request.id}`,
     {
       method: "GET",

@@ -1,5 +1,6 @@
 import type { CollectivePet } from "features/game/types/game";
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 
 export async function getFactionPetUpdate({
@@ -9,7 +10,7 @@ export async function getFactionPetUpdate({
 }): Promise<CollectivePet | undefined> {
   const url = `${CONFIG.API_URL}/factions/pet/${farmId}`;
 
-  const response = await window.fetch(url, {
+  const response = await fetchWithRetry(url, {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",

@@ -1,6 +1,7 @@
 import { makeGame } from "features/game/lib/transforms";
 import type { GameState } from "features/game/types/game";
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 import type { Font } from "lib/utils/fonts";
 
@@ -40,7 +41,7 @@ export const getFont = (): Font => {
 
 export async function loadPortal(request: Request) {
   // Uses same autosave event driven endpoint
-  const response = await window.fetch(
+  const response = await fetchWithRetry(
     `${getUrl()}/portal/${request.portalId}/player`,
     {
       method: "GET",

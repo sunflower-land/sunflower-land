@@ -1,5 +1,6 @@
 import type { Auction } from "features/game/lib/auctionMachine";
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 
 type Request = {
@@ -54,7 +55,7 @@ export async function loadAuctions(request: Request): Promise<{
     };
   }
 
-  const response = await window.fetch(`${API_URL}/auctions`, {
+  const response = await fetchWithRetry(`${API_URL}/auctions`, {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",

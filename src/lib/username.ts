@@ -7,6 +7,7 @@
 */
 
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 import { translate } from "./i18n/translate";
 const API_URL = CONFIG.API_URL;
@@ -43,7 +44,7 @@ export const saveUsername = async (
   farmId: number,
   username: string,
 ) => {
-  const response = await window.fetch(`${API_URL}/username/${farmId}`, {
+  const response = await fetchWithRetry(`${API_URL}/username/${farmId}`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
@@ -66,16 +67,20 @@ export const saveUsername = async (
 };
 
 export const checkUsername = async (token: string, username: string) => {
-  const response = await window.fetch(`${API_URL}/check-username`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      Authorization: `Bearer ${token}`,
+  const response = await fetchWithRetry(
+    `${API_URL}/check-username`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        username,
+      }),
     },
-    body: JSON.stringify({
-      username,
-    }),
-  });
+    { idempotent: true },
+  );
 
   if (response.status === 409) {
     return { success: false };

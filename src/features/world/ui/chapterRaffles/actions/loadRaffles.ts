@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 import type { RaffleDefinition } from "../../../../retreat/components/auctioneer/types";
 import {
@@ -198,7 +199,7 @@ export async function loadRaffles(
       },
     ];
   }
-  const response = await window.fetch(`${API_URL}/data?type=raffles`, {
+  const response = await fetchWithRetry(`${API_URL}/data?type=raffles`, {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",

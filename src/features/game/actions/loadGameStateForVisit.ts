@@ -1,4 +1,5 @@
 import { CONFIG } from "lib/config";
+import { fetchWithRetry } from "lib/fetchWithRetry";
 import type { GameState } from "../types/game";
 import { makeGame } from "../lib/transforms";
 
@@ -37,7 +38,7 @@ export async function loadGameStateForVisit(
 }> {
   // Go and fetch the state for the farm you are trying to visit
   const url = `${API_URL}/visit/${id}`;
-  const response = await window.fetch(url, {
+  const response = await fetchWithRetry(url, {
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",
