@@ -1,0 +1,438 @@
+import React, { Fragment, useContext, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+import { useSelector } from "@xstate/react";
+import { Transition } from "@headlessui/react";
+import confetti from "canvas-confetti";
+
+import snorklerBumpkin from "assets/npcs/snorkel_bumpkin.png";
+import sharkBumpkin from "assets/npcs/shark.png";
+import { SUNNYSIDE } from "assets/sunnyside";
+
+import { Modal } from "components/ui/Modal";
+import { Panel } from "components/ui/Panel";
+import { Label } from "components/ui/Label";
+import { Button } from "components/ui/Button";
+import { Box } from "components/ui/Box";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { Loading } from "features/auth/components";
+import {
+  Expanding,
+  ExpansionRequirements,
+} from "components/ui/layouts/ExpansionRequirements";
+import { SpecialEventModalContent } from "features/world/ui/SpecialEventModalContent";
+import { PeteHelp } from "features/game/expansion/components/PeteHelp";
+import { Guide } from "features/helios/components/hayseedHank/components/Guide";
+import type { GuidePath } from "features/helios/components/hayseedHank/lib/guide";
+import {
+  IslandUpgraderModal,
+  UPGRADE_DESCRIPTIONS,
+  UPGRADE_MESSAGES,
+  UPGRADE_PREVIEW,
+} from "features/game/expansion/components/IslandUpgrader";
+import { expansionRequirements } from "features/game/events/landExpansion/expandLand";
+import { Context } from "features/game/GameProvider";
+import type { MachineState } from "features/game/lib/gameMachine";
+import { PIXEL_SCALE, type StockableName } from "features/game/lib/constants";
+import type {
+  Bumpkin,
+  ExpansionRequirements as IExpansionRequirements,
+  AscensionIslandType,
+} from "features/game/types/game";
+import { ASCENSION_ISLANDS, getIslandName } from "features/game/types/game";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { NPC_WEARABLES } from "lib/npcs";
+import { gameAnalytics } from "lib/gameAnalytics";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { translate } from "lib/i18n/translate";
+import { useNow } from "lib/utils/hooks/useNow";
+import type { FarmModalRequest, GameBridge } from "../bridge/GameBridge";
+import { getRestockLists, getShipmentAmount } from "../lib/restock";
+import { SeasonalSeed } from "features/island/plots/components/SeasonalSeed";
+import type { SeedName } from "features/game/types/seeds";
+import { LavaPitModalContent } from "features/game/expansion/components/lavaPit/LavaPitModalContent";
+
+/**
+ * The React half of every in-world interaction: Phaser renders the sprite and
+ * detects the click; the modal that opens lives here, one per FarmModalName.
+ * Content mirrors the DOM components it replaces (named in each section) —
+ * those components are deleted with the React farm at the flag flip.
+ */
+
+const _state = (state: MachineState) => state.context.state;
+
+export const FarmModals: React.FC<{
+  bridge: GameBridge;
+  /** Fires when any farm modal opens/closes, so the engine can gate input. */
+  onOpenChange?: (open: boolean) => void;
+}> = ({ bridge, onOpenChange }) => {
+  const { t } = useAppTranslation();
+  const { gameService, showAnimations, selectedItem } = useContext(Context);
+  const state = useSelector(gameService, _state);
+
+  const [open, setOpen] = useState<FarmModalRequest | undefined>();
+
+  useEffect(
+    () => bridge.farmModal.subscribe((request) => setOpen(request)),
+    [bridge],
+  );
+
+  const close = () => setOpen(undefined);
+
+  // [TravelTeaser.tsx] tabs
+  const [peteTab, setPeteTab] = useState<"explore" | "guide">("explore");
+  const [guide, setGuide] = useState<GuidePath>();
+
+  // [IslandUpgrader.tsx] upgrade flow
+  const [showTravelAnimation, setShowTravelAnimation] = useState(false);
+  const [showUpgraded, setShowUpgraded] = useState(false);
+
+  const anyOpen = open !== undefined || showTravelAnimation || showUpgraded;
+  useEffect(() => {
+    onOpenChange?.(anyOpen);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [anyOpen]);
+
+  const now = useNow();
+  const { requirements, baseTimeSeconds, timeBoostsUsed } =
+    expansionRequirements({ game: state, now });
+
+  const onUpgrade = async () => {
+    setShowTravelAnimation(true);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    close();
+    gameService.send("PAUSE");
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    gameService.send("farm.upgraded");
+    gameService.send("SAVE");
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    setShowUpgraded(true);
+    gameService.send("PLAY");
+
+    setShowTravelAnimation(false);
+    if (showAnimations) confetti();
+  };
+
+  const islandType = state.island.type;
+  const isAscensionIsland = ASCENSION_ISLANDS.includes(
+    islandType as AscensionIslandType,
+  );
+  const welcomeMessage = isAscensionIsland
+    ? t("islandupgrade.welcomeAscensionIsland", {
+        island: getIslandName(islandType),
+        level: state.island.ascensionLevel ?? 0,
+      })
+    : UPGRADE_MESSAGES[islandType];
+  const upgradePreview = UPGRADE_PREVIEW[islandType];
+
+  const laTomatina = state.specialEvents.current["La Tomatina"];
+  const { tools: restockTools, seeds: restockSeeds } = getRestockLists(state);
+
+  const closeIcon = (onClick: () => void) => (
+    <img
+      src={SUNNYSIDE.icons.close}
+      className="absolute cursor-pointer z-20"
+      onClick={onClick}
+      style={{
+        top: `${PIXEL_SCALE * 6}px`,
+        right: `${PIXEL_SCALE * 6}px`,
+        width: `${PIXEL_SCALE * 11}px`,
+      }}
+    />
+  );
+
+  return (
+    <>
+      {/* [Snorkler.tsx] */}
+      <Modal show={open?.name === "snorkler"} onHide={close}>
+        <img
+          className="absolute w-48 left-4 -top-32 -z-10"
+          src={snorklerBumpkin}
+        />
+        <Panel>
+          <div className="p-2">
+            {closeIcon(close)}
+            <p>{t("snorkler.vastOcean")}</p>
+            <p className="mt-2">{t("snorkler.goldBeneath")}</p>
+          </div>
+        </Panel>
+      </Modal>
+
+      {/* [SharkBumpkin.tsx] */}
+      <Modal show={open?.name === "sharkBumpkin"} onHide={close}>
+        <img
+          className="absolute w-64 left-4 -top-44 -z-10"
+          src={sharkBumpkin}
+        />
+        <Panel>
+          {closeIcon(close)}
+          <div className="py-2 px-1">
+            <p>{t("sharkBumpkin.dialogue.shhhh")}</p>
+            <p className="mt-2">{t("sharkBumpkin.dialogue.scareGoblins")}</p>
+          </div>
+        </Panel>
+      </Modal>
+
+      {/* [TravelTeaser.tsx] */}
+      <Modal show={open?.name === "travelTeaser"} onHide={close}>
+        <CloseButtonPanel
+          bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
+          onClose={close}
+          tabs={[
+            {
+              id: "explore",
+              icon: SUNNYSIDE.icons.expression_chat,
+              name: t("explore"),
+            },
+            {
+              id: "guide",
+              icon: SUNNYSIDE.icons.expression_confused,
+              name: t("guide"),
+            },
+          ]}
+          currentTab={peteTab}
+          setCurrentTab={setPeteTab}
+        >
+          <div
+            style={{ maxHeight: "300px" }}
+            className="scrollable overflow-y-auto"
+          >
+            {peteTab === "explore" && <PeteHelp />}
+            {peteTab === "guide" && (
+              <Guide selected={guide} onSelect={setGuide} />
+            )}
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+
+      {/* [RestockBoat.tsx] */}
+      <Modal show={open?.name === "restockBoat"} onHide={close}>
+        <CloseButtonPanel
+          bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
+          onClose={close}
+        >
+          <div className="p-1">
+            <Label type="default" className="mb-2">
+              {t("gems.shipment.arrived")}
+            </Label>
+            <p className="text-sm mb-2">{t("gems.shipment.success")}</p>
+            <p className="text-sm mb-2">{t("gems.shipment.shops")}</p>
+          </div>
+          <div className="mt-1 h-auto overflow-y-auto overflow-x-hidden scrollable pl-1">
+            {restockTools.length > 0 && (
+              <Label
+                icon={ITEM_DETAILS.Axe.image}
+                type="default"
+                className="ml-2 mb-1"
+              >
+                {t("tools")}
+              </Label>
+            )}
+            <div className="flex flex-wrap mb-2">
+              {restockTools.map(([item, amount]) => (
+                <Box
+                  key={item}
+                  count={getShipmentAmount(
+                    state,
+                    item as StockableName,
+                    amount as number,
+                  )}
+                  image={ITEM_DETAILS[item as StockableName].image}
+                />
+              ))}
+            </div>
+            {restockSeeds.length > 0 && (
+              <Label
+                icon={CROP_LIFECYCLE["Basic Biome"].Sunflower.seed}
+                type="default"
+                className="ml-2 mb-1"
+              >
+                {t("seeds")}
+              </Label>
+            )}
+            <div className="flex flex-wrap mb-2">
+              {restockSeeds.map(([item, amount]) => (
+                <Box
+                  key={item}
+                  count={getShipmentAmount(
+                    state,
+                    item as StockableName,
+                    amount as number,
+                  )}
+                  image={ITEM_DETAILS[item as StockableName].image}
+                />
+              ))}
+            </div>
+          </div>
+          <Button
+            onClick={() => {
+              gameService.send("shipment.restocked");
+              if (showAnimations) confetti();
+              close();
+            }}
+          >
+            {t("gems.replenish")}
+          </Button>
+        </CloseButtonPanel>
+      </Modal>
+
+      {/* [LaTomatina.tsx] */}
+      <Modal show={open?.name === "laTomatina" && !!laTomatina} onHide={close}>
+        <CloseButtonPanel onClose={close}>
+          {laTomatina && (
+            <SpecialEventModalContent
+              event={laTomatina}
+              eventName="La Tomatina"
+              onClose={close}
+            />
+          )}
+        </CloseButtonPanel>
+      </Modal>
+
+      {/* [IslandUpgrader.tsx] */}
+      <Modal
+        show={open?.name === "islandUpgrader"}
+        onHide={showTravelAnimation ? undefined : close}
+      >
+        <IslandUpgraderModal onUpgrade={onUpgrade} onClose={close} />
+      </Modal>
+      {createPortal(
+        <Transition
+          show={showTravelAnimation}
+          enter="transform transition-opacity duration-1000"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="transform transition-opacity duration-1000"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+          as={Fragment}
+        >
+          <div
+            style={{ zIndex: 9999999 }}
+            className="bg-black text-white fixed inset-0 pointer-events-none flex justify-center items-center"
+          >
+            <Loading text={t("islandupgrade.exploring")} />
+          </div>
+        </Transition>,
+        document.body,
+      )}
+      <Modal show={showUpgraded}>
+        <CloseButtonPanel bumpkinParts={NPC_WEARABLES.grubnuk}>
+          <div className="p-2">
+            <p className="text-sm mb-2">{welcomeMessage}</p>
+            <p className="text-xs mb-2">{UPGRADE_DESCRIPTIONS[islandType]}</p>
+            {upgradePreview && (
+              <img src={upgradePreview} className="w-full rounded-md mb-2" />
+            )}
+            <p className="text-xs mb-2">{t("islandupgrade.itemsReturned")}</p>
+          </div>
+          <Button onClick={() => setShowUpgraded(false)}>
+            {t("continue")}
+          </Button>
+        </CloseButtonPanel>
+      </Modal>
+
+      {/* [Pontoon.tsx] speed-up */}
+      <Modal
+        show={open?.name === "pontoon" && !!state.expansionConstruction}
+        onHide={close}
+      >
+        <Panel>
+          {state.expansionConstruction && (
+            <Expanding
+              onClose={close}
+              state={state}
+              readyAt={state.expansionConstruction.readyAt}
+              onInstantExpanded={(cost, paymentMethod = "gems") => {
+                gameService.send("expansion.spedUp", { paymentMethod });
+                gameAnalytics.trackSink({
+                  currency: paymentMethod === "coins" ? "Coins" : "Gem",
+                  amount: cost,
+                  item: "Instant Expand",
+                  type: "Fee",
+                });
+                close();
+              }}
+            />
+          )}
+        </Panel>
+      </Modal>
+
+      {/* [Plot.tsx] out-of-season seed warning */}
+      <Modal show={open?.name === "seasonalSeed"} onHide={close}>
+        <SeasonalSeed
+          seed={selectedItem as SeedName}
+          season={state.season.season}
+          onClose={close}
+        />
+      </Modal>
+
+      {/* [NonFertilePlot.tsx] water well warning */}
+      <Modal show={open?.name === "nonFertilePlot"} onHide={close}>
+        <CloseButtonPanel title={t("statements.crop.water")} onClose={close}>
+          <div className="p-2">
+            {t(
+              (state.buildings["Water Well"] ?? []).length > 0
+                ? "statements.upgrade.water.well"
+                : state.inventory["Water Well"]?.gte(1)
+                  ? "statements.water.well.needed.three"
+                  : "statements.water.well.needed.one",
+            )}
+            <img
+              src={SUNNYSIDE.building.well}
+              alt="well"
+              width={PIXEL_SCALE * 25}
+              className="mx-auto mt-4 mb-2"
+            />
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+
+      {/* [LavaPit.tsx] start/collect flow */}
+      <Modal show={open?.name === "lavaPit"} onHide={close}>
+        {open?.name === "lavaPit" && typeof open.data === "string" && (
+          <LavaPitModalContent id={open.data} onClose={close} />
+        )}
+      </Modal>
+
+      {/* [Boulder.tsx] teaser */}
+      <Modal show={open?.name === "boulder"} onHide={close}>
+        <Panel>
+          <div className="p-2 flex flex-col items-center">
+            {closeIcon(close)}
+            <p className="text-center mb-2">
+              {t("resources.boulder.rareMineFound")}
+            </p>
+            <img src={SUNNYSIDE.tools.iron_pickaxe} className="w-1/4 mb-2" />
+            <p className="text-center text-xs mb-1">
+              {t("resources.boulder.advancedMining")}
+            </p>
+            <p className="text-center text-xs">{t("coming.soon")}</p>
+          </div>
+        </Panel>
+      </Modal>
+
+      {/* [UpcomingExpansion.tsx] requirements */}
+      <Modal show={open?.name === "expansionRequirements"} onHide={close}>
+        <CloseButtonPanel bumpkinParts={NPC_WEARABLES.grimbly} onClose={close}>
+          {requirements && (
+            <ExpansionRequirements
+              state={state}
+              inventory={state.inventory}
+              coins={state.coins}
+              bumpkin={state.bumpkin as Bumpkin}
+              details={{ description: translate("landscape.expansion.one") }}
+              onClose={close}
+              requirements={requirements as IExpansionRequirements}
+              baseTimeSeconds={baseTimeSeconds}
+              timeBoostsUsed={timeBoostsUsed}
+            />
+          )}
+        </CloseButtonPanel>
+      </Modal>
+    </>
+  );
+};

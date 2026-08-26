@@ -26,6 +26,7 @@ import { Captcha } from "../components/captcha/Captcha";
 import { Cooldown } from "../components/Cooldown";
 import { Route, Routes } from "react-router";
 import { Land } from "./Land";
+import { FarmPhaser } from "features/farmEngine/FarmPhaser";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
 
@@ -425,8 +426,18 @@ const GameContent: React.FC = () => {
           <Route path="/" element={<Land />}>
             <Route path="marketplace/*" element={<Marketplace />} />
           </Route>
-          {/* Legacy route */}
-          <Route path="/farm" element={<Land />} />
+          {/* Legacy route; hosts the Phaser farm while it's behind its flag
+              (see docs/phaser-farm-migration/) */}
+          <Route
+            path="/farm"
+            element={
+              hasFeatureAccess(gameState.context.state, "PHASER_FARM") ? (
+                <FarmPhaser />
+              ) : (
+                <Land />
+              )
+            }
+          />
           <Route path="/home" element={<Home />} />
           {hasAccess("GreenHouse") && (
             <Route path="/greenhouse" element={<GreenhouseInside />} />

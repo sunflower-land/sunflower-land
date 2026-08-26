@@ -46,7 +46,7 @@ const _calendar = (state: MachineState) => state.context.state.calendar;
 
 const clampPercentage = (value: number) => Math.min(Math.max(value, 0), 100);
 
-const getGrowthStage = (
+export const getGrowthStage = (
   cropName?: CropName,
   percentage?: number,
 ): GrowthStage | undefined => {
@@ -57,7 +57,7 @@ const getGrowthStage = (
   return "seedling";
 };
 
-const getHarvestMetrics = ({
+export const getHarvestMetrics = ({
   cropName,
   plot,
   plantedAt,

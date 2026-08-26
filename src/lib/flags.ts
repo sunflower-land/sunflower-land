@@ -174,6 +174,14 @@ const FEATURE_FLAGS = {
   TRIGGER_CAPTCHA: betaFeatureFlag,
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
 
+  /**
+   * Renders the farm with the Phaser engine (src/features/farmEngine) instead
+   * of the React DOM renderer at the /farm route. Dev toggle while the port is
+   * built out — see docs/phaser-farm-migration/. Set localStorage "phaserFarm"
+   * to any value to opt in on mainnet builds.
+   */
+  PHASER_FARM: testnetLocalStorageFeatureFlag("phaserFarm"),
+
   EASTER: () => false,
 
   STREAM_STAGE_ACCESS: adminFeatureFlag,

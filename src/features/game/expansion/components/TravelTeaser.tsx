@@ -27,6 +27,9 @@ import type { GuidePath } from "features/helios/components/hayseedHank/lib/guide
 const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 0;
 
+/** Pete's current teaser hint (null = nothing to say). Shared with the Phaser farm's BoatsLayer. */
+export const getPeteHint = (state: MachineState) => hint(state);
+
 const hint = (state: MachineState) => {
   const activity = state.context.state.farmActivity;
   const inventory = state.context.state.inventory;

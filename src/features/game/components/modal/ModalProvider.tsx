@@ -17,7 +17,7 @@ import { DiscordBonus } from "features/game/expansion/components/DiscordBoat";
 import { DailyRewardChest } from "features/game/expansion/components/dailyReward/DailyReward";
 import { ChapterTracks } from "features/world/ui/tracks/ChapterTracks";
 import { MarketplaceTutorialModal } from "./MarketplaceTutorialModal";
-type GlobalModal =
+export type GlobalModal =
   | "BUY_GEMS"
   | "DISCORD"
   | "BUY_BANNER"

@@ -65,7 +65,7 @@ export const UPGRADE_RAFTS: Record<IslandType, string | null> = {
   marble: SUNNYSIDE.land.marbleRaft,
 };
 
-const UPGRADE_PREVIEW: Record<IslandType, string | null> = {
+export const UPGRADE_PREVIEW: Record<IslandType, string | null> = {
   basic: null,
   spring: SUNNYSIDE.announcement.springPrestige,
   desert: SUNNYSIDE.announcement.desertPrestige,
@@ -78,7 +78,7 @@ const UPGRADE_PREVIEW: Record<IslandType, string | null> = {
   marble: SUNNYSIDE.announcement.volcanoPrestige,
 };
 
-const UPGRADE_MESSAGES: Record<IslandType, string | null> = {
+export const UPGRADE_MESSAGES: Record<IslandType, string | null> = {
   basic: null,
   spring: translate("islandupgrade.welcomePetalParadise"),
   desert: translate("islandupgrade.welcomeDesertIsland"),
@@ -91,7 +91,7 @@ const UPGRADE_MESSAGES: Record<IslandType, string | null> = {
   marble: translate("islandupgrade.welcomeVolcanoIsland"),
 };
 
-const UPGRADE_DESCRIPTIONS: Record<IslandType, string | null> = {
+export const UPGRADE_DESCRIPTIONS: Record<IslandType, string | null> = {
   basic: null,
   spring: translate("islandupgrade.exoticResourcesDescription"),
   desert: translate("islandupgrade.desertResourcesDescription"),
@@ -102,6 +102,83 @@ const UPGRADE_DESCRIPTIONS: Record<IslandType, string | null> = {
   crystal: translate("islandupgrade.volcanoResourcesDescription"),
   galaxy: translate("islandupgrade.volcanoResourcesDescription"),
   marble: translate("islandupgrade.volcanoResourcesDescription"),
+};
+
+/**
+ * Where the upgrade raft sits for the current island + expansion count. Pure —
+ * shared with the Phaser farm's BoatsLayer, which renders the same raft.
+ */
+export const getUpgradeRaftPosition = (
+  islandType: IslandType,
+  expansionCount: number,
+): { x: number; y: number } => {
+  const nextExpansion = expansionCount + 1;
+
+  if (islandType === "basic") {
+    switch (nextExpansion) {
+      case 10:
+        return { x: 1, y: -5 };
+      case 11:
+        return { x: 0, y: 2 };
+      case 12:
+        return { x: 0, y: 8 };
+      case 13:
+        return { x: -1, y: 14 };
+      case 14:
+        return { x: -7, y: 14 };
+      case 15:
+        return { x: -14, y: 14 };
+      case 16:
+        return { x: -20, y: 14 };
+      case 17:
+        return { x: -26, y: 14 };
+      case 18:
+        return { x: -27, y: 8 };
+      case 19:
+        return { x: -27, y: 2 };
+      case 20:
+        return { x: -28, y: -4 };
+      case 21:
+        return { x: -28, y: -10 };
+      case 22:
+        return { x: -22, y: -10 };
+      case 23:
+        return { x: -17, y: -10 };
+      case 24:
+        return { x: -11, y: -10 };
+    }
+  }
+
+  if (islandType === "spring") {
+    switch (nextExpansion) {
+      case 17:
+        return { x: -26, y: 14 };
+      case 18:
+        return { x: -27, y: 8 };
+      case 19:
+        return { x: -27, y: 2 };
+      case 20:
+        return { x: -28, y: -4 };
+      case 21:
+        return { x: -28, y: -10 };
+    }
+  }
+  if (islandType === "desert" && nextExpansion === 26) {
+    return { x: 1, y: -11 };
+  }
+  // Until the volcano cap (30 expansions) the raft sits on the side and the
+  // modal blocks the upgrade ("X Expansions Remaining"); once maxed it moves
+  // to the top-right scaffolding, ready to prestige to swamp.
+  // TODO: confirm the scaffolding coordinate in-game.
+  if (islandType === "volcano") {
+    return nextExpansion === 31 ? { x: -1, y: 20 } : { x: 9, y: 9 };
+  }
+
+  if (hasRequiredIslandExpansion(islandType, "swamp") && nextExpansion === 43) {
+    return { x: -40, y: -16 };
+  }
+
+  return { x: 7, y: 0 };
 };
 
 // Swamp ascension launch date — shown as a teaser on the locked "coming soon"
@@ -115,7 +192,7 @@ const NO_ISLAND_UPGRADE: Pick<
   "items" | "expansions"
 > = { expansions: 0, items: {} };
 
-const IslandUpgraderModal: React.FC<{
+export const IslandUpgraderModal: React.FC<{
   onClose: () => void;
   onUpgrade: (options: { saveLayout: boolean }) => void;
 }> = ({ onClose, onUpgrade }) => {
@@ -546,76 +623,7 @@ export const IslandUpgrader: React.FC<Props> = ({ offset }) => {
 
   const nextExpansion = expansionCount + 1;
 
-  const getPosition = () => {
-    if (islandType === "basic") {
-      switch (nextExpansion) {
-        case 10:
-          return { x: 1, y: -5 };
-        case 11:
-          return { x: 0, y: 2 };
-        case 12:
-          return { x: 0, y: 8 };
-        case 13:
-          return { x: -1, y: 14 };
-        case 14:
-          return { x: -7, y: 14 };
-        case 15:
-          return { x: -14, y: 14 };
-        case 16:
-          return { x: -20, y: 14 };
-        case 17:
-          return { x: -26, y: 14 };
-        case 18:
-          return { x: -27, y: 8 };
-        case 19:
-          return { x: -27, y: 2 };
-        case 20:
-          return { x: -28, y: -4 };
-        case 21:
-          return { x: -28, y: -10 };
-        case 22:
-          return { x: -22, y: -10 };
-        case 23:
-          return { x: -17, y: -10 };
-        case 24:
-          return { x: -11, y: -10 };
-      }
-    }
-
-    if (islandType === "spring") {
-      switch (nextExpansion) {
-        case 17:
-          return { x: -26, y: 14 };
-        case 18:
-          return { x: -27, y: 8 };
-        case 19:
-          return { x: -27, y: 2 };
-        case 20:
-          return { x: -28, y: -4 };
-        case 21:
-          return { x: -28, y: -10 };
-      }
-    }
-    if (islandType === "desert" && nextExpansion === 26) {
-      return { x: 1, y: -11 };
-    }
-    // Until the volcano cap (30 expansions) the raft sits on the side and the
-    // modal blocks the upgrade ("X Expansions Remaining"); once maxed it moves
-    // to the top-right scaffolding, ready to prestige to swamp.
-    // TODO: confirm the scaffolding coordinate in-game.
-    if (islandType === "volcano") {
-      return nextExpansion === 31 ? { x: -1, y: 20 } : { x: 9, y: 9 };
-    }
-
-    if (
-      hasRequiredIslandExpansion(islandType, "swamp") &&
-      nextExpansion === 43
-    ) {
-      return { x: -40, y: -16 };
-    }
-
-    return { x: 7, y: 0 };
-  };
+  const getPosition = () => getUpgradeRaftPosition(islandType, expansionCount);
 
   const onClose = () => {
     if (showTravelAnimation) {

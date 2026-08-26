@@ -1,0 +1,70 @@
+import type { GameBridge } from "../bridge/GameBridge";
+import type { FarmScene } from "../scenes/FarmScene";
+import type { EntityRenderer } from "./EntityRenderer";
+import { OceanLayer } from "../layers/OceanLayer";
+import { LandBaseLayer } from "../layers/LandBaseLayer";
+import { DirtLayer } from "../layers/DirtLayer";
+import { BackgroundIslandsLayer } from "../layers/BackgroundIslandsLayer";
+import { CloudsLayer } from "../layers/CloudsLayer";
+import { WaterDecorLayer } from "../layers/WaterDecorLayer";
+import { BoatsLayer } from "../layers/BoatsLayer";
+import { UpcomingExpansionRenderer } from "./UpcomingExpansionRenderer";
+import { CropRenderer } from "./crops/CropRenderer";
+import { TreeRenderer } from "./resources/TreeRenderer";
+import {
+  MineralRenderer,
+  STONE_CONFIG,
+  IRON_CONFIG,
+  GOLD_CONFIG,
+  CRIMSTONE_CONFIG,
+  SUNSTONE_CONFIG,
+} from "./resources/MineralRenderer";
+import { AscensionCrystalRenderer } from "./resources/AscensionCrystalRenderer";
+import { OilReserveRenderer } from "./resources/OilReserveRenderer";
+import { LavaPitRenderer } from "./resources/LavaPitRenderer";
+import { BoulderRenderer } from "./resources/BoulderRenderer";
+
+export type RendererFactory = (
+  scene: FarmScene,
+  bridge: GameBridge,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+) => EntityRenderer<any>;
+
+/**
+ * The successor of Land.tsx's islandElements arrays: everything the farm
+ * renders, in one place. Adding a new entity type to the farm = one renderer
+ * class + one entry here. FarmScene instantiates, mounts, updates, and
+ * destroys everything in this map — nothing else needs to know a type exists.
+ *
+ * Paint order comes from each renderer's DEPTHS band, not from this map's
+ * order. Keys are labels for debugging/logging only.
+ *
+ * Filled in as the port progresses (crops in Phase 2, trees/rocks in Phase 3,
+ * ...).
+ */
+export const RENDERERS: Record<string, RendererFactory> = {
+  ocean: (scene, bridge) => new OceanLayer(scene, bridge),
+  landBase: (scene, bridge) => new LandBaseLayer(scene, bridge),
+  dirt: (scene, bridge) => new DirtLayer(scene, bridge),
+  backgroundIslands: (scene, bridge) =>
+    new BackgroundIslandsLayer(scene, bridge),
+  clouds: (scene, bridge) => new CloudsLayer(scene, bridge),
+  waterDecor: (scene, bridge) => new WaterDecorLayer(scene, bridge),
+  boats: (scene, bridge) => new BoatsLayer(scene, bridge),
+  upcomingExpansion: (scene, bridge) =>
+    new UpcomingExpansionRenderer(scene, bridge),
+  crops: (scene, bridge) => new CropRenderer(scene, bridge),
+  trees: (scene, bridge) => new TreeRenderer(scene, bridge),
+  stones: (scene, bridge) => new MineralRenderer(scene, bridge, STONE_CONFIG),
+  iron: (scene, bridge) => new MineralRenderer(scene, bridge, IRON_CONFIG),
+  gold: (scene, bridge) => new MineralRenderer(scene, bridge, GOLD_CONFIG),
+  crimstones: (scene, bridge) =>
+    new MineralRenderer(scene, bridge, CRIMSTONE_CONFIG),
+  sunstones: (scene, bridge) =>
+    new MineralRenderer(scene, bridge, SUNSTONE_CONFIG),
+  ascensionCrystals: (scene, bridge) =>
+    new AscensionCrystalRenderer(scene, bridge),
+  oilReserves: (scene, bridge) => new OilReserveRenderer(scene, bridge),
+  lavaPits: (scene, bridge) => new LavaPitRenderer(scene, bridge),
+  boulders: (scene, bridge) => new BoulderRenderer(scene, bridge),
+};

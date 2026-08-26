@@ -54,5 +54,80 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Aged Anchovy": new Decimal(20),
     "Prime Aged Anchovy": new Decimal(11),
     "Aged Tuna": new Decimal(5),
+    "Crop Plot": new Decimal(4),
+    "Sunflower Seed": new Decimal(200),
+    "Kale Seed": new Decimal(50),
+    Pickaxe: new Decimal(20),
+    "Stone Pickaxe": new Decimal(20),
+    "Iron Pickaxe": new Decimal(20),
+    "Gold Pickaxe": new Decimal(20),
+    "Oil Drill": new Decimal(5),
+    "Iron Rock": new Decimal(1),
+    "Gold Rock": new Decimal(1),
+    "Crimstone Rock": new Decimal(1),
+    "Sunstone Rock": new Decimal(1),
+    "Oil Reserve": new Decimal(1),
+  },
+  // One of each mineable node for the farm renderers.
+  iron: {
+    "1": {
+      createdAt: Date.now(),
+      stone: { minedAt: 0 },
+      x: 2,
+      y: 2,
+    },
+  },
+  gold: {
+    "1": {
+      createdAt: Date.now(),
+      stone: { minedAt: 0 },
+      x: 3,
+      y: 2,
+    },
+  },
+  crimstones: {
+    "1": {
+      createdAt: Date.now(),
+      stone: { minedAt: 0 },
+      minesLeft: 5,
+      x: 3,
+      y: -2,
+    },
+  },
+  sunstones: {
+    "1": {
+      createdAt: Date.now(),
+      stone: { minedAt: 0 },
+      minesLeft: 10,
+      x: -5,
+      y: -2,
+    },
+  },
+  oilReserves: {
+    "1": {
+      createdAt: Date.now(),
+      oil: { drilledAt: 0 },
+      drilled: 0,
+      x: 5,
+      y: 1,
+    },
+  },
+  // A spread of plot states for the farm renderers: empty soil, a crop that's
+  // ready the moment the farm loads, and one mid-growth.
+  crops: {
+    "1": { createdAt: Date.now(), x: -2, y: 0 },
+    "2": { createdAt: Date.now(), x: -1, y: 0 },
+    "3": {
+      createdAt: Date.now(),
+      x: 0,
+      y: 0,
+      crop: { name: "Sunflower", plantedAt: 0 },
+    },
+    "4": {
+      createdAt: Date.now(),
+      x: 1,
+      y: 0,
+      crop: { name: "Kale", plantedAt: Date.now() },
+    },
   },
 };
