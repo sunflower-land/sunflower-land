@@ -44,7 +44,7 @@ export const TimerPopover: React.FC<Props> = ({
       <div className="flex flex-col text-xs gap-0.5 items-center pl-2 pr-1">
         <div className="flex flex-1 items-center justify-center">
           <img src={image} className="w-4 mr-1" />
-          <span>{description}</span>
+          <span className="whitespace-nowrap">{description}</span>
         </div>
         {hasSecondRow && (
           <div className="flex flex-1 items-center justify-center">

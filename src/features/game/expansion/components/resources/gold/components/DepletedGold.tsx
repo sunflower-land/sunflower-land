@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { TimerPopover } from "features/island/common/TimerPopover";
+import { ITEM_DETAILS } from "features/game/types/images";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
 import type { GoldRockName } from "features/game/types/resources";
 import type { GameState, TemperateSeasonName } from "features/game/types/game";
@@ -26,7 +26,6 @@ const DepletedGoldComponent: React.FC<Props> = ({
   timeLeft,
   speed,
 }) => {
-  const { t } = useAppTranslation();
   const [showTimeLeft, setShowTimeLeft] = useState(false);
   const boosted = speed !== undefined && speed > 1;
 
@@ -64,10 +63,11 @@ const DepletedGoldComponent: React.FC<Props> = ({
             top: `${PIXEL_SCALE * -20}px`,
           }}
         >
-          <TimeLeftPanel
-            text={t("resources.recoversIn")}
+          <TimerPopover
+            image={ITEM_DETAILS["Gold"].image}
+            description={name}
+            showPopover={showTimeLeft}
             timeLeft={timeLeft}
-            showTimeLeft={showTimeLeft}
             speed={speed}
           />
         </div>

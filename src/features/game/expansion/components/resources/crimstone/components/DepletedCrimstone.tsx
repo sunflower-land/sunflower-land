@@ -6,9 +6,9 @@ import crimstone_4 from "assets/resources/crimstone/crimstone_rock_4.webp";
 import crimstone_5 from "assets/resources/crimstone/crimstone_rock_5.webp";
 import crimstone_6 from "assets/resources/crimstone/crimstone_rock_6.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
+import { TimerPopover } from "features/island/common/TimerPopover";
+import { ITEM_DETAILS } from "features/game/types/images";
 import { getCrimstoneStage } from "../getCrimstoneStage";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
@@ -30,7 +30,6 @@ const DepletedCrimstoneComponent: React.FC<Props> = ({
   now,
   readyAt,
 }) => {
-  const { t } = useAppTranslation();
   const [showTimeLeft, setShowTimeLeft] = useState(false);
   const boosted = speed !== undefined && speed > 1;
 
@@ -78,10 +77,11 @@ const DepletedCrimstoneComponent: React.FC<Props> = ({
             top: `${PIXEL_SCALE * -20}px`,
           }}
         >
-          <TimeLeftPanel
-            text={t("resources.recoversIn")}
+          <TimerPopover
+            image={ITEM_DETAILS["Crimstone"].image}
+            description="Crimstone Rock"
+            showPopover={showTimeLeft}
             timeLeft={timeLeft}
-            showTimeLeft={showTimeLeft}
             speed={speed}
           />
         </div>
