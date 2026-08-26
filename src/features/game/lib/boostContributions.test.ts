@@ -7,6 +7,7 @@ import {
 } from "./boostContributions";
 import { getNodeBoostWindows, getSeedBoostWindows } from "./seedBoostWindows";
 import { TEST_FARM } from "./constants";
+import { projectSeconds } from "./timerDisplay";
 import type { GameState } from "../types/game";
 import type { SeedName } from "../types/seeds";
 import type { ResourceName } from "../types/resources";
@@ -137,6 +138,39 @@ describe("getBoostContributionEntries", () => {
     // The hourglass cannot save more on the long task than its window is worth.
     expect(minutes(long[1].value)).toBeLessThan(minutes(long[0].value) * 10);
     expect(minutes(short[1].value)).toBeGreaterThan(0);
+  });
+
+  // The panel is read as a breakdown: if the listed savings do not account for the
+  // gap between the struck-through base time and the time shown, the numbers look
+  // wrong. Speeds MULTIPLY, so a plain "how much longer without this one" per boost
+  // credits the overlap to neither and silently under-reports the total.
+  it("splits the whole saving between the boosters, leaving nothing unattributed", () => {
+    const seconds = 4 * HOUR;
+    const contributions = getNodeBoostContributions(BOOSTED, "Tree", at);
+
+    const listed = getBoostContributionEntries({
+      contributions,
+      seconds,
+      at,
+      showActualTime: true,
+      formatSeconds: (value) => String(value),
+      formatSpeed: (speed) => `Speed: ${speed}x`,
+    });
+
+    const summed = listed.reduce(
+      (total, entry) => total + Number(entry.value.replace("-", "")),
+      0,
+    );
+
+    const totalSaving =
+      seconds -
+      projectSeconds({
+        seconds,
+        windows: contributions.flatMap(({ windows }) => windows),
+        at,
+      });
+
+    expect(summed).toBeCloseTo(totalSaving, 6);
   });
 
   it("leaves out a booster that is no longer running", () => {
