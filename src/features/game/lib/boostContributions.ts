@@ -10,6 +10,7 @@ import type { GreenHouseFruitName } from "../types/fruits";
 import type { AnimalType } from "../types/animals";
 import {
   ANIMAL_BOOST_SPEED,
+  COOKING_BOOST_SPEED,
   CROP_PLOT_BOOST_SPEED,
   FLOWER_BOOST_SPEED,
   FRUIT_BOOST_SPEED,
@@ -130,6 +131,26 @@ const animal = (
   return [collectible(game, name, ANIMAL_BOOST_SPEED[name])];
 };
 
+/**
+ * Cooking's windowed boosts — mirrors `getCookingBoostWindows`, in the same order.
+ * Legendary Shrine and Boar Shrine are MIXED boosts; only their cook-TIME half is
+ * windowed, so only that half is named here.
+ */
+const cooking = (game: GameState, at: number): BoostContribution[] => [
+  totems(game, COOKING_BOOST_SPEED["Super Totem"], at),
+  collectible(
+    game,
+    "Gourmet Hourglass",
+    COOKING_BOOST_SPEED["Gourmet Hourglass"],
+  ),
+  collectible(
+    game,
+    "Legendary Shrine",
+    COOKING_BOOST_SPEED["Legendary Shrine"],
+  ),
+  collectible(game, "Boar Shrine", COOKING_BOOST_SPEED["Boar Shrine"]),
+];
+
 const oil = (game: GameState, at: number): BoostContribution[] => [
   collectible(game, "Stag Shrine", OIL_BOOST_SPEED["Stag Shrine"]),
 ];
@@ -210,6 +231,14 @@ export function getSeedBoostContributions(
   }
 
   return cropPlot(game, at);
+}
+
+/** The named boosts that would speed up a recipe — mirrors getCookingBoostWindows. */
+export function getCookingBoostContributions(
+  game: GameState,
+  at: number,
+): BoostContribution[] {
+  return cooking(game, at);
 }
 
 /** The named boosts that would speed up this animal's sleep. */

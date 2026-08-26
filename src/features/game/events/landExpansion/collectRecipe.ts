@@ -21,6 +21,7 @@ import {
   downgradeChapterCropWeekSkills,
 } from "features/game/types/bumpkinSkills";
 import { CHAPTER_CROP_WEEK_RECIPE } from "features/game/types/chapterCropWeek";
+import { getCookingQueueReadyAts } from "features/game/lib/cookingReadiness";
 
 /**
  * The Double Nom rank a recipe was cooked at, so its +food collects at the rank
@@ -138,44 +139,53 @@ export function collectRecipe({
       throw new Error(translate("error.buildingNotCooking"));
     }
 
-    const nothingReady = recipes.every((recipe) => recipe.readyAt > createdAt);
+    // Readiness comes from the DERIVED chain, not each recipe's stored `readyAt` —
+    // that value is a cache, and a boost placed since the queue was last rewritten
+    // will have pulled the real ready time forward.
+    const readyAts = getCookingQueueReadyAts({ crafting: recipes, game });
+
+    const nothingReady = readyAts.every((readyAt) => readyAt > createdAt);
     if (nothingReady) {
       throw new Error(translate("error.recipeNotReady"));
     }
 
     // Collect all recipes that are ready
-    building.crafting = (building.crafting ?? []).reduce((acc, recipe) => {
-      if (recipe.readyAt <= createdAt) {
-        const cookableName = assertCookableName(recipe.name);
+    building.crafting = (building.crafting ?? []).reduce(
+      (acc, recipe, index) => {
+        if (readyAts[index] <= createdAt) {
+          const cookableName = assertCookableName(recipe.name);
 
-        const { amount, boostsUsed } = getCookingAmount({
-          building: action.building,
-          game,
-          recipe,
-          farmId,
-          counter: game.farmActivity[`${cookableName} Cooked`] || 0,
-        });
-        const consumableCount = game.inventory[cookableName] || new Decimal(0);
-        game.inventory[cookableName] = consumableCount.add(amount);
-
-        game.farmActivity = trackFarmActivity(
-          `${cookableName} Cooked`,
-          game.farmActivity,
-        );
-
-        if (boostsUsed.length > 0) {
-          game.boostsUsedAt = updateBoostUsed({
+          const { amount, boostsUsed } = getCookingAmount({
+            building: action.building,
             game,
-            boostNames: boostsUsed,
-            createdAt,
+            recipe,
+            farmId,
+            counter: game.farmActivity[`${cookableName} Cooked`] || 0,
           });
+          const consumableCount =
+            game.inventory[cookableName] || new Decimal(0);
+          game.inventory[cookableName] = consumableCount.add(amount);
+
+          game.farmActivity = trackFarmActivity(
+            `${cookableName} Cooked`,
+            game.farmActivity,
+          );
+
+          if (boostsUsed.length > 0) {
+            game.boostsUsedAt = updateBoostUsed({
+              game,
+              boostNames: boostsUsed,
+              createdAt,
+            });
+          }
+
+          return acc;
         }
 
-        return acc;
-      }
-
-      return [...acc, recipe];
-    }, [] as BuildingProduct[]);
+        return [...acc, recipe];
+      },
+      [] as BuildingProduct[],
+    );
 
     return game;
   });

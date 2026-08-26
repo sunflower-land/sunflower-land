@@ -14,6 +14,7 @@ import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import {
   computeReadyAt,
+  areBoostWindowsEqual,
   getFruitBoostWindows,
   getTurbofruitMixWindows,
   workAccruedAt,
@@ -101,20 +102,6 @@ interface Props {
 }
 
 const _island = (state: MachineState) => state.context.state.island;
-
-// Field comparator for the fruit boost windows so the selector skips re-renders
-// without allocating JSON strings per patch on every service update.
-const areBoostWindowsEqual = (a: BoostWindow[], b: BoostWindow[]) =>
-  a.length === b.length &&
-  a.every((window, index) => {
-    const other = b[index];
-    return (
-      other !== undefined &&
-      window.from === other.from &&
-      window.to === other.to &&
-      window.speed === other.speed
-    );
-  });
 
 export const FruitTree: React.FC<Props> = ({
   plantedFruit,

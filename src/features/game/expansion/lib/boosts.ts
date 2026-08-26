@@ -38,6 +38,7 @@ import {
 } from "features/game/lib/factions";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { setPrecision } from "lib/utils/formatNumber";
+import { hasFeatureAccess } from "lib/flags";
 
 const crops = CROPS;
 
@@ -193,6 +194,13 @@ export const getCookingTime = ({
   const { bumpkin } = game;
   const buildingName = COOKABLES[item].building;
 
+  // Under SPEED_BOOSTS the temporary cook-time boosts (the two totems, Gourmet
+  // Hourglass, Legendary Shrine, Boar Shrine) are windowed speeds applied live by
+  // `getCookingQueueReadyAts`, so they must NOT be baked in here — what this
+  // returns becomes the recipe's `baseDurationMs` (permanent boosts only). They
+  // are likewise excluded from `boostsUsed`, matching every other slice.
+  const boostsWindowed = hasFeatureAccess(game, "SPEED_BOOSTS");
+
   let reducedSecs = new Decimal(seconds);
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
@@ -208,12 +216,18 @@ export const getCookingTime = ({
   }
 
   // Legendary Shrine - 50% reduction
-  if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game })) {
+  if (
+    !boostsWindowed &&
+    isTemporaryCollectibleActive({ name: "Legendary Shrine", game })
+  ) {
     reducedSecs = reducedSecs.mul(0.5);
     boostsUsed.push({ name: "Legendary Shrine", value: "x0.5" });
   }
 
-  if (isTemporaryCollectibleActive({ name: "Boar Shrine", game })) {
+  if (
+    !boostsWindowed &&
+    isTemporaryCollectibleActive({ name: "Boar Shrine", game })
+  ) {
     reducedSecs = reducedSecs.mul(0.8);
     boostsUsed.push({ name: "Boar Shrine", value: "x0.8" });
   }
@@ -245,7 +259,7 @@ export const getCookingTime = ({
   });
   const hasActiveTotem = hasSuperTotem || hasTimeWarpTotem;
 
-  if (hasActiveTotem) {
+  if (!boostsWindowed && hasActiveTotem) {
     const totemType = isTemporaryCollectibleActive({
       name: "Super Totem",
       game,
@@ -267,7 +281,10 @@ export const getCookingTime = ({
     }
   }
 
-  if (isTemporaryCollectibleActive({ name: "Gourmet Hourglass", game })) {
+  if (
+    !boostsWindowed &&
+    isTemporaryCollectibleActive({ name: "Gourmet Hourglass", game })
+  ) {
     reducedSecs = applyTempCollectibleBoost({
       seconds: reducedSecs,
       cookStartAt,

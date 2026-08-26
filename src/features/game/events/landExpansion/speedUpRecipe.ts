@@ -102,8 +102,12 @@ export function speedUpRecipe({
       game.inventory[cookableName] ?? new Decimal(0)
     ).add(amount);
 
-    const queueWithoutSpedUpRecipe = queue.filter(
-      (item) => item.readyAt !== recipe.readyAt,
+    // Drop the sped-up recipe by identity where possible; `readyAt` is no longer a
+    // unique key once ready times are derived from the queue chain.
+    const queueWithoutSpedUpRecipe = queue.filter((item) =>
+      recipe.id !== undefined
+        ? item.id !== recipe.id
+        : item.readyAt !== recipe.readyAt,
     );
 
     building.crafting = recalculateQueue({

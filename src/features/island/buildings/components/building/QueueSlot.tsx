@@ -33,8 +33,12 @@ export const QueueSlot: React.FC<QueueSlotProps> = ({
 
   if (!item) return <Box />;
 
-  const isReady = readyProducts.some(
-    (product) => product.name === item.name && product.readyAt === item.readyAt,
+  // Prefer the stable id: `readyAt` shifts whenever a boost window changes, so two
+  // copies of the same entry can disagree on it.
+  const isReady = readyProducts.some((product) =>
+    product.id !== undefined && item.id !== undefined
+      ? product.id === item.id
+      : product.name === item.name && product.readyAt === item.readyAt,
   );
 
   const handleCancel = () => {

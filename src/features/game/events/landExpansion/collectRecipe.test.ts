@@ -18,6 +18,63 @@ const GAME_STATE: GameState = {
 describe("collect Recipes", () => {
   const farmId = 1;
   const dateNow = Date.now();
+
+  // A boost placed since the last save pulls a recipe's ready time forward. The
+  // stored `readyAt` is only a cache of the derived value, so collecting has to ask
+  // the chain, not the cache — otherwise the player watches a finished recipe sit
+  // there until some other event happens to rewrite the queue.
+  it("collects a recipe whose DERIVED ready time has passed", () => {
+    const now = dateNow;
+    const HOUR = 60 * 60 * 1000;
+
+    const state = collectRecipe({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        collectibles: {
+          ...GAME_STATE.collectibles,
+          "Gourmet Hourglass": [
+            {
+              id: "1",
+              coordinates: { x: 1, y: 1 },
+              createdAt: now - 2 * HOUR,
+              readyAt: now - 2 * HOUR,
+            },
+          ],
+        },
+        buildings: {
+          "Fire Pit": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              readyAt: 0,
+              crafting: [
+                {
+                  id: "abc",
+                  name: "Boiled Eggs",
+                  startedAt: now - 2 * HOUR,
+                  baseDurationMs: 3 * HOUR,
+                  // Cache written before the hourglass was placed: still 1h away.
+                  readyAt: now + 1 * HOUR,
+                },
+              ],
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipes.collected",
+        building: "Fire Pit",
+        buildingId: "1",
+      },
+      createdAt: now,
+    });
+
+    // 2h at 2x = 3h of work done, so it finished exactly now.
+    expect(state.inventory["Boiled Eggs"]).toEqual(new Decimal(1));
+    expect(state.buildings["Fire Pit"]?.[0].crafting).toEqual([]);
+  });
   it("throws an error if building does not exist", () => {
     expect(() =>
       collectRecipe({

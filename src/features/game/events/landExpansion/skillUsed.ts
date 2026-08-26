@@ -195,11 +195,19 @@ function useInstantGratification({
 
     if (!currentlyCooking) return;
 
-    const recipeIndex = queue.findIndex(
-      (r) => r.readyAt === currentlyCooking.readyAt,
+    const recipeIndex = queue.findIndex((r) =>
+      currentlyCooking.id !== undefined
+        ? r.id === currentlyCooking.id
+        : r.readyAt === currentlyCooking.readyAt,
     ) as number;
 
     queue[recipeIndex].readyAt = createdAt;
+    // Windowed (`baseDurationMs` set): also zero the remaining work, or the queue
+    // resolver would re-derive this recipe's ready time from its start + duration and
+    // undo the instant completion (mirrors the oil reserve above / instaGrowFlower).
+    if (queue[recipeIndex].baseDurationMs !== undefined) {
+      queue[recipeIndex].baseDurationMs = 0;
+    }
 
     building.crafting = recalculateQueue({
       queue,

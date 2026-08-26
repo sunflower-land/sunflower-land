@@ -1192,7 +1192,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   // Faction Shop
   "Gourmet Hourglass": (game) => [
     {
-      shortDescription: translate("description.gourmet.hourglass.boost"),
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.gourmet.hourglass.boost.speed")
+        : translate("description.gourmet.hourglass.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
@@ -1862,9 +1864,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS["Crafting Box"].image,
     },
   ],
-  "Boar Shrine": () => [
+  "Boar Shrine": (game) => [
     {
-      shortDescription: translate("description.boarShrine.buff"),
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.boarShrine.buff.speed")
+        : translate("description.boarShrine.buff"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: chefHat,
@@ -1962,7 +1966,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS.Stone.image,
     },
   ],
-  "Legendary Shrine": () => [
+  "Legendary Shrine": (game) => [
     {
       shortDescription: translate("description.legendaryShrine.buff"),
       labelType: "success",
@@ -1993,7 +1997,10 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
     },
     {
-      shortDescription: translate("description.legendaryShrine.buff.6"),
+      // Only the cook-TIME half is windowed; the yield buffs above stay as they are.
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.legendaryShrine.buff.6.speed")
+        : translate("description.legendaryShrine.buff.6"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: chefHat,

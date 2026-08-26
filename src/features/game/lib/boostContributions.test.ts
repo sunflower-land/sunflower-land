@@ -1,6 +1,7 @@
 import {
   getAnimalBoostContributions,
   getBoostContributionEntries,
+  getCookingBoostContributions,
   getNodeBoostContributions,
   getSeedBoostContributions,
 } from "./boostContributions";
@@ -10,7 +11,7 @@ import type { GameState } from "../types/game";
 import type { SeedName } from "../types/seeds";
 import type { ResourceName } from "../types/resources";
 import type { AnimalType } from "../types/animals";
-import { getAnimalBoostWindows } from "./boostWindows";
+import { getAnimalBoostWindows, getCookingBoostWindows } from "./boostWindows";
 
 const createdAt = 1_000_000;
 const at = createdAt + 1000;
@@ -40,6 +41,9 @@ const BOOSTED: GameState = {
     "Tortoise Shrine": place("13", 12),
     "Collie Shrine": place("14", 13),
     "Bantam Shrine": place("15", 14),
+    "Gourmet Hourglass": place("16", 15),
+    "Legendary Shrine": place("17", 16),
+    "Boar Shrine": place("18", 17),
   },
 };
 
@@ -78,6 +82,12 @@ describe("contributions match the window builders", () => {
   ])("%s", (node) => {
     expect(flatten(getNodeBoostContributions(BOOSTED, node, at))).toEqual(
       getNodeBoostWindows(BOOSTED, node),
+    );
+  });
+
+  it("cooking", () => {
+    expect(flatten(getCookingBoostContributions(BOOSTED, at))).toEqual(
+      getCookingBoostWindows(BOOSTED),
     );
   });
 });
