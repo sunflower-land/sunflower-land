@@ -696,6 +696,86 @@ describe("cancelQueuedRecipe", () => {
   });
 });
 
+// `baseDurationMs` is snapshotted at cook time, like the Double Nom rank. Rewriting
+// the queue must not re-derive it from today's permanent boosts, or swapping a
+// wearable and cancelling something unrelated silently lengthens what is queued.
+describe("recalculateQueue snapshot handling", () => {
+  const now = Date.now();
+  const HOUR = 60 * 60 * 1000;
+  const SNAPSHOT = 12_345;
+
+  const cancelSecond = () =>
+    cancelQueuedRecipe({
+      state: {
+        ...INITIAL_FARM,
+        buildings: {
+          "Fire Pit": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              readyAt: 0,
+              createdAt: 0,
+              crafting: [
+                {
+                  id: "cooking",
+                  name: "Boiled Eggs",
+                  startedAt: now,
+                  baseDurationMs: 1 * HOUR,
+                  readyAt: now + 1 * HOUR,
+                },
+                {
+                  id: "doomed",
+                  name: "Mashed Potato",
+                  baseDurationMs: 1 * HOUR,
+                  readyAt: now + 2 * HOUR,
+                },
+                {
+                  // Already windowed: its duration was fixed when it was queued.
+                  id: "windowed",
+                  name: "Mashed Potato",
+                  baseDurationMs: SNAPSHOT,
+                  readyAt: now + 2 * HOUR + SNAPSHOT,
+                },
+                {
+                  // Legacy: no marker, so it SHOULD be migrated on rewrite.
+                  id: "legacy",
+                  name: "Mashed Potato",
+                  readyAt: now + 3 * HOUR,
+                },
+              ],
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipe.cancelled",
+        buildingName: "Fire Pit",
+        buildingId: "1",
+        queueItem: {
+          id: "doomed",
+          name: "Mashed Potato",
+          baseDurationMs: 1 * HOUR,
+          readyAt: now + 2 * HOUR,
+        },
+      },
+      createdAt: now,
+    });
+
+  it("keeps a queued recipe's snapshotted baseDurationMs", () => {
+    const queue = cancelSecond().buildings["Fire Pit"]?.[0].crafting ?? [];
+    const windowed = queue.find((recipe) => recipe.id === "windowed");
+
+    expect(windowed?.baseDurationMs).toEqual(SNAPSHOT);
+  });
+
+  it("still migrates a legacy recipe it rewrites", () => {
+    const queue = cancelSecond().buildings["Fire Pit"]?.[0].crafting ?? [];
+    const legacy = queue.find((recipe) => recipe.id === "legacy");
+
+    expect(legacy?.baseDurationMs).toBeGreaterThan(0);
+  });
+});
+
 describe("getCurrentCookingItem", () => {
   it("returns the current cooking item", () => {
     const now = new Date("2025-01-01").getTime();
@@ -726,11 +806,64 @@ describe("getCurrentCookingItem", () => {
     const item = getCurrentCookingItem({
       building,
       createdAt: now,
+      game: INITIAL_FARM,
     });
 
+    // The Cornbread at index 0 is already done, so the first Carrot Cake is cooking.
     expect(item).toEqual({
-      name: "Carrot Cake",
+      index: 1,
+      recipe: { name: "Carrot Cake", readyAt: carrotCakeOneReadyAt },
       readyAt: carrotCakeOneReadyAt,
     });
+  });
+
+  it("picks the recipe the WINDOWS say is cooking, not the stored cache", () => {
+    const now = new Date("2025-01-01").getTime();
+    const HOUR = 60 * 60 * 1000;
+
+    const building: PlacedItem = {
+      id: "1",
+      coordinates: { x: 0, y: 0 },
+      readyAt: 0,
+      createdAt: 0,
+      crafting: [
+        {
+          id: "done",
+          name: "Boiled Eggs" as CookableName,
+          startedAt: now - 1 * HOUR,
+          baseDurationMs: 1 * HOUR,
+          // Stale: 1h of work at 2x finished an hour ago.
+          readyAt: now + 1 * HOUR,
+        },
+        {
+          id: "next",
+          name: "Boiled Eggs" as CookableName,
+          baseDurationMs: 4 * HOUR,
+          readyAt: now + 5 * HOUR,
+        },
+      ],
+    };
+
+    const item = getCurrentCookingItem({
+      building,
+      createdAt: now,
+      game: {
+        ...INITIAL_FARM,
+        collectibles: {
+          ...INITIAL_FARM.collectibles,
+          "Gourmet Hourglass": [
+            {
+              id: "1",
+              coordinates: { x: 1, y: 1 },
+              createdAt: now - 1 * HOUR,
+              readyAt: now - 1 * HOUR,
+            },
+          ],
+        },
+      },
+    });
+
+    expect(item?.index).toEqual(1);
+    expect(item?.recipe.id).toEqual("next");
   });
 });

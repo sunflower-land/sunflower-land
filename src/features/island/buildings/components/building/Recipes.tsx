@@ -167,8 +167,11 @@ export const Recipes: React.FC<Props> = ({
     let lastRecipeInQueueReadyAt = cooking.readyAt;
 
     if (queue.length > 0) {
-      lastRecipeInQueueReadyAt = queue.sort((a, b) => b.readyAt - a.readyAt)[0]
-        ?.readyAt;
+      // Sort a copy — `queue` is a prop, and sorting it in place mutates what the
+      // parent handed down.
+      lastRecipeInQueueReadyAt = [...queue].sort(
+        (a, b) => b.readyAt - a.readyAt,
+      )[0]?.readyAt;
     }
 
     return lastRecipeInQueueReadyAt;

@@ -24,7 +24,10 @@ import { getCookingTime } from "features/game/expansion/lib/boosts";
 import { getObjectEntries } from "lib/object";
 import { hasFeatureAccess } from "lib/flags";
 import { getCookingBoostWindows } from "features/game/lib/boostWindows";
-import { resolveCookingQueue } from "features/game/lib/cookingReadiness";
+import {
+  getCookingQueueReadyAts,
+  resolveCookingQueue,
+} from "features/game/lib/cookingReadiness";
 
 export type CancelQueuedRecipeAction = {
   type: "recipe.cancelled";
@@ -139,21 +142,28 @@ export function recalculateQueue({
       // promoted into its place starts NOW and is anchored there.
       if (index === 0 && !isInstantCook) return recipe;
 
-      const { seconds } = getQueueItemCookingSeconds({
-        name: assertCookableName(recipe.name),
-        appliedOilBoost: recipe.boost?.Oil ?? 0,
-        buildingName,
-        game,
-        createdAt,
-      });
+      // `baseDurationMs` is snapshotted when the recipe is queued, like the Double
+      // Nom rank beside it. Only DERIVE one for a legacy recipe being migrated —
+      // re-deriving an existing value would re-apply today's permanent boosts, so
+      // swapping a wearable and cancelling something unrelated would silently
+      // change the duration of everything queued behind it.
+      const baseDurationMs =
+        recipe.baseDurationMs ??
+        getQueueItemCookingSeconds({
+          name: assertCookableName(recipe.name),
+          appliedOilBoost: recipe.boost?.Oil ?? 0,
+          buildingName,
+          game,
+          createdAt,
+        }).seconds * 1000;
 
       // Everything behind the head is CHAINED: no `startedAt`, so its start tracks
       // the derived ready time of the recipe ahead of it.
       const { startedAt: _discarded, ...chained } = recipe;
 
       return index === 0
-        ? { ...chained, startedAt: createdAt, baseDurationMs: seconds * 1000 }
-        : { ...chained, baseDurationMs: seconds * 1000 };
+        ? { ...chained, startedAt: createdAt, baseDurationMs }
+        : { ...chained, baseDurationMs };
     });
 
     const nextQueue = [...readyRecipes, ...rebuilt];
@@ -217,28 +227,39 @@ export function recalculateQueue({
 }
 
 /**
- * The recipe currently being cooked — the first one that is not yet ready.
+ * The recipe currently being cooked — the first one that is not yet ready — with
+ * its POSITION in the queue and its derived ready time.
  *
- * Sorts a COPY: this used to sort `building.crafting` in place, which on an immer
- * draft silently reorders the persisted queue as a side effect of a read. Order
- * matters now that ready times are derived by chaining down the queue.
+ * Readiness comes from the chain, not each recipe's stored `readyAt`: that value is
+ * a cache, so under a live boost a recipe can already be finished while its cache
+ * still points into the future. Selecting on the cache let Instant Gratification
+ * and the gem speed-up be spent on a recipe that was already done.
+ *
+ * The index is returned because `readyAt` is not a unique key — two entries can
+ * share one — so callers must address the recipe by position rather than by
+ * matching on its fields. It also replaces the old sort: the queue chain is
+ * resolved in array order, so sorting a copy here would have decoupled the
+ * returned recipe from its index.
  */
 export function getCurrentCookingItem({
   building,
   createdAt,
+  game,
 }: {
   building: PlacedItem;
   createdAt: number;
-}) {
+  game: GameState;
+}): { index: number; recipe: BuildingProduct; readyAt: number } | undefined {
   const queue = building.crafting;
 
-  if (!queue) return;
+  if (!queue?.length) return;
 
-  const sortedByReadyAt = [...queue].sort(
-    (a: BuildingProduct, b: BuildingProduct) => a.readyAt - b.readyAt,
-  );
+  const readyAts = getCookingQueueReadyAts({ crafting: queue, game });
+  const index = readyAts.findIndex((readyAt) => readyAt > createdAt);
 
-  return sortedByReadyAt.find((recipe) => recipe.readyAt > createdAt);
+  if (index === -1) return;
+
+  return { index, recipe: queue[index], readyAt: readyAts[index] };
 }
 
 export function cancelQueuedRecipe({
@@ -283,11 +304,12 @@ export function cancelQueuedRecipe({
     const currentCookingItem = getCurrentCookingItem({
       building,
       createdAt,
+      game,
     });
 
     const recipe = queue[recipeIndex];
 
-    if (currentCookingItem?.readyAt === recipe.readyAt) {
+    if (currentCookingItem?.index === recipeIndex) {
       throw new Error(
         `Recipe ${queueItem.name} with readyAt ${recipe.readyAt} is currently being cooked`,
       );

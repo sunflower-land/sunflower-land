@@ -64,14 +64,18 @@ export function speedUpRecipe({
     }
 
     const queue = building.crafting;
-    const recipe = getCurrentCookingItem({ building, createdAt });
+    const cooking = getCurrentCookingItem({ building, createdAt, game });
 
-    if (!queue || !recipe) {
+    if (!queue || !cooking) {
       throw new Error("Nothing is cooking");
     }
 
+    const { index: recipeIndex, recipe, readyAt } = cooking;
+
+    // Price off the DERIVED ready time: the player is charged for the wait they can
+    // actually see, so an active boost makes skipping cheaper.
     const gems = getInstantGems({
-      readyAt: recipe.readyAt,
+      readyAt,
       now: createdAt,
       game,
     });
@@ -102,12 +106,11 @@ export function speedUpRecipe({
       game.inventory[cookableName] ?? new Decimal(0)
     ).add(amount);
 
-    // Drop the sped-up recipe by identity where possible; `readyAt` is no longer a
-    // unique key once ready times are derived from the queue chain.
-    const queueWithoutSpedUpRecipe = queue.filter((item) =>
-      recipe.id !== undefined
-        ? item.id !== recipe.id
-        : item.readyAt !== recipe.readyAt,
+    // Drop the sped-up recipe by POSITION. Matching on `id` or `readyAt` removes
+    // every entry that shares one, so a player who queued the same recipe twice
+    // would lose both while paying for one.
+    const queueWithoutSpedUpRecipe = queue.filter(
+      (_, index) => index !== recipeIndex,
     );
 
     building.crafting = recalculateQueue({

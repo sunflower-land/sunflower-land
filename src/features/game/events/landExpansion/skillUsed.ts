@@ -191,15 +191,12 @@ function useInstantGratification({
     const currentlyCooking = getCurrentCookingItem({
       building: building,
       createdAt,
+      game,
     });
 
     if (!currentlyCooking) return;
 
-    const recipeIndex = queue.findIndex((r) =>
-      currentlyCooking.id !== undefined
-        ? r.id === currentlyCooking.id
-        : r.readyAt === currentlyCooking.readyAt,
-    ) as number;
+    const recipeIndex = currentlyCooking.index;
 
     queue[recipeIndex].readyAt = createdAt;
     // Windowed (`baseDurationMs` set): also zero the remaining work, or the queue
