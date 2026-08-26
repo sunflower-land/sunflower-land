@@ -253,7 +253,7 @@ export async function postEffect(
     ? await getRecordHash(request.state as unknown as Record<string, unknown>)
     : undefined;
 
-  const response = await secureFetch(`${API2_URL}/event/${request.farmId}`, {
+  const response = await secureFetch(`${API_URL}/event/${request.farmId}`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",

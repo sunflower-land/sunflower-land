@@ -33,7 +33,11 @@ export async function buyBlockBucks(request: Request): Promise<Response> {
       Authorization: `Bearer ${request.token}`,
       "X-Transaction-ID": request.transactionId,
     },
-  );
+    body: JSON.stringify({
+      type: request.type,
+      amount: request.amount,
+    }),
+  });
 
   if (response.status === 409) {
     const { error } = await response.json();

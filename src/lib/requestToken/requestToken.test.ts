@@ -156,14 +156,33 @@ describe("requestToken", () => {
     expect(sentHeaders(0)["X-Token"]).toBeUndefined();
   });
 
-  it("propagates fetch rejections unchanged", async () => {
+  it("propagates a network failure once retries are exhausted", async () => {
+    await initRequestTokens(session);
+
+    fetchMock.mockRejectedValue(new Error("network down"));
+
+    await expect(
+      secureFetch("https://api.test/autosave/1", undefined, { retries: 0 }),
+    ).rejects.toThrow("network down");
+  });
+
+  it("retries transient failures, because it wraps fetchWithRetry", async () => {
     await initRequestTokens(session);
 
     fetchMock.mockRejectedValueOnce(new Error("network down"));
 
-    await expect(secureFetch("https://api.test/autosave/1")).rejects.toThrow(
-      "network down",
+    // The retry replays the same signed request — the token is bound to
+    // this exact call and the server's window outlasts the backoff.
+    const response = await secureFetch(
+      "https://api.test/marketplace",
+      undefined,
+      {
+        retries: 1,
+      },
     );
+
+    expect(response).toEqual({ ok: true });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 });
 

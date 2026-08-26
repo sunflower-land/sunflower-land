@@ -23,6 +23,7 @@
  * surfaces, as `requestToken.rejected` with reason `missing-headers`.
  */
 
+import { fetchWithRetry, type FetchWithRetryOptions } from "lib/fetchWithRetry";
 import { loadTokenModule, type TokenModule } from "./loader";
 
 let signer: TokenModule | undefined;
@@ -104,12 +105,19 @@ function tokenHeaders(
 }
 
 /**
- * Drop-in replacement for `window.fetch` on protected endpoints — both the
- * state-mutating ones and the read-only ones we don't want scraped.
+ * Drop-in replacement for `fetchWithRetry` on protected endpoints — both
+ * the state-mutating ones and the read-only ones we don't want scraped.
+ *
+ * Signs the request, then hands it to `fetchWithRetry`, so protected calls
+ * keep the same throttling/backoff behaviour as every other endpoint. A
+ * retry replays the identical signed request, which the token allows: it
+ * is bound to this method, path and body, and the server's five minute
+ * window comfortably outlasts the retry budget.
  */
 export async function secureFetch(
   input: RequestInfo | URL,
   init?: RequestInit,
+  options?: FetchWithRetryOptions,
 ): Promise<Response> {
   const url = typeof input === "string" ? input : String(input);
 
@@ -120,11 +128,15 @@ export async function secureFetch(
     await initInFlight;
   }
 
-  return window.fetch(input, {
-    ...init,
-    headers: {
-      ...init?.headers,
-      ...tokenHeaders(url, init),
+  return fetchWithRetry(
+    input,
+    {
+      ...init,
+      headers: {
+        ...init?.headers,
+        ...tokenHeaders(url, init),
+      },
     },
-  });
+    options,
+  );
 }
