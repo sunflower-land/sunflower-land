@@ -8419,5 +8419,9 @@
   "tcs.rule.two": "1 account per player (no sharing)",
   "tcs.rule.three": "Respect the rules - no botting/automation tools",
   "tcs.agree": "I have read and agree to the {{terms}}.",
-  "tcs.terms": "Terms and Conditions"
+  "tcs.terms": "Terms and Conditions",
+  "lock.title": "Account on Hold",
+  "lock.description": "Your account has been placed on hold by the Sunflower Land team while we review it. You can still sign in, but you won't be able to save progress, trade or withdraw until the hold is lifted.",
+  "lock.contactSupport": "Verifying your Discord, Telegram or face won't lift this one. Open a support ticket with your farm ID and the team will take a look.",
+  "lock.openSupport": "Contact support"
 }

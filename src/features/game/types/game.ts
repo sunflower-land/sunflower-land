@@ -2406,7 +2406,11 @@ export interface GameState {
   desert: Desert;
 
   ban: {
-    status: "investigating" | "permanent" | "ok";
+    /**
+     * `lock` is a support hold. It blocks play like `investigating` does, but
+     * verifying socials or a face does not lift it - only support can.
+     */
+    status: "investigating" | "permanent" | "ok" | "lock";
     isSocialVerified?: boolean;
   };
 

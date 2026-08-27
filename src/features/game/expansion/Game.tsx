@@ -93,6 +93,7 @@ import { ClaimReferralRewards } from "./components/ClaimReferralRewards";
 import { ReferralsAnnouncement } from "./components/ReferralsAnnouncement";
 import { TermsAndConditions } from "./components/TermsAndConditions";
 import { SoftBan } from "features/retreat/components/personhood/SoftBan";
+import { Locked } from "features/retreat/components/personhood/Locked";
 import { RewardBox } from "features/rewardBoxes/RewardBox";
 import { SystemMessageWidget } from "features/announcements/SystemMessageWidget";
 import { TradesCleared } from "./components/TradesCleared";
@@ -245,6 +246,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   dailyResetting: false,
   jinAirdrop: true,
   investigating: true,
+  locked: true,
   leagueResults: false,
   linkWallet: true,
   dailyReward: true,
@@ -311,6 +313,7 @@ const hasAirdrop = (state: MachineState) => state.matches("airdrop");
 const isOnChainRaffleAcknowledgment = (state: MachineState) =>
   state.matches("onChainRaffleAcknowledgment");
 const isInvestigating = (state: MachineState) => state.matches("investigating");
+const isLocked = (state: MachineState) => state.matches("locked");
 const hasFulfilledOffers = (state: MachineState) => state.matches("offers");
 const hasVipNotification = (state: MachineState) => state.matches("vip");
 const isPlaying = (state: MachineState) => state.matches("playing");
@@ -536,6 +539,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const jinAirdrop = useSelector(gameService, isJinAirdrop);
   const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
   const investigating = useSelector(gameService, isInvestigating);
+  const locked = useSelector(gameService, isLocked);
   const linkWallet = useSelector(gameService, isLinkWallet);
   const tradesCleared = useSelector(gameService, isTradesCleared);
   const isVisiting = useSelector(gameService, _isVisiting);
@@ -751,6 +755,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             {jinAirdrop && <RoninJinClaim />}
             {showReferralRewards && <ClaimReferralRewards />}
             {investigating && <SoftBan />}
+            {locked && <Locked />}
             {linkWallet && <MigrateToLinkedWallet />}
           </Panel>
         </Modal>
