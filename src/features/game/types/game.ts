@@ -958,6 +958,13 @@ export type FruitPatch = {
 
 export type BuildingProduct = {
   name: CookableName | ProcessedResource;
+  /**
+   * Stable identity for the queue entry. Recipes used to be addressed by their
+   * `readyAt`, which stops working once that value is derived live from the boost
+   * windows (see `cookingReadiness`). Absent on recipes queued before this existed —
+   * callers fall back to matching on `readyAt` for those.
+   */
+  id?: string;
   readyAt: number;
   /**
    * @deprecated Use per-item quantity fields instead.
@@ -970,6 +977,14 @@ export type BuildingProduct = {
   skills?: Partial<Record<BumpkinRevampSkillName, boolean | number>>;
   timeRemaining?: number;
   startedAt?: number;
+  /**
+   * The recipe's un-boosted cook time with PERMANENT boosts (wearables, Desert
+   * Gnome, Fast Feasts/Frosted Cakes, building oil) already folded in. Present only
+   * on recipes queued under the speed-rate model; its absence selects the legacy
+   * baked timing, so the read path keys off this marker, NOT the `SPEED_BOOSTS`
+   * flag — matching every other activity.
+   */
+  baseDurationMs?: number;
   requirements?: Inventory;
 };
 

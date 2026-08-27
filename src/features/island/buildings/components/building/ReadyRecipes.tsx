@@ -16,7 +16,7 @@ export const ReadyRecipes: React.FC<Props> = ({ readyRecipes, leftOffset }) => {
     <>
       {readyRecipes.map((recipe, index) => (
         <img
-          key={recipe.readyAt}
+          key={recipe.id ?? recipe.readyAt}
           src={ITEM_DETAILS[recipe.name].image}
           className="absolute z-30 pointer-events-none img-highlight"
           onLoad={(e) => {

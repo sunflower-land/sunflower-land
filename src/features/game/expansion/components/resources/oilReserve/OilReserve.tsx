@@ -14,8 +14,8 @@ import {
 import { RecoveringOilReserve } from "./components/RecoveringOilReserve";
 import { DepletedOilReserve } from "./components/DepletedOilReserve";
 import {
+  areBoostWindowsEqual,
   getOilBoostWindows,
-  type BoostWindow,
 } from "features/game/lib/boostWindows";
 import { useNodeTimer } from "features/game/lib/useNodeTimer";
 
@@ -31,20 +31,6 @@ const _drills = (state: MachineState) =>
 const compareResource = (prev: IOilReserve, next: IOilReserve) => {
   return JSON.stringify(prev) === JSON.stringify(next);
 };
-
-// Field comparator for the oil boost windows so the selector skips re-renders
-// without allocating JSON strings on every service update.
-const areBoostWindowsEqual = (a: BoostWindow[], b: BoostWindow[]) =>
-  a.length === b.length &&
-  a.every((window, index) => {
-    const other = b[index];
-    return (
-      other !== undefined &&
-      window.from === other.from &&
-      window.to === other.to &&
-      window.speed === other.speed
-    );
-  });
 
 export const OilReserve: React.FC<Props> = ({ id }) => {
   const { gameService } = useContext(Context);

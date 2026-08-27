@@ -1,16 +1,18 @@
 import {
   getAnimalBoostContributions,
   getBoostContributionEntries,
+  getCookingBoostContributions,
   getNodeBoostContributions,
   getSeedBoostContributions,
 } from "./boostContributions";
 import { getNodeBoostWindows, getSeedBoostWindows } from "./seedBoostWindows";
 import { TEST_FARM } from "./constants";
+import { projectSeconds } from "./timerDisplay";
 import type { GameState } from "../types/game";
 import type { SeedName } from "../types/seeds";
 import type { ResourceName } from "../types/resources";
 import type { AnimalType } from "../types/animals";
-import { getAnimalBoostWindows } from "./boostWindows";
+import { getAnimalBoostWindows, getCookingBoostWindows } from "./boostWindows";
 
 const createdAt = 1_000_000;
 const at = createdAt + 1000;
@@ -40,6 +42,9 @@ const BOOSTED: GameState = {
     "Tortoise Shrine": place("13", 12),
     "Collie Shrine": place("14", 13),
     "Bantam Shrine": place("15", 14),
+    "Gourmet Hourglass": place("16", 15),
+    "Legendary Shrine": place("17", 16),
+    "Boar Shrine": place("18", 17),
   },
 };
 
@@ -78,6 +83,12 @@ describe("contributions match the window builders", () => {
   ])("%s", (node) => {
     expect(flatten(getNodeBoostContributions(BOOSTED, node, at))).toEqual(
       getNodeBoostWindows(BOOSTED, node),
+    );
+  });
+
+  it("cooking", () => {
+    expect(flatten(getCookingBoostContributions(BOOSTED, at))).toEqual(
+      getCookingBoostWindows(BOOSTED),
     );
   });
 });
@@ -127,6 +138,39 @@ describe("getBoostContributionEntries", () => {
     // The hourglass cannot save more on the long task than its window is worth.
     expect(minutes(long[1].value)).toBeLessThan(minutes(long[0].value) * 10);
     expect(minutes(short[1].value)).toBeGreaterThan(0);
+  });
+
+  // The panel is read as a breakdown: if the listed savings do not account for the
+  // gap between the struck-through base time and the time shown, the numbers look
+  // wrong. Speeds MULTIPLY, so a plain "how much longer without this one" per boost
+  // credits the overlap to neither and silently under-reports the total.
+  it("splits the whole saving between the boosters, leaving nothing unattributed", () => {
+    const seconds = 4 * HOUR;
+    const contributions = getNodeBoostContributions(BOOSTED, "Tree", at);
+
+    const listed = getBoostContributionEntries({
+      contributions,
+      seconds,
+      at,
+      showActualTime: true,
+      formatSeconds: (value) => String(value),
+      formatSpeed: (speed) => `Speed: ${speed}x`,
+    });
+
+    const summed = listed.reduce(
+      (total, entry) => total + Number(entry.value.replace("-", "")),
+      0,
+    );
+
+    const totalSaving =
+      seconds -
+      projectSeconds({
+        seconds,
+        windows: contributions.flatMap(({ windows }) => windows),
+        at,
+      });
+
+    expect(summed).toBeCloseTo(totalSaving, 6);
   });
 
   it("leaves out a booster that is no longer running", () => {

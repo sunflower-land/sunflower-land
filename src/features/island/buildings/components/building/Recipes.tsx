@@ -55,6 +55,28 @@ import {
   CHAPTER_CROP_WEEK_RECIPE,
 } from "features/game/types/chapterCropWeek";
 import { SpecialEventPanel } from "./SpecialEventPanel";
+import {
+  areBoostWindowsEqual,
+  getCookingBoostWindows,
+} from "features/game/lib/boostWindows";
+import { getPreActionDisplay } from "features/game/lib/timerDisplay";
+import { resolveCookingQueueTimings } from "features/game/lib/cookingReadiness";
+import {
+  getBoostContributionEntries,
+  getCookingBoostContributions,
+} from "features/game/lib/boostContributions";
+import { secondsToString } from "lib/utils/time";
+import type { MachineState } from "features/game/lib/gameMachine";
+
+const _cookingBoostWindows = (state: MachineState) =>
+  getCookingBoostWindows(state.context.state);
+
+const _buildingCrafting =
+  (buildingName: CookingBuildingName, buildingId?: string) =>
+  (state: MachineState) =>
+    state.context.state.buildings[buildingName]?.find(
+      (building) => building.id === buildingId,
+    )?.crafting;
 
 interface Props {
   selected: Cookable;
@@ -91,7 +113,22 @@ export const Recipes: React.FC<Props> = ({
   queue,
   readyRecipes,
 }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, showActualTime } = useContext(Context);
+
+  // Recomputed from full state, but only re-renders when the windows actually change.
+  const cookingBoostWindows = useSelector(
+    gameService,
+    _cookingBoostWindows,
+    areBoostWindowsEqual,
+  );
+
+  // The building's raw queue, so the cooking recipe's real start can be resolved from
+  // the chain. A queued recipe carries no `startedAt` of its own — its start IS the
+  // ready time of the recipe ahead of it — so it cannot be read off `cooking`.
+  const buildingCraftingQueue = useSelector(
+    gameService,
+    _buildingCrafting(buildingName, buildingId),
+  );
   const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
   const state = useSelector(gameService, (state) => state.context.state);
@@ -130,15 +167,22 @@ export const Recipes: React.FC<Props> = ({
     let lastRecipeInQueueReadyAt = cooking.readyAt;
 
     if (queue.length > 0) {
-      lastRecipeInQueueReadyAt = queue.sort((a, b) => b.readyAt - a.readyAt)[0]
-        ?.readyAt;
+      // Sort a copy — `queue` is a prop, and sorting it in place mutates what the
+      // parent handed down.
+      lastRecipeInQueueReadyAt = [...queue].sort(
+        (a, b) => b.readyAt - a.readyAt,
+      )[0]?.readyAt;
     }
 
     return lastRecipeInQueueReadyAt;
   };
 
   const recipeStartAt = getNewRecipeStartAt() ?? now;
-  const { reducedSecs: cookingTime, boostsUsed: timeBoostsUsed } = getReadyAt({
+  const {
+    reducedSecs: cookingTime,
+    baseDurationMs,
+    boostsUsed: timeBoostsUsed,
+  } = getReadyAt({
     buildingId: buildingId ?? "",
     item: selected.name,
     createdAt: recipeStartAt,
@@ -146,6 +190,57 @@ export const Recipes: React.FC<Props> = ({
   });
 
   const baseTimeSeconds = COOKABLES[selected.name].cookingSeconds;
+
+  const cookingStartedAt = (() => {
+    if (!cooking || !buildingCraftingQueue) return undefined;
+
+    const index = buildingCraftingQueue.findIndex((recipe) =>
+      cooking.id !== undefined
+        ? recipe.id === cooking.id
+        : recipe.readyAt === cooking.readyAt,
+    );
+    if (index === -1) return undefined;
+
+    return resolveCookingQueueTimings({
+      crafting: buildingCraftingQueue,
+      windows: cookingBoostWindows,
+    })[index].startedAt;
+  })();
+
+  // The windowed boosters aren't in `boostsUsed` (they apply over the cook rather
+  // than being baked into it), so name them for the boost panel: their rate in the
+  // speed view, the time each one actually saves in the other. Evaluated at the
+  // recipe's START, so a booster that will have expired by the time a queued recipe
+  // begins is correctly left out.
+  const cookingWindowedBoosts =
+    baseDurationMs === undefined
+      ? []
+      : getBoostContributionEntries({
+          contributions: getCookingBoostContributions(state, recipeStartAt),
+          seconds: baseDurationMs / 1000,
+          at: recipeStartAt,
+          showActualTime,
+          formatSeconds: (seconds) =>
+            secondsToString(seconds, { length: "medium" }),
+          formatSpeed: (speed) => t("description.boostedSpeed", { speed }),
+        });
+
+  const allTimeBoostsUsed = [...timeBoostsUsed, ...cookingWindowedBoosts];
+
+  // Project the preview from when this recipe would actually START — the end of the
+  // current queue, not now. A boost running today may well have expired by the time
+  // a recipe queued behind three others begins, and the projection has to say so.
+  const timeDisplay =
+    baseDurationMs === undefined
+      ? undefined
+      : getPreActionDisplay({
+          showActualTime,
+          seconds: baseDurationMs / 1000,
+          baseSeconds: baseTimeSeconds,
+          namedBoostCount: allTimeBoostsUsed.length,
+          windows: cookingBoostWindows,
+          at: recipeStartAt,
+        });
 
   const cook = () => onCook(selected.name);
 
@@ -221,9 +316,10 @@ export const Recipes: React.FC<Props> = ({
                 xp: boostedExp,
                 baseXp: selected.experience,
                 xpBoostsUsed: boostsUsed,
-                timeSeconds: cookingTime,
+                timeSeconds: timeDisplay?.displaySeconds ?? cookingTime,
+                timeSpeed: timeDisplay?.speed,
                 baseTimeSeconds,
-                timeBoostsUsed,
+                timeBoostsUsed: allTimeBoostsUsed,
               }}
               showBoosts={showBoosts}
               setShowBoosts={setShowBoosts}
@@ -289,6 +385,8 @@ export const Recipes: React.FC<Props> = ({
                 isOilBoosted={!!isOilBoosted}
                 onInstantReady={handleInstantCook}
                 state={state}
+                startedAt={cookingStartedAt}
+                windows={cookingBoostWindows}
               />
             )}
 

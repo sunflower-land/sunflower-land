@@ -14,7 +14,8 @@ import { SpeedUpPaymentSelector } from "features/game/components/SpeedUpPaymentS
 import type { BuildingProduct, GameState } from "features/game/types/game";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import fastForward from "assets/icons/fast_forward.png";
-import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { useNodeTimer } from "features/game/lib/useNodeTimer";
+import type { BoostWindow } from "features/game/lib/boostWindows";
 import { getFishProcessingTime } from "features/game/events/landExpansion/processResource";
 import type { ProcessedResource } from "features/game/types/processedFood";
 
@@ -24,6 +25,14 @@ interface Props {
   isOilBoosted?: boolean;
   onInstantReady: (cost: number, paymentMethod?: "gems" | "coins") => void;
   state: GameState;
+  /**
+   * When the product actually started. For a queued recipe this comes from the
+   * resolved chain rather than the recipe itself (see `useCookingState`). Omitted by
+   * fish processing, which has no speed boosts.
+   */
+  startedAt?: number;
+  /** Live speed windows for the activity; empty for fish processing. */
+  windows?: BoostWindow[];
 }
 
 export const InProgressInfo: React.FC<Props> = ({
@@ -31,11 +40,12 @@ export const InProgressInfo: React.FC<Props> = ({
   isOilBoosted,
   onInstantReady,
   state,
+  startedAt,
+  windows = [],
 }) => {
   const { t } = useAppTranslation();
 
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const { totalSeconds: secondsTillReady } = useCountdown(product.readyAt ?? 0);
 
   const isCookableName = (name: string | undefined): name is CookableName =>
     !!name && name in COOKABLES;
@@ -54,6 +64,31 @@ export const InProgressInfo: React.FC<Props> = ({
 
   const totalSeconds = getProductTotalSeconds();
 
+  // One timer for both models. A windowed recipe (`baseDurationMs` set) ticks at the
+  // boosted rate and honours the "show actual time" setting; anything else — fish
+  // processing, and recipes queued before the speed model — falls through to the
+  // plain countdown on `readyAt`.
+  const {
+    speed,
+    workLeftSeconds,
+    countdownSeconds,
+    displaySeconds: secondsTillReady,
+  } = useNodeTimer({
+    startedAt: startedAt ?? product.readyAt - totalSeconds * 1000,
+    baseDurationMs: product.baseDurationMs,
+    windows,
+    legacyReadyAt: product.readyAt,
+  });
+
+  // How full the bar is tracks remaining WORK, never the displayed reading — how far
+  // along a recipe is does not change with a display setting.
+  const progressTotalSeconds =
+    product.baseDurationMs === undefined
+      ? totalSeconds
+      : product.baseDurationMs / 1000;
+  const progressLeftSeconds =
+    product.baseDurationMs === undefined ? countdownSeconds : workLeftSeconds;
+
   const payment = useSpeedUpPayment({
     readyAt: product.readyAt,
     game: state,
@@ -71,13 +106,20 @@ export const InProgressInfo: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col mb-2 w-full">
-      <Label
-        className="mr-3 ml-2 mb-1"
-        icon={SUNNYSIDE.icons.stopwatch}
-        type="default"
-      >
-        {t("in.progress")}
-      </Label>
+      <div className="flex items-center flex-wrap gap-1 mr-3 ml-2 mb-1 justify-between">
+        <Label icon={SUNNYSIDE.icons.stopwatch} type="default">
+          {t("in.progress")}
+        </Label>
+        {speed > 1 && (
+          <Label type="transparent" icon={SUNNYSIDE.icons.lightning}>
+            <span className="whitespace-nowrap">
+              {t("description.boostedSpeed", {
+                speed: Number(speed.toFixed(2)),
+              })}
+            </span>
+          </Label>
+        )}
+      </div>
       <div className="flex items-center justify-between">
         <Box
           image={ITEM_DETAILS[product.name].image}
@@ -93,10 +135,16 @@ export const InProgressInfo: React.FC<Props> = ({
           id="progress-bar"
         >
           <span className="text-xs mb-1">
-            {secondsToString(secondsTillReady, { length: "medium" })}
+            {secondsToString(secondsTillReady, {
+              length: speed > 1 ? "full" : "medium",
+            }).replace(/\u00A0/g, " ")}
           </span>
           <ResizableBar
-            percentage={(1 - secondsTillReady / totalSeconds) * 100}
+            percentage={
+              progressTotalSeconds <= 0
+                ? 100
+                : (1 - progressLeftSeconds / progressTotalSeconds) * 100
+            }
             type="progress"
           />
         </div>

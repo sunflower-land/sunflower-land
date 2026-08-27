@@ -10,6 +10,7 @@ import type { GreenHouseFruitName } from "../types/fruits";
 import type { AnimalType } from "../types/animals";
 import {
   ANIMAL_BOOST_SPEED,
+  COOKING_BOOST_SPEED,
   CROP_PLOT_BOOST_SPEED,
   FLOWER_BOOST_SPEED,
   FRUIT_BOOST_SPEED,
@@ -130,6 +131,26 @@ const animal = (
   return [collectible(game, name, ANIMAL_BOOST_SPEED[name])];
 };
 
+/**
+ * Cooking's windowed boosts — mirrors `getCookingBoostWindows`, in the same order.
+ * Legendary Shrine and Boar Shrine are MIXED boosts; only their cook-TIME half is
+ * windowed, so only that half is named here.
+ */
+const cooking = (game: GameState, at: number): BoostContribution[] => [
+  totems(game, COOKING_BOOST_SPEED["Super Totem"], at),
+  collectible(
+    game,
+    "Gourmet Hourglass",
+    COOKING_BOOST_SPEED["Gourmet Hourglass"],
+  ),
+  collectible(
+    game,
+    "Legendary Shrine",
+    COOKING_BOOST_SPEED["Legendary Shrine"],
+  ),
+  collectible(game, "Boar Shrine", COOKING_BOOST_SPEED["Boar Shrine"]),
+];
+
 const oil = (game: GameState, at: number): BoostContribution[] => [
   collectible(game, "Stag Shrine", OIL_BOOST_SPEED["Stag Shrine"]),
 ];
@@ -212,6 +233,14 @@ export function getSeedBoostContributions(
   return cropPlot(game, at);
 }
 
+/** The named boosts that would speed up a recipe — mirrors getCookingBoostWindows. */
+export function getCookingBoostContributions(
+  game: GameState,
+  at: number,
+): BoostContribution[] {
+  return cooking(game, at);
+}
+
 /** The named boosts that would speed up this animal's sleep. */
 export function getAnimalBoostContributions(
   game: GameState,
@@ -233,6 +262,83 @@ export function getNodeBoostContributions(
   return [];
 }
 
+/** Number of set bits — how many boosts are in a subset mask. */
+const subsetSize = (mask: number): number => {
+  let size = 0;
+  for (let bits = mask; bits > 0; bits >>= 1) size += bits & 1;
+  return size;
+};
+
+/**
+ * Split the total time saved between the boosts responsible, so the parts sum to
+ * the whole.
+ *
+ * The obvious attribution — "how much longer would this take without this one
+ * boost?" — is wrong for a panel that reads as a breakdown. Speeds MULTIPLY, so
+ * part of the saving exists only because two boosts are running together, and that
+ * part is credited to neither. On a 505s cook under a 2× hourglass and a 1.25×
+ * shrine the two marginals come to 4m12s against a real saving of 5m03s; the
+ * missing 51s is the overlap. The more boosts running, the worse it gets.
+ *
+ * So each boost gets its Shapley value: its average marginal contribution across
+ * every order the boosts could have been applied in. Those are exact by
+ * construction — they always sum to the joint saving — and they stay honest about
+ * partial coverage, because every subset is measured with a real projection rather
+ * than from the raw multipliers. A booster with ten minutes left on its window is
+ * credited for ten minutes' worth, not for its rate.
+ *
+ * Cost is 2^n projections, and n is the number of boosts an activity can run at
+ * once — at most five today, so at most 32.
+ */
+function getShapleySavings({
+  contributions,
+  seconds,
+  at,
+}: {
+  contributions: BoostContribution[];
+  seconds: number;
+  at: number;
+}): number[] {
+  const count = contributions.length;
+  const savings = new Map<number, number>();
+
+  /** Time saved by exactly the subset of boosts in `mask`. */
+  const savingOf = (mask: number): number => {
+    const cached = savings.get(mask);
+    if (cached !== undefined) return cached;
+
+    const windows = contributions.flatMap((contribution, index) =>
+      (mask >> index) & 1 ? contribution.windows : [],
+    );
+    const saving = seconds - projectSeconds({ seconds, windows, at });
+
+    savings.set(mask, saving);
+    return saving;
+  };
+
+  const factorials = [1];
+  for (let n = 1; n <= count; n++) factorials[n] = factorials[n - 1] * n;
+
+  const shares = new Array<number>(count).fill(0);
+
+  for (let mask = 0; mask < 1 << count; mask++) {
+    const size = subsetSize(mask);
+
+    for (let index = 0; index < count; index++) {
+      // Only orders where this boost is the one being added to `mask`.
+      if ((mask >> index) & 1) continue;
+
+      const weight =
+        (factorials[size] * factorials[count - size - 1]) / factorials[count];
+
+      shares[index] +=
+        weight * (savingOf(mask | (1 << index)) - savingOf(mask));
+    }
+  }
+
+  return shares;
+}
+
 /**
  * Boost-panel rows for the windowed boosts running right now, in the same
  * `{ name, value }` shape as the baked `boostsUsed` the panels already list.
@@ -241,10 +347,10 @@ export function getNodeBoostContributions(
  * the same terms as the time beside it:
  *
  * - Speed view: the rate it is running at — `1.35x`.
- * - Actual-time view: the time it actually saves on THIS task — its marginal
- *   contribution, i.e. how much longer the task would take without it. A booster
- *   about to expire therefore shows a small saving even though its rate is
- *   unchanged, which is the whole point of the projection.
+ * - Actual-time view: its share of the time saved on THIS task, split so the rows
+ *   account for the whole saving (see `getShapleySavings`). A booster about to
+ *   expire therefore shows a small saving even though its rate is unchanged, which
+ *   is the whole point of the projection.
  *
  * Boosts not covering `at` (expired, or only in `boostHistory`) are left out:
  * they do nothing for a task started now.
@@ -271,27 +377,19 @@ export function getBoostContributionEntries({
   );
   if (active.length === 0) return [];
 
-  const allWindows = active.flatMap(({ windows }) => windows);
-  const boostedSeconds = projectSeconds({ seconds, windows: allWindows, at });
+  if (!showActualTime) {
+    return active.map(({ name, windows }) => ({
+      name,
+      value: formatSpeed(
+        Number(getEffectiveSpeedAt({ at, windows }).toFixed(2)),
+      ),
+    }));
+  }
 
-  return active.map(({ name, windows }) => {
-    if (!showActualTime) {
-      return {
-        name,
-        value: formatSpeed(
-          Number(getEffectiveSpeedAt({ at, windows }).toFixed(2)),
-        ),
-      };
-    }
+  const shares = getShapleySavings({ contributions: active, seconds, at });
 
-    // Marginal saving: how much longer this task would take without this one
-    // boost, everything else unchanged.
-    const withoutThis = projectSeconds({
-      seconds,
-      windows: allWindows.filter((window) => !windows.includes(window)),
-      at,
-    });
-
-    return { name, value: `-${formatSeconds(withoutThis - boostedSeconds)}` };
-  });
+  return active.map(({ name }, index) => ({
+    name,
+    value: `-${formatSeconds(shares[index])}`,
+  }));
 }

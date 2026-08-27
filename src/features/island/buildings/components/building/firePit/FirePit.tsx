@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import React, { useContext, useState } from "react";
 
 import classNames from "classnames";
@@ -65,6 +66,9 @@ export const FirePit: React.FC<Props> = ({ buildingId, isBuilt, island }) => {
       type: "recipe.cooked",
       item,
       buildingId,
+      // Client-generated so the local reducer and the server agree on the id when
+      // the event is replayed — cancel/speed-up address the recipe by it.
+      recipeId: uuidv4().slice(0, 8),
     });
 
     if (item === "Rhubarb Tart" && !rhubarbTartCooked) {

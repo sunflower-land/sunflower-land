@@ -37,8 +37,8 @@ import type { PlantedFlower } from "features/game/types/game";
 import type { MachineState } from "features/game/lib/gameMachine";
 import {
   computeReadyAt,
+  areBoostWindowsEqual,
   getFlowerBoostWindows,
-  type BoostWindow,
 } from "features/game/lib/boostWindows";
 import { useNodeTimer } from "features/game/lib/useNodeTimer";
 
@@ -136,20 +136,6 @@ const _collectibles = (state: MachineState) => state.context.state.collectibles;
 const _gameState = (state: MachineState) => state.context.state;
 const _flowerBoostWindows = (state: MachineState) =>
   getFlowerBoostWindows(state.context.state);
-
-// Field comparator for the flower boost windows so the selector skips re-renders
-// without allocating JSON strings on every service update.
-const areBoostWindowsEqual = (a: BoostWindow[], b: BoostWindow[]) =>
-  a.length === b.length &&
-  a.every((window, index) => {
-    const other = b[index];
-    return (
-      other !== undefined &&
-      window.from === other.from &&
-      window.to === other.to &&
-      window.speed === other.speed
-    );
-  });
 
 const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
   flower,
