@@ -8422,7 +8422,6 @@
   "description.collieShrine.buff.2.speed": "1,35 veces la velocidad de sueño de las ovejas",
   "lock.title": "Cuenta retenida",
   "lock.description": "El equipo de Sunflower Land ha suspendido tu cuenta mientras la revisamos. Aún puedes iniciar sesión, pero no podrás guardar tu progreso, operar o retirar dinero hasta que se levante la retención.",
-  "lock.contactSupport": "Verificar tu Discord, Telegram o Face no eliminará este problema. Abre un ticket de soporte con tu identificador de granja y el equipo se encargará de echarle un vistazo.",
   "lock.openSupport": "Contactar con el soporte",
   "description.gourmet.hourglass.boost.speed": "2x velocidad de cocción",
   "description.boarShrine.buff.speed": "Velocidad de cocción de 1,25 veces",

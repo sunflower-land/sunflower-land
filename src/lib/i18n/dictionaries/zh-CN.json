@@ -8422,7 +8422,6 @@
   "description.collieShrine.buff.2.speed": "1.35 倍绵羊睡眠速度",
   "lock.title": "账户处于暂停状态",
   "lock.description": "在我们审核您的账户期间，Sunflower Land团队已将其暂停。您仍然可以登录，但在解除冻结之前，您将无法保存进度、交易或提款。",
-  "lock.contactSupport": "验证你的 Discord、Telegram 或脸部无法解决这个问题。使用您的农场ID打开支持票，团队将进行查看。",
   "lock.openSupport": "联系支持部门",
   "description.gourmet.hourglass.boost.speed": "2 倍烹饪速度",
   "description.boarShrine.buff.speed": "1.25 倍烹饪速度",

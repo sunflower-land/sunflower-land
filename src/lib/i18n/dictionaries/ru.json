@@ -8422,7 +8422,6 @@
   "description.collieShrine.buff.2.speed": "x1.35 скорость пробуждения овец",
   "lock.title": "Аккаунт приостановлен",
   "lock.description": "Твой аккаунт приостановлен командой Sunflower Land на время проверки. Ты всё ещё можешь войти в игру, но не сможешь сохранять прогресс, торговать или выводить средства, пока блокировка не будет снята.",
-  "lock.contactSupport": "Повторная проверка Discord, Telegram или лица тут не поможет. Открой обращение в поддержку, указав ID своей фермы, и команда всё проверит.",
   "lock.openSupport": "Связаться с поддержкой",
   "description.gourmet.hourglass.boost.speed": "x2 скорость готовки",
   "description.boarShrine.buff.speed": "x1.25 скорость готовки",
