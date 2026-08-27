@@ -4249,7 +4249,7 @@
   "marketplace.quickswap": "Quickswap",
   "marketplace.quickswap.description": "Вы скоро будете перенаправлены на Quickswap, децентрализованную биржу, управляемую сообществом, чтобы купить $FLOWER.",
   "marketplace.quickswap.warning": "Цены, указанные в игре, рассчитаны на основе цен сообщества и могут не отражать текущую ситуацию на рынке. Действуйте на свой страх и риск.",
-  "marketplace.estimated.price": "*Ориентировочная USD/FLOWER цена",
+  "marketplace.estimated.price": "*Ориентировочная цена FLOWER в USD",
   "marketplace.tradeInitiated": "Отличная новость! Похоже, кто-то принимает твою сделку. Пожалуйста, дождись завершения этой сделки.",
   "marketplace.rewards": "Награды",
   "marketplace.stats": "Статистика",
@@ -8423,5 +8423,12 @@
   "gameOptions.generalSettings.actualTime": "Показывать реальное время",
   "description.bantamShrine.buff.speed": "x1.35 скорость пробуждения куриц",
   "description.collieShrine.buff.speed": "x1.35 скорость пробуждения коров",
-  "description.collieShrine.buff.2.speed": "x1.35 скорость пробуждения овец"
+  "description.collieShrine.buff.2.speed": "x1.35 скорость пробуждения овец",
+  "lock.title": "Аккаунт приостановлен",
+  "lock.description": "Твой аккаунт приостановлен командой Sunflower Land на время проверки. Ты всё ещё можешь войти в игру, но не сможешь сохранять прогресс, торговать или выводить средства, пока блокировка не будет снята.",
+  "lock.contactSupport": "Повторная проверка Discord, Telegram или лица тут не поможет. Открой обращение в поддержку, указав ID своей фермы, и команда всё проверит.",
+  "lock.openSupport": "Связаться с поддержкой",
+  "description.gourmet.hourglass.boost.speed": "x2 скорость готовки",
+  "description.boarShrine.buff.speed": "x1.25 скорость готовки",
+  "description.legendaryShrine.buff.6.speed": "x2 скорость готовки"
 }
