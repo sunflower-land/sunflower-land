@@ -195,7 +195,7 @@ describe("requestToken when the signer cannot be loaded", () => {
     (window as unknown as { fetch: unknown }).fetch = fetchMock;
   });
 
-  it("degrades to plain fetch rather than breaking the game", async () => {
+  it("still sends the request, flagged so the API can count these players", async () => {
     jest.doMock("./loader", () => ({
       loadTokenModule: () => Promise.reject(new Error("offline")),
     }));
@@ -210,6 +210,32 @@ describe("requestToken when the signer cannot be loaded", () => {
     });
 
     expect(tokens.requestTokensActive()).toBe(false);
+
+    const headers = (fetchMock.mock.calls[0][1]?.headers ?? {}) as Record<
+      string,
+      string
+    >;
+    // Not silence: the API logs this as `incompatible-wasm` rather than
+    // lumping it in with unsigned scripts.
+    expect(headers["X-Token"]).toBe(tokens.UNSUPPORTED_SIGNER_TOKEN);
+    expect(headers["X-Token"]).toBe("incompatible_wasm");
+    expect(headers["X-Timestamp"]).toBeUndefined();
+  });
+
+  it("sends nothing at all when no session code was issued", async () => {
+    jest.doMock("./loader", () => ({
+      loadTokenModule: () => Promise.reject(new Error("offline")),
+    }));
+
+    /* eslint-disable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
+    const tokens = require("./index") as typeof import("./index");
+    /* eslint-enable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
+
+    // No code means the API never offered one — that is not this
+    // browser failing, so it must not be reported as one.
+    await tokens.initRequestTokens({});
+    await tokens.secureFetch("https://api.test/marketplace");
+
     const headers = (fetchMock.mock.calls[0][1]?.headers ?? {}) as Record<
       string,
       string

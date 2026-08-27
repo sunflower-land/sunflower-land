@@ -18,16 +18,33 @@
  * There is no request counter and no queueing: requests may fire
  * concurrently, out of order, or be retried, and each stands alone.
  *
- * Failures here are deliberately silent — if the signer cannot be loaded,
- * requests go out unsigned and the game carries on. The API is where that
- * surfaces, as `requestToken.rejected` with reason `missing-headers`.
+ * If the signer cannot be loaded, the game carries on regardless — but the
+ * request goes out carrying `X-Token: incompatible_wasm` instead of nothing
+ * at all. That distinction matters server-side: a bare request is a caller
+ * that never signed (a script, or a client older than this layer), whereas
+ * the sentinel is one of our own players whose browser could not run the
+ * module. The API logs the two separately so the second group can be sized
+ * before enforcement is turned on.
  */
 
 import { fetchWithRetry, type FetchWithRetryOptions } from "lib/fetchWithRetry";
 import { loadTokenModule, type TokenModule } from "./loader";
 
+/**
+ * Sent as `X-Token` when a session code was issued but the signer could not
+ * be loaded or run. The API matches this exact string — keep the two in
+ * step (`UNSUPPORTED_SIGNER_TOKEN` in the API's requestToken.ts).
+ */
+export const UNSUPPORTED_SIGNER_TOKEN = "incompatible_wasm";
+
 let signer: TokenModule | undefined;
 let expiresAt: number | undefined;
+/**
+ * True when we were given a session code but could not produce a signer —
+ * an old engine, a webview that refuses WebAssembly, a blocked fetch. Kept
+ * apart from "no code was issued", which is not this browser's fault.
+ */
+let signerUnavailable = false;
 /**
  * The in-flight `initRequestTokens` call, if any. Fetching and
  * instantiating the signer takes a couple of seconds on a cold load, and
@@ -56,6 +73,7 @@ async function init(params: {
   if (!params.sessionCode || !params.sessionCodeExpiresAt) {
     signer?.clearSession();
     expiresAt = undefined;
+    signerUnavailable = false;
     return;
   }
 
@@ -64,9 +82,12 @@ async function init(params: {
 
     signer.initSession(params.sessionCode);
     expiresAt = params.sessionCodeExpiresAt;
+    signerUnavailable = false;
   } catch {
-    // Never let token setup take the game down — degrade to plain fetch.
+    // Never let token setup take the game down — the request still goes,
+    // flagged so the API can count who this is happening to.
     expiresAt = undefined;
+    signerUnavailable = true;
   }
 }
 
@@ -74,6 +95,7 @@ async function init(params: {
 export function clearRequestTokens() {
   signer?.clearSession();
   expiresAt = undefined;
+  signerUnavailable = false;
 }
 
 export function requestTokensActive(): boolean {
@@ -84,7 +106,13 @@ function tokenHeaders(
   url: string,
   init?: RequestInit,
 ): Record<string, string> | undefined {
-  if (!requestTokensActive()) return undefined;
+  if (!requestTokensActive()) {
+    // Tell the API this is a real player who could not run the signer,
+    // rather than leaving it indistinguishable from an unsigned script.
+    return signerUnavailable
+      ? { "X-Token": UNSUPPORTED_SIGNER_TOKEN }
+      : undefined;
+  }
 
   const method = (init?.method ?? "GET").toUpperCase();
   // Path only — the server ignores the query string too, so that a proxy
