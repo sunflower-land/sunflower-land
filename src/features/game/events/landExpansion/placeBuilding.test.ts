@@ -212,6 +212,63 @@ describe("Place building", () => {
     ).toEqual(dateNow - 60000 + 12 * 60 * 60 * 1000);
   });
 
+  it("does not re-price an in-flight compost with a boost placed after it started", () => {
+    const startedAt = dateNow - 60 * 60 * 1000;
+    const readyAt = startedAt + 12 * 60 * 60 * 1000;
+    const removedAt = dateNow - 30 * 60 * 1000;
+
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Premium Composter": new Decimal(1),
+          "Basic Land": new Decimal(10),
+        },
+        // Soil Krabby takes 10% off a compost, but it was placed AFTER this
+        // batch started - the duration is a snapshot, not a live lookup.
+        collectibles: {
+          "Soil Krabby": [
+            {
+              id: "krabby",
+              createdAt: dateNow,
+              coordinates: { x: 5, y: 5 },
+              readyAt: dateNow,
+            },
+          ],
+        },
+        buildings: {
+          "Premium Composter": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt,
+              producing: {
+                items: { "Rapid Root": 10 },
+                startedAt,
+                readyAt,
+              },
+            },
+          ],
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Premium Composter",
+        id: "123",
+        coordinates: { x: 1, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    const downtime = dateNow - removedAt;
+    const producing = state.buildings["Premium Composter"]?.[0].producing;
+
+    expect(producing?.startedAt).toEqual(startedAt + downtime);
+    expect(producing?.readyAt).toEqual(readyAt + downtime);
+  });
+
   it("adjusts the new readyAt for crop machines", () => {
     const startTime = dateNow - 20000000;
     const state = placeBuilding({

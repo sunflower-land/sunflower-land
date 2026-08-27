@@ -15,7 +15,6 @@ import {
   getGreenhouseGlowWindows,
   pauseWindowedTimer,
 } from "features/game/lib/boostWindows";
-import { getReadyAt } from "./startComposter";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { mfTrack } from "lib/moonforgeAnalytics";
 
@@ -96,15 +95,15 @@ export function placeBuilding({
       ) {
         const existingComposter = existingBuilding as CompostBuilding;
         if (existingComposter.producing && existingComposter.removedAt) {
-          const timeOffset =
-            existingComposter.removedAt - existingComposter.producing.startedAt;
-          existingComposter.producing.startedAt = createdAt - timeOffset;
-          const timeRemaining = getReadyAt({
-            gameState: stateCopy,
-            composter: action.name as ComposterName,
-          }).timeToFinishMilliseconds;
-          existingComposter.producing.readyAt =
-            createdAt + timeRemaining - timeOffset;
+          // Pause the batch across the lift by shifting both timestamps by the
+          // downtime (the Crafting Box / Aging Shed pattern below). The batch's
+          // duration is a SNAPSHOT taken by `startComposter` - re-deriving it
+          // here would re-price an in-flight batch with boosts acquired after
+          // it started, so placing a Soil Krabby then lifting the composter
+          // took 10% off a batch already under way.
+          const downtime = Math.max(0, createdAt - existingComposter.removedAt);
+          existingComposter.producing.startedAt += downtime;
+          existingComposter.producing.readyAt += downtime;
         }
       }
 

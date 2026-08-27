@@ -3,7 +3,6 @@ import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import type { GameState, LavaPit } from "features/game/types/game";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { getLavaPitTime } from "./startLavaPit";
 
 export type PlaceLavaPitAction = {
   type: "lavaPit.placed";
@@ -53,11 +52,19 @@ export function placeLavaPit({
     };
 
     if (updatedLavaPit.startedAt && updatedLavaPit.removedAt) {
-      const existingProgress =
-        updatedLavaPit.removedAt - updatedLavaPit.startedAt;
-      updatedLavaPit.startedAt = createdAt - existingProgress;
-      updatedLavaPit.readyAt =
-        updatedLavaPit.startedAt + getLavaPitTime({ game }).time;
+      // Pause the burn across the lift by shifting every timestamp it owns by
+      // the downtime, so the unplaced interval doesn't count. The duration is a
+      // SNAPSHOT taken when the burn started - re-deriving it here from current
+      // state would re-price an in-flight burn with boosts equipped after it
+      // began (equip the Obsidian Necklace, lift, re-place, and 72h becomes
+      // 36h). A pit with no stored `readyAt` keeps none: inventing one is the
+      // same re-derivation, and `collectLavaPit` already falls back to
+      // `startedAt` when it's absent.
+      const downtime = Math.max(0, createdAt - updatedLavaPit.removedAt);
+      updatedLavaPit.startedAt += downtime;
+      if (updatedLavaPit.readyAt !== undefined) {
+        updatedLavaPit.readyAt += downtime;
+      }
     }
     delete updatedLavaPit.removedAt;
 
