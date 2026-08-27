@@ -11,10 +11,12 @@ import { produce } from "immer";
 import type { ComposterName } from "features/game/types/composters";
 import { createInitialAgingShed } from "features/game/lib/agingShed";
 import {
+  getCookingBoostWindows,
   getGreenhouseBoostWindows,
   getGreenhouseGlowWindows,
   pauseWindowedTimer,
 } from "features/game/lib/boostWindows";
+import { pauseCookingQueue } from "features/game/lib/cookingReadiness";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { mfTrack } from "lib/moonforgeAnalytics";
 
@@ -75,11 +77,13 @@ export function placeBuilding({
       // Assign the coordinates to the building
       existingBuilding.coordinates = action.coordinates;
 
-      // Update the readyAt for Cooking buildings
-      if (existingBuilding.crafting) {
-        existingBuilding.crafting.forEach((crafting) => {
-          crafting.readyAt = createdAt + (crafting.timeRemaining ?? 0);
-          delete crafting.timeRemaining;
+      // Pause the queue for Cooking buildings
+      if (existingBuilding.crafting && existingBuilding.removedAt) {
+        pauseCookingQueue({
+          crafting: existingBuilding.crafting,
+          removedAt: existingBuilding.removedAt,
+          placedAt: createdAt,
+          windows: getCookingBoostWindows(stateCopy),
         });
       }
 

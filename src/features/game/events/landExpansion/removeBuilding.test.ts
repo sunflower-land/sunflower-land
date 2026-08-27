@@ -444,7 +444,7 @@ describe("removeBuilding", () => {
   //   expect(expansions[1].plots?.["4"].crop).not.toBeUndefined();
   // });
 
-  it("stores the time remaining for cooking buildings", () => {
+  it("stamps removedAt and leaves the cooking queue untouched", () => {
     const dateNow = Date.now();
     const state = removeBuilding({
       state: {
@@ -486,18 +486,16 @@ describe("removeBuilding", () => {
       createdAt: dateNow,
     });
 
-    expect(
-      state.buildings["Fire Pit"]?.[0].crafting?.[0].timeRemaining,
-    ).toEqual(60000);
-    expect(
-      state.buildings["Fire Pit"]?.[0].crafting?.[1].timeRemaining,
-    ).toEqual(120000);
-    expect(
-      state.buildings["Fire Pit"]?.[0].crafting?.[2].timeRemaining,
-    ).toEqual(180000);
-    expect(
-      state.buildings["Fire Pit"]?.[0].crafting?.[3].timeRemaining,
-    ).toEqual(240000);
+    // Removal only records WHEN the building was lifted; the queue is paused on
+    // re-place, from that timestamp (see `pauseCookingQueue`). Banking a
+    // `timeRemaining` here would be a cache the resolver ignores.
+    expect(state.buildings["Fire Pit"]?.[0].removedAt).toEqual(dateNow);
+    expect(state.buildings["Fire Pit"]?.[0].crafting).toEqual([
+      { name: "Pizza Margherita", readyAt: dateNow + 60000 },
+      { name: "Pizza Margherita", readyAt: dateNow + 120000 },
+      { name: "Pizza Margherita", readyAt: dateNow + 180000 },
+      { name: "Pizza Margherita", readyAt: dateNow + 240000 },
+    ]);
   });
 
   it("saves the remaining time for each pack in the crop machine", () => {
