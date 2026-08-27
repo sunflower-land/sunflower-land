@@ -928,6 +928,64 @@ describe("Place building", () => {
     );
   });
 
+  it("shifts aging shed aging rack slots by downtime when re-placing", () => {
+    const removedAt = dateNow - 120000;
+    const slotStartedAt = dateNow - 180000;
+    const slotReadyAt = dateNow + 60 * 60 * 1000;
+
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Aging Shed": new Decimal(1),
+          "Basic Land": new Decimal(10),
+        },
+        buildings: {
+          "Aging Shed": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt,
+            },
+          ],
+        },
+        agingShed: {
+          ...createInitialAgingShed(),
+          level: 1,
+          racks: {
+            ...createInitialAgingShed().racks,
+            aging: [
+              {
+                id: "slot-1",
+                fish: "Anchovy",
+                startedAt: slotStartedAt,
+                readyAt: slotReadyAt,
+              },
+            ],
+          },
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Aging Shed",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    const downtimeDelta = dateNow - removedAt;
+    expect(state.agingShed.racks.aging).toHaveLength(1);
+    expect(state.agingShed.racks.aging[0].startedAt).toEqual(
+      slotStartedAt + downtimeDelta,
+    );
+    expect(state.agingShed.racks.aging[0].readyAt).toEqual(
+      slotReadyAt + downtimeDelta,
+    );
+  });
+
   it("shifts aging shed spice rack jobs by downtime when re-placing", () => {
     const removedAt = dateNow - 120000;
     const jobStartedAt = dateNow - 180000;
