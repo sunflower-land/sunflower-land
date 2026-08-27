@@ -8423,5 +8423,8 @@
   "lock.title": "Hesap Beklemede",
   "lock.description": "Hesabınız, biz incelerken Sunflower Land ekibi tarafından askıya alındı. Yine de oturum açabilirsiniz, ancak bekletme işlemi kaldırılana kadar ilerlemeyi kaydedemez, işlem yapamazsınız veya para çekemezsiniz.",
   "lock.contactSupport": "Discord, Telegram veya yüzünüzü doğrulamak bunu kaldırmaz. Çiftlik kimliğinizle bir destek bileti açın ve ekip bir göz atacaktır.",
-  "lock.openSupport": "Destek ile iletişime geçin"
+  "lock.openSupport": "Destek ile iletişime geçin",
+  "description.gourmet.hourglass.boost.speed": "2x Pişirme Hızı",
+  "description.boarShrine.buff.speed": "1.25x Pişirme Hızı",
+  "description.legendaryShrine.buff.6.speed": "2x Pişirme Hızı"
 }

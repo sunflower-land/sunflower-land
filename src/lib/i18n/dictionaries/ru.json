@@ -8423,5 +8423,8 @@
   "lock.title": "Account on Hold",
   "lock.description": "Your account has been placed on hold by the Sunflower Land team while we review it. You can still sign in, but you won't be able to save progress, trade or withdraw until the hold is lifted.",
   "lock.contactSupport": "Verifying your Discord, Telegram or face won't lift this one. Open a support ticket with your farm ID and the team will take a look.",
-  "lock.openSupport": "Contact support"
+  "lock.openSupport": "Contact support",
+  "description.gourmet.hourglass.boost.speed": "2x Cooking Speed",
+  "description.boarShrine.buff.speed": "1.25x Cooking Speed",
+  "description.legendaryShrine.buff.6.speed": "2x Cooking Speed"
 }

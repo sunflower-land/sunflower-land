@@ -8423,5 +8423,8 @@
   "lock.title": "Conta suspensa",
   "lock.description": "Sua conta foi suspensa pela equipe da Sunflower Land enquanto a analisamos. Você ainda pode fazer login, mas não poderá salvar o progresso, negociar ou retirar até que a retenção seja levantada.",
   "lock.contactSupport": "Verificar seu Discord, Telegram ou face não resolverá essa pergunta. Abra um ticket de suporte com seu ID de fazenda e a equipe dará uma olhada.",
-  "lock.openSupport": "Contate o suporte"
+  "lock.openSupport": "Contate o suporte",
+  "description.gourmet.hourglass.boost.speed": "2x Velocidade de Cozimento",
+  "description.boarShrine.buff.speed": "1,25x Velocidade de Cozimento",
+  "description.legendaryShrine.buff.6.speed": "2x Velocidade de Cozimento"
 }

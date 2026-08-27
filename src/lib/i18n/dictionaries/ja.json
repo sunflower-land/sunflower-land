@@ -8423,5 +8423,8 @@
   "lock.title": "保留中のアカウント",
   "lock.description": "審査中、お客様のアカウントはサンフラワーランドチームによって保留になっています。ログインはできますが、保留が解除されるまで、進行状況の保存、取引、出金はできません。",
   "lock.contactSupport": "Discord、Telegram、または顔を確認しても、これは解除されません。ファーム ID を使ってサポートチケットを開くと、チームが確認してくれます。",
-  "lock.openSupport": "サポートに問い合わせる"
+  "lock.openSupport": "サポートに問い合わせる",
+  "description.gourmet.hourglass.boost.speed": "2倍のクッキングスピード",
+  "description.boarShrine.buff.speed": "1.25x クッキングスピード",
+  "description.legendaryShrine.buff.6.speed": "2倍のクッキングスピード"
 }

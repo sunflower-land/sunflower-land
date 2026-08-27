@@ -8423,5 +8423,8 @@
   "lock.title": "Compte en attente",
   "lock.description": "Votre compte a été mis en attente par l'équipe de Sunflower Land pendant que nous l'examinons. Vous pouvez toujours vous connecter, mais vous ne pourrez pas enregistrer votre progression, échanger ou retirer des fonds tant que la suspension ne sera pas levée.",
   "lock.contactSupport": "La vérification de votre Discord, de votre Telegram ou de votre visage ne résoudra pas ce problème. Ouvrez un ticket d'assistance avec votre identifiant de ferme et l'équipe y jettera un œil.",
-  "lock.openSupport": "Contacter le support"
+  "lock.openSupport": "Contacter le support",
+  "description.gourmet.hourglass.boost.speed": "2 fois la vitesse de cuisson",
+  "description.boarShrine.buff.speed": "Vitesse de cuisson 1,25x",
+  "description.legendaryShrine.buff.6.speed": "2 fois la vitesse de cuisson"
 }
