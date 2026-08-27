@@ -8419,5 +8419,9 @@
   "gameOptions.generalSettings.actualTime": "Gerçek zamanı göster",
   "description.bantamShrine.buff.speed": "1.35x Tavuk Uyku Hızı",
   "description.collieShrine.buff.speed": "1.35x İnek Uyku Hızı",
-  "description.collieShrine.buff.2.speed": "1.35x Koyun Uyku Hızı"
+  "description.collieShrine.buff.2.speed": "1.35x Koyun Uyku Hızı",
+  "lock.title": "Hesap Beklemede",
+  "lock.description": "Hesabınız, biz incelerken Sunflower Land ekibi tarafından askıya alındı. Yine de oturum açabilirsiniz, ancak bekletme işlemi kaldırılana kadar ilerlemeyi kaydedemez, işlem yapamazsınız veya para çekemezsiniz.",
+  "lock.contactSupport": "Discord, Telegram veya yüzünüzü doğrulamak bunu kaldırmaz. Çiftlik kimliğinizle bir destek bileti açın ve ekip bir göz atacaktır.",
+  "lock.openSupport": "Destek ile iletişime geçin"
 }

@@ -8419,5 +8419,9 @@
   "gameOptions.generalSettings.actualTime": "Tampilkan waktu aktual",
   "description.bantamShrine.buff.speed": "1.35x Kecepatan Tidur Ayam",
   "description.collieShrine.buff.speed": "1.35x Kecepatan Tidur Sapi",
-  "description.collieShrine.buff.2.speed": "1.35x Kecepatan Tidur Domba"
+  "description.collieShrine.buff.2.speed": "1.35x Kecepatan Tidur Domba",
+  "lock.title": "Akun Ditahan",
+  "lock.description": "Akun Anda telah ditunda oleh tim Sunflower Land saat kami meninjaunya. Anda masih dapat masuk, tetapi Anda tidak akan dapat menyimpan kemajuan, perdagangan, atau penarikan sampai penahanan dicabut.",
+  "lock.contactSupport": "Memverifikasi Discord, Telegram, atau wajah Anda tidak akan mengangkat yang ini. Buka tiket dukungan dengan ID peternakan Anda dan tim akan melihatnya.",
+  "lock.openSupport": "Hubungi dukungan"
 }
