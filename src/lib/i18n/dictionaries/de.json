@@ -8419,5 +8419,9 @@
   "gameOptions.generalSettings.actualTime": "Aktuelle Uhrzeit anzeigen",
   "description.bantamShrine.buff.speed": "1.35x Schlafgeschwindigkeit bei Hühnern",
   "description.collieShrine.buff.speed": "1,35x Schlafgeschwindigkeit bei Kühen",
-  "description.collieShrine.buff.2.speed": "1,35x Schlafgeschwindigkeit bei Schafen"
+  "description.collieShrine.buff.2.speed": "1,35x Schlafgeschwindigkeit bei Schafen",
+  "lock.title": "Konto gesperrt",
+  "lock.description": "Ihr Konto wurde vom Sunflower Land-Team gesperrt, während wir es überprüfen. Du kannst dich immer noch anmelden, aber du wirst nicht in der Lage sein, deinen Spielstand zu speichern, zu handeln oder Geld abzuheben, bis die Sperre aufgehoben wird.",
+  "lock.contactSupport": "Wenn du deinen Discord, dein Telegram oder dein Gesicht verifizierst, wird dieses Problem nicht aufgehoben. Öffne ein Support-Ticket mit deiner Farm-ID und das Team wird sich das ansehen.",
+  "lock.openSupport": "Support kontaktieren"
 }

@@ -8419,5 +8419,9 @@
   "gameOptions.generalSettings.actualTime": "Mostra l'ora effettiva",
   "description.bantamShrine.buff.speed": "Velocità di sonno del pollo 1,35x",
   "description.collieShrine.buff.speed": "Velocità di sonno della mucca 1,35x",
-  "description.collieShrine.buff.2.speed": "Velocità di sonno delle pecore 1,35x"
+  "description.collieShrine.buff.2.speed": "Velocità di sonno delle pecore 1,35x",
+  "lock.title": "Account in sospeso",
+  "lock.description": "Il tuo account è stato sospeso dal team di Sunflower Land mentre lo esaminiamo. Puoi comunque accedere, ma non potrai salvare i tuoi progressi, negoziare o prelevare denaro finché il blocco non verrà revocato.",
+  "lock.contactSupport": "La verifica di Discord, Telegram o del tuo volto non risolverà questo problema. Apri un ticket di assistenza con l'ID della tua fattoria e il team ci darà un'occhiata.",
+  "lock.openSupport": "Contatta l'assistenza"
 }
