@@ -7,14 +7,37 @@ import { ChestReward } from "features/island/common/chest-reward/ChestReward";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { PIXEL_SCALE, TREE_RECOVERY_TIME } from "features/game/lib/constants";
-import type { GameState } from "features/game/types/game";
+import type { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
+  getEffectiveSpeedAt,
+  getFlowerBoostWindows,
+  getFruitBoostWindows,
   getMineBoostWindows,
   getOilBoostWindows,
   getTreeBoostWindows,
+  getTurbofruitMixWindows,
+  workAccruedAt,
   type BoostWindow,
 } from "features/game/lib/boostWindows";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { getFruitTreeStatus } from "features/island/fruit/FruitTree";
+import { FLOWER_SEEDS, FLOWERS } from "features/game/types/flowers";
+import { DEFAULT_HONEY_PRODUCTION_TIME } from "features/game/lib/updateBeehives";
+import { getCurrentHoneyProduced } from "features/game/lib/beehiveProduction";
+import {
+  getMaxStoredSaltCharges,
+  getNextSaltChargeInSeconds,
+  getSaltChargeGenerationTime,
+  getStoredSaltCharges,
+  materializeSaltRegen,
+} from "features/game/types/salt";
+import { caughtCrustacean } from "features/game/types/crustaceans";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { getKeys } from "lib/object";
+import { formatNumber } from "lib/utils/formatNumber";
+import { secondsToString } from "lib/utils/time";
+import { useNow } from "lib/utils/hooks/useNow";
 import { RESOURCE_RECOVERY_TIME } from "features/game/lib/resourceNodes";
 import { OIL_RESERVE_RECOVERY_TIME } from "features/game/events/landExpansion/drillOilReserve";
 import { useNodeTimer } from "features/game/lib/useNodeTimer";
@@ -207,6 +230,199 @@ const AnchoredScaled: React.FC<
   );
 };
 
+/** Phase-4 compound nodes: bespoke hover content per kind. */
+const CompoundPopover: React.FC<{
+  kind: ResourceHoverKind;
+  id: string;
+}> = ({ kind, id }) => {
+  const { gameService } = useContext(Context);
+  const game = useSelector(gameService, _state);
+  const now = useNow({ live: true });
+
+  const anchorId = `${kind}-${id}`;
+
+  if (kind === "fruitPatch") {
+    const node = game.fruitPatches[id];
+    if (!node) return null;
+    const windows = [
+      ...getFruitBoostWindows(game),
+      ...getTurbofruitMixWindows(node.fertiliser),
+    ];
+    const status = getFruitTreeStatus(node.fruit, now, windows);
+    if (status.stage !== "Seedling" && status.stage !== "Replenishing") {
+      return null;
+    }
+    const name = node.fruit?.name ?? "";
+    const description =
+      status.stage === "Replenishing"
+        ? `${name} Replenishing`
+        : `${name} Growing`;
+    return (
+      <AnchoredScaled anchorId={anchorId} tilesWide={2}>
+        <div
+          className="flex justify-center absolute w-full"
+          style={{ top: `${PIXEL_SCALE * -16}px` }}
+        >
+          <TimerPopover
+            image={ITEM_DETAILS[name as InventoryItemName]?.image}
+            description={description}
+            showPopover={true}
+            timeLeft={status.timeLeft ?? 0}
+            speed={getEffectiveSpeedAt({ at: now, windows })}
+          />
+        </div>
+      </AnchoredScaled>
+    );
+  }
+
+  if (kind === "flowerBed") {
+    const node = game.flowers.flowerBeds[id];
+    const flower = node?.flower;
+    if (!flower || flower.dirty) return null;
+    const growSeconds = FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds;
+    const windows = getFlowerBoostWindows(game);
+    const secondsLeft =
+      flower.baseDurationMs !== undefined
+        ? Math.max(
+            (flower.baseDurationMs -
+              workAccruedAt({
+                startedAt: flower.plantedAt,
+                at: now,
+                windows,
+              })) /
+              1000,
+            0,
+          )
+        : Math.max((flower.plantedAt + growSeconds * 1000 - now) / 1000, 0);
+    if (secondsLeft <= 0) return null;
+    const known = (game.farmActivity[`${flower.name} Harvested`] ?? 0) > 0;
+    return (
+      <AnchoredScaled anchorId={anchorId} tilesWide={3}>
+        <div
+          className="flex justify-center absolute w-full"
+          style={{ top: `${PIXEL_SCALE * -18}px` }}
+        >
+          <TimerPopover
+            image={
+              known ? ITEM_DETAILS[flower.name].image : SUNNYSIDE.icons.search
+            }
+            description={known ? flower.name : "Unknown"}
+            showPopover={true}
+            timeLeft={secondsLeft}
+            speed={getEffectiveSpeedAt({ at: now, windows })}
+          />
+        </div>
+      </AnchoredScaled>
+    );
+  }
+
+  if (kind === "beehive") {
+    const hive = game.beehives[id];
+    if (!hive) return null;
+    const produced = getCurrentHoneyProduced(hive, now);
+    const ready = produced >= DEFAULT_HONEY_PRODUCTION_TIME;
+    if (ready) return null;
+    const text =
+      hive.flowers.length === 0 && !produced
+        ? "No flowers growing nearby"
+        : `Honey: ${formatNumber((produced / DEFAULT_HONEY_PRODUCTION_TIME) * 100, { decimalPlaces: 2 })}% full`;
+    return (
+      <AnchoredScaled anchorId={anchorId} tilesWide={1}>
+        <div
+          className="flex justify-center absolute w-full"
+          style={{ top: `${PIXEL_SCALE * -19}px` }}
+        >
+          <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
+            <div className="text-xxs mx-1 p-1">{text}</div>
+          </InnerPanel>
+        </div>
+      </AnchoredScaled>
+    );
+  }
+
+  if (kind === "salt") {
+    const node = game.saltFarm.nodes[id];
+    if (!node) return null;
+    const { chargeGenerationTimeMs } = getSaltChargeGenerationTime({
+      gameState: game,
+    });
+    const maxCharges = getMaxStoredSaltCharges(
+      (game as { sculptures?: Record<string, { level?: number }> })
+        .sculptures?.["Salt Sculpture"]?.level ?? 0,
+    );
+    const charges = getStoredSaltCharges(node, now, {
+      chargeIntervalMs: chargeGenerationTimeMs,
+      maxCharges,
+    });
+    const rakeFree = isCollectibleBuilt({ name: "Ascended Idol", game });
+    const rakes = Math.floor(game.inventory["Salt Rake"]?.toNumber() ?? 0);
+
+    let text: string | null = null;
+    if (charges === 0) {
+      const { nextChargeAt } = materializeSaltRegen(node.salt, now, {
+        chargeIntervalMs: chargeGenerationTimeMs,
+        maxCharges,
+      });
+      const seconds = getNextSaltChargeInSeconds({ nextChargeAt, now });
+      text = `Next charge in ${secondsToString(seconds, { length: "medium" })}`;
+    } else if (!rakeFree && rakes === 0) {
+      text = "You need a Salt Rake";
+    }
+    if (!text) return null;
+    return (
+      <AnchoredScaled anchorId={anchorId} tilesWide={1}>
+        <div
+          className="flex justify-center absolute w-full"
+          style={{ top: `${PIXEL_SCALE * -14}px` }}
+        >
+          <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
+            <div className="text-xxs mx-1 p-1">{text}</div>
+          </InnerPanel>
+        </div>
+      </AnchoredScaled>
+    );
+  }
+
+  if (kind === "waterTrap") {
+    const spot = game.crabTraps.trapSpots?.[id];
+    const waterTrap = spot?.waterTrap;
+    if (!waterTrap || waterTrap.readyAt <= now) return null;
+    const caught = getKeys(
+      waterTrap.caught ?? caughtCrustacean(waterTrap.type, waterTrap.chum),
+    )[0];
+    const known = caught && (game.farmActivity[`${caught} Caught`] ?? 0) > 0;
+    return (
+      <AnchoredScaled anchorId={anchorId} tilesWide={1}>
+        <div
+          className="flex justify-center absolute w-full"
+          style={{ top: `${PIXEL_SCALE * -18}px` }}
+        >
+          <TimerPopover
+            image={
+              known && caught
+                ? ITEM_DETAILS[caught as InventoryItemName]?.image
+                : SUNNYSIDE.icons.expression_confused
+            }
+            description={known && caught ? caught : ""}
+            showPopover={true}
+            timeLeft={Math.max((waterTrap.readyAt - now) / 1000, 0)}
+          />
+        </div>
+      </AnchoredScaled>
+    );
+  }
+
+  return null;
+};
+
+const COMPOUND_KINDS: ResourceHoverKind[] = [
+  "fruitPatch",
+  "flowerBed",
+  "beehive",
+  "salt",
+  "waterTrap",
+];
+
 const ResourcePopover: React.FC<{
   kind: ResourceHoverKind;
   id: string;
@@ -278,9 +494,12 @@ export const ResourcesUI: React.FC<{ bridge: GameBridge }> = ({ bridge }) => {
 
   return (
     <>
-      {hovered?.type === "resource" && (
-        <ResourcePopover kind={hovered.kind} id={hovered.id} />
-      )}
+      {hovered?.type === "resource" &&
+        (COMPOUND_KINDS.includes(hovered.kind) ? (
+          <CompoundPopover kind={hovered.kind} id={hovered.id} />
+        ) : (
+          <ResourcePopover kind={hovered.kind} id={hovered.id} />
+        ))}
 
       {reward && (
         <AnchoredScaled anchorId={reward.anchorId} tilesWide={1} pointerEvents>

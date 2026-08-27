@@ -51,7 +51,16 @@ export type FarmModalName =
   | "seasonalSeed"
   | "nonFertilePlot"
   | "lavaPit"
-  | "boulder";
+  | "boulder"
+  | "flowerBed"
+  | "flowerInstaGrow"
+  | "flowerCongratulations"
+  | "beehiveLevel"
+  | "beehiveSwarm"
+  | "upgradeSaltFarm"
+  | "fisherman"
+  | "waterTrap"
+  | "crustaceanCaught";
 
 export type FarmModalRequest = { name: FarmModalName; data?: unknown };
 
@@ -69,7 +78,12 @@ export type ResourceHoverKind =
   | "crimstone"
   | "sunstone"
   | "ascensionCrystal"
-  | "oil";
+  | "oil"
+  | "fruitPatch"
+  | "flowerBed"
+  | "beehive"
+  | "salt"
+  | "waterTrap";
 
 /** The in-world entity the pointer is over (drives React popovers). */
 export type HoveredEntity =

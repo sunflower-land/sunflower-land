@@ -112,6 +112,74 @@ export const STATIC_OFFLINE_FARM: GameState = {
       y: 1,
     },
   },
+  fruitPatches: {
+    "1": {
+      createdAt: Date.now(),
+      x: -5,
+      y: 2,
+      fruit: {
+        name: "Apple",
+        plantedAt: 0,
+        harvestsLeft: 3,
+        harvestedAt: 0,
+        amount: 1,
+      },
+    },
+    "2": {
+      createdAt: Date.now(),
+      x: -5,
+      y: 4,
+      fruit: {
+        name: "Blueberry",
+        plantedAt: Date.now(),
+        harvestsLeft: 3,
+        harvestedAt: 0,
+        amount: 1,
+      },
+    },
+  },
+  flowers: {
+    discovered: {},
+    flowerBeds: {
+      "1": {
+        createdAt: Date.now(),
+        x: -4,
+        y: -2,
+        flower: {
+          name: "Red Pansy",
+          plantedAt: 0,
+        },
+      },
+      "2": {
+        createdAt: Date.now(),
+        x: -4,
+        y: -3,
+      },
+    },
+  },
+  beehives: {
+    "1": {
+      x: 1,
+      y: -2,
+      swarm: false,
+      honey: {
+        updatedAt: Date.now(),
+        produced: 12 * 60 * 60 * 1000,
+      },
+      flowers: [],
+    },
+  },
+  mushrooms: {
+    spawnedAt: 0,
+    mushrooms: {
+      "1": { name: "Wild Mushroom", amount: 1, x: -1, y: 4 },
+    },
+  },
+  crabTraps: {
+    trapSpots: {
+      "1": { x: 0, y: 0 },
+    },
+  },
   // A spread of plot states for the farm renderers: empty soil, a crop that's
   // ready the moment the farm loads, and one mid-growth.
   crops: {

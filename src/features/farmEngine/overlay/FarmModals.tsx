@@ -51,6 +51,17 @@ import { getRestockLists, getShipmentAmount } from "../lib/restock";
 import { SeasonalSeed } from "features/island/plots/components/SeasonalSeed";
 import type { SeedName } from "features/game/types/seeds";
 import { LavaPitModalContent } from "features/game/expansion/components/lavaPit/LavaPitModalContent";
+import { FlowerBedModal } from "features/island/flowers/FlowerBedModal";
+import { UpgradeSaltFarmModalPanel } from "features/game/expansion/components/salt/UpgradeSaltFarmModalPanel";
+import { FishermanModal } from "features/island/fisherman/FishermanModal";
+import { WaterTrapModal } from "features/island/fisherman/WaterTrapModal";
+import { CrustaceanCaught } from "features/island/fisherman/CrustaceanCaught";
+import {
+  BeehiveLevel,
+  FishermanCaught,
+  FlowerCongratulations,
+  FlowerInstaGrow,
+} from "./farmModalContents";
 
 /**
  * The React half of every in-world interaction: Phaser renders the sprite and
@@ -413,6 +424,126 @@ export const FarmModals: React.FC<{
             <p className="text-center text-xs">{t("coming.soon")}</p>
           </div>
         </Panel>
+      </Modal>
+
+      {/* [FlowerBed.tsx] plant / cross-breed */}
+      <Modal show={open?.name === "flowerBed"} onHide={close}>
+        {open?.name === "flowerBed" && typeof open.data === "string" && (
+          <FlowerBedModal id={open.data} onClose={close} />
+        )}
+      </Modal>
+
+      {/* [FlowerBed.tsx] insta-grow */}
+      <Modal show={open?.name === "flowerInstaGrow"} onHide={close}>
+        {open?.name === "flowerInstaGrow" && typeof open.data === "string" && (
+          <FlowerInstaGrow id={open.data} onClose={close} />
+        )}
+      </Modal>
+
+      {/* [FlowerBed.tsx] first-harvest congratulations */}
+      <Modal show={open?.name === "flowerCongratulations"} onHide={close}>
+        {open?.name === "flowerCongratulations" &&
+          typeof open.data === "string" && (
+            <FlowerCongratulations id={open.data} onClose={close} />
+          )}
+      </Modal>
+
+      {/* [Beehive.tsx] honey level */}
+      <Modal show={open?.name === "beehiveLevel"} onHide={close}>
+        {open?.name === "beehiveLevel" && typeof open.data === "string" && (
+          <BeehiveLevel id={open.data} onClose={close} />
+        )}
+      </Modal>
+
+      {/* [Beehive.tsx] swarm bonus */}
+      <Modal show={open?.name === "beehiveSwarm"} onHide={close}>
+        <Panel bumpkinParts={NPC_WEARABLES.stevie}>
+          <div className="p-2 flex flex-col items-center">
+            <Label type="vibrant" className="mb-2">
+              {t("beehive.beeSwarm")}
+            </Label>
+            <p className="text-sm text-center mb-2">
+              {t("beehive.pollinationCelebration")}
+            </p>
+            <Button onClick={close}>{t("continue")}</Button>
+          </div>
+        </Panel>
+      </Modal>
+
+      {/* [UpgradeSaltFarm] */}
+      <Modal show={open?.name === "upgradeSaltFarm"} onHide={close}>
+        {open?.name === "upgradeSaltFarm" && (
+          <UpgradeSaltFarmModalPanel onClose={close} />
+        )}
+      </Modal>
+
+      {/* [Fisherman.tsx / FishermanNPC.tsx] */}
+      <Modal show={open?.name === "fisherman"} onHide={close}>
+        {open?.name === "fisherman" &&
+          ((open.data as { locked?: boolean } | undefined)?.locked ? (
+            <CloseButtonPanel onClose={close}>
+              <div className="p-2 flex flex-col items-center">
+                <Label
+                  type="danger"
+                  icon={SUNNYSIDE.icons.lock}
+                  className="mb-2"
+                >
+                  {t("warning.level.required", { lvl: 5 })}
+                </Label>
+                <img src={SUNNYSIDE.icons.fish_icon} className="w-10 mb-2" />
+              </div>
+            </CloseButtonPanel>
+          ) : (open.data as { caught?: boolean } | undefined)?.caught ? (
+            <FishermanCaught onClose={close} />
+          ) : (
+            <FishermanModal
+              onClose={close}
+              onCast={(bait, chum, multiplier, guaranteedCatch) => {
+                gameService.send("rod.casted", {
+                  bait,
+                  chum,
+                  multiplier,
+                  guaranteedCatch,
+                });
+                gameService.send("SAVE");
+                close();
+              }}
+            />
+          ))}
+      </Modal>
+
+      {/* [WaterTrapSpot.tsx] place a trap */}
+      <Modal show={open?.name === "waterTrap"} onHide={close}>
+        {open?.name === "waterTrap" && typeof open.data === "string" && (
+          <WaterTrapModal
+            waterTrap={
+              state.crabTraps.trapSpots?.[open.data]?.waterTrap ?? undefined
+            }
+            onPlace={(trapType, chum) => {
+              gameService.send({
+                type: "waterTrap.placed",
+                trapId: open.data as string,
+                waterTrap: trapType,
+                chum,
+              });
+              gameService.send("SAVE");
+              close();
+            }}
+            onClose={close}
+          />
+        )}
+      </Modal>
+
+      {/* [WaterTrapSpot.tsx] catch collected */}
+      <Modal show={open?.name === "crustaceanCaught"} onHide={close}>
+        {open?.name === "crustaceanCaught" && (
+          <CrustaceanCaught
+            collectedCatch={
+              open.data as { item: never; amount: number } | undefined
+            }
+            onClose={close}
+          />
+        )}
       </Modal>
 
       {/* [UpcomingExpansion.tsx] requirements */}

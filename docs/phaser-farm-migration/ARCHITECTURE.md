@@ -31,7 +31,8 @@ React components re-render when selected state changes; our Phaser renderers do 
                                               ▼
                                   ┌────────────────────────────┐
                                   │  React overlay             │
-                                  │  (popovers, bars, +N, HUD) │
+                                  │  (hover popovers, modals,  │
+                                  │   HUD)                     │
                                   └────────────────────────────┘
 ```
 
@@ -41,11 +42,19 @@ React components re-render when selected state changes; our Phaser renderers do 
 src/features/farmEngine/
 ├── FarmPhaser.tsx            # React mount component (the only React→Phaser entry point)
 ├── core/
-│   ├── engine.ts             # Phaser.Game construction, config (pixelArt, autoRound, no physics debug)
+│   ├── rendering.ts          # DPR supersampling model (see "Rendering model")
 │   ├── coordinates.ts        # grid↔world↔screen transforms, the ONE place y-inversion lives
 │   ├── camera.ts             # pan (drag-scroll parity), pinch/wheel zoom (0.5–1 range parity), scroll restore
-│   ├── assets.ts             # asset manifest + loader helpers (keys derived from existing import paths)
-│   └── clock.ts              # scene-level ticker replicating useNodeTimer semantics for renderers
+│   ├── assets.ts             # URL-as-key loader helpers, per-texture NEAREST opt-in
+│   ├── clock.ts              # scene-level ticker replicating useNodeTimer semantics for renderers
+│   ├── clickable.ts          # the one clickable affordance (cursor + click + hover callback)
+│   ├── depths.ts             # paint-order bands mirroring Land.tsx
+│   └── sounds.ts             # Howl effects callable from Phaser code
+├── components/               # in-scene UI building blocks (game-layer, not React)
+│   ├── ProgressBarSprite.ts  # the DOM Bar art + pixel-font time label
+│   ├── LabelSprite.ts        # Label-style chips (LabelChip)
+│   ├── YieldFloat.ts         # transient +N feedback
+│   └── pixelText.ts          # the font-pixel face at DOM sizing
 ├── bridge/
 │   ├── GameBridge.ts         # typed facade handed to the scene: dispatch() + select()/subscribe()
 │   ├── subscriptions.ts      # selector subscription helper (selector + equality fn → callback)
@@ -66,8 +75,7 @@ src/features/farmEngine/
 │   ├── npc/NPCSprite.ts      # composited idle bumpkin from the animation service's spritesheets
 │   ├── UpcomingExpansionRenderer.ts # expand icon / pontoon / reveal marker
 │   ├── crops/CropRenderer.ts
-│   ├── trees/TreeRenderer.ts
-│   ├── rocks/…               # stone/iron/gold/crimstone/sunstone/ascension share a RockRenderer base
+│   ├── resources/            # ResourceNodeRenderer base + Tree/Mineral(config)/Oil/LavaPit/... renderers
 │   ├── collectibles/…        # metadata-driven static renderer + per-name special renderers
 │   ├── buildings/…
 │   └── characters/…          # bumpkin, farm hands, buds, pets
@@ -76,10 +84,10 @@ src/features/farmEngine/
 │   ├── GhostPlaceable.ts         # drag ghost, collision tint, keyboard nudge, multi-place
 │   └── MoveController.ts         # drag/flip/remove of placed entities (MovableComponent's replacement)
 ├── overlay/
-│   ├── FarmOverlay.tsx       # React portal layer above the canvas; renders anchored micro-UI
+│   ├── FarmOverlay.tsx       # React portal layer above the canvas; renders anchored hover UI
 │   ├── FarmModals.tsx        # one React modal per FarmModalName — the UI half of in-world clicks
-│   ├── UpcomingExpansionUI.tsx # anchored labels/progress for the expansion block (UI, not sprites)
-│   └── …                     # anchored TimerPopover/ProgressBar/+N wrappers (reusing existing components)
+│   ├── CropsUI.tsx           # crop hover TimerPopover
+│   └── ResourcesUI.tsx       # node hover popovers, no-tool warnings, chest-reward host
 └── dev/
     ├── DevHarness.tsx        # standalone route on offline farms (landDataStatic/Dynamic) for rapid iteration
     └── parity.ts             # screenshot-diff helpers
@@ -194,15 +202,15 @@ Must match the DOM farm's feel before parity means anything:
 - Initial scroll centred on the land base + sessionStorage scroll restore (`islandScroll.ts` semantics).
 - Gameboard bounds: `84×56` grid units plus the expansion-count offset from `Land.tsx` (`offset = ceil(sqrt(expansions) * 10 / 2) * 2`).
 
-## React overlay (popovers, bars, floating text, HUD)
+## React overlay (hover popovers, modals, HUD)
 
-Everything HUD-level stays in the existing React tree, untouched. In-world **UI** (and only UI — see the boundary rule) stays React too, rendered in **`overlay/FarmOverlay.tsx`** — an absolutely-positioned DOM layer over the canvas — and positioned by the **anchor bridge**:
+Everything HUD-level stays in the existing React tree, untouched. HOVER popovers/tooltips (and only those — see the boundary rule) render in **`overlay/FarmOverlay.tsx`** — an absolutely-positioned DOM layer over the canvas — positioned by the **anchor bridge**:
 
 1. A renderer registers an anchor: `bridge.anchors.set(id, { worldX, worldY, width, height })` (and removes it on destroy).
 2. The Phaser side projects anchors world→screen through the camera each time the camera moves/zooms (not per frame), publishing screen rects.
-3. React components use `useWorldAnchor(id)` to get a live screen rect and render the existing `TimerPopover` / `ProgressBar` / `Transition` `+N` at that position.
+3. React components use `useWorldAnchor(id)` to get a live screen rect and render the existing `TimerPopover` / `InnerPanel` at that position.
 
-This means **zero rewrite of the popover/panel component library** (`TimerPopover.tsx`, `ProgressBar.tsx`, `Panel.tsx`, `Label.tsx`) and pixel-identical UI. Hover/click intents originate in Phaser (`pointerover` → `overlayController.show("timer-popover", anchorId, props)`), flow through a small typed overlay store — **multi-listener, subscription-based; not a single-`listener` manager singleton like `npcModalManager`**.
+This means **zero rewrite of the popover/panel components** (`TimerPopover.tsx`, `Panel.tsx`) and pixel-identical hover UI. Hover/click intents originate in Phaser (`pointerover` → `overlayController.show("timer-popover", anchorId, props)`), flow through a small typed overlay store — **multi-listener, subscription-based; not a single-`listener` manager singleton like `npcModalManager`**.
 
 Modals are simpler: they're screen-centred. A Phaser click either dispatches a machine event, opens a global modal (`bridge.openModal(type)` → the existing `ModalProvider`), or opens an **in-world modal** (`bridge.farmModal.open(name)` → `overlay/FarmModals.tsx`, which hosts one React modal per `FarmModalName` — the snorkler dialogue, Pete's tabs, the restock shipment, the island-upgrade flow, expansion requirements...). Adding a new in-world interaction = sprite + click in a renderer, a name in `FarmModalName`, a case in `FarmModals`. The `SHOW_MODAL` state-map modals keep working unchanged.
 

@@ -23,7 +23,7 @@ import { useNodeTimer } from "features/game/lib/useNodeTimer";
 
 type Stage = "Empty" | "Seedling" | "Replenishing" | "Replenished" | "Dead";
 
-type FruitTreeStatus = {
+export type FruitTreeStatus = {
   stage: Stage;
   timeLeft?: number;
   /**
@@ -33,7 +33,7 @@ type FruitTreeStatus = {
   totalSeconds?: number;
 };
 
-const getFruitTreeStatus = (
+export const getFruitTreeStatus = (
   plantedFruit: PlantedFruit | undefined,
   now: number,
   windows: BoostWindow[],

@@ -41,7 +41,28 @@ const HOWLS = {
     preload: false,
     volume: 0.1,
   }),
+  mushroom_1: new Howl({
+    src: [SOUNDS.resources.mushroom_1],
+    preload: false,
+    volume: 0.1,
+  }),
+  mushroom_2: new Howl({
+    src: [SOUNDS.resources.mushroom_2],
+    preload: false,
+    volume: 0.1,
+  }),
+  mushroom_3: new Howl({
+    src: [SOUNDS.resources.mushroom_3],
+    preload: false,
+    volume: 0.1,
+  }),
 };
+
+/** The DOM mushroom pick: one of the three squeaks at random. */
+export function playMushroomSound() {
+  const pick = Math.floor(Math.random() * 3) + 1;
+  playSound(`mushroom_${pick}` as keyof typeof HOWLS);
+}
 
 export function playSound(name: keyof typeof HOWLS) {
   const howl = HOWLS[name];

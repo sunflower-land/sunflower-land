@@ -23,6 +23,13 @@ import { AscensionCrystalRenderer } from "./resources/AscensionCrystalRenderer";
 import { OilReserveRenderer } from "./resources/OilReserveRenderer";
 import { LavaPitRenderer } from "./resources/LavaPitRenderer";
 import { BoulderRenderer } from "./resources/BoulderRenderer";
+import { FruitPatchRenderer } from "./resources/FruitPatchRenderer";
+import { FlowerBedRenderer } from "./resources/FlowerBedRenderer";
+import { BeehiveRenderer } from "./resources/BeehiveRenderer";
+import { MushroomRenderer } from "./resources/MushroomRenderer";
+import { SaltRenderer } from "./resources/SaltRenderer";
+import { WaterTrapRenderer } from "./resources/WaterTrapRenderer";
+import { FishermanRenderer } from "./resources/FishermanRenderer";
 
 export type RendererFactory = (
   scene: FarmScene,
@@ -67,4 +74,11 @@ export const RENDERERS: Record<string, RendererFactory> = {
   oilReserves: (scene, bridge) => new OilReserveRenderer(scene, bridge),
   lavaPits: (scene, bridge) => new LavaPitRenderer(scene, bridge),
   boulders: (scene, bridge) => new BoulderRenderer(scene, bridge),
+  fruitPatches: (scene, bridge) => new FruitPatchRenderer(scene, bridge),
+  flowerBeds: (scene, bridge) => new FlowerBedRenderer(scene, bridge),
+  beehives: (scene, bridge) => new BeehiveRenderer(scene, bridge),
+  mushrooms: (scene, bridge) => new MushroomRenderer(scene, bridge),
+  saltFarm: (scene, bridge) => new SaltRenderer(scene, bridge),
+  waterTraps: (scene, bridge) => new WaterTrapRenderer(scene, bridge),
+  fisherman: (scene, bridge) => new FishermanRenderer(scene, bridge),
 };

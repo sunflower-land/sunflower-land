@@ -24,7 +24,7 @@ The architecture end-to-end, before any breadth. Everything after this is repeti
 - [x] `core/clock.ts` — batched 1s-pass stage clock with `useNodeTimer` semantics via `boostWindows.ts` imports (unit-tested, both timing models)
 - [x] `core/assets.ts` — URL-as-key image/spritesheet queue + awaitable loader (first real use: Phase 1)
 - [x] `entities/EntityRenderer.ts` + `entities/registry.ts` — base contract + empty registry
-- [x] Dev tooling: `dev/DebugGrid.ts` (grid/origin/genesis outline + demo anchor, localStorage `phaserFarm.debug`) + `dev/DevPanel.tsx`. Offline farm = run dev server with `VITE_API_URL=` blank (ART_MODE). _Island/season/expansion switcher deferred to Phase 1 where the art matrix needs it_
+- [x] Dev tooling: `dev/DebugGrid.ts` (grid/origin/genesis outline + demo anchor, localStorage `phaserFarm.debug`) + `dev/DevPanel.tsx`. Offline farm = run dev server with `VITE_API_URL=` blank (ART*MODE). \_Island/season/expansion switcher deferred to Phase 1 where the art matrix needs it*
 - [x] `dev/parity.ts` — canvas snapshot + dependency-free pixel diff (full harness grows with Phase 1)
 - [x] Engine teardown verified in-browser: navigate `/farm` → `/home` → `/farm`, exactly one canvas after remount, no engine console errors. HUD renders over the canvas (no z-index on the engine wrapper — `HudContainer` portals at `z-10` and must win)
 
@@ -58,11 +58,11 @@ New this phase: bridge channels for entity UI — `hover` (pointer-over entity �
 - [x] Soil & growth stages — imported `getGrowthStage` + `CROP_LIFECYCLE[biome]` art at the DOM's −12px offset; non-fertile plot (dry soil + water-well modal). _Deferred: Tornado/Tsunami/GreatFreeze weather-plot art, tutorial dig/click pulsate icons_
 - [x] Both timing models via `getHarvestMetrics` (now exported from `FertilePlot.tsx`); boost windows unioned from `getCropPlotBoostWindows` + `getCropFertiliserWindows`
 - [x] Clock-driven stage transitions — one `FarmClock` registration per planted plot, stage fractions [0.25, 0.5, 1]. _Nuance: clock progress ignores landscaping-banked `boostedTime` (art may flip a beat early on lifted windowed crops; overlay % is exact)_
-- [x] Corner status icons (boost ⚡, weather, bee swarm, fertiliser) — anchored React in `overlay/CropsUI.tsx` (decision: per-plot status icons are UI, same anchored-scaled pattern as progress bars)
+- [x] Corner status icons (boost ⚡, weather, bee swarm, fertiliser) — in-scene Phaser images in `CropRenderer` (moved from React per the game-layer ruling)
 - [x] Click-to-plant with `selectedItem`, click-to-harvest — same events + payloads (`seed.planted` with uuid cropId, `crop.harvested`, `plot.fertilised`), double-click buffer, analytics milestones, BLACKSMITH/seasonal-seed modals. Browser-verified: plant + harvest round trip. _Deferred: quick-select popup when no seed is selected_
-- [x] `TimerPopover` on hover via the hover channel + plot anchor — browser-verified ("Sunflower 58secs" with icon)
-- [x] `ProgressBar` under growing crops when `showTimers` — browser-verified ("58s"/"1d")
-- [x] Harvest FX: floating `+N` with `getYieldColour` via the fx channel (browser-verified); proc firework spritesheet ≥10 yield in Phaser (logic ported, needs a high-yield farm to eyeball)
+- [x] `TimerPopover` on hover via the hover channel + plot anchor — browser-verified ("Sunflower 58secs" with icon). The only crop UI left in React
+- [x] Progress bar under growing crops when `showTimers` — in-scene `ProgressBarSprite`, browser-verified ("58s"/"1d")
+- [x] Harvest FX: floating `+N` with `getYieldColour` — in-scene `playYieldFloat` (browser-verified); proc firework spritesheet ≥10 yield in Phaser (logic ported, needs a high-yield farm to eyeball)
 - [x] Chest reward / captcha flow — `cropReward` channel → `ChestReward` anchored at the plot, harvest completes via callback (wired; needs a reward roll to eyeball)
 - [ ] Event-payload parity test vs `Plot.tsx` dispatches (automated dispatch-spy suite still to write)
 
