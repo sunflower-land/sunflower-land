@@ -87,25 +87,34 @@ New this phase, following two further boundary rulings: **progress bars/inline t
 - Fixture: `STATIC_OFFLINE_FARM` now has iron/gold/crimstone/sunstone/oil nodes + all pickaxes/drill
 - _Deferred: recover lightning-flash Transitions (tree/gold/crimstone polish); Pete-style speech text; exact DOM Label chip border art; no-tool warning i18n keys (plain English for now)_
 
-## Phase 4 — Compound & derived resources
+## Phase 4 — Compound & derived resources ✅ core (2026-08-27)
 
-- [ ] Fruit Patch (`features/island/fruit/`) — seedling/replenishing/replenished/dead tree states, harvest/chop flows
-- [ ] Flower Bed (`features/island/flowers/`) — growth stages, cross-breed modal via bridge
-- [ ] Beehive (`resources/beehive/`) — port `beehiveMachine.ts` bee-flight behaviour into renderer `update()`; swarm indicator
-- [ ] Mushrooms (`features/island/mushrooms/`) — spritesheet anim, always-on-top depth band, spawn/despawn reconciliation
-- [ ] Salt nodes + placeholders (`components/salt/`, coords from `types/salt.ts` `getSaltNodeCoordinates`) — derived positions, upgrade flow modal
-- [ ] Fisherman + dock (`features/island/fisherman/Fisherman.tsx`) — cast flow modal via bridge
-- [ ] Water trap spots (`fisherman/WaterTrapSpot.tsx`, coords from `types/crustaceans.ts`)
+Modal hosts extended: `overlay/FarmModals.tsx` gained flower/beehive/salt/fisherman/water-trap modals (+ `overlay/farmModalContents.tsx` for the ported inline contents); `ResourcesUI` gained a `CompoundPopover` for the new hover kinds. Browser-verified on the offline farm: apple harvest → `+1` HUD delta + replenishing art + in-scene 11h bar + "Apple Replenishing" popover; mushroom pick → `+1`; blueberry 5h bar; ready/empty flower beds; beehive quantity bar; salt farm platform with in-scene UPGRADE chip + goblin; fisherman idle on the wharf.
 
-## Phase 5 — Buildings
+- [x] Fruit Patch (`FruitPatchRenderer`) — seedling/growing/replenishing/replenished/dead states, harvest + dead-tree chop (wood reward float), fertilise, boost windows. Browser-verified harvest round trip
+- [x] Flower Bed (`FlowerBedRenderer`) — `FLOWER_VARIANTS` growth art, cross-breed modal (`FlowerBedModal` reused), insta-grow + congratulations modals
+- [x] Beehive (`BeehiveRenderer`) — `beehiveMachine` reduced to a 1s tick (honey %, ready drop indicator), Bee.tsx flight as a tween chain (exact geometry/durations), harvest + swarm modal
+- [x] Mushrooms (`MushroomRenderer`) — 5-frame idle sheet with random ≤15s replay gap, ALWAYS_ON_TOP band, one-click pick (browser-verified)
+- [x] Salt farm (`SaltRenderer`) — derived positions, upgrade flow modal (`UpgradeSaltFarmModalPanel` reused), in-scene UPGRADE label chip
+- [x] Fisherman + dock (`FishermanRenderer`) — per-island wharf art + offsets, bubbles/fish decor, 56-frame sheet as idle→casting→waiting→reeling→caught state machine, cast/caught modals
+- [x] Water trap spots (`WaterTrapRenderer`) — wharf-derived coords, crab-spot art, 2-frame pot loops, soak bar, sparkle+alert when ready, placement/caught modals
+- [x] Yield-float icon loading hardened: `playYieldFloat` now lazy-loads a missing icon texture (was Phaser's black missing-texture square), and Tree/Mineral/AscensionCrystal/FruitPatch queue their float icons up front
+- Fixture: `STATIC_OFFLINE_FARM` now has fruit patches (ready Apple, growing Blueberry), flower beds (ready Red Pansy + empty), a half-full beehive, a Wild Mushroom, and a crab-trap spot
+- _Deferred: quick-select popup (fruit + flowers), harvest shake anim, fisherman map-puzzle challenge + fish-frenzy/full-moon/marvel icons, compact DOM-parity variants of the beehive-level / flower-congrats / fisherman-caught modals, crab-spot art placement eyeball vs DOM (tiny at default zoom)_
+
+## Phase 5 — Buildings ✅ core (2026-08-27)
 
 Reference: `src/features/island/buildings/components/building/Building.tsx`.
 
-- [ ] Building renderer registry: texture per building × construction state (constructing/built), biome/season variants from `alternateArt.ts`
-- [ ] Construction timer popover + ready indicator
-- [ ] Click → correct React modal/interior-entry per building (cooking bubbles, crafting indicators as sub-objects)
-- [ ] Cooking/crafting progress indicators (bubble + item icon) driven by state subscription
-- [ ] Interior **entry points** work (doors navigate to the existing React interiors — interiors themselves are Phase 12+)
+Architecture: one `entities/buildings/BuildingRenderer.ts` reconciling all of `game.buildings`, with the per-building art/offsets flattened to data in `buildingArt.ts` (`BUILDING_BASE_ART` + `COOKING_LAYOUT`, Phaser-free/jest-testable). Building clicks route through new `FarmModalName`s to `overlay/BuildingModals.tsx`, which reuses the DOM's exported modals (`FirePitModal`…`SmoothieShackModal`, `ShopItems`, `WorkbenchModal`, `ComposterModal`, `CraftingBoxModalContent`, `FishMarketModal`, `AgingShedModal`, `CropMachineModal` + local `cropStateMachine`, `UpgradeBuildingModal`, `Constructing`, `WeatherAffectedModal`). Navigation buildings go through the new `bridge.navigateTo` (react-router wired in FarmPhaser). Browser-verified: Town Center/Market/Workbench base art; Fire Pit cooking state (0.8 alpha, doing-NPC, item icon, ready `!` alert) → click opens the Fire Pit modal; constructing Kitchen at 50% + in-scene bar → click opens the Constructing panel ("01:58:42" + Speed up); running Compost Bin (composting art + in-scene timer bar); Market click → Betty conversation + shop.
+
+- [x] Building renderer registry: texture per building × construction state, biome/season/level variants (`alternateArt.ts`, `BARN_IMAGES`, `COMPOSTER_IMAGES`, aging-shed thresholds, water-well upgrade-adjusted level)
+- [x] Constructing state: 50% alpha + bottom-centre in-scene progress bar + Constructing modal with gem/coin speed-up (`building.spedUp`/`upgrade.spedUp`)
+- [x] Click → correct React modal per building; level gate → lock panel; destroyed (tornado/tsunami badge) → `WeatherAffectedModal`; collect-on-click parity (`recipes.collected` / `processedResource.collected`)
+- [x] Cooking/processing indicators: NPC idle/doing swap, per-building cooking item icon (DOM anchor formulas), ReadyRecipes/ReadyProcessed floating rows, ready `!` alert with shake, Bakery smoke, Smoothie Shack desk overlay, composter/crafting-box bars, greenhouse smoke + ready-plant row, aging-shed ready alert
+- [x] Interior entry points: Hen House/Barn/Greenhouse/Pet House routes + Town Center/House/Manor/Mansion via `getHomeRoute` (wired; routes themselves not browser-tested offline)
+- Fixture: `STATIC_OFFLINE_FARM` buildings = INITIAL trio + cooking Fire Pit + constructing Kitchen + running Compost Bin
+- _Deferred: NPC/smoke gifs render first frame only (need spritesheets); crop-machine stage sheets (idle art always) + ready-crop row; hen-house/barn hungry/sick/love alert rows; tent bumpkin; house/manor/mansion/town-center extras (DailyReward, HomeBumpkins, LetterBox, collect heart); fish-market idle Neville (composed bumpkin — characters phase); visiting help discs; hover bumpkin-level tooltip; market crop-shortage/special-event labels over the shop; water well auto-open constructing modal on upgrade edge_
 
 ## Phase 6 — Collectibles (breadth via registry)
 

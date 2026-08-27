@@ -1,5 +1,6 @@
 import type Phaser from "phaser";
 import { formatNumber } from "lib/utils/formatNumber";
+import { queueImage, runLoader } from "../core/assets";
 import { pixelText } from "./pixelText";
 
 /**
@@ -31,6 +32,17 @@ export function playYieldFloat(
     depth,
     durationMs = 2000,
   } = options;
+
+  // Renderers queue their yield icons up front, but if one slipped through
+  // (or a boost drops an unexpected item), load it now rather than rendering
+  // Phaser's missing-texture square.
+  if (icon && !scene.textures.exists(icon)) {
+    queueImage(scene, icon);
+    void runLoader(scene).then(() => {
+      if (scene.sys.isActive()) playYieldFloat(scene, options);
+    });
+    return;
+  }
 
   const children: Phaser.GameObjects.GameObject[] = [];
   let cursor = 0;

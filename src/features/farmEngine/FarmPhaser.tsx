@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { useNavigate } from "react-router";
 import Phaser from "phaser";
 import { Context } from "features/game/GameProvider";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
@@ -38,18 +39,22 @@ export const FarmPhaser: React.FC = () => {
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const [{ bridge, setUiPrefs, setOpenModal, setSelectItem }] = useState(() =>
-    createGameBridge({ gameService }),
-  );
+  const [{ bridge, setUiPrefs, setOpenModal, setSelectItem, setNavigate }] =
+    useState(() => createGameBridge({ gameService }));
 
-  // openModal/shortcutItem come from provider state; keep the bridge pointing
-  // at the latest without rebuilding it.
+  const navigate = useNavigate();
+
+  // openModal/shortcutItem/navigate come from provider state; keep the bridge
+  // pointing at the latest without rebuilding it.
   useEffect(() => {
     setOpenModal(openModal);
   }, [openModal, setOpenModal]);
   useEffect(() => {
     setSelectItem(shortcutItem);
   }, [shortcutItem, setSelectItem]);
+  useEffect(() => {
+    setNavigate(navigate);
+  }, [navigate, setNavigate]);
 
   const uiPrefs = useMemo(
     () => ({

@@ -62,6 +62,7 @@ import {
   FlowerCongratulations,
   FlowerInstaGrow,
 } from "./farmModalContents";
+import { BuildingModals } from "./BuildingModals";
 
 /**
  * The React half of every in-world interaction: Phaser renders the sprite and
@@ -564,6 +565,9 @@ export const FarmModals: React.FC<{
           )}
         </CloseButtonPanel>
       </Modal>
+
+      {/* Buildings [BuildingRenderer clicks] */}
+      <BuildingModals open={open} onClose={close} />
     </>
   );
 };

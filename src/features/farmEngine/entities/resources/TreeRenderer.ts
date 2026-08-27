@@ -68,6 +68,7 @@ export class TreeRenderer extends ResourceNodeRenderer<TreeNode> {
     }
     queueSheet(this.scene, this.choppedSheet(slice.season));
     queueImage(this.scene, SUNNYSIDE.ui.emptyBar);
+    queueImage(this.scene, SUNNYSIDE.resource.wood); // chop yield float
   }
 
   private biomeOf(slice: NodeSlice<TreeNode>) {

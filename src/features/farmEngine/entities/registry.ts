@@ -30,6 +30,7 @@ import { MushroomRenderer } from "./resources/MushroomRenderer";
 import { SaltRenderer } from "./resources/SaltRenderer";
 import { WaterTrapRenderer } from "./resources/WaterTrapRenderer";
 import { FishermanRenderer } from "./resources/FishermanRenderer";
+import { BuildingRenderer } from "./buildings/BuildingRenderer";
 
 export type RendererFactory = (
   scene: FarmScene,
@@ -81,4 +82,5 @@ export const RENDERERS: Record<string, RendererFactory> = {
   saltFarm: (scene, bridge) => new SaltRenderer(scene, bridge),
   waterTraps: (scene, bridge) => new WaterTrapRenderer(scene, bridge),
   fisherman: (scene, bridge) => new FishermanRenderer(scene, bridge),
+  buildings: (scene, bridge) => new BuildingRenderer(scene, bridge),
 };

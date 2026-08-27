@@ -129,6 +129,7 @@ export class FruitPatchRenderer extends ResourceNodeRenderer<FruitNode> {
     [powerup, SUNNYSIDE.icons.stopwatch, SUNNYSIDE.icons.lightning].forEach(
       (url) => queueImage(this.scene, url),
     );
+    queueImage(this.scene, SUNNYSIDE.resource.wood); // dead-tree chop float
     for (const node of Object.values(slice.nodes)) {
       const name = node.fruit?.name;
       if (!name) continue;
@@ -136,6 +137,7 @@ export class FruitPatchRenderer extends ResourceNodeRenderer<FruitNode> {
       Object.values(lifecycle).forEach((url) =>
         queueImage(this.scene, url as string),
       );
+      queueImage(this.scene, ITEM_DETAILS[name].image); // harvest float
     }
   }
 

@@ -180,6 +180,44 @@ export const STATIC_OFFLINE_FARM: GameState = {
       "1": { x: 0, y: 0 },
     },
   },
+  // Buildings: the INITIAL_FARM trio plus a cooking Fire Pit (active +
+  // ready recipes), an under-construction Kitchen, and a running composter.
+  buildings: {
+    ...INITIAL_FARM.buildings,
+    "Fire Pit": [
+      {
+        id: "firepit-1",
+        readyAt: 0,
+        createdAt: 0,
+        coordinates: { x: -3, y: 7 },
+        crafting: [
+          { name: "Pumpkin Soup", readyAt: 0 },
+          { name: "Mashed Potato", readyAt: Date.now() + 60 * 60 * 1000 },
+        ],
+      },
+    ],
+    Kitchen: [
+      {
+        id: "kitchen-1",
+        readyAt: Date.now() + 2 * 60 * 60 * 1000,
+        createdAt: Date.now(),
+        coordinates: { x: 1, y: 8 },
+      },
+    ],
+    "Compost Bin": [
+      {
+        id: "compost-1",
+        readyAt: 0,
+        createdAt: 0,
+        coordinates: { x: -5, y: 7 },
+        producing: {
+          items: { "Sprout Mix": 10 },
+          startedAt: Date.now() - 3 * 60 * 60 * 1000,
+          readyAt: Date.now() + 3 * 60 * 60 * 1000,
+        },
+      },
+    ],
+  },
   // A spread of plot states for the farm renderers: empty soil, a crop that's
   // ready the moment the farm loads, and one mid-growth.
   crops: {

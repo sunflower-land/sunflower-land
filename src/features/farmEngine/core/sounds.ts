@@ -56,6 +56,22 @@ const HOWLS = {
     preload: false,
     volume: 0.1,
   }),
+  // Building clicks [useSound.ts configs: shop/bakery/barn]
+  shop: new Howl({
+    src: [SOUNDS.buildings.shop],
+    preload: false,
+    volume: 0.05,
+  }),
+  bakery: new Howl({
+    src: [SOUNDS.buildings.kitchen],
+    preload: false,
+    volume: 0.25,
+  }),
+  barn: new Howl({
+    src: [SOUNDS.buildings.barn],
+    preload: false,
+    volume: 0.05,
+  }),
 };
 
 /** The DOM mushroom pick: one of the three squeaks at random. */

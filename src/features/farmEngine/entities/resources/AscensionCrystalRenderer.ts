@@ -67,6 +67,7 @@ export class AscensionCrystalRenderer extends ResourceNodeRenderer<CrystalNode> 
     queueSheet(this.scene, SPARK);
     queueSheet(this.scene, DROP);
     queueImage(this.scene, SUNNYSIDE.ui.emptyBar);
+    queueImage(this.scene, ITEM_DETAILS["Ascension Shard"].image); // yield float
   }
 
   protected renderNode(

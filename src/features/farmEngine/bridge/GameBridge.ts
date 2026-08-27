@@ -60,7 +60,20 @@ export type FarmModalName =
   | "upgradeSaltFarm"
   | "fisherman"
   | "waterTrap"
-  | "crustaceanCaught";
+  | "crustaceanCaught"
+  // Buildings (Phase 5). "cooking" covers the five Recipes-flow buildings.
+  | "cooking"
+  | "market"
+  | "workbench"
+  | "waterWell"
+  | "composter"
+  | "craftingBox"
+  | "fishMarket"
+  | "agingShed"
+  | "cropMachine"
+  | "buildingConstructing"
+  | "buildingDestroyed"
+  | "buildingLevelLocked";
 
 export type FarmModalRequest = { name: FarmModalName; data?: unknown };
 
@@ -161,6 +174,11 @@ export interface GameBridge {
    * auto-select their tool on strike, exactly like the DOM components.
    */
   selectItem: (item: InventoryItemName) => void;
+  /**
+   * Route navigation for buildings that leave the farm (barn, hen house,
+   * home interiors...). Wired to react-router's navigate by the overlay.
+   */
+  navigateTo: (path: string) => void;
   /** Tear down everything the bridge owns. FarmPhaser calls this on unmount. */
   dispose(): void;
 }
@@ -191,6 +209,8 @@ export function createGameBridge({
   setOpenModal: (openModal: (modal: GlobalModal) => void) => void;
   /** FarmPhaser wires GameProvider's shortcutItem in an effect after mount. */
   setSelectItem: (selectItem: (item: InventoryItemName) => void) => void;
+  /** The overlay wires react-router's navigate in an effect after mount. */
+  setNavigate: (navigate: (path: string) => void) => void;
 } {
   const subscriptions = new Set<Unsubscribe>();
   const anchors = new AnchorRegistry();
@@ -203,6 +223,9 @@ export function createGameBridge({
   };
   let selectItemImpl: (item: InventoryItemName) => void = () => {
     // wired by setSelectItem
+  };
+  let navigateImpl: (path: string) => void = () => {
+    // wired by setNavigate
   };
 
   const farmModalListeners = new Set<(request: FarmModalRequest) => void>();
@@ -266,6 +289,7 @@ export function createGameBridge({
     hover: createValueStore<HoveredEntity>(null),
     chestReward: createValueStore<PendingChestReward>(null),
     selectItem: (item) => selectItemImpl(item),
+    navigateTo: (path) => navigateImpl(path),
 
     dispose: () => {
       subscriptions.forEach((unsubscribe) => unsubscribe());
@@ -290,5 +314,9 @@ export function createGameBridge({
     selectItemImpl = selectItem;
   };
 
-  return { bridge, setUiPrefs, setOpenModal, setSelectItem };
+  const setNavigate = (navigate: (path: string) => void) => {
+    navigateImpl = navigate;
+  };
+
+  return { bridge, setUiPrefs, setOpenModal, setSelectItem, setNavigate };
 }

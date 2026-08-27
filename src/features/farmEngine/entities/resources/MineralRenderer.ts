@@ -131,6 +131,9 @@ export class MineralRenderer extends ResourceNodeRenderer<MineralNode> {
       .allSheets(slice)
       .forEach((spec) => queueSheet(this.scene, spec));
     queueImage(this.scene, SUNNYSIDE.ui.emptyBar);
+    Object.values(slice.nodes).forEach((node) =>
+      queueImage(this.scene, this.config.yieldFx(node).icon),
+    );
   }
 
   protected renderNode(
