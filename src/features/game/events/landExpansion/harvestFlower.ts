@@ -114,6 +114,13 @@ export function harvestFlower({
 
     if (!flowerBed) throw new Error(translate("harvestflower.noFlowerBed"));
 
+    // A lifted bed keeps growing while it sits in the inventory - the pause is
+    // only applied when it is placed back down, so harvesting an unplaced bed
+    // would side-step it entirely.
+    if (flowerBed.x === undefined && flowerBed.y === undefined) {
+      throw new Error("Flower bed is not placed");
+    }
+
     const flower = flowerBed.flower;
 
     if (!flower) throw new Error(translate("harvestflower.noFlower"));

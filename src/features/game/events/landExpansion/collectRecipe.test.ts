@@ -24,6 +24,46 @@ describe("collect Recipes", () => {
   // stored `readyAt` is only a cache of the derived value, so collecting has to ask
   // the chain, not the cache — otherwise the player watches a finished recipe sit
   // there until some other event happens to rewrite the queue.
+  it("does not collect from a building that is not placed", () => {
+    // Lifted buildings keep cooking until they are placed back down, where the
+    // pause is applied. Collecting from one in the inventory would skip it.
+    const now = dateNow;
+
+    expect(() =>
+      collectRecipe({
+        farmId,
+        state: {
+          ...GAME_STATE,
+          buildings: {
+            "Fire Pit": [
+              {
+                id: "1",
+                createdAt: 0,
+                readyAt: 0,
+                removedAt: now - 1000,
+                crafting: [
+                  {
+                    id: "abc",
+                    name: "Boiled Eggs",
+                    startedAt: now - 10 * 60 * 60 * 1000,
+                    baseDurationMs: 60 * 60 * 1000,
+                    readyAt: now - 9 * 60 * 60 * 1000,
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        action: {
+          type: "recipes.collected",
+          building: "Fire Pit",
+          buildingId: "1",
+        },
+        createdAt: now,
+      }),
+    ).toThrow("Building is not placed");
+  });
+
   it("collects a recipe whose DERIVED ready time has passed", () => {
     const now = dateNow;
     const HOUR = 60 * 60 * 1000;

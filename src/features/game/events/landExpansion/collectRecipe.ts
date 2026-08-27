@@ -134,6 +134,13 @@ export function collectRecipe({
       throw new Error("You do not have a Bumpkin!");
     }
 
+    // A lifted building keeps cooking while it sits in the inventory - the pause
+    // is only applied when it is placed back down, so collecting from an
+    // unplaced building would side-step it entirely.
+    if (!building.coordinates) {
+      throw new Error("Building is not placed");
+    }
+
     const recipes = building.crafting ?? [];
     if (!recipes.length) {
       throw new Error(translate("error.buildingNotCooking"));
