@@ -152,4 +152,49 @@ describe("placeSunstone", () => {
       },
     });
   });
+
+  it("banks the work done before the lift for a windowed sunstone", () => {
+    const dateNow = Date.now();
+    const RECOVERY = 60 * 60 * 1000;
+
+    const state = placeSunstone({
+      action: {
+        coordinates: { x: 2, y: 2 },
+        id: "1",
+        name: "Sunstone Rock",
+        type: "sunstone.placed",
+      },
+      state: {
+        ...INITIAL_FARM,
+        buildings: {},
+        inventory: {
+          "Sunstone Rock": new Decimal(2),
+        },
+        sunstones: {
+          "123": {
+            createdAt: dateNow,
+            stone: {
+              minedAt: dateNow - 180000,
+              baseDurationMs: RECOVERY,
+            },
+            removedAt: dateNow - 120000,
+            minesLeft: 5,
+          },
+        },
+      },
+      createdAt: dateNow,
+    });
+
+    const stone = state.sunstones["123"].stone;
+
+    // A windowed node banks its accrued work and resumes from the placement, the
+    // same as every other rock. Back-dating `minedAt` instead happens to give the
+    // right readyAt only while sunstone has no boost windows to be re-exposed to.
+    expect(stone.minedAt).toEqual(dateNow);
+    expect(stone.baseDurationMs).toEqual(RECOVERY - 60000);
+    // Unchanged either way: still 59 minutes of recovery left.
+    expect(stone.minedAt + (stone.baseDurationMs ?? 0)).toEqual(
+      dateNow + RECOVERY - 60000,
+    );
+  });
 });
