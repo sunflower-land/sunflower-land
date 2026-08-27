@@ -33,6 +33,9 @@ export const SIGNER_URL = "https://sunflower-land.com/wasm";
 let loaded: Promise<TokenModule> | undefined;
 
 export function loadTokenModule(): Promise<TokenModule> {
+  // A rejected promise must not be cached: a single flaky fetch on a
+  // mobile connection would otherwise leave the signer unavailable for the
+  // rest of the page's life, so every request that session goes unsigned.
   loaded ??= (async () => {
     // The glue is an ES module served from the token host; the vite build
     // must not try to resolve it at build time, hence the variable URL.
@@ -45,7 +48,10 @@ export function loadTokenModule(): Promise<TokenModule> {
     });
 
     return module as TokenModule;
-  })();
+  })().catch((e) => {
+    loaded = undefined;
+    throw e;
+  });
 
   return loaded;
 }

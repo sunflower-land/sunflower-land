@@ -216,9 +216,10 @@ describe("requestToken when the signer cannot be loaded", () => {
       string
     >;
     // Not silence: the API logs this as `incompatible-wasm` rather than
-    // lumping it in with unsigned scripts.
-    expect(headers["X-Token"]).toBe(tokens.UNSUPPORTED_SIGNER_TOKEN);
-    expect(headers["X-Token"]).toBe("incompatible_wasm");
+    // lumping it in with unsigned scripts, and the suffix says why so the
+    // "never arrived" and "would not run" cases can be told apart.
+    expect(headers["X-Token"]).toMatch(/^incompatible_wasm:/);
+    expect(headers["X-Token"]).toContain(tokens.UNSUPPORTED_SIGNER_TOKEN);
     expect(headers["X-Timestamp"]).toBeUndefined();
   });
 
@@ -241,6 +242,58 @@ describe("requestToken when the signer cannot be loaded", () => {
       string
     >;
     expect(headers["X-Token"]).toBeUndefined();
+  });
+});
+
+describe("requestToken signer load failures", () => {
+  let fetchMock: jest.Mock;
+
+  beforeEach(() => {
+    jest.resetModules();
+    fetchMock = jest.fn().mockResolvedValue({ ok: true });
+    (window as unknown as { fetch: unknown }).fetch = fetchMock;
+  });
+
+  it("classifies a network failure so the API can see the cause", async () => {
+    jest.doMock("./loader", () => ({
+      loadTokenModule: () =>
+        Promise.reject(
+          new Error("Failed to fetch dynamically imported module"),
+        ),
+    }));
+
+    /* eslint-disable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
+    const tokens = require("./index") as typeof import("./index");
+    /* eslint-enable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
+
+    await tokens.initRequestTokens(session);
+    await tokens.secureFetch("https://api.test/autosave/1", { method: "POST" });
+
+    const headers = (fetchMock.mock.calls[0][1]?.headers ?? {}) as Record<
+      string,
+      string
+    >;
+    expect(headers["X-Token"]).toBe("incompatible_wasm:import-failed");
+  });
+
+  it("retries the load on the next session rather than staying broken", async () => {
+    let attempts = 0;
+    jest.doMock("./loader", () => ({
+      loadTokenModule: () => {
+        attempts += 1;
+        return Promise.reject(new Error("offline"));
+      },
+    }));
+
+    /* eslint-disable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
+    const tokens = require("./index") as typeof import("./index");
+    /* eslint-enable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
+
+    await tokens.initRequestTokens(session);
+    await tokens.initRequestTokens(session);
+
+    // A transient failure must not permanently disable the layer.
+    expect(attempts).toBe(2);
   });
 });
 

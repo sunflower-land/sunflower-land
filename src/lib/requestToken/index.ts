@@ -37,6 +37,29 @@ import { loadTokenModule, type TokenModule } from "./loader";
  */
 export const UNSUPPORTED_SIGNER_TOKEN = "incompatible_wasm";
 
+/**
+ * Boils an unknown failure down to a short, header-safe code appended to
+ * the sentinel (`incompatible_wasm:fetch-failed`). Without it every one of
+ * these looks identical server-side, and "the module would not load" has
+ * very different answers depending on whether the fetch never arrived, the
+ * bytes would not compile, or the engine refused outright.
+ */
+function failureCode(e: unknown): string {
+  const message = ((e as Error)?.message ?? String(e)).toLowerCase();
+
+  if (message.includes("dynamically imported module")) return "import-failed";
+  if (message.includes("failed to fetch") || message.includes("networkerror"))
+    return "fetch-failed";
+  if (message.includes("compileerror") || message.includes("magic"))
+    return "compile-failed";
+  if (message.includes("linkerror")) return "link-failed";
+  if (message.includes("webassembly")) return "wasm-unavailable";
+  if (message.includes("content security policy") || message.includes("csp"))
+    return "csp-blocked";
+
+  return "unknown";
+}
+
 let signer: TokenModule | undefined;
 let expiresAt: number | undefined;
 /**
@@ -45,6 +68,8 @@ let expiresAt: number | undefined;
  * apart from "no code was issued", which is not this browser's fault.
  */
 let signerUnavailable = false;
+/** Short reason code sent alongside the sentinel. */
+let signerFailure = "";
 /**
  * The in-flight `initRequestTokens` call, if any. Fetching and
  * instantiating the signer takes a couple of seconds on a cold load, and
@@ -74,6 +99,7 @@ async function init(params: {
     signer?.clearSession();
     expiresAt = undefined;
     signerUnavailable = false;
+    signerFailure = "";
     return;
   }
 
@@ -83,11 +109,13 @@ async function init(params: {
     signer.initSession(params.sessionCode);
     expiresAt = params.sessionCodeExpiresAt;
     signerUnavailable = false;
-  } catch {
+    signerFailure = "";
+  } catch (e) {
     // Never let token setup take the game down — the request still goes,
-    // flagged so the API can count who this is happening to.
+    // flagged so the API can count who this is happening to, and why.
     expiresAt = undefined;
     signerUnavailable = true;
+    signerFailure = failureCode(e);
   }
 }
 
@@ -96,6 +124,7 @@ export function clearRequestTokens() {
   signer?.clearSession();
   expiresAt = undefined;
   signerUnavailable = false;
+  signerFailure = "";
 }
 
 export function requestTokensActive(): boolean {
@@ -110,7 +139,11 @@ function tokenHeaders(
     // Tell the API this is a real player who could not run the signer,
     // rather than leaving it indistinguishable from an unsigned script.
     return signerUnavailable
-      ? { "X-Token": UNSUPPORTED_SIGNER_TOKEN }
+      ? {
+          "X-Token": signerFailure
+            ? `${UNSUPPORTED_SIGNER_TOKEN}:${signerFailure}`
+            : UNSUPPORTED_SIGNER_TOKEN,
+        }
       : undefined;
   }
 
