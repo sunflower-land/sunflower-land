@@ -8,6 +8,10 @@ import type { InventoryItemName } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { isMobile } from "mobile-device-detect";
 import { formatNumber } from "lib/utils/formatNumber";
+import {
+  Locked,
+  useIsLocked,
+} from "features/retreat/components/personhood/Locked";
 
 type Props = {
   resource: InventoryItemName;
@@ -28,6 +32,13 @@ export const BulkBuyInterface: React.FC<Props> = ({
   const atLimit = maxAmountToBuy < 0;
   const averagePricePerUnit =
     totalResources > 0 ? totalPrice / totalResources : 0;
+
+  // Buying is a trade, so a hold stops it here rather than at the API. Gated
+  // in the modal itself so both entry points (the header and the listings
+  // table) are covered by one check.
+  const locked = useIsLocked();
+
+  if (locked) return <Locked />;
 
   return (
     <div className="mt-0.5 gap-1">

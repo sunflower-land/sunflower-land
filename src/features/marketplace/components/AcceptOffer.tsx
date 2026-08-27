@@ -39,6 +39,10 @@ import {
 import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
 import { useNow } from "lib/utils/hooks/useNow";
+import {
+  Locked,
+  useIsLocked,
+} from "features/retreat/components/personhood/Locked";
 
 const AcceptOfferContent: React.FC<{
   onClose: () => void;
@@ -67,6 +71,8 @@ const AcceptOfferContent: React.FC<{
     reputation: Reputation.Cropkeeper,
     now,
   });
+  // A hold stops the account trading; say so instead of a form that fails.
+  const locked = useIsLocked();
   const accountTradedRecently = useSelector(gameService, (s) =>
     isAccountTradedWithin90Days(s.context),
   );
@@ -151,6 +157,8 @@ const AcceptOfferContent: React.FC<{
       </>
     );
   }
+
+  if (locked) return <Locked />;
 
   let tax = new Decimal(offer.sfl).mul(MARKETPLACE_TAX);
   if (

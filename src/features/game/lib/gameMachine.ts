@@ -854,7 +854,6 @@ export type BlockchainState = {
     | "welcome"
     | "termsAndConditions"
     | "investigating"
-    | "locked"
     | "gems"
     | "communityCoin"
     | "referralRewards"
@@ -1360,16 +1359,6 @@ export function startGame(authContext: AuthContext) {
               target: "investigating",
               cond: (context) => {
                 return context.state.ban.status === "investigating";
-              },
-            },
-
-            {
-              // A support hold. Separate from `investigating` because the soft
-              // ban screen's whole purpose is the verify-your-way-out flow,
-              // and that flow cannot clear a lock.
-              target: "locked",
-              cond: (context) => {
-                return context.state.ban.status === "lock";
               },
             },
 
@@ -2661,10 +2650,6 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-
-        // No transitions on purpose: nothing the player can do in the client
-        // lifts a support hold, so there is nothing to acknowledge either.
-        locked: {},
 
         competition: {
           on: {

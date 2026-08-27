@@ -27,6 +27,10 @@ import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { selectGameState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useNow } from "lib/utils/hooks/useNow";
+import {
+  Locked,
+  useIsLocked,
+} from "features/retreat/components/personhood/Locked";
 
 type Props = {
   itemName: TradeResource;
@@ -63,6 +67,8 @@ export const ResourceOffer: React.FC<Props> = ({
     reputation: Reputation.Cropkeeper,
     now,
   });
+  // A hold stops the account trading; say so instead of a form that fails.
+  const locked = useIsLocked();
   const [pricePerUnit, setPricePerUnit] = useState(0);
   const [inputType, setInputType] = useState<"price" | "pricePerUnit">(
     () =>
@@ -89,6 +95,8 @@ export const ResourceOffer: React.FC<Props> = ({
 
   // For now, keep offchain
   const maxSFL = new Decimal(price).greaterThan(MAX_SFL);
+
+  if (locked) return <Locked />;
 
   return (
     <>

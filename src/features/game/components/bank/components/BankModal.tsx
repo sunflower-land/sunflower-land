@@ -9,6 +9,10 @@ import { CloseButtonPanel } from "../../CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Deposit } from "./Deposit";
 import { TransferAccountWrapper } from "features/island/hud/components/settings-menu/blockchain-settings/TransferAccount";
+import {
+  Locked,
+  useIsLocked,
+} from "features/retreat/components/personhood/Locked";
 
 type Tab = "withdraw" | "deposit" | "transfer";
 
@@ -19,6 +23,7 @@ interface Props {
 
 export const BankModal: React.FC<Props> = ({ farmAddress, onClose }) => {
   const { t } = useAppTranslation();
+  const locked = useIsLocked();
 
   const [currentTab, setCurrentTab] = useState<Tab>("withdraw");
 
@@ -46,9 +51,13 @@ export const BankModal: React.FC<Props> = ({ farmAddress, onClose }) => {
       setCurrentTab={setCurrentTab}
       onClose={onClose}
     >
-      {currentTab === "withdraw" && <Withdraw onClose={onClose} />}
+      {/* A hold stops value leaving the account. Deposits still go in - a
+          locked player is not cut off from their own farm. */}
+      {currentTab === "withdraw" &&
+        (locked ? <Locked /> : <Withdraw onClose={onClose} />)}
       {currentTab === "deposit" && <Deposit onClose={onClose} />}
-      {currentTab === "transfer" && <TransferAccountWrapper />}
+      {currentTab === "transfer" &&
+        (locked ? <Locked /> : <TransferAccountWrapper />)}
     </CloseButtonPanel>
   );
 };

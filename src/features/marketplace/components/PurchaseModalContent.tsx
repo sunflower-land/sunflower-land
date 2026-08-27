@@ -13,6 +13,10 @@ import {
   MinigameCurrencyDisclaimerPanel,
   showsMinigameCurrencyDisclaimer,
 } from "./MinigameCurrencyDisclaimerPanel";
+import {
+  Locked,
+  useIsLocked,
+} from "features/retreat/components/personhood/Locked";
 
 type PurchaseModalContentProps = {
   authToken: string;
@@ -63,6 +67,13 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
           sfl: price,
           points: listing.type === "instant" ? 2 : 4,
         }).multipliedPoints;
+
+  // Buying is a trade, so a hold stops it here rather than at the API. Gated
+  // in the modal itself so both entry points (the header and the listings
+  // table) are covered by one check.
+  const locked = useIsLocked();
+
+  if (locked) return <Locked />;
 
   return (
     <>

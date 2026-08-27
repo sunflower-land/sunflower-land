@@ -44,6 +44,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { useNow } from "lib/utils/hooks/useNow";
+import {
+  Locked,
+  useIsLocked,
+} from "features/retreat/components/personhood/Locked";
 
 type TradeableListItemProps = {
   authToken: string;
@@ -86,6 +90,8 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     reputation: Reputation.Cropkeeper,
     now,
   });
+  // A hold stops the account trading; say so instead of a form that fails.
+  const locked = useIsLocked();
   const accountTradedRecently = useSelector(gameService, (s) =>
     isAccountTradedWithin90Days(s.context),
   );
@@ -311,6 +317,8 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
       />
     );
   }
+
+  if (locked) return <Locked />;
 
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
 
