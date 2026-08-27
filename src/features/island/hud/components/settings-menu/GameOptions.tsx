@@ -62,7 +62,6 @@ import { AirdropPlayer } from "./general-settings/AirdropPlayer";
 import { FaceRecognitionSettings } from "features/retreat/components/personhood/FaceRecognition";
 import { DEV_PlayerSearch } from "./developer-options/DEV_PlayerSearch";
 import { DEV_ErrorSearch } from "./developer-options/DEV_ErrorSearch";
-import { ApiKey } from "./general-settings/ApiKey";
 import { ExperimentsSettings } from "./experiments-settings/ExperimentsSettings";
 import { BetaFeatures } from "./beta-features/BetaFeatures";
 import { EconomyEditorExperimentSettings } from "./experiments-settings/EconomyEditorExperimentSettings";
@@ -453,12 +452,6 @@ export const SETTING_MENUS: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.generalSettings.notifications"),
     parent: "preferences",
     content: Notifications,
-  },
-
-  apiKey: {
-    title: translate("share.apiKey"),
-    parent: "amoy",
-    content: ApiKey,
   },
 
   // Developer Options

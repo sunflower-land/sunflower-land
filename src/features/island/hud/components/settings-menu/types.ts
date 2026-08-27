@@ -38,7 +38,6 @@ export type SettingMenuId =
   | "behaviour"
   | "audio"
   | "notifications"
-  | "apiKey"
 
   // Amoy Testnet Actions
   | "playerSearch"

@@ -43,7 +43,6 @@ type Response = {
       timestamp: number;
     };
   };
-  apiKey: string;
 
   accountTradedAt?: string;
   totalHelpedToday: number;
@@ -147,7 +146,6 @@ export async function loadSession(request: Request): Promise<Response> {
     socialDetails,
     oauthNonce,
     prices,
-    apiKey,
     accountTradedAt,
     totalHelpedToday,
     banReason,
@@ -181,7 +179,6 @@ export async function loadSession(request: Request): Promise<Response> {
         timestamp: number;
       };
     };
-    apiKey: string;
     accountTradedAt?: string;
     totalHelpedToday: number;
     banReason?: string;
@@ -219,7 +216,6 @@ export async function loadSession(request: Request): Promise<Response> {
     socialDetails,
     oauthNonce,
     prices,
-    apiKey,
     accountTradedAt,
     totalHelpedToday,
     banReason,

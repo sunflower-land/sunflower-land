@@ -214,7 +214,6 @@ export interface Context {
   visitorSocialDetails?: SocialDetails;
   hasHelpedPlayerToday?: boolean;
   totalHelpedToday?: number;
-  apiKey?: string;
   method?: "google" | "wallet" | "wechat" | "fsl";
   accountTradedAt?: string;
   onChainRaffleReward?: RaffleSnapshotWinner;
@@ -1120,7 +1119,6 @@ export function startGame(authContext: AuthContext) {
                 fslId: response.fslId,
                 oauthNonce: response.oauthNonce,
                 prices: response.prices,
-                apiKey: response.apiKey,
                 accountTradedAt: response.accountTradedAt,
                 totalHelpedToday: response.totalHelpedToday,
                 banReason: response.banReason,
@@ -2908,7 +2906,6 @@ export function startGame(authContext: AuthContext) {
           socialDetails: (_, event) => event.data.socialDetails,
           oauthNonce: (_, event) => event.data.oauthNonce,
           prices: (_, event) => event.data.prices,
-          apiKey: (_, event) => event.data.apiKey,
           method: (_, event) => event.data.method,
           accountTradedAt: (_, event) => event.data.accountTradedAt,
           totalHelpedToday: (_, event) => event.data.totalHelpedToday,

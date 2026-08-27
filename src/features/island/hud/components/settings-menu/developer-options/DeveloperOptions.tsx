@@ -8,6 +8,12 @@ import { Context as GameContext } from "features/game/GameProvider";
 import { hasFeatureAccess } from "lib/flags";
 import { useSelector } from "@xstate/react";
 
+/**
+ * Community API keys are issued in the docs sandbox, never in the game — the
+ * client no longer receives a key at all. This button just sends people there.
+ */
+const COMMUNITY_DOCS_URL = "https://sunflower-land.com/community-docs";
+
 export const DeveloperOptions: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
   onClose,
@@ -33,7 +39,12 @@ export const DeveloperOptions: React.FC<ContentComponentProps> = ({
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
-        <Button className="p-1" onClick={() => onSubMenuClick("apiKey")}>
+        <Button
+          className="p-1"
+          onClick={() =>
+            window.open(COMMUNITY_DOCS_URL, "_blank", "noopener,noreferrer")
+          }
+        >
           <span>{t("share.apiKey")}</span>
         </Button>
         {hasAirdrop && (
@@ -93,6 +104,7 @@ export const DeveloperOptions: React.FC<ContentComponentProps> = ({
           </Button>
         )}
       </div>
+      <p className="text-xxs p-1 mt-2">{t("share.apiKeyDescription")}</p>
     </>
   );
 };
