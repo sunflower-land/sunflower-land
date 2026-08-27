@@ -13,7 +13,10 @@ import { getFishBaseXP } from "features/game/types/aging";
 import { getBoostedAgingSaltCost } from "features/game/types/agingFormulas";
 import type { AgedFishName } from "features/game/types/fishing";
 import type { GameState } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -46,7 +49,7 @@ export const AgingRackInProgress: React.FC<Props> = ({
   const isReady = timeRemainingMs <= 0;
 
   const agedName: AgedFishName = `Aged ${slot.fish}`;
-  const outputLabel = ITEM_DETAILS[agedName]?.translatedName ?? agedName;
+  const outputLabel = getTranslatedItemName(agedName);
   // Ager is stamped because collect pays out at the rank the inputs were
   // charged at; Surfer Hair has no payout side so it is only ever read live.
   // The result can therefore differ from what was actually debited if the hair

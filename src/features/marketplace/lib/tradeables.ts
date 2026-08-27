@@ -2,7 +2,10 @@ import { type BuffLabel, KNOWN_ITEMS } from "features/game/types";
 import { ITEM_NAMES } from "features/game/types/bumpkin";
 import type { GameState } from "features/game/types/game";
 import { getItemBuffs } from "features/game/types/getItemBuffs";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import type {
   BudNFTName,
   CollectionName,
@@ -150,7 +153,7 @@ export function getTradeableDisplay({
 
   return {
     name,
-    translatedName: details.translatedName,
+    translatedName: getTranslatedItemName(name),
     description: details.description,
     image: details.image,
     buffs: getItemBuffs({ state, item: name, collection: "collectibles" }),

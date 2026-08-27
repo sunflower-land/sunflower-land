@@ -10,7 +10,10 @@ import type {
   InventoryItemName,
   TemperateSeasonName,
 } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import React, { type JSX } from "react";
 import { Label } from "../Label";
 import { RequirementLabel } from "../RequirementsLabel";
@@ -143,7 +146,7 @@ function getDetails(
       ITEM_ICONS(game.season.season, getCurrentBiome(game.island))[
         details.item
       ] ?? ITEM_DETAILS[details.item].image,
-    name: ITEM_DETAILS[details.item].translatedName ?? details.item,
+    name: getTranslatedItemName(details.item),
     limit: limit as Decimal,
   };
 }
@@ -284,12 +287,14 @@ export const SeedRequirements: React.FC<Props> = ({
     // name to list, so it must not make the block clickable on its own.
     const hasNamedBoosts = (time?.boostsUsed.length ?? 0) > 0;
     const speed = timeSpeed ?? 1;
-    const isTimeBoosted = isPreActionBoosted({
-      displaySeconds: time?.seconds ?? 0,
-      baseSeconds: baseTimeSeconds,
-      speed,
-      hasNamedBoosts,
-    });
+    const isTimeBoosted =
+      !!time &&
+      isPreActionBoosted({
+        displaySeconds: time.seconds,
+        baseSeconds: baseTimeSeconds,
+        speed,
+        hasNamedBoosts,
+      });
 
     const RequirementLabels: React.FC = () => {
       if (isSeedCropMachine(details.item)) {
