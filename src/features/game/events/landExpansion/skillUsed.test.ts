@@ -1080,6 +1080,74 @@ describe("skillUse", () => {
       expect(smoothieShackRecipe?.readyAt).toEqual(dateNow);
     });
 
+    // Same stale-cache trap as the gem speed-up: a recipe that has actually finished
+    // but whose cached `readyAt` still points into the future was treated as
+    // upcoming, restarted as the new head - and the recipe the player just spent the
+    // skill on ended up chained behind it instead of being ready.
+    it("does not restart a finished recipe whose cached readyAt is stale", () => {
+      const now = dateNow;
+      const HOUR = 60 * 60 * 1000;
+
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Instant Gratification": 1 },
+          },
+          collectibles: {
+            ...INITIAL_FARM.collectibles,
+            "Gourmet Hourglass": [
+              {
+                id: "1",
+                coordinates: { x: 1, y: 1 },
+                createdAt: now - 2 * HOUR,
+                readyAt: now - 2 * HOUR,
+              },
+            ],
+          },
+          buildings: {
+            "Fire Pit": [
+              {
+                id: "1",
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+                crafting: [
+                  // 4h of work at 2x: finished exactly now, but the cache was
+                  // written before the hourglass went down.
+                  {
+                    id: "head",
+                    name: "Boiled Eggs",
+                    startedAt: now - 2 * HOUR,
+                    baseDurationMs: 4 * HOUR,
+                    readyAt: now + 2 * HOUR,
+                  },
+                  // The one still cooking - this is what the skill completes.
+                  {
+                    id: "tail",
+                    name: "Mashed Potato",
+                    baseDurationMs: 2 * HOUR,
+                    readyAt: now + 4 * HOUR,
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        action: { type: "skill.used", skill: "Instant Gratification" },
+        createdAt: now,
+      });
+
+      const queue = state.buildings["Fire Pit"]?.[0].crafting ?? [];
+
+      expect(queue).toHaveLength(2);
+      expect(queue[0].startedAt).toEqual(now - 2 * HOUR);
+      expect(queue[0].readyAt).toEqual(now);
+      // The recipe the skill was spent on is ready, not queued behind a restart.
+      expect(queue[1].readyAt).toEqual(now);
+    });
+
     it("updates all the recipes readyAt times correctly", () => {
       const now = Date.now();
       const POTATO_TIME = COOKABLES["Mashed Potato"].cookingSeconds * 1000;

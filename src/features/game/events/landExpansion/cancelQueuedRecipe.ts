@@ -129,11 +129,21 @@ export function recalculateQueue({
   isInstantCook?: boolean;
   game: GameState;
 }): BuildingProduct[] {
+  // Readiness comes from the DERIVED chain, not each recipe's stored `readyAt`. That
+  // value is only a cache, and it can only ever be stale-FUTURE (a boost window is
+  // added, never removed), so splitting on it puts a recipe that has actually
+  // finished in the upcoming half - where an instant cook re-anchors it and restarts
+  // a cook the player already paid for. With no `baseDurationMs` the derived value
+  // is the stored one, so the legacy paths below are unaffected.
+  const readyAts = getCookingQueueReadyAts({ crafting: queue, game });
+
   // Keep only ready recipes
-  const readyRecipes = queue.filter((r) => r.readyAt <= createdAt);
+  const readyRecipes = queue.filter((_, index) => readyAts[index] <= createdAt);
 
   // Get all other recipes that aren't ready yet
-  const upcomingRecipes = queue.filter((r) => r.readyAt > createdAt);
+  const upcomingRecipes = queue.filter(
+    (_, index) => readyAts[index] > createdAt,
+  );
 
   if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
     const rebuilt = upcomingRecipes.map((recipe, index) => {

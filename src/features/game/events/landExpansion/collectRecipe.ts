@@ -182,6 +182,29 @@ export function collectRecipe({
           return acc;
         }
 
+        // An empty accumulator means every recipe ahead of this one was just
+        // collected, so a CHAINED recipe (no `startedAt`, because its start WAS the
+        // derived ready time of the recipe ahead) has nothing left to chain to.
+        // Stamp that ready time on as its anchor: it is in the past, so no progress
+        // is invented or lost, and the resolver never has to guess a start it cannot
+        // recover (see `resolveCookingQueueTimings`).
+        if (
+          acc.length === 0 &&
+          index > 0 &&
+          recipe.startedAt === undefined &&
+          recipe.baseDurationMs !== undefined
+        ) {
+          return [
+            ...acc,
+            {
+              ...recipe,
+              startedAt: readyAts[index - 1],
+              // Keep the cache in step with what the chain now derives.
+              readyAt: readyAts[index],
+            },
+          ];
+        }
+
         return [...acc, recipe];
       },
       [] as BuildingProduct[],

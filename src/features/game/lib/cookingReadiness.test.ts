@@ -134,7 +134,11 @@ describe("getCookingQueueReadyAts", () => {
     ]);
   });
 
-  it("falls back to readyAt - baseDurationMs when startedAt is missing", () => {
+  // A windowed recipe with neither an anchor nor a recipe ahead of it is malformed
+  // state: its start was never recorded and cannot be recovered. The stored
+  // `readyAt` is the last value the chain derived, so it is trusted AS IS rather
+  // than reconstructed - see the two tests below for why reconstructing it is unsafe.
+  it("keeps the stored readyAt when startedAt is missing and nothing is ahead", () => {
     const crafting: BuildingProduct[] = [
       {
         name: "Boiled Eggs",
@@ -146,6 +150,47 @@ describe("getCookingQueueReadyAts", () => {
     expect(getCookingQueueReadyAts({ crafting, game: TEST_FARM })).toEqual([
       START + 4 * HOUR,
     ]);
+  });
+
+  // Reconstructing the start as `readyAt - baseDurationMs` mixes units: it takes the
+  // UNBOOSTED duration off an ALREADY BOOSTED ready time, inventing a start early
+  // enough that the window gets applied a second time on top of itself.
+  it("does not re-apply an active window to an unanchored head", () => {
+    const crafting: BuildingProduct[] = [
+      {
+        name: "Boiled Eggs",
+        baseDurationMs: 4 * HOUR,
+        // Two hours of work left at 2x - what the chain last derived.
+        readyAt: START + 2 * HOUR,
+      },
+    ];
+
+    expect(
+      getCookingQueueReadyAts({ crafting, game: withHourglass(START) }),
+    ).toEqual([START + 2 * HOUR]);
+  });
+
+  // Every event that rewrites the queue writes the derived time back onto the
+  // recipe, so a resolver that moved the time would move it again on every save.
+  it("is a fixed point when the derived time is written back to the cache", () => {
+    const game = withHourglass(START);
+    const crafting: BuildingProduct[] = [
+      {
+        name: "Boiled Eggs",
+        baseDurationMs: 4 * HOUR,
+        readyAt: START + 2 * HOUR,
+      },
+    ];
+
+    const first = getCookingQueueReadyAts({ crafting, game });
+    const rewritten = crafting.map((recipe, index) => ({
+      ...recipe,
+      readyAt: first[index],
+    }));
+
+    expect(getCookingQueueReadyAts({ crafting: rewritten, game })).toEqual(
+      first,
+    );
   });
 
   it("keeps an already-ready uncollected recipe as the anchor for the queue", () => {

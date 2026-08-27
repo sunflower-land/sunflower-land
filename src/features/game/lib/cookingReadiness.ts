@@ -8,7 +8,8 @@ import {
 /**
  * A recipe's resolved timing. `startedAt` is when it actually begins cooking —
  * either its own anchor or the derived ready time of the recipe ahead of it — and is
- * undefined only for a legacy recipe, whose start was never recorded.
+ * undefined where neither exists: a legacy recipe, whose start was never recorded,
+ * or a windowed recipe that has lost the recipe it was chained to.
  */
 export type CookingTiming = {
   startedAt: number | undefined;
@@ -58,14 +59,17 @@ export const resolveCookingQueueTimings = ({
     const { baseDurationMs } = recipe;
 
     // An explicit `startedAt` is an absolute anchor and always wins; otherwise chain
-    // off the recipe ahead. The final fallback only covers malformed persisted state
-    // (a windowed head with neither an anchor nor a predecessor).
-    const startedAt =
-      recipe.startedAt ??
-      previousReadyAt ??
-      (baseDurationMs === undefined
-        ? undefined
-        : recipe.readyAt - baseDurationMs);
+    // off the recipe ahead.
+    //
+    // A windowed recipe with NEITHER is malformed persisted state, and its start
+    // cannot be recovered: reconstructing it as `readyAt - baseDurationMs` mixes
+    // units - it takes the UNBOOSTED duration off an ALREADY BOOSTED ready time,
+    // inventing a start early enough that the windows get applied a second time on
+    // top of themselves. So there is no fallback: such a recipe falls through to the
+    // `startedAt === undefined` arm below and keeps its stored `readyAt`, which is
+    // the last value the chain derived. `collectRecipe` anchors the recipe it
+    // promotes to the head so this state is not produced in the first place.
+    const startedAt = recipe.startedAt ?? previousReadyAt;
 
     const readyAt =
       baseDurationMs === undefined || startedAt === undefined

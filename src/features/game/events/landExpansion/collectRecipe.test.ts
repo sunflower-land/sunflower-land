@@ -9,6 +9,7 @@ import Decimal from "decimal.js-light";
 import { KNOWN_IDS } from "features/game/types";
 import type { CookableName } from "features/game/types/consumables";
 import { prngChance } from "lib/prng";
+import { getCookingQueueReadyAts } from "features/game/lib/cookingReadiness";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -75,6 +76,146 @@ describe("collect Recipes", () => {
     expect(state.inventory["Boiled Eggs"]).toEqual(new Decimal(1));
     expect(state.buildings["Fire Pit"]?.[0].crafting).toEqual([]);
   });
+  // Collecting the head takes the recipe behind it OUT of the chain: it was queued
+  // with no `startedAt` because its start WAS the head's derived ready time, and once
+  // the head is gone there is nothing left to chain off. Its start has to be stamped
+  // on the way out, or the resolver has to invent one - and the only value it can
+  // invent (`readyAt - baseDurationMs`) takes the unboosted duration off an already
+  // boosted ready time, handing the player the boost a second time.
+  it("does not move the next recipe's ready time when the head is collected", () => {
+    const now = dateNow;
+    const HOUR = 60 * 60 * 1000;
+
+    const state = collectRecipe({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        collectibles: {
+          ...GAME_STATE.collectibles,
+          "Gourmet Hourglass": [
+            {
+              id: "1",
+              coordinates: { x: 1, y: 1 },
+              createdAt: now - 1 * HOUR,
+              readyAt: now - 1 * HOUR,
+            },
+          ],
+        },
+        buildings: {
+          "Fire Pit": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              readyAt: 0,
+              crafting: [
+                // 2h of work at 2x - finishes exactly now.
+                {
+                  id: "head",
+                  name: "Boiled Eggs",
+                  startedAt: now - 1 * HOUR,
+                  baseDurationMs: 2 * HOUR,
+                  readyAt: now,
+                },
+                // Queued behind it, so no `startedAt`: 6h of work at 2x from now.
+                {
+                  id: "tail",
+                  name: "Mashed Potato",
+                  baseDurationMs: 6 * HOUR,
+                  readyAt: now + 3 * HOUR,
+                },
+              ],
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipes.collected",
+        building: "Fire Pit",
+        buildingId: "1",
+      },
+      createdAt: now,
+    });
+
+    const queue = state.buildings["Fire Pit"]?.[0].crafting ?? [];
+
+    expect(queue).toHaveLength(1);
+    // Anchored on the head's derived finish - exactly where it was already cooking
+    // from, so no progress is invented or lost.
+    expect(queue[0].startedAt).toEqual(now);
+    expect(queue[0].readyAt).toEqual(now + 3 * HOUR);
+    expect(getCookingQueueReadyAts({ crafting: queue, game: state })).toEqual([
+      now + 3 * HOUR,
+    ]);
+  });
+
+  // Every event that rewrites the queue persists the derived time, so a resolver
+  // that moved it would move it again on every save - compounding towards instant.
+  it("leaves the collected-behind recipe stable across a cache rewrite", () => {
+    const now = dateNow;
+    const HOUR = 60 * 60 * 1000;
+
+    const state = collectRecipe({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        collectibles: {
+          ...GAME_STATE.collectibles,
+          "Gourmet Hourglass": [
+            {
+              id: "1",
+              coordinates: { x: 1, y: 1 },
+              createdAt: now - 1 * HOUR,
+              readyAt: now - 1 * HOUR,
+            },
+          ],
+        },
+        buildings: {
+          "Fire Pit": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              readyAt: 0,
+              crafting: [
+                {
+                  id: "head",
+                  name: "Boiled Eggs",
+                  startedAt: now - 1 * HOUR,
+                  baseDurationMs: 2 * HOUR,
+                  readyAt: now,
+                },
+                {
+                  id: "tail",
+                  name: "Mashed Potato",
+                  baseDurationMs: 6 * HOUR,
+                  readyAt: now + 3 * HOUR,
+                },
+              ],
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipes.collected",
+        building: "Fire Pit",
+        buildingId: "1",
+      },
+      createdAt: now,
+    });
+
+    const queue = state.buildings["Fire Pit"]?.[0].crafting ?? [];
+    const derived = getCookingQueueReadyAts({ crafting: queue, game: state });
+    const rewritten = queue.map((recipe, index) => ({
+      ...recipe,
+      readyAt: derived[index],
+    }));
+
+    expect(
+      getCookingQueueReadyAts({ crafting: rewritten, game: state }),
+    ).toEqual(derived);
+  });
+
   it("throws an error if building does not exist", () => {
     expect(() =>
       collectRecipe({
