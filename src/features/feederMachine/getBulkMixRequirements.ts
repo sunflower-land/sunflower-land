@@ -55,9 +55,13 @@ export type BulkMixFeed = {
 const MAX_FEED_STEPS_TO_READY = 100;
 const MIX_AMOUNT_EPSILON = new Decimal("0.000000000001");
 
-const isAnimalAwakeAndRequestingFood = (animal: Animal, game: GameState) => {
+const isAnimalAwakeAndRequestingFood = (
+  animal: Animal,
+  game: GameState,
+  now: number,
+) => {
   return (
-    getAnimalReadyAt(animal, game) <= Date.now() &&
+    getAnimalReadyAt(animal, game) <= now &&
     (animal.state === "idle" ||
       animal.state === "happy" ||
       animal.state === "sad")
@@ -197,7 +201,7 @@ const getAnimalFeedRequests = ({
     return [{ item: "Barn Delight", quantity: new Decimal(amount) }];
   }
 
-  if (!isAnimalAwakeAndRequestingFood(animal, game)) {
+  if (!isAnimalAwakeAndRequestingFood(animal, game, now)) {
     return [];
   }
 

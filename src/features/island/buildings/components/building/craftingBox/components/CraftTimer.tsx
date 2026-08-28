@@ -9,6 +9,7 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
+import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
 
 const RecipeLabelContent: React.FC<{
   state: GameState;
@@ -16,9 +17,10 @@ const RecipeLabelContent: React.FC<{
 }> = ({ state, recipe }) => {
   const { t } = useAppTranslation();
   const [showTimeBoosts, setShowTimeBoosts] = useState(false);
-  // Whether a temporary boost is active is time-dependent; take one clock read
-  // for this render rather than reaching for Date.now() inside the calculation.
-  const now = useNow();
+  // The craft-time boosts (Fox Shrine, totems) expire on their own, so the
+  // duration preview needs a live clock rather than a mount snapshot. One tick a
+  // minute is enough for a boost that flips at most a few times a day.
+  const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
 
   if (!recipe) {
     return <SquareIcon icon={SUNNYSIDE.icons.expression_confused} width={7} />;

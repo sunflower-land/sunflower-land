@@ -96,6 +96,11 @@ const ExtendCollectibleContent: React.FC<{
       ),
     );
 
+  // Belt and braces: the host component swaps to its expired branch and unmounts
+  // this modal the moment the booster lapses, but its countdown and the one above
+  // tick on separate intervals - so refuse an extension the reducer would reject.
+  const canExtend = canAfford && secondsToExpire > 0;
+
   const buffLabels = COLLECTIBLE_BUFF_LABELS[name]?.(gameState);
   const addedTime = secondsToString(extraSeconds, {
     length: "short",
@@ -191,12 +196,12 @@ const ExtendCollectibleContent: React.FC<{
           <Button onClick={() => setShowConfirmation(false)}>
             {t("cancel")}
           </Button>
-          <Button onClick={handleExtend} disabled={!canAfford}>
+          <Button onClick={handleExtend} disabled={!canExtend}>
             {t("extend")}
           </Button>
         </div>
       ) : (
-        <Button onClick={() => setShowConfirmation(true)} disabled={!canAfford}>
+        <Button onClick={() => setShowConfirmation(true)} disabled={!canExtend}>
           {t("extend")}
         </Button>
       )}

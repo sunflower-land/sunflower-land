@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { useSelector } from "@xstate/react";
 import { useNow } from "lib/utils/hooks/useNow";
+import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
@@ -39,9 +40,11 @@ type Props = {
 const _game = (state: MachineState) => state.context.state;
 
 export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
-  // Whether a temporary boost is active is time-dependent; take one clock read
-  // for this render rather than reaching for Date.now() inside the calculation.
-  const now = useNow();
+  // The Hound Shrine's +100 XP only applies while the shrine is active, so the
+  // food XP preview needs a live clock - a mount snapshot would keep promising
+  // the bonus after it lapsed. One tick a minute is enough for a boost that
+  // flips at most a few times a day.
+  const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
 
