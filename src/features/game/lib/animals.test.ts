@@ -298,6 +298,7 @@ describe("Animals skill ranks", () => {
       [3, 0.925],
     ])("multiplies feed at rank %s by x%s", (rank, multiplier) => {
       const { foodQuantity } = getBoostedFoodQuantity({
+        now: Date.now(),
         animalType: "Chicken",
         foodQuantity: 100,
         game: withSkills({ "Efficient Feeding": rank }),
@@ -315,6 +316,7 @@ describe("Animals skill ranks", () => {
       [3, 0.5],
     ])("cuts Chicken feed at rank %s to x%s", (rank, buff) => {
       const { foodQuantity } = getBoostedFoodQuantity({
+        now: Date.now(),
         animalType: "Chicken",
         foodQuantity: 100,
         game: withSkills({ "Clucky Grazing": rank }),
@@ -330,6 +332,7 @@ describe("Animals skill ranks", () => {
       [3, 1.65],
     ])("raises Cow feed at rank %s to x%s", (rank, debuff) => {
       const { foodQuantity } = getBoostedFoodQuantity({
+        now: Date.now(),
         animalType: "Cow",
         foodQuantity: 100,
         game: withSkills({ "Clucky Grazing": rank }),
@@ -347,6 +350,7 @@ describe("Animals skill ranks", () => {
       [3, 2],
     ])("raises feed cost at rank %s to x%s", (rank, feed) => {
       const { foodQuantity } = getBoostedFoodQuantity({
+        now: Date.now(),
         animalType: "Chicken",
         foodQuantity: 100,
         game: withSkills({ "Chonky Feed": rank }),

@@ -105,6 +105,7 @@ function getPlantedAt({
     crop,
     game,
     greenhouseFertiliser,
+    now: createdAt,
   });
 
   if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
@@ -129,10 +130,12 @@ export const getGreenhouseCropTime = ({
   crop,
   game,
   greenhouseFertiliser,
+  now,
 }: {
   crop: GreenHouseCropName | GreenHouseFruitName;
   game: GameState;
   greenhouseFertiliser?: GreenhouseCompostName;
+  now: number;
 }): { seconds: number; boostsUsed: { name: BoostName; value: string }[] } => {
   let seconds = GREENHOUSE_CROP_TIME_SECONDS[crop];
   const boostsUsed: { name: BoostName; value: string }[] = [];
@@ -150,12 +153,13 @@ export const getGreenhouseCropTime = ({
       getCropTime({
         game,
         crop,
+        now,
       });
     seconds *= baseMultiplier;
     boostsUsed.push(...cropBoostsUsed);
   } else {
     const { multiplier: baseMultiplier, boostsUsed: fruitBoostsUsed } =
-      getFruitTime({ game });
+      getFruitTime({ game, now });
     seconds *= baseMultiplier;
     boostsUsed.push(...fruitBoostsUsed);
   }
@@ -167,7 +171,7 @@ export const getGreenhouseCropTime = ({
 
   if (
     !windowed &&
-    isTemporaryCollectibleActive({ name: "Tortoise Shrine", game })
+    isTemporaryCollectibleActive({ name: "Tortoise Shrine", game, now })
   ) {
     seconds *= 2 / 3; // -33% growth time
     boostsUsed.push({ name: "Tortoise Shrine", value: "x0.67" });

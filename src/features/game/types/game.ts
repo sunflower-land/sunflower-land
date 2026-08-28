@@ -1022,6 +1022,13 @@ export type PlacedItem = {
    * calendar event. Stays placed/owned but grants no protection until renewed.
    */
   used?: boolean;
+  /**
+   * Extra active time (ms) bought on top of a temporary collectible's base
+   * cooldown via `collectible.extended`. Banked on the placement rather than
+   * shifting `createdAt`, so the boost window simply runs longer instead of
+   * losing the time already served. Cleared when the placement is renewed.
+   */
+  extendedMs?: number;
 };
 
 export type ShakeItem = PlacedItem & { shakenAt?: number };

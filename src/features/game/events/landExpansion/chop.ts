@@ -76,12 +76,14 @@ export function getWoodDropAmount({
   itemId,
   counter,
   tree,
+  now,
 }: {
   game: GameState;
   farmId: number;
   itemId: number;
   counter: number;
   tree: Tree | undefined;
+  now: number;
 }): { amount: Decimal; boostsUsed: { name: BoostName; value: string }[] } {
   const { bumpkin, inventory } = game;
 
@@ -195,7 +197,7 @@ export function getWoodDropAmount({
     boostsUsed.push({ name: "Native", value: "+1" });
   }
 
-  if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game })) {
+  if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game, now })) {
     amount = amount.add(1);
     boostsUsed.push({ name: "Legendary Shrine", value: "+1" });
   }
@@ -227,9 +229,11 @@ export function getWoodDropAmount({
 export function getTreeRecoveryTimeForDisplay({
   game,
   prngArgs,
+  now,
 }: {
   game: GameState;
   prngArgs?: PrngArgs;
+  now: number;
 }): {
   baseTimeMs: number;
   recoveryTimeMs: number;
@@ -291,10 +295,12 @@ export function getTreeRecoveryTimeForDisplay({
   const hasSuperTotem = isTemporaryCollectibleActive({
     name: "Super Totem",
     game,
+    now,
   });
   const hasTimeWarpTotem = isTemporaryCollectibleActive({
     name: "Time Warp Totem",
     game,
+    now,
   });
 
   const hasSuperTotemOrTimeWarpTotem = hasSuperTotem || hasTimeWarpTotem;
@@ -308,7 +314,7 @@ export function getTreeRecoveryTimeForDisplay({
 
   if (
     !boostsWindowed &&
-    isTemporaryCollectibleActive({ name: "Timber Hourglass", game })
+    isTemporaryCollectibleActive({ name: "Timber Hourglass", game, now })
   ) {
     totalSeconds = totalSeconds * 0.75;
     boostsUsed.push({ name: "Timber Hourglass", value: "x0.75" });
@@ -316,7 +322,7 @@ export function getTreeRecoveryTimeForDisplay({
 
   if (
     !boostsWindowed &&
-    isTemporaryCollectibleActive({ name: "Badger Shrine", game })
+    isTemporaryCollectibleActive({ name: "Badger Shrine", game, now })
   ) {
     totalSeconds = totalSeconds * 0.75;
     boostsUsed.push({ name: "Badger Shrine", value: "x0.75" });
@@ -347,7 +353,7 @@ export function getChoppedAt({ game, createdAt, prngArgs }: GetChoppedAtArgs): {
   boostsUsed: { name: BoostName; value: string }[];
 } {
   const { baseTimeMs, recoveryTimeMs, boostsUsed } =
-    getTreeRecoveryTimeForDisplay({ game, prngArgs });
+    getTreeRecoveryTimeForDisplay({ game, prngArgs, now: createdAt });
 
   if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
     return { time: createdAt, baseDurationMs: recoveryTimeMs, boostsUsed };
@@ -497,6 +503,7 @@ export function chop({
         : getWoodDropAmount({
             game: stateCopy,
             tree,
+            now: createdAt,
             ...prngObject,
           });
     const woodAmount = inventory.Wood || new Decimal(0);

@@ -4,6 +4,7 @@ import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type { OilReserve as IOilReserve } from "features/game/types/game";
 import { useSelector } from "@xstate/react";
+import { useNow } from "lib/utils/hooks/useNow";
 import Decimal from "decimal.js-light";
 import {
   OIL_RESERVE_RECOVERY_TIME,
@@ -18,6 +19,7 @@ import {
   getOilBoostWindows,
 } from "features/game/lib/boostWindows";
 import { useNodeTimer } from "features/game/lib/useNodeTimer";
+import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
 
 interface Props {
   id: string;
@@ -34,6 +36,11 @@ const compareResource = (prev: IOilReserve, next: IOilReserve) => {
 
 export const OilReserve: React.FC<Props> = ({ id }) => {
   const { gameService } = useContext(Context);
+  // The Stag Shrine's +15 bonus oil is only granted while the shrine is active,
+  // so the yield preview needs a LIVE clock — a mount snapshot would keep
+  // promising the bonus long after the shrine expired. One tick a minute is
+  // enough for a boost that flips at most a few times a day.
+  const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
   const [drilling, setDrilling] = useState(false);
   const [oilHarvested, setOilHarvested] = useState(0);
 
@@ -53,7 +60,7 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
     (state) => {
       const oilReserve = state.context.state.oilReserves[id];
       return oilReserve
-        ? getOilDropAmount(state.context.state, oilReserve).amount
+        ? getOilDropAmount(state.context.state, oilReserve, now).amount
         : 0;
     },
     (a, b) => a === b,

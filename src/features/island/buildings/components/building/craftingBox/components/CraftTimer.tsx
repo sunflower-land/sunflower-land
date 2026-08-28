@@ -8,6 +8,7 @@ import { getBoostedCraftingTime } from "features/game/events/landExpansion/start
 import { SquareIcon } from "components/ui/SquareIcon";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useNow } from "lib/utils/hooks/useNow";
 
 const RecipeLabelContent: React.FC<{
   state: GameState;
@@ -15,6 +16,9 @@ const RecipeLabelContent: React.FC<{
 }> = ({ state, recipe }) => {
   const { t } = useAppTranslation();
   const [showTimeBoosts, setShowTimeBoosts] = useState(false);
+  // Whether a temporary boost is active is time-dependent; take one clock read
+  // for this render rather than reaching for Date.now() inside the calculation.
+  const now = useNow();
 
   if (!recipe) {
     return <SquareIcon icon={SUNNYSIDE.icons.expression_confused} width={7} />;
@@ -27,6 +31,7 @@ const RecipeLabelContent: React.FC<{
   const { seconds: boostedCraftTime, boostsUsed } = getBoostedCraftingTime({
     game: state,
     time: recipe.time,
+    now,
   });
 
   if (boostsUsed.length > 0) {

@@ -250,6 +250,7 @@ export const PetCard: React.FC<Props> = ({
               petLevel,
               petData,
               food,
+              now,
             });
 
             const energy = getPetEnergy({

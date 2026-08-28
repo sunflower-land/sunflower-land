@@ -522,7 +522,13 @@ export function getCropYieldAmount({
     boostsUsed.push({ name: "Infernal Pitchfork", value: "+3" });
   }
 
-  if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game })) {
+  if (
+    isTemporaryCollectibleActive({
+      name: "Legendary Shrine",
+      game,
+      now: createdAt,
+    })
+  ) {
     amount += 1;
     boostsUsed.push({ name: "Legendary Shrine", value: "+1" });
   }

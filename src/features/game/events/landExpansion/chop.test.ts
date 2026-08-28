@@ -589,6 +589,7 @@ describe("chop", () => {
     it("adds the discord bonus", () => {
       const counter = findNonNativeCounter();
       const { amount } = getWoodDropAmount({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           bumpkin: TEST_BUMPKIN,
@@ -606,6 +607,7 @@ describe("chop", () => {
     it("adds the wood nymph wendy bonus", () => {
       const counter = findNonNativeCounter();
       const { amount } = getWoodDropAmount({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           bumpkin: TEST_BUMPKIN,
@@ -633,6 +635,7 @@ describe("chop", () => {
     it("adds the Tiki Totem bonus", () => {
       const counter = findNonNativeCounter();
       const { amount } = getWoodDropAmount({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           bumpkin: TEST_BUMPKIN,
@@ -660,6 +663,7 @@ describe("chop", () => {
     it("adds the Faction Shield bonus +0.25 Wood", () => {
       const counter = findNonNativeCounter();
       const { amount } = getWoodDropAmount({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           inventory: {},
@@ -690,6 +694,7 @@ describe("chop", () => {
     it("gives +0.1 wood when you have Squirrel in your inventory", () => {
       const counter = findNonNativeCounter();
       const { amount } = getWoodDropAmount({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           inventory: { Squirrel: new Decimal(1) },
@@ -717,6 +722,7 @@ describe("chop", () => {
     it("Faction Shield bonus does not apply when not in the pledged faction", () => {
       const counter = findNonNativeCounter();
       const { amount } = getWoodDropAmount({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           collectibles: {},
@@ -746,6 +752,7 @@ describe("chop", () => {
     it("Faction Shield bonus does not apply when no pledged faction", () => {
       const counter = findNonNativeCounter();
       const { amount } = getWoodDropAmount({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           collectibles: {},
@@ -787,6 +794,7 @@ describe("chop", () => {
 
       const nativeCounter = findNativeCounter();
       const { amount } = getWoodDropAmount({
+        now: Date.now(),
         game: INITIAL_FARM,
         farmId,
         itemId,
@@ -800,6 +808,7 @@ describe("chop", () => {
     it("drops 10% more with Lumberjack badge (LEGACY)", () => {
       const counter = findNonNativeCounter();
       const { amount } = getWoodDropAmount({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           inventory: { Lumberjack: new Decimal(1) },
@@ -841,6 +850,7 @@ describe("chop", () => {
 
       const toughTreeCounter = findToughTreeOnlyCounter();
       const { amount } = getWoodDropAmount({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           bumpkin: {
@@ -860,6 +870,7 @@ describe("chop", () => {
     it("applies a +.1 wood drop with Lumberjack's Extra skill", () => {
       const counter = findNonNativeCounter();
       const { amount } = getWoodDropAmount({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           bumpkin: {
@@ -1890,6 +1901,7 @@ describe("chop — Trees skill rank upgrades", () => {
 
     const woodAtRank = (rank: number, counter: number) =>
       getWoodDropAmount({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           bumpkin: {
@@ -1915,6 +1927,7 @@ describe("chop — Trees skill rank upgrades", () => {
   describe("Tree Charge — recovery-time multiplier per rank", () => {
     const recoveryAtRank = (rank: number) =>
       getTreeRecoveryTimeForDisplay({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           bumpkin: { ...TEST_BUMPKIN, skills: { "Tree Charge": rank } },
@@ -1934,6 +1947,7 @@ describe("chop — Trees skill rank upgrades", () => {
     // rank1 = 10%, rank2 = 20%, rank3 = 30%. Magnitude is a fixed ×3.
     const woodAtRank = (rank: number, counter: number) =>
       getWoodDropAmount({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           bumpkin: { ...TEST_BUMPKIN, skills: { "Tough Tree": rank } },
@@ -2166,6 +2180,7 @@ describe("chop — Trees skill rank upgrades", () => {
     // recovery (recoveryTimeMs = 0); otherwise the base recovery applies.
     const recoveryAtRank = (rank: number, counter: number) =>
       getTreeRecoveryTimeForDisplay({
+        now: Date.now(),
         game: {
           ...INITIAL_FARM,
           bumpkin: { ...TEST_BUMPKIN, skills: { "Tree Turnaround": rank } },

@@ -211,9 +211,11 @@ export function getAffectedWeather({
 export function getCropTime({
   game,
   crop,
+  now,
 }: {
   game: GameState;
   crop: CropName | GreenHouseCropName;
+  now: number;
 }): { multiplier: number; boostsUsed: { name: BoostName; value: string }[] } {
   let multiplier = 1;
   const boostsUsed: { name: BoostName; value: string }[] = [];
@@ -251,10 +253,12 @@ export function getCropTime({
   const hasSuperTotem = isTemporaryCollectibleActive({
     name: "Super Totem",
     game,
+    now,
   });
   const hasTimeWarpTotem = isTemporaryCollectibleActive({
     name: "Time Warp Totem",
     game,
+    now,
   });
   // Totems: under SPEED_BOOSTS they're a windowed 2× speed boost (see
   // boostWindows; Super & Time Warp merge so they don't stack) for BOTH crop
@@ -276,7 +280,7 @@ export function getCropTime({
   const harvestHourglassIsWindowed = hasFeatureAccess(game, "SPEED_BOOSTS");
   if (
     !harvestHourglassIsWindowed &&
-    isTemporaryCollectibleActive({ name: "Harvest Hourglass", game })
+    isTemporaryCollectibleActive({ name: "Harvest Hourglass", game, now })
   ) {
     multiplier = multiplier * 0.75;
     boostsUsed.push({ name: "Harvest Hourglass", value: "x0.75" });
@@ -332,6 +336,7 @@ export const getCropPlotTime = ({
     getCropTime({
       game,
       crop,
+      now: createdAt,
     });
   seconds *= baseMultiplier;
   boostsUsed.push(...baseBoostsUsed);
@@ -372,7 +377,11 @@ export const getCropPlotTime = ({
   // it, record it at harvest where it actually contributes.
   if (
     !hasFeatureAccess(game, "SPEED_BOOSTS") &&
-    isTemporaryCollectibleActive({ name: "Sparrow Shrine", game })
+    isTemporaryCollectibleActive({
+      name: "Sparrow Shrine",
+      game,
+      now: createdAt,
+    })
   ) {
     seconds = seconds * 0.75;
     boostsUsed.push({ name: "Sparrow Shrine", value: "x0.75" });

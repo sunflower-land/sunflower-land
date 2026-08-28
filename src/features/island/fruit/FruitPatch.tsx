@@ -14,6 +14,8 @@ import {
   getWoodReward,
 } from "features/game/events/landExpansion/fruitTreeRemoved";
 import { useSelector } from "@xstate/react";
+import { useNow } from "lib/utils/hooks/useNow";
+import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type {
   FruitPatch as Patch,
@@ -77,6 +79,11 @@ interface Props {
 }
 
 export const FruitPatch: React.FC<Props> = ({ id }) => {
+  // The Legendary Shrine's +1 fruit only applies while the shrine is active, so
+  // the harvest preview needs a LIVE clock — a mount snapshot would keep
+  // promising the bonus long after the shrine expired. One tick a minute is
+  // enough for a boost that flips at most a few times a day.
+  const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
   const { gameService, selectedItem, shortcutItem, enableQuickSelect } =
     useContext(Context);
   const farmId = useSelector(gameService, _farmId);
@@ -172,6 +179,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
         name: fruit?.name as PatchFruitName,
         fertiliser: fertiliser?.name,
         prngArgs: { farmId, counter: activityCount },
+        now,
       }).amount;
 
     gameService.send("fruit.harvested", {

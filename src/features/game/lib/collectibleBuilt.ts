@@ -1,7 +1,7 @@
 import type { HourglassType } from "features/island/collectibles/components/Hourglass";
 import type { CollectibleName } from "../types/craftables";
 import { getKeys } from "lib/object";
-import type { GameState } from "../types/game";
+import type { GameState, PlacedItem } from "../types/game";
 import { PET_SHRINES, type PetShrineName } from "../types/pets";
 import { isPetCollectible } from "../events/landExpansion/placeCollectible";
 import { getCollectiblesAcrossLocations } from "./getCollectiblesAcrossLocations";
@@ -105,19 +105,43 @@ export function getExpiryCooldown(
 }
 
 /**
+ * Wall-clock expiry of ONE placed temporary collectible: its `createdAt` plus the
+ * (flag-gated) base cooldown plus any time bought via `collectible.extended` and
+ * banked on the placement. Every consumer — boost windows, the active check,
+ * renew/burn eligibility and the UI countdowns — must read the expiry from here
+ * rather than re-deriving `createdAt + cooldown`, or an extended booster will
+ * silently expire early for whichever consumer was missed.
+ */
+export function getCollectibleExpiry({
+  name,
+  collectible,
+  game,
+}: {
+  name: TemporaryCollectibleName;
+  collectible: Pick<PlacedItem, "createdAt" | "extendedMs">;
+  game: GameState;
+}): number {
+  return (
+    (collectible.createdAt ?? 0) +
+    getExpiryCooldown(name, game) +
+    (collectible.extendedMs ?? 0)
+  );
+}
+
+/**
  * Useful for collectibles which expire after X time
  * Currently we only support Time Warp Totem
  */
 export function isTemporaryCollectibleActive({
   name,
   game,
+  now,
 }: {
   name: TemporaryCollectibleName;
   game: GameState;
+  now: number;
 }) {
-  const cooldown = getExpiryCooldown(name, game);
-
   return getCollectiblesAcrossLocations(game, name).some(
-    (placed) => (placed.createdAt ?? 0) + cooldown > Date.now(),
+    (placed) => getCollectibleExpiry({ name, collectible: placed, game }) > now,
   );
 }

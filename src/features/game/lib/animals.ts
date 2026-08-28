@@ -549,11 +549,13 @@ export function getBoostedFoodQuantity({
   foodQuantity,
   game,
   animal,
+  now,
 }: {
   animalType: AnimalType;
   foodQuantity: number;
   game: GameState;
   animal: Animal;
+  now: number;
 }): {
   foodQuantity: Decimal;
   boostsUsed: { name: BoostName; value: string }[];
@@ -638,7 +640,7 @@ export function getBoostedFoodQuantity({
 
   if (
     (animalType === "Sheep" || animalType === "Cow") &&
-    isTemporaryCollectibleActive({ name: "Collie Shrine", game })
+    isTemporaryCollectibleActive({ name: "Collie Shrine", game, now })
   ) {
     baseFoodQuantity = baseFoodQuantity.mul(0.95);
     boostsUsed.push({ name: "Collie Shrine", value: "x0.95" });
@@ -646,7 +648,7 @@ export function getBoostedFoodQuantity({
 
   if (
     animalType === "Chicken" &&
-    isTemporaryCollectibleActive({ name: "Bantam Shrine", game })
+    isTemporaryCollectibleActive({ name: "Bantam Shrine", game, now })
   ) {
     baseFoodQuantity = baseFoodQuantity.mul(0.95);
     boostsUsed.push({ name: "Bantam Shrine", value: "x0.95" });
@@ -763,7 +765,11 @@ export function getBoostedAwakeAt({
   if (
     !boostsWindowed &&
     (isCow || isSheep) &&
-    isTemporaryCollectibleActive({ name: "Collie Shrine", game })
+    isTemporaryCollectibleActive({
+      name: "Collie Shrine",
+      game,
+      now: createdAt,
+    })
   ) {
     totalDuration *= 0.75;
     boostsUsed.push({ name: "Collie Shrine", value: "x0.75" });
@@ -772,7 +778,11 @@ export function getBoostedAwakeAt({
   if (
     !boostsWindowed &&
     isChicken &&
-    isTemporaryCollectibleActive({ name: "Bantam Shrine", game })
+    isTemporaryCollectibleActive({
+      name: "Bantam Shrine",
+      game,
+      now: createdAt,
+    })
   ) {
     totalDuration *= 0.75;
     boostsUsed.push({ name: "Bantam Shrine", value: "x0.75" });

@@ -176,11 +176,19 @@ export const SeedRequirements: React.FC<Props> = ({
   showBoosts,
 }) => {
   const { t } = useAppTranslation();
-  // Only tick live when a countdown is actually shown (Chapter Crop Week seed);
-  // otherwise the whole panel (incl. boosts) needlessly re-renders every second.
+  const isSeedCropMachine = (seed: SeedName): seed is CropSeedName =>
+    !!details.cropMachineSeeds?.includes(seed);
+
+  const isCropMachineSeed = isSeedCropMachine(details.item);
+
+  // Tick live when a countdown is shown (Chapter Crop Week seed), and for a
+  // crop-machine seed, whose grow time depends on a temporary boost (Tortoise
+  // Shrine) that can expire while the panel is open — that clock must not stop
+  // at the countdown's end. Otherwise the whole panel (incl. boosts) needlessly
+  // re-renders every second.
   const now = useNow({
-    live: !!details.from,
-    autoEndAt: details.to?.getTime(),
+    live: !!details.from || isCropMachineSeed,
+    autoEndAt: isCropMachineSeed ? undefined : details.to?.getTime(),
   });
   const { isActive: isPowerHourActive, remainingTime: powerHourRemainingTime } =
     useActiveBuff({
@@ -216,10 +224,6 @@ export const SeedRequirements: React.FC<Props> = ({
   };
 
   const inSeasonSeeds = validSeeds.includes(details.item);
-  const isSeedCropMachine = (seed: SeedName): seed is CropSeedName =>
-    !!details.cropMachineSeeds?.includes(seed);
-
-  const isCropMachineSeed = isSeedCropMachine(details.item);
 
   const getItemDetail = () => {
     const { image: icon, name } = getDetails(gameState, details);
@@ -302,6 +306,7 @@ export const SeedRequirements: React.FC<Props> = ({
         const cropMachineBoostedTime = calculateCropTime(
           { type: details.item, amount: cropMachinePackSize },
           gameState,
+          now,
         );
         const cropMachineBaseTime = baseTimeSeconds;
         const isCropMachineTimeBoosted =

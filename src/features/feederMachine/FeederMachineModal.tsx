@@ -1,4 +1,5 @@
 import { useSelector } from "@xstate/react";
+import { useNow } from "lib/utils/hooks/useNow";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { Modal } from "components/ui/Modal";
 import { SplitScreenView } from "components/ui/SplitScreenView";
@@ -65,6 +66,9 @@ export const FeederMachineModal: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const { gameService, shortcutItem, shortcutItems } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
+  // Feed costs depend on temporary boosts (Collie/Bantam Shrine), so take one
+  // clock read for this render rather than reaching for Date.now() below.
+  const now = useNow();
   const [selectedName, setSelectedName] = useState<
     AnimalFoodName | AnimalMedicineName
   >("Hay");
@@ -90,7 +94,7 @@ export const FeederMachineModal: React.FC<Props> = ({
     : undefined;
   const showSpiceDetails = isSpiceSelected && hasSpices && !!selectedSpiceItem;
   const { requests, feeds, animalsWaiting, freeFeedBoosts } =
-    getBulkMixRequirements(state, building);
+    getBulkMixRequirements(state, building, now);
 
   // Only feeds that still need mixing are listed - a feed the inventory
   // already covers is not something the player has to act on.

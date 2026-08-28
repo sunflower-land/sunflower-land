@@ -426,7 +426,7 @@ export function getResourceTax({
     tax = tax.mul(0.5);
   }
 
-  if (isTemporaryCollectibleActive({ name: "Trading Shrine", game })) {
+  if (isTemporaryCollectibleActive({ name: "Trading Shrine", game, now })) {
     tax = tax.sub(0.025);
   }
 

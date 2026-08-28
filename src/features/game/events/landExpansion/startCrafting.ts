@@ -39,15 +39,17 @@ export function getBoostedCraftingTime({
   game,
   time,
   prngArgs,
+  now,
 }: {
   game: GameState;
   time: number;
   prngArgs?: { farmId: number; itemId: number; counter: number };
+  now: number;
 }) {
   let seconds = time;
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
-  if (isTemporaryCollectibleActive({ name: "Fox Shrine", game })) {
+  if (isTemporaryCollectibleActive({ name: "Fox Shrine", game, now })) {
     if (
       prngArgs &&
       prngChance({
@@ -77,13 +79,15 @@ export function getBoostedCraftingTime({
   }
 
   if (
-    isTemporaryCollectibleActive({ name: "Time Warp Totem", game }) ||
-    isTemporaryCollectibleActive({ name: "Super Totem", game })
+    isTemporaryCollectibleActive({ name: "Time Warp Totem", game, now }) ||
+    isTemporaryCollectibleActive({ name: "Super Totem", game, now })
   ) {
     seconds *= 0.5;
-    if (isTemporaryCollectibleActive({ name: "Time Warp Totem", game })) {
+    if (isTemporaryCollectibleActive({ name: "Time Warp Totem", game, now })) {
       boostsUsed.push({ name: "Time Warp Totem", value: "x0.5" });
-    } else if (isTemporaryCollectibleActive({ name: "Super Totem", game })) {
+    } else if (
+      isTemporaryCollectibleActive({ name: "Super Totem", game, now })
+    ) {
       boostsUsed.push({ name: "Super Totem", value: "x0.5" });
     }
   }
@@ -212,6 +216,7 @@ export function startCrafting({
             : ITEM_IDS[recipe.name as BumpkinItem],
         counter: state.farmActivity[`${recipe.name} Crafting Started`] ?? 0,
       },
+      now: createdAt,
     });
 
     const isInstant = recipeTime === 0;

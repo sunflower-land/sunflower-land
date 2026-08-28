@@ -1838,6 +1838,7 @@ describe("calculateCropTime", () => {
     const { milliSeconds: result } = calculateCropTime(
       { type: "Sunflower Seed", amount: 10 },
       GAME_STATE,
+      Date.now(),
     );
     expect(result).toBe((60 * 10 * 1000) / CROP_MACHINE_PLOTS(GAME_STATE));
   });
@@ -1854,6 +1855,7 @@ describe("calculateCropTime", () => {
           },
         },
       },
+      Date.now(),
     );
 
     expect(result).toBe(
@@ -1873,6 +1875,7 @@ describe("calculateCropTime", () => {
           },
         },
       },
+      Date.now(),
     );
 
     expect(result).toBe(
@@ -1896,6 +1899,7 @@ describe("calculateCropTime", () => {
           ],
         },
       },
+      Date.now(),
     );
 
     expect(result).toBe(
@@ -1916,6 +1920,7 @@ describe("calculateCropTime", () => {
           },
         },
       },
+      Date.now(),
     );
 
     expect(result).toBe(
@@ -2067,6 +2072,7 @@ describe("Machinery skill upgrades (ranks)", () => {
       const { milliSeconds } = calculateCropTime(
         { type: "Sunflower Seed", amount: 10 },
         withSkills({ "Crop Processor Unit": rank }),
+        Date.now(),
       );
       expect(milliSeconds).toBe(
         (60 * 10 * 1000 * mult) / CROP_MACHINE_PLOTS(GAME_STATE),
@@ -2084,6 +2090,7 @@ describe("Machinery skill upgrades (ranks)", () => {
       const { milliSeconds } = calculateCropTime(
         { type: "Sunflower Seed", amount: 10 },
         withSkills({ "Rapid Rig": rank }),
+        Date.now(),
       );
       expect(milliSeconds).toBe(
         (60 * 10 * 1000 * mult) / CROP_MACHINE_PLOTS(GAME_STATE),
@@ -2104,6 +2111,7 @@ describe("Machinery skill upgrades (ranks)", () => {
     const { milliSeconds } = calculateCropTime(
       { type: "Sunflower Seed", amount: 10 },
       state,
+      Date.now(),
     );
     expect(milliSeconds).toBeCloseTo(
       (60 * 10 * 1000 * 0.85 * 0.6) / CROP_MACHINE_PLOTS(GAME_STATE),

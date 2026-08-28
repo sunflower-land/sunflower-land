@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useSelector } from "@xstate/react";
+import { useNow } from "lib/utils/hooks/useNow";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { Label } from "components/ui/Label";
 import { useTranslation } from "react-i18next";
@@ -161,7 +162,9 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
 
   const [searchTerm, setSearchTerm] = useState("");
 
-  const [now] = useState(() => Date.now());
+  // Snapshot clock for this view: drives the chapter countdown and the
+  // time-dependent crafting boosts.
+  const now = useNow();
   const currentChapter = getCurrentChapter(now);
   const chapterSecondsLeft = secondsLeftInChapter(now);
 
@@ -325,6 +328,7 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                   getBoostedCraftingTime({
                     game: state,
                     time: recipe.time,
+                    now,
                   });
 
                 return (
@@ -644,6 +648,7 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                   getBoostedCraftingTime({
                     game: state,
                     time: recipe.time,
+                    now,
                   });
 
                 return (

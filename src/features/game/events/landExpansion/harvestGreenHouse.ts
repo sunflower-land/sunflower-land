@@ -84,6 +84,7 @@ export function getGreenhouseCropYieldAmount({
       name: crop,
       game,
       prngArgs,
+      now: createdAt,
     });
     amount = fruitAmount;
     boostsUsed.push(...fruitBoostsUsed);

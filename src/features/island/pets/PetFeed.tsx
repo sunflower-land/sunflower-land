@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { useSelector } from "@xstate/react";
+import { useNow } from "lib/utils/hooks/useNow";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
@@ -38,6 +39,9 @@ type Props = {
 const _game = (state: MachineState) => state.context.state;
 
 export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
+  // Whether a temporary boost is active is time-dependent; take one clock read
+  // for this render rather than reaching for Date.now() inside the calculation.
+  const now = useNow();
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
 
@@ -79,6 +83,7 @@ export const PetFeed: React.FC<Props> = ({ data, onFeed, onResetClick }) => {
       petLevel: level,
       petData: data,
       food,
+      now,
     });
     const petEnergy = getPetEnergy({
       game,

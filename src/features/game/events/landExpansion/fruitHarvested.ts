@@ -56,6 +56,7 @@ type FruitYield = {
   game: GameState;
   fertiliser?: FruitCompostName;
   prngArgs?: { farmId: number; counter: number };
+  now: number;
 };
 
 const isFruit = (resource: Resource): resource is PatchFruitName => {
@@ -81,6 +82,7 @@ export function getFruitYield({
   name,
   fertiliser,
   prngArgs,
+  now,
 }: FruitYield): {
   amount: number;
   boostsUsed: { name: BoostName; value: string }[];
@@ -266,7 +268,7 @@ export function getFruitYield({
     }
   }
 
-  if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game })) {
+  if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game, now })) {
     amount += 1;
     boostsUsed.push({ name: "Legendary Shrine", value: "+1" });
   }
@@ -348,6 +350,7 @@ export function harvestFruit({
             name,
             fertiliser: patch.fertiliser?.name,
             prngArgs: { farmId, counter },
+            now: createdAt,
           });
 
     stateCopy.inventory[name] =

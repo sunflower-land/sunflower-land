@@ -129,9 +129,11 @@ const isReadyAfterFoodXP = ({
 const getFeedRequestsUntilReady = ({
   animal,
   game,
+  now,
 }: {
   animal: Animal;
   game: GameState;
+  now: number;
 }): FeedRequest[] => {
   const requests: FeedRequest[] = [];
   let experience = animal.experience;
@@ -155,6 +157,7 @@ const getFeedRequestsUntilReady = ({
       foodQuantity: REQUIRED_FOOD_QTY[animal.type],
       game,
       animal: { ...animal, experience },
+      now,
     });
 
     requests.push({
@@ -182,10 +185,12 @@ const getAnimalFeedRequests = ({
   animal,
   game,
   buildingKey,
+  now,
 }: {
   animal: Animal;
   game: GameState;
   buildingKey: AnimalBuildingKey;
+  now: number;
 }): FeedRequest[] => {
   if (animal.state === "sick") {
     const { amount } = getBarnDelightCost({ state: game });
@@ -204,23 +209,30 @@ const getAnimalFeedRequests = ({
     return [];
   }
 
-  return getFeedRequestsUntilReady({ animal, game });
+  return getFeedRequestsUntilReady({ animal, game, now });
 };
 
 const getBuildingRequests = ({
   buildingKey,
   animals,
   game,
+  now,
 }: {
   buildingKey: AnimalBuildingKey;
   animals: Animal[];
   game: GameState;
+  now: number;
 }): { requests: RequestTotals; animalsWaiting: number } => {
   const requests: RequestTotals = {};
   let animalsWaiting = 0;
 
   animals.forEach((animal) => {
-    const animalRequests = getAnimalFeedRequests({ animal, game, buildingKey });
+    const animalRequests = getAnimalFeedRequests({
+      animal,
+      game,
+      buildingKey,
+      now,
+    });
 
     if (animalRequests.length > 0) {
       animalsWaiting += 1;
@@ -237,6 +249,7 @@ const getBuildingRequests = ({
 export function getBulkMixRequirements(
   game: GameState,
   building: "Hen House" | "Barn",
+  now: number,
 ) {
   const buildingKey = makeAnimalBuildingKey(building);
   const animals = Object.values(game[buildingKey].animals);
@@ -244,6 +257,7 @@ export function getBulkMixRequirements(
     buildingKey,
     animals,
     game,
+    now,
   });
 
   // Free boosts feeding/curing this building's animals, surfaced to explain

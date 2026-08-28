@@ -109,6 +109,7 @@ export function calculateCropTime(
     amount: number;
   },
   state: GameState,
+  now: number,
 ): { milliSeconds: number; boostUsed: { name: BoostName; value: string }[] } {
   const boostUsed: { name: BoostName; value: string }[] = [];
   const cropName = seeds.type.split(" ")[0] as CropName;
@@ -138,7 +139,9 @@ export function calculateCropTime(
     boostUsed.push({ name: "Groovy Gramophone", value: "x0.5" });
   }
 
-  if (isTemporaryCollectibleActive({ name: "Tortoise Shrine", game: state })) {
+  if (
+    isTemporaryCollectibleActive({ name: "Tortoise Shrine", game: state, now })
+  ) {
     milliSeconds = milliSeconds * 0.9;
     boostUsed.push({ name: "Tortoise Shrine", value: "x0.9" });
   }
@@ -388,7 +391,11 @@ export function supplyCropMachine({
 
     const crop = seedName.split(" ")[0] as CropName;
 
-    const { milliSeconds, boostUsed } = calculateCropTime(seedsAdded, state);
+    const { milliSeconds, boostUsed } = calculateCropTime(
+      seedsAdded,
+      state,
+      createdAt,
+    );
 
     queue.push({
       seeds: seedsAdded.amount,

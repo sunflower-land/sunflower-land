@@ -254,6 +254,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
         farmId,
         itemId: KNOWN_IDS[treeName],
         counter: activityCount,
+        now,
       }).amount;
 
     const newState = gameService.send("timber.chopped", {

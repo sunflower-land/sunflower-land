@@ -39,6 +39,7 @@ type Options = {
 export const getFlowerTime = (
   seed: FlowerSeedName,
   game: GameState,
+  now: number,
   /**
    * Whether the windowed speed-rate model applies. Defaults to the SPEED_BOOSTS
    * flag. When true, the temporary boosts (Blossom Hourglass + Moth Shrine's TIME
@@ -62,7 +63,7 @@ export const getFlowerTime = (
   // excluded here (and from boostsUsed); its +1-flower yield still fires at harvest.
   if (
     !windowed &&
-    isTemporaryCollectibleActive({ name: "Moth Shrine", game })
+    isTemporaryCollectibleActive({ name: "Moth Shrine", game, now })
   ) {
     seconds *= 0.75;
     boostsUsed.push({ name: "Moth Shrine", value: "x0.75" });
@@ -77,7 +78,7 @@ export const getFlowerTime = (
   // Blossom Hourglass is windowed under the speed-rate model (excluded here).
   if (
     !windowed &&
-    isTemporaryCollectibleActive({ name: "Blossom Hourglass", game })
+    isTemporaryCollectibleActive({ name: "Blossom Hourglass", game, now })
   ) {
     seconds *= 0.75;
     boostsUsed.push({ name: "Blossom Hourglass", value: "x0.75" });
@@ -136,6 +137,7 @@ export function getPlantedAt({ seed, game, createdAt }: GetPlantedAtArgs): {
   const { seconds: boostedTime, boostsUsed } = getFlowerTime(
     seed,
     game,
+    createdAt,
     windowed,
   );
 
