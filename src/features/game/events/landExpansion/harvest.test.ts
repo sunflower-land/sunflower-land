@@ -13,6 +13,14 @@ const dateNow = Date.now();
 const GAME_STATE: GameState = {
   ...INITIAL_FARM,
   crops: {
+    // Fixtures below write to plot `0` and spread `GAME_STATE.crops[0]`, which
+    // resolved to `undefined` while no such plot existed - so those plots came
+    // out with no coordinates. `harvest` now rejects an unplaced plot.
+    "0": {
+      createdAt: dateNow,
+      x: 20,
+      y: 20,
+    },
     "12": {
       createdAt: dateNow,
       x: 0,
@@ -50,6 +58,30 @@ describe("harvest", () => {
         createdAt: dateNow,
       }),
     ).toThrow("Nothing was planted");
+  });
+
+  it("does not harvest a plot that is not placed", () => {
+    // A lifted plot keeps growing until it is placed back down, where the pause
+    // is applied. Harvesting one from the inventory would skip it.
+    expect(() =>
+      harvest({
+        state: {
+          ...GAME_STATE,
+          crops: {
+            0: {
+              createdAt: dateNow,
+              removedAt: dateNow - 1000,
+              crop: { name: "Sunflower", plantedAt: 0 },
+            },
+          },
+        },
+        action: {
+          type: "crop.harvested",
+          index: "0",
+        },
+        createdAt: dateNow,
+      }),
+    ).toThrow("Plot is not placed");
   });
 
   it("does not harvest if the crop is not ripe", () => {
@@ -703,7 +735,9 @@ describe("harvest", () => {
   });
 
   describe("cropBuffs", () => {
-    const firstId = Object.keys(GAME_STATE.crops)[0];
+    // Pinned: `Object.keys` orders integer-like keys numerically, so this must not
+    // drift onto plot `0` - the AOE fixtures below are keyed to this plot's (0,-2).
+    const firstId = "12";
 
     it("gives double the yield of Soybeans when Soybliss is placed and ready", () => {
       const state = harvest({

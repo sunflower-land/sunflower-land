@@ -11,11 +11,12 @@ import { produce } from "immer";
 import type { ComposterName } from "features/game/types/composters";
 import { createInitialAgingShed } from "features/game/lib/agingShed";
 import {
+  getCookingBoostWindows,
   getGreenhouseBoostWindows,
   getGreenhouseGlowWindows,
   pauseWindowedTimer,
 } from "features/game/lib/boostWindows";
-import { getReadyAt } from "./startComposter";
+import { pauseCookingQueue } from "features/game/lib/cookingReadiness";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { mfTrack } from "lib/moonforgeAnalytics";
 
@@ -76,11 +77,13 @@ export function placeBuilding({
       // Assign the coordinates to the building
       existingBuilding.coordinates = action.coordinates;
 
-      // Update the readyAt for Cooking buildings
-      if (existingBuilding.crafting) {
-        existingBuilding.crafting.forEach((crafting) => {
-          crafting.readyAt = createdAt + (crafting.timeRemaining ?? 0);
-          delete crafting.timeRemaining;
+      // Pause the queue for Cooking buildings
+      if (existingBuilding.crafting && existingBuilding.removedAt) {
+        pauseCookingQueue({
+          crafting: existingBuilding.crafting,
+          removedAt: existingBuilding.removedAt,
+          placedAt: createdAt,
+          windows: getCookingBoostWindows(stateCopy),
         });
       }
 
@@ -96,15 +99,15 @@ export function placeBuilding({
       ) {
         const existingComposter = existingBuilding as CompostBuilding;
         if (existingComposter.producing && existingComposter.removedAt) {
-          const timeOffset =
-            existingComposter.removedAt - existingComposter.producing.startedAt;
-          existingComposter.producing.startedAt = createdAt - timeOffset;
-          const timeRemaining = getReadyAt({
-            gameState: stateCopy,
-            composter: action.name as ComposterName,
-          }).timeToFinishMilliseconds;
-          existingComposter.producing.readyAt =
-            createdAt + timeRemaining - timeOffset;
+          // Pause the batch across the lift by shifting both timestamps by the
+          // downtime (the Crafting Box / Aging Shed pattern below). The batch's
+          // duration is a SNAPSHOT taken by `startComposter` - re-deriving it
+          // here would re-price an in-flight batch with boosts acquired after
+          // it started, so placing a Soil Krabby then lifting the composter
+          // took 10% off a batch already under way.
+          const downtime = Math.max(0, createdAt - existingComposter.removedAt);
+          existingComposter.producing.startedAt += downtime;
+          existingComposter.producing.readyAt += downtime;
         }
       }
 

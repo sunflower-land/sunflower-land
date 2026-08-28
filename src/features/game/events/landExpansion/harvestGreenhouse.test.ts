@@ -59,6 +59,35 @@ const greenhouseFarm = (): GameState => ({
 });
 
 describe("plantGreenhouse", () => {
+  it("throws if the greenhouse is not placed", () => {
+    // A lifted greenhouse keeps its pots growing until it is placed back down,
+    // where the pause is applied. Harvesting one from the inventory would skip it.
+    const now = Date.now();
+    expect(() =>
+      harvestGreenHouse({
+        state: {
+          ...greenhouseFarm(),
+          buildings: {
+            ...farm.buildings,
+            Greenhouse: [
+              { id: "1", createdAt: 0, readyAt: 0, removedAt: now - 1000 },
+            ],
+          },
+          greenhouse: {
+            oil: 50,
+            pots: {
+              1: {
+                plant: { name: "Rice", plantedAt: 0, amount: 1 },
+              },
+            },
+          },
+        },
+        action: { type: "greenhouse.harvested", id: 1 },
+        createdAt: now,
+        farmId: 1,
+      }),
+    ).toThrow("Greenhouse is not placed");
+  });
   it("requires greenhouse exists", () => {
     expect(() =>
       harvestGreenHouse({

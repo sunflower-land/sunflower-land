@@ -59,13 +59,6 @@ export function removeBuilding({
     delete buildingToRemove.coordinates;
     buildingToRemove.removedAt = createdAt;
 
-    // Cooking buildings
-    if (buildingToRemove.crafting) {
-      buildingToRemove.crafting.forEach((crafting) => {
-        crafting.timeRemaining = crafting.readyAt - createdAt;
-      });
-    }
-
     if (action.name === "Crop Machine") {
       const cropMachine = buildingToRemove as CropMachineBuilding;
       if (cropMachine.queue) {

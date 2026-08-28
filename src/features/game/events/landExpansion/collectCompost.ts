@@ -41,6 +41,13 @@ export function collectCompost({
       throw new Error(translate("error.composterNotExist"));
     }
 
+    // A lifted composter keeps composting while it sits in the inventory - the
+    // pause is only applied when it is placed back down, so collecting from an
+    // unplaced one would side-step it entirely.
+    if (!building.coordinates) {
+      throw new Error("Composter is not placed");
+    }
+
     if (!bumpkin) {
       throw new Error("You do not have a Bumpkin!");
     }

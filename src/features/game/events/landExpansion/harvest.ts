@@ -1113,6 +1113,13 @@ export function harvestCropFromPlot({
     throw new Error("Plot does not exist");
   }
 
+  // A lifted plot keeps growing while it sits in the inventory - the pause is
+  // only applied when it is placed back down, so harvesting an unplaced plot
+  // would side-step it entirely.
+  if (plot.x === undefined && plot.y === undefined) {
+    throw new Error("Plot is not placed");
+  }
+
   const cropAffectedBy = getAffectedWeather({
     id: plotId,
     game,

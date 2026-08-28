@@ -2,6 +2,7 @@ import type { BuildingProduct, GameState } from "features/game/types/game";
 import {
   computeReadyAt,
   getCookingBoostWindows,
+  workAccruedAt,
   type BoostWindow,
 } from "./boostWindows";
 
@@ -103,3 +104,76 @@ export const getCookingQueueReadyAts = ({
   game: GameState;
 }): number[] =>
   resolveCookingQueue({ crafting, windows: getCookingBoostWindows(game) });
+
+/**
+ * Pause a cooking queue across a landscaping lift, in place.
+ *
+ * The rule is the same one every other activity follows: time the building spent
+ * in the inventory doesn't count. What differs is HOW, and cooking cannot use the
+ * legacy trick of shifting each start forward by the downtime. Shifting re-exposes
+ * a recipe to a different slice of the boost windows — a cook that banked 30
+ * minutes of work under an hourglass which then expired while the building sat
+ * unplaced would find that window stranded entirely before its new start, and lose
+ * the credit. So the work already done is BANKED (subtracted from
+ * `baseDurationMs`) and the recipe resumes, with only the remainder left to cook,
+ * from the moment it was placed. This mirrors `pauseWindowedTimer` for resource
+ * nodes; cooking needs its own because it pauses a CHAIN rather than one timer.
+ *
+ * The queue must be resolved BEFORE anything is mutated: a chained recipe carries
+ * no `startedAt` of its own, so how much work it had accrued is only knowable from
+ * the recipe ahead of it.
+ *
+ * Only an ANCHORED recipe (one with its own `startedAt`) is re-anchored to
+ * `placedAt`; a chained one is deliberately left chained so it keeps tracking
+ * whatever the recipe ahead of it derives to. Legacy recipes have no work model to
+ * bank into, so they keep the pre-windowed behaviour of preserving their wall-clock
+ * remainder — which is exactly what the old `timeRemaining` round-trip computed.
+ */
+export const pauseCookingQueue = ({
+  crafting,
+  removedAt,
+  placedAt,
+  windows,
+}: {
+  crafting: BuildingProduct[];
+  removedAt: number;
+  placedAt: number;
+  windows: BoostWindow[];
+}): void => {
+  const timings = resolveCookingQueueTimings({ crafting, windows });
+
+  crafting.forEach((recipe, index) => {
+    const { startedAt } = timings[index];
+
+    if (recipe.baseDurationMs === undefined || startedAt === undefined) {
+      // Not clamped: a recipe that finished before the lift keeps its negative
+      // remainder and stays ready, as it did before.
+      recipe.readyAt = placedAt + (recipe.readyAt - removedAt);
+      return;
+    }
+
+    const banked = Math.min(
+      workAccruedAt({ startedAt, at: removedAt, windows }),
+      recipe.baseDurationMs,
+    );
+    recipe.baseDurationMs -= banked;
+
+    // Re-anchor anything that had actually BEGUN by the lift. An explicit
+    // `startedAt` says so outright; `banked > 0` catches a chained recipe whose
+    // predecessor was a LEGACY one that had already finished - that predecessor
+    // keeps its wall-clock remainder, which is a `readyAt` in the PAST, and a
+    // successor left chained to it would derive a start before the placement and
+    // re-accrue the work it just banked. A recipe that had not begun keeps no
+    // anchor, so it goes on tracking the recipe ahead of it.
+    if (recipe.startedAt !== undefined || banked > 0) {
+      recipe.startedAt = placedAt;
+    }
+  });
+
+  // Refresh the cache so it agrees with the derived chain again.
+  const readyAts = resolveCookingQueue({ crafting, windows });
+  crafting.forEach((recipe, index) => {
+    recipe.readyAt = readyAts[index];
+    delete recipe.timeRemaining;
+  });
+};

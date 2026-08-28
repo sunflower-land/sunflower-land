@@ -44,6 +44,33 @@ describe("harvestFlower", () => {
     ).toThrow("Flower bed does not have a flower");
   });
 
+  it("throws an error if the flower bed is not placed", () => {
+    // Lifted beds keep growing until they are placed back down, where the pause
+    // is applied. Collecting from one in the inventory would skip it.
+    const flowerBedId = "123";
+    expect(() =>
+      harvestFlower({
+        state: {
+          ...GAME_STATE,
+          flowers: {
+            discovered: {},
+            flowerBeds: {
+              [flowerBedId]: {
+                createdAt: 0,
+                removedAt: Date.now() - 1000,
+                flower: {
+                  name: "Red Pansy",
+                  plantedAt: 0,
+                },
+              },
+            },
+          },
+        },
+        action: { type: "flower.harvested", id: flowerBedId },
+      }),
+    ).toThrow("Flower bed is not placed");
+  });
+
   it("throws an error if the flower is not ready to harvest", () => {
     const flowerBedId = "123";
     expect(() =>

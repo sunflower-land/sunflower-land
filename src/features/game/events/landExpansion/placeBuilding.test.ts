@@ -2,11 +2,13 @@ import Decimal from "decimal.js-light";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
 import { createInitialAgingShed } from "../../lib/agingShed";
-import type { GameState } from "../../types/game";
+import type { BuildingProduct, GameState } from "../../types/game";
 import { getAnimalReadyAt } from "../../lib/animals";
 import { getNextLoveAvailableAt, isAnimalNeedingLove } from "./loveAnimal";
 import { placeBuilding } from "./placeBuilding";
 import { RECIPES } from "features/game/lib/crafting";
+import { getCookingQueueReadyAts } from "features/game/lib/cookingReadiness";
+import { getExpiryCooldown } from "features/game/lib/collectibleBuilt";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -114,26 +116,24 @@ describe("Place building", () => {
               id: "123",
               createdAt: dateNow,
               readyAt: dateNow,
+              // Lifted 50s ago; every recipe moves out by that downtime.
+              removedAt: dateNow - 50000,
               crafting: [
                 {
                   name: "Pizza Margherita",
                   readyAt: dateNow + 10000,
-                  timeRemaining: 60000,
                 },
                 {
                   name: "Pizza Margherita",
                   readyAt: dateNow + 70000,
-                  timeRemaining: 120000,
                 },
                 {
                   name: "Pizza Margherita",
                   readyAt: dateNow + 130000,
-                  timeRemaining: 180000,
                 },
                 {
                   name: "Pizza Margherita",
                   readyAt: dateNow + 190000,
-                  timeRemaining: 240000,
                 },
               ],
             },
@@ -210,6 +210,207 @@ describe("Place building", () => {
     expect(
       state.buildings["Premium Composter"]?.[0].producing?.readyAt,
     ).toEqual(dateNow - 60000 + 12 * 60 * 60 * 1000);
+  });
+
+  it("does not re-price an in-flight compost with a boost placed after it started", () => {
+    const startedAt = dateNow - 60 * 60 * 1000;
+    const readyAt = startedAt + 12 * 60 * 60 * 1000;
+    const removedAt = dateNow - 30 * 60 * 1000;
+
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Premium Composter": new Decimal(1),
+          "Basic Land": new Decimal(10),
+        },
+        // Soil Krabby takes 10% off a compost, but it was placed AFTER this
+        // batch started - the duration is a snapshot, not a live lookup.
+        collectibles: {
+          "Soil Krabby": [
+            {
+              id: "krabby",
+              createdAt: dateNow,
+              coordinates: { x: 5, y: 5 },
+              readyAt: dateNow,
+            },
+          ],
+        },
+        buildings: {
+          "Premium Composter": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt,
+              producing: {
+                items: { "Rapid Root": 10 },
+                startedAt,
+                readyAt,
+              },
+            },
+          ],
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Premium Composter",
+        id: "123",
+        coordinates: { x: 1, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    const downtime = dateNow - removedAt;
+    const producing = state.buildings["Premium Composter"]?.[0].producing;
+
+    expect(producing?.startedAt).toEqual(startedAt + downtime);
+    expect(producing?.readyAt).toEqual(readyAt + downtime);
+  });
+
+  describe("cooking queues", () => {
+    const MIN = 60 * 1000;
+
+    const firePit = (
+      crafting: BuildingProduct[],
+      removedAt: number,
+    ): GameState["buildings"] => ({
+      "Fire Pit": [
+        {
+          id: "123",
+          createdAt: dateNow - 24 * 60 * MIN,
+          readyAt: dateNow - 24 * 60 * MIN,
+          removedAt,
+          crafting,
+        },
+      ],
+    });
+
+    const place = (state: GameState) =>
+      placeBuilding({
+        farmId,
+        state,
+        action: {
+          type: "building.placed",
+          name: "Fire Pit",
+          id: "123",
+          coordinates: { x: 1, y: 1 },
+        },
+        createdAt: dateNow,
+      });
+
+    it("pauses a windowed queue across a lift", () => {
+      const startedAt = dateNow - 20 * MIN;
+      const removedAt = dateNow - 10 * MIN;
+      const downtime = dateNow - removedAt;
+
+      const state = place({
+        ...GAME_STATE,
+        inventory: { "Fire Pit": new Decimal(1) },
+        buildings: firePit(
+          [
+            {
+              id: "a",
+              name: "Boiled Eggs",
+              startedAt,
+              baseDurationMs: 60 * MIN,
+              readyAt: startedAt + 60 * MIN,
+            },
+            {
+              id: "b",
+              name: "Boiled Eggs",
+              baseDurationMs: 30 * MIN,
+              readyAt: startedAt + 90 * MIN,
+            },
+          ],
+          removedAt,
+        ),
+      });
+
+      const crafting = state.buildings["Fire Pit"]![0].crafting!;
+      const readyAts = getCookingQueueReadyAts({ crafting, game: state });
+
+      // Both recipes move out by exactly the time the building spent unplaced.
+      expect(readyAts[0]).toEqual(startedAt + 60 * MIN + downtime);
+      expect(readyAts[1]).toEqual(startedAt + 90 * MIN + downtime);
+      // ...and the persisted cache agrees with the derived chain again.
+      expect(crafting[0].readyAt).toEqual(readyAts[0]);
+      expect(crafting[1].readyAt).toEqual(readyAts[1]);
+    });
+
+    it("pauses a legacy queue across a lift", () => {
+      const removedAt = dateNow - 10 * MIN;
+      const downtime = dateNow - removedAt;
+
+      const state = place({
+        ...GAME_STATE,
+        inventory: { "Fire Pit": new Decimal(1) },
+        buildings: firePit(
+          [
+            { name: "Boiled Eggs", readyAt: dateNow + 40 * MIN },
+            { name: "Boiled Eggs", readyAt: dateNow + 70 * MIN },
+          ],
+          removedAt,
+        ),
+      });
+
+      const crafting = state.buildings["Fire Pit"]![0].crafting!;
+
+      expect(crafting[0].readyAt).toEqual(dateNow + 40 * MIN + downtime);
+      expect(crafting[1].readyAt).toEqual(dateNow + 70 * MIN + downtime);
+      expect(crafting[0].timeRemaining).toBeUndefined();
+    });
+
+    it("keeps boost credit earned before the lift when the window expires during it", () => {
+      // 60m of work. A 2x hourglass covers the first 15m, so 30m of work is
+      // banked; the window then expires while the building sits unplaced.
+      const start = dateNow - 45 * MIN;
+      const removedAt = start + 15 * MIN;
+
+      const base: GameState = {
+        ...GAME_STATE,
+        inventory: { "Fire Pit": new Decimal(1) },
+      };
+      const cooldown = getExpiryCooldown("Gourmet Hourglass", base);
+
+      const state = place({
+        ...base,
+        collectibles: {
+          "Gourmet Hourglass": [
+            {
+              id: "hourglass",
+              // Expires exactly when the building is lifted.
+              createdAt: removedAt - cooldown,
+              readyAt: removedAt - cooldown,
+              coordinates: { x: 5, y: 5 },
+            },
+          ],
+        },
+        buildings: firePit(
+          [
+            {
+              id: "a",
+              name: "Boiled Eggs",
+              startedAt: start,
+              baseDurationMs: 60 * MIN,
+              readyAt: start + 45 * MIN,
+            },
+          ],
+          removedAt,
+        ),
+      });
+
+      const crafting = state.buildings["Fire Pit"]![0].crafting!;
+
+      // 30m of work banked, 30m left, resumed unboosted from the moment it was
+      // placed. Shifting the timeline instead would have stranded the window
+      // before the new start and lost that credit (dateNow + 45m).
+      expect(crafting[0].baseDurationMs).toEqual(30 * MIN);
+      expect(getCookingQueueReadyAts({ crafting, game: state })[0]).toEqual(
+        dateNow + 30 * MIN,
+      );
+    });
   });
 
   it("adjusts the new readyAt for crop machines", () => {
@@ -724,6 +925,64 @@ describe("Place building", () => {
     );
     expect(state.agingShed.upgradeReadyAt).toEqual(
       upgradeReadyAt + downtimeDelta,
+    );
+  });
+
+  it("shifts aging shed aging rack slots by downtime when re-placing", () => {
+    const removedAt = dateNow - 120000;
+    const slotStartedAt = dateNow - 180000;
+    const slotReadyAt = dateNow + 60 * 60 * 1000;
+
+    const state = placeBuilding({
+      farmId,
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Aging Shed": new Decimal(1),
+          "Basic Land": new Decimal(10),
+        },
+        buildings: {
+          "Aging Shed": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt,
+            },
+          ],
+        },
+        agingShed: {
+          ...createInitialAgingShed(),
+          level: 1,
+          racks: {
+            ...createInitialAgingShed().racks,
+            aging: [
+              {
+                id: "slot-1",
+                fish: "Anchovy",
+                startedAt: slotStartedAt,
+                readyAt: slotReadyAt,
+              },
+            ],
+          },
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Aging Shed",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    const downtimeDelta = dateNow - removedAt;
+    expect(state.agingShed.racks.aging).toHaveLength(1);
+    expect(state.agingShed.racks.aging[0].startedAt).toEqual(
+      slotStartedAt + downtimeDelta,
+    );
+    expect(state.agingShed.racks.aging[0].readyAt).toEqual(
+      slotReadyAt + downtimeDelta,
     );
   });
 
