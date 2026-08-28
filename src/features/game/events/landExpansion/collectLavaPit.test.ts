@@ -46,6 +46,28 @@ describe("collectLavaPit", () => {
     expect(result.lavaPits[1].collectedAt).toBe(now);
   });
 
+  it("requires the lava pit to be placed", () => {
+    // A lifted pit keeps burning until it is placed back down, where the pause is
+    // applied. Collecting from one in the inventory would skip it.
+    expect(() =>
+      collectLavaPit({
+        state: {
+          ...INITIAL_FARM,
+          lavaPits: {
+            1: {
+              createdAt: 0,
+              startedAt: now - 100 * 60 * 60 * 1000,
+              readyAt: now - 1000,
+              removedAt: now - 500,
+            },
+          },
+        },
+        action: { type: "lavaPit.collected", id: "1" },
+        createdAt: now,
+      }),
+    ).toThrow("Lava pit is not placed");
+  });
+
   it("requires the lava pit was started 72 hours ago", () => {
     expect(() =>
       collectLavaPit({

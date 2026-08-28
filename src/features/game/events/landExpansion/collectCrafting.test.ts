@@ -8,6 +8,17 @@ describe("collectCrafting", () => {
       collectCrafting({
         state: {
           ...INITIAL_FARM,
+          buildings: {
+            ...INITIAL_FARM.buildings,
+            "Crafting Box": [
+              {
+                id: "1",
+                createdAt: 0,
+                readyAt: 0,
+                coordinates: { x: 0, y: 0 },
+              },
+            ],
+          },
           craftingBox: {
             status: "crafting",
             recipes: {},
@@ -18,12 +29,57 @@ describe("collectCrafting", () => {
     ).toThrow("No item to collect");
   });
 
+  it("throws when the crafting box is not placed", () => {
+    // A lifted box keeps crafting until it is placed back down, where the pause is
+    // applied. Collecting from one in the inventory would skip it.
+    const now = Date.now();
+    expect(() =>
+      collectCrafting({
+        state: {
+          ...INITIAL_FARM,
+          buildings: {
+            ...INITIAL_FARM.buildings,
+            "Crafting Box": [
+              { id: "1", createdAt: 0, readyAt: 0, removedAt: now - 1000 },
+            ],
+          },
+          craftingBox: {
+            status: "crafting",
+            recipes: {},
+            queue: [
+              {
+                id: "timber-1",
+                name: "Timber",
+                readyAt: now - 1000,
+                startedAt: now - 10000,
+                type: "collectible",
+              },
+            ],
+          },
+        },
+        action: { type: "crafting.collected" },
+        createdAt: now,
+      }),
+    ).toThrow("Crafting Box is not placed");
+  });
+
   describe("queue", () => {
     it("collects all ready items from the queue", () => {
       const now = Date.now();
       const state = collectCrafting({
         state: {
           ...INITIAL_FARM,
+          buildings: {
+            ...INITIAL_FARM.buildings,
+            "Crafting Box": [
+              {
+                id: "1",
+                createdAt: 0,
+                readyAt: 0,
+                coordinates: { x: 0, y: 0 },
+              },
+            ],
+          },
           craftingBox: {
             status: "crafting",
             queue: [
@@ -70,6 +126,17 @@ describe("collectCrafting", () => {
       const state = collectCrafting({
         state: {
           ...INITIAL_FARM,
+          buildings: {
+            ...INITIAL_FARM.buildings,
+            "Crafting Box": [
+              {
+                id: "1",
+                createdAt: 0,
+                readyAt: 0,
+                coordinates: { x: 0, y: 0 },
+              },
+            ],
+          },
           craftingBox: {
             status: "crafting",
             queue: [
@@ -108,6 +175,17 @@ describe("collectCrafting", () => {
         collectCrafting({
           state: {
             ...INITIAL_FARM,
+            buildings: {
+              ...INITIAL_FARM.buildings,
+              "Crafting Box": [
+                {
+                  id: "1",
+                  createdAt: 0,
+                  readyAt: 0,
+                  coordinates: { x: 0, y: 0 },
+                },
+              ],
+            },
             craftingBox: {
               status: "crafting",
               queue: [

@@ -47,6 +47,18 @@ export function collectCrafting({
       throw new Error("No item to collect");
     }
 
+    // A lifted box keeps crafting while it sits in the inventory - the pause is
+    // only applied when it is placed back down, so collecting from an unplaced
+    // one would side-step it entirely. The queue lives on `game.craftingBox`, not
+    // on the building, so lifting it does not put it out of reach on its own.
+    if (
+      !(copy.buildings["Crafting Box"] ?? []).some(
+        (b) => b.coordinates !== undefined,
+      )
+    ) {
+      throw new Error("Crafting Box is not placed");
+    }
+
     const nothingReady = queue.every((item) => item.readyAt > createdAt);
     if (nothingReady) {
       throw new Error("No items are ready");

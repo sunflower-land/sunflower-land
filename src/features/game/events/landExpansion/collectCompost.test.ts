@@ -26,6 +26,40 @@ describe("collectCompost", () => {
     ).toThrow("Composter does not exist");
   });
 
+  it("throws an error if the composter is not placed", () => {
+    // A lifted composter keeps composting until it is placed back down, where the
+    // pause is applied. Collecting from one in the inventory would skip it.
+    expect(() =>
+      collectCompost({
+        state: {
+          ...GAME_STATE,
+          buildings: {
+            "Compost Bin": [
+              {
+                id: "123",
+                createdAt: 0,
+                readyAt: 0,
+                removedAt: dateNow - 1000,
+                producing: {
+                  items: { Earthworm: 1 },
+                  startedAt: dateNow - 10000,
+                  readyAt: dateNow - 5000,
+                },
+              } as CompostBuilding,
+            ],
+          },
+        },
+        action: {
+          type: "compost.collected",
+          building: "Compost Bin",
+          buildingId: "123",
+        },
+        createdAt: dateNow,
+        farmId: 1,
+      }),
+    ).toThrow("Composter is not placed");
+  });
+
   it("throws an error if building is not producing anything", () => {
     expect(() =>
       collectCompost({

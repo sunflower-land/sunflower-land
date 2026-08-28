@@ -167,6 +167,14 @@ export function harvestGreenHouse({
       throw new Error("Greenhouse does not exist");
     }
 
+    // A lifted greenhouse keeps its pots growing while it sits in the inventory -
+    // the pause is only applied when it is placed back down, so harvesting from
+    // an unplaced one would side-step it entirely. The pots live on `game`, not
+    // on the building, so lifting it does not put them out of reach on its own.
+    if (!game.buildings.Greenhouse.some((b) => b.coordinates !== undefined)) {
+      throw new Error("Greenhouse is not placed");
+    }
+
     if (!game.bumpkin) {
       throw new Error("No Bumpkin");
     }

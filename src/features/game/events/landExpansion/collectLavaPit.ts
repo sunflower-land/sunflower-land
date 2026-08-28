@@ -45,6 +45,13 @@ export function collectLavaPit({
       throw new Error("Lava pit not found");
     }
 
+    // A lifted pit keeps burning while it sits in the inventory - the pause is
+    // only applied when it is placed back down, so collecting from an unplaced
+    // pit would side-step it entirely.
+    if (lavaPit.x === undefined && lavaPit.y === undefined) {
+      throw new Error("Lava pit is not placed");
+    }
+
     if (lavaPit.startedAt === undefined) {
       throw new Error("Lava pit not started");
     }
