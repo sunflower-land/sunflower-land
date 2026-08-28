@@ -5,23 +5,13 @@ import type { CollectibleProps } from "../Collectible";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Context } from "features/game/GameProvider";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
-import {
-  SFTDetailPopoverBuffs,
-  SFTDetailPopoverInnerPanel,
-  SFTDetailPopoverLabel,
-} from "components/ui/SFTDetailPopover";
-import { secondsToString } from "lib/utils/time";
-import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   EXPIRY_COOLDOWNS,
   getCollectibleExpiry,
   getCollectiblesAcrossLocations,
 } from "features/game/lib/collectibleBuilt";
-import { ExtendCollectible } from "features/game/components/ExtendCollectible";
-import { Button } from "components/ui/Button";
+import { TemporaryCollectibleModal } from "features/game/components/TemporaryCollectibleModal";
 import { hasFeatureAccess } from "lib/flags";
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -84,10 +74,9 @@ const _gameState = (state: MachineState) => state.context.state;
 export const PetShrine: React.FC<
   CollectibleProps & { name: PetShrineName | "Obsidian Shrine" }
 > = ({ createdAt, id, location, name }) => {
-  const { t } = useAppTranslation();
   const { gameService, showTimers, showAnimations } = useContext(Context);
   const [showRenewalModal, setShowRenewalModal] = useState(false);
-  const [showExtendModal, setShowExtendModal] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
   const { isVisiting } = useVisiting();
   const gameState = useSelector(gameService, _gameState);
 
@@ -177,75 +166,45 @@ export const PetShrine: React.FC<
 
   return (
     <>
-      <Popover>
-        <PopoverButton as="div">
-          <div
-            className="absolute"
+      <div onClick={() => setShowDetails(true)}>
+        <div
+          className="absolute"
+          style={{ ...PET_SHRINE_DIMENSIONS_STYLES[name], bottom: 0 }}
+        >
+          <img
+            src={ITEM_DETAILS[name].image}
             style={{ ...PET_SHRINE_DIMENSIONS_STYLES[name], bottom: 0 }}
+            className="absolute cursor-pointer"
+            alt={name}
+          />
+        </div>
+        {showTimers && (
+          <div
+            className="absolute left-1/2"
+            style={{
+              width: `${PIXEL_SCALE * 15}px`,
+              transform: "translateX(-50%)",
+              bottom: `${PIXEL_SCALE * -3}px`,
+            }}
           >
-            <img
-              src={ITEM_DETAILS[name].image}
-              style={{ ...PET_SHRINE_DIMENSIONS_STYLES[name], bottom: 0 }}
-              className="absolute cursor-pointer"
-              alt={name}
+            <ProgressBar
+              seconds={secondsToExpire}
+              formatLength="medium"
+              type={"progress"}
+              percentage={percentage}
             />
           </div>
-          {showTimers && (
-            <div
-              className="absolute left-1/2"
-              style={{
-                width: `${PIXEL_SCALE * 15}px`,
-                transform: "translateX(-50%)",
-                bottom: `${PIXEL_SCALE * -3}px`,
-              }}
-            >
-              <ProgressBar
-                seconds={secondsToExpire}
-                formatLength="medium"
-                type={"progress"}
-                percentage={percentage}
-              />
-            </div>
-          )}
-        </PopoverButton>
+        )}
+      </div>
 
-        <PopoverPanel anchor={{ to: "left start" }} className="flex">
-          <SFTDetailPopoverInnerPanel>
-            <SFTDetailPopoverLabel name={name} />
-            <Label
-              type="info"
-              icon={SUNNYSIDE.icons.stopwatch}
-              className="mt-2 mb-2"
-            >
-              <span className="text-xs">
-                {t("time.remaining", {
-                  time: secondsToString(secondsToExpire, {
-                    length: "medium",
-                    isShortFormat: true,
-                    removeTrailingZeros: true,
-                  }),
-                })}
-              </span>
-            </Label>
-            <SFTDetailPopoverBuffs name={name} />
-            {canExtend && (
-              <Button className="mt-2" onClick={() => setShowExtendModal(true)}>
-                {t("extend")}
-              </Button>
-            )}
-          </SFTDetailPopoverInnerPanel>
-        </PopoverPanel>
-      </Popover>
-
-      {/* Rendered outside the Popover: interacting with the modal counts as an
-          outside click, which closes the panel. */}
-      <ExtendCollectible
-        show={showExtendModal}
-        onHide={() => setShowExtendModal(false)}
+      <TemporaryCollectibleModal
+        show={showDetails}
+        onHide={() => setShowDetails(false)}
         name={name}
         id={id}
         location={location}
         expiresAt={expiresAt}
+        canExtend={canExtend}
       />
     </>
   );

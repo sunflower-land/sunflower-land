@@ -28,16 +28,8 @@ import type { CollectibleProps } from "../Collectible";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Context } from "features/game/GameProvider";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { Label } from "components/ui/Label";
-import { secondsToString } from "lib/utils/time";
 import type { MachineState } from "features/game/lib/gameMachine";
-import {
-  SFTDetailPopoverBuffs,
-  SFTDetailPopoverLabel,
-  SFTDetailPopoverInnerPanel,
-} from "components/ui/SFTDetailPopover";
-import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+
 import classNames from "classnames";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useSelector } from "@xstate/react";
@@ -50,8 +42,7 @@ import {
   getExpiryCooldown,
   getCollectiblesAcrossLocations,
 } from "features/game/lib/collectibleBuilt";
-import { ExtendCollectible } from "features/game/components/ExtendCollectible";
-import { Button } from "components/ui/Button";
+import { TemporaryCollectibleModal } from "features/game/components/TemporaryCollectibleModal";
 import { hasFeatureAccess } from "lib/flags";
 
 export type HourglassType =
@@ -120,11 +111,10 @@ export const Hourglass: React.FC<HourglassProps> = ({
   hourglass,
 }) => {
   const { gameService, showTimers, showAnimations } = useContext(Context);
-  const { t } = useAppTranslation();
   const { isVisiting } = useVisiting();
   const gameState = useSelector(gameService, _gameState);
   const [showRenewModal, setShowRenewModal] = useState(false);
-  const [showExtendModal, setShowExtendModal] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
   const chestItems = getChestItems(gameState);
 
   const boostMillis = getExpiryCooldown(hourglass, gameState);
@@ -255,72 +245,46 @@ export const Hourglass: React.FC<HourglassProps> = ({
 
   return (
     <>
-      <Popover>
-        <PopoverButton as="div">
-          {showTimers && (
-            <div className="absolute bottom-0 left-0">
-              <ProgressBar
-                seconds={secondsToExpire}
-                formatLength="medium"
-                type="buff"
-                percentage={percentage}
-              />
-            </div>
-          )}
+      <div onClick={() => setShowDetails(true)}>
+        {showTimers && (
+          <div className="absolute bottom-0 left-0">
+            <ProgressBar
+              seconds={secondsToExpire}
+              formatLength="medium"
+              type="buff"
+              percentage={percentage}
+            />
+          </div>
+        )}
 
-          <img
-            src={shadow}
-            alt="shadow"
-            style={{
-              width: `${PIXEL_SCALE * 12}px`,
-              bottom: `-${PIXEL_SCALE * 1.6}px`,
-            }}
-            className="absolute cursor-pointer left-1/2 -translate-x-1/2 hover:img-highlight"
-          />
-          <img
-            src={getHourglassImage()}
-            style={{
-              width: `${PIXEL_SCALE * 11}px`,
-              bottom: `${PIXEL_SCALE * 0}px`,
-            }}
-            className="absolute cursor-pointer left-1/2 -translate-x-1/2 hover:img-highlight"
-            alt={hourglass}
-          />
-        </PopoverButton>
+        <img
+          src={shadow}
+          alt="shadow"
+          style={{
+            width: `${PIXEL_SCALE * 12}px`,
+            bottom: `-${PIXEL_SCALE * 1.6}px`,
+          }}
+          className="absolute cursor-pointer left-1/2 -translate-x-1/2 hover:img-highlight"
+        />
+        <img
+          src={getHourglassImage()}
+          style={{
+            width: `${PIXEL_SCALE * 11}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
+          }}
+          className="absolute cursor-pointer left-1/2 -translate-x-1/2 hover:img-highlight"
+          alt={hourglass}
+        />
+      </div>
 
-        <PopoverPanel anchor={{ to: "left" }} className="flex">
-          <SFTDetailPopoverInnerPanel>
-            <SFTDetailPopoverLabel name={hourglass} />
-            <Label type="info" className="mt-2 mb-2">
-              <span className="text-xs">
-                {t("time.remaining", {
-                  time: secondsToString(secondsToExpire, {
-                    length: "medium",
-                    isShortFormat: true,
-                    removeTrailingZeros: true,
-                  }),
-                })}
-              </span>
-            </Label>
-            <SFTDetailPopoverBuffs name={hourglass} />
-            {canExtend && (
-              <Button className="mt-2" onClick={() => setShowExtendModal(true)}>
-                {t("extend")}
-              </Button>
-            )}
-          </SFTDetailPopoverInnerPanel>
-        </PopoverPanel>
-      </Popover>
-
-      {/* Rendered outside the Popover: interacting with the modal counts as an
-          outside click, which closes the panel. */}
-      <ExtendCollectible
-        show={showExtendModal}
-        onHide={() => setShowExtendModal(false)}
+      <TemporaryCollectibleModal
+        show={showDetails}
+        onHide={() => setShowDetails(false)}
         name={hourglass}
         id={id}
         location={location}
         expiresAt={expiresAt}
+        canExtend={canExtend}
       />
     </>
   );

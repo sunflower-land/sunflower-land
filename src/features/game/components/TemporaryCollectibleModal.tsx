@@ -12,6 +12,7 @@ import { secondsToString } from "lib/utils/time";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
+import { ITEM_DETAILS, getTranslatedItemName } from "../types/images";
 import { Context } from "../GameProvider";
 import type { MachineState } from "../lib/gameMachine";
 import type { PlaceableLocation } from "../types/collectibles";
@@ -32,18 +33,30 @@ type Props = {
   location: PlaceableLocation;
   /** Current expiry of THIS placement, including any earlier extension. */
   expiresAt: number;
+  /**
+   * Whether this player can pay to top the booster up right now. False when
+   * visiting or without the SPEED_BOOSTS flag, in which case this is a read-only
+   * detail panel — the boost and its time remaining, with nothing to buy.
+   */
+  canExtend: boolean;
 };
 
 const _gameState = (state: MachineState) => state.context.state;
 const _coinBalance = (state: MachineState) => state.context.state.coins;
 
-export const ExtendCollectible: React.FC<Props> = ({
+/**
+ * The detail view for a placed temporary collectible: what it boosts and how
+ * long it has left, plus the option to extend it where that is available. Opened
+ * by clicking the collectible itself.
+ */
+export const TemporaryCollectibleModal: React.FC<Props> = ({
   show,
   onHide,
   name,
   id,
   location,
   expiresAt,
+  canExtend,
 }) => {
   const { gameService } = useContext(Context);
   const gameState = useSelector(gameService, _gameState);
@@ -57,10 +70,11 @@ export const ExtendCollectible: React.FC<Props> = ({
   return (
     <Modal show={show} onHide={onHide}>
       <CloseButtonPanel onClose={onHide}>
-        <ExtendCollectibleContent
+        <TemporaryCollectibleContent
           handleExtend={handleExtend}
           name={name}
           expiresAt={expiresAt}
+          canExtend={canExtend}
           // Chest balances, not raw inventory: the placement being extended still
           // counts towards the inventory, but cannot pay for its own extension.
           inventory={getChestItems(gameState)}
@@ -72,14 +86,23 @@ export const ExtendCollectible: React.FC<Props> = ({
   );
 };
 
-const ExtendCollectibleContent: React.FC<{
+const TemporaryCollectibleContent: React.FC<{
   handleExtend: () => void;
   name: ExtendableCollectibleName;
   expiresAt: number;
+  canExtend: boolean;
   inventory: Inventory;
   coinBalance: number;
   gameState: GameState;
-}> = ({ handleExtend, name, expiresAt, inventory, coinBalance, gameState }) => {
+}> = ({
+  handleExtend,
+  name,
+  expiresAt,
+  canExtend,
+  inventory,
+  coinBalance,
+  gameState,
+}) => {
   const { t } = useAppTranslation();
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showIngredients, setShowIngredients] = useState(false);
@@ -99,7 +122,7 @@ const ExtendCollectibleContent: React.FC<{
   // Belt and braces: the host component swaps to its expired branch and unmounts
   // this modal the moment the booster lapses, but its countdown and the one above
   // tick on separate intervals - so refuse an extension the reducer would reject.
-  const canExtend = canAfford && secondsToExpire > 0;
+  const canPayNow = canExtend && canAfford && secondsToExpire > 0;
 
   const buffLabels = COLLECTIBLE_BUFF_LABELS[name]?.(gameState);
   const addedTime = secondsToString(extraSeconds, {
@@ -119,12 +142,14 @@ const ExtendCollectibleContent: React.FC<{
           </>
         ) : (
           <>
-            <Label type="default" icon={SUNNYSIDE.icons.stopwatch}>
-              {t("extend.collectible", { name })}
+            <Label type="default" icon={ITEM_DETAILS[name].image}>
+              {getTranslatedItemName(name)}
             </Label>
-            <p className="text-xs">
-              {t("extend.collectible.message", { name })}
-            </p>
+            {canExtend && (
+              <p className="text-xs">
+                {t("extend.collectible.message", { name })}
+              </p>
+            )}
           </>
         )}
 
@@ -158,53 +183,61 @@ const ExtendCollectibleContent: React.FC<{
               }),
             })}
           </Label>
-          <Label type="success" icon={SUNNYSIDE.icons.stopwatch}>
-            {t("extend.collectible.added", { time: addedTime })}
-          </Label>
+          {canExtend && (
+            <Label type="success" icon={SUNNYSIDE.icons.stopwatch}>
+              {t("extend.collectible.added", { time: addedTime })}
+            </Label>
+          )}
         </div>
 
-        <div
-          className="flex flex-wrap p-2 gap-2 cursor-pointer"
-          onClick={() => setShowIngredients(!showIngredients)}
-        >
-          <IngredientsPopover
-            show={showIngredients}
-            ingredients={getKeys(ingredients)}
-            onClick={() => setShowIngredients(false)}
-          />
-          {coinCost > 0 && (
-            <RequirementLabel
-              type="coins"
-              balance={coinBalance}
-              requirement={coinCost}
+        {canExtend && (
+          <div
+            className="flex flex-wrap p-2 gap-2 cursor-pointer"
+            onClick={() => setShowIngredients(!showIngredients)}
+          >
+            <IngredientsPopover
+              show={showIngredients}
+              ingredients={getKeys(ingredients)}
+              onClick={() => setShowIngredients(false)}
             />
-          )}
-          {getKeys(ingredients).map((itemName) => (
-            <RequirementLabel
-              key={itemName}
-              type="item"
-              item={itemName}
-              balance={inventory[itemName] ?? new Decimal(0)}
-              requirement={ingredients[itemName] ?? new Decimal(0)}
-            />
-          ))}
-        </div>
+            {coinCost > 0 && (
+              <RequirementLabel
+                type="coins"
+                balance={coinBalance}
+                requirement={coinCost}
+              />
+            )}
+            {getKeys(ingredients).map((itemName) => (
+              <RequirementLabel
+                key={itemName}
+                type="item"
+                item={itemName}
+                balance={inventory[itemName] ?? new Decimal(0)}
+                requirement={ingredients[itemName] ?? new Decimal(0)}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
-      {showConfirmation ? (
-        <div className="flex justify-between gap-1">
-          <Button onClick={() => setShowConfirmation(false)}>
-            {t("cancel")}
-          </Button>
-          <Button onClick={handleExtend} disabled={!canExtend}>
+      {canExtend &&
+        (showConfirmation ? (
+          <div className="flex justify-between gap-1">
+            <Button onClick={() => setShowConfirmation(false)}>
+              {t("cancel")}
+            </Button>
+            <Button onClick={handleExtend} disabled={!canPayNow}>
+              {t("extend")}
+            </Button>
+          </div>
+        ) : (
+          <Button
+            onClick={() => setShowConfirmation(true)}
+            disabled={!canPayNow}
+          >
             {t("extend")}
           </Button>
-        </div>
-      ) : (
-        <Button onClick={() => setShowConfirmation(true)} disabled={!canExtend}>
-          {t("extend")}
-        </Button>
-      )}
+        ))}
     </>
   );
 };

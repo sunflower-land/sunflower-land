@@ -17,7 +17,7 @@ import {
   getCollectibleExpiry,
   getCollectiblesAcrossLocations,
 } from "features/game/lib/collectibleBuilt";
-import { ExtendCollectible } from "features/game/components/ExtendCollectible";
+import { TemporaryCollectibleModal } from "features/game/components/TemporaryCollectibleModal";
 import { hasFeatureAccess } from "lib/flags";
 import { Modal } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
@@ -340,13 +340,14 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
         </OuterPanel>
       </Modal>
 
-      <ExtendCollectible
+      <TemporaryCollectibleModal
         show={showExtendModal}
         onHide={() => setShowExtendModal(false)}
         name="Obsidian Shrine"
         id={id}
         location={location}
         expiresAt={expiresAt}
+        canExtend={canExtend}
       />
 
       {hasReadyCrops && (
