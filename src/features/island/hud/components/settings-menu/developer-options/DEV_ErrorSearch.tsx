@@ -9,31 +9,22 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useActor } from "@xstate/react";
 import * as AuthProvider from "features/auth/lib/Provider";
 
-const FIFTEEN_MINUTES_MS = 15 * 60 * 1000;
-
-const LOG_GROUP_OPTIONS = [
-  { value: "AUTOSAVE", label: "Autosave (AS-XXX)" },
-  { value: "SYNC", label: "Sync (SY-XXX)" },
-  { value: "SESSION", label: "Session (SE-XXX)" },
-  { value: "WITHDRAW", label: "Withdraw (WF-XXX)" },
-  { value: "RESET", label: "Refresh (RE-XXX)" },
-  { value: "EFFECT", label: "Effects (EF-XXX)" },
-] as const;
-
-type LogGroupKey = (typeof LOG_GROUP_OPTIONS)[number]["value"];
+/**
+ * Moderator "Error Search": paste the transaction ID from a player's error
+ * message and the API returns what the request logged. The API works out
+ * when the transaction happened from the error it recorded, so the time is
+ * only needed when that fails (POST /support/transactionLookup).
+ */
 
 type LookupResponse = unknown;
-
-const formatDateTimeInput = (date: Date) => date.toISOString().slice(0, 16);
 
 const formatResultText = (value: string) =>
   value.replace(/\\n/g, "\n").replace(/\\t/g, "  ").replace(/\t/g, "  ");
 
+/** `datetime-local` value (no zone) read as UTC → ms epoch; NaN if invalid. */
 const toUtcMs = (value: string) => {
-  if (!value) return Number.NaN;
   const withSeconds = value.length === 16 ? `${value}:00` : value;
-  const timestamp = Date.parse(`${withSeconds}Z`);
-  return Number.isNaN(timestamp) ? Number.NaN : timestamp;
+  return Date.parse(`${withSeconds}Z`);
 };
 
 export const DEV_ErrorSearch: React.FC<ContentComponentProps> = () => {
@@ -42,26 +33,16 @@ export const DEV_ErrorSearch: React.FC<ContentComponentProps> = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
-  const defaultRange = useMemo(() => {
-    const alignedEnd = new Date(Math.floor(Date.now() / 60000) * 60000);
-    const alignedStart = new Date(alignedEnd.getTime() - FIFTEEN_MINUTES_MS);
-
-    return {
-      start: formatDateTimeInput(alignedStart),
-      end: formatDateTimeInput(alignedEnd),
-    };
-  }, []);
-
-  const [startTimeInput, setStartTimeInput] = useState(defaultRange.start);
-  const [endTimeInput, setEndTimeInput] = useState(defaultRange.end);
   const [transactionId, setTransactionId] = useState("");
-  const [api, setApi] = useState<LogGroupKey>(LOG_GROUP_OPTIONS[0].value);
+  const [approxTimeInput, setApproxTimeInput] = useState("");
   const [result, setResult] = useState<LookupResponse | null>(null);
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
-  const startTimeMs = useMemo(() => toUtcMs(startTimeInput), [startTimeInput]);
-  const endTimeMs = useMemo(() => toUtcMs(endTimeInput), [endTimeInput]);
+  const approxTimeMs = useMemo(
+    () => (approxTimeInput ? toUtcMs(approxTimeInput) : undefined),
+    [approxTimeInput],
+  );
 
   const transactionIdError = useMemo(() => {
     if (!transactionId) return "Transaction ID is required";
@@ -74,17 +55,12 @@ export const DEV_ErrorSearch: React.FC<ContentComponentProps> = () => {
     return "";
   }, [transactionId]);
 
-  const timeError = useMemo(() => {
-    if (Number.isNaN(startTimeMs) || Number.isNaN(endTimeMs))
-      return "Enter a valid UTC time window";
-    if (startTimeMs >= endTimeMs) return "End time must be after the start";
-    if (endTimeMs - startTimeMs > FIFTEEN_MINUTES_MS)
-      return "Select a window of 15 minutes or less";
-    return "";
-  }, [endTimeMs, startTimeMs]);
+  const timeError =
+    approxTimeMs !== undefined && Number.isNaN(approxTimeMs)
+      ? "Enter a valid UTC time, or leave it blank"
+      : "";
 
-  const canSubmit =
-    !loading && !transactionIdError && !timeError && !!transactionId && !!api;
+  const canSubmit = !loading && !transactionIdError && !timeError;
 
   const submitLookup = async () => {
     if (!canSubmit) return;
@@ -102,10 +78,8 @@ export const DEV_ErrorSearch: React.FC<ContentComponentProps> = () => {
             Authorization: `Bearer ${authState.context.user.rawToken as string}`,
           },
           body: JSON.stringify({
-            startTime: startTimeMs,
-            endTime: endTimeMs,
             transactionId,
-            api,
+            ...(approxTimeMs !== undefined ? { at: approxTimeMs } : {}),
           }),
         },
         { idempotent: true },
@@ -115,17 +89,19 @@ export const DEV_ErrorSearch: React.FC<ContentComponentProps> = () => {
       const parsed = (() => {
         try {
           return raw ? JSON.parse(raw) : raw;
-        } catch (jsonError) {
+        } catch {
           return raw;
         }
       })();
 
       if (!response.ok) {
-        setError(
+        const message =
           typeof parsed === "string"
-            ? parsed || t("transaction.somethingWentWrong")
-            : t("transaction.somethingWentWrong"),
-        );
+            ? parsed
+            : typeof parsed?.error === "string"
+              ? parsed.error
+              : "";
+        setError(message || t("transaction.somethingWentWrong"));
         return;
       }
 
@@ -140,43 +116,9 @@ export const DEV_ErrorSearch: React.FC<ContentComponentProps> = () => {
 
   return (
     <div className="flex flex-col gap-1.5 p-2 text-xs">
-      <p className="text-xs leading-snug">{`Times are captured in UTC. Maximum window is 15 minutes.`}</p>
-
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-2">
-          <Label
-            type="default"
-            className="!text-sm !py-0 !px-2 w-28 text-center whitespace-nowrap"
-          >{`Start (UTC)`}</Label>
-          <input
-            type="datetime-local"
-            value={startTimeInput}
-            max="9999-12-31T23:59"
-            step={60}
-            onChange={(event) => {
-              setStartTimeInput(event.target.value);
-            }}
-            className="text-shadow rounded-sm shadow-inner text-black placeholder-black shadow-black bg-brown-200 flex-1 p-1.5 h-10 text-sm"
-          />
-        </div>
-
-        <div className="flex items-center gap-2">
-          <Label
-            type="default"
-            className="!text-sm !py-0 !px-2 w-28 text-center whitespace-nowrap"
-          >{`End (UTC)`}</Label>
-          <input
-            type="datetime-local"
-            value={endTimeInput}
-            max="9999-12-31T23:59"
-            step={60}
-            onChange={(event) => {
-              setEndTimeInput(event.target.value);
-            }}
-            className="text-shadow rounded-sm shadow-inner text-black placeholder-black shadow-black bg-brown-200 flex-1 p-1.5 h-10 text-sm"
-          />
-        </div>
-      </div>
+      <p className="text-xs leading-snug">
+        {`Paste the Transaction ID from the player's error message. The time is found automatically from the recorded error — only add an approximate time (UTC) if the search comes back empty.`}
+      </p>
 
       <div className="flex items-center gap-2">
         <Label
@@ -196,18 +138,17 @@ export const DEV_ErrorSearch: React.FC<ContentComponentProps> = () => {
         <Label
           type="default"
           className="!text-sm !py-0 !px-2 w-28 text-center whitespace-nowrap"
-        >{`API`}</Label>
-        <select
-          value={api}
-          onChange={(event) => setApi(event.target.value as LogGroupKey)}
-          className="text-shadow rounded-sm shadow-inner text-black placeholder-black shadow-black bg-brown-200 flex-1 p-1.5 h-9 text-xs"
-        >
-          {LOG_GROUP_OPTIONS.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+        >{`Approx (UTC)`}</Label>
+        <input
+          type="datetime-local"
+          value={approxTimeInput}
+          max="9999-12-31T23:59"
+          step={60}
+          onChange={(event) => {
+            setApproxTimeInput(event.target.value);
+          }}
+          className="text-shadow rounded-sm shadow-inner text-black placeholder-black shadow-black bg-brown-200 flex-1 p-1.5 h-10 text-sm"
+        />
       </div>
 
       {(transactionIdError || timeError || error) && (
