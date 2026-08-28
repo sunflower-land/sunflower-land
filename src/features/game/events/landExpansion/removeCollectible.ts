@@ -11,6 +11,7 @@ import { produce } from "immer";
 import { LIMITED_ITEMS } from "./burnCollectible";
 import {
   EXPIRY_COOLDOWNS,
+  getCollectibleExpiry,
   type TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
 import { PET_SHRINES } from "features/game/types/pets";
@@ -111,7 +112,13 @@ export function removeCollectible({
         throw new Error(REMOVE_COLLECTIBLE_ERRORS.LIMITED_ITEM_IN_USE);
       }
 
-      if (!cooldown || (collectible.createdAt ?? 0) + cooldown > createdAt) {
+      const expiresAt = getCollectibleExpiry({
+        name: action.name as TemporaryCollectibleName,
+        collectible,
+        game: stateCopy,
+      });
+
+      if (!cooldown || expiresAt > createdAt) {
         throw new Error(REMOVE_COLLECTIBLE_ERRORS.LIMITED_ITEM_IN_USE);
       }
     }

@@ -8,7 +8,7 @@ import type {
   PlacedItem,
 } from "../types/game";
 import {
-  getExpiryCooldown,
+  getCollectibleExpiry,
   type TemporaryCollectibleName,
 } from "./collectibleBuilt";
 import { getCollectiblesAcrossLocations } from "./getCollectiblesAcrossLocations";
@@ -581,7 +581,8 @@ export const getMineBoostWindows = (
 
 /**
  * Build the active windows for a single temporary collectible. Each LIVE placement
- * yields `[createdAt, min(createdAt + cooldown, removedAt)]`; FINALISED intervals
+ * yields `[createdAt, min(expiry, removedAt)]` — where the expiry includes any
+ * paid extension banked on the placement; FINALISED intervals
  * recorded in `game.boostHistory` (when the booster was burned or renewed) are
  * unioned in so the boost's contribution survives the placed record being deleted
  * or its `createdAt` reset. All windows take the given speed; overlapping ones for
@@ -596,8 +597,6 @@ export function getBoostWindows({
   name: TemporaryCollectibleName;
   speed: number;
 }): BoostWindow[] {
-  const cooldown = getExpiryCooldown(name, game);
-
   const live = getCollectiblesAcrossLocations(game, name)
     .filter(
       (
@@ -607,7 +606,7 @@ export function getBoostWindows({
     )
     .map((placed) => {
       const from = placed.createdAt;
-      const expiry = from + cooldown;
+      const expiry = getCollectibleExpiry({ name, collectible: placed, game });
       const to =
         placed.removedAt !== undefined
           ? Math.min(expiry, placed.removedAt)

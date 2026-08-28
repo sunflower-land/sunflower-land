@@ -217,7 +217,11 @@ export function getRemoveAction(
     const isShrine = name in PET_SHRINES || name === "Obsidian Shrine";
     if (isShrine && collectible) {
       const cooldown = EXPIRY_COOLDOWNS[name as TemporaryCollectibleName];
-      if (!cooldown || (collectible.createdAt ?? 0) + cooldown > now) {
+      // Mirrors the server's removal gate: a shrine kept alive by a paid
+      // extension is still active, so it stays non-removable until that runs out.
+      const expiresAt =
+        (collectible.createdAt ?? 0) + cooldown + (collectible.extendedMs ?? 0);
+      if (!cooldown || expiresAt > now) {
         return null;
       }
       return "collectible.removed";
