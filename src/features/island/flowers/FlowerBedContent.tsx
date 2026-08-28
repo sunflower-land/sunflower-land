@@ -19,7 +19,6 @@ import {
 } from "features/game/types/flowers";
 import { getKeys } from "lib/object";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { secondsToString } from "lib/utils/time";
 import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
@@ -33,6 +32,7 @@ import { getSeedBoostWindows } from "features/game/lib/seedBoostWindows";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SEASONAL_SEEDS } from "features/game/types/seeds";
 import { SEASON_ICONS } from "../buildings/components/building/market/SeasonalSeeds";
+import { useSelector } from "@xstate/react";
 
 const isFlower = (name: FlowerCrossBreedName): name is FlowerName =>
   name in FLOWERS;
@@ -67,11 +67,7 @@ const useFlowerSeedTime = (state: GameState, seed?: FlowerSeedName) => {
 export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, (state) => state.context.state);
   const { inventory, flowers } = state;
 
   const [selecting, setSelecting] = useState<"seed" | "crossbreed" | null>(
@@ -206,9 +202,16 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
                   {secondsToString(selectedSeedTime.displaySeconds, {
                     length: "medium",
                   })}
-                  {selectedSeedTime.speed > 1 &&
-                    ` (${Number(selectedSeedTime.speed.toFixed(2))}x)`}
                 </Label>
+                {selectedSeedTime.speed > 1 && (
+                  <Label
+                    type="vibrant"
+                    className="ml-1 whitespace-nowrap"
+                    icon={SUNNYSIDE.icons.lightning}
+                  >
+                    {`Speed: ${Number(selectedSeedTime.speed.toFixed(2))}x`}
+                  </Label>
+                )}
               </div>
             </div>
           </div>

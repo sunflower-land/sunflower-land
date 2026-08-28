@@ -35,6 +35,8 @@ import type {
 } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
 import { getCropPlotTime } from "features/game/events/landExpansion/plant";
+import { getPreActionTime } from "features/game/lib/timerDisplay";
+import { getSeedBoostWindows } from "features/game/lib/seedBoostWindows";
 import { getAvailablePlots } from "features/game/events/landExpansion/bulkPlant";
 import { getCropsToHarvest } from "features/game/events/landExpansion/bulkHarvest";
 import { getReward } from "features/game/events/landExpansion/harvest";
@@ -374,11 +376,24 @@ const HarvestSection: React.FC<{
   );
 };
 
-const getPlantSeconds = (
-  selectedSeed: CropSeedName,
-  state: GameState,
-  createdAt: number,
-) => {
+/**
+ * The grow time to show for the seed about to be bulk-planted. A live speed
+ * window isn't folded into `getCropPlotTime`, so surface it the way the other
+ * pre-action panels do: the current rate in the speed view, or the real "plant
+ * now → ready in X" in the actual-time view, which credits only the part of the
+ * grow the booster still covers.
+ */
+const getPlantTime = ({
+  selectedSeed,
+  state,
+  showActualTime,
+  createdAt,
+}: {
+  selectedSeed: CropSeedName;
+  state: GameState;
+  showActualTime: boolean;
+  createdAt: number;
+}) => {
   const yields = SEEDS[selectedSeed as SeedName].yield;
 
   const { time } = getCropPlotTime({
@@ -386,7 +401,13 @@ const getPlantSeconds = (
     game: state,
     createdAt,
   });
-  return time;
+
+  return getPreActionTime({
+    showActualTime,
+    seconds: time,
+    windows: getSeedBoostWindows(state, selectedSeed),
+    at: createdAt,
+  });
 };
 
 const PlantSection: React.FC<{
@@ -394,7 +415,7 @@ const PlantSection: React.FC<{
   availablePlots: [string, CropPlot][];
 }> = ({ state, availablePlots }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
+  const { gameService, showActualTime } = useContext(Context);
   const now = useNow({ live: true });
 
   const [selectedSeed, setSelectedSeed] = useState<CropSeedName | null>(
@@ -426,6 +447,15 @@ const PlantSection: React.FC<{
     selectedSeed && selectedSeed in availableSeeds
       ? selectedSeed
       : ((Object.keys(availableSeeds)[0] as CropSeedName | undefined) ?? null);
+
+  const plantTime = effectiveSeed
+    ? getPlantTime({
+        selectedSeed: effectiveSeed,
+        state,
+        showActualTime,
+        createdAt: now,
+      })
+    : undefined;
 
   const selectSeed = (seed: CropSeedName) => {
     localStorage.setItem(SEED_STORAGE_KEY, seed);
@@ -482,7 +512,7 @@ const PlantSection: React.FC<{
               />
             ))}
           </div>
-          {effectiveSeed && (
+          {effectiveSeed && plantTime && (
             <div className="flex flex-wrap justify-between gap-1 my-2 px-1">
               <Label
                 type="default"
@@ -492,12 +522,25 @@ const PlantSection: React.FC<{
               >
                 {getTranslatedItemName(effectiveSeed)}
               </Label>
-              <Label type="info" secondaryIcon={SUNNYSIDE.icons.stopwatch}>
-                {secondsToString(getPlantSeconds(effectiveSeed, state, now), {
-                  length: "medium",
-                  removeTrailingZeros: true,
-                })}
-              </Label>
+              <div className="flex items-center gap-1">
+                <Label type="info" secondaryIcon={SUNNYSIDE.icons.stopwatch}>
+                  {secondsToString(plantTime.displaySeconds, {
+                    length: "medium",
+                    removeTrailingZeros: true,
+                  })}
+                </Label>
+                {plantTime.speed > 1 && (
+                  <Label
+                    type="vibrant"
+                    icon={SUNNYSIDE.icons.lightning}
+                    className="whitespace-nowrap"
+                  >
+                    {t("description.boostedSpeed", {
+                      speed: Number(plantTime.speed.toFixed(2)),
+                    })}
+                  </Label>
+                )}
+              </div>
             </div>
           )}
           <Button
