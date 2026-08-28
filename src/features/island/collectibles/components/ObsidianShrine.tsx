@@ -12,7 +12,13 @@ import {
   ITEM_DETAILS,
   getTranslatedItemName,
 } from "features/game/types/images";
-import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
+import {
+  EXPIRY_COOLDOWNS,
+  getCollectibleExpiry,
+  getCollectiblesAcrossLocations,
+} from "features/game/lib/collectibleBuilt";
+import { ExtendCollectible } from "features/game/components/ExtendCollectible";
+import { hasFeatureAccess } from "lib/flags";
 import { Modal } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
@@ -79,18 +85,33 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
   const { gameService, showTimers, showAnimations } = useContext(Context);
   const { isVisiting } = useVisiting();
   const [showRenewalModal, setShowRenewalModal] = useState(false);
+  const [showExtendModal, setShowExtendModal] = useState(false);
   const [show, setShow] = useState(false);
   const [reward, setReward] = useState<Reward>();
 
-  const expiresAt = createdAt + (EXPIRY_COOLDOWNS["Obsidian Shrine"] ?? 0);
+  const state = useSelector(gameService, selectGameState);
+
+  // Read the placement so any time bought via `collectible.extended` is included
+  // in the countdown rather than the shrine appearing to expire early.
+  const placed = getCollectiblesAcrossLocations(state, "Obsidian Shrine").find(
+    (collectible) => collectible.id === id,
+  );
+  const extendedMs = placed?.extendedMs ?? 0;
+  const expiresAt = getCollectibleExpiry({
+    name: "Obsidian Shrine",
+    collectible: placed ?? { createdAt },
+    game: state,
+  });
   const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
-  const durationSeconds = (EXPIRY_COOLDOWNS["Obsidian Shrine"] ?? 0) / 1000;
+  const durationSeconds =
+    ((EXPIRY_COOLDOWNS["Obsidian Shrine"] ?? 0) + extendedMs) / 1000;
   const percentage = 100 - (secondsToExpire / durationSeconds) * 100;
   const hasExpired = secondsToExpire <= 0;
+  const canExtend =
+    !isVisiting && hasFeatureAccess(state, "SPEED_BOOSTS") && !!placed;
 
   const now = useNow({ live: !hasExpired, autoEndAt: expiresAt });
 
-  const state = useSelector(gameService, selectGameState);
   const verified = useSelector(gameService, selectVerified);
   const farmId = useSelector(gameService, (s) => s.context.farmId);
   const isSeasoned = isSeasonedPlayer({ game: state, verified, now });
@@ -273,15 +294,25 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
             <Label type="default" icon={ITEM_DETAILS["Obsidian Shrine"].image}>
               {getTranslatedItemName("Obsidian Shrine")}
             </Label>
-            <Label type="info" secondaryIcon={SUNNYSIDE.icons.stopwatch}>
-              {t("time.remaining", {
-                time: secondsToString(secondsToExpire, {
-                  length: "medium",
-                  isShortFormat: true,
-                  removeTrailingZeros: true,
-                }),
-              })}
-            </Label>
+            <div className="flex items-center gap-1">
+              <Label type="info" secondaryIcon={SUNNYSIDE.icons.stopwatch}>
+                {t("time.remaining", {
+                  time: secondsToString(secondsToExpire, {
+                    length: "medium",
+                    isShortFormat: true,
+                    removeTrailingZeros: true,
+                  }),
+                })}
+              </Label>
+              {canExtend && (
+                <Button
+                  className="w-auto h-8 px-2 text-xs"
+                  onClick={() => setShowExtendModal(true)}
+                >
+                  {t("extend")}
+                </Button>
+              )}
+            </div>
           </div>
 
           {reward ? (
@@ -308,6 +339,15 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
           )}
         </OuterPanel>
       </Modal>
+
+      <ExtendCollectible
+        show={showExtendModal}
+        onHide={() => setShowExtendModal(false)}
+        name="Obsidian Shrine"
+        id={id}
+        location={location}
+        expiresAt={expiresAt}
+      />
 
       {hasReadyCrops && (
         <img

@@ -15,7 +15,16 @@ import {
 import { secondsToString } from "lib/utils/time";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
+import {
+  EXPIRY_COOLDOWNS,
+  getCollectibleExpiry,
+  getCollectiblesAcrossLocations,
+} from "features/game/lib/collectibleBuilt";
+import { ExtendCollectible } from "features/game/components/ExtendCollectible";
+import { Button } from "components/ui/Button";
+import { hasFeatureAccess } from "lib/flags";
+import { useSelector } from "@xstate/react";
+import type { MachineState } from "features/game/lib/gameMachine";
 import type { PetShrineName } from "features/game/types/pets";
 import { getObjectEntries } from "lib/object";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
@@ -70,18 +79,34 @@ export const PET_SHRINE_DIMENSIONS_STYLES = getObjectEntries(
   { ...PET_SHRINE_DIMENSIONS },
 );
 
+const _gameState = (state: MachineState) => state.context.state;
+
 export const PetShrine: React.FC<
   CollectibleProps & { name: PetShrineName | "Obsidian Shrine" }
 > = ({ createdAt, id, location, name }) => {
   const { t } = useAppTranslation();
-  const { showTimers, showAnimations } = useContext(Context);
+  const { gameService, showTimers, showAnimations } = useContext(Context);
   const [showRenewalModal, setShowRenewalModal] = useState(false);
+  const [showExtendModal, setShowExtendModal] = useState(false);
   const { isVisiting } = useVisiting();
+  const gameState = useSelector(gameService, _gameState);
 
-  const expiresAt = createdAt + (EXPIRY_COOLDOWNS[name] ?? 0);
+  // Read the placement so any time bought via `collectible.extended` is included
+  // in the countdown rather than the shrine appearing to expire early.
+  const placed = getCollectiblesAcrossLocations(gameState, name).find(
+    (collectible) => collectible.id === id,
+  );
+  const extendedMs = placed?.extendedMs ?? 0;
+  const expiresAt = getCollectibleExpiry({
+    name,
+    collectible: placed ?? { createdAt },
+    game: gameState,
+  });
+  const canExtend =
+    !isVisiting && hasFeatureAccess(gameState, "SPEED_BOOSTS") && !!placed;
 
   const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
-  const durationSeconds = (EXPIRY_COOLDOWNS[name] ?? 0) / 1000;
+  const durationSeconds = ((EXPIRY_COOLDOWNS[name] ?? 0) + extendedMs) / 1000;
   const percentage = 100 - (secondsToExpire / durationSeconds) * 100;
   const hasExpired = secondsToExpire <= 0;
 
@@ -151,59 +176,77 @@ export const PetShrine: React.FC<
   }
 
   return (
-    <Popover>
-      <PopoverButton as="div">
-        <div
-          className="absolute"
-          style={{ ...PET_SHRINE_DIMENSIONS_STYLES[name], bottom: 0 }}
-        >
-          <img
-            src={ITEM_DETAILS[name].image}
-            style={{ ...PET_SHRINE_DIMENSIONS_STYLES[name], bottom: 0 }}
-            className="absolute cursor-pointer"
-            alt={name}
-          />
-        </div>
-        {showTimers && (
+    <>
+      <Popover>
+        <PopoverButton as="div">
           <div
-            className="absolute left-1/2"
-            style={{
-              width: `${PIXEL_SCALE * 15}px`,
-              transform: "translateX(-50%)",
-              bottom: `${PIXEL_SCALE * -3}px`,
-            }}
+            className="absolute"
+            style={{ ...PET_SHRINE_DIMENSIONS_STYLES[name], bottom: 0 }}
           >
-            <ProgressBar
-              seconds={secondsToExpire}
-              formatLength="medium"
-              type={"progress"}
-              percentage={percentage}
+            <img
+              src={ITEM_DETAILS[name].image}
+              style={{ ...PET_SHRINE_DIMENSIONS_STYLES[name], bottom: 0 }}
+              className="absolute cursor-pointer"
+              alt={name}
             />
           </div>
-        )}
-      </PopoverButton>
+          {showTimers && (
+            <div
+              className="absolute left-1/2"
+              style={{
+                width: `${PIXEL_SCALE * 15}px`,
+                transform: "translateX(-50%)",
+                bottom: `${PIXEL_SCALE * -3}px`,
+              }}
+            >
+              <ProgressBar
+                seconds={secondsToExpire}
+                formatLength="medium"
+                type={"progress"}
+                percentage={percentage}
+              />
+            </div>
+          )}
+        </PopoverButton>
 
-      <PopoverPanel anchor={{ to: "left start" }} className="flex">
-        <SFTDetailPopoverInnerPanel>
-          <SFTDetailPopoverLabel name={name} />
-          <Label
-            type="info"
-            icon={SUNNYSIDE.icons.stopwatch}
-            className="mt-2 mb-2"
-          >
-            <span className="text-xs">
-              {t("time.remaining", {
-                time: secondsToString(secondsToExpire, {
-                  length: "medium",
-                  isShortFormat: true,
-                  removeTrailingZeros: true,
-                }),
-              })}
-            </span>
-          </Label>
-          <SFTDetailPopoverBuffs name={name} />
-        </SFTDetailPopoverInnerPanel>
-      </PopoverPanel>
-    </Popover>
+        <PopoverPanel anchor={{ to: "left start" }} className="flex">
+          <SFTDetailPopoverInnerPanel>
+            <SFTDetailPopoverLabel name={name} />
+            <Label
+              type="info"
+              icon={SUNNYSIDE.icons.stopwatch}
+              className="mt-2 mb-2"
+            >
+              <span className="text-xs">
+                {t("time.remaining", {
+                  time: secondsToString(secondsToExpire, {
+                    length: "medium",
+                    isShortFormat: true,
+                    removeTrailingZeros: true,
+                  }),
+                })}
+              </span>
+            </Label>
+            <SFTDetailPopoverBuffs name={name} />
+            {canExtend && (
+              <Button className="mt-2" onClick={() => setShowExtendModal(true)}>
+                {t("extend")}
+              </Button>
+            )}
+          </SFTDetailPopoverInnerPanel>
+        </PopoverPanel>
+      </Popover>
+
+      {/* Rendered outside the Popover: interacting with the modal counts as an
+          outside click, which closes the panel. */}
+      <ExtendCollectible
+        show={showExtendModal}
+        onHide={() => setShowExtendModal(false)}
+        name={name}
+        id={id}
+        location={location}
+        expiresAt={expiresAt}
+      />
+    </>
   );
 };
