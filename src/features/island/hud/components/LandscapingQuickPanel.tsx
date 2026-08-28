@@ -561,6 +561,9 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
           count={chestMap[name]}
           image={image}
           disabled={alreadyPlaced}
+          // Bottom-right cross, so a greyed tile reads as "can't place this"
+          // rather than as a loading or locked state.
+          secondaryImage={alreadyPlaced ? SUNNYSIDE.icons.cancel : undefined}
           onClick={() => handleClick(item)}
         />,
         alreadyPlaced,
