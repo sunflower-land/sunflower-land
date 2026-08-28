@@ -11,12 +11,12 @@ import { useSelector } from "@xstate/react";
 import { secondsToString } from "lib/utils/time";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
+import { getChestItemCount } from "features/island/hud/components/inventory/utils/inventory";
 import { ITEM_DETAILS, getTranslatedItemName } from "../types/images";
 import { Context } from "../GameProvider";
 import type { MachineState } from "../lib/gameMachine";
 import type { PlaceableLocation } from "../types/collectibles";
-import type { GameState, Inventory } from "../types/game";
+import type { GameState, InventoryItemName } from "../types/game";
 import { COLLECTIBLE_BUFF_LABELS } from "../types/collectibleItemBuffs";
 import { getExpiryCooldown } from "../lib/collectibleBuilt";
 import {
@@ -75,9 +75,6 @@ export const TemporaryCollectibleModal: React.FC<Props> = ({
           name={name}
           expiresAt={expiresAt}
           canExtend={canExtend}
-          // Chest balances, not raw inventory: the placement being extended still
-          // counts towards the inventory, but cannot pay for its own extension.
-          inventory={getChestItems(gameState)}
           coinBalance={coinBalance}
           gameState={gameState}
         />
@@ -91,18 +88,9 @@ const TemporaryCollectibleContent: React.FC<{
   name: ExtendableCollectibleName;
   expiresAt: number;
   canExtend: boolean;
-  inventory: Inventory;
   coinBalance: number;
   gameState: GameState;
-}> = ({
-  handleExtend,
-  name,
-  expiresAt,
-  canExtend,
-  inventory,
-  coinBalance,
-  gameState,
-}) => {
+}> = ({ handleExtend, name, expiresAt, canExtend, coinBalance, gameState }) => {
   const { t } = useAppTranslation();
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showIngredients, setShowIngredients] = useState(false);
@@ -111,12 +99,21 @@ const TemporaryCollectibleContent: React.FC<{
   const { coins: coinCost, ingredients } = getExtensionCost(name);
   const extraSeconds = getExpiryCooldown(name, gameState) / 1000;
 
+  /**
+   * The balance the reducer will actually charge against: unplaced copies for a
+   * placeable (the hourglass being extended cannot pay for its own extension),
+   * and the plain inventory count for a shrine's ingredients. Must stay
+   * `getChestItemCount` to match `extendCollectible` - `getChestItems` silently
+   * omits anything that is not a placeable, which reads every shrine ingredient
+   * as a zero balance.
+   */
+  const balanceOf = (itemName: InventoryItemName) =>
+    getChestItemCount(gameState, itemName);
+
   const canAfford =
     coinBalance >= coinCost &&
     getKeys(ingredients).every((itemName) =>
-      (inventory[itemName] ?? new Decimal(0)).gte(
-        ingredients[itemName] ?? new Decimal(0),
-      ),
+      balanceOf(itemName).gte(ingredients[itemName] ?? new Decimal(0)),
     );
 
   // Belt and braces: the host component swaps to its expired branch and unmounts
@@ -212,7 +209,7 @@ const TemporaryCollectibleContent: React.FC<{
                 key={itemName}
                 type="item"
                 item={itemName}
-                balance={inventory[itemName] ?? new Decimal(0)}
+                balance={balanceOf(itemName)}
                 requirement={ingredients[itemName] ?? new Decimal(0)}
               />
             ))}
