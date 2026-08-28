@@ -1,7 +1,7 @@
 import type { HourglassType } from "features/island/collectibles/components/Hourglass";
 import type { CollectibleName } from "../types/craftables";
 import { getKeys } from "lib/object";
-import type { GameState, PlacedItem } from "../types/game";
+import type { GameState, InventoryItemName, PlacedItem } from "../types/game";
 import { PET_SHRINES, type PetShrineName } from "../types/pets";
 import { isPetCollectible } from "../events/landExpansion/placeCollectible";
 import { getCollectiblesAcrossLocations } from "./getCollectiblesAcrossLocations";
@@ -103,6 +103,14 @@ export function getExpiryCooldown(
 
   return EXPIRY_COOLDOWNS[name];
 }
+
+/**
+ * Whether a collectible is one of the time-limited boosters — the items that
+ * expire and can be renewed or extended, keyed by `EXPIRY_COOLDOWNS`.
+ */
+export const isTemporaryCollectible = (
+  name: InventoryItemName,
+): name is TemporaryCollectibleName => name in EXPIRY_COOLDOWNS;
 
 /**
  * Wall-clock expiry of ONE placed temporary collectible: its `createdAt` plus the

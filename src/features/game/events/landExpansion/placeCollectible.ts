@@ -21,7 +21,10 @@ import {
   PET_HOUSE_CAPACITY,
   PET_TYPES,
 } from "features/game/types/pets";
-import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
+import {
+  EXPIRY_COOLDOWNS,
+  isTemporaryCollectible,
+} from "features/game/lib/collectibleBuilt";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { COMPETITION_POINTS } from "features/game/types/competitions";
 import { populateSaltFarm } from "features/game/types/salt";
@@ -82,6 +85,20 @@ export function placeCollectible({
 
     if (!(collectible in COLLECTIBLES_DIMENSIONS)) {
       throw new Error("You cannot place this item");
+    }
+
+    // A temporary collectible grants ONE boost window per name: a second copy
+    // placed alongside the first merges into that same window (see
+    // getBoostWindows) and would burn an item for nothing. So only one may be
+    // down at a time - whether or not it has expired, since an expired one is
+    // still occupying the map and can be renewed or extended in place.
+    if (
+      isTemporaryCollectible(collectible) &&
+      getCollectiblesAcrossLocations(stateCopy, collectible).some(
+        (placed) => !!placed.coordinates,
+      )
+    ) {
+      throw new Error("Only one of this temporary collectible can be placed");
     }
 
     // Only pet collectibles can be placed in the pet house
