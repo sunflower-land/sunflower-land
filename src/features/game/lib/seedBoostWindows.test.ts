@@ -10,6 +10,11 @@ import {
 } from "./boostWindows";
 import { TEST_FARM } from "./constants";
 import type { GameState } from "../types/game";
+import { CONFIG } from "lib/config";
+
+const setNetwork = (network: "mainnet" | "amoy") => {
+  (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = network;
+};
 
 const createdAt = 1_000_000;
 
@@ -104,5 +109,28 @@ describe("getNodeBoostWindows", () => {
     // Sunstone has no temporary recovery boost; crab pots and salt aren't rocks.
     expect(getNodeBoostWindows(BOOSTED, "Sunstone Rock")).toEqual([]);
     expect(getNodeBoostWindows(BOOSTED, "Crop Plot")).toEqual([]);
+  });
+});
+
+// These resolvers exist ONLY for the pre-action panels (seed shop, guides), and a
+// task started without `SPEED_BOOSTS` is timed by the legacy baked model — the
+// boosters are already folded into the number the panel shows. Surfacing windows
+// as well would state the same boost twice ("x0.75 Moth Shrine" AND
+// "Speed: 1.35x Moth Shrine"), which is what players without the flag were seeing.
+describe("without SPEED_BOOSTS", () => {
+  const originalNetwork = CONFIG.NETWORK;
+  beforeEach(() => setNetwork("mainnet"));
+  afterAll(() => setNetwork(originalNetwork));
+
+  it("surfaces no seed windows", () => {
+    expect(getSeedBoostWindows(BOOSTED, "Sunflower Seed")).toEqual([]);
+    expect(getSeedBoostWindows(BOOSTED, "Sunpetal Seed")).toEqual([]);
+    expect(getSeedBoostWindows(BOOSTED, "Rice Seed")).toEqual([]);
+  });
+
+  it("surfaces no node windows", () => {
+    expect(getNodeBoostWindows(BOOSTED, "Tree")).toEqual([]);
+    expect(getNodeBoostWindows(BOOSTED, "Stone Rock")).toEqual([]);
+    expect(getNodeBoostWindows(BOOSTED, "Oil Reserve")).toEqual([]);
   });
 });

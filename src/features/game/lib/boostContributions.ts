@@ -1,3 +1,4 @@
+import { hasFeatureAccess } from "lib/flags";
 import type { BoostName, GameState } from "../types/game";
 import type { ResourceName, RockName } from "../types/resources";
 import type { SeedName } from "../types/seeds";
@@ -214,12 +215,21 @@ const mine = (
   }
 };
 
-/** The named boosts that would speed up this seed — mirrors getSeedBoostWindows. */
+/**
+ * The named boosts that would speed up this seed — mirrors getSeedBoostWindows.
+ *
+ * Gated on `SPEED_BOOSTS` alongside the windows these name (see
+ * `getSeedBoostWindows` for why the pre-action path keys off the flag rather than
+ * a `baseDurationMs` marker). Without it the boosters are baked into the time and
+ * already listed in `boostsUsed`, so a rate row here would claim them twice.
+ */
 export function getSeedBoostContributions(
   game: GameState,
   seed: SeedName,
   at: number,
 ): BoostContribution[] {
+  if (!hasFeatureAccess(game, "SPEED_BOOSTS")) return [];
+
   if (isFlowerSeed(seed)) return flower(game, at);
   if (isPatchFruitSeed(seed)) return fruit(game, at);
   if (seed in GREENHOUSE_SEEDS || seed in GREENHOUSE_FRUIT_SEEDS) {
@@ -238,6 +248,8 @@ export function getCookingBoostContributions(
   game: GameState,
   at: number,
 ): BoostContribution[] {
+  if (!hasFeatureAccess(game, "SPEED_BOOSTS")) return [];
+
   return cooking(game, at);
 }
 
@@ -246,6 +258,8 @@ export function getAnimalBoostContributions(
   game: GameState,
   animalType: AnimalType,
 ): BoostContribution[] {
+  if (!hasFeatureAccess(game, "SPEED_BOOSTS")) return [];
+
   return animal(game, animalType);
 }
 
@@ -255,6 +269,8 @@ export function getNodeBoostContributions(
   node: ResourceName,
   at: number,
 ): BoostContribution[] {
+  if (!hasFeatureAccess(game, "SPEED_BOOSTS")) return [];
+
   if (node === "Tree") return tree(game, at);
   if (node === "Oil Reserve") return oil(game, at);
   if (node.endsWith("Rock")) return mine(game, node as RockName, at);

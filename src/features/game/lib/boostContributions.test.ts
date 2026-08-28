@@ -13,6 +13,11 @@ import type { SeedName } from "../types/seeds";
 import type { ResourceName } from "../types/resources";
 import type { AnimalType } from "../types/animals";
 import { getAnimalBoostWindows, getCookingBoostWindows } from "./boostWindows";
+import { CONFIG } from "lib/config";
+
+const setNetwork = (network: "mainnet" | "amoy") => {
+  (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = network;
+};
 
 const createdAt = 1_000_000;
 const at = createdAt + 1000;
@@ -239,5 +244,42 @@ describe("totem attribution", () => {
     });
 
     expect(entries).toEqual([{ name: "Super Totem", value: "Speed: 2x" }]);
+  });
+});
+
+// The contributions name the windows for the boost panel, so they have to
+// disappear with them: without `SPEED_BOOSTS` the boosters are baked into the
+// time and already listed in `boostsUsed`, and a "Speed: 1.35x" row beside that
+// would claim the same boost a second time.
+describe("without SPEED_BOOSTS", () => {
+  const originalNetwork = CONFIG.NETWORK;
+  beforeEach(() => setNetwork("mainnet"));
+  afterAll(() => setNetwork(originalNetwork));
+
+  it("names no boosters for a seed", () => {
+    expect(getSeedBoostContributions(BOOSTED, "Sunpetal Seed", at)).toEqual([]);
+    expect(getSeedBoostContributions(BOOSTED, "Grape Seed", at)).toEqual([]);
+  });
+
+  it("names no boosters for a node", () => {
+    expect(getNodeBoostContributions(BOOSTED, "Tree", at)).toEqual([]);
+  });
+
+  it("names no boosters for cooking or an animal", () => {
+    expect(getCookingBoostContributions(BOOSTED, at)).toEqual([]);
+    expect(getAnimalBoostContributions(BOOSTED, "Chicken")).toEqual([]);
+  });
+
+  it("leaves the panel with nothing to add", () => {
+    expect(
+      getBoostContributionEntries({
+        contributions: getNodeBoostContributions(BOOSTED, "Tree", at),
+        seconds: 4 * HOUR,
+        at,
+        showActualTime: false,
+        formatSeconds: (seconds) => `${Math.round(seconds / 60)}m`,
+        formatSpeed: (speed) => `Speed: ${speed}x`,
+      }),
+    ).toEqual([]);
   });
 });

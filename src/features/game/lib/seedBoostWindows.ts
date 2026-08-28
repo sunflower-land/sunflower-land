@@ -1,3 +1,4 @@
+import { hasFeatureAccess } from "lib/flags";
 import type { GameState } from "../types/game";
 import type { SeedName } from "../types/seeds";
 import type { ResourceName, RockName } from "../types/resources";
@@ -24,11 +25,20 @@ import {
  * they resolve the activity from that. Anything unrecognised — or an activity
  * that was never migrated to the windowed model — yields an empty set, which
  * makes `projectSeconds` the identity.
+ *
+ * Gated on `SPEED_BOOSTS` — unlike the in-world timers, which key off the node's
+ * `baseDurationMs` marker. Nothing has been started here, so there is no marker to
+ * read: a task begun without the flag is timed by the legacy baked model, where the
+ * boosters are already folded into the number the panel shows and listed by name in
+ * `boostsUsed`. Returning windows anyway made those panels state the same boost
+ * twice — "x0.75 Moth Shrine" beside "Speed: 1.35x Moth Shrine".
  */
 export function getSeedBoostWindows(
   game: GameState,
   seed: SeedName,
 ): BoostWindow[] {
+  if (!hasFeatureAccess(game, "SPEED_BOOSTS")) return [];
+
   if (isFlowerSeed(seed)) return getFlowerBoostWindows(game);
   if (isPatchFruitSeed(seed)) return getFruitBoostWindows(game);
 
@@ -47,6 +57,8 @@ export function getNodeBoostWindows(
   game: GameState,
   node: ResourceName,
 ): BoostWindow[] {
+  if (!hasFeatureAccess(game, "SPEED_BOOSTS")) return [];
+
   if (node === "Tree") return getTreeBoostWindows(game);
   if (node === "Oil Reserve") return getOilBoostWindows(game);
   if (node.endsWith("Rock")) return getMineBoostWindows(game, node as RockName);
