@@ -1,4 +1,4 @@
-import { getCookingQueueReadyAts } from "./cookingReadiness";
+import { getCookingQueueReadyAts, pauseCookingQueue } from "./cookingReadiness";
 import { COOKING_BOOST_SPEED } from "./boostWindows";
 import { getExpiryCooldown } from "./collectibleBuilt";
 import { TEST_FARM } from "./constants";
@@ -258,5 +258,60 @@ describe("COOKING_BOOST_SPEED", () => {
     expect(COOKING_BOOST_SPEED["Time Warp Totem"]).toEqual(2);
     expect(COOKING_BOOST_SPEED["Legendary Shrine"]).toEqual(2);
     expect(COOKING_BOOST_SPEED["Boar Shrine"]).toEqual(1.25);
+  });
+});
+
+describe("pauseCookingQueue", () => {
+  const MIN = 60 * 1000;
+  const now = 1700000000000;
+
+  it("does not credit pre-lift progress twice behind a completed legacy recipe", () => {
+    // A legacy recipe keeps its wall-clock remainder, which for one that had
+    // already FINISHED is a readyAt in the past. A windowed recipe chained to it
+    // would otherwise derive a start before the placement and re-accrue the work
+    // it had already banked.
+    const legacyReadyAt = now - 50 * MIN;
+    const removedAt = now - 30 * MIN;
+
+    const crafting: BuildingProduct[] = [
+      { id: "legacy", name: "Boiled Eggs", readyAt: legacyReadyAt },
+      {
+        id: "windowed",
+        name: "Boiled Eggs",
+        baseDurationMs: 60 * MIN,
+        readyAt: 0,
+      },
+    ];
+
+    pauseCookingQueue({ crafting, removedAt, placedAt: now, windows: [] });
+
+    // It had banked 20m (legacyReadyAt -> removedAt), so 40m of work remains and
+    // it resumes from the placement.
+    expect(crafting[1].baseDurationMs).toEqual(40 * MIN);
+    expect(crafting[1].startedAt).toEqual(now);
+    expect(crafting[1].readyAt).toEqual(now + 40 * MIN);
+  });
+
+  it("leaves a recipe that had not started chained to the one ahead of it", () => {
+    const removedAt = now - 30 * MIN;
+
+    const crafting: BuildingProduct[] = [
+      {
+        id: "head",
+        name: "Boiled Eggs",
+        startedAt: now - 40 * MIN,
+        baseDurationMs: 60 * MIN,
+        readyAt: now + 20 * MIN,
+      },
+      { id: "tail", name: "Boiled Eggs", baseDurationMs: 30 * MIN, readyAt: 0 },
+    ];
+
+    pauseCookingQueue({ crafting, removedAt, placedAt: now, windows: [] });
+
+    // The head banked 10m, so 50m left from the placement; the tail never began,
+    // so it keeps chaining off whatever the head derives to.
+    expect(crafting[0].readyAt).toEqual(now + 50 * MIN);
+    expect(crafting[1].startedAt).toBeUndefined();
+    expect(crafting[1].readyAt).toEqual(now + 80 * MIN);
   });
 });

@@ -158,7 +158,14 @@ export const pauseCookingQueue = ({
     );
     recipe.baseDurationMs -= banked;
 
-    if (recipe.startedAt !== undefined) {
+    // Re-anchor anything that had actually BEGUN by the lift. An explicit
+    // `startedAt` says so outright; `banked > 0` catches a chained recipe whose
+    // predecessor was a LEGACY one that had already finished - that predecessor
+    // keeps its wall-clock remainder, which is a `readyAt` in the PAST, and a
+    // successor left chained to it would derive a start before the placement and
+    // re-accrue the work it just banked. A recipe that had not begun keeps no
+    // anchor, so it goes on tracking the recipe ahead of it.
+    if (recipe.startedAt !== undefined || banked > 0) {
       recipe.startedAt = placedAt;
     }
   });
