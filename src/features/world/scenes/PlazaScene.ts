@@ -27,6 +27,10 @@ import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { getAnimationUrl } from "../lib/animations";
 import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import type { Player } from "../types/Room";
+import emptyDisc from "assets/icons/empty_disc.png";
+import emptyDiscBackground from "assets/icons/empty_disc_background.png";
+import { getDailyBudBoxType } from "../ui/chests/BudBox";
+import { getDayOfYear } from "lib/utils/time";
 
 const CHAPTER_BANNERS: Record<ChapterName, string | undefined> = {
   "Solar Flare": undefined,
@@ -212,6 +216,19 @@ export class PlazaScene extends BaseScene {
     });
   }
 
+  private isBudBoxRewardAvailable(now = Date.now()) {
+    const todayBud = getDailyBudBoxType(now);
+    const hasTodayBud = Object.values(this.gameState.buds ?? {}).some(
+      (bud) => bud.type === todayBud,
+    );
+    const openedAt = this.gameState.pumpkinPlaza.budBox?.openedAt ?? 0;
+    const hasOpenedToday =
+      !!openedAt &&
+      getDayOfYear(new Date(now)) === getDayOfYear(new Date(openedAt));
+
+    return hasTodayBud && !hasOpenedToday;
+  }
+
   preload() {
     this.load.audio("chime", SOUNDS.notifications.chime);
 
@@ -270,6 +287,8 @@ export class PlazaScene extends BaseScene {
     this.load.image("locked_disc", "world/locked_disc.png");
     this.load.image("key_disc", "world/key_disc.png");
     this.load.image("luxury_key_disc", "world/luxury_key_disc.png");
+    this.load.image("empty_disc", emptyDisc);
+    this.load.image("empty_disc_background", emptyDiscBackground);
 
     // Stella Megastore items
     this.load.image("magma_stone", "world/magma_stone.webp");
@@ -744,7 +763,9 @@ export class PlazaScene extends BaseScene {
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
         if (this.checkDistanceToSprite(turtle, 75)) {
-          interactableModalManager.open("bud");
+          interactableModalManager.open(
+            this.isBudBoxRewardAvailable() ? "bud_box_guide" : "bud",
+          );
         } else {
           this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
         }
@@ -774,6 +795,24 @@ export class PlazaScene extends BaseScene {
           this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
         }
       });
+
+    const budBoxIndicator = this.add
+      .container(118.5, 275.5)
+      .setDepth(1000000000)
+      .setVisible(false);
+    budBoxIndicator.add(this.add.image(0, 0, "empty_disc_background"));
+    budBoxIndicator.add(this.add.image(0, 0, "empty_disc"));
+    budBoxIndicator.add(this.add.image(0, -2, "chest").setDisplaySize(12, 14));
+
+    const refreshBudBoxIndicator = () => {
+      budBoxIndicator.setVisible(this.isBudBoxRewardAvailable());
+    };
+
+    refreshBudBoxIndicator();
+    this.game.events.on("gameStateUpdated", refreshBudBoxIndicator);
+    this.events.once("shutdown", () => {
+      this.game.events.off("gameStateUpdated", refreshBudBoxIndicator);
+    });
 
     if (this.textures.exists("sparkle")) {
       const sparkle = this.add.sprite(567, 191, "sparkle");
@@ -867,6 +906,7 @@ export class PlazaScene extends BaseScene {
 
       snowHornBud.setVisible(!isOpen);
       chest.setVisible(!isOpen);
+      refreshBudBoxIndicator();
 
       if (wasOpen === isOpen) {
         this.mmoService?.state.context.server?.send(0, {
