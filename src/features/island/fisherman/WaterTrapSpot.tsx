@@ -130,7 +130,7 @@ export const WaterTrapSpot: React.FC<Props> = ({ id }) => {
   const caught = waterTrap?.caught ? getKeys(waterTrap.caught)[0] : undefined;
   const caughtItem =
     caught &&
-    caught in CRUSTACEANS &&
+    CRUSTACEANS.includes(caught) &&
     (farmActivity[`${caught} Caught`] ?? 0) > 0
       ? caught
       : undefined;
@@ -170,12 +170,12 @@ export const WaterTrapSpot: React.FC<Props> = ({ id }) => {
               showPopover={showTimerPopover}
               timeLeft={secondsLeft}
               secondaryImage={
-                waterTrap.chum != null
+                !caughtItem && waterTrap.chum != null
                   ? ITEM_DETAILS[waterTrap.chum].image
                   : undefined
               }
               secondaryDescription={
-                waterTrap.chum != null
+                !caughtItem && waterTrap.chum != null
                   ? `${CRUSTACEAN_CHUM_AMOUNTS[waterTrap.chum]} ${waterTrap.chum}`
                   : undefined
               }
