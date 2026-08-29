@@ -1,8 +1,16 @@
 import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
 import { TEST_FARM } from "features/game/lib/constants";
-import { getExpiryCooldown } from "features/game/lib/collectibleBuilt";
-import { getCropPlotBoostWindows } from "features/game/lib/boostWindows";
+import type { GameState } from "features/game/types/game";
+import {
+  getCollectibleExpiry,
+  getExpiryCooldown,
+  type TotemName,
+} from "features/game/lib/collectibleBuilt";
+import {
+  getCropPlotBoostWindows,
+  getMergedTotemWindows,
+} from "features/game/lib/boostWindows";
 import { extendCollectible } from "./extendCollectible";
 
 describe("extendCollectible", () => {
@@ -203,5 +211,198 @@ describe("extendCollectible", () => {
         createdAt: now,
       }),
     ).toThrow("Insufficient ingredient: Acorn");
+  });
+  // Golden durations, deliberately hardcoded: these are the agreed cross-extension
+  // amounts, so a change to either totem's cooldown should fail loudly here.
+  describe("totems", () => {
+    const FOUR_HOURS = 4 * 60 * 60 * 1000; // Time Warp Totem, under SPEED_BOOSTS
+    const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000; // Super Totem
+
+    const totemFarm = ({
+      placed,
+      placedAt = now,
+      superSpares = 0,
+      warpSpares = 0,
+    }: {
+      placed: TotemName;
+      placedAt?: number;
+      superSpares?: number;
+      warpSpares?: number;
+    }) => ({
+      ...TEST_FARM,
+      inventory: {
+        ...TEST_FARM.inventory,
+        "Super Totem": new Decimal(
+          superSpares + (placed === "Super Totem" ? 1 : 0),
+        ),
+        "Time Warp Totem": new Decimal(
+          warpSpares + (placed === "Time Warp Totem" ? 1 : 0),
+        ),
+      },
+      collectibles: {
+        [placed]: [
+          { id: "1", coordinates: { x: 0, y: 0 }, createdAt: placedAt },
+        ],
+      },
+    });
+
+    const extendTotem = (
+      state: GameState,
+      name: TotemName,
+      payWith: TotemName,
+    ) =>
+      extendCollectible({
+        state,
+        action: {
+          type: "collectible.extended",
+          name,
+          location: "farm",
+          id: "1",
+          payWith,
+        },
+        createdAt: now,
+      });
+
+    it("extends a Time Warp Totem with a spare Time Warp Totem", () => {
+      const state = extendTotem(
+        totemFarm({ placed: "Time Warp Totem", warpSpares: 1 }),
+        "Time Warp Totem",
+        "Time Warp Totem",
+      );
+
+      expect(state.collectibles["Time Warp Totem"]?.[0].extendedMs).toBe(
+        FOUR_HOURS,
+      );
+      expect(state.inventory["Time Warp Totem"]).toEqual(new Decimal(1));
+    });
+
+    it("extends a Super Totem with a spare Super Totem", () => {
+      const state = extendTotem(
+        totemFarm({ placed: "Super Totem", superSpares: 1 }),
+        "Super Totem",
+        "Super Totem",
+      );
+
+      expect(state.collectibles["Super Totem"]?.[0].extendedMs).toBe(
+        SEVEN_DAYS,
+      );
+    });
+
+    it("adds only the Time Warp Totem's hours when spent on a Super Totem", () => {
+      const state = extendTotem(
+        totemFarm({ placed: "Super Totem", warpSpares: 1 }),
+        "Super Totem",
+        "Time Warp Totem",
+      );
+
+      expect(state.collectibles["Super Totem"]?.[0].extendedMs).toBe(
+        FOUR_HOURS,
+      );
+      // The Super Totem is not demoted, and the spent Time Warp Totem is gone.
+      expect(state.collectibles["Time Warp Totem"]).toBeUndefined();
+      expect(state.inventory["Time Warp Totem"]).toEqual(new Decimal(0));
+      expect(state.inventory["Super Totem"]).toEqual(new Decimal(1));
+    });
+
+    it("promotes a Time Warp Totem paid for with a Super Totem", () => {
+      const placedAt = now - 60 * 60 * 1000; // one hour in
+      const state = extendTotem(
+        totemFarm({ placed: "Time Warp Totem", placedAt, superSpares: 1 }),
+        "Time Warp Totem",
+        "Super Totem",
+      );
+
+      const promoted = state.collectibles["Super Totem"]?.[0];
+
+      expect(state.collectibles["Time Warp Totem"]).toBeUndefined();
+      expect(promoted).toMatchObject({
+        id: "1",
+        coordinates: { x: 0, y: 0 },
+        createdAt: placedAt,
+      });
+
+      // Seven days on top of what the Time Warp Totem had left, NOT a reset to
+      // seven days from now - this is what a naive `extendedMs += added` breaks.
+      expect(
+        getCollectibleExpiry({
+          name: "Super Totem",
+          collectible: promoted ?? {},
+          game: state,
+        }),
+      ).toBe(placedAt + FOUR_HOURS + SEVEN_DAYS);
+
+      // The Time Warp Totem is absorbed; the spare Super Totem is now the
+      // placement, so its count is unchanged.
+      expect(state.inventory["Time Warp Totem"]).toEqual(new Decimal(0));
+      expect(state.inventory["Super Totem"]).toEqual(new Decimal(1));
+    });
+
+    it("banks the Time Warp Totem's window when promoting", () => {
+      const placedAt = now - 60 * 60 * 1000;
+      const state = extendTotem(
+        totemFarm({ placed: "Time Warp Totem", placedAt, superSpares: 1 }),
+        "Time Warp Totem",
+        "Super Totem",
+      );
+
+      expect(state.boostHistory?.["Time Warp Totem"]).toEqual([
+        { from: placedAt, to: placedAt + FOUR_HOURS },
+      ]);
+    });
+
+    it("leaves one continuous totem window after a promotion", () => {
+      const placedAt = now - 60 * 60 * 1000;
+      const state = extendTotem(
+        totemFarm({ placed: "Time Warp Totem", placedAt, superSpares: 1 }),
+        "Time Warp Totem",
+        "Super Totem",
+      );
+
+      const windows = getMergedTotemWindows(state, 2);
+
+      expect(windows).toHaveLength(1);
+      expect(windows[0]).toMatchObject({
+        from: placedAt,
+        to: placedAt + FOUR_HOURS + SEVEN_DAYS,
+      });
+    });
+
+    it("cannot pay with a totem the player has no spare of", () => {
+      expect(() =>
+        extendTotem(
+          totemFarm({ placed: "Time Warp Totem" }),
+          "Time Warp Totem",
+          "Super Totem",
+        ),
+      ).toThrow("Insufficient ingredient: Super Totem");
+    });
+
+    it("cannot pay for an hourglass with a totem", () => {
+      expect(() =>
+        extendCollectible({
+          state: {
+            ...TEST_FARM,
+            inventory: {
+              ...TEST_FARM.inventory,
+              "Harvest Hourglass": new Decimal(1),
+              "Super Totem": new Decimal(1),
+            },
+            collectibles: {
+              "Harvest Hourglass": [
+                { id: "1", coordinates: { x: 0, y: 0 }, createdAt: now },
+              ],
+            },
+          },
+          action: {
+            type: "collectible.extended",
+            name: "Harvest Hourglass",
+            location: "farm",
+            id: "1",
+            payWith: "Super Totem",
+          },
+          createdAt: now,
+        }),
+      ).toThrow("Cannot extend Harvest Hourglass with Super Totem");
+    });
   });
 });

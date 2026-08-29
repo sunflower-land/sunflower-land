@@ -1,41 +1,36 @@
 import Decimal from "decimal.js-light";
-import type { CollectibleName } from "features/game/types/craftables";
 import type { InventoryItemName } from "features/game/types/game";
+import type { GameState } from "features/game/types/game";
 import { getKeys } from "lib/object";
 import { PET_SHOP_ITEMS } from "features/game/types/petShop";
 import {
   EXPIRY_COOLDOWNS,
+  getExpiryCooldown,
+  getPlacementGroup,
+  isTotem,
   type TemporaryCollectibleName,
 } from "./collectibleBuilt";
 import { isInventoryRenewableCollectible } from "./renewableCollectibles";
 
+/** Every temporary collectible can be topped up while it is still running. */
+export const EXTENDABLE_COLLECTIBLES = getKeys(EXPIRY_COOLDOWNS);
+
 /**
- * Temporary collectibles that CANNOT be extended. The two totems boost every
- * activity at once and are getting their own extension rules, so they are
- * deliberately excluded until that design lands.
+ * Which items may be spent to extend this collectible.
+ *
+ * A totem accepts EITHER totem, because the two grant the same buff — paying
+ * with the other one is simply buying its duration instead. Hourglasses accept
+ * only a spare of themselves. Shrines accept neither: they are `inventoryLimit:
+ * 1`, so no spare can exist and they pay ingredients instead (see
+ * `getExtensionCost`).
  */
-export const NON_EXTENDABLE_COLLECTIBLES = [
-  "Super Totem",
-  "Time Warp Totem",
-] as const;
+export const getExtensionPayments = (
+  name: TemporaryCollectibleName,
+): TemporaryCollectibleName[] => {
+  if (isTotem(name)) return getPlacementGroup(name);
 
-export type ExtendableCollectibleName = Exclude<
-  TemporaryCollectibleName,
-  (typeof NON_EXTENDABLE_COLLECTIBLES)[number]
->;
-
-/** Every temporary collectible a player is allowed to top up. */
-export const EXTENDABLE_COLLECTIBLES = getKeys(EXPIRY_COOLDOWNS).filter(
-  (name): name is ExtendableCollectibleName =>
-    !NON_EXTENDABLE_COLLECTIBLES.includes(
-      name as (typeof NON_EXTENDABLE_COLLECTIBLES)[number],
-    ),
-);
-
-export const isExtendableCollectible = (
-  name: CollectibleName,
-): name is ExtendableCollectibleName =>
-  EXTENDABLE_COLLECTIBLES.includes(name as ExtendableCollectibleName);
+  return isInventoryRenewableCollectible(name) ? [name] : [];
+};
 
 export type ExtensionCost = {
   coins: number;
@@ -43,23 +38,46 @@ export type ExtensionCost = {
 };
 
 /**
- * What one extension of a temporary collectible costs — deliberately identical to
- * what RENEWING the same item costs, so extending early is never a discount or a
- * premium, just a way to top up before the boost runs out.
+ * What one extension costs — deliberately identical to what RENEWING costs, so
+ * extending early is never a discount or a premium, just a way to top up before
+ * the boost runs out.
  *
- * Hourglasses are the only extendable collectibles that can exist as spare copies
- * in the chest, so they cost one spare copy (matching `collectible.renewed`).
- * Every shrine is `inventoryLimit: 1`, so it costs its pet-shop craft ingredients
- * instead (matching `petShrine.renewed`).
+ * Hourglasses and totems can exist as spare copies in the chest, so they cost
+ * one spare of whichever item is being spent (matching `collectible.renewed`).
+ * Every shrine is `inventoryLimit: 1`, so it costs its pet-shop craft
+ * ingredients instead (matching `petShrine.renewed`).
  */
 export const getExtensionCost = (
-  name: ExtendableCollectibleName,
+  name: TemporaryCollectibleName,
+  payWith: TemporaryCollectibleName = name,
 ): ExtensionCost => {
+  // Keyed on the TARGET, so the shrine branch below stays narrowed; `payWith`
+  // is what is actually spent, and the reducer validates the pair.
   if (isInventoryRenewableCollectible(name)) {
-    return { coins: 0, ingredients: { [name]: new Decimal(1) } };
+    return { coins: 0, ingredients: { [payWith]: new Decimal(1) } };
   }
 
   const { coins = 0, ingredients } = PET_SHOP_ITEMS[name];
 
   return { coins, ingredients };
 };
+
+/**
+ * The name the placement ends up as once it has been extended. Only a totem can
+ * change: paying with the OTHER totem leaves the longer-lasting of the two on
+ * the map, so a Super Totem spent on a Time Warp Totem promotes it, while a Time
+ * Warp Totem spent on a Super Totem just adds its four hours.
+ *
+ * Decided by comparing durations rather than hardcoding "Super Totem wins", so
+ * it stays correct if the two are ever retuned.
+ */
+export const getExtensionResult = (
+  name: TemporaryCollectibleName,
+  payWith: TemporaryCollectibleName,
+  game: GameState,
+): TemporaryCollectibleName =>
+  isTotem(name) &&
+  isTotem(payWith) &&
+  getExpiryCooldown(payWith, game) > getExpiryCooldown(name, game)
+    ? payWith
+    : name;

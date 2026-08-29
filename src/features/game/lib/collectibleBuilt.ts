@@ -113,6 +113,28 @@ export const isTemporaryCollectible = (
 ): name is TemporaryCollectibleName => name in EXPIRY_COOLDOWNS;
 
 /**
+ * The two totems. They grant the SAME buff — identical description, 2x in every
+ * windowed speed table, and `getMergedTotemWindows` unions them so they cannot
+ * stack with each other — and differ only in duration and how they are obtained.
+ * That interchangeability is what lets them extend one another.
+ */
+export const TOTEMS = ["Super Totem", "Time Warp Totem"] as const;
+
+export type TotemName = (typeof TOTEMS)[number];
+
+export const isTotem = (name: InventoryItemName): name is TotemName =>
+  TOTEMS.includes(name as TotemName);
+
+/**
+ * The names that share a placement slot with this one. Because the totems merge
+ * into a single boost window, a second totem alongside the first is wasted, so
+ * the pair occupies one slot between them. Everything else is its own group.
+ */
+export const getPlacementGroup = (
+  name: TemporaryCollectibleName,
+): TemporaryCollectibleName[] => (isTotem(name) ? [...TOTEMS] : [name]);
+
+/**
  * Wall-clock expiry of ONE placed temporary collectible: its `createdAt` plus the
  * (flag-gated) base cooldown plus any time bought via `collectible.extended` and
  * banked on the placement. Every consumer — boost windows, the active check,

@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import type { PlaceableLocation } from "features/game/types/collectibles";
-import type { GameState } from "features/game/types/game";
+import type { GameState, PlacedItem } from "features/game/types/game";
 import { produce } from "immer";
 import { getKeys } from "lib/object";
 import { hasFeatureAccess } from "lib/flags";
@@ -8,18 +8,26 @@ import { getChestItemCount } from "features/island/hud/components/inventory/util
 import {
   getCollectibleExpiry,
   getExpiryCooldown,
+  isTemporaryCollectible,
+  type TemporaryCollectibleName,
 } from "features/game/lib/collectibleBuilt";
 import {
   getExtensionCost,
-  isExtendableCollectible,
-  type ExtendableCollectibleName,
+  getExtensionPayments,
+  getExtensionResult,
 } from "features/game/lib/collectibleExtension";
+import { appendBoostHistory } from "features/game/lib/boostWindows";
 
 export type ExtendCollectibleAction = {
   type: "collectible.extended";
-  name: ExtendableCollectibleName;
+  name: TemporaryCollectibleName;
   location: PlaceableLocation;
   id: string;
+  /**
+   * What to spend. Defaults to the collectible itself; a totem may also be paid
+   * for with the other totem, since the two grant the same buff.
+   */
+  payWith?: TemporaryCollectibleName;
 };
 
 type Options = {
@@ -34,6 +42,10 @@ type Options = {
  * `createdAt` forward, so the boost keeps the time it has already served and its
  * window simply runs longer — extending is never a reset. Once a placement has
  * expired the existing renew flow takes over instead.
+ *
+ * Paying for one totem with the other buys THAT totem's duration, and leaves the
+ * longer-lasting of the two on the map: a Super Totem spent on a Time Warp Totem
+ * promotes the placement, absorbing the Time Warp Totem's remaining time.
  */
 export function extendCollectible({
   state,
@@ -45,18 +57,52 @@ export function extendCollectible({
       throw new Error("Collectible cannot be extended");
     }
 
-    if (!isExtendableCollectible(action.name)) {
+    if (!isTemporaryCollectible(action.name)) {
       throw new Error("Collectible cannot be extended");
     }
 
-    const collectibleGroup =
+    const payWith = action.payWith ?? action.name;
+
+    if (
+      payWith !== action.name &&
+      !getExtensionPayments(action.name).includes(payWith)
+    ) {
+      throw new Error(`Cannot extend ${action.name} with ${payWith}`);
+    }
+
+    const getGroup = (name: TemporaryCollectibleName) =>
       action.location === "home"
-        ? game.home.collectibles[action.name]
+        ? game.home.collectibles[name]
         : action.location === "interior"
-          ? game.interior.ground.collectibles[action.name]
+          ? game.interior.ground.collectibles[name]
           : action.location === "level_one"
-            ? game.interior.level_one?.collectibles[action.name]
-            : game.collectibles[action.name];
+            ? game.interior.level_one?.collectibles[name]
+            : game.collectibles[name];
+
+    const setGroup = (
+      name: TemporaryCollectibleName,
+      items: PlacedItem[] | undefined,
+    ) => {
+      const collectibles =
+        action.location === "home"
+          ? game.home.collectibles
+          : action.location === "interior"
+            ? game.interior.ground.collectibles
+            : action.location === "level_one"
+              ? game.interior.level_one?.collectibles
+              : game.collectibles;
+
+      if (!collectibles) return;
+
+      if (items === undefined) {
+        delete collectibles[name];
+        return;
+      }
+
+      collectibles[name] = items;
+    };
+
+    const collectibleGroup = getGroup(action.name);
 
     if (!collectibleGroup) {
       throw new Error("Invalid collectible");
@@ -84,7 +130,7 @@ export function extendCollectible({
       throw new Error("Collectible has expired");
     }
 
-    const { coins, ingredients } = getExtensionCost(action.name);
+    const { coins, ingredients } = getExtensionCost(action.name, payWith);
 
     if (game.coins < coins) {
       throw new Error("Insufficient Coins");
@@ -100,17 +146,67 @@ export function extendCollectible({
       if (available.lt(required)) {
         throw new Error(`Insufficient ingredient: ${ingredientName}`);
       }
-
-      game.inventory[ingredientName] = (
-        game.inventory[ingredientName] ?? new Decimal(0)
-      ).sub(required);
     });
+
+    const result = getExtensionResult(action.name, payWith, game);
+    const isPromotion = result !== action.name;
+
+    if (isPromotion) {
+      // The paid totem BECOMES the placement, so it is not spent - the totem it
+      // replaces is the one consumed. Either way an extension costs one item.
+      game.inventory[action.name] = (
+        game.inventory[action.name] ?? new Decimal(0)
+      ).sub(1);
+    } else {
+      getKeys(ingredients).forEach((ingredientName) => {
+        game.inventory[ingredientName] = (
+          game.inventory[ingredientName] ?? new Decimal(0)
+        ).sub(ingredients[ingredientName] ?? new Decimal(0));
+      });
+    }
 
     game.coins -= coins;
 
-    collectibleToExtend.extendedMs =
-      (collectibleToExtend.extendedMs ?? 0) +
-      getExpiryCooldown(action.name, game);
+    /**
+     * `extendedMs` is an offset on top of `createdAt + cooldown`, and a promotion
+     * changes which cooldown that is (4h -> 7d). Rebasing against the NEW base
+     * keeps the placement's expiry at exactly `oldExpiry + addedMs` instead of
+     * silently re-timing it. With no promotion this is the plain
+     * `extendedMs + addedMs`.
+     */
+    const addedMs = getExpiryCooldown(payWith, game);
+    const extendedMs = Math.max(
+      0,
+      getExpiryCooldown(action.name, game) +
+        (collectibleToExtend.extendedMs ?? 0) +
+        addedMs -
+        getExpiryCooldown(result, game),
+    );
+
+    if (!isPromotion) {
+      collectibleToExtend.extendedMs = extendedMs;
+
+      return game;
+    }
+
+    // Preserve the window the replaced totem had already earned before its record
+    // is renamed. A no-op while the totems merge into one window, but it keeps the
+    // contribution correct if they are ever separated.
+    appendBoostHistory(
+      game,
+      action.name,
+      { from: collectibleToExtend.createdAt ?? 0, to: expiresAt },
+      createdAt,
+    );
+
+    const remaining = collectibleGroup.filter(
+      (collectible) => collectible.id !== action.id,
+    );
+    setGroup(action.name, remaining.length > 0 ? remaining : undefined);
+    setGroup(result, [
+      ...(getGroup(result) ?? []),
+      { ...collectibleToExtend, extendedMs },
+    ]);
 
     return game;
   });
