@@ -76,6 +76,20 @@ export type FarmModalName =
   | "buildingLevelLocked"
   // Collectibles (Phase 6)
   | "collectibleConstructing"
+  | "renewCollectible"
+  | "letterBox"
+  | "saltSculpture"
+  | "genieLamp"
+  | "manekiNekoReveal"
+  | "festiveTreeReveal"
+  | "festiveTreeGifted"
+  | "weatherPlot"
+  | "renewPetShrine"
+  | "obsidianShrine"
+  | "removeWarning"
+  | "fishingChallenge"
+  | "bedFarmhand"
+  | "projectComplete"
   // Characters (Phase 7)
   | "bumpkinPlayer"
   | "farmHandEquip"
@@ -123,6 +137,40 @@ export type PendingChestReward = {
   reward: Reward;
   collectedItem?: InventoryItemName;
   onResult: (success: boolean) => void;
+} | null;
+
+/**
+ * A quick-select seed picker request (fruit patches): Phaser detected an
+ * empty-patch click without a plantable seed, React shows the DOM QuickSelect
+ * disc row at the patch anchor [FruitPatch.tsx].
+ */
+export type QuickSelectRequest = {
+  anchorId: string;
+  patchId: string;
+} | null;
+
+/**
+ * A clicked SFT's detail popover [SFTDetailPopover.tsx / Bud.tsx]: Phaser
+ * detects the click and registers the shared anchor; React renders the
+ * name/buffs/trade panel beside it.
+ */
+/**
+ * Overlap disambiguation [MovableComponent]: several placeables share the
+ * clicked origin tile — React shows a picker; the choice sends MOVE.
+ */
+export type OverlapMenuRequest = {
+  anchorId: string;
+  choices: { id: string; name: string }[];
+} | null;
+
+export type SftPopoverRequest = {
+  anchorId: string;
+  name?: string;
+  budId?: number;
+  /** Expiring boosts show a time-remaining label [PetShrine.tsx]. */
+  expiresAt?: number;
+  /** Monuments show cheer progress [Monument.tsx]. */
+  cheersProgress?: string;
 } | null;
 
 export type ValueStore<T> = {
@@ -176,6 +224,14 @@ export interface GameBridge {
   farmModal: FarmModalBridge;
   /** Pointer-over entity, for React popovers/tooltips. */
   hover: ValueStore<HoveredEntity>;
+  quickSelect: ValueStore<QuickSelectRequest>;
+  sftPopover: ValueStore<SftPopoverRequest>;
+  overlapMenu: ValueStore<OverlapMenuRequest>;
+  /**
+   * Listen to every event sent to the game machine (xstate onEvent) — for
+   * transient reactions like the home building's collect heart.
+   */
+  onGameEvent: (listener: (event: { type: string }) => void) => Unsubscribe;
   /** Chest-reward handoff: Phaser click -> React chest/captcha -> back. */
   chestReward: ValueStore<PendingChestReward>;
   /**
@@ -296,6 +352,15 @@ export function createGameBridge({
     },
 
     hover: createValueStore<HoveredEntity>(null),
+    quickSelect: createValueStore<QuickSelectRequest>(null),
+    sftPopover: createValueStore<SftPopoverRequest>(null),
+    overlapMenu: createValueStore<OverlapMenuRequest>(null),
+    onGameEvent: (listener) => {
+      gameService.onEvent(listener);
+      return () => {
+        gameService.off(listener);
+      };
+    },
     chestReward: createValueStore<PendingChestReward>(null),
     selectItem: (item) => selectItemImpl(item),
     navigateTo: (path) => navigateImpl(path),

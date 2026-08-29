@@ -142,6 +142,17 @@ export class MineralRenderer extends ResourceNodeRenderer<MineralNode> {
     objects: NodeObjects,
     ctx: RenderContext,
   ) {
+    // Boost feedback [Gold.tsx / Crimstone.tsx]: external minedAt change ->
+    // lightning flash once recovered.
+    const prevNode = this.prevNodes[id];
+    if (prevNode && prevNode.stone.minedAt !== node.stone.minedAt) {
+      this.scheduleBoostFlash(id, () => {
+        const fresh = this.config.selectNodes(this.game())[id];
+        return (
+          !!fresh && !this.config.isDepleted(fresh, this.game(), Date.now())
+        );
+      });
+    }
     this.recoveryTimers.get(id)?.();
     this.recoveryTimers.delete(id);
 

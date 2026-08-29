@@ -4,7 +4,8 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import type { GameState } from "features/game/types/game";
 import { getBudImage } from "lib/buds/types";
 import { queueImage, runLoader } from "../../core/assets";
-import { gridToWorld } from "../../core/coordinates";
+import { makeClickable } from "../../core/clickable";
+import { gridToWorld, WORLD_TILE } from "../../core/coordinates";
 import { DEPTHS } from "../../core/depths";
 import { EntityRenderer } from "../EntityRenderer";
 
@@ -14,7 +15,8 @@ import { EntityRenderer } from "../EntityRenderer";
  * frame here until sheet art exists. Shadow 16 wide flush with the tile; bud
  * 32 wide at (-8, -16) from the tile's top-left (Retreat type sits 1.52 lower).
  *
- * DEFERRED: the click popover (bud label + buffs + marketplace details).
+ * Clicks open the bud detail popover (label + buffs + marketplace details)
+ * via the shared sftPopover channel.
  */
 
 type Slice = { buds: GameState["buds"] };
@@ -22,6 +24,7 @@ type Slice = { buds: GameState["buds"] };
 type Entry = {
   shadow: Phaser.GameObjects.Image;
   bud: Phaser.GameObjects.Image;
+  zone: Phaser.GameObjects.Zone;
 };
 
 export class BudRenderer extends EntityRenderer<Slice> {
@@ -52,12 +55,13 @@ export class BudRenderer extends EntityRenderer<Slice> {
       if (liveIds.has(id)) continue;
       entry.shadow.destroy();
       entry.bud.destroy();
+      entry.zone.destroy();
       this.entries.delete(id);
     }
 
     for (const [id, bud] of placed) {
       const world = gridToWorld(bud.coordinates!);
-      const depth = DEPTHS.ENTITY_BASE + world.y + 16;
+      const depth = DEPTHS.ENTITY_BASE + world.y;
       const texture = getBudImage(Number(id));
       if (!this.scene.textures.exists(texture)) continue;
 
@@ -65,7 +69,14 @@ export class BudRenderer extends EntityRenderer<Slice> {
       if (!entry) {
         const shadow = this.scene.add.image(0, 0, shadowArt).setOrigin(0, 1);
         const image = this.scene.add.image(0, 0, texture).setOrigin(0, 0);
-        entry = { shadow, bud: image };
+        // 1-tile hit box like the DOM bud wrapper [Bud.tsx].
+        const zone = this.scene.add
+          .zone(0, 0, WORLD_TILE, WORLD_TILE * 2)
+          .setOrigin(0, 0);
+        makeClickable(this.scene, zone, () => this.onBudClick(id), {
+          visitClickable: true,
+        });
+        entry = { shadow, bud: image, zone };
         this.entries.set(id, entry);
       }
       entry.shadow.setScale(16 / entry.shadow.width);
@@ -80,13 +91,39 @@ export class BudRenderer extends EntityRenderer<Slice> {
         world.y - 16 + (bud.type === "Retreat" ? 4 / 2.625 : 0),
       );
       entry.bud.setDepth(depth);
+      entry.zone.setPosition(world.x, world.y - 16);
+      entry.zone.setDepth(depth);
     }
+  }
+
+  /** [Bud.tsx] click -> anchored detail popover. */
+  private onBudClick(id: string) {
+    const bud = this.bridge.select(
+      (state) => state.context.state.buds?.[Number(id)],
+    );
+    if (!bud?.coordinates) return;
+    const world = gridToWorld(bud.coordinates);
+    this.bridge.anchors.setAnchor("sft-popover", {
+      x: world.x,
+      y: world.y - 16,
+      width: WORLD_TILE,
+      height: WORLD_TILE * 2,
+    });
+    setTimeout(
+      () =>
+        this.bridge.sftPopover.set({
+          anchorId: "sft-popover",
+          budId: Number(id),
+        }),
+      0,
+    );
   }
 
   protected onDestroy() {
     this.entries.forEach((entry) => {
       entry.shadow.destroy();
       entry.bud.destroy();
+      entry.zone.destroy();
     });
     this.entries.clear();
   }

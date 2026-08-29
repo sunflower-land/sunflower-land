@@ -2,6 +2,9 @@ import Phaser from "phaser";
 import { v4 as uuidv4 } from "uuid";
 import { SUNNYSIDE } from "assets/sunnyside";
 import powerup from "assets/icons/level_up.png";
+import tornadoIcon from "assets/icons/tornado.webp";
+import tsunamiIcon from "assets/icons/tsunami.webp";
+import greatFreezeIcon from "assets/icons/great-freeze.webp";
 import locust from "assets/icons/locust.webp";
 import sunshower from "assets/icons/sunshower.webp";
 import bee from "assets/icons/bee.webp";
@@ -9,6 +12,7 @@ import { getActiveCalendarEvent } from "features/game/types/calendar";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type { GameState } from "features/game/types/game";
 import { CROPS, type CropName } from "features/game/types/crops";
+import { getKeys } from "lib/object";
 import {
   getAffectedWeather,
   isPlotFertile,
@@ -100,6 +104,9 @@ type PlotObjects = {
   bar?: ProgressBarSprite;
   timing?: PlotTiming;
   cornerIcons: Phaser.GameObjects.Image[];
+  /** Tutorial dig/click helper [Plot.tsx harvestCount/plantCount gates]. */
+  tutorialIcon?: Phaser.GameObjects.Image;
+  tutorialTween?: Phaser.Tweens.Tween;
 };
 
 const ART_TOP_OFFSET = -12; // fertile soil/crop art rides above the tile
@@ -109,7 +116,9 @@ export const cropAnchorId = (id: string) => `plot-${id}`;
 
 export class CropRenderer extends EntityRenderer<Slice> {
   private plots = new Map<string, PlotObjects>();
-  private clickedAt = 0;
+  // Per-plot, like the DOM's per-component clickedAt — a global buffer would
+  // swallow rapid taps across DIFFERENT plots.
+  private clickedAt = new Map<string, number>();
   private barTickMs = 0;
   private unsubscribeUi: Unsubscribe | undefined;
 
@@ -153,6 +162,11 @@ export class CropRenderer extends EntityRenderer<Slice> {
       locust,
       sunshower,
       bee,
+      tornadoIcon,
+      tsunamiIcon,
+      greatFreezeIcon,
+      SUNNYSIDE.icons.dig_icon,
+      SUNNYSIDE.icons.click_icon,
     ].forEach((url) => queueImage(this.scene, url));
     for (const plot of Object.values(slice.crops)) {
       const name = plot.crop?.name;
@@ -175,9 +189,12 @@ export class CropRenderer extends EntityRenderer<Slice> {
       objects.art.destroy();
       objects.zone.destroy();
       objects.bar?.destroy();
+      objects.tutorialTween?.remove();
+      objects.tutorialIcon?.destroy();
       this.clearCornerIcons(objects);
       this.bridge.anchors.removeAnchor(cropAnchorId(id));
       this.plots.delete(id);
+      this.clickedAt.delete(id);
     }
 
     for (const id of Object.keys(slice.crops)) {
@@ -206,6 +223,7 @@ export class CropRenderer extends EntityRenderer<Slice> {
     }
 
     objects.zone.setPosition(world.x, world.y);
+    objects.zone.setDepth(DEPTHS.ENTITY_BASE + world.y);
     objects.art.setDepth(DEPTHS.ENTITY_BASE + world.y);
 
     this.bridge.anchors.setAnchor(cropAnchorId(id), {
@@ -214,6 +232,8 @@ export class CropRenderer extends EntityRenderer<Slice> {
       width: WORLD_TILE,
       height: WORLD_TILE,
     });
+
+    this.syncTutorialIcon(id, objects, world);
 
     objects.unregisterClock?.();
     objects.unregisterClock = undefined;
@@ -229,9 +249,32 @@ export class CropRenderer extends EntityRenderer<Slice> {
       island: slice.island.type,
     });
 
-    // Calendar-weather states (tornado/tsunami/great freeze) are deferred —
-    // rendered as their underlying plot for now.
-    void getAffectedWeather;
+    // Weather-destroyed plot [TornadoPlot/TsunamiPlot/GreatFreezePlot]: dry
+    // soil + the event icon top-right; click opens the affected modal.
+    const weather = getAffectedWeather({ id, game });
+    if (
+      weather === "tornado" ||
+      weather === "tsunami" ||
+      weather === "greatFreeze"
+    ) {
+      this.setArt(objects, world, SOIL_IMAGES[biome].dry, DRY_TOP_OFFSET);
+      this.clearBar(objects);
+      const iconSrc =
+        weather === "tornado"
+          ? tornadoIcon
+          : weather === "tsunami"
+            ? tsunamiIcon
+            : greatFreezeIcon;
+      if (this.scene.textures.exists(iconSrc)) {
+        const icon = this.scene.add
+          .image(world.x + WORLD_TILE - 12, world.y - 4, iconSrc)
+          .setOrigin(0, 0)
+          .setDepth(DEPTHS.ENTITY_BASE + world.y + 1);
+        icon.setScale(12 / icon.width);
+        objects.cornerIcons.push(icon);
+      }
+      return;
+    }
 
     if (!fertile) {
       this.setArt(objects, world, SOIL_IMAGES[biome].dry, DRY_TOP_OFFSET);
@@ -314,6 +357,70 @@ export class CropRenderer extends EntityRenderer<Slice> {
       world,
       metrics.readyAt > Date.now() && metrics.harvestSeconds > 0,
     );
+  }
+
+  /**
+   * [Plot.tsx] the tutorial dig / click helper over the next plot in the
+   * first-harvest and first-plant sequences.
+   */
+  private syncTutorialIcon(
+    id: string,
+    objects: PlotObjects,
+    world: { x: number; y: number },
+  ) {
+    const game = this.gameState();
+    const activity = game.farmActivity ?? {};
+    const harvestCount = getKeys(CROPS).reduce(
+      (total, crop) => total + (activity[`${crop} Harvested`] ?? 0),
+      0,
+    );
+    const plantCount = getKeys(CROPS).reduce(
+      (total, crop) => total + (activity[`${crop} Planted`] ?? 0),
+      0,
+    );
+    const soldCount = activity["Sunflower Sold"] ?? 0;
+
+    const showDig =
+      harvestCount < 3 &&
+      harvestCount + 1 === Number(id) &&
+      !!game.inventory.Shovel;
+    const showClick =
+      plantCount < 3 && plantCount + 1 === Number(id) && soldCount > 0;
+
+    const wanted = showDig
+      ? { src: SUNNYSIDE.icons.dig_icon, top: -14 }
+      : showClick
+        ? { src: SUNNYSIDE.icons.click_icon, top: 6 }
+        : undefined;
+
+    if (objects.tutorialIcon?.texture.key !== wanted?.src) {
+      objects.tutorialTween?.remove();
+      objects.tutorialTween = undefined;
+      objects.tutorialIcon?.destroy();
+      objects.tutorialIcon = undefined;
+    }
+    if (
+      wanted &&
+      !objects.tutorialIcon &&
+      this.scene.textures.exists(wanted.src)
+    ) {
+      // 18px, right -8 of the tile, pulsating.
+      const icon = this.scene.add
+        .image(world.x + WORLD_TILE + 8 - 18, world.y + wanted.top, wanted.src)
+        .setOrigin(0, 0)
+        .setDepth(DEPTHS.ENTITY_BASE + world.y + 2);
+      icon.setScale(18 / icon.width);
+      if (this.bridge.ui.get().showAnimations) {
+        objects.tutorialTween = this.scene.tweens.add({
+          targets: icon,
+          scale: icon.scale * 1.15,
+          duration: 500,
+          yoyo: true,
+          repeat: -1,
+        });
+      }
+      objects.tutorialIcon = icon;
+    }
   }
 
   private clearBar(objects: PlotObjects) {
@@ -474,6 +581,18 @@ export class CropRenderer extends EntityRenderer<Slice> {
     if (!plot) return;
 
     const now = Date.now();
+
+    // [Plot.tsx] weather-destroyed plots open the affected modal.
+    const weather = getAffectedWeather({ id, game });
+    if (
+      weather === "tornado" ||
+      weather === "tsunami" ||
+      weather === "greatFreeze"
+    ) {
+      this.bridge.farmModal.open("weatherPlot", { event: weather });
+      return;
+    }
+
     const fertile = isPlotFertile({
       plotIndex: id,
       crops: game.crops,
@@ -497,9 +616,9 @@ export class CropRenderer extends EntityRenderer<Slice> {
     const wantsToPlant = !crop && !!seed && isCropSeed(seed);
 
     // Double-click buffer (Plot.tsx): harvest -> plant flows skip it.
-    const sinceLastClick = now - this.clickedAt;
-    if (this.clickedAt > 0 && sinceLastClick < 100 && !wantsToPlant) return;
-    this.clickedAt = now;
+    const lastClick = this.clickedAt.get(id) ?? 0;
+    if (lastClick > 0 && now - lastClick < 100 && !wantsToPlant) return;
+    this.clickedAt.set(id, now);
 
     // Chest reward on a ready crop.
     if (crop && readyToHarvest) {
@@ -682,9 +801,12 @@ export class CropRenderer extends EntityRenderer<Slice> {
       objects.art.destroy();
       objects.zone.destroy();
       objects.bar?.destroy();
+      objects.tutorialTween?.remove();
+      objects.tutorialIcon?.destroy();
       this.clearCornerIcons(objects);
       this.bridge.anchors.removeAnchor(cropAnchorId(id));
     }
     this.plots.clear();
+    this.clickedAt.clear();
   }
 }

@@ -9,7 +9,8 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import type { TemperateSeasonName } from "features/game/types/game";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { getIslandAnchorX } from "features/game/expansion/lib/island";
-import { queueImage, queueSpritesheet, runLoader } from "../core/assets";
+import { queueSpritesheet, runLoader } from "../core/assets";
+import { queueArt, resolveArtObject, type ArtObject } from "../core/animated";
 import { makeClickable } from "../core/clickable";
 import { gridToWorld } from "../core/coordinates";
 import { DEPTHS } from "../core/depths";
@@ -38,6 +39,7 @@ const SHARK_DRIFT_WORLD = 300 / PIXEL_SCALE;
 const SHARK_DRIFT_MS = 10_000;
 
 type Slice = {
+  landscaping: boolean;
   season: TemperateSeasonName;
   expansionCount: number;
   fullMoon: boolean;
@@ -58,7 +60,7 @@ type SpriteSpec = {
 };
 
 export class WaterDecorLayer extends EntityRenderer<Slice> {
-  private sprites: Phaser.GameObjects.Image[] = [];
+  private sprites: ArtObject[] = [];
   private tweens: Phaser.Tweens.Tween[] = [];
   private shark: {
     sprite: Phaser.GameObjects.Sprite;
@@ -68,6 +70,7 @@ export class WaterDecorLayer extends EntityRenderer<Slice> {
 
   selector(state: MachineState): Slice {
     return {
+      landscaping: state.matches("landscaping"),
       season: state.context.state.season.season,
       expansionCount:
         state.context.state.inventory["Basic Land"]?.toNumber() ?? 3,
@@ -79,6 +82,7 @@ export class WaterDecorLayer extends EntityRenderer<Slice> {
   }
 
   equals = (a: Slice, b: Slice) =>
+    a.landscaping === b.landscaping &&
     a.season === b.season &&
     a.expansionCount === b.expansionCount &&
     a.fullMoon === b.fullMoon;
@@ -221,21 +225,28 @@ export class WaterDecorLayer extends EntityRenderer<Slice> {
 
   async sync(slice: Slice) {
     const token = this.beginSync();
+    // [Land.tsx:1302-1334] the DOM unmounts this during landscaping.
+    if (slice.landscaping) {
+      this.clear();
+      return;
+    }
     const specs = this.specs(slice);
-    specs.forEach(({ texture }) => queueImage(this.scene, texture));
+    specs.forEach(({ texture }) => queueArt(this.scene, texture));
     queueSpritesheet(this.scene, finSheet, { frameWidth: 13, frameHeight: 11 });
     await runLoader(this.scene);
     if (this.isStale(token)) return;
 
     this.clear();
 
-    this.sprites = specs.map((spec) => {
+    this.sprites = specs.flatMap((spec) => {
       const world = gridToWorld(spec.grid);
-      const sprite = this.scene.add
-        .image(
+      // Animated art (swimmers, snorkling goblin) becomes a looping Sprite.
+      const sprite = resolveArtObject(this.scene, undefined, spec.texture);
+      if (!sprite) return [];
+      sprite
+        .setPosition(
           world.x + (spec.offset?.x ?? 0),
           world.y + (spec.offset?.y ?? 0),
-          spec.texture,
         )
         .setOrigin(0, 0)
         .setDepth(DEPTHS.WATER_DECOR)
@@ -256,7 +267,7 @@ export class WaterDecorLayer extends EntityRenderer<Slice> {
           }),
         );
       }
-      return sprite;
+      return [sprite];
     });
 
     if (slice.season !== "winter") {

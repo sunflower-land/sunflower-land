@@ -254,3 +254,93 @@ Strict parity means **the same PNGs**. The existing code imports them as URLs vi
 - Unit tests: renderers are testable headlessly (Phaser HEADLESS mode) — feed a slice, assert display-object inventory (`sync` is pure state→objects).
 - Parity harness: screenshot the React farm and the Phaser farm on identical fixtures, pixel-diff. Run across the biome × season × expansion matrix before each phase is called done.
 - Event parity: assert (via a dispatch spy) that each ported interaction emits the same event name + payload the React component emits.
+
+## As-built summary (Phases 0–10, 2026-08-27)
+
+The plan above held; this section records what actually exists so the doc
+matches the tree. Final module map:
+
+```
+src/features/farmEngine/
+  FarmPhaser.tsx            React mount: bridge wiring, Phaser.Game config,
+                            HUD swap (Hud / LandscapingHud / VisitingHud),
+                            FarmModals + overlay, <Outlet/> for nested routes
+  bridge/                   GameBridge (dispatch/select/subscribe/ui/anchors/
+                            farmModal/hover/chestReward/selectItem/navigateTo/
+                            landscaping), subscriptions, anchors, useWorldAnchor
+  core/                     coordinates, camera (panSuspended), rendering (DPR),
+                            assets (URL-as-key + NEAREST), clock, clickable
+                            (landscaping + visiting gates), depths, sounds
+  components/               ProgressBarSprite, LabelSprite (nine-slice Label
+                            borders), YieldFloat (lazy icon load), pixelText,
+                            HelpDisc
+  layers/                   Ocean, LandBase, Dirt(+dirtTiles), BackgroundIslands,
+                            Clouds, WaterDecor, Boats
+  entities/
+    EntityRenderer.ts       selector/equals/sync/update/destroy contract
+    registry.ts             the single renderer map (successor of Land.tsx)
+    UpcomingExpansionRenderer.ts
+    crops/CropRenderer.ts   the template every entity followed
+    resources/              ResourceNodeRenderer base + Tree/Mineral(5 configs)/
+                            AscensionCrystal/OilReserve/LavaPit/Boulder/
+                            FruitPatch/FlowerBed/Beehive/Mushroom/Salt/
+                            WaterTrap/Fisherman + lib (sheets/art anchoring)
+    buildings/              BuildingRenderer + buildingArt (data tables)
+    collectibles/           CollectibleRenderer + staticCollectibles (GENERATED
+                            — regenerate via scripts/, see below)
+    characters/             PlayerRenderer (bumpkin+farmhands via npc/NPCSprite),
+                            PetRenderer (NFT + commons), BudRenderer,
+                            AirdropRenderer, ClutterRenderer (visiting)
+    npc/NPCSprite.ts        animation-service composited idle bumpkins
+  landscaping/              LandscapingController — drives the UNCHANGED
+                            landscapingMachine (chrome, ghost, select/move)
+  overlay/                  FarmOverlay + CropsUI/ResourcesUI (popovers,
+                            chest rewards), FarmModals (+Building/Character
+                            modal hosts), LandscapingUI (flip/remove discs)
+  dev/                      DevPanel (matrix switcher), DebugGrid, parity.ts
+docs/phaser-farm-migration/scripts/
+  extract-collectibles.js → extract-inline.js → crosscheck.js →
+  gen-static-table.js     regenerate staticCollectibles.ts from the DOM source
+  parity-matrix.js        screenshot + FPS matrix (add "react" arg for the DOM
+                          farm side-by-sides; localStorage phaserFarm="off"
+                          force-disables the flag even on dev builds)
+  dispatch-parity.js      scripted interactions → recorded gameService events
+                          vs expected payloads (window.__gameService dev hook)
+```
+
+Key rulings that shaped the build (each earned during a phase):
+
+- Game-layer = Phaser, UI = React — includes progress bars, chips, +N floats,
+  corner icons. React keeps only HUD, modals, hover popovers (anchored).
+- The machines are never modified; the engine speaks their exact event
+  payloads. Existing-item landscaping moves bypass the machine (as the DOM
+  does) via `getMoveAction` dispatches.
+- Overlay children must set `pointer-events-auto` (FarmOverlay's root is
+  none) — otherwise clicks fall through to the canvas.
+- Character sprites never take sprite-level clicks (96px frames swallow
+  neighbours); tile-sized zones only.
+- `game.input.pointers.forEach(reset)` on modal open/close — a swallowed
+  pointerup otherwise leaves the camera panning forever.
+- Perf checkpoint: ~120fps across the island×season×expansion matrix incl.
+  42-expansion volcano (M-series, DPR 2).
+
+## Interiors plan (Phase 12+, sketch)
+
+The interiors (`/home`, `/interior`, `/level_one`, pet house, barn, hen house,
+greenhouse) remain React and are entered via `bridge.navigateTo` — the engine
+tears down cleanly on route change (verified since Phase 0). Porting them
+later should reuse the exact recipe that worked for the farm:
+
+1. One scene per surface (`HomeScene` etc.) sharing `core/` + `bridge/`
+   unchanged; interiors are small fixed boards, so no camera bounds work.
+2. Interior collectible placement reuses `CollectibleRenderer` with a
+   location-parameterised slice (`home.collectibles`,
+   `interior.ground.collectibles`, ...) — the renderer already reconciles by
+   id and the art tables are location-agnostic.
+3. The wall/floor art + upgrade levels come from `features/home` +
+   `features/interior` lib functions (import, never re-derive).
+4. Landscaping inside interiors drives the same landscapingMachine with
+   `location` set accordingly; `LandscapingController` needs only its
+   hardcoded `"farm"` location parameterised.
+5. Farm hands / buds / pet placements per location are already filtered in
+   the farm renderers — the interior scenes flip the filter.

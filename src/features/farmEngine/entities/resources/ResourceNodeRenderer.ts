@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { SUNNYSIDE } from "assets/sunnyside";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type { GameState, TemperateSeasonName } from "features/game/types/game";
 import {
@@ -79,7 +80,7 @@ export abstract class ResourceNodeRenderer<
   }
 
   protected nodes = new Map<string, NodeObjects>();
-  private prevNodes: Record<string, N> = {};
+  protected prevNodes: Record<string, N> = {};
   private outsideClickHandler:
     | ((pointer: Phaser.Input.Pointer) => void)
     | undefined;
@@ -147,6 +148,7 @@ export abstract class ResourceNodeRenderer<
       const box = this.boxFor(node);
       objects.zone.setPosition(box.x, box.y);
       objects.zone.setSize(box.width, box.height);
+      objects.zone.setDepth(DEPTHS.ENTITY_BASE + box.y);
       objects.zone.setInteractive(); // refresh hit area after resize
       this.bridge.anchors.setAnchor(this.anchorId(id), box);
       this.renderNode(id, node, objects, {
@@ -210,6 +212,70 @@ export abstract class ResourceNodeRenderer<
     const stale = objects.touch;
     objects.touch += 1;
     return stale >= threshold;
+  }
+
+  /**
+   * [Tree.tsx / Gold.tsx / Crimstone.tsx] boost feedback: when a node's
+   * recovery timestamp changes externally (a boost re-stamps it), flash the
+   * lightning icon at the top-right ~2s later if the node is recovered.
+   */
+  protected scheduleBoostFlash(id: string, isReady: () => boolean) {
+    if (!this.bridge.ui.get().showAnimations) return;
+    this.scene.time.delayedCall(1900, () => {
+      if (!isReady()) return;
+      const box = this.boxOf(id);
+      if (!box) return;
+      const texture = SUNNYSIDE.icons.lightning;
+      if (!this.scene.textures.exists(texture)) return;
+      const icon = this.scene.add
+        .image(box.x + box.width, box.y + 2, texture)
+        .setOrigin(1, 1)
+        .setDepth(DEPTHS.ENTITY_BASE + box.y + 3)
+        .setAlpha(0);
+      icon.setScale(9 / icon.height);
+      this.scene.tweens.add({
+        targets: icon,
+        alpha: 1,
+        y: icon.y - 4,
+        duration: 200,
+        onComplete: () => {
+          this.scene.time.delayedCall(300, () => {
+            this.scene.tweens.add({
+              targets: icon,
+              alpha: 0,
+              duration: 100,
+              onComplete: () => icon.destroy(),
+            });
+          });
+        },
+      });
+    });
+  }
+
+  /**
+   * [resourceNodeAnimations.css resource-node-shake] 0.82s x-wobble played
+   * when a replenishing node is harvested (fruit trees).
+   */
+  protected shakeNode(id: string) {
+    if (!this.bridge.ui.get().showAnimations) return;
+    const objects = this.nodes.get(id);
+    const art = objects?.art;
+    if (!art) return;
+    const baseX = art.x;
+    this.scene.tweens.addCounter({
+      from: 0,
+      to: 1,
+      duration: 820,
+      onUpdate: (tween) => {
+        if (!art.active) return;
+        const progress = tween.getValue() ?? 0;
+        const amp = progress < 0.15 || progress > 0.85 ? 0.5 : 1.2;
+        art.setX(baseX + Math.sin(progress * Math.PI * 8) * amp);
+      },
+      onComplete: () => {
+        if (art.active) art.setX(baseX);
+      },
+    });
   }
 
   protected resetTouch(id: string) {

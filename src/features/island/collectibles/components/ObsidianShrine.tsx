@@ -770,3 +770,145 @@ const FertiliseSection: React.FC<{
     </InnerPanel>
   );
 };
+
+/**
+ * The active shrine's bulk-actions modal, extracted so the Phaser farm can
+ * host it (same countdown label, harvest-all chest flow, and plant/fertilise
+ * sections as the DOM component above).
+ */
+export const ObsidianShrineModal: React.FC<{
+  show: boolean;
+  onClose: () => void;
+  createdAt: number;
+}> = ({ show, onClose, createdAt }) => {
+  const { t } = useAppTranslation();
+  const { gameService } = useContext(Context);
+  const [reward, setReward] = useState<Reward>();
+
+  const expiresAt = createdAt + (EXPIRY_COOLDOWNS["Obsidian Shrine"] ?? 0);
+  const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
+  const now = useNow({ live: secondsToExpire > 0, autoEndAt: expiresAt });
+
+  const state = useSelector(gameService, selectGameState);
+  const verified = useSelector(gameService, selectVerified);
+  const farmId = useSelector(gameService, (s) => s.context.farmId);
+  const isSeasoned = isSeasonedPlayer({ game: state, verified, now });
+
+  const availablePlots = getAvailablePlots(state);
+  const { readyCrops, readyPlots } = getCropsToHarvest(state, now);
+  const hasReadyCrops = Object.keys(readyCrops).length > 0;
+
+  const combinedReward = useMemo(() => {
+    const rewardItems: Partial<Record<InventoryItemName, Decimal>> = {};
+    let coins = 0;
+    let hasReward = false;
+    const counters: Partial<Record<FarmActivityName, number>> = {};
+
+    Object.values(readyPlots).forEach((plot) => {
+      const crop = plot.crop;
+      if (!crop) return;
+
+      const activityKey = `${crop.name} Harvested` as FarmActivityName;
+      if (counters[activityKey] === undefined) {
+        counters[activityKey] = state.farmActivity?.[activityKey] ?? 0;
+      }
+
+      let plotReward = crop.reward;
+      if (!plotReward) {
+        const { reward: generated } = getReward({
+          crop: crop.name,
+          skills: state.bumpkin?.skills ?? {},
+          prngArgs: { farmId, counter: counters[activityKey] ?? 0 },
+        });
+        plotReward = generated;
+      }
+
+      counters[activityKey] = (counters[activityKey] ?? 0) + 1;
+
+      if (!plotReward) return;
+      hasReward = true;
+
+      if (plotReward.items) {
+        plotReward.items.forEach((item) => {
+          const current = rewardItems[item.name] ?? new Decimal(0);
+          rewardItems[item.name] = current.add(item.amount);
+        });
+      }
+
+      if (plotReward.coins) coins += plotReward.coins;
+    });
+
+    if (!hasReward) return undefined;
+
+    const items = Object.entries(rewardItems).map(([name, amount]) => ({
+      name: name as InventoryItemName,
+      amount: amount.toNumber(),
+    }));
+
+    const combined: Reward = {};
+    if (items.length > 0) combined.items = items;
+    if (coins > 0) combined.coins = coins;
+    return combined;
+  }, [readyPlots, state.bumpkin?.skills, state.farmActivity, farmId]);
+
+  const doHarvestAll = () => {
+    gameService.send("crops.bulkHarvested", {});
+  };
+
+  const harvestAll = () => {
+    if (!isSeasoned && combinedReward) {
+      setReward(combinedReward);
+      return;
+    }
+    doHarvestAll();
+  };
+
+  const close = () => {
+    setReward(undefined);
+    onClose();
+  };
+
+  return (
+    <Modal show={show} onHide={close}>
+      <OuterPanel>
+        <div className="flex items-center justify-between flex-wrap gap-1 px-1 mb-1">
+          <Label type="default" icon={ITEM_DETAILS["Obsidian Shrine"].image}>
+            {"Obsidian Shrine"}
+          </Label>
+          <Label type="info" secondaryIcon={SUNNYSIDE.icons.stopwatch}>
+            {t("time.remaining", {
+              time: secondsToString(secondsToExpire, {
+                length: "medium",
+                isShortFormat: true,
+                removeTrailingZeros: true,
+              }),
+            })}
+          </Label>
+        </div>
+
+        {reward ? (
+          <InnerPanel>
+            <ChestReward
+              inline
+              collectedItem={undefined}
+              reward={reward}
+              onCollected={(success) => {
+                setReward(undefined);
+                if (success) doHarvestAll();
+              }}
+              onOpen={() => {
+                // No-op - reward is applied in bulk harvest
+              }}
+            />
+          </InnerPanel>
+        ) : hasReadyCrops ? (
+          <HarvestSection readyCrops={readyCrops} onHarvest={harvestAll} />
+        ) : availablePlots.length > 0 ? (
+          <PlantSection state={state} availablePlots={availablePlots} />
+        ) : (
+          <FertiliseSection state={state} />
+        )}
+      </OuterPanel>
+    </Modal>
+  );
+};

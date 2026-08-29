@@ -33,23 +33,14 @@ import {
   preloadDiscordNews,
 } from "./actions/discordNews";
 
-export const LetterBox: React.FC = () => {
-  const { gameService, showAnimations } = useContext(Context);
+/** News-alert state shared by the mailbox art and the modal tabs. */
+export const useDiscordNewsAlert = () => {
+  const { gameService } = useContext(Context);
   const { authState } = useAuth();
-  const [tab, setTab] = useState<"news" | "dailyGift" | "community">("news");
-  const [isOpen, setIsOpen] = useState(false);
-  const [showAddPost, setShowAddPost] = useState(false);
-  // Bumped after a post is showcased to remount the feed so the new post loads.
-  const [feedKey, setFeedKey] = useState(0);
 
   const isVisiting = useSelector(gameService, (state) =>
     state.matches("visiting"),
   );
-
-  const { t } = useAppTranslation();
-  const close = () => {
-    setIsOpen(false);
-  };
 
   const discordNewsSubscribe = (onStoreChange: () => void) => {
     if (typeof window === "undefined") return () => {};
@@ -96,44 +87,27 @@ export const LetterBox: React.FC = () => {
     (!discordNewsReadAt || discordNewsLatestAt > discordNewsReadAt)
   );
 
-  const shouldShowNewsAlert = hasUnreadDiscordUpdate && !isVisiting;
+  return hasUnreadDiscordUpdate && !isVisiting;
+};
+
+/**
+ * The mailbox modal stack (news / daily gift / community), extracted so the
+ * Phaser farm can host it without the DOM art wrapper.
+ */
+export const LetterBoxModals: React.FC<{
+  isOpen: boolean;
+  onClose: () => void;
+}> = ({ isOpen, onClose }) => {
+  const [tab, setTab] = useState<"news" | "dailyGift" | "community">("news");
+  const [showAddPost, setShowAddPost] = useState(false);
+  // Bumped after a post is showcased to remount the feed so the new post loads.
+  const [feedKey, setFeedKey] = useState(0);
+  const { t } = useAppTranslation();
+  const shouldShowNewsAlert = useDiscordNewsAlert();
+  const close = onClose;
 
   return (
     <>
-      <div
-        className="absolute cursor-pointer hover:img-highlight group"
-        id="letterbox"
-        onClick={() => setIsOpen(true)}
-        style={{
-          width: `${PIXEL_SCALE * 16}px`,
-          height: `${PIXEL_SCALE * 16}px`,
-        }}
-      >
-        {shouldShowNewsAlert && (
-          <img
-            src={newsIcon}
-            className={
-              "absolute z-20 cursor-pointer group-hover:img-highlight" +
-              (showAnimations ? " animate-pulsate" : "")
-            }
-            style={{
-              width: `${PIXEL_SCALE * 13}px`,
-              top: `${PIXEL_SCALE * -13}px`,
-              left: `${PIXEL_SCALE * 1.8}px`,
-            }}
-          />
-        )}
-
-        <img
-          src={mailboxImg}
-          className={classNames("absolute pointer-events-none")}
-          style={{
-            width: `${PIXEL_SCALE * 8}px`,
-            top: `${PIXEL_SCALE * 0}px`,
-            left: `${PIXEL_SCALE * 4}px`,
-          }}
-        />
-      </div>
       <Modal show={isOpen} onHide={close} size="lg">
         <CloseButtonPanel
           onClose={close}
@@ -192,6 +166,52 @@ export const LetterBox: React.FC = () => {
           setFeedKey((key) => key + 1);
         }}
       />
+    </>
+  );
+};
+
+export const LetterBox: React.FC = () => {
+  const { showAnimations } = useContext(Context);
+  const [isOpen, setIsOpen] = useState(false);
+  const shouldShowNewsAlert = useDiscordNewsAlert();
+
+  return (
+    <>
+      <div
+        className="absolute cursor-pointer hover:img-highlight group"
+        id="letterbox"
+        onClick={() => setIsOpen(true)}
+        style={{
+          width: `${PIXEL_SCALE * 16}px`,
+          height: `${PIXEL_SCALE * 16}px`,
+        }}
+      >
+        {shouldShowNewsAlert && (
+          <img
+            src={newsIcon}
+            className={
+              "absolute z-20 cursor-pointer group-hover:img-highlight" +
+              (showAnimations ? " animate-pulsate" : "")
+            }
+            style={{
+              width: `${PIXEL_SCALE * 13}px`,
+              top: `${PIXEL_SCALE * -13}px`,
+              left: `${PIXEL_SCALE * 1.8}px`,
+            }}
+          />
+        )}
+
+        <img
+          src={mailboxImg}
+          className={classNames("absolute pointer-events-none")}
+          style={{
+            width: `${PIXEL_SCALE * 8}px`,
+            top: `${PIXEL_SCALE * 0}px`,
+            left: `${PIXEL_SCALE * 4}px`,
+          }}
+        />
+      </div>
+      <LetterBoxModals isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </>
   );
 };

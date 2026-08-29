@@ -26,13 +26,16 @@ const _sculptureLevel = (state: MachineState) =>
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _coins = (state: MachineState) => state.context.state.coins;
 
-export const SaltSculpture: React.FC = () => {
+/** The upgrade modal, extracted so the Phaser farm can host it. */
+export const SaltSculptureModal: React.FC<{
+  show: boolean;
+  onClose: () => void;
+}> = ({ show, onClose }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const currentLevel = useSelector(gameService, _sculptureLevel);
   const inventory = useSelector(gameService, _inventory);
   const coins = useSelector(gameService, _coins);
-  const [showModal, setShowModal] = useState(false);
   const [showIngredients, setShowIngredients] = useState(false);
   const isMaxLevel = currentLevel >= SALT_SCULPTURE_MAX_LEVEL;
   const nextLevel = currentLevel + 1;
@@ -50,8 +53,98 @@ export const SaltSculpture: React.FC = () => {
 
   const handleUpgrade = () => {
     gameService.send("saltSculpture.upgraded");
-    setShowModal(false);
+    onClose();
   };
+
+  return (
+    <Modal show={show} onHide={onClose}>
+      <OuterPanel>
+        <div className="flex flex-col gap-1">
+          <InnerPanel className="flex flex-col gap-1">
+            <div className="flex flex-row flex-wrap items-center gap-1 w-full justify-between px-1">
+              <Label
+                type="default"
+                icon={SALT_SCULPTURE_VARIANTS[currentLevel]}
+              >
+                {`${t("saltSculpture.title")} ${t("lvl")} ${currentLevel}`}
+              </Label>
+              {isMaxLevel && (
+                <Label type="success">{t("saltSculpture.maxLevel")}</Label>
+              )}
+            </div>
+            <Label type="success">{t("saltSculpture.activeBuffs")}</Label>
+            <div className="flex flex-col gap-1">
+              {Array.from({ length: currentLevel }, (_, i) => i + 1).map(
+                (lvl) => (
+                  <div key={lvl} className="flex items-center gap-1">
+                    <img src={SUNNYSIDE.icons.confirm} className="h-3" alt="" />
+                    <span className="text-xs">
+                      {`Lv${lvl}: ${t(`saltSculpture.buff.${lvl}` as TranslationKeys)}`}
+                    </span>
+                  </div>
+                ),
+              )}
+            </div>
+          </InnerPanel>
+
+          {!isMaxLevel && upgrade && (
+            <InnerPanel>
+              <Label
+                type="info"
+                className="mb-1"
+                icon={SUNNYSIDE.icons.arrow_up}
+              >
+                {t("saltSculpture.nextLevel", { level: nextLevel })}
+              </Label>
+              <p className="text-xs mb-2">
+                {t(`saltSculpture.buff.${nextLevel}` as "saltSculpture.buff.1")}
+              </p>
+              <div
+                className="flex flex-wrap gap-2 cursor-pointer relative"
+                onClick={() => setShowIngredients(!showIngredients)}
+              >
+                <IngredientsPopover
+                  show={showIngredients}
+                  ingredients={getKeys(upgrade.ingredients)}
+                  onClick={() => setShowIngredients(false)}
+                />
+                {upgrade.coins > 0 && (
+                  <RequirementLabel
+                    type="coins"
+                    balance={coins}
+                    requirement={upgrade.coins}
+                  />
+                )}
+                {getObjectEntries(upgrade.ingredients).map(([item, amount]) => (
+                  <RequirementLabel
+                    key={String(item)}
+                    type="item"
+                    item={item as InventoryItemName}
+                    balance={
+                      inventory[item as InventoryItemName] ?? new Decimal(0)
+                    }
+                    requirement={amount ?? new Decimal(0)}
+                  />
+                ))}
+              </div>
+            </InnerPanel>
+          )}
+
+          {!isMaxLevel && (
+            <Button disabled={!canUpgrade} onClick={handleUpgrade}>
+              {t("saltSculpture.upgrade", { level: nextLevel })}
+            </Button>
+          )}
+        </div>
+      </OuterPanel>
+    </Modal>
+  );
+};
+
+export const SaltSculpture: React.FC = () => {
+  const { gameService } = useContext(Context);
+  const currentLevel = useSelector(gameService, _sculptureLevel);
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <>
@@ -74,96 +167,10 @@ export const SaltSculpture: React.FC = () => {
           />
         </div>
       </div>
-
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <OuterPanel>
-          <div className="flex flex-col gap-1">
-            <InnerPanel className="flex flex-col gap-1">
-              <div className="flex flex-row flex-wrap items-center gap-1 w-full justify-between px-1">
-                <Label
-                  type="default"
-                  icon={SALT_SCULPTURE_VARIANTS[currentLevel]}
-                >
-                  {`${t("saltSculpture.title")} ${t("lvl")} ${currentLevel}`}
-                </Label>
-                {isMaxLevel && (
-                  <Label type="success">{t("saltSculpture.maxLevel")}</Label>
-                )}
-              </div>
-              <Label type="success">{t("saltSculpture.activeBuffs")}</Label>
-              <div className="flex flex-col gap-1">
-                {Array.from({ length: currentLevel }, (_, i) => i + 1).map(
-                  (lvl) => (
-                    <div key={lvl} className="flex items-center gap-1">
-                      <img
-                        src={SUNNYSIDE.icons.confirm}
-                        className="h-3"
-                        alt=""
-                      />
-                      <span className="text-xs">
-                        {`Lv${lvl}: ${t(`saltSculpture.buff.${lvl}` as TranslationKeys)}`}
-                      </span>
-                    </div>
-                  ),
-                )}
-              </div>
-            </InnerPanel>
-
-            {!isMaxLevel && upgrade && (
-              <InnerPanel>
-                <Label
-                  type="info"
-                  className="mb-1"
-                  icon={SUNNYSIDE.icons.arrow_up}
-                >
-                  {t("saltSculpture.nextLevel", { level: nextLevel })}
-                </Label>
-                <p className="text-xs mb-2">
-                  {t(
-                    `saltSculpture.buff.${nextLevel}` as "saltSculpture.buff.1",
-                  )}
-                </p>
-                <div
-                  className="flex flex-wrap gap-2 cursor-pointer relative"
-                  onClick={() => setShowIngredients(!showIngredients)}
-                >
-                  <IngredientsPopover
-                    show={showIngredients}
-                    ingredients={getKeys(upgrade.ingredients)}
-                    onClick={() => setShowIngredients(false)}
-                  />
-                  {upgrade.coins > 0 && (
-                    <RequirementLabel
-                      type="coins"
-                      balance={coins}
-                      requirement={upgrade.coins}
-                    />
-                  )}
-                  {getObjectEntries(upgrade.ingredients).map(
-                    ([item, amount]) => (
-                      <RequirementLabel
-                        key={String(item)}
-                        type="item"
-                        item={item as InventoryItemName}
-                        balance={
-                          inventory[item as InventoryItemName] ?? new Decimal(0)
-                        }
-                        requirement={amount ?? new Decimal(0)}
-                      />
-                    ),
-                  )}
-                </div>
-              </InnerPanel>
-            )}
-
-            {!isMaxLevel && (
-              <Button disabled={!canUpgrade} onClick={handleUpgrade}>
-                {t("saltSculpture.upgrade", { level: nextLevel })}
-              </Button>
-            )}
-          </div>
-        </OuterPanel>
-      </Modal>
+      <SaltSculptureModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+      />
     </>
   );
 };

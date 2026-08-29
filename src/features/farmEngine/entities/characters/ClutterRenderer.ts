@@ -5,7 +5,7 @@ import { isHelpComplete } from "features/game/types/monuments";
 import { FARM_PEST } from "features/game/types/clutter";
 import { ITEM_DETAILS } from "features/game/types/images";
 import type { InventoryItemName } from "features/game/types/game";
-import { queueImage, runLoader } from "../../core/assets";
+import { queueImage, queueSpritesheet, runLoader } from "../../core/assets";
 import { makeClickable } from "../../core/clickable";
 import { gridToWorld, WORLD_TILE } from "../../core/coordinates";
 import { DEPTHS } from "../../core/depths";
@@ -18,7 +18,8 @@ import { EntityRenderer } from "../EntityRenderer";
  * Click -> garbage.collected (local-only event; goes to the visitor's
  * inventory) then the FarmHelped modal when the farm's help is complete.
  *
- * DEFERRED: the sparkle2.gif twinkle overlay (needs sheet art).
+ * Sparkle twinkle rendered from the world's sparkle.png sheet (20x19, 7
+ * frames @6fps) at the DOM overlay's offset [Clutter.tsx].
  */
 
 type Slice = {
@@ -29,8 +30,12 @@ type Slice = {
 
 type Entry = {
   art: Phaser.GameObjects.Image;
+  sparkle?: Phaser.GameObjects.Sprite;
   zone: Phaser.GameObjects.Zone;
 };
+
+/** The world scene's twinkle sheet [Preloader.ts "sparkle"]. */
+const SPARKLE_SHEET = "world/sparkle.png";
 
 export class ClutterRenderer extends EntityRenderer<Slice> {
   private entries = new Map<string, Entry>();
@@ -61,6 +66,10 @@ export class ClutterRenderer extends EntityRenderer<Slice> {
         ITEM_DETAILS[spot.type as InventoryItemName].image,
       );
     }
+    queueSpritesheet(this.scene, SPARKLE_SHEET, {
+      frameWidth: 20,
+      frameHeight: 19,
+    });
     await runLoader(this.scene);
     if (this.isStale(token)) return;
 
@@ -68,6 +77,7 @@ export class ClutterRenderer extends EntityRenderer<Slice> {
     for (const [id, entry] of this.entries) {
       if (liveIds.has(id)) continue;
       entry.art.destroy();
+      entry.sparkle?.destroy();
       entry.zone.destroy();
       this.entries.delete(id);
     }
@@ -89,6 +99,27 @@ export class ClutterRenderer extends EntityRenderer<Slice> {
           visitClickable: true,
         });
         entry = { art, zone };
+        // [Clutter.tsx] 6px twinkle at (7, 6) inside the tile.
+        if (this.scene.textures.exists(SPARKLE_SHEET)) {
+          const animKey = "clutter-sparkle";
+          if (!this.scene.anims.exists(animKey)) {
+            this.scene.anims.create({
+              key: animKey,
+              frames: this.scene.anims.generateFrameNumbers(SPARKLE_SHEET, {
+                start: 0,
+                end: 6,
+              }),
+              frameRate: 6,
+              repeat: -1,
+            });
+          }
+          const sparkle = this.scene.add
+            .sprite(0, 0, SPARKLE_SHEET)
+            .setOrigin(0, 0);
+          sparkle.setScale(6 / 20);
+          sparkle.play(animKey);
+          entry.sparkle = sparkle;
+        }
         this.entries.set(id, entry);
       }
       entry.art.setTexture(texture);
@@ -96,6 +127,9 @@ export class ClutterRenderer extends EntityRenderer<Slice> {
       entry.art.setPosition(world.x + 8, world.y + 8);
       entry.art.setDepth(depth);
       entry.zone.setPosition(world.x, world.y);
+      entry.zone.setDepth(depth);
+      entry.sparkle?.setPosition(world.x + 7, world.y + 6);
+      entry.sparkle?.setDepth(depth + 1);
     }
   }
 
@@ -119,6 +153,7 @@ export class ClutterRenderer extends EntityRenderer<Slice> {
   protected onDestroy() {
     this.entries.forEach((entry) => {
       entry.art.destroy();
+      entry.sparkle?.destroy();
       entry.zone.destroy();
     });
     this.entries.clear();

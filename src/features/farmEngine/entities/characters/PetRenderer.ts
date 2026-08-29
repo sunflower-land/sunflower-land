@@ -171,7 +171,7 @@ export class PetRenderer extends EntityRenderer<Slice> {
     const key = `nft#${id}`;
     const numeric = Number(id);
     const box = gridRectToWorld(pet.coordinates!, { width: 2, height: 2 });
-    const depth = DEPTHS.ENTITY_BASE + box.y + box.height;
+    const depth = DEPTHS.ENTITY_BASE + box.y;
 
     const entry = this.ensureEntry(key, box, () => this.onNftClick(id));
 
@@ -275,7 +275,7 @@ export class PetRenderer extends EntityRenderer<Slice> {
       height: 1,
     };
     const box = gridRectToWorld(placement.coordinates, dims);
-    const depth = DEPTHS.ENTITY_BASE + box.y + box.height;
+    const depth = DEPTHS.ENTITY_BASE + box.y;
 
     const entry = this.ensureEntry(key, box, () =>
       this.onCommonClick(placement.name),
@@ -370,6 +370,9 @@ export class PetRenderer extends EntityRenderer<Slice> {
     }
     entry.zone.setPosition(box.x, box.y);
     entry.zone.setSize(box.width, box.height);
+    // Depth-parity rule: input follows depth — an unset (0) zone depth
+    // swallows clicks for every entity placed below row 0.
+    entry.zone.setDepth(DEPTHS.ENTITY_BASE + box.y);
     return entry;
   }
 

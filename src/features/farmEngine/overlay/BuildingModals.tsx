@@ -5,6 +5,14 @@ import { useInterpret } from "@xstate/react";
 import tornadoIcon from "assets/icons/tornado.webp";
 import tsunamiIcon from "assets/icons/tsunami.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
+import lightning from "assets/icons/lightning.png";
+import { Label } from "components/ui/Label";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { secondsToString } from "lib/utils/time";
+import { CROP_SHORTAGE_HOURS } from "features/game/expansion/lib/boosts";
+import { RenewCollectible } from "features/game/components/RenewCollectible";
+import type { InventoryRenewableCollectibleName } from "features/game/lib/renewableCollectibles";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
@@ -102,6 +110,62 @@ const COOKING_MODALS: Record<CookingBuilding, React.FC<CookingModalProps>> = {
   "Smoothie Shack": SmoothieShackModal,
 };
 
+/**
+ * [Market.tsx] crop-shortage 2x-sale countdown + special-event boost labels
+ * pinned to the shop modal's top-right.
+ */
+const MarketSaleLabels: React.FC = () => {
+  const { gameService } = useContext(Context);
+  const { t } = useAppTranslation();
+  const createdAt = useSelector(
+    gameService,
+    (s: MachineState) => s.context.state.createdAt,
+  );
+  const specialEvents = useSelector(gameService, (s: MachineState) =>
+    Object.entries(s.context.state.specialEvents.current)
+      .filter(([, event]) => !!event?.isEligible)
+      .filter(([, event]) => (event?.endAt ?? Infinity) > Date.now())
+      .filter(([, event]) => (event?.startAt ?? 0) < Date.now()),
+  );
+  const { totalSeconds: cropShortageSecondsLeft } = useCountdown(
+    createdAt + CROP_SHORTAGE_HOURS * 60 * 60 * 1000,
+  );
+  const isCropShortage = cropShortageSecondsLeft > 0;
+  const specialEventDetails = specialEvents[0];
+  const boostItem = getKeys(specialEventDetails?.[1]?.bonus ?? {})[0];
+  const boostAmount =
+    specialEventDetails?.[1]?.bonus?.[boostItem]?.saleMultiplier;
+
+  return (
+    <>
+      {isCropShortage && (
+        <Label
+          icon={SUNNYSIDE.icons.stopwatch}
+          type="vibrant"
+          className="absolute right-0 -top-7 shadow-md"
+          style={{ wordSpacing: 0 }}
+        >
+          {`${t("2x.sale")}: ${secondsToString(cropShortageSecondsLeft, {
+            length: "medium",
+          })} left`}
+        </Label>
+      )}
+      {boostItem && (
+        <div className="flex justify-between">
+          <Label
+            icon={boostItem ? ITEM_DETAILS[boostItem].image : undefined}
+            secondaryIcon={lightning}
+            type="vibrant"
+            className="absolute right-0 -top-7 shadow-md"
+          >
+            {`${boostAmount}x ${boostItem} ${t("sale")}`}
+          </Label>
+        </div>
+      )}
+    </>
+  );
+};
+
 export const BuildingModals: React.FC<{
   open: FarmModalRequest | undefined;
   onClose: () => void;
@@ -132,6 +196,7 @@ export const BuildingModals: React.FC<{
             hasSoldCropsBefore(state.farmActivity)
           }
         />
+        <MarketSaleLabels />
       </Modal>
 
       {/* [WorkBench.tsx] mounted only while open so the default tab resets */}
@@ -183,6 +248,17 @@ export const BuildingModals: React.FC<{
           name={data.name as CollectibleName}
           id={data.id as string}
           onClose={onClose}
+        />
+      )}
+
+      {/* [TimeWarpTotem.tsx / Hourglass.tsx] expired boost with a replacement */}
+      {open?.name === "renewCollectible" && (
+        <RenewCollectible
+          show
+          onHide={onClose}
+          name={data.name as InventoryRenewableCollectibleName}
+          id={data.id as string}
+          location="farm"
         />
       )}
 

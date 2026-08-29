@@ -21,7 +21,7 @@ import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { RenewPetShrine } from "features/game/components/RenewPetShrine";
 import { useVisiting } from "lib/utils/visitUtils";
 
-const PET_SHRINE_DIMENSIONS: Record<
+export const PET_SHRINE_DIMENSIONS: Record<
   PetShrineName | "Obsidian Shrine",
   {
     left?: number;

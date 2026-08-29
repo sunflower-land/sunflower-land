@@ -9,6 +9,18 @@ import sharkBumpkin from "assets/npcs/shark.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import { Modal } from "components/ui/Modal";
+import { LetterBoxModals } from "features/farming/mail/LetterBox";
+import { SaltSculptureModal } from "features/island/collectibles/components/SaltSculpture";
+import { RevealModals } from "./RevealModals";
+import { WeatherPlotModal } from "./WeatherPlotModal";
+import { RenewPetShrine } from "features/game/components/RenewPetShrine";
+import { RemoveKuebikoModal } from "features/island/collectibles/RemoveKuebikoModal";
+import { FishermanPuzzle } from "features/island/fisherman/FishingPuzzle";
+import { BedContent } from "features/island/collectibles/components/Bed";
+import type { BedName } from "features/game/types/game";
+import { RemoveHungryCaterpillarModal } from "features/island/collectibles/RemoveHungryCaterpillarModal";
+import { ObsidianShrineModal } from "features/island/collectibles/components/ObsidianShrine";
+import type { PetShrineName } from "features/game/types/pets";
 import { Panel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
@@ -73,6 +85,111 @@ import { CharacterModals } from "./CharacterModals";
  */
 
 const _state = (state: MachineState) => state.context.state;
+
+/** [Bed.tsx] the unlock-farmhand modal against the UNCHANGED machine. */
+const BedFarmhandHost: React.FC<{ name: BedName; onClose: () => void }> = ({
+  name,
+  onClose,
+}) => {
+  const { gameService } = useContext(Context);
+  const { t } = useAppTranslation();
+  const unlockingFarmhand = useSelector(gameService, (s: MachineState) =>
+    s.matches("unlockingFarmhand"),
+  );
+  const unlockingFarmhandSuccess = useSelector(gameService, (s: MachineState) =>
+    s.matches("unlockingFarmhandSuccess"),
+  );
+  const latestFarmhand = useSelector(gameService, (s: MachineState) => {
+    const farmHands = Object.values(s.context.state.farmHands.bumpkins);
+    return farmHands[farmHands.length - 1]?.equipped;
+  });
+  const isFarmhandUnlocking = unlockingFarmhand || unlockingFarmhandSuccess;
+
+  return (
+    <Modal
+      show
+      onHide={isFarmhandUnlocking ? undefined : onClose}
+      backdrop={isFarmhandUnlocking ? "static" : true}
+    >
+      <CloseButtonPanel
+        onClose={isFarmhandUnlocking ? undefined : onClose}
+        title={isFarmhandUnlocking ? undefined : t("unlock.farmhand")}
+      >
+        <BedContent
+          name={name}
+          handleContinue={() => {
+            gameService.send("CONTINUE");
+            onClose();
+          }}
+          unlockingFarmhand={unlockingFarmhand}
+          unlockingFarmhandSuccess={unlockingFarmhandSuccess}
+          unlockFarmhand={() =>
+            gameService.send("farmHand.unlocked", {
+              effect: { type: "farmHand.unlocked" },
+            })
+          }
+          latestFarmhand={latestFarmhand}
+        />
+      </CloseButtonPanel>
+    </Modal>
+  );
+};
+
+/** [FishermanNPC.tsx] the map-piece puzzle gate before reeling in. */
+const FishingChallengeHost: React.FC<{
+  bridge: GameBridge;
+  onDone: () => void;
+  onClose: () => void;
+}> = ({ bridge, onDone, onClose }) => {
+  const { gameService } = useContext(Context);
+  const maps = useSelector(
+    gameService,
+    (state: MachineState) => state.context.state.fishing.wharf.maps ?? {},
+  );
+  return (
+    <Modal show>
+      <Panel>
+        <FishermanPuzzle
+          onCatch={() => {
+            onClose();
+            onDone();
+          }}
+          onMiss={() => {
+            // Keep easy fish, mark difficult fish as missed.
+            bridge.dispatch("map.missed" as never);
+            bridge.dispatch("SAVE" as never);
+            onClose();
+            onDone();
+          }}
+          onRetry={() => bridge.dispatch("fish.retried" as never)}
+          maps={maps}
+        />
+      </Panel>
+    </Modal>
+  );
+};
+
+/** [MovableComponent] removal side-effect warnings; confirm sends REMOVE. */
+const RemoveWarningHost: React.FC<{
+  bridge: GameBridge;
+  data: { name: "Kuebiko" | "Hungry Caterpillar"; id: string; action: string };
+  onClose: () => void;
+}> = ({ bridge, data, onClose }) => {
+  const onRemove = () => {
+    bridge.landscaping.send({
+      type: "REMOVE",
+      event: data.action as never,
+      id: data.id,
+      name: data.name,
+      location: "farm",
+    });
+    onClose();
+  };
+  if (data.name === "Kuebiko") {
+    return <RemoveKuebikoModal onClose={onClose} onRemove={onRemove} />;
+  }
+  return <RemoveHungryCaterpillarModal onClose={onClose} onRemove={onRemove} />;
+};
 
 export const FarmModals: React.FC<{
   bridge: GameBridge;
@@ -443,6 +560,81 @@ export const FarmModals: React.FC<{
       </Modal>
 
       {/* [FlowerBed.tsx] first-harvest congratulations */}
+      {/* [TornadoPlot/TsunamiPlot/GreatFreezePlot] destroyed-crops info */}
+      {open?.name === "weatherPlot" && (
+        <WeatherPlotModal
+          event={
+            (open.data as { event: "tornado" | "tsunami" | "greatFreeze" })
+              .event
+          }
+          onClose={close}
+        />
+      )}
+
+      {/* [GenieLamp/ManekiNeko/FestiveTree] reveal flows */}
+      <RevealModals bridge={bridge} open={open} onClose={close} />
+
+      {/* [Bed.tsx] unlock-farmhand flow */}
+      {open?.name === "bedFarmhand" && (
+        <BedFarmhandHost
+          name={(open.data as { name: BedName }).name}
+          onClose={close}
+        />
+      )}
+
+      {/* [FishermanNPC.tsx] treasure-map fishing puzzle before the reel */}
+      {open?.name === "fishingChallenge" && (
+        <FishingChallengeHost
+          bridge={bridge}
+          onDone={(open.data as { onDone: () => void }).onDone}
+          onClose={close}
+        />
+      )}
+
+      {/* [MovableComponent] Kuebiko / Hungry Caterpillar removal warnings */}
+      {open?.name === "removeWarning" && (
+        <RemoveWarningHost
+          bridge={bridge}
+          data={
+            open.data as {
+              name: "Kuebiko" | "Hungry Caterpillar";
+              id: string;
+              action: string;
+            }
+          }
+          onClose={close}
+        />
+      )}
+
+      {/* [PetShrine.tsx / ObsidianShrine.tsx] expired-shrine renewal */}
+      {open?.name === "renewPetShrine" && (
+        <RenewPetShrine
+          show
+          onHide={close}
+          name={(open.data as { name: PetShrineName | "Obsidian Shrine" }).name}
+          id={(open.data as { id: string }).id}
+          location="farm"
+        />
+      )}
+
+      {/* [ObsidianShrine.tsx] active bulk plant/harvest/fertilise */}
+      {open?.name === "obsidianShrine" && (
+        <ObsidianShrineModal
+          show
+          onClose={close}
+          createdAt={(open.data as { createdAt: number }).createdAt}
+        />
+      )}
+
+      {/* [SaltSculpture.tsx] level buffs + upgrade */}
+      <SaltSculptureModal
+        show={open?.name === "saltSculpture"}
+        onClose={close}
+      />
+
+      {/* [LetterBox.tsx] mailbox: news / daily gift / community */}
+      <LetterBoxModals isOpen={open?.name === "letterBox"} onClose={close} />
+
       <Modal show={open?.name === "flowerCongratulations"} onHide={close}>
         {open?.name === "flowerCongratulations" &&
           typeof open.data === "string" && (

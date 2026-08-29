@@ -10,7 +10,7 @@ import { VisitingHud } from "features/island/hud/VisitingHud";
 import { useVisiting } from "lib/utils/visitUtils";
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
-import { createGameBridge } from "./bridge/GameBridge";
+import { createGameBridge, type GameBridge } from "./bridge/GameBridge";
 import { DPR } from "./core/rendering";
 import { FarmScene } from "./scenes/FarmScene";
 import { FarmOverlay } from "./overlay/FarmOverlay";
@@ -18,7 +18,10 @@ import { FarmModals } from "./overlay/FarmModals";
 import { CropsUI } from "./overlay/CropsUI";
 import { ResourcesUI } from "./overlay/ResourcesUI";
 import { LandscapingUI } from "./overlay/LandscapingUI";
+import { SftPopoverUI } from "./overlay/SftPopoverUI";
 import { DevPanel } from "./dev/DevPanel";
+import { PerfPanel } from "./dev/PerfPanel";
+import { FarmLoading } from "./overlay/FarmLoading";
 
 /**
  * React mount for the Phaser farm — the only place React and the engine meet.
@@ -117,6 +120,11 @@ export const FarmPhaser: React.FC = () => {
       scene: [new FarmScene(bridge)],
     });
     gameRef.current = game;
+    if (import.meta.env.DEV) {
+      // Parity/perf harness hooks (docs/phaser-farm-migration/scripts).
+      (window as { __farmGame?: Phaser.Game }).__farmGame = game;
+      (window as { __farmBridge?: GameBridge }).__farmBridge = bridge;
+    }
 
     // With canvas-only input, a drag released over a DOM element would lose
     // its pointerup and leave the camera panning. Capture the pointer on the
@@ -138,6 +146,13 @@ export const FarmPhaser: React.FC = () => {
     return () => {
       window.removeEventListener("resize", onResize);
       gameRef.current = undefined;
+      const hooks = window as {
+        __farmGame?: Phaser.Game;
+        __farmBridge?: GameBridge;
+      };
+      // Clear the dev hooks — a stale global pins the destroyed game's memory.
+      if (hooks.__farmGame === game) delete hooks.__farmGame;
+      if (hooks.__farmBridge === bridge) delete hooks.__farmBridge;
       game.destroy(true);
       bridge.dispose();
     };
@@ -165,7 +180,9 @@ export const FarmPhaser: React.FC = () => {
         <CropsUI bridge={bridge} />
         <ResourcesUI bridge={bridge} />
         <LandscapingUI bridge={bridge} />
+        <SftPopoverUI bridge={bridge} />
         {import.meta.env.DEV && <DevPanel />}
+        {import.meta.env.DEV && <PerfPanel getGame={() => gameRef.current} />}
       </FarmOverlay>
       <FarmModals bridge={bridge} onOpenChange={onModalOpenChange} />
       {/* [Land.tsx:1348-1352] edit/visit modes swap the HUD */}
@@ -178,6 +195,8 @@ export const FarmPhaser: React.FC = () => {
       )}
       {/* Nested routes (marketplace) render above the canvas farm */}
       <Outlet />
+      {/* Boot cover — above the HUD until the engine's first loads settle */}
+      <FarmLoading getGame={() => gameRef.current} />
     </div>,
     document.body,
   );

@@ -1,3 +1,4 @@
+import { SpeechBubbleSprite } from "../components/SpeechBubbleSprite";
 import Phaser from "phaser";
 import { SUNNYSIDE } from "assets/sunnyside";
 import discordBoat from "assets/decorations/isle_boat.gif";
@@ -16,7 +17,8 @@ import {
 import { getPeteHint } from "features/game/expansion/components/TravelTeaser";
 import { BONUSES } from "features/game/types/bonuses";
 import { NPC_WEARABLES } from "lib/npcs";
-import { queueImage, runLoader } from "../core/assets";
+import { runLoader } from "../core/assets";
+import { queueArt, resolveArtObject } from "../core/animated";
 import { makeClickable } from "../core/clickable";
 import { getGameboardWorldBounds, gridToWorld } from "../core/coordinates";
 import { DEPTHS } from "../core/depths";
@@ -42,6 +44,7 @@ const decorOffset = (expansionCount: number) =>
   Math.ceil((Math.sqrt(expansionCount) * 6) / 2);
 
 type Slice = {
+  landscaping: boolean;
   expansionCount: number;
   islandType: IslandType;
   discordClaimed: boolean;
@@ -52,6 +55,8 @@ type Slice = {
 };
 
 export class BoatsLayer extends EntityRenderer<Slice> {
+  private bubbles: SpeechBubbleSprite[] = [];
+
   private objects: { destroy(): void }[] = [];
 
   selector(state: MachineState): Slice {
@@ -60,6 +65,7 @@ export class BoatsLayer extends EntityRenderer<Slice> {
     const now = Date.now();
 
     return {
+      landscaping: state.matches("landscaping"),
       expansionCount: game.inventory["Basic Land"]?.toNumber() ?? 3,
       islandType: game.island.type,
       discordClaimed: BONUSES["discord-signup"].isClaimed(game),
@@ -75,6 +81,7 @@ export class BoatsLayer extends EntityRenderer<Slice> {
   }
 
   equals = (a: Slice, b: Slice) =>
+    a.landscaping === b.landscaping &&
     a.expansionCount === b.expansionCount &&
     a.islandType === b.islandType &&
     a.discordClaimed === b.discordClaimed &&
@@ -85,8 +92,14 @@ export class BoatsLayer extends EntityRenderer<Slice> {
 
   async sync(slice: Slice) {
     const token = this.beginSync();
+    // [Land.tsx:1302-1334] the DOM unmounts this during landscaping.
+    if (slice.landscaping) {
+      this.clear();
+      return;
+    }
 
     const upgradeRaft = UPGRADE_RAFTS[slice.islandType];
+    SpeechBubbleSprite.queueAssets(this.scene);
     [
       SUNNYSIDE.decorations.raft,
       SUNNYSIDE.icons.expression_chat,
@@ -95,7 +108,7 @@ export class BoatsLayer extends EntityRenderer<Slice> {
       restockBoat,
       discordBoat,
       ...(upgradeRaft ? [upgradeRaft] : []),
-    ].forEach((texture) => queueImage(this.scene, texture));
+    ].forEach((texture) => queueArt(this.scene, texture));
     await runLoader(this.scene);
     if (this.isStale(token)) return;
 
@@ -134,7 +147,7 @@ export class BoatsLayer extends EntityRenderer<Slice> {
     });
     void npc.create();
 
-    if (slice.peteHint) {
+    if (slice.peteHint === "Explore") {
       // Chat icon in the mirrored box: DOM left 8 width 10 in a 16-wide box
       // -> mirrored x = 16 - 8 - 10 = -2; y = -5.
       this.addImage(
@@ -143,6 +156,15 @@ export class BoatsLayer extends EntityRenderer<Slice> {
         base.y + 2 - 10 - 5,
         10,
       );
+    } else if (slice.peteHint) {
+      // [TravelTeaser.tsx] Pete's speech bubble hint (tail toward Pete).
+      const bubble = new SpeechBubbleSprite(this.scene, {
+        x: base.x + 2 + 14 - 6,
+        y: base.y + 2 - 10 - 8,
+        text: slice.peteHint,
+        depth: DEPTHS.WATER_DECOR + 2,
+      });
+      this.bubbles.push(bubble);
     }
 
     this.objects.push(raft, npc);
@@ -292,8 +314,13 @@ export class BoatsLayer extends EntityRenderer<Slice> {
     widthSourcePx: number,
     options: { flipX?: boolean; onClick?: () => void } = {},
   ) {
-    const image = this.scene.add
-      .image(x, y, texture)
+    // Animated art (the Discord boat hull) becomes a looping Sprite; a
+    // missing texture still yields Phaser's placeholder Image, as before.
+    const image =
+      resolveArtObject(this.scene, undefined, texture) ??
+      this.scene.add.image(x, y, texture);
+    image
+      .setPosition(x, y)
       .setOrigin(0, 0)
       .setDepth(DEPTHS.WATER_DECOR)
       .setFlipX(!!options.flipX);
@@ -305,6 +332,8 @@ export class BoatsLayer extends EntityRenderer<Slice> {
   }
 
   private clear() {
+    this.bubbles.forEach((bubble) => bubble.destroy());
+    this.bubbles = [];
     this.objects.forEach((object) => object.destroy());
     this.objects = [];
   }

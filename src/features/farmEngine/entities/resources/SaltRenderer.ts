@@ -32,6 +32,7 @@ import type { Unsubscribe } from "../../bridge/subscriptions";
  */
 
 type Slice = {
+  landscaping: boolean;
   saltNodes: GameState["saltFarm"]["nodes"];
   saltFarmLevel: number;
   basicLand: number;
@@ -55,6 +56,7 @@ export class SaltRenderer extends EntityRenderer<Slice> {
   selector(state: MachineState): Slice {
     const game = state.context.state;
     return {
+      landscaping: state.matches("landscaping"),
       saltNodes: game.saltFarm.nodes,
       saltFarmLevel: game.saltFarm.level,
       basicLand: game.inventory["Basic Land"]?.toNumber() ?? 3,
@@ -62,6 +64,7 @@ export class SaltRenderer extends EntityRenderer<Slice> {
   }
 
   equals = (a: Slice, b: Slice) =>
+    a.landscaping === b.landscaping &&
     a.saltNodes === b.saltNodes &&
     a.saltFarmLevel === b.saltFarmLevel &&
     a.basicLand === b.basicLand;
@@ -72,6 +75,11 @@ export class SaltRenderer extends EntityRenderer<Slice> {
 
   async sync(slice: Slice) {
     const token = this.beginSync();
+    // [Land.tsx:1302-1334] the DOM unmounts this during landscaping.
+    if (slice.landscaping) {
+      this.clear();
+      return;
+    }
     // Queue every stage sprite (small set) + icons.
     for (let charges = 0; charges <= 5; charges++) {
       queueImage(this.scene, getSaltNodeSprite(charges));
@@ -126,6 +134,7 @@ export class SaltRenderer extends EntityRenderer<Slice> {
       }
 
       objects.zone.setPosition(world.x, world.y);
+      objects.zone.setDepth(DEPTHS.ENTITY_BASE + world.y);
       objects.art.setTexture(getSaltNodeSprite(charges));
       objects.art.setScale(18 / objects.art.width);
       objects.art.setPosition(world.x, world.y);
@@ -183,6 +192,7 @@ export class SaltRenderer extends EntityRenderer<Slice> {
         this.placeholders.set(id, objects);
       }
       objects.zone.setPosition(world.x, world.y);
+      objects.zone.setDepth(DEPTHS.ENTITY_BASE + world.y);
       objects.art.setScale(18 / objects.art.width);
       objects.art.setPosition(world.x, world.y);
       objects.art.setDepth(DEPTHS.ENTITY_BASE + world.y);
@@ -249,8 +259,7 @@ export class SaltRenderer extends EntityRenderer<Slice> {
     objects.plus?.destroy();
   }
 
-  protected onDestroy() {
-    this.unsubscribeUi?.();
+  private clear() {
     for (const [id, objects] of this.nodes) {
       this.destroyObjects(objects);
       this.bridge.anchors.removeAnchor(this.anchorId(id));
@@ -258,5 +267,10 @@ export class SaltRenderer extends EntityRenderer<Slice> {
     this.nodes.clear();
     this.placeholders.forEach((objects) => this.destroyObjects(objects));
     this.placeholders.clear();
+  }
+
+  protected onDestroy() {
+    this.unsubscribeUi?.();
+    this.clear();
   }
 }

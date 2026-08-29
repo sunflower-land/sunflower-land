@@ -21,6 +21,7 @@ import { getKeys } from "lib/object";
 import { formatNumber } from "lib/utils/formatNumber";
 import { translate } from "lib/i18n/translate";
 import { queueImage, runLoader } from "../core/assets";
+import { queueArt, resolveArtObject } from "../core/animated";
 import { makeClickable } from "../core/clickable";
 import { ProgressBarSprite } from "../components/ProgressBarSprite";
 import { LabelChip } from "../components/LabelSprite";
@@ -38,6 +39,7 @@ import { EntityRenderer } from "./EntityRenderer";
 export const UPCOMING_EXPANSION_ANCHOR_ID = "upcoming-expansion";
 
 type Slice = {
+  landscaping: boolean;
   basicLand: number;
   islandType: IslandType;
   construction: GameState["expansionConstruction"];
@@ -73,6 +75,7 @@ export class UpcomingExpansionRenderer extends EntityRenderer<Slice> {
       !!game.inventory["Basic Land"]?.lte(4);
 
     return {
+      landscaping: state.matches("landscaping"),
       basicLand,
       islandType: game.island.type,
       construction: game.expansionConstruction,
@@ -82,6 +85,7 @@ export class UpcomingExpansionRenderer extends EntityRenderer<Slice> {
   }
 
   equals = (a: Slice, b: Slice) =>
+    a.landscaping === b.landscaping &&
     a.basicLand === b.basicLand &&
     a.islandType === b.islandType &&
     a.construction === b.construction &&
@@ -90,6 +94,11 @@ export class UpcomingExpansionRenderer extends EntityRenderer<Slice> {
 
   async sync(slice: Slice) {
     const token = this.beginSync();
+    // [Land.tsx:1302-1334] the DOM unmounts this during landscaping.
+    if (slice.landscaping) {
+      this.clear();
+      return;
+    }
     [
       SUNNYSIDE.icons.expand,
       SUNNYSIDE.land.pontoon,
@@ -100,7 +109,7 @@ export class UpcomingExpansionRenderer extends EntityRenderer<Slice> {
       SUNNYSIDE.icons.lock,
       SUNNYSIDE.ui.emptyBar,
       coinsIcon,
-    ].forEach((texture) => queueImage(this.scene, texture));
+    ].forEach((texture) => queueArt(this.scene, texture));
     LabelChip.queueAssets(this.scene);
 
     // Requirement-chip item icons for the current expansion.
@@ -157,8 +166,12 @@ export class UpcomingExpansionRenderer extends EntityRenderer<Slice> {
     block: { x: number; y: number },
     { createdAt, readyAt }: { createdAt: number; readyAt: number },
   ) {
-    const pontoon = this.scene.add
-      .image(block.x - 10, block.y + 20, SUNNYSIDE.land.pontoon)
+    // The pontoon is an animated GIF in the DOM — play its converted strip.
+    const pontoon =
+      resolveArtObject(this.scene, undefined, SUNNYSIDE.land.pontoon) ??
+      this.scene.add.image(0, 0, SUNNYSIDE.land.pontoon);
+    pontoon
+      .setPosition(block.x - 10, block.y + 20)
       .setOrigin(0, 0)
       .setDepth(DEPTHS.WATER_DECOR);
     pontoon.setScale(129 / pontoon.width);

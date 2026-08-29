@@ -120,6 +120,15 @@ export class TreeRenderer extends ResourceNodeRenderer<TreeNode> {
     objects: NodeObjects,
     ctx: RenderContext,
   ) {
+    // Boost feedback: an external choppedAt change flashes lightning once
+    // the tree shows recovered [Tree.tsx isAnimationRunning].
+    const prev = this.prevNodes[id];
+    if (prev && prev.wood.choppedAt !== node.wood.choppedAt) {
+      this.scheduleBoostFlash(id, () => {
+        const fresh = this.game().trees[id];
+        return !!fresh && Date.now() > this.readyAt(fresh, this.game());
+      });
+    }
     this.recoveryTimers.get(id)?.();
     this.recoveryTimers.delete(id);
 

@@ -1,3 +1,8 @@
+import lightningIcon from "assets/icons/lightning.png";
+import fullMoonIcon from "assets/icons/full_moon.png";
+import mapIcon from "assets/icons/map.webp";
+import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
+import { MAP_PIECE_MARVELS } from "features/game/types/fishing";
 import Phaser from "phaser";
 import springWharf from "assets/wharf/spring_wharf.png";
 import desertWharf from "assets/wharf/desert_wharf.png";
@@ -38,6 +43,10 @@ import { queueSheet, type SheetSpec } from "./lib";
  */
 
 type Slice = {
+  landscaping: boolean;
+  fishFrenzy: boolean;
+  fullMoon: boolean;
+  readyMarvel: boolean;
   expansionCount: number;
   islandType: IslandType;
   season: TemperateSeasonName;
@@ -124,6 +133,14 @@ export class FishermanRenderer extends EntityRenderer<Slice> {
   selector(state: MachineState): Slice {
     const game = state.context.state;
     return {
+      landscaping: state.matches("landscaping"),
+      fishFrenzy: isFishFrenzy(game),
+      fullMoon: isFullMoon(game),
+      readyMarvel: !!MAP_PIECE_MARVELS.find(
+        (marvel) =>
+          !game.farmActivity[`${marvel} Caught`] &&
+          (game.farmActivity[`${marvel} Map Piece Found`] ?? 0) >= 9,
+      ),
       expansionCount: game.inventory["Basic Land"]?.toNumber() ?? 3,
       islandType: game.island.type,
       season: game.season.season,
@@ -139,6 +156,10 @@ export class FishermanRenderer extends EntityRenderer<Slice> {
   }
 
   equals = (a: Slice, b: Slice) =>
+    a.landscaping === b.landscaping &&
+    a.fishFrenzy === b.fishFrenzy &&
+    a.fullMoon === b.fullMoon &&
+    a.readyMarvel === b.readyMarvel &&
     a.expansionCount === b.expansionCount &&
     a.islandType === b.islandType &&
     a.season === b.season &&
@@ -147,11 +168,19 @@ export class FishermanRenderer extends EntityRenderer<Slice> {
 
   async sync(slice: Slice) {
     const token = this.beginSync();
+    // [Land.tsx:1302-1334] the DOM unmounts this during landscaping.
+    if (slice.landscaping) {
+      this.clear();
+      return;
+    }
     [
       springWharf,
       desertWharf,
       volcanoWharf,
       bubbles,
+      lightningIcon,
+      fullMoonIcon,
+      mapIcon,
       winterBubbles,
       frozenWharf,
       fishSilhouette,
@@ -236,7 +265,8 @@ export class FishermanRenderer extends EntityRenderer<Slice> {
 
     const zone = this.scene.add
       .zone(hitX, hitY, hitSize, hitSize)
-      .setOrigin(0, 0);
+      .setOrigin(0, 0)
+      .setDepth(depth);
     makeClickable(this.scene, zone, () => this.onClick());
     this.objects.push(zone);
 
@@ -247,6 +277,23 @@ export class FishermanRenderer extends EntityRenderer<Slice> {
         .setDepth(depth + 2);
       this.objects.push(this.npc);
       this.applyFishState(slice);
+
+      // Event icons above the fisherman [FishermanNPC.tsx].
+      const eventIcon = slice.readyMarvel
+        ? { src: mapIcon, width: 12, left: 3 }
+        : slice.fishFrenzy
+          ? { src: lightningIcon, width: 8, left: 5 }
+          : slice.fullMoon
+            ? { src: fullMoonIcon, width: 10, left: 3 }
+            : undefined;
+      if (eventIcon && this.scene.textures.exists(eventIcon.src)) {
+        const icon = this.scene.add
+          .image(hitX + eventIcon.left, hitY - 19, eventIcon.src)
+          .setOrigin(0, 0)
+          .setDepth(depth + 3);
+        icon.setScale(eventIcon.width / icon.width);
+        this.objects.push(icon);
+      }
     } else {
       // Locked overlay [FishermanNPC.tsx].
       const fishIcon = this.scene.add
@@ -331,6 +378,15 @@ export class FishermanRenderer extends EntityRenderer<Slice> {
       return;
     }
     if (this.fishState === "reeling") {
+      // [FishermanNPC.tsx reelIn] a treasure map on the line runs the
+      // fishing puzzle first; otherwise reel straight in.
+      const maps = Object.keys(slice.wharf.maps ?? {});
+      if (maps.length > 0) {
+        this.bridge.farmModal.open("fishingChallenge", {
+          onDone: () => this.playRange("caught"),
+        });
+        return;
+      }
       // Reel in: play the catch, then the caught modal claims via rod.reeled.
       this.playRange("caught");
       return;

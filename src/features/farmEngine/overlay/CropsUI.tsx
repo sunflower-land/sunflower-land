@@ -1,3 +1,6 @@
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { InnerPanel } from "components/ui/Panel";
+import { getAffectedWeather } from "features/game/events/landExpansion/plant";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useSelector } from "@xstate/react";
 
@@ -65,8 +68,10 @@ const PlotStatus: React.FC<{
   hovered: boolean;
 }> = ({ id, plot, game, hovered }) => {
   const { selectedItem } = useContext(Context);
+  const { t } = useAppTranslation();
   const crop = plot.crop;
   const fertiliser = plot.fertiliser;
+  const weather = getAffectedWeather({ id, game });
 
   const windows = useMemo(
     () => [
@@ -94,6 +99,35 @@ const PlotStatus: React.FC<{
     legacyReadyAt: metrics.readyAt,
     live: metrics.readyAt > 0,
   });
+
+  // [TornadoPlot/TsunamiPlot/GreatFreezePlot] hover warning.
+  if (
+    weather === "tornado" ||
+    weather === "tsunami" ||
+    weather === "greatFreeze"
+  ) {
+    if (!hovered) return null;
+    const text =
+      weather === "tornado"
+        ? t("tornado.crops.destroyed")
+        : weather === "tsunami"
+          ? t("tsunami.crops.destroyed")
+          : t("greatFreeze.crops.frozen");
+    return (
+      <PlotAnchored id={id}>
+        <div
+          className="flex justify-center absolute w-full pointer-events-none"
+          style={{ top: `${PIXEL_SCALE * -14}px` }}
+        >
+          <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
+            <div className="text-xxs mx-1 p-1">
+              <span>{text}</span>
+            </div>
+          </InnerPanel>
+        </div>
+      </PlotAnchored>
+    );
+  }
 
   if (!crop) return null;
 

@@ -207,7 +207,7 @@ type BedContentProps = {
   latestFarmhand: Equipped | undefined;
 };
 
-const BedContent: React.FC<BedContentProps> = ({
+export const BedContent: React.FC<BedContentProps> = ({
   name,
   handleContinue,
   unlockingFarmhand,

@@ -8,6 +8,7 @@ import type { EntityRenderer } from "../entities/EntityRenderer";
 import { RENDERERS } from "../entities/registry";
 import { LandscapingController } from "../landscaping/LandscapingController";
 import { DebugGrid } from "../dev/DebugGrid";
+import { StressBumpkins } from "../dev/StressBumpkins";
 
 /**
  * The farm scene is a thin conductor: it owns the camera, the clock, and the
@@ -29,6 +30,7 @@ export class FarmScene extends Phaser.Scene {
   private renderers: EntityRenderer<unknown>[] = [];
   private subscriptions: Unsubscribe[] = [];
   private debugGrid: DebugGrid | undefined;
+  private stressBumpkins: StressBumpkins | undefined;
   private landscaping: LandscapingController | undefined;
 
   /** True while the game machine is in the landscaping state (edit mode). */
@@ -75,6 +77,10 @@ export class FarmScene extends Phaser.Scene {
     if (localStorage.getItem("phaserFarm.debug")) {
       this.debugGrid = new DebugGrid(this);
     }
+    if (localStorage.getItem("phaserFarm.dev.stress")) {
+      this.stressBumpkins = new StressBumpkins(this);
+      void this.stressBumpkins.create();
+    }
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.teardown());
   }
@@ -93,6 +99,8 @@ export class FarmScene extends Phaser.Scene {
     this.subscriptions = [];
     this.debugGrid?.destroy();
     this.debugGrid = undefined;
+    this.stressBumpkins?.destroy();
+    this.stressBumpkins = undefined;
     this.clock.dispose();
     this.farmCamera.destroy();
   }

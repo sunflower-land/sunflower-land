@@ -52,7 +52,7 @@ export class AirdropRenderer extends EntityRenderer<Slice> {
 
     for (const airdrop of placed) {
       const world = gridToWorld(airdrop.coordinates!);
-      const depth = DEPTHS.ENTITY_BASE + world.y + 16;
+      const depth = DEPTHS.ENTITY_BASE + world.y;
 
       let entry = this.entries.get(airdrop.id);
       if (!entry) {

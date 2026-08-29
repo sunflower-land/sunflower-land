@@ -19,13 +19,33 @@ import { SMOOTHIE_SHACK_DESK_VARIANTS } from "features/island/lib/alternateArt";
 import { isBuildingEnabled } from "features/game/expansion/lib/buildingRequirements";
 import {
   getAscensionLevel,
+  meetsLevelRequirement,
   type AscensionLevel,
 } from "features/game/lib/level";
 import { getHomeRoute } from "features/island/buildings/lib/getHomeRoute";
 import { getHelpRequired, isHelpComplete } from "features/game/types/monuments";
 import { isGreenhouseReady } from "features/game/events/landExpansion/greenhouseReadiness";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { queueImage, runLoader } from "../../core/assets";
+import mailboxImg from "assets/decorations/mailbox.png";
+import newsIcon from "assets/icons/chapter_icon_2.webp";
+import {
+  getDiscordNewsLatestAt,
+  getDiscordNewsReadAt,
+} from "features/farming/mail/actions/discordNews";
+import {
+  findGrowingCropPackIndex,
+  isCropPackReady,
+} from "features/island/buildings/components/building/cropMachine/lib/cropMachine";
+import type { CropMachineQueueItem } from "features/game/types/game";
+import { isAnimalReadyForLove } from "features/game/events/landExpansion/loveAnimal";
+import { getOverCapacityAnimalIds } from "features/game/events/landExpansion/buyAnimal";
+import { isAnimalCoveredByGoldenAsset } from "features/game/events/landExpansion/feedAllAnimals";
+import { queueImage, queueSpritesheet, runLoader } from "../../core/assets";
+import {
+  queueArt,
+  resolveArtObject,
+  type ArtObject,
+} from "../../core/animated";
 import { makeClickable } from "../../core/clickable";
 import { gridRectToWorld, type WorldRect } from "../../core/coordinates";
 import { DEPTHS } from "../../core/depths";
@@ -76,16 +96,73 @@ type BuildingObjects = {
   box: WorldRect;
   zone: Phaser.GameObjects.Zone;
   base?: Phaser.GameObjects.Image;
-  extras: Map<string, Phaser.GameObjects.Image>;
+  extras: Map<string, ArtObject>;
   bar?: ProgressBarSprite;
   alertTween?: Phaser.Tweens.Tween;
+  /** Crop Machine growth-stage loop sheet. */
+  stageSheet?: Phaser.GameObjects.Sprite;
 };
 
 const READY_ALERT = "readyAlert";
 
+/**
+ * Per-home-building wrapper offsets for the daily chest / bumpkin row /
+ * mailbox [TownCenter.tsx / House.tsx / Manor.tsx / Mansion.tsx]. Values are
+ * the wrapper div offsets in src px; letter is either from the top-left or
+ * (right, bottomUp) anchored.
+ */
+export const HOME_EXTRA_OFFSETS: Record<
+  "Town Center" | "House" | "Manor" | "Mansion",
+  {
+    daily: { x: number; y: number };
+    row: { left: number; bottomUp: number };
+    letter: { x: number; y: number } | { right: number; bottomUp: number };
+  }
+> = {
+  "Town Center": {
+    daily: { x: 16, y: 14 },
+    row: { left: 4, bottomUp: 26.5 },
+    letter: { x: 4, y: 0 },
+  },
+  House: {
+    daily: { x: -5, y: -8 },
+    row: { left: 0, bottomUp: 26.5 },
+    letter: { right: 14, bottomUp: 20 },
+  },
+  Manor: {
+    daily: { x: -5, y: -13 },
+    row: { left: 0, bottomUp: 26.5 },
+    letter: { right: 14, bottomUp: 20 },
+  },
+  Mansion: {
+    daily: { x: 0, y: 0 },
+    row: { left: 0, bottomUp: 28 },
+    letter: { right: 13, bottomUp: 20 },
+  },
+};
+
 export class BuildingRenderer extends EntityRenderer<Slice> {
   private nodes = new Map<string, BuildingObjects>();
   private tickMs = 0;
+  /** [House.tsx] transient heart after recipes.collected. */
+  private heartShownUntil = 0;
+  private unsubscribeEvents: (() => void) | undefined;
+
+  mount() {
+    super.mount();
+    this.unsubscribeEvents = this.bridge.onGameEvent((event) => {
+      if (event.type === "recipes.collected") {
+        this.heartShownUntil = Date.now() + 3000;
+      }
+      // [WaterWell.tsx] starting an upgrade auto-opens the constructing panel.
+      if (
+        event.type === "building.upgraded" &&
+        (event as { name?: string }).name === "Water Well"
+      ) {
+        this.bridge.farmModal.open("waterWell");
+      }
+    });
+  }
 
   selector(state: MachineState): Slice {
     const game = state.context.state;
@@ -162,26 +239,44 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
       tornadoIcon,
       tsunamiIcon,
       SUNNYSIDE.icons.expression_alerted,
+      SUNNYSIDE.icons.expression_stress,
+      SUNNYSIDE.icons.expression_chat,
+      SUNNYSIDE.icons.heart,
+      SUNNYSIDE.icons.click_icon,
+      SUNNYSIDE.icons.money_icon,
+      SUNNYSIDE.decorations.treasure_chest,
+      SUNNYSIDE.decorations.treasure_chest_opened,
+      mailboxImg,
+      newsIcon,
       SUNNYSIDE.icons.stopwatch,
       SUNNYSIDE.ui.emptyBar,
       SUNNYSIDE.building.smoke,
       SUNNYSIDE.building.shadowCropMachine,
       SUNNYSIDE.building.harvestedCropsImage,
       SMOOTHIE_SHACK_DESK_VARIANTS[slice.season],
-    ].forEach((url) => queueImage(this.scene, url));
+    ].forEach((url) => queueArt(this.scene, url));
+    // Crop Machine growth-stage sheets (80x70).
+    [
+      SUNNYSIDE.building.plantingCropMachine,
+      SUNNYSIDE.building.sproutingCropMachine,
+      SUNNYSIDE.building.maturingCropMachine,
+      SUNNYSIDE.building.harvestingCropMachine,
+    ].forEach((url) =>
+      queueSpritesheet(this.scene, url, { frameWidth: 80, frameHeight: 70 }),
+    );
 
     for (const { name, item } of placements) {
       const art = BUILDING_BASE_ART[name]?.(ctx);
-      if (art) queueImage(this.scene, art.texture);
+      if (art) queueArt(this.scene, art.texture);
       if (isCookingBuilding(name)) {
         const layout = COOKING_LAYOUT[name];
-        queueImage(this.scene, layout.npcIdle.texture);
-        queueImage(this.scene, layout.npcDoing.texture);
+        queueArt(this.scene, layout.npcIdle.texture);
+        queueArt(this.scene, layout.npcDoing.texture);
       }
       if (name in COMPOSTER_IMAGES) {
         const images = COMPOSTER_IMAGES[name as keyof typeof COMPOSTER_IMAGES];
         [images.idle, images.composting, images.ready].forEach((url) =>
-          queueImage(this.scene, url),
+          queueArt(this.scene, url),
         );
       }
       [...(item.crafting ?? []), ...(item.processing ?? [])].forEach(
@@ -245,6 +340,9 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
       objects.index = index;
       objects.zone.setPosition(box.x, box.y);
       objects.zone.setSize(box.width, box.height);
+      // Input hit-testing follows depth too — without this a tall building's
+      // zone would swallow clicks meant for entities in rows below it.
+      objects.zone.setDepth(DEPTHS.ENTITY_BASE + box.y);
 
       this.refreshBuilding(objects, slice, Date.now());
     }
@@ -273,7 +371,10 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
     }
     if (!art || !this.scene.textures.exists(art.texture)) return;
 
-    const depth = DEPTHS.ENTITY_BASE + box.y + box.height;
+    // [Land.tsx:1193-1237] the DOM sorts by the PLACEMENT row (grid y of the
+    // origin cell), not the box bottom — entities in rows below a tall
+    // building paint (and click) over it.
+    const depth = DEPTHS.ENTITY_BASE + box.y;
     if (!objects.base) {
       objects.base = this.scene.add.image(0, 0, art.texture).setOrigin(0, 1);
     }
@@ -356,6 +457,57 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
 
     if (isCookingBuilding(name)) {
       this.refreshCooking(objects, slice, item, now, depth);
+      return null;
+    }
+
+    if (name === "Hen House" || name === "Barn") {
+      this.refreshAnimalAlerts(objects, name, now, depth);
+      return null;
+    }
+
+    // [Market.tsx] first-sale tutorial: click + coin icons once 9 sunflowers
+    // are harvested and none sold.
+    if (name === "Market") {
+      const activity = this.bridge.select(
+        (state) => state.context.state.farmActivity,
+      );
+      if (
+        activity["Sunflower Harvested"] === 9 &&
+        !activity["Sunflower Sold"]
+      ) {
+        this.addExtra(
+          objects,
+          "market-helper-click",
+          SUNNYSIDE.icons.click_icon,
+          {
+            x: box.x + box.width + 8 - 18,
+            y: box.y + 20,
+            width: 18,
+            depth: depth + 2,
+          },
+        );
+        this.addExtra(
+          objects,
+          "market-helper-money",
+          SUNNYSIDE.icons.money_icon,
+          {
+            x: box.x + box.width - 8 - 18,
+            y: box.y + 20,
+            width: 18,
+            depth: depth + 2,
+          },
+        );
+      }
+      return null;
+    }
+
+    if (name in HOME_EXTRA_OFFSETS) {
+      this.refreshHomeExtras(
+        objects,
+        name as keyof typeof HOME_EXTRA_OFFSETS,
+        now,
+        depth,
+      );
       return null;
     }
 
@@ -483,14 +635,7 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
     }
 
     if (name === "Crop Machine") {
-      // Shadow + ready crops overlay; stage sheets deferred (idle art always).
-      this.addExtra(objects, "shadow", SUNNYSIDE.building.shadowCropMachine, {
-        x: box.x + box.width / 2 - 4 / PIXEL_SCALE,
-        y: box.y + box.height,
-        width: 80,
-        bottomAnchored: true,
-        depth: depth - 1,
-      });
+      this.refreshCropMachine(objects, item, now, depth);
       return null;
     }
 
@@ -508,6 +653,120 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
     }
 
     return null;
+  }
+
+  /**
+   * [CropMachine.tsx] shadow, growth-stage sheets over the idle machine,
+   * the harvested-crops overlay and the ready-crop icon row.
+   */
+  private refreshCropMachine(
+    objects: BuildingObjects,
+    item: PlacedItem,
+    now: number,
+    depth: number,
+  ) {
+    const { box } = objects;
+    this.addExtra(objects, "shadow", SUNNYSIDE.building.shadowCropMachine, {
+      x: box.x + box.width / 2 - 4 / PIXEL_SCALE,
+      y: box.y + box.height,
+      width: 80,
+      bottomAnchored: true,
+      depth: depth - 1,
+    });
+
+    const queue = (item as { queue?: CropMachineQueueItem[] }).queue ?? [];
+
+    // Growth-stage sheet over the machine [Planting/Sprouting/Maturing/
+    // Harvesting] — thirds of totalGrowTime, harvesting the last 5s.
+    const growingIndex = findGrowingCropPackIndex(queue, now);
+    const growing =
+      growingIndex !== undefined ? queue[growingIndex] : undefined;
+    if (growing?.startTime) {
+      const stageDuration = growing.totalGrowTime / 3;
+      const stage1 = growing.startTime + stageDuration;
+      const stage2 = stage1 + stageDuration;
+      const harvestAt = growing.startTime + growing.totalGrowTime - 5000;
+      const stage =
+        now < stage1
+          ? "planting"
+          : now < stage2
+            ? "sprouting"
+            : now < harvestAt
+              ? "maturing"
+              : "harvesting";
+      const sheets: Record<string, { url: string; steps: number }> = {
+        planting: { url: SUNNYSIDE.building.plantingCropMachine, steps: 16 },
+        sprouting: { url: SUNNYSIDE.building.sproutingCropMachine, steps: 16 },
+        maturing: { url: SUNNYSIDE.building.maturingCropMachine, steps: 16 },
+        harvesting: {
+          url: SUNNYSIDE.building.harvestingCropMachine,
+          steps: 13,
+        },
+      };
+      const sheet = sheets[stage];
+      if (this.scene.textures.exists(sheet.url)) {
+        const animKey = `${sheet.url}-loop`;
+        if (!this.scene.anims.exists(animKey)) {
+          this.scene.anims.create({
+            key: animKey,
+            frames: this.scene.anims.generateFrameNumbers(sheet.url, {
+              start: 0,
+              end: sheet.steps - 1,
+            }),
+            frameRate: 10,
+            repeat: -1,
+          });
+        }
+        if (
+          !objects.stageSheet ||
+          objects.stageSheet.anims.currentAnim?.key !== animKey
+        ) {
+          objects.stageSheet?.destroy();
+          objects.stageSheet = this.scene.add
+            .sprite(box.x, box.y + box.height, sheet.url)
+            .setOrigin(0, 1);
+          objects.stageSheet.setScale(80 / 80);
+          objects.stageSheet.play(animKey);
+        }
+        objects.stageSheet.setPosition(box.x, box.y + box.height);
+        objects.stageSheet.setDepth(depth + 1);
+      }
+    } else {
+      objects.stageSheet?.destroy();
+      objects.stageSheet = undefined;
+    }
+
+    // Harvested crops overlay + ready-crop icon row.
+    const readyCrops = queue.filter((pack) => isCropPackReady(pack, now));
+    if (readyCrops.length > 0) {
+      this.addExtra(
+        objects,
+        "harvested",
+        SUNNYSIDE.building.harvestedCropsImage,
+        {
+          x: box.x,
+          y: box.y + box.height - 3,
+          width: 15,
+          bottomAnchored: true,
+          depth: depth + 2,
+        },
+      );
+      // [CropMachine.tsx] centred icon row at top 16 (w-8 icons ≈ 12 src px).
+      const iconWidth = 12;
+      const totalWidth = readyCrops.length * (iconWidth + 1);
+      let x = box.x + (80 - totalWidth) / 2;
+      readyCrops.slice(0, 6).forEach((pack, index) => {
+        const icon = ITEM_DETAILS[pack.crop]?.image;
+        if (!icon || !this.scene.textures.exists(icon)) return;
+        this.addExtra(objects, `ready-crop-${index}`, icon, {
+          x,
+          y: box.y + 16,
+          width: iconWidth,
+          depth: depth + 3,
+        });
+        x += iconWidth + 1;
+      });
+    }
   }
 
   /** The five Recipes-flow buildings [FirePit/Kitchen/Bakery/Deli/SmoothieShack]. */
@@ -620,6 +879,195 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
     });
   }
 
+  /**
+   * [TownCenter.tsx / House.tsx / Manor.tsx / Mansion.tsx] home-building
+   * extras: the daily-reward chest (click -> global DAILY_REWARD modal),
+   * the mailbox (click -> letterBox farm modal, news alert from the discord
+   * cache) and the transient collect heart. The HomeBumpkins row renders in
+   * PlayerRenderer (it owns NPCSprite lifecycles).
+   */
+  private refreshHomeExtras(
+    objects: BuildingObjects,
+    name: keyof typeof HOME_EXTRA_OFFSETS,
+    now: number,
+    depth: number,
+  ) {
+    const { box } = objects;
+    const offsets = HOME_EXTRA_OFFSETS[name];
+    const machine = this.bridge.select((state) => state);
+    const game = machine.context.state;
+    const visiting = machine.context.visitorId !== undefined;
+    // DOM source order puts the mailbox and chest ABOVE the HomeBumpkins row
+    // (chest wrapper is z-20) — their zones must beat the row's NPC zones.
+    const topDepth = DEPTHS.ENTITY_BASE + box.y + box.height;
+
+    // Daily-reward chest [DailyReward.tsx]: level 6+, own farm only.
+    const hasChestLevel = meetsLevelRequirement(
+      getAscensionLevel({
+        experience: game.bumpkin?.experience ?? 0,
+        ascensionLevel: game.island.ascensionLevel ?? 0,
+      }),
+      { ascension: 0, level: 6 },
+    );
+    if (!visiting && hasChestLevel) {
+      const today = new Date();
+      today.setUTCHours(0, 0, 0, 0);
+      const collected =
+        (game.dailyRewards?.chest?.collectedAt ?? 0) > today.getTime();
+      // Inner div: left 1.5 tiles, top 1 tile; chest fills its 16px div.
+      const chestX = box.x + offsets.daily.x + 24;
+      const chestY = box.y + offsets.daily.y + 16;
+      const chest = this.addExtra(
+        objects,
+        "daily-chest",
+        collected
+          ? SUNNYSIDE.decorations.treasure_chest_opened
+          : SUNNYSIDE.decorations.treasure_chest,
+        {
+          x: chestX,
+          y: chestY + 16,
+          width: 16,
+          depth: topDepth + 2,
+          bottomAnchored: true,
+        },
+      );
+      if (chest) {
+        makeClickable(this.scene, chest, () =>
+          this.bridge.openModal("DAILY_REWARD"),
+        );
+      }
+      if (!collected) {
+        this.addExtra(
+          objects,
+          "daily-alert",
+          SUNNYSIDE.icons.expression_alerted,
+          {
+            x: chestX + 6,
+            y: chestY - 14,
+            width: 4,
+            depth: topDepth + 3,
+          },
+        );
+      }
+    }
+
+    // Mailbox [LetterBox.tsx]: 16px hit div, art 8px at (+4, 0).
+    const mailX =
+      "right" in offsets.letter
+        ? box.x + box.width - offsets.letter.right - 16
+        : box.x + offsets.letter.x;
+    const mailY =
+      "bottomUp" in offsets.letter
+        ? box.y + box.height - offsets.letter.bottomUp - 16
+        : box.y + offsets.letter.y;
+    const mailbox = this.addExtra(objects, "mailbox", mailboxImg, {
+      x: mailX + 4,
+      y: mailY,
+      width: 8,
+      depth: topDepth + 1,
+    });
+    if (mailbox) {
+      makeClickable(this.scene, mailbox, () =>
+        this.bridge.farmModal.open("letterBox"),
+      );
+    }
+    try {
+      const latest = getDiscordNewsLatestAt();
+      const read = getDiscordNewsReadAt();
+      if (!visiting && latest && (!read || latest > read)) {
+        this.addExtra(objects, "mail-alert", newsIcon, {
+          x: mailX + 1.8,
+          y: mailY - 13,
+          width: 13,
+          depth: topDepth + 1.5,
+        });
+      }
+    } catch {
+      // storage unavailable — no alert
+    }
+
+    // Collect heart [recipes.collected], shown for 3s.
+    if (this.heartShownUntil > now) {
+      this.addExtra(objects, "collect-heart", SUNNYSIDE.icons.heart, {
+        x: box.x + 8,
+        y: box.y + 10,
+        width: 10,
+        depth: topDepth + 3,
+      });
+    }
+  }
+
+  /**
+   * [HenHouse.tsx / Barn.tsx] hungry / sick / needs-love icon row, centred
+   * above the building (-top-2, gap-2). Reads live state each 1s tick so
+   * time-gated flags (awakeAt, love window) flip on schedule. Icons stay
+   * static — animated alerts read as jitter.
+   */
+  private refreshAnimalAlerts(
+    objects: BuildingObjects,
+    name: "Hen House" | "Barn",
+    now: number,
+    depth: number,
+  ) {
+    const { box } = objects;
+    const game = this.bridge.select((state) => state.context.state);
+    const buildingKey = name === "Hen House" ? "henHouse" : "barn";
+    const animals = Object.values(game[buildingKey].animals);
+    const lockedIds = getOverCapacityAnimalIds(buildingKey, game);
+
+    const icons: { key: string; src: string; width: number }[] = [];
+    if (
+      animals.some(
+        (animal) => animal.awakeAt < now && !lockedIds.has(animal.id),
+      )
+    ) {
+      icons.push({
+        key: "hungry",
+        src: SUNNYSIDE.icons.expression_alerted,
+        width: 4,
+      });
+    }
+    if (animals.some((animal) => animal.state === "sick")) {
+      icons.push({
+        key: "sick",
+        src: SUNNYSIDE.icons.expression_stress,
+        width: 7,
+      });
+    }
+    if (
+      animals.some(
+        (animal) =>
+          !isAnimalCoveredByGoldenAsset({
+            state: game,
+            animalType: animal.type,
+          }) && isAnimalReadyForLove(animal, now),
+      )
+    ) {
+      icons.push({
+        key: "love",
+        src: SUNNYSIDE.icons.expression_chat,
+        width: 8,
+      });
+    }
+
+    // Row centred at box top: gap-2 = 8 CSS px ≈ 3 src px, -top-2 ≈ 3 above.
+    const GAP = 3;
+    const totalWidth =
+      icons.reduce((sum, icon) => sum + icon.width, 0) +
+      GAP * Math.max(0, icons.length - 1);
+    let x = box.x + (box.width - totalWidth) / 2;
+    for (const icon of icons) {
+      this.addExtra(objects, `animal-alert-${icon.key}`, icon.src, {
+        x,
+        y: box.y - 3,
+        width: icon.width,
+        depth: depth + 2,
+        bottomAnchored: true,
+      });
+      x += icon.width + GAP;
+    }
+  }
+
   /** [BuildingImageWrapper] alert at top -12 (or -12.19 for CraftingBox). */
   private addReadyAlert(
     objects: BuildingObjects,
@@ -657,10 +1105,12 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
       bottomAnchored?: boolean;
       flip?: boolean;
     },
-  ): Phaser.GameObjects.Image | undefined {
-    if (!this.scene.textures.exists(texture)) return undefined;
-    const image = this.scene.add
-      .image(options.x, options.y, texture)
+  ): ArtObject | undefined {
+    // Animated art (cooking NPCs, smoke) plays its converted strip.
+    const image = resolveArtObject(this.scene, undefined, texture);
+    if (!image) return undefined;
+    image
+      .setPosition(options.x, options.y)
       .setOrigin(0, options.bottomAnchored ? 1 : 0)
       .setDepth(options.depth);
     image.setScale(options.width / image.width);
@@ -868,6 +1318,7 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
   }
 
   private destroyNode(objects: BuildingObjects) {
+    objects.stageSheet?.destroy();
     objects.zone.destroy();
     objects.base?.destroy();
     objects.extras.forEach((image) => image.destroy());
@@ -877,6 +1328,8 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
   }
 
   protected onDestroy() {
+    this.unsubscribeEvents?.();
+    this.unsubscribeEvents = undefined;
     this.nodes.forEach((objects) => this.destroyNode(objects));
     this.nodes.clear();
   }

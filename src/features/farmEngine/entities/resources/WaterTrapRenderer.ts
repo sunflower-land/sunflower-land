@@ -9,7 +9,12 @@ import {
   getWaterTrapCoordinates,
 } from "features/game/types/crustaceans";
 import { getObjectEntries } from "lib/object";
-import { queueImage, runLoader } from "../../core/assets";
+import { runLoader } from "../../core/assets";
+import {
+  queueArt,
+  resolveArtObject,
+  type ArtObject,
+} from "../../core/animated";
 import { makeClickable } from "../../core/clickable";
 import { gridToWorld, WORLD_TILE } from "../../core/coordinates";
 import { DEPTHS } from "../../core/depths";
@@ -26,6 +31,7 @@ import { ensureSheetAnim, queueSheet, type SheetSpec } from "./lib";
  */
 
 type Slice = {
+  landscaping: boolean;
   trapSpots: NonNullable<GameState["crabTraps"]["trapSpots"]>;
   basicLand: number;
   islandType: IslandType;
@@ -35,7 +41,7 @@ type TrapObjects = {
   zone: Phaser.GameObjects.Zone;
   art?: Phaser.GameObjects.Image;
   pot?: Phaser.GameObjects.Sprite;
-  sparkle?: Phaser.GameObjects.Image;
+  sparkle?: ArtObject;
   alert?: Phaser.GameObjects.Image;
   bar?: ProgressBarSprite;
 };
@@ -64,6 +70,7 @@ export class WaterTrapRenderer extends EntityRenderer<Slice> {
   selector(state: MachineState): Slice {
     const game = state.context.state;
     return {
+      landscaping: state.matches("landscaping"),
       trapSpots: game.crabTraps.trapSpots ?? {},
       basicLand: game.inventory["Basic Land"]?.toNumber() ?? 3,
       islandType: game.island.type,
@@ -71,6 +78,7 @@ export class WaterTrapRenderer extends EntityRenderer<Slice> {
   }
 
   equals = (a: Slice, b: Slice) =>
+    a.landscaping === b.landscaping &&
     a.trapSpots === b.trapSpots &&
     a.basicLand === b.basicLand &&
     a.islandType === b.islandType;
@@ -81,13 +89,18 @@ export class WaterTrapRenderer extends EntityRenderer<Slice> {
 
   async sync(slice: Slice) {
     const token = this.beginSync();
+    // [Land.tsx:1302-1334] the DOM unmounts this during landscaping.
+    if (slice.landscaping) {
+      this.clear();
+      return;
+    }
     [
       crabSpot1,
       crabSpot2,
       SUNNYSIDE.fx.sparkle,
       SUNNYSIDE.icons.expression_alerted,
       SUNNYSIDE.ui.emptyBar,
-    ].forEach((url) => queueImage(this.scene, url));
+    ].forEach((url) => queueArt(this.scene, url));
     Object.values(POT_SHEETS).forEach((spec) => queueSheet(this.scene, spec));
     await runLoader(this.scene);
     if (this.isStale(token)) return;
@@ -126,6 +139,7 @@ export class WaterTrapRenderer extends EntityRenderer<Slice> {
         this.traps.set(id, objects);
       }
       objects.zone.setPosition(world.x, world.y);
+      objects.zone.setDepth(depth);
       this.bridge.anchors.setAnchor(this.anchorId(id), {
         x: world.x,
         y: world.y,
@@ -174,12 +188,20 @@ export class WaterTrapRenderer extends EntityRenderer<Slice> {
       if (isReady) {
         objects.bar?.destroy();
         objects.bar = undefined;
-        const sparkle = this.scene.add
-          .image(world.x, world.y, SUNNYSIDE.fx.sparkle)
-          .setOrigin(0, 0)
-          .setDepth(depth + 1);
-        sparkle.setScale(6 / sparkle.width);
-        objects.sparkle = sparkle;
+        // The DOM sparkle is an animated GIF — play its converted strip.
+        const sparkle = resolveArtObject(
+          this.scene,
+          undefined,
+          SUNNYSIDE.fx.sparkle,
+        );
+        if (sparkle) {
+          sparkle
+            .setPosition(world.x, world.y)
+            .setOrigin(0, 0)
+            .setDepth(depth + 1);
+          sparkle.setScale(6 / sparkle.width);
+          objects.sparkle = sparkle;
+        }
         const alert = this.scene.add
           .image(
             world.x + WORLD_TILE - 3.5,
@@ -267,11 +289,15 @@ export class WaterTrapRenderer extends EntityRenderer<Slice> {
     objects.bar?.destroy();
   }
 
-  protected onDestroy() {
+  private clear() {
     for (const [id, objects] of this.traps) {
       this.destroyTrap(objects);
       this.bridge.anchors.removeAnchor(this.anchorId(id));
     }
     this.traps.clear();
+  }
+
+  protected onDestroy() {
+    this.clear();
   }
 }

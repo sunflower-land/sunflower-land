@@ -1,4 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
+import { QuickSelect } from "features/greenhouse/QuickSelect";
+import {
+  PATCH_FRUIT_SEEDS,
+  type PatchFruitSeedName,
+} from "features/game/types/fruits";
+import { SEASONAL_SEEDS } from "features/game/types/seeds";
+import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { playSound } from "../core/sounds";
+import type { QuickSelectRequest } from "../bridge/GameBridge";
 import { useSelector } from "@xstate/react";
 
 import { InnerPanel } from "components/ui/Panel";
@@ -72,6 +82,7 @@ const readNode = (
   kind: ResourceHoverKind,
   id: string,
   game: GameState,
+  t: (key: "craft") => string,
 ): NodeReading | undefined => {
   switch (kind) {
     case "tree": {
@@ -89,7 +100,7 @@ const readNode = (
         popoverTop: -10,
         tilesWide: 2,
         hasTool: !!game.inventory.Axe?.gte(1),
-        noToolText: "Craft an axe at the Workbench",
+        noToolText: `${t("craft")} axe`,
       };
     }
     case "stone":
@@ -128,7 +139,7 @@ const readNode = (
         popoverTop: -20,
         tilesWide: 1,
         hasTool: !!game.inventory[tool]?.gte(1),
-        noToolText: `Craft a ${tool.toLowerCase()}`,
+        noToolText: `${t("craft")} ${tool.toLowerCase()}`,
       };
     }
     case "crimstone": {
@@ -143,7 +154,7 @@ const readNode = (
         popoverTop: -20,
         tilesWide: 2,
         hasTool: !!game.inventory["Gold Pickaxe"]?.gte(1),
-        noToolText: "Craft a gold pickaxe",
+        noToolText: `${t("craft")} gold pickaxe`,
       };
     }
     case "sunstone": {
@@ -158,7 +169,7 @@ const readNode = (
         popoverTop: -20,
         tilesWide: 2,
         hasTool: !!game.inventory["Gold Pickaxe"]?.gte(1),
-        noToolText: "Craft a gold pickaxe",
+        noToolText: `${t("craft")} gold pickaxe`,
       };
     }
     case "ascensionCrystal": {
@@ -173,7 +184,7 @@ const readNode = (
         popoverTop: -14,
         tilesWide: 2,
         hasTool: !!game.inventory["Gold Pickaxe"]?.gte(1),
-        noToolText: "Craft a gold pickaxe",
+        noToolText: `${t("craft")} gold pickaxe`,
       };
     }
     case "oil": {
@@ -191,7 +202,7 @@ const readNode = (
         popoverTop: -16,
         tilesWide: 2,
         hasTool: !!game.inventory["Oil Drill"]?.gte(1),
-        noToolText: "Craft an oil drill",
+        noToolText: `${t("craft")} oil drill`,
       };
     }
   }
@@ -428,8 +439,9 @@ const ResourcePopover: React.FC<{
   id: string;
 }> = ({ kind, id }) => {
   const { gameService } = useContext(Context);
+  const { t } = useAppTranslation();
   const game = useSelector(gameService, _state);
-  const reading = readNode(kind, id, game);
+  const reading = readNode(kind, id, game, t);
 
   const timing = reading?.node;
   const { now, readyAt, speed, displaySeconds } = useNodeTimer({
@@ -483,17 +495,78 @@ const ResourcePopover: React.FC<{
   return null;
 };
 
+/** [FruitPatch.tsx] the quick-select disc row over an empty patch. */
+const FruitQuickSelect: React.FC<{
+  bridge: GameBridge;
+  anchorId: string;
+  patchId: string;
+}> = ({ bridge, anchorId, patchId }) => {
+  const { gameService } = useContext(Context);
+  const season = useSelector(
+    gameService,
+    (state: MachineState) => state.context.state.season.season,
+  );
+  const { t } = useAppTranslation();
+
+  return (
+    <AnchoredScaled anchorId={anchorId} tilesWide={2} pointerEvents>
+      {/* [FruitPatch.tsx] bottom-20 left-10 against the 84px patch div —
+          the wrapper here is zero-height at the anchor TOP, so the same
+          geometry is bottom: -(84 - 80) = -4px. */}
+      <div
+        className="flex absolute z-40"
+        style={{ bottom: "-4px", left: "40px" }}
+      >
+        <QuickSelect
+          options={getKeys(PATCH_FRUIT_SEEDS)
+            .filter(
+              (seed) =>
+                SEASONAL_SEEDS[season].includes(seed) || isFullMoonBerry(seed),
+            )
+            .map((seed) => ({
+              name: seed as InventoryItemName,
+              icon: PATCH_FRUIT_SEEDS[seed].yield as InventoryItemName,
+              showSecondaryImage: true,
+            }))}
+          onClose={() => bridge.quickSelect.set(null)}
+          onSelected={(seed) => {
+            bridge.dispatch("fruit.planted", {
+              index: patchId,
+              seed: seed as PatchFruitSeedName,
+            });
+            playSound("plant");
+            bridge.quickSelect.set(null);
+          }}
+          type={t("quickSelect.cropSeeds")}
+          showExpanded
+        />
+      </div>
+    </AnchoredScaled>
+  );
+};
+
 export const ResourcesUI: React.FC<{ bridge: GameBridge }> = ({ bridge }) => {
   const [hovered, setHovered] = useState<HoveredEntity>(bridge.hover.get());
   const [reward, setReward] = useState<PendingChestReward>(
     bridge.chestReward.get(),
   );
+  const [quickSelect, setQuickSelect] = useState<QuickSelectRequest>(
+    bridge.quickSelect.get(),
+  );
 
   useEffect(() => bridge.hover.subscribe(setHovered), [bridge]);
   useEffect(() => bridge.chestReward.subscribe(setReward), [bridge]);
+  useEffect(() => bridge.quickSelect.subscribe(setQuickSelect), [bridge]);
 
   return (
     <>
+      {quickSelect && (
+        <FruitQuickSelect
+          bridge={bridge}
+          anchorId={quickSelect.anchorId}
+          patchId={quickSelect.patchId}
+        />
+      )}
       {hovered?.type === "resource" &&
         (COMPOUND_KINDS.includes(hovered.kind) ? (
           <CompoundPopover kind={hovered.kind} id={hovered.id} />

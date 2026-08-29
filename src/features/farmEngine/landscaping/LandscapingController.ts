@@ -1,3 +1,5 @@
+import { SUNNYSIDE } from "assets/sunnyside";
+import { getAOEExtent } from "features/game/expansion/placeable/lib/collisionDetection";
 import Phaser from "phaser";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
@@ -25,7 +27,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import type { GameBridge } from "../bridge/GameBridge";
 import type { Unsubscribe } from "../bridge/subscriptions";
-import { queueImage, runLoader } from "../core/assets";
+import { runLoader } from "../core/assets";
+import { artTexture, queueArt } from "../core/animated";
 import {
   getGameboardWorldBounds,
   gridRectToWorld,
@@ -102,6 +105,7 @@ export class LandscapingController {
 
   private dim: Phaser.GameObjects.Rectangle | undefined;
   private grid: Phaser.GameObjects.Graphics | undefined;
+  private aoeOverlays: Phaser.GameObjects.GameObject[] = [];
   private gridRemoval = false;
 
   private ghost:
@@ -120,6 +124,11 @@ export class LandscapingController {
     | {
         placement: Placement;
         tint: Phaser.GameObjects.Rectangle;
+        /** Drag-preview art following the target cell. */
+        art?: Phaser.GameObjects.Image;
+        /** [MovableComponent] pixel-perfect nudge mode ("p"), ±8 src px. */
+        pixelPerfect: boolean;
+        pixelDelta: { x: number; y: number };
         dragging: boolean;
         dragStart: { worldX: number; worldY: number };
         target: { x: number; y: number };
@@ -259,6 +268,51 @@ export class LandscapingController {
 
     this.grid = this.scene.add.graphics().setDepth(DEPTHS.ALWAYS_ON_TOP + 101);
     this.drawGrid(this.last.removalMode);
+    this.drawAoeOverlays();
+  }
+
+  /**
+   * [CollectibleCollection.tsx ScarecrowAOEOverlay] pulsing blue AOE boxes
+   * under the three scarecrow-type placeables while landscaping — the same
+   * getAOEExtent the gameplay gate uses, so the drawn area can't drift.
+   */
+  private drawAoeOverlays() {
+    this.aoeOverlays.forEach((object) => object.destroy());
+    this.aoeOverlays = [];
+    const game = this.bridge.select((state) => state.context.state);
+    const skills = game.bumpkin?.skills ?? {};
+    const AOE_NAMES = [
+      "Basic Scarecrow",
+      "Scary Mike",
+      "Laurie the Chuckle Crow",
+    ] as const;
+    for (const name of AOE_NAMES) {
+      for (const item of game.collectibles[name] ?? []) {
+        if (!item.coordinates) continue;
+        const extent = getAOEExtent(name, skills);
+        const left = (item.coordinates.x - extent.xLeft) * WORLD_TILE;
+        const top = -(item.coordinates.y - 1) * WORLD_TILE;
+        const width = (extent.xLeft + extent.xRight + 1) * WORLD_TILE;
+        const height = extent.depth * WORLD_TILE;
+        const rect = this.scene.add
+          .rectangle(left, top, width, height, 0x93c5fd, 0.5)
+          .setOrigin(0, 0)
+          .setDepth(DEPTHS.ALWAYS_ON_TOP + 100);
+        this.aoeOverlays.push(rect);
+        if (this.scene.textures.exists(SUNNYSIDE.icons.lightning)) {
+          const icon = this.scene.add
+            .image(
+              left + width / 2,
+              top + height / 2,
+              SUNNYSIDE.icons.lightning,
+            )
+            .setAlpha(0.5)
+            .setDepth(DEPTHS.ALWAYS_ON_TOP + 100.5);
+          icon.setScale(10 / icon.width);
+          this.aoeOverlays.push(icon);
+        }
+      }
+    }
   }
 
   private drawGrid(removal: boolean) {
@@ -285,6 +339,8 @@ export class LandscapingController {
   }
 
   private hideChrome() {
+    this.aoeOverlays.forEach((object) => object.destroy());
+    this.aoeOverlays = [];
     this.dim?.destroy();
     this.dim = undefined;
     this.grid?.destroy();
@@ -352,13 +408,19 @@ export class LandscapingController {
 
     const art = this.ghostArt(name);
     if (art) {
-      queueImage(this.scene, art.texture);
+      queueArt(this.scene, art.texture);
       await runLoader(this.scene);
+      // Animated art loads as a strip — the ghost is a still preview, so it
+      // shows frame 0 (a spritesheet's base texture is the whole strip).
+      const ghostTexture = artTexture(art.texture);
       // The placeable may have changed while the loader ran.
-      if (this.ghost?.name !== name || !this.scene.textures.exists(art.texture))
+      if (
+        this.ghost?.name !== name ||
+        !this.scene.textures.exists(ghostTexture)
+      )
         return;
       const image = this.scene.add
-        .image(0, 0, art.texture)
+        .image(0, 0, ghostTexture, 0)
         .setOrigin(0, 1)
         .setDepth(DEPTHS.ALWAYS_ON_TOP + 103)
         .setAlpha(0.9);
@@ -684,6 +746,16 @@ export class LandscapingController {
       );
       const action = getRemoveAction(hit.name, Date.now(), collectible, "farm");
       if (!action) return;
+      // [MovableComponent] Kuebiko / Hungry Caterpillar removals carry a
+      // gameplay side-effect warning — confirm via modal first.
+      if (hit.name === "Kuebiko" || hit.name === "Hungry Caterpillar") {
+        this.bridge.farmModal.open("removeWarning", {
+          name: hit.name,
+          id: hit.id,
+          action,
+        });
+        return;
+      }
       this.bridge.landscaping.send({
         type: "REMOVE",
         event: action,
@@ -691,6 +763,32 @@ export class LandscapingController {
         name: hit.name,
         location: "farm",
       });
+      return;
+    }
+
+    // [MovableComponent] several items on the same origin tile -> picker.
+    const overlaps = this.placements(
+      this.bridge.select((state) => state.context.state),
+    ).filter(
+      (placement) =>
+        placement.coordinates.x === hit.coordinates.x &&
+        placement.coordinates.y === hit.coordinates.y,
+    );
+    if (overlaps.length > 1) {
+      const box = gridRectToWorld(hit.coordinates, hit.dims);
+      this.bridge.anchors.setAnchor("landscaping-overlap", box);
+      // Deferred past this pointerdown (outside-click closer gotcha).
+      setTimeout(
+        () =>
+          this.bridge.overlapMenu.set({
+            anchorId: "landscaping-overlap",
+            choices: overlaps.map((placement) => ({
+              id: placement.id,
+              name: placement.name,
+            })),
+          }),
+        0,
+      );
       return;
     }
 
@@ -719,12 +817,28 @@ export class LandscapingController {
     this.selection = {
       placement,
       tint,
+      pixelPerfect: false,
+      pixelDelta: { x: 0, y: 0 },
       dragging: false,
       dragStart: { worldX: 0, worldY: 0 },
       target: { x: placement.coordinates.x, y: placement.coordinates.y },
       colliding: false,
     };
     this.bridge.anchors.setAnchor(SELECTION_ANCHOR, box);
+
+    // Drag-preview art so the move shows the item, not just the tint
+    // (ITEM_DETAILS approximation, like the placement ghost).
+    const artSpec = this.ghostArt(placement.name);
+    const previewTexture = artSpec && artTexture(artSpec.texture);
+    if (previewTexture && this.scene.textures.exists(previewTexture)) {
+      const image = this.scene.add
+        .image(box.x, box.y + box.height, previewTexture, 0)
+        .setOrigin(0, 1)
+        .setDepth(DEPTHS.ALWAYS_ON_TOP + 103)
+        .setAlpha(0.9);
+      image.setScale(artSpec.width / image.width);
+      this.selection.art = image;
+    }
   }
 
   private moveTarget(dxTiles: number, dyTiles: number) {
@@ -746,8 +860,14 @@ export class LandscapingController {
     this.selection.target = { x, y };
     this.selection.colliding = colliding;
     const box = gridRectToWorld({ x, y }, placement.dims);
-    this.selection.tint.setPosition(box.x, box.y);
+    const offsetX = this.selection.pixelDelta.x;
+    const offsetY = this.selection.pixelDelta.y;
+    this.selection.tint.setPosition(box.x + offsetX, box.y - offsetY);
     this.selection.tint.setFillStyle(colliding ? GHOST_BAD : GHOST_OK, 0.5);
+    this.selection.art?.setPosition(
+      box.x + offsetX,
+      box.y + box.height - offsetY,
+    );
     this.bridge.anchors.setAnchor(SELECTION_ANCHOR, box);
   }
 
@@ -768,10 +888,12 @@ export class LandscapingController {
     this.scene.farmCamera.panSuspended = false;
     this.selection.dragging = false;
 
-    const { placement, target, colliding } = this.selection;
+    const { placement, target, colliding, pixelDelta } = this.selection;
+    const nudged = pixelDelta.x !== 0 || pixelDelta.y !== 0;
     const moved =
       target.x !== placement.coordinates.x ||
-      target.y !== placement.coordinates.y;
+      target.y !== placement.coordinates.y ||
+      nudged;
     if (!moved) return;
     if (colliding) {
       // Snap the tint back to the saved position.
@@ -795,8 +917,8 @@ export class LandscapingController {
         : {
             x: target.x,
             y: target.y,
-            oX: placement.coordinates.oX ?? 0,
-            oY: placement.coordinates.oY ?? 0,
+            oX: (placement.coordinates.oX ?? 0) + pixelDelta.x,
+            oY: (placement.coordinates.oY ?? 0) + pixelDelta.y,
           },
       ...(placement.name === "Bumpkin" ? {} : { id: placement.id }),
       ...(isResource ? {} : { location: "farm" }),
@@ -808,12 +930,24 @@ export class LandscapingController {
       ...placement.coordinates,
       x: target.x,
       y: target.y,
+      oX: (placement.coordinates.oX ?? 0) + pixelDelta.x,
+      oY: (placement.coordinates.oY ?? 0) + pixelDelta.y,
     };
+    this.selection.pixelDelta = { x: 0, y: 0 };
   }
 
   private onSelectionKey(event: KeyboardEvent) {
     const target = document.activeElement;
     if (target && target.tagName === "INPUT") return;
+    if (!this.selection) return;
+
+    // [MovableComponent] "p" toggles pixel-perfect nudging (±8 src px,
+    // committed as oX/oY on the next drop).
+    if (event.key === "p") {
+      this.selection.pixelPerfect = !this.selection.pixelPerfect;
+      return;
+    }
+
     let dx = 0;
     let dy = 0;
     if (event.key === "ArrowUp" || event.key === "w") dy = 1;
@@ -822,6 +956,26 @@ export class LandscapingController {
     else if (event.key === "ArrowRight" || event.key === "d") dx = 1;
     else return;
     event.preventDefault();
+
+    if (this.selection.pixelPerfect) {
+      const { placement, pixelDelta } = this.selection;
+      const savedOX = placement.coordinates.oX ?? 0;
+      const savedOY = placement.coordinates.oY ?? 0;
+      pixelDelta.x = Phaser.Math.Clamp(
+        pixelDelta.x + dx,
+        -8 - savedOX,
+        8 - savedOX,
+      );
+      pixelDelta.y = Phaser.Math.Clamp(
+        pixelDelta.y + dy,
+        -8 - savedOY,
+        8 - savedOY,
+      );
+      this.moveTarget(0, 0); // re-place visuals at the offset position
+      this.onSelectionDrop();
+      return;
+    }
+
     this.moveTarget(dx, dy);
     this.onSelectionDrop();
   }
@@ -833,6 +987,7 @@ export class LandscapingController {
       this.scene.input.setDefaultCursor("default");
     }
     this.selection.tint.destroy();
+    this.selection.art?.destroy();
     this.selection = undefined;
     this.bridge.anchors.removeAnchor(SELECTION_ANCHOR);
   }

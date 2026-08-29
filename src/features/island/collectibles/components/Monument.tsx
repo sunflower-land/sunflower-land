@@ -33,7 +33,7 @@ import helpIcon from "assets/icons/help.webp";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import type { GameState } from "features/game/types/game";
 
-const ProjectModal: React.FC<{
+export const ProjectModal: React.FC<{
   project: MonumentName;
   onClose: () => void;
   cheers: number;

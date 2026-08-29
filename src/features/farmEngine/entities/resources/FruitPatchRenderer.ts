@@ -47,9 +47,8 @@ import type { ArtSpec } from "./lib";
  * the exported getFruitTreeStatus (Empty / Seedling / Replenishing /
  * Replenished / Dead), per-fruit art geometry, in-scene progress bar,
  * fertiliser + boost overlays. Clicks dispatch the DOM's exact events.
- *
- * DEFERRED: the quick-select popup (like crops) and the 3s shake animation on
- * harvest.
+ * Empty-patch clicks without a plantable seed raise the quick-select disc
+ * row (bridge.quickSelect); harvests play the DOM's 0.82s shake.
  */
 
 type FruitNode = GameState["fruitPatches"][string];
@@ -420,7 +419,29 @@ export class FruitPatchRenderer extends ResourceNodeRenderer<FruitNode> {
         this.bridge.farmModal.open("seasonalSeed");
         return;
       }
-      if (!selected || !(selected in PATCH_FRUIT_SEEDS)) return; // quick-select deferred
+      // [FruitPatch.tsx plantTree] no plantable seed in hand -> the
+      // quick-select disc row (also when the selected seed's inventory is 0).
+      if (
+        this.bridge.ui.get().enableQuickSelect &&
+        (!selected ||
+          !(selected in PATCH_FRUIT_SEEDS) ||
+          !game.inventory[selected]?.gte(1))
+      ) {
+        // Deferred past this pointerdown: QuickSelect's outside-click closer
+        // is a document mousedown listener, and mounting mid-event would let
+        // the SAME mousedown bubble up and instantly close it (the DOM opens
+        // from click, which fires after mousedown).
+        setTimeout(
+          () =>
+            this.bridge.quickSelect.set({
+              anchorId: this.anchorId(id),
+              patchId: id,
+            }),
+          0,
+        );
+        return;
+      }
+      if (!selected || !(selected in PATCH_FRUIT_SEEDS)) return;
       this.bridge.dispatch("fruit.planted", { index: id, seed: selected });
       playSound("plant");
       return;
@@ -475,6 +496,7 @@ export class FruitPatchRenderer extends ResourceNodeRenderer<FruitNode> {
             prngArgs: { farmId: machine.context.farmId, counter },
           }).amount,
         );
+      this.shakeNode(id);
       this.bridge.dispatch("fruit.harvested", { index: id });
       playSound("harvest");
       if (this.bridge.ui.get().showAnimations) {

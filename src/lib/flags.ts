@@ -33,6 +33,9 @@ const localStorageFeatureFlag = (key: string) =>
   !!localStorage.getItem(key) === true;
 
 const testnetLocalStorageFeatureFlag = (key: string) => () => {
+  // `localStorage[key] = "off"` force-disables even on testnet/dev — the
+  // parity harness uses this to capture the legacy surface side-by-side.
+  if (localStorage.getItem(key) === "off") return false;
   return testnetFeatureFlag() || localStorageFeatureFlag(key);
 };
 

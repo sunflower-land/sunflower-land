@@ -1,7 +1,15 @@
 import type Phaser from "phaser";
 import type { MachineState } from "features/game/lib/gameMachine";
-import type { GameState } from "features/game/types/game";
-import { gridToWorld } from "../../core/coordinates";
+import type { GameState, IslandType } from "features/game/types/game";
+import { SUNNYSIDE } from "assets/sunnyside";
+import {
+  getAscensionLevel,
+  meetsLevelRequirement,
+} from "features/game/lib/level";
+import { queueImage } from "../../core/assets";
+import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
+import { HOME_EXTRA_OFFSETS } from "../buildings/BuildingRenderer";
+import { gridRectToWorld, gridToWorld } from "../../core/coordinates";
 import { DEPTHS } from "../../core/depths";
 import { makeClickable } from "../../core/clickable";
 import { EntityRenderer } from "../EntityRenderer";
@@ -24,10 +32,29 @@ import { NPCSprite } from "../npc/NPCSprite";
 type Slice = {
   bumpkin: GameState["bumpkin"];
   farmHands: GameState["farmHands"];
+  buildings: GameState["buildings"];
+  islandType: IslandType;
+  /** [PlayerNPC.tsx _showHelper] first Rhubarb Tart / Pumpkin Soup nudge. */
+  showBumpkinHelper: boolean;
+};
+
+/** [HomeBumpkins.tsx] unplaced-slot capacity per island. */
+const BACKYARD_CAPACITY: Record<IslandType, number> = {
+  basic: 2,
+  spring: 2,
+  desert: 3,
+  volcano: 4,
+  swamp: 4,
+  spooky: 4,
+  crystal: 4,
+  galaxy: 4,
+  marble: 4,
 };
 
 type Entry = {
   sprite: NPCSprite;
+  helper?: Phaser.GameObjects.Image;
+  helperTween?: Phaser.Tweens.Tween;
   /**
    * The DOM's clickable surface is the 16-wide NPC box (the sheet frame is
    * 96px wide and mostly transparent — sprite-level clicks would swallow
@@ -43,19 +70,40 @@ export class PlayerRenderer extends EntityRenderer<Slice> {
 
   selector(state: MachineState): Slice {
     const game = state.context.state;
-    return { bumpkin: game.bumpkin, farmHands: game.farmHands };
+    return {
+      bumpkin: game.bumpkin,
+      farmHands: game.farmHands,
+      buildings: game.buildings,
+      islandType: game.island.type,
+      showBumpkinHelper:
+        (game.bumpkin?.experience === 0 &&
+          !!game.inventory["Rhubarb Tart"]?.gte(1)) ||
+        (!meetsLevelRequirement(
+          getAscensionLevel({
+            experience: game.bumpkin?.experience ?? 0,
+            ascensionLevel: game.island.ascensionLevel ?? 0,
+          }),
+          { ascension: 0, level: 4 },
+        ) &&
+          !!game.inventory["Pumpkin Soup"]?.gte(1)),
+    };
   }
 
   equals = (a: Slice, b: Slice) =>
-    a.bumpkin === b.bumpkin && a.farmHands === b.farmHands;
+    a.bumpkin === b.bumpkin &&
+    a.farmHands === b.farmHands &&
+    a.buildings === b.buildings &&
+    a.islandType === b.islandType &&
+    a.showBumpkinHelper === b.showBumpkinHelper;
 
   sync(slice: Slice) {
     const wanted = new Map<
       string,
       {
         parts: GameState["bumpkin"]["equipped"];
-        coordinates: { x: number; y: number; oX?: number; oY?: number };
+        world: { x: number; y: number };
         flipped: boolean;
+        helper?: boolean;
         onClick: () => void;
       }
     >();
@@ -64,8 +112,9 @@ export class PlayerRenderer extends EntityRenderer<Slice> {
     if (bumpkin?.coordinates && bumpkin.location !== "home") {
       wanted.set("bumpkin", {
         parts: bumpkin.equipped,
-        coordinates: bumpkin.coordinates,
+        world: gridToWorld(bumpkin.coordinates),
         flipped: !!bumpkin.flipped,
+        helper: slice.showBumpkinHelper,
         onClick: () => this.bridge.farmModal.open("bumpkinPlayer"),
       });
     }
@@ -73,27 +122,77 @@ export class PlayerRenderer extends EntityRenderer<Slice> {
       if (!hand.coordinates || hand.location === "home") continue;
       wanted.set(`hand#${id}`, {
         parts: hand.equipped,
-        coordinates: hand.coordinates,
+        world: gridToWorld(hand.coordinates),
         flipped: !!hand.flipped,
         onClick: () => this.bridge.farmModal.open("farmHandEquip", { id }),
       });
+    }
+
+    // [HomeBumpkins.tsx] the unplaced bumpkin + farm hands lined up in front
+    // of the home building (16px slots + mr-1 gap, row bottom `bottomUp`
+    // above the box bottom; capacity-capped per island).
+    const homeName = (
+      Object.keys(HOME_EXTRA_OFFSETS) as (keyof typeof HOME_EXTRA_OFFSETS)[]
+    ).find((name) =>
+      (slice.buildings[name] ?? []).some((item) => item.coordinates),
+    );
+    if (homeName) {
+      const item = (slice.buildings[homeName] ?? []).find(
+        (placed) => placed.coordinates,
+      )!;
+      const box = gridRectToWorld(
+        item.coordinates!,
+        BUILDINGS_DIMENSIONS[homeName],
+      );
+      const offsets = HOME_EXTRA_OFFSETS[homeName];
+      const rowBottom = box.y + box.height - offsets.row.bottomUp;
+      let slotX = box.x + offsets.row.left;
+      const advance = () => {
+        const x = slotX;
+        slotX += 16 + 1.5; // GRID_WIDTH_PX slot + mr-1
+        return x;
+      };
+
+      if (bumpkin && !bumpkin.coordinates) {
+        wanted.set("home-bumpkin", {
+          parts: bumpkin.equipped,
+          world: { x: advance(), y: rowBottom - 16 },
+          flipped: false,
+          onClick: () => this.bridge.farmModal.open("bumpkinPlayer"),
+        });
+      }
+      Object.entries(slice.farmHands.bumpkins ?? {})
+        .filter(([, hand]) => !hand.coordinates)
+        .slice(0, BACKYARD_CAPACITY[slice.islandType])
+        .forEach(([id, hand]) => {
+          wanted.set(`home-hand#${id}`, {
+            parts: hand.equipped,
+            world: { x: advance(), y: rowBottom - 16 },
+            flipped: false,
+            onClick: () => this.bridge.farmModal.open("farmHandEquip", { id }),
+          });
+        });
     }
 
     for (const [key, entry] of this.entries) {
       if (wanted.has(key)) continue;
       entry.sprite.destroy();
       entry.zone.destroy();
+      entry.helperTween?.remove();
+      entry.helper?.destroy();
       this.entries.delete(key);
     }
 
     for (const [key, config] of wanted) {
-      const world = gridToWorld(config.coordinates);
-      const signature = `${JSON.stringify(config.parts)}|${world.x},${world.y}|${config.flipped}`;
+      const world = config.world;
+      const signature = `${JSON.stringify(config.parts)}|${world.x},${world.y}|${config.flipped}|${!!config.helper}`;
       const existing = this.entries.get(key);
       if (existing) {
         if (existing.signature === signature) continue;
         existing.sprite.destroy();
         existing.zone.destroy();
+        existing.helperTween?.remove();
+        existing.helper?.destroy();
         this.entries.delete(key);
       }
       const sprite = new NPCSprite(this.scene, {
@@ -101,15 +200,44 @@ export class PlayerRenderer extends EntityRenderer<Slice> {
         x: world.x,
         y: world.y,
         flipX: config.flipped,
-        depth: DEPTHS.ENTITY_BASE + world.y + 16,
+        depth: DEPTHS.ENTITY_BASE + world.y,
       });
       void sprite.create();
       // [NPCPlaceable] 16-wide box, bumpkin standing above the tile.
       const zone = this.scene.add
         .zone(world.x, world.y - 16, 16, 32)
-        .setOrigin(0, 0);
+        .setOrigin(0, 0)
+        .setDepth(DEPTHS.ENTITY_BASE + world.y);
       makeClickable(this.scene, zone, config.onClick);
-      this.entries.set(key, { sprite, zone, signature });
+      const entry: Entry = { sprite, zone, signature };
+      // [PlayerNPC.tsx showHelper] pulsating click icon (18px, right -8,
+      // top 20 of the NPC box).
+      if (config.helper) {
+        queueImage(this.scene, SUNNYSIDE.icons.click_icon);
+        if (this.scene.textures.exists(SUNNYSIDE.icons.click_icon)) {
+          const helper = this.scene.add
+            .image(
+              world.x + 16 + 8 - 18,
+              world.y + 20,
+              SUNNYSIDE.icons.click_icon,
+            )
+            .setOrigin(0, 0)
+            .setDepth(DEPTHS.ENTITY_BASE + world.y + 2);
+          helper.setScale(18 / helper.width);
+          makeClickable(this.scene, helper, config.onClick);
+          if (this.bridge.ui.get().showAnimations) {
+            entry.helperTween = this.scene.tweens.add({
+              targets: helper,
+              scale: helper.scale * 1.15,
+              duration: 500,
+              yoyo: true,
+              repeat: -1,
+            });
+          }
+          entry.helper = helper;
+        }
+      }
+      this.entries.set(key, entry);
     }
   }
 
@@ -117,6 +245,8 @@ export class PlayerRenderer extends EntityRenderer<Slice> {
     this.entries.forEach((entry) => {
       entry.sprite.destroy();
       entry.zone.destroy();
+      entry.helperTween?.remove();
+      entry.helper?.destroy();
     });
     this.entries.clear();
   }

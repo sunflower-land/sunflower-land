@@ -24,9 +24,23 @@ import { DPR } from "./rendering";
 
 const CAMERA_STORAGE_KEY = "sunflower-land:phaser-farm-camera";
 
+/**
+ * Visits get their own slot so a visited farm's scroll position doesn't
+ * carry back onto the home farm (and vice versa) [islandScroll.ts parity].
+ */
+const storageKey = (visiting: boolean) =>
+  visiting ? `${CAMERA_STORAGE_KEY}:visit` : CAMERA_STORAGE_KEY;
+
 const MIN_USER_ZOOM = 0.5;
 const MAX_USER_ZOOM = 1;
 const WHEEL_ZOOM_SENSITIVITY = 0.001;
+
+/**
+ * Dead zone before a press turns into a pan, in CSS px (scaled by DPR into
+ * buffer px). Finger jitter during fast taps stays a tap; a deliberate drag
+ * crosses it immediately.
+ */
+const PAN_DEAD_ZONE_CSS_PX = 6;
 
 type SavedCamera = { scrollX: number; scrollY: number; userZoom: number };
 
@@ -39,6 +53,9 @@ export class FarmCameraController {
   /** Pinch baseline, captured when a second pointer goes down. */
   private pinchStartDistance = 0;
   private pinchStartZoom = 1;
+
+  /** True once the current gesture has left the tap dead zone. */
+  private panArmed = false;
 
   private detachInput: (() => void) | undefined;
 
@@ -61,6 +78,7 @@ export class FarmCameraController {
     input.addPointer(1); // two active pointers for pinch
 
     const onPointerDown = () => {
+      this.panArmed = false;
       const [first, second] = this.activePointers();
       if (first && second) {
         this.pinchStartDistance = Phaser.Math.Distance.Between(
@@ -92,6 +110,20 @@ export class FarmCameraController {
       }
 
       if (!pointer.isDown || this.panSuspended) return;
+
+      // Tap dead zone: don't start panning until the pointer has clearly
+      // moved from where it went down — fast taps jitter a few px and were
+      // turning into mini drags.
+      if (!this.panArmed) {
+        const travelled = Phaser.Math.Distance.Between(
+          pointer.x,
+          pointer.y,
+          pointer.downX,
+          pointer.downY,
+        );
+        if (travelled < PAN_DEAD_ZONE_CSS_PX * DPR) return;
+        this.panArmed = true;
+      }
 
       const camera = this.scene.cameras.main;
       camera.scrollX -= (pointer.x - pointer.prevPosition.x) / camera.zoom;
@@ -157,7 +189,10 @@ export class FarmCameraController {
       userZoom: this.userZoom,
     };
     try {
-      sessionStorage.setItem(CAMERA_STORAGE_KEY, JSON.stringify(saved));
+      sessionStorage.setItem(
+        storageKey(this.isVisiting()),
+        JSON.stringify(saved),
+      );
     } catch {
       // Storage failures must never block navigation.
     }
@@ -171,9 +206,10 @@ export class FarmCameraController {
 
   private restore(): boolean {
     try {
-      const raw = sessionStorage.getItem(CAMERA_STORAGE_KEY);
+      const key = storageKey(this.isVisiting());
+      const raw = sessionStorage.getItem(key);
       if (!raw) return false;
-      sessionStorage.removeItem(CAMERA_STORAGE_KEY);
+      sessionStorage.removeItem(key);
 
       const saved = JSON.parse(raw) as SavedCamera;
       this.userZoom = Phaser.Math.Clamp(
@@ -186,12 +222,16 @@ export class FarmCameraController {
       return true;
     } catch {
       try {
-        sessionStorage.removeItem(CAMERA_STORAGE_KEY);
+        sessionStorage.removeItem(storageKey(this.isVisiting()));
       } catch {
         // ignore
       }
       return false;
     }
+  }
+
+  private isVisiting(): boolean {
+    return !!(this.scene as { visitingActive?: boolean }).visitingActive;
   }
 
   private applyZoom() {

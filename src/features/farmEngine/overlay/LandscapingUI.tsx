@@ -1,4 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import { InnerPanel } from "components/ui/Panel";
+import { getBudImage } from "lib/buds/types";
+import type { OverlapMenuRequest } from "../bridge/GameBridge";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { useSelector } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -29,7 +32,77 @@ const _landscaping = (state: MachineState) => state.matches("landscaping");
 
 const SELECTION_ANCHOR = "landscaping-selected";
 
+/** [MovableComponent] same-tile disambiguation picker. */
+const OverlapMenu: React.FC<{ bridge: GameBridge }> = ({ bridge }) => {
+  const [request, setRequest] = useState<OverlapMenuRequest>(
+    bridge.overlapMenu.get(),
+  );
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => bridge.overlapMenu.subscribe(setRequest), [bridge]);
+  useEffect(() => {
+    if (!request) return;
+    const close = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        bridge.overlapMenu.set(null);
+      }
+    };
+    document.addEventListener("mousedown", close);
+    return () => document.removeEventListener("mousedown", close);
+  }, [request, bridge]);
+  const rect = useWorldAnchor(request?.anchorId ?? "landscaping-overlap");
+  if (!request || !rect?.visible) return null;
+
+  return (
+    <div
+      ref={ref}
+      className="absolute pointer-events-auto z-20"
+      style={{
+        left: `${rect.left + rect.width}px`,
+        top: `${rect.top - 12 * 2.625}px`,
+        minWidth: `${60 * 2.625}px`,
+      }}
+    >
+      <InnerPanel>
+        {request.choices.map((choice) => {
+          const image =
+            choice.name === "Bud"
+              ? getBudImage(Number(choice.id))
+              : ((ITEM_DETAILS as Partial<Record<string, { image: string }>>)[
+                  choice.name
+                ]?.image ?? SUNNYSIDE.icons.expression_confused);
+          return (
+            <div
+              key={`${choice.name}-${choice.id}`}
+              className="flex items-center gap-2 p-1 cursor-pointer hover:bg-brown-200"
+              onClick={() => {
+                bridge.landscaping.send({
+                  type: "MOVE",
+                  name: choice.name as never,
+                  id: choice.id,
+                });
+                bridge.overlapMenu.set(null);
+              }}
+            >
+              <img src={image} style={{ maxWidth: 20, maxHeight: 20 }} />
+              <span className="text-xs">{choice.name}</span>
+            </div>
+          );
+        })}
+      </InnerPanel>
+    </div>
+  );
+};
+
 export const LandscapingUI: React.FC<{ bridge: GameBridge }> = ({ bridge }) => {
+  return (
+    <>
+      <OverlapMenu bridge={bridge} />
+      <SelectionDiscs bridge={bridge} />
+    </>
+  );
+};
+
+const SelectionDiscs: React.FC<{ bridge: GameBridge }> = ({ bridge }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const landscaping = useSelector(gameService, _landscaping);
@@ -144,6 +217,19 @@ export const LandscapingUI: React.FC<{ bridge: GameBridge }> = ({ bridge }) => {
           () => {
             if (!confirmRemove) {
               setConfirmRemove(true);
+              return;
+            }
+            // [MovableComponent] side-effect warnings for these two items.
+            if (
+              moving.name === "Kuebiko" ||
+              moving.name === "Hungry Caterpillar"
+            ) {
+              bridge.farmModal.open("removeWarning", {
+                name: moving.name,
+                id: moving.id,
+                action: removeAction,
+              });
+              setConfirmRemove(false);
               return;
             }
             bridge.landscaping.send({

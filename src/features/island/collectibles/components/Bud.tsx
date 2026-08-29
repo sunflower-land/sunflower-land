@@ -63,7 +63,7 @@ export const BudDetailPopoverTradeDetails = ({ id }: { id: number }) => {
   );
 };
 
-const BudDetailPopoverBuffs = ({ id }: { id: number }) => {
+export const BudDetailPopoverBuffs = ({ id }: { id: number }) => {
   const buffs = getBudBuffs(id);
 
   if (!buffs) return null;

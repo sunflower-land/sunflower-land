@@ -61,7 +61,12 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
 
   useEffect(() => {
     initInteractionMetrics();
-  }, []);
+    if (import.meta.env.DEV) {
+      // Dispatch-parity harness hook (docs/phaser-farm-migration/scripts).
+      (window as { __gameService?: MachineInterpreter }).__gameService =
+        gameService;
+    }
+  }, [gameService]);
 
   useEffect(() => {
     const handleRouteChange = () => {

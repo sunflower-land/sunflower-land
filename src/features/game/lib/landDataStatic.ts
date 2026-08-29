@@ -1,14 +1,216 @@
 import Decimal from "decimal.js-light";
+import { CONFIG } from "lib/config";
 import type { GameState } from "../types/game";
 
 import { INITIAL_FARM } from "./constants";
 
-export const STATIC_OFFLINE_FARM: GameState = {
+/**
+ * Offline-testing QoL (ART_MODE only): several recurring popups are gated by
+ * localStorage, not game state (referrals announcement, VIP promo, isles
+ * intro) — pre-acknowledge them so every reload doesn't re-open them.
+ */
+try {
+  if (!CONFIG.API_URL && typeof localStorage !== "undefined") {
+    const acknowledgedAt = new Date().toISOString();
+    [
+      "referralsAnnouncementLastRead",
+      "vipIsRead",
+      "islesIntroduction",
+      // The daily-reward streak modal re-acknowledges per calendar day, so
+      // always stamp it fresh.
+      "dailyRewardAcknowledged",
+    ].forEach((key) => {
+      if (key === "dailyRewardAcknowledged" || !localStorage.getItem(key)) {
+        localStorage.setItem(key, acknowledgedAt);
+      }
+    });
+  }
+} catch {
+  // storage unavailable — popups will just show
+}
+
+/**
+ * Dev-harness overrides for the Phaser-farm parity matrix
+ * (docs/phaser-farm-migration): localStorage keys set by the DevPanel (or a
+ * Playwright runner) swap island type/biome, season, and expansion count on
+ * the offline farm without touching the fixture itself.
+ */
+function applyPhaserDevOverrides(farm: GameState): GameState {
+  try {
+    if (typeof localStorage === "undefined") return farm;
+    const island = localStorage.getItem("phaserFarm.dev.island");
+    const biome = localStorage.getItem("phaserFarm.dev.biome");
+    const season = localStorage.getItem("phaserFarm.dev.season");
+    const expansions = localStorage.getItem("phaserFarm.dev.expansions");
+    const stress = localStorage.getItem("phaserFarm.dev.stress");
+    const weather = localStorage.getItem("phaserFarm.dev.weather");
+    const gifs = localStorage.getItem("phaserFarm.dev.gifs");
+    if (
+      !island &&
+      !biome &&
+      !season &&
+      !expansions &&
+      !stress &&
+      !weather &&
+      !gifs
+    )
+      return farm;
+
+    // Stress egg: carpet the land with ready Sunflowers to tap like crazy
+    // (pair with expansions=42; StressBumpkins adds the crowd). Capped at 99
+    // plots — the most a level-4 well can water [getSupportedPlots]; beyond
+    // that plots render dry and clicks open the nonFertilePlot modal.
+    let crops = farm.crops;
+    let waterWell = farm.waterWell;
+    let buildings = farm.buildings;
+    if (stress) {
+      crops = {};
+      let index = 0;
+      for (let x = -5; x <= 5; x++) {
+        for (let y = -8; y <= 0; y++) {
+          crops[`stress-${index++}`] = {
+            createdAt: 0,
+            x,
+            y,
+            crop: { name: "Sunflower", plantedAt: 0 },
+          };
+        }
+      }
+      waterWell = { ...farm.waterWell, level: 4 };
+      if (!farm.buildings["Water Well"]?.some((w) => !!w.coordinates)) {
+        buildings = {
+          ...farm.buildings,
+          "Water Well": [
+            {
+              id: "stress-well",
+              createdAt: 0,
+              readyAt: 0,
+              coordinates: { x: 7, y: -8 },
+            },
+          ],
+        };
+      }
+    }
+
+    // Animated-art harness: place every GIF-backed collectible in a grid so
+    // the converted spritesheets can be eyeballed in one screen
+    // [scripts/gif-to-spritesheet.js].
+    let collectibles = farm.collectibles;
+    if (gifs) {
+      // Real ITEM_DETAILS names whose art is a GIF (resolved from images.ts).
+      const ANIMATED = [
+        "Potato Statue",
+        "Goblin Crown",
+        "Woody the Beaver",
+        "Apprentice Beaver",
+        "Foreman Beaver",
+        "Tunnel Mole",
+        "Rocky the Mole",
+        "Pablo The Bunny",
+        "Victoria Sisters",
+        "Cabbage Boy",
+        "Cabbage Girl",
+        "Wood Nymph Wendy",
+        "Peeled Potato",
+        "Christmas Snow Globe",
+        "Lady Bug",
+        "Black Bearry",
+        "Maneki Neko",
+        "Heart of Davy Jones",
+        "Lab Grown Carrot",
+        "Lab Grown Pumpkin",
+        "Lab Grown Radish",
+        "Sapo Docuras",
+        "Sapo Travessuras",
+        "Reveling Lemon",
+        "Tomato Clown",
+        "Tomato Bombard",
+        "Spring Blossom Banner",
+      ];
+      collectibles = { ...farm.collectibles };
+      ANIMATED.forEach((name, index) => {
+        collectibles[name as keyof typeof collectibles] = [
+          {
+            id: `gif-${index}`,
+            createdAt: Date.now(),
+            readyAt: 0,
+            coordinates: {
+              x: -8 + (index % 8) * 2,
+              y: 10 - Math.floor(index / 8) * 2,
+            },
+          },
+        ];
+      });
+    }
+
+    return {
+      ...farm,
+      crops,
+      waterWell,
+      buildings,
+      collectibles,
+      // Weather harness: tsunami destroys the oldest half of the plots
+      // (weather-plot art + affected modal).
+      ...(weather
+        ? {
+            calendar: {
+              ...farm.calendar,
+              tsunami: { startedAt: Date.now(), triggeredAt: Date.now() },
+            },
+          }
+        : {}),
+      island: {
+        ...farm.island,
+        ...(island ? { type: island as GameState["island"]["type"] } : {}),
+        ...(biome ? { biome: biome as GameState["island"]["biome"] } : {}),
+      },
+      ...(season
+        ? {
+            season: {
+              ...farm.season,
+              season: season as GameState["season"]["season"],
+            },
+          }
+        : {}),
+      ...(expansions || stress
+        ? {
+            inventory: {
+              ...farm.inventory,
+              "Basic Land": new Decimal(Number(expansions ?? 42)),
+              ...(stress ? { "Sunflower Seed": new Decimal(10000) } : {}),
+            },
+          }
+        : {}),
+    };
+  } catch {
+    return farm;
+  }
+}
+
+const BASE_OFFLINE_FARM: GameState = {
   ...INITIAL_FARM,
+  // Red Pansy already-discovered so clicking the ready flower bed harvests
+  // directly (first discovery opens the congratulations modal instead) —
+  // exercised by the dispatch-parity suite.
+  farmActivity: {
+    ...INITIAL_FARM.farmActivity,
+    "Red Pansy Harvested": 1,
+  },
   bumpkin: {
     ...INITIAL_FARM.bumpkin,
     experience: 10000,
     coordinates: { x: 0, y: 3 },
+  },
+  // No Rules/T&C modal on every offline reload.
+  tcsAcknowledged: Date.now(),
+  // One sick cow -> the Barn shows the stress alert next to hungry "!"
+  // (default animals all have awakeAt 0 = hungry).
+  barn: {
+    ...INITIAL_FARM.barn,
+    animals: {
+      ...INITIAL_FARM.barn.animals,
+      "0": { ...INITIAL_FARM.barn.animals["0"], state: "sick" },
+    },
   },
   farmHands: {
     bumpkins: {
@@ -16,6 +218,10 @@ export const STATIC_OFFLINE_FARM: GameState = {
         equipped: INITIAL_FARM.bumpkin.equipped,
         coordinates: { x: 2, y: 3 },
         flipped: true,
+      },
+      // Unplaced -> stands in the HomeBumpkins row at the Town Center.
+      "2": {
+        equipped: INITIAL_FARM.bumpkin.equipped,
       },
     },
   },
@@ -89,6 +295,17 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Crop Plot": new Decimal(4),
     "Sunflower Seed": new Decimal(200),
     "Kale Seed": new Decimal(50),
+    // One spare in the chest -> the placed expired hourglass offers renew
+    "Gourmet Hourglass": new Decimal(2),
+    "Harvest Hourglass": new Decimal(1),
+    "Time Warp Totem": new Decimal(1),
+    // Patch-fruit seeds across the seasons (quick-select shows the seasonal set)
+    "Apple Seed": new Decimal(10),
+    "Orange Seed": new Decimal(10),
+    "Blueberry Seed": new Decimal(10),
+    "Banana Plant": new Decimal(10),
+    "Tomato Seed": new Decimal(10),
+    "Lemon Seed": new Decimal(10),
     Pickaxe: new Decimal(20),
     "Stone Pickaxe": new Decimal(20),
     "Iron Pickaxe": new Decimal(20),
@@ -169,6 +386,12 @@ export const STATIC_OFFLINE_FARM: GameState = {
         amount: 1,
       },
     },
+    // Empty patch — exercises planting + the quick-select disc row.
+    "3": {
+      createdAt: Date.now(),
+      x: -5,
+      y: 6,
+    },
   },
   flowers: {
     discovered: {},
@@ -200,6 +423,18 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
       flowers: [],
     },
+    // Full hive (24h = DEFAULT_HONEY_PRODUCTION_TIME) — click harvests
+    // directly, exercised by the dispatch-parity suite.
+    "2": {
+      x: 2,
+      y: -2,
+      swarm: false,
+      honey: {
+        updatedAt: Date.now(),
+        produced: 24 * 60 * 60 * 1000,
+      },
+      flowers: [],
+    },
   },
   mushrooms: {
     spawnedAt: 0,
@@ -216,6 +451,52 @@ export const STATIC_OFFLINE_FARM: GameState = {
   // ready recipes), an under-construction Kitchen, and a running composter.
   buildings: {
     ...INITIAL_FARM.buildings,
+    // Growing pack (sprouting stage) + a ready pack -> stage sheet, ready
+    // overlay and crop icon row.
+    "Crop Machine": [
+      {
+        id: "cropmachine-1",
+        readyAt: 0,
+        createdAt: 0,
+        coordinates: { x: -8, y: 8 },
+        queue: [
+          {
+            crop: "Sunflower",
+            seeds: 10,
+            growTimeRemaining: 0,
+            totalGrowTime: 60 * 60 * 1000,
+            startTime: Date.now() - 25 * 60 * 1000,
+            readyAt: Date.now() + 35 * 60 * 1000,
+          },
+          {
+            crop: "Potato",
+            seeds: 5,
+            growTimeRemaining: 0,
+            totalGrowTime: 60 * 60 * 1000,
+            startTime: Date.now() - 2 * 60 * 60 * 1000,
+            readyAt: Date.now() - 60 * 60 * 1000,
+          },
+        ],
+        unallocatedOilTime: 0,
+      },
+    ],
+    // Animal buildings placed -> alert rows render (hungry/sick/love)
+    "Hen House": [
+      {
+        id: "henhouse-1",
+        readyAt: 0,
+        createdAt: 0,
+        coordinates: { x: -2, y: -3 },
+      },
+    ],
+    Barn: [
+      {
+        id: "barn-1",
+        readyAt: 0,
+        createdAt: 0,
+        coordinates: { x: 2, y: -3 },
+      },
+    ],
     "Fire Pit": [
       {
         id: "firepit-1",
@@ -255,6 +536,77 @@ export const STATIC_OFFLINE_FARM: GameState = {
   collectibles: {
     "Basic Bear": [
       { id: "bear-1", createdAt: 0, readyAt: 0, coordinates: { x: 6, y: 6 } },
+    ],
+    // Expiring boosts: active totem (countdown + fast-forward), expired
+    // hourglass WITH a chest replacement (! -> renew modal), expired
+    // hourglass WITHOUT one (dig icon -> burn).
+    "Time Warp Totem": [
+      {
+        id: "twt-1",
+        createdAt: Date.now(),
+        readyAt: 0,
+        coordinates: { x: 3, y: 7 },
+      },
+    ],
+    "Gourmet Hourglass": [
+      {
+        id: "gourmet-1",
+        createdAt: 0,
+        readyAt: 0,
+        coordinates: { x: 4, y: 7 },
+      },
+    ],
+    "Harvest Hourglass": [
+      {
+        id: "harvest-1",
+        createdAt: 0,
+        readyAt: 0,
+        coordinates: { x: 5, y: 7 },
+      },
+    ],
+    Bush: [
+      { id: "bush-1", createdAt: 0, readyAt: 0, coordinates: { x: -3, y: -1 } },
+    ],
+    "Genie Lamp": [
+      {
+        id: "genie-1",
+        createdAt: 0,
+        readyAt: 0,
+        coordinates: { x: -2, y: -1 },
+        rubbedCount: 1,
+      },
+    ],
+    "Maneki Neko": [
+      {
+        id: "maneki-1",
+        createdAt: 0,
+        readyAt: 0,
+        coordinates: { x: 0, y: -1 },
+      },
+    ],
+    "Obsidian Shrine": [
+      {
+        id: "obsidian-1",
+        createdAt: Date.now(),
+        readyAt: 0,
+        coordinates: { x: 5, y: -1 },
+      },
+    ],
+    "Fox Shrine": [
+      {
+        id: "fox-1",
+        createdAt: 0,
+        readyAt: 0,
+        coordinates: { x: 3, y: -1 },
+      },
+    ],
+    "Salt Sculpture": [
+      {
+        id: "saltsculpt-1",
+        createdAt: 0,
+        readyAt: 0,
+        coordinates: { x: 8, y: 0 },
+      },
     ],
     Fence: [
       { id: "fence-1", createdAt: 0, readyAt: 0, coordinates: { x: 3, y: 5 } },
@@ -312,3 +664,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
 };
+
+export const STATIC_OFFLINE_FARM: GameState =
+  applyPhaserDevOverrides(BASE_OFFLINE_FARM);
