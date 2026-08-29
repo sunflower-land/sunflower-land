@@ -18,17 +18,22 @@ import type { MachineState } from "../lib/gameMachine";
 import type { PlaceableLocation } from "../types/collectibles";
 import type { GameState, InventoryItemName } from "../types/game";
 import { COLLECTIBLE_BUFF_LABELS } from "../types/collectibleItemBuffs";
-import { getExpiryCooldown } from "../lib/collectibleBuilt";
+import {
+  getExpiryCooldown,
+  type TemporaryCollectibleName,
+} from "../lib/collectibleBuilt";
 import {
   getExtensionCost,
-  type ExtendableCollectibleName,
+  getExtensionPayments,
+  getExtensionResult,
 } from "../lib/collectibleExtension";
+import { Box } from "components/ui/Box";
 import { CloseButtonPanel } from "./CloseablePanel";
 
 type Props = {
   show: boolean;
   onHide: () => void;
-  name: ExtendableCollectibleName;
+  name: TemporaryCollectibleName;
   id: string;
   location: PlaceableLocation;
   /** Current expiry of THIS placement, including any earlier extension. */
@@ -62,8 +67,8 @@ export const TemporaryCollectibleModal: React.FC<Props> = ({
   const gameState = useSelector(gameService, _gameState);
   const coinBalance = useSelector(gameService, _coinBalance);
 
-  const handleExtend = () => {
-    gameService.send("collectible.extended", { name, location, id });
+  const handleExtend = (payWith: TemporaryCollectibleName) => {
+    gameService.send("collectible.extended", { name, location, id, payWith });
     onHide();
   };
 
@@ -84,8 +89,8 @@ export const TemporaryCollectibleModal: React.FC<Props> = ({
 };
 
 const TemporaryCollectibleContent: React.FC<{
-  handleExtend: () => void;
-  name: ExtendableCollectibleName;
+  handleExtend: (payWith: TemporaryCollectibleName) => void;
+  name: TemporaryCollectibleName;
   expiresAt: number;
   canExtend: boolean;
   coinBalance: number;
@@ -94,10 +99,16 @@ const TemporaryCollectibleContent: React.FC<{
   const { t } = useAppTranslation();
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showIngredients, setShowIngredients] = useState(false);
+  // What the player is spending. Only a totem offers a choice - it accepts either
+  // totem, since the two grant the same buff.
+  const [payWith, setPayWith] = useState<TemporaryCollectibleName>(name);
 
   const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
-  const { coins: coinCost, ingredients } = getExtensionCost(name);
-  const extraSeconds = getExpiryCooldown(name, gameState) / 1000;
+  const payments = getExtensionPayments(name);
+  const { coins: coinCost, ingredients } = getExtensionCost(name, payWith);
+  const extraSeconds = getExpiryCooldown(payWith, gameState) / 1000;
+  // Paying with the longer-lasting totem leaves THAT totem on the map.
+  const becomes = getExtensionResult(name, payWith, gameState);
 
   /**
    * The balance the reducer will actually charge against: unplaced copies for a
@@ -187,6 +198,30 @@ const TemporaryCollectibleContent: React.FC<{
           )}
         </div>
 
+        {canExtend && payments.length > 1 && (
+          <div className="flex flex-col gap-1">
+            <Label type="default">{t("extend.collectible.payWith")}</Label>
+            <div className="flex flex-wrap">
+              {payments.map((option) => (
+                <Box
+                  key={option}
+                  image={ITEM_DETAILS[option].image}
+                  count={balanceOf(option)}
+                  isSelected={payWith === option}
+                  onClick={() => setPayWith(option)}
+                />
+              ))}
+            </div>
+            {becomes !== name && (
+              <Label type="warning" icon={ITEM_DETAILS[becomes].image}>
+                {t("extend.collectible.becomes", {
+                  name: getTranslatedItemName(becomes),
+                })}
+              </Label>
+            )}
+          </div>
+        )}
+
         {canExtend && (
           <div
             className="flex flex-wrap p-2 gap-2 cursor-pointer"
@@ -223,7 +258,7 @@ const TemporaryCollectibleContent: React.FC<{
             <Button onClick={() => setShowConfirmation(false)}>
               {t("cancel")}
             </Button>
-            <Button onClick={handleExtend} disabled={!canPayNow}>
+            <Button onClick={() => handleExtend(payWith)} disabled={!canPayNow}>
               {t("extend")}
             </Button>
           </div>
