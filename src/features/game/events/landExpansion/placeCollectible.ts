@@ -23,6 +23,7 @@ import {
 } from "features/game/types/pets";
 import {
   EXPIRY_COOLDOWNS,
+  getPlacementGroup,
   isTemporaryCollectible,
 } from "features/game/lib/collectibleBuilt";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
@@ -94,8 +95,10 @@ export function placeCollectible({
     // still occupying the map and can be renewed or extended in place.
     if (
       isTemporaryCollectible(collectible) &&
-      getCollectiblesAcrossLocations(stateCopy, collectible).some(
-        (placed) => !!placed.coordinates,
+      getPlacementGroup(collectible).some((name) =>
+        getCollectiblesAcrossLocations(stateCopy, name).some(
+          (placed) => !!placed.coordinates,
+        ),
       )
     ) {
       throw new Error("Only one of this temporary collectible can be placed");

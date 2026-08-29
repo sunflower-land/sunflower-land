@@ -40,6 +40,7 @@ import { Box, type BoxProps } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getCollectiblesAcrossLocations,
+  getPlacementGroup,
   isTemporaryCollectible,
 } from "features/game/lib/collectibleBuilt";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -550,8 +551,10 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
       // rather than letting the player drag out a copy that gets rejected.
       const alreadyPlaced =
         isTemporaryCollectible(name) &&
-        getCollectiblesAcrossLocations(state, name).some(
-          (placed) => !!placed.coordinates,
+        getPlacementGroup(name).some((groupName) =>
+          getCollectiblesAcrossLocations(state, groupName).some(
+            (placed) => !!placed.coordinates,
+          ),
         );
 
       return wrapBox(

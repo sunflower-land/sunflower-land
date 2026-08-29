@@ -36,6 +36,7 @@ import { Label } from "components/ui/Label";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 import {
   getCollectiblesAcrossLocations,
+  getPlacementGroup,
   isTemporaryCollectible,
 } from "features/game/lib/collectibleBuilt";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -214,8 +215,10 @@ const PanelContent: React.FC<PanelContentProps> = ({
   const isAlreadyPlaced =
     isCollectible(selectedChestItem.name) &&
     isTemporaryCollectible(selectedChestItem.name) &&
-    getCollectiblesAcrossLocations(state, selectedChestItem.name).some(
-      (placed) => !!placed.coordinates,
+    getPlacementGroup(selectedChestItem.name).some((groupName) =>
+      getCollectiblesAcrossLocations(state, groupName).some(
+        (placed) => !!placed.coordinates,
+      ),
     );
 
   return (

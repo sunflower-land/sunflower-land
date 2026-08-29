@@ -340,6 +340,61 @@ describe("Place Collectible", () => {
       expect(placed).toHaveLength(1);
     });
 
+    // The totems merge into one boost window, so the pair shares a placement slot.
+    it("cannot place a Time Warp Totem while a Super Totem is down", () => {
+      expect(() =>
+        placeCollectible({
+          state: {
+            ...GAME_STATE,
+            inventory: {
+              "Super Totem": new Decimal(1),
+              "Time Warp Totem": new Decimal(1),
+            },
+            collectibles: {
+              "Super Totem": [
+                { id: "1", coordinates: { x: 0, y: 0 }, createdAt: date },
+              ],
+            },
+          },
+          action: {
+            type: "collectible.placed",
+            name: "Time Warp Totem",
+            id: "2",
+            coordinates: { x: 5, y: 5 },
+            location: "farm",
+          },
+          createdAt: date,
+        }),
+      ).toThrow("Only one of this temporary collectible can be placed");
+    });
+
+    it("cannot place a Super Totem while a Time Warp Totem is down", () => {
+      expect(() =>
+        placeCollectible({
+          state: {
+            ...GAME_STATE,
+            inventory: {
+              "Super Totem": new Decimal(1),
+              "Time Warp Totem": new Decimal(1),
+            },
+            collectibles: {
+              "Time Warp Totem": [
+                { id: "1", coordinates: { x: 0, y: 0 }, createdAt: date },
+              ],
+            },
+          },
+          action: {
+            type: "collectible.placed",
+            name: "Super Totem",
+            id: "2",
+            coordinates: { x: 5, y: 5 },
+            location: "farm",
+          },
+          createdAt: date,
+        }),
+      ).toThrow("Only one of this temporary collectible can be placed");
+    });
+
     it("cannot place a second one that lives in another location", () => {
       expect(() =>
         place({
