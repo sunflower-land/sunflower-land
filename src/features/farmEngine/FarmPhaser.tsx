@@ -1,10 +1,15 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { useNavigate } from "react-router";
+import { Outlet, useNavigate } from "react-router";
 import Phaser from "phaser";
 import { Context } from "features/game/GameProvider";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { Hud } from "features/island/hud/Hud";
+import { LandscapingHud } from "features/island/hud/LandscapingHud";
+import { VisitingHud } from "features/island/hud/VisitingHud";
+import { useVisiting } from "lib/utils/visitUtils";
+import { useSelector } from "@xstate/react";
+import type { MachineState } from "features/game/lib/gameMachine";
 import { createGameBridge } from "./bridge/GameBridge";
 import { DPR } from "./core/rendering";
 import { FarmScene } from "./scenes/FarmScene";
@@ -12,6 +17,7 @@ import { FarmOverlay } from "./overlay/FarmOverlay";
 import { FarmModals } from "./overlay/FarmModals";
 import { CropsUI } from "./overlay/CropsUI";
 import { ResourcesUI } from "./overlay/ResourcesUI";
+import { LandscapingUI } from "./overlay/LandscapingUI";
 import { DevPanel } from "./dev/DevPanel";
 
 /**
@@ -36,6 +42,10 @@ export const FarmPhaser: React.FC = () => {
     enableQuickSelect,
   } = useContext(Context);
   const { openModal } = useContext(ModalContext);
+  const isLandscaping = useSelector(gameService, (state: MachineState) =>
+    state.matches("landscaping"),
+  );
+  const { isVisiting } = useVisiting();
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -138,7 +148,12 @@ export const FarmPhaser: React.FC = () => {
   // listens at window level, so a tap on the modal would otherwise land in
   // the scene too (project-ii's lesson).
   const onModalOpenChange = (open: boolean) => {
-    if (gameRef.current) gameRef.current.input.enabled = !open;
+    const game = gameRef.current;
+    if (!game) return;
+    game.input.enabled = !open;
+    // A modal opening mid-press swallows the pointerup, leaving isDown stuck
+    // true — the camera would then pan forever after the modal closes.
+    game.input.pointers.forEach((pointer) => pointer.reset());
   };
 
   return createPortal(
@@ -149,10 +164,20 @@ export const FarmPhaser: React.FC = () => {
       <FarmOverlay registry={bridge.anchors}>
         <CropsUI bridge={bridge} />
         <ResourcesUI bridge={bridge} />
+        <LandscapingUI bridge={bridge} />
         {import.meta.env.DEV && <DevPanel />}
       </FarmOverlay>
       <FarmModals bridge={bridge} onOpenChange={onModalOpenChange} />
-      <Hud isFarming={true} location="farm" />
+      {/* [Land.tsx:1348-1352] edit/visit modes swap the HUD */}
+      {isLandscaping ? (
+        <LandscapingHud location="farm" />
+      ) : isVisiting ? (
+        <VisitingHud />
+      ) : (
+        <Hud isFarming={true} location="farm" />
+      )}
+      {/* Nested routes (marketplace) render above the canvas farm */}
+      <Outlet />
     </div>,
     document.body,
   );

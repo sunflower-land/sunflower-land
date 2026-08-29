@@ -31,7 +31,7 @@ import petNFTEgg from "assets/icons/pet_nft_egg.png";
 import petNFTEggMarketplace from "assets/pets/pet-nft-egg-marketplace.webp";
 import { CONFIG } from "lib/config";
 
-const PETS_STYLES: Record<
+export const PETS_STYLES: Record<
   PetName,
   {
     left?: number;

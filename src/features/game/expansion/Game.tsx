@@ -408,7 +408,16 @@ const GameContent: React.FC = () => {
       <>
         <div className="absolute z-10 w-full h-full">
           <Routes>
-            <Route path="/:id" element={<Land />} />
+            <Route
+              path="/:id"
+              element={
+                hasFeatureAccess(gameState.context.state, "PHASER_FARM") ? (
+                  <FarmPhaser key="visit" />
+                ) : (
+                  <Land />
+                )
+              }
+            />
             <Route path="/:id/home" element={<Home />} />
             {hasAccess("PetHouse") && (
               <Route path="/:id/pet-house" element={<PetHouseInside />} />
@@ -423,7 +432,16 @@ const GameContent: React.FC = () => {
     <>
       <div className="absolute w-full h-full z-10">
         <Routes>
-          <Route path="/" element={<Land />}>
+          <Route
+            path="/"
+            element={
+              hasFeatureAccess(gameState.context.state, "PHASER_FARM") ? (
+                <FarmPhaser />
+              ) : (
+                <Land />
+              )
+            }
+          >
             <Route path="marketplace/*" element={<Marketplace />} />
           </Route>
           {/* Legacy route; hosts the Phaser farm while it's behind its flag

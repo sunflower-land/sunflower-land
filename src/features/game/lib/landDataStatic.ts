@@ -8,6 +8,38 @@ export const STATIC_OFFLINE_FARM: GameState = {
   bumpkin: {
     ...INITIAL_FARM.bumpkin,
     experience: 10000,
+    coordinates: { x: 0, y: 3 },
+  },
+  farmHands: {
+    bumpkins: {
+      "1": {
+        equipped: INITIAL_FARM.bumpkin.equipped,
+        coordinates: { x: 2, y: 3 },
+        flipped: true,
+      },
+    },
+  },
+  airdrops: [
+    {
+      id: "test-airdrop",
+      createdAt: Date.now(),
+      items: { "Block Buck": 1 },
+      wearables: {},
+      sfl: 0,
+      coins: 100,
+      coordinates: { x: 7, y: 3 },
+    },
+  ],
+  pets: {
+    common: {
+      Barkley: {
+        name: "Barkley",
+        requests: { food: [], fedAt: Date.now() },
+        energy: 100,
+        experience: 50,
+        pettedAt: Date.now(),
+      },
+    },
   },
   inventory: {
     ...INITIAL_FARM.inventory,
@@ -215,6 +247,49 @@ export const STATIC_OFFLINE_FARM: GameState = {
           startedAt: Date.now() - 3 * 60 * 60 * 1000,
           readyAt: Date.now() + 3 * 60 * 60 * 1000,
         },
+      },
+    ],
+  },
+  // Collectibles: a static SFT, a fence run (autotile), stacked tiles
+  // (connected art), a rug (low band), a flower, and one under construction.
+  collectibles: {
+    "Basic Bear": [
+      { id: "bear-1", createdAt: 0, readyAt: 0, coordinates: { x: 6, y: 6 } },
+    ],
+    Fence: [
+      { id: "fence-1", createdAt: 0, readyAt: 0, coordinates: { x: 3, y: 5 } },
+      { id: "fence-2", createdAt: 0, readyAt: 0, coordinates: { x: 4, y: 5 } },
+      { id: "fence-3", createdAt: 0, readyAt: 0, coordinates: { x: 5, y: 5 } },
+    ],
+    "Blue Tile": [
+      { id: "tile-1", createdAt: 0, readyAt: 0, coordinates: { x: 6, y: 5 } },
+      { id: "tile-2", createdAt: 0, readyAt: 0, coordinates: { x: 6, y: 4 } },
+    ],
+    Rug: [
+      { id: "rug-1", createdAt: 0, readyAt: 0, coordinates: { x: 6, y: 2 } },
+    ],
+    "Red Carnation": [
+      {
+        id: "flower-1",
+        createdAt: 0,
+        readyAt: 0,
+        coordinates: { x: 7, y: 6 },
+      },
+    ],
+    Scarecrow: [
+      {
+        id: "scarecrow-1",
+        createdAt: Date.now(),
+        readyAt: Date.now() + 30 * 60 * 1000,
+        coordinates: { x: 2, y: 4 },
+      },
+    ],
+    Barkley: [
+      {
+        id: "barkley-1",
+        createdAt: 0,
+        readyAt: 0,
+        coordinates: { x: 7, y: 5 },
       },
     ],
   },

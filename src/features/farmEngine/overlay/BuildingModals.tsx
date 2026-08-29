@@ -19,6 +19,7 @@ import type {
 import { CROPS } from "features/game/types/crops";
 import { getKeys } from "lib/object";
 import type { BuildingName } from "features/game/types/buildings";
+import type { CollectibleName } from "features/game/types/craftables";
 import type { ComposterName } from "features/game/types/composters";
 import type { ProcessedResource } from "features/game/types/processedFood";
 import type { AddSeedsInput } from "features/game/events/landExpansion/supplyCropMachine";
@@ -28,6 +29,7 @@ import {
   makeUpgradableBuildingKey,
 } from "features/game/events/landExpansion/upgradeBuilding";
 import { Constructing } from "features/island/buildings/components/building/Building";
+import { Building as CollectibleConstructingPanel } from "features/island/collectibles/Collectible";
 import { FirePitModal } from "features/island/buildings/components/building/firePit/FirePitModal";
 import { KitchenModal } from "features/island/buildings/components/building/kitchen/KitchenModal";
 import { BakeryModal } from "features/island/buildings/components/building/bakery/BakeryModal";
@@ -171,6 +173,14 @@ export const BuildingModals: React.FC<{
       {open?.name === "buildingConstructing" && (
         <ConstructingModalHost
           name={data.name as BuildingName}
+          id={data.id as string}
+          onClose={onClose}
+        />
+      )}
+
+      {open?.name === "collectibleConstructing" && (
+        <CollectibleConstructingHost
+          name={data.name as CollectibleName}
           id={data.id as string}
           onClose={onClose}
         />
@@ -518,6 +528,50 @@ const ConstructingModalHost: React.FC<{
           onClose={onClose}
           onInstantBuilt={onSpeedUp}
           state={state}
+        />
+      </CloseButtonPanel>
+    </Modal>
+  );
+};
+
+/** [Collectible.tsx InProgressCollectible] speed-up panel for placing SFTs. */
+const CollectibleConstructingHost: React.FC<{
+  name: CollectibleName;
+  id: string;
+  onClose: () => void;
+}> = ({ name, id, onClose }) => {
+  const { gameService, showAnimations } = useContext(Context);
+  const state = useSelector(gameService, _state);
+  const item = state.collectibles[name]?.find((placed) => placed.id === id);
+
+  const onSpeedUp = (
+    cost: number,
+    paymentMethod: "gems" | "coins" = "gems",
+  ) => {
+    gameService.send("collectible.spedUp", { name, id, paymentMethod });
+    gameAnalytics.trackSink({
+      currency: paymentMethod === "coins" ? "Coins" : "Gem",
+      amount: cost,
+      item: "Instant Build",
+      type: "Fee",
+    });
+    onClose();
+    if (showAnimations) {
+      void import("canvas-confetti").then((confetti) => confetti.default());
+    }
+  };
+
+  if (!item) return null;
+
+  return (
+    <Modal show onHide={onClose}>
+      <CloseButtonPanel onClose={onClose}>
+        <CollectibleConstructingPanel
+          name={name}
+          createdAt={item.createdAt ?? 0}
+          readyAt={item.readyAt ?? 0}
+          onClose={onClose}
+          onInstantBuilt={onSpeedUp}
         />
       </CloseButtonPanel>
     </Modal>

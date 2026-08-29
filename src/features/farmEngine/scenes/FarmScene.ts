@@ -6,6 +6,7 @@ import { FarmCameraController } from "../core/camera";
 import { FarmClock } from "../core/clock";
 import type { EntityRenderer } from "../entities/EntityRenderer";
 import { RENDERERS } from "../entities/registry";
+import { LandscapingController } from "../landscaping/LandscapingController";
 import { DebugGrid } from "../dev/DebugGrid";
 
 /**
@@ -28,6 +29,13 @@ export class FarmScene extends Phaser.Scene {
   private renderers: EntityRenderer<unknown>[] = [];
   private subscriptions: Unsubscribe[] = [];
   private debugGrid: DebugGrid | undefined;
+  private landscaping: LandscapingController | undefined;
+
+  /** True while the game machine is in the landscaping state (edit mode). */
+  landscapingActive = false;
+
+  /** True while visiting another farm [useVisiting: visitorId set]. */
+  visitingActive = false;
 
   constructor(public readonly bridge: GameBridge) {
     super({ key: "farm" });
@@ -36,6 +44,18 @@ export class FarmScene extends Phaser.Scene {
 
   create() {
     this.cameras.main.setBackgroundColor(OCEAN_PLACEHOLDER_COLOR);
+
+    this.visitingActive = this.bridge.select(
+      (state) => state.context.visitorId !== undefined,
+    );
+    this.subscriptions.push(
+      this.bridge.subscribe(
+        (state) => state.context.visitorId !== undefined,
+        (visiting) => {
+          this.visitingActive = visiting;
+        },
+      ),
+    );
 
     this.farmCamera.attach(this.bridge.select(_expansionCount));
     this.subscriptions.push(
@@ -48,6 +68,9 @@ export class FarmScene extends Phaser.Scene {
       factory(this, this.bridge),
     );
     this.renderers.forEach((renderer) => renderer.mount());
+
+    this.landscaping = new LandscapingController(this, this.bridge);
+    this.landscaping.mount();
 
     if (localStorage.getItem("phaserFarm.debug")) {
       this.debugGrid = new DebugGrid(this);
@@ -62,6 +85,8 @@ export class FarmScene extends Phaser.Scene {
   }
 
   private teardown() {
+    this.landscaping?.destroy();
+    this.landscaping = undefined;
     this.renderers.forEach((renderer) => renderer.destroy());
     this.renderers = [];
     this.subscriptions.forEach((unsubscribe) => unsubscribe());

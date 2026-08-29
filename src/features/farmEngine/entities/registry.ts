@@ -31,6 +31,12 @@ import { SaltRenderer } from "./resources/SaltRenderer";
 import { WaterTrapRenderer } from "./resources/WaterTrapRenderer";
 import { FishermanRenderer } from "./resources/FishermanRenderer";
 import { BuildingRenderer } from "./buildings/BuildingRenderer";
+import { CollectibleRenderer } from "./collectibles/CollectibleRenderer";
+import { PlayerRenderer } from "./characters/PlayerRenderer";
+import { BudRenderer } from "./characters/BudRenderer";
+import { PetRenderer } from "./characters/PetRenderer";
+import { AirdropRenderer } from "./characters/AirdropRenderer";
+import { ClutterRenderer } from "./characters/ClutterRenderer";
 
 export type RendererFactory = (
   scene: FarmScene,
@@ -83,4 +89,10 @@ export const RENDERERS: Record<string, RendererFactory> = {
   waterTraps: (scene, bridge) => new WaterTrapRenderer(scene, bridge),
   fisherman: (scene, bridge) => new FishermanRenderer(scene, bridge),
   buildings: (scene, bridge) => new BuildingRenderer(scene, bridge),
+  collectibles: (scene, bridge) => new CollectibleRenderer(scene, bridge),
+  players: (scene, bridge) => new PlayerRenderer(scene, bridge),
+  buds: (scene, bridge) => new BudRenderer(scene, bridge),
+  pets: (scene, bridge) => new PetRenderer(scene, bridge),
+  airdrops: (scene, bridge) => new AirdropRenderer(scene, bridge),
+  clutter: (scene, bridge) => new ClutterRenderer(scene, bridge),
 };

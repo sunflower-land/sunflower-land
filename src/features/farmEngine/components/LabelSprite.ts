@@ -1,5 +1,7 @@
 import type Phaser from "phaser";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { queueImage } from "../core/assets";
 import { pixelText } from "./pixelText";
 
 /**
@@ -7,18 +9,33 @@ import { pixelText } from "./pixelText";
  * (icon + short text on a small panel). Anything drawn ON the game layer is
  * Phaser; only hover popovers and modals stay React.
  *
- * PARITY GAP: the DOM Label's pixel-art border is approximated with a flat
- * rounded panel for now.
+ * The DOM Label = background colour + 2px nine-slice border image
+ * [LABEL_STYLES + pixel*BorderStyle]; the border renders as a Phaser
+ * NineSlice when its texture is loaded (call LabelChip.queueAssets first).
  */
 
 export type LabelChipType = "default" | "danger" | "transparent";
 
-const CHIP_STYLE: Record<LabelChipType, { background?: number; text: string }> =
-  {
-    default: { background: 0xead4aa, text: "#3e2731" },
-    danger: { background: 0xe43b44, text: "#ffffff" },
-    transparent: { text: "#ffffff" },
-  };
+const CHIP_STYLE: Record<
+  LabelChipType,
+  { background?: number; text: string; border?: () => string }
+> = {
+  // [Label.tsx LABEL_STYLES]
+  default: {
+    background: 0xc0cbdc,
+    text: "#181425",
+    border: () => SUNNYSIDE.ui.grayBorder,
+  },
+  danger: {
+    background: 0xe43b44,
+    text: "#ffffff",
+    border: () => SUNNYSIDE.ui.redBorder,
+  },
+  transparent: { text: "#ffffff" },
+};
+
+/** The DOM's borderWidth is PIXEL_SCALE*2 CSS px = 2 source px. */
+const BORDER = 2;
 
 const PAD_X = 2;
 const CHIP_HEIGHT = 8;
@@ -76,9 +93,30 @@ export class LabelChip {
 
     if (style.background !== undefined) {
       const background = scene.add
-        .rectangle(0, 0, this.width, CHIP_HEIGHT, style.background, 0.95)
+        .rectangle(0, 0, this.width, CHIP_HEIGHT, style.background, 1)
         .setOrigin(0, 0);
       children.push(background);
+    }
+    const borderTexture = style.border?.();
+    if (borderTexture && scene.textures.exists(borderTexture)) {
+      // borderImage `url(...) 20%` on a 2px border [style.ts].
+      const source = scene.textures.get(borderTexture).getSourceImage();
+      const slice = Math.max(1, Math.round(source.width * 0.2));
+      const border = scene.add
+        .nineslice(
+          -BORDER,
+          -BORDER,
+          borderTexture,
+          undefined,
+          this.width + BORDER * 2,
+          CHIP_HEIGHT + BORDER * 2,
+          slice,
+          slice,
+          slice,
+          slice,
+        )
+        .setOrigin(0, 0);
+      children.push(border);
     }
     if (iconImage) children.push(iconImage);
     children.push(label);
@@ -88,6 +126,12 @@ export class LabelChip {
 
   setPosition(x: number, y: number) {
     this.container.setPosition(x, y);
+  }
+
+  /** Queue the border art; call before constructing chips. */
+  static queueAssets(scene: Phaser.Scene) {
+    queueImage(scene, SUNNYSIDE.ui.grayBorder);
+    queueImage(scene, SUNNYSIDE.ui.redBorder);
   }
 
   destroy() {

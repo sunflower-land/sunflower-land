@@ -101,6 +101,7 @@ export class UpcomingExpansionRenderer extends EntityRenderer<Slice> {
       SUNNYSIDE.ui.emptyBar,
       coinsIcon,
     ].forEach((texture) => queueImage(this.scene, texture));
+    LabelChip.queueAssets(this.scene);
 
     // Requirement-chip item icons for the current expansion.
     const game = this.bridge.select((state) => state.context.state);

@@ -66,6 +66,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import type { NFTName } from "features/game/events/landExpansion/placeNFT";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { PIXEL_SCALE, GRID_WIDTH_PX } from "features/game/lib/constants";
+import { getClientToGridOverride } from "features/game/expansion/lib/gridPointer";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { useNow } from "lib/utils/hooks/useNow";
 import { OuterPanel, InnerPanel } from "components/ui/Panel";
@@ -166,6 +167,11 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
   }, []);
 
   const computeGridPos = useCallback((clientX: number, clientY: number) => {
+    // The Phaser farm registers a camera-based converter (there is no
+    // GenesisBlock element on the canvas farm).
+    const toGrid = getClientToGridOverride();
+    if (toGrid) return toGrid(clientX, clientY);
+
     // Use the actual land center (GenesisBlock element) as the coordinate origin,
     // not the viewport center. When the player scrolls, the land shifts away from
     // the viewport center, so window.innerWidth/2 would give wrong grid coords.

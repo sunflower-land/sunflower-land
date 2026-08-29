@@ -33,6 +33,9 @@ type SavedCamera = { scrollX: number; scrollY: number; userZoom: number };
 export class FarmCameraController {
   private userZoom = 1;
 
+  /** Set while landscaping drags a ghost/item so panning doesn't fight it. */
+  panSuspended = false;
+
   /** Pinch baseline, captured when a second pointer goes down. */
   private pinchStartDistance = 0;
   private pinchStartZoom = 1;
@@ -88,7 +91,7 @@ export class FarmCameraController {
         return;
       }
 
-      if (!pointer.isDown) return;
+      if (!pointer.isDown || this.panSuspended) return;
 
       const camera = this.scene.cameras.main;
       camera.scrollX -= (pointer.x - pointer.prevPosition.x) / camera.zoom;

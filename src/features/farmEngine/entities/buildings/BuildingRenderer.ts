@@ -22,6 +22,7 @@ import {
   type AscensionLevel,
 } from "features/game/lib/level";
 import { getHomeRoute } from "features/island/buildings/lib/getHomeRoute";
+import { getHelpRequired, isHelpComplete } from "features/game/types/monuments";
 import { isGreenhouseReady } from "features/game/events/landExpansion/greenhouseReadiness";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { queueImage, runLoader } from "../../core/assets";
@@ -214,8 +215,21 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
         const zone = this.scene.add
           .zone(0, 0, box.width, box.height)
           .setOrigin(0, 0);
-        makeClickable(this.scene, zone, () =>
-          this.onBuildingClick(name, item.id, index),
+        makeClickable(
+          this.scene,
+          zone,
+          () => this.onBuildingClick(name, item.id, index),
+          {
+            // [Land.tsx:596] only the home set stays clickable on a visit.
+            visitClickable: [
+              "Town Center",
+              "Tent",
+              "House",
+              "Manor",
+              "Mansion",
+              "Pet House",
+            ].includes(name),
+          },
         );
         objects = {
           name,
@@ -625,19 +639,9 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
         depth: depth + 5,
       },
     );
-    if (alert && this.bridge.ui.get().showAnimations && !objects.alertTween) {
-      // The DOM's .ready horizontal shake (±1 src px early in a 4s cycle).
-      objects.alertTween = this.scene.tweens.add({
-        targets: alert,
-        x: alert.x + 1,
-        duration: 80,
-        yoyo: true,
-        repeat: 5,
-        repeatDelay: 40,
-        loop: -1,
-        loopDelay: 3400,
-      });
-    }
+    // Deliberately NOT animated: the DOM's .ready shake reads as jitter at
+    // this scale (Adam 2026-08-27) — static until a nicer treatment exists.
+    void alert;
   }
 
   private addExtra(
@@ -720,6 +724,29 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
     const item = game.buildings[name]?.find((building) => building.id === id);
     if (!item) return;
     const now = Date.now();
+
+    // Visiting [PetHouse.tsx:67-82 / Manor.tsx etc]: home set navigates into
+    // the visited interior; Pet House helps all pets first when needed.
+    if (machine.context.visitorId !== undefined) {
+      const farmId = machine.context.farmId;
+      if (name === "Pet House") {
+        if (getHelpRequired({ game }).tasks.petHouse.count > 0) {
+          this.bridge.dispatch({
+            type: "pet.helpAllPetsInHouse",
+            totalHelpedToday: machine.context.totalHelpedToday ?? 0,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          } as any);
+          if (isHelpComplete({ game: this.game() })) {
+            this.bridge.farmModal.open("farmHelped");
+          }
+          return;
+        }
+        this.bridge.navigateTo(`/visit/${farmId}/pet-house`);
+        return;
+      }
+      this.bridge.navigateTo(getHomeRoute({ game, isVisiting: true, farmId }));
+      return;
+    }
 
     // Level gate [BuildingImageWrapper]. Toolshed/Warehouse/Tent are
     // non-interactive in the DOM; skip their click entirely.

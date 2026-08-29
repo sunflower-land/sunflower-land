@@ -88,7 +88,7 @@ export const RESOURCE_MOVE_EVENTS: Record<
   "Ascension Crystal": "ascensionCrystal.moved",
 };
 
-function getMoveAction(
+export function getMoveAction(
   name: LandscapingPlaceable,
   location?: PlaceableLocation,
 ): GameEventName<PlacementEvent> {

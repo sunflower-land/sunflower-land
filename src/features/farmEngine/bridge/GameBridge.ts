@@ -73,7 +73,16 @@ export type FarmModalName =
   | "cropMachine"
   | "buildingConstructing"
   | "buildingDestroyed"
-  | "buildingLevelLocked";
+  | "buildingLevelLocked"
+  // Collectibles (Phase 6)
+  | "collectibleConstructing"
+  // Characters (Phase 7)
+  | "bumpkinPlayer"
+  | "farmHandEquip"
+  | "pet"
+  | "airdrop"
+  // Visiting (Phase 9)
+  | "farmHelped";
 
 export type FarmModalRequest = { name: FarmModalName; data?: unknown };
 
