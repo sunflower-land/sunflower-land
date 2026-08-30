@@ -95,6 +95,7 @@ export function getPlantedAt(
   const { seconds: boostedTime, boostsUsed } = getFruitPatchTime(
     patchFruitSeedName,
     game,
+    createdAt,
     fruitPatchFertiliser,
     windowed,
   );
@@ -134,9 +135,11 @@ export const isAdvancedFruitSeed = (
  */
 export function getFruitTime({
   game,
+  now,
   windowed = hasFeatureAccess(game, "SPEED_BOOSTS"),
 }: {
   game: GameState;
+  now: number;
   /**
    * Whether the windowed speed-rate model applies. Defaults to the SPEED_BOOSTS
    * flag; the replenish path forces it true for a fruit that already carries a
@@ -153,10 +156,12 @@ export function getFruitTime({
   const hasSuperTotem = isTemporaryCollectibleActive({
     name: "Super Totem",
     game,
+    now,
   });
   const hasTimeWarpTotem = isTemporaryCollectibleActive({
     name: "Time Warp Totem",
     game,
+    now,
   });
   // Under the windowed model the totems' contribution is derived over the grow
   // rather than baked at plant time, so it's not recorded in boostsUsed either.
@@ -177,6 +182,7 @@ export function getFruitTime({
 export const getFruitPatchTime = (
   patchFruitSeedName: PatchFruitSeedName,
   game: GameState,
+  now: number,
   fruitPatchFertiliser?: FruitCompostName,
   // Whether the windowed speed-rate model applies (see getFruitTime). Defaults
   // to the flag; forced true by the replenish path for already-windowed fruit.
@@ -187,6 +193,7 @@ export const getFruitPatchTime = (
 
   const { multiplier: baseMultiplier, boostsUsed } = getFruitTime({
     game,
+    now,
     windowed,
   });
   seconds *= baseMultiplier;
@@ -298,7 +305,7 @@ export const getFruitPatchTime = (
   // grow.
   if (
     !windowed &&
-    isTemporaryCollectibleActive({ name: "Orchard Hourglass", game })
+    isTemporaryCollectibleActive({ name: "Orchard Hourglass", game, now })
   ) {
     seconds *= 0.75;
     boostsUsed.push({ name: "Orchard Hourglass", value: "x0.75" });
@@ -306,7 +313,7 @@ export const getFruitPatchTime = (
 
   if (
     !windowed &&
-    isTemporaryCollectibleActive({ name: "Toucan Shrine", game })
+    isTemporaryCollectibleActive({ name: "Toucan Shrine", game, now })
   ) {
     seconds *= 0.75;
     boostsUsed.push({ name: "Toucan Shrine", value: "x0.75" });

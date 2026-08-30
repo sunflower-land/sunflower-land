@@ -19,6 +19,8 @@ import {
   type BoostWindow,
 } from "features/game/lib/boostWindows";
 import { useNodeTimer } from "features/game/lib/useNodeTimer";
+import { useNow } from "lib/utils/hooks/useNow";
+import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
 import { KNOWN_IDS } from "features/game/types";
 import type { TreeName } from "features/game/types/resources";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
@@ -167,7 +169,12 @@ export const Tree: React.FC<Props> = ({ id }) => {
     windows: treeBoostWindows,
     legacyReadyAt: choppedAt + TREE_RECOVERY_TIME * 1000,
   });
-  const isSeasoned = isSeasonedPlayer({ game, verified, now });
+  // The timer's `now` freezes once the tree is ready (autoEndAt), so boost
+  // checks need a LIVE clock — a frozen one would keep promising a shrine's
+  // bonus wood after the shrine expired. One tick a minute is enough for a
+  // boost that flips at most a few times a day.
+  const liveNow = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
+  const isSeasoned = isSeasonedPlayer({ game, verified, now: liveNow });
   const chopped = now <= readyAt;
 
   const [isAnimationRunning, setIsAnimationRunning] = useState(false);
@@ -254,6 +261,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
         farmId,
         itemId: KNOWN_IDS[treeName],
         counter: activityCount,
+        now: liveNow,
       }).amount;
 
     const newState = gameService.send("timber.chopped", {

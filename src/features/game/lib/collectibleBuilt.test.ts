@@ -105,6 +105,7 @@ describe("isCollectibleBuilt", () => {
         },
       },
       name: "Time Warp Totem",
+      now: Date.now(),
     });
 
     expect(isBuilt).toBe(true);
@@ -128,6 +129,7 @@ describe("isCollectibleBuilt", () => {
         },
       },
       name: "Time Warp Totem",
+      now: Date.now(),
     });
 
     expect(isBuilt).toBe(true);
@@ -152,6 +154,7 @@ describe("isCollectibleBuilt", () => {
         },
       },
       name: "Time Warp Totem",
+      now: Date.now(),
     });
 
     expect(isBuilt).toBe(false);
@@ -163,6 +166,8 @@ describe("isCollectibleBuilt", () => {
         ...TEST_FARM,
       },
       name: "Time Warp Totem",
+
+      now: Date.now(),
     });
 
     expect(isBuilt).toBe(false);
@@ -186,6 +191,7 @@ describe("Super Totem Built", () => {
         },
       },
       name: "Super Totem",
+      now: Date.now(),
     });
 
     expect(isBuilt).toBe(true);
@@ -209,6 +215,7 @@ describe("Super Totem Built", () => {
         },
       },
       name: "Super Totem",
+      now: Date.now(),
     });
 
     expect(isBuilt).toBe(true);
@@ -232,6 +239,7 @@ describe("Super Totem Built", () => {
         },
       },
       name: "Super Totem",
+      now: Date.now(),
     });
 
     expect(isBuilt).toBe(false);
@@ -243,6 +251,8 @@ describe("Super Totem Built", () => {
         ...TEST_FARM,
       },
       name: "Super Totem",
+
+      now: Date.now(),
     });
 
     expect(isBuilt).toBe(false);
@@ -348,6 +358,7 @@ describe("getExpiryCooldown", () => {
       isTemporaryCollectibleActive({
         name: "Time Warp Totem",
         game: totemGame,
+        now: Date.now(),
       }),
     ).toBe(false); // legacy 2h lifetime → expired
 
@@ -356,6 +367,7 @@ describe("getExpiryCooldown", () => {
       isTemporaryCollectibleActive({
         name: "Time Warp Totem",
         game: totemGame,
+        now: Date.now(),
       }),
     ).toBe(true); // rebalanced 4h lifetime → still active
   });

@@ -1316,6 +1316,7 @@ describe("plant", () => {
       // Greenhouse crops joined the windowed model: the hourglass applies live
       // via getGreenhouseBoostWindows, so it's no longer baked here either.
       const { multiplier, boostsUsed } = getCropTime({
+        now: Date.now(),
         crop: "Rice",
         game: {
           ...FARM_WITH_PLOTS,
@@ -1369,6 +1370,7 @@ describe("plant", () => {
       const dateNow = Date.now();
 
       const { multiplier, boostsUsed } = getCropTime({
+        now: Date.now(),
         crop: "Rice",
         game: {
           ...FARM_WITH_PLOTS,

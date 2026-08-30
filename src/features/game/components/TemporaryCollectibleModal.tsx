@@ -1,0 +1,275 @@
+import { SUNNYSIDE } from "assets/sunnyside";
+import { IngredientsPopover } from "components/ui/IngredientsPopover";
+import { Modal } from "components/ui/Modal";
+import { RequirementLabel } from "components/ui/RequirementsLabel";
+import Decimal from "decimal.js-light";
+import React, { useContext, useState } from "react";
+import { getKeys } from "lib/object";
+import { Label } from "components/ui/Label";
+import { Button } from "components/ui/Button";
+import { useSelector } from "@xstate/react";
+import { secondsToString } from "lib/utils/time";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { getChestItemCount } from "features/island/hud/components/inventory/utils/inventory";
+import { ITEM_DETAILS, getTranslatedItemName } from "../types/images";
+import { Context } from "../GameProvider";
+import type { MachineState } from "../lib/gameMachine";
+import type { PlaceableLocation } from "../types/collectibles";
+import type { GameState, InventoryItemName } from "../types/game";
+import { COLLECTIBLE_BUFF_LABELS } from "../types/collectibleItemBuffs";
+import {
+  getExpiryCooldown,
+  type TemporaryCollectibleName,
+} from "../lib/collectibleBuilt";
+import {
+  getExtensionCost,
+  getExtensionPayments,
+  getExtensionResult,
+} from "../lib/collectibleExtension";
+import { Box } from "components/ui/Box";
+import { CloseButtonPanel } from "./CloseablePanel";
+
+type Props = {
+  show: boolean;
+  onHide: () => void;
+  name: TemporaryCollectibleName;
+  id: string;
+  location: PlaceableLocation;
+  /** Current expiry of THIS placement, including any earlier extension. */
+  expiresAt: number;
+  /**
+   * Whether this player can pay to top the booster up right now. False when
+   * visiting or without the SPEED_BOOSTS flag, in which case this is a read-only
+   * detail panel — the boost and its time remaining, with nothing to buy.
+   */
+  canExtend: boolean;
+};
+
+const _gameState = (state: MachineState) => state.context.state;
+const _coinBalance = (state: MachineState) => state.context.state.coins;
+
+/**
+ * The detail view for a placed temporary collectible: what it boosts and how
+ * long it has left, plus the option to extend it where that is available. Opened
+ * by clicking the collectible itself.
+ */
+export const TemporaryCollectibleModal: React.FC<Props> = ({
+  show,
+  onHide,
+  name,
+  id,
+  location,
+  expiresAt,
+  canExtend,
+}) => {
+  const { gameService } = useContext(Context);
+  const gameState = useSelector(gameService, _gameState);
+  const coinBalance = useSelector(gameService, _coinBalance);
+
+  const handleExtend = (payWith: TemporaryCollectibleName) => {
+    gameService.send("collectible.extended", { name, location, id, payWith });
+    onHide();
+  };
+
+  return (
+    <Modal show={show} onHide={onHide}>
+      <CloseButtonPanel onClose={onHide}>
+        <TemporaryCollectibleContent
+          handleExtend={handleExtend}
+          name={name}
+          expiresAt={expiresAt}
+          canExtend={canExtend}
+          coinBalance={coinBalance}
+          gameState={gameState}
+        />
+      </CloseButtonPanel>
+    </Modal>
+  );
+};
+
+const TemporaryCollectibleContent: React.FC<{
+  handleExtend: (payWith: TemporaryCollectibleName) => void;
+  name: TemporaryCollectibleName;
+  expiresAt: number;
+  canExtend: boolean;
+  coinBalance: number;
+  gameState: GameState;
+}> = ({ handleExtend, name, expiresAt, canExtend, coinBalance, gameState }) => {
+  const { t } = useAppTranslation();
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showIngredients, setShowIngredients] = useState(false);
+  // What the player is spending. Only a totem offers a choice - it accepts either
+  // totem, since the two grant the same buff.
+  const [payWith, setPayWith] = useState<TemporaryCollectibleName>(name);
+
+  const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
+  const payments = getExtensionPayments(name);
+  const { coins: coinCost, ingredients } = getExtensionCost(name, payWith);
+  const extraSeconds = getExpiryCooldown(payWith, gameState) / 1000;
+  // Paying with the longer-lasting totem leaves THAT totem on the map.
+  const becomes = getExtensionResult(name, payWith, gameState);
+
+  /**
+   * The balance the reducer will actually charge against: unplaced copies for a
+   * placeable (the hourglass being extended cannot pay for its own extension),
+   * and the plain inventory count for a shrine's ingredients. Must stay
+   * `getChestItemCount` to match `extendCollectible` - `getChestItems` silently
+   * omits anything that is not a placeable, which reads every shrine ingredient
+   * as a zero balance.
+   */
+  const balanceOf = (itemName: InventoryItemName) =>
+    getChestItemCount(gameState, itemName);
+
+  const canAfford =
+    coinBalance >= coinCost &&
+    getKeys(ingredients).every((itemName) =>
+      balanceOf(itemName).gte(ingredients[itemName] ?? new Decimal(0)),
+    );
+
+  // Belt and braces: the host component swaps to its expired branch and unmounts
+  // this modal the moment the booster lapses, but its countdown and the one above
+  // tick on separate intervals - so refuse an extension the reducer would reject.
+  const canPayNow = canExtend && canAfford && secondsToExpire > 0;
+
+  const buffLabels = COLLECTIBLE_BUFF_LABELS[name]?.(gameState);
+  const addedTime = secondsToString(extraSeconds, {
+    length: "short",
+    removeTrailingZeros: true,
+  });
+
+  return (
+    <>
+      <div className="flex flex-col gap-2 p-1">
+        {showConfirmation ? (
+          <>
+            <Label type="warning">{t("confirm.extend")}</Label>
+            <p className="text-xs">
+              {t("confirm.extend.message", { name, time: addedTime })}
+            </p>
+          </>
+        ) : (
+          <>
+            <Label type="default" icon={ITEM_DETAILS[name].image}>
+              {getTranslatedItemName(name)}
+            </Label>
+            {canExtend && (
+              <p className="text-xs">
+                {t("extend.collectible.message", { name })}
+              </p>
+            )}
+          </>
+        )}
+
+        {buffLabels && (
+          <div className="flex flex-wrap gap-2">
+            {buffLabels.map(
+              (
+                { labelType, boostTypeIcon, boostedItemIcon, shortDescription },
+                index,
+              ) => (
+                <Label
+                  key={`${name}-${index}`}
+                  type={labelType}
+                  icon={boostTypeIcon}
+                  secondaryIcon={boostedItemIcon}
+                >
+                  {shortDescription}
+                </Label>
+              ),
+            )}
+          </div>
+        )}
+
+        <div className="flex flex-wrap gap-2">
+          <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+            {t("time.remaining", {
+              time: secondsToString(secondsToExpire, {
+                length: "medium",
+                isShortFormat: true,
+                removeTrailingZeros: true,
+              }),
+            })}
+          </Label>
+          {canExtend && (
+            <Label type="success" icon={SUNNYSIDE.icons.stopwatch}>
+              {t("extend.collectible.added", { time: addedTime })}
+            </Label>
+          )}
+        </div>
+
+        {canExtend && payments.length > 1 && (
+          <div className="flex flex-col gap-1">
+            <Label type="default">{t("extend.collectible.payWith")}</Label>
+            <div className="flex flex-wrap">
+              {payments.map((option) => (
+                <Box
+                  key={option}
+                  image={ITEM_DETAILS[option].image}
+                  count={balanceOf(option)}
+                  isSelected={payWith === option}
+                  onClick={() => setPayWith(option)}
+                />
+              ))}
+            </div>
+            {becomes !== name && (
+              <Label type="warning" icon={ITEM_DETAILS[becomes].image}>
+                {t("extend.collectible.becomes", {
+                  name: getTranslatedItemName(becomes),
+                })}
+              </Label>
+            )}
+          </div>
+        )}
+
+        {canExtend && (
+          <div
+            className="flex flex-wrap p-2 gap-2 cursor-pointer"
+            onClick={() => setShowIngredients(!showIngredients)}
+          >
+            <IngredientsPopover
+              show={showIngredients}
+              ingredients={getKeys(ingredients)}
+              onClick={() => setShowIngredients(false)}
+            />
+            {coinCost > 0 && (
+              <RequirementLabel
+                type="coins"
+                balance={coinBalance}
+                requirement={coinCost}
+              />
+            )}
+            {getKeys(ingredients).map((itemName) => (
+              <RequirementLabel
+                key={itemName}
+                type="item"
+                item={itemName}
+                balance={balanceOf(itemName)}
+                requirement={ingredients[itemName] ?? new Decimal(0)}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {canExtend &&
+        (showConfirmation ? (
+          <div className="flex justify-between gap-1">
+            <Button onClick={() => setShowConfirmation(false)}>
+              {t("cancel")}
+            </Button>
+            <Button onClick={() => handleExtend(payWith)} disabled={!canPayNow}>
+              {t("extend")}
+            </Button>
+          </div>
+        ) : (
+          <Button
+            onClick={() => setShowConfirmation(true)}
+            disabled={!canPayNow}
+          >
+            {t("extend")}
+          </Button>
+        ))}
+    </>
+  );
+};

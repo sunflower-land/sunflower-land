@@ -798,6 +798,10 @@ import {
   type RenewCollectibleAction,
 } from "./landExpansion/renewCollectible";
 import {
+  extendCollectible,
+  type ExtendCollectibleAction,
+} from "./landExpansion/extendCollectible";
+import {
   renewWeatherCollectible,
   type RenewWeatherCollectibleAction,
 } from "./landExpansion/renewWeatherCollectible";
@@ -1032,6 +1036,7 @@ export type PlayingEvent =
   | BulkFertilisePlotAction
   | RenewPetShrineAction
   | RenewCollectibleAction
+  | ExtendCollectibleAction
   | RenewWeatherCollectibleAction
   | CollectWaterTrapAction
   | PlaceWaterTrapAction
@@ -1248,6 +1253,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "land.revealed": revealLand,
   "collectible.burned": burnCollectible,
   "collectible.renewed": renewCollectible,
+  "collectible.extended": extendCollectible,
   "weatherCollectible.renewed": renewWeatherCollectible,
   "bonus.claimed": claimBonus,
   "dailyReward.claimed": claimDailyReward,

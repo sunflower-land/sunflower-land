@@ -28,16 +28,8 @@ import type { CollectibleProps } from "../Collectible";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Context } from "features/game/GameProvider";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { Label } from "components/ui/Label";
-import { secondsToString } from "lib/utils/time";
 import type { MachineState } from "features/game/lib/gameMachine";
-import {
-  SFTDetailPopoverBuffs,
-  SFTDetailPopoverLabel,
-  SFTDetailPopoverInnerPanel,
-} from "components/ui/SFTDetailPopover";
-import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+
 import classNames from "classnames";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useSelector } from "@xstate/react";
@@ -45,7 +37,13 @@ import { useVisiting } from "lib/utils/visitUtils";
 import { RenewCollectible } from "features/game/components/RenewCollectible";
 import Decimal from "decimal.js-light";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
-import { getExpiryCooldown } from "features/game/lib/collectibleBuilt";
+import {
+  getCollectibleExpiry,
+  getExpiryCooldown,
+  getCollectiblesAcrossLocations,
+} from "features/game/lib/collectibleBuilt";
+import { TemporaryCollectibleModal } from "features/game/components/TemporaryCollectibleModal";
+import { hasFeatureAccess } from "lib/flags";
 
 export type HourglassType =
   | "Gourmet Hourglass"
@@ -113,16 +111,28 @@ export const Hourglass: React.FC<HourglassProps> = ({
   hourglass,
 }) => {
   const { gameService, showTimers, showAnimations } = useContext(Context);
-  const { t } = useAppTranslation();
   const { isVisiting } = useVisiting();
   const gameState = useSelector(gameService, _gameState);
   const [showRenewModal, setShowRenewModal] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
   const chestItems = getChestItems(gameState);
 
   const boostMillis = getExpiryCooldown(hourglass, gameState);
-  const expiresAt = createdAt + boostMillis;
+  // Read the placement so any time bought via `collectible.extended` is included
+  // in the countdown rather than the hourglass appearing to expire early.
+  const placed = getCollectiblesAcrossLocations(gameState, hourglass).find(
+    (collectible) => collectible.id === id,
+  );
+  const extendedMs = placed?.extendedMs ?? 0;
+  const expiresAt = getCollectibleExpiry({
+    name: hourglass,
+    collectible: placed ?? { createdAt },
+    game: gameState,
+  });
+  const canExtend =
+    !isVisiting && hasFeatureAccess(gameState, "SPEED_BOOSTS") && !!placed;
   const { totalSeconds: secondsToExpire } = useCountdown(expiresAt);
-  const durationSeconds = boostMillis / 1000;
+  const durationSeconds = (boostMillis + extendedMs) / 1000;
   const percentage = 100 - (secondsToExpire / durationSeconds) * 100;
   const hasExpired = secondsToExpire <= 0;
   const hasReplacement = (chestItems[hourglass] ?? new Decimal(0)).gt(0);
@@ -234,8 +244,8 @@ export const Hourglass: React.FC<HourglassProps> = ({
   }
 
   return (
-    <Popover>
-      <PopoverButton as="div">
+    <>
+      <div onClick={() => setShowDetails(true)}>
         {showTimers && (
           <div className="absolute bottom-0 left-0">
             <ProgressBar
@@ -265,25 +275,17 @@ export const Hourglass: React.FC<HourglassProps> = ({
           className="absolute cursor-pointer left-1/2 -translate-x-1/2 hover:img-highlight"
           alt={hourglass}
         />
-      </PopoverButton>
+      </div>
 
-      <PopoverPanel anchor={{ to: "left" }} className="flex">
-        <SFTDetailPopoverInnerPanel>
-          <SFTDetailPopoverLabel name={hourglass} />
-          <Label type="info" className="mt-2 mb-2">
-            <span className="text-xs">
-              {t("time.remaining", {
-                time: secondsToString(secondsToExpire, {
-                  length: "medium",
-                  isShortFormat: true,
-                  removeTrailingZeros: true,
-                }),
-              })}
-            </span>
-          </Label>
-          <SFTDetailPopoverBuffs name={hourglass} />
-        </SFTDetailPopoverInnerPanel>
-      </PopoverPanel>
-    </Popover>
+      <TemporaryCollectibleModal
+        show={showDetails}
+        onHide={() => setShowDetails(false)}
+        name={hourglass}
+        id={id}
+        location={location}
+        expiresAt={expiresAt}
+        canExtend={canExtend}
+      />
+    </>
   );
 };

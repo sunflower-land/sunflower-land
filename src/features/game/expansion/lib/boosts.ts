@@ -13,7 +13,7 @@ import {
   isPrimeAgedFish,
 } from "features/game/types/consumables";
 import {
-  getExpiryCooldown,
+  getCollectibleExpiry,
   getCollectiblesAcrossLocations,
   isTemporaryCollectibleActive,
   isCollectibleBuilt,
@@ -159,7 +159,11 @@ const applyTempCollectibleBoost = ({
   game: GameState;
   boostValue: number;
 }) => {
-  const active = isTemporaryCollectibleActive({ name: collectibleName, game });
+  const active = isTemporaryCollectibleActive({
+    name: collectibleName,
+    game,
+    now: cookStartAt,
+  });
   if (!active) return seconds;
 
   const activeItems = getCollectiblesAcrossLocations(
@@ -169,8 +173,11 @@ const applyTempCollectibleBoost = ({
   if (activeItems.length === 0) return seconds;
 
   const newestItem = activeItems.sort((a, b) => b.createdAt! - a.createdAt!)[0];
-  const cooldown = getExpiryCooldown(collectibleName, game);
-  const expiresAt = newestItem.createdAt! + cooldown;
+  const expiresAt = getCollectibleExpiry({
+    name: collectibleName,
+    collectible: newestItem,
+    game,
+  });
 
   if (expiresAt <= cookStartAt) return seconds;
 
@@ -218,7 +225,11 @@ export const getCookingTime = ({
   // Legendary Shrine - 50% reduction
   if (
     !boostsWindowed &&
-    isTemporaryCollectibleActive({ name: "Legendary Shrine", game })
+    isTemporaryCollectibleActive({
+      name: "Legendary Shrine",
+      game,
+      now: cookStartAt,
+    })
   ) {
     reducedSecs = reducedSecs.mul(0.5);
     boostsUsed.push({ name: "Legendary Shrine", value: "x0.5" });
@@ -226,7 +237,11 @@ export const getCookingTime = ({
 
   if (
     !boostsWindowed &&
-    isTemporaryCollectibleActive({ name: "Boar Shrine", game })
+    isTemporaryCollectibleActive({
+      name: "Boar Shrine",
+      game,
+      now: cookStartAt,
+    })
   ) {
     reducedSecs = reducedSecs.mul(0.8);
     boostsUsed.push({ name: "Boar Shrine", value: "x0.8" });
@@ -252,10 +267,12 @@ export const getCookingTime = ({
   const hasSuperTotem = isTemporaryCollectibleActive({
     name: "Super Totem",
     game,
+    now: cookStartAt,
   });
   const hasTimeWarpTotem = isTemporaryCollectibleActive({
     name: "Time Warp Totem",
     game,
+    now: cookStartAt,
   });
   const hasActiveTotem = hasSuperTotem || hasTimeWarpTotem;
 
@@ -263,6 +280,7 @@ export const getCookingTime = ({
     const totemType = isTemporaryCollectibleActive({
       name: "Super Totem",
       game,
+      now: cookStartAt,
     })
       ? "Super Totem"
       : "Time Warp Totem";
@@ -283,7 +301,11 @@ export const getCookingTime = ({
 
   if (
     !boostsWindowed &&
-    isTemporaryCollectibleActive({ name: "Gourmet Hourglass", game })
+    isTemporaryCollectibleActive({
+      name: "Gourmet Hourglass",
+      game,
+      now: cookStartAt,
+    })
   ) {
     reducedSecs = applyTempCollectibleBoost({
       seconds: reducedSecs,

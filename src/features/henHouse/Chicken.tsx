@@ -4,6 +4,8 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useInterpret, useSelector } from "@xstate/react";
+import { useNow } from "lib/utils/hooks/useNow";
+import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
 import { capitalize } from "lib/utils/capitalize";
 import {
   animalMachine,
@@ -115,6 +117,11 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   id,
   disabled,
 }) => {
+  // The Bantam Shrine's -5% feed cost only applies while the shrine is active,
+  // so the required-food display needs a LIVE clock — a mount snapshot would
+  // keep showing the discount after the shrine expired. One tick a minute is
+  // enough for a boost that flips at most a few times a day.
+  const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
   const { gameService, selectedItem, shortcutItem } = useContext(Context);
   const { t } = useAppTranslation();
   const storedChicken = useSelector(gameService, _chicken(id));
@@ -254,6 +261,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     foodQuantity: REQUIRED_FOOD_QTY.Chicken,
     game,
     animal: chicken,
+    now,
   });
 
   const hasGoldEgg = isAnimalCoveredByGoldenAsset({

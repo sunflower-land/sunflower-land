@@ -467,6 +467,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
                                   amount: totalSeeds,
                                 },
                                 state,
+                                now,
                               ).milliSeconds / 1000,
                               {
                                 length: "medium",
@@ -547,6 +548,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
                               amount: selectedPack.seeds,
                             },
                             state,
+                            now,
                           ).milliSeconds / 1000,
                           {
                             length: "medium",

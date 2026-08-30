@@ -71,7 +71,7 @@ type GuideNodeWithRecovery = {
   resourceImage?: string;
   resourceLabelKey?: TranslationKeys;
   toolName: WorkbenchToolName;
-  getRecovery: (opts: { game: GameState }) => {
+  getRecovery: (opts: { game: GameState; now: number }) => {
     baseTimeMs: number;
     recoveryTimeMs: number;
     boostsUsed: { name: BoostName; value: string }[];
@@ -83,35 +83,40 @@ const LAND_NODES_WITH_RECOVERY: GuideNodeWithRecovery[] = [
     nodeName: "Tree",
     resourceName: "Wood",
     toolName: "Axe",
-    getRecovery: ({ game }) => getTreeRecoveryTimeForDisplay({ game }),
+    getRecovery: ({ game, now }) =>
+      getTreeRecoveryTimeForDisplay({ game, now }),
     recoveryLabelKey: "resource.treeRecoveryTime",
   },
   {
     nodeName: "Stone Rock",
     resourceName: "Stone",
     toolName: "Pickaxe",
-    getRecovery: ({ game }) => getStoneRecoveryTimeForDisplay({ game }),
+    getRecovery: ({ game, now }) =>
+      getStoneRecoveryTimeForDisplay({ game, now }),
     recoveryLabelKey: "resource.stoneRecoveryTime",
   },
   {
     nodeName: "Iron Rock",
     resourceName: "Iron",
     toolName: "Stone Pickaxe",
-    getRecovery: ({ game }) => getIronRecoveryTimeForDisplay({ game }),
+    getRecovery: ({ game, now }) =>
+      getIronRecoveryTimeForDisplay({ game, now }),
     recoveryLabelKey: "resource.ironRecoveryTime",
   },
   {
     nodeName: "Gold Rock",
     resourceName: "Gold",
     toolName: "Iron Pickaxe",
-    getRecovery: ({ game }) => getGoldRecoveryTimeForDisplay({ game }),
+    getRecovery: ({ game, now }) =>
+      getGoldRecoveryTimeForDisplay({ game, now }),
     recoveryLabelKey: "resource.goldRecoveryTime",
   },
   {
     nodeName: "Crimstone Rock",
     toolName: "Gold Pickaxe",
     resourceName: "Crimstone",
-    getRecovery: ({ game }) => getCrimstoneRecoveryTimeForDisplay({ game }),
+    getRecovery: ({ game, now }) =>
+      getCrimstoneRecoveryTimeForDisplay({ game, now }),
     recoveryLabelKey: "resource.crimstoneRecoveryTime",
   },
   {
@@ -125,7 +130,7 @@ const LAND_NODES_WITH_RECOVERY: GuideNodeWithRecovery[] = [
     nodeName: "Oil Reserve",
     toolName: "Oil Drill",
     resourceName: "Oil",
-    getRecovery: ({ game }) => getOilRecoveryTimeForDisplay({ game }),
+    getRecovery: ({ game, now }) => getOilRecoveryTimeForDisplay({ game, now }),
     recoveryLabelKey: "resource.oilRecoveryTime",
   },
 ];
@@ -386,6 +391,7 @@ const NodeRow: React.FC<NodeRowProps> = ({
 }) => {
   const { baseTimeMs, recoveryTimeMs, boostsUsed } = node.getRecovery({
     game: state,
+    now,
   });
 
   // A live speed window (hourglass / totem / shrine) is NOT folded into

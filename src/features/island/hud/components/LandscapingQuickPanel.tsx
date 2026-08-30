@@ -38,6 +38,11 @@ import {
 import { isPetNFTRevealed, PET_TYPES } from "features/game/types/pets";
 import { Box, type BoxProps } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  getCollectiblesAcrossLocations,
+  getPlacementGroup,
+  isTemporaryCollectible,
+} from "features/game/lib/collectibleBuilt";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { isMobile } from "mobile-device-detect";
 import { ITEM_ICONS } from "./inventory/Chest";
@@ -459,12 +464,16 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
       key: string,
       item: LandscapingPlaceableType,
       boxNode: React.ReactElement<BoxProps>,
+      // Disabled boxes must not start a drag either, or the item could still be
+      // dragged onto the map and have the placement rejected on drop.
+      disabled = false,
     ) =>
       React.cloneElement(boxNode, {
         key,
         style: { touchAction: "none" },
-        onPointerDown: (e: React.PointerEvent<HTMLDivElement>) =>
-          handleDragStart(e, item),
+        onPointerDown: disabled
+          ? undefined
+          : (e: React.PointerEvent<HTMLDivElement>) => handleDragStart(e, item),
       });
 
     if (effectiveTab === "buds") {
@@ -537,14 +546,30 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
       const item: LandscapingPlaceableType = {
         name: name as CollectibleName | BuildingName | ResourceName,
       };
+      // Only one temporary collectible of a name may be on the map at a time
+      // (see placeCollectible), so grey out any that already has a placement
+      // rather than letting the player drag out a copy that gets rejected.
+      const alreadyPlaced =
+        isTemporaryCollectible(name) &&
+        getPlacementGroup(name).some((groupName) =>
+          getCollectiblesAcrossLocations(state, groupName).some(
+            (placed) => !!placed.coordinates,
+          ),
+        );
+
       return wrapBox(
         name,
         item,
         <Box
           count={chestMap[name]}
           image={image}
+          disabled={alreadyPlaced}
+          // Bottom-right cross, so a greyed tile reads as "can't place this"
+          // rather than as a loading or locked state.
+          secondaryImage={alreadyPlaced ? SUNNYSIDE.icons.cancel : undefined}
           onClick={() => handleClick(item)}
         />,
+        alreadyPlaced,
       );
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

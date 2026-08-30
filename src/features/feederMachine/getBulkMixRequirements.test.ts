@@ -38,12 +38,34 @@ describe("getBulkMixRequirements", () => {
         },
       },
       "Hen House",
+      Date.now(),
     );
 
     expect(requests["Kernel Blend"]).toEqual(new Decimal(1));
     expect(missingRequests["Kernel Blend"]).toEqual(new Decimal(1));
     expect(requirements.ingredients.Corn).toEqual(new Decimal(1));
     expect(requirements.coins).toBe(0);
+  });
+
+  it("uses the supplied timestamp for the awake check, not the wall clock", () => {
+    const realNow = Date.now();
+    // Awake as of the wall clock, still asleep as of the timestamp passed in.
+    const sleeping: Animal = { ...chicken("idle"), awakeAt: realNow - 30_000 };
+
+    const { requests } = getBulkMixRequirements(
+      {
+        ...INITIAL_FARM,
+        inventory: {},
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: { "0": sleeping },
+        },
+      },
+      "Hen House",
+      realNow - 60_000,
+    );
+
+    expect(requests["Kernel Blend"]).toBeUndefined();
   });
 
   it("does not request feed for ready animals", () => {
@@ -61,6 +83,7 @@ describe("getBulkMixRequirements", () => {
         },
       },
       "Hen House",
+      Date.now(),
     );
 
     expect(requests).toEqual({});
@@ -80,6 +103,7 @@ describe("getBulkMixRequirements", () => {
         },
       },
       "Barn",
+      Date.now(),
     );
 
     expect(requests["Kernel Blend"]).toEqual(new Decimal(15));
@@ -102,6 +126,7 @@ describe("getBulkMixRequirements", () => {
         },
       },
       "Hen House",
+      Date.now(),
     );
 
     const kernelBlend = feeds.find((feed) => feed.item === "Kernel Blend");
@@ -137,6 +162,7 @@ describe("getBulkMixRequirements", () => {
         },
       },
       "Hen House",
+      Date.now(),
     );
 
     expect(requests["Barn Delight"]).toBeUndefined();
@@ -168,6 +194,7 @@ describe("getBulkMixRequirements", () => {
         },
       },
       "Barn",
+      Date.now(),
     );
 
     // Golden Cow feeds cows for free, so no request and a boost row for it.
@@ -198,6 +225,7 @@ describe("getBulkMixRequirements", () => {
         },
       },
       "Hen House",
+      Date.now(),
     );
 
     // Free cure means no Barn Delight request, surfaced as a wearable boost.
@@ -227,6 +255,7 @@ describe("getBulkMixRequirements", () => {
         },
       },
       "Hen House",
+      Date.now(),
     );
 
     expect(freeFeedBoosts).toEqual([]);
@@ -247,6 +276,7 @@ describe("getBulkMixRequirements", () => {
         },
       },
       "Hen House",
+      Date.now(),
     );
 
     // The ready chicken makes no request, so only two animals are waiting.
@@ -268,6 +298,7 @@ describe("getBulkMixRequirements", () => {
         },
       },
       "Barn",
+      Date.now(),
     );
 
     const kernelBlend = feeds.find((feed) => feed.item === "Kernel Blend");
@@ -305,6 +336,7 @@ describe("getBulkMixRequirements", () => {
           },
         },
         "Hen House",
+        Date.now(),
       );
 
     const kernelBlend = feeds.find((feed) => feed.item === "Kernel Blend");
@@ -341,6 +373,7 @@ describe("getBulkMixRequirements", () => {
         },
       },
       "Hen House",
+      Date.now(),
     );
 
     const barnDelight = feeds.find((feed) => feed.item === "Barn Delight");
@@ -379,6 +412,7 @@ describe("getBulkMixRequirements", () => {
         },
       },
       "Barn",
+      Date.now(),
     );
 
     expect(requests["Kernel Blend"]).toEqual(new Decimal(14.25));
@@ -402,6 +436,7 @@ describe("getBulkMixRequirements", () => {
         },
       },
       "Barn",
+      Date.now(),
     );
 
     const kernelBlend = feeds.find((feed) => feed.item === "Kernel Blend");

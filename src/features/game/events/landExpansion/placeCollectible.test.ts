@@ -3,6 +3,8 @@ import { TEST_FARM } from "../../lib/constants";
 import type { CollectibleName } from "../../types/craftables";
 import type { GameState, PlacedItem, ShakeItem } from "../../types/game";
 import { placeCollectible } from "./placeCollectible";
+import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 import type { Pet, PetName } from "features/game/types/pets";
 
 const date = Date.now();
@@ -267,6 +269,148 @@ describe("Place Collectible", () => {
       state.socialFarming.villageProjects["Basic Cooking Pot"],
     ).toBeUndefined();
     expect(state.collectibles["Basic Cooking Pot"]).toHaveLength(1);
+  });
+
+  describe("temporary collectibles", () => {
+    const cooldown = EXPIRY_COOLDOWNS["Harvest Hourglass"];
+
+    const farmWithPlacedHourglass = (placed: PlacedItem): GameState => ({
+      ...GAME_STATE,
+      inventory: { "Harvest Hourglass": new Decimal(2) },
+      collectibles: { "Harvest Hourglass": [placed] },
+    });
+
+    const place = (state: GameState, location: PlaceableLocation = "farm") =>
+      placeCollectible({
+        state,
+        action: {
+          type: "collectible.placed",
+          name: "Harvest Hourglass",
+          id: "2",
+          coordinates: { x: 5, y: 5 },
+          location,
+        },
+        createdAt: date,
+      });
+
+    it("cannot place a second one while the first is still active", () => {
+      expect(() =>
+        place(
+          farmWithPlacedHourglass({
+            id: "1",
+            coordinates: { x: 0, y: 0 },
+            createdAt: date,
+          }),
+        ),
+      ).toThrow("Only one of this temporary collectible can be placed");
+    });
+
+    // Expired but still on the map: the placement is what blocks a duplicate,
+    // not whether its boost is still running.
+    it("cannot place a second one while an expired one is still placed", () => {
+      expect(() =>
+        place(
+          farmWithPlacedHourglass({
+            id: "1",
+            coordinates: { x: 0, y: 0 },
+            createdAt: date - cooldown - 1,
+          }),
+        ),
+      ).toThrow("Only one of this temporary collectible can be placed");
+    });
+
+    it("can place one when the only other copy has been lifted", () => {
+      const state = place(
+        {
+          ...farmWithPlacedHourglass({
+            id: "1",
+            createdAt: date,
+            removedAt: date,
+          }),
+          island: { type: "volcano" },
+        },
+        "home",
+      );
+
+      const placed = [
+        ...(state.collectibles["Harvest Hourglass"] ?? []),
+        ...(state.home.collectibles["Harvest Hourglass"] ?? []),
+      ].filter((item) => item.coordinates);
+
+      expect(placed).toHaveLength(1);
+    });
+
+    // The totems merge into one boost window, so the pair shares a placement slot.
+    it("cannot place a Time Warp Totem while a Super Totem is down", () => {
+      expect(() =>
+        placeCollectible({
+          state: {
+            ...GAME_STATE,
+            inventory: {
+              "Super Totem": new Decimal(1),
+              "Time Warp Totem": new Decimal(1),
+            },
+            collectibles: {
+              "Super Totem": [
+                { id: "1", coordinates: { x: 0, y: 0 }, createdAt: date },
+              ],
+            },
+          },
+          action: {
+            type: "collectible.placed",
+            name: "Time Warp Totem",
+            id: "2",
+            coordinates: { x: 5, y: 5 },
+            location: "farm",
+          },
+          createdAt: date,
+        }),
+      ).toThrow("Only one of this temporary collectible can be placed");
+    });
+
+    it("cannot place a Super Totem while a Time Warp Totem is down", () => {
+      expect(() =>
+        placeCollectible({
+          state: {
+            ...GAME_STATE,
+            inventory: {
+              "Super Totem": new Decimal(1),
+              "Time Warp Totem": new Decimal(1),
+            },
+            collectibles: {
+              "Time Warp Totem": [
+                { id: "1", coordinates: { x: 0, y: 0 }, createdAt: date },
+              ],
+            },
+          },
+          action: {
+            type: "collectible.placed",
+            name: "Super Totem",
+            id: "2",
+            coordinates: { x: 5, y: 5 },
+            location: "farm",
+          },
+          createdAt: date,
+        }),
+      ).toThrow("Only one of this temporary collectible can be placed");
+    });
+
+    it("cannot place a second one that lives in another location", () => {
+      expect(() =>
+        place({
+          ...GAME_STATE,
+          inventory: { "Harvest Hourglass": new Decimal(2) },
+          home: {
+            ...GAME_STATE.home,
+            collectibles: {
+              "Harvest Hourglass": [
+                { id: "1", coordinates: { x: 0, y: 0 }, createdAt: date },
+              ],
+            },
+          },
+        }),
+      ).toThrow("Only one of this temporary collectible can be placed");
+    });
   });
 
   it("Cannot place a building", () => {

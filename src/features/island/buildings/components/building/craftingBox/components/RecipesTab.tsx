@@ -1,5 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useSelector } from "@xstate/react";
+import { useNow } from "lib/utils/hooks/useNow";
+import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { Label } from "components/ui/Label";
 import { useTranslation } from "react-i18next";
@@ -161,7 +163,10 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
 
   const [searchTerm, setSearchTerm] = useState("");
 
-  const [now] = useState(() => Date.now());
+  // Drives the chapter countdown and the craft-time boost previews. Live rather
+  // than a mount snapshot, so a Fox Shrine or totem expiring while the tab is
+  // open stops being counted. One tick a minute suits both readings.
+  const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
   const currentChapter = getCurrentChapter(now);
   const chapterSecondsLeft = secondsLeftInChapter(now);
 
@@ -325,6 +330,7 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                   getBoostedCraftingTime({
                     game: state,
                     time: recipe.time,
+                    now,
                   });
 
                 return (
@@ -644,6 +650,7 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                   getBoostedCraftingTime({
                     game: state,
                     time: recipe.time,
+                    now,
                   });
 
                 return (

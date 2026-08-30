@@ -34,14 +34,18 @@ export const BASE_OIL_DROP_AMOUNT = 10;
 export const OIL_BONUS_DROP_AMOUNT = 20;
 export const OIL_RESERVE_RECOVERY_TIME = 20 * 60 * 60;
 
-export function getOilDropAmount(game: GameState, reserve: OilReserve) {
+export function getOilDropAmount(
+  game: GameState,
+  reserve: OilReserve,
+  now: number,
+) {
   let amount = new Decimal(BASE_OIL_DROP_AMOUNT);
   const boostsUsed: { name: BoostName; value: string }[] = [];
 
   if (isNextDrillHasBonus(reserve)) {
     amount = amount.add(OIL_BONUS_DROP_AMOUNT);
 
-    if (isTemporaryCollectibleActive({ name: "Stag Shrine", game })) {
+    if (isTemporaryCollectibleActive({ name: "Stag Shrine", game, now })) {
       amount = amount.add(15);
       boostsUsed.push({ name: "Stag Shrine", value: "+15" });
     }
@@ -153,7 +157,13 @@ type getDrilledAtArgs = {
 /**
  * Single source of truth for oil recovery boosts. Used by both getDrilledAt (game) and UI.
  */
-export function getOilRecoveryTimeForDisplay({ game }: { game: GameState }): {
+export function getOilRecoveryTimeForDisplay({
+  game,
+  now,
+}: {
+  game: GameState;
+  now: number;
+}): {
   baseTimeMs: number;
   recoveryTimeMs: number;
   boostsUsed: { name: BoostName; value: string }[];
@@ -181,7 +191,7 @@ export function getOilRecoveryTimeForDisplay({ game }: { game: GameState }): {
 
   if (
     !boostsWindowed &&
-    isTemporaryCollectibleActive({ name: "Stag Shrine", game })
+    isTemporaryCollectibleActive({ name: "Stag Shrine", game, now })
   ) {
     totalSeconds = totalSeconds * 0.75;
     boostsUsed.push({ name: "Stag Shrine", value: "x0.75" });
@@ -211,7 +221,7 @@ export function getDrilledAt({ createdAt, game }: getDrilledAtArgs): {
   boostsUsed: { name: BoostName; value: string }[];
 } {
   const { baseTimeMs, recoveryTimeMs, boostsUsed } =
-    getOilRecoveryTimeForDisplay({ game });
+    getOilRecoveryTimeForDisplay({ game, now: createdAt });
 
   if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
     return { time: createdAt, baseDurationMs: recoveryTimeMs, boostsUsed };
@@ -251,6 +261,7 @@ export function drillOilReserve({
     const { amount: oilDropAmount, boostsUsed } = getOilDropAmount(
       game,
       oilReserve,
+      createdAt,
     );
 
     game.inventory.Oil = (game.inventory.Oil ?? new Decimal(0)).add(

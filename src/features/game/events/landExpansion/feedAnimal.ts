@@ -341,6 +341,7 @@ export function feedAnimal({
         foodQuantity,
         game: copy,
         animal,
+        now: createdAt,
       });
 
     // Take food from inventory

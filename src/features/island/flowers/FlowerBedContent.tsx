@@ -56,9 +56,9 @@ const useFlowerSeedTime = (state: GameState, seed?: FlowerSeedName) => {
 
   return getPreActionDisplay({
     showActualTime,
-    seconds: getFlowerTime(seed, state).seconds,
+    seconds: getFlowerTime(seed, state, now).seconds,
     baseSeconds: FLOWER_SEEDS[seed].plantSeconds,
-    namedBoostCount: getFlowerTime(seed, state).boostsUsed.length,
+    namedBoostCount: getFlowerTime(seed, state, now).boostsUsed.length,
     windows: getSeedBoostWindows(state, seed),
     at: now,
   });

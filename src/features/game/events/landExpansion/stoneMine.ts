@@ -74,7 +74,13 @@ type GetMinedAtArgs = {
 /**
  * Single source of truth for stone recovery boosts. Used by both getMinedAt (game) and UI.
  */
-export function getStoneRecoveryTimeForDisplay({ game }: { game: GameState }): {
+export function getStoneRecoveryTimeForDisplay({
+  game,
+  now,
+}: {
+  game: GameState;
+  now: number;
+}): {
   baseTimeMs: number;
   recoveryTimeMs: number;
   boostsUsed: { name: BoostName; value: string }[];
@@ -100,10 +106,12 @@ export function getStoneRecoveryTimeForDisplay({ game }: { game: GameState }): {
   const superTotem = isTemporaryCollectibleActive({
     name: "Super Totem",
     game,
+    now,
   });
   const timeWarpTotem = isTemporaryCollectibleActive({
     name: "Time Warp Totem",
     game,
+    now,
   });
 
   if (!boostsWindowed && (superTotem || timeWarpTotem)) {
@@ -115,7 +123,7 @@ export function getStoneRecoveryTimeForDisplay({ game }: { game: GameState }): {
 
   if (
     !boostsWindowed &&
-    isTemporaryCollectibleActive({ name: "Ore Hourglass", game })
+    isTemporaryCollectibleActive({ name: "Ore Hourglass", game, now })
   ) {
     totalSeconds = totalSeconds * 0.5;
     boostsUsed.push({ name: "Ore Hourglass", value: "x0.5" });
@@ -123,7 +131,7 @@ export function getStoneRecoveryTimeForDisplay({ game }: { game: GameState }): {
 
   if (
     !boostsWindowed &&
-    isTemporaryCollectibleActive({ name: "Badger Shrine", game })
+    isTemporaryCollectibleActive({ name: "Badger Shrine", game, now })
   ) {
     totalSeconds = totalSeconds * 0.75;
     boostsUsed.push({ name: "Badger Shrine", value: "x0.75" });
@@ -150,7 +158,7 @@ export function getMinedAt({ createdAt, game }: GetMinedAtArgs): {
   boostsUsed: { name: BoostName; value: string }[];
 } {
   const { baseTimeMs, recoveryTimeMs, boostsUsed } =
-    getStoneRecoveryTimeForDisplay({ game });
+    getStoneRecoveryTimeForDisplay({ game, now: createdAt });
 
   if (hasFeatureAccess(game, "SPEED_BOOSTS")) {
     return { time: createdAt, baseDurationMs: recoveryTimeMs, boostsUsed };
@@ -360,7 +368,13 @@ export function getStoneDropAmount({
     });
   }
 
-  if (isTemporaryCollectibleActive({ name: "Legendary Shrine", game })) {
+  if (
+    isTemporaryCollectibleActive({
+      name: "Legendary Shrine",
+      game,
+      now: createdAt,
+    })
+  ) {
     amount += 1;
     boostsUsed.push({ name: "Legendary Shrine", value: "+1" });
   }
@@ -480,7 +494,7 @@ export function mineStone({
       baseTimeMs,
       recoveryTimeMs,
       boostsUsed: boostedTimeBoostsUsed,
-    } = getStoneRecoveryTimeForDisplay({ game: stateCopy });
+    } = getStoneRecoveryTimeForDisplay({ game: stateCopy, now: createdAt });
 
     rock.stone = { minedAt: time };
     if (baseDurationMs !== undefined) {

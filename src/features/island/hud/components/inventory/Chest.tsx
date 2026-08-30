@@ -33,6 +33,12 @@ import classNames from "classnames";
 import type { BuildingName } from "features/game/types/buildings";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
+import { isCollectible } from "features/game/events/landExpansion/garbageSold";
+import {
+  getCollectiblesAcrossLocations,
+  getPlacementGroup,
+  isTemporaryCollectible,
+} from "features/game/lib/collectibleBuilt";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   BUSH_VARIANTS,
@@ -202,6 +208,19 @@ const PanelContent: React.FC<PanelContentProps> = ({
     );
   }
 
+  // Only one temporary collectible of a given name may be on the map at a time -
+  // a second copy merges into the same boost window and is simply wasted. The
+  // reducer rejects it either way; catching it here means the player is told why
+  // instead of dragging an item out and having the placement bounce.
+  const isAlreadyPlaced =
+    isCollectible(selectedChestItem.name) &&
+    isTemporaryCollectible(selectedChestItem.name) &&
+    getPlacementGroup(selectedChestItem.name).some((groupName) =>
+      getCollectiblesAcrossLocations(state, groupName).some(
+        (placed) => !!placed.coordinates,
+      ),
+    );
+
   return (
     <InventoryItemDetails
       game={state}
@@ -213,9 +232,19 @@ const PanelContent: React.FC<PanelContentProps> = ({
       }}
       actionView={
         onPlace && (
-          <Button onClick={handlePlace} disabled={isSaving}>
-            {isSaving ? t("saving") : t("place.map")}
-          </Button>
+          <div className="flex flex-col gap-1">
+            {isAlreadyPlaced && (
+              <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
+                {t("alreadyPlaced.temporaryCollectible")}
+              </Label>
+            )}
+            <Button
+              onClick={handlePlace}
+              disabled={isSaving || isAlreadyPlaced}
+            >
+              {isSaving ? t("saving") : t("place.map")}
+            </Button>
+          </div>
         )
       }
     />

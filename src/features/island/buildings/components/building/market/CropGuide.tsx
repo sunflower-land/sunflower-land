@@ -393,7 +393,10 @@ export const FlowerRow: React.FC<{
     SEASONAL_SEEDS[season].includes(seed as SeedName),
   );
   const { t } = useAppTranslation();
-  const boostedTime = useMemo(() => getFlowerTime(seed, state), [seed, state]);
+  const boostedTime = useMemo(
+    () => getFlowerTime(seed, state, now),
+    [seed, state, now],
+  );
 
   return (
     <div
@@ -614,13 +617,18 @@ const getSeedGrowthTime = ({
   }
 
   if (seed in PATCH_FRUIT_SEEDS) {
-    return getFruitPatchTime(seed as keyof typeof PATCH_FRUIT_SEEDS, state);
+    return getFruitPatchTime(
+      seed as keyof typeof PATCH_FRUIT_SEEDS,
+      state,
+      now,
+    );
   }
 
   if (seed in GREENHOUSE_FRUIT_SEEDS || seed in GREENHOUSE_SEEDS) {
     return getGreenhouseCropTime({
       crop: SEED_TO_PLANT[seed as keyof typeof SEED_TO_PLANT],
       game: state,
+      now,
     });
   }
 

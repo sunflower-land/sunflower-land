@@ -28,6 +28,7 @@ import { SKILL_RANKS, getSkillLevel } from "../types/bumpkinSkills";
 
 const getHoneyProductionRate = (
   game: GameState,
+  now: number,
 ): { rate: number; boostsUsed: { name: BoostName; value: string }[] } => {
   const { bumpkin } = game;
   let rate = 1;
@@ -57,7 +58,7 @@ const getHoneyProductionRate = (
     boostsUsed.push({ name: "Flowery Abode", value: `+${bonus}` });
   }
 
-  if (isTemporaryCollectibleActive({ name: "Bear Shrine", game })) {
+  if (isTemporaryCollectibleActive({ name: "Bear Shrine", game, now })) {
     rate += 0.5;
     boostsUsed.push({ name: "Bear Shrine", value: "+0.5" });
   }
@@ -302,7 +303,7 @@ const getBeehiveDetail = ({
       : createdAt,
     availableTime: Math.ceil(
       (DEFAULT_HONEY_PRODUCTION_TIME - produced) /
-        getHoneyProductionRate(game).rate,
+        getHoneyProductionRate(game, createdAt).rate,
     ),
   };
 };
@@ -386,8 +387,10 @@ const attachFlowers = ({ game, createdAt }: AttachFlowers) => {
       attachedAt +
       Math.min(hiveDetail.availableTime, flowerDetail.availableTime);
 
-    const { rate, boostsUsed: productionBoostsUsed } =
-      getHoneyProductionRate(stateCopy);
+    const { rate, boostsUsed: productionBoostsUsed } = getHoneyProductionRate(
+      stateCopy,
+      createdAt,
+    );
     boostsUsed.push(...productionBoostsUsed);
 
     // Attach to hive

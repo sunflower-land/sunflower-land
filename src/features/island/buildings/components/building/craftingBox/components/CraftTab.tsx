@@ -358,6 +358,7 @@ export const CraftTab: React.FC<Props> = ({
       const { seconds: recipeTime } = getBoostedCraftingTime({
         game: state,
         time: currentRecipe.time,
+        now,
       });
 
       const isInstant = recipeTime === 0;
