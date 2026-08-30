@@ -29,7 +29,7 @@ import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import type { Player } from "../types/Room";
 import emptyDisc from "assets/icons/empty_disc.png";
 import emptyDiscBackground from "assets/icons/empty_disc_background.png";
-import { getDailyBudBoxType } from "../ui/chests/BudBox";
+import { getDailyBudBoxType } from "features/game/lib/budBox";
 import { getDayOfYear } from "lib/utils/time";
 
 const CHAPTER_BANNERS: Record<ChapterName, string | undefined> = {
