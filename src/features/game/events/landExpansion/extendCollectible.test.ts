@@ -8,6 +8,7 @@ import {
   type TotemName,
 } from "features/game/lib/collectibleBuilt";
 import {
+  computeReadyAt,
   getCropPlotBoostWindows,
   getMergedTotemWindows,
 } from "features/game/lib/boostWindows";
@@ -375,6 +376,105 @@ describe("extendCollectible", () => {
           "Super Totem",
         ),
       ).toThrow("Insufficient ingredient: Super Totem");
+    });
+
+    describe("Basic Scarecrow AOE cache", () => {
+      const base = 10 * 60 * 1000;
+
+      /**
+       * A Time Warp Totem with one minute left and a crop that needs ten: the
+       * pre-extension window only covers the first sliver of the grow, so
+       * lengthening it moves the crop's derived readyAt earlier - exactly the
+       * case where a stale AOE cell would deny the replant its boost.
+       */
+      const aoeFarm = ({
+        placedAt,
+        superSpares = 0,
+        warpSpares = 0,
+      }: {
+        placedAt: number;
+        superSpares?: number;
+        warpSpares?: number;
+      }): GameState => {
+        const state = {
+          ...TEST_FARM,
+          inventory: {
+            ...TEST_FARM.inventory,
+            "Time Warp Totem": new Decimal(1 + warpSpares),
+            "Super Totem": new Decimal(superSpares),
+          },
+          collectibles: {
+            "Time Warp Totem": [
+              { id: "1", coordinates: { x: 5, y: 5 }, createdAt: placedAt },
+            ],
+            "Basic Scarecrow": [
+              { id: "s", coordinates: { x: 0, y: 0 }, createdAt: now },
+            ],
+          },
+          crops: {
+            "1": {
+              createdAt: now,
+              x: 1,
+              y: 0,
+              crop: {
+                name: "Sunflower" as const,
+                plantedAt: now,
+                baseDurationMs: base,
+              },
+            },
+          },
+        };
+
+        return {
+          ...state,
+          // Seed the cache with the PRE-extension ready time, as planting would.
+          aoe: {
+            "Basic Scarecrow": {
+              1: {
+                0: computeReadyAt({
+                  startedAt: now,
+                  baseDurationMs: base,
+                  windows: getCropPlotBoostWindows(state),
+                }),
+              },
+            },
+          },
+        };
+      };
+
+      it("re-syncs the cache when a top-up lengthens a live window", () => {
+        const placedAt = now - FOUR_HOURS + 60 * 1000;
+        const farm = aoeFarm({ placedAt, warpSpares: 1 });
+        const stale = farm.aoe["Basic Scarecrow"]![1]![0]!;
+
+        const state = extendTotem(farm, "Time Warp Totem", "Time Warp Totem");
+
+        const expected = computeReadyAt({
+          startedAt: now,
+          baseDurationMs: base,
+          windows: getCropPlotBoostWindows(state),
+        });
+        // The longer window covers the whole grow, so the crop finishes sooner...
+        expect(expected).toBeLessThan(stale);
+        // ...and the cache must follow it, or replanting in the gap is denied.
+        expect(state.aoe["Basic Scarecrow"]![1]![0]).toBe(expected);
+      });
+
+      it("re-syncs the cache when a promotion lengthens a live window", () => {
+        const placedAt = now - FOUR_HOURS + 60 * 1000;
+        const farm = aoeFarm({ placedAt, superSpares: 1 });
+        const stale = farm.aoe["Basic Scarecrow"]![1]![0]!;
+
+        const state = extendTotem(farm, "Time Warp Totem", "Super Totem");
+
+        const expected = computeReadyAt({
+          startedAt: now,
+          baseDurationMs: base,
+          windows: getCropPlotBoostWindows(state),
+        });
+        expect(expected).toBeLessThan(stale);
+        expect(state.aoe["Basic Scarecrow"]![1]![0]).toBe(expected);
+      });
     });
 
     it("cannot pay for an hourglass with a totem", () => {

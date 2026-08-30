@@ -17,6 +17,7 @@ import {
   getExtensionResult,
 } from "features/game/lib/collectibleExtension";
 import { appendBoostHistory } from "features/game/lib/boostWindows";
+import { refreshBasicScarecrowTimeAOE } from "features/game/lib/aoe";
 
 export type ExtendCollectibleAction = {
   type: "collectible.extended";
@@ -186,6 +187,10 @@ export function extendCollectible({
     if (!isPromotion) {
       collectibleToExtend.extendedMs = extendedMs;
 
+      // The longer window can pull windowed crops' derived readyAt earlier, so
+      // any Basic Scarecrow AOE timestamps need to be re-synced.
+      refreshBasicScarecrowTimeAOE(game);
+
       return game;
     }
 
@@ -207,6 +212,10 @@ export function extendCollectible({
       ...(getGroup(result) ?? []),
       { ...collectibleToExtend, extendedMs },
     ]);
+
+    // The longer window can pull windowed crops' derived readyAt earlier, so
+    // any Basic Scarecrow AOE timestamps need to be re-synced.
+    refreshBasicScarecrowTimeAOE(game);
 
     return game;
   });

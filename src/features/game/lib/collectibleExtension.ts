@@ -1,19 +1,14 @@
 import Decimal from "decimal.js-light";
 import type { InventoryItemName } from "features/game/types/game";
 import type { GameState } from "features/game/types/game";
-import { getKeys } from "lib/object";
 import { PET_SHOP_ITEMS } from "features/game/types/petShop";
 import {
-  EXPIRY_COOLDOWNS,
   getExpiryCooldown,
   getPlacementGroup,
   isTotem,
   type TemporaryCollectibleName,
 } from "./collectibleBuilt";
 import { isInventoryRenewableCollectible } from "./renewableCollectibles";
-
-/** Every temporary collectible can be topped up while it is still running. */
-export const EXTENDABLE_COLLECTIBLES = getKeys(EXPIRY_COOLDOWNS);
 
 /**
  * Which items may be spent to extend this collectible.
