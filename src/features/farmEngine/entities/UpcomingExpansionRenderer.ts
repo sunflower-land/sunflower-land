@@ -21,6 +21,7 @@ import { getKeys } from "lib/object";
 import { formatNumber } from "lib/utils/formatNumber";
 import { translate } from "lib/i18n/translate";
 import { queueImage, runLoader } from "../core/assets";
+import { nativeScale } from "../core/pixelArt";
 import { queueArt, resolveArtObject } from "../core/animated";
 import { makeClickable } from "../core/clickable";
 import { ProgressBarSprite } from "../components/ProgressBarSprite";
@@ -174,7 +175,7 @@ export class UpcomingExpansionRenderer extends EntityRenderer<Slice> {
       .setPosition(block.x - 10, block.y + 20)
       .setOrigin(0, 0)
       .setDepth(DEPTHS.WATER_DECOR);
-    pontoon.setScale(129 / pontoon.width);
+    nativeScale(pontoon, 129);
     makeClickable(this.scene, pontoon, () =>
       this.bridge.farmModal.open("pontoon"),
     );
@@ -224,20 +225,20 @@ export class UpcomingExpansionRenderer extends EntityRenderer<Slice> {
       .image(block.x + 18, blockBottom - 12, SUNNYSIDE.land.landComplete)
       .setOrigin(0, 1)
       .setDepth(DEPTHS.WATER_DECOR);
-    land.setScale(66 / land.width);
+    nativeScale(land, 66);
     makeClickable(this.scene, land, () => this.onReveal(slice));
 
     const disc = this.scene.add
       .image(block.x + 42, blockBottom - 36, SUNNYSIDE.icons.disc)
       .setOrigin(0, 1)
       .setDepth(DEPTHS.WATER_DECOR);
-    disc.setScale(20 / disc.width);
+    nativeScale(disc, 20);
 
     const confirm = this.scene.add
       .image(block.x + 42 + 4, blockBottom - 36 - 5, SUNNYSIDE.icons.confirm)
       .setOrigin(0, 1)
       .setDepth(DEPTHS.WATER_DECOR);
-    confirm.setScale(12 / confirm.width);
+    nativeScale(confirm, 12);
 
     this.tweens.push(
       this.scene.tweens.add({
@@ -280,7 +281,7 @@ export class UpcomingExpansionRenderer extends EntityRenderer<Slice> {
       )
       .setOrigin(0.5, 0.5)
       .setDepth(DEPTHS.WATER_DECOR);
-    icon.setScale(18 / icon.width);
+    nativeScale(icon, 18);
     makeClickable(this.scene, icon, () =>
       this.bridge.farmModal.open("expansionRequirements"),
     );

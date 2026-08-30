@@ -1,6 +1,10 @@
 import type { MachineInterpreter } from "features/game/lib/gameMachine";
 import type { MachineInterpreter as LandscapingInterpreter } from "features/game/expansion/placeable/landscapingMachine";
-import type { InventoryItemName, Reward } from "features/game/types/game";
+import type {
+  InventoryItemName,
+  Reward,
+  AnimalBounty,
+} from "features/game/types/game";
 import type { GlobalModal } from "features/game/components/modal/ModalProvider";
 import {
   subscribeSelector,
@@ -90,6 +94,12 @@ export type FarmModalName =
   | "fishingChallenge"
   | "bedFarmhand"
   | "projectComplete"
+  | "renewWeather"
+  | "bumpkinPainting"
+  | "animalDetails"
+  | "animalLocked"
+  | "mutantAnimal"
+  | "greenhouseOil"
   // Characters (Phase 7)
   | "bumpkinPlayer"
   | "farmHandEquip"
@@ -99,6 +109,32 @@ export type FarmModalName =
   | "farmHelped";
 
 export type FarmModalRequest = { name: FarmModalName; data?: unknown };
+
+/**
+ * Pixel-perfect nudging for the selected placement [MovableComponent's
+ * pixel-perfect disc + arrows]. The controller owns the state and the commit;
+ * this is the handle the React disc row drives it through.
+ */
+export type LandscapingControls = {
+  pixelPerfect: boolean;
+  togglePixelPerfect(): void;
+  /** One source pixel per press; the controller clamps to the DOM's +/-8. */
+  nudge(dx: number, dy: number): void;
+  /** False once an axis is maxed, so the UI hides that arrow like the DOM. */
+  canNudge: { up: boolean; down: boolean; left: boolean; right: boolean };
+};
+
+/** [worker/BumpkinWorker.ts] the bumpkin's selection + job queue. */
+export type WorkerState = {
+  active: boolean;
+  jobs: string[];
+  busy: boolean;
+};
+
+export type AnimalDealState = {
+  deal: AnimalBounty;
+  selectedId?: string;
+} | null;
 
 export type FarmModalBridge = {
   open(modal: FarmModalName, data?: unknown): void;
@@ -235,6 +271,27 @@ export interface GameBridge {
   /** Chest-reward handoff: Phaser click -> React chest/captcha -> back. */
   chestReward: ValueStore<PendingChestReward>;
   /**
+   * Animal-bounty exchange mode [BarnInside.tsx `deal`]: React (the shop
+   * modal's sell tab) sets the deal; Phaser dims invalid animals and reports
+   * the clicked one back via `selectedId`; React shows the AnimalDeal modal.
+   */
+  animalDeal: ValueStore<AnimalDealState>;
+  /**
+   * The placement being moved in landscaping. Renderers hide their copy of it
+   * so the drag preview is the only one on screen — otherwise the original
+   * (and anything anchored to it, like a building's NPC) lingers behind.
+   */
+  landscapingMoving: ValueStore<{ id: string; name: string } | null>;
+  /** Present while a placement is selected in landscaping. */
+  landscapingControls: ValueStore<LandscapingControls | null>;
+  /**
+   * EXPERIMENT [worker/BumpkinWorker.ts]: the bumpkin job queue. Null when
+   * the bumpkin has never been selected.
+   */
+  worker: ValueStore<WorkerState | null>;
+  /** Set by the scene so the React readout can end job mode. */
+  workerStop: () => void;
+  /**
    * Select an inventory item (GameProvider's shortcutItem) — resources
    * auto-select their tool on strike, exactly like the DOM components.
    */
@@ -353,6 +410,14 @@ export function createGameBridge({
 
     hover: createValueStore<HoveredEntity>(null),
     quickSelect: createValueStore<QuickSelectRequest>(null),
+    animalDeal: createValueStore<AnimalDealState>(null),
+    landscapingMoving: createValueStore<{ id: string; name: string } | null>(
+      null,
+    ),
+    landscapingControls: createValueStore<LandscapingControls | null>(null),
+    worker: createValueStore<WorkerState | null>(null),
+    // Replaced by the scene's worker when the farm surface mounts.
+    workerStop: () => undefined,
     sftPopover: createValueStore<SftPopoverRequest>(null),
     overlapMenu: createValueStore<OverlapMenuRequest>(null),
     onGameEvent: (listener) => {

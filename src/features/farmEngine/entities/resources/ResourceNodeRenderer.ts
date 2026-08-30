@@ -7,6 +7,7 @@ import {
   type LandBiomeName,
 } from "features/island/biomes/biomes";
 import { runLoader } from "../../core/assets";
+import { nativeScale } from "../../core/pixelArt";
 import { makeClickable } from "../../core/clickable";
 import { gridToWorld } from "../../core/coordinates";
 import { DEPTHS } from "../../core/depths";
@@ -232,7 +233,7 @@ export abstract class ResourceNodeRenderer<
         .setOrigin(1, 1)
         .setDepth(DEPTHS.ENTITY_BASE + box.y + 3)
         .setAlpha(0);
-      icon.setScale(9 / icon.height);
+      nativeScale(icon);
       this.scene.tweens.add({
         targets: icon,
         alpha: 1,

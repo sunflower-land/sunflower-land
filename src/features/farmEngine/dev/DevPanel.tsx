@@ -26,6 +26,46 @@ const write = (key: string, value: string) => {
   window.location.reload();
 };
 
+/**
+ * Farm layout presets [landLayouts.ts]. Each bundles its own land size, so
+ * choosing one clears the manual Land override to avoid a confusing mix.
+ */
+const LayoutSelect: React.FC = () => (
+  <label className="flex items-center gap-1">
+    <span>{"Layout"}</span>
+    <select
+      className="text-black text-xs"
+      value={read("phaserFarm.dev.layout")}
+      onChange={(event) => {
+        const value = event.target.value;
+        try {
+          if (value) {
+            localStorage.setItem("phaserFarm.dev.layout", value);
+            // The preset owns the land size and the stress carpet.
+            localStorage.removeItem("phaserFarm.dev.expansions");
+            if (value === "stress") {
+              localStorage.setItem("phaserFarm.dev.stress", "1");
+            } else {
+              localStorage.removeItem("phaserFarm.dev.stress");
+            }
+          } else {
+            localStorage.removeItem("phaserFarm.dev.layout");
+            localStorage.removeItem("phaserFarm.dev.stress");
+          }
+        } catch {
+          // best-effort dev tooling
+        }
+        window.location.reload();
+      }}
+    >
+      <option value="">{"(fixture)"}</option>
+      <option value="basic">{"basic \u2022 9 land"}</option>
+      <option value="everything">{"everything \u2022 42 land"}</option>
+      <option value="stress">{"stress \u2022 42 land"}</option>
+    </select>
+  </label>
+);
+
 const Select: React.FC<{
   label: string;
   storageKey: string;
@@ -108,6 +148,7 @@ export const DevPanel: React.FC = () => (
           storageKey="phaserFarm.dev.season"
           options={["spring", "summer", "autumn", "winter"]}
         />
+        <LayoutSelect />
         <Select
           label="Land"
           storageKey="phaserFarm.dev.expansions"

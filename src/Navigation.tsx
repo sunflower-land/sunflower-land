@@ -32,6 +32,7 @@ import { ChapterDashboard } from "features/chapterDashboard/ChapterDashboard";
 import { EconomyHub } from "features/economyHub/EconomyHub";
 import { GameWrapper } from "features/game/expansion/Game";
 import { Interior } from "features/interior/Interior";
+import { PhaserInteriorRoute } from "features/farmEngine/FarmPhaser";
 import { LevelOne } from "features/interior/LevelOne";
 import { ModalProvider } from "features/game/components/modal/ModalProvider";
 import { FeedProvider } from "features/social/FeedContext";
@@ -257,7 +258,10 @@ export const Navigation: React.FC = () => {
                                   path="/interior"
                                   element={
                                     <GameWrapper>
-                                      <Interior />
+                                      <PhaserInteriorRoute
+                                        floor="interior"
+                                        fallback={<Interior />}
+                                      />
                                     </GameWrapper>
                                   }
                                 />
@@ -265,7 +269,10 @@ export const Navigation: React.FC = () => {
                                   path="/level_one"
                                   element={
                                     <GameWrapper>
-                                      <LevelOne />
+                                      <PhaserInteriorRoute
+                                        floor="level_one"
+                                        fallback={<LevelOne />}
+                                      />
                                     </GameWrapper>
                                   }
                                 />

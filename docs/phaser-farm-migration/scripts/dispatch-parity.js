@@ -114,7 +114,8 @@ const normalise = (event) => {
     () => window.__farmGame?.input?.enabled,
   );
   console.log("canvas input enabled:", inputEnabled);
-  await page.screenshot({ path: __dirname + "/dispatch-parity-precheck.png" });
+  // Debug shot goes to the OS temp dir so it never lands in the repo.
+  await page.screenshot({ path: require("os").tmpdir() + "/dispatch-parity-precheck.png" });
 
   // Install the recorder.
   await page.evaluate(() => {

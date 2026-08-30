@@ -18,6 +18,7 @@ import { getPeteHint } from "features/game/expansion/components/TravelTeaser";
 import { BONUSES } from "features/game/types/bonuses";
 import { NPC_WEARABLES } from "lib/npcs";
 import { runLoader } from "../core/assets";
+import { nativeScale } from "../core/pixelArt";
 import { queueArt, resolveArtObject } from "../core/animated";
 import { makeClickable } from "../core/clickable";
 import { getGameboardWorldBounds, gridToWorld } from "../core/coordinates";
@@ -144,6 +145,7 @@ export class BoatsLayer extends EntityRenderer<Slice> {
       flipX: true,
       depth: DEPTHS.WATER_DECOR,
       onClick: open,
+      shadowAboveScenery: true,
     });
     void npc.create();
 
@@ -202,15 +204,15 @@ export class BoatsLayer extends EntityRenderer<Slice> {
     );
 
     const hull = this.scene.add.image(0, 0, discordBoat).setOrigin(0, 0);
-    hull.setScale(104 / hull.width);
+    nativeScale(hull, 104);
     const chat = this.scene.add
       .image(78, -4, SUNNYSIDE.icons.expression_chat)
       .setOrigin(0, 0);
-    chat.setScale(10 / chat.width);
+    nativeScale(chat, 10);
     const chest = this.scene.add
       .image(43, -6, SUNNYSIDE.decorations.treasure_chest)
       .setOrigin(0, 0);
-    chest.setScale(16 / chest.width);
+    nativeScale(chest, 16);
     container.add([hull, chat, chest]);
 
     const npc = new NPCSprite(this.scene, {
@@ -219,6 +221,7 @@ export class BoatsLayer extends EntityRenderer<Slice> {
       y: 3,
       depth: DEPTHS.WATER_DECOR,
       container,
+      shadowAboveScenery: true,
     });
     void npc.create();
 
@@ -267,6 +270,7 @@ export class BoatsLayer extends EntityRenderer<Slice> {
       flipX: true,
       depth: DEPTHS.WATER_DECOR,
       onClick: open,
+      shadowAboveScenery: true,
     });
     void npc.create();
 
@@ -324,7 +328,7 @@ export class BoatsLayer extends EntityRenderer<Slice> {
       .setOrigin(0, 0)
       .setDepth(DEPTHS.WATER_DECOR)
       .setFlipX(!!options.flipX);
-    image.setScale(widthSourcePx / image.width);
+    nativeScale(image, widthSourcePx);
     if (options.onClick) {
       makeClickable(this.scene, image, options.onClick);
     }

@@ -2,6 +2,8 @@ import type Phaser from "phaser";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type { GameState, IslandType } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { playerModalManager } from "features/social/lib/playerModalManager";
 import {
   getAscensionLevel,
   meetsLevelRequirement,
@@ -37,6 +39,14 @@ type Slice = {
   /** [PlayerNPC.tsx _showHelper] first Rhubarb Tart / Pumpkin Soup nudge. */
   showBumpkinHelper: boolean;
 };
+
+/**
+ * [PlacedBumpkin.tsx] the main bumpkin renders through PlayerNPC inside a
+ * `top: -24px` wrapper that the farm hands don't have; after the surrounding
+ * flow compensates, the net effect measured against the DOM is the bumpkin
+ * sitting 2 CSS px (0.76 source px) LOWER than a farm hand on the same row.
+ */
+const BUMPKIN_Y_NUDGE = 2 / PIXEL_SCALE;
 
 /** [HomeBumpkins.tsx] unplaced-slot capacity per island. */
 const BACKYARD_CAPACITY: Record<IslandType, number> = {
@@ -109,17 +119,23 @@ export class PlayerRenderer extends EntityRenderer<Slice> {
     >();
 
     const bumpkin = slice.bumpkin;
-    if (bumpkin?.coordinates && bumpkin.location !== "home") {
+    const onThisSurface = (location?: string) =>
+      this.scene.location === "farm"
+        ? location !== "home"
+        : location === this.scene.location;
+
+    if (bumpkin?.coordinates && onThisSurface(bumpkin.location)) {
+      const bumpkinWorld = gridToWorld(bumpkin.coordinates);
       wanted.set("bumpkin", {
         parts: bumpkin.equipped,
-        world: gridToWorld(bumpkin.coordinates),
+        world: { x: bumpkinWorld.x, y: bumpkinWorld.y + BUMPKIN_Y_NUDGE },
         flipped: !!bumpkin.flipped,
         helper: slice.showBumpkinHelper,
-        onClick: () => this.bridge.farmModal.open("bumpkinPlayer"),
+        onClick: () => this.onBumpkinClick(),
       });
     }
     for (const [id, hand] of Object.entries(slice.farmHands.bumpkins ?? {})) {
-      if (!hand.coordinates || hand.location === "home") continue;
+      if (!hand.coordinates || !onThisSurface(hand.location)) continue;
       wanted.set(`hand#${id}`, {
         parts: hand.equipped,
         world: gridToWorld(hand.coordinates),
@@ -131,11 +147,16 @@ export class PlayerRenderer extends EntityRenderer<Slice> {
     // [HomeBumpkins.tsx] the unplaced bumpkin + farm hands lined up in front
     // of the home building (16px slots + mr-1 gap, row bottom `bottomUp`
     // above the box bottom; capacity-capped per island).
-    const homeName = (
-      Object.keys(HOME_EXTRA_OFFSETS) as (keyof typeof HOME_EXTRA_OFFSETS)[]
-    ).find((name) =>
-      (slice.buildings[name] ?? []).some((item) => item.coordinates),
-    );
+    const homeName =
+      this.scene.location !== "farm"
+        ? undefined
+        : (
+            Object.keys(
+              HOME_EXTRA_OFFSETS,
+            ) as (keyof typeof HOME_EXTRA_OFFSETS)[]
+          ).find((name) =>
+            (slice.buildings[name] ?? []).some((item) => item.coordinates),
+          );
     if (homeName) {
       const item = (slice.buildings[homeName] ?? []).find(
         (placed) => placed.coordinates,
@@ -203,13 +224,21 @@ export class PlayerRenderer extends EntityRenderer<Slice> {
         depth: DEPTHS.ENTITY_BASE + world.y,
       });
       void sprite.create();
-      // [NPCPlaceable] 16-wide box, bumpkin standing above the tile.
+      // [NPCPlaceable] 16-wide box. The composed sprite's visible body runs
+      // from ~16px above the box down to ~16px below it (the 64px service
+      // frame is centred at y+16), so the zone spans the full figure — a
+      // 32-tall zone left the legs/feet dead to clicks.
       const zone = this.scene.add
-        .zone(world.x, world.y - 16, 16, 32)
+        .zone(world.x, world.y - 16, 16, 48)
         .setOrigin(0, 0)
         .setDepth(DEPTHS.ENTITY_BASE + world.y);
       makeClickable(this.scene, zone, config.onClick);
       const entry: Entry = { sprite, zone, signature };
+      // The worker experiment drives the main bumpkin around the farm.
+      if (key === "bumpkin") {
+        (this.scene as unknown as { mainBumpkin?: NPCSprite }).mainBumpkin =
+          sprite;
+      }
       // [PlayerNPC.tsx showHelper] pulsating click icon (18px, right -8,
       // top 20 of the NPC box).
       if (config.helper) {
@@ -239,6 +268,39 @@ export class PlayerRenderer extends EntityRenderer<Slice> {
       }
       this.entries.set(key, entry);
     }
+  }
+
+  /**
+   * [PlayerNPC.tsx handleClick] on your own farm the bumpkin opens the feed
+   * modal; while visiting it opens the visited player's social profile
+   * through the global playerModalManager.
+   */
+  private onBumpkinClick() {
+    // EXPERIMENT: on your own farm the bumpkin is a worker you can select and
+    // give jobs to; the profile modal stays one click away while visiting.
+    const worker = (this.scene as unknown as { worker?: { toggle(): void } })
+      .worker;
+    if (
+      worker &&
+      this.bridge.select((s) => s.context.visitorId) === undefined
+    ) {
+      worker.toggle();
+      return;
+    }
+    const machine = this.bridge.select((state) => state);
+    if (machine.context.visitorId === undefined) {
+      this.bridge.farmModal.open("bumpkinPlayer");
+      return;
+    }
+    const game = machine.context.state;
+    playerModalManager.open({
+      farmId: machine.context.farmId,
+      username: game.username ?? "",
+      clothing: game.bumpkin?.equipped,
+      experience: game.bumpkin?.experience ?? 0,
+      ascensionLevel: game.island.ascensionLevel ?? 0,
+      faction: game.faction?.name,
+    });
   }
 
   protected onDestroy() {

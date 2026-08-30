@@ -90,19 +90,25 @@ export function applyArt(
   const art = image ?? scene.add.image(0, 0, spec.texture).setOrigin(0, 0);
   art.setTexture(spec.texture);
 
-  const scale = spec.width !== undefined ? spec.width / art.width : 1;
-  art.setScale(
-    scale,
-    spec.height !== undefined ? spec.height / art.height : scale,
-  );
+  // Pixel-art rule [core/pixelArt.ts]: resource art draws at its native size
+  // so one art pixel is one world pixel. `spec.width`/`spec.height` are the
+  // DOM's display sizes, several of which no longer match the art they point
+  // at; they are kept only to place the sprite where the DOM put it.
+  const nativeW = art.frame?.width ?? art.width;
+  const nativeH = art.frame?.height ?? art.height;
+  art.setScale(1);
 
-  const { x, y } = resolvePosition(
-    box,
-    spec,
-    art.displayWidth,
-    art.displayHeight,
-  );
-  art.setPosition(x, y);
+  const intendedW = spec.width ?? nativeW;
+  // Height follows the width's aspect unless the spec pins it, matching the
+  // DOM's `width: Npx` with height:auto.
+  const intendedH =
+    spec.height ??
+    (spec.width !== undefined ? nativeH * (spec.width / nativeW) : nativeH);
+
+  const { x, y } = resolvePosition(box, spec, intendedW, intendedH);
+  // Keep the art's centre-x and its BOTTOM edge where the DOM had them, so a
+  // sprite that is now its true size still stands on the same ground line.
+  art.setPosition(x + (intendedW - nativeW) / 2, y + (intendedH - nativeH));
   art.setDepth(depth);
   art.setAlpha(spec.alpha ?? 1);
   return art;

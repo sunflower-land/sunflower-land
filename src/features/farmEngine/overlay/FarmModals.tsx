@@ -14,6 +14,20 @@ import { SaltSculptureModal } from "features/island/collectibles/components/Salt
 import { RevealModals } from "./RevealModals";
 import { WeatherPlotModal } from "./WeatherPlotModal";
 import { RenewPetShrine } from "features/game/components/RenewPetShrine";
+import { BumpkinPainting } from "features/home/components/BumpkinPainting";
+import { SleepingAnimalModal } from "features/barn/components/SleepingAnimalModal";
+import { OuterPanel } from "components/ui/Panel";
+import { GreenhouseOilModal } from "features/greenhouse/GreenhouseOilModal";
+import { LockedAnimalModal } from "features/barn/components/LockedAnimalModal";
+import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
+import type { MutantAnimal } from "features/game/types/game";
+import { PlayerModal } from "features/social/PlayerModal";
+import { Discovery } from "features/social/Discovery";
+import { Context as AuthContext } from "features/auth/lib/Provider";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
+import { hasFeatureAccess } from "lib/flags";
+import { RenewWeatherCollectible } from "features/game/components/RenewWeatherCollectible";
+import type { WeatherShopItem } from "features/game/types/calendar";
 import { RemoveKuebikoModal } from "features/island/collectibles/RemoveKuebikoModal";
 import { FishermanPuzzle } from "features/island/fisherman/FishingPuzzle";
 import { BedContent } from "features/island/collectibles/components/Bed";
@@ -166,6 +180,36 @@ const FishingChallengeHost: React.FC<{
         />
       </Panel>
     </Modal>
+  );
+};
+
+/** [PlayerNPC.tsx] PlayerModal + Discovery, wired to auth + airdrop access. */
+const PlayerModalHost: React.FC = () => {
+  const { gameService } = useContext(Context);
+  const { authService } = useContext(AuthContext);
+  const token = useSelector(
+    authService,
+    (state: AuthMachineState) => state.context.user.rawToken ?? "",
+  );
+  const loggedInFarmId = useSelector(
+    gameService,
+    (state: MachineState) => state.context.visitorId ?? state.context.farmId,
+  );
+  const hasAirdropAccess = useSelector(gameService, (state: MachineState) =>
+    hasFeatureAccess(
+      state.context.visitorState ?? state.context.state,
+      "AIRDROP_PLAYER",
+    ),
+  );
+  return (
+    <>
+      <PlayerModal
+        loggedInFarmId={loggedInFarmId}
+        token={token}
+        hasAirdropAccess={hasAirdropAccess}
+      />
+      <Discovery />
+    </>
   );
 };
 
@@ -603,6 +647,88 @@ export const FarmModals: React.FC<{
             }
           }
           onClose={close}
+        />
+      )}
+
+      {/* [Home.tsx] the bumpkin painting on the interior wall */}
+      <Modal show={open?.name === "bumpkinPainting"} onHide={close}>
+        {open?.name === "bumpkinPainting" && state.bumpkin && (
+          <BumpkinPainting bumpkin={state.bumpkin} onClose={close} />
+        )}
+      </Modal>
+
+      {/* [PlayerNPC.tsx] global social singletons the DOM mounts alongside
+          the player bumpkin — the visited-player profile and Discovery. */}
+      <PlayerModalHost />
+
+      {/* [GreenhouseOil.tsx] the add-oil modal */}
+      <GreenhouseOilModal
+        show={open?.name === "greenhouseOil"}
+        onHide={close}
+      />
+
+      {/* [Cow.tsx] sleeping-animal details, opened from the animal houses */}
+      <Modal show={open?.name === "animalDetails"} onHide={close}>
+        {open?.name === "animalDetails" &&
+          (() => {
+            const { building, id } = open.data as {
+              building: "barn" | "henHouse";
+              id: string;
+            };
+            const animal = state[building].animals[id];
+            if (!animal) return null;
+            return (
+              <CloseButtonPanel container={OuterPanel} onClose={close}>
+                <SleepingAnimalModal
+                  id={id}
+                  animal={animal}
+                  awakeAt={animal.awakeAt}
+                  onClose={close}
+                />
+              </CloseButtonPanel>
+            );
+          })()}
+      </Modal>
+
+      {/* [Cow.tsx] over-capacity (locked) animal info */}
+      <Modal show={open?.name === "animalLocked"} onHide={close}>
+        {open?.name === "animalLocked" &&
+          (() => {
+            const { building, id } = open.data as {
+              building: "barn" | "henHouse";
+              id: string;
+            };
+            const animal = state[building].animals[id];
+            if (!animal) return null;
+            return (
+              <CloseButtonPanel container={OuterPanel} onClose={close}>
+                <LockedAnimalModal animal={animal} />
+              </CloseButtonPanel>
+            );
+          })()}
+      </Modal>
+
+      {/* [Cow.tsx] mutant-animal reveal before the claim */}
+      {open?.name === "mutantAnimal" && (
+        <MutantAnimalModal
+          mutant={(open.data as { mutant: MutantAnimal }).mutant}
+          show
+          onContinue={() => {
+            const { onContinue } = open.data as { onContinue?: () => void };
+            close();
+            onContinue?.();
+          }}
+        />
+      )}
+
+      {/* [WeatherProtection.tsx] renew a spent weather shield */}
+      {open?.name === "renewWeather" && (
+        <RenewWeatherCollectible
+          show
+          onHide={close}
+          name={(open.data as { name: WeatherShopItem }).name}
+          id={(open.data as { id: string }).id}
+          location="farm"
         />
       )}
 

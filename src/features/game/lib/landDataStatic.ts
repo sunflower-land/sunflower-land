@@ -3,6 +3,11 @@ import { CONFIG } from "lib/config";
 import type { GameState } from "../types/game";
 
 import { INITIAL_FARM } from "./constants";
+import {
+  applyLandLayout,
+  LAYOUT_EXPANSIONS,
+  type LandLayout,
+} from "./landLayouts";
 
 /**
  * Offline-testing QoL (ART_MODE only): several recurring popups are gated by
@@ -45,6 +50,9 @@ function applyPhaserDevOverrides(farm: GameState): GameState {
     const stress = localStorage.getItem("phaserFarm.dev.stress");
     const weather = localStorage.getItem("phaserFarm.dev.weather");
     const gifs = localStorage.getItem("phaserFarm.dev.gifs");
+    const layout = localStorage.getItem(
+      "phaserFarm.dev.layout",
+    ) as LandLayout | null;
     if (
       !island &&
       !biome &&
@@ -52,9 +60,14 @@ function applyPhaserDevOverrides(farm: GameState): GameState {
       !expansions &&
       !stress &&
       !weather &&
-      !gifs
+      !gifs &&
+      !layout
     )
       return farm;
+
+    // A layout preset repositions the fixture into non-overlapping bands and
+    // carries its own land size (see landLayouts.ts).
+    if (layout) farm = applyLandLayout(farm, layout);
 
     // Stress egg: carpet the land with ready Sunflowers to tap like crazy
     // (pair with expansions=42; StressBumpkins adds the crowd). Capped at 99
@@ -63,7 +76,7 @@ function applyPhaserDevOverrides(farm: GameState): GameState {
     let crops = farm.crops;
     let waterWell = farm.waterWell;
     let buildings = farm.buildings;
-    if (stress) {
+    if (stress || layout === "stress") {
       crops = {};
       let index = 0;
       for (let x = -5; x <= 5; x++) {
@@ -172,12 +185,18 @@ function applyPhaserDevOverrides(farm: GameState): GameState {
             },
           }
         : {}),
-      ...(expansions || stress
+      ...(expansions || stress || layout
         ? {
             inventory: {
               ...farm.inventory,
-              "Basic Land": new Decimal(Number(expansions ?? 42)),
-              ...(stress ? { "Sunflower Seed": new Decimal(10000) } : {}),
+              "Basic Land": new Decimal(
+                Number(
+                  expansions ?? (layout && LAYOUT_EXPANSIONS[layout]) ?? 42,
+                ),
+              ),
+              ...(stress || layout === "stress"
+                ? { "Sunflower Seed": new Decimal(10000) }
+                : {}),
             },
           }
         : {}),
@@ -198,18 +217,108 @@ const BASE_OFFLINE_FARM: GameState = {
   },
   bumpkin: {
     ...INITIAL_FARM.bumpkin,
-    experience: 10000,
+    // Level 60 [level.ts LEVEL_EXPERIENCE] — high enough that every building
+    // is unlocked, so nothing silently opens the "level locked" modal.
+    experience: 2_000_000,
     coordinates: { x: 0, y: 3 },
   },
   // No Rules/T&C modal on every offline reload.
   tcsAcknowledged: Date.now(),
+  // Greenhouse: oil in the machine, one growing pot, one fertilised pot.
+  greenhouse: {
+    // "greenhouse-fixture"
+    oil: 12,
+    pots: {
+      1: {
+        plant: {
+          name: "Grape",
+          plantedAt: Date.now() - 60 * 60 * 1000,
+          amount: 1,
+          baseDurationMs: 12 * 60 * 60 * 1000,
+        },
+      },
+      2: {
+        fertiliser: { name: "Greenhouse Glow", fertilisedAt: Date.now() },
+      },
+      3: {},
+      4: {},
+    },
+  },
+  // Interiors beta on, with furniture on both floors [/interior, /level_one].
+  settings: { ...INITIAL_FARM.settings, interiorsEnabled: true },
+  interior: {
+    ...INITIAL_FARM.interior,
+    ground: {
+      collectibles: {
+        "Basic Bear": [
+          {
+            id: "int-bear",
+            readyAt: 0,
+            createdAt: 0,
+            coordinates: { x: -4, y: 2 },
+          },
+        ],
+        Rug: [
+          {
+            id: "int-rug",
+            readyAt: 0,
+            createdAt: 0,
+            coordinates: { x: 0, y: 0 },
+          },
+        ],
+      },
+    },
+    expansion: "level-one-2",
+    level_one: {
+      collectibles: {
+        "Basic Bear": [
+          {
+            id: "l1-bear",
+            readyAt: 0,
+            createdAt: 0,
+            coordinates: { x: 2, y: 3 },
+          },
+        ],
+      },
+    },
+  },
   // One sick cow -> the Barn shows the stress alert next to hungry "!"
-  // (default animals all have awakeAt 0 = hungry).
+  // (default animals all have awakeAt 0 = hungry). The rest exercise the
+  // barn interaction states: ready (claim), sleeping, needsLove (love
+  // window open = a third into the sleep).
   barn: {
     ...INITIAL_FARM.barn,
     animals: {
       ...INITIAL_FARM.barn.animals,
       "0": { ...INITIAL_FARM.barn.animals["0"], state: "sick" },
+      "1": {
+        ...INITIAL_FARM.barn.animals["1"],
+        state: "ready",
+        // Past the Cow level-1 threshold (180) so displayLevel stays >= 0.
+        experience: 200,
+      },
+      "3": {
+        ...INITIAL_FARM.barn.animals["1"],
+        id: "3",
+        type: "Sheep",
+        state: "idle",
+        // A third of the sleep has passed -> the love window is open.
+        asleepAt: Date.now() - 4 * 60 * 60 * 1000,
+        awakeAt: Date.now() + 8 * 60 * 60 * 1000,
+        lovedAt: 0,
+        item: "Petting Hand",
+        experience: 40,
+      },
+      "4": {
+        ...INITIAL_FARM.barn.animals["1"],
+        id: "4",
+        type: "Sheep",
+        state: "idle",
+        asleepAt: Date.now() - 10 * 60 * 1000,
+        awakeAt: Date.now() + 8 * 60 * 60 * 1000,
+        lovedAt: Date.now() - 10 * 60 * 1000,
+        experience: 240,
+      },
     },
   },
   farmHands: {
@@ -236,6 +345,20 @@ const BASE_OFFLINE_FARM: GameState = {
       coordinates: { x: 7, y: 3 },
     },
   ],
+  petHouse: {
+    ...INITIAL_FARM.petHouse,
+    // A pet placed inside the pet house so the interior has content.
+    pets: {
+      Barkley: [
+        {
+          id: "pethouse-barkley",
+          createdAt: 0,
+          readyAt: 0,
+          coordinates: { x: 0, y: 0 },
+        },
+      ],
+    },
+  },
   pets: {
     common: {
       Barkley: {
@@ -251,6 +374,18 @@ const BASE_OFFLINE_FARM: GameState = {
     ...INITIAL_FARM.inventory,
     // A spread of foods across every Feed tab category, with a mix of
     // quantities: >10 (bulk modal + "Eat 10"), 2-10, and exactly 1.
+    // Animal feeding (barn/hen house interaction)
+    "Kernel Blend": new Decimal(50),
+    Hay: new Decimal(20),
+    NutriBarley: new Decimal(10),
+    "Mixed Grain": new Decimal(10),
+    "Barn Delight": new Decimal(5),
+    "Grape Seed": new Decimal(10),
+    "Rice Seed": new Decimal(5),
+    "Greenhouse Glow": new Decimal(5),
+    "Greenhouse Goodie": new Decimal(5),
+    "Petting Hand": new Decimal(5),
+    Brush: new Decimal(3),
     // Fire Pit
     "Mashed Potato": new Decimal(50),
     "Pumpkin Soup": new Decimal(25),
@@ -451,6 +586,31 @@ const BASE_OFFLINE_FARM: GameState = {
   // ready recipes), an under-construction Kitchen, and a running composter.
   buildings: {
     ...INITIAL_FARM.buildings,
+    // Interior surfaces need their building placed to unlock the route.
+    "Pet House": [
+      {
+        id: "pethouse-1",
+        readyAt: 0,
+        createdAt: 0,
+        coordinates: { x: -8, y: 5 },
+      },
+    ],
+    Greenhouse: [
+      {
+        id: "greenhouse-1",
+        readyAt: 0,
+        createdAt: 0,
+        coordinates: { x: 8, y: 5 },
+      },
+    ],
+    "Fish Market": [
+      {
+        id: "fishmarket-1",
+        readyAt: 0,
+        createdAt: 0,
+        coordinates: { x: -8, y: 2 },
+      },
+    ],
     // Growing pack (sprouting stage) + a ready pack -> stage sheet, ready
     // overlay and crop icon row.
     "Crop Machine": [
@@ -566,6 +726,24 @@ const BASE_OFFLINE_FARM: GameState = {
     ],
     Bush: [
       { id: "bush-1", createdAt: 0, readyAt: 0, coordinates: { x: -3, y: -1 } },
+    ],
+    // Weather shields: one spent (grey + "!" -> renew), one fresh.
+    "Tornado Pinwheel": [
+      {
+        id: "pinwheel-1",
+        createdAt: 0,
+        readyAt: 0,
+        coordinates: { x: -5, y: -1 },
+        used: true,
+      },
+    ],
+    Mangrove: [
+      {
+        id: "mangrove-1",
+        createdAt: 0,
+        readyAt: 0,
+        coordinates: { x: -4, y: -1 },
+      },
     ],
     "Genie Lamp": [
       {

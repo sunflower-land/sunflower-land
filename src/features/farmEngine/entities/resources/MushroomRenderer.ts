@@ -96,6 +96,27 @@ export class MushroomRenderer extends ResourceNodeRenderer<MushroomNode> {
   }
 
   protected onNodeClick(id: string) {
+    // EXPERIMENT [worker/BumpkinWorker.ts]: with a bumpkin selected the click
+    // queues a dig; the pick fires when they arrive.
+    const box = this.boxOf(id);
+    const queued = (
+      this.scene as unknown as {
+        worker?: { intercept(job: unknown): boolean };
+      }
+    ).worker?.intercept({
+      label: "Dig",
+      world: { x: box?.x ?? 0, y: box?.y ?? 0 },
+      anim: "dig",
+      dotAt: box ? { x: box.x + box.width / 2, y: box.y - 2 } : undefined,
+      run: () => this.pick(id),
+    });
+    if (queued) return;
+
+    this.pick(id);
+  }
+
+  /** The unchanged DOM pick path [Mushroom.tsx]. */
+  private pick(id: string) {
     const game = this.game();
     if (!game.mushrooms?.mushrooms[id]) return;
     playMushroomSound();

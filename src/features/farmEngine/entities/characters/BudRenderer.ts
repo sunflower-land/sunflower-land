@@ -40,7 +40,10 @@ export class BudRenderer extends EntityRenderer<Slice> {
     const token = this.beginSync();
     const placed = Object.entries(slice.buds ?? {}).filter(
       ([, bud]) =>
-        !!bud.coordinates && (!bud.location || bud.location === "farm"),
+        !!bud.coordinates &&
+        (this.scene.location === "farm"
+          ? !bud.location || bud.location === "farm"
+          : bud.location === this.scene.location),
     );
 
     queueImage(this.scene, shadowArt);

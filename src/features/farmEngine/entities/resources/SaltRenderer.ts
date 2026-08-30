@@ -16,6 +16,7 @@ import {
 } from "features/game/expansion/components/salt/saltNodeStage";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { queueImage, runLoader } from "../../core/assets";
+import { nativeScale } from "../../core/pixelArt";
 import { makeClickable } from "../../core/clickable";
 import { gridToWorld, WORLD_TILE } from "../../core/coordinates";
 import { DEPTHS } from "../../core/depths";
@@ -136,7 +137,7 @@ export class SaltRenderer extends EntityRenderer<Slice> {
       objects.zone.setPosition(world.x, world.y);
       objects.zone.setDepth(DEPTHS.ENTITY_BASE + world.y);
       objects.art.setTexture(getSaltNodeSprite(charges));
-      objects.art.setScale(18 / objects.art.width);
+      nativeScale(objects.art, 18);
       objects.art.setPosition(world.x, world.y);
       objects.art.setDepth(DEPTHS.ENTITY_BASE + world.y);
 
@@ -193,11 +194,11 @@ export class SaltRenderer extends EntityRenderer<Slice> {
       }
       objects.zone.setPosition(world.x, world.y);
       objects.zone.setDepth(DEPTHS.ENTITY_BASE + world.y);
-      objects.art.setScale(18 / objects.art.width);
+      nativeScale(objects.art, 18);
       objects.art.setPosition(world.x, world.y);
       objects.art.setDepth(DEPTHS.ENTITY_BASE + world.y);
       if (objects.plus) {
-        objects.plus.setScale(8 / objects.plus.width);
+        nativeScale(objects.plus, 8);
         objects.plus.setPosition(world.x + 4, world.y + 2);
         objects.plus.setDepth(DEPTHS.ENTITY_BASE + world.y + 1);
       }

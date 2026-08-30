@@ -10,6 +10,7 @@ import type { TemperateSeasonName } from "features/game/types/game";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { getIslandAnchorX } from "features/game/expansion/lib/island";
 import { queueSpritesheet, runLoader } from "../core/assets";
+import { nativeScale } from "../core/pixelArt";
 import { queueArt, resolveArtObject, type ArtObject } from "../core/animated";
 import { makeClickable } from "../core/clickable";
 import { gridToWorld } from "../core/coordinates";
@@ -251,7 +252,7 @@ export class WaterDecorLayer extends EntityRenderer<Slice> {
         .setOrigin(0, 0)
         .setDepth(DEPTHS.WATER_DECOR)
         .setFlipX(!!spec.flipX);
-      sprite.setScale(spec.width / sprite.width);
+      nativeScale(sprite, spec.width);
 
       if (spec.onClick) {
         makeClickable(this.scene, sprite, spec.onClick);

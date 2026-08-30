@@ -456,16 +456,63 @@ const GameContent: React.FC = () => {
               )
             }
           />
-          <Route path="/home" element={<Home />} />
+          <Route
+            path="/home"
+            element={
+              hasFeatureAccess(gameState.context.state, "PHASER_FARM") ? (
+                <FarmPhaser surface="home" />
+              ) : (
+                <Home />
+              )
+            }
+          />
           {hasAccess("GreenHouse") && (
-            <Route path="/greenhouse" element={<GreenhouseInside />} />
+            <Route
+              path="/greenhouse"
+              element={
+                hasFeatureAccess(gameState.context.state, "PHASER_FARM") ? (
+                  <FarmPhaser surface="greenhouse" />
+                ) : (
+                  <GreenhouseInside />
+                )
+              }
+            />
           )}
-          {hasAccess("Barn") && <Route path="/barn" element={<BarnInside />} />}
+          {hasAccess("Barn") && (
+            <Route
+              path="/barn"
+              element={
+                hasFeatureAccess(gameState.context.state, "PHASER_FARM") ? (
+                  <FarmPhaser surface="barn" />
+                ) : (
+                  <BarnInside />
+                )
+              }
+            />
+          )}
           {hasAccess("HenHouse") && (
-            <Route path="/hen-house" element={<HenHouseInside />} />
+            <Route
+              path="/hen-house"
+              element={
+                hasFeatureAccess(gameState.context.state, "PHASER_FARM") ? (
+                  <FarmPhaser surface="henHouse" />
+                ) : (
+                  <HenHouseInside />
+                )
+              }
+            />
           )}
           {hasAccess("PetHouse") && (
-            <Route path="/pet-house" element={<PetHouseInside />} />
+            <Route
+              path="/pet-house"
+              element={
+                hasFeatureAccess(gameState.context.state, "PHASER_FARM") ? (
+                  <FarmPhaser surface="petHouse" />
+                ) : (
+                  <PetHouseInside />
+                )
+              }
+            />
           )}
           <Route
             path="*"

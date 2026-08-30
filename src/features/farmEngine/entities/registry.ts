@@ -6,6 +6,10 @@ import { LandBaseLayer } from "../layers/LandBaseLayer";
 import { DirtLayer } from "../layers/DirtLayer";
 import { BackgroundIslandsLayer } from "../layers/BackgroundIslandsLayer";
 import { CloudsLayer } from "../layers/CloudsLayer";
+import { InteriorBackdropLayer } from "../layers/InteriorBackdropLayer";
+import { GreenhousePotRenderer } from "./greenhouse/GreenhousePotRenderer";
+import { GreenhouseOilRenderer } from "./greenhouse/GreenhouseOilRenderer";
+import { AnimalHouseRenderer } from "./animals/AnimalHouseRenderer";
 import { WaterDecorLayer } from "../layers/WaterDecorLayer";
 import { BoatsLayer } from "../layers/BoatsLayer";
 import { UpcomingExpansionRenderer } from "./UpcomingExpansionRenderer";
@@ -56,6 +60,47 @@ export type RendererFactory = (
  * Filled in as the port progresses (crops in Phase 2, trees/rocks in Phase 3,
  * ...).
  */
+/**
+ * Home interior [home/Home.tsx]: the room backdrop plus the placement
+ * renderers, which pick their slice from the scene's location.
+ */
+export const HOME_RENDERERS: Record<string, RendererFactory> = {
+  interiorBackdrop: (scene, bridge) => new InteriorBackdropLayer(scene, bridge),
+  collectibles: (scene, bridge) => new CollectibleRenderer(scene, bridge),
+  buds: (scene, bridge) => new BudRenderer(scene, bridge),
+  pets: (scene, bridge) => new PetRenderer(scene, bridge),
+  players: (scene, bridge) => new PlayerRenderer(scene, bridge),
+};
+
+/** [PetHouseInside.tsx] the pet house: room + placed pets (common + NFT). */
+export const PET_HOUSE_RENDERERS: Record<string, RendererFactory> = {
+  interiorBackdrop: (scene, bridge) => new InteriorBackdropLayer(scene, bridge),
+  collectibles: (scene, bridge) => new CollectibleRenderer(scene, bridge),
+  pets: (scene, bridge) => new PetRenderer(scene, bridge),
+};
+
+/** [GreenhouseInside.tsx] the greenhouse: room + its four pots. */
+export const GREENHOUSE_RENDERERS: Record<string, RendererFactory> = {
+  interiorBackdrop: (scene, bridge) => new InteriorBackdropLayer(scene, bridge),
+  pots: (scene, bridge) => new GreenhousePotRenderer(scene, bridge),
+  oil: (scene, bridge) => new GreenhouseOilRenderer(scene, bridge),
+};
+
+/** [BarnInside.tsx / HenHouseInside.tsx] the animal houses. */
+export const ANIMAL_HOUSE_RENDERERS: Record<string, RendererFactory> = {
+  interiorBackdrop: (scene, bridge) => new InteriorBackdropLayer(scene, bridge),
+  animals: (scene, bridge) => new AnimalHouseRenderer(scene, bridge),
+};
+
+/** [interior/Interior.tsx + LevelOne.tsx] the interior floors. */
+export const INTERIOR_FLOOR_RENDERERS: Record<string, RendererFactory> = {
+  interiorBackdrop: (scene, bridge) => new InteriorBackdropLayer(scene, bridge),
+  collectibles: (scene, bridge) => new CollectibleRenderer(scene, bridge),
+  buds: (scene, bridge) => new BudRenderer(scene, bridge),
+  pets: (scene, bridge) => new PetRenderer(scene, bridge),
+  players: (scene, bridge) => new PlayerRenderer(scene, bridge),
+};
+
 export const RENDERERS: Record<string, RendererFactory> = {
   ocean: (scene, bridge) => new OceanLayer(scene, bridge),
   landBase: (scene, bridge) => new LandBaseLayer(scene, bridge),

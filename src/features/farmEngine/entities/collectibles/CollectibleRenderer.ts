@@ -4,6 +4,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type { GameState, PlacedItem } from "features/game/types/game";
 import type { CollectibleName } from "features/game/types/craftables";
+import type { FarmSurface } from "../../core/surface";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import { DECORATION_TEMPLATES } from "features/game/types/decorations";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -33,6 +34,7 @@ import {
   type ArtObject,
 } from "../../core/animated";
 import { makeClickable } from "../../core/clickable";
+import { nativeScale } from "../../core/pixelArt";
 import {
   gridRectToWorld,
   WORLD_TILE,
@@ -50,6 +52,7 @@ import {
 } from "features/island/lib/alternateArt";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { canShake } from "features/island/collectibles/components/ManekiNeko";
+import type { WeatherShopItem } from "features/game/types/calendar";
 import wickerManFire from "assets/sfts/wicker_man_fire.png";
 import bombardClick from "assets/sfts/tomato_bombard_click.png";
 import bombardIdle from "assets/sfts/tomato_bombard_idle.png";
@@ -240,6 +243,34 @@ const CLICK_SHEETS: Partial<
   },
 };
 
+/** [WeatherProtection.tsx] one-shot weather shields; `used` greys them out. */
+const WEATHER_PROTECTION: WeatherShopItem[] = [
+  "Tornado Pinwheel",
+  "Mangrove",
+  "Thermal Stone",
+  "Protective Pesticide",
+];
+
+/** The collectibles map for a placement surface [Home.tsx / Interior.tsx]. */
+export const collectiblesAt = (
+  game: GameState,
+  location: FarmSurface,
+): GameState["collectibles"] => {
+  switch (location) {
+    case "home":
+      return game.home.collectibles;
+    case "interior":
+      return game.interior.ground.collectibles;
+    case "level_one":
+      return game.interior.level_one?.collectibles ?? {};
+    case "petHouse":
+      // [PetHouseInside.tsx] pets are the pet house's "collectibles".
+      return (game.petHouse?.pets ?? {}) as GameState["collectibles"];
+    default:
+      return game.collectibles;
+  }
+};
+
 export class CollectibleRenderer extends EntityRenderer<Slice> {
   private nodes = new Map<string, NodeObjects>();
   private tickMs = 0;
@@ -247,7 +278,7 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
   selector(state: MachineState): Slice {
     const game = state.context.state;
     return {
-      collectibles: game.collectibles,
+      collectibles: collectiblesAt(game, this.scene.location),
       crops: game.crops,
       island: game.island,
       season: game.season.season,
@@ -536,14 +567,16 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
     objects.shadow = undefined;
 
     if (art.tile) {
-      // Full 16×16 tile [Fence.tsx / Tiles.tsx].
+      // Full 16x16 tile [Fence.tsx / Tiles.tsx]. Tiles must tessellate, so
+      // this one genuinely is a fit-to-tile draw, not a display width.
       image.setOrigin(0, 0);
       image.setScale(WORLD_TILE / image.width);
       image.setPosition(box.x, box.y);
     } else if (spec) {
       const width = spec.width;
       image.setOrigin(0, 1);
-      image.setScale(width / image.width);
+      // Native pixels; spec.width only re-centres [core/pixelArt.ts].
+      const shift = nativeScale(image, width);
       let x: number;
       if (spec.centeredIn !== undefined) {
         x = box.x + (spec.left ?? 0) + (spec.centeredIn - width) / 2;
@@ -552,27 +585,33 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
       } else {
         x = box.x + (spec.left ?? 0);
       }
-      image.setPosition(x, box.y + box.height - (spec.bottom ?? 0));
+      image.setPosition(x + shift, box.y + box.height - (spec.bottom ?? 0));
 
       if (spec.shadow) {
         const shadow = this.scene.add
           .image(0, 0, shadowArt)
           .setOrigin(0, 1)
           .setDepth(depth - 0.5);
-        shadow.setScale(spec.shadow.width / shadow.width);
+        const shadowShift = nativeScale(shadow, spec.shadow.width);
         const sx =
           spec.shadow.right !== undefined
             ? box.x + box.width - spec.shadow.right - spec.shadow.width
             : box.x + (spec.shadow.left ?? 0);
-        shadow.setPosition(sx, box.y + box.height - (spec.shadow.bottom ?? 0));
+        shadow.setPosition(
+          sx + shadowShift,
+          box.y + box.height - (spec.shadow.bottom ?? 0),
+        );
         objects.shadow = shadow;
       }
     } else if (isPlaceableFlower(name)) {
       // [PlaceableFlower.tsx] centred in the tile, bottom 2.
       const width = flowerPixelWidth(name);
       image.setOrigin(0, 1);
-      image.setScale(width / image.width);
-      image.setPosition(box.x + (16 - width) / 2, box.y + box.height - 2);
+      const flowerShift = nativeScale(image, width);
+      image.setPosition(
+        box.x + (16 - width) / 2 + flowerShift,
+        box.y + box.height - 2,
+      );
     } else {
       // Template fallback [TemplateCollectible.tsx]: natural width, centred.
       const natural = this.scene.textures
@@ -602,6 +641,31 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
       }
     }
 
+    // [WeatherProtection.tsx] a spent shield greys out and raises the "!"
+    // that opens its renewal modal.
+    if (WEATHER_PROTECTION.includes(name as WeatherShopItem)) {
+      const spent = !!(item as { used?: boolean }).used;
+      if (spent && !objects.grayscaled) {
+        image.preFX?.addColorMatrix().grayscale(1);
+        objects.grayscaled = true;
+      } else if (!spent && objects.grayscaled) {
+        image.preFX?.clear();
+        objects.grayscaled = false;
+      }
+      const wanted = spent ? SUNNYSIDE.icons.expression_alerted : undefined;
+      if (objects.expiryIcon?.texture.key !== wanted) {
+        objects.expiryIcon?.destroy();
+        objects.expiryIcon = undefined;
+      }
+      if (wanted && !objects.expiryIcon && this.scene.textures.exists(wanted)) {
+        objects.expiryIcon = this.scene.add
+          .image(box.x + (box.width - 4) / 2, box.y - 12, wanted)
+          .setOrigin(0, 0)
+          .setDepth(depth + 1);
+        nativeScale(objects.expiryIcon, 4);
+      }
+    }
+
     // [Bed.tsx] pulsating unlock icon when this bed can host a new farmhand.
     if (name in BED_FARMHAND_COUNT) {
       const game = this.bridge.select((state) => state.context.state);
@@ -620,7 +684,7 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
           .image(box.x + (isTwoWide ? 16 : 8), box.y + box.height - 14, wanted)
           .setOrigin(0, 0)
           .setDepth(depth + 2);
-        icon.setScale(14 / icon.width);
+        nativeScale(icon, 14);
         makeClickable(this.scene, icon, () =>
           this.bridge.farmModal.open("bedFarmhand", { name }),
         );
@@ -650,7 +714,7 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
           .image(box.x + (box.width - 4) / 2, box.y - 10, wanted)
           .setOrigin(0, 0)
           .setDepth(depth + 1);
-        objects.expiryIcon.setScale(4 / objects.expiryIcon.width);
+        nativeScale(objects.expiryIcon, 4);
       }
     }
 
@@ -737,7 +801,7 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
     image.setTexture(texture);
     image.setDepth(depth);
     image.setOrigin(0, 1);
-    image.setScale(cfg.width / image.width);
+    nativeScale(image, cfg.width);
     const x =
       cfg.left !== undefined
         ? box.x + cfg.left
@@ -764,7 +828,7 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
         objects.shadow = this.scene.add.image(0, 0, shadowArt).setOrigin(0, 1);
       }
       objects.shadow.setDepth(depth - 0.5);
-      objects.shadow.setScale(12 / objects.shadow.width);
+      nativeScale(objects.shadow, 12);
       // [Hourglass.tsx] 12px centred, bottom -1.6.
       objects.shadow.setPosition(
         box.x + (box.width - 12) / 2,
@@ -791,7 +855,7 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
         .setOrigin(0, 0)
         .setDepth(depth + 1);
       if (!hasExpired && cfg.activeIcon) {
-        icon.setScale(cfg.activeIcon.width / icon.width);
+        nativeScale(icon, cfg.activeIcon.width);
         icon.setPosition(
           box.x + cfg.activeIcon.left,
           box.y + cfg.activeIcon.top,
@@ -808,7 +872,7 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
         }
       } else if (hasExpired && !hasReplacement) {
         // dig icon: 18px, right -8, top -8 of the box
-        icon.setScale(18 / icon.width);
+        nativeScale(icon, 18);
         icon.setPosition(box.x + box.width + 8 - 18, box.y - 8);
         if (this.bridge.ui.get().showAnimations) {
           objects.expiryIconTween = this.scene.tweens.add({
@@ -821,7 +885,7 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
         }
       } else {
         // "!" centred above (static — animated alerts read as jitter)
-        icon.setScale(4 / icon.width);
+        nativeScale(icon, 4);
         icon.setPosition(
           box.x + (box.width - 4) / 2,
           box.y + (cfg.alertTop ?? -12),
@@ -997,7 +1061,7 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
           .image(0, 0, shadowArt)
           .setOrigin(0, 1)
           .setDepth(depth - 0.5);
-        image.setScale(shadow.width / image.width);
+        nativeScale(image, shadow.width);
         image.setPosition(
           box.x + shadow.left,
           box.y + box.height - shadow.bottom,
@@ -1048,7 +1112,9 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
   private onCollectibleClick(name: CollectibleName, id: string) {
     const machine = this.bridge.select((state) => state);
     const game = machine.context.state;
-    const item = game.collectibles[name]?.find((placed) => placed.id === id);
+    const item = collectiblesAt(game, this.scene.location)[name]?.find(
+      (placed) => placed.id === id,
+    );
     if (!item) return;
 
     // Visiting [Monument.tsx / Project.tsx]: monuments accept help.
@@ -1155,6 +1221,16 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
     // [WickerMan.tsx / TomatoBombard.tsx] click plays the burst + popover.
     if (CLICK_SHEETS[name]) {
       this.playClickSheet(name, id);
+      this.openSftPopover(name, id);
+      return;
+    }
+
+    // [WeatherProtection.tsx] a spent shield opens its renewal modal.
+    if (WEATHER_PROTECTION.includes(name as WeatherShopItem)) {
+      if ((item as { used?: boolean }).used) {
+        this.bridge.farmModal.open("renewWeather", { name, id });
+        return;
+      }
       this.openSftPopover(name, id);
       return;
     }

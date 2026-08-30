@@ -28,7 +28,12 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import type { GameBridge } from "../bridge/GameBridge";
 import type { Unsubscribe } from "../bridge/subscriptions";
 import { runLoader } from "../core/assets";
+import { nativeScale } from "../core/pixelArt";
 import { artTexture, queueArt } from "../core/animated";
+import { readonlyResourceArt } from "./readonlyResourceArt";
+import { collectiblesAt } from "../entities/collectibles/CollectibleRenderer";
+import type { PlaceableLocation } from "features/game/types/collectibles";
+import { isPlacementSurface } from "../core/surface";
 import {
   getGameboardWorldBounds,
   gridRectToWorld,
@@ -112,6 +117,13 @@ export class LandscapingController {
     | {
         tint: Phaser.GameObjects.Rectangle;
         art?: Phaser.GameObjects.Image;
+        /** DOM offsets for the art inside the tile box [Resource.tsx]. */
+        artOffset?: {
+          left?: number;
+          right?: number;
+          top?: number;
+          bottom?: number;
+        };
         name: string;
         dragging: boolean;
         pixelPerfect: boolean;
@@ -126,6 +138,12 @@ export class LandscapingController {
         tint: Phaser.GameObjects.Rectangle;
         /** Drag-preview art following the target cell. */
         art?: Phaser.GameObjects.Image;
+        artOffset?: {
+          left?: number;
+          right?: number;
+          top?: number;
+          bottom?: number;
+        };
         /** [MovableComponent] pixel-perfect nudge mode ("p"), ±8 src px. */
         pixelPerfect: boolean;
         pixelDelta: { x: number; y: number };
@@ -308,7 +326,7 @@ export class LandscapingController {
             )
             .setAlpha(0.5)
             .setDepth(DEPTHS.ALWAYS_ON_TOP + 100.5);
-          icon.setScale(10 / icon.width);
+          nativeScale(icon, 10);
           this.aoeOverlays.push(icon);
         }
       }
@@ -350,8 +368,19 @@ export class LandscapingController {
 
   // ----- ghost -------------------------------------------------------------
 
-  private ghostArt(name: string): { texture: string; width: number } | null {
+  private ghostArt(name: string): {
+    texture: string;
+    width: number;
+    left?: number;
+    right?: number;
+    top?: number;
+    bottom?: number;
+  } | null {
     const game = this.bridge.select((state) => state.context.state);
+
+    // Resources use the DOM's READONLY art + offsets [Resource.tsx].
+    const resourceArt = readonlyResourceArt(name, game, game.season.season);
+    if (resourceArt) return resourceArt;
     const buildingArt = BUILDING_BASE_ART[name as BuildingName];
     if (buildingArt) {
       const ctx: BuildingArtContext = {
@@ -426,6 +455,12 @@ export class LandscapingController {
         .setAlpha(0.9);
       image.setScale(art.width / image.width);
       this.ghost.art = image;
+      this.ghost.artOffset = {
+        left: art.left,
+        right: art.right,
+        top: art.top,
+        bottom: art.bottom,
+      };
     }
 
     // Seed the ghost at the camera-centre grid cell [Placeable.tsx initial
@@ -458,7 +493,42 @@ export class LandscapingController {
 
     this.ghost.tint.setPosition(worldX, worldY);
     this.ghost.tint.setFillStyle(collisionDetected ? GHOST_BAD : GHOST_OK, 0.5);
-    this.ghost.art?.setPosition(worldX, worldY + dims.height * WORLD_TILE);
+    if (this.ghost.art) {
+      this.positionArt(
+        this.ghost.art,
+        {
+          x: worldX,
+          y: worldY,
+          width: dims.width * WORLD_TILE,
+          height: dims.height * WORLD_TILE,
+        },
+        this.ghost.artOffset,
+      );
+    }
+  }
+
+  /**
+   * Place bottom-left-anchored art inside a tile box using the DOM's
+   * left/right/top/bottom offsets [Resource.tsx READONLY components].
+   */
+  private positionArt(
+    image: Phaser.GameObjects.Image,
+    box: { x: number; y: number; width: number; height: number },
+    offset?: { left?: number; right?: number; top?: number; bottom?: number },
+  ) {
+    const artWidth = image.displayWidth;
+    const artHeight = image.displayHeight;
+    const x =
+      offset?.right !== undefined
+        ? box.x + box.width - offset.right - artWidth
+        : box.x + (offset?.left ?? 0);
+    // `top` measures the art's TOP down from the box top; the sprite is
+    // bottom-anchored, so convert through its height.
+    const bottomEdge =
+      offset?.top !== undefined
+        ? box.y + offset.top + artHeight
+        : box.y + box.height - (offset?.bottom ?? 0);
+    image.setPosition(x, bottomEdge);
   }
 
   // ----- input -------------------------------------------------------------
@@ -559,6 +629,22 @@ export class LandscapingController {
     };
   }
 
+  /** The surface being edited — the farm island or a home interior. */
+  private get location(): PlaceableLocation {
+    // Landscaping is only reachable on placement surfaces; the greenhouse and
+    // animal houses have fixed furniture and never enter this controller.
+    return isPlacementSurface(this.scene.location)
+      ? this.scene.location
+      : "farm";
+  }
+
+  /** Does a placement's `location` belong to the surface being edited? */
+  private onThisSurface(location?: string): boolean {
+    return this.location === "farm"
+      ? !location || location === "farm"
+      : location === this.location;
+  }
+
   /** [Placeable.tsx detect()] collision check + UPDATE, exactly the DOM's. */
   private sendUpdate(x: number, y: number) {
     const name = this.ghost?.name;
@@ -567,11 +653,9 @@ export class LandscapingController {
     const collisionDetected = detectCollision({
       state: this.bridge.select((state) => state.context.state),
       position: { x, y, width: dims.width, height: dims.height },
-      location: "farm",
+      location: this.location,
       name: name as CollectibleName,
     });
-    // eslint-disable-next-line no-console
-    console.log("LSDBG update", x, y, "collide:", collisionDetected);
     this.bridge.landscaping.send({
       type: "UPDATE",
       coordinates: { x, y },
@@ -610,7 +694,9 @@ export class LandscapingController {
         ),
       );
     }
-    for (const [name, items] of Object.entries(game.collectibles)) {
+    for (const [name, items] of Object.entries(
+      collectiblesAt(game, this.location),
+    )) {
       if (name === "Dirt Path") {
         (items ?? []).forEach((item) =>
           push("Dirt Path", item.id, item.coordinates, { width: 1, height: 1 }),
@@ -626,7 +712,8 @@ export class LandscapingController {
         ),
       );
     }
-    // Resources: flat id -> {x,y} maps, tier name on the node when present.
+    // Resources only exist on the farm island; interiors are collectibles,
+    // buds, pets and bumpkins only.
     const resourceMaps: [
       string,
       Record<string, { x?: number; y?: number; name?: string }>,
@@ -645,7 +732,9 @@ export class LandscapingController {
       ["Flower Bed", game.flowers.flowerBeds],
       ["Ascension Crystal", game.ascensionCrystals ?? {}],
     ];
-    for (const [fallbackName, map] of resourceMaps) {
+    for (const [fallbackName, map] of this.location === "farm"
+      ? resourceMaps
+      : []) {
       for (const [id, node] of Object.entries(map ?? {})) {
         if (node?.x === undefined || node?.y === undefined) continue;
         const name = (node.name ?? fallbackName) as LandscapingPlaceable;
@@ -662,21 +751,24 @@ export class LandscapingController {
       }
     }
     for (const [id, bud] of Object.entries(game.buds ?? {})) {
-      if (!bud.location || bud.location === "farm") {
+      if (this.onThisSurface(bud.location)) {
         push("Bud", id, bud.coordinates, { width: 1, height: 1 });
       }
     }
     for (const [id, pet] of Object.entries(game.pets?.nfts ?? {})) {
-      if (!pet.location || pet.location === "farm") {
+      if (this.onThisSurface(pet.location)) {
         push("Pet", id, pet.coordinates, { width: 2, height: 2 });
       }
     }
     for (const [id, hand] of Object.entries(game.farmHands.bumpkins ?? {})) {
-      if (hand.location !== "home") {
+      if (this.onThisSurface(hand.location)) {
         push("FarmHand", id, hand.coordinates, { width: 1, height: 1 });
       }
     }
-    if (game.bumpkin?.coordinates && game.bumpkin.location !== "home") {
+    if (
+      game.bumpkin?.coordinates &&
+      this.onThisSurface(game.bumpkin.location)
+    ) {
       push("Bumpkin", "main", game.bumpkin.coordinates, {
         width: 1,
         height: 1,
@@ -744,7 +836,12 @@ export class LandscapingController {
       const collectible = game.collectibles[hit.name as CollectibleName]?.find(
         (item) => item.id === hit.id,
       );
-      const action = getRemoveAction(hit.name, Date.now(), collectible, "farm");
+      const action = getRemoveAction(
+        hit.name,
+        Date.now(),
+        collectible,
+        this.location,
+      );
       if (!action) return;
       // [MovableComponent] Kuebiko / Hungry Caterpillar removals carry a
       // gameplay side-effect warning — confirm via modal first.
@@ -761,7 +858,7 @@ export class LandscapingController {
         event: action,
         id: hit.id,
         name: hit.name,
-        location: "farm",
+        location: this.location,
       });
       return;
     }
@@ -825,19 +922,40 @@ export class LandscapingController {
       colliding: false,
     };
     this.bridge.anchors.setAnchor(SELECTION_ANCHOR, box);
+    this.bridge.landscapingMoving.set({
+      id: placement.id,
+      name: placement.name,
+    });
+    this.publishControls();
 
     // Drag-preview art so the move shows the item, not just the tint
     // (ITEM_DETAILS approximation, like the placement ghost).
     const artSpec = this.ghostArt(placement.name);
     const previewTexture = artSpec && artTexture(artSpec.texture);
-    if (previewTexture && this.scene.textures.exists(previewTexture)) {
+    if (
+      artSpec &&
+      previewTexture &&
+      this.scene.textures.exists(previewTexture)
+    ) {
       const image = this.scene.add
         .image(box.x, box.y + box.height, previewTexture, 0)
         .setOrigin(0, 1)
         .setDepth(DEPTHS.ALWAYS_ON_TOP + 103)
         .setAlpha(0.9);
       image.setScale(artSpec.width / image.width);
+      this.positionArt(image, box, {
+        left: artSpec.left,
+        right: artSpec.right,
+        top: artSpec.top,
+        bottom: artSpec.bottom,
+      });
       this.selection.art = image;
+      this.selection.artOffset = {
+        left: artSpec.left,
+        right: artSpec.right,
+        top: artSpec.top,
+        bottom: artSpec.bottom,
+      };
     }
   }
 
@@ -854,7 +972,7 @@ export class LandscapingController {
         name: placement.name,
       }),
       position: { x, y, ...placement.dims },
-      location: "farm",
+      location: this.location,
       name: placement.name as CollectibleName,
     });
     this.selection.target = { x, y };
@@ -864,11 +982,24 @@ export class LandscapingController {
     const offsetY = this.selection.pixelDelta.y;
     this.selection.tint.setPosition(box.x + offsetX, box.y - offsetY);
     this.selection.tint.setFillStyle(colliding ? GHOST_BAD : GHOST_OK, 0.5);
-    this.selection.art?.setPosition(
-      box.x + offsetX,
-      box.y + box.height - offsetY,
-    );
+    if (this.selection.art) {
+      this.positionArt(
+        this.selection.art,
+        {
+          x: box.x + offsetX,
+          y: box.y - offsetY,
+          width: box.width,
+          height: box.height,
+        },
+        this.selection.artOffset,
+      );
+    }
     this.bridge.anchors.setAnchor(SELECTION_ANCHOR, box);
+    this.bridge.landscapingMoving.set({
+      id: placement.id,
+      name: placement.name,
+    });
+    this.publishControls();
   }
 
   private onSelectionDrag(pointer: Phaser.Input.Pointer) {
@@ -904,7 +1035,7 @@ export class LandscapingController {
     const isResource = placement.name in RESOURCE_MOVE_EVENTS;
     const isNFT = placement.name === "Bud" || placement.name === "Pet";
     this.bridge.dispatch({
-      type: getMoveAction(placement.name, "farm"),
+      type: getMoveAction(placement.name, this.location),
       ...(isResource
         ? {}
         : isNFT
@@ -921,7 +1052,7 @@ export class LandscapingController {
             oY: (placement.coordinates.oY ?? 0) + pixelDelta.y,
           },
       ...(placement.name === "Bumpkin" ? {} : { id: placement.id }),
-      ...(isResource ? {} : { location: "farm" }),
+      ...(isResource ? {} : { location: this.location }),
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);
 
@@ -944,7 +1075,7 @@ export class LandscapingController {
     // [MovableComponent] "p" toggles pixel-perfect nudging (±8 src px,
     // committed as oX/oY on the next drop).
     if (event.key === "p") {
-      this.selection.pixelPerfect = !this.selection.pixelPerfect;
+      this.togglePixelPerfect();
       return;
     }
 
@@ -958,26 +1089,62 @@ export class LandscapingController {
     event.preventDefault();
 
     if (this.selection.pixelPerfect) {
-      const { placement, pixelDelta } = this.selection;
-      const savedOX = placement.coordinates.oX ?? 0;
-      const savedOY = placement.coordinates.oY ?? 0;
-      pixelDelta.x = Phaser.Math.Clamp(
-        pixelDelta.x + dx,
-        -8 - savedOX,
-        8 - savedOX,
-      );
-      pixelDelta.y = Phaser.Math.Clamp(
-        pixelDelta.y + dy,
-        -8 - savedOY,
-        8 - savedOY,
-      );
-      this.moveTarget(0, 0); // re-place visuals at the offset position
-      this.onSelectionDrop();
+      this.nudgePixel(dx, dy);
       return;
     }
 
     this.moveTarget(dx, dy);
     this.onSelectionDrop();
+  }
+
+  /** One source pixel, clamped to the DOM's +/-8 total [MovableComponent]. */
+  private nudgePixel(dx: number, dy: number) {
+    if (!this.selection) return;
+    const { placement, pixelDelta } = this.selection;
+    const savedOX = placement.coordinates.oX ?? 0;
+    const savedOY = placement.coordinates.oY ?? 0;
+    pixelDelta.x = Phaser.Math.Clamp(
+      pixelDelta.x + dx,
+      -8 - savedOX,
+      8 - savedOX,
+    );
+    pixelDelta.y = Phaser.Math.Clamp(
+      pixelDelta.y + dy,
+      -8 - savedOY,
+      8 - savedOY,
+    );
+    this.moveTarget(0, 0); // re-place visuals at the offset position
+    this.onSelectionDrop();
+    this.publishControls();
+  }
+
+  private togglePixelPerfect() {
+    if (!this.selection) return;
+    this.selection.pixelPerfect = !this.selection.pixelPerfect;
+    this.publishControls();
+  }
+
+  /** Hand the React disc row a live view of the pixel-perfect state. */
+  private publishControls() {
+    if (!this.selection) {
+      this.bridge.landscapingControls.set(null);
+      return;
+    }
+    const { placement, pixelDelta, pixelPerfect } = this.selection;
+    const savedOX = placement.coordinates.oX ?? 0;
+    const savedOY = placement.coordinates.oY ?? 0;
+    this.bridge.landscapingControls.set({
+      pixelPerfect,
+      togglePixelPerfect: () => this.togglePixelPerfect(),
+      nudge: (dx, dy) => this.nudgePixel(dx, dy),
+      canNudge: {
+        // Game y is inverted: visually up is +y.
+        up: pixelDelta.y + savedOY < 8,
+        down: pixelDelta.y + savedOY > -8,
+        left: pixelDelta.x + savedOX > -8,
+        right: pixelDelta.x + savedOX < 8,
+      },
+    });
   }
 
   private clearSelection() {
@@ -989,6 +1156,8 @@ export class LandscapingController {
     this.selection.tint.destroy();
     this.selection.art?.destroy();
     this.selection = undefined;
+    this.bridge.landscapingMoving.set(null);
+    this.bridge.landscapingControls.set(null);
     this.bridge.anchors.removeAnchor(SELECTION_ANCHOR);
   }
 

@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Transition } from "@headlessui/react";
 
 import emptyPot from "assets/greenhouse/greenhouse_pot.webp";
+export { default as GREENHOUSE_EMPTY_POT } from "assets/greenhouse/greenhouse_pot.webp";
 import grapeSeedling from "assets/greenhouse/grape_seedling.webp";
 import grapeGrowing from "assets/greenhouse/grape_growing.webp";
 import grapeAlmost from "assets/greenhouse/grape_almost.webp";
@@ -58,7 +59,7 @@ import type {
 import { TimerPopover } from "features/island/common/TimerPopover";
 
 type Stage = "seedling" | "growing" | "almost" | "ready";
-const PLANT_STAGES: Record<
+export const PLANT_STAGES: Record<
   GreenHouseCropName | GreenHouseFruitName,
   Record<Stage, string>
 > = {

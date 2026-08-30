@@ -1,11 +1,18 @@
 import { InnerPanel } from "components/ui/Panel";
 import { getBudImage } from "lib/buds/types";
 import type { OverlapMenuRequest } from "../bridge/GameBridge";
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+  useSyncExternalStore,
+} from "react";
 import { useSelector } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import flipIcon from "assets/icons/flip.webp";
+import pixelPerfectIcon from "assets/icons/pixel_perfect.webp";
 import flippedIcon from "assets/icons/flipped.webp";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
@@ -108,6 +115,10 @@ const SelectionDiscs: React.FC<{ bridge: GameBridge }> = ({ bridge }) => {
   const landscaping = useSelector(gameService, _landscaping);
   const rect = useWorldAnchor(SELECTION_ANCHOR);
 
+  const controls = useSyncExternalStore(
+    (onChange) => bridge.landscapingControls.subscribe(onChange),
+    () => bridge.landscapingControls.get(),
+  );
   const [moving, setMoving] = useState<{ id: string; name: string }>();
   const [confirmRemove, setConfirmRemove] = useState(false);
   const now = useNow();
@@ -166,9 +177,12 @@ const SelectionDiscs: React.FC<{ bridge: GameBridge }> = ({ bridge }) => {
     icon: string,
     onClick: () => void,
     iconWidth: number,
+    active = false,
   ): React.ReactElement => (
     <div
-      className="relative cursor-pointer hover:img-highlight mr-2"
+      className={`relative cursor-pointer hover:img-highlight mr-2 ${
+        active ? "img-highlight" : ""
+      }`}
       style={{
         width: `${PIXEL_SCALE * 18}px`,
         height: `${PIXEL_SCALE * 18}px`,
@@ -189,60 +203,125 @@ const SelectionDiscs: React.FC<{ bridge: GameBridge }> = ({ bridge }) => {
     </div>
   );
 
-  return (
-    <div
-      className="absolute flex z-40 pointer-events-auto"
-      style={{
-        left: `${rect.left + rect.width}px`,
-        top: `${rect.top - PIXEL_SCALE * 20}px`,
+  const arrow = (
+    icon: string,
+    dx: number,
+    dy: number,
+    style: React.CSSProperties,
+  ) => (
+    <img
+      src={icon}
+      className="absolute cursor-pointer hover:img-highlight z-50 pointer-events-auto"
+      style={{ width: `${PIXEL_SCALE * 9}px`, ...style }}
+      onPointerDown={(event) => {
+        event.stopPropagation();
+        event.preventDefault();
+        controls?.nudge(dx, dy);
       }}
-    >
-      {hasFlip &&
-        disc(
-          isFlipped ? flippedIcon : flipIcon,
-          () =>
-            bridge.landscaping.send({
-              type: "FLIP",
-              id: moving.id,
-              name: moving.name as CollectibleName,
-              location: "farm",
-            }),
-          12,
-        )}
-      {removeAction &&
-        disc(
-          confirmRemove
-            ? SUNNYSIDE.icons.confirm
-            : ITEM_DETAILS["Rusty Shovel"].image,
-          () => {
-            if (!confirmRemove) {
-              setConfirmRemove(true);
-              return;
-            }
-            // [MovableComponent] side-effect warnings for these two items.
-            if (
-              moving.name === "Kuebiko" ||
-              moving.name === "Hungry Caterpillar"
-            ) {
-              bridge.farmModal.open("removeWarning", {
-                name: moving.name,
+    />
+  );
+
+  return (
+    <>
+      {/* [MovableComponent] the four nudge arrows, hidden once maxed out */}
+      {controls?.pixelPerfect && (
+        <div
+          className="absolute z-50"
+          style={{
+            left: `${rect.left}px`,
+            top: `${rect.top}px`,
+            width: `${rect.width}px`,
+            height: `${rect.height}px`,
+          }}
+        >
+          {controls.canNudge.up &&
+            arrow(SUNNYSIDE.icons.arrow_up, 0, 1, {
+              left: "50%",
+              top: `${-PIXEL_SCALE * 10}px`,
+              transform: "translateX(-50%)",
+            })}
+          {controls.canNudge.down &&
+            arrow(SUNNYSIDE.icons.arrow_down, 0, -1, {
+              left: "50%",
+              bottom: `${-PIXEL_SCALE * 10}px`,
+              transform: "translateX(-50%)",
+            })}
+          {controls.canNudge.left &&
+            arrow(SUNNYSIDE.icons.arrow_left, -1, 0, {
+              top: "50%",
+              left: `${-PIXEL_SCALE * 10}px`,
+              transform: "translateY(-50%)",
+            })}
+          {controls.canNudge.right &&
+            arrow(SUNNYSIDE.icons.arrow_right, 1, 0, {
+              top: "50%",
+              right: `${-PIXEL_SCALE * 10}px`,
+              transform: "translateY(-50%)",
+            })}
+        </div>
+      )}
+      <div
+        className="absolute flex z-40 pointer-events-auto"
+        style={{
+          left: `${rect.left + rect.width}px`,
+          top: `${rect.top - PIXEL_SCALE * 20}px`,
+        }}
+      >
+        {hasFlip &&
+          disc(
+            isFlipped ? flippedIcon : flipIcon,
+            () =>
+              bridge.landscaping.send({
+                type: "FLIP",
                 id: moving.id,
-                action: removeAction,
+                name: moving.name as CollectibleName,
+                location: "farm",
+              }),
+            12,
+          )}
+        {/* [MovableComponent] pixel-perfect toggle */}
+        {controls &&
+          disc(
+            pixelPerfectIcon,
+            () => controls.togglePixelPerfect(),
+            12,
+            controls.pixelPerfect,
+          )}
+        {removeAction &&
+          disc(
+            confirmRemove
+              ? SUNNYSIDE.icons.confirm
+              : ITEM_DETAILS["Rusty Shovel"].image,
+            () => {
+              if (!confirmRemove) {
+                setConfirmRemove(true);
+                return;
+              }
+              // [MovableComponent] side-effect warnings for these two items.
+              if (
+                moving.name === "Kuebiko" ||
+                moving.name === "Hungry Caterpillar"
+              ) {
+                bridge.farmModal.open("removeWarning", {
+                  name: moving.name,
+                  id: moving.id,
+                  action: removeAction,
+                });
+                setConfirmRemove(false);
+                return;
+              }
+              bridge.landscaping.send({
+                type: "REMOVE",
+                event: removeAction,
+                id: moving.id,
+                name: moving.name as CollectibleName,
+                location: "farm",
               });
               setConfirmRemove(false);
-              return;
-            }
-            bridge.landscaping.send({
-              type: "REMOVE",
-              event: removeAction,
-              id: moving.id,
-              name: moving.name as CollectibleName,
-              location: "farm",
-            });
-            setConfirmRemove(false);
-          },
-          12,
-        )}
-    </div>
+            },
+            12,
+          )}
+      </div>
+    </>
   );
 };

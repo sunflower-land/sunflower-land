@@ -12,6 +12,7 @@ import { getActiveCalendarEvent } from "features/game/types/calendar";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type { GameState } from "features/game/types/game";
 import { CROPS, type CropName } from "features/game/types/crops";
+import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "lib/object";
 import {
   getAffectedWeather,
@@ -55,6 +56,7 @@ import {
 } from "features/island/biomes/biomes";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { queueImage, queueSpritesheet, runLoader } from "../../core/assets";
+import { nativeScale } from "../../core/pixelArt";
 import { makeClickable } from "../../core/clickable";
 import { readNodeTimer } from "../../core/clock";
 import { gridToWorld, WORLD_TILE } from "../../core/coordinates";
@@ -270,7 +272,7 @@ export class CropRenderer extends EntityRenderer<Slice> {
           .image(world.x + WORLD_TILE - 12, world.y - 4, iconSrc)
           .setOrigin(0, 0)
           .setDepth(DEPTHS.ENTITY_BASE + world.y + 1);
-        icon.setScale(12 / icon.width);
+        nativeScale(icon, 12);
         objects.cornerIcons.push(icon);
       }
       return;
@@ -409,7 +411,7 @@ export class CropRenderer extends EntityRenderer<Slice> {
         .image(world.x + WORLD_TILE + 8 - 18, world.y + wanted.top, wanted.src)
         .setOrigin(0, 0)
         .setDepth(DEPTHS.ENTITY_BASE + world.y + 2);
-      icon.setScale(18 / icon.width);
+      nativeScale(icon, 18);
       if (this.bridge.ui.get().showAnimations) {
         objects.tutorialTween = this.scene.tweens.add({
           targets: icon,
@@ -487,7 +489,7 @@ export class CropRenderer extends EntityRenderer<Slice> {
         .image(0, 0, icon.src)
         .setOrigin(0, 0)
         .setDepth(DEPTHS.ENTITY_BASE + world.y + 1);
-      image.setScale(icon.size / image.width);
+      nativeScale(image, icon.size);
       const w = icon.size;
       const h = image.displayHeight;
       const positions = [
@@ -575,6 +577,75 @@ export class CropRenderer extends EntityRenderer<Slice> {
 
   /** Port of Plot.tsx's onClick, dispatching the same events. */
   private onPlotClick(id: string) {
+    // EXPERIMENT [worker/BumpkinWorker.ts]: with a bumpkin selected, ready
+    // plots queue a harvest and empty plots queue a plant (using the
+    // selected seed, or the first crop seed in the inventory). The marker
+    // shows the seed/crop the job will use.
+    const workerGame = this.bridge.select((state) => state.context.state);
+    const workerPlot = workerGame.crops[id];
+    const worker = (
+      this.scene as unknown as {
+        worker?: { isActive(): boolean; intercept(job: unknown): boolean };
+      }
+    ).worker;
+    if (worker?.isActive() && workerPlot) {
+      const world = gridToWorld({ x: workerPlot.x ?? 0, y: workerPlot.y ?? 0 });
+      const ready =
+        !!workerPlot.crop &&
+        isReadyToHarvest(
+          Date.now(),
+          workerPlot.crop,
+          CROPS[workerPlot.crop.name],
+          workerGame,
+          workerPlot.fertiliser,
+        );
+      if (ready) {
+        worker.intercept({
+          label: "Harvest",
+          world,
+          anim: "doing",
+          dotAt: { x: world.x + WORLD_TILE / 2, y: world.y - 2 },
+          icon: ITEM_DETAILS[workerPlot.crop!.name].image,
+          run: () => this.onPlotClickImmediate(id),
+        });
+        return;
+      }
+      if (!workerPlot.crop) {
+        // "Plant whatever is in the inventory": the selected seed when it's
+        // a stocked crop seed, else the first stocked crop seed.
+        const selected = this.bridge.ui.get().selectedItem;
+        const stocked = (name: string) =>
+          !!workerGame.inventory[name as SeedName]?.gte(1);
+        const seed =
+          selected && isCropSeed(selected as SeedName) && stocked(selected)
+            ? (selected as SeedName)
+            : (Object.keys(workerGame.inventory).find(
+                (name) => isCropSeed(name as SeedName) && stocked(name),
+              ) as SeedName | undefined);
+        if (!seed) return; // nothing to plant with — ignore the tap
+        worker.intercept({
+          label: "Plant",
+          world,
+          anim: "dig",
+          dotAt: { x: world.x + WORLD_TILE / 2, y: world.y - 2 },
+          icon: ITEM_DETAILS[seed].image,
+          run: () => this.onPlotClickImmediate(id, seed),
+        });
+        return;
+      }
+      // A growing crop has no job to queue; fall through to the normal
+      // click (which shows the timer popover behaviour).
+    }
+
+    this.onPlotClickImmediate(id);
+  }
+
+  /**
+   * The unchanged DOM plot click [Plot.tsx]. `seedOverride` is the worker
+   * arriving with its chosen seed — bridge.selectItem round-trips through
+   * React, so the same-tick read would be stale.
+   */
+  private onPlotClickImmediate(id: string, seedOverride?: SeedName) {
     const machine = this.bridge.select((state) => state);
     const game = machine.context.state;
     const plot = game.crops[id];
@@ -607,7 +678,11 @@ export class CropRenderer extends EntityRenderer<Slice> {
       return;
     }
 
-    const seed = this.bridge.ui.get().selectedItem as SeedName | undefined;
+    const seed =
+      seedOverride ??
+      (this.bridge.ui.get().selectedItem as SeedName | undefined);
+    // Keep the HUD in step when the worker chose the seed.
+    if (seedOverride) this.bridge.selectItem(seedOverride);
     const crop = plot.crop;
     const fertiliser = plot.fertiliser;
 

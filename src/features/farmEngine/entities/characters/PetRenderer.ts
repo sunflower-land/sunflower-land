@@ -20,6 +20,7 @@ import {
 import { isHelpComplete } from "features/game/types/monuments";
 import { addHelpDisc, queueHelpDiscAssets } from "../../components/HelpDisc";
 import { queueImage, queueSpritesheet, runLoader } from "../../core/assets";
+import { collectiblesAt } from "../collectibles/CollectibleRenderer";
 import { makeClickable } from "../../core/clickable";
 import { gridRectToWorld } from "../../core/coordinates";
 import { DEPTHS } from "../../core/depths";
@@ -87,7 +88,7 @@ export class PetRenderer extends EntityRenderer<Slice> {
     return {
       nfts: game.pets?.nfts ?? {},
       common: game.pets?.common ?? {},
-      collectibles: game.collectibles,
+      collectibles: collectiblesAt(game, this.scene.location),
     };
   }
 
@@ -103,7 +104,10 @@ export class PetRenderer extends EntityRenderer<Slice> {
   private placedNfts(slice: Slice) {
     return Object.entries(slice.nfts).filter(
       ([, pet]) =>
-        !!pet.coordinates && (!pet.location || pet.location === "farm"),
+        !!pet.coordinates &&
+        (this.scene.location === "farm"
+          ? !pet.location || pet.location === "farm"
+          : pet.location === this.scene.location),
     ) as [string, PetNFT][];
   }
 

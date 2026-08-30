@@ -1,6 +1,7 @@
 import type Phaser from "phaser";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { queueImage } from "../core/assets";
+import { nativeScale } from "../core/pixelArt";
 
 /**
  * The visiting help affordance [VisitingPet.tsx / Monument.tsx / Manor.tsx]:
@@ -22,10 +23,10 @@ export function addHelpDisc(
   const x = box.x + box.width - 4;
   const y = box.y - 6;
   const disc = scene.add.image(x, y, SUNNYSIDE.icons.disc).setOrigin(0.5, 0.5);
-  disc.setScale(20 / disc.width);
+  nativeScale(disc, 20);
   disc.setDepth(depth);
   const drag = scene.add.image(x, y, SUNNYSIDE.icons.drag).setOrigin(0.5, 0.5);
-  drag.setScale(14 / drag.width);
+  nativeScale(drag, 14);
   drag.setDepth(depth + 0.1);
   return [disc, drag];
 }

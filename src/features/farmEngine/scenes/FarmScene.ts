@@ -3,9 +3,11 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import type { GameBridge } from "../bridge/GameBridge";
 import type { Unsubscribe } from "../bridge/subscriptions";
 import { FarmCameraController } from "../core/camera";
+import { BumpkinWorker } from "../worker/BumpkinWorker";
 import { FarmClock } from "../core/clock";
 import type { EntityRenderer } from "../entities/EntityRenderer";
-import { RENDERERS } from "../entities/registry";
+import { RENDERERS, type RendererFactory } from "../entities/registry";
+import type { FarmSurface } from "../core/surface";
 import { LandscapingController } from "../landscaping/LandscapingController";
 import { DebugGrid } from "../dev/DebugGrid";
 import { StressBumpkins } from "../dev/StressBumpkins";
@@ -25,6 +27,8 @@ const OCEAN_PLACEHOLDER_COLOR = "#63b0cd";
 
 export class FarmScene extends Phaser.Scene {
   readonly farmCamera: FarmCameraController;
+  /** EXPERIMENT [worker/BumpkinWorker.ts] — only on the farm surface. */
+  worker?: BumpkinWorker;
   readonly clock = new FarmClock();
 
   private renderers: EntityRenderer<unknown>[] = [];
@@ -39,8 +43,25 @@ export class FarmScene extends Phaser.Scene {
   /** True while visiting another farm [useVisiting: visitorId set]. */
   visitingActive = false;
 
-  constructor(public readonly bridge: GameBridge) {
-    super({ key: "farm" });
+  /**
+   * Which placement surface this scene renders. Renderers read it to pick
+   * their slice (`game.collectibles` vs `game.home.collectibles`, ...) and
+   * landscaping sends it as the `location` on its events.
+   */
+  readonly location: FarmSurface;
+  private readonly rendererSet: Record<string, RendererFactory>;
+
+  constructor(
+    public readonly bridge: GameBridge,
+    options: {
+      key?: string;
+      location?: FarmSurface;
+      renderers?: Record<string, RendererFactory>;
+    } = {},
+  ) {
+    super({ key: options.key ?? "farm" });
+    this.location = options.location ?? "farm";
+    this.rendererSet = options.renderers ?? RENDERERS;
     this.farmCamera = new FarmCameraController(this, bridge.anchors);
   }
 
@@ -59,6 +80,22 @@ export class FarmScene extends Phaser.Scene {
       ),
     );
 
+    if (this.location === "farm") {
+      this.worker = new BumpkinWorker(this, this.bridge);
+      this.bridge.workerStop = () => this.worker?.stop();
+      // Bare-ground tap while a bumpkin is selected: walk there. Runs after
+      // entity handlers, so a click that hit a resource is already swallowed.
+      this.input.on(
+        Phaser.Input.Events.POINTER_UP,
+        (pointer: Phaser.Input.Pointer) => {
+          if (!this.worker?.isActive()) return;
+          if (pointer.getDistance() > 8) return; // a pan, not a tap
+          const hit = this.input.hitTestPointer(pointer);
+          if (hit.length) return; // an entity handled it
+          this.worker.moveTo({ x: pointer.worldX, y: pointer.worldY });
+        },
+      );
+    }
     this.farmCamera.attach(this.bridge.select(_expansionCount));
     this.subscriptions.push(
       this.bridge.subscribe(_expansionCount, (count) =>
@@ -66,7 +103,7 @@ export class FarmScene extends Phaser.Scene {
       ),
     );
 
-    this.renderers = Object.values(RENDERERS).map((factory) =>
+    this.renderers = Object.values(this.rendererSet).map((factory) =>
       factory(this, this.bridge),
     );
     this.renderers.forEach((renderer) => renderer.mount());
@@ -102,6 +139,8 @@ export class FarmScene extends Phaser.Scene {
     this.stressBumpkins?.destroy();
     this.stressBumpkins = undefined;
     this.clock.dispose();
+    this.worker?.destroy();
+    this.worker = undefined;
     this.farmCamera.destroy();
   }
 }

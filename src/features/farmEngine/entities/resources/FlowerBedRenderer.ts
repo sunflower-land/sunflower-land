@@ -14,6 +14,7 @@ const flowerArt = (...args: Parameters<typeof FLOWER_VARIANTS>): string =>
   FLOWER_VARIANTS(...args) ?? "";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { queueImage } from "../../core/assets";
+import { nativeScale } from "../../core/pixelArt";
 import { ProgressBarSprite } from "../../components/ProgressBarSprite";
 import {
   ResourceNodeRenderer,
@@ -179,7 +180,7 @@ export class FlowerBedRenderer extends ResourceNodeRenderer<FlowerBedNode> {
         )
         .setOrigin(0, 0)
         .setDepth(ctx.depth + 2);
-      icon.setScale(7 / icon.width);
+      nativeScale(icon, 7);
       objects.extras.set("boost", icon);
     }
 

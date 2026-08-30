@@ -12,6 +12,7 @@ import {
   getCurrentHoneyProduced,
 } from "features/game/lib/beehiveProduction";
 import { queueImage } from "../../core/assets";
+import { nativeScale } from "../../core/pixelArt";
 import { ProgressBarSprite } from "../../components/ProgressBarSprite";
 import {
   ResourceNodeRenderer,
@@ -83,7 +84,7 @@ export class BeehiveRenderer extends ResourceNodeRenderer<HiveNode> {
       objects.extras.set("drop", drop);
     }
     drop.setDepth(ctx.depth + 1);
-    drop.setScale(7 / drop.width);
+    nativeScale(drop, 7);
     drop.setPosition(ctx.box.x + ctx.box.width - 2 - 7, ctx.box.y);
 
     this.refreshHive(id, node, ctx, true);

@@ -30,6 +30,12 @@ const AURA_FPS = 14;
 
 /** DOM NPC box width in world units (NPCPlaceable's default 16px). */
 const NPC_BOX = 16;
+/**
+ * The shadow draws at its native 15px [core/pixelArt.ts] — the DOM's 12 is a
+ * stale display width that resamples the asset.
+ */
+/** Below the boot row so the ellipse reads as ground contact. */
+const SHADOW_DROP = 6;
 
 /**
  * The bumpkin rides high inside the 96x64 sheet frame, so centring the frame
@@ -48,6 +54,12 @@ type NPCSpriteOptions = {
   onClick?: () => void;
   /** Add to this container instead of the scene root (e.g. a drifting boat). */
   container?: Phaser.GameObjects.Container;
+  /**
+   * Lift the shadow above same-depth scenery. Boat/pontoon NPCs sit ON art
+   * drawn at their own depth (the raft hull), so the default half-step back
+   * would bury the shadow underneath it.
+   */
+  shadowAboveScenery?: boolean;
 };
 
 export class NPCSprite {
@@ -56,6 +68,9 @@ export class NPCSprite {
   private auraBack: Phaser.GameObjects.Sprite | undefined;
   private auraFront: Phaser.GameObjects.Sprite | undefined;
   private destroyed = false;
+  /** Box origin the children were laid out against, for setPosition deltas. */
+  private originX = 0;
+  private originY = 0;
 
   constructor(
     private readonly scene: Phaser.Scene,
@@ -64,6 +79,8 @@ export class NPCSprite {
 
   async create() {
     const { parts, x, y, flipX, depth, onClick, container } = this.options;
+    this.originX = x;
+    this.originY = y;
     const url = getAnimationUrl(parts, ["idle"]);
 
     queueSpritesheet(this.scene, url, {
@@ -95,12 +112,18 @@ export class NPCSprite {
     }
 
     // The service sheets have no baked shadow (the DOM's idle-small webp
-    // does) — draw the DOM's 15px npc shadow under the feet, like the
-    // world's BumpkinContainer. Nudged below the boot row so the ellipse
-    // peeks out instead of hiding behind the body.
+    // does) — draw the npc shadow under the feet, like the world's
+    // BumpkinContainer. Width matches the DOM's 12 source px (the asset is
+    // 15 native), and it sits a few px below the boot row so the ellipse
+    // reads as ground contact rather than hugging the ankles.
     this.shadow = this.scene.add
-      .image(x + NPC_BOX / 2, y + NPC_BOX + 3, shadowSrc)
-      .setDepth(depth - 0.5);
+      .image(x + NPC_BOX / 2, y + NPC_BOX + SHADOW_DROP, shadowSrc)
+      .setDepth(
+        // A boat NPC stands on art drawn at its own depth; nudge forward so
+        // the shadow lands on the hull instead of behind it.
+        this.options.shadowAboveScenery ? depth + 0.1 : depth - 0.5,
+      );
+    this.shadow.setScale(1);
     container?.add(this.shadow);
 
     // Aura back layer (behind the bumpkin) [NPC.tsx: 20px wide, left -2,
@@ -147,6 +170,86 @@ export class NPCSprite {
     if (onClick) {
       makeClickable(this.scene, this.sprite, onClick);
     }
+  }
+
+  /** Children keep their creation-time offsets; shift them all by the delta. */
+  private children(): (Phaser.GameObjects.Components.Transform | undefined)[] {
+    return [this.sprite, this.shadow, this.auraBack, this.auraFront];
+  }
+
+  /**
+   * Move the NPC to a new box origin. Buildings cache their NPC across
+   * refreshes, so without this a landscaped building leaves its NPC behind.
+   */
+  setPosition(x: number, y: number) {
+    const dx = x - this.originX;
+    const dy = y - this.originY;
+    if (dx === 0 && dy === 0) return;
+    this.originX = x;
+    this.originY = y;
+    this.children().forEach((child) => {
+      if (!child) return;
+      child.x += dx;
+      child.y += dy;
+    });
+  }
+
+  /**
+   * Swap to another animation from the service (walking, axe...). Loads the
+   * sheet on first use; falls back to idle if it never arrives.
+   */
+  async play(
+    animation: "idle" | "walking" | "axe" | "dig" | "mining" | "doing",
+  ) {
+    const { parts } = this.options;
+    const url = getAnimationUrl(parts, [animation]);
+    const key = `${url}-${animation}`;
+    if (!this.scene.textures.exists(url)) {
+      queueSpritesheet(this.scene, url, {
+        frameWidth: FRAME_WIDTH,
+        frameHeight: FRAME_HEIGHT,
+      });
+      await runLoader(this.scene);
+    }
+    if (this.destroyed || !this.sprite) return;
+    if (!this.scene.textures.exists(url)) return;
+    if (!this.scene.anims.exists(key)) {
+      // Each animation has its OWN frame count (walking is 8, idle 9, dig
+      // 13...) — the service emits a horizontal strip, so derive it from the
+      // sheet width. Reusing the idle range played a blank out-of-range
+      // frame every cycle, which read as walking jitter.
+      const frames =
+        Math.floor(
+          this.scene.textures.get(url).getSourceImage().width / FRAME_WIDTH,
+        ) || 1;
+      this.scene.anims.create({
+        key,
+        frames: this.scene.anims.generateFrameNumbers(url, {
+          start: 0,
+          end: frames - 1,
+        }),
+        frameRate: IDLE_FRAME_RATE,
+        repeat: -1,
+      });
+    }
+    this.sprite.play(key, true);
+  }
+
+  /** Current box origin, so callers can walk from where it actually is. */
+  origin() {
+    return { x: this.originX, y: this.originY };
+  }
+
+  /** Face left/right — the service sheets face right. */
+  setFlip(flipX: boolean) {
+    this.sprite?.setFlipX(flipX);
+  }
+
+  setVisible(visible: boolean) {
+    this.sprite?.setVisible(visible);
+    this.shadow?.setVisible(visible);
+    this.auraBack?.setVisible(visible);
+    this.auraFront?.setVisible(visible);
   }
 
   destroy() {

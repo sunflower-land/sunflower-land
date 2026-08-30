@@ -2,9 +2,9 @@ import type Phaser from "phaser";
 
 /**
  * The engine's clickable affordance: hand cursor + click + hover callback.
- * Deliberately NO visual hover effect for now (a scale-up was tried and
- * rejected); when a treatment is chosen it goes here so every interactive
- * world object picks it up at once.
+ * Deliberately NO visual hover effect: a scale-up and a 1px outline were both
+ * tried and rejected. If a treatment is ever chosen it goes here so every
+ * interactive world object picks it up at once.
  *
  * Hover popovers are a browse affordance, not click feedback: after a click
  * the hover is cleared and stays suppressed until the pointer leaves and

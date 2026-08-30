@@ -31,6 +31,7 @@ import { SOIL_IMAGES } from "features/island/plots/lib/plant";
 import { FRUIT_PATCH_VARIANTS } from "features/island/lib/alternateArt";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { queueImage } from "../../core/assets";
+import { nativeScale } from "../../core/pixelArt";
 import { playSound } from "../../core/sounds";
 import { playYieldFloat } from "../../components/YieldFloat";
 import { ProgressBarSprite } from "../../components/ProgressBarSprite";
@@ -177,7 +178,7 @@ export class FruitPatchRenderer extends ResourceNodeRenderer<FruitNode> {
       objects.extras.set("backdrop", backdrop);
     }
     backdrop.setTexture(FRUIT_PATCH_VARIANTS[ctx.biome]);
-    backdrop.setScale(30 / backdrop.width);
+    nativeScale(backdrop, 30);
     backdrop.setPosition(ctx.box.x + 1, ctx.box.y + 2);
     backdrop.setDepth(ctx.depth);
 
@@ -331,7 +332,7 @@ export class FruitPatchRenderer extends ResourceNodeRenderer<FruitNode> {
       .image(0, 0, texture)
       .setOrigin(0, 0)
       .setDepth(ctx.depth + 3);
-    image.setScale(width / image.width);
+    nativeScale(image, width);
     const x =
       pos.left !== undefined
         ? ctx.box.x + pos.left

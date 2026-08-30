@@ -1,6 +1,7 @@
 import type Phaser from "phaser";
 import { formatNumber } from "lib/utils/formatNumber";
 import { queueImage, runLoader } from "../core/assets";
+import { nativeScale } from "../core/pixelArt";
 import { pixelText } from "./pixelText";
 
 /**
@@ -49,7 +50,7 @@ export function playYieldFloat(
 
   if (icon) {
     const image = scene.add.image(cursor, 0, icon).setOrigin(0, 0.5);
-    image.setScale(iconWidth / image.width);
+    nativeScale(image, iconWidth);
     children.push(image);
     cursor += iconWidth + 2;
   }

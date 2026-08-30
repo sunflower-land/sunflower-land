@@ -41,12 +41,15 @@ import { isAnimalReadyForLove } from "features/game/events/landExpansion/loveAni
 import { getOverCapacityAnimalIds } from "features/game/events/landExpansion/buyAnimal";
 import { isAnimalCoveredByGoldenAsset } from "features/game/events/landExpansion/feedAllAnimals";
 import { queueImage, queueSpritesheet, runLoader } from "../../core/assets";
+import { NPCSprite } from "../npc/NPCSprite";
+import { NPC_WEARABLES } from "lib/npcs";
 import {
   queueArt,
   resolveArtObject,
   type ArtObject,
 } from "../../core/animated";
 import { makeClickable } from "../../core/clickable";
+import { nativeScale } from "../../core/pixelArt";
 import { gridRectToWorld, type WorldRect } from "../../core/coordinates";
 import { DEPTHS } from "../../core/depths";
 import { playSound } from "../../core/sounds";
@@ -144,6 +147,8 @@ export const HOME_EXTRA_OFFSETS: Record<
 export class BuildingRenderer extends EntityRenderer<Slice> {
   private nodes = new Map<string, BuildingObjects>();
   private tickMs = 0;
+  /** Composed-bumpkin building NPCs (fish market's Neville). */
+  private npcSprites = new Map<string, NPCSprite>();
   /** [House.tsx] transient heart after recipes.collected. */
   private heartShownUntil = 0;
   private unsubscribeEvents: (() => void) | undefined;
@@ -379,8 +384,12 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
       objects.base = this.scene.add.image(0, 0, art.texture).setOrigin(0, 1);
     }
     objects.base.setTexture(art.texture);
-    objects.base.setScale(art.width / objects.base.width);
-    objects.base.setPosition(box.x + art.left, box.y + box.height - art.bottom);
+    // Native pixels; art.width only re-centres it [core/pixelArt.ts].
+    const baseShift = nativeScale(objects.base, art.width);
+    objects.base.setPosition(
+      box.x + art.left + baseShift,
+      box.y + box.height - art.bottom,
+    );
     objects.base.setDepth(depth);
 
     // Constructing: normal art at 50% + centred progress bar [Building.tsx].
@@ -514,8 +523,30 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
     if (name === "Fish Market") {
       const processing = (item.processing ?? []).find((p) => p.readyAt > now);
       const ready = (item.processing ?? []).filter((p) => p.readyAt <= now);
-      // NPC [FishMarket.tsx]: neville_doing while processing (idle NPC is a
-      // composed bumpkin — deferred to the characters phase).
+      // NPC [FishMarket.tsx]: the neville_doing sheet while processing,
+      // otherwise the composed idle bumpkin at (left -4, top 11).
+      if (!processing) {
+        const key = `${objects.name}-neville`;
+        const existing = this.npcSprites.get(key);
+        if (!existing) {
+          const sprite = new NPCSprite(this.scene, {
+            parts: NPC_WEARABLES.neville,
+            x: box.x - 4,
+            y: box.y + 11,
+            depth: depth + 1,
+          });
+          void sprite.create();
+          this.npcSprites.set(key, sprite);
+        } else {
+          // The sprite is cached across refreshes, so it has to be told when
+          // its building moves (landscaping) or it stays at the old spot.
+          existing.setPosition(box.x - 4, box.y + 11);
+        }
+      } else {
+        const key = `${objects.name}-neville`;
+        this.npcSprites.get(key)?.destroy();
+        this.npcSprites.delete(key);
+      }
       if (processing) {
         this.addExtra(objects, "npc", SUNNYSIDE.npcs.fishMarket_npc_doing, {
           x: box.x - 4,
@@ -1109,11 +1140,10 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
     // Animated art (cooking NPCs, smoke) plays its converted strip.
     const image = resolveArtObject(this.scene, undefined, texture);
     if (!image) return undefined;
-    image
-      .setPosition(options.x, options.y)
-      .setOrigin(0, options.bottomAnchored ? 1 : 0)
-      .setDepth(options.depth);
-    image.setScale(options.width / image.width);
+    image.setOrigin(0, options.bottomAnchored ? 1 : 0).setDepth(options.depth);
+    // Native pixels, re-centred on the spot the DOM's width put it.
+    const shift = nativeScale(image, options.width);
+    image.setPosition(options.x + shift, options.y);
     if (options.flip) image.setFlipX(true);
     objects.extras.set(key, image);
     return image;
@@ -1165,6 +1195,7 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
     for (const objects of this.nodes.values()) {
       this.refreshBuilding(objects, slice, now);
     }
+    this.applyMovingVisibility();
   }
 
   /** [Building.tsx + each component's handleClick] */
@@ -1317,6 +1348,24 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
     }
   }
 
+  /**
+   * While landscaping drags a building, the controller draws a preview at the
+   * cursor — hide the original (and its NPC) so only one is on screen.
+   */
+  private applyMovingVisibility() {
+    const moving = this.bridge.landscapingMoving.get();
+    for (const objects of this.nodes.values()) {
+      const hidden = !!moving && moving.id === objects.id;
+      objects.base?.setVisible(!hidden);
+      objects.stageSheet?.setVisible(!hidden);
+      objects.extras.forEach((extra) => extra.setVisible(!hidden));
+      objects.bar?.setVisible(!hidden);
+      const npc = this.npcSprites.get(`${objects.name}-neville`);
+      if (npc && objects.name === moving?.name) npc.setVisible(!hidden);
+      else npc?.setVisible(true);
+    }
+  }
+
   private destroyNode(objects: BuildingObjects) {
     objects.stageSheet?.destroy();
     objects.zone.destroy();
@@ -1328,6 +1377,8 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
   }
 
   protected onDestroy() {
+    this.npcSprites.forEach((sprite) => sprite.destroy());
+    this.npcSprites.clear();
     this.unsubscribeEvents?.();
     this.unsubscribeEvents = undefined;
     this.nodes.forEach((objects) => this.destroyNode(objects));

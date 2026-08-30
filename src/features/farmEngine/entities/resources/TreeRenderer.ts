@@ -1,4 +1,5 @@
 import { SUNNYSIDE } from "assets/sunnyside";
+import { ITEM_DETAILS } from "features/game/types/images";
 import type { GameState, InventoryItemName } from "features/game/types/game";
 import { KNOWN_IDS } from "features/game/types";
 import { TREE_RECOVERY_TIME } from "features/game/lib/constants";
@@ -200,6 +201,39 @@ export class TreeRenderer extends ResourceNodeRenderer<TreeNode> {
     const now = Date.now();
     if (now <= this.readyAt(node, game)) return; // stump — nothing to do
 
+    // EXPERIMENT [worker/BumpkinWorker.ts]: with a bumpkin selected the click
+    // queues a job instead of chopping; the chop runs when they arrive.
+    const box = this.boxOf(id);
+    const queued = (
+      this.scene as unknown as {
+        worker?: { intercept(job: unknown): boolean };
+      }
+    ).worker?.intercept({
+      label: "Chop",
+      world: { x: box?.x ?? 0, y: box?.y ?? 0 },
+      anim: "axe",
+      dotAt: box ? { x: box.x + box.width / 2, y: box.y - 2 } : undefined,
+      icon: ITEM_DETAILS.Axe.image,
+      // A full swing fells the tree — the bumpkin doesn't need the DOM's
+      // three taps.
+      run: () => this.onNodeClickImmediate(id, true),
+    });
+    if (queued) return;
+
+    this.onNodeClickImmediate(id);
+  }
+
+  /**
+   * The unchanged DOM chop path [Tree.tsx onClick]. `force` is the worker
+   * experiment landing a full swing, which skips the multi-tap counter.
+   */
+  private onNodeClickImmediate(id: string, force = false) {
+    const machine = this.bridge.select((state) => state);
+    const game = machine.context.state;
+    const node = game.trees[id];
+    if (!node) return;
+    const now = Date.now();
+
     // Tool gate [chop.ts getRequiredAxeAmount].
     const { amount: required } = getRequiredAxeAmount(game.inventory, game, id);
     const hasTool = required.lte(0) || !!game.inventory.Axe?.gte(required);
@@ -211,7 +245,7 @@ export class TreeRenderer extends ResourceNodeRenderer<TreeNode> {
 
     playSound("chop");
     const instaChop = !!game.bumpkin?.skills["Insta-Chop"];
-    const fire = instaChop || this.bumpTouch(id);
+    const fire = force || instaChop || this.bumpTouch(id);
 
     // Re-render to show the shake sheet + health bar.
     void this.sync(this.bridge.select((state) => this.selector(state)));

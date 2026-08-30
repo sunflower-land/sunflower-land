@@ -1,4 +1,11 @@
-import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { createPortal } from "react-dom";
 import { Outlet, useNavigate } from "react-router";
 import Phaser from "phaser";
@@ -13,11 +20,28 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import { createGameBridge, type GameBridge } from "./bridge/GameBridge";
 import { DPR } from "./core/rendering";
 import { FarmScene } from "./scenes/FarmScene";
+import {
+  HOME_RENDERERS,
+  PET_HOUSE_RENDERERS,
+  GREENHOUSE_RENDERERS,
+  ANIMAL_HOUSE_RENDERERS,
+  INTERIOR_FLOOR_RENDERERS,
+  type RendererFactory,
+} from "./entities/registry";
+import { isPlacementSurface, type FarmSurface } from "./core/surface";
+import { hasFeatureAccess } from "lib/flags";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 import { FarmOverlay } from "./overlay/FarmOverlay";
 import { FarmModals } from "./overlay/FarmModals";
 import { CropsUI } from "./overlay/CropsUI";
 import { ResourcesUI } from "./overlay/ResourcesUI";
 import { LandscapingUI } from "./overlay/LandscapingUI";
+import { InteriorUI } from "./overlay/InteriorUI";
+import { WorkerUI } from "./overlay/WorkerUI";
+import { AnimalHouseUI } from "./overlay/AnimalHouseUI";
+import { InteriorFloorUI } from "./overlay/InteriorFloorUI";
+import { GreenhouseUI } from "./overlay/GreenhouseUI";
+import { PetHouseUI } from "./overlay/PetHouseUI";
 import { SftPopoverUI } from "./overlay/SftPopoverUI";
 import { DevPanel } from "./dev/DevPanel";
 import { PerfPanel } from "./dev/PerfPanel";
@@ -34,7 +58,27 @@ import { FarmLoading } from "./overlay/FarmLoading";
  * must be viewport-fixed instead. Those wrappers become removable once the
  * flag flips (Phase 10).
  */
-export const FarmPhaser: React.FC = () => {
+/** Renderer sets for the non-farm surfaces; the farm uses the default. */
+const INTERIOR_RENDERERS: Partial<
+  Record<string, Record<string, RendererFactory>>
+> = {
+  home: HOME_RENDERERS,
+  petHouse: PET_HOUSE_RENDERERS,
+  greenhouse: GREENHOUSE_RENDERERS,
+  barn: ANIMAL_HOUSE_RENDERERS,
+  henHouse: ANIMAL_HOUSE_RENDERERS,
+  interior: INTERIOR_FLOOR_RENDERERS,
+  level_one: INTERIOR_FLOOR_RENDERERS,
+};
+
+export const FarmPhaser: React.FC<{
+  /**
+   * Which placement surface to render. "farm" is the island; "home" is the
+   * house interior [home/Home.tsx], which swaps the world layers for the
+   * room backdrop and points every placement renderer at `game.home`.
+   */
+  surface?: FarmSurface;
+}> = ({ surface = "farm" }) => {
   const {
     gameService,
     selectedItem,
@@ -90,6 +134,15 @@ export const FarmPhaser: React.FC = () => {
     setUiPrefs(uiPrefs);
   }, [uiPrefs, setUiPrefs]);
 
+  const animalDeal = useSyncExternalStore(
+    (onChange) => bridge.animalDeal.subscribe(onChange),
+    () => bridge.animalDeal.get(),
+  );
+
+  const hudLocation: PlaceableLocation = isPlacementSurface(surface)
+    ? surface
+    : "home";
+
   const gameRef = useRef<Phaser.Game | undefined>(undefined);
 
   useEffect(() => {
@@ -117,7 +170,13 @@ export const FarmPhaser: React.FC = () => {
         height: Math.round(window.innerHeight * DPR),
         zoom: 1 / DPR,
       },
-      scene: [new FarmScene(bridge)],
+      scene: [
+        new FarmScene(bridge, {
+          key: surface,
+          location: surface,
+          renderers: INTERIOR_RENDERERS[surface],
+        }),
+      ],
     });
     gameRef.current = game;
     if (import.meta.env.DEV) {
@@ -156,8 +215,9 @@ export const FarmPhaser: React.FC = () => {
       game.destroy(true);
       bridge.dispose();
     };
-    // The bridge is created once with the component; the engine mounts once.
-  }, [bridge]);
+    // The bridge is created once with the component; the engine mounts once
+    // per surface (the route swaps surfaces, remounting the scene).
+  }, [bridge, surface]);
 
   // While an in-world modal is open the world must go deaf: Phaser also
   // listens at window level, so a tap on the modal would otherwise land in
@@ -177,21 +237,35 @@ export const FarmPhaser: React.FC = () => {
     <div className="fixed inset-0">
       <div ref={containerRef} className="absolute inset-0" />
       <FarmOverlay registry={bridge.anchors}>
-        <CropsUI bridge={bridge} />
-        <ResourcesUI bridge={bridge} />
+        {surface !== "farm" && (
+          <InteriorUI bridge={bridge} location={surface} />
+        )}
+        {(surface === "barn" || surface === "henHouse") && (
+          <AnimalHouseUI bridge={bridge} building={surface} />
+        )}
+        {(surface === "interior" || surface === "level_one") && (
+          <InteriorFloorUI bridge={bridge} floor={surface} />
+        )}
+        {surface === "greenhouse" && <GreenhouseUI bridge={bridge} />}
+        {surface === "petHouse" && <PetHouseUI bridge={bridge} />}
+        {surface === "farm" && <WorkerUI bridge={bridge} />}
+        {surface === "farm" && <CropsUI bridge={bridge} />}
+        {surface === "farm" && <ResourcesUI bridge={bridge} />}
         <LandscapingUI bridge={bridge} />
         <SftPopoverUI bridge={bridge} />
         {import.meta.env.DEV && <DevPanel />}
         {import.meta.env.DEV && <PerfPanel getGame={() => gameRef.current} />}
       </FarmOverlay>
       <FarmModals bridge={bridge} onOpenChange={onModalOpenChange} />
-      {/* [Land.tsx:1348-1352] edit/visit modes swap the HUD */}
+      {/* [Land.tsx:1348-1352] edit/visit modes swap the HUD. The fixed rooms
+          (greenhouse, animal houses) pass location="home" and isFarming=false,
+          exactly as their DOM screens do. */}
       {isLandscaping ? (
-        <LandscapingHud location="farm" />
+        <LandscapingHud location={hudLocation} />
       ) : isVisiting ? (
         <VisitingHud />
-      ) : (
-        <Hud isFarming={true} location="farm" />
+      ) : animalDeal ? null : ( // ExchangeHud renders inside AnimalHouseUI
+        <Hud isFarming={isPlacementSurface(surface)} location={hudLocation} />
       )}
       {/* Nested routes (marketplace) render above the canvas farm */}
       <Outlet />
@@ -200,4 +274,21 @@ export const FarmPhaser: React.FC = () => {
     </div>,
     document.body,
   );
+};
+
+/**
+ * Route fork for the /interior and /level_one floors [Navigation.tsx].
+ * Unlike Game.tsx's routes these mount straight under GameWrapper, so the
+ * PHASER_FARM check happens here where the machine context is available.
+ */
+export const PhaserInteriorRoute: React.FC<{
+  floor: "interior" | "level_one";
+  /** The DOM component to fall back to when the flag is off. */
+  fallback: React.ReactNode;
+}> = ({ floor, fallback }) => {
+  const { gameService } = useContext(Context);
+  const usePhaser = useSelector(gameService, (state: MachineState) =>
+    hasFeatureAccess(state.context.state, "PHASER_FARM"),
+  );
+  return usePhaser ? <FarmPhaser surface={floor} /> : <>{fallback}</>;
 };
