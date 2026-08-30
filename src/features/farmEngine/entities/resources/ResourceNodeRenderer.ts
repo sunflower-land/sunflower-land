@@ -190,6 +190,8 @@ export abstract class ResourceNodeRenderer<
           hovered ? { type: "resource", kind: this.hoverKind, id } : null,
         );
       },
+      // The node's primary art object.
+      glow: () => this.nodes.get(id)?.art ?? undefined,
     });
     objects = { zone, extras: new Map(), touch: 0 };
     this.nodes.set(id, objects);

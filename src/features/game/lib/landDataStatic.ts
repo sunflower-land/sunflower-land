@@ -8,6 +8,7 @@ import {
   LAYOUT_EXPANSIONS,
   type LandLayout,
 } from "./landLayouts";
+import { makeVeteranFarm } from "./fixtures/veteranFarm";
 
 /**
  * Offline-testing QoL (ART_MODE only): several recurring popups are gated by
@@ -50,9 +51,10 @@ function applyPhaserDevOverrides(farm: GameState): GameState {
     const stress = localStorage.getItem("phaserFarm.dev.stress");
     const weather = localStorage.getItem("phaserFarm.dev.weather");
     const gifs = localStorage.getItem("phaserFarm.dev.gifs");
-    const layout = localStorage.getItem(
-      "phaserFarm.dev.layout",
-    ) as LandLayout | null;
+    const layout = localStorage.getItem("phaserFarm.dev.layout") as
+      | LandLayout
+      | "veteran"
+      | null;
     if (
       !island &&
       !biome &&
@@ -66,8 +68,10 @@ function applyPhaserDevOverrides(farm: GameState): GameState {
       return farm;
 
     // A layout preset repositions the fixture into non-overlapping bands and
-    // carries its own land size (see landLayouts.ts).
-    if (layout) farm = applyLandLayout(farm, layout);
+    // carries its own land size (see landLayouts.ts). "veteran" is different:
+    // it swaps in a whole captured account [fixtures/veteranFarm.ts].
+    if (layout === "veteran") farm = makeVeteranFarm();
+    else if (layout) farm = applyLandLayout(farm, layout as LandLayout);
 
     // Stress egg: carpet the land with ready Sunflowers to tap like crazy
     // (pair with expansions=42; StressBumpkins adds the crowd). Capped at 99
@@ -185,13 +189,15 @@ function applyPhaserDevOverrides(farm: GameState): GameState {
             },
           }
         : {}),
-      ...(expansions || stress || layout
+      ...(expansions || stress || (layout && layout !== "veteran")
         ? {
             inventory: {
               ...farm.inventory,
               "Basic Land": new Decimal(
                 Number(
-                  expansions ?? (layout && LAYOUT_EXPANSIONS[layout]) ?? 42,
+                  expansions ??
+                    (layout && LAYOUT_EXPANSIONS[layout as LandLayout]) ??
+                    42,
                 ),
               ),
               ...(stress || layout === "stress"

@@ -329,6 +329,7 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
               "Mansion",
               "Pet House",
             ].includes(name),
+            glow: () => this.nodes.get(key)?.base,
           },
         );
         objects = {

@@ -219,6 +219,7 @@ export class CropRenderer extends EntityRenderer<Slice> {
       makeClickable(this.scene, zone, () => this.onPlotClick(id), {
         onHoverChange: (hovered) =>
           this.bridge.hover.set(hovered ? { type: "crop", id } : null),
+        glow: () => this.plots.get(id)?.art,
       });
       objects = { art, zone, cornerIcons: [] };
       this.plots.set(id, objects);
