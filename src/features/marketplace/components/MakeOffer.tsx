@@ -30,6 +30,7 @@ import { RequiredReputation } from "features/island/hud/components/reputation/Re
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getKeys } from "lib/object";
 import { useNow } from "lib/utils/hooks/useNow";
+import { MAX_ITEM_OFFERS } from "../lib/tradeLimits";
 import {
   Locked,
   useIsLocked,
@@ -127,7 +128,7 @@ export const MakeOffer: React.FC<{
     );
   }
 
-  if (itemOfferCount >= 5) {
+  if (itemOfferCount >= MAX_ITEM_OFFERS) {
     return (
       <>
         <div className="p-2">
