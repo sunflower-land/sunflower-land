@@ -107,7 +107,6 @@ import {
   type TransactionName,
 } from "../types/transactions";
 import { getKeys } from "lib/object";
-import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow";
 import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
 import { hasLifetimeFarmerBanner, hasVipAccess } from "./vipAccess";
 import {
@@ -1077,10 +1076,6 @@ export function startGame(authContext: AuthContext) {
               }),
             },
           ],
-          entry: () => {
-            if (CONFIG.API_URL)
-              preloadHotNow(authContext.user.rawToken as string);
-          },
           invoke: {
             src: async (context) => {
               const fingerprint = "X";
