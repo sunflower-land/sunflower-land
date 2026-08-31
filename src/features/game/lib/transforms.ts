@@ -149,7 +149,6 @@ export function makeGame(farm: any): GameState {
     boostHistory: farm.boostHistory,
     socialFarming: farm.socialFarming,
     pets: farm.pets,
-    prototypes: farm.prototypes,
     saltFarm: farm.saltFarm ?? { level: 0, nodes: {} },
     sculptures: farm.sculptures,
     layouts: farm.layouts,

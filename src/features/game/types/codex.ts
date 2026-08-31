@@ -20,7 +20,6 @@ export type CodexCategoryName =
   | "Marks"
   | "Chore Board"
   | "Social Points"
-  | "Leagues"
   | "Collections";
 
 export type CollectionGroup = "fish";

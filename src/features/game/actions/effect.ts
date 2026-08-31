@@ -62,7 +62,6 @@ type EffectName =
   | "auctionRaffle.entered"
   | "auctionRaffle.claimed"
   | "marketplace.buyBulkResources"
-  | "leagues.updated"
   | "liquidity.registered"
   | "appInstall.generate"
   | "farmHand.unlocked"
@@ -140,7 +139,6 @@ export type StateMachineStateName =
   | "enteringAuctionRaffle"
   | "claimingAuctionRaffle"
   | "marketplaceBuyingBulkResources"
-  | "updatingLeagues"
   | "generatingAppInstall"
   | "pickingUpWaterTrap"
   | "resettingPetRequests"
@@ -213,7 +211,6 @@ export const STATE_MACHINE_EFFECTS: Record<
   "auctionRaffle.entered": "enteringAuctionRaffle",
   "auctionRaffle.claimed": "claimingAuctionRaffle",
   "marketplace.buyBulkResources": "marketplaceBuyingBulkResources",
-  "leagues.updated": "updatingLeagues",
   "appInstall.generate": "generatingAppInstall",
   "economies.exchanged": "exchangingEconomy",
   "giveaway.created": "creatingGiveaway",

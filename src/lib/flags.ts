@@ -174,8 +174,6 @@ const FEATURE_FLAGS = {
   TRIGGER_CAPTCHA: betaFeatureFlag,
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
 
-  LEAGUES: () => false,
-
   EASTER: () => false,
 
   STREAM_STAGE_ACCESS: adminFeatureFlag,

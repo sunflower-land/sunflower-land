@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { InnerPanel, OuterPanel } from "components/ui/Panel";
+import { OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Modal } from "components/ui/Modal";
@@ -17,7 +17,6 @@ import { Flowers } from "./pages/Flowers";
 import { Deliveries } from "./pages/Deliveries";
 import { ChoreBoard } from "./pages/ChoreBoard";
 import { FactionLeaderboard } from "./pages/FactionLeaderboard";
-import { LeagueLeaderboard } from "./pages/LeaguesLeaderboard";
 import { ChapterCollections } from "./pages/ChapterCollections";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
@@ -38,10 +37,6 @@ import { CompetitionDetails } from "features/competition/CompetitionBoard";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { Checklist, checklistCount } from "components/ui/CheckList";
 import { getAscensionLevel } from "features/game/lib/level";
-import trophyIcon from "assets/icons/trophy.png";
-import { hasFeatureAccess } from "lib/flags";
-import type { AuthMachineState } from "features/auth/lib/authMachine";
-import * as AuthProvider from "features/auth/lib/Provider";
 import { useNow } from "lib/utils/hooks/useNow";
 import { ChapterBounties } from "./pages/ChapterBounties";
 import deliveryIcon from "assets/icons/delivery.webp";
@@ -53,8 +48,6 @@ interface Props {
 
 const _farmId = (state: MachineState) => state.context.farmId;
 const _state = (state: MachineState) => state.context.state;
-const _token = (state: AuthMachineState) =>
-  state.context.user.rawToken as string;
 
 /**
  * Codex bounties tab: mega board (all non-animal requests) + animal ticket rows
@@ -76,10 +69,8 @@ function shouldCountIncompleteBountyForCodex(
 export const Codex: React.FC<Props> = ({ show, onHide }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const { authService } = useContext(AuthProvider.Context);
   const farmId = useSelector(gameService, _farmId);
   const state = useSelector(gameService, _state);
-  const token = useSelector(authService, _token);
   const now = useNow();
   const chapterTicket = getChapterTicket(now);
 
@@ -88,7 +79,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     ascensionLevel: state.island.ascensionLevel ?? 0,
   });
 
-  const { username, bounties, delivery, choreBoard, faction } = state;
+  const { bounties, delivery, choreBoard, faction } = state;
 
   const [currentTab, setCurrentTab] = useState<CodexCategoryName>("Deliveries");
   const [showMilestoneReached, setShowMilestoneReached] = useState(false);
@@ -104,7 +95,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
 
     const fetchLeaderboards = async () => {
       try {
-        const data = await fetchLeaderboardData(farmId, token);
+        const data = await fetchLeaderboardData(farmId);
         setData(data);
       } catch (e) {
         // eslint-disable-next-line no-console
@@ -149,8 +140,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
 
   // Pre-calculate checklist count once
   const checklistCountValue = checklistCount(state, ascension, now);
-  const hasLeagues =
-    hasFeatureAccess(state, "LEAGUES") && state.prototypes?.leagues;
 
   // Build categories array more efficiently
   const categories: CodexCategory[] = [
@@ -194,15 +183,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
           {
             name: "Marks" as const,
             icon: factions,
-            count: 0,
-          },
-        ]
-      : []),
-    ...(hasLeagues
-      ? [
-          {
-            name: "Leagues" as const,
-            icon: trophyIcon,
             count: 0,
           },
         ]
@@ -308,16 +288,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                   }
                 />
               </div>
-            )}
-            {currentTab === "Leagues" && state.prototypes?.leagues && (
-              <InnerPanel>
-                <LeagueLeaderboard
-                  data={data?.leagues ?? null}
-                  isLoading={data === undefined}
-                  username={username}
-                  farmId={farmId}
-                />
-              </InnerPanel>
             )}
           </div>
         </OuterPanel>
