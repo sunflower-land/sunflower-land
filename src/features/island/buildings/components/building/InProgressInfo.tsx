@@ -68,7 +68,7 @@ export const InProgressInfo: React.FC<Props> = ({
   // its ready time live from the boost windows; anything else — fish processing,
   // and recipes queued before the speed model — falls through to the plain
   // countdown on `readyAt`.
-  const { workLeftSeconds, countdownSeconds } = useNodeTimer({
+  const { readyAt, workLeftSeconds, countdownSeconds } = useNodeTimer({
     startedAt: startedAt ?? product.readyAt - totalSeconds * 1000,
     baseDurationMs: product.baseDurationMs,
     windows,
@@ -84,8 +84,12 @@ export const InProgressInfo: React.FC<Props> = ({
   const progressLeftSeconds =
     product.baseDurationMs === undefined ? countdownSeconds : workLeftSeconds;
 
+  // Price the instant-finish off the LIVE ready time, not the stored one: the
+  // reducer charges via getCurrentCookingItem, which derives readyAt from the
+  // boost windows, so a stale `product.readyAt` would show the wrong cost while
+  // a booster is running. Identical for legacy recipes and fish processing.
   const payment = useSpeedUpPayment({
-    readyAt: product.readyAt,
+    readyAt,
     game: state,
   });
   const cost =
