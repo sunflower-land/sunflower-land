@@ -23,7 +23,6 @@ import { useNow } from "lib/utils/hooks/useNow";
 import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
 import { KNOWN_IDS } from "features/game/types";
 import type { TreeName } from "features/game/types/resources";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { ChestReward } from "features/island/common/chest-reward/ChestReward";
 import { useSelector } from "@xstate/react";
 import {
@@ -161,8 +160,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
   const {
     now,
     readyAt,
-    speed,
-    displaySeconds: timeLeft,
+    countdownSeconds: timeLeft,
   } = useNodeTimer({
     startedAt: choppedAt,
     baseDurationMs,
@@ -204,8 +202,6 @@ export const Tree: React.FC<Props> = ({ id }) => {
       return () => clearTimeout(timeout);
     }
   }, [isAnimationRunning]);
-
-  useUiRefresher({ active: chopped });
 
   // Calculate expected reward for UI preview (captcha gate for non-seasoned players)
   const treeName: TreeName = resource.name ?? "Tree";
@@ -328,7 +324,6 @@ export const Tree: React.FC<Props> = ({ id }) => {
           island={island}
           season={season}
           name={treeName}
-          speed={speed}
         />
       )}
 
