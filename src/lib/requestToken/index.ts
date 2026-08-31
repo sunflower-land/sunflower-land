@@ -38,6 +38,19 @@ import { loadTokenModule, type TokenModule } from "./loader";
 export const UNSUPPORTED_SIGNER_TOKEN = "incompatible_wasm";
 
 /**
+ * Sent as `X-Token` when this client had no code to sign with — the layer
+ * had not initialised yet, the API issued no code, or the player logged
+ * out. Paired with the state so the API can tell those apart.
+ *
+ * The point of always sending something is that a request with **no
+ * X-Token header at all** then means one of two things only: a caller that
+ * is not our client, or a proxy that stripped it. That is a signal worth
+ * rejecting on; "the header is absent" previously also covered several
+ * ordinary states of our own client.
+ */
+export const UNSIGNED_TOKEN = "unsigned";
+
+/**
  * Boils an unknown failure down to a short, header-safe code appended to
  * the sentinel (`incompatible_wasm:fetch-failed`). Without it every one of
  * these looks identical server-side, and "the module would not load" has
@@ -63,12 +76,18 @@ function failureCode(e: unknown): string {
 let signer: TokenModule | undefined;
 let expiresAt: number | undefined;
 /**
- * True when we were given a session code but could not produce a signer —
- * an old engine, a webview that refuses WebAssembly, a blocked fetch. Kept
- * apart from "no code was issued", which is not this browser's fault.
+ * Why the layer is not signing, when it isn't. Every one of these states
+ * still sends an X-Token, so an absent header is never our own client.
  */
-let signerUnavailable = false;
-/** Short reason code sent alongside the sentinel. */
+type LayerState =
+  | "ready"
+  | "not-initialised" // /session has not completed yet
+  | "no-session-code" // the API issued none
+  | "logged-out"
+  | "signer-failed";
+
+let state: LayerState = "not-initialised";
+/** Short reason code sent alongside the signer-failed sentinel. */
 let signerFailure = "";
 /**
  * The in-flight `initRequestTokens` call, if any. Fetching and
@@ -98,7 +117,7 @@ async function init(params: {
   if (!params.sessionCode || !params.sessionCodeExpiresAt) {
     signer?.clearSession();
     expiresAt = undefined;
-    signerUnavailable = false;
+    state = "no-session-code";
     signerFailure = "";
     return;
   }
@@ -108,13 +127,13 @@ async function init(params: {
 
     signer.initSession(params.sessionCode);
     expiresAt = params.sessionCodeExpiresAt;
-    signerUnavailable = false;
+    state = "ready";
     signerFailure = "";
   } catch (e) {
     // Never let token setup take the game down — the request still goes,
     // flagged so the API can count who this is happening to, and why.
     expiresAt = undefined;
-    signerUnavailable = true;
+    state = "signer-failed";
     signerFailure = failureCode(e);
   }
 }
@@ -123,7 +142,7 @@ async function init(params: {
 export function clearRequestTokens() {
   signer?.clearSession();
   expiresAt = undefined;
-  signerUnavailable = false;
+  state = "logged-out";
   signerFailure = "";
 }
 
@@ -136,15 +155,14 @@ function tokenHeaders(
   init?: RequestInit,
 ): Record<string, string> | undefined {
   if (!requestTokensActive()) {
-    // Tell the API this is a real player who could not run the signer,
-    // rather than leaving it indistinguishable from an unsigned script.
-    return signerUnavailable
-      ? {
-          "X-Token": signerFailure
-            ? `${UNSUPPORTED_SIGNER_TOKEN}:${signerFailure}`
-            : UNSUPPORTED_SIGNER_TOKEN,
-        }
-      : undefined;
+    // Always say something. Which sentinel depends on whether the browser
+    // could not run the signer, or we simply had nothing to sign with yet.
+    return {
+      "X-Token":
+        state === "signer-failed"
+          ? `${UNSUPPORTED_SIGNER_TOKEN}:${signerFailure || "unknown"}`
+          : `${UNSIGNED_TOKEN}:${state}`,
+    };
   }
 
   const method = (init?.method ?? "GET").toUpperCase();

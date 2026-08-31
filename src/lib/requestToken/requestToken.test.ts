@@ -53,12 +53,14 @@ describe("requestToken", () => {
   const sentHeaders = (call: number) =>
     (fetchMock.mock.calls[call][1]?.headers ?? {}) as Record<string, string>;
 
-  it("sends no token headers when no code was issued", async () => {
+  it("still identifies itself when no code was issued", async () => {
     await initRequestTokens({});
     await secureFetch("https://api.test/marketplace");
 
     expect(requestTokensActive()).toBe(false);
-    expect(sentHeaders(0)["X-Token"]).toBeUndefined();
+    // Never silent: an absent X-Token must only ever mean "not our client".
+    expect(sentHeaders(0)["X-Token"]).toBe("unsigned:no-session-code");
+    expect(sentHeaders(0)["X-Timestamp"]).toBeUndefined();
   });
 
   it("passes the session code into the signer", async () => {
@@ -146,14 +148,14 @@ describe("requestToken", () => {
     expect(sentHeaders(0)["X-Expires"]).toBe(String(EXPIRES_AT + 60));
   });
 
-  it("stops attaching headers after logout", async () => {
+  it("marks requests as logged out rather than sending nothing", async () => {
     await initRequestTokens(session);
     clearRequestTokens();
 
     await secureFetch("https://api.test/marketplace");
 
     expect(requestTokensActive()).toBe(false);
-    expect(sentHeaders(0)["X-Token"]).toBeUndefined();
+    expect(sentHeaders(0)["X-Token"]).toBe("unsigned:logged-out");
   });
 
   it("propagates a network failure once retries are exhausted", async () => {
@@ -223,7 +225,7 @@ describe("requestToken when the signer cannot be loaded", () => {
     expect(headers["X-Timestamp"]).toBeUndefined();
   });
 
-  it("sends nothing at all when no session code was issued", async () => {
+  it("distinguishes no-code-issued from a browser that failed", async () => {
     jest.doMock("./loader", () => ({
       loadTokenModule: () => Promise.reject(new Error("offline")),
     }));
@@ -241,7 +243,8 @@ describe("requestToken when the signer cannot be loaded", () => {
       string,
       string
     >;
-    expect(headers["X-Token"]).toBeUndefined();
+    expect(headers["X-Token"]).toBe("unsigned:no-session-code");
+    expect(headers["X-Token"]).not.toContain("incompatible_wasm");
   });
 });
 
@@ -346,5 +349,36 @@ describe("requestToken while the signer is still loading", () => {
       string
     >;
     expect(headers["X-Token"]).toBeDefined();
+  });
+});
+
+describe("requestToken before /session has completed", () => {
+  let fetchMock: jest.Mock;
+
+  beforeEach(() => {
+    jest.resetModules();
+    fetchMock = jest.fn().mockResolvedValue({ ok: true });
+    (window as unknown as { fetch: unknown }).fetch = fetchMock;
+  });
+
+  it("labels a request that beat the session handshake", async () => {
+    jest.doMock("./loader", () => ({
+      loadTokenModule: () => Promise.resolve({}),
+    }));
+
+    /* eslint-disable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
+    const tokens = require("./index") as typeof import("./index");
+    /* eslint-enable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
+
+    // Deep-linking to the marketplace fires a protected read before the
+    // game machine has loaded a session. Previously this sent no headers
+    // and was indistinguishable server-side from a script.
+    await tokens.secureFetch("https://api.test/marketplace");
+
+    const headers = (fetchMock.mock.calls[0][1]?.headers ?? {}) as Record<
+      string,
+      string
+    >;
+    expect(headers["X-Token"]).toBe("unsigned:not-initialised");
   });
 });
