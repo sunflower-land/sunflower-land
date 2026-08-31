@@ -137,7 +137,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     return count - totalListed;
   };
 
-  // For resources: cap at 20 listings per resource; when at 20, only 1 more allowed.
+  // For resources: cap at 20 listings per resource.
   const currentListingCount = isResource
     ? Object.values(state.trades.listings ?? {}).filter(
         (listing) => (listing.items[display.name] ?? 0) > 0,
@@ -145,7 +145,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     : 0;
   const maxMultiple =
     currentListingCount >= MAX_RESOURCE_LISTINGS
-      ? 1
+      ? 0
       : Math.min(
           MAX_RESOURCE_LISTINGS,
           MAX_RESOURCE_LISTINGS - currentListingCount,
