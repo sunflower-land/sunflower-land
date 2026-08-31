@@ -198,7 +198,7 @@ const FEATURE_FLAGS = {
   // Speed-rate (Clash-of-Clans potion) model for time-based boosts — starting
   // with the Sparrow Shrine on crops. When on, planting stores the new
   // baseDurationMs + true plantedAt model; when off, boosts stay discount-at-start.
-  SPEED_BOOSTS: usernameFeatureFlag,
+  SPEED_BOOSTS: betaFeatureFlag,
 
   // Bulk Mixer tab in the feeder machine: mix the missing feed for every
   // waiting animal at once. Beta-pass / testnet only until it ships.
