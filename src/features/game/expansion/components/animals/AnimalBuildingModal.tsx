@@ -89,7 +89,7 @@ export const AnimalBuildingModal: React.FC<Props> = ({
   onClose,
   onExchanging,
 }) => {
-  const { gameService, showActualTime } = useContext(Context);
+  const { gameService } = useContext(Context);
   const [showIntro, setShowIntro] = useState(!hasReadIntro());
   type Tab = "buy" | "sell" | "guide";
   const [currentTab, setCurrentTab] = useState<Tab>(
@@ -157,8 +157,8 @@ export const AnimalBuildingModal: React.FC<Props> = ({
     ? getAnimalBoostWindows(state, selectedName)
     : [];
   // The windowed shrine isn't in `boostsUsed` (it applies over the sleep rather
-  // than being baked into it), so name it for the boost panel: its rate in the
-  // speed view, the time it actually saves in the other.
+  // than being baked into it), so name it for the boost panel: the time it
+  // actually saves.
   const maturityBoostsUsed = [
     ...maturityTime.boostsUsed,
     ...getBoostContributionEntries({
@@ -167,21 +167,17 @@ export const AnimalBuildingModal: React.FC<Props> = ({
         : [],
       seconds: maturityTime.maturityTimeMs / 1000,
       at: now,
-      showActualTime,
       formatSeconds: (seconds) =>
         secondsToString(seconds, { length: "medium" }),
-      formatSpeed: (speed) => t("description.boostedSpeed", { speed }),
     }),
   ];
-  const { displaySeconds: maturityDisplaySeconds, speed: maturitySpeed } =
-    getPreActionDisplay({
-      showActualTime,
-      seconds: maturityTime.maturityTimeMs / 1000,
-      baseSeconds: maturityTime.baseTimeMs / 1000,
-      namedBoostCount: maturityBoostsUsed.length,
-      windows: maturityWindows,
-      at: now,
-    });
+  const { displaySeconds: maturityDisplaySeconds } = getPreActionDisplay({
+    seconds: maturityTime.maturityTimeMs / 1000,
+    baseSeconds: maturityTime.baseTimeMs / 1000,
+    namedBoostCount: maturityBoostsUsed.length,
+    windows: maturityWindows,
+    at: now,
+  });
 
   if (showIntro) {
     return (
@@ -261,7 +257,6 @@ export const AnimalBuildingModal: React.FC<Props> = ({
                 timeSeconds: Math.ceil(maturityDisplaySeconds),
                 baseTimeSeconds: Math.ceil(maturityTime.baseTimeMs / 1000),
                 timeBoostsUsed: maturityBoostsUsed,
-                timeSpeed: maturitySpeed,
                 level: ANIMALS[selectedName].levelRequired,
               }}
               showTimeBoosts={showTimeBoosts}

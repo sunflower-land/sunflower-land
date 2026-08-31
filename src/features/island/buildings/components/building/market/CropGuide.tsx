@@ -1,7 +1,7 @@
 import { InnerPanel } from "components/ui/Panel";
 import { Chip } from "components/ui/Chip";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React, { useContext, useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { SEASON_ICONS } from "./SeasonalSeeds";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
@@ -31,7 +31,6 @@ import { SELLABLE } from "features/game/events/landExpansion/sellCrop";
 import { GREENHOUSE_CROP_TIME_SECONDS } from "features/game/lib/greenhouseGrowTimes";
 import { useGame } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { translate } from "lib/i18n/translate";
 import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
 import fullMoon from "assets/icons/full_moon.png";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
@@ -45,7 +44,6 @@ import {
 import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
 import { useNow } from "lib/utils/hooks/useNow";
 import classNames from "classnames";
-import { Context } from "features/game/GameProvider";
 import {
   getPreActionDisplay,
   PRE_ACTION_TICK_MS,
@@ -655,22 +653,18 @@ const GrowthTimeCell: React.FC<{
   showBoostsKey,
   setShowBoostsKey,
 }) => {
-  const { showActualTime } = useContext(Context);
   const anchorRef = useRef<HTMLButtonElement>(null);
 
-  // A live speed window isn't folded into `boostedTime` — show it as the current
-  // rate, or (in the actual-time view) as the real "plant now → ready in X",
-  // which credits only the part of the grow the booster still covers.
-  // The windowed boosters aren't in `boostsUsed` (they apply over the grow rather
-  // than being baked into it), so name them for the boost panel: their rate in
-  // the speed view, the time each one actually saves in the other.
+  // A live speed window isn't folded into `boostedTime` — project the real
+  // "plant now → ready in X", which credits only the part of the grow the
+  // booster still covers. The windowed boosters aren't in `boostsUsed` (they
+  // apply over the grow rather than being baked into it), so name them for the
+  // boost panel with the time each one actually saves.
   const windowedBoosts = getBoostContributionEntries({
     contributions: getSeedBoostContributions(state, seed, now),
     seconds: boostedTime.seconds,
     at: now,
-    showActualTime,
     formatSeconds: (seconds) => secondsToString(seconds, { length: "medium" }),
-    formatSpeed: (speed) => translate("description.boostedSpeed", { speed }),
   });
   const boostsUsed = [...boostedTime.boostsUsed, ...windowedBoosts];
   const {
@@ -678,7 +672,6 @@ const GrowthTimeCell: React.FC<{
     hasNamedBoosts,
     isBoosted: isTimeBoosted,
   } = getPreActionDisplay({
-    showActualTime,
     seconds: boostedTime.seconds,
     baseSeconds,
     namedBoostCount: boostsUsed.length,

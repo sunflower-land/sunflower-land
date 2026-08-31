@@ -16,11 +16,6 @@ interface Props {
   season: TemperateSeasonName;
   /** The recovering tree — names it in the popover, as a plot names its crop. */
   name: TreeName;
-  /**
-   * Current effective recovery speed from windowed boosts (e.g. Timber
-   * Hourglass). > 1 shows a lightning marker + the multiplier in the popover.
-   */
-  speed?: number;
 }
 
 const DepletedTreeComponent: React.FC<Props> = ({
@@ -28,12 +23,10 @@ const DepletedTreeComponent: React.FC<Props> = ({
   island,
   season,
   name,
-  speed,
 }) => {
   const [showTimeLeft, setShowTimeLeft] = useState(false);
 
   const biome: LandBiomeName = getCurrentBiome(island);
-  const boosted = speed !== undefined && speed > 1;
 
   return (
     <div
@@ -51,19 +44,6 @@ const DepletedTreeComponent: React.FC<Props> = ({
             left: `${PIXEL_SCALE * 8}px`,
           }}
         />
-        {boosted && (
-          <img
-            src={SUNNYSIDE.icons.lightning}
-            alt=""
-            aria-hidden
-            className="absolute animate-pulse"
-            style={{
-              width: `${PIXEL_SCALE * 7}px`,
-              top: `${PIXEL_SCALE * 2}px`,
-              right: `${PIXEL_SCALE * 2}px`,
-            }}
-          />
-        )}
         <div
           className="flex justify-center absolute w-full"
           style={{
@@ -75,7 +55,6 @@ const DepletedTreeComponent: React.FC<Props> = ({
             description={name}
             showPopover={showTimeLeft}
             timeLeft={timeLeft}
-            speed={speed}
           />
         </div>
       </div>

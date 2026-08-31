@@ -128,14 +128,13 @@ export const SleepingAnimalModal = ({
 
   // `awakeAt` is already the live windowed wake time — the animal components
   // resolve it before rendering this modal (see `resolveAnimal`).
-  const { displaySeconds: secondsLeft, speed } = useNodeTimer({
+  const { countdownSeconds: secondsLeft } = useNodeTimer({
     startedAt: animal.asleepAt,
     baseDurationMs: animal.baseDurationMs,
     windows: getAnimalBoostWindows(state, animal.type),
     legacyReadyAt: awakeAt,
   });
-  // The love slot is a wall-clock boundary, not a work timer, so it counts down
-  // in real time regardless of the display setting.
+  // The love slot is a wall-clock boundary, not a work timer.
   const { totalSeconds: secondsUntilLove } = useCountdown(
     getNextLoveAvailableAt(animal, awakeAt),
   );
@@ -243,19 +242,6 @@ export const SleepingAnimalModal = ({
             {" "}
             {`${t("wakesIn")} ${secondsToString(secondsLeft, { length: "medium" })}`}
           </span>
-          {speed > 1 && (
-            <Label
-              type="transparent"
-              icon={SUNNYSIDE.icons.lightning}
-              className="self-center"
-            >
-              <span className="whitespace-nowrap">
-                {t("description.boostedSpeed", {
-                  speed: Number(speed.toFixed(2)),
-                })}
-              </span>
-            </Label>
-          )}
         </div>
         {production.length > 0 && (
           <div

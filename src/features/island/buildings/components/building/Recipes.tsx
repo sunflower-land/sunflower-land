@@ -113,7 +113,7 @@ export const Recipes: React.FC<Props> = ({
   queue,
   readyRecipes,
 }) => {
-  const { gameService, showActualTime } = useContext(Context);
+  const { gameService } = useContext(Context);
 
   // Recomputed from full state, but only re-renders when the windows actually change.
   const cookingBoostWindows = useSelector(
@@ -208,10 +208,9 @@ export const Recipes: React.FC<Props> = ({
   })();
 
   // The windowed boosters aren't in `boostsUsed` (they apply over the cook rather
-  // than being baked into it), so name them for the boost panel: their rate in the
-  // speed view, the time each one actually saves in the other. Evaluated at the
-  // recipe's START, so a booster that will have expired by the time a queued recipe
-  // begins is correctly left out.
+  // than being baked into it), so name them for the boost panel with the time
+  // each one actually saves. Evaluated at the recipe's START, so a booster that
+  // will have expired by the time a queued recipe begins is correctly left out.
   const cookingWindowedBoosts =
     baseDurationMs === undefined
       ? []
@@ -219,10 +218,8 @@ export const Recipes: React.FC<Props> = ({
           contributions: getCookingBoostContributions(state, recipeStartAt),
           seconds: baseDurationMs / 1000,
           at: recipeStartAt,
-          showActualTime,
           formatSeconds: (seconds) =>
             secondsToString(seconds, { length: "medium" }),
-          formatSpeed: (speed) => t("description.boostedSpeed", { speed }),
         });
 
   const allTimeBoostsUsed = [...timeBoostsUsed, ...cookingWindowedBoosts];
@@ -234,7 +231,6 @@ export const Recipes: React.FC<Props> = ({
     baseDurationMs === undefined
       ? undefined
       : getPreActionDisplay({
-          showActualTime,
           seconds: baseDurationMs / 1000,
           baseSeconds: baseTimeSeconds,
           namedBoostCount: allTimeBoostsUsed.length,
@@ -317,7 +313,6 @@ export const Recipes: React.FC<Props> = ({
                 baseXp: selected.experience,
                 xpBoostsUsed: boostsUsed,
                 timeSeconds: timeDisplay?.displaySeconds ?? cookingTime,
-                timeSpeed: timeDisplay?.speed,
                 baseTimeSeconds,
                 timeBoostsUsed: allTimeBoostsUsed,
               }}

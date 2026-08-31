@@ -2,7 +2,7 @@
  * A wrapper that provides game state and dispatches events
  */
 import { useState, useCallback, useEffect } from "react";
-import { useActor, useInterpret, useSelector } from "@xstate/react";
+import { useActor, useInterpret } from "@xstate/react";
 import React, { useContext } from "react";
 
 import * as Auth from "features/auth/lib/Provider";
@@ -22,13 +22,10 @@ import {
   getEnableQuickSelectSetting,
 } from "features/farming/hud/lib/quickSelect";
 import {
-  cacheShowActualTimeSetting,
   cacheShowTimersSetting,
-  getShowActualTimeSetting,
   getShowTimersSetting,
 } from "features/farming/hud/lib/timers";
 import { initInteractionMetrics } from "./lib/interactionMetrics";
-import { hasFeatureAccess } from "lib/flags";
 
 interface GameContext {
   shortcutItem: (item: InventoryItemName) => void;
@@ -45,16 +42,6 @@ interface GameContext {
   toggleQuickSelect: () => void;
   showTimers: boolean;
   toggleTimers: () => void;
-  /**
-   * Which reading a boosted timer shows: the remaining WORK (false, the default)
-   * or the actual wall-clock time until ready (true). See `timerDisplay.ts`.
-   *
-   * Always false without `SPEED_BOOSTS` - the two readings can only diverge
-   * while a boost window is running, so a cached `true` from a flagged account
-   * must not leak the actual-time view to everyone else.
-   */
-  showActualTime: boolean;
-  toggleActualTime: () => void;
   fromRoute?: string;
   setFromRoute: (route: string) => void;
 }
@@ -109,13 +96,6 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
     getEnableQuickSelectSetting(),
   );
   const [showTimers, setShowTimers] = useState<boolean>(getShowTimersSetting());
-  const [actualTimeSetting, setActualTimeSetting] = useState<boolean>(
-    getShowActualTimeSetting(),
-  );
-  const hasSpeedBoosts = useSelector(gameService, (state) =>
-    hasFeatureAccess(state.context.state, "SPEED_BOOSTS"),
-  );
-  const showActualTime = actualTimeSetting && hasSpeedBoosts;
   const [fromRoute, setFromRoute] = useState<string | undefined>();
 
   const shortcutItem = useCallback((item: InventoryItemName) => {
@@ -169,13 +149,6 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
     cacheShowTimersSetting(newValue);
   };
 
-  const toggleActualTime = () => {
-    const newValue = !actualTimeSetting;
-
-    setActualTimeSetting(newValue);
-    cacheShowActualTimeSetting(newValue);
-  };
-
   const selectedItem = shortcuts.length > 0 ? shortcuts[0] : undefined;
 
   return (
@@ -192,8 +165,6 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
         toggleQuickSelect,
         showTimers,
         toggleTimers,
-        showActualTime,
-        toggleActualTime,
         fromRoute,
         setFromRoute,
       }}
