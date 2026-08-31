@@ -90,14 +90,16 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
         deal.name === "Chicken" ? state.henHouse.animals : state.barn.animals;
 
       if (
-        Object.values(animals).some((animal) => isValidDeal({ animal, deal }))
+        Object.values(animals).some((animal) =>
+          isValidDeal({ animal, deal, game: state }),
+        )
       ) {
         ids.add(deal.id);
       }
     });
 
     return ids;
-  }, [deals, state.henHouse.animals, state.barn.animals, now]);
+  }, [deals, state, now]);
 
   const dealGroups = useMemo(() => {
     const coins = deals.filter((deal) => deal.coins !== undefined);
@@ -139,9 +141,7 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
     return (
       <div
         key={deal.id}
-        className={classNames("relative shrink-0", {
-          "opacity-60": !isAvailable,
-        })}
+        className="relative shrink-0"
         style={{
           width: `${CARD_SIZE}px`,
           height: `${CARD_SIZE * 1.25}px`,
@@ -150,7 +150,9 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
         <ButtonPanel
           variant={isAvailable ? "primary" : "secondary"}
           disabled={!isAvailable}
-          className="w-full h-full min-w-0"
+          className={classNames("w-full h-full min-w-0", {
+            "opacity-60": !isAvailable,
+          })}
           onClick={() => onSelect(isSelected ? undefined : deal)}
         >
           <div className="h-full flex items-center justify-center pt-2 pb-5">
@@ -163,12 +165,6 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
           >
             {t("bounties.minLevel", { level: deal.level })}
           </Label>
-
-          {isSold && (
-            <Label type="success" className="absolute -top-2 -right-1 text-xxs">
-              {t("bounties.sold")}
-            </Label>
-          )}
 
           {!!deal.coins && (
             <Label
@@ -205,6 +201,15 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
             </Label>
           ))}
         </ButtonPanel>
+
+        {isSold && (
+          <img
+            src={SUNNYSIDE.icons.confirm}
+            alt={t("bounties.sold")}
+            className="absolute z-30 -top-2 -right-1 pointer-events-none"
+            style={{ width: `${PIXEL_SCALE * 7}px` }}
+          />
+        )}
 
         {isSelected && <SelectionCorners />}
       </div>

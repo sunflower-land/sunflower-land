@@ -156,11 +156,11 @@ export const AnimalBounties: React.FC<Props> = ({
           ? state.henHouse.animals
           : state.barn.animals;
       map[request.id] = Object.values(animals).filter((animal) =>
-        isValidDeal({ animal, deal: request }),
+        isValidDeal({ animal, deal: request, game: state }),
       );
     });
     return map;
-  }, [requests, type, state.henHouse.animals, state.barn.animals, now]);
+  }, [requests, type, state, now]);
 
   const handleSellAnimal = (deal: AnimalBounty, animalId: string) => {
     const currentState = gameService.getSnapshot().context.state;
@@ -175,7 +175,7 @@ export const AnimalBounties: React.FC<Props> = ({
     if (
       !currentAnimal ||
       isCompleted ||
-      !isValidDeal({ animal: currentAnimal, deal })
+      !isValidDeal({ animal: currentAnimal, deal, game: currentState })
     ) {
       return;
     }
@@ -453,7 +453,7 @@ export const AnimalDeal: React.FC<{
     if (
       !currentAnimal ||
       isCompleted ||
-      !isValidDeal({ animal: currentAnimal, deal })
+      !isValidDeal({ animal: currentAnimal, deal, game: currentState })
     ) {
       onClose();
       return;
@@ -661,7 +661,9 @@ export const AnimalDeal: React.FC<{
             <Button className="mr-1" onClick={onClose}>
               {t("cancel")}
             </Button>
-            <Button onClick={sell}>{t("confirm")}</Button>
+            <ConfirmButton key={confirmationKey} onClick={sell}>
+              {t("confirm")}
+            </ConfirmButton>
           </div>
         </Panel>
       )}

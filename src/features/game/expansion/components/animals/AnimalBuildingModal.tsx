@@ -19,7 +19,7 @@ import {
   getTranslatedItemName,
 } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
-import type { AnimalBounty, AnimalBuildingKey } from "features/game/types/game";
+import type { AnimalBuildingKey } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import {
   getAscensionLevel,
@@ -28,7 +28,6 @@ import {
 import { getBoostedAnimalCapacity } from "features/game/events/landExpansion/buyAnimal";
 import { Label } from "components/ui/Label";
 
-import coinsIcon from "assets/icons/coins.webp";
 import brush from "assets/animals/brush.webp";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
@@ -47,7 +46,6 @@ import {
 } from "features/game/lib/timerDisplay";
 import { useNow } from "lib/utils/hooks/useNow";
 import { secondsToString } from "lib/utils/time";
-import { AnimalBounties } from "features/barn/components/AnimalBounties";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
@@ -79,7 +77,7 @@ export function hasReadGuide() {
 type Props = {
   buildingName: AnimalBuildingType;
   onClose: () => void;
-  onExchanging: (deal: AnimalBounty) => void;
+  view: "buy" | "guide";
 };
 
 const _state = (state: MachineState) => state.context.state;
@@ -90,13 +88,11 @@ const _building = (buildingKey: AnimalBuildingKey) => (state: MachineState) =>
 export const AnimalBuildingModal: React.FC<Props> = ({
   buildingName,
   onClose,
-  onExchanging,
+  view,
 }) => {
   const { gameService } = useContext(Context);
-  const [showIntro, setShowIntro] = useState(!hasReadIntro());
-  type Tab = "buy" | "sell" | "guide";
-  const [currentTab, setCurrentTab] = useState<Tab>(
-    !hasReadGuide() ? "guide" : "buy",
+  const [showIntro, setShowIntro] = useState(
+    view === "guide" && !hasReadIntro(),
   );
   const [showTimeBoosts, setShowTimeBoosts] = useState(false);
 
@@ -232,21 +228,11 @@ export const AnimalBuildingModal: React.FC<Props> = ({
   return (
     <CloseButtonPanel
       onClose={onClose}
-      tabs={[
-        { id: "buy", name: t("buy"), icon: coinsIcon },
-        { id: "sell", name: t("sell"), icon: SUNNYSIDE.icons.death },
-        {
-          id: "guide",
-          name: t("guide"),
-          icon: SUNNYSIDE.icons.expression_confused,
-        },
-      ]}
-      currentTab={currentTab}
-      setCurrentTab={setCurrentTab}
+      title={t(view)}
       className="relative"
       container={OuterPanel}
     >
-      {currentTab === "buy" && (
+      {view === "buy" && (
         <SplitScreenView
           panel={
             <CraftingRequirements
@@ -323,14 +309,7 @@ export const AnimalBuildingModal: React.FC<Props> = ({
         />
       )}
 
-      {currentTab === "sell" && (
-        <AnimalBounties
-          type={buildingName === "Barn" ? ["Cow", "Sheep"] : ["Chicken"]}
-          onExchanging={onExchanging}
-        />
-      )}
-
-      {currentTab === "guide" && (
+      {view === "guide" && (
         <>
           <InnerPanel className="p-1">
             <div className="flex flex-col p-1 space-y-1 mb-2">

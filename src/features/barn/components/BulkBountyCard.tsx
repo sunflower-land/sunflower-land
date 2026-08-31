@@ -1,7 +1,6 @@
 import React from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import animalFloorTile from "assets/ui/animal_floor_tile.png";
-import glow from "public/world/glow.png";
 import { LABEL_STYLES, Label } from "components/ui/Label";
 import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -19,6 +18,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "lib/object";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import type { Animal, AnimalBounty, GameState } from "features/game/types/game";
+import { CONFIG } from "lib/config";
 
 interface Props {
   deal: AnimalBounty;
@@ -273,7 +273,7 @@ export const BulkBountyAnimalPicker: React.FC<PickerProps> = ({
                 <div className="relative flex justify-center items-center my-2 mb-8">
                   {hasUpcomingMutant && (
                     <img
-                      src={glow}
+                      src={`${CONFIG.PROTECTED_IMAGE_URL}/world/glow.png`}
                       className="absolute animate-pulsate pointer-events-none"
                       style={{
                         bottom: "-30px",
