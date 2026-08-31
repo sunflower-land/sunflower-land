@@ -6,7 +6,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import type { RecipeIngredient } from "features/game/lib/crafting";
 import type { InventoryItemName } from "features/game/types/game";
 import type { BumpkinItem } from "features/game/types/bumpkin";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 
 interface Props {
   show: boolean;
@@ -83,7 +86,9 @@ export const RecipeInfoPanel: React.FC<Props> = ({
                     alt={ingredient}
                     className="w-3"
                   />
-                  <span className="text-xs">{ingredient}</span>
+                  <span className="text-xs">
+                    {getTranslatedItemName(ingredient)}
+                  </span>
                 </div>
               ),
             )}
@@ -99,7 +104,9 @@ export const RecipeInfoPanel: React.FC<Props> = ({
                   alt={ingredient}
                   className="w-3"
                 />
-                <span className="text-xs">{ingredient}</span>
+                <span className="text-xs">
+                  {getTranslatedItemName(ingredient)}
+                </span>
               </div>
             ))}
           </div>

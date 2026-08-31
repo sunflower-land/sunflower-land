@@ -34,7 +34,10 @@ import {
   getGreenhouseGlowWindows,
 } from "features/game/lib/boostWindows";
 import { useNodeTimer } from "features/game/lib/useNodeTimer";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import {
   getOilUsage,
   SEED_TO_PLANT,
@@ -427,7 +430,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
       >
         <TimerPopover
           image={ITEM_DETAILS[pot.plant.name].image}
-          description={pot.plant.name}
+          description={getTranslatedItemName(pot.plant.name)}
           showPopover={showTimeRemaining && !canApplyGreenhouseFertiliser()}
           timeLeft={displaySecondsLeft}
         />

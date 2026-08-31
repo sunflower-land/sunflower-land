@@ -38,7 +38,10 @@ import {
 } from "features/island/biomes/biomes";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
@@ -185,21 +188,23 @@ export const UpgradeBuildingContent: React.FC<Omit<Props, "show">> = ({
 
   const upgradeLabel = getUpgradeLabel();
   function getUpgradeMessage(buildingName: UpgradableBuildingType): string {
+    const buildingLabel = getTranslatedItemName(buildingName);
+
     if (buildingName === "Aging Shed")
-      return t("upgrade.intro.agingShed", { building: buildingName });
+      return t("upgrade.intro.agingShed", { building: buildingLabel });
     if (buildingName === "Water Well")
-      return t("upgrade.intro.water.well", { building: buildingName });
+      return t("upgrade.intro.water.well", { building: buildingLabel });
     if (buildingName === "Pet House")
-      return t("upgrade.intro.pet.house", { building: buildingName });
+      return t("upgrade.intro.pet.house", { building: buildingLabel });
     if (buildingName === "Barn")
       return t("upgrade.intro", {
-        building: buildingName,
+        building: buildingLabel,
         animals: t("upgrade.sheep.cows"),
       });
 
     // Hen House
     return t("upgrade.intro", {
-      building: buildingName,
+      building: buildingLabel,
       animals: t("upgrade.chickens"),
     });
   }
@@ -220,7 +225,9 @@ export const UpgradeBuildingContent: React.FC<Omit<Props, "show">> = ({
               {t("max.level")}
             </Label>
             <InlineDialogue
-              message={t("building.isMaxLevel", { building: buildingName })}
+              message={t("building.isMaxLevel", {
+                building: getTranslatedItemName(buildingName),
+              })}
             />
           </div>
           <Button onClick={onClose}>{t("close")}</Button>
@@ -244,7 +251,9 @@ export const UpgradeBuildingContent: React.FC<Omit<Props, "show">> = ({
                   icon={SUNNYSIDE.icons.hammer}
                   className="ml-1"
                 >
-                  {t("upgrade.building", { building: buildingName })}
+                  {t("upgrade.building", {
+                    building: getTranslatedItemName(buildingName),
+                  })}
                 </Label>
               </div>
 
@@ -326,7 +335,9 @@ export const UpgradeBuildingContent: React.FC<Omit<Props, "show">> = ({
           >
             {isCurrentlyUpgrading
               ? t("in.progress")
-              : t("upgrade.building", { building: buildingName })}
+              : t("upgrade.building", {
+                  building: getTranslatedItemName(buildingName),
+                })}
           </Button>
         </div>
       )}

@@ -3,7 +3,10 @@ import React, { useContext, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
 import { ConfirmButton } from "components/ui/ConfirmButton";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 import compost from "assets/composters/compost.png";
@@ -242,7 +245,7 @@ const ComposterModalContent: React.FC<{
       farmId,
       counter: state.farmActivity[`${worm} Collected`] ?? 0,
     });
-    const wormLabel = readyWorms === 1 ? worm : `${worm}s`;
+    const wormLabel = getTranslatedItemName(worm);
     return (
       <>
         <Label
@@ -267,7 +270,7 @@ const ComposterModalContent: React.FC<{
                     className="flex space-x-2 justify-start mr-2 mb-1"
                   >
                     <img src={ITEM_DETAILS[name].image} className="h-5" />
-                    <Label type="default">{`${produces[name]} ${name}`}</Label>
+                    <Label type="default">{`${produces[name]} ${getTranslatedItemName(name)}`}</Label>
                   </div>
                 ))}
               <div className="flex space-x-2 justify-start mr-2 mb-1">
@@ -319,13 +322,15 @@ const ComposterModalContent: React.FC<{
                     className="flex space-x-2 justify-start mr-2 mb-1"
                   >
                     <img src={ITEM_DETAILS[name].image} className="h-5" />
-                    <Label type="default">{`${produces[name]} ${name}`}</Label>
+                    <Label type="default">{`${produces[name]} ${getTranslatedItemName(name)}`}</Label>
                   </div>
                 ))}
               <div className="flex space-x-2 justify-start mr-2 mb-1">
                 <img src={ITEM_DETAILS[worm].image} className="h-5" />
                 <Label type="default">
-                  {max === 0 ? `0 ${worm}s` : `${min}-${max} ${worm}s`}
+                  {max === 0
+                    ? `0 ${getTranslatedItemName(worm)}`
+                    : `${min}-${max} ${getTranslatedItemName(worm)}`}
                 </Label>
               </div>
             </div>
@@ -469,7 +474,7 @@ const ComposterModalContent: React.FC<{
             <div className="flex space-x-2 justify-start mr-2">
               <SquareIcon icon={ITEM_DETAILS[produce].image} width={14} />
               <div className="block">
-                <p className="text-xs mb-1">{`${produceAmount} ${produce}`}</p>
+                <p className="text-xs mb-1">{`${produceAmount} ${getTranslatedItemName(produce)}`}</p>
                 <FertiliserLabel fertiliser={produce} state={state} />
               </div>
             </div>
@@ -477,7 +482,9 @@ const ComposterModalContent: React.FC<{
               <SquareIcon icon={ITEM_DETAILS[worm].image} width={14} />
               <div className="block">
                 <p className="text-xs mb-1">
-                  {max === 0 ? `0 ${worm}s` : `${min}-${max} ${worm}s`}
+                  {max === 0
+                    ? `0 ${getTranslatedItemName(worm)}`
+                    : `${min}-${max} ${getTranslatedItemName(worm)}`}
                 </p>
                 <Label
                   icon={SUNNYSIDE.tools.fishing_rod}

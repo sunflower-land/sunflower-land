@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TimerPopover } from "features/island/common/TimerPopover";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { getSunstoneStage } from "../getSunstoneStage";
 import sunstone_1 from "assets/resources/sunstone/sunstone_rock_1.webp";
 import sunstone_2 from "assets/resources/sunstone/sunstone_rock_2.webp";
@@ -62,7 +65,7 @@ const DepletedSunstoneComponent: React.FC<Props> = ({
         >
           <TimerPopover
             image={ITEM_DETAILS["Sunstone"].image}
-            description="Sunstone Rock"
+            description={getTranslatedItemName("Sunstone Rock")}
             showPopover={showTimeLeft}
             timeLeft={timeLeft}
           />

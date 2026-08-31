@@ -23,11 +23,16 @@ import type {
   GameState,
   InventoryItemName,
 } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import {
   getChapterTicket,
   getCurrentChapter,
 } from "features/game/types/chapters";
+import { toTraitValueId } from "features/marketplace/lib/marketplaceFilters";
+import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -157,7 +162,12 @@ export const AnimalBounties: React.FC<Props> = ({
                 }
                 className="mb-3 capitalize"
               >
-                {t("bountyType.label", { type: itemType })}
+                {t("bountyType.label", {
+                  type:
+                    itemType === "coins"
+                      ? t("coins")
+                      : getTranslatedItemName(itemType as InventoryItemName),
+                })}
               </Label>
               <div className="flex flex-wrap">
                 {sortedDeals.map((deal) => (
@@ -323,7 +333,7 @@ export const AnimalDeal: React.FC<{
             <div className="flex flex-col space-y-1 my-3">
               {deal.coins && (
                 <div className="flex items-center space-x-1">
-                  {renderSickReward(coins, "coins", SUNNYSIDE.ui.coinsImg)}
+                  {renderSickReward(coins, t("coins"), SUNNYSIDE.ui.coinsImg)}
                 </div>
               )}
               {getKeys(deal.items ?? {}).map((name) => {
@@ -339,14 +349,23 @@ export const AnimalDeal: React.FC<{
 
                 return (
                   <div className="flex items-center space-x-1" key={name}>
-                    {renderSickReward(amount, name, ITEM_DETAILS[name].image)}
+                    {renderSickReward(
+                      amount,
+                      getTranslatedItemName(name),
+                      ITEM_DETAILS[name].image,
+                    )}
                   </div>
                 );
               })}
 
               {!!deal.items?.[chapterTicket] && (
                 <Label type={"vibrant"} icon={chapterPoints} className="ml-2">
-                  {`+${pointsAwarded} ${chapter} points.`}
+                  {t("bounties.chapterPoints.earned", {
+                    points: pointsAwarded,
+                    chapter: t(
+                      `chapter.name.${toTraitValueId(chapter)}` as TranslationKeys,
+                    ),
+                  })}
                 </Label>
               )}
             </div>
@@ -372,7 +391,10 @@ export const AnimalDeal: React.FC<{
                 icon={ITEM_DETAILS[animal.type].image}
                 className="mr-2"
               >
-                {`Lvl ${getAnimalLevel(animal.experience, animal.type)} ${animal.type}`}
+                {t("bounties.animal.levelLabel", {
+                  level: getAnimalLevel(animal.experience, animal.type),
+                  animal: getTranslatedItemName(animal.type),
+                })}
               </Label>
               {!!deal.coins && (
                 <Label type="warning" icon={SUNNYSIDE.ui.coinsImg}>
@@ -398,7 +420,12 @@ export const AnimalDeal: React.FC<{
 
               {!!deal.items?.[chapterTicket] && (
                 <Label type={"vibrant"} icon={chapterPoints} className="ml-2">
-                  {`+${pointsAwarded} ${chapter} points.`}
+                  {t("bounties.chapterPoints.earned", {
+                    points: pointsAwarded,
+                    chapter: t(
+                      `chapter.name.${toTraitValueId(chapter)}` as TranslationKeys,
+                    ),
+                  })}
                 </Label>
               )}
             </div>
@@ -417,7 +444,7 @@ export const AnimalDeal: React.FC<{
                                   game: state,
                                   bounty: deal,
                                 })
-                          } x ${name}`,
+                          } x ${getTranslatedItemName(name)}`,
                       )
                       .join(" - "),
                   })}
@@ -460,7 +487,7 @@ export const ExchangeHud: React.FC<{
         <InnerPanel>
           <div className="flex flex-wrap">
             <Label type="default" className="mr-2">
-              {`Lvl ${deal.level}+`}
+              {t("level.short", { level: deal.level }) + "+"}
             </Label>
 
             {!!deal.coins && (
@@ -484,10 +511,16 @@ export const ExchangeHud: React.FC<{
 
           <div className="text-xs mt-1">
             {validAnimalsCount > 0 ? (
-              <p>{t("bounties.animal.select", { name: deal.name })} </p>
+              <p>
+                {t("bounties.animal.select", {
+                  name: getTranslatedItemName(deal.name),
+                })}{" "}
+              </p>
             ) : (
               <p style={{ width }}>
-                {t("bounties.animal.noAnimalToSell", { name: deal.name })}
+                {t("bounties.animal.noAnimalToSell", {
+                  name: getTranslatedItemName(deal.name),
+                })}
               </p>
             )}
           </div>
@@ -548,10 +581,9 @@ const BountyCard: React.FC<BountyCardProps> = ({
           </div>
         </div>
 
-        <Label
-          type="formula"
-          className="absolute -top-3.5 -left-2"
-        >{`Lvl ${deal.level}+`}</Label>
+        <Label type="formula" className="absolute -top-3.5 -left-2">
+          {t("level.short", { level: deal.level }) + "+"}
+        </Label>
 
         {isSold && (
           <Label

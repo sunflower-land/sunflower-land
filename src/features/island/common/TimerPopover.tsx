@@ -26,7 +26,7 @@ export const TimerPopover: React.FC<Props> = ({
   return (
     <InnerPanel
       className={classNames(
-        "transition-opacity absolute w-fit max-w-[180px] z-50 pointer-events-none",
+        "transition-opacity absolute w-fit max-w-[220px] z-50 pointer-events-none",
         {
           "opacity-100": showPopover,
           "opacity-0": !showPopover,

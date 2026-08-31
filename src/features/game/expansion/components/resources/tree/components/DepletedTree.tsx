@@ -9,6 +9,7 @@ import {
   type LandBiomeName,
 } from "features/island/biomes/biomes";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { getTranslatedItemName } from "features/game/types/images";
 
 interface Props {
   timeLeft: number;
@@ -52,7 +53,7 @@ const DepletedTreeComponent: React.FC<Props> = ({
         >
           <TimerPopover
             image={SUNNYSIDE.resource.tree}
-            description={name}
+            description={getTranslatedItemName(name)}
             showPopover={showTimeLeft}
             timeLeft={timeLeft}
           />

@@ -3,7 +3,10 @@ import React, { useContext, useRef, useState } from "react";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { secondsToString } from "lib/utils/time";
 
@@ -59,10 +62,12 @@ const ProductionResource: React.FC<{
     <>
       <img
         src={ITEM_DETAILS[resource].image}
-        alt={resource}
+        alt={getTranslatedItemName(resource)}
         className="w-5 mr-1"
       />
-      <span className="text-sm whitespace-nowrap">{resource}</span>
+      <span className="text-sm whitespace-nowrap">
+        {getTranslatedItemName(resource)}
+      </span>
       <span aria-hidden="true" className="mx-1 text-sm">
         {"×"}
       </span>
@@ -226,12 +231,11 @@ export const SleepingAnimalModal = ({
     <>
       <InnerPanel className="mb-1">
         <div className="flex items-center">
-          <Label
-            type="default"
-            className="mr-1"
-          >{`${t("sleepingAnimal.sleeping")} ${animal.type}`}</Label>
+          <Label type="default" className="mr-1">
+            {`${t("sleepingAnimal.sleeping")} ${getTranslatedItemName(animal.type)}`}
+          </Label>
           <Label type="formula" className="text-xs">
-            {`Lvl. ${level}`}
+            {t("level.short", { level })}
           </Label>
           {isMaxLevel && <Label type="warning">{"MAX"}</Label>}
         </div>
@@ -302,7 +306,8 @@ export const SleepingAnimalModal = ({
           />
           <div className="flex items-center justify-between w-full">
             <span className="mr-2">
-              {t("sleepingAnimal.favouriteFood")} {favouriteFood}
+              {t("sleepingAnimal.favouriteFood")}{" "}
+              {getTranslatedItemName(favouriteFood)}
             </span>
           </div>
         </div>
@@ -344,7 +349,9 @@ export const SleepingAnimalModal = ({
             />
             <div>
               <p className="text-sm mr-2">
-                {t("sleepingAnimal.mutantClue1", { type: animal.type })}
+                {t("sleepingAnimal.mutantClue1", {
+                  type: getTranslatedItemName(animal.type),
+                })}
               </p>
               <p className="text-xs mr-2">{t("sleepingAnimal.mutantClue2")}</p>
             </div>
@@ -355,11 +362,13 @@ export const SleepingAnimalModal = ({
           <div className="flex text-sm p-1 items-center">
             <img
               src={ITEM_DETAILS[animal.feedBuff.name].image}
-              alt={animal.feedBuff.name}
+              alt={getTranslatedItemName(animal.feedBuff.name)}
               className="w-6 mr-2"
             />
             <div>
-              <p className="text-sm font-secondary">{animal.feedBuff.name}</p>
+              <p className="text-sm font-secondary">
+                {getTranslatedItemName(animal.feedBuff.name)}
+              </p>
               <span className="text-xs -top-0.5 relative">
                 {t("sleepingAnimal.harvestsLeft", {
                   count: animal.feedBuff.harvestsRemaining,
@@ -375,7 +384,9 @@ export const SleepingAnimalModal = ({
           <div className="flex items-center">
             <img src={SUNNYSIDE.icons.heart} alt="Sleep" className="h-6 mr-2" />
             <p className="text-xs">
-              {t("sleepingAnimal.sheepLoveToPlay", { name: animal.type })}
+              {t("sleepingAnimal.sheepLoveToPlay", {
+                name: getTranslatedItemName(animal.type),
+              })}
             </p>
           </div>
 

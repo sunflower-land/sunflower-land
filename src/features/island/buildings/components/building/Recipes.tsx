@@ -329,13 +329,15 @@ export const Recipes: React.FC<Props> = ({
                   )}
                   {doubleNomLevel > 0 && (
                     <Label type="success" icon={powerup}>
-                      {`Double Nom Boost: +${
-                        SKILL_RANKS["Double Nom"].food[doubleNomLevel - 1]
-                      } Food (${
-                        SKILL_RANKS["Double Nom"].ingredients[
-                          doubleNomLevel - 1
-                        ]
-                      }x Ingredients)`}
+                      {`Double Nom: ${t("skill.doubleNom.buff.ranked", {
+                        value:
+                          SKILL_RANKS["Double Nom"].food[doubleNomLevel - 1],
+                      })} (${t("skill.doubleNom.debuff.ranked", {
+                        value:
+                          SKILL_RANKS["Double Nom"].ingredients[
+                            doubleNomLevel - 1
+                          ],
+                      })})`}
                     </Label>
                   )}
                   {cooking && (

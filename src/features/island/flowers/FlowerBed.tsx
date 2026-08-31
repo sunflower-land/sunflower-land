@@ -13,7 +13,10 @@ import {
   type FlowerGrowthStage,
 } from "features/game/types/flowers";
 import { TimerPopover } from "../common/TimerPopover";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { getItemDescription } from "features/game/lib/getItemDescription";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Label } from "components/ui/Label";
@@ -296,7 +299,11 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
                   ? ITEM_DETAILS[flower.name].image
                   : SUNNYSIDE.icons.search
               }
-              description={hasHarvestedBefore ? flower.name : "Unknown"}
+              description={
+                hasHarvestedBefore
+                  ? getTranslatedItemName(flower.name)
+                  : t("unknown")
+              }
               showPopover={showPopover}
               timeLeft={countdownSeconds}
             />

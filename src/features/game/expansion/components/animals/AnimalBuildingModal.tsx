@@ -14,7 +14,10 @@ import {
   type AnimalType,
 } from "features/game/types/animals";
 import { Box } from "components/ui/Box";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import type { AnimalBounty, AnimalBuildingKey } from "features/game/types/game";
 import Decimal from "decimal.js-light";
@@ -264,7 +267,9 @@ export const AnimalBuildingModal: React.FC<Props> = ({
               label={
                 atMaxCapacity ? (
                   <Label type="danger">
-                    {t("animals.buildingIsFull", { buildingName })}
+                    {t("animals.buildingIsFull", {
+                      buildingName: getTranslatedItemName(buildingName),
+                    })}
                   </Label>
                 ) : undefined
               }
@@ -274,7 +279,9 @@ export const AnimalBuildingModal: React.FC<Props> = ({
                   onClick={handleBuyAnimal}
                   className="w-full"
                 >
-                  {t("animals.buy", { animal: selectedName })}
+                  {t("animals.buy", {
+                    animal: getTranslatedItemName(selectedName),
+                  })}
                 </Button>
               }
             />

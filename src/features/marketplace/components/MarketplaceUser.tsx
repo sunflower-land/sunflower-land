@@ -74,7 +74,7 @@ export const MarketplaceUser: React.FC<{ view?: MarketplaceUserView }> = ({
                 </div>
                 <div className="flex-1 overflow-hidden">
                   <Label type="default" className="mb-0.5">
-                    {`Lvl. ${profile.level}`}
+                    {t("level.short", { level: profile.level })}
                   </Label>
                   <p className="text-sm truncate">{profile.username}</p>
                 </div>
