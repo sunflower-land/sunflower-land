@@ -115,6 +115,9 @@
   --font-family: "Basic", "Ark", sans-serif;
 
   /* Font Size Variables */
+  --text-xxxs-size: 10px;
+  --text-xxxs-line-height: 7px;
+
   --text-xxs-size: 20px;
   --text-xxs-line-height: 12px;
 
