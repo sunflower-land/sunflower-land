@@ -13,25 +13,17 @@ import sunstone_7 from "assets/resources/sunstone/sunstone_rock_7.webp";
 import sunstone_8 from "assets/resources/sunstone/sunstone_rock_8.webp";
 import sunstone_9 from "assets/resources/sunstone/sunstone_rock_9.webp";
 import sunstone_10 from "assets/resources/sunstone/sunstone_rock_10.webp";
-import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   timeLeft: number;
   minesLeft: number;
-  /**
-   * Current effective recovery speed from windowed boosts. Sunstone has no
-   * temporary recovery boost so this stays 1; the marker is kept for uniformity.
-   */
-  speed?: number;
 }
 
 const DepletedSunstoneComponent: React.FC<Props> = ({
   timeLeft,
   minesLeft,
-  speed,
 }) => {
   const [showTimeLeft, setShowTimeLeft] = useState(false);
-  const boosted = speed !== undefined && speed > 1;
 
   const sunstoneImage = [
     sunstone_1,
@@ -62,19 +54,6 @@ const DepletedSunstoneComponent: React.FC<Props> = ({
             right: `${PIXEL_SCALE * 4}px`,
           }}
         />
-        {boosted && (
-          <img
-            src={SUNNYSIDE.icons.lightning}
-            alt=""
-            aria-hidden
-            className="absolute animate-pulse"
-            style={{
-              width: `${PIXEL_SCALE * 7}px`,
-              top: `${PIXEL_SCALE * 2}px`,
-              right: `${PIXEL_SCALE * 2}px`,
-            }}
-          />
-        )}
         <div
           className="flex justify-center absolute w-full"
           style={{
@@ -86,7 +65,6 @@ const DepletedSunstoneComponent: React.FC<Props> = ({
             description="Sunstone Rock"
             showPopover={showTimeLeft}
             timeLeft={timeLeft}
-            speed={speed}
           />
         </div>
       </div>

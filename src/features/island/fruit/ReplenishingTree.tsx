@@ -17,24 +17,20 @@ import {
 } from "features/game/types/images";
 import type { GameState } from "features/game/types/game";
 import { getCurrentBiome } from "../biomes/biomes";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   patchFruitName: PatchFruitName;
   island: GameState["island"];
-  /** The reading to display, per the player's timer setting. */
   timeLeft: number;
   /**
    * Remaining WORK in seconds — how grown the fruit actually is. Drives the
-   * progress bar, which must not move when the player switches which reading the
-   * label shows. Falls back to `timeLeft` (identical when unboosted).
+   * progress bar, which does not drain at wall-clock rate while a boost window
+   * is running. Falls back to `timeLeft` (identical when unboosted).
    */
   workLeftSeconds?: number;
   /** Cycle length (s) — progress denominator; defaults to base plant time. */
   totalSeconds?: number;
-  /** Current effective grow speed; shows a lightning when > 1. */
-  speed?: number;
   playShakeAnimation: boolean;
 }
 
@@ -44,7 +40,6 @@ export const ReplenishingTree: React.FC<Props> = ({
   timeLeft,
   workLeftSeconds,
   totalSeconds,
-  speed,
   playShakeAnimation,
 }) => {
   const { showTimers } = useContext(Context);
@@ -87,7 +82,6 @@ export const ReplenishingTree: React.FC<Props> = ({
   const { plantSeconds } = PATCH_FRUIT_SEEDS[seed];
 
   const cycleSeconds = totalSeconds ?? plantSeconds;
-  const isBoosted = speed !== undefined && speed > 1;
   const replenishPercentage =
     cycleSeconds > 0
       ? 100 - ((workLeftSeconds ?? timeLeft) / cycleSeconds) * 100
@@ -111,21 +105,6 @@ export const ReplenishingTree: React.FC<Props> = ({
           width: `${PIXEL_SCALE * width}px`,
         }}
       />
-
-      {/* Active speed boost indicator */}
-      {isBoosted && (
-        <img
-          src={SUNNYSIDE.icons.lightning}
-          alt=""
-          aria-hidden
-          className="absolute z-20 pointer-events-none animate-pulse"
-          style={{
-            width: `${PIXEL_SCALE * 7}px`,
-            top: `${PIXEL_SCALE * 2}px`,
-            right: `${PIXEL_SCALE * 2}px`,
-          }}
-        />
-      )}
 
       {/* Progress bar */}
       {showTimers && (
@@ -160,7 +139,6 @@ export const ReplenishingTree: React.FC<Props> = ({
             name: getTranslatedItemName(patchFruitName),
           })}
           timeLeft={timeLeft}
-          speed={speed}
         />
       </div>
     </div>

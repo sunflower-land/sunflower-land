@@ -36,7 +36,6 @@ import { secondsToString } from "lib/utils/time";
 import type { PlantedFlower } from "features/game/types/game";
 import type { MachineState } from "features/game/lib/gameMachine";
 import {
-  computeReadyAt,
   areBoostWindowsEqual,
   getFlowerBoostWindows,
 } from "features/game/lib/boostWindows";
@@ -175,29 +174,14 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
   const baseDurationMs = flower.baseDurationMs;
   const startedAt = flower.plantedAt;
 
-  // Speed-rate model derives the ready time live from the windows; legacy flowers
-  // use their (back-dated) plantedAt + base grow time.
-  const readyAt =
-    baseDurationMs !== undefined
-      ? computeReadyAt({
-          startedAt,
-          baseDurationMs,
-          windows: flowerBoostWindows,
-        })
-      : startedAt + growTimeMs;
-
   // `secondsLeft` is the remaining WORK: it drives the growth stage, the progress
-  // fill and the insta-grow cost, none of which may change with a display setting.
-  // `displaySeconds` is the reading the player has chosen to see.
-  const {
-    speed,
-    workLeftSeconds: secondsLeft,
-    displaySeconds,
-  } = useNodeTimer({
+  // fill and the insta-grow cost — work does not drain at wall-clock rate while
+  // a boost window is running. `countdownSeconds` is the reading shown.
+  const { workLeftSeconds: secondsLeft, countdownSeconds } = useNodeTimer({
     startedAt,
     baseDurationMs,
     windows: flowerBoostWindows,
-    legacyReadyAt: readyAt,
+    legacyReadyAt: startedAt + growTimeMs,
   });
   // Fold pre-lift banked work into the denominator so the progress bar retains
   // its fill across a landscaping lift instead of snapping backward.
@@ -214,7 +198,6 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
       : 100 - (Math.max(secondsLeft, 0) / totalSeconds) * 100;
 
   const isGrowing = secondsLeft > 0;
-  const isBoosted = speed > 1;
 
   const popoverVisible = showPopover && isGrowing && !flower.dirty;
 
@@ -300,19 +283,6 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
             bottom: 0,
           }}
         />
-        {isGrowing && isBoosted && (
-          <img
-            src={SUNNYSIDE.icons.lightning}
-            alt=""
-            aria-hidden
-            className="absolute z-20 pointer-events-none animate-pulse"
-            style={{
-              width: `${PIXEL_SCALE * 7}px`,
-              top: `${PIXEL_SCALE * 2}px`,
-              right: `${PIXEL_SCALE * 2}px`,
-            }}
-          />
-        )}
         {flower && isGrowing && !flower.dirty && (
           <div
             className="flex justify-center absolute w-full pointer-events-none"
@@ -328,8 +298,7 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
               }
               description={hasHarvestedBefore ? flower.name : "Unknown"}
               showPopover={showPopover}
-              timeLeft={displaySeconds}
-              speed={speed}
+              timeLeft={countdownSeconds}
             />
           </div>
         )}
@@ -345,7 +314,7 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
           >
             <ProgressBar
               percentage={growPercentage}
-              seconds={!flower.dirty ? displaySeconds : undefined}
+              seconds={!flower.dirty ? countdownSeconds : undefined}
               type="progress"
               formatLength="short"
             />

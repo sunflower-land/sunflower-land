@@ -75,20 +75,16 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
   );
 
   const { drilledAt, baseDurationMs } = reserve.oil;
-  const {
-    speed,
-    workLeftSeconds,
-    displaySeconds: timeLeft,
-  } = useNodeTimer({
+  const { workLeftSeconds, countdownSeconds: timeLeft } = useNodeTimer({
     startedAt: drilledAt,
     baseDurationMs,
     windows: oilBoostWindows,
     legacyReadyAt: drilledAt + OIL_RESERVE_RECOVERY_TIME * 1000,
   });
 
-  // Readiness and the half-recovery art both key off remaining WORK, never the
-  // displayed reading — the reserve is equally full whichever the player has
-  // chosen to see. The threshold is the midpoint of that work.
+  // Readiness and the half-recovery art both key off remaining WORK, not the
+  // wall-clock countdown — work does not drain at wall-clock rate while a boost
+  // window is running. The threshold is the midpoint of that work.
   const ready = workLeftSeconds <= 0;
   const halfThreshold =
     baseDurationMs !== undefined
@@ -118,13 +114,12 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
           onDrill={handleDrill}
         />
       )}
-      {halfReady && <RecoveringOilReserve timeLeft={timeLeft} speed={speed} />}
+      {halfReady && <RecoveringOilReserve timeLeft={timeLeft} />}
       {!ready && !halfReady && (
         <DepletedOilReserve
           drilling={drilling}
           oilAmount={oilHarvested}
           timeLeft={timeLeft}
-          speed={speed}
           onOilTransitionEnd={() => setOilHarvested(0)}
         />
       )}

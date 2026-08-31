@@ -64,24 +64,19 @@ export const InProgressInfo: React.FC<Props> = ({
 
   const totalSeconds = getProductTotalSeconds();
 
-  // One timer for both models. A windowed recipe (`baseDurationMs` set) ticks at the
-  // boosted rate and honours the "show actual time" setting; anything else — fish
-  // processing, and recipes queued before the speed model — falls through to the
-  // plain countdown on `readyAt`.
-  const {
-    speed,
-    workLeftSeconds,
-    countdownSeconds,
-    displaySeconds: secondsTillReady,
-  } = useNodeTimer({
+  // One timer for both models. A windowed recipe (`baseDurationMs` set) derives
+  // its ready time live from the boost windows; anything else — fish processing,
+  // and recipes queued before the speed model — falls through to the plain
+  // countdown on `readyAt`.
+  const { workLeftSeconds, countdownSeconds } = useNodeTimer({
     startedAt: startedAt ?? product.readyAt - totalSeconds * 1000,
     baseDurationMs: product.baseDurationMs,
     windows,
     legacyReadyAt: product.readyAt,
   });
 
-  // How full the bar is tracks remaining WORK, never the displayed reading — how far
-  // along a recipe is does not change with a display setting.
+  // How full the bar is tracks remaining WORK, which does not drain at
+  // wall-clock rate while a boost window is running.
   const progressTotalSeconds =
     product.baseDurationMs === undefined
       ? totalSeconds
@@ -110,15 +105,6 @@ export const InProgressInfo: React.FC<Props> = ({
         <Label icon={SUNNYSIDE.icons.stopwatch} type="default">
           {t("in.progress")}
         </Label>
-        {speed > 1 && (
-          <Label type="transparent" icon={SUNNYSIDE.icons.lightning}>
-            <span className="whitespace-nowrap">
-              {t("description.boostedSpeed", {
-                speed: Number(speed.toFixed(2)),
-              })}
-            </span>
-          </Label>
-        )}
       </div>
       <div className="flex items-center justify-between">
         <Box
@@ -135,9 +121,7 @@ export const InProgressInfo: React.FC<Props> = ({
           id="progress-bar"
         >
           <span className="text-xs mb-1">
-            {secondsToString(secondsTillReady, {
-              length: speed > 1 ? "full" : "medium",
-            }).replace(/\u00A0/g, " ")}
+            {secondsToString(countdownSeconds, { length: "medium" })}
           </span>
           <ResizableBar
             percentage={
