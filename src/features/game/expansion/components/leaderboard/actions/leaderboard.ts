@@ -11,7 +11,6 @@ import { getWeekKey } from "features/game/lib/factions";
 import type { CompetitionName } from "features/game/types/competitions";
 import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import type { MinigameName } from "features/game/types/minigames";
-import type { LeagueId, LeagueName } from "features/leagues/leagues";
 import { NPC_WEARABLES } from "lib/npcs";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 
@@ -78,14 +77,6 @@ export type EmblemsLeaderboard = {
     totalTickets: Record<FactionName, number>;
     emblemRankingData?: RankData[] | null;
   };
-  lastUpdated: number;
-};
-
-export type LeaguesLeaderboard = {
-  playersToShow: RankData[];
-  playerLeague: LeagueName;
-  promotionRank: number | undefined;
-  demotionRank: number | undefined;
   lastUpdated: number;
 };
 
@@ -223,41 +214,6 @@ export async function getLeaderboard<T>({
   return data;
 }
 
-export async function getLeaguesLeaderboard({
-  farmId,
-  leagueId,
-  token = "",
-}: {
-  farmId: number;
-  leagueId?: LeagueId;
-  token?: string;
-}): Promise<LeaguesLeaderboard | undefined> {
-  const url = new URL(`${API_URL}/data`);
-  url.searchParams.set("type", "leagues");
-  url.searchParams.set("farmId", farmId.toString());
-  if (leagueId) {
-    url.searchParams.set("leagueId", leagueId);
-  }
-
-  const response = await fetchWithRetry(url.toString(), {
-    method: "GET",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  if (response.status === 429) {
-    throw new Error(ERRORS.TOO_MANY_REQUESTS);
-  }
-
-  if (response.status >= 400) {
-    return;
-  }
-  const data = await response.json();
-
-  return data;
-}
-
 export async function getCompetitionLeaderboard({
   farmId,
   name,
@@ -349,7 +305,6 @@ export async function getChampionsLeaderboard<T>({
 
 export async function fetchLeaderboardData(
   farmId: number,
-  token?: string,
 ): Promise<Leaderboards | null> {
   try {
     const [
@@ -358,7 +313,6 @@ export async function fetchLeaderboardData(
       kingdomLeaderboard,
       emblemsLeaderboard,
       socialPointsLeaderboard,
-      leaguesLeaderboard,
     ] = await Promise.all([
       getLeaderboard<TicketLeaderboard>({
         farmId: Number(farmId),
@@ -381,10 +335,6 @@ export async function fetchLeaderboardData(
         farmId: Number(farmId),
         leaderboardName: "socialPoints",
       }),
-      getLeaguesLeaderboard({
-        farmId: Number(farmId),
-        token,
-      }),
     ]);
 
     return {
@@ -393,7 +343,6 @@ export async function fetchLeaderboardData(
       kingdom: kingdomLeaderboard,
       emblems: emblemsLeaderboard,
       socialPoints: socialPointsLeaderboard,
-      leagues: leaguesLeaderboard,
     };
   } catch (error) {
     // eslint-disable-next-line no-console

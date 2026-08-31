@@ -119,7 +119,7 @@ import { config } from "features/wallet/WalletProvider";
 import { depositFlower } from "lib/blockchain/DepositFlower";
 import type { NetworkOption } from "features/island/hud/components/deposit/DepositFlower";
 import { depositSFL } from "lib/blockchain/DepositSFL";
-import { hasFeatureAccess, isWaypointWalletDisabled } from "lib/flags";
+import { isWaypointWalletDisabled } from "lib/flags";
 import {
   isRoninWallet,
   getRoninWaypointPopupShown,
@@ -142,22 +142,6 @@ const getError = () => {
   const error = new URLSearchParams(window.location.search).get("error");
 
   return error;
-};
-
-const shouldShowLeagueResults = (context: Context) => {
-  // Don't show league results for visitors
-  if (context.visitorId !== undefined) {
-    return false;
-  }
-
-  const hasLeaguesAccess = hasFeatureAccess(context.state, "LEAGUES");
-  const currentLeagueStartDate =
-    context.state.prototypes?.leagues?.currentLeagueStartDate;
-
-  return (
-    hasLeaguesAccess &&
-    currentLeagueStartDate !== new Date().toISOString().split("T")[0]
-  );
 };
 
 export type PastAction = GameEvent & {
@@ -897,7 +881,6 @@ export type BlockchainState = {
     | "randomising"
     | "competition"
     | "jinAirdrop"
-    | "leagueResults"
     | "linkWallet"
     | "starterOffer"
     | StateMachineStateName
@@ -1612,10 +1595,6 @@ export function startGame(authContext: AuthContext) {
                 (context.state.inventory["Jin"] ?? new Decimal(0)).lt(1),
             },
             {
-              target: "leagueResults",
-              cond: shouldShowLeagueResults,
-            },
-            {
               target: "playing",
             },
           ],
@@ -1877,16 +1856,6 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-        leagueResults: {
-          on: {
-            "leagues.updated": {
-              target: STATE_MACHINE_EFFECTS["leagues.updated"],
-            },
-            CLOSE: {
-              target: "playing",
-            },
-          },
-        },
         playing: {
           id: "playing",
           entry: "clearTransactionId",
@@ -2065,13 +2034,6 @@ export function startGame(authContext: AuthContext) {
 
                   return !isAcknowledged;
                 },
-                actions: assign((context: Context, event) =>
-                  handleSuccessfulSave(context, event),
-                ),
-              },
-              {
-                target: "leagueResults",
-                cond: shouldShowLeagueResults,
                 actions: assign((context: Context, event) =>
                   handleSuccessfulSave(context, event),
                 ),

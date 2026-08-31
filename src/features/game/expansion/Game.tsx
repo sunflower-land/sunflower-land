@@ -98,7 +98,6 @@ import { SystemMessageWidget } from "features/announcements/SystemMessageWidget"
 import { TradesCleared } from "./components/TradesCleared";
 import { RevealPet } from "features/island/pets/RevealPet";
 import { OnChainRaffleRewardModal } from "./components/OnChainRaffleRewardModal";
-import { LeagueResults } from "./components/LeagueResults";
 import { MigrateToLinkedWallet } from "./components/MigrateToLinkedWallet";
 import { DailyRewardClaim } from "../components/DailyReward";
 
@@ -245,7 +244,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   dailyResetting: false,
   jinAirdrop: true,
   investigating: true,
-  leagueResults: false,
   linkWallet: true,
   dailyReward: true,
   starterOffer: true,
@@ -341,8 +339,6 @@ const isRoninMigration = (state: MachineState) =>
   state.matches("roninMigration");
 const _isVisiting = (state: MachineState) =>
   state.context.visitorId !== undefined;
-const isLeagueResultsReleased = (state: MachineState) =>
-  state.matches("leagueResults");
 
 const GameContent: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -539,10 +535,6 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const linkWallet = useSelector(gameService, isLinkWallet);
   const tradesCleared = useSelector(gameService, isTradesCleared);
   const isVisiting = useSelector(gameService, _isVisiting);
-  const leagueResultsReleased = useSelector(
-    gameService,
-    isLeagueResultsReleased,
-  );
   const dailyReward = useSelector(gameService, isDailyReward);
   const starterOffer = useSelector(gameService, isStarterOffer);
   const roninMigration = useSelector(gameService, isRoninMigration);
@@ -770,15 +762,6 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
               competitionName="BUILDING_FRIENDSHIPS"
               onClose={() => gameService.send("ACKNOWLEDGE")}
             />
-          </Modal>
-        )}
-        {leagueResultsReleased && !isVisiting && (
-          <Modal show>
-            <Panel
-              bumpkinParts={error ? NPC_WEARABLES["worried pete"] : undefined}
-            >
-              <LeagueResults />
-            </Panel>
           </Modal>
         )}
         <Introduction />

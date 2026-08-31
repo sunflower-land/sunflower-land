@@ -134,7 +134,6 @@ import type { ClutterName } from "./clutter";
 import type { PetName, PetResourceName, Pets } from "./pets";
 import type { RockName } from "./resources";
 import type { PetShopItemName } from "./petShop";
-import type { League } from "features/leagues/leagues";
 import type { Buff, BuffName } from "./buffs";
 import type {
   CrustaceanChum,
@@ -2545,9 +2544,6 @@ export interface GameState {
   socialFarming: SocialFarming;
   pets?: Pets;
 
-  prototypes?: {
-    leagues?: League;
-  };
   saltFarm: SaltFarm;
   sculptures?: Partial<
     Record<SculptureName, { level: number; upgradedAt?: number }>
