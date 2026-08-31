@@ -2465,8 +2465,12 @@ export interface GameState {
   /**
    * Saved snapshots of the farm arrangement. The live farm is the "current"
    * layout; these are the saved alternatives the player can load onto it.
-   * Optional so legacy saves (which never had this field) need no migration.
    * Capped at {@link MAX_SAVED_LAYOUTS}.
+   *
+   * In-memory only: layouts are stored in their own DB collection server-side
+   * and never ride the session/autosave payloads. `undefined` means "not
+   * loaded yet" — fetch via `actions/loadLayouts` and inject with the
+   * machine's `LAYOUTS_LOADED` event before dispatching layout events.
    */
   layouts?: SavedLayout[];
   nfts?: Partial<Record<Chain, NFT>>;

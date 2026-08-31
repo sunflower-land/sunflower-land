@@ -1,5 +1,8 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useSelector } from "@xstate/react";
+import * as AuthProvider from "features/auth/lib/Provider";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
+import { loadLayouts } from "features/game/actions/loadLayouts";
 
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -43,13 +46,48 @@ type Mode =
   | "confirmAscension";
 
 const _state = (state: MachineState): GameState => state.context.state;
+const _token = (state: AuthMachineState) =>
+  state.context.user.rawToken as string;
 
 export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
+  const { authService } = useContext(AuthProvider.Context);
+  const token = useSelector(authService, _token);
   const game = useSelector(gameService, _state);
   const now = useNow();
   const layouts = game.layouts ?? [];
+
+  // Layouts live in their own collection server-side and never ride the
+  // session/autosave payloads — fetch them on first open and inject them into
+  // the machine, where the layout events (and their optimistic local
+  // processing) read them. `undefined` = not loaded yet; they stay in machine
+  // state afterwards, and the events keep them in sync locally.
+  const layoutsLoaded = game.layouts !== undefined;
+  const [loadFailed, setLoadFailed] = useState(false);
+  const [loadAttempt, setLoadAttempt] = useState(0);
+
+  useEffect(() => {
+    if (!show || layoutsLoaded) return;
+
+    let cancelled = false;
+    setLoadFailed(false);
+
+    loadLayouts({ token })
+      .then((loaded) => {
+        if (cancelled) return;
+        gameService.send({ type: "LAYOUTS_LOADED", layouts: loaded });
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setLoadFailed(true);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [show, layoutsLoaded, loadAttempt]);
 
   // 0 = current farm; 1..n = saved layout at index (selected - 1).
   const [selected, setSelected] = useState(0);
@@ -370,6 +408,29 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
       </div>
     );
   };
+
+  if (!layoutsLoaded) {
+    return (
+      <Modal show={show} onHide={close} size="lg">
+        <CloseButtonPanel title={t("savedLayouts.title")} onClose={close}>
+          <div className="flex flex-col items-center gap-2 p-2">
+            {loadFailed ? (
+              <>
+                <Label type="danger">{t("savedLayouts.loadFailed")}</Label>
+                <Button
+                  onClick={() => setLoadAttempt((attempt) => attempt + 1)}
+                >
+                  {t("retry")}
+                </Button>
+              </>
+            ) : (
+              <span className="text-sm loading">{t("loading")}</span>
+            )}
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+    );
+  }
 
   return (
     <Modal show={show} onHide={close} size="lg">

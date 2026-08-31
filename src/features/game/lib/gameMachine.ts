@@ -31,6 +31,7 @@ import type {
   InventoryItemName,
   PlacedLamp,
   Purchase,
+  SavedLayout,
 } from "../types/game";
 import { loadSession, type SocialDetails } from "../actions/loadSession";
 import { resolveSocialDetails } from "./socialDetails";
@@ -320,6 +321,17 @@ export type UpdateUsernameEvent = {
   username: string;
 };
 
+/**
+ * Saved layouts live in their own collection server-side and are not part of
+ * the session or autosave payloads. This event injects a lazily fetched list
+ * (actions/loadLayouts) into `state.layouts` so the layout game events and
+ * their optimistic local processing see the same data the server hydrates.
+ */
+export type LayoutsLoadedEvent = {
+  type: "LAYOUTS_LOADED";
+  layouts: SavedLayout[];
+};
+
 type PostEffectEvent = {
   type: "POST_EFFECT";
   effect: Effect;
@@ -359,6 +371,7 @@ export type BlockchainEvent =
   | DepositEvent
   | UpdateEvent
   | UpdateUsernameEvent
+  | LayoutsLoadedEvent
   | PostEffectEvent
   | { type: "EXPAND" }
   | { type: "SAVE_SUCCESS" }
@@ -1871,6 +1884,14 @@ export function startGame(authContext: AuthContext) {
                 },
               })),
             },
+            LAYOUTS_LOADED: {
+              actions: assign((context, event) => ({
+                state: {
+                  ...context.state,
+                  layouts: (event as LayoutsLoadedEvent).layouts,
+                },
+              })),
+            },
             SAVE: {
               target: "autosaving",
             },
@@ -2728,6 +2749,14 @@ export function startGame(authContext: AuthContext) {
           },
           on: {
             ...LANDSCAPING_PLACEMENT_EVENT_HANDLERS,
+            LAYOUTS_LOADED: {
+              actions: assign((context, event) => ({
+                state: {
+                  ...context.state,
+                  layouts: (event as LayoutsLoadedEvent).layouts,
+                },
+              })),
+            },
             SAVE: {
               actions: send(
                 (context) =>

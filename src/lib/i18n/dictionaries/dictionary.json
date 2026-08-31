@@ -8211,6 +8211,7 @@
   "description.square.table": "A square table, neat and symmetrical.",
   "description.stool": "A simple stool to sit on.",
   "savedLayouts.title": "Saved Layouts",
+  "savedLayouts.loadFailed": "Could not load your layouts. Please try again.",
   "savedLayouts.slots": "Your layouts · {{count}}/{{max}}",
   "savedLayouts.current": "Current",
   "savedLayouts.currentFarm": "Current Farm",

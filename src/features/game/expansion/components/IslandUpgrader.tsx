@@ -6,6 +6,9 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
+import * as AuthProvider from "features/auth/lib/Provider";
+import type { AuthMachineState } from "features/auth/lib/authMachine";
+import { loadLayouts } from "features/game/actions/loadLayouts";
 import { MapPlacement } from "./MapPlacement";
 
 import { Button } from "components/ui/Button";
@@ -368,15 +371,22 @@ const _ascensionLevel = (state: MachineState) =>
   state.context.state.island?.ascensionLevel ?? 0;
 const _expansionCount = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 3;
+const _layoutsLoaded = (state: MachineState) =>
+  state.context.state.layouts !== undefined;
+const _token = (state: AuthMachineState) =>
+  state.context.user.rawToken as string;
 
 export const IslandUpgrader: React.FC<Props> = ({ offset }) => {
   const { t } = useAppTranslation();
 
   const { gameService, showAnimations } = useContext(Context);
+  const { authService } = useContext(AuthProvider.Context);
+  const token = useSelector(authService, _token);
 
   const islandType = useSelector(gameService, _islandType);
   const ascensionLevel = useSelector(gameService, _ascensionLevel);
   const expansionCount = useSelector(gameService, _expansionCount);
+  const layoutsLoaded = useSelector(gameService, _layoutsLoaded);
 
   const [showModal, setShowModal] = useState(false);
   const [showTravelAnimation, setShowTravelAnimation] = useState(false);
@@ -386,6 +396,20 @@ export const IslandUpgrader: React.FC<Props> = ({ offset }) => {
 
   const onUpgrade = async () => {
     setShowTravelAnimation(true);
+
+    // Ascending captures / re-applies the auto "Ascension Layout" inside the
+    // `farm.upgraded` event, and layouts live in their own collection now —
+    // load them before the event runs locally, or the optimistic state
+    // diverges from the server's (which hydrates them itself).
+    if (hasRequiredIslandExpansion(islandType, "volcano") && !layoutsLoaded) {
+      try {
+        const layouts = await loadLayouts({ token });
+        gameService.send({ type: "LAYOUTS_LOADED", layouts });
+      } catch {
+        // Non-fatal: the server still applies the saved layout; the local
+        // farm catches up on the next session refresh.
+      }
+    }
 
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
