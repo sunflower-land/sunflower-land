@@ -180,7 +180,6 @@ const SelectedFishDetails: React.FC<{
   const { t } = useAppTranslation();
   const { chance: primeAgedChance } = getPrimeAgedChance(gameState);
   const agedChance = 100 - primeAgedChance;
-  const selectedFishLabel = getTranslatedItemName(selectedFish);
   const recipeDef = selectedFish
     ? {
         saltCost: getBoostedAgingSaltCost(
@@ -257,12 +256,10 @@ const SelectedFishDetails: React.FC<{
           <Label
             type="transparent"
             className="text-xs ml-3"
-            icon={ITEM_DETAILS[`Aged ${selectedFish}`]?.image}
+            icon={ITEM_DETAILS[agedFishName]?.image}
           >
             {t("agingShed.agingRack.outputChance", {
-              item: t("agingShed.agingRack.agedFishLabel", {
-                fish: selectedFishLabel,
-              }),
+              item: getTranslatedItemName(agedFishName),
               chance: agedChance,
             })}
           </Label>
@@ -300,12 +297,10 @@ const SelectedFishDetails: React.FC<{
           <Label
             type="transparent"
             className="text-xs ml-3"
-            icon={ITEM_DETAILS[`Prime Aged ${selectedFish}`]?.image}
+            icon={ITEM_DETAILS[primeAgedFishName]?.image}
           >
             {t("agingShed.agingRack.outputChance", {
-              item: t("agingShed.agingRack.primeAgedFishLabel", {
-                fish: selectedFishLabel,
-              }),
+              item: getTranslatedItemName(primeAgedFishName),
               chance: primeAgedChance,
             })}
           </Label>

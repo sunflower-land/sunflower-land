@@ -7654,34 +7654,42 @@ export const ITEM_DETAILS: Items = {
   "Fused Stone Rock": {
     image: SUNNYSIDE.resource.fusedStoneRock,
     description: "A fused stone rock",
+    translatedName: translate("node.fusedStone"),
   },
   "Reinforced Stone Rock": {
     image: SUNNYSIDE.resource.reinforcedStoneRock,
     description: "A reinforced stone rock",
+    translatedName: translate("node.reinforcedStone"),
   },
   "Ancient Tree": {
     image: SUNNYSIDE.resource.ancient_tree,
     description: "An ancient tree",
+    translatedName: translate("node.ancientTree"),
   },
   "Sacred Tree": {
     image: SUNNYSIDE.resource.sacred_tree,
     description: "A sacred tree",
+    translatedName: translate("node.sacredTree"),
   },
   "Refined Iron Rock": {
     image: SUNNYSIDE.resource.refinedIronRock,
     description: "A refined iron rock",
+    translatedName: translate("node.refinedIron"),
   },
   "Tempered Iron Rock": {
     image: SUNNYSIDE.resource.temperedIronRock,
     description: "A tempered iron rock",
+    translatedName: translate("node.temperedIron"),
   },
   "Pure Gold Rock": {
     image: SUNNYSIDE.resource.pureGoldRock,
     description: "A pure gold rock",
+    translatedName: translate("node.pureGold"),
   },
   "Prime Gold Rock": {
     image: SUNNYSIDE.resource.primeGoldRock,
     description: "A prime gold rock",
+    translatedName: translate("node.primeGold"),
   },
   "Paw Prints Banner": {
     image: pawPrintsBanner,

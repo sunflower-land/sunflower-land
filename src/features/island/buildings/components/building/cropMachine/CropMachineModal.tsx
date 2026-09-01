@@ -14,7 +14,10 @@ import {
   useCropMachineLiveNow,
 } from "./lib/cropMachine";
 import { Box } from "components/ui/Box";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { Label } from "components/ui/Label";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -333,10 +336,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
                 <Box image={ITEM_DETAILS[selectedPack.crop].image} />
                 <div className="flex flex-col justify-center space-y-1">
                   <span className="text-xs capitalize">
-                    {`${t("growing")} `}
-                    {selectedPack.crop === "Potato"
-                      ? `${selectedPack.crop}es`
-                      : `${selectedPack.crop}s`}
+                    {`${t("growing")} ${getTranslatedItemName(selectedPack.crop)}`}
                   </span>
                   {show && (
                     <PackGrowthProgressBar

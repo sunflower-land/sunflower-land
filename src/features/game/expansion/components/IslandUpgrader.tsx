@@ -10,7 +10,10 @@ import { MapPlacement } from "./MapPlacement";
 
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import coinsIcon from "assets/icons/coins.webp";
 import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
@@ -327,7 +330,7 @@ const IslandUpgraderModal: React.FC<{
                       ? "default"
                       : "danger"
                   }
-                >{`${upgradeItems[name]} x ${name}`}</Label>
+                >{`${upgradeItems[name]} x ${getTranslatedItemName(name)}`}</Label>
               ))}
               {upgradeCoins > 0 && (
                 <Label

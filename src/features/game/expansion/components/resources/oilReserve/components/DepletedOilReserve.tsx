@@ -2,7 +2,10 @@ import React, { useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TimerPopover } from "features/island/common/TimerPopover";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { Transition } from "@headlessui/react";
 import oil from "assets/resources/oil.webp";
 import emptyOilReserve from "assets/resources/oil/oil_reserve_empty.webp";
@@ -52,7 +55,7 @@ export const DepletedOilReserve: React.FC<Props> = ({
         >
           <TimerPopover
             image={ITEM_DETAILS["Oil"].image}
-            description="Oil Reserve"
+            description={getTranslatedItemName("Oil Reserve")}
             showPopover={showTimeLeft}
             timeLeft={timeLeft}
           />

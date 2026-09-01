@@ -6,6 +6,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getAnimalLevel } from "features/game/lib/animals";
 import type { Animal } from "features/game/types/game";
+import { getTranslatedItemName } from "features/game/types/images";
 
 interface Props {
   animal: Animal;
@@ -23,7 +24,7 @@ export const LockedAnimalModal = ({ animal }: Props) => {
           {t("lockedAnimal.title")}
         </Label>
         <Label type="formula" className="text-xs mr-1">
-          {`Lvl. ${level}`}
+          {t("level.short", { level })}
         </Label>
         <Label type="danger">{t("lockedAnimal.locked")}</Label>
       </div>
@@ -31,7 +32,9 @@ export const LockedAnimalModal = ({ animal }: Props) => {
       <div className="flex text-sm p-1 items-start">
         <img src={SUNNYSIDE.icons.lock} alt="Locked" className="w-6 mr-2" />
         <p className="text-xs">
-          {t("lockedAnimal.description", { animal: animal.type })}
+          {t("lockedAnimal.description", {
+            animal: getTranslatedItemName(animal.type),
+          })}
         </p>
       </div>
       <div className="flex text-sm p-1 items-start">

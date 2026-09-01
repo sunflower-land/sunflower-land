@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TimerPopover } from "features/island/common/TimerPopover";
-import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  ITEM_DETAILS,
+  getTranslatedItemName,
+} from "features/game/types/images";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
 import type { GoldRockName } from "features/game/types/resources";
 import type { GameState, TemperateSeasonName } from "features/game/types/game";
@@ -44,7 +47,7 @@ const DepletedGoldComponent: React.FC<Props> = ({
         >
           <TimerPopover
             image={ITEM_DETAILS["Gold"].image}
-            description={name}
+            description={getTranslatedItemName(name)}
             showPopover={showTimeLeft}
             timeLeft={timeLeft}
           />
