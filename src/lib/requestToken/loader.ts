@@ -30,6 +30,30 @@ export type TokenModule = {
  */
 export const SIGNER_URL = "https://sunflower-land.com/wasm";
 
+/** Which step of the load threw — the JS glue import, or WASM start-up. */
+export type SignerLoadStage = "import" | "init";
+
+/**
+ * A load failure tagged with the step that produced it. The same error —
+ * "Failed to fetch" — means two different things depending on whether it
+ * was the glue script that never arrived (blocker, filter, captive portal)
+ * or the `.wasm` binary the glue then requests, and the classifier in
+ * index.ts cannot tell them apart from the message alone.
+ */
+export class SignerLoadError extends Error {
+  stage: SignerLoadStage;
+  cause: unknown;
+
+  constructor(stage: SignerLoadStage, cause: unknown) {
+    super(
+      `signer ${stage} failed: ${(cause as Error)?.message ?? String(cause)}`,
+    );
+    this.name = "SignerLoadError";
+    this.stage = stage;
+    this.cause = cause;
+  }
+}
+
 let loaded: Promise<TokenModule> | undefined;
 
 export function loadTokenModule(): Promise<TokenModule> {
@@ -37,15 +61,24 @@ export function loadTokenModule(): Promise<TokenModule> {
   // mobile connection would otherwise leave the signer unavailable for the
   // rest of the page's life, so every request that session goes unsigned.
   loaded ??= (async () => {
-    // The glue is an ES module served from the token host; the vite build
-    // must not try to resolve it at build time, hence the variable URL.
-    const module = await import(
-      /* @vite-ignore */ `${SIGNER_URL}/request_token.js`
-    );
+    let module;
+    try {
+      // The glue is an ES module served from the token host; the vite build
+      // must not try to resolve it at build time, hence the variable URL.
+      module = await import(
+        /* @vite-ignore */ `${SIGNER_URL}/request_token.js`
+      );
+    } catch (e) {
+      throw new SignerLoadError("import", e);
+    }
 
-    await module.default({
-      module_or_path: `${SIGNER_URL}/request_token_bg.wasm`,
-    });
+    try {
+      await module.default({
+        module_or_path: `${SIGNER_URL}/request_token_bg.wasm`,
+      });
+    } catch (e) {
+      throw new SignerLoadError("init", e);
+    }
 
     return module as TokenModule;
   })().catch((e) => {

@@ -257,12 +257,11 @@ describe("requestToken signer load failures", () => {
     (window as unknown as { fetch: unknown }).fetch = fetchMock;
   });
 
-  it("classifies a network failure so the API can see the cause", async () => {
+  /** Boots the layer against a loader that rejects with `rejection`, fires
+   * one protected request, and returns the headers it went out with. */
+  const headersAfterLoadFailure = async (rejection: unknown) => {
     jest.doMock("./loader", () => ({
-      loadTokenModule: () =>
-        Promise.reject(
-          new Error("Failed to fetch dynamically imported module"),
-        ),
+      loadTokenModule: () => Promise.reject(rejection),
     }));
 
     /* eslint-disable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
@@ -272,11 +271,152 @@ describe("requestToken signer load failures", () => {
     await tokens.initRequestTokens(session);
     await tokens.secureFetch("https://api.test/autosave/1", { method: "POST" });
 
+    return (fetchMock.mock.calls[0][1]?.headers ?? {}) as Record<
+      string,
+      string
+    >;
+  };
+
+  it("classifies a network failure so the API can see the cause", async () => {
+    const headers = await headersAfterLoadFailure(
+      new Error("Failed to fetch dynamically imported module"),
+    );
+
+    expect(headers["X-Token"]).toBe("incompatible_wasm:import-failed");
+  });
+
+  it("classifies a CSP rejection as csp-blocked, not wasm-unavailable", async () => {
+    // Chrome's CSP error mentions "WebAssembly" too — the CSP match must
+    // win, or every corporate proxy injecting CSP looks like a browser
+    // that cannot run wasm.
+    const headers = await headersAfterLoadFailure(
+      new Error(
+        "WebAssembly.instantiate(): Refused to compile or instantiate " +
+          "WebAssembly module because 'unsafe-eval' is not an allowed " +
+          "source of script in the following Content Security Policy " +
+          "directive: \"script-src 'self'\"",
+      ),
+    );
+
+    expect(headers["X-Token"]).toBe("incompatible_wasm:csp-blocked");
+  });
+
+  it("recognises WebKit's import failure message", async () => {
+    // Safari/CriOS say this when the glue import is blocked; it used to
+    // fall through to "unknown".
+    const headers = await headersAfterLoadFailure(
+      new TypeError("Importing a module script failed."),
+    );
+
+    expect(headers["X-Token"]).toBe("incompatible_wasm:import-failed");
+  });
+
+  it("tells a blocked glue import from a failed wasm fetch by stage", async () => {
+    // Identical engine message, different loader stage (SignerLoadError
+    // shape) — the classification must differ.
+    const glue = await headersAfterLoadFailure({
+      stage: "import",
+      cause: new TypeError("Failed to fetch"),
+    });
+    expect(glue["X-Token"]).toBe("incompatible_wasm:import-failed");
+
+    jest.resetModules();
+    fetchMock.mockClear();
+
+    const wasm = await headersAfterLoadFailure({
+      stage: "init",
+      cause: new TypeError("Failed to fetch"),
+    });
+    expect(wasm["X-Token"]).toBe("incompatible_wasm:fetch-failed");
+  });
+
+  it("classifies a wrong MIME type on the wasm response", async () => {
+    // The .wasm URL answered with HTML — a block page or rewritten 404.
+    const headers = await headersAfterLoadFailure({
+      stage: "init",
+      cause: new TypeError(
+        "Failed to execute 'compile' on 'WebAssembly': Incorrect " +
+          "response MIME type. Expected 'application/wasm'.",
+      ),
+    });
+
+    expect(headers["X-Token"]).toBe("incompatible_wasm:bad-mime");
+  });
+
+  it("keeps the stage and error type when nothing else matches", async () => {
+    const headers = await headersAfterLoadFailure({
+      stage: "init",
+      cause: new TypeError("something this classifier has never seen"),
+    });
+
+    // Not a flat "unknown": the stage and the error name go with it.
+    expect(headers["X-Token"]).toBe("incompatible_wasm:init-unknown-typeerror");
+  });
+
+  it("sends the raw engine error as X-Token-Detail, sanitised", async () => {
+    const headers = await headersAfterLoadFailure({
+      stage: "init",
+      cause: new TypeError("naïve\nfailure"),
+    });
+
+    // Printable ASCII only — the header must survive any proxy — with the
+    // stage and error name preserved for the rejection log.
+    expect(headers["X-Token-Detail"]).toBe("[init] TypeError: na ve failure");
+  });
+
+  it("never sends X-Token-Detail when the layer is merely unsigned", async () => {
+    jest.doMock("./loader", () => ({
+      loadTokenModule: () => Promise.resolve({}),
+    }));
+
+    /* eslint-disable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
+    const tokens = require("./index") as typeof import("./index");
+    /* eslint-enable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
+
+    await tokens.initRequestTokens({});
+    await tokens.secureFetch("https://api.test/marketplace");
+
     const headers = (fetchMock.mock.calls[0][1]?.headers ?? {}) as Record<
       string,
       string
     >;
-    expect(headers["X-Token"]).toBe("incompatible_wasm:import-failed");
+    expect(headers["X-Token"]).toBe("unsigned:no-session-code");
+    expect(headers["X-Token-Detail"]).toBeUndefined();
+  });
+
+  it("flags a signer that traps at sign time instead of failing the request", async () => {
+    jest.doMock("./loader", () => ({
+      loadTokenModule: () =>
+        Promise.resolve({
+          initSession: () => undefined,
+          clearSession: () => undefined,
+          hasSession: () => true,
+          signRequest: () => {
+            const trap = new Error("unreachable");
+            trap.name = "RuntimeError";
+            throw trap;
+          },
+        }),
+    }));
+
+    /* eslint-disable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
+    const tokens = require("./index") as typeof import("./index");
+    /* eslint-enable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
+
+    await tokens.initRequestTokens(session);
+    // The signer loaded fine and only fails when asked to sign — the
+    // request must still go out, flagged, rather than throwing.
+    await tokens.secureFetch("https://api.test/autosave/1", { method: "POST" });
+
+    const headers = (fetchMock.mock.calls[0][1]?.headers ?? {}) as Record<
+      string,
+      string
+    >;
+    expect(headers["X-Token"]).toBe(
+      "incompatible_wasm:sign-unknown-runtimeerror",
+    );
+    expect(headers["X-Token-Detail"]).toBe("RuntimeError: unreachable");
+    expect(headers["X-Timestamp"]).toBeUndefined();
   });
 
   it("retries the load on the next session rather than staying broken", async () => {
