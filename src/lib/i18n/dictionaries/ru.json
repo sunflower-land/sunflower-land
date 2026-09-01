@@ -8317,7 +8317,7 @@
   "favorites": "Избранное",
   "bumpkin.delivery.recentlyGifted": "Недавно подарено",
   "bumpkin.delivery.thanks": "Ух ты, спасибо, бампкин!!!",
-  "feeder.mixInBulk": "Смешать пачкой",
+  "feeder.mixInBulk": "Смешать несколько",
   "feeder.enterMixAmount": "Введи количество для смешивания:",
   "feeder.mix": "Смешать",
   "feeder.ingredientsToMix": "Ингредиенты для смешивания",
@@ -8446,5 +8446,8 @@
   "extend.collectible.payWith": "Оплатить",
   "extend.collectible.becomes": "Превращается в {{name}}",
   "confirm.extend": "Подтвердить продление",
-  "confirm.extend.message": "Ты уверен, что хочешь продлить {{name}} на {{time}}?"
+  "confirm.extend.message": "Ты уверен, что хочешь продлить {{name}} на {{time}}?",
+  "description.championRarecrow": "Champion был одним из лучших чемпионов в мини-игре Rarecrows.",
+  "description.ogRarecrow": "OG был одним из первых коллекционеров Rarecrows - с самого первого урожая.",
+  "description.loyalRarecrow": "Loyal был сильным фермером в мини-игре Rarecrows."
 }
