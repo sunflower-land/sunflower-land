@@ -1530,6 +1530,9 @@ export const ITEM_TRADE_TYPES: {
     "Letter X Tile": "instant",
     "Letter Y Tile": "instant",
     "Letter Z Tile": "instant",
+    "Champion Rarecrow": "instant",
+    "OG Rarecrow": "instant",
+    "Loyal Rarecrow": "instant",
   },
   wearables: {
     "Walrus Onesie": "instant",

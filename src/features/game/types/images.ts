@@ -162,6 +162,11 @@ import vinny from "assets/sfts/vinny.webp";
 import clock from "assets/sfts/clock.webp";
 import volcanoGnome from "assets/sfts/volcano_gnome.webp";
 
+// Rarecrows sunset rewards
+import championRarecrow from "assets/sfts/champion_rarecrow.png";
+import ogRarecrow from "assets/sfts/og_rarecrow.png";
+import loyalRarecrow from "assets/sfts/loyal_rarecrow.png";
+
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
 import emeraldTurtle from "assets/sfts/aoe/emerald_turtle.webp";
@@ -7351,6 +7356,18 @@ export const ITEM_DETAILS: Items = {
   "Letter Z Tile": {
     image: SUNNYSIDE.tiles.letterZTile,
     description: translate("description.letterZTile"),
+  },
+  "Champion Rarecrow": {
+    image: championRarecrow,
+    description: translate("description.championRarecrow"),
+  },
+  "OG Rarecrow": {
+    image: ogRarecrow,
+    description: translate("description.ogRarecrow"),
+  },
+  "Loyal Rarecrow": {
+    image: loyalRarecrow,
+    description: translate("description.loyalRarecrow"),
   },
   Trash: {
     image: trash,
