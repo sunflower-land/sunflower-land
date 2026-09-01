@@ -13,6 +13,31 @@ import { OFFLINE_FARM } from "./landData";
  * Seeded with two dummies snapshotted from OFFLINE_FARM so previews render
  * real art; the second is marked as the ascension re-apply target so that UI
  * shows too.
+ *
+ * ## Manual testing in ART_MODE (run without VITE_API_URL)
+ *
+ * These flows have no jest coverage on the FE (server behavior is covered in
+ * the API repo; UI is verified in-browser per house convention):
+ *
+ * Saved Layouts modal (landscaping → map button, needs SAVED_LAYOUTS access):
+ * 1. Open the modal — both dummies list with previews; "Ascension Layout"
+ *    carries the re-apply badge.
+ * 2. Save current farm (with and without a name) — the new card appears
+ *    ("Layout N" when unnamed); a third save disables via the cap message.
+ * 3. Move an item in landscaping, then Overwrite a layout — its preview
+ *    updates with the move (proves the pending-actions flush ordering).
+ * 4. Rename / Delete — deleting the badged layout also clears its badge.
+ * 5. Apply a layout after rearranging — the farm snaps back without leaving
+ *    landscaping, and the toast shows partial counts if items were blocked.
+ *
+ * Island upgrade prompts (IslandUpgrader raft):
+ * 6. With DYNAMIC_OFFLINE_FARM = getDynamicIsland("volcano", 30, 0, true):
+ *    the ascend confirmation shows the "Save my current layout" checkbox
+ *    (hint text instead when 3 slots are full); ascending with it checked
+ *    adds the layout and badges it.
+ * 7. With getDynamicIsland("swamp", 42, undefined, true): ascending resets
+ *    the land and the post-upgrade modal offers "Re-apply 'Ascension
+ *    Layout'" — one tap restores the arrangement; declining just continues.
  */
 
 const seededAt = Date.now();
