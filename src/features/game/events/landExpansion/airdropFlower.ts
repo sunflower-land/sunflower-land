@@ -3,6 +3,7 @@ import { produce } from "immer";
 
 import type { GameState } from "features/game/types/game";
 import { hasVipAccess } from "features/game/lib/vipAccess";
+import { CONFIG } from "lib/config";
 
 /**
  * Internal airdrop tooling.
@@ -38,6 +39,12 @@ export function airdropFlower({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
+    // Internal tooling is only wired up against the production network - it is
+    // never run on testnet.
+    if (CONFIG.NETWORK !== "mainnet") {
+      throw new Error("Airdrop tooling is only available on production");
+    }
+
     const { bumpkin } = game;
 
     if (!bumpkin) {
