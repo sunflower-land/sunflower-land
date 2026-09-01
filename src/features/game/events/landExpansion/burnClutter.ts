@@ -28,6 +28,7 @@ export function burnClutter({ state, action }: Options) {
 
     if (
       !new Decimal(amount).isInteger() ||
+      amount <= 0 ||
       amount % CLUTTER[item].sellUnit !== 0
     ) {
       throw new Error("Invalid amount");
