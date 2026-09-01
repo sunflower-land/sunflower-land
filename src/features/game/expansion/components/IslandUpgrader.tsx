@@ -464,10 +464,11 @@ export const IslandUpgrader: React.FC<Props> = ({ offset }) => {
     if (saveLayout) {
       try {
         await flushPendingActions(gameService);
-        const { farmId, rawToken } = gameService.getSnapshot().context;
+        const { farmId, rawToken, state } = gameService.getSnapshot().context;
         await createLayoutEffect({
           farmId: farmId as number,
           token: rawToken as string,
+          state,
           markAscension: true,
         });
       } catch {

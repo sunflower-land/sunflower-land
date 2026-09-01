@@ -1,8 +1,20 @@
+import { produce } from "immer";
 import type { GameState, SavedLayout } from "features/game/types/game";
+import { MAX_SAVED_LAYOUTS } from "features/game/types/game";
 import type {
   MachineInterpreter,
   MachineState,
 } from "features/game/lib/gameMachine";
+import {
+  applyFarmLayout,
+  defaultLayoutName,
+  snapshotFarm,
+} from "features/game/events/landExpansion/lib/layouts";
+import { ART_MODE } from "features/auth/lib/authMachine";
+import {
+  getArtModeLayouts,
+  setArtModeLayouts,
+} from "features/game/lib/artModeLayouts";
 import { randomID } from "lib/utils/random";
 import { postEffect } from "./effect";
 
@@ -17,6 +29,10 @@ import { postEffect } from "./effect";
  * server builds snapshots from (and applies layouts to) the farm it loads, so
  * unflushed local actions would be missing from a snapshot, or replayed on
  * top of an applied layout.
+ *
+ * ART_MODE (no API) runs every flow against the in-memory store in
+ * lib/artModeLayouts.ts instead — snapshots/applies use the caller-passed
+ * state, mirroring the server's rules (cap, default naming, pointer).
  */
 
 export type LayoutsData = {
@@ -39,12 +55,36 @@ type EffectArgs = {
 export async function createLayoutEffect({
   farmId,
   token,
+  state,
   name,
   markAscension,
 }: EffectArgs & {
+  /** Current farm — used only by the ART_MODE client-side snapshot. */
+  state: GameState;
   name?: string;
   markAscension?: boolean;
 }): Promise<LayoutsData> {
+  if (ART_MODE) {
+    const store = getArtModeLayouts();
+
+    if (store.layouts.length >= MAX_SAVED_LAYOUTS) {
+      throw new Error("LAYOUT_CAP_REACHED");
+    }
+
+    const layout: SavedLayout = {
+      id: `art-${randomID()}`,
+      name: name?.trim() || defaultLayoutName(store.layouts),
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...snapshotFarm(state),
+    };
+
+    return setArtModeLayouts({
+      layouts: [...store.layouts, layout],
+      ascensionLayoutId: markAscension ? layout.id : store.ascensionLayoutId,
+    });
+  }
+
   const { data } = await postEffect({
     farmId,
     token,
@@ -62,16 +102,44 @@ export async function createLayoutEffect({
 export async function editLayoutEffect({
   farmId,
   token,
+  state,
   id,
   name,
   updateSnapshot,
   markAscension,
 }: EffectArgs & {
+  /** Current farm — used only by the ART_MODE client-side snapshot. */
+  state: GameState;
   id: string;
   name?: string;
   updateSnapshot?: boolean;
   markAscension?: boolean;
 }): Promise<LayoutsData> {
+  if (ART_MODE) {
+    const store = getArtModeLayouts();
+    const index = store.layouts.findIndex((layout) => layout.id === id);
+
+    if (index === -1) {
+      throw new Error("LAYOUT_NOT_FOUND");
+    }
+
+    const layout: SavedLayout = {
+      ...store.layouts[index],
+      ...(name ? { name: name.trim() } : {}),
+      ...(updateSnapshot ? snapshotFarm(state) : {}),
+      updatedAt: Date.now(),
+    };
+
+    return setArtModeLayouts({
+      layouts: [
+        ...store.layouts.slice(0, index),
+        layout,
+        ...store.layouts.slice(index + 1),
+      ],
+      ascensionLayoutId: markAscension ? layout.id : store.ascensionLayoutId,
+    });
+  }
+
   const { data } = await postEffect({
     farmId,
     token,
@@ -93,6 +161,16 @@ export async function deleteLayoutEffect({
   token,
   id,
 }: EffectArgs & { id: string }): Promise<LayoutsData> {
+  if (ART_MODE) {
+    const store = getArtModeLayouts();
+
+    return setArtModeLayouts({
+      layouts: store.layouts.filter((layout) => layout.id !== id),
+      ascensionLayoutId:
+        store.ascensionLayoutId === id ? undefined : store.ascensionLayoutId,
+    });
+  }
+
   const { data } = await postEffect({
     farmId,
     token,
@@ -113,6 +191,23 @@ export async function applyLayoutEffect({
   /** Current machine state — the pruned response is merged over it. */
   state: GameState;
 }): Promise<{ gameState: GameState } & AppliedLayoutData> {
+  if (ART_MODE) {
+    const store = getArtModeLayouts();
+    const layout = store.layouts.find((candidate) => candidate.id === id);
+
+    if (!layout) {
+      throw new Error("LAYOUT_NOT_FOUND");
+    }
+
+    let counts = { applied: 0, skipped: 0, noInventory: 0 };
+
+    const gameState = produce(state, (draft) => {
+      counts = applyFarmLayout(draft, layout, Date.now());
+    });
+
+    return { gameState, ...counts, ...store };
+  }
+
   const { gameState, data } = await postEffect({
     farmId,
     token,
@@ -150,6 +245,9 @@ const isSaveInFlight = (state: MachineState): boolean => {
 export async function flushPendingActions(
   gameService: MachineInterpreter,
 ): Promise<void> {
+  // ART_MODE never talks to the server — there is nothing to sync.
+  if (ART_MODE) return;
+
   const deadline = Date.now() + FLUSH_TIMEOUT_MS;
 
   for (;;) {

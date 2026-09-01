@@ -1,6 +1,8 @@
 import { CONFIG } from "lib/config";
 import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
+import { ART_MODE } from "features/auth/lib/authMachine";
+import { getArtModeLayouts } from "features/game/lib/artModeLayouts";
 import type { LayoutsData } from "./layoutEffects";
 
 /**
@@ -16,6 +18,9 @@ export async function loadLayouts({
 }: {
   token: string;
 }): Promise<LayoutsData> {
+  // ART_MODE has no API — serve the in-memory dummy store instead.
+  if (ART_MODE) return getArtModeLayouts();
+
   const url = new URL(`${CONFIG.API_URL}/data`);
   url.searchParams.set("type", "layouts");
 

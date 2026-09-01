@@ -188,7 +188,8 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
     const name = newName.trim();
     // Name is optional — a blank name becomes "Layout N" server-side.
     runEffect(
-      (args) => createLayoutEffect({ ...args, ...(name ? { name } : {}) }),
+      (args) =>
+        createLayoutEffect({ ...args, state: game, ...(name ? { name } : {}) }),
       (data) => {
         setNewName("");
         setSelected(data.layouts.length);
@@ -208,8 +209,13 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
     runEffect(
       (args) =>
         showCurrent
-          ? createLayoutEffect({ ...args, markAscension: true })
-          : editLayoutEffect({ ...args, id: layout!.id, markAscension: true }),
+          ? createLayoutEffect({ ...args, state: game, markAscension: true })
+          : editLayoutEffect({
+              ...args,
+              state: game,
+              id: layout!.id,
+              markAscension: true,
+            }),
       () => {
         setMode("idle");
         flash(t("savedLayouts.toastAscensionSaved"));
@@ -224,7 +230,7 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
       return;
     }
     runEffect(
-      (args) => editLayoutEffect({ ...args, id: layout.id, name }),
+      (args) => editLayoutEffect({ ...args, state: game, id: layout.id, name }),
       () => {
         setMode("idle");
         flash(t("savedLayouts.toastRenamed"));
@@ -264,7 +270,12 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
     } else if (mode === "confirmOverwrite") {
       runEffect(
         (args) =>
-          editLayoutEffect({ ...args, id: layout.id, updateSnapshot: true }),
+          editLayoutEffect({
+            ...args,
+            state: game,
+            id: layout.id,
+            updateSnapshot: true,
+          }),
         () => {
           setMode("idle");
           flash(t("savedLayouts.toastOverwritten"));
