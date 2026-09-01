@@ -1532,7 +1532,6 @@ export const ITEM_TRADE_TYPES: {
     "Letter Z Tile": "instant",
     "Champion Rarecrow": "instant",
     "OG Rarecrow": "instant",
-    "Elder Rarecrow": "instant",
     "Loyal Rarecrow": "instant",
   },
   wearables: {

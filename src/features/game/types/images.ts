@@ -165,7 +165,6 @@ import volcanoGnome from "assets/sfts/volcano_gnome.webp";
 // Rarecrows sunset rewards
 import championRarecrow from "assets/sfts/champion_rarecrow.png";
 import ogRarecrow from "assets/sfts/og_rarecrow.png";
-import elderRarecrow from "assets/sfts/elder_rarecrow.png";
 import loyalRarecrow from "assets/sfts/loyal_rarecrow.png";
 
 // AoE items
@@ -7365,10 +7364,6 @@ export const ITEM_DETAILS: Items = {
   "OG Rarecrow": {
     image: ogRarecrow,
     description: translate("description.ogRarecrow"),
-  },
-  "Elder Rarecrow": {
-    image: elderRarecrow,
-    description: translate("description.elderRarecrow"),
   },
   "Loyal Rarecrow": {
     image: loyalRarecrow,

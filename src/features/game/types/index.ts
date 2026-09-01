@@ -1621,8 +1621,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Letter Z Tile": 3080,
   "Champion Rarecrow": 3081,
   "OG Rarecrow": 3082,
-  "Elder Rarecrow": 3083,
-  "Loyal Rarecrow": 3084,
+  "Loyal Rarecrow": 3083,
 };
 
 // The reverse of above

@@ -867,13 +867,6 @@ export const DECORATION_TEMPLATES = {
     },
     isWithdrawable: () => false,
   },
-  "Elder Rarecrow": {
-    dimensions: {
-      width: 1,
-      height: 1,
-    },
-    isWithdrawable: () => false,
-  },
   "Loyal Rarecrow": {
     dimensions: {
       width: 1,
