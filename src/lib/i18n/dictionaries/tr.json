@@ -8446,5 +8446,8 @@
   "extend.collectible.payWith": "İle öde",
   "extend.collectible.becomes": "{{name}} olur",
   "confirm.extend": "Uzatmayı Onayla",
-  "confirm.extend.message": "{{name}} 'yi {{time}} ile uzatmak istediğinizden emin misiniz?"
+  "confirm.extend.message": "{{name}} 'yi {{time}} ile uzatmak istediğinizden emin misiniz?",
+  "description.championRarecrow": "Şampiyon, Rarecrows mini oyununun en iyi şampiyonlarından biriydi.",
+  "description.ogRarecrow": "OG, ilk hasattan beri orada orijinal bir Rarecrows koleksiyoncusuydu.",
+  "description.loyalRarecrow": "Loyal, Rarecrows mini oyununda güçlü bir çiftçiydi."
 }

@@ -8446,5 +8446,8 @@
   "extend.collectible.payWith": "使用以下方式付款",
   "extend.collectible.becomes": "变成 {{name}}",
   "confirm.extend": "确认延期",
-  "confirm.extend.message": "你确定要将 {{name}} 扩展到 {{time}} 吗？"
+  "confirm.extend.message": "你确定要将 {{name}} 扩展到 {{time}} 吗？",
+  "description.championRarecrow": "Champion 是 Rarecrows 迷你游戏中的顶级冠军之一。",
+  "description.ogRarecrow": "OG 是最初的 Rarecrows 收藏家，从第一次收获时起就在那里。",
+  "description.loyalRarecrow": "在 Rarecrows 小游戏中，Loyal 是个强壮的农民。"
 }

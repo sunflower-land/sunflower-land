@@ -8446,5 +8446,8 @@
   "extend.collectible.payWith": "Bayar dengan",
   "extend.collectible.becomes": "Menjadi {{name}}",
   "confirm.extend": "Konfirmasikan Perpanjang",
-  "confirm.extend.message": "Apakah Anda yakin ingin memperpanjang {{name}} dengan {{time}}?"
+  "confirm.extend.message": "Apakah Anda yakin ingin memperpanjang {{name}} dengan {{time}}?",
+  "description.championRarecrow": "Champion adalah salah satu juara teratas dari minigame Rarecrows.",
+  "description.ogRarecrow": "OG adalah kolektor Rarecrows asli, di sana sejak panen pertama.",
+  "description.loyalRarecrow": "Loyal adalah petani yang kuat di minigame Rarecrows."
 }

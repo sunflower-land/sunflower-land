@@ -8446,5 +8446,8 @@
   "extend.collectible.payWith": "Zahlen Sie mit",
   "extend.collectible.becomes": "Wird ein {{name}}",
   "confirm.extend": "Bestätigen Sie die Verlängerung",
-  "confirm.extend.message": "Möchten Sie {{name}} wirklich um {{time}} verlängern?"
+  "confirm.extend.message": "Möchten Sie {{name}} wirklich um {{time}} verlängern?",
+  "description.championRarecrow": "Champion war einer der besten Champions aus dem Rarecrows-Minispiel.",
+  "description.ogRarecrow": "OG war ein originaler Rarecrows-Sammler, der von der ersten Ernte an dabei war.",
+  "description.loyalRarecrow": "Loyal war ein starker Farmer im Minispiel Rarecrows."
 }

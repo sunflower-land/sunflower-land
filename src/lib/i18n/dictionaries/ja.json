@@ -8446,5 +8446,8 @@
   "extend.collectible.payWith": "で支払う",
   "extend.collectible.becomes": "{{name}} になります",
   "confirm.extend": "拡張を確認",
-  "confirm.extend.message": "本当に {{name}} を {{time}} で拡張してもよろしいですか？"
+  "confirm.extend.message": "本当に {{name}} を {{time}} で拡張してもよろしいですか？",
+  "description.championRarecrow": "チャンピオンはレアクロウミニゲームのトップチャンピオンの一人でした。",
+  "description.ogRarecrow": "OGはレアクロウを初めて収穫した当初からコレクターとして活躍していました。",
+  "description.loyalRarecrow": "ローヤルはミニゲーム「レアクロウ」の強い農夫だった。"
 }
