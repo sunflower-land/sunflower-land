@@ -122,6 +122,10 @@ export function craftTool({ state, action }: Options) {
     throw new Error("Tool does not exist");
   }
 
+  if (!Number.isInteger(amount) || amount <= 0) {
+    throw new Error("Invalid amount");
+  }
+
   const { disabled, requiredIsland, requiredLevel, ingredients } = tool;
 
   if (disabled) {

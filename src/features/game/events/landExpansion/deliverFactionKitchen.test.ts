@@ -650,3 +650,53 @@ describe("factionKitchenDeliver", () => {
     expect(state.inventory["Mark"]?.toNumber()).toBe(1 * 5);
   });
 });
+
+describe("deliverFactionKitchen exploit guards", () => {
+  it("rejects a negative amount (would otherwise mint free resources)", () => {
+    expect(() =>
+      deliverFactionKitchen({
+        state: {
+          ...GAME_STATE,
+          inventory: { Honey: new Decimal(5) },
+          faction: {
+            ...(GAME_STATE.faction as Faction),
+            kitchen: {
+              week,
+              requests: [{ item: "Honey", amount: 1, dailyFulfilled: {} }],
+            },
+          },
+        },
+        action: {
+          type: "factionKitchen.delivered",
+          resourceIndex: 0,
+          amount: -1000,
+        },
+        createdAt: startTime,
+      }),
+    ).toThrow("Invalid amount");
+  });
+
+  it("rejects a non-integer amount", () => {
+    expect(() =>
+      deliverFactionKitchen({
+        state: {
+          ...GAME_STATE,
+          inventory: { Honey: new Decimal(5) },
+          faction: {
+            ...(GAME_STATE.faction as Faction),
+            kitchen: {
+              week,
+              requests: [{ item: "Honey", amount: 1, dailyFulfilled: {} }],
+            },
+          },
+        },
+        action: {
+          type: "factionKitchen.delivered",
+          resourceIndex: 0,
+          amount: 1.5,
+        },
+        createdAt: startTime,
+      }),
+    ).toThrow("Invalid amount");
+  });
+});

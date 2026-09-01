@@ -681,3 +681,23 @@ describe("craftTool", () => {
     });
   });
 });
+
+describe("craftTool exploit guards", () => {
+  it("rejects a negative amount (would otherwise credit coins and mint ingredients)", () => {
+    expect(() =>
+      craftTool({
+        state: { ...GAME_STATE, coins: 0 },
+        action: { type: "tool.crafted", tool: "Axe", amount: -100 },
+      }),
+    ).toThrow("Invalid amount");
+  });
+
+  it("rejects a non-integer amount", () => {
+    expect(() =>
+      craftTool({
+        state: { ...GAME_STATE, coins: 1000 },
+        action: { type: "tool.crafted", tool: "Axe", amount: 1.5 },
+      }),
+    ).toThrow("Invalid amount");
+  });
+});

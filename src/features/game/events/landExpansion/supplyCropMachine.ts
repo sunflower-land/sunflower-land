@@ -329,7 +329,7 @@ export function supplyCropMachine({
 }: SupplyCropMachineOptions): GameState {
   const seedsAdded = action.seeds;
 
-  if (seedsAdded.amount < 1) {
+  if (!Number.isInteger(seedsAdded.amount) || seedsAdded.amount < 1) {
     throw new Error("Invalid amount supplied");
   }
 
