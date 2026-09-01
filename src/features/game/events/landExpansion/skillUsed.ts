@@ -146,9 +146,21 @@ function usePetalBlessed({
     .forEach((bed) => {
       const { flower } = bed;
       if (flower) {
-        const growTime =
-          FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds * 1000;
-        flower.plantedAt = createdAt - growTime;
+        if (flower.baseDurationMs !== undefined) {
+          // Windowed (speed-rate model): zero the remaining work AND re-anchor
+          // the start to now so readyAt resolves to `createdAt` exactly.
+          // Back-dating plantedAt by the BASE grow time would instead re-price
+          // the grow against past boost windows — and leave a flower whose
+          // baked `baseDurationMs` EXCEEDS the base time (Flowery Abode's
+          // +growth-time debuff) still growing (mirrors instaGrowFlower).
+          flower.baseDurationMs = 0;
+          flower.plantedAt = createdAt;
+        } else {
+          // Legacy: back-date so plantedAt + base grow time === createdAt.
+          const growTime =
+            FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds * 1000;
+          flower.plantedAt = createdAt - growTime;
+        }
       }
     });
   return flowerBeds;
