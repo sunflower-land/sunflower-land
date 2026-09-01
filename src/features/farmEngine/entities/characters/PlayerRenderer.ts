@@ -232,7 +232,9 @@ export class PlayerRenderer extends EntityRenderer<Slice> {
         .zone(world.x, world.y - 16, 16, 48)
         .setOrigin(0, 0)
         .setDepth(DEPTHS.ENTITY_BASE + world.y);
-      makeClickable(this.scene, zone, config.onClick);
+      makeClickable(this.scene, zone, config.onClick, {
+        glow: () => sprite.body(),
+      });
       const entry: Entry = { sprite, zone, signature };
       // The worker experiment drives the main bumpkin around the farm.
       if (key === "bumpkin") {
@@ -253,7 +255,9 @@ export class PlayerRenderer extends EntityRenderer<Slice> {
             .setOrigin(0, 0)
             .setDepth(DEPTHS.ENTITY_BASE + world.y + 2);
           helper.setScale(18 / helper.width);
-          makeClickable(this.scene, helper, config.onClick);
+          makeClickable(this.scene, helper, config.onClick, {
+            glow: () => sprite.body(),
+          });
           if (this.bridge.ui.get().showAnimations) {
             entry.helperTween = this.scene.tweens.add({
               targets: helper,

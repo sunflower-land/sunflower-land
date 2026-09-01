@@ -9,6 +9,7 @@ import {
 import { runLoader } from "../../core/assets";
 import { nativeScale } from "../../core/pixelArt";
 import { makeClickable } from "../../core/clickable";
+import type { GlowTarget } from "../../core/hoverGlow";
 import { gridToWorld } from "../../core/coordinates";
 import { DEPTHS } from "../../core/depths";
 import { ProgressBarSprite } from "../../components/ProgressBarSprite";
@@ -191,7 +192,7 @@ export abstract class ResourceNodeRenderer<
         );
       },
       // The node's primary art object.
-      glow: () => this.nodes.get(id)?.art ?? undefined,
+      glow: () => this.glowTarget(id),
     });
     objects = { zone, extras: new Map(), touch: 0 };
     this.nodes.set(id, objects);
@@ -199,6 +200,11 @@ export abstract class ResourceNodeRenderer<
   }
 
   /** Main art helper (creates/reuses objects.art). */
+  /** Art lit by the hover glow; subclasses with their own art maps override. */
+  protected glowTarget(id: string): GlowTarget | undefined {
+    return this.nodes.get(id)?.art;
+  }
+
   protected setArt(objects: NodeObjects, ctx: RenderContext, spec: ArtSpec) {
     objects.art = applyArt(this.scene, objects.art, ctx.box, spec, ctx.depth);
     objects.art.setVisible(true);

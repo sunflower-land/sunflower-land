@@ -64,8 +64,11 @@ export class AirdropRenderer extends EntityRenderer<Slice> {
           )
           .setOrigin(0.5, 1);
         chest.setScale(16 / chest.width);
-        makeClickable(this.scene, chest, () =>
-          this.bridge.farmModal.open("airdrop", { id: airdrop.id }),
+        makeClickable(
+          this.scene,
+          chest,
+          () => this.bridge.farmModal.open("airdrop", { id: airdrop.id }),
+          { glow: () => chest },
         );
 
         const alert = this.scene.add

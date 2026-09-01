@@ -18,6 +18,14 @@
  * CDN sources are downloaded and their strips stored locally too — the art
  * team can move the strips onto the CDN later and only the manifest's import
  * lines change.
+ *
+ * Besides GIFs this also converts ANIMATED WEBPS (sharp reads both):
+ *   - every animated webp under src/assets/sfts/pets/ (common pet art), and
+ *   - per-token CDN art for the buds + pet NFTs in the veteran fixture
+ *     (bud images/<id>.webp, pet sleepings/<id>_animated.webp), keyed under
+ *     BOTH the mainnet and testnet URL so lookups match either network.
+ * These strips live in src/assets/animations/ until they migrate to the
+ * Images repo.
  */
 const fs = require("fs");
 const path = require("path");
@@ -109,8 +117,64 @@ const sheetName = (source) =>
   source
     .replace(/^assets\//, "")
     .replace(/^\//, "")
-    .replace(/\.gif$/, "")
+    .replace(/\.(gif|webp)$/, "")
     .replace(/[/]/g, "_");
+
+/** Animated webps under a tree (RIFF container with an ANIM chunk). */
+const findAnimatedWebps = (dir) => {
+  const out = [];
+  const walk = (d) => {
+    for (const entry of fs.readdirSync(d, { withFileTypes: true })) {
+      const full = path.join(d, entry.name);
+      if (entry.isDirectory()) walk(full);
+      else if (entry.name.endsWith(".webp")) {
+        const head = Buffer.alloc(400);
+        const fd = fs.openSync(full, "r");
+        fs.readSync(fd, head, 0, 400, 0);
+        fs.closeSync(fd);
+        if (head.includes("ANIM")) out.push(path.relative(path.join(REPO, "src"), full));
+      }
+    }
+  };
+  walk(dir);
+  return out.sort();
+};
+
+/**
+ * Per-token CDN art for the ids the veteran fixture places. Adam bakes the
+ * FULL collections in the Images repo later; these cover the demo farm.
+ * Each id is keyed under both network domains.
+ */
+const tokenSources = () => {
+  const fixture = JSON.parse(
+    fs.readFileSync(
+      path.join(REPO, "src/features/game/lib/fixtures/veteranFarm.json"),
+      "utf8",
+    ),
+  );
+  const sources = [];
+  for (const id of Object.keys(fixture.buds ?? {})) {
+    sources.push({
+      name: `buds_${id}`,
+      download: `https://testnet-buds.sunflower-land.com/images/${id}.webp`,
+      keys: [
+        `https://buds.sunflower-land.com/images/${id}.webp`,
+        `https://testnet-buds.sunflower-land.com/images/${id}.webp`,
+      ],
+    });
+  }
+  for (const id of Object.keys(fixture.pets?.nfts ?? {})) {
+    sources.push({
+      name: `pets_sleepings_${id}`,
+      download: `https://testnet-pets.sunflower-land.com/sleepings/${id}_animated.webp`,
+      keys: [
+        `https://pets.sunflower-land.com/sleepings/${id}_animated.webp`,
+        `https://testnet-pets.sunflower-land.com/sleepings/${id}_animated.webp`,
+      ],
+    });
+  }
+  return sources;
+};
 
 /** Phaser takes one frameRate per animation; GIF delays are per frame. */
 const frameRateOf = (delays) => {
@@ -178,6 +242,39 @@ function reportUncoveredArt() {
     );
   }
 
+  // Animated common-pet webps, keyed by their import module like the gifs.
+  for (const source of findAnimatedWebps(path.join(REPO, "src/assets/sfts/pets"))) {
+    const result = await convert(
+      fs.readFileSync(path.join(REPO, "src", source)),
+      sheetName(source),
+    );
+    localEntries.push({ ...result, import: source });
+    console.log(
+      `local  ${source} -> ${result.name}.png (${result.frames}f ${result.frameWidth}x${result.frameHeight} @${result.fps}fps)`,
+    );
+  }
+
+  // Per-token CDN art (buds, pet sleepings) for the veteran fixture.
+  const tokenEntries = [];
+  for (const { name, download, keys } of tokenSources()) {
+    const response = await fetch(download);
+    if (!response.ok) {
+      skipped.push(`${download} (HTTP ${response.status})`);
+      continue;
+    }
+    const buffer = Buffer.from(await response.arrayBuffer());
+    const meta = await sharp(buffer, { animated: true }).metadata();
+    if ((meta.pages ?? 1) <= 1) {
+      skipped.push(`${download} (static, no conversion needed)`);
+      continue;
+    }
+    const result = await convert(buffer, name);
+    tokenEntries.push({ ...result, keys });
+    console.log(
+      `token  ${download} -> ${result.name}.png (${result.frames}f ${result.frameWidth}x${result.frameHeight} @${result.fps}fps)`,
+    );
+  }
+
   const convertedByPath = new Map();
   for (const { key, path: remotePath } of REMOTE) {
     // Several SUNNYSIDE keys can point at one file (chef/goblin_chef) — decode
@@ -213,6 +310,9 @@ function reportUncoveredArt() {
         (e) => `import ${varName(e.name)} from "${sheetName2Asset(e)}";`,
       ),
       ...remoteEntries.map(
+        (e) => `import ${varName(e.name)} from "assets/animations/${e.name}.png";`,
+      ),
+      ...tokenEntries.map(
         (e) => `import ${varName(e.name)} from "assets/animations/${e.name}.png";`,
       ),
     ]),
@@ -252,6 +352,9 @@ ${remoteEntries
     entryLine(e, `\`\${CONFIG.PROTECTED_IMAGE_URL}${e.cdnPath}\``),
   )
   .join("\n")}
+${tokenEntries
+  .flatMap((e) => e.keys.map((k) => entryLine(e, JSON.stringify(k))))
+  .join("\n")}
 ]);
 
 /** The converted strip for an art URL, when one exists. */
@@ -261,7 +364,7 @@ export const animatedArtFor = (url: string | undefined): AnimatedArt | undefined
 
   fs.writeFileSync(MANIFEST, body);
   console.log(
-    `\n${localEntries.length} local + ${remoteEntries.length} remote -> ${OUT_DIR}`,
+    `\n${localEntries.length} local + ${remoteEntries.length} remote + ${tokenEntries.length} token -> ${OUT_DIR}`,
   );
   if (skipped.length) console.log("skipped:\n  " + skipped.join("\n  "));
   reportUncoveredArt();

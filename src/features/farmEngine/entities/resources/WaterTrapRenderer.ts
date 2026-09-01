@@ -130,6 +130,7 @@ export class WaterTrapRenderer extends EntityRenderer<Slice> {
           .zone(0, 0, WORLD_TILE, WORLD_TILE)
           .setOrigin(0, 0);
         makeClickable(this.scene, zone, () => this.onTrapClick(id), {
+          glow: () => this.traps.get(id)?.art,
           onHoverChange: (hovered) =>
             this.bridge.hover.set(
               hovered ? { type: "resource", kind: "waterTrap", id } : null,

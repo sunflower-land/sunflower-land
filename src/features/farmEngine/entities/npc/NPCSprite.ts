@@ -64,6 +64,11 @@ type NPCSpriteOptions = {
 
 export class NPCSprite {
   private sprite: Phaser.GameObjects.Sprite | undefined;
+
+  /** The body sprite, for external click zones to aim the hover glow at. */
+  body() {
+    return this.sprite;
+  }
   private shadow: Phaser.GameObjects.Image | undefined;
   private auraBack: Phaser.GameObjects.Sprite | undefined;
   private auraFront: Phaser.GameObjects.Sprite | undefined;
@@ -168,7 +173,9 @@ export class NPCSprite {
     this.auraFront = addAura(auraFrontUrl, -4.8, depth + 0.25);
 
     if (onClick) {
-      makeClickable(this.scene, this.sprite, onClick);
+      makeClickable(this.scene, this.sprite, onClick, {
+        glow: () => this.sprite,
+      });
     }
   }
 

@@ -41,6 +41,10 @@ export class MushroomRenderer extends ResourceNodeRenderer<MushroomNode> {
   protected readonly hoverKind = null;
 
   private sprites = new Map<string, Phaser.GameObjects.Sprite>();
+
+  protected glowTarget(id: string) {
+    return this.sprites.get(id);
+  }
   private timers = new Map<string, Phaser.Time.TimerEvent>();
 
   protected selectNodes(game: GameState) {

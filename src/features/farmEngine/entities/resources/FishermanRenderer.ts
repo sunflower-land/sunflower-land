@@ -267,7 +267,9 @@ export class FishermanRenderer extends EntityRenderer<Slice> {
       .zone(hitX, hitY, hitSize, hitSize)
       .setOrigin(0, 0)
       .setDepth(depth);
-    makeClickable(this.scene, zone, () => this.onClick());
+    makeClickable(this.scene, zone, () => this.onClick(), {
+      glow: () => this.npc,
+    });
     this.objects.push(zone);
 
     if (slice.canFish) {

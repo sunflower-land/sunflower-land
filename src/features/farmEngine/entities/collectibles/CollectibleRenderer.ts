@@ -492,7 +492,7 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
           zone,
           () => this.onCollectibleClick(name, item.id),
           // [Land.tsx:547] collectibles keep clicks while visiting.
-          { visitClickable: true, glow: () => this.nodes.get(key)?.art },
+          { visitClickable: true },
         );
         objects = { name, box, zone };
         this.nodes.set(key, objects);

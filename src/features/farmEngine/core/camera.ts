@@ -12,7 +12,10 @@ import { DPR } from "./rendering";
  *   physical resolution (core/rendering.ts) — camera/pointer maths below are
  *   in BUFFER pixels; only the anchor projection converts to CSS px;
  * - user zoom multiplies that, clamped 0.5..1 (ZoomProvider's pinch range);
- * - drag to pan (react-indiana-drag-scroll's role), wheel or pinch to zoom;
+ * - drag to pan (react-indiana-drag-scroll's role); a plain wheel gesture —
+ *   a trackpad two-finger scroll — PANS exactly like the DOM farm's scroll
+ *   container, while ctrl+wheel (how macOS delivers a trackpad pinch, and
+ *   ctrl+scroll on a mouse) zooms, as does a two-pointer touch pinch;
  * - the viewport is clamped to the gameboard (84x56 tiles + expansion margin);
  * - position survives an interior visit via sessionStorage, one-shot restore,
  *   mirroring islandScroll.ts; first visit centres the land base (the
@@ -33,7 +36,8 @@ const storageKey = (visiting: boolean) =>
 
 const MIN_USER_ZOOM = 0.5;
 const MAX_USER_ZOOM = 1;
-const WHEEL_ZOOM_SENSITIVITY = 0.001;
+/** Multiplicative pinch feel: zoom *= exp(-delta * this). */
+const PINCH_ZOOM_SENSITIVITY = 0.01;
 
 /**
  * Dead zone before a press turns into a pan, in CSS px (scaled by DPR into
@@ -132,12 +136,27 @@ export class FarmCameraController {
     };
 
     const onWheel = (
-      _pointer: Phaser.Input.Pointer,
+      pointer: Phaser.Input.Pointer,
       _objects: Phaser.GameObjects.GameObject[],
-      _deltaX: number,
+      deltaX: number,
       deltaY: number,
     ) => {
-      this.setUserZoom(this.userZoom - deltaY * WHEEL_ZOOM_SENSITIVITY);
+      // macOS delivers a trackpad pinch as wheel + ctrlKey; a plain wheel is
+      // the two-finger scroll, which the DOM farm treats as scrolling — pan.
+      const native = pointer.event as WheelEvent | undefined;
+      if (native?.ctrlKey || native?.metaKey) {
+        native.preventDefault?.();
+        this.setUserZoom(
+          this.userZoom * Math.exp(-deltaY * PINCH_ZOOM_SENSITIVITY),
+        );
+        return;
+      }
+      if (this.panSuspended) return;
+      const camera = this.scene.cameras.main;
+      // Wheel deltas are CSS px; camera maths are buffer px (CSS * DPR).
+      camera.scrollX += (deltaX * DPR) / camera.zoom;
+      camera.scrollY += (deltaY * DPR) / camera.zoom;
+      this.anchors.reprojectAll();
     };
 
     input.on(Phaser.Input.Events.POINTER_DOWN, onPointerDown);

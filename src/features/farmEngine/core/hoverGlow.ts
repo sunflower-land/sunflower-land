@@ -9,8 +9,9 @@ import Phaser from "phaser";
  * halo around the shadow blob. This pipeline thresholds alpha first — only
  * near-opaque pixels count as the body — then draws:
  *
- *  - a thin white rim hugging the solid silhouette (~1 source px),
- *  - a soft warm-yellow falloff outside it (~2-3 source px),
+ *  - a hairline white rim hugging the solid silhouette (HALF a source px —
+ *    Adam's call: half the weight of the art's own 1px lines, rim only, no
+ *    halo),
  *  - a slight brightness lift on the body itself.
  */
 
@@ -30,41 +31,25 @@ void main() {
   vec4 base = texture2D(uMainSampler, outTexCoord);
   float isSolid = step(SOLID, base.a);
 
-  // Distance (in source pixels, up to 3) to the nearest solid pixel.
-  // Sampling steps are one SOURCE pixel: uTexel is one framebuffer texel and
-  // uZoom is framebuffer pixels per source pixel.
-  vec2 srcPx = uTexel * uZoom;
-  float nearest = 4.0;
-  for (int dx = -3; dx <= 3; dx++) {
-    for (int dy = -3; dy <= 3; dy++) {
-      vec2 offset = vec2(float(dx), float(dy)) * srcPx;
-      float a = texture2D(uMainSampler, outTexCoord + offset).a;
-      float d = max(abs(float(dx)), abs(float(dy)));
-      if (a >= SOLID && d < nearest) {
-        nearest = d;
-      }
+  // A non-solid pixel is rim when a solid pixel sits within HALF a source
+  // pixel: uTexel is one framebuffer texel, uZoom is framebuffer pixels per
+  // source pixel.
+  vec2 halfPx = uTexel * uZoom * 0.5;
+  float near = 0.0;
+  for (int dx = -1; dx <= 1; dx++) {
+    for (int dy = -1; dy <= 1; dy++) {
+      vec2 offset = vec2(float(dx), float(dy)) * halfPx;
+      near = max(near, step(SOLID, texture2D(uMainSampler, outTexCoord + offset).a));
     }
   }
+  float rim = (1.0 - isSolid) * near;
 
   // Body: gentle lift so the whole sprite reads "active".
   vec3 lifted = clamp(base.rgb * 1.18, 0.0, 1.0);
 
-  // Rim + halo outside the body.
-  float rim = (1.0 - isSolid) * step(nearest, 1.0);
-  float halo = (1.0 - isSolid) * (1.0 - min(nearest, 4.0) / 4.0);
-
-  vec3 rimColor = vec3(1.0, 1.0, 1.0);
-  vec3 haloColor = vec3(1.0, 0.85, 0.35);
-
   vec3 color = mix(base.rgb, lifted, isSolid);
   float alpha = base.a;
-
-  // Halo first, rim on top of it.
-  float haloStrength = halo * 0.55 * (1.0 - rim);
-  color = mix(color, haloColor, haloStrength * (1.0 - isSolid));
-  alpha = max(alpha, haloStrength);
-
-  color = mix(color, rimColor, rim);
+  color = mix(color, vec3(1.0), rim);
   alpha = max(alpha, rim);
 
   gl_FragColor = vec4(color * alpha, alpha);
@@ -102,8 +87,8 @@ function ensureRegistered(scene: Phaser.Scene): boolean {
 
 export function applyHoverGlow(scene: Phaser.Scene, target: GlowTarget) {
   if (!ensureRegistered(scene)) return;
-  // Room for the halo to draw outside the sprite's own quad.
-  target.postFX?.setPadding(4);
+  // Room for the rim to draw just outside the sprite's own quad.
+  target.postFX?.setPadding(1);
   target.setPostPipeline(HOVER_GLOW_KEY);
   const pipeline = target.getPostPipeline(HOVER_GLOW_KEY);
   if (pipeline instanceof HoverGlowPipeline) {

@@ -351,7 +351,9 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
       const container = this.scene.add.container(0, 0);
       const image = this.scene.add.image(0, 0, art.image).setOrigin(0.5, 0.5);
       const zone = this.scene.add.zone(0, 0, CELL, CELL).setOrigin(0, 0);
-      makeClickable(this.scene, zone, () => this.onAnimalClick(id));
+      makeClickable(this.scene, zone, () => this.onAnimalClick(id), {
+        glow: () => this.animals.get(id)?.art,
+      });
       container.add(image);
       objects = { container, art: image, zone };
       this.animals.set(id, objects);

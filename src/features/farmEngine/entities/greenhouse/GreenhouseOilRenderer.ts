@@ -75,8 +75,11 @@ export class GreenhouseOilRenderer extends EntityRenderer<Slice> {
         .zone(BARRELS.x, BARRELS.y - 8, BARRELS.width, BARRELS.height + 8)
         .setOrigin(0, 0)
         .setDepth(depth);
-      makeClickable(this.scene, this.zone, () =>
-        this.bridge.farmModal.open("greenhouseOil"),
+      makeClickable(
+        this.scene,
+        this.zone,
+        () => this.bridge.farmModal.open("greenhouseOil"),
+        { glow: () => this.barrels },
       );
     }
 

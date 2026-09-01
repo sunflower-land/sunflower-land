@@ -146,7 +146,9 @@ export class GreenhousePotRenderer extends EntityRenderer<Slice> {
       const zone = this.scene.add
         .zone(0, 0, POT_WIDTH, POT_WIDTH)
         .setOrigin(0, 1);
-      makeClickable(this.scene, zone, () => this.onPotClick(id));
+      makeClickable(this.scene, zone, () => this.onPotClick(id), {
+        glow: () => this.pots.get(id)?.art,
+      });
       // Anchor for the React quick-select disc row [GreenhousePot.tsx].
       const { x: ax, bottom: abottom } = this.potOrigin(id);
       this.bridge.anchors.setAnchor(`greenhouse-pot-${id}`, {

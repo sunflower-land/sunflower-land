@@ -125,6 +125,7 @@ export class SaltRenderer extends EntityRenderer<Slice> {
           .zone(0, 0, WORLD_TILE, WORLD_TILE)
           .setOrigin(0, 0);
         makeClickable(this.scene, zone, () => this.onNodeClick(id), {
+          glow: () => this.nodes.get(id)?.art,
           onHoverChange: (hovered) =>
             this.bridge.hover.set(
               hovered ? { type: "resource", kind: "salt", id } : null,
@@ -186,8 +187,11 @@ export class SaltRenderer extends EntityRenderer<Slice> {
         const zone = this.scene.add
           .zone(0, 0, WORLD_TILE, WORLD_TILE)
           .setOrigin(0, 0);
-        makeClickable(this.scene, zone, () =>
-          this.bridge.farmModal.open("upgradeSaltFarm"),
+        makeClickable(
+          this.scene,
+          zone,
+          () => this.bridge.farmModal.open("upgradeSaltFarm"),
+          { glow: () => this.placeholders.get(id)?.art },
         );
         objects = { zone, art, plus };
         this.placeholders.set(id, objects);

@@ -4,6 +4,11 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import type { GameState } from "features/game/types/game";
 import { getBudImage } from "lib/buds/types";
 import { queueImage, runLoader } from "../../core/assets";
+import {
+  queueArt,
+  resolveArtObject,
+  type ArtObject,
+} from "../../core/animated";
 import { makeClickable } from "../../core/clickable";
 import { gridToWorld, WORLD_TILE } from "../../core/coordinates";
 import { DEPTHS } from "../../core/depths";
@@ -11,9 +16,13 @@ import { EntityRenderer } from "../EntityRenderer";
 
 /**
  * Placed buds [island/buds/Bud.tsx + collectibles/components/Bud.tsx]. Art is
- * one CDN webp per token id (traits baked in) — animated in the DOM, first
- * frame here until sheet art exists. Shadow 16 wide flush with the tile; bud
- * 32 wide at (-8, -16) from the tile's top-left (Retreat type sits 1.52 lower).
+ * one CDN webp/gif per token id (traits baked in) — the DOM's <img> plays it
+ * natively, so ids covered by the converted strips [scripts/
+ * gif-to-spritesheet.js -> assets/animations/buds_<id>.png] loop here too;
+ * unconverted ids fall back to the static CDN frame. Shadow + click zone
+ * render even when the CDN image is missing entirely (the DOM keeps its
+ * broken-img wrapper clickable). Shadow 16 wide flush with the tile; bud 32
+ * wide at (-8, -16) from the tile's top-left (Retreat type sits 1.52 lower).
  *
  * Clicks open the bud detail popover (label + buffs + marketplace details)
  * via the shared sftPopover channel.
@@ -23,7 +32,7 @@ type Slice = { buds: GameState["buds"] };
 
 type Entry = {
   shadow: Phaser.GameObjects.Image;
-  bud: Phaser.GameObjects.Image;
+  art?: ArtObject;
   zone: Phaser.GameObjects.Zone;
 };
 
@@ -48,7 +57,7 @@ export class BudRenderer extends EntityRenderer<Slice> {
 
     queueImage(this.scene, shadowArt);
     for (const [id] of placed) {
-      queueImage(this.scene, getBudImage(Number(id)));
+      queueArt(this.scene, getBudImage(Number(id)));
     }
     await runLoader(this.scene);
     if (this.isStale(token)) return;
@@ -57,7 +66,7 @@ export class BudRenderer extends EntityRenderer<Slice> {
     for (const [id, entry] of this.entries) {
       if (liveIds.has(id)) continue;
       entry.shadow.destroy();
-      entry.bud.destroy();
+      entry.art?.destroy();
       entry.zone.destroy();
       this.entries.delete(id);
     }
@@ -66,12 +75,10 @@ export class BudRenderer extends EntityRenderer<Slice> {
       const world = gridToWorld(bud.coordinates!);
       const depth = DEPTHS.ENTITY_BASE + world.y;
       const texture = getBudImage(Number(id));
-      if (!this.scene.textures.exists(texture)) continue;
 
       let entry = this.entries.get(id);
       if (!entry) {
         const shadow = this.scene.add.image(0, 0, shadowArt).setOrigin(0, 1);
-        const image = this.scene.add.image(0, 0, texture).setOrigin(0, 0);
         // 1-tile hit box like the DOM bud wrapper [Bud.tsx].
         const zone = this.scene.add
           .zone(0, 0, WORLD_TILE, WORLD_TILE * 2)
@@ -79,23 +86,26 @@ export class BudRenderer extends EntityRenderer<Slice> {
         makeClickable(this.scene, zone, () => this.onBudClick(id), {
           visitClickable: true,
         });
-        entry = { shadow, bud: image, zone };
+        entry = { shadow, zone };
         this.entries.set(id, entry);
       }
       entry.shadow.setScale(16 / entry.shadow.width);
       entry.shadow.setPosition(world.x, world.y + 16);
       entry.shadow.setDepth(depth - 0.5);
-
-      entry.bud.setTexture(texture);
-      entry.bud.setScale(32 / entry.bud.width);
-      // [Bud.tsx] -translate-x-1/4 of the 32-wide art, top -16 (+1.52 Retreat)
-      entry.bud.setPosition(
-        world.x - 8,
-        world.y - 16 + (bud.type === "Retreat" ? 4 / 2.625 : 0),
-      );
-      entry.bud.setDepth(depth);
       entry.zone.setPosition(world.x, world.y - 16);
       entry.zone.setDepth(depth);
+
+      // [Bud.tsx] -translate-x-1/4 of the 32-wide art, top -16 (+1.52 Retreat)
+      entry.art = resolveArtObject(this.scene, entry.art, texture);
+      if (entry.art) {
+        entry.art.setOrigin(0, 0);
+        entry.art.setScale(32 / entry.art.width);
+        entry.art.setPosition(
+          world.x - 8,
+          world.y - 16 + (bud.type === "Retreat" ? 4 / 2.625 : 0),
+        );
+        entry.art.setDepth(depth);
+      }
     }
   }
 
@@ -125,7 +135,7 @@ export class BudRenderer extends EntityRenderer<Slice> {
   protected onDestroy() {
     this.entries.forEach((entry) => {
       entry.shadow.destroy();
-      entry.bud.destroy();
+      entry.art?.destroy();
       entry.zone.destroy();
     });
     this.entries.clear();

@@ -20,6 +20,11 @@ import {
 import { isHelpComplete } from "features/game/types/monuments";
 import { addHelpDisc, queueHelpDiscAssets } from "../../components/HelpDisc";
 import { queueImage, queueSpritesheet, runLoader } from "../../core/assets";
+import {
+  queueArt,
+  resolveArtObject,
+  type ArtObject,
+} from "../../core/animated";
 import { collectiblesAt } from "../collectibles/CollectibleRenderer";
 import { makeClickable } from "../../core/clickable";
 import { gridRectToWorld } from "../../core/coordinates";
@@ -72,7 +77,8 @@ export const isCommonPetName = (name: string): name is PetName =>
   name in PET_STATE_IMAGES;
 
 type Entry = {
-  art?: Phaser.GameObjects.Image;
+  /** Static image OR a looping sprite from a converted strip [core/animated.ts]. */
+  art?: ArtObject;
   sheet?: Phaser.GameObjects.Sprite;
   icon?: Phaser.GameObjects.Image;
   discs?: Phaser.GameObjects.Image[];
@@ -145,11 +151,11 @@ export class PetRenderer extends EntityRenderer<Slice> {
         frameWidth: NFT_FRAME,
         frameHeight: NFT_FRAME,
       });
-      queueImage(this.scene, getPetImage("asleep", numeric));
+      queueArt(this.scene, getPetImage("asleep", numeric));
     }
     for (const { name } of commons) {
-      queueImage(this.scene, PET_STATE_IMAGES[name].happy);
-      queueImage(this.scene, PET_STATE_IMAGES[name].asleep);
+      queueArt(this.scene, PET_STATE_IMAGES[name].happy);
+      queueArt(this.scene, PET_STATE_IMAGES[name].asleep);
     }
     await runLoader(this.scene);
     if (this.isStale(token)) return;
@@ -225,12 +231,10 @@ export class PetRenderer extends EntityRenderer<Slice> {
       entry.sheet.setDepth(depth);
     } else {
       const texture = revealed ? getPetImage("asleep", numeric) : petEgg;
-      if (!this.scene.textures.exists(texture)) return;
-      if (!entry.art) {
-        entry.art = this.scene.add.image(0, 0, texture).setOrigin(0, 1);
-      }
+      entry.art = resolveArtObject(this.scene, entry.art, texture);
+      if (!entry.art) return;
       entry.art.setVisible(true);
-      entry.art.setTexture(texture);
+      entry.art.setOrigin(0, 1);
       entry.art.setScale(NFT_FRAME / entry.art.width);
       entry.art.setPosition(spriteX, spriteY);
       entry.art.setDepth(depth);
@@ -291,26 +295,24 @@ export class PetRenderer extends EntityRenderer<Slice> {
     const texture = asleep
       ? PET_STATE_IMAGES[placement.name].asleep
       : PET_STATE_IMAGES[placement.name].happy;
-    if (!this.scene.textures.exists(texture)) return;
 
     const style = PETS_STYLES[placement.name];
-    if (!entry.art) {
-      entry.art = this.scene.add.image(0, 0, texture).setOrigin(0, 0);
+    const artX = box.x + (style?.left ?? 0);
+    const artY = box.y + box.height - (style?.bottom ?? 16);
+    entry.art = resolveArtObject(this.scene, entry.art, texture);
+    if (entry.art) {
+      entry.art.setVisible(true);
+      entry.art.setOrigin(0, 0);
+      entry.art.setScale((style?.width ?? 16) / entry.art.width);
+      entry.art.setPosition(artX, artY);
+      entry.art.setDepth(depth);
     }
-    entry.art.setVisible(true);
-    entry.art.setTexture(texture);
-    entry.art.setScale((style?.width ?? 16) / entry.art.width);
-    entry.art.setPosition(
-      box.x + (style?.left ?? 0),
-      box.y + box.height - (style?.bottom ?? 16),
-    );
-    entry.art.setDepth(depth);
 
     this.refreshIcon(entry, {
       neglected,
       napping: napping && !neglected,
-      x: entry.art.x,
-      y: entry.art.y,
+      x: artX,
+      y: artY,
       positions: undefined, // commons: -8 css px both axes
       depth: depth + 1,
     });
@@ -368,7 +370,13 @@ export class PetRenderer extends EntityRenderer<Slice> {
       const zone = this.scene.add
         .zone(0, 0, box.width, box.height)
         .setOrigin(0, 0);
-      makeClickable(this.scene, zone, onClick, { visitClickable: true });
+      makeClickable(this.scene, zone, onClick, {
+        visitClickable: true,
+        glow: () => {
+          const live = this.entries.get(key);
+          return live?.sheet?.visible ? live.sheet : live?.art;
+        },
+      });
       entry = { zone };
       this.entries.set(key, entry);
     }

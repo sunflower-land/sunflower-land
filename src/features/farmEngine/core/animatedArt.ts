@@ -40,6 +40,49 @@ import decorationsBannersSpringBannerGif from "assets/decorations/banners/spring
 import decorationsBannersWindsOfChangeBannerLoopGif from "assets/decorations/banners/winds-of-change_banner_loop.gif";
 import decorationsIsleBoatGif from "assets/decorations/isle_boat.gif";
 import eventsGoldenCropGoldenCropGif from "assets/events/golden_crop/golden_crop.gif";
+import sftsPetsBullsBisonGif from "assets/sfts/pets/bulls/Bison.webp";
+import sftsPetsBullsOxenGif from "assets/sfts/pets/bulls/Oxen.webp";
+import sftsPetsBullsBisonAsleepGif from "assets/sfts/pets/bulls/bison_asleep.webp";
+import sftsPetsBullsMudhornGif from "assets/sfts/pets/bulls/mudhorn.webp";
+import sftsPetsBullsMudhornAsleepGif from "assets/sfts/pets/bulls/mudhorn_asleep.webp";
+import sftsPetsBullsOxenAsleepGif from "assets/sfts/pets/bulls/oxen_asleep.webp";
+import sftsPetsCatsButtersGif from "assets/sfts/pets/cats/butters.webp";
+import sftsPetsCatsButtersAsleepGif from "assets/sfts/pets/cats/butters_asleep.webp";
+import sftsPetsCatsMeowchiGif from "assets/sfts/pets/cats/meowchi.webp";
+import sftsPetsCatsMeowchiAsleepGif from "assets/sfts/pets/cats/meowchi_asleep.webp";
+import sftsPetsCatsSmokeyGif from "assets/sfts/pets/cats/smokey.webp";
+import sftsPetsCatsSmokeyAsleepGif from "assets/sfts/pets/cats/smokey_asleep.webp";
+import sftsPetsDogsBarkleyGif from "assets/sfts/pets/dogs/barkley.webp";
+import sftsPetsDogsBarkleyAsleepGif from "assets/sfts/pets/dogs/barkley_asleep.webp";
+import sftsPetsDogsBiscuitGif from "assets/sfts/pets/dogs/biscuit.webp";
+import sftsPetsDogsBiscuitAsleepGif from "assets/sfts/pets/dogs/biscuit_asleep.webp";
+import sftsPetsDogsCloudyGif from "assets/sfts/pets/dogs/cloudy.webp";
+import sftsPetsDogsCloudyAsleepGif from "assets/sfts/pets/dogs/cloudy_asleep.webp";
+import sftsPetsHamstersNibblesGif from "assets/sfts/pets/hamsters/nibbles.webp";
+import sftsPetsHamstersNibblesAsleepGif from "assets/sfts/pets/hamsters/nibbles_asleep.webp";
+import sftsPetsHamstersPeanutGif from "assets/sfts/pets/hamsters/peanut.webp";
+import sftsPetsHamstersPeanutsAsleepGif from "assets/sfts/pets/hamsters/peanuts_asleep.webp";
+import sftsPetsHorsesBurroGif from "assets/sfts/pets/horses/burro.webp";
+import sftsPetsHorsesBurroAsleepGif from "assets/sfts/pets/horses/burro_asleep.webp";
+import sftsPetsHorsesPintoGif from "assets/sfts/pets/horses/pinto.webp";
+import sftsPetsHorsesPintoAsleepGif from "assets/sfts/pets/horses/pinto_asleep.webp";
+import sftsPetsHorsesRoanGif from "assets/sfts/pets/horses/roan.webp";
+import sftsPetsHorsesRoanAsleepGif from "assets/sfts/pets/horses/roan_asleep.webp";
+import sftsPetsHorsesStallionGif from "assets/sfts/pets/horses/stallion.webp";
+import sftsPetsHorsesStallionAsleepGif from "assets/sfts/pets/horses/stallion_asleep.webp";
+import sftsPetsOwlsFlickerGif from "assets/sfts/pets/owls/flicker.webp";
+import sftsPetsOwlsFlickerAsleepGif from "assets/sfts/pets/owls/flicker_asleep.webp";
+import sftsPetsOwlsPippinGif from "assets/sfts/pets/owls/pippin.webp";
+import sftsPetsOwlsPippinAsleepGif from "assets/sfts/pets/owls/pippin_asleep.webp";
+import sftsPetsOwlsTwizzleGif from "assets/sfts/pets/owls/twizzle.webp";
+import sftsPetsOwlsTwizzleAsleepGif from "assets/sfts/pets/owls/twizzle_asleep.webp";
+import sftsPetsPenguinsPipGif from "assets/sfts/pets/penguins/pip.webp";
+import sftsPetsPenguinsPipAsleepGif from "assets/sfts/pets/penguins/pip_asleep.webp";
+import sftsPetsPenguinsSkipperGif from "assets/sfts/pets/penguins/skipper.webp";
+import sftsPetsPenguinsSkipperAsleepGif from "assets/sfts/pets/penguins/skipper_asleep.webp";
+import sftsPetsPenguinsWaddlesGif from "assets/sfts/pets/penguins/waddles.webp";
+import sftsPetsPenguinsWaddlesAsleepGif from "assets/sfts/pets/penguins/waddles_asleep.webp";
+import sftsPetsRamseyGif from "assets/sfts/pets/ramsey.webp";
 import sftsFountain from "assets/animations/sfts_fountain.png";
 import sftsBeaver from "assets/animations/sfts_beaver.png";
 import sftsApprenticeBeaver from "assets/animations/sfts_apprentice_beaver.png";
@@ -73,6 +116,49 @@ import decorationsBannersSpringBanner from "assets/animations/decorations_banner
 import decorationsBannersWindsOfChangeBannerLoop from "assets/animations/decorations_banners_winds-of-change_banner_loop.png";
 import decorationsIsleBoat from "assets/animations/decorations_isle_boat.png";
 import eventsGoldenCropGoldenCrop from "assets/animations/events_golden_crop_golden_crop.png";
+import sftsPetsBullsBison from "assets/animations/sfts_pets_bulls_Bison.png";
+import sftsPetsBullsOxen from "assets/animations/sfts_pets_bulls_Oxen.png";
+import sftsPetsBullsBisonAsleep from "assets/animations/sfts_pets_bulls_bison_asleep.png";
+import sftsPetsBullsMudhorn from "assets/animations/sfts_pets_bulls_mudhorn.png";
+import sftsPetsBullsMudhornAsleep from "assets/animations/sfts_pets_bulls_mudhorn_asleep.png";
+import sftsPetsBullsOxenAsleep from "assets/animations/sfts_pets_bulls_oxen_asleep.png";
+import sftsPetsCatsButters from "assets/animations/sfts_pets_cats_butters.png";
+import sftsPetsCatsButtersAsleep from "assets/animations/sfts_pets_cats_butters_asleep.png";
+import sftsPetsCatsMeowchi from "assets/animations/sfts_pets_cats_meowchi.png";
+import sftsPetsCatsMeowchiAsleep from "assets/animations/sfts_pets_cats_meowchi_asleep.png";
+import sftsPetsCatsSmokey from "assets/animations/sfts_pets_cats_smokey.png";
+import sftsPetsCatsSmokeyAsleep from "assets/animations/sfts_pets_cats_smokey_asleep.png";
+import sftsPetsDogsBarkley from "assets/animations/sfts_pets_dogs_barkley.png";
+import sftsPetsDogsBarkleyAsleep from "assets/animations/sfts_pets_dogs_barkley_asleep.png";
+import sftsPetsDogsBiscuit from "assets/animations/sfts_pets_dogs_biscuit.png";
+import sftsPetsDogsBiscuitAsleep from "assets/animations/sfts_pets_dogs_biscuit_asleep.png";
+import sftsPetsDogsCloudy from "assets/animations/sfts_pets_dogs_cloudy.png";
+import sftsPetsDogsCloudyAsleep from "assets/animations/sfts_pets_dogs_cloudy_asleep.png";
+import sftsPetsHamstersNibbles from "assets/animations/sfts_pets_hamsters_nibbles.png";
+import sftsPetsHamstersNibblesAsleep from "assets/animations/sfts_pets_hamsters_nibbles_asleep.png";
+import sftsPetsHamstersPeanut from "assets/animations/sfts_pets_hamsters_peanut.png";
+import sftsPetsHamstersPeanutsAsleep from "assets/animations/sfts_pets_hamsters_peanuts_asleep.png";
+import sftsPetsHorsesBurro from "assets/animations/sfts_pets_horses_burro.png";
+import sftsPetsHorsesBurroAsleep from "assets/animations/sfts_pets_horses_burro_asleep.png";
+import sftsPetsHorsesPinto from "assets/animations/sfts_pets_horses_pinto.png";
+import sftsPetsHorsesPintoAsleep from "assets/animations/sfts_pets_horses_pinto_asleep.png";
+import sftsPetsHorsesRoan from "assets/animations/sfts_pets_horses_roan.png";
+import sftsPetsHorsesRoanAsleep from "assets/animations/sfts_pets_horses_roan_asleep.png";
+import sftsPetsHorsesStallion from "assets/animations/sfts_pets_horses_stallion.png";
+import sftsPetsHorsesStallionAsleep from "assets/animations/sfts_pets_horses_stallion_asleep.png";
+import sftsPetsOwlsFlicker from "assets/animations/sfts_pets_owls_flicker.png";
+import sftsPetsOwlsFlickerAsleep from "assets/animations/sfts_pets_owls_flicker_asleep.png";
+import sftsPetsOwlsPippin from "assets/animations/sfts_pets_owls_pippin.png";
+import sftsPetsOwlsPippinAsleep from "assets/animations/sfts_pets_owls_pippin_asleep.png";
+import sftsPetsOwlsTwizzle from "assets/animations/sfts_pets_owls_twizzle.png";
+import sftsPetsOwlsTwizzleAsleep from "assets/animations/sfts_pets_owls_twizzle_asleep.png";
+import sftsPetsPenguinsPip from "assets/animations/sfts_pets_penguins_pip.png";
+import sftsPetsPenguinsPipAsleep from "assets/animations/sfts_pets_penguins_pip_asleep.png";
+import sftsPetsPenguinsSkipper from "assets/animations/sfts_pets_penguins_skipper.png";
+import sftsPetsPenguinsSkipperAsleep from "assets/animations/sfts_pets_penguins_skipper_asleep.png";
+import sftsPetsPenguinsWaddles from "assets/animations/sfts_pets_penguins_waddles.png";
+import sftsPetsPenguinsWaddlesAsleep from "assets/animations/sfts_pets_penguins_waddles_asleep.png";
+import sftsPetsRamsey from "assets/animations/sfts_pets_ramsey.png";
 import buildingsSmoke from "assets/animations/buildings_smoke.png";
 import fxSparkle2 from "assets/animations/fx_sparkle2.png";
 import landLevelsPontoon from "assets/animations/land_levels_pontoon.png";
@@ -90,6 +176,10 @@ import npcsNevilleDoing from "assets/animations/npcs_neville_doing.png";
 import npcsSmoothieMaking from "assets/animations/npcs_smoothie_making.png";
 import npcsSmoothie from "assets/animations/npcs_smoothie.png";
 import npcsSwimmer from "assets/animations/npcs_swimmer.png";
+import buds933 from "assets/animations/buds_933.png";
+import petsSleepings20 from "assets/animations/pets_sleepings_20.png";
+import petsSleepings2921 from "assets/animations/pets_sleepings_2921.png";
+import petsSleepings3000 from "assets/animations/pets_sleepings_3000.png";
 
 export type AnimatedArt = {
   sheet: string;
@@ -390,6 +480,436 @@ export const ANIMATED_ART: Record<string, AnimatedArt> = Object.fromEntries([
     },
   ],
   [
+    sftsPetsBullsBisonGif,
+    {
+      sheet: sftsPetsBullsBison,
+      frameWidth: 22,
+      frameHeight: 26,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsPetsBullsOxenGif,
+    {
+      sheet: sftsPetsBullsOxen,
+      frameWidth: 23,
+      frameHeight: 26,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsPetsBullsBisonAsleepGif,
+    {
+      sheet: sftsPetsBullsBisonAsleep,
+      frameWidth: 22,
+      frameHeight: 22,
+      frames: 2,
+      fps: 2,
+    },
+  ],
+  [
+    sftsPetsBullsMudhornGif,
+    {
+      sheet: sftsPetsBullsMudhorn,
+      frameWidth: 23,
+      frameHeight: 26,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsPetsBullsMudhornAsleepGif,
+    {
+      sheet: sftsPetsBullsMudhornAsleep,
+      frameWidth: 23,
+      frameHeight: 22,
+      frames: 2,
+      fps: 2,
+    },
+  ],
+  [
+    sftsPetsBullsOxenAsleepGif,
+    {
+      sheet: sftsPetsBullsOxenAsleep,
+      frameWidth: 23,
+      frameHeight: 21,
+      frames: 2,
+      fps: 2,
+    },
+  ],
+  [
+    sftsPetsCatsButtersGif,
+    {
+      sheet: sftsPetsCatsButters,
+      frameWidth: 20,
+      frameHeight: 23,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsPetsCatsButtersAsleepGif,
+    {
+      sheet: sftsPetsCatsButtersAsleep,
+      frameWidth: 19,
+      frameHeight: 22,
+      frames: 2,
+      fps: 2,
+    },
+  ],
+  [
+    sftsPetsCatsMeowchiGif,
+    {
+      sheet: sftsPetsCatsMeowchi,
+      frameWidth: 20,
+      frameHeight: 23,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsPetsCatsMeowchiAsleepGif,
+    {
+      sheet: sftsPetsCatsMeowchiAsleep,
+      frameWidth: 19,
+      frameHeight: 22,
+      frames: 2,
+      fps: 2,
+    },
+  ],
+  [
+    sftsPetsCatsSmokeyGif,
+    {
+      sheet: sftsPetsCatsSmokey,
+      frameWidth: 20,
+      frameHeight: 23,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsPetsCatsSmokeyAsleepGif,
+    {
+      sheet: sftsPetsCatsSmokeyAsleep,
+      frameWidth: 19,
+      frameHeight: 22,
+      frames: 2,
+      fps: 2,
+    },
+  ],
+  [
+    sftsPetsDogsBarkleyGif,
+    {
+      sheet: sftsPetsDogsBarkley,
+      frameWidth: 20,
+      frameHeight: 22,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsPetsDogsBarkleyAsleepGif,
+    {
+      sheet: sftsPetsDogsBarkleyAsleep,
+      frameWidth: 21,
+      frameHeight: 20,
+      frames: 2,
+      fps: 2,
+    },
+  ],
+  [
+    sftsPetsDogsBiscuitGif,
+    {
+      sheet: sftsPetsDogsBiscuit,
+      frameWidth: 20,
+      frameHeight: 22,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsPetsDogsBiscuitAsleepGif,
+    {
+      sheet: sftsPetsDogsBiscuitAsleep,
+      frameWidth: 20,
+      frameHeight: 20,
+      frames: 2,
+      fps: 2,
+    },
+  ],
+  [
+    sftsPetsDogsCloudyGif,
+    {
+      sheet: sftsPetsDogsCloudy,
+      frameWidth: 20,
+      frameHeight: 25,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsPetsDogsCloudyAsleepGif,
+    {
+      sheet: sftsPetsDogsCloudyAsleep,
+      frameWidth: 19,
+      frameHeight: 20,
+      frames: 2,
+      fps: 2,
+    },
+  ],
+  [
+    sftsPetsHamstersNibblesGif,
+    {
+      sheet: sftsPetsHamstersNibbles,
+      frameWidth: 16,
+      frameHeight: 20,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsPetsHamstersNibblesAsleepGif,
+    {
+      sheet: sftsPetsHamstersNibblesAsleep,
+      frameWidth: 16,
+      frameHeight: 17,
+      frames: 2,
+      fps: 2,
+    },
+  ],
+  [
+    sftsPetsHamstersPeanutGif,
+    {
+      sheet: sftsPetsHamstersPeanut,
+      frameWidth: 16,
+      frameHeight: 20,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsPetsHamstersPeanutsAsleepGif,
+    {
+      sheet: sftsPetsHamstersPeanutsAsleep,
+      frameWidth: 16,
+      frameHeight: 17,
+      frames: 2,
+      fps: 2,
+    },
+  ],
+  [
+    sftsPetsHorsesBurroGif,
+    {
+      sheet: sftsPetsHorsesBurro,
+      frameWidth: 20,
+      frameHeight: 24,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsPetsHorsesBurroAsleepGif,
+    {
+      sheet: sftsPetsHorsesBurroAsleep,
+      frameWidth: 20,
+      frameHeight: 22,
+      frames: 2,
+      fps: 2,
+    },
+  ],
+  [
+    sftsPetsHorsesPintoGif,
+    {
+      sheet: sftsPetsHorsesPinto,
+      frameWidth: 22,
+      frameHeight: 24,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsPetsHorsesPintoAsleepGif,
+    {
+      sheet: sftsPetsHorsesPintoAsleep,
+      frameWidth: 22,
+      frameHeight: 20,
+      frames: 2,
+      fps: 2,
+    },
+  ],
+  [
+    sftsPetsHorsesRoanGif,
+    {
+      sheet: sftsPetsHorsesRoan,
+      frameWidth: 19,
+      frameHeight: 25,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsPetsHorsesRoanAsleepGif,
+    {
+      sheet: sftsPetsHorsesRoanAsleep,
+      frameWidth: 19,
+      frameHeight: 22,
+      frames: 2,
+      fps: 2,
+    },
+  ],
+  [
+    sftsPetsHorsesStallionGif,
+    {
+      sheet: sftsPetsHorsesStallion,
+      frameWidth: 21,
+      frameHeight: 24,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsPetsHorsesStallionAsleepGif,
+    {
+      sheet: sftsPetsHorsesStallionAsleep,
+      frameWidth: 21,
+      frameHeight: 21,
+      frames: 2,
+      fps: 2,
+    },
+  ],
+  [
+    sftsPetsOwlsFlickerGif,
+    {
+      sheet: sftsPetsOwlsFlicker,
+      frameWidth: 17,
+      frameHeight: 22,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsPetsOwlsFlickerAsleepGif,
+    {
+      sheet: sftsPetsOwlsFlickerAsleep,
+      frameWidth: 17,
+      frameHeight: 20,
+      frames: 2,
+      fps: 2,
+    },
+  ],
+  [
+    sftsPetsOwlsPippinGif,
+    {
+      sheet: sftsPetsOwlsPippin,
+      frameWidth: 17,
+      frameHeight: 22,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsPetsOwlsPippinAsleepGif,
+    {
+      sheet: sftsPetsOwlsPippinAsleep,
+      frameWidth: 17,
+      frameHeight: 20,
+      frames: 2,
+      fps: 2,
+    },
+  ],
+  [
+    sftsPetsOwlsTwizzleGif,
+    {
+      sheet: sftsPetsOwlsTwizzle,
+      frameWidth: 17,
+      frameHeight: 19,
+      frames: 6,
+      fps: 10,
+    },
+  ],
+  [
+    sftsPetsOwlsTwizzleAsleepGif,
+    {
+      sheet: sftsPetsOwlsTwizzleAsleep,
+      frameWidth: 17,
+      frameHeight: 17,
+      frames: 2,
+      fps: 2,
+    },
+  ],
+  [
+    sftsPetsPenguinsPipGif,
+    {
+      sheet: sftsPetsPenguinsPip,
+      frameWidth: 17,
+      frameHeight: 20,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsPetsPenguinsPipAsleepGif,
+    {
+      sheet: sftsPetsPenguinsPipAsleep,
+      frameWidth: 17,
+      frameHeight: 18,
+      frames: 2,
+      fps: 2,
+    },
+  ],
+  [
+    sftsPetsPenguinsSkipperGif,
+    {
+      sheet: sftsPetsPenguinsSkipper,
+      frameWidth: 21,
+      frameHeight: 20,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsPetsPenguinsSkipperAsleepGif,
+    {
+      sheet: sftsPetsPenguinsSkipperAsleep,
+      frameWidth: 21,
+      frameHeight: 18,
+      frames: 2,
+      fps: 2,
+    },
+  ],
+  [
+    sftsPetsPenguinsWaddlesGif,
+    {
+      sheet: sftsPetsPenguinsWaddles,
+      frameWidth: 17,
+      frameHeight: 20,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsPetsPenguinsWaddlesAsleepGif,
+    {
+      sheet: sftsPetsPenguinsWaddlesAsleep,
+      frameWidth: 17,
+      frameHeight: 18,
+      frames: 2,
+      fps: 2,
+    },
+  ],
+  [
+    sftsPetsRamseyGif,
+    {
+      sheet: sftsPetsRamsey,
+      frameWidth: 32,
+      frameHeight: 36,
+      frames: 17,
+      fps: 14,
+    },
+  ],
+  [
     `${CONFIG.PROTECTED_IMAGE_URL}/buildings/smoke.gif`,
     {
       sheet: buildingsSmoke,
@@ -539,6 +1059,74 @@ export const ANIMATED_ART: Record<string, AnimatedArt> = Object.fromEntries([
       frameHeight: 16,
       frames: 12,
       fps: 10,
+    },
+  ],
+  [
+    "https://buds.sunflower-land.com/images/933.webp",
+    { sheet: buds933, frameWidth: 32, frameHeight: 32, frames: 9, fps: 14 },
+  ],
+  [
+    "https://testnet-buds.sunflower-land.com/images/933.webp",
+    { sheet: buds933, frameWidth: 32, frameHeight: 32, frames: 9, fps: 14 },
+  ],
+  [
+    "https://pets.sunflower-land.com/sleepings/20_animated.webp",
+    {
+      sheet: petsSleepings20,
+      frameWidth: 44,
+      frameHeight: 44,
+      frames: 2,
+      fps: 1,
+    },
+  ],
+  [
+    "https://testnet-pets.sunflower-land.com/sleepings/20_animated.webp",
+    {
+      sheet: petsSleepings20,
+      frameWidth: 44,
+      frameHeight: 44,
+      frames: 2,
+      fps: 1,
+    },
+  ],
+  [
+    "https://pets.sunflower-land.com/sleepings/2921_animated.webp",
+    {
+      sheet: petsSleepings2921,
+      frameWidth: 44,
+      frameHeight: 44,
+      frames: 2,
+      fps: 1,
+    },
+  ],
+  [
+    "https://testnet-pets.sunflower-land.com/sleepings/2921_animated.webp",
+    {
+      sheet: petsSleepings2921,
+      frameWidth: 44,
+      frameHeight: 44,
+      frames: 2,
+      fps: 1,
+    },
+  ],
+  [
+    "https://pets.sunflower-land.com/sleepings/3000_animated.webp",
+    {
+      sheet: petsSleepings3000,
+      frameWidth: 44,
+      frameHeight: 44,
+      frames: 9,
+      fps: 7,
+    },
+  ],
+  [
+    "https://testnet-pets.sunflower-land.com/sleepings/3000_animated.webp",
+    {
+      sheet: petsSleepings3000,
+      frameWidth: 44,
+      frameHeight: 44,
+      frames: 9,
+      fps: 7,
     },
   ],
 ]);

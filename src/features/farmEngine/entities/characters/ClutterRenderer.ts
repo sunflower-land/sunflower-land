@@ -97,6 +97,7 @@ export class ClutterRenderer extends EntityRenderer<Slice> {
           .setOrigin(0, 0);
         makeClickable(this.scene, zone, () => this.onClutterClick(id), {
           visitClickable: true,
+          glow: () => this.entries.get(id)?.art,
         });
         entry = { art, zone };
         // [Clutter.tsx] 6px twinkle at (7, 6) inside the tile.
