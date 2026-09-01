@@ -32,6 +32,10 @@ import {
 import type { GameState } from "../types/game";
 import { claimAirdrop, type ClaimAirdropAction } from "./claimAirdrop";
 import {
+  airdropFlower,
+  type AirdropFlowerAction,
+} from "./landExpansion/airdropFlower";
+import {
   placeBuilding,
   type PlaceBuildingAction,
 } from "./landExpansion/placeBuilding";
@@ -888,6 +892,7 @@ export type PlayingEvent =
   | MineSunstoneAction
   | MineAscensionCrystalAction
   | ClaimAirdropAction
+  | AirdropFlowerAction
   | RecipeCookedAction
   | CollectRecipeAction
   | CancelProcessedResourceAction
@@ -1183,6 +1188,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "minigame.attemptStarted": startMinigameAttempt,
   "minigame.scoreSubmitted": submitMinigameScore,
   "airdrop.claimed": claimAirdrop,
+  "flower.airdropped": airdropFlower,
   "bot.detected": detectBot,
   "seed.planted": landExpansionPlant,
   "seeds.bulkPlanted": bulkPlant,
