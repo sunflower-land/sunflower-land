@@ -15,11 +15,23 @@ import ISPANK from "./ispank.json";
  *  - ispank:  iSPANK — swamp, 33 land, 100M XP, 410 placed
  *
  * Each runs through `makeGame` — the client's own API deserializer — so
- * nothing is synthesized. Two offline-QoL overrides only: `tcsAcknowledged`
- * stamped fresh, and `season.startedAt` stamped to the current temperate
- * window (stale exports otherwise boot into the blocking `seasonChanged`
- * screen on every load).
+ * nothing is synthesized. Offline-QoL overrides only, all aimed at the boot
+ * interrupts a stale export re-triggers on EVERY load: `tcsAcknowledged`
+ * stamped fresh, `season.startedAt` stamped to the current temperate window
+ * (else the blocking `seasonChanged` screen), sold trades un-fulfilled and
+ * the auction bid dropped (else `marketplaceSale`/`offers`/bid screens).
  */
+const stripFulfilled = <T extends { fulfilledAt?: number }>(
+  record: Record<string, T> | undefined,
+): Record<string, T> | undefined =>
+  record &&
+  Object.fromEntries(
+    Object.entries(record).map(([id, trade]) => {
+      const { fulfilledAt: _, ...rest } = trade;
+      return [id, rest as T];
+    }),
+  );
+
 const fromExport = (raw: unknown): GameState => {
   const game = makeGame(raw);
   return {
@@ -29,6 +41,12 @@ const fromExport = (raw: unknown): GameState => {
       ...game.season,
       startedAt: getLastTemperateSeasonStartedAt(),
     },
+    trades: {
+      ...game.trades,
+      listings: stripFulfilled(game.trades.listings),
+      offers: stripFulfilled(game.trades.offers),
+    },
+    auctioneer: { ...game.auctioneer, bid: undefined },
   };
 };
 

@@ -41,6 +41,8 @@ import {
   type WorldRect,
 } from "../../core/coordinates";
 import { DEPTHS } from "../../core/depths";
+import { DPR } from "../../core/rendering";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ProgressBarSprite } from "../../components/ProgressBarSprite";
 import {
   EXPIRING_COLLECTIBLES,
@@ -182,6 +184,8 @@ type NodeObjects = {
   expiryIcon?: Phaser.GameObjects.Image;
   expiryIconTween?: Phaser.Tweens.Tween;
   grayscaled?: boolean;
+  /** [Sign.tsx] the Town Sign's painted display name. */
+  signText?: Phaser.GameObjects.Text;
 };
 
 /**
@@ -554,6 +558,11 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
         ? DEPTHS.DIRT + 200
         : DEPTHS.ENTITY_BASE + box.y; // DOM sorts by placement row
 
+    // The click zone follows the art's band so a ground tile under an
+    // entity (e.g. the plaza tile beneath a Town Sign) never steals the
+    // click — the DOM gets this for free from element z-order.
+    objects.zone.setDepth(depth);
+
     // Animated GIF art (fountain, beavers, moles, Kuebiko...) plays its
     // converted strip; everything else stays a plain Image.
     const resolved = resolveArtObject(this.scene, objects.art, art.texture);
@@ -561,6 +570,8 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
     objects.art = resolved;
     const image = resolved;
     image.setDepth(depth);
+
+    if (name === "Town Sign") this.refreshSignText(objects, item, depth);
 
     const spec = art.spec;
     objects.shadow?.destroy();
@@ -757,7 +768,10 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
       });
       objects.bar.setPosition(barX, barY);
       objects.bar.set(total > 0 ? (1 - left / total) * 100 : 0, 0);
-    } else if (objects.bar) {
+    } else if (objects.bar && !(name in REQUIRED_CHEERS)) {
+      // objects.bar is shared with the monument cheer bar above — an
+      // incomplete monument is never "constructing", so destroying here was
+      // killing its bar on the very same render pass that created it.
       objects.bar.destroy();
       objects.bar = undefined;
     }
@@ -1346,7 +1360,59 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
     this.bridge.farmModal.open("festiveTreeReveal");
   }
 
+  /**
+   * [collectibles/components/Sign.tsx] the Town Sign paints the username
+   * (falling back to the bumpkin NFT id, then the farm id) onto the board.
+   */
+  private refreshSignText(
+    objects: NodeObjects,
+    item: PlacedItem,
+    depth: number,
+  ) {
+    const { box } = objects;
+    const context = this.bridge.select((state) => state.context);
+    const { username } = context.state;
+    const nftId = (context as { nftId?: number }).nftId;
+    const farmId = (context as { farmId?: number }).farmId ?? 0;
+    const index =
+      this.bridge
+        .select((state) => state.context.state.collectibles["Town Sign"] ?? [])
+        .findIndex((placed) => placed.id === item.id) ?? 0;
+    const names = [
+      ...(username ? [username] : []),
+      ...(nftId ? [`#${nftId}`] : []),
+      `#${farmId}`,
+    ];
+    let displayName = names[Math.min(Math.max(index, 0), names.length - 1)];
+    if (displayName === `#${farmId}` && String(farmId).length > 6) {
+      displayName = `#${String(farmId).slice(0, 4)}...`;
+    }
+
+    if (!objects.signText) {
+      objects.signText = this.scene.add
+        .text(0, 0, "", {
+          fontFamily: "Secondary",
+          fontSize: "16px",
+          color: "#ead4aa",
+          resolution: DPR * PIXEL_SCALE,
+        })
+        .setOrigin(0.5, 0)
+        .setScale(1 / PIXEL_SCALE);
+      objects.signText.setShadow(1, 1, "#723e39", 0);
+      if (typeof document !== "undefined" && document.fonts?.ready) {
+        void document.fonts.ready.then(() => {
+          if (objects.signText?.active) objects.signText.updateText();
+        });
+      }
+    }
+    objects.signText.setText(displayName);
+    // [Sign.tsx] 34px board at left -1, text ~4 src px below the board's top.
+    objects.signText.setPosition(box.x - 1 + 17, box.y + box.height - 20 + 4);
+    objects.signText.setDepth(depth + 1);
+  }
+
   private destroyNode(objects: NodeObjects) {
+    objects.signText?.destroy();
     objects.expiryIconTween?.remove();
     objects.expiryIcon?.destroy();
     objects.zone.destroy();

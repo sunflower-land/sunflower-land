@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import { queueImage, queueSpritesheet } from "../../core/assets";
+import { resolveArtObject, type ArtObject } from "../../core/animated";
 
 /**
  * Shared placement + spritesheet plumbing for resource-node renderers. All
@@ -79,16 +80,23 @@ const resolvePosition = (
   return { x, y };
 };
 
-/** Create or restyle a node's static art image per an ArtSpec. */
+/**
+ * Create or restyle a node's art per an ArtSpec. Textures with a converted
+ * animation strip [core/animated.ts] come back as looping Sprites (the DOM
+ * plays these webps in <img>); everything else stays a static Image. Callers
+ * must queue via queueArt for the strip to be available.
+ */
 export function applyArt(
   scene: Phaser.Scene,
-  image: Phaser.GameObjects.Image | undefined,
+  image: ArtObject | undefined,
   box: NodeBox,
   spec: ArtSpec,
   depth: number,
-): Phaser.GameObjects.Image {
-  const art = image ?? scene.add.image(0, 0, spec.texture).setOrigin(0, 0);
-  art.setTexture(spec.texture);
+): ArtObject {
+  const art =
+    resolveArtObject(scene, image, spec.texture) ??
+    scene.add.image(0, 0, spec.texture).setOrigin(0, 0);
+  art.setOrigin(0, 0);
 
   // Pixel-art rule [core/pixelArt.ts]: resource art draws at its native size
   // so one art pixel is one world pixel. `spec.width`/`spec.height` are the

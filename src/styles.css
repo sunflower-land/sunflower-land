@@ -186,6 +186,15 @@
   src: url("https://sunflower-land.com/testnet-assets/fonts/ark-pixel-zh_cn.ttf");
 }
 
+/* Chunky display face for in-world marks (yield floats) — variable weight,
+   self-hosted; the same face project-ii's battle numbers draw in. */
+@font-face {
+  font-family: "Grandstander";
+  src: url("./assets/fonts/grandstander-var-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
 html {
   min-height: calc(100% + env(safe-area-inset-top));
 }

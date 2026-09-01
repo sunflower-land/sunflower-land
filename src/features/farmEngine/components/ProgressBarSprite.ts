@@ -1,8 +1,7 @@
 import type Phaser from "phaser";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString, type TimeFormatLength } from "lib/utils/time";
-import { DPR } from "../core/rendering";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { outlinedText } from "./outlinedText";
 
 /**
  * In-scene port of the DOM farm's ProgressBar (components/ui/ProgressBar.tsx):
@@ -47,7 +46,6 @@ type Options = {
 };
 
 /** The webfont the DOM's `font-pixel` class resolves to. */
-const PIXEL_FONT = "Secondary";
 
 export class ProgressBarSprite {
   private container: Phaser.GameObjects.Container;
@@ -84,31 +82,16 @@ export class ProgressBarSprite {
       )
       .setOrigin(0, 0);
 
-    // The DOM label is unscaled CSS text (the pixel font at the inherited
-    // 16px em); counter-scale by PIXEL_SCALE so it reads the same size, and
-    // rasterise at physical resolution for crispness.
-    this.label = scene.add
-      .text(BAR.width / 2, 1, "", {
-        fontFamily: PIXEL_FONT,
-        fontSize: "16px",
-        color: "#ffffff",
-        resolution: DPR * PIXEL_SCALE,
-      })
-      .setOrigin(0.5, 1)
-      .setScale(1 / PIXEL_SCALE);
-    this.label.setShadow(1, 1, "#000000", 0);
+    // Chunky display type with the black outline + hard drop, matching the
+    // yield floats [outlinedText.ts] — Adam's call over the old pixel face.
+    this.label = outlinedText(scene, BAR.width / 2, 1, "", {
+      fontPx: 10,
+      shadowOffsetY: 1,
+    }).setOrigin(0.5, 1);
 
     this.container = scene.add
       .container(x, y, [frame, background, this.fill, this.label])
       .setDepth(depth);
-
-    // The webfont may still be loading on first use; re-render the text once
-    // it's ready so it doesn't stick with the fallback face.
-    if (typeof document !== "undefined" && document.fonts?.ready) {
-      void document.fonts.ready.then(() => {
-        if (!this.destroyed) this.label.updateText();
-      });
-    }
   }
 
   /** Update fill + time label (DOM parity: fill floored to whole source px). */

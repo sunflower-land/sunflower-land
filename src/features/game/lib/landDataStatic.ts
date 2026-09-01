@@ -8,7 +8,7 @@ import {
   LAYOUT_EXPANSIONS,
   type LandLayout,
 } from "./landLayouts";
-import { makeVeteranFarm } from "./fixtures/veteranFarm";
+import { REAL_FARM_LAYOUTS, isRealFarmLayout } from "./fixtures/realFarms";
 
 /**
  * Offline-testing QoL (ART_MODE only): several recurring popups are gated by
@@ -51,10 +51,10 @@ function applyPhaserDevOverrides(farm: GameState): GameState {
     const stress = localStorage.getItem("phaserFarm.dev.stress");
     const weather = localStorage.getItem("phaserFarm.dev.weather");
     const gifs = localStorage.getItem("phaserFarm.dev.gifs");
-    const layout = localStorage.getItem("phaserFarm.dev.layout") as
-      | LandLayout
-      | "veteran"
-      | null;
+    // Default to the iSPANK capture — the richest everyday testing target.
+    // "fixture" is the explicit opt-out back to the hand-authored fixture.
+    const stored = localStorage.getItem("phaserFarm.dev.layout");
+    const layout = stored === "fixture" ? null : (stored ?? "ispank");
     if (
       !island &&
       !biome &&
@@ -68,9 +68,9 @@ function applyPhaserDevOverrides(farm: GameState): GameState {
       return farm;
 
     // A layout preset repositions the fixture into non-overlapping bands and
-    // carries its own land size (see landLayouts.ts). "veteran" is different:
-    // it swaps in a whole captured account [fixtures/veteranFarm.ts].
-    if (layout === "veteran") farm = makeVeteranFarm();
+    // carries its own land size (see landLayouts.ts). The real-farm presets
+    // are different: they swap in whole captured accounts [fixtures/].
+    if (isRealFarmLayout(layout)) farm = REAL_FARM_LAYOUTS[layout]();
     else if (layout) farm = applyLandLayout(farm, layout as LandLayout);
 
     // Stress egg: carpet the land with ready Sunflowers to tap like crazy
@@ -189,7 +189,7 @@ function applyPhaserDevOverrides(farm: GameState): GameState {
             },
           }
         : {}),
-      ...(expansions || stress || (layout && layout !== "veteran")
+      ...(expansions || stress || (layout && !isRealFarmLayout(layout))
         ? {
             inventory: {
               ...farm.inventory,

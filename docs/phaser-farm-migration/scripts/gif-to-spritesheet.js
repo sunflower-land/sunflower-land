@@ -126,6 +126,8 @@ const findAnimatedWebps = (dir) => {
   const walk = (d) => {
     for (const entry of fs.readdirSync(d, { withFileTypes: true })) {
       const full = path.join(d, entry.name);
+      // never rescan the converter's own output
+      if (entry.isDirectory() && entry.name === "animations") continue;
       if (entry.isDirectory()) walk(full);
       else if (entry.name.endsWith(".webp")) {
         const head = Buffer.alloc(400);
@@ -242,8 +244,9 @@ function reportUncoveredArt() {
     );
   }
 
-  // Animated common-pet webps, keyed by their import module like the gifs.
-  for (const source of findAnimatedWebps(path.join(REPO, "src/assets/sfts/pets"))) {
+  // Every animated webp the app bundles, keyed by its import module like the
+  // gifs — pets, mutant chickens, flags, animated SFTs, oil/lava effects...
+  for (const source of findAnimatedWebps(path.join(REPO, "src/assets"))) {
     const result = await convert(
       fs.readFileSync(path.join(REPO, "src", source)),
       sheetName(source),

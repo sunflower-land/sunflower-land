@@ -3,6 +3,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import type { GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { queueImage } from "../../core/assets";
+import { queueArt } from "../../core/animated";
 import { ProgressBarSprite } from "../../components/ProgressBarSprite";
 import {
   ResourceNodeRenderer,
@@ -35,7 +36,7 @@ export class LavaPitRenderer extends ResourceNodeRenderer<LavaPitNode> {
   }
 
   protected collectAssets(_slice: NodeSlice<LavaPitNode>) {
-    queueImage(this.scene, lavaPitAnimation);
+    queueArt(this.scene, lavaPitAnimation);
     queueImage(this.scene, ITEM_DETAILS["Lava Pit"].image);
     queueImage(this.scene, SUNNYSIDE.icons.expression_alerted);
     queueImage(this.scene, SUNNYSIDE.ui.emptyBar);

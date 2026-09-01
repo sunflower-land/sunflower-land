@@ -125,6 +125,8 @@ export class PetRenderer extends EntityRenderer<Slice> {
     }[] = [];
     for (const [name, items] of Object.entries(slice.collectibles)) {
       if (!isCommonPetName(name)) continue;
+      // [LandPet.tsx] a placed pet with no behaviour data renders nothing.
+      if (!slice.common[name]) continue;
       (items ?? []).forEach((item) => {
         if (item.coordinates) {
           out.push({ name, id: item.id, coordinates: item.coordinates });

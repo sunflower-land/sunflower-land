@@ -40,6 +40,104 @@ import decorationsBannersSpringBannerGif from "assets/decorations/banners/spring
 import decorationsBannersWindsOfChangeBannerLoopGif from "assets/decorations/banners/winds-of-change_banner_loop.gif";
 import decorationsIsleBoatGif from "assets/decorations/isle_boat.gif";
 import eventsGoldenCropGoldenCropGif from "assets/events/golden_crop/golden_crop.gif";
+import animalsChickensAyamCemaniGif from "assets/animals/chickens/ayam_cemani.webp";
+import animalsChickensBananaChickenGif from "assets/animals/chickens/banana_chicken.webp";
+import animalsChickensElPolloVelozGif from "assets/animals/chickens/el_pollo_veloz.webp";
+import animalsChickensFatChickenGif from "assets/animals/chickens/fat_chicken.webp";
+import animalsChickensGoldenCockerelGif from "assets/animals/chickens/golden_cockerel.webp";
+import animalsChickensKnightChickenGif from "assets/animals/chickens/knight_chicken.webp";
+import animalsChickensRichChickenGif from "assets/animals/chickens/rich_chicken.webp";
+import animalsChickensRoosterGif from "assets/animals/chickens/rooster.webp";
+import animalsChickensSpeedChickenGif from "assets/animals/chickens/speed_chicken.webp";
+import animalsChickensUndeadChickenGif from "assets/animals/chickens/undead_chicken.webp";
+import buildingsCraftingBoxAnimationGif from "assets/buildings/crafting_box_animation.webp";
+import buildingsLevelOne2Gif from "assets/buildings/level-one-2.webp";
+import buildingsLevelOneStartGif from "assets/buildings/level-one-start.webp";
+import buildingsTentGif from "assets/buildings/tent.webp";
+import decorationsBannersBullRunBannerGif from "assets/decorations/banners/bull_run_banner.webp";
+import decorationsCandlesOnGif from "assets/decorations/candles_on.webp";
+import decorationsObserverGif from "assets/decorations/observer.webp";
+import decorationsWhiteCrowGif from "assets/decorations/white_crow.webp";
+import resourcesLavaLavaPitAnimationGif from "assets/resources/lava/lava_pit_animation.webp";
+import resourcesOilSpurtingWellGif from "assets/resources/oil/spurting_well.webp";
+import sftsAlbaGif from "assets/sfts/alba.webp";
+import sftsAlienChickenGif from "assets/sfts/alien_chicken.webp";
+import sftsBaoziGif from "assets/sfts/baozi.webp";
+import sftsBluePaintBucketGif from "assets/sfts/blue_paint_bucket.webp";
+import sftsBlueSlimeBalloonGif from "assets/sfts/blue_slime_balloon.webp";
+import sftsCerberusGif from "assets/sfts/cerberus.webp";
+import sftsCetusGif from "assets/sfts/cetus.webp";
+import sftsCluckulatorGif from "assets/sfts/cluckulator.webp";
+import sftsColorWheelGif from "assets/sfts/color_wheel.webp";
+import sftsEasterEasterBunnyEggsGif from "assets/sfts/easter/easter_bunny_eggs.webp";
+import sftsEasterDonationEggGif from "assets/sfts/easter_donation_egg.webp";
+import sftsFarmCatGif from "assets/sfts/farm_cat.webp";
+import sftsFarmDogGif from "assets/sfts/farm_dog.webp";
+import sftsFishKiteGif from "assets/sfts/fish_kite.webp";
+import sftsFlagsAlgerianFlagGif from "assets/sfts/flags/algerian_flag.webp";
+import sftsFlagsArgentinianFlagGif from "assets/sfts/flags/argentinian_flag.webp";
+import sftsFlagsAustraliaFlagGif from "assets/sfts/flags/australia_flag.webp";
+import sftsFlagsBelgiumFlagGif from "assets/sfts/flags/belgium_flag.webp";
+import sftsFlagsBrazilFlagGif from "assets/sfts/flags/brazil_flag.webp";
+import sftsFlagsBritishFlagGif from "assets/sfts/flags/british_flag.webp";
+import sftsFlagsCanadianFlagGif from "assets/sfts/flags/canadian_flag.webp";
+import sftsFlagsChinaFlagGif from "assets/sfts/flags/china_flag.webp";
+import sftsFlagsColombianFlagGif from "assets/sfts/flags/colombian_flag.webp";
+import sftsFlagsDominicanRepublicFlagGif from "assets/sfts/flags/dominican_republic_flag.webp";
+import sftsFlagsFinlandFlagGif from "assets/sfts/flags/finland_flag.webp";
+import sftsFlagsFranceFlagGif from "assets/sfts/flags/france_flag.webp";
+import sftsFlagsGermanyFlagGif from "assets/sfts/flags/germany_flag.webp";
+import sftsFlagsGoblinFlagGif from "assets/sfts/flags/goblin_flag.webp";
+import sftsFlagsIndiaFlagGif from "assets/sfts/flags/india_flag.webp";
+import sftsFlagsIndonesiaFlagGif from "assets/sfts/flags/indonesia_flag.webp";
+import sftsFlagsIranFlagGif from "assets/sfts/flags/iran_flag.webp";
+import sftsFlagsItalyFlagGif from "assets/sfts/flags/italy_flag.webp";
+import sftsFlagsJapanFlagGif from "assets/sfts/flags/japan_flag.webp";
+import sftsFlagsLithuanianFlagGif from "assets/sfts/flags/lithuanian_flag.webp";
+import sftsFlagsMalaysianFlagGif from "assets/sfts/flags/malaysian_flag.webp";
+import sftsFlagsMexicanFlagGif from "assets/sfts/flags/mexican_flag.webp";
+import sftsFlagsMoroccoFlagGif from "assets/sfts/flags/morocco_flag.webp";
+import sftsFlagsNetherlandsFlagGif from "assets/sfts/flags/netherlands_flag.webp";
+import sftsFlagsPhilippinesFlagGif from "assets/sfts/flags/philippines_flag.webp";
+import sftsFlagsPirateFlagGif from "assets/sfts/flags/pirate_flag.webp";
+import sftsFlagsPolandFlagGif from "assets/sfts/flags/poland_flag.webp";
+import sftsFlagsPortugalFlagGif from "assets/sfts/flags/portugal_flag.webp";
+import sftsFlagsRainbowFlagGif from "assets/sfts/flags/rainbow_flag.webp";
+import sftsFlagsRomanianFlagGif from "assets/sfts/flags/romanian_flag.webp";
+import sftsFlagsRussiaFlagGif from "assets/sfts/flags/russia_flag.webp";
+import sftsFlagsSaudiArabiaFlagGif from "assets/sfts/flags/saudi_arabia_flag.webp";
+import sftsFlagsSierraLeoneFlagGif from "assets/sfts/flags/sierra_leone_flag.webp";
+import sftsFlagsSingaporeanFlagGif from "assets/sfts/flags/singaporean_flag.webp";
+import sftsFlagsSouthKoreaFlagGif from "assets/sfts/flags/south_korea_flag.webp";
+import sftsFlagsSpainFlagGif from "assets/sfts/flags/spain_flag.webp";
+import sftsFlagsSunflowerFlagGif from "assets/sfts/flags/sunflower_flag.webp";
+import sftsFlagsThailandFlagGif from "assets/sfts/flags/thailand_flag.webp";
+import sftsFlagsTurkeyFlagGif from "assets/sfts/flags/turkey_flag.webp";
+import sftsFlagsUkraineFlagGif from "assets/sfts/flags/ukraine_flag.webp";
+import sftsFlagsUsaFlagGif from "assets/sfts/flags/usa_flag.webp";
+import sftsFlagsVietnamFlagGif from "assets/sfts/flags/vietnam_flag.webp";
+import sftsFloatingToyGif from "assets/sfts/floating_toy.webp";
+import sftsFlowerCoinGif from "assets/sfts/flower_coin.webp";
+import sftsFoolsGoldGif from "assets/sfts/fools_gold.webp";
+import sftsFrozenMeatGif from "assets/sfts/frozen_meat.webp";
+import sftsGiftTurtleGif from "assets/sfts/gift_turtle.webp";
+import sftsGreenPaintBucketGif from "assets/sfts/green_paint_bucket.webp";
+import sftsGuillotineGif from "assets/sfts/guillotine.webp";
+import sftsHauntedHouseGif from "assets/sfts/haunted_house.webp";
+import sftsHauntedTombGif from "assets/sfts/haunted_tomb.webp";
+import sftsHummingbirdGif from "assets/sfts/hummingbird.webp";
+import sftsJellyLampGif from "assets/sfts/jelly_lamp.webp";
+import sftsKiteGif from "assets/sfts/kite.webp";
+import sftsMechaBullGif from "assets/sfts/mecha_bull.webp";
+import sftsMimicEggGif from "assets/sfts/mimic_egg.webp";
+import sftsMimicSlimeBallGif from "assets/sfts/mimic_slime_ball.webp";
+import sftsMimicWingedSlimeBallGif from "assets/sfts/mimic_winged_slime_ball.webp";
+import sftsMomMomObservatoryAnimationGif from "assets/sfts/mom/mom_observatory_animation.webp";
+import sftsMomObservatoryGif from "assets/sfts/mom/observatory.webp";
+import sftsMooVerGif from "assets/sfts/moo_ver.webp";
+import sftsOrangeTunnelBunnyGif from "assets/sfts/orange_tunnel_bunny.webp";
+import sftsPenguinPoolGif from "assets/sfts/penguin_pool.webp";
+import sftsPenguinSurpriseGif from "assets/sfts/penguin_surprise.webp";
 import sftsPetsBullsBisonGif from "assets/sfts/pets/bulls/Bison.webp";
 import sftsPetsBullsOxenGif from "assets/sfts/pets/bulls/Oxen.webp";
 import sftsPetsBullsBisonAsleepGif from "assets/sfts/pets/bulls/bison_asleep.webp";
@@ -83,6 +181,33 @@ import sftsPetsPenguinsSkipperAsleepGif from "assets/sfts/pets/penguins/skipper_
 import sftsPetsPenguinsWaddlesGif from "assets/sfts/pets/penguins/waddles.webp";
 import sftsPetsPenguinsWaddlesAsleepGif from "assets/sfts/pets/penguins/waddles_asleep.webp";
 import sftsPetsRamseyGif from "assets/sfts/pets/ramsey.webp";
+import sftsPonyToyGif from "assets/sfts/pony_toy.webp";
+import sftsPorkJellyGif from "assets/sfts/pork_jelly.webp";
+import sftsPotatoMutantGif from "assets/sfts/potato_mutant.webp";
+import sftsPurplePaintBucketGif from "assets/sfts/purple_paint_bucket.webp";
+import sftsQueenBeeGif from "assets/sfts/queen_bee.webp";
+import sftsRadishMutantGif from "assets/sfts/radish_mutant.webp";
+import sftsRainbowFlowerGif from "assets/sfts/rainbow_flower.webp";
+import sftsRainbowPorkJellyGif from "assets/sfts/rainbow_pork_jelly.webp";
+import sftsRaveyardGif from "assets/sfts/raveyard.webp";
+import sftsRedNoseReindeerGif from "assets/sfts/red_nose_reindeer.webp";
+import sftsRedSlimeBalloonGif from "assets/sfts/red_slime_balloon.webp";
+import sftsRockGolemGif from "assets/sfts/rock_golem.webp";
+import sftsSantaPenguinGif from "assets/sfts/santa_penguin.webp";
+import sftsSkillShrimpyGif from "assets/sfts/skill_shrimpy.webp";
+import sftsSpinningWheelGif from "assets/sfts/spinning_wheel.webp";
+import sftsSummerChickenGif from "assets/sfts/summer_chicken.webp";
+import sftsSunflowerMutantGif from "assets/sfts/sunflower_mutant.webp";
+import sftsThermalStoneGif from "assets/sfts/thermal_stone.webp";
+import sftsTornadoPinwheelGif from "assets/sfts/tornado_pinwheel.webp";
+import sftsTuxedoClausGif from "assets/sfts/tuxedo_claus.webp";
+import sftsUfoGif from "assets/sfts/ufo.webp";
+import sftsVampireCoffinGif from "assets/sfts/vampire_coffin.webp";
+import sftsWalrusGif from "assets/sfts/walrus.webp";
+import sftsWhiteTunnelBunnyGif from "assets/sfts/white_tunnel_bunny.webp";
+import sftsWinterAlpacaGif from "assets/sfts/winter_alpaca.webp";
+import sftsWitchsCauldronGif from "assets/sfts/witchs_cauldron.webp";
+import sftsYellowPaintBucketGif from "assets/sfts/yellow_paint_bucket.webp";
 import sftsFountain from "assets/animations/sfts_fountain.png";
 import sftsBeaver from "assets/animations/sfts_beaver.png";
 import sftsApprenticeBeaver from "assets/animations/sfts_apprentice_beaver.png";
@@ -116,6 +241,104 @@ import decorationsBannersSpringBanner from "assets/animations/decorations_banner
 import decorationsBannersWindsOfChangeBannerLoop from "assets/animations/decorations_banners_winds-of-change_banner_loop.png";
 import decorationsIsleBoat from "assets/animations/decorations_isle_boat.png";
 import eventsGoldenCropGoldenCrop from "assets/animations/events_golden_crop_golden_crop.png";
+import animalsChickensAyamCemani from "assets/animations/animals_chickens_ayam_cemani.png";
+import animalsChickensBananaChicken from "assets/animations/animals_chickens_banana_chicken.png";
+import animalsChickensElPolloVeloz from "assets/animations/animals_chickens_el_pollo_veloz.png";
+import animalsChickensFatChicken from "assets/animations/animals_chickens_fat_chicken.png";
+import animalsChickensGoldenCockerel from "assets/animations/animals_chickens_golden_cockerel.png";
+import animalsChickensKnightChicken from "assets/animations/animals_chickens_knight_chicken.png";
+import animalsChickensRichChicken from "assets/animations/animals_chickens_rich_chicken.png";
+import animalsChickensRooster from "assets/animations/animals_chickens_rooster.png";
+import animalsChickensSpeedChicken from "assets/animations/animals_chickens_speed_chicken.png";
+import animalsChickensUndeadChicken from "assets/animations/animals_chickens_undead_chicken.png";
+import buildingsCraftingBoxAnimation from "assets/animations/buildings_crafting_box_animation.png";
+import buildingsLevelOne2 from "assets/animations/buildings_level-one-2.png";
+import buildingsLevelOneStart from "assets/animations/buildings_level-one-start.png";
+import buildingsTent from "assets/animations/buildings_tent.png";
+import decorationsBannersBullRunBanner from "assets/animations/decorations_banners_bull_run_banner.png";
+import decorationsCandlesOn from "assets/animations/decorations_candles_on.png";
+import decorationsObserver from "assets/animations/decorations_observer.png";
+import decorationsWhiteCrow from "assets/animations/decorations_white_crow.png";
+import resourcesLavaLavaPitAnimation from "assets/animations/resources_lava_lava_pit_animation.png";
+import resourcesOilSpurtingWell from "assets/animations/resources_oil_spurting_well.png";
+import sftsAlba from "assets/animations/sfts_alba.png";
+import sftsAlienChicken from "assets/animations/sfts_alien_chicken.png";
+import sftsBaozi from "assets/animations/sfts_baozi.png";
+import sftsBluePaintBucket from "assets/animations/sfts_blue_paint_bucket.png";
+import sftsBlueSlimeBalloon from "assets/animations/sfts_blue_slime_balloon.png";
+import sftsCerberus from "assets/animations/sfts_cerberus.png";
+import sftsCetus from "assets/animations/sfts_cetus.png";
+import sftsCluckulator from "assets/animations/sfts_cluckulator.png";
+import sftsColorWheel from "assets/animations/sfts_color_wheel.png";
+import sftsEasterEasterBunnyEggs from "assets/animations/sfts_easter_easter_bunny_eggs.png";
+import sftsEasterDonationEgg from "assets/animations/sfts_easter_donation_egg.png";
+import sftsFarmCat from "assets/animations/sfts_farm_cat.png";
+import sftsFarmDog from "assets/animations/sfts_farm_dog.png";
+import sftsFishKite from "assets/animations/sfts_fish_kite.png";
+import sftsFlagsAlgerianFlag from "assets/animations/sfts_flags_algerian_flag.png";
+import sftsFlagsArgentinianFlag from "assets/animations/sfts_flags_argentinian_flag.png";
+import sftsFlagsAustraliaFlag from "assets/animations/sfts_flags_australia_flag.png";
+import sftsFlagsBelgiumFlag from "assets/animations/sfts_flags_belgium_flag.png";
+import sftsFlagsBrazilFlag from "assets/animations/sfts_flags_brazil_flag.png";
+import sftsFlagsBritishFlag from "assets/animations/sfts_flags_british_flag.png";
+import sftsFlagsCanadianFlag from "assets/animations/sfts_flags_canadian_flag.png";
+import sftsFlagsChinaFlag from "assets/animations/sfts_flags_china_flag.png";
+import sftsFlagsColombianFlag from "assets/animations/sfts_flags_colombian_flag.png";
+import sftsFlagsDominicanRepublicFlag from "assets/animations/sfts_flags_dominican_republic_flag.png";
+import sftsFlagsFinlandFlag from "assets/animations/sfts_flags_finland_flag.png";
+import sftsFlagsFranceFlag from "assets/animations/sfts_flags_france_flag.png";
+import sftsFlagsGermanyFlag from "assets/animations/sfts_flags_germany_flag.png";
+import sftsFlagsGoblinFlag from "assets/animations/sfts_flags_goblin_flag.png";
+import sftsFlagsIndiaFlag from "assets/animations/sfts_flags_india_flag.png";
+import sftsFlagsIndonesiaFlag from "assets/animations/sfts_flags_indonesia_flag.png";
+import sftsFlagsIranFlag from "assets/animations/sfts_flags_iran_flag.png";
+import sftsFlagsItalyFlag from "assets/animations/sfts_flags_italy_flag.png";
+import sftsFlagsJapanFlag from "assets/animations/sfts_flags_japan_flag.png";
+import sftsFlagsLithuanianFlag from "assets/animations/sfts_flags_lithuanian_flag.png";
+import sftsFlagsMalaysianFlag from "assets/animations/sfts_flags_malaysian_flag.png";
+import sftsFlagsMexicanFlag from "assets/animations/sfts_flags_mexican_flag.png";
+import sftsFlagsMoroccoFlag from "assets/animations/sfts_flags_morocco_flag.png";
+import sftsFlagsNetherlandsFlag from "assets/animations/sfts_flags_netherlands_flag.png";
+import sftsFlagsPhilippinesFlag from "assets/animations/sfts_flags_philippines_flag.png";
+import sftsFlagsPirateFlag from "assets/animations/sfts_flags_pirate_flag.png";
+import sftsFlagsPolandFlag from "assets/animations/sfts_flags_poland_flag.png";
+import sftsFlagsPortugalFlag from "assets/animations/sfts_flags_portugal_flag.png";
+import sftsFlagsRainbowFlag from "assets/animations/sfts_flags_rainbow_flag.png";
+import sftsFlagsRomanianFlag from "assets/animations/sfts_flags_romanian_flag.png";
+import sftsFlagsRussiaFlag from "assets/animations/sfts_flags_russia_flag.png";
+import sftsFlagsSaudiArabiaFlag from "assets/animations/sfts_flags_saudi_arabia_flag.png";
+import sftsFlagsSierraLeoneFlag from "assets/animations/sfts_flags_sierra_leone_flag.png";
+import sftsFlagsSingaporeanFlag from "assets/animations/sfts_flags_singaporean_flag.png";
+import sftsFlagsSouthKoreaFlag from "assets/animations/sfts_flags_south_korea_flag.png";
+import sftsFlagsSpainFlag from "assets/animations/sfts_flags_spain_flag.png";
+import sftsFlagsSunflowerFlag from "assets/animations/sfts_flags_sunflower_flag.png";
+import sftsFlagsThailandFlag from "assets/animations/sfts_flags_thailand_flag.png";
+import sftsFlagsTurkeyFlag from "assets/animations/sfts_flags_turkey_flag.png";
+import sftsFlagsUkraineFlag from "assets/animations/sfts_flags_ukraine_flag.png";
+import sftsFlagsUsaFlag from "assets/animations/sfts_flags_usa_flag.png";
+import sftsFlagsVietnamFlag from "assets/animations/sfts_flags_vietnam_flag.png";
+import sftsFloatingToy from "assets/animations/sfts_floating_toy.png";
+import sftsFlowerCoin from "assets/animations/sfts_flower_coin.png";
+import sftsFoolsGold from "assets/animations/sfts_fools_gold.png";
+import sftsFrozenMeat from "assets/animations/sfts_frozen_meat.png";
+import sftsGiftTurtle from "assets/animations/sfts_gift_turtle.png";
+import sftsGreenPaintBucket from "assets/animations/sfts_green_paint_bucket.png";
+import sftsGuillotine from "assets/animations/sfts_guillotine.png";
+import sftsHauntedHouse from "assets/animations/sfts_haunted_house.png";
+import sftsHauntedTomb from "assets/animations/sfts_haunted_tomb.png";
+import sftsHummingbird from "assets/animations/sfts_hummingbird.png";
+import sftsJellyLamp from "assets/animations/sfts_jelly_lamp.png";
+import sftsKite from "assets/animations/sfts_kite.png";
+import sftsMechaBull from "assets/animations/sfts_mecha_bull.png";
+import sftsMimicEgg from "assets/animations/sfts_mimic_egg.png";
+import sftsMimicSlimeBall from "assets/animations/sfts_mimic_slime_ball.png";
+import sftsMimicWingedSlimeBall from "assets/animations/sfts_mimic_winged_slime_ball.png";
+import sftsMomMomObservatoryAnimation from "assets/animations/sfts_mom_mom_observatory_animation.png";
+import sftsMomObservatory from "assets/animations/sfts_mom_observatory.png";
+import sftsMooVer from "assets/animations/sfts_moo_ver.png";
+import sftsOrangeTunnelBunny from "assets/animations/sfts_orange_tunnel_bunny.png";
+import sftsPenguinPool from "assets/animations/sfts_penguin_pool.png";
+import sftsPenguinSurprise from "assets/animations/sfts_penguin_surprise.png";
 import sftsPetsBullsBison from "assets/animations/sfts_pets_bulls_Bison.png";
 import sftsPetsBullsOxen from "assets/animations/sfts_pets_bulls_Oxen.png";
 import sftsPetsBullsBisonAsleep from "assets/animations/sfts_pets_bulls_bison_asleep.png";
@@ -159,6 +382,33 @@ import sftsPetsPenguinsSkipperAsleep from "assets/animations/sfts_pets_penguins_
 import sftsPetsPenguinsWaddles from "assets/animations/sfts_pets_penguins_waddles.png";
 import sftsPetsPenguinsWaddlesAsleep from "assets/animations/sfts_pets_penguins_waddles_asleep.png";
 import sftsPetsRamsey from "assets/animations/sfts_pets_ramsey.png";
+import sftsPonyToy from "assets/animations/sfts_pony_toy.png";
+import sftsPorkJelly from "assets/animations/sfts_pork_jelly.png";
+import sftsPotatoMutant from "assets/animations/sfts_potato_mutant.png";
+import sftsPurplePaintBucket from "assets/animations/sfts_purple_paint_bucket.png";
+import sftsQueenBee from "assets/animations/sfts_queen_bee.png";
+import sftsRadishMutant from "assets/animations/sfts_radish_mutant.png";
+import sftsRainbowFlower from "assets/animations/sfts_rainbow_flower.png";
+import sftsRainbowPorkJelly from "assets/animations/sfts_rainbow_pork_jelly.png";
+import sftsRaveyard from "assets/animations/sfts_raveyard.png";
+import sftsRedNoseReindeer from "assets/animations/sfts_red_nose_reindeer.png";
+import sftsRedSlimeBalloon from "assets/animations/sfts_red_slime_balloon.png";
+import sftsRockGolem from "assets/animations/sfts_rock_golem.png";
+import sftsSantaPenguin from "assets/animations/sfts_santa_penguin.png";
+import sftsSkillShrimpy from "assets/animations/sfts_skill_shrimpy.png";
+import sftsSpinningWheel from "assets/animations/sfts_spinning_wheel.png";
+import sftsSummerChicken from "assets/animations/sfts_summer_chicken.png";
+import sftsSunflowerMutant from "assets/animations/sfts_sunflower_mutant.png";
+import sftsThermalStone from "assets/animations/sfts_thermal_stone.png";
+import sftsTornadoPinwheel from "assets/animations/sfts_tornado_pinwheel.png";
+import sftsTuxedoClaus from "assets/animations/sfts_tuxedo_claus.png";
+import sftsUfo from "assets/animations/sfts_ufo.png";
+import sftsVampireCoffin from "assets/animations/sfts_vampire_coffin.png";
+import sftsWalrus from "assets/animations/sfts_walrus.png";
+import sftsWhiteTunnelBunny from "assets/animations/sfts_white_tunnel_bunny.png";
+import sftsWinterAlpaca from "assets/animations/sfts_winter_alpaca.png";
+import sftsWitchsCauldron from "assets/animations/sfts_witchs_cauldron.png";
+import sftsYellowPaintBucket from "assets/animations/sfts_yellow_paint_bucket.png";
 import buildingsSmoke from "assets/animations/buildings_smoke.png";
 import fxSparkle2 from "assets/animations/fx_sparkle2.png";
 import landLevelsPontoon from "assets/animations/land_levels_pontoon.png";
@@ -477,6 +727,944 @@ export const ANIMATED_ART: Record<string, AnimatedArt> = Object.fromEntries([
       frameHeight: 13,
       frames: 7,
       fps: 5,
+    },
+  ],
+  [
+    animalsChickensAyamCemaniGif,
+    {
+      sheet: animalsChickensAyamCemani,
+      frameWidth: 15,
+      frameHeight: 20,
+      frames: 8,
+      fps: 14,
+    },
+  ],
+  [
+    animalsChickensBananaChickenGif,
+    {
+      sheet: animalsChickensBananaChicken,
+      frameWidth: 15,
+      frameHeight: 26,
+      frames: 7,
+      fps: 14,
+    },
+  ],
+  [
+    animalsChickensElPolloVelozGif,
+    {
+      sheet: animalsChickensElPolloVeloz,
+      frameWidth: 16,
+      frameHeight: 19,
+      frames: 6,
+      fps: 7,
+    },
+  ],
+  [
+    animalsChickensFatChickenGif,
+    {
+      sheet: animalsChickensFatChicken,
+      frameWidth: 17,
+      frameHeight: 21,
+      frames: 5,
+      fps: 14,
+    },
+  ],
+  [
+    animalsChickensGoldenCockerelGif,
+    {
+      sheet: animalsChickensGoldenCockerel,
+      frameWidth: 24,
+      frameHeight: 24,
+      frames: 16,
+      fps: 14,
+    },
+  ],
+  [
+    animalsChickensKnightChickenGif,
+    {
+      sheet: animalsChickensKnightChicken,
+      frameWidth: 26,
+      frameHeight: 26,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    animalsChickensRichChickenGif,
+    {
+      sheet: animalsChickensRichChicken,
+      frameWidth: 21,
+      frameHeight: 23,
+      frames: 8,
+      fps: 14,
+    },
+  ],
+  [
+    animalsChickensRoosterGif,
+    {
+      sheet: animalsChickensRooster,
+      frameWidth: 15,
+      frameHeight: 20,
+      frames: 9,
+      fps: 11,
+    },
+  ],
+  [
+    animalsChickensSpeedChickenGif,
+    {
+      sheet: animalsChickensSpeedChicken,
+      frameWidth: 15,
+      frameHeight: 20,
+      frames: 8,
+      fps: 14,
+    },
+  ],
+  [
+    animalsChickensUndeadChickenGif,
+    {
+      sheet: animalsChickensUndeadChicken,
+      frameWidth: 15,
+      frameHeight: 20,
+      frames: 8,
+      fps: 11,
+    },
+  ],
+  [
+    buildingsCraftingBoxAnimationGif,
+    {
+      sheet: buildingsCraftingBoxAnimation,
+      frameWidth: 46,
+      frameHeight: 38,
+      frames: 12,
+      fps: 10,
+    },
+  ],
+  [
+    buildingsLevelOne2Gif,
+    {
+      sheet: buildingsLevelOne2,
+      frameWidth: 384,
+      frameHeight: 320,
+      frames: 1,
+      fps: 10,
+    },
+  ],
+  [
+    buildingsLevelOneStartGif,
+    {
+      sheet: buildingsLevelOneStart,
+      frameWidth: 384,
+      frameHeight: 320,
+      frames: 1,
+      fps: 10,
+    },
+  ],
+  [
+    buildingsTentGif,
+    {
+      sheet: buildingsTent,
+      frameWidth: 380,
+      frameHeight: 320,
+      frames: 1,
+      fps: 1000,
+    },
+  ],
+  [
+    decorationsBannersBullRunBannerGif,
+    {
+      sheet: decorationsBannersBullRunBanner,
+      frameWidth: 20,
+      frameHeight: 35,
+      frames: 6,
+      fps: 7,
+    },
+  ],
+  [
+    decorationsCandlesOnGif,
+    {
+      sheet: decorationsCandlesOn,
+      frameWidth: 11,
+      frameHeight: 15,
+      frames: 3,
+      fps: 10,
+    },
+  ],
+  [
+    decorationsObserverGif,
+    {
+      sheet: decorationsObserver,
+      frameWidth: 17,
+      frameHeight: 27,
+      frames: 28,
+      fps: 5,
+    },
+  ],
+  [
+    decorationsWhiteCrowGif,
+    {
+      sheet: decorationsWhiteCrow,
+      frameWidth: 20,
+      frameHeight: 27,
+      frames: 6,
+      fps: 10,
+    },
+  ],
+  [
+    resourcesLavaLavaPitAnimationGif,
+    {
+      sheet: resourcesLavaLavaPitAnimation,
+      frameWidth: 36,
+      frameHeight: 35,
+      frames: 20,
+      fps: 7,
+    },
+  ],
+  [
+    resourcesOilSpurtingWellGif,
+    {
+      sheet: resourcesOilSpurtingWell,
+      frameWidth: 29,
+      frameHeight: 38,
+      frames: 9,
+      fps: 14,
+    },
+  ],
+  [
+    sftsAlbaGif,
+    { sheet: sftsAlba, frameWidth: 13, frameHeight: 18, frames: 7, fps: 10 },
+  ],
+  [
+    sftsAlienChickenGif,
+    {
+      sheet: sftsAlienChicken,
+      frameWidth: 16,
+      frameHeight: 30,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsBaoziGif,
+    { sheet: sftsBaozi, frameWidth: 17, frameHeight: 24, frames: 11, fps: 10 },
+  ],
+  [
+    sftsBluePaintBucketGif,
+    {
+      sheet: sftsBluePaintBucket,
+      frameWidth: 16,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsBlueSlimeBalloonGif,
+    {
+      sheet: sftsBlueSlimeBalloon,
+      frameWidth: 19,
+      frameHeight: 36,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsCerberusGif,
+    {
+      sheet: sftsCerberus,
+      frameWidth: 28,
+      frameHeight: 31,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsCetusGif,
+    { sheet: sftsCetus, frameWidth: 50, frameHeight: 45, frames: 12, fps: 7 },
+  ],
+  [
+    sftsCluckulatorGif,
+    {
+      sheet: sftsCluckulator,
+      frameWidth: 21,
+      frameHeight: 32,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsColorWheelGif,
+    {
+      sheet: sftsColorWheel,
+      frameWidth: 32,
+      frameHeight: 32,
+      frames: 15,
+      fps: 10,
+    },
+  ],
+  [
+    sftsEasterEasterBunnyEggsGif,
+    {
+      sheet: sftsEasterEasterBunnyEggs,
+      frameWidth: 32,
+      frameHeight: 21,
+      frames: 6,
+      fps: 7,
+    },
+  ],
+  [
+    sftsEasterDonationEggGif,
+    {
+      sheet: sftsEasterDonationEgg,
+      frameWidth: 16,
+      frameHeight: 19,
+      frames: 6,
+      fps: 8,
+    },
+  ],
+  [
+    sftsFarmCatGif,
+    { sheet: sftsFarmCat, frameWidth: 20, frameHeight: 20, frames: 26, fps: 6 },
+  ],
+  [
+    sftsFarmDogGif,
+    { sheet: sftsFarmDog, frameWidth: 17, frameHeight: 24, frames: 11, fps: 7 },
+  ],
+  [
+    sftsFishKiteGif,
+    {
+      sheet: sftsFishKite,
+      frameWidth: 24,
+      frameHeight: 40,
+      frames: 6,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsAlgerianFlagGif,
+    {
+      sheet: sftsFlagsAlgerianFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsArgentinianFlagGif,
+    {
+      sheet: sftsFlagsArgentinianFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsAustraliaFlagGif,
+    {
+      sheet: sftsFlagsAustraliaFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsBelgiumFlagGif,
+    {
+      sheet: sftsFlagsBelgiumFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsBrazilFlagGif,
+    {
+      sheet: sftsFlagsBrazilFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsBritishFlagGif,
+    {
+      sheet: sftsFlagsBritishFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsCanadianFlagGif,
+    {
+      sheet: sftsFlagsCanadianFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsChinaFlagGif,
+    {
+      sheet: sftsFlagsChinaFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsColombianFlagGif,
+    {
+      sheet: sftsFlagsColombianFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsDominicanRepublicFlagGif,
+    {
+      sheet: sftsFlagsDominicanRepublicFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsFinlandFlagGif,
+    {
+      sheet: sftsFlagsFinlandFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsFranceFlagGif,
+    {
+      sheet: sftsFlagsFranceFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsGermanyFlagGif,
+    {
+      sheet: sftsFlagsGermanyFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsGoblinFlagGif,
+    {
+      sheet: sftsFlagsGoblinFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsIndiaFlagGif,
+    {
+      sheet: sftsFlagsIndiaFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsIndonesiaFlagGif,
+    {
+      sheet: sftsFlagsIndonesiaFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsIranFlagGif,
+    {
+      sheet: sftsFlagsIranFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsItalyFlagGif,
+    {
+      sheet: sftsFlagsItalyFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsJapanFlagGif,
+    {
+      sheet: sftsFlagsJapanFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsLithuanianFlagGif,
+    {
+      sheet: sftsFlagsLithuanianFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsMalaysianFlagGif,
+    {
+      sheet: sftsFlagsMalaysianFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsMexicanFlagGif,
+    {
+      sheet: sftsFlagsMexicanFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsMoroccoFlagGif,
+    {
+      sheet: sftsFlagsMoroccoFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsNetherlandsFlagGif,
+    {
+      sheet: sftsFlagsNetherlandsFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsPhilippinesFlagGif,
+    {
+      sheet: sftsFlagsPhilippinesFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsPirateFlagGif,
+    {
+      sheet: sftsFlagsPirateFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsPolandFlagGif,
+    {
+      sheet: sftsFlagsPolandFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsPortugalFlagGif,
+    {
+      sheet: sftsFlagsPortugalFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsRainbowFlagGif,
+    {
+      sheet: sftsFlagsRainbowFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsRomanianFlagGif,
+    {
+      sheet: sftsFlagsRomanianFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsRussiaFlagGif,
+    {
+      sheet: sftsFlagsRussiaFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsSaudiArabiaFlagGif,
+    {
+      sheet: sftsFlagsSaudiArabiaFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsSierraLeoneFlagGif,
+    {
+      sheet: sftsFlagsSierraLeoneFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsSingaporeanFlagGif,
+    {
+      sheet: sftsFlagsSingaporeanFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsSouthKoreaFlagGif,
+    {
+      sheet: sftsFlagsSouthKoreaFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsSpainFlagGif,
+    {
+      sheet: sftsFlagsSpainFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsSunflowerFlagGif,
+    {
+      sheet: sftsFlagsSunflowerFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsThailandFlagGif,
+    {
+      sheet: sftsFlagsThailandFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsTurkeyFlagGif,
+    {
+      sheet: sftsFlagsTurkeyFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsUkraineFlagGif,
+    {
+      sheet: sftsFlagsUkraineFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsUsaFlagGif,
+    {
+      sheet: sftsFlagsUsaFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFlagsVietnamFlagGif,
+    {
+      sheet: sftsFlagsVietnamFlag,
+      frameWidth: 11,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsFloatingToyGif,
+    {
+      sheet: sftsFloatingToy,
+      frameWidth: 16,
+      frameHeight: 24,
+      frames: 8,
+      fps: 14,
+    },
+  ],
+  [
+    sftsFlowerCoinGif,
+    {
+      sheet: sftsFlowerCoin,
+      frameWidth: 34,
+      frameHeight: 31,
+      frames: 8,
+      fps: 8,
+    },
+  ],
+  [
+    sftsFoolsGoldGif,
+    {
+      sheet: sftsFoolsGold,
+      frameWidth: 32,
+      frameHeight: 32,
+      frames: 5,
+      fps: 5,
+    },
+  ],
+  [
+    sftsFrozenMeatGif,
+    {
+      sheet: sftsFrozenMeat,
+      frameWidth: 16,
+      frameHeight: 16,
+      frames: 9,
+      fps: 10,
+    },
+  ],
+  [
+    sftsGiftTurtleGif,
+    {
+      sheet: sftsGiftTurtle,
+      frameWidth: 22,
+      frameHeight: 28,
+      frames: 5,
+      fps: 1000,
+    },
+  ],
+  [
+    sftsGreenPaintBucketGif,
+    {
+      sheet: sftsGreenPaintBucket,
+      frameWidth: 16,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsGuillotineGif,
+    {
+      sheet: sftsGuillotine,
+      frameWidth: 24,
+      frameHeight: 40,
+      frames: 6,
+      fps: 10,
+    },
+  ],
+  [
+    sftsHauntedHouseGif,
+    {
+      sheet: sftsHauntedHouse,
+      frameWidth: 88,
+      frameHeight: 93,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsHauntedTombGif,
+    {
+      sheet: sftsHauntedTomb,
+      frameWidth: 14,
+      frameHeight: 30,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsHummingbirdGif,
+    {
+      sheet: sftsHummingbird,
+      frameWidth: 18,
+      frameHeight: 20,
+      frames: 2,
+      fps: 10,
+    },
+  ],
+  [
+    sftsJellyLampGif,
+    {
+      sheet: sftsJellyLamp,
+      frameWidth: 32,
+      frameHeight: 32,
+      frames: 9,
+      fps: 10,
+    },
+  ],
+  [
+    sftsKiteGif,
+    { sheet: sftsKite, frameWidth: 24, frameHeight: 40, frames: 6, fps: 10 },
+  ],
+  [
+    sftsMechaBullGif,
+    {
+      sheet: sftsMechaBull,
+      frameWidth: 35,
+      frameHeight: 31,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsMimicEggGif,
+    {
+      sheet: sftsMimicEgg,
+      frameWidth: 19,
+      frameHeight: 30,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsMimicSlimeBallGif,
+    {
+      sheet: sftsMimicSlimeBall,
+      frameWidth: 16,
+      frameHeight: 16,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsMimicWingedSlimeBallGif,
+    {
+      sheet: sftsMimicWingedSlimeBall,
+      frameWidth: 20,
+      frameHeight: 16,
+      frames: 7,
+      fps: 14,
+    },
+  ],
+  [
+    sftsMomMomObservatoryAnimationGif,
+    {
+      sheet: sftsMomMomObservatoryAnimation,
+      frameWidth: 400,
+      frameHeight: 225,
+      frames: 515,
+      fps: 20,
+    },
+  ],
+  [
+    sftsMomObservatoryGif,
+    {
+      sheet: sftsMomObservatory,
+      frameWidth: 29,
+      frameHeight: 36,
+      frames: 16,
+      fps: 5,
+    },
+  ],
+  [
+    sftsMooVerGif,
+    { sheet: sftsMooVer, frameWidth: 36, frameHeight: 36, frames: 7, fps: 10 },
+  ],
+  [
+    sftsOrangeTunnelBunnyGif,
+    {
+      sheet: sftsOrangeTunnelBunny,
+      frameWidth: 15,
+      frameHeight: 16,
+      frames: 25,
+      fps: 2,
+    },
+  ],
+  [
+    sftsPenguinPoolGif,
+    {
+      sheet: sftsPenguinPool,
+      frameWidth: 32,
+      frameHeight: 38,
+      frames: 9,
+      fps: 11,
+    },
+  ],
+  [
+    sftsPenguinSurpriseGif,
+    {
+      sheet: sftsPenguinSurprise,
+      frameWidth: 51,
+      frameHeight: 32,
+      frames: 13,
+      fps: 7,
     },
   ],
   [
@@ -907,6 +2095,258 @@ export const ANIMATED_ART: Record<string, AnimatedArt> = Object.fromEntries([
       frameHeight: 36,
       frames: 17,
       fps: 14,
+    },
+  ],
+  [
+    sftsPonyToyGif,
+    { sheet: sftsPonyToy, frameWidth: 20, frameHeight: 20, frames: 6, fps: 6 },
+  ],
+  [
+    sftsPorkJellyGif,
+    {
+      sheet: sftsPorkJelly,
+      frameWidth: 16,
+      frameHeight: 16,
+      frames: 8,
+      fps: 14,
+    },
+  ],
+  [
+    sftsPotatoMutantGif,
+    {
+      sheet: sftsPotatoMutant,
+      frameWidth: 22,
+      frameHeight: 22,
+      frames: 2,
+      fps: 3,
+    },
+  ],
+  [
+    sftsPurplePaintBucketGif,
+    {
+      sheet: sftsPurplePaintBucket,
+      frameWidth: 16,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsQueenBeeGif,
+    {
+      sheet: sftsQueenBee,
+      frameWidth: 15,
+      frameHeight: 19,
+      frames: 8,
+      fps: 13,
+    },
+  ],
+  [
+    sftsRadishMutantGif,
+    {
+      sheet: sftsRadishMutant,
+      frameWidth: 22,
+      frameHeight: 22,
+      frames: 2,
+      fps: 3,
+    },
+  ],
+  [
+    sftsRainbowFlowerGif,
+    {
+      sheet: sftsRainbowFlower,
+      frameWidth: 30,
+      frameHeight: 34,
+      frames: 27,
+      fps: 5,
+    },
+  ],
+  [
+    sftsRainbowPorkJellyGif,
+    {
+      sheet: sftsRainbowPorkJelly,
+      frameWidth: 16,
+      frameHeight: 16,
+      frames: 9,
+      fps: 14,
+    },
+  ],
+  [
+    sftsRaveyardGif,
+    {
+      sheet: sftsRaveyard,
+      frameWidth: 21,
+      frameHeight: 26,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRedNoseReindeerGif,
+    {
+      sheet: sftsRedNoseReindeer,
+      frameWidth: 22,
+      frameHeight: 29,
+      frames: 9,
+      fps: 7,
+    },
+  ],
+  [
+    sftsRedSlimeBalloonGif,
+    {
+      sheet: sftsRedSlimeBalloon,
+      frameWidth: 19,
+      frameHeight: 36,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsRockGolemGif,
+    {
+      sheet: sftsRockGolem,
+      frameWidth: 34,
+      frameHeight: 42,
+      frames: 40,
+      fps: 10,
+    },
+  ],
+  [
+    sftsSantaPenguinGif,
+    {
+      sheet: sftsSantaPenguin,
+      frameWidth: 18,
+      frameHeight: 16,
+      frames: 6,
+      fps: 6,
+    },
+  ],
+  [
+    sftsSkillShrimpyGif,
+    {
+      sheet: sftsSkillShrimpy,
+      frameWidth: 14,
+      frameHeight: 16,
+      frames: 4,
+      fps: 5,
+    },
+  ],
+  [
+    sftsSpinningWheelGif,
+    {
+      sheet: sftsSpinningWheel,
+      frameWidth: 30,
+      frameHeight: 27,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsSummerChickenGif,
+    {
+      sheet: sftsSummerChicken,
+      frameWidth: 21,
+      frameHeight: 25,
+      frames: 8,
+      fps: 14,
+    },
+  ],
+  [
+    sftsSunflowerMutantGif,
+    {
+      sheet: sftsSunflowerMutant,
+      frameWidth: 22,
+      frameHeight: 22,
+      frames: 2,
+      fps: 3,
+    },
+  ],
+  [
+    sftsThermalStoneGif,
+    {
+      sheet: sftsThermalStone,
+      frameWidth: 18,
+      frameHeight: 22,
+      frames: 5,
+      fps: 11,
+    },
+  ],
+  [
+    sftsTornadoPinwheelGif,
+    {
+      sheet: sftsTornadoPinwheel,
+      frameWidth: 17,
+      frameHeight: 33,
+      frames: 16,
+      fps: 13,
+    },
+  ],
+  [
+    sftsTuxedoClausGif,
+    {
+      sheet: sftsTuxedoClaus,
+      frameWidth: 35,
+      frameHeight: 46,
+      frames: 8,
+      fps: 7,
+    },
+  ],
+  [
+    sftsUfoGif,
+    { sheet: sftsUfo, frameWidth: 36, frameHeight: 35, frames: 12, fps: 10 },
+  ],
+  [
+    sftsVampireCoffinGif,
+    {
+      sheet: sftsVampireCoffin,
+      frameWidth: 24,
+      frameHeight: 34,
+      frames: 8,
+      fps: 10,
+    },
+  ],
+  [
+    sftsWalrusGif,
+    { sheet: sftsWalrus, frameWidth: 25, frameHeight: 26, frames: 5, fps: 14 },
+  ],
+  [
+    sftsWhiteTunnelBunnyGif,
+    {
+      sheet: sftsWhiteTunnelBunny,
+      frameWidth: 15,
+      frameHeight: 16,
+      frames: 25,
+      fps: 2,
+    },
+  ],
+  [
+    sftsWinterAlpacaGif,
+    {
+      sheet: sftsWinterAlpaca,
+      frameWidth: 32,
+      frameHeight: 39,
+      frames: 9,
+      fps: 7,
+    },
+  ],
+  [
+    sftsWitchsCauldronGif,
+    {
+      sheet: sftsWitchsCauldron,
+      frameWidth: 32,
+      frameHeight: 38,
+      frames: 7,
+      fps: 10,
+    },
+  ],
+  [
+    sftsYellowPaintBucketGif,
+    {
+      sheet: sftsYellowPaintBucket,
+      frameWidth: 16,
+      frameHeight: 32,
+      frames: 8,
+      fps: 10,
     },
   ],
   [

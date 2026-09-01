@@ -24,21 +24,16 @@ const LayoutSelect: React.FC = () => (
     <span>{"Layout"}</span>
     <select
       className="text-black text-xs"
-      value={read("phaserFarm.dev.layout")}
+      value={read("phaserFarm.dev.layout") || "ispank"}
       onChange={(event) => {
         const value = event.target.value;
         try {
-          if (value) {
-            localStorage.setItem("phaserFarm.dev.layout", value);
-            // The preset owns the land size and the stress carpet.
-            localStorage.removeItem("phaserFarm.dev.expansions");
-            if (value === "stress") {
-              localStorage.setItem("phaserFarm.dev.stress", "1");
-            } else {
-              localStorage.removeItem("phaserFarm.dev.stress");
-            }
+          localStorage.setItem("phaserFarm.dev.layout", value);
+          // The preset owns the land size and the stress carpet.
+          localStorage.removeItem("phaserFarm.dev.expansions");
+          if (value === "stress") {
+            localStorage.setItem("phaserFarm.dev.stress", "1");
           } else {
-            localStorage.removeItem("phaserFarm.dev.layout");
             localStorage.removeItem("phaserFarm.dev.stress");
           }
         } catch {
@@ -47,11 +42,13 @@ const LayoutSelect: React.FC = () => (
         window.location.reload();
       }}
     >
-      <option value="">{"(fixture)"}</option>
+      <option value="fixture">{"(fixture)"}</option>
       <option value="basic">{"basic • 9 land"}</option>
       <option value="everything">{"everything • 42 land"}</option>
       <option value="stress">{"stress • 42 land"}</option>
       <option value="veteran">{"veteran • volcano 12"}</option>
+      <option value="chin">{"chin • swamp 42"}</option>
+      <option value="ispank">{"ispank • swamp 33"}</option>
     </select>
   </label>
 );

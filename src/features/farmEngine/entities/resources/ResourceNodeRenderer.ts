@@ -10,6 +10,7 @@ import { runLoader } from "../../core/assets";
 import { nativeScale } from "../../core/pixelArt";
 import { makeClickable } from "../../core/clickable";
 import type { GlowTarget } from "../../core/hoverGlow";
+import type { ArtObject } from "../../core/animated";
 import { gridToWorld } from "../../core/coordinates";
 import { DEPTHS } from "../../core/depths";
 import { ProgressBarSprite } from "../../components/ProgressBarSprite";
@@ -38,7 +39,7 @@ export type NodeSlice<N> = {
 
 export type NodeObjects = {
   zone: Phaser.GameObjects.Zone;
-  art?: Phaser.GameObjects.Image;
+  art?: ArtObject;
   strike?: Phaser.GameObjects.Sprite;
   bar?: ProgressBarSprite;
   /** Named extra display objects a subclass manages (overlays, icons). */
@@ -135,9 +136,19 @@ export abstract class ResourceNodeRenderer<
     await runLoader(this.scene);
     if (this.isStale(token)) return;
 
+    // Only PLACED nodes render [Land.tsx maps entries with coordinates];
+    // chest-stored ones have no x/y and were drawing at the origin.
+    const placed = Object.fromEntries(
+      Object.entries(slice.nodes).filter(
+        ([, node]) =>
+          (node as { x?: number }).x !== undefined &&
+          (node as { y?: number }).y !== undefined,
+      ),
+    ) as NodeSlice<N>["nodes"];
+
     // Removals (run the hook with the node's last-known data + box).
     for (const [id, objects] of this.nodes) {
-      if (slice.nodes[id]) continue;
+      if (placed[id]) continue;
       const prev = this.prevNodes[id];
       const box = prev ? this.boxFor(prev) : undefined;
       this.destroyNode(id, objects);
@@ -145,7 +156,7 @@ export abstract class ResourceNodeRenderer<
     }
 
     const biome = getCurrentBiome(slice.island);
-    for (const [id, node] of Object.entries(slice.nodes)) {
+    for (const [id, node] of Object.entries(placed)) {
       const objects = this.ensureNode(id);
       const box = this.boxFor(node);
       objects.zone.setPosition(box.x, box.y);
@@ -161,7 +172,7 @@ export abstract class ResourceNodeRenderer<
       });
     }
 
-    this.prevNodes = slice.nodes;
+    this.prevNodes = placed;
   }
 
   protected boxFor(node: N): NodeBox {

@@ -140,7 +140,12 @@ export const HOME_EXTRA_OFFSETS: Record<
   Mansion: {
     daily: { x: 0, y: 0 },
     row: { left: 0, bottomUp: 28 },
-    letter: { right: 13, bottomUp: 20 },
+    // MEASURED from the live DOM (#letterbox img vs the grid box): the CSS
+    // bottom/right resolve against a wider context than the box, so the
+    // derived {right:13, bottomUp:20} sat the mailbox on the roof. The img
+    // lands at (87, 60) box-relative; the formula adds 4/x and 16-div-size,
+    // hence these odd-looking anchors.
+    letter: { right: -3, bottomUp: 4 },
   },
 };
 
@@ -269,6 +274,14 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
     ].forEach((url) =>
       queueSpritesheet(this.scene, url, { frameWidth: 80, frameHeight: 70 }),
     );
+    // Ready-pack crop icons shown on the Crop Machine [CropMachine.tsx].
+    for (const { item } of placements) {
+      const queue = (item as { queue?: CropMachineQueueItem[] }).queue ?? [];
+      for (const pack of queue) {
+        const icon = ITEM_DETAILS[pack.crop]?.image;
+        if (icon) queueArt(this.scene, icon);
+      }
+    }
 
     for (const { name, item } of placements) {
       const art = BUILDING_BASE_ART[name]?.(ctx);

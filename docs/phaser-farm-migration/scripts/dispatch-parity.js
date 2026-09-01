@@ -77,6 +77,9 @@ const normalise = (event) => {
   });
   await page.addInitScript(() => {
     localStorage.setItem("phaserFarm", "1");
+    // The suite's expectations are authored against the hand-built fixture;
+    // with no key the app now defaults to the ispank capture.
+    localStorage.setItem("phaserFarm.dev.layout", "fixture");
     ["island", "season", "expansions"].forEach((key) =>
       localStorage.removeItem(`phaserFarm.dev.${key}`),
     );

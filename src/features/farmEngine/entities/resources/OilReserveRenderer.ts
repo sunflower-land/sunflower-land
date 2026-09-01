@@ -17,6 +17,7 @@ import {
   OIL_RESERVE_RECOVERY_TIME,
 } from "features/game/events/landExpansion/drillOilReserve";
 import { queueImage } from "../../core/assets";
+import { queueArt, resolveArtObject } from "../../core/animated";
 import { playYieldFloat } from "../../components/YieldFloat";
 import {
   ResourceNodeRenderer,
@@ -45,13 +46,10 @@ export class OilReserveRenderer extends ResourceNodeRenderer<OilNode> {
   }
 
   protected collectAssets(_slice: NodeSlice<OilNode>) {
-    [
-      oilReserveFull,
-      oilReserveHalf,
-      oilReserveEmpty,
-      spurtingWell,
-      oilIcon,
-    ].forEach((url) => queueImage(this.scene, url));
+    [oilReserveFull, oilReserveHalf, oilReserveEmpty, oilIcon].forEach((url) =>
+      queueImage(this.scene, url),
+    );
+    queueArt(this.scene, spurtingWell);
   }
 
   private workLeftSeconds(node: OilNode, game: GameState, now: number) {
@@ -98,16 +96,19 @@ export class OilReserveRenderer extends ResourceNodeRenderer<OilNode> {
         centered: true,
       });
       if (isNextDrillHasBonus(node)) {
-        const overlay = this.scene.add
-          .image(
+        // The spurting gusher is an animated webp in the DOM's <img>; play
+        // its converted strip here [core/animated.ts].
+        const overlay = resolveArtObject(this.scene, undefined, spurtingWell);
+        if (overlay) {
+          overlay.setOrigin(0, 0);
+          overlay.setPosition(
             ctx.box.x + 1,
             ctx.box.y + ctx.box.height - 8.5 - 38,
-            spurtingWell,
-          )
-          .setOrigin(0, 0)
-          .setDepth(ctx.depth + 1);
-        overlay.setDisplaySize(29, 38);
-        objects.extras.set("spurt", overlay);
+          );
+          overlay.setDepth(ctx.depth + 1);
+          overlay.setScale(29 / overlay.width);
+          objects.extras.set("spurt", overlay);
+        }
       }
       return;
     }
