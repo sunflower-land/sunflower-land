@@ -71,7 +71,11 @@ type EffectName =
   | "giveaway.progressed"
   | "giveaway.submitted"
   | "giveaway.ended"
-  | "giveaway.claimed";
+  | "giveaway.claimed"
+  | "layout.created"
+  | "layout.edited"
+  | "layout.deleted"
+  | "layout.applied";
 
 type VisitEffectName = "farm.helped" | "farm.cheered" | "farm.followed";
 
@@ -91,6 +95,12 @@ export type StateMachineEffectName = Exclude<
   | "liquidity.registered"
   // Fired inline from the captcha modal - no machine state
   | "captcha.failed"
+  // Posted directly so they work from the `landscaping` state (which has no
+  // effect states) - see actions/layoutEffects.ts
+  | "layout.created"
+  | "layout.edited"
+  | "layout.deleted"
+  | "layout.applied"
 >;
 
 export type StateMachineVisitEffectName = VisitEffectName;

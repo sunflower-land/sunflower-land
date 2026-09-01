@@ -31,7 +31,6 @@ import type {
   InventoryItemName,
   PlacedLamp,
   Purchase,
-  SavedLayout,
 } from "../types/game";
 import { loadSession, type SocialDetails } from "../actions/loadSession";
 import { resolveSocialDetails } from "./socialDetails";
@@ -322,14 +321,15 @@ export type UpdateUsernameEvent = {
 };
 
 /**
- * Saved layouts live in their own collection server-side and are not part of
- * the session or autosave payloads. This event injects a lazily fetched list
- * (actions/loadLayouts) into `state.layouts` so the layout game events and
- * their optimistic local processing see the same data the server hydrates.
+ * Pushes the gameState returned by the `layout.applied` effect into the
+ * machine. Layout effects are posted outside the machine (they must work from
+ * `landscaping`, which has no effect states — see actions/layoutEffects.ts),
+ * so this assign is the only machine wiring they need. Pending actions are
+ * always flushed before the effect is posted, so nothing is replayed on top.
  */
-export type LayoutsLoadedEvent = {
-  type: "LAYOUTS_LOADED";
-  layouts: SavedLayout[];
+export type LayoutAppliedEvent = {
+  type: "LAYOUT_APPLIED";
+  state: GameState;
 };
 
 type PostEffectEvent = {
@@ -371,7 +371,7 @@ export type BlockchainEvent =
   | DepositEvent
   | UpdateEvent
   | UpdateUsernameEvent
-  | LayoutsLoadedEvent
+  | LayoutAppliedEvent
   | PostEffectEvent
   | { type: "EXPAND" }
   | { type: "SAVE_SUCCESS" }
@@ -1884,12 +1884,9 @@ export function startGame(authContext: AuthContext) {
                 },
               })),
             },
-            LAYOUTS_LOADED: {
-              actions: assign((context, event) => ({
-                state: {
-                  ...context.state,
-                  layouts: (event as LayoutsLoadedEvent).layouts,
-                },
+            LAYOUT_APPLIED: {
+              actions: assign((_, event) => ({
+                state: (event as LayoutAppliedEvent).state,
               })),
             },
             SAVE: {
@@ -2749,12 +2746,9 @@ export function startGame(authContext: AuthContext) {
           },
           on: {
             ...LANDSCAPING_PLACEMENT_EVENT_HANDLERS,
-            LAYOUTS_LOADED: {
-              actions: assign((context, event) => ({
-                state: {
-                  ...context.state,
-                  layouts: (event as LayoutsLoadedEvent).layouts,
-                },
+            LAYOUT_APPLIED: {
+              actions: assign((_, event) => ({
+                state: (event as LayoutAppliedEvent).state,
               })),
             },
             SAVE: {

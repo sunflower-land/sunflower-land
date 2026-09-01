@@ -1,8 +1,5 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useSelector } from "@xstate/react";
-import * as AuthProvider from "features/auth/lib/Provider";
-import type { AuthMachineState } from "features/auth/lib/authMachine";
-import { loadLayouts } from "features/game/actions/loadLayouts";
 
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -17,18 +14,21 @@ import {
   type GameState,
   type SavedLayout,
 } from "features/game/types/game";
-import { produce } from "immer";
-import {
-  applyFarmLayout,
-  defaultLayoutName,
-  snapshotFarm,
-} from "features/game/events/landExpansion/lib/layouts";
+import { snapshotFarm } from "features/game/events/landExpansion/lib/layouts";
 import type { MachineState } from "features/game/lib/gameMachine";
+import { loadLayouts } from "features/game/actions/loadLayouts";
+import {
+  type LayoutsData,
+  applyLayoutEffect,
+  createLayoutEffect,
+  deleteLayoutEffect,
+  editLayoutEffect,
+  flushPendingActions,
+} from "features/game/actions/layoutEffects";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import chestIcon from "assets/icons/chest.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { useNow } from "lib/utils/hooks/useNow";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { LayoutPreview } from "./LayoutPreview";
 
@@ -46,48 +46,23 @@ type Mode =
   | "confirmAscension";
 
 const _state = (state: MachineState): GameState => state.context.state;
-const _token = (state: AuthMachineState) =>
-  state.context.user.rawToken as string;
 
 export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const { authService } = useContext(AuthProvider.Context);
-  const token = useSelector(authService, _token);
   const game = useSelector(gameService, _state);
-  const now = useNow();
-  const layouts = game.layouts ?? [];
 
   // Layouts live in their own collection server-side and never ride the
-  // session/autosave payloads — fetch them on first open and inject them into
-  // the machine, where the layout events (and their optimistic local
-  // processing) read them. `undefined` = not loaded yet; they stay in machine
-  // state afterwards, and the events keep them in sync locally.
-  const layoutsLoaded = game.layouts !== undefined;
+  // session/autosave payloads: fetched lazily on first open, then kept in
+  // sync from each layout effect's response. `undefined` = not loaded yet.
+  const [layoutsData, setLayoutsData] = useState<LayoutsData | undefined>();
   const [loadFailed, setLoadFailed] = useState(false);
   const [loadAttempt, setLoadAttempt] = useState(0);
+  // One effect in flight at a time — buttons disable while it runs.
+  const [busy, setBusy] = useState(false);
 
-  useEffect(() => {
-    if (!show || layoutsLoaded) return;
-
-    let cancelled = false;
-    setLoadFailed(false);
-
-    loadLayouts({ token })
-      .then((loaded) => {
-        if (cancelled) return;
-        gameService.send({ type: "LAYOUTS_LOADED", layouts: loaded });
-      })
-      .catch(() => {
-        if (cancelled) return;
-        setLoadFailed(true);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [show, layoutsLoaded, loadAttempt]);
+  const layouts = layoutsData?.layouts ?? [];
+  const ascensionLayoutId = layoutsData?.ascensionLayoutId;
 
   // 0 = current farm; 1..n = saved layout at index (selected - 1).
   const [selected, setSelected] = useState(0);
@@ -102,10 +77,79 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
 
   useEffect(() => () => clearTimeout(toastTimer.current), []);
 
+  useEffect(() => {
+    if (!show || layoutsData) return;
+
+    let cancelled = false;
+    setLoadFailed(false);
+
+    const token = gameService.getSnapshot().context.rawToken as string;
+
+    loadLayouts({ token })
+      .then((loaded) => {
+        if (cancelled) return;
+        setLayoutsData(loaded);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setLoadFailed(true);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [show, layoutsData, loadAttempt]);
+
   const flash = (message: string) => {
     setToast(message);
     clearTimeout(toastTimer.current);
     toastTimer.current = setTimeout(() => setToast(null), 1800);
+  };
+
+  const effectError = (e: unknown): string => {
+    const code = e instanceof Error ? e.message : "";
+
+    if (code === "LAYOUT_CAP_REACHED") {
+      return t("savedLayouts.cap", { max: MAX_SAVED_LAYOUTS });
+    }
+
+    return t("savedLayouts.actionFailed");
+  };
+
+  /**
+   * Shared effect runner: flushes queued autosave actions first (server
+   * snapshots/applies against the farm it loads), posts the effect, and
+   * refreshes the layouts list from its response.
+   */
+  const runEffect = async (
+    fn: (args: { farmId: number; token: string }) => Promise<LayoutsData>,
+    onSuccess?: (data: LayoutsData) => void,
+  ) => {
+    if (busy) return;
+
+    setBusy(true);
+    setError(null);
+
+    try {
+      await flushPendingActions(gameService);
+
+      const { farmId, rawToken } = gameService.getSnapshot().context;
+      const data = await fn({
+        farmId: farmId as number,
+        token: rawToken as string,
+      });
+
+      setLayoutsData({
+        layouts: data.layouts,
+        ascensionLayoutId: data.ascensionLayoutId,
+      });
+      onSuccess?.(data);
+    } catch (e) {
+      setError(effectError(e));
+    } finally {
+      setBusy(false);
+    }
   };
 
   const currentSnapshot = useMemo(() => snapshotFarm(game), [game]);
@@ -116,7 +160,7 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
   const showCurrent = isCurrent || !layout;
   const previewLayout = showCurrent ? currentSnapshot : layout!;
   const atCap = layouts.length >= MAX_SAVED_LAYOUTS;
-  const hasAscensionLayout = layouts.some((l) => l.auto);
+  const hasAscensionLayout = !!ascensionLayoutId;
 
   // Land the layout was saved on (biome + size) — a layout saved on a bigger
   // farm than the player has now will skip the items that fall off the land.
@@ -143,27 +187,34 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
   const saveNew = () => {
     const name = newName.trim();
     // Name is optional — a blank name becomes "Layout N" server-side.
-    gameService.send({ type: "layout.saved", ...(name ? { name } : {}) });
-    setNewName("");
-    setError(null);
-    setSelected(layouts.length + 1);
-    flash(
-      t("savedLayouts.toastSaved", {
-        name: name || defaultLayoutName(layouts),
-      }),
+    runEffect(
+      (args) => createLayoutEffect({ ...args, ...(name ? { name } : {}) }),
+      (data) => {
+        setNewName("");
+        setSelected(data.layouts.length);
+        flash(
+          t("savedLayouts.toastSaved", {
+            name: data.layouts[data.layouts.length - 1].name,
+          }),
+        );
+      },
     );
   };
 
   const setAscension = () => {
-    // The snapshot (trimmed to 30 lands, land count stamped to 30) is built
-    // server-side. Promote the selected saved layout, or — on the current-farm
-    // view — snapshot the live farm.
-    gameService.send({
-      type: "layout.ascensionSaved",
-      ...(showCurrent ? {} : { layoutId: selected - 1 }),
-    });
-    setMode("idle");
-    flash(t("savedLayouts.toastAscensionSaved"));
+    // Mark the selected saved layout as the post-ascension re-apply target,
+    // or — on the current-farm view — save the live farm as a new (normal,
+    // cap-counted) layout and mark that.
+    runEffect(
+      (args) =>
+        showCurrent
+          ? createLayoutEffect({ ...args, markAscension: true })
+          : editLayoutEffect({ ...args, id: layout!.id, markAscension: true }),
+      () => {
+        setMode("idle");
+        flash(t("savedLayouts.toastAscensionSaved"));
+      },
+    );
   };
 
   const doRename = () => {
@@ -172,43 +223,62 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
       setError(t("savedLayouts.nameRequired"));
       return;
     }
-    gameService.send({ type: "layout.renamed", layoutId: selected - 1, name });
-    setMode("idle");
-    setError(null);
-    flash(t("savedLayouts.toastRenamed"));
+    runEffect(
+      (args) => editLayoutEffect({ ...args, id: layout.id, name }),
+      () => {
+        setMode("idle");
+        flash(t("savedLayouts.toastRenamed"));
+      },
+    );
   };
 
   const confirmYes = () => {
-    const layoutId = selected - 1;
+    if (!layout) return;
+
     if (mode === "confirmApply") {
-      // Best-effort apply never throws — run it on a throwaway draft just to
-      // learn how many layout positions won't be filled (blocked, or no item
-      // owned), so the toast can say so.
-      let notPlaced = 0;
-      produce(game, (draft) => {
-        const result = applyFarmLayout(draft, layouts[layoutId], now);
-        notPlaced = result.skipped + result.noInventory;
-      });
-      gameService.send({ type: "layout.applied", layoutId });
-      setMode("idle");
-      flash(
-        notPlaced > 0
-          ? t("savedLayouts.toastAppliedPartial", { skipped: notPlaced })
-          : t("savedLayouts.toastApplied"),
+      // The apply happens server-side; the effect returns the rearranged
+      // farm (pushed into the machine) plus how many positions could not be
+      // filled (blocked, or item not owned) for the toast.
+      runEffect(
+        async (args) => {
+          const { gameState, applied, skipped, noInventory, ...data } =
+            await applyLayoutEffect({
+              ...args,
+              id: layout.id,
+              state: gameService.getSnapshot().context.state,
+            });
+
+          gameService.send({ type: "LAYOUT_APPLIED", state: gameState });
+
+          const notPlaced = skipped + noInventory;
+          flash(
+            notPlaced > 0
+              ? t("savedLayouts.toastAppliedPartial", { skipped: notPlaced })
+              : t("savedLayouts.toastApplied"),
+          );
+
+          return data;
+        },
+        () => setMode("idle"),
       );
     } else if (mode === "confirmOverwrite") {
-      gameService.send({
-        type: "layout.saved",
-        name: layouts[layoutId].name,
-        layoutId,
-      });
-      setMode("idle");
-      flash(t("savedLayouts.toastOverwritten"));
+      runEffect(
+        (args) =>
+          editLayoutEffect({ ...args, id: layout.id, updateSnapshot: true }),
+        () => {
+          setMode("idle");
+          flash(t("savedLayouts.toastOverwritten"));
+        },
+      );
     } else if (mode === "confirmDelete") {
-      gameService.send({ type: "layout.deleted", layoutId });
-      setSelected(0);
-      setMode("idle");
-      flash(t("savedLayouts.toastDeleted"));
+      runEffect(
+        (args) => deleteLayoutEffect({ ...args, id: layout.id }),
+        () => {
+          setSelected(0);
+          setMode("idle");
+          flash(t("savedLayouts.toastDeleted"));
+        },
+      );
     }
   };
 
@@ -263,8 +333,13 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
       <InnerPanel className="p-2 flex flex-col gap-2">
         <span className="text-xs">{message}</span>
         <div className="flex gap-1">
-          <Button onClick={() => setMode("idle")}>{t("cancel")}</Button>
-          <Button onClick={isAscension ? setAscension : confirmYes}>
+          <Button disabled={busy} onClick={() => setMode("idle")}>
+            {t("cancel")}
+          </Button>
+          <Button
+            disabled={busy}
+            onClick={isAscension ? setAscension : confirmYes}
+          >
             {label}
           </Button>
         </div>
@@ -283,8 +358,12 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
             placeholder={t("savedLayouts.namePlaceholder")}
           />
           <div className="flex gap-1">
-            <Button onClick={() => setMode("idle")}>{t("cancel")}</Button>
-            <Button onClick={doRename}>{t("savedLayouts.saveName")}</Button>
+            <Button disabled={busy} onClick={() => setMode("idle")}>
+              {t("cancel")}
+            </Button>
+            <Button disabled={busy} onClick={doRename}>
+              {t("savedLayouts.saveName")}
+            </Button>
           </div>
         </div>
       );
@@ -347,59 +426,64 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
                     maxLength={MAX_LAYOUT_NAME_LENGTH}
                     placeholder={t("savedLayouts.nameThis")}
                   />
-                  <Button onClick={saveNew}>
+                  <Button disabled={busy} onClick={saveNew}>
                     <div className="flex items-center justify-center gap-1">
                       <img src={chestIcon} className="w-4" />
                       <span>{t("savedLayouts.saveAsNew")}</span>
                     </div>
                   </Button>
+                  {/* Saving the current farm as the ascension layout creates
+                      a normal cap-counted layout, so it is only offered while
+                      a slot is free. */}
+                  <Button
+                    disabled={busy}
+                    onClick={() => setMode("confirmAscension")}
+                  >
+                    <div className="flex items-center justify-center gap-1">
+                      <img src={SUNNYSIDE.icons.stopwatch} className="w-4" />
+                      <span>{t("savedLayouts.setAscension")}</span>
+                    </div>
+                  </Button>
                 </>
               )}
-              {/* The Ascension Layout is exempt from the layout cap, so this
-                  stays available even when the manual slots are full. */}
-              <Button onClick={() => setMode("confirmAscension")}>
-                <div className="flex items-center justify-center gap-1">
-                  <img src={SUNNYSIDE.icons.stopwatch} className="w-4" />
-                  <span>{t("savedLayouts.setAscension")}</span>
-                </div>
-              </Button>
             </div>
           )
         ) : mode === "idle" ? (
           <div className="flex flex-col gap-2">
-            <Button onClick={() => setMode("confirmApply")}>
+            <Button disabled={busy} onClick={() => setMode("confirmApply")}>
               <div className="flex items-center justify-center gap-1">
                 <img src={SUNNYSIDE.icons.confirm} className="w-4" />
                 <span>{t("savedLayouts.apply")}</span>
               </div>
             </Button>
-            {/* The Ascension Layout is protected: it can only be applied — not
-                renamed, overwritten, deleted, or promoted onto itself (those all
-                throw server-side). Manual layouts get the full set of actions. */}
-            {layout!.auto ? (
-              <span className="text-xxs">
-                {t("savedLayouts.ascensionProtected")}
-              </span>
+            <div className="flex gap-1">
+              <Button disabled={busy} onClick={() => setMode("rename")}>
+                {t("savedLayouts.rename")}
+              </Button>
+              <Button
+                disabled={busy}
+                onClick={() => setMode("confirmOverwrite")}
+              >
+                {t("savedLayouts.overwrite")}
+              </Button>
+              <Button disabled={busy} onClick={() => setMode("confirmDelete")}>
+                {t("savedLayouts.delete")}
+              </Button>
+            </div>
+            {layout!.id === ascensionLayoutId ? (
+              <Label type="formula" icon={SUNNYSIDE.icons.stopwatch}>
+                {t("savedLayouts.ascensionBadge")}
+              </Label>
             ) : (
-              <>
-                <div className="flex gap-1">
-                  <Button onClick={() => setMode("rename")}>
-                    {t("savedLayouts.rename")}
-                  </Button>
-                  <Button onClick={() => setMode("confirmOverwrite")}>
-                    {t("savedLayouts.overwrite")}
-                  </Button>
-                  <Button onClick={() => setMode("confirmDelete")}>
-                    {t("savedLayouts.delete")}
-                  </Button>
+              <Button
+                disabled={busy}
+                onClick={() => setMode("confirmAscension")}
+              >
+                <div className="flex items-center justify-center gap-1">
+                  <img src={SUNNYSIDE.icons.stopwatch} className="w-4" />
+                  <span>{t("savedLayouts.setAscension")}</span>
                 </div>
-                <Button onClick={() => setMode("confirmAscension")}>
-                  <div className="flex items-center justify-center gap-1">
-                    <img src={SUNNYSIDE.icons.stopwatch} className="w-4" />
-                    <span>{t("savedLayouts.setAscension")}</span>
-                  </div>
-                </Button>
-              </>
+              </Button>
             )}
           </div>
         ) : (
@@ -409,7 +493,7 @@ export const SavedLayoutsModal: React.FC<Props> = ({ show, onHide }) => {
     );
   };
 
-  if (!layoutsLoaded) {
+  if (!layoutsData) {
     return (
       <Modal show={show} onHide={close} size="lg">
         <CloseButtonPanel title={t("savedLayouts.title")} onClose={close}>

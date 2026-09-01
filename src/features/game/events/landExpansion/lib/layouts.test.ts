@@ -2,10 +2,12 @@ import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
 import { produce } from "immer";
 import { TEST_FARM } from "features/game/lib/constants";
-import type { GameState, InventoryItemName } from "features/game/types/game";
-import { saveLayout } from "./saveLayout";
-import { applyLayout } from "./applyLayout";
-import { applyFarmLayout } from "./lib/layouts";
+import type {
+  GameState,
+  InventoryItemName,
+  SavedLayout,
+} from "features/game/types/game";
+import { applyFarmLayout, snapshotFarm } from "./layouts";
 
 const createdAt = 1_700_000_000_000;
 
@@ -31,7 +33,6 @@ const baseFarm: GameState = {
   beehives: {},
   lavaPits: {},
   flowers: { ...TEST_FARM.flowers, flowerBeds: {} },
-  layouts: [],
 };
 
 /** baseFarm with the given items owned (inventory). */
@@ -45,11 +46,40 @@ const withInventory = (owned: Partial<Record<InventoryItemName, number>>) => ({
   },
 });
 
-/** Save a layout snapshot of `state` and return the state with the layout. */
-const withSavedLayout = (state: GameState): GameState =>
-  saveLayout({ state, action: { type: "layout.saved", name: "L" }, createdAt });
+/** A game state carrying the layout snapshotted from it, so tests can
+ * "clone, mutate, apply" against the saved arrangement. */
+type TestState = GameState & { __layout?: SavedLayout };
 
-describe("applyLayout", () => {
+/** Snapshot `state` into a SavedLayout, as the save effect would. */
+const makeLayout = (state: GameState): SavedLayout => ({
+  id: "layout-1",
+  name: "L",
+  createdAt,
+  updatedAt: createdAt,
+  ...snapshotFarm(state),
+});
+
+/** Attach a layout snapshot of `state` for a later apply. */
+const withSavedLayout = (state: GameState): TestState => ({
+  ...state,
+  __layout: makeLayout(state),
+});
+
+/** Apply the attached layout over `state` via the shared lib. */
+const applyLayout = ({
+  state,
+}: {
+  state: TestState;
+  action?: unknown;
+  createdAt?: number;
+}): GameState =>
+  produce(state, (draft) => {
+    applyFarmLayout(draft, state.__layout!, createdAt);
+  }) as GameState;
+
+// Tests the shared layouts lib (snapshotFarm + applyFarmLayout) directly —
+// the layout effects persist to the `layouts` collection around this core.
+describe("layouts lib (applyFarmLayout)", () => {
   it("places an owned collectible at its saved position and flip", () => {
     const saved = withSavedLayout({
       ...withInventory({ "Wicker Man": 1 }),
@@ -84,7 +114,6 @@ describe("applyLayout", () => {
       },
     });
 
-    // Removed during landscaping: still owned (in the bucket) but unplaced.
     const moved = cloneDeep(saved);
     delete moved.collectibles["Wicker Man"]![0].coordinates;
     moved.collectibles["Wicker Man"]![0].removedAt = createdAt;
@@ -102,7 +131,6 @@ describe("applyLayout", () => {
   });
 
   it("creates new instances from inventory when none are placed yet", () => {
-    // Owns 2 Wicker Man but has never placed one (no bucket instances).
     const saved = withSavedLayout({
       ...withInventory({ "Wicker Man": 2 }),
       collectibles: {
@@ -114,7 +142,7 @@ describe("applyLayout", () => {
     });
 
     const moved = cloneDeep(saved);
-    moved.collectibles["Wicker Man"] = []; // owned in inventory, no instances
+    moved.collectibles["Wicker Man"] = [];
 
     const result = applyLayout({
       state: moved,
@@ -125,7 +153,6 @@ describe("applyLayout", () => {
       (c) => !!c.coordinates,
     );
     expect(placed).toHaveLength(2);
-    // New instances get deterministic, non-uuid ids.
     placed.forEach((c) => expect(c.id.startsWith("L")).toBe(true));
     expect(placed.map((c) => c.coordinates)).toContainEqual({ x: 0, y: 0 });
     expect(placed.map((c) => c.coordinates)).toContainEqual({ x: 1, y: 0 });
@@ -142,7 +169,6 @@ describe("applyLayout", () => {
       },
     });
 
-    // Owns only one Wicker Man.
     const moved = cloneDeep(saved);
     moved.collectibles["Wicker Man"] = [
       { id: "a", coordinates: { x: 2, y: 0 }, createdAt },
@@ -152,7 +178,7 @@ describe("applyLayout", () => {
       | { applied: number; skipped: number; noInventory: number }
       | undefined;
     produce(moved, (draft) => {
-      counts = applyFarmLayout(draft, draft.layouts![0], createdAt);
+      counts = applyFarmLayout(draft, moved.__layout!, createdAt);
     });
 
     expect(counts).toEqual({ applied: 1, skipped: 0, noInventory: 1 });
@@ -168,7 +194,6 @@ describe("applyLayout", () => {
       },
     });
 
-    // The player owns a Wicker Man, but under a different id.
     const moved = cloneDeep(saved);
     moved.collectibles["Wicker Man"] = [
       { id: "mine", coordinates: { x: 2, y: 0 }, createdAt },
@@ -188,7 +213,6 @@ describe("applyLayout", () => {
   });
 
   it("fills positions in order and unplaces extras", () => {
-    // Layout has 1 Wicker Man position; the player owns 3.
     const saved = withSavedLayout({
       ...withInventory({ "Wicker Man": 3 }),
       collectibles: {
@@ -287,7 +311,7 @@ describe("applyLayout", () => {
 
     const moved = cloneDeep(saved);
     // b's saved position is now off-land.
-    moved.layouts![0].collectibles["Wicker Man"]![1].coordinates = {
+    moved.__layout!.collectibles["Wicker Man"]![1].coordinates = {
       x: 50,
       y: 50,
     };
@@ -296,10 +320,9 @@ describe("applyLayout", () => {
       | { applied: number; skipped: number; noInventory: number }
       | undefined;
     produce(moved, (draft) => {
-      counts = applyFarmLayout(draft, draft.layouts![0], createdAt);
+      counts = applyFarmLayout(draft, moved.__layout!, createdAt);
     });
 
-    // (0,0) placed; (50,50) off-land → skipped (owns enough, just can't fit).
     expect(counts).toEqual({ applied: 1, skipped: 1, noInventory: 0 });
   });
 
@@ -334,7 +357,7 @@ describe("applyLayout", () => {
     });
 
     const moved = cloneDeep(saved);
-    moved.crops = {}; // owned in inventory, no instances yet
+    moved.crops = {};
 
     const result = applyLayout({
       state: moved,
@@ -569,7 +592,7 @@ describe("applyLayout", () => {
     // Layout wants Wicker Man off-land at (50, 0) (blocked by the land bounds — a
     // block exact restore can't clear); it currently sits at (0, 0), which stays
     // free, so the best-effort restore leaves it there.
-    moved.layouts![0].collectibles["Wicker Man"]![0].coordinates = {
+    moved.__layout!.collectibles["Wicker Man"]![0].coordinates = {
       x: 50,
       y: 0,
     };
@@ -602,7 +625,7 @@ describe("applyLayout", () => {
     const moved = cloneDeep(saved);
     // Layout: a -> (50, 0) [off-land, blocked by bounds], b -> (0, 0) [a's
     // original tile]. b claims a's original, so a has nowhere to fall back to.
-    moved.layouts![0].collectibles["Wicker Man"] = [
+    moved.__layout!.collectibles["Wicker Man"] = [
       { id: "a", coordinates: { x: 50, y: 0 } },
       { id: "b", coordinates: { x: 0, y: 0 } },
     ];
@@ -703,14 +726,5 @@ describe("applyLayout", () => {
 
     expect(result.farmHands.bumpkins.z.coordinates).toEqual({ x: 0, y: 0 });
     expect(result.farmHands.bumpkins.a.coordinates).toEqual({ x: 1, y: 0 });
-  });
-
-  it("throws when the layout does not exist", () => {
-    expect(() =>
-      applyLayout({
-        state: baseFarm,
-        action: { type: "layout.applied", layoutId: 0 },
-      }),
-    ).toThrow("Layout does not exist");
   });
 });

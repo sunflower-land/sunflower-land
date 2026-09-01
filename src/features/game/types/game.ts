@@ -1124,19 +1124,19 @@ export type LayoutFlippablePlacement = LayoutCoordinates & {
  * Items are keyed by `id` so applying a layout repositions the player's
  * existing items. Collectibles/buildings mirror the live `name -> PlacedItem[]`
  * buckets (capturing `flipped`); resources mirror the live `Record<id, {...}>`
- * buckets whose coordinates live as top-level x/y. See `saveLayout`/`applyLayout`.
+ * buckets whose coordinates live as top-level x/y. Stored server-side in the
+ * `layouts` collection; created/applied via the layout effects
+ * (actions/layoutEffects.ts).
  */
 export type SavedLayout = {
+  /**
+   * Stable server-assigned id (uuid). Layouts are addressed by id on the
+   * wire — array indices would race across async effect round-trips.
+   */
+  id: string;
   name: string;
   createdAt: number;
   updatedAt: number;
-  /**
-   * Marks the auto-managed "Ascension Layout" captured when the player first
-   * ascends (volcano→swamp) and re-applied on later ascensions. It is protected:
-   * the player cannot delete, rename, or overwrite it, and it does not count
-   * against the manual `MAX_SAVED_LAYOUTS` limit.
-   */
-  auto?: boolean;
   collectibles: Partial<Record<CollectibleName, LayoutPlacement[]>>;
   buildings: Partial<Record<BuildingName, LayoutPlacement[]>>;
   resources: {
@@ -2462,17 +2462,6 @@ export interface GameState {
   };
   season: Season;
   lavaPits: Record<string, LavaPit>;
-  /**
-   * Saved snapshots of the farm arrangement. The live farm is the "current"
-   * layout; these are the saved alternatives the player can load onto it.
-   * Capped at {@link MAX_SAVED_LAYOUTS}.
-   *
-   * In-memory only: layouts are stored in their own DB collection server-side
-   * and never ride the session/autosave payloads. `undefined` means "not
-   * loaded yet" — fetch via `actions/loadLayouts` and inject with the
-   * machine's `LAYOUTS_LOADED` event before dispatching layout events.
-   */
-  layouts?: SavedLayout[];
   nfts?: Partial<Record<Chain, NFT>>;
 
   faceRecognition?: {
