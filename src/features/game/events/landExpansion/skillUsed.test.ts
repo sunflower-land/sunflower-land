@@ -3,6 +3,7 @@ import { skillUse, getSkillCooldown } from "./skillUsed";
 import { CROPS } from "features/game/types/crops";
 import { COOKABLES } from "features/game/types/consumables";
 import { FLOWER_SEEDS, FLOWERS } from "features/game/types/flowers";
+import { getFlowerReadyAt } from "features/game/lib/flowerBedReadiness";
 
 describe("skillUse", () => {
   const dateNow = Date.now();
@@ -669,6 +670,60 @@ describe("skillUse", () => {
       expect(state.flowers.flowerBeds["789"].flower?.plantedAt).toEqual(
         expectedTime,
       );
+    });
+
+    it("makes windowed flowers ready at the use instant, even with a grow-time debuff", () => {
+      // Yellow Carnation (Sunpetal Seed) base = 24h. Flowery Abode's +50%
+      // growth-time debuff is baked into `baseDurationMs` at plant, so a
+      // windowed flower's duration can EXCEED the base grow time — back-dating
+      // `plantedAt` by the base time (the legacy fix-up) leaves the debuff
+      // excess still on the clock.
+      const growTimeMs =
+        FLOWER_SEEDS[FLOWERS["Yellow Carnation"].seed].plantSeconds * 1000;
+
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Petal Blessed": 1 },
+          },
+          flowers: {
+            flowerBeds: {
+              debuffed: {
+                x: 1,
+                y: -10,
+                createdAt: 0,
+                flower: {
+                  name: "Yellow Carnation",
+                  plantedAt: dateNow - 60 * 60 * 1000,
+                  baseDurationMs: growTimeMs * 1.5,
+                },
+              },
+              plain: {
+                x: 1,
+                y: -9,
+                createdAt: 0,
+                flower: {
+                  name: "Yellow Carnation",
+                  plantedAt: dateNow - 60 * 60 * 1000,
+                  baseDurationMs: growTimeMs,
+                },
+              },
+            },
+            discovered: {},
+          },
+        },
+        action: { type: "skill.used", skill: "Petal Blessed" },
+        createdAt: dateNow,
+      });
+
+      // Ready exactly at the use instant (mirrors the legacy branch's
+      // `plantedAt + growTime === createdAt`, so beehives credit honey up to now).
+      const debuffed = state.flowers.flowerBeds["debuffed"].flower;
+      const plain = state.flowers.flowerBeds["plain"].flower;
+      expect(getFlowerReadyAt(debuffed!, state)).toEqual(dateNow);
+      expect(getFlowerReadyAt(plain!, state)).toEqual(dateNow);
     });
 
     it("updates the beehives after a flower is instagrown", () => {
