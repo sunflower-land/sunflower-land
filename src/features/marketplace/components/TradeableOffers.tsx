@@ -163,7 +163,8 @@ export const TradeableOffers: React.FC<{
   };
 
   const loading = !tradeable;
-  const isResource = isTradeResource(KNOWN_ITEMS[Number(id)]);
+  const isResource =
+    display.type === "collectibles" && isTradeResource(KNOWN_ITEMS[Number(id)]);
   const isVIP = useVipAccess({ game: gameService.getSnapshot().context.state });
 
   const vipIsRequired = tradeable?.isVip && !isVIP;
