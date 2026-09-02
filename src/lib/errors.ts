@@ -24,6 +24,10 @@ export const ERRORS = {
   MULTIPLE_DEVICES_OPEN: "MULTIPLE_DEVICES_OPEN",
   UNAUTHORIZED: "UNAUTHORIZED",
 
+  // We aborted the autosave ourselves after AUTO_SAVE_INTERVAL - used as the
+  // AbortController reason so the failure is self-describing, see autosave.ts
+  AUTOSAVE_TIMEOUT: "AUTOSAVE_TIMEOUT",
+
   // Trade errors
   TRADE_NOT_FOUND: "TRADE_NOT_FOUND",
 

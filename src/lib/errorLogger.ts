@@ -117,6 +117,23 @@ const NETWORK_ERROR_MESSAGES = [
   /^cancelled$/i, // iOS aborted request
 ];
 
+/**
+ * Aborted requests. The player navigated away, refreshed, or backgrounded the
+ * tab mid-flight, or we cancelled the request ourselves on a timeout. Like the
+ * failures above, the request never got a response — there is nothing for the
+ * API to act on, so these are shown as a connection problem and never reported.
+ *
+ * An abort surfaces as a DOMException named "AbortError" (matched by name in
+ * `isNetworkError`), but by the time an error reaches the modal it is often
+ * only the message string, and each browser words it differently.
+ */
+const ABORT_ERROR_MESSAGES = [
+  /^signal is aborted without reason$/i, // Chrome / Edge
+  /^the operation was aborted/i, // Firefox / Safari
+  /^the user aborted a request/i, // Older Firefox / node-fetch
+  new RegExp(`^${ERRORS.AUTOSAVE_TIMEOUT}$`), // Our own abort reason, see autosaveRequest
+];
+
 /** Pulls the message out of anything `createErrorLogger` accepts. */
 const getErrorMessage = (input: unknown): unknown =>
   input instanceof Error
@@ -129,15 +146,27 @@ const getErrorMessage = (input: unknown): unknown =>
         : undefined;
 
 /**
- * True when the error is a browser-level network failure. Accepts anything
- * `createErrorLogger` accepts (Error, string, or the report object).
+ * True when the error is a browser-level network failure or an aborted
+ * request. Accepts anything `createErrorLogger` accepts (Error, string, or
+ * the report object).
  */
 export const isNetworkError = (input: unknown): boolean => {
+  // The message of an aborted fetch varies by browser; the name does not.
+  if (
+    input &&
+    typeof input === "object" &&
+    (input as { name?: unknown }).name === "AbortError"
+  ) {
+    return true;
+  }
+
   const message = getErrorMessage(input);
 
   return (
     typeof message === "string" &&
-    NETWORK_ERROR_MESSAGES.some((re) => re.test(message.trim()))
+    [...NETWORK_ERROR_MESSAGES, ...ABORT_ERROR_MESSAGES].some((re) =>
+      re.test(message.trim()),
+    )
   );
 };
 
