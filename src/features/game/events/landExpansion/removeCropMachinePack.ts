@@ -3,6 +3,14 @@ import type { CropSeedName } from "features/game/types/crops";
 import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { updateCropMachine } from "./supplyCropMachine";
+import { hasFeatureAccess } from "lib/flags";
+import { getCropMachineBoostWindows } from "features/game/lib/boostWindows";
+import {
+  convertCropMachineToWindowed,
+  refreshCropMachineCaches,
+  resolveCropMachine,
+  settleCropMachine,
+} from "features/game/lib/cropMachineReadiness";
 
 export type RemoveCropMachinePackAction = {
   type: "cropMachine.packRemoved";
@@ -42,6 +50,54 @@ export function removeCropMachinePack({
     }
 
     const pack = cropMachine.queue[action.packIndex];
+
+    const windowed =
+      cropMachine.oilSettledAt !== undefined ||
+      hasFeatureAccess(stateCopy, "SPEED_BOOSTS");
+
+    if (windowed) {
+      const windows = getCropMachineBoostWindows(stateCopy);
+      convertCropMachineToWindowed({
+        machine: cropMachine,
+        windows,
+        now: createdAt,
+      });
+      settleCropMachine({ machine: cropMachine, windows, now: createdAt });
+
+      // Started-check on the DERIVED timeline: after settling, a pack the
+      // fuel has reached starts at (or before) `createdAt`; only packs still
+      // queued behind others or unfunded are removable. A finalised pack (no
+      // marker) has certainly started.
+      const timing = resolveCropMachine({ machine: cropMachine, windows })
+        .packs[action.packIndex];
+      if (
+        pack.baseDurationMs === undefined ||
+        (timing.startsAt !== undefined && timing.startsAt <= createdAt)
+      ) {
+        throw new Error("Pack has already started");
+      }
+
+      // Refund seeds to inventory
+      const seedName: CropSeedName = `${pack.crop} Seed`;
+      const seedsInInventory = stateCopy.inventory[seedName] ?? new Decimal(0);
+      stateCopy.inventory[seedName] = seedsInInventory.add(pack.seeds);
+
+      // No oil to refund: on a windowed machine fuel carries no per-pack
+      // earmarks, and an unstarted pack has burned nothing. Removing it needs
+      // no hand-rolled rescheduling either — the resolver re-chains whatever
+      // was queued behind it.
+      cropMachine.queue = cropMachine.queue.filter(
+        (_, index) => index !== action.packIndex,
+      );
+
+      refreshCropMachineCaches({
+        machine: cropMachine,
+        windows,
+        now: createdAt,
+      });
+
+      return;
+    }
 
     if (pack.startTime !== undefined && pack.startTime <= createdAt) {
       throw new Error("Pack has already started");

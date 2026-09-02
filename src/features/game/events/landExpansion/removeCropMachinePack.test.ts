@@ -7,16 +7,26 @@ import type {
   CropMachineBuilding,
   CropMachineQueueItem,
 } from "features/game/types/game";
+import { CONFIG } from "lib/config";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
   bumpkin: INITIAL_BUMPKIN,
-  inventory: {
-    ...TEST_FARM.inventory,
-    "Beta Pass": new Decimal(1),
-  },
 };
 const now = Date.now();
+
+// These suites assert the LEGACY crop machine (boosts baked at supply time,
+// oil earmarked per pack). The event was flag-gated at introduction (hence the
+// Beta Pass fixtures this suite used to carry) but no longer is; FE jest runs
+// on amoy where SPEED_BOOSTS is on, so force the flag off here — a Beta Pass
+// would defeat the pin. The windowed model is covered in its own describes.
+const originalNetwork = CONFIG.NETWORK;
+beforeEach(() => {
+  (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+});
+afterEach(() => {
+  (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+});
 
 const createCropMachineWithQueue = (
   queue: CropMachineQueueItem[],
@@ -50,7 +60,6 @@ describe("removeCropMachinePack", () => {
       removeCropMachinePack({
         state: {
           ...GAME_STATE,
-          inventory: { "Beta Pass": new Decimal(1) },
           buildings: {
             "Crop Machine": [
               {
@@ -848,6 +857,112 @@ describe("removeCropMachinePack", () => {
             ],
           },
         },
+        action: {
+          type: "cropMachine.packRemoved",
+          packIndex: 0,
+          machineId: "1",
+        },
+        createdAt: now,
+      }),
+    ).toThrow("Pack has already started");
+  });
+});
+
+describe("removeCropMachinePack (windowed SPEED_BOOSTS)", () => {
+  beforeEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
+  });
+
+  const HOUR = 60 * 60 * 1000;
+
+  const stateWithMachine = (machine: Record<string, unknown>): GameState => ({
+    ...GAME_STATE,
+    buildings: {
+      "Crop Machine": [
+        {
+          coordinates: { x: 0, y: 0 },
+          createdAt: 0,
+          id: "1",
+          readyAt: 0,
+          ...machine,
+        },
+      ],
+    },
+  });
+
+  const queuedMachine = () => ({
+    oilSettledAt: now - HOUR,
+    unallocatedOilTime: 2 * HOUR,
+    queue: [
+      {
+        crop: "Sunflower" as const,
+        seeds: 10,
+        growTimeRemaining: 0,
+        totalGrowTime: 4 * HOUR,
+        baseDurationMs: 4 * HOUR,
+      },
+      {
+        crop: "Potato" as const,
+        seeds: 5,
+        growTimeRemaining: 0,
+        totalGrowTime: 2 * HOUR,
+        baseDurationMs: 2 * HOUR,
+      },
+    ],
+  });
+
+  it("removes a queued pack with a seed refund, no oil arithmetic, and the head undisturbed", () => {
+    const state = removeCropMachinePack({
+      state: stateWithMachine(queuedMachine()),
+      action: { type: "cropMachine.packRemoved", packIndex: 1, machineId: "1" },
+      createdAt: now,
+    });
+
+    const machine = state.buildings["Crop Machine"]?.[0];
+    const head = machine?.queue?.[0];
+
+    expect(state.inventory["Potato Seed"]?.toNumber()).toBe(5);
+    expect(machine?.queue).toHaveLength(1);
+    // The head grew [anchor, now] = 1h of its 4h (banked by the settle) and
+    // stalls when the remaining 1h of fuel runs out; nothing was refunded to
+    // or taken from the tank (fuel has no per-pack earmarks).
+    expect(head?.baseDurationMs).toBe(3 * HOUR);
+    expect(machine?.unallocatedOilTime).toBe(HOUR);
+    expect(head?.growsUntil).toBe(now + HOUR);
+  });
+
+  it("throws when removing the pack the fuel has reached", () => {
+    expect(() =>
+      removeCropMachinePack({
+        state: stateWithMachine(queuedMachine()),
+        action: {
+          type: "cropMachine.packRemoved",
+          packIndex: 0,
+          machineId: "1",
+        },
+        createdAt: now,
+      }),
+    ).toThrow("Pack has already started");
+  });
+
+  it("throws when removing a finalised (completed) pack", () => {
+    const state = stateWithMachine({
+      oilSettledAt: now,
+      unallocatedOilTime: 0,
+      queue: [
+        {
+          crop: "Sunflower" as const,
+          seeds: 10,
+          growTimeRemaining: 0,
+          totalGrowTime: HOUR,
+          readyAt: now - HOUR,
+        },
+      ],
+    });
+
+    expect(() =>
+      removeCropMachinePack({
+        state,
         action: {
           type: "cropMachine.packRemoved",
           packIndex: 0,

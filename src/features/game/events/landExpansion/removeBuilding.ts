@@ -2,6 +2,8 @@ import type { BuildingName } from "features/game/types/buildings";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import type { CropMachineBuilding, GameState } from "features/game/types/game";
 import { produce } from "immer";
+import { getCropMachineBoostWindows } from "features/game/lib/boostWindows";
+import { settleCropMachine } from "features/game/lib/cropMachineReadiness";
 export enum REMOVE_BUILDING_ERRORS {
   INVALID_BUILDING = "This building does not exist",
   NO_BUMPKIN = "You do not have a Bumpkin",
@@ -61,7 +63,20 @@ export function removeBuilding({
 
     if (action.name === "Crop Machine") {
       const cropMachine = buildingToRemove as CropMachineBuilding;
-      if (cropMachine.queue) {
+      if (cropMachine.oilSettledAt !== undefined) {
+        // Windowed machine: bank every in-flight pack's accrued work and the
+        // fuel burn through the lift instant. `removedAt` (set above) is the
+        // pause marker — the resolver accrues nothing past it — so no
+        // pausedTimeRemaining scalar is needed; placeBuilding re-anchors
+        // `oilSettledAt` across the downtime. Banking here (not shifting
+        // timestamps on place) keeps boost credit earned before the lift even
+        // if the shrine expires while the machine sits in the inventory.
+        settleCropMachine({
+          machine: cropMachine,
+          windows: getCropMachineBoostWindows(stateCopy),
+          now: createdAt,
+        });
+      } else if (cropMachine.queue) {
         cropMachine.queue.forEach((pack) => {
           if (pack.readyAt) {
             pack.pausedTimeRemaining = pack.readyAt - createdAt;

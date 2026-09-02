@@ -1,7 +1,8 @@
 type Args = {
   totalGrowTime: number;
   startTime?: number;
-  now?: number;
+  /** The caller's clock (a `useNow` value in components — never `Date.now()`). */
+  now: number;
   readyAt?: number;
   growsUntil?: number;
   growTimeRemaining: number;
@@ -12,7 +13,7 @@ export const calculateCropProgress = ({
   readyAt,
   growsUntil,
   startTime,
-  now = Date.now(),
+  now,
   growTimeRemaining,
 }: Args) => {
   if (startTime === undefined || startTime > now) return 0;

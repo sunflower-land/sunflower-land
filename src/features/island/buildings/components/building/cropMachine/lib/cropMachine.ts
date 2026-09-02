@@ -51,11 +51,18 @@ function getGrowingCropPackStage(
   item: CropMachineQueueItem & { startTime: number },
   now: number,
 ): CropMachineGrowingStage {
-  const stageDuration = item.totalGrowTime / 3;
+  // A windowed pack (SPEED_BOOSTS) finishes at its DERIVED readyAt, which under
+  // a boost arrives sooner than startTime + totalGrowTime — so its stages are
+  // thirds of the real wall-clock interval, not of the base grow time (art
+  // only; readiness is decided by readyAt either way).
+  const stageDuration =
+    item.baseDurationMs !== undefined && item.readyAt !== undefined
+      ? (item.readyAt - item.startTime) / 3
+      : item.totalGrowTime / 3;
 
   const stage1Threshold = item.startTime + stageDuration;
   const stage2Threshold = stage1Threshold + stageDuration;
-  const harvestThreshold = item.startTime + item.totalGrowTime - 5000; // 5 seconds before the end
+  const harvestThreshold = item.startTime + stageDuration * 3 - 5000; // 5 seconds before the end
 
   if (now < stage1Threshold) return "planting";
   if (now < stage2Threshold) return "sprouting";
