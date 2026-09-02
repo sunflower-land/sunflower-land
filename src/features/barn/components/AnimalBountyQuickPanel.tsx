@@ -12,14 +12,11 @@ import {
 } from "features/game/events/landExpansion/sellBounty";
 import { Context } from "features/game/GameProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { weekResetsAt } from "features/game/lib/factions";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type { AnimalBounty, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getChapterTicket } from "features/game/types/chapters";
-import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useNow } from "lib/utils/hooks/useNow";
 import { getKeys } from "lib/object";
 
@@ -68,7 +65,6 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
   const state = useSelector(gameService, _game);
   const now = useNow({ live: true, intervalMs: 60_000 });
   const chapterTicket = getChapterTicket(now);
-  const expiresAt = useCountdown(weekResetsAt());
 
   const deals = useMemo(
     () =>
@@ -101,34 +97,16 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
     return ids;
   }, [deals, state, now]);
 
-  const dealGroups = useMemo(() => {
+  // Cards only, but keep the reward-type grouping order: coins, gems, tickets.
+  const orderedDeals = useMemo(() => {
     const coins = deals.filter((deal) => deal.coins !== undefined);
     const gems = deals.filter((deal) => deal.items?.Gem !== undefined);
     const tickets = deals.filter(
       (deal) => deal.coins === undefined && deal.items?.Gem === undefined,
     );
 
-    return [
-      {
-        id: "coins",
-        label: t("bountyType.label", { type: "coins" }),
-        icon: SUNNYSIDE.ui.coinsImg,
-        deals: coins,
-      },
-      {
-        id: "gems",
-        label: t("bountyType.label", { type: "Gem" }),
-        icon: ITEM_DETAILS.Gem.image,
-        deals: gems,
-      },
-      {
-        id: "tickets",
-        label: t("bountyType.label", { type: chapterTicket }),
-        icon: ITEM_DETAILS[chapterTicket].image,
-        deals: tickets,
-      },
-    ].filter((group) => group.deals.length > 0);
-  }, [deals, chapterTicket, t]);
+    return [...coins, ...gems, ...tickets];
+  }, [deals]);
 
   const renderDealCard = (deal: AnimalBounty) => {
     const isSold = state.bounties.completed.some(
@@ -161,7 +139,7 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
 
           <Label
             type="formula"
-            className="absolute -top-3 -left-1 whitespace-nowrap text-xxs"
+            className="absolute -top-3 -left-2 whitespace-nowrap"
           >
             {t("bounties.minLevel", { level: deal.level })}
           </Label>
@@ -170,12 +148,12 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
             <Label
               type="warning"
               icon={SUNNYSIDE.ui.coinsImg}
-              className="absolute text-center text-xxs p-1"
+              className="absolute -bottom-2 text-center p-1"
               style={{
-                left: `${PIXEL_SCALE * -2}px`,
-                bottom: `${PIXEL_SCALE * -2}px`,
-                width: `calc(100% + ${PIXEL_SCALE * 4}px)`,
-                height: "23px",
+                left: `${PIXEL_SCALE * -3}px`,
+                right: `${PIXEL_SCALE * -3}px`,
+                width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+                height: "25px",
               }}
             >
               {coins}
@@ -187,12 +165,12 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
               key={name}
               type="warning"
               icon={ITEM_DETAILS[name].image}
-              className="absolute text-center text-xxs p-1"
+              className="absolute -bottom-2 text-center p-1"
               style={{
-                left: `${PIXEL_SCALE * -2}px`,
-                bottom: `${PIXEL_SCALE * -2}px`,
-                width: `calc(100% + ${PIXEL_SCALE * 4}px)`,
-                height: "23px",
+                left: `${PIXEL_SCALE * -3}px`,
+                right: `${PIXEL_SCALE * -3}px`,
+                width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+                height: "25px",
               }}
             >
               {name !== chapterTicket
@@ -218,41 +196,17 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
 
   return (
     <InnerPanel className="flex min-h-0 flex-1 flex-col overflow-hidden">
-      <div className="flex items-center justify-between mb-1">
-        <Label type="default">{t("bounties.board")}</Label>
-        <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-          <TimerDisplay time={expiresAt} />
-        </Label>
-      </div>
-      <p className="text-xs mb-2">{t("bounties.board.info")}</p>
-
-      <div className="scrollable min-h-0 flex-1 overflow-y-auto overflow-x-hidden pb-1">
-        {deals.length > 0 ? (
-          <div className="flex flex-col py-2 sm:flex-row sm:flex-wrap sm:items-start sm:gap-x-3 sm:gap-y-3">
-            {dealGroups.map((group) => (
-              <div
-                key={group.id}
-                className="mb-3 sm:w-fit sm:flex-none sm:mb-0"
-              >
-                <Label type="default" icon={group.icon} className="mb-2 ml-2">
-                  {group.label}
-                </Label>
-                <div className="flex flex-wrap gap-x-1 gap-y-2">
-                  {group.deals.map(renderDealCard)}
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="h-20 flex items-center justify-center px-4">
-            <span className="text-xs">{t("bounties.board.empty")}</span>
-          </div>
-        )}
-      </div>
-      {deals.length > 0 && (
-        <p className="text-xs mt-1">
-          {t("bounties.board.ticketAmount", { chapterTicket })}
-        </p>
+      {deals.length > 0 ? (
+        // Just the cards: a single scrolling row keeps the panel as short as
+        // possible. Top/bottom padding leaves room for the cards' overhanging
+        // level and reward labels.
+        <div className="scrollable flex flex-nowrap items-start gap-x-3 overflow-x-auto overflow-y-hidden px-1 pt-3 pb-2">
+          {orderedDeals.map(renderDealCard)}
+        </div>
+      ) : (
+        <div className="h-20 flex items-center justify-center px-4">
+          <span className="text-xs">{t("bounties.board.empty")}</span>
+        </div>
       )}
     </InnerPanel>
   );

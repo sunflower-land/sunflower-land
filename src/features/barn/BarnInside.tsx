@@ -13,6 +13,7 @@ import { getKeys, getValues } from "lib/object";
 import { ANIMALS, type AnimalType } from "features/game/types/animals";
 import { Cow } from "./components/Cow";
 import { Sheep } from "./components/Sheep";
+import shopDisc from "assets/icons/shop_disc.png";
 
 import {
   AnimalBuildingModal,
@@ -24,7 +25,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
 import { ANIMAL_HOUSE_IMAGES } from "features/henHouse/HenHouseInside";
 import type { AnimalBounty } from "features/game/types/game";
-import { AnimalDeal } from "./components/AnimalBounties";
+import { AnimalDeal, ExchangeHud } from "./components/AnimalBounties";
 import { AnimalBountySellPanel } from "./components/AnimalBountySellPanel";
 import { Modal } from "components/ui/Modal";
 import classNames from "classnames";
@@ -38,7 +39,6 @@ import { hasFeatureAccess } from "lib/flags";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { isBuildingDestroyed } from "features/island/buildings/components/building/Building";
-import { AnimalBuildingActions } from "features/game/expansion/components/animals/AnimalBuildingActions";
 
 export const EXTERIOR_ISLAND_BG: Record<LandBiomeName, string> = {
   "Basic Biome": SUNNYSIDE.land.basic_building_bg,
@@ -70,10 +70,11 @@ const BARN_ANIMAL_COMPONENTS: Record<
 
 export const BarnInside: React.FC = () => {
   const { gameService } = useContext(Context);
-  const [showBuyModal, setShowBuyModal] = useState(false);
-  const [showGuideModal, setShowGuideModal] = useState(!hasReadGuide());
-  const [showSellPanel, setShowSellPanel] = useState(false);
+  const [showModal, setShowModal] = useState(!hasReadGuide());
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  // Bonus quick-sell flow: the skull disc docks the bounty cards at the
+  // bottom of the screen instead of opening the shop modal's Sell tab.
+  const [showSellPanel, setShowSellPanel] = useState(false);
   const [selectedAnimalId, setSelectedAnimalId] = useState<string>();
   const [deal, setDeal] = useState<AnimalBounty>();
   const { authService } = useContext(AuthContext);
@@ -153,6 +154,15 @@ export const BarnInside: React.FC = () => {
   }, [animalCount, sickAnimalCount, floorWidth]);
   const currentBiome = getCurrentBiome(island);
 
+  const validAnimalsCount = useMemo(() => {
+    if (!deal) return 0;
+    return organizedAnimals.filter((animal) =>
+      isValidDeal({ animal, deal, game }),
+    ).length;
+  }, [organizedAnimals, deal, game]);
+
+  // Quick-sell (panel) flow: sell on click, only confirming when the sale
+  // deserves a second look (sick animal discount / attached reward).
   const handleAnimalSale = (animalId: string) => {
     if (!deal) return;
 
@@ -193,19 +203,14 @@ export const BarnInside: React.FC = () => {
 
   return (
     <>
-      <Modal show={showBuyModal} onHide={() => setShowBuyModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <AnimalBuildingModal
           buildingName="Barn"
-          view="buy"
-          onClose={() => setShowBuyModal(false)}
-        />
-      </Modal>
-
-      <Modal show={showGuideModal} onHide={() => setShowGuideModal(false)}>
-        <AnimalBuildingModal
-          buildingName="Barn"
-          view="guide"
-          onClose={() => setShowGuideModal(false)}
+          onClose={() => setShowModal(false)}
+          onExchanging={(deal) => {
+            setShowModal(false);
+            setDeal(deal);
+          }}
         />
       </Modal>
 
@@ -321,7 +326,11 @@ export const BarnInside: React.FC = () => {
                             e.stopPropagation();
                             e.preventDefault();
                             if (!isValid) return;
-                            handleAnimalSale(animal.id.toString());
+                            if (showSellPanel) {
+                              handleAnimalSale(animal.id.toString());
+                            } else {
+                              setSelectedAnimalId(animal.id.toString());
+                            }
                           }
                         }}
                       >
@@ -332,37 +341,71 @@ export const BarnInside: React.FC = () => {
                 </div>
               </MapPlacement>
 
-              {!deal &&
-                !showSellPanel &&
-                !showBuyModal &&
-                !showGuideModal &&
-                !showUpgradeModal && (
-                  <>
-                    <AnimalBuildingActions
-                      onBuy={() => setShowBuyModal(true)}
-                      onSell={() => setShowSellPanel(true)}
-                      onGuide={() => setShowGuideModal(true)}
-                      onUpgrade={() => setShowUpgradeModal(true)}
-                    />
+              {!deal && !showSellPanel && (
+                <>
+                  <img
+                    src={shopDisc}
+                    alt="Buy Animals"
+                    className="absolute top-[18px] right-[18px] cursor-pointer z-10"
+                    style={{
+                      width: `${PIXEL_SCALE * 18}px`,
+                    }}
+                    onClick={() => setShowModal(true)}
+                  />
 
-                    <Button
-                      className="absolute -bottom-16"
-                      onClick={() => navigate("/")}
-                    >
-                      {t("exit")}
-                    </Button>
-                  </>
-                )}
+                  <div
+                    role="button"
+                    aria-label="Sell Animals"
+                    className="absolute top-[18px] cursor-pointer z-10 hover:img-highlight"
+                    style={{
+                      width: `${PIXEL_SCALE * 18}px`,
+                      right: `${18 + PIXEL_SCALE * 19}px`,
+                    }}
+                    onClick={() => setShowSellPanel(true)}
+                  >
+                    <img className="w-full" src={SUNNYSIDE.icons.disc} alt="" />
+                    <img
+                      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                      src={SUNNYSIDE.icons.death}
+                      alt=""
+                      style={{ width: `${PIXEL_SCALE * 9}px` }}
+                    />
+                  </div>
+
+                  <img
+                    src={SUNNYSIDE.icons.upgrade_disc}
+                    alt="Upgrade Building"
+                    className="absolute top-[18px] left-[18px] cursor-pointer z-10"
+                    style={{
+                      width: `${PIXEL_SCALE * 18}px`,
+                    }}
+                    onClick={() => setShowUpgradeModal(true)}
+                  />
+
+                  <Button
+                    className="absolute -bottom-16"
+                    onClick={() => navigate("/")}
+                  >
+                    {t("exit")}
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </div>
       </>
 
-      {!deal &&
-        !showSellPanel &&
-        !showBuyModal &&
-        !showGuideModal &&
-        !showUpgradeModal && <Hud isFarming={false} location="home" />}
+      {!deal && !showSellPanel && <Hud isFarming={false} location="home" />}
+
+      {deal && !showSellPanel && (
+        <ExchangeHud
+          deal={deal}
+          onClose={() => {
+            setDeal(undefined);
+          }}
+          validAnimalsCount={validAnimalsCount}
+        />
+      )}
 
       <PlayerModal
         loggedInFarmId={loggedInFarmId}
