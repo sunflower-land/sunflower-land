@@ -77,6 +77,10 @@ export const ERRORS = {
   // Player has disabled Google as a login method on this farm
   GOOGLE_LOGIN_DISABLED: "GOOGLE_LOGIN_DISABLED",
 
+  // A browser extension or the browser's own page translation moved the DOM
+  // nodes React tracks, blowing up its commit phase. Not a game bug.
+  EXTERNAL_DOM_MUTATION: "EXTERNAL_DOM_MUTATION",
+
   // Twitter showcase (Community feed) errors
   TWITTER_NOT_CONNECTED: "TWITTER_NOT_CONNECTED",
   TWITTER_ALREADY_SHOWCASED: "TWITTER_ALREADY_SHOWCASED",
