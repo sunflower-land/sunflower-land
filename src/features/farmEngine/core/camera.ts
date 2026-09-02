@@ -74,6 +74,14 @@ export class FarmCameraController {
   /** Set while landscaping drags a ghost/item so panning doesn't fight it. */
   panSuspended = false;
 
+  /**
+   * Fired when the user moves the viewport themselves — a drag crossing the
+   * pan dead zone, a wheel scroll, or any zoom. The scene uses it to dismiss
+   * transient UI (the SFT popover) that shouldn't ride along with a pan.
+   * NOT fired by programmatic moves (panToWorldRect, restore).
+   */
+  onUserGesture: (() => void) | undefined;
+
   /** Pinch baseline, captured when a second pointer goes down. */
   private pinchStartDistance = 0;
   private pinchStartZoom = 1;
@@ -170,6 +178,7 @@ export class FarmCameraController {
         );
         if (travelled < PAN_DEAD_ZONE_CSS_PX * DPR) return;
         this.panArmed = true;
+        this.onUserGesture?.();
       }
 
       const camera = this.scene.cameras.main;
@@ -214,6 +223,7 @@ export class FarmCameraController {
       }
       if (this.panSuspended) return;
       this.stopGlide();
+      this.onUserGesture?.();
       const camera = this.scene.cameras.main;
       // Wheel deltas are CSS px; camera maths are buffer px (CSS * DPR).
       camera.scrollX += (deltaX * DPR) / camera.zoom;
@@ -265,6 +275,9 @@ export class FarmCameraController {
     this.userZoom = clamped;
     this.applyZoom();
     this.anchors.reprojectAll();
+    // Every zoom path is a user gesture (pinch, ctrl+wheel) — restore() sets
+    // userZoom directly, so a mount never fires this.
+    this.onUserGesture?.();
   }
 
   /** Persist viewport for the next farm mount (called on scene shutdown). */

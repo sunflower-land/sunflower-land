@@ -84,6 +84,9 @@ export class FarmScene extends Phaser.Scene {
     this.yieldEventFloats = new YieldEventFloats(this, this.bridge);
 
     this.farmCamera.attach(this.bridge.select(_expansionCount));
+    // Panning or zooming dismisses the SFT popover — a tooltip riding along
+    // with the viewport reads as broken, especially on touch.
+    this.farmCamera.onUserGesture = () => this.bridge.sftPopover.set(null);
     this.subscriptions.push(
       this.bridge.subscribe(_expansionCount, (count) =>
         this.farmCamera.setExpansionCount(count),
