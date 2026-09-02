@@ -8467,5 +8467,7 @@
   "islandupgrade.reapplyLayout": "重新申请 '{{name}}'",
   "savedLayouts.loadFailed": "无法加载您的布局。请再试一次。",
   "savedLayouts.actionFailed": "出了点问题。请再试一次。",
-  "savedLayouts.ascensionBadge": "升序后重新应用选项"
+  "savedLayouts.ascensionBadge": "升序后重新应用选项",
+  "bounties.minLevel": "等级 {{level}} +",
+  "bounties.sellAnimals": "卖动物"
 }

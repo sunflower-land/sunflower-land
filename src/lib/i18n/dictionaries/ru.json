@@ -8467,5 +8467,7 @@
   "islandupgrade.reapplyLayout": "Re-apply '{{name}}'",
   "savedLayouts.loadFailed": "Could not load your layouts. Please try again.",
   "savedLayouts.actionFailed": "Something went wrong. Please try again.",
-  "savedLayouts.ascensionBadge": "Re-applied option after ascending"
+  "savedLayouts.ascensionBadge": "Re-applied option after ascending",
+  "bounties.minLevel": "Lvl {{level}}+",
+  "bounties.sellAnimals": "Sell animals"
 }

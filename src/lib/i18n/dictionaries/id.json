@@ -8467,5 +8467,7 @@
   "islandupgrade.reapplyLayout": "Terapkan kembali '{{name}}'",
   "savedLayouts.loadFailed": "Tidak dapat memuat tata letak Anda. Silakan coba lagi.",
   "savedLayouts.actionFailed": "Ada yang tidak beres. Silakan coba lagi.",
-  "savedLayouts.ascensionBadge": "Opsi yang diterapkan kembali setelah naik"
+  "savedLayouts.ascensionBadge": "Opsi yang diterapkan kembali setelah naik",
+  "bounties.minLevel": "Tingkat {{level}} +",
+  "bounties.sellAnimals": "Jual hewan"
 }

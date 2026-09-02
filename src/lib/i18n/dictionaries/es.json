@@ -8467,5 +8467,7 @@
   "islandupgrade.reapplyLayout": "Vuelva a aplicar '{{name}}'",
   "savedLayouts.loadFailed": "No se han podido cargar los diseños. Vuelva a intentarlo.",
   "savedLayouts.actionFailed": "Algo salió mal. Por favor, inténtelo de nuevo.",
-  "savedLayouts.ascensionBadge": "Opción reaplicada después de ascender"
+  "savedLayouts.ascensionBadge": "Opción reaplicada después de ascender",
+  "bounties.minLevel": "Nivel {{level}} +",
+  "bounties.sellAnimals": "Vender animales"
 }

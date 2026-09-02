@@ -4190,6 +4190,8 @@
   "bounties.board.ticketAmount": "The amount of {{chapterTicket}}s will vary each week based on the requests.",
   "bounties.board.empty": "There are no deals available right now.",
   "bounties.sold": "Sold",
+  "bounties.minLevel": "Lvl {{level}}+",
+  "bounties.sellAnimals": "Sell animals",
   "bounties.sell.coins": "Are you sure you want to sell this for {{amount}} coins?",
   "bounties.sell.items": "Are you sure you want to sell this for {{amount}}?",
   "bounties.sell.sfl": "Are you sure you want to sell this for {{amount}} FLOWER?",

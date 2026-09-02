@@ -8467,5 +8467,7 @@
   "islandupgrade.reapplyLayout": "'{{name}}' を再適用してください",
   "savedLayouts.loadFailed": "レイアウトを読み込めませんでした。もう一度試してください。",
   "savedLayouts.actionFailed": "何かがおかしくなった。もう一度試してください。",
-  "savedLayouts.ascensionBadge": "昇順後に再適用されたオプション"
+  "savedLayouts.ascensionBadge": "昇順後に再適用されたオプション",
+  "bounties.minLevel": "レベル {{level}} +",
+  "bounties.sellAnimals": "動物を売る"
 }

@@ -8467,5 +8467,7 @@
   "islandupgrade.reapplyLayout": "'[ 0@/$] 'yeniden uygulayın",
   "savedLayouts.loadFailed": "Düzenleriniz yüklenemedi. Lütfen tekrar deneyin.",
   "savedLayouts.actionFailed": "Bir şeyler ters gitti. Lütfen tekrar deneyin.",
-  "savedLayouts.ascensionBadge": "Artıştan sonra yeniden uygulanan seçenek"
+  "savedLayouts.ascensionBadge": "Artıştan sonra yeniden uygulanan seçenek",
+  "bounties.minLevel": "Lvl {{level}} +",
+  "bounties.sellAnimals": "Hayvanları satmak"
 }
