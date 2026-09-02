@@ -25,6 +25,12 @@
  * the sentinel is one of our own players whose browser could not run the
  * module. The API logs the two separately so the second group can be sized
  * before enforcement is turned on.
+ *
+ * A load that failed because the module never arrived — a blocker, a
+ * captive portal, a mobile connection that dropped — is retried lazily on
+ * a later request rather than written off for the whole page session (see
+ * ensureSigner). A load that failed because the engine will not run wasm
+ * is not: that answer does not change before the next reload.
  */
 
 import { fetchWithRetry, type FetchWithRetryOptions } from "lib/fetchWithRetry";
@@ -152,6 +158,49 @@ function failureDetail(e: unknown): string {
     .slice(0, 256);
 }
 
+/**
+ * Failure codes worth trying again inside the same page session.
+ *
+ * Only the ones where nothing about the engine is wrong and the module
+ * simply never arrived: an ad-blocker or DNS filter, a captive portal, a
+ * mobile connection that dropped mid-fetch. Every one of those can be true
+ * when `/session` completes and false a minute later.
+ *
+ * `compile-failed`, `link-failed`, `wasm-unavailable`, `no-wasm-global`,
+ * `bad-mime` and `csp-blocked` are deliberately excluded: the bytes
+ * arrived and this engine will not run them, so refetching is pure waste
+ * on exactly the devices least able to afford it. So is `sign-*` — there
+ * the module loaded and traps when used, which reloading does not fix.
+ */
+function isTransientFailure(code: string): boolean {
+  if (code === "fetch-failed" || code === "import-failed") return true;
+
+  // Unmatched failures keep their stage and error type
+  // (`init-unknown-typeerror`). A fetch failing in wording the classifier
+  // has not seen still surfaces as a TypeError or a NetworkError, so treat
+  // those as network-ish; any other unknown is left alone.
+  return /^(?:(?:import|init)-)?unknown(?:-(?:typeerror|networkerror))?$/.test(
+    code,
+  );
+}
+
+/**
+ * How hard the layer tries to recover a transient load failure without a
+ * reload: a handful of attempts, the first no sooner than the interval
+ * below and each subsequent one twice as far out. The bound is the point —
+ * a player behind a captive portal must not refetch the module on every
+ * autosave.
+ */
+const MAX_SIGNER_RETRIES = 3;
+const SIGNER_RETRY_INTERVAL_MS = 30_000;
+/**
+ * How long a request will wait on a retry before going out with the
+ * sentinel anyway. The attempt carries on in the background and a later
+ * request picks up its result; this one is not held behind a module fetch
+ * on the sort of connection that failed it in the first place.
+ */
+const SIGNER_RETRY_WAIT_MS = 2_000;
+
 let signer: TokenModule | undefined;
 let expiresAt: number | undefined;
 /**
@@ -180,6 +229,21 @@ let signerFailureDetail = "";
 let initInFlight: Promise<void> | undefined;
 
 /**
+ * The session the layer was last given a code for. Kept because the code
+ * itself goes into the signer and is not stored anywhere else — on the
+ * failure path there is no signer, so without this there would be nothing
+ * to re-initialise with.
+ */
+let lastSession:
+  | { sessionCode: string; sessionCodeExpiresAt: number }
+  | undefined;
+/** Retries spent since the last `/session`, and when the next may run. */
+let retries = 0;
+let retryAfter = 0;
+/** The in-flight retry, shared by every request that arrives during it. */
+let retryInFlight: Promise<void> | undefined;
+
+/**
  * Initialise the token layer from the `/session` response. Safe to call on
  * every session start — a fresh session replaces the code.
  */
@@ -187,6 +251,10 @@ export async function initRequestTokens(params: {
   sessionCode?: string;
   sessionCodeExpiresAt?: number;
 }): Promise<void> {
+  // A fresh session is a fresh start: whatever the last one spent on
+  // retries, this one gets the full budget.
+  retries = 0;
+  retryAfter = 0;
   initInFlight = init(params);
   return initInFlight;
 }
@@ -197,12 +265,18 @@ async function init(params: {
 }): Promise<void> {
   if (!params.sessionCode || !params.sessionCodeExpiresAt) {
     signer?.clearSession();
+    lastSession = undefined;
     expiresAt = undefined;
     state = "no-session-code";
     signerFailure = "";
     signerFailureDetail = "";
     return;
   }
+
+  lastSession = {
+    sessionCode: params.sessionCode,
+    sessionCodeExpiresAt: params.sessionCodeExpiresAt,
+  };
 
   try {
     signer ??= await loadTokenModule();
@@ -219,16 +293,23 @@ async function init(params: {
     state = "signer-failed";
     signerFailure = failureCode(e);
     signerFailureDetail = failureDetail(e);
+    // Arm the next lazy retry (see ensureSigner), but not immediately: the
+    // failure has only just happened and the next protected request is
+    // often milliseconds away.
+    retryAfter = Date.now() + SIGNER_RETRY_INTERVAL_MS * 2 ** retries;
   }
 }
 
 /** Forget the session code (logout). */
 export function clearRequestTokens() {
   signer?.clearSession();
+  lastSession = undefined;
   expiresAt = undefined;
   state = "logged-out";
   signerFailure = "";
   signerFailureDetail = "";
+  retries = 0;
+  retryAfter = 0;
 }
 
 export function requestTokensActive(): boolean {
@@ -307,6 +388,71 @@ function sentinelHeaders(): Record<string, string> {
 }
 
 /**
+ * Starts a signer retry if one is due, and returns it. Everything up to
+ * storing the attempt is synchronous, so concurrent requests share one
+ * attempt rather than each starting their own.
+ */
+function beginSignerRetry(): Promise<void> | undefined {
+  if (
+    state !== "signer-failed" ||
+    !lastSession ||
+    !isTransientFailure(signerFailure) ||
+    retries >= MAX_SIGNER_RETRIES ||
+    Date.now() < retryAfter
+  ) {
+    return undefined;
+  }
+
+  retries += 1;
+
+  // `init` never rejects and rearms `retryAfter` itself if this fails.
+  const attempt = init(lastSession).finally(() => {
+    if (retryInFlight === attempt) retryInFlight = undefined;
+  });
+  retryInFlight = attempt;
+
+  return attempt;
+}
+
+/** Races `promise` against a timer, cleaning the timer up if it wins. */
+function withTimeout(promise: Promise<void>, ms: number): Promise<void> {
+  let timer!: ReturnType<typeof setTimeout>;
+
+  return Promise.race([
+    promise.finally(() => clearTimeout(timer)),
+    new Promise<void>((resolve) => {
+      timer = setTimeout(resolve, ms);
+    }),
+  ]);
+}
+
+/**
+ * Give the signer its chance before a request goes out.
+ *
+ * Two cases. The cold load is still running — wait for it rather than
+ * racing it. Or a previous load failed for a reason that may no longer be
+ * true: those get a bounded number of lazy retries, so a page session that
+ * began behind a blocker or on a dropped connection can start signing
+ * without the player reloading the game.
+ *
+ * Either way this settles, and quickly: a request is never failed, and
+ * never held for long, because the token layer could not sort itself out.
+ */
+async function ensureSigner(): Promise<void> {
+  if (requestTokensActive()) return;
+
+  // `initRequestTokens` always settles (it swallows its own failures), so
+  // this cannot hang. Nothing in flight means nothing to wait for.
+  if (initInFlight) await initInFlight;
+
+  // Coordinated with the cold load above, and shared between callers: a
+  // burst of autosaves triggers one module fetch between them, not one
+  // each.
+  const attempt = retryInFlight ?? beginSignerRetry();
+  if (attempt) await withTimeout(attempt, SIGNER_RETRY_WAIT_MS);
+}
+
+/**
  * Drop-in replacement for `fetchWithRetry` on protected endpoints — both
  * the state-mutating ones and the read-only ones we don't want scraped.
  *
@@ -323,12 +469,10 @@ export async function secureFetch(
 ): Promise<Response> {
   const url = typeof input === "string" ? input : String(input);
 
-  // If the signer is still loading, wait for it rather than racing it.
-  // `initRequestTokens` always settles (it swallows its own failures), so
-  // this cannot hang. Nothing in flight means nothing to wait for.
-  if (initInFlight && !requestTokensActive()) {
-    await initInFlight;
-  }
+  // Wait on a signer that is still loading, and retry one that failed for
+  // a reason that might have passed. Never blocks for long, and never
+  // throws: a request that cannot be signed still goes, with the sentinel.
+  await ensureSigner();
 
   return fetchWithRetry(
     input,

@@ -440,6 +440,135 @@ describe("requestToken signer load failures", () => {
   });
 });
 
+describe("requestToken retrying a failed signer load", () => {
+  let fetchMock: jest.Mock;
+  let now: number;
+
+  beforeEach(() => {
+    jest.resetModules();
+    fetchMock = jest.fn().mockResolvedValue({ ok: true });
+    (window as unknown as { fetch: unknown }).fetch = fetchMock;
+    // The retry is gated on a minimum interval, so the clock has to move.
+    now = Date.now();
+    jest.spyOn(Date, "now").mockImplementation(() => now);
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  const sentHeaders = (call: number) =>
+    (fetchMock.mock.calls[call][1]?.headers ?? {}) as Record<string, string>;
+
+  /** Past the cooldown, whichever attempt we are on. */
+  const waitOutBackoff = () => {
+    now += 10 * 60 * 1000;
+  };
+
+  const bootWithLoader = (loadTokenModule: jest.Mock) => {
+    jest.doMock("./loader", () => ({ loadTokenModule }));
+
+    /* eslint-disable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
+    return require("./index") as typeof import("./index");
+    /* eslint-enable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
+  };
+
+  const save = (tokens: ReturnType<typeof bootWithLoader>) =>
+    tokens.secureFetch("https://api.test/autosave/1", { method: "POST" });
+
+  it("recovers from a transient failure and signs from then on", async () => {
+    // The 84 accounts this is for: the module never arrived — a blocker, a
+    // captive portal, a dropped mobile connection — and the connection is
+    // fine again a minute later.
+    const loadTokenModule = jest
+      .fn()
+      .mockRejectedValueOnce({
+        stage: "init",
+        cause: new TypeError("Failed to fetch"),
+      })
+      .mockResolvedValue({
+        initSession: () => undefined,
+        clearSession: () => undefined,
+        hasSession: () => true,
+        signRequest,
+      });
+
+    const tokens = bootWithLoader(loadTokenModule);
+
+    await tokens.initRequestTokens(session);
+    await save(tokens);
+
+    // Flagged, and no retry yet: the failure is seconds old, and an
+    // autosave must not refetch the module the moment one fails.
+    expect(sentHeaders(0)["X-Token"]).toBe("incompatible_wasm:fetch-failed");
+    expect(loadTokenModule).toHaveBeenCalledTimes(1);
+
+    waitOutBackoff();
+    await save(tokens);
+
+    // Previously every request for the rest of the page's life carried the
+    // sentinel; now the session heals itself without a reload.
+    expect(loadTokenModule).toHaveBeenCalledTimes(2);
+    expect(tokens.requestTokensActive()).toBe(true);
+    expect(sentHeaders(1)["X-Token"]).toBe("tok(POST|/autosave/1|0)");
+    expect(sentHeaders(1)["X-Expires"]).toBe(String(EXPIRES_AT));
+    expect(sentHeaders(1)["X-Token-Detail"]).toBeUndefined();
+  });
+
+  it("does not retry a failure this engine will never resolve", async () => {
+    const loadTokenModule = jest
+      .fn()
+      .mockRejectedValue(
+        new Error(
+          "Refused to compile or instantiate WebAssembly module because " +
+            "'unsafe-eval' is not an allowed source of script in the " +
+            "following Content Security Policy directive: \"script-src 'self'\"",
+        ),
+      );
+
+    const tokens = bootWithLoader(loadTokenModule);
+
+    await tokens.initRequestTokens(session);
+    for (let i = 0; i < 3; i++) {
+      waitOutBackoff();
+      await save(tokens);
+    }
+
+    // The bytes arrived and the engine refused them. Refetching costs a
+    // request on every save and cannot change the answer.
+    expect(loadTokenModule).toHaveBeenCalledTimes(1);
+    expect(sentHeaders(2)["X-Token"]).toBe("incompatible_wasm:csp-blocked");
+  });
+
+  it("shares one attempt across concurrent requests, and stops at the cap", async () => {
+    const loadTokenModule = jest
+      .fn()
+      .mockRejectedValue(new TypeError("Failed to fetch"));
+
+    const tokens = bootWithLoader(loadTokenModule);
+
+    await tokens.initRequestTokens(session);
+
+    // Six rounds of five simultaneous saves, each round well past the
+    // backoff. A burst must cost one module fetch between them, not one
+    // each — a player on a captive portal is the worst place to spend
+    // five.
+    for (let round = 0; round < 6; round++) {
+      waitOutBackoff();
+      await Promise.all(Array.from({ length: 5 }, () => save(tokens)));
+
+      expect(loadTokenModule.mock.calls.length).toBeLessThanOrEqual(round + 2);
+    }
+
+    // The cold load plus the retry budget, however long the page lives.
+    expect(loadTokenModule).toHaveBeenCalledTimes(4);
+    // And every one of those saves still went out, still flagged with the
+    // real cause.
+    expect(fetchMock).toHaveBeenCalledTimes(30);
+    expect(sentHeaders(29)["X-Token"]).toBe("incompatible_wasm:fetch-failed");
+  });
+});
+
 describe("requestToken while the signer is still loading", () => {
   let fetchMock: jest.Mock;
 
