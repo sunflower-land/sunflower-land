@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
@@ -6,6 +6,14 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
+import { loadLayouts } from "features/game/actions/loadLayouts";
+import {
+  applyLayoutEffect,
+  createLayoutEffect,
+  flushPendingActions,
+} from "features/game/actions/layoutEffects";
+import { Checkbox } from "components/ui/Checkbox";
+import { MAX_SAVED_LAYOUTS, type SavedLayout } from "features/game/types/game";
 import { MapPlacement } from "./MapPlacement";
 
 import { Button } from "components/ui/Button";
@@ -109,12 +117,16 @@ const NO_ISLAND_UPGRADE: Pick<
 
 const IslandUpgraderModal: React.FC<{
   onClose: () => void;
-  onUpgrade: () => void;
+  onUpgrade: (options: { saveLayout: boolean }) => void;
 }> = ({ onClose, onUpgrade }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const [showConfirmation, setShowConfirmation] = useState(false);
+  // "Save my current layout" prompt (ascensions only). The save is a normal
+  // cap-counted layout, so the slot state decides checkbox vs hint.
+  const [saveLayout, setSaveLayout] = useState(true);
+  const [layoutSlotsFull, setLayoutSlotsFull] = useState(false);
 
   const { island, inventory, collectibles, home, coins, bumpkin } =
     gameState.context.state;
@@ -161,6 +173,26 @@ const IslandUpgraderModal: React.FC<{
       ascensionLevel: island.ascensionLevel ?? 0,
     }).isReadyToAscend;
 
+  useEffect(() => {
+    if (!isAscensionUpgrade) return;
+
+    let cancelled = false;
+    const token = gameService.getSnapshot().context.rawToken as string;
+
+    loadLayouts({ token })
+      .then((data) => {
+        if (cancelled) return;
+        setLayoutSlotsFull(data.layouts.length >= MAX_SAVED_LAYOUTS);
+      })
+      // Best-effort — on failure the checkbox stays and the save may no-op.
+      .catch(() => undefined);
+
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAscensionUpgrade]);
+
   if (showConfirmation) {
     return (
       <Panel>
@@ -173,18 +205,46 @@ const IslandUpgraderModal: React.FC<{
               ? t("islandupgrade.confirmAscend")
               : t("islandupgrade.confirmUpgrade")}
           </p>
-          {/* Ascension (volcano onward) preserves the arrangement rather than
-              digging everything up - see transitionToIsland in upgradeFarm.ts. */}
+          {/* First ascension (volcano onward) keeps the arrangement in place;
+              later ascensions reset to the initial land, with an explicit
+              re-apply offer afterwards - see transitionToIsland. */}
           <p className="text-xs mt-2">
             {isAscensionUpgrade
-              ? t("islandupgrade.warningAscend")
+              ? island.type === "volcano"
+                ? t("islandupgrade.warningAscend")
+                : t("islandupgrade.warningAscendReset")
               : t("islandupgrade.warning1")}
           </p>
+          {isAscensionUpgrade &&
+            (layoutSlotsFull ? (
+              <p className="text-xs mt-2">
+                {t("islandupgrade.saveLayoutSlotsFull")}
+              </p>
+            ) : (
+              <div className="flex items-center gap-2 mt-2">
+                <Checkbox
+                  checked={saveLayout}
+                  onChange={setSaveLayout}
+                  aria-label={t("islandupgrade.saveLayoutPrompt")}
+                />
+                <span className="text-xs">
+                  {t("islandupgrade.saveLayoutPrompt")}
+                </span>
+              </div>
+            ))}
         </div>
 
         <div className="flex">
           <Button onClick={() => setShowConfirmation(false)}>{t("no")}</Button>
-          <Button className="ml-1" onClick={onUpgrade}>
+          <Button
+            className="ml-1"
+            onClick={() =>
+              onUpgrade({
+                saveLayout:
+                  isAscensionUpgrade && !layoutSlotsFull && saveLayout,
+              })
+            }
+          >
             {t("yes")}
           </Button>
         </div>
@@ -371,7 +431,6 @@ const _ascensionLevel = (state: MachineState) =>
   state.context.state.island?.ascensionLevel ?? 0;
 const _expansionCount = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 3;
-
 export const IslandUpgrader: React.FC<Props> = ({ offset }) => {
   const { t } = useAppTranslation();
 
@@ -384,13 +443,44 @@ export const IslandUpgrader: React.FC<Props> = ({ offset }) => {
   const [showModal, setShowModal] = useState(false);
   const [showTravelAnimation, setShowTravelAnimation] = useState(false);
   const [showUpgraded, setShowUpgraded] = useState(false);
+  // The layout offered for one-tap re-apply in the post-upgrade modal
+  // (later ascensions only, and only when the pointer resolves).
+  const [reapplyLayout, setReapplyLayout] = useState<SavedLayout | undefined>();
+  const [reapplying, setReapplying] = useState(false);
 
   const [scrollIntoView] = useScrollIntoView();
 
-  const onUpgrade = async () => {
-    setShowTravelAnimation(true);
+  const onUpgrade = async ({ saveLayout }: { saveLayout: boolean }) => {
+    // Captured before the upgrade mutates the island.
+    const wasAscensionUpgrade = hasRequiredIslandExpansion(
+      islandType,
+      "volcano",
+    );
+    const wasFirstAscension = islandType === "volcano";
 
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    setShowTravelAnimation(true);
+    const travelWait = new Promise((resolve) => setTimeout(resolve, 2000));
+
+    // "Save my current layout": snapshot the pre-ascension farm as a normal
+    // saved layout, marked as the post-ascension re-apply target. Flush
+    // first so the server snapshot includes any unsent local actions.
+    if (saveLayout) {
+      try {
+        await flushPendingActions(gameService);
+        const { farmId, rawToken, state } = gameService.getSnapshot().context;
+        await createLayoutEffect({
+          farmId: farmId as number,
+          token: rawToken as string,
+          state,
+          markAscension: true,
+        });
+      } catch {
+        // Non-fatal — the upgrade continues; a layout can be saved later
+        // from the Saved Layouts modal.
+      }
+    }
+
+    await travelWait;
 
     setShowModal(false);
     gameService.send("PAUSE");
@@ -402,6 +492,20 @@ export const IslandUpgrader: React.FC<Props> = ({ offset }) => {
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
+    // Later ascensions reset the land — offer a one-tap re-apply of the
+    // saved ascension layout in the post-upgrade modal.
+    if (wasAscensionUpgrade && !wasFirstAscension) {
+      try {
+        const token = gameService.getSnapshot().context.rawToken as string;
+        const data = await loadLayouts({ token });
+        setReapplyLayout(
+          data.layouts.find((layout) => layout.id === data.ascensionLayoutId),
+        );
+      } catch {
+        // Non-fatal — the player can apply it from the Saved Layouts modal.
+      }
+    }
+
     setShowUpgraded(true);
 
     gameService.send("PLAY");
@@ -410,6 +514,34 @@ export const IslandUpgrader: React.FC<Props> = ({ offset }) => {
 
     setShowTravelAnimation(false);
     if (showAnimations) confetti();
+  };
+
+  const onReapplyLayout = async () => {
+    if (!reapplyLayout || reapplying) return;
+
+    setReapplying(true);
+
+    try {
+      // Waits for the upgrade's autosave to land, so the server applies the
+      // layout to the post-ascension farm.
+      await flushPendingActions(gameService);
+
+      const { farmId, rawToken, state } = gameService.getSnapshot().context;
+      const result = await applyLayoutEffect({
+        farmId: farmId as number,
+        token: rawToken as string,
+        id: reapplyLayout.id,
+        state,
+      });
+
+      gameService.send({ type: "LAYOUT_APPLIED", state: result.gameState });
+    } catch {
+      // Non-fatal — the player can apply it from the Saved Layouts modal.
+    } finally {
+      setReapplying(false);
+      setReapplyLayout(undefined);
+      setShowUpgraded(false);
+    }
   };
 
   const nextExpansion = expansionCount + 1;
@@ -544,7 +676,16 @@ export const IslandUpgrader: React.FC<Props> = ({ offset }) => {
             )}
             <p className="text-xs mb-2">{t("islandupgrade.itemsReturned")}</p>
           </div>
-          <Button onClick={() => setShowUpgraded(false)}>
+          {reapplyLayout && (
+            <Button
+              disabled={reapplying}
+              className="mb-1"
+              onClick={onReapplyLayout}
+            >
+              {t("islandupgrade.reapplyLayout", { name: reapplyLayout.name })}
+            </Button>
+          )}
+          <Button disabled={reapplying} onClick={() => setShowUpgraded(false)}>
             {t("continue")}
           </Button>
         </CloseButtonPanel>

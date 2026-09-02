@@ -701,23 +701,6 @@ import {
   type RemoveBeehiveAction,
 } from "./landExpansion/removeBeehive";
 import { removeAll, type RemoveAllAction } from "./landExpansion/removeAll";
-import { saveLayout, type SaveLayoutAction } from "./landExpansion/saveLayout";
-import {
-  applyLayout,
-  type ApplyLayoutAction,
-} from "./landExpansion/applyLayout";
-import {
-  renameLayout,
-  type RenameLayoutAction,
-} from "./landExpansion/renameLayout";
-import {
-  deleteLayout,
-  type DeleteLayoutAction,
-} from "./landExpansion/deleteLayout";
-import {
-  saveAscensionLayout,
-  type SaveAscensionLayoutAction,
-} from "./landExpansion/saveAscensionLayout";
 import {
   wakeAnimal,
   type WakeUpAnimalAction,
@@ -1120,11 +1103,6 @@ export type PlacementEvent =
   | RemoveFlowerBedAction
   | RemoveBeehiveAction
   | RemoveAllAction
-  | SaveLayoutAction
-  | SaveAscensionLayoutAction
-  | ApplyLayoutAction
-  | RenameLayoutAction
-  | DeleteLayoutAction
   | FlipCollectibleAction
   | FlipFarmHandAction
   | FlipBumpkinAction
@@ -1436,11 +1414,6 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "flowerBed.removed": removeFlowerBed,
   "beehive.removed": removeBeehive,
   "items.removed": removeAll,
-  "layout.saved": saveLayout,
-  "layout.ascensionSaved": saveAscensionLayout,
-  "layout.applied": applyLayout,
-  "layout.renamed": renameLayout,
-  "layout.deleted": deleteLayout,
   "collectible.flipped": flipCollectible,
   "farmHand.flipped": flipFarmHand,
   "bumpkin.flipped": flipBumpkin,

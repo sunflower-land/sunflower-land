@@ -33,11 +33,18 @@ import Decimal from "decimal.js-light";
  * The Bumpkin is set to level 11 and seeded with the resources each upgrade
  * along the chain burns; the offline farm doesn't need a level matched to the
  * island, so this stays fixed regardless of `island`.
+ *
+ * `readyToAscend` leaves the finished farm able to take its NEXT ascension
+ * in-game (for exercising the upgrade-raft flow in ART_MODE): the band's
+ * readiness XP plus the level-scaled cost items/coins. Pair it with the
+ * island's cap as `expansionCount` — the upgrade also requires a fully
+ * expanded island.
  */
 export function getDynamicIsland(
   island: IslandType,
   expansionCount?: number,
   ascension?: number,
+  readyToAscend?: boolean,
 ): GameState {
   let farm: GameState = {
     ...INITIAL_FARM,
@@ -143,11 +150,19 @@ export function getDynamicIsland(
     bumpkin: { ...farm.bumpkin, experience: LEVEL_EXPERIENCE[11] },
   };
 
+  // Seed the next ascension's readiness (XP + cost) after the reset, so the
+  // in-game upgrade raft is unlocked rather than pre-spent.
+  if (readyToAscend) {
+    seedAscensionPrestige();
+  }
+
   return farm;
 }
 
-export const DYNAMIC_OFFLINE_FARM: GameState = getDynamicIsland(
-  "marble",
-  42,
-  10,
-);
+// Maxed volcano, ready to take the volcano→swamp ascension in-game (level-150
+// XP + the a=1 cost: 30 Crimstone / 50 Oil / 3 Obsidian / 5000 coins).
+// To exercise a LATER ascension instead (reset land + the "Re-apply layout?"
+// prompt), swap to: getDynamicIsland("swamp", 42, undefined, true)
+export const DYNAMIC_OFFLINE_FARM: GameState = {
+  ...getDynamicIsland("volcano", 30, 0, true),
+};

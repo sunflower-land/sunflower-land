@@ -320,6 +320,18 @@ export type UpdateUsernameEvent = {
   username: string;
 };
 
+/**
+ * Pushes the gameState returned by the `layout.applied` effect into the
+ * machine. Layout effects are posted outside the machine (they must work from
+ * `landscaping`, which has no effect states — see actions/layoutEffects.ts),
+ * so this assign is the only machine wiring they need. Pending actions are
+ * always flushed before the effect is posted, so nothing is replayed on top.
+ */
+export type LayoutAppliedEvent = {
+  type: "LAYOUT_APPLIED";
+  state: GameState;
+};
+
 type PostEffectEvent = {
   type: "POST_EFFECT";
   effect: Effect;
@@ -359,6 +371,7 @@ export type BlockchainEvent =
   | DepositEvent
   | UpdateEvent
   | UpdateUsernameEvent
+  | LayoutAppliedEvent
   | PostEffectEvent
   | { type: "EXPAND" }
   | { type: "SAVE_SUCCESS" }
@@ -1871,6 +1884,11 @@ export function startGame(authContext: AuthContext) {
                 },
               })),
             },
+            LAYOUT_APPLIED: {
+              actions: assign((_, event) => ({
+                state: (event as LayoutAppliedEvent).state,
+              })),
+            },
             SAVE: {
               target: "autosaving",
             },
@@ -2728,6 +2746,11 @@ export function startGame(authContext: AuthContext) {
           },
           on: {
             ...LANDSCAPING_PLACEMENT_EVENT_HANDLERS,
+            LAYOUT_APPLIED: {
+              actions: assign((_, event) => ({
+                state: (event as LayoutAppliedEvent).state,
+              })),
+            },
             SAVE: {
               actions: send(
                 (context) =>
