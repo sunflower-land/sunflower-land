@@ -84,7 +84,12 @@ const DEQUIPPER_CONTRACT = import.meta.env.VITE_DEQUIPPER_CONTRACT as string;
 const SEQUENCE_ACCESS_KEY = import.meta.env.VITE_SEQUENCE_ACCESS_KEY as string;
 
 const PORTAL_URL = import.meta.env.VITE_ROOM_URL;
-const ANIMATION_URL = import.meta.env.VITE_ANIMATION_URL as string;
+// Without this service every bumpkin renders invisible (the composited
+// sheets 404), so local dev falls back to the .env.sample default when the
+// var is unset. Deploys always set it explicitly.
+const ANIMATION_URL =
+  (import.meta.env.VITE_ANIMATION_URL as string) ||
+  "https://animations-dev.sunflower-land.com";
 
 const WITHDRAW_SFL_CONTRACT = import.meta.env
   .VITE_WITHDRAW_SFL_CONTRACT as string;

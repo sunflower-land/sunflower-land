@@ -12,7 +12,6 @@ import { getActiveCalendarEvent } from "features/game/types/calendar";
 import type { MachineState } from "features/game/lib/gameMachine";
 import type { GameState } from "features/game/types/game";
 import { CROPS, type CropName } from "features/game/types/crops";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "lib/object";
 import {
   getAffectedWeather,
@@ -583,12 +582,13 @@ export class CropRenderer extends EntityRenderer<Slice> {
           workerPlot.fertiliser,
         );
       if (ready) {
+        // Marker: just the blue dot — a crop icon over the crop reads as
+        // noise.
         worker.intercept({
           label: "Harvest",
           world,
           anim: "doing",
           dotAt: { x: world.x + WORLD_TILE / 2, y: world.y - 2 },
-          icon: ITEM_DETAILS[workerPlot.crop!.name].image,
           run: () => this.onPlotClickImmediate(id),
         });
         return;
@@ -611,7 +611,6 @@ export class CropRenderer extends EntityRenderer<Slice> {
           world,
           anim: "dig",
           dotAt: { x: world.x + WORLD_TILE / 2, y: world.y - 2 },
-          icon: ITEM_DETAILS[seed].image,
           run: () => this.onPlotClickImmediate(id, seed),
         });
         return;

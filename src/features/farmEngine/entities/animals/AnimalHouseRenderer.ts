@@ -31,9 +31,17 @@ import {
 } from "features/game/lib/animals";
 import { REQUIRED_FOOD_QTY } from "features/game/events/landExpansion/feedAnimal";
 import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
+import { ANIMAL_REQUEST_IMAGES } from "features/game/expansion/components/animals/RequestBubble";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "lib/object";
 import { queueImage, queueSpritesheet, runLoader } from "../../core/assets";
+import {
+  artTexture,
+  queueArt,
+  resolveArtObject,
+  type ArtObject,
+} from "../../core/animated";
 import { nativeScale } from "../../core/pixelArt";
 import { makeClickable } from "../../core/clickable";
 import { gridToWorld, WORLD_TILE } from "../../core/coordinates";
@@ -41,6 +49,7 @@ import { DEPTHS } from "../../core/depths";
 import { EntityRenderer } from "../EntityRenderer";
 import { RequestBubbleSprite } from "../../components/RequestBubbleSprite";
 import { playYieldFloat } from "../../components/YieldFloat";
+import { outlinedText } from "../../components/outlinedText";
 import { pixelText } from "../../components/pixelText";
 import { AnimalInteraction, type AnimalBuildingKey } from "./animalInteraction";
 
@@ -77,7 +86,13 @@ type AnimalVisualState =
   | "happy"
   | "sad";
 
-/** [Cow.tsx / Sheep.tsx / Chicken.tsx animalImageInfo] art per state. */
+/**
+ * [Cow.tsx / Sheep.tsx / Chicken.tsx animalImageInfo] art per state; `width`
+ * is the DOM's rendered width in world px. Cow.tsx and Sheep.tsx multiply
+ * PIXEL_SCALE TWICE (the info width already carries it and the style adds it
+ * again), so barn animals draw ~2.6x the chicken convention — that double
+ * size is the shipped look, so it's baked in here.
+ */
 const ANIMAL_ART: Record<
   AnimalType,
   Record<
@@ -86,16 +101,22 @@ const ANIMAL_ART: Record<
   >
 > = {
   Cow: {
-    ready: { image: SUNNYSIDE.animals.cowReady, width: 13 },
-    sleeping: { image: SUNNYSIDE.animals.cowSleeping, width: 13 },
-    sick: { image: SUNNYSIDE.animals.cowSick, width: 11 },
-    idle: { image: SUNNYSIDE.animals.cowIdle, width: 11 },
+    ready: { image: SUNNYSIDE.animals.cowReady, width: 13 * PIXEL_SCALE },
+    sleeping: {
+      image: SUNNYSIDE.animals.cowSleeping,
+      width: 13 * PIXEL_SCALE,
+    },
+    sick: { image: SUNNYSIDE.animals.cowSick, width: 11 * PIXEL_SCALE },
+    idle: { image: SUNNYSIDE.animals.cowIdle, width: 11 * PIXEL_SCALE },
   },
   Sheep: {
-    ready: { image: SUNNYSIDE.animals.sheepReady, width: 13 },
-    sleeping: { image: SUNNYSIDE.animals.sheepSleeping, width: 13 },
-    sick: { image: SUNNYSIDE.animals.sheepSick, width: 11 },
-    idle: { image: SUNNYSIDE.animals.sheepIdle, width: 11 },
+    ready: { image: SUNNYSIDE.animals.sheepReady, width: 13 * PIXEL_SCALE },
+    sleeping: {
+      image: SUNNYSIDE.animals.sheepSleeping,
+      width: 13 * PIXEL_SCALE,
+    },
+    sick: { image: SUNNYSIDE.animals.sheepSick, width: 11 * PIXEL_SCALE },
+    idle: { image: SUNNYSIDE.animals.sheepIdle, width: 11 * PIXEL_SCALE },
   },
   Chicken: {
     ready: { image: SUNNYSIDE.animals.chickenReady, width: 13 },
@@ -105,25 +126,44 @@ const ANIMAL_ART: Record<
   },
 };
 
+type EmotionIcon = { icon: string; width: number; top: number; right: number };
+
 /**
- * [Cow.tsx ANIMAL_EMOTION_ICONS] the badge over the animal, offsets in
- * source px from the 2x2 cell's top-right.
+ * [Cow.tsx ANIMAL_EMOTION_ICONS / Chicken.tsx CHICKEN_EMOTION_ICONS] the
+ * badge over the animal, in world px from the animal's inner-div top-right —
+ * the two components position them differently.
  */
-const EMOTION_ICONS: Partial<
-  Record<
-    AnimalVisualState,
-    { icon: string; width: number; top: number; right: number }
-  >
+const EMOTION_ICONS: Record<
+  "barn" | "henHouse",
+  Partial<Record<AnimalVisualState, EmotionIcon>>
 > = {
-  ready: {
-    icon: SUNNYSIDE.icons.expression_ready,
-    width: 9,
-    top: 2,
-    right: -1,
+  barn: {
+    ready: {
+      icon: SUNNYSIDE.icons.expression_ready,
+      width: 9,
+      top: 2,
+      right: -1,
+    },
+    sleeping: {
+      icon: SUNNYSIDE.icons.sleeping,
+      width: 9,
+      top: 4.5,
+      right: 1.1,
+    },
+    happy: { icon: SUNNYSIDE.icons.happy, width: 7, top: 4.5, right: 1.1 },
+    sad: { icon: SUNNYSIDE.icons.sad, width: 7, top: 4.5, right: 1.1 },
   },
-  sleeping: { icon: SUNNYSIDE.icons.sleeping, width: 9, top: 4.5, right: 1.1 },
-  happy: { icon: SUNNYSIDE.icons.happy, width: 7, top: 4.5, right: 1.1 },
-  sad: { icon: SUNNYSIDE.icons.sad, width: 7, top: 4.5, right: 1.1 },
+  henHouse: {
+    ready: {
+      icon: SUNNYSIDE.icons.expression_ready,
+      width: 8,
+      top: -2.3,
+      right: 3.7,
+    },
+    sleeping: { icon: SUNNYSIDE.icons.sleeping, width: 9, top: -3.5, right: 2 },
+    happy: { icon: SUNNYSIDE.icons.happy, width: 7, top: -1.3, right: 3.7 },
+    sad: { icon: SUNNYSIDE.icons.sad, width: 7, top: -1.3, right: 3.7 },
+  },
 };
 
 /** [AnimalFeedBuffBadge.tsx] */
@@ -133,6 +173,13 @@ const BUFF_ICON: Record<AnimalFeedBuffName, string> = {
 };
 
 const CELL = 2 * WORLD_TILE; // animals sit in a 2x2-tile cell
+
+/**
+ * [Chicken.tsx] chicken badges anchor to a 19px-tall inner div centred in
+ * the cell; the barn's inner div is the full cell.
+ */
+const INNER_TOP = { barn: 0, henHouse: (CELL - 19) / 2 } as const;
+const INNER_BOTTOM = { barn: CELL, henHouse: (CELL - 19) / 2 + 19 } as const;
 const SPARKLE_KEY = sparkleSheet; // spritesheets are keyed by URL
 
 /** [ProgressBarSprite BAR] the shared 15x7 bar frame geometry. */
@@ -146,7 +193,8 @@ const BAR = {
 
 type AnimalObjects = {
   container: Phaser.GameObjects.Container;
-  art: Phaser.GameObjects.Image;
+  art?: ArtObject;
+  shadow?: Phaser.GameObjects.Image;
   zone: Phaser.GameObjects.Zone;
   emotion?: Phaser.GameObjects.Image;
   lock?: Phaser.GameObjects.Image;
@@ -154,6 +202,7 @@ type AnimalObjects = {
   bubble?: RequestBubbleSprite;
   bubbleKey?: string;
   barFill?: Phaser.GameObjects.Rectangle;
+  barFill2?: Phaser.GameObjects.Rectangle;
   levelText?: Phaser.GameObjects.Text;
   sparkle?: Phaser.GameObjects.Sprite;
   /** Visual state last synced, for bulk-claim detection. */
@@ -247,12 +296,13 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
   async sync(slice: Slice) {
     const token = this.beginSync();
     Object.values(ANIMAL_ART).forEach((states) =>
-      Object.values(states).forEach(({ image }) =>
-        queueImage(this.scene, image),
-      ),
+      Object.values(states).forEach(({ image }) => queueArt(this.scene, image)),
     );
-    Object.values(EMOTION_ICONS).forEach(
-      (icon) => icon && queueImage(this.scene, icon.icon),
+    queueImage(this.scene, SUNNYSIDE.animals.chickenShadow);
+    Object.values(EMOTION_ICONS).forEach((table) =>
+      Object.values(table).forEach(
+        (icon) => icon && queueImage(this.scene, icon.icon),
+      ),
     );
     Object.values(BUFF_ICON).forEach((icon) => queueImage(this.scene, icon));
     queueImage(this.scene, SUNNYSIDE.icons.lock);
@@ -349,18 +399,16 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
             : "idle";
     // While the claim animation runs the animal still looks ready.
     const art = ANIMAL_ART[animal.type][animating ? "ready" : artState];
-    if (!this.scene.textures.exists(art.image)) return;
+    if (!this.scene.textures.exists(artTexture(art.image))) return;
 
     let objects = objects0;
     if (!objects) {
       const container = this.scene.add.container(0, 0);
-      const image = this.scene.add.image(0, 0, art.image).setOrigin(0.5, 0.5);
       const zone = this.scene.add.zone(0, 0, CELL, CELL).setOrigin(0, 0);
       makeClickable(this.scene, zone, () => this.onAnimalClick(id), {
         glow: () => this.animals.get(id)?.art,
       });
-      container.add(image);
-      objects = { container, art: image, zone };
+      objects = { container, zone };
       this.animals.set(id, objects);
     }
     objects.lastState = state;
@@ -371,10 +419,33 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
     objects.zone.setPosition(x, y);
     objects.zone.setDepth(depth);
 
-    // [Cow.tsx] the animal image is centred in the 2x2 cell.
-    objects.art.setTexture(art.image);
-    nativeScale(objects.art, art.width);
-    objects.art.setPosition(CELL / 2 + 0.4, CELL / 2 + 0.8);
+    // [Chicken.tsx] the brown roost under each chicken (chickenShadow, w13,
+    // hanging off the bottom of the 19px inner div at cell top 6.5).
+    if (
+      this.buildingKey === "henHouse" &&
+      !objects.shadow &&
+      this.scene.textures.exists(SUNNYSIDE.animals.chickenShadow)
+    ) {
+      objects.shadow = this.scene.add
+        .image(CELL / 2, INNER_BOTTOM.henHouse, SUNNYSIDE.animals.chickenShadow)
+        .setOrigin(0.5, 1);
+      nativeScale(objects.shadow);
+      objects.container.addAt(objects.shadow, 0);
+    }
+
+    // [Cow.tsx] the animal image is centred in the 2x2 cell, drawn at the
+    // DOM's hardcoded width — several states ship 2x art (ready chicken 26px
+    // shown at 13, cow 25px at 11-13), so native size would double them.
+    const artObject = resolveArtObject(this.scene, objects.art, art.image);
+    if (!artObject) return;
+    if (artObject !== objects.art) {
+      objects.container.addAt(artObject, objects.shadow ? 1 : 0);
+      objects.art = artObject;
+    }
+    artObject.setOrigin(0.5, 0.5);
+    const nativeWidth = artObject.frame?.width ?? artObject.width;
+    artObject.setScale(art.width / nativeWidth);
+    artObject.setPosition(CELL / 2 + 0.4, CELL / 2 + 0.8);
 
     // Deal mode [BarnInside.tsx]: invalid animals dim to 50% and are inert.
     const validForDeal = dealActive
@@ -382,14 +453,15 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
       : true;
     objects.container.setAlpha(dealActive && !validForDeal ? 0.5 : 1);
 
-    // Emotion badge, top-right of the cell [Cow.tsx ANIMAL_EMOTION_ICONS].
+    // Emotion badge, offset from the inner div's top-right [Cow.tsx
+    // ANIMAL_EMOTION_ICONS / Chicken.tsx CHICKEN_EMOTION_ICONS].
     const emotionState = animating ? "ready" : state;
     const emotion =
       emotionState === "idle" ||
       emotionState === "needsLove" ||
       emotionState === "sick"
         ? undefined
-        : EMOTION_ICONS[emotionState];
+        : EMOTION_ICONS[this.buildingKey][emotionState];
     if (emotion && this.scene.textures.exists(emotion.icon)) {
       if (!objects.emotion) {
         objects.emotion = this.scene.add
@@ -398,24 +470,25 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
         objects.container.add(objects.emotion);
       }
       objects.emotion.setTexture(emotion.icon);
-      nativeScale(objects.emotion, emotion.width);
+      objects.emotion.setScale(emotion.width / objects.emotion.width);
       objects.emotion.setPosition(
         CELL - emotion.right - emotion.width,
-        emotion.top,
+        emotion.top + INNER_TOP[this.buildingKey],
       );
       objects.emotion.setVisible(true);
     } else {
       objects.emotion?.setVisible(false);
     }
 
-    // Over-capacity lock [Cow.tsx], w7 at (right 1, top 1).
+    // Over-capacity lock [Cow.tsx / Chicken.tsx], w7 at (right 1, top 1) of
+    // the inner div.
     if (locked) {
       if (!objects.lock) {
         objects.lock = this.scene.add
           .image(0, 0, SUNNYSIDE.icons.lock)
-          .setOrigin(0, 0);
-        nativeScale(objects.lock, 7);
-        objects.lock.setPosition(CELL - 1 - 7, 1);
+          .setOrigin(1, 0);
+        objects.lock.setScale(7 / objects.lock.width);
+        objects.lock.setPosition(CELL - 1, 1 + INNER_TOP[this.buildingKey]);
         objects.container.add(objects.lock);
       }
       objects.lock.setVisible(true);
@@ -423,7 +496,8 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
       objects.lock?.setVisible(false);
     }
 
-    // Feed buff badge [AnimalFeedBuffBadge.tsx], w7 bottom-right.
+    // Feed buff badge [AnimalFeedBuffBadge.tsx], w7 at the inner div's
+    // bottom-right.
     const buffIcon = animal.feedBuff
       ? BUFF_ICON[animal.feedBuff.name]
       : undefined;
@@ -433,8 +507,8 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
         objects.container.add(objects.buff);
       }
       objects.buff.setTexture(buffIcon);
-      nativeScale(objects.buff, 7);
-      objects.buff.setPosition(CELL, CELL);
+      objects.buff.setScale(7 / objects.buff.width);
+      objects.buff.setPosition(CELL, INNER_BOTTOM[this.buildingKey]);
       objects.buff.setVisible(true);
     } else {
       objects.buff?.setVisible(false);
@@ -463,20 +537,26 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
       objects.bubble = undefined;
       objects.bubbleKey = bubbleKey;
       if (request) {
+        const domSize =
+          ANIMAL_REQUEST_IMAGES[request as keyof typeof ANIMAL_REQUEST_IMAGES];
         objects.bubble = new RequestBubbleSprite(this.scene, {
-          // [Cow.tsx] beside the head; the DOM's (23, 1) is against a bubble
-          // roughly half this one's old size.
-          x: 20,
-          y: 2,
+          x: 0,
+          y: 0,
           icon: ITEM_DETAILS[request].image,
-          // Native art size [core/pixelArt.ts]; the bubble fits itself to it.
-          iconWidth: 0,
+          // The DOM renders icons at CSS px (not art px) — ~6 world px.
+          iconWidth: (domSize?.width ?? 16) / PIXEL_SCALE,
           quantity,
-          depth: 0,
+          // [RequestBubble.tsx z-10] bubbles paint above every animal in the
+          // room, so they live at scene level in a band over the entities.
+          depth: DEPTHS.ENTITY_BASE + 2_000 + y,
         });
-        objects.container.add(objects.bubble.container);
       }
     }
+    // [Cow.tsx] (23, 1) against the full-cell inner div; [Chicken.tsx]
+    // (20, -3.5) against a 19px-tall centred inner div -> (20, 3) in cell
+    // space.
+    const barn = this.buildingKey === "barn";
+    objects.bubble?.setPosition(x + (barn ? 23 : 20), y + (barn ? 1 : 3));
 
     // Mutant sparkles [MutantSparkles.tsx] when a mutant reward is waiting.
     const mutant = animal.reward?.items?.[0]?.name;
@@ -529,49 +609,71 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
       return ((animal.experience - current) / (next - current)) * 100;
     })();
 
-    // Bar under the animal's feet, level number to its left [LevelProgress.tsx
-    // AnimatedBar — the same 15x7 frame, no time label]. The DOM hangs it off
-    // the cell bottom, which leaves a big gap under the smaller animals
-    // (chickens sit ~6px tall in a 32px cell), so it rides up to the feet.
-    const barX = (CELL - BAR.width) / 2 + 2;
-    const barY = CELL - 8;
+    // Bar + level number [LevelProgress.tsx AnimatedBar — the same 15x7
+    // frame, no time label]. DOM anchors, converted to world px: the barn
+    // hangs the bar off the cell bottom (-bottom-2.5, ml-1), the hen house
+    // tucks it just inside (bottom-1, ml-0.5).
+    const barn = this.buildingKey === "barn";
+    const barX = (CELL - BAR.width) / 2 + (barn ? 4 : 2) / PIXEL_SCALE;
+    const barY = barn
+      ? CELL + 10 / PIXEL_SCALE - 7
+      : CELL - 4 / PIXEL_SCALE - 7;
     if (!objects.barFill) {
-      const frame = this.scene.add
-        .image(barX, barY, SUNNYSIDE.ui.emptyBar)
-        .setOrigin(0, 0);
-      frame.setScale(BAR.width / frame.width);
-      const background = this.scene.add
-        .rectangle(
-          barX + BAR.marginLeft,
-          barY + BAR.marginTop,
-          BAR.innerWidth,
-          BAR.innerHeight,
-          0x193c3e,
-        )
-        .setOrigin(0, 0);
-      objects.barFill = this.scene.add
-        .rectangle(
-          barX + BAR.marginLeft,
-          barY + BAR.marginTop,
-          0,
-          BAR.innerHeight,
-          0x63c74d,
-        )
-        .setOrigin(0, 0);
-      objects.container.add([frame, background, objects.barFill]);
+      // [AnimatedBar] paints the whole bar, then re-paints it semi-opaque on
+      // top (frame 50%, background and fill 80%) — the doubled edges are part
+      // of the shipped look.
+      const makeFrame = (alpha: number) => {
+        const frame = this.scene.add
+          .image(barX, barY, SUNNYSIDE.ui.emptyBar)
+          .setOrigin(0, 0)
+          .setAlpha(alpha);
+        frame.setScale(BAR.width / frame.width);
+        return frame;
+      };
+      const makeRect = (color: number, alpha: number) =>
+        this.scene.add
+          .rectangle(
+            barX + BAR.marginLeft,
+            barY + BAR.marginTop,
+            BAR.innerWidth,
+            BAR.innerHeight,
+            color,
+          )
+          .setOrigin(0, 0)
+          .setAlpha(alpha);
+      objects.barFill = makeRect(0x63c74d, 1);
+      objects.barFill2 = makeRect(0x63c74d, 0.8);
+      objects.container.add([
+        makeFrame(1),
+        makeRect(0x193c3e, 1),
+        objects.barFill,
+        makeFrame(0.5),
+        makeRect(0x193c3e, 0.8),
+        objects.barFill2,
+      ]);
     }
-    objects.barFill.width = Math.floor(
+    const fillWidth = Math.floor(
       (BAR.innerWidth * Math.max(0, Math.min(percentage, 100))) / 100,
     );
+    objects.barFill.width = fillWidth;
+    if (objects.barFill2) objects.barFill2.width = fillWidth;
 
+    // [LevelProgress.tsx] the number overlaps the bar's left cap (right: 85%,
+    // centre at top 11px), in the HD display face the yield floats use.
     if (!objects.levelText) {
-      objects.levelText = pixelText(this.scene, 0, 0, "", {
-        color: "#71e358",
-      }).setOrigin(1, 0.5);
+      objects.levelText = outlinedText(this.scene, 0, 0, "", {
+        // Sized to the DOM render: 12px Teeny digits stand ~12 CSS px tall,
+        // which Grandstander-900 reaches at ~17px.
+        fontPx: 17,
+        fill: "#71e358",
+      }).setOrigin(1, 0.55);
       objects.container.add(objects.levelText);
     }
     objects.levelText.setText(`${displayLevel}`);
-    objects.levelText.setPosition(barX - 1, barY + 3.5);
+    objects.levelText.setPosition(
+      barX + BAR.width * 0.15,
+      barY + 11 / PIXEL_SCALE,
+    );
   }
 
   /** Clicks: bounty-deal selection when a deal is active, else the tree. */

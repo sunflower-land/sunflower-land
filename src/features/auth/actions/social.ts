@@ -1,8 +1,9 @@
 import { removeMinigameJWTs } from "features/world/ui/community/actions/portal";
+import { storagePathname } from "lib/phaserPreview";
 import { decodeToken } from "./login";
 
 const host = window.location.host.replace(/^www\./, "");
-const LOCAL_STORAGE_KEY = `sb_wiz.zpc.ng.${host}-${window.location.pathname}`;
+const LOCAL_STORAGE_KEY = `sb_wiz.zpc.ng.${host}-${storagePathname}`;
 const TOKEN_BUFFER_MS = 1000 * 60 * 60 * 4;
 
 export const getToken = () => {

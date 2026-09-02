@@ -3,6 +3,7 @@ import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
+import { storagePathname } from "lib/phaserPreview";
 
 type Request = {
   address: string;
@@ -35,7 +36,7 @@ export async function loginRequest(request: Request) {
 }
 
 const host = window.location.host.replace(/^www\./, "");
-const LOCAL_STORAGE_KEY = `sb_wiz.zpc.v.${host}-${window.location.pathname}`;
+const LOCAL_STORAGE_KEY = `sb_wiz.zpc.v.${host}-${storagePathname}`;
 
 type Session = {
   token: string;

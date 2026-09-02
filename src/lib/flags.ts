@@ -1,5 +1,6 @@
 import type { GameState } from "features/game/types/game";
 import { CONFIG } from "lib/config";
+import { isPhaserPreviewBuild } from "lib/phaserPreview";
 import { TEAM_USERNAMES } from "./access";
 
 export const RONIN_AIRDROP_ENDDATE = new Date("2025-11-04T00:00:00Z");
@@ -183,7 +184,11 @@ const FEATURE_FLAGS = {
    * built out — see docs/phaser-farm-migration/. Set localStorage "phaserFarm"
    * to any value to opt in on mainnet builds.
    */
-  PHASER_FARM: testnetLocalStorageFeatureFlag("phaserFarm"),
+  // Defaults on for the /phaser preview deploy; `localStorage.phaserFarm = "off"`
+  // still force-disables it there for side-by-side comparison.
+  PHASER_FARM: () =>
+    localStorage.getItem("phaserFarm") !== "off" &&
+    (isPhaserPreviewBuild || testnetLocalStorageFeatureFlag("phaserFarm")()),
 
   EASTER: () => false,
 

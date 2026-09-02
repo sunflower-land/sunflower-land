@@ -211,6 +211,7 @@ export class TreeRenderer extends ResourceNodeRenderer<TreeNode> {
     ).worker?.intercept({
       label: "Chop",
       world: { x: box?.x ?? 0, y: box?.y ?? 0 },
+      size: box ? { width: box.width, height: box.height } : undefined,
       anim: "axe",
       dotAt: box ? { x: box.x + box.width / 2, y: box.y - 2 } : undefined,
       icon: ITEM_DETAILS.Axe.image,

@@ -224,6 +224,19 @@ export class NPCSprite {
     });
   }
 
+  /** Warm an animation's sheet without playing it (e.g. on worker select). */
+  async preload(
+    animation: "idle" | "walking" | "axe" | "dig" | "mining" | "doing",
+  ) {
+    const url = getAnimationUrl(this.options.parts, [animation]);
+    if (this.scene.textures.exists(url)) return;
+    queueSpritesheet(this.scene, url, {
+      frameWidth: FRAME_WIDTH,
+      frameHeight: FRAME_HEIGHT,
+    });
+    await runLoader(this.scene);
+  }
+
   /**
    * Swap to another animation from the service (walking, axe...). Loads the
    * sheet on first use; falls back to idle if it never arrives.
@@ -268,6 +281,20 @@ export class NPCSprite {
   /** Current box origin, so callers can walk from where it actually is. */
   origin() {
     return { x: this.originX, y: this.originY };
+  }
+
+  /**
+   * Re-band the painter depth around a new base (walking changes the row the
+   * NPC stands on). Children keep their creation-time offsets: shadow −0.5
+   * (or +0.1 above scenery), auras ±0.25.
+   */
+  setBaseDepth(depth: number) {
+    this.sprite?.setDepth(depth);
+    this.shadow?.setDepth(
+      this.options.shadowAboveScenery ? depth + 0.1 : depth - 0.5,
+    );
+    this.auraBack?.setDepth(depth - 0.25);
+    this.auraFront?.setDepth(depth + 0.25);
   }
 
   /** Face left/right — the service sheets face right. */

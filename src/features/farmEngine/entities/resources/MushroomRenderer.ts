@@ -110,6 +110,7 @@ export class MushroomRenderer extends ResourceNodeRenderer<MushroomNode> {
     ).worker?.intercept({
       label: "Dig",
       world: { x: box?.x ?? 0, y: box?.y ?? 0 },
+      size: box ? { width: box.width, height: box.height } : undefined,
       anim: "dig",
       dotAt: box ? { x: box.x + box.width / 2, y: box.y - 2 } : undefined,
       run: () => this.pick(id),

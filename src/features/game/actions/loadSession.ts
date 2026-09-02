@@ -3,6 +3,7 @@ import { CONFIG } from "lib/config";
 import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
 import { initRequestTokens } from "lib/requestToken";
+import { storagePathname } from "lib/phaserPreview";
 import { sanitizeHTTPResponse } from "lib/network";
 import { makeGame } from "../lib/transforms";
 import type { GameState, Purchase } from "../types/game";
@@ -224,7 +225,7 @@ export async function loadSession(request: Request): Promise<Response> {
 }
 
 const host = window.location.host.replace(/^www\./, "");
-const LOCAL_STORAGE_KEY = `sb_wiz.xtc.t.${host}-${window.location.pathname}`;
+const LOCAL_STORAGE_KEY = `sb_wiz.xtc.t.${host}-${storagePathname}`;
 
 // Farm ID -> ISO Date
 type FarmSessions = Record<number, { account: string }>;

@@ -25,8 +25,13 @@ import { DEPTHS } from "../core/depths";
 export type WorkerJob = {
   /** Label for the React queue readout. */
   label: string;
-  /** Where the bumpkin has to stand, world px (the tile's top-left). */
+  /**
+   * The target's box top-left, world px — for a plain walk, the exact spot
+   * the feet should land on.
+   */
   world: { x: number; y: number };
+  /** The target's box size, world px (default one tile). */
+  size?: { width: number; height: number };
   /** Fired on arrival. Omitted for a plain walk. */
   run?: () => void;
   /** The service animation played on arrival (default axe). */
@@ -54,6 +59,33 @@ const WORKER_BLUE = 0x0099db;
 export const WORKER_ANCHOR = "worker-bumpkin";
 /** The NPC box the sprite is laid out against [NPCSprite]. */
 const NPC_BOX = 16;
+
+/**
+ * Box-origin → the ground-contact point under the feet (the shadow's centre
+ * [NPCSprite SHADOW_DROP]).
+ */
+const FEET = { x: NPC_BOX / 2, y: 22 };
+
+/**
+ * Where each service animation actually lands its blow, measured off the
+ * sheets: px in front of the feet (facing direction) and px above the ground
+ * line. The walk target is chosen so this point falls on the node.
+ */
+const CONTACT: Record<
+  NonNullable<WorkerJob["anim"]>,
+  { reach: number; lift: number }
+> = {
+  axe: { reach: 27, lift: 5 },
+  mining: { reach: 27, lift: 5 },
+  dig: { reach: 16, lift: 1 },
+  doing: { reach: 8, lift: 4 },
+};
+
+/**
+ * The select box reads as a ground marker: full art width, squashed to hug
+ * the feet — top at mid-body, bottom a little below the ground line.
+ */
+const SELECT_BOX = { width: 30, height: 21, bottom: 29 };
 
 export class BumpkinWorker {
   private active = false;
@@ -84,6 +116,14 @@ export class BumpkinWorker {
   toggle() {
     this.active = !this.active;
     if (!this.active) this.clearQueue();
+    else {
+      // Warm the job sheets so the first swing doesn't play out invisibly
+      // while its strip is still downloading.
+      const sprite = this.sprite();
+      (["walking", "axe", "dig", "mining", "doing"] as const).forEach(
+        (anim) => void sprite?.preload(anim),
+      );
+    }
     this.publishAnchor();
     void this.syncSelectBox();
     this.publish();
@@ -114,10 +154,19 @@ export class BumpkinWorker {
     const origin = this.position ?? this.sprite()?.origin();
     if (!origin) return;
     this.selectBox = this.scene.add
-      .image(origin.x + NPC_BOX / 2, origin.y + NPC_BOX / 2, texture)
-      .setOrigin(0.5, 0.5)
-      .setDepth(DEPTHS.ENTITY_BASE + origin.y - 0.6);
-    this.selectBox.setScale(1); // pixel-art rule: native size
+      .image(origin.x + NPC_BOX / 2, origin.y + SELECT_BOX.bottom, texture)
+      .setOrigin(0.5, 1);
+    this.selectBox.setDisplaySize(SELECT_BOX.width, SELECT_BOX.height);
+    this.placeSelectBoxDepth();
+  }
+
+  /** Behind the bumpkin (and its shadow), whatever depth the body sits at. */
+  private placeSelectBoxDepth() {
+    if (!this.selectBox) return;
+    const bodyDepth =
+      this.sprite()?.body()?.depth ??
+      DEPTHS.ENTITY_BASE + (this.position?.y ?? this.selectBox.y);
+    this.selectBox.setDepth(bodyDepth - 0.6);
   }
 
   private clearQueue() {
@@ -253,9 +302,12 @@ export class BumpkinWorker {
 
     while (this.queue.length && this.active) {
       const job = this.queue[0];
-      await this.walkTo(job.world);
+      const stand = this.standPoint(job);
+      await this.walkTo(stand.origin);
       if (!this.active) break;
       if (job.run) {
+        // Face the node even when no walk was needed.
+        this.sprite()?.setFlip(stand.faceLeft);
         await this.swing(job.anim ?? "axe");
         if (!this.active) break;
         // The underlying game event fires here, not on the click.
@@ -271,13 +323,49 @@ export class BumpkinWorker {
     this.publish();
   }
 
-  private walkTo(world: { x: number; y: number }): Promise<void> {
+  /**
+   * Where to stand for a job: the box origin that puts the animation's
+   * contact point on the node (approaching from whichever side the bumpkin
+   * is already on), or — for a plain walk — the feet on the tapped spot.
+   */
+  private standPoint(job: WorkerJob): {
+    origin: { x: number; y: number };
+    faceLeft: boolean;
+  } {
+    if (!job.run) {
+      return {
+        origin: { x: job.world.x - FEET.x, y: job.world.y - FEET.y },
+        faceLeft: false,
+      };
+    }
+
+    const size = job.size ?? { width: WORLD_TILE, height: WORLD_TILE };
+    // The blow lands on the node's lower-centre — the trunk of a tree, the
+    // face of a rock, the middle of a plot.
+    const contact = {
+      x: job.world.x + size.width / 2,
+      y: job.world.y + size.height - size.height / 4,
+    };
+    const { reach, lift } = CONTACT[job.anim ?? "axe"];
+
+    const from = this.position ?? this.sprite()?.origin();
+    const feetNowX = (from?.x ?? contact.x - 1) + FEET.x;
+    const faceLeft = feetNowX > contact.x;
+    const feet = {
+      x: contact.x + (faceLeft ? reach : -reach),
+      y: contact.y + lift,
+    };
+    return {
+      origin: { x: feet.x - FEET.x, y: feet.y - FEET.y },
+      faceLeft,
+    };
+  }
+
+  private walkTo(to: { x: number; y: number }): Promise<void> {
     const sprite = this.sprite();
     if (!sprite) return Promise.resolve();
 
     const from = this.position ?? sprite.origin();
-    // Stand on the tile, not on top of the resource itself.
-    const to = { x: world.x, y: world.y + WORLD_TILE / 2 };
     const distance = Math.hypot(to.x - from.x, to.y - from.y);
     if (distance < 1) return Promise.resolve();
 
@@ -305,8 +393,10 @@ export class BumpkinWorker {
     });
   }
 
-  private swing(anim: "axe" | "dig" | "mining" | "doing"): Promise<void> {
-    void this.sprite()?.play(anim);
+  /** The timer starts once the animation is actually playing (play() loads
+   * the strip on first use). */
+  private async swing(anim: "axe" | "dig" | "mining" | "doing"): Promise<void> {
+    await this.sprite()?.play(anim);
     return new Promise((resolve) =>
       this.scene.time.delayedCall(SWING_MS, () => resolve()),
     );
@@ -319,12 +409,16 @@ export class BumpkinWorker {
    */
   apply() {
     if (!this.position) return;
-    this.sprite()?.setPosition(this.position.x, this.position.y);
+    const sprite = this.sprite();
+    sprite?.setPosition(this.position.x, this.position.y);
+    // Walking changes the row they stand on — keep painter order in step, as
+    // PlayerRenderer's creation depth only covers the placed tile.
+    sprite?.setBaseDepth(DEPTHS.ENTITY_BASE + this.position.y);
     this.selectBox?.setPosition(
       this.position.x + NPC_BOX / 2,
-      this.position.y + NPC_BOX / 2,
+      this.position.y + SELECT_BOX.bottom,
     );
-    this.selectBox?.setDepth(DEPTHS.ENTITY_BASE + this.position.y - 0.6);
+    this.placeSelectBoxDepth();
     this.publishAnchor();
   }
 

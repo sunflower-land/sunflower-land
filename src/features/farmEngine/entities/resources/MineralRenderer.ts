@@ -223,6 +223,7 @@ export class MineralRenderer extends ResourceNodeRenderer<MineralNode> {
     ).worker?.intercept({
       label: "Mine",
       world: { x: box.x, y: box.y },
+      size: { width: box.width, height: box.height },
       anim: "mining",
       dotAt: { x: box.x + box.width / 2, y: box.y - 2 },
       icon: dotTool ? ITEM_DETAILS[dotTool].image : undefined,

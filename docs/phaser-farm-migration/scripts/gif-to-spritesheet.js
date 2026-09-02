@@ -101,6 +101,13 @@ const REMOTE = [
   { key: "npcs.smoothieChefMaking", path: "/npcs/smoothie_making.gif" },
   { key: "npcs.smoothieChef", path: "/npcs/smoothie.gif" },
   { key: "npcs.swimmer", path: "/npcs/swimmer.gif" },
+  // Animal-house animals [AnimalHouseRenderer] — the states the DOM animates.
+  { key: "animals.chickenIdle", path: "/animals/chickens/idle_chicken.gif" },
+  {
+    key: "animals.chickenAsleep",
+    path: "/animals/chickens/sleeping_chicken.gif",
+  },
+  { key: "animals.chickenReady", path: "/animals/chickens/ready.webp" },
 ];
 
 /**

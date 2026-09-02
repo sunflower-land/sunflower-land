@@ -20,7 +20,7 @@ type RequestBubbleProps = {
   quantity?: number;
 };
 
-const ANIMAL_REQUEST_IMAGES: Record<
+export const ANIMAL_REQUEST_IMAGES: Record<
   RequestItem,
   { src: string; width: number; height: number }
 > = {

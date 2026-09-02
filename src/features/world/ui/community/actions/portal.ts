@@ -3,6 +3,7 @@ import type { Token } from "features/auth/actions/login";
 import { CONFIG } from "lib/config";
 import { fetchWithRetry } from "lib/fetchWithRetry";
 import { ERRORS } from "lib/errors";
+import { storagePathname } from "lib/phaserPreview";
 
 type Request = {
   portalId: string;
@@ -56,7 +57,7 @@ export async function portal(request: Request) {
 }
 
 const host = window.location.host.replace(/^www\./, "");
-const LOCAL_STORAGE_KEY = `sb_wiz.zpc.minigame.${host}-${window.location.pathname}`;
+const LOCAL_STORAGE_KEY = `sb_wiz.zpc.minigame.${host}-${storagePathname}`;
 
 type MinigameSessions = Partial<Record<string, string>>;
 

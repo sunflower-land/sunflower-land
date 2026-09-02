@@ -17,12 +17,19 @@ export function pixelText(
     shadow?: boolean;
     /** Em size in CSS px (DOM inherited default: 16). */
     fontSize?: number;
+    /** DOM face to match (default: the `font-pixel` "Secondary"). */
+    fontFamily?: string;
   } = {},
 ): Phaser.GameObjects.Text {
-  const { color = "#ffffff", shadow = true, fontSize = 16 } = options;
+  const {
+    color = "#ffffff",
+    shadow = true,
+    fontSize = 16,
+    fontFamily = "Secondary",
+  } = options;
   const label = scene.add
     .text(x, y, text, {
-      fontFamily: "Secondary",
+      fontFamily,
       fontSize: `${fontSize}px`,
       color,
       resolution: DPR * PIXEL_SCALE,
