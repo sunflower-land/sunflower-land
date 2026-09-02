@@ -8,6 +8,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { CONFIG } from "lib/config";
 import { createErrorLogger, isNetworkError } from "lib/errorLogger";
+import { ERRORS } from "lib/errors";
 import { ConnectionError } from "./ConnectionError";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SystemMessageWidget } from "features/announcements/SystemMessageWidget";
@@ -45,6 +46,14 @@ interface BoundaryErrorProps {
   error?: string;
   stack?: string;
   transactionId?: string;
+  /** errorId the API returned for the failed request, if any. */
+  errorId?: string;
+  /** Failed endpoint, e.g. "GET /marketplace". */
+  endpoint?: string;
+  /** HTTP status of the failed request. */
+  status?: number;
+  /** Extra context from the failed request (filters, signer state, …). */
+  meta?: Record<string, unknown>;
   onAcknowledge?: () => void;
 }
 
@@ -56,6 +65,10 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
   farmId,
   error,
   transactionId,
+  errorId,
+  endpoint,
+  status,
+  meta,
   onAcknowledge,
   stack,
 }) => {
@@ -67,7 +80,15 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
   useEffect(() => {
     // Known backend rejections and network failures are filtered inside the logger.
     const errorLogger = createErrorLogger("react_error_modal", farmId ?? 0);
-    errorLogger({ error, transactionId, stack, meta: { date } });
+    errorLogger({
+      error,
+      transactionId,
+      errorId,
+      endpoint,
+      status,
+      stack,
+      meta: { date, ...meta },
+    });
   }, []);
 
   // "Failed to fetch" & friends: the request never reached the server. Tell
@@ -80,6 +101,23 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
         transactionId={transactionId}
         onAcknowledge={onAcknowledge}
       />
+    );
+  }
+
+  // A 401 on a read: the JWT expired while the tab sat open, or the player
+  // signed out elsewhere. "Something went wrong" is misleading — and the
+  // logger deliberately doesn't report these, so the modal has to say it.
+  if (error === ERRORS.UNAUTHORIZED) {
+    return (
+      <>
+        <div className="p-2 py-1 space-y-2 mb-2">
+          <h1 className="text-base text-center">{t("session.expired")}</h1>
+          <p className="text-xs">{t("statements.session.expired")}</p>
+        </div>
+        {onAcknowledge && (
+          <Button onClick={onAcknowledge}>{t("refresh")}</Button>
+        )}
+      </>
     );
   }
 
@@ -130,6 +168,12 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
               {t("error")}
               {": "}
               {error}
+            </p>
+          )}
+          {endpoint && (
+            <p className="select-all">
+              {endpoint}
+              {status ? ` (${status})` : ""}
             </p>
           )}
           <p className="select-all">

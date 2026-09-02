@@ -5,6 +5,7 @@ import { BoundaryError } from "./SomethingWentWrong";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { isExternalDomMutationError } from "lib/errorLogger";
+import { getApiErrorDetail } from "lib/apiError";
 
 interface Props {
   children?: ReactNode;
@@ -67,6 +68,11 @@ class ErrorBoundary extends Component<Props, State> {
 
   public render() {
     if (this.state.error !== null) {
+      // API failures arrive carrying the status, endpoint and transaction
+      // id of the request that failed (see lib/apiError). Forward them, or
+      // the report is just the word "FAILED_REQUEST".
+      const detail = getApiErrorDetail(this.state.error);
+
       return (
         <>
           <div
@@ -82,6 +88,11 @@ class ErrorBoundary extends Component<Props, State> {
               <BoundaryError
                 error={this.state.error.message}
                 stack={this.state.error.stack}
+                transactionId={detail?.transactionId}
+                errorId={detail?.errorId}
+                endpoint={detail?.endpoint}
+                status={detail?.status}
+                meta={detail?.meta}
                 onAcknowledge={this.refreshPage}
               />
             </Panel>
