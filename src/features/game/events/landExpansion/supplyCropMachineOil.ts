@@ -6,7 +6,20 @@ import {
   MAX_OIL_CAPACITY_IN_MILLIS,
   updateCropMachine,
 } from "./supplyCropMachine";
+import { hasFeatureAccess } from "lib/flags";
+import { getCropMachineBoostWindows } from "features/game/lib/boostWindows";
+import {
+  convertCropMachineToWindowed,
+  settleCropMachine,
+} from "features/game/lib/cropMachineReadiness";
 
+/**
+ * LEGACY MACHINES ONLY: reconstructs the tank from the per-pack earmarks the
+ * legacy allocator embedded in readyAt/growsUntil, in pure 1× wall-clock
+ * arithmetic. On a windowed machine (`oilSettledAt` set) there are no earmarks
+ * and wall clock ≠ work — after `settleCropMachine` the tank simply IS
+ * `unallocatedOilTime` (or `getCropMachineFuelAt` for a live reading).
+ */
 export function getTotalOilMillisInMachine(
   queue: CropMachineQueueItem[],
   unallocatedOilTime: number,
@@ -82,13 +95,48 @@ export function supplyCropMachineOil({
       throw new Error("Crop Machine not found");
     }
 
-    const { queue = [], unallocatedOilTime = 0 } = cropMachine;
-
     const previousOilInInventory = stateCopy.inventory["Oil"] ?? new Decimal(0);
 
     if (previousOilInInventory.lt(oilAdded)) {
       throw new Error("Missing requirements");
     }
+
+    const windowed =
+      cropMachine.oilSettledAt !== undefined ||
+      hasFeatureAccess(stateCopy, "SPEED_BOOSTS");
+
+    if (windowed) {
+      const windows = getCropMachineBoostWindows(stateCopy);
+      convertCropMachineToWindowed({
+        machine: cropMachine,
+        windows,
+        now: createdAt,
+      });
+      // After settling, the tank level IS unallocatedOilTime (no earmarks).
+      settleCropMachine({ machine: cropMachine, windows, now: createdAt });
+
+      if (
+        (cropMachine.unallocatedOilTime ?? 0) +
+          getOilTimeInMillis(oilAdded, state) >
+        MAX_OIL_CAPACITY_IN_MILLIS(state)
+      ) {
+        throw new Error("Oil capacity exceeded");
+      }
+
+      stateCopy.inventory["Oil"] = previousOilInInventory.minus(oilAdded);
+
+      cropMachine.unallocatedOilTime =
+        (cropMachine.unallocatedOilTime ?? 0) +
+        getOilTimeInMillis(oilAdded, state);
+
+      // Same instant, so this settle only refreshes the caches with the new
+      // fuel taken into account (a stalled pack resumes from here).
+      settleCropMachine({ machine: cropMachine, windows, now: createdAt });
+
+      return stateCopy;
+    }
+
+    const { queue = [], unallocatedOilTime = 0 } = cropMachine;
 
     const oilMillisInMachine = getTotalOilMillisInMachine(
       queue,

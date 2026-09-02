@@ -1066,11 +1066,32 @@ export type CropMachineQueueItem = {
   criticalHit?: CriticalHit;
   amount?: number;
   pausedTimeRemaining?: number;
+  /**
+   * Remaining WORK (permanent-boosted ms, temporary boosts excluded) as of the
+   * machine's `oilSettledAt`. Presence = this pack is windowed (SPEED_BOOSTS):
+   * its timing derives from `resolveCropMachine` and the stored
+   * `startTime`/`growsUntil`/`readyAt`/`growTimeRemaining` become refreshed
+   * caches. Deleted when the pack completes, at which point `readyAt` becomes
+   * immutable history. Permanent per-pack marker — read paths key off it, NOT
+   * the flag, so a windowed pack keeps windowed timing on a flag rollback.
+   */
+  baseDurationMs?: number;
 };
 
 export type CropMachineBuilding = PlacedItem & {
   queue?: CropMachineQueueItem[];
   unallocatedOilTime?: number;
+  /**
+   * Presence = this MACHINE is windowed (SPEED_BOOSTS). The tank is
+   * machine-wide, so the fuel ledger's discriminator is too: when set,
+   * `unallocatedOilTime` means the WHOLE tank — wall-clock ms of unburned fuel,
+   * with no per-pack earmarks — as of this instant, and every windowed pack's
+   * `baseDurationMs` is its remaining work as of this instant. Advanced by
+   * `settleCropMachine` on every crop-machine event. On a legacy machine
+   * (unset), `unallocatedOilTime` keeps its original meaning: oil-work not yet
+   * earmarked to a pack by `updateCropMachine`.
+   */
+  oilSettledAt?: number;
 };
 
 type CustomBuildings = {
