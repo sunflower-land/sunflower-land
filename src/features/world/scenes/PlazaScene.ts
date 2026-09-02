@@ -28,7 +28,6 @@ import { getAnimationUrl } from "../lib/animations";
 import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import type { Player } from "../types/Room";
 import { getDailyBudBoxType } from "features/game/lib/budBox";
-import { getDayOfYear } from "lib/utils/time";
 
 const CHAPTER_BANNERS: Record<ChapterName, string | undefined> = {
   "Solar Flare": undefined,
@@ -222,7 +221,8 @@ export class PlazaScene extends BaseScene {
     const openedAt = this.gameState.pumpkinPlaza.budBox?.openedAt ?? 0;
     const hasOpenedToday =
       !!openedAt &&
-      getDayOfYear(new Date(now)) === getDayOfYear(new Date(openedAt));
+      new Date(now).toISOString().substring(0, 10) ===
+        new Date(openedAt).toISOString().substring(0, 10);
 
     return hasTodayBud && !hasOpenedToday;
   }
