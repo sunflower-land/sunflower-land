@@ -122,7 +122,7 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
         className="relative shrink-0"
         style={{
           width: `${CARD_SIZE}px`,
-          height: `${CARD_SIZE * 1.25}px`,
+          height: `${CARD_SIZE * 1.15}px`,
         }}
       >
         <ButtonPanel
@@ -133,13 +133,13 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
           })}
           onClick={() => onSelect(isSelected ? undefined : deal)}
         >
-          <div className="h-full flex items-center justify-center pt-2 pb-5">
+          <div className="h-full flex items-center justify-center pt-1 pb-4">
             <img src={ITEM_DETAILS[deal.name].image} className="w-[34px]" />
           </div>
 
           <Label
             type="formula"
-            className="absolute -top-3 -left-2 whitespace-nowrap"
+            className="absolute -top-2 -left-2 whitespace-nowrap"
           >
             {t("bounties.minLevel", { level: deal.level })}
           </Label>
@@ -148,7 +148,7 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
             <Label
               type="warning"
               icon={SUNNYSIDE.ui.coinsImg}
-              className="absolute -bottom-2 text-center p-1"
+              className="absolute -bottom-1 text-center p-1"
               style={{
                 left: `${PIXEL_SCALE * -3}px`,
                 right: `${PIXEL_SCALE * -3}px`,
@@ -165,7 +165,7 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
               key={name}
               type="warning"
               icon={ITEM_DETAILS[name].image}
-              className="absolute -bottom-2 text-center p-1"
+              className="absolute -bottom-1 text-center p-1"
               style={{
                 left: `${PIXEL_SCALE * -3}px`,
                 right: `${PIXEL_SCALE * -3}px`,
@@ -200,7 +200,7 @@ export const AnimalBountyQuickPanel: React.FC<Props> = ({
         // Just the cards: a single scrolling row keeps the panel as short as
         // possible. Top/bottom padding leaves room for the cards' overhanging
         // level and reward labels.
-        <div className="scrollable flex flex-nowrap items-start gap-x-3 overflow-x-auto overflow-y-hidden px-1 pt-3 pb-2">
+        <div className="scrollable flex flex-nowrap items-start gap-x-3 overflow-x-auto overflow-y-hidden pl-3 pr-1 pt-2.5 pb-1.5">
           {orderedDeals.map(renderDealCard)}
         </div>
       ) : (

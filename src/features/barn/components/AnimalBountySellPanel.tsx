@@ -32,7 +32,7 @@ export const AnimalBountySellPanel: React.FC<Props> = ({
     <HudContainer zIndex="z-50">
       <div className="absolute bottom-0 left-0 right-0">
         {/* Title + weekly reset countdown, perched above the panel's left edge. */}
-        <div className="absolute z-20 -top-9 left-2 flex items-center gap-1">
+        <div className="absolute z-20 -top-8 left-2 flex items-center gap-2">
           <Label type="default">{t("bounties.sellAnimals")}</Label>
           <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
             <TimerDisplay time={expiresAt} />
@@ -42,7 +42,7 @@ export const AnimalBountySellPanel: React.FC<Props> = ({
         <button
           type="button"
           aria-label="Close"
-          className="absolute z-20 -top-10 right-2 cursor-pointer border-0 bg-transparent p-0"
+          className="absolute z-20 -top-12 right-2 cursor-pointer border-0 bg-transparent p-0"
           onClick={onClose}
         >
           <img
