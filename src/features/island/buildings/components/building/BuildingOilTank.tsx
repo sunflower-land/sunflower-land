@@ -63,7 +63,7 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
     BUILDING_DAILY_OIL_CAPACITY[buildingName as CookingBuildingName] -
     oilRemainingInBuilding;
   const incrementMaxOil = () => {
-    setTotalOilToAdd(amountToFull);
+    setTotalOilToAdd(Math.floor(amountToFull));
   };
 
   function getOilTimeInMillis(oil: number): number {
