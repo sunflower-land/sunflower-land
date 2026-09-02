@@ -83,6 +83,10 @@ export const EXPECTED_ERROR_CODES: ReadonlySet<string> = new Set([
   "TWITTER_NOT_SHOWCASED",
   // Session / rate limiting / maintenance — handled with dedicated UI
   ERRORS.SESSION_EXPIRED,
+  // A 401 on a read endpoint: the JWT expired while the tab sat open, or
+  // the player signed out in another tab. The answer is always "log in
+  // again", never a code change, so it is an outcome like the rest here.
+  ERRORS.UNAUTHORIZED,
   ERRORS.MULTIPLE_DEVICES_OPEN,
   ERRORS.TOO_MANY_REQUESTS,
   ERRORS.EFFECT_TOO_MANY_REQUESTS,

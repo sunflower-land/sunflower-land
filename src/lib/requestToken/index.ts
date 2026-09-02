@@ -235,6 +235,19 @@ export function requestTokensActive(): boolean {
   return !!expiresAt && !!signer?.hasSession();
 }
 
+/**
+ * What this client would put in `X-Token` right now — "ready",
+ * "unsigned:not-initialised", "incompatible_wasm:csp-blocked", …
+ *
+ * Attached to API failure reports. Without it a protected endpoint
+ * rejecting a player whose signer never loaded is indistinguishable from a
+ * server fault, and the browsers where the signer fails (third-party
+ * mobile WebViews especially) are exactly the ones we hear about second-hand.
+ */
+export function requestTokenDiagnostics(): string {
+  return requestTokensActive() ? "ready" : sentinelHeaders()["X-Token"];
+}
+
 function tokenHeaders(
   url: string,
   init?: RequestInit,
