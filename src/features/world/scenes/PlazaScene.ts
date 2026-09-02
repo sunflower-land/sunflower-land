@@ -27,8 +27,6 @@ import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { getAnimationUrl } from "../lib/animations";
 import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import type { Player } from "../types/Room";
-import emptyDisc from "assets/icons/empty_disc.png";
-import emptyDiscBackground from "assets/icons/empty_disc_background.png";
 import { getDailyBudBoxType } from "features/game/lib/budBox";
 import { getDayOfYear } from "lib/utils/time";
 
@@ -287,8 +285,6 @@ export class PlazaScene extends BaseScene {
     this.load.image("locked_disc", "world/locked_disc.png");
     this.load.image("key_disc", "world/key_disc.png");
     this.load.image("luxury_key_disc", "world/luxury_key_disc.png");
-    this.load.image("empty_disc", emptyDisc);
-    this.load.image("empty_disc_background", emptyDiscBackground);
 
     // Stella Megastore items
     this.load.image("magma_stone", "world/magma_stone.webp");
@@ -586,7 +582,12 @@ export class PlazaScene extends BaseScene {
       this.add.sprite(825, 50, "locked_disc").setDepth(1000000000);
     }
 
-    const clubHouseLabel = new Label(this, "CLUBHOUSE", "brown");
+    const clubHouseLabel = new Label(
+      this,
+      "CLUBHOUSE",
+      "brown",
+      "delivery_icon",
+    );
     clubHouseLabel.setPosition(152, 262);
     clubHouseLabel.setDepth(10000000);
     this.add.existing(clubHouseLabel);
@@ -796,16 +797,8 @@ export class PlazaScene extends BaseScene {
         }
       });
 
-    const budBoxIndicator = this.add
-      .container(118.5, 275.5)
-      .setDepth(1000000000)
-      .setVisible(false);
-    budBoxIndicator.add(this.add.image(0, 0, "empty_disc_background"));
-    budBoxIndicator.add(this.add.image(0, 0, "empty_disc"));
-    budBoxIndicator.add(this.add.image(0, -2, "chest").setDisplaySize(12, 14));
-
     const refreshBudBoxIndicator = () => {
-      budBoxIndicator.setVisible(this.isBudBoxRewardAvailable());
+      clubHouseLabel.setIconVisible(this.isBudBoxRewardAvailable());
     };
 
     refreshBudBoxIndicator();
