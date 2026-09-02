@@ -258,7 +258,8 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
     // The spawn-lookup key may be a non-scene sentinel like "digging" or
     // "default" supplied via location.state.
     const spawnFromKey = previousSceneOverride ?? autoDerivedPreviousSceneId;
-    const spawn = SPAWNS()[route][spawnFromKey] ?? SPAWNS()[route].default;
+    const spawns = SPAWNS(state.bumpkin?.experience);
+    const spawn = spawns[route][spawnFromKey] ?? spawns[route].default;
 
     if (activeScene && activeScene.scene.key !== route) {
       // Stash the override so the destination scene's BaseScene.create() can

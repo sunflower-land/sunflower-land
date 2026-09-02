@@ -371,10 +371,10 @@ export abstract class BaseScene extends Phaser.Scene {
 
       let spawn = this.options.player.spawn;
 
-      if (SPAWNS()[this.sceneId]) {
+      const spawns = SPAWNS(this.gameState.bumpkin?.experience);
+      if (spawns[this.sceneId]) {
         spawn =
-          (from && SPAWNS()[this.sceneId][from]) ??
-          SPAWNS()[this.sceneId].default;
+          (from && spawns[this.sceneId][from]) ?? spawns[this.sceneId].default;
       }
 
       this.createPlayer({
@@ -2295,8 +2295,9 @@ export abstract class BaseScene extends Phaser.Scene {
       this.switchToScene = undefined;
 
       let spawn = this.options.player.spawn;
-      if (SPAWNS()[warpTo]) {
-        spawn = SPAWNS()[warpTo][this.sceneId] ?? SPAWNS()[warpTo].default;
+      const spawns = SPAWNS(this.gameState.bumpkin?.experience);
+      if (spawns[warpTo]) {
+        spawn = spawns[warpTo][this.sceneId] ?? spawns[warpTo].default;
       }
       // This will cause a loop
       // this.registry.get("navigate")(`/world/${warpTo}`);

@@ -1,4 +1,5 @@
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import type { SceneId } from "../mmoMachine";
 
 // `"default"` is a sentinel WorldMap callers use to mean "always use the
@@ -14,7 +15,72 @@ export type SpawnLocation = Record<
 const randomXOffset = Math.random() * 60;
 const randomYOffset = Math.random() * 20;
 
-export const SPAWNS: () => SpawnLocation = () => ({
+const TILE_SIZE = 16;
+
+/** Tile the plaza statue stands on in `seasonal_plaza.json`. */
+const PLAZA_STATUE_TILE: Coordinates = { x: 26, y: 19 };
+
+/**
+ * How many tiles either side of the statue a player can land on - so the spawn
+ * area is the 7x7 block of tiles centred on the statue (before, after, above,
+ * below and diagonally out to three tiles).
+ */
+const PLAZA_SPAWN_TILE_RADIUS = 3;
+
+/**
+ * Tiles inside that block that are not walkable: the statue's own footprint
+ * (plus the tile to its left, which the player's body clips into) and the
+ * fenced strip running down the left hand edge of the block.
+ */
+const PLAZA_BLOCKED_SPAWN_TILES = [
+  "25,18",
+  "25,19",
+  "26,18",
+  "26,19",
+  "26,20",
+  "27,18",
+  "27,19",
+  "27,20",
+  "23,16",
+  "23,17",
+  "23,22",
+];
+
+export const PLAZA_STATUE_SPAWN_TILES: Coordinates[] = (() => {
+  const tiles: Coordinates[] = [];
+
+  for (
+    let x = PLAZA_STATUE_TILE.x - PLAZA_SPAWN_TILE_RADIUS;
+    x <= PLAZA_STATUE_TILE.x + PLAZA_SPAWN_TILE_RADIUS;
+    x++
+  ) {
+    for (
+      let y = PLAZA_STATUE_TILE.y - PLAZA_SPAWN_TILE_RADIUS;
+      y <= PLAZA_STATUE_TILE.y + PLAZA_SPAWN_TILE_RADIUS;
+      y++
+    ) {
+      if (PLAZA_BLOCKED_SPAWN_TILES.includes(`${x},${y}`)) continue;
+
+      tiles.push({ x, y });
+    }
+  }
+
+  return tiles;
+})();
+
+// Picked once per session so every caller (the mmo machine's join payload and
+// the scene that actually creates the player) agrees on where we spawned.
+const randomPlazaStatueSpawn =
+  PLAZA_STATUE_SPAWN_TILES[
+    Math.floor(Math.random() * PLAZA_STATUE_SPAWN_TILES.length)
+  ];
+
+/** Below this level players still spawn in the bottom section of the plaza. */
+const PLAZA_STATUE_SPAWN_LEVEL = 5;
+
+export const SPAWNS: (experience?: number) => SpawnLocation = (
+  experience = 0,
+) => ({
   love_island: {
     default: {
       x: 608,
@@ -105,11 +171,19 @@ export const SPAWNS: () => SpawnLocation = () => ({
     },
   },
   plaza: {
-    // Make sure everyone doesn't spawn in same spot
-    default: {
-      x: 400 + randomXOffset,
-      y: 450 - randomYOffset,
-    },
+    // Low level players keep spawning in the bottom section (close to the
+    // tutorial NPCs), everyone else is scattered around the central statue so
+    // they don't clump up on the one spot.
+    default:
+      experience < LEVEL_EXPERIENCE[PLAZA_STATUE_SPAWN_LEVEL]
+        ? {
+            x: 400 + randomXOffset,
+            y: 450 - randomYOffset,
+          }
+        : {
+            x: randomPlazaStatueSpawn.x * TILE_SIZE + TILE_SIZE / 2,
+            y: randomPlazaStatueSpawn.y * TILE_SIZE + TILE_SIZE / 2,
+          },
 
     kingdom: {
       x: 64,
