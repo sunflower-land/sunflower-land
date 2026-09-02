@@ -137,9 +137,10 @@ export const CropMachineModalContent: React.FC<Props> = ({
   const seedBalance = selectedSeed
     ? (inventory[selectedSeed] ?? new Decimal(0))
     : new Decimal(0);
-  const maxSupplyable = Math.min(
-    seedBalance.toNumber(),
-    packSeedLimit.toNumber(),
+  // Seed balances can carry a fractional remainder; the machine only
+  // accepts whole seeds, so the "All" button must not send a fraction.
+  const maxSupplyable = Math.floor(
+    Math.min(seedBalance.toNumber(), packSeedLimit.toNumber()),
   );
 
   useLayoutEffect(() => {

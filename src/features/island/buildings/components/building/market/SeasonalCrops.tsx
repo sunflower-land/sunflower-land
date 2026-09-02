@@ -95,9 +95,13 @@ export const SeasonalCrops: React.FC = () => {
       ? crop.sellPrice
       : getSellPrice({ item: crop, game: state }).price;
 
+  // Exotic crops sell through `treasure.sold`, which only accepts whole
+  // amounts; regular crops go through `crop.sold`, which allows fractions.
+  const sellDecimalPlaces = isExoticCrop(selected.name) ? 0 : 2;
+
   const cropAmount = setPrecision(
     getCountAndType(state, selected.name).count,
-    2,
+    sellDecimalPlaces,
   );
   const coinAmount = setPrecision(
     new Decimal(displaySellPrice(selected)).mul(
@@ -320,7 +324,7 @@ export const SeasonalCrops: React.FC = () => {
         setCustomAmount={setCustomAmount}
         itemAmount={cropAmount}
         bumpkinParts={NPC_WEARABLES.betty}
-        maxDecimalPlaces={2}
+        maxDecimalPlaces={sellDecimalPlaces}
         onCancel={closeBulkSellModal}
         onSell={openConfirmationModal}
         coinAmount={coinAmount}
