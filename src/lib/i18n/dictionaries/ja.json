@@ -7825,7 +7825,6 @@
   "savedLayouts.confirmAscensionFromLayout": "アセンション・レイアウトに「{{name}}」を設定しますか？最初の30土地のアイテムのみが保存され、アセンションするたびに再適用されます。",
   "savedLayouts.confirmAscensionReplaceFromLayout": "アセンション・レイアウトを「{{name}}」に置き換えませんか?最初の 30 土地のアイテムのみが保存され、アセンションするたびに再適用されます。",
   "savedLayouts.toastAscensionSaved": "アセンションレイアウトセット",
-  "savedLayouts.ascensionProtected": "これがアセンションレイアウトです。アセンションするたびに再適用されます。名前の変更、上書き、削除はできません。",
   "skill.glassRoom.ranked": "+ {{value}} 温室農産物の収量",
   "skill.seedyBusiness.ranked": "x {{value}} 温室種子のコスト",
   "skill.riceAndShine.ranked": "x {{value}} 温室農産物の成長時間",
@@ -8461,5 +8460,12 @@
   "bounties.chapterPoints.earned": "+ {{points}} {{chapter}} ポイント。",
   "action.chop": "チョップ",
   "action.mine": "私の",
-  "building.saltFarm": "ソルトファーム"
+  "building.saltFarm": "ソルトファーム",
+  "islandupgrade.warningAscendReset": "昇降すると島が新たなレイアウトにリセットされ、アイテムはチェストに戻されます。現在のレイアウトを下に保存しておけば、到着後に再適用できます。",
+  "islandupgrade.saveLayoutPrompt": "現在のレイアウトを保存して、後で再適用できるようにする",
+  "islandupgrade.saveLayoutSlotsFull": "レイアウトスロットがいっぱいです。昇順する前にこの配置を保存したい場合は、保存済みレイアウトのスロットを空けてください。",
+  "islandupgrade.reapplyLayout": "'{{name}}' を再適用してください",
+  "savedLayouts.loadFailed": "レイアウトを読み込めませんでした。もう一度試してください。",
+  "savedLayouts.actionFailed": "何かがおかしくなった。もう一度試してください。",
+  "savedLayouts.ascensionBadge": "昇順後に再適用されたオプション"
 }

@@ -7825,7 +7825,6 @@
   "savedLayouts.confirmAscensionFromLayout": "Yükseliş Düzeni olarak “{{name}}” mi ayarlayın? Sadece ilk 30 arazisindeki eşyalar saklanır ve her yükseldiğinizde yeniden uygulanır.",
   "savedLayouts.confirmAscensionReplaceFromLayout": "Yükseliş Düzeninizi “{{name}}” ile değiştirin? Sadece ilk 30 arazisindeki eşyalar saklanır ve her yükseldiğinizde yeniden uygulanır.",
   "savedLayouts.toastAscensionSaved": "Yükseliş Düzeni kümesi",
-  "savedLayouts.ascensionProtected": "Bu sizin Yükseliş Düzeninizdir - her yükseldiğinizde yeniden uygulanır. Yeniden adlandırılamaz, üzerine yazılamaz veya silinemez.",
   "skill.glassRoom.ranked": "+ {{value}} Sera üretimi verimi",
   "skill.seedyBusiness.ranked": "x {{value}} Sera tohumlarının maliyeti",
   "skill.riceAndShine.ranked": "x {{value}} sera ürünleri için büyüme süresi",
@@ -8461,5 +8460,12 @@
   "bounties.chapterPoints.earned": "+ {{points}} {{chapter}} puan.",
   "action.chop": "pirzola",
   "action.mine": "mayın",
-  "building.saltFarm": "Tuz Çiftliği"
+  "building.saltFarm": "Tuz Çiftliği",
+  "islandupgrade.warningAscendReset": "Yükselmek adanızı yeni bir başlangıç düzenine sıfırlar - öğeleriniz göğsünüze geri gönderilir. Mevcut düzeninizi aşağıya kaydedin ve geldikten sonra yeniden uygulayabilirsiniz.",
+  "islandupgrade.saveLayoutPrompt": "Mevcut düzenimi kaydedin, böylece daha sonra yeniden uygulayabilirim",
+  "islandupgrade.saveLayoutSlotsFull": "Düzen yuvalarınız dolu. Yükselmeden önce bu düzenlemeyi kaydetmek istiyorsanız Kayıtlı Düzenlerde bir yuva açın.",
+  "islandupgrade.reapplyLayout": "'[ 0@/$] 'yeniden uygulayın",
+  "savedLayouts.loadFailed": "Düzenleriniz yüklenemedi. Lütfen tekrar deneyin.",
+  "savedLayouts.actionFailed": "Bir şeyler ters gitti. Lütfen tekrar deneyin.",
+  "savedLayouts.ascensionBadge": "Artıştan sonra yeniden uygulanan seçenek"
 }

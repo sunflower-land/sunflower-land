@@ -7825,7 +7825,6 @@
   "savedLayouts.confirmAscensionFromLayout": "Stellen Sie „{{name}}“ als Ihr Himmelfahrts-Layout ein? Es werden nur Gegenstände aus den ersten 30 Ländern gespeichert, und jedes Mal, wenn du aufsteigst, wird es erneut angewendet.",
   "savedLayouts.confirmAscensionReplaceFromLayout": "Ersetze dein Ascension Layout durch „{{name}}“? Es werden nur Gegenstände aus den ersten 30 Ländern gespeichert, und jedes Mal, wenn du aufsteigst, wird es erneut angewendet.",
   "savedLayouts.toastAscensionSaved": "Ascension Layout-Set",
-  "savedLayouts.ascensionProtected": "Das ist euer Aufstiegs-Layout — jedes Mal neu angewendet, wenn ihr aufsteigt. Es kann nicht umbenannt, überschrieben oder gelöscht werden.",
   "skill.glassRoom.ranked": "+ {{value}} Ertrag von Gewächshausprodukten",
   "skill.seedyBusiness.ranked": "x {{value}} Kosten für Gewächshaussamen",
   "skill.riceAndShine.ranked": "x {{value}} Wachstumszeit für Gewächshausprodukte",
@@ -8461,5 +8460,12 @@
   "bounties.chapterPoints.earned": "+ {{points}} {{chapter}} Punkte.",
   "action.chop": "hacken",
   "action.mine": "Bergwerk",
-  "building.saltFarm": "Salzfarm"
+  "building.saltFarm": "Salzfarm",
+  "islandupgrade.warningAscendReset": "Wenn Sie aufsteigen, wird Ihre Insel auf ein neues Startlayout zurückgesetzt — Ihre Gegenstände werden in Ihre Truhe zurückgebracht. Speichere unten dein aktuelles Layout und du kannst es nach deiner Ankunft erneut anwenden.",
+  "islandupgrade.saveLayoutPrompt": "Speichere mein aktuelles Layout, damit ich es später erneut anwenden kann",
+  "islandupgrade.saveLayoutSlotsFull": "Ihre Layout-Slots sind voll. Geben Sie unter Gespeicherte Layouts einen Platz frei, wenn Sie diese Anordnung vor dem Aufsteigen speichern möchten.",
+  "islandupgrade.reapplyLayout": "'{{name}}' erneut anwenden",
+  "savedLayouts.loadFailed": "Ihre Layouts konnten nicht geladen werden. Bitte versuchen Sie es erneut.",
+  "savedLayouts.actionFailed": "Etwas ist schief gelaufen. Bitte versuchen Sie es erneut.",
+  "savedLayouts.ascensionBadge": "Option nach dem Aufsteigen erneut angewendet"
 }

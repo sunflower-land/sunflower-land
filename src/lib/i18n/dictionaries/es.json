@@ -7825,7 +7825,6 @@
   "savedLayouts.confirmAscensionFromLayout": "¿Establecer «{{name}}» como tu diseño de ascensión? Solo se almacenan los objetos de sus primeras 30 tierras, y se vuelven a usar cada vez que asciendes.",
   "savedLayouts.confirmAscensionReplaceFromLayout": "¿Sustituye tu diseño de ascensión por «{{name}}»? Solo se almacenan los objetos de sus primeras 30 tierras, y se vuelven a usar cada vez que asciendes.",
   "savedLayouts.toastAscensionSaved": "Conjunto de diseños de ascensión",
-  "savedLayouts.ascensionProtected": "Este es tu diseño de ascensión, que se vuelve a aplicar cada vez que asciendes. No se puede renombrar, sobrescribir ni eliminar.",
   "skill.glassRoom.ranked": "+ {{value}} Rendimiento de productos de invernadero",
   "skill.seedyBusiness.ranked": "x {{value}} Costo de semillas de invernadero",
   "skill.riceAndShine.ranked": "x {{value}} tiempo de crecimiento de los productos de invernadero",
@@ -8461,5 +8460,12 @@
   "bounties.chapterPoints.earned": "+ {{points}} {{chapter}} puntos.",
   "action.chop": "chuleta",
   "action.mine": "mía",
-  "building.saltFarm": "Granja de sal"
+  "building.saltFarm": "Granja de sal",
+  "islandupgrade.warningAscendReset": "Al ascender, tu isla vuelve a tener un nuevo diseño inicial: tus objetos vuelven a tu cofre. Guarda tu diseño actual a continuación y podrás volver a aplicarlo cuando llegues.",
+  "islandupgrade.saveLayoutPrompt": "Guardar mi diseño actual para poder volver a aplicarlo más adelante",
+  "islandupgrade.saveLayoutSlotsFull": "Sus espacios de diseño están llenos. Libera un espacio en las maquetaciones guardadas si quieres guardar esta disposición antes de subir.",
+  "islandupgrade.reapplyLayout": "Vuelva a aplicar '{{name}}'",
+  "savedLayouts.loadFailed": "No se han podido cargar los diseños. Vuelva a intentarlo.",
+  "savedLayouts.actionFailed": "Algo salió mal. Por favor, inténtelo de nuevo.",
+  "savedLayouts.ascensionBadge": "Opción reaplicada después de ascender"
 }

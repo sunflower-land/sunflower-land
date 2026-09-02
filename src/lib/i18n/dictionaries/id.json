@@ -7825,7 +7825,6 @@
   "savedLayouts.confirmAscensionFromLayout": "Setel “{{name}}” sebagai Tata Letak Kenaikan Anda? Hanya item di 30 tanah pertamanya yang disimpan, dan itu diterapkan kembali setiap kali Anda naik.",
   "savedLayouts.confirmAscensionReplaceFromLayout": "Ganti Tata Letak Ascension Anda dengan “{{name}}”? Hanya item di 30 tanah pertamanya yang disimpan, dan itu diterapkan kembali setiap kali Anda naik.",
   "savedLayouts.toastAscensionSaved": "Set Tata Letak Ascension",
-  "savedLayouts.ascensionProtected": "Ini adalah Tata Letak Kenaikan Anda — diterapkan kembali setiap kali Anda naik. Itu tidak dapat diganti namanya, diganti, atau dihapus.",
   "skill.glassRoom.ranked": "+ {{value}} Hasil produksi rumah kaca",
   "skill.seedyBusiness.ranked": "x {{value}} Biaya benih rumah kaca",
   "skill.riceAndShine.ranked": "x {{value}} waktu pertumbuhan untuk produk rumah kaca",
@@ -8461,5 +8460,12 @@
   "bounties.chapterPoints.earned": "+ {{points}} {{chapter}} poin.",
   "action.chop": "memotong",
   "action.mine": "tambang",
-  "building.saltFarm": "Peternakan Garam"
+  "building.saltFarm": "Peternakan Garam",
+  "islandupgrade.warningAscendReset": "Ascending mengatur ulang pulau Anda ke tata letak awal yang baru - item Anda dikembalikan ke dada Anda. Simpan tata letak Anda saat ini di bawah ini dan Anda dapat menerapkannya kembali setelah Anda tiba.",
+  "islandupgrade.saveLayoutPrompt": "Simpan tata letak saya saat ini sehingga saya dapat menerapkannya kembali nanti",
+  "islandupgrade.saveLayoutSlotsFull": "Slot tata letak Anda penuh. Bebaskan slot di Tata Letak Tersimpan jika Anda ingin menyimpan pengaturan ini sebelum naik.",
+  "islandupgrade.reapplyLayout": "Terapkan kembali '{{name}}'",
+  "savedLayouts.loadFailed": "Tidak dapat memuat tata letak Anda. Silakan coba lagi.",
+  "savedLayouts.actionFailed": "Ada yang tidak beres. Silakan coba lagi.",
+  "savedLayouts.ascensionBadge": "Opsi yang diterapkan kembali setelah naik"
 }

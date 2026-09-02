@@ -7825,7 +7825,6 @@
   "savedLayouts.confirmAscensionFromLayout": "Defina “{{name}}” como seu layout de ascensão? Somente itens nos primeiros 30 terrenos são armazenados e são reaplicados toda vez que você sobe.",
   "savedLayouts.confirmAscensionReplaceFromLayout": "Substituir seu layout de ascensão por “{{name}}”? Somente itens nos primeiros 30 terrenos são armazenados e são reaplicados toda vez que você sobe.",
   "savedLayouts.toastAscensionSaved": "Conjunto de layout de ascensão",
-  "savedLayouts.ascensionProtected": "Este é o seu Layout de Ascensão — reaplicado toda vez que você sobe. Ele não pode ser renomeado, sobrescrito ou excluído.",
   "skill.glassRoom.ranked": "+ {{value}} Rendimento de produção em estufa",
   "skill.seedyBusiness.ranked": "x {{value}} Custo de sementes de estufa",
   "skill.riceAndShine.ranked": "x {{value}} tempo de crescimento para produtos em estufa",
@@ -8461,5 +8460,12 @@
   "bounties.chapterPoints.earned": "+ {{points}} {{chapter}} pontos.",
   "action.chop": "picam",
   "action.mine": "minha",
-  "building.saltFarm": "Fazenda de sal"
+  "building.saltFarm": "Fazenda de sal",
+  "islandupgrade.warningAscendReset": "A ascensão redefine sua ilha para um novo layout inicial - seus itens são devolvidos ao seu baú. Salve seu layout atual abaixo e você poderá reaplicá-lo depois de chegar.",
+  "islandupgrade.saveLayoutPrompt": "Salve meu layout atual para que eu possa reaplicá-lo mais tarde",
+  "islandupgrade.saveLayoutSlotsFull": "Seus slots de layout estão cheios. Libere um espaço nos layouts salvos se quiser salvar esse arranjo antes de subir.",
+  "islandupgrade.reapplyLayout": "Aplique novamente '{{name}}'",
+  "savedLayouts.loadFailed": "Não foi possível carregar seus layouts. Por favor, tente novamente.",
+  "savedLayouts.actionFailed": "Algo deu errado. Por favor, tente novamente.",
+  "savedLayouts.ascensionBadge": "Opção reaplicada após ascender"
 }

@@ -7825,7 +7825,6 @@
   "savedLayouts.confirmAscensionFromLayout": "Установить «{{name}}» как планировку восхождения? Сохраняются только предметы на первых 30 участках - она будет применяться заново при каждом восхождении.",
   "savedLayouts.confirmAscensionReplaceFromLayout": "Заменить планировку восхождения на «{{name}}»? Сохраняются только предметы на первых 30 участках - она будет применяться заново при каждом восхождении.",
   "savedLayouts.toastAscensionSaved": "Планировка восхождения установлена",
-  "savedLayouts.ascensionProtected": "Это твоя планировка восхождения - она применяется заново при каждом восхождении. Её нельзя переименовать, перезаписать или удалить.",
   "skill.glassRoom.ranked": "+{{value}} к урожаю тепличных культур",
   "skill.seedyBusiness.ranked": "x{{value}} к стоимости тепличных семян",
   "skill.riceAndShine.ranked": "x{{value}} времени роста тепличного урожая",
@@ -8461,5 +8460,12 @@
   "bounties.chapterPoints.earned": "+{{points}} {{chapter}} points.",
   "action.chop": "chop",
   "action.mine": "mine",
-  "building.saltFarm": "Salt Farm"
+  "building.saltFarm": "Salt Farm",
+  "islandupgrade.warningAscendReset": "Ascending resets your island to a fresh starting layout - your items are returned to your chest. Save your current layout below and you can re-apply it after you arrive.",
+  "islandupgrade.saveLayoutPrompt": "Save my current layout so I can re-apply it later",
+  "islandupgrade.saveLayoutSlotsFull": "Your layout slots are full. Free a slot in Saved Layouts if you want to save this arrangement before ascending.",
+  "islandupgrade.reapplyLayout": "Re-apply '{{name}}'",
+  "savedLayouts.loadFailed": "Could not load your layouts. Please try again.",
+  "savedLayouts.actionFailed": "Something went wrong. Please try again.",
+  "savedLayouts.ascensionBadge": "Re-applied option after ascending"
 }

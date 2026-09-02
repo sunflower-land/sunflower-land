@@ -7825,7 +7825,6 @@
   "savedLayouts.confirmAscensionFromLayout": "Définissez « {{name}} » comme disposition de votre Ascension ? Seuls les objets se trouvant sur ses 30 premiers terrains sont stockés, et ils sont réappliqués à chaque fois que vous montez.",
   "savedLayouts.confirmAscensionReplaceFromLayout": "Remplacez votre disposition Ascension par « {{name}} » ? Seuls les objets se trouvant sur ses 30 premiers terrains sont stockés, et ils sont réappliqués à chaque fois que vous montez.",
   "savedLayouts.toastAscensionSaved": "Kit de mise en page Ascension",
-  "savedLayouts.ascensionProtected": "Il s'agit de votre plan d'ascension, réappliqué à chaque ascension. Il ne peut pas être renommé, remplacé ou supprimé.",
   "skill.glassRoom.ranked": "+ {{value}} Rendement des produits de serre",
   "skill.seedyBusiness.ranked": "x {{value}} Coût des semences de serre",
   "skill.riceAndShine.ranked": "x {{value}} temps de croissance pour les produits de serre",
@@ -8461,5 +8460,12 @@
   "bounties.chapterPoints.earned": "+ {{points}} {{chapter}} points.",
   "action.chop": "hacher",
   "action.mine": "mien",
-  "building.saltFarm": "Ferme de sel"
+  "building.saltFarm": "Ferme de sel",
+  "islandupgrade.warningAscendReset": "L'ascension redonne à votre île une nouvelle configuration de départ : vos objets sont retournés dans votre coffre. Enregistrez votre mise en page actuelle ci-dessous et vous pourrez la réappliquer à votre arrivée.",
+  "islandupgrade.saveLayoutPrompt": "Enregistrer ma mise en page actuelle pour pouvoir la réappliquer plus tard",
+  "islandupgrade.saveLayoutSlotsFull": "Vos emplacements de mise en page sont pleins. Libérez un emplacement dans les mises en page enregistrées si vous souhaitez enregistrer cette disposition avant de monter.",
+  "islandupgrade.reapplyLayout": "Réappliquez « {{name}} »",
+  "savedLayouts.loadFailed": "Impossible de charger vos mises en page. Veuillez réessayer.",
+  "savedLayouts.actionFailed": "Quelque chose s'est mal passé. Veuillez réessayer.",
+  "savedLayouts.ascensionBadge": "Option réappliquée après l'ascension"
 }

@@ -7825,7 +7825,6 @@
   "savedLayouts.confirmAscensionFromLayout": "Imposta «{{name}}» come layout dell'Ascensione? Vengono immagazzinati solo gli oggetti presenti nelle sue prime 30 terre e viene riapplicato ogni volta che ascendi.",
   "savedLayouts.confirmAscensionReplaceFromLayout": "Sostituisci il layout dell'Ascensione con «{{name}}»? Vengono immagazzinati solo gli oggetti presenti nelle sue prime 30 terre e viene riapplicato ogni volta che ascendi.",
   "savedLayouts.toastAscensionSaved": "Set di layout dell'Ascensione",
-  "savedLayouts.ascensionProtected": "Questo è il vostro Layout dell'Ascensione, riapplicato ogni volta che ascendete. Non può essere rinominato, sovrascritto o eliminato.",
   "skill.glassRoom.ranked": "+ {{value}} Rendimento dei prodotti in serra",
   "skill.seedyBusiness.ranked": "x {{value}} Costo dei semi in serra",
   "skill.riceAndShine.ranked": "x {{value}} tempo di crescita per i prodotti in serra",
@@ -8461,5 +8460,12 @@
   "bounties.chapterPoints.earned": "+ {{points}} {{chapter}} punti.",
   "action.chop": "braciola",
   "action.mine": "la mia",
-  "building.saltFarm": "Fattoria del sale"
+  "building.saltFarm": "Fattoria del sale",
+  "islandupgrade.warningAscendReset": "Ascendendo ripristina la disposizione iniziale della tua isola: i tuoi oggetti vengono restituiti al forziere. Salva il layout attuale qui sotto e potrai riapplicarlo una volta arrivato.",
+  "islandupgrade.saveLayoutPrompt": "Salva il mio layout attuale in modo da poterlo riapplicare in un secondo momento",
+  "islandupgrade.saveLayoutSlotsFull": "I tuoi slot di layout sono pieni. Libera uno slot nei Layout salvati se desideri salvare questa disposizione prima di salire.",
+  "islandupgrade.reapplyLayout": "Riapplica '{{name}}'",
+  "savedLayouts.loadFailed": "Impossibile caricare i layout. Riprova.",
+  "savedLayouts.actionFailed": "Qualcosa è andato storto. Per favore riprova.",
+  "savedLayouts.ascensionBadge": "Opzione riapplicata dopo l'aumento"
 }

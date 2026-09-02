@@ -7826,7 +7826,6 @@
   "savedLayouts.confirmAscensionFromLayout": "将“{{name}}”设为您的飞升布局？仅其前 30 块土地上的物品会被保存，并且会在每次飞升时重新应用。",
   "savedLayouts.confirmAscensionReplaceFromLayout": "使用“{{name}}”替换您的飞升布局？仅其前 30 块土地上的物品会被保存，并且会在每次飞升时重新应用。",
   "savedLayouts.toastAscensionSaved": "已设置飞升布局",
-  "savedLayouts.ascensionProtected": "这是您的飞升布局——在每次飞升时重新应用。它无法被重命名、覆盖或删除。",
   "skill.glassRoom.ranked": "+{{value}} 温室庄稼产量",
   "skill.seedyBusiness.ranked": "x{{value}} 温室种子成本",
   "skill.riceAndShine.ranked": "x{{value}} 温室作物生长时间",
@@ -8461,5 +8460,12 @@
   "bounties.chapterPoints.earned": "+ {{points}} {{chapter}} 积分。",
   "action.chop": "劈",
   "action.mine": "我的",
-  "building.saltFarm": "盐场"
+  "building.saltFarm": "盐场",
+  "islandupgrade.warningAscendReset": "上升将你的岛屿重置为全新的起始布局——你的物品将返回到你的宝箱。在下面保存您当前的布局，您可以在到达后重新申请。",
+  "islandupgrade.saveLayoutPrompt": "保存我当前的布局以便稍后重新应用",
+  "islandupgrade.saveLayoutSlotsFull": "您的布局插槽已满。如果您想在升序之前保存此排列，请在 “已保存的布局” 中腾出一个空位。",
+  "islandupgrade.reapplyLayout": "重新申请 '{{name}}'",
+  "savedLayouts.loadFailed": "无法加载您的布局。请再试一次。",
+  "savedLayouts.actionFailed": "出了点问题。请再试一次。",
+  "savedLayouts.ascensionBadge": "升序后重新应用选项"
 }
