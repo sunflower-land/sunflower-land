@@ -338,14 +338,11 @@ export class FarmCameraController {
     this.panTween = {
       fromX: camera.scrollX,
       fromY: camera.scrollY,
-      // Scroll that centres the rect: its midpoint minus half a viewport
-      // (scroll units are world px; viewport world size = buffer px / zoom).
-      toX: camera.clampX(
-        world.x + world.width / 2 - camera.width / camera.zoom / 2,
-      ),
-      toY: camera.clampY(
-        world.y + world.height / 2 - camera.height / camera.zoom / 2,
-      ),
+      // Phaser convention (see projectWorldRect): the camera's world
+      // midpoint is scroll + width/2 — zoom scales around it, so the /zoom
+      // does NOT belong here. Centre the rect by putting its midpoint there.
+      toX: camera.clampX(world.x + world.width / 2 - camera.width / 2),
+      toY: camera.clampY(world.y + world.height / 2 - camera.height / 2),
       elapsed: 0,
     };
   }
