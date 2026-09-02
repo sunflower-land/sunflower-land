@@ -3,7 +3,6 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import type { GameBridge } from "../bridge/GameBridge";
 import type { Unsubscribe } from "../bridge/subscriptions";
 import { FarmCameraController } from "../core/camera";
-import { BumpkinWorker } from "../worker/BumpkinWorker";
 import { YieldEventFloats } from "../components/YieldEventFloats";
 import { FarmClock } from "../core/clock";
 import type { EntityRenderer } from "../entities/EntityRenderer";
@@ -28,8 +27,6 @@ const OCEAN_PLACEHOLDER_COLOR = "#63b0cd";
 
 export class FarmScene extends Phaser.Scene {
   readonly farmCamera: FarmCameraController;
-  /** EXPERIMENT [worker/BumpkinWorker.ts] — only on the farm surface. */
-  worker?: BumpkinWorker;
   private yieldEventFloats?: YieldEventFloats;
   readonly clock = new FarmClock();
 
@@ -86,22 +83,6 @@ export class FarmScene extends Phaser.Scene {
     // renderer click or a React modal that closes right after.
     this.yieldEventFloats = new YieldEventFloats(this, this.bridge);
 
-    if (this.location === "farm") {
-      this.worker = new BumpkinWorker(this, this.bridge);
-      this.bridge.workerStop = () => this.worker?.stop();
-      // Bare-ground tap while a bumpkin is selected: walk there. Runs after
-      // entity handlers, so a click that hit a resource is already swallowed.
-      this.input.on(
-        Phaser.Input.Events.POINTER_UP,
-        (pointer: Phaser.Input.Pointer) => {
-          if (!this.worker?.isActive()) return;
-          if (pointer.getDistance() > 8) return; // a pan, not a tap
-          const hit = this.input.hitTestPointer(pointer);
-          if (hit.length) return; // an entity handled it
-          this.worker.moveTo({ x: pointer.worldX, y: pointer.worldY });
-        },
-      );
-    }
     this.farmCamera.attach(this.bridge.select(_expansionCount));
     this.subscriptions.push(
       this.bridge.subscribe(_expansionCount, (count) =>
@@ -145,10 +126,8 @@ export class FarmScene extends Phaser.Scene {
     this.stressBumpkins?.destroy();
     this.stressBumpkins = undefined;
     this.clock.dispose();
-    this.worker?.destroy();
     this.yieldEventFloats?.destroy();
     this.yieldEventFloats = undefined;
-    this.worker = undefined;
     this.farmCamera.destroy();
   }
 }

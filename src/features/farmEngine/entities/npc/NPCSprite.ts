@@ -80,12 +80,13 @@ export class NPCSprite {
   constructor(
     private readonly scene: Phaser.Scene,
     private readonly options: NPCSpriteOptions,
-  ) {}
+  ) {
+    this.originX = options.x;
+    this.originY = options.y;
+  }
 
   async create() {
-    const { parts, x, y, flipX, depth, onClick, container } = this.options;
-    this.originX = x;
-    this.originY = y;
+    const { parts, flipX, depth, onClick, container } = this.options;
     const url = getAnimationUrl(parts, ["idle"]);
 
     queueSpritesheet(this.scene, url, {
@@ -138,6 +139,13 @@ export class NPCSprite {
         repeat: -1,
       });
     }
+
+    // Lay out against the CURRENT origin — setPosition may have moved the
+    // NPC (e.g. a landscaped building) while the sheets loaded, and
+    // children created at the stale options position would be offset from
+    // the origin every later delta is computed against.
+    const x = this.originX;
+    const y = this.originY;
 
     // The service sheets have no baked shadow (the DOM's idle-small webp
     // does) — draw the npc shadow under the feet, like the world's
@@ -224,7 +232,7 @@ export class NPCSprite {
     });
   }
 
-  /** Warm an animation's sheet without playing it (e.g. on worker select). */
+  /** Warm an animation's sheet without playing it. */
   async preload(
     animation: "idle" | "walking" | "axe" | "dig" | "mining" | "doing",
   ) {

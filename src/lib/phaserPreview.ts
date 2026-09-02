@@ -3,7 +3,8 @@
  * sunflower-land.com/phaser/ (see docs/phaser-farm-migration/). BASE_URL is
  * baked in at build time, so /play and local dev builds are unaffected.
  */
-export const isPhaserPreviewBuild = import.meta.env.BASE_URL === "/phaser/";
+// Optional chaining: Jest's esbuild shim leaves import.meta as {}.
+export const isPhaserPreviewBuild = import.meta.env?.BASE_URL === "/phaser/";
 
 /**
  * Pathname used to scope per-deployment localStorage keys (JWTs, wallet

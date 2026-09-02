@@ -16,8 +16,19 @@ import Phaser from "phaser";
  * Integer values keep NEAREST-filtered pixel art crisp through the
  * downscale.
  */
+/**
+ * Coarse-pointer devices (phones/tablets). Backing-store and MSAA memory
+ * scale with DPR², and mobile WebKit kills the tab well before a desktop
+ * would — these devices trade a step of supersampling for headroom.
+ */
+export const IS_COARSE_POINTER =
+  typeof window.matchMedia === "function" &&
+  window.matchMedia("(pointer: coarse)").matches;
+
 export const DPR = Phaser.Math.Clamp(
   Math.round(window.devicePixelRatio || 1),
   2,
-  4,
+  // A DPR-3 phone still supersamples at 2x; the fractional composite that
+  // costs is invisible next to the ~2.25x framebuffer memory it saves.
+  IS_COARSE_POINTER ? 2 : 4,
 );

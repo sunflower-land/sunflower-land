@@ -35,13 +35,17 @@ export const SftPopoverUI: React.FC<{ bridge: GameBridge }> = ({ bridge }) => {
 
   useEffect(() => {
     if (!request) return;
-    const close = (event: MouseEvent) => {
+    // pointerdown, NOT mousedown: touch pans on the canvas never synthesise
+    // mouse events, so on mobile the popover was surviving pans and dragging
+    // around with its anchor. Any touch outside — a tap elsewhere or the
+    // start of a pan — dismisses it, like native tooltips.
+    const close = (event: PointerEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {
         bridge.sftPopover.set(null);
       }
     };
-    document.addEventListener("mousedown", close);
-    return () => document.removeEventListener("mousedown", close);
+    document.addEventListener("pointerdown", close);
+    return () => document.removeEventListener("pointerdown", close);
   }, [request, bridge]);
 
   const rect = useWorldAnchor(request?.anchorId ?? "sft-popover");

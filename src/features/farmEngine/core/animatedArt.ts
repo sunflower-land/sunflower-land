@@ -132,7 +132,6 @@ import sftsMechaBullGif from "assets/sfts/mecha_bull.webp";
 import sftsMimicEggGif from "assets/sfts/mimic_egg.webp";
 import sftsMimicSlimeBallGif from "assets/sfts/mimic_slime_ball.webp";
 import sftsMimicWingedSlimeBallGif from "assets/sfts/mimic_winged_slime_ball.webp";
-import sftsMomMomObservatoryAnimationGif from "assets/sfts/mom/mom_observatory_animation.webp";
 import sftsMomObservatoryGif from "assets/sfts/mom/observatory.webp";
 import sftsMooVerGif from "assets/sfts/moo_ver.webp";
 import sftsOrangeTunnelBunnyGif from "assets/sfts/orange_tunnel_bunny.webp";
@@ -333,7 +332,6 @@ import sftsMechaBull from "assets/animations/sfts_mecha_bull.png";
 import sftsMimicEgg from "assets/animations/sfts_mimic_egg.png";
 import sftsMimicSlimeBall from "assets/animations/sfts_mimic_slime_ball.png";
 import sftsMimicWingedSlimeBall from "assets/animations/sfts_mimic_winged_slime_ball.png";
-import sftsMomMomObservatoryAnimation from "assets/animations/sfts_mom_mom_observatory_animation.png";
 import sftsMomObservatory from "assets/animations/sfts_mom_observatory.png";
 import sftsMooVer from "assets/animations/sfts_moo_ver.png";
 import sftsOrangeTunnelBunny from "assets/animations/sfts_orange_tunnel_bunny.png";
@@ -421,7 +419,6 @@ import npcsCook from "assets/animations/npcs_cook.png";
 import npcsGoblinChefDoing from "assets/animations/npcs_goblin_chef_doing.png";
 import npcsGoblinChef from "assets/animations/npcs_goblin_chef.png";
 import npcsGoblinSnorkling from "assets/animations/npcs_goblin_snorkling.png";
-import npcsGoblinSwimming from "assets/animations/npcs_goblin_swimming.png";
 import npcsNevilleDoing from "assets/animations/npcs_neville_doing.png";
 import npcsSmoothieMaking from "assets/animations/npcs_smoothie_making.png";
 import npcsSmoothie from "assets/animations/npcs_smoothie.png";
@@ -569,7 +566,6 @@ export const ANIMATED_ART: Record<string, AnimatedArt> = Object.fromEntries([
   [sftsMimicEggGif, { sheet: sftsMimicEgg, frameWidth: 19, frameHeight: 30, frames: 8, fps: 10 }],
   [sftsMimicSlimeBallGif, { sheet: sftsMimicSlimeBall, frameWidth: 16, frameHeight: 16, frames: 7, fps: 10 }],
   [sftsMimicWingedSlimeBallGif, { sheet: sftsMimicWingedSlimeBall, frameWidth: 20, frameHeight: 16, frames: 7, fps: 14 }],
-  [sftsMomMomObservatoryAnimationGif, { sheet: sftsMomMomObservatoryAnimation, frameWidth: 400, frameHeight: 225, frames: 515, fps: 20 }],
   [sftsMomObservatoryGif, { sheet: sftsMomObservatory, frameWidth: 29, frameHeight: 36, frames: 16, fps: 5 }],
   [sftsMooVerGif, { sheet: sftsMooVer, frameWidth: 36, frameHeight: 36, frames: 7, fps: 10 }],
   [sftsOrangeTunnelBunnyGif, { sheet: sftsOrangeTunnelBunny, frameWidth: 15, frameHeight: 16, frames: 25, fps: 2 }],
@@ -657,7 +653,6 @@ export const ANIMATED_ART: Record<string, AnimatedArt> = Object.fromEntries([
   [`${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_chef_doing.gif`, { sheet: npcsGoblinChefDoing, frameWidth: 25, frameHeight: 27, frames: 8, fps: 10 }],
   [`${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_chef.gif`, { sheet: npcsGoblinChef, frameWidth: 22, frameHeight: 25, frames: 9, fps: 14 }],
   [`${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_snorkling.gif`, { sheet: npcsGoblinSnorkling, frameWidth: 24, frameHeight: 21, frames: 38, fps: 10 }],
-  [`${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_swimming.gif`, { sheet: npcsGoblinSwimming, frameWidth: 96, frameHeight: 64, frames: 63, fps: 13 }],
   [`${CONFIG.PROTECTED_IMAGE_URL}/npcs/neville_doing.gif`, { sheet: npcsNevilleDoing, frameWidth: 20, frameHeight: 19, frames: 8, fps: 14 }],
   [`${CONFIG.PROTECTED_IMAGE_URL}/npcs/smoothie_making.gif`, { sheet: npcsSmoothieMaking, frameWidth: 15, frameHeight: 18, frames: 9, fps: 11 }],
   [`${CONFIG.PROTECTED_IMAGE_URL}/npcs/smoothie.gif`, { sheet: npcsSmoothie, frameWidth: 14, frameHeight: 17, frames: 9, fps: 14 }],

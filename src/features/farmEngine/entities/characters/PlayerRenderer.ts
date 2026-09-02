@@ -236,11 +236,6 @@ export class PlayerRenderer extends EntityRenderer<Slice> {
         glow: () => sprite.body(),
       });
       const entry: Entry = { sprite, zone, signature };
-      // The worker experiment drives the main bumpkin around the farm.
-      if (key === "bumpkin") {
-        (this.scene as unknown as { mainBumpkin?: NPCSprite }).mainBumpkin =
-          sprite;
-      }
       // [PlayerNPC.tsx showHelper] pulsating click icon (18px, right -8,
       // top 20 of the NPC box).
       if (config.helper) {
@@ -280,17 +275,6 @@ export class PlayerRenderer extends EntityRenderer<Slice> {
    * through the global playerModalManager.
    */
   private onBumpkinClick() {
-    // EXPERIMENT: on your own farm the bumpkin is a worker you can select and
-    // give jobs to; the profile modal stays one click away while visiting.
-    const worker = (this.scene as unknown as { worker?: { toggle(): void } })
-      .worker;
-    if (
-      worker &&
-      this.bridge.select((s) => s.context.visitorId) === undefined
-    ) {
-      worker.toggle();
-      return;
-    }
     const machine = this.bridge.select((state) => state);
     if (machine.context.visitorId === undefined) {
       this.bridge.farmModal.open("bumpkinPlayer");

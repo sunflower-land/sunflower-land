@@ -123,13 +123,6 @@ export type LandscapingControls = {
   canNudge: { up: boolean; down: boolean; left: boolean; right: boolean };
 };
 
-/** [worker/BumpkinWorker.ts] the bumpkin's selection + job queue. */
-export type WorkerState = {
-  active: boolean;
-  jobs: string[];
-  busy: boolean;
-};
-
 export type AnimalDealState = {
   deal: AnimalBounty;
   selectedId?: string;
@@ -291,13 +284,6 @@ export interface GameBridge {
   /** Present while a placement is selected in landscaping. */
   landscapingControls: ValueStore<LandscapingControls | null>;
   /**
-   * EXPERIMENT [worker/BumpkinWorker.ts]: the bumpkin job queue. Null when
-   * the bumpkin has never been selected.
-   */
-  worker: ValueStore<WorkerState | null>;
-  /** Set by the scene so the React readout can end job mode. */
-  workerStop: () => void;
-  /**
    * Select an inventory item (GameProvider's shortcutItem) — resources
    * auto-select their tool on strike, exactly like the DOM components.
    */
@@ -421,9 +407,6 @@ export function createGameBridge({
       dragging?: boolean;
     } | null>(null),
     landscapingControls: createValueStore<LandscapingControls | null>(null),
-    worker: createValueStore<WorkerState | null>(null),
-    // Replaced by the scene's worker when the farm surface mounts.
-    workerStop: () => undefined,
     sftPopover: createValueStore<SftPopoverRequest>(null),
     overlapMenu: createValueStore<OverlapMenuRequest>(null),
     onGameEvent: (listener) => {

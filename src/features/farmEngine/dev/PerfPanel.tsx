@@ -24,10 +24,25 @@ type Stats = {
   frameMs: number;
   objects: number;
   textures: number;
+  /** Σ width*height*4 over every texture source — decoded/GPU memory estimate. */
+  textureMb: number;
   heapMb: number | undefined;
   longTasks: number;
   renderer: string;
   zoom: number;
+};
+
+const estimateTextureBytes = (game: Phaser.Game): number => {
+  const textures = Object.values(
+    game.textures.list,
+  ) as Phaser.Textures.Texture[];
+  let bytes = 0;
+  for (const texture of textures) {
+    for (const source of texture.source ?? []) {
+      bytes += (source.width ?? 0) * (source.height ?? 0) * 4;
+    }
+  }
+  return bytes;
 };
 
 const readStats = (
@@ -44,6 +59,7 @@ const readStats = (
     frameMs: Math.round(game.loop.delta * 10) / 10,
     objects: scene?.children?.list?.length ?? 0,
     textures: Object.keys(game.textures.list).length,
+    textureMb: Math.round(estimateTextureBytes(game) / 1048576),
     heapMb: memory ? Math.round(memory.usedJSHeapSize / 1048576) : undefined,
     longTasks,
     renderer: game.renderer.type === 2 ? "webgl" : ("canvas" as string),
@@ -115,7 +131,12 @@ export const PerfPanel: React.FC<{
             {`jank ${stats.longTasks}`}
           </span>
           <span title="scene display-list objects">{`obj ${stats.objects}`}</span>
-          <span title="live GPU textures">{`tex ${stats.textures}`}</span>
+          <span
+            title="live GPU textures / estimated decoded memory"
+            style={{ color: stats.textureMb > 300 ? "#e43b44" : undefined }}
+          >
+            {`tex ${stats.textures}/${stats.textureMb}MB`}
+          </span>
           {stats.heapMb !== undefined && (
             <span>{`heap ${stats.heapMb}MB`}</span>
           )}

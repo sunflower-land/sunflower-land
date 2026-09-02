@@ -1,4 +1,6 @@
 import type Phaser from "phaser";
+import { PAN_DEAD_ZONE_CSS_PX } from "./camera";
+import { DPR } from "./rendering";
 import { applyHoverGlow, clearHoverGlow, type GlowTarget } from "./hoverGlow";
 
 /**
@@ -60,7 +62,11 @@ export function makeClickable(
     glowing = undefined;
   };
 
-  obj.on("pointerdown", () => {
+  // Click on RELEASE, not press: a pan that happens to start on an entity
+  // must stay a pan (mobile users drag from wherever their finger lands).
+  // The travel guard shares the camera's pan dead zone, so any release that
+  // the camera would treat as a drag is never a click.
+  obj.on("pointerup", (pointer: Phaser.Input.Pointer) => {
     // Normal world interactions are inert in landscaping mode [Land.tsx
     // swaps to READONLY components]; selection is the controller's job.
     const flags = scene as {
@@ -69,6 +75,7 @@ export function makeClickable(
     };
     if (flags.landscapingActive) return;
     if (flags.visitingActive && !visitClickable) return;
+    if (pointer.getDistance() > PAN_DEAD_ZONE_CSS_PX * DPR) return;
     hideGlow();
     if (onHoverChange) {
       hoverSuppressed = true;

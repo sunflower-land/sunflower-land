@@ -132,12 +132,14 @@ export class BudRenderer extends EntityRenderer<Slice> {
     );
     if (!bud?.coordinates) return;
     const world = gridToWorld(bud.coordinates);
-    this.bridge.anchors.setAnchor("sft-popover", {
+    const box = {
       x: world.x,
       y: world.y - 16,
       width: WORLD_TILE,
       height: WORLD_TILE * 2,
-    });
+    };
+    this.bridge.anchors.setAnchor("sft-popover", box);
+    this.scene.farmCamera.panToWorldRect(box);
     setTimeout(
       () =>
         this.bridge.sftPopover.set({

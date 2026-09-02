@@ -559,75 +559,6 @@ export class CropRenderer extends EntityRenderer<Slice> {
 
   /** Port of Plot.tsx's onClick, dispatching the same events. */
   private onPlotClick(id: string) {
-    // EXPERIMENT [worker/BumpkinWorker.ts]: with a bumpkin selected, ready
-    // plots queue a harvest and empty plots queue a plant (using the
-    // selected seed, or the first crop seed in the inventory). The marker
-    // shows the seed/crop the job will use.
-    const workerGame = this.bridge.select((state) => state.context.state);
-    const workerPlot = workerGame.crops[id];
-    const worker = (
-      this.scene as unknown as {
-        worker?: { isActive(): boolean; intercept(job: unknown): boolean };
-      }
-    ).worker;
-    if (worker?.isActive() && workerPlot) {
-      const world = gridToWorld({ x: workerPlot.x ?? 0, y: workerPlot.y ?? 0 });
-      const ready =
-        !!workerPlot.crop &&
-        isReadyToHarvest(
-          Date.now(),
-          workerPlot.crop,
-          CROPS[workerPlot.crop.name],
-          workerGame,
-          workerPlot.fertiliser,
-        );
-      if (ready) {
-        // Marker: just the blue dot — a crop icon over the crop reads as
-        // noise.
-        worker.intercept({
-          label: "Harvest",
-          world,
-          anim: "doing",
-          dotAt: { x: world.x + WORLD_TILE / 2, y: world.y - 2 },
-          run: () => this.onPlotClickImmediate(id),
-        });
-        return;
-      }
-      if (!workerPlot.crop) {
-        // "Plant whatever is in the inventory": the selected seed when it's
-        // a stocked crop seed, else the first stocked crop seed.
-        const selected = this.bridge.ui.get().selectedItem;
-        const stocked = (name: string) =>
-          !!workerGame.inventory[name as SeedName]?.gte(1);
-        const seed =
-          selected && isCropSeed(selected as SeedName) && stocked(selected)
-            ? (selected as SeedName)
-            : (Object.keys(workerGame.inventory).find(
-                (name) => isCropSeed(name as SeedName) && stocked(name),
-              ) as SeedName | undefined);
-        if (!seed) return; // nothing to plant with — ignore the tap
-        worker.intercept({
-          label: "Plant",
-          world,
-          anim: "dig",
-          dotAt: { x: world.x + WORLD_TILE / 2, y: world.y - 2 },
-          run: () => this.onPlotClickImmediate(id, seed),
-        });
-        return;
-      }
-      // A growing crop has no job to queue; fall through to the normal
-      // click (which shows the timer popover behaviour).
-    }
-
-    this.onPlotClickImmediate(id);
-  }
-
-  /**
-   * The unchanged DOM plot click [Plot.tsx]. `seedOverride` is the worker
-   * arriving with its chosen seed — bridge.selectItem round-trips through
-   * React, so the same-tick read would be stale.
-   */
-  private onPlotClickImmediate(id: string, seedOverride?: SeedName) {
     const machine = this.bridge.select((state) => state);
     const game = machine.context.state;
     const plot = game.crops[id];
@@ -660,11 +591,7 @@ export class CropRenderer extends EntityRenderer<Slice> {
       return;
     }
 
-    const seed =
-      seedOverride ??
-      (this.bridge.ui.get().selectedItem as SeedName | undefined);
-    // Keep the HUD in step when the worker chose the seed.
-    if (seedOverride) this.bridge.selectItem(seedOverride);
+    const seed = this.bridge.ui.get().selectedItem as SeedName | undefined;
     const crop = plot.crop;
     const fertiliser = plot.fertiliser;
 

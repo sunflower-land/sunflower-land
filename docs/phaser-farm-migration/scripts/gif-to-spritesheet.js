@@ -96,7 +96,8 @@ const REMOTE = [
   { key: "npcs.goblin_chef_doing", path: "/npcs/goblin_chef_doing.gif" },
   { key: "npcs.goblin_chef", path: "/npcs/goblin_chef.gif" },
   { key: "npcs.goblinSnorkling", path: "/npcs/goblin_snorkling.gif" },
-  { key: "npcs.goblin_swimming", path: "/npcs/goblin_swimming.gif" },
+  // npcs.goblin_swimming: dropped for now — 63 frames of 96x64 is the
+  // largest strip we ship (1.5MB decoded); the still first frame will do.
   { key: "npcs.fishMarket_npc_doing", path: "/npcs/neville_doing.gif" },
   { key: "npcs.smoothieChefMaking", path: "/npcs/smoothie_making.gif" },
   { key: "npcs.smoothieChef", path: "/npcs/smoothie.gif" },
@@ -117,7 +118,18 @@ const REMOTE = [
 const EXCLUDED = new Set([
   "assets/sfts/squirrel_monkey.gif", // SHEET_COLLECTIBLES (squirrel_monkey_sheet)
   "assets/sfts/tomato_bombard.gif", // CLICK_SHEETS (idle + click burst sheets)
+  // Modal-only cutscene (Observatory.tsx plays it in a React modal, never
+  // in-world) — 515 frames of 400x225: as a strip it's 176MB decoded and
+  // taller than any GPU's max texture size.
+  "assets/sfts/mom/mom_observatory_animation.webp",
 ]);
+
+/**
+ * Refuse to emit a strip a GPU can't hold: mobile max-texture-size floors at
+ * 4096, and just DECODING a bigger PNG can kill a mobile WebKit tab. Sources
+ * that trip this are cutscene-grade and need EXCLUDED + purpose-built art.
+ */
+const MAX_SHEET_DIM = 4096;
 
 /** `assets/sfts/fountain.gif` -> `sfts_fountain`; `/npcs/cook.gif` -> `npcs_cook`. */
 const sheetName = (source) =>
@@ -194,13 +206,20 @@ const frameRateOf = (delays) => {
   return Math.max(1, Math.round(1000 / median));
 };
 
+/** Converts to a strip PNG, or returns null when the strip would be GPU-hostile. */
 async function convert(buffer, name) {
   const image = sharp(buffer, { animated: true });
   const meta = await image.metadata();
   const frames = meta.pages ?? 1;
   const frameHeight = meta.pageHeight ?? meta.height;
+  const outFile = path.join(OUT_DIR, `${name}.png`);
+  if (meta.width > MAX_SHEET_DIM || frameHeight * frames > MAX_SHEET_DIM) {
+    // Drop any stale oversized strip a previous run emitted.
+    if (fs.existsSync(outFile)) fs.unlinkSync(outFile);
+    return null;
+  }
   // animated:true already yields the stacked vertical strip.
-  await image.png().toFile(path.join(OUT_DIR, `${name}.png`));
+  await image.png().toFile(outFile);
   return {
     name,
     frameWidth: meta.width,
@@ -245,6 +264,10 @@ function reportUncoveredArt() {
       continue;
     }
     const result = await convert(fs.readFileSync(file), sheetName(source));
+    if (!result) {
+      skipped.push(`${source} (strip exceeds ${MAX_SHEET_DIM}px — add to EXCLUDED)`);
+      continue;
+    }
     localEntries.push({ ...result, import: source });
     console.log(
       `local  ${source} -> ${result.name}.png (${result.frames}f ${result.frameWidth}x${result.frameHeight} @${result.fps}fps)`,
@@ -254,10 +277,15 @@ function reportUncoveredArt() {
   // Every animated webp the app bundles, keyed by its import module like the
   // gifs — pets, mutant chickens, flags, animated SFTs, oil/lava effects...
   for (const source of findAnimatedWebps(path.join(REPO, "src/assets"))) {
+    if (EXCLUDED.has(source)) continue;
     const result = await convert(
       fs.readFileSync(path.join(REPO, "src", source)),
       sheetName(source),
     );
+    if (!result) {
+      skipped.push(`${source} (strip exceeds ${MAX_SHEET_DIM}px — add to EXCLUDED)`);
+      continue;
+    }
     localEntries.push({ ...result, import: source });
     console.log(
       `local  ${source} -> ${result.name}.png (${result.frames}f ${result.frameWidth}x${result.frameHeight} @${result.fps}fps)`,
@@ -279,6 +307,10 @@ function reportUncoveredArt() {
       continue;
     }
     const result = await convert(buffer, name);
+    if (!result) {
+      skipped.push(`${download} (strip exceeds ${MAX_SHEET_DIM}px)`);
+      continue;
+    }
     tokenEntries.push({ ...result, keys });
     console.log(
       `token  ${download} -> ${result.name}.png (${result.frames}f ${result.frameWidth}x${result.frameHeight} @${result.fps}fps)`,
@@ -305,6 +337,10 @@ function reportUncoveredArt() {
     }
     const buffer = Buffer.from(await response.arrayBuffer());
     const result = await convert(buffer, sheetName(remotePath));
+    if (!result) {
+      skipped.push(`${url} (strip exceeds ${MAX_SHEET_DIM}px)`);
+      continue;
+    }
     convertedByPath.set(remotePath, result);
     remoteEntries.push({ ...result, key, cdnPath: remotePath });
     console.log(

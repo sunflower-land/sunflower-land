@@ -12,9 +12,39 @@ import { queueImage, queueSpritesheet } from "./assets";
 
 export type ArtObject = Phaser.GameObjects.Image | Phaser.GameObjects.Sprite;
 
+/**
+ * Mobile GPUs top out at a 4096px texture, and decoding a bigger strip can
+ * alone kill a mobile WebKit tab. The converter refuses to emit one, but a
+ * hand-added manifest entry could still slip through — treat such art as
+ * static (still first frame) everywhere, so nothing waits on a texture the
+ * loader will never produce.
+ */
+const MAX_SHEET_DIM = 4096;
+
+const warnedOversized = new Set<string>();
+
+const usableAnimatedArtFor = (url: string) => {
+  const animated = animatedArtFor(url);
+  if (!animated) return undefined;
+  if (
+    animated.frameWidth > MAX_SHEET_DIM ||
+    animated.frameHeight * animated.frames > MAX_SHEET_DIM
+  ) {
+    if (!warnedOversized.has(url)) {
+      warnedOversized.add(url);
+      // eslint-disable-next-line no-console
+      console.error(
+        `Animated strip for ${url} exceeds ${MAX_SHEET_DIM}px — showing a still frame`,
+      );
+    }
+    return undefined;
+  }
+  return animated;
+};
+
 /** Queue an art URL — as its converted strip when animated, else an image. */
 export function queueArt(scene: Phaser.Scene, url: string): string {
-  const animated = animatedArtFor(url);
+  const animated = usableAnimatedArtFor(url);
   if (!animated) return queueImage(scene, url);
   queueSpritesheet(scene, animated.sheet, {
     frameWidth: animated.frameWidth,
@@ -25,11 +55,11 @@ export function queueArt(scene: Phaser.Scene, url: string): string {
 
 /** The texture key an art URL resolves to once queued. */
 export function artTexture(url: string): string {
-  return animatedArtFor(url)?.sheet ?? url;
+  return usableAnimatedArtFor(url)?.sheet ?? url;
 }
 
 /** True when the URL has a converted strip (i.e. the DOM animates it). */
-export const isAnimatedArt = (url: string) => !!animatedArtFor(url);
+export const isAnimatedArt = (url: string) => !!usableAnimatedArtFor(url);
 
 /**
  * Create (or reuse) the display object for an art URL and start its loop.
@@ -42,7 +72,7 @@ export function resolveArtObject(
   existing: ArtObject | undefined,
   url: string,
 ): ArtObject | undefined {
-  const animated = animatedArtFor(url);
+  const animated = usableAnimatedArtFor(url);
   const texture = animated?.sheet ?? url;
   if (!scene.textures.exists(texture)) return existing;
 

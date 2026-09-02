@@ -212,25 +212,6 @@ export class MineralRenderer extends ResourceNodeRenderer<MineralNode> {
     if (this.config.isDepleted(node, game, now)) return;
     if (!this.config.hasTool(game, node)) return;
 
-    // EXPERIMENT [worker/BumpkinWorker.ts]: with a bumpkin selected the click
-    // queues the mine; a full swing on arrival skips the multi-tap counter.
-    const box = this.boxOf(id) ?? this.boxFor(node);
-    const dotTool = this.config.toolToSelect(game);
-    const queued = (
-      this.scene as unknown as {
-        worker?: { intercept(job: unknown): boolean };
-      }
-    ).worker?.intercept({
-      label: "Mine",
-      world: { x: box.x, y: box.y },
-      size: { width: box.width, height: box.height },
-      anim: "mining",
-      dotAt: { x: box.x + box.width / 2, y: box.y - 2 },
-      icon: dotTool ? ITEM_DETAILS[dotTool].image : undefined,
-      run: () => this.mineNow(id),
-    });
-    if (queued) return;
-
     const tool = this.config.toolToSelect(game);
     if (tool) this.bridge.selectItem(tool);
 
@@ -244,18 +225,6 @@ export class MineralRenderer extends ResourceNodeRenderer<MineralNode> {
     const fire = this.bumpTouch(id);
     void this.sync(this.bridge.select((state) => this.selector(state)));
     if (!fire) return;
-    this.mine(id);
-  }
-
-  /** Worker arrival: the unchanged mine path, minus the tap counter. */
-  private mineNow(id: string) {
-    const game = this.bridge.select((state) => state.context.state);
-    const node = this.config.selectNodes(game)[id];
-    if (!node) return;
-    if (this.config.isDepleted(node, game, Date.now())) return;
-    const tool = this.config.toolToSelect(game);
-    if (tool) this.bridge.selectItem(tool);
-    playSound("mining");
     this.mine(id);
   }
 

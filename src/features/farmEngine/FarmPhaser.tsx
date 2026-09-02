@@ -18,7 +18,7 @@ import { useVisiting } from "lib/utils/visitUtils";
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { createGameBridge, type GameBridge } from "./bridge/GameBridge";
-import { DPR } from "./core/rendering";
+import { DPR, IS_COARSE_POINTER } from "./core/rendering";
 import { FarmScene } from "./scenes/FarmScene";
 import {
   HOME_RENDERERS,
@@ -37,7 +37,6 @@ import { CropsUI } from "./overlay/CropsUI";
 import { ResourcesUI } from "./overlay/ResourcesUI";
 import { LandscapingUI } from "./overlay/LandscapingUI";
 import { InteriorUI } from "./overlay/InteriorUI";
-import { WorkerUI } from "./overlay/WorkerUI";
 import { AnimalHouseUI } from "./overlay/AnimalHouseUI";
 import { InteriorFloorUI } from "./overlay/InteriorFloorUI";
 import { GreenhouseUI } from "./overlay/GreenhouseUI";
@@ -148,7 +147,16 @@ export const FarmPhaser: React.FC<{
       render: {
         pixelArt: false,
         antialias: true,
+        // MSAA buffers on top of a DPR-supersampled canvas are pure memory
+        // cost on phones — the supersample already smooths the downscale.
+        antialiasGL: !IS_COARSE_POINTER,
         roundPixels: true,
+      },
+      loader: {
+        // Phaser's default of 32 parallel loads lands decode + GPU-upload
+        // spikes all at once during the boot burst — enough to jetsam a
+        // mobile WebKit tab. Trickle instead.
+        maxParallelDownloads: IS_COARSE_POINTER ? 8 : 32,
       },
       // CRITICAL: Phaser defaults to ALSO listening at window level, so
       // clicks on the HUD and modals would pan the camera and click plots
@@ -240,7 +248,6 @@ export const FarmPhaser: React.FC<{
         )}
         {surface === "greenhouse" && <GreenhouseUI bridge={bridge} />}
         {surface === "petHouse" && <PetHouseUI bridge={bridge} />}
-        {surface === "farm" && <WorkerUI bridge={bridge} />}
         {surface === "farm" && <CropsUI bridge={bridge} />}
         {surface === "farm" && <ResourcesUI bridge={bridge} />}
         <LandscapingUI bridge={bridge} />

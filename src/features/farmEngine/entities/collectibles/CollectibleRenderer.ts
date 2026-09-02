@@ -1307,8 +1307,11 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
     const objects = this.nodes.get(`${name}#${id}`);
     if (!objects) return;
     this.bridge.anchors.setAnchor("sft-popover", objects.box);
-    // Deferred past this pointerdown — the popover's outside-click closer is
-    // a document mousedown listener (same gotcha as quick-select).
+    // Ease the clicked node to the centre so the popover opens mid-view
+    // instead of half off-screen (it anchors to the node and rides along).
+    this.scene.farmCamera.panToWorldRect(objects.box);
+    // Deferred past this click's event burst — the popover's outside-click
+    // closer is a document pointerdown listener (same gotcha as quick-select).
     setTimeout(
       () =>
         this.bridge.sftPopover.set({
