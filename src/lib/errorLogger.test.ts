@@ -4,6 +4,7 @@ import {
   isExternalDomMutationError,
   isNetworkError,
 } from "./errorLogger";
+import { ERRORS } from "./errors";
 
 describe("buildErrorReport", () => {
   it("sends the legacy modal shape as a code + transaction id", () => {
@@ -72,8 +73,27 @@ describe("isNetworkError", () => {
     ).toBe(true);
   });
 
+  it("recognises aborted requests by name and by each browser's message", () => {
+    const aborted = new Error("whatever this browser says");
+    aborted.name = "AbortError";
+    expect(isNetworkError(aborted)).toBe(true);
+
+    expect(isNetworkError("signal is aborted without reason")).toBe(true);
+    expect(isNetworkError("The operation was aborted.")).toBe(true);
+    expect(isNetworkError("The user aborted a request.")).toBe(true);
+  });
+
+  it("recognises our own autosave timeout abort reason", () => {
+    expect(isNetworkError(new Error(ERRORS.AUTOSAVE_TIMEOUT))).toBe(true);
+    expect(isNetworkError(ERRORS.AUTOSAVE_TIMEOUT)).toBe(true);
+  });
+
   it("does not match real errors", () => {
     expect(isNetworkError("EF-001")).toBe(false);
+    expect(isNetworkError("The operation completed")).toBe(false);
+    expect(isNetworkError(new Error("Autosave aborted the transaction"))).toBe(
+      false,
+    );
     expect(isNetworkError(new Error("Failed to fetch liquidity data"))).toBe(
       false,
     );
