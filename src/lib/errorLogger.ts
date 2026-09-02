@@ -117,24 +117,56 @@ const NETWORK_ERROR_MESSAGES = [
   /^cancelled$/i, // iOS aborted request
 ];
 
+/** Pulls the message out of anything `createErrorLogger` accepts. */
+const getErrorMessage = (input: unknown): unknown =>
+  input instanceof Error
+    ? input.message
+    : typeof input === "string"
+      ? input
+      : input && typeof input === "object"
+        ? ((input as { message?: unknown; error?: unknown }).message ??
+          (input as { error?: unknown }).error)
+        : undefined;
+
 /**
  * True when the error is a browser-level network failure. Accepts anything
  * `createErrorLogger` accepts (Error, string, or the report object).
  */
 export const isNetworkError = (input: unknown): boolean => {
-  const message =
-    input instanceof Error
-      ? input.message
-      : typeof input === "string"
-        ? input
-        : input && typeof input === "object"
-          ? ((input as { message?: unknown; error?: unknown }).message ??
-            (input as { error?: unknown }).error)
-          : undefined;
+  const message = getErrorMessage(input);
 
   return (
     typeof message === "string" &&
     NETWORK_ERROR_MESSAGES.some((re) => re.test(message.trim()))
+  );
+};
+
+/**
+ * React's commit phase throws these when something outside React has moved the
+ * DOM nodes it is tracking — a browser extension, or the browser's own page
+ * translation replacing text nodes with <font> wrappers. React then calls
+ * insertBefore/removeChild with a reference node that is no longer a child of
+ * its parent. Nothing in the fiber tree can be fixed to prevent it, so these
+ * are reported under their own code rather than as game crashes.
+ */
+const EXTERNAL_DOM_MUTATION_MESSAGES = [
+  /Failed to execute '(insertBefore|removeChild|appendChild)' on 'Node'/i,
+  /The node (before which the new node is to be inserted|to be removed) is not a child of this node/i,
+  // Firefox / Safari wording for the same DOM exception
+  /Node was not found/i,
+  /The object can not be found here/i,
+];
+
+/**
+ * True when the error came from external DOM mutation rather than the game.
+ * Accepts anything `createErrorLogger` accepts (Error, string, report object).
+ */
+export const isExternalDomMutationError = (input: unknown): boolean => {
+  const message = getErrorMessage(input);
+
+  return (
+    typeof message === "string" &&
+    EXTERNAL_DOM_MUTATION_MESSAGES.some((re) => re.test(message))
   );
 };
 
@@ -217,6 +249,15 @@ export const createErrorLogger = (source: Source, farmId: number) => {
       if (isNetworkError(input)) return;
 
       const report = buildErrorReport(source, farmId, input);
+
+      // Crashes caused by extensions / browser page translation are not game
+      // bugs. Still reported — we want to see whether the notranslate opt-out
+      // is working — but under their own code so they group separately
+      // instead of drowning out real crashes.
+      if (isExternalDomMutationError(input)) {
+        report.code = ERRORS.EXTERNAL_DOM_MUTATION;
+        report.error.code = ERRORS.EXTERNAL_DOM_MUTATION;
+      }
 
       // Deliberate backend rejections (already_bought, trade_not_found, …)
       // are outcomes the API already knows about — don't pollute the log.
