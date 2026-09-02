@@ -12,10 +12,8 @@ import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
 import {
   getFruitBoostWindows,
   getTurbofruitMixWindows,
-  getEffectiveSpeedAt,
   computeReadyAt,
 } from "features/game/lib/boostWindows";
-import { getDisplaySeconds } from "features/game/lib/timerDisplay";
 import { getFruitYield } from "features/game/events/landExpansion/fruitHarvested";
 import {
   getRequiredAxeAmount as getRequiredFruitAxeAmount,
@@ -47,7 +45,7 @@ import type { ArtSpec } from "./lib";
  * Fruit patches [island/fruit/FruitPatch.tsx + components]. Five stages via
  * the exported getFruitTreeStatus (Empty / Seedling / Replenishing /
  * Replenished / Dead), per-fruit art geometry, in-scene progress bar,
- * fertiliser + boost overlays. Clicks dispatch the DOM's exact events.
+ * fertiliser overlays. Clicks dispatch the DOM's exact events.
  * Empty-patch clicks without a plantable seed raise the quick-select disc
  * row (bridge.quickSelect); harvests play the DOM's 0.82s shake.
  */
@@ -126,8 +124,8 @@ export class FruitPatchRenderer extends ResourceNodeRenderer<FruitNode> {
     queueImage(this.scene, FRUIT_PATCH_VARIANTS[biome]);
     queueImage(this.scene, SOIL_IMAGES[biome].regular);
     queueImage(this.scene, SUNNYSIDE.ui.emptyBar);
-    [powerup, SUNNYSIDE.icons.stopwatch, SUNNYSIDE.icons.lightning].forEach(
-      (url) => queueImage(this.scene, url),
+    [powerup, SUNNYSIDE.icons.stopwatch].forEach((url) =>
+      queueImage(this.scene, url),
     );
     queueImage(this.scene, SUNNYSIDE.resource.wood); // dead-tree chop float
     for (const node of Object.values(slice.nodes)) {
@@ -183,7 +181,7 @@ export class FruitPatchRenderer extends ResourceNodeRenderer<FruitNode> {
     backdrop.setDepth(ctx.depth);
 
     // Overlays reset each render.
-    for (const key of ["fert1", "fert2", "boost"]) {
+    for (const key of ["fert1", "fert2"]) {
       objects.extras.get(key)?.destroy();
       objects.extras.delete(key);
     }
@@ -238,14 +236,6 @@ export class FruitPatchRenderer extends ResourceNodeRenderer<FruitNode> {
         });
         this.addOverlay(objects, "fert2", SUNNYSIDE.icons.stopwatch, 6, ctx, {
           bottom: 16,
-          right: 2,
-        });
-      }
-
-      // Boost lightning.
-      if (getEffectiveSpeedAt({ at: now, windows }) > 1) {
-        this.addOverlay(objects, "boost", SUNNYSIDE.icons.lightning, 7, ctx, {
-          top: 2,
           right: 2,
         });
       }
@@ -375,12 +365,7 @@ export class FruitPatchRenderer extends ResourceNodeRenderer<FruitNode> {
             windows,
           })
         : timing.legacyReadyAt;
-    const displaySeconds = getDisplaySeconds({
-      showActualTime: this.bridge.ui.get().showActualTime,
-      workLeftSeconds: timeLeft,
-      countdownSeconds: Math.max((readyAt - now) / 1000, 0),
-    });
-    bar.set(percentage, displaySeconds);
+    bar.set(percentage, Math.max((readyAt - now) / 1000, 0));
   }
 
   update(_time: number, delta: number) {
@@ -495,6 +480,7 @@ export class FruitPatchRenderer extends ResourceNodeRenderer<FruitNode> {
             name,
             fertiliser: node.fertiliser?.name,
             prngArgs: { farmId: machine.context.farmId, counter },
+            now: Date.now(),
           }).amount,
         );
       this.shakeNode(id);

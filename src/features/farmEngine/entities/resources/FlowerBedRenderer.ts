@@ -3,18 +3,15 @@ import type { GameState } from "features/game/types/game";
 import { FLOWER_SEEDS, FLOWERS } from "features/game/types/flowers";
 import {
   computeReadyAt,
-  getEffectiveSpeedAt,
   getFlowerBoostWindows,
   workAccruedAt,
 } from "features/game/lib/boostWindows";
-import { getDisplaySeconds } from "features/game/lib/timerDisplay";
 import { FLOWER_VARIANTS } from "features/island/lib/alternateArt";
 
 const flowerArt = (...args: Parameters<typeof FLOWER_VARIANTS>): string =>
   FLOWER_VARIANTS(...args) ?? "";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { queueImage } from "../../core/assets";
-import { nativeScale } from "../../core/pixelArt";
 import { ProgressBarSprite } from "../../components/ProgressBarSprite";
 import {
   ResourceNodeRenderer,
@@ -26,7 +23,7 @@ import {
 /**
  * Flower beds [island/flowers/FlowerBed.tsx]. One 48px-wide image per state
  * from the FLOWER_VARIANTS CDN map (empty bed = the "flower_bed" stage),
- * growth stages at 44/66/100%, in-scene progress bar, boost lightning.
+ * growth stages at 44/66/100%, in-scene progress bar.
  * Clicks: empty -> plant modal; growing -> insta-grow modal; ready -> the
  * congratulations flow for new flowers/rewards, else a straight harvest.
  */
@@ -64,7 +61,6 @@ export class FlowerBedRenderer extends ResourceNodeRenderer<FlowerBedNode> {
 
   protected collectAssets(slice: NodeSlice<FlowerBedNode>) {
     queueImage(this.scene, SUNNYSIDE.ui.emptyBar);
-    queueImage(this.scene, SUNNYSIDE.icons.lightning);
     const biome = this.currentBiome(slice);
     queueImage(
       this.scene,
@@ -125,9 +121,6 @@ export class FlowerBedRenderer extends ResourceNodeRenderer<FlowerBedNode> {
     this.clocks.delete(id);
     this.timings.delete(id);
 
-    objects.extras.get("boost")?.destroy();
-    objects.extras.delete("boost");
-
     const game = this.game();
     const now = Date.now();
     const flower = node.flower;
@@ -169,22 +162,8 @@ export class FlowerBedRenderer extends ResourceNodeRenderer<FlowerBedNode> {
       return;
     }
 
-    // Boost lightning [FlowerBed.tsx].
-    const windows = getFlowerBoostWindows(game);
-    if (getEffectiveSpeedAt({ at: now, windows }) > 1) {
-      const icon = this.scene.add
-        .image(
-          ctx.box.x + ctx.box.width - 2 - 7,
-          ctx.box.y + 2,
-          SUNNYSIDE.icons.lightning,
-        )
-        .setOrigin(0, 0)
-        .setDepth(ctx.depth + 2);
-      nativeScale(icon, 7);
-      objects.extras.set("boost", icon);
-    }
-
     // Stage flips at 44/66/100% of work.
+    const windows = getFlowerBoostWindows(game);
     this.clocks.set(
       id,
       this.scene.clock.register(
@@ -250,11 +229,7 @@ export class FlowerBedRenderer extends ResourceNodeRenderer<FlowerBedNode> {
         : timing.legacyReadyAt;
     const displaySeconds = node.flower.dirty
       ? 0
-      : getDisplaySeconds({
-          showActualTime: this.bridge.ui.get().showActualTime,
-          workLeftSeconds: secondsLeft,
-          countdownSeconds: Math.max((readyAt - now) / 1000, 0),
-        });
+      : Math.max((readyAt - now) / 1000, 0);
     bar.set(pct, displaySeconds);
   }
 

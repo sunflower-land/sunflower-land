@@ -44,6 +44,7 @@ const ROOM_ANCHOR = "interior-room";
 
 const _building = (key: "barn" | "henHouse") => (state: MachineState) =>
   state.context.state[key];
+const _state = (state: MachineState) => state.context.state;
 
 export const AnimalHouseUI: React.FC<{
   bridge: GameBridge;
@@ -52,6 +53,7 @@ export const AnimalHouseUI: React.FC<{
   const { gameService } = useContext(Context);
   const buildingName = building === "barn" ? "Barn" : "Hen House";
   const buildingState = useSelector(gameService, _building(building));
+  const game = useSelector(gameService, _state);
 
   // [BarnInside.tsx] the buy/sell modal auto-opens until the guide is read.
   const [showShop, setShowShop] = useState(!hasReadGuide());
@@ -66,9 +68,9 @@ export const AnimalHouseUI: React.FC<{
   const validAnimalsCount = useMemo(() => {
     if (!deal) return 0;
     return getValues(buildingState.animals).filter((animal) =>
-      isValidDeal({ animal, deal }),
+      isValidDeal({ animal, deal, game }),
     ).length;
-  }, [buildingState.animals, deal]);
+  }, [buildingState.animals, deal, game]);
 
   const rect = useWorldAnchor(ROOM_ANCHOR);
 

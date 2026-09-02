@@ -621,8 +621,6 @@ export const IslandUpgrader: React.FC<Props> = ({ offset }) => {
     }
   };
 
-  const nextExpansion = expansionCount + 1;
-
   const getPosition = () => getUpgradeRaftPosition(islandType, expansionCount);
 
   const onClose = () => {

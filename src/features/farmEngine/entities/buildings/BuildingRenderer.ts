@@ -38,6 +38,7 @@ import {
 } from "features/island/buildings/components/building/cropMachine/lib/cropMachine";
 import type { CropMachineQueueItem } from "features/game/types/game";
 import { isAnimalReadyForLove } from "features/game/events/landExpansion/loveAnimal";
+import { getAnimalReadyAt } from "features/game/lib/animals";
 import { getOverCapacityAnimalIds } from "features/game/events/landExpansion/buyAnimal";
 import { isAnimalCoveredByGoldenAsset } from "features/game/events/landExpansion/feedAllAnimals";
 import { queueImage, queueSpritesheet, runLoader } from "../../core/assets";
@@ -1090,7 +1091,8 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
           !isAnimalCoveredByGoldenAsset({
             state: game,
             animalType: animal.type,
-          }) && isAnimalReadyForLove(animal, now),
+          }) &&
+          isAnimalReadyForLove(animal, now, getAnimalReadyAt(animal, game)),
       )
     ) {
       icons.push({

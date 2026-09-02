@@ -20,14 +20,13 @@ import { PIXEL_SCALE, TREE_RECOVERY_TIME } from "features/game/lib/constants";
 import type { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
-  getEffectiveSpeedAt,
+  computeReadyAt,
   getFlowerBoostWindows,
   getFruitBoostWindows,
   getMineBoostWindows,
   getOilBoostWindows,
   getTreeBoostWindows,
   getTurbofruitMixWindows,
-  workAccruedAt,
   type BoostWindow,
 } from "features/game/lib/boostWindows";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -268,6 +267,21 @@ const CompoundPopover: React.FC<{
       status.stage === "Replenishing"
         ? `${name} Replenishing`
         : `${name} Growing`;
+    // Wall-clock countdown [FruitTree.tsx useNodeTimer]: windowed fruit
+    // derives its ready time live from the boost windows; legacy timeLeft is
+    // already wall-clock.
+    const fruitReadyAt =
+      node.fruit?.baseDurationMs !== undefined
+        ? computeReadyAt({
+            startedAt: node.fruit.harvestedAt || node.fruit.plantedAt,
+            baseDurationMs: node.fruit.baseDurationMs,
+            windows,
+          })
+        : undefined;
+    const fruitCountdown =
+      fruitReadyAt !== undefined
+        ? Math.max((fruitReadyAt - now) / 1000, 0)
+        : (status.timeLeft ?? 0);
     return (
       <AnchoredScaled anchorId={anchorId} tilesWide={2}>
         <div
@@ -278,8 +292,7 @@ const CompoundPopover: React.FC<{
             image={ITEM_DETAILS[name as InventoryItemName]?.image}
             description={description}
             showPopover={true}
-            timeLeft={status.timeLeft ?? 0}
-            speed={getEffectiveSpeedAt({ at: now, windows })}
+            timeLeft={fruitCountdown}
           />
         </div>
       </AnchoredScaled>
@@ -292,19 +305,16 @@ const CompoundPopover: React.FC<{
     if (!flower || flower.dirty) return null;
     const growSeconds = FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds;
     const windows = getFlowerBoostWindows(game);
-    const secondsLeft =
+    // Wall-clock countdown [FlowerBed.tsx useNodeTimer countdownSeconds].
+    const flowerReadyAt =
       flower.baseDurationMs !== undefined
-        ? Math.max(
-            (flower.baseDurationMs -
-              workAccruedAt({
-                startedAt: flower.plantedAt,
-                at: now,
-                windows,
-              })) /
-              1000,
-            0,
-          )
-        : Math.max((flower.plantedAt + growSeconds * 1000 - now) / 1000, 0);
+        ? computeReadyAt({
+            startedAt: flower.plantedAt,
+            baseDurationMs: flower.baseDurationMs,
+            windows,
+          })
+        : flower.plantedAt + growSeconds * 1000;
+    const secondsLeft = Math.max((flowerReadyAt - now) / 1000, 0);
     if (secondsLeft <= 0) return null;
     const known = (game.farmActivity[`${flower.name} Harvested`] ?? 0) > 0;
     return (
@@ -320,7 +330,6 @@ const CompoundPopover: React.FC<{
             description={known ? flower.name : "Unknown"}
             showPopover={true}
             timeLeft={secondsLeft}
-            speed={getEffectiveSpeedAt({ at: now, windows })}
           />
         </div>
       </AnchoredScaled>
@@ -444,7 +453,7 @@ const ResourcePopover: React.FC<{
   const reading = readNode(kind, id, game, t);
 
   const timing = reading?.node;
-  const { now, readyAt, speed, displaySeconds } = useNodeTimer({
+  const { now, readyAt, countdownSeconds } = useNodeTimer({
     startedAt: timing?.minedAt ?? 0,
     baseDurationMs: timing?.baseDurationMs,
     windows: reading?.windows ?? [],
@@ -469,8 +478,7 @@ const ResourcePopover: React.FC<{
             image={reading.image}
             description={reading.description}
             showPopover={true}
-            timeLeft={displaySeconds}
-            speed={speed}
+            timeLeft={countdownSeconds}
           />
         </div>
       </AnchoredScaled>

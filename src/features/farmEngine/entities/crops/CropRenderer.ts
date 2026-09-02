@@ -27,11 +27,9 @@ import {
   computeReadyAt,
   getCropFertiliserWindows,
   getCropPlotBoostWindows,
-  getEffectiveSpeedAt,
   workAccruedAt,
   type BoostWindow,
 } from "features/game/lib/boostWindows";
-import { getDisplaySeconds } from "features/game/lib/timerDisplay";
 import { isSeasonedPlayer } from "features/game/lib/seasonedPlayer";
 import { CROP_COMPOST } from "features/game/types/composters";
 import {
@@ -126,7 +124,7 @@ export class CropRenderer extends EntityRenderer<Slice> {
 
   mount() {
     super.mount();
-    // showTimers / showActualTime changes re-shape the bars.
+    // showTimers changes re-shape the bars.
     this.unsubscribeUi = this.bridge.ui.subscribe(
       () => void this.sync(this.bridge.select((state) => this.selector(state))),
     );
@@ -300,15 +298,16 @@ export class CropRenderer extends EntityRenderer<Slice> {
       cropName: crop.name,
       plot,
       plantedAt: crop.plantedAt,
-      boostWindows: windows,
     });
     const spec = {
       startedAt: metrics.startAt,
       baseDurationMs: metrics.baseDurationMs,
       windows,
-      legacyReadyAt: metrics.readyAt,
+      legacyReadyAt: metrics.legacyReadyAt,
       stageFractions: [0.25, 0.5, 1],
     };
+    // Windowed ready time derived live from the boost windows [useNodeTimer].
+    const readyAt = readNodeTimer(spec, Date.now()).readyAt;
 
     const applyStage = () => {
       const progress = readNodeTimer(spec, Date.now()).progress * 100;
@@ -333,12 +332,12 @@ export class CropRenderer extends EntityRenderer<Slice> {
       startedAt: metrics.startAt,
       baseDurationMs: metrics.baseDurationMs,
       windows,
-      legacyReadyAt: metrics.readyAt,
+      legacyReadyAt: metrics.legacyReadyAt,
       harvestSeconds: metrics.harvestSeconds,
     };
     if (
       this.bridge.ui.get().showTimers &&
-      metrics.readyAt > Date.now() &&
+      readyAt > Date.now() &&
       metrics.harvestSeconds > 0
     ) {
       objects.bar ??= new ProgressBarSprite(this.scene, {
@@ -358,7 +357,7 @@ export class CropRenderer extends EntityRenderer<Slice> {
       objects,
       plot,
       world,
-      metrics.readyAt > Date.now() && metrics.harvestSeconds > 0,
+      readyAt > Date.now() && metrics.harvestSeconds > 0,
     );
   }
 
@@ -452,12 +451,6 @@ export class CropRenderer extends EntityRenderer<Slice> {
     if (!growing || !plot.crop) return;
 
     const game = this.gameState();
-    const now = Date.now();
-    const isBoosted =
-      objects.timing !== undefined &&
-      objects.timing.baseDurationMs !== undefined &&
-      getEffectiveSpeedAt({ at: now, windows: objects.timing.windows }) > 1;
-
     const calendarEvent = getActiveCalendarEvent({ calendar: game.calendar });
     const weatherIcon =
       calendarEvent === "insectPlague" && !game.calendar.insectPlague?.protected
@@ -477,7 +470,6 @@ export class CropRenderer extends EntityRenderer<Slice> {
             : [];
 
     const icons: { src: string; size: number }[] = [
-      ...(isBoosted ? [{ src: SUNNYSIDE.icons.lightning, size: 7 }] : []),
       ...(weatherIcon ? [{ src: weatherIcon, size: 10 }] : []),
       ...(plot.beeSwarm ? [{ src: bee, size: 8 }] : []),
       ...fertiliserIcons.map((src) => ({ src, size: 6 })),
@@ -537,22 +529,12 @@ export class CropRenderer extends EntityRenderer<Slice> {
           0,
         )
       : countdownSeconds;
-    const speed = windowed
-      ? getEffectiveSpeedAt({ at: now, windows: timing.windows })
-      : 1;
-    void speed; // surfaced only in the React popover
 
     const percentage = Math.min(
       Math.max(100 - (workLeftSeconds / timing.harvestSeconds) * 100, 0),
       100,
     );
-    const displaySeconds = getDisplaySeconds({
-      showActualTime: this.bridge.ui.get().showActualTime,
-      workLeftSeconds,
-      countdownSeconds,
-    });
-
-    objects.bar.set(percentage, displaySeconds);
+    objects.bar.set(percentage, countdownSeconds);
   }
 
   /** Tick the visible progress bars once a second. */

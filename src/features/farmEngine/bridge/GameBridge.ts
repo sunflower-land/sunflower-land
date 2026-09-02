@@ -23,7 +23,6 @@ export type UiPrefs = {
   selectedItem?: InventoryItemName;
   showTimers: boolean;
   showAnimations: boolean;
-  showActualTime: boolean;
   enableQuickSelect: boolean;
 };
 
@@ -316,7 +315,6 @@ const DEFAULT_UI_PREFS: UiPrefs = {
   selectedItem: undefined,
   showTimers: true,
   showAnimations: true,
-  showActualTime: false,
   enableQuickSelect: false,
 };
 
@@ -324,7 +322,6 @@ const prefsEqual = (a: UiPrefs, b: UiPrefs) =>
   a.selectedItem === b.selectedItem &&
   a.showTimers === b.showTimers &&
   a.showAnimations === b.showAnimations &&
-  a.showActualTime === b.showActualTime &&
   a.enableQuickSelect === b.enableQuickSelect;
 
 export function createGameBridge({

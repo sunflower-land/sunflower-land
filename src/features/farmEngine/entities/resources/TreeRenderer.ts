@@ -300,6 +300,7 @@ export class TreeRenderer extends ResourceNodeRenderer<TreeNode> {
         farmId: machine.context.farmId,
         itemId: KNOWN_IDS[name as InventoryItemName],
         counter,
+        now: Date.now(),
       }).amount;
 
     const newState = this.bridge.dispatch("timber.chopped", {

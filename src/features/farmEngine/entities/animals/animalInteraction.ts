@@ -12,6 +12,7 @@ import {
   getAnimalFavoriteFood,
   getBoostedFoodQuantity,
   isAnimalFood,
+  resolveAnimal,
 } from "features/game/lib/animals";
 import {
   getBarnDelightCost,
@@ -102,7 +103,11 @@ export class AnimalInteraction {
   }
 
   private animal(id: string): Animal | undefined {
-    return this.game()[this.building].animals[id];
+    // The stored awakeAt can be stale under live boost windows — resolve to
+    // the windowed wake time, exactly like Cow.tsx does before acting.
+    const game = this.game();
+    const animal = game[this.building].animals[id];
+    return animal && resolveAnimal(animal, game);
   }
 
   /** [Cow.tsx handleClick] the full tree, in the DOM's order. */
@@ -160,6 +165,7 @@ export class AnimalInteraction {
       foodQuantity: REQUIRED_FOOD_QTY[type],
       game,
       animal,
+      now: Date.now(),
     });
 
     if (golden) return this.feed(id, animal, undefined);
@@ -181,7 +187,7 @@ export class AnimalInteraction {
   }
 
   private needsLove(animal: Animal): boolean {
-    return getNextLoveAvailableAt(animal) < Date.now();
+    return getNextLoveAvailableAt(animal, animal.awakeAt) < Date.now();
   }
 
   /** [Cow.tsx feedCow] */

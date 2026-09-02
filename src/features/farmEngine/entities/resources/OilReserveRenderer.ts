@@ -140,7 +140,7 @@ export class OilReserveRenderer extends ResourceNodeRenderer<OilNode> {
     const drills = game.inventory["Oil Drill"] ?? new Decimal(0);
     if (drills.lt(getRequiredOilDrillAmount(game).amount)) return;
 
-    const amount = Number(getOilDropAmount(game, node).amount);
+    const amount = Number(getOilDropAmount(game, node, now).amount);
     this.bridge.dispatch({ type: "oilReserve.drilled", id });
 
     if (this.bridge.ui.get().showAnimations) {

@@ -85,7 +85,6 @@ export const FarmPhaser: React.FC<{
     shortcutItem,
     showTimers,
     showAnimations,
-    showActualTime,
     enableQuickSelect,
   } = useContext(Context);
   const { openModal } = useContext(ModalContext);
@@ -118,16 +117,9 @@ export const FarmPhaser: React.FC<{
       selectedItem,
       showTimers,
       showAnimations,
-      showActualTime,
       enableQuickSelect,
     }),
-    [
-      selectedItem,
-      showTimers,
-      showAnimations,
-      showActualTime,
-      enableQuickSelect,
-    ],
+    [selectedItem, showTimers, showAnimations, enableQuickSelect],
   );
 
   useEffect(() => {

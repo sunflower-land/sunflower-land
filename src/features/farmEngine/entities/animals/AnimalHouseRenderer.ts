@@ -27,6 +27,7 @@ import {
   getAnimalLevel,
   getResourceDropAmount,
   isMaxLevel,
+  resolveAnimal,
 } from "features/game/lib/animals";
 import { REQUIRED_FOOD_QTY } from "features/game/events/landExpansion/feedAnimal";
 import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
@@ -232,7 +233,8 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
     if (reaction && reaction.until > Date.now()) return reaction.state;
 
     const sleeping = animal.awakeAt > Date.now();
-    const needsLove = getNextLoveAvailableAt(animal) < Date.now();
+    const needsLove =
+      getNextLoveAvailableAt(animal, animal.awakeAt) < Date.now();
 
     if (animal.state === "ready" && sleeping) return "sleeping";
     if (animal.state === "ready") return "ready";
@@ -262,7 +264,8 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
     });
     // Request + drop item icons for the animals present.
     const game = this.bridge.select((state) => state.context.state);
-    for (const animal of Object.values(slice.animals)) {
+    for (const stored of Object.values(slice.animals)) {
+      const animal = resolveAnimal(stored, game);
       const request = this.requestFor(animal, game);
       if (request) queueImage(this.scene, ITEM_DETAILS[request].image);
       const level = getAnimalLevel(animal.experience, animal.type);
@@ -287,7 +290,9 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
 
     const deal = this.bridge.animalDeal.get();
     for (const { animal, x, y } of placed) {
-      this.syncAnimal(animal, x, y, game, !!deal);
+      // Stored awakeAt goes stale under live boost windows [Cow.tsx
+      // resolveAnimal] — resolve before any state/time reads.
+      this.syncAnimal(resolveAnimal(animal, game), x, y, game, !!deal);
     }
   }
 
@@ -373,7 +378,7 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
 
     // Deal mode [BarnInside.tsx]: invalid animals dim to 50% and are inert.
     const validForDeal = dealActive
-      ? isValidDeal({ animal, deal: this.bridge.animalDeal.get()!.deal })
+      ? isValidDeal({ animal, deal: this.bridge.animalDeal.get()!.deal, game })
       : true;
     objects.container.setAlpha(dealActive && !validForDeal ? 0.5 : 1);
 
@@ -449,6 +454,7 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
             foodQuantity: REQUIRED_FOOD_QTY[animal.type],
             game,
             animal,
+            now: Date.now(),
           }).foodQuantity.toNumber()
         : undefined;
     const bubbleKey = request ? `${request}#${quantity ?? ""}` : undefined;
@@ -572,10 +578,9 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
   private onAnimalClick(id: string) {
     const deal = this.bridge.animalDeal.get();
     if (deal) {
-      const animal = this.bridge.select(
-        (state) => state.context.state[this.buildingKey].animals[id],
-      );
-      if (!animal || !isValidDeal({ animal, deal: deal.deal })) return;
+      const game = this.bridge.select((state) => state.context.state);
+      const animal = game[this.buildingKey].animals[id];
+      if (!animal || !isValidDeal({ animal, deal: deal.deal, game })) return;
       this.bridge.animalDeal.set({ ...deal, selectedId: id });
       return;
     }

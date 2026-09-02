@@ -87,17 +87,16 @@ const PlotStatus: React.FC<{
         cropName: crop?.name,
         plot,
         plantedAt: crop?.plantedAt,
-        boostWindows: windows,
       }),
-    [crop, plot, windows],
+    [crop, plot],
   );
 
-  const { now, speed, displaySeconds } = useNodeTimer({
+  const { now, readyAt, countdownSeconds } = useNodeTimer({
     startedAt: metrics.startAt,
     baseDurationMs: metrics.baseDurationMs,
     windows,
-    legacyReadyAt: metrics.readyAt,
-    live: metrics.readyAt > 0,
+    legacyReadyAt: metrics.legacyReadyAt,
+    live: metrics.startAt > 0,
   });
 
   // [TornadoPlot/TsunamiPlot/GreatFreezePlot] hover warning.
@@ -131,7 +130,7 @@ const PlotStatus: React.FC<{
 
   if (!crop) return null;
 
-  const isGrowing = metrics.harvestSeconds > 0 && metrics.readyAt > now;
+  const isGrowing = metrics.harvestSeconds > 0 && readyAt > now;
   if (!isGrowing) return null;
 
   const isApplyingFertiliser =
@@ -148,8 +147,7 @@ const PlotStatus: React.FC<{
             image={ITEM_DETAILS[crop.name].image}
             description={crop.name}
             showPopover={true}
-            timeLeft={displaySeconds}
-            speed={speed}
+            timeLeft={countdownSeconds}
           />
         </div>
       )}

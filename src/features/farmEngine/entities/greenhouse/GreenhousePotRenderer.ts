@@ -11,7 +11,6 @@ import {
   getGreenhouseBoostWindows,
   getGreenhouseGlowWindows,
 } from "features/game/lib/boostWindows";
-import { getDisplaySeconds } from "features/game/lib/timerDisplay";
 import type { GreenHouseCropSeedName } from "features/game/types/crops";
 import {
   getOilUsage,
@@ -25,7 +24,6 @@ import { secondsToString } from "lib/utils/time";
 import { translate } from "lib/i18n/translate";
 import Decimal from "decimal.js-light";
 import { LabelChip, type LabelChipType } from "../../components/LabelSprite";
-import { getEffectiveSpeedAt } from "features/game/lib/boostWindows";
 import { queueImage, runLoader } from "../../core/assets";
 import { makeClickable } from "../../core/clickable";
 import { readNodeTimer } from "../../core/clock";
@@ -40,7 +38,7 @@ import { EntityRenderer } from "../EntityRenderer";
  * inside the room art, so the layout is a small table here too.
  *
  * Empty pot -> click plants the selected greenhouse seed; growing -> staged
- * art + progress bar (+ the boost lightning); ready -> click harvests. All
+ * art + progress bar; ready -> click harvests. All
  * timing comes from the same boost-window helpers the DOM uses.
  */
 
@@ -73,7 +71,6 @@ type PotObjects = {
   art: Phaser.GameObjects.Image;
   zone: Phaser.GameObjects.Zone;
   bar?: ProgressBarSprite;
-  boost?: Phaser.GameObjects.Image;
   fertiliser?: Phaser.GameObjects.Image;
   fertiliserName?: string;
 };
@@ -104,7 +101,6 @@ export class GreenhousePotRenderer extends EntityRenderer<Slice> {
   async sync(slice: Slice) {
     const token = this.beginSync();
     queueImage(this.scene, GREENHOUSE_EMPTY_POT);
-    queueImage(this.scene, SUNNYSIDE.icons.lightning);
     queueImage(this.scene, SUNNYSIDE.ui.emptyBar);
     queueImage(this.scene, powerup);
     queueImage(this.scene, SUNNY.icons.stopwatch);
@@ -205,27 +201,6 @@ export class GreenhousePotRenderer extends EntityRenderer<Slice> {
 
     const now = Date.now();
     const secondsLeft = Math.max(Math.ceil((reading.readyAt - now) / 1000), 0);
-    const speed = plant.baseDurationMs
-      ? getEffectiveSpeedAt({ at: now, windows })
-      : 1;
-
-    // [GreenhousePot.tsx] boost lightning at (right 3, top 1), 7px.
-    if (secondsLeft > 0 && speed > 1) {
-      if (!objects.boost) {
-        objects.boost = this.scene.add
-          .image(0, 0, SUNNYSIDE.icons.lightning)
-          .setOrigin(0, 0)
-          .setDepth(depth + 2);
-        objects.boost.setScale(1);
-      }
-      objects.boost.setPosition(
-        x + POT_WIDTH - 3 - objects.boost.width,
-        bottom - POT_WIDTH + 1,
-      );
-    } else {
-      objects.boost?.destroy();
-      objects.boost = undefined;
-    }
 
     // [GreenhousePot.tsx] bar at (left 6.5, bottom 2.5), 15 wide.
     if (this.bridge.ui.get().showTimers && secondsLeft > 0) {
@@ -236,14 +211,7 @@ export class GreenhousePotRenderer extends EntityRenderer<Slice> {
         depth: depth + 2,
       });
       objects.bar.setPosition(x + 6.5, bottom - 2.5 - 7);
-      objects.bar.set(
-        percentage,
-        getDisplaySeconds({
-          showActualTime: this.bridge.ui.get().showActualTime,
-          workLeftSeconds: secondsLeft,
-          countdownSeconds: secondsLeft,
-        }),
-      );
+      objects.bar.set(percentage, secondsLeft);
     } else {
       objects.bar?.destroy();
       objects.bar = undefined;
@@ -382,8 +350,6 @@ export class GreenhousePotRenderer extends EntityRenderer<Slice> {
   private clearExtras(objects: PotObjects) {
     objects.bar?.destroy();
     objects.bar = undefined;
-    objects.boost?.destroy();
-    objects.boost = undefined;
   }
 
   protected onDestroy() {
