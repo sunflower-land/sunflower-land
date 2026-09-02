@@ -46,6 +46,9 @@ export class BudRenderer extends EntityRenderer<Slice> {
   equals = (a: Slice, b: Slice) => a.buds === b.buds;
 
   async sync(slice: Slice) {
+    this.movingUnsubscribe ??= this.bridge.landscapingMoving.subscribe(() =>
+      this.applyMovingVisibility(),
+    );
     const token = this.beginSync();
     const placed = Object.entries(slice.buds ?? {}).filter(
       ([, bud]) =>
@@ -109,6 +112,19 @@ export class BudRenderer extends EntityRenderer<Slice> {
     }
   }
 
+  /** [MovableComponent] hide the moving bud — the drag preview is the bud. */
+  private applyMovingVisibility() {
+    const moving = this.bridge.landscapingMoving.get();
+    for (const [id, entry] of this.entries) {
+      const hidden =
+        !!moving?.dragging && moving.name === "Bud" && moving.id === id;
+      entry.art?.setVisible(!hidden);
+      entry.shadow.setVisible(!hidden);
+    }
+  }
+
+  private movingUnsubscribe?: () => void;
+
   /** [Bud.tsx] click -> anchored detail popover. */
   private onBudClick(id: string) {
     const bud = this.bridge.select(
@@ -133,6 +149,7 @@ export class BudRenderer extends EntityRenderer<Slice> {
   }
 
   protected onDestroy() {
+    this.movingUnsubscribe?.();
     this.entries.forEach((entry) => {
       entry.shadow.destroy();
       entry.art?.destroy();

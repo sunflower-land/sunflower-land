@@ -138,6 +138,9 @@ export class PetRenderer extends EntityRenderer<Slice> {
   }
 
   async sync(slice: Slice) {
+    this.movingUnsubscribe ??= this.bridge.landscapingMoving.subscribe(() =>
+      this.applyMovingVisibility(),
+    );
     const token = this.beginSync();
     const now = Date.now();
     const nfts = this.placedNfts(slice);
@@ -492,6 +495,32 @@ export class PetRenderer extends EntityRenderer<Slice> {
     });
   }
 
+  /** [MovableComponent] hide the moving pet — the drag preview is the pet. */
+  private applyMovingVisibility() {
+    const moving = this.bridge.landscapingMoving.get();
+    for (const [key, entry] of this.entries) {
+      const hidden =
+        !!moving?.dragging &&
+        (key === `nft#${moving.id}` ||
+          key === `common#${moving.name}#${moving.id}`);
+      entry.art?.setVisible(!hidden && (entry.art.visible || hidden));
+      if (hidden) {
+        entry.art?.setVisible(false);
+        entry.sheet?.setVisible(false);
+        entry.icon?.setVisible(false);
+        entry.discs?.forEach((disc) => disc.setVisible(false));
+      } else if (this.hiddenKeys.has(key)) {
+        // Re-render restores the correct art/sheet visibility split.
+        void this.sync(this.bridge.select((state) => this.selector(state)));
+      }
+      if (hidden) this.hiddenKeys.add(key);
+      else this.hiddenKeys.delete(key);
+    }
+  }
+
+  private hiddenKeys = new Set<string>();
+  private movingUnsubscribe?: () => void;
+
   private destroyEntry(entry: Entry) {
     entry.zone.destroy();
     entry.art?.destroy();
@@ -501,6 +530,7 @@ export class PetRenderer extends EntityRenderer<Slice> {
   }
 
   protected onDestroy() {
+    this.movingUnsubscribe?.();
     this.entries.forEach((entry) => this.destroyEntry(entry));
     this.entries.clear();
   }

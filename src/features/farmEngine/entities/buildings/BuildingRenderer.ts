@@ -236,7 +236,12 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
     return out;
   }
 
+  private movingUnsubscribe?: () => void;
+
   async sync(slice: Slice) {
+    this.movingUnsubscribe ??= this.bridge.landscapingMoving.subscribe(() =>
+      this.applyMovingVisibility(),
+    );
     const token = this.beginSync();
     const now = Date.now();
     const ctx = this.artContext(slice, now);
@@ -1369,7 +1374,7 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
   private applyMovingVisibility() {
     const moving = this.bridge.landscapingMoving.get();
     for (const objects of this.nodes.values()) {
-      const hidden = !!moving && moving.id === objects.id;
+      const hidden = !!moving?.dragging && moving.id === objects.id;
       objects.base?.setVisible(!hidden);
       objects.stageSheet?.setVisible(!hidden);
       objects.extras.forEach((extra) => extra.setVisible(!hidden));
@@ -1391,6 +1396,7 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
   }
 
   protected onDestroy() {
+    this.movingUnsubscribe?.();
     this.npcSprites.forEach((sprite) => sprite.destroy());
     this.npcSprites.clear();
     this.unsubscribeEvents?.();

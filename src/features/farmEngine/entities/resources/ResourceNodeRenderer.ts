@@ -130,7 +130,12 @@ export abstract class ResourceNodeRenderer<
     );
   }
 
+  private movingUnsubscribe?: () => void;
+
   async sync(slice: NodeSlice<N>) {
+    this.movingUnsubscribe ??= this.bridge.landscapingMoving.subscribe(() =>
+      this.applyMovingVisibility(),
+    );
     const token = this.beginSync();
     this.collectAssets(slice);
     await runLoader(this.scene);
@@ -345,7 +350,44 @@ export abstract class ResourceNodeRenderer<
     this.nodes.delete(id);
   }
 
+  /** Placement name per rendererKey [LandscapingController placements()]. */
+  private static MOVE_NAMES: Record<string, string> = {
+    tree: "Tree",
+    stone: "Stone Rock",
+    iron: "Iron Rock",
+    gold: "Gold Rock",
+    crimstone: "Crimstone Rock",
+    sunstone: "Sunstone Rock",
+    oil: "Oil Reserve",
+    lavaPit: "Lava Pit",
+    beehive: "Beehive",
+    fruitPatch: "Fruit Patch",
+    flowerBed: "Flower Bed",
+    ascensionCrystal: "Ascension Crystal",
+  };
+
+  /**
+   * [MovableComponent] the landscaping drag preview IS the item — hide the
+   * original while it is the selection so it doesn't sit duplicated at its
+   * old position (same treatment as buildings/collectibles).
+   */
+  protected applyMovingVisibility() {
+    const moving = this.bridge.landscapingMoving.get();
+    const moveName = ResourceNodeRenderer.MOVE_NAMES[this.rendererKey];
+    for (const [id, objects] of this.nodes) {
+      const hidden =
+        !!moving?.dragging && moving.name === moveName && moving.id === id;
+      objects.art?.setVisible(!hidden);
+      objects.strike?.setVisible(!hidden);
+      objects.bar?.setVisible(!hidden);
+      objects.extras.forEach((extra) =>
+        (extra as { setVisible?: (v: boolean) => void }).setVisible?.(!hidden),
+      );
+    }
+  }
+
   protected onDestroy() {
+    this.movingUnsubscribe?.();
     if (this.outsideClickHandler) {
       this.scene.input.off(
         Phaser.Input.Events.POINTER_DOWN,

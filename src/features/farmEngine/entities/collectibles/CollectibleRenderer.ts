@@ -276,6 +276,7 @@ export const collectiblesAt = (
 };
 
 export class CollectibleRenderer extends EntityRenderer<Slice> {
+  private movingUnsubscribe?: () => void;
   private nodes = new Map<string, NodeObjects>();
   private tickMs = 0;
 
@@ -414,6 +415,9 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
   }
 
   async sync(slice: Slice) {
+    this.movingUnsubscribe ??= this.bridge.landscapingMoving.subscribe(() =>
+      this.applyMovingVisibility(),
+    );
     const token = this.beginSync();
     const grid = this.buildGrid(slice);
     const placements = this.placements(slice);
@@ -579,9 +583,13 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
 
     if (art.tile) {
       // Full 16x16 tile [Fence.tsx / Tiles.tsx]. Tiles must tessellate, so
-      // this one genuinely is a fit-to-tile draw, not a display width.
+      // this one genuinely is a fit-to-tile draw, not a display width. The
+      // quarter-pixel overdraw hides the hairline seams that appear between
+      // adjacent tiles at fractional user zooms (each quad's edges round to
+      // device pixels independently); NEAREST sampling just repeats the
+      // border pixel, so the stretch is invisible.
       image.setOrigin(0, 0);
-      image.setScale(WORLD_TILE / image.width);
+      image.setDisplaySize(WORLD_TILE + 0.25, WORLD_TILE + 0.25);
       image.setPosition(box.x, box.y);
     } else if (spec) {
       const width = spec.width;
@@ -1422,7 +1430,28 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
     objects.bar?.destroy();
   }
 
+  /**
+   * [MovableComponent] while an item is the landscaping selection, its
+   * drag preview IS the item — hide the original so only one is on screen
+   * (BuildingRenderer does the same for buildings).
+   */
+  private applyMovingVisibility() {
+    const moving = this.bridge.landscapingMoving.get();
+    for (const [key, objects] of this.nodes) {
+      const id = key.split("#")[1];
+      const hidden =
+        !!moving?.dragging && moving.id === id && moving.name === objects.name;
+      objects.art?.setVisible(!hidden);
+      objects.sheet?.setVisible(!hidden);
+      objects.shadow?.setVisible(!hidden);
+      objects.bar?.setVisible(!hidden);
+      objects.expiryIcon?.setVisible(!hidden);
+      objects.signText?.setVisible(!hidden);
+    }
+  }
+
   protected onDestroy() {
+    this.movingUnsubscribe?.();
     this.nodes.forEach((objects) => this.destroyNode(objects));
     this.nodes.clear();
   }

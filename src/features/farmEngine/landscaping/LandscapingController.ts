@@ -123,6 +123,7 @@ export class LandscapingController {
           right?: number;
           top?: number;
           bottom?: number;
+          intendedWidth?: number;
         };
         name: string;
         dragging: boolean;
@@ -143,11 +144,15 @@ export class LandscapingController {
           right?: number;
           top?: number;
           bottom?: number;
+          intendedWidth?: number;
         };
         /** [MovableComponent] pixel-perfect nudge mode ("p"), ±8 src px. */
         pixelPerfect: boolean;
         pixelDelta: { x: number; y: number };
         dragging: boolean;
+        /** True once the pointer has actually moved a tile — hides the
+         *  original and reveals the preview. */
+        dragActive?: boolean;
         dragStart: { worldX: number; worldY: number };
         target: { x: number; y: number };
         colliding: boolean;
@@ -243,6 +248,8 @@ export class LandscapingController {
     ) {
       this.clearSelection();
     }
+
+    this.refreshSelectionFlip();
 
     // Ghost lifecycle.
     if (!snapshot.active || !snapshot.placeableName) {
@@ -397,9 +404,21 @@ export class LandscapingController {
     }
     const staticSpec = STATIC_COLLECTIBLES[name as CollectibleName];
     if (staticSpec) {
+      // Carry the FULL spec so the preview sits exactly where the renderer
+      // will draw the real item — dropping the offsets made placements jump
+      // a pixel or two on drop. `centeredIn` folds into `left`.
+      const left =
+        staticSpec.centeredIn !== undefined
+          ? (staticSpec.left ?? 0) +
+            (staticSpec.centeredIn - staticSpec.width) / 2
+          : staticSpec.left;
       return {
         texture: staticSpec.art ?? ITEM_DETAILS[name as CollectibleName].image,
         width: staticSpec.width,
+        left,
+        right: staticSpec.right,
+        top: staticSpec.top,
+        bottom: staticSpec.bottom,
       };
     }
     const details = ITEM_DETAILS[name as CollectibleName];
@@ -453,13 +472,16 @@ export class LandscapingController {
         .setOrigin(0, 1)
         .setDepth(DEPTHS.ALWAYS_ON_TOP + 103)
         .setAlpha(0.9);
-      image.setScale(art.width / image.width);
+      // Native pixels, exactly like the renderer will draw it — a scaled
+      // preview lands "a pixel off" the moment the real art appears.
+      image.setScale(1);
       this.ghost.art = image;
       this.ghost.artOffset = {
         left: art.left,
         right: art.right,
         top: art.top,
         bottom: art.bottom,
+        intendedWidth: art.width,
       };
     }
 
@@ -514,14 +536,25 @@ export class LandscapingController {
   private positionArt(
     image: Phaser.GameObjects.Image,
     box: { x: number; y: number; width: number; height: number },
-    offset?: { left?: number; right?: number; top?: number; bottom?: number },
+    offset?: {
+      left?: number;
+      right?: number;
+      top?: number;
+      bottom?: number;
+      /** The spec width the NATIVE art is centred within [core/pixelArt.ts]. */
+      intendedWidth?: number;
+    },
   ) {
     const artWidth = image.displayWidth;
     const artHeight = image.displayHeight;
+    const intended = offset?.intendedWidth ?? artWidth;
+    // Same maths as the renderer: offsets position the INTENDED footprint,
+    // the native art re-centres inside it.
+    const shift = (intended - artWidth) / 2;
     const x =
       offset?.right !== undefined
-        ? box.x + box.width - offset.right - artWidth
-        : box.x + (offset?.left ?? 0);
+        ? box.x + box.width - offset.right - intended + shift
+        : box.x + (offset?.left ?? 0) + shift;
     // `top` measures the art's TOP down from the box top; the sprite is
     // bottom-anchored, so convert through its height.
     const bottomEdge =
@@ -587,6 +620,15 @@ export class LandscapingController {
       this.scene.farmCamera.panSuspended = false;
       this.scene.input.setDefaultCursor("default");
       this.bridge.landscaping.send({ type: "DROP" });
+      // Releasing on a valid (green) spot places right away — no extra
+      // confirm click [LandscapingQuickPanel's own drag does the same].
+      if (!this.last.collisionDetected) {
+        this.bridge.landscaping.send({
+          type: "PLACE",
+          location: this.location,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any);
+      }
     };
 
     const onKeyDown = (event: KeyboardEvent) => {
@@ -621,9 +663,62 @@ export class LandscapingController {
     input.on(Phaser.Input.Events.POINTER_UP, onPointerUp);
     window.addEventListener("keydown", onKeyDown);
 
+    // Phaser only sees pointer events that reach the CANVAS. Mid-drag the
+    // selection's own chrome (discs, nudge arrows) tracks the item and can
+    // slide under the cursor — moves stall and, worse, the RELEASE is
+    // swallowed, so the drop never commits until a click somewhere else.
+    // Window-level listeners keep the drag honest wherever the pointer is.
+    const worldFromClient = (event: PointerEvent) => {
+      const canvas = this.scene.game.canvas;
+      const rect = canvas.getBoundingClientRect();
+      const camera = this.scene.cameras.main;
+      return {
+        worldX:
+          camera.worldView.x +
+          ((event.clientX - rect.left) * (canvas.width / rect.width)) /
+            camera.zoom,
+        worldY:
+          camera.worldView.y +
+          ((event.clientY - rect.top) * (canvas.height / rect.height)) /
+            camera.zoom,
+      };
+    };
+    const onWindowMove = (event: PointerEvent) => {
+      if (!this.selection?.dragging && !this.ghost?.dragging) return;
+      const world = worldFromClient(event);
+      if (this.selection?.dragging) {
+        this.onSelectionDrag({
+          worldX: world.worldX,
+          worldY: world.worldY,
+        } as Phaser.Input.Pointer);
+        return;
+      }
+      if (this.ghost?.dragging) {
+        const dims = placeableDimensions(this.ghost.name);
+        const rawX = world.worldX / WORLD_TILE - dims.width / 2;
+        const rawY = -world.worldY / WORLD_TILE + dims.height / 2;
+        if (this.ghost.pixelPerfect) {
+          this.sendUpdate(
+            Math.round(rawX * 16) / 16,
+            Math.round(rawY * 16) / 16,
+          );
+        } else {
+          this.sendUpdate(Math.round(rawX), Math.round(rawY));
+        }
+      }
+    };
+    const onWindowUp = () => {
+      if (!this.selection?.dragging && !this.ghost?.dragging) return;
+      onPointerUp();
+    };
+    window.addEventListener("pointermove", onWindowMove);
+    window.addEventListener("pointerup", onWindowUp);
+
     this.detachInput = () => {
       input.off(Phaser.Input.Events.POINTER_DOWN, onPointerDown);
       input.off(Phaser.Input.Events.POINTER_MOVE, onPointerMove);
+      window.removeEventListener("pointermove", onWindowMove);
+      window.removeEventListener("pointerup", onWindowUp);
       input.off(Phaser.Input.Events.POINTER_UP, onPointerUp);
       window.removeEventListener("keydown", onKeyDown);
     };
@@ -925,6 +1020,7 @@ export class LandscapingController {
     this.bridge.landscapingMoving.set({
       id: placement.id,
       name: placement.name,
+      dragging: false,
     });
     this.publishControls();
 
@@ -942,21 +1038,41 @@ export class LandscapingController {
         .setOrigin(0, 1)
         .setDepth(DEPTHS.ALWAYS_ON_TOP + 103)
         .setAlpha(0.9);
-      image.setScale(artSpec.width / image.width);
-      this.positionArt(image, box, {
+      image.setScale(1); // native pixels, same as the renderer
+      image.setFlipX(this.isFlipped(placement));
+      const offsets = {
         left: artSpec.left,
         right: artSpec.right,
         top: artSpec.top,
         bottom: artSpec.bottom,
-      });
-      this.selection.art = image;
-      this.selection.artOffset = {
-        left: artSpec.left,
-        right: artSpec.right,
-        top: artSpec.top,
-        bottom: artSpec.bottom,
+        intendedWidth: artSpec.width,
       };
+      this.positionArt(image, box, offsets);
+      // The REAL item stays visible while merely selected; the preview
+      // only takes over once a drag actually moves (its art is an
+      // approximation — showing it at rest exposed every mismatch).
+      image.setVisible(false);
+      this.selection.art = image;
+      this.selection.artOffset = offsets;
     }
+  }
+
+  /** The selection's current flipped flag, live from state. */
+  private isFlipped(placement: Placement): boolean {
+    const game = this.bridge.select((state) => state.context.state);
+    if (placement.name === "Bumpkin") return !!game.bumpkin?.flipped;
+    if (placement.name === "FarmHand") {
+      return !!game.farmHands.bumpkins?.[placement.id]?.flipped;
+    }
+    return !!game.collectibles[placement.name as CollectibleName]?.find(
+      (item) => item.id === placement.id,
+    )?.flipped;
+  }
+
+  /** Keep the drag preview's mirror in step after a FLIP dispatch. */
+  refreshSelectionFlip() {
+    if (!this.selection?.art) return;
+    this.selection.art.setFlipX(this.isFlipped(this.selection.placement));
   }
 
   private moveTarget(dxTiles: number, dyTiles: number) {
@@ -998,6 +1114,7 @@ export class LandscapingController {
     this.bridge.landscapingMoving.set({
       id: placement.id,
       name: placement.name,
+      dragging: this.selection.dragActive ?? false,
     });
     this.publishControls();
   }
@@ -1010,7 +1127,20 @@ export class LandscapingController {
     const dy = -Math.round(
       (pointer.worldY - this.selection.dragStart.worldY) / WORLD_TILE,
     );
+    if (dx !== 0 || dy !== 0) this.setDragActive();
     this.moveTarget(dx, dy);
+  }
+
+  /** First real movement of a drag: preview takes over from the original. */
+  private setDragActive() {
+    if (!this.selection || this.selection.dragActive) return;
+    this.selection.dragActive = true;
+    this.selection.art?.setVisible(true);
+    this.bridge.landscapingMoving.set({
+      id: this.selection.placement.id,
+      name: this.selection.placement.name,
+      dragging: true,
+    });
   }
 
   /** [MovableComponent onStop] commit the move directly to gameService. */
@@ -1018,6 +1148,17 @@ export class LandscapingController {
     if (!this.selection) return;
     this.scene.farmCamera.panSuspended = false;
     this.selection.dragging = false;
+
+    const wasDragging = this.selection.dragActive;
+    this.selection.dragActive = false;
+    this.selection.art?.setVisible(false);
+    if (wasDragging) {
+      this.bridge.landscapingMoving.set({
+        id: this.selection.placement.id,
+        name: this.selection.placement.name,
+        dragging: false,
+      });
+    }
 
     const { placement, target, colliding, pixelDelta } = this.selection;
     const nudged = pixelDelta.x !== 0 || pixelDelta.y !== 0;
@@ -1065,6 +1206,15 @@ export class LandscapingController {
       oY: (placement.coordinates.oY ?? 0) + pixelDelta.y,
     };
     this.selection.pixelDelta = { x: 0, y: 0 };
+
+    // A successful drag-move is DONE — deselect so the item just sits
+    // placed, instead of staying hidden under the preview until a click
+    // away. (A plain click still selects for flip/remove/nudge; the
+    // pixel-perfect arrows commit through moveTarget, not a drag.)
+    if (!this.selection.pixelPerfect) {
+      this.bridge.landscaping.send({ type: "BLUR" });
+      this.clearSelection();
+    }
   }
 
   private onSelectionKey(event: KeyboardEvent) {

@@ -281,7 +281,14 @@ export interface GameBridge {
    * so the drag preview is the only one on screen — otherwise the original
    * (and anything anchored to it, like a building's NPC) lingers behind.
    */
-  landscapingMoving: ValueStore<{ id: string; name: string } | null>;
+  landscapingMoving: ValueStore<{
+    id: string;
+    name: string;
+    /** True only while the pointer is actually dragging the item — the
+     *  renderers hide the original then (the preview takes over); a mere
+     *  selection keeps the real item visible under the tint. */
+    dragging?: boolean;
+  } | null>;
   /** Present while a placement is selected in landscaping. */
   landscapingControls: ValueStore<LandscapingControls | null>;
   /**
@@ -411,9 +418,11 @@ export function createGameBridge({
     hover: createValueStore<HoveredEntity>(null),
     quickSelect: createValueStore<QuickSelectRequest>(null),
     animalDeal: createValueStore<AnimalDealState>(null),
-    landscapingMoving: createValueStore<{ id: string; name: string } | null>(
-      null,
-    ),
+    landscapingMoving: createValueStore<{
+      id: string;
+      name: string;
+      dragging?: boolean;
+    } | null>(null),
     landscapingControls: createValueStore<LandscapingControls | null>(null),
     worker: createValueStore<WorkerState | null>(null),
     // Replaced by the scene's worker when the farm surface mounts.
