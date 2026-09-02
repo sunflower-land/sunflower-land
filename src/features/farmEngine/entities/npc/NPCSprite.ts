@@ -106,6 +106,29 @@ export class NPCSprite {
     await runLoader(this.scene);
     if (this.destroyed) return;
 
+    // The animation service composes uncached outfits ON DEMAND — the first
+    // request for a rare combination can fail while the composition runs,
+    // and a one-shot load leaves the bumpkin as Phaser's missing-texture
+    // grid forever. Retry a few times with a backoff; the service caches
+    // once the compose finishes.
+    for (
+      let attempt = 0;
+      !this.scene.textures.exists(url) && attempt < 3;
+      attempt++
+    ) {
+      await new Promise((resolve) =>
+        this.scene.time.delayedCall(1500 * (attempt + 1), resolve),
+      );
+      if (this.destroyed) return;
+      queueSpritesheet(this.scene, url, {
+        frameWidth: FRAME_WIDTH,
+        frameHeight: FRAME_HEIGHT,
+      });
+      await runLoader(this.scene);
+      if (this.destroyed) return;
+    }
+    if (!this.scene.textures.exists(url)) return; // stay invisible over the grid
+
     const animKey = `${url}-idle`;
     if (!this.scene.anims.exists(animKey)) {
       this.scene.anims.create({

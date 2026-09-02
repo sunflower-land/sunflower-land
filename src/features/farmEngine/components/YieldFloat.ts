@@ -17,6 +17,8 @@ export function playYieldFloat(
     x: number;
     y: number;
     amount: number;
+    /** Appended to the number, e.g. "XP" -> "+10XP" [LandPet.tsx]. */
+    suffix?: string;
     color?: string;
     icon?: string;
     /** Icon width in source px. */
@@ -29,6 +31,7 @@ export function playYieldFloat(
     x,
     y,
     amount,
+    suffix = "",
     color = GAIN_YELLOW,
     icon,
     iconWidth = 10,
@@ -57,11 +60,18 @@ export function playYieldFloat(
     cursor += iconWidth + 2;
   }
 
-  const label = outlinedText(scene, cursor, 0, `+${formatNumber(amount)}`, {
-    fontPx: 14,
-    fill: color,
-    shadowOffsetY: 2,
-  });
+  const sign = amount < 0 ? "-" : "+";
+  const label = outlinedText(
+    scene,
+    cursor,
+    0,
+    `${sign}${formatNumber(Math.abs(amount))}${suffix}`,
+    {
+      fontPx: 14,
+      fill: color,
+      shadowOffsetY: 2,
+    },
+  );
   label.setOrigin(0, 0.55);
   children.push(label);
 

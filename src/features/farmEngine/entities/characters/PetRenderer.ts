@@ -19,6 +19,7 @@ import {
 } from "features/island/pets/lib/petShared";
 import { isHelpComplete } from "features/game/types/monuments";
 import { addHelpDisc, queueHelpDiscAssets } from "../../components/HelpDisc";
+import { playYieldFloat } from "../../components/YieldFloat";
 import { queueImage, queueSpritesheet, runLoader } from "../../core/assets";
 import {
   queueArt,
@@ -424,10 +425,12 @@ export class PetRenderer extends EntityRenderer<Slice> {
       : false;
     if (isPetNeglected(pet, now) && !typeFed) {
       this.bridge.dispatch("pet.neglected", { petId: Number(id) });
+      this.playXpFloat(`nft#${id}`, -500);
       return;
     }
     if (isPetNapping(pet, now) && !typeFed) {
       this.bridge.dispatch("pet.pet", { petId: Number(id) });
+      this.playXpFloat(`nft#${id}`, 10);
       return;
     }
     if (isPetNFTRevealed(Number(id), now) && pet.traits) {
@@ -445,10 +448,12 @@ export class PetRenderer extends EntityRenderer<Slice> {
     }
     if (isPetNeglected(pet, now)) {
       this.bridge.dispatch("pet.neglected", { petId: name });
+      this.playXpFloat(`common#${name}#`, -500);
       return;
     }
     if (isPetNapping(pet, now)) {
       this.bridge.dispatch("pet.pet", { petId: name });
+      this.playXpFloat(`common#${name}#`, 10);
       return;
     }
     this.bridge.farmModal.open("pet", { commonName: name });
@@ -463,6 +468,28 @@ export class PetRenderer extends EntityRenderer<Slice> {
     if (this.tickMs < 10_000) return; // nap/neglect states move slowly
     this.tickMs = 0;
     void this.sync(this.bridge.select((state) => this.selector(state)));
+  }
+
+  /**
+   * [LandPet.tsx] the "+10XP" / "-500XP" popup over the pet after petting or
+   * marking neglect — green for the treat, red for the scolding.
+   */
+  private playXpFloat(keyPrefix: string, xp: number) {
+    if (!this.bridge.ui.get().showAnimations) return;
+    const entry = [...this.entries.entries()].find(([key]) =>
+      key.startsWith(keyPrefix),
+    )?.[1];
+    if (!entry) return;
+    const { x, y, width } = entry.zone;
+    playYieldFloat(this.scene, {
+      x: x + width / 2 - 8,
+      y: y - 4,
+      amount: xp,
+      suffix: "XP",
+      color: xp > 0 ? "#71e358" : "#ff0000",
+      depth: y + 100_000,
+      durationMs: 1600,
+    });
   }
 
   private destroyEntry(entry: Entry) {

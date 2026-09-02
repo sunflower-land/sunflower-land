@@ -4,6 +4,7 @@ import type { GameBridge } from "../bridge/GameBridge";
 import type { Unsubscribe } from "../bridge/subscriptions";
 import { FarmCameraController } from "../core/camera";
 import { BumpkinWorker } from "../worker/BumpkinWorker";
+import { YieldEventFloats } from "../components/YieldEventFloats";
 import { FarmClock } from "../core/clock";
 import type { EntityRenderer } from "../entities/EntityRenderer";
 import { RENDERERS, type RendererFactory } from "../entities/registry";
@@ -29,6 +30,7 @@ export class FarmScene extends Phaser.Scene {
   readonly farmCamera: FarmCameraController;
   /** EXPERIMENT [worker/BumpkinWorker.ts] — only on the farm surface. */
   worker?: BumpkinWorker;
+  private yieldEventFloats?: YieldEventFloats;
   readonly clock = new FarmClock();
 
   private renderers: EntityRenderer<unknown>[] = [];
@@ -79,6 +81,10 @@ export class FarmScene extends Phaser.Scene {
         },
       ),
     );
+
+    // Standard "+N with icon" for claims dispatched from anywhere — a
+    // renderer click or a React modal that closes right after.
+    this.yieldEventFloats = new YieldEventFloats(this, this.bridge);
 
     if (this.location === "farm") {
       this.worker = new BumpkinWorker(this, this.bridge);
@@ -140,6 +146,8 @@ export class FarmScene extends Phaser.Scene {
     this.stressBumpkins = undefined;
     this.clock.dispose();
     this.worker?.destroy();
+    this.yieldEventFloats?.destroy();
+    this.yieldEventFloats = undefined;
     this.worker = undefined;
     this.farmCamera.destroy();
   }

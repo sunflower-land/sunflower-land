@@ -98,14 +98,7 @@ export class GreenhousePotRenderer extends EntityRenderer<Slice> {
 
   /** The room is centred on the origin, so pots resolve against its box. */
   private potOrigin(id: number) {
-    const layout = POT_LAYOUT[id];
-    const roomLeft = -ROOM.width / 2;
-    const roomBottom = ROOM.height / 2;
-    const x =
-      layout.right !== undefined
-        ? roomLeft + ROOM.width - layout.right - POT_WIDTH
-        : roomLeft + (layout.left ?? 0);
-    return { x, bottom: roomBottom - layout.bottom };
+    return greenhousePotOrigin(id);
   }
 
   async sync(slice: Slice) {
@@ -403,4 +396,16 @@ export class GreenhousePotRenderer extends EntityRenderer<Slice> {
     });
     this.pots.clear();
   }
+}
+
+/** Room-centred world origin of a greenhouse pot [POT_LAYOUT]. */
+export function greenhousePotOrigin(id: number): { x: number; bottom: number } {
+  const layout = POT_LAYOUT[id];
+  const roomLeft = -ROOM.width / 2;
+  const roomBottom = ROOM.height / 2;
+  const x =
+    layout.right !== undefined
+      ? roomLeft + ROOM.width - layout.right - POT_WIDTH
+      : roomLeft + (layout.left ?? 0);
+  return { x, bottom: roomBottom - layout.bottom };
 }
