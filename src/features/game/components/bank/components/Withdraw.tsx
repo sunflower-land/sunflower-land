@@ -28,6 +28,9 @@ import { FaceRecognition } from "features/retreat/components/personhood/FaceReco
 import { GameWallet } from "features/wallet/Wallet";
 import { WithdrawPets } from "./WithdrawPets";
 import petNFTEgg from "assets/icons/pet_nft_egg.png";
+import vipIcon from "assets/icons/vip.webp";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { useVipAccess } from "lib/utils/hooks/useVipAccess";
 
 const getPageIcon = (page: Page) => {
   switch (page) {
@@ -85,8 +88,11 @@ type Page =
 const MainMenu: React.FC<{
   setPage: (page: Page) => void;
   balance: Decimal;
-}> = ({ setPage, balance }) => {
+  /** Non-VIP farms: warn about the marketplace cooldown before they pick. */
+  showMarketplaceCooldownNotice: boolean;
+}> = ({ setPage, balance, showMarketplaceCooldownNotice }) => {
   const { t } = useAppTranslation();
+  const { openModal } = useContext(ModalContext);
 
   const collections: {
     key: Page;
@@ -123,6 +129,19 @@ const MainMenu: React.FC<{
   return (
     <div className="flex flex-col gap-2 p-1">
       <span className="text-xs">{t("withdraw.menu.intro")}</span>
+
+      {showMarketplaceCooldownNotice && (
+        <Label
+          type="warning"
+          icon={vipIcon}
+          className="ml-3"
+          onClick={() => openModal("VIP_ITEMS")}
+        >
+          <span className="text-xxs">
+            {t("withdraw.marketplaceCooldown.notice")}
+          </span>
+        </Label>
+      )}
 
       {/* FLOWER token */}
       <ButtonPanel
@@ -206,6 +225,10 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const farmId = useSelector(gameService, _farmId);
   const balance = useSelector(gameService, (s) => s.context.state.balance);
+  const game = useSelector(gameService, (s) => s.context.state);
+  // The trial doesn't exempt a player, so check for full VIP - matching the
+  // API's own check.
+  const isVip = useVipAccess({ game, type: "full" });
 
   const accountTradedRecently = useSelector(gameService, (s) =>
     isAccountTradedWithin90Days(s.context),
@@ -280,7 +303,13 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
 
   return (
     <>
-      {page === "main" && <MainMenu setPage={setPage} balance={balance} />}
+      {page === "main" && (
+        <MainMenu
+          setPage={setPage}
+          balance={balance}
+          showMarketplaceCooldownNotice={!isVip}
+        />
+      )}
       {/* Collection pages own their back navigation inside WithdrawCollection;
           other pages keep the shared back/title header. */}
       {page !== "main" &&

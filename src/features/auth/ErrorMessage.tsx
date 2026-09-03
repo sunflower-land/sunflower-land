@@ -24,6 +24,7 @@ import { SocialIdentityHasFarm } from "./components/SocialIdentityHasFarm";
 import { LinkedWalletHasFarm } from "./components/LinkedWalletHasFarm";
 import { GoogleLoginDisabled } from "./components/GoogleLoginDisabled";
 import { TwitterShowcaseError } from "./components/TwitterShowcaseError";
+import { MarketplaceWithdrawCooldown } from "./components/MarketplaceWithdrawCooldown";
 
 interface Props {
   errorCode: ErrorCode;
@@ -45,6 +46,10 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
 
   if (errorCode === ERRORS.WITHDRAW_DUPLICATE) {
     return <DuplicateWithdraw />;
+  }
+
+  if (errorCode === ERRORS.WITHDRAW_MARKETPLACE_COOLDOWN) {
+    return <MarketplaceWithdrawCooldown />;
   }
 
   if (errorCode === ERRORS.NO_FARM) {

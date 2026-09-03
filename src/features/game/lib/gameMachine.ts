@@ -110,6 +110,10 @@ import { getKeys } from "lib/object";
 import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
 import { hasLifetimeFarmerBanner, hasVipAccess } from "./vipAccess";
 import {
+  getWithdrawCooldownItems,
+  type WithdrawCooldowns,
+} from "./withdrawCooldown";
+import {
   getActiveCalendarEvent,
   type SeasonalEventName,
 } from "../types/calendar";
@@ -199,6 +203,14 @@ export interface Context {
   totalHelpedToday?: number;
   method?: "google" | "wallet" | "wechat" | "fsl";
   accountTradedAt?: string;
+  /**
+   * Every item the API has refused to withdraw under the marketplace
+   * cooldown, merged across attempts, so the withdraw screens can mark them.
+   * Purchase history isn't in game state, so this only fills in on failure.
+   */
+  withdrawCooldowns?: WithdrawCooldowns;
+  /** The blocked items from the most recent rejection, for the error panel. */
+  blockedWithdrawal?: WithdrawCooldowns;
   onChainRaffleReward?: RaffleSnapshotWinner;
   banReason?: string;
   banMessage?: string;
@@ -2128,6 +2140,12 @@ export function startGame(authContext: AuthContext) {
               },
               {
                 target: "error",
+                cond: (_, event: any) =>
+                  event.data?.message === ERRORS.WITHDRAW_MARKETPLACE_COOLDOWN,
+                actions: ["assignErrorMessage", "assignWithdrawCooldowns"],
+              },
+              {
+                target: "error",
                 actions: "assignErrorMessage",
               },
             ],
@@ -2866,6 +2884,14 @@ export function startGame(authContext: AuthContext) {
         assignErrorMessage: assign<Context, any>({
           errorCode: (_context, event) => event.data.message,
           actions: [],
+        }),
+        assignWithdrawCooldowns: assign<Context, any>({
+          withdrawCooldowns: (context, event) => ({
+            ...context.withdrawCooldowns,
+            ...getWithdrawCooldownItems(event.data),
+          }),
+          blockedWithdrawal: (_context, event) =>
+            getWithdrawCooldownItems(event.data),
         }),
         assignGame: assign<Context, any>({
           farmId: (_, event) => event.data.farmId,

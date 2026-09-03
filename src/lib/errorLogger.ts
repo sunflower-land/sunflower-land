@@ -57,6 +57,7 @@ export const EXPECTED_ERROR_CODES: ReadonlySet<string> = new Set([
   ERRORS.RESET_MARKETPLACE_UNCLAIMED_LISTINGS,
   // Withdrawals
   ERRORS.WITHDRAW_DUPLICATE,
+  ERRORS.WITHDRAW_MARKETPLACE_COOLDOWN,
   "WITHDRAW_DAILY_LIMIT",
   // Accounts / linking / social login
   "USERNAME_TAKEN",
