@@ -15,7 +15,7 @@ You confirm you have the right to submit everything you contribute.
 ## Prerequisites
 
 - A [GitHub](https://github.com) account
-- **Node.js 22** (matches [CI](../.github/workflows/ci.yml))
+- **Node.js 24** (matches [CI](../.github/workflows/ci.yml))
 - **Yarn** — install globally if needed: `npm install -g yarn`
 - **Git** — install from [git-scm.com](https://git-scm.com/downloads). On Windows, **Git Bash** works well with the GitHub Desktop + VS Code steps below; on macOS or Linux, use your system terminal and the [command-line workflow](#git-workflow-with-the-command-line) as needed.
 - Optional: [Visual Studio Code](https://code.visualstudio.com/Download) and [GitHub Desktop](https://desktop.github.com/)
