@@ -8507,5 +8507,7 @@
   "loveDilemma.guide.greenPlatform.description": "Lebih sedikit pemain daripada platform tersibuk - semua orang di sini memenangkan hadiahnya.",
   "loveDilemma.guide.redPlatform": "Platform Merah",
   "loveDilemma.guide.redPlatform.description": "Platform paling ramai. Tidak ada seorang pun di sini yang mendapat hadiah - dan jika dua platform bersaing untuk yang tersibuk, keduanya kalah.",
-  "loveDilemma.oneAttemptLeft": "1 upaya tersisa hari ini"
+  "loveDilemma.oneAttemptLeft": "1 upaya tersisa hari ini",
+  "gameOptions.generalSettings.actualTime": "Tampilkan waktu aktual",
+  "description.boostedSpeed": "Kecepatan: {{speed}} x"
 }

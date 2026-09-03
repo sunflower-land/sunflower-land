@@ -8507,5 +8507,7 @@
   "loveDilemma.guide.greenPlatform.description": "Menos jogadores do que a plataforma mais movimentada - todos aqui ganham seu prêmio.",
   "loveDilemma.guide.redPlatform": "Plataforma vermelha",
   "loveDilemma.guide.redPlatform.description": "A plataforma mais concorrida. Ninguém aqui ganha um prêmio — e se duas plataformas empatarem na posição mais movimentada, ambas perdem.",
-  "loveDilemma.oneAttemptLeft": "Falta 1 tentativa hoje"
+  "loveDilemma.oneAttemptLeft": "Falta 1 tentativa hoje",
+  "gameOptions.generalSettings.actualTime": "Mostrar hora real",
+  "description.boostedSpeed": "Velocidade: {{speed}} x"
 }

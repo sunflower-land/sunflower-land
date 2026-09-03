@@ -8507,5 +8507,7 @@
   "loveDilemma.guide.greenPlatform.description": "En yoğun platformdan daha az oyuncu - buradaki herkes ödülünü kazanır.",
   "loveDilemma.guide.redPlatform": "Kırmızı Platform",
   "loveDilemma.guide.redPlatform.description": "En kalabalık platform. Burada hiç kimse ödül almaz - ve iki platform en meşgulse, ikisi de kaybeder.",
-  "loveDilemma.oneAttemptLeft": "Bugün 1 deneme kaldı"
+  "loveDilemma.oneAttemptLeft": "Bugün 1 deneme kaldı",
+  "gameOptions.generalSettings.actualTime": "Gerçek zamanı göster",
+  "description.boostedSpeed": "Hız: {{speed}} x"
 }

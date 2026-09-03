@@ -8507,5 +8507,7 @@
   "loveDilemma.guide.greenPlatform.description": "Moins de joueurs que sur la plateforme la plus fréquentée : tout le monde y gagne son prix.",
   "loveDilemma.guide.redPlatform": "Plateforme rouge",
   "loveDilemma.guide.redPlatform.description": "La plateforme la plus fréquentée. Personne ici ne gagne de prix, et si deux plateformes sont à égalité pour la plus fréquentée, les deux perdent.",
-  "loveDilemma.oneAttemptLeft": "Il reste 1 tentative aujourd'hui"
+  "loveDilemma.oneAttemptLeft": "Il reste 1 tentative aujourd'hui",
+  "gameOptions.generalSettings.actualTime": "Afficher l'heure réelle",
+  "description.boostedSpeed": "Vitesse : {{speed}} x"
 }

@@ -8507,5 +8507,7 @@
   "loveDilemma.guide.greenPlatform.description": "玩家人数少于最繁忙的平台——这里的每个人都会赢得奖品。",
   "loveDilemma.guide.redPlatform": "红色平台",
   "loveDilemma.guide.redPlatform.description": "最拥挤的平台。这里没有人能获得奖品——如果两个平台并列最繁忙的平台，则两个平台都输了。",
-  "loveDilemma.oneAttemptLeft": "今天还有 1 次尝试"
+  "loveDilemma.oneAttemptLeft": "今天还有 1 次尝试",
+  "gameOptions.generalSettings.actualTime": "显示实际时间",
+  "description.boostedSpeed": "速度：{{speed}} x"
 }
