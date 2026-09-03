@@ -1,6 +1,7 @@
 # Love Island daily puzzles — server spec
 
-The middle of Love Island hosts a daily puzzle. Every puzzle pays out
+Love Island hosts daily puzzles: the Love Dilemma in the middle of the island
+and the Love Boulder at the top. Every puzzle pays out
 Love Charms through a single game event, `floatingIslandPrize.claimed`, so the
 daily caps live in one place. This document is the contract the game API and
 the MMO (Colyseus) room need to implement.
@@ -25,6 +26,8 @@ unit-tested) and `src/features/world/scenes/LoveIslandScene.ts`.
 - [ ] Handle message `loveDilemma.choose`; keep picks private until reveal.
 - [ ] At reveal: copy picks into `choices`, resolve, **teleport** choosing
       players onto their platform, enforce 3 attempts/farm/day.
+- [ ] Publish `state.loveBoulder` (section 4) and handle `loveBoulder.hit`:
+      decrement, record the miner, break at zero, respawn 5s later.
 - [ ] No change to `giantFlower` — leave it as is (unused by the client now).
 
 ## 1. Game API — `floatingIslandPrize.claimed`
@@ -38,7 +41,7 @@ Port it as-is.
 {
   type: "floatingIslandPrize.claimed";
   amount: number;                          // integer, 0..100
-  game?: "petal_puzzle" | "love_dilemma";  // which puzzle paid out
+  game?: "petal_puzzle" | "love_dilemma" | "love_boulder"; // which puzzle paid out
   roundId?: number;                        // integer; the puzzle's round
 }
 ```
@@ -51,7 +54,7 @@ floatingIsland: {
   prizeClaims?: {
     claimedAt: number;   // epoch ms
     amount: number;
-    game?: "petal_puzzle" | "love_dilemma";
+    game?: "petal_puzzle" | "love_dilemma" | "love_boulder";
     roundId?: number;
   }[];
 }
@@ -100,9 +103,10 @@ for VIP and 5 for everyone else, which is the accepted trade-off. If tighter
 enforcement is wanted later, the MMO room can report each round's winners to
 the API and the event can require a matching record.
 
-## 2. Which puzzle runs
+## 2. Which puzzles run
 
-Only the Love Dilemma runs for now - the petal puzzle is no longer rendered
+The Love Dilemma (middle of the island) and the Love Boulder (top of the
+island) both run all day, every day - the petal puzzle is no longer rendered
 by the client. `FloatingIslandGameName` keeps `"petal_puzzle"` so old claims
 stay typed; a daily rotation can be added later on both sides.
 
@@ -247,3 +251,94 @@ fills the round with 6 deterministic simulated players
 (`getLoveDilemmaBotChoices(roundId)`), so the game is playable and testable
 today. Once the room publishes `loveDilemma` the client switches over
 automatically — no client change needed.
+
+## 4. Love Boulder — MMO room
+
+A boulder sits at the very top of the island, at the foot of the cliff where
+the path dead-ends (world px **620, 362**; art 26x25). The whole island taps
+it down from **50,000 hits** to zero. When it cracks, a **5 Love Charm**
+prize sits on the rubble for **5 seconds**: anyone who landed at least one
+hit on that boulder can click it to claim, **once per UTC day**. When the 5
+seconds are up a fresh boulder appears at 50,000 and anyone who didn't click
+misses out. There is no guide entry and no HUD text beyond the hit count
+above the boulder (in a label) - the boulder is meant to be discovered.
+
+```ts
+LOVE_BOULDER_HITS = 50_000;
+LOVE_BOULDER_PRIZE = 5;
+LOVE_BOULDER_MAX_CLAIMS = 1; // per farm per UTC day
+LOVE_BOULDER_HIT_COOLDOWN_MS = 200; // per player
+LOVE_BOULDER_RESPAWN_MS = 5_000; // = the prize window
+```
+
+### Room state (`PlazaRoomState.loveBoulder`)
+
+Present only in the `love_island` room. The client treats `hits === 0` (or
+the field missing) as "the room isn't running it" and simulates locally.
+
+```ts
+class LoveBoulder extends Schema {
+  @type("number") roundId: number; // increments on every respawn
+  @type("number") hits: number; // 50000 - what a fresh boulder starts at
+  @type("number") hitsRemaining: number; // counts down to 0
+  @type("number") brokenAt: number; // epoch ms; 0 while standing
+  @type("number") respawnAt: number; // epoch ms; 0 while standing
+  @type({ map: "number" }) miners: MapSchema<number>; // farmId -> hits this round
+}
+```
+
+`roundId` must be unique for the lifetime of the farm's day (it is the
+idempotency key for the claim), so persist a counter or derive it from
+timestamps - don't restart at 0 whenever the room reboots within a day. A
+simple option is `roundId = Math.floor(spawnedAt / 1000)`.
+
+### Client → server message
+
+```ts
+room.send("loveBoulder.hit", { roundId: number });
+```
+
+Rules:
+
+- Ignore if `roundId` ≠ the current round, or the boulder is broken
+  (`brokenAt > 0`).
+- Ignore if the player's last accepted hit was under **200ms** ago.
+- Ignore if the player is further than ~**40px** from the boulder (use the
+  position in `state.players`; the client refuses to send from further away,
+  so this only guards forged messages).
+- Otherwise `hitsRemaining -= 1` and `miners[farmId] += 1`.
+- When `hitsRemaining` reaches **0**: set `brokenAt = now`,
+  `respawnAt = now + 5_000`. Leave `miners` populated - clients read it to
+  know whether they helped (a reload mid-round loses their local count).
+- At `respawnAt`: `roundId += 1`, `hitsRemaining = hits`, `brokenAt = 0`,
+  `respawnAt = 0`, clear `miners`.
+
+The room does not need to know about the daily claim limit - the claim is a
+game event and the once-a-day rule is enforced client-side against the
+farm's `floatingIsland.prizeClaims` (and bounded by the event's daily caps).
+
+### What the client does
+
+- Shows `hitsRemaining` in a label above the boulder (nothing else), subtracting hits it
+  has sent that the room hasn't reflected yet, and never lets that optimistic
+  count reach zero - only `brokenAt > 0` breaks the boulder.
+- Each tap: must be within reach, respects the 200ms cooldown, sends
+  `loveBoulder.hit`, shakes the boulder and chips off rubble.
+- When `brokenAt` flips from 0: plays the shatter and shows a clickable
+  Love Charm "+5" on the rubble while `now < respawnAt`.
+- Clicking it: if `miners[farmId] > 0` (or its own count is > 0) and the farm
+  has no `love_boulder` claim today, dispatches
+  `floatingIslandPrize.claimed { amount, game: "love_boulder", roundId }`
+  with `amount = min(5, remaining today)` and floats a "+N". Players who
+  didn't hit it get a "hit the boulder" bubble; players who already claimed
+  today get an "already claimed" bubble. Nothing is claimed automatically -
+  miss the window and the prize is gone.
+- When the new round arrives the boulder reappears at full hits.
+
+### Until the room ships
+
+If `state.loveBoulder` is absent (or `hits` is 0), the client runs a local
+stand-in: a simulated crowd takes 40 hits/s, the local player's taps come
+off on top, and the break/5s window/respawn cycle runs on the client's own
+clock. Once the room publishes `loveBoulder` the client switches over
+automatically.

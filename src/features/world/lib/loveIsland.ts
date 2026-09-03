@@ -5,9 +5,9 @@ import {
 import type { GameState } from "features/game/types/game";
 
 /**
- * Client-side rules for the Love Island Love Dilemma.
+ * Client-side rules for the Love Island games (Love Dilemma, Love Boulder).
  *
- * The game pays out through the generic `floatingIslandPrize.claimed` event.
+ * The games pay out through the generic `floatingIslandPrize.claimed` event.
  * The rules below (prize sizes, attempts) are deliberately enforced on the
  * client and mirrored by the MMO room - the game event only guards the daily
  * Love Charm caps.
@@ -276,4 +276,197 @@ export function getLoveDilemmaBotChoices(
   }
 
   return choices;
+}
+
+// ---------------------------------------------------------------------------
+// Love Boulder
+// ---------------------------------------------------------------------------
+
+/** Taps it takes the whole island to crack one boulder. */
+export const LOVE_BOULDER_HITS = 50_000;
+/** Love Charms for everyone who landed a hit on the boulder that broke. */
+export const LOVE_BOULDER_PRIZE = 5;
+/** The prize can be claimed this many times per UTC day. */
+export const LOVE_BOULDER_MAX_CLAIMS = 1;
+/** Fastest a single player may tap - the room drops anything quicker. */
+export const LOVE_BOULDER_HIT_COOLDOWN_MS = 200;
+/**
+ * How long the prize sits on the rubble to be claimed. When it runs out a
+ * fresh boulder appears and anyone who didn't click misses out.
+ */
+export const LOVE_BOULDER_RESPAWN_MS = 5 * 1000;
+
+export type LoveBoulderRound = {
+  /** Increments every time a fresh boulder appears. */
+  roundId: number;
+  /** Hits still needed to break it (0 once broken). */
+  hitsRemaining: number;
+  /**
+   * True only once the boulder is authoritatively broken. Kept separate from
+   * `hitsRemaining` so an optimistic local count can't break it early.
+   */
+  broken: boolean;
+  /** Epoch ms the boulder broke - only set once broken. */
+  brokenAt?: number;
+  /** Epoch ms a fresh boulder appears - only set once broken. */
+  respawnAt?: number;
+};
+
+/** Is the prize sitting on the rubble right now, waiting to be clicked? */
+export function isLoveBoulderRewardOpen({
+  round,
+  now = Date.now(),
+}: {
+  round: LoveBoulderRound;
+  now?: number;
+}): boolean {
+  return round.broken && now < (round.respawnAt ?? 0);
+}
+
+/** Today's Love Boulder claims (at most one, but the event keeps a list). */
+export function getLoveBoulderClaimsToday({
+  state,
+  now = Date.now(),
+}: {
+  state: GameState;
+  now?: number;
+}) {
+  return getFloatingIslandGameClaimsToday({
+    state,
+    game: "love_boulder",
+    createdAt: now,
+  });
+}
+
+export function hasClaimedLoveBoulderToday({
+  state,
+  now = Date.now(),
+}: {
+  state: GameState;
+  now?: number;
+}): boolean {
+  return (
+    getLoveBoulderClaimsToday({ state, now }).length >= LOVE_BOULDER_MAX_CLAIMS
+  );
+}
+
+/** Has this exact boulder already been claimed (e.g. a reload mid-window)? */
+export function hasClaimedLoveBoulderRound({
+  state,
+  roundId,
+  now = Date.now(),
+}: {
+  state: GameState;
+  roundId: number;
+  now?: number;
+}): boolean {
+  return getLoveBoulderClaimsToday({ state, now }).some(
+    (claim) => claim.roundId === roundId,
+  );
+}
+
+/**
+ * Whether the prize pays this player: they must have landed at least one hit
+ * on the boulder that broke, and not have claimed a boulder prize yet today.
+ */
+export function canClaimLoveBoulder({
+  state,
+  myHits,
+  roundId,
+  now = Date.now(),
+}: {
+  state: GameState;
+  myHits: number;
+  roundId: number;
+  now?: number;
+}): boolean {
+  if (myHits <= 0) return false;
+  if (hasClaimedLoveBoulderRound({ state, roundId, now })) return false;
+
+  return !hasClaimedLoveBoulderToday({ state, now });
+}
+
+/**
+ * What the boulder actually pays this player right now: the prize, capped
+ * by the Love Charms they can still earn today (the event rejects more).
+ */
+export function getLoveBoulderPayout({
+  state,
+  now = Date.now(),
+}: {
+  state: GameState;
+  now?: number;
+}): number {
+  return Math.min(
+    LOVE_BOULDER_PRIZE,
+    getFloatingIslandLoveCharmsRemainingToday({ state, createdAt: now }),
+  );
+}
+
+/** Local mode: the simulated crowd's combined tapping speed. */
+export const LOVE_BOULDER_LOCAL_BOT_HITS_PER_SEC = 40;
+
+export type LoveBoulderLocalRound = LoveBoulderRound & {
+  /** Fractional crowd hits carried between ticks. */
+  crowdProgress: number;
+  lastTickAt: number;
+};
+
+export function createLoveBoulderLocalRound(
+  now = Date.now(),
+  roundId = 1,
+): LoveBoulderLocalRound {
+  return {
+    roundId,
+    hitsRemaining: LOVE_BOULDER_HITS,
+    broken: false,
+    crowdProgress: 0,
+    lastTickAt: now,
+  };
+}
+
+/**
+ * Local stand-in while the MMO room has no boulder state: a simulated crowd
+ * chips away at a steady rate, the local player's own hits come straight off
+ * `hitsRemaining`, and once it breaks the prize window runs before a fresh
+ * boulder appears - the same shape the room publishes.
+ */
+export function tickLoveBoulderLocalRound({
+  round,
+  now = Date.now(),
+}: {
+  round: LoveBoulderLocalRound;
+  now?: number;
+}): LoveBoulderLocalRound {
+  if (round.broken) {
+    return now >= (round.respawnAt ?? 0)
+      ? createLoveBoulderLocalRound(now, round.roundId + 1)
+      : round;
+  }
+
+  const elapsed = Math.max(0, now - round.lastTickAt);
+  const progress =
+    round.crowdProgress +
+    (elapsed / 1000) * LOVE_BOULDER_LOCAL_BOT_HITS_PER_SEC;
+  const crowdHits = Math.floor(progress);
+  const hitsRemaining = Math.max(0, round.hitsRemaining - crowdHits);
+
+  if (hitsRemaining > 0) {
+    return {
+      ...round,
+      hitsRemaining,
+      crowdProgress: progress - crowdHits,
+      lastTickAt: now,
+    };
+  }
+
+  return {
+    roundId: round.roundId,
+    hitsRemaining: 0,
+    broken: true,
+    brokenAt: now,
+    respawnAt: now + LOVE_BOULDER_RESPAWN_MS,
+    crowdProgress: 0,
+    lastTickAt: now,
+  };
 }

@@ -1,8 +1,11 @@
 import type { BumpkinItem } from "./bumpkin";
 import type { GameState, InventoryItemName } from "./game";
 
-/** The daily puzzles that hand out Love Charms in the middle of the island. */
-export type FloatingIslandGameName = "petal_puzzle" | "love_dilemma";
+/** The daily puzzles that hand out Love Charms on the island. */
+export type FloatingIslandGameName =
+  | "petal_puzzle"
+  | "love_dilemma"
+  | "love_boulder";
 
 export function getActiveFloatingIsland({ state }: { state: GameState }) {
   const schedule = state.floatingIsland.schedule;
