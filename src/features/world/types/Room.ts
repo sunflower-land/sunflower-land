@@ -132,6 +132,27 @@ export interface GiantFlower extends Schema {
   bottomPetal?: PetalState;
 }
 
+/**
+ * Love Island "Love Dilemma" round, published by the room while that puzzle
+ * is active. Rounds run on a fixed 40s clock (30s choose + 10s reveal).
+ */
+export interface LoveDilemma extends Schema {
+  roundId: number;
+  /** Epoch ms - end of the choose phase. */
+  chooseEndsAt: number;
+  /** Epoch ms - end of the reveal phase (start of the next round). */
+  revealEndsAt: number;
+  /** Tier (0 = best) shown on each platform, indexed by platform 0-3. */
+  tiers: ArraySchema<number>;
+  /** How many players have locked in a choice this round. */
+  chosenCount: number;
+  /**
+   * sessionId -> platform. Kept EMPTY during the choose phase so nobody can
+   * see where the crowd is going; populated by the server at reveal.
+   */
+  choices: MapSchema<number>;
+}
+
 export interface PlazaRoomState extends Schema {
   mapWidth: number;
   mapHeight: number;
@@ -151,4 +172,6 @@ export interface PlazaRoomState extends Schema {
 
   dogs: MapSchema<Dog>;
   giantFlower: GiantFlower;
+  /** Only present in the love_island room while the dilemma puzzle is on. */
+  loveDilemma?: LoveDilemma;
 }

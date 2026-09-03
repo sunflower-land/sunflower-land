@@ -123,6 +123,7 @@ import type { TwitterPost, TwitterPostName } from "./social";
 import type { NetworkName } from "../events/landExpansion/updateNetwork";
 import type { RewardBoxes, RewardBoxName } from "./rewardBoxes";
 import type {
+  FloatingIslandGameName,
   FloatingIslandShop,
   FloatingShopItemName,
 } from "./floatingIsland";
@@ -2520,6 +2521,19 @@ export interface GameState {
     shop: FloatingIslandShop;
     boughtAt?: Partial<Record<FloatingShopItemName, number>>;
     petalPuzzleSolvedAt?: number;
+    /**
+     * Love Charm prizes claimed from the daily island puzzles. Only the
+     * current UTC day's claims are kept - used to enforce the daily Love
+     * Charm cap and the maximum number of claims per day.
+     */
+    prizeClaims?: {
+      claimedAt: number;
+      amount: number;
+      /** Which puzzle paid out - lets the client enforce per-game rules. */
+      game?: FloatingIslandGameName;
+      /** The puzzle's round - each `{ game, roundId }` is claimable once. */
+      roundId?: number;
+    }[];
   };
   megastore?: {
     boughtAt: Partial<Record<ChapterTierItemName, number>>;
