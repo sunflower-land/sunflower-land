@@ -48,6 +48,8 @@ import { PET_SHRINES } from "features/game/types/pets";
 import { isPetCollectible } from "features/game/events/landExpansion/placeCollectible";
 import { getKeys } from "lib/object";
 import { Label } from "components/ui/Label";
+import { Panel } from "components/ui/Panel";
+import { Loading } from "features/auth/components";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getChestItems } from "./components/inventory/utils/inventory";
 import type { NFTName } from "features/game/events/landExpansion/placeNFT";
@@ -597,6 +599,18 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
       {saveFailed && (
         <div className="absolute left-1/2 -translate-x-1/2 top-2.5 z-50">
           <Label type="danger">{t("landscaping.saveFailed")}</Label>
+        </div>
+      )}
+      {/*
+        The commit is one server round trip; without immediate feedback the
+        tick feels dead for the ~1s it takes. Dim the screen and block input
+        until the response (success, conflicts, or failure) arrives.
+      */}
+      {saving && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black bg-opacity-50">
+          <Panel>
+            <Loading text={t("landscaping.saving")} />
+          </Panel>
         </div>
       )}
       {showRemove && (
