@@ -484,10 +484,7 @@ export const landscapingMachine = createMachine<
                         } as PlacementEvent;
                       }
                       const id = uuidv4().slice(0, 8);
-                      if (
-                        location === "farm" &&
-                        LIVE_LANDSCAPING_EVENTS.has(action as string)
-                      ) {
+                      if (LIVE_LANDSCAPING_EVENTS.has(action as string)) {
                         return {
                           type: action,
                           name: placeable?.name,
@@ -509,8 +506,7 @@ export const landscapingMachine = createMachine<
                   // the chest when this runs.
                   choose([
                     {
-                      cond: ({ placeable, action }, { location }) =>
-                        location === "farm" &&
+                      cond: ({ placeable, action }) =>
                         !!placeable?.name &&
                         LIVE_LANDSCAPING_EVENTS.has(action as string),
                       actions: sendParent(

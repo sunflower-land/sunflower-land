@@ -1,4 +1,5 @@
 import type {
+  Collectibles,
   GameState,
   LayoutCoordinates,
   PlacedItem,
@@ -17,7 +18,7 @@ import type { ResourceName } from "features/game/types/resources";
 import { PET_NFT_DIMENSIONS } from "features/game/types/pets";
 import {
   NON_COLLIDING_OBJECTS,
-  detectWaterCollision,
+  isOutOfBounds,
   isOverlapping,
   type Position,
 } from "features/game/expansion/placeable/lib/collisionDetection";
@@ -73,15 +74,10 @@ import { removeLavaPit } from "./removeLavaPit";
  */
 export type Arrangement = Pick<
   SavedLayout,
-  | "collectibles"
-  | "buildings"
-  | "resources"
-  | "buds"
-  | "petNFTs"
-  | "farmHands"
-  | "bumpkin"
-  | "land"
->;
+  "collectibles" | "buds" | "petNFTs" | "farmHands" | "bumpkin" | "land"
+> &
+  // Only the farm has buildings and resource nodes; indoor surfaces omit them.
+  Partial<Pick<SavedLayout, "buildings" | "resources">>;
 
 export type ApplyArrangementAction = {
   type: "arrangement.saved";
@@ -154,11 +150,189 @@ type Entry = {
   dimensions: Dimensions;
 };
 
+/** Where a Bumpkin or FarmHand may stand — everywhere but the pet house. */
+type PersonLocation = Exclude<PlaceableLocation, "petHouse">;
+
 const BUD_DIMENSIONS: Dimensions = { width: 1, height: 1 };
 const PERSON_DIMENSIONS: Dimensions = { width: 1, height: 1 };
 
-const isOnFarm = (placed: { location?: string; coordinates?: unknown }) =>
-  !!placed.coordinates && (!placed.location || placed.location === "farm");
+/**
+ * What each placeable surface holds. Every landscaping location commits through
+ * the same diff; they differ only in which buckets exist and where the
+ * collectibles live. Buildings and resource nodes are farm-only, and the pet
+ * house takes pets (as collectibles) and Pet NFTs but no Buds, FarmHands or
+ * Bumpkin.
+ */
+type Surface = {
+  /** This surface's collectible bucket, or undefined when it isn't built yet. */
+  getCollectibles: (state: GameState) => Collectibles | undefined;
+  hasBuildings: boolean;
+  hasResources: boolean;
+  buds: boolean;
+  petNFTs: boolean;
+  farmHands: boolean;
+  bumpkin: boolean;
+};
+
+const SURFACES: Record<PlaceableLocation, Surface> = {
+  farm: {
+    getCollectibles: (s) => s.collectibles,
+    hasBuildings: true,
+    hasResources: true,
+    buds: true,
+    petNFTs: true,
+    farmHands: true,
+    bumpkin: true,
+  },
+  home: {
+    getCollectibles: (s) => s.home.collectibles,
+    hasBuildings: false,
+    hasResources: false,
+    buds: true,
+    petNFTs: true,
+    farmHands: true,
+    bumpkin: true,
+  },
+  interior: {
+    getCollectibles: (s) => s.interior.ground.collectibles,
+    hasBuildings: false,
+    hasResources: false,
+    buds: true,
+    petNFTs: true,
+    farmHands: true,
+    bumpkin: true,
+  },
+  level_one: {
+    getCollectibles: (s) => s.interior.level_one?.collectibles,
+    hasBuildings: false,
+    hasResources: false,
+    buds: true,
+    petNFTs: true,
+    farmHands: true,
+    bumpkin: true,
+  },
+  petHouse: {
+    getCollectibles: (s) => s.petHouse?.pets as Collectibles | undefined,
+    hasBuildings: false,
+    hasResources: false,
+    buds: false,
+    petNFTs: true,
+    farmHands: false,
+    bumpkin: false,
+  },
+};
+
+/**
+ * Capture what is currently placed on `location`, in the shape the commit
+ * accepts. The client edits this locally and posts the result; a round trip
+ * through {@link applyArrangement} with an untouched snapshot is a no-op.
+ *
+ * The farm equivalent used by saved layouts is `snapshotFarm` in ./layouts —
+ * that one also records land extent for previews and is bound to the
+ * `SavedLayout` storage shape, so the two stay separate on purpose.
+ */
+export function snapshotSurface(
+  state: GameState,
+  location: PlaceableLocation,
+): Arrangement {
+  const surface = SURFACES[location];
+  const arrangement: Arrangement = { collectibles: {} };
+
+  getObjectEntries<Collectibles>(surface.getCollectibles(state) ?? {}).forEach(
+    ([name, group]) => {
+      const placed = (group ?? [])
+        .filter((item) => !!item.coordinates)
+        .map((item) => ({
+          id: item.id,
+          coordinates: { ...item.coordinates } as LayoutCoordinates,
+          ...(item.flipped !== undefined ? { flipped: item.flipped } : {}),
+        }));
+      if (placed.length > 0) arrangement.collectibles[name] = placed;
+    },
+  );
+
+  if (surface.hasBuildings) {
+    const buildings: NonNullable<Arrangement["buildings"]> = {};
+    getObjectEntries(state.buildings).forEach(([name, group]) => {
+      const placed = (group ?? [])
+        .filter((item) => !!item.coordinates)
+        .map((item) => ({
+          id: item.id,
+          coordinates: { ...item.coordinates } as LayoutCoordinates,
+          ...(item.flipped !== undefined ? { flipped: item.flipped } : {}),
+        }));
+      if (placed.length > 0) buildings[name] = placed;
+    });
+    arrangement.buildings = buildings;
+  }
+
+  if (surface.hasResources) {
+    const resources = {} as NonNullable<Arrangement["resources"]>;
+    RESOURCE_BUCKETS.forEach(({ key, get }) => {
+      resources[key] = {};
+      Object.entries(get(state)).forEach(([id, node]) => {
+        if (node.x === undefined || node.y === undefined) return;
+        const coordinates: LayoutCoordinates = { x: node.x, y: node.y };
+        if (node.oX !== undefined) coordinates.oX = node.oX;
+        if (node.oY !== undefined) coordinates.oY = node.oY;
+        resources[key][id] = coordinates;
+      });
+    });
+    arrangement.resources = resources;
+  }
+
+  if (surface.buds) {
+    const buds: NonNullable<Arrangement["buds"]> = {};
+    Object.entries(state.buds ?? {}).forEach(([id, bud]) => {
+      if (isOnSurface(bud, location)) {
+        buds[id] = { ...(bud.coordinates as LayoutCoordinates) };
+      }
+    });
+    arrangement.buds = buds;
+  }
+
+  if (surface.petNFTs) {
+    const petNFTs: NonNullable<Arrangement["petNFTs"]> = {};
+    Object.entries(state.pets?.nfts ?? {}).forEach(([id, pet]) => {
+      if (isOnSurface(pet, location)) {
+        petNFTs[id] = { ...(pet.coordinates as LayoutCoordinates) };
+      }
+    });
+    arrangement.petNFTs = petNFTs;
+  }
+
+  if (surface.farmHands) {
+    const farmHands: NonNullable<Arrangement["farmHands"]> = {};
+    Object.entries(state.farmHands?.bumpkins ?? {}).forEach(([id, hand]) => {
+      if (!isOnSurface(hand, location)) return;
+      farmHands[id] = {
+        ...(hand.coordinates as LayoutCoordinates),
+        ...(hand.flipped !== undefined ? { flipped: hand.flipped } : {}),
+      };
+    });
+    arrangement.farmHands = farmHands;
+  }
+
+  if (surface.bumpkin && isOnSurface(state.bumpkin, location)) {
+    arrangement.bumpkin = {
+      ...(state.bumpkin.coordinates as LayoutCoordinates),
+      ...(state.bumpkin.flipped !== undefined
+        ? { flipped: state.bumpkin.flipped }
+        : {}),
+    };
+  }
+
+  return arrangement;
+}
+
+/**
+ * True when a placeable sits on `location`. Legacy items carry no `location`
+ * and are farm-placed by convention.
+ */
+const isOnSurface = (
+  placed: { location?: string; coordinates?: unknown },
+  location: PlaceableLocation,
+) => !!placed.coordinates && (placed.location ?? "farm") === location;
 
 const boxOf = (entry: Entry): Position => ({
   x: entry.coordinates.x,
@@ -193,12 +367,17 @@ const withCoordinates = (c: LayoutCoordinates): PlacedItem["coordinates"] => ({
   ...(c.oY !== undefined ? { oY: c.oY } : {}),
 });
 
-/** Every placed item on the farm, keyed for diffing. */
-function indexLive(state: GameState): Map<string, Entry> {
+/** Every item placed on `location`, keyed for diffing. */
+function indexLive(
+  state: GameState,
+  location: PlaceableLocation,
+): Map<string, Entry> {
+  const surface = SURFACES[location];
   const entries = new Map<string, Entry>();
   const add = (entry: Entry) => entries.set(entry.key, entry);
 
-  getObjectEntries(state.collectibles).forEach(([name, group]) => {
+  const liveCollectibles: Collectibles = surface.getCollectibles(state) ?? {};
+  getObjectEntries(liveCollectibles).forEach(([name, group]) => {
     group?.forEach((item) => {
       if (!item.coordinates) return;
       add({
@@ -213,75 +392,82 @@ function indexLive(state: GameState): Map<string, Entry> {
     });
   });
 
-  getObjectEntries(state.buildings).forEach(([name, group]) => {
-    group?.forEach((item) => {
-      if (!item.coordinates) return;
-      add({
-        key: `building:${name}:${item.id}`,
-        category: "building",
-        name,
-        id: item.id,
-        coordinates: item.coordinates,
-        flipped: item.flipped,
-        dimensions: BUILDINGS_DIMENSIONS[name],
+  if (surface.hasBuildings)
+    getObjectEntries(state.buildings).forEach(([name, group]) => {
+      group?.forEach((item) => {
+        if (!item.coordinates) return;
+        add({
+          key: `building:${name}:${item.id}`,
+          category: "building",
+          name,
+          id: item.id,
+          coordinates: item.coordinates,
+          flipped: item.flipped,
+          dimensions: BUILDINGS_DIMENSIONS[name],
+        });
       });
     });
-  });
 
-  RESOURCE_BUCKETS.forEach(({ key, get, resourceName }) => {
-    Object.entries(get(state)).forEach(([id, node]) => {
-      if (node.x === undefined || node.y === undefined) return;
-      const name = (node as { name?: string }).name ?? resourceName;
+  if (surface.hasResources)
+    RESOURCE_BUCKETS.forEach(({ key, get, resourceName }) => {
+      Object.entries(get(state)).forEach(([id, node]) => {
+        if (node.x === undefined || node.y === undefined) return;
+        const name = (node as { name?: string }).name ?? resourceName;
+        add({
+          key: `resource:${key}:${id}`,
+          category: "resource",
+          name,
+          id,
+          bucket: key,
+          coordinates: { x: node.x, y: node.y },
+          dimensions: PLACEABLE_DIMENSIONS[resourceName],
+        });
+      });
+    });
+
+  if (surface.buds)
+    Object.entries(state.buds ?? {}).forEach(([id, bud]) => {
+      if (!isOnSurface(bud, location)) return;
       add({
-        key: `resource:${key}:${id}`,
-        category: "resource",
-        name,
+        key: `bud:${id}`,
+        category: "bud",
+        name: "Bud",
         id,
-        bucket: key,
-        coordinates: { x: node.x, y: node.y },
-        dimensions: PLACEABLE_DIMENSIONS[resourceName],
+        coordinates: bud.coordinates as LayoutCoordinates,
+        dimensions: BUD_DIMENSIONS,
       });
     });
-  });
 
-  Object.entries(state.buds ?? {}).forEach(([id, bud]) => {
-    if (!isOnFarm(bud)) return;
-    add({
-      key: `bud:${id}`,
-      category: "bud",
-      name: "Bud",
-      id,
-      coordinates: bud.coordinates as LayoutCoordinates,
-      dimensions: BUD_DIMENSIONS,
+  if (surface.petNFTs)
+    Object.entries(state.pets?.nfts ?? {}).forEach(([id, pet]) => {
+      if (!isOnSurface(pet, location)) return;
+      add({
+        key: `pet:${id}`,
+        category: "pet",
+        name: "Pet",
+        id,
+        coordinates: pet.coordinates as LayoutCoordinates,
+        dimensions: PET_NFT_DIMENSIONS,
+      });
     });
-  });
 
-  Object.entries(state.pets?.nfts ?? {}).forEach(([id, pet]) => {
-    if (!isOnFarm(pet)) return;
-    add({
-      key: `pet:${id}`,
-      category: "pet",
-      name: "Pet",
-      id,
-      coordinates: pet.coordinates as LayoutCoordinates,
-      dimensions: PET_NFT_DIMENSIONS,
-    });
-  });
+  if (surface.farmHands)
+    Object.entries(state.farmHands?.bumpkins ?? {}).forEach(
+      ([id, farmHand]) => {
+        if (!isOnSurface(farmHand, location)) return;
+        add({
+          key: `farmHand:${id}`,
+          category: "farmHand",
+          name: "FarmHand",
+          id,
+          coordinates: farmHand.coordinates as LayoutCoordinates,
+          flipped: farmHand.flipped,
+          dimensions: PERSON_DIMENSIONS,
+        });
+      },
+    );
 
-  Object.entries(state.farmHands?.bumpkins ?? {}).forEach(([id, farmHand]) => {
-    if (!isOnFarm(farmHand)) return;
-    add({
-      key: `farmHand:${id}`,
-      category: "farmHand",
-      name: "FarmHand",
-      id,
-      coordinates: farmHand.coordinates as LayoutCoordinates,
-      flipped: farmHand.flipped,
-      dimensions: PERSON_DIMENSIONS,
-    });
-  });
-
-  if (isOnFarm(state.bumpkin)) {
+  if (surface.bumpkin && isOnSurface(state.bumpkin, location)) {
     add({
       key: "bumpkin",
       category: "bumpkin",
@@ -303,11 +489,34 @@ function indexLive(state: GameState): Map<string, Entry> {
  */
 function indexDesired(
   state: GameState,
+  location: PlaceableLocation,
   arrangement: Arrangement,
   conflicts: ArrangementConflict[],
 ): Map<string, Entry> {
+  const surface = SURFACES[location];
   const entries = new Map<string, Entry>();
   const add = (entry: Entry) => entries.set(entry.key, entry);
+
+  // A bucket the surface cannot hold is a malformed payload, not something the
+  // player can fix by moving an item - fail loudly rather than silently
+  // dropping half of what was sent.
+  const reject = (bucket: string) => {
+    throw new Error(`Arrangement for ${location} cannot contain ${bucket}`);
+  };
+  if (!surface.hasBuildings && Object.keys(arrangement.buildings ?? {}).length)
+    reject("buildings");
+  if (
+    !surface.hasResources &&
+    Object.values(arrangement.resources ?? {}).some(
+      (bucket) => Object.keys(bucket ?? {}).length,
+    )
+  )
+    reject("resources");
+  if (!surface.buds && Object.keys(arrangement.buds ?? {}).length)
+    reject("buds");
+  if (!surface.farmHands && Object.keys(arrangement.farmHands ?? {}).length)
+    reject("farm hands");
+  if (!surface.bumpkin && arrangement.bumpkin) reject("a bumpkin");
 
   Object.entries(arrangement.collectibles ?? {}).forEach(([name, items]) => {
     items?.forEach((item) => {
@@ -355,22 +564,23 @@ function indexDesired(
     });
   });
 
-  RESOURCE_BUCKETS.forEach(({ key, get, resourceName }) => {
-    Object.entries(arrangement.resources?.[key] ?? {}).forEach(
-      ([id, coordinates]) => {
-        const existing = get(state)[id] as { name?: string } | undefined;
-        add({
-          key: `resource:${key}:${id}`,
-          category: "resource",
-          name: existing?.name ?? resourceName,
-          id,
-          bucket: key,
-          coordinates,
-          dimensions: PLACEABLE_DIMENSIONS[resourceName],
-        });
-      },
-    );
-  });
+  if (surface.hasResources)
+    RESOURCE_BUCKETS.forEach(({ key, get, resourceName }) => {
+      Object.entries(arrangement.resources?.[key] ?? {}).forEach(
+        ([id, coordinates]) => {
+          const existing = get(state)[id] as { name?: string } | undefined;
+          add({
+            key: `resource:${key}:${id}`,
+            category: "resource",
+            name: existing?.name ?? resourceName,
+            id,
+            bucket: key,
+            coordinates,
+            dimensions: PLACEABLE_DIMENSIONS[resourceName],
+          });
+        },
+      );
+    });
 
   Object.entries(arrangement.buds ?? {}).forEach(([id, coordinates]) => {
     add({
@@ -770,13 +980,20 @@ export function applyArrangement({
   farmId = 0,
   createdAt,
 }: Options): GameState {
-  if (action.location !== "farm") {
-    throw new Error(`Unsupported arrangement location: ${action.location}`);
+  const { location } = action;
+  const surface = SURFACES[location];
+  if (!surface) {
+    throw new Error(`Unsupported arrangement location: ${location}`);
+  }
+  // A surface that hasn't been built has nothing to rearrange, and its bounds
+  // check would reject every position anyway.
+  if (!surface.getCollectibles(state)) {
+    throw new Error(`Arrangement location is not unlocked: ${location}`);
   }
 
   const conflicts: ArrangementConflict[] = [];
-  const live = indexLive(state);
-  const desired = indexDesired(state, action.arrangement, conflicts);
+  const live = indexLive(state, location);
+  const desired = indexDesired(state, location, action.arrangement, conflicts);
 
   let working = cloneDeep(state);
   let beesChanged = false;
@@ -799,7 +1016,7 @@ export function applyArrangement({
     }
 
     try {
-      working = thaw(removeEntry(working, entry, createdAt));
+      working = thaw(removeEntry(working, entry, location, createdAt));
       touchesBees(entry);
     } catch (e) {
       conflicts.push(
@@ -820,7 +1037,7 @@ export function applyArrangement({
     ) {
       return;
     }
-    moveEntry(working, entry);
+    moveEntry(working, entry, location);
     touchesBees(entry);
   });
 
@@ -831,16 +1048,16 @@ export function applyArrangement({
   // a footprint; the sandbox already blocks those spots client-side, so the FE
   // copy (ART_MODE + parity) skips that pass.
 
-  const placed = [...indexLive(working).values()];
+  const placed = [...indexLive(working, location).values()];
   placements.forEach((entry) => {
-    const elsewhere = placedElsewhere(working, entry);
+    const elsewhere = placedElsewhere(working, entry, location);
     if (elsewhere) {
       conflicts.push(conflictOf(entry, "PLACED_ELSEWHERE"));
       return;
     }
 
     const box = boxOf(entry);
-    if (detectWaterCollision(expansionsOf(working), box)) {
+    if (isOutOfBounds({ state: working, position: box, location })) {
       conflicts.push(conflictOf(entry, "OFF_LAND"));
       return;
     }
@@ -859,7 +1076,7 @@ export function applyArrangement({
     }
 
     try {
-      working = placeEntry(working, entry, farmId, createdAt);
+      working = placeEntry(working, entry, location, farmId, createdAt);
       placed.push(entry);
       touchesBees(entry);
     } catch (e) {
@@ -878,10 +1095,9 @@ export function applyArrangement({
   });
 
   // --- Validate the final state as a whole. --------------------------------
-  const final = [...indexLive(working).values()];
-  const expansions = expansionsOf(working);
+  const final = [...indexLive(working, location).values()];
   final.forEach((entry) => {
-    if (detectWaterCollision(expansions, boxOf(entry))) {
+    if (isOutOfBounds({ state: working, position: boxOf(entry), location })) {
       // Already reported for placements above.
       if (!placements.some((p) => p.key === entry.key)) {
         conflicts.push(conflictOf(entry, "OFF_LAND"));
@@ -926,13 +1142,17 @@ export function applyArrangement({
   }
 
   // --- Post passes, once. ---------------------------------------------------
-  if (beesChanged) {
-    working = {
-      ...working,
-      beehives: updateBeehives({ game: working, createdAt }),
-    };
+  // All of these are farm concerns: beehive pollination and scarecrow AOE read
+  // farm geometry, and mushrooms/airdrops/clutter only ever spawn outdoors.
+  if (location === "farm") {
+    if (beesChanged) {
+      working = {
+        ...working,
+        beehives: updateBeehives({ game: working, createdAt }),
+      };
+    }
+    refreshBasicScarecrowTimeAOE(working);
   }
-  refreshBasicScarecrowTimeAOE(working);
 
   return working;
 }
@@ -950,6 +1170,7 @@ const thaw = (state: GameState): GameState => cloneDeep(state);
 function removeEntry(
   state: GameState,
   entry: Entry,
+  location: PlaceableLocation,
   createdAt: number,
 ): GameState {
   switch (entry.category) {
@@ -960,7 +1181,7 @@ function removeEntry(
           type: "collectible.removed",
           name: entry.name as CollectibleName,
           id: entry.id,
-          location: "farm",
+          location,
         },
         createdAt,
       });
@@ -988,26 +1209,30 @@ function removeEntry(
           type: "nft.removed",
           id: entry.id,
           nft: (entry.category === "bud" ? "Bud" : "Pet") as NFTName,
-          location: "farm",
+          location,
         },
         createdAt,
       });
     case "farmHand":
       return removeFarmHand({
         state,
-        action: { type: "farmHand.removed", id: entry.id, location: "farm" },
+        action: { type: "farmHand.removed", id: entry.id, location },
       });
     case "bumpkin":
       return removeBumpkinPlacement({
         state,
-        action: { type: "bumpkin.removedPlacement", location: "farm" },
+        action: { type: "bumpkin.removedPlacement", location },
         createdAt,
       });
   }
 }
 
 /** Plain coordinate/flip write on an instance that stays placed. */
-function moveEntry(state: GameState, entry: Entry): void {
+function moveEntry(
+  state: GameState,
+  entry: Entry,
+  location: PlaceableLocation,
+): void {
   const setFlip = (item: { flipped?: boolean }) => {
     if (entry.flipped === undefined) delete item.flipped;
     else item.flipped = entry.flipped;
@@ -1016,7 +1241,9 @@ function moveEntry(state: GameState, entry: Entry): void {
   switch (entry.category) {
     case "collectible": {
       const item = (
-        state.collectibles[entry.name as CollectibleName] ?? []
+        SURFACES[location].getCollectibles(state)?.[
+          entry.name as CollectibleName
+        ] ?? []
       ).find((c) => c.id === entry.id) as PlacedItem;
       item.coordinates = withCoordinates(entry.coordinates);
       setFlip(item);
@@ -1041,25 +1268,27 @@ function moveEntry(state: GameState, entry: Entry): void {
     case "bud": {
       const bud = state.buds![Number(entry.id)];
       bud.coordinates = point(entry.coordinates);
-      bud.location = "farm";
+      bud.location = location;
       return;
     }
     case "pet": {
       const pet = state.pets!.nfts![Number(entry.id)];
       pet.coordinates = point(entry.coordinates);
-      pet.location = "farm";
+      pet.location = location;
       return;
     }
     case "farmHand": {
       const farmHand = state.farmHands.bumpkins[entry.id];
       farmHand.coordinates = point(entry.coordinates);
-      farmHand.location = "farm";
+      // SURFACES marks the pet house as holding no farm hands, so this branch
+      // is only reachable for the locations their type allows.
+      farmHand.location = location as PersonLocation;
       setFlip(farmHand);
       return;
     }
     case "bumpkin": {
       state.bumpkin.coordinates = point(entry.coordinates);
-      state.bumpkin.location = "farm";
+      state.bumpkin.location = location as PersonLocation;
       setFlip(state.bumpkin);
       return;
     }
@@ -1067,39 +1296,46 @@ function moveEntry(state: GameState, entry: Entry): void {
 }
 
 /** True when the desired instance is currently placed on another surface. */
-function placedElsewhere(state: GameState, entry: Entry): boolean {
+/**
+ * True when the desired instance is currently placed on a *different* surface.
+ * The commit only ever rearranges the surface being saved, so an item standing
+ * in the player's home is never silently teleported onto the farm — the player
+ * has to lift it there first.
+ */
+function placedElsewhere(
+  state: GameState,
+  entry: Entry,
+  location: PlaceableLocation,
+): boolean {
+  const otherSurfaces = getObjectEntries(SURFACES).filter(
+    ([name]) => name !== location,
+  );
+
   switch (entry.category) {
-    case "collectible": {
-      const name = entry.name as CollectibleName;
-      const surfaces: (PlacedItem[] | undefined)[] = [
-        state.home.collectibles[name],
-        state.interior?.ground.collectibles[name],
-        state.interior?.level_one?.collectibles[name],
-        (state.petHouse?.pets as Record<string, PlacedItem[] | undefined>)?.[
-          name
-        ],
-      ];
-      return surfaces.some((items) =>
-        items?.some((item) => item.id === entry.id && !!item.coordinates),
+    case "collectible":
+      return otherSurfaces.some(([, surface]) =>
+        surface
+          .getCollectibles(state)
+          ?.[
+            entry.name as CollectibleName
+          ]?.some((item) => item.id === entry.id && !!item.coordinates),
       );
-    }
     case "bud": {
       const bud = state.buds?.[Number(entry.id)];
-      return !!bud?.coordinates && !!bud.location && bud.location !== "farm";
+      return !!bud?.coordinates && (bud.location ?? "farm") !== location;
     }
     case "pet": {
       const pet = state.pets?.nfts?.[Number(entry.id)];
-      return !!pet?.coordinates && !!pet.location && pet.location !== "farm";
+      return !!pet?.coordinates && (pet.location ?? "farm") !== location;
     }
     case "farmHand": {
-      const fh = state.farmHands?.bumpkins?.[entry.id];
-      return !!fh?.coordinates && !!fh.location && fh.location !== "farm";
+      const hand = state.farmHands?.bumpkins?.[entry.id];
+      return !!hand?.coordinates && (hand.location ?? "farm") !== location;
     }
     case "bumpkin":
       return (
         !!state.bumpkin.coordinates &&
-        !!state.bumpkin.location &&
-        state.bumpkin.location !== "farm"
+        (state.bumpkin.location ?? "farm") !== location
       );
     default:
       return false;
@@ -1109,6 +1345,7 @@ function placedElsewhere(state: GameState, entry: Entry): boolean {
 function placeEntry(
   state: GameState,
   entry: Entry,
+  location: PlaceableLocation,
   farmId: number,
   createdAt: number,
 ): GameState {
@@ -1125,22 +1362,21 @@ function placeEntry(
             name,
             id: entry.id,
             coordinates,
-            location: "farm",
+            location,
           },
           createdAt,
         });
-      const knownUnplaced = state.collectibles[name]?.some(
-        (item) => item.id === entry.id && !item.coordinates,
-      );
+      const knownUnplaced = SURFACES[location]
+        .getCollectibles(state)
+        ?.[name]?.some((item) => item.id === entry.id && !item.coordinates);
       const next = knownUnplaced
         ? withIsolatedCollectible(state, name, entry.id, run)
         : thaw(run(state));
-      const item = next.collectibles[name]!.find(
-        (c) =>
-          !!c.coordinates &&
-          c.coordinates.x === coordinates.x &&
-          c.coordinates.y === coordinates.y,
-      )!;
+      const item = SURFACES[location]
+        .getCollectibles(next)!
+        [
+          name
+        ]!.find((c) => !!c.coordinates && c.coordinates.x === coordinates.x && c.coordinates.y === coordinates.y)!;
       // The reducer may have reused another unplaced instance; the arrangement
       // is the contract, so the placed instance takes the requested id.
       item.id = entry.id;
@@ -1217,7 +1453,7 @@ function placeEntry(
             id: entry.id,
             nft,
             coordinates,
-            location: "farm",
+            location,
           },
           createdAt,
         }),
@@ -1231,7 +1467,7 @@ function placeEntry(
             type: "farmHand.placed",
             id: entry.id,
             coordinates,
-            location: "farm",
+            location,
           },
           createdAt,
         }),
@@ -1245,7 +1481,7 @@ function placeEntry(
       const next = thaw(
         placeBumpkin({
           state,
-          action: { type: "bumpkin.placed", coordinates, location: "farm" },
+          action: { type: "bumpkin.placed", coordinates, location },
           createdAt,
         }),
       );
