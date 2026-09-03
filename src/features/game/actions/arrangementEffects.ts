@@ -1,9 +1,9 @@
 import type { GameState } from "features/game/types/game";
 import type { PlaceableLocation } from "features/game/types/collectibles";
 import type { MachineInterpreter } from "features/game/lib/gameMachine";
-import { snapshotFarm } from "features/game/events/landExpansion/lib/layouts";
 import {
   applyArrangement,
+  snapshotSurface,
   ArrangementConflictError,
   type ArrangementConflict,
 } from "features/game/events/landExpansion/applyArrangement";
@@ -46,7 +46,7 @@ export async function saveArrangementEffect({
   state: GameState;
   location: PlaceableLocation;
 }): Promise<{ gameState: GameState }> {
-  const arrangement = snapshotFarm(state);
+  const arrangement = snapshotSurface(state, location);
 
   if (ART_MODE) {
     try {

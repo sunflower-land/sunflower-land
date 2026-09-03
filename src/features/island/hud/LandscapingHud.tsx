@@ -99,8 +99,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   const [quickDragging, setQuickDragging] = useState(false);
   const button = useSound("button");
 
-  // Landscaping sandbox (farm only): edits live in a local draft until Save.
-  const isSandbox = location === "farm";
+  // Every placeable surface is a sandbox: edits live in a local draft until Save.
   const isDirty = useSelector(
     gameService,
     (state) => state.context.draftActions.length > 0,
@@ -145,7 +144,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   const cancel = () => {
     if (saving || saveInFlight) return;
     button.play();
-    if (isSandbox && isDirty) {
+    if (isDirty) {
       setShowDiscardConfirmation(true);
       return;
     }
@@ -355,23 +354,21 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                 top: `${PIXEL_SCALE * 31}px`,
               }}
             >
-              {isSandbox && (
-                <RoundButton
-                  className="mb-3.5"
-                  disabled={saving || saveInFlight}
-                  onClick={save}
-                >
-                  <img
-                    src={SUNNYSIDE.icons.confirm}
-                    className="absolute group-active:translate-y-[2px]"
-                    style={{
-                      top: `${PIXEL_SCALE * 5.5}px`,
-                      left: `${PIXEL_SCALE * 5.5}px`,
-                      width: `${PIXEL_SCALE * 11}px`,
-                    }}
-                  />
-                </RoundButton>
-              )}
+              <RoundButton
+                className="mb-3.5"
+                disabled={saving || saveInFlight}
+                onClick={save}
+              >
+                <img
+                  src={SUNNYSIDE.icons.confirm}
+                  className="absolute group-active:translate-y-[2px]"
+                  style={{
+                    top: `${PIXEL_SCALE * 5.5}px`,
+                    left: `${PIXEL_SCALE * 5.5}px`,
+                    width: `${PIXEL_SCALE * 11}px`,
+                  }}
+                />
+              </RoundButton>
               <RoundButton
                 className="mb-3.5"
                 disabled={saving || saveInFlight}
@@ -588,7 +585,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
           }}
         />
       )}
-      {isSandbox && conflicts && conflicts.length > 0 && (
+      {conflicts && conflicts.length > 0 && (
         <ArrangementConflictsPanel
           conflicts={conflicts}
           onDismiss={() =>

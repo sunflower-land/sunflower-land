@@ -66,14 +66,14 @@ const PERSON_PLACEMENT_EVENTS: ReadonlySet<string> = new Set(
 
 /**
  * True when an event dispatched while landscaping should be drafted rather
- * than sent live. Only the farm is sandboxed for now; other locations keep
- * streaming their edits.
+ * than sent live. Every placeable surface is sandboxed; only purchases and
+ * biome changes still settle immediately.
  */
 export const isDraftEvent = (
   type: string,
   location: PlaceableLocation | undefined,
 ): boolean =>
-  location === "farm" &&
+  !!location &&
   !LIVE_LANDSCAPING_EVENTS.has(type) &&
   (type in PLACEMENT_EVENTS || PERSON_PLACEMENT_EVENTS.has(type));
 
