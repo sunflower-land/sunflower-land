@@ -39,7 +39,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
 import { IngredientsPopover } from "../IngredientsPopover";
-import { isPreActionBoosted } from "features/game/lib/timerDisplay";
 import type { BuffLabel } from "features/game/types";
 import { isSeed } from "features/game/types/seeds";
 import { getCurrentBiome } from "features/island/biomes/biomes";
@@ -127,6 +126,8 @@ interface RequirementsProps {
   timeSeconds?: number;
   baseTimeSeconds?: number;
   timeBoostsUsed?: { name: BoostName; value: string }[];
+  /** Live speed-window rate for this activity; > 1 shows the boosted layout. */
+  timeSpeed?: number;
   level?: LevelRequirement;
 }
 
@@ -508,11 +509,17 @@ export const CraftingRequirements: React.FC<Props> = ({
               const baseTimeSeconds = requirements.baseTimeSeconds;
               const timeBoostsUsed = requirements.timeBoostsUsed;
               const hasNamedBoosts = !!(timeBoostsUsed?.length ?? 0);
-              const isTimeBoosted = isPreActionBoosted({
-                displaySeconds: requirements.timeSeconds,
-                baseSeconds: baseTimeSeconds,
-                hasNamedBoosts,
-              });
+              // Deliberately NOT `isPreActionBoosted`: this layout is shared by
+              // Recipes / FishMarket / UpcomingExpansion / the seed panels, and
+              // that helper also treats "shorter than base with no named boost"
+              // as boosted. Keeping the original rule means players without
+              // SPEED_BOOSTS see exactly what they see today; a live speed
+              // window is the only thing that adds to it.
+              const isTimeBoosted =
+                (requirements.timeSpeed ?? 1) > 1 ||
+                (baseTimeSeconds != null &&
+                  requirements.timeSeconds < baseTimeSeconds &&
+                  hasNamedBoosts);
 
               if (
                 isTimeBoosted &&

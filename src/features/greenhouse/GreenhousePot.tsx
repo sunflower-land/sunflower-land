@@ -181,7 +181,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
   // so visual progress is preserved (readiness already accounts for it).
   const bankedWorkMs = growingPlant?.boostedTime ?? 0;
 
-  const { now, workLeftSeconds, countdownSeconds } = useNodeTimer({
+  const { now, speed, workLeftSeconds, displaySeconds } = useNodeTimer({
     startedAt: plantedAt,
     baseDurationMs,
     windows: boostWindows,
@@ -190,13 +190,13 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
   });
 
   // Remaining WORK — drives the progress fill and the "is it still growing"
-  // gates below; work does not drain at wall-clock rate while a boost runs.
+  // gates below, so neither moves when the player switches reading.
   const secondsLeft =
     readyAt > 0 || baseDurationMs !== undefined
       ? Math.max(Math.ceil(workLeftSeconds), 0)
       : 0;
-  // The wall-clock reading, for the labels.
-  const displaySecondsLeft = Math.max(Math.ceil(countdownSeconds), 0);
+  // The reading the player has chosen, for the labels.
+  const displaySecondsLeft = Math.max(Math.ceil(displaySeconds), 0);
   const totalSeconds =
     baseDurationMs !== undefined
       ? (baseDurationMs + bankedWorkMs) / 1000
@@ -205,6 +205,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
     totalSeconds > 0
       ? clampPercentage(((totalSeconds - secondsLeft) / totalSeconds) * 100)
       : 100;
+  const isBoosted = speed > 1;
 
   const { usage: oilRequired } = getOilUsage({
     seed: selectedItem as GreenHouseCropSeedName,
@@ -397,6 +398,19 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
         style={{ width: `${PIXEL_SCALE * 28}px` }}
         onClick={harvest}
       />
+      {secondsLeft > 0 && isBoosted && (
+        <img
+          src={SUNNYSIDE.icons.lightning}
+          alt=""
+          aria-hidden
+          className="absolute z-20 pointer-events-none animate-pulse"
+          style={{
+            width: `${PIXEL_SCALE * 7}px`,
+            top: `${PIXEL_SCALE * 1}px`,
+            right: `${PIXEL_SCALE * 3}px`,
+          }}
+        />
+      )}
       {showTimers && secondsLeft > 0 && (
         <div
           className="absolute pointer-events-none"
@@ -433,6 +447,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
           description={getTranslatedItemName(pot.plant.name)}
           showPopover={showTimeRemaining && !canApplyGreenhouseFertiliser()}
           timeLeft={displaySecondsLeft}
+          speed={speed}
         />
       </Transition>
     </div>

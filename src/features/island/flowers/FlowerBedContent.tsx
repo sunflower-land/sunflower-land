@@ -44,16 +44,18 @@ interface Props {
 
 /**
  * The grow time to show for a seed the player is considering. A live speed
- * window isn't folded into `getFlowerTime`, so project the real "plant now →
- * ready in X" (which credits only the part of the grow the Blossom Hourglass
- * still covers).
+ * window isn't folded into `getFlowerTime`, so surface it: the current rate in
+ * the speed view, or the real "plant now → ready in X" in the actual-time view
+ * (which credits only the part of the grow the Blossom Hourglass still covers).
  */
 const useFlowerSeedTime = (state: GameState, seed?: FlowerSeedName) => {
+  const { showActualTime } = useContext(Context);
   const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
 
-  if (!seed) return { displaySeconds: 0 };
+  if (!seed) return { displaySeconds: 0, speed: 1 };
 
   return getPreActionDisplay({
+    showActualTime,
     seconds: getFlowerTime(seed, state, now).seconds,
     baseSeconds: FLOWER_SEEDS[seed].plantSeconds,
     namedBoostCount: getFlowerTime(seed, state, now).boostsUsed.length,
@@ -201,6 +203,15 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
                     length: "medium",
                   })}
                 </Label>
+                {selectedSeedTime.speed > 1 && (
+                  <Label
+                    type="vibrant"
+                    className="ml-1 whitespace-nowrap"
+                    icon={SUNNYSIDE.icons.lightning}
+                  >
+                    {`Speed: ${Number(selectedSeedTime.speed.toFixed(2))}x`}
+                  </Label>
+                )}
               </div>
             </div>
           </div>
@@ -304,6 +315,8 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
                       {secondsToString(selectedSeedTime.displaySeconds, {
                         length: "medium",
                       })}
+                      {selectedSeedTime.speed > 1 &&
+                        ` (${Number(selectedSeedTime.speed.toFixed(2))}x)`}
                     </Label>
                   ) : (
                     <Label type={"danger"}>{`1 ${seed} required`}</Label>

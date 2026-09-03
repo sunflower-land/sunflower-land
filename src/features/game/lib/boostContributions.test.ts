@@ -100,17 +100,27 @@ describe("contributions match the window builders", () => {
 
 describe("getBoostContributionEntries", () => {
   const format = (seconds: number) => `${Math.round(seconds / 60)}m`;
-  const entries = (seconds = 4 * HOUR) =>
+  const entries = (showActualTime: boolean, seconds = 4 * HOUR) =>
     getBoostContributionEntries({
       contributions: getNodeBoostContributions(BOOSTED, "Tree", at),
       seconds,
       at,
+      showActualTime,
       formatSeconds: format,
+      formatSpeed: (speed) => `Speed: ${speed}x`,
     });
 
-  it("shows each booster's time saving", () => {
+  it("shows each booster's rate in the speed view", () => {
     // Trees: merged totems (2×) + Timber Hourglass (1.35×) + Badger Shrine (1.35×).
-    const actual = entries();
+    expect(entries(false)).toEqual([
+      { name: "Super Totem", value: "Speed: 2x" },
+      { name: "Timber Hourglass", value: "Speed: 1.35x" },
+      { name: "Badger Shrine", value: "Speed: 1.35x" },
+    ]);
+  });
+
+  it("shows each booster's time saving in the actual-time view", () => {
+    const actual = entries(true);
 
     expect(actual.map((entry) => entry.name)).toEqual([
       "Super Totem",
@@ -126,8 +136,8 @@ describe("getBoostContributionEntries", () => {
   it("shrinks the saving as the booster's window runs out", () => {
     // Same boosts, but a task far longer than the hourglass can cover: the
     // saving is capped by what is left on the window, not the raw multiplier.
-    const short = entries(4 * HOUR);
-    const long = entries(400 * HOUR);
+    const short = entries(true, 4 * HOUR);
+    const long = entries(true, 400 * HOUR);
     const minutes = (value: string) => Number(value.replace(/[-m]/g, ""));
 
     // The hourglass cannot save more on the long task than its window is worth.
@@ -147,7 +157,9 @@ describe("getBoostContributionEntries", () => {
       contributions,
       seconds,
       at,
+      showActualTime: true,
       formatSeconds: (value) => String(value),
+      formatSpeed: (speed) => `Speed: ${speed}x`,
     });
 
     const summed = listed.reduce(
@@ -167,12 +179,14 @@ describe("getBoostContributionEntries", () => {
   });
 
   it("leaves out a booster that is no longer running", () => {
-    // Nothing placed → nothing to list.
+    // Nothing placed → nothing to list, in either view.
     const none = getBoostContributionEntries({
       contributions: getNodeBoostContributions(TEST_FARM, "Tree", at),
       seconds: 4 * HOUR,
       at,
+      showActualTime: true,
       formatSeconds: format,
+      formatSpeed: (speed) => `Speed: ${speed}x`,
     });
 
     expect(none).toEqual([]);
@@ -202,11 +216,12 @@ describe("totem attribution", () => {
       contributions: getNodeBoostContributions(game, "Tree", at),
       seconds: 4 * HOUR,
       at,
+      showActualTime: false,
       formatSeconds: format,
+      formatSpeed: (speed) => `Speed: ${speed}x`,
     });
 
-    expect(entries.map((entry) => entry.name)).toEqual(["Time Warp Totem"]);
-    expect(entries[0].value).toMatch(/^-\d+m$/);
+    expect(entries).toEqual([{ name: "Time Warp Totem", value: "Speed: 2x" }]);
   });
 
   it("credits the Super Totem while it is the one running", () => {
@@ -223,18 +238,19 @@ describe("totem attribution", () => {
       contributions: getNodeBoostContributions(game, "Tree", at),
       seconds: 4 * HOUR,
       at,
+      showActualTime: false,
       formatSeconds: format,
+      formatSpeed: (speed) => `Speed: ${speed}x`,
     });
 
-    expect(entries.map((entry) => entry.name)).toEqual(["Super Totem"]);
-    expect(entries[0].value).toMatch(/^-\d+m$/);
+    expect(entries).toEqual([{ name: "Super Totem", value: "Speed: 2x" }]);
   });
 });
 
 // The contributions name the windows for the boost panel, so they have to
 // disappear with them: without `SPEED_BOOSTS` the boosters are baked into the
-// time and already listed in `boostsUsed`, and a savings row beside that would
-// claim the same boost a second time.
+// time and already listed in `boostsUsed`, and a "Speed: 1.35x" row beside that
+// would claim the same boost a second time.
 describe("without SPEED_BOOSTS", () => {
   const originalNetwork = CONFIG.NETWORK;
   beforeEach(() => setNetwork("mainnet"));
@@ -260,7 +276,9 @@ describe("without SPEED_BOOSTS", () => {
         contributions: getNodeBoostContributions(BOOSTED, "Tree", at),
         seconds: 4 * HOUR,
         at,
+        showActualTime: false,
         formatSeconds: (seconds) => `${Math.round(seconds / 60)}m`,
+        formatSpeed: (speed) => `Speed: ${speed}x`,
       }),
     ).toEqual([]);
   });

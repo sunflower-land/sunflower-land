@@ -4,6 +4,7 @@ import { IRON_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
 import type { InventoryItemName, Rock, Skills } from "features/game/types/game";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
@@ -129,13 +130,19 @@ export const Iron: React.FC<Props> = ({ id }) => {
   const hasTool = HasTool(inventory, resource);
 
   const { minedAt, baseDurationMs } = resource.stone;
-  const { now, countdownSeconds: timeLeft } = useNodeTimer({
+  const {
+    now,
+    speed,
+    displaySeconds: timeLeft,
+  } = useNodeTimer({
     startedAt: minedAt,
     baseDurationMs,
     windows: mineBoostWindows,
     legacyReadyAt: minedAt + IRON_RECOVERY_TIME * 1000,
   });
   const mined = !canMine(resource, ironRockName, state, now);
+
+  useUiRefresher({ active: mined });
 
   const strike = () => {
     if (!hasTool) return;
@@ -215,6 +222,7 @@ export const Iron: React.FC<Props> = ({ id }) => {
           island={island}
           timeLeft={timeLeft}
           name={ironRockName}
+          speed={speed}
         />
       )}
     </div>

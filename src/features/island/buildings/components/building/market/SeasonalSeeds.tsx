@@ -107,7 +107,7 @@ export const SEASON_ICONS: Record<TemperateSeasonName, string> = {
 const _state = (state: MachineState) => state.context.state;
 
 export const SeasonalSeeds: React.FC = () => {
-  const { gameService, shortcutItem } = useContext(Context);
+  const { gameService, shortcutItem, showActualTime } = useContext(Context);
   const { openModal } = useContext(ModalContext);
   const state = useSelector(gameService, _state);
   const { inventory, coins, island, bumpkin, season } = state;
@@ -349,30 +349,34 @@ export const SeasonalSeeds: React.FC = () => {
 
   const baseTime = getBasePlantSeconds();
 
-  // A live speed window isn't folded into the grow time — project the real
-  // "plant now → ready in X", which credits only the part of the grow the
-  // booster still covers.
+  // A live speed window isn't folded into the grow time — show the rate, or (in
+  // the actual-time view) the real "plant now → ready in X", which credits only
+  // the part of the grow the booster still covers.
   const plantTime = getPlantSeconds();
   // The windowed boosters aren't in `boostsUsed` (they apply over the grow rather
-  // than being baked into it), so name them for the boost panel with the time
-  // each one actually saves.
+  // than being baked into it), so name them for the boost panel: their rate in
+  // the speed view, the time each one actually saves in the other.
   const plantBoostsUsed = [
     ...plantTime.boostsUsed,
     ...getBoostContributionEntries({
       contributions: getSeedBoostContributions(state, selectedName, now),
       seconds: plantTime.seconds,
       at: now,
+      showActualTime,
       formatSeconds: (seconds) =>
         secondsToString(seconds, { length: "medium" }),
+      formatSpeed: (speed) => t("description.boostedSpeed", { speed }),
     }),
   ];
-  const { displaySeconds: plantDisplaySeconds } = getPreActionDisplay({
-    seconds: plantTime.seconds,
-    baseSeconds: baseTime,
-    namedBoostCount: plantBoostsUsed.length,
-    windows: getSeedBoostWindows(state, selectedName),
-    at: now,
-  });
+  const { displaySeconds: plantDisplaySeconds, speed: plantSpeed } =
+    getPreActionDisplay({
+      showActualTime,
+      seconds: plantTime.seconds,
+      baseSeconds: baseTime,
+      namedBoostCount: plantBoostsUsed.length,
+      windows: getSeedBoostWindows(state, selectedName),
+      at: now,
+    });
 
   const getHarvestCount = () => {
     if (!yields) return undefined;
@@ -507,6 +511,7 @@ export const SeasonalSeeds: React.FC = () => {
               boostsUsed: plantBoostsUsed,
             },
             baseTimeSeconds: baseTime,
+            timeSpeed: plantSpeed,
             restriction: {
               icon: SEASON_ICONS[currentSeason],
               text: plantingSpot,

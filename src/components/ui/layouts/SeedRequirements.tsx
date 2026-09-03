@@ -91,6 +91,8 @@ interface RequirementsProps {
   harvests?: HarvestsRequirementProps;
   time?: { seconds: number; boostsUsed: { name: BoostName; value: string }[] };
   baseTimeSeconds?: number;
+  /** Live speed-window rate for this seed's activity; > 1 shows the rate. */
+  timeSpeed?: number;
   level?: LevelRequirement;
   restriction?: {
     icon: string;
@@ -274,18 +276,27 @@ export const SeedRequirements: React.FC<Props> = ({
 
   const getRequirements = () => {
     if (!requirements) return <></>;
-    const { coins, showCoinsIfFree, harvests, time, baseTimeSeconds, level } =
-      requirements;
+    const {
+      coins,
+      showCoinsIfFree,
+      harvests,
+      time,
+      baseTimeSeconds,
+      timeSpeed,
+      level,
+    } = requirements;
 
     // Named boosts are already folded into `time.seconds` and can be itemised; a
-    // live speed window shows as a shorter projected time but has no name to
-    // list, so it must not make the block clickable on its own.
+    // live speed window shows as a rate (or a shorter projected time) but has no
+    // name to list, so it must not make the block clickable on its own.
     const hasNamedBoosts = (time?.boostsUsed.length ?? 0) > 0;
+    const speed = timeSpeed ?? 1;
     const isTimeBoosted =
       !!time &&
       isPreActionBoosted({
         displaySeconds: time.seconds,
         baseSeconds: baseTimeSeconds,
+        speed,
         hasNamedBoosts,
       });
 

@@ -13,6 +13,7 @@ import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import {
+  computeReadyAt,
   areBoostWindowsEqual,
   getFruitBoostWindows,
   getTurbofruitMixWindows,
@@ -139,13 +140,27 @@ export const FruitTree: React.FC<Props> = ({
     plantedFruit && isGrowing
       ? PATCH_FRUIT_SEEDS[PATCH_FRUIT[plantedFruit.name].seed].plantSeconds
       : 0;
-  const { now, countdownSeconds } = useNodeTimer({
+  // Speed-rate model derives the ready time live from the windows; legacy fruit
+  // use their (back-dated) start + base grow time.
+  const readyAt = !isGrowing
+    ? undefined
+    : baseDurationMs !== undefined
+      ? computeReadyAt({
+          startedAt,
+          baseDurationMs,
+          windows: fruitBoostWindows,
+        })
+      : startedAt + plantSeconds * 1000;
+
+  const { now, speed, displaySeconds } = useNodeTimer({
     startedAt,
     baseDurationMs,
     windows: fruitBoostWindows,
-    legacyReadyAt: startedAt + plantSeconds * 1000,
+    legacyReadyAt: readyAt ?? 0,
     live: isGrowing,
   });
+  // `timeLeft` here is the remaining WORK — it drives the progress bar and the
+  // stage, neither of which may move when the player switches reading.
   const treeStatus = getFruitTreeStatus(plantedFruit, now, fruitBoostWindows);
 
   // Empty plot
@@ -175,9 +190,10 @@ export const FruitTree: React.FC<Props> = ({
         <FruitSeedling
           island={island}
           patchFruitName={name}
-          timeLeft={countdownSeconds}
+          timeLeft={displaySeconds}
           workLeftSeconds={treeStatus.timeLeft}
           totalSeconds={treeStatus.totalSeconds}
+          speed={speed}
         />
       </div>
     );
@@ -190,9 +206,10 @@ export const FruitTree: React.FC<Props> = ({
         <ReplenishingTree
           island={island}
           patchFruitName={name}
-          timeLeft={countdownSeconds}
+          timeLeft={displaySeconds}
           workLeftSeconds={treeStatus.timeLeft}
           totalSeconds={treeStatus.totalSeconds}
+          speed={speed}
           playShakeAnimation={playShakingAnimation}
         />
       </div>

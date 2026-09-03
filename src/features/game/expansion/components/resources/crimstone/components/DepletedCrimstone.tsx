@@ -12,21 +12,29 @@ import {
   getTranslatedItemName,
 } from "features/game/types/images";
 import { getCrimstoneStage } from "../getCrimstoneStage";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   timeLeft: number;
   minesLeft: number;
   now: number;
   readyAt: number;
+  /**
+   * Current effective recovery speed from windowed boosts (e.g. Mole Shrine).
+   * > 1 shows a lightning marker + the multiplier in the popover.
+   */
+  speed?: number;
 }
 
 const DepletedCrimstoneComponent: React.FC<Props> = ({
   timeLeft,
   minesLeft,
+  speed,
   now,
   readyAt,
 }) => {
   const [showTimeLeft, setShowTimeLeft] = useState(false);
+  const boosted = speed !== undefined && speed > 1;
 
   const crimstone = [
     crimstone_1,
@@ -53,6 +61,19 @@ const DepletedCrimstoneComponent: React.FC<Props> = ({
             right: `${PIXEL_SCALE * 4}px`,
           }}
         />
+        {boosted && (
+          <img
+            src={SUNNYSIDE.icons.lightning}
+            alt=""
+            aria-hidden
+            className="absolute animate-pulse"
+            style={{
+              width: `${PIXEL_SCALE * 7}px`,
+              top: `${PIXEL_SCALE * 2}px`,
+              right: `${PIXEL_SCALE * 2}px`,
+            }}
+          />
+        )}
         <div
           className="flex justify-center absolute w-full"
           style={{
@@ -64,6 +85,7 @@ const DepletedCrimstoneComponent: React.FC<Props> = ({
             description={getTranslatedItemName("Crimstone Rock")}
             showPopover={showTimeLeft}
             timeLeft={timeLeft}
+            speed={speed}
           />
         </div>
       </div>

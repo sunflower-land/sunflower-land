@@ -4,6 +4,7 @@ import { SUNSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
 import type { InventoryItemName, Rock } from "features/game/types/game";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { useSelector } from "@xstate/react";
 import type { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
@@ -101,7 +102,8 @@ export const Sunstone: React.FC<Props> = ({ id, index }) => {
   const {
     now,
     readyAt,
-    countdownSeconds: timeLeft,
+    speed,
+    displaySeconds: timeLeft,
   } = useNodeTimer({
     startedAt: minedAt,
     baseDurationMs,
@@ -112,6 +114,8 @@ export const Sunstone: React.FC<Props> = ({ id, index }) => {
   // readyAt — no need to subscribe to (or pass) the full game state. Equivalent to
   // `!canMine(resource, "Sunstone Rock", game, now)` for a boost-less rock.
   const mined = now <= readyAt;
+
+  useUiRefresher({ active: mined });
 
   const strike = () => {
     if (!hasTool) return;
@@ -169,7 +173,11 @@ export const Sunstone: React.FC<Props> = ({ id, index }) => {
 
       {/* Depleted resource */}
       {mined && (
-        <DepletedSunstone timeLeft={timeLeft} minesLeft={resource.minesLeft} />
+        <DepletedSunstone
+          timeLeft={timeLeft}
+          minesLeft={resource.minesLeft}
+          speed={speed}
+        />
       )}
     </div>
   );

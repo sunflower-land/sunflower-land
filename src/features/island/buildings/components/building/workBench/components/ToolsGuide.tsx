@@ -57,6 +57,8 @@ type CooldownDisplay = {
   baseSeconds: number;
   recoverySeconds: number;
   boostsUsed: { name: BoostName; value: string }[];
+  /** Live speed-window rate for this node; 1 when nothing is running. */
+  speed: number;
   image?: string;
 };
 
@@ -184,7 +186,7 @@ const WATER_NODES_WITH_RECOVERY: GuideNodeWithRecovery[] = [
 ];
 
 export const ToolsGuide: React.FC = () => {
-  const { gameService } = useContext(Context);
+  const { gameService, showActualTime } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
   const { t } = useAppTranslation();
   const [showBoostsKey, setShowBoostsKey] = useState<string | null>(null);
@@ -218,6 +220,7 @@ export const ToolsGuide: React.FC = () => {
             key={`${node.toolName}-${node.resourceName}`}
             node={node}
             state={state}
+            showActualTime={showActualTime}
             now={now}
             alternateBg={index % 2 === 0}
             showBoostsKey={showBoostsKey}
@@ -232,6 +235,7 @@ export const ToolsGuide: React.FC = () => {
             key={`${node.toolName}-${node.resourceName ?? node.resourceLabelKey}`}
             node={node}
             state={state}
+            showActualTime={showActualTime}
             now={now}
             alternateBg={(index + LAND_NODES_WITH_RECOVERY.length) % 2 === 0}
             showBoostsKey={showBoostsKey}
@@ -276,6 +280,8 @@ const NodeToolIcon: React.FC<{
 interface NodeRowProps {
   node: GuideNodeWithRecovery;
   state: GameState;
+  /** The player's timer reading — see `timerDisplay.ts`. */
+  showActualTime: boolean;
   /** Snapshot taken when the guide opened; the projection is relative to it. */
   now: number;
   alternateBg?: boolean;
@@ -294,12 +300,13 @@ const CooldownCell: React.FC<{
   const anchorRef = useRef<HTMLDivElement>(null);
   const boostsKey = `${toolName}-${cooldown.nodeLabel}`;
   // Named boosts are the ones the popover can itemise; a live speed window has
-  // no name attached to it, so it shortens the time without making the cell
-  // clickable.
+  // no name attached to it, so it shortens the time (or shows its rate) without
+  // making the cell clickable.
   const hasNamedBoosts = cooldown.boostsUsed.length > 0;
   const hasBoosts = isPreActionBoosted({
     displaySeconds: cooldown.recoverySeconds,
     baseSeconds: cooldown.baseSeconds,
+    speed: cooldown.speed,
     hasNamedBoosts,
   });
 
@@ -376,6 +383,7 @@ const CooldownCell: React.FC<{
 const NodeRow: React.FC<NodeRowProps> = ({
   node,
   state,
+  showActualTime,
   now,
   alternateBg,
   showBoostsKey,
@@ -387,25 +395,29 @@ const NodeRow: React.FC<NodeRowProps> = ({
   });
 
   // A live speed window (hourglass / totem / shrine) is NOT folded into
-  // recoveryTimeMs — it applies over the recovery instead. Project the real
-  // "drill now → ready in X", which credits only the part of the recovery the
-  // booster still covers.
+  // recoveryTimeMs — it applies over the recovery instead. Show what it is worth:
+  // the current rate in the speed view, or the real "drill now → ready in X" in
+  // the actual-time view, which credits only the part of the recovery the booster
+  // still covers.
   const windows = node.nodeName
     ? getNodeBoostWindows(state, node.nodeName)
     : [];
   // The windowed boosters aren't in `boostsUsed` (they apply over the recovery
-  // rather than being baked into it), so name them for the boost panel with the
-  // time each one actually saves.
+  // rather than being baked into it), so name them for the boost panel: their
+  // rate in the speed view, the time each one actually saves in the other.
   const windowedBoosts = getBoostContributionEntries({
     contributions: node.nodeName
       ? getNodeBoostContributions(state, node.nodeName, now)
       : [],
     seconds: recoveryTimeMs / 1000,
     at: now,
+    showActualTime,
     formatSeconds: (seconds) => secondsToString(seconds, { length: "medium" }),
+    formatSpeed: (speed) => translate("description.boostedSpeed", { speed }),
   });
   const allBoostsUsed = [...boostsUsed, ...windowedBoosts];
-  const { displaySeconds } = getPreActionDisplay({
+  const { displaySeconds, speed } = getPreActionDisplay({
+    showActualTime,
     seconds: recoveryTimeMs / 1000,
     baseSeconds: baseTimeMs / 1000,
     namedBoostCount: allBoostsUsed.length,
@@ -427,6 +439,7 @@ const NodeRow: React.FC<NodeRowProps> = ({
     baseSeconds: baseTimeMs / 1000,
     recoverySeconds: displaySeconds,
     boostsUsed: allBoostsUsed,
+    speed,
   };
 
   const nodeIcon = node.nodeName

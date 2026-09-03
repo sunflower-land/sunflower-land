@@ -359,11 +359,14 @@ function getShapleySavings({
  * Boost-panel rows for the windowed boosts running right now, in the same
  * `{ name, value }` shape as the baked `boostsUsed` the panels already list.
  *
- * Each row is the boost's share of the time saved on THIS task, split so the
- * rows account for the whole saving (see `getShapleySavings`) — the same terms
- * as the projected time beside it. A booster about to expire therefore shows a
- * small saving even though its rate is unchanged, which is the whole point of
- * the projection.
+ * What the value says depends on the reading, so the boost is stated once and in
+ * the same terms as the time beside it:
+ *
+ * - Speed view: the rate it is running at — `1.35x`.
+ * - Actual-time view: its share of the time saved on THIS task, split so the rows
+ *   account for the whole saving (see `getShapleySavings`). A booster about to
+ *   expire therefore shows a small saving even though its rate is unchanged, which
+ *   is the whole point of the projection.
  *
  * Boosts not covering `at` (expired, or only in `boostHistory`) are left out:
  * they do nothing for a task started now.
@@ -372,18 +375,32 @@ export function getBoostContributionEntries({
   contributions,
   seconds,
   at,
+  showActualTime,
   formatSeconds,
+  formatSpeed,
 }: {
   contributions: BoostContribution[];
   seconds: number;
   at: number;
+  showActualTime: boolean;
   /** How to render a duration — the caller's `secondsToString`. */
   formatSeconds: (seconds: number) => string;
+  /** How to render a rate — the caller's translated "Speed: {{speed}}x". */
+  formatSpeed: (speed: number) => string;
 }): { name: BoostName; value: string }[] {
   const active = contributions.filter(
     ({ windows }) => getEffectiveSpeedAt({ at, windows }) > 1,
   );
   if (active.length === 0) return [];
+
+  if (!showActualTime) {
+    return active.map(({ name, windows }) => ({
+      name,
+      value: formatSpeed(
+        Number(getEffectiveSpeedAt({ at, windows }).toFixed(2)),
+      ),
+    }));
+  }
 
   const shares = getShapleySavings({ contributions: active, seconds, at });
 
