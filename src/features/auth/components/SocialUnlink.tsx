@@ -11,7 +11,6 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import type { AuthMachineState } from "features/auth/lib/authMachine";
 import { ErrorMessage } from "features/auth/ErrorMessage";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { hasFeatureAccess } from "lib/flags";
 import { Loading } from "./Loading";
 import {
   formatAvailableAt,
@@ -65,10 +64,6 @@ export const SocialUnlinkGate: React.FC<PropsWithChildren<GateProps>> = ({
   const linked = useSelector(
     gameService,
     (state: MachineState) => !!state.context.state[provider],
-  );
-  // Beta testers only for now - see SOCIAL_UNLINK in lib/flags.ts
-  const canUnlink = useSelector(gameService, (state: MachineState) =>
-    hasFeatureAccess(state.context.state, "SOCIAL_UNLINK"),
   );
 
   const providerLabel = SOCIAL_PROVIDER_LABELS[provider];
@@ -128,7 +123,7 @@ export const SocialUnlinkGate: React.FC<PropsWithChildren<GateProps>> = ({
   return (
     <>
       {children}
-      {linked && canUnlink && <SocialUnlinkCard provider={provider} />}
+      {linked && <SocialUnlinkCard provider={provider} />}
     </>
   );
 };
