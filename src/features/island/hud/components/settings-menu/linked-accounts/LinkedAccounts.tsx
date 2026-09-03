@@ -12,6 +12,7 @@ import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { Context as GameContext } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { maskEmail } from "lib/utils/maskEmail";
+import { useNow } from "lib/utils/hooks/useNow";
 import { connectToFSL } from "features/auth/actions/oauth";
 import {
   formatAvailableAt,
@@ -163,6 +164,13 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
   const fslId = useSelector(gameService, _fslId);
   const oauthNonce = useSelector(gameService, _oauthNonce);
   const lastUnlink = useSelector(gameService, _lastUnlink);
+  // Reactive clock so the "unlinked until" line drops off when the lock ends.
+  // Locks are days long, so a minute tick is plenty.
+  const now = useNow({
+    live: !!lastUnlink?.availableAt,
+    autoEndAt: lastUnlink?.availableAt,
+    intervalMs: 60_000,
+  });
 
   const [revealWallet, setRevealWallet] = useState(false);
 
@@ -171,7 +179,7 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
   const unlinkedUntil = (provider: UnlinkableSocialProvider) =>
     lastUnlink?.provider === provider &&
     !!lastUnlink.availableAt &&
-    lastUnlink.availableAt > Date.now()
+    lastUnlink.availableAt > now
       ? t("linkedAccounts.subtext.unlinkedUntil", {
           date: formatAvailableAt(lastUnlink.availableAt),
         })

@@ -106,11 +106,15 @@ export function getUrlAvailableAt(): number | undefined {
 }
 
 /**
- * Drop `?error=&availableAt=` so a refresh doesn't replay the error. Same
- * approach as the other OAuth error screens (see DuplicateUser).
+ * Drop `?error=&availableAt=` so a refresh doesn't replay the error. Only
+ * those two params go: the app uses hash routing, so the hash (and any
+ * other query params) must survive.
  */
 export function clearSocialLinkUrlParams() {
-  window.history.pushState({}, "", window.location.pathname);
+  const url = new URL(window.location.href);
+  url.searchParams.delete("error");
+  url.searchParams.delete("availableAt");
+  window.history.pushState({}, "", url.toString());
 }
 
 /** `availableAt` in the player's locale, date only - the hour is noise. */

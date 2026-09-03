@@ -1,6 +1,7 @@
 import { TEST_FARM } from "features/game/lib/constants";
 import {
   clearSocialLinkAttempt,
+  clearSocialLinkUrlParams,
   getUrlAvailableAt,
   isSocialLinked,
   readSocialLinkAttempt,
@@ -59,6 +60,24 @@ describe("socialLink", () => {
       expect(getUrlAvailableAt()).toBeUndefined();
 
       setSearch("?availableAt=soon");
+      expect(getUrlAvailableAt()).toBeUndefined();
+    });
+  });
+
+  describe("clearSocialLinkUrlParams", () => {
+    afterEach(() => window.history.replaceState({}, "", "/"));
+
+    it("drops only the OAuth error params and keeps the hash route", () => {
+      window.history.replaceState(
+        {},
+        "",
+        "/?error=SOCIAL_ACCOUNT_COOLDOWN&availableAt=1759467120000&portal=x#/visit/123",
+      );
+
+      clearSocialLinkUrlParams();
+
+      expect(window.location.search).toBe("?portal=x");
+      expect(window.location.hash).toBe("#/visit/123");
       expect(getUrlAvailableAt()).toBeUndefined();
     });
   });
