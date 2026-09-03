@@ -8509,5 +8509,8 @@
   "loveDilemma.guide.redPlatform.description": "Platform paling ramai. Tidak ada seorang pun di sini yang mendapat hadiah - dan jika dua platform bersaing untuk yang tersibuk, keduanya kalah.",
   "loveDilemma.oneAttemptLeft": "1 upaya tersisa hari ini",
   "gameOptions.generalSettings.actualTime": "Tampilkan waktu aktual",
-  "description.boostedSpeed": "Kecepatan: {{speed}} x"
+  "description.boostedSpeed": "Kecepatan: {{speed}} x",
+  "loveBoulder.didNotHelp": "Pukul batu besar untuk mendapatkan hadiah!",
+  "loveBoulder.alreadyClaimed": "Sudah diklaim hari ini. Kembalilah besok!",
+  "loveBoulder.dailyLimit": "Batas Charm Cinta Harian tercapai"
 }

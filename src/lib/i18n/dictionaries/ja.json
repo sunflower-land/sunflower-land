@@ -8509,5 +8509,8 @@
   "loveDilemma.guide.redPlatform.description": "最も混雑したプラットフォーム。ここでは誰も賞品をもらえません。そして、2つのプラットフォームが最も混雑した場合、両方が負けます。",
   "loveDilemma.oneAttemptLeft": "今日は残り1試行",
   "gameOptions.generalSettings.actualTime": "実際の時間を表示",
-  "description.boostedSpeed": "スピード:{{speed}} x"
+  "description.boostedSpeed": "スピード:{{speed}} x",
+  "loveBoulder.didNotHelp": "岩にぶつかって賞品を獲得しましょう！",
+  "loveBoulder.alreadyClaimed": "今日すでに請求されました。明日戻ってきて！",
+  "loveBoulder.dailyLimit": "デイリーラブチャームの上限に達しました"
 }

@@ -8509,5 +8509,8 @@
   "loveDilemma.guide.redPlatform.description": "Die am stärksten frequentierte Plattform. Niemand hier bekommt einen Preis — und wenn zwei Plattformen gleichauf sind, verlieren beide.",
   "loveDilemma.oneAttemptLeft": "Heute noch 1 Versuch",
   "gameOptions.generalSettings.actualTime": "Aktuelle Uhrzeit anzeigen",
-  "description.boostedSpeed": "Geschwindigkeit: {{speed}} x"
+  "description.boostedSpeed": "Geschwindigkeit: {{speed}} x",
+  "loveBoulder.didNotHelp": "Triff den Felsbrocken, um dir den Preis zu sichern!",
+  "loveBoulder.alreadyClaimed": "Heute schon beansprucht. Komm morgen wieder!",
+  "loveBoulder.dailyLimit": "Tägliches Love Charm-Limit erreicht"
 }

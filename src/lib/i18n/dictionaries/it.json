@@ -8509,5 +8509,8 @@
   "loveDilemma.guide.redPlatform.description": "La piattaforma più affollata. Nessuno qui riceve un premio e se due piattaforme pareggiano per la più frequentata, entrambe perdono.",
   "loveDilemma.oneAttemptLeft": "1 tentativo rimasto oggi",
   "gameOptions.generalSettings.actualTime": "Mostra l'ora effettiva",
-  "description.boostedSpeed": "Velocità: {{speed}} x"
+  "description.boostedSpeed": "Velocità: {{speed}} x",
+  "loveBoulder.didNotHelp": "Colpisci il masso per vincere il premio!",
+  "loveBoulder.alreadyClaimed": "Già richiesto oggi. Torna domani!",
+  "loveBoulder.dailyLimit": "È stato raggiunto il limite giornaliero di Love Charm"
 }

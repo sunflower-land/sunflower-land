@@ -8509,5 +8509,8 @@
   "loveDilemma.guide.redPlatform.description": "最拥挤的平台。这里没有人能获得奖品——如果两个平台并列最繁忙的平台，则两个平台都输了。",
   "loveDilemma.oneAttemptLeft": "今天还有 1 次尝试",
   "gameOptions.generalSettings.actualTime": "显示实际时间",
-  "description.boostedSpeed": "速度：{{speed}} x"
+  "description.boostedSpeed": "速度：{{speed}} x",
+  "loveBoulder.didNotHelp": "击中巨石即可获得奖品！",
+  "loveBoulder.alreadyClaimed": "今天已经申请了。明天回来！",
+  "loveBoulder.dailyLimit": "已达到每日爱情护身符上限"
 }

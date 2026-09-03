@@ -8509,5 +8509,8 @@
   "loveDilemma.guide.redPlatform.description": "The most crowded platform. Nobody here gets a prize - and if two platforms tie for busiest, both lose.",
   "loveDilemma.oneAttemptLeft": "1 attempt left today",
   "gameOptions.generalSettings.actualTime": "Show actual time",
-  "description.boostedSpeed": "Speed: {{speed}}x"
+  "description.boostedSpeed": "Speed: {{speed}}x",
+  "loveBoulder.didNotHelp": "Hit the boulder to earn the prize!",
+  "loveBoulder.alreadyClaimed": "Already claimed today. Come back tomorrow!",
+  "loveBoulder.dailyLimit": "Daily Love Charm limit reached"
 }

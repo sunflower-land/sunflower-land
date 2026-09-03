@@ -8509,5 +8509,8 @@
   "loveDilemma.guide.redPlatform.description": "En kalabalık platform. Burada hiç kimse ödül almaz - ve iki platform en meşgulse, ikisi de kaybeder.",
   "loveDilemma.oneAttemptLeft": "Bugün 1 deneme kaldı",
   "gameOptions.generalSettings.actualTime": "Gerçek zamanı göster",
-  "description.boostedSpeed": "Hız: {{speed}} x"
+  "description.boostedSpeed": "Hız: {{speed}} x",
+  "loveBoulder.didNotHelp": "Ödülü kazanmak için kayaya vur!",
+  "loveBoulder.alreadyClaimed": "Bugün zaten talep etti. Yarın geri gel!",
+  "loveBoulder.dailyLimit": "Günlük Aşk Tılsımı limitine ulaşıldı"
 }
