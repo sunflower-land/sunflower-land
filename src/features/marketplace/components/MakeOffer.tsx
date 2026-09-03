@@ -34,6 +34,7 @@ import {
   Locked,
   useIsLocked,
 } from "features/retreat/components/personhood/Locked";
+import { WithdrawCooldownNotice } from "./WithdrawCooldownNotice";
 
 const _balance = (state: MachineState) => state.context.state.balance;
 const _usd = (state: MachineState) => state.context.prices.sfl?.usd ?? 0.0;
@@ -162,6 +163,7 @@ export const MakeOffer: React.FC<{
               <img src={SUNNYSIDE.icons.search} className="h-6 mr-2" />
               <p className="text-xs mb-2">{t("marketplace.dodgyTrades")}</p>
             </div>
+            <WithdrawCooldownNotice display={display} />
           </div>
 
           <div className="flex">
@@ -191,6 +193,7 @@ export const MakeOffer: React.FC<{
             <img src={SUNNYSIDE.icons.search} className="h-6 mr-2" />
             <p className="text-xs mb-2">{t("marketplace.dodgyTrades")}</p>
           </div>
+          <WithdrawCooldownNotice display={display} />
         </div>
 
         <div className="flex">

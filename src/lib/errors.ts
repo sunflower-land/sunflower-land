@@ -11,6 +11,9 @@ export const ERRORS = {
   BLOCKED: "BLOCKED",
   NETWORK_CONGESTED: "NETWORK_CONGESTED",
   WITHDRAW_DUPLICATE: "WITHDRAW_DUPLICATE",
+  // Non-VIP farms can't withdraw an item for 90 days after buying it on the
+  // marketplace. The 400 carries `data.items` (name -> withdrawable-at ms).
+  WITHDRAW_MARKETPLACE_COOLDOWN: "WITHDRAW_MARKETPLACE_COOLDOWN",
   RAFFLE_RESULTS_SERVER_ERROR: "RAFFLE_RESULTS_SERVER_ERROR",
 
   // Blockchain session has changed - they are doing something sneaky refreshing the browser

@@ -245,6 +245,15 @@ export interface Effect {
   [key: string]: any;
 }
 
+/**
+ * A 400 from the event endpoint. `message` is the backend's errorCode;
+ * `data` is whatever detail it attached (most codes send none).
+ */
+export type EffectError = Error & { data?: unknown };
+
+export const createEffectError = (code: string, data?: unknown): EffectError =>
+  Object.assign(new Error(code), data === undefined ? {} : { data });
+
 type Request = {
   farmId: number;
   token: string;
@@ -283,9 +292,15 @@ export async function postEffect(
   }
 
   if (response.status === 400) {
-    const data = await response.json().catch(() => null);
+    const body = await response.json().catch(() => null);
 
-    throw new Error(data?.errorCode ?? ERRORS.EFFECT_SERVER_ERROR);
+    // Some rejections (e.g. WITHDRAW_MARKETPLACE_COOLDOWN) come with detail
+    // the UI needs. The message stays the bare code - call sites compare on
+    // it - and the payload rides alongside on the error object.
+    throw createEffectError(
+      body?.errorCode ?? ERRORS.EFFECT_SERVER_ERROR,
+      body?.data,
+    );
   }
 
   if (response.status !== 200 || !response.ok) {
