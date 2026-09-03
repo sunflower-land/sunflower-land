@@ -61,9 +61,19 @@ describe("landscapingDraft", () => {
       expect(isDraftEvent("biome.applied", "farm")).toBe(false);
     });
 
-    it("leaves other locations on the streamed path", () => {
-      expect(isDraftEvent("collectible.moved", "home")).toBe(false);
+    it("drafts placement edits on every placeable surface", () => {
+      expect(isDraftEvent("collectible.moved", "home")).toBe(true);
+      expect(isDraftEvent("collectible.moved", "interior")).toBe(true);
+      expect(isDraftEvent("collectible.moved", "level_one")).toBe(true);
+      expect(isDraftEvent("collectible.moved", "petHouse")).toBe(true);
+    });
+
+    it("drafts nothing when not landscaping", () => {
       expect(isDraftEvent("collectible.moved", undefined)).toBe(false);
+    });
+
+    it("keeps purchases live indoors too", () => {
+      expect(isDraftEvent("decoration.bought", "home")).toBe(false);
     });
   });
 

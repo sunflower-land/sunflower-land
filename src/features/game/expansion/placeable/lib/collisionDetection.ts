@@ -479,6 +479,71 @@ export const FURNITURE_OBJECTS: InventoryItemName[] = [
   "Stool",
 ];
 
+/**
+ * Translate a farm-space footprint into the bottom-left layout coordinates the
+ * interior tile masks use. GenesisBlock sits at canvas-centre and `Placeable`
+ * anchors (0, 0) there, so the conversion is +canvas/2 on both axes. Must match
+ * the API translation.
+ */
+const toInteriorLayout = (position: BoundingBox): BoundingBox => ({
+  ...position,
+  x: position.x + INTERIOR_CANVAS.width / 2,
+  y: position.y + INTERIOR_CANVAS.height / 2,
+});
+
+const isOutsideRect = (position: BoundingBox, bounds: BoundingBox) =>
+  position.x < bounds.x ||
+  position.x + position.width > bounds.x + bounds.width ||
+  position.y > bounds.y + bounds.height ||
+  position.y - position.height < bounds.y;
+
+/**
+ * Is this footprint outside the placeable area of `location`? The *bounds* half
+ * of {@link detectCollision}, split out so callers that run their own overlap
+ * pass reuse exactly the same geometry.
+ *
+ * The landscaping commit (`applyArrangement`) is the reason this exists: it
+ * validates a whole desired arrangement at once, so it must ask "is this in
+ * bounds" without also asking "does it hit something", which would flag two
+ * items swapping places.
+ */
+export function isOutOfBounds({
+  state,
+  position,
+  location,
+}: {
+  state: GameState;
+  position: BoundingBox;
+  location: PlaceableLocation;
+}): boolean {
+  switch (location) {
+    case "home":
+      return isOutsideRect(position, HOME_BOUNDS[state.island.type]);
+    case "petHouse":
+      return isOutsideRect(
+        position,
+        PET_HOUSE_BOUNDS[state.petHouse?.level ?? 1],
+      );
+    case "interior":
+      return !isValidInteriorBase(
+        state.island.type,
+        toInteriorLayout(position),
+      );
+    case "level_one": {
+      const { level_one: levelOne, expansion } = state.interior;
+      // An unbuilt floor has no placeable area at all.
+      if (!levelOne || !expansion) return true;
+      return !isValidHomeExpansionBase(expansion, toInteriorLayout(position));
+    }
+    case "farm":
+    default:
+      return detectWaterCollision(
+        state.inventory["Basic Land"]?.toNumber() ?? 3,
+        position,
+      );
+  }
+}
+
 function detectHomeCollision({
   state,
   position,
@@ -488,15 +553,7 @@ function detectHomeCollision({
   position: BoundingBox;
   name: LandscapingPlaceable;
 }) {
-  const bounds = HOME_BOUNDS[state.island.type];
-
-  const isOutside =
-    position.x < bounds.x ||
-    position.x + position.width > bounds.x + bounds.width ||
-    position.y > bounds.y + bounds.height ||
-    position.y - position.height < bounds.y;
-
-  if (isOutside) {
+  if (isOutOfBounds({ state, position, location: "home" })) {
     return true;
   }
 
@@ -546,16 +603,7 @@ function detectPetHouseCollision({
   position: BoundingBox;
   name: LandscapingPlaceable;
 }) {
-  const petHouseLevel = state.petHouse?.level ?? 1;
-  const bounds = PET_HOUSE_BOUNDS[petHouseLevel];
-
-  const isOutside =
-    position.x < bounds.x ||
-    position.x + position.width > bounds.x + bounds.width ||
-    position.y > bounds.y + bounds.height ||
-    position.y - position.height < bounds.y;
-
-  if (isOutside) {
+  if (isOutOfBounds({ state, position, location: "petHouse" })) {
     return true;
   }
 
@@ -736,17 +784,9 @@ function detectInteriorCollision({
   position: BoundingBox;
   name: LandscapingPlaceable;
 }) {
-  // 1. Layout mask — translate Placeable coords → bottom-left layout coords.
-  // GenesisBlock lives at canvas-centre (12, 12) and Placeable anchors
-  // coord (0, 0) there, so the conversion is +canvas/2 on both axes.
-  // Collision and render must use matching fudges — both are 0 right now,
-  // so adjust them in lockstep if alignment drifts.
-  const layoutPosition = {
-    ...position,
-    x: position.x + INTERIOR_CANVAS.width / 2,
-    y: position.y + INTERIOR_CANVAS.height / 2,
-  };
-  if (!isValidInteriorBase(state.island.type, layoutPosition)) {
+  // 1. Layout mask. Collision and render must use matching fudges — both are 0
+  // right now, so adjust them in lockstep if alignment drifts.
+  if (isOutOfBounds({ state, position, location: "interior" })) {
     return true;
   }
 
@@ -804,21 +844,11 @@ function detectLevelOneCollision({
   position: BoundingBox;
   name: LandscapingPlaceable;
 }) {
-  const levelOne = state.interior.level_one;
-  const expansion = state.interior.expansion;
-  if (!levelOne || !expansion) {
+  if (isOutOfBounds({ state, position, location: "level_one" })) {
     return true;
   }
-
-  // Match detectInteriorCollision's translation (no fudge currently).
-  const layoutPosition = {
-    ...position,
-    x: position.x + INTERIOR_CANVAS.width / 2,
-    y: position.y + INTERIOR_CANVAS.height / 2,
-  };
-  if (!isValidHomeExpansionBase(expansion, layoutPosition)) {
-    return true;
-  }
+  // isOutOfBounds already rejected an unbuilt floor.
+  const levelOne = state.interior.level_one!;
 
   // Same overlap policy as the ground floor — see detectInteriorCollision
   // for rationale. Rugs / tiles can still stack freely.

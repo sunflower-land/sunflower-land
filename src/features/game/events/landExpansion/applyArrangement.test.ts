@@ -2,10 +2,13 @@ import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
 import { INITIAL_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
 import type { GameState, InventoryItemName } from "features/game/types/game";
+import type { PlaceableLocation } from "features/game/types/collectibles";
 import { DEFAULT_HONEY_PRODUCTION_TIME } from "features/game/lib/updateBeehives";
 import { snapshotFarm } from "./lib/layouts";
+import { isOutOfBounds } from "features/game/expansion/placeable/lib/collisionDetection";
 import {
   applyArrangement,
+  snapshotSurface,
   ArrangementConflictError,
   type Arrangement,
   type ArrangementConflict,
@@ -63,7 +66,7 @@ const withInventory = (
 const apply = (
   state: GameState,
   arrangement: Arrangement,
-  location: "farm" | "home" = "farm",
+  location: PlaceableLocation = "farm",
 ) =>
   applyArrangement({
     state,
@@ -111,9 +114,14 @@ describe("applyArrangement", () => {
     expect(state).toEqual(before);
   });
 
-  it("throws for a non-farm location", () => {
-    expect(() => apply(baseFarm, snapshotFarm(baseFarm), "home")).toThrow(
-      /Unsupported arrangement location/,
+  it("throws for a surface that is not unlocked", () => {
+    const noUpstairs: GameState = {
+      ...baseFarm,
+      interior: { ground: { collectibles: {} } },
+    };
+
+    expect(() => apply(noUpstairs, { collectibles: {} }, "level_one")).toThrow(
+      /not unlocked/,
     );
   });
 
@@ -637,6 +645,230 @@ describe("applyArrangement", () => {
       expect(result.bumpkin.coordinates).toEqual({ x: 1, y: 1 });
       expect(result.bumpkin.flipped).toBe(true);
       expect(result.bumpkin.location).toBe("farm");
+    });
+  });
+
+  describe("indoor surfaces", () => {
+    /** Any 1x1 tile the given surface accepts, found by asking the bounds check. */
+    const validTile = (state: GameState, location: PlaceableLocation) => {
+      for (let x = -6; x <= 6; x++) {
+        for (let y = 6; y >= -6; y--) {
+          const position = { x, y, width: 1, height: 1 };
+          if (!isOutOfBounds({ state, position, location })) return { x, y };
+        }
+      }
+      throw new Error(`no valid tile for ${location}`);
+    };
+
+    const homeFarm: GameState = {
+      ...baseFarm,
+      inventory: { ...baseFarm.inventory, "Basic Bear": new Decimal(2) },
+      home: {
+        collectibles: {
+          "Basic Bear": [{ id: "h1", coordinates: { x: 0, y: 0 } }],
+        },
+      },
+    };
+
+    it("moves an item within the home without touching the farm", () => {
+      // Same item name placed on BOTH surfaces, at the same coordinates —
+      // indoor and outdoor coordinate spaces overlap numerically, so this is
+      // the case that catches a commit reading the wrong bucket.
+      const state: GameState = {
+        ...homeFarm,
+        collectibles: {
+          "Basic Bear": [{ id: "f1", coordinates: { x: 0, y: 0 } }],
+        },
+      };
+      const arrangement = snapshotSurface(state, "home");
+      arrangement.collectibles["Basic Bear"]![0].coordinates = { x: 1, y: 1 };
+
+      const result = apply(state, arrangement, "home");
+
+      expect(result.home.collectibles["Basic Bear"]![0].coordinates).toEqual({
+        x: 1,
+        y: 1,
+      });
+      expect(result.collectibles["Basic Bear"]![0].coordinates).toEqual({
+        x: 0,
+        y: 0,
+      });
+    });
+
+    it("reports an item pushed outside the home bounds", () => {
+      const arrangement = snapshotSurface(homeFarm, "home");
+      arrangement.collectibles["Basic Bear"]![0].coordinates = { x: 40, y: 40 };
+
+      const conflicts = conflictsOf(() => apply(homeFarm, arrangement, "home"));
+
+      expect(conflicts).toEqual([
+        {
+          code: "OFF_LAND",
+          name: "Basic Bear",
+          id: "h1",
+          coordinates: { x: 40, y: 40 },
+        },
+      ]);
+    });
+
+    it("removes an item from the home", () => {
+      const arrangement = snapshotSurface(homeFarm, "home");
+      arrangement.collectibles = {};
+
+      const result = apply(homeFarm, arrangement, "home");
+
+      expect(
+        result.home.collectibles["Basic Bear"]![0].coordinates,
+      ).toBeUndefined();
+    });
+
+    it("places a chest item into the home", () => {
+      const arrangement = snapshotSurface(homeFarm, "home");
+      arrangement.collectibles["Basic Bear"]!.push({
+        id: "h2",
+        coordinates: { x: 2, y: 2 },
+      });
+
+      const result = apply(homeFarm, arrangement, "home");
+
+      expect(result.home.collectibles["Basic Bear"]).toHaveLength(2);
+      expect(result.home.collectibles["Basic Bear"]![1].coordinates).toEqual({
+        x: 2,
+        y: 2,
+      });
+    });
+
+    it("moves the bumpkin within the home and keeps its location", () => {
+      const state: GameState = {
+        ...homeFarm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          coordinates: { x: 0, y: 1 },
+          location: "home",
+        },
+      };
+      const arrangement = snapshotSurface(state, "home");
+      arrangement.bumpkin = { x: 1, y: 2 };
+
+      const result = apply(state, arrangement, "home");
+
+      expect(result.bumpkin.coordinates).toEqual({ x: 1, y: 2 });
+      expect(result.bumpkin.location).toBe("home");
+    });
+
+    it("never carries an item between surfaces", () => {
+      // The farm instance is placed, so the home arrangement cannot claim it.
+      const state: GameState = {
+        ...homeFarm,
+        collectibles: {
+          "Basic Bear": [{ id: "f1", coordinates: { x: 3, y: 3 } }],
+        },
+      };
+      const arrangement = snapshotSurface(state, "home");
+      arrangement.collectibles["Basic Bear"]!.push({
+        id: "f1",
+        coordinates: { x: 2, y: 2 },
+      });
+
+      const conflicts = conflictsOf(() => apply(state, arrangement, "home"));
+
+      expect(conflicts).toEqual([
+        expect.objectContaining({ code: "PLACED_ELSEWHERE", id: "f1" }),
+      ]);
+    });
+
+    it("rejects farm-only buckets in an indoor arrangement", () => {
+      const arrangement = snapshotSurface(homeFarm, "home");
+      arrangement.buildings = {
+        "Fire Pit": [{ id: "fp", coordinates: { x: 0, y: 0 } }],
+      };
+
+      expect(() => apply(homeFarm, arrangement, "home")).toThrow(
+        /cannot contain buildings/,
+      );
+    });
+
+    it("rearranges the interior floor", () => {
+      const state: GameState = {
+        ...baseFarm,
+        inventory: { ...baseFarm.inventory, "Basic Bear": new Decimal(1) },
+        interior: {
+          ground: {
+            collectibles: {
+              "Basic Bear": [{ id: "i1", coordinates: { x: 0, y: 0 } }],
+            },
+          },
+        },
+      };
+      const from = validTile(state, "interior");
+      const placed: GameState = {
+        ...state,
+        interior: {
+          ground: {
+            collectibles: {
+              "Basic Bear": [{ id: "i1", coordinates: from }],
+            },
+          },
+        },
+      };
+      const arrangement = snapshotSurface(placed, "interior");
+      arrangement.collectibles["Basic Bear"]![0].coordinates = {
+        ...from,
+        x: from.x + 1,
+      };
+
+      const result = apply(placed, arrangement, "interior");
+
+      expect(
+        result.interior.ground.collectibles["Basic Bear"]![0].coordinates,
+      ).toEqual({ ...from, x: from.x + 1 });
+    });
+
+    it("rearranges the pet house and rejects entities it cannot hold", () => {
+      const state: GameState = {
+        ...baseFarm,
+        inventory: { ...baseFarm.inventory, Barkley: new Decimal(1) },
+        petHouse: {
+          level: 1,
+          pets: { Barkley: [{ id: "p1", coordinates: { x: 0, y: 0 } }] },
+        },
+      };
+      const arrangement = snapshotSurface(state, "petHouse");
+      arrangement.collectibles.Barkley![0].coordinates = { x: 1, y: 1 };
+
+      const result = apply(state, arrangement, "petHouse");
+      expect(result.petHouse.pets.Barkley![0].coordinates).toEqual({
+        x: 1,
+        y: 1,
+      });
+
+      const withBumpkin = snapshotSurface(state, "petHouse");
+      withBumpkin.bumpkin = { x: 0, y: 0 };
+      expect(() => apply(state, withBumpkin, "petHouse")).toThrow(
+        /cannot contain a bumpkin/,
+      );
+    });
+
+    it("leaves indoor surfaces out of the farm's post passes", () => {
+      // A stale hive on the farm must not be re-derived by a home commit.
+      const state: GameState = {
+        ...homeFarm,
+        beehives: {
+          h1: {
+            x: -2,
+            y: -2,
+            swarm: false,
+            honey: { updatedAt: 0, produced: 0 },
+            flowers: [],
+          },
+        },
+      };
+      const arrangement = snapshotSurface(state, "home");
+      arrangement.collectibles["Basic Bear"]![0].coordinates = { x: 1, y: 1 };
+
+      const result = apply(state, arrangement, "home");
+
+      expect(result.beehives.h1.honey.updatedAt).toBe(0);
     });
   });
 
