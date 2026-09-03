@@ -8469,5 +8469,14 @@
   "savedLayouts.actionFailed": "Etwas ist schief gelaufen. Bitte versuchen Sie es erneut.",
   "savedLayouts.ascensionBadge": "Option nach dem Aufsteigen erneut angewendet",
   "bounties.minLevel": "Stufe {{level}} +",
-  "bounties.sellAnimals": "Verkaufe Tiere"
+  "bounties.sellAnimals": "Verkaufe Tiere",
+  "withdraw.marketplaceCooldown.title": "Noch nicht bereit, sich zurückzuziehen",
+  "withdraw.marketplaceCooldown.description": "Auf dem Marktplatz gekaufte Artikel können 90 Tage nach dem Kauf zurückgezogen werden. VIP-Mitglieder können sie sofort abheben.",
+  "withdraw.marketplaceCooldown.availableOn": "Verfügbar {{date}}",
+  "withdraw.marketplaceCooldown.retryHint": "Entferne diese Artikel aus deiner Auszahlung, um den Rest zu versenden, oder lass VIP sie jetzt abheben.",
+  "withdraw.marketplaceCooldown.getVip": "Werde VIP",
+  "withdraw.marketplaceCooldown.notice": "Artikel, die in den letzten 90 Tagen auf dem Marktplatz gekauft wurden, können ohne VIP nicht ausgezahlt werden.",
+  "withdraw.marketplaceCooldown.lockReason": "Auf dem Marktplatz gekauft. Auszahlbar {{date}} oder sofort mit VIP.",
+  "withdraw.status.marketplaceCooldown": "Bis {{date}}",
+  "marketplace.withdrawCooldown.notice": "Zum Schutz der Wirtschaft gibt es eine 90-tägige Auszahlungsabklingzeit für Käufe ohne VIP. VIP-Mitglieder können sofort Geld abheben."
 }

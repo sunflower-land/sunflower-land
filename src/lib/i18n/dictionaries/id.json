@@ -8469,5 +8469,14 @@
   "savedLayouts.actionFailed": "Ada yang tidak beres. Silakan coba lagi.",
   "savedLayouts.ascensionBadge": "Opsi yang diterapkan kembali setelah naik",
   "bounties.minLevel": "Tingkat {{level}} +",
-  "bounties.sellAnimals": "Jual hewan"
+  "bounties.sellAnimals": "Jual hewan",
+  "withdraw.marketplaceCooldown.title": "Belum siap untuk mundur",
+  "withdraw.marketplaceCooldown.description": "Barang yang dibeli di pasar dapat ditarik 90 hari setelah pembelian. Anggota VIP dapat langsung menariknya.",
+  "withdraw.marketplaceCooldown.availableOn": "Tersedia {{date}}",
+  "withdraw.marketplaceCooldown.retryHint": "Hapus barang-barang ini dari penarikan Anda untuk mengirim sisanya, atau dapatkan VIP untuk menariknya sekarang.",
+  "withdraw.marketplaceCooldown.getVip": "Dapatkan VIP",
+  "withdraw.marketplaceCooldown.notice": "Barang yang dibeli di pasar dalam 90 hari terakhir tidak dapat ditarik tanpa VIP.",
+  "withdraw.marketplaceCooldown.lockReason": "Dibeli di pasar. Dapat ditarik {{date}}, atau langsung dengan VIP.",
+  "withdraw.status.marketplaceCooldown": "Sampai {{date}}",
+  "marketplace.withdrawCooldown.notice": "Ada cooldown penarikan 90 hari untuk pembelian non-VIP untuk melindungi ekonomi. Anggota VIP dapat langsung menarik diri."
 }

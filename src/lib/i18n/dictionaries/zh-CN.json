@@ -8469,5 +8469,14 @@
   "savedLayouts.actionFailed": "出了点问题。请再试一次。",
   "savedLayouts.ascensionBadge": "升序后重新应用选项",
   "bounties.minLevel": "等级 {{level}} +",
-  "bounties.sellAnimals": "卖动物"
+  "bounties.sellAnimals": "卖动物",
+  "withdraw.marketplaceCooldown.title": "还没准备好出金",
+  "withdraw.marketplaceCooldown.description": "在市场上购买的物品可以在购买 90 天后撤回。VIP 会员可以立即提款。",
+  "withdraw.marketplaceCooldown.availableOn": "可用 {{date}}",
+  "withdraw.marketplaceCooldown.retryHint": "从您的提款中删除这些物品以发送其余物品，或者立即获得VIP将其提取。",
+  "withdraw.marketplaceCooldown.getVip": "获取 VIP",
+  "withdraw.marketplaceCooldown.notice": "过去 90 天内在市场上购买的物品如果没有 VIP 就无法撤回。",
+  "withdraw.marketplaceCooldown.lockReason": "在市场上买的。可提款 [0@/美元]，也可以直接通过 VIP 提款。",
+  "withdraw.status.marketplaceCooldown": "直到 {{date}}",
+  "marketplace.withdrawCooldown.notice": "为了保护经济，非VIP购买有90天的提款冷却时间。VIP 会员可以立即提款。"
 }

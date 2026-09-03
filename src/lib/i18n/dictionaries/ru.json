@@ -8469,5 +8469,14 @@
   "savedLayouts.actionFailed": "Something went wrong. Please try again.",
   "savedLayouts.ascensionBadge": "Re-applied option after ascending",
   "bounties.minLevel": "Lvl {{level}}+",
-  "bounties.sellAnimals": "Sell animals"
+  "bounties.sellAnimals": "Sell animals",
+  "withdraw.marketplaceCooldown.title": "Not ready to withdraw yet",
+  "withdraw.marketplaceCooldown.description": "Items bought on the marketplace can be withdrawn 90 days after purchase. VIP members can withdraw them straight away.",
+  "withdraw.marketplaceCooldown.availableOn": "Available {{date}}",
+  "withdraw.marketplaceCooldown.retryHint": "Remove these items from your withdrawal to send the rest, or get VIP to withdraw them now.",
+  "withdraw.marketplaceCooldown.getVip": "Get VIP",
+  "withdraw.marketplaceCooldown.notice": "Items bought on the marketplace in the last 90 days can't be withdrawn without VIP.",
+  "withdraw.marketplaceCooldown.lockReason": "Bought on the marketplace. Withdrawable {{date}}, or straight away with VIP.",
+  "withdraw.status.marketplaceCooldown": "Until {{date}}",
+  "marketplace.withdrawCooldown.notice": "There is a 90-day withdrawal cooldown on non-VIP purchases to protect the economy. VIP members can withdraw straight away."
 }

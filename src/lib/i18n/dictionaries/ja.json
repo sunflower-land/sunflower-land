@@ -8469,5 +8469,14 @@
   "savedLayouts.actionFailed": "何かがおかしくなった。もう一度試してください。",
   "savedLayouts.ascensionBadge": "昇順後に再適用されたオプション",
   "bounties.minLevel": "レベル {{level}} +",
-  "bounties.sellAnimals": "動物を売る"
+  "bounties.sellAnimals": "動物を売る",
+  "withdraw.marketplaceCooldown.title": "まだ撤退する準備ができていません",
+  "withdraw.marketplaceCooldown.description": "マーケットプレイスで購入した商品は、購入から90日後に撤回できます。VIPメンバーはそれらをすぐに撤回できます。",
+  "withdraw.marketplaceCooldown.availableOn": "ご利用可能 {{date}}",
+  "withdraw.marketplaceCooldown.retryHint": "これらのアイテムを出金から削除して残りを送るか、VIPを獲得して今すぐ出金してください。",
+  "withdraw.marketplaceCooldown.getVip": "VIP をゲット",
+  "withdraw.marketplaceCooldown.notice": "過去90日間にマーケットプレイスで購入した商品は、VIPがないと出金できません。",
+  "withdraw.marketplaceCooldown.lockReason": "マーケットプレイスで購入しました。{{date}}、またはVIPですぐに出金できます。",
+  "withdraw.status.marketplaceCooldown": "{{date}} まで",
+  "marketplace.withdrawCooldown.notice": "経済保護のため、VIP以外の購入には90日間の出金クールダウンがあります。VIP会員はすぐに退会できます。"
 }

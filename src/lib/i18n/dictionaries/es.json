@@ -8469,5 +8469,14 @@
   "savedLayouts.actionFailed": "Algo salió mal. Por favor, inténtelo de nuevo.",
   "savedLayouts.ascensionBadge": "Opción reaplicada después de ascender",
   "bounties.minLevel": "Nivel {{level}} +",
-  "bounties.sellAnimals": "Vender animales"
+  "bounties.sellAnimals": "Vender animales",
+  "withdraw.marketplaceCooldown.title": "¿Aún no estás listo para retirarte?",
+  "withdraw.marketplaceCooldown.description": "Los artículos comprados en el mercado se pueden retirar 90 días después de la compra. Los miembros VIP pueden retirarlos de inmediato.",
+  "withdraw.marketplaceCooldown.availableOn": "Disponible {{date}}",
+  "withdraw.marketplaceCooldown.retryHint": "Elimine estos artículos de su retiro para enviar el resto, o haga que VIP los retire ahora.",
+  "withdraw.marketplaceCooldown.getVip": "Consiga VIP",
+  "withdraw.marketplaceCooldown.notice": "Los artículos comprados en el mercado en los últimos 90 días no se pueden retirar sin VIP.",
+  "withdraw.marketplaceCooldown.lockReason": "Comprado en el mercado. Se puede retirar {{date}} o directamente con VIP.",
+  "withdraw.status.marketplaceCooldown": "Hasta {{date}}",
+  "marketplace.withdrawCooldown.notice": "Para proteger la economía, hay un período de espera de 90 días para retirar fondos en compras que no sean VIP. Los miembros VIP pueden retirarse de inmediato."
 }

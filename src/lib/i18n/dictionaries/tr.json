@@ -8469,5 +8469,14 @@
   "savedLayouts.actionFailed": "Bir şeyler ters gitti. Lütfen tekrar deneyin.",
   "savedLayouts.ascensionBadge": "Artıştan sonra yeniden uygulanan seçenek",
   "bounties.minLevel": "Lvl {{level}} +",
-  "bounties.sellAnimals": "Hayvanları satmak"
+  "bounties.sellAnimals": "Hayvanları satmak",
+  "withdraw.marketplaceCooldown.title": "Henüz geri çekilmeye hazır değil",
+  "withdraw.marketplaceCooldown.description": "Piyasadan satın alınan ürünler satın alındıktan 90 gün sonra geri çekilebilir. VIP üyeler bunları hemen geri çekebilir.",
+  "withdraw.marketplaceCooldown.availableOn": "Mevcut {{date}}",
+  "withdraw.marketplaceCooldown.retryHint": "Geri kalanını göndermek için bu öğeleri para çekme işleminizden çıkarın veya şimdi geri çekmek için VIP alın.",
+  "withdraw.marketplaceCooldown.getVip": "VIP al",
+  "withdraw.marketplaceCooldown.notice": "Son 90 gün içinde pazardan satın alınan ürünler VIP olmadan çekilemez.",
+  "withdraw.marketplaceCooldown.lockReason": "Pazarda satın alındı. Çekilebilir {{date}} veya VIP ile hemen çekilebilir.",
+  "withdraw.status.marketplaceCooldown": "{{date}} kadar",
+  "marketplace.withdrawCooldown.notice": "Ekonomiyi korumak için VIP olmayan satın alımlarda 90 günlük bir para çekme bekleme süresi vardır. VIP üyeler hemen geri çekilebilir."
 }
