@@ -1,5 +1,6 @@
 import loveIslandJSON from "assets/map/love_island_map.json";
 import loveIslandTileset from "assets/map/love_island_tileset.json";
+import loveCharmSmall from "assets/icons/love_charm_small.webp";
 
 import type { SceneId } from "../mmoMachine";
 import { BaseScene, type NPCBumpkin } from "./BaseScene";
@@ -7,10 +8,10 @@ import type { Coordinates } from "features/game/expansion/components/MapPlacemen
 import { translate, translateForBubble } from "lib/i18n/translate";
 import { interactableModalManager } from "../ui/InteractableModals";
 import type { TemperateSeasonName } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { hasReadLoveIslandNotice } from "../ui/loveRewardShop/LoveIslandNoticeboard";
 import type { BumpkinContainer } from "../containers/BumpkinContainer";
+import { Label } from "../containers/Label";
 import {
   LOVE_DILEMMA_CHOOSE_MS,
   LOVE_DILEMMA_PLATFORMS,
@@ -52,11 +53,13 @@ const PLATFORM_SPOTS: Coordinates[] = Array.from(
     y: CENTRE.y + 10,
   }),
 );
-/** Countdown and status sit above the row. */
-const HUD_Y = CENTRE.y - 60;
-/** Love Charm icon is 20px wide - keep a clear gap before the number. */
-const PRIZE_ICON_WIDTH = 20;
-const PRIZE_GAP = 3;
+/** Countdown and status sit above the row, clear of the prize labels. */
+const HUD_Y = CENTRE.y - 66;
+/**
+ * Prize labels float above each platform, higher than the name tag of
+ * anyone standing on it, so the prize (and result) is never covered.
+ */
+const PRIZE_LABEL_Y = -(PLATFORM_HEIGHT / 2) - 22;
 
 /** Key for the local player's choice while the room has no dilemma state. */
 const LOCAL_PLAYER_KEY = "me";
@@ -97,12 +100,8 @@ export class LoveIslandScene extends BaseScene {
   /** Invisible solid boxes - you pick a platform by clicking, not walking. */
   private platformColliders: Phaser.GameObjects.Rectangle[] = [];
   private platformFrames: Phaser.GameObjects.Rectangle[] = [];
-  /** Icon + number, centred on each platform. */
-  private platformPrizes: {
-    group: Phaser.GameObjects.Container;
-    icon: Phaser.GameObjects.Sprite;
-    text: Phaser.GameObjects.BitmapText;
-  }[] = [];
+  /** Prize label above each platform, rebuilt whenever the amount changes. */
+  private platformLabels: (Label | undefined)[] = [];
   private countdownText?: Phaser.GameObjects.BitmapText;
   private statusText?: Phaser.GameObjects.BitmapText;
   private attemptsText?: Phaser.GameObjects.BitmapText;
@@ -132,7 +131,7 @@ export class LoveIslandScene extends BaseScene {
     this.load.image("shop_icon", "world/shop_disc.png");
     this.load.image("petal_clue", "world/petal_clue.png");
     this.load.image("platform", "world/platform.webp");
-    this.load.image("love_charm", ITEM_DETAILS["Love Charm"].image);
+    this.load.image("love_charm_small", loveCharmSmall);
     this.load.spritesheet("portal", "world/love_charm_portal_sheet.png", {
       frameWidth: 20,
       frameHeight: 34,
@@ -246,18 +245,6 @@ export class LoveIslandScene extends BaseScene {
         .setDepth(spot.y - PLATFORM_HEIGHT + 1);
 
       this.platformFrames.push(frame);
-
-      // Prize sits centred on the platform itself, under anyone standing on it
-      const icon = this.add.sprite(0, 0, "love_charm");
-      const text = this.add
-        .bitmapText(0, 0, FONT, "", 6)
-        .setOrigin(0, 0.5)
-        .setTint(TEXT_TINT);
-      const group = this.add
-        .container(spot.x, spot.y, [icon, text])
-        .setDepth(spot.y - PLATFORM_HEIGHT + 2);
-
-      this.platformPrizes.push({ group, icon, text });
     });
 
     this.selectBox = this.add
@@ -410,15 +397,19 @@ export class LoveIslandScene extends BaseScene {
     const prizes = this.getPayouts(round);
 
     prizes.forEach((prize, platform) => {
-      const label = this.platformPrizes[platform];
-      if (!label) return;
+      const spot = PLATFORM_SPOTS[platform];
+      if (!spot) return;
 
-      label.text.setText(`${prize}`);
+      // A label's width is fixed at creation, so swap it for a fresh one
+      this.platformLabels[platform]?.destroy();
 
-      // Centre the icon + number as one group on the platform
-      const width = PRIZE_ICON_WIDTH + PRIZE_GAP + label.text.width;
-      label.icon.setX(-width / 2 + PRIZE_ICON_WIDTH / 2);
-      label.text.setX(-width / 2 + PRIZE_ICON_WIDTH + PRIZE_GAP);
+      const label = new Label(this, `${prize}`, "grey", "love_charm_small");
+      label
+        .setPosition(spot.x, spot.y + PRIZE_LABEL_Y)
+        .setDepth(Number.MAX_SAFE_INTEGER);
+      this.add.existing(label);
+
+      this.platformLabels[platform] = label;
     });
   }
 
@@ -426,6 +417,7 @@ export class LoveIslandScene extends BaseScene {
   private clearPlatformResults() {
     this.platforms.forEach((platform) => platform.clearTint());
     this.platformFrames.forEach((frame) => frame.setVisible(false));
+    this.platformLabels.forEach((label) => label?.setTextTint());
   }
 
   /**
@@ -581,6 +573,8 @@ export class LoveIslandScene extends BaseScene {
 
       platform.setTint(colour);
       this.platformFrames[index]?.setStrokeStyle(2, colour).setVisible(true);
+      // The label is the one thing players can't stand in front of
+      this.platformLabels[index]?.setTextTint(colour);
     });
   }
 

@@ -4,6 +4,7 @@ const ICON_CENTER_Y = 3.5;
 
 export class Label extends Phaser.GameObjects.Container {
   private iconSprite: Phaser.GameObjects.Sprite | undefined;
+  private text: Phaser.GameObjects.BitmapText;
   private iconVisible = true;
   private syncFloatingIcon: (() => void) | undefined;
 
@@ -52,6 +53,7 @@ export class Label extends Phaser.GameObjects.Container {
 
     this.add(label);
     this.add(name);
+    this.text = name;
     if (hasIcon) {
       const iconX = -patchWidth / 2 - ICON_GAP - ICON_WIDTH / 2;
       const icon = scene.add
@@ -93,6 +95,15 @@ export class Label extends Phaser.GameObjects.Container {
     }
 
     this.setDepth(1);
+  }
+
+  /** Recolour the text (e.g. green/red for a result); `undefined` resets it. */
+  setTextTint(tint?: number) {
+    if (tint === undefined) {
+      this.text.clearTint();
+    } else {
+      this.text.setTint(tint);
+    }
   }
 
   setIconVisible(visible: boolean) {
