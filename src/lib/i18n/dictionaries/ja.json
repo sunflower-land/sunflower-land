@@ -8506,5 +8506,6 @@
   "loveDilemma.guide.greenPlatform": "グリーンプラットフォーム",
   "loveDilemma.guide.greenPlatform.description": "最も忙しいプラットフォームよりもプレイヤーが少なく、ここにいる全員が賞品を獲得します。",
   "loveDilemma.guide.redPlatform": "レッドプラットフォーム",
-  "loveDilemma.guide.redPlatform.description": "最も混雑したプラットフォーム。ここでは誰も賞品をもらえません。そして、2つのプラットフォームが最も混雑した場合、両方が負けます。"
+  "loveDilemma.guide.redPlatform.description": "最も混雑したプラットフォーム。ここでは誰も賞品をもらえません。そして、2つのプラットフォームが最も混雑した場合、両方が負けます。",
+  "loveDilemma.oneAttemptLeft": "今日は残り1試行"
 }

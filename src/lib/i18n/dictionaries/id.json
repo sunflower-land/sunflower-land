@@ -8506,5 +8506,6 @@
   "loveDilemma.guide.greenPlatform": "Platform Hijau",
   "loveDilemma.guide.greenPlatform.description": "Lebih sedikit pemain daripada platform tersibuk - semua orang di sini memenangkan hadiahnya.",
   "loveDilemma.guide.redPlatform": "Platform Merah",
-  "loveDilemma.guide.redPlatform.description": "Platform paling ramai. Tidak ada seorang pun di sini yang mendapat hadiah - dan jika dua platform bersaing untuk yang tersibuk, keduanya kalah."
+  "loveDilemma.guide.redPlatform.description": "Platform paling ramai. Tidak ada seorang pun di sini yang mendapat hadiah - dan jika dua platform bersaing untuk yang tersibuk, keduanya kalah.",
+  "loveDilemma.oneAttemptLeft": "1 upaya tersisa hari ini"
 }

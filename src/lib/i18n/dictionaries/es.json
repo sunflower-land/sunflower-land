@@ -8506,5 +8506,6 @@
   "loveDilemma.guide.greenPlatform": "Plataforma verde",
   "loveDilemma.guide.greenPlatform.description": "Menos jugadores que en la plataforma más concurrida: aquí todos ganan su premio.",
   "loveDilemma.guide.redPlatform": "Plataforma roja",
-  "loveDilemma.guide.redPlatform.description": "La plataforma más concurrida. Aquí nadie se lleva un premio, y si dos plataformas empatan entre las más ocupadas, ambas pierden."
+  "loveDilemma.guide.redPlatform.description": "La plataforma más concurrida. Aquí nadie se lleva un premio, y si dos plataformas empatan entre las más ocupadas, ambas pierden.",
+  "loveDilemma.oneAttemptLeft": "Queda 1 intento hoy"
 }

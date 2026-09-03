@@ -8506,5 +8506,6 @@
   "loveDilemma.guide.greenPlatform": "Grüne Plattform",
   "loveDilemma.guide.greenPlatform.description": "Weniger Spieler als auf der am stärksten frequentierten Plattform — hier gewinnt jeder seinen Preis.",
   "loveDilemma.guide.redPlatform": "Rote Plattform",
-  "loveDilemma.guide.redPlatform.description": "Die am stärksten frequentierte Plattform. Niemand hier bekommt einen Preis — und wenn zwei Plattformen gleichauf sind, verlieren beide."
+  "loveDilemma.guide.redPlatform.description": "Die am stärksten frequentierte Plattform. Niemand hier bekommt einen Preis — und wenn zwei Plattformen gleichauf sind, verlieren beide.",
+  "loveDilemma.oneAttemptLeft": "Heute noch 1 Versuch"
 }

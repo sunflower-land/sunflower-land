@@ -8506,5 +8506,6 @@
   "loveDilemma.guide.greenPlatform": "Green Platform",
   "loveDilemma.guide.greenPlatform.description": "Fewer players than the busiest platform - everyone here wins its prize.",
   "loveDilemma.guide.redPlatform": "Red Platform",
-  "loveDilemma.guide.redPlatform.description": "The most crowded platform. Nobody here gets a prize - and if two platforms tie for busiest, both lose."
+  "loveDilemma.guide.redPlatform.description": "The most crowded platform. Nobody here gets a prize - and if two platforms tie for busiest, both lose.",
+  "loveDilemma.oneAttemptLeft": "1 attempt left today"
 }
