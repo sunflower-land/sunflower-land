@@ -26,12 +26,17 @@ interface Props {
    * temporary recovery boost so this stays 1; the marker is kept for uniformity.
    */
   speed?: number;
+  /** Wall-clock ready time + live clock, for the popover's "Ready at" line. */
+  readyAt?: number;
+  now?: number;
 }
 
 const DepletedSunstoneComponent: React.FC<Props> = ({
   timeLeft,
   minesLeft,
   speed,
+  readyAt,
+  now,
 }) => {
   const [showTimeLeft, setShowTimeLeft] = useState(false);
   const boosted = speed !== undefined && speed > 1;
@@ -90,6 +95,8 @@ const DepletedSunstoneComponent: React.FC<Props> = ({
             showPopover={showTimeLeft}
             timeLeft={timeLeft}
             speed={speed}
+            readyAt={readyAt}
+            now={now}
           />
         </div>
       </div>

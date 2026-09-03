@@ -329,6 +329,8 @@ export const Tree: React.FC<Props> = ({ id }) => {
           season={season}
           name={treeName}
           speed={speed}
+          readyAt={readyAt}
+          now={now}
         />
       )}
 

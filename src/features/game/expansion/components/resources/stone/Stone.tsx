@@ -145,6 +145,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
   const { minedAt, baseDurationMs } = resource.stone;
   const {
     now,
+    readyAt,
     speed,
     displaySeconds: timeLeft,
   } = useNodeTimer({
@@ -238,6 +239,8 @@ export const Stone: React.FC<Props> = ({ id }) => {
           timeLeft={timeLeft}
           name={name as StoneRockName}
           speed={speed}
+          readyAt={readyAt}
+          now={now}
         />
       )}
     </div>

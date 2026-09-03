@@ -2,7 +2,7 @@ import React from "react";
 
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
-import { secondsToString } from "lib/utils/time";
+import { formatReadyAt, secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
@@ -16,6 +16,13 @@ interface Props {
   secondaryDescription?: string;
   /** Current effective grow speed; shows a lightning + multiplier when > 1. */
   speed?: number;
+  /**
+   * When the task is actually ready (wall clock). Shown as a "Ready at" line
+   * while boosted, so the fast-draining work reading stays anchored to a real
+   * clock. Needs `now` for the same-local-day check.
+   */
+  readyAt?: number;
+  now?: number;
 }
 
 export const TimerPopover: React.FC<Props> = ({
@@ -26,6 +33,8 @@ export const TimerPopover: React.FC<Props> = ({
   secondaryImage,
   secondaryDescription,
   speed,
+  readyAt,
+  now,
 }) => {
   const { t } = useAppTranslation();
   const hasSecondRow = secondaryImage != null || secondaryDescription != null;
@@ -76,6 +85,13 @@ export const TimerPopover: React.FC<Props> = ({
             length: speed && speed > 1 ? "full" : "medium",
           }).replace(/\u00A0/g, " ")}
         </span>
+        {isBoosted && readyAt !== undefined && now !== undefined && (
+          <span className="flex-1 text-center text-xxs">
+            {t("description.boostedReadyAt", {
+              time: formatReadyAt(readyAt, now),
+            })}
+          </span>
+        )}
       </div>
     </InnerPanel>
   );

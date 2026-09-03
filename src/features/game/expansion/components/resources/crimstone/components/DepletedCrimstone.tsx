@@ -86,6 +86,8 @@ const DepletedCrimstoneComponent: React.FC<Props> = ({
             showPopover={showTimeLeft}
             timeLeft={timeLeft}
             speed={speed}
+            readyAt={readyAt}
+            now={now}
           />
         </div>
       </div>

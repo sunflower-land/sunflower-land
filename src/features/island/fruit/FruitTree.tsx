@@ -194,6 +194,8 @@ export const FruitTree: React.FC<Props> = ({
           workLeftSeconds={treeStatus.timeLeft}
           totalSeconds={treeStatus.totalSeconds}
           speed={speed}
+          readyAt={readyAt}
+          now={now}
         />
       </div>
     );
@@ -210,6 +212,8 @@ export const FruitTree: React.FC<Props> = ({
           workLeftSeconds={treeStatus.timeLeft}
           totalSeconds={treeStatus.totalSeconds}
           speed={speed}
+          readyAt={readyAt}
+          now={now}
           playShakeAnimation={playShakingAnimation}
         />
       </div>

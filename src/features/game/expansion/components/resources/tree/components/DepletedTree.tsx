@@ -22,6 +22,9 @@ interface Props {
    * Hourglass). > 1 shows a lightning marker + the multiplier in the popover.
    */
   speed?: number;
+  /** Wall-clock ready time + live clock, for the popover's "Ready at" line. */
+  readyAt?: number;
+  now?: number;
 }
 
 const DepletedTreeComponent: React.FC<Props> = ({
@@ -30,6 +33,8 @@ const DepletedTreeComponent: React.FC<Props> = ({
   season,
   name,
   speed,
+  readyAt,
+  now,
 }) => {
   const [showTimeLeft, setShowTimeLeft] = useState(false);
 
@@ -77,6 +82,8 @@ const DepletedTreeComponent: React.FC<Props> = ({
             showPopover={showTimeLeft}
             timeLeft={timeLeft}
             speed={speed}
+            readyAt={readyAt}
+            now={now}
           />
         </div>
       </div>
