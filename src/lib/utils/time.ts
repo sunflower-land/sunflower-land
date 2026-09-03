@@ -462,23 +462,32 @@ export function secondsTillReset(now = Date.now()) {
 
 /**
  * The absolute wall-clock moment a timer finishes, in the player's local time
- * and locale — "1:05 PM", or "9/4/2026 1:05 PM" when it lands on a different
+ * and locale — "1:05 PM", or "9/4/2026, 1:05 PM" when it lands on a different
  * local calendar day than `now` (a 10-minute timer straddling midnight still
  * shows the date). Shown under a speed-view countdown so the fast-draining
  * work reading stays anchored to a real clock.
+ *
+ * The different-day form is a single locale-aware call rather than a date and
+ * a time string joined by hand: the order, punctuation and separators between
+ * the two parts vary by locale.
  */
 export function formatReadyAt(readyAt: number, now: number): string {
   const ready = new Date(readyAt);
-  const time = ready.toLocaleTimeString([], {
-    hour: "numeric",
-    minute: "2-digit",
-  });
-
   const current = new Date(now);
   const isSameLocalDay =
     ready.getFullYear() === current.getFullYear() &&
     ready.getMonth() === current.getMonth() &&
     ready.getDate() === current.getDate();
 
-  return isSameLocalDay ? time : `${ready.toLocaleDateString()} ${time}`;
+  if (isSameLocalDay) {
+    return ready.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+  }
+
+  return ready.toLocaleString([], {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  });
 }

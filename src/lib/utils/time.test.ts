@@ -851,22 +851,24 @@ describe("time", () => {
 
       const result = formatReadyAt(readyAt, now);
 
-      expect(result).toContain(new Date(readyAt).toLocaleDateString());
-      expect(result).toContain(
-        new Date(readyAt).toLocaleTimeString([], {
+      // One locale-aware date+time rendering, not a hand-joined pair.
+      expect(result).toBe(
+        new Date(readyAt).toLocaleString([], {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
           hour: "numeric",
           minute: "2-digit",
         }),
       );
+      expect(result).toContain("2026");
     });
 
     it("shows the date for a multi-day timer even at the same time of day", () => {
       const now = new Date(2026, 8, 3, 12, 0).getTime();
       const readyAt = new Date(2026, 8, 6, 12, 0).getTime();
 
-      expect(formatReadyAt(readyAt, now)).toContain(
-        new Date(readyAt).toLocaleDateString(),
-      );
+      expect(formatReadyAt(readyAt, now)).toContain("2026");
     });
   });
 });
