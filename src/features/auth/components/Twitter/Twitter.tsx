@@ -24,6 +24,9 @@ import { Loading } from "../Loading";
 import { TextInput } from "components/ui/TextInput";
 import { useNow } from "lib/utils/hooks/useNow";
 import { useVipAccess } from "lib/utils/hooks/useVipAccess";
+import { SocialUnlinkGate } from "../SocialUnlink";
+import { rememberSocialLinkAttempt } from "../../lib/socialLink";
+import type { ContentComponentProps } from "features/island/hud/components/settings-menu/types";
 
 const TWITTER_POST_DESCRIPTIONS: Record<TwitterPostName, TranslationKeys> = {
   FARM: "twitter.post.farm",
@@ -39,7 +42,9 @@ export const Twitter: React.FC<{ onClose: () => void }> = ({ onClose }) => (
 
 const VERIFY_COOLDOWN_MS = 15 * 60 * 1000;
 
-export const TwitterRewards: React.FC = () => {
+export const TwitterRewards: React.FC<Partial<ContentComponentProps>> = ({
+  onSubMenuClick,
+}) => {
   const [selected, setSelected] = useState<TwitterPostName>();
   const { gameState } = useGame();
   const now = useNow();
@@ -55,7 +60,10 @@ export const TwitterRewards: React.FC = () => {
   }
 
   return (
-    <>
+    <SocialUnlinkGate
+      provider="twitter"
+      onDone={() => onSubMenuClick?.("linkedAccounts")}
+    >
       <div className="flex gap-1 items-center mb-2">
         <Label type="default">{t("twitter.share.earn")}</Label>
       </div>
@@ -116,7 +124,7 @@ export const TwitterRewards: React.FC = () => {
           {`x.com/0xsunflowerland`}
         </span>
       </div>
-    </>
+    </SocialUnlinkGate>
   );
 };
 
@@ -160,6 +168,8 @@ const TwitterPost: React.FC<{ name: TwitterPostName; onClose: () => void }> = ({
 
             const url = `https://x.com/i/oauth2/authorize?response_type=code&client_id=${CONFIG.TWITTER_CLIENT_ID}&redirect_uri=${redirectUrl}&scope=tweet.read%20users.read%20follows.read%20offline.access&state=${nonce}&code_challenge=challenge&code_challenge_method=plain`;
 
+            // The API's error redirect does not say which provider failed
+            rememberSocialLinkAttempt("twitter");
             window.location.href = url;
           }}
         >

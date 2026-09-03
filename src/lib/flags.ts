@@ -211,6 +211,13 @@ const FEATURE_FLAGS = {
   // only (localStorage), but still gated behind beta access while the UX is
   // validated.
   RECENT_GIFT_FLOWERS: betaFeatureFlag,
+
+  // The "Unlink" card for Discord / X / Telegram in Settings > Linked
+  // Accounts. Beta-pass / testnet only while the cooldown flow is validated.
+  // The API accepts `*.unlinked` from anyone; this only gates the UI. The
+  // link-error screens (cooldown / reclaimed) are not gated - any player can
+  // hit those.
+  SOCIAL_UNLINK: betaFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

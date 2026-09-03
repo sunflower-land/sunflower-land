@@ -92,6 +92,30 @@ export const ERRORS = {
   TWITTER_NOT_CONNECTED: "TWITTER_NOT_CONNECTED",
   TWITTER_ALREADY_SHOWCASED: "TWITTER_ALREADY_SHOWCASED",
   TWITTER_INVALID_URL: "TWITTER_INVALID_URL",
+
+  // Linking / unlinking Discord, Telegram and X. Cooldown and reclaimed
+  // errors carry `availableAt` (epoch ms) - as `data.availableAt` on a
+  // Telegram 400, or `?availableAt=` on the Discord / X OAuth redirect.
+  SOCIAL_ALREADY_LINKED: "SOCIAL_ALREADY_LINKED",
+  SOCIAL_NOT_LINKED: "SOCIAL_NOT_LINKED",
+  SOCIAL_ACCOUNT_COOLDOWN: "SOCIAL_ACCOUNT_COOLDOWN",
+  SOCIAL_ACCOUNT_RECLAIMED: "SOCIAL_ACCOUNT_RECLAIMED",
 };
 
 export type ErrorCode = keyof typeof ERRORS;
+
+/**
+ * Errors a social *link* attempt can come back with. These are outcomes for
+ * a signed-in player (not login refusals), so the OAuth redirect variants
+ * must reach the game machine rather than the auth machine - see
+ * `getUrlErrorCode` in authMachine.ts.
+ */
+export const SOCIAL_LINK_ERRORS: ReadonlySet<string> = new Set([
+  ERRORS.SOCIAL_ALREADY_LINKED,
+  ERRORS.SOCIAL_NOT_LINKED,
+  ERRORS.SOCIAL_ACCOUNT_COOLDOWN,
+  ERRORS.SOCIAL_ACCOUNT_RECLAIMED,
+]);
+
+export const isSocialLinkError = (code?: string): boolean =>
+  !!code && SOCIAL_LINK_ERRORS.has(code);

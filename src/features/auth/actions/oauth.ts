@@ -1,5 +1,6 @@
 import FSLAuthorization from "fsl-authorization";
 import { CONFIG } from "lib/config";
+import { rememberSocialLinkAttempt } from "features/auth/lib/socialLink";
 
 export function discordOAuth({ nonce }: { nonce: string }) {
   const applicationID = "1287592468124012634";
@@ -8,6 +9,9 @@ export function discordOAuth({ nonce }: { nonce: string }) {
   const redirect = encodeURIComponent(CONFIG.DISCORD_REDIRECT);
 
   const state = nonce;
+
+  // The API's error redirect does not say which provider failed
+  rememberSocialLinkAttempt("discord");
 
   // Guild = server
   const scope = "guilds.members.read";

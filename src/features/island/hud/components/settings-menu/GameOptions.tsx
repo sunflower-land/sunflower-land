@@ -214,6 +214,12 @@ const preloadSubscriptions = async (token: string, farmId: number) => {
   );
 };
 
+// Keep the settings modal open while an unlink is mid-flight so the
+// machine can't get stranded in a hidden state.
+const _unlinkingSocial = (state: MachineState) =>
+  state.matches("unlinkingSocial") ||
+  state.matches("unlinkingSocialSuccess") ||
+  state.matches("unlinkingSocialFailed");
 const _linkingSocial = (state: MachineState) => state.matches("linkingSocial");
 const _linkingSocialSuccess = (state: MachineState) =>
   state.matches("linkingSocialSuccess");
@@ -242,11 +248,13 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
     gameService,
     _linkingWalletSuccess,
   );
+  const isUnlinkingSocial = useSelector(gameService, _unlinkingSocial);
   const isLinkingInFlight =
     isLinkingSocial ||
     isLinkingSocialSuccess ||
     isLinkingWallet ||
-    isLinkingWalletSuccess;
+    isLinkingWalletSuccess ||
+    isUnlinkingSocial;
 
   useEffect(() => {
     if (farmId) preloadSubscriptions(token, farmId);
