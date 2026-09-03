@@ -110,6 +110,9 @@ export class LoveIslandScene extends BaseScene {
   private labelledRoundId?: number;
   private selectedRoundId?: number;
   private revealedRoundId?: number;
+  /** Last HUD values rendered - the strings only change once a round. */
+  private renderedAttemptsLeft?: number;
+  private renderedStatus?: string;
   /** roundId -> platform, the local player's picks (local mode only). */
   private localChoices: Record<number, number> = {};
 
@@ -478,19 +481,30 @@ export class LoveIslandScene extends BaseScene {
       state: this.freshState,
       now,
     });
-    this.attemptsText?.setText(
-      translate("loveDilemma.attemptsLeft", { count: attemptsLeft }),
-    );
 
-    if (round.phase === "choose") {
-      this.statusText?.setText(
-        attemptsLeft > 0
-          ? translate("loveDilemma.choose")
-          : translate("loveDilemma.noAttemptsLeft"),
+    // Only touch the text (and the i18n lookups) when a value changes
+    if (attemptsLeft !== this.renderedAttemptsLeft) {
+      this.renderedAttemptsLeft = attemptsLeft;
+      this.attemptsText?.setText(
+        attemptsLeft === 1
+          ? translate("loveDilemma.oneAttemptLeft")
+          : translate("loveDilemma.attemptsLeft", { count: attemptsLeft }),
       );
-    } else {
-      this.statusText?.setText(translate("loveDilemma.reveal"));
+    }
 
+    const status =
+      round.phase === "reveal"
+        ? "loveDilemma.reveal"
+        : attemptsLeft > 0
+          ? "loveDilemma.choose"
+          : "loveDilemma.noAttemptsLeft";
+
+    if (status !== this.renderedStatus) {
+      this.renderedStatus = status;
+      this.statusText?.setText(translate(status));
+    }
+
+    if (round.phase === "reveal") {
       if (
         this.revealedRoundId !== round.roundId &&
         this.hasAuthoritativeChoices(round, now)
@@ -606,8 +620,10 @@ export class LoveIslandScene extends BaseScene {
       this.showPlatformResults(result.losingPlatforms);
     }
 
+    // Ignore a pick outside 0..platforms-1 - the room is the only source of
+    // `mine`, and an out-of-range value would otherwise read as a "win"
     const mine = choices[myKey];
-    if (mine === undefined) return;
+    if (mine === undefined || !PLATFORM_SPOTS[mine]) return;
 
     if (result.isVoid) {
       this.currentPlayer?.speak(

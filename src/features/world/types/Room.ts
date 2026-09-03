@@ -142,7 +142,7 @@ export interface LoveDilemma extends Schema {
   chooseEndsAt: number;
   /** Epoch ms - end of the reveal phase (start of the next round). */
   revealEndsAt: number;
-  /** Tier (0 = best) shown on each platform, indexed by platform 0-3. */
+  /** Tier (0 = best) shown on each platform, indexed by platform 0-2 (length 3). */
   tiers: ArraySchema<number>;
   /** How many players have locked in a choice this round. */
   chosenCount: number;
