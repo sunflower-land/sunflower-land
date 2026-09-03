@@ -16,6 +16,17 @@ import {
   isLoveDilemmaRevealReady,
   isLoveDilemmaWinner,
   resolveLoveDilemma,
+  LOVE_BOULDER_HITS,
+  LOVE_BOULDER_LOCAL_BOT_HITS_PER_SEC,
+  LOVE_BOULDER_PRIZE,
+  LOVE_BOULDER_RESPAWN_MS,
+  canClaimLoveBoulder,
+  createLoveBoulderLocalRound,
+  getLoveBoulderPayout,
+  hasClaimedLoveBoulderRound,
+  hasClaimedLoveBoulderToday,
+  isLoveBoulderRewardOpen,
+  tickLoveBoulderLocalRound,
 } from "./loveIsland";
 
 const ONE_DAY = 24 * 60 * 60 * 1000;
@@ -294,5 +305,172 @@ describe("getLoveDilemmaBotChoices", () => {
     );
 
     expect(new Set(rounds).size).toBeGreaterThan(1);
+  });
+});
+
+describe("Love Boulder", () => {
+  const withBoulderClaims = (
+    claims: { claimedAt: number; roundId: number }[],
+  ): GameState => ({
+    ...vipFarm,
+    floatingIsland: {
+      ...vipFarm.floatingIsland,
+      prizeClaims: claims.map((claim) => ({
+        ...claim,
+        amount: LOVE_BOULDER_PRIZE,
+        game: "love_boulder" as const,
+      })),
+    },
+  });
+
+  describe("local round", () => {
+    it("starts with a full boulder", () => {
+      const round = createLoveBoulderLocalRound(now);
+
+      expect(round.hitsRemaining).toBe(LOVE_BOULDER_HITS);
+      expect(round.broken).toBe(false);
+      expect(round.respawnAt).toBeUndefined();
+    });
+
+    it("lets the crowd chip away over time, carrying fractions", () => {
+      const start = createLoveBoulderLocalRound(now);
+      const later = tickLoveBoulderLocalRound({
+        round: start,
+        now: now + 10_000,
+      });
+
+      expect(later.hitsRemaining).toBe(
+        LOVE_BOULDER_HITS - 10 * LOVE_BOULDER_LOCAL_BOT_HITS_PER_SEC,
+      );
+      expect(later.broken).toBe(false);
+
+      // Half a hit's worth of time - nothing yet, but it isn't lost
+      const halfHitMs = 500 / LOVE_BOULDER_LOCAL_BOT_HITS_PER_SEC;
+      const half = tickLoveBoulderLocalRound({
+        round: later,
+        now: now + 10_000 + halfHitMs,
+      });
+      expect(half.hitsRemaining).toBe(later.hitsRemaining);
+      const whole = tickLoveBoulderLocalRound({
+        round: half,
+        now: now + 10_000 + 2 * halfHitMs,
+      });
+      expect(whole.hitsRemaining).toBe(later.hitsRemaining - 1);
+    });
+
+    it("breaks at zero, opens the prize window, then respawns", () => {
+      const nearlyDone = {
+        ...createLoveBoulderLocalRound(now),
+        hitsRemaining: 1,
+      };
+
+      const broken = tickLoveBoulderLocalRound({
+        round: nearlyDone,
+        now: now + 1000,
+      });
+      expect(broken.broken).toBe(true);
+      expect(broken.hitsRemaining).toBe(0);
+      expect(broken.brokenAt).toBe(now + 1000);
+      expect(broken.respawnAt).toBe(now + 1000 + LOVE_BOULDER_RESPAWN_MS);
+      expect(isLoveBoulderRewardOpen({ round: broken, now: now + 1000 })).toBe(
+        true,
+      );
+      expect(
+        isLoveBoulderRewardOpen({
+          round: broken,
+          now: now + 1000 + LOVE_BOULDER_RESPAWN_MS,
+        }),
+      ).toBe(false);
+
+      const stillBroken = tickLoveBoulderLocalRound({
+        round: broken,
+        now: now + 3000,
+      });
+      expect(stillBroken).toBe(broken);
+
+      const next = tickLoveBoulderLocalRound({
+        round: broken,
+        now: now + 1000 + LOVE_BOULDER_RESPAWN_MS,
+      });
+      expect(next.roundId).toBe(broken.roundId + 1);
+      expect(next.broken).toBe(false);
+      expect(next.hitsRemaining).toBe(LOVE_BOULDER_HITS);
+    });
+
+    it("breaks on the player's own hit", () => {
+      const round = { ...createLoveBoulderLocalRound(now), hitsRemaining: 0 };
+
+      expect(tickLoveBoulderLocalRound({ round, now }).broken).toBe(true);
+    });
+
+    it("never opens the prize while the boulder stands", () => {
+      const round = createLoveBoulderLocalRound(now);
+
+      expect(isLoveBoulderRewardOpen({ round, now })).toBe(false);
+    });
+  });
+
+  describe("claims", () => {
+    it("pays everyone who helped, once", () => {
+      expect(
+        canClaimLoveBoulder({ state: vipFarm, myHits: 1, roundId: 3, now }),
+      ).toBe(true);
+      expect(
+        canClaimLoveBoulder({ state: vipFarm, myHits: 0, roundId: 3, now }),
+      ).toBe(false);
+    });
+
+    it("only allows one claim a day", () => {
+      const claimed = withBoulderClaims([
+        { claimedAt: now - 1000, roundId: 2 },
+      ]);
+
+      expect(hasClaimedLoveBoulderToday({ state: claimed, now })).toBe(true);
+      expect(
+        canClaimLoveBoulder({ state: claimed, myHits: 5, roundId: 3, now }),
+      ).toBe(false);
+    });
+
+    it("resets on the next UTC day", () => {
+      const yesterday = withBoulderClaims([
+        { claimedAt: now - ONE_DAY, roundId: 2 },
+      ]);
+
+      expect(hasClaimedLoveBoulderToday({ state: yesterday, now })).toBe(false);
+      expect(
+        canClaimLoveBoulder({ state: yesterday, myHits: 5, roundId: 3, now }),
+      ).toBe(true);
+    });
+
+    it("never claims the same boulder twice", () => {
+      const claimed = withBoulderClaims([
+        { claimedAt: now - 1000, roundId: 3 },
+      ]);
+
+      expect(
+        hasClaimedLoveBoulderRound({ state: claimed, roundId: 3, now }),
+      ).toBe(true);
+      expect(
+        hasClaimedLoveBoulderRound({ state: claimed, roundId: 4, now }),
+      ).toBe(false);
+    });
+
+    it("caps the payout to what is left today", () => {
+      expect(getLoveBoulderPayout({ state: vipFarm, now })).toBe(
+        LOVE_BOULDER_PRIZE,
+      );
+
+      const standard: GameState = {
+        ...INITIAL_FARM,
+        floatingIsland: {
+          ...INITIAL_FARM.floatingIsland,
+          prizeClaims: [
+            { claimedAt: now - 1000, amount: 3, game: "love_dilemma" },
+          ],
+        },
+      };
+
+      expect(getLoveBoulderPayout({ state: standard, now })).toBe(2);
+    });
   });
 });

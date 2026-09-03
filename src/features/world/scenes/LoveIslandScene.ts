@@ -8,22 +8,34 @@ import type { Coordinates } from "features/game/expansion/components/MapPlacemen
 import { translate, translateForBubble } from "lib/i18n/translate";
 import { interactableModalManager } from "../ui/InteractableModals";
 import type { TemperateSeasonName } from "features/game/types/game";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { hasReadLoveIslandNotice } from "../ui/loveRewardShop/LoveIslandNoticeboard";
 import type { BumpkinContainer } from "../containers/BumpkinContainer";
 import { Label } from "../containers/Label";
 import {
+  LOVE_BOULDER_HIT_COOLDOWN_MS,
+  LOVE_BOULDER_PRIZE,
   LOVE_DILEMMA_CHOOSE_MS,
   LOVE_DILEMMA_PLATFORMS,
+  canClaimLoveBoulder,
+  createLoveBoulderLocalRound,
+  getLoveBoulderPayout,
   getLoveDilemmaAttemptsLeft,
   getLoveDilemmaBotChoices,
   getLoveDilemmaPayout,
   getLoveDilemmaPlatformPrizes,
   getLoveDilemmaRound,
   getLoveDilemmaTiers,
+  hasClaimedLoveBoulderRound,
+  hasClaimedLoveBoulderToday,
+  isLoveBoulderRewardOpen,
   isLoveDilemmaRevealReady,
   isLoveDilemmaWinner,
   resolveLoveDilemma,
+  tickLoveBoulderLocalRound,
+  type LoveBoulderLocalRound,
+  type LoveBoulderRound,
   type LoveDilemmaChoices,
   type LoveDilemmaRound,
 } from "../lib/loveIsland";
@@ -66,6 +78,27 @@ const LOCAL_PLAYER_KEY = "me";
 /** Simulated players while the room has no dilemma state. */
 const LOCAL_BOT_COUNT = 6;
 
+/**
+ * The boulder sits at the very top of the island, at the foot of the cliff
+ * where the path dead-ends. Art is 26x25; its base rests on the dirt.
+ */
+const BOULDER_SPOT = { x: 620, y: 362 };
+const BOULDER_WIDTH = 26;
+const BOULDER_HEIGHT = 25;
+/** How close a player has to stand to land a hit. */
+const BOULDER_REACH = 40;
+/** Rubble colours pulled from the boulder art. */
+const RUBBLE_COLOURS = [0x9a9aa8, 0x6b6b7a, 0xc8c8d4];
+/** Clickable area of the prize label (icon + "+5"), generous for thumbs. */
+const REWARD_HIT_WIDTH = 36;
+const REWARD_HIT_HEIGHT = 16;
+/** The hit counter's label sits just above the boulder. */
+const BOULDER_LABEL_Y = BOULDER_SPOT.y - BOULDER_HEIGHT / 2 - 14;
+/** Nine-patch label metrics, matching `containers/Label.ts`. */
+const LABEL_HEIGHT = 11;
+const LABEL_PADDING = 6;
+const LABEL_CHAR_WIDTH = 4;
+
 const FONT = "Teeny Tiny Pixls";
 const TEXT_TINT = 0x3e2731;
 const SELECT_COLOUR = 0xffffff;
@@ -87,6 +120,13 @@ const LOSE_COLOUR = 0xe57373;
  * The MMO room publishes `state.loveDilemma` when it runs the puzzle. Until
  * it does, rounds run off the shared clock with simulated players so the
  * game is playable locally.
+ *
+ * Love Boulder: a boulder at the top of the island that the whole island
+ * taps down from 50,000 hits. When it cracks, a Love Charm prize sits on
+ * the rubble for 5 seconds - anyone who landed a hit can click it for 5
+ * Love Charms (once a day) - then a fresh boulder appears. The room
+ * publishes `state.loveBoulder`; until it does, a simulated crowd chips
+ * away locally. The only HUD is the hit count in a label above the boulder.
  */
 export class LoveIslandScene extends BaseScene {
   sceneId: SceneId = "love_island";
@@ -115,6 +155,30 @@ export class LoveIslandScene extends BaseScene {
   /** roundId -> platform, the local player's picks (local mode only). */
   private localChoices: Record<number, number> = {};
 
+  private boulder?: Phaser.GameObjects.Sprite;
+  private boulderHitsText?: Phaser.GameObjects.BitmapText;
+  /** Nine-patch behind the hit count, resized to fit the number. */
+  private boulderHitsLabel?: Phaser.GameObjects.Container;
+  private boulderHitsPatch?: { resize: (w: number, h: number) => void };
+  /** Love Charm prize shown on the rubble while it can be claimed. */
+  private boulderReward?: Phaser.GameObjects.Container;
+  /** Round whose prize the local player has clicked. */
+  private claimedBoulderRoundId?: number;
+  /** Simulated boulder while the room has no boulder state. */
+  private localBoulder?: LoveBoulderLocalRound;
+  /** Boulder round the visuals are synced to. */
+  private boulderRoundId?: number;
+  /** Boulder round whose break has been handled (claimed/animated). */
+  private brokenBoulderRoundId?: number;
+  /** Whether we've seen this round's boulder standing - only then animate the break. */
+  private sawBoulderStanding = false;
+  private lastBoulderHitAt = 0;
+  /** roundId -> hits the local player has landed. */
+  private boulderHits: Record<number, number> = {};
+  /** Hits sent to the room that its count hasn't reflected yet. */
+  private pendingBoulderHits = 0;
+  private lastRemoteBoulderHits?: number;
+
   constructor() {
     super({
       name: "love_island",
@@ -132,6 +196,7 @@ export class LoveIslandScene extends BaseScene {
     this.load.image("petal_clue", "world/petal_clue.png");
     this.load.image("platform", "world/platform.webp");
     this.load.image("love_charm_small", loveCharmSmall);
+    this.load.image("boulder", SUNNYSIDE.resource.boulder);
     this.load.spritesheet("portal", "world/love_charm_portal_sheet.png", {
       frameWidth: 20,
       frameHeight: 34,
@@ -190,6 +255,7 @@ export class LoveIslandScene extends BaseScene {
     this.add.sprite(310, 556, "guardian");
 
     this.createLoveDilemma();
+    this.createLoveBoulder();
 
     this.setupPopup();
   }
@@ -209,6 +275,7 @@ export class LoveIslandScene extends BaseScene {
     super.update();
 
     this.updateLoveDilemma();
+    this.updateLoveBoulder();
   }
 
   createLoveDilemma() {
@@ -645,6 +712,356 @@ export class LoveIslandScene extends BaseScene {
       this.showWinnings(amount);
     } else {
       this.currentPlayer?.speak(translateForBubble("loveDilemma.lost"));
+    }
+  }
+
+  // ---------------------------------------------------------------------
+  // Love Boulder
+  // ---------------------------------------------------------------------
+
+  createLoveBoulder() {
+    const { x, y } = BOULDER_SPOT;
+
+    // Depth is its base so players walking below it are drawn in front
+    this.boulder = this.add
+      .sprite(x, y, "boulder")
+      .setDepth(y + BOULDER_HEIGHT / 2);
+
+    this.boulder
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => this.hitBoulder());
+
+    // Solid - you mine it from around it, not through it
+    const collider = this.add.rectangle(
+      x,
+      y + 4,
+      BOULDER_WIDTH - 4,
+      BOULDER_HEIGHT - 10,
+      0x000000,
+      0,
+    );
+    this.physics.world.enable(collider);
+    (collider.body as Phaser.Physics.Arcade.Body).setImmovable(true);
+    this.colliders?.add(collider);
+
+    // Just the number, on a label so it reads over the cliff art
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const patch = (this.add as any).rexNinePatch2({
+      x: 0,
+      y: LABEL_HEIGHT / 2 - 2,
+      width: LABEL_PADDING,
+      height: LABEL_HEIGHT,
+      key: "label",
+      columns: [3, 3, 3],
+      rows: [3, 3, 3],
+      baseFrame: undefined,
+      getFrameNameCallback: undefined,
+    });
+    this.boulderHitsPatch = patch;
+    this.boulderHitsText = this.add.bitmapText(0, 1, FONT, "", 5);
+    this.boulderHitsLabel = this.add
+      .container(x, BOULDER_LABEL_Y, [patch, this.boulderHitsText])
+      .setDepth(Number.MAX_SAFE_INTEGER);
+
+    // The prize, sitting on the rubble for a few seconds once it cracks -
+    // the same label style as the Dilemma platforms, but clickable
+    const reward = new Label(
+      this,
+      `+${LOVE_BOULDER_PRIZE}`,
+      "grey",
+      "love_charm_small",
+    );
+    reward
+      .setPosition(x, y - 4)
+      .setDepth(Number.MAX_SAFE_INTEGER)
+      .setVisible(false)
+      .setSize(REWARD_HIT_WIDTH, REWARD_HIT_HEIGHT)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => this.claimBoulderReward());
+    this.add.existing(reward);
+    this.boulderReward = reward;
+  }
+
+  /** Does the room run the boulder, or are we simulating it locally? */
+  private get remoteBoulder() {
+    const remote = this.mmoServer?.state?.loveBoulder;
+
+    return remote && remote.hits > 0 ? remote : undefined;
+  }
+
+  /** The current boulder, from the room when it has one, else simulated. */
+  private getBoulderRound(now: number): LoveBoulderRound {
+    const remote = this.remoteBoulder;
+
+    if (remote) {
+      const broken = remote.brokenAt > 0;
+
+      return {
+        roundId: remote.roundId,
+        // Hits we've sent come off straight away; the room catches up
+        hitsRemaining: broken
+          ? 0
+          : Math.max(1, remote.hitsRemaining - this.pendingBoulderHits),
+        broken,
+        ...(broken
+          ? { brokenAt: remote.brokenAt, respawnAt: remote.respawnAt }
+          : {}),
+      };
+    }
+
+    this.localBoulder = tickLoveBoulderLocalRound({
+      round: this.localBoulder ?? createLoveBoulderLocalRound(now),
+      now,
+    });
+
+    return this.localBoulder;
+  }
+
+  /** Hits the local player landed on this boulder - local count or the room's. */
+  private getMyBoulderHits(roundId: number): number {
+    const local = this.boulderHits[roundId] ?? 0;
+    const remote = this.remoteBoulder?.miners?.get(`${this.id}`) ?? 0;
+
+    return Math.max(local, remote);
+  }
+
+  private hitBoulder() {
+    const now = Date.now();
+    const round = this.getBoulderRound(now);
+    const player = this.currentPlayer;
+
+    if (!this.boulder || !player || round.broken) return;
+
+    if (!this.checkDistanceToSprite(this.boulder, BOULDER_REACH)) {
+      player.speak(translateForBubble("base.iam.far.away"));
+      return;
+    }
+
+    if (now - this.lastBoulderHitAt < LOVE_BOULDER_HIT_COOLDOWN_MS) return;
+    this.lastBoulderHitAt = now;
+
+    this.boulderHits[round.roundId] =
+      (this.boulderHits[round.roundId] ?? 0) + 1;
+
+    if (this.remoteBoulder) {
+      this.pendingBoulderHits += 1;
+      this.mmoServer?.send("loveBoulder.hit", { roundId: round.roundId });
+    } else if (this.localBoulder) {
+      this.localBoulder = {
+        ...this.localBoulder,
+        hitsRemaining: this.localBoulder.hitsRemaining - 1,
+      };
+    }
+
+    if (player.x < BOULDER_SPOT.x) {
+      player.faceRight();
+    } else {
+      player.faceLeft();
+    }
+
+    this.playBoulderHit();
+  }
+
+  /** Shake, a few chips of rubble and a clink for every hit. */
+  private playBoulderHit() {
+    const boulder = this.boulder;
+    if (!boulder) return;
+
+    this.tweens.killTweensOf(boulder);
+    boulder.setPosition(BOULDER_SPOT.x, BOULDER_SPOT.y);
+    this.tweens.add({
+      targets: boulder,
+      x: BOULDER_SPOT.x + 1,
+      duration: 40,
+      yoyo: true,
+      repeat: 1,
+      onComplete: () => boulder.setX(BOULDER_SPOT.x),
+    });
+
+    this.spawnRubble(3, 10);
+    this.sound.play("dig", { volume: 0.05 });
+  }
+
+  /** Pixel chips flying off the boulder. */
+  private spawnRubble(count: number, spread: number) {
+    for (let i = 0; i < count; i++) {
+      const colour = RUBBLE_COLOURS[i % RUBBLE_COLOURS.length];
+      const chip = this.add
+        .rectangle(
+          BOULDER_SPOT.x + Phaser.Math.Between(-4, 4),
+          BOULDER_SPOT.y + Phaser.Math.Between(-4, 4),
+          2,
+          2,
+          colour,
+        )
+        .setDepth(BOULDER_SPOT.y + BOULDER_HEIGHT);
+
+      this.tweens.add({
+        targets: chip,
+        x: chip.x + Phaser.Math.Between(-spread, spread),
+        y: chip.y + Phaser.Math.Between(-spread, spread / 2),
+        alpha: 0,
+        duration: Phaser.Math.Between(250, 450),
+        ease: "Quad.easeOut",
+        onComplete: () => chip.destroy(),
+      });
+    }
+  }
+
+  updateLoveBoulder() {
+    const now = Date.now();
+    const remote = this.remoteBoulder;
+
+    // Hits we sent count as pending until the room's count moves
+    if (remote && remote.hitsRemaining !== this.lastRemoteBoulderHits) {
+      const previous = this.lastRemoteBoulderHits;
+      this.lastRemoteBoulderHits = remote.hitsRemaining;
+
+      if (previous !== undefined) {
+        this.pendingBoulderHits = Math.max(
+          0,
+          this.pendingBoulderHits - (previous - remote.hitsRemaining),
+        );
+      }
+    }
+
+    const round = this.getBoulderRound(now);
+
+    // Fresh boulder
+    if (this.boulderRoundId !== round.roundId) {
+      this.boulderRoundId = round.roundId;
+      this.pendingBoulderHits = 0;
+      this.sawBoulderStanding = false;
+      this.tweens.killTweensOf(this.boulder ?? []);
+      this.boulder?.setPosition(BOULDER_SPOT.x, BOULDER_SPOT.y);
+      this.boulder?.setAlpha(1).setVisible(true);
+    }
+
+    if (!round.broken) {
+      this.sawBoulderStanding = true;
+    } else if (this.brokenBoulderRoundId !== round.roundId) {
+      this.brokenBoulderRoundId = round.roundId;
+      this.breakBoulder(this.sawBoulderStanding);
+    }
+
+    this.setBoulderHits(round.broken ? undefined : round.hitsRemaining);
+
+    // The prize sits there until the window closes or we've taken it
+    const rewardOpen =
+      isLoveBoulderRewardOpen({ round, now }) &&
+      this.claimedBoulderRoundId !== round.roundId &&
+      !hasClaimedLoveBoulderRound({
+        state: this.freshState,
+        roundId: round.roundId,
+        now,
+      });
+
+    if (this.boulderReward && this.boulderReward.visible !== rewardOpen) {
+      this.boulderReward.setVisible(rewardOpen);
+      this.tweens.killTweensOf(this.boulderReward);
+      this.boulderReward.setY(BOULDER_SPOT.y - 4);
+
+      if (rewardOpen) {
+        this.tweens.add({
+          targets: this.boulderReward,
+          y: BOULDER_SPOT.y - 8,
+          duration: 400,
+          yoyo: true,
+          repeat: -1,
+          ease: "Sine.easeInOut",
+        });
+      }
+    }
+  }
+
+  /** Hit count in its label, hidden while the boulder is broken. */
+  private setBoulderHits(hits?: number) {
+    const label = this.boulderHitsLabel;
+    const text = this.boulderHitsText;
+    if (!label || !text) return;
+
+    if (hits === undefined) {
+      label.setVisible(false);
+      return;
+    }
+
+    const value = hits.toLocaleString("en-US");
+    if (text.text !== value) {
+      text.setText(value);
+      // Same fit as `containers/Label.ts`
+      const textWidth = value.length * LABEL_CHAR_WIDTH - 1;
+      text.setX(-textWidth / 2);
+      this.boulderHitsPatch?.resize(textWidth + LABEL_PADDING, LABEL_HEIGHT);
+    }
+
+    label.setVisible(true);
+  }
+
+  /** The boulder just cracked - shatter it and leave the prize on the rubble. */
+  private breakBoulder(animate: boolean) {
+    const boulder = this.boulder;
+
+    if (boulder && animate) {
+      this.spawnRubble(14, 22);
+      this.sound.play("reveal", { volume: 0.1 });
+      this.tweens.add({
+        targets: boulder,
+        alpha: 0,
+        duration: 300,
+        onComplete: () => boulder.setVisible(false),
+      });
+    } else {
+      boulder?.setVisible(false);
+    }
+  }
+
+  /** The local player clicked the prize on the rubble. */
+  private claimBoulderReward() {
+    const now = Date.now();
+    const round = this.getBoulderRound(now);
+    const player = this.currentPlayer;
+
+    if (!this.boulder || !player) return;
+    if (!isLoveBoulderRewardOpen({ round, now })) return;
+
+    if (!this.checkDistanceToSprite(this.boulder, BOULDER_REACH)) {
+      player.speak(translateForBubble("base.iam.far.away"));
+      return;
+    }
+
+    const state = this.freshState;
+    const myHits = this.getMyBoulderHits(round.roundId);
+
+    if (myHits <= 0) {
+      player.speak(translateForBubble("loveBoulder.didNotHelp"));
+      return;
+    }
+
+    if (!canClaimLoveBoulder({ state, myHits, roundId: round.roundId, now })) {
+      if (hasClaimedLoveBoulderToday({ state, now })) {
+        player.speak(translateForBubble("loveBoulder.alreadyClaimed"));
+      }
+      return;
+    }
+
+    // Capped to what's still claimable today so the event never rejects it
+    const amount = getLoveBoulderPayout({ state, now });
+
+    // The roundId makes a reload mid-window a no-op instead of a second claim
+    this.gameService?.send({
+      type: "floatingIslandPrize.claimed",
+      amount,
+      game: "love_boulder",
+      roundId: round.roundId,
+    });
+
+    this.claimedBoulderRoundId = round.roundId;
+
+    if (amount > 0) {
+      player.cheer();
+      this.showWinnings(amount);
+    } else {
+      player.speak(translateForBubble("loveBoulder.dailyLimit"));
     }
   }
 }

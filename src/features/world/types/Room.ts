@@ -153,6 +153,26 @@ export interface LoveDilemma extends Schema {
   choices: MapSchema<number>;
 }
 
+/**
+ * Love Island "Love Boulder", published by the love_island room. The whole
+ * island taps one boulder down from `hits` to zero; everyone who landed a
+ * hit that round can claim a Love Charm prize once a day.
+ */
+export interface LoveBoulder extends Schema {
+  /** Increments every time a fresh boulder appears. */
+  roundId: number;
+  /** Hits a fresh boulder starts with (1000). 0 means the room isn't running it. */
+  hits: number;
+  /** Hits still needed to break it. */
+  hitsRemaining: number;
+  /** Epoch ms the boulder broke; 0 while it's standing. */
+  brokenAt: number;
+  /** Epoch ms a fresh boulder appears; 0 while it's standing. */
+  respawnAt: number;
+  /** farmId -> hits landed this round. Proof of who helped. */
+  miners: MapSchema<number>;
+}
+
 export interface PlazaRoomState extends Schema {
   mapWidth: number;
   mapHeight: number;
@@ -174,4 +194,6 @@ export interface PlazaRoomState extends Schema {
   giantFlower: GiantFlower;
   /** Only present in the love_island room while the dilemma puzzle is on. */
   loveDilemma?: LoveDilemma;
+  /** Only present in the love_island room. */
+  loveBoulder?: LoveBoulder;
 }
