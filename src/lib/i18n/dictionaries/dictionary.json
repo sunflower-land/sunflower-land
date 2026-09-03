@@ -6288,6 +6288,7 @@
   "loveDilemma.notEnoughPlayers": "Not enough players. No attempt used.",
   "loveDilemma.lost": "Too crowded! No prize this round.",
   "loveDilemma.attemptsLeft": "{{count}} attempts left today",
+  "loveDilemma.oneAttemptLeft": "1 attempt left today",
   "description.bronzeFoodBox": "A bronze food box",
   "description.silverFoodBox": "A silver food box",
   "description.goldFoodBox": "A gold food box",
