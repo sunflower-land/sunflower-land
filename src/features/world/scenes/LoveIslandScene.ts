@@ -20,6 +20,7 @@ import {
   getLoveDilemmaPlatformPrizes,
   getLoveDilemmaRound,
   getLoveDilemmaTiers,
+  isLoveDilemmaRevealReady,
   isLoveDilemmaWinner,
   resolveLoveDilemma,
   type LoveDilemmaChoices,
@@ -312,15 +313,24 @@ export class LoveIslandScene extends BaseScene {
   }
 
   /**
-   * The room copies picks into `choices` at the reveal, in a later patch than
-   * the one that flips the phase. Don't resolve until every locked-in pick
-   * has arrived, or the round would be scored as empty and never revisited.
+   * The room publishes `choices` about 1s after `chooseEndsAt`, so the local
+   * clock flips to "reveal" before they exist. Scoring then would call a
+   * real round void and never revisit it - wait for the picks to land (or
+   * for the grace period to run out) before resolving.
    */
-  private hasAuthoritativeChoices(round: LoveDilemmaRound): boolean {
+  private hasAuthoritativeChoices(
+    round: LoveDilemmaRound,
+    now: number,
+  ): boolean {
     const remote = this.remoteDilemma;
     if (!remote || remote.roundId !== round.roundId) return true;
 
-    return (remote.choices?.size ?? 0) >= (remote.chosenCount ?? 0);
+    return isLoveDilemmaRevealReady({
+      now,
+      chooseEndsAt: round.chooseEndsAt,
+      choicesCount: remote.choices?.size ?? 0,
+      chosenCount: remote.chosenCount ?? 0,
+    });
   }
 
   /** Key the local player's choice is stored under. */
@@ -483,7 +493,7 @@ export class LoveIslandScene extends BaseScene {
 
       if (
         this.revealedRoundId !== round.roundId &&
-        this.hasAuthoritativeChoices(round)
+        this.hasAuthoritativeChoices(round, now)
       ) {
         this.revealedRoundId = round.roundId;
         this.revealRound(round);

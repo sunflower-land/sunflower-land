@@ -1,6 +1,7 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
 import type { GameState } from "features/game/types/game";
 import {
+  LOVE_DILEMMA_CHOICES_GRACE_MS,
   LOVE_DILEMMA_CHOOSE_MS,
   LOVE_DILEMMA_MAX_ATTEMPTS,
   LOVE_DILEMMA_MIN_PLAYERS,
@@ -12,6 +13,7 @@ import {
   getLoveDilemmaPrize,
   getLoveDilemmaRound,
   getLoveDilemmaTiers,
+  isLoveDilemmaRevealReady,
   isLoveDilemmaWinner,
   resolveLoveDilemma,
 } from "./loveIsland";
@@ -108,6 +110,81 @@ describe("getLoveDilemmaPayout", () => {
 
   it("does not cap a VIP under the 100/day limit", () => {
     expect(getLoveDilemmaPayout({ state: vipFarm, prize: 20, now })).toBe(20);
+  });
+});
+
+describe("isLoveDilemmaRevealReady", () => {
+  const chooseEndsAt = now;
+
+  it("is never ready during the choose phase", () => {
+    expect(
+      isLoveDilemmaRevealReady({
+        now: chooseEndsAt - 1,
+        chooseEndsAt,
+        choicesCount: 5,
+        chosenCount: 5,
+      }),
+    ).toBe(false);
+  });
+
+  it("waits while the room's choices have not landed yet", () => {
+    expect(
+      isLoveDilemmaRevealReady({
+        now: chooseEndsAt + 500,
+        chooseEndsAt,
+        choicesCount: 0,
+        chosenCount: 6,
+      }),
+    ).toBe(false);
+    expect(
+      isLoveDilemmaRevealReady({
+        now: chooseEndsAt + 500,
+        chooseEndsAt,
+        choicesCount: 3,
+        chosenCount: 6,
+      }),
+    ).toBe(false);
+  });
+
+  it("is ready once every locked-in pick has arrived", () => {
+    expect(
+      isLoveDilemmaRevealReady({
+        now: chooseEndsAt + 1000,
+        chooseEndsAt,
+        choicesCount: 6,
+        chosenCount: 6,
+      }),
+    ).toBe(true);
+  });
+
+  it("does not trust an empty map just because chosenCount is 0", () => {
+    expect(
+      isLoveDilemmaRevealReady({
+        now: chooseEndsAt + 500,
+        chooseEndsAt,
+        choicesCount: 0,
+        chosenCount: 0,
+      }),
+    ).toBe(false);
+  });
+
+  it("resolves with whatever is there once the grace period passes", () => {
+    expect(
+      isLoveDilemmaRevealReady({
+        now: chooseEndsAt + LOVE_DILEMMA_CHOICES_GRACE_MS,
+        chooseEndsAt,
+        choicesCount: 0,
+        chosenCount: 0,
+      }),
+    ).toBe(true);
+    expect(
+      isLoveDilemmaRevealReady({
+        now: chooseEndsAt + LOVE_DILEMMA_CHOICES_GRACE_MS,
+        chooseEndsAt,
+        choicesCount: 3,
+        chosenCount: 6,
+      }),
+    ).toBe(true);
   });
 });
 

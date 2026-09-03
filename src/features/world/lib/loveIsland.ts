@@ -23,6 +23,12 @@ export const LOVE_DILEMMA_REVEAL_MS = 10 * 1000;
 export const LOVE_DILEMMA_ROUND_MS =
   LOVE_DILEMMA_CHOOSE_MS + LOVE_DILEMMA_REVEAL_MS;
 export const LOVE_DILEMMA_MIN_PLAYERS = 5;
+/**
+ * The room publishes `choices` about 1s after `chooseEndsAt`. A client that
+ * resolves before they land would score an empty map as a void round, so
+ * wait for them - but no longer than this, or an empty round never resolves.
+ */
+export const LOVE_DILEMMA_CHOICES_GRACE_MS = 3 * 1000;
 export const LOVE_DILEMMA_MAX_ATTEMPTS = 3;
 
 /** Love Charms per tier (tier 0 is the best platform). */
@@ -133,6 +139,30 @@ export function getLoveDilemmaPayout({
     prize,
     getFloatingIslandLoveCharmsRemainingToday({ state, createdAt: now }),
   );
+}
+
+/**
+ * Can the reveal be scored yet? True once the published choices are
+ * non-empty and have caught up with the number of players who locked in, or
+ * once the grace period after `chooseEndsAt` has passed with whatever is
+ * there (a genuinely empty round is void, and must still resolve).
+ */
+export function isLoveDilemmaRevealReady({
+  now,
+  chooseEndsAt,
+  choicesCount,
+  chosenCount,
+}: {
+  now: number;
+  chooseEndsAt: number;
+  choicesCount: number;
+  chosenCount: number;
+}): boolean {
+  if (now < chooseEndsAt) return false;
+
+  if (choicesCount > 0 && choicesCount >= chosenCount) return true;
+
+  return now >= chooseEndsAt + LOVE_DILEMMA_CHOICES_GRACE_MS;
 }
 
 /** Player key (session id) -> platform index (0-2). */

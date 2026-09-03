@@ -197,9 +197,11 @@ Rules:
 
 ### Reveal (at `chooseEndsAt`)
 
-1. Copy the private picks into `state.loveDilemma.choices`. Clients wait
-   until `choices.size >= chosenCount` before scoring the round, so make sure
-   `chosenCount` is accurate and both land in the same patch if possible.
+1. Copy the private picks into `state.loveDilemma.choices` (the ~1s grace
+   after `chooseEndsAt` is fine). Clients don't score the round until the
+   map is non-empty and `choices.size >= chosenCount`, and fall back to
+   scoring whatever is there 3s after `chooseEndsAt` - so keep `chosenCount`
+   accurate and publish the picks well inside that window.
 2. Resolve:
    - `counts[p]` = players on platform `p`; `total` = sum.
    - If `total < 5` the round is **void**: nobody wins, nobody loses, no
