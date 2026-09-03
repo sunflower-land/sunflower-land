@@ -12,7 +12,8 @@ const SelectLinkedWalletHeader: React.FC<{
   address: `0x${string}`;
   linkedWallet: `0x${string}`;
   icon: string;
-}> = ({ address, linkedWallet, icon }) => {
+  isWithdrawal: boolean;
+}> = ({ address, linkedWallet, icon, isWithdrawal }) => {
   const { t } = useAppTranslation();
 
   return (
@@ -25,7 +26,13 @@ const SelectLinkedWalletHeader: React.FC<{
           {shortAddress(address)}
         </Label>
       </div>
-      <p className="text-xs p-2">{t("walletWall.requiresLinkedWallet")}</p>
+      <p className="text-xs p-2">
+        {t(
+          isWithdrawal
+            ? "walletWall.withdrawWalletMismatch"
+            : "walletWall.requiresLinkedWallet",
+        )}
+      </p>
       <div className="flex text-xs sm:text-xs space-x-1 p-2 pt-0">
         <span className="whitespace-nowrap">{`${t("deposit.connectedWallet")}`}</span>
         <CopyAddress address={address} />
@@ -42,7 +49,8 @@ const SelectLinkedWalletHeader: React.FC<{
 
 export const SelectLinkedWallet: React.FC<{
   linkedWallet: `0x${string}`;
-}> = ({ linkedWallet }) => {
+  isWithdrawal?: boolean;
+}> = ({ linkedWallet, isWithdrawal = false }) => {
   const { address, connector } = useConnection();
 
   return (
@@ -52,6 +60,7 @@ export const SelectLinkedWallet: React.FC<{
           linkedWallet={linkedWallet}
           address={address ?? "0x"}
           icon={getWalletIcon(connector)}
+          isWithdrawal={isWithdrawal}
         />
       }
       onSignMessage={null}

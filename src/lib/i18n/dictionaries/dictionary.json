@@ -6446,6 +6446,7 @@
   "walletWall.connectLinkedWallet": "Connect your linked wallet",
   "walletWall.tryAnotherWallet": "Try another wallet",
   "walletWall.linkedWalletNotConnected": "Please connect your linked wallet to continue with this action.",
+  "walletWall.withdrawWalletMismatch": "You selected a different wallet. Your connected and linked wallets don't match, so you cannot withdraw.",
   "walletWall.pleaseAcceptConnection": "Please accept the connection request in your wallet.",
   "walletWall.pleaseCheckWallet": "Please check your wallet for a signature request.",
   "walletWall.signMessage": "Sign Message",
