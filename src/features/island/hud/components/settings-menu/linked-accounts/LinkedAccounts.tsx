@@ -12,7 +12,13 @@ import type { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { Context as GameContext } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { maskEmail } from "lib/utils/maskEmail";
+import { useNow } from "lib/utils/hooks/useNow";
 import { connectToFSL } from "features/auth/actions/oauth";
+import {
+  formatAvailableAt,
+  type SocialUnlinkResult,
+  type UnlinkableSocialProvider,
+} from "features/auth/lib/socialLink";
 import type { ContentComponentProps } from "../types";
 
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
@@ -30,6 +36,10 @@ const _telegram = (state: MachineState) => state.context.state.telegram;
 const _discordState = (state: MachineState) => state.context.state.discord;
 const _fslId = (state: MachineState) => state.context.fslId;
 const _oauthNonce = (state: MachineState) => state.context.oauthNonce;
+// Last unlink this session - the server only reports the lock date in the
+// unlink response, so it can't be recovered after a reload.
+const _lastUnlink = (state: MachineState) =>
+  state.context.data.unlinkingSocial as SocialUnlinkResult | undefined;
 
 const maskWalletAddress = (address: string): string => {
   if (address.length <= 10) return address;
@@ -153,8 +163,27 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
   const discordState = useSelector(gameService, _discordState);
   const fslId = useSelector(gameService, _fslId);
   const oauthNonce = useSelector(gameService, _oauthNonce);
+  const lastUnlink = useSelector(gameService, _lastUnlink);
+  // Reactive clock so the "unlinked until" line drops off when the lock ends.
+  // Locks are days long, so a minute tick is plenty.
+  const now = useNow({
+    live: !!lastUnlink?.availableAt,
+    autoEndAt: lastUnlink?.availableAt,
+    intervalMs: 60_000,
+  });
 
   const [revealWallet, setRevealWallet] = useState(false);
+
+  // "Unlinked. Can be linked again after {date}" for the provider that was
+  // just unlinked, while its lock is still running.
+  const unlinkedUntil = (provider: UnlinkableSocialProvider) =>
+    lastUnlink?.provider === provider &&
+    !!lastUnlink.availableAt &&
+    lastUnlink.availableAt > now
+      ? t("linkedAccounts.subtext.unlinkedUntil", {
+          date: formatAvailableAt(lastUnlink.availableAt),
+        })
+      : undefined;
 
   const walletStatus: RowStatus = linkingWallet
     ? "linking"
@@ -229,21 +258,24 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
 
   const twitterSubtext =
     twitterStatus === "notLinked"
-      ? t("linkedAccounts.subtext.twitterNotLinked")
+      ? (unlinkedUntil("twitter") ??
+        t("linkedAccounts.subtext.twitterNotLinked"))
       : twitterStatus === "partial"
         ? t("linkedAccounts.subtext.twitterPartial")
         : t("linkedAccounts.rationale.twitter");
 
   const telegramSubtext =
     telegramStatus === "notLinked"
-      ? t("linkedAccounts.subtext.telegramNotLinked")
+      ? (unlinkedUntil("telegram") ??
+        t("linkedAccounts.subtext.telegramNotLinked"))
       : telegramStatus === "partial"
         ? t("linkedAccounts.subtext.telegramPartial")
         : t("linkedAccounts.rationale.telegram");
 
   const discordSubtext =
     discordStatus === "notLinked"
-      ? t("linkedAccounts.subtext.discordNotLinked")
+      ? (unlinkedUntil("discord") ??
+        t("linkedAccounts.subtext.discordNotLinked"))
       : discordStatus === "partial"
         ? t("linkedAccounts.subtext.discordPartial")
         : t("linkedAccounts.subtext.discordLinked");

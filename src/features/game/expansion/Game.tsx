@@ -186,6 +186,10 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   linkingWallet: false,
   linkingWalletSuccess: false,
   linkingWalletFailed: false,
+  // Unlinking a social account is handled inline in the settings panel.
+  unlinkingSocial: false,
+  unlinkingSocialSuccess: false,
+  unlinkingSocialFailed: false,
   // Showcasing / removing a tweet is handled inline in the mailbox Community tab.
   showcasingTwitter: false,
   showcasingTwitterSuccess: false,

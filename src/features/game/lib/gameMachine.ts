@@ -159,6 +159,9 @@ export interface Context {
   actions: PastAction[];
   sessionId?: string;
   errorCode?: ErrorCode;
+  // Detail the API attached to the last error, e.g. `availableAt` on a
+  // social account cooldown. Set alongside `errorCode`, cleared with it.
+  errorDetails?: Record<string, unknown>;
   transactionId?: string;
   fingerprint?: string;
   goblinSwarm?: Date;
@@ -2883,6 +2886,9 @@ export function startGame(authContext: AuthContext) {
         },
         assignErrorMessage: assign<Context, any>({
           errorCode: (_context, event) => event.data.message,
+          // Only `EffectError` carries `data`; everything else clears it so a
+          // stale `availableAt` never leaks into an unrelated error screen.
+          errorDetails: (_context, event) => event.data?.data ?? undefined,
           actions: [],
         }),
         assignWithdrawCooldowns: assign<Context, any>({

@@ -1,6 +1,6 @@
 import { createMachine, type Interpreter, type State, assign } from "xstate";
 import { CONFIG } from "lib/config";
-import { ERRORS, type ErrorCode } from "lib/errors";
+import { ERRORS, type ErrorCode, isSocialLinkError } from "lib/errors";
 
 import {
   saveReferrerId,
@@ -68,9 +68,21 @@ const getDiscordCode = () => {
   return code;
 };
 
+/**
+ * Errors the API can put on the OAuth redirect for a signed-in player who
+ * was *linking* a social account (Discord / X), as opposed to logging in.
+ * Their error screens need the game context (settings, refresh), so they
+ * are left in the URL for the game machine to pick up in `loading`.
+ */
+const isInGameOAuthError = (code: string) =>
+  isSocialLinkError(code) ||
+  code === ERRORS.DISCORD_USER_EXISTS ||
+  code === ERRORS.DISCORD_NOT_ON_SERVER;
+
 const getUrlErrorCode = (): ErrorCode | undefined => {
   const errorParam = new URLSearchParams(window.location.search).get("error");
   if (!errorParam) return undefined;
+  if (isInGameOAuthError(errorParam)) return undefined;
   // hasOwn — `in` also matches inherited props like `toString`, which
   // would let any URL param masquerade as a valid error code.
   return Object.prototype.hasOwnProperty.call(ERRORS, errorParam)

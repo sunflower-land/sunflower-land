@@ -5,7 +5,7 @@ import { SomethingWentWrong } from "./components/SomethingWentWrong";
 import { DuplicateUser } from "./components/DuplicateUser";
 import { Congestion } from "./components/Congestion";
 import { SessionExpired } from "./components/SessionExpired";
-import { type ErrorCode, ERRORS } from "lib/errors";
+import { type ErrorCode, ERRORS, isSocialLinkError } from "lib/errors";
 import { TooManyRequests } from "./components/TooManyRequests";
 import { Maintenance } from "./components/Maintenance";
 import { MultipleDevices } from "./components/MultipleDevices";
@@ -25,6 +25,7 @@ import { LinkedWalletHasFarm } from "./components/LinkedWalletHasFarm";
 import { GoogleLoginDisabled } from "./components/GoogleLoginDisabled";
 import { TwitterShowcaseError } from "./components/TwitterShowcaseError";
 import { MarketplaceWithdrawCooldown } from "./components/MarketplaceWithdrawCooldown";
+import { SocialLinkError } from "./components/SocialLinkError";
 
 interface Props {
   errorCode: ErrorCode;
@@ -86,6 +87,10 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
 
   if (errorCode === ERRORS.DISCORD_NOT_ON_SERVER) {
     return <NotOnDiscordServer />;
+  }
+
+  if (isSocialLinkError(errorCode)) {
+    return <SocialLinkError errorCode={errorCode} />;
   }
 
   if (errorCode === ERRORS.NETWORK_CONGESTED) {
