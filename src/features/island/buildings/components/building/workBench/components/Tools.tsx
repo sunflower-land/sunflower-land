@@ -85,6 +85,20 @@ export const Tools: React.FC = () => {
     return state.coins < price * amount;
   };
 
+  // Whether the player is short on coins or ingredients for a single craft.
+  const lacksRequirements = (toolName: WorkbenchToolName | LoveAnimalItem) => {
+    const tool = isLoveAnimalTool(toolName)
+      ? LOVE_ANIMAL_TOOLS[toolName]
+      : WORKBENCH_TOOLS[toolName];
+    const toolPrice = getToolPrice(tool, 1, state);
+    const lessCoins = !!toolPrice && state.coins < toolPrice;
+    const lessItems = getObjectEntries(
+      tool.ingredients(state.bumpkin.skills),
+    ).some(([name, amount]) => amount?.greaterThan(inventory[name] || 0));
+
+    return lessCoins || lessItems;
+  };
+
   const onToolClick = (toolName: WorkbenchToolName | LoveAnimalItem) => {
     setSelectedName(toolName);
     shortcutItem(toolName);
@@ -366,6 +380,7 @@ export const Tools: React.FC = () => {
                   count={inventory[toolName]}
                   secondaryImage={isLocked ? SUNNYSIDE.icons.lock : undefined}
                   showOverlay={isLocked}
+                  missingRequirements={!isLocked && lacksRequirements(toolName)}
                 />
               );
             })}
@@ -391,6 +406,7 @@ export const Tools: React.FC = () => {
                   count={inventory[toolName]}
                   secondaryImage={isLocked ? SUNNYSIDE.icons.lock : undefined}
                   showOverlay={isLocked}
+                  missingRequirements={!isLocked && lacksRequirements(toolName)}
                 />
               );
             })}
@@ -408,6 +424,7 @@ export const Tools: React.FC = () => {
                   image={ITEM_DETAILS[toolName].image}
                   onClick={() => onToolClick(toolName)}
                   count={inventory[toolName]}
+                  missingRequirements={lacksRequirements(toolName)}
                 />
               );
             })}

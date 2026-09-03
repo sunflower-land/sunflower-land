@@ -160,6 +160,9 @@ export const SeasonalSeeds: React.FC = () => {
     return coins < price * amount;
   };
 
+  const lessFundsForSeed = (seedName: SeedName) =>
+    coins < getBuyPrice(seedName, SEEDS[seedName], state).price;
+
   const stock = state.stock[selectedName] || new Decimal(0);
   const inventoryLimit = INVENTORY_LIMIT(state)[selectedName] ?? new Decimal(0);
   // Rounded down to a whole seed: seeds are discrete units, and comparing
@@ -550,6 +553,9 @@ export const SeasonalSeeds: React.FC = () => {
                   image={ITEM_DETAILS[SEEDS[name].yield ?? name].image}
                   showOverlay={isSeedLocked(name)}
                   count={inventory[name]}
+                  missingRequirements={
+                    !isSeedLocked(name) && lessFundsForSeed(name)
+                  }
                 />
               ))}
             </div>
@@ -593,6 +599,9 @@ export const SeasonalSeeds: React.FC = () => {
                     showOverlay={isSeedLocked(name)}
                     // secondaryImage={SUNNYSIDE.icons.seedling}
                     count={inventory[name]}
+                    missingRequirements={
+                      !isSeedLocked(name) && lessFundsForSeed(name)
+                    }
                   />
                 ))}
               </div>
@@ -617,6 +626,9 @@ export const SeasonalSeeds: React.FC = () => {
                     showOverlay={isSeedLocked(name)}
                     // secondaryImage={SUNNYSIDE.icons.seedling}
                     count={inventory[name]}
+                    missingRequirements={
+                      !isSeedLocked(name) && lessFundsForSeed(name)
+                    }
                   />
                 ))}
               </div>

@@ -156,10 +156,13 @@ export const Recipes: React.FC<Props> = ({
     item: selected.name,
   });
 
-  const lessIngredients = () =>
-    Object.entries(ingredients).some(([name, amount]) =>
-      amount.greaterThan(inventory[name as InventoryItemName] ?? 0),
+  const hasLessIngredients = (item: CookableName) =>
+    Object.entries(getCookingRequirements({ state, item })).some(
+      ([name, amount]) =>
+        amount.greaterThan(inventory[name as InventoryItemName] ?? 0),
     );
+
+  const lessIngredients = () => hasLessIngredients(selected.name);
 
   const getNewRecipeStartAt = () => {
     if (!cooking) return;
@@ -429,6 +432,7 @@ export const Recipes: React.FC<Props> = ({
                     }}
                     image={ITEM_DETAILS[item.name].image}
                     count={inventory[item.name]}
+                    missingRequirements={hasLessIngredients(item.name)}
                   />
                 ))}
             </div>
