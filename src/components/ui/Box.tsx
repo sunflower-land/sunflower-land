@@ -27,6 +27,12 @@ export interface BoxProps {
   onClick?: () => void;
   disabled?: boolean;
   locked?: boolean;
+  /**
+   * The player is missing something this item requires (coins, ingredients).
+   * Darkens the box background while keeping it clickable so the player can
+   * still open it and see what is missing.
+   */
+  missingRequirements?: boolean;
   canBeLongPressed?: boolean;
   /**
    * This can be used a different icon when there is no count passed in.
@@ -78,6 +84,7 @@ export const Box: React.FC<BoxProps> = ({
   onClick,
   disabled,
   locked,
+  missingRequirements = false,
   canBeLongPressed,
   cooldownInProgress,
   showOverlay = false,
@@ -123,8 +130,10 @@ export const Box: React.FC<BoxProps> = ({
       style={style}
     >
       <div
-        className={classNames("bg-brown-600 relative", {
-          "bg-brown-600 cursor-not-allowed opacity-75": disabled,
+        className={classNames("relative", {
+          "bg-brown-700": missingRequirements && !disabled,
+          "bg-brown-600": !missingRequirements || disabled,
+          "cursor-not-allowed opacity-75": disabled,
           "cursor-pointer": canClick,
         })}
         {...clickEvents}
