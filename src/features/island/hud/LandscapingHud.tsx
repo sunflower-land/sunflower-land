@@ -37,6 +37,10 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { RoundButton } from "components/ui/RoundButton";
 import { CraftDecorationsModal } from "./components/decorations/CraftDecorationsModal";
 import { RemoveAllConfirmation } from "../collectibles/RemoveAllConfirmation";
+import { DiscardChangesConfirmation } from "../collectibles/DiscardChangesConfirmation";
+import { ArrangementConflictsPanel } from "./components/ArrangementConflictsPanel";
+import { commitArrangement } from "features/game/actions/arrangementEffects";
+import { isSaveInFlight } from "features/game/actions/layoutEffects";
 import { SavedLayoutsModal } from "./components/SavedLayoutsModal";
 import { hasFeatureAccess } from "lib/flags";
 import { useNow } from "lib/utils/hooks/useNow";
@@ -87,8 +91,24 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
     useState(false);
   const [showDecorations, setShowDecorations] = useState(false);
   const [showSavedLayouts, setShowSavedLayouts] = useState(false);
+  const [showDiscardConfirmation, setShowDiscardConfirmation] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saveFailed, setSaveFailed] = useState(false);
   const [quickDragging, setQuickDragging] = useState(false);
   const button = useSound("button");
+
+  // Landscaping sandbox (farm only): edits live in a local draft until Save.
+  const isSandbox = location === "farm";
+  const isDirty = useSelector(
+    gameService,
+    (state) => state.context.draftActions.length > 0,
+  );
+  const conflicts = useSelector(
+    gameService,
+    (state) => state.context.arrangementConflicts,
+  );
+  // A live-action flush is mid-flight: leaving now would re-send its actions.
+  const saveInFlight = useSelector(gameService, isSaveInFlight);
 
   const child = gameService.getSnapshot().children
     .landscaping as MachineInterpreter;
@@ -118,6 +138,30 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   const toggleRemovalMode = () => {
     button.play();
     child.send("TOGGLE_REMOVAL_MODE");
+  };
+
+  const cancel = () => {
+    if (saving || saveInFlight) return;
+    button.play();
+    if (isSandbox && isDirty) {
+      setShowDiscardConfirmation(true);
+      return;
+    }
+    child.send("CANCEL");
+  };
+
+  const save = async () => {
+    if (saving || saveInFlight) return;
+    button.play();
+    setSaving(true);
+    setSaveFailed(false);
+    try {
+      await commitArrangement(gameService);
+    } catch {
+      setSaveFailed(true);
+    } finally {
+      setSaving(false);
+    }
   };
   const gameState = useSelector(gameService, (state) => state.context.state);
   const farmHandIds = getKeys(gameState.farmHands.bumpkins);
@@ -309,12 +353,27 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                 top: `${PIXEL_SCALE * 31}px`,
               }}
             >
+              {isSandbox && (
+                <RoundButton
+                  className="mb-3.5"
+                  disabled={saving || saveInFlight}
+                  onClick={save}
+                >
+                  <img
+                    src={SUNNYSIDE.icons.confirm}
+                    className="absolute group-active:translate-y-[2px]"
+                    style={{
+                      top: `${PIXEL_SCALE * 5.5}px`,
+                      left: `${PIXEL_SCALE * 5.5}px`,
+                      width: `${PIXEL_SCALE * 11}px`,
+                    }}
+                  />
+                </RoundButton>
+              )}
               <RoundButton
                 className="mb-3.5"
-                onClick={() => {
-                  button.play();
-                  child.send("CANCEL");
-                }}
+                disabled={saving || saveInFlight}
+                onClick={cancel}
               >
                 <img
                   src={SUNNYSIDE.icons.cancel}
@@ -517,6 +576,28 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
           show={showSavedLayouts}
           onHide={() => setShowSavedLayouts(false)}
         />
+      )}
+      {showDiscardConfirmation && (
+        <DiscardChangesConfirmation
+          onClose={() => setShowDiscardConfirmation(false)}
+          onDiscard={() => {
+            setShowDiscardConfirmation(false);
+            child.send("CANCEL");
+          }}
+        />
+      )}
+      {isSandbox && conflicts && conflicts.length > 0 && (
+        <ArrangementConflictsPanel
+          conflicts={conflicts}
+          onDismiss={() =>
+            gameService.send({ type: "ARRANGEMENT_REJECTED", conflicts: [] })
+          }
+        />
+      )}
+      {saveFailed && (
+        <div className="absolute left-1/2 -translate-x-1/2 top-2.5 z-50">
+          <Label type="danger">{t("landscaping.saveFailed")}</Label>
+        </div>
       )}
       {showRemove && (
         <div

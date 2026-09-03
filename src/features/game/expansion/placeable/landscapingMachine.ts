@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
+import { LIVE_LANDSCAPING_EVENTS } from "features/game/lib/landscapingDraft";
 import type { GameEventName, PlacementEvent } from "features/game/events";
 import {
   BUILDINGS_DIMENSIONS,
@@ -11,6 +12,7 @@ import {
   type Interpreter,
   sendParent,
   type State,
+  choose,
 } from "xstate";
 import type { Coordinates } from "../components/MapPlacement";
 import type { Inventory } from "features/game/types/game";
@@ -442,30 +444,12 @@ export const landscapingMachine = createMachine<
                 ],
               },
               {
-                target: ["#saving.done", "done"],
-                cond: (context) =>
-                  // When buying/crafting items, return them to playing mode once bought
-                  context.action === "collectible.crafted" ||
-                  context.action === "building.constructed",
-                actions: [
-                  sendParent(
-                    ({ placeable, action, coordinates: { x, y } }, e) => {
-                      return {
-                        type: action,
-                        name: placeable?.name,
-                        coordinates: { x, y },
-                        id: uuidv4().slice(0, 8),
-                        location: e.location,
-                      } as PlacementEvent;
-                    },
-                  ),
-                  assign({
-                    placeable: (_) => undefined,
-                  }),
-                ],
-              },
-              {
-                target: ["#saving.done", "idle"],
+                // Stay in landscaping (the `saving` region keeps flushing live
+                // actions). A purchase is sent live WITHOUT coordinates - the
+                // item lands in the chest - followed by a draft placement at
+                // the chosen tile, so Cancel keeps the purchase but not the
+                // placement. See lib/landscapingDraft.ts.
+                target: "idle",
                 actions: [
                   sendParent(
                     (
@@ -499,15 +483,51 @@ export const landscapingMachine = createMachine<
                           location,
                         } as PlacementEvent;
                       }
+                      const id = uuidv4().slice(0, 8);
+                      if (
+                        location === "farm" &&
+                        LIVE_LANDSCAPING_EVENTS.has(action as string)
+                      ) {
+                        return {
+                          type: action,
+                          name: placeable?.name,
+                          id,
+                          location,
+                        } as PlacementEvent;
+                      }
                       return {
                         type: action,
                         name: placeable?.name,
                         coordinates: { x, y },
-                        id: uuidv4().slice(0, 8),
+                        id,
                         location,
                       } as PlacementEvent;
                     },
                   ),
+                  // The draft placement that follows a live farm purchase. The
+                  // parent processes events in order, so the item is already in
+                  // the chest when this runs.
+                  choose([
+                    {
+                      cond: ({ placeable, action }, { location }) =>
+                        location === "farm" &&
+                        !!placeable?.name &&
+                        LIVE_LANDSCAPING_EVENTS.has(action as string),
+                      actions: sendParent(
+                        ({ placeable, coordinates: { x, y } }, { location }) =>
+                          ({
+                            type: placeEvent(
+                              placeable!.name as LandscapingPlaceable,
+                              location,
+                            ),
+                            name: placeable!.name,
+                            coordinates: { x, y },
+                            id: uuidv4().slice(0, 8),
+                            location,
+                          }) as PlacementEvent,
+                      ),
+                    },
+                  ]),
                   assign({
                     placeable: (_) => undefined,
                   }),

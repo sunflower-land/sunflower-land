@@ -222,7 +222,7 @@ export async function applyLayoutEffect({
 const FLUSH_POLL_MS = 100;
 const FLUSH_TIMEOUT_MS = 15_000;
 
-const isSaveInFlight = (state: MachineState): boolean => {
+export const isSaveInFlight = (state: MachineState): boolean => {
   // Normal play: the parent machine itself autosaves.
   if (state.matches("autosaving")) return true;
 

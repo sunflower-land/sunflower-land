@@ -78,7 +78,8 @@ type EffectName =
   | "layout.created"
   | "layout.edited"
   | "layout.deleted"
-  | "layout.applied";
+  | "layout.applied"
+  | "arrangement.saved";
 
 type VisitEffectName = "farm.helped" | "farm.cheered" | "farm.followed";
 
@@ -104,6 +105,8 @@ export type StateMachineEffectName = Exclude<
   | "layout.edited"
   | "layout.deleted"
   | "layout.applied"
+  // The landscaping sandbox commit - see actions/arrangementEffects.ts
+  | "arrangement.saved"
 >;
 
 export type StateMachineVisitEffectName = VisitEffectName;

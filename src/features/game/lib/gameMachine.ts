@@ -41,6 +41,17 @@ import { makeGame } from "./transforms";
 import { reset } from "features/farming/hud/actions/reset";
 import { processEvent } from "./processEvent";
 import {
+  applyDraftEvent,
+  applyLiveEvent,
+  beginDraft,
+  commitDraft,
+  discardDraft,
+  isDraftEvent,
+  PERSON_PLACEMENT_EVENT_NAMES,
+  rebaseDraft,
+} from "./landscapingDraft";
+import type { ArrangementConflict } from "features/game/events/landExpansion/applyArrangement";
+import {
   landscapingMachine,
   type LandscapingPlaceableType,
   type SaveEvent,
@@ -157,6 +168,17 @@ export interface Context {
   state: GameState;
   farmAddress?: string;
   actions: PastAction[];
+  /**
+   * Landscaping sandbox (farm only). While landscaping, `state` is the draft:
+   * placement edits are applied locally and logged in `draftActions`, never
+   * autosaved; `baseState` is the farm without them (what Cancel restores).
+   * Save posts one `arrangement.saved` effect - see lib/landscapingDraft.ts.
+   */
+  baseState?: GameState;
+  draftActions: PastAction[];
+  landscapingLocation?: PlaceableLocation;
+  /** Conflicts the server reported for the last rejected commit. */
+  arrangementConflicts?: ArrangementConflict[];
   sessionId?: string;
   errorCode?: ErrorCode;
   // Detail the API attached to the last error, e.g. `availableAt` on a
@@ -347,6 +369,18 @@ export type LayoutAppliedEvent = {
   state: GameState;
 };
 
+/** The landscaping draft was committed; `state` is the server's farm. */
+export type ArrangementSavedEvent = {
+  type: "ARRANGEMENT_SAVED";
+  state: GameState;
+};
+
+/** The server refused the draft; the HUD lists/highlights the conflicts. */
+export type ArrangementRejectedEvent = {
+  type: "ARRANGEMENT_REJECTED";
+  conflicts: ArrangementConflict[];
+};
+
 type PostEffectEvent = {
   type: "POST_EFFECT";
   effect: Effect;
@@ -387,6 +421,8 @@ export type BlockchainEvent =
   | UpdateEvent
   | UpdateUsernameEvent
   | LayoutAppliedEvent
+  | ArrangementSavedEvent
+  | ArrangementRejectedEvent
   | PostEffectEvent
   | { type: "EXPAND" }
   | { type: "SAVE_SUCCESS" }
@@ -544,8 +580,49 @@ function createPlacementEventHandlers(
 
 const PLACEMENT_EVENT_HANDLERS = createPlacementEventHandlers(false); // previously true, set to false for now
 
-const LANDSCAPING_PLACEMENT_EVENT_HANDLERS =
-  createPlacementEventHandlers(false);
+/**
+ * While landscaping the farm, placement edits go to the draft (never
+ * autosaved) and live events (purchases, biome) to both the draft and its
+ * base plus the autosave queue. Other locations keep the streamed path: every
+ * event is live there. See lib/landscapingDraft.ts.
+ */
+function createLandscapingEventHandlers(): TransitionsConfig<
+  Context,
+  BlockchainEvent
+> {
+  return [
+    ...Object.keys(PLACEMENT_EVENTS),
+    ...PERSON_PLACEMENT_EVENT_NAMES,
+    "biome.bought",
+    "biome.applied",
+  ].reduce(
+    (events, eventName) => ({
+      ...events,
+      [eventName]: [
+        {
+          target: "#captcha",
+          cond: (context: Context) =>
+            !context.visitorId && !!context.state.captcha?.required,
+        },
+        {
+          cond: (context: Context, event: PlacementEvent) =>
+            isDraftEvent(event.type, context.landscapingLocation),
+          actions: assign((context: Context, event: PlacementEvent) =>
+            applyDraftEvent(context, event, context.farmId, new Date()),
+          ),
+        },
+        {
+          actions: assign((context: Context, event: PlacementEvent) =>
+            applyLiveEvent(context, event, context.farmId, new Date()),
+          ),
+        },
+      ],
+    }),
+    {},
+  );
+}
+
+const LANDSCAPING_EVENT_HANDLERS = createLandscapingEventHandlers();
 
 const EFFECT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
   getKeys(STATE_MACHINE_EFFECTS).reduce(
@@ -1035,6 +1112,7 @@ export function startGame(authContext: AuthContext) {
             : Math.floor(Math.random() * 1000),
         rawToken: authContext.user.rawToken,
         actions: [],
+        draftActions: [],
         state: EMPTY,
         linkedWallet: "0x123",
         sessionId: INITIAL_SESSION,
@@ -1936,6 +2014,9 @@ export function startGame(authContext: AuthContext) {
             },
             LANDSCAPE: {
               target: "landscaping",
+              actions: assign((context, event) =>
+                beginDraft(context.state, (event as LandscapeEvent).location),
+              ),
             },
             RANDOMISE: {
               target: "randomising",
@@ -2750,8 +2831,11 @@ export function startGame(authContext: AuthContext) {
               maximum: (_: Context, event: LandscapeEvent) => event.maximum,
               location: (_: Context, event: LandscapeEvent) => event.location,
             },
+            // The child finishing is the Cancel path: the draft is discarded
+            // and any pending live actions are flushed (a no-op when none).
             onDone: {
               target: "autosaving",
+              actions: assign((context) => discardDraft(context)),
             },
             onError: [
               {
@@ -2766,10 +2850,27 @@ export function startGame(authContext: AuthContext) {
             ],
           },
           on: {
-            ...LANDSCAPING_PLACEMENT_EVENT_HANDLERS,
+            ...LANDSCAPING_EVENT_HANDLERS,
             LAYOUT_APPLIED: {
+              // The Saved Layouts modal is disabled while the draft is dirty,
+              // so a server-applied layout is the new base as well.
               actions: assign((_, event) => ({
                 state: (event as LayoutAppliedEvent).state,
+                baseState: (event as LayoutAppliedEvent).state,
+              })),
+            },
+            ARRANGEMENT_SAVED: {
+              // A live action could have been queued between the flush and
+              // the response; autosaving is a no-op when there are none.
+              target: "autosaving",
+              actions: assign((_, event) =>
+                commitDraft((event as ArrangementSavedEvent).state),
+              ),
+            },
+            ARRANGEMENT_REJECTED: {
+              actions: assign((_, event) => ({
+                arrangementConflicts: (event as ArrangementRejectedEvent)
+                  .conflicts,
               })),
             },
             SAVE: {
@@ -2785,9 +2886,20 @@ export function startGame(authContext: AuthContext) {
               ),
             },
             SAVE_SUCCESS: {
-              actions: assign((context: Context, event: any) =>
-                handleSuccessfulSave(context, event),
-              ),
+              // A mid-session flush of live actions: the server's farm is the
+              // new base and the draft is replayed on top of it.
+              actions: assign((context: Context, event: any) => {
+                const saved = handleSuccessfulSave(context, event);
+                if (!context.baseState) return saved;
+                return {
+                  ...saved,
+                  ...rebaseDraft(
+                    { state: saved.state as GameState },
+                    context,
+                    context.farmId,
+                  ),
+                };
+              }),
             },
             SAVE_ERROR: {
               target: "error",
