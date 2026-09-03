@@ -647,6 +647,10 @@ import {
   type ClaimPetalPrizeAction,
 } from "./landExpansion/claimPetalPrize";
 import {
+  claimFloatingIslandPrize,
+  type ClaimFloatingIslandPrizeAction,
+} from "./landExpansion/claimFloatingIslandPrize";
+import {
   buyOptionPurchaseItem,
   type BuyOptionPurchaseItemAction,
 } from "../types/buyOptionPurchaseItem";
@@ -1006,6 +1010,7 @@ export type PlayingEvent =
   | AcknowledgeRewardBoxAction
   | OpenRewardBoxAction
   | ClaimPetalPrizeAction
+  | ClaimFloatingIslandPrizeAction
   | BuyOptionPurchaseItemAction
   | InstantCraftAction
   | BuyBiomeAction
@@ -1313,6 +1318,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "rewardBox.opened": openRewardBox,
   "claim.bountyBoardBonus": claimBountyBonus,
   "petalPuzzle.solved": claimPetalPrize,
+  "floatingIslandPrize.claimed": claimFloatingIslandPrize,
   "optionPurchaseItem.bought": buyOptionPurchaseItem,
   "crafting.spedUp": speedUpCrafting,
   "biome.bought": buyBiome,
