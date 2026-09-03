@@ -7,6 +7,7 @@ import {
   LOVE_DILEMMA_ROUND_MS,
   getLoveDilemmaAttemptsLeft,
   getLoveDilemmaBotChoices,
+  getLoveDilemmaPayout,
   getLoveDilemmaPlatformPrizes,
   getLoveDilemmaPrize,
   getLoveDilemmaRound,
@@ -70,6 +71,43 @@ describe("prizes", () => {
     expect(
       getLoveDilemmaPlatformPrizes({ tiers: [2, 0, 1], isVip: true }),
     ).toEqual([5, 20, 10]);
+  });
+});
+
+describe("getLoveDilemmaPayout", () => {
+  const withClaims = (amounts: number[]): GameState => ({
+    ...INITIAL_FARM,
+    floatingIsland: {
+      ...INITIAL_FARM.floatingIsland,
+      prizeClaims: amounts.map((amount, i) => ({
+        claimedAt: now - 1000 * (amounts.length - i),
+        amount,
+        game: "love_dilemma" as const,
+        roundId: i,
+      })),
+    },
+  });
+
+  it("caps a standard player's 3 + 3 at the 5/day limit", () => {
+    expect(getLoveDilemmaPayout({ state: withClaims([]), prize: 3, now })).toBe(
+      3,
+    );
+    expect(
+      getLoveDilemmaPayout({ state: withClaims([3]), prize: 3, now }),
+    ).toBe(2);
+  });
+
+  it("pays 3 + 2 + 0 for a standard player's 3, 2, 1 sequence", () => {
+    expect(
+      getLoveDilemmaPayout({ state: withClaims([3]), prize: 2, now }),
+    ).toBe(2);
+    expect(
+      getLoveDilemmaPayout({ state: withClaims([3, 2]), prize: 1, now }),
+    ).toBe(0);
+  });
+
+  it("does not cap a VIP under the 100/day limit", () => {
+    expect(getLoveDilemmaPayout({ state: vipFarm, prize: 20, now })).toBe(20);
   });
 });
 

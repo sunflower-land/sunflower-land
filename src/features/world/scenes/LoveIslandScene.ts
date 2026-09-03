@@ -16,6 +16,7 @@ import {
   LOVE_DILEMMA_PLATFORMS,
   getLoveDilemmaAttemptsLeft,
   getLoveDilemmaBotChoices,
+  getLoveDilemmaPayout,
   getLoveDilemmaPlatformPrizes,
   getLoveDilemmaRound,
   getLoveDilemmaTiers,
@@ -310,6 +311,18 @@ export class LoveIslandScene extends BaseScene {
     return getLoveDilemmaRound(now);
   }
 
+  /**
+   * The room copies picks into `choices` at the reveal, in a later patch than
+   * the one that flips the phase. Don't resolve until every locked-in pick
+   * has arrived, or the round would be scored as empty and never revisited.
+   */
+  private hasAuthoritativeChoices(round: LoveDilemmaRound): boolean {
+    const remote = this.remoteDilemma;
+    if (!remote || remote.roundId !== round.roundId) return true;
+
+    return (remote.choices?.size ?? 0) >= (remote.chosenCount ?? 0);
+  }
+
   /** Key the local player's choice is stored under. */
   private get myChoiceKey() {
     return this.remoteDilemma ? this.mmoServer.sessionId : LOCAL_PLAYER_KEY;
@@ -368,9 +381,20 @@ export class LoveIslandScene extends BaseScene {
     });
   }
 
+  /** What each platform would pay this player right now, indexed by platform. */
+  private getPayouts(round: LoveDilemmaRound): number[] {
+    const now = Date.now();
+    const state = this.freshState;
+    const isVip = hasVipAccess({ game: state, now });
+
+    return getLoveDilemmaPlatformPrizes({ tiers: round.tiers, isVip }).map(
+      (prize) => getLoveDilemmaPayout({ state, prize, now }),
+    );
+  }
+
   private refreshPlatformPrizes(round: LoveDilemmaRound) {
-    const isVip = hasVipAccess({ game: this.freshState, now: Date.now() });
-    const prizes = getLoveDilemmaPlatformPrizes({ tiers: round.tiers, isVip });
+    // Shown amounts are what the player can actually still earn today
+    const prizes = this.getPayouts(round);
 
     prizes.forEach((prize, platform) => {
       const label = this.platformPrizes[platform];
@@ -457,7 +481,10 @@ export class LoveIslandScene extends BaseScene {
     } else {
       this.statusText?.setText(translate("loveDilemma.reveal"));
 
-      if (this.revealedRoundId !== round.roundId) {
+      if (
+        this.revealedRoundId !== round.roundId &&
+        this.hasAuthoritativeChoices(round)
+      ) {
         this.revealedRoundId = round.roundId;
         this.revealRound(round);
       }
@@ -579,18 +606,19 @@ export class LoveIslandScene extends BaseScene {
       return;
     }
 
-    const now = Date.now();
-    const isVip = hasVipAccess({ game: this.freshState, now });
-    const prizes = getLoveDilemmaPlatformPrizes({ tiers: round.tiers, isVip });
+    const payouts = this.getPayouts(round);
     const won = isLoveDilemmaWinner({ platform: mine, result });
-    const amount = won ? prizes[mine] : 0;
+    // Capped to what's still claimable today so the event never rejects it
+    const amount = won ? payouts[mine] : 0;
 
     // Every resolved round is recorded as a claim (0 on a loss) so the
-    // attempts used today live in game state
+    // attempts used today live in game state. The roundId makes a reload
+    // during the reveal a no-op instead of a second claim.
     this.gameService?.send({
       type: "floatingIslandPrize.claimed",
       amount,
       game: "love_dilemma",
+      roundId: round.roundId,
     });
 
     if (won) {

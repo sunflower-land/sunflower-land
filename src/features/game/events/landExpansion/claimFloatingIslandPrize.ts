@@ -24,6 +24,8 @@ export type FloatingIslandPrizeClaim = {
   amount: number;
   /** Which puzzle paid out. Optional so older claims stay valid. */
   game?: FloatingIslandGameName;
+  /** The puzzle's round - a `{ game, roundId }` pair can only be claimed once. */
+  roundId?: number;
 };
 
 export type ClaimFloatingIslandPrizeAction = {
@@ -31,6 +33,8 @@ export type ClaimFloatingIslandPrizeAction = {
   amount: number;
   /** Which puzzle is paying out - recorded so per-game client rules work. */
   game?: FloatingIslandGameName;
+  /** The puzzle's round, so a reload can't replay the same reveal. */
+  roundId?: number;
 };
 
 type Options = {
@@ -86,6 +90,21 @@ export function getFloatingIslandLoveCharmsClaimedToday({
   );
 }
 
+/** Love Charms this player can still earn today - claims above this throw. */
+export function getFloatingIslandLoveCharmsRemainingToday({
+  state,
+  createdAt = Date.now(),
+}: {
+  state: GameState;
+  createdAt?: number;
+}): number {
+  return Math.max(
+    0,
+    getFloatingIslandDailyLoveCharmLimit({ state, createdAt }) -
+      getFloatingIslandLoveCharmsClaimedToday({ state, createdAt }),
+  );
+}
+
 /** Daily Love Charm cap for this player - VIP unlocks the full amount. */
 export function getFloatingIslandDailyLoveCharmLimit({
   state,
@@ -105,7 +124,11 @@ export function claimFloatingIslandPrize({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    const { amount, game: gameName } = action;
+    const { amount, game: gameName, roundId } = action;
+
+    if (roundId !== undefined && !Number.isInteger(roundId)) {
+      throw new Error("Invalid round");
+    }
 
     if (!Number.isInteger(amount) || amount < 0) {
       throw new Error("Invalid prize amount");
@@ -119,6 +142,16 @@ export function claimFloatingIslandPrize({
       state: game,
       createdAt,
     });
+
+    if (
+      gameName &&
+      roundId !== undefined &&
+      claimsToday.some(
+        (claim) => claim.game === gameName && claim.roundId === roundId,
+      )
+    ) {
+      throw new Error("Prize already claimed for this round");
+    }
 
     if (claimsToday.length >= FLOATING_ISLAND_MAX_DAILY_CLAIMS) {
       throw new Error("Daily claim limit reached");
@@ -140,7 +173,12 @@ export function claimFloatingIslandPrize({
     // Only today's claims matter, so drop older days to keep the array small
     game.floatingIsland.prizeClaims = [
       ...claimsToday,
-      { claimedAt: createdAt, amount, ...(gameName ? { game: gameName } : {}) },
+      {
+        claimedAt: createdAt,
+        amount,
+        ...(gameName ? { game: gameName } : {}),
+        ...(roundId !== undefined ? { roundId } : {}),
+      },
     ];
 
     const previous = game.inventory["Love Charm"] ?? new Decimal(0);

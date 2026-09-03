@@ -1,4 +1,7 @@
-import { getFloatingIslandGameClaimsToday } from "features/game/events/landExpansion/claimFloatingIslandPrize";
+import {
+  getFloatingIslandGameClaimsToday,
+  getFloatingIslandLoveCharmsRemainingToday,
+} from "features/game/events/landExpansion/claimFloatingIslandPrize";
 import type { GameState } from "features/game/types/game";
 
 /**
@@ -110,6 +113,26 @@ export function getLoveDilemmaPlatformPrizes({
   isVip: boolean;
 }): number[] {
   return tiers.map((tier) => getLoveDilemmaPrize({ tier, isVip }));
+}
+
+/**
+ * What a platform actually pays this player right now: the prize, capped by
+ * the Love Charms they can still earn today. A standard player on 3/day
+ * who has already won 3 sees (and gets) 2 from a "3" platform.
+ */
+export function getLoveDilemmaPayout({
+  state,
+  prize,
+  now = Date.now(),
+}: {
+  state: GameState;
+  prize: number;
+  now?: number;
+}): number {
+  return Math.min(
+    prize,
+    getFloatingIslandLoveCharmsRemainingToday({ state, createdAt: now }),
+  );
 }
 
 /** Player key (session id) -> platform index (0-2). */

@@ -39,6 +39,7 @@ Port it as-is.
   type: "floatingIslandPrize.claimed";
   amount: number;                          // integer, 0..100
   game?: "petal_puzzle" | "love_dilemma";  // which puzzle paid out
+  roundId?: number;                        // integer; the puzzle's round
 }
 ```
 
@@ -51,6 +52,7 @@ floatingIsland: {
     claimedAt: number;   // epoch ms
     amount: number;
     game?: "petal_puzzle" | "love_dilemma";
+    roundId?: number;
   }[];
 }
 ```
@@ -60,12 +62,14 @@ whose UTC date differs from `createdAt`, then append the new one.
 
 ### Validation (throw in this order)
 
-| Check                                | Error                            |
-| ------------------------------------ | -------------------------------- |
-| `amount` not an integer, or `< 0`    | `Invalid prize amount`           |
-| `amount > 100`                       | `Prize amount exceeds maximum`   |
-| already **10** claims today          | `Daily claim limit reached`      |
-| today's total + `amount` > daily cap | `Daily Love Charm limit reached` |
+| Check                                                | Error                                  |
+| ---------------------------------------------------- | -------------------------------------- |
+| `amount` not an integer, or `< 0`                    | `Invalid prize amount`                 |
+| `roundId` given but not an integer                   | `Invalid round`                        |
+| `amount > 100`                                       | `Prize amount exceeds maximum`         |
+| a claim with the same `game` **and** `roundId` today | `Prize already claimed for this round` |
+| already **10** claims today                          | `Daily claim limit reached`            |
+| today's total + `amount` > daily cap                 | `Daily Love Charm limit reached`       |
 
 Daily cap = **100** if `hasVipAccess({ game, now: createdAt })` (trial counts),
 else **5**. "Today" is the UTC date of `createdAt`
@@ -76,12 +80,23 @@ On success: append the claim and add `amount` to `inventory["Love Charm"]`.
 An `amount` of `0` is valid and still consumes one of the 10 claims. The Love
 Dilemma uses this to record a **lost** round so the client can count attempts.
 
+`{ game, roundId }` is the idempotency key: reloading during a reveal re-sends
+the same claim and must be rejected rather than paid twice.
+
+**Cap vs prize sizes.** A standard player's cap (5) is smaller than two wins
+(3 + 3). The client therefore sends `min(prize, remaining today)` — e.g. the
+second win pays 2, a third pays 0 but still records the attempt — and shows
+those capped amounts on the platforms. The API needs no special handling, but
+the MMO room should apply the same clamp if it ever reports amounts.
+
 ### Per-game rules are NOT enforced here
 
-The event deliberately only guards the caps. Which puzzle is active, how much
-a puzzle pays, and how many attempts a puzzle allows are enforced on the
-client and in the MMO room (below). The caps bound the damage of a forged
-claim to 100 Love Charms/day for VIP and 5 for everyone else. If tighter
+The event deliberately only guards the caps, and **`amount` is supplied by
+the client by design** so any future island game can reuse the event without
+API changes. Which puzzle is active, how much a puzzle pays, and how many
+attempts a puzzle allows are enforced on the client and in the MMO room
+(below). The caps bound the damage of a forged claim to 100 Love Charms/day
+for VIP and 5 for everyone else, which is the accepted trade-off. If tighter
 enforcement is wanted later, the MMO room can report each round's winners to
 the API and the event can require a matching record.
 
@@ -182,7 +197,9 @@ Rules:
 
 ### Reveal (at `chooseEndsAt`)
 
-1. Copy the private picks into `state.loveDilemma.choices`.
+1. Copy the private picks into `state.loveDilemma.choices`. Clients wait
+   until `choices.size >= chosenCount` before scoring the round, so make sure
+   `chosenCount` is accurate and both land in the same patch if possible.
 2. Resolve:
    - `counts[p]` = players on platform `p`; `total` = sum.
    - If `total < 5` the round is **void**: nobody wins, nobody loses, no

@@ -6,6 +6,7 @@ import {
   getFloatingIslandClaimsToday,
   getFloatingIslandDailyLoveCharmLimit,
   getFloatingIslandLoveCharmsClaimedToday,
+  getFloatingIslandLoveCharmsRemainingToday,
 } from "./claimFloatingIslandPrize";
 
 const ONE_DAY = 24 * 60 * 60 * 1000;
@@ -37,6 +38,86 @@ describe("claimFloatingIslandPrize", () => {
     expect(state.floatingIsland.prizeClaims).toEqual([
       { claimedAt: now, amount: 20 },
     ]);
+  });
+
+  it("rejects a second claim for the same game and round", () => {
+    const state = claimFloatingIslandPrize({
+      state: vipFarm,
+      action: {
+        type: "floatingIslandPrize.claimed",
+        amount: 5,
+        game: "love_dilemma",
+        roundId: 100,
+      },
+      createdAt: now,
+    });
+
+    expect(() =>
+      claimFloatingIslandPrize({
+        state,
+        action: {
+          type: "floatingIslandPrize.claimed",
+          amount: 5,
+          game: "love_dilemma",
+          roundId: 100,
+        },
+        createdAt: now + 1000,
+      }),
+    ).toThrow("Prize already claimed for this round");
+  });
+
+  it("allows the same round id across different games and new rounds", () => {
+    let state = claimFloatingIslandPrize({
+      state: vipFarm,
+      action: {
+        type: "floatingIslandPrize.claimed",
+        amount: 5,
+        game: "love_dilemma",
+        roundId: 100,
+      },
+      createdAt: now,
+    });
+    state = claimFloatingIslandPrize({
+      state,
+      action: {
+        type: "floatingIslandPrize.claimed",
+        amount: 5,
+        game: "petal_puzzle",
+        roundId: 100,
+      },
+      createdAt: now,
+    });
+    state = claimFloatingIslandPrize({
+      state,
+      action: {
+        type: "floatingIslandPrize.claimed",
+        amount: 5,
+        game: "love_dilemma",
+        roundId: 101,
+      },
+      createdAt: now,
+    });
+
+    expect(state.floatingIsland.prizeClaims).toEqual([
+      { claimedAt: now, amount: 5, game: "love_dilemma", roundId: 100 },
+      { claimedAt: now, amount: 5, game: "petal_puzzle", roundId: 100 },
+      { claimedAt: now, amount: 5, game: "love_dilemma", roundId: 101 },
+    ]);
+  });
+
+  it("rejects a fractional round id", () => {
+    expect(() =>
+      claimFloatingIslandPrize({
+        state: vipFarm,
+        action: {
+          type: "floatingIslandPrize.claimed",
+          amount: 5,
+          game: "love_dilemma",
+          roundId: 1.5,
+        },
+        createdAt: now,
+      }),
+    ).toThrow("Invalid round");
   });
 
   it("records which puzzle paid out when given", () => {
@@ -170,6 +251,20 @@ describe("claimFloatingIslandPrize", () => {
       expect(
         getFloatingIslandLoveCharmsClaimedToday({ state, createdAt: now }),
       ).toBe(40);
+    });
+
+    it("reports the Love Charms still claimable today", () => {
+      expect(
+        getFloatingIslandLoveCharmsRemainingToday({
+          state: INITIAL_FARM,
+          createdAt: now,
+        }),
+      ).toBe(5);
+
+      const state = claim(INITIAL_FARM, 3);
+      expect(
+        getFloatingIslandLoveCharmsRemainingToday({ state, createdAt: now }),
+      ).toBe(2);
     });
 
     it("returns the VIP and non-VIP daily limits", () => {

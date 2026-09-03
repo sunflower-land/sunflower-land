@@ -2531,6 +2531,8 @@ export interface GameState {
       amount: number;
       /** Which puzzle paid out - lets the client enforce per-game rules. */
       game?: FloatingIslandGameName;
+      /** The puzzle's round - each `{ game, roundId }` is claimable once. */
+      roundId?: number;
     }[];
   };
   megastore?: {
