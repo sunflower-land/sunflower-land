@@ -826,6 +826,17 @@ describe("time", () => {
   });
 
   describe("formatReadyAt", () => {
+    // The different-day rendering: one locale-aware date+time call, so the
+    // expectation carries no hard-coded calendar or digit assumptions.
+    const localDateTime = (timestamp: number) =>
+      new Date(timestamp).toLocaleString([], {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+      });
+
     it("shows only the local time when ready on the same local day", () => {
       // Local-time constructors so the same-day comparison is in the
       // player's timezone, not UTC.
@@ -849,26 +860,15 @@ describe("time", () => {
       const now = new Date(2026, 8, 3, 23, 55).getTime();
       const readyAt = new Date(2026, 8, 4, 0, 5).getTime();
 
-      const result = formatReadyAt(readyAt, now);
-
       // One locale-aware date+time rendering, not a hand-joined pair.
-      expect(result).toBe(
-        new Date(readyAt).toLocaleString([], {
-          year: "numeric",
-          month: "numeric",
-          day: "numeric",
-          hour: "numeric",
-          minute: "2-digit",
-        }),
-      );
-      expect(result).toContain("2026");
+      expect(formatReadyAt(readyAt, now)).toBe(localDateTime(readyAt));
     });
 
     it("shows the date for a multi-day timer even at the same time of day", () => {
       const now = new Date(2026, 8, 3, 12, 0).getTime();
       const readyAt = new Date(2026, 8, 6, 12, 0).getTime();
 
-      expect(formatReadyAt(readyAt, now)).toContain("2026");
+      expect(formatReadyAt(readyAt, now)).toBe(localDateTime(readyAt));
     });
   });
 });
