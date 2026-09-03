@@ -481,6 +481,16 @@ export const MoveableComponent: React.FC<
 
   const isSelected = movingItem?.id === id && movingItem?.name === name;
 
+  // The server refused the last landscaping save because of this item - keep
+  // it tinted red until the player edits again (see ArrangementConflictsPanel).
+  const isConflicting = useSelector(
+    gameService,
+    (state) =>
+      !!state.context.arrangementConflicts?.some(
+        (conflict) => conflict.id === id && conflict.name === name,
+      ),
+  );
+
   // Elevate the nearest MapPlacement ancestor when selected so the disc panel
   // and pixel-perfect arrows always render above sibling collectibles. Without
   // this, react-draggable's CSS transform creates a stacking context on each
@@ -1541,7 +1551,7 @@ export const MoveableComponent: React.FC<
           stored in source pixels, so the screen translation is multiplied by
           PIXEL_SCALE.
         */}
-        {isSelected &&
+        {(isSelected || isConflicting) &&
           (() => {
             const tintTransform =
               savedOX !== 0 || savedOY !== 0
@@ -1554,8 +1564,9 @@ export const MoveableComponent: React.FC<
                 className={classNames(
                   "absolute inset-0 pointer-events-none z-0",
                   {
-                    "bg-red-500 bg-opacity-75": isColliding,
-                    "bg-green-300 bg-opacity-50": !isColliding,
+                    "bg-red-500 bg-opacity-75": isColliding || isConflicting,
+                    "bg-green-300 bg-opacity-50":
+                      !isColliding && !isConflicting,
                   },
                 )}
                 style={{ transform: tintTransform }}

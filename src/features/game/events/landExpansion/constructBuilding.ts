@@ -23,7 +23,11 @@ export type ConstructBuildingAction = {
   type: "building.constructed";
   name: BuildingName;
   id: string;
-  coordinates: Coordinates;
+  /**
+   * Optional: without coordinates the building is constructed into the chest
+   * (the landscaping sandbox buys live and places in its local draft).
+   */
+  coordinates?: Coordinates;
 };
 
 type Options = {
@@ -96,7 +100,7 @@ export function constructBuilding({
     const newBuilding: PlacedItem = {
       id: action.id,
       createdAt: createdAt,
-      coordinates: action.coordinates,
+      ...(action.coordinates ? { coordinates: action.coordinates } : {}),
       readyAt: createdAt + buildingToConstruct.constructionSeconds * 1000,
     };
 

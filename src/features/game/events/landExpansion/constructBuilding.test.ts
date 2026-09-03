@@ -162,6 +162,39 @@ describe("Construct building", () => {
     ).not.toThrow();
   });
 
+  it("constructs into the chest when no coordinates are given", () => {
+    const state = constructBuilding({
+      state: {
+        ...GAME_STATE,
+        buildings: {},
+        trees: {},
+        stones: {},
+        inventory: {
+          Wood: new Decimal(100),
+          Stone: new Decimal(100),
+          "Basic Land": new Decimal(5),
+        },
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          experience: 10000000,
+        },
+        coins: 100,
+      },
+      action: {
+        id: "123",
+        type: "building.constructed",
+        name: "Kitchen",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.inventory.Kitchen).toEqual(new Decimal(1));
+    expect(state.buildings.Kitchen).toEqual([
+      expect.objectContaining({ id: "123", createdAt: dateNow }),
+    ]);
+    expect(state.buildings.Kitchen![0].coordinates).toBeUndefined();
+  });
+
   it("adds the building to the inventory", () => {
     const state = constructBuilding({
       state: {

@@ -41,12 +41,14 @@ const BUMPKIN_DIMENSIONS = { width: 1, height: 1 };
 const isOnFarm = (placed: { location?: string; coordinates?: unknown }) =>
   !!placed.coordinates && (!placed.location || placed.location === "farm");
 
-const PLACEABLE_DIMENSIONS: Record<string, { width: number; height: number }> =
-  {
-    ...BUILDINGS_DIMENSIONS,
-    ...COLLECTIBLES_DIMENSIONS,
-    ...RESOURCE_DIMENSIONS,
-  };
+export const PLACEABLE_DIMENSIONS: Record<
+  string,
+  { width: number; height: number }
+> = {
+  ...BUILDINGS_DIMENSIONS,
+  ...COLLECTIBLES_DIMENSIONS,
+  ...RESOURCE_DIMENSIONS,
+};
 
 /** Minimal coordinate shape shared by every placed resource/plot. */
 type PlacedResource = {
