@@ -8,7 +8,7 @@ import {
   setCachedMarketPrices,
 } from "../ui/market/lib/marketCache";
 import { getMarketPrices } from "features/game/actions/getMarketPrices";
-import { translateForBubble } from "lib/i18n/translate";
+import { translate } from "lib/i18n/translate";
 
 const BUMPKINS: NPCBumpkin[] = [
   { npc: "goblet", x: 295, y: 62, direction: "right" },
@@ -98,7 +98,7 @@ export class RetreatScene extends BaseScene {
       if (this.checkDistanceToSprite(exchange, 75)) {
         interactableModalManager.open("goblin_market");
       } else {
-        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
 
@@ -130,7 +130,7 @@ export class RetreatScene extends BaseScene {
       if (this.checkDistanceToSprite(bank, 75)) {
         interactableModalManager.open("bank");
       } else {
-        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
 
@@ -179,7 +179,7 @@ export class RetreatScene extends BaseScene {
         if (this.checkDistanceToSprite(garbageCollector, 75)) {
           interactableModalManager.open("garbage_collector");
         } else {
-          this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
         }
       });
 
@@ -210,7 +210,7 @@ export class RetreatScene extends BaseScene {
       if (this.checkDistanceToSprite(raffle, 75)) {
         interactableModalManager.open("raffle");
       } else {
-        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
 

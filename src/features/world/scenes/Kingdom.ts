@@ -10,7 +10,7 @@ import {
 } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { Label } from "../containers/Label";
-import { translateForBubble } from "lib/i18n/translate";
+import { translate } from "lib/i18n/translate";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 
 import { npcModalManager } from "../ui/NPCModals";
@@ -227,7 +227,7 @@ export class KingdomScene extends BaseScene {
       if (this.checkDistanceToSprite(portal, 40)) {
         interactableModalManager.open("portal_chooser");
       } else {
-        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
 
@@ -241,7 +241,7 @@ export class KingdomScene extends BaseScene {
         if (this.checkDistanceToSprite(communityPortal, 40)) {
           interactableModalManager.open("giveaway_board");
         } else {
-          this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
         }
       });
 
