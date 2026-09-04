@@ -8512,5 +8512,6 @@
   "description.boostedSpeed": "Vitesse : {{speed}} x",
   "loveBoulder.didNotHelp": "Frappez le rocher pour gagner le prix !",
   "loveBoulder.alreadyClaimed": "Déjà réclamé aujourd'hui. Revenez demain !",
-  "loveBoulder.dailyLimit": "Limite quotidienne de Love Charm atteinte"
+  "loveBoulder.dailyLimit": "Limite quotidienne de Love Charm atteinte",
+  "description.boostedReadyAt": "Prêt à {{time}}"
 }

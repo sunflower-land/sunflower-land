@@ -8512,5 +8512,6 @@
   "description.boostedSpeed": "速度：{{speed}} x",
   "loveBoulder.didNotHelp": "击中巨石即可获得奖品！",
   "loveBoulder.alreadyClaimed": "今天已经申请了。明天回来！",
-  "loveBoulder.dailyLimit": "已达到每日爱情护身符上限"
+  "loveBoulder.dailyLimit": "已达到每日爱情护身符上限",
+  "description.boostedReadyAt": "在 {{time}} 准备就绪"
 }

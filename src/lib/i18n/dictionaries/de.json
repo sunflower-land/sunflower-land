@@ -8512,5 +8512,6 @@
   "description.boostedSpeed": "Geschwindigkeit: {{speed}} x",
   "loveBoulder.didNotHelp": "Triff den Felsbrocken, um dir den Preis zu sichern!",
   "loveBoulder.alreadyClaimed": "Heute schon beansprucht. Komm morgen wieder!",
-  "loveBoulder.dailyLimit": "Tägliches Love Charm-Limit erreicht"
+  "loveBoulder.dailyLimit": "Tägliches Love Charm-Limit erreicht",
+  "description.boostedReadyAt": "Bereit um {{time}}"
 }

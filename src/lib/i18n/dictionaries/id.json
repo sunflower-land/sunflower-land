@@ -8512,5 +8512,6 @@
   "description.boostedSpeed": "Kecepatan: {{speed}} x",
   "loveBoulder.didNotHelp": "Pukul batu besar untuk mendapatkan hadiah!",
   "loveBoulder.alreadyClaimed": "Sudah diklaim hari ini. Kembalilah besok!",
-  "loveBoulder.dailyLimit": "Batas Charm Cinta Harian tercapai"
+  "loveBoulder.dailyLimit": "Batas Charm Cinta Harian tercapai",
+  "description.boostedReadyAt": "Siap di {{time}}"
 }

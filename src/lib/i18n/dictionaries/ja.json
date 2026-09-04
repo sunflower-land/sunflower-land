@@ -8512,5 +8512,6 @@
   "description.boostedSpeed": "スピード:{{speed}} x",
   "loveBoulder.didNotHelp": "岩にぶつかって賞品を獲得しましょう！",
   "loveBoulder.alreadyClaimed": "今日すでに請求されました。明日戻ってきて！",
-  "loveBoulder.dailyLimit": "デイリーラブチャームの上限に達しました"
+  "loveBoulder.dailyLimit": "デイリーラブチャームの上限に達しました",
+  "description.boostedReadyAt": "{{time}} で準備完了"
 }
