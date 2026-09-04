@@ -2030,6 +2030,12 @@ export function startGame(authContext: AuthContext) {
             },
             LANDSCAPE: {
               target: "landscaping",
+              // `location` is mandatory: it keys the draft to the surface being
+              // edited. Without it the sandbox never engages (every edit goes
+              // live and Cancel has nothing to revert). Do NOT default it to
+              // "farm" - a HUD on another surface that forgot to pass it would
+              // then commit the farm and drop its own edits. Every LANDSCAPE
+              // sender passes the Hud's location (see LandscapeButton).
               actions: assign((context, event) =>
                 beginDraft(context.state, (event as LandscapeEvent).location),
               ),
