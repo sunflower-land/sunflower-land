@@ -34,6 +34,9 @@ interface Props {
   totalSeconds?: number;
   /** Current effective grow speed; shows a lightning when > 1. */
   speed?: number;
+  /** Wall-clock ready time + live clock, for the popover's "Ready at" line. */
+  readyAt?: number;
+  now?: number;
 }
 
 const getFruitImage = (imageSource: string) => {
@@ -58,6 +61,8 @@ export const FruitSeedling: React.FC<Props> = ({
   workLeftSeconds,
   totalSeconds,
   speed,
+  readyAt,
+  now,
 }) => {
   const { showTimers } = useContext(Context);
   const { t } = useAppTranslation();
@@ -158,6 +163,8 @@ export const FruitSeedling: React.FC<Props> = ({
           description={description}
           timeLeft={timeLeft}
           speed={speed}
+          readyAt={readyAt}
+          now={now}
         />
       </div>
     </div>

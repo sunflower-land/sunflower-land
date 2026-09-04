@@ -76,6 +76,8 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
 
   const { drilledAt, baseDurationMs } = reserve.oil;
   const {
+    now: timerNow,
+    readyAt,
     speed,
     workLeftSeconds,
     displaySeconds: timeLeft,
@@ -118,13 +120,22 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
           onDrill={handleDrill}
         />
       )}
-      {halfReady && <RecoveringOilReserve timeLeft={timeLeft} speed={speed} />}
+      {halfReady && (
+        <RecoveringOilReserve
+          timeLeft={timeLeft}
+          speed={speed}
+          readyAt={readyAt}
+          now={timerNow}
+        />
+      )}
       {!ready && !halfReady && (
         <DepletedOilReserve
           drilling={drilling}
           oilAmount={oilHarvested}
           timeLeft={timeLeft}
           speed={speed}
+          readyAt={readyAt}
+          now={timerNow}
           onOilTransitionEnd={() => setOilHarvested(0)}
         />
       )}

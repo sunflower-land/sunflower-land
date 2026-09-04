@@ -9,6 +9,7 @@ import {
   getRelativeTime,
   getTimeUntil,
   getShortRelativeTime,
+  formatReadyAt,
 } from "./time";
 
 describe("time", () => {
@@ -821,6 +822,53 @@ describe("time", () => {
       expect(getRelativeTime(now.getTime() - 60000, now.getTime())).toMatch(
         "1 minute ago",
       );
+    });
+  });
+
+  describe("formatReadyAt", () => {
+    // The different-day rendering: one locale-aware date+time call, so the
+    // expectation carries no hard-coded calendar or digit assumptions.
+    const localDateTime = (timestamp: number) =>
+      new Date(timestamp).toLocaleString([], {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+      });
+
+    it("shows only the local time when ready on the same local day", () => {
+      // Local-time constructors so the same-day comparison is in the
+      // player's timezone, not UTC.
+      const now = new Date(2026, 8, 3, 12, 0).getTime();
+      const readyAt = new Date(2026, 8, 3, 13, 5).getTime();
+
+      const result = formatReadyAt(readyAt, now);
+
+      expect(result).toBe(
+        new Date(readyAt).toLocaleTimeString([], {
+          hour: "numeric",
+          minute: "2-digit",
+        }),
+      );
+      // No date part — the year never appears in a bare time-of-day.
+      expect(result).not.toContain("2026");
+    });
+
+    it("prepends the local date when ready on a different local day", () => {
+      // Only 10 minutes away, but across local midnight — the date must show.
+      const now = new Date(2026, 8, 3, 23, 55).getTime();
+      const readyAt = new Date(2026, 8, 4, 0, 5).getTime();
+
+      // One locale-aware date+time rendering, not a hand-joined pair.
+      expect(formatReadyAt(readyAt, now)).toBe(localDateTime(readyAt));
+    });
+
+    it("shows the date for a multi-day timer even at the same time of day", () => {
+      const now = new Date(2026, 8, 3, 12, 0).getTime();
+      const readyAt = new Date(2026, 8, 6, 12, 0).getTime();
+
+      expect(formatReadyAt(readyAt, now)).toBe(localDateTime(readyAt));
     });
   });
 });

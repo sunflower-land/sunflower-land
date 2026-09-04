@@ -13,9 +13,17 @@ interface Props {
    * > 1 shows a lightning marker + the multiplier in the popover.
    */
   speed?: number;
+  /** Wall-clock ready time + live clock, for the popover's "Ready at" line. */
+  readyAt?: number;
+  now?: number;
 }
 
-export const RecoveringOilReserve: React.FC<Props> = ({ timeLeft, speed }) => {
+export const RecoveringOilReserve: React.FC<Props> = ({
+  timeLeft,
+  speed,
+  readyAt,
+  now,
+}) => {
   const [showTimeLeft, setShowTimeLeft] = useState(false);
   const boosted = speed !== undefined && speed > 1;
 
@@ -57,6 +65,8 @@ export const RecoveringOilReserve: React.FC<Props> = ({ timeLeft, speed }) => {
           showPopover={showTimeLeft}
           timeLeft={timeLeft}
           speed={speed}
+          readyAt={readyAt}
+          now={now}
         />
       </div>
     </div>

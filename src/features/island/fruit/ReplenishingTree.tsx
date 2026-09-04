@@ -35,6 +35,9 @@ interface Props {
   totalSeconds?: number;
   /** Current effective grow speed; shows a lightning when > 1. */
   speed?: number;
+  /** Wall-clock ready time + live clock, for the popover's "Ready at" line. */
+  readyAt?: number;
+  now?: number;
   playShakeAnimation: boolean;
 }
 
@@ -45,6 +48,8 @@ export const ReplenishingTree: React.FC<Props> = ({
   workLeftSeconds,
   totalSeconds,
   speed,
+  readyAt,
+  now,
   playShakeAnimation,
 }) => {
   const { showTimers } = useContext(Context);
@@ -161,6 +166,8 @@ export const ReplenishingTree: React.FC<Props> = ({
           })}
           timeLeft={timeLeft}
           speed={speed}
+          readyAt={readyAt}
+          now={now}
         />
       </div>
     </div>

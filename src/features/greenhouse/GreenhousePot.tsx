@@ -448,6 +448,8 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
           showPopover={showTimeRemaining && !canApplyGreenhouseFertiliser()}
           timeLeft={displaySecondsLeft}
           speed={speed}
+          readyAt={readyAt}
+          now={now}
         />
       </Transition>
     </div>

@@ -459,3 +459,55 @@ export function secondsTillReset(now = Date.now()) {
 
   return secondsUntilNextDay;
 }
+
+/**
+ * Cached `Intl.DateTimeFormat` instances for `formatReadyAt`.
+ *
+ * `date.toLocaleTimeString(...)` builds a fresh ICU formatter on EVERY call —
+ * ~50us against ~2us for a cached instance. A boosted farm renders this once
+ * per timer node (100+ of them) on every tick and every game action, so the
+ * uncached form cost milliseconds per frame. Built lazily so module load
+ * doesn't pay for ICU, and held forever: a browser's locale can't change
+ * mid-session.
+ */
+let timeFormat: Intl.DateTimeFormat | undefined;
+let dateTimeFormat: Intl.DateTimeFormat | undefined;
+
+const getTimeFormat = () =>
+  (timeFormat ??= new Intl.DateTimeFormat([], {
+    hour: "numeric",
+    minute: "2-digit",
+  }));
+
+const getDateTimeFormat = () =>
+  (dateTimeFormat ??= new Intl.DateTimeFormat([], {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  }));
+
+/**
+ * The absolute wall-clock moment a timer finishes, in the player's local time
+ * and locale — "1:05 PM", or "9/4/2026, 1:05 PM" when it lands on a different
+ * local calendar day than `now` (a 10-minute timer straddling midnight still
+ * shows the date). Shown under a speed-view countdown so the fast-draining
+ * work reading stays anchored to a real clock.
+ *
+ * The different-day form is a single locale-aware call rather than a date and
+ * a time string joined by hand: the order, punctuation and separators between
+ * the two parts vary by locale.
+ */
+export function formatReadyAt(readyAt: number, now: number): string {
+  const ready = new Date(readyAt);
+  const current = new Date(now);
+  const isSameLocalDay =
+    ready.getFullYear() === current.getFullYear() &&
+    ready.getMonth() === current.getMonth() &&
+    ready.getDate() === current.getDate();
+
+  return isSameLocalDay
+    ? getTimeFormat().format(ready)
+    : getDateTimeFormat().format(ready);
+}

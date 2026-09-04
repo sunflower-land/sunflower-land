@@ -1,6 +1,6 @@
 import React from "react";
 import { InnerPanel } from "components/ui/Panel";
-import { secondsToString } from "lib/utils/time";
+import { formatReadyAt, secondsToString } from "lib/utils/time";
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -12,6 +12,13 @@ interface Props {
   showTimeLeft?: boolean;
   /** Current effective recovery speed; shows a lightning + multiplier when > 1. */
   speed?: number;
+  /**
+   * When the task is actually ready (wall clock). Shown as a "Ready at" line
+   * while boosted, so the fast-draining work reading stays anchored to a real
+   * clock. Needs `now` for the same-local-day check.
+   */
+  readyAt?: number;
+  now?: number;
 }
 
 export const TimeLeftPanel: React.FC<Props> = ({
@@ -19,6 +26,8 @@ export const TimeLeftPanel: React.FC<Props> = ({
   showTimeLeft = false,
   timeLeft,
   speed,
+  readyAt,
+  now,
 }) => {
   const { t } = useAppTranslation();
   const isBoosted = speed !== undefined && speed > 1;
@@ -46,6 +55,13 @@ export const TimeLeftPanel: React.FC<Props> = ({
               speed: Number(speed.toFixed(2)),
             })}
           </Label>
+        )}
+        {isBoosted && readyAt !== undefined && now !== undefined && (
+          <span className="flex-1 text-center text-xxs">
+            {t("description.boostedReadyAt", {
+              time: formatReadyAt(readyAt, now),
+            })}
+          </span>
         )}
       </div>
     </InnerPanel>

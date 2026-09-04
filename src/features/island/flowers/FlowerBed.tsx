@@ -193,6 +193,7 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
   // fill and the insta-grow cost, none of which may change with a display setting.
   // `displaySeconds` is the reading the player has chosen to see.
   const {
+    now,
     speed,
     workLeftSeconds: secondsLeft,
     displaySeconds,
@@ -337,6 +338,8 @@ const Flower: React.FC<{ flower: PlantedFlower; id: string }> = ({
               showPopover={showPopover}
               timeLeft={displaySeconds}
               speed={speed}
+              readyAt={readyAt}
+              now={now}
             />
           </div>
         )}

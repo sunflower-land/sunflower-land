@@ -177,6 +177,8 @@ export const Sunstone: React.FC<Props> = ({ id, index }) => {
           timeLeft={timeLeft}
           minesLeft={resource.minesLeft}
           speed={speed}
+          readyAt={readyAt}
+          now={now}
         />
       )}
     </div>

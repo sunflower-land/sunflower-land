@@ -314,6 +314,8 @@ export const FertilePlot: React.FC<Props> = ({
             showPopover={showTimerPopover && !isApplyingFertiliser}
             timeLeft={timeLeft}
             speed={speed}
+            readyAt={readyAt}
+            now={currentTime}
           />
         </div>
       )}
