@@ -49,6 +49,7 @@ import {
   isDraftEvent,
   PERSON_PLACEMENT_EVENT_NAMES,
   rebaseDraft,
+  rekeyDraft,
 } from "./landscapingDraft";
 import type { ArrangementConflict } from "features/game/events/landExpansion/applyArrangement";
 import {
@@ -369,10 +370,21 @@ export type LayoutAppliedEvent = {
   state: GameState;
 };
 
-/** The landscaping draft was committed; `state` is the server's farm. */
+/**
+ * The landscaping draft was committed; `state` is the server's farm. With
+ * `nextLocation` the player is switching interior floors: the floor they left
+ * was just saved and landscaping continues on the new one.
+ */
 export type ArrangementSavedEvent = {
   type: "ARRANGEMENT_SAVED";
   state: GameState;
+  nextLocation?: PlaceableLocation;
+};
+
+/** A clean draft moved to another surface (no round trip needed). */
+export type SurfaceChangedEvent = {
+  type: "SURFACE_CHANGED";
+  location: PlaceableLocation;
 };
 
 /** The server refused the draft; the HUD lists/highlights the conflicts. */
@@ -423,6 +435,7 @@ export type BlockchainEvent =
   | LayoutAppliedEvent
   | ArrangementSavedEvent
   | ArrangementRejectedEvent
+  | SurfaceChangedEvent
   | PostEffectEvent
   | { type: "EXPAND" }
   | { type: "SAVE_SUCCESS" }
@@ -2859,12 +2872,34 @@ export function startGame(authContext: AuthContext) {
                 baseState: (event as LayoutAppliedEvent).state,
               })),
             },
-            ARRANGEMENT_SAVED: {
-              // A live action could have been queued between the flush and
-              // the response; autosaving is a no-op when there are none.
-              target: "autosaving",
-              actions: assign((_, event) =>
-                commitDraft((event as ArrangementSavedEvent).state),
+            ARRANGEMENT_SAVED: [
+              {
+                // Switching interior floors: the floor the player left is
+                // saved; stay in landscaping, keyed to the new floor.
+                cond: (_, event) =>
+                  !!(event as ArrangementSavedEvent).nextLocation,
+                actions: assign((_, event) =>
+                  commitDraft(
+                    (event as ArrangementSavedEvent).state,
+                    (event as ArrangementSavedEvent).nextLocation,
+                  ),
+                ),
+              },
+              {
+                // A live action could have been queued between the flush and
+                // the response; autosaving is a no-op when there are none.
+                target: "autosaving",
+                actions: assign((_, event) =>
+                  commitDraft((event as ArrangementSavedEvent).state),
+                ),
+              },
+            ],
+            SURFACE_CHANGED: {
+              actions: assign((context, event) =>
+                rekeyDraft(
+                  context.state,
+                  (event as SurfaceChangedEvent).location,
+                ),
               ),
             },
             ARRANGEMENT_REJECTED: {

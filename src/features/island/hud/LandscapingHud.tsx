@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useInterval } from "lib/utils/hooks/useInterval";
 import { Balances } from "components/Balances";
 import { useActor, useSelector } from "@xstate/react";
@@ -110,6 +110,11 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   );
   // A live-action flush is mid-flight: leaving now would re-send its actions.
   const saveInFlight = useSelector(gameService, isSaveInFlight);
+  // The surface the draft is keyed to (set on LANDSCAPE, re-keyed on a switch).
+  const landscapingLocation = useSelector(
+    gameService,
+    (state) => state.context.landscapingLocation,
+  );
 
   const child = gameService.getSnapshot().children
     .landscaping as MachineInterpreter;
@@ -164,6 +169,42 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
       setSaving(false);
     }
   };
+
+  /**
+   * Move the draft to another surface. A clean draft is simply re-keyed; a
+   * dirty one saves the surface being left first (same overlay as Save) and
+   * only reports success when the server accepted it - a conflict keeps the
+   * player where they are with the panel showing.
+   */
+  const switchSurface = async (next: PlaceableLocation): Promise<boolean> => {
+    if (saving || saveInFlight) return false;
+    if (!isDirty) {
+      gameService.send({ type: "SURFACE_CHANGED", location: next });
+      return true;
+    }
+    setSaving(true);
+    setSaveFailed(false);
+    try {
+      return await commitArrangement(gameService, { nextLocation: next });
+    } catch {
+      setSaveFailed(true);
+      return false;
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // The floor buttons go through switchSurface, but browser back or a typed
+  // URL can land the player on another surface with landscaping still
+  // active and the draft still keyed to the one they left. Settle it the same
+  // way: save that surface, then continue here.
+  useEffect(() => {
+    if (landscapingLocation && landscapingLocation !== location) {
+      void switchSurface(location);
+    }
+    // Mount only: this is about how the player arrived, not later changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const gameState = useSelector(gameService, (state) => state.context.state);
   const farmHandIds = getKeys(gameState.farmHands.bumpkins);
 
@@ -278,14 +319,19 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
 
       {/*
         Floor navigation stays available while landscaping the interior so the
-        player can move between floors without leaving edit mode. The matching
-        in-world arrows are hidden during landscaping (see Interior/LevelOne),
-        so these HUD buttons are the only way to switch floors here.
+        player can move between floors without leaving edit mode. Each floor is
+        its own draft surface, so switching saves the floor being left first
+        (see switchSurface). The matching in-world arrows are hidden during
+        landscaping (see Interior/LevelOne), so these HUD buttons are the only
+        way to switch floors here.
       */}
       {(location === "interior" || location === "level_one") && (
         <div className="absolute bottom-0 p-2.5 left-0 flex flex-col space-y-2.5">
           <InteriorFloorNav
             floor={location === "interior" ? "ground" : "level_one"}
+            beforeNavigate={(to) =>
+              switchSurface(to === "ground" ? "interior" : "level_one")
+            }
           />
         </div>
       )}

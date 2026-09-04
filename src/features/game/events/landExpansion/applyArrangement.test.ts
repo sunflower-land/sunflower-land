@@ -190,27 +190,71 @@ describe("applyArrangement", () => {
       });
     });
 
-    it("moves a resource by x/y only", () => {
+    it("carries a resource's pixel offsets on a move, and clears them when absent", () => {
+      // Nothing in the UI nudges a resource, but a saved layout can write
+      // offsets onto one and Land.tsx renders them - so the commit treats
+      // them exactly like a collectible's.
       const state = withInventory(
         {
           ...baseFarm,
           trees: {
             t1: { x: 2, y: 2, createdAt: 1, wood: { choppedAt: 123 } },
+            t2: {
+              x: 4,
+              y: 4,
+              oX: 2,
+              oY: 2,
+              createdAt: 1,
+              wood: { choppedAt: 5 },
+            },
           },
         },
-        { Tree: 1 },
+        { Tree: 2 },
       );
       const arrangement = snapshotFarm(state);
       arrangement.resources.trees.t1 = { x: 0, y: 0, oX: 4, oY: 4 };
+      arrangement.resources.trees.t2 = { x: 4, y: 3 };
 
       const result = apply(state, arrangement);
 
       expect(result.trees.t1).toEqual({
         x: 0,
         y: 0,
+        oX: 4,
+        oY: 4,
         createdAt: 1,
         wood: { choppedAt: 123 },
       });
+      expect(result.trees.t2).toEqual({
+        x: 4,
+        y: 3,
+        createdAt: 1,
+        wood: { choppedAt: 5 },
+      });
+    });
+
+    it("does not treat an unchanged offset resource as a move", () => {
+      const state = withInventory(
+        {
+          ...baseFarm,
+          beehives: {
+            h1: {
+              x: -2,
+              y: -2,
+              oX: 3,
+              oY: 1,
+              swarm: false,
+              honey: { updatedAt: 0, produced: 0 },
+              flowers: [],
+            },
+          },
+        },
+        { Beehive: 1 },
+      );
+
+      const result = apply(state, snapshotFarm(state));
+
+      expect(result.beehives.h1.honey.updatedAt).toBe(0);
     });
 
     it("lets two items swap positions", () => {
@@ -486,6 +530,62 @@ describe("applyArrangement", () => {
           coordinates: { x: 0, y: 0 },
         },
       ]);
+    });
+  });
+
+  describe("payload shape", () => {
+    // Malformed payloads, not player-fixable conflicts. The API's Joi stops
+    // them on the wire; the reducer stops them for ART_MODE.
+    it("rejects a duplicate id within a placement array", () => {
+      const state = withInventory(baseFarm, { "Basic Bear": 2 });
+      const arrangement = snapshotFarm(state);
+      arrangement.collectibles["Basic Bear"] = [
+        { id: "a", coordinates: { x: 0, y: 0 } },
+        { id: "a", coordinates: { x: 1, y: 1 } },
+      ];
+
+      expect(() => apply(state, arrangement)).toThrow(/Duplicate id/);
+    });
+
+    it("rejects a farm arrangement that omits a bucket the farm holds", () => {
+      const state = withInventory(
+        {
+          ...baseFarm,
+          buildings: {
+            "Fire Pit": [
+              {
+                id: "fp",
+                coordinates: { x: -3, y: 3 },
+                createdAt: 1,
+                readyAt: 1,
+              },
+            ],
+          },
+        },
+        { "Fire Pit": 1 },
+      );
+      const { buildings: _buildings, ...withoutBuildings } =
+        snapshotFarm(state);
+
+      expect(() => apply(state, withoutBuildings)).toThrow(
+        /must include buildings/,
+      );
+      expect(state.buildings["Fire Pit"]![0].coordinates).toEqual({
+        x: -3,
+        y: 3,
+      });
+    });
+
+    it("rejects an indoor arrangement that omits a bucket the surface holds", () => {
+      const state: GameState = {
+        ...baseFarm,
+        home: { collectibles: {} },
+      };
+      const { buds: _buds, ...withoutBuds } = snapshotSurface(state, "home");
+
+      expect(() => apply(state, withoutBuds, "home")).toThrow(
+        /must include buds/,
+      );
     });
   });
 
