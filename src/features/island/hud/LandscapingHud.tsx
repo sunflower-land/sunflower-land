@@ -37,7 +37,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { RoundButton } from "components/ui/RoundButton";
 import { CraftDecorationsModal } from "./components/decorations/CraftDecorationsModal";
 import { RemoveAllConfirmation } from "../collectibles/RemoveAllConfirmation";
-import { DiscardChangesConfirmation } from "../collectibles/DiscardChangesConfirmation";
+import { LandscapingConfirmation } from "../collectibles/LandscapingConfirmation";
 import { ArrangementConflictsPanel } from "./components/ArrangementConflictsPanel";
 import { commitArrangement } from "features/game/actions/arrangementEffects";
 import { isSaveInFlight } from "features/game/actions/layoutEffects";
@@ -94,6 +94,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   const [showDecorations, setShowDecorations] = useState(false);
   const [showSavedLayouts, setShowSavedLayouts] = useState(false);
   const [showDiscardConfirmation, setShowDiscardConfirmation] = useState(false);
+  const [showSaveConfirmation, setShowSaveConfirmation] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saveFailed, setSaveFailed] = useState(false);
   const [quickDragging, setQuickDragging] = useState(false);
@@ -156,9 +157,20 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
     child.send("CANCEL");
   };
 
-  const save = async () => {
+  // The tick asks first when there is something to save; a clean draft just
+  // leaves landscaping.
+  const save = () => {
     if (saving || saveInFlight) return;
     button.play();
+    if (isDirty) {
+      setShowSaveConfirmation(true);
+      return;
+    }
+    void commitNow();
+  };
+
+  const commitNow = async () => {
+    if (saving || saveInFlight) return;
     setSaving(true);
     setSaveFailed(false);
     try {
@@ -623,11 +635,22 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
         />
       )}
       {showDiscardConfirmation && (
-        <DiscardChangesConfirmation
+        <LandscapingConfirmation
+          mode="discard"
           onClose={() => setShowDiscardConfirmation(false)}
-          onDiscard={() => {
+          onConfirm={() => {
             setShowDiscardConfirmation(false);
             child.send("CANCEL");
+          }}
+        />
+      )}
+      {showSaveConfirmation && (
+        <LandscapingConfirmation
+          mode="save"
+          onClose={() => setShowSaveConfirmation(false)}
+          onConfirm={() => {
+            setShowSaveConfirmation(false);
+            void commitNow();
           }}
         />
       )}

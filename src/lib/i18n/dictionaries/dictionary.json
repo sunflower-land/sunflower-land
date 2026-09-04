@@ -8296,6 +8296,8 @@
   "landscaping.save": "Save changes",
   "landscaping.saveFailed": "Could not save your farm. Please try again.",
   "landscaping.saving": "Saving your farm",
+  "landscaping.saveTitle": "Save changes?",
+  "landscaping.saveDescription": "Your landscaping changes will be saved.",
   "landscaping.discardTitle": "Discard changes?",
   "landscaping.discardDescription": "Your unsaved landscaping changes will be lost.",
   "landscaping.discard": "Discard",
