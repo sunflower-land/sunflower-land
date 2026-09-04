@@ -221,9 +221,14 @@ export const discardDraft = (
   arrangementConflicts: undefined,
 });
 
-/** Save succeeded: the server's farm is the new truth. */
-export const commitDraft = (
-  serverState: GameState,
+/**
+ * Point a CLEAN draft at another surface without a round trip - the interior
+ * floor buttons switch floors "without leaving edit mode". The current state
+ * becomes the base for the new surface.
+ */
+export const rekeyDraft = (
+  state: GameState,
+  location: PlaceableLocation,
 ): Pick<
   DraftContext,
   | "state"
@@ -232,9 +237,36 @@ export const commitDraft = (
   | "landscapingLocation"
   | "arrangementConflicts"
 > => ({
-  state: serverState,
-  baseState: undefined,
+  state,
+  baseState: state,
   draftActions: [],
-  landscapingLocation: undefined,
+  landscapingLocation: location,
   arrangementConflicts: undefined,
 });
+
+/**
+ * Save succeeded: the server's farm is the new truth. With `nextLocation`
+ * the player is switching floors - the floor they left was just committed
+ * and landscaping continues on the new one, keyed to the server's reply.
+ * Without it, landscaping ends.
+ */
+export const commitDraft = (
+  serverState: GameState,
+  nextLocation?: PlaceableLocation,
+): Pick<
+  DraftContext,
+  | "state"
+  | "baseState"
+  | "draftActions"
+  | "landscapingLocation"
+  | "arrangementConflicts"
+> =>
+  nextLocation
+    ? rekeyDraft(serverState, nextLocation)
+    : {
+        state: serverState,
+        baseState: undefined,
+        draftActions: [],
+        landscapingLocation: undefined,
+        arrangementConflicts: undefined,
+      };

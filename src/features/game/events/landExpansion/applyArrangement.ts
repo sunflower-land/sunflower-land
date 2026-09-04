@@ -360,6 +360,24 @@ const conflictOf = (
   ...extra,
 });
 
+/**
+ * Resource nodes keep their render offsets as flat `oX`/`oY` fields (unlike a
+ * PlacedItem's nested `coordinates`). Nothing in the UI nudges a resource, but
+ * a saved layout can write offsets onto one and the farm renders them, so the
+ * commit carries them exactly like a collectible's: set when the arrangement
+ * has them, cleared when it doesn't.
+ */
+const writeResourceOffsets = (
+  node: { oX?: number; oY?: number } | undefined,
+  c: LayoutCoordinates,
+): void => {
+  if (!node) return;
+  if (c.oX !== undefined) node.oX = c.oX;
+  else delete node.oX;
+  if (c.oY !== undefined) node.oY = c.oY;
+  else delete node.oY;
+};
+
 const withCoordinates = (c: LayoutCoordinates): PlacedItem["coordinates"] => ({
   x: c.x,
   y: c.y,
@@ -419,7 +437,14 @@ function indexLive(
           name,
           id,
           bucket: key,
-          coordinates: { x: node.x, y: node.y },
+          // Offsets are part of the coordinates: an offset node in an
+          // unchanged arrangement must not read as a move.
+          coordinates: {
+            x: node.x,
+            y: node.y,
+            ...(node.oX !== undefined ? { oX: node.oX } : {}),
+            ...(node.oY !== undefined ? { oY: node.oY } : {}),
+          },
           dimensions: PLACEABLE_DIMENSIONS[resourceName],
         });
       });
@@ -495,28 +520,52 @@ function indexDesired(
 ): Map<string, Entry> {
   const surface = SURFACES[location];
   const entries = new Map<string, Entry>();
-  const add = (entry: Entry) => entries.set(entry.key, entry);
+  const add = (entry: Entry) => {
+    // Instances are addressed by key; a repeat would silently collapse here
+    // and the commit would apply only one of the two the client sent.
+    if (entries.has(entry.key)) {
+      throw new Error(`Duplicate id in arrangement: ${entry.key}`);
+    }
+    entries.set(entry.key, entry);
+  };
 
-  // A bucket the surface cannot hold is a malformed payload, not something the
-  // player can fix by moving an item - fail loudly rather than silently
-  // dropping half of what was sent.
-  const reject = (bucket: string) => {
+  // The payload is the FULL desired state of this surface. Two malformed
+  // shapes are rejected outright rather than turned into conflicts - the
+  // player cannot fix either by moving an item:
+  //   - a bucket the surface cannot hold (e.g. buildings indoors);
+  //   - a bucket the surface holds but the payload omits. Reading that as
+  //     "empty" would lift everything in it, so a client that dropped a field
+  //     must fail loudly. The API's Joi enforces the same on the wire; this
+  //     covers ART_MODE and keeps the reducer self-sufficient.
+  const cannotContain = (bucket: string) => {
     throw new Error(`Arrangement for ${location} cannot contain ${bucket}`);
   };
-  if (!surface.hasBuildings && Object.keys(arrangement.buildings ?? {}).length)
-    reject("buildings");
-  if (
-    !surface.hasResources &&
-    Object.values(arrangement.resources ?? {}).some(
-      (bucket) => Object.keys(bucket ?? {}).length,
-    )
-  )
-    reject("resources");
-  if (!surface.buds && Object.keys(arrangement.buds ?? {}).length)
-    reject("buds");
-  if (!surface.farmHands && Object.keys(arrangement.farmHands ?? {}).length)
-    reject("farm hands");
-  if (!surface.bumpkin && arrangement.bumpkin) reject("a bumpkin");
+  const mustInclude = (bucket: string) => {
+    throw new Error(`Arrangement for ${location} must include ${bucket}`);
+  };
+  const nonEmpty = (record: object | undefined) =>
+    Object.keys(record ?? {}).length > 0;
+
+  if (surface.hasBuildings) {
+    if (!arrangement.buildings) mustInclude("buildings");
+  } else if (nonEmpty(arrangement.buildings)) cannotContain("buildings");
+
+  if (surface.hasResources) {
+    if (!arrangement.resources) mustInclude("resources");
+  } else if (Object.values(arrangement.resources ?? {}).some(nonEmpty))
+    cannotContain("resources");
+
+  if (surface.buds) {
+    if (!arrangement.buds) mustInclude("buds");
+  } else if (nonEmpty(arrangement.buds)) cannotContain("buds");
+
+  if (!arrangement.petNFTs) mustInclude("petNFTs");
+
+  if (surface.farmHands) {
+    if (!arrangement.farmHands) mustInclude("farm hands");
+  } else if (nonEmpty(arrangement.farmHands)) cannotContain("farm hands");
+
+  if (!surface.bumpkin && arrangement.bumpkin) cannotContain("a bumpkin");
 
   Object.entries(arrangement.collectibles ?? {}).forEach(([name, items]) => {
     items?.forEach((item) => {
@@ -1263,6 +1312,7 @@ function moveEntry(
       )[entry.id];
       node.x = entry.coordinates.x;
       node.y = entry.coordinates.y;
+      writeResourceOffsets(node, entry.coordinates);
       return;
     }
     case "bud": {
@@ -1426,7 +1476,10 @@ function placeEntry(
         known && known.x === undefined
           ? withIsolatedResource(state, bucket, entry.id, run)
           : thaw(run(state));
-      const nodes = get(next) as Record<string, { x?: number; y?: number }>;
+      const nodes = get(next) as Record<
+        string,
+        { x?: number; y?: number; oX?: number; oY?: number }
+      >;
       if (!nodes[entry.id] || nodes[entry.id].x !== coordinates.x) {
         // Reused a different unplaced node: re-key it to the requested id.
         const reusedId = Object.keys(nodes).find(
@@ -1440,6 +1493,8 @@ function placeEntry(
           delete nodes[reusedId];
         }
       }
+      // The place reducers write x/y only; the arrangement is the contract.
+      writeResourceOffsets(nodes[entry.id], entry.coordinates);
       return next;
     }
     case "bud":

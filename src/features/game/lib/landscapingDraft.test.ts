@@ -10,7 +10,9 @@ import {
   isDraftDirty,
   isDraftEvent,
   rebaseDraft,
+  rekeyDraft,
   replayDraft,
+  commitDraft,
   type PastAction,
 } from "./landscapingDraft";
 
@@ -196,6 +198,42 @@ describe("landscapingDraft", () => {
       expect(rebased.baseState).toBe(serverFarm);
       expect(rebased.draftActions).toEqual([]);
       expect(rebased.state.collectibles["Basic Bear"]).toHaveLength(3);
+    });
+  });
+
+  describe("switching surfaces mid-session", () => {
+    it("re-keys a clean draft to the new surface without a round trip", () => {
+      const context = {
+        state: farm,
+        ...beginDraft(farm, "interior"),
+      };
+
+      const next = rekeyDraft(context.state, "level_one");
+
+      expect(next.landscapingLocation).toBe("level_one");
+      expect(next.baseState).toBe(farm);
+      expect(next.draftActions).toEqual([]);
+      expect(next.arrangementConflicts).toBeUndefined();
+    });
+
+    it("commit with a next surface keeps landscaping keyed to that surface", () => {
+      // The floor you are leaving was just committed; `serverState` is the
+      // server's reply and becomes the base for the floor you are entering.
+      const serverState = { ...farm };
+
+      const next = commitDraft(serverState, "level_one");
+
+      expect(next.state).toBe(serverState);
+      expect(next.baseState).toBe(serverState);
+      expect(next.landscapingLocation).toBe("level_one");
+      expect(next.draftActions).toEqual([]);
+    });
+
+    it("commit without a next surface leaves landscaping", () => {
+      const next = commitDraft(farm);
+
+      expect(next.landscapingLocation).toBeUndefined();
+      expect(next.baseState).toBeUndefined();
     });
   });
 

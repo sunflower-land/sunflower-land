@@ -79,13 +79,19 @@ export async function saveArrangementEffect({
 
 /**
  * Save the landscaping draft: flush live actions, post the arrangement, and
- * push the result into the machine. Conflicts are handed to the machine too
- * (the draft stays open, the HUD highlights them); any other failure is
- * rethrown for the caller to surface.
+ * push the result into the machine. Resolves `true` when the surface was
+ * saved. Conflicts are handed to the machine (the draft stays open, the HUD
+ * highlights them) and resolve `false`; any other failure is rethrown for
+ * the caller to surface.
+ *
+ * With `nextLocation` the player is switching interior floors: the current
+ * surface is saved and landscaping continues on `nextLocation` instead of
+ * ending. The caller navigates only when this resolves `true`.
  */
 export async function commitArrangement(
   gameService: MachineInterpreter,
-): Promise<void> {
+  { nextLocation }: { nextLocation?: PlaceableLocation } = {},
+): Promise<boolean> {
   await flushPendingActions(gameService);
 
   const { farmId, rawToken, state, landscapingLocation } =
@@ -98,14 +104,19 @@ export async function commitArrangement(
       state,
       location: landscapingLocation ?? "farm",
     });
-    gameService.send({ type: "ARRANGEMENT_SAVED", state: gameState });
+    gameService.send({
+      type: "ARRANGEMENT_SAVED",
+      state: gameState,
+      ...(nextLocation ? { nextLocation } : {}),
+    });
+    return true;
   } catch (e) {
     if (isArrangementConflict(e)) {
       gameService.send({
         type: "ARRANGEMENT_REJECTED",
         conflicts: e.data.conflicts,
       });
-      return;
+      return false;
     }
     throw e;
   }
