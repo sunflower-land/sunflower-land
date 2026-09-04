@@ -1206,9 +1206,6 @@ export function applyArrangement({
   return working;
 }
 
-const expansionsOf = (state: GameState) =>
-  state.inventory["Basic Land"]?.toNumber() ?? 3;
-
 /**
  * Several reducers build their result with immer, which auto-freezes it. The
  * commit keeps mutating its working copy between reducer calls, so every
