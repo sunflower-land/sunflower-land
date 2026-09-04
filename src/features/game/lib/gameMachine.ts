@@ -189,7 +189,6 @@ export interface Context {
   verified?: boolean;
   purchases: Purchase[];
   discordId?: string;
-  fslId?: string;
   socialDetails?: SocialDetails;
   oauthNonce: string;
   data: Partial<Record<StateMachineStateName, any>>;
@@ -204,7 +203,7 @@ export interface Context {
   visitorSocialDetails?: SocialDetails;
   hasHelpedPlayerToday?: boolean;
   totalHelpedToday?: number;
-  method?: "google" | "wallet" | "wechat" | "fsl";
+  method?: "google" | "wallet" | "wechat";
   accountTradedAt?: string;
   /**
    * Every item the API has refused to withdraw under the marketplace
@@ -1027,7 +1026,6 @@ export function startGame(authContext: AuthContext) {
       id: "gameMachine",
       initial: "loading",
       context: {
-        fslId: "123",
         discordId: "123",
         farmId:
           CONFIG.NETWORK === "mainnet"
@@ -1122,7 +1120,6 @@ export function startGame(authContext: AuthContext) {
                 verified: response.verified,
                 purchases: response.purchases,
                 discordId: response.discordId,
-                fslId: response.fslId,
                 oauthNonce: response.oauthNonce,
                 prices: response.prices,
                 accountTradedAt: response.accountTradedAt,
@@ -1519,10 +1516,7 @@ export function startGame(authContext: AuthContext) {
             {
               target: "linkWallet",
               cond: (context) => {
-                return (
-                  (context.method === "fsl" || context.method === "wechat") &&
-                  !context.linkedWallet
-                );
+                return context.method === "wechat" && !context.linkedWallet;
               },
             },
 
@@ -2914,7 +2908,6 @@ export function startGame(authContext: AuthContext) {
           verified: (_, event) => event.data.verified,
           purchases: (_, event) => event.data.purchases,
           discordId: (_, event) => event.data.discordId,
-          fslId: (_, event) => event.data.fslId,
           socialDetails: (_, event) => event.data.socialDetails,
           oauthNonce: (_, event) => event.data.oauthNonce,
           prices: (_, event) => event.data.prices,

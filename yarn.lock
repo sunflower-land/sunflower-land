@@ -11362,16 +11362,6 @@ fsevents@2.3.3, fsevents@^2.3.2, fsevents@~2.3.2, fsevents@~2.3.3:
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.3.tgz#cac6407785d03675a2a5e1a5305c697b347d90d6"
   integrity sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==
 
-fsl-authorization@^1.1.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/fsl-authorization/-/fsl-authorization-1.2.0.tgz#c80060e36f4e24f1090f23237c5611ad18e3b9f1"
-  integrity sha512-0H1oBh01y0gA4EXd2WX3rjuwI9DxIk/aGptZR+aVqDiv9d962P4HcHj6l9GUM8/rP2qcjd5IrfMpYfClK8vUhg==
-  dependencies:
-    "@ethersproject/bytes" "^5.7.0"
-    ethers "5.7.2"
-    lodash "^4.17.21"
-    tslib "^2.8.0"
-
 function-bind@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.2.tgz#2c02d864d97f3ea6c8830c464cbd11ab6eab7a1c"
