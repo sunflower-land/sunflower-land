@@ -461,6 +461,34 @@ export function secondsTillReset(now = Date.now()) {
 }
 
 /**
+ * Cached `Intl.DateTimeFormat` instances for `formatReadyAt`.
+ *
+ * `date.toLocaleTimeString(...)` builds a fresh ICU formatter on EVERY call —
+ * ~50us against ~2us for a cached instance. A boosted farm renders this once
+ * per timer node (100+ of them) on every tick and every game action, so the
+ * uncached form cost milliseconds per frame. Built lazily so module load
+ * doesn't pay for ICU, and held forever: a browser's locale can't change
+ * mid-session.
+ */
+let timeFormat: Intl.DateTimeFormat | undefined;
+let dateTimeFormat: Intl.DateTimeFormat | undefined;
+
+const getTimeFormat = () =>
+  (timeFormat ??= new Intl.DateTimeFormat([], {
+    hour: "numeric",
+    minute: "2-digit",
+  }));
+
+const getDateTimeFormat = () =>
+  (dateTimeFormat ??= new Intl.DateTimeFormat([], {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  }));
+
+/**
  * The absolute wall-clock moment a timer finishes, in the player's local time
  * and locale — "1:05 PM", or "9/4/2026, 1:05 PM" when it lands on a different
  * local calendar day than `now` (a 10-minute timer straddling midnight still
@@ -479,15 +507,7 @@ export function formatReadyAt(readyAt: number, now: number): string {
     ready.getMonth() === current.getMonth() &&
     ready.getDate() === current.getDate();
 
-  if (isSameLocalDay) {
-    return ready.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
-  }
-
-  return ready.toLocaleString([], {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-  });
+  return isSameLocalDay
+    ? getTimeFormat().format(ready)
+    : getDateTimeFormat().format(ready);
 }
