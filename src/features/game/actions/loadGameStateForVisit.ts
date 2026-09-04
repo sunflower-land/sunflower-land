@@ -19,7 +19,7 @@ export type VisitGameState = Omit<
     wallet?: string;
     discordId?: string;
     isFaceRecognised?: boolean;
-    account: "wallet" | "google" | "fsl" | "wechat";
+    account: "wallet" | "google" | "wechat";
     nftId?: number;
   };
 };

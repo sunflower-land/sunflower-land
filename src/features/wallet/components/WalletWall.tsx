@@ -30,7 +30,6 @@ import { Context as AuthContext } from "features/auth/lib/Provider";
 import { GoogleButton } from "features/auth/components/buttons/GoogleButton";
 import { Loading } from "features/auth/components";
 import { CONFIG } from "lib/config";
-import { FSLButton } from "features/auth/components/buttons/FSLButton";
 import { WechatButton } from "features/auth/components/buttons/WechatButton";
 import { SignMessage } from "./SignMessage";
 import { FarcasterButton } from "./buttons/FarcasterButton";
@@ -139,9 +138,7 @@ export const WalletWall: React.FC<{
   const [page, setPage] = useState<"home" | "other" | "ronin">("home");
   const [showLoading, setShowLoading] = useState(false);
   const [hasClickedWallet, setHasClickedWallet] = useState(false);
-  const [deprecatedLogin, setDeprecatedLogin] = useState<
-    "wechat" | "fsl" | null
-  >(null);
+  const [deprecatedLogin, setDeprecatedLogin] = useState<"wechat" | null>(null);
 
   const { isConnecting, isConnected } = useConnection();
   const { mutateAsync: asyncConnect, reset, error, isError } = useConnect();
@@ -180,12 +177,7 @@ export const WalletWall: React.FC<{
   const isLoginScreen = screen === "signin" || screen === "signup";
   const showWechat = !isMobile && screen !== "signup";
 
-  const deprecatedLoginTitle =
-    deprecatedLogin === "fsl"
-      ? "FSL ID"
-      : deprecatedLogin === "wechat"
-        ? "WeChat"
-        : "";
+  const deprecatedLoginTitle = deprecatedLogin === "wechat" ? "WeChat" : "";
 
   const openDiscord = () => {
     window.open(
@@ -302,13 +294,6 @@ export const WalletWall: React.FC<{
                 }}
               />
               <SequenceButton onConnect={onConnect} />
-              {isLoginScreen && (
-                <FSLButton
-                  onClick={() => {
-                    setDeprecatedLogin("fsl");
-                  }}
-                />
-              )}
               <OtherWalletsButton
                 onClick={() => setPage("home")}
                 title={t("walletWall.showLess")}
@@ -392,13 +377,6 @@ export const WalletWall: React.FC<{
               <WechatButton
                 onClick={() => {
                   setDeprecatedLogin("wechat");
-                }}
-              />
-            )}
-            {isLoginScreen && (
-              <FSLButton
-                onClick={() => {
-                  setDeprecatedLogin("fsl");
                 }}
               />
             )}
