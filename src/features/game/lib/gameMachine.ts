@@ -48,8 +48,8 @@ import {
   discardDraft,
   isDraftEvent,
   PERSON_PLACEMENT_EVENT_NAMES,
-  rebaseDraft,
   rekeyDraft,
+  settleLandscapingSave,
 } from "./landscapingDraft";
 import type { ArrangementConflict } from "features/game/events/landExpansion/applyArrangement";
 import {
@@ -1031,13 +1031,16 @@ export const saveGame = async (
 ) => {
   const saveAt = new Date();
 
-  // Skip autosave when no actions were produced or if playing ART_MODE
+  // Skip autosave when no actions were produced or if playing ART_MODE.
+  // `skipped` lets the landscaping state tell this apart from a real save:
+  // `farm` here is the local state, which mid-landscaping is the draft.
   if (context.actions.length === 0 || ART_MODE) {
     return {
       verified: true,
       saveAt,
       farm: context.state,
       announcements: context.announcements,
+      skipped: true,
     };
   }
 
@@ -2922,15 +2925,20 @@ export function startGame(authContext: AuthContext) {
             },
             SAVE_SUCCESS: {
               // A mid-session flush of live actions: the server's farm is the
-              // new base and the draft is replayed on top of it.
+              // new base and the draft is replayed on top of it. A skipped
+              // save (nothing queued, or ART_MODE) reports the draft itself
+              // as the farm and must change nothing - see
+              // settleLandscapingSave.
               actions: assign((context: Context, event: any) => {
+                if (!context.baseState)
+                  return handleSuccessfulSave(context, event);
+                if (event.data.skipped) return {};
                 const saved = handleSuccessfulSave(context, event);
-                if (!context.baseState) return saved;
                 return {
                   ...saved,
-                  ...rebaseDraft(
-                    { state: saved.state as GameState },
+                  ...settleLandscapingSave(
                     context,
+                    { state: saved.state as GameState },
                     context.farmId,
                   ),
                 };
