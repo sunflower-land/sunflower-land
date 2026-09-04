@@ -27,6 +27,7 @@ import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { getAnimationUrl } from "../lib/animations";
 import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import type { Player } from "../types/Room";
+import { getDailyBudBoxType } from "features/game/lib/budBox";
 
 const CHAPTER_BANNERS: Record<ChapterName, string | undefined> = {
   "Solar Flare": undefined,
@@ -210,6 +211,20 @@ export class PlazaScene extends BaseScene {
       },
       audio: { fx: { walk_key: "dirt_footstep" } },
     });
+  }
+
+  private isBudBoxRewardAvailable(now = Date.now()) {
+    const todayBud = getDailyBudBoxType(now);
+    const hasTodayBud = Object.values(this.gameState.buds ?? {}).some(
+      (bud) => bud.type === todayBud,
+    );
+    const openedAt = this.gameState.pumpkinPlaza.budBox?.openedAt ?? 0;
+    const hasOpenedToday =
+      !!openedAt &&
+      new Date(now).toISOString().substring(0, 10) ===
+        new Date(openedAt).toISOString().substring(0, 10);
+
+    return hasTodayBud && !hasOpenedToday;
   }
 
   preload() {
@@ -567,7 +582,7 @@ export class PlazaScene extends BaseScene {
       this.add.sprite(825, 50, "locked_disc").setDepth(1000000000);
     }
 
-    const clubHouseLabel = new Label(this, "CLUBHOUSE", "brown");
+    const clubHouseLabel = new Label(this, "CLUBHOUSE", "brown", "gift_icon");
     clubHouseLabel.setPosition(152, 262);
     clubHouseLabel.setDepth(10000000);
     this.add.existing(clubHouseLabel);
@@ -744,7 +759,9 @@ export class PlazaScene extends BaseScene {
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
         if (this.checkDistanceToSprite(turtle, 75)) {
-          interactableModalManager.open("bud");
+          interactableModalManager.open(
+            this.isBudBoxRewardAvailable() ? "bud_box_guide" : "bud",
+          );
         } else {
           this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
         }
@@ -774,6 +791,16 @@ export class PlazaScene extends BaseScene {
           this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
         }
       });
+
+    const refreshBudBoxIndicator = () => {
+      clubHouseLabel.setIconVisible(this.isBudBoxRewardAvailable());
+    };
+
+    refreshBudBoxIndicator();
+    this.game.events.on("gameStateUpdated", refreshBudBoxIndicator);
+    this.events.once("shutdown", () => {
+      this.game.events.off("gameStateUpdated", refreshBudBoxIndicator);
+    });
 
     if (this.textures.exists("sparkle")) {
       const sparkle = this.add.sprite(567, 191, "sparkle");
@@ -867,6 +894,7 @@ export class PlazaScene extends BaseScene {
 
       snowHornBud.setVisible(!isOpen);
       chest.setVisible(!isOpen);
+      refreshBudBoxIndicator();
 
       if (wasOpen === isOpen) {
         this.mmoService?.state.context.server?.send(0, {

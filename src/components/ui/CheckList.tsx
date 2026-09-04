@@ -16,7 +16,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { isMinigameComplete } from "features/game/events/minigames/claimMinigamePrize";
 import { PORTAL_OPTIONS } from "features/world/ui/portals/PortalChooser";
-import { BUD_ORDER, getDailyBudBoxType } from "features/world/ui/chests/BudBox";
+import { BUD_ORDER, getDailyBudBoxType } from "features/game/lib/budBox";
 import {
   getDayOfYear,
   secondsTillReset,
