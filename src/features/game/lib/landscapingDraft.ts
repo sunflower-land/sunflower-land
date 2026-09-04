@@ -203,6 +203,21 @@ export const rebaseDraft = (
   };
 };
 
+/**
+ * A SAVE completed while landscaping. A save with nothing queued (or in
+ * ART_MODE) short-circuits and hands back the current state - the DRAFT - as
+ * "the farm". Nothing changed server-side, so nothing changes here: rebasing
+ * on it would bake the draft into `baseState` and Cancel could no longer
+ * revert. A real save carries the server's farm, which becomes the new base
+ * with the draft replayed on top.
+ */
+export const settleLandscapingSave = (
+  context: Pick<DraftContext, "draftActions">,
+  save: { state: GameState; skipped?: boolean },
+  farmId: number,
+): Partial<Pick<DraftContext, "state" | "baseState" | "draftActions">> =>
+  save.skipped ? {} : rebaseDraft(save, context, farmId);
+
 /** Cancel: back to the farm without the draft. */
 export const discardDraft = (
   context: Pick<DraftContext, "state" | "baseState">,

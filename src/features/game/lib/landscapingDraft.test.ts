@@ -13,6 +13,7 @@ import {
   rekeyDraft,
   replayDraft,
   commitDraft,
+  settleLandscapingSave,
   type PastAction,
 } from "./landscapingDraft";
 
@@ -234,6 +235,66 @@ describe("landscapingDraft", () => {
 
       expect(next.landscapingLocation).toBeUndefined();
       expect(next.baseState).toBeUndefined();
+    });
+  });
+
+  describe("settleLandscapingSave", () => {
+    // A SAVE with nothing queued short-circuits and hands back the DRAFT as
+    // "the farm". Treating that as the server's truth would bake the draft
+    // into baseState, and Cancel could no longer revert - the bug players
+    // reported as "the X button doesn't revert my changes".
+    it("ignores a skipped save entirely", () => {
+      let context = {
+        state: farm,
+        actions: [] as PastAction[],
+        ...beginDraft(farm, "farm"),
+      };
+      context = {
+        ...context,
+        ...applyDraftEvent(context, move("a", 1, 1), farmId, at),
+      };
+
+      const patch = settleLandscapingSave(
+        context,
+        { state: context.state, skipped: true },
+        farmId,
+      );
+
+      expect(patch).toEqual({});
+      // The base still reverts the draft.
+      expect(bearAt(context.baseState!, "a")).toEqual({ x: 0, y: 0 });
+    });
+
+    it("rebases the draft onto a real save", () => {
+      let context = {
+        state: farm,
+        actions: [] as PastAction[],
+        ...beginDraft(farm, "farm"),
+      };
+      context = {
+        ...context,
+        ...applyDraftEvent(context, move("a", 1, 1), farmId, at),
+      };
+      // The server moved bear b meanwhile.
+      const serverFarm: GameState = {
+        ...farm,
+        collectibles: {
+          "Basic Bear": [
+            { id: "a", coordinates: { x: 0, y: 0 } },
+            { id: "b", coordinates: { x: 3, y: 3 } },
+          ],
+        },
+      };
+
+      const patch = settleLandscapingSave(
+        context,
+        { state: serverFarm },
+        farmId,
+      );
+
+      expect(patch.baseState).toBe(serverFarm);
+      expect(bearAt(patch.state!, "a")).toEqual({ x: 1, y: 1 });
+      expect(bearAt(patch.state!, "b")).toEqual({ x: 3, y: 3 });
     });
   });
 
