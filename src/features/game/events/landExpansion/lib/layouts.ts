@@ -8,6 +8,7 @@ import type {
 } from "features/game/types/game";
 import { getChestItemCount } from "features/island/hud/components/inventory/utils/inventory";
 import { isCollectibleWithTimestamps } from "features/game/events/landExpansion/placeCollectible";
+import { LIMITED_ITEMS } from "features/game/events/landExpansion/burnCollectible";
 import { getAvailableNodes } from "features/game/lib/resourceNodes";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
@@ -659,6 +660,7 @@ export function applyFarmLayout(
 ): { applied: number; skipped: number; noInventory: number } {
   const slots: LayoutSlot[] = [];
   let noInventory = 0;
+  let skipped = 0;
 
   // Deterministic id for a newly-created instance — identical on FE and BE
   // (same `createdAt`), and never collides with the 8-hex uuid-slice ids.
@@ -673,6 +675,15 @@ export function applyFarmLayout(
     getBucket: (name: N) => PlacedItem[] | undefined,
     ensureBucket: (name: N) => PlacedItem[],
     newItem: (name: N, id: string) => PlacedItem,
+    /**
+     * Names a layout may only MOVE, never lift or create: the time-limited
+     * collectibles (hourglasses, totems, shrines). Removal restrictions stop
+     * the player lifting these, so a layout must not do it behind their back -
+     * the instance would come back as an unplaced copy with a stale clock and
+     * expire the moment it is re-placed. And creating one from the chest
+     * would start a consumable's clock the player never asked for.
+     */
+    fixed: (name: N) => boolean = () => false,
   ) => {
     getObjectEntries(layoutGroup).forEach(([name, entries]) => {
       const dimensions = PLACEABLE_DIMENSIONS[name];
@@ -681,10 +692,52 @@ export function applyFarmLayout(
       const originalCoords = new Map(
         group.map((item) => [item.id, item.coordinates]),
       );
+      const byId = new Map(group.map((item) => [item.id, item]));
+
+      if (fixed(name)) {
+        // Move the player's own instances to their saved spots; leave every
+        // other instance where it stands; never create.
+        entries.forEach((entry) => {
+          const own = byId.get(entry.id);
+          if (!own) {
+            skipped += 1;
+            return;
+          }
+          const original = originalCoords.get(entry.id);
+          own.coordinates = undefined; // lift only this one
+          slots.push({
+            name: name as LandscapingPlaceable,
+            position: {
+              x: entry.coordinates.x,
+              y: entry.coordinates.y,
+              width: dimensions.width,
+              height: dimensions.height,
+            },
+            place: () => {
+              own.coordinates = { ...entry.coordinates };
+              own.flipped = entry.flipped;
+            },
+            restore: original
+              ? {
+                  position: {
+                    x: original.x,
+                    y: original.y,
+                    width: dimensions.width,
+                    height: dimensions.height,
+                  },
+                  apply: () => {
+                    own.coordinates = { ...original };
+                  },
+                }
+              : undefined,
+          });
+        });
+        return;
+      }
+
       group.forEach((item) => {
         if (item.coordinates) item.coordinates = undefined; // lift
       });
-      const byId = new Map(group.map((item) => [item.id, item]));
       const owned = getChestItemCount(
         state,
         name as InventoryItemName,
@@ -758,6 +811,8 @@ export function applyFarmLayout(
     (name) => (state.collectibles[name] ??= []),
     (name, id) =>
       isCollectibleWithTimestamps(name) ? { id, createdAt } : { id },
+
+    (name) => LIMITED_ITEMS.includes(name),
   );
   addNamedSlots(
     layout.buildings,
@@ -1015,6 +1070,8 @@ export function applyFarmLayout(
   // is intentionally left alone — it is the avatar and is always captured on-farm.
   getObjectEntries(state.collectibles).forEach(([name, items]) => {
     if (layout.collectibles[name]) return;
+    // Time-limited collectibles stay put - see addNamedSlots' `fixed`.
+    if (LIMITED_ITEMS.includes(name)) return;
     items?.forEach((item) => {
       item.coordinates = undefined;
     });
@@ -1039,7 +1096,6 @@ export function applyFarmLayout(
   // (non-layout items + already-placed slots). A blocked slot stays unplaced
   // for now; reused instances get a best-effort restore pass below.
   let applied = 0;
-  let skipped = 0;
   const blockedSlots: LayoutSlot[] = [];
   for (const slot of slots) {
     const blocked = detectCollision({
