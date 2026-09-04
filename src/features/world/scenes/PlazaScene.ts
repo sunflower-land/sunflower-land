@@ -582,12 +582,7 @@ export class PlazaScene extends BaseScene {
       this.add.sprite(825, 50, "locked_disc").setDepth(1000000000);
     }
 
-    const clubHouseLabel = new Label(
-      this,
-      "CLUBHOUSE",
-      "brown",
-      "delivery_icon",
-    );
+    const clubHouseLabel = new Label(this, "CLUBHOUSE", "brown", "gift_icon");
     clubHouseLabel.setPosition(152, 262);
     clubHouseLabel.setDepth(10000000);
     this.add.existing(clubHouseLabel);
