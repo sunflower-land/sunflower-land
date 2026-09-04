@@ -156,7 +156,7 @@ const HudComponent: React.FC<{
         />
       </div>
       <div className="absolute right-0 top-16 p-2.5 flex flex-col space-y-2.5">
-        {isFarming && <LandscapeButton />}
+        {isFarming && <LandscapeButton location={location} />}
         <Inventory
           state={gameState.context.state}
           isFullUser={isFullUser}
@@ -167,6 +167,7 @@ const HudComponent: React.FC<{
               action: placeEvent(selected, location),
               placeable: { name: selected },
               multiple: true,
+              location,
             });
           }}
           onPlaceNFT={(id, nft) => {
@@ -181,6 +182,7 @@ const HudComponent: React.FC<{
               action: "farmHand.placed",
               placeable: { name: "FarmHand", id },
               multiple: true,
+              location,
             });
           }}
           onDepositClick={() => setShowDepositModal(true)}
