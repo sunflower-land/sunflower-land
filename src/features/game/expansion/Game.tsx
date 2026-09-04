@@ -300,6 +300,7 @@ const isLandToVisitNotFound = (state: MachineState) =>
 const currentState = (state: MachineState) => state.value;
 const getErrorCode = (state: MachineState) => state.context.errorCode;
 const getActions = (state: MachineState) => state.context.actions;
+const getDraftActions = (state: MachineState) => state.context.draftActions;
 
 const isTransacting = (state: MachineState) => state.matches("transacting");
 const isClaimAuction = (state: MachineState) => state.matches("claimAuction");
@@ -503,6 +504,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const state = useSelector(gameService, currentState);
   const errorCode = useSelector(gameService, getErrorCode);
   const actions = useSelector(gameService, getActions);
+  const draftActions = useSelector(gameService, getDraftActions);
   const transacting = useSelector(gameService, isTransacting);
   const claimingAuction = useSelector(gameService, isClaimAuction);
   const refundAuction = useSelector(gameService, isRefundingAuction);
@@ -550,7 +552,8 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
 
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      if (actions.length === 0) return;
+      // Unsent live actions, or an unsaved landscaping draft.
+      if (actions.length === 0 && draftActions.length === 0) return;
 
       event.preventDefault();
       event.returnValue = "";
@@ -562,7 +565,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [actions]);
+  }, [actions, draftActions]);
 
   useEffect(() => {
     const save = () => {
