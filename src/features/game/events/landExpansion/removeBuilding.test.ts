@@ -571,3 +571,52 @@ describe("removeBuilding", () => {
     ).toEqual(200000000);
   });
 });
+
+describe("removeBuilding (windowed crop machine)", () => {
+  const HOUR = 60 * 60 * 1000;
+
+  it("settles a windowed machine at the lift: work banked, fuel burned, no pausedTimeRemaining", () => {
+    const at = Date.now();
+    const state = removeBuilding({
+      state: {
+        ...GAME_STATE,
+        buildings: {
+          "Crop Machine": [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: 0,
+              coordinates: { x: 1, y: 1 },
+              oilSettledAt: at - HOUR,
+              unallocatedOilTime: 10 * HOUR,
+              queue: [
+                {
+                  crop: "Sunflower",
+                  seeds: 10,
+                  growTimeRemaining: 0,
+                  totalGrowTime: 4 * HOUR,
+                  baseDurationMs: 4 * HOUR,
+                },
+              ],
+            },
+          ],
+        },
+      },
+      action: { type: "building.removed", name: "Crop Machine", id: "123" },
+      createdAt: at,
+    });
+
+    const machine = state.buildings["Crop Machine"]?.[0];
+    const pack = machine?.queue?.[0];
+
+    expect(machine?.removedAt).toBe(at);
+    expect(machine?.oilSettledAt).toBe(at);
+    // 1h of the 4h banked; 1h of fuel burned.
+    expect(pack?.baseDurationMs).toBe(3 * HOUR);
+    expect(machine?.unallocatedOilTime).toBe(9 * HOUR);
+    expect(pack?.pausedTimeRemaining).toBeUndefined();
+    // Paused caches: no projected finish while lifted.
+    expect(pack?.readyAt).toBeUndefined();
+    expect(pack?.growsUntil).toBeUndefined();
+  });
+});

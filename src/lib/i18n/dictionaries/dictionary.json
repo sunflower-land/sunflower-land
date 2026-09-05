@@ -6793,6 +6793,7 @@
   "description.tortoiseShrine.buff": "x0.67 Greenhouse Growth Time",
   "description.tortoiseShrine.buff.speed": "1.5x Greenhouse Growth Speed",
   "description.tortoiseShrine.buff.2": "x0.9 Crop Machine Growth Time",
+  "description.tortoiseShrine.buff.2.speed": "1.11x Crop Machine Growth Speed",
   "description.mothShrine.buff": "x0.75 Flower Growth Time",
   "description.mothShrine.buff.speed": "1.35x Flower Growth Speed",
   "description.mothShrine.buff.2": "20% chance to get +1 Flower",

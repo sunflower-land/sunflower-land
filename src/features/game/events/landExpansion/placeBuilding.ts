@@ -12,11 +12,13 @@ import type { ComposterName } from "features/game/types/composters";
 import { createInitialAgingShed } from "features/game/lib/agingShed";
 import {
   getCookingBoostWindows,
+  getCropMachineBoostWindows,
   getGreenhouseBoostWindows,
   getGreenhouseGlowWindows,
   pauseWindowedTimer,
 } from "features/game/lib/boostWindows";
 import { pauseCookingQueue } from "features/game/lib/cookingReadiness";
+import { refreshCropMachineCaches } from "features/game/lib/cropMachineReadiness";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { mfTrack } from "lib/moonforgeAnalytics";
 
@@ -114,7 +116,23 @@ export function placeBuilding({
       // Update the readyAt for Crop Machine
       if (action.name === "Crop Machine") {
         const existingCropMachine = existingBuilding as CropMachineBuilding;
-        if (existingCropMachine.queue) {
+        if (existingCropMachine.oilSettledAt !== undefined) {
+          // Windowed machine: removeBuilding settled at the lift (banking the
+          // accrued work and fuel burn), so resuming is just moving the fuel
+          // anchor across the downtime — the lifted interval costs neither fuel
+          // nor credit, and boost windows that expired mid-lift keep the credit
+          // banked before it. No timestamp shifting: the legacy shift re-exposes
+          // packs to a different slice of the windows (see pauseCookingQueue).
+          // removedAt is the resolver's pause clamp, so clear it before
+          // refreshing the caches (the generic delete below is then a no-op).
+          existingCropMachine.oilSettledAt = createdAt;
+          delete existingCropMachine.removedAt;
+          refreshCropMachineCaches({
+            machine: existingCropMachine,
+            windows: getCropMachineBoostWindows(stateCopy),
+            now: createdAt,
+          });
+        } else if (existingCropMachine.queue) {
           existingCropMachine.queue.forEach((pack) => {
             if (pack.readyAt) {
               pack.readyAt = createdAt + (pack.pausedTimeRemaining ?? 0);

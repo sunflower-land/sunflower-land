@@ -155,8 +155,8 @@ export const COOKING_BOOST_SPEED = {
  * (Grape). Orchard-on-Grape is a windowed-model ADDITION — the legacy baked
  * path never applied it to greenhouse fruit (hourglasses now cover their whole
  * activity, mirroring Harvest-on-greenhouse-crops). Tortoise Shrine is a
- * MIXED-activity boost: only its greenhouse half is windowed here; its
- * crop-machine ×0.9 stays baked in supplyCropMachine until that slice.
+ * MIXED-activity boost: this is only its greenhouse half; its crop-machine half
+ * is windowed separately in `CROP_MACHINE_BOOST_SPEED`.
  */
 export const GREENHOUSE_BOOST_SPEED = {
   "Super Totem": 2,
@@ -166,6 +166,20 @@ export const GREENHOUSE_BOOST_SPEED = {
   "Tortoise Shrine": 1.5,
   // Per-pot fertiliser (not a collectible); windowed via getGreenhouseGlowWindows.
   "Greenhouse Glow": 1.25,
+} as const;
+
+/**
+ * Speed multiplier for the windowed crop-machine growth boost. The Tortoise
+ * Shrine is the crop machine's ONLY temporary boost (no totems or hourglasses
+ * apply — the Harvest Hourglass does not cover the machine). The value is the
+ * exact reciprocal of the legacy baked ×0.9, so a shrine covering a whole pack
+ * reproduces the old time to the millisecond (deliberately NOT rounded, unlike
+ * the shrine's greenhouse half). Tortoise Shrine is a MIXED-activity boost:
+ * this is its crop-machine half; the greenhouse half lives in
+ * `GREENHOUSE_BOOST_SPEED`.
+ */
+export const CROP_MACHINE_BOOST_SPEED = {
+  "Tortoise Shrine": 10 / 9,
 } as const;
 
 /** Window for the Power Hour buff (1h from activation), if active. */
@@ -369,6 +383,22 @@ export const getCookingBoostWindows = (game: GameState): BoostWindow[] => [
     speed: COOKING_BOOST_SPEED["Boar Shrine"],
   }),
 ];
+
+/**
+ * The windowed speed boost that applies to crop machine growth — the Tortoise
+ * Shrine alone (no totems, no hourglasses). Empty set (no shrine) makes
+ * `computeReadyAt` reduce to `start + baseDurationMs`. Like cooking, these
+ * windows are consumed by a QUEUE — see `resolveCropMachine` in
+ * `cropMachineReadiness.ts`, which additionally threads the machine's oil
+ * through the chain (fuel burns by the wall clock while a window accelerates
+ * the work, so a boost makes packs both faster and cheaper in oil).
+ */
+export const getCropMachineBoostWindows = (game: GameState): BoostWindow[] =>
+  getBoostWindows({
+    game,
+    name: "Tortoise Shrine",
+    speed: CROP_MACHINE_BOOST_SPEED["Tortoise Shrine"],
+  });
 
 /**
  * The Turbofruit Mix fertiliser's speed window for a fruit patch. Unlike the

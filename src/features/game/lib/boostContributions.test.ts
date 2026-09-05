@@ -2,6 +2,7 @@ import {
   getAnimalBoostContributions,
   getBoostContributionEntries,
   getCookingBoostContributions,
+  getCropMachineBoostContributions,
   getNodeBoostContributions,
   getSeedBoostContributions,
 } from "./boostContributions";
@@ -12,7 +13,11 @@ import type { GameState } from "../types/game";
 import type { SeedName } from "../types/seeds";
 import type { ResourceName } from "../types/resources";
 import type { AnimalType } from "../types/animals";
-import { getAnimalBoostWindows, getCookingBoostWindows } from "./boostWindows";
+import {
+  getAnimalBoostWindows,
+  getCookingBoostWindows,
+  getCropMachineBoostWindows,
+} from "./boostWindows";
 import { CONFIG } from "lib/config";
 
 const setNetwork = (network: "mainnet" | "amoy") => {
@@ -94,6 +99,12 @@ describe("contributions match the window builders", () => {
   it("cooking", () => {
     expect(flatten(getCookingBoostContributions(BOOSTED, at))).toEqual(
       getCookingBoostWindows(BOOSTED),
+    );
+  });
+
+  it("crop machine", () => {
+    expect(flatten(getCropMachineBoostContributions(BOOSTED))).toEqual(
+      getCropMachineBoostWindows(BOOSTED),
     );
   });
 });
@@ -268,6 +279,10 @@ describe("without SPEED_BOOSTS", () => {
   it("names no boosters for cooking or an animal", () => {
     expect(getCookingBoostContributions(BOOSTED, at)).toEqual([]);
     expect(getAnimalBoostContributions(BOOSTED, "Chicken")).toEqual([]);
+  });
+
+  it("names no boosters for the crop machine", () => {
+    expect(getCropMachineBoostContributions(BOOSTED)).toEqual([]);
   });
 
   it("leaves the panel with nothing to add", () => {

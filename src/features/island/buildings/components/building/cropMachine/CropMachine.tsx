@@ -25,6 +25,7 @@ import type { CropMachineBuilding } from "features/game/types/game";
 
 import type { AddSeedsInput } from "features/game/events/landExpansion/supplyCropMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useCropMachineView } from "./lib/cropMachineView";
 
 const _cropMachine = (id: string) => (state: MachineState) => {
   const machines = state.context.state.buildings["Crop Machine"];
@@ -53,7 +54,10 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
     gameService,
     _cropMachine(id),
   ) as CropMachineBuilding;
-  const queue = cropMachine?.queue ?? [];
+  // On a windowed machine (SPEED_BOOSTS) the stored pack timings are caches
+  // refreshed only on events; the view substitutes the DERIVED timings so a
+  // Tortoise Shrine placed or expiring mid-grow is reflected live.
+  const { queue, windowed, windows } = useCropMachineView(cropMachine);
 
   const now = useCropMachineLiveNow(queue);
 
@@ -246,6 +250,9 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
         service={cropMachineService}
         queue={queue}
         unallocatedOilTime={cropMachine.unallocatedOilTime ?? 0}
+        machine={cropMachine}
+        windowed={windowed}
+        windows={windows}
         show={showModal}
         onClose={() => setShowModal(false)}
         onAddSeeds={handleAddSeeds}

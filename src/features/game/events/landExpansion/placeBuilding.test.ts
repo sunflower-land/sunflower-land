@@ -1339,3 +1339,96 @@ describe("Place building", () => {
     expect(isAnimalNeedingLove(animal, readyAt - 1, readyAt)).toBe(false);
   });
 });
+
+describe("placeBuilding (windowed crop machine)", () => {
+  const HOUR = 60 * 60 * 1000;
+  const at = Date.now();
+
+  const liftedMachine = (
+    overrides: Record<string, unknown> = {},
+  ): GameState => ({
+    ...GAME_STATE,
+    inventory: {
+      ...GAME_STATE.inventory,
+      "Crop Machine": new Decimal(1),
+      "Basic Land": new Decimal(10),
+    },
+    buildings: {
+      "Crop Machine": [
+        {
+          id: "123",
+          createdAt: 0,
+          readyAt: 0,
+          coordinates: undefined,
+          removedAt: at - 2 * HOUR,
+          // Settled at the lift by removeBuilding: 1h of work already banked.
+          oilSettledAt: at - 2 * HOUR,
+          unallocatedOilTime: 9 * HOUR,
+          queue: [
+            {
+              crop: "Sunflower",
+              seeds: 10,
+              growTimeRemaining: 3 * HOUR,
+              totalGrowTime: 4 * HOUR,
+              baseDurationMs: 3 * HOUR,
+            },
+          ],
+          ...overrides,
+        },
+      ],
+    },
+  });
+
+  it("re-anchors the fuel ledger across the downtime: the lifted interval costs neither fuel nor credit", () => {
+    const state = placeBuilding({
+      farmId: 1,
+      state: liftedMachine(),
+      action: {
+        type: "building.placed",
+        name: "Crop Machine",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: at,
+    });
+
+    const machine = state.buildings["Crop Machine"]?.[0];
+    const pack = machine?.queue?.[0];
+
+    expect(machine?.removedAt).toBeUndefined();
+    expect(machine?.oilSettledAt).toBe(at);
+    expect(machine?.unallocatedOilTime).toBe(9 * HOUR);
+    // The banked work is untouched; the remainder resumes from placement.
+    expect(pack?.baseDurationMs).toBe(3 * HOUR);
+    expect(pack?.readyAt).toBe(at + 3 * HOUR);
+    expect(pack?.growTimeRemaining).toBe(0);
+  });
+
+  it("keeps a completed pack harvestable across the lift", () => {
+    const state = placeBuilding({
+      farmId: 1,
+      state: liftedMachine({
+        queue: [
+          {
+            crop: "Sunflower",
+            seeds: 10,
+            growTimeRemaining: 0,
+            totalGrowTime: HOUR,
+            readyAt: at - 3 * HOUR,
+          },
+        ],
+      }),
+      action: {
+        type: "building.placed",
+        name: "Crop Machine",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: at,
+    });
+
+    const pack = state.buildings["Crop Machine"]?.[0]?.queue?.[0];
+    // Finalised history is never shifted forward.
+    expect(pack?.readyAt).toBe(at - 3 * HOUR);
+  });
+});
