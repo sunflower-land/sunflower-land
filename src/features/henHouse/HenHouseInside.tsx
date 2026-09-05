@@ -235,7 +235,7 @@ export const HenHouseInside: React.FC = () => {
                 <>
                   <button
                     type="button"
-                    aria-label="Buy Animals"
+                    aria-label={t("buy")}
                     className="absolute top-[18px] right-[18px] z-10 flex cursor-pointer items-center justify-center border-0 bg-transparent p-0 hover:img-highlight"
                     style={{
                       width: `${PIXEL_SCALE * 18}px`,
@@ -248,7 +248,7 @@ export const HenHouseInside: React.FC = () => {
 
                   <button
                     type="button"
-                    aria-label="Sell Animals"
+                    aria-label={t("bounties.sellAnimals")}
                     className="absolute z-10 cursor-pointer border-0 bg-transparent p-0 hover:img-highlight"
                     style={{
                       // The shop disc has a 2px bag sprite above its disc, so its disc face sits
