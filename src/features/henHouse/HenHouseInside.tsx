@@ -233,22 +233,26 @@ export const HenHouseInside: React.FC = () => {
             <div className={"relative w-full h-full"}>
               {!deal && !showSellPanel && (
                 <>
-                  <img
-                    src={shopDisc}
-                    alt="Buy Animals"
-                    className="absolute top-[18px] right-[18px] cursor-pointer z-10"
+                  <button
+                    type="button"
+                    aria-label="Buy Animals"
+                    className="absolute top-[18px] right-[18px] z-10 flex cursor-pointer items-center justify-center border-0 bg-transparent p-0 hover:img-highlight"
                     style={{
                       width: `${PIXEL_SCALE * 18}px`,
+                      height: `${PIXEL_SCALE * 21}px`,
                     }}
                     onClick={() => setShowModal(true)}
-                  />
+                  >
+                    <img src={shopDisc} className="h-full w-full" alt="" />
+                  </button>
 
-                  <div
-                    role="button"
+                  <button
+                    type="button"
                     aria-label="Sell Animals"
-                    className="absolute top-[18px] cursor-pointer z-10 hover:img-highlight"
+                    className="absolute top-[18px] z-10 flex cursor-pointer items-center justify-center border-0 bg-transparent p-0 hover:img-highlight"
                     style={{
                       width: `${PIXEL_SCALE * 18}px`,
+                      height: `${PIXEL_SCALE * 21}px`,
                       right: `${18 + PIXEL_SCALE * 19}px`,
                     }}
                     onClick={() => setShowSellPanel(true)}
@@ -260,7 +264,7 @@ export const HenHouseInside: React.FC = () => {
                       alt=""
                       style={{ width: `${PIXEL_SCALE * 9}px` }}
                     />
-                  </div>
+                  </button>
 
                   <Button
                     className="absolute -bottom-16"
