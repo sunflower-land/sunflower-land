@@ -345,7 +345,7 @@ export const BarnInside: React.FC = () => {
                 <>
                   <button
                     type="button"
-                    aria-label="Buy Animals"
+                    aria-label={t("buy")}
                     className="absolute top-[18px] right-[18px] z-10 flex cursor-pointer items-center justify-center border-0 bg-transparent p-0 hover:img-highlight"
                     style={{
                       width: `${PIXEL_SCALE * 18}px`,
@@ -358,7 +358,7 @@ export const BarnInside: React.FC = () => {
 
                   <button
                     type="button"
-                    aria-label="Sell Animals"
+                    aria-label={t("bounties.sellAnimals")}
                     className="absolute top-[18px] z-10 flex cursor-pointer items-end justify-center border-0 bg-transparent p-0 hover:img-highlight"
                     style={{
                       width: `${PIXEL_SCALE * 18}px`,
