@@ -26,6 +26,7 @@ import {
 } from "features/game/types/marketplace";
 import { Button } from "components/ui/Button";
 import { BulkRemoveTrades } from "../BulkRemoveListings";
+import { MAX_RESOURCE_LISTINGS } from "../../lib/tradeLimits";
 
 const _isCancellingOffer = (state: MachineState) =>
   state.matches("marketplaceListingCancelling");
@@ -98,7 +99,18 @@ export const MyListings: React.FC<Props> = ({ fullHeight = false }) => {
         )
       : listings;
 
-  if (getKeys(filteredListings).length === 0) return null;
+  const filteredListingIds = getKeys(filteredListings);
+  const selectedListing = filteredListings[filteredListingIds[0]];
+  const selectedItemName = selectedListing
+    ? (getKeys(selectedListing.items ?? {})[0] as InventoryItemName)
+    : undefined;
+  const showResourceListingCount =
+    !!params.id &&
+    routeCollection === "collectibles" &&
+    !!selectedItemName &&
+    isTradeResource(selectedItemName);
+
+  if (filteredListingIds.length === 0) return null;
 
   const claim = () => {
     const listing = listings[claimId as string];
@@ -160,9 +172,16 @@ export const MyListings: React.FC<Props> = ({ fullHeight = false }) => {
           className={fullHeight ? "flex h-full min-h-0 flex-col p-2" : "p-2"}
         >
           <div className="flex items-center justify-between mb-2">
-            <Label type="default" icon={trade}>
-              {t("marketplace.myListings")}
-            </Label>
+            <div className="flex items-center gap-1">
+              <Label type="default" icon={trade}>
+                {t("marketplace.myListings")}
+              </Label>
+              {showResourceListingCount && (
+                <Label type="default">
+                  {`${filteredListingIds.length}/${MAX_RESOURCE_LISTINGS}`}
+                </Label>
+              )}
+            </div>
             <Button
               className="w-fit h-8 rounded-none"
               onClick={() => setBulkCancel(true)}
@@ -175,7 +194,7 @@ export const MyListings: React.FC<Props> = ({ fullHeight = false }) => {
           <div
             className={fullHeight ? "flex min-h-0 flex-1" : "flex flex-wrap"}
           >
-            {getKeys(filteredListings).length === 0 ? (
+            {filteredListingIds.length === 0 ? (
               <p className="text-sm">{t("marketplace.noMyListings")}</p>
             ) : (
               <div
@@ -183,7 +202,7 @@ export const MyListings: React.FC<Props> = ({ fullHeight = false }) => {
                   fullHeight ? "h-full min-h-0" : "max-h-[200px]"
                 }`}
               >
-                {getKeys(filteredListings).map((id, index) => {
+                {filteredListingIds.map((id, index) => {
                   const listing = listings[id];
                   const itemName = getKeys(
                     listing.items ?? {},
