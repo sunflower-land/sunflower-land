@@ -233,34 +233,47 @@ export const HenHouseInside: React.FC = () => {
             <div className={"relative w-full h-full"}>
               {!deal && !showSellPanel && (
                 <>
-                  <img
-                    src={shopDisc}
-                    alt="Buy Animals"
-                    className="absolute top-[18px] right-[18px] cursor-pointer z-10"
+                  <button
+                    type="button"
+                    aria-label={t("buy")}
+                    className="absolute top-[18px] right-[18px] z-10 flex cursor-pointer items-center justify-center border-0 bg-transparent p-0 hover:img-highlight"
                     style={{
                       width: `${PIXEL_SCALE * 18}px`,
+                      height: `${PIXEL_SCALE * 21}px`,
                     }}
                     onClick={() => setShowModal(true)}
-                  />
+                  >
+                    <img src={shopDisc} className="h-full w-full" alt="" />
+                  </button>
 
-                  <div
-                    role="button"
-                    aria-label="Sell Animals"
-                    className="absolute top-[18px] cursor-pointer z-10 hover:img-highlight"
+                  <button
+                    type="button"
+                    aria-label={t("bounties.sellAnimals")}
+                    className="absolute top-[18px] z-10 flex cursor-pointer items-end justify-center border-0 bg-transparent p-0 hover:img-highlight"
                     style={{
                       width: `${PIXEL_SCALE * 18}px`,
+                      height: `${PIXEL_SCALE * 21}px`,
                       right: `${18 + PIXEL_SCALE * 19}px`,
                     }}
                     onClick={() => setShowSellPanel(true)}
                   >
-                    <img className="w-full" src={SUNNYSIDE.icons.disc} alt="" />
-                    <img
-                      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-                      src={SUNNYSIDE.icons.death}
-                      alt=""
-                      style={{ width: `${PIXEL_SCALE * 9}px` }}
-                    />
-                  </div>
+                    <span
+                      className="relative block w-full"
+                      style={{ height: `${PIXEL_SCALE * 19}px` }}
+                    >
+                      <img
+                        className="absolute inset-0 w-full"
+                        src={SUNNYSIDE.icons.disc}
+                        alt=""
+                      />
+                      <img
+                        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                        src={SUNNYSIDE.icons.death}
+                        alt=""
+                        style={{ width: `${PIXEL_SCALE * 9}px` }}
+                      />
+                    </span>
+                  </button>
 
                   <Button
                     className="absolute -bottom-16"

@@ -4222,6 +4222,8 @@
   "bounties.sold": "Sold",
   "bounties.minLevel": "Lvl {{level}}+",
   "bounties.sellAnimals": "Sell animals",
+  "bounties.hideCompleted": "Hide completed",
+  "bounties.completedHidden": "Completed bounties are hidden.",
   "bounties.sell.coins": "Are you sure you want to sell this for {{amount}} coins?",
   "bounties.sell.items": "Are you sure you want to sell this for {{amount}}?",
   "bounties.sell.sfl": "Are you sure you want to sell this for {{amount}} FLOWER?",
