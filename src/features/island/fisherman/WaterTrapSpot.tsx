@@ -94,17 +94,20 @@ export const WaterTrapSpot: React.FC<Props> = ({ id }) => {
         caught = caughtCrustacean(waterTrap.type, waterTrap.chum);
       }
       const [caughtItem, caughtAmount] = getObjectEntries(caught)[0];
+      const isNewCatch = (farmActivity[`${caughtItem} Caught`] ?? 0) === 0;
 
       gameService.send({
         type: "waterTrap.collected",
         trapId: id,
       });
 
-      setCollectedCatch({
-        item: caughtItem as CrustaceanName,
-        amount: caughtAmount ?? 1,
-      });
-      setShowCatchModal(true);
+      if (isNewCatch) {
+        setCollectedCatch({
+          item: caughtItem as CrustaceanName,
+          amount: caughtAmount ?? 1,
+        });
+        setShowCatchModal(true);
+      }
     }
   };
 
