@@ -343,20 +343,23 @@ export const BarnInside: React.FC = () => {
 
               {!deal && !showSellPanel && (
                 <>
-                  <img
-                    src={shopDisc}
-                    alt="Buy Animals"
-                    className="absolute top-[18px] right-[18px] cursor-pointer z-10"
+                  <button
+                    type="button"
+                    aria-label="Buy Animals"
+                    className="absolute top-[18px] right-[18px] z-10 flex cursor-pointer items-center justify-center border-0 bg-transparent p-0 hover:img-highlight"
                     style={{
                       width: `${PIXEL_SCALE * 18}px`,
+                      height: `${PIXEL_SCALE * 21}px`,
                     }}
                     onClick={() => setShowModal(true)}
-                  />
+                  >
+                    <img src={shopDisc} className="h-full w-full" alt="" />
+                  </button>
 
-                  <div
-                    role="button"
+                  <button
+                    type="button"
                     aria-label="Sell Animals"
-                    className="absolute cursor-pointer z-10 hover:img-highlight"
+                    className="absolute z-10 cursor-pointer border-0 bg-transparent p-0 hover:img-highlight"
                     style={{
                       // The shop disc has a 2px bag sprite above its disc, so its disc face sits
                       // 2 native px lower than the plain disc. Match that so the two discs line up.
@@ -366,14 +369,18 @@ export const BarnInside: React.FC = () => {
                     }}
                     onClick={() => setShowSellPanel(true)}
                   >
-                    <img className="w-full" src={SUNNYSIDE.icons.disc} alt="" />
+                    <img
+                      className="block w-full"
+                      src={SUNNYSIDE.icons.disc}
+                      alt=""
+                    />
                     <img
                       className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
                       src={SUNNYSIDE.icons.death}
                       alt=""
                       style={{ width: `${PIXEL_SCALE * 7}px` }}
                     />
-                  </div>
+                  </button>
 
                   <img
                     src={SUNNYSIDE.icons.upgrade_disc}
