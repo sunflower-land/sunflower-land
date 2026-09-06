@@ -301,6 +301,8 @@ export const LOVE_BOULDER_RESPAWN_MS = 5 * 1000;
 export type LoveBoulderRound = {
   /** Increments every time a fresh boulder appears. */
   roundId: number;
+  /** Hits a fresh boulder starts with - the health bar's full width. */
+  hits: number;
   /** Hits still needed to break it (0 once broken). */
   hitsRemaining: number;
   /**
@@ -420,6 +422,7 @@ export function createLoveBoulderLocalRound(
 ): LoveBoulderLocalRound {
   return {
     roundId,
+    hits: LOVE_BOULDER_HITS,
     hitsRemaining: LOVE_BOULDER_HITS,
     broken: false,
     crowdProgress: 0,
@@ -464,6 +467,7 @@ export function tickLoveBoulderLocalRound({
 
   return {
     roundId: round.roundId,
+    hits: round.hits,
     hitsRemaining: 0,
     broken: true,
     brokenAt: now,

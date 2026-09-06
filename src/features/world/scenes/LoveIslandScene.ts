@@ -103,8 +103,27 @@ const LOCAL_BOT_COUNT = 6;
 const BOULDER_SPOT = { x: 620, y: 362 };
 const BOULDER_WIDTH = 26;
 const BOULDER_HEIGHT = 25;
-/** How close a player has to stand to land a hit. */
-const BOULDER_REACH = 40;
+/**
+ * Clear ground kept around the rock. Without it the crowd stands on top of
+ * the boulder and nobody can see it; the collider is the art plus this buffer
+ * on every side, so miners gather around its edge.
+ */
+const BOULDER_BUFFER = 8;
+/**
+ * How close a player has to stand to land a hit - far enough to reach from
+ * the buffer's corners (a body's width past the collider).
+ */
+const BOULDER_REACH = 50;
+/** Health bar below the boulder, in the HUD bars' red-on-dark palette. */
+const HEALTH_BAR_WIDTH = 30;
+const HEALTH_BAR_HEIGHT = 5;
+const HEALTH_BAR_INNER_WIDTH = HEALTH_BAR_WIDTH - 2;
+const HEALTH_BAR_Y = BOULDER_SPOT.y + BOULDER_HEIGHT / 2 + 4;
+const HEALTH_BAR_TRACK = 0x3e2731;
+const HEALTH_BAR_FILL = 0xe43b44;
+/** The fill flashes this colour for a moment on every tap you land. */
+const HEALTH_BAR_FLASH = 0xff8e8e;
+const HEALTH_BAR_FLASH_MS = 80;
 /** Rubble colours pulled from the boulder art. */
 const RUBBLE_COLOURS = [0x9a9aa8, 0x6b6b7a, 0xc8c8d4];
 /** Clickable area of the prize label (icon + "+5"), generous for thumbs. */
@@ -178,7 +197,8 @@ const LOSE_COLOUR = 0xe57373;
  * the rubble for 5 seconds - anyone who landed a hit can click it for 5
  * Love Charms (once a day) - then a fresh boulder appears. The room
  * publishes `state.loveBoulder`; until it does, a simulated crowd chips
- * away locally. The only HUD is the hit count in a label above the boulder.
+ * away locally. The HUD is the hit count in a label above the boulder and a
+ * health bar below it that drains with every tap.
  */
 export class LoveIslandScene extends BaseScene {
   sceneId: SceneId = "love_island";
@@ -212,6 +232,12 @@ export class LoveIslandScene extends BaseScene {
   /** Nine-patch behind the hit count, resized to fit the number. */
   private boulderHitsLabel?: Phaser.GameObjects.Container;
   private boulderHitsPatch?: { resize: (w: number, h: number) => void };
+  /** Health bar under the boulder, redrawn when its fill width changes. */
+  private boulderHealthBar?: Phaser.GameObjects.Graphics;
+  private boulderHealthFill?: number;
+  private boulderHealthFlashing = false;
+  /** Epoch ms the health bar's tap flash ends. */
+  private boulderHealthFlashUntil = 0;
   /** Love Charm prize shown on the rubble while it can be claimed. */
   private boulderReward?: Phaser.GameObjects.Container;
   /** Round whose prize the local player has clicked. */
@@ -1207,12 +1233,13 @@ export class LoveIslandScene extends BaseScene {
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => this.hitBoulder());
 
-    // Solid - you mine it from around it, not through it
+    // Solid, with clear ground around it - you mine it from its edge, so the
+    // crowd can't pile onto the rock and hide it
     const collider = this.add.rectangle(
       x,
-      y + 4,
-      BOULDER_WIDTH - 4,
-      BOULDER_HEIGHT - 10,
+      y,
+      BOULDER_WIDTH + BOULDER_BUFFER * 2,
+      BOULDER_HEIGHT + BOULDER_BUFFER * 2,
       0x000000,
       0,
     );
@@ -1237,6 +1264,11 @@ export class LoveIslandScene extends BaseScene {
     this.boulderHitsText = this.add.bitmapText(0, 1, FONT, "", 5);
     this.boulderHitsLabel = this.add
       .container(x, BOULDER_LABEL_Y, [patch, this.boulderHitsText])
+      .setDepth(Number.MAX_SAFE_INTEGER);
+
+    // Health bar under the rock, always drawn over the crowd
+    this.boulderHealthBar = this.add
+      .graphics({ x: x - HEALTH_BAR_WIDTH / 2, y: HEALTH_BAR_Y })
       .setDepth(Number.MAX_SAFE_INTEGER);
 
     // The prize, sitting on the rubble for a few seconds once it cracks -
@@ -1274,6 +1306,7 @@ export class LoveIslandScene extends BaseScene {
 
       return {
         roundId: remote.roundId,
+        hits: remote.hits,
         // Hits we've sent come off straight away; the room catches up
         hitsRemaining: broken
           ? 0
@@ -1355,6 +1388,7 @@ export class LoveIslandScene extends BaseScene {
     });
 
     this.spawnRubble(3, 10);
+    this.boulderHealthFlashUntil = Date.now() + HEALTH_BAR_FLASH_MS;
     this.sound.play("dig", { volume: 0.05 });
   }
 
@@ -1421,6 +1455,7 @@ export class LoveIslandScene extends BaseScene {
     }
 
     this.setBoulderHits(round.broken ? undefined : round.hitsRemaining);
+    this.setBoulderHealth(round, now);
 
     // The prize sits there until the window closes or we've taken it
     const rewardOpen =
@@ -1471,6 +1506,50 @@ export class LoveIslandScene extends BaseScene {
     }
 
     label.setVisible(true);
+  }
+
+  /**
+   * Health bar under the boulder, hidden while it's broken. The fill is whole
+   * pixels, and stays at least one wide until the room says it has cracked.
+   * Each of your own taps flashes the fill so every hit registers, even when
+   * it isn't enough to move the bar a pixel.
+   */
+  private setBoulderHealth(round: LoveBoulderRound, now: number) {
+    const bar = this.boulderHealthBar;
+    if (!bar) return;
+
+    if (round.broken) {
+      bar.setVisible(false);
+      this.boulderHealthFill = undefined;
+      return;
+    }
+
+    const fill = Math.max(
+      1,
+      Math.min(
+        HEALTH_BAR_INNER_WIDTH,
+        Math.ceil(
+          (HEALTH_BAR_INNER_WIDTH * round.hitsRemaining) /
+            Math.max(1, round.hits),
+        ),
+      ),
+    );
+    const flashing = now < this.boulderHealthFlashUntil;
+
+    if (
+      fill !== this.boulderHealthFill ||
+      flashing !== this.boulderHealthFlashing
+    ) {
+      this.boulderHealthFill = fill;
+      this.boulderHealthFlashing = flashing;
+      bar.clear();
+      bar.fillStyle(HEALTH_BAR_TRACK, 1);
+      bar.fillRect(0, 0, HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT);
+      bar.fillStyle(flashing ? HEALTH_BAR_FLASH : HEALTH_BAR_FILL, 1);
+      bar.fillRect(1, 1, fill, HEALTH_BAR_HEIGHT - 2);
+    }
+
+    bar.setVisible(true);
   }
 
   /** The boulder just cracked - shatter it and leave the prize on the rubble. */

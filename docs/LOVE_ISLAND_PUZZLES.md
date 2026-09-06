@@ -269,8 +269,11 @@ it down from **50,000 hits** to zero. When it cracks, a **5 Love Charm**
 prize sits on the rubble for **5 seconds**: anyone who landed at least one
 hit on that boulder can click it to claim, **once per UTC day**. When the 5
 seconds are up a fresh boulder appears at 50,000 and anyone who didn't click
-misses out. There is no guide entry and no HUD text beyond the hit count
-above the boulder (in a label) - the boulder is meant to be discovered.
+misses out. There is no guide entry and no HUD beyond the hit count above
+the boulder (in a label) and a health bar below it - the boulder is meant to
+be discovered. The boulder's collider is the art plus an **8px** buffer on
+every side, so the crowd mines it from around its edge rather than standing
+on top of it.
 
 ```ts
 LOVE_BOULDER_HITS = 50_000;
@@ -312,7 +315,7 @@ Rules:
 - Ignore if `roundId` ≠ the current round, or the boulder is broken
   (`brokenAt > 0`).
 - Ignore if the player's last accepted hit was under **200ms** ago.
-- Ignore if the player is further than ~**40px** from the boulder (use the
+- Ignore if the player is further than ~**50px** from the boulder (use the
   position in `state.players`; the client refuses to send from further away,
   so this only guards forged messages).
 - Otherwise `hitsRemaining -= 1` and `miners[farmId] += 1`.
@@ -328,9 +331,10 @@ farm's `floatingIsland.prizeClaims` (and bounded by the event's daily caps).
 
 ### What the client does
 
-- Shows `hitsRemaining` in a label above the boulder (nothing else), subtracting hits it
-  has sent that the room hasn't reflected yet, and never lets that optimistic
-  count reach zero - only `brokenAt > 0` breaks the boulder.
+- Shows `hitsRemaining` in a label above the boulder and as a health bar
+  below it (`hitsRemaining / hits`), subtracting hits it has sent that the
+  room hasn't reflected yet, and never lets that optimistic count (or the
+  bar) reach zero - only `brokenAt > 0` breaks the boulder.
 - Each tap: must be within reach, respects the 200ms cooldown, sends
   `loveBoulder.hit`, shakes the boulder and chips off rubble.
 - When `brokenAt` flips from 0: plays the shatter and shows a clickable
