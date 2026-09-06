@@ -36,7 +36,6 @@ import {
   getLoveDilemmaPlatformPrizes,
   getLoveDilemmaRound,
   getLoveDilemmaTiers,
-  getLovePushPayout,
   hasClaimedLoveBoulderRound,
   hasClaimedLoveBoulderToday,
   hasClaimedLovePushToday,
@@ -175,8 +174,9 @@ const LOSE_COLOUR = 0xe57373;
  * nothing says which boulder or where, so the crowd has to work it out
  * together. The border is walkable, so a boulder on a wall or in a corner
  * can always be pushed back in. When all four lights are on everyone who
- * moved a boulder is paid automatically (once a day), then a fresh layout
- * appears. The room publishes `state.lovePush`;
+ * moved a boulder is handed a Bronze Love Box automatically (once a day) -
+ * the prize the petal puzzle used to pay for this same clearing - then a
+ * fresh layout appears. The room publishes `state.lovePush`;
  * until it does a simulated crowd shoves boulders about now and then.
  *
  * Three platforms in a row, each showing a Love Charm prize. Every 30s
@@ -193,7 +193,7 @@ const LOSE_COLOUR = 0xe57373;
  * game is playable locally.
  *
  * Love Boulder: a boulder at the top of the island that the whole island
- * taps down from 50,000 hits. When it cracks, a Love Charm prize sits on
+ * taps down from 10,000 hits. When it cracks, a Love Charm prize sits on
  * the rubble for 5 seconds - anyone who landed a hit can click it for 5
  * Love Charms (once a day) - then a fresh boulder appears. The room
  * publishes `state.loveBoulder`; until it does, a simulated crowd chips
@@ -1198,23 +1198,19 @@ export class LoveIslandScene extends BaseScene {
       return;
     }
 
-    // Capped to what's still claimable today so the event never rejects it
-    const amount = getLovePushPayout({ state, now });
-
-    // The roundId makes a reload mid-celebration a no-op, not a second claim
+    // The prize is an item, not Love Charms - the event pays the box and
+    // records the claim as worth 0, so the day's Love Charm budget is
+    // untouched. The roundId makes a reload mid-celebration a no-op rather
+    // than a second claim.
     this.gameService?.send({
       type: "floatingIslandPrize.claimed",
-      amount,
+      amount: 0,
       game: "love_push",
       roundId: round.roundId,
     });
 
-    if (amount > 0) {
-      this.celebrate(player);
-      this.showWinnings(amount);
-    } else {
-      player.speak(translateForBubble("lovePush.dailyLimit"));
-    }
+    this.celebrate(player);
+    player.speak(translateForBubble("lovePush.prize"));
   }
 
   // ---------------------------------------------------------------------

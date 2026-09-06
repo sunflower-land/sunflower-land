@@ -31,7 +31,7 @@ import {
   LOVE_PUSH_GRID_SIZE,
   LOVE_PUSH_LOCAL_BOT_MOVE_MS,
   LOVE_PUSH_MIN_SOLUTION_PUSHES,
-  LOVE_PUSH_PRIZES,
+  LOVE_PUSH_PRIZE,
   LOVE_PUSH_SOLVED_MS,
   applyLovePush,
   canClaimLovePush,
@@ -40,7 +40,6 @@ import {
   fromLovePushTileIndex,
   getLovePushLayout,
   getLovePushLitCount,
-  getLovePushPayout,
   getLovePushPusherTile,
   getLovePushSolutionLength,
   isLovePushSolved,
@@ -819,27 +818,32 @@ describe("Lover's Push", () => {
   });
 
   describe("claims", () => {
-    it("pays VIP and standard prizes", () => {
-      expect(getLovePushPayout({ state: vipFarm, now })).toBe(
-        LOVE_PUSH_PRIZES.vip,
-      );
-      expect(getLovePushPayout({ state: INITIAL_FARM, now })).toBe(
-        LOVE_PUSH_PRIZES.standard,
-      );
+    it("pays the petal puzzle's old prize", () => {
+      expect(LOVE_PUSH_PRIZE).toEqual({ item: "Bronze Love Box", amount: 1 });
     });
 
-    it("caps the payout at what's left today", () => {
-      const standard: GameState = {
+    /**
+     * The box is not Love Charms, so a player who has already spent the day's
+     * whole Love Charm allowance elsewhere is still paid in full - the thing
+     * the VIP/standard split used to decide.
+     */
+    it("pays the same however many Love Charms have been claimed today", () => {
+      const spent: GameState = {
         ...INITIAL_FARM,
         floatingIsland: {
           ...INITIAL_FARM.floatingIsland,
           prizeClaims: [
-            { claimedAt: now - 1000, amount: 4, game: "love_dilemma" },
+            { claimedAt: now - 1000, amount: 5, game: "love_dilemma" },
           ],
         },
       };
 
-      expect(getLovePushPayout({ state: standard, now })).toBe(1);
+      expect(
+        canClaimLovePush({ state: spent, myMoves: 1, roundId: 1, now }),
+      ).toBe(true);
+      expect(
+        canClaimLovePush({ state: vipFarm, myMoves: 1, roundId: 1, now }),
+      ).toBe(true);
     });
 
     it("only pays players who moved a boulder", () => {

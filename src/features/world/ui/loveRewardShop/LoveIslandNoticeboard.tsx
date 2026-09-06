@@ -16,7 +16,7 @@ import {
   LOVE_DILEMMA_MIN_PLAYERS,
   LOVE_DILEMMA_TIER_PRIZES,
   LOVE_ISLAND_CENTRE_PUZZLE,
-  LOVE_PUSH_PRIZES,
+  LOVE_PUSH_PRIZE,
 } from "features/world/lib/loveIsland";
 
 /**
@@ -79,10 +79,10 @@ const LovePushGuide: React.FC = () => {
           },
           {
             text: translate("lovePush.guide.prizes", {
-              vip: LOVE_PUSH_PRIZES.vip,
-              standard: LOVE_PUSH_PRIZES.standard,
+              amount: LOVE_PUSH_PRIZE.amount,
+              item: LOVE_PUSH_PRIZE.item,
             }),
-            icon: ITEM_DETAILS["Love Charm"].image,
+            icon: ITEM_DETAILS[LOVE_PUSH_PRIZE.item].image,
           },
         ]}
       />

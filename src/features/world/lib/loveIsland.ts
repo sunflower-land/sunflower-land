@@ -1,9 +1,10 @@
 import {
+  FLOATING_ISLAND_GAME_ITEM_PRIZE,
   getFloatingIslandGameClaimsToday,
   getFloatingIslandLoveCharmsRemainingToday,
 } from "features/game/events/landExpansion/claimFloatingIslandPrize";
 import { hasVipAccess } from "features/game/lib/vipAccess";
-import type { GameState } from "features/game/types/game";
+import type { GameState, InventoryItemName } from "features/game/types/game";
 
 /**
  * Client-side rules for the Love Island games (Love Dilemma, Love Boulder,
@@ -284,8 +285,12 @@ export function getLoveDilemmaBotChoices(
 // Love Boulder
 // ---------------------------------------------------------------------------
 
-/** Taps it takes the whole island to crack one boulder. */
-export const LOVE_BOULDER_HITS = 50_000;
+/**
+ * Taps it takes the whole island to crack one boulder. Only used by the local
+ * stand-in - once the room is running, the client shows the `hits` it
+ * publishes, so the room's number is the one that counts.
+ */
+export const LOVE_BOULDER_HITS = 10_000;
 /** Love Charms for everyone who landed a hit on the boulder that broke. */
 export const LOVE_BOULDER_PRIZE = 5;
 /** The prize can be claimed this many times per UTC day. */
@@ -502,8 +507,18 @@ export const LOVE_PUSH_BOULDERS = 4;
  * shove after the cooldown is the one that counts.
  */
 export const LOVE_PUSH_MOVE_MS = 300;
-/** Love Charms for everyone who moved a boulder in the solved round. */
-export const LOVE_PUSH_PRIZES = { vip: 20, standard: 3 } as const;
+/**
+ * What everyone who moved a boulder in the solved round gets. The clearing
+ * used to hold the petal puzzle, so Lover's Push pays what that paid - one
+ * Bronze Love Box - and islanders keep the reward they always had. Unlike the
+ * other island puzzles this is an item, not Love Charms, so it is not touched
+ * by the daily Love Charm cap. `FLOATING_ISLAND_GAME_ITEM_PRIZE` is what
+ * actually pays it out; this is the same prize, for the UI to show.
+ */
+export const LOVE_PUSH_PRIZE = FLOATING_ISLAND_GAME_ITEM_PRIZE.love_push as {
+  item: InventoryItemName;
+  amount: number;
+};
 /** The prize can be claimed this many times per UTC day. */
 export const LOVE_PUSH_MAX_CLAIMS = 1;
 /** How long the solved layout is celebrated before a fresh one appears. */
@@ -894,28 +909,13 @@ export function pushLoveBoulder({
   };
 }
 
-export function getLovePushPrize({ isVip }: { isVip: boolean }): number {
-  return isVip ? LOVE_PUSH_PRIZES.vip : LOVE_PUSH_PRIZES.standard;
-}
-
 /**
- * What a solved puzzle actually pays this player right now: the prize,
- * capped by the Love Charms they can still earn today (the event rejects
- * more).
+ * The prize pays no Love Charms, so unlike the Dilemma and the Boulder there
+ * is nothing to cap: everyone who pushed gets the same box, VIP or not, and a
+ * player who has spent their whole Love Charm allowance elsewhere still gets
+ * it. `canClaimLovePush` below is the only thing standing between a solved
+ * round and the box.
  */
-export function getLovePushPayout({
-  state,
-  now = Date.now(),
-}: {
-  state: GameState;
-  now?: number;
-}): number {
-  return Math.min(
-    getLovePushPrize({ isVip: hasVipAccess({ game: state, now }) }),
-    getFloatingIslandLoveCharmsRemainingToday({ state, createdAt: now }),
-  );
-}
-
 /** Today's Lover's Push claims (at most one, but the event keeps a list). */
 export function getLovePushClaimsToday({
   state,
