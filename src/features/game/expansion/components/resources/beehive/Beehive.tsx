@@ -447,6 +447,14 @@ export const Beehive: React.FC<Props> = ({ id }) => {
               </div>
             </div>
           )}
+          {hive.swarm && (
+            <div className="flex px-2 py-1 items-center gap-x-2 gap-y-1 flex-wrap">
+              <Label type="default" icon={bee}>
+                {t("beehive.beeSwarm")}
+              </Label>
+              <div className="text-xs mb-0.5">{t("beehive.afterFullHive")}</div>
+            </div>
+          )}
           <Button className="mt-1" onClick={handleHarvestHoney}>
             {t("beehive.harvestHoney")}
           </Button>
