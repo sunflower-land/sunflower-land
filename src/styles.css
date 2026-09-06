@@ -1278,6 +1278,55 @@ img {
   animation: floating 750ms infinite;
 }
 
+@keyframes bee-swarm-orbit {
+  0%,
+  100% {
+    opacity: 0.9;
+    transform: translate3d(-15px, 1px, 0) scale(0.92);
+  }
+  12.5% {
+    opacity: 0.8;
+    transform: translate3d(-11px, -3px, 0) scale(0.9);
+  }
+  25% {
+    opacity: 0.72;
+    transform: translate3d(0, -5px, 0) scale(0.88);
+  }
+  37.5% {
+    opacity: 0.8;
+    transform: translate3d(11px, -3px, 0) scale(0.9);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translate3d(15px, 1px, 0) scale(0.92);
+  }
+  62.5% {
+    opacity: 1;
+    transform: translate3d(11px, 5px, 0) scale(1);
+  }
+  75% {
+    opacity: 1;
+    transform: translate3d(0, 7px, 0) scale(1.06);
+  }
+  87.5% {
+    opacity: 1;
+    transform: translate3d(-11px, 5px, 0) scale(1);
+  }
+}
+
+.bee-swarm-orbit-bee {
+  animation: bee-swarm-orbit 4s linear infinite;
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bee-swarm-orbit-bee {
+    animation: none;
+    opacity: 1;
+    transform: translate3d(0, -6px, 0);
+  }
+}
+
 @keyframes enter-hive {
   0% {
     transform: translate(-50%, 0) scale(1);

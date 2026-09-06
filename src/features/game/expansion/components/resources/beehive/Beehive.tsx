@@ -251,6 +251,24 @@ export const Beehive: React.FC<Props> = ({ id }) => {
             right: `${PIXEL_SCALE * 2}px`,
           }}
         />
+        {/* Orbiting bee indicating this hive will trigger a Bee Swarm when full */}
+        {!landscaping && hive.swarm && (
+          <div
+            role="img"
+            aria-label={t("beehive.beeSwarm")}
+            className="bee-swarm-orbit absolute left-1/2 -translate-x-1/2 pointer-events-none z-40"
+            style={{ top: `${PIXEL_SCALE * -2}px` }}
+          >
+            <img
+              src={bee}
+              alt=""
+              className="bee-swarm-orbit-bee"
+              style={{
+                width: `${PIXEL_SCALE * 7}px`,
+              }}
+            />
+          </div>
+        )}
         {/* Bee to indicate honey is currently being produced */}
         {!showBeeAnimation &&
           !landscaping &&
@@ -313,12 +331,20 @@ export const Beehive: React.FC<Props> = ({ id }) => {
           }}
         >
           <InfoPopover showPopover={showHoneyLevelPopover}>
-            <div className="flex flex-1 items-center text-xxs justify-center px-2 py-1 whitespace-nowrap">
-              <img src={ITEM_DETAILS.Honey.image} className="w-4 mr-1" />
-              <span>
-                {t("honey")}
-                {":"} {honeyPercentageDisplay} {t("full")}
-              </span>
+            <div className="flex flex-1 flex-col text-xxs px-2 py-1 whitespace-nowrap">
+              <div className="flex items-center justify-center">
+                <img src={ITEM_DETAILS.Honey.image} className="w-4 mr-1" />
+                <span>
+                  {t("honey")}
+                  {":"} {honeyPercentageDisplay} {t("full")}
+                </span>
+              </div>
+              {hive.swarm && (
+                <div className="flex items-center justify-center mt-0.5">
+                  <img src={bee} className="w-4 mr-1" alt="" />
+                  <span>{t("beehive.beeSwarmAfterFullHive")}</span>
+                </div>
+              )}
             </div>
           </InfoPopover>
         </div>

@@ -275,6 +275,7 @@
   "beehive.harvestHoney": "Harvest honey",
   "beehive.noFlowersGrowing": "No flowers growing",
   "beehive.beeSwarm": "Bee swarm",
+  "beehive.beeSwarmAfterFullHive": "Bee swarm after full hive!",
   "beehive.pollinationCelebration": "Pollination celebration! Your crops are in for a treat with a +{{amount}} boost from a friendly bee swarm!",
   "beehive.honeyProductionPaused": "Honey production paused",
   "beehive.yield": "Yield",
