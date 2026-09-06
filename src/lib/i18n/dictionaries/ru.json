@@ -8513,5 +8513,14 @@
   "loveBoulder.didNotHelp": "Hit the boulder to earn the prize!",
   "loveBoulder.alreadyClaimed": "Already claimed today. Come back tomorrow!",
   "loveBoulder.dailyLimit": "Daily Love Charm limit reached",
-  "description.boostedReadyAt": "Ready at {{time}}"
+  "description.boostedReadyAt": "Ready at {{time}}",
+  "lovePush.waitForNextPuzzle": "Solved! Wait for the next puzzle",
+  "lovePush.didNotHelp": "Help push a boulder to earn the prize!",
+  "lovePush.alreadyClaimed": "Already claimed today. Come back tomorrow!",
+  "lovePush.dailyLimit": "Daily Love Charm limit reached",
+  "lovePush.guide.title": "Lover's Push",
+  "lovePush.guide.push": "Walk into a boulder to shove it one tile. Anyone can push at any time - first come, first served - and everyone sees it slide.",
+  "lovePush.guide.lights": "Four target tiles are hidden in the grid. A light comes on for every boulder resting on one - but not which boulder, or where.",
+  "lovePush.guide.walls": "Boulders can't leave the grid or be pushed into each other. Walk around the outside of the grid to push one back in. Plan together!",
+  "lovePush.guide.prizes": "Light all four and everyone who moved a boulder is rewarded: {{vip}} Love Charms for VIP members, {{standard}} for everyone else, once a day."
 }

@@ -8513,5 +8513,14 @@
   "loveBoulder.didNotHelp": "Pukul batu besar untuk mendapatkan hadiah!",
   "loveBoulder.alreadyClaimed": "Sudah diklaim hari ini. Kembalilah besok!",
   "loveBoulder.dailyLimit": "Batas Charm Cinta Harian tercapai",
-  "description.boostedReadyAt": "Siap di {{time}}"
+  "description.boostedReadyAt": "Siap di {{time}}",
+  "lovePush.waitForNextPuzzle": "Terpecahkan! Tunggu teka-teki berikutnya",
+  "lovePush.didNotHelp": "Bantu dorong batu besar untuk mendapatkan hadiah!",
+  "lovePush.alreadyClaimed": "Sudah diklaim hari ini. Kembalilah besok!",
+  "lovePush.dailyLimit": "Batas Charm Cinta Harian tercapai",
+  "lovePush.guide.title": "Dorongan Kekasih",
+  "lovePush.guide.push": "Berjalan ke batu besar untuk mendorongnya satu ubin. Siapa pun dapat mendorong kapan saja - pertama datang, dilayani pertama - dan semua orang melihatnya meluncur.",
+  "lovePush.guide.lights": "Empat ubin target disembunyikan di grid. Sebuah lampu menyala untuk setiap batu besar yang bertumpu pada satu - tetapi tidak pada batu yang mana, atau di mana.",
+  "lovePush.guide.walls": "Batu-batu besar tidak bisa meninggalkan grid atau didorong satu sama lain. Berjalanlah di sekitar bagian luar grid untuk mendorong satu kembali. Rencanakan bersama!",
+  "lovePush.guide.prizes": "Nyalakan keempatnya dan setiap orang yang memindahkan batu besar diberi hadiah: {{vip}} Love Charms untuk anggota VIP, {{standard}} untuk semua orang, sekali sehari."
 }

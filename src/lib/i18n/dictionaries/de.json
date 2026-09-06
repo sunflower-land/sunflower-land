@@ -8513,5 +8513,14 @@
   "loveBoulder.didNotHelp": "Triff den Felsbrocken, um dir den Preis zu sichern!",
   "loveBoulder.alreadyClaimed": "Heute schon beansprucht. Komm morgen wieder!",
   "loveBoulder.dailyLimit": "Tägliches Love Charm-Limit erreicht",
-  "description.boostedReadyAt": "Bereit um {{time}}"
+  "description.boostedReadyAt": "Bereit um {{time}}",
+  "lovePush.waitForNextPuzzle": "Gelöst! Warte auf das nächste Rätsel",
+  "lovePush.didNotHelp": "Hilf, einen Felsbrocken zu stoßen, um den Preis zu gewinnen!",
+  "lovePush.alreadyClaimed": "Heute schon beansprucht. Komm morgen wieder!",
+  "lovePush.dailyLimit": "Tägliches Love Charm-Limit erreicht",
+  "lovePush.guide.title": "Push des Liebhabers",
+  "lovePush.guide.push": "Gehe in einen Felsbrocken und schiebe ihm eine Kachel hinein. Jeder kann jederzeit pushen - wer zuerst kommt, mahlt zuerst - und jeder sieht, wie es rutscht.",
+  "lovePush.guide.lights": "Vier Zielplättchen sind im Raster versteckt. Für jeden Felsbrocken, der auf einem liegt, geht ein Licht an - aber nicht für welchen Felsbrocken oder wo.",
+  "lovePush.guide.walls": "Felsbrocken können das Gitter nicht verlassen oder ineinander geschoben werden. Gehen Sie um die Außenseite des Rasters herum, um einen wieder hineinzudrücken. Plane zusammen!",
+  "lovePush.guide.prizes": "Zünden Sie alle vier an und jeder, der einen Felsbrocken bewegt hat, wird belohnt: {{vip}} Love Charms für VIP-Mitglieder, {{standard}} für alle anderen, einmal am Tag."
 }
