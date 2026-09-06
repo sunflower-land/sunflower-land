@@ -15,13 +15,19 @@ import {
   LOVE_DILEMMA_MAX_ATTEMPTS,
   LOVE_DILEMMA_MIN_PLAYERS,
   LOVE_DILEMMA_TIER_PRIZES,
+  LOVE_ISLAND_CENTRE_PUZZLE,
+  LOVE_PUSH_PRIZES,
 } from "features/world/lib/loveIsland";
 
 /**
  * Bump this key whenever the rules change so every player sees the new
- * guide once. "loveIsland.notice" was the petal puzzle guide.
+ * guide once. "loveIsland.notice" was the petal puzzle guide. Each centre
+ * puzzle has its own key so switching puzzles shows its guide once.
  */
-const NOTICE_KEY = "loveIsland.notice.dilemma";
+const NOTICE_KEY =
+  LOVE_ISLAND_CENTRE_PUZZLE === "push"
+    ? "loveIsland.notice.push"
+    : "loveIsland.notice.dilemma";
 
 export function hasReadLoveIslandNotice() {
   return !!localStorage.getItem(NOTICE_KEY);
@@ -48,6 +54,42 @@ const platformDetails = [
   },
 ];
 
+const LovePushGuide: React.FC = () => {
+  const { t } = useAppTranslation();
+
+  return (
+    <div className="p-1 pr-1.5">
+      <div className="flex items-center gap-x-2 mb-1">
+        <Label type="default">{t("lovePush.guide.title")}</Label>
+        <img src={SUNNYSIDE.resource.stone_rock} style={{ width: 18 }} />
+      </div>
+      <NoticeboardItems
+        items={[
+          {
+            text: translate("lovePush.guide.push"),
+            icon: SUNNYSIDE.icons.player,
+          },
+          {
+            text: translate("lovePush.guide.lights"),
+            icon: SUNNYSIDE.icons.confirm,
+          },
+          {
+            text: translate("lovePush.guide.walls"),
+            icon: SUNNYSIDE.icons.cancel,
+          },
+          {
+            text: translate("lovePush.guide.prizes", {
+              vip: LOVE_PUSH_PRIZES.vip,
+              standard: LOVE_PUSH_PRIZES.standard,
+            }),
+            icon: ITEM_DETAILS["Love Charm"].image,
+          },
+        ]}
+      />
+    </div>
+  );
+};
+
 export const LoveIslandNoticeboard: React.FC<{
   onClose: () => void;
 }> = ({ onClose }) => {
@@ -55,6 +97,32 @@ export const LoveIslandNoticeboard: React.FC<{
 
   const bestVip = LOVE_DILEMMA_TIER_PRIZES.vip[0];
   const bestStandard = LOVE_DILEMMA_TIER_PRIZES.standard[0];
+
+  if (LOVE_ISLAND_CENTRE_PUZZLE === "push") {
+    return (
+      <CloseButtonPanel
+        bumpkinParts={NPC_WEARABLES["rocket man"]}
+        tabs={[
+          {
+            name: t("guide"),
+            id: "guide",
+            icon: tier3_book,
+          },
+        ]}
+      >
+        <LovePushGuide />
+
+        <Button
+          onClick={() => {
+            onClose();
+            acknowledgeIntro();
+          }}
+        >
+          {t("ok")}
+        </Button>
+      </CloseButtonPanel>
+    );
+  }
 
   return (
     <CloseButtonPanel
