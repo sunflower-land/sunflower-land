@@ -152,6 +152,20 @@ const PUSH_GRID_COLOUR = 0x3e2731;
 const PUSH_BUBBLE_COOLDOWN_MS = 3000;
 /** The lights sit in a label above the grid. */
 const PUSH_LIGHTS_Y = PUSH_GRID_ORIGIN.y - 14;
+/**
+ * While the player is on the grid the label follows the camera so it's
+ * always in view - a phone's camera is zoomed in enough that the top of
+ * the grid is off screen from the bottom of it. This keeps it clear of
+ * the edges (and the HUD along the top).
+ */
+const PUSH_LIGHTS_MARGIN = 26;
+/**
+ * How long a shove waits for the room to answer before the boulder can be
+ * shoved again. The room's state still has it where it was until then, so
+ * without this a player leaning on it sends a second shove and it goes two
+ * tiles.
+ */
+const PUSH_ANSWER_MS = 2000;
 const LAMP_SIZE = 6;
 const LAMP_GAP = 3;
 const LAMP_OFF_COLOUR = 0xc0b7a8;
@@ -982,7 +996,8 @@ export class LoveIslandScene extends BaseScene {
   /**
    * The local player is pressing against a boulder. If they're walking
    * into it (not just standing there) it goes one tile the way they're
-   * heading - first come, first served, one shove per slide.
+   * heading - first come, first served, one shove per slide, and not again
+   * until the last shove has landed (or the room has had time to refuse it).
    */
   private walkIntoBoulder(collider: Phaser.GameObjects.Rectangle) {
     const player = this.currentPlayer;
@@ -993,7 +1008,9 @@ export class LoveIslandScene extends BaseScene {
     if (this.movementAngle === undefined) return;
 
     const now = Date.now();
-    if (now - (this.lastPushAt[boulder] ?? 0) < LOVE_PUSH_MOVE_MS) return;
+    const sincePush = now - (this.lastPushAt[boulder] ?? 0);
+    if (sincePush < LOVE_PUSH_MOVE_MS) return;
+    if (this.pendingPushes[boulder] && sincePush < PUSH_ANSWER_MS) return;
 
     // Which side are we on? The bigger offset from the boulder decides
     const dx = collider.x - body.center.x;
@@ -1150,6 +1167,7 @@ export class LoveIslandScene extends BaseScene {
       this.renderedLit = round.lit;
       this.setPushLights(round.lit);
     }
+    this.positionPushLights();
 
     if (!round.solved) {
       this.sawPushUnsolved = true;
@@ -1166,6 +1184,40 @@ export class LoveIslandScene extends BaseScene {
         .setFillStyle(on ? WIN_COLOUR : LAMP_OFF_COLOUR)
         .setStrokeStyle(1, on ? LAMP_ON_STROKE : LAMP_OFF_STROKE);
     });
+  }
+
+  /**
+   * Keep the lights in view while the player is on the grid: the label
+   * stays above the grid until the camera would leave it behind, then
+   * rides along the top of the view. Off the grid it sits above the grid.
+   */
+  private positionPushLights() {
+    const label = this.pushLightsLabel;
+    const player = this.currentPlayer;
+    if (!label || !player) return;
+
+    const { x: left, y: top } = PUSH_GRID_ORIGIN;
+    const size = LOVE_PUSH_GRID_SIZE * PUSH_TILE;
+    const onGrid =
+      player.x >= left - PUSH_TILE &&
+      player.x <= left + size + PUSH_TILE &&
+      player.y >= top - PUSH_TILE &&
+      player.y <= top + size + PUSH_TILE;
+
+    const view = this.cameras.main.worldView;
+    if (!onGrid || view.width === 0) {
+      label.setPosition(CENTRE.x, PUSH_LIGHTS_Y);
+      return;
+    }
+
+    label.setPosition(
+      Phaser.Math.Clamp(
+        CENTRE.x,
+        view.left + PUSH_LIGHTS_MARGIN,
+        view.right - PUSH_LIGHTS_MARGIN,
+      ),
+      Math.max(PUSH_LIGHTS_Y, view.top + PUSH_LIGHTS_MARGIN),
+    );
   }
 
   /** The fourth light just came on - celebrate and settle up. */
