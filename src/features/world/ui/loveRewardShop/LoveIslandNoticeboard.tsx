@@ -62,7 +62,7 @@ const LovePushGuide: React.FC = () => {
     <div className="p-1 pr-1.5">
       <div className="flex items-center gap-x-2 mb-1">
         <Label type="default">{t("lovePush.guide.title")}</Label>
-        <img src={SUNNYSIDE.resource.stone_rock} style={{ width: 18 }} />
+        <img src="world/love_rock.png" style={{ width: 18 }} />
       </div>
       <NoticeboardItems
         items={[

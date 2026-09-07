@@ -175,29 +175,34 @@ export interface LoveBoulder extends Schema {
 
 /**
  * Love Island "Lover's Push", published by the love_island room. Four
- * boulders on a 6x6 grid; it takes five players (two off mainnet) pushing the same way to
- * move one a tile. The targets stay private to the room - it only says
- * which boulders are sitting on one (`onTarget`, shown green).
+ * boulders start out toward the corners of the island and have to be rolled
+ * into the pit in the centre; it takes five players (two off mainnet)
+ * pushing the same way to roll one a tile, and a boulder that hits
+ * something goes back to its start.
  */
 export interface LovePush extends Schema {
-  /** Increments every time a fresh layout appears. */
+  /** Increments every time fresh boulders appear. */
   roundId: number;
-  /** Tile index (y * 6 + x) of each boulder, length 4. Empty means the room isn't running it. */
+  /** Tile index (y * 80 + x, 16px tiles) of each boulder, length 4. Empty means the room isn't running it. */
   boulders: ArraySchema<number>;
-  /** Whether each boulder is resting on a target, indexed by boulder. */
-  onTarget: ArraySchema<boolean>;
-  /** Boulders on a target - the green lights. */
+  /** Tile index each boulder started on this round - where it goes back to. */
+  starts: ArraySchema<number>;
+  /** Whether each boulder is in the pit, indexed by boulder. */
+  sunk: ArraySchema<boolean>;
+  /** Boulders in the pit, 0..4. */
   lit: number;
+  /** How many times each boulder has hit something and gone back, indexed by boulder. */
+  resets: ArraySchema<number>;
   /**
    * Players pushing each boulder each way: index `boulder * 4 + d`, with `d`
    * the direction's position in north, east, south, west. Length 16.
    */
   pushCounts: ArraySchema<number>;
-  /** farmId -> boulders this player helped move this round. Proof of who helped. */
+  /** farmId -> boulders this player helped roll this round. Proof of who helped. */
   pushers: MapSchema<number>;
-  /** Epoch ms the fourth light came on; 0 while unsolved. */
+  /** Epoch ms the last boulder dropped in; 0 while unsolved. */
   solvedAt: number;
-  /** Epoch ms a fresh layout appears; 0 while unsolved. */
+  /** Epoch ms fresh boulders appear; 0 while unsolved. */
   nextRoundAt: number;
 }
 
