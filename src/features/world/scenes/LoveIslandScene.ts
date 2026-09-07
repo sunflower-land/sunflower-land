@@ -292,6 +292,8 @@ export class LoveIslandScene extends BaseScene {
   private boulderHealthFlashUntil = 0;
   /** Love Charm prize shown on the rubble while it can be claimed. */
   private boulderReward?: Phaser.GameObjects.Container;
+  /** Amount the prize label was built with, so it's only rebuilt on change. */
+  private boulderRewardPrize?: number;
   /** Round whose prize the local player has clicked. */
   private claimedBoulderRoundId?: number;
   /** Simulated boulder while the room has no boulder state. */
@@ -1684,22 +1686,60 @@ export class LoveIslandScene extends BaseScene {
       .setDepth(Number.MAX_SAFE_INTEGER);
 
     // The prize, sitting on the rubble for a few seconds once it cracks -
-    // the same label style as the Dilemma platforms, but clickable
-    const reward = new Label(
-      this,
-      `+${LOVE_BOULDER_PRIZE}`,
-      "grey",
-      "love_charm_small",
-    );
+    // the same label style as the Dilemma platforms, but clickable. Built
+    // with the floor; the room's roll for the day replaces it on sync.
+    this.refreshBoulderReward(LOVE_BOULDER_PRIZE);
+  }
+
+  /**
+   * The prize label on the rubble, rebuilt whenever the amount changes (a
+   * label's width is fixed at creation, and "+30" is wider than "+5"). Hidden
+   * until the boulder cracks; `updateLoveBoulder` shows it.
+   */
+  private refreshBoulderReward(prize: number) {
+    if (this.boulderRewardPrize === prize && this.boulderReward) return;
+
+    const { x, y } = BOULDER_SPOT;
+    const previous = this.boulderReward;
+    const visible = previous?.visible ?? false;
+    const rewardY = previous?.y ?? y - 4;
+
+    if (previous) {
+      this.tweens.killTweensOf(previous);
+      previous.destroy();
+    }
+
+    const reward = new Label(this, `+${prize}`, "grey", "love_charm_small");
     reward
-      .setPosition(x, y - 4)
+      .setPosition(x, rewardY)
       .setDepth(Number.MAX_SAFE_INTEGER)
-      .setVisible(false)
+      .setVisible(visible)
       .setSize(REWARD_HIT_WIDTH, REWARD_HIT_HEIGHT)
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => this.claimBoulderReward());
     this.add.existing(reward);
+
     this.boulderReward = reward;
+    this.boulderRewardPrize = prize;
+
+    // Keep bobbing if the prize was already on show when the amount changed
+    if (visible) this.bobBoulderReward();
+  }
+
+  /** The prize label's idle bob while it waits to be clicked. */
+  private bobBoulderReward() {
+    if (!this.boulderReward) return;
+
+    this.tweens.killTweensOf(this.boulderReward);
+    this.boulderReward.setY(BOULDER_SPOT.y - 4);
+    this.tweens.add({
+      targets: this.boulderReward,
+      y: BOULDER_SPOT.y - 8,
+      duration: 400,
+      yoyo: true,
+      repeat: -1,
+      ease: "Sine.easeInOut",
+    });
   }
 
   /** Does the room run the boulder, or are we simulating it locally? */
@@ -1727,6 +1767,8 @@ export class LoveIslandScene extends BaseScene {
         ...(broken
           ? { brokenAt: remote.brokenAt, respawnAt: remote.respawnAt }
           : {}),
+        // A room that predates the daily roll publishes 0 - the floor then
+        prize: remote.prize || LOVE_BOULDER_PRIZE,
       };
     }
 
@@ -1879,21 +1921,18 @@ export class LoveIslandScene extends BaseScene {
         now,
       });
 
+    // Shown amount is what this player will actually get - the day's roll,
+    // trimmed to what they can still earn today
+    this.refreshBoulderReward(
+      getLoveBoulderPayout({ state: this.freshState, prize: round.prize, now }),
+    );
+
     if (this.boulderReward && this.boulderReward.visible !== rewardOpen) {
       this.boulderReward.setVisible(rewardOpen);
       this.tweens.killTweensOf(this.boulderReward);
       this.boulderReward.setY(BOULDER_SPOT.y - 4);
 
-      if (rewardOpen) {
-        this.tweens.add({
-          targets: this.boulderReward,
-          y: BOULDER_SPOT.y - 8,
-          duration: 400,
-          yoyo: true,
-          repeat: -1,
-          ease: "Sine.easeInOut",
-        });
-      }
+      if (rewardOpen) this.bobBoulderReward();
     }
   }
 
@@ -2011,8 +2050,9 @@ export class LoveIslandScene extends BaseScene {
       return;
     }
 
-    // Capped to what's still claimable today so the event never rejects it
-    const amount = getLoveBoulderPayout({ state, now });
+    // The day's roll, capped to what's still claimable today. The server pays
+    // its own roll regardless, so this is a preview rather than the authority
+    const amount = getLoveBoulderPayout({ state, prize: round.prize, now });
 
     // The roundId makes a reload mid-window a no-op instead of a second claim
     this.gameService?.send({

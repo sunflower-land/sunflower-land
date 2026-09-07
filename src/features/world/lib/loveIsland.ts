@@ -297,7 +297,13 @@ export function getLoveDilemmaBotChoices(
  * publishes, so the room's number is the one that counts.
  */
 export const LOVE_BOULDER_HITS = 10_000;
-/** Love Charms for everyone who landed a hit on the boulder that broke. */
+/**
+ * Love Charms for everyone who landed a hit on the boulder that broke, on an
+ * ordinary day. The real prize is rolled per UTC day by the server (5 to 30)
+ * and published with the boulder as `prize`; this is the floor, shown by the
+ * local stand-in and by a room that predates the roll. The claim event pays
+ * the server's roll whatever amount is sent, so this only affects the label.
+ */
 export const LOVE_BOULDER_PRIZE = 5;
 /** The prize can be claimed this many times per UTC day. */
 export const LOVE_BOULDER_MAX_CLAIMS = 1;
@@ -325,6 +331,8 @@ export type LoveBoulderRound = {
   brokenAt?: number;
   /** Epoch ms a fresh boulder appears - only set once broken. */
   respawnAt?: number;
+  /** Love Charms this boulder pays - the day's roll from the room. */
+  prize: number;
 };
 
 /** Is the prize sitting on the rubble right now, waiting to be clicked? */
@@ -402,18 +410,23 @@ export function canClaimLoveBoulder({
 }
 
 /**
- * What the boulder actually pays this player right now: the prize, capped
- * by the Love Charms they can still earn today (the event rejects more).
+ * What the boulder actually pays this player right now: the day's prize,
+ * capped by the Love Charms they can still earn today. The server trims its
+ * own roll the same way, so this is what the label shows and what the claim
+ * sends - never more than the player will receive.
  */
 export function getLoveBoulderPayout({
   state,
+  prize = LOVE_BOULDER_PRIZE,
   now = Date.now(),
 }: {
   state: GameState;
+  /** The room's `prize` for this boulder; the floor when it has none. */
+  prize?: number;
   now?: number;
 }): number {
   return Math.min(
-    LOVE_BOULDER_PRIZE,
+    prize,
     getFloatingIslandLoveCharmsRemainingToday({ state, createdAt: now }),
   );
 }
@@ -436,6 +449,7 @@ export function createLoveBoulderLocalRound(
     hits: LOVE_BOULDER_HITS,
     hitsRemaining: LOVE_BOULDER_HITS,
     broken: false,
+    prize: LOVE_BOULDER_PRIZE,
     crowdProgress: 0,
     lastTickAt: now,
   };
@@ -483,6 +497,7 @@ export function tickLoveBoulderLocalRound({
     broken: true,
     brokenAt: now,
     respawnAt: now + LOVE_BOULDER_RESPAWN_MS,
+    prize: round.prize,
     crowdProgress: 0,
     lastTickAt: now,
   };
