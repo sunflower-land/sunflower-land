@@ -383,8 +383,11 @@ has its centre at `(555 + 20x + 10, 506 + 20y + 10)`. Boulder art is
   standing vote: one per player per boulder (pushing another side moves it),
   kept until the boulder moves, the round ends or the player leaves the
   room. Walking into another side of the same boulder replaces your push.
-  The boulder shows the leading way (an arrow in the next tile) and how
-  close the crowd is (an orange tint and a bar), never the number.
+  A boulder can be pushed in **several directions at once** - the crowd
+  may be split - and every direction with a push shows its own arrow in
+  the tile it would slide into (half size on the first push, growing as
+  that crowd fills). The first direction to reach the full crowd is the
+  one that goes. Never the number.
 - Once **five players** (**two** off mainnet - `getLovePushPushersNeeded(network)`, both sides) are pushing the same boulder the **same way**, it
   slides **one tile** that way. Everyone sees it slide, every pusher behind
   it is credited with a move, and **all** pushes on that boulder are cleared
@@ -496,8 +499,7 @@ class LovePush extends Schema {
   @type(["number"]) boulders: ArraySchema<number>; // length 4, tile index y*6+x
   @type(["boolean"]) onTarget: ArraySchema<boolean>; // length 4, boulder resting on a target (green)
   @type("number") lit: number; // boulders on a target, 0..4 (= onTarget trues)
-  @type(["number"]) pushCounts: ArraySchema<number>; // length 4, players pushing it the leading way
-  @type(["string"]) pushDirections: ArraySchema<string>; // length 4, that way ("" while nobody is pushing)
+  @type(["number"]) pushCounts: ArraySchema<number>; // length 16: [boulder * 4 + d], players pushing boulder in direction d (north, east, south, west)
   @type({ map: "number" }) pushers: MapSchema<number>; // farmId -> boulders helped move this round
   @type("number") solvedAt: number; // epoch ms; 0 while unsolved
   @type("number") nextRoundAt: number; // epoch ms; 0 while unsolved
@@ -506,10 +508,9 @@ class LovePush extends Schema {
 
 Keep `targets`, every player's push (`votes[boulder]: farmId -> direction`)
 and per-boulder `movedAt` in private fields on the room - **never** in the
-schema. `pushCounts`/`pushDirections` are the **leading** push on each
-boulder: the direction with the most players behind it (a tie goes to the
-first of north, east, south, west) and how many. Nobody can tell from the
-state who is pushing.
+schema. `pushCounts` is **every** direction's crowd on every boulder, flat:
+`pushCounts[boulder * 4 + d]` with `d` the direction's index in `north,
+east, south, west`. Nobody can tell from the state who is pushing.
 
 ### Client → server message
 
@@ -535,8 +536,8 @@ Rules:
   `direction` - the client resends the same push every 2s as a retry.
 - Otherwise set `votes[boulder][farmId] = direction` and let `crowd` = the
   farms in `votes[boulder]` pushing `direction`.
-  - If `crowd.length < LOVE_PUSH_PUSHERS_NEEDED`: publish the boulder's `pushCounts` /
-    `pushDirections` (the leading push) and stop.
+  - If `crowd.length < LOVE_PUSH_PUSHERS_NEEDED`: publish the boulder's
+    four `pushCounts` and stop.
   - Else: `boulders[boulder] += DELTAS[direction]`, `movedAt[boulder] = now`,
     `pushers[farmId] += 1` for **every** farm in `crowd`, clear
     `votes[boulder]` (all of it, whichever way they pointed - so
@@ -552,7 +553,7 @@ crowd that is no longer there.
 
 At `nextRoundAt`: `roundId += 1`, `boulders`/private targets from
 `getLovePushLayout(roundId)`, `onTarget` all false and `lit = 0` (by
-construction), clear `votes` (all counts 0, directions ""), `pushers` and
+construction), clear `votes` (all counts 0), `pushers` and
 `movedAt`, `solvedAt = nextRoundAt = 0`.
 
 The room does not need to know about the daily claim limit - the claim is a
@@ -563,13 +564,14 @@ game event and the once-a-day rule is enforced client-side against the farm's
 
 - Draws the grid and the four boulders at `boulders` (solid). A boulder with
   `onTarget` is tinted green; there is no other HUD.
-- While `pushCounts > 0` on a boulder: draws the matching arrow icon
-  (`arrow_up` / `arrow_right` / `arrow_down` / `arrow_left`) in the **tile
-  the boulder will slide into** (`pushDirections`), tints the boulder from
-  grey toward orange by `pushCounts / needed`, and fills a small bar beneath
-  it the same way. No number is shown. The arrow pops when the direction
-  changes; everything goes away when the count drops to 0. Green (on a
-  target) wins over orange.
+- For every direction with a count > 0 on a boulder: draws the matching
+  arrow icon (`arrow_up` / `arrow_right` / `arrow_down` / `arrow_left`) in
+  the **tile the boulder would slide into**, scaled from **half size** at
+  one push to full size at `needed`, with a small bar beneath it filled
+  `count / needed`. The boulder tints from grey toward orange by its
+  **biggest** direction's `count / needed`. No number is shown. An arrow
+  pops when someone joins that direction and goes away when its count drops
+  to 0. Green (on a target) wins over orange.
 - While the local player is walking into a boulder (a physics collision with
   their movement pointing at it) and `canPush` holds, sends `lovePush.push`
   with the direction they're heading. It remembers that push and only sends

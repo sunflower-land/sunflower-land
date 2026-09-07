@@ -751,37 +751,31 @@ export function getLovePushLitCount({
 export type LovePushVotes = Record<string, LovePushDirection>;
 
 /**
- * What shows on a boulder: how many players are pushing it the leading way,
- * and which way that is (unset while nobody is pushing).
+ * What shows on a boulder: how many players are pushing it each way. Every
+ * direction with a push gets its own arrow - the crowd may well disagree,
+ * and the first direction to reach the full crowd is the one that goes.
  */
-export type LovePushBoulderPushes = {
-  count: number;
-  direction?: LovePushDirection;
-};
+export type LovePushBoulderPushes = Partial<Record<LovePushDirection, number>>;
 
-/**
- * The leading push on a boulder - the direction with the most players
- * behind it. A tie goes to the first in `LOVE_PUSH_DIRECTIONS` order; it
- * only decides what's shown, since a boulder only moves once a direction
- * has the full crowd.
- */
-export function getLovePushLeadingPush(
+/** Players behind each direction on a boulder. */
+export function getLovePushPushCounts(
   votes: LovePushVotes,
 ): LovePushBoulderPushes {
-  const counts: Partial<Record<LovePushDirection, number>> = {};
+  const counts: LovePushBoulderPushes = {};
 
   Object.values(votes).forEach((direction) => {
     counts[direction] = (counts[direction] ?? 0) + 1;
   });
 
-  let leading: LovePushBoulderPushes = { count: 0 };
+  return counts;
+}
 
-  LOVE_PUSH_DIRECTIONS.forEach((direction) => {
-    const count = counts[direction] ?? 0;
-    if (count > leading.count) leading = { count, direction };
-  });
-
-  return leading;
+/** The biggest crowd behind any one direction - how close the boulder is to moving. */
+export function getLovePushMaxCount(pushes: LovePushBoulderPushes): number {
+  return Math.max(
+    0,
+    ...LOVE_PUSH_DIRECTIONS.map((direction) => pushes[direction] ?? 0),
+  );
 }
 
 export function isLovePushSolved({
@@ -984,7 +978,7 @@ export type LovePushRound = {
   onTarget: boolean[];
   /** Boulders on a target right now - how many are green. */
   lit: number;
-  /** The leading push on each boulder - the number it shows. Indexed by boulder. */
+  /** Players behind each direction on each boulder - the arrows it shows. Indexed by boulder. */
   pushes: LovePushBoulderPushes[];
   /** farmId -> boulders this player has helped move this round. Proof of who helped. */
   pushers: Record<string, number>;
@@ -1051,7 +1045,7 @@ export function pushLoveBoulder<T extends LovePushFullRound>({
     return {
       ...round,
       votes,
-      pushes: votes.map(getLovePushLeadingPush),
+      pushes: votes.map(getLovePushPushCounts),
     };
   }
 
@@ -1079,7 +1073,7 @@ export function pushLoveBoulder<T extends LovePushFullRound>({
     onTarget,
     lit,
     votes,
-    pushes: votes.map(getLovePushLeadingPush),
+    pushes: votes.map(getLovePushPushCounts),
     pushers,
     solved,
     ...(solved
@@ -1197,7 +1191,7 @@ export function createLovePushLocalRound(
     onTarget: getLovePushOnTarget({ boulders, targets }),
     lit: getLovePushLitCount({ boulders, targets }),
     votes,
-    pushes: votes.map(getLovePushLeadingPush),
+    pushes: votes.map(getLovePushPushCounts),
     pushers: {},
     solved: false,
     moves: 0,

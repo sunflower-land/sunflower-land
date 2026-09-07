@@ -188,10 +188,11 @@ export interface LovePush extends Schema {
   onTarget: ArraySchema<boolean>;
   /** Boulders on a target - the green lights. */
   lit: number;
-  /** Players pushing each boulder the leading way, indexed by boulder. */
+  /**
+   * Players pushing each boulder each way: index `boulder * 4 + d`, with `d`
+   * the direction's position in north, east, south, west. Length 16.
+   */
   pushCounts: ArraySchema<number>;
-  /** The leading direction on each boulder ("" while nobody is pushing), indexed by boulder. */
-  pushDirections: ArraySchema<string>;
   /** farmId -> boulders this player helped move this round. Proof of who helped. */
   pushers: MapSchema<number>;
   /** Epoch ms the fourth light came on; 0 while unsolved. */

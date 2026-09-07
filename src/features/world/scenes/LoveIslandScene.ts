@@ -21,6 +21,7 @@ import {
   LOVE_ISLAND_CENTRE_PUZZLE,
   LOVE_PUSH_BOULDERS,
   LOVE_PUSH_DELTAS,
+  LOVE_PUSH_DIRECTIONS,
   LOVE_PUSH_GRID_SIZE,
   LOVE_PUSH_MOVE_MS,
   LOVE_PUSH_PUSHERS_NEEDED,
@@ -36,6 +37,7 @@ import {
   getLoveDilemmaPlatformPrizes,
   getLoveDilemmaRound,
   getLoveDilemmaTiers,
+  getLovePushMaxCount,
   hasClaimedLoveBoulderRound,
   hasClaimedLoveBoulderToday,
   hasClaimedLovePushToday,
@@ -44,7 +46,6 @@ import {
   isLoveBoulderRewardOpen,
   isLoveDilemmaRevealReady,
   isLoveDilemmaWinner,
-  isLovePushDirection,
   resolveLoveDilemma,
   tickLoveBoulderLocalRound,
   tickLovePushLocalRound,
@@ -176,6 +177,12 @@ const PUSH_PROGRESS_HEIGHT = 3;
 const PUSH_PROGRESS_TRACK = 0x3e2731;
 /** The bar sits this far below the arrow's centre (the icons are ~12px tall). */
 const PUSH_PROGRESS_Y = 8;
+/**
+ * An arrow starts at half size on the first push and grows to full size as
+ * the crowd behind that direction fills up, so the way the boulder is most
+ * likely to go is the biggest arrow.
+ */
+const PUSH_ARROW_MIN_SCALE = 0.5;
 
 const FONT = "Teeny Tiny Pixls";
 const TEXT_TINT = 0x3e2731;
@@ -283,10 +290,17 @@ export class LoveIslandScene extends BaseScene {
   private pushBoulders: Phaser.GameObjects.Sprite[] = [];
   /** Solid - walking into one pushes it. */
   private pushColliders: Phaser.GameObjects.Rectangle[] = [];
-  /** Arrow in the tile each boulder will slide into while it's being pushed, indexed by boulder. */
-  private pushArrows: Phaser.GameObjects.Image[] = [];
-  /** Bar beneath each arrow that fills as the crowd behind the boulder grows, indexed by boulder. */
-  private pushProgressBars: Phaser.GameObjects.Graphics[] = [];
+  /**
+   * An arrow per direction in the tile each boulder would slide into, shown
+   * while someone is pushing it that way. Indexed by boulder.
+   */
+  private pushArrows: Record<LovePushDirection, Phaser.GameObjects.Image>[] =
+    [];
+  /** A bar beneath each arrow that fills as that direction's crowd grows. Indexed by boulder. */
+  private pushProgressBars: Record<
+    LovePushDirection,
+    Phaser.GameObjects.Graphics
+  >[] = [];
   /** Simulated puzzle while the room has no push state. */
   private localPush?: LovePushLocalRound;
   /** Round the boulder sprites are synced to. */
@@ -917,16 +931,19 @@ export class LoveIslandScene extends BaseScene {
       boulderGroup.add(collider);
       this.pushColliders.push(collider);
 
-      // An arrow in the tile it will slide into, shown while someone is
-      // pushing it; the texture is swapped per direction
-      const arrow = this.add
-        .image(0, 0, PUSH_ARROW_TEXTURE.north)
-        .setVisible(false);
-      this.pushArrows.push(arrow);
-
-      // ...and a bar beneath the arrow that fills as the crowd grows
-      const bar = this.add.graphics().setVisible(false);
-      this.pushProgressBars.push(bar);
+      // An arrow per direction in the tile it would slide into, shown while
+      // someone is pushing it that way - the crowd may be split - each with
+      // a bar beneath it that fills as that direction's crowd grows
+      const arrows = {} as Record<LovePushDirection, Phaser.GameObjects.Image>;
+      const bars = {} as Record<LovePushDirection, Phaser.GameObjects.Graphics>;
+      LOVE_PUSH_DIRECTIONS.forEach((direction) => {
+        arrows[direction] = this.add
+          .image(0, 0, PUSH_ARROW_TEXTURE[direction])
+          .setVisible(false);
+        bars[direction] = this.add.graphics().setVisible(false);
+      });
+      this.pushArrows.push(arrows);
+      this.pushProgressBars.push(bars);
     }
 
     if (this.currentPlayer) {
@@ -968,13 +985,17 @@ export class LoveIslandScene extends BaseScene {
         boulders,
         onTarget: boulders.map((_, index) => !!remote.onTarget?.at(index)),
         lit: remote.lit,
+        // Counts are published flat: boulder * 4 + direction
         pushes: boulders.map((_, index) => {
-          const count = remote.pushCounts?.at(index) ?? 0;
-          const direction = remote.pushDirections?.at(index);
+          const pushes: LovePushBoulderPushes = {};
+          LOVE_PUSH_DIRECTIONS.forEach((direction, d) => {
+            const count =
+              remote.pushCounts?.at(index * LOVE_PUSH_DIRECTIONS.length + d) ??
+              0;
+            if (count > 0) pushes[direction] = count;
+          });
 
-          return count > 0 && isLovePushDirection(direction)
-            ? { count, direction }
-            : { count: 0 };
+          return pushes;
         }),
         pushers,
         solved,
@@ -1191,22 +1212,19 @@ export class LoveIslandScene extends BaseScene {
     });
 
     round.pushes.forEach((pushes, boulder) => {
-      const rendered = this.renderedPushes[boulder];
+      const rendered = this.renderedPushes[boulder] ?? {};
       if (
-        rendered?.count === pushes.count &&
-        rendered?.direction === pushes.direction
+        LOVE_PUSH_DIRECTIONS.every(
+          (direction) =>
+            (rendered[direction] ?? 0) === (pushes[direction] ?? 0),
+        )
       ) {
         return;
       }
 
       this.renderedPushes[boulder] = pushes;
       this.tintPushBoulder(boulder);
-      this.setPushProgress(
-        boulder,
-        pushes,
-        round.boulders[boulder],
-        rendered?.direction !== pushes.direction,
-      );
+      this.setPushProgress(boulder, pushes, round.boulders[boulder], rendered);
     });
 
     if (!round.solved) {
@@ -1230,7 +1248,7 @@ export class LoveIslandScene extends BaseScene {
       return;
     }
 
-    const count = this.renderedPushes[boulder]?.count ?? 0;
+    const count = getLovePushMaxCount(this.renderedPushes[boulder] ?? {});
     if (count <= 0) {
       sprite.clearTint();
       return;
@@ -1247,61 +1265,79 @@ export class LoveIslandScene extends BaseScene {
   }
 
   /**
-   * Show which way a boulder is being pushed - an arrow in the tile it will
-   * slide into - and how close the crowd is to moving it, as a bar beneath
-   * the arrow. Both go away once nobody is pushing (or the boulder has moved).
+   * Show which ways a boulder is being pushed - an arrow per direction in
+   * the tile it would slide into, half size on the first push and growing
+   * as that crowd fills up - and how close each is, as a bar beneath the
+   * arrow. An arrow goes away once nobody is pushing that way (or the
+   * boulder has moved).
    */
   private setPushProgress(
     boulder: number,
-    { count, direction }: LovePushBoulderPushes,
+    pushes: LovePushBoulderPushes,
     tile: LovePushTile,
-    turned: boolean,
+    previous: LovePushBoulderPushes,
   ) {
-    const arrow = this.pushArrows[boulder];
-    const bar = this.pushProgressBars[boulder];
-    if (!arrow || !bar) return;
+    const arrows = this.pushArrows[boulder];
+    const bars = this.pushProgressBars[boulder];
+    if (!arrows || !bars) return;
 
-    if (count <= 0 || !direction) {
-      arrow.setVisible(false);
-      bar.setVisible(false);
-      return;
-    }
+    LOVE_PUSH_DIRECTIONS.forEach((direction) => {
+      const arrow = arrows[direction];
+      const bar = bars[direction];
+      const count = pushes[direction] ?? 0;
 
-    const delta = LOVE_PUSH_DELTAS[direction];
-    const next = this.pushTileCentre({
-      x: tile.x + delta.x,
-      y: tile.y + delta.y,
-    });
-    arrow
-      .setTexture(PUSH_ARROW_TEXTURE[direction])
-      .setPosition(next.x, next.y)
-      // Its base, like the boulders, so anyone standing there is drawn over it
-      .setDepth(next.y + PUSH_TILE / 2)
-      .setVisible(true);
+      if (count <= 0) {
+        this.tweens.killTweensOf(arrow);
+        arrow.setVisible(false);
+        bar.setVisible(false);
+        return;
+      }
 
-    if (turned) {
-      this.tweens.killTweensOf(arrow);
-      arrow.setScale(1.4);
-      this.tweens.add({
-        targets: arrow,
-        scale: 1,
-        duration: 180,
-        ease: "Back.easeOut",
+      const delta = LOVE_PUSH_DELTAS[direction];
+      const next = this.pushTileCentre({
+        x: tile.x + delta.x,
+        y: tile.y + delta.y,
       });
-    }
+      const progress = Math.min(1, count / LOVE_PUSH_PUSHERS_NEEDED);
+      // Half size for one push, full size for the whole crowd
+      const scale =
+        LOVE_PUSH_PUSHERS_NEEDED > 1
+          ? PUSH_ARROW_MIN_SCALE +
+            ((1 - PUSH_ARROW_MIN_SCALE) * (count - 1)) /
+              (LOVE_PUSH_PUSHERS_NEEDED - 1)
+          : 1;
 
-    const fill = Math.round(
-      (PUSH_PROGRESS_WIDTH - 2) * Math.min(1, count / LOVE_PUSH_PUSHERS_NEEDED),
-    );
-    bar.clear();
-    bar.fillStyle(PUSH_PROGRESS_TRACK, 1);
-    bar.fillRect(0, 0, PUSH_PROGRESS_WIDTH, PUSH_PROGRESS_HEIGHT);
-    bar.fillStyle(PUSH_PROGRESS_COLOUR, 1);
-    bar.fillRect(1, 1, fill, PUSH_PROGRESS_HEIGHT - 2);
-    bar
-      .setPosition(next.x - PUSH_PROGRESS_WIDTH / 2, next.y + PUSH_PROGRESS_Y)
-      .setDepth(arrow.depth)
-      .setVisible(true);
+      arrow
+        .setPosition(next.x, next.y)
+        // Its base, like the boulders, so anyone standing there is drawn over it
+        .setDepth(next.y + PUSH_TILE / 2)
+        .setVisible(true);
+
+      // Pop when someone joins this way
+      this.tweens.killTweensOf(arrow);
+      if (count > (previous[direction] ?? 0)) {
+        arrow.setScale(scale * 1.4);
+        this.tweens.add({
+          targets: arrow,
+          scale,
+          duration: 180,
+          ease: "Back.easeOut",
+        });
+      } else {
+        arrow.setScale(scale);
+      }
+
+      const fill = Math.round((PUSH_PROGRESS_WIDTH - 2) * progress);
+      bar.clear();
+      bar.fillStyle(PUSH_PROGRESS_TRACK, 1);
+      bar.fillRect(0, 0, PUSH_PROGRESS_WIDTH, PUSH_PROGRESS_HEIGHT);
+      bar.fillStyle(PUSH_PROGRESS_COLOUR, 1);
+      bar.fillRect(1, 1, fill, PUSH_PROGRESS_HEIGHT - 2);
+      bar
+        .setPosition(next.x - PUSH_PROGRESS_WIDTH / 2, next.y + PUSH_PROGRESS_Y)
+        .setDepth(arrow.depth)
+        .setVisible(true);
+    });
   }
 
   /** The last boulder just turned green - celebrate and settle up. */
