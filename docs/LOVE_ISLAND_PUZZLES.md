@@ -32,10 +32,10 @@ unit-tested) and `src/features/world/scenes/LoveIslandScene.ts`.
 - [ ] Publish `state.lovePush` (section 5) with the seeded starts; handle
       `lovePush.push`: record the player's push and publish the counts, roll
       the boulder a tile once **five** players (**two** off mainnet) push it
-      the same way (300ms cooldown per boulder) - into the pit, or, if it
-      hits something, bursting and restarting on its side - credit the crowd
-      on a roll or a sink,
-      celebrate 10s when all four are sunk, next round. Drop a player's
+      the same way (300ms cooldown per boulder) - parking on a free square,
+      or, if it hits anything (another boulder included), bursting and
+      restarting on its side - credit the crowd on a roll or a park,
+      celebrate 10s when all four squares are taken, next round. Drop a player's
       pushes when they leave. Carry a verbatim copy of `loveIslandTiles.ts`.
 - [ ] No change to `giantFlower` — leave it as is (unused by the client now).
 
@@ -375,13 +375,13 @@ automatically.
 ## 5. Lover's Push — MMO room
 
 Four identical boulders start at the **top, right, bottom and left of the
-island** - hub and spoke - and have to be rolled into a **pit in the centre
-of the clearing**. Boulders
-live on the island's own **16px tile grid** (the map is 80x60 tiles); tile
-`(x, y)` has its centre at `(16x + 8, 16y + 8)`. The pit is tile **(38, 35)**
-
-- world px **(616, 568)**. Boulder art is `resources/stone_rock.png`
-  (18x16); boulders are solid.
+island** - hub and spoke - and have to be rolled into **four squares in the
+centre of the clearing**, one boulder to a square. Boulders live on the
+island's own **16px tile grid** (the map is 80x60 tiles); tile `(x, y)` has
+its centre at `(16x + 8, 16y + 8)`. The squares are the 2x2 block
+**(37, 34), (38, 34), (37, 35), (38, 35)**; "the centre" for sides and start
+distances is tile **(38, 35)** - world px **(616, 568)**. Boulder art is
+`resources/stone_rock.png` (18x16); boulders are solid.
 
 - **One player can't budge a boulder.** A player **walks into a boulder** to
   put their **push** on it in the direction they're heading. A push is a
@@ -398,19 +398,21 @@ live on the island's own **16px tile grid** (the map is 80x60 tiles); tile
   behind it is credited with a move, and **all** pushes on that boulder are
   cleared (whichever way they pointed). Pushes on the other boulders stand.
   A boulder can be pushed again once it has finished rolling (**300ms**).
-- **What a roll does** (`step`): if the tile ahead is the **pit**, the
-  boulder **sinks** - it's done, out of play, nothing can bump into it. If
-  the tile ahead is **not walkable** (water, the edge of the island or the
-  map, a rock, tree or building - anything in the map's `Collision` layer)
-  or holds **another boulder still in play**, the boulder **crashes**
-  (`resets[boulder] += 1`): it bursts, nobody is credited, and a fresh one
-  appears at a **new start on the same side of the island**
-  (`getLovePushRestart`, seeded by the round, the boulder and the number of
-  crashes, so both sides agree; the room publishes `starts` anyway).
-  Otherwise it **moves** there. That is the puzzle: the island
-  has to agree on a route from each side to the centre and not roll a
-  boulder into anything on the way.
-- All four sunk = **solved**. The round is celebrated for **10s**
+- **What a roll does** (`step`), in this order: if the tile ahead holds
+  **any other boulder** - out in the open or parked in a square - the
+  boulder **crashes** (`resets[boulder] += 1`): it bursts, nobody is
+  credited, and a fresh one appears at a **new start on the same side of the
+  island** (`getLovePushRestart`, seeded by the round, the boulder and the
+  number of crashes, so both sides agree; the room publishes `starts`
+  anyway). Else if the tile ahead is a **free square**, the boulder
+  **parks** there (`sunk[boulder] = true`) - it's done for the round, that
+  square is taken, and from now on it's something the others crash into.
+  Else if the tile ahead is **not walkable** (water, the edge of the island
+  or the map, a rock, tree or building - anything in the map's `Collision`
+  layer), it crashes as above. Otherwise it **moves** there. That is the
+  puzzle: the island has to agree on a route from each side to a free
+  square and not roll a boulder into anything on the way.
+- All four parked = **solved**. The round is celebrated for **10s**
   (`solvedAt`/`nextRoundAt`), then fresh boulders appear with `roundId + 1`.
 - Everyone credited with at least one move in the solved round is paid
   automatically by their client (no click): **1 Bronze Love Box**, **once per
@@ -428,8 +430,9 @@ LOVE_PUSH_MAINNET_PUSHERS_NEEDED = 5; // players pushing the same way to roll a 
 LOVE_PUSH_TESTNET_PUSHERS_NEEDED = 2; // everywhere else, so testers can move one
 LOVE_PUSH_PUSHERS_NEEDED = getLovePushPushersNeeded(network); // the value in force here (both sides)
 LOVE_PUSH_MOVE_MS = 300; // roll time = per-boulder move cooldown
-LOVE_PUSH_PIT = { x: 38, y: 35 }; // tile; world (616, 568)
-LOVE_PUSH_MIN_START_DISTANCE = 10; // tiles (Manhattan) from the pit to a start
+LOVE_PUSH_CENTRE = { x: 38, y: 35 }; // tile; world (616, 568)
+LOVE_PUSH_TARGETS = [(37, 34), (38, 34), (37, 35), (38, 35)]; // the four squares
+LOVE_PUSH_MIN_START_DISTANCE = 10; // tiles (Manhattan) from the centre to a start
 LOVE_PUSH_PRIZE = { item: "Bronze Love Box", amount: 1 };
 LOVE_PUSH_MAX_CLAIMS = 1; // per farm per UTC day
 LOVE_PUSH_SOLVED_MS = 10_000; // celebration before the next round
@@ -456,11 +459,12 @@ a client that joins mid-round knows where each boulder started. Port
 **verbatim** (it and its helpers are pure and unit-tested). In short:
 
 ```
-candidates = every walkable tile at Manhattan distance >= 10 from the pit
-             from which a LONE boulder can be rolled into the pit
-             (walk back from the pit: a step from t in direction d needs
-              t + d walkable-or-pit and t - d walkable, where the pusher stands)
-side(t)    = 0 top / 1 right / 2 bottom / 3 left of the pit, by the larger axis
+candidates = every walkable tile at Manhattan distance >= 10 from the centre
+             from which a LONE boulder can be rolled into a square
+             (walk back from the squares: a step from t in direction d needs
+              t + d walkable-or-square and t - d walkable, where the pusher stands;
+              never through a square)
+side(t)    = 0 top / 1 right / 2 bottom / 3 left of the centre, by the larger axis
 for boulder b in 0..3:
   pick a random candidate on side b not already picked
   (any candidate, if that side has no room - never happens on this map)
@@ -473,7 +477,7 @@ restart(roundId, b, resets, boulders, starts):   // after a crash
 
 Boulder `b` is always on side `b` - one at the top, one on the right, one at
 the bottom, one on the left - and every boulder **always starts somewhere a
-crowd can roll it home from**.
+crowd can roll it into a square from**.
 Other boulders are ignored when checking that - they can always be rolled
 out of the way or sunk first.
 
@@ -487,11 +491,11 @@ when the room reboots. The client's local stand-in starts at 1.
 ```ts
 DELTAS = { north: (0,-1), east: (1,0), south: (0,1), west: (-1,0) };
 
-step(boulders, sunk, b, dir):
+step(boulders, b, dir):
   to = boulders[b] + DELTAS[dir]
-  if to == PIT:                                   return "sink"
-  if !walkable(to):                               return "reset"   // water, edge, rock, tree, building
-  if any other boulder i, !sunk[i], on `to`:      return "reset"
+  if any other boulder i on `to` (parked or not):   return "reset"
+  if to is one of the four squares:                  return "sink"    // parks there
+  if !walkable(to):                                   return "reset"   // water, edge, rock, tree, building
   return "move"
 ```
 
@@ -508,10 +512,10 @@ puzzle. The client treats `boulders.length !== 4` (or the field missing) as
 ```ts
 class LovePush extends Schema {
   @type("number") roundId: number; // +1 on every new round
-  @type(["number"]) boulders: ArraySchema<number>; // length 4, tile index y*80+x (the pit once sunk)
+  @type(["number"]) boulders: ArraySchema<number>; // length 4, tile index y*80+x (its square once parked)
   @type(["number"]) starts: ArraySchema<number>; // length 4, where each last started from (a fresh spot after every crash)
-  @type(["boolean"]) sunk: ArraySchema<boolean>; // length 4, in the pit
-  @type("number") lit: number; // boulders in the pit, 0..4 (= sunk trues)
+  @type(["boolean"]) sunk: ArraySchema<boolean>; // length 4, parked in a square
+  @type("number") lit: number; // squares taken, 0..4 (= sunk trues)
   @type(["number"]) resets: ArraySchema<number>; // length 4, times each has hit something and gone back
   @type(["number"]) pushCounts: ArraySchema<number>; // length 16: [boulder * 4 + d], players pushing boulder in direction d (north, east, south, west)
   @type({ map: "number" }) pushers: MapSchema<number>; // farmId -> boulders helped roll this round
@@ -535,7 +539,7 @@ room.send("lovePush.push", { roundId: number; boulder: 0 | 1 | 2 | 3; direction:
 Rules:
 
 - Ignore if `roundId` ≠ the current round, the round is solved
-  (`solvedAt > 0`), `boulder` is not `0..3` or is already sunk, or
+  (`solvedAt > 0`), `boulder` is not `0..3` or is already parked, or
   `direction` is not one of the four. **Do not** reject a push just because
   the tile ahead is blocked - rolling into something is the penalty, not an
   invalid move.
@@ -557,12 +561,12 @@ Rules:
     `movedAt[boulder] = now`, and apply `step`:
     - `move`: `boulders[boulder] = to`, `pushers[farmId] += 1` for **every**
       farm in `crowd`.
-    - `sink`: `boulders[boulder] = PIT`, `sunk[boulder] = true`, credit the
-      crowd as above, `lit = sunk.filter(Boolean).length`.
+    - `sink`: `boulders[boulder] = to` (the square), `sunk[boulder] = true`,
+      credit the crowd as above, `lit = sunk.filter(Boolean).length`.
     - `reset`: `resets[boulder] += 1`, then
       `starts[boulder] = boulders[boulder] = restart(...)` - a fresh spot on
       its side. Nobody is credited. Publish the new start.
-- If every boulder is sunk: `solvedAt = now`, `nextRoundAt = now + 10_000`.
+- If every boulder is parked: `solvedAt = now`, `nextRoundAt = now + 10_000`.
   Leave `pushers` populated - clients read it to know whether they helped
   (a reload mid-round loses their local count).
 
@@ -581,10 +585,11 @@ game event and the once-a-day rule is enforced client-side against the farm's
 
 ### What the client does
 
-- Draws the pit at (616, 568) with an "n/4" tally floating above it (how
-  many are sunk - it pops when one drops in), a faint ring at each `starts`
-  tile, and the four boulders at `boulders` (solid). A sunk boulder is
-  hidden and has no collider. There is no grid and no other HUD.
+- Draws the four squares on the ground (a taken one fills green) with an
+  "n/4" tally floating above them (how many are taken - it pops when one
+  is), a faint ring at each `starts` tile, and the four boulders at
+  `boulders` (solid). A parked boulder stays where it is, tinted green,
+  still solid - the others crash into it. There is no grid and no other HUD.
 - For every direction with a count > 0 on a boulder: draws the matching
   arrow icon (`arrow_up` / `arrow_right` / `arrow_down` / `arrow_left`)
   **just past the boulder's edge on that side** (10px from its tile centre,
@@ -595,7 +600,7 @@ game event and the once-a-day rule is enforced client-side against the farm's
   number is shown. An arrow pops when someone joins that direction and goes
   away when its count drops to 0.
 - While the local player is walking into a boulder (a physics collision with
-  their movement pointing at it) and it isn't sunk, sends `lovePush.push`
+  their movement pointing at it) and it isn't parked, sends `lovePush.push`
   with the direction they're heading. It remembers that push and only sends
   again on that boulder if the direction changes, or every 2s as a retry
   (the room treats a repeat as a no-op).
@@ -608,9 +613,9 @@ game event and the once-a-day rule is enforced client-side against the farm's
   and a spray of rubble) and a fresh one appears at its new `starts` tile
   with a bounce, the ring moving with it; a player who was pushing it gets
   an "it hit something" bubble.
-- When `sunk[boulder]` flips to true: the boulder rolls into the pit and
-  shrinks away; the pit gulps.
-- When `solvedAt` flips from 0: the pit pulses. If
+- When `sunk[boulder]` flips to true: the boulder rolls onto its square,
+  settles with a bounce and turns green; the square fills green.
+- When `solvedAt` flips from 0: the parked boulders flash. If
   `max(pushers[farmId], own count) > 0` and the farm has no `love_push` claim
   today, dispatches
   `floatingIslandPrize.claimed { amount: 0, game: "love_push", roundId }` -
@@ -627,8 +632,9 @@ If `state.lovePush` is absent (or has no boulders), the client runs a local
 stand-in: the same seeded starts; the local player's push counts straight
 away and a simulated player joins it every **1s** until the boulder rolls,
 so a lone tester can still shift one; and the simulated crowd rolls a
-random boulder that's still out there **one step toward the pit** every
-**8s** (five of them at once) so boulders are seen moving that the player
+random boulder that's still out there **one step along its route to a free
+square** (`getLovePushRouteStep`, around the other boulders) every **8s**
+(five of them at once) so boulders are seen moving that the player
 didn't push. The 10s celebration and next round run on the client's own
 clock. Once the room publishes `lovePush` the client switches over
 automatically.

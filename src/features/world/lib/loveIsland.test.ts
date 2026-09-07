@@ -36,8 +36,9 @@ import {
   LOVE_PUSH_DELTAS,
   LOVE_PUSH_LOCAL_BOT_JOIN_MS,
   LOVE_PUSH_LOCAL_BOT_MOVE_MS,
+  LOVE_PUSH_CENTRE,
   LOVE_PUSH_MIN_START_DISTANCE,
-  LOVE_PUSH_PIT,
+  LOVE_PUSH_TARGETS,
   LOVE_PUSH_PRIZE,
   LOVE_PUSH_PUSHERS_NEEDED,
   LOVE_PUSH_SOLVED_MS,
@@ -45,20 +46,20 @@ import {
   createLovePushLocalRound,
   createLovePushVotes,
   fromLovePushTileIndex,
-  getLovePushDistanceToPit,
+  getLovePushDistanceToSquare,
   getLovePushLayout,
   getLovePushMaxCount,
   getLovePushPushCounts,
   getLovePushPushersNeeded,
   getLovePushRestart,
   getLovePushSide,
+  getLovePushRouteStep,
   getLovePushStep,
-  getLovePushStepTowardPit,
   getLovePushSunkCount,
   getLovePushTileAt,
   getLovePushTileCentre,
   isLoveIslandTileWalkable,
-  isLovePushPit,
+  isLovePushTarget,
   pushLoveBoulder,
   pushLovePushLocalRound,
   tickLovePushLocalRound,
@@ -569,14 +570,26 @@ describe("Lover's Push", () => {
       );
     });
 
-    it("puts the pit in the middle of the clearing", () => {
-      expect(getLovePushTileCentre(LOVE_PUSH_PIT)).toEqual({ x: 616, y: 568 });
-      expect(getLovePushTileAt({ x: 615, y: 566 })).toEqual(LOVE_PUSH_PIT);
-      expect(isLovePushPit(LOVE_PUSH_PIT)).toBe(true);
+    it("puts the four squares in the middle of the clearing", () => {
+      expect(getLovePushTileCentre(LOVE_PUSH_CENTRE)).toEqual({
+        x: 616,
+        y: 568,
+      });
+      expect(getLovePushTileAt({ x: 615, y: 566 })).toEqual(LOVE_PUSH_CENTRE);
+      expect(LOVE_PUSH_TARGETS).toHaveLength(LOVE_PUSH_BOULDERS);
+      LOVE_PUSH_TARGETS.forEach((square) => {
+        expect(isLovePushTarget(square)).toBe(true);
+        expect(isLoveIslandTileWalkable(square)).toBe(true);
+        expect(
+          Math.abs(square.x - LOVE_PUSH_CENTRE.x) +
+            Math.abs(square.y - LOVE_PUSH_CENTRE.y),
+        ).toBeLessThanOrEqual(2);
+      });
+      expect(isLovePushTarget(tile(36, 35))).toBe(false);
     });
 
     it("knows the island's ground from its water and rocks", () => {
-      expect(isLoveIslandTileWalkable(LOVE_PUSH_PIT)).toBe(true);
+      expect(isLoveIslandTileWalkable(LOVE_PUSH_CENTRE)).toBe(true);
       clearing.forEach((spot) =>
         expect(isLoveIslandTileWalkable(spot)).toBe(true),
       );
@@ -589,30 +602,19 @@ describe("Lover's Push", () => {
   });
 
   describe("getLovePushStep", () => {
-    const sunk = [false, false, false, false];
-
     it("rolls onto open ground", () => {
       expect(
-        getLovePushStep({
-          boulders: clearing,
-          sunk,
-          boulder: 0,
-          direction: "east",
-        }),
+        getLovePushStep({ boulders: clearing, boulder: 0, direction: "east" }),
       ).toEqual({ step: "move", to: tile(35, 34) });
     });
 
-    it("drops into the pit", () => {
-      const beside = [tile(37, 35), ...clearing.slice(1)];
+    it("parks on a free square", () => {
+      // (36, 35) is just west of the bottom-left square (37, 35)
+      const beside = [tile(36, 35), ...clearing.slice(1)];
 
       expect(
-        getLovePushStep({
-          boulders: beside,
-          sunk,
-          boulder: 0,
-          direction: "east",
-        }),
-      ).toEqual({ step: "sink", to: LOVE_PUSH_PIT });
+        getLovePushStep({ boulders: beside, boulder: 0, direction: "east" }),
+      ).toEqual({ step: "sink", to: tile(37, 35) });
     });
 
     it("resets when it hits the water, a rock, or the edge of the map", () => {
@@ -621,61 +623,85 @@ describe("Lover's Push", () => {
       const edge = [tile(10, 35), tile(13, 35), tile(0, 35), tile(42, 35)];
 
       expect(
-        getLovePushStep({ boulders: edge, sunk, boulder: 0, direction: "west" })
-          .step,
+        getLovePushStep({ boulders: edge, boulder: 0, direction: "west" }).step,
       ).toBe("reset");
       expect(
-        getLovePushStep({ boulders: edge, sunk, boulder: 1, direction: "east" })
-          .step,
+        getLovePushStep({ boulders: edge, boulder: 1, direction: "east" }).step,
       ).toBe("reset");
       expect(
-        getLovePushStep({ boulders: edge, sunk, boulder: 2, direction: "west" })
-          .step,
+        getLovePushStep({ boulders: edge, boulder: 2, direction: "west" }).step,
       ).toBe("reset");
     });
 
-    it("resets when it hits another boulder still in play, but not one already sunk", () => {
+    it("resets when it hits any other boulder - out in the open or parked in a square", () => {
       const pair = [tile(34, 34), tile(35, 34), tile(36, 36), tile(42, 35)];
-
       expect(
-        getLovePushStep({ boulders: pair, sunk, boulder: 0, direction: "east" })
+        getLovePushStep({ boulders: pair, boulder: 0, direction: "east" }).step,
+      ).toBe("reset");
+
+      // The square (37, 35) is taken by boulder 1 - rolling in is a crash
+      const taken = [tile(36, 35), tile(37, 35), tile(36, 36), tile(42, 35)];
+      expect(
+        getLovePushStep({ boulders: taken, boulder: 0, direction: "east" })
           .step,
       ).toBe("reset");
-      expect(
-        getLovePushStep({
-          boulders: pair,
-          sunk: [false, true, false, false],
-          boulder: 0,
-          direction: "east",
-        }).step,
-      ).toBe("move");
     });
   });
 
-  describe("paths to the pit", () => {
-    it("measures pushes to the pit and points the way", () => {
-      expect(getLovePushDistanceToPit(LOVE_PUSH_PIT)).toBe(0);
-      expect(getLovePushDistanceToPit(tile(37, 35))).toBe(1);
-      expect(getLovePushStepTowardPit(tile(37, 35))).toBe("east");
-      expect(getLovePushStepTowardPit(LOVE_PUSH_PIT)).toBeUndefined();
-
+  describe("paths to the squares", () => {
+    it("measures pushes to a square, ignoring the other boulders", () => {
+      LOVE_PUSH_TARGETS.forEach((square) =>
+        expect(getLovePushDistanceToSquare(square)).toBe(0),
+      );
+      expect(getLovePushDistanceToSquare(tile(36, 35))).toBe(1);
       clearing.forEach((spot) => {
-        const distance = getLovePushDistanceToPit(spot) as number;
-        const direction = getLovePushStepTowardPit(spot) as LovePushDirection;
-        expect(distance).toBeGreaterThan(0);
-        const delta = LOVE_PUSH_DELTAS[direction];
-        expect(
-          getLovePushDistanceToPit({
-            x: spot.x + delta.x,
-            y: spot.y + delta.y,
-          }),
-        ).toBe(distance - 1);
+        expect(getLovePushDistanceToSquare(spot)).toBeGreaterThan(0);
       });
     });
 
     it("has no path from the water or from behind a rock", () => {
-      expect(getLovePushDistanceToPit(tile(3, 9))).toBeUndefined();
-      expect(getLovePushDistanceToPit(tile(38, 22))).toBeUndefined();
+      expect(getLovePushDistanceToSquare(tile(3, 9))).toBeUndefined();
+      expect(getLovePushDistanceToSquare(tile(38, 22))).toBeUndefined();
+    });
+
+    it("routes a boulder to a free square around the others", () => {
+      // Alone, (36, 35) rolls straight east into (37, 35)
+      const alone = [tile(36, 35), tile(20, 35), tile(38, 47), tile(55, 35)];
+      expect(getLovePushRouteStep({ boulders: alone, boulder: 0 })).toBe(
+        "east",
+      );
+
+      // With (37, 35) taken it has to go round to another square
+      const taken = [tile(36, 35), tile(37, 35), tile(38, 47), tile(55, 35)];
+      const step = getLovePushRouteStep({ boulders: taken, boulder: 0 });
+      expect(step).toBeDefined();
+      expect(step).not.toBe("east");
+      expect(
+        getLovePushStep({ boulders: taken, boulder: 0, direction: step! }).step,
+      ).toBe("move");
+
+      // Every start has a route
+      const { starts } = getLovePushLayout(4);
+      starts.forEach((_, boulder) => {
+        expect(
+          getLovePushRouteStep({ boulders: starts, boulder }),
+        ).toBeDefined();
+      });
+    });
+
+    it("has no route when every square is taken or the way is blocked", () => {
+      const full = [tile(24, 35), ...LOVE_PUSH_TARGETS.slice(0, 3)];
+      // Three squares taken, one free - still a route
+      expect(
+        getLovePushRouteStep({ boulders: full, boulder: 0 }),
+      ).toBeDefined();
+
+      expect(
+        getLovePushRouteStep({
+          boulders: [tile(3, 9), ...clearing.slice(1)],
+          boulder: 0,
+        }),
+      ).toBeUndefined();
     });
   });
 
@@ -687,9 +713,10 @@ describe("Lover's Push", () => {
         for (let x = 0; x < LOVE_ISLAND_MAP_WIDTH; x++) {
           const spot = tile(x, y);
           const far =
-            Math.abs(x - LOVE_PUSH_PIT.x) + Math.abs(y - LOVE_PUSH_PIT.y) >=
+            Math.abs(x - LOVE_PUSH_CENTRE.x) +
+              Math.abs(y - LOVE_PUSH_CENTRE.y) >=
             LOVE_PUSH_MIN_START_DISTANCE;
-          if (far && getLovePushDistanceToPit(spot) !== undefined) {
+          if (far && getLovePushDistanceToSquare(spot) !== undefined) {
             sides.add(getLovePushSide(spot));
           }
         }
@@ -720,10 +747,10 @@ describe("Lover's Push", () => {
         starts.forEach((start) => {
           expect(isLoveIslandTileWalkable(start)).toBe(true);
           expect(
-            Math.abs(start.x - LOVE_PUSH_PIT.x) +
-              Math.abs(start.y - LOVE_PUSH_PIT.y),
+            Math.abs(start.x - LOVE_PUSH_CENTRE.x) +
+              Math.abs(start.y - LOVE_PUSH_CENTRE.y),
           ).toBeGreaterThanOrEqual(LOVE_PUSH_MIN_START_DISTANCE);
-          expect(getLovePushDistanceToPit(start)).toBeGreaterThan(0);
+          expect(getLovePushDistanceToSquare(start)).toBeGreaterThan(0);
         });
       }
     });
@@ -752,7 +779,7 @@ describe("Lover's Push", () => {
 
         expect(restart).not.toEqual(starts[3]);
         expect(getLovePushSide(restart)).toBe(3);
-        expect(getLovePushDistanceToPit(restart)).toBeGreaterThan(0);
+        expect(getLovePushDistanceToSquare(restart)).toBeGreaterThan(0);
         expect(starts.some((s) => s.x === restart.x && s.y === restart.y)).toBe(
           false,
         );
@@ -975,37 +1002,54 @@ describe("Lover's Push", () => {
       expect(bumped.pushers).toEqual({});
     });
 
-    it("sinks a boulder pushed into the pit, and solves on the last one", () => {
+    it("parks a boulder rolled onto a free square, and solves on the last one", () => {
+      // Three squares taken; the last boulder sits just west of the free one
       const beside = round({
-        boulders: [tile(37, 35), tile(39, 35), tile(38, 34), tile(38, 36)],
+        boulders: [tile(36, 35), tile(37, 34), tile(38, 34), tile(38, 35)],
         sunk: [false, true, true, true],
       });
 
-      const sunk = crowdPush(beside, { boulder: 0, direction: "east" });
+      const parked = crowdPush(beside, { boulder: 0, direction: "east" });
 
-      expect(sunk.boulders[0]).toEqual(LOVE_PUSH_PIT);
-      expect(sunk.sunk).toEqual([true, true, true, true]);
-      expect(getLovePushSunkCount(sunk.sunk)).toBe(4);
-      expect(Object.keys(sunk.pushers)).toHaveLength(LOVE_PUSH_PUSHERS_NEEDED);
-      expect(sunk.solved).toBe(true);
-      expect(sunk.solvedAt).toBe(now);
-      expect(sunk.nextRoundAt).toBe(now + LOVE_PUSH_SOLVED_MS);
+      expect(parked.boulders[0]).toEqual(tile(37, 35));
+      expect(parked.sunk).toEqual([true, true, true, true]);
+      expect(getLovePushSunkCount(parked.sunk)).toBe(4);
+      expect(Object.keys(parked.pushers)).toHaveLength(
+        LOVE_PUSH_PUSHERS_NEEDED,
+      );
+      expect(parked.solved).toBe(true);
+      expect(parked.solvedAt).toBe(now);
+      expect(parked.nextRoundAt).toBe(now + LOVE_PUSH_SOLVED_MS);
 
       // Nothing moves once solved
       expect(
         pushLoveBoulder({
-          round: sunk,
+          round: parked,
           boulder: 0,
           direction: "west",
           farmId: "f9",
           now,
         }),
-      ).toBe(sunk);
+      ).toBe(parked);
     });
 
-    it("ignores pushes on a boulder that's already in the pit", () => {
+    it("crashes a boulder rolled into a taken square", () => {
+      const taken = round({
+        boulders: [tile(36, 35), tile(37, 35), tile(20, 35), tile(55, 35)],
+        sunk: [false, true, false, false],
+      });
+
+      const crashed = crowdPush(taken, { boulder: 0, direction: "east" });
+
+      expect(crashed.resets[0]).toBe(1);
+      expect(crashed.sunk).toEqual([false, true, false, false]);
+      expect(crashed.boulders[1]).toEqual(tile(37, 35));
+      expect(crashed.pushers).toEqual({});
+    });
+
+    it("ignores pushes on a boulder that's already parked", () => {
       const partly = round({
-        boulders: [LOVE_PUSH_PIT, ...clearing.slice(1)],
+        boulders: [tile(37, 35), ...clearing.slice(1)],
         sunk: [true, false, false, false],
       });
 
@@ -1103,9 +1147,10 @@ describe("Lover's Push", () => {
 
     it("counts the local player's push straight away, then the crowd joins until it rolls", () => {
       const local = createLovePushLocalRound(now, 5);
-      const direction = getLovePushStepTowardPit(
-        local.boulders[0],
-      ) as LovePushDirection;
+      const direction = getLovePushRouteStep({
+        boulders: local.boulders,
+        boulder: 0,
+      }) as LovePushDirection;
       expect(direction).toBeDefined();
 
       let next = pushLovePushLocalRound({
@@ -1154,7 +1199,7 @@ describe("Lover's Push", () => {
       expect(next.myPush).toBeUndefined();
     });
 
-    it("has the crowd roll a boulder toward the pit on its own now and then", () => {
+    it("has the crowd roll a boulder toward a square on its own now and then", () => {
       const local = createLovePushLocalRound(now, 5);
 
       const early = tickLovePushLocalRound({
@@ -1174,14 +1219,14 @@ describe("Lover's Push", () => {
       // The whole crowd pushed it, and their pushes are spent
       expect(later.pushes).toEqual([{}, {}, {}, {}]);
 
-      // Closer to the pit than it was
+      // Closer to a square than it was
       const moved = later.boulders.findIndex(
         (spot, index) =>
           spot.x !== local.boulders[index].x ||
           spot.y !== local.boulders[index].y,
       );
-      expect(getLovePushDistanceToPit(later.boulders[moved])).toBe(
-        (getLovePushDistanceToPit(local.boulders[moved]) as number) - 1,
+      expect(getLovePushDistanceToSquare(later.boulders[moved])).toBe(
+        (getLovePushDistanceToSquare(local.boulders[moved]) as number) - 1,
       );
 
       // And waits again before the next one

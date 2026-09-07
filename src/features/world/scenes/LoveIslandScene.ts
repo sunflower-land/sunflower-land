@@ -24,7 +24,7 @@ import {
   LOVE_PUSH_BOULDERS,
   LOVE_PUSH_DELTAS,
   LOVE_PUSH_DIRECTIONS,
-  LOVE_PUSH_PIT,
+  LOVE_PUSH_TARGETS,
   LOVE_PUSH_MOVE_MS,
   LOVE_PUSH_PUSHERS_NEEDED,
   canClaimLoveBoulder,
@@ -144,20 +144,22 @@ const LABEL_CHAR_WIDTH = 4;
 
 /**
  * Lover's Push plays out across the island's own 16px tiles: boulders start
- * out toward the corners and roll into the pit in the centre of the
+ * out toward the edges and roll into four squares in the centre of the
  * clearing. Boulder art (stone_rock) is 18x16.
  */
 const PUSH_COLLIDER_WIDTH = 14;
 const PUSH_COLLIDER_HEIGHT = 10;
 /** Above the ground tiles (depth 0), below anyone walking on it. */
 const PUSH_GROUND_DEPTH = 1;
-/** The pit (crop_boom_hole, 16x16) is drawn a bit bigger than a tile. */
-const PUSH_PIT_TEXTURE = "push_pit";
-const PUSH_PIT_SCALE = 1.5;
+/** The four squares in the centre, drawn on the ground. */
+const PUSH_SQUARE_COLOUR = 0x3e2731;
+const PUSH_SQUARE_FILL = 0x000000;
+/** A taken square fills green under its boulder. */
+const PUSH_SQUARE_TAKEN = 0x3e8948;
 /** A faint ring marks where each boulder started from. */
 const PUSH_START_COLOUR = 0x3e2731;
-/** The "n/4" tally floats this far above the pit's centre. */
-const PUSH_SUNK_LABEL_Y = -22;
+/** The "n/4" tally floats this far above the top of the squares. */
+const PUSH_SUNK_LABEL_Y = -14;
 /** A boulder that hits something bursts: a flash and chips of rock. */
 const PUSH_EXPLOSION_COLOUR = 0xffe08a;
 const PUSH_EXPLOSION_CHIPS = 10;
@@ -212,7 +214,8 @@ const LOSE_COLOUR = 0xe57373;
  * picked by `LOVE_ISLAND_CENTRE_PUZZLE`), plus the Love Boulder.
  *
  * Lover's Push: four boulders start out toward the corners of the island
- * and have to be rolled into the pit in the middle of the clearing. One
+ * and have to be rolled into four squares in the middle of the clearing -
+ * one boulder to a square, the first one in takes it. One
  * player can't budge a boulder - walking into one adds your push to it: an
  * arrow appears at its edge, and the rock warms to orange (a bar beside the
  * arrow fills) as the crowd grows; once enough players (five on mainnet,
@@ -222,13 +225,14 @@ const LOSE_COLOUR = 0xe57373;
  * appears somewhere new on the same side of the island (a ring marks the
  * spot), so the island has to plan the route. Hub and spoke: there is
  * always one boulder at the top, one on the right, one at the bottom and
- * one on the left. A boulder that reaches the pit drops in and is done -
- * a tally at the pit counts them. When all four are in
+ * one on the left. A boulder rolled onto a free square parks there, turns
+ * green and is done - and is something the others can crash into; a tally
+ * above the squares counts them. When all four are in
  * everyone who helped roll one is handed a Bronze Love Box automatically
  * (once a day) - the prize the petal puzzle used to pay for this same
  * clearing - then fresh boulders appear, each always somewhere a crowd can
  * roll it home from. The room publishes `state.lovePush`; until it does a
- * simulated crowd joins your pushes and rolls boulders toward the pit.
+ * simulated crowd joins your pushes and rolls boulders toward the squares.
  *
  * Three platforms in a row, each showing a Love Charm prize. Every 30s
  * players click the platform they want (a select box marks your pick; only
@@ -311,11 +315,11 @@ export class LoveIslandScene extends BaseScene {
   private pushBoulders: Phaser.GameObjects.Sprite[] = [];
   /** Solid - walking into one pushes it. */
   private pushColliders: Phaser.GameObjects.Rectangle[] = [];
-  /** The pit in the centre the boulders roll into. */
-  private pushPit?: Phaser.GameObjects.Image;
+  /** The four squares in the centre the boulders roll into. */
+  private pushSquares?: Phaser.GameObjects.Graphics;
   /** A ring where each boulder started, indexed by boulder. */
   private pushStartMarkers: Phaser.GameObjects.Graphics[] = [];
-  /** "n/4" at the pit - how many boulders are in. */
+  /** "n/4" above the squares - how many are taken. */
   private pushSunkLabel?: Label;
   private renderedSunkCount?: number;
   /**
@@ -374,7 +378,6 @@ export class LoveIslandScene extends BaseScene {
     this.load.image("love_charm_small", loveCharmSmall);
     this.load.image("boulder", SUNNYSIDE.resource.boulder);
     this.load.image("push_boulder", SUNNYSIDE.resource.stone_rock);
-    this.load.image(PUSH_PIT_TEXTURE, "world/crop_boom_hole.png");
     this.load.image(PUSH_ARROW_TEXTURE.north, SUNNYSIDE.icons.arrow_up);
     this.load.image(PUSH_ARROW_TEXTURE.east, SUNNYSIDE.icons.arrow_right);
     this.load.image(PUSH_ARROW_TEXTURE.south, SUNNYSIDE.icons.arrow_down);
@@ -910,18 +913,21 @@ export class LoveIslandScene extends BaseScene {
   // ---------------------------------------------------------------------
 
   createLovePush() {
-    // The pit in the middle of the clearing, on the ground under everyone
-    const pit = getLovePushTileCentre(LOVE_PUSH_PIT);
-    this.pushPit = this.add
-      .image(pit.x, pit.y, PUSH_PIT_TEXTURE)
-      .setScale(PUSH_PIT_SCALE)
-      .setDepth(PUSH_GROUND_DEPTH);
+    // The four squares in the middle of the clearing, on the ground under
+    // everyone, with the tally floating above them
+    this.pushSquares = this.add.graphics().setDepth(PUSH_GROUND_DEPTH);
+    this.drawPushSquares([]);
 
-    // How many are in, floating above the pit
+    const top = Math.min(...LOVE_PUSH_TARGETS.map((t) => t.y));
+    const centreX =
+      (Math.min(...LOVE_PUSH_TARGETS.map((t) => t.x)) +
+        Math.max(...LOVE_PUSH_TARGETS.map((t) => t.x)) +
+        1) *
+      (LOVE_ISLAND_TILE_PX / 2);
     this.pushSunkLabel = new Label(this, `0/${LOVE_PUSH_BOULDERS}`, "brown");
     this.add.existing(this.pushSunkLabel);
     this.pushSunkLabel
-      .setPosition(pit.x, pit.y + PUSH_SUNK_LABEL_Y)
+      .setPosition(centreX, top * LOVE_ISLAND_TILE_PX + PUSH_SUNK_LABEL_Y)
       .setDepth(Number.MAX_SAFE_INTEGER);
 
     // Solid boulders in their own group so walking into one can push it
@@ -1274,46 +1280,58 @@ export class LoveIslandScene extends BaseScene {
     }
   }
 
-  /** The boulder dropped into the pit: it shrinks away and is out of play. */
-  private sinkBoulder(boulder: number) {
+  /** The boulder just parked in a square: it settles with a bounce and turns green. */
+  private parkBoulder(boulder: number) {
     const sprite = this.pushBoulders[boulder];
-    const collider = this.pushColliders[boulder];
-    if (!sprite || !collider) return;
+    if (!sprite) return;
 
-    const pit = getLovePushTileCentre(LOVE_PUSH_PIT);
-
-    this.sound.play("dig", { volume: 0.08 });
-    this.tweens.killTweensOf(sprite);
-    sprite.clearTint();
-    this.tweens.add({
-      targets: sprite,
-      x: pit.x,
-      y: pit.y + LOVE_ISLAND_TILE_PX / 2 - 1,
-      scale: 0.2,
-      alpha: 0,
-      duration: LOVE_PUSH_MOVE_MS + 200,
-      ease: "Quad.easeIn",
-      onComplete: () => sprite.setVisible(false),
-    });
-
-    // Nothing to bump into any more
-    const body = collider.body as Phaser.Physics.Arcade.Body | undefined;
-    if (body) body.enable = false;
-    collider.setPosition(-100, -100);
-    body?.reset(-100, -100);
-
-    // The pit gulps
-    if (this.pushPit) {
-      this.tweens.killTweensOf(this.pushPit);
-      this.pushPit.setScale(PUSH_PIT_SCALE);
+    this.sound.play("reveal", { volume: 0.06 });
+    this.time.delayedCall(LOVE_PUSH_MOVE_MS, () => {
+      sprite.setTint(WIN_COLOUR).setScale(1.3);
       this.tweens.add({
-        targets: this.pushPit,
-        scale: PUSH_PIT_SCALE * 1.3,
-        duration: 150,
-        yoyo: true,
-        delay: LOVE_PUSH_MOVE_MS,
+        targets: sprite,
+        scale: 1,
+        duration: 260,
+        ease: "Back.easeOut",
       });
-    }
+    });
+  }
+
+  /** The four squares, the taken ones filled green. */
+  private drawPushSquares(taken: LovePushTile[]) {
+    const squares = this.pushSquares;
+    if (!squares) return;
+
+    squares.clear();
+    LOVE_PUSH_TARGETS.forEach((target) => {
+      const isTaken = taken.some(
+        (tile) => tile.x === target.x && tile.y === target.y,
+      );
+      const x = target.x * LOVE_ISLAND_TILE_PX;
+      const y = target.y * LOVE_ISLAND_TILE_PX;
+
+      squares.fillStyle(
+        isTaken ? PUSH_SQUARE_TAKEN : PUSH_SQUARE_FILL,
+        isTaken ? 0.35 : 0.15,
+      );
+      squares.fillRect(
+        x + 1,
+        y + 1,
+        LOVE_ISLAND_TILE_PX - 2,
+        LOVE_ISLAND_TILE_PX - 2,
+      );
+      squares.lineStyle(
+        1,
+        isTaken ? PUSH_SQUARE_TAKEN : PUSH_SQUARE_COLOUR,
+        0.8,
+      );
+      squares.strokeRect(
+        x + 0.5,
+        y + 0.5,
+        LOVE_ISLAND_TILE_PX - 1,
+        LOVE_ISLAND_TILE_PX - 1,
+      );
+    });
   }
 
   /** Mark where a boulder started from. */
@@ -1396,11 +1414,12 @@ export class LoveIslandScene extends BaseScene {
             this.lastPushBubbleAt = now;
             this.currentPlayer?.speak(translateForBubble("lovePush.reset"));
           }
-        } else if (justSunk) {
-          this.renderedSunk[boulder] = true;
-          this.sinkBoulder(boulder);
         } else {
-          this.slideBoulder(boulder, from, tile);
+          if (rendered !== index) this.slideBoulder(boulder, from, tile);
+          if (justSunk) {
+            this.renderedSunk[boulder] = true;
+            this.parkBoulder(boulder);
+          }
         }
 
         // It rolled, so every push on it is spent. Credit ourselves if it
@@ -1435,6 +1454,9 @@ export class LoveIslandScene extends BaseScene {
       const grew = (this.renderedSunkCount ?? 0) < sunkCount;
       this.renderedSunkCount = sunkCount;
       this.setSunkCount(sunkCount, grew);
+      this.drawPushSquares(
+        round.boulders.filter((_, boulder) => round.sunk[boulder]),
+      );
     }
 
     round.pushes.forEach((pushes, boulder) => {
@@ -1461,10 +1483,15 @@ export class LoveIslandScene extends BaseScene {
     }
   }
 
-  /** Colour a boulder: warming from grey to orange as the crowd pushing it grows. */
+  /** Colour a boulder: green once parked, else warming from grey to orange as the crowd pushing it grows. */
   private tintPushBoulder(boulder: number) {
     const sprite = this.pushBoulders[boulder];
     if (!sprite) return;
+
+    if (this.renderedSunk[boulder]) {
+      sprite.setTint(WIN_COLOUR);
+      return;
+    }
 
     const count = getLovePushMaxCount(this.renderedPushes[boulder] ?? {});
     if (count <= 0) {
@@ -1577,24 +1604,20 @@ export class LoveIslandScene extends BaseScene {
     });
   }
 
-  /** The last boulder just dropped in - celebrate and settle up. */
+  /** The last square was just taken - celebrate and settle up. */
   private solvePush(round: LovePushRound, animate: boolean) {
     const now = Date.now();
     const player = this.currentPlayer;
 
     if (animate) {
       this.sound.play("reveal", { volume: 0.1 });
-      if (this.pushPit) {
-        this.tweens.killTweensOf(this.pushPit);
-        this.tweens.add({
-          targets: this.pushPit,
-          scale: PUSH_PIT_SCALE * 1.4,
-          duration: 200,
-          yoyo: true,
-          repeat: 3,
-          onComplete: () => this.pushPit?.setScale(PUSH_PIT_SCALE),
-        });
-      }
+      this.tweens.add({
+        targets: this.pushBoulders,
+        alpha: 0.3,
+        duration: 200,
+        yoyo: true,
+        repeat: 3,
+      });
     }
 
     if (!player) return;
