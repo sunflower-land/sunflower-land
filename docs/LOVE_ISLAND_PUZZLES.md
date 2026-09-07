@@ -382,8 +382,9 @@ has its centre at `(555 + 20x + 10, 506 + 20y + 10)`. Boulder art is
   put their **push** on it in the direction they're heading. A push is a
   standing vote: one per player per boulder (pushing another side moves it),
   kept until the boulder moves, the round ends or the player leaves the
-  room. The boulder shows how many are pushing it the leading way, e.g.
-  "3/5", and an arrow for that way.
+  room. Walking into another side of the same boulder replaces your push.
+  The boulder shows the leading way (an arrow in the next tile) and how
+  close the crowd is (an orange tint and a bar), never the number.
 - Once **five players** (**two** off mainnet - `getLovePushPushersNeeded(network)`, both sides) are pushing the same boulder the **same way**, it
   slides **one tile** that way. Everyone sees it slide, every pusher behind
   it is credited with a move, and **all** pushes on that boulder are cleared
@@ -541,9 +542,13 @@ game event and the once-a-day rule is enforced client-side against the farm's
 
 - Draws the grid and the four boulders at `boulders` (solid). A boulder with
   `onTarget` is tinted green; there is no other HUD.
-- Above a boulder with `pushCounts > 0` shows a label "`n`/5" ("`n`/2" off mainnet) and a small
-  arrow on the side it will slide toward (`pushDirections`). The label pops
-  when the count goes up and disappears when it drops to 0.
+- While `pushCounts > 0` on a boulder: draws the matching arrow icon
+  (`arrow_up` / `arrow_right` / `arrow_down` / `arrow_left`) in the **tile
+  the boulder will slide into** (`pushDirections`), tints the boulder from
+  grey toward orange by `pushCounts / needed`, and fills a small bar beneath
+  it the same way. No number is shown. The arrow pops when the direction
+  changes; everything goes away when the count drops to 0. Green (on a
+  target) wins over orange.
 - While the local player is walking into a boulder (a physics collision with
   their movement pointing at it) and `canPush` holds, sends `lovePush.push`
   with the direction they're heading. It remembers that push and only sends

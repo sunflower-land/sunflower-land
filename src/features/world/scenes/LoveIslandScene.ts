@@ -159,22 +159,23 @@ const PUSH_BUBBLE_COOLDOWN_MS = 3000;
  * on the boulder.
  */
 const PUSH_RESEND_MS = 2000;
-/** Boulder art (stone_rock) is 18x16; its base sits on the tile. */
-const PUSH_BOULDER_HEIGHT = 16;
-/** The pusher count sits in a label above the boulder. */
-const PUSH_COUNT_Y = -PUSH_BOULDER_HEIGHT - 13;
-/** A small arrow just past the boulder's edge, on the side it will slide toward. */
-const PUSH_ARROW_OFFSET = 12;
-/** Half the arrow's height - the arrow is 5x5px. */
-const PUSH_ARROW_SIZE = 2.5;
-const PUSH_ARROW_COLOUR = 0xffffff;
-/** Rotation from an east-pointing arrow, per direction the boulder moves. */
-const PUSH_ARROW_ROTATION: Record<LovePushDirection, number> = {
-  east: 0,
-  south: Math.PI / 2,
-  west: Math.PI,
-  north: -Math.PI / 2,
+/** The arrow icon shown in the tile a boulder will slide into, per direction. */
+const PUSH_ARROW_TEXTURE: Record<LovePushDirection, string> = {
+  north: "push_arrow_north",
+  east: "push_arrow_east",
+  south: "push_arrow_south",
+  west: "push_arrow_west",
 };
+/**
+ * A boulder warms from grey to this orange as the crowd behind it grows,
+ * and a small bar beneath the arrow fills the same way.
+ */
+const PUSH_PROGRESS_COLOUR = 0xf09a3c;
+const PUSH_PROGRESS_WIDTH = 10;
+const PUSH_PROGRESS_HEIGHT = 3;
+const PUSH_PROGRESS_TRACK = 0x3e2731;
+/** The bar sits this far below the arrow's centre (the icons are ~12px tall). */
+const PUSH_PROGRESS_Y = 8;
 
 const FONT = "Teeny Tiny Pixls";
 const TEXT_TINT = 0x3e2731;
@@ -187,9 +188,11 @@ const LOSE_COLOUR = 0xe57373;
  * picked by `LOVE_ISLAND_CENTRE_PUZZLE`), plus the Love Boulder.
  *
  * Lover's Push: four boulders on a 6x6 grid in the clearing. One player
- * can't budge a boulder - walking into one adds your push to it and a
- * count pops up on the rock; once enough players (five on mainnet, two off it) are pushing it the same way
- * it slides a tile and everyone sees it go. Four target tiles are hidden -
+ * can't budge a boulder - walking into one adds your push to it: an arrow
+ * appears in the tile it will slide into, and the rock warms to orange (a
+ * bar beneath it fills) as the crowd grows; once enough players (five on
+ * mainnet, two off it) are pushing it the same way it slides a tile and
+ * everyone sees it go. Pushing another side moves your push. Four target tiles are hidden -
  * a boulder turns green when it's resting on one, so the crowd can see
  * what's home and what still needs moving; there is no other HUD. The
  * border is walkable, so a boulder on a wall or in a corner
@@ -280,10 +283,10 @@ export class LoveIslandScene extends BaseScene {
   private pushBoulders: Phaser.GameObjects.Sprite[] = [];
   /** Solid - walking into one pushes it. */
   private pushColliders: Phaser.GameObjects.Rectangle[] = [];
-  /** "n/N" above each boulder while someone is pushing it, indexed by boulder. */
-  private pushCountLabels: Label[] = [];
-  /** Arrow on the side each boulder will slide toward, indexed by boulder. */
-  private pushArrows: Phaser.GameObjects.Triangle[] = [];
+  /** Arrow in the tile each boulder will slide into while it's being pushed, indexed by boulder. */
+  private pushArrows: Phaser.GameObjects.Image[] = [];
+  /** Bar beneath each arrow that fills as the crowd behind the boulder grows, indexed by boulder. */
+  private pushProgressBars: Phaser.GameObjects.Graphics[] = [];
   /** Simulated puzzle while the room has no push state. */
   private localPush?: LovePushLocalRound;
   /** Round the boulder sprites are synced to. */
@@ -325,6 +328,10 @@ export class LoveIslandScene extends BaseScene {
     this.load.image("love_charm_small", loveCharmSmall);
     this.load.image("boulder", SUNNYSIDE.resource.boulder);
     this.load.image("push_boulder", SUNNYSIDE.resource.stone_rock);
+    this.load.image(PUSH_ARROW_TEXTURE.north, SUNNYSIDE.icons.arrow_up);
+    this.load.image(PUSH_ARROW_TEXTURE.east, SUNNYSIDE.icons.arrow_right);
+    this.load.image(PUSH_ARROW_TEXTURE.south, SUNNYSIDE.icons.arrow_down);
+    this.load.image(PUSH_ARROW_TEXTURE.west, SUNNYSIDE.icons.arrow_left);
     this.load.spritesheet("portal", "world/love_charm_portal_sheet.png", {
       frameWidth: 20,
       frameHeight: 34,
@@ -910,31 +917,16 @@ export class LoveIslandScene extends BaseScene {
       boulderGroup.add(collider);
       this.pushColliders.push(collider);
 
-      // The pusher count, shown while someone is pushing it. Always the
-      // same width ("n/N"), so the label is built once and its text swapped.
-      const count = new Label(this, `0/${LOVE_PUSH_PUSHERS_NEEDED}`, "brown");
-      this.add.existing(count);
-      count.setDepth(Number.MAX_SAFE_INTEGER).setVisible(false);
-      this.pushCountLabels.push(count);
-
-      // ...and an arrow on the side it will slide toward. Drawn pointing
-      // east, rotated per direction.
+      // An arrow in the tile it will slide into, shown while someone is
+      // pushing it; the texture is swapped per direction
       const arrow = this.add
-        .triangle(
-          0,
-          0,
-          0,
-          0,
-          0,
-          PUSH_ARROW_SIZE * 2,
-          PUSH_ARROW_SIZE * 2,
-          PUSH_ARROW_SIZE,
-          PUSH_ARROW_COLOUR,
-        )
-        .setStrokeStyle(1, TEXT_TINT)
-        .setDepth(Number.MAX_SAFE_INTEGER)
+        .image(0, 0, PUSH_ARROW_TEXTURE.north)
         .setVisible(false);
       this.pushArrows.push(arrow);
+
+      // ...and a bar beneath the arrow that fills as the crowd grows
+      const bar = this.add.graphics().setVisible(false);
+      this.pushProgressBars.push(bar);
     }
 
     if (this.currentPlayer) {
@@ -1188,12 +1180,7 @@ export class LoveIslandScene extends BaseScene {
       if (this.renderedOnTarget[boulder] === onTarget) return;
 
       this.renderedOnTarget[boulder] = onTarget;
-      const sprite = this.pushBoulders[boulder];
-      if (onTarget) {
-        sprite?.setTint(WIN_COLOUR);
-      } else {
-        sprite?.clearTint();
-      }
+      this.tintPushBoulder(boulder);
     });
 
     round.pushes.forEach((pushes, boulder) => {
@@ -1206,9 +1193,14 @@ export class LoveIslandScene extends BaseScene {
       }
 
       this.renderedPushes[boulder] = pushes;
-      this.setPushCount(boulder, pushes, (rendered?.count ?? 0) < pushes.count);
+      this.tintPushBoulder(boulder);
+      this.setPushProgress(
+        boulder,
+        pushes,
+        round.boulders[boulder],
+        rendered?.direction !== pushes.direction,
+      );
     });
-    this.positionPushCounts();
 
     if (!round.solved) {
       this.sawPushUnsolved = true;
@@ -1219,57 +1211,90 @@ export class LoveIslandScene extends BaseScene {
   }
 
   /**
-   * Show how many are pushing a boulder, and which way. The count pops
-   * when someone joins, and the whole thing goes away once nobody is
-   * pushing (or the boulder has moved).
+   * Colour a boulder: green once it's resting on a target, otherwise
+   * warming from grey to orange as the crowd pushing it grows.
    */
-  private setPushCount(
-    boulder: number,
-    { count, direction }: LovePushBoulderPushes,
-    grew: boolean,
-  ) {
-    const label = this.pushCountLabels[boulder];
-    const arrow = this.pushArrows[boulder];
-    if (!label || !arrow) return;
+  private tintPushBoulder(boulder: number) {
+    const sprite = this.pushBoulders[boulder];
+    if (!sprite) return;
 
-    if (count <= 0 || !direction) {
-      label.setVisible(false);
-      arrow.setVisible(false);
+    if (this.renderedOnTarget[boulder]) {
+      sprite.setTint(WIN_COLOUR);
       return;
     }
 
-    label.setText(`${count}/${LOVE_PUSH_PUSHERS_NEEDED}`).setVisible(true);
-    arrow.setRotation(PUSH_ARROW_ROTATION[direction]).setVisible(true);
+    const count = this.renderedPushes[boulder]?.count ?? 0;
+    if (count <= 0) {
+      sprite.clearTint();
+      return;
+    }
 
-    if (grew) {
-      this.tweens.killTweensOf(label);
-      label.setScale(1.5);
+    const progress = Math.min(1, count / LOVE_PUSH_PUSHERS_NEEDED);
+    const { r, g, b } = Phaser.Display.Color.Interpolate.ColorWithColor(
+      Phaser.Display.Color.ValueToColor(0xffffff),
+      Phaser.Display.Color.ValueToColor(PUSH_PROGRESS_COLOUR),
+      100,
+      Math.round(progress * 100),
+    );
+    sprite.setTint(Phaser.Display.Color.GetColor(r, g, b));
+  }
+
+  /**
+   * Show which way a boulder is being pushed - an arrow in the tile it will
+   * slide into - and how close the crowd is to moving it, as a bar beneath
+   * the arrow. Both go away once nobody is pushing (or the boulder has moved).
+   */
+  private setPushProgress(
+    boulder: number,
+    { count, direction }: LovePushBoulderPushes,
+    tile: LovePushTile,
+    turned: boolean,
+  ) {
+    const arrow = this.pushArrows[boulder];
+    const bar = this.pushProgressBars[boulder];
+    if (!arrow || !bar) return;
+
+    if (count <= 0 || !direction) {
+      arrow.setVisible(false);
+      bar.setVisible(false);
+      return;
+    }
+
+    const delta = LOVE_PUSH_DELTAS[direction];
+    const next = this.pushTileCentre({
+      x: tile.x + delta.x,
+      y: tile.y + delta.y,
+    });
+    arrow
+      .setTexture(PUSH_ARROW_TEXTURE[direction])
+      .setPosition(next.x, next.y)
+      // Its base, like the boulders, so anyone standing there is drawn over it
+      .setDepth(next.y + PUSH_TILE / 2)
+      .setVisible(true);
+
+    if (turned) {
+      this.tweens.killTweensOf(arrow);
+      arrow.setScale(1.4);
       this.tweens.add({
-        targets: label,
+        targets: arrow,
         scale: 1,
         duration: 180,
         ease: "Back.easeOut",
       });
     }
-  }
 
-  /** Keep each count and arrow on its boulder, sliding along with it. */
-  private positionPushCounts() {
-    this.pushBoulders.forEach((sprite, boulder) => {
-      const label = this.pushCountLabels[boulder];
-      const arrow = this.pushArrows[boulder];
-      const direction = this.renderedPushes[boulder]?.direction;
-
-      label?.setPosition(sprite.x, sprite.y + PUSH_COUNT_Y);
-
-      if (arrow && direction) {
-        const delta = LOVE_PUSH_DELTAS[direction];
-        arrow.setPosition(
-          sprite.x + delta.x * PUSH_ARROW_OFFSET,
-          sprite.y - PUSH_BOULDER_HEIGHT / 2 + delta.y * PUSH_ARROW_OFFSET,
-        );
-      }
-    });
+    const fill = Math.round(
+      (PUSH_PROGRESS_WIDTH - 2) * Math.min(1, count / LOVE_PUSH_PUSHERS_NEEDED),
+    );
+    bar.clear();
+    bar.fillStyle(PUSH_PROGRESS_TRACK, 1);
+    bar.fillRect(0, 0, PUSH_PROGRESS_WIDTH, PUSH_PROGRESS_HEIGHT);
+    bar.fillStyle(PUSH_PROGRESS_COLOUR, 1);
+    bar.fillRect(1, 1, fill, PUSH_PROGRESS_HEIGHT - 2);
+    bar
+      .setPosition(next.x - PUSH_PROGRESS_WIDTH / 2, next.y + PUSH_PROGRESS_Y)
+      .setDepth(arrow.depth)
+      .setVisible(true);
   }
 
   /** The last boulder just turned green - celebrate and settle up. */
