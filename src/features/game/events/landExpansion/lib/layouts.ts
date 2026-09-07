@@ -876,7 +876,7 @@ export function applyFarmLayout(
   // skipped silently). Pets must be revealed to be placed.
   Object.entries(layout.buds ?? {}).forEach(([id, coordinates]) => {
     const bud = state.buds?.[Number(id)];
-    if (!bud) return;
+    if (!bud || (bud.coordinates && !isOnFarm(bud))) return;
     const original = bud.coordinates;
     bud.coordinates = undefined; // lift
     slots.push({
@@ -900,7 +900,7 @@ export function applyFarmLayout(
   Object.entries(layout.petNFTs ?? {}).forEach(([id, coordinates]) => {
     // Owned by id (a pet in a layout was placed once, so it's already revealed).
     const pet = state.pets?.nfts?.[Number(id)];
-    if (!pet) return;
+    if (!pet || (pet.coordinates && !isOnFarm(pet))) return;
     const original = pet.coordinates;
     pet.coordinates = undefined; // lift
     slots.push({
@@ -922,12 +922,17 @@ export function applyFarmLayout(
     });
   });
 
-  // FarmHands: prefer the saved farmhand id if the player owns it (keeps each
-  // bumpkin's equipment + flip at its saved spot), else bind any other unlocked
-  // farmhand by count. No creation — you can't mint farmhands.
-  const farmHandIds = Object.keys(state.farmHands?.bumpkins ?? {}).sort(
-    (a, b) => a.localeCompare(b),
-  );
+  // FarmHands: prefer the saved farmhand id when it is available to the farm
+  // (keeps each bumpkin's equipment + flip at its saved spot), else bind any
+  // other unlocked farmhand by count. Farmhands placed in another location are
+  // not available. No creation — you can't mint farmhands.
+  const farmHandIds = Object.keys(state.farmHands?.bumpkins ?? {})
+    .filter((id) => {
+      const farmHand = state.farmHands.bumpkins[id];
+      return !farmHand.coordinates || isOnFarm(farmHand);
+    })
+    .sort((a, b) => a.localeCompare(b));
+  const availableFarmHandIds = new Set(farmHandIds);
   const farmHandOriginals = new Map(
     farmHandIds.map((id) => [id, state.farmHands.bumpkins[id].coordinates]),
   );
@@ -943,7 +948,7 @@ export function applyFarmLayout(
     fhEntries
       .slice(0, fhCapacity)
       .map(([id]) => id)
-      .filter((id) => state.farmHands.bumpkins[id] !== undefined),
+      .filter((id) => availableFarmHandIds.has(id)),
   );
   const farmHandPool = farmHandIds.filter((id) => !ownedFarmHandIds.has(id));
   let fhPoolIdx = 0;
@@ -952,10 +957,9 @@ export function applyFarmLayout(
       noInventory += 1;
       return;
     }
-    const id =
-      state.farmHands.bumpkins[savedId] !== undefined
-        ? savedId
-        : farmHandPool[fhPoolIdx++];
+    const id = availableFarmHandIds.has(savedId)
+      ? savedId
+      : farmHandPool[fhPoolIdx++];
     if (id === undefined) {
       noInventory += 1;
       return;
@@ -1008,11 +1012,13 @@ export function applyFarmLayout(
     });
   }
 
-  // Exact restore: applying a layout yields exactly the saved snapshot, so lift
-  // every placed item the layout does NOT represent too — its instance (with any
-  // timers) is kept; it simply returns to inventory. Resources are lifted in full
-  // above; mirror that for the name/id-keyed categories. The player's own Bumpkin
-  // is intentionally left alone — it is the avatar and is always captured on-farm.
+  // Exact restore: applying a layout yields exactly the saved farm snapshot, so
+  // lift every item placed on the farm that the layout does NOT represent too —
+  // its instance (with any timers) is kept; it simply returns to inventory.
+  // Resources are lifted in full above; mirror that for the name/id-keyed
+  // categories without touching placements in other locations. The player's own
+  // Bumpkin is intentionally left alone — it is the avatar and is always captured
+  // on-farm.
   getObjectEntries(state.collectibles).forEach(([name, items]) => {
     if (layout.collectibles[name]) return;
     items?.forEach((item) => {
@@ -1026,13 +1032,13 @@ export function applyFarmLayout(
     });
   });
   Object.entries(state.buds ?? {}).forEach(([id, bud]) => {
-    if (!layout.buds?.[id]) bud.coordinates = undefined;
+    if (!layout.buds?.[id] && isOnFarm(bud)) bud.coordinates = undefined;
   });
   Object.entries(state.pets?.nfts ?? {}).forEach(([id, pet]) => {
-    if (!layout.petNFTs?.[id]) pet.coordinates = undefined;
+    if (!layout.petNFTs?.[id] && isOnFarm(pet)) pet.coordinates = undefined;
   });
   Object.entries(state.farmHands?.bumpkins ?? {}).forEach(([id, fh]) => {
-    if (!layout.farmHands?.[id]) fh.coordinates = undefined;
+    if (!layout.farmHands?.[id] && isOnFarm(fh)) fh.coordinates = undefined;
   });
 
   // Everything is now lifted. Place each slot in turn against the live draft
