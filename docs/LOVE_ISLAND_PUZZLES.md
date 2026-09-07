@@ -84,6 +84,17 @@ else **5**. "Today" is the UTC date of `createdAt`
 
 On success: append the claim and add `amount` to `inventory["Love Charm"]`.
 
+**Puzzles that pay an item instead.** `FLOATING_ISLAND_GAME_ITEM_PRIZE` maps a
+game name to `{ item, amount }` — today just `love_push` →
+`{ item: "Bronze Love Box", amount: 1 }`, the prize the petal puzzle used to
+pay for the same clearing. For those games the claim's `amount` is **ignored**:
+no Love Charms are added, the daily Love Charm cap is neither checked nor
+consumed, and the claim is recorded as `amount: 0` so it cannot squeeze the
+other puzzles out of the day's budget. The amount is ignored rather than
+rejected so a client that has not shipped the change yet still gets its box.
+Every game listed there must also appear in the per-game daily claim cap, or
+the item would be mintable once per round rather than once per day.
+
 An `amount` of `0` is valid and still consumes one of the 10 claims. The Love
 Dilemma uses this to record a **lost** round so the client can count attempts.
 
@@ -265,10 +276,10 @@ automatically — no client change needed.
 
 A boulder sits at the very top of the island, at the foot of the cliff where
 the path dead-ends (world px **620, 362**; art 26x25). The whole island taps
-it down from **50,000 hits** to zero. When it cracks, a **5 Love Charm**
+it down from **10,000 hits** to zero. When it cracks, a **5 Love Charm**
 prize sits on the rubble for **5 seconds**: anyone who landed at least one
 hit on that boulder can click it to claim, **once per UTC day**. When the 5
-seconds are up a fresh boulder appears at 50,000 and anyone who didn't click
+seconds are up a fresh boulder appears at 10,000 and anyone who didn't click
 misses out. There is no guide entry and no HUD beyond the hit count above
 the boulder (in a label) and a health bar below it - the boulder is meant to
 be discovered. The boulder's collider is the art plus an **8px** buffer on
@@ -276,7 +287,7 @@ every side, so the crowd mines it from around its edge rather than standing
 on top of it.
 
 ```ts
-LOVE_BOULDER_HITS = 50_000;
+LOVE_BOULDER_HITS = 10_000;
 LOVE_BOULDER_PRIZE = 5;
 LOVE_BOULDER_MAX_CLAIMS = 1; // per farm per UTC day
 LOVE_BOULDER_HIT_COOLDOWN_MS = 200; // per player
@@ -379,14 +390,20 @@ has its centre at `(555 + 20x + 10, 506 + 20y + 10)`. Boulder art is
 - All four lit = **solved**. The layout is celebrated for **10s**
   (`solvedAt`/`nextRoundAt`), then a fresh one appears with `roundId + 1`.
 - Everyone credited with at least one move in the solved round is paid
-  automatically by their client (no click): **20** Love Charms for VIP, **3**
-  otherwise, **once per farm per UTC day** (capped by the daily limits).
+  automatically by their client (no click): **1 Bronze Love Box**, **once per
+  farm per UTC day**. That is what the petal puzzle paid for this same
+  clearing, so islanders keep the reward they always had. Unlike the other two
+  puzzles the prize is an item, not Love Charms, so the daily Love Charm caps
+  neither bound it nor are spent by it — VIP and standard get the same box,
+  and a player who has already earned their day's charms elsewhere still gets
+  one. The claim is still sent through `floatingIslandPrize.claimed` with
+  `amount: 0`; the event mints the box (`FLOATING_ISLAND_GAME_ITEM_PRIZE`).
 
 ```ts
 LOVE_PUSH_GRID_SIZE = 6;
 LOVE_PUSH_BOULDERS = 4;
 LOVE_PUSH_MOVE_MS = 300; // slide time = per-boulder push cooldown
-LOVE_PUSH_PRIZES = { vip: 20, standard: 3 };
+LOVE_PUSH_PRIZE = { item: "Bronze Love Box", amount: 1 };
 LOVE_PUSH_MAX_CLAIMS = 1; // per farm per UTC day
 LOVE_PUSH_SOLVED_MS = 10_000; // celebration before the next layout
 LOVE_PUSH_MIN_SOLUTION_PUSHES = 6; // generator rejects easier layouts
@@ -499,10 +516,10 @@ game event and the once-a-day rule is enforced client-side against the farm's
 - When `solvedAt` flips from 0: tints the boulders green and flashes the
   lights. If `max(pushers[farmId], own count) > 0` and the farm has no
   `love_push` claim today, dispatches
-  `floatingIslandPrize.claimed { amount, game: "love_push", roundId }` with
-  `amount = min(prize, remaining today)` and floats a "+N". Players who
-  already claimed today get an "already claimed" bubble; nothing for players
-  who didn't help. Pushing during the celebration just shows a "wait for the
+  `floatingIslandPrize.claimed { amount: 0, game: "love_push", roundId }` -
+  the box is the prize, so there is no Love Charm amount to send - and shows a
+  "you won a Bronze Love Box" bubble. Players who already claimed today get an
+  "already claimed" bubble; nothing for players who didn't help. Pushing during the celebration just shows a "wait for the
   next puzzle" bubble.
 - When `roundId` changes the boulders snap to the new layout and the lights
   go out.

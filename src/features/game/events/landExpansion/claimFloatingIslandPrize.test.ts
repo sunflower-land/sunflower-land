@@ -40,6 +40,91 @@ describe("claimFloatingIslandPrize", () => {
     ]);
   });
 
+  /**
+   * Lover's Push pays the petal puzzle's old prize - a Bronze Love Box -
+   * rather than Love Charms. Mirrors the API's copy of this event, which is
+   * the one that actually mints it.
+   */
+  describe("a puzzle that pays an item", () => {
+    const claimPush = (
+      state: GameState,
+      amount = 0,
+      createdAt = now,
+    ): GameState =>
+      claimFloatingIslandPrize({
+        state,
+        action: {
+          type: "floatingIslandPrize.claimed",
+          amount,
+          game: "love_push",
+          roundId: 1_757_000_000,
+        },
+        createdAt,
+      });
+
+    it("pays the item and no Love Charms", () => {
+      const state = claimPush(vipFarm);
+
+      expect(state.inventory["Bronze Love Box"]).toEqual(new Decimal(1));
+      expect(state.inventory["Love Charm"]).toBeUndefined();
+      expect(state.floatingIsland.prizeClaims).toEqual([
+        {
+          claimedAt: now,
+          amount: 0,
+          game: "love_push",
+          roundId: 1_757_000_000,
+        },
+      ]);
+    });
+
+    it("ignores a Love Charm amount an older client sends", () => {
+      const state = claimPush(INITIAL_FARM, 20);
+
+      expect(state.inventory["Bronze Love Box"]).toEqual(new Decimal(1));
+      expect(state.inventory["Love Charm"]).toBeUndefined();
+      expect(state.floatingIsland.prizeClaims?.[0].amount).toBe(0);
+    });
+
+    it("is not refused by a Love Charm cap the player has already hit", () => {
+      const spent: GameState = {
+        ...INITIAL_FARM,
+        floatingIsland: {
+          ...INITIAL_FARM.floatingIsland,
+          prizeClaims: [
+            { claimedAt: now - 1000, amount: 5, game: "love_dilemma" },
+          ],
+        },
+      };
+
+      // The amount has to be one the cap would refuse (5 spent + 20 > 5), or
+      // the claim would go through whether the item path skips the cap or not
+      expect(claimPush(spent, 20).inventory["Bronze Love Box"]).toEqual(
+        new Decimal(1),
+      );
+      expect(() =>
+        claimFloatingIslandPrize({
+          state: spent,
+          action: {
+            type: "floatingIslandPrize.claimed",
+            amount: 20,
+            game: "love_dilemma",
+            roundId: 2,
+          },
+          createdAt: now,
+        }),
+      ).toThrow("Daily Love Charm limit reached");
+    });
+
+    it("leaves the day's Love Charm budget for the other puzzles", () => {
+      expect(
+        getFloatingIslandLoveCharmsRemainingToday({
+          state: claimPush(INITIAL_FARM, 20),
+          createdAt: now,
+        }),
+      ).toBe(5);
+    });
+  });
+
   it("rejects a second claim for the same game and round", () => {
     const state = claimFloatingIslandPrize({
       state: vipFarm,

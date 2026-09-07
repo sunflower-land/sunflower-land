@@ -1,23 +1,44 @@
 import Decimal from "decimal.js-light";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import type { FloatingIslandGameName } from "features/game/types/floatingIsland";
-import type { GameState } from "features/game/types/game";
+import type { GameState, InventoryItemName } from "features/game/types/game";
 import { produce } from "immer";
 
 /**
- * Generic Love Charm prize claim for the Floating Island daily puzzles.
+ * Generic prize claim for the Floating Island daily puzzles.
  *
- * Every mini-game on the island rewards Love Charms through this single event
+ * Most mini-games on the island reward Love Charms through this single event
  * so the daily caps live in one place:
  *  - A single claim grants between 0 and 100 Love Charms.
  *  - VIP players can earn up to 100 Love Charms per (UTC) day in total.
  *  - Non-VIP players can earn up to 5 Love Charms per (UTC) day in total.
  *  - No more than 10 claims are accepted per day, regardless of amount.
+ *
+ * The exception is the puzzles in FLOATING_ISLAND_GAME_ITEM_PRIZE, which pay
+ * an item instead and are bounded by their own once-a-day rule.
  */
 export const FLOATING_ISLAND_MAX_CLAIM_AMOUNT = 100;
 export const FLOATING_ISLAND_DAILY_LOVE_CHARM_LIMIT = 100;
 export const FLOATING_ISLAND_NON_VIP_DAILY_LOVE_CHARM_LIMIT = 5;
 export const FLOATING_ISLAND_MAX_DAILY_CLAIMS = 10;
+
+/**
+ * Puzzles that pay an item rather than Love Charms.
+ *
+ * Lover's Push took the clearing over from the petal puzzle, so it inherits
+ * that puzzle's prize - one Bronze Love Box a UTC day - and islanders keep the
+ * reward they had before it arrived. The petal puzzle still pays its own.
+ *
+ * A claim for one of these pays no Love Charms whatever `amount` it carries,
+ * and is recorded as `amount: 0`, so it neither counts toward the daily Love
+ * Charm cap nor is refused by it. Kept in step with the API's copy of this
+ * event, which is the one that actually mints the box.
+ */
+export const FLOATING_ISLAND_GAME_ITEM_PRIZE: Partial<
+  Record<FloatingIslandGameName, { item: InventoryItemName; amount: number }>
+> = {
+  love_push: { item: "Bronze Love Box", amount: 1 },
+};
 
 export type FloatingIslandPrizeClaim = {
   claimedAt: number;
@@ -157,17 +178,26 @@ export function claimFloatingIslandPrize({
       throw new Error("Daily claim limit reached");
     }
 
-    const claimedToday = claimsToday.reduce(
-      (total, claim) => total + claim.amount,
-      0,
-    );
-    const dailyLimit = getFloatingIslandDailyLoveCharmLimit({
-      state: game,
-      createdAt,
-    });
+    // What this puzzle actually pays. An item prize pays no Love Charms, so
+    // the Love Charm cap neither refuses the claim nor records anything.
+    const itemPrize = gameName
+      ? FLOATING_ISLAND_GAME_ITEM_PRIZE[gameName]
+      : undefined;
+    const loveCharms = itemPrize ? 0 : amount;
 
-    if (claimedToday + amount > dailyLimit) {
-      throw new Error("Daily Love Charm limit reached");
+    if (!itemPrize) {
+      const claimedToday = claimsToday.reduce(
+        (total, claim) => total + claim.amount,
+        0,
+      );
+      const dailyLimit = getFloatingIslandDailyLoveCharmLimit({
+        state: game,
+        createdAt,
+      });
+
+      if (claimedToday + amount > dailyLimit) {
+        throw new Error("Daily Love Charm limit reached");
+      }
     }
 
     // Only today's claims matter, so drop older days to keep the array small
@@ -175,14 +205,19 @@ export function claimFloatingIslandPrize({
       ...claimsToday,
       {
         claimedAt: createdAt,
-        amount,
+        amount: loveCharms,
         ...(gameName ? { game: gameName } : {}),
         ...(roundId !== undefined ? { roundId } : {}),
       },
     ];
 
-    const previous = game.inventory["Love Charm"] ?? new Decimal(0);
-    game.inventory["Love Charm"] = previous.add(amount);
+    if (itemPrize) {
+      const held = game.inventory[itemPrize.item] ?? new Decimal(0);
+      game.inventory[itemPrize.item] = held.add(itemPrize.amount);
+    } else {
+      const previous = game.inventory["Love Charm"] ?? new Decimal(0);
+      game.inventory["Love Charm"] = previous.add(loveCharms);
+    }
 
     return game;
   });
