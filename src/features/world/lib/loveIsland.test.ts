@@ -512,6 +512,43 @@ describe("Love Boulder", () => {
 
       expect(getLoveBoulderPayout({ state: standard, now })).toBe(2);
     });
+
+    it("pays the room's roll for the day when it has one", () => {
+      expect(getLoveBoulderPayout({ state: vipFarm, prize: 30, now })).toBe(30);
+      expect(getLoveBoulderPayout({ state: vipFarm, prize: 5, now })).toBe(5);
+    });
+
+    it("trims a windfall day to what is left today", () => {
+      const nearlyCapped: GameState = {
+        ...vipFarm,
+        floatingIsland: {
+          ...vipFarm.floatingIsland,
+          prizeClaims: [
+            { claimedAt: now - 1000, amount: 90, game: "love_dilemma" },
+          ],
+        },
+      };
+
+      expect(
+        getLoveBoulderPayout({ state: nearlyCapped, prize: 30, now }),
+      ).toBe(10);
+      // A non-VIP never sees more than their 5 a day, whatever the roll
+      expect(
+        getLoveBoulderPayout({ state: INITIAL_FARM, prize: 30, now }),
+      ).toBe(5);
+    });
+
+    it("carries the prize through the local stand-in", () => {
+      const round = createLoveBoulderLocalRound(now);
+      expect(round.prize).toBe(LOVE_BOULDER_PRIZE);
+
+      const broken = tickLoveBoulderLocalRound({
+        round: { ...round, hitsRemaining: 1, prize: 20 },
+        now: now + 10_000,
+      });
+      expect(broken.broken).toBe(true);
+      expect(broken.prize).toBe(20);
+    });
   });
 });
 

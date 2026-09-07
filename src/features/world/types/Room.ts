@@ -169,6 +169,11 @@ export interface LoveBoulder extends Schema {
   brokenAt: number;
   /** Epoch ms a fresh boulder appears; 0 while it's standing. */
   respawnAt: number;
+  /**
+   * Love Charms this boulder pays - rolled per UTC day by the server (5 to
+   * 30). 0 from a room that predates the roll; treat as the floor.
+   */
+  prize: number;
   /** farmId -> hits landed this round. Proof of who helped. */
   miners: MapSchema<number>;
 }
