@@ -554,7 +554,7 @@ export const LOVE_PUSH_SOLVED_MS = 10 * 1000;
 export const LOVE_PUSH_PIT: LovePushTile = { x: 38, y: 35 };
 /**
  * Boulders start at least this many tiles (Manhattan) from the pit - out
- * toward the corners of the island, so each takes a crowd to bring home.
+ * toward the edges of the island, so each takes a crowd to bring home.
  */
 export const LOVE_PUSH_MIN_START_DISTANCE = 10;
 
@@ -685,7 +685,7 @@ export type LovePushStep = "move" | "sink" | "reset";
  * What happens to a boulder rolled one tile in a direction: it rolls on
  * (`move`), drops into the pit (`sink`), or hits something - the water or
  * the edge of the island, a rock, a tree, a building, or another boulder
- * still in play - and goes back to where it started (`reset`).
+ * still in play - and crashes (`reset`): it comes back at a fresh start.
  */
 export function getLovePushStep({
   boulders,
@@ -793,11 +793,18 @@ function manhattan(a: LovePushTile, b: LovePushTile): number {
   return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 }
 
-/** Which corner of the island a tile is in, relative to the pit: 0 NW, 1 NE, 2 SW, 3 SE. */
-function getLovePushCorner(tile: LovePushTile): number {
-  return (
-    (tile.x >= LOVE_PUSH_PIT.x ? 1 : 0) + (tile.y >= LOVE_PUSH_PIT.y ? 2 : 0)
-  );
+/**
+ * Which side of the island a tile is on, relative to the pit - the way the
+ * boulders are dealt out, hub and spoke: 0 top (north), 1 right (east),
+ * 2 bottom (south), 3 left (west). Boulder `b` always starts on side `b`.
+ */
+export function getLovePushSide(tile: LovePushTile): number {
+  const dx = tile.x - LOVE_PUSH_PIT.x;
+  const dy = tile.y - LOVE_PUSH_PIT.y;
+
+  if (Math.abs(dy) > Math.abs(dx)) return dy < 0 ? 0 : 2;
+
+  return dx >= 0 ? 1 : 3;
 }
 
 /**
@@ -819,42 +826,85 @@ function getLovePushStartCandidates(): LovePushTile[] {
   return startCandidates;
 }
 
+/**
+ * A random start for a boulder on its side of the island (any side with a
+ * path, if its own has no room), avoiding `taken` tiles. `undefined` only
+ * if there's nowhere at all.
+ */
+function pickLovePushStart({
+  random,
+  boulder,
+  taken,
+}: {
+  random: () => number;
+  boulder: number;
+  taken: LovePushTile[];
+}): LovePushTile | undefined {
+  const candidates = getLovePushStartCandidates();
+  const free = (pool: LovePushTile[]) =>
+    pool.filter((tile) => !taken.some((t) => isSameTile(t, tile)));
+
+  const side = free(
+    candidates.filter((tile) => getLovePushSide(tile) === boulder),
+  );
+  const pool = side.length > 0 ? side : free(candidates);
+  if (pool.length === 0) return undefined;
+
+  return pool[Math.floor(random() * pool.length)];
+}
+
+/**
+ * Where a boulder starts again after it has hit something - a fresh spot on
+ * its side of the island, never the one it just left, clear of the other
+ * boulders and their starts. Seeded by the round, the boulder and how many
+ * times it has crashed, so the room and every client agree.
+ */
+export function getLovePushRestart({
+  roundId,
+  boulder,
+  resets,
+  boulders,
+  starts,
+}: {
+  roundId: number;
+  boulder: number;
+  /** Crashes so far, this one included. */
+  resets: number;
+  boulders: LovePushTile[];
+  starts: LovePushTile[];
+}): LovePushTile {
+  const random = mulberry32(
+    roundId * 104729 + 7 + boulder * 7919 + resets * 31,
+  );
+
+  return (
+    pickLovePushStart({
+      random,
+      boulder,
+      taken: [...boulders, ...starts],
+    }) ?? starts[boulder]
+  );
+}
+
 export type LovePushLayout = {
-  /** Where each boulder starts - and goes back to when it hits something. */
+  /** Where each boulder starts this round, indexed by boulder. */
   starts: LovePushTile[];
 };
 
 /**
  * Where the boulders start for a round - a seeded roll (mulberry32, the same
- * PRNG as the Dilemma tiers) so the room and every client agree. One
- * boulder per corner of the island where there's room, each far from the
+ * PRNG as the Dilemma tiers) so the room and every client agree. Hub and
+ * spoke: one boulder at the top, one on the right, one at the bottom and
+ * one on the left of the island (boulder `b` on side `b`), each far from the
  * pit and always with a path a crowd can roll it along to get there.
  */
 export function getLovePushLayout(roundId: number): LovePushLayout {
   const random = mulberry32(roundId * 104729 + 7);
-  const candidates = getLovePushStartCandidates();
   const starts: LovePushTile[] = [];
 
-  const pick = (pool: LovePushTile[]) => {
-    const free = pool.filter(
-      (tile) => !starts.some((s) => isSameTile(s, tile)),
-    );
-    if (free.length === 0) return;
-
-    starts.push(free[Math.floor(random() * free.length)]);
-  };
-
-  // A boulder in each corner...
-  for (let corner = 0; corner < LOVE_PUSH_BOULDERS; corner++) {
-    pick(candidates.filter((tile) => getLovePushCorner(tile) === corner));
-  }
-
-  // ...and anywhere with a path, for any corner that had no room
-  while (
-    starts.length < LOVE_PUSH_BOULDERS &&
-    starts.length < candidates.length
-  ) {
-    pick(candidates);
+  for (let boulder = 0; boulder < LOVE_PUSH_BOULDERS; boulder++) {
+    const start = pickLovePushStart({ random, boulder, taken: starts });
+    if (start) starts.push(start);
   }
 
   return { starts };
@@ -901,7 +951,7 @@ export type LovePushRound = {
   roundId: number;
   /** Where each boulder is now, indexed by boulder (the pit, once sunk). */
   boulders: LovePushTile[];
-  /** Where each boulder started - and goes back to when it hits something. */
+  /** Where each boulder last started from, indexed by boulder - a fresh spot after every crash. */
   starts: LovePushTile[];
   /** Which boulders are in the pit. Indexed by boulder. */
   sunk: boolean[];
@@ -932,9 +982,10 @@ export function getLovePushSunkCount(sunk: boolean[]): number {
  * A player pushes a boulder in a direction. Their push is recorded, one per
  * player per boulder (pushing another side moves it); once
  * `LOVE_PUSH_PUSHERS_NEEDED` players are pushing it the same way it rolls a
- * tile - into the pit if that's what's there, or back to its start if it
- * hits something - and that boulder's pushes are cleared. Everyone behind
- * a roll or a sink is credited; nobody is for a reset. Nothing changes on a
+ * tile - into the pit if that's what's there, or, if it hits something, it
+ * crashes and comes back at a fresh start on its side of the island - and
+ * that boulder's pushes are cleared. Everyone behind a roll or a sink is
+ * credited; nobody is for a crash. Nothing changes on a
  * sunk boulder or once the round is solved.
  */
 export function pushLoveBoulder<T extends LovePushFullRound>({
@@ -988,14 +1039,27 @@ export function pushLoveBoulder<T extends LovePushFullRound>({
   const pushes = votes.map(getLovePushPushCounts);
 
   if (step === "reset") {
+    // It's gone - and comes back somewhere new on its side of the island
+    const resets = round.resets.map((count, index) =>
+      index === boulder ? count + 1 : count,
+    );
+    const restart = getLovePushRestart({
+      roundId: round.roundId,
+      boulder,
+      resets: resets[boulder],
+      boulders: round.boulders,
+      starts: round.starts,
+    });
+
     return {
       ...round,
       boulders: round.boulders.map((tile, index) =>
-        index === boulder ? round.starts[boulder] : tile,
+        index === boulder ? restart : tile,
       ),
-      resets: round.resets.map((count, index) =>
-        index === boulder ? count + 1 : count,
+      starts: round.starts.map((tile, index) =>
+        index === boulder ? restart : tile,
       ),
+      resets,
       votes,
       pushes,
     };
