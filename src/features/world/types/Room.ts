@@ -175,7 +175,7 @@ export interface LoveBoulder extends Schema {
 
 /**
  * Love Island "Lover's Push", published by the love_island room. Four
- * boulders on a 6x6 grid; it takes five players pushing the same way to
+ * boulders on a 6x6 grid; it takes five players (two off mainnet) pushing the same way to
  * move one a tile. The targets stay private to the room - it only says
  * which boulders are sitting on one (`onTarget`, shown green).
  */

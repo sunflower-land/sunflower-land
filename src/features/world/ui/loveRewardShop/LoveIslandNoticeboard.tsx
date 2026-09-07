@@ -17,6 +17,7 @@ import {
   LOVE_DILEMMA_TIER_PRIZES,
   LOVE_ISLAND_CENTRE_PUZZLE,
   LOVE_PUSH_PRIZE,
+  LOVE_PUSH_PUSHERS_NEEDED,
 } from "features/world/lib/loveIsland";
 
 /**
@@ -66,7 +67,9 @@ const LovePushGuide: React.FC = () => {
       <NoticeboardItems
         items={[
           {
-            text: translate("lovePush.guide.push"),
+            text: translate("lovePush.guide.push", {
+              pushers: LOVE_PUSH_PUSHERS_NEEDED,
+            }),
             icon: SUNNYSIDE.icons.player,
           },
           {

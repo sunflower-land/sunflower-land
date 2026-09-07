@@ -1,5 +1,6 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
 import type { GameState } from "features/game/types/game";
+import { CONFIG } from "lib/config";
 import {
   LOVE_DILEMMA_CHOICES_GRACE_MS,
   LOVE_DILEMMA_CHOOSE_MS,
@@ -46,6 +47,7 @@ import {
   getLovePushLitCount,
   getLovePushOnTarget,
   getLovePushPusherTile,
+  getLovePushPushersNeeded,
   getLovePushSolutionLength,
   isLovePushSolved,
   pushLoveBoulder,
@@ -772,8 +774,12 @@ describe("Lover's Push", () => {
   });
 
   describe("pushLoveBoulder", () => {
-    it("takes five players to move a boulder", () => {
-      expect(LOVE_PUSH_PUSHERS_NEEDED).toBe(5);
+    it("takes five players to move a boulder on mainnet, two everywhere else", () => {
+      expect(getLovePushPushersNeeded("mainnet")).toBe(5);
+      expect(getLovePushPushersNeeded("amoy")).toBe(2);
+      expect(LOVE_PUSH_PUSHERS_NEEDED).toBe(
+        getLovePushPushersNeeded(CONFIG.NETWORK),
+      );
     });
 
     it("counts a push without moving the boulder", () => {
@@ -811,12 +817,19 @@ describe("Lover's Push", () => {
       });
     });
 
-    it("moves the boulder once the fifth player pushes, crediting all of them", () => {
+    it("moves the boulder once the last player pushes, crediting all of them", () => {
       const moved = crowdPush(round(), { boulder: 0, direction: "east" });
 
       expect(moved.boulders[0]).toEqual(tile(2, 1));
       expect(moved.boulders.slice(1)).toEqual(boulders.slice(1));
-      expect(moved.pushers).toEqual({ f1: 1, f2: 1, f3: 1, f4: 1, f5: 1 });
+      expect(moved.pushers).toEqual(
+        Object.fromEntries(
+          Array.from({ length: LOVE_PUSH_PUSHERS_NEEDED }, (_, i) => [
+            `f${i + 1}`,
+            1,
+          ]),
+        ),
+      );
       // Every push on it is spent
       expect(moved.votes[0]).toEqual({});
       expect(moved.pushes[0]).toEqual({ count: 0 });
@@ -861,27 +874,33 @@ describe("Lover's Push", () => {
       expect(switched.pushes[0]).toEqual({ count: 1, direction: "south" });
     });
 
-    it("needs five pushing the SAME way - a split crowd goes nowhere", () => {
+    it("needs the crowd pushing the SAME way - a split crowd goes nowhere", () => {
+      const short = LOVE_PUSH_PUSHERS_NEEDED - 1;
       const split = crowdPush(
-        crowdPush(round(), { boulder: 0, direction: "east", count: 3 }),
-        { boulder: 0, direction: "south", count: 3, prefix: "s" },
+        crowdPush(round(), { boulder: 0, direction: "east", count: short }),
+        { boulder: 0, direction: "south", count: short, prefix: "s" },
       );
 
       expect(split.boulders).toEqual(boulders);
-      // Shows the leading side
-      expect(split.pushes[0]).toEqual({ count: 3, direction: "east" });
+      // Shows the leading side (a tie goes to the earlier direction)
+      expect(split.pushes[0]).toEqual({ count: short, direction: "east" });
 
-      // Two more to the south and it goes south - and the easterners'
+      // One more to the south and it goes south - and the easterners'
       // pushes are spent with it
       const moved = crowdPush(split, {
         boulder: 0,
         direction: "south",
-        count: 2,
+        count: 1,
         prefix: "t",
       });
 
       expect(moved.boulders[0]).toEqual(tile(1, 2));
-      expect(moved.pushers).toEqual({ s1: 1, s2: 1, s3: 1, t1: 1, t2: 1 });
+      expect(Object.keys(moved.pushers).sort()).toEqual(
+        [...Array.from({ length: short }, (_, i) => `s${i + 1}`), "t1"].sort(),
+      );
+      expect(Object.values(moved.pushers)).toEqual(
+        Array.from({ length: LOVE_PUSH_PUSHERS_NEEDED }, () => 1),
+      );
       expect(moved.votes[0]).toEqual({});
     });
 

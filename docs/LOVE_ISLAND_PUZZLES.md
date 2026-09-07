@@ -31,8 +31,8 @@ unit-tested) and `src/features/world/scenes/LoveIslandScene.ts`.
       decrement, record the miner, break at zero, respawn 5s later.
 - [ ] Publish `state.lovePush` (section 5) with the seeded layout; handle
       `lovePush.push`: record the player's push and publish the count, move
-      the boulder a tile once **five** players push it the same way (300ms
-      cooldown per boulder), credit all five, publish which boulders are on
+      the boulder a tile once **five** players (**two** off mainnet) push it the same way (300ms
+      cooldown per boulder), credit all of them, publish which boulders are on
       a target, celebrate 10s when all four are, next layout. Drop a player's
       pushes when they leave.
 - [ ] No change to `giantFlower` — leave it as is (unused by the client now).
@@ -384,7 +384,7 @@ has its centre at `(555 + 20x + 10, 506 + 20y + 10)`. Boulder art is
   kept until the boulder moves, the round ends or the player leaves the
   room. The boulder shows how many are pushing it the leading way, e.g.
   "3/5", and an arrow for that way.
-- Once **five players** are pushing the same boulder the **same way**, it
+- Once **five players** (**two** off mainnet - `getLovePushPushersNeeded(network)`, both sides) are pushing the same boulder the **same way**, it
   slides **one tile** that way. Everyone sees it slide, every pusher behind
   it is credited with a move, and **all** pushes on that boulder are cleared
   (whichever way they pointed). Pushes on the other boulders stand. A boulder
@@ -414,7 +414,8 @@ has its centre at `(555 + 20x + 10, 506 + 20y + 10)`. Boulder art is
 ```ts
 LOVE_PUSH_GRID_SIZE = 6;
 LOVE_PUSH_BOULDERS = 4;
-LOVE_PUSH_PUSHERS_NEEDED = 5; // players pushing the same way to move a boulder
+LOVE_PUSH_PUSHERS_NEEDED = 5; // players pushing the same way to move a boulder on mainnet
+LOVE_PUSH_TESTNET_PUSHERS_NEEDED = 2; // everywhere else, so testers can move one
 LOVE_PUSH_MOVE_MS = 300; // slide time = per-boulder move cooldown
 LOVE_PUSH_PRIZE = { item: "Bronze Love Box", amount: 1 };
 LOVE_PUSH_MAX_CLAIMS = 1; // per farm per UTC day
@@ -512,7 +513,7 @@ Rules:
   `direction` - the client resends the same push every 2s as a retry.
 - Otherwise set `votes[boulder][farmId] = direction` and let `crowd` = the
   farms in `votes[boulder]` pushing `direction`.
-  - If `crowd.length < 5`: publish the boulder's `pushCounts` /
+  - If `crowd.length < LOVE_PUSH_PUSHERS_NEEDED`: publish the boulder's `pushCounts` /
     `pushDirections` (the leading push) and stop.
   - Else: `boulders[boulder] += DELTAS[direction]`, `movedAt[boulder] = now`,
     `pushers[farmId] += 1` for **every** farm in `crowd`, clear
@@ -540,7 +541,7 @@ game event and the once-a-day rule is enforced client-side against the farm's
 
 - Draws the grid and the four boulders at `boulders` (solid). A boulder with
   `onTarget` is tinted green; there is no other HUD.
-- Above a boulder with `pushCounts > 0` shows a label "`n`/5" and a small
+- Above a boulder with `pushCounts > 0` shows a label "`n`/5" ("`n`/2" off mainnet) and a small
   arrow on the side it will slide toward (`pushDirections`). The label pops
   when the count goes up and disappears when it drops to 0.
 - While the local player is walking into a boulder (a physics collision with
@@ -570,7 +571,7 @@ If `state.lovePush` is absent (or has no boulders), the client runs a local
 stand-in: the same seeded layout; the local player's push counts straight
 away and a simulated player joins it every **1s** until the boulder moves,
 so a lone tester can still shift one; and the simulated crowd shoves a
-random boulder that isn't on a target every **8s** (five of them at once) so
+random boulder that isn't on a target every **8s** (enough of them at once) so
 boulders are seen moving that the player didn't push. The 10s celebration
 and next layout run on the client's own clock. Once the room publishes
 `lovePush` the client switches over automatically.

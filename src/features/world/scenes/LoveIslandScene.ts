@@ -188,7 +188,7 @@ const LOSE_COLOUR = 0xe57373;
  *
  * Lover's Push: four boulders on a 6x6 grid in the clearing. One player
  * can't budge a boulder - walking into one adds your push to it and a
- * count pops up on the rock; once five players are pushing it the same way
+ * count pops up on the rock; once enough players (five on mainnet, two off it) are pushing it the same way
  * it slides a tile and everyone sees it go. Four target tiles are hidden -
  * a boulder turns green when it's resting on one, so the crowd can see
  * what's home and what still needs moving; there is no other HUD. The
@@ -280,7 +280,7 @@ export class LoveIslandScene extends BaseScene {
   private pushBoulders: Phaser.GameObjects.Sprite[] = [];
   /** Solid - walking into one pushes it. */
   private pushColliders: Phaser.GameObjects.Rectangle[] = [];
-  /** "n/5" above each boulder while someone is pushing it, indexed by boulder. */
+  /** "n/N" above each boulder while someone is pushing it, indexed by boulder. */
   private pushCountLabels: Label[] = [];
   /** Arrow on the side each boulder will slide toward, indexed by boulder. */
   private pushArrows: Phaser.GameObjects.Triangle[] = [];
@@ -911,7 +911,7 @@ export class LoveIslandScene extends BaseScene {
       this.pushColliders.push(collider);
 
       // The pusher count, shown while someone is pushing it. Always the
-      // same width ("n/5"), so the label is built once and its text swapped.
+      // same width ("n/N"), so the label is built once and its text swapped.
       const count = new Label(this, `0/${LOVE_PUSH_PUSHERS_NEEDED}`, "brown");
       this.add.existing(count);
       count.setDepth(Number.MAX_SAFE_INTEGER).setVisible(false);

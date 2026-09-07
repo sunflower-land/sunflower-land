@@ -4,6 +4,7 @@ import {
   getFloatingIslandLoveCharmsRemainingToday,
 } from "features/game/events/landExpansion/claimFloatingIslandPrize";
 import type { GameState, InventoryItemName } from "features/game/types/game";
+import { CONFIG } from "lib/config";
 
 /**
  * Client-side rules for the Love Island games (Love Dilemma, Love Boulder,
@@ -501,11 +502,25 @@ export const LOVE_ISLAND_CENTRE_PUZZLE: LoveIslandCentrePuzzle = "push";
 export const LOVE_PUSH_GRID_SIZE = 6;
 export const LOVE_PUSH_BOULDERS = 4;
 /**
- * Players it takes to move a boulder. One person can't budge it: each push
- * is a vote for a direction, the count shows on the boulder, and once this
- * many are pushing the same way it slides a tile. The island has to agree.
+ * Players it takes to move a boulder on mainnet. One person can't budge it:
+ * each push is a vote for a direction, the count shows on the boulder, and
+ * once this many are pushing the same way it slides a tile. The island has
+ * to agree.
  */
-export const LOVE_PUSH_PUSHERS_NEEDED = 5;
+export const LOVE_PUSH_MAINNET_PUSHERS_NEEDED = 5;
+/** Off mainnet a pair is enough, so testers can move a boulder. */
+export const LOVE_PUSH_TESTNET_PUSHERS_NEEDED = 2;
+
+export function getLovePushPushersNeeded(network: string): number {
+  return network === "mainnet"
+    ? LOVE_PUSH_MAINNET_PUSHERS_NEEDED
+    : LOVE_PUSH_TESTNET_PUSHERS_NEEDED;
+}
+
+/** Players it takes to move a boulder here - must match the room's. */
+export const LOVE_PUSH_PUSHERS_NEEDED = getLovePushPushersNeeded(
+  CONFIG.NETWORK,
+);
 /**
  * How long a boulder takes to slide one tile - and the soonest the same
  * boulder can be moved again.
