@@ -34,7 +34,6 @@ type Response = {
   nftId?: number;
   purchases: Purchase[];
   discordId?: string;
-  fslId?: string;
   socialDetails?: SocialDetails;
   oauthNonce: string;
   prices: {
@@ -142,7 +141,6 @@ export async function loadSession(request: Request): Promise<Response> {
     nftId,
     purchases,
     discordId,
-    fslId,
     socialDetails,
     oauthNonce,
     prices,
@@ -170,7 +168,6 @@ export async function loadSession(request: Request): Promise<Response> {
     wallet?: string;
     purchases: Purchase[];
     discordId?: string;
-    fslId?: string;
     socialDetails?: SocialDetails;
     oauthNonce: string;
     prices: {
@@ -211,7 +208,6 @@ export async function loadSession(request: Request): Promise<Response> {
     wallet,
     nftId,
     purchases,
-    fslId,
     discordId,
     socialDetails,
     oauthNonce,

@@ -4,7 +4,6 @@ import { useSelector } from "@xstate/react";
 import { Label, type LabelType } from "components/ui/Label";
 import { ButtonPanel } from "components/ui/Panel";
 import walletIcon from "assets/icons/wallet.png";
-import fslIcon from "assets/icons/fsl_id.svg";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -13,7 +12,6 @@ import { Context as GameContext } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { maskEmail } from "lib/utils/maskEmail";
 import { useNow } from "lib/utils/hooks/useNow";
-import { connectToFSL } from "features/auth/actions/oauth";
 import {
   formatAvailableAt,
   type SocialUnlinkResult,
@@ -34,8 +32,6 @@ const _linkingSocialFailed = (state: MachineState) =>
 const _twitter = (state: MachineState) => state.context.state.twitter;
 const _telegram = (state: MachineState) => state.context.state.telegram;
 const _discordState = (state: MachineState) => state.context.state.discord;
-const _fslId = (state: MachineState) => state.context.fslId;
-const _oauthNonce = (state: MachineState) => state.context.oauthNonce;
 // Last unlink this session - the server only reports the lock date in the
 // unlink response, so it can't be recovered after a reload.
 const _lastUnlink = (state: MachineState) =>
@@ -161,8 +157,6 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
   const twitter = useSelector(gameService, _twitter);
   const telegram = useSelector(gameService, _telegram);
   const discordState = useSelector(gameService, _discordState);
-  const fslId = useSelector(gameService, _fslId);
-  const oauthNonce = useSelector(gameService, _oauthNonce);
   const lastUnlink = useSelector(gameService, _lastUnlink);
   // Reactive clock so the "unlinked until" line drops off when the lock ends.
   // Locks are days long, so a minute tick is plenty.
@@ -230,12 +224,6 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
       ? "linked"
       : "partial";
 
-  // FSL: one-shot link. Partner integration kept post-deprecation so
-  // players who still have an FSL ID can claim the Morchi airdrop.
-  // No partial/linking state — the SDK popup redirects the page on
-  // success, so we only ever observe linked or not-linked.
-  const fslStatus: RowStatus = fslId ? "linked" : "notLinked";
-
   const walletSubtext =
     walletStatus === "linked" && linkedWallet
       ? revealWallet
@@ -279,8 +267,6 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
       : discordStatus === "partial"
         ? t("linkedAccounts.subtext.discordPartial")
         : t("linkedAccounts.subtext.discordLinked");
-
-  const fslSubtext = fslStatus === "linked" && fslId ? fslId : "";
 
   // Wireframe: the warning copy depends on whether the wallet is the
   // active owner of the NFT or merely the future owner. Wallet linked
@@ -385,16 +371,6 @@ export const LinkedAccounts: React.FC<ContentComponentProps> = ({
         subtext={telegramSubtext}
         clickableWhenLinked
         onClick={() => onSubMenuClick("linkAccountTelegram")}
-      />
-
-      <ProviderRow
-        icon={fslIcon}
-        title={t("linkedAccounts.fsl")}
-        role={{ type: "default", key: "linkedAccounts.role.partner" }}
-        rationale={t("linkedAccounts.rationale.fsl")}
-        status={fslStatus}
-        subtext={fslSubtext}
-        onClick={() => connectToFSL({ nonce: oauthNonce })}
       />
     </div>
   );
