@@ -13,6 +13,8 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { hasReadLoveIslandNotice } from "../ui/loveRewardShop/LoveIslandNoticeboard";
 import type { BumpkinContainer } from "../containers/BumpkinContainer";
 import { Label } from "../containers/Label";
+import type { ArraySchema } from "@colyseus/schema";
+import { LOVE_ISLAND_TILE_PX } from "../lib/loveIslandTiles";
 import {
   LOVE_BOULDER_HIT_COOLDOWN_MS,
   LOVE_BOULDER_PRIZE,
@@ -22,7 +24,7 @@ import {
   LOVE_PUSH_BOULDERS,
   LOVE_PUSH_DELTAS,
   LOVE_PUSH_DIRECTIONS,
-  LOVE_PUSH_GRID_SIZE,
+  LOVE_PUSH_PIT,
   LOVE_PUSH_MOVE_MS,
   LOVE_PUSH_PUSHERS_NEEDED,
   canClaimLoveBoulder,
@@ -38,11 +40,11 @@ import {
   getLoveDilemmaRound,
   getLoveDilemmaTiers,
   getLovePushMaxCount,
+  getLovePushTileCentre,
   hasClaimedLoveBoulderRound,
   hasClaimedLoveBoulderToday,
   hasClaimedLovePushToday,
   pushLovePushLocalRound,
-  resolveLovePush,
   isLoveBoulderRewardOpen,
   isLoveDilemmaRevealReady,
   isLoveDilemmaWinner,
@@ -140,17 +142,19 @@ const LABEL_PADDING = 6;
 const LABEL_CHAR_WIDTH = 4;
 
 /**
- * Lover's Push shares the clearing with the Dilemma: a 6x6 grid of 20px
- * tiles centred on the same spot. Boulder art (stone_rock) is 18x16.
+ * Lover's Push plays out across the island's own 16px tiles: boulders start
+ * out toward the corners and roll into the pit in the centre of the
+ * clearing. Boulder art (stone_rock) is 18x16.
  */
-const PUSH_TILE = 20;
-const PUSH_GRID_ORIGIN = {
-  x: CENTRE.x - (LOVE_PUSH_GRID_SIZE * PUSH_TILE) / 2,
-  y: CENTRE.y - (LOVE_PUSH_GRID_SIZE * PUSH_TILE) / 2,
-};
+const PUSH_COLLIDER_WIDTH = 14;
+const PUSH_COLLIDER_HEIGHT = 10;
 /** Above the ground tiles (depth 0), below anyone walking on it. */
-const PUSH_GRID_DEPTH = 1;
-const PUSH_GRID_COLOUR = 0x3e2731;
+const PUSH_GROUND_DEPTH = 1;
+/** The pit (crop_boom_hole, 16x16) is drawn a bit bigger than a tile. */
+const PUSH_PIT_TEXTURE = "push_pit";
+const PUSH_PIT_SCALE = 1.5;
+/** A faint ring marks where each boulder started - and goes back to. */
+const PUSH_START_COLOUR = 0x3e2731;
 /** Don't nag every frame while leaning on a solved puzzle. */
 const PUSH_BUBBLE_COOLDOWN_MS = 3000;
 /**
@@ -160,7 +164,7 @@ const PUSH_BUBBLE_COOLDOWN_MS = 3000;
  * on the boulder.
  */
 const PUSH_RESEND_MS = 2000;
-/** The arrow icon shown in the tile a boulder will slide into, per direction. */
+/** The arrow icon shown at a boulder's edge, per direction it's being pushed. */
 const PUSH_ARROW_TEXTURE: Record<LovePushDirection, string> = {
   north: "push_arrow_north",
   east: "push_arrow_east",
@@ -179,11 +183,11 @@ const PUSH_PROGRESS_TRACK = 0x3e2731;
 const PUSH_PROGRESS_Y = 8;
 /**
  * An arrow sits this far from the centre of the boulder's tile, on the side
- * it would slide toward - hugging the boulder's edge rather than sitting in
+ * it would roll toward - hugging the boulder's edge rather than sitting in
  * the middle of the next tile, so arrows from two boulders aiming at the
  * same tile don't land on top of each other.
  */
-const PUSH_ARROW_OFFSET = 11;
+const PUSH_ARROW_OFFSET = 10;
 /**
  * An arrow starts at half size on the first push and grows to full size as
  * the crowd behind that direction fills up, so the way the boulder is most
@@ -201,20 +205,21 @@ const LOSE_COLOUR = 0xe57373;
  * Love Island - home of the Love Dilemma and Lover's Push (one at a time,
  * picked by `LOVE_ISLAND_CENTRE_PUZZLE`), plus the Love Boulder.
  *
- * Lover's Push: four boulders on a 6x6 grid in the clearing. One player
- * can't budge a boulder - walking into one adds your push to it: an arrow
- * appears in the tile it will slide into, and the rock warms to orange (a
- * bar beneath it fills) as the crowd grows; once enough players (five on
- * mainnet, two off it) are pushing it the same way it slides a tile and
- * everyone sees it go. Pushing another side moves your push. Four target tiles are hidden -
- * a boulder turns green when it's resting on one, so the crowd can see
- * what's home and what still needs moving; there is no other HUD. The
- * border is walkable, so a boulder on a wall or in a corner
- * can always be pushed back in. When all four are green everyone who
- * helped move a boulder is handed a Bronze Love Box automatically (once a
- * day) - the prize the petal puzzle used to pay for this same clearing -
- * then a fresh layout appears. The room publishes `state.lovePush`; until
- * it does a simulated crowd joins your pushes and shoves boulders about.
+ * Lover's Push: four boulders start out toward the corners of the island
+ * and have to be rolled into the pit in the middle of the clearing. One
+ * player can't budge a boulder - walking into one adds your push to it: an
+ * arrow appears at its edge, and the rock warms to orange (a bar beside the
+ * arrow fills) as the crowd grows; once enough players (five on mainnet,
+ * two off it) are pushing it the same way it rolls a tile and everyone sees
+ * it go. Pushing another side moves your push. A boulder that rolls into
+ * the water, a rock, a tree or another boulder goes straight back to where
+ * it started (a ring marks the spot), so the island has to plan the route.
+ * A boulder that reaches the pit drops in and is done. When all four are in
+ * everyone who helped roll one is handed a Bronze Love Box automatically
+ * (once a day) - the prize the petal puzzle used to pay for this same
+ * clearing - then fresh boulders appear, each always somewhere a crowd can
+ * roll it home from. The room publishes `state.lovePush`; until it does a
+ * simulated crowd joins your pushes and rolls boulders toward the pit.
  *
  * Three platforms in a row, each showing a Love Charm prize. Every 30s
  * players click the platform they want (a select box marks your pick; only
@@ -297,6 +302,10 @@ export class LoveIslandScene extends BaseScene {
   private pushBoulders: Phaser.GameObjects.Sprite[] = [];
   /** Solid - walking into one pushes it. */
   private pushColliders: Phaser.GameObjects.Rectangle[] = [];
+  /** The pit in the centre the boulders roll into. */
+  private pushPit?: Phaser.GameObjects.Image;
+  /** A ring where each boulder started, indexed by boulder. */
+  private pushStartMarkers: Phaser.GameObjects.Graphics[] = [];
   /**
    * An arrow per direction in the tile each boulder would slide into, shown
    * while someone is pushing it that way. Indexed by boulder.
@@ -314,20 +323,24 @@ export class LoveIslandScene extends BaseScene {
   private pushRoundId?: number;
   /** Tile index each boulder sprite is drawn at, indexed by boulder. */
   private renderedPushTiles: number[] = [];
-  /** Push count and direction shown on each boulder, indexed by boulder. */
+  /** Tile index each boulder started on this round, indexed by boulder. */
+  private renderedPushStarts: number[] = [];
+  /** Pushes shown on each boulder, indexed by boulder. */
   private renderedPushes: LovePushBoulderPushes[] = [];
-  /** Which boulders are tinted green, indexed by boulder. */
-  private renderedOnTarget: boolean[] = [];
+  /** Which boulders have been sunk on screen, indexed by boulder. */
+  private renderedSunk: boolean[] = [];
+  /** Resets shown for each boulder, indexed by boulder. */
+  private renderedResets: number[] = [];
   /** Round whose solve has been celebrated (and claimed). */
   private solvedPushRoundId?: number;
   /** Whether we've seen this round unsolved - only then animate the solve. */
   private sawPushUnsolved = false;
   /** boulder -> when the local player last sent a push on it. */
   private lastPushAt: Record<number, number> = {};
-  /** boulder -> the way the local player is pushing it, until it moves. */
+  /** boulder -> the way the local player is pushing it, until it rolls. */
   private myPushes: Record<number, LovePushDirection> = {};
   private lastPushBubbleAt = 0;
-  /** roundId -> boulders the local player has helped move. */
+  /** roundId -> boulders the local player has helped roll. */
   private pushMoves: Record<number, number> = {};
 
   constructor() {
@@ -349,6 +362,7 @@ export class LoveIslandScene extends BaseScene {
     this.load.image("love_charm_small", loveCharmSmall);
     this.load.image("boulder", SUNNYSIDE.resource.boulder);
     this.load.image("push_boulder", SUNNYSIDE.resource.stone_rock);
+    this.load.image(PUSH_PIT_TEXTURE, "world/crop_boom_hole.png");
     this.load.image(PUSH_ARROW_TEXTURE.north, SUNNYSIDE.icons.arrow_up);
     this.load.image(PUSH_ARROW_TEXTURE.east, SUNNYSIDE.icons.arrow_right);
     this.load.image(PUSH_ARROW_TEXTURE.south, SUNNYSIDE.icons.arrow_down);
@@ -883,37 +897,13 @@ export class LoveIslandScene extends BaseScene {
   // Lover's Push
   // ---------------------------------------------------------------------
 
-  /** World centre of a grid tile. */
-  private pushTileCentre({ x, y }: LovePushTile): Coordinates {
-    return {
-      x: PUSH_GRID_ORIGIN.x + x * PUSH_TILE + PUSH_TILE / 2,
-      y: PUSH_GRID_ORIGIN.y + y * PUSH_TILE + PUSH_TILE / 2,
-    };
-  }
-
   createLovePush() {
-    const { x: left, y: top } = PUSH_GRID_ORIGIN;
-    const size = LOVE_PUSH_GRID_SIZE * PUSH_TILE;
-
-    // The grid - thin lines on the dirt, under everyone walking on it
-    const grid = this.add.graphics().setDepth(PUSH_GRID_DEPTH);
-    grid.lineStyle(1, PUSH_GRID_COLOUR, 0.25);
-    for (let i = 1; i < LOVE_PUSH_GRID_SIZE; i++) {
-      grid.lineBetween(
-        left + i * PUSH_TILE,
-        top,
-        left + i * PUSH_TILE,
-        top + size,
-      );
-      grid.lineBetween(
-        left,
-        top + i * PUSH_TILE,
-        left + size,
-        top + i * PUSH_TILE,
-      );
-    }
-    grid.lineStyle(1, PUSH_GRID_COLOUR, 0.6);
-    grid.strokeRect(left, top, size, size);
+    // The pit in the middle of the clearing, on the ground under everyone
+    const pit = getLovePushTileCentre(LOVE_PUSH_PIT);
+    this.pushPit = this.add
+      .image(pit.x, pit.y, PUSH_PIT_TEXTURE)
+      .setScale(PUSH_PIT_SCALE)
+      .setDepth(PUSH_GROUND_DEPTH);
 
     // Solid boulders in their own group so walking into one can push it
     const boulderGroup = this.add.group();
@@ -927,8 +917,8 @@ export class LoveIslandScene extends BaseScene {
       const collider = this.add.rectangle(
         0,
         0,
-        PUSH_TILE - 2,
-        PUSH_TILE - 6,
+        PUSH_COLLIDER_WIDTH,
+        PUSH_COLLIDER_HEIGHT,
         0x000000,
         0,
       );
@@ -938,9 +928,14 @@ export class LoveIslandScene extends BaseScene {
       boulderGroup.add(collider);
       this.pushColliders.push(collider);
 
-      // An arrow per direction in the tile it would slide into, shown while
-      // someone is pushing it that way - the crowd may be split - each with
-      // a bar beneath it that fills as that direction's crowd grows
+      // Where it goes back to if it hits something
+      this.pushStartMarkers.push(
+        this.add.graphics().setDepth(PUSH_GROUND_DEPTH),
+      );
+
+      // An arrow per direction at the boulder's edge, shown while someone is
+      // pushing it that way - the crowd may be split - each with a bar
+      // beside it that fills as that direction's crowd grows
       const arrows = {} as Record<LovePushDirection, Phaser.GameObjects.Image>;
       const bars = {} as Record<LovePushDirection, Phaser.GameObjects.Graphics>;
       LOVE_PUSH_DIRECTIONS.forEach((direction) => {
@@ -983,15 +978,26 @@ export class LoveIslandScene extends BaseScene {
       });
 
       const solved = remote.solvedAt > 0;
-      const boulders = Array.from(remote.boulders)
-        .filter((index): index is number => typeof index === "number")
-        .map(fromLovePushTileIndex);
+      const tiles = (list: ArraySchema<number> | undefined) =>
+        Array.from(list ?? [])
+          .filter((index): index is number => typeof index === "number")
+          .map(fromLovePushTileIndex);
+      const boulders = tiles(remote.boulders);
+      const starts = tiles(remote.starts);
 
       return {
         roundId: remote.roundId,
         boulders,
-        onTarget: boulders.map((_, index) => !!remote.onTarget?.at(index)),
-        lit: remote.lit,
+        // A room that doesn't publish starts: wherever we first saw them
+        starts: boulders.map(
+          (tile, index) =>
+            starts[index] ??
+            (this.renderedPushStarts[index]
+              ? fromLovePushTileIndex(this.renderedPushStarts[index])
+              : tile),
+        ),
+        sunk: boulders.map((_, index) => !!remote.sunk?.at(index)),
+        resets: boulders.map((_, index) => remote.resets?.at(index) ?? 0),
         // Counts are published flat: boulder * 4 + direction
         pushes: boulders.map((_, index) => {
           const pushes: LovePushBoulderPushes = {};
@@ -1020,7 +1026,7 @@ export class LoveIslandScene extends BaseScene {
     return this.localPush;
   }
 
-  /** Boulders the local player has moved - local count or the room's. */
+  /** Boulders the local player has helped roll - local count or the room's. */
   private getMyPushMoves(round: LovePushRound): number {
     return Math.max(
       this.pushMoves[round.roundId] ?? 0,
@@ -1031,7 +1037,7 @@ export class LoveIslandScene extends BaseScene {
   /**
    * The local player is pressing against a boulder. If they're walking
    * into it (not just standing there) their push goes on it the way
-   * they're heading. The push stands until the boulder moves, so it's only
+   * they're heading. The push stands until the boulder rolls, so it's only
    * sent again when they change sides - or now and then as a retry.
    */
   private walkIntoBoulder(collider: Phaser.GameObjects.Rectangle) {
@@ -1073,23 +1079,16 @@ export class LoveIslandScene extends BaseScene {
       return;
     }
 
-    // The push may carry through to a boulder further along a line of them
-    const target = resolveLovePush({
-      boulders: round.boulders,
-      boulder,
-      direction,
-    });
-    if (target === undefined) return;
+    if (round.sunk[boulder]) return;
 
     // The room already has this push - only repeat it as a retry
-    if (this.myPushes[target] === direction && sincePush < PUSH_RESEND_MS) {
+    if (this.myPushes[boulder] === direction && sincePush < PUSH_RESEND_MS) {
       return;
     }
 
     this.lastPushAt[boulder] = now;
-    // Remember which way we're pushing (and what will move) so we can
-    // credit ourselves when it goes
-    this.myPushes[target] = direction;
+    // Remember which way we're pushing so we can credit ourselves when it goes
+    this.myPushes[boulder] = direction;
 
     if (this.remotePush) {
       this.mmoServer?.send("lovePush.push", {
@@ -1108,33 +1107,45 @@ export class LoveIslandScene extends BaseScene {
     }
   }
 
-  /** Put a boulder (and its collider) straight onto a tile. */
+  /** The world position a boulder's collider takes on a tile. */
+  private pushColliderSpot(tile: LovePushTile): Coordinates {
+    const centre = getLovePushTileCentre(tile);
+
+    return { x: centre.x, y: centre.y + 1 };
+  }
+
+  /** Put a boulder (and its collider) straight onto a tile, in play. */
   private placeBoulder(boulder: number, tile: LovePushTile) {
     const sprite = this.pushBoulders[boulder];
     const collider = this.pushColliders[boulder];
     if (!sprite || !collider) return;
 
-    const centre = this.pushTileCentre(tile);
-    const base = centre.y + PUSH_TILE / 2 - 2;
+    const centre = getLovePushTileCentre(tile);
+    const base = centre.y + LOVE_ISLAND_TILE_PX / 2 - 1;
 
     this.tweens.killTweensOf(sprite);
-    sprite.setPosition(centre.x, base).setDepth(base);
+    sprite
+      .setPosition(centre.x, base)
+      .setDepth(base)
+      .setScale(1)
+      .setAlpha(1)
+      .setVisible(true);
 
-    collider.setPosition(centre.x, centre.y + 2);
-    (collider.body as Phaser.Physics.Arcade.Body | undefined)?.reset(
-      centre.x,
-      centre.y + 2,
-    );
+    const spot = this.pushColliderSpot(tile);
+    collider.setPosition(spot.x, spot.y);
+    const body = collider.body as Phaser.Physics.Arcade.Body | undefined;
+    body?.reset(spot.x, spot.y);
+    if (body) body.enable = true;
   }
 
-  /** Slide a boulder to its new tile, shoving the local player out if they're in the way. */
+  /** Roll a boulder to its new tile, shoving the local player out if they're in the way. */
   private slideBoulder(boulder: number, from: LovePushTile, to: LovePushTile) {
     const sprite = this.pushBoulders[boulder];
     const collider = this.pushColliders[boulder];
     if (!sprite || !collider) return;
 
-    const centre = this.pushTileCentre(to);
-    const base = centre.y + PUSH_TILE / 2 - 2;
+    const centre = getLovePushTileCentre(to);
+    const base = centre.y + LOVE_ISLAND_TILE_PX / 2 - 1;
 
     this.tweens.killTweensOf(sprite);
     this.tweens.add({
@@ -1143,17 +1154,18 @@ export class LoveIslandScene extends BaseScene {
       y: base,
       duration: LOVE_PUSH_MOVE_MS,
       ease: "Quad.easeOut",
-      // Keep the depth in step with the base as it slides, so a player
+      // Keep the depth in step with the base as it rolls, so a player
       // walking into the vacated tile isn't drawn beneath the boulder.
       onUpdate: () => sprite.setDepth(sprite.y),
       onComplete: () => sprite.setDepth(base),
     });
     this.sound.play("dig", { volume: 0.05 });
 
-    collider.setPosition(centre.x, centre.y + 2);
+    const spot = this.pushColliderSpot(to);
+    collider.setPosition(spot.x, spot.y);
     (collider.body as Phaser.Physics.Arcade.Body | undefined)?.reset(
-      centre.x,
-      centre.y + 2,
+      spot.x,
+      spot.y,
     );
 
     const player = this.currentPlayer;
@@ -1161,7 +1173,7 @@ export class LoveIslandScene extends BaseScene {
       player &&
       Phaser.Geom.Rectangle.Contains(collider.getBounds(), player.x, player.y)
     ) {
-      const ahead = this.pushTileCentre({
+      const ahead = getLovePushTileCentre({
         x: to.x + (to.x - from.x),
         y: to.y + (to.y - from.y),
       });
@@ -1169,42 +1181,156 @@ export class LoveIslandScene extends BaseScene {
     }
   }
 
+  /**
+   * The boulder hit something and is back at its start: a red flash where
+   * it was, then it reappears at the start with a little bounce.
+   */
+  private resetBoulder(boulder: number, start: LovePushTile) {
+    const sprite = this.pushBoulders[boulder];
+    if (!sprite) return;
+
+    this.sound.play("dig", { volume: 0.08 });
+    this.tweens.killTweensOf(sprite);
+    sprite.setTint(LOSE_COLOUR);
+
+    this.tweens.add({
+      targets: sprite,
+      alpha: 0,
+      scale: 0.6,
+      duration: 200,
+      ease: "Quad.easeIn",
+      onComplete: () => {
+        sprite.clearTint();
+        this.placeBoulder(boulder, start);
+        sprite.setScale(0.6);
+        this.tweens.add({
+          targets: sprite,
+          scale: 1,
+          duration: 250,
+          ease: "Back.easeOut",
+        });
+      },
+    });
+  }
+
+  /** The boulder dropped into the pit: it shrinks away and is out of play. */
+  private sinkBoulder(boulder: number) {
+    const sprite = this.pushBoulders[boulder];
+    const collider = this.pushColliders[boulder];
+    if (!sprite || !collider) return;
+
+    const pit = getLovePushTileCentre(LOVE_PUSH_PIT);
+
+    this.sound.play("dig", { volume: 0.08 });
+    this.tweens.killTweensOf(sprite);
+    sprite.clearTint();
+    this.tweens.add({
+      targets: sprite,
+      x: pit.x,
+      y: pit.y + LOVE_ISLAND_TILE_PX / 2 - 1,
+      scale: 0.2,
+      alpha: 0,
+      duration: LOVE_PUSH_MOVE_MS + 200,
+      ease: "Quad.easeIn",
+      onComplete: () => sprite.setVisible(false),
+    });
+
+    // Nothing to bump into any more
+    const body = collider.body as Phaser.Physics.Arcade.Body | undefined;
+    if (body) body.enable = false;
+    collider.setPosition(-100, -100);
+    body?.reset(-100, -100);
+
+    // The pit gulps
+    if (this.pushPit) {
+      this.tweens.killTweensOf(this.pushPit);
+      this.pushPit.setScale(PUSH_PIT_SCALE);
+      this.tweens.add({
+        targets: this.pushPit,
+        scale: PUSH_PIT_SCALE * 1.3,
+        duration: 150,
+        yoyo: true,
+        delay: LOVE_PUSH_MOVE_MS,
+      });
+    }
+  }
+
+  /** Mark where each boulder goes back to if it hits something. */
+  private drawPushStartMarkers(starts: LovePushTile[]) {
+    starts.forEach((tile, boulder) => {
+      const marker = this.pushStartMarkers[boulder];
+      if (!marker) return;
+
+      const centre = getLovePushTileCentre(tile);
+      marker.clear();
+      marker.lineStyle(1, PUSH_START_COLOUR, 0.6);
+      marker.strokeEllipse(centre.x, centre.y + 2, 14, 8);
+    });
+  }
+
   updateLovePush() {
     const now = Date.now();
     const round = this.getPushRound(now);
 
-    // Fresh layout - snap everything into place
+    // Fresh boulders - snap everything into place
     if (this.pushRoundId !== round.roundId) {
       this.pushRoundId = round.roundId;
       this.sawPushUnsolved = false;
       this.myPushes = {};
       this.lastPushAt = {};
       this.renderedPushes = [];
-      this.renderedOnTarget = [];
+      this.renderedSunk = [];
+      this.renderedResets = [];
       // Pushes left standing on other boulders when the round was solved
       // don't carry over - nor do their arrows
       this.hidePushProgress();
-      round.boulders.forEach((tile, boulder) =>
-        this.placeBoulder(boulder, tile),
-      );
+      round.boulders.forEach((tile, boulder) => {
+        this.pushBoulders[boulder]?.clearTint();
+        this.placeBoulder(boulder, tile);
+      });
       this.renderedPushTiles = round.boulders.map(toLovePushTileIndex);
+      this.renderedPushStarts = round.starts.map(toLovePushTileIndex);
+      this.drawPushStartMarkers(round.starts);
     } else {
       round.boulders.forEach((tile, boulder) => {
         const index = toLovePushTileIndex(tile);
         const rendered = this.renderedPushTiles[boulder];
-        if (rendered === index) return;
+        const resets = round.resets[boulder] ?? 0;
+        const wasReset = resets > (this.renderedResets[boulder] ?? 0);
+        const justSunk = !!round.sunk[boulder] && !this.renderedSunk[boulder];
+
+        if (rendered === index && !wasReset && !justSunk) return;
 
         this.renderedPushTiles[boulder] = index;
+        this.renderedResets[boulder] = resets;
         const from = fromLovePushTileIndex(rendered);
-        this.slideBoulder(boulder, from, tile);
+        const mine = this.myPushes[boulder];
 
-        // It moved, so every push on it is spent. Credit ourselves if it
+        if (wasReset) {
+          // It hit something. Nobody is credited, and a push of ours on it
+          // is spent
+          this.resetBoulder(boulder, round.starts[boulder] ?? tile);
+          if (mine && now - this.lastPushBubbleAt > PUSH_BUBBLE_COOLDOWN_MS) {
+            this.lastPushBubbleAt = now;
+            this.currentPlayer?.speak(translateForBubble("lovePush.reset"));
+          }
+        } else if (justSunk) {
+          this.renderedSunk[boulder] = true;
+          this.sinkBoulder(boulder);
+        } else {
+          this.slideBoulder(boulder, from, tile);
+        }
+
+        // It rolled, so every push on it is spent. Credit ourselves if it
         // went the way we were pushing (the room's `pushers` is the
         // authority - this covers the gap until it lands)
-        const mine = this.myPushes[boulder];
         if (mine) {
           const delta = LOVE_PUSH_DELTAS[mine];
-          if (tile.x - from.x === delta.x && tile.y - from.y === delta.y) {
+          if (
+            !wasReset &&
+            tile.x - from.x === delta.x &&
+            tile.y - from.y === delta.y
+          ) {
             this.pushMoves[round.roundId] =
               (this.pushMoves[round.roundId] ?? 0) + 1;
           }
@@ -1212,14 +1338,6 @@ export class LoveIslandScene extends BaseScene {
         }
       });
     }
-
-    // Green once it's resting on a target
-    round.onTarget.forEach((onTarget, boulder) => {
-      if (this.renderedOnTarget[boulder] === onTarget) return;
-
-      this.renderedOnTarget[boulder] = onTarget;
-      this.tintPushBoulder(boulder);
-    });
 
     round.pushes.forEach((pushes, boulder) => {
       const rendered = this.renderedPushes[boulder] ?? {};
@@ -1245,18 +1363,10 @@ export class LoveIslandScene extends BaseScene {
     }
   }
 
-  /**
-   * Colour a boulder: green once it's resting on a target, otherwise
-   * warming from grey to orange as the crowd pushing it grows.
-   */
+  /** Colour a boulder: warming from grey to orange as the crowd pushing it grows. */
   private tintPushBoulder(boulder: number) {
     const sprite = this.pushBoulders[boulder];
     if (!sprite) return;
-
-    if (this.renderedOnTarget[boulder]) {
-      sprite.setTint(WIN_COLOUR);
-      return;
-    }
 
     const count = getLovePushMaxCount(this.renderedPushes[boulder] ?? {});
     if (count <= 0) {
@@ -1274,7 +1384,7 @@ export class LoveIslandScene extends BaseScene {
     sprite.setTint(Phaser.Display.Color.GetColor(r, g, b));
   }
 
-  /** Take every arrow and bar off the grid. */
+  /** Take every arrow and bar off the island. */
   private hidePushProgress() {
     this.pushArrows.forEach((arrows, boulder) => {
       LOVE_PUSH_DIRECTIONS.forEach((direction) => {
@@ -1291,7 +1401,7 @@ export class LoveIslandScene extends BaseScene {
    * past the boulder's edge on that side, half size on the first push and
    * growing as that crowd fills up - and how close each is, as a bar on the
    * far side of the arrow. An arrow goes away once nobody is pushing that
-   * way (or the boulder has moved).
+   * way (or the boulder has rolled).
    */
   private setPushProgress(
     boulder: number,
@@ -1316,7 +1426,7 @@ export class LoveIslandScene extends BaseScene {
       }
 
       const delta = LOVE_PUSH_DELTAS[direction];
-      const centre = this.pushTileCentre(tile);
+      const centre = getLovePushTileCentre(tile);
       const at = {
         x: centre.x + delta.x * PUSH_ARROW_OFFSET,
         y: centre.y + delta.y * PUSH_ARROW_OFFSET,
@@ -1333,7 +1443,7 @@ export class LoveIslandScene extends BaseScene {
       arrow
         .setPosition(at.x, at.y)
         // Just above the boulder it belongs to, so it reads over the rock's edge
-        .setDepth(centre.y + PUSH_TILE / 2 + 1)
+        .setDepth(centre.y + LOVE_ISLAND_TILE_PX / 2 + 1)
         .setVisible(true);
 
       // Pop when someone joins this way
@@ -1369,25 +1479,29 @@ export class LoveIslandScene extends BaseScene {
     });
   }
 
-  /** The last boulder just turned green - celebrate and settle up. */
+  /** The last boulder just dropped in - celebrate and settle up. */
   private solvePush(round: LovePushRound, animate: boolean) {
     const now = Date.now();
     const player = this.currentPlayer;
 
     if (animate) {
       this.sound.play("reveal", { volume: 0.1 });
-      this.tweens.add({
-        targets: this.pushBoulders,
-        alpha: 0.3,
-        duration: 200,
-        yoyo: true,
-        repeat: 3,
-      });
+      if (this.pushPit) {
+        this.tweens.killTweensOf(this.pushPit);
+        this.tweens.add({
+          targets: this.pushPit,
+          scale: PUSH_PIT_SCALE * 1.4,
+          duration: 200,
+          yoyo: true,
+          repeat: 3,
+          onComplete: () => this.pushPit?.setScale(PUSH_PIT_SCALE),
+        });
+      }
     }
 
     if (!player) return;
 
-    // Only those who helped move a boulder are paid - and only once a day
+    // Only those who helped roll a boulder are paid - and only once a day
     const myMoves = this.getMyPushMoves(round);
     if (myMoves <= 0) return;
 
