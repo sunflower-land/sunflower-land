@@ -5130,10 +5130,8 @@
   "competition.farmerCompetition": "Construindo amizades",
   "competition.hurry": "Bem-vindo ao Building Friendships! Faça amizades, crie bonecos e suba na tabela de classificação!",
   "competition.prizes.two": "Faça amizades, crie bonecos e suba na tabela de classificação!",
-  "description.time.warp.totem.boost": "Redução de 50% na colheita, minerais, frutas, culinária, artesanato e colheita",
   "competition.intro.two": "Dê uma mão, arrume e comece a criar! Faça amizades e prove que você é o jogador mais útil em Sunflower Land.",
   "competition.join": "Conheça, crie e conecte-se! Participe da competição social e mostre a todos que você é a cara mais amigável do jogo.",
-  "description.superTotem.boost": "Redução de 50% na colheita, minerais, frutas, culinária, artesanato e colheita",
   "error.cannotPlaceFoxShrine": "Fox Shrine desativado",
   "description.pawPrintsBanner": "Um banner para o capítulo Paw Prints.",
   "description.petCookie": "Coletado durante o capítulo Paw Prints.",
@@ -8522,5 +8520,16 @@
   "lovePush.guide.lights": "Quatro peças alvo estão escondidas na grade. Uma luz acende para cada pedregulho apoiado em um, mas não em qual pedra ou onde.",
   "lovePush.guide.walls": "Pedregulhos não podem sair da grade nem serem empurrados uns contra os outros. Ande pela parte externa da grade para empurrar uma de volta para dentro. Planejem juntos!",
   "lovePush.prize": "Você ganhou uma Caixa de Amor de Bronze!",
-  "lovePush.guide.prizes": "Acenda todos os quatro e todos que moverem uma pedra serão recompensados com {{amount}} {{item}}, uma vez por dia."
+  "lovePush.guide.prizes": "Acenda todos os quatro e todos que moverem uma pedra serão recompensados com {{amount}} {{item}}, uma vez por dia.",
+  "description.totem.buff.crops": "x0.5 Tempo de crescimento da safra",
+  "description.totem.buff.crops.speed": "2x a velocidade de crescimento da safra",
+  "description.totem.buff.fruit": "x0.5 Tempo de crescimento da fruta",
+  "description.totem.buff.fruit.speed": "2x Velocidade de Crescimento de Frutas",
+  "description.totem.buff.trees": "x0.5 Tempo de recuperação da árvore",
+  "description.totem.buff.trees.speed": "2x a velocidade de recuperação da árvore",
+  "description.totem.buff.minerals": "x0.5 Tempo de recuperação mineral",
+  "description.totem.buff.minerals.speed": "2x Velocidade de Recuperação Mineral",
+  "description.totem.buff.cooking": "x0.5 Tempo de cozimento",
+  "description.totem.buff.cooking.speed": "2x Velocidade de Cozimento",
+  "description.totem.buff.crafting": "x0.5 Hora da Caixa de Fabricação"
 }

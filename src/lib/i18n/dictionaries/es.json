@@ -5130,10 +5130,8 @@
   "competition.farmerCompetition": "Construyendo amistades",
   "competition.hurry": "¡Bienvenido a Construyendo Amistades! Crea amistades, fabrica muñecos y escala en la clasificación.",
   "competition.prizes.two": "Construye amistades, fabrica muñecos y escala en la clasificación.",
-  "description.time.warp.totem.boost": "50 % de reducción en el tiempo de cultivos, minerales, frutas, cocina, fabricación y árboles.",
   "competition.intro.two": "¡Eche una mano, ordene y comience a hacer manualidades! Crea amistades y demuestra que eres el jugador más útil de Sunflower Land.",
   "competition.join": "¡Conoce, crea y conecta! Únete a la competencia social y demuestra a todos que eres la cara más amistosa del juego.",
-  "description.superTotem.boost": "Reducción del 50 % en el tiempo de cultivos, minerales, frutas, cocina, fabricación y árboles.",
   "error.cannotPlaceFoxShrine": "Santuario del Zorro deshabilitado",
   "description.pawPrintsBanner": "Un estandarte para el capítulo Huellas de Patas.",
   "description.petCookie": "Recogido durante el capítulo Huellas de Patas.",
@@ -8522,5 +8520,16 @@
   "lovePush.guide.lights": "Cuatro fichas objetivo están ocultas en la cuadrícula. Se enciende una luz por cada roca que descanse sobre una, pero no en qué roca ni dónde.",
   "lovePush.guide.walls": "Las rocas no pueden salir de la red ni ser empujadas unas contra otras. Caminen alrededor de la parte exterior de la cuadrícula para volver a meterla. ¡Planeen juntos!",
   "lovePush.prize": "¡Has ganado una Love Box de bronce!",
-  "lovePush.guide.prizes": "Encienda las cuatro y todos los que muevan una roca recibirán una recompensa de {{amount}} {{item}}, una vez al día."
+  "lovePush.guide.prizes": "Encienda las cuatro y todos los que muevan una roca recibirán una recompensa de {{amount}} {{item}}, una vez al día.",
+  "description.totem.buff.crops": "x0.5 Tiempo de crecimiento del cultivo",
+  "description.totem.buff.crops.speed": "2 veces la velocidad de crecimiento de los cultivos",
+  "description.totem.buff.fruit": "x0.5 Tiempo de crecimiento de la fruta",
+  "description.totem.buff.fruit.speed": "2 veces la velocidad de crecimiento de la fruta",
+  "description.totem.buff.trees": "Tiempo de recuperación del árbol x0.5",
+  "description.totem.buff.trees.speed": "Velocidad de recuperación del árbol 2x",
+  "description.totem.buff.minerals": "x0.5 Tiempo de recuperación de minerales",
+  "description.totem.buff.minerals.speed": "Velocidad de recuperación de minerales 2x",
+  "description.totem.buff.cooking": "x0.5 Tiempo de cocción",
+  "description.totem.buff.cooking.speed": "2x velocidad de cocción",
+  "description.totem.buff.crafting": "x0.5 Crafting Box Time"
 }

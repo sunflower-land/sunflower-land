@@ -5130,10 +5130,8 @@
   "competition.farmerCompetition": "友谊建设",
   "competition.hurry": "欢迎来到“友谊建设”活动！结交朋友、制作玩偶，并登上排行榜！",
   "competition.prizes.two": "结交朋友、制作玩偶，并登上排行榜！",
-  "description.time.warp.totem.boost": "庄稼生长、基矿、水果、烹饪、锻打箱和树木冷却时间 -50% (请在开始计时/收获资源前放置)",
   "competition.intro.two": "伸出援手，整理收拾，动手制作！与他人建立友谊，证明你是 Sunflower Land 上最乐于助人的玩家。",
   "competition.join": "相遇、制作、交流！加入社交竞赛，向大家展示你是游戏中最友善的面孔。",
-  "description.superTotem.boost": "庄稼生长、基矿、水果、烹饪、锻打箱和树木冷却时间 -50% (请在开始计时/收获资源前放置)",
   "error.cannotPlaceFoxShrine": "狐狸神龛已禁用",
   "description.pawPrintsBanner": "爪印篇章的旗帜。",
   "description.petCookie": "在爪印篇章期间收集获得。",
@@ -8522,5 +8520,16 @@
   "lovePush.guide.lights": "网格中隐藏了四个目标方块。每块巨石停在一块巨石上都会亮起一盏灯，但不亮哪块巨石，也不会亮在哪块巨石上。",
   "lovePush.guide.walls": "巨石不能离开网格或被推入对方。在网格外面四处走动，将一个推回网格。一起计划！",
   "lovePush.prize": "你赢得了铜牌爱心盒子！",
-  "lovePush.guide.prizes": "点燃所有四块巨石，所有移动巨石的人每天都会获得 {{amount}} {{item}} 的奖励。"
+  "lovePush.guide.prizes": "点燃所有四块巨石，所有移动巨石的人每天都会获得 {{amount}} {{item}} 的奖励。",
+  "description.totem.buff.crops": "x0.5 作物生长时间",
+  "description.totem.buff.crops.speed": "作物生长速度的 2 倍",
+  "description.totem.buff.fruit": "x0.5 水果生长时间",
+  "description.totem.buff.fruit.speed": "水果生长速度的 2 倍",
+  "description.totem.buff.trees": "x0.5 树恢复时间",
+  "description.totem.buff.trees.speed": "树木恢复速度的 2 倍",
+  "description.totem.buff.minerals": "x0.5 矿物回收时间",
+  "description.totem.buff.minerals.speed": "2 倍矿物回收速度",
+  "description.totem.buff.cooking": "x0.5 烹饪时间",
+  "description.totem.buff.cooking.speed": "2 倍烹饪速度",
+  "description.totem.buff.crafting": "x0.5 制作盒子时间"
 }

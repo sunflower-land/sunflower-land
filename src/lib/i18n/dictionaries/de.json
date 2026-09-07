@@ -5130,10 +5130,8 @@
   "competition.farmerCompetition": "Freundschaften aufbauen",
   "competition.hurry": "Willkommen bei Building Friendships! Schließe Freundschaften, stelle Puppen her und erklimme die Bestenliste!",
   "competition.prizes.two": "Schließe Freundschaften, stelle Puppen her und erklimme die Bestenliste!",
-  "description.time.warp.totem.boost": "50% Rabatt auf Ernte-, Mineral-, Obst-, Koch-, Bastel- und Baumzeit",
   "competition.intro.two": "Packen Sie mit an, räumen Sie auf und fangen Sie an zu basteln! Schließe Freundschaften und beweise, dass du der hilfreichste Spieler auf Sunflower Land bist.",
   "competition.join": "Triff dich, bastle und verbinde dich! Nehmt am sozialen Wettbewerb teil und zeigt allen, dass ihr das freundlichste Gesicht im Spiel seid.",
-  "description.superTotem.boost": "50% Rabatt auf Ernte-, Mineral-, Obst-, Koch-, Bastel- und Baumzeit",
   "error.cannotPlaceFoxShrine": "Fox Shrine deaktiviert",
   "description.pawPrintsBanner": "Ein Banner für das Kapitel Paw Prints.",
   "description.petCookie": "Im Kapitel Pfotenabdrücke gesammelt.",
@@ -8522,5 +8520,16 @@
   "lovePush.guide.lights": "Vier Zielplättchen sind im Raster versteckt. Für jeden Felsbrocken, der auf einem liegt, geht ein Licht an - aber nicht für welchen Felsbrocken oder wo.",
   "lovePush.guide.walls": "Felsbrocken können das Gitter nicht verlassen oder ineinander geschoben werden. Gehen Sie um die Außenseite des Rasters herum, um einen wieder hineinzudrücken. Plane zusammen!",
   "lovePush.prize": "Du hast eine Bronze Love Box gewonnen!",
-  "lovePush.guide.prizes": "Zünden Sie alle vier an und jeder, der einen Felsbrocken bewegt hat, wird einmal täglich mit {{amount}} {{item}} belohnt."
+  "lovePush.guide.prizes": "Zünden Sie alle vier an und jeder, der einen Felsbrocken bewegt hat, wird einmal täglich mit {{amount}} {{item}} belohnt.",
+  "description.totem.buff.crops": "x0.5 Wachstumszeit der Pflanzen",
+  "description.totem.buff.crops.speed": "2-fache Wachstumsgeschwindigkeit der Pflanzen",
+  "description.totem.buff.fruit": "x0.5 Fruchtwachstumszeit",
+  "description.totem.buff.fruit.speed": "2-fache Fruchtwachstumsgeschwindigkeit",
+  "description.totem.buff.trees": "x0.5 Wiederherstellungszeit des Baums",
+  "description.totem.buff.trees.speed": "2-fache Geschwindigkeit bei der Wiederherstellung von Bäumen",
+  "description.totem.buff.minerals": "x0.5 Mineralwiedergewinnungszeit",
+  "description.totem.buff.minerals.speed": "2-fache Geschwindigkeit der Mineralgewinnung",
+  "description.totem.buff.cooking": "x0.5 Garzeit",
+  "description.totem.buff.cooking.speed": "2x Kochgeschwindigkeit",
+  "description.totem.buff.crafting": "x0.5 Zeit in der Bastelkiste"
 }

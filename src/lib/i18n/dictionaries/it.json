@@ -5130,10 +5130,8 @@
   "competition.farmerCompetition": "Costruire amicizie",
   "competition.hurry": "Benvenuto in Building Friendships! Stringi amicizie, crea bambole e scala la classifica!",
   "competition.prizes.two": "Costruisci amicizie, crea bambole e scala la classifica!",
-  "description.time.warp.totem.boost": "Riduzione del 50% sul raccolto, sui minerali, sulla frutta, sulla cucina, sull'artigianato e sul tempo dedicato all'albero",
   "competition.intro.two": "Dai una mano, riordina e inizia a creare! Stringi amicizie e dimostra di essere il giocatore più utile di Sunflower Land.",
   "competition.join": "Incontra, crea e connettiti! Partecipa alla Social Competition e dimostra a tutti che sei il volto più amichevole del gioco.",
-  "description.superTotem.boost": "Riduzione del 50% sul raccolto, sui minerali, sulla frutta, sulla cucina, sull'artigianato e sul tempo dedicato all'albero",
   "error.cannotPlaceFoxShrine": "Fox Shrine disabilitato",
   "description.pawPrintsBanner": "Un banner per il capitolo Paw Prints.",
   "description.petCookie": "Raccolto durante il capitolo Paw Prints.",
@@ -8522,5 +8520,16 @@
   "lovePush.guide.lights": "Quattro tessere bersaglio sono nascoste nella griglia. Si accende una luce per ogni masso appoggiato su uno, ma non su quale masso o dove.",
   "lovePush.guide.walls": "I massi non possono uscire dalla griglia o essere spinti l'uno nell'altro. Percorri l'esterno della griglia per respingerne una. Pianificate insieme!",
   "lovePush.prize": "Hai vinto una Love Box in bronzo!",
-  "lovePush.guide.prizes": "Accendili tutti e quattro e tutti coloro che hanno spostato un masso vengono premiati con {{amount}} {{item}}, una volta al giorno."
+  "lovePush.guide.prizes": "Accendili tutti e quattro e tutti coloro che hanno spostato un masso vengono premiati con {{amount}} {{item}}, una volta al giorno.",
+  "description.totem.buff.crops": "x0.5 Tempo di crescita delle colture",
+  "description.totem.buff.crops.speed": "Velocità di crescita delle colture raddoppiata",
+  "description.totem.buff.fruit": "x0.5 Tempo di crescita dei frutti",
+  "description.totem.buff.fruit.speed": "Velocità di crescita dei frutti raddoppiata",
+  "description.totem.buff.trees": "x0.5 Tempo di ripristino dell'albero",
+  "description.totem.buff.trees.speed": "Velocità di ripristino dell'albero 2x",
+  "description.totem.buff.minerals": "x0.5 Tempo di recupero minerale",
+  "description.totem.buff.minerals.speed": "Velocità di recupero dei minerali raddoppiata",
+  "description.totem.buff.cooking": "x0.5 Tempo di cottura",
+  "description.totem.buff.cooking.speed": "Velocità di cottura 2x",
+  "description.totem.buff.crafting": "x0.5 Crafting Box Time"
 }

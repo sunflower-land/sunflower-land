@@ -5130,10 +5130,8 @@
   "competition.farmerCompetition": "Membangun Persahabatan",
   "competition.hurry": "Selamat datang di Membangun Persahabatan! Bangun persahabatan, kerajinan boneka, dan naiki papan peringkat!",
   "competition.prizes.two": "Bangun persahabatan, kerajinan boneka, dan naiki papan peringkat!",
-  "description.time.warp.totem.boost": "Pengurangan 50% untuk Panen, Mineral, Buah, Memasak, Kerajinan, dan Waktu Pohon",
   "competition.intro.two": "Ulangkan tangan, rapikan, dan mulai kerajinan! Bangun persahabatan dan buktikan bahwa Anda adalah pemain paling membantu di Sunflower Land.",
   "competition.join": "Bertemu, membuat, dan terhubung! Bergabunglah dengan Kompetisi Soal dan tunjukkan kepada semua orang bahwa Anda adalah wajah paling ramah dalam permainan.",
-  "description.superTotem.boost": "Pengurangan 50% untuk Panen, Mineral, Buah, Memasak, Kerajinan, dan Waktu Pohon",
   "error.cannotPlaceFoxShrine": "Kuil Fox Dinonaktifkan",
   "description.pawPrintsBanner": "Sebuah spanduk untuk chapter Paw Prints.",
   "description.petCookie": "Dikumpulkan selama chapter Paw Prints.",
@@ -8522,5 +8520,16 @@
   "lovePush.guide.lights": "Empat ubin target disembunyikan di grid. Sebuah lampu menyala untuk setiap batu besar yang bertumpu pada satu - tetapi tidak pada batu yang mana, atau di mana.",
   "lovePush.guide.walls": "Batu-batu besar tidak bisa meninggalkan grid atau didorong satu sama lain. Berjalanlah di sekitar bagian luar grid untuk mendorong satu kembali. Rencanakan bersama!",
   "lovePush.prize": "Anda memenangkan Kotak Cinta Perunggu!",
-  "lovePush.guide.prizes": "Nyalakan keempatnya dan setiap orang yang memindahkan batu besar diberi hadiah {{amount}} {{item}}, sekali sehari."
+  "lovePush.guide.prizes": "Nyalakan keempatnya dan setiap orang yang memindahkan batu besar diberi hadiah {{amount}} {{item}}, sekali sehari.",
+  "description.totem.buff.crops": "x0.5 Waktu Pertumbuhan Tanaman",
+  "description.totem.buff.crops.speed": "Kecepatan Pertumbuhan Tanaman 2x",
+  "description.totem.buff.fruit": "x0.5 Waktu Pertumbuhan Buah",
+  "description.totem.buff.fruit.speed": "Kecepatan Pertumbuhan Buah 2x",
+  "description.totem.buff.trees": "x0.5 Waktu Pemulihan Pohon",
+  "description.totem.buff.trees.speed": "Kecepatan Pemulihan Pohon 2x",
+  "description.totem.buff.minerals": "x0.5 Waktu Pemulihan Mineral",
+  "description.totem.buff.minerals.speed": "Kecepatan Pemulihan Mineral 2x",
+  "description.totem.buff.cooking": "x0.5 Waktu Memasak",
+  "description.totem.buff.cooking.speed": "Kecepatan Memasak 2x",
+  "description.totem.buff.crafting": "x0.5 Waktu Kotak Kerajinan"
 }

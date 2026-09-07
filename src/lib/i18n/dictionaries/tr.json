@@ -5130,10 +5130,8 @@
   "competition.farmerCompetition": "Arkadaşlık Kurmak",
   "competition.hurry": "Arkadaşlık Kurmaya Hoş Geldiniz! Arkadaşlıklar kur, bebek yap ve liderlik tablosuna tırman!",
   "competition.prizes.two": "Arkadaşlıklar kur, bebek yap ve liderlik tablosuna tırman!",
-  "description.time.warp.totem.boost": "Mahsul, Mineral, Meyve, Pişirme, İşçilik ve Ağaç Zamanında %50 İndirim",
   "competition.intro.two": "Yardım edin, toparlayın ve işçiliğe başlayın! Arkadaşlıklar kurun ve Sunflower Land'deki en yardımsever oyuncu olduğunuzu kanıtlayın.",
   "competition.join": "Tanışın, üretin ve bağlantı kurun! Sosyal Yarışmaya katılın ve herkese oyundaki en arkadaş canlısı yüz olduğunuzu gösterin.",
-  "description.superTotem.boost": "Mahsul, Mineral, Meyve, Pişirme, İşçilik ve Ağaç Zamanında %50 İndirim",
   "error.cannotPlaceFoxShrine": "Fox Shrine Engelli",
   "description.pawPrintsBanner": "Paw Prints bölümü için bir afiş.",
   "description.petCookie": "Paw Prints bölümünde toplanmıştır.",
@@ -8522,5 +8520,16 @@
   "lovePush.guide.lights": "Izgarada dört hedef karo gizlidir. Birinin üzerinde duran her kaya için bir ışık yanar - ama hangi kaya ya da nerede değil.",
   "lovePush.guide.walls": "Kayalar ızgaradan çıkamaz veya birbirine itilemez. Birini geri itmek için ızgaranın dışında dolaşın. Birlikte planlayın!",
   "lovePush.prize": "Bronz Aşk Kutusu kazandın!",
-  "lovePush.guide.prizes": "Dördünü de aydınlatın ve bir kayayı hareket ettiren herkes günde bir kez {{amount}} {{item}} ile ödüllendirilir."
+  "lovePush.guide.prizes": "Dördünü de aydınlatın ve bir kayayı hareket ettiren herkes günde bir kez {{amount}} {{item}} ile ödüllendirilir.",
+  "description.totem.buff.crops": "x0.5 Mahsul Büyüme Süresi",
+  "description.totem.buff.crops.speed": "2x Mahsul Büyüme Hızı",
+  "description.totem.buff.fruit": "x0.5 Meyve Büyüme Süresi",
+  "description.totem.buff.fruit.speed": "2x Meyve Büyüme Hızı",
+  "description.totem.buff.trees": "x0.5 Ağaç Kurtarma Süresi",
+  "description.totem.buff.trees.speed": "2x Ağaç Kurtarma Hızı",
+  "description.totem.buff.minerals": "x0.5 Mineral Geri Kazanım Süresi",
+  "description.totem.buff.minerals.speed": "2x Mineral Geri Kazanım Hızı",
+  "description.totem.buff.cooking": "x0.5 Pişirme Süresi",
+  "description.totem.buff.cooking.speed": "2x Pişirme Hızı",
+  "description.totem.buff.crafting": "x0.5 İşleme Kutusu Zamanı"
 }

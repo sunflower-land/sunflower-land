@@ -5130,10 +5130,8 @@
   "competition.farmerCompetition": "友情を築く",
   "competition.hurry": "友情の構築へようこそ！友情を築き、人形を作り、リーダーボードに登りましょう！",
   "competition.prizes.two": "友情を築き、人形を作り、リーダーボードに登りましょう！",
-  "description.time.warp.totem.boost": "作物、ミネラル、フルーツ、料理、クラフト、樹木にかかる時間を 50% 削減",
   "competition.intro.two": "手を貸して、片付けて、クラフトを始めましょう！友情を築き、あなたがサンフラワーランドで最も役立つプレイヤーであることを証明してください。",
   "competition.join": "出会い、クラフトして、つながりましょう！ソーシャルコンペティションに参加して、自分がゲームで最も親しみやすい顔であることをみんなに見せましょう。",
-  "description.superTotem.boost": "作物、ミネラル、フルーツ、料理、クラフト、樹木にかかる時間を 50% 削減",
   "error.cannotPlaceFoxShrine": "フォックス・シュライン無効",
   "description.pawPrintsBanner": "「足跡」チャプターのバナーです。",
   "description.petCookie": "「足跡」チャプターで収集されました。",
@@ -8522,5 +8520,16 @@
   "lovePush.guide.lights": "4つのターゲットタイルがグリッドに非表示になっています。1つの岩の上にあるすべての岩にライトが点灯しますが、どの岩がどこにあるかは点灯しません。",
   "lovePush.guide.walls": "岩はグリッドの外に出たり、互いに押し込まれたりすることはできません。グリッドの外側を歩き回って、グリッドを押し戻してください。一緒に計画しましょう！",
   "lovePush.prize": "ブロンズラブボックスを獲得しました！",
-  "lovePush.guide.prizes": "4つすべてに火をつけ、岩を動かした全員に {{amount}} {{item}} を1日1回プレゼントします。"
+  "lovePush.guide.prizes": "4つすべてに火をつけ、岩を動かした全員に {{amount}} {{item}} を1日1回プレゼントします。",
+  "description.totem.buff.crops": "x0.5 クロップ成長時間",
+  "description.totem.buff.crops.speed": "2倍の作物成長速度",
+  "description.totem.buff.fruit": "x0.5 フルーツ成長時間",
+  "description.totem.buff.fruit.speed": "フルーツの成長速度の2倍",
+  "description.totem.buff.trees": "x0.5 ツリーの回復時間",
+  "description.totem.buff.trees.speed": "ツリーの回復速度が2倍",
+  "description.totem.buff.minerals": "x0.5 ミネラル回復時間",
+  "description.totem.buff.minerals.speed": "2倍のミネラル回復速度",
+  "description.totem.buff.cooking": "x0.5 クッキングタイム",
+  "description.totem.buff.cooking.speed": "2倍のクッキングスピード",
+  "description.totem.buff.crafting": "x0.5 クラフトボックスタイム"
 }

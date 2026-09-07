@@ -311,7 +311,6 @@
   "description.blossombeard.boost": "+10% к опыту бампкина",
   "description.christmas.festive.tree.boost": "Бесплатный подарок на рождество",
   "description.grinxs.hammer.boost": "Снижает стоимость расширений вдвое",
-  "description.time.warp.totem.boost": "На 50% сокращается время: роста растений и фруктов, восстановления минералов и деревьев, готовки и крафта",
   "description.radiant.ray.boost": "+0.1 железо",
   "description.hungryHare.boost": "2x опыта бампкина с квашеной моркови",
   "description.soybliss.boost": "+1 соя",
@@ -4015,7 +4014,6 @@
   "description.vampireBear": "Не ставьте меня под солнце!",
   "description.superTotem": "Удвоенная скорость обработки сельскохозяйственных культур, деревьев, фруктов, приготовления пищи и минералов. Длится 7 дней",
   "description.kingOfBears.boost": "+0.25 мёда с каждого полного улья",
-  "description.superTotem.boost": "На 50% сокращается время: роста растений и фруктов, восстановления минералов и деревьев, готовки и крафта",
   "description.superTotem.boost.effectTime": "Длится 7 дней",
   "description.christmasStocking": "Классический праздничный чулок, идеально подходящий для праздничных угощений и сюрпризов.",
   "description.goldenChristmasStocking": "Роскошный чулок с золотыми акцентами добавит элегантности вашему рождественскому декору.",
@@ -8522,5 +8520,16 @@
   "lovePush.guide.lights": "Four target tiles are hidden in the grid. A light comes on for every boulder resting on one - but not which boulder, or where.",
   "lovePush.guide.walls": "Boulders can't leave the grid or be pushed into each other. Walk around the outside of the grid to push one back in. Plan together!",
   "lovePush.prize": "You won a Bronze Love Box!",
-  "lovePush.guide.prizes": "Light all four and everyone who moved a boulder is rewarded with {{amount}} {{item}}, once a day."
+  "lovePush.guide.prizes": "Light all four and everyone who moved a boulder is rewarded with {{amount}} {{item}}, once a day.",
+  "description.totem.buff.crops": "x0.5 Crop Growth Time",
+  "description.totem.buff.crops.speed": "2x Crop Growth Speed",
+  "description.totem.buff.fruit": "x0.5 Fruit Growth Time",
+  "description.totem.buff.fruit.speed": "2x Fruit Growth Speed",
+  "description.totem.buff.trees": "x0.5 Tree Recovery Time",
+  "description.totem.buff.trees.speed": "2x Tree Recovery Speed",
+  "description.totem.buff.minerals": "x0.5 Mineral Recovery Time",
+  "description.totem.buff.minerals.speed": "2x Mineral Recovery Speed",
+  "description.totem.buff.cooking": "x0.5 Cooking Time",
+  "description.totem.buff.cooking.speed": "2x Cooking Speed",
+  "description.totem.buff.crafting": "x0.5 Crafting Box Time"
 }
