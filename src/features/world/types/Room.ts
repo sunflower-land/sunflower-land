@@ -175,18 +175,24 @@ export interface LoveBoulder extends Schema {
 
 /**
  * Love Island "Lover's Push", published by the love_island room. Four
- * boulders on a 6x6 grid; walking into one shoves it a tile. The targets
- * stay private to the room - only the count of boulders sitting on one
- * (`lit`) is published.
+ * boulders on a 6x6 grid; it takes five players pushing the same way to
+ * move one a tile. The targets stay private to the room - it only says
+ * which boulders are sitting on one (`onTarget`, shown green).
  */
 export interface LovePush extends Schema {
   /** Increments every time a fresh layout appears. */
   roundId: number;
   /** Tile index (y * 6 + x) of each boulder, length 4. Empty means the room isn't running it. */
   boulders: ArraySchema<number>;
+  /** Whether each boulder is resting on a target, indexed by boulder. */
+  onTarget: ArraySchema<boolean>;
   /** Boulders on a target - the green lights. */
   lit: number;
-  /** farmId -> boulders moved this round. Proof of who helped. */
+  /** Players pushing each boulder the leading way, indexed by boulder. */
+  pushCounts: ArraySchema<number>;
+  /** The leading direction on each boulder ("" while nobody is pushing), indexed by boulder. */
+  pushDirections: ArraySchema<string>;
+  /** farmId -> boulders this player helped move this round. Proof of who helped. */
   pushers: MapSchema<number>;
   /** Epoch ms the fourth light came on; 0 while unsolved. */
   solvedAt: number;

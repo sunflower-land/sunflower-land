@@ -97,6 +97,17 @@ export class Label extends Phaser.GameObjects.Container {
     this.setDepth(1);
   }
 
+  /**
+   * Swap the text for another of the same length - the patch behind it is
+   * sized once, at construction, so longer text would spill out of it.
+   */
+  setText(text: string): this {
+    this.text.setText(text);
+    this.text.setX(-(text.length * 4 - 1) / 2);
+
+    return this;
+  }
+
   /** Recolour the text (e.g. green/red for a result); `undefined` resets it. */
   setTextTint(tint?: number) {
     if (tint === undefined) {

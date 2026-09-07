@@ -30,8 +30,11 @@ unit-tested) and `src/features/world/scenes/LoveIslandScene.ts`.
 - [ ] Publish `state.loveBoulder` (section 4) and handle `loveBoulder.hit`:
       decrement, record the miner, break at zero, respawn 5s later.
 - [ ] Publish `state.lovePush` (section 5) with the seeded layout; handle
-      `lovePush.push`: move the boulder a tile (300ms cooldown per boulder),
-      credit the pusher, celebrate 10s when all four are lit, next layout.
+      `lovePush.push`: record the player's push and publish the count, move
+      the boulder a tile once **five** players push it the same way (300ms
+      cooldown per boulder), credit all five, publish which boulders are on
+      a target, celebrate 10s when all four are, next layout. Drop a player's
+      pushes when they leave.
 - [ ] No change to `giantFlower` — leave it as is (unused by the client now).
 
 ## 1. Game API — `floatingIslandPrize.claimed`
@@ -375,19 +378,28 @@ are **20px**, the grid's top-left is world px **(555, 506)**, so tile `(x, y)`
 has its centre at `(555 + 20x + 10, 506 + 20y + 10)`. Boulder art is
 `resources/stone_rock.png` (18x16); boulders are solid.
 
-- A player **walks into a boulder** to shove it **one tile** the way they're
-  heading. Anyone can push at any time - **first come, first served**; a
-  boulder can be pushed again once it has finished sliding (**300ms**).
-  Everyone sees it slide. Each shove credits the pusher with a move.
-- **Four target tiles are hidden.** The room publishes only `lit` - how many
-  boulders are on a target. Nothing says which boulder or which tile, and
-  pushing a boulder off a target turns its light off again. That is the
-  puzzle: the crowd has to work out which placements are right.
+- **One player can't budge a boulder.** A player **walks into a boulder** to
+  put their **push** on it in the direction they're heading. A push is a
+  standing vote: one per player per boulder (pushing another side moves it),
+  kept until the boulder moves, the round ends or the player leaves the
+  room. The boulder shows how many are pushing it the leading way, e.g.
+  "3/5", and an arrow for that way.
+- Once **five players** are pushing the same boulder the **same way**, it
+  slides **one tile** that way. Everyone sees it slide, every pusher behind
+  it is credited with a move, and **all** pushes on that boulder are cleared
+  (whichever way they pointed). Pushes on the other boulders stand. A boulder
+  can be pushed again once it has finished sliding (**300ms**). A split crowd
+  (3 east, 2 north) goes nowhere until one side reaches five.
+- **Four target tiles are hidden.** The room publishes which boulders are
+  resting on one (`onTarget`) and the client turns those **green**. It never
+  says where the targets are, and pushing a green boulder off its target
+  turns it grey again. That is the puzzle: the crowd works out where the
+  other targets are from what's already home.
 - Boulders can't leave the grid and can't be pushed into each other. The
   border around the grid is walkable, so a boulder on a wall or in a corner
   can always be pushed back in from outside. Layouts are generated solvable
   (with these rules that's nearly every roll).
-- All four lit = **solved**. The layout is celebrated for **10s**
+- All four green = **solved**. The layout is celebrated for **10s**
   (`solvedAt`/`nextRoundAt`), then a fresh one appears with `roundId + 1`.
 - Everyone credited with at least one move in the solved round is paid
   automatically by their client (no click): **1 Bronze Love Box**, **once per
@@ -402,7 +414,8 @@ has its centre at `(555 + 20x + 10, 506 + 20y + 10)`. Boulder art is
 ```ts
 LOVE_PUSH_GRID_SIZE = 6;
 LOVE_PUSH_BOULDERS = 4;
-LOVE_PUSH_MOVE_MS = 300; // slide time = per-boulder push cooldown
+LOVE_PUSH_PUSHERS_NEEDED = 5; // players pushing the same way to move a boulder
+LOVE_PUSH_MOVE_MS = 300; // slide time = per-boulder move cooldown
 LOVE_PUSH_PRIZE = { item: "Bronze Love Box", amount: 1 };
 LOVE_PUSH_MAX_CLAIMS = 1; // per farm per UTC day
 LOVE_PUSH_SOLVED_MS = 10_000; // celebration before the next layout
@@ -460,15 +473,22 @@ puzzle. The client treats `boulders.length !== 4` (or the field missing) as
 class LovePush extends Schema {
   @type("number") roundId: number; // +1 on every new layout
   @type(["number"]) boulders: ArraySchema<number>; // length 4, tile index y*6+x
-  @type("number") lit: number; // boulders on a target, 0..4
-  @type({ map: "number" }) pushers: MapSchema<number>; // farmId -> boulders moved this round
+  @type(["boolean"]) onTarget: ArraySchema<boolean>; // length 4, boulder resting on a target (green)
+  @type("number") lit: number; // boulders on a target, 0..4 (= onTarget trues)
+  @type(["number"]) pushCounts: ArraySchema<number>; // length 4, players pushing it the leading way
+  @type(["string"]) pushDirections: ArraySchema<string>; // length 4, that way ("" while nobody is pushing)
+  @type({ map: "number" }) pushers: MapSchema<number>; // farmId -> boulders helped move this round
   @type("number") solvedAt: number; // epoch ms; 0 while unsolved
   @type("number") nextRoundAt: number; // epoch ms; 0 while unsolved
 }
 ```
 
-Keep `targets` (and per-boulder `movedAt`) in private fields on the room -
-**never** in the schema.
+Keep `targets`, every player's push (`votes[boulder]: farmId -> direction`)
+and per-boulder `movedAt` in private fields on the room - **never** in the
+schema. `pushCounts`/`pushDirections` are the **leading** push on each
+boulder: the direction with the most players behind it (a tie goes to the
+first of north, east, south, west) and how many. Nobody can tell from the
+state who is pushing.
 
 ### Client → server message
 
@@ -481,22 +501,36 @@ Rules:
 - Ignore if `roundId` ≠ the current round, the round is solved
   (`solvedAt > 0`), `boulder` is not `0..3`, `direction` is not one of the
   four, or `canPush` is false.
-- Ignore if that boulder moved less than **300ms** ago (first come, first
-  served - the client won't send faster, so this only guards forged or racing
+- Ignore if that boulder moved less than **300ms** ago (it's still sliding -
+  the client won't send this fast, so this only guards forged or racing
   messages).
 - Ignore if the player is further than ~**30px** from the pusher tile's
   centre, i.e. not standing behind the boulder (use `state.players`; the
   client only sends while physically pressing against it, so this only
   guards forged messages).
-- Otherwise: `boulders[boulder] += DELTAS[direction]`, `movedAt[boulder] =
-now`, `pushers[farmId] += 1`, recompute `lit = boulders on a target`.
+- Ignore (nothing to publish) if `votes[boulder][farmId]` is already
+  `direction` - the client resends the same push every 2s as a retry.
+- Otherwise set `votes[boulder][farmId] = direction` and let `crowd` = the
+  farms in `votes[boulder]` pushing `direction`.
+  - If `crowd.length < 5`: publish the boulder's `pushCounts` /
+    `pushDirections` (the leading push) and stop.
+  - Else: `boulders[boulder] += DELTAS[direction]`, `movedAt[boulder] = now`,
+    `pushers[farmId] += 1` for **every** farm in `crowd`, clear
+    `votes[boulder]` (all of it, whichever way they pointed - so
+    `pushCounts[boulder] = 0`), recompute `onTarget` and
+    `lit = onTarget.filter(Boolean).length`.
 - If `lit === 4`: `solvedAt = now`, `nextRoundAt = now + 10_000`. Leave
   `pushers` populated - clients read it to know whether they helped (a reload
   mid-round loses their local count).
 
+On `onLeave`: delete the farm from every `votes[boulder]` and republish the
+counts that changed. A push from someone who is gone must not count toward a
+crowd that is no longer there.
+
 At `nextRoundAt`: `roundId += 1`, `boulders`/private targets from
-`getLovePushLayout(roundId)`, `lit` recomputed (0 by construction), clear
-`pushers` and `movedAt`, `solvedAt = nextRoundAt = 0`.
+`getLovePushLayout(roundId)`, `onTarget` all false and `lit = 0` (by
+construction), clear `votes` (all counts 0, directions ""), `pushers` and
+`movedAt`, `solvedAt = nextRoundAt = 0`.
 
 The room does not need to know about the daily claim limit - the claim is a
 game event and the once-a-day rule is enforced client-side against the farm's
@@ -504,31 +538,39 @@ game event and the once-a-day rule is enforced client-side against the farm's
 
 ### What the client does
 
-- Draws the grid, the four boulders at `boulders` (solid), and four lights in
-  a label above the grid with the first `lit` of them green.
+- Draws the grid and the four boulders at `boulders` (solid). A boulder with
+  `onTarget` is tinted green; there is no other HUD.
+- Above a boulder with `pushCounts > 0` shows a label "`n`/5" and a small
+  arrow on the side it will slide toward (`pushDirections`). The label pops
+  when the count goes up and disappears when it drops to 0.
 - While the local player is walking into a boulder (a physics collision with
   their movement pointing at it) and `canPush` holds, sends `lovePush.push`
-  once per 300ms per boulder, remembering the direction it asked for.
+  with the direction they're heading. It remembers that push and only sends
+  again on that boulder if the direction changes, or every 2s as a retry
+  (the room treats a repeat as a no-op).
 - When a boulder's tile changes it slides there (300ms) for everyone; the
-  client credits itself a move if the boulder went the way it shoved it,
-  until `pushers` catches up. If a boulder slides onto the local player they
-  are nudged one tile further on.
-- When `solvedAt` flips from 0: tints the boulders green and flashes the
-  lights. If `max(pushers[farmId], own count) > 0` and the farm has no
-  `love_push` claim today, dispatches
+  client credits itself a move if the boulder went the way it was pushing,
+  and forgets its push on that boulder either way, until `pushers` catches
+  up. If a boulder slides onto the local player they are nudged one tile
+  further on.
+- When `solvedAt` flips from 0: flashes the (all green) boulders. If
+  `max(pushers[farmId], own count) > 0` and the farm has no `love_push` claim
+  today, dispatches
   `floatingIslandPrize.claimed { amount: 0, game: "love_push", roundId }` -
   the box is the prize, so there is no Love Charm amount to send - and shows a
   "you won a Bronze Love Box" bubble. Players who already claimed today get an
-  "already claimed" bubble; nothing for players who didn't help. Pushing during the celebration just shows a "wait for the
-  next puzzle" bubble.
-- When `roundId` changes the boulders snap to the new layout and the lights
-  go out.
+  "already claimed" bubble; nothing for players who didn't help. Pushing
+  during the celebration just shows a "wait for the next puzzle" bubble.
+- When `roundId` changes the boulders snap to the new layout, grey, with no
+  counts.
 
 ### Until the room ships
 
 If `state.lovePush` is absent (or has no boulders), the client runs a local
-stand-in: the same seeded layout, the local player's shoves apply straight
-away, and a simulated crowd shoves a random boulder that isn't on a target
-every **8s** so boulders are seen moving that the player didn't push. The
-10s celebration and next layout run on the client's own clock. Once the room
-publishes `lovePush` the client switches over automatically.
+stand-in: the same seeded layout; the local player's push counts straight
+away and a simulated player joins it every **1s** until the boulder moves,
+so a lone tester can still shift one; and the simulated crowd shoves a
+random boulder that isn't on a target every **8s** (five of them at once) so
+boulders are seen moving that the player didn't push. The 10s celebration
+and next layout run on the client's own clock. Once the room publishes
+`lovePush` the client switches over automatically.

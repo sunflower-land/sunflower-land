@@ -501,9 +501,14 @@ export const LOVE_ISLAND_CENTRE_PUZZLE: LoveIslandCentrePuzzle = "push";
 export const LOVE_PUSH_GRID_SIZE = 6;
 export const LOVE_PUSH_BOULDERS = 4;
 /**
+ * Players it takes to move a boulder. One person can't budge it: each push
+ * is a vote for a direction, the count shows on the boulder, and once this
+ * many are pushing the same way it slides a tile. The island has to agree.
+ */
+export const LOVE_PUSH_PUSHERS_NEEDED = 5;
+/**
  * How long a boulder takes to slide one tile - and the soonest the same
- * boulder can be pushed again. Anyone can push at any time; the first
- * shove after the cooldown is the one that counts.
+ * boulder can be moved again.
  */
 export const LOVE_PUSH_MOVE_MS = 300;
 /**
@@ -645,7 +650,18 @@ export function applyLovePush({
   );
 }
 
-/** How many boulders sit on a target - the number of green lights. */
+/** Which boulders sit on a target - they're shown green. Indexed by boulder. */
+export function getLovePushOnTarget({
+  boulders,
+  targets,
+}: {
+  boulders: LovePushTile[];
+  targets: LovePushTile[];
+}): boolean[] {
+  return boulders.map((boulder) => hasBoulderAt(targets, boulder));
+}
+
+/** How many boulders sit on a target - the green ones. */
 export function getLovePushLitCount({
   boulders,
   targets,
@@ -653,7 +669,44 @@ export function getLovePushLitCount({
   boulders: LovePushTile[];
   targets: LovePushTile[];
 }): number {
-  return boulders.filter((boulder) => hasBoulderAt(targets, boulder)).length;
+  return getLovePushOnTarget({ boulders, targets }).filter(Boolean).length;
+}
+
+/** farmId -> the way each player is pushing one boulder right now. */
+export type LovePushVotes = Record<string, LovePushDirection>;
+
+/**
+ * What shows on a boulder: how many players are pushing it the leading way,
+ * and which way that is (unset while nobody is pushing).
+ */
+export type LovePushBoulderPushes = {
+  count: number;
+  direction?: LovePushDirection;
+};
+
+/**
+ * The leading push on a boulder - the direction with the most players
+ * behind it. A tie goes to the first in `LOVE_PUSH_DIRECTIONS` order; it
+ * only decides what's shown, since a boulder only moves once a direction
+ * has the full crowd.
+ */
+export function getLovePushLeadingPush(
+  votes: LovePushVotes,
+): LovePushBoulderPushes {
+  const counts: Partial<Record<LovePushDirection, number>> = {};
+
+  Object.values(votes).forEach((direction) => {
+    counts[direction] = (counts[direction] ?? 0) + 1;
+  });
+
+  let leading: LovePushBoulderPushes = { count: 0 };
+
+  LOVE_PUSH_DIRECTIONS.forEach((direction) => {
+    const count = counts[direction] ?? 0;
+    if (count > leading.count) leading = { count, direction };
+  });
+
+  return leading;
 }
 
 export function isLovePushSolved({
@@ -852,40 +905,74 @@ export type LovePushRound = {
   roundId: number;
   /** Where each boulder is now, indexed by boulder. */
   boulders: LovePushTile[];
-  /** Boulders on a target right now - the green lights. */
+  /** Which boulders are resting on a target - shown green. Indexed by boulder. */
+  onTarget: boolean[];
+  /** Boulders on a target right now - how many are green. */
   lit: number;
-  /** farmId -> boulders this player has moved this round. Proof of who helped. */
+  /** The leading push on each boulder - the number it shows. Indexed by boulder. */
+  pushes: LovePushBoulderPushes[];
+  /** farmId -> boulders this player has helped move this round. Proof of who helped. */
   pushers: Record<string, number>;
   solved: boolean;
-  /** Epoch ms the last light came on - only set once solved. */
+  /** Epoch ms the last boulder turned green - only set once solved. */
   solvedAt?: number;
   /** Epoch ms a fresh layout appears - only set once solved. */
   nextRoundAt?: number;
 };
 
+/** A round with the private parts a room keeps: the targets and every player's push. */
+export type LovePushFullRound = LovePushRound & {
+  targets: LovePushTile[];
+  /** Every player's push on each boulder. Indexed by boulder. */
+  votes: LovePushVotes[];
+};
+
 /**
- * A player shoves a boulder one tile and is credited with the move.
- * Nothing changes on an impossible push or once the round is solved.
+ * A player pushes a boulder in a direction. Their push is recorded (one per
+ * player per boulder - pushing another side moves it) and shows in the
+ * count; once `LOVE_PUSH_PUSHERS_NEEDED` players are pushing the same way
+ * the boulder slides a tile, everyone behind it is credited with the move,
+ * and the boulder's pushes are cleared. Nothing changes on an impossible
+ * push or once the round is solved.
  */
-export function pushLoveBoulder({
+export function pushLoveBoulder<T extends LovePushFullRound>({
   round,
   boulder,
   direction,
   farmId,
-  targets,
   now = Date.now(),
 }: {
-  round: LovePushRound;
+  round: T;
   boulder: number;
   direction: LovePushDirection;
   farmId: string;
-  targets: LovePushTile[];
   now?: number;
-}): LovePushRound {
+}): T {
   if (round.solved) return round;
 
   if (!canLovePush({ boulders: round.boulders, boulder, direction })) {
     return round;
+  }
+
+  // Already pushing it this way - nothing to add
+  if (round.votes[boulder]?.[farmId] === direction) return round;
+
+  const boulderVotes = { ...(round.votes[boulder] ?? {}), [farmId]: direction };
+  const crowd = Object.keys(boulderVotes).filter(
+    (id) => boulderVotes[id] === direction,
+  );
+
+  if (crowd.length < LOVE_PUSH_PUSHERS_NEEDED) {
+    // Not enough of them yet - just count the push
+    const votes = round.votes.map((existing, index) =>
+      index === boulder ? boulderVotes : existing,
+    );
+
+    return {
+      ...round,
+      votes,
+      pushes: votes.map(getLovePushLeadingPush),
+    };
   }
 
   const boulders = applyLovePush({
@@ -893,19 +980,37 @@ export function pushLoveBoulder({
     boulder,
     direction,
   });
-  const lit = getLovePushLitCount({ boulders, targets });
+  const onTarget = getLovePushOnTarget({ boulders, targets: round.targets });
+  const lit = onTarget.filter(Boolean).length;
   const solved = lit === LOVE_PUSH_BOULDERS;
+
+  const pushers = { ...round.pushers };
+  crowd.forEach((id) => {
+    pushers[id] = (pushers[id] ?? 0) + 1;
+  });
+
+  const votes = round.votes.map((existing, index) =>
+    index === boulder ? {} : existing,
+  );
 
   return {
     ...round,
     boulders,
+    onTarget,
     lit,
-    pushers: { ...round.pushers, [farmId]: (round.pushers[farmId] ?? 0) + 1 },
+    votes,
+    pushes: votes.map(getLovePushLeadingPush),
+    pushers,
     solved,
     ...(solved
       ? { solvedAt: now, nextRoundAt: now + LOVE_PUSH_SOLVED_MS }
       : {}),
   };
+}
+
+/** Empty pushes for a fresh layout. */
+export function createLovePushVotes(): LovePushVotes[] {
+  return Array.from({ length: LOVE_PUSH_BOULDERS }, () => ({}));
 }
 
 /**
@@ -976,16 +1081,26 @@ export function canClaimLovePush({
   return !hasClaimedLovePushToday({ state, now });
 }
 
-/** Local mode: how often the simulated crowd shoves a boulder. */
+/** Local mode: how often the simulated crowd moves a boulder on its own. */
 export const LOVE_PUSH_LOCAL_BOT_MOVE_MS = 8000;
-/** Local mode: the simulated crowd's farm id in `pushers`. */
-const LOVE_PUSH_LOCAL_BOT = "bot";
+/**
+ * Local mode: how often another simulated player joins a push the local
+ * player started, so a lone tester can still move a boulder.
+ */
+export const LOVE_PUSH_LOCAL_BOT_JOIN_MS = 1000;
+/** Local mode: the simulated crowd's farm ids in `pushers`. */
+const LOVE_PUSH_LOCAL_BOTS = Array.from(
+  { length: LOVE_PUSH_PUSHERS_NEEDED },
+  (_, i) => `bot-${i}`,
+);
 
-export type LovePushLocalRound = LovePushRound & {
-  targets: LovePushTile[];
+export type LovePushLocalRound = LovePushFullRound & {
   /** Boulder moves so far - seeds the crowd's next move. */
   moves: number;
   lastBotMoveAt: number;
+  /** The push the local player last made, for the crowd to join. */
+  myPush?: { boulder: number; direction: LovePushDirection; farmId: string };
+  lastBotJoinAt: number;
 };
 
 export function createLovePushLocalRound(
@@ -993,16 +1108,21 @@ export function createLovePushLocalRound(
   roundId = 1,
 ): LovePushLocalRound {
   const { boulders, targets } = getLovePushLayout(roundId);
+  const votes = createLovePushVotes();
 
   return {
     roundId,
     boulders,
     targets,
+    onTarget: getLovePushOnTarget({ boulders, targets }),
     lit: getLovePushLitCount({ boulders, targets }),
+    votes,
+    pushes: votes.map(getLovePushLeadingPush),
     pushers: {},
     solved: false,
     moves: 0,
     lastBotMoveAt: now,
+    lastBotJoinAt: now,
   };
 }
 
@@ -1023,8 +1143,19 @@ function getLovePushOptions(
   return options;
 }
 
+/** Did the boulder move between two rounds? */
+function movedLovePushBoulder(
+  before: LovePushLocalRound,
+  after: LovePushLocalRound,
+  boulder: number,
+): boolean {
+  return !isSameTile(before.boulders[boulder], after.boulders[boulder]);
+}
+
 /**
- * The local player shoved a boulder while the room has no push state.
+ * The local player pushed a boulder while the room has no push state. The
+ * push counts straight away; the simulated crowd joins it over the next few
+ * seconds (see `tickLovePushLocalRound`) until the boulder moves.
  */
 export function pushLovePushLocalRound({
   round,
@@ -1039,24 +1170,60 @@ export function pushLovePushLocalRound({
   farmId: string;
   now?: number;
 }): LovePushLocalRound {
-  const next = pushLoveBoulder({
-    round,
-    boulder,
-    direction,
-    farmId,
-    targets: round.targets,
-    now,
-  });
+  const next = pushLoveBoulder({ round, boulder, direction, farmId, now });
+  if (next === round) return round;
 
-  return next === round ? round : { ...round, ...next, moves: round.moves + 1 };
+  const moved = movedLovePushBoulder(round, next, boulder);
+
+  return {
+    ...next,
+    moves: moved ? round.moves + 1 : round.moves,
+    myPush: moved ? undefined : { boulder, direction, farmId },
+    lastBotJoinAt: now,
+  };
+}
+
+/** The simulated crowd shoves a boulder together - enough of them to move it. */
+function crowdPushLovePushLocalRound({
+  round,
+  boulder,
+  direction,
+  now,
+}: {
+  round: LovePushLocalRound;
+  boulder: number;
+  direction: LovePushDirection;
+  now: number;
+}): LovePushLocalRound {
+  let next = round;
+
+  for (const bot of LOVE_PUSH_LOCAL_BOTS) {
+    next = pushLoveBoulder({
+      round: next,
+      boulder,
+      direction,
+      farmId: bot,
+      now,
+    });
+    if (movedLovePushBoulder(round, next, boulder)) break;
+  }
+
+  if (!movedLovePushBoulder(round, next, boulder)) return round;
+
+  return {
+    ...next,
+    moves: round.moves + 1,
+    myPush: round.myPush?.boulder === boulder ? undefined : round.myPush,
+  };
 }
 
 /**
- * Local stand-in while the MMO room has no push state: a simulated crowd
- * shoves a random boulder now and then (never one that's already on a
- * target), so the local player sees boulders move that they didn't push.
- * Once solved the celebration runs before a fresh layout appears - the same
- * shape the room publishes.
+ * Local stand-in while the MMO room has no push state. A simulated player
+ * joins the local player's push every second until the boulder moves, so a
+ * lone tester can still shift one; and the crowd shoves a random boulder of
+ * its own now and then (never one that's already on a target), so boulders
+ * are seen moving that the player didn't push. Once solved the celebration
+ * runs before a fresh layout appears - the same shape the room publishes.
  */
 export function tickLovePushLocalRound({
   round,
@@ -1071,6 +1238,33 @@ export function tickLovePushLocalRound({
       : round;
   }
 
+  // Someone joins the local player's push
+  const myPush = round.myPush;
+  if (myPush && now - round.lastBotJoinAt >= LOVE_PUSH_LOCAL_BOT_JOIN_MS) {
+    const votes = round.votes[myPush.boulder] ?? {};
+    const bot = LOVE_PUSH_LOCAL_BOTS.find(
+      (id) => votes[id] !== myPush.direction,
+    );
+
+    if (bot) {
+      const next = pushLoveBoulder({
+        round,
+        boulder: myPush.boulder,
+        direction: myPush.direction,
+        farmId: bot,
+        now,
+      });
+      const moved = movedLovePushBoulder(round, next, myPush.boulder);
+
+      return {
+        ...next,
+        moves: moved ? round.moves + 1 : round.moves,
+        myPush: moved ? undefined : myPush,
+        lastBotJoinAt: now,
+      };
+    }
+  }
+
   if (now - round.lastBotMoveAt < LOVE_PUSH_LOCAL_BOT_MOVE_MS) return round;
 
   const random = mulberry32(round.roundId * 7919 + round.moves + 1);
@@ -1083,12 +1277,7 @@ export function tickLovePushLocalRound({
   const choice = options[Math.floor(random() * options.length)];
 
   return {
-    ...pushLovePushLocalRound({
-      round,
-      ...choice,
-      farmId: LOVE_PUSH_LOCAL_BOT,
-      now,
-    }),
+    ...crowdPushLovePushLocalRound({ round, ...choice, now }),
     lastBotMoveAt: now,
   };
 }

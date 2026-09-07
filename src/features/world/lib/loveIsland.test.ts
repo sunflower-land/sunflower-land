@@ -29,17 +29,22 @@ import {
   tickLoveBoulderLocalRound,
   LOVE_PUSH_BOULDERS,
   LOVE_PUSH_GRID_SIZE,
+  LOVE_PUSH_LOCAL_BOT_JOIN_MS,
   LOVE_PUSH_LOCAL_BOT_MOVE_MS,
   LOVE_PUSH_MIN_SOLUTION_PUSHES,
   LOVE_PUSH_PRIZE,
+  LOVE_PUSH_PUSHERS_NEEDED,
   LOVE_PUSH_SOLVED_MS,
   applyLovePush,
   canClaimLovePush,
   canLovePush,
   createLovePushLocalRound,
+  createLovePushVotes,
   fromLovePushTileIndex,
   getLovePushLayout,
+  getLovePushLeadingPush,
   getLovePushLitCount,
+  getLovePushOnTarget,
   getLovePushPusherTile,
   getLovePushSolutionLength,
   isLovePushSolved,
@@ -47,7 +52,8 @@ import {
   pushLovePushLocalRound,
   tickLovePushLocalRound,
   toLovePushTileIndex,
-  type LovePushRound,
+  type LovePushDirection,
+  type LovePushFullRound,
   type LovePushTile,
 } from "./loveIsland";
 
@@ -502,14 +508,47 @@ describe("Lover's Push", () => {
   const targets = [tile(2, 2), tile(3, 2), tile(2, 3), tile(3, 3)];
   const boulders = [tile(1, 1), tile(4, 1), tile(1, 4), tile(4, 4)];
 
-  const round = (overrides: Partial<LovePushRound> = {}): LovePushRound => ({
-    roundId: 1,
-    boulders,
-    lit: 0,
-    pushers: {},
-    solved: false,
-    ...overrides,
-  });
+  const round = (
+    overrides: Partial<LovePushFullRound> = {},
+  ): LovePushFullRound => {
+    const votes = overrides.votes ?? createLovePushVotes();
+    const placed = overrides.boulders ?? boulders;
+    const onTarget = getLovePushOnTarget({ boulders: placed, targets });
+
+    return {
+      roundId: 1,
+      boulders: placed,
+      targets,
+      onTarget,
+      lit: onTarget.filter(Boolean).length,
+      votes,
+      pushes: votes.map(getLovePushLeadingPush),
+      pushers: {},
+      solved: false,
+      ...overrides,
+    };
+  };
+
+  /** `count` players push a boulder the same way, one after another. */
+  const crowdPush = (
+    start: LovePushFullRound,
+    {
+      boulder,
+      direction,
+      count = LOVE_PUSH_PUSHERS_NEEDED,
+      prefix = "f",
+    }: {
+      boulder: number;
+      direction: LovePushDirection;
+      count?: number;
+      prefix?: string;
+    },
+  ): LovePushFullRound =>
+    Array.from({ length: count }, (_, i) => `${prefix}${i + 1}`).reduce(
+      (current, farmId) =>
+        pushLoveBoulder({ round: current, boulder, direction, farmId, now }),
+      start,
+    );
 
   describe("tile indices", () => {
     it("round-trips through the row-major index", () => {
@@ -613,6 +652,21 @@ describe("Lover's Push", () => {
   });
 
   describe("lights", () => {
+    it("says which boulders are on a target, whichever target", () => {
+      expect(getLovePushOnTarget({ boulders, targets })).toEqual([
+        false,
+        false,
+        false,
+        false,
+      ]);
+      expect(
+        getLovePushOnTarget({
+          boulders: [tile(3, 3), tile(2, 2), tile(0, 0), tile(5, 5)],
+          targets,
+        }),
+      ).toEqual([true, true, false, false]);
+    });
+
     it("counts boulders on any target, whichever boulder", () => {
       expect(getLovePushLitCount({ boulders, targets })).toBe(0);
       expect(
@@ -699,43 +753,159 @@ describe("Lover's Push", () => {
     });
   });
 
+  describe("getLovePushLeadingPush", () => {
+    it("is empty while nobody is pushing", () => {
+      expect(getLovePushLeadingPush({})).toEqual({ count: 0 });
+    });
+
+    it("counts the direction with the most players behind it", () => {
+      expect(
+        getLovePushLeadingPush({
+          f1: "east",
+          f2: "north",
+          f3: "east",
+          f4: "east",
+          f5: "north",
+        }),
+      ).toEqual({ count: 3, direction: "east" });
+    });
+  });
+
   describe("pushLoveBoulder", () => {
-    it("moves the boulder one tile and credits the pusher", () => {
+    it("takes five players to move a boulder", () => {
+      expect(LOVE_PUSH_PUSHERS_NEEDED).toBe(5);
+    });
+
+    it("counts a push without moving the boulder", () => {
       const next = pushLoveBoulder({
         round: round(),
         boulder: 0,
         direction: "east",
         farmId: "f1",
-        targets,
         now,
       });
 
-      expect(next.boulders[0]).toEqual(tile(2, 1));
-      expect(next.boulders.slice(1)).toEqual(boulders.slice(1));
-      expect(next.pushers).toEqual({ f1: 1 });
+      expect(next.boulders).toEqual(boulders);
+      expect(next.votes[0]).toEqual({ f1: "east" });
+      expect(next.pushes[0]).toEqual({ count: 1, direction: "east" });
+      expect(next.pushes.slice(1)).toEqual([
+        { count: 0 },
+        { count: 0 },
+        { count: 0 },
+      ]);
+      expect(next.pushers).toEqual({});
       expect(next.solved).toBe(false);
     });
 
-    it("keeps counting a player's moves", () => {
-      let next = round();
-      next = pushLoveBoulder({
-        round: next,
+    it("counts up as more players push the same way", () => {
+      const four = crowdPush(round(), {
         boulder: 0,
         direction: "east",
-        farmId: "f1",
-        targets,
-        now,
+        count: LOVE_PUSH_PUSHERS_NEEDED - 1,
       });
-      next = pushLoveBoulder({
+
+      expect(four.boulders).toEqual(boulders);
+      expect(four.pushes[0]).toEqual({
+        count: LOVE_PUSH_PUSHERS_NEEDED - 1,
+        direction: "east",
+      });
+    });
+
+    it("moves the boulder once the fifth player pushes, crediting all of them", () => {
+      const moved = crowdPush(round(), { boulder: 0, direction: "east" });
+
+      expect(moved.boulders[0]).toEqual(tile(2, 1));
+      expect(moved.boulders.slice(1)).toEqual(boulders.slice(1));
+      expect(moved.pushers).toEqual({ f1: 1, f2: 1, f3: 1, f4: 1, f5: 1 });
+      // Every push on it is spent
+      expect(moved.votes[0]).toEqual({});
+      expect(moved.pushes[0]).toEqual({ count: 0 });
+      expect(moved.solved).toBe(false);
+    });
+
+    it("only counts each player once, and lets them change sides", () => {
+      let next = round();
+      for (let i = 0; i < 10; i++) {
+        next = pushLoveBoulder({
+          round: next,
+          boulder: 0,
+          direction: "east",
+          farmId: "f1",
+          now,
+        });
+      }
+
+      expect(next.boulders).toEqual(boulders);
+      expect(next.pushes[0]).toEqual({ count: 1, direction: "east" });
+
+      // Pushing the same way again changes nothing at all
+      expect(
+        pushLoveBoulder({
+          round: next,
+          boulder: 0,
+          direction: "east",
+          farmId: "f1",
+          now,
+        }),
+      ).toBe(next);
+
+      const switched = pushLoveBoulder({
         round: next,
-        boulder: 1,
-        direction: "west",
+        boulder: 0,
+        direction: "south",
         farmId: "f1",
-        targets,
         now,
       });
 
-      expect(next.pushers).toEqual({ f1: 2 });
+      expect(switched.votes[0]).toEqual({ f1: "south" });
+      expect(switched.pushes[0]).toEqual({ count: 1, direction: "south" });
+    });
+
+    it("needs five pushing the SAME way - a split crowd goes nowhere", () => {
+      const split = crowdPush(
+        crowdPush(round(), { boulder: 0, direction: "east", count: 3 }),
+        { boulder: 0, direction: "south", count: 3, prefix: "s" },
+      );
+
+      expect(split.boulders).toEqual(boulders);
+      // Shows the leading side
+      expect(split.pushes[0]).toEqual({ count: 3, direction: "east" });
+
+      // Two more to the south and it goes south - and the easterners'
+      // pushes are spent with it
+      const moved = crowdPush(split, {
+        boulder: 0,
+        direction: "south",
+        count: 2,
+        prefix: "t",
+      });
+
+      expect(moved.boulders[0]).toEqual(tile(1, 2));
+      expect(moved.pushers).toEqual({ s1: 1, s2: 1, s3: 1, t1: 1, t2: 1 });
+      expect(moved.votes[0]).toEqual({});
+    });
+
+    it("keeps pushes on the other boulders when one moves", () => {
+      const pushing = pushLoveBoulder({
+        round: round(),
+        boulder: 1,
+        direction: "west",
+        farmId: "f1",
+        now,
+      });
+      const moved = crowdPush(pushing, { boulder: 0, direction: "east" });
+
+      expect(moved.votes[1]).toEqual({ f1: "west" });
+      expect(moved.pushes[1]).toEqual({ count: 1, direction: "west" });
+    });
+
+    it("keeps counting a player's moves", () => {
+      const twice = crowdPush(
+        crowdPush(round(), { boulder: 0, direction: "east" }),
+        { boulder: 1, direction: "west" },
+      );
+
+      expect(twice.pushers.f1).toBe(2);
     });
 
     it("ignores an impossible push", () => {
@@ -748,7 +918,6 @@ describe("Lover's Push", () => {
           boulder: 0,
           direction: "west",
           farmId: "f1",
-          targets,
           now,
         }),
       ).toBe(stuck);
@@ -758,27 +927,21 @@ describe("Lover's Push", () => {
           boulder: 0,
           direction: "east",
           farmId: "f1",
-          targets,
           now,
         }),
       ).toBe(stuck);
     });
 
-    it("lights the lamps and solves when the last boulder lands", () => {
+    it("turns a boulder green when it lands on a target, and solves on the last one", () => {
       const almost = round({
         boulders: [tile(3, 3), tile(2, 2), tile(3, 2), tile(2, 4)],
-        lit: 3,
       });
+      expect(almost.onTarget).toEqual([true, true, true, false]);
+      expect(almost.lit).toBe(3);
 
-      const next = pushLoveBoulder({
-        round: almost,
-        boulder: 3,
-        direction: "north",
-        farmId: "f1",
-        targets,
-        now,
-      });
+      const next = crowdPush(almost, { boulder: 3, direction: "north" });
 
+      expect(next.onTarget).toEqual([true, true, true, true]);
       expect(next.lit).toBe(4);
       expect(next.solved).toBe(true);
       expect(next.solvedAt).toBe(now);
@@ -790,29 +953,23 @@ describe("Lover's Push", () => {
           round: next,
           boulder: 0,
           direction: "west",
-          farmId: "f2",
-          targets,
+          farmId: "f9",
           now,
         }),
       ).toBe(next);
     });
 
-    it("turns a light off when a boulder is pushed off a target", () => {
+    it("turns a boulder grey again when it is pushed off a target", () => {
       const lit = round({
         boulders: [tile(2, 2), tile(0, 5), tile(5, 0), tile(4, 4)],
-        lit: 1,
       });
+      expect(lit.onTarget[0]).toBe(true);
+      expect(lit.lit).toBe(1);
 
-      const next = pushLoveBoulder({
-        round: lit,
-        boulder: 0,
-        direction: "west",
-        farmId: "f1",
-        targets,
-        now,
-      });
+      const next = crowdPush(lit, { boulder: 0, direction: "west" });
 
       expect(next.boulders[0]).toEqual(tile(1, 2));
+      expect(next.onTarget[0]).toBe(false);
       expect(next.lit).toBe(0);
     });
   });
@@ -884,27 +1041,36 @@ describe("Lover's Push", () => {
   });
 
   describe("local mode", () => {
-    it("starts unsolved on the seeded layout", () => {
+    const firstDirection = (local: LovePushFullRound, boulder = 0) =>
+      (["east", "south", "west", "north"] as const).find((candidate) =>
+        canLovePush({
+          boulders: local.boulders,
+          boulder,
+          direction: candidate,
+        }),
+      )!;
+
+    it("starts unsolved on the seeded layout, nobody pushing", () => {
       const local = createLovePushLocalRound(now, 5);
 
       expect(local.boulders).toEqual(getLovePushLayout(5).boulders);
       expect(local.targets).toEqual(getLovePushLayout(5).targets);
+      expect(local.onTarget).toEqual([false, false, false, false]);
       expect(local.lit).toBe(0);
+      expect(local.pushes).toEqual([
+        { count: 0 },
+        { count: 0 },
+        { count: 0 },
+        { count: 0 },
+      ]);
       expect(local.solved).toBe(false);
     });
 
-    it("moves a boulder the local player shoves straight away", () => {
+    it("counts the local player's push straight away, then the crowd joins until it moves", () => {
       const local = createLovePushLocalRound(now, 5);
-      const direction = (["east", "south", "west", "north"] as const).find(
-        (candidate) =>
-          canLovePush({
-            boulders: local.boulders,
-            boulder: 0,
-            direction: candidate,
-          }),
-      )!;
+      const direction = firstDirection(local);
 
-      const next = pushLovePushLocalRound({
+      let next = pushLovePushLocalRound({
         round: local,
         boulder: 0,
         direction,
@@ -912,11 +1078,40 @@ describe("Lover's Push", () => {
         now,
       });
 
+      expect(next.boulders).toEqual(local.boulders);
+      expect(next.pushes[0]).toEqual({ count: 1, direction });
+      expect(next.myPush).toEqual({ boulder: 0, direction, farmId: "farm-1" });
+
+      // Nobody joins straight away
+      expect(
+        tickLovePushLocalRound({
+          round: next,
+          now: now + LOVE_PUSH_LOCAL_BOT_JOIN_MS - 1,
+        }),
+      ).toBe(next);
+
+      // One simulated player a second, until there are enough
+      for (let joined = 1; joined < LOVE_PUSH_PUSHERS_NEEDED - 1; joined++) {
+        next = tickLovePushLocalRound({
+          round: next,
+          now: now + joined * LOVE_PUSH_LOCAL_BOT_JOIN_MS,
+        });
+        expect(next.boulders).toEqual(local.boulders);
+        expect(next.pushes[0]).toEqual({ count: joined + 1, direction });
+      }
+
+      next = tickLovePushLocalRound({
+        round: next,
+        now: now + (LOVE_PUSH_PUSHERS_NEEDED - 1) * LOVE_PUSH_LOCAL_BOT_JOIN_MS,
+      });
+
       expect(next.boulders).toEqual(
         applyLovePush({ boulders: local.boulders, boulder: 0, direction }),
       );
       expect(next.pushers["farm-1"]).toBe(1);
+      expect(next.pushes[0]).toEqual({ count: 0 });
       expect(next.moves).toBe(1);
+      expect(next.myPush).toBeUndefined();
       expect(next.targets).toEqual(local.targets);
     });
 
@@ -936,6 +1131,13 @@ describe("Lover's Push", () => {
       expect(later.boulders).not.toEqual(local.boulders);
       expect(later.moves).toBe(1);
       expect(later.pushers["farm-1"]).toBeUndefined();
+      // The whole crowd pushed it, and their pushes are spent
+      expect(later.pushes).toEqual([
+        { count: 0 },
+        { count: 0 },
+        { count: 0 },
+        { count: 0 },
+      ]);
 
       // And waits again before the next one
       expect(
