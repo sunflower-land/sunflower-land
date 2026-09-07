@@ -313,6 +313,16 @@ const hasAirdrop = (state: MachineState) => state.matches("airdrop");
 const isOnChainRaffleAcknowledgment = (state: MachineState) =>
   state.matches("onChainRaffleAcknowledgment");
 const isInvestigating = (state: MachineState) => state.matches("investigating");
+// A soft-banned player unlinking Discord / Telegram from the investigation
+// screen. The unlink states normally hide this modal (Settings shows the
+// result inline), but here the soft-ban panel owns the unlink modal and has
+// to stay mounted through the request so the result shows in it. Only the
+// soft-ban screen can start an unlink while the ban is under investigation.
+const isSoftBanUnlinking = (state: MachineState) =>
+  (state.matches("unlinkingSocial") ||
+    state.matches("unlinkingSocialSuccess") ||
+    state.matches("unlinkingSocialFailed")) &&
+  state.context.state.ban.status === "investigating";
 const hasFulfilledOffers = (state: MachineState) => state.matches("offers");
 const hasVipNotification = (state: MachineState) => state.matches("vip");
 const isPlaying = (state: MachineState) => state.matches("playing");
@@ -536,6 +546,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const jinAirdrop = useSelector(gameService, isJinAirdrop);
   const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
   const investigating = useSelector(gameService, isInvestigating);
+  const softBanUnlinking = useSelector(gameService, isSoftBanUnlinking);
   const linkWallet = useSelector(gameService, isLinkWallet);
   const tradesCleared = useSelector(gameService, isTradesCleared);
   const isVisiting = useSelector(gameService, _isVisiting);
@@ -698,17 +709,23 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
       <ToastProvider>
         <ToastPanel />
 
-        <Modal show={SHOW_MODAL[stateValue as StateValues]} onHide={onHide}>
+        <Modal
+          show={SHOW_MODAL[stateValue as StateValues] || softBanUnlinking}
+          onHide={onHide}
+        >
           <Panel
             bumpkinParts={error ? NPC_WEARABLES["worried pete"] : undefined}
           >
-            {/* Effects */}
-            {effectPending && <Loading text={effectText} />}
+            {/* Effects - the soft-ban unlink shows its result in its own modal */}
+            {effectPending && !softBanUnlinking && (
+              <Loading text={effectText} />
+            )}
             {effectSuccess &&
+              !softBanUnlinking &&
               (EFFECT_SUCCESS_COMPONENTS[stateValue as StateValues] ?? (
                 <EffectSuccess state={stateValue} />
               ))}
-            {effectFailed && (
+            {effectFailed && !softBanUnlinking && (
               <ErrorMessage errorCode={errorCode as ErrorCode} />
             )}
 
@@ -746,7 +763,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             {hasCommunityCoin && <LoveCharm />}
             {jinAirdrop && <RoninJinClaim />}
             {showReferralRewards && <ClaimReferralRewards />}
-            {investigating && <SoftBan />}
+            {(investigating || softBanUnlinking) && <SoftBan />}
             {linkWallet && <MigrateToLinkedWallet />}
           </Panel>
         </Modal>

@@ -11,6 +11,7 @@ import { FaceRecognition } from "./FaceRecognition";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
 import { useNow } from "lib/utils/hooks/useNow";
+import { SoftBanSocialUnlink } from "./SoftBanSocialUnlink";
 
 export const SoftBan: React.FC = () => {
   const { gameService, gameState } = useGame();
@@ -18,6 +19,9 @@ export const SoftBan: React.FC = () => {
   const [showDiscord, setShowDiscord] = useState(false);
   const [showTelegram, setShowTelegram] = useState(false);
   const [showFaceRecognition, setShowFaceRecognition] = useState(false);
+  // Verification may need a Discord / Telegram account that is still
+  // linked elsewhere, and Settings is unreachable from here.
+  const [showUnlink, setShowUnlink] = useState(false);
 
   const [showFarm, setShowFarm] = useState(false);
 
@@ -94,6 +98,11 @@ export const SoftBan: React.FC = () => {
         >
           {t("welcome.needHelp")}
         </p>
+        <UnlinkSocialLink onClick={() => setShowUnlink(true)} />
+        <SoftBanSocialUnlink
+          show={showUnlink}
+          onClose={() => setShowUnlink(false)}
+        />
       </div>
     );
   }
@@ -123,7 +132,25 @@ export const SoftBan: React.FC = () => {
       <Button onClick={() => setShowFaceRecognition(true)}>
         {t("softBan.faceProtection")}
       </Button>
+      <UnlinkSocialLink onClick={() => setShowUnlink(true)} />
+      <SoftBanSocialUnlink
+        show={showUnlink}
+        onClose={() => setShowUnlink(false)}
+      />
     </div>
+  );
+};
+
+const UnlinkSocialLink: React.FC<{ onClick: () => void }> = ({ onClick }) => {
+  const { t } = useAppTranslation();
+
+  return (
+    <p
+      className="underline cursor-pointer text-xxs opacity-75 mt-2 text-right"
+      onClick={onClick}
+    >
+      {t("softBan.unlinkSocial")}
+    </p>
   );
 };
 

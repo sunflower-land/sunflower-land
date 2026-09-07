@@ -37,21 +37,35 @@ const _unlinkResult = (state: MachineState) =>
 const _errorCode = (state: MachineState) => state.context.errorCode;
 const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
 
-interface GateProps {
-  provider: UnlinkableSocialProvider;
+/** True while an unlink request is pending or awaiting acknowledgement. */
+export const useSocialUnlinkInFlight = (): boolean => {
+  const { gameService } = useContext(GameContext);
+
+  const unlinking = useSelector(gameService, _unlinking);
+  const unlinkingSuccess = useSelector(gameService, _unlinkingSuccess);
+  const unlinkingFailed = useSelector(gameService, _unlinkingFailed);
+
+  return unlinking || unlinkingSuccess || unlinkingFailed;
+};
+
+interface StatusProps {
+  /**
+   * Provider the player asked to unlink. Only used for the "Unlinking X"
+   * copy while the request is pending - the response names the provider
+   * for the success view.
+   */
+  provider?: UnlinkableSocialProvider;
   /** Called after the player acknowledges a successful unlink. */
   onDone?: () => void;
 }
 
 /**
- * Wraps a provider's settings panel. While an unlink is in flight it
- * replaces the panel with the loading / success / error view; otherwise it
- * renders the panel and, if the provider is linked, an "Unlink" card below.
+ * Loading / success / error view for the unlink in flight. Renders nothing
+ * when no unlink is in flight - pair with `useSocialUnlinkInFlight`.
  */
-export const SocialUnlinkGate: React.FC<PropsWithChildren<GateProps>> = ({
+export const SocialUnlinkStatus: React.FC<StatusProps> = ({
   provider,
   onDone,
-  children,
 }) => {
   const { gameService } = useContext(GameContext);
   const { t } = useAppTranslation();
@@ -61,12 +75,10 @@ export const SocialUnlinkGate: React.FC<PropsWithChildren<GateProps>> = ({
   const unlinkingFailed = useSelector(gameService, _unlinkingFailed);
   const unlinkResult = useSelector(gameService, _unlinkResult);
   const errorCode = useSelector(gameService, _errorCode);
-  const linked = useSelector(
-    gameService,
-    (state: MachineState) => !!state.context.state[provider],
-  );
 
-  const providerLabel = SOCIAL_PROVIDER_LABELS[provider];
+  const providerLabel = provider
+    ? SOCIAL_PROVIDER_LABELS[provider]
+    : t("socialLink.genericProvider");
 
   if (unlinking) {
     return (
@@ -120,6 +132,37 @@ export const SocialUnlinkGate: React.FC<PropsWithChildren<GateProps>> = ({
     return <ErrorMessage errorCode={errorCode} />;
   }
 
+  return null;
+};
+
+interface GateProps {
+  provider: UnlinkableSocialProvider;
+  /** Called after the player acknowledges a successful unlink. */
+  onDone?: () => void;
+}
+
+/**
+ * Wraps a provider's settings panel. While an unlink is in flight it
+ * replaces the panel with the loading / success / error view; otherwise it
+ * renders the panel and, if the provider is linked, an "Unlink" card below.
+ */
+export const SocialUnlinkGate: React.FC<PropsWithChildren<GateProps>> = ({
+  provider,
+  onDone,
+  children,
+}) => {
+  const { gameService } = useContext(GameContext);
+
+  const inFlight = useSocialUnlinkInFlight();
+  const linked = useSelector(
+    gameService,
+    (state: MachineState) => !!state.context.state[provider],
+  );
+
+  if (inFlight) {
+    return <SocialUnlinkStatus provider={provider} onDone={onDone} />;
+  }
+
   return (
     <>
       {children}
@@ -128,9 +171,13 @@ export const SocialUnlinkGate: React.FC<PropsWithChildren<GateProps>> = ({
   );
 };
 
-const SocialUnlinkCard: React.FC<{ provider: UnlinkableSocialProvider }> = ({
-  provider,
-}) => {
+/**
+ * "Unlink {provider}" card with an inline confirm step that spells out the
+ * cooldown before the request is sent.
+ */
+export const SocialUnlinkCard: React.FC<{
+  provider: UnlinkableSocialProvider;
+}> = ({ provider }) => {
   const { gameService } = useContext(GameContext);
   const { authService } = useContext(AuthProvider.Context);
   const { t } = useAppTranslation();

@@ -2638,6 +2638,15 @@ export function startGame(authContext: AuthContext) {
             "telegram.linked": {
               target: STATE_MACHINE_EFFECTS["telegram.linked"],
             },
+            // Verification needs a Discord / Telegram account, which may
+            // still be linked elsewhere. Settings is unreachable from here,
+            // so the soft-ban screen offers the unlink directly.
+            "discord.unlinked": {
+              target: STATE_MACHINE_EFFECTS["discord.unlinked"],
+            },
+            "telegram.unlinked": {
+              target: STATE_MACHINE_EFFECTS["telegram.unlinked"],
+            },
           },
         },
 
