@@ -39,7 +39,6 @@ import {
   getLoveDilemmaPlatformPrizes,
   getLoveDilemmaRound,
   getLoveDilemmaTiers,
-  getLovePushMaxCount,
   getLovePushSunkCount,
   getLovePushTileCentre,
   hasClaimedLoveBoulderRound,
@@ -145,10 +144,12 @@ const LABEL_CHAR_WIDTH = 4;
 /**
  * Lover's Push plays out across the island's own 16px tiles: boulders start
  * out toward the edges and roll into four squares in the centre of the
- * clearing. Boulder art (stone_rock) is 18x16.
+ * clearing. The "boulders" are love rocks (`world/love_rock.png`, 12x11).
  */
-const PUSH_COLLIDER_WIDTH = 14;
-const PUSH_COLLIDER_HEIGHT = 10;
+const PUSH_COLLIDER_WIDTH = 12;
+const PUSH_COLLIDER_HEIGHT = 9;
+/** What a love rock bursts into. */
+const PUSH_BURST_COLOURS = [0xe43b44, 0xff8e8e, 0xffffff];
 /** Above the ground tiles (depth 0), below anyone walking on it. */
 const PUSH_GROUND_DEPTH = 1;
 /** The four squares in the centre, drawn on the ground. */
@@ -179,10 +180,7 @@ const PUSH_ARROW_TEXTURE: Record<LovePushDirection, string> = {
   south: "push_arrow_south",
   west: "push_arrow_west",
 };
-/**
- * A boulder warms from grey to this orange as the crowd behind it grows,
- * and a small bar beneath the arrow fills the same way.
- */
+/** The bars beside the arrows fill with this as the crowd behind a rock grows. */
 const PUSH_PROGRESS_COLOUR = 0xf09a3c;
 const PUSH_PROGRESS_WIDTH = 10;
 const PUSH_PROGRESS_HEIGHT = 3;
@@ -217,16 +215,15 @@ const LOSE_COLOUR = 0xe57373;
  * and have to be rolled into four squares in the middle of the clearing -
  * one boulder to a square, the first one in takes it. One
  * player can't budge a boulder - walking into one adds your push to it: an
- * arrow appears at its edge, and the rock warms to orange (a bar beside the
- * arrow fills) as the crowd grows; once enough players (five on mainnet,
+ * arrow appears at its edge and a bar beside it fills as the crowd grows; once enough players (five on mainnet,
  * two off it) are pushing it the same way it rolls a tile and everyone sees
  * it go. Pushing another side moves your push. A boulder that rolls into
  * the water, a rock, a tree or another boulder bursts, and a fresh one
  * appears somewhere new on the same side of the island (a ring marks the
  * spot), so the island has to plan the route. Hub and spoke: there is
  * always one boulder at the top, one on the right, one at the bottom and
- * one on the left. A boulder rolled onto a free square parks there, turns
- * green and is done - and is something the others can crash into; a tally
+ * one on the left. A boulder rolled onto a free square parks there (the
+ * square turns green) and is done - and is something the others can crash into; a tally
  * above the squares counts them. When all four are in
  * everyone who helped roll one is handed a Bronze Love Box automatically
  * (once a day) - the prize the petal puzzle used to pay for this same
@@ -377,7 +374,7 @@ export class LoveIslandScene extends BaseScene {
     this.load.image("platform", "world/platform.webp");
     this.load.image("love_charm_small", loveCharmSmall);
     this.load.image("boulder", SUNNYSIDE.resource.boulder);
-    this.load.image("push_boulder", SUNNYSIDE.resource.stone_rock);
+    this.load.image("push_boulder", "world/love_rock.png");
     this.load.image(PUSH_ARROW_TEXTURE.north, SUNNYSIDE.icons.arrow_up);
     this.load.image(PUSH_ARROW_TEXTURE.east, SUNNYSIDE.icons.arrow_right);
     this.load.image(PUSH_ARROW_TEXTURE.south, SUNNYSIDE.icons.arrow_down);
@@ -1262,7 +1259,7 @@ export class LoveIslandScene extends BaseScene {
       const colour =
         i % 3 === 0
           ? PUSH_EXPLOSION_COLOUR
-          : RUBBLE_COLOURS[i % RUBBLE_COLOURS.length];
+          : PUSH_BURST_COLOURS[i % PUSH_BURST_COLOURS.length];
       const chip = this.add
         .rectangle(x, y, i % 2 === 0 ? 3 : 2, i % 2 === 0 ? 3 : 2, colour)
         .setDepth(depth);
@@ -1280,14 +1277,14 @@ export class LoveIslandScene extends BaseScene {
     }
   }
 
-  /** The boulder just parked in a square: it settles with a bounce and turns green. */
+  /** The rock just parked in a square: it settles with a bounce; the square turns green. */
   private parkBoulder(boulder: number) {
     const sprite = this.pushBoulders[boulder];
     if (!sprite) return;
 
     this.sound.play("reveal", { volume: 0.06 });
     this.time.delayedCall(LOVE_PUSH_MOVE_MS, () => {
-      sprite.setTint(WIN_COLOUR).setScale(1.3);
+      sprite.setScale(1.3);
       this.tweens.add({
         targets: sprite,
         scale: 1,
@@ -1342,7 +1339,7 @@ export class LoveIslandScene extends BaseScene {
     const centre = getLovePushTileCentre(tile);
     marker.clear();
     marker.lineStyle(1, PUSH_START_COLOUR, 0.6);
-    marker.strokeEllipse(centre.x, centre.y + 2, 14, 8);
+    marker.strokeEllipse(centre.x, centre.y + 2, 12, 7);
   }
 
   private drawPushStartMarkers(starts: LovePushTile[]) {
@@ -1483,30 +1480,12 @@ export class LoveIslandScene extends BaseScene {
     }
   }
 
-  /** Colour a boulder: green once parked, else warming from grey to orange as the crowd pushing it grows. */
+  /**
+   * A love rock keeps its colour: the arrows and bars show the crowd, and a
+   * green square shows it's parked. Only a crash tints it, for a moment.
+   */
   private tintPushBoulder(boulder: number) {
-    const sprite = this.pushBoulders[boulder];
-    if (!sprite) return;
-
-    if (this.renderedSunk[boulder]) {
-      sprite.setTint(WIN_COLOUR);
-      return;
-    }
-
-    const count = getLovePushMaxCount(this.renderedPushes[boulder] ?? {});
-    if (count <= 0) {
-      sprite.clearTint();
-      return;
-    }
-
-    const progress = Math.min(1, count / LOVE_PUSH_PUSHERS_NEEDED);
-    const { r, g, b } = Phaser.Display.Color.Interpolate.ColorWithColor(
-      Phaser.Display.Color.ValueToColor(0xffffff),
-      Phaser.Display.Color.ValueToColor(PUSH_PROGRESS_COLOUR),
-      100,
-      Math.round(progress * 100),
-    );
-    sprite.setTint(Phaser.Display.Color.GetColor(r, g, b));
+    this.pushBoulders[boulder]?.clearTint();
   }
 
   /** Take every arrow and bar off the island. */

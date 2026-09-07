@@ -380,8 +380,8 @@ centre of the clearing**, one boulder to a square. Boulders live on the
 island's own **16px tile grid** (the map is 80x60 tiles); tile `(x, y)` has
 its centre at `(16x + 8, 16y + 8)`. The squares are the 2x2 block
 **(37, 34), (38, 34), (37, 35), (38, 35)**; "the centre" for sides and start
-distances is tile **(38, 35)** - world px **(616, 568)**. Boulder art is
-`resources/stone_rock.png` (18x16); boulders are solid.
+distances is tile **(38, 35)** - world px **(616, 568)**. The "boulders" are love
+rocks - `public/world/love_rock.png` (12x11, a pixel heart); they are solid.
 
 - **One player can't budge a boulder.** A player **walks into a boulder** to
   put their **push** on it in the direction they're heading. A push is a
