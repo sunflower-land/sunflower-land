@@ -25,9 +25,11 @@ import {
   LOVE_BOULDER_LOCAL_BOT_HITS_PER_SEC,
   LOVE_BOULDER_PRIZE,
   LOVE_BOULDER_RESPAWN_MS,
+  LOVE_BOULDER_COINS_PRIZE,
   canClaimLoveBoulder,
   createLoveBoulderLocalRound,
-  getLoveBoulderPayout,
+  fromLoveBoulderRoomPrize,
+  getLoveBoulderPrizeKey,
   hasClaimedLoveBoulderRound,
   hasClaimedLoveBoulderToday,
   isLoveBoulderRewardOpen,
@@ -357,7 +359,8 @@ describe("Love Boulder", () => {
       ...vipFarm.floatingIsland,
       prizeClaims: claims.map((claim) => ({
         ...claim,
-        amount: LOVE_BOULDER_PRIZE,
+        // The prize is a box or coins, recorded as worth 0 Love Charms
+        amount: 0,
         game: "love_boulder" as const,
       })),
     },
@@ -495,59 +498,80 @@ describe("Love Boulder", () => {
       ).toBe(false);
     });
 
-    it("caps the payout to what is left today", () => {
-      expect(getLoveBoulderPayout({ state: vipFarm, now })).toBe(
-        LOVE_BOULDER_PRIZE,
-      );
-
-      const standard: GameState = {
+    it("is not gated by the Love Charm cap - a capped player can still claim", () => {
+      const capped: GameState = {
         ...INITIAL_FARM,
         floatingIsland: {
           ...INITIAL_FARM.floatingIsland,
           prizeClaims: [
-            { claimedAt: now - 1000, amount: 3, game: "love_dilemma" },
-          ],
-        },
-      };
-
-      expect(getLoveBoulderPayout({ state: standard, now })).toBe(2);
-    });
-
-    it("pays the room's roll for the day when it has one", () => {
-      expect(getLoveBoulderPayout({ state: vipFarm, prize: 30, now })).toBe(30);
-      expect(getLoveBoulderPayout({ state: vipFarm, prize: 5, now })).toBe(5);
-    });
-
-    it("trims a windfall day to what is left today", () => {
-      const nearlyCapped: GameState = {
-        ...vipFarm,
-        floatingIsland: {
-          ...vipFarm.floatingIsland,
-          prizeClaims: [
-            { claimedAt: now - 1000, amount: 90, game: "love_dilemma" },
+            { claimedAt: now - 1000, amount: 5, game: "love_dilemma" },
           ],
         },
       };
 
       expect(
-        getLoveBoulderPayout({ state: nearlyCapped, prize: 30, now }),
-      ).toBe(10);
-      // A non-VIP never sees more than their 5 a day, whatever the roll
+        canClaimLoveBoulder({ state: capped, myHits: 1, roundId: 3, now }),
+      ).toBe(true);
+    });
+  });
+
+  describe("room prize", () => {
+    it("reads a box from the room's item name and amount", () => {
       expect(
-        getLoveBoulderPayout({ state: INITIAL_FARM, prize: 30, now }),
-      ).toBe(5);
+        fromLoveBoulderRoomPrize({ prize: "Bronze Food Box", amount: 1 }),
+      ).toEqual({ type: "item", item: "Bronze Food Box", amount: 1 });
+    });
+
+    it("reads coins from the room's Coins name", () => {
+      expect(
+        fromLoveBoulderRoomPrize({
+          prize: LOVE_BOULDER_COINS_PRIZE,
+          amount: 250,
+        }),
+      ).toEqual({ type: "coins", amount: 250 });
+      expect(
+        fromLoveBoulderRoomPrize({
+          prize: LOVE_BOULDER_COINS_PRIZE,
+          amount: 500,
+        }),
+      ).toEqual({ type: "coins", amount: 500 });
+    });
+
+    it("falls back to the stand-in prize for a room that predates the roll", () => {
+      expect(fromLoveBoulderRoomPrize({ prize: "", amount: 0 })).toEqual(
+        LOVE_BOULDER_PRIZE,
+      );
+      expect(fromLoveBoulderRoomPrize({})).toEqual(LOVE_BOULDER_PRIZE);
+    });
+
+    it("keys each prize distinctly so the label is only rebuilt on change", () => {
+      const keys = [
+        { type: "item" as const, item: "Bronze Love Box" as const, amount: 1 },
+        { type: "item" as const, item: "Bronze Food Box" as const, amount: 1 },
+        { type: "coins" as const, amount: 250 },
+        { type: "coins" as const, amount: 500 },
+      ].map(getLoveBoulderPrizeKey);
+
+      expect(new Set(keys).size).toBe(4);
+      expect(getLoveBoulderPrizeKey({ type: "coins", amount: 250 })).toBe(
+        keys[2],
+      );
     });
 
     it("carries the prize through the local stand-in", () => {
       const round = createLoveBoulderLocalRound(now);
-      expect(round.prize).toBe(LOVE_BOULDER_PRIZE);
+      expect(round.prize).toEqual(LOVE_BOULDER_PRIZE);
 
       const broken = tickLoveBoulderLocalRound({
-        round: { ...round, hitsRemaining: 1, prize: 20 },
+        round: {
+          ...round,
+          hitsRemaining: 1,
+          prize: { type: "coins", amount: 500 },
+        },
         now: now + 10_000,
       });
       expect(broken.broken).toBe(true);
-      expect(broken.prize).toBe(20);
+      expect(broken.prize).toEqual({ type: "coins", amount: 500 });
     });
   });
 });

@@ -6299,6 +6299,8 @@
   "loveBoulder.didNotHelp": "Hit the boulder to earn the prize!",
   "loveBoulder.alreadyClaimed": "Already claimed today. Come back tomorrow!",
   "loveBoulder.dailyLimit": "Daily Love Charm limit reached",
+  "loveBoulder.prizeItem": "You won a {{item}}!",
+  "loveBoulder.prizeCoins": "You won {{amount}} coins!",
   "lovePush.waitForNextPuzzle": "Solved! Wait for the next puzzle",
   "lovePush.didNotHelp": "Help push a boulder to earn the prize!",
   "lovePush.alreadyClaimed": "Already claimed today. Come back tomorrow!",

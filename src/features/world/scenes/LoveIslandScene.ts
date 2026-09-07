@@ -9,6 +9,7 @@ import { translate, translateForBubble } from "lib/i18n/translate";
 import { interactableModalManager } from "../ui/InteractableModals";
 import type { TemperateSeasonName } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { ITEM_DETAILS } from "features/game/types/images";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { hasReadLoveIslandNotice } from "../ui/loveRewardShop/LoveIslandNoticeboard";
 import type { BumpkinContainer } from "../containers/BumpkinContainer";
@@ -23,7 +24,10 @@ import {
 } from "../lib/loveIslandFixtures";
 import {
   LOVE_BOULDER_HIT_COOLDOWN_MS,
+  LOVE_BOULDER_COINS_PRIZE,
   LOVE_BOULDER_PRIZE,
+  LOVE_BOULDER_PRIZE_ITEMS,
+  type LoveBoulderPrize,
   LOVE_DILEMMA_CHOOSE_MS,
   LOVE_DILEMMA_PLATFORMS,
   LOVE_ISLAND_CENTRE_PUZZLE,
@@ -38,7 +42,8 @@ import {
   createLoveBoulderLocalRound,
   createLovePushLocalRound,
   fromLovePushTileIndex,
-  getLoveBoulderPayout,
+  fromLoveBoulderRoomPrize,
+  getLoveBoulderPrizeKey,
   getLoveDilemmaAttemptsLeft,
   getLoveDilemmaBotChoices,
   getLoveDilemmaPayout,
@@ -132,7 +137,10 @@ const HEALTH_BAR_FLASH = 0xff8e8e;
 const HEALTH_BAR_FLASH_MS = 80;
 /** Rubble colours pulled from the boulder art. */
 const RUBBLE_COLOURS = [0x9a9aa8, 0x6b6b7a, 0xc8c8d4];
-/** Clickable area of the prize label (icon + "+5"), generous for thumbs. */
+/** Texture key for a boulder prize's icon - an item name or "Coins". */
+const boulderPrizeTexture = (prize: string) => `boulder_prize_${prize}`;
+
+/** Clickable area of the prize label (icon + "+1"), generous for thumbs. */
 const REWARD_HIT_WIDTH = 36;
 const REWARD_HIT_HEIGHT = 16;
 /** The hit counter's label sits just above the boulder. */
@@ -302,8 +310,8 @@ export class LoveIslandScene extends BaseScene {
   private boulderHealthFlashUntil = 0;
   /** Love Charm prize shown on the rubble while it can be claimed. */
   private boulderReward?: Phaser.GameObjects.Container;
-  /** Amount the prize label was built with, so it's only rebuilt on change. */
-  private boulderRewardPrize?: number;
+  /** Prize the label was built for (see `getLoveBoulderPrizeKey`), so it's only rebuilt on change. */
+  private boulderRewardPrize?: string;
   /** Round whose prize the local player has clicked. */
   private claimedBoulderRoundId?: number;
   /** Simulated boulder while the room has no boulder state. */
@@ -386,6 +394,14 @@ export class LoveIslandScene extends BaseScene {
     this.load.image("platform", "world/platform.webp");
     this.load.image("love_charm_small", loveCharmSmall);
     this.load.image("boulder", SUNNYSIDE.resource.boulder);
+    // Icons for whatever the boulder can pay today
+    this.load.image(
+      boulderPrizeTexture(LOVE_BOULDER_COINS_PRIZE),
+      SUNNYSIDE.ui.coins,
+    );
+    LOVE_BOULDER_PRIZE_ITEMS.forEach((item) => {
+      this.load.image(boulderPrizeTexture(item), ITEM_DETAILS[item].image);
+    });
     this.load.image("push_boulder", "world/love_rock.png");
     this.load.image(PUSH_ARROW_TEXTURE.north, SUNNYSIDE.icons.arrow_up);
     this.load.image(PUSH_ARROW_TEXTURE.east, SUNNYSIDE.icons.arrow_right);
@@ -1780,12 +1796,14 @@ export class LoveIslandScene extends BaseScene {
   }
 
   /**
-   * The prize label on the rubble, rebuilt whenever the amount changes (a
-   * label's width is fixed at creation, and "+30" is wider than "+5"). Hidden
-   * until the boulder cracks; `updateLoveBoulder` shows it.
+   * The prize label on the rubble - the day's box or coin purse with its
+   * icon - rebuilt whenever the prize changes (a label's width and icon are
+   * fixed at creation, and "+500" is wider than "+1"). Hidden until the
+   * boulder cracks; `updateLoveBoulder` shows it.
    */
-  private refreshBoulderReward(prize: number) {
-    if (this.boulderRewardPrize === prize && this.boulderReward) return;
+  private refreshBoulderReward(prize: LoveBoulderPrize) {
+    const key = getLoveBoulderPrizeKey(prize);
+    if (this.boulderRewardPrize === key && this.boulderReward) return;
 
     const { x, y } = BOULDER_SPOT;
     const previous = this.boulderReward;
@@ -1797,7 +1815,10 @@ export class LoveIslandScene extends BaseScene {
       previous.destroy();
     }
 
-    const reward = new Label(this, `+${prize}`, "grey", "love_charm_small");
+    const icon = boulderPrizeTexture(
+      prize.type === "coins" ? LOVE_BOULDER_COINS_PRIZE : prize.item,
+    );
+    const reward = new Label(this, `+${prize.amount}`, "grey", icon);
     reward
       .setPosition(x, rewardY)
       .setDepth(Number.MAX_SAFE_INTEGER)
@@ -1808,9 +1829,9 @@ export class LoveIslandScene extends BaseScene {
     this.add.existing(reward);
 
     this.boulderReward = reward;
-    this.boulderRewardPrize = prize;
+    this.boulderRewardPrize = key;
 
-    // Keep bobbing if the prize was already on show when the amount changed
+    // Keep bobbing if the prize was already on show when it changed
     if (visible) this.bobBoulderReward();
   }
 
@@ -1855,8 +1876,11 @@ export class LoveIslandScene extends BaseScene {
         ...(broken
           ? { brokenAt: remote.brokenAt, respawnAt: remote.respawnAt }
           : {}),
-        // A room that predates the daily roll publishes 0 - the floor then
-        prize: remote.prize || LOVE_BOULDER_PRIZE,
+        // A room that predates the daily roll publishes nothing - the stand-in then
+        prize: fromLoveBoulderRoomPrize({
+          prize: remote.prize,
+          amount: remote.prizeAmount,
+        }),
       };
     }
 
@@ -2009,11 +2033,8 @@ export class LoveIslandScene extends BaseScene {
         now,
       });
 
-    // Shown amount is what this player will actually get - the day's roll,
-    // trimmed to what they can still earn today
-    this.refreshBoulderReward(
-      getLoveBoulderPayout({ state: this.freshState, prize: round.prize, now }),
-    );
+    // The day's roll, as the room publishes it
+    this.refreshBoulderReward(round.prize);
 
     if (this.boulderReward && this.boulderReward.visible !== rewardOpen) {
       this.boulderReward.setVisible(rewardOpen);
@@ -2138,25 +2159,25 @@ export class LoveIslandScene extends BaseScene {
       return;
     }
 
-    // The day's roll, capped to what's still claimable today. The server pays
-    // its own roll regardless, so this is a preview rather than the authority
-    const amount = getLoveBoulderPayout({ state, prize: round.prize, now });
-
-    // The roundId makes a reload mid-window a no-op instead of a second claim
+    // The prize is a box or coins, never Love Charms - the server rolls it
+    // for the day and pays it, recording the claim as worth 0 so the day's
+    // Love Charm budget is untouched. The roundId makes a reload mid-window a
+    // no-op instead of a second claim.
     this.gameService?.send({
       type: "floatingIslandPrize.claimed",
-      amount,
+      amount: 0,
       game: "love_boulder",
       roundId: round.roundId,
     });
 
     this.claimedBoulderRoundId = round.roundId;
 
-    if (amount > 0) {
-      player.cheer();
-      this.showWinnings(amount);
-    } else {
-      player.speak(translateForBubble("loveBoulder.dailyLimit"));
-    }
+    const { prize } = round;
+    player.cheer();
+    player.speak(
+      prize.type === "coins"
+        ? translateForBubble("loveBoulder.prizeCoins", { amount: prize.amount })
+        : translateForBubble("loveBoulder.prizeItem", { item: prize.item }),
+    );
   }
 }
