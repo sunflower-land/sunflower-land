@@ -8531,5 +8531,13 @@
   "description.totem.buff.crafting": "x0.5 Zeit in der Bastelkiste",
   "lovePush.reset": "Es hat etwas getroffen und ist geplatzt! Ein neuer wartet wieder da draußen.",
   "loveBoulder.prizeItem": "Du hast {{item}} gewonnen!",
-  "loveBoulder.prizeCoins": "Du hast {{amount}} Münzen gewonnen!"
+  "loveBoulder.prizeCoins": "Du hast {{amount}} Münzen gewonnen!",
+  "softBan.unlinkSocial": "Verknüpfung von sozialen Konten aufheben",
+  "softBan.unlinkSocial.description": "Müssen Sie sich mit einem Konto verifizieren, das mit einer anderen Farm verknüpft ist? Trennen Sie es zuerst hier. Unverknüpfte Konten sind für mindestens {{days}} Tage gesperrt.",
+  "softBan.unlinkSocial.unlink": "Verknüpfung aufheben",
+  "softBan.unlinkSocial.notLinked": "Nicht verknüpft",
+  "softBan.unlinkSocial.lock": "{{days}} Tagessperre",
+  "softBan.unlinkSocial.warning": "Ihr {{provider}} -Konto wird für mindestens {{days}} Tage gesperrt, bevor es wieder mit einer Sunflower Land-Farm verknüpft werden kann, einschließlich dieser. Bei jeder weiteren Aufhebung der Verknüpfung desselben Kontos wird die Sperre auf 90 Tage und dann auf 180 Tage erhöht.",
+  "softBan.unlinkSocial.confirm": "Verknüpfung {{provider}} aufheben",
+  "softBan.unlinkSocial.lockedUntil": "Gesperrt bis {{date}}"
 }

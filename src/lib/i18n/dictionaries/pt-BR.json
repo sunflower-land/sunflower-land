@@ -8531,5 +8531,13 @@
   "description.totem.buff.crafting": "x0.5 Hora da Caixa de Fabricação",
   "lovePush.reset": "Bateu em alguma coisa e explodiu! Um novo está esperando lá fora.",
   "loveBoulder.prizeItem": "Você ganhou um {{item}}!",
-  "loveBoulder.prizeCoins": "Você ganhou {{amount}} moedas!"
+  "loveBoulder.prizeCoins": "Você ganhou {{amount}} moedas!",
+  "softBan.unlinkSocial": "Desvincular contas sociais",
+  "softBan.unlinkSocial.description": "Precisa verificar com uma conta vinculada a outra fazenda? Desvincule-o aqui primeiro. As contas desvinculadas são bloqueadas por pelo menos {{days}} dias.",
+  "softBan.unlinkSocial.unlink": "Desvincular",
+  "softBan.unlinkSocial.notLinked": "Não vinculado",
+  "softBan.unlinkSocial.lock": "{{days}} bloqueio diário",
+  "softBan.unlinkSocial.warning": "Sua conta {{provider}} ficará bloqueada por pelo menos {{days}} dias antes de poder ser vinculada novamente a qualquer fazenda Sunflower Land, incluindo esta. Cada nova desvinculação da mesma conta aumenta o bloqueio para 90 dias, depois 180 dias.",
+  "softBan.unlinkSocial.confirm": "Desvincular {{provider}}",
+  "softBan.unlinkSocial.lockedUntil": "Bloqueado até {{date}}"
 }

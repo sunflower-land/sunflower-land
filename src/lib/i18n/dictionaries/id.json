@@ -8531,5 +8531,13 @@
   "description.totem.buff.crafting": "x0.5 Waktu Kotak Kerajinan",
   "lovePush.reset": "Itu mengenai sesuatu dan meledak! Yang baru menunggu di luar sana.",
   "loveBoulder.prizeItem": "Anda memenangkan {{item}}!",
-  "loveBoulder.prizeCoins": "Anda memenangkan koin {{amount}}!"
+  "loveBoulder.prizeCoins": "Anda memenangkan koin {{amount}}!",
+  "softBan.unlinkSocial": "Putuskan tautan akun sosial",
+  "softBan.unlinkSocial.description": "Perlu memverifikasi dengan akun yang ditautkan ke peternakan lain? Putuskan tautannya di sini terlebih dahulu. Akun yang tidak tertaut dikunci setidaknya selama {{days}} hari.",
+  "softBan.unlinkSocial.unlink": "Putuskan tautan",
+  "softBan.unlinkSocial.notLinked": "Tidak tertaut",
+  "softBan.unlinkSocial.lock": "{{days}} kunci hari",
+  "softBan.unlinkSocial.warning": "Akun {{provider}} Anda akan dikunci setidaknya selama {{days}} hari sebelum dapat ditautkan ke pertanian Sunflower Land mana pun lagi, termasuk yang ini. Setiap pemutusan tautan lebih lanjut dari akun yang sama meningkatkan kunci menjadi 90 hari, lalu 180 hari.",
+  "softBan.unlinkSocial.confirm": "Putuskan tautan {{provider}}",
+  "softBan.unlinkSocial.lockedUntil": "Terkunci hingga {{date}}"
 }

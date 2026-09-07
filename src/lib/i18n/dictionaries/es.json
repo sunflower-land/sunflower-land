@@ -8531,5 +8531,13 @@
   "description.totem.buff.crafting": "x0.5 Crafting Box Time",
   "lovePush.reset": "¡Golpeó algo y explotó! Hay uno nuevo esperando ahí fuera.",
   "loveBoulder.prizeItem": "¡Has ganado un {{item}}!",
-  "loveBoulder.prizeCoins": "¡Has ganado monedas de {{amount}}!"
+  "loveBoulder.prizeCoins": "¡Has ganado monedas de {{amount}}!",
+  "softBan.unlinkSocial": "Desvincular cuentas sociales",
+  "softBan.unlinkSocial.description": "¿Necesitas verificar con una cuenta que esté vinculada a otra granja? Primero desvincúlala aquí. Las cuentas desvinculadas se bloquean durante al menos {{days}} días.",
+  "softBan.unlinkSocial.unlink": "Desvincular",
+  "softBan.unlinkSocial.notLinked": "No vinculado",
+  "softBan.unlinkSocial.lock": "Bloqueo de día {{days}}",
+  "softBan.unlinkSocial.warning": "Tu cuenta {{provider}} estará bloqueada durante al menos {{days}} días antes de poder volver a vincularla a cualquier granja de Sunflower Land, incluida esta. Cada vez que se desvincule la misma cuenta, el bloqueo pasará a 90 días y luego a 180 días.",
+  "softBan.unlinkSocial.confirm": "Desvincular {{provider}}",
+  "softBan.unlinkSocial.lockedUntil": "Bloqueado hasta {{date}}"
 }

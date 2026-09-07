@@ -8531,5 +8531,13 @@
   "description.totem.buff.crafting": "Boîte à bricolage x0.5",
   "lovePush.reset": "Il a heurté quelque chose et a éclaté ! Un nouveau m'attend là-bas.",
   "loveBoulder.prizeItem": "Vous avez gagné un {{item}} !",
-  "loveBoulder.prizeCoins": "Vous avez gagné {{amount}} pièces !"
+  "loveBoulder.prizeCoins": "Vous avez gagné {{amount}} pièces !",
+  "softBan.unlinkSocial": "Dissocier les comptes sociaux",
+  "softBan.unlinkSocial.description": "Vous avez besoin de vérifier avec un compte lié à une autre ferme ? Dissociez-le ici d'abord. Les comptes non liés sont bloqués pendant au moins {{days}} jours.",
+  "softBan.unlinkSocial.unlink": "Dissocier",
+  "softBan.unlinkSocial.notLinked": "Non lié",
+  "softBan.unlinkSocial.lock": "{{days}} verrouillage journalier",
+  "softBan.unlinkSocial.warning": "Votre compte {{provider}} sera bloqué pendant au moins {{days}} jours avant de pouvoir à nouveau être associé à une ferme de Sunflower Land, y compris celle-ci. Chaque nouvelle dissociation du même compte augmente le délai de blocage à 90 jours, puis à 180 jours.",
+  "softBan.unlinkSocial.confirm": "Supprimer le lien {{provider}}",
+  "softBan.unlinkSocial.lockedUntil": "Bloqué jusqu'à {{date}}"
 }

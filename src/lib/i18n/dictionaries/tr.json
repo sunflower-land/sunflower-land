@@ -8531,5 +8531,13 @@
   "description.totem.buff.crafting": "x0.5 İşleme Kutusu Zamanı",
   "lovePush.reset": "Bir şeye çarptı ve patladı! Dışarıda yeni bir tane bekliyor.",
   "loveBoulder.prizeItem": "{{item}} kazandın!",
-  "loveBoulder.prizeCoins": "{{amount}} jeton kazandın!"
+  "loveBoulder.prizeCoins": "{{amount}} jeton kazandın!",
+  "softBan.unlinkSocial": "Sosyal hesapların bağlantısını kaldır",
+  "softBan.unlinkSocial.description": "Başka bir çiftliğe bağlı bir hesapla doğrulamanız mı gerekiyor? Önce buradaki bağlantısını kaldırın. Bağlantısız hesaplar en az {{days}} gün boyunca kilitlenir.",
+  "softBan.unlinkSocial.unlink": "Bağlantıyı Kaldır",
+  "softBan.unlinkSocial.notLinked": "Bağlantılı değil",
+  "softBan.unlinkSocial.lock": "{{days}} gün kilidi",
+  "softBan.unlinkSocial.warning": "{{provider}} hesabınız, bu da dahil olmak üzere herhangi bir Ayçiçeği Arası çiftliğine yeniden bağlanabilmeden önce en az {{days}} gün boyunca kilitlenecektir. Aynı hesabın bağlantısının kaldırılması, kilidi 90 güne, ardından 180 güne yükseltir.",
+  "softBan.unlinkSocial.confirm": "Bağlantıyı Kaldır {{provider}}",
+  "softBan.unlinkSocial.lockedUntil": "{{date}} 'e kadar kilitli"
 }

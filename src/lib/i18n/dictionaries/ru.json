@@ -8531,5 +8531,13 @@
   "description.totem.buff.crafting": "x0.5 Crafting Box Time",
   "lovePush.reset": "It hit something and burst! A fresh one is waiting back out there.",
   "loveBoulder.prizeItem": "You won a {{item}}!",
-  "loveBoulder.prizeCoins": "You won {{amount}} coins!"
+  "loveBoulder.prizeCoins": "You won {{amount}} coins!",
+  "softBan.unlinkSocial": "Unlink social accounts",
+  "softBan.unlinkSocial.description": "Need to verify with an account that is linked to another farm? Unlink it here first. Unlinked accounts are locked for at least {{days}} days.",
+  "softBan.unlinkSocial.unlink": "Unlink",
+  "softBan.unlinkSocial.notLinked": "Not linked",
+  "softBan.unlinkSocial.lock": "{{days}} day lock",
+  "softBan.unlinkSocial.warning": "Your {{provider}} account will be locked for at least {{days}} days before it can be linked to any Sunflower Land farm again, including this one. Each further unlink of the same account raises the lock to 90 days, then 180 days.",
+  "softBan.unlinkSocial.confirm": "Unlink {{provider}}",
+  "softBan.unlinkSocial.lockedUntil": "Locked until {{date}}"
 }

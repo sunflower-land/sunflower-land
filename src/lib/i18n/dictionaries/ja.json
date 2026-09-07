@@ -8531,5 +8531,13 @@
   "description.totem.buff.crafting": "x0.5 クラフトボックスタイム",
   "lovePush.reset": "何かにぶつかって破裂した！あそこに新鮮なものが待っている。",
   "loveBoulder.prizeItem": "あなたは {{item}} を獲得しました！",
-  "loveBoulder.prizeCoins": "{{amount}} コインを獲得しました！"
+  "loveBoulder.prizeCoins": "{{amount}} コインを獲得しました！",
+  "softBan.unlinkSocial": "ソーシャルアカウントのリンク解除",
+  "softBan.unlinkSocial.description": "別のファームにリンクされているアカウントで確認する必要がありますか？まずここでリンクを解除してください。リンクされていないアカウントは少なくとも {{days}} 日間ロックされます。",
+  "softBan.unlinkSocial.unlink": "[リンク解除]",
+  "softBan.unlinkSocial.notLinked": "リンクなし",
+  "softBan.unlinkSocial.lock": "{{days}} デイロック",
+  "softBan.unlinkSocial.warning": "{{provider}} アカウントは少なくとも {{days}} 日間ロックされます。その後、このファームを含むサンフラワーランドのファームに再びリンクできるようになります。同じアカウントのリンクがさらに解除されるたびに、ロックが90日間、その後180日間に引き上げられます。",
+  "softBan.unlinkSocial.confirm": "リンク解除 {{provider}}",
+  "softBan.unlinkSocial.lockedUntil": "{{date}} までロックされています"
 }

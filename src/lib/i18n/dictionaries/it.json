@@ -8531,5 +8531,13 @@
   "description.totem.buff.crafting": "x0.5 Crafting Box Time",
   "lovePush.reset": "Ha colpito qualcosa ed è scoppiato! Ne aspetta uno nuovo là fuori.",
   "loveBoulder.prizeItem": "Hai vinto un {{item}}!",
-  "loveBoulder.prizeCoins": "Hai vinto {{amount}} monete!"
+  "loveBoulder.prizeCoins": "Hai vinto {{amount}} monete!",
+  "softBan.unlinkSocial": "Scollegare gli account social",
+  "softBan.unlinkSocial.description": "Devi effettuare la verifica con un account collegato a un'altra fattoria? Scollegala prima da qui. Gli account non collegati sono bloccati per almeno {{days}} giorni.",
+  "softBan.unlinkSocial.unlink": "Scollegare",
+  "softBan.unlinkSocial.notLinked": "Non collegato",
+  "softBan.unlinkSocial.lock": "{{days}} blocco diurno",
+  "softBan.unlinkSocial.warning": "Il tuo account {{provider}} verrà bloccato per almeno {{days}} giorni prima di poter essere nuovamente collegato a qualsiasi fattoria Sunflower Land, inclusa questa. Ogni ulteriore scollegamento dello stesso account aumenta il blocco a 90 giorni, quindi a 180 giorni.",
+  "softBan.unlinkSocial.confirm": "Scollega {{provider}}",
+  "softBan.unlinkSocial.lockedUntil": "Bloccato fino a {{date}}"
 }

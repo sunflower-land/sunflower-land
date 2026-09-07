@@ -8531,5 +8531,13 @@
   "description.totem.buff.crafting": "x0.5 制作盒子时间",
   "lovePush.reset": "它击中了什么东西然后爆裂！一个新的在外面等着你。",
   "loveBoulder.prizeItem": "你赢了 {{item}}！",
-  "loveBoulder.prizeCoins": "你赢了 {{amount}} 个硬币！"
+  "loveBoulder.prizeCoins": "你赢了 {{amount}} 个硬币！",
+  "softBan.unlinkSocial": "取消关联社交账户",
+  "softBan.unlinkSocial.description": "需要使用与其他农场关联的账户进行验证吗？先在这里取消链接。未关联的账户被锁定至少 {{days}} 天。",
+  "softBan.unlinkSocial.unlink": "取消链接",
+  "softBan.unlinkSocial.notLinked": "未关联",
+  "softBan.unlinkSocial.lock": "{{days}} 日间锁定",
+  "softBan.unlinkSocial.warning": "您的 {{provider}} 账户将被锁定至少 [1@/美元] 天，然后才能再次关联到任何向日葵地农场，包括这个农场。每次进一步取消同一个账户的关联都会将锁定时间提高到90天，然后是180天。",
+  "softBan.unlinkSocial.confirm": "取消链接 {{provider}}",
+  "softBan.unlinkSocial.lockedUntil": "锁定直到 {{date}}"
 }
