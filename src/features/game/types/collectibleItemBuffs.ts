@@ -130,6 +130,70 @@ export function getFertiliserBuffLabels({
   ];
 }
 
+/**
+ * Super Totem & Time Warp Totem grant the SAME set of boosts (only their
+ * durations differ), so both read their labels from here. Itemised one row per
+ * activity like the Legendary Shrine, rather than one sentence listing them all.
+ *
+ * Crafting is the odd one out: it is the only totem activity still on the legacy
+ * discount-at-start model, so it keeps the "time" wording even under
+ * SPEED_BOOSTS. The rest are windowed speed boosts (see boostWindows.ts).
+ */
+const getTotemBuffLabels = (game: GameState): BuffLabel[] => {
+  const windowed = hasFeatureAccess(game, "SPEED_BOOSTS");
+
+  return [
+    {
+      shortDescription: windowed
+        ? translate("description.totem.buff.crops.speed")
+        : translate("description.totem.buff.crops"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS["Crop Plot"].image,
+    },
+    {
+      shortDescription: windowed
+        ? translate("description.totem.buff.fruit.speed")
+        : translate("description.totem.buff.fruit"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS["Fruit Patch"].image,
+    },
+    {
+      shortDescription: windowed
+        ? translate("description.totem.buff.trees.speed")
+        : translate("description.totem.buff.trees"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS.Tree.image,
+    },
+    {
+      shortDescription: windowed
+        ? translate("description.totem.buff.minerals.speed")
+        : translate("description.totem.buff.minerals"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS.Stone.image,
+    },
+    {
+      shortDescription: windowed
+        ? translate("description.totem.buff.cooking.speed")
+        : translate("description.totem.buff.cooking"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: chefHat,
+    },
+    {
+      // Not windowed yet, so no ".speed" variant - the crafting box still takes
+      // the discount at start.
+      shortDescription: translate("description.totem.buff.crafting"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS["Crafting Box"].image,
+    },
+  ];
+};
+
 export const COLLECTIBLE_BUFF_LABELS: Partial<
   Record<InventoryItemName, (game: GameState) => BuffLabel[]>
 > = {
@@ -1139,11 +1203,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     },
   ],
   "Time Warp Totem": (game) => [
-    {
-      shortDescription: translate("description.time.warp.totem.boost"),
-      labelType: "info",
-      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-    },
+    ...getTotemBuffLabels(game),
     {
       shortDescription: translate("description.temp.buff.effectTime", {
         time: getExpiryCooldown("Time Warp Totem", game) / (60 * 60 * 1000),
@@ -1522,12 +1582,8 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS.Honey.image,
     },
   ],
-  "Super Totem": () => [
-    {
-      shortDescription: translate("description.superTotem.boost"),
-      labelType: "info",
-      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-    },
+  "Super Totem": (game) => [
+    ...getTotemBuffLabels(game),
     {
       shortDescription: translate("description.superTotem.boost.effectTime"),
       labelType: "danger",
