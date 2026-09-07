@@ -3,7 +3,6 @@ import {
   getFloatingIslandGameClaimsToday,
   getFloatingIslandLoveCharmsRemainingToday,
 } from "features/game/events/landExpansion/claimFloatingIslandPrize";
-import { hasVipAccess } from "features/game/lib/vipAccess";
 import type { GameState, InventoryItemName } from "features/game/types/game";
 
 /**

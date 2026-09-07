@@ -96,9 +96,23 @@ describe("claimFloatingIslandPrize", () => {
         },
       };
 
-      expect(claimPush(spent).inventory["Bronze Love Box"]).toEqual(
+      // The amount has to be one the cap would refuse (5 spent + 20 > 5), or
+      // the claim would go through whether the item path skips the cap or not
+      expect(claimPush(spent, 20).inventory["Bronze Love Box"]).toEqual(
         new Decimal(1),
       );
+      expect(() =>
+        claimFloatingIslandPrize({
+          state: spent,
+          action: {
+            type: "floatingIslandPrize.claimed",
+            amount: 20,
+            game: "love_dilemma",
+            roundId: 2,
+          },
+          createdAt: now,
+        }),
+      ).toThrow("Daily Love Charm limit reached");
     });
 
     it("leaves the day's Love Charm budget for the other puzzles", () => {
