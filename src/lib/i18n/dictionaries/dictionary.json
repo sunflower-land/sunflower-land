@@ -6986,10 +6986,10 @@
   "loveDilemma.guide.redPlatform": "Red Platform",
   "loveDilemma.guide.redPlatform.description": "The most crowded platform. Nobody here gets a prize - and if two platforms tie for busiest, both lose.",
   "lovePush.guide.title": "Lover's Push",
-  "lovePush.guide.push": "One person can't budge a boulder. Walk into one to push it and an arrow shows where it will go - once {{pushers}} players are pushing it the same way, it slides a tile and everyone sees it go. Push from another side to change your mind.",
-  "lovePush.guide.lights": "Four target tiles are hidden in the grid. A boulder turns green when it's resting on one - leave it there and work on the rest!",
-  "lovePush.guide.walls": "Boulders can't leave the grid or be pushed into each other. Walk around the outside of the grid to push one back in. Rally the island!",
-  "lovePush.guide.prizes": "Get all four green and everyone who helped move a boulder is rewarded with {{amount}} {{item}}, once a day.",
+  "lovePush.guide.push": "One person can't budge a boulder. Walk into one to push it and an arrow shows where it will go - once {{pushers}} players are pushing it the same way, it rolls a tile and everyone sees it go. Push from another side to change your mind.",
+  "lovePush.guide.lights": "Four boulders start out toward the corners of the island. Roll every one of them into the pit in the centre - a boulder in the pit is done.",
+  "lovePush.guide.walls": "Careful! A boulder that rolls into water, a rock, a tree or another boulder goes straight back to where it started. Plan the route together!",
+  "lovePush.guide.prizes": "Sink all four and everyone who helped roll a boulder is rewarded with {{amount}} {{item}}, once a day.",
   "captcha.info.title": "Info",
   "captcha.info.description": "Meet these requirements to stop captchas from showing up:",
   "captcha.info.requiredLevel": "Reach level 60",
@@ -8522,5 +8522,6 @@
   "tcs.terms": "Terms and Conditions",
   "lock.title": "Trading on hold",
   "lock.description": "Your account is being internally checked to keep it secure. Trading will be back shortly — thanks for your patience!",
-  "lock.openSupport": "Contact support"
+  "lock.openSupport": "Contact support",
+  "lovePush.reset": "It hit something and rolled back to the start!"
 }
