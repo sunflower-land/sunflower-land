@@ -298,13 +298,56 @@ export function getLoveDilemmaBotChoices(
  */
 export const LOVE_BOULDER_HITS = 10_000;
 /**
- * Love Charms for everyone who landed a hit on the boulder that broke, on an
- * ordinary day. The real prize is rolled per UTC day by the server (5 to 30)
- * and published with the boulder as `prize`; this is the floor, shown by the
- * local stand-in and by a room that predates the roll. The claim event pays
- * the server's roll whatever amount is sent, so this only affects the label.
+ * What the boulder pays everyone who landed a hit on it: a box into the
+ * inventory, or coins straight to the balance. Rolled per UTC day by the
+ * server - a Bronze Love Box, a Bronze Food Box, 250 coins or 500 coins - and
+ * published with the boulder as `prize` / `prizeAmount`. The claim event pays
+ * the server's roll whatever the client sends, so the client only shows it.
  */
-export const LOVE_BOULDER_PRIZE = 5;
+export type LoveBoulderPrize =
+  | { type: "item"; item: InventoryItemName; amount: number }
+  | { type: "coins"; amount: number };
+
+/** The boxes the roll can land on - their images are preloaded for the label. */
+export const LOVE_BOULDER_PRIZE_ITEMS: InventoryItemName[] = [
+  "Bronze Love Box",
+  "Bronze Food Box",
+];
+
+/**
+ * Shown by the local stand-in, and by a room that predates the roll (it
+ * publishes an empty `prize`). Never what is actually paid.
+ */
+export const LOVE_BOULDER_PRIZE: LoveBoulderPrize = {
+  type: "item",
+  item: "Bronze Love Box",
+  amount: 1,
+};
+
+/** The room publishes coins under this name rather than an item's. */
+export const LOVE_BOULDER_COINS_PRIZE = "Coins";
+
+/** The room's flattened `prize` / `prizeAmount` pair back into a prize. */
+export function fromLoveBoulderRoomPrize({
+  prize,
+  amount,
+}: {
+  prize?: string;
+  amount?: number;
+}): LoveBoulderPrize {
+  if (!prize || !amount) return LOVE_BOULDER_PRIZE;
+
+  if (prize === LOVE_BOULDER_COINS_PRIZE) return { type: "coins", amount };
+
+  return { type: "item", item: prize as InventoryItemName, amount };
+}
+
+/** A stable key for a prize, so the label is only rebuilt when it changes. */
+export function getLoveBoulderPrizeKey(prize: LoveBoulderPrize): string {
+  return prize.type === "coins"
+    ? `coins:${prize.amount}`
+    : `${prize.item}:${prize.amount}`;
+}
 /** The prize can be claimed this many times per UTC day. */
 export const LOVE_BOULDER_MAX_CLAIMS = 1;
 /** Fastest a single player may tap - the room drops anything quicker. */
@@ -331,8 +374,8 @@ export type LoveBoulderRound = {
   brokenAt?: number;
   /** Epoch ms a fresh boulder appears - only set once broken. */
   respawnAt?: number;
-  /** Love Charms this boulder pays - the day's roll from the room. */
-  prize: number;
+  /** What this boulder pays - the day's roll from the room. */
+  prize: LoveBoulderPrize;
 };
 
 /** Is the prize sitting on the rubble right now, waiting to be clicked? */
@@ -407,28 +450,6 @@ export function canClaimLoveBoulder({
   if (hasClaimedLoveBoulderRound({ state, roundId, now })) return false;
 
   return !hasClaimedLoveBoulderToday({ state, now });
-}
-
-/**
- * What the boulder actually pays this player right now: the day's prize,
- * capped by the Love Charms they can still earn today. The server trims its
- * own roll the same way, so this is what the label shows and what the claim
- * sends - never more than the player will receive.
- */
-export function getLoveBoulderPayout({
-  state,
-  prize = LOVE_BOULDER_PRIZE,
-  now = Date.now(),
-}: {
-  state: GameState;
-  /** The room's `prize` for this boulder; the floor when it has none. */
-  prize?: number;
-  now?: number;
-}): number {
-  return Math.min(
-    prize,
-    getFloatingIslandLoveCharmsRemainingToday({ state, createdAt: now }),
-  );
 }
 
 /** Local mode: the simulated crowd's combined tapping speed. */

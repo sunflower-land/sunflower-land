@@ -40,6 +40,21 @@ export const FLOATING_ISLAND_GAME_ITEM_PRIZE: Partial<
   love_push: { item: "Bronze Love Box", amount: 1 },
 };
 
+/**
+ * Puzzles whose prize only the server knows.
+ *
+ * The Love Boulder pays a box or coins rolled per UTC day on the API - a
+ * Bronze Love Box, a Bronze Food Box, 250 coins or 500 coins. The client
+ * can't roll it (the room previews it, but the seed stays server-side), so
+ * this copy records the claim as worth 0 Love Charms and pays nothing; the
+ * API's copy pays the prize and the next sync brings it down. Like an item
+ * prize, it neither counts toward the daily Love Charm cap nor is refused
+ * by it.
+ */
+export const FLOATING_ISLAND_SERVER_PAID_GAMES: FloatingIslandGameName[] = [
+  "love_boulder",
+];
+
 export type FloatingIslandPrizeClaim = {
   claimedAt: number;
   amount: number;
@@ -179,13 +194,17 @@ export function claimFloatingIslandPrize({
     }
 
     // What this puzzle actually pays. An item prize pays no Love Charms, so
-    // the Love Charm cap neither refuses the claim nor records anything.
+    // the Love Charm cap neither refuses the claim nor records anything. A
+    // server-paid prize is the same from here, minus the item.
     const itemPrize = gameName
       ? FLOATING_ISLAND_GAME_ITEM_PRIZE[gameName]
       : undefined;
-    const loveCharms = itemPrize ? 0 : amount;
+    const serverPaid =
+      !!gameName && FLOATING_ISLAND_SERVER_PAID_GAMES.includes(gameName);
+    const paysLoveCharms = !itemPrize && !serverPaid;
+    const loveCharms = paysLoveCharms ? amount : 0;
 
-    if (!itemPrize) {
+    if (paysLoveCharms) {
       const claimedToday = claimsToday.reduce(
         (total, claim) => total + claim.amount,
         0,
@@ -214,7 +233,7 @@ export function claimFloatingIslandPrize({
     if (itemPrize) {
       const held = game.inventory[itemPrize.item] ?? new Decimal(0);
       game.inventory[itemPrize.item] = held.add(itemPrize.amount);
-    } else {
+    } else if (paysLoveCharms) {
       const previous = game.inventory["Love Charm"] ?? new Decimal(0);
       game.inventory["Love Charm"] = previous.add(loveCharms);
     }
