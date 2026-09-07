@@ -1140,6 +1140,16 @@ export class LoveIslandScene extends BaseScene {
       );
       this.renderedPushTiles = round.boulders.map(toLovePushTileIndex);
     } else {
+      // A shove the room hasn't answered by now was refused - forget it,
+      // so someone else moving the boulder the same way isn't credited
+      // to us
+      Object.keys(this.pendingPushes).forEach((key) => {
+        const boulder = Number(key);
+        if (now - (this.lastPushAt[boulder] ?? 0) >= PUSH_ANSWER_MS) {
+          delete this.pendingPushes[boulder];
+        }
+      });
+
       round.boulders.forEach((tile, boulder) => {
         const index = toLovePushTileIndex(tile);
         const rendered = this.renderedPushTiles[boulder];
