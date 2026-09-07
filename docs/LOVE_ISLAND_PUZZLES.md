@@ -384,8 +384,8 @@ has its centre at `(555 + 20x + 10, 506 + 20y + 10)`. Boulder art is
   kept until the boulder moves, the round ends or the player leaves the
   room. Walking into another side of the same boulder replaces your push.
   A boulder can be pushed in **several directions at once** - the crowd
-  may be split - and every direction with a push shows its own arrow in
-  the tile it would slide into (half size on the first push, growing as
+  may be split - and every direction with a push shows its own arrow at
+  the boulder's edge on that side (half size on the first push, growing as
   that crowd fills). The first direction to reach the full crowd is the
   one that goes. Never the number.
 - Once **five players** (**two** off mainnet - `getLovePushPushersNeeded(network)`, both sides) are pushing the same boulder the **same way**, it
@@ -565,9 +565,11 @@ game event and the once-a-day rule is enforced client-side against the farm's
 - Draws the grid and the four boulders at `boulders` (solid). A boulder with
   `onTarget` is tinted green; there is no other HUD.
 - For every direction with a count > 0 on a boulder: draws the matching
-  arrow icon (`arrow_up` / `arrow_right` / `arrow_down` / `arrow_left`) in
-  the **tile the boulder would slide into**, scaled from **half size** at
-  one push to full size at `needed`, with a small bar beneath it filled
+  arrow icon (`arrow_up` / `arrow_right` / `arrow_down` / `arrow_left`)
+  **just past the boulder's edge on that side** (11px from its tile centre,
+  not the next tile's centre, so arrows from two boulders aiming at one tile
+  stay apart), scaled from **half size** at one push to full size at
+  `needed`, with a small bar on the far side of the arrow filled
   `count / needed`. The boulder tints from grey toward orange by its
   **biggest** direction's `count / needed`. No number is shown. An arrow
   pops when someone joins that direction and goes away when its count drops

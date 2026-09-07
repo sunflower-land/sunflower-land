@@ -175,8 +175,15 @@ const PUSH_PROGRESS_COLOUR = 0xf09a3c;
 const PUSH_PROGRESS_WIDTH = 10;
 const PUSH_PROGRESS_HEIGHT = 3;
 const PUSH_PROGRESS_TRACK = 0x3e2731;
-/** The bar sits this far below the arrow's centre (the icons are ~12px tall). */
+/** The bar sits this far past the arrow's centre (the icons are ~12px tall). */
 const PUSH_PROGRESS_Y = 8;
+/**
+ * An arrow sits this far from the centre of the boulder's tile, on the side
+ * it would slide toward - hugging the boulder's edge rather than sitting in
+ * the middle of the next tile, so arrows from two boulders aiming at the
+ * same tile don't land on top of each other.
+ */
+const PUSH_ARROW_OFFSET = 11;
 /**
  * An arrow starts at half size on the first push and grows to full size as
  * the crowd behind that direction fills up, so the way the boulder is most
@@ -1265,11 +1272,11 @@ export class LoveIslandScene extends BaseScene {
   }
 
   /**
-   * Show which ways a boulder is being pushed - an arrow per direction in
-   * the tile it would slide into, half size on the first push and growing
-   * as that crowd fills up - and how close each is, as a bar beneath the
-   * arrow. An arrow goes away once nobody is pushing that way (or the
-   * boulder has moved).
+   * Show which ways a boulder is being pushed - an arrow per direction just
+   * past the boulder's edge on that side, half size on the first push and
+   * growing as that crowd fills up - and how close each is, as a bar on the
+   * far side of the arrow. An arrow goes away once nobody is pushing that
+   * way (or the boulder has moved).
    */
   private setPushProgress(
     boulder: number,
@@ -1294,10 +1301,11 @@ export class LoveIslandScene extends BaseScene {
       }
 
       const delta = LOVE_PUSH_DELTAS[direction];
-      const next = this.pushTileCentre({
-        x: tile.x + delta.x,
-        y: tile.y + delta.y,
-      });
+      const centre = this.pushTileCentre(tile);
+      const at = {
+        x: centre.x + delta.x * PUSH_ARROW_OFFSET,
+        y: centre.y + delta.y * PUSH_ARROW_OFFSET,
+      };
       const progress = Math.min(1, count / LOVE_PUSH_PUSHERS_NEEDED);
       // Half size for one push, full size for the whole crowd
       const scale =
@@ -1308,9 +1316,9 @@ export class LoveIslandScene extends BaseScene {
           : 1;
 
       arrow
-        .setPosition(next.x, next.y)
-        // Its base, like the boulders, so anyone standing there is drawn over it
-        .setDepth(next.y + PUSH_TILE / 2)
+        .setPosition(at.x, at.y)
+        // Just above the boulder it belongs to, so it reads over the rock's edge
+        .setDepth(centre.y + PUSH_TILE / 2 + 1)
         .setVisible(true);
 
       // Pop when someone joins this way
@@ -1333,8 +1341,14 @@ export class LoveIslandScene extends BaseScene {
       bar.fillRect(0, 0, PUSH_PROGRESS_WIDTH, PUSH_PROGRESS_HEIGHT);
       bar.fillStyle(PUSH_PROGRESS_COLOUR, 1);
       bar.fillRect(1, 1, fill, PUSH_PROGRESS_HEIGHT - 2);
+      // Under the arrow - except a north arrow, whose underside is the
+      // boulder, so its bar goes above
+      const barY =
+        direction === "north"
+          ? at.y - PUSH_PROGRESS_Y - PUSH_PROGRESS_HEIGHT
+          : at.y + PUSH_PROGRESS_Y;
       bar
-        .setPosition(next.x - PUSH_PROGRESS_WIDTH / 2, next.y + PUSH_PROGRESS_Y)
+        .setPosition(at.x - PUSH_PROGRESS_WIDTH / 2, barY)
         .setDepth(arrow.depth)
         .setVisible(true);
     });
