@@ -8528,5 +8528,6 @@
   "description.totem.buff.minerals.speed": "2倍のミネラル回復速度",
   "description.totem.buff.cooking": "x0.5 クッキングタイム",
   "description.totem.buff.cooking.speed": "2倍のクッキングスピード",
-  "description.totem.buff.crafting": "x0.5 クラフトボックスタイム"
+  "description.totem.buff.crafting": "x0.5 クラフトボックスタイム",
+  "lovePush.reset": "何かにぶつかって破裂した！あそこに新鮮なものが待っている。"
 }

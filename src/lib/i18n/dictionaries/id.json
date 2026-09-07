@@ -8528,5 +8528,6 @@
   "description.totem.buff.minerals.speed": "Kecepatan Pemulihan Mineral 2x",
   "description.totem.buff.cooking": "x0.5 Waktu Memasak",
   "description.totem.buff.cooking.speed": "Kecepatan Memasak 2x",
-  "description.totem.buff.crafting": "x0.5 Waktu Kotak Kerajinan"
+  "description.totem.buff.crafting": "x0.5 Waktu Kotak Kerajinan",
+  "lovePush.reset": "Itu mengenai sesuatu dan meledak! Yang baru menunggu di luar sana."
 }

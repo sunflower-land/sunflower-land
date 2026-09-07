@@ -8528,5 +8528,6 @@
   "description.totem.buff.minerals.speed": "Velocidad de recuperación de minerales 2x",
   "description.totem.buff.cooking": "x0.5 Tiempo de cocción",
   "description.totem.buff.cooking.speed": "2x velocidad de cocción",
-  "description.totem.buff.crafting": "x0.5 Crafting Box Time"
+  "description.totem.buff.crafting": "x0.5 Crafting Box Time",
+  "lovePush.reset": "¡Golpeó algo y explotó! Hay uno nuevo esperando ahí fuera."
 }

@@ -8528,5 +8528,6 @@
   "description.totem.buff.minerals.speed": "2-fache Geschwindigkeit der Mineralgewinnung",
   "description.totem.buff.cooking": "x0.5 Garzeit",
   "description.totem.buff.cooking.speed": "2x Kochgeschwindigkeit",
-  "description.totem.buff.crafting": "x0.5 Zeit in der Bastelkiste"
+  "description.totem.buff.crafting": "x0.5 Zeit in der Bastelkiste",
+  "lovePush.reset": "Es hat etwas getroffen und ist geplatzt! Ein neuer wartet wieder da draußen."
 }
