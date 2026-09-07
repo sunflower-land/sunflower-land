@@ -1081,6 +1081,9 @@ export class LoveIslandScene extends BaseScene {
       y: base,
       duration: LOVE_PUSH_MOVE_MS,
       ease: "Quad.easeOut",
+      // Keep the depth in step with the base as it slides, so a player
+      // walking into the vacated tile isn't drawn beneath the boulder.
+      onUpdate: () => sprite.setDepth(sprite.y),
       onComplete: () => sprite.setDepth(base),
     });
     this.sound.play("dig", { volume: 0.05 });
