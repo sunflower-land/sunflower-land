@@ -147,6 +147,32 @@ export const COOKING_BOOST_SPEED = {
 } as const;
 
 /**
+ * Speed multipliers for the windowed CRAFTING BOX boosts — the single place to
+ * tune them. Stacking is multiplicative; Super & Time Warp Totem share the same 2×
+ * and merge so they don't stack with each other.
+ *
+ * The two rates differ in kind, deliberately. The totems' 2× is the exact
+ * reciprocal of the legacy baked ×0.5. Fox Shrine's 1.35 is NOT the reciprocal of
+ * its legacy ×0.75 (that would be 1.333) — it is the house rate every windowed
+ * ×0.75 boost shipped with (Sparrow, Harvest, Timber, Badger, Mole, Orchard,
+ * Toucan, Blossom, Moth, Stag, Collie, Bantam), so a Fox Shrine covering a whole
+ * craft is marginally faster than the old bake rather than exactly equal to it.
+ *
+ * Fox Shrine's OTHER half is NOT here: the 10% instant-craft proc is a discrete
+ * prng roll at queue time, not a rate over an interval, so it cannot be a window.
+ * It stays a start-time roll yielding `baseDurationMs = 0` (the shape cooking's
+ * Instant Gratification uses) and keeps its `boostsUsed` entry.
+ *
+ * Sol & Luna (×0.5) and Architect Ruler (×0.75) are PERMANENT wearables, so they
+ * stay baked into `baseDurationMs` and stay in `boostsUsed`.
+ */
+export const CRAFTING_BOOST_SPEED = {
+  "Super Totem": 2,
+  "Time Warp Totem": 2,
+  "Fox Shrine": 1.35,
+} as const;
+
+/**
  * Speed multipliers for the windowed greenhouse growth boosts — the single place
  * to tune them. Stacking is multiplicative; Super & Time Warp Totem share the
  * same 2× and merge so they don't stack with each other. Coverage differs by
@@ -367,6 +393,25 @@ export const getCookingBoostWindows = (game: GameState): BoostWindow[] => [
     game,
     name: "Boar Shrine",
     speed: COOKING_BOOST_SPEED["Boar Shrine"],
+  }),
+];
+
+/**
+ * The windowed speed boosts that apply to a Crafting Box craft. Each is its own
+ * window so overlapping boosts stack multiplicatively (totem 2 × Fox 1.35 = 2.7×);
+ * the two totems merge so they don't stack with each other (both 2×).
+ *
+ * Like cooking, these windows are consumed by a QUEUE — see
+ * `getCraftingQueueReadyAts`. Unlike cooking, a chained craft follows when the BOX
+ * next frees up rather than the previous entry's ready time, because a Fox Shrine
+ * instant proc sits in the queue without ever occupying the box.
+ */
+export const getCraftingBoostWindows = (game: GameState): BoostWindow[] => [
+  ...getMergedTotemWindows(game, CRAFTING_BOOST_SPEED["Super Totem"]),
+  ...getBoostWindows({
+    game,
+    name: "Fox Shrine",
+    speed: CRAFTING_BOOST_SPEED["Fox Shrine"],
   }),
 ];
 

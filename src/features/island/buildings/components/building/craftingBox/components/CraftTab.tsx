@@ -8,6 +8,7 @@ import type {
 import type { CraftingQueueItem } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Label } from "components/ui/Label";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { type RecipeIngredient, RECIPES } from "features/game/lib/crafting";
 import { getCurrentChapter } from "features/game/types/chapters";
@@ -19,6 +20,10 @@ import {
   findMatchingRecipe,
   getBoostedCraftingTime,
 } from "features/game/events/landExpansion/startCrafting";
+import {
+  computeReadyAt,
+  getEffectiveSpeedAt,
+} from "features/game/lib/boostWindows";
 import { useSound } from "lib/utils/hooks/useSound";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
@@ -81,6 +86,8 @@ export const CraftTab: React.FC<Props> = ({
     effectiveReadyAt,
     craftingStatus,
     craftingReadyAt,
+    boxFreeAt,
+    windows,
     now,
   } = useCraftingQueue(craftingBox);
 
@@ -151,6 +158,13 @@ export const CraftTab: React.FC<Props> = ({
     }
     return Math.max(0, viewedReadyAt - now);
   }, [craftingStatus, viewedReadyAt, now]);
+
+  // The rate the craft on screen is actually running at. Only windowed crafts
+  // have one; a legacy craft always reads 1x and so shows no label.
+  const viewedSpeed =
+    viewedItem.baseDurationMs === undefined
+      ? 1
+      : getEffectiveSpeedAt({ at: now, windows });
 
   const button = useSound("button");
 
@@ -350,12 +364,14 @@ export const CraftTab: React.FC<Props> = ({
     }
 
     if (wasAddingToQueue && currentRecipe) {
-      const recipeStartAt =
-        queue.length > 0
-          ? queue[queue.length - 1].readyAt
-          : (cooking?.readyAt ?? now);
+      // Mirrors the reducer exactly, so the optimistic slot does not flicker to a
+      // different time on the next server frame: the box-free time (derived, and
+      // skipping instant procs), clamped to now, and the same anchored-vs-chained
+      // decision.
+      const isChained = boxFreeAt !== undefined && boxFreeAt > now;
+      const recipeStartAt = isChained ? boxFreeAt : now;
 
-      const { seconds: recipeTime } = getBoostedCraftingTime({
+      const { seconds: recipeTime, baseDurationMs } = getBoostedCraftingTime({
         game: state,
         time: currentRecipe.time,
         now,
@@ -365,8 +381,22 @@ export const CraftTab: React.FC<Props> = ({
       const newItem: CraftingQueueItem = {
         id: queueItemId,
         ...currentRecipe,
-        startedAt: isInstant ? now : recipeStartAt,
-        readyAt: isInstant ? now : recipeStartAt + recipeTime,
+        startedAt:
+          baseDurationMs === undefined || isInstant || !isChained
+            ? isInstant
+              ? now
+              : recipeStartAt
+            : undefined,
+        readyAt: isInstant
+          ? now
+          : baseDurationMs === undefined
+            ? recipeStartAt + recipeTime
+            : computeReadyAt({
+                startedAt: recipeStartAt,
+                baseDurationMs,
+                windows,
+              }),
+        baseDurationMs,
       };
 
       setSelectedItemId(queueItemId);
@@ -541,6 +571,9 @@ export const CraftTab: React.FC<Props> = ({
     isViewingInProgressRecipe ||
     isViewingQueuedRecipe;
 
+  // `cooking` comes from the hook, so this is the DERIVED ready time - the gem
+  // price must be quoted off the wait the player can actually see, or the client
+  // charges something the server will not.
   const speedUpReadyAt = cooking?.readyAt ?? craftingReadyAt;
 
   return (
@@ -595,8 +628,20 @@ export const CraftTab: React.FC<Props> = ({
             remainingTime={remainingTime}
             isIdle={isIdle}
             showRecipeContext={!isViewingInProgressItem && !isViewingReadyItem}
+            startsAt={
+              boxFreeAt !== undefined && boxFreeAt > now ? boxFreeAt : now
+            }
             key={`${currentRecipe?.name}-${selectedItemId ?? preparingSlotIndex}`}
           />
+          {viewedSpeed > 1 && (
+            <Label type="transparent" icon={SUNNYSIDE.icons.lightning}>
+              <span className="whitespace-nowrap">
+                {t("description.boostedSpeed", {
+                  speed: Number(viewedSpeed.toFixed(2)),
+                })}
+              </span>
+            </Label>
+          )}
           <CraftButton
             isCrafting={isCrafting}
             isPending={isPending}

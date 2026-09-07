@@ -4,23 +4,33 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import type { Recipe } from "features/game/lib/crafting";
 import type { GameState } from "features/game/types/game";
-import { getBoostedCraftingTime } from "features/game/events/landExpansion/startCrafting";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
 import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
+import { useCraftingTimePreview } from "./useCraftingTimePreview";
 
 const RecipeLabelContent: React.FC<{
   state: GameState;
   recipe: Recipe | null;
-}> = ({ state, recipe }) => {
+  /** When the craft would actually start — the box-free time, or now. */
+  startsAt?: number;
+}> = ({ state, recipe, startsAt }) => {
   const { t } = useAppTranslation();
   const [showTimeBoosts, setShowTimeBoosts] = useState(false);
   // The craft-time boosts (Fox Shrine, totems) expire on their own, so the
   // duration preview needs a live clock rather than a mount snapshot. One tick a
   // minute is enough for a boost that flips at most a few times a day.
   const now = useNow({ live: true, intervalMs: PRE_ACTION_TICK_MS });
+
+  // Hooks must run unconditionally, so the preview is computed before the early
+  // returns below; a null or instant recipe simply never reads it.
+  const preview = useCraftingTimePreview({
+    state,
+    timeMs: recipe?.time ?? 0,
+    at: startsAt ?? now,
+  });
 
   if (!recipe) {
     return <SquareIcon icon={SUNNYSIDE.icons.expression_confused} width={7} />;
@@ -30,32 +40,28 @@ const RecipeLabelContent: React.FC<{
     return <span>{t("instant")}</span>;
   }
 
-  const { seconds: boostedCraftTime, boostsUsed } = getBoostedCraftingTime({
-    game: state,
-    time: recipe.time,
-    now,
-  });
+  const { displaySeconds, speed, baseSeconds, boosts, isBoosted } = preview;
 
-  if (boostsUsed.length > 0) {
+  if (isBoosted) {
     return (
       <div
         className="flex flex-col items-center cursor-pointer"
         onClick={() => setShowTimeBoosts((prev) => !prev)}
       >
         <span>
-          {secondsToString(boostedCraftTime / 1000, {
-            length: "medium",
+          {secondsToString(displaySeconds, {
+            length: speed > 1 ? "full" : "medium",
             isShortFormat: true,
           })}
         </span>
         <span className="text-xxs line-through">
-          {secondsToString(recipe.time / 1000, {
+          {secondsToString(baseSeconds, {
             length: "medium",
             isShortFormat: true,
           })}
         </span>
         <BoostsDisplay
-          boosts={boostsUsed}
+          boosts={boosts}
           show={showTimeBoosts}
           state={state}
           onClick={() => setShowTimeBoosts((prev) => !prev)}
@@ -66,7 +72,7 @@ const RecipeLabelContent: React.FC<{
 
   return (
     <span>
-      {secondsToString(boostedCraftTime / 1000, {
+      {secondsToString(displaySeconds, {
         length: "medium",
         isShortFormat: true,
       })}
@@ -104,7 +110,15 @@ export const CraftTimer: React.FC<{
   remainingTime: number | null;
   isIdle: boolean;
   showRecipeContext?: boolean;
-}> = ({ state, recipe, remainingTime, isIdle, showRecipeContext = false }) => {
+  startsAt?: number;
+}> = ({
+  state,
+  recipe,
+  remainingTime,
+  isIdle,
+  showRecipeContext = false,
+  startsAt,
+}) => {
   if (isIdle || showRecipeContext) {
     return (
       <Label
@@ -112,7 +126,7 @@ export const CraftTimer: React.FC<{
         className="ml-3 my-1"
         icon={SUNNYSIDE.icons.stopwatch}
       >
-        <RecipeLabelContent state={state} recipe={recipe} />
+        <RecipeLabelContent state={state} recipe={recipe} startsAt={startsAt} />
       </Label>
     );
   }

@@ -149,7 +149,24 @@ import type { SculptureName } from "./saltSculpture";
 export type CraftingQueueItem = {
   id: string;
   readyAt: number;
-  startedAt: number;
+  /**
+   * Absolute anchor: this craft began at this instant because the Crafting Box was
+   * free when it was queued. ABSENT means CHAINED — its start IS the derived time
+   * the box next frees up, which is what lets a boost placed mid-queue pull every
+   * queued craft forward (see `resolveCraftingQueueTimings`). Legacy items, queued
+   * before the speed-rate model, always carry one.
+   */
+  startedAt?: number;
+  /**
+   * The craft's un-boosted duration with PERMANENT boosts (Sol & Luna, Architect
+   * Ruler) already folded in. Present only on crafts queued under the speed-rate
+   * model; its absence selects the legacy baked timing, so the read path keys off
+   * this marker, NOT the `SPEED_BOOSTS` flag — matching every other activity.
+   *
+   * Zero means a Fox Shrine instant proc: no work to do, so it is ready at its own
+   * anchor and never occupies the box.
+   */
+  baseDurationMs?: number;
 } & (
   | {
       type: "collectible";

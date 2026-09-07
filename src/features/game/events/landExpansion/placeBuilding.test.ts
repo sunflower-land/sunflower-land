@@ -2,7 +2,11 @@ import Decimal from "decimal.js-light";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
 import { createInitialAgingShed } from "../../lib/agingShed";
-import type { BuildingProduct, GameState } from "../../types/game";
+import type {
+  BuildingProduct,
+  CraftingQueueItem,
+  GameState,
+} from "../../types/game";
 import { getAnimalReadyAt } from "../../lib/animals";
 import { getNextLoveAvailableAt, isAnimalNeedingLove } from "./loveAnimal";
 import { placeBuilding } from "./placeBuilding";
@@ -267,6 +271,165 @@ describe("Place building", () => {
 
     expect(producing?.startedAt).toEqual(startedAt + downtime);
     expect(producing?.readyAt).toEqual(readyAt + downtime);
+  });
+
+  describe("crafting box queue", () => {
+    const MIN = 60 * 1000;
+
+    const box = (removedAt: number): GameState["buildings"] => ({
+      "Crafting Box": [
+        {
+          id: "123",
+          createdAt: dateNow - 24 * 60 * MIN,
+          readyAt: dateNow - 24 * 60 * MIN,
+          removedAt,
+        },
+      ],
+    });
+
+    const craft = (
+      overrides: Partial<CraftingQueueItem> & { id: string; readyAt: number },
+    ) =>
+      ({
+        type: "collectible",
+        name: "Doll",
+        ...overrides,
+      }) as CraftingQueueItem;
+
+    const place = (state: GameState) =>
+      placeBuilding({
+        farmId,
+        state,
+        action: {
+          type: "building.placed",
+          name: "Crafting Box",
+          id: "123",
+          coordinates: { x: 1, y: 1 },
+        },
+        createdAt: dateNow,
+      });
+
+    it("banks work at the boosted rate and resumes the remainder at 1x", () => {
+      const startedAt = dateNow - 60 * MIN;
+      const removedAt = dateNow - 30 * MIN;
+
+      const state = place({
+        ...GAME_STATE,
+        inventory: { "Crafting Box": new Decimal(1) },
+        // A totem covering only the pre-lift stretch: placed with the craft,
+        // expired (4h cooldown is longer, so clamp it with removedAt instead).
+        collectibles: {
+          ...GAME_STATE.collectibles,
+          "Time Warp Totem": [
+            {
+              id: "t",
+              coordinates: { x: 9, y: 9 },
+              createdAt: startedAt,
+              readyAt: startedAt,
+              removedAt,
+            },
+          ],
+        },
+        buildings: box(removedAt),
+        craftingBox: {
+          status: "crafting",
+          // 90 min of work, 30 min elapsed under a 2x totem before the lift.
+          queue: [
+            craft({
+              id: "a",
+              startedAt,
+              baseDurationMs: 90 * MIN,
+              readyAt: startedAt + 60 * MIN,
+            }),
+          ],
+          recipes: {},
+        },
+      });
+
+      const [craftAfter] = state.craftingBox.queue ?? [];
+
+      // 30 real minutes at 2x banked 60 minutes of work, leaving 30.
+      expect(craftAfter.baseDurationMs).toEqual(30 * MIN);
+      // It resumes from the placement, and the downtime costs nothing.
+      expect(craftAfter.startedAt).toEqual(dateNow);
+      expect(craftAfter.readyAt).toEqual(dateNow + 30 * MIN);
+    });
+
+    it("keeps shifting BOTH timestamps for a legacy queue", () => {
+      const startedAt = dateNow - 60 * MIN;
+      const removedAt = dateNow - 30 * MIN;
+      const downtime = dateNow - removedAt;
+
+      const state = place({
+        ...GAME_STATE,
+        inventory: { "Crafting Box": new Decimal(1) },
+        buildings: box(removedAt),
+        craftingBox: {
+          status: "crafting",
+          queue: [
+            craft({ id: "a", startedAt, readyAt: startedAt + 90 * MIN }),
+            craft({
+              id: "b",
+              startedAt: startedAt + 90 * MIN,
+              readyAt: startedAt + 120 * MIN,
+            }),
+          ],
+          recipes: {},
+        },
+      });
+
+      const queue = state.craftingBox.queue ?? [];
+      expect(queue[0].startedAt).toEqual(startedAt + downtime);
+      expect(queue[0].readyAt).toEqual(startedAt + 90 * MIN + downtime);
+      expect(queue[1].startedAt).toEqual(startedAt + 90 * MIN + downtime);
+      expect(queue[1].readyAt).toEqual(startedAt + 120 * MIN + downtime);
+    });
+
+    it("leaves an instant proc untouched and keeps a queued craft chained", () => {
+      const startedAt = dateNow - 60 * MIN;
+      const removedAt = dateNow - 30 * MIN;
+
+      const state = place({
+        ...GAME_STATE,
+        inventory: { "Crafting Box": new Decimal(1) },
+        buildings: box(removedAt),
+        craftingBox: {
+          status: "crafting",
+          queue: [
+            craft({
+              id: "a",
+              startedAt,
+              baseDurationMs: 90 * MIN,
+              readyAt: startedAt + 90 * MIN,
+            }),
+            craft({
+              id: "proc",
+              startedAt,
+              baseDurationMs: 0,
+              readyAt: startedAt,
+            }),
+            craft({
+              id: "b",
+              baseDurationMs: 30 * MIN,
+              readyAt: startedAt + 120 * MIN,
+            }),
+          ],
+          recipes: {},
+        },
+      });
+
+      const queue = state.craftingBox.queue ?? [];
+
+      // The proc keeps its own anchor and ready time.
+      expect(queue[1].startedAt).toEqual(startedAt);
+      expect(queue[1].readyAt).toEqual(startedAt);
+      expect(queue[1].baseDurationMs).toEqual(0);
+
+      // `b` had not started, so it stays chained and tracks the head.
+      expect(queue[2].startedAt).toBeUndefined();
+      expect(queue[2].baseDurationMs).toEqual(30 * MIN);
+      expect(queue[2].readyAt).toEqual(queue[0].readyAt + 30 * MIN);
+    });
   });
 
   describe("cooking queues", () => {

@@ -1,3 +1,4 @@
+import { CONFIG } from "lib/config";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { RECIPES } from "features/game/lib/crafting";
 import {
@@ -7,9 +8,22 @@ import {
 import { speedUpCrafting } from "./speedUpCrafting";
 import Decimal from "decimal.js-light";
 import { getInstantGems } from "features/game/lib/getInstantGems";
-import type { GameState } from "features/game/types/game";
+import type { CraftingQueueItem, GameState } from "features/game/types/game";
+import { getCraftingQueueReadyAts } from "features/game/lib/craftingReadiness";
 const createdAt = Date.now();
 describe("speedUpCrafting", () => {
+  // These tests assert the LEGACY discount-at-start timing (every boost is baked
+  // into readyAt when the craft is queued). FE jest runs on amoy where
+  // SPEED_BOOSTS is on, so force the flag off here; the windowed model is covered
+  // in its own describe.
+  const originalNetwork = CONFIG.NETWORK;
+  beforeEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+  });
+  afterEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+  });
+
   it("throws an error if crafting box is not crafting", () => {
     expect(() =>
       speedUpCrafting({
@@ -426,7 +440,6 @@ describe("speedUpCrafting", () => {
       ...INITIAL_FARM,
       inventory: {
         Gem: new Decimal(100),
-        "Beta Pass": new Decimal(1),
       },
       buildings: {
         "Crafting Box": [
@@ -475,13 +488,15 @@ describe("speedUpCrafting", () => {
     });
     state.inventory.Gem = new Decimal(gemsNeeded);
 
-    const inProgressItems = state.craftingBox.queue!.filter(
+    const spedUpIndex = state.craftingBox.queue!.findIndex(
       (q) => q.readyAt > now,
     );
     const expectedRecalculated = recalculateCraftingQueue({
-      queue: inProgressItems,
+      queue: state.craftingBox.queue!,
       game: state,
-      firstItemReadyAt: now,
+      now,
+      spedUpIndex,
+      spedUpAt: now,
     });
 
     const result = speedUpCrafting({
@@ -514,7 +529,7 @@ describe("speedUpCrafting", () => {
 
     const state: GameState = {
       ...INITIAL_FARM,
-      inventory: { Gem: new Decimal(1000), "Beta Pass": new Decimal(1) },
+      inventory: { Gem: new Decimal(1000) },
       buildings: {
         "Crafting Box": [
           { id: "123", coordinates: { x: 0, y: 0 }, createdAt: 0, readyAt: 0 },
@@ -588,7 +603,6 @@ describe("speedUpCrafting", () => {
       ...INITIAL_FARM,
       inventory: {
         Gem: new Decimal(1000),
-        "Beta Pass": new Decimal(1),
         Leather: new Decimal(0),
         Wool: new Decimal(0),
       },
@@ -755,5 +769,201 @@ describe("speedUpCrafting", () => {
       expect(newState.coins).toBe(950);
       expect(newState.inventory.Gem).toEqual(new Decimal(0));
     });
+  });
+});
+
+describe("speedUpCrafting — SPEED_BOOSTS", () => {
+  // BE jest runs on amoy, where SPEED_BOOSTS is already on.
+  const HOUR = 60 * 60 * 1000;
+  const farmId = 1;
+
+  const craft = (
+    overrides: Partial<CraftingQueueItem> & { id: string; readyAt: number },
+  ) =>
+    ({
+      type: "collectible",
+      name: "Doll",
+      ...overrides,
+    }) as CraftingQueueItem;
+
+  const stateWith = (
+    queue: CraftingQueueItem[],
+    collectibles: GameState["collectibles"] = {},
+  ): GameState =>
+    ({
+      ...INITIAL_FARM,
+      inventory: { Gem: new Decimal(10000) },
+      collectibles: { ...INITIAL_FARM.collectibles, ...collectibles },
+      buildings: {
+        "Crafting Box": [
+          { id: "123", coordinates: { x: 0, y: 0 }, createdAt: 0, readyAt: 0 },
+        ],
+      },
+      craftingBox: { status: "crafting", queue, recipes: {} },
+    }) as GameState;
+
+  const withTotem = (createdAt: number): GameState["collectibles"] => ({
+    "Time Warp Totem": [
+      { id: "t", coordinates: { x: 5, y: 5 }, createdAt, readyAt: createdAt },
+    ],
+  });
+
+  it("prices gems off the DERIVED ready time, not the stale cache", () => {
+    const now = Date.now();
+    const queue = [
+      craft({
+        id: "a",
+        startedAt: now,
+        baseDurationMs: 4 * HOUR,
+        readyAt: now + 4 * HOUR,
+      }),
+    ];
+
+    const unboosted = speedUpCrafting({
+      state: stateWith(queue),
+      action: { type: "crafting.spedUp" },
+      createdAt: now,
+      farmId,
+    });
+
+    // Same cached readyAt, but a live totem halves the real wait.
+    const boosted = speedUpCrafting({
+      state: stateWith(queue, withTotem(now)),
+      action: { type: "crafting.spedUp" },
+      createdAt: now,
+      farmId,
+    });
+
+    const spent = (state: GameState) =>
+      new Decimal(10000)
+        .minus(state.inventory.Gem ?? new Decimal(0))
+        .toNumber();
+
+    expect(spent(boosted)).toBeLessThan(spent(unboosted));
+  });
+
+  it("throws when the windows have already finished the head", () => {
+    const now = Date.now();
+    // Cache says 2h to go; the totem placed 4h ago finished it 2h ago.
+    const queue = [
+      craft({
+        id: "a",
+        startedAt: now - 4 * HOUR,
+        baseDurationMs: 4 * HOUR,
+        readyAt: now + 2 * HOUR,
+      }),
+    ];
+
+    expect(() =>
+      speedUpCrafting({
+        state: stateWith(queue, withTotem(now - 4 * HOUR)),
+        action: { type: "crafting.spedUp" },
+        createdAt: now,
+        farmId,
+      }),
+    ).toThrow("Crafting box is not ready to be sped up");
+  });
+
+  it("affects only the craft paid for when two share a readyAt", () => {
+    const now = Date.now();
+    const shared = now + 4 * HOUR;
+    const queue = [
+      craft({
+        id: "a",
+        startedAt: now,
+        baseDurationMs: 4 * HOUR,
+        readyAt: shared,
+      }),
+      // Same cached readyAt, but genuinely behind `a`.
+      craft({ id: "b", baseDurationMs: 4 * HOUR, readyAt: shared }),
+    ];
+
+    const result = speedUpCrafting({
+      state: stateWith(queue),
+      action: { type: "crafting.spedUp" },
+      createdAt: now,
+      farmId,
+    });
+
+    const after = result.craftingBox.queue ?? [];
+    expect(after[0].baseDurationMs).toEqual(0);
+    // `b` still has all its work to do - it was not swept up by a readyAt match.
+    expect(after[1].baseDurationMs).toEqual(4 * HOUR);
+  });
+
+  it("preserves queue order", () => {
+    const now = Date.now();
+    const queue = [
+      craft({
+        id: "ready",
+        startedAt: now - 2 * HOUR,
+        baseDurationMs: HOUR,
+        readyAt: now - HOUR,
+      }),
+      craft({
+        id: "running",
+        startedAt: now,
+        baseDurationMs: 4 * HOUR,
+        readyAt: now + 4 * HOUR,
+      }),
+      craft({
+        id: "queued",
+        baseDurationMs: 2 * HOUR,
+        readyAt: now + 6 * HOUR,
+      }),
+    ];
+
+    const result = speedUpCrafting({
+      state: stateWith(queue),
+      action: { type: "crafting.spedUp" },
+      createdAt: now,
+      farmId,
+    });
+
+    expect((result.craftingBox.queue ?? []).map((q) => q.id)).toEqual([
+      "ready",
+      "running",
+      "queued",
+    ]);
+  });
+
+  it("anchors the craft promoted into the freed box, and it still tracks boosts", () => {
+    const now = Date.now();
+    const queue = [
+      craft({
+        id: "a",
+        startedAt: now,
+        baseDurationMs: 4 * HOUR,
+        readyAt: now + 4 * HOUR,
+      }),
+      craft({ id: "b", baseDurationMs: 4 * HOUR, readyAt: now + 8 * HOUR }),
+    ];
+
+    const result = speedUpCrafting({
+      state: stateWith(queue),
+      action: { type: "crafting.spedUp" },
+      createdAt: now,
+      farmId,
+    });
+
+    const after = result.craftingBox.queue ?? [];
+
+    // The sped-up head has no work left, so it stops holding the box. `b` must be
+    // ANCHORED at that moment - left chained it would find no occupying craft
+    // ahead of it and freeze on its stale cache.
+    expect(after[0].baseDurationMs).toEqual(0);
+    expect(after[1].startedAt).toEqual(now);
+    expect(after[1].readyAt).toEqual(now + 4 * HOUR);
+
+    // And it is still live: a totem placed now pulls it forward.
+    const boosted = {
+      ...result,
+      collectibles: { ...result.collectibles, ...withTotem(now) },
+    } as GameState;
+    const [, bReadyAt] = getCraftingQueueReadyAts({
+      queue: boosted.craftingBox.queue ?? [],
+      game: boosted,
+    });
+    expect(bReadyAt).toBeLessThan(now + 4 * HOUR);
   });
 });

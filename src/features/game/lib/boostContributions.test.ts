@@ -2,6 +2,7 @@ import {
   getAnimalBoostContributions,
   getBoostContributionEntries,
   getCookingBoostContributions,
+  getCraftingBoostContributions,
   getNodeBoostContributions,
   getSeedBoostContributions,
 } from "./boostContributions";
@@ -12,7 +13,11 @@ import type { GameState } from "../types/game";
 import type { SeedName } from "../types/seeds";
 import type { ResourceName } from "../types/resources";
 import type { AnimalType } from "../types/animals";
-import { getAnimalBoostWindows, getCookingBoostWindows } from "./boostWindows";
+import {
+  getAnimalBoostWindows,
+  getCookingBoostWindows,
+  getCraftingBoostWindows,
+} from "./boostWindows";
 import { CONFIG } from "lib/config";
 
 const setNetwork = (network: "mainnet" | "amoy") => {
@@ -50,6 +55,7 @@ const BOOSTED: GameState = {
     "Gourmet Hourglass": place("16", 15),
     "Legendary Shrine": place("17", 16),
     "Boar Shrine": place("18", 17),
+    "Fox Shrine": place("19", 18),
   },
 };
 
@@ -94,6 +100,12 @@ describe("contributions match the window builders", () => {
   it("cooking", () => {
     expect(flatten(getCookingBoostContributions(BOOSTED, at))).toEqual(
       getCookingBoostWindows(BOOSTED),
+    );
+  });
+
+  it("crafting", () => {
+    expect(flatten(getCraftingBoostContributions(BOOSTED, at))).toEqual(
+      getCraftingBoostWindows(BOOSTED),
     );
   });
 });

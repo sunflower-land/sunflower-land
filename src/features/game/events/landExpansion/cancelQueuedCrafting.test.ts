@@ -1,3 +1,4 @@
+import { CONFIG } from "lib/config";
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { RECIPES } from "features/game/lib/crafting";
@@ -8,6 +9,18 @@ import {
 import type { CraftingQueueItem, GameState } from "features/game/types/game";
 
 describe("cancelQueuedCrafting", () => {
+  // These tests assert the LEGACY discount-at-start timing (every boost is baked
+  // into readyAt when the craft is queued). FE jest runs on amoy where
+  // SPEED_BOOSTS is on, so force the flag off here; the windowed model is covered
+  // in its own describe.
+  const originalNetwork = CONFIG.NETWORK;
+  beforeEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
+  });
+  afterEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+  });
+
   const farmId = 1;
 
   it("throws an error if no queue exists", () => {
@@ -230,7 +243,6 @@ describe("cancelQueuedCrafting", () => {
       state: {
         ...INITIAL_FARM,
         inventory: {
-          "Beta Pass": new Decimal(1),
           Wood: new Decimal(0),
         },
         buildings: {
@@ -308,7 +320,6 @@ describe("cancelQueuedCrafting", () => {
         state: {
           ...INITIAL_FARM,
           inventory: {
-            "Beta Pass": new Decimal(1),
             Leather: new Decimal(0),
             Wool: new Decimal(0),
           },
@@ -396,7 +407,6 @@ describe("cancelQueuedCrafting", () => {
           ],
         },
         inventory: {
-          "Beta Pass": new Decimal(1),
           Leather: new Decimal(0),
           Wool: new Decimal(0),
         },
@@ -483,7 +493,6 @@ describe("cancelQueuedCrafting", () => {
         Wood: new Decimal(27),
         Cushion: new Decimal(10),
         Timber: new Decimal(10),
-        "Beta Pass": new Decimal(1),
       },
       buildings: {
         "Crafting Box": [
@@ -873,5 +882,204 @@ describe("cancelQueuedCrafting", () => {
     // doll-1 is actively crafting; cancelling a later item must not pull it
     // earlier by chaining off the instant proc's past readyAt.
     expect(doll1?.readyAt).toEqual(now + twoHours);
+  });
+});
+
+describe("cancelQueuedCrafting — SPEED_BOOSTS", () => {
+  // BE jest runs on amoy, where SPEED_BOOSTS is already on.
+  const HOUR = 60 * 60 * 1000;
+
+  const craft = (
+    overrides: Partial<CraftingQueueItem> & { id: string; readyAt: number },
+  ) =>
+    ({
+      type: "collectible",
+      name: "Timber",
+      ...overrides,
+    }) as CraftingQueueItem;
+
+  const stateWith = (
+    queue: CraftingQueueItem[],
+    collectibles: GameState["collectibles"] = {},
+  ): GameState =>
+    ({
+      ...INITIAL_FARM,
+      collectibles: { ...INITIAL_FARM.collectibles, ...collectibles },
+      buildings: {
+        "Crafting Box": [
+          { id: "123", coordinates: { x: 0, y: 0 }, createdAt: 0, readyAt: 0 },
+        ],
+      },
+      craftingBox: {
+        status: "crafting",
+        queue,
+        recipes: { Timber: { ...RECIPES.Timber } },
+      },
+    }) as GameState;
+
+  const withTotem = (createdAt: number): GameState["collectibles"] => ({
+    "Time Warp Totem": [
+      { id: "t", coordinates: { x: 5, y: 5 }, createdAt, readyAt: createdAt },
+    ],
+  });
+
+  it("preserves each craft's baseDurationMs rather than re-deriving it", () => {
+    const now = Date.now();
+    const queue = [
+      craft({
+        id: "a",
+        startedAt: now,
+        baseDurationMs: 4 * HOUR,
+        readyAt: now + 4 * HOUR,
+      }),
+      craft({ id: "b", baseDurationMs: 2 * HOUR, readyAt: now + 6 * HOUR }),
+      craft({ id: "c", baseDurationMs: 3 * HOUR, readyAt: now + 9 * HOUR }),
+    ];
+
+    const result = cancelQueuedCrafting({
+      state: stateWith(queue),
+      action: { type: "crafting.cancelled", queueItemId: "b" },
+      createdAt: now,
+    });
+
+    const survivors = result.craftingBox.queue ?? [];
+    expect(survivors.map((q) => q.id)).toEqual(["a", "c"]);
+    // The snapshots survive untouched - re-deriving them from a boosted readyAt
+    // would apply the windows a second time.
+    expect(survivors[0].baseDurationMs).toEqual(4 * HOUR);
+    expect(survivors[1].baseDurationMs).toEqual(3 * HOUR);
+    // And `c` moves up to start when the box now frees.
+    expect(survivors[1].readyAt).toEqual(now + 7 * HOUR);
+  });
+
+  it("refuses to cancel the craft the DERIVED chain says is in progress", () => {
+    const now = Date.now();
+    // Cached readyAts say `a` finished 1h ago and `b` is running; the live totem
+    // says otherwise. Without deriving, `b` would look cancellable-adjacent and
+    // `a` refundable.
+    const queue = [
+      craft({
+        id: "a",
+        startedAt: now,
+        baseDurationMs: 4 * HOUR,
+        readyAt: now + 4 * HOUR,
+      }),
+      craft({ id: "b", baseDurationMs: 2 * HOUR, readyAt: now + 6 * HOUR }),
+    ];
+
+    expect(() =>
+      cancelQueuedCrafting({
+        state: stateWith(queue),
+        action: { type: "crafting.cancelled", queueItemId: "a" },
+        createdAt: now,
+      }),
+    ).toThrow("is currently being crafted");
+  });
+
+  it("refuses a full refund on a craft the windows have already finished", () => {
+    const now = Date.now();
+    // Queued 4h ago with 4h of work; a totem placed then has already completed it,
+    // but the cache still points 2h into the future.
+    const queue = [
+      craft({
+        id: "a",
+        startedAt: now - 4 * HOUR,
+        baseDurationMs: 4 * HOUR,
+        readyAt: now + 2 * HOUR,
+      }),
+      craft({ id: "b", baseDurationMs: 2 * HOUR, readyAt: now + 4 * HOUR }),
+    ];
+
+    const state = stateWith(queue, withTotem(now - 4 * HOUR));
+
+    // Derived: `a` is done, so cancelling it must be refused - otherwise the
+    // player takes a full ingredient refund for work already delivered.
+    expect(() =>
+      cancelQueuedCrafting({
+        state,
+        action: { type: "crafting.cancelled", queueItemId: "a" },
+        createdAt: now,
+      }),
+    ).toThrow("is already ready and cannot be cancelled");
+  });
+
+  it("refuses to cancel the craft a live boost has made the running one", () => {
+    const now = Date.now();
+    // Cached, the queue reads "a is running (ready in 2h), b has not started".
+    // Derived under a totem placed 4h ago, `a` finished 2h ago and `b` is the one
+    // actually being crafted, 4h of its 6h already done.
+    const queue = [
+      craft({
+        id: "a",
+        startedAt: now - 4 * HOUR,
+        baseDurationMs: 4 * HOUR,
+        readyAt: now + 2 * HOUR,
+      }),
+      craft({ id: "b", baseDurationMs: 6 * HOUR, readyAt: now + 4 * HOUR }),
+    ];
+
+    const state = stateWith(queue, withTotem(now - 4 * HOUR));
+
+    // On the stored cache `b` looks untouched and fully refundable - that is the
+    // exploit: a full ingredient refund for 4h of delivered work.
+    expect(() =>
+      cancelQueuedCrafting({
+        state,
+        action: { type: "crafting.cancelled", queueItemId: "b" },
+        createdAt: now,
+      }),
+    ).toThrow("is currently being crafted");
+  });
+
+  it("keeps an instant proc's own readyAt and lets it not delay the rest", () => {
+    const now = Date.now();
+    const queue = [
+      craft({
+        id: "a",
+        startedAt: now,
+        baseDurationMs: 4 * HOUR,
+        readyAt: now + 4 * HOUR,
+      }),
+      craft({ id: "proc", startedAt: now, baseDurationMs: 0, readyAt: now }),
+      craft({ id: "b", baseDurationMs: 2 * HOUR, readyAt: now + 6 * HOUR }),
+      craft({ id: "c", baseDurationMs: HOUR, readyAt: now + 7 * HOUR }),
+    ];
+
+    const result = cancelQueuedCrafting({
+      state: stateWith(queue),
+      action: { type: "crafting.cancelled", queueItemId: "c" },
+      createdAt: now,
+    });
+
+    const survivors = result.craftingBox.queue ?? [];
+    const proc = survivors.find((q) => q.id === "proc");
+    expect(proc?.readyAt).toEqual(now);
+    expect(proc?.baseDurationMs).toEqual(0);
+    // `b` chains off `a`, NOT off the proc sitting between them.
+    expect(survivors.find((q) => q.id === "b")?.readyAt).toEqual(
+      now + 6 * HOUR,
+    );
+  });
+
+  it("recalculates a MIXED legacy/windowed queue correctly", () => {
+    const now = Date.now();
+    const queue = [
+      // Legacy head, still running.
+      craft({ id: "a", startedAt: now, readyAt: now + 4 * HOUR }),
+      craft({ id: "b", baseDurationMs: 2 * HOUR, readyAt: now + 6 * HOUR }),
+      craft({ id: "c", baseDurationMs: HOUR, readyAt: now + 7 * HOUR }),
+    ];
+
+    const result = cancelQueuedCrafting({
+      state: stateWith(queue),
+      action: { type: "crafting.cancelled", queueItemId: "b" },
+      createdAt: now,
+    });
+
+    const survivors = result.craftingBox.queue ?? [];
+    expect(survivors.map((q) => q.id)).toEqual(["a", "c"]);
+    // The legacy head is untouched; `c` chains off its stored readyAt.
+    expect(survivors[0].readyAt).toEqual(now + 4 * HOUR);
+    expect(survivors[1].readyAt).toEqual(now + 5 * HOUR);
   });
 });

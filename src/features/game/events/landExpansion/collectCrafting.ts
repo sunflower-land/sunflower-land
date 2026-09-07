@@ -7,6 +7,8 @@ import type {
 } from "features/game/types/game";
 import type { BumpkinItem } from "features/game/types/bumpkin";
 import { produce } from "immer";
+import { getCraftingBoostWindows } from "features/game/lib/boostWindows";
+import { resolveCraftingQueueTimings } from "features/game/lib/craftingReadiness";
 
 export type CollectCraftingAction = {
   type: "crafting.collected";
@@ -59,18 +61,59 @@ export function collectCrafting({
       throw new Error("Crafting Box is not placed");
     }
 
-    const nothingReady = queue.every((item) => item.readyAt > createdAt);
+    // Readiness comes from the DERIVED chain, not each craft's stored `readyAt` -
+    // that value is a cache, and a boost placed since the queue was last rewritten
+    // will have pulled the real ready time forward.
+    const timings = resolveCraftingQueueTimings({
+      queue,
+      windows: getCraftingBoostWindows(copy),
+    });
+
+    const nothingReady = timings.every((timing) => timing.readyAt > createdAt);
     if (nothingReady) {
       throw new Error("No items are ready");
     }
 
-    const remainingQueue = queue.filter((item) => {
-      if (item.readyAt <= createdAt) {
-        grantCraftedItem(item, copy);
-        return false;
-      }
-      return true;
-    });
+    const remainingQueue = queue.reduce<CraftingQueueItem[]>(
+      (acc, item, index) => {
+        if (timings[index].readyAt <= createdAt) {
+          grantCraftedItem(item, copy);
+          return acc;
+        }
+
+        // An empty accumulator means every craft ahead of this one was just
+        // collected, so a CHAINED craft (no `startedAt`, because its start WAS the
+        // derived time the box freed up) has nothing left to chain to. Stamp on the
+        // start the resolver already derived for it: it is in the past, so no
+        // progress is invented or lost, and the resolver never has to guess a start
+        // it cannot recover (see `resolveCraftingQueueTimings`).
+        //
+        // Note this uses the craft's OWN derived start, not the previous entry's
+        // ready time as cooking does - the entry immediately ahead may have been a
+        // Fox Shrine proc, which never occupied the box.
+        const derivedStart = timings[index].startedAt;
+        if (
+          acc.length === 0 &&
+          index > 0 &&
+          item.startedAt === undefined &&
+          item.baseDurationMs !== undefined &&
+          derivedStart !== undefined
+        ) {
+          return [
+            ...acc,
+            {
+              ...item,
+              startedAt: derivedStart,
+              // Keep the cache in step with what the chain now derives.
+              readyAt: timings[index].readyAt,
+            },
+          ];
+        }
+
+        return [...acc, item];
+      },
+      [],
+    );
 
     copy.craftingBox.queue = remainingQueue;
 
