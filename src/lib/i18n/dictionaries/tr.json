@@ -8520,5 +8520,7 @@
   "lovePush.guide.title": "Sevgilinin İtmesi",
   "lovePush.guide.push": "Bir kiremit itmek için bir kayanın içine girin. Herkes istediği zaman itebilir - ilk gelen, önce servis edilir - ve herkes bunun kaydığını görür.",
   "lovePush.guide.lights": "Izgarada dört hedef karo gizlidir. Birinin üzerinde duran her kaya için bir ışık yanar - ama hangi kaya ya da nerede değil.",
-  "lovePush.guide.walls": "Kayalar ızgaradan çıkamaz veya birbirine itilemez. Birini geri itmek için ızgaranın dışında dolaşın. Birlikte planlayın!"
+  "lovePush.guide.walls": "Kayalar ızgaradan çıkamaz veya birbirine itilemez. Birini geri itmek için ızgaranın dışında dolaşın. Birlikte planlayın!",
+  "lovePush.prize": "Bronz Aşk Kutusu kazandın!",
+  "lovePush.guide.prizes": "Dördünü de aydınlatın ve bir kayayı hareket ettiren herkes günde bir kez {{amount}} {{item}} ile ödüllendirilir."
 }

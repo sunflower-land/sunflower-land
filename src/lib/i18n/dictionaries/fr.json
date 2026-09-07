@@ -8520,5 +8520,7 @@
   "lovePush.guide.title": "Lover's Push",
   "lovePush.guide.push": "Entrez dans un rocher pour lui enfoncer une tuile. Tout le monde peut pousser à tout moment, premier arrivé, premier servi, et tout le monde voit les choses se passer.",
   "lovePush.guide.lights": "Quatre tuiles cibles sont cachées dans la grille. Une lumière s'allume pour chaque rocher posé sur un rocher, mais pas pour quel rocher ni où.",
-  "lovePush.guide.walls": "Les rochers ne peuvent pas quitter la grille ni être enfoncés les uns dans les autres. Faites le tour de l'extérieur de la grille pour en faire rentrer un. Planifiez ensemble !"
+  "lovePush.guide.walls": "Les rochers ne peuvent pas quitter la grille ni être enfoncés les uns dans les autres. Faites le tour de l'extérieur de la grille pour en faire rentrer un. Planifiez ensemble !",
+  "lovePush.prize": "Vous avez gagné une Love Box en bronze !",
+  "lovePush.guide.prizes": "Allumez les quatre points et tous ceux qui ont déplacé un rocher sont récompensés par {{amount}} {{item}}, une fois par jour."
 }

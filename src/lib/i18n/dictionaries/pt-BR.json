@@ -8520,5 +8520,7 @@
   "lovePush.guide.title": "Empurrão do amante",
   "lovePush.guide.push": "Entre em uma pedra para empurrar um ladrilho para ela. Qualquer pessoa pode pressionar a qualquer momento — primeiro a chegar, primeiro a ser servido — e todo mundo verá a pressão cair.",
   "lovePush.guide.lights": "Quatro peças alvo estão escondidas na grade. Uma luz acende para cada pedregulho apoiado em um, mas não em qual pedra ou onde.",
-  "lovePush.guide.walls": "Pedregulhos não podem sair da grade nem serem empurrados uns contra os outros. Ande pela parte externa da grade para empurrar uma de volta para dentro. Planejem juntos!"
+  "lovePush.guide.walls": "Pedregulhos não podem sair da grade nem serem empurrados uns contra os outros. Ande pela parte externa da grade para empurrar uma de volta para dentro. Planejem juntos!",
+  "lovePush.prize": "Você ganhou uma Caixa de Amor de Bronze!",
+  "lovePush.guide.prizes": "Acenda todos os quatro e todos que moverem uma pedra serão recompensados com {{amount}} {{item}}, uma vez por dia."
 }

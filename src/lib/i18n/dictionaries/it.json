@@ -8520,5 +8520,7 @@
   "lovePush.guide.title": "La spinta dell'amante",
   "lovePush.guide.push": "Entra in un masso per infilargli una mattonella. Chiunque può spingere in qualsiasi momento (primo arrivato, primo servito) e tutti lo vedono scivolare.",
   "lovePush.guide.lights": "Quattro tessere bersaglio sono nascoste nella griglia. Si accende una luce per ogni masso appoggiato su uno, ma non su quale masso o dove.",
-  "lovePush.guide.walls": "I massi non possono uscire dalla griglia o essere spinti l'uno nell'altro. Percorri l'esterno della griglia per respingerne una. Pianificate insieme!"
+  "lovePush.guide.walls": "I massi non possono uscire dalla griglia o essere spinti l'uno nell'altro. Percorri l'esterno della griglia per respingerne una. Pianificate insieme!",
+  "lovePush.prize": "Hai vinto una Love Box in bronzo!",
+  "lovePush.guide.prizes": "Accendili tutti e quattro e tutti coloro che hanno spostato un masso vengono premiati con {{amount}} {{item}}, una volta al giorno."
 }

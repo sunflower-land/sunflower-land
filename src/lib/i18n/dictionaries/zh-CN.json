@@ -8520,5 +8520,7 @@
   "lovePush.guide.title": "情人之力",
   "lovePush.guide.push": "走进一块巨石把它塞一块牌。任何人都可以随时推动 —— 先到先得 —— 每个人都能看到它的下滑。",
   "lovePush.guide.lights": "网格中隐藏了四个目标方块。每块巨石停在一块巨石上都会亮起一盏灯，但不亮哪块巨石，也不会亮在哪块巨石上。",
-  "lovePush.guide.walls": "巨石不能离开网格或被推入对方。在网格外面四处走动，将一个推回网格。一起计划！"
+  "lovePush.guide.walls": "巨石不能离开网格或被推入对方。在网格外面四处走动，将一个推回网格。一起计划！",
+  "lovePush.prize": "你赢得了铜牌爱心盒子！",
+  "lovePush.guide.prizes": "点燃所有四块巨石，所有移动巨石的人每天都会获得 {{amount}} {{item}} 的奖励。"
 }
