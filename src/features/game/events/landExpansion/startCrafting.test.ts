@@ -1214,7 +1214,16 @@ describe("startCrafting", () => {
 });
 
 describe("startCrafting — SPEED_BOOSTS", () => {
-  // BE jest runs on amoy, where SPEED_BOOSTS is already on, so no pin is needed.
+  // Pins the flag ON rather than relying on `.env`: a developer running with
+  // VITE_NETWORK=mainnet would otherwise see this whole describe fail.
+  const originalNetwork = CONFIG.NETWORK;
+  beforeEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "amoy";
+  });
+  afterEach(() => {
+    (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = originalNetwork;
+  });
+
   const farmId = 1;
   const HOUR = 60 * 60 * 1000;
   const BASIC_BED_TIME = 8 * HOUR;

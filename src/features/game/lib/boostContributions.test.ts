@@ -62,6 +62,13 @@ const BOOSTED: GameState = {
 // The panel's names must describe the SAME windows the readiness maths uses, or
 // the list would explain a number it didn't produce. These pin the two together.
 describe("contributions match the window builders", () => {
+  // Pins the flag ON rather than relying on `.env`: these accessors return []
+  // without SPEED_BOOSTS, so a developer on VITE_NETWORK=mainnet would see the
+  // parity assertions pass vacuously against a non-empty window list.
+  const networkBeforeParity = CONFIG.NETWORK;
+  beforeEach(() => setNetwork("amoy"));
+  afterAll(() => setNetwork(networkBeforeParity));
+
   const flatten = (contributions: { windows: unknown[] }[]): unknown[] =>
     contributions.flatMap(({ windows }) => windows);
 
@@ -111,6 +118,12 @@ describe("contributions match the window builders", () => {
 });
 
 describe("getBoostContributionEntries", () => {
+  // These read flag-gated contributions, so pin the flag ON rather than relying
+  // on `.env` (pre-existing: they were silently depending on VITE_NETWORK=amoy).
+  const networkBeforeEntries = CONFIG.NETWORK;
+  beforeEach(() => setNetwork("amoy"));
+  afterAll(() => setNetwork(networkBeforeEntries));
+
   const format = (seconds: number) => `${Math.round(seconds / 60)}m`;
   const entries = (seconds = 4 * HOUR) =>
     getBoostContributionEntries({
@@ -192,6 +205,12 @@ describe("getBoostContributionEntries", () => {
 });
 
 describe("totem attribution", () => {
+  // These read flag-gated contributions, so pin the flag ON rather than relying
+  // on `.env` (pre-existing: they were silently depending on VITE_NETWORK=amoy).
+  const networkBeforeTotems = CONFIG.NETWORK;
+  beforeEach(() => setNetwork("amoy"));
+  afterAll(() => setNetwork(networkBeforeTotems));
+
   const format = (seconds: number) => `${Math.round(seconds / 60)}m`;
 
   it("credits the totem that is actually running, not one burned earlier", () => {
