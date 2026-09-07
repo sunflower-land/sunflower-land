@@ -50,6 +50,8 @@ import {
   getLovePushMaxCount,
   getLovePushPushCounts,
   getLovePushPushersNeeded,
+  getLovePushRestart,
+  getLovePushSide,
   getLovePushStep,
   getLovePushStepTowardPit,
   getLovePushSunkCount,
@@ -678,8 +680,29 @@ describe("Lover's Push", () => {
   });
 
   describe("getLovePushLayout", () => {
-    const corner = (spot: LovePushTile) =>
-      (spot.x >= LOVE_PUSH_PIT.x ? 1 : 0) + (spot.y >= LOVE_PUSH_PIT.y ? 2 : 0);
+    /** The sides that have somewhere a boulder could start. */
+    const sidesWithRoom = () => {
+      const sides = new Set<number>();
+      for (let y = 0; y < LOVE_ISLAND_MAP_HEIGHT; y++) {
+        for (let x = 0; x < LOVE_ISLAND_MAP_WIDTH; x++) {
+          const spot = tile(x, y);
+          const far =
+            Math.abs(x - LOVE_PUSH_PIT.x) + Math.abs(y - LOVE_PUSH_PIT.y) >=
+            LOVE_PUSH_MIN_START_DISTANCE;
+          if (far && getLovePushDistanceToPit(spot) !== undefined) {
+            sides.add(getLovePushSide(spot));
+          }
+        }
+      }
+      return sides;
+    };
+
+    it("tells the sides of the island apart around the pit", () => {
+      expect(getLovePushSide(tile(38, 20))).toBe(0);
+      expect(getLovePushSide(tile(55, 35))).toBe(1);
+      expect(getLovePushSide(tile(38, 48))).toBe(2);
+      expect(getLovePushSide(tile(20, 36))).toBe(3);
+    });
 
     it("is deterministic per round and differs between rounds", () => {
       expect(getLovePushLayout(7)).toEqual(getLovePushLayout(7));
@@ -705,28 +728,62 @@ describe("Lover's Push", () => {
       }
     });
 
-    it("spreads the boulders across the corners of the island", () => {
-      // Every corner that has somewhere a boulder could start gets one
-      const corners = new Set<number>();
-      for (let y = 0; y < LOVE_ISLAND_MAP_HEIGHT; y++) {
-        for (let x = 0; x < LOVE_ISLAND_MAP_WIDTH; x++) {
-          const spot = tile(x, y);
-          const far =
-            Math.abs(x - LOVE_PUSH_PIT.x) + Math.abs(y - LOVE_PUSH_PIT.y) >=
-            LOVE_PUSH_MIN_START_DISTANCE;
-          if (far && getLovePushDistanceToPit(spot) !== undefined) {
-            corners.add(corner(spot));
-          }
-        }
-      }
-      expect(corners.size).toBeGreaterThanOrEqual(3);
+    it("deals one boulder to the top, right, bottom and left of the island", () => {
+      const sides = sidesWithRoom();
+      expect(sides.size).toBe(4);
 
       for (let roundId = 1; roundId <= 10; roundId++) {
         const { starts } = getLovePushLayout(roundId);
-        expect(new Set(starts.map(corner)).size).toBe(
-          Math.min(LOVE_PUSH_BOULDERS, corners.size),
+        expect(starts.map(getLovePushSide)).toEqual([0, 1, 2, 3]);
+      }
+    });
+
+    it("restarts a crashed boulder somewhere new on its own side", () => {
+      const { starts } = getLovePushLayout(3);
+
+      for (let resets = 1; resets <= 5; resets++) {
+        const restart = getLovePushRestart({
+          roundId: 3,
+          boulder: 3,
+          resets,
+          boulders: starts,
+          starts,
+        });
+
+        expect(restart).not.toEqual(starts[3]);
+        expect(getLovePushSide(restart)).toBe(3);
+        expect(getLovePushDistanceToPit(restart)).toBeGreaterThan(0);
+        expect(starts.some((s) => s.x === restart.x && s.y === restart.y)).toBe(
+          false,
         );
       }
+
+      // Seeded: the same crash always lands in the same place
+      const again = getLovePushRestart({
+        roundId: 3,
+        boulder: 3,
+        resets: 2,
+        boulders: starts,
+        starts,
+      });
+      expect(again).toEqual(
+        getLovePushRestart({
+          roundId: 3,
+          boulder: 3,
+          resets: 2,
+          boulders: starts,
+          starts,
+        }),
+      );
+      expect(again).not.toEqual(
+        getLovePushRestart({
+          roundId: 3,
+          boulder: 3,
+          resets: 1,
+          boulders: starts,
+          starts,
+        }),
+      );
     });
   });
 
@@ -886,31 +943,35 @@ describe("Lover's Push", () => {
       expect(moved.pushes[1]).toEqual({ west: 1 });
     });
 
-    it("sends a boulder back to its start when it hits something, crediting nobody", () => {
-      // (10, 35) is the last ground before the water to the west
-      const start = tile(10, 35);
-      const edge = round({
-        boulders: [tile(11, 35), ...clearing.slice(1)],
-        starts: [start, ...clearing.slice(1)],
-      });
+    it("restarts a boulder somewhere new on its side when it hits something, crediting nobody", () => {
+      // Boulder 3 is the left one; (10, 35) is the last ground before the
+      // water to the west
+      const boulders = [tile(38, 25), tile(50, 35), tile(38, 45), tile(11, 35)];
+      const starts = [tile(38, 25), tile(50, 35), tile(38, 45), tile(10, 35)];
+      const edge = round({ boulders, starts });
 
-      const reset = crowdPush(edge, { boulder: 0, direction: "west" });
-      expect(reset.boulders[0]).toEqual(tile(10, 35));
+      const reset = crowdPush(edge, { boulder: 3, direction: "west" });
+      expect(reset.boulders[3]).toEqual(tile(10, 35));
 
-      const again = crowdPush(reset, { boulder: 0, direction: "west" });
-      expect(again.boulders[0]).toEqual(start);
-      expect(again.resets[0]).toBe(1);
+      const again = crowdPush(reset, { boulder: 3, direction: "west" });
+      expect(again.resets[3]).toBe(1);
+      // Somewhere new on the left, and that's where it is now
+      expect(again.starts[3]).not.toEqual(tile(10, 35));
+      expect(getLovePushSide(again.starts[3])).toBe(3);
+      expect(again.boulders[3]).toEqual(again.starts[3]);
+      expect(again.starts.slice(0, 3)).toEqual(starts.slice(0, 3));
       expect(again.pushers).toEqual(reset.pushers);
-      expect(again.votes[0]).toEqual({});
-      expect(again.pushes[0]).toEqual({});
+      expect(again.votes[3]).toEqual({});
+      expect(again.pushes[3]).toEqual({});
 
       // Into another boulder too
       const pair = round({
         boulders: [tile(34, 34), tile(35, 34), tile(36, 36), tile(42, 35)],
       });
       const bumped = crowdPush(pair, { boulder: 0, direction: "east" });
-      expect(bumped.boulders[0]).toEqual(tile(34, 34));
       expect(bumped.resets[0]).toBe(1);
+      expect(bumped.boulders[0]).toEqual(bumped.starts[0]);
+      expect(bumped.boulders[0]).not.toEqual(tile(34, 34));
       expect(bumped.pushers).toEqual({});
     });
 

@@ -40,6 +40,7 @@ import {
   getLoveDilemmaRound,
   getLoveDilemmaTiers,
   getLovePushMaxCount,
+  getLovePushSunkCount,
   getLovePushTileCentre,
   hasClaimedLoveBoulderRound,
   hasClaimedLoveBoulderToday,
@@ -153,8 +154,13 @@ const PUSH_GROUND_DEPTH = 1;
 /** The pit (crop_boom_hole, 16x16) is drawn a bit bigger than a tile. */
 const PUSH_PIT_TEXTURE = "push_pit";
 const PUSH_PIT_SCALE = 1.5;
-/** A faint ring marks where each boulder started - and goes back to. */
+/** A faint ring marks where each boulder started from. */
 const PUSH_START_COLOUR = 0x3e2731;
+/** The "n/4" tally floats this far above the pit's centre. */
+const PUSH_SUNK_LABEL_Y = -22;
+/** A boulder that hits something bursts: a flash and chips of rock. */
+const PUSH_EXPLOSION_COLOUR = 0xffe08a;
+const PUSH_EXPLOSION_CHIPS = 10;
 /** Don't nag every frame while leaning on a solved puzzle. */
 const PUSH_BUBBLE_COOLDOWN_MS = 3000;
 /**
@@ -212,9 +218,12 @@ const LOSE_COLOUR = 0xe57373;
  * arrow fills) as the crowd grows; once enough players (five on mainnet,
  * two off it) are pushing it the same way it rolls a tile and everyone sees
  * it go. Pushing another side moves your push. A boulder that rolls into
- * the water, a rock, a tree or another boulder goes straight back to where
- * it started (a ring marks the spot), so the island has to plan the route.
- * A boulder that reaches the pit drops in and is done. When all four are in
+ * the water, a rock, a tree or another boulder bursts, and a fresh one
+ * appears somewhere new on the same side of the island (a ring marks the
+ * spot), so the island has to plan the route. Hub and spoke: there is
+ * always one boulder at the top, one on the right, one at the bottom and
+ * one on the left. A boulder that reaches the pit drops in and is done -
+ * a tally at the pit counts them. When all four are in
  * everyone who helped roll one is handed a Bronze Love Box automatically
  * (once a day) - the prize the petal puzzle used to pay for this same
  * clearing - then fresh boulders appear, each always somewhere a crowd can
@@ -306,6 +315,9 @@ export class LoveIslandScene extends BaseScene {
   private pushPit?: Phaser.GameObjects.Image;
   /** A ring where each boulder started, indexed by boulder. */
   private pushStartMarkers: Phaser.GameObjects.Graphics[] = [];
+  /** "n/4" at the pit - how many boulders are in. */
+  private pushSunkLabel?: Label;
+  private renderedSunkCount?: number;
   /**
    * An arrow per direction in the tile each boulder would slide into, shown
    * while someone is pushing it that way. Indexed by boulder.
@@ -905,6 +917,13 @@ export class LoveIslandScene extends BaseScene {
       .setScale(PUSH_PIT_SCALE)
       .setDepth(PUSH_GROUND_DEPTH);
 
+    // How many are in, floating above the pit
+    this.pushSunkLabel = new Label(this, `0/${LOVE_PUSH_BOULDERS}`, "brown");
+    this.add.existing(this.pushSunkLabel);
+    this.pushSunkLabel
+      .setPosition(pit.x, pit.y + PUSH_SUNK_LABEL_Y)
+      .setDepth(Number.MAX_SAFE_INTEGER);
+
     // Solid boulders in their own group so walking into one can push it
     const boulderGroup = this.add.group();
 
@@ -1182,35 +1201,77 @@ export class LoveIslandScene extends BaseScene {
   }
 
   /**
-   * The boulder hit something and is back at its start: a red flash where
-   * it was, then it reappears at the start with a little bounce.
+   * The boulder hit something: it bursts where it was - a flash and a spray
+   * of rubble - then a fresh one appears at its new start with a bounce.
    */
   private resetBoulder(boulder: number, start: LovePushTile) {
     const sprite = this.pushBoulders[boulder];
     if (!sprite) return;
 
-    this.sound.play("dig", { volume: 0.08 });
+    this.sound.play("dig", { volume: 0.1 });
     this.tweens.killTweensOf(sprite);
+    this.explode(sprite.x, sprite.y - LOVE_ISLAND_TILE_PX / 2);
     sprite.setTint(LOSE_COLOUR);
 
     this.tweens.add({
       targets: sprite,
       alpha: 0,
-      scale: 0.6,
-      duration: 200,
-      ease: "Quad.easeIn",
+      scale: 1.3,
+      duration: 120,
+      ease: "Quad.easeOut",
       onComplete: () => {
         sprite.clearTint();
         this.placeBoulder(boulder, start);
-        sprite.setScale(0.6);
+        sprite.setScale(0.4);
         this.tweens.add({
           targets: sprite,
           scale: 1,
-          duration: 250,
+          duration: 300,
+          delay: 200,
           ease: "Back.easeOut",
         });
       },
     });
+  }
+
+  /** A little explosion: a flash ring and chips of rock flying out. */
+  private explode(x: number, y: number) {
+    const depth = y + LOVE_ISLAND_TILE_PX + 1;
+
+    const flash = this.add
+      .circle(x, y, 4, PUSH_EXPLOSION_COLOUR, 0.9)
+      .setDepth(depth);
+    this.tweens.add({
+      targets: flash,
+      scale: 4,
+      alpha: 0,
+      duration: 260,
+      ease: "Quad.easeOut",
+      onComplete: () => flash.destroy(),
+    });
+
+    for (let i = 0; i < PUSH_EXPLOSION_CHIPS; i++) {
+      const angle = (i / PUSH_EXPLOSION_CHIPS) * Math.PI * 2;
+      const distance = Phaser.Math.Between(10, 22);
+      const colour =
+        i % 3 === 0
+          ? PUSH_EXPLOSION_COLOUR
+          : RUBBLE_COLOURS[i % RUBBLE_COLOURS.length];
+      const chip = this.add
+        .rectangle(x, y, i % 2 === 0 ? 3 : 2, i % 2 === 0 ? 3 : 2, colour)
+        .setDepth(depth);
+
+      this.tweens.add({
+        targets: chip,
+        x: x + Math.cos(angle) * distance,
+        y: y + Math.sin(angle) * distance * 0.7 + Phaser.Math.Between(0, 6),
+        alpha: 0,
+        angle: Phaser.Math.Between(-180, 180),
+        duration: Phaser.Math.Between(320, 520),
+        ease: "Quad.easeOut",
+        onComplete: () => chip.destroy(),
+      });
+    }
   }
 
   /** The boulder dropped into the pit: it shrinks away and is out of play. */
@@ -1255,17 +1316,38 @@ export class LoveIslandScene extends BaseScene {
     }
   }
 
-  /** Mark where each boulder goes back to if it hits something. */
-  private drawPushStartMarkers(starts: LovePushTile[]) {
-    starts.forEach((tile, boulder) => {
-      const marker = this.pushStartMarkers[boulder];
-      if (!marker) return;
+  /** Mark where a boulder started from. */
+  private drawPushStartMarker(boulder: number, tile: LovePushTile) {
+    const marker = this.pushStartMarkers[boulder];
+    if (!marker) return;
 
-      const centre = getLovePushTileCentre(tile);
-      marker.clear();
-      marker.lineStyle(1, PUSH_START_COLOUR, 0.6);
-      marker.strokeEllipse(centre.x, centre.y + 2, 14, 8);
-    });
+    const centre = getLovePushTileCentre(tile);
+    marker.clear();
+    marker.lineStyle(1, PUSH_START_COLOUR, 0.6);
+    marker.strokeEllipse(centre.x, centre.y + 2, 14, 8);
+  }
+
+  private drawPushStartMarkers(starts: LovePushTile[]) {
+    starts.forEach((tile, boulder) => this.drawPushStartMarker(boulder, tile));
+  }
+
+  /** The tally at the pit - pops when another boulder drops in. */
+  private setSunkCount(count: number, grew: boolean) {
+    const label = this.pushSunkLabel;
+    if (!label) return;
+
+    label.setText(`${count}/${LOVE_PUSH_BOULDERS}`);
+
+    if (grew) {
+      this.tweens.killTweensOf(label);
+      label.setScale(1.5);
+      this.tweens.add({
+        targets: label,
+        scale: 1,
+        duration: 220,
+        ease: "Back.easeOut",
+      });
+    }
   }
 
   updateLovePush() {
@@ -1307,8 +1389,8 @@ export class LoveIslandScene extends BaseScene {
         const mine = this.myPushes[boulder];
 
         if (wasReset) {
-          // It hit something. Nobody is credited, and a push of ours on it
-          // is spent
+          // It hit something and comes back somewhere new. Nobody is
+          // credited, and a push of ours on it is spent
           this.resetBoulder(boulder, round.starts[boulder] ?? tile);
           if (mine && now - this.lastPushBubbleAt > PUSH_BUBBLE_COOLDOWN_MS) {
             this.lastPushBubbleAt = now;
@@ -1337,6 +1419,22 @@ export class LoveIslandScene extends BaseScene {
           delete this.myPushes[boulder];
         }
       });
+    }
+
+    // A crash hands a boulder a fresh start - move its ring
+    round.starts.forEach((start, boulder) => {
+      const index = toLovePushTileIndex(start);
+      if (this.renderedPushStarts[boulder] === index) return;
+
+      this.renderedPushStarts[boulder] = index;
+      this.drawPushStartMarker(boulder, start);
+    });
+
+    const sunkCount = getLovePushSunkCount(round.sunk);
+    if (this.renderedSunkCount !== sunkCount) {
+      const grew = (this.renderedSunkCount ?? 0) < sunkCount;
+      this.renderedSunkCount = sunkCount;
+      this.setSunkCount(sunkCount, grew);
     }
 
     round.pushes.forEach((pushes, boulder) => {
