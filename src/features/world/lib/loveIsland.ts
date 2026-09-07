@@ -665,6 +665,66 @@ export function applyLovePush({
   );
 }
 
+/**
+ * The boulder a push actually lands on. Normally the one pushed - but when
+ * the tile ahead of it holds another boulder the push carries through to
+ * the far end of that line, so two boulders wedged together (or a row of
+ * them) can still be shifted from either side. `undefined` when nothing
+ * can move: the line ends at the wall, or a boulder sits where the pusher
+ * would stand. The layout generator and solver deliberately use only the
+ * one-boulder rule (`canLovePush`), so this only ever adds moves.
+ */
+export function resolveLovePush({
+  boulders,
+  boulder,
+  direction,
+}: {
+  boulders: LovePushTile[];
+  boulder: number;
+  direction: LovePushDirection;
+}): number | undefined {
+  const from = boulders[boulder];
+  if (!from) return undefined;
+
+  const delta = LOVE_PUSH_DELTAS[direction];
+  if (
+    hasBoulderAt(boulders, getLovePushPusherTile({ boulder: from, direction }))
+  ) {
+    return undefined;
+  }
+
+  let target = boulder;
+  for (;;) {
+    const ahead = {
+      x: boulders[target].x + delta.x,
+      y: boulders[target].y + delta.y,
+    };
+    if (!isInsideLovePushGrid(ahead)) return undefined;
+
+    const next = boulders.findIndex((tile) => isSameTile(tile, ahead));
+    if (next < 0) return target;
+
+    target = next;
+  }
+}
+
+/** The boulders with one of them slid a tile - no checks, see `resolveLovePush`. */
+function slideLoveBoulder({
+  boulders,
+  boulder,
+  direction,
+}: {
+  boulders: LovePushTile[];
+  boulder: number;
+  direction: LovePushDirection;
+}): LovePushTile[] {
+  const delta = LOVE_PUSH_DELTAS[direction];
+
+  return boulders.map((tile, index) =>
+    index === boulder ? { x: tile.x + delta.x, y: tile.y + delta.y } : tile,
+  );
+}
+
 /** Which boulders sit on a target - they're shown green. Indexed by boulder. */
 export function getLovePushOnTarget({
   boulders,
@@ -943,12 +1003,13 @@ export type LovePushFullRound = LovePushRound & {
 };
 
 /**
- * A player pushes a boulder in a direction. Their push is recorded (one per
- * player per boulder - pushing another side moves it) and shows in the
- * count; once `LOVE_PUSH_PUSHERS_NEEDED` players are pushing the same way
- * the boulder slides a tile, everyone behind it is credited with the move,
- * and the boulder's pushes are cleared. Nothing changes on an impossible
- * push or once the round is solved.
+ * A player pushes a boulder in a direction. Their push lands on the boulder
+ * that would actually move (`resolveLovePush` - the far end of a line of
+ * boulders) and is recorded there, one per player per boulder (pushing
+ * another side moves it); once `LOVE_PUSH_PUSHERS_NEEDED` players are
+ * pushing it the same way it slides a tile, everyone behind it is credited
+ * with the move, and that boulder's pushes are cleared. Nothing changes on
+ * an impossible push or once the round is solved.
  */
 export function pushLoveBoulder<T extends LovePushFullRound>({
   round,
@@ -965,14 +1026,18 @@ export function pushLoveBoulder<T extends LovePushFullRound>({
 }): T {
   if (round.solved) return round;
 
-  if (!canLovePush({ boulders: round.boulders, boulder, direction })) {
-    return round;
-  }
+  // The push may carry through to a boulder further along the line
+  const target = resolveLovePush({
+    boulders: round.boulders,
+    boulder,
+    direction,
+  });
+  if (target === undefined) return round;
 
   // Already pushing it this way - nothing to add
-  if (round.votes[boulder]?.[farmId] === direction) return round;
+  if (round.votes[target]?.[farmId] === direction) return round;
 
-  const boulderVotes = { ...(round.votes[boulder] ?? {}), [farmId]: direction };
+  const boulderVotes = { ...(round.votes[target] ?? {}), [farmId]: direction };
   const crowd = Object.keys(boulderVotes).filter(
     (id) => boulderVotes[id] === direction,
   );
@@ -980,7 +1045,7 @@ export function pushLoveBoulder<T extends LovePushFullRound>({
   if (crowd.length < LOVE_PUSH_PUSHERS_NEEDED) {
     // Not enough of them yet - just count the push
     const votes = round.votes.map((existing, index) =>
-      index === boulder ? boulderVotes : existing,
+      index === target ? boulderVotes : existing,
     );
 
     return {
@@ -990,9 +1055,9 @@ export function pushLoveBoulder<T extends LovePushFullRound>({
     };
   }
 
-  const boulders = applyLovePush({
+  const boulders = slideLoveBoulder({
     boulders: round.boulders,
-    boulder,
+    boulder: target,
     direction,
   });
   const onTarget = getLovePushOnTarget({ boulders, targets: round.targets });
@@ -1005,7 +1070,7 @@ export function pushLoveBoulder<T extends LovePushFullRound>({
   });
 
   const votes = round.votes.map((existing, index) =>
-    index === boulder ? {} : existing,
+    index === target ? {} : existing,
   );
 
   return {
@@ -1188,12 +1253,16 @@ export function pushLovePushLocalRound({
   const next = pushLoveBoulder({ round, boulder, direction, farmId, now });
   if (next === round) return round;
 
-  const moved = movedLovePushBoulder(round, next, boulder);
+  // The push may have landed further along a line of boulders
+  const target =
+    resolveLovePush({ boulders: round.boulders, boulder, direction }) ??
+    boulder;
+  const moved = movedLovePushBoulder(round, next, target);
 
   return {
     ...next,
     moves: moved ? round.moves + 1 : round.moves,
-    myPush: moved ? undefined : { boulder, direction, farmId },
+    myPush: moved ? undefined : { boulder: target, direction, farmId },
     lastBotJoinAt: now,
   };
 }

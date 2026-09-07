@@ -26,7 +26,6 @@ import {
   LOVE_PUSH_PUSHERS_NEEDED,
   canClaimLoveBoulder,
   canClaimLovePush,
-  canLovePush,
   createLoveBoulderLocalRound,
   createLovePushLocalRound,
   fromLovePushTileIndex,
@@ -41,6 +40,7 @@ import {
   hasClaimedLoveBoulderToday,
   hasClaimedLovePushToday,
   pushLovePushLocalRound,
+  resolveLovePush,
   isLoveBoulderRewardOpen,
   isLoveDilemmaRevealReady,
   isLoveDilemmaWinner,
@@ -1045,16 +1045,23 @@ export class LoveIslandScene extends BaseScene {
       return;
     }
 
-    if (!canLovePush({ boulders: round.boulders, boulder, direction })) return;
+    // The push may carry through to a boulder further along a line of them
+    const target = resolveLovePush({
+      boulders: round.boulders,
+      boulder,
+      direction,
+    });
+    if (target === undefined) return;
 
     // The room already has this push - only repeat it as a retry
-    if (this.myPushes[boulder] === direction && sincePush < PUSH_RESEND_MS) {
+    if (this.myPushes[target] === direction && sincePush < PUSH_RESEND_MS) {
       return;
     }
 
     this.lastPushAt[boulder] = now;
-    // Remember which way we're pushing so we can credit ourselves when it goes
-    this.myPushes[boulder] = direction;
+    // Remember which way we're pushing (and what will move) so we can
+    // credit ourselves when it goes
+    this.myPushes[target] = direction;
 
     if (this.remotePush) {
       this.mmoServer?.send("lovePush.push", {

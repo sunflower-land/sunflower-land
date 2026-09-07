@@ -459,7 +459,26 @@ canPush(boulders, b, dir):
   to     = boulders[b] + DELTAS[dir]      // where it goes
   pusher = boulders[b] - DELTAS[dir]      // where the pusher comes from (may be off the grid)
   return inGrid(to) && !occupied(to) && !occupied(pusher)
+
+// Which boulder a push on `b` actually lands on. When the tile ahead holds
+// another boulder the push carries through to the far end of that line, so
+// two boulders wedged together can still be shifted from either side.
+resolvePush(boulders, b, dir):
+  if occupied(boulders[b] - DELTAS[dir]): return none   // pusher's tile
+  t = b
+  loop:
+    ahead = boulders[t] + DELTAS[dir]
+    if !inGrid(ahead): return none                    // line ends at the wall
+    if !occupied(ahead): return t                     // this one moves
+    t = the boulder on `ahead`
 ```
+
+`canPush` is the **layout generator's and solver's** rule and must stay as
+it is so both sides roll the same layouts. `resolvePush` is what a real
+push uses (client and room); it only ever allows more, so nothing solvable
+becomes unsolvable. The player's push (their vote, the count, the credit)
+is recorded on the boulder `resolvePush` returns, not the one they
+touched.
 
 `direction` is the way the **boulder** moves: a player pushing `east` is
 walking into it from the **west** - from the border tile if the boulder is
@@ -502,7 +521,9 @@ Rules:
 
 - Ignore if `roundId` ≠ the current round, the round is solved
   (`solvedAt > 0`), `boulder` is not `0..3`, `direction` is not one of the
-  four, or `canPush` is false.
+  four, or `resolvePush` returns none. Let `target = resolvePush(...)` -
+  every rule below about "the boulder" means `target`, except the position
+  check, which is against the boulder the player touched (`boulder`).
 - Ignore if that boulder moved less than **300ms** ago (it's still sliding -
   the client won't send this fast, so this only guards forged or racing
   messages).

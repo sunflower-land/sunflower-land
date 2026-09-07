@@ -52,6 +52,7 @@ import {
   isLovePushSolved,
   pushLoveBoulder,
   pushLovePushLocalRound,
+  resolveLovePush,
   tickLovePushLocalRound,
   toLovePushTileIndex,
   type LovePushDirection,
@@ -928,7 +929,7 @@ describe("Lover's Push", () => {
     });
 
     it("ignores an impossible push", () => {
-      // Off the grid, or into another boulder
+      // Off the grid, or the pusher would have to stand on a boulder
       const stuck = round({ boulders: [tile(0, 0), tile(1, 0)] });
 
       expect(
@@ -943,12 +944,63 @@ describe("Lover's Push", () => {
       expect(
         pushLoveBoulder({
           round: stuck,
+          boulder: 1,
+          direction: "west",
+          farmId: "f1",
+          now,
+        }),
+      ).toBe(stuck);
+      // A line ending at the wall can't go anywhere either
+      const wall = round({ boulders: [tile(4, 0), tile(5, 0)] });
+      expect(
+        pushLoveBoulder({
+          round: wall,
           boulder: 0,
           direction: "east",
           farmId: "f1",
           now,
         }),
-      ).toBe(stuck);
+      ).toBe(wall);
+    });
+
+    it("carries a push through a wedged boulder to the one beyond it", () => {
+      // (0, 0) and (1, 0) side by side: pushing the first east can't move
+      // it, so the push lands on the second - which has room
+      const wedged = round({ boulders: [tile(0, 0), tile(1, 0)] });
+
+      const pushing = pushLoveBoulder({
+        round: wedged,
+        boulder: 0,
+        direction: "east",
+        farmId: "f1",
+        now,
+      });
+      // Recorded on the boulder that will move
+      expect(pushing.votes[0]).toEqual({});
+      expect(pushing.votes[1]).toEqual({ f1: "east" });
+      expect(pushing.pushes[1]).toEqual({ count: 1, direction: "east" });
+
+      const moved = crowdPush(wedged, { boulder: 0, direction: "east" });
+      expect(moved.boulders).toEqual([tile(0, 0), tile(2, 0)]);
+      expect(Object.keys(moved.pushers)).toHaveLength(LOVE_PUSH_PUSHERS_NEEDED);
+      expect(moved.votes[1]).toEqual({});
+    });
+
+    it("resolves where a push lands", () => {
+      const line = [tile(1, 1), tile(2, 1), tile(3, 1)];
+
+      expect(
+        resolveLovePush({ boulders: line, boulder: 0, direction: "east" }),
+      ).toBe(2);
+      expect(
+        resolveLovePush({ boulders: line, boulder: 2, direction: "west" }),
+      ).toBe(0);
+      expect(
+        resolveLovePush({ boulders: line, boulder: 1, direction: "south" }),
+      ).toBe(1);
+      expect(
+        resolveLovePush({ boulders: line, boulder: 1, direction: "east" }),
+      ).toBeUndefined();
     });
 
     it("turns a boulder green when it lands on a target, and solves on the last one", () => {
