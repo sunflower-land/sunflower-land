@@ -1172,7 +1172,11 @@ export type LovePushLocalRound = LovePushFullRound & {
   /** Boulder moves so far - seeds the crowd's next move. */
   moves: number;
   lastBotMoveAt: number;
-  /** The push the local player last made, for the crowd to join. */
+  /**
+   * The push the local player last made, for the crowd to join: the boulder
+   * they touched (their push may land further along a line of boulders -
+   * simulated players push the same one and land the same way).
+   */
   myPush?: { boulder: number; direction: LovePushDirection; farmId: string };
   lastBotJoinAt: number;
 };
@@ -1253,12 +1257,37 @@ export function pushLovePushLocalRound({
     boulder;
   const moved = movedLovePushBoulder(round, next, target);
 
-  return {
+  const pushed = {
     ...next,
     moves: moved ? round.moves + 1 : round.moves,
-    myPush: moved ? undefined : { boulder: target, direction, farmId },
+    myPush: { boulder, direction, farmId },
     lastBotJoinAt: now,
   };
+
+  return { ...pushed, myPush: standingLocalPush(pushed) };
+}
+
+/**
+ * The local player's push, kept only while their vote still stands on the
+ * boulder it landed on - it's gone once that boulder moves (any direction),
+ * or the line it was pushing has changed under it.
+ */
+function standingLocalPush(
+  round: LovePushLocalRound,
+): LovePushLocalRound["myPush"] {
+  const myPush = round.myPush;
+  if (!myPush) return undefined;
+
+  const target = resolveLovePush({
+    boulders: round.boulders,
+    boulder: myPush.boulder,
+    direction: myPush.direction,
+  });
+  if (target === undefined) return undefined;
+
+  return round.votes[target]?.[myPush.farmId] === myPush.direction
+    ? myPush
+    : undefined;
 }
 
 /** The simulated crowd shoves a boulder together - enough of them to move it. */
@@ -1288,11 +1317,9 @@ function crowdPushLovePushLocalRound({
 
   if (!movedLovePushBoulder(round, next, boulder)) return round;
 
-  return {
-    ...next,
-    moves: round.moves + 1,
-    myPush: round.myPush?.boulder === boulder ? undefined : round.myPush,
-  };
+  const shoved = { ...next, moves: round.moves + 1 };
+
+  return { ...shoved, myPush: standingLocalPush(shoved) };
 }
 
 /**
@@ -1316,10 +1343,22 @@ export function tickLovePushLocalRound({
       : round;
   }
 
-  // Someone joins the local player's push
-  const myPush = round.myPush;
-  if (myPush && now - round.lastBotJoinAt >= LOVE_PUSH_LOCAL_BOT_JOIN_MS) {
-    const votes = round.votes[myPush.boulder] ?? {};
+  // Someone joins the local player's push - on the boulder they touched, so
+  // it lands where theirs did (maybe further along a line of boulders)
+  const myPush = standingLocalPush(round);
+  const target = myPush
+    ? resolveLovePush({
+        boulders: round.boulders,
+        boulder: myPush.boulder,
+        direction: myPush.direction,
+      })
+    : undefined;
+  if (
+    myPush &&
+    target !== undefined &&
+    now - round.lastBotJoinAt >= LOVE_PUSH_LOCAL_BOT_JOIN_MS
+  ) {
+    const votes = round.votes[target] ?? {};
     const bot = LOVE_PUSH_LOCAL_BOTS.find(
       (id) => votes[id] !== myPush.direction,
     );
@@ -1332,14 +1371,14 @@ export function tickLovePushLocalRound({
         farmId: bot,
         now,
       });
-      const moved = movedLovePushBoulder(round, next, myPush.boulder);
-
-      return {
+      const moved = movedLovePushBoulder(round, next, target);
+      const joined = {
         ...next,
         moves: moved ? round.moves + 1 : round.moves,
-        myPush: moved ? undefined : myPush,
         lastBotJoinAt: now,
       };
+
+      return { ...joined, myPush: standingLocalPush(joined) };
     }
   }
 

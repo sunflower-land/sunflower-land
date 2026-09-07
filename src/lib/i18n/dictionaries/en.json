@@ -6986,7 +6986,7 @@
   "loveDilemma.guide.redPlatform": "Red Platform",
   "loveDilemma.guide.redPlatform.description": "The most crowded platform. Nobody here gets a prize - and if two platforms tie for busiest, both lose.",
   "lovePush.guide.title": "Lover's Push",
-  "lovePush.guide.push": "One person can't budge a boulder. Walk into one to push it and a an arrow shows where it will go - once {{pushers}} players are pushing it the same way, it slides a tile and everyone sees it go. Push from another side to change your mind.",
+  "lovePush.guide.push": "One person can't budge a boulder. Walk into one to push it and an arrow shows where it will go - once {{pushers}} players are pushing it the same way, it slides a tile and everyone sees it go. Push from another side to change your mind.",
   "lovePush.guide.lights": "Four target tiles are hidden in the grid. A boulder turns green when it's resting on one - leave it there and work on the rest!",
   "lovePush.guide.walls": "Boulders can't leave the grid or be pushed into each other. Walk around the outside of the grid to push one back in. Rally the island!",
   "lovePush.guide.prizes": "Get all four green and everyone who helped move a boulder is rewarded with {{amount}} {{item}}, once a day.",

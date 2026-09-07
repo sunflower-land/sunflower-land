@@ -58,6 +58,7 @@ import {
   toLovePushTileIndex,
   type LovePushDirection,
   type LovePushFullRound,
+  type LovePushLocalRound,
   type LovePushTile,
 } from "./loveIsland";
 
@@ -1175,6 +1176,47 @@ describe("Lover's Push", () => {
       expect(next.moves).toBe(1);
       expect(next.myPush).toBeUndefined();
       expect(next.targets).toEqual(local.targets);
+    });
+
+    it("has the crowd join a push that lands through a wedged boulder", () => {
+      // (0, 0) and (1, 0) side by side: pushing the first east lands on the
+      // second, and so must the simulated players who join in
+      const base = createLovePushLocalRound(now, 5);
+      const boulders = [tile(0, 0), tile(1, 0), tile(4, 4), tile(5, 5)];
+      const wedged: LovePushLocalRound = {
+        ...base,
+        boulders,
+        onTarget: getLovePushOnTarget({ boulders, targets: base.targets }),
+        lit: getLovePushLitCount({ boulders, targets: base.targets }),
+        votes: createLovePushVotes(),
+        pushes: createLovePushVotes().map(getLovePushPushCounts),
+      };
+
+      let next = pushLovePushLocalRound({
+        round: wedged,
+        boulder: 0,
+        direction: "east",
+        farmId: "farm-1",
+        now,
+      });
+      expect(next.votes[1]).toEqual({ "farm-1": "east" });
+      expect(next.myPush).toEqual({
+        boulder: 0,
+        direction: "east",
+        farmId: "farm-1",
+      });
+
+      for (let joined = 1; joined < LOVE_PUSH_PUSHERS_NEEDED; joined++) {
+        next = tickLovePushLocalRound({
+          round: next,
+          now: now + joined * LOVE_PUSH_LOCAL_BOT_JOIN_MS,
+        });
+      }
+
+      expect(next.boulders[0]).toEqual(tile(0, 0));
+      expect(next.boulders[1]).toEqual(tile(2, 0));
+      expect(next.pushers["farm-1"]).toBe(1);
+      expect(next.myPush).toBeUndefined();
     });
 
     it("has the crowd shove a boulder on its own now and then", () => {

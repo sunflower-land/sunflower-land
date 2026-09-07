@@ -418,8 +418,9 @@ has its centre at `(555 + 20x + 10, 506 + 20y + 10)`. Boulder art is
 ```ts
 LOVE_PUSH_GRID_SIZE = 6;
 LOVE_PUSH_BOULDERS = 4;
-LOVE_PUSH_PUSHERS_NEEDED = 5; // players pushing the same way to move a boulder on mainnet
+LOVE_PUSH_MAINNET_PUSHERS_NEEDED = 5; // players pushing the same way to move a boulder on mainnet
 LOVE_PUSH_TESTNET_PUSHERS_NEEDED = 2; // everywhere else, so testers can move one
+LOVE_PUSH_PUSHERS_NEEDED = getLovePushPushersNeeded(network); // the value in force here (both sides)
 LOVE_PUSH_MOVE_MS = 300; // slide time = per-boulder move cooldown
 LOVE_PUSH_PRIZE = { item: "Bronze Love Box", amount: 1 };
 LOVE_PUSH_MAX_CLAIMS = 1; // per farm per UTC day
@@ -575,7 +576,7 @@ game event and the once-a-day rule is enforced client-side against the farm's
   pops when someone joins that direction and goes away when its count drops
   to 0. Green (on a target) wins over orange.
 - While the local player is walking into a boulder (a physics collision with
-  their movement pointing at it) and `canPush` holds, sends `lovePush.push`
+  their movement pointing at it) and `resolvePush` returns a boulder, sends `lovePush.push`
   with the direction they're heading. It remembers that push and only sends
   again on that boulder if the direction changes, or every 2s as a retry
   (the room treats a repeat as a no-op).

@@ -1181,6 +1181,9 @@ export class LoveIslandScene extends BaseScene {
       this.lastPushAt = {};
       this.renderedPushes = [];
       this.renderedOnTarget = [];
+      // Pushes left standing on other boulders when the round was solved
+      // don't carry over - nor do their arrows
+      this.hidePushProgress();
       round.boulders.forEach((tile, boulder) =>
         this.placeBoulder(boulder, tile),
       );
@@ -1269,6 +1272,18 @@ export class LoveIslandScene extends BaseScene {
       Math.round(progress * 100),
     );
     sprite.setTint(Phaser.Display.Color.GetColor(r, g, b));
+  }
+
+  /** Take every arrow and bar off the grid. */
+  private hidePushProgress() {
+    this.pushArrows.forEach((arrows, boulder) => {
+      LOVE_PUSH_DIRECTIONS.forEach((direction) => {
+        const arrow = arrows[direction];
+        this.tweens.killTweensOf(arrow);
+        arrow.setVisible(false);
+        this.pushProgressBars[boulder]?.[direction].setVisible(false);
+      });
+    });
   }
 
   /**
