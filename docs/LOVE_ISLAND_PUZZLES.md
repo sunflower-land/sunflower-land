@@ -381,7 +381,10 @@ island's own **16px tile grid** (the map is 80x60 tiles); tile `(x, y)` has
 its centre at `(16x + 8, 16y + 8)`. The squares are the 2x2 block
 **(37, 34), (38, 34), (37, 35), (38, 35)**; "the centre" for sides and start
 distances is tile **(38, 35)** - world px **(616, 568)**. The "boulders" are love
-rocks - `public/world/love_rock.png` (12x11, a pixel heart); they are solid.
+rocks - `public/world/love_rock.png` (18x17, a pixel heart); they are solid,
+with a 6px buffer of clear ground on every side so the crowd pushing one
+stands around its edge rather than on top of it. The squares are solid to
+players too - nobody can stand on them, only boulders go there.
 
 - **One player can't budge a boulder.** A player **walks into a boulder** to
   put their **push** on it in the direction they're heading. A push is a
@@ -441,13 +444,17 @@ LOVE_PUSH_SOLVED_MS = 10_000; // celebration before the next round
 ### Walkable tiles
 
 Which tiles a boulder can roll over (and a player stand on) comes from the
-map: a tile is walkable when a `Ground*` or `Paths*` layer covers it and no
-`Collision` rectangle touches it. `_scripts/loveIslandTiles.ts` packs that
-into `src/features/world/lib/loveIslandTiles.ts` - one bit per tile,
+map: a tile is walkable when a `Ground*` or `Paths*` layer covers it and
+neither a `Collision` rectangle nor one of the scene's own solid fixtures
+touches it. The fixtures (`src/features/world/lib/loveIslandFixtures.ts`)
+are things the scene adds on top of the map - today just the Love Boulder
+and its buffer - so a heart can't be rolled under the Love Boulder, where
+nobody could stand to push it back out. `_scripts/loveIslandTiles.ts` packs
+that into `src/features/world/lib/loveIslandTiles.ts` - one bit per tile,
 row-major, LSB first, base64 - and the API carries a **verbatim copy**
 (`src/colyseus/src/lib/loveIslandTiles.ts`). Re-run the script and copy
-the file whenever `love_island_map.json` changes; the room and every
-client must agree on these bits or layouts and resets will differ.
+the file whenever `love_island_map.json` or the fixtures change; the room
+and every client must agree on these bits or layouts and resets will differ.
 
 ### Layout (seeded)
 

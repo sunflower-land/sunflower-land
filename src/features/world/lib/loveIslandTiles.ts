@@ -4,21 +4,22 @@
  *
  * Which tiles of Love Island a Lover's Push boulder can roll over: one bit
  * per 16px tile, row-major, least significant bit first within each byte,
- * base64. A tile is walkable when a ground or path layer covers it and no
- * `Collision` rectangle touches it. The API carries a verbatim copy; the
- * room and every client must agree on these bits.
+ * base64. A tile is walkable when a ground or path layer covers it and
+ * neither a `Collision` rectangle nor a scene fixture (`loveIslandFixtures.ts`)
+ * touches it. The API carries a verbatim copy; the room and every client
+ * must agree on these bits.
  */
 
 export const LOVE_ISLAND_MAP_WIDTH = 80;
 export const LOVE_ISLAND_MAP_HEIGHT = 60;
 export const LOVE_ISLAND_TILE_PX = 16;
-/** 645 walkable tiles. */
+/** 641 walkable tiles. */
 export const LOVE_ISLAND_WALKABLE =
   "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
   "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
   "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwDwAAAAAAAAAA8A8AAAAAAAAAAPAPAAAAAAAAAADwDw" +
   "AAAAAAAAAA/A8AAAAAAAAAAP4PAAAAAAAAAAD+AAAAAAAAAAAA/gAAAAAAAAAAAA4EAAAAAADA" +
-  "PwAEAAAAAAAAwD8A4AEAAAAAAOA/APADAAAAAADgDwDwAwAAAAAA4E8A8CQAAAAAAPDPABxMAB" +
+  "PwAEAAAAAAAAwD8AAAAAAAAAAOA/APADAAAAAADgDwDwAwAAAAAA4E8A8CQAAAAAAPDPABxMAB" +
   "AAAAD4zwEfHxIAAAAA+M+BHx8ZAAAAAMzPgfkzGAgAAAAMAOD58wQIAAAAPAAw/58HCAAAADwA" +
   "J/+f/w8AAAA8AOf///8PAAAAPOD/////DwAAADwA/////wcAAAA8AD//5/8jAAAAPMAg/ycAEA" +
   "AAADyA4PkPAA8AAAA8EID5A/8PAAAA+HmI8wP+AAAAABAAEPICAAAAAAAAgAH4AAAAAAAAwP/g" +

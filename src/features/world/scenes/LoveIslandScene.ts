@@ -16,6 +16,12 @@ import { Label } from "../containers/Label";
 import type { ArraySchema } from "@colyseus/schema";
 import { LOVE_ISLAND_TILE_PX } from "../lib/loveIslandTiles";
 import {
+  LOVE_BOULDER_BUFFER,
+  LOVE_BOULDER_HEIGHT,
+  LOVE_BOULDER_SPOT,
+  LOVE_BOULDER_WIDTH,
+} from "../lib/loveIslandFixtures";
+import {
   LOVE_BOULDER_HIT_COOLDOWN_MS,
   LOVE_BOULDER_PRIZE,
   LOVE_DILEMMA_CHOOSE_MS,
@@ -102,18 +108,13 @@ const LOCAL_PLAYER_KEY = "me";
 const LOCAL_BOT_COUNT = 6;
 
 /**
- * The boulder sits at the very top of the island, at the foot of the cliff
- * where the path dead-ends. Art is 26x25; its base rests on the dirt.
+ * Where the Love Boulder sits and how much clear ground it keeps - shared
+ * with the walkable-tile generator so Lover's Push hearts steer clear of it.
  */
-const BOULDER_SPOT = { x: 620, y: 362 };
-const BOULDER_WIDTH = 26;
-const BOULDER_HEIGHT = 25;
-/**
- * Clear ground kept around the rock. Without it the crowd stands on top of
- * the boulder and nobody can see it; the collider is the art plus this buffer
- * on every side, so miners gather around its edge.
- */
-const BOULDER_BUFFER = 8;
+const BOULDER_SPOT = LOVE_BOULDER_SPOT;
+const BOULDER_WIDTH = LOVE_BOULDER_WIDTH;
+const BOULDER_HEIGHT = LOVE_BOULDER_HEIGHT;
+const BOULDER_BUFFER = LOVE_BOULDER_BUFFER;
 /**
  * How close a player has to stand to land a hit - far enough to reach from
  * the buffer's corners (a body's width past the collider).
@@ -144,10 +145,19 @@ const LABEL_CHAR_WIDTH = 4;
 /**
  * Lover's Push plays out across the island's own 16px tiles: boulders start
  * out toward the edges and roll into four squares in the centre of the
- * clearing. The "boulders" are love rocks (`world/love_rock.png`, 12x11).
+ * clearing. The "boulders" are love rocks (`world/love_rock.png`, 18x17).
  */
-const PUSH_COLLIDER_WIDTH = 12;
-const PUSH_COLLIDER_HEIGHT = 9;
+const PUSH_BOULDER_WIDTH = 18;
+const PUSH_BOULDER_HEIGHT = 17;
+/**
+ * Clear ground kept around a rock. A crowd pushing it stands right up
+ * against the collider, and with no buffer the players in front hide the
+ * rock completely; the collider is the art plus this on every side, so the
+ * crowd gathers around its edge and the rock stays visible.
+ */
+const PUSH_COLLIDER_BUFFER = 6;
+const PUSH_COLLIDER_WIDTH = PUSH_BOULDER_WIDTH + PUSH_COLLIDER_BUFFER * 2;
+const PUSH_COLLIDER_HEIGHT = PUSH_BOULDER_HEIGHT + PUSH_COLLIDER_BUFFER * 2;
 /** What a love rock bursts into. */
 const PUSH_BURST_COLOURS = [0xe43b44, 0xff8e8e, 0xffffff];
 /** Above the ground tiles (depth 0), below anyone walking on it. */
@@ -193,7 +203,7 @@ const PUSH_PROGRESS_Y = 8;
  * the middle of the next tile, so arrows from two boulders aiming at the
  * same tile don't land on top of each other.
  */
-const PUSH_ARROW_OFFSET = 10;
+const PUSH_ARROW_OFFSET = PUSH_BOULDER_WIDTH / 2 + 3;
 /**
  * An arrow starts at half size on the first push and grows to full size as
  * the crowd behind that direction fills up, so the way the boulder is most
@@ -927,6 +937,21 @@ export class LoveIslandScene extends BaseScene {
       .setPosition(centreX, top * LOVE_ISLAND_TILE_PX + PUSH_SUNK_LABEL_Y)
       .setDepth(Number.MAX_SAFE_INTEGER);
 
+    // The squares are for the boulders: nobody gets to stand on them, so the
+    // crowd can't block a square or hide the rocks sitting in it
+    const squares = this.pushSquaresBounds();
+    const squaresBlock = this.add.rectangle(
+      squares.centerX,
+      squares.centerY,
+      squares.width,
+      squares.height,
+      0x000000,
+      0,
+    );
+    this.physics.world.enable(squaresBlock);
+    (squaresBlock.body as Phaser.Physics.Arcade.Body).setImmovable(true);
+    this.colliders?.add(squaresBlock);
+
     // Solid boulders in their own group so walking into one can push it
     const boulderGroup = this.add.group();
 
@@ -1136,6 +1161,77 @@ export class LoveIslandScene extends BaseScene {
     return { x: centre.x, y: centre.y + 1 };
   }
 
+  /** The ground the four squares cover, in world px. */
+  private pushSquaresBounds(): Phaser.Geom.Rectangle {
+    const xs = LOVE_PUSH_TARGETS.map((t) => t.x);
+    const ys = LOVE_PUSH_TARGETS.map((t) => t.y);
+    const left = Math.min(...xs) * LOVE_ISLAND_TILE_PX;
+    const top = Math.min(...ys) * LOVE_ISLAND_TILE_PX;
+
+    return new Phaser.Geom.Rectangle(
+      left,
+      top,
+      (Math.max(...xs) + 1) * LOVE_ISLAND_TILE_PX - left,
+      (Math.max(...ys) + 1) * LOVE_ISLAND_TILE_PX - top,
+    );
+  }
+
+  /**
+   * A boulder's collider just landed on the local player. Arcade physics
+   * won't separate two bodies that aren't moving, so nudge them out the
+   * shortest way - never onto the squares, which are solid too.
+   */
+  private shoveOutOfBoulder(collider: Phaser.GameObjects.Rectangle) {
+    const player = this.currentPlayer;
+    const body = player?.body as Phaser.Physics.Arcade.Body | undefined;
+    if (!player || !body) return;
+
+    const bounds = collider.getBounds();
+    const halfWidth = body.width / 2;
+    const halfHeight = body.height / 2;
+    // The body (the feet) sits below the middle of the bumpkin
+    const feet = { x: body.center.x - player.x, y: body.center.y - player.y };
+    const footprint = (centre: Coordinates) =>
+      new Phaser.Geom.Rectangle(
+        centre.x - halfWidth,
+        centre.y - halfHeight,
+        body.width,
+        body.height,
+      );
+    if (
+      !Phaser.Geom.Intersects.RectangleToRectangle(
+        bounds,
+        footprint(body.center),
+      )
+    ) {
+      return;
+    }
+
+    // Where the feet would end up nudged out each side, nearest first
+    const spots: Coordinates[] = [
+      { x: bounds.left - halfWidth - 1, y: body.center.y },
+      { x: bounds.right + halfWidth + 1, y: body.center.y },
+      { x: body.center.x, y: bounds.top - halfHeight - 1 },
+      { x: body.center.x, y: bounds.bottom + halfHeight + 1 },
+    ].sort(
+      (a, b) =>
+        Phaser.Math.Distance.Between(body.center.x, body.center.y, a.x, a.y) -
+        Phaser.Math.Distance.Between(body.center.x, body.center.y, b.x, b.y),
+    );
+    const squares = this.pushSquaresBounds();
+    const spot =
+      spots.find(
+        (candidate) =>
+          !Phaser.Geom.Intersects.RectangleToRectangle(
+            squares,
+            footprint(candidate),
+          ),
+      ) ?? spots[0];
+    if (!spot) return;
+
+    this.placeOnPlatform(player, spot.x - feet.x, spot.y - feet.y);
+  }
+
   /** Put a boulder (and its collider) straight onto a tile, in play. */
   private placeBoulder(boulder: number, tile: LovePushTile) {
     const sprite = this.pushBoulders[boulder];
@@ -1158,10 +1254,12 @@ export class LoveIslandScene extends BaseScene {
     const body = collider.body as Phaser.Physics.Arcade.Body | undefined;
     body?.reset(spot.x, spot.y);
     if (body) body.enable = true;
+
+    this.shoveOutOfBoulder(collider);
   }
 
   /** Roll a boulder to its new tile, shoving the local player out if they're in the way. */
-  private slideBoulder(boulder: number, from: LovePushTile, to: LovePushTile) {
+  private slideBoulder(boulder: number, to: LovePushTile) {
     const sprite = this.pushBoulders[boulder];
     const collider = this.pushColliders[boulder];
     if (!sprite || !collider) return;
@@ -1190,17 +1288,7 @@ export class LoveIslandScene extends BaseScene {
       spot.y,
     );
 
-    const player = this.currentPlayer;
-    if (
-      player &&
-      Phaser.Geom.Rectangle.Contains(collider.getBounds(), player.x, player.y)
-    ) {
-      const ahead = getLovePushTileCentre({
-        x: to.x + (to.x - from.x),
-        y: to.y + (to.y - from.y),
-      });
-      this.placeOnPlatform(player, ahead.x, ahead.y);
-    }
+    this.shoveOutOfBoulder(collider);
   }
 
   /**
@@ -1412,7 +1500,7 @@ export class LoveIslandScene extends BaseScene {
             this.currentPlayer?.speak(translateForBubble("lovePush.reset"));
           }
         } else {
-          if (rendered !== index) this.slideBoulder(boulder, from, tile);
+          if (rendered !== index) this.slideBoulder(boulder, tile);
           if (justSunk) {
             this.renderedSunk[boulder] = true;
             this.parkBoulder(boulder);

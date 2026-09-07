@@ -5,13 +5,16 @@
  *   npx tsx _scripts/loveIslandTiles.ts
  *
  * A tile is walkable when a ground or path layer has a tile there (so it's
- * island, not the sky or water around it) and no `Collision` rectangle
- * touches it. Re-run whenever `love_island_map.json` changes, and copy the
- * output to the API's `src/colyseus/src/lib/loveIslandTiles.ts` - the room
- * validates pushes and rolls layouts against the same bits.
+ * island, not the sky or water around it) and neither a `Collision`
+ * rectangle nor one of the scene's own fixtures (`loveIslandFixtures.ts` -
+ * the Love Boulder) touches it. Re-run whenever `love_island_map.json` or
+ * the fixtures change, and copy the output to the API's
+ * `src/colyseus/src/lib/loveIslandTiles.ts` - the room validates pushes and
+ * rolls layouts against the same bits.
  */
 import fs from "fs";
 import path from "path";
+import { LOVE_ISLAND_FIXTURES } from "../src/features/world/lib/loveIslandFixtures";
 
 type TileLayer = { type: string; name: string; data?: number[] };
 type ObjectLayer = {
@@ -54,17 +57,19 @@ const collision = map.layers.find(
 );
 
 const blocked = new Uint8Array(width * height);
-collision?.objects?.forEach(({ x, y, width: w, height: h }) => {
-  const x0 = Math.floor(x / tilewidth);
-  const y0 = Math.floor(y / tilewidth);
-  const x1 = Math.ceil((x + w) / tilewidth);
-  const y1 = Math.ceil((y + h) / tilewidth);
-  for (let ty = Math.max(0, y0); ty < Math.min(height, y1); ty++) {
-    for (let tx = Math.max(0, x0); tx < Math.min(width, x1); tx++) {
-      blocked[ty * width + tx] = 1;
+[...(collision?.objects ?? []), ...LOVE_ISLAND_FIXTURES].forEach(
+  ({ x, y, width: w, height: h }) => {
+    const x0 = Math.floor(x / tilewidth);
+    const y0 = Math.floor(y / tilewidth);
+    const x1 = Math.ceil((x + w) / tilewidth);
+    const y1 = Math.ceil((y + h) / tilewidth);
+    for (let ty = Math.max(0, y0); ty < Math.min(height, y1); ty++) {
+      for (let tx = Math.max(0, x0); tx < Math.min(width, x1); tx++) {
+        blocked[ty * width + tx] = 1;
+      }
     }
-  }
-});
+  },
+);
 
 const bytes = new Uint8Array(Math.ceil((width * height) / 8));
 let walkable = 0;
@@ -84,9 +89,10 @@ const lines = [
   " *",
   " * Which tiles of Love Island a Lover's Push boulder can roll over: one bit",
   " * per 16px tile, row-major, least significant bit first within each byte,",
-  " * base64. A tile is walkable when a ground or path layer covers it and no",
-  " * `Collision` rectangle touches it. The API carries a verbatim copy; the",
-  " * room and every client must agree on these bits.",
+  " * base64. A tile is walkable when a ground or path layer covers it and",
+  " * neither a `Collision` rectangle nor a scene fixture (`loveIslandFixtures.ts`)",
+  " * touches it. The API carries a verbatim copy; the room and every client",
+  " * must agree on these bits.",
   " */",
   "",
   `export const LOVE_ISLAND_MAP_WIDTH = ${width};`,
