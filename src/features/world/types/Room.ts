@@ -170,10 +170,13 @@ export interface LoveBoulder extends Schema {
   /** Epoch ms a fresh boulder appears; 0 while it's standing. */
   respawnAt: number;
   /**
-   * Love Charms this boulder pays - rolled per UTC day by the server (5 to
-   * 30). 0 from a room that predates the roll; treat as the floor.
+   * What this boulder pays - rolled per UTC day by the server: an inventory
+   * item name (a Bronze Love Box or Bronze Food Box) or "Coins". Empty from a
+   * room that predates the roll.
    */
-  prize: number;
+  prize: string;
+  /** How many of `prize` - 1 for a box, 250 or 500 for coins. */
+  prizeAmount: number;
   /** farmId -> hits landed this round. Proof of who helped. */
   miners: MapSchema<number>;
 }
