@@ -8529,5 +8529,7 @@
   "description.totem.buff.cooking": "x0.5 Cooking Time",
   "description.totem.buff.cooking.speed": "2x Cooking Speed",
   "description.totem.buff.crafting": "x0.5 Crafting Box Time",
-  "lovePush.reset": "It hit something and burst! A fresh one is waiting back out there."
+  "lovePush.reset": "It hit something and burst! A fresh one is waiting back out there.",
+  "loveBoulder.prizeItem": "You won a {{item}}!",
+  "loveBoulder.prizeCoins": "You won {{amount}} coins!"
 }

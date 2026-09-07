@@ -8529,5 +8529,7 @@
   "description.totem.buff.cooking": "x0.5 Temps de cuisson",
   "description.totem.buff.cooking.speed": "2 fois la vitesse de cuisson",
   "description.totem.buff.crafting": "Boîte à bricolage x0.5",
-  "lovePush.reset": "Il a heurté quelque chose et a éclaté ! Un nouveau m'attend là-bas."
+  "lovePush.reset": "Il a heurté quelque chose et a éclaté ! Un nouveau m'attend là-bas.",
+  "loveBoulder.prizeItem": "Vous avez gagné un {{item}} !",
+  "loveBoulder.prizeCoins": "Vous avez gagné {{amount}} pièces !"
 }

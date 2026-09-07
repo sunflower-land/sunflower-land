@@ -8529,5 +8529,7 @@
   "description.totem.buff.cooking": "x0.5 Tempo de cozimento",
   "description.totem.buff.cooking.speed": "2x Velocidade de Cozimento",
   "description.totem.buff.crafting": "x0.5 Hora da Caixa de Fabricação",
-  "lovePush.reset": "Bateu em alguma coisa e explodiu! Um novo está esperando lá fora."
+  "lovePush.reset": "Bateu em alguma coisa e explodiu! Um novo está esperando lá fora.",
+  "loveBoulder.prizeItem": "Você ganhou um {{item}}!",
+  "loveBoulder.prizeCoins": "Você ganhou {{amount}} moedas!"
 }

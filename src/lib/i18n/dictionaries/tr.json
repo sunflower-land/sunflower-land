@@ -8529,5 +8529,7 @@
   "description.totem.buff.cooking": "x0.5 Pişirme Süresi",
   "description.totem.buff.cooking.speed": "2x Pişirme Hızı",
   "description.totem.buff.crafting": "x0.5 İşleme Kutusu Zamanı",
-  "lovePush.reset": "Bir şeye çarptı ve patladı! Dışarıda yeni bir tane bekliyor."
+  "lovePush.reset": "Bir şeye çarptı ve patladı! Dışarıda yeni bir tane bekliyor.",
+  "loveBoulder.prizeItem": "{{item}} kazandın!",
+  "loveBoulder.prizeCoins": "{{amount}} jeton kazandın!"
 }
