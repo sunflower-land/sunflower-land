@@ -548,12 +548,24 @@ export const LOVE_PUSH_MAX_CLAIMS = 1;
 /** How long the solved round is celebrated before fresh boulders appear. */
 export const LOVE_PUSH_SOLVED_MS = 10 * 1000;
 /**
- * The pit in the centre of the island the boulders have to be rolled into.
- * Tile (38, 35) - world (616, 568), the middle of the clearing.
+ * The middle of the clearing - what "the centre" means for sides and start
+ * distances. Tile (38, 35), world (616, 568).
  */
-export const LOVE_PUSH_PIT: LovePushTile = { x: 38, y: 35 };
+export const LOVE_PUSH_CENTRE: LovePushTile = { x: 38, y: 35 };
 /**
- * Boulders start at least this many tiles (Manhattan) from the pit - out
+ * The four squares in the centre of the island the boulders have to be
+ * rolled into - a 2x2 block around the centre. Any boulder can take any
+ * free square; a boulder rolled onto a free one parks there for the round,
+ * and from then on it's something the others can crash into.
+ */
+export const LOVE_PUSH_TARGETS: LovePushTile[] = [
+  { x: 37, y: 34 },
+  { x: 38, y: 34 },
+  { x: 37, y: 35 },
+  { x: 38, y: 35 },
+];
+/**
+ * Boulders start at least this many tiles (Manhattan) from the centre - out
  * toward the edges of the island, so each takes a crowd to bring home.
  */
 export const LOVE_PUSH_MIN_START_DISTANCE = 10;
@@ -659,8 +671,9 @@ export function isLoveIslandTileWalkable(tile: LovePushTile): boolean {
   return ((getWalkableBits()[index >> 3] >> (index & 7)) & 1) === 1;
 }
 
-export function isLovePushPit(tile: LovePushTile): boolean {
-  return isSameTile(tile, LOVE_PUSH_PIT);
+/** Is this one of the four squares? */
+export function isLovePushTarget(tile: LovePushTile): boolean {
+  return LOVE_PUSH_TARGETS.some((target) => isSameTile(target, tile));
 }
 
 /**
@@ -683,18 +696,17 @@ export type LovePushStep = "move" | "sink" | "reset";
 
 /**
  * What happens to a boulder rolled one tile in a direction: it rolls on
- * (`move`), drops into the pit (`sink`), or hits something - the water or
- * the edge of the island, a rock, a tree, a building, or another boulder
- * still in play - and crashes (`reset`): it comes back at a fresh start.
+ * (`move`), lands on a free square and parks there (`sink`), or hits
+ * something - the water or the edge of the island, a rock, a tree, a
+ * building, or any other boulder, parked in a square or not - and crashes
+ * (`reset`): it comes back at a fresh start.
  */
 export function getLovePushStep({
   boulders,
-  sunk,
   boulder,
   direction,
 }: {
   boulders: LovePushTile[];
-  sunk: boolean[];
   boulder: number;
   direction: LovePushDirection;
 }): { step: LovePushStep; to: LovePushTile } {
@@ -702,33 +714,32 @@ export function getLovePushStep({
   const delta = LOVE_PUSH_DELTAS[direction];
   const to = { x: from.x + delta.x, y: from.y + delta.y };
 
-  if (isLovePushPit(to)) return { step: "sink", to };
+  const occupied = boulders.some(
+    (tile, index) => index !== boulder && isSameTile(tile, to),
+  );
+  if (occupied) return { step: "reset", to };
 
-  const blocked =
-    !isLoveIslandTileWalkable(to) ||
-    boulders.some(
-      (tile, index) =>
-        index !== boulder && !sunk[index] && isSameTile(tile, to),
-    );
+  if (isLovePushTarget(to)) return { step: "sink", to };
 
-  return { step: blocked ? "reset" : "move", to };
+  return { step: isLoveIslandTileWalkable(to) ? "move" : "reset", to };
 }
 
 /**
- * Tiles from which a lone boulder can be rolled to the pit, with how many
- * pushes it takes: a step from `t` in direction `d` needs `t + d` walkable
- * (or the pit) and `t - d` walkable, where the pusher stands. Computed once
- * by walking back from the pit.
+ * Tiles from which a lone boulder can be rolled into one of the squares,
+ * with how many pushes it takes: a step from `t` in direction `d` needs
+ * `t + d` walkable (or a square) and `t - d` walkable, where the pusher
+ * stands. Ignores the other boulders. Computed once by walking back from
+ * the squares.
  */
-let distanceToPit: Map<number, number> | undefined;
+let distanceToSquare: Map<number, number> | undefined;
 
-function getDistancesToPit(): Map<number, number> {
-  if (distanceToPit) return distanceToPit;
+function getDistancesToSquare(): Map<number, number> {
+  if (distanceToSquare) return distanceToSquare;
 
-  const distances = new Map<number, number>([
-    [toLovePushTileIndex(LOVE_PUSH_PIT), 0],
-  ]);
-  let frontier = [LOVE_PUSH_PIT];
+  const distances = new Map<number, number>(
+    LOVE_PUSH_TARGETS.map((target) => [toLovePushTileIndex(target), 0]),
+  );
+  let frontier = [...LOVE_PUSH_TARGETS];
 
   while (frontier.length > 0) {
     const next: LovePushTile[] = [];
@@ -742,7 +753,7 @@ function getDistancesToPit(): Map<number, number> {
         const pusher = getLovePushPusherTile({ boulder: from, direction });
 
         if (
-          isLovePushPit(from) ||
+          isLovePushTarget(from) ||
           !isLoveIslandTileWalkable(from) ||
           !isLoveIslandTileWalkable(pusher) ||
           distances.has(toLovePushTileIndex(from))
@@ -758,35 +769,78 @@ function getDistancesToPit(): Map<number, number> {
     frontier = next;
   }
 
-  distanceToPit = distances;
+  distanceToSquare = distances;
 
   return distances;
 }
 
-/** Fewest pushes to roll a lone boulder from here into the pit, if it can be. */
-export function getLovePushDistanceToPit(
+/** Fewest pushes to roll a lone boulder from here into a square, if it can be. */
+export function getLovePushDistanceToSquare(
   tile: LovePushTile,
 ): number | undefined {
-  return getDistancesToPit().get(toLovePushTileIndex(tile));
+  return getDistancesToSquare().get(toLovePushTileIndex(tile));
 }
 
-/** A push that brings a lone boulder one tile closer to the pit, if there is one. */
-export function getLovePushStepTowardPit(
-  tile: LovePushTile,
-): LovePushDirection | undefined {
-  const here = getLovePushDistanceToPit(tile);
-  if (here === undefined || here === 0) return undefined;
+/**
+ * The first push of the shortest route that rolls a boulder into a free
+ * square right now - around the other boulders (parked or not) and never
+ * through a taken square - or `undefined` if there's no way at the moment.
+ * A breadth-first walk from where it stands; the island is small enough
+ * that this is cheap.
+ */
+export function getLovePushRouteStep({
+  boulders,
+  boulder,
+}: {
+  boulders: LovePushTile[];
+  boulder: number;
+}): LovePushDirection | undefined {
+  const start = boulders[boulder];
+  if (!start) return undefined;
 
-  return LOVE_PUSH_DIRECTIONS.find((direction) => {
-    const delta = LOVE_PUSH_DELTAS[direction];
-    const to = { x: tile.x + delta.x, y: tile.y + delta.y };
-    const pusher = getLovePushPusherTile({ boulder: tile, direction });
+  const others = boulders.filter((_, index) => index !== boulder);
+  const occupied = (tile: LovePushTile) =>
+    others.some((other) => isSameTile(other, tile));
+  const clear = (tile: LovePushTile) =>
+    isLoveIslandTileWalkable(tile) && !occupied(tile);
 
-    return (
-      isLoveIslandTileWalkable(pusher) &&
-      getLovePushDistanceToPit(to) === here - 1
-    );
-  });
+  // tile index -> the first push that leads there
+  const firstStep = new Map<number, LovePushDirection>();
+  const seen = new Set<number>([toLovePushTileIndex(start)]);
+  let frontier: { tile: LovePushTile; first?: LovePushDirection }[] = [
+    { tile: start },
+  ];
+
+  while (frontier.length > 0) {
+    const next: typeof frontier = [];
+
+    for (const { tile, first } of frontier) {
+      for (const direction of LOVE_PUSH_DIRECTIONS) {
+        const delta = LOVE_PUSH_DELTAS[direction];
+        const to = { x: tile.x + delta.x, y: tile.y + delta.y };
+        const pusher = getLovePushPusherTile({ boulder: tile, direction });
+        const step = first ?? direction;
+
+        if (!clear(pusher) || occupied(to)) continue;
+
+        // A free square - home
+        if (isLovePushTarget(to)) return step;
+
+        if (!isLoveIslandTileWalkable(to)) continue;
+
+        const index = toLovePushTileIndex(to);
+        if (seen.has(index)) continue;
+
+        seen.add(index);
+        firstStep.set(index, step);
+        next.push({ tile: to, first: step });
+      }
+    }
+
+    frontier = next;
+  }
+
+  return undefined;
 }
 
 function manhattan(a: LovePushTile, b: LovePushTile): number {
@@ -794,13 +848,13 @@ function manhattan(a: LovePushTile, b: LovePushTile): number {
 }
 
 /**
- * Which side of the island a tile is on, relative to the pit - the way the
+ * Which side of the island a tile is on, relative to the centre - the way the
  * boulders are dealt out, hub and spoke: 0 top (north), 1 right (east),
  * 2 bottom (south), 3 left (west). Boulder `b` always starts on side `b`.
  */
 export function getLovePushSide(tile: LovePushTile): number {
-  const dx = tile.x - LOVE_PUSH_PIT.x;
-  const dy = tile.y - LOVE_PUSH_PIT.y;
+  const dx = tile.x - LOVE_PUSH_CENTRE.x;
+  const dy = tile.y - LOVE_PUSH_CENTRE.y;
 
   if (Math.abs(dy) > Math.abs(dx)) return dy < 0 ? 0 : 2;
 
@@ -808,18 +862,19 @@ export function getLovePushSide(tile: LovePushTile): number {
 }
 
 /**
- * Every tile a boulder may start on: walkable, far enough from the pit, and
- * with a way to roll it there. Computed once, in tile order.
+ * Every tile a boulder may start on: walkable, far enough from the centre,
+ * and with a way to roll it into a square. Computed once, in tile order.
  */
 let startCandidates: LovePushTile[] | undefined;
 
 function getLovePushStartCandidates(): LovePushTile[] {
   if (startCandidates) return startCandidates;
 
-  startCandidates = [...getDistancesToPit().keys()]
+  startCandidates = [...getDistancesToSquare().keys()]
     .map(fromLovePushTileIndex)
     .filter(
-      (tile) => manhattan(tile, LOVE_PUSH_PIT) >= LOVE_PUSH_MIN_START_DISTANCE,
+      (tile) =>
+        manhattan(tile, LOVE_PUSH_CENTRE) >= LOVE_PUSH_MIN_START_DISTANCE,
     )
     .sort((a, b) => toLovePushTileIndex(a) - toLovePushTileIndex(b));
 
@@ -896,7 +951,7 @@ export type LovePushLayout = {
  * PRNG as the Dilemma tiers) so the room and every client agree. Hub and
  * spoke: one boulder at the top, one on the right, one at the bottom and
  * one on the left of the island (boulder `b` on side `b`), each far from the
- * pit and always with a path a crowd can roll it along to get there.
+ * centre and always with a path a crowd can roll it along into a square.
  */
 export function getLovePushLayout(roundId: number): LovePushLayout {
   const random = mulberry32(roundId * 104729 + 7);
@@ -949,11 +1004,11 @@ export function createLovePushVotes(): LovePushVotes[] {
 export type LovePushRound = {
   /** Increments every time fresh boulders appear. */
   roundId: number;
-  /** Where each boulder is now, indexed by boulder (the pit, once sunk). */
+  /** Where each boulder is now, indexed by boulder (its square, once parked). */
   boulders: LovePushTile[];
   /** Where each boulder last started from, indexed by boulder - a fresh spot after every crash. */
   starts: LovePushTile[];
-  /** Which boulders are in the pit. Indexed by boulder. */
+  /** Which boulders are parked in a square. Indexed by boulder. */
   sunk: boolean[];
   /** How many times each boulder has hit something and gone back. Indexed by boulder. */
   resets: number[];
@@ -982,7 +1037,7 @@ export function getLovePushSunkCount(sunk: boolean[]): number {
  * A player pushes a boulder in a direction. Their push is recorded, one per
  * player per boulder (pushing another side moves it); once
  * `LOVE_PUSH_PUSHERS_NEEDED` players are pushing it the same way it rolls a
- * tile - into the pit if that's what's there, or, if it hits something, it
+ * tile - parking if it lands on a free square, or, if it hits something, it
  * crashes and comes back at a fresh start on its side of the island - and
  * that boulder's pushes are cleared. Everyone behind a roll or a sink is
  * credited; nobody is for a crash. Nothing changes on a
@@ -1027,7 +1082,6 @@ export function pushLoveBoulder<T extends LovePushFullRound>({
 
   const { step, to } = getLovePushStep({
     boulders: round.boulders,
-    sunk: round.sunk,
     boulder,
     direction,
   });
@@ -1205,7 +1259,7 @@ export function createLovePushLocalRound(
   };
 }
 
-/** Did the boulder roll (or reset, or sink) between two rounds? */
+/** Did the boulder roll (or crash, or park) between two rounds? */
 function changedLovePushBoulder(
   before: LovePushLocalRound,
   after: LovePushLocalRound,
@@ -1220,7 +1274,7 @@ function changedLovePushBoulder(
 
 /**
  * The local player's push, kept only while their vote still stands on the
- * boulder - it's gone once that boulder rolls, resets or sinks.
+ * boulder - it's gone once that boulder rolls, crashes or parks.
  */
 function standingLocalPush(
   round: LovePushLocalRound,
@@ -1302,7 +1356,7 @@ function crowdPushLovePushLocalRound({
  * Local stand-in while the MMO room has no push state. A simulated player
  * joins the local player's push every second until the boulder rolls, so a
  * lone tester can still shift one; and the crowd rolls a random boulder of
- * its own a step toward the pit now and then, so boulders are seen moving
+ * its own a step toward a free square now and then, so boulders are seen moving
  * that the player didn't push. Once solved the celebration runs before
  * fresh boulders appear - the same shape the room publishes.
  */
@@ -1349,14 +1403,15 @@ export function tickLovePushLocalRound({
 
   if (now - round.lastBotMoveAt < LOVE_PUSH_LOCAL_BOT_MOVE_MS) return round;
 
-  // The crowd rolls a boulder that's still out there a step toward the pit
+  // The crowd rolls a boulder that's still out there a step along its route
+  // to a free square
   const random = mulberry32(round.roundId * 7919 + round.moves + 1);
   const options = round.boulders
-    .map((tile, boulder) => ({
+    .map((_, boulder) => ({
       boulder,
       direction: round.sunk[boulder]
         ? undefined
-        : getLovePushStepTowardPit(tile),
+        : getLovePushRouteStep({ boulders: round.boulders, boulder }),
     }))
     .filter(
       (option): option is { boulder: number; direction: LovePushDirection } =>
