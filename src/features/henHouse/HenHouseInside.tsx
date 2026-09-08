@@ -246,8 +246,11 @@ export const HenHouseInside: React.FC = () => {
                   <div
                     role="button"
                     aria-label="Sell Animals"
-                    className="absolute top-[18px] cursor-pointer z-10 hover:img-highlight"
+                    className="absolute cursor-pointer z-10 hover:img-highlight"
                     style={{
+                      // The shop disc has a 2px bag sprite above its disc, so its disc face sits
+                      // 2 native px lower than the plain disc. Match that so the two discs line up.
+                      top: `${18 + PIXEL_SCALE * 2}px`,
                       width: `${PIXEL_SCALE * 18}px`,
                       right: `${18 + PIXEL_SCALE * 19}px`,
                     }}
@@ -258,7 +261,7 @@ export const HenHouseInside: React.FC = () => {
                       className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
                       src={SUNNYSIDE.icons.death}
                       alt=""
-                      style={{ width: `${PIXEL_SCALE * 9}px` }}
+                      style={{ width: `${PIXEL_SCALE * 7}px` }}
                     />
                   </div>
 
