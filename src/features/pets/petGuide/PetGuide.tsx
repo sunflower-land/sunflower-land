@@ -114,7 +114,7 @@ const PetGuideMenu: React.FC<{
   const items = getObjectEntries(guideContent);
 
   return (
-    <InnerPanel className="relative overflow-y-auto max-h-[350px] scrollable">
+    <InnerPanel className="relative overflow-y-auto max-h-[70vh] scrollable">
       <div className="flex items-center gap-2">
         {onClose && (
           <img
