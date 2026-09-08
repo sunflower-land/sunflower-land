@@ -122,8 +122,8 @@ const HudComponent: React.FC<{
       {/*
         The interior surfaces have no floating farm hand row — the Bumpkin and
         each farm hand live on the "Farm Hands" tab of the beds modal instead
-        (see BedsMigrationModal, opened by InteriorBedsButton). The row is still
-        rendered in LandscapingHud, where it's the handle for placing them.
+        (see BedsMigrationModal, opened by InteriorBedsButton), and are placed
+        from the matching tab of the landscaping quick panel.
       */}
 
       {/*

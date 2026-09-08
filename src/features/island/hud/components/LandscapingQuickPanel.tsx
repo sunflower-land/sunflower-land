@@ -97,7 +97,14 @@ const ALL_DIMENSIONS: Record<string, { width: number; height: number }> = {
   Bud: { width: 1, height: 1 },
   Pet: { width: 2, height: 2 },
   FarmHand: { width: 1, height: 1 },
+  Bumpkin: { width: 1, height: 1 },
 };
+
+/**
+ * `LandscapingPlaceableType` requires an id alongside the name for the
+ * Bumpkin, but there is only ever one — matches `PlacedBumpkin`'s moveable id.
+ */
+const BUMPKIN_PLACEABLE_ID = "main";
 
 const getItemDims = (name: string) =>
   ALL_DIMENSIONS[name] ?? { width: 1, height: 1 };
@@ -205,6 +212,13 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
             id: (item as { id: string }).id,
           },
           action: "farmHand.placed",
+          requirements: { coins: 0, ingredients: {} },
+          collisionDetected: false,
+        } as any);
+      } else if (item.name === "Bumpkin") {
+        freshChild.send("SELECT", {
+          placeable: { name: "Bumpkin", id: BUMPKIN_PLACEABLE_ID },
+          action: "bumpkin.placed",
           requirements: { coins: 0, ingredients: {} },
           collisionDetected: false,
         } as any);
@@ -358,6 +372,14 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
   const petsNFTs = getChestPets(state.pets?.nfts ?? {});
   const farmHands =
     location === "petHouse" ? {} : getChestFarmHands(state.farmHands);
+
+  // The interior floors have no floating farm hand row (see LandscapingHud), so
+  // this tab is where the player's own Bumpkin is placed there. Like the farm
+  // hands above, it only appears while it isn't standing somewhere already.
+  const canPlaceBumpkin =
+    (location === "interior" || location === "level_one") &&
+    !!state.bumpkin &&
+    !state.bumpkin.coordinates;
   const chestMap = getChestItems(state);
   const biome = useMemo(() => getCurrentBiome(state.island), [state.island]);
 
@@ -376,7 +398,7 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
   const specialCounts: Record<ChestSpecialCategoryId, number> = {
     buds: getKeys(buds).length,
     petNFTs: getKeys(petsNFTs).length,
-    farmHands: Object.keys(farmHands).length,
+    farmHands: Object.keys(farmHands).length + (canPlaceBumpkin ? 1 : 0),
   };
 
   // ── Tab definitions (mirror the chest categories) ──────────────────────
@@ -427,6 +449,12 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
       child.send("SELECT", {
         placeable: { name: "FarmHand", id: item.id },
         action: "farmHand.placed",
+        requirements: { coins: 0, ingredients: {} },
+      });
+    } else if (item.name === "Bumpkin") {
+      child.send("SELECT", {
+        placeable: { name: "Bumpkin", id: BUMPKIN_PLACEABLE_ID },
+        action: "bumpkin.placed",
         requirements: { coins: 0, ingredients: {} },
       });
     } else {
@@ -522,7 +550,7 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
     }
 
     if (effectiveTab === "farmHands") {
-      return Object.keys(farmHands).map((id) => {
+      const boxes = Object.keys(farmHands).map((id) => {
         const image = SUNNYSIDE.achievement.farmHand;
         const item: LandscapingPlaceableType = { name: "FarmHand", id };
         return wrapBox(
@@ -536,6 +564,31 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
           </Box>,
         );
       });
+
+      if (canPlaceBumpkin && state.bumpkin) {
+        const item: LandscapingPlaceableType = {
+          name: "Bumpkin",
+          id: BUMPKIN_PLACEABLE_ID,
+        };
+        // The player comes first, ahead of their farm hands.
+        boxes.unshift(
+          wrapBox(
+            "bumpkin",
+            item,
+            <Box
+              image={SUNNYSIDE.icons.player}
+              onClick={() => handleClick(item)}
+            >
+              <NPCPlaceable
+                parts={state.bumpkin.equipped}
+                width={PIXEL_SCALE * 12}
+              />
+            </Box>,
+          ),
+        );
+      }
+
+      return boxes;
     }
 
     const category = categories.find((c) => c.id === effectiveTab);
@@ -573,7 +626,16 @@ export const LandscapingQuickPanel: React.FC<Props> = ({
       );
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [effectiveTab, chestMap, buds, petsNFTs, farmHands, now]);
+  }, [
+    effectiveTab,
+    chestMap,
+    buds,
+    petsNFTs,
+    farmHands,
+    canPlaceBumpkin,
+    state.bumpkin,
+    now,
+  ]);
 
   const totalPages = Math.ceil(items.length / MOBILE_ITEMS_PER_PAGE);
   const pagedItems = isMobile
