@@ -73,7 +73,7 @@ import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { getChapterTaskPoints } from "features/game/types/tracks";
 import chapterPointsIcon from "assets/icons/red_medal_short.webp";
-import { hasFeatureAccess, hasTimeBasedFeatureAccess } from "lib/flags";
+import { hasTimeBasedFeatureAccess } from "lib/flags";
 
 const OrderCard: React.FC<{
   order: Order;
@@ -468,17 +468,11 @@ export const Gifts: React.FC<{
     )
     .sort((a, b) => getKeys(FLOWERS).indexOf(a) - getKeys(FLOWERS).indexOf(b));
 
-  // Beta-gated: the recent-gifts shortlist UX is still being validated.
-  const hasRecentGiftFlowersAccess = hasFeatureAccess(
-    game,
-    "RECENT_GIFT_FLOWERS",
-  );
-
   // No favoriting step: the shortlist is derived from this NPC's own gift
   // history (most recent first), so it's populated automatically the moment
   // the player has gifted them anything.
   const [recentFlowers, setRecentFlowers] = useState<FlowerName[]>(() =>
-    hasRecentGiftFlowersAccess ? getRecentGiftFlowers(name) : [],
+    getRecentGiftFlowers(name),
   );
   const recentOwnedFlowers = recentFlowers.filter((flower) =>
     flowers.includes(flower),
@@ -501,7 +495,7 @@ export const Gifts: React.FC<{
     const difference =
       (state.context.state.npcs?.[name]?.friendship?.points ?? 0) - previous;
 
-    if (hasRecentGiftFlowersAccess && selected) {
+    if (selected) {
       const updated = recordRecentGiftFlower(name, selected);
       setRecentFlowers(updated);
     }
@@ -601,7 +595,7 @@ export const Gifts: React.FC<{
         )}
         {flowers.length > 0 && (
           <>
-            {hasRecentGiftFlowersAccess && recentOwnedFlowers.length > 0 && (
+            {recentOwnedFlowers.length > 0 && (
               <>
                 <Label
                   type="default"
