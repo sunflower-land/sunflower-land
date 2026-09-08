@@ -56,10 +56,20 @@ export function getSpeedUpPaymentOptions({
     hasEnoughGems,
     hasEnoughCoins,
     coinsAvailable,
+    canAffordAnyMethod: hasEnoughGems || coinsAvailable,
     defaultPaymentMethod,
   };
 }
 
+/**
+ * Drives the gems/coins choice for a speed-up: live costs, what the player can
+ * actually pay with, and the selection the confirmation will be charged for.
+ *
+ * The selection is held in state rather than derived, so it cannot change while
+ * the player is looking at it. Screens that hide the payment selector behind a
+ * button should call `resetPaymentMethod` when opening it, so the choice starts
+ * from the default that applies at that moment rather than at mount.
+ */
 export function useSpeedUpPayment({
   readyAt,
   game,
@@ -78,14 +88,20 @@ export function useSpeedUpPayment({
     hasEnoughGems,
     hasEnoughCoins,
     coinsAvailable,
+    canAffordAnyMethod,
     defaultPaymentMethod,
   } = getSpeedUpPaymentOptions({ game, gemCost, now });
 
-  // Latched on mount: the gem cost ticks down as `readyAt` approaches, so
-  // recomputing the default every render could silently flip a player from
-  // coins back to gems while they are looking at the confirmation modal.
+  // Held in state, not derived: the gem cost ticks down as `readyAt`
+  // approaches, so a live default could flip a player from coins to gems
+  // between reading the confirmation modal and confirming it.
   const [paymentMethod, setPaymentMethod] =
     useState<SpeedUpPaymentMethod>(defaultPaymentMethod);
+
+  // Re-latches the default for callers whose payment selector opens later than
+  // this hook mounts — by then a declining gem cost may have made gems
+  // affordable, and the mount-time default is stale.
+  const resetPaymentMethod = () => setPaymentMethod(defaultPaymentMethod);
 
   // Transparently fall back to gems whenever coins aren't actually usable —
   // missing trophy, cap would be exceeded, or insufficient coin balance.
@@ -100,6 +116,7 @@ export function useSpeedUpPayment({
   return {
     paymentMethod: effectiveMethod,
     setPaymentMethod,
+    resetPaymentMethod,
     gemCost,
     coinCost,
     canPayWithCoins,
@@ -109,5 +126,6 @@ export function useSpeedUpPayment({
     hasEnoughGems,
     hasEnoughCoins,
     canAfford,
+    canAffordAnyMethod,
   };
 }

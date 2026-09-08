@@ -150,9 +150,15 @@ export const InProgressInfo: React.FC<Props> = ({
         </div>
 
         <Button
-          disabled={!payment.canAfford}
+          // The payment selector lives inside the confirmation modal, so this
+          // gate has to allow either method through — otherwise a player with
+          // no gems can never reach the coin option.
+          disabled={!payment.canAffordAnyMethod}
           className="w-36 sm:w-44 px-3 h-12 mr-[6px]"
-          onClick={() => setShowConfirmation(true)}
+          onClick={() => {
+            payment.resetPaymentMethod();
+            setShowConfirmation(true);
+          }}
         >
           <div className="flex items-center justify-center gap-1 mx-2">
             <img src={fastForward} className="h-5" />

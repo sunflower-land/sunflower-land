@@ -107,6 +107,31 @@ describe("getSpeedUpPaymentOptions", () => {
     });
   });
 
+  describe("canAffordAnyMethod", () => {
+    // Gates the button that opens a confirmation modal containing the payment
+    // selector: it has to allow either method through, or a player with no
+    // gems can never reach the coin option.
+    it("is true when only gems are affordable", () => {
+      const state = game({ inventory: { Gem: new Decimal(GEM_COST) } });
+
+      expect(options(state).coinsAvailable).toBe(false);
+      expect(options(state).canAffordAnyMethod).toBe(true);
+    });
+
+    it("is true when only coins are affordable", () => {
+      const state = gameWithTrophy();
+
+      expect(options(state).hasEnoughGems).toBe(false);
+      expect(options(state).canAffordAnyMethod).toBe(true);
+    });
+
+    it("is false when neither method can pay", () => {
+      const state = gameWithTrophy({ coins: COIN_COST - 1 });
+
+      expect(options(state).canAffordAnyMethod).toBe(false);
+    });
+  });
+
   describe("wouldExceedDailyCoinLimit", () => {
     it("is false when the payment lands exactly on the cap", () => {
       const state = gameWithTrophy({
