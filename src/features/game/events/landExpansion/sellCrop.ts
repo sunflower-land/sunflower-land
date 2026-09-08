@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { mfEconomy } from "lib/moonforgeAnalytics";
 import {
   type Crop,
   type CropName,
@@ -96,6 +97,7 @@ export function sellCrop({
       new Decimal(amount),
     );
 
+    const coinsBefore = game.coins;
     game.coins = game.coins + coinsEarned;
     game.inventory[action.crop] = setPrecision(
       (game.inventory[action.crop] ?? new Decimal(0)).sub(amount),
@@ -105,6 +107,17 @@ export function sellCrop({
       game,
       boostNames: boostsUsed,
       createdAt,
+    });
+
+    mfEconomy("sell_crop", {
+      inputs: [
+        {
+          type: action.crop,
+          before: count.toNumber(),
+          after: (game.inventory[action.crop] ?? new Decimal(0)).toNumber(),
+        },
+      ],
+      outputs: [{ type: "Coin", before: coinsBefore, after: game.coins }],
     });
 
     return game;

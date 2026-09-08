@@ -69,7 +69,7 @@ import {
 import { CHAPTER_CROP_WEEK_CROP } from "features/game/types/chapterCropWeek";
 import { prngChance } from "lib/prng";
 import { KNOWN_IDS } from "features/game/types";
-import { mfTrack } from "lib/moonforgeAnalytics";
+import { mfEconomy } from "lib/moonforgeAnalytics";
 export type LandExpansionHarvestAction = {
   type: "crop.harvested";
   index: string;
@@ -1223,6 +1223,11 @@ export function harvest({
   return produce(state, (stateCopy) => {
     const { crops: plots } = stateCopy;
 
+    // `harvestCropFromPlot` may also grant a coin bonus (a random crop
+    // reward), applied to `stateCopy.coins` before it returns - snapshot the
+    // balance so the economy event can record that output too.
+    const coinsBefore = stateCopy.coins;
+
     const { updatedPlot, amount, aoe, boostsUsed, cropName } =
       harvestCropFromPlot({
         plotId: action.index,
@@ -1246,7 +1251,21 @@ export function harvest({
       createdAt,
     });
 
-    mfTrack("crop_harvested", { crop_type: cropName, amount });
+    const outputs: { type: string; before?: number; after?: number }[] = [
+      {
+        type: cropName,
+        before: cropCount.toNumber(),
+        after: cropCount.add(amount).toNumber(),
+      },
+    ];
+    if (stateCopy.coins !== coinsBefore) {
+      outputs.push({
+        type: "Coin",
+        before: coinsBefore,
+        after: stateCopy.coins,
+      });
+    }
+    mfEconomy("harvest_crop", { outputs });
 
     return stateCopy;
   });

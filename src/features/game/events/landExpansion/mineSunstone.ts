@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { mfEconomy } from "lib/moonforgeAnalytics";
 import { SUNSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { canMine } from "features/game/lib/resourceNodes";
 import { trackFarmActivity } from "features/game/types/farmActivity";
@@ -108,6 +109,23 @@ export function mineSunstone({
       "Sunstone Mined",
       stateCopy.farmActivity,
     );
+
+    mfEconomy("mine_resource", {
+      inputs: [
+        {
+          type: "Gold Pickaxe",
+          before: toolAmount.toNumber(),
+          after: toolAmount.sub(1).toNumber(),
+        },
+      ],
+      outputs: [
+        {
+          type: "Sunstone",
+          before: amountInInventory.toNumber(),
+          after: stateCopy.inventory.Sunstone.toNumber(),
+        },
+      ],
+    });
 
     return stateCopy;
   });

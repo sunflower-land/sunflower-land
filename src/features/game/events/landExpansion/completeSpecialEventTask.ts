@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { mfCurrencyChange } from "lib/moonforgeAnalytics";
 import { getKeys } from "lib/object";
 import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
@@ -97,6 +98,8 @@ export function completeSpecialEventTask({
       const rewardAmount = task.reward.wearables[item] ?? 0;
       stateCopy.wardrobe[item] = (stateCopy.wardrobe[item] ?? 0) + rewardAmount;
     });
+    const coinsBefore = stateCopy.coins;
+    const sflBefore = (stateCopy.balance ?? new Decimal(0)).toNumber();
     stateCopy.balance = (stateCopy.balance ?? new Decimal(0)).plus(
       task.reward.sfl,
     );
@@ -113,6 +116,11 @@ export function completeSpecialEventTask({
     stateCopy.specialEvents.history[eventYear][action.event] = Math.floor(
       (completedTasks / totalTasks) * 100,
     );
+
+    mfCurrencyChange("special_event_task", "grant", {
+      coin: { before: coinsBefore, after: stateCopy.coins },
+      sfl: { before: sflBefore, after: stateCopy.balance.toNumber() },
+    });
 
     return stateCopy;
   });

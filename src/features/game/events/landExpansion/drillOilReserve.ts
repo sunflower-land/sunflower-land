@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { mfEconomy } from "lib/moonforgeAnalytics";
 import {
   isTemporaryCollectibleActive,
   isCollectibleBuilt,
@@ -264,9 +265,8 @@ export function drillOilReserve({
       createdAt,
     );
 
-    game.inventory.Oil = (game.inventory.Oil ?? new Decimal(0)).add(
-      oilDropAmount,
-    );
+    const oilBefore = game.inventory.Oil ?? new Decimal(0);
+    game.inventory.Oil = oilBefore.add(oilDropAmount);
     // Take away one drill
     game.inventory["Oil Drill"] = drillAmount.sub(requiredDrills);
     // Update drilled at time. A fresh drill rebuilds the timer from scratch, so a
@@ -301,6 +301,23 @@ export function drillOilReserve({
         ...boostsUsed,
       ],
       createdAt,
+    });
+
+    mfEconomy("drill_oil", {
+      inputs: [
+        {
+          type: "Oil Drill",
+          before: drillAmount.toNumber(),
+          after: game.inventory["Oil Drill"].toNumber(),
+        },
+      ],
+      outputs: [
+        {
+          type: "Oil",
+          before: oilBefore.toNumber(),
+          after: game.inventory.Oil.toNumber(),
+        },
+      ],
     });
 
     return game;

@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { mfCurrencyChange } from "lib/moonforgeAnalytics";
 import type { Announcements } from "features/game/types/announcements";
 import { getKeys } from "lib/object";
 import type { GameState } from "features/game/types/game";
@@ -37,6 +38,7 @@ export function readMessage({
 
     const reward = announcement?.reward;
     if (reward) {
+      const coinsBefore = game.coins;
       getKeys(reward.items).forEach((name) => {
         const previous = game.inventory[name] ?? new Decimal(0);
         game.inventory[name] = previous.add(reward.items[name] ?? 0);
@@ -45,6 +47,10 @@ export function readMessage({
       if (reward.coins) {
         game.coins = game.coins + reward.coins;
       }
+
+      mfCurrencyChange("claim_mail_reward", "grant", {
+        coin: { before: coinsBefore, after: game.coins },
+      });
     }
 
     return game;

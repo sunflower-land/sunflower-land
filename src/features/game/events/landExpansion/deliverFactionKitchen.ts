@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { mfEconomy } from "lib/moonforgeAnalytics";
 import { getFactionRankBoostAmount } from "features/game/lib/factionRanks";
 import {
   START_DATE,
@@ -114,6 +115,23 @@ export function deliverFactionKitchen({
     inventory["Mark"] = marksBalance.plus(totalPoints);
 
     request.dailyFulfilled[day] = fulfilledToday + amount;
+
+    mfEconomy("faction_kitchen_delivery", {
+      inputs: [
+        {
+          type: request.item,
+          before: resourceBalance.toNumber(),
+          after: resourceBalance.minus(requestAmount).toNumber(),
+        },
+      ],
+      outputs: [
+        {
+          type: "Mark",
+          before: marksBalance.toNumber(),
+          after: marksBalance.plus(totalPoints).toNumber(),
+        },
+      ],
+    });
 
     return stateCopy;
   });

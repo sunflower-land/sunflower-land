@@ -29,7 +29,7 @@ import type {
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { produce } from "immer";
 import { prngChance } from "lib/prng";
-import { mfTrack } from "lib/moonforgeAnalytics";
+import { mfEconomy } from "lib/moonforgeAnalytics";
 
 export enum CHOP_ERRORS {
   MISSING_AXE = "No axe",
@@ -530,6 +530,8 @@ export function chop({
     inventory.Axe = axeAmount.sub(requiredAxes);
     inventory.Wood = woodAmount.add(woodHarvested);
 
+    const coinsBefore = stateCopy.coins;
+
     // Apply reward: honor legacy stored reward OR calculate new one via PRNG
     const { reward: treeReward, boostsUsed: rewardBoostsUsed } = tree.wood
       .reward
@@ -565,9 +567,31 @@ export function chop({
       stateCopy.farmActivity,
     );
 
-    mfTrack("resource_collected", {
-      resource_type: "Wood",
-      amount: Number(woodHarvested),
+    const chopOutputs: { type: string; before?: number; after?: number }[] = [
+      {
+        type: "Wood",
+        before: woodAmount.toNumber(),
+        after: inventory.Wood.toNumber(),
+      },
+    ];
+    if (stateCopy.coins !== coinsBefore) {
+      chopOutputs.push({
+        type: "Coin",
+        before: coinsBefore,
+        after: stateCopy.coins,
+      });
+    }
+    mfEconomy("chop_tree", {
+      inputs: new Decimal(requiredAxes).gt(0)
+        ? [
+            {
+              type: "Axe",
+              before: axeAmount.toNumber(),
+              after: inventory.Axe.toNumber(),
+            },
+          ]
+        : undefined,
+      outputs: chopOutputs,
     });
 
     delete tree.wood.amount;

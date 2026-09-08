@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { mfEconomy } from "lib/moonforgeAnalytics";
 import type { BumpkinItem } from "features/game/types/bumpkin";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import type { GameState, InventoryItemName } from "features/game/types/game";
@@ -96,6 +97,9 @@ export function sellGarbage({ state, action }: Options) {
       }
     }
 
+    const coinsBefore = game.coins;
+    const gemsBefore = inventory.Gem ?? new Decimal(0);
+
     // Handle coins
     const { sellPrice = 0 } = GARBAGE[item];
     if (sellPrice) {
@@ -139,6 +143,34 @@ export function sellGarbage({ state, action }: Options) {
       inventory[item] =
         inventory[item]?.sub(amount) ?? new Decimal(0).sub(amount);
     }
+
+    const garbageOutputs: { type: string; before?: number; after?: number }[] =
+      [];
+    if (game.coins !== coinsBefore) {
+      garbageOutputs.push({
+        type: "Coin",
+        before: coinsBefore,
+        after: game.coins,
+      });
+    }
+    const gemsAfter = inventory.Gem ?? new Decimal(0);
+    if (!gemsAfter.eq(gemsBefore)) {
+      garbageOutputs.push({
+        type: "Gem",
+        before: gemsBefore.toNumber(),
+        after: gemsAfter.toNumber(),
+      });
+    }
+    mfEconomy("sell_garbage", {
+      inputs: [
+        {
+          type: item,
+          before: Number(count),
+          after: Number(count) - amount,
+        },
+      ],
+      outputs: garbageOutputs,
+    });
 
     return game;
   });
