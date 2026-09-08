@@ -68,6 +68,7 @@ import { EconomyEditorExperimentSettings } from "./experiments-settings/EconomyE
 import { InteriorExperimentSettings } from "./experiments-settings/InteriorExperimentSettings";
 import { ToolShopBuyAllExperimentSettings } from "./experiments-settings/ToolShopBuyAllExperimentSettings";
 import { CustomCursorExperimentSettings } from "./experiments-settings/CustomCursorExperimentSettings";
+import { StatsLeaderboardExperimentSettings } from "./experiments-settings/StatsLeaderboardExperimentSettings";
 import type { ContentComponentProps, SettingMenuId } from "./types";
 import { TwitterRewards } from "features/auth/components/Twitter/Twitter";
 import { TelegramBody } from "features/auth/components/Telegram/Telegram";
@@ -418,6 +419,11 @@ export const SETTING_MENUS: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.experiments.customCursor"),
     parent: "experiments",
     content: CustomCursorExperimentSettings,
+  },
+  statsLeaderboard: {
+    title: translate("gameOptions.experiments.statsLeaderboard"),
+    parent: "experiments",
+    content: StatsLeaderboardExperimentSettings,
   },
   betaFeatures: {
     title: translate("gameOptions.betaFeatures"),

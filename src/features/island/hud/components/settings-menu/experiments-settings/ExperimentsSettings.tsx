@@ -28,6 +28,12 @@ export const ExperimentsSettings: React.FC<ContentComponentProps> = ({
       >
         <span>{t("gameOptions.experiments.customCursor")}</span>
       </Button>
+      <Button
+        className="self-start"
+        onClick={() => onSubMenuClick("statsLeaderboard")}
+      >
+        <span>{t("gameOptions.experiments.statsLeaderboard")}</span>
+      </Button>
     </div>
   );
 };
