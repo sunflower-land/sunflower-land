@@ -136,8 +136,14 @@ export const CraftButton: React.FC<{
           )}
           {!isPreparingQueueSlot && !isViewingReadyItem && (
             <Button
-              disabled={!payment.canAfford || isPending}
-              onClick={() => setShowConfirmation(true)}
+              // The payment selector lives inside the confirmation modal, so
+              // this gate has to allow either method through — otherwise a
+              // player with no gems can never reach the coin option.
+              disabled={!payment.canAffordAnyMethod || isPending}
+              onClick={() => {
+                payment.resetPaymentMethod();
+                setShowConfirmation(true);
+              }}
             >
               <div className="flex items-center justify-center gap-1">
                 <img src={fastForward} className="h-5" />
@@ -165,6 +171,7 @@ export const CraftButton: React.FC<{
           ]}
           confirmButtonLabel={t("instantCook.finish")}
           bodyContent={<SpeedUpPaymentSelector payment={payment} />}
+          disabled={!payment.canAfford}
         />
       </div>
     );
