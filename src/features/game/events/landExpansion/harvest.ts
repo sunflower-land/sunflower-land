@@ -1106,6 +1106,7 @@ export function harvestCropFromPlot({
   aoe: AOE;
   boostsUsed: { name: BoostName; value: string }[];
   cropName: CropName;
+  rewardRows: { type: string; before?: number; after?: number }[];
 } {
   const { crops: plots, bumpkin } = game;
 
@@ -1169,6 +1170,10 @@ export function harvestCropFromPlot({
     throw new Error("Not ready");
   }
 
+  // Reward items are credited here but harvested crops are credited by the
+  // caller, so the rows travel back out to be emitted in one event.
+  const rewardRows: { type: string; before?: number; after?: number }[] = [];
+
   const { reward, boostUsed: rewardBoostsUsed } = plot.crop.reward
     ? { reward: plot.crop.reward, boostUsed: [] }
     : getReward({
@@ -1184,11 +1189,18 @@ export function harvestCropFromPlot({
 
     if (reward.items) {
       game.inventory = reward.items.reduce((acc, item) => {
-        const amount = acc[item.name] || new Decimal(0);
+        const before = acc[item.name] || new Decimal(0);
+        const after = before.add(item.amount);
+
+        rewardRows.push({
+          type: item.name,
+          before: before.toNumber(),
+          after: after.toNumber(),
+        });
 
         return {
           ...acc,
-          [item.name]: amount.add(item.amount),
+          [item.name]: after,
         };
       }, game.inventory);
     }
@@ -1211,6 +1223,7 @@ export function harvestCropFromPlot({
     aoe,
     boostsUsed: [...cropYieldBoostsUsed, ...rewardBoostsUsed],
     cropName,
+    rewardRows,
   };
 }
 
@@ -1228,7 +1241,7 @@ export function harvest({
     // balance so the economy event can record that output too.
     const coinsBefore = stateCopy.coins;
 
-    const { updatedPlot, amount, aoe, boostsUsed, cropName } =
+    const { updatedPlot, amount, aoe, boostsUsed, cropName, rewardRows } =
       harvestCropFromPlot({
         plotId: action.index,
         game: stateCopy,
@@ -1265,6 +1278,7 @@ export function harvest({
         after: stateCopy.coins,
       });
     }
+    outputs.push(...rewardRows);
     mfEconomy("harvest_crop", { outputs });
 
     return stateCopy;

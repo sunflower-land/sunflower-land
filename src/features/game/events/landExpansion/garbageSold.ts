@@ -137,12 +137,23 @@ export function sellGarbage({ state, action }: Options) {
     );
 
     // Update inventory/wardrobe
+    // `getItemCount` returns how many are *saleable* (unplaced, capped by the
+    // sell limit), which is not the stored balance being decremented here.
+    // Record the balance actually mutated, or the event understates holdings.
+    const storedBefore = !isCollectibleItem
+      ? new Decimal(wardrobe[item] ?? 0)
+      : (inventory[item] ?? new Decimal(0));
+
     if (!isCollectibleItem) {
       wardrobe[item] = (wardrobe[item] ?? 0) - amount;
     } else {
       inventory[item] =
         inventory[item]?.sub(amount) ?? new Decimal(0).sub(amount);
     }
+
+    const storedAfter = !isCollectibleItem
+      ? new Decimal(wardrobe[item] ?? 0)
+      : (inventory[item] ?? new Decimal(0));
 
     const garbageOutputs: { type: string; before?: number; after?: number }[] =
       [];
@@ -165,8 +176,8 @@ export function sellGarbage({ state, action }: Options) {
       inputs: [
         {
           type: item,
-          before: Number(count),
-          after: Number(count) - amount,
+          before: storedBefore.toNumber(),
+          after: storedAfter.toNumber(),
         },
       ],
       outputs: garbageOutputs,

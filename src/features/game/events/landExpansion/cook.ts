@@ -342,11 +342,17 @@ export function cook({
     );
 
     mfEconomy("cook_food", {
-      inputs: Object.entries(ingredients).map(([ingredient, amount]) => {
+      inputs: Object.entries(ingredients).map(([ingredient]) => {
         const before = (
           inventoryBeforeCook[ingredient as InventoryItemName] ?? new Decimal(0)
         ).toNumber();
-        return { type: ingredient, before, after: before - Number(amount) };
+        // Read the post-deduction balance back off the inventory rather than
+        // doing the subtraction in JS floats, which drifts on fractional
+        // ingredient amounts.
+        const after = (
+          stateCopy.inventory[ingredient as InventoryItemName] ?? new Decimal(0)
+        ).toNumber();
+        return { type: ingredient, before, after };
       }),
       outputs: [{ type: item }],
     });

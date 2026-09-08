@@ -548,11 +548,20 @@ export function chop({
         stateCopy.coins + treeReward.coins * (tree.multiplier ?? 1);
     }
 
+    // Reward items are a faucet in their own right, so each one is recorded
+    // as an output with the balances either side of the credit.
+    const rewardRows: { type: string; before?: number; after?: number }[] = [];
+
     if (treeReward?.items) {
       treeReward.items.forEach((item) => {
-        stateCopy.inventory[item.name] = (
-          stateCopy.inventory[item.name] || new Decimal(0)
-        ).add(item.amount);
+        const before = stateCopy.inventory[item.name] || new Decimal(0);
+        const after = before.add(item.amount);
+        stateCopy.inventory[item.name] = after;
+        rewardRows.push({
+          type: item.name,
+          before: before.toNumber(),
+          after: after.toNumber(),
+        });
       });
     }
 
@@ -581,6 +590,7 @@ export function chop({
         after: stateCopy.coins,
       });
     }
+    chopOutputs.push(...rewardRows);
     mfEconomy("chop_tree", {
       inputs: new Decimal(requiredAxes).gt(0)
         ? [

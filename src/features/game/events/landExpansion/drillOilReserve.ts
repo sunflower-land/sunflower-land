@@ -304,13 +304,17 @@ export function drillOilReserve({
     });
 
     mfEconomy("drill_oil", {
-      inputs: [
-        {
-          type: "Oil Drill",
-          before: drillAmount.toNumber(),
-          after: game.inventory["Oil Drill"].toNumber(),
-        },
-      ],
+      // Boosts can make a drill free. Omitting the input then matches how
+      // chop reports a free swing, instead of logging a zero-delta row.
+      inputs: requiredDrills.gt(0)
+        ? [
+            {
+              type: "Oil Drill",
+              before: drillAmount.toNumber(),
+              after: game.inventory["Oil Drill"].toNumber(),
+            },
+          ]
+        : undefined,
       outputs: [
         {
           type: "Oil",

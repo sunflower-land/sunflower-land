@@ -68,6 +68,15 @@ export function completeSpecialEventTask({
     const balance = stateCopy.balance;
     if (balance.lt(sfl)) throw new Error("SFL requirement not met");
     stateCopy.balance = balance.minus(sfl);
+
+    // The SFL requirement is a sink and is reported separately from the
+    // reward below, so the two do not net out into a single misleading row.
+    // `mfCurrencyChange` drops no-op rows, so a task with no SFL cost emits
+    // nothing here.
+    mfCurrencyChange("special_event_task_requirement", "spend", {
+      sfl: { before: balance.toNumber(), after: stateCopy.balance.toNumber() },
+    });
+
     if (sfl > 0) {
       stateCopy.farmActivity = trackFarmActivity(
         "FLOWER Spent",

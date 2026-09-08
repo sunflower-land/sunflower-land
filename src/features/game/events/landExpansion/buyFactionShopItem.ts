@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { mfEconomy } from "lib/moonforgeAnalytics";
+import { mfEconomy, type EconomyRow } from "lib/moonforgeAnalytics";
 import type { BumpkinItem } from "features/game/types/bumpkin";
 import {
   type FactionShopItemName,
@@ -65,6 +65,10 @@ export function buyFactionShopItem({
         BUY_FACTION_SHOP_ITEM_ERRORS.PLAYER_NOT_IN_REQUIRED_FACTION,
       );
     }
+    // Burning a prerequisite wearable is a sink, so its balance is captured
+    // here and reported alongside the Mark spend below.
+    let prerequisiteRow: EconomyRow | undefined;
+
     if (item.requires) {
       const currentWardrobe = wardrobe[item.requires as BumpkinItem] ?? 0;
       if (
@@ -80,6 +84,11 @@ export function buyFactionShopItem({
         throw new Error(BUY_FACTION_SHOP_ITEM_ERRORS.NOT_ENOUGH_PREREQUISITE);
       }
       wardrobe[item.requires as BumpkinItem] = currentWardrobe - burnAmount;
+      prerequisiteRow = {
+        type: item.requires,
+        before: currentWardrobe,
+        after: currentWardrobe - burnAmount,
+      };
     }
 
     const marksBalance = inventory["Mark"] ?? new Decimal(0);
@@ -143,6 +152,7 @@ export function buyFactionShopItem({
           before: marksBalance.toNumber(),
           after: marksBalance.minus(price).toNumber(),
         },
+        ...(prerequisiteRow ? [prerequisiteRow] : []),
       ],
       outputs: [{ type: action.item }],
     });
