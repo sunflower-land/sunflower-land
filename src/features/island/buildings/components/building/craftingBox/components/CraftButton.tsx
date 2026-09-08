@@ -165,6 +165,7 @@ export const CraftButton: React.FC<{
           ]}
           confirmButtonLabel={t("instantCook.finish")}
           bodyContent={<SpeedUpPaymentSelector payment={payment} />}
+          disabled={!payment.canAfford}
         />
       </div>
     );

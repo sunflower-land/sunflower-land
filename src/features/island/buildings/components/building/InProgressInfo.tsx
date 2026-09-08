@@ -179,6 +179,7 @@ export const InProgressInfo: React.FC<Props> = ({
           ]}
           confirmButtonLabel={t("instantCook.finish")}
           bodyContent={<SpeedUpPaymentSelector payment={payment} />}
+          disabled={!payment.canAfford}
         />
       </div>
     </div>

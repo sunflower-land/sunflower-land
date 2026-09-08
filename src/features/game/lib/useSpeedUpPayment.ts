@@ -12,15 +12,19 @@ import {
 
 export type UseSpeedUpPayment = ReturnType<typeof useSpeedUpPayment>;
 
-export function useSpeedUpPayment({
-  readyAt,
+/**
+ * Pure payment maths behind {@link useSpeedUpPayment}, split out so it can be
+ * unit tested without rendering a component.
+ */
+export function getSpeedUpPaymentOptions({
   game,
+  gemCost,
+  now,
 }: {
-  readyAt: number;
   game: GameState;
+  gemCost: number;
+  now: number;
 }) {
-  const now = useNow({ live: true, autoEndAt: readyAt });
-  const gemCost = useRealTimeInstantGems({ readyAt, game });
   const coinCost = gemCost * COINS_PER_GEM;
 
   const canPayWithCoins = hasDinoEggTrophyBoost(game);
@@ -36,8 +40,52 @@ export function useSpeedUpPayment({
   const coinsAvailable =
     canPayWithCoins && !wouldExceedDailyCoinLimit && hasEnoughCoins;
 
+  // Gems stay the default, but a player who can't cover the gem cost starts on
+  // coins when the Dino Egg Trophy makes them payable. Otherwise the speed-up
+  // button is disabled on `canAfford`, and in the modals where the payment
+  // selector lives *behind* that button (cooking, crafting) a player with no
+  // gems can never reach the coin option — the trophy becomes unusable.
+  const defaultPaymentMethod: SpeedUpPaymentMethod =
+    !hasEnoughGems && coinsAvailable ? "coins" : "gems";
+
+  return {
+    coinCost,
+    canPayWithCoins,
+    coinsSpentToday,
+    wouldExceedDailyCoinLimit,
+    hasEnoughGems,
+    hasEnoughCoins,
+    coinsAvailable,
+    defaultPaymentMethod,
+  };
+}
+
+export function useSpeedUpPayment({
+  readyAt,
+  game,
+}: {
+  readyAt: number;
+  game: GameState;
+}) {
+  const now = useNow({ live: true, autoEndAt: readyAt });
+  const gemCost = useRealTimeInstantGems({ readyAt, game });
+
+  const {
+    coinCost,
+    canPayWithCoins,
+    coinsSpentToday,
+    wouldExceedDailyCoinLimit,
+    hasEnoughGems,
+    hasEnoughCoins,
+    coinsAvailable,
+    defaultPaymentMethod,
+  } = getSpeedUpPaymentOptions({ game, gemCost, now });
+
+  // Latched on mount: the gem cost ticks down as `readyAt` approaches, so
+  // recomputing the default every render could silently flip a player from
+  // coins back to gems while they are looking at the confirmation modal.
   const [paymentMethod, setPaymentMethod] =
-    useState<SpeedUpPaymentMethod>("gems");
+    useState<SpeedUpPaymentMethod>(defaultPaymentMethod);
 
   // Transparently fall back to gems whenever coins aren't actually usable —
   // missing trophy, cap would be exceeded, or insufficient coin balance.
