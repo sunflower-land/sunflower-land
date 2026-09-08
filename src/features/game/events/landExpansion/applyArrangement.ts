@@ -546,6 +546,12 @@ function indexDesired(
   const nonEmpty = (record: object | undefined) =>
     Object.keys(record ?? {}).length > 0;
 
+  // Every surface holds collectibles, so an absent bucket is a malformed
+  // payload rather than "lift everything". Left unchecked it would fall
+  // through as an empty desired set and the removal pass below would strip
+  // the surface bare.
+  if (!arrangement.collectibles) mustInclude("collectibles");
+
   if (surface.hasBuildings) {
     if (!arrangement.buildings) mustInclude("buildings");
   } else if (nonEmpty(arrangement.buildings)) cannotContain("buildings");

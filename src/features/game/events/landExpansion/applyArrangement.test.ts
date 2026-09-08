@@ -576,6 +576,24 @@ describe("applyArrangement", () => {
       });
     });
 
+    it("rejects an arrangement that omits collectibles", () => {
+      const state: GameState = {
+        ...baseFarm,
+        collectibles: {
+          "Basic Bear": [{ id: "a", coordinates: { x: 0, y: 0 } }],
+        },
+      };
+      const { collectibles: _collectibles, ...withoutCollectibles } =
+        snapshotFarm(state);
+
+      // Every surface holds collectibles, so an omitted bucket is a malformed
+      // payload - not an instruction to lift everything placed on the surface.
+      expect(() =>
+        apply(state, withoutCollectibles as unknown as Arrangement),
+      ).toThrow(/must include collectibles/);
+      expect(state.collectibles["Basic Bear"]).toHaveLength(1);
+    });
+
     it("rejects an indoor arrangement that omits a bucket the surface holds", () => {
       const state: GameState = {
         ...baseFarm,

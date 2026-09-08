@@ -149,10 +149,14 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
     child.send("TOGGLE_REMOVAL_MODE");
   };
 
+  // Outside the sandbox there is nothing in flight worth blocking on: every
+  // edit is already saved and Cancel is just "leave landscaping". Inside it,
+  // CANCEL tears the child out of `saving.autosaving`, killing the invoked
+  // save before its SAVE_SUCCESS/SAVE_ERROR can come back.
+  const cancelBlocked = sandbox && (saving || saveInFlight);
+
   const cancel = () => {
-    // Outside the sandbox there is nothing in flight worth blocking on: every
-    // edit is already saved and Cancel is just "leave landscaping".
-    if (sandbox && (saving || saveInFlight)) return;
+    if (cancelBlocked) return;
     button.play();
     if (isDirty) {
       setShowDiscardConfirmation(true);
@@ -433,7 +437,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
               )}
               <RoundButton
                 className="mb-3.5"
-                disabled={sandbox && (saving || saveInFlight)}
+                disabled={cancelBlocked}
                 onClick={cancel}
               >
                 <img
@@ -642,8 +646,14 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
       {showDiscardConfirmation && (
         <LandscapingConfirmation
           mode="discard"
+          confirmDisabled={cancelBlocked}
           onClose={() => setShowDiscardConfirmation(false)}
           onConfirm={() => {
+            // An autosave can start while this modal sits open, so re-run the
+            // guard here too - the one in cancel() only covers the moment the
+            // tick was pressed. Holding the modal open leaves the child in
+            // saving.autosaving until the save lands.
+            if (cancelBlocked) return;
             setShowDiscardConfirmation(false);
             child.send("CANCEL");
           }}

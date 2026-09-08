@@ -12,6 +12,8 @@ interface Props {
   mode: "save" | "discard";
   onClose: () => void;
   onConfirm: () => void;
+  /** Blocks confirming while a save is in flight; closing stays available. */
+  confirmDisabled?: boolean;
 }
 
 /** Confirm leaving landscaping with draft edits, either way. */
@@ -19,6 +21,7 @@ export const LandscapingConfirmation: React.FC<Props> = ({
   mode,
   onClose,
   onConfirm,
+  confirmDisabled,
 }) => {
   const { t } = useAppTranslation();
   const isSave = mode === "save";
@@ -49,7 +52,11 @@ export const LandscapingConfirmation: React.FC<Props> = ({
           <Button onClick={onClose} className="mt-2">
             {t("cancel")}
           </Button>
-          <Button onClick={onConfirm} className="mt-2">
+          <Button
+            onClick={onConfirm}
+            disabled={confirmDisabled}
+            className="mt-2"
+          >
             {t(isSave ? "save" : "landscaping.discard")}
           </Button>
         </div>
