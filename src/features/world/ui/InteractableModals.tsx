@@ -72,6 +72,7 @@ type InteractableName =
   | "nye_button"
   | "welcome_sign"
   | "bud"
+  | "bud_box_guide"
   | "plaza_statue"
   | "auction_item"
   | "boat_modal"
@@ -326,6 +327,16 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           message={[
             {
               text: t("interactableModals.bud.message"),
+            },
+          ]}
+        />
+      </Modal>
+      <Modal show={interactable === "bud_box_guide"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          message={[
+            {
+              text: t("interactableModals.bud.dailyPrizeAvailable"),
             },
           ]}
         />
