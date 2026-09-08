@@ -42,7 +42,6 @@ import { ArrangementConflictsPanel } from "./components/ArrangementConflictsPane
 import { commitArrangement } from "features/game/actions/arrangementEffects";
 import { isSaveInFlight } from "features/game/actions/layoutEffects";
 import { SavedLayoutsModal } from "./components/SavedLayoutsModal";
-import { hasFeatureAccess } from "lib/flags";
 import { useNow } from "lib/utils/hooks/useNow";
 import { PET_SHRINES } from "features/game/types/pets";
 import { isPetCollectible } from "features/game/events/landExpansion/placeCollectible";
@@ -115,6 +114,10 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
     gameService,
     (state) => state.context.landscapingLocation,
   );
+  // Set only when the sandbox experiment is on (see lib/landscapingDraft.ts).
+  // With it off every edit is already saved, so there is no Save tick and
+  // nothing to discard - the HUD falls back to its pre-sandbox shape.
+  const sandbox = !!landscapingLocation;
 
   const child = gameService.getSnapshot().children
     .landscaping as MachineInterpreter;
@@ -147,7 +150,9 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   };
 
   const cancel = () => {
-    if (saving || saveInFlight) return;
+    // Outside the sandbox there is nothing in flight worth blocking on: every
+    // edit is already saved and Cancel is just "leave landscaping".
+    if (sandbox && (saving || saveInFlight)) return;
     button.play();
     if (isDirty) {
       setShowDiscardConfirmation(true);
@@ -340,8 +345,11 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
         <div className="absolute bottom-0 p-2.5 left-0 flex flex-col space-y-2.5">
           <InteriorFloorNav
             floor={location === "interior" ? "ground" : "level_one"}
-            beforeNavigate={(to) =>
-              switchSurface(to === "ground" ? "interior" : "level_one")
+            beforeNavigate={
+              sandbox
+                ? (to) =>
+                    switchSurface(to === "ground" ? "interior" : "level_one")
+                : undefined
             }
           />
         </div>
@@ -406,24 +414,26 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                 top: `${PIXEL_SCALE * 31}px`,
               }}
             >
+              {sandbox && (
+                <RoundButton
+                  className="mb-3.5"
+                  disabled={saving || saveInFlight}
+                  onClick={save}
+                >
+                  <img
+                    src={SUNNYSIDE.icons.confirm}
+                    className="absolute group-active:translate-y-[2px]"
+                    style={{
+                      top: `${PIXEL_SCALE * 5.5}px`,
+                      left: `${PIXEL_SCALE * 5.5}px`,
+                      width: `${PIXEL_SCALE * 11}px`,
+                    }}
+                  />
+                </RoundButton>
+              )}
               <RoundButton
                 className="mb-3.5"
-                disabled={saving || saveInFlight}
-                onClick={save}
-              >
-                <img
-                  src={SUNNYSIDE.icons.confirm}
-                  className="absolute group-active:translate-y-[2px]"
-                  style={{
-                    top: `${PIXEL_SCALE * 5.5}px`,
-                    left: `${PIXEL_SCALE * 5.5}px`,
-                    width: `${PIXEL_SCALE * 11}px`,
-                  }}
-                />
-              </RoundButton>
-              <RoundButton
-                className="mb-3.5"
-                disabled={saving || saveInFlight}
+                disabled={sandbox && (saving || saveInFlight)}
                 onClick={cancel}
               >
                 <img
@@ -491,26 +501,27 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                 </>
               )}
 
-              {location === "farm" &&
-                hasFeatureAccess(gameState, "SAVED_LAYOUTS") && (
-                  <RoundButton
-                    className="mb-3.5"
-                    onClick={() => {
-                      button.play();
-                      setShowSavedLayouts(true);
+              {/* Saved Layouts rides on the same experiment: it applies a
+                  whole arrangement, which only the sandbox can hold. */}
+              {location === "farm" && sandbox && (
+                <RoundButton
+                  className="mb-3.5"
+                  onClick={() => {
+                    button.play();
+                    setShowSavedLayouts(true);
+                  }}
+                >
+                  <img
+                    src={mapIcon}
+                    className="absolute group-active:translate-y-[2px]"
+                    style={{
+                      top: `${PIXEL_SCALE * 5}px`,
+                      left: `${PIXEL_SCALE * 5}px`,
+                      width: `${PIXEL_SCALE * 13}px`,
                     }}
-                  >
-                    <img
-                      src={mapIcon}
-                      className="absolute group-active:translate-y-[2px]"
-                      style={{
-                        top: `${PIXEL_SCALE * 5}px`,
-                        left: `${PIXEL_SCALE * 5}px`,
-                        width: `${PIXEL_SCALE * 13}px`,
-                      }}
-                    />
-                  </RoundButton>
-                )}
+                  />
+                </RoundButton>
+              )}
 
               <RoundButton className="mb-3.5" onClick={toggleRemovalMode}>
                 <img

@@ -19,7 +19,8 @@ import { OFFLINE_FARM } from "./landData";
  * These flows have no jest coverage on the FE (server behavior is covered in
  * the API repo; UI is verified in-browser per house convention):
  *
- * Saved Layouts modal (landscaping → map button, needs SAVED_LAYOUTS access):
+ * Saved Layouts modal (landscaping → map button, needs the `savedLayouts`
+ * experiment on — Settings → Advanced → Experiments):
  * 1. Open the modal — both dummies list with previews; "Ascension Layout"
  *    carries the re-apply badge.
  * 2. Save current farm (with and without a name) — the new card appears

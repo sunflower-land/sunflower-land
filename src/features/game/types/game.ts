@@ -9,6 +9,7 @@ import type {
 } from "./crops";
 
 import type { CollectibleName, CraftableName, Food } from "./craftables";
+import type { ExperimentName } from "./experiments";
 import type {
   UpgradedResourceName,
   CommodityName,
@@ -2252,6 +2253,8 @@ export interface GameState {
     network?: NetworkName;
     economiesEnabled?: boolean;
     interiorsEnabled?: boolean;
+    /** Opt-in experiments; unset falls back to EXPERIMENT_DEFAULTS. */
+    experiments?: Partial<Record<ExperimentName, boolean>>;
     toolShop?: {
       buyAllEnabled?: boolean;
       buyAll?: Partial<

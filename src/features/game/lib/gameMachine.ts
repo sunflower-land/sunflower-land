@@ -51,6 +51,7 @@ import {
   rekeyDraft,
   settleLandscapingSave,
 } from "./landscapingDraft";
+import { hasExperiment } from "features/game/types/experiments";
 import type { ArrangementConflict } from "features/game/events/landExpansion/applyArrangement";
 import {
   landscapingMachine,
@@ -2855,6 +2856,10 @@ export function startGame(authContext: AuthContext) {
               multiple: (_: Context, event: LandscapeEvent) => event.multiple,
               maximum: (_: Context, event: LandscapeEvent) => event.maximum,
               location: (_: Context, event: LandscapeEvent) => event.location,
+              // Keeps the child's pre-sandbox branches alive for players who
+              // have not opted in (see types/experiments.ts).
+              sandbox: (context: Context) =>
+                hasExperiment(context.state, "newLandscaping"),
             },
             // The child finishing is the Cancel path: the draft is discarded
             // and any pending live actions are flushed (a no-op when none).

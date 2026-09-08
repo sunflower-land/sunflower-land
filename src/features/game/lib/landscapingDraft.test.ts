@@ -20,8 +20,11 @@ import {
 const farmId = 1;
 const at = new Date(1_700_000_000_000);
 
+// The sandbox is opt-in while it rolls out; every case below is a player who
+// turned it on (the off case is covered by its own test).
 const farm: GameState = {
   ...TEST_FARM,
+  settings: { ...TEST_FARM.settings, experiments: { newLandscaping: true } },
   inventory: {
     ...TEST_FARM.inventory,
     "Basic Land": new Decimal(3),
@@ -87,6 +90,22 @@ describe("landscapingDraft", () => {
     expect(draft.draftActions).toEqual([]);
     expect(draft.landscapingLocation).toBe("farm");
     expect(isDraftDirty(draft)).toBe(false);
+  });
+
+  it("does not engage the sandbox without the experiment", () => {
+    const optedOut: GameState = {
+      ...farm,
+      settings: { ...farm.settings, experiments: { newLandscaping: false } },
+    };
+
+    const draft = beginDraft(optedOut, "farm");
+
+    expect(draft.baseState).toBeUndefined();
+    expect(draft.landscapingLocation).toBeUndefined();
+    // Nothing is keyed to a surface, so every edit streams live as before.
+    expect(isDraftEvent("collectible.moved", draft.landscapingLocation)).toBe(
+      false,
+    );
   });
 
   it("applies a draft edit to the draft only", () => {
