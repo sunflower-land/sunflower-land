@@ -6,10 +6,6 @@ import {
   type LandscapingPlaceableType,
 } from "./lib/placementEvents";
 import type { GameEventName, PlacementEvent } from "features/game/events";
-import {
-  BUILDINGS_DIMENSIONS,
-  type BuildingName,
-} from "features/game/types/buildings";
 import type { CollectibleName } from "features/game/types/craftables";
 import {
   assign,
@@ -25,13 +21,11 @@ import {
   type Context as GameMachineContext,
   saveGame,
 } from "features/game/lib/gameMachine";
-import { RESOURCES, type ResourceName } from "features/game/types/resources";
 import {
   RESOURCE_MOVE_EVENTS,
   RESOURCES_REMOVE_ACTIONS,
 } from "features/island/collectibles/MovableComponent";
 import type { PlaceableLocation } from "features/game/types/collectibles";
-import type { NFTName } from "features/game/events/landExpansion/placeNFT";
 import type { FlipCollectibleAction } from "features/game/events/landExpansion/flipCollectible";
 import type { FlipFarmHandAction } from "features/game/events/landExpansion/flipFarmHand";
 import type { FlipBumpkinAction } from "features/game/events/landExpansion/flipBumpkin";
