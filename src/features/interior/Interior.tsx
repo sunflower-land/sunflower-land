@@ -400,7 +400,10 @@ export const Interior: React.FC = () => {
                   <UpgradeButton />
                 </MapPlacement>
               )}
-              {expansion &&
+              {/* Hidden while landscaping: the HUD floor nav saves the floor
+                  being left first, which these stairs would bypass. */}
+              {!landscaping &&
+                expansion &&
                 hasRequiredIslandExpansion(island.type, "volcano") && (
                   <MapPlacement
                     key="upgrade-button"

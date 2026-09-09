@@ -627,6 +627,10 @@ import {
   type InteriorsEnabledAction,
 } from "./updateInteriorsEnabled";
 import {
+  updateExperiment,
+  type ExperimentToggledAction,
+} from "./updateExperiment";
+import {
   updateToolShopSettings,
   type UpdateToolShopSettingsAction,
 } from "./updateToolShopSettings";
@@ -1005,6 +1009,7 @@ export type PlayingEvent =
   | UpdateNetworkAction
   | EconomiesEnabledAction
   | InteriorsEnabledAction
+  | ExperimentToggledAction
   | UpdateToolShopSettingsAction
   | BuyMinigameItemAction
   | AcknowledgeRewardBoxAction
@@ -1312,6 +1317,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "network.updated": updateNetwork,
   "economies.enabled": updateEconomiesEnabled,
   "interiors.enabled": updateInteriorsEnabled,
+  "experiment.toggled": updateExperiment,
   "toolShop.settingsUpdated": updateToolShopSettings,
   "minigameItem.bought": buyEventShopItem,
   "rewardBox.acknowledged": acknowledgeRewardBox,

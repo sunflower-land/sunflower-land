@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useInterval } from "lib/utils/hooks/useInterval";
 import { Balances } from "components/Balances";
 import { useActor, useSelector } from "@xstate/react";
@@ -37,13 +37,18 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { RoundButton } from "components/ui/RoundButton";
 import { CraftDecorationsModal } from "./components/decorations/CraftDecorationsModal";
 import { RemoveAllConfirmation } from "../collectibles/RemoveAllConfirmation";
+import { LandscapingConfirmation } from "../collectibles/LandscapingConfirmation";
+import { ArrangementConflictsPanel } from "./components/ArrangementConflictsPanel";
+import { commitArrangement } from "features/game/actions/arrangementEffects";
+import { isSaveInFlight } from "features/game/actions/layoutEffects";
 import { SavedLayoutsModal } from "./components/SavedLayoutsModal";
-import { hasFeatureAccess } from "lib/flags";
 import { useNow } from "lib/utils/hooks/useNow";
 import { PET_SHRINES } from "features/game/types/pets";
 import { isPetCollectible } from "features/game/events/landExpansion/placeCollectible";
 import { getKeys } from "lib/object";
 import { Label } from "components/ui/Label";
+import { Panel } from "components/ui/Panel";
+import { Loading } from "features/auth/components";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getChestItems } from "./components/inventory/utils/inventory";
 import type { NFTName } from "features/game/events/landExpansion/placeNFT";
@@ -86,8 +91,33 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
     useState(false);
   const [showDecorations, setShowDecorations] = useState(false);
   const [showSavedLayouts, setShowSavedLayouts] = useState(false);
+  const [showDiscardConfirmation, setShowDiscardConfirmation] = useState(false);
+  const [showSaveConfirmation, setShowSaveConfirmation] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saveFailed, setSaveFailed] = useState(false);
   const [quickDragging, setQuickDragging] = useState(false);
   const button = useSound("button");
+
+  // Every placeable surface is a sandbox: edits live in a local draft until Save.
+  const isDirty = useSelector(
+    gameService,
+    (state) => state.context.draftActions.length > 0,
+  );
+  const conflicts = useSelector(
+    gameService,
+    (state) => state.context.arrangementConflicts,
+  );
+  // A live-action flush is mid-flight: leaving now would re-send its actions.
+  const saveInFlight = useSelector(gameService, isSaveInFlight);
+  // The surface the draft is keyed to (set on LANDSCAPE, re-keyed on a switch).
+  const landscapingLocation = useSelector(
+    gameService,
+    (state) => state.context.landscapingLocation,
+  );
+  // Set only when the sandbox experiment is on (see lib/landscapingDraft.ts).
+  // With it off every edit is already saved, so there is no Save tick and
+  // nothing to discard - the HUD falls back to its pre-sandbox shape.
+  const sandbox = !!landscapingLocation;
 
   const child = gameService.getSnapshot().children
     .landscaping as MachineInterpreter;
@@ -118,6 +148,83 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
     button.play();
     child.send("TOGGLE_REMOVAL_MODE");
   };
+
+  // Outside the sandbox there is nothing in flight worth blocking on: every
+  // edit is already saved and Cancel is just "leave landscaping". Inside it,
+  // CANCEL tears the child out of `saving.autosaving`, killing the invoked
+  // save before its SAVE_SUCCESS/SAVE_ERROR can come back.
+  const cancelBlocked = sandbox && (saving || saveInFlight);
+
+  const cancel = () => {
+    if (cancelBlocked) return;
+    button.play();
+    if (isDirty) {
+      setShowDiscardConfirmation(true);
+      return;
+    }
+    child.send("CANCEL");
+  };
+
+  // The tick asks first when there is something to save; a clean draft just
+  // leaves landscaping.
+  const save = () => {
+    if (saving || saveInFlight) return;
+    button.play();
+    if (isDirty) {
+      setShowSaveConfirmation(true);
+      return;
+    }
+    void commitNow();
+  };
+
+  const commitNow = async () => {
+    if (saving || saveInFlight) return;
+    setSaving(true);
+    setSaveFailed(false);
+    try {
+      await commitArrangement(gameService);
+    } catch {
+      setSaveFailed(true);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  /**
+   * Move the draft to another surface. A clean draft is simply re-keyed; a
+   * dirty one saves the surface being left first (same overlay as Save) and
+   * only reports success when the server accepted it - a conflict keeps the
+   * player where they are with the panel showing.
+   */
+  const switchSurface = async (next: PlaceableLocation): Promise<boolean> => {
+    if (saving || saveInFlight) return false;
+    if (!isDirty) {
+      gameService.send({ type: "SURFACE_CHANGED", location: next });
+      return true;
+    }
+    setSaving(true);
+    setSaveFailed(false);
+    try {
+      return await commitArrangement(gameService, { nextLocation: next });
+    } catch {
+      setSaveFailed(true);
+      return false;
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // The floor buttons go through switchSurface, but browser back or a typed
+  // URL can land the player on another surface with landscaping still
+  // active and the draft still keyed to the one they left. Settle it the same
+  // way: save that surface, then continue here.
+  useEffect(() => {
+    if (landscapingLocation && landscapingLocation !== location) {
+      void switchSurface(location);
+    }
+    // Mount only: this is about how the player arrived, not later changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const gameState = useSelector(gameService, (state) => state.context.state);
   const farmHandIds = getKeys(gameState.farmHands.bumpkins);
 
@@ -232,14 +339,22 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
 
       {/*
         Floor navigation stays available while landscaping the interior so the
-        player can move between floors without leaving edit mode. The matching
-        in-world arrows are hidden during landscaping (see Interior/LevelOne),
-        so these HUD buttons are the only way to switch floors here.
+        player can move between floors without leaving edit mode. Each floor is
+        its own draft surface, so switching saves the floor being left first
+        (see switchSurface). The matching in-world arrows are hidden during
+        landscaping (see Interior/LevelOne), so these HUD buttons are the only
+        way to switch floors here.
       */}
       {(location === "interior" || location === "level_one") && (
         <div className="absolute bottom-0 p-2.5 left-0 flex flex-col space-y-2.5">
           <InteriorFloorNav
             floor={location === "interior" ? "ground" : "level_one"}
+            beforeNavigate={
+              sandbox
+                ? (to) =>
+                    switchSurface(to === "ground" ? "interior" : "level_one")
+                : undefined
+            }
           />
         </div>
       )}
@@ -303,12 +418,27 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                 top: `${PIXEL_SCALE * 31}px`,
               }}
             >
+              {sandbox && (
+                <RoundButton
+                  className="mb-3.5"
+                  disabled={saving || saveInFlight}
+                  onClick={save}
+                >
+                  <img
+                    src={SUNNYSIDE.icons.confirm}
+                    className="absolute group-active:translate-y-[2px]"
+                    style={{
+                      top: `${PIXEL_SCALE * 5.5}px`,
+                      left: `${PIXEL_SCALE * 5.5}px`,
+                      width: `${PIXEL_SCALE * 11}px`,
+                    }}
+                  />
+                </RoundButton>
+              )}
               <RoundButton
                 className="mb-3.5"
-                onClick={() => {
-                  button.play();
-                  child.send("CANCEL");
-                }}
+                disabled={cancelBlocked}
+                onClick={cancel}
               >
                 <img
                   src={SUNNYSIDE.icons.cancel}
@@ -375,26 +505,27 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                 </>
               )}
 
-              {location === "farm" &&
-                hasFeatureAccess(gameState, "SAVED_LAYOUTS") && (
-                  <RoundButton
-                    className="mb-3.5"
-                    onClick={() => {
-                      button.play();
-                      setShowSavedLayouts(true);
+              {/* Saved Layouts rides on the same experiment: it applies a
+                  whole arrangement, which only the sandbox can hold. */}
+              {location === "farm" && sandbox && (
+                <RoundButton
+                  className="mb-3.5"
+                  onClick={() => {
+                    button.play();
+                    setShowSavedLayouts(true);
+                  }}
+                >
+                  <img
+                    src={mapIcon}
+                    className="absolute group-active:translate-y-[2px]"
+                    style={{
+                      top: `${PIXEL_SCALE * 5}px`,
+                      left: `${PIXEL_SCALE * 5}px`,
+                      width: `${PIXEL_SCALE * 13}px`,
                     }}
-                  >
-                    <img
-                      src={mapIcon}
-                      className="absolute group-active:translate-y-[2px]"
-                      style={{
-                        top: `${PIXEL_SCALE * 5}px`,
-                        left: `${PIXEL_SCALE * 5}px`,
-                        width: `${PIXEL_SCALE * 13}px`,
-                      }}
-                    />
-                  </RoundButton>
-                )}
+                  />
+                </RoundButton>
+              )}
 
               <RoundButton className="mb-3.5" onClick={toggleRemovalMode}>
                 <img
@@ -511,6 +642,57 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
           show={showSavedLayouts}
           onHide={() => setShowSavedLayouts(false)}
         />
+      )}
+      {showDiscardConfirmation && (
+        <LandscapingConfirmation
+          mode="discard"
+          confirmDisabled={cancelBlocked}
+          onClose={() => setShowDiscardConfirmation(false)}
+          onConfirm={() => {
+            // An autosave can start while this modal sits open, so re-run the
+            // guard here too - the one in cancel() only covers the moment the
+            // tick was pressed. Holding the modal open leaves the child in
+            // saving.autosaving until the save lands.
+            if (cancelBlocked) return;
+            setShowDiscardConfirmation(false);
+            child.send("CANCEL");
+          }}
+        />
+      )}
+      {showSaveConfirmation && (
+        <LandscapingConfirmation
+          mode="save"
+          onClose={() => setShowSaveConfirmation(false)}
+          onConfirm={() => {
+            setShowSaveConfirmation(false);
+            void commitNow();
+          }}
+        />
+      )}
+      {conflicts && conflicts.length > 0 && (
+        <ArrangementConflictsPanel
+          conflicts={conflicts}
+          onDismiss={() =>
+            gameService.send({ type: "ARRANGEMENT_REJECTED", conflicts: [] })
+          }
+        />
+      )}
+      {saveFailed && (
+        <div className="absolute left-1/2 -translate-x-1/2 top-2.5 z-50">
+          <Label type="danger">{t("landscaping.saveFailed")}</Label>
+        </div>
+      )}
+      {/*
+        The commit is one server round trip; without immediate feedback the
+        tick feels dead for the ~1s it takes. Dim the screen and block input
+        until the response (success, conflicts, or failure) arrives.
+      */}
+      {saving && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black bg-opacity-50">
+          <Panel>
+            <Loading text={t("landscaping.saving")} />
+          </Panel>
+        </div>
       )}
       {showRemove && (
         <div
