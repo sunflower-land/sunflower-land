@@ -683,10 +683,10 @@ and the sweep winds up 40ms tighter — so the fight gets more frantic the
 closer that angler is to landing the beast, and nobody can settle into a
 rhythm. A purple dot is left where the reel scored.
 
-When it is landed, the day's prize floats over it for **10 seconds**: anyone
-who landed at least one reel on that Marvel can click it to claim, **once
-per UTC day**. When the window shuts a fresh Marvel surfaces at no progress
-and anyone who didn't click misses out. Like the Love Boulder there is no
+When it is landed, the day's prize floats over it for **10 seconds** and
+**claims itself two seconds in** for anyone who landed at least one reel on
+that Marvel, **once per UTC day**. Nobody has to click. When the window
+shuts a fresh Marvel surfaces at no progress. Like the Love Boulder there is no
 guide entry and no HUD beyond the ring, the fishing disc above it and the
 progress bar below — it is meant to be discovered.
 
@@ -702,9 +702,9 @@ LOVE_KRAKEN_RING_MS_MIN = 1_200; // ...and the tightest it gets
 LOVE_KRAKEN_RING_MS_STEP = 40; // tighter by this much per landed reel
 LOVE_KRAKEN_ZONE_SHARE = 0.12; // the catch zone, as a share of a sweep
 LOVE_KRAKEN_ZONE_HALF_DEG = 21.6; // = 360 * 0.12 / 2
-LOVE_KRAKEN_LAG_GRACE_DEG = 40; // extra tolerance the ROOM allows
 LOVE_KRAKEN_REACH = 90; // how close a player must stand
 LOVE_KRAKEN_RESPAWN_MS = 10_000; // = the prize window
+LOVE_KRAKEN_AUTO_CLAIM_MS = 2_000; // it pays itself this far in
 LOVE_KRAKEN_MAX_CLAIMS = 1; // per farm per UTC day
 
 // Fastest a reel can land. Only long enough to stop two landing on one pass
@@ -727,25 +727,33 @@ retuned without a client release.
 ### The ring — one per angler, in legs
 
 Each angler has their own ring: their own zone, their own direction and
-their own sweep, all of it a pure function of **the round, how many reels
-they have landed in it, and when the last one landed**. The room holds all
-three already (`anglers[farmId]` and the timestamp it keeps for the
-cooldown), so it can work out exactly what that player was looking at and
-**judge the reel itself** rather than taking their word for it — which the
-Love Boulder cannot.
+their own sweep. It is drawn and judged **entirely on the client** — the
+room needs none of it (see the message rules below for what the room does
+enforce, and why that is enough).
+
+**Every pull of the rod moves the zone, landed or missed.** Without that the
+game is beaten by holding the button down: every tap is free, so the marker
+eventually wanders into a zone that never moved. With it, a mashed pull
+lands only the 12% of the ring the zone covers and then throws the aim
+somewhere new — measured in the scene, mashing lands **11 reels a minute
+against 116** for waiting for the marker. A missed pull costs an angler
+about as much time as one that lands, and scores nothing.
+
+A **landed** pull additionally reverses the marker and winds the sweep up
+40ms, and leaves a purple dot where it scored.
 
 The marker runs in **legs**: a leg starts the instant a reel lands and runs
-until the next one does. Within a leg the speed and direction are fixed, so
-the marker sweeps smoothly. All three things a reel changes take effect only
-at a leg boundary — and at that moment the marker is _sitting on the zone it
-just hit_, so the new leg starts from where the marker already is.
+until the next one does, and it begins at exactly the angle the marker had
+reached — so the reversal and the wind-up never move it. A **miss leaves the
+marker alone** and only moves the zone, so the line keeps sweeping evenly
+however wildly the angler is tapping.
 
 > Reading the phase straight off the clock as `now % ringMs` looks
 > equivalent and is not: the moment `ringMs` changes, that phase lurches.
 > That is what made the marker snap back to the top mid-sweep.
 
 ```ts
-// Copy all four verbatim. `mulberry32` is the same one the Dilemma uses.
+// Client-side only. `mulberry32` is the same one the Dilemma uses.
 
 function getLoveKrakenRingMs(reels: number): number {
   return Math.max(1200, 2000 - Math.max(0, reels) * 40);
@@ -756,25 +764,29 @@ function getLoveKrakenSpin(reels: number): 1 | -1 {
 }
 
 // Degrees clockwise from the top. Starts at the top and jumps 90-270 degrees
-// from where it was on every reel landed, so it always visibly moves.
-function getLoveKrakenZoneAngle({ roundId, reels }): number {
+// from where it was on EVERY pull, so it always visibly moves.
+function getLoveKrakenZoneAngle({ roundId, attempts }): number {
   const random = mulberry32(roundId * 7919 + 13);
   let angle = 0;
-  for (let i = 0; i < Math.max(0, reels); i++) {
+  for (let i = 0; i < Math.max(0, attempts); i++) {
     angle = (angle + 90 + random() * 180) % 360;
   }
   return angle;
 }
 
-function getLoveKrakenRing({ roundId, reels, legStartAt, now }) {
-  const landed = Math.max(0, reels);
-  const ringMs = getLoveKrakenRingMs(landed);
-  const spin = getLoveKrakenSpin(landed);
-  const zoneAngle = getLoveKrakenZoneAngle({ roundId, reels: landed });
+// angler = { attempts, reels, legStartAt?, legStartAngle? }
+function getLoveKrakenRing({ roundId, angler, now }) {
+  const reels = Math.max(0, angler.reels);
+  const ringMs = getLoveKrakenRingMs(reels);
+  const spin = getLoveKrakenSpin(reels);
+  const zoneAngle = getLoveKrakenZoneAngle({
+    roundId,
+    attempts: angler.attempts,
+  });
   const wrap = (a: number) => ((a % 360) + 360) % 360;
 
-  // No leg to anchor to yet, so read it off the clock - every client agrees
-  if (landed <= 0 || !legStartAt) {
+  // No leg to anchor to yet, so read it off the clock
+  if (angler.legStartAt === undefined || angler.legStartAngle === undefined) {
     return {
       angle: wrap(((now % ringMs) / ringMs) * 360),
       zoneAngle,
@@ -783,36 +795,18 @@ function getLoveKrakenRing({ roundId, reels, legStartAt, now }) {
     };
   }
 
-  // The leg started on the zone this angler hit to end the last one
-  const from = getLoveKrakenZoneAngle({ roundId, reels: landed - 1 });
-  const swept = ((now - legStartAt) / ringMs) * 360;
-
-  return { angle: wrap(from + spin * swept), zoneAngle, ringMs, spin };
+  const swept = ((now - angler.legStartAt) / ringMs) * 360;
+  return {
+    angle: wrap(angler.legStartAngle + spin * swept),
+    zoneAngle,
+    ringMs,
+    spin,
+  };
 }
 ```
 
-A reel is on the beat when the marker is within `tolerance` of `zoneAngle`,
-the short way round. The **client** uses `21.6°`; the **room** uses
-`21.6 + 40 = 61.6°`, because the message only reaches it after the trip over
-the wire — about 220ms of lag forgiven at a 2s sweep.
-
-**Two things to be aware of when implementing this.**
-
-1. `legStartAt` is when that angler's last reel landed. The client stamps it
-   when it **sends** and the room when it **receives**, so the two are one
-   trip apart — a few degrees, well inside the lag grace, and it cannot
-   build up because every leg re-anchors from the zone.
-2. A reel lands anywhere inside the zone, but the next leg starts at the
-   zone's **middle**, so the marker snaps by up to `21.6°` at a hit. That is
-   deliberate and bounded — it reads as locking on, and it is what keeps the
-   client and the room agreeing on where the leg began without the client
-   having to tell the room its angle.
-
-If the client and the room ever disagree by one on the reel count (a reel
-still in flight when the next arrives), the zone and direction they compute
-differ and the reel is refused. It is rare — the cooldown is longer than a
-round trip — and the angler simply reels again. If you want to close it,
-also test the reel against `anglers[farmId] + 1`.
+A reel is on the beat when the marker is within **21.6°** of `zoneAngle`,
+the short way round.
 
 ### Room state (`PlazaRoomState.loveKraken`)
 
@@ -863,23 +857,32 @@ Rules:
 
 - Ignore if `roundId` ≠ the current round, or the Marvel is caught
   (`caughtAt > 0`).
-- Work out that angler's ring with `getLoveKrakenRing({ roundId, reels:
-anglers[farmId], legStartAt: <when their last reel landed>, now })` and
-  ignore the reel if the marker is more than **61.6°** from `zoneAngle` —
-  off the beat, or too late over the wire to tell the difference.
 - Ignore if their last accepted reel was under
-  `getLoveKrakenReelCooldownMs(ring.ringMs)` ago — 480ms on a fresh line,
-  down to 288ms at full speed. That is only there to stop two reels landing
-  on one pass of the zone; the zone jumping away is what paces an angler.
+  `getLoveKrakenReelCooldownMs(getLoveKrakenRingMs(anglers[farmId]))` ago —
+  **500ms** on a fresh line, down to 300ms once that angler has 20 reels.
+  `anglers[farmId]` is the only input, and the room already has it.
 - Ignore if the player is further than **90px** from `(306, 566)` (use the
   position in `state.players`; the client refuses to send from further away,
   so this only guards forged messages). 90 covers the two places anyone can
   stand at this end of the lake: the **wharf**, about 22px off its end, and
   the **west bank** across the water. They face each other over the beast.
-- Otherwise `progress = min(health, progress + 1)`, `anglers[farmId] += 1`
-  and record `now` as that angler's `legStartAt` — incrementing the count is
-  what moves their zone, reverses their spin and winds their sweep up, and
-  the timestamp is what keeps the marker from jumping as those change.
+- Otherwise `progress = min(health, progress + 1)` and `anglers[farmId] += 1`.
+
+**Why the room does not check the ring.** It could — the geometry is
+deterministic — but only by tracking each angler's attempt count, leg anchor
+and leg angle, and by staying in step with the client on all three across
+dropped and in-flight messages. That is a lot of state and a lot of ways to
+desync a player out of the game, for a shared bar whose prize is capped at
+one roll per farm per UTC day.
+
+The cooldown does the job instead. It is set to the **tightest gap the zone
+can legitimately leave** (a quarter turn), so it never blocks an honest
+angler who got a short jump, while capping a forged client that ignores the
+ring entirely at **two reels a sweep** against the one a sweep an honest
+angler averages. A cheat is worth at most one extra player on a bar that
+needs twenty — and the Love Boulder, which this sits next to, has no check
+at all.
+
 - When `progress` reaches `health`: set `caughtAt = now`,
   `respawnAt = now + 10_000`. Leave `anglers` populated — clients read it to
   know whether they helped (a reload mid-round loses their local count).
@@ -937,12 +940,13 @@ the next sync brings it down.
   needs no extra traffic beyond `anglers`.
 - When `caughtAt` flips from 0: the beast thrashes, splashes and fades, and
   the day's prize floats where the disc was while `now < respawnAt`.
-- Clicking it: if `anglers[farmId] > 0` (or its own count is > 0) and the
-  farm has no `love_kraken` claim today, dispatches the claim above and
-  names what was won in a bubble. Players who didn't reel get a "reel the
-  beast in" bubble; players who already claimed today get an "already
-  claimed" bubble. Nothing is claimed automatically — miss the window and
-  the prize is gone.
+- **It claims itself.** Two seconds into the window, every player with
+  `anglers[farmId] > 0` (or their own count > 0) and no `love_kraken` claim
+  today dispatches the claim above on their own, cheers, and gets a bubble
+  naming what they won — nobody has to click, and nobody who helped haul the
+  beast up can miss out by looking away. The remaining eight seconds are
+  celebration. Clicking the prize before then just takes it early; a player
+  who never reeled is left alone rather than nagged.
 - When `roundId` changes a fresh Marvel surfaces at no progress.
 
 The Marvel sits in the lake, which the map's `Collision` layer already

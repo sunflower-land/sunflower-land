@@ -3,13 +3,14 @@ import type { GameState } from "features/game/types/game";
 import {
   LOVE_KRAKEN_FIGHT_BACK_PER_SEC,
   LOVE_KRAKEN_HEALTH,
-  LOVE_KRAKEN_LAG_GRACE_DEG,
   LOVE_KRAKEN_LOCAL_CROWD_ANGLERS,
   LOVE_KRAKEN_RESPAWN_MS,
   LOVE_KRAKEN_RING_MS_MAX,
   LOVE_KRAKEN_RING_MS_MIN,
   LOVE_KRAKEN_RING_MS_STEP,
   LOVE_KRAKEN_ZONE_HALF_DEG,
+  LOVE_KRAKEN_ZONE_MIN_JUMP_SHARE,
+  LOVE_KRAKEN_FRESH_ANGLER,
   applyLoveKrakenFightBack,
   canClaimLoveKraken,
   createLoveKrakenLocalRound,
@@ -24,8 +25,10 @@ import {
   hasClaimedLoveKrakenToday,
   isLoveKrakenReelOnTarget,
   isLoveKrakenRewardOpen,
+  pullLoveKrakenRod,
   reelLoveKrakenLocalRound,
   tickLoveKrakenLocalRound,
+  type LoveKrakenAngler,
   type LoveKrakenRound,
 } from "./loveKraken";
 
@@ -48,9 +51,14 @@ const fighting = (progress: number): LoveKrakenRound => ({
 
 const RING = LOVE_KRAKEN_RING_MS_MAX;
 
-/** The ring for an angler who has never reeled - the epoch-anchored leg. */
+const angler = (over: Partial<LoveKrakenAngler> = {}): LoveKrakenAngler => ({
+  ...LOVE_KRAKEN_FRESH_ANGLER,
+  ...over,
+});
+
+/** The ring for an angler who has never pulled - the epoch-anchored leg. */
 const freshRing = (now: number, roundId = 1) =>
-  getLoveKrakenRing({ roundId, reels: 0, now });
+  getLoveKrakenRing({ roundId, angler: angler(), now });
 
 describe("loveKraken: the ring", () => {
   it("sweeps a full turn every ring period, starting at the top", () => {
@@ -95,46 +103,109 @@ describe("loveKraken: the ring", () => {
   it("is symmetrical about the middle of the zone", () => {
     expect(isLoveKrakenReelOnTarget({ ring: freshRing(RING - 10) })).toBe(true);
   });
-
-  it("forgives lag when the room checks with the wider tolerance", () => {
-    const perDegree = RING / 360;
-    const late = Math.ceil((LOVE_KRAKEN_ZONE_HALF_DEG + 10) * perDegree);
-
-    expect(isLoveKrakenReelOnTarget({ ring: freshRing(late) })).toBe(false);
-    expect(
-      isLoveKrakenReelOnTarget({
-        ring: freshRing(late),
-        toleranceDeg: LOVE_KRAKEN_ZONE_HALF_DEG + LOVE_KRAKEN_LAG_GRACE_DEG,
-      }),
-    ).toBe(true);
-  });
 });
 
-describe("loveKraken: what a landed reel changes", () => {
+describe("loveKraken: a pull of the rod moves the zone either way", () => {
   const roundId = 42;
 
-  it("moves the zone at least a quarter turn every time", () => {
-    let previous = getLoveKrakenZoneAngle({ roundId, reels: 0 });
+  /**
+   * The exploit this closes: with the zone fixed until a hit, holding the
+   * button down beat the game outright - every tap was free, so the marker
+   * eventually wandered into a zone that had never moved.
+   */
+  it("moves the zone on a miss just as far as on a hit", () => {
+    const before = getLoveKrakenRing({
+      roundId,
+      angler: angler({ attempts: 3, reels: 1 }),
+    });
+    const missed = pullLoveKrakenRod({
+      angler: angler({ attempts: 3, reels: 1 }),
+      ring: before,
+      landed: false,
+    });
+    const after = getLoveKrakenRing({ roundId, angler: missed });
 
-    for (let reels = 1; reels <= 40; reels++) {
-      const angle = getLoveKrakenZoneAngle({ roundId, reels });
-      const gap = Math.abs(angle - previous) % 360;
+    const gap = Math.abs(after.zoneAngle - before.zoneAngle) % 360;
+    expect(Math.min(gap, 360 - gap)).toBeGreaterThanOrEqual(90 - 1e-9);
+  });
+
+  it("counts a miss but scores nothing", () => {
+    const missed = pullLoveKrakenRod({
+      angler: angler({ attempts: 3, reels: 1 }),
+      ring: freshRing(0, roundId),
+      landed: false,
+    });
+
+    expect(missed.attempts).toEqual(4);
+    expect(missed.reels).toEqual(1);
+  });
+
+  it("leaves the marker's leg alone on a miss", () => {
+    const started = angler({
+      attempts: 3,
+      reels: 1,
+      legStartAt: 1_000,
+      legStartAngle: 200,
+    });
+    const missed = pullLoveKrakenRod({
+      angler: started,
+      ring: getLoveKrakenRing({ roundId, angler: started, now: 1_500 }),
+      landed: false,
+      now: 1_500,
+    });
+
+    expect(missed.legStartAt).toEqual(started.legStartAt);
+    expect(missed.legStartAngle).toEqual(started.legStartAngle);
+    // ...so the sweep runs on exactly as it was
+    expect(
+      getLoveKrakenRing({ roundId, angler: missed, now: 1_500 }).angle,
+    ).toEqual(
+      getLoveKrakenRing({ roundId, angler: started, now: 1_500 }).angle,
+    );
+  });
+
+  it("re-anchors the leg on a hit, and only on a hit", () => {
+    const started = angler({ attempts: 3, reels: 1 });
+    const ring = getLoveKrakenRing({ roundId, angler: started, now: 1_500 });
+    const hit = pullLoveKrakenRod({
+      angler: started,
+      ring,
+      landed: true,
+      now: 1_500,
+    });
+
+    expect(hit.attempts).toEqual(4);
+    expect(hit.reels).toEqual(2);
+    expect(hit.legStartAt).toEqual(1_500);
+    expect(hit.legStartAngle).toEqual(ring.angle);
+  });
+
+  it("moves the zone at least a quarter turn on every pull", () => {
+    let previous = getLoveKrakenZoneAngle({ roundId, attempts: 0 });
+
+    for (let attempts = 1; attempts <= 40; attempts++) {
+      const zone = getLoveKrakenZoneAngle({ roundId, attempts });
+      const gap = Math.abs(zone - previous) % 360;
 
       expect(Math.min(gap, 360 - gap)).toBeGreaterThanOrEqual(90 - 1e-9);
-      expect(angle).toBeGreaterThanOrEqual(0);
-      expect(angle).toBeLessThan(360);
-      previous = angle;
+      expect(zone).toBeGreaterThanOrEqual(0);
+      expect(zone).toBeLessThan(360);
+      previous = zone;
     }
   });
 
-  it("reverses the spin every time", () => {
+  it("reverses the spin on a hit, but not on a miss", () => {
     expect(getLoveKrakenSpin(0)).toEqual(1);
     expect(getLoveKrakenSpin(1)).toEqual(-1);
     expect(getLoveKrakenSpin(2)).toEqual(1);
     expect(getLoveKrakenSpin(3)).toEqual(-1);
+
+    // Ten misses in a row: the spin is still whatever the reels say
+    const missed = angler({ attempts: 10, reels: 0 });
+    expect(getLoveKrakenRing({ roundId, angler: missed }).spin).toEqual(1);
   });
 
-  it("winds the sweep up a step every time, down to the floor", () => {
+  it("winds the sweep up on a hit, but not on a miss", () => {
     expect(getLoveKrakenRingMs(0)).toEqual(LOVE_KRAKEN_RING_MS_MAX);
     expect(getLoveKrakenRingMs(1)).toEqual(
       LOVE_KRAKEN_RING_MS_MAX - LOVE_KRAKEN_RING_MS_STEP,
@@ -150,25 +221,35 @@ describe("loveKraken: what a landed reel changes", () => {
     }
 
     expect(getLoveKrakenRingMs(1000)).toEqual(LOVE_KRAKEN_RING_MS_MIN);
+
+    const missed = angler({ attempts: 10, reels: 0 });
+    expect(getLoveKrakenRing({ roundId, angler: missed }).ringMs).toEqual(
+      LOVE_KRAKEN_RING_MS_MAX,
+    );
   });
 
   it("treats a count below zero as a fresh line", () => {
-    expect(getLoveKrakenZoneAngle({ roundId, reels: -3 })).toEqual(0);
+    expect(getLoveKrakenZoneAngle({ roundId, attempts: -3 })).toEqual(0);
     expect(getLoveKrakenSpin(-3)).toEqual(1);
     expect(getLoveKrakenRingMs(-3)).toEqual(LOVE_KRAKEN_RING_MS_MAX);
   });
 
-  it("is the same for everyone working from the same round and count", () => {
-    // What the room derives from `anglers[farmId]` must match the client
-    const args = { roundId: 7, reels: 5, legStartAt: 1000, now: 1500 };
-
-    expect(getLoveKrakenRing(args)).toEqual(getLoveKrakenRing(args));
+  it("gives different rounds different zone sequences", () => {
+    expect(getLoveKrakenZoneAngle({ roundId: 1, attempts: 3 })).not.toEqual(
+      getLoveKrakenZoneAngle({ roundId: 2, attempts: 3 }),
+    );
   });
 
-  it("gives different rounds different zone sequences", () => {
-    expect(getLoveKrakenZoneAngle({ roundId: 1, reels: 3 })).not.toEqual(
-      getLoveKrakenZoneAngle({ roundId: 2, reels: 3 }),
-    );
+  it("makes spamming strictly worse than playing properly", () => {
+    // A spammer pulls as fast as the cooldown allows, into a zone that is
+    // somewhere new every time - they land the share of the ring it covers
+    const cooldown = getLoveKrakenReelCooldownMs(RING);
+    const chance = (LOVE_KRAKEN_ZONE_HALF_DEG * 2) / 360;
+    const spamPerSec = chance / (cooldown / 1000);
+    // An angler waiting for the marker lands one every half sweep
+    const honestPerSec = 2000 / RING;
+
+    expect(spamPerSec).toBeLessThan(honestPerSec);
   });
 });
 
@@ -178,42 +259,47 @@ describe("loveKraken: the marker never jumps", () => {
   /**
    * The bug this guards: reading the phase as `now % ringMs` made the marker
    * snap back to the top the instant a reel changed the sweep. A leg starts
-   * on the zone the reel just landed on, so it picks up where it left off.
+   * exactly where the marker had got to.
    */
   it("picks the new leg up exactly where the hit left the marker", () => {
-    for (let reels = 0; reels < 8; reels++) {
-      const hitAt = 10_000 + reels * 3_000;
-      // At the hit the marker is sitting on the zone it just hit
-      const zoneHit = getLoveKrakenZoneAngle({ roundId, reels });
-      // ...and the very next instant it is on the new leg
-      const after = getLoveKrakenRing({
-        roundId,
-        reels: reels + 1,
-        legStartAt: hitAt,
+    let state = angler();
+
+    for (let hit = 0; hit < 8; hit++) {
+      const hitAt = 10_000 + hit * 3_000;
+      const before = getLoveKrakenRing({ roundId, angler: state, now: hitAt });
+
+      state = pullLoveKrakenRod({
+        angler: state,
+        ring: before,
+        landed: true,
         now: hitAt,
       });
 
-      expect(after.angle).toBeCloseTo(zoneHit, 6);
+      const after = getLoveKrakenRing({ roundId, angler: state, now: hitAt });
+      expect(after.angle).toBeCloseTo(before.angle, 6);
     }
   });
 
   it("sweeps smoothly across a leg, with no step anywhere", () => {
     const legStartAt = 5_000;
-    const reels = 7;
+    const state = angler({
+      attempts: 9,
+      reels: 7,
+      legStartAt,
+      legStartAngle: 123,
+    });
     let previous = getLoveKrakenRing({
       roundId,
-      reels,
-      legStartAt,
+      angler: state,
       now: legStartAt,
     }).angle;
 
     for (let dt = 10; dt <= 4_000; dt += 10) {
-      const angle = getLoveKrakenRing({
+      const { angle } = getLoveKrakenRing({
         roundId,
-        reels,
-        legStartAt,
+        angler: state,
         now: legStartAt + dt,
-      }).angle;
+      });
       const step = Math.abs(angle - previous) % 360;
 
       // A 10ms step at the fastest sweep is 3 degrees; anything near a
@@ -226,20 +312,24 @@ describe("loveKraken: the marker never jumps", () => {
   it("runs the marker backwards on an odd leg", () => {
     const legStartAt = 5_000;
     const at = (reels: number, dt: number) =>
-      getLoveKrakenRing({ roundId, reels, legStartAt, now: legStartAt + dt })
-        .angle;
+      getLoveKrakenRing({
+        roundId,
+        angler: angler({
+          attempts: reels,
+          reels,
+          legStartAt,
+          legStartAngle: 0,
+        }),
+        now: legStartAt + dt,
+      }).angle;
 
     // One reel in: anticlockwise, so the angle falls away from the start
-    const start = at(1, 0);
-    const later = at(1, 100);
-    expect((start - later + 360) % 360).toBeGreaterThan(0);
-    expect((start - later + 360) % 360).toBeLessThan(180);
+    expect((at(1, 0) - at(1, 100) + 360) % 360).toBeGreaterThan(0);
+    expect((at(1, 0) - at(1, 100) + 360) % 360).toBeLessThan(180);
 
     // Two reels in: clockwise again
-    const start2 = at(2, 0);
-    const later2 = at(2, 100);
-    expect((later2 - start2 + 360) % 360).toBeGreaterThan(0);
-    expect((later2 - start2 + 360) % 360).toBeLessThan(180);
+    expect((at(2, 100) - at(2, 0) + 360) % 360).toBeGreaterThan(0);
+    expect((at(2, 100) - at(2, 0) + 360) % 360).toBeLessThan(180);
   });
 
   it("keeps the angle in range however long the leg runs", () => {
@@ -247,8 +337,12 @@ describe("loveKraken: the marker never jumps", () => {
       for (const reels of [1, 2, 9]) {
         const { angle } = getLoveKrakenRing({
           roundId,
-          reels,
-          legStartAt: 0,
+          angler: angler({
+            attempts: reels,
+            reels,
+            legStartAt: 0,
+            legStartAngle: 40,
+          }),
           now: dt,
         });
 
@@ -259,25 +353,26 @@ describe("loveKraken: the marker never jumps", () => {
   });
 
   it("falls back to the epoch leg when there is no anchor yet", () => {
-    // Still that angler's own sweep, just read off the clock instead of a leg
-    const reels = 4;
+    // Misses alone never anchor a leg, so the sweep is still off the clock
     const now = RING / 4;
-    const ringMs = getLoveKrakenRingMs(reels);
+    const missed = angler({ attempts: 6, reels: 0 });
 
-    expect(getLoveKrakenRing({ roundId, reels, now }).angle).toBeCloseTo(
-      ((now % ringMs) / ringMs) * 360,
+    expect(getLoveKrakenRing({ roundId, angler: missed, now }).angle).toEqual(
+      90,
     );
   });
 
-  it("keeps the cooldown too short to score twice on one pass", () => {
+  it("never blocks a legitimate reel with the cooldown", () => {
     for (const ringMs of [LOVE_KRAKEN_RING_MS_MAX, LOVE_KRAKEN_RING_MS_MIN]) {
       const cooldown = getLoveKrakenReelCooldownMs(ringMs);
-      // The marker is inside the zone for `share` of a sweep
-      const zoneMs = (ringMs * (LOVE_KRAKEN_ZONE_HALF_DEG * 2)) / 360;
+      // The zone can never land closer than a quarter turn ahead
+      const soonestLegitimateMs = ringMs * LOVE_KRAKEN_ZONE_MIN_JUMP_SHARE;
 
-      expect(cooldown).toBeGreaterThan(zoneMs);
-      // ...but never so long that it blocks the next zone coming round
-      expect(cooldown).toBeLessThan(ringMs / 2);
+      expect(cooldown).toBeLessThanOrEqual(Math.ceil(soonestLegitimateMs));
+      // ...and it is still long enough to stop two landing on one pass
+      expect(cooldown).toBeGreaterThan(
+        (ringMs * (LOVE_KRAKEN_ZONE_HALF_DEG * 2)) / 360,
+      );
     }
   });
 });

@@ -81,13 +81,16 @@ import {
   LOVE_KRAKEN_REACH,
   getLoveKrakenReelCooldownMs,
   getLoveKrakenRing,
+  pullLoveKrakenRod,
+  LOVE_KRAKEN_AUTO_CLAIM_MS,
+  LOVE_KRAKEN_FRESH_ANGLER,
+  type LoveKrakenAngler,
   LOVE_KRAKEN_SPOT,
   LOVE_KRAKEN_ZONE_HALF_DEG,
   canClaimLoveKraken,
   createLoveKrakenLocalRound,
   fromLoveKrakenRoomPrize,
   getLoveKrakenPrizeKey,
-  hasClaimedLoveKrakenRound,
   hasClaimedLoveKrakenToday,
   isLoveKrakenReelOnTarget,
   isLoveKrakenRewardOpen,
@@ -492,13 +495,10 @@ export class LoveIslandScene extends BaseScene {
   private sawKrakenFighting = false;
   private lastKrakenReelAt = 0;
   /**
-   * roundId -> when the local player's last reel landed. The marker's current
-   * leg is anchored to it, so the sweep picks up from exactly where the hit
-   * left it instead of snapping back to the top.
+   * roundId -> the local player's pulls, reels and the leg their marker is
+   * on. Everything their ring does follows from it.
    */
-  private krakenLegStartAt: Record<number, number> = {};
-  /** roundId -> reels the local player has landed. */
-  private krakenReels: Record<number, number> = {};
+  private krakenAnglers: Record<number, LoveKrakenAngler> = {};
   /** Whether the local player's line is in the water. */
   private krakenCasting = false;
   /** Progress last seen, to colour the bar by which way it is going. */
@@ -2432,7 +2432,7 @@ export class LoveIslandScene extends BaseScene {
       .setVisible(visible)
       .setSize(REWARD_HIT_WIDTH, REWARD_HIT_HEIGHT)
       .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", () => this.claimKrakenReward());
+      .on("pointerdown", () => this.claimKrakenReward({ automatic: false }));
     this.add.existing(reward);
 
     this.krakenReward = reward;
@@ -2501,9 +2501,14 @@ export class LoveIslandScene extends BaseScene {
     return this.localKraken;
   }
 
+  /** The local player's pulls and reels on this Marvel. */
+  private getMyKrakenAngler(roundId: number): LoveKrakenAngler {
+    return this.krakenAnglers[roundId] ?? LOVE_KRAKEN_FRESH_ANGLER;
+  }
+
   /** Reels the local player landed on this Marvel - local count or the room's. */
   private getMyKrakenReels(roundId: number): number {
-    const local = this.krakenReels[roundId] ?? 0;
+    const local = this.getMyKrakenAngler(roundId).reels;
     const remote = this.remoteKraken?.anglers?.get(`${this.id}`) ?? 0;
 
     return Math.max(local, remote);
@@ -2511,14 +2516,12 @@ export class LoveIslandScene extends BaseScene {
 
   /**
    * The local player's ring right now - where the marker is, where their
-   * zone is, and which way and how fast it is going. All of it follows from
-   * the reels they have landed this round plus when the last one landed.
+   * zone is, and which way and how fast it is going.
    */
   private getKrakenRing(round: LoveKrakenRound, now: number) {
     return getLoveKrakenRing({
       roundId: round.roundId,
-      reels: this.getMyKrakenReels(round.roundId),
-      legStartAt: this.krakenLegStartAt[round.roundId],
+      angler: this.getMyKrakenAngler(round.roundId),
       now,
     });
   }
@@ -2568,18 +2571,26 @@ export class LoveIslandScene extends BaseScene {
       return;
     }
 
-    if (!isLoveKrakenReelOnTarget({ ring })) {
+    this.lastKrakenReelAt = now;
+
+    const landed = isLoveKrakenReelOnTarget({ ring });
+
+    // The pull counts either way, and the zone moves either way - that is
+    // what stops the button being held down until the marker wanders into a
+    // zone that never moves. Only a hit re-anchors the marker's leg, so a
+    // miss costs the angler their aim but never interrupts the sweep.
+    this.krakenAnglers[round.roundId] = pullLoveKrakenRod({
+      angler: this.getMyKrakenAngler(round.roundId),
+      ring,
+      landed,
+      now,
+    });
+
+    if (!landed) {
       this.flashKrakenMarker(KRAKEN_MARKER_MISS);
       return;
     }
 
-    this.lastKrakenReelAt = now;
-    // Counting the reel is what moves the zone, reverses the spin and winds
-    // the sweep up - all three follow from the count. Anchoring the new leg
-    // to `now` is what keeps the marker from jumping as they change.
-    this.krakenReels[round.roundId] =
-      (this.krakenReels[round.roundId] ?? 0) + 1;
-    this.krakenLegStartAt[round.roundId] = now;
     this.markKrakenHit(ring.zoneAngle);
 
     if (this.remoteKraken) {
@@ -2670,11 +2681,10 @@ export class LoveIslandScene extends BaseScene {
       this.sawKrakenFighting = false;
       this.lastKrakenProgress = undefined;
       this.seenAnglerReels = {};
-      // Only this round's tallies matter; the rest would pile up all session
-      this.krakenReels = {
-        [round.roundId]: this.krakenReels[round.roundId] ?? 0,
+      // Only this round's tally matters; the rest would pile up all session
+      this.krakenAnglers = {
+        [round.roundId]: this.getMyKrakenAngler(round.roundId),
       };
-      this.krakenLegStartAt = {};
       this.drawnKrakenZoneAngle = undefined;
       this.surfaceKraken();
     }
@@ -2690,15 +2700,16 @@ export class LoveIslandScene extends BaseScene {
     this.setKrakenProgress(round);
     this.updateKrakenAnglers(round);
 
-    // The prize floats there until the window closes or we've taken it
-    const rewardOpen =
-      isLoveKrakenRewardOpen({ round, now }) &&
-      this.claimedKrakenRoundId !== round.roundId &&
-      !hasClaimedLoveKrakenRound({
-        state: this.freshState,
-        roundId: round.roundId,
-        now,
-      });
+    // The prize floats there for the whole window - it claims itself part
+    // way through rather than waiting to be clicked
+    const rewardOpen = isLoveKrakenRewardOpen({ round, now });
+
+    if (
+      rewardOpen &&
+      now - (round.caughtAt ?? now) >= LOVE_KRAKEN_AUTO_CLAIM_MS
+    ) {
+      this.claimKrakenReward({ automatic: true });
+    }
 
     // The day's roll, as the room publishes it
     this.refreshKrakenReward(round.prize);
@@ -2900,17 +2911,29 @@ export class LoveIslandScene extends BaseScene {
     this.currentPlayer?.stopFishing();
   }
 
-  /** The local player clicked the prize floating over the Marvel. */
-  private claimKrakenReward() {
+  /**
+   * Pay the prize to the local player.
+   *
+   * Nobody has to click: `updateLoveKraken` calls this a couple of seconds
+   * into the window for everyone who helped haul the beast up. Clicking the
+   * prize calls it too, which just takes it early - either way the round is
+   * marked claimed, so the two can't both pay.
+   *
+   * `automatic` only decides whether to nag: an impatient click gets told
+   * why nothing happened, but a player who simply never reeled shouldn't get
+   * a bubble at a prize that was never theirs.
+   */
+  private claimKrakenReward({ automatic = false } = {}) {
     const now = Date.now();
     const round = this.getKrakenRound(now);
     const player = this.currentPlayer;
 
     if (!this.kraken || !player) return;
     if (!isLoveKrakenRewardOpen({ round, now })) return;
+    if (this.claimedKrakenRoundId === round.roundId) return;
 
     if (!this.checkDistanceToSprite(this.kraken, LOVE_KRAKEN_REACH)) {
-      player.speak(translateForBubble("base.iam.far.away"));
+      if (!automatic) player.speak(translateForBubble("base.iam.far.away"));
       return;
     }
 
@@ -2918,14 +2941,16 @@ export class LoveIslandScene extends BaseScene {
     const myReels = this.getMyKrakenReels(round.roundId);
 
     if (myReels <= 0) {
-      player.speak(translateForBubble("loveKraken.didNotHelp"));
+      if (!automatic) player.speak(translateForBubble("loveKraken.didNotHelp"));
       return;
     }
 
     if (!canClaimLoveKraken({ state, myReels, roundId: round.roundId, now })) {
-      if (hasClaimedLoveKrakenToday({ state, now })) {
+      if (!automatic && hasClaimedLoveKrakenToday({ state, now })) {
         player.speak(translateForBubble("loveKraken.alreadyClaimed"));
       }
+      // Nothing more is coming this round either way
+      this.claimedKrakenRoundId = round.roundId;
       return;
     }
 

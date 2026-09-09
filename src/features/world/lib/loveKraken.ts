@@ -17,10 +17,14 @@ import {
 /**
  * A Love Marine Marvel lurks in the lake on the west of the island, its
  * tentacles breaking the surface. A ring sweeps around it with a catch zone
- * at the top; every islander who casts a line and reels on the beat drags it
- * a point closer to the surface, while the beast pulls back three points a
+ * on it; every islander who casts a line and reels on the beat drags it a
+ * point closer to the surface, while the beast pulls back three points a
  * second. One angler can never out-pull it - it takes a crowd on the bank,
  * and around twenty of them land it in about a minute.
+ *
+ * Every pull of the rod moves the zone, landed or missed, so the button
+ * cannot simply be held down; a landed one also reverses the marker and
+ * winds the sweep up a step.
  */
 
 /**
@@ -67,13 +71,6 @@ export const LOVE_KRAKEN_ZONE_SHARE = 0.12;
 export const LOVE_KRAKEN_ZONE_HALF_DEG = (360 * LOVE_KRAKEN_ZONE_SHARE) / 2;
 
 /**
- * How much wider the room's check is than the client's, to forgive the trip
- * over the wire. At a 2s sweep this is about 220ms of lag; anyone slower
- * than that has to lead the marker.
- */
-export const LOVE_KRAKEN_LAG_GRACE_DEG = 40;
-
-/**
  * How close a player has to stand to cast at it. Covers the wharf (about
  * 22px off its end) and the whole west bank across the water, which are the
  * only two places anyone can stand at this end of the lake.
@@ -83,12 +80,20 @@ export const LOVE_KRAKEN_REACH = 90;
 /**
  * How long the prize floats over the Marvel once it is landed, and so how
  * long it is before a fresh one surfaces. Longer than the Love Boulder's
- * window: it takes a crowd to get here, and a crowd needs a moment to click.
+ * window: it claims itself part way through, and the rest is celebration.
  */
 export const LOVE_KRAKEN_RESPAWN_MS = 10_000;
 
 /** The prize can be claimed this many times per UTC day. */
 export const LOVE_KRAKEN_MAX_CLAIMS = 1;
+
+/**
+ * How long the prize sits there before it claims itself for everyone who
+ * helped. Nobody has to click: they hauled the beast up together, so the box
+ * lands in the farm on its own a moment later. The rest of the window is
+ * celebration.
+ */
+export const LOVE_KRAKEN_AUTO_CLAIM_MS = 2000;
 
 /**
  * The Marvel pays the same roll as the Love Boulder - a Bronze Love Box, a
@@ -133,38 +138,49 @@ export function getLoveKrakenSpin(reels: number): 1 | -1 {
 }
 
 /**
- * Fastest a reel can land, given the sweep. Only long enough to stop two
- * reels landing on one pass of the zone - the zone jumping away is what
- * actually paces a player, not this.
+ * The tightest the zone can ever land ahead of the marker, as a share of a
+ * sweep. It jumps at least a quarter turn, so a legitimate reel can never
+ * come sooner than this.
+ */
+export const LOVE_KRAKEN_ZONE_MIN_JUMP_SHARE = 0.25;
+
+/**
+ * Fastest a reel can land, given the sweep.
+ *
+ * Set to the tightest gap the zone can legitimately leave, so it never
+ * blocks an honest angler who got a short jump - and it is the room's whole
+ * anti-spam story: a forged client that ignores the ring entirely is still
+ * capped at two reels a sweep, against the one a sweep an honest angler
+ * averages.
  */
 export function getLoveKrakenReelCooldownMs(ringMs: number): number {
-  return Math.round(ringMs * LOVE_KRAKEN_ZONE_SHARE * 2);
+  return Math.round(ringMs * LOVE_KRAKEN_ZONE_MIN_JUMP_SHARE);
 }
 
 /**
  * Where this angler's catch zone sits, in degrees clockwise from the top.
  *
- * The zone starts at the top of the ring and jumps somewhere else on every
- * reel they land, so nobody can settle into one rhythm. Each jump carries it
- * **90 to 270 degrees from the last one** - never less than a quarter turn,
- * so it always visibly moves, and half a turn away on average, which is what
- * paces the game.
+ * The zone starts at the top of the ring and jumps somewhere else on **every
+ * pull of the rod, landed or missed**. Missing has to move it too, or the
+ * whole game is beaten by holding the button down until the marker happens
+ * to cross a zone that never moves.
  *
- * It is a pure function of the round and the angler's own reel count, so the
- * room can work out where a player's zone is from `anglers[farmId]` and check
- * their reel against it. Copy it verbatim.
+ * Each jump carries it **90 to 270 degrees from the last one** - never less
+ * than a quarter turn, so it always visibly moves, and half a turn away on
+ * average, which is what paces the game. A pull that misses therefore costs
+ * an angler about as much time as one that lands, and scores nothing.
  */
 export function getLoveKrakenZoneAngle({
   roundId,
-  reels,
+  attempts,
 }: {
   roundId: number;
-  reels: number;
+  attempts: number;
 }): number {
   const random = mulberry32(roundId * 7919 + 13);
   let angle = 0;
 
-  for (let i = 0; i < Math.max(0, reels); i++) {
+  for (let i = 0; i < Math.max(0, attempts); i++) {
     angle = (angle + 90 + random() * 180) % 360;
   }
 
@@ -175,6 +191,25 @@ export function getLoveKrakenZoneAngle({
 function normaliseAngle(angle: number): number {
   return ((angle % 360) + 360) % 360;
 }
+
+/**
+ * One angler's state in a round. The client keeps this for the local player;
+ * the room needs none of it (see `getLoveKrakenReelCooldownMs`).
+ */
+export type LoveKrakenAngler = {
+  /** Pulls of the rod that counted, landed or missed - the zone follows it. */
+  attempts: number;
+  /** Reels landed - the spin and the sweep follow this one. */
+  reels: number;
+  /** When the last reel landed, and where the marker was when it did. */
+  legStartAt?: number;
+  legStartAngle?: number;
+};
+
+export const LOVE_KRAKEN_FRESH_ANGLER: LoveKrakenAngler = {
+  attempts: 0,
+  reels: 0,
+};
 
 export type LoveKrakenRing = {
   /** Where the marker is, in degrees clockwise from the top. */
@@ -192,44 +227,38 @@ export type LoveKrakenRing = {
  *
  * The marker runs in **legs**: a leg starts the instant a reel lands and
  * runs until the next one does. Within a leg the speed and the direction are
- * fixed, so the marker sweeps smoothly; all three of the things a reel
- * changes - the zone moving, the direction reversing and the sweep winding
- * up - take effect only at a leg boundary. That matters because at the
- * moment of a hit the marker is *sitting on the zone it just hit*, so the
- * new leg starts from exactly where the marker already is. The marker never
- * jumps.
+ * fixed, so the marker sweeps smoothly, and a leg begins at exactly the
+ * angle the marker had reached - so the reversal and the wind-up a reel
+ * brings never move it.
  *
  * (Reading the phase straight off the clock as `now % ringMs` looks
  * equivalent and is not: the moment `ringMs` changes, that phase lurches,
  * which is what made the marker snap back to the top mid-sweep.)
  *
- * Before an angler's first reel there is no leg to anchor to, so the sweep
- * runs off the epoch at the opening speed - every client agrees on it
- * exactly, and since nothing about it changes it is continuous too.
+ * A **miss leaves the marker alone** and only moves the zone, so the line
+ * keeps sweeping evenly however wildly the angler is tapping.
  *
- * `legStartAt` is just when that angler's last reel landed, which the room
- * already keeps to enforce the cooldown. The client stamps it when it sends
- * and the room when it receives, so the two are one trip apart - a few
- * degrees, well inside `LOVE_KRAKEN_LAG_GRACE_DEG`, and it cannot build up
- * because every leg re-anchors.
+ * Before the first reel there is no leg to anchor to, so the sweep runs off
+ * the epoch at the opening speed - continuous, and the same on every client.
  */
 export function getLoveKrakenRing({
   roundId,
-  reels,
-  legStartAt,
+  angler,
   now = Date.now(),
 }: {
   roundId: number;
-  reels: number;
-  legStartAt?: number;
+  angler: LoveKrakenAngler;
   now?: number;
 }): LoveKrakenRing {
-  const landed = Math.max(0, reels);
-  const ringMs = getLoveKrakenRingMs(landed);
-  const spin = getLoveKrakenSpin(landed);
-  const zoneAngle = getLoveKrakenZoneAngle({ roundId, reels: landed });
+  const reels = Math.max(0, angler.reels);
+  const ringMs = getLoveKrakenRingMs(reels);
+  const spin = getLoveKrakenSpin(reels);
+  const zoneAngle = getLoveKrakenZoneAngle({
+    roundId,
+    attempts: angler.attempts,
+  });
 
-  if (landed <= 0 || !legStartAt) {
+  if (angler.legStartAt === undefined || angler.legStartAngle === undefined) {
     return {
       angle: normaliseAngle(((now % ringMs) / ringMs) * 360),
       zoneAngle,
@@ -238,12 +267,10 @@ export function getLoveKrakenRing({
     };
   }
 
-  // The leg started on the zone this angler hit to end the last one
-  const from = getLoveKrakenZoneAngle({ roundId, reels: landed - 1 });
-  const swept = ((now - legStartAt) / ringMs) * 360;
+  const swept = ((now - angler.legStartAt) / ringMs) * 360;
 
   return {
-    angle: normaliseAngle(from + spin * swept),
+    angle: normaliseAngle(angler.legStartAngle + spin * swept),
     zoneAngle,
     ringMs,
     spin,
@@ -257,11 +284,7 @@ export function getLoveKrakenRingOffset(ring: LoveKrakenRing): number {
   return Math.min(gap, 360 - gap);
 }
 
-/**
- * Was a reel on the beat? The room checks the same thing with `toleranceDeg`
- * widened by `LOVE_KRAKEN_LAG_GRACE_DEG`, since the message only reaches it
- * after the trip over the wire.
- */
+/** Was a pull of the rod on the beat? */
 export function isLoveKrakenReelOnTarget({
   ring,
   toleranceDeg = LOVE_KRAKEN_ZONE_HALF_DEG,
@@ -270,6 +293,31 @@ export function isLoveKrakenReelOnTarget({
   toleranceDeg?: number;
 }): boolean {
   return getLoveKrakenRingOffset(ring) <= toleranceDeg;
+}
+
+/**
+ * The angler after a pull of the rod. The zone moves either way - that is
+ * what stops the button being held down - but only a hit re-anchors the
+ * marker's leg, so a miss never interrupts the sweep.
+ */
+export function pullLoveKrakenRod({
+  angler,
+  ring,
+  landed,
+  now = Date.now(),
+}: {
+  angler: LoveKrakenAngler;
+  ring: LoveKrakenRing;
+  landed: boolean;
+  now?: number;
+}): LoveKrakenAngler {
+  return {
+    attempts: angler.attempts + 1,
+    reels: angler.reels + (landed ? 1 : 0),
+    // Pick the new leg up exactly where the marker had got to
+    legStartAt: landed ? now : angler.legStartAt,
+    legStartAngle: landed ? ring.angle : angler.legStartAngle,
+  };
 }
 
 // ---------------------------------------------------------------------------
