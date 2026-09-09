@@ -55,6 +55,22 @@ export const LOVE_KRAKEN_REEL_POINTS = 1;
 export const LOVE_KRAKEN_FIGHT_BACK_PER_SEC = 3;
 
 /**
+ * How far your own reel throws the bar forward, and for how long.
+ *
+ * One point of 1700 is a fiftieth of a pixel on a 38px bar - land one on
+ * your own and the bar does not move at all, which reads as the game being
+ * broken rather than as needing a hand. So a landed reel kicks the bar
+ * forward a visible slice and it eases back to the truth.
+ *
+ * The kick is **a lie, and deliberately so**: it is worth far more than a
+ * point, it is only ever shown to the angler who landed it, and it is never
+ * added to `progress`. It is there to say "that worked - now find some more
+ * people", which is exactly what a lone angler needs to be told.
+ */
+export const LOVE_KRAKEN_REEL_KICK_SHARE = 0.05;
+export const LOVE_KRAKEN_REEL_KICK_MS = 700;
+
+/**
  * A full sweep of the ring on a fresh line, and the tightest it ever gets.
  * Every reel an angler lands winds it up by `STEP`, so the fight gets more
  * frantic the closer that angler is to landing the beast - full speed after
@@ -343,6 +359,55 @@ export type LoveKrakenRound = {
   /** What this Marvel pays - the server's roll for the day. */
   prize: LoveKrakenPrize;
 };
+
+/**
+ * How much of the bar the kick from your last reel is still worth, as a
+ * share of the whole bar.
+ *
+ * Pops to the full share the instant the reel lands and eases back to
+ * nothing - `sqrt` so it holds near the top for the first stretch and then
+ * settles, which is what makes it read as a lurch forward rather than a
+ * flicker. A fresh reel restarts it, so a flurry keeps the bar sitting
+ * forward instead of stacking ever higher.
+ */
+export function getLoveKrakenReelKick({
+  landedAt,
+  now = Date.now(),
+}: {
+  landedAt?: number;
+  now?: number;
+}): number {
+  if (landedAt === undefined) return 0;
+
+  const elapsed = now - landedAt;
+  if (elapsed < 0 || elapsed >= LOVE_KRAKEN_REEL_KICK_MS) return 0;
+
+  const remaining = 1 - elapsed / LOVE_KRAKEN_REEL_KICK_MS;
+
+  return LOVE_KRAKEN_REEL_KICK_SHARE * Math.sqrt(remaining);
+}
+
+/**
+ * What the bar should draw: where the island really is, plus whatever the
+ * angler's own last reel is still worth, clamped to the ends.
+ */
+export function getLoveKrakenBarShare({
+  progress,
+  health,
+  landedAt,
+  now = Date.now(),
+}: {
+  progress: number;
+  health: number;
+  landedAt?: number;
+  now?: number;
+}): number {
+  if (health <= 0) return 0;
+
+  const real = Math.min(1, Math.max(0, progress / health));
+
+  return Math.min(1, real + getLoveKrakenReelKick({ landedAt, now }));
+}
 
 /** Progress left after the Marvel has fought back for `elapsedMs`. */
 export function applyLoveKrakenFightBack({
