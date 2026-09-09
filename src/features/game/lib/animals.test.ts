@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import {
   getAnimalFavoriteFood,
+  getFeedItem,
   getAnimalReadyAt,
   getBoostedAwakeAt,
   getBoostedFoodQuantity,
@@ -542,5 +543,97 @@ describe("SPEED_BOOSTS (windowed animal sleep)", () => {
         now + ANIMAL_SLEEP_DURATION,
       );
     });
+  });
+});
+
+describe("getFeedItem", () => {
+  const requiredQty = new Decimal(1);
+
+  it("keeps the favourite food when it is already selected", () => {
+    const item = getFeedItem({
+      selectedItem: "Kernel Blend",
+      favouriteFood: "Kernel Blend",
+      inventory: { "Kernel Blend": new Decimal(5), Hay: new Decimal(5) },
+      requiredQty,
+    });
+
+    expect(item).toBe("Kernel Blend");
+  });
+
+  it("keeps Omnifeed when it is selected even if the favourite food is available", () => {
+    const item = getFeedItem({
+      selectedItem: "Omnifeed",
+      favouriteFood: "Kernel Blend",
+      inventory: { "Kernel Blend": new Decimal(5), Omnifeed: new Decimal(5) },
+      requiredQty,
+    });
+
+    expect(item).toBe("Omnifeed");
+  });
+
+  it("switches from a different food to the favourite food when enough is held", () => {
+    const item = getFeedItem({
+      selectedItem: "Hay",
+      favouriteFood: "Kernel Blend",
+      inventory: { "Kernel Blend": new Decimal(1), Hay: new Decimal(5) },
+      requiredQty,
+    });
+
+    expect(item).toBe("Kernel Blend");
+  });
+
+  it("switches from a non-food item to the favourite food when enough is held", () => {
+    const item = getFeedItem({
+      selectedItem: "Axe",
+      favouriteFood: "Kernel Blend",
+      inventory: { "Kernel Blend": new Decimal(1), Axe: new Decimal(1) },
+      requiredQty,
+    });
+
+    expect(item).toBe("Kernel Blend");
+  });
+
+  it("switches to the favourite food when nothing is selected", () => {
+    const item = getFeedItem({
+      selectedItem: undefined,
+      favouriteFood: "Kernel Blend",
+      inventory: { "Kernel Blend": new Decimal(1) },
+      requiredQty,
+    });
+
+    expect(item).toBe("Kernel Blend");
+  });
+
+  it("keeps the selected food when the favourite food is not held", () => {
+    const item = getFeedItem({
+      selectedItem: "Hay",
+      favouriteFood: "Kernel Blend",
+      inventory: { Hay: new Decimal(5) },
+      requiredQty,
+    });
+
+    expect(item).toBe("Hay");
+  });
+
+  it("keeps the selected food when there is not enough favourite food", () => {
+    const item = getFeedItem({
+      selectedItem: "Hay",
+      favouriteFood: "Kernel Blend",
+      inventory: { "Kernel Blend": new Decimal(2), Hay: new Decimal(5) },
+      requiredQty: new Decimal(3),
+    });
+
+    expect(item).toBe("Hay");
+  });
+
+  it("keeps a non-food selection when the favourite food is not held", () => {
+    const item = getFeedItem({
+      selectedItem: "Axe",
+      favouriteFood: "Kernel Blend",
+      inventory: { Axe: new Decimal(1) },
+      requiredQty,
+    });
+
+    expect(item).toBe("Axe");
   });
 });

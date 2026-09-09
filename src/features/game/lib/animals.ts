@@ -19,6 +19,7 @@ import type {
   AnimalResource,
   BoostName,
   GameState,
+  Inventory,
   InventoryItemName,
 } from "../types/game";
 import {
@@ -124,6 +125,38 @@ export function isAnimalFood(item: InventoryItemName): item is AnimalFoodName {
   return getKeys(ANIMAL_FOODS)
     .filter((food) => ANIMAL_FOODS[food].type === "food")
     .includes(item as AnimalFoodName);
+}
+
+/**
+ * Resolves which item a click on an animal should feed.
+ *
+ * Players can accidentally feed the wrong food (e.g. walking from cows with
+ * Hay selected to chickens that want Kernel Blend). If the animal's favourite
+ * food is held in sufficient quantity, we switch to it. Omnifeed is an explicit
+ * "happy" choice, so it is never overridden. If the favourite is not held, the
+ * selection is left alone so players can still feed whatever they actioned.
+ */
+export function getFeedItem({
+  selectedItem,
+  favouriteFood,
+  inventory,
+  requiredQty,
+}: {
+  selectedItem?: InventoryItemName;
+  favouriteFood: AnimalFoodName;
+  inventory: Inventory;
+  requiredQty: Decimal;
+}): InventoryItemName | undefined {
+  if (selectedItem === favouriteFood || selectedItem === "Omnifeed") {
+    return selectedItem;
+  }
+
+  const favouriteCount = inventory[favouriteFood] ?? new Decimal(0);
+  if (favouriteCount.gte(requiredQty)) {
+    return favouriteFood;
+  }
+
+  return selectedItem;
 }
 
 export function isAnimalMedicine(

@@ -17,6 +17,7 @@ import {
   getAnimalFavoriteFood,
   getAnimalLevel,
   getBoostedFoodQuantity,
+  getFeedItem,
   isAnimalFood,
   resolveAnimal,
 } from "features/game/lib/animals";
@@ -500,16 +501,27 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       return;
     }
 
-    const hasFoodSelected = selectedItem && isAnimalFood(selectedItem);
-
     if (hasGoldEgg) {
       feedChicken();
       return;
     }
 
+    // Auto-select the favourite food when it is held so a stale selection
+    // (e.g. Hay left over from the barn) never feeds the wrong item.
+    const feedItem = getFeedItem({
+      selectedItem,
+      favouriteFood: favFood,
+      inventory,
+      requiredQty: requiredFoodQty,
+    });
+    if (feedItem && feedItem !== selectedItem) {
+      shortcutItem(feedItem);
+    }
+
+    const hasFoodSelected = feedItem && isAnimalFood(feedItem);
+
     if (hasFoodSelected) {
-      const foodCount =
-        inventory[selectedItem as AnimalFoodName] ?? new Decimal(0);
+      const foodCount = inventory[feedItem as AnimalFoodName] ?? new Decimal(0);
       if (foodCount.lt(requiredFoodQty)) {
         setShowNotEnoughFood(true);
         await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -517,7 +529,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
         return;
       }
 
-      feedChicken(selectedItem);
+      feedChicken(feedItem);
       return;
     }
 
