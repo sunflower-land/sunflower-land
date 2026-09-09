@@ -592,11 +592,15 @@ game event and the once-a-day rule is enforced client-side against the farm's
 
 ### What the client does
 
-- Draws the four squares on the ground (a taken one fills green) with an
-  "n/4" tally floating above them (how many are taken - it pops when one
-  is), a faint ring at each `starts` tile, and the four boulders at
-  `boulders` (solid). A parked boulder stays where it is, tinted green,
-  still solid - the others crash into it. There is no grid and no other HUD.
+- Draws the four squares on the ground as slots (`world/love_boulder_slot.png`,
+  a 16x16 hole per tile plus a 1px shadow row below) with an "n/4" tally
+  floating above them (how many are taken - it pops when one is), a faint
+  ring at each `starts` tile, and the four boulders at `boulders` (solid).
+  The slots never change: a taken one is called out by a **tick**
+  (`icons/confirm.png`) riding the crown of the boulder parked in it, drawn
+  above everything so it reads through a crowd. A parked boulder stays where
+  it is, untinted, still solid - the others crash into it. There is no grid
+  and no other HUD.
 - For every direction with a count > 0 on a boulder: draws the matching
   arrow icon (`arrow_up` / `arrow_right` / `arrow_down` / `arrow_left`)
   **just past the boulder's edge on that side** (10px from its tile centre,
@@ -620,8 +624,8 @@ game event and the once-a-day rule is enforced client-side against the farm's
   and a spray of rubble) and a fresh one appears at its new `starts` tile
   with a bounce, the ring moving with it; a player who was pushing it gets
   an "it hit something" bubble.
-- When `sunk[boulder]` flips to true: the boulder rolls onto its square,
-  settles with a bounce and turns green; the square fills green.
+- When `sunk[boulder]` flips to true: the boulder rolls onto its square and
+  settles with a bounce, and a tick pops in over it once it lands.
 - When `solvedAt` flips from 0: the parked boulders flash. If
   `max(pushers[farmId], own count) > 0` and the farm has no `love_push` claim
   today, dispatches

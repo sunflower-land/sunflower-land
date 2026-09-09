@@ -73,14 +73,6 @@ const LovePushGuide: React.FC = () => {
             icon: SUNNYSIDE.icons.player,
           },
           {
-            text: translate("lovePush.guide.lights"),
-            icon: SUNNYSIDE.icons.confirm,
-          },
-          {
-            text: translate("lovePush.guide.walls"),
-            icon: SUNNYSIDE.icons.cancel,
-          },
-          {
             text: translate("lovePush.guide.prizes", {
               amount: LOVE_PUSH_PRIZE.amount,
               item: LOVE_PUSH_PRIZE.item,
