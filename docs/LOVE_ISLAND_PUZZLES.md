@@ -1,14 +1,16 @@
 # Love Island daily puzzles — server spec
 
 Love Island hosts daily puzzles: the Love Dilemma or Lover's Push in the
-middle of the island (one at a time) and the Love Boulder at the top. Every
+middle of the island (one at a time), the Love Boulder at the top and the
+Love Marvel in the lake on the west. Every
 puzzle pays out
 Love Charms through a single game event, `floatingIslandPrize.claimed`, so the
 daily caps live in one place. This document is the contract the game API and
 the MMO (Colyseus) room need to implement.
 
-Client source of truth: `src/features/world/lib/loveIsland.ts` (pure rules,
-unit-tested) and `src/features/world/scenes/LoveIslandScene.ts`.
+Client source of truth: `src/features/world/lib/loveIsland.ts` and
+`src/features/world/lib/loveKraken.ts` (pure rules, unit-tested) and
+`src/features/world/scenes/LoveIslandScene.ts`.
 
 ## Hand-off checklists
 
@@ -37,6 +39,10 @@ unit-tested) and `src/features/world/scenes/LoveIslandScene.ts`.
       restarting on its side - credit the crowd on a roll or a park,
       celebrate 10s when all four squares are taken, next round. Drop a player's
       pushes when they leave. Carry a verbatim copy of `loveIslandTiles.ts`.
+- [ ] Publish `state.loveKraken` (section 6) and handle `loveKraken.reel`:
+      judge the reel against the epoch-anchored ring, add a point, record the
+      angler, drag 3 points a second back, land it at `health`, hold the prize
+      10s, respawn. Roll its prize per UTC day, the same way as the boulder's.
 - [ ] No change to `giantFlower` — leave it as is (unused by the client now).
 
 ## 1. Game API — `floatingIslandPrize.claimed`
@@ -50,7 +56,7 @@ Port it as-is.
 {
   type: "floatingIslandPrize.claimed";
   amount: number;                          // integer, 0..100
-  game?: "petal_puzzle" | "love_dilemma" | "love_boulder" | "love_push"; // which puzzle paid out
+  game?: "petal_puzzle" | "love_dilemma" | "love_boulder" | "love_push" | "love_kraken"; // which puzzle paid out
   roundId?: number;                        // integer; the puzzle's round
 }
 ```
@@ -63,7 +69,7 @@ floatingIsland: {
   prizeClaims?: {
     claimedAt: number;   // epoch ms
     amount: number;
-    game?: "petal_puzzle" | "love_dilemma" | "love_boulder" | "love_push";
+    game?: "petal_puzzle" | "love_dilemma" | "love_boulder" | "love_push" | "love_kraken";
     roundId?: number;
   }[];
 }
@@ -131,7 +137,9 @@ The middle of the island hosts **one** puzzle at a time - the Love Dilemma
 (`"dilemma" | "push"`), flipped by hand and deployed. The room should publish
 the matching state (`loveDilemma` or `lovePush`); publishing the other one is
 harmless, the client ignores it. The Love Boulder (section 4, top of the
-island) runs all day, every day alongside either. The petal puzzle is no
+island) and the Love Marvel (section 6, the lake on the west) both run all
+day, every day alongside either, and alongside each other — three things are
+live at once and each pays its own prize once a day. The petal puzzle is no
 longer rendered by the client; `FloatingIslandGameName` keeps
 `"petal_puzzle"` so old claims stay typed.
 
@@ -281,8 +289,8 @@ automatically — no client change needed.
 
 A boulder sits at the very top of the island, at the foot of the cliff where
 the path dead-ends (world px **620, 362**; art 26x25). The whole island taps
-it down from **10,000 hits** to zero. When it cracks, a **5 Love Charm**
-prize sits on the rubble for **5 seconds**: anyone who landed at least one
+it down from **10,000 hits** to zero. When it cracks, the day's prize sits
+on the rubble for **5 seconds**: anyone who landed at least one
 hit on that boulder can click it to claim, **once per UTC day**. When the 5
 seconds are up a fresh boulder appears at 10,000 and anyone who didn't click
 misses out. There is no guide entry and no HUD beyond the hit count above
@@ -293,11 +301,19 @@ on top of it.
 
 ```ts
 LOVE_BOULDER_HITS = 10_000;
-LOVE_BOULDER_PRIZE = 5;
 LOVE_BOULDER_MAX_CLAIMS = 1; // per farm per UTC day
 LOVE_BOULDER_HIT_COOLDOWN_MS = 200; // per player
 LOVE_BOULDER_RESPAWN_MS = 5_000; // = the prize window
 ```
+
+**The prize** is rolled per UTC day on the API and published on the room as
+`prize` (an item name, or the literal `"Coins"`) plus `prizeAmount` — a
+Bronze Love Box, a Bronze Food Box, 250 coins or 500 coins (client PRs #7631
+and #7632). `"love_boulder"` is in `FLOATING_ISLAND_SERVER_PAID_GAMES`, so
+the client's copy of the claim event records it as worth **0 Love Charms**
+and pays nothing; only the server knows the roll, and the next sync brings
+the prize down. The claim is sent with `amount: 0`. Section 6's Love Marvel
+uses the same roll.
 
 ### Room state (`PlazaRoomState.loveBoulder`)
 
@@ -307,10 +323,12 @@ the field missing) as "the room isn't running it" and simulates locally.
 ```ts
 class LoveBoulder extends Schema {
   @type("number") roundId: number; // increments on every respawn
-  @type("number") hits: number; // 50000 - what a fresh boulder starts at
+  @type("number") hits: number; // 10000 - what a fresh boulder starts at
   @type("number") hitsRemaining: number; // counts down to 0
   @type("number") brokenAt: number; // epoch ms; 0 while standing
   @type("number") respawnAt: number; // epoch ms; 0 while standing
+  @type("string") prize: string; // item name or "Coins" - the day's roll
+  @type("number") prizeAmount: number; // 1 for a box, 250 or 500 for coins
   @type({ map: "number" }) miners: MapSchema<number>; // farmId -> hits this round
 }
 ```
@@ -353,12 +371,12 @@ farm's `floatingIsland.prizeClaims` (and bounded by the event's daily caps).
   bar) reach zero - only `brokenAt > 0` breaks the boulder.
 - Each tap: must be within reach, respects the 200ms cooldown, sends
   `loveBoulder.hit`, shakes the boulder and chips off rubble.
-- When `brokenAt` flips from 0: plays the shatter and shows a clickable
-  Love Charm "+5" on the rubble while `now < respawnAt`.
+- When `brokenAt` flips from 0: plays the shatter and shows the day's
+  prize on the rubble - its icon and amount - while `now < respawnAt`.
 - Clicking it: if `miners[farmId] > 0` (or its own count is > 0) and the farm
   has no `love_boulder` claim today, dispatches
-  `floatingIslandPrize.claimed { amount, game: "love_boulder", roundId }`
-  with `amount = min(5, remaining today)` and floats a "+N". Players who
+  `floatingIslandPrize.claimed { amount: 0, game: "love_boulder", roundId }`
+  and names what was won in a bubble - the server pays its own roll. Players who
   didn't hit it get a "hit the boulder" bubble; players who already claimed
   today get an "already claimed" bubble. Nothing is claimed automatically -
   miss the window and the prize is gone.
@@ -649,3 +667,303 @@ square** (`getLovePushRouteStep`, around the other boulders) every **8s**
 didn't push. The 10s celebration and next round run on the client's own
 clock. Once the room publishes `lovePush` the client switches over
 automatically.
+
+## 6. Love Marvel — MMO room
+
+A Love Marine Marvel lurks in the lake on the west of the island, its head
+and four tentacles breaking the surface at world px **(306, 566)** — the
+east side of the lake, right off the end of the wharf. (The seasonal
+guardian that used to stand in this water has been removed.) It is a
+community game: a ring sweeps around the beast
+with a catch zone on it, and every islander on the bank casts a line and
+reels **on the beat**. Each landed reel drags the Marvel a point closer to
+the surface; the Marvel drags **three points a second** back. One angler can
+never out-pull it. Around **twenty** reeling properly land it in about a
+minute.
+
+**Every landed reel changes the ring** for the angler who landed it: the
+catch zone jumps a quarter turn or more away, the marker reverses direction,
+and the sweep winds up 40ms tighter — so the fight gets more frantic the
+closer that angler is to landing the beast, and nobody can settle into a
+rhythm. A purple dot is left where the reel scored.
+
+When it is landed, the day's prize floats over it for **10 seconds** and
+**claims itself two seconds in** for anyone who landed at least one reel on
+that Marvel, **once per UTC day**. Nobody has to click. When the window
+shuts a fresh Marvel surfaces at no progress. Like the Love Boulder there is no
+guide entry and no HUD beyond the ring, the fishing disc above it and the
+progress bar below — it is meant to be discovered.
+
+Client source of truth: `src/features/world/lib/loveKraken.ts`.
+
+```ts
+LOVE_KRAKEN_SPOT = { x: 306, y: 566 }; // ring centre / reach anchor
+LOVE_KRAKEN_HEALTH = 1700; // points to land it
+LOVE_KRAKEN_REEL_POINTS = 1; // one landed reel
+LOVE_KRAKEN_FIGHT_BACK_PER_SEC = 3; // points it drags back a second
+LOVE_KRAKEN_RING_MS_MAX = 2_000; // sweep on a fresh line
+LOVE_KRAKEN_RING_MS_MIN = 1_200; // ...and the tightest it gets
+LOVE_KRAKEN_RING_MS_STEP = 40; // tighter by this much per landed reel
+LOVE_KRAKEN_ZONE_SHARE = 0.12; // the catch zone, as a share of a sweep
+LOVE_KRAKEN_ZONE_HALF_DEG = 21.6; // = 360 * 0.12 / 2
+LOVE_KRAKEN_REACH = 90; // how close a player must stand
+LOVE_KRAKEN_RESPAWN_MS = 10_000; // = the prize window
+LOVE_KRAKEN_AUTO_CLAIM_MS = 2_000; // it pays itself this far in
+LOVE_KRAKEN_MAX_CLAIMS = 1; // per farm per UTC day
+
+// Fastest a reel can land. Only long enough to stop two landing on one pass
+// of the zone - the zone jumping away is what actually paces an angler.
+getLoveKrakenReelCooldownMs(ringMs) = round(ringMs * 0.12 * 2); // 480ms at 2s
+```
+
+**Where the numbers come from.** The zone jumps 90-270° from where it was,
+so the marker reaches the next one after **half a sweep** on average - one
+reel per `ringMs / 2`, or 1/s on a fresh line. Twenty anglers make 20/s
+against the Marvel's 3/s, and their sweeps tighten as they go (1s a reel
+down to 0.6s after twenty reels), so they take about 16s to make the first
+351 points and then run at ~30/s: `351 + 44 × 30.3 ≈ 1690`.
+
+Fewer anglers still get there, just slowly - three is roughly the point
+where the Marvel stops losing at all on a fresh line. Change `health` and
+the room's number is the one the client draws the bar from, so it can be
+retuned without a client release.
+
+### The ring — one per angler, in legs
+
+Each angler has their own ring: their own zone, their own direction and
+their own sweep. It is drawn and judged **entirely on the client** — the
+room needs none of it (see the message rules below for what the room does
+enforce, and why that is enough).
+
+**Every pull of the rod moves the zone, landed or missed.** Without that the
+game is beaten by holding the button down: every tap is free, so the marker
+eventually wanders into a zone that never moved. With it, a mashed pull
+lands only the 12% of the ring the zone covers and then throws the aim
+somewhere new — measured in the scene, mashing lands **11 reels a minute
+against 116** for waiting for the marker. A missed pull costs an angler
+about as much time as one that lands, and scores nothing.
+
+A **landed** pull additionally reverses the marker and winds the sweep up
+40ms, and leaves a purple dot where it scored.
+
+The marker runs in **legs**: a leg starts the instant a reel lands and runs
+until the next one does, and it begins at exactly the angle the marker had
+reached — so the reversal and the wind-up never move it. A **miss leaves the
+marker alone** and only moves the zone, so the line keeps sweeping evenly
+however wildly the angler is tapping.
+
+> Reading the phase straight off the clock as `now % ringMs` looks
+> equivalent and is not: the moment `ringMs` changes, that phase lurches.
+> That is what made the marker snap back to the top mid-sweep.
+
+```ts
+// Client-side only. `mulberry32` is the same one the Dilemma uses.
+
+function getLoveKrakenRingMs(reels: number): number {
+  return Math.max(1200, 2000 - Math.max(0, reels) * 40);
+}
+
+function getLoveKrakenSpin(reels: number): 1 | -1 {
+  return Math.max(0, reels) % 2 === 0 ? 1 : -1; // 1 clockwise
+}
+
+// Degrees clockwise from the top. Starts at the top and jumps 90-270 degrees
+// from where it was on EVERY pull, so it always visibly moves.
+function getLoveKrakenZoneAngle({ roundId, attempts }): number {
+  const random = mulberry32(roundId * 7919 + 13);
+  let angle = 0;
+  for (let i = 0; i < Math.max(0, attempts); i++) {
+    angle = (angle + 90 + random() * 180) % 360;
+  }
+  return angle;
+}
+
+// angler = { attempts, reels, legStartAt?, legStartAngle? }
+function getLoveKrakenRing({ roundId, angler, now }) {
+  const reels = Math.max(0, angler.reels);
+  const ringMs = getLoveKrakenRingMs(reels);
+  const spin = getLoveKrakenSpin(reels);
+  const zoneAngle = getLoveKrakenZoneAngle({
+    roundId,
+    attempts: angler.attempts,
+  });
+  const wrap = (a: number) => ((a % 360) + 360) % 360;
+
+  // No leg to anchor to yet, so read it off the clock
+  if (angler.legStartAt === undefined || angler.legStartAngle === undefined) {
+    return {
+      angle: wrap(((now % ringMs) / ringMs) * 360),
+      zoneAngle,
+      ringMs,
+      spin,
+    };
+  }
+
+  const swept = ((now - angler.legStartAt) / ringMs) * 360;
+  return {
+    angle: wrap(angler.legStartAngle + spin * swept),
+    zoneAngle,
+    ringMs,
+    spin,
+  };
+}
+```
+
+A reel is on the beat when the marker is within **21.6°** of `zoneAngle`,
+the short way round.
+
+### Room state (`PlazaRoomState.loveKraken`)
+
+Present only in the `love_island` room. The client treats `health === 0` (or
+the field missing) as "the room isn't running it" and simulates locally.
+
+```ts
+class LoveKraken extends Schema {
+  @type("number") roundId: number; // increments on every respawn
+  @type("number") health: number; // 1700 - what a fresh Marvel needs
+  @type("number") progress: number; // 0..health, counts up
+  @type("number") caughtAt: number; // epoch ms; 0 while it fights
+  @type("number") respawnAt: number; // epoch ms; 0 while it fights
+  @type("string") prize: string; // item name or "Coins"
+  @type("number") prizeAmount: number; // 1 for a box, 250 or 500 for coins
+  @type({ map: "number" }) anglers: MapSchema<number>; // farmId -> reels
+}
+```
+
+`roundId` must be unique for the lifetime of the farm's day (it is the
+idempotency key for the claim), so persist a counter or derive it from
+timestamps — don't restart at 0 whenever the room reboots within a day.
+`roundId = Math.floor(spawnedAt / 1000)` is fine.
+
+`progress` may be fractional (the fight-back is continuous); the client
+rounds it for the bar. Publishing it on a tick of ~200ms is plenty — the bar
+is 46px wide, so smaller steps are invisible.
+
+### The fight back
+
+On a timer, and floored at zero:
+
+```ts
+progress = Math.max(0, progress - (elapsedMs / 1000) * 3);
+```
+
+It runs the whole time the Marvel is fighting, including while nobody is on
+the bank, so an abandoned Marvel drains back to zero rather than banking the
+crowd's work for later. It stops once the Marvel is caught.
+
+### Client → server message
+
+```ts
+room.send("loveKraken.reel", { roundId: number });
+```
+
+Rules:
+
+- Ignore if `roundId` ≠ the current round, or the Marvel is caught
+  (`caughtAt > 0`).
+- Ignore if their last accepted reel was under
+  `getLoveKrakenReelCooldownMs(getLoveKrakenRingMs(anglers[farmId]))` ago —
+  **500ms** on a fresh line, down to 300ms once that angler has 20 reels.
+  `anglers[farmId]` is the only input, and the room already has it.
+- Ignore if the player is further than **90px** from `(306, 566)` (use the
+  position in `state.players`; the client refuses to send from further away,
+  so this only guards forged messages). 90 covers the two places anyone can
+  stand at this end of the lake: the **wharf**, about 22px off its end, and
+  the **west bank** across the water. They face each other over the beast.
+- Otherwise `progress = min(health, progress + 1)` and `anglers[farmId] += 1`.
+
+**Why the room does not check the ring.** It could — the geometry is
+deterministic — but only by tracking each angler's attempt count, leg anchor
+and leg angle, and by staying in step with the client on all three across
+dropped and in-flight messages. That is a lot of state and a lot of ways to
+desync a player out of the game, for a shared bar whose prize is capped at
+one roll per farm per UTC day.
+
+The cooldown does the job instead. It is set to the **tightest gap the zone
+can legitimately leave** (a quarter turn), so it never blocks an honest
+angler who got a short jump, while capping a forged client that ignores the
+ring entirely at **two reels a sweep** against the one a sweep an honest
+angler averages. A cheat is worth at most one extra player on a bar that
+needs twenty — and the Love Boulder, which this sits next to, has no check
+at all.
+
+- When `progress` reaches `health`: set `caughtAt = now`,
+  `respawnAt = now + 10_000`. Leave `anglers` populated — clients read it to
+  know whether they helped (a reload mid-round loses their local count).
+- At `respawnAt`: `roundId += 1`, `progress = 0`, `caughtAt = 0`,
+  `respawnAt = 0`, clear `anglers`, and re-read the day's prize (the UTC day
+  may have rolled over).
+
+The room does not need to know about the daily claim limit — the claim is a
+game event and the once-a-day rule is enforced client-side against the
+farm's `floatingIsland.prizeClaims` (and bounded by the event's daily caps).
+
+### The prize
+
+**The same roll as the Love Boulder** — a Bronze Love Box, a Bronze Food
+Box, 250 coins or 500 coins, picked per UTC day on the API and published as
+`prize` (the item name, or the literal `"Coins"`) plus `prizeAmount`. Reuse
+the boulder's roll; whether the two share a seed for the day or roll
+independently is the API's call, but they are separate claims and a player
+can take both on the same day.
+
+Client-side, `"love_kraken"` is in `FLOATING_ISLAND_SERVER_PAID_GAMES`, so
+this copy of the event records the claim as worth **0 Love Charms** and pays
+nothing — only the server knows the roll. The API's copy pays the prize and
+the next sync brings it down.
+
+```ts
+{ type: "floatingIslandPrize.claimed", amount: 0, game: "love_kraken", roundId }
+```
+
+### What the client does
+
+- Draws the beast (`kraken_head.webp` 11x12 and four `kraken_tentacle.webp`
+  8x16, each with its own ripple) at **native size on integer top-left
+  coordinates**, never scaled, rotated or tweened, so every pixel lines up
+  with the map tiles behind it. Around it: the ring with the green catch
+  zone and a white marker sweeping it, a fishing disc above it
+  (`world/fishing_disc.png`) and the island's progress bar below. The bar
+  runs **green while the bank is gaining and red while the Marvel is**, so a
+  thin crowd can see at a glance that they need more hands. No numbers.
+- The disc, the ring and the beast are all one button. The **first** click
+  (within reach) casts the line and leaves it in the water — the Bumpkin
+  plays `casting` and settles into the `waiting` loop. **Every click after
+  that** plays `reeling` and drops back into `waiting`, whether or not it
+  landed. A miss does nothing at all; a hit splashes, flashes the marker
+  green and sends `loveKraken.reel`. Walking anywhere takes the line out.
+- The bar is **the room's** — a reel of your own flashes the marker and
+  splashes, it never moves the bar optimistically. With a crowd on the bank
+  the bar is moving constantly anyway.
+- On a landed reel: a purple dot pops on the ring where it scored and fades,
+  the marker flashes green, the water splashes, and the zone, direction and
+  sweep all change for the next leg. A miss flashes the marker red and does
+  nothing else.
+- Every other player the room lists in `anglers`, and who is still within
+  reach, holds their rod out and pulls it whenever their count goes up. This
+  needs no extra traffic beyond `anglers`.
+- When `caughtAt` flips from 0: the beast thrashes, splashes and fades, and
+  the day's prize floats where the disc was while `now < respawnAt`.
+- **It claims itself.** Two seconds into the window, every player with
+  `anglers[farmId] > 0` (or their own count > 0) and no `love_kraken` claim
+  today dispatches the claim above on their own, cheers, and gets a bubble
+  naming what they won — nobody has to click, and nobody who helped haul the
+  beast up can miss out by looking away. The remaining eight seconds are
+  celebration. Clicking the prize before then just takes it early; a player
+  who never reeled is left alone rather than nagged.
+- When `roundId` changes a fresh Marvel surfaces at no progress.
+
+The Marvel sits in the lake, which the map's `Collision` layer already
+blocks, so it needs no fixture in `loveIslandFixtures.ts` and the walkable
+tile bitmap is unchanged — a Lover's Push rock could never roll onto water
+anyway.
+
+### Until the room ships
+
+If `state.loveKraken` is absent (or `health` is 0), the client runs a local
+stand-in: a simulated bank lands what **twenty anglers** reeling properly
+would make - 20 reels a second on a fresh Marvel, winding up to 33/s as the
+fight goes on - against the same 3/s fight back, the local player's own
+reels go straight on top, and the catch / 10s window / respawn cycle runs on
+the client's own clock. Once the room publishes `loveKraken`
+the client switches over automatically — no client change needed.
