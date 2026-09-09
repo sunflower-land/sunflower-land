@@ -9,7 +9,7 @@ import { BoostsDisplay } from "components/ui/layouts/BoostsDisplay";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
 import { PRE_ACTION_TICK_MS } from "features/game/lib/timerDisplay";
-import { useCraftingTimePreview } from "./useCraftingTimePreview";
+import { getCraftingTimePreview } from "./craftingTimePreview";
 
 const RecipeLabelContent: React.FC<{
   state: GameState;
@@ -26,7 +26,7 @@ const RecipeLabelContent: React.FC<{
 
   // Hooks must run unconditionally, so the preview is computed before the early
   // returns below; a null or instant recipe simply never reads it.
-  const preview = useCraftingTimePreview({
+  const preview = getCraftingTimePreview({
     state,
     timeMs: recipe?.time ?? 0,
     at: startsAt ?? now,

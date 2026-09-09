@@ -1,5 +1,3 @@
-import { useContext } from "react";
-import { Context } from "features/game/GameProvider";
 import type { GameState } from "features/game/types/game";
 import type { BoostName } from "features/game/types/game";
 import { getBoostedCraftingTime } from "features/game/events/landExpansion/startCrafting";
@@ -8,9 +6,11 @@ import {
   getCraftingBoostContributions,
 } from "features/game/lib/boostContributions";
 import { getPreActionDisplay } from "features/game/lib/timerDisplay";
-import { getCraftingBoostWindows } from "features/game/lib/boostWindows";
+import {
+  getCraftingBoostWindows,
+  getEffectiveSpeedAt,
+} from "features/game/lib/boostWindows";
 import { secondsToString } from "lib/utils/time";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export type CraftingTimePreview = {
   /** The number to show, in seconds. */
@@ -46,15 +46,10 @@ export function getCraftingTimePreview({
   state,
   timeMs,
   at,
-  showActualTime,
-  formatSpeed,
 }: {
   state: GameState;
   timeMs: number;
   at: number;
-  showActualTime: boolean;
-  /** The caller's translated "Speed: {{speed}}x". */
-  formatSpeed: (speed: number) => string;
 }): CraftingTimePreview {
   // No prngArgs: this is a preview, so it must not consume a Fox Shrine roll.
   const { seconds: bakedMs, boostsUsed } = getBoostedCraftingTime({
@@ -69,49 +64,27 @@ export function getCraftingTimePreview({
     contributions: getCraftingBoostContributions(state, at),
     seconds: bakedMs / 1000,
     at,
-    showActualTime,
     formatSeconds: (seconds) => secondsToString(seconds, { length: "medium" }),
-    formatSpeed,
   });
 
   const boosts = [...boostsUsed, ...windowedBoosts];
 
-  const { displaySeconds, speed, hasNamedBoosts, isBoosted } =
-    getPreActionDisplay({
-      showActualTime,
-      seconds: bakedMs / 1000,
-      baseSeconds: timeMs / 1000,
-      namedBoostCount: boosts.length,
-      windows,
-      at,
-    });
+  const { displaySeconds, hasNamedBoosts, isBoosted } = getPreActionDisplay({
+    seconds: bakedMs / 1000,
+    baseSeconds: timeMs / 1000,
+    namedBoostCount: boosts.length,
+    windows,
+    at,
+  });
 
   return {
     displaySeconds,
-    speed,
+    // The rate the craft would run at when it starts. A boosted craft is shown
+    // to the minute rather than the hour, so a rate change is visible.
+    speed: getEffectiveSpeedAt({ at, windows }),
     baseSeconds: timeMs / 1000,
     boosts,
     hasNamedBoosts,
     isBoosted,
   };
-}
-
-/**
- * `getCraftingTimePreview` bound to the current translation and time-display
- * setting. The plain function above is what the recipe GRIDS use, since they
- * compute a preview per row inside a map and so cannot call a hook.
- */
-export function useCraftingTimePreview(args: {
-  state: GameState;
-  timeMs: number;
-  at: number;
-}): CraftingTimePreview {
-  const { t } = useAppTranslation();
-  const { showActualTime } = useContext(Context);
-
-  return getCraftingTimePreview({
-    ...args,
-    showActualTime,
-    formatSpeed: (speed) => t("description.boostedSpeed", { speed }),
-  });
 }

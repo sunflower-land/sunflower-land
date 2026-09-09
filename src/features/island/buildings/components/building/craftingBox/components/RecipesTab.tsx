@@ -30,7 +30,7 @@ import { type BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { RecipeInfoPanel } from "./RecipeInfoPanel";
 import type { CollectibleName } from "features/game/types/craftables";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
-import { getCraftingTimePreview } from "./useCraftingTimePreview";
+import { getCraftingTimePreview } from "./craftingTimePreview";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import lightningIcon from "assets/icons/lightning.png";
 import type {
@@ -137,7 +137,7 @@ const _remainingWardrobe = (state: MachineState) => {
 };
 
 export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
-  const { gameService, showActualTime } = useContext(Context);
+  const { gameService } = useContext(Context);
   const { t } = useTranslation();
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [showBoostsRecipeName, setShowBoostsRecipeName] = useState<
@@ -334,9 +334,6 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                     state,
                     timeMs: recipe.time,
                     at: now,
-                    showActualTime,
-                    formatSpeed: (speed) =>
-                      t("description.boostedSpeed", { speed }),
                   });
                 const boostedCraftTime = displaySeconds * 1000;
 
@@ -661,9 +658,6 @@ export const RecipesTab: React.FC<Props> = ({ handleSetupRecipe }) => {
                     state,
                     timeMs: recipe.time,
                     at: now,
-                    showActualTime,
-                    formatSpeed: (speed) =>
-                      t("description.boostedSpeed", { speed }),
                   });
                 const boostedCraftTime = displaySeconds * 1000;
 
