@@ -1,6 +1,8 @@
 import loveIslandJSON from "assets/map/love_island_map.json";
 import loveIslandTileset from "assets/map/love_island_tileset.json";
 import loveCharmSmall from "assets/icons/love_charm_small.webp";
+import krakenHead from "assets/sfts/kraken_head.webp";
+import krakenTentacle from "assets/sfts/kraken_tentacle.webp";
 
 import type { SceneId } from "../mmoMachine";
 import { BaseScene, type NPCBumpkin } from "./BaseScene";
@@ -73,6 +75,29 @@ import {
   type LovePushRound,
   type LovePushTile,
 } from "../lib/loveIsland";
+import {
+  LOVE_KRAKEN_COINS_PRIZE,
+  LOVE_KRAKEN_PRIZE,
+  LOVE_KRAKEN_PRIZE_ITEMS,
+  LOVE_KRAKEN_REACH,
+  LOVE_KRAKEN_REEL_COOLDOWN_MS,
+  LOVE_KRAKEN_SPOT,
+  LOVE_KRAKEN_ZONE_HALF_DEG,
+  canClaimLoveKraken,
+  createLoveKrakenLocalRound,
+  fromLoveKrakenRoomPrize,
+  getLoveKrakenPrizeKey,
+  getLoveKrakenRingAngle,
+  hasClaimedLoveKrakenRound,
+  hasClaimedLoveKrakenToday,
+  isLoveKrakenReelOnTarget,
+  isLoveKrakenRewardOpen,
+  reelLoveKrakenLocalRound,
+  tickLoveKrakenLocalRound,
+  type LoveKrakenLocalRound,
+  type LoveKrakenPrize,
+  type LoveKrakenRound,
+} from "../lib/loveKraken";
 
 const BUMPKINS: NPCBumpkin[] = [];
 
@@ -218,6 +243,60 @@ const PUSH_ARROW_OFFSET = PUSH_BOULDER_WIDTH / 2 + 3;
  * likely to go is the biggest arrow.
  */
 const PUSH_ARROW_MIN_SCALE = 0.5;
+
+/**
+ * The Love Marvel in the lake on the west of the island. Its head and
+ * tentacles break the surface at double size (the SFT art is 11x12 and
+ * 8x16), a ring sweeps around it, and the island's progress bar sits under
+ * it. The whole assembly is kept clear of the seasonal guardian standing in
+ * the water above it.
+ */
+const KRAKEN_SPOT = LOVE_KRAKEN_SPOT;
+const KRAKEN_ART_SCALE = 2;
+/**
+ * Tentacles break the surface around the head, base on the water line. The
+ * art carries its own ripple, so they are spread wide enough to read as
+ * separate things surfacing rather than the head's legs.
+ */
+const KRAKEN_TENTACLES = [
+  { x: -30, y: -6 },
+  { x: 29, y: -3 },
+  { x: -19, y: 16 },
+  { x: 21, y: 19 },
+];
+/** The ring the marker sweeps around, clear of the tentacles. */
+const KRAKEN_RING_RADIUS = 34;
+const KRAKEN_RING_WIDTH = 3;
+/** Kept light - the ring is a HUD over the lake, not a hole in it. */
+const KRAKEN_RING_TRACK = 0x193c3e;
+const KRAKEN_RING_TRACK_ALPHA = 0.6;
+/** The zone is what everyone is aiming at, so it is the heaviest stroke. */
+const KRAKEN_ZONE_WIDTH = 5;
+const KRAKEN_RING_ZONE = 0x63c74d;
+const KRAKEN_MARKER_RADIUS = 3;
+const KRAKEN_MARKER_COLOUR = 0xffffff;
+/** The marker flashes green on a landed reel, red on a missed one. */
+const KRAKEN_MARKER_HIT = 0x63c74d;
+const KRAKEN_MARKER_MISS = 0xf6757a;
+const KRAKEN_MARKER_FLASH_MS = 180;
+/** The fishing disc marking the spot sits above the ring. */
+const KRAKEN_DISC_Y = KRAKEN_SPOT.y - KRAKEN_RING_RADIUS - 12;
+/**
+ * The island's progress bar under the ring - wider than the boulder's, since
+ * it is the one thing the whole bank is watching.
+ */
+const KRAKEN_BAR_WIDTH = 48;
+const KRAKEN_BAR_HEIGHT = 6;
+const KRAKEN_BAR_INNER_WIDTH = KRAKEN_BAR_WIDTH - 2;
+const KRAKEN_BAR_Y = KRAKEN_SPOT.y + KRAKEN_RING_RADIUS + 4;
+const KRAKEN_BAR_TRACK = 0x3e2731;
+/** Green while the bank is winning the tug of war, red while the Marvel is. */
+const KRAKEN_BAR_RISING = 0x63c74d;
+const KRAKEN_BAR_FALLING = 0xe43b44;
+/** Splash colours, pulled from the lake tiles. */
+const KRAKEN_SPLASH_COLOURS = [0xffffff, 0x8ff8e2, 0x50c5e8];
+/** Texture key for a Marvel prize's icon - an item name or "Coins". */
+const krakenPrizeTexture = (prize: string) => `kraken_prize_${prize}`;
 
 const FONT = "Teeny Tiny Pixls";
 const TEXT_TINT = 0x3e2731;
@@ -376,6 +455,40 @@ export class LoveIslandScene extends BaseScene {
   /** roundId -> boulders the local player has helped roll. */
   private pushMoves: Record<number, number> = {};
 
+  private kraken?: Phaser.GameObjects.Sprite;
+  private krakenTentacles: Phaser.GameObjects.Sprite[] = [];
+  private krakenDisc?: Phaser.GameObjects.Sprite;
+  /** The sweeping ring: a static track and the marker going round it. */
+  private krakenRing?: Phaser.GameObjects.Graphics;
+  private krakenMarker?: Phaser.GameObjects.Arc;
+  private krakenMarkerFlashUntil = 0;
+  private krakenMarkerFlashColour = KRAKEN_MARKER_COLOUR;
+  /** The island's progress bar, redrawn only when its fill width changes. */
+  private krakenBar?: Phaser.GameObjects.Graphics;
+  private krakenBarFill?: number;
+  private krakenBarRising?: boolean;
+  private krakenReward?: Label;
+  /** Prize the label was built for, so it's only rebuilt on change. */
+  private krakenRewardPrize?: string;
+  private claimedKrakenRoundId?: number;
+  /** Simulated Marvel while the room has no state for it. */
+  private localKraken?: LoveKrakenLocalRound;
+  /** Marvel round the visuals are synced to. */
+  private krakenRoundId?: number;
+  /** Marvel round whose catch has been animated. */
+  private caughtKrakenRoundId?: number;
+  /** Whether we've seen this round's Marvel fighting - only then animate the catch. */
+  private sawKrakenFighting = false;
+  private lastKrakenReelAt = 0;
+  /** roundId -> reels the local player has landed. */
+  private krakenReels: Record<number, number> = {};
+  /** Whether the local player's line is in the water. */
+  private krakenCasting = false;
+  /** Progress last seen, to colour the bar by which way it is going. */
+  private lastKrakenProgress?: number;
+  /** farmId -> reels last seen, so the rest of the bank can be animated. */
+  private seenAnglerReels: Record<string, number> = {};
+
   constructor() {
     super({
       name: "love_island",
@@ -402,6 +515,18 @@ export class LoveIslandScene extends BaseScene {
     LOVE_BOULDER_PRIZE_ITEMS.forEach((item) => {
       this.load.image(boulderPrizeTexture(item), ITEM_DETAILS[item].image);
     });
+    this.load.image("kraken_head", krakenHead);
+    this.load.image("kraken_tentacle", krakenTentacle);
+    this.load.image("fishing_disc", "world/fishing_disc.png");
+    // Icons for whatever the Marvel can pay today - the boulder's roll
+    this.load.image(
+      krakenPrizeTexture(LOVE_KRAKEN_COINS_PRIZE),
+      SUNNYSIDE.ui.coins,
+    );
+    LOVE_KRAKEN_PRIZE_ITEMS.forEach((item) => {
+      this.load.image(krakenPrizeTexture(item), ITEM_DETAILS[item].image);
+    });
+
     this.load.image("push_boulder", "world/love_rock.png");
     this.load.image(PUSH_ARROW_TEXTURE.north, SUNNYSIDE.icons.arrow_up);
     this.load.image(PUSH_ARROW_TEXTURE.east, SUNNYSIDE.icons.arrow_right);
@@ -470,6 +595,7 @@ export class LoveIslandScene extends BaseScene {
       this.createLoveDilemma();
     }
     this.createLoveBoulder();
+    this.createLoveKraken();
 
     this.setupPopup();
   }
@@ -494,6 +620,7 @@ export class LoveIslandScene extends BaseScene {
       this.updateLoveDilemma();
     }
     this.updateLoveBoulder();
+    this.updateLoveKraken();
   }
 
   createLoveDilemma() {
@@ -2178,6 +2305,569 @@ export class LoveIslandScene extends BaseScene {
       prize.type === "coins"
         ? translateForBubble("loveBoulder.prizeCoins", { amount: prize.amount })
         : translateForBubble("loveBoulder.prizeItem", { item: prize.item }),
+    );
+  }
+
+  // ---------------------------------------------------------------------
+  // Love Marvel (the lake)
+  // ---------------------------------------------------------------------
+
+  createLoveKraken() {
+    const { x, y } = KRAKEN_SPOT;
+
+    // Tentacles first, so the head sits in front of them
+    this.krakenTentacles = KRAKEN_TENTACLES.map((offset, index) => {
+      const tentacle = this.add
+        .sprite(x + offset.x, y + offset.y, "kraken_tentacle")
+        .setOrigin(0.5, 1)
+        .setScale(KRAKEN_ART_SCALE)
+        .setDepth(y + offset.y);
+
+      // A lazy sway, staggered so they don't move as one
+      this.tweens.add({
+        targets: tentacle,
+        angle: index % 2 === 0 ? 7 : -7,
+        duration: 1400 + index * 130,
+        delay: index * 220,
+        yoyo: true,
+        repeat: -1,
+        ease: "Sine.easeInOut",
+      });
+
+      return tentacle;
+    });
+
+    this.kraken = this.add
+      .sprite(x, y, "kraken_head")
+      .setOrigin(0.5, 1)
+      .setScale(KRAKEN_ART_SCALE)
+      .setDepth(y + 1);
+
+    // The head bobs on the surface
+    this.tweens.add({
+      targets: this.kraken,
+      y: y - 2,
+      duration: 1100,
+      yoyo: true,
+      repeat: -1,
+      ease: "Sine.easeInOut",
+    });
+
+    // The ring: a dark track with the catch zone at the top. Static, so it
+    // is drawn once; only the marker moves.
+    const ring = this.add
+      .graphics({ x, y })
+      .setDepth(Number.MAX_SAFE_INTEGER - 2);
+    const half = Phaser.Math.DegToRad(LOVE_KRAKEN_ZONE_HALF_DEG);
+    const top = -Math.PI / 2;
+
+    ring.lineStyle(
+      KRAKEN_RING_WIDTH,
+      KRAKEN_RING_TRACK,
+      KRAKEN_RING_TRACK_ALPHA,
+    );
+    ring.beginPath();
+    ring.arc(0, 0, KRAKEN_RING_RADIUS, 0, Math.PI * 2);
+    ring.strokePath();
+
+    ring.lineStyle(KRAKEN_ZONE_WIDTH, KRAKEN_RING_ZONE, 1);
+    ring.beginPath();
+    ring.arc(0, 0, KRAKEN_RING_RADIUS, top - half, top + half);
+    ring.strokePath();
+
+    this.krakenRing = ring;
+
+    this.krakenMarker = this.add
+      .circle(
+        x,
+        y - KRAKEN_RING_RADIUS,
+        KRAKEN_MARKER_RADIUS,
+        KRAKEN_MARKER_COLOUR,
+      )
+      .setDepth(Number.MAX_SAFE_INTEGER - 1);
+
+    // The island's progress bar, always drawn over the crowd
+    this.krakenBar = this.add
+      .graphics({ x: x - KRAKEN_BAR_WIDTH / 2, y: KRAKEN_BAR_Y })
+      .setDepth(Number.MAX_SAFE_INTEGER);
+
+    // The disc marking the spot, and the whole ring, cast and reel
+    this.krakenDisc = this.add
+      .sprite(x, KRAKEN_DISC_Y, "fishing_disc")
+      .setDepth(Number.MAX_SAFE_INTEGER);
+    this.krakenDisc
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => this.castOrReelKraken());
+
+    // Clicking anywhere in the ring reels - a moving marker is no fun to
+    // chase with the mouse, and the ring is where everyone is looking
+    this.add
+      .rectangle(
+        x,
+        y,
+        KRAKEN_RING_RADIUS * 2 + 8,
+        KRAKEN_RING_RADIUS * 2 + 8,
+        0x000000,
+        0,
+      )
+      .setDepth(Number.MAX_SAFE_INTEGER - 3)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => this.castOrReelKraken());
+
+    // The prize, floating over the Marvel once it is landed. Built with the
+    // stand-in's prize; the room's roll for the day replaces it on sync.
+    this.refreshKrakenReward(LOVE_KRAKEN_PRIZE);
+  }
+
+  /**
+   * The prize label over the landed Marvel - the day's box or coin purse
+   * with its icon - rebuilt whenever the prize changes (a label's width and
+   * icon are fixed at creation). Hidden until it is caught.
+   */
+  private refreshKrakenReward(prize: LoveKrakenPrize) {
+    const key = getLoveKrakenPrizeKey(prize);
+    if (this.krakenRewardPrize === key && this.krakenReward) return;
+
+    const previous = this.krakenReward;
+    const visible = previous?.visible ?? false;
+
+    if (previous) {
+      this.tweens.killTweensOf(previous);
+      previous.destroy();
+    }
+
+    const icon = krakenPrizeTexture(
+      prize.type === "coins" ? LOVE_KRAKEN_COINS_PRIZE : prize.item,
+    );
+    const reward = new Label(this, `+${prize.amount}`, "grey", icon);
+    reward
+      .setPosition(KRAKEN_SPOT.x, this.krakenRewardY)
+      .setDepth(Number.MAX_SAFE_INTEGER)
+      .setVisible(visible)
+      .setSize(REWARD_HIT_WIDTH, REWARD_HIT_HEIGHT)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => this.claimKrakenReward());
+    this.add.existing(reward);
+
+    this.krakenReward = reward;
+    this.krakenRewardPrize = key;
+
+    if (visible) this.bobKrakenReward();
+  }
+
+  /** Where the prize floats - above the head, clear of the ring. */
+  private get krakenRewardY() {
+    return KRAKEN_SPOT.y - KRAKEN_RING_RADIUS - 2;
+  }
+
+  /** The prize label's idle bob while it waits to be clicked. */
+  private bobKrakenReward() {
+    if (!this.krakenReward) return;
+
+    this.tweens.killTweensOf(this.krakenReward);
+    this.krakenReward.setY(this.krakenRewardY);
+    this.tweens.add({
+      targets: this.krakenReward,
+      y: this.krakenRewardY - 4,
+      duration: 400,
+      yoyo: true,
+      repeat: -1,
+      ease: "Sine.easeInOut",
+    });
+  }
+
+  /** Does the room run the Marvel, or are we simulating it locally? */
+  private get remoteKraken() {
+    const remote = this.mmoServer?.state?.loveKraken;
+
+    return remote && remote.health > 0 ? remote : undefined;
+  }
+
+  /** The current Marvel, from the room when it has one, else simulated. */
+  private getKrakenRound(now: number): LoveKrakenRound {
+    const remote = this.remoteKraken;
+
+    if (remote) {
+      const caught = remote.caughtAt > 0;
+
+      return {
+        roundId: remote.roundId,
+        health: remote.health,
+        // The bar is the room's - a reel of ours flashes it, never moves it
+        progress: Math.max(0, Math.min(remote.health, remote.progress)),
+        caught,
+        ...(caught
+          ? { caughtAt: remote.caughtAt, respawnAt: remote.respawnAt }
+          : {}),
+        // A room that predates the daily roll publishes nothing - the stand-in then
+        prize: fromLoveKrakenRoomPrize({
+          prize: remote.prize,
+          amount: remote.prizeAmount,
+        }),
+      };
+    }
+
+    this.localKraken = tickLoveKrakenLocalRound({
+      round: this.localKraken ?? createLoveKrakenLocalRound(now),
+      now,
+    });
+
+    return this.localKraken;
+  }
+
+  /** Reels the local player landed on this Marvel - local count or the room's. */
+  private getMyKrakenReels(roundId: number): number {
+    const local = this.krakenReels[roundId] ?? 0;
+    const remote = this.remoteKraken?.anglers?.get(`${this.id}`) ?? 0;
+
+    return Math.max(local, remote);
+  }
+
+  /**
+   * The fishing button. The first click casts the line and leaves it in the
+   * water; every click after that is a pull on the rod. A pull only counts
+   * when the marker is in the zone at the top of the ring - a miss still
+   * plays, it just doesn't move the bar.
+   */
+  private castOrReelKraken() {
+    const now = Date.now();
+    const player = this.currentPlayer;
+    if (!this.kraken || !player) return;
+
+    if (!this.checkDistanceToSprite(this.kraken, LOVE_KRAKEN_REACH)) {
+      player.speak(translateForBubble("base.iam.far.away"));
+      return;
+    }
+
+    const round = this.getKrakenRound(now);
+
+    // Nothing to reel in while the prize is floating there
+    if (round.caught) return;
+
+    // Face the water
+    if (player.x < KRAKEN_SPOT.x) {
+      player.faceRight();
+    } else {
+      player.faceLeft();
+    }
+
+    if (!this.krakenCasting || !player.isFishing) {
+      this.krakenCasting = true;
+      player.castRod();
+      return;
+    }
+
+    player.reelRod();
+
+    if (now - this.lastKrakenReelAt < LOVE_KRAKEN_REEL_COOLDOWN_MS) return;
+
+    if (!isLoveKrakenReelOnTarget({ now })) {
+      this.flashKrakenMarker(KRAKEN_MARKER_MISS);
+      return;
+    }
+
+    this.lastKrakenReelAt = now;
+    this.krakenReels[round.roundId] =
+      (this.krakenReels[round.roundId] ?? 0) + 1;
+
+    if (this.remoteKraken) {
+      this.mmoServer?.send("loveKraken.reel", { roundId: round.roundId });
+    } else if (this.localKraken) {
+      this.localKraken = reelLoveKrakenLocalRound({
+        round: this.localKraken,
+        now,
+      });
+    }
+
+    this.flashKrakenMarker(KRAKEN_MARKER_HIT);
+    this.splashKraken(4, 12);
+    // Only your own reel is heard - the whole bank reels on the same beat
+    this.sound.play("dig", { volume: 0.04 });
+  }
+
+  /** The marker blinks green on a landed reel and red on a missed one. */
+  private flashKrakenMarker(colour: number) {
+    this.krakenMarkerFlashColour = colour;
+    this.krakenMarkerFlashUntil = Date.now() + KRAKEN_MARKER_FLASH_MS;
+  }
+
+  /** Droplets thrown up off the water. */
+  private splashKraken(count: number, spread: number) {
+    for (let i = 0; i < count; i++) {
+      const colour = KRAKEN_SPLASH_COLOURS[i % KRAKEN_SPLASH_COLOURS.length];
+      const drop = this.add
+        .rectangle(
+          KRAKEN_SPOT.x + Phaser.Math.Between(-8, 8),
+          KRAKEN_SPOT.y + Phaser.Math.Between(-4, 2),
+          2,
+          2,
+          colour,
+        )
+        .setDepth(KRAKEN_SPOT.y + 2);
+
+      this.tweens.add({
+        targets: drop,
+        x: drop.x + Phaser.Math.Between(-spread, spread),
+        y: drop.y - Phaser.Math.Between(spread / 2, spread),
+        alpha: 0,
+        duration: Phaser.Math.Between(250, 450),
+        ease: "Quad.easeOut",
+        onComplete: () => drop.destroy(),
+      });
+    }
+  }
+
+  updateLoveKraken() {
+    const now = Date.now();
+    const round = this.getKrakenRound(now);
+
+    // Fresh Marvel
+    if (this.krakenRoundId !== round.roundId) {
+      this.krakenRoundId = round.roundId;
+      this.sawKrakenFighting = false;
+      this.lastKrakenProgress = undefined;
+      this.seenAnglerReels = {};
+      this.surfaceKraken();
+    }
+
+    if (!round.caught) {
+      this.sawKrakenFighting = true;
+    } else if (this.caughtKrakenRoundId !== round.roundId) {
+      this.caughtKrakenRoundId = round.roundId;
+      this.landKraken(this.sawKrakenFighting);
+    }
+
+    this.setKrakenRing(round, now);
+    this.setKrakenProgress(round);
+    this.updateKrakenAnglers(round);
+
+    // The prize floats there until the window closes or we've taken it
+    const rewardOpen =
+      isLoveKrakenRewardOpen({ round, now }) &&
+      this.claimedKrakenRoundId !== round.roundId &&
+      !hasClaimedLoveKrakenRound({
+        state: this.freshState,
+        roundId: round.roundId,
+        now,
+      });
+
+    // The day's roll, as the room publishes it
+    this.refreshKrakenReward(round.prize);
+
+    if (this.krakenReward && this.krakenReward.visible !== rewardOpen) {
+      this.krakenReward.setVisible(rewardOpen);
+      this.tweens.killTweensOf(this.krakenReward);
+      this.krakenReward.setY(this.krakenRewardY);
+
+      if (rewardOpen) this.bobKrakenReward();
+    }
+
+    // The prize takes the disc's place above the ring while it is on show
+    this.krakenDisc?.setVisible(!round.caught);
+  }
+
+  /**
+   * The marker's sweep, and the ring hidden while the Marvel is landed. The
+   * marker runs off the epoch clock, so every client on the bank - and the
+   * room judging the reels - is on the same beat.
+   */
+  private setKrakenRing(round: LoveKrakenRound, now: number) {
+    const marker = this.krakenMarker;
+    const ring = this.krakenRing;
+    if (!marker || !ring) return;
+
+    if (round.caught) {
+      marker.setVisible(false);
+      ring.setVisible(false);
+      return;
+    }
+
+    const angle = Phaser.Math.DegToRad(getLoveKrakenRingAngle(now));
+    marker.setPosition(
+      KRAKEN_SPOT.x + Math.sin(angle) * KRAKEN_RING_RADIUS,
+      KRAKEN_SPOT.y - Math.cos(angle) * KRAKEN_RING_RADIUS,
+    );
+
+    const colour =
+      now < this.krakenMarkerFlashUntil
+        ? this.krakenMarkerFlashColour
+        : KRAKEN_MARKER_COLOUR;
+    if (marker.fillColor !== colour) marker.setFillStyle(colour);
+
+    marker.setVisible(true);
+    ring.setVisible(true);
+  }
+
+  /**
+   * The island's progress bar. The fill is whole pixels; it runs green while
+   * the bank is dragging the Marvel up and red while the Marvel is dragging
+   * it back, so a thin crowd can see at a glance that they need more hands.
+   */
+  private setKrakenProgress(round: LoveKrakenRound) {
+    const bar = this.krakenBar;
+    if (!bar) return;
+
+    if (round.caught) {
+      bar.setVisible(false);
+      this.krakenBarFill = undefined;
+      this.lastKrakenProgress = undefined;
+      return;
+    }
+
+    const fill = Math.max(
+      0,
+      Math.min(
+        KRAKEN_BAR_INNER_WIDTH,
+        Math.round(
+          (KRAKEN_BAR_INNER_WIDTH * round.progress) / Math.max(1, round.health),
+        ),
+      ),
+    );
+
+    // Which way the tug of war is going. A frame where nothing changed keeps
+    // the colour it had, so the bar doesn't strobe between patches.
+    const previous = this.lastKrakenProgress;
+    let rising = this.krakenBarRising ?? true;
+    if (previous !== undefined && round.progress !== previous) {
+      rising = round.progress > previous;
+    }
+    this.lastKrakenProgress = round.progress;
+
+    if (fill !== this.krakenBarFill || rising !== this.krakenBarRising) {
+      this.krakenBarFill = fill;
+      this.krakenBarRising = rising;
+      bar.clear();
+      bar.fillStyle(KRAKEN_BAR_TRACK, 1);
+      bar.fillRect(0, 0, KRAKEN_BAR_WIDTH, KRAKEN_BAR_HEIGHT);
+      bar.fillStyle(rising ? KRAKEN_BAR_RISING : KRAKEN_BAR_FALLING, 1);
+      bar.fillRect(1, 1, fill, KRAKEN_BAR_HEIGHT - 2);
+    }
+
+    bar.setVisible(true);
+  }
+
+  /**
+   * Everyone else on the bank casts and reels too: any player the room lists
+   * as an angler holds their rod out, and pulls it whenever their count goes
+   * up. The ring is shared, so the whole bank reels in time.
+   */
+  private updateKrakenAnglers(round: LoveKrakenRound) {
+    const anglers = this.remoteKraken?.anglers;
+    if (!anglers || round.caught) return;
+
+    Object.values(this.playerEntities).forEach((player) => {
+      const farmId = player.farmId;
+      if (!farmId || farmId === this.id) return;
+
+      const reels = anglers.get(`${farmId}`);
+      if (reels === undefined) return;
+
+      // They reeled at some point this round, but have since wandered off
+      if (
+        Phaser.Math.Distance.Between(
+          player.x,
+          player.y,
+          KRAKEN_SPOT.x,
+          KRAKEN_SPOT.y,
+        ) > LOVE_KRAKEN_REACH
+      ) {
+        player.stopFishing();
+        return;
+      }
+
+      const seen = this.seenAnglerReels[farmId];
+      this.seenAnglerReels[farmId] = reels;
+
+      if (seen === undefined || !player.isFishing) {
+        player.castRod();
+      } else if (reels > seen) {
+        player.reelRod();
+      }
+    });
+  }
+
+  /** A fresh Marvel surfaces. */
+  private surfaceKraken() {
+    this.claimedKrakenRoundId = undefined;
+    this.kraken?.setAlpha(1).setVisible(true);
+    this.krakenTentacles.forEach((tentacle) =>
+      tentacle.setAlpha(1).setVisible(true),
+    );
+  }
+
+  /** The bank just landed it - thrash, splash and leave the prize floating. */
+  private landKraken(animate: boolean) {
+    const parts = [
+      ...(this.kraken ? [this.kraken] : []),
+      ...this.krakenTentacles,
+    ];
+
+    if (animate) {
+      this.splashKraken(18, 26);
+      this.sound.play("reveal", { volume: 0.1 });
+      this.tweens.add({
+        targets: parts,
+        alpha: 0,
+        duration: 400,
+        onComplete: () => parts.forEach((part) => part.setVisible(false)),
+      });
+    } else {
+      parts.forEach((part) => part.setVisible(false));
+    }
+
+    // Everyone's line comes out of the water with it
+    this.krakenCasting = false;
+    this.currentPlayer?.stopFishing();
+  }
+
+  /** The local player clicked the prize floating over the Marvel. */
+  private claimKrakenReward() {
+    const now = Date.now();
+    const round = this.getKrakenRound(now);
+    const player = this.currentPlayer;
+
+    if (!this.kraken || !player) return;
+    if (!isLoveKrakenRewardOpen({ round, now })) return;
+
+    if (!this.checkDistanceToSprite(this.kraken, LOVE_KRAKEN_REACH)) {
+      player.speak(translateForBubble("base.iam.far.away"));
+      return;
+    }
+
+    const state = this.freshState;
+    const myReels = this.getMyKrakenReels(round.roundId);
+
+    if (myReels <= 0) {
+      player.speak(translateForBubble("loveKraken.didNotHelp"));
+      return;
+    }
+
+    if (!canClaimLoveKraken({ state, myReels, roundId: round.roundId, now })) {
+      if (hasClaimedLoveKrakenToday({ state, now })) {
+        player.speak(translateForBubble("loveKraken.alreadyClaimed"));
+      }
+      return;
+    }
+
+    // The prize is a box or coins, never Love Charms - the server rolls it
+    // for the day and pays it, recording the claim as worth 0 so the day's
+    // Love Charm budget is untouched. The roundId makes a reload mid-window a
+    // no-op instead of a second claim.
+    this.gameService?.send({
+      type: "floatingIslandPrize.claimed",
+      amount: 0,
+      game: "love_kraken",
+      roundId: round.roundId,
+    });
+
+    this.claimedKrakenRoundId = round.roundId;
+
+    const { prize } = round;
+    player.cheer();
+    player.speak(
+      prize.type === "coins"
+        ? translateForBubble("loveKraken.prizeCoins", { amount: prize.amount })
+        : translateForBubble("loveKraken.prizeItem", { item: prize.item }),
     );
   }
 }

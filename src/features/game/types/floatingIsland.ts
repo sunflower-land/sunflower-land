@@ -6,7 +6,8 @@ export type FloatingIslandGameName =
   | "petal_puzzle"
   | "love_dilemma"
   | "love_boulder"
-  | "love_push";
+  | "love_push"
+  | "love_kraken";
 
 export function getActiveFloatingIsland({ state }: { state: GameState }) {
   const schedule = state.floatingIsland.schedule;

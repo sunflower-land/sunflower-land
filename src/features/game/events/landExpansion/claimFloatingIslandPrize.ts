@@ -43,16 +43,17 @@ export const FLOATING_ISLAND_GAME_ITEM_PRIZE: Partial<
 /**
  * Puzzles whose prize only the server knows.
  *
- * The Love Boulder pays a box or coins rolled per UTC day on the API - a
- * Bronze Love Box, a Bronze Food Box, 250 coins or 500 coins. The client
- * can't roll it (the room previews it, but the seed stays server-side), so
- * this copy records the claim as worth 0 Love Charms and pays nothing; the
- * API's copy pays the prize and the next sync brings it down. Like an item
- * prize, it neither counts toward the daily Love Charm cap nor is refused
- * by it.
+ * The Love Boulder and the lake's Love Marvel both pay a box or coins rolled
+ * per UTC day on the API - a Bronze Love Box, a Bronze Food Box, 250 coins or
+ * 500 coins. The client can't roll it (the room previews it, but the seed
+ * stays server-side), so this copy records the claim as worth 0 Love Charms
+ * and pays nothing; the API's copy pays the prize and the next sync brings it
+ * down. Like an item prize, it neither counts toward the daily Love Charm cap
+ * nor is refused by it.
  */
 export const FLOATING_ISLAND_SERVER_PAID_GAMES: FloatingIslandGameName[] = [
   "love_boulder",
+  "love_kraken",
 ];
 
 export type FloatingIslandPrizeClaim = {

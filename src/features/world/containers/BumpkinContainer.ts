@@ -68,12 +68,21 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   // Animation Keys
   private spriteKey: string | undefined;
   private spriteKey2: string | undefined;
+  /** Fishing sheet - only loaded once a scene actually asks for a cast. */
+  private spriteKey3: string | undefined;
   private idleAnimationKey: string | undefined;
   private walkingAnimationKey: string | undefined;
   private digAnimationKey: string | undefined;
   private drillAnimationKey: string | undefined;
   private waveAnimationKey: string | undefined;
   private cheerAnimationKey: string | undefined;
+  private castingAnimationKey: string | undefined;
+  private waitingAnimationKey: string | undefined;
+  private reelingAnimationKey: string | undefined;
+  /** True from the first cast until the line comes in. */
+  private fishing = false;
+  /** Whether the fishing sheet has already been asked for this outfit. */
+  private fishingSheetRequested = false;
   private backAuraKey: string | undefined;
   private frontAuraKey: string | undefined;
   private frontAuraAnimationKey: string | undefined;
@@ -262,6 +271,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.drillAnimationKey = `${this.spriteKey}-bumpkin-drilling`;
     this.waveAnimationKey = `${this.spriteKey}-bumpkin-wave`;
     this.cheerAnimationKey = `${this.spriteKey}-bumpkin-cheer`; // Jump animation for now
+    this.spriteKey3 = `${this.spriteKey}-3`;
+    this.castingAnimationKey = `${this.spriteKey}-bumpkin-casting`;
+    this.waitingAnimationKey = `${this.spriteKey}-bumpkin-waiting`;
+    this.reelingAnimationKey = `${this.spriteKey}-bumpkin-reeling`;
 
     await buildNPCSheets({
       parts: this.clothing,
@@ -489,6 +502,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
     if (tokenUriBuilder(clothing) === tokenUriBuilder(this.clothing)) return;
     this.ready = false;
+    // The new outfit has its own sheets - the rod goes away with the old one
+    this.fishing = false;
+    this.fishingSheetRequested = false;
     if (this.sprite?.active) {
       this.sprite?.destroy();
     }
@@ -1009,6 +1025,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   }
 
   public walk() {
+    // Walking off takes the line out of the water
+    if (this.fishing) this.stopFishing();
+
     if (
       this.sprite?.anims &&
       this.scene?.anims.exists(this.walkingAnimationKey as string) &&
@@ -1044,6 +1063,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   }
 
   public idle() {
+    // Standing still with the line out is the point - don't drop the rod
+    if (this.fishing) return;
+
     if (
       this.sprite?.anims &&
       this.scene?.anims.exists(this.idleAnimationKey as string) &&
@@ -1087,6 +1109,192 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     ) {
       this.sprite.anims.play(this.cheerAnimationKey, true);
       return;
+    }
+  }
+
+  // -------------------------------------------------------------------
+  // Fishing
+  //
+  // The casting, waiting and reeling frames live on a third sheet, only
+  // fetched the first time a scene asks a Bumpkin to cast - most scenes
+  // never fish, and every player in the room would otherwise pull it.
+  // The line stays in the water between reels: `castRod` runs the cast and
+  // settles into the waiting loop, `reelRod` plays one pull and drops back
+  // into it, and walking anywhere takes the line out again.
+  // -------------------------------------------------------------------
+
+  /** Frame ranges on `casting_waiting_reeling`, in that order. */
+  private static FISHING_FRAMES = {
+    casting: { start: 0, end: 14 },
+    waiting: { start: 15, end: 23 },
+    reeling: { start: 24, end: 36 },
+  };
+
+  public get isFishing() {
+    return this.fishing;
+  }
+
+  /** Cast the line out and hold it there. Safe to call while already fishing. */
+  public castRod() {
+    if (!this.scene || !this.sprite) return;
+    this.fishing = true;
+
+    this.withFishingSheet(() => {
+      if (!this.fishing || !this.sprite?.anims) return;
+
+      // The line is already out - don't re-cast over a reel in progress
+      const playing = this.sprite.anims.getName();
+      if (
+        playing === this.castingAnimationKey ||
+        playing === this.waitingAnimationKey ||
+        playing === this.reelingAnimationKey
+      ) {
+        return;
+      }
+
+      this.playFishing(this.castingAnimationKey);
+    });
+  }
+
+  /** One pull on the rod, then back to holding the line out. */
+  public reelRod() {
+    if (!this.scene || !this.sprite) return;
+    this.fishing = true;
+
+    this.withFishingSheet(() => {
+      if (!this.fishing) return;
+      this.playFishing(this.reelingAnimationKey);
+    });
+  }
+
+  /** Line comes in - back to standing about. */
+  public stopFishing() {
+    if (!this.fishing) return;
+    this.fishing = false;
+
+    if (this.sprite?.anims && this.idleAnimationKey) {
+      this.sprite.anims.stop();
+      this.idle();
+    }
+  }
+
+  /**
+   * Play a one-shot fishing animation and settle into the waiting loop.
+   *
+   * A pull already under way is left alone: mashing the button through one
+   * reel would otherwise queue up a `waiting` chain per click, and since
+   * `waiting` loops forever none of them would ever be reached.
+   */
+  private playFishing(key: string | undefined) {
+    if (!key || !this.sprite?.anims || !this.scene?.anims.exists(key)) return;
+    if (this.sprite.anims.getName() === key && this.sprite.anims.isPlaying) {
+      return;
+    }
+
+    try {
+      this.sprite.anims.play(key);
+
+      if (
+        this.waitingAnimationKey &&
+        this.scene.anims.exists(this.waitingAnimationKey)
+      ) {
+        this.sprite.anims.chain(this.waitingAnimationKey);
+      }
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log("Bumpkin Container: Error playing fishing animation: ", e);
+    }
+  }
+
+  /**
+   * Run `onReady` once the fishing sheet and its animations exist. The sheet
+   * is fetched at most once per outfit; a failed fetch just leaves the
+   * Bumpkin standing there rather than breaking the cast.
+   */
+  private withFishingSheet(onReady: () => void) {
+    const scene = this.scene;
+    const key = this.spriteKey3;
+    if (!scene || !key) return;
+
+    if (
+      this.castingAnimationKey &&
+      scene.anims.exists(this.castingAnimationKey)
+    ) {
+      onReady();
+      return;
+    }
+
+    if (scene.textures.exists(key)) {
+      this.createFishingAnimations();
+      onReady();
+      return;
+    }
+
+    // Already on its way - the click that started it will run `onReady`
+    if (this.fishingSheetRequested) return;
+    this.fishingSheetRequested = true;
+
+    const url = getAnimationUrl(this.clothing, [
+      "casting",
+      "waiting",
+      "reeling",
+    ]);
+    const loader = scene.load.spritesheet(key, url, {
+      frameWidth: 96,
+      frameHeight: 64,
+    });
+
+    loader.once(`filecomplete-spritesheet-${key}`, () => {
+      if (!scene.textures.exists(key)) return;
+
+      this.createFishingAnimations();
+      onReady();
+    });
+
+    scene.load.start();
+  }
+
+  private createFishingAnimations() {
+    const scene = this.scene;
+    const sheet = this.spriteKey3;
+    if (!scene?.anims || !sheet) return;
+
+    const { casting, waiting, reeling } = BumpkinContainer.FISHING_FRAMES;
+
+    if (
+      this.castingAnimationKey &&
+      !scene.anims.exists(this.castingAnimationKey)
+    ) {
+      scene.anims.create({
+        key: this.castingAnimationKey,
+        frames: scene.anims.generateFrameNumbers(sheet, casting),
+        frameRate: 14,
+        repeat: 0,
+      });
+    }
+
+    if (
+      this.waitingAnimationKey &&
+      !scene.anims.exists(this.waitingAnimationKey)
+    ) {
+      scene.anims.create({
+        key: this.waitingAnimationKey,
+        frames: scene.anims.generateFrameNumbers(sheet, waiting),
+        frameRate: 8,
+        repeat: -1,
+      });
+    }
+
+    if (
+      this.reelingAnimationKey &&
+      !scene.anims.exists(this.reelingAnimationKey)
+    ) {
+      scene.anims.create({
+        key: this.reelingAnimationKey,
+        frames: scene.anims.generateFrameNumbers(sheet, reeling),
+        frameRate: 16,
+        repeat: 0,
+      });
     }
   }
 

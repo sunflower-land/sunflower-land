@@ -214,6 +214,36 @@ export interface LovePush extends Schema {
   nextRoundAt: number;
 }
 
+/**
+ * Love Island's "Love Marvel", published by the love_island room. A Marine
+ * Marvel lurks in the lake and the whole bank reels it in together: a ring
+ * sweeps around it on the epoch clock and every reel landed in the zone at
+ * the top is worth a point, while the Marvel drags three points a second
+ * back. Everyone who landed a reel can claim the prize once a day.
+ */
+export interface LoveKraken extends Schema {
+  /** Increments every time a fresh Marvel surfaces. */
+  roundId: number;
+  /** Points it takes to land it (400). 0 means the room isn't running it. */
+  health: number;
+  /** Points the island has on it, 0..health. */
+  progress: number;
+  /** Epoch ms it was landed; 0 while it fights. */
+  caughtAt: number;
+  /** Epoch ms a fresh Marvel surfaces; 0 while it fights. */
+  respawnAt: number;
+  /**
+   * What this Marvel pays - the same roll as the Love Boulder, made per UTC
+   * day by the server: an inventory item name (a Bronze Love Box or Bronze
+   * Food Box) or "Coins".
+   */
+  prize: string;
+  /** How many of `prize` - 1 for a box, 250 or 500 for coins. */
+  prizeAmount: number;
+  /** farmId -> reels landed this round. Proof of who helped. */
+  anglers: MapSchema<number>;
+}
+
 export interface PlazaRoomState extends Schema {
   mapWidth: number;
   mapHeight: number;
@@ -239,4 +269,6 @@ export interface PlazaRoomState extends Schema {
   loveBoulder?: LoveBoulder;
   /** Only present in the love_island room while Lover's Push is on. */
   lovePush?: LovePush;
+  /** Only present in the love_island room. */
+  loveKraken?: LoveKraken;
 }
