@@ -170,15 +170,27 @@ const PUSH_COLLIDER_HEIGHT = PUSH_BOULDER_HEIGHT + PUSH_COLLIDER_BUFFER * 2;
 const PUSH_BURST_COLOURS = [0xe43b44, 0xff8e8e, 0xffffff];
 /** Above the ground tiles (depth 0), below anyone walking on it. */
 const PUSH_GROUND_DEPTH = 1;
-/** The four squares in the centre, drawn on the ground. */
-const PUSH_SQUARE_COLOUR = 0x3e2731;
-const PUSH_SQUARE_FILL = 0x000000;
-/** A taken square fills green under its boulder. */
-const PUSH_SQUARE_TAKEN = 0x3e8948;
+/**
+ * The four slots in the centre the boulders roll into are pixel art
+ * (`world/love_boulder_slot.png`): a 16x16 hole that sits square on a tile,
+ * plus a 1px shadow row spilling onto the tile below.
+ *
+ * A filled slot is called out by a tick over its boulder rather than by
+ * tinting the ground - the boulder sits on top of the slot, and a crowd
+ * gathers around it, so a colour change down there is easy to miss.
+ *
+ * The tick rides the boulder's crown rather than floating clear above it:
+ * the slots are two rows deep, and a tick floating over the gap between the
+ * rows reads as belonging to the boulder behind.
+ */
+const PUSH_SUNK_TICK_Y = PUSH_BOULDER_HEIGHT - 2;
 /** A faint ring marks where each boulder started from. */
 const PUSH_START_COLOUR = 0x3e2731;
-/** The "n/4" tally floats this far above the top of the squares. */
-const PUSH_SUNK_LABEL_Y = -14;
+/**
+ * The "n/4" tally floats this far above the top row of slots - high enough
+ * to clear the ticks over any boulders parked in that row.
+ */
+const PUSH_SUNK_LABEL_Y = -24;
 /** A boulder that hits something bursts: a flash and chips of rock. */
 const PUSH_EXPLOSION_COLOUR = 0xffe08a;
 const PUSH_EXPLOSION_CHIPS = 10;
@@ -332,10 +344,14 @@ export class LoveIslandScene extends BaseScene {
   private pushBoulders: Phaser.GameObjects.Sprite[] = [];
   /** Solid - walking into one pushes it. */
   private pushColliders: Phaser.GameObjects.Rectangle[] = [];
-  /** The four squares in the centre the boulders roll into. */
-  private pushSquares?: Phaser.GameObjects.Graphics;
   /** A ring where each boulder started, indexed by boulder. */
   private pushStartMarkers: Phaser.GameObjects.Graphics[] = [];
+  /**
+   * A tick over each boulder that has settled into a slot, indexed by
+   * boulder. Drawn above everything so a filled slot reads at a glance even
+   * with a crowd standing around it.
+   */
+  private pushSunkTicks: Phaser.GameObjects.Image[] = [];
   /** "n/4" above the squares - how many are taken. */
   private pushSunkLabel?: Label;
   private renderedSunkCount?: number;
@@ -403,6 +419,8 @@ export class LoveIslandScene extends BaseScene {
       this.load.image(boulderPrizeTexture(item), ITEM_DETAILS[item].image);
     });
     this.load.image("push_boulder", "world/love_rock.png");
+    this.load.image("push_slot", "world/love_boulder_slot.png");
+    this.load.image("push_sunk_tick", SUNNYSIDE.icons.confirm);
     this.load.image(PUSH_ARROW_TEXTURE.north, SUNNYSIDE.icons.arrow_up);
     this.load.image(PUSH_ARROW_TEXTURE.east, SUNNYSIDE.icons.arrow_right);
     this.load.image(PUSH_ARROW_TEXTURE.south, SUNNYSIDE.icons.arrow_down);
@@ -938,10 +956,21 @@ export class LoveIslandScene extends BaseScene {
   // ---------------------------------------------------------------------
 
   createLovePush() {
-    // The four squares in the middle of the clearing, on the ground under
-    // everyone, with the tally floating above them
-    this.pushSquares = this.add.graphics().setDepth(PUSH_GROUND_DEPTH);
-    this.drawPushSquares([]);
+    // The four slots in the middle of the clearing, on the ground under
+    // everyone, with the tally floating above them. They never change - a
+    // filled one is called out by the tick over its boulder
+    LOVE_PUSH_TARGETS.forEach((target) => {
+      this.add
+        .image(
+          target.x * LOVE_ISLAND_TILE_PX,
+          target.y * LOVE_ISLAND_TILE_PX,
+          "push_slot",
+        )
+        // The art is the tile itself, so pin its top-left to the tile's and
+        // let the shadow row hang onto the tile below
+        .setOrigin(0, 0)
+        .setDepth(PUSH_GROUND_DEPTH);
+    });
 
     const top = Math.min(...LOVE_PUSH_TARGETS.map((t) => t.y));
     const centreX =
@@ -992,6 +1021,16 @@ export class LoveIslandScene extends BaseScene {
       (collider.body as Phaser.Physics.Arcade.Body).setImmovable(true);
       boulderGroup.add(collider);
       this.pushColliders.push(collider);
+
+      // The tick that pops over it once it settles into a slot. Above
+      // everything - it's the one thing that has to be readable through a
+      // crowd
+      this.pushSunkTicks.push(
+        this.add
+          .image(0, 0, "push_sunk_tick")
+          .setDepth(Number.MAX_SAFE_INTEGER)
+          .setVisible(false),
+      );
 
       // Where it goes back to if it hits something
       this.pushStartMarkers.push(
@@ -1383,7 +1422,7 @@ export class LoveIslandScene extends BaseScene {
     }
   }
 
-  /** The rock just parked in a square: it settles with a bounce; the square turns green. */
+  /** The rock just parked in a slot: it settles with a bounce, and a tick pops over it. */
   private parkBoulder(boulder: number) {
     const sprite = this.pushBoulders[boulder];
     if (!sprite) return;
@@ -1400,40 +1439,45 @@ export class LoveIslandScene extends BaseScene {
     });
   }
 
-  /** The four squares, the taken ones filled green. */
-  private drawPushSquares(taken: LovePushTile[]) {
-    const squares = this.pushSquares;
-    if (!squares) return;
+  /**
+   * A tick over every boulder sitting in a slot - it pops in once the
+   * boulder has finished rolling, and drops away if the round moves on.
+   */
+  private setSunkTicks(boulders: LovePushTile[], sunk: boolean[]) {
+    boulders.forEach((tile, boulder) => {
+      const tick = this.pushSunkTicks[boulder];
+      if (!tick) return;
 
-    squares.clear();
-    LOVE_PUSH_TARGETS.forEach((target) => {
-      const isTaken = taken.some(
-        (tile) => tile.x === target.x && tile.y === target.y,
-      );
-      const x = target.x * LOVE_ISLAND_TILE_PX;
-      const y = target.y * LOVE_ISLAND_TILE_PX;
+      if (!sunk[boulder]) {
+        this.tweens.killTweensOf(tick);
+        tick.setVisible(false);
+        return;
+      }
 
-      squares.fillStyle(
-        isTaken ? PUSH_SQUARE_TAKEN : PUSH_SQUARE_FILL,
-        isTaken ? 0.35 : 0.15,
+      const centre = getLovePushTileCentre(tile);
+      tick.setPosition(
+        centre.x,
+        centre.y + LOVE_ISLAND_TILE_PX / 2 - PUSH_SUNK_TICK_Y,
       );
-      squares.fillRect(
-        x + 1,
-        y + 1,
-        LOVE_ISLAND_TILE_PX - 2,
-        LOVE_ISLAND_TILE_PX - 2,
-      );
-      squares.lineStyle(
-        1,
-        isTaken ? PUSH_SQUARE_TAKEN : PUSH_SQUARE_COLOUR,
-        0.8,
-      );
-      squares.strokeRect(
-        x + 0.5,
-        y + 0.5,
-        LOVE_ISLAND_TILE_PX - 1,
-        LOVE_ISLAND_TILE_PX - 1,
-      );
+      if (tick.visible) return;
+
+      // Land it with the boulder, not ahead of it
+      tick.setVisible(true).setScale(0);
+      this.tweens.add({
+        targets: tick,
+        scale: 1,
+        delay: LOVE_PUSH_MOVE_MS,
+        duration: 260,
+        ease: "Back.easeOut",
+      });
+    });
+  }
+
+  /** Clear every tick - a fresh round starts with all four slots empty. */
+  private hideSunkTicks() {
+    this.pushSunkTicks.forEach((tick) => {
+      this.tweens.killTweensOf(tick);
+      tick.setVisible(false);
     });
   }
 
@@ -1485,8 +1529,9 @@ export class LoveIslandScene extends BaseScene {
       this.renderedSunk = [];
       this.renderedResets = [];
       // Pushes left standing on other boulders when the round was solved
-      // don't carry over - nor do their arrows
+      // don't carry over - nor do their arrows, or last round's ticks
       this.hidePushProgress();
+      this.hideSunkTicks();
       round.boulders.forEach((tile, boulder) => {
         this.pushBoulders[boulder]?.clearTint();
         this.placeBoulder(boulder, tile);
@@ -1557,10 +1602,8 @@ export class LoveIslandScene extends BaseScene {
       const grew = (this.renderedSunkCount ?? 0) < sunkCount;
       this.renderedSunkCount = sunkCount;
       this.setSunkCount(sunkCount, grew);
-      this.drawPushSquares(
-        round.boulders.filter((_, boulder) => round.sunk[boulder]),
-      );
     }
+    this.setSunkTicks(round.boulders, round.sunk);
 
     round.pushes.forEach((pushes, boulder) => {
       const rendered = this.renderedPushes[boulder] ?? {};
@@ -1588,7 +1631,7 @@ export class LoveIslandScene extends BaseScene {
 
   /**
    * A love rock keeps its colour: the arrows and bars show the crowd, and a
-   * green square shows it's parked. Only a crash tints it, for a moment.
+   * tick shows it's parked. Only a crash tints it, for a moment.
    */
   private tintPushBoulder(boulder: number) {
     this.pushBoulders[boulder]?.clearTint();
