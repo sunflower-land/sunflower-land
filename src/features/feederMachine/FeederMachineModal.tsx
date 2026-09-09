@@ -38,7 +38,6 @@ import { getIngredients, getMaxFeedMixAmount } from "./feedMixed";
 import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
 import { getBulkMixRequirements } from "./getBulkMixRequirements";
 import { formatNumber } from "lib/utils/formatNumber";
-import { hasFeatureAccess } from "lib/flags";
 import { BulkMixModal } from "./BulkMixModal";
 
 interface Props {
@@ -84,8 +83,6 @@ export const FeederMachineModal: React.FC<Props> = ({
   const [showBulkMixModal, setShowBulkMixModal] = useState(false);
   const [customMixAmount, setCustomMixAmount] = useState(new Decimal(0));
   const { coins } = ANIMAL_FOODS[selectedName];
-
-  const showBulkMixer = hasFeatureAccess(state, "BULK_MIXER");
 
   const { ingredients } = getIngredients({ state, name: selectedName });
   const maxMixAmount = getMaxFeedMixAmount({ state, name: selectedName });
@@ -320,15 +317,11 @@ export const FeederMachineModal: React.FC<Props> = ({
               icon: ITEM_DETAILS.Hay.image,
               name: t("feeder.foodTypes.food"),
             },
-            ...(showBulkMixer
-              ? [
-                  {
-                    id: "automaticMixer" as const,
-                    icon: ITEM_DETAILS["Mixed Grain"].image,
-                    name: t("feeder.bulkMixer"),
-                  },
-                ]
-              : []),
+            {
+              id: "automaticMixer",
+              icon: ITEM_DETAILS["Mixed Grain"].image,
+              name: t("feeder.bulkMixer"),
+            },
           ]}
           currentTab={tab}
           setCurrentTab={setTab}
@@ -428,7 +421,7 @@ export const FeederMachineModal: React.FC<Props> = ({
               }
             />
           )}
-          {tab === "automaticMixer" && showBulkMixer && (
+          {tab === "automaticMixer" && (
             <InnerPanel className="flex flex-col gap-2 p-1 w-full">
               {freeFeeding ? (
                 <>
