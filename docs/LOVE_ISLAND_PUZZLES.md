@@ -705,6 +705,8 @@ LOVE_KRAKEN_ZONE_HALF_DEG = 21.6; // = 360 * 0.12 / 2
 LOVE_KRAKEN_REACH = 90; // how close a player must stand
 LOVE_KRAKEN_RESPAWN_MS = 10_000; // = the prize window
 LOVE_KRAKEN_AUTO_CLAIM_MS = 2_000; // it pays itself this far in
+LOVE_KRAKEN_REEL_KICK_SHARE = 0.05; // client-only bar flourish, see below
+LOVE_KRAKEN_REEL_KICK_MS = 700;
 LOVE_KRAKEN_MAX_CLAIMS = 1; // per farm per UTC day
 
 // Fastest a reel can land. Only long enough to stop two landing on one pass
@@ -922,6 +924,13 @@ the next sync brings it down.
   (`world/fishing_disc.png`) and the island's progress bar below. The bar
   runs **green while the bank is gaining and red while the Marvel is**, so a
   thin crowd can see at a glance that they need more hands. No numbers.
+- **Your own reel throws the bar forward 5% and it eases back over 700ms.**
+  One point of 1700 is a fiftieth of a pixel on a 38px bar, so a lone angler
+  landing a reel would otherwise see nothing move at all and conclude the
+  game was broken. The kick is worth far more than the point it stands for,
+  is only ever drawn for the angler who landed it, and is **never added to
+  `progress`** - the room's number is untouched, and the bar settles back
+  onto it. It says "that worked, now go and find some help".
 - The disc, the ring and the beast are all one button. The **first** click
   (within reach) casts the line and leaves it in the water — the Bumpkin
   plays `casting` and settles into the `waiting` loop. **Every click after

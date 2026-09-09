@@ -79,7 +79,9 @@ import {
   LOVE_KRAKEN_PRIZE,
   LOVE_KRAKEN_PRIZE_ITEMS,
   LOVE_KRAKEN_REACH,
+  getLoveKrakenBarShare,
   getLoveKrakenReelCooldownMs,
+  getLoveKrakenReelKick,
   getLoveKrakenRing,
   pullLoveKrakenRod,
   LOVE_KRAKEN_AUTO_CLAIM_MS,
@@ -503,6 +505,8 @@ export class LoveIslandScene extends BaseScene {
   private krakenCasting = false;
   /** Progress last seen, to colour the bar by which way it is going. */
   private lastKrakenProgress?: number;
+  /** When the local player last landed a reel - drives the bar's kick. */
+  private krakenKickAt?: number;
   /** farmId -> reels last seen, so the rest of the bank can be animated. */
   private seenAnglerReels: Record<string, number> = {};
 
@@ -2592,6 +2596,8 @@ export class LoveIslandScene extends BaseScene {
     }
 
     this.markKrakenHit(ring.zoneAngle);
+    // Throw the bar forward so a lone angler can see their reel land
+    this.krakenKickAt = now;
 
     if (this.remoteKraken) {
       this.mmoServer?.send("loveKraken.reel", { roundId: round.roundId });
@@ -2686,6 +2692,7 @@ export class LoveIslandScene extends BaseScene {
         [round.roundId]: this.getMyKrakenAngler(round.roundId),
       };
       this.drawnKrakenZoneAngle = undefined;
+      this.krakenKickAt = undefined;
       this.surfaceKraken();
     }
 
@@ -2697,7 +2704,7 @@ export class LoveIslandScene extends BaseScene {
     }
 
     this.setKrakenRing(round, now);
-    this.setKrakenProgress(round);
+    this.setKrakenProgress(round, now);
     this.updateKrakenAnglers(round);
 
     // The prize floats there for the whole window - it claims itself part
@@ -2787,8 +2794,13 @@ export class LoveIslandScene extends BaseScene {
    * The island's progress bar. The fill is whole pixels; it runs green while
    * the bank is dragging the Marvel up and red while the Marvel is dragging
    * it back, so a thin crowd can see at a glance that they need more hands.
+   *
+   * Your own reel throws it forward a visible slice that eases back - see
+   * `getLoveKrakenReelKick`. That slice is worth far more than the point it
+   * stands for and is only ever shown to you, but without it a lone angler
+   * landing a reel sees a bar that does not move at all.
    */
-  private setKrakenProgress(round: LoveKrakenRound) {
+  private setKrakenProgress(round: LoveKrakenRound, now: number) {
     const bar = this.krakenBar;
     if (!bar) return;
 
@@ -2799,23 +2811,35 @@ export class LoveIslandScene extends BaseScene {
       return;
     }
 
+    const kick = getLoveKrakenReelKick({
+      landedAt: this.krakenKickAt,
+      now,
+    });
+    const share = getLoveKrakenBarShare({
+      progress: round.progress,
+      health: round.health,
+      landedAt: this.krakenKickAt,
+      now,
+    });
+
     const fill = Math.max(
       0,
       Math.min(
         KRAKEN_BAR_INNER_WIDTH,
-        Math.round(
-          (KRAKEN_BAR_INNER_WIDTH * round.progress) / Math.max(1, round.health),
-        ),
+        Math.round(KRAKEN_BAR_INNER_WIDTH * share),
       ),
     );
 
     // Which way the tug of war is going. A frame where nothing changed keeps
-    // the colour it had, so the bar doesn't strobe between patches.
+    // the colour it had, so the bar doesn't strobe between patches. While
+    // your own kick is running the bar stays green whatever the island is
+    // doing - the kick easing back is not the Marvel winning.
     const previous = this.lastKrakenProgress;
     let rising = this.krakenBarRising ?? true;
     if (previous !== undefined && round.progress !== previous) {
       rising = round.progress > previous;
     }
+    if (kick > 0) rising = true;
     this.lastKrakenProgress = round.progress;
 
     if (fill !== this.krakenBarFill || rising !== this.krakenBarRising) {

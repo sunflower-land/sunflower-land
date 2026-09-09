@@ -4,6 +4,8 @@ import {
   LOVE_KRAKEN_FIGHT_BACK_PER_SEC,
   LOVE_KRAKEN_HEALTH,
   LOVE_KRAKEN_LOCAL_CROWD_ANGLERS,
+  LOVE_KRAKEN_REEL_KICK_MS,
+  LOVE_KRAKEN_REEL_KICK_SHARE,
   LOVE_KRAKEN_RESPAWN_MS,
   LOVE_KRAKEN_RING_MS_MAX,
   LOVE_KRAKEN_RING_MS_MIN,
@@ -14,7 +16,9 @@ import {
   applyLoveKrakenFightBack,
   canClaimLoveKraken,
   createLoveKrakenLocalRound,
+  getLoveKrakenBarShare,
   getLoveKrakenLocalCrowdReelsPerSec,
+  getLoveKrakenReelKick,
   getLoveKrakenReelCooldownMs,
   getLoveKrakenRing,
   getLoveKrakenRingMs,
@@ -437,6 +441,124 @@ describe("loveKraken: fighting back", () => {
     expect(
       (floor - 1) * perAnglerPerSec - LOVE_KRAKEN_FIGHT_BACK_PER_SEC,
     ).toBeLessThan(0);
+  });
+});
+
+describe("loveKraken: the kick on your own reel", () => {
+  const landedAt = 1_000_000;
+  const health = LOVE_KRAKEN_HEALTH;
+
+  it("shows nothing when you have not reeled", () => {
+    expect(
+      getLoveKrakenReelKick({ landedAt: undefined, now: landedAt }),
+    ).toEqual(0);
+  });
+
+  it("pops to the full slice the instant a reel lands", () => {
+    expect(getLoveKrakenReelKick({ landedAt, now: landedAt })).toBeCloseTo(
+      LOVE_KRAKEN_REEL_KICK_SHARE,
+    );
+  });
+
+  it("eases back to nothing, and never goes negative", () => {
+    let previous = Infinity;
+
+    for (let dt = 0; dt <= LOVE_KRAKEN_REEL_KICK_MS + 500; dt += 25) {
+      const kick = getLoveKrakenReelKick({ landedAt, now: landedAt + dt });
+
+      expect(kick).toBeLessThanOrEqual(previous + 1e-9);
+      expect(kick).toBeGreaterThanOrEqual(0);
+      previous = kick;
+    }
+
+    expect(
+      getLoveKrakenReelKick({
+        landedAt,
+        now: landedAt + LOVE_KRAKEN_REEL_KICK_MS,
+      }),
+    ).toEqual(0);
+  });
+
+  it("holds near the top for the first stretch, so it reads as a lurch", () => {
+    // A quarter of the way through it is still worth over half the slice
+    expect(
+      getLoveKrakenReelKick({
+        landedAt,
+        now: landedAt + LOVE_KRAKEN_REEL_KICK_MS * 0.25,
+      }),
+    ).toBeGreaterThan(LOVE_KRAKEN_REEL_KICK_SHARE * 0.5);
+  });
+
+  it("ignores a reel that somehow landed in the future", () => {
+    expect(getLoveKrakenReelKick({ landedAt, now: landedAt - 100 })).toEqual(0);
+  });
+
+  it("moves the bar for a lone angler, where the point alone cannot", () => {
+    const progress = 400;
+    // The real point is a fiftieth of a pixel on a 38px bar
+    const real = getLoveKrakenBarShare({ progress, health, now: landedAt });
+    const kicked = getLoveKrakenBarShare({
+      progress,
+      health,
+      landedAt,
+      now: landedAt,
+    });
+
+    expect(kicked - real).toBeCloseTo(LOVE_KRAKEN_REEL_KICK_SHARE);
+    // ...which is worth a visible pixel or two of a 38px bar
+    expect(Math.round(38 * kicked) - Math.round(38 * real)).toBeGreaterThan(0);
+  });
+
+  it("settles back to exactly where the island really is", () => {
+    const progress = 400;
+
+    expect(
+      getLoveKrakenBarShare({
+        progress,
+        health,
+        landedAt,
+        now: landedAt + LOVE_KRAKEN_REEL_KICK_MS,
+      }),
+    ).toEqual(progress / health);
+  });
+
+  it("never overflows the end of the bar", () => {
+    expect(
+      getLoveKrakenBarShare({
+        progress: health,
+        health,
+        landedAt,
+        now: landedAt,
+      }),
+    ).toEqual(1);
+  });
+
+  it("never lets the bar run off the near end either", () => {
+    expect(
+      getLoveKrakenBarShare({ progress: -50, health, now: landedAt }),
+    ).toEqual(0);
+  });
+
+  it("copes with a round that has no health at all", () => {
+    expect(getLoveKrakenBarShare({ progress: 0, health: 0 })).toEqual(0);
+  });
+
+  it("is never added to the island's own progress", () => {
+    // The kick is a lie told to one angler - the round is untouched
+    const round = {
+      ...createLoveKrakenLocalRound(landedAt),
+      progress: 400,
+    };
+    const before = round.progress;
+
+    getLoveKrakenBarShare({
+      progress: round.progress,
+      health: round.health,
+      landedAt,
+      now: landedAt,
+    });
+
+    expect(round.progress).toEqual(before);
   });
 });
 
