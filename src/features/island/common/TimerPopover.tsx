@@ -2,10 +2,7 @@ import React from "react";
 
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
-import { formatReadyAt, secondsToString } from "lib/utils/time";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { Label } from "components/ui/Label";
+import { secondsToString } from "lib/utils/time";
 
 interface Props {
   showPopover: boolean;
@@ -14,15 +11,6 @@ interface Props {
   timeLeft: number;
   secondaryImage?: string | undefined;
   secondaryDescription?: string;
-  /** Current effective grow speed; shows a lightning + multiplier when > 1. */
-  speed?: number;
-  /**
-   * When the task is actually ready (wall clock). Shown as a "Ready at" line
-   * while boosted, so the fast-draining work reading stays anchored to a real
-   * clock. Needs `now` for the same-local-day check.
-   */
-  readyAt?: number;
-  now?: number;
 }
 
 export const TimerPopover: React.FC<Props> = ({
@@ -32,13 +20,8 @@ export const TimerPopover: React.FC<Props> = ({
   timeLeft,
   secondaryImage,
   secondaryDescription,
-  speed,
-  readyAt,
-  now,
 }) => {
-  const { t } = useAppTranslation();
   const hasSecondRow = secondaryImage != null || secondaryDescription != null;
-  const isBoosted = speed !== undefined && speed > 1;
 
   return (
     <InnerPanel
@@ -63,35 +46,9 @@ export const TimerPopover: React.FC<Props> = ({
             {secondaryDescription && <span>{secondaryDescription}</span>}
           </div>
         )}
-        {isBoosted && (
-          <Label
-            type="transparent"
-            icon={SUNNYSIDE.icons.lightning}
-            className="self-center"
-          >
-            <span className="whitespace-nowrap">
-              {t("description.boostedSpeed", {
-                speed: Number(speed.toFixed(2)),
-              })}
-            </span>
-          </Label>
-        )}
         <span className="flex-1 text-center font-secondary">
-          {/* secondsToString joins units with a non-breaking space, which would
-              force a long boosted "full" time (e.g. a multi-day flower) onto one
-              line and overflow this fixed-width popover. Normalise to a regular
-              space so it wraps within the panel. */}
-          {secondsToString(timeLeft, {
-            length: speed && speed > 1 ? "full" : "medium",
-          }).replace(/\u00A0/g, " ")}
+          {secondsToString(timeLeft, { length: "medium" })}
         </span>
-        {isBoosted && readyAt !== undefined && now !== undefined && (
-          <span className="flex-1 text-center text-xxs">
-            {t("description.boostedReadyAt", {
-              time: formatReadyAt(readyAt, now),
-            })}
-          </span>
-        )}
       </div>
     </InnerPanel>
   );

@@ -143,12 +143,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
   const hasTool = HasTool(inventory, game, id);
 
   const { minedAt, baseDurationMs } = resource.stone;
-  const {
-    now,
-    readyAt,
-    speed,
-    displaySeconds: timeLeft,
-  } = useNodeTimer({
+  const { now, countdownSeconds: timeLeft } = useNodeTimer({
     startedAt: minedAt,
     baseDurationMs,
     windows: mineBoostWindows,
@@ -238,9 +233,6 @@ export const Stone: React.FC<Props> = ({ id }) => {
           island={island}
           timeLeft={timeLeft}
           name={name as StoneRockName}
-          speed={speed}
-          readyAt={readyAt}
-          now={now}
         />
       )}
     </div>
