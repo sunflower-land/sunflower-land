@@ -60,7 +60,6 @@ import { VIPOffer } from "../components/modal/components/VIPItems";
 import { StarterOfferModal } from "../components/modal/components/StarterOfferModal";
 import { RoninWaypointLoginModal } from "features/roninMigration/RoninWaypointLoginModal";
 import { GreenhouseInside } from "features/greenhouse/GreenhouseInside";
-import { useSound } from "lib/utils/hooks/useSound";
 import { SomethingArrived } from "./components/SomethingArrived";
 import { TradeAlreadyFulfilled } from "../components/TradeAlreadyFulfilled";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -357,7 +356,6 @@ const _isVisiting = (state: MachineState) =>
 
 const GameContent: React.FC = () => {
   const { gameService } = useContext(Context);
-  useSound("desert", true);
 
   const isVisiting = useSelector(gameService, _isVisiting);
 
