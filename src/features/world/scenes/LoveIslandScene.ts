@@ -9,7 +9,6 @@ import { BaseScene, type NPCBumpkin } from "./BaseScene";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { translate, translateForBubble } from "lib/i18n/translate";
 import { interactableModalManager } from "../ui/InteractableModals";
-import type { TemperateSeasonName } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { hasVipAccess } from "features/game/lib/vipAccess";
@@ -100,13 +99,6 @@ import {
 } from "../lib/loveKraken";
 
 const BUMPKINS: NPCBumpkin[] = [];
-
-const GUARDIAN_MAP: Record<TemperateSeasonName, string> = {
-  autumn: "autumn_guardian",
-  spring: "spring_guardian",
-  summer: "summer_guardian",
-  winter: "winter_guardian",
-};
 
 /** Centre of the island clearing where the daily puzzle lives. */
 const CENTRE = { x: 615, y: 566 };
@@ -245,27 +237,35 @@ const PUSH_ARROW_OFFSET = PUSH_BOULDER_WIDTH / 2 + 3;
 const PUSH_ARROW_MIN_SCALE = 0.5;
 
 /**
- * The Love Marvel in the lake on the west of the island. Its head and
- * tentacles break the surface at double size (the SFT art is 11x12 and
- * 8x16), a ring sweeps around it, and the island's progress bar sits under
- * it. The whole assembly is kept clear of the seasonal guardian standing in
- * the water above it.
+ * The Love Marvel in the lake, off the end of the wharf. Its head and
+ * tentacles break the surface, a ring sweeps around it, and the island's
+ * progress bar sits under it.
+ *
+ * The art is drawn at **native size** (the SFT sprites are 11x12 and 8x16,
+ * each with its own ripple) and never scaled, rotated or tweened, so every
+ * pixel lines up with the map tiles behind it. Everything below is placed by
+ * its integer top-left corner for the same reason.
  */
 const KRAKEN_SPOT = LOVE_KRAKEN_SPOT;
-const KRAKEN_ART_SCALE = 2;
+const KRAKEN_HEAD_WIDTH = 11;
+const KRAKEN_HEAD_HEIGHT = 12;
+/** Tentacles are 8 wide; only the height is needed, for their depth. */
+const KRAKEN_TENTACLE_HEIGHT = 16;
+/** Top-left of the head, in world px. */
+const KRAKEN_HEAD = { x: 300, y: 557 };
 /**
- * Tentacles break the surface around the head, base on the water line. The
- * art carries its own ripple, so they are spread wide enough to read as
- * separate things surfacing rather than the head's legs.
+ * Top-left of each tentacle, in world px. The art carries its own ripple, so
+ * they sit far enough out to read as separate things surfacing rather than
+ * the head's legs, while staying inside the ring.
  */
 const KRAKEN_TENTACLES = [
-  { x: -30, y: -6 },
-  { x: 29, y: -3 },
-  { x: -19, y: 16 },
-  { x: 21, y: 19 },
+  { x: 288, y: 553 },
+  { x: 316, y: 555 },
+  { x: 294, y: 566 },
+  { x: 312, y: 568 },
 ];
 /** The ring the marker sweeps around, clear of the tentacles. */
-const KRAKEN_RING_RADIUS = 34;
+const KRAKEN_RING_RADIUS = 22;
 const KRAKEN_RING_WIDTH = 3;
 /** Kept light - the ring is a HUD over the lake, not a hole in it. */
 const KRAKEN_RING_TRACK = 0x193c3e;
@@ -285,7 +285,7 @@ const KRAKEN_DISC_Y = KRAKEN_SPOT.y - KRAKEN_RING_RADIUS - 12;
  * The island's progress bar under the ring - wider than the boulder's, since
  * it is the one thing the whole bank is watching.
  */
-const KRAKEN_BAR_WIDTH = 48;
+const KRAKEN_BAR_WIDTH = 40;
 const KRAKEN_BAR_HEIGHT = 6;
 const KRAKEN_BAR_INNER_WIDTH = KRAKEN_BAR_WIDTH - 2;
 const KRAKEN_BAR_Y = KRAKEN_SPOT.y + KRAKEN_RING_RADIUS + 4;
@@ -536,10 +536,6 @@ export class LoveIslandScene extends BaseScene {
       frameWidth: 20,
       frameHeight: 34,
     });
-
-    const guardian = GUARDIAN_MAP[this.gameState.season.season];
-
-    this.load.image("guardian", `world/${guardian}.webp`);
   }
 
   async create() {
@@ -585,9 +581,6 @@ export class LoveIslandScene extends BaseScene {
         this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
       }
     });
-
-    // Decorative seasonal guardian sprite (no interaction).
-    this.add.sprite(310, 556, "guardian");
 
     if (LOVE_ISLAND_CENTRE_PUZZLE === "push") {
       this.createLovePush();
@@ -2315,43 +2308,21 @@ export class LoveIslandScene extends BaseScene {
   createLoveKraken() {
     const { x, y } = KRAKEN_SPOT;
 
-    // Tentacles first, so the head sits in front of them
-    this.krakenTentacles = KRAKEN_TENTACLES.map((offset, index) => {
-      const tentacle = this.add
-        .sprite(x + offset.x, y + offset.y, "kraken_tentacle")
-        .setOrigin(0.5, 1)
-        .setScale(KRAKEN_ART_SCALE)
-        .setDepth(y + offset.y);
-
-      // A lazy sway, staggered so they don't move as one
-      this.tweens.add({
-        targets: tentacle,
-        angle: index % 2 === 0 ? 7 : -7,
-        duration: 1400 + index * 130,
-        delay: index * 220,
-        yoyo: true,
-        repeat: -1,
-        ease: "Sine.easeInOut",
-      });
-
-      return tentacle;
-    });
+    // Placed by their top-left corner at native size, so every pixel sits on
+    // a map pixel. Nothing here is scaled, rotated or tweened - the beast is
+    // part of the scenery, and the ring is the only thing that moves.
+    // Tentacles first, so the head sits in front of them.
+    this.krakenTentacles = KRAKEN_TENTACLES.map((spot) =>
+      this.add
+        .sprite(spot.x, spot.y, "kraken_tentacle")
+        .setOrigin(0, 0)
+        .setDepth(spot.y + KRAKEN_TENTACLE_HEIGHT),
+    );
 
     this.kraken = this.add
-      .sprite(x, y, "kraken_head")
-      .setOrigin(0.5, 1)
-      .setScale(KRAKEN_ART_SCALE)
-      .setDepth(y + 1);
-
-    // The head bobs on the surface
-    this.tweens.add({
-      targets: this.kraken,
-      y: y - 2,
-      duration: 1100,
-      yoyo: true,
-      repeat: -1,
-      ease: "Sine.easeInOut",
-    });
+      .sprite(KRAKEN_HEAD.x, KRAKEN_HEAD.y, "kraken_head")
+      .setOrigin(0, 0)
+      .setDepth(KRAKEN_HEAD.y + KRAKEN_HEAD_HEIGHT + 1);
 
     // The ring: a dark track with the catch zone at the top. Static, so it
     // is drawn once; only the marker moves.
@@ -2591,19 +2562,24 @@ export class LoveIslandScene extends BaseScene {
     this.krakenMarkerFlashUntil = Date.now() + KRAKEN_MARKER_FLASH_MS;
   }
 
-  /** Droplets thrown up off the water. */
+  /** Droplets thrown up off the water, around the beast's own waterline. */
   private splashKraken(count: number, spread: number) {
+    const waterline = {
+      x: KRAKEN_HEAD.x + KRAKEN_HEAD_WIDTH / 2,
+      y: KRAKEN_HEAD.y + KRAKEN_HEAD_HEIGHT,
+    };
+
     for (let i = 0; i < count; i++) {
       const colour = KRAKEN_SPLASH_COLOURS[i % KRAKEN_SPLASH_COLOURS.length];
       const drop = this.add
         .rectangle(
-          KRAKEN_SPOT.x + Phaser.Math.Between(-8, 8),
-          KRAKEN_SPOT.y + Phaser.Math.Between(-4, 2),
+          waterline.x + Phaser.Math.Between(-10, 10),
+          waterline.y + Phaser.Math.Between(-4, 2),
           2,
           2,
           colour,
         )
-        .setDepth(KRAKEN_SPOT.y + 2);
+        .setDepth(waterline.y + 2);
 
       this.tweens.add({
         targets: drop,
@@ -2789,10 +2765,16 @@ export class LoveIslandScene extends BaseScene {
   /** A fresh Marvel surfaces. */
   private surfaceKraken() {
     this.claimedKrakenRoundId = undefined;
-    this.kraken?.setAlpha(1).setVisible(true);
-    this.krakenTentacles.forEach((tentacle) =>
-      tentacle.setAlpha(1).setVisible(true),
-    );
+
+    const parts = [
+      ...(this.kraken ? [this.kraken] : []),
+      ...this.krakenTentacles,
+    ];
+
+    // Kill the last catch's fade first - a round that arrives while it is
+    // still running would otherwise fade the new Marvel straight back out
+    this.tweens.killTweensOf(parts);
+    parts.forEach((part) => part.setAlpha(1).setVisible(true));
   }
 
   /** The bank just landed it - thrash, splash and leave the prize floating. */

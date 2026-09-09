@@ -22,8 +22,11 @@ import {
  * and around twenty of them land it in about a minute.
  */
 
-/** Middle of the lake's lower pool, clear of the seasonal guardian. */
-export const LOVE_KRAKEN_SPOT = { x: 276, y: 616 };
+/**
+ * The east side of the lake, right off the end of the wharf. The bank and
+ * the wharf face each other across it, which is where the crowd gathers.
+ */
+export const LOVE_KRAKEN_SPOT = { x: 306, y: 566 };
 
 /**
  * Progress it takes the island to land the Marvel. Only used by the local
@@ -67,7 +70,11 @@ export const LOVE_KRAKEN_LAG_GRACE_DEG = 40;
  */
 export const LOVE_KRAKEN_REEL_COOLDOWN_MS = 1700;
 
-/** How close a player has to stand to cast at it - the whole bank is in. */
+/**
+ * How close a player has to stand to cast at it. Covers the wharf (about
+ * 22px off its end) and the whole west bank across the water, which are the
+ * only two places anyone can stand at this end of the lake.
+ */
 export const LOVE_KRAKEN_REACH = 90;
 
 /**

@@ -667,9 +667,10 @@ automatically.
 ## 6. Love Marvel — MMO room
 
 A Love Marine Marvel lurks in the lake on the west of the island, its head
-and four tentacles breaking the surface at world px **(276, 616)** — the
-middle of the lake's lower pool, clear of the seasonal guardian standing in
-the water above it. It is a community game: a ring sweeps around the beast
+and four tentacles breaking the surface at world px **(306, 566)** — the
+east side of the lake, right off the end of the wharf. (The seasonal
+guardian that used to stand in this water has been removed.) It is a
+community game: a ring sweeps around the beast
 with a catch zone at the top, and every islander on the bank casts a line
 and reels **on the beat**. Each landed reel drags the Marvel a point closer
 to the surface; the Marvel drags **three points a second** back. One angler
@@ -686,7 +687,7 @@ progress bar below — it is meant to be discovered.
 Client source of truth: `src/features/world/lib/loveKraken.ts`.
 
 ```ts
-LOVE_KRAKEN_SPOT = { x: 276, y: 616 };
+LOVE_KRAKEN_SPOT = { x: 306, y: 566 }; // ring centre / reach anchor
 LOVE_KRAKEN_HEALTH = 400; // points to land it
 LOVE_KRAKEN_REEL_POINTS = 1; // one landed reel
 LOVE_KRAKEN_FIGHT_BACK_PER_SEC = 3; // points it drags back a second
@@ -788,10 +789,11 @@ Rules:
 - Ignore if the player's last accepted reel was under **1700ms** ago. This
   is what stops a player spamming the button through the whole sweep: with
   the ring at 2s, one reel a sweep is the ceiling.
-- Ignore if the player is further than **90px** from `(276, 616)` (use the
+- Ignore if the player is further than **90px** from `(306, 566)` (use the
   position in `state.players`; the client refuses to send from further away,
-  so this only guards forged messages). 90 covers the whole bank — the lake
-  is about 104px wide — plus the bridge on its east side.
+  so this only guards forged messages). 90 covers the two places anyone can
+  stand at this end of the lake: the **wharf**, about 22px off its end, and
+  the **west bank** across the water. They face each other over the beast.
 - Otherwise `progress = min(health, progress + 1)` and `anglers[farmId] += 1`.
 - When `progress` reaches `health`: set `caughtAt = now`,
   `respawnAt = now + 10_000`. Leave `anglers` populated — clients read it to
@@ -824,9 +826,11 @@ the next sync brings it down.
 
 ### What the client does
 
-- Draws the beast (`kraken_head.webp` and four `kraken_tentacle.webp`, both
-  at 2x, each with its own ripple), the ring with the green catch zone at
-  the top and a white marker sweeping it, a fishing disc above it
+- Draws the beast (`kraken_head.webp` 11x12 and four `kraken_tentacle.webp`
+  8x16, each with its own ripple) at **native size on integer top-left
+  coordinates**, never scaled, rotated or tweened, so every pixel lines up
+  with the map tiles behind it. Around it: the ring with the green catch
+  zone at the top and a white marker sweeping it, a fishing disc above it
   (`world/fishing_disc.png`) and the island's progress bar below. The bar
   runs **green while the bank is gaining and red while the Marvel is**, so a
   thin crowd can see at a glance that they need more hands. No numbers.
