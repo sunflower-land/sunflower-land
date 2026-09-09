@@ -54,14 +54,25 @@ export const HallOfFame: React.FC = () => {
 
   const safeAreaPaddingTop = useSafeAreaPaddingTop(50);
 
-  // Ticking the clock keeps render pure and rolls the boards over for a page
-  // left open across UTC midnight. A minute is plenty for a daily boundary.
+  // Ticking the clock keeps render pure and moves the page on at UTC midnight.
+  // A minute is plenty for a daily boundary.
   const now = useNow({ live: true, intervalMs: 60 * 1000 });
 
   // The API refuses today, so the newest board we can ask for is yesterday's.
   const latestDate = getLatestStatsLeaderboardDate(now);
-  const [date, setDate] = useState(latestDate);
+
+  // Nothing pinned means "follow the latest board", so a page left open rolls
+  // over on its own at midnight rather than sitting on a day that is no longer
+  // the newest. Stepping back pins a day; stepping forward onto the newest one
+  // resumes following it.
+  const [pinnedDate, setPinnedDate] = useState<string | null>(null);
+  const date = pinnedDate ?? latestDate;
   const isLatest = date === latestDate;
+
+  const goToDate = useCallback(
+    (next: string) => setPinnedDate(next === latestDate ? null : next),
+    [latestDate],
+  );
 
   const { data, error, isLoading } = useSWR(
     ["/data?type=statsLeaderboard", token, date],
@@ -150,7 +161,7 @@ export const HallOfFame: React.FC = () => {
                 src={arrowPreviousIcon}
                 alt={t("statsLeaderboard.previousDay")}
                 className="h-6 cursor-pointer hover:img-highlight"
-                onClick={() => setDate(shiftUTCDateString(date, -1))}
+                onClick={() => goToDate(shiftUTCDateString(date, -1))}
               />
               <Label type="default" icon={calendarIcon}>
                 {data?.reportDate ?? date}
@@ -164,7 +175,7 @@ export const HallOfFame: React.FC = () => {
                   "opacity-40 pointer-events-none": isLatest,
                 })}
                 onClick={() => {
-                  if (!isLatest) setDate(shiftUTCDateString(date, 1));
+                  if (!isLatest) goToDate(shiftUTCDateString(date, 1));
                 }}
               />
             </div>
