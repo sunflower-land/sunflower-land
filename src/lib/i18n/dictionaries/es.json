@@ -8576,5 +8576,9 @@
   "landscaping.conflict.NOT_OWNED": "no está en tu pecho",
   "landscaping.conflict.PLACED_ELSEWHERE": "ya está colocado en otro lugar",
   "landscaping.conflict.UNKNOWN_ITEM": "no es un artículo conocido",
-  "savedLayouts.saveDraftFirst": "Guarda los cambios de tu granja antes de usar los diseños."
+  "savedLayouts.saveDraftFirst": "Guarda los cambios de tu granja antes de usar los diseños.",
+  "loveKraken.didNotHelp": "¡Atrapa a la bestia para ganar el premio!",
+  "loveKraken.alreadyClaimed": "Ya lo reclamé hoy. ¡Regresa mañana!",
+  "loveKraken.prizeItem": "¡Has ganado un {{item}}!",
+  "loveKraken.prizeCoins": "¡Has ganado monedas de {{amount}}!"
 }

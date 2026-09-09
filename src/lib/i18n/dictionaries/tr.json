@@ -8576,5 +8576,9 @@
   "landscaping.conflict.NOT_OWNED": "göğsünde değil",
   "landscaping.conflict.PLACED_ELSEWHERE": "zaten başka bir yere yerleştirildi",
   "landscaping.conflict.UNKNOWN_ITEM": "bilinen bir öğe değil",
-  "savedLayouts.saveDraftFirst": "Düzenleri kullanmadan önce çiftlik değişikliklerinizi kaydedin."
+  "savedLayouts.saveDraftFirst": "Düzenleri kullanmadan önce çiftlik değişikliklerinizi kaydedin.",
+  "loveKraken.didNotHelp": "Ödülü kazanmak için canavarı toplayın!",
+  "loveKraken.alreadyClaimed": "Bugün zaten talep etti. Yarın geri gel!",
+  "loveKraken.prizeItem": "{{item}} kazandın!",
+  "loveKraken.prizeCoins": "{{amount}} jeton kazandın!"
 }

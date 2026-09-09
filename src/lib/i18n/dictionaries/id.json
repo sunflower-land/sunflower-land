@@ -8576,5 +8576,9 @@
   "landscaping.conflict.NOT_OWNED": "tidak ada di dada Anda",
   "landscaping.conflict.PLACED_ELSEWHERE": "sudah ditempatkan di tempat lain",
   "landscaping.conflict.UNKNOWN_ITEM": "bukan item yang diketahui",
-  "savedLayouts.saveDraftFirst": "Simpan perubahan pertanian Anda sebelum menggunakan tata letak."
+  "savedLayouts.saveDraftFirst": "Simpan perubahan pertanian Anda sebelum menggunakan tata letak.",
+  "loveKraken.didNotHelp": "Gulung binatang itu untuk mendapatkan hadiah!",
+  "loveKraken.alreadyClaimed": "Sudah diklaim hari ini. Kembalilah besok!",
+  "loveKraken.prizeItem": "Anda memenangkan {{item}}!",
+  "loveKraken.prizeCoins": "Anda memenangkan koin {{amount}}!"
 }

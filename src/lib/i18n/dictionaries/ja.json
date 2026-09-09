@@ -8576,5 +8576,9 @@
   "landscaping.conflict.NOT_OWNED": "あなたの胸にはありません",
   "landscaping.conflict.PLACED_ELSEWHERE": "すでに他の場所に配置されています",
   "landscaping.conflict.UNKNOWN_ITEM": "は既知のアイテムではありません",
-  "savedLayouts.saveDraftFirst": "レイアウトを使用する前にファームの変更を保存します。"
+  "savedLayouts.saveDraftFirst": "レイアウトを使用する前にファームの変更を保存します。",
+  "loveKraken.didNotHelp": "野獣を巻き上げて賞品を獲得しよう！",
+  "loveKraken.alreadyClaimed": "今日すでに請求されました。明日戻ってきて！",
+  "loveKraken.prizeItem": "あなたは {{item}} を獲得しました！",
+  "loveKraken.prizeCoins": "{{amount}} コインを獲得しました！"
 }

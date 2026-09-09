@@ -8576,5 +8576,9 @@
   "landscaping.conflict.NOT_OWNED": "não está no seu peito",
   "landscaping.conflict.PLACED_ELSEWHERE": "já está colocado em outro lugar",
   "landscaping.conflict.UNKNOWN_ITEM": "não é um item conhecido",
-  "savedLayouts.saveDraftFirst": "Salve as alterações da sua fazenda antes de usar os layouts."
+  "savedLayouts.saveDraftFirst": "Salve as alterações da sua fazenda antes de usar os layouts.",
+  "loveKraken.didNotHelp": "Envolva a fera para ganhar o prêmio!",
+  "loveKraken.alreadyClaimed": "Já reivindicou hoje. Volte amanhã!",
+  "loveKraken.prizeItem": "Você ganhou um {{item}}!",
+  "loveKraken.prizeCoins": "Você ganhou {{amount}} moedas!"
 }

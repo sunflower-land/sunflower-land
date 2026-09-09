@@ -8576,5 +8576,9 @@
   "landscaping.conflict.NOT_OWNED": "non è nel tuo petto",
   "landscaping.conflict.PLACED_ELSEWHERE": "è già collocato altrove",
   "landscaping.conflict.UNKNOWN_ITEM": "non è un articolo noto",
-  "savedLayouts.saveDraftFirst": "Salva le modifiche alla fattoria prima di utilizzare i layout."
+  "savedLayouts.saveDraftFirst": "Salva le modifiche alla fattoria prima di utilizzare i layout.",
+  "loveKraken.didNotHelp": "Attira la bestia per vincere il premio!",
+  "loveKraken.alreadyClaimed": "Già richiesto oggi. Torna domani!",
+  "loveKraken.prizeItem": "Hai vinto un {{item}}!",
+  "loveKraken.prizeCoins": "Hai vinto {{amount}} monete!"
 }

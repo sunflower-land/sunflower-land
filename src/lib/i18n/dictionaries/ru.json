@@ -8576,5 +8576,9 @@
   "landscaping.conflict.NOT_OWNED": "is not in your chest",
   "landscaping.conflict.PLACED_ELSEWHERE": "is already placed elsewhere",
   "landscaping.conflict.UNKNOWN_ITEM": "is not a known item",
-  "savedLayouts.saveDraftFirst": "Save your farm changes before using layouts."
+  "savedLayouts.saveDraftFirst": "Save your farm changes before using layouts.",
+  "loveKraken.didNotHelp": "Reel the beast in to earn the prize!",
+  "loveKraken.alreadyClaimed": "Already claimed today. Come back tomorrow!",
+  "loveKraken.prizeItem": "You won a {{item}}!",
+  "loveKraken.prizeCoins": "You won {{amount}} coins!"
 }

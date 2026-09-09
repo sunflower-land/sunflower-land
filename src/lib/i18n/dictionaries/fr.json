@@ -8576,5 +8576,9 @@
   "landscaping.conflict.NOT_OWNED": "n'est pas dans ta poitrine",
   "landscaping.conflict.PLACED_ELSEWHERE": "est déjà placé ailleurs",
   "landscaping.conflict.UNKNOWN_ITEM": "n'est pas un objet connu",
-  "savedLayouts.saveDraftFirst": "Enregistrez les modifications apportées à votre ferme avant d'utiliser les mises en page."
+  "savedLayouts.saveDraftFirst": "Enregistrez les modifications apportées à votre ferme avant d'utiliser les mises en page.",
+  "loveKraken.didNotHelp": "Enroulez la bête pour gagner le prix !",
+  "loveKraken.alreadyClaimed": "Déjà réclamé aujourd'hui. Revenez demain !",
+  "loveKraken.prizeItem": "Vous avez gagné un {{item}} !",
+  "loveKraken.prizeCoins": "Vous avez gagné {{amount}} pièces !"
 }

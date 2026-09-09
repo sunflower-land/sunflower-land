@@ -8576,5 +8576,9 @@
   "landscaping.conflict.NOT_OWNED": "ist nicht in deiner Brust",
   "landscaping.conflict.PLACED_ELSEWHERE": "ist bereits woanders platziert",
   "landscaping.conflict.UNKNOWN_ITEM": "ist kein bekannter Artikel",
-  "savedLayouts.saveDraftFirst": "Speichern Sie Ihre Farmänderungen, bevor Sie Layouts verwenden."
+  "savedLayouts.saveDraftFirst": "Speichern Sie Ihre Farmänderungen, bevor Sie Layouts verwenden.",
+  "loveKraken.didNotHelp": "Holt das Biest ein, um euch den Preis zu sichern!",
+  "loveKraken.alreadyClaimed": "Heute schon beansprucht. Komm morgen wieder!",
+  "loveKraken.prizeItem": "Du hast {{item}} gewonnen!",
+  "loveKraken.prizeCoins": "Du hast {{amount}} Münzen gewonnen!"
 }

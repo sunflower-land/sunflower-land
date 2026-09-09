@@ -8576,5 +8576,9 @@
   "landscaping.conflict.NOT_OWNED": "不在你的胸口",
   "landscaping.conflict.PLACED_ELSEWHERE": "已经放置在其他地方了",
   "landscaping.conflict.UNKNOWN_ITEM": "不是已知物品",
-  "savedLayouts.saveDraftFirst": "在使用布局之前，请保存您的农场更改。"
+  "savedLayouts.saveDraftFirst": "在使用布局之前，请保存您的农场更改。",
+  "loveKraken.didNotHelp": "将野兽卷进来赢取奖品！",
+  "loveKraken.alreadyClaimed": "今天已经申请了。明天回来！",
+  "loveKraken.prizeItem": "你赢了 {{item}}！",
+  "loveKraken.prizeCoins": "你赢了 {{amount}} 个硬币！"
 }
