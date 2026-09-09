@@ -1091,4 +1091,69 @@ describe("cancelQueuedCrafting — SPEED_BOOSTS", () => {
     expect(survivors[0].readyAt).toEqual(now + 4 * HOUR);
     expect(survivors[1].readyAt).toEqual(now + 5 * HOUR);
   });
+
+  it("does not back-date a craft anchored after an idle gap when a later craft is cancelled", () => {
+    const now = Date.now();
+    // The box was left holding a FINISHED, uncollected craft, and the player
+    // started `b` hours later. `b` is anchored precisely so that idle gap is not
+    // credited to it (see `startCrafting`'s `boxFreeAt > createdAt` test), and
+    // the resolver honours that anchor. Cancelling `c` must not re-chain `b` onto
+    // the stale, past box-free time and hand the player a finished craft.
+    const queue = [
+      craft({
+        id: "a",
+        startedAt: now - 10 * HOUR,
+        baseDurationMs: 2 * HOUR,
+        readyAt: now - 8 * HOUR,
+      }),
+      craft({
+        id: "b",
+        startedAt: now - HOUR,
+        baseDurationMs: 4 * HOUR,
+        readyAt: now + 3 * HOUR,
+      }),
+      craft({ id: "c", baseDurationMs: HOUR, readyAt: now + 4 * HOUR }),
+    ];
+
+    const result = cancelQueuedCrafting({
+      state: stateWith(queue),
+      action: { type: "crafting.cancelled", queueItemId: "c" },
+      createdAt: now,
+    });
+
+    const survivors = result.craftingBox.queue ?? [];
+    expect(survivors.map((q) => q.id)).toEqual(["a", "b"]);
+    // The finished craft is history and stays put.
+    expect(survivors[0].readyAt).toEqual(now - 8 * HOUR);
+    // `b` keeps its own anchor, and so its remaining 3h.
+    expect(survivors[1].startedAt).toEqual(now - HOUR);
+    expect(survivors[1].readyAt).toEqual(now + 3 * HOUR);
+  });
+
+  it("still pulls a chained craft forward when the craft ahead of it is cancelled", () => {
+    const now = Date.now();
+    // The other half of the invariant: a craft with NO anchor of its own is
+    // chained, and must track the box-free time as it moves.
+    const queue = [
+      craft({
+        id: "a",
+        startedAt: now,
+        baseDurationMs: 4 * HOUR,
+        readyAt: now + 4 * HOUR,
+      }),
+      craft({ id: "b", baseDurationMs: 2 * HOUR, readyAt: now + 6 * HOUR }),
+      craft({ id: "c", baseDurationMs: HOUR, readyAt: now + 7 * HOUR }),
+    ];
+
+    const result = cancelQueuedCrafting({
+      state: stateWith(queue),
+      action: { type: "crafting.cancelled", queueItemId: "b" },
+      createdAt: now,
+    });
+
+    const survivors = result.craftingBox.queue ?? [];
+    expect(survivors.map((q) => q.id)).toEqual(["a", "c"]);
+    expect(survivors[1].startedAt).toBeUndefined();
+    expect(survivors[1].readyAt).toEqual(now + 5 * HOUR);
+  });
 });

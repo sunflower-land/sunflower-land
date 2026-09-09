@@ -975,4 +975,36 @@ describe("speedUpCrafting — SPEED_BOOSTS", () => {
     });
     expect(bReadyAt).toBeLessThan(now + 4 * HOUR);
   });
+
+  it("anchors a LEGACY craft promoted into the box freed by a sped-up windowed craft", () => {
+    const now = Date.now();
+    // A queue caught part-way through migration: a windowed head with a legacy
+    // craft behind it. Speeding up the head frees the box NOW, so the legacy
+    // craft must start now too - left on its stale chained start it would sit
+    // idle for the 4h the player just paid gems to skip.
+    const queue = [
+      craft({
+        id: "a",
+        startedAt: now,
+        baseDurationMs: 4 * HOUR,
+        readyAt: now + 4 * HOUR,
+      }),
+      // Legacy: no `baseDurationMs`, a locked 2h wall-clock span.
+      craft({ id: "b", startedAt: now + 4 * HOUR, readyAt: now + 6 * HOUR }),
+    ];
+
+    const result = speedUpCrafting({
+      state: stateWith(queue),
+      action: { type: "crafting.spedUp" },
+      createdAt: now,
+      farmId,
+    });
+
+    const after = result.craftingBox.queue ?? [];
+
+    expect(after[0].baseDurationMs).toEqual(0);
+    expect(after[1].startedAt).toEqual(now);
+    // Its locked 2h duration is unchanged - only its start moves.
+    expect(after[1].readyAt).toEqual(now + 2 * HOUR);
+  });
 });

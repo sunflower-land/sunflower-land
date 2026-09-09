@@ -122,12 +122,24 @@ export function recalculateCraftingQueue({
       if (needsPromotedAnchor && i > (spedUpIndex as number)) {
         startedAt = spedUpAt;
         needsPromotedAnchor = false;
-      } else if (boxFreeAt === null) {
-        // First craft to occupy the box: it keeps its own anchor, because it is
-        // the one actually running.
+      } else if (
+        boxFreeAt === null ||
+        (item.startedAt ?? -Infinity) > boxFreeAt
+      ) {
+        // It keeps its own anchor. Either nothing occupies the box ahead of it,
+        // or it was explicitly anchored AFTER the box last freed - which is what
+        // `startCrafting` writes when a craft is queued into an idle box (its
+        // `boxFreeAt > createdAt` test). A finished-but-uncollected craft leaves
+        // the cursor in the PAST, so testing only for `boxFreeAt === null` here
+        // would re-chain such a craft onto that stale time and credit it the idle
+        // gap as progress - the very thing `resolveCraftingQueueTimings` refuses
+        // to do. The two must agree, or the derived chain re-breaks it on read.
         startedAt = item.startedAt;
       } else {
-        // Chained: its start tracks the box-free time as that moves.
+        // Chained: its start tracks the box-free time as that moves. An anchor at
+        // or before `boxFreeAt` is chained too - that means the craft ahead now
+        // ends later (a window expired), and honouring the stale anchor would run
+        // two crafts in the box at once.
         startedAt = undefined;
       }
 
@@ -182,6 +194,18 @@ export function recalculateCraftingQueue({
       // box, so it neither moves nor delays the crafts after it.
       startedAt = ownStart;
       readyAt = item.readyAt;
+    } else if (needsPromotedAnchor && i > (spedUpIndex as number)) {
+      // Promoted into the box a sped-up WINDOWED craft just freed. A legacy craft
+      // reaches here on a part-migrated queue, and it needs the anchor just as
+      // much as a windowed one: the sped-up craft no longer occupies the box, so
+      // without this the legacy craft keeps its stale chained start and the box
+      // sits idle for exactly the span the player paid gems to skip.
+      needsPromotedAnchor = false;
+      // `needsPromotedAnchor` is a `let`, so it does not carry `isSpedUp`'s
+      // narrowing; it is only ever set when both speed-up args are present.
+      startedAt = spedUpAt as number;
+      readyAt = startedAt + lockedDuration;
+      boxFreeAt = readyAt;
     } else {
       // Real craft: starts when the box is next free (after the previous real
       // craft), or keeps its own start if it is the first to occupy the box.
