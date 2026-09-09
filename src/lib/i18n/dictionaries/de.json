@@ -8513,11 +8513,7 @@
   "lovePush.didNotHelp": "Hilf, einen Felsbrocken zu stoßen, um den Preis zu gewinnen!",
   "lovePush.alreadyClaimed": "Heute schon beansprucht. Komm morgen wieder!",
   "lovePush.guide.title": "Push des Liebhabers",
-  "lovePush.guide.push": "Gehe in einen Felsbrocken und schiebe ihm eine Kachel hinein. Jeder kann jederzeit pushen - wer zuerst kommt, mahlt zuerst - und jeder sieht, wie es rutscht.",
-  "lovePush.guide.lights": "Vier Zielplättchen sind im Raster versteckt. Für jeden Felsbrocken, der auf einem liegt, geht ein Licht an - aber nicht für welchen Felsbrocken oder wo.",
-  "lovePush.guide.walls": "Felsbrocken können das Gitter nicht verlassen oder ineinander geschoben werden. Gehen Sie um die Außenseite des Rasters herum, um einen wieder hineinzudrücken. Plane zusammen!",
   "lovePush.prize": "Du hast eine Bronze Love Box gewonnen!",
-  "lovePush.guide.prizes": "Zünden Sie alle vier an und jeder, der einen Felsbrocken bewegt hat, wird einmal täglich mit {{amount}} {{item}} belohnt.",
   "description.totem.buff.crops": "x0.5 Wachstumszeit der Pflanzen",
   "description.totem.buff.crops.speed": "2-fache Wachstumsgeschwindigkeit der Pflanzen",
   "description.totem.buff.fruit": "x0.5 Fruchtwachstumszeit",
@@ -8558,5 +8554,8 @@
   "statsLeaderboard.description.cropsHarvested": "Ständig geerntete Pflanzen und Gewächshauskulturen",
   "statsLeaderboard.description.fishCaught": "Fische und Meereswunder gefangen, die ganze Zeit",
   "statsLeaderboard.description.animalsFed": "Hühner, Kühe und Schafe werden ständig gefüttert",
-  "statsLeaderboard.description.deliveries": "Ticket-, Münz- und BLUMENbestellungen werden jederzeit geliefert"
+  "statsLeaderboard.description.deliveries": "Ticket-, Münz- und BLUMENbestellungen werden jederzeit geliefert",
+  "interactableModals.bud.dailyPrizeAvailable": "Ihr Tagespreis wartet drinnen auf Sie.",
+  "lovePush.guide.push": "Gehe in einen Felsbrocken, um ihn zu schieben. Um ihn zu bewegen, müssen {{pushers}} Spieler auf die gleiche Weise drücken.",
+  "lovePush.guide.prizes": "Schieben Sie die Felsbrocken in die Inselmitte, um einmal am Tag {{amount}} {{item}} zu verdienen."
 }

@@ -8513,11 +8513,7 @@
   "lovePush.didNotHelp": "Bantu dorong batu besar untuk mendapatkan hadiah!",
   "lovePush.alreadyClaimed": "Sudah diklaim hari ini. Kembalilah besok!",
   "lovePush.guide.title": "Dorongan Kekasih",
-  "lovePush.guide.push": "Berjalan ke batu besar untuk mendorongnya satu ubin. Siapa pun dapat mendorong kapan saja - pertama datang, dilayani pertama - dan semua orang melihatnya meluncur.",
-  "lovePush.guide.lights": "Empat ubin target disembunyikan di grid. Sebuah lampu menyala untuk setiap batu besar yang bertumpu pada satu - tetapi tidak pada batu yang mana, atau di mana.",
-  "lovePush.guide.walls": "Batu-batu besar tidak bisa meninggalkan grid atau didorong satu sama lain. Berjalanlah di sekitar bagian luar grid untuk mendorong satu kembali. Rencanakan bersama!",
   "lovePush.prize": "Anda memenangkan Kotak Cinta Perunggu!",
-  "lovePush.guide.prizes": "Nyalakan keempatnya dan setiap orang yang memindahkan batu besar diberi hadiah {{amount}} {{item}}, sekali sehari.",
   "description.totem.buff.crops": "x0.5 Waktu Pertumbuhan Tanaman",
   "description.totem.buff.crops.speed": "Kecepatan Pertumbuhan Tanaman 2x",
   "description.totem.buff.fruit": "x0.5 Waktu Pertumbuhan Buah",
@@ -8558,5 +8554,8 @@
   "statsLeaderboard.description.cropsHarvested": "Tanaman dan tanaman rumah kaca dipanen, sepanjang waktu",
   "statsLeaderboard.description.fishCaught": "Ikan dan keajaiban laut ditangkap, sepanjang masa",
   "statsLeaderboard.description.animalsFed": "Ayam, sapi dan domba diberi makan, sepanjang waktu",
-  "statsLeaderboard.description.deliveries": "Pesanan tiket, koin, dan BUNGA dikirim, sepanjang waktu"
+  "statsLeaderboard.description.deliveries": "Pesanan tiket, koin, dan BUNGA dikirim, sepanjang waktu",
+  "interactableModals.bud.dailyPrizeAvailable": "Hadiah harian Anda menunggu Anda di dalam.",
+  "lovePush.guide.push": "Berjalan ke batu besar untuk mendorongnya. Dibutuhkan pemain {{pushers}} mendorong dengan cara yang sama untuk memindahkannya.",
+  "lovePush.guide.prizes": "Dorong batu-batu besar ke tengah pulau untuk mendapatkan {{amount}} {{item}}, sekali sehari."
 }

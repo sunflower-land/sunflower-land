@@ -8513,11 +8513,7 @@
   "lovePush.didNotHelp": "Help push a boulder to earn the prize!",
   "lovePush.alreadyClaimed": "Already claimed today. Come back tomorrow!",
   "lovePush.guide.title": "Lover's Push",
-  "lovePush.guide.push": "Walk into a boulder to shove it one tile. Anyone can push at any time - first come, first served - and everyone sees it slide.",
-  "lovePush.guide.lights": "Four target tiles are hidden in the grid. A light comes on for every boulder resting on one - but not which boulder, or where.",
-  "lovePush.guide.walls": "Boulders can't leave the grid or be pushed into each other. Walk around the outside of the grid to push one back in. Plan together!",
   "lovePush.prize": "You won a Bronze Love Box!",
-  "lovePush.guide.prizes": "Light all four and everyone who moved a boulder is rewarded with {{amount}} {{item}}, once a day.",
   "description.totem.buff.crops": "x0.5 Crop Growth Time",
   "description.totem.buff.crops.speed": "2x Crop Growth Speed",
   "description.totem.buff.fruit": "x0.5 Fruit Growth Time",
@@ -8558,5 +8554,8 @@
   "statsLeaderboard.description.cropsHarvested": "Crops and greenhouse crops harvested, all time",
   "statsLeaderboard.description.fishCaught": "Fish and marine marvels caught, all time",
   "statsLeaderboard.description.animalsFed": "Chickens, cows and sheep fed, all time",
-  "statsLeaderboard.description.deliveries": "Ticket, coin and FLOWER orders delivered, all time"
+  "statsLeaderboard.description.deliveries": "Ticket, coin and FLOWER orders delivered, all time",
+  "interactableModals.bud.dailyPrizeAvailable": "Your daily prize is waiting for you inside.",
+  "lovePush.guide.push": "Walk into a boulder to push it. It takes {{pushers}} players pushing the same way to move it.",
+  "lovePush.guide.prizes": "Push the boulders into the centre of the island to earn {{amount}} {{item}}, once a day."
 }

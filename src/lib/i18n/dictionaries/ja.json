@@ -8513,11 +8513,7 @@
   "lovePush.didNotHelp": "岩を押して賞品を獲得するのを手伝ってください！",
   "lovePush.alreadyClaimed": "今日すでに請求されました。明日戻ってきて！",
   "lovePush.guide.title": "ラヴァーズプッシュ",
-  "lovePush.guide.push": "岩の中に入ってタイルを1つ押し込んでください。誰でもいつでも先着順で押すことができ、誰もがスライドするのを見ることができます。",
-  "lovePush.guide.lights": "4つのターゲットタイルがグリッドに非表示になっています。1つの岩の上にあるすべての岩にライトが点灯しますが、どの岩がどこにあるかは点灯しません。",
-  "lovePush.guide.walls": "岩はグリッドの外に出たり、互いに押し込まれたりすることはできません。グリッドの外側を歩き回って、グリッドを押し戻してください。一緒に計画しましょう！",
   "lovePush.prize": "ブロンズラブボックスを獲得しました！",
-  "lovePush.guide.prizes": "4つすべてに火をつけ、岩を動かした全員に {{amount}} {{item}} を1日1回プレゼントします。",
   "description.totem.buff.crops": "x0.5 クロップ成長時間",
   "description.totem.buff.crops.speed": "2倍の作物成長速度",
   "description.totem.buff.fruit": "x0.5 フルーツ成長時間",
@@ -8558,5 +8554,8 @@
   "statsLeaderboard.description.cropsHarvested": "常時収穫された作物と温室作物",
   "statsLeaderboard.description.fishCaught": "いつでも釣れる魚や海の驚異",
   "statsLeaderboard.description.animalsFed": "ニワトリ、ウシ、ヒツジに常時餌を与える",
-  "statsLeaderboard.description.deliveries": "チケット、コイン、フラワーの注文を常時お届けします"
+  "statsLeaderboard.description.deliveries": "チケット、コイン、フラワーの注文を常時お届けします",
+  "interactableModals.bud.dailyPrizeAvailable": "毎日の賞品が店内で待っています。",
+  "lovePush.guide.push": "岩の中に入って押してください。{{pushers}} 人のプレイヤーが同じ方法でそれを動かす必要があります。",
+  "lovePush.guide.prizes": "1日1回、岩を島の中心に押し込んで {{amount}} {{item}} を獲得してください。"
 }

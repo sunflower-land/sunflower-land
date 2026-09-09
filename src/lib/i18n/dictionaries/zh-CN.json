@@ -8513,11 +8513,7 @@
   "lovePush.didNotHelp": "帮助推一块巨石来获得奖品！",
   "lovePush.alreadyClaimed": "今天已经申请了。明天回来！",
   "lovePush.guide.title": "情人之力",
-  "lovePush.guide.push": "走进一块巨石把它塞一块牌。任何人都可以随时推动 —— 先到先得 —— 每个人都能看到它的下滑。",
-  "lovePush.guide.lights": "网格中隐藏了四个目标方块。每块巨石停在一块巨石上都会亮起一盏灯，但不亮哪块巨石，也不会亮在哪块巨石上。",
-  "lovePush.guide.walls": "巨石不能离开网格或被推入对方。在网格外面四处走动，将一个推回网格。一起计划！",
   "lovePush.prize": "你赢得了铜牌爱心盒子！",
-  "lovePush.guide.prizes": "点燃所有四块巨石，所有移动巨石的人每天都会获得 {{amount}} {{item}} 的奖励。",
   "description.totem.buff.crops": "x0.5 作物生长时间",
   "description.totem.buff.crops.speed": "作物生长速度的 2 倍",
   "description.totem.buff.fruit": "x0.5 水果生长时间",
@@ -8558,5 +8554,8 @@
   "statsLeaderboard.description.cropsHarvested": "一直收获的农作物和温室作物",
   "statsLeaderboard.description.fishCaught": "一直捕捉到鱼类和海洋奇迹",
   "statsLeaderboard.description.animalsFed": "一直都在喂鸡、牛和绵羊",
-  "statsLeaderboard.description.deliveries": "门票、硬币和鲜花订单随时送达"
+  "statsLeaderboard.description.deliveries": "门票、硬币和鲜花订单随时送达",
+  "interactableModals.bud.dailyPrizeAvailable": "你的每日奖励在里面等着你。",
+  "lovePush.guide.push": "走进一块巨石把它推开。需要 {{pushers}} 玩家用同样的方式推动才能移动它。",
+  "lovePush.guide.prizes": "将巨石推入岛屿中心即可赚取 {{amount}} {{item}}，每天一次。"
 }

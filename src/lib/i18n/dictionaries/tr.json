@@ -8513,11 +8513,7 @@
   "lovePush.didNotHelp": "Ödülü kazanmak için bir kayayı itmeye yardım edin!",
   "lovePush.alreadyClaimed": "Bugün zaten talep etti. Yarın geri gel!",
   "lovePush.guide.title": "Sevgilinin İtmesi",
-  "lovePush.guide.push": "Bir kiremit itmek için bir kayanın içine girin. Herkes istediği zaman itebilir - ilk gelen, önce servis edilir - ve herkes bunun kaydığını görür.",
-  "lovePush.guide.lights": "Izgarada dört hedef karo gizlidir. Birinin üzerinde duran her kaya için bir ışık yanar - ama hangi kaya ya da nerede değil.",
-  "lovePush.guide.walls": "Kayalar ızgaradan çıkamaz veya birbirine itilemez. Birini geri itmek için ızgaranın dışında dolaşın. Birlikte planlayın!",
   "lovePush.prize": "Bronz Aşk Kutusu kazandın!",
-  "lovePush.guide.prizes": "Dördünü de aydınlatın ve bir kayayı hareket ettiren herkes günde bir kez {{amount}} {{item}} ile ödüllendirilir.",
   "description.totem.buff.crops": "x0.5 Mahsul Büyüme Süresi",
   "description.totem.buff.crops.speed": "2x Mahsul Büyüme Hızı",
   "description.totem.buff.fruit": "x0.5 Meyve Büyüme Süresi",
@@ -8558,5 +8554,8 @@
   "statsLeaderboard.description.cropsHarvested": "Her zaman hasat edilen mahsuller ve sera bitkileri",
   "statsLeaderboard.description.fishCaught": "Her zaman yakalanan balık ve deniz harikaları",
   "statsLeaderboard.description.animalsFed": "Tavuklar, inekler ve koyunlar her zaman beslenir",
-  "statsLeaderboard.description.deliveries": "Bilet, madeni para ve ÇIÇEK siparişleri her zaman teslim edilir"
+  "statsLeaderboard.description.deliveries": "Bilet, madeni para ve ÇIÇEK siparişleri her zaman teslim edilir",
+  "interactableModals.bud.dailyPrizeAvailable": "Günlük ödülünüz içeride sizi bekliyor.",
+  "lovePush.guide.push": "İtmek için bir kayaya girin. Hareket etmek için {{pushers}} oyuncuların aynı şekilde bastırması gerekir.",
+  "lovePush.guide.prizes": "Günde bir kez {{amount}} {{item}} kazanmak için kayaları adanın ortasına itin."
 }

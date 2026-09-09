@@ -8513,11 +8513,7 @@
   "lovePush.didNotHelp": "Aiutaci a spingere un masso per vincere il premio!",
   "lovePush.alreadyClaimed": "Già richiesto oggi. Torna domani!",
   "lovePush.guide.title": "La spinta dell'amante",
-  "lovePush.guide.push": "Entra in un masso per infilargli una mattonella. Chiunque può spingere in qualsiasi momento (primo arrivato, primo servito) e tutti lo vedono scivolare.",
-  "lovePush.guide.lights": "Quattro tessere bersaglio sono nascoste nella griglia. Si accende una luce per ogni masso appoggiato su uno, ma non su quale masso o dove.",
-  "lovePush.guide.walls": "I massi non possono uscire dalla griglia o essere spinti l'uno nell'altro. Percorri l'esterno della griglia per respingerne una. Pianificate insieme!",
   "lovePush.prize": "Hai vinto una Love Box in bronzo!",
-  "lovePush.guide.prizes": "Accendili tutti e quattro e tutti coloro che hanno spostato un masso vengono premiati con {{amount}} {{item}}, una volta al giorno.",
   "description.totem.buff.crops": "x0.5 Tempo di crescita delle colture",
   "description.totem.buff.crops.speed": "Velocità di crescita delle colture raddoppiata",
   "description.totem.buff.fruit": "x0.5 Tempo di crescita dei frutti",
@@ -8558,5 +8554,8 @@
   "statsLeaderboard.description.cropsHarvested": "Colture e colture in serra raccolte, sempre",
   "statsLeaderboard.description.fishCaught": "Pesci e meraviglie marine catturate, sempre",
   "statsLeaderboard.description.animalsFed": "Polli, mucche e pecore nutriti, tutto il tempo",
-  "statsLeaderboard.description.deliveries": "Biglietti, monete e ordini FLOWER consegnati, in qualsiasi momento"
+  "statsLeaderboard.description.deliveries": "Biglietti, monete e ordini FLOWER consegnati, in qualsiasi momento",
+  "interactableModals.bud.dailyPrizeAvailable": "Il tuo premio giornaliero ti aspetta all'interno.",
+  "lovePush.guide.push": "Entra in un masso per spingerlo. Ci vogliono {{pushers}} giocatori che spingono nello stesso modo per spostarlo.",
+  "lovePush.guide.prizes": "Spingi i massi al centro dell'isola per guadagnare {{amount}} {{item}}, una volta al giorno."
 }

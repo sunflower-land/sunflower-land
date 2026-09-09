@@ -8513,11 +8513,7 @@
   "lovePush.didNotHelp": "Aidez à pousser un rocher pour gagner le prix !",
   "lovePush.alreadyClaimed": "Déjà réclamé aujourd'hui. Revenez demain !",
   "lovePush.guide.title": "Lover's Push",
-  "lovePush.guide.push": "Entrez dans un rocher pour lui enfoncer une tuile. Tout le monde peut pousser à tout moment, premier arrivé, premier servi, et tout le monde voit les choses se passer.",
-  "lovePush.guide.lights": "Quatre tuiles cibles sont cachées dans la grille. Une lumière s'allume pour chaque rocher posé sur un rocher, mais pas pour quel rocher ni où.",
-  "lovePush.guide.walls": "Les rochers ne peuvent pas quitter la grille ni être enfoncés les uns dans les autres. Faites le tour de l'extérieur de la grille pour en faire rentrer un. Planifiez ensemble !",
   "lovePush.prize": "Vous avez gagné une Love Box en bronze !",
-  "lovePush.guide.prizes": "Allumez les quatre points et tous ceux qui ont déplacé un rocher sont récompensés par {{amount}} {{item}}, une fois par jour.",
   "description.totem.buff.crops": "x0.5 Temps de croissance des cultures",
   "description.totem.buff.crops.speed": "2 fois la vitesse de croissance des cultures",
   "description.totem.buff.fruit": "x0.5 Temps de croissance des fruits",
@@ -8558,5 +8554,8 @@
   "statsLeaderboard.description.cropsHarvested": "Récoltes et cultures en serre récoltées, en tout temps",
   "statsLeaderboard.description.fishCaught": "Des poissons et des merveilles marines capturés, à tout moment",
   "statsLeaderboard.description.animalsFed": "Poulets, vaches et moutons nourris en permanence",
-  "statsLeaderboard.description.deliveries": "Commandes de billets, de pièces et de FLEURS livrées à tout moment"
+  "statsLeaderboard.description.deliveries": "Commandes de billets, de pièces et de FLEURS livrées à tout moment",
+  "interactableModals.bud.dailyPrizeAvailable": "Votre prix quotidien vous attend à l'intérieur.",
+  "lovePush.guide.push": "Enfoncez un rocher pour le pousser. Il faut que {{pushers}} joueurs poussent de la même manière pour le déplacer.",
+  "lovePush.guide.prizes": "Poussez les rochers jusqu'au centre de l'île pour gagner {{amount}} {{item}}, une fois par jour."
 }

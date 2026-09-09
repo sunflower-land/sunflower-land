@@ -8513,11 +8513,7 @@
   "lovePush.didNotHelp": "¡Ayuda a empujar una roca para ganar el premio!",
   "lovePush.alreadyClaimed": "Ya lo reclamé hoy. ¡Regresa mañana!",
   "lovePush.guide.title": "Empuje del amante",
-  "lovePush.guide.push": "Entra en una roca para meterla en una baldosa. Cualquiera puede empujar en cualquier momento (por orden de llegada) y todos lo ven caer.",
-  "lovePush.guide.lights": "Cuatro fichas objetivo están ocultas en la cuadrícula. Se enciende una luz por cada roca que descanse sobre una, pero no en qué roca ni dónde.",
-  "lovePush.guide.walls": "Las rocas no pueden salir de la red ni ser empujadas unas contra otras. Caminen alrededor de la parte exterior de la cuadrícula para volver a meterla. ¡Planeen juntos!",
   "lovePush.prize": "¡Has ganado una Love Box de bronce!",
-  "lovePush.guide.prizes": "Encienda las cuatro y todos los que muevan una roca recibirán una recompensa de {{amount}} {{item}}, una vez al día.",
   "description.totem.buff.crops": "x0.5 Tiempo de crecimiento del cultivo",
   "description.totem.buff.crops.speed": "2 veces la velocidad de crecimiento de los cultivos",
   "description.totem.buff.fruit": "x0.5 Tiempo de crecimiento de la fruta",
@@ -8558,5 +8554,8 @@
   "statsLeaderboard.description.cropsHarvested": "Cultivos y cultivos de invernadero cosechados, siempre",
   "statsLeaderboard.description.fishCaught": "Peces y maravillas marinas capturados, siempre",
   "statsLeaderboard.description.animalsFed": "Pollos, vacas y ovejas alimentados, siempre",
-  "statsLeaderboard.description.deliveries": "Pedidos de entradas, monedas y FLORES entregados en todo momento"
+  "statsLeaderboard.description.deliveries": "Pedidos de entradas, monedas y FLORES entregados en todo momento",
+  "interactableModals.bud.dailyPrizeAvailable": "Tu premio diario te espera dentro.",
+  "lovePush.guide.push": "Camina hacia una roca para empujarla. Se necesitan {{pushers}} jugadores que empujen de la misma manera para moverla.",
+  "lovePush.guide.prizes": "Empuja las rocas hacia el centro de la isla para ganar {{amount}} {{item}}, una vez al día."
 }
