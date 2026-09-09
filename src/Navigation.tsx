@@ -29,7 +29,6 @@ import { FlowerDashboard } from "features/flowerDashboard/FlowerDashboard";
 import { EconomyDashboard } from "features/economyDashboard/EconomyDashboard";
 import { RetentionDashboard } from "features/retentionDashboard/RetentionDashboard";
 import { ChapterDashboard } from "features/chapterDashboard/ChapterDashboard";
-import { HallOfFame } from "features/hallOfFame/HallOfFame";
 import { EconomyHub } from "features/economyHub/EconomyHub";
 import { GameWrapper } from "features/game/expansion/Game";
 import { Interior } from "features/interior/Interior";
@@ -51,6 +50,13 @@ const World = lazy(() =>
 const GiveawayApp = lazy(() =>
   import("features/giveaway/GiveawayApp").then((m) => ({
     default: m.GiveawayApp,
+  })),
+);
+
+// Only reached from the Kingdom noticeboard, so keep it out of the startup bundle
+const HallOfFame = lazy(() =>
+  import("features/hallOfFame/HallOfFame").then((m) => ({
+    default: m.HallOfFame,
   })),
 );
 

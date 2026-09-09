@@ -10,6 +10,7 @@ import { Loading } from "features/auth/components";
 import { LastUpdatedAt } from "components/LastUpdatedAt";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useSafeAreaPaddingTop } from "lib/utils/hooks/useSafeAreaPaddingTop";
+import { useNow } from "lib/utils/hooks/useNow";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import * as AuthProvider from "features/auth/lib/Provider";
 import type { AuthMachineState } from "features/auth/lib/authMachine";
@@ -53,8 +54,12 @@ export const HallOfFame: React.FC = () => {
 
   const safeAreaPaddingTop = useSafeAreaPaddingTop(50);
 
+  // Ticking the clock keeps render pure and rolls the boards over for a page
+  // left open across UTC midnight. A minute is plenty for a daily boundary.
+  const now = useNow({ live: true, intervalMs: 60 * 1000 });
+
   // The API refuses today, so the newest board we can ask for is yesterday's.
-  const latestDate = getLatestStatsLeaderboardDate();
+  const latestDate = getLatestStatsLeaderboardDate(now);
   const [date, setDate] = useState(latestDate);
   const isLatest = date === latestDate;
 
@@ -77,9 +82,14 @@ export const HallOfFame: React.FC = () => {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        handleClose();
-      }
+      if (event.key !== "Escape") return;
+
+      // A player modal opens above this page and closes itself on Escape. It is
+      // asked live rather than through render state, so the answer holds
+      // whichever of the two listeners the keypress reaches first.
+      if (playerModalManager.isBlockingEscape()) return;
+
+      handleClose();
     };
 
     document.addEventListener("keydown", handleKeyDown);
