@@ -79,14 +79,14 @@ import {
   LOVE_KRAKEN_PRIZE,
   LOVE_KRAKEN_PRIZE_ITEMS,
   LOVE_KRAKEN_REACH,
-  LOVE_KRAKEN_REEL_COOLDOWN_MS,
+  getLoveKrakenReelCooldownMs,
+  getLoveKrakenRing,
   LOVE_KRAKEN_SPOT,
   LOVE_KRAKEN_ZONE_HALF_DEG,
   canClaimLoveKraken,
   createLoveKrakenLocalRound,
   fromLoveKrakenRoomPrize,
   getLoveKrakenPrizeKey,
-  getLoveKrakenRingAngle,
   hasClaimedLoveKrakenRound,
   hasClaimedLoveKrakenToday,
   isLoveKrakenReelOnTarget,
@@ -273,6 +273,14 @@ const KRAKEN_RING_TRACK_ALPHA = 0.6;
 /** The zone is what everyone is aiming at, so it is the heaviest stroke. */
 const KRAKEN_ZONE_WIDTH = 5;
 const KRAKEN_RING_ZONE = 0x63c74d;
+/**
+ * A dot in the beast's own purple is left where each landed reel scored,
+ * just as the zone jumps away from it - so a hit is never in doubt, and you
+ * can see where you have just come from.
+ */
+const KRAKEN_HIT_DOT_COLOUR = 0xb55088;
+const KRAKEN_HIT_DOT_RADIUS = 3;
+const KRAKEN_HIT_DOT_MS = 900;
 const KRAKEN_MARKER_RADIUS = 3;
 const KRAKEN_MARKER_COLOUR = 0xffffff;
 /** The marker flashes green on a landed reel, red on a missed one. */
@@ -460,6 +468,9 @@ export class LoveIslandScene extends BaseScene {
   private krakenDisc?: Phaser.GameObjects.Sprite;
   /** The sweeping ring: a static track and the marker going round it. */
   private krakenRing?: Phaser.GameObjects.Graphics;
+  /** The catch zone, redrawn whenever it jumps to a new angle. */
+  private krakenZone?: Phaser.GameObjects.Graphics;
+  private drawnKrakenZoneAngle?: number;
   private krakenMarker?: Phaser.GameObjects.Arc;
   private krakenMarkerFlashUntil = 0;
   private krakenMarkerFlashColour = KRAKEN_MARKER_COLOUR;
@@ -480,6 +491,12 @@ export class LoveIslandScene extends BaseScene {
   /** Whether we've seen this round's Marvel fighting - only then animate the catch. */
   private sawKrakenFighting = false;
   private lastKrakenReelAt = 0;
+  /**
+   * roundId -> when the local player's last reel landed. The marker's current
+   * leg is anchored to it, so the sweep picks up from exactly where the hit
+   * left it instead of snapping back to the top.
+   */
+  private krakenLegStartAt: Record<number, number> = {};
   /** roundId -> reels the local player has landed. */
   private krakenReels: Record<number, number> = {};
   /** Whether the local player's line is in the water. */
@@ -2324,13 +2341,12 @@ export class LoveIslandScene extends BaseScene {
       .setOrigin(0, 0)
       .setDepth(KRAKEN_HEAD.y + KRAKEN_HEAD_HEIGHT + 1);
 
-    // The ring: a dark track with the catch zone at the top. Static, so it
-    // is drawn once; only the marker moves.
+    // The ring's track never changes, so it is drawn once here. The zone
+    // moves on every reel you land, so it gets its own layer that
+    // `setKrakenZone` redraws.
     const ring = this.add
       .graphics({ x, y })
-      .setDepth(Number.MAX_SAFE_INTEGER - 2);
-    const half = Phaser.Math.DegToRad(LOVE_KRAKEN_ZONE_HALF_DEG);
-    const top = -Math.PI / 2;
+      .setDepth(Number.MAX_SAFE_INTEGER - 3);
 
     ring.lineStyle(
       KRAKEN_RING_WIDTH,
@@ -2341,12 +2357,11 @@ export class LoveIslandScene extends BaseScene {
     ring.arc(0, 0, KRAKEN_RING_RADIUS, 0, Math.PI * 2);
     ring.strokePath();
 
-    ring.lineStyle(KRAKEN_ZONE_WIDTH, KRAKEN_RING_ZONE, 1);
-    ring.beginPath();
-    ring.arc(0, 0, KRAKEN_RING_RADIUS, top - half, top + half);
-    ring.strokePath();
-
     this.krakenRing = ring;
+
+    this.krakenZone = this.add
+      .graphics({ x, y })
+      .setDepth(Number.MAX_SAFE_INTEGER - 2);
 
     this.krakenMarker = this.add
       .circle(
@@ -2495,10 +2510,25 @@ export class LoveIslandScene extends BaseScene {
   }
 
   /**
+   * The local player's ring right now - where the marker is, where their
+   * zone is, and which way and how fast it is going. All of it follows from
+   * the reels they have landed this round plus when the last one landed.
+   */
+  private getKrakenRing(round: LoveKrakenRound, now: number) {
+    return getLoveKrakenRing({
+      roundId: round.roundId,
+      reels: this.getMyKrakenReels(round.roundId),
+      legStartAt: this.krakenLegStartAt[round.roundId],
+      now,
+    });
+  }
+
+  /**
    * The fishing button. The first click casts the line and leaves it in the
    * water; every click after that is a pull on the rod. A pull only counts
-   * when the marker is in the zone at the top of the ring - a miss still
-   * plays, it just doesn't move the bar.
+   * when the marker is inside your catch zone - a miss still plays, it just
+   * doesn't move the bar. Landing one leaves a purple dot behind and throws
+   * the zone somewhere else, so nobody settles into a rhythm.
    */
   private castOrReelKraken() {
     const now = Date.now();
@@ -2530,16 +2560,27 @@ export class LoveIslandScene extends BaseScene {
 
     player.reelRod();
 
-    if (now - this.lastKrakenReelAt < LOVE_KRAKEN_REEL_COOLDOWN_MS) return;
+    const ring = this.getKrakenRing(round, now);
+    if (
+      now - this.lastKrakenReelAt <
+      getLoveKrakenReelCooldownMs(ring.ringMs)
+    ) {
+      return;
+    }
 
-    if (!isLoveKrakenReelOnTarget({ now })) {
+    if (!isLoveKrakenReelOnTarget({ ring })) {
       this.flashKrakenMarker(KRAKEN_MARKER_MISS);
       return;
     }
 
     this.lastKrakenReelAt = now;
+    // Counting the reel is what moves the zone, reverses the spin and winds
+    // the sweep up - all three follow from the count. Anchoring the new leg
+    // to `now` is what keeps the marker from jumping as they change.
     this.krakenReels[round.roundId] =
       (this.krakenReels[round.roundId] ?? 0) + 1;
+    this.krakenLegStartAt[round.roundId] = now;
+    this.markKrakenHit(ring.zoneAngle);
 
     if (this.remoteKraken) {
       this.mmoServer?.send("loveKraken.reel", { roundId: round.roundId });
@@ -2552,7 +2593,7 @@ export class LoveIslandScene extends BaseScene {
 
     this.flashKrakenMarker(KRAKEN_MARKER_HIT);
     this.splashKraken(4, 12);
-    // Only your own reel is heard - the whole bank reels on the same beat
+    // Only your own reel is heard - the bank would be a racket otherwise
     this.sound.play("dig", { volume: 0.04 });
   }
 
@@ -2560,6 +2601,32 @@ export class LoveIslandScene extends BaseScene {
   private flashKrakenMarker(colour: number) {
     this.krakenMarkerFlashColour = colour;
     this.krakenMarkerFlashUntil = Date.now() + KRAKEN_MARKER_FLASH_MS;
+  }
+
+  /**
+   * A purple dot pops where a reel scored and fades. The zone has already
+   * jumped away from it by the time it is drawn, so it doubles as a marker
+   * of where you just came from.
+   */
+  private markKrakenHit(zoneAngle: number) {
+    const angle = Phaser.Math.DegToRad(zoneAngle);
+    const dot = this.add
+      .circle(
+        KRAKEN_SPOT.x + Math.sin(angle) * KRAKEN_RING_RADIUS,
+        KRAKEN_SPOT.y - Math.cos(angle) * KRAKEN_RING_RADIUS,
+        KRAKEN_HIT_DOT_RADIUS,
+        KRAKEN_HIT_DOT_COLOUR,
+      )
+      .setDepth(Number.MAX_SAFE_INTEGER);
+
+    this.tweens.add({
+      targets: dot,
+      scale: 1.8,
+      alpha: 0,
+      duration: KRAKEN_HIT_DOT_MS,
+      ease: "Quad.easeOut",
+      onComplete: () => dot.destroy(),
+    });
   }
 
   /** Droplets thrown up off the water, around the beast's own waterline. */
@@ -2597,12 +2664,18 @@ export class LoveIslandScene extends BaseScene {
     const now = Date.now();
     const round = this.getKrakenRound(now);
 
-    // Fresh Marvel
+    // Fresh Marvel - a new line, so the ring starts over at the top
     if (this.krakenRoundId !== round.roundId) {
       this.krakenRoundId = round.roundId;
       this.sawKrakenFighting = false;
       this.lastKrakenProgress = undefined;
       this.seenAnglerReels = {};
+      // Only this round's tallies matter; the rest would pile up all session
+      this.krakenReels = {
+        [round.roundId]: this.krakenReels[round.roundId] ?? 0,
+      };
+      this.krakenLegStartAt = {};
+      this.drawnKrakenZoneAngle = undefined;
       this.surfaceKraken();
     }
 
@@ -2643,22 +2716,26 @@ export class LoveIslandScene extends BaseScene {
   }
 
   /**
-   * The marker's sweep, and the ring hidden while the Marvel is landed. The
-   * marker runs off the epoch clock, so every client on the bank - and the
-   * room judging the reels - is on the same beat.
+   * The marker's sweep and the catch zone, both hidden while the Marvel is
+   * landed. Everything the marker does follows from the reels this player
+   * has landed and when the last one landed, so the room judging the reels
+   * reads it exactly as the client draws it.
    */
   private setKrakenRing(round: LoveKrakenRound, now: number) {
     const marker = this.krakenMarker;
-    const ring = this.krakenRing;
-    if (!marker || !ring) return;
+    const track = this.krakenRing;
+    const zone = this.krakenZone;
+    if (!marker || !track || !zone) return;
 
     if (round.caught) {
       marker.setVisible(false);
-      ring.setVisible(false);
+      track.setVisible(false);
+      zone.setVisible(false);
       return;
     }
 
-    const angle = Phaser.Math.DegToRad(getLoveKrakenRingAngle(now));
+    const ring = this.getKrakenRing(round, now);
+    const angle = Phaser.Math.DegToRad(ring.angle);
     marker.setPosition(
       KRAKEN_SPOT.x + Math.sin(angle) * KRAKEN_RING_RADIUS,
       KRAKEN_SPOT.y - Math.cos(angle) * KRAKEN_RING_RADIUS,
@@ -2670,8 +2747,29 @@ export class LoveIslandScene extends BaseScene {
         : KRAKEN_MARKER_COLOUR;
     if (marker.fillColor !== colour) marker.setFillStyle(colour);
 
+    this.setKrakenZone(ring.zoneAngle);
+
     marker.setVisible(true);
-    ring.setVisible(true);
+    track.setVisible(true);
+    zone.setVisible(true);
+  }
+
+  /** Redraw the catch zone, but only when it has actually jumped. */
+  private setKrakenZone(zoneAngle: number) {
+    const zone = this.krakenZone;
+    if (!zone || this.drawnKrakenZoneAngle === zoneAngle) return;
+
+    this.drawnKrakenZoneAngle = zoneAngle;
+
+    const half = Phaser.Math.DegToRad(LOVE_KRAKEN_ZONE_HALF_DEG);
+    // Phaser measures from the +x axis; the ring's own zero is the top
+    const centre = Phaser.Math.DegToRad(zoneAngle) - Math.PI / 2;
+
+    zone.clear();
+    zone.lineStyle(KRAKEN_ZONE_WIDTH, KRAKEN_RING_ZONE, 1);
+    zone.beginPath();
+    zone.arc(0, 0, KRAKEN_RING_RADIUS, centre - half, centre + half);
+    zone.strokePath();
   }
 
   /**

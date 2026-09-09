@@ -671,11 +671,17 @@ and four tentacles breaking the surface at world px **(306, 566)** — the
 east side of the lake, right off the end of the wharf. (The seasonal
 guardian that used to stand in this water has been removed.) It is a
 community game: a ring sweeps around the beast
-with a catch zone at the top, and every islander on the bank casts a line
-and reels **on the beat**. Each landed reel drags the Marvel a point closer
-to the surface; the Marvel drags **three points a second** back. One angler
-can never out-pull it. Around **twenty** reeling properly land it in about a
+with a catch zone on it, and every islander on the bank casts a line and
+reels **on the beat**. Each landed reel drags the Marvel a point closer to
+the surface; the Marvel drags **three points a second** back. One angler can
+never out-pull it. Around **twenty** reeling properly land it in about a
 minute.
+
+**Every landed reel changes the ring** for the angler who landed it: the
+catch zone jumps a quarter turn or more away, the marker reverses direction,
+and the sweep winds up 40ms tighter — so the fight gets more frantic the
+closer that angler is to landing the beast, and nobody can settle into a
+rhythm. A purple dot is left where the reel scored.
 
 When it is landed, the day's prize floats over it for **10 seconds**: anyone
 who landed at least one reel on that Marvel can click it to claim, **once
@@ -688,52 +694,125 @@ Client source of truth: `src/features/world/lib/loveKraken.ts`.
 
 ```ts
 LOVE_KRAKEN_SPOT = { x: 306, y: 566 }; // ring centre / reach anchor
-LOVE_KRAKEN_HEALTH = 400; // points to land it
+LOVE_KRAKEN_HEALTH = 1700; // points to land it
 LOVE_KRAKEN_REEL_POINTS = 1; // one landed reel
 LOVE_KRAKEN_FIGHT_BACK_PER_SEC = 3; // points it drags back a second
-LOVE_KRAKEN_RING_MS = 2_000; // one sweep of the ring
+LOVE_KRAKEN_RING_MS_MAX = 2_000; // sweep on a fresh line
+LOVE_KRAKEN_RING_MS_MIN = 1_200; // ...and the tightest it gets
+LOVE_KRAKEN_RING_MS_STEP = 40; // tighter by this much per landed reel
 LOVE_KRAKEN_ZONE_SHARE = 0.12; // the catch zone, as a share of a sweep
 LOVE_KRAKEN_ZONE_HALF_DEG = 21.6; // = 360 * 0.12 / 2
 LOVE_KRAKEN_LAG_GRACE_DEG = 40; // extra tolerance the ROOM allows
-LOVE_KRAKEN_REEL_COOLDOWN_MS = 1_700; // per player - one reel a sweep
 LOVE_KRAKEN_REACH = 90; // how close a player must stand
 LOVE_KRAKEN_RESPAWN_MS = 10_000; // = the prize window
 LOVE_KRAKEN_MAX_CLAIMS = 1; // per farm per UTC day
+
+// Fastest a reel can land. Only long enough to stop two landing on one pass
+// of the zone - the zone jumping away is what actually paces an angler.
+getLoveKrakenReelCooldownMs(ringMs) = round(ringMs * 0.12 * 2); // 480ms at 2s
 ```
 
-**Where the numbers come from.** A sweep is 2s and the cooldown lets one
-reel through per sweep, so a player at their best is worth 0.5 points a
-second. Twenty of them make 10/s, the Marvel takes 3/s back, and
-`400 / 7 ≈ 57s`. The same sum puts the floor at **six** anglers — below that
-the Marvel wins and the bar sits at zero, which is the point of it being a
-community game. Change `health` and the room's number is the one the client
-draws the bar from, so it can be retuned without a client release.
+**Where the numbers come from.** The zone jumps 90-270° from where it was,
+so the marker reaches the next one after **half a sweep** on average - one
+reel per `ringMs / 2`, or 1/s on a fresh line. Twenty anglers make 20/s
+against the Marvel's 3/s, and their sweeps tighten as they go (1s a reel
+down to 0.6s after twenty reels), so they take about 16s to make the first
+351 points and then run at ~30/s: `351 + 44 × 30.3 ≈ 1690`.
 
-### The ring — anchored to the epoch
+Fewer anglers still get there, just slowly - three is roughly the point
+where the Marvel stops losing at all on a fresh line. Change `health` and
+the room's number is the one the client draws the bar from, so it can be
+retuned without a client release.
 
-The ring is **shared**: there is one ring around one Marvel and the whole
-bank reels in time with it. Its phase is anchored to the epoch, exactly like
-the Love Dilemma's 40s clock, so every client and the room agree with no
-coordination — **and the room can judge a reel itself** rather than taking
-the client's word for it, which the Love Boulder cannot.
+### The ring — one per angler, in legs
+
+Each angler has their own ring: their own zone, their own direction and
+their own sweep, all of it a pure function of **the round, how many reels
+they have landed in it, and when the last one landed**. The room holds all
+three already (`anglers[farmId]` and the timestamp it keeps for the
+cooldown), so it can work out exactly what that player was looking at and
+**judge the reel itself** rather than taking their word for it — which the
+Love Boulder cannot.
+
+The marker runs in **legs**: a leg starts the instant a reel lands and runs
+until the next one does. Within a leg the speed and direction are fixed, so
+the marker sweeps smoothly. All three things a reel changes take effect only
+at a leg boundary — and at that moment the marker is _sitting on the zone it
+just hit_, so the new leg starts from where the marker already is.
+
+> Reading the phase straight off the clock as `now % ringMs` looks
+> equivalent and is not: the moment `ringMs` changes, that phase lurches.
+> That is what made the marker snap back to the top mid-sweep.
 
 ```ts
-// Degrees clockwise from the top of the ring, which is where the zone is.
-function getLoveKrakenRingAngle(now: number): number {
-  return ((now % 2000) / 2000) * 360;
+// Copy all four verbatim. `mulberry32` is the same one the Dilemma uses.
+
+function getLoveKrakenRingMs(reels: number): number {
+  return Math.max(1200, 2000 - Math.max(0, reels) * 40);
 }
 
-// How far the marker is from the middle of the zone, the short way round.
-function getLoveKrakenRingOffset(now: number): number {
-  const angle = getLoveKrakenRingAngle(now);
-  return Math.min(angle, 360 - angle);
+function getLoveKrakenSpin(reels: number): 1 | -1 {
+  return Math.max(0, reels) % 2 === 0 ? 1 : -1; // 1 clockwise
+}
+
+// Degrees clockwise from the top. Starts at the top and jumps 90-270 degrees
+// from where it was on every reel landed, so it always visibly moves.
+function getLoveKrakenZoneAngle({ roundId, reels }): number {
+  const random = mulberry32(roundId * 7919 + 13);
+  let angle = 0;
+  for (let i = 0; i < Math.max(0, reels); i++) {
+    angle = (angle + 90 + random() * 180) % 360;
+  }
+  return angle;
+}
+
+function getLoveKrakenRing({ roundId, reels, legStartAt, now }) {
+  const landed = Math.max(0, reels);
+  const ringMs = getLoveKrakenRingMs(landed);
+  const spin = getLoveKrakenSpin(landed);
+  const zoneAngle = getLoveKrakenZoneAngle({ roundId, reels: landed });
+  const wrap = (a: number) => ((a % 360) + 360) % 360;
+
+  // No leg to anchor to yet, so read it off the clock - every client agrees
+  if (landed <= 0 || !legStartAt) {
+    return {
+      angle: wrap(((now % ringMs) / ringMs) * 360),
+      zoneAngle,
+      ringMs,
+      spin,
+    };
+  }
+
+  // The leg started on the zone this angler hit to end the last one
+  const from = getLoveKrakenZoneAngle({ roundId, reels: landed - 1 });
+  const swept = ((now - legStartAt) / ringMs) * 360;
+
+  return { angle: wrap(from + spin * swept), zoneAngle, ringMs, spin };
 }
 ```
 
-A reel is on the beat when `getLoveKrakenRingOffset(now) <= tolerance`. The
-**client** uses `21.6°`; the **room** uses `21.6 + 40 = 61.6°`, because the
-message only reaches it after the trip over the wire — about 220ms of lag
-forgiven at a 2s sweep. Anyone slower than that has to lead the marker.
+A reel is on the beat when the marker is within `tolerance` of `zoneAngle`,
+the short way round. The **client** uses `21.6°`; the **room** uses
+`21.6 + 40 = 61.6°`, because the message only reaches it after the trip over
+the wire — about 220ms of lag forgiven at a 2s sweep.
+
+**Two things to be aware of when implementing this.**
+
+1. `legStartAt` is when that angler's last reel landed. The client stamps it
+   when it **sends** and the room when it **receives**, so the two are one
+   trip apart — a few degrees, well inside the lag grace, and it cannot
+   build up because every leg re-anchors from the zone.
+2. A reel lands anywhere inside the zone, but the next leg starts at the
+   zone's **middle**, so the marker snaps by up to `21.6°` at a hit. That is
+   deliberate and bounded — it reads as locking on, and it is what keeps the
+   client and the room agreeing on where the leg began without the client
+   having to tell the room its angle.
+
+If the client and the room ever disagree by one on the reel count (a reel
+still in flight when the next arrives), the zone and direction they compute
+differ and the reel is refused. It is rare — the cooldown is longer than a
+round trip — and the angler simply reels again. If you want to close it,
+also test the reel against `anglers[farmId] + 1`.
 
 ### Room state (`PlazaRoomState.loveKraken`)
 
@@ -743,7 +822,7 @@ the field missing) as "the room isn't running it" and simulates locally.
 ```ts
 class LoveKraken extends Schema {
   @type("number") roundId: number; // increments on every respawn
-  @type("number") health: number; // 400 - what a fresh Marvel needs
+  @type("number") health: number; // 1700 - what a fresh Marvel needs
   @type("number") progress: number; // 0..health, counts up
   @type("number") caughtAt: number; // epoch ms; 0 while it fights
   @type("number") respawnAt: number; // epoch ms; 0 while it fights
@@ -784,17 +863,23 @@ Rules:
 
 - Ignore if `roundId` ≠ the current round, or the Marvel is caught
   (`caughtAt > 0`).
-- Ignore if `getLoveKrakenRingOffset(now) > 61.6` — the reel was off the
-  beat, or arrived too late to tell the difference.
-- Ignore if the player's last accepted reel was under **1700ms** ago. This
-  is what stops a player spamming the button through the whole sweep: with
-  the ring at 2s, one reel a sweep is the ceiling.
+- Work out that angler's ring with `getLoveKrakenRing({ roundId, reels:
+anglers[farmId], legStartAt: <when their last reel landed>, now })` and
+  ignore the reel if the marker is more than **61.6°** from `zoneAngle` —
+  off the beat, or too late over the wire to tell the difference.
+- Ignore if their last accepted reel was under
+  `getLoveKrakenReelCooldownMs(ring.ringMs)` ago — 480ms on a fresh line,
+  down to 288ms at full speed. That is only there to stop two reels landing
+  on one pass of the zone; the zone jumping away is what paces an angler.
 - Ignore if the player is further than **90px** from `(306, 566)` (use the
   position in `state.players`; the client refuses to send from further away,
   so this only guards forged messages). 90 covers the two places anyone can
   stand at this end of the lake: the **wharf**, about 22px off its end, and
   the **west bank** across the water. They face each other over the beast.
-- Otherwise `progress = min(health, progress + 1)` and `anglers[farmId] += 1`.
+- Otherwise `progress = min(health, progress + 1)`, `anglers[farmId] += 1`
+  and record `now` as that angler's `legStartAt` — incrementing the count is
+  what moves their zone, reverses their spin and winds their sweep up, and
+  the timestamp is what keeps the marker from jumping as those change.
 - When `progress` reaches `health`: set `caughtAt = now`,
   `respawnAt = now + 10_000`. Leave `anglers` populated — clients read it to
   know whether they helped (a reload mid-round loses their local count).
@@ -830,7 +915,7 @@ the next sync brings it down.
   8x16, each with its own ripple) at **native size on integer top-left
   coordinates**, never scaled, rotated or tweened, so every pixel lines up
   with the map tiles behind it. Around it: the ring with the green catch
-  zone at the top and a white marker sweeping it, a fishing disc above it
+  zone and a white marker sweeping it, a fishing disc above it
   (`world/fishing_disc.png`) and the island's progress bar below. The bar
   runs **green while the bank is gaining and red while the Marvel is**, so a
   thin crowd can see at a glance that they need more hands. No numbers.
@@ -843,10 +928,13 @@ the next sync brings it down.
 - The bar is **the room's** — a reel of your own flashes the marker and
   splashes, it never moves the bar optimistically. With a crowd on the bank
   the bar is moving constantly anyway.
+- On a landed reel: a purple dot pops on the ring where it scored and fades,
+  the marker flashes green, the water splashes, and the zone, direction and
+  sweep all change for the next leg. A miss flashes the marker red and does
+  nothing else.
 - Every other player the room lists in `anglers`, and who is still within
-  reach, holds their rod out and pulls it whenever their count goes up. The
-  ring is shared, so the whole bank reels in time. This needs no extra
-  traffic beyond `anglers`.
+  reach, holds their rod out and pulls it whenever their count goes up. This
+  needs no extra traffic beyond `anglers`.
 - When `caughtAt` flips from 0: the beast thrashes, splashes and fades, and
   the day's prize floats where the disc was while `now < respawnAt`.
 - Clicking it: if `anglers[farmId] > 0` (or its own count is > 0) and the
@@ -865,8 +953,9 @@ anyway.
 ### Until the room ships
 
 If `state.loveKraken` is absent (or `health` is 0), the client runs a local
-stand-in: a simulated bank lands **10 reels a second** (what twenty anglers
-reeling properly would make) against the same 3/s fight back, the local
-player's own reels go straight on top, and the catch / 10s window / respawn
-cycle runs on the client's own clock. Once the room publishes `loveKraken`
+stand-in: a simulated bank lands what **twenty anglers** reeling properly
+would make - 20 reels a second on a fresh Marvel, winding up to 33/s as the
+fight goes on - against the same 3/s fight back, the local player's own
+reels go straight on top, and the catch / 10s window / respawn cycle runs on
+the client's own clock. Once the room publishes `loveKraken`
 the client switches over automatically — no client change needed.

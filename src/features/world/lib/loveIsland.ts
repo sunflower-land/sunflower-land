@@ -59,7 +59,7 @@ export type LoveDilemmaRound = {
 };
 
 /** Deterministic PRNG so every client (and the server) derives the same round. */
-function mulberry32(seed: number) {
+export function mulberry32(seed: number) {
   let a = seed >>> 0;
 
   return () => {
