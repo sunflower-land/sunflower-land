@@ -29,6 +29,7 @@ import { FlowerDashboard } from "features/flowerDashboard/FlowerDashboard";
 import { EconomyDashboard } from "features/economyDashboard/EconomyDashboard";
 import { RetentionDashboard } from "features/retentionDashboard/RetentionDashboard";
 import { ChapterDashboard } from "features/chapterDashboard/ChapterDashboard";
+import { HallOfFame } from "features/hallOfFame/HallOfFame";
 import { EconomyHub } from "features/economyHub/EconomyHub";
 import { GameWrapper } from "features/game/expansion/Game";
 import { Interior } from "features/interior/Interior";
@@ -160,6 +161,14 @@ export const Navigation: React.FC = () => {
                                     element={
                                       <div className="absolute inset-0 z-50">
                                         <ChapterDashboard />
+                                      </div>
+                                    }
+                                  />
+                                  <Route
+                                    path="hall-of-fame"
+                                    element={
+                                      <div className="absolute inset-0 z-50">
+                                        <HallOfFame />
                                       </div>
                                     }
                                   />

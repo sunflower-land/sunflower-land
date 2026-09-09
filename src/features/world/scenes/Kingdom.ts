@@ -57,6 +57,12 @@ const DOORS: Record<FactionName, Coordinates & { door: string }> = {
   bumpkins: { x: 23 * 16 + 8, y: 27 * 16 + 8, door: "red_door" },
 };
 
+/**
+ * Extra collision below the Hall of Fame board's base, so a player approaching
+ * from the front stops short of being layered underneath the board sprite.
+ */
+const HALL_OF_FAME_APPROACH_BUFFER = 14;
+
 const THRONES: Record<FactionName, string> = {
   goblins: "goblin_champions",
   sunflorians: "sunflorian_champions",
@@ -137,10 +143,52 @@ export class KingdomScene extends BaseScene {
       this.load.image(DOORS[key].door, `world/${DOORS[key].door}.png`);
     });
 
+    this.load.image("hall_of_fame_board", "world/showcase_board.png");
+
     this.load.image("empty_champions", "world/empty_champions.png");
     getKeys(THRONES).forEach((key) => {
       this.load.image(THRONES[key], `world/${THRONES[key]}.png`);
     });
+  }
+
+  /**
+   * Noticeboard in the courtyard that opens the full screen Hall of Fame.
+   * It sits at a high depth so players walk behind it, and only its base blocks
+   * movement.
+   */
+  addHallOfFameBoard() {
+    const board = this.add
+      .sprite(78, 623, "hall_of_fame_board")
+      .setDepth(1000000);
+
+    this.physics.world.enable(board);
+    this.colliders?.add(board);
+    // The board out-depths every player, so someone walking up from below would
+    // be drawn underneath it. The base (8px) keeps them behind the board; the
+    // extra 14px holds them far enough down that their head clears its bottom
+    // edge instead of disappearing into it.
+    (board.body as Phaser.Physics.Arcade.Body)
+      .setSize(40, 8 + HALL_OF_FAME_APPROACH_BUFFER)
+      .setOffset(0, 22)
+      .setImmovable(true)
+      .setCollideWorldBounds(true);
+
+    board.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (!this.checkDistanceToSprite(board, 75)) {
+        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+        return;
+      }
+
+      // The scene keeps running behind the route, so hand it the way back.
+      this.registry.get("navigate")?.("/world/hall-of-fame", {
+        state: { returnTo: `/world/${this.sceneId}` },
+      });
+    });
+
+    const label = new Label(this, "HALL OF FAME", "gold");
+    label.setPosition(78, 602);
+    label.setDepth(10000000);
+    this.add.existing(label);
   }
 
   addShopDisplayItems() {
@@ -157,6 +205,7 @@ export class KingdomScene extends BaseScene {
 
     this.initialiseNPCs(KINGDOM_NPCS);
     this.addShopDisplayItems();
+    this.addHallOfFameBoard();
 
     const season = this.gameState.season.season;
 
