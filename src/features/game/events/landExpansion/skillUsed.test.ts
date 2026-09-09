@@ -4,6 +4,8 @@ import { CROPS } from "features/game/types/crops";
 import { COOKABLES } from "features/game/types/consumables";
 import { FLOWER_SEEDS, FLOWERS } from "features/game/types/flowers";
 import { getFlowerReadyAt } from "features/game/lib/flowerBedReadiness";
+import { harvest } from "./harvest";
+import Decimal from "decimal.js-light";
 
 describe("skillUse", () => {
   const dateNow = Date.now();
@@ -291,13 +293,16 @@ describe("skillUse", () => {
       expect(state.aoe["Basic Scarecrow"]?.[1]?.[1]).toEqual(dateNow);
     });
 
-    it("sets the aoe readyAt to the currentTime for yield AOE", () => {
+    it("frees the yield AOE for a legacy crop", () => {
       const state = skillUse({
         state: {
           ...INITIAL_FARM,
           bumpkin: {
             ...INITIAL_FARM.bumpkin,
             skills: { "Instant Growth": 1 },
+          },
+          inventory: {
+            Kale: new Decimal(0),
           },
           crops: {
             "123": {
@@ -308,34 +313,127 @@ describe("skillUse", () => {
               },
               createdAt: dateNow,
               x: 1,
-              y: 1,
+              y: 0,
             },
-            "789": {
+          },
+          collectibles: {
+            "Sir Goldensnout": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                readyAt: dateNow,
+                coordinates: { x: 0, y: 0 },
+              },
+            ],
+          },
+          aoe: { "Sir Goldensnout": { 1: { 0: dateNow } } },
+        },
+        action: {
+          type: "skill.used",
+          skill: "Instant Growth",
+        },
+        createdAt: dateNow,
+      });
+
+      const stateAfterHarvest = harvest({
+        farmId: 1,
+        state,
+        action: { type: "crop.harvested", index: "123" },
+        createdAt: dateNow,
+      });
+
+      expect(stateAfterHarvest.inventory.Kale).toEqual(new Decimal(1.5));
+    });
+
+    it("frees the yield AOE for a windowed (speed-rate) crop", () => {
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Instant Growth": 1 },
+          },
+          inventory: {
+            Kale: new Decimal(0),
+          },
+          crops: {
+            "123": {
               crop: {
-                id: "147",
+                id: "456",
+                name: "Kale",
+                plantedAt: dateNow,
+                baseDurationMs: CROPS["Kale"].harvestSeconds * 1000,
+              },
+              createdAt: dateNow,
+              x: 1,
+              y: 0,
+            },
+          },
+          collectibles: {
+            "Sir Goldensnout": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                readyAt: dateNow,
+                coordinates: { x: 0, y: 0 },
+              },
+            ],
+          },
+          aoe: { "Sir Goldensnout": { 1: { 0: dateNow } } },
+        },
+        action: {
+          type: "skill.used",
+          skill: "Instant Growth",
+        },
+        createdAt: dateNow,
+      });
+
+      const stateAfterHarvest = harvest({
+        farmId: 1,
+        state,
+        action: { type: "crop.harvested", index: "123" },
+        createdAt: dateNow,
+      });
+
+      expect(stateAfterHarvest.inventory.Kale).toEqual(new Decimal(1.5));
+    });
+
+    it("leaves the yield AOE of a plot it did not grow untouched", () => {
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Instant Growth": 1 },
+          },
+          crops: {
+            // Still growing - this is what the skill acts on.
+            "123": {
+              crop: {
+                id: "456",
                 name: "Kale",
                 plantedAt: dateNow,
               },
               createdAt: dateNow,
               x: 1,
-              y: 1,
+              y: 0,
+            },
+            // Already ready and NOT harvested yet, so its AOE cell must keep
+            // its cooldown rather than being refreshed along with the others.
+            "789": {
+              crop: {
+                id: "147",
+                name: "Eggplant",
+                plantedAt: dateNow - CROPS["Eggplant"].harvestSeconds * 1000,
+              },
+              createdAt: dateNow,
+              x: 2,
+              y: 0,
             },
           },
           aoe: {
-            "Scary Mike": {
-              1: { 1: dateNow },
-            },
-            "Laurie the Chuckle Crow": {
-              1: { 1: dateNow },
-            },
-            Gnome: {
-              1: { 1: dateNow },
-            },
-            "Queen Cornelia": {
-              1: { 1: dateNow },
-            },
             "Sir Goldensnout": {
-              1: { 1: dateNow },
+              2: { 0: dateNow },
             },
           },
         },
@@ -346,11 +444,7 @@ describe("skillUse", () => {
         createdAt: dateNow,
       });
 
-      expect(state.aoe["Scary Mike"]?.[1]?.[1]).toEqual(1);
-      expect(state.aoe["Laurie the Chuckle Crow"]?.[1]?.[1]).toEqual(1);
-      expect(state.aoe["Gnome"]?.[1]?.[1]).toEqual(1);
-      expect(state.aoe["Queen Cornelia"]?.[1]?.[1]).toEqual(1);
-      expect(state.aoe["Sir Goldensnout"]?.[1]?.[1]).toEqual(1);
+      expect(state.aoe["Sir Goldensnout"]?.[2]?.[0]).toEqual(dateNow);
     });
   });
 
