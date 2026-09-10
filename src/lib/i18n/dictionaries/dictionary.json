@@ -6809,7 +6809,6 @@
   "description.monument.buff": "+1 Help Limit",
   "description.foxShrine.buff": "x0.75 Crafting Box Time",
   "description.foxShrine.buff.speed": "1.35x Crafting Box Speed",
-  "description.boostedSpeed": "Speed: {{speed}}x",
   "description.foxShrine.buff.2": "10% chance to instantly craft a recipe",
   "description.boarShrine.buff": "x0.8 Cooking Time",
   "description.boarShrine.buff.speed": "1.25x Cooking Speed",

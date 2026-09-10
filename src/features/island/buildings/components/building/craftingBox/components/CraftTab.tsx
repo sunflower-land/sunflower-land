@@ -8,7 +8,6 @@ import type {
 import type { CraftingQueueItem } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Label } from "components/ui/Label";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { type RecipeIngredient, RECIPES } from "features/game/lib/crafting";
 import { getCurrentChapter } from "features/game/types/chapters";
@@ -20,10 +19,7 @@ import {
   findMatchingRecipe,
   getBoostedCraftingTime,
 } from "features/game/events/landExpansion/startCrafting";
-import {
-  computeReadyAt,
-  getEffectiveSpeedAt,
-} from "features/game/lib/boostWindows";
+import { computeReadyAt } from "features/game/lib/boostWindows";
 import { useSound } from "lib/utils/hooks/useSound";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
@@ -158,13 +154,6 @@ export const CraftTab: React.FC<Props> = ({
     }
     return Math.max(0, viewedReadyAt - now);
   }, [craftingStatus, viewedReadyAt, now]);
-
-  // The rate the craft on screen is actually running at. Only windowed crafts
-  // have one; a legacy craft always reads 1x and so shows no label.
-  const viewedSpeed =
-    viewedItem.baseDurationMs === undefined
-      ? 1
-      : getEffectiveSpeedAt({ at: now, windows });
 
   const button = useSound("button");
 
@@ -633,15 +622,6 @@ export const CraftTab: React.FC<Props> = ({
             }
             key={`${currentRecipe?.name}-${selectedItemId ?? preparingSlotIndex}`}
           />
-          {viewedSpeed > 1 && (
-            <Label type="transparent" icon={SUNNYSIDE.icons.lightning}>
-              <span className="whitespace-nowrap">
-                {t("description.boostedSpeed", {
-                  speed: Number(viewedSpeed.toFixed(2)),
-                })}
-              </span>
-            </Label>
-          )}
           <CraftButton
             isCrafting={isCrafting}
             isPending={isPending}
