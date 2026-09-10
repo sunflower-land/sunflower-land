@@ -10,6 +10,9 @@ jobs:
     timeout-minutes: 30
     permissions:
       contents: read
+    env:
+      # Matches ci.yml so Codex can run the suite the same way CI does.
+      VITE_NETWORK: amoy
     outputs:
       final_message: ${{ steps.run_codex.outputs.final-message }}
     steps:
@@ -18,6 +21,15 @@ jobs:
           fetch-depth: 0
           # Check out the PR's merge commit
           ref: refs/pull/${{ github.event.pull_request.number }}/merge
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          cache: yarn
+
+      - name: Install modules
+        run: yarn install --frozen-lockfile
 
       - name: Collect PR context
         id: pr_context
@@ -84,7 +96,13 @@ jobs:
             4. **Read the existing tests** for the touched area. Ask what behaviour the PR changed that no test would catch, and whether any deleted or modified test was covering a real case.
             5. **Look for the counterexample.** For each thing you suspect, try to construct concrete inputs or state that make it misbehave. If you cannot construct one, you do not have a finding.
 
-            You may run read-only commands freely (`grep`, `git log`, `git blame`, opening files). Dependencies are **not** installed, so do not try to run the test suite or the type checker — reason from the source instead, and never claim you ran something you did not.
+            You may run read-only commands freely (`grep`, `git log`, `git blame`, opening files). **Dependencies are installed**, so you can also execute code, and you should when it settles a question:
+
+            - Run the targeted tests for the area you are reviewing: `npx jest <path/to/file.test.ts>`. Prefer specific files over the whole suite.
+            - If you suspect a bug, write a temporary test that reproduces it and run it. A finding you have actually executed is worth far more than one you reasoned your way to. Say in the finding that you proved it this way, and delete the scratch file before you finish.
+            - Do not run `yarn lint` or a full `yarn tsc` — CI already does both on this PR and they are slow.
+
+            Never claim you ran something you did not, and never report a finding you could have proven by running something but did not bother to.
 
             ## What counts as a finding
 
@@ -128,7 +146,7 @@ jobs:
 
             `## What I checked` — always present, including when you found nothing. 2–4 bullets naming the specific files and call sites you actually opened, the commands you ran, and what each one confirmed or ruled out. Be concrete: "traced all 6 callers of `X` in `Y`, all pass the new argument" is useful; "reviewed the changes" is not. This is how the reader calibrates everything above and below it.
 
-            `## Findings` — grouped under category subheadings, most severe first, each finding tagged with its severity. For each: a `path/to/file.ts:42` reference to the real file in the repo, the concrete failing scenario, and a specific fix or short code sketch. If there are none, say so in one line under this heading.
+            `## Findings` — grouped under category subheadings, most severe first, each finding tagged with its severity. For each: a repository-relative reference such as `src/features/game/foo.ts:42` — never an absolute path on the runner, and never a markdown link, the concrete failing scenario, and a specific fix or short code sketch. If there are none, say so in one line under this heading.
 
             Do not append caveats about tooling limitations, and do not close with generic suggestions to add tests. If something genuinely blocked you, say so in one line inside `## What I checked`.
 
