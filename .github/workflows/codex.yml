@@ -96,7 +96,7 @@ jobs:
             - `[Medium]` — wrong in a reachable edge case, a real performance problem on a hot path, or a genuine React Compiler violation.
             - `[Low]` — narrow correctness nit worth fixing. Cap the whole review at 3 of these; drop the weakest rather than padding.
 
-            If the PR is genuinely clean, say exactly that in one line and stop. An honest empty review is worth more than invented nits — but "I only looked at the diff" is never a reason for an empty review, because you have the whole repo.
+            If the PR is genuinely clean, say so plainly under **Findings** — an honest empty review is worth more than invented nits. You must still fill in **What I checked**: an empty review is only credible if the reader can see what you actually looked at. "I only read the diff" is never a reason for an empty review, because you have the whole repo.
 
             ## Traps specific to this codebase
 
@@ -122,13 +122,15 @@ jobs:
 
             ## Output
 
-            Markdown, in this order:
+            Markdown, with these three sections in this order:
 
-            **What I checked** — 2–4 bullets naming the specific files and call sites you actually opened and what you confirmed. Be concrete; this is how the reader calibrates the rest.
+            `## Summary` — 2–5 bullets: what the PR does, and your headline verdict. Lead with the most important thing a reviewer needs to know.
 
-            **Findings** — grouped by severity, most severe first. For each: a `path/to/file.ts:42` reference to the real file in the repo, the concrete failing scenario, and a specific fix or short code sketch.
+            `## What I checked` — always present, including when you found nothing. 2–4 bullets naming the specific files and call sites you actually opened, the commands you ran, and what each one confirmed or ruled out. Be concrete: "traced all 6 callers of `X` in `Y`, all pass the new argument" is useful; "reviewed the changes" is not. This is how the reader calibrates everything above and below it.
 
-            Do not append caveats about tooling limitations, and do not close with generic suggestions to add tests. If something genuinely blocked you, say so in one line inside **What I checked**.
+            `## Findings` — grouped under category subheadings, most severe first, each finding tagged with its severity. For each: a `path/to/file.ts:42` reference to the real file in the repo, the concrete failing scenario, and a specific fix or short code sketch. If there are none, say so in one line under this heading.
+
+            Do not append caveats about tooling limitations, and do not close with generic suggestions to add tests. If something genuinely blocked you, say so in one line inside `## What I checked`.
 
   post_feedback:
     runs-on: ubuntu-latest
