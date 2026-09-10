@@ -320,6 +320,31 @@ export function getWeeklyReward({
   return rewards[streak % rewards.length];
 }
 
+/**
+ * Gems in the daily login chest are a VIP perk. Returns the reward with its Gems removed,
+ * or `undefined` when Gems were the only thing in it. Never mutates the definition — the
+ * onboarding/weekly/milestone reward objects are module-level constants shared across
+ * every claim. Mirror of the backend (`domain/game/types/dailyRewards.ts`).
+ */
+function withoutGems(
+  reward: DailyRewardDefinition,
+): DailyRewardDefinition | undefined {
+  if (!reward.items?.Gem) {
+    return reward;
+  }
+
+  const { Gem: _gems, ...items } = reward.items;
+
+  const hasOtherReward =
+    Object.keys(items).length > 0 ||
+    !!reward.coins ||
+    !!reward.sfl ||
+    !!reward.xp ||
+    !!reward.buff;
+
+  return hasOtherReward ? { ...reward, items } : undefined;
+}
+
 export function getMilestoneRewards({
   streak,
 }: {
@@ -395,8 +420,29 @@ export function getRewardsForStreak({
     }
   }
 
+  const rewards = [
+    baseReward,
+    defaultReward,
+    ...getMilestoneRewards({ streak }),
+  ];
+
+  // Gems are a VIP-only perk in the daily login chest. Stripping them here covers every
+  // reward in the chest (onboarding, the weekly cycle and streak milestones), so any Gem
+  // added to a definition later is gated automatically. Non-VIPs keep the rest of the
+  // reward. Trial VIP does not count — the trial is free and one-claim-per-farm, so
+  // honouring it here would leave the gem tap wide open for new/throwaway accounts.
+  // Mirror of the backend (`domain/game/types/dailyRewards.ts`).
+  if (!hasVipAccess({ game, now, type: "full" })) {
+    return {
+      rewards: rewards
+        .map(withoutGems)
+        .filter((reward): reward is DailyRewardDefinition => !!reward),
+      boosts,
+    };
+  }
+
   return {
-    rewards: [baseReward, defaultReward, ...getMilestoneRewards({ streak })],
+    rewards,
     boosts,
   };
 }
