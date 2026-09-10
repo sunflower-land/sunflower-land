@@ -6,7 +6,7 @@ on:
 jobs:
   codex:
     environment: develop
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     timeout-minutes: 30
     permissions:
       contents: read
@@ -133,7 +133,7 @@ jobs:
             Do not append caveats about tooling limitations, and do not close with generic suggestions to add tests. If something genuinely blocked you, say so in one line inside `## What I checked`.
 
   post_feedback:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     needs: codex
     if: needs.codex.outputs.final_message != ''
     permissions:
