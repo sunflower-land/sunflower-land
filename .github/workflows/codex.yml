@@ -1,7 +1,16 @@
 name: Perform a code review when a pull request is created
 on:
   pull_request:
-    types: [opened]
+    # TEMPORARY: synchronize is here only to re-trigger reviews while we
+    # measure this on a real PR. Remove before this is considered done.
+    types: [opened, synchronize]
+
+# One review per PR. A push supersedes the run it replaces rather than
+# stacking beside it, which also stops a slow older run posting a stale
+# verdict after a newer one.
+concurrency:
+  group: codex-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
 
 jobs:
   codex:
