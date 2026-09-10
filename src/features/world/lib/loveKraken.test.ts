@@ -4,6 +4,10 @@ import {
   LOVE_KRAKEN_FIGHT_BACK_PER_SEC,
   LOVE_KRAKEN_HEALTH,
   LOVE_KRAKEN_LOCAL_CROWD_ANGLERS,
+  LOVE_KRAKEN_BUTTON,
+  LOVE_KRAKEN_CAST_SPOTS,
+  LOVE_KRAKEN_REACH,
+  LOVE_KRAKEN_SPOT,
   LOVE_KRAKEN_REEL_KICK_MS,
   LOVE_KRAKEN_REEL_KICK_SHARE,
   LOVE_KRAKEN_RESPAWN_MS,
@@ -17,6 +21,10 @@ import {
   canClaimLoveKraken,
   createLoveKrakenLocalRound,
   getLoveKrakenBarShare,
+  getLoveKrakenCastSpot,
+  getLoveKrakenWalkRoute,
+  toLoveKrakenTile,
+  fromLoveKrakenTile,
   getLoveKrakenLocalCrowdReelsPerSec,
   getLoveKrakenReelKick,
   getLoveKrakenReelCooldownMs,
@@ -35,6 +43,9 @@ import {
   type LoveKrakenAngler,
   type LoveKrakenRound,
 } from "./loveKraken";
+import { isLoveIslandTileWalkable } from "./loveIsland";
+import { readFileSync } from "fs";
+import { join } from "path";
 
 const now = new Date("2024-08-01T12:00:00Z").getTime();
 
@@ -63,6 +74,181 @@ const angler = (over: Partial<LoveKrakenAngler> = {}): LoveKrakenAngler => ({
 /** The ring for an angler who has never pulled - the epoch-anchored leg. */
 const freshRing = (now: number, roundId = 1) =>
   getLoveKrakenRing({ roundId, angler: angler(), now });
+
+describe("loveKraken: getting to the wharf", () => {
+  // The `assets/` alias is stubbed in jest, so read the real map off disk
+  type Rect = { x: number; y: number; width: number; height: number };
+  const map = JSON.parse(
+    readFileSync(
+      join(__dirname, "../../../assets/map/love_island_map.json"),
+      "utf8",
+    ),
+  ) as { layers: { name: string; objects?: Rect[] }[] };
+  const rects =
+    map.layers.find((layer) => layer.name === "Collision")?.objects ?? [];
+
+  /** A Bumpkin's arcade body: 10x8, sitting 6px below the container. */
+  const standsClear = ({ x, y }: { x: number; y: number }) => {
+    const box = { l: x - 5, r: x + 5, t: y + 2, b: y + 10 };
+
+    return !rects.some(
+      (o) =>
+        box.l < o.x + o.width &&
+        box.r > o.x &&
+        box.t < o.y + o.height &&
+        box.b > o.y,
+    );
+  };
+
+  it("puts every cast spot somewhere a Bumpkin can legally stand", () => {
+    for (const spot of LOVE_KRAKEN_CAST_SPOTS) {
+      expect({ ...spot, clear: standsClear(spot) }).toEqual({
+        ...spot,
+        clear: true,
+      });
+      expect(isLoveIslandTileWalkable(toLoveKrakenTile(spot))).toBe(true);
+    }
+  });
+
+  it("puts every cast spot within reach of the Marvel", () => {
+    for (const spot of LOVE_KRAKEN_CAST_SPOTS) {
+      const away = Math.hypot(
+        spot.x - LOVE_KRAKEN_SPOT.x,
+        spot.y - LOVE_KRAKEN_SPOT.y,
+      );
+
+      expect({ ...spot, away: away <= LOVE_KRAKEN_REACH }).toEqual({
+        ...spot,
+        away: true,
+      });
+    }
+  });
+
+  it("spreads the spots out so a crowd is not stacked on one plank", () => {
+    for (const a of LOVE_KRAKEN_CAST_SPOTS) {
+      for (const b of LOVE_KRAKEN_CAST_SPOTS) {
+        if (a === b) continue;
+        expect(Math.hypot(a.x - b.x, a.y - b.y)).toBeGreaterThan(6);
+      }
+    }
+
+    // ...and in y, not just along the wharf
+    expect(
+      new Set(LOVE_KRAKEN_CAST_SPOTS.map((s) => s.y)).size,
+    ).toBeGreaterThan(2);
+  });
+
+  it("deals a spot across the whole list, and never off the end", () => {
+    expect(getLoveKrakenCastSpot(0)).toEqual(LOVE_KRAKEN_CAST_SPOTS[0]);
+    expect(getLoveKrakenCastSpot(0.999)).toEqual(
+      LOVE_KRAKEN_CAST_SPOTS[LOVE_KRAKEN_CAST_SPOTS.length - 1],
+    );
+    // Math.random() can never return 1, but a caller could
+    expect(getLoveKrakenCastSpot(1)).toEqual(
+      LOVE_KRAKEN_CAST_SPOTS[LOVE_KRAKEN_CAST_SPOTS.length - 1],
+    );
+    expect(getLoveKrakenCastSpot(-1)).toEqual(LOVE_KRAKEN_CAST_SPOTS[0]);
+  });
+
+  it("round-trips a container position through its tile", () => {
+    const tile = toLoveKrakenTile({ x: 344, y: 556 });
+    const back = fromLoveKrakenTile(tile);
+
+    expect(toLoveKrakenTile(back)).toEqual(tile);
+  });
+
+  it("walks from the island's path out to a spot on the wharf", () => {
+    const spot = LOVE_KRAKEN_CAST_SPOTS[0];
+    const route = getLoveKrakenWalkRoute({
+      // On the main path east of the wharf
+      from: { x: 470, y: 566 },
+      to: spot,
+    });
+
+    expect(route).toBeDefined();
+    expect(route?.[route.length - 1]).toEqual(spot);
+  });
+
+  /** The whole point of pathing rather than tweening in a straight line. */
+  it("never routes a walk through water, a railing or a rock", () => {
+    for (const from of [
+      { x: 470, y: 566 }, // the path just east of the wharf
+      { x: 620, y: 500 }, // the middle of the island
+      { x: 615, y: 660 }, // the south of the island
+      { x: 620, y: 470 }, // stood on a decorative tile, ground nearby
+    ]) {
+      const route = getLoveKrakenWalkRoute({
+        from,
+        to: LOVE_KRAKEN_CAST_SPOTS[4],
+      });
+      expect(route).toBeDefined();
+
+      for (const step of route ?? []) {
+        expect(isLoveIslandTileWalkable(toLoveKrakenTile(step))).toBe(true);
+      }
+    }
+  });
+
+  it("still walks someone already standing on the wharf to their own spot", () => {
+    const route = getLoveKrakenWalkRoute({
+      from: LOVE_KRAKEN_CAST_SPOTS[0],
+      to: LOVE_KRAKEN_CAST_SPOTS[8],
+    });
+
+    expect(route).toBeDefined();
+    expect(route?.[route.length - 1]).toEqual(LOVE_KRAKEN_CAST_SPOTS[8]);
+  });
+
+  it("steps straight across when the spot is on the tile already stood on", () => {
+    const spot = LOVE_KRAKEN_CAST_SPOTS[0];
+    const route = getLoveKrakenWalkRoute({
+      from: { x: spot.x + 2, y: spot.y + 1 },
+      to: spot,
+    });
+
+    expect(route).toEqual([spot]);
+  });
+
+  it("walks someone stood on a decorative tile, from the ground beside it", () => {
+    const from = { x: 620, y: 470 };
+    expect(isLoveIslandTileWalkable(toLoveKrakenTile(from))).toBe(false);
+
+    const route = getLoveKrakenWalkRoute({
+      from,
+      to: LOVE_KRAKEN_CAST_SPOTS[0],
+    });
+
+    expect(route).toBeDefined();
+    expect(route?.[route.length - 1]).toEqual(LOVE_KRAKEN_CAST_SPOTS[0]);
+  });
+
+  it("gives up rather than dragging someone across the island", () => {
+    expect(
+      getLoveKrakenWalkRoute({
+        from: { x: 470, y: 566 },
+        to: LOVE_KRAKEN_CAST_SPOTS[0],
+        maxTiles: 2,
+      }),
+    ).toBeUndefined();
+  });
+
+  it("gives up when there is no way there at all", () => {
+    // Out in the sky off the edge of the island
+    expect(
+      getLoveKrakenWalkRoute({
+        from: { x: 40, y: 40 },
+        to: LOVE_KRAKEN_CAST_SPOTS[0],
+      }),
+    ).toBeUndefined();
+  });
+
+  it("keeps the button clear of the wharf the anglers stand on", () => {
+    // Above every spot, so it never sits behind a Bumpkin
+    for (const spot of LOVE_KRAKEN_CAST_SPOTS) {
+      expect(LOVE_KRAKEN_BUTTON.y).toBeLessThan(spot.y);
+    }
+  });
+});
 
 describe("loveKraken: the ring", () => {
   it("sweeps a full turn every ring period, starting at the top", () => {

@@ -79,8 +79,12 @@ import {
   LOVE_KRAKEN_PRIZE,
   LOVE_KRAKEN_PRIZE_ITEMS,
   LOVE_KRAKEN_REACH,
+  LOVE_KRAKEN_BUTTON,
+  LOVE_KRAKEN_WALK_SPEED,
   getLoveKrakenBarShare,
+  getLoveKrakenCastSpot,
   getLoveKrakenReelCooldownMs,
+  getLoveKrakenWalkRoute,
   getLoveKrakenReelKick,
   getLoveKrakenRing,
   pullLoveKrakenRod,
@@ -304,8 +308,17 @@ const KRAKEN_MARKER_COLOUR = 0xffffff;
 const KRAKEN_MARKER_HIT = 0x63c74d;
 const KRAKEN_MARKER_MISS = 0xf6757a;
 const KRAKEN_MARKER_FLASH_MS = 180;
-/** The fishing disc marking the spot sits above the ring. */
-const KRAKEN_DISC_Y = KRAKEN_SPOT.y - KRAKEN_RING_RADIUS - 12;
+/**
+ * The Cast/Reel button. On a phone there is nothing to aim at - the Marvel
+ * is small, the marker is moving, and a thumb covers both - so the whole
+ * game is this one button, fixed just above the wharf and drawn over every
+ * angler standing on it.
+ */
+const KRAKEN_BUTTON_HIT_WIDTH = 60;
+const KRAKEN_BUTTON_HIT_HEIGHT = 24;
+/** A tap presses the button down a pixel, so a thumb knows it registered. */
+const KRAKEN_BUTTON_PRESS_Y = 2;
+const KRAKEN_BUTTON_PRESS_MS = 70;
 /**
  * The island's progress bar under the ring - wider than the boulder's, since
  * it is the one thing the whole bank is watching.
@@ -486,7 +499,12 @@ export class LoveIslandScene extends BaseScene {
 
   private kraken?: Phaser.GameObjects.Sprite;
   private krakenTentacles: Phaser.GameObjects.Sprite[] = [];
-  private krakenDisc?: Phaser.GameObjects.Sprite;
+  /** The Cast/Reel button above the wharf - the only way to play. */
+  private krakenButton?: Label;
+  private krakenButtonLabel?: string;
+  /** The walk to a spot on the wharf, while it is running. */
+  private krakenWalk?: Phaser.Tweens.TweenChain;
+  private krakenWalkingTo?: { x: number; y: number };
   /** The sweeping ring: a static track and the marker going round it. */
   private krakenRing?: Phaser.GameObjects.Graphics;
   /** The catch zone, redrawn whenever it jumps to a new angle. */
@@ -554,7 +572,8 @@ export class LoveIslandScene extends BaseScene {
     });
     this.load.image("kraken_head", krakenHead);
     this.load.image("kraken_tentacle", krakenTentacle);
-    this.load.image("fishing_disc", "world/fishing_disc.png");
+    // 11x11, which is exactly the icon size a `Label` draws
+    this.load.image("kraken_fish_icon", SUNNYSIDE.icons.fish);
     // Icons for whatever the Marvel can pay today - the boulder's roll
     this.load.image(
       krakenPrizeTexture(LOVE_KRAKEN_COINS_PRIZE),
@@ -2424,28 +2443,20 @@ export class LoveIslandScene extends BaseScene {
       .graphics({ x: x - KRAKEN_BAR_WIDTH / 2, y: KRAKEN_BAR_Y })
       .setDepth(Number.MAX_SAFE_INTEGER);
 
-    // The disc marking the spot, and the whole ring, cast and reel
-    this.krakenDisc = this.add
-      .sprite(x, KRAKEN_DISC_Y, "fishing_disc")
-      .setDepth(Number.MAX_SAFE_INTEGER);
-    this.krakenDisc
+    // The one button the whole game is played on. "Cast" and "Reel" are both
+    // four letters, so the patch behind them is sized once and the text just
+    // swaps - see `Label.setText`.
+    const button = new Label(this, "Cast", "brown", "kraken_fish_icon");
+    button
+      .setPosition(LOVE_KRAKEN_BUTTON.x, LOVE_KRAKEN_BUTTON.y)
+      .setDepth(Number.MAX_SAFE_INTEGER)
+      .setSize(KRAKEN_BUTTON_HIT_WIDTH, KRAKEN_BUTTON_HIT_HEIGHT)
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => this.castOrReelKraken());
+    this.add.existing(button);
 
-    // Clicking anywhere in the ring reels - a moving marker is no fun to
-    // chase with the mouse, and the ring is where everyone is looking
-    this.add
-      .rectangle(
-        x,
-        y,
-        KRAKEN_RING_RADIUS * 2 + 8,
-        KRAKEN_RING_RADIUS * 2 + 8,
-        0x000000,
-        0,
-      )
-      .setDepth(Number.MAX_SAFE_INTEGER - 3)
-      .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", () => this.castOrReelKraken());
+    this.krakenButton = button;
+    this.krakenButtonLabel = "Cast";
 
     // The prize, floating over the Marvel once it is landed. Built with the
     // stand-in's prize; the room's roll for the day replaces it on sync.
@@ -2580,32 +2591,151 @@ export class LoveIslandScene extends BaseScene {
    * doesn't move the bar. Landing one leaves a purple dot behind and throws
    * the zone somewhere else, so nobody settles into a rhythm.
    */
+  /**
+   * The button reads "Cast" until the line is in the water and "Reel" after,
+   * and hides while the Marvel is landed - there is nothing to pull on.
+   */
+  private setKrakenButton(round: LoveKrakenRound) {
+    const button = this.krakenButton;
+    if (!button) return;
+
+    button.setVisible(!round.caught);
+
+    // Still "Cast" while walking out - the line is not in the water yet
+    const text =
+      this.krakenCasting && this.currentPlayer?.isFishing ? "Reel" : "Cast";
+
+    if (this.krakenButtonLabel !== text) {
+      this.krakenButtonLabel = text;
+      button.setText(text);
+    }
+  }
+
+  /** Press the button in for a moment, so a thumb knows the tap landed. */
+  private pressKrakenButton() {
+    const button = this.krakenButton;
+    if (!button) return;
+
+    this.tweens.killTweensOf(button);
+    button.setPosition(LOVE_KRAKEN_BUTTON.x, LOVE_KRAKEN_BUTTON.y);
+    this.tweens.add({
+      targets: button,
+      y: LOVE_KRAKEN_BUTTON.y + KRAKEN_BUTTON_PRESS_Y,
+      duration: KRAKEN_BUTTON_PRESS_MS,
+      yoyo: true,
+      ease: "Quad.easeOut",
+      onComplete: () => button.setY(LOVE_KRAKEN_BUTTON.y),
+    });
+  }
+
+  /** Stop a walk to the wharf, wherever it had got to. */
+  private stopKrakenWalk() {
+    this.krakenWalk?.destroy();
+    this.krakenWalk = undefined;
+    this.krakenWalkingTo = undefined;
+    this.currentPlayer?.endScriptedWalk();
+  }
+
+  /**
+   * Walk the local player out to a spot on the wharf, then cast for them.
+   *
+   * Everyone is dealt a spot at random, even someone already standing on the
+   * wharf, so a crowd spreads along it instead of piling onto one plank. The
+   * route is a breadth-first search over the island's walkable tiles, so
+   * nobody is dragged through a railing or across the water on the way.
+   */
+  private walkToKrakenSpot() {
+    const player = this.currentPlayer;
+    if (!player || this.krakenWalk) return;
+
+    const spot = getLoveKrakenCastSpot();
+    const route = getLoveKrakenWalkRoute({
+      from: { x: player.x, y: player.y },
+      to: spot,
+    });
+
+    if (!route) {
+      player.speak(translateForBubble("base.iam.far.away"));
+      return;
+    }
+
+    this.krakenWalkingTo = spot;
+    player.startScriptedWalk();
+
+    let from = { x: player.x, y: player.y };
+    const tweens = route.map((step) => {
+      const leg = {
+        targets: player,
+        x: step.x,
+        y: step.y,
+        duration:
+          (Phaser.Math.Distance.BetweenPoints(from, step) /
+            LOVE_KRAKEN_WALK_SPEED) *
+          1000,
+        ease: "Linear",
+        onStart: () => {
+          if (step.x > player.x) {
+            player.faceRight();
+          } else if (step.x < player.x) {
+            player.faceLeft();
+          }
+        },
+      };
+
+      from = step;
+
+      return leg;
+    });
+
+    this.krakenWalk = this.tweens.chain({
+      targets: player,
+      tweens,
+      onComplete: () => {
+        this.krakenWalk = undefined;
+        this.krakenWalkingTo = undefined;
+        player.endScriptedWalk();
+
+        // Arrived - face the water and put the line in
+        player.faceLeft();
+        this.krakenCasting = true;
+        player.castRod();
+      },
+    });
+  }
+
   private castOrReelKraken() {
     const now = Date.now();
     const player = this.currentPlayer;
     if (!this.kraken || !player) return;
-
-    if (!this.checkDistanceToSprite(this.kraken, LOVE_KRAKEN_REACH)) {
-      player.speak(translateForBubble("base.iam.far.away"));
-      return;
-    }
 
     const round = this.getKrakenRound(now);
 
     // Nothing to reel in while the prize is floating there
     if (round.caught) return;
 
+    // Every tap presses the button, landed or not, in reach or not
+    this.pressKrakenButton();
+
+    // Already on the way out to a spot
+    if (this.krakenWalk) return;
+
+    // The first cast always walks you to a spot on the wharf, wherever you
+    // were standing - that is what spreads a crowd along it
+    if (!this.krakenCasting || !player.isFishing) {
+      this.walkToKrakenSpot();
+      return;
+    }
+
+    if (!this.checkDistanceToSprite(this.kraken, LOVE_KRAKEN_REACH)) {
+      player.speak(translateForBubble("base.iam.far.away"));
+      return;
+    }
+
     // Face the water
     if (player.x < KRAKEN_SPOT.x) {
       player.faceRight();
     } else {
       player.faceLeft();
-    }
-
-    if (!this.krakenCasting || !player.isFishing) {
-      this.krakenCasting = true;
-      player.castRod();
-      return;
     }
 
     player.reelRod();
@@ -2746,6 +2876,21 @@ export class LoveIslandScene extends BaseScene {
       this.landKraken(this.sawKrakenFighting);
     }
 
+    // The player took the controls back mid-walk - hand them over
+    if (this.krakenWalk && this.movementAngle !== undefined) {
+      this.stopKrakenWalk();
+    }
+
+    // Walking off puts the rod away (see `BumpkinContainer.walk`), so the
+    // button has to fall back to "Cast" with it
+    if (
+      this.krakenCasting &&
+      this.currentPlayer &&
+      !this.currentPlayer.isFishing
+    ) {
+      this.krakenCasting = false;
+    }
+
     this.setKrakenRing(round, now);
     this.setKrakenProgress(round, now);
     this.updateKrakenAnglers(round);
@@ -2772,8 +2917,8 @@ export class LoveIslandScene extends BaseScene {
       if (rewardOpen) this.bobKrakenReward();
     }
 
-    // The prize takes the disc's place above the ring while it is on show
-    this.krakenDisc?.setVisible(!round.caught);
+    // Nothing to cast at while the Marvel is landed
+    this.setKrakenButton(round);
   }
 
   /**
@@ -2973,7 +3118,9 @@ export class LoveIslandScene extends BaseScene {
       parts.forEach((part) => part.setVisible(false));
     }
 
-    // Everyone's line comes out of the water with it
+    // Everyone's line comes out of the water with it, and anyone still
+    // walking out to a spot stops where they are
+    this.stopKrakenWalk();
     this.krakenCasting = false;
     this.currentPlayer?.stopFishing();
   }
