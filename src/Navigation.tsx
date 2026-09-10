@@ -53,6 +53,13 @@ const GiveawayApp = lazy(() =>
   })),
 );
 
+// Only reached from the Kingdom noticeboard, so keep it out of the startup bundle
+const HallOfFame = lazy(() =>
+  import("features/hallOfFame/HallOfFame").then((m) => ({
+    default: m.HallOfFame,
+  })),
+);
+
 const selectState = (state: AuthMachineState) => ({
   isAuthorised: state.matches("connected"),
   isVisiting: state.matches("visiting"),
@@ -160,6 +167,14 @@ export const Navigation: React.FC = () => {
                                     element={
                                       <div className="absolute inset-0 z-50">
                                         <ChapterDashboard />
+                                      </div>
+                                    }
+                                  />
+                                  <Route
+                                    path="hall-of-fame"
+                                    element={
+                                      <div className="absolute inset-0 z-50">
+                                        <HallOfFame />
                                       </div>
                                     }
                                   />

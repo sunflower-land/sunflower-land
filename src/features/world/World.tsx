@@ -163,7 +163,8 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
     if (
       mmoState.context.sceneId &&
       !location.pathname.includes("marketplace") &&
-      !location.pathname.includes("chapter")
+      !location.pathname.includes("chapter") &&
+      !location.pathname.includes("hall-of-fame")
     ) {
       navigate(`/world/${mmoState.context.sceneId}`);
     }
