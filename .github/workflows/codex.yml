@@ -1,13 +1,13 @@
 name: Perform a code review when a pull request is created
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened]
 
 jobs:
   codex:
     environment: develop
     runs-on: ubuntu-24.04-arm
-    timeout-minutes: 30
+    timeout-minutes: 15
     permissions:
       contents: read
     env:
