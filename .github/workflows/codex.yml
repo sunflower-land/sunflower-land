@@ -7,6 +7,8 @@ jobs:
   codex:
     environment: develop
     runs-on: ubuntu-24.04-arm
+    # Backstop against a stuck job, not a calibrated value: the default is 6h.
+    timeout-minutes: 30
     permissions:
       contents: read
     outputs:
@@ -41,9 +43,10 @@ jobs:
 
       - name: Run Codex
         id: run_codex
-        uses: openai/codex-action@v1.4
+        uses: openai/codex-action@v1.12
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          effort: high
           prompt: |
             You are an experienced senior engineer reviewing a React, PhaserJS, and TypeScript codebase that uses **React Compiler** in production.
 
