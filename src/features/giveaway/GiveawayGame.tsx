@@ -58,6 +58,7 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
     phase,
     countdownMs,
     raceRemainingMs,
+    canFinalise,
     displayScore,
     playerScore,
     isLoading,
@@ -455,8 +456,11 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
                     ))}
                 </>
               ) : (
-                // Not finalised yet — the leaderboard only appears once the host
-                // ends the event. Until then, wait (or, for the host, finish).
+                // Not finalised yet — the leaderboard only appears once someone
+                // ends the event. Anyone can do that as soon as the mini-game's
+                // clock has run out, so a table full of players is never stuck
+                // waiting on the host; before then it stays admin-only (they can
+                // kill an event that has gone wrong mid-game).
                 <>
                   {playerScore !== undefined && (
                     <>
@@ -469,7 +473,7 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
                       <p className="text-xs">{t("giveaway.finishedWaiting")}</p>
                     </>
                   )}
-                  {isAdmin ? (
+                  {isAdmin || canFinalise ? (
                     isEnding ? (
                       <Loading text={t("giveaway.finishing")} />
                     ) : (
