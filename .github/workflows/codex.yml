@@ -1,9 +1,7 @@
 name: Perform a code review when a pull request is created
 on:
   pull_request:
-    # TEMPORARY: synchronize is here only to re-trigger reviews while we
-    # measure this on a real PR. Remove before this is considered done.
-    types: [opened, synchronize]
+    types: [opened]
 
 # One review per PR. A push supersedes the run it replaces rather than
 # stacking beside it, which also stops a slow older run posting a stale
