@@ -8580,5 +8580,7 @@
   "loveKraken.didNotHelp": "Gulung binatang itu untuk mendapatkan hadiah!",
   "loveKraken.alreadyClaimed": "Sudah diklaim hari ini. Kembalilah besok!",
   "loveKraken.prizeItem": "Anda memenangkan {{item}}!",
-  "loveKraken.prizeCoins": "Anda memenangkan koin {{amount}}!"
+  "loveKraken.prizeCoins": "Anda memenangkan koin {{amount}}!",
+  "description.totem.buff.crafting.speed": "Kecepatan Kotak Kerajinan 2x",
+  "description.foxShrine.buff.speed": "Kecepatan Kotak Kerajinan 1,35x"
 }

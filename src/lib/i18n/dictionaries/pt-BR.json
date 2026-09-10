@@ -8580,5 +8580,7 @@
   "loveKraken.didNotHelp": "Envolva a fera para ganhar o prêmio!",
   "loveKraken.alreadyClaimed": "Já reivindicou hoje. Volte amanhã!",
   "loveKraken.prizeItem": "Você ganhou um {{item}}!",
-  "loveKraken.prizeCoins": "Você ganhou {{amount}} moedas!"
+  "loveKraken.prizeCoins": "Você ganhou {{amount}} moedas!",
+  "description.totem.buff.crafting.speed": "2x a velocidade da caixa de fabricação",
+  "description.foxShrine.buff.speed": "1,35x a velocidade da caixa de fabricação"
 }

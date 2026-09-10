@@ -8580,5 +8580,7 @@
   "loveKraken.didNotHelp": "Enroulez la bête pour gagner le prix !",
   "loveKraken.alreadyClaimed": "Déjà réclamé aujourd'hui. Revenez demain !",
   "loveKraken.prizeItem": "Vous avez gagné un {{item}} !",
-  "loveKraken.prizeCoins": "Vous avez gagné {{amount}} pièces !"
+  "loveKraken.prizeCoins": "Vous avez gagné {{amount}} pièces !",
+  "description.totem.buff.crafting.speed": "2 fois la vitesse de la boîte d'artisanat",
+  "description.foxShrine.buff.speed": "1,35 fois la vitesse de la boîte à bricolage"
 }

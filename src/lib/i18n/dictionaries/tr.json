@@ -8580,5 +8580,7 @@
   "loveKraken.didNotHelp": "Ödülü kazanmak için canavarı toplayın!",
   "loveKraken.alreadyClaimed": "Bugün zaten talep etti. Yarın geri gel!",
   "loveKraken.prizeItem": "{{item}} kazandın!",
-  "loveKraken.prizeCoins": "{{amount}} jeton kazandın!"
+  "loveKraken.prizeCoins": "{{amount}} jeton kazandın!",
+  "description.totem.buff.crafting.speed": "2x İşleme Kutusu Hızı",
+  "description.foxShrine.buff.speed": "1.35x Üretim Kutusu Hızı"
 }

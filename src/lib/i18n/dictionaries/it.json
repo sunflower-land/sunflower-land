@@ -8580,5 +8580,7 @@
   "loveKraken.didNotHelp": "Attira la bestia per vincere il premio!",
   "loveKraken.alreadyClaimed": "Già richiesto oggi. Torna domani!",
   "loveKraken.prizeItem": "Hai vinto un {{item}}!",
-  "loveKraken.prizeCoins": "Hai vinto {{amount}} monete!"
+  "loveKraken.prizeCoins": "Hai vinto {{amount}} monete!",
+  "description.totem.buff.crafting.speed": "2x Crafting Box Speed",
+  "description.foxShrine.buff.speed": "Velocità Crafting Box 1,35x"
 }

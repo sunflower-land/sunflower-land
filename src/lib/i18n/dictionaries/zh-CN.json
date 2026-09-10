@@ -8580,5 +8580,7 @@
   "loveKraken.didNotHelp": "将野兽卷进来赢取奖品！",
   "loveKraken.alreadyClaimed": "今天已经申请了。明天回来！",
   "loveKraken.prizeItem": "你赢了 {{item}}！",
-  "loveKraken.prizeCoins": "你赢了 {{amount}} 个硬币！"
+  "loveKraken.prizeCoins": "你赢了 {{amount}} 个硬币！",
+  "description.totem.buff.crafting.speed": "2 倍制作箱速度",
+  "description.foxShrine.buff.speed": "1.35 倍制作箱速度"
 }

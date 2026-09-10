@@ -8580,5 +8580,7 @@
   "loveKraken.didNotHelp": "Holt das Biest ein, um euch den Preis zu sichern!",
   "loveKraken.alreadyClaimed": "Heute schon beansprucht. Komm morgen wieder!",
   "loveKraken.prizeItem": "Du hast {{item}} gewonnen!",
-  "loveKraken.prizeCoins": "Du hast {{amount}} Münzen gewonnen!"
+  "loveKraken.prizeCoins": "Du hast {{amount}} Münzen gewonnen!",
+  "description.totem.buff.crafting.speed": "2x Geschwindigkeit bei der Herstellung von Kartons",
+  "description.foxShrine.buff.speed": "1,35-fache Geschwindigkeit bei der Herstellung von Kartons"
 }
