@@ -68,10 +68,19 @@ export function removeCropMachinePack({
       // fuel has reached starts at (or before) `createdAt`; only packs still
       // queued behind others or unfunded are removable. A finalised pack (no
       // marker) has certainly started.
+      //
+      // The derived start is not sufficient on its own: `resolveCropMachine`
+      // gives a pack it cannot fund no `startsAt` at all, so a pack that grew
+      // for a while and then STALLED with a dry tank would read as
+      // never-started and be removable for a full seed refund. Its stamped
+      // `startTime` survives settlement precisely because a past start is
+      // history (see `refreshCropMachineCaches`), so check it too — that is
+      // also the exact condition the legacy branch below uses.
       const timing = resolveCropMachine({ machine: cropMachine, windows })
         .packs[action.packIndex];
       if (
         pack.baseDurationMs === undefined ||
+        (pack.startTime !== undefined && pack.startTime <= createdAt) ||
         (timing.startsAt !== undefined && timing.startsAt <= createdAt)
       ) {
         throw new Error("Pack has already started");

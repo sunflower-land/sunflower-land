@@ -945,6 +945,40 @@ describe("removeCropMachinePack (windowed SPEED_BOOSTS)", () => {
     ).toThrow("Pack has already started");
   });
 
+  it("throws when removing a pack that stalled part-grown", () => {
+    // The pack was anchored 2h ago with 1h of fuel: it grew 1h of its 4h and
+    // has been stalled dry since. `resolveCropMachine` gives a pack it cannot
+    // fund no `startsAt`, so the derived check alone reads it as never-started
+    // — but it has burned oil and banked progress, and legacy has always
+    // treated a started pack as a binding commitment.
+    const state = stateWithMachine({
+      oilSettledAt: now - 2 * HOUR,
+      unallocatedOilTime: HOUR,
+      queue: [
+        {
+          crop: "Sunflower" as const,
+          seeds: 10,
+          growTimeRemaining: 0,
+          totalGrowTime: 4 * HOUR,
+          baseDurationMs: 4 * HOUR,
+          startTime: now - 2 * HOUR,
+        },
+      ],
+    });
+
+    expect(() =>
+      removeCropMachinePack({
+        state,
+        action: {
+          type: "cropMachine.packRemoved",
+          packIndex: 0,
+          machineId: "1",
+        },
+        createdAt: now,
+      }),
+    ).toThrow("Pack has already started");
+  });
+
   it("throws when removing a finalised (completed) pack", () => {
     const state = stateWithMachine({
       oilSettledAt: now,
