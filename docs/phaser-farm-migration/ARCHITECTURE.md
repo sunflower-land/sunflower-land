@@ -292,11 +292,15 @@ src/features/farmEngine/
                             PetRenderer (NFT + commons), BudRenderer,
                             AirdropRenderer, ClutterRenderer (visiting)
     npc/NPCSprite.ts        animation-service composited idle bumpkins
+    animals/                AnimalHouseRenderer + AnimalHouseControls (the
+                            in-room feeder/FeedAll/shop/upgrade controls)
   landscaping/              LandscapingController — drives the UNCHANGED
-                            landscapingMachine (chrome, ghost, select/move)
+                            landscapingMachine (chrome, ghost, select/move) —
+                            + SelectionControls (flip/pixel-perfect/remove
+                            discs and nudge arrows, in-scene)
   overlay/                  FarmOverlay + CropsUI/ResourcesUI (popovers,
                             chest rewards), FarmModals (+Building/Character
-                            modal hosts), LandscapingUI (flip/remove discs)
+                            modal hosts), LandscapingUI (overlap menu only)
   dev/                      DevPanel (matrix switcher), DebugGrid, parity.ts
 docs/phaser-farm-migration/scripts/
   extract-collectibles.js → extract-inline.js → crosscheck.js →
@@ -320,9 +324,32 @@ Key rulings that shaped the build (each earned during a phase):
 - Character sprites never take sprite-level clicks (96px frames swallow
   neighbours); tile-sized zones only.
 - `game.input.pointers.forEach(reset)` on modal open/close — a swallowed
-  pointerup otherwise leaves the camera panning forever.
+  pointerup otherwise leaves the camera panning forever. A matched CHILD ROUTE
+  (marketplace, dashboards) gates input the same way; both gates feed one
+  enable so neither re-enables while the other still wants it off.
 - Perf checkpoint: ~120fps across the island×season×expansion matrix incl.
   42-expansion volcano (M-series, DPR 2).
+- Subscribers are isolated. xstate v4's `Interpreter.update()` iterates its
+  listeners in a loop that RETHROWS, so an unguarded renderer throwing inside
+  `sync()` aborts every listener behind it and propagates out of
+  `gameService.send()` — the farm keeps painting and panning (rendering
+  doesn't read subscriptions) while nothing reacts to state again.
+  `subscribeSelector` and `onGameEvent` both catch, and a failed slice is not
+  committed so a renderer that recovers re-syncs.
+- `nativeScale()` is for WORLD art (asset is the source of truth, the DOM's
+  width only re-centres it). UI icons — label chips, +N floats, disc rows —
+  must use `fitWidth()`: their layout budgets a width and the icon has to
+  occupy it.
+- Phaser `Shape`s (the progress-bar fills) render from `geom`/`pathData`.
+  Assign via `setSize()`; setting `.width` changes the reported size and
+  nothing on screen.
+- Tiled ground goes into ONE RenderTexture (ocean, dirt). The camera zoom is
+  fractional, so per-sprite `roundPixels` rounds neighbours independently and
+  leaves hairline seams.
+- Spritesheet frames touch with no padding; `core/assets.ts` pulls each
+  frame's UVs a quarter-texel off any edge it SHARES with a neighbour, or the
+  edge fragment samples the next frame (the thin line along the top of an
+  animated sprite).
 
 ## Interiors plan (Phase 12+, sketch)
 

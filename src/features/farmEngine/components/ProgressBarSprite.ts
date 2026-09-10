@@ -97,7 +97,12 @@ export class ProgressBarSprite {
   /** Update fill + time label (DOM parity: fill floored to whole source px). */
   set(percentage: number, seconds: number) {
     const clamped = Math.max(0, Math.min(percentage, 100));
-    this.fill.width = Math.floor((BAR.innerWidth * clamped) / 100);
+    const fillWidth = Math.floor((BAR.innerWidth * clamped) / 100);
+    // setSize, NOT `.width`: a Shape renders from its `geom`/pathData, which
+    // only setSize regenerates. Assigning `.width` changed the reported size
+    // and nothing on screen, so every bar painted permanently full.
+    this.fill.setSize(fillWidth, BAR.innerHeight);
+    this.fill.setVisible(fillWidth > 0);
     this.label.setText(
       seconds > 0
         ? secondsToString(seconds, {

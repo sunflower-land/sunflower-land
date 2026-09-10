@@ -10,6 +10,7 @@ import { InteriorBackdropLayer } from "../layers/InteriorBackdropLayer";
 import { GreenhousePotRenderer } from "./greenhouse/GreenhousePotRenderer";
 import { GreenhouseOilRenderer } from "./greenhouse/GreenhouseOilRenderer";
 import { AnimalHouseRenderer } from "./animals/AnimalHouseRenderer";
+import { AnimalHouseControls } from "./animals/AnimalHouseControls";
 import { WaterDecorLayer } from "../layers/WaterDecorLayer";
 import { BoatsLayer } from "../layers/BoatsLayer";
 import { UpcomingExpansionRenderer } from "./UpcomingExpansionRenderer";
@@ -90,6 +91,7 @@ export const GREENHOUSE_RENDERERS: Record<string, RendererFactory> = {
 export const ANIMAL_HOUSE_RENDERERS: Record<string, RendererFactory> = {
   interiorBackdrop: (scene, bridge) => new InteriorBackdropLayer(scene, bridge),
   animals: (scene, bridge) => new AnimalHouseRenderer(scene, bridge),
+  animalControls: (scene, bridge) => new AnimalHouseControls(scene, bridge),
 };
 
 /** [interior/Interior.tsx + LevelOne.tsx] the interior floors. */

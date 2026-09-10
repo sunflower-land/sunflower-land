@@ -8,6 +8,8 @@ import type {
 } from "features/game/types/game";
 import { getSaltNodeCoordinates } from "features/game/types/salt";
 import { getWaterTrapCoordinates } from "features/game/types/crustaceans";
+import { getWharfCoordinates } from "features/game/expansion/lib/constants";
+import { npcOffset } from "../entities/resources/FishermanRenderer";
 import { getKeys } from "lib/object";
 import type { GameBridge } from "../bridge/GameBridge";
 import type { Unsubscribe } from "../bridge/subscriptions";
@@ -33,9 +35,14 @@ type TrackedEvent = { type: string } & Record<string, unknown>;
 const STACK_PX = 12;
 const MAX_ITEMS = 4;
 
+/** A float whose claim happened under a modal, waiting for it to close. */
+type DeferredFloat = Parameters<typeof playYieldFloat>[1];
+
 export class YieldEventFloats {
   private prevInventory: Inventory;
   private readonly unsubscribe: Unsubscribe;
+  private readonly unsubscribeModal: Unsubscribe;
+  private deferred: DeferredFloat[] = [];
 
   constructor(
     private readonly scene: Phaser.Scene & { location?: string },
@@ -45,6 +52,25 @@ export class YieldEventFloats {
     this.unsubscribe = bridge.onGameEvent((event) =>
       this.onEvent(event as TrackedEvent),
     );
+    // Most of these claims are made from inside a modal (the cooking panel's
+    // Collect button, the composter, the crafting box). Playing the float
+    // immediately animated it underneath that modal, where it expired
+    // unseen — so the claim looked like it produced no feedback at all.
+    this.unsubscribeModal = bridge.modalOpen.subscribe((open) => {
+      if (open) return;
+      const pending = this.deferred;
+      this.deferred = [];
+      pending.forEach((options) => playYieldFloat(this.scene, options));
+    });
+  }
+
+  /** Play now, or hold until the modal covering the scene closes. */
+  private play(options: DeferredFloat) {
+    if (this.bridge.modalOpen.get()) {
+      this.deferred.push(options);
+      return;
+    }
+    playYieldFloat(this.scene, options);
   }
 
   private inventory(): Inventory {
@@ -90,6 +116,12 @@ export class YieldEventFloats {
         return bed?.x !== undefined && bed.y !== undefined
           ? gridToWorld({ x: bed.x, y: bed.y })
           : undefined;
+      }
+      case "rod.reeled": {
+        // Above the fisherman himself, not the wharf's grid origin.
+        const wharf = gridToWorld(getWharfCoordinates(basicLand));
+        const offset = npcOffset(game.island.type);
+        return { x: wharf.x + offset.x, y: wharf.y + offset.y - 8 };
       }
       case "greenhouse.harvested": {
         // Pots live in the greenhouse surface's room-centred space; this
@@ -158,7 +190,7 @@ export class YieldEventFloats {
       .slice(0, MAX_ITEMS);
 
     gains.forEach(({ name, delta }, index) => {
-      playYieldFloat(this.scene, {
+      this.play({
         x: at.x + WORLD_TILE * 0.4,
         y: at.y - 2 - index * STACK_PX,
         amount: delta.toNumber(),
@@ -176,5 +208,7 @@ export class YieldEventFloats {
 
   destroy() {
     this.unsubscribe();
+    this.unsubscribeModal();
+    this.deferred = [];
   }
 }

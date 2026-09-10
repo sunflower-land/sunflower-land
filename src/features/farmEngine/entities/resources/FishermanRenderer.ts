@@ -115,7 +115,7 @@ const bubbleAnchor = (
 };
 
 /** FishermanNPC.tsx fishermanPosition(): hitbox offset in the box. */
-const npcOffset = (island: IslandType): { x: number; y: number } => {
+export const npcOffset = (island: IslandType): { x: number; y: number } => {
   if (hasRequiredIslandExpansion(island, "volcano")) return { x: 53, y: 44 };
   if (island === "desert") return { x: 34, y: 30 };
   if (island === "spring") return { x: 20, y: 29 };
@@ -367,6 +367,11 @@ export class FishermanRenderer extends EntityRenderer<Slice> {
         .setOrigin(0, 0)
         .setDepth(this.npc.depth + 1);
       reel.setScale(39 / reel.width);
+      // The label is the obvious thing to click — it said "Reel in" and did
+      // nothing, forcing players onto the NPC's own hitbox.
+      makeClickable(this.scene, reel, () => this.onClick(), {
+        glow: () => this.npc,
+      });
       this.reelLabel = reel;
       this.objects.push(reel);
     }

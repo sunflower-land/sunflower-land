@@ -123,6 +123,9 @@ export type LandscapingControls = {
   canNudge: { up: boolean; down: boolean; left: boolean; right: boolean };
 };
 
+/** The animal house's React panels, opened from the in-room Phaser controls. */
+export type AnimalHouseModal = "shop" | "upgrade" | "feeder" | null;
+
 export type AnimalDealState = {
   deal: AnimalBounty;
   selectedId?: string;
@@ -255,6 +258,19 @@ export interface GameBridge {
   quickSelect: ValueStore<QuickSelectRequest>;
   sftPopover: ValueStore<SftPopoverRequest>;
   overlapMenu: ValueStore<OverlapMenuRequest>;
+  /**
+   * Whether any farm modal currently covers the scene. Scene-side feedback
+   * (the "+N" yield floats) waits on this: a claim made from inside a modal
+   * would otherwise animate and expire behind it, so the player never sees
+   * what they collected.
+   */
+  modalOpen: ValueStore<boolean>;
+  /**
+   * Which animal-house modal the in-room Phaser controls have asked for
+   * [AnimalHouseControls -> AnimalHouseUI]. The controls draw and detect;
+   * React still owns the panels.
+   */
+  animalHouseModal: ValueStore<AnimalHouseModal>;
   /**
    * Listen to every event sent to the game machine (xstate onEvent) — for
    * transient reactions like the home building's collect heart.
@@ -400,6 +416,8 @@ export function createGameBridge({
 
     hover: createValueStore<HoveredEntity>(null),
     quickSelect: createValueStore<QuickSelectRequest>(null),
+    modalOpen: createValueStore<boolean>(false),
+    animalHouseModal: createValueStore<AnimalHouseModal>(null),
     animalDeal: createValueStore<AnimalDealState>(null),
     landscapingMoving: createValueStore<{
       id: string;
@@ -410,9 +428,20 @@ export function createGameBridge({
     sftPopover: createValueStore<SftPopoverRequest>(null),
     overlapMenu: createValueStore<OverlapMenuRequest>(null),
     onGameEvent: (listener) => {
-      gameService.onEvent(listener);
+      // Same rethrow hazard as subscribeSelector: xstate runs eventListeners
+      // in a loop that propagates, so an unguarded listener here would take
+      // down every listener behind it and the send() that triggered it.
+      const guarded = (event: { type: string }) => {
+        try {
+          listener(event);
+        } catch (error) {
+          // eslint-disable-next-line no-console
+          console.error("[farmEngine] game event listener threw", error);
+        }
+      };
+      gameService.onEvent(guarded);
       return () => {
-        gameService.off(listener);
+        gameService.off(guarded);
       };
     },
     chestReward: createValueStore<PendingChestReward>(null),

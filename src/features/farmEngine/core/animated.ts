@@ -95,12 +95,23 @@ export function resolveArtObject(
   const sprite = object as Phaser.GameObjects.Sprite;
   const animKey = `${animated.sheet}-loop`;
   if (!scene.anims.exists(animKey)) {
+    // Art whose frames hold for different lengths carries its real per-frame
+    // delays; Phaser uses a frame's `duration` as that frame's absolute tick
+    // (falling back to msPerFrame when it's 0), so this plays the GIF/WebP at
+    // its authored timing instead of flattening it to one median rate.
+    const frames = animated.delays?.length
+      ? animated.delays.map((duration, index) => ({
+          key: animated.sheet,
+          frame: index,
+          duration,
+        }))
+      : scene.anims.generateFrameNumbers(animated.sheet, {
+          start: 0,
+          end: animated.frames - 1,
+        });
     scene.anims.create({
       key: animKey,
-      frames: scene.anims.generateFrameNumbers(animated.sheet, {
-        start: 0,
-        end: animated.frames - 1,
-      }),
+      frames,
       frameRate: animated.fps,
       repeat: -1,
     });

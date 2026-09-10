@@ -1,9 +1,13 @@
 import Phaser from "phaser";
+import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { ITEM_DETAILS } from "features/game/types/images";
 import type { GameState } from "features/game/types/game";
 import { playMushroomSound } from "../../core/sounds";
 import { DEPTHS } from "../../core/depths";
-import { queueSpritesheet } from "../../core/assets";
+import { queueImage, queueSpritesheet } from "../../core/assets";
+import { gridToWorld, WORLD_TILE } from "../../core/coordinates";
+import { playYieldFloat } from "../../components/YieldFloat";
 import {
   ResourceNodeRenderer,
   type NodeObjects,
@@ -58,6 +62,9 @@ export class MushroomRenderer extends ResourceNodeRenderer<MushroomNode> {
         frameWidth: spec.frameWidth,
         frameHeight: spec.frameHeight,
       });
+      // The pick float shows the item icon; have it ready on click.
+      const icon = ITEM_DETAILS[node.name]?.image;
+      if (icon) queueImage(this.scene, icon);
     }
   }
 
@@ -106,9 +113,35 @@ export class MushroomRenderer extends ResourceNodeRenderer<MushroomNode> {
   /** The DOM pick path [Mushroom.tsx]. */
   private pick(id: string) {
     const game = this.game();
-    if (!game.mushrooms?.mushrooms[id]) return;
+    const node = game.mushrooms?.mushrooms[id];
+    if (!node) return;
     playMushroomSound();
-    this.bridge.dispatch("mushroom.picked", { id });
+
+    // Read the position and the inventory BEFORE dispatching: the node is
+    // gone from state once the machine applies the pick, so the generic
+    // YieldEventFloats path can't anchor it.
+    const world = gridToWorld({ x: node.x, y: node.y });
+    const before = game.inventory[node.name] ?? new Decimal(0);
+
+    const newState = this.bridge.dispatch("mushroom.picked", { id });
+
+    if (!this.bridge.ui.get().showAnimations) return;
+    const gained = (
+      newState.context.state.inventory[node.name] ?? new Decimal(0)
+    ).minus(before);
+    if (gained.lessThanOrEqualTo(0)) return;
+
+    playYieldFloat(this.scene, {
+      x: world.x + WORLD_TILE * 0.4,
+      y: world.y - 2,
+      amount: gained.toNumber(),
+      icon: ITEM_DETAILS[node.name]?.image,
+      iconWidth: 8,
+      // The float band every other yield uses — clears the mushroom's own
+      // always-on-top band AND the cloud/vignette layers above it.
+      depth: world.y + 100_000,
+      durationMs: 2000,
+    });
   }
 
   protected onNodeRemoved(id: string) {

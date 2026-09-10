@@ -66,6 +66,20 @@ export function makeClickable(
   // must stay a pan (mobile users drag from wherever their finger lands).
   // The travel guard shares the camera's pan dead zone, so any release that
   // the camera would treat as a drag is never a click.
+  //
+  // `pointer.downX/downY` (what getDistance measures from) belong to whatever
+  // press Phaser last saw — not necessarily the one being released here, since
+  // a pointerup can be delivered to an object that never received the matching
+  // pointerdown (a press that began on a modal above the canvas, or one
+  // swallowed by the input gate while a modal was open). Measuring against a
+  // stale press reads as a huge travel distance and silently eats the click.
+  // Stamping the press identity (downTime changes on every real press) ties
+  // the guard to THIS press and makes staleness impossible.
+  let pressStamp: number | undefined;
+  obj.on("pointerdown", (pointer: Phaser.Input.Pointer) => {
+    pressStamp = pointer.downTime;
+  });
+
   obj.on("pointerup", (pointer: Phaser.Input.Pointer) => {
     // Normal world interactions are inert in landscaping mode [Land.tsx
     // swaps to READONLY components]; selection is the controller's job.
@@ -73,8 +87,13 @@ export function makeClickable(
       landscapingActive?: boolean;
       visitingActive?: boolean;
     };
+    const samePress =
+      pressStamp !== undefined && pressStamp === pointer.downTime;
+    pressStamp = undefined;
     if (flags.landscapingActive) return;
     if (flags.visitingActive && !visitClickable) return;
+    // The press has to have started on us, and stayed put.
+    if (!samePress) return;
     if (pointer.getDistance() > PAN_DEAD_ZONE_CSS_PX * DPR) return;
     hideGlow();
     if (onHoverChange) {

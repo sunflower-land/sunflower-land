@@ -84,6 +84,76 @@ describe("subscribeSelector", () => {
     expect(onChange).toHaveBeenCalledTimes(1);
   });
 
+  describe("subscriber isolation", () => {
+    // xstate v4's Interpreter.update() iterates its listeners in a loop that
+    // rethrows, so one renderer throwing inside sync() used to abort every
+    // listener behind it and propagate out of gameService.send(). The farm
+    // kept painting and panning (rendering doesn't read subscriptions) while
+    // nothing responded to state again — the "crashed behind the scenes"
+    // freeze. A subscriber must not be able to do that to its neighbours.
+    let consoleError: jest.SpyInstance;
+
+    beforeEach(() => {
+      consoleError = jest.spyOn(console, "error").mockImplementation(() => {
+        // silence the intentional logging under test
+      });
+    });
+    afterEach(() => consoleError.mockRestore());
+
+    it("keeps later subscribers running when an earlier one throws", () => {
+      const { service, transition } = createFakeService({ crops: "a" });
+      const boom = jest.fn(() => {
+        throw new Error("renderer blew up");
+      });
+      const after = jest.fn();
+
+      subscribeSelector(service, (state: any) => state.crops, boom);
+      subscribeSelector(service, (state: any) => state.crops, after);
+
+      transition({ crops: "b" });
+
+      expect(boom).toHaveBeenCalledTimes(1);
+      expect(after).toHaveBeenCalledWith("b");
+    });
+
+    it("does not propagate the throw back to the dispatcher", () => {
+      const { service, transition } = createFakeService({ crops: "a" });
+
+      subscribeSelector(
+        service,
+        (state: any) => state.crops,
+        () => {
+          throw new Error("renderer blew up");
+        },
+      );
+
+      expect(() => transition({ crops: "b" })).not.toThrow();
+    });
+
+    it("re-syncs a subscriber that recovers instead of leaving it stale", () => {
+      const { service, transition } = createFakeService({ crops: "a" });
+      let fail = true;
+      const onChange = jest.fn(() => {
+        if (fail) throw new Error("not ready yet");
+      });
+
+      subscribeSelector(service, (state: any) => state.crops, onChange);
+
+      transition({ crops: "b" });
+      expect(onChange).toHaveBeenCalledTimes(1);
+
+      // The failed slice was never committed, so the next change still looks
+      // like a change and the renderer gets another go.
+      fail = false;
+      transition({ crops: "c" });
+      expect(onChange).toHaveBeenNthCalledWith(2, "c");
+
+      // ...and once it succeeds, the slice commits and stops re-firing.
+      transition({ crops: "c" });
+      expect(onChange).toHaveBeenCalledTimes(2);
+    });
+  });
+
   it("stops firing after unsubscribe", () => {
     const { service, transition } = createFakeService({ crops: "a" });
     const onChange = jest.fn();

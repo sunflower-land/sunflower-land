@@ -11,7 +11,11 @@ import {
 import { queueImage } from "../../core/assets";
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import { HOME_EXTRA_OFFSETS } from "../buildings/BuildingRenderer";
-import { gridRectToWorld, gridToWorld } from "../../core/coordinates";
+import {
+  gridRectToWorld,
+  gridToWorld,
+  WORLD_TILE,
+} from "../../core/coordinates";
 import { DEPTHS } from "../../core/depths";
 import { makeClickable } from "../../core/clickable";
 import { EntityRenderer } from "../EntityRenderer";
@@ -60,6 +64,19 @@ const BACKYARD_CAPACITY: Record<IslandType, number> = {
   galaxy: 4,
   marble: 4,
 };
+
+/**
+ * How far a composed bumpkin's visible figure spills out of its 1x1 grid box,
+ * in world px. The 64px-tall service frame is centred at y+16, so the body
+ * runs ~16px above the box and the legs/feet ~16px below it.
+ *
+ * Exported because landscaping hit-tests these NPCs itself
+ * [LandscapingController.hitTest] — normal click zones are inert in edit mode
+ * — and the two must describe the same figure. They didn't: landscaping
+ * granted only the headroom, so a bumpkin could be grabbed by the head and
+ * the air above it but not by the body it appears to stand on.
+ */
+export const NPC_FIGURE = { above: 16, below: 16 } as const;
 
 type Entry = {
   sprite: NPCSprite;
@@ -224,12 +241,14 @@ export class PlayerRenderer extends EntityRenderer<Slice> {
         depth: DEPTHS.ENTITY_BASE + world.y,
       });
       void sprite.create();
-      // [NPCPlaceable] 16-wide box. The composed sprite's visible body runs
-      // from ~16px above the box down to ~16px below it (the 64px service
-      // frame is centred at y+16), so the zone spans the full figure — a
-      // 32-tall zone left the legs/feet dead to clicks.
+      // [NPCPlaceable] 16-wide box, full-figure height (see NPC_FIGURE).
       const zone = this.scene.add
-        .zone(world.x, world.y - 16, 16, 48)
+        .zone(
+          world.x,
+          world.y - NPC_FIGURE.above,
+          WORLD_TILE,
+          NPC_FIGURE.above + WORLD_TILE + NPC_FIGURE.below,
+        )
         .setOrigin(0, 0)
         .setDepth(DEPTHS.ENTITY_BASE + world.y);
       makeClickable(this.scene, zone, config.onClick, {

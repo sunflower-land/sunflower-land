@@ -105,6 +105,16 @@ type BuildingObjects = {
   alertTween?: Phaser.Tweens.Tween;
   /** Crop Machine growth-stage loop sheet. */
   stageSheet?: Phaser.GameObjects.Sprite;
+  /**
+   * The letterbox's click target. Deliberately larger than the 8px mailbox
+   * art and taller than the DOM's 16px hit div so the news icon above it is
+   * clickable too — both used to fall through to the house door underneath.
+   * Lives outside `extras` because that map is rebuilt every 1s tick.
+   */
+  letterZone?: Phaser.GameObjects.Zone;
+  /** Unread-news icon; kept across ticks so its float tween survives. */
+  mailAlert?: ArtObject;
+  mailAlertTween?: Phaser.Tweens.Tween;
 };
 
 const READY_ALERT = "readyAlert";
@@ -1011,30 +1021,82 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
       "bottomUp" in offsets.letter
         ? box.y + box.height - offsets.letter.bottomUp - 16
         : box.y + offsets.letter.y;
-    const mailbox = this.addExtra(objects, "mailbox", mailboxImg, {
+    this.addExtra(objects, "mailbox", mailboxImg, {
       x: mailX + 4,
       y: mailY,
       width: 8,
       depth: topDepth + 1,
     });
-    if (mailbox) {
-      makeClickable(this.scene, mailbox, () =>
-        this.bridge.farmModal.open("letterBox"),
-      );
-    }
+
+    let hasNews = false;
     try {
       const latest = getDiscordNewsLatestAt();
       const read = getDiscordNewsReadAt();
-      if (!visiting && latest && (!read || latest > read)) {
-        this.addExtra(objects, "mail-alert", newsIcon, {
-          x: mailX + 1.8,
-          y: mailY - 13,
-          width: 13,
-          depth: topDepth + 1.5,
-        });
-      }
+      hasNews = !visiting && !!latest && (!read || latest > read);
     } catch {
       // storage unavailable — no alert
+    }
+
+    // The news icon lives outside the extras map, which is wiped every 1s
+    // tick — rebuilding it per tick is what forced every other alert icon to
+    // stay static ("animated alerts read as jitter"). Kept alive here, it can
+    // hold a float tween. The tween owns `y`/`scale`, so it is rebuilt only
+    // when the anchor actually moves rather than fought with setPosition.
+    if (hasNews) {
+      const alertY = mailY - 13;
+      const alert = (objects.mailAlert ??= (() => {
+        const image = resolveArtObject(this.scene, undefined, newsIcon);
+        image?.setOrigin(0, 0);
+        if (image) nativeScale(image, 13);
+        return image;
+      })());
+      if (alert) {
+        const alertX =
+          mailX + 1.8 + (13 - (alert.frame?.width ?? alert.width)) / 2;
+        alert.setDepth(topDepth + 1.5).setVisible(true);
+        if (alert.x !== alertX || objects.mailAlertTween === undefined) {
+          alert.setPosition(alertX, alertY);
+          objects.mailAlertTween?.remove();
+          // Gentle bob + breathe: reads as "look at me" without the jitter.
+          objects.mailAlertTween = this.scene.tweens.add({
+            targets: alert,
+            y: { from: alertY, to: alertY - 2 },
+            scale: { from: 1, to: 1.12 },
+            duration: 900,
+            yoyo: true,
+            repeat: -1,
+            ease: "Sine.easeInOut",
+          });
+        }
+      }
+    } else {
+      objects.mailAlertTween?.remove();
+      objects.mailAlertTween = undefined;
+      objects.mailAlert?.destroy();
+      objects.mailAlert = undefined;
+    }
+
+    // One generous hit zone for the whole letterbox cluster (mailbox + news
+    // icon). The 8px art alone was near-impossible to hit, and the icon above
+    // it had no zone at all, so clicks landed on the house behind it.
+    const LETTER_HIT = { width: 18, top: 16, height: 32 };
+    objects.letterZone ??= this.scene.add
+      .zone(0, 0, LETTER_HIT.width, LETTER_HIT.height)
+      .setOrigin(0, 0);
+    objects.letterZone
+      .setPosition(
+        mailX + 4 - (LETTER_HIT.width - 8) / 2,
+        mailY - LETTER_HIT.top,
+      )
+      .setSize(LETTER_HIT.width, LETTER_HIT.height)
+      .setDepth(topDepth + 4);
+    if (!objects.letterZone.input) {
+      makeClickable(
+        this.scene,
+        objects.letterZone,
+        () => this.bridge.farmModal.open("letterBox"),
+        { glow: () => objects.extras.get("mailbox") },
+      );
     }
 
     // Collect heart [recipes.collected], shown for 3s.
@@ -1381,6 +1443,8 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
       objects.stageSheet?.setVisible(!hidden);
       objects.extras.forEach((extra) => extra.setVisible(!hidden));
       objects.bar?.setVisible(!hidden);
+      objects.mailAlert?.setVisible(!hidden);
+      objects.letterZone?.setActive(!hidden);
       const npc = this.npcSprites.get(`${objects.name}-neville`);
       if (npc && objects.name === moving?.name) npc.setVisible(!hidden);
       else npc?.setVisible(true);
@@ -1395,6 +1459,9 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
     objects.extras.clear();
     objects.bar?.destroy();
     objects.alertTween?.remove();
+    objects.letterZone?.destroy();
+    objects.mailAlertTween?.remove();
+    objects.mailAlert?.destroy();
   }
 
   protected onDestroy() {

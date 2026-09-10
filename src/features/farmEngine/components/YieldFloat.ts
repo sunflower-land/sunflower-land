@@ -1,7 +1,7 @@
 import type Phaser from "phaser";
 import { formatNumber } from "lib/utils/formatNumber";
 import { queueImage, runLoader } from "../core/assets";
-import { nativeScale } from "../core/pixelArt";
+import { fitWidth } from "../core/pixelArt";
 import { GAIN_YELLOW, outlinedText } from "./outlinedText";
 
 /**
@@ -55,7 +55,9 @@ export function playYieldFloat(
 
   if (icon) {
     const image = scene.add.image(cursor, 0, icon).setOrigin(0, 0.5);
-    nativeScale(image, iconWidth);
+    // Exactly iconWidth: the number is laid out after it. Drawing native
+    // (SUNNYSIDE/ITEM_DETAILS icons are 16-32px) put the icon on top of it.
+    fitWidth(image, iconWidth);
     children.push(image);
     cursor += iconWidth + 2;
   }

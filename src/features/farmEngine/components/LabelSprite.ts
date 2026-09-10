@@ -2,7 +2,7 @@ import type Phaser from "phaser";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { queueImage } from "../core/assets";
-import { nativeScale } from "../core/pixelArt";
+import { fitWidth } from "../core/pixelArt";
 import { pixelText } from "./pixelText";
 
 /**
@@ -79,7 +79,8 @@ export class LabelChip {
       iconImage = scene.add
         .image(cursor, CHIP_HEIGHT / 2, icon)
         .setOrigin(0, 0.5);
-      nativeScale(iconImage, iconWidth);
+      // Must occupy exactly iconWidth — the cursor below budgets for it.
+      fitWidth(iconImage, iconWidth);
       cursor += iconWidth + ICON_GAP;
     }
 

@@ -21,7 +21,7 @@ import { getKeys } from "lib/object";
 import { formatNumber } from "lib/utils/formatNumber";
 import { translate } from "lib/i18n/translate";
 import { queueImage, runLoader } from "../core/assets";
-import { nativeScale } from "../core/pixelArt";
+import { fitWidth, nativeScale } from "../core/pixelArt";
 import { queueArt, resolveArtObject } from "../core/animated";
 import { makeClickable } from "../core/clickable";
 import { ProgressBarSprite } from "../components/ProgressBarSprite";
@@ -228,17 +228,19 @@ export class UpcomingExpansionRenderer extends EntityRenderer<Slice> {
     nativeScale(land, 66);
     makeClickable(this.scene, land, () => this.onReveal(slice));
 
+    // UI icons composited at chosen sizes (a badge centred on a disc), not
+    // world art — they have to honour the size the layout picked.
     const disc = this.scene.add
       .image(block.x + 42, blockBottom - 36, SUNNYSIDE.icons.disc)
       .setOrigin(0, 1)
       .setDepth(DEPTHS.WATER_DECOR);
-    nativeScale(disc, 20);
+    fitWidth(disc, 20);
 
     const confirm = this.scene.add
       .image(block.x + 42 + 4, blockBottom - 36 - 5, SUNNYSIDE.icons.confirm)
       .setOrigin(0, 1)
       .setDepth(DEPTHS.WATER_DECOR);
-    nativeScale(confirm, 12);
+    fitWidth(confirm, 12);
 
     this.tweens.push(
       this.scene.tweens.add({
@@ -281,7 +283,8 @@ export class UpcomingExpansionRenderer extends EntityRenderer<Slice> {
       )
       .setOrigin(0.5, 0.5)
       .setDepth(DEPTHS.WATER_DECOR);
-    nativeScale(icon, 18);
+    // 18px is what the label rows below are positioned against.
+    fitWidth(icon, 18);
     makeClickable(this.scene, icon, () =>
       this.bridge.farmModal.open("expansionRequirements"),
     );

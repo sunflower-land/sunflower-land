@@ -6,10 +6,7 @@ import React, {
 } from "react";
 import { useSelector } from "@xstate/react";
 
-import shopDisc from "assets/icons/shop_disc.png";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "components/ui/Modal";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import type { MachineState } from "features/game/lib/gameMachine";
 import {
@@ -21,26 +18,27 @@ import {
   AnimalDeal,
   ExchangeHud,
 } from "features/barn/components/AnimalBounties";
-import { FeederMachine } from "features/feederMachine/FeederMachine";
-import { FeedAllButton } from "features/game/expansion/components/animals/FeedAllButton";
+import { FeederMachineModal } from "features/feederMachine/FeederMachineModal";
 import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
 import { getValues } from "lib/object";
 import type { GameBridge } from "../bridge/GameBridge";
-import { useWorldAnchor } from "../bridge/useWorldAnchor";
 
 /**
- * Animal-house chrome that stays React [barn/BarnInside.tsx +
- * henHouse/HenHouseInside.tsx]: the feeder machine, Feed All, the shop and
- * upgrade discs with their modals, and the bounty-exchange (deal) flow. All
- * are anchored to the room rect published by InteriorUI so they track the
- * camera; the animals themselves are Phaser.
+ * The animal house's React half [barn/BarnInside.tsx +
+ * henHouse/HenHouseInside.tsx]: the buy/sell, upgrade and feeder-machine
+ * panels, plus the bounty-exchange (deal) flow and its screen-space HUD.
+ *
+ * The in-room controls that open the first three — the feeder machine, Feed
+ * All, and the shop/upgrade discs — are Phaser now
+ * [entities/animals/AnimalHouseControls.ts]. They sit on the room and move
+ * with it, so hosting them as DOM elements chasing the `interior-room` anchor
+ * was the boundary violation the architecture guide warns about. They ask for
+ * a panel through `bridge.animalHouseModal`; this component renders it.
  *
  * The deal handshake runs through `bridge.animalDeal`: the sell tab sets the
  * deal, the renderer dims invalid animals and reports the clicked animal via
  * `selectedId`, and this component shows the AnimalDeal modal for it.
  */
-
-const ROOM_ANCHOR = "interior-room";
 
 const _building = (key: "barn" | "henHouse") => (state: MachineState) =>
   state.context.state[key];
@@ -72,68 +70,34 @@ export const AnimalHouseUI: React.FC<{
     ).length;
   }, [buildingState.animals, deal, game]);
 
-  const rect = useWorldAnchor(ROOM_ANCHOR);
-
   const level = Math.min(buildingState.level, 3);
   const nextLevel = Math.min(level + 1, 3);
 
+  // Which panel the in-room Phaser controls have asked for.
+  const requested = useSyncExternalStore(
+    (onChange) => bridge.animalHouseModal.subscribe(onChange),
+    () => bridge.animalHouseModal.get(),
+  );
+  const clearRequest = () => bridge.animalHouseModal.set(null);
+
   return (
     <>
-      {rect?.visible && !deal && (
-        <>
-          {/* Feeder machine, top-centre of the room [BarnInside.tsx] */}
-          <div
-            className="absolute pointer-events-auto"
-            style={{
-              left: `${rect.left + rect.width / 2}px`,
-              top: `${rect.top - 4 * PIXEL_SCALE}px`,
-              transform: "translateX(-50%)",
-            }}
-          >
-            <FeederMachine building={buildingName} />
-          </div>
-          <div
-            className="absolute pointer-events-auto"
-            style={{
-              left: `${rect.left + rect.width / 2 + 58}px`,
-              top: `${rect.top - 11}px`,
-            }}
-          >
-            <FeedAllButton building={buildingName} />
-          </div>
-
-          {/* Shop + upgrade discs pinned to the room's top corners */}
-          <img
-            src={shopDisc}
-            alt="Buy Animals"
-            className="absolute cursor-pointer pointer-events-auto"
-            style={{
-              width: `${PIXEL_SCALE * 18}px`,
-              left: `${rect.left + rect.width - 18 - PIXEL_SCALE * 18}px`,
-              top: `${rect.top + 18}px`,
-            }}
-            onClick={() => setShowShop(true)}
-          />
-          <img
-            src={SUNNYSIDE.icons.upgrade_disc}
-            alt="Upgrade Building"
-            className="absolute cursor-pointer pointer-events-auto"
-            style={{
-              width: `${PIXEL_SCALE * 18}px`,
-              left: `${rect.left + 18}px`,
-              top: `${rect.top + 18}px`,
-            }}
-            onClick={() => setShowUpgrade(true)}
-          />
-        </>
-      )}
-
-      <Modal show={showShop} onHide={() => setShowShop(false)}>
+      <Modal
+        show={showShop || requested === "shop"}
+        onHide={() => {
+          setShowShop(false);
+          clearRequest();
+        }}
+      >
         <AnimalBuildingModal
           buildingName={buildingName}
-          onClose={() => setShowShop(false)}
+          onClose={() => {
+            setShowShop(false);
+            clearRequest();
+          }}
           onExchanging={(bounty) => {
             setShowShop(false);
+            clearRequest();
             bridge.animalDeal.set({ deal: bounty });
           }}
         />
@@ -143,8 +107,17 @@ export const AnimalHouseUI: React.FC<{
         buildingName={buildingName}
         currentLevel={level}
         nextLevel={nextLevel}
-        show={showUpgrade}
-        onClose={() => setShowUpgrade(false)}
+        show={showUpgrade || requested === "upgrade"}
+        onClose={() => {
+          setShowUpgrade(false);
+          clearRequest();
+        }}
+      />
+
+      <FeederMachineModal
+        show={requested === "feeder"}
+        onClose={clearRequest}
+        building={buildingName}
       />
 
       {/* Deal mode [BarnInside.tsx]: modal for the clicked animal + HUD */}

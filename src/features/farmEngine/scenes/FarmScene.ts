@@ -22,8 +22,21 @@ import { StressBumpkins } from "../dev/StressBumpkins";
 const _expansionCount = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 3;
 
-// Placeholder until Phase 1's OceanLayer tiles the real art.
-const OCEAN_PLACEHOLDER_COLOR = "#63b0cd";
+/**
+ * What the camera clears to before this surface's own art has painted.
+ *
+ * The farm shows ocean, so the ocean tone is the right placeholder there.
+ * Interiors show none, and using the ocean tone for them meant every hop
+ * between the farm and an animal house flashed light blue: the engine tears
+ * the game down and rebuilds it on a surface change, and the boot cover
+ * doesn't re-arm for an already-loaded session, so that raw clear colour is
+ * briefly all there is. Interiors clear to the boot cover's own tone
+ * [FarmLoading] instead, which leaves nothing visible to flash.
+ */
+const CLEAR_COLOR: Partial<Record<FarmSurface, string>> = {
+  farm: "#63b0cd",
+};
+const INTERIOR_CLEAR_COLOR = "#0e4a6d";
 
 export class FarmScene extends Phaser.Scene {
   readonly farmCamera: FarmCameraController;
@@ -65,7 +78,9 @@ export class FarmScene extends Phaser.Scene {
   }
 
   create() {
-    this.cameras.main.setBackgroundColor(OCEAN_PLACEHOLDER_COLOR);
+    this.cameras.main.setBackgroundColor(
+      CLEAR_COLOR[this.location] ?? INTERIOR_CLEAR_COLOR,
+    );
 
     this.visitingActive = this.bridge.select(
       (state) => state.context.visitorId !== undefined,

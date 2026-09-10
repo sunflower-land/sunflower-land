@@ -26,12 +26,29 @@ export function subscribeSelector<S>(
   equals: EqualityFn<S> = Object.is,
 ): Unsubscribe {
   let current = selector(service.getSnapshot());
+  let failures = 0;
 
   const subscription = service.subscribe((state) => {
     const next = selector(state);
-    if (!equals(current, next)) {
-      current = next;
+    if (equals(current, next)) return;
+    // Isolate every subscriber. xstate v4's Interpreter.update() iterates its
+    // listeners in a loop that RETHROWS, so one renderer throwing inside
+    // sync() aborts every listener queued behind it AND propagates out of
+    // gameService.send(). The farm then looks alive — it still paints and
+    // pans, because rendering doesn't depend on subscriptions — while nothing
+    // reacts to state any more. That is the "everything crashed behind the
+    // scenes" freeze.
+    try {
       onChange(next);
+      // Only commit the slice once the subscriber actually consumed it, so a
+      // transient failure re-syncs on the next change instead of going
+      // permanently stale.
+      current = next;
+      failures = 0;
+    } catch (error) {
+      failures += 1;
+      // eslint-disable-next-line no-console
+      if (failures <= 3) console.error("[farmEngine] subscriber threw", error);
     }
   });
 

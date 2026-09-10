@@ -32,6 +32,8 @@ import { nativeScale } from "../core/pixelArt";
 import { artTexture, queueArt } from "../core/animated";
 import { readonlyResourceArt } from "./readonlyResourceArt";
 import { collectiblesAt } from "../entities/collectibles/CollectibleRenderer";
+import { NPC_FIGURE } from "../entities/characters/PlayerRenderer";
+import { SelectionControls } from "./SelectionControls";
 import type { PlaceableLocation } from "features/game/types/collectibles";
 import { isPlacementSurface } from "../core/surface";
 import {
@@ -159,6 +161,9 @@ export class LandscapingController {
       }
     | undefined;
 
+  /** In-world flip / pixel-perfect / remove discs + nudge arrows. */
+  private selectionControls: SelectionControls | undefined;
+
   private last: LandscapingSnapshot = {
     active: false,
     removalMode: false,
@@ -174,6 +179,13 @@ export class LandscapingController {
   ) {}
 
   mount() {
+    this.selectionControls = new SelectionControls(
+      this.scene,
+      this.selectionControlHandlers(),
+    );
+    SelectionControls.queueAssets(this.scene);
+    void runLoader(this.scene);
+
     // The child machine isn't reachable through the parent's selector-diff
     // plumbing (its context mutates without parent snapshots changing), so
     // poll it on a short timer — the DOM does the equivalent with
@@ -210,8 +222,13 @@ export class LandscapingController {
     const previous = this.last;
     this.last = snapshot;
 
+    // Drive the flag from the snapshot on EVERY pass, not just on the edge.
+    // It gates every makeClickable handler, so if it ever desynchronises from
+    // the machine (a throw mid-refresh used to be enough) the whole farm goes
+    // click-dead while still panning, with no way back. Cheap, and self-heals.
+    this.scene.landscapingActive = snapshot.active;
+
     if (snapshot.active !== previous.active) {
-      this.scene.landscapingActive = snapshot.active;
       if (snapshot.active) {
         this.showChrome();
         // Camera-based grid conversion for the React quick panel.
@@ -250,6 +267,9 @@ export class LandscapingController {
     }
 
     this.refreshSelectionFlip();
+    // The in-world control row reads live state (flip flag, nudge headroom),
+    // so refresh it on the same poll the rest of the selection uses.
+    this.syncSelectionControls();
 
     // Ghost lifecycle.
     if (!snapshot.active || !snapshot.placeableName) {
@@ -876,14 +896,18 @@ export class LandscapingController {
     const game = this.bridge.select((state) => state.context.state);
     const candidates = this.placements(game).filter((placement) => {
       const box = gridRectToWorld(placement.coordinates, placement.dims);
-      // Bumpkins stand ABOVE their tile [NPCPlaceable] — grab the body too.
-      const headroom =
-        placement.name === "Bumpkin" || placement.name === "FarmHand" ? 16 : 0;
+      // Bumpkins overflow their tile in BOTH directions [NPCPlaceable] — the
+      // body sits above it and the legs below. Granting only the headroom
+      // made them grabbable by the head and the empty air over it, but not
+      // by the base they visibly stand on.
+      const npc = placement.name === "Bumpkin" || placement.name === "FarmHand";
+      const above = npc ? NPC_FIGURE.above : 0;
+      const below = npc ? NPC_FIGURE.below : 0;
       return (
         worldX >= box.x &&
         worldX < box.x + box.width &&
-        worldY >= box.y - headroom &&
-        worldY < box.y + box.height
+        worldY >= box.y - above &&
+        worldY < box.y + box.height + below
       );
     });
     // Frontmost wins, like the DOM's y-sorted stacking.
@@ -896,6 +920,12 @@ export class LandscapingController {
 
   /** editing.idle click: removal shovel, drag-start on selection, or MOVE. */
   private onEditPointerDown(pointer: Phaser.Input.Pointer) {
+    // A press that landed on the in-world control row already did its job.
+    // Phaser emits GAMEOBJECT_DOWN before POINTER_DOWN, so the flag is set by
+    // now; without this, pressing a disc would fall through to the hit test,
+    // miss, and BLUR the selection the disc belongs to.
+    if (this.selectionControls?.pressed) return;
+
     // Clicking inside the current selection starts a drag.
     if (this.selection) {
       const box = gridRectToWorld(
@@ -1022,7 +1052,10 @@ export class LandscapingController {
       name: placement.name,
       dragging: false,
     });
+    // A fresh selection must never inherit the previous one's armed remove.
+    this.selectionControls?.reset();
     this.publishControls();
+    this.syncSelectionControls();
 
     // Drag-preview art so the move shows the item, not just the tint
     // (ITEM_DETAILS approximation, like the placement ghost).
@@ -1075,6 +1108,101 @@ export class LandscapingController {
     this.selection.art.setFlipX(this.isFlipped(this.selection.placement));
   }
 
+  /**
+   * Feed the in-world control row [SelectionControls] — the flip /
+   * pixel-perfect / remove discs and the nudge arrows. They hang off the
+   * selection box in world space, so they're Phaser; this is the only place
+   * that decides which of them apply.
+   */
+  private syncSelectionControls() {
+    if (!this.selection) {
+      this.selectionControls?.hide();
+      return;
+    }
+    const { placement, pixelDelta } = this.selection;
+    const game = this.bridge.select((state) => state.context.state);
+    const collectible = game.collectibles[
+      placement.name as CollectibleName
+    ]?.find((item) => item.id === placement.id);
+
+    // The box the discs hang off is the LIVE one (including any pixel nudge),
+    // so they travel with the item instead of staying at its origin cell.
+    const box = gridRectToWorld(
+      { x: this.selection.target.x, y: this.selection.target.y },
+      placement.dims,
+    );
+
+    this.selectionControls?.sync({
+      box: {
+        ...box,
+        x: box.x + pixelDelta.x,
+        y: box.y - pixelDelta.y,
+      },
+      hasFlip:
+        placement.name in COLLECTIBLES_DIMENSIONS ||
+        placement.name === "FarmHand" ||
+        placement.name === "Bumpkin",
+      isFlipped: this.isFlipped(placement),
+      canRemove: !!getRemoveAction(
+        placement.name,
+        Date.now(),
+        collectible,
+        this.location,
+      ),
+      controls: this.bridge.landscapingControls.get(),
+    });
+  }
+
+  /** [MovableComponent] the disc row's three actions. */
+  private selectionControlHandlers() {
+    return {
+      onFlip: () => {
+        if (!this.selection) return;
+        this.bridge.landscaping.send({
+          type: "FLIP",
+          id: this.selection.placement.id,
+          name: this.selection.placement.name as CollectibleName,
+          location: this.location,
+        });
+      },
+      onTogglePixelPerfect: () => this.togglePixelPerfect(),
+      onRemove: () => {
+        if (!this.selection) return;
+        const { placement } = this.selection;
+        const game = this.bridge.select((state) => state.context.state);
+        const collectible = game.collectibles[
+          placement.name as CollectibleName
+        ]?.find((item) => item.id === placement.id);
+        const action = getRemoveAction(
+          placement.name,
+          Date.now(),
+          collectible,
+          this.location,
+        );
+        if (!action) return;
+        // [MovableComponent] these two warn about what removal destroys.
+        if (
+          placement.name === "Kuebiko" ||
+          placement.name === "Hungry Caterpillar"
+        ) {
+          this.bridge.farmModal.open("removeWarning", {
+            name: placement.name,
+            id: placement.id,
+            action,
+          });
+          return;
+        }
+        this.bridge.landscaping.send({
+          type: "REMOVE",
+          event: action,
+          id: placement.id,
+          name: placement.name as CollectibleName,
+          location: this.location,
+        });
+      },
+    };
+  }
+
   private moveTarget(dxTiles: number, dyTiles: number) {
     if (!this.selection) return;
     const { placement } = this.selection;
@@ -1117,6 +1245,7 @@ export class LandscapingController {
       dragging: this.selection.dragActive ?? false,
     });
     this.publishControls();
+    this.syncSelectionControls();
   }
 
   private onSelectionDrag(pointer: Phaser.Input.Pointer) {
@@ -1306,6 +1435,7 @@ export class LandscapingController {
     this.selection.tint.destroy();
     this.selection.art?.destroy();
     this.selection = undefined;
+    this.selectionControls?.hide();
     this.bridge.landscapingMoving.set(null);
     this.bridge.landscapingControls.set(null);
     this.bridge.anchors.removeAnchor(SELECTION_ANCHOR);
@@ -1328,6 +1458,8 @@ export class LandscapingController {
     this.subscriptions.forEach((unsubscribe) => unsubscribe());
     this.subscriptions = [];
     this.clearSelection();
+    this.selectionControls?.destroy();
+    this.selectionControls = undefined;
     this.hideChrome();
   }
 }

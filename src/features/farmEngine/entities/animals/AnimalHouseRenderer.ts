@@ -655,8 +655,14 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
     const fillWidth = Math.floor(
       (BAR.innerWidth * Math.max(0, Math.min(percentage, 100))) / 100,
     );
-    objects.barFill.width = fillWidth;
-    if (objects.barFill2) objects.barFill2.width = fillWidth;
+    // setSize, NOT `.width` — a Shape renders from its geom/pathData, and only
+    // setSize regenerates it. Assigning `.width` left the fill painting at its
+    // construction width, so the XP bar under every animal read as full and
+    // sat wrong against the frame's inset.
+    objects.barFill.setSize(fillWidth, BAR.innerHeight);
+    objects.barFill.setVisible(fillWidth > 0);
+    objects.barFill2?.setSize(fillWidth, BAR.innerHeight);
+    objects.barFill2?.setVisible(fillWidth > 0);
 
     // [LevelProgress.tsx] the number overlaps the bar's left cap (right: 85%,
     // centre at top 11px), in the HD display face the yield floats use.

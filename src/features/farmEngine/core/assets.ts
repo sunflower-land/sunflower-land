@@ -29,6 +29,47 @@ export function queueImage(scene: Phaser.Scene, url: string): string {
 }
 
 /**
+ * How far a frame's UVs are pulled in from an edge it SHARES with another
+ * frame, as a fraction of a texel.
+ *
+ * Frames in our sheets touch with no padding between them, and the camera
+ * zoom is fractional (DPR x 2.625 x user zoom), so a frame boundary almost
+ * never lands on a whole screen pixel. The edge-most fragment can then
+ * interpolate a UV a hair past the boundary and sample the NEIGHBOURING
+ * frame — which is the thin line along the top of an animated sprite (the
+ * previous frame's bottom row) and the flicker it causes as the animation
+ * cycles.
+ *
+ * A quarter texel is plenty to clear the floating-point boundary while
+ * staying well inside the edge texel, so nothing is cropped. (Half a texel is
+ * the textbook figure, but that's for LINEAR filtering; these textures are
+ * NEAREST, where only the boundary itself matters.) The alternative fix is
+ * extruding every frame in the sheet generator, which would rewrite 200-odd
+ * committed PNGs for the same result.
+ */
+const EDGE_INSET_TEXELS = 0.25;
+
+/**
+ * Pull each frame's UVs off any edge it shares with a neighbour. Edges that
+ * are the image's own border have nothing to bleed from and are left alone.
+ */
+function insetSharedFrameEdges(texture: Phaser.Textures.Texture) {
+  const source = texture.source[0];
+  const { width, height } = source;
+  if (!width || !height) return;
+  const insetU = EDGE_INSET_TEXELS / width;
+  const insetV = EDGE_INSET_TEXELS / height;
+
+  for (const name of texture.getFrameNames()) {
+    const frame = texture.get(name);
+    if (frame.cutX > 0) frame.u0 += insetU;
+    if (frame.cutX + frame.cutWidth < width) frame.u1 -= insetU;
+    if (frame.cutY > 0) frame.v0 += insetV;
+    if (frame.cutY + frame.cutHeight < height) frame.v1 -= insetV;
+  }
+}
+
+/**
  * Queue a spritesheet (fixed frame size, matching the SpriteAnimator config
  * the DOM farm uses for the same sheet). Returns the key.
  */
@@ -40,6 +81,9 @@ export function queueSpritesheet(
   if (!scene.textures.exists(url)) {
     scene.load.spritesheet(url, url, frameConfig);
     nearestOnLoad(scene, "spritesheet", url);
+    scene.load.once(`filecomplete-spritesheet-${url}`, () => {
+      insetSharedFrameEdges(scene.textures.get(url));
+    });
   }
   return url;
 }

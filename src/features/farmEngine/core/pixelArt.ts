@@ -26,3 +26,20 @@ export function nativeScale(image: Positionable, intendedWidth?: number) {
   const native = image.frame?.width ?? image.width;
   return (intendedWidth - native) / 2;
 }
+
+/**
+ * Scale an icon to EXACTLY `width` source px, keeping its aspect ratio.
+ *
+ * The rule above is for world art, where the asset is the source of truth and
+ * the DOM's hardcoded width only re-centres it. UI icons are the opposite
+ * case: a label chip or a "+N" float lays text out after the icon, so the
+ * icon has to occupy the width the layout budgeted for it. Using nativeScale
+ * there drew every icon at its native size (SUNNYSIDE UI icons are typically
+ * 16-32px) while the cursor advanced by the intended 6-10px, so the icon ran
+ * over its own text and out of its chip background.
+ */
+export function fitWidth(image: Positionable, width: number) {
+  const native = image.frame?.width ?? image.width;
+  if (!native) return;
+  image.setScale(width / native);
+}

@@ -7,7 +7,7 @@ import React, {
   useSyncExternalStore,
 } from "react";
 import { createPortal } from "react-dom";
-import { Outlet, useNavigate } from "react-router";
+import { useNavigate, useOutlet } from "react-router";
 import Phaser from "phaser";
 import { Context } from "features/game/GameProvider";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
@@ -219,17 +219,40 @@ export const FarmPhaser: React.FC<{
     // per surface (the route swaps surfaces, remounting the scene).
   }, [bridge, surface]);
 
-  // While an in-world modal is open the world must go deaf: Phaser also
-  // listens at window level, so a tap on the modal would otherwise land in
-  // the scene too (project-ii's lesson).
-  const onModalOpenChange = (open: boolean) => {
+  // While an in-world modal is open — or a nested route like the marketplace
+  // has taken the screen — the world must go deaf: Phaser also listens at
+  // window level, so a tap on the UI would otherwise land in the scene too
+  // (project-ii's lesson). Both gates feed one enable so neither re-enables
+  // input while the other still wants it off.
+  const deafGates = useRef({ modal: false, route: false });
+  const applyInputGate = () => {
     const game = gameRef.current;
     if (!game) return;
-    game.input.enabled = !open;
+    const { modal, route } = deafGates.current;
+    game.input.enabled = !modal && !route;
     // A modal opening mid-press swallows the pointerup, leaving isDown stuck
     // true — the camera would then pan forever after the modal closes.
     game.input.pointers.forEach((pointer) => pointer.reset());
   };
+
+  const onModalOpenChange = (open: boolean) => {
+    deafGates.current.modal = open;
+    applyInputGate();
+    // Scene-side feedback (yield floats) holds until the modal is gone.
+    bridge.modalOpen.set(open);
+  };
+
+  // A matched child route (marketplace, dashboards) covers the farm entirely.
+  // Rendering <Outlet/> bare left the canvas both visible through the
+  // marketplace and still listening, so the farm panned behind it.
+  const outlet = useOutlet();
+  const hasNestedRoute = outlet !== null;
+  useEffect(() => {
+    deafGates.current.route = hasNestedRoute;
+    applyInputGate();
+    // applyInputGate reads refs only; the gate value is the dependency.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasNestedRoute]);
 
   return createPortal(
     // No z-index: as a late body sibling this already paints above the app,
@@ -266,8 +289,27 @@ export const FarmPhaser: React.FC<{
       ) : animalDeal ? null : ( // ExchangeHud renders inside AnimalHouseUI
         <Hud isFarming={isPlacementSurface(surface)} location={hudLocation} />
       )}
-      {/* Nested routes (marketplace) render above the canvas farm */}
-      <Outlet />
+      {/* Nested routes (marketplace, dashboards) render above the canvas
+          farm, in the same wrapper the DOM farm gives them [Land.tsx]: a
+          full-bleed, opaque-by-its-own-background surface that swallows
+          pointer events so they never reach the canvas underneath. */}
+      {hasNestedRoute && (
+        <div
+          data-html2canvas-ignore="true"
+          aria-label="Hud"
+          className="fixed inset-safe-area z-10"
+        >
+          <div
+            onMouseDown={(e) => e.stopPropagation()}
+            onMouseUp={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
+            onTouchEnd={(e) => e.stopPropagation()}
+            className="pointer-events-auto w-full h-full"
+          >
+            {outlet}
+          </div>
+        </div>
+      )}
       {/* Boot cover — above the HUD until the engine's first loads settle */}
       <FarmLoading getGame={() => gameRef.current} />
     </div>,
