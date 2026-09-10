@@ -8582,5 +8582,13 @@
   "loveKraken.prizeItem": "{{item}} kazandın!",
   "loveKraken.prizeCoins": "{{amount}} jeton kazandın!",
   "description.totem.buff.crafting.speed": "2x İşleme Kutusu Hızı",
-  "description.foxShrine.buff.speed": "1.35x Üretim Kutusu Hızı"
+  "description.foxShrine.buff.speed": "1.35x Üretim Kutusu Hızı",
+  "statsLeaderboard.pageTitle": "Onur Listesi",
+  "statsLeaderboard.pageDescription": "Krallığın tepesinde kim",
+  "statsLeaderboard.title.coins": "En Çok Para",
+  "statsLeaderboard.title.experience": "Çoğu XP",
+  "statsLeaderboard.title.cropsHarvested": "Çoğu Mahsul Hasat Edildi",
+  "statsLeaderboard.title.fishCaught": "Yakalanan En Çok Balık",
+  "statsLeaderboard.title.animalsFed": "Çoğu Hayvan Beslendi",
+  "statsLeaderboard.title.deliveries": "Çoğu Teslimat"
 }

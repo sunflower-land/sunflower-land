@@ -8582,5 +8582,13 @@
   "loveKraken.prizeItem": "Vous avez gagné un {{item}} !",
   "loveKraken.prizeCoins": "Vous avez gagné {{amount}} pièces !",
   "description.totem.buff.crafting.speed": "2 fois la vitesse de la boîte d'artisanat",
-  "description.foxShrine.buff.speed": "1,35 fois la vitesse de la boîte à bricolage"
+  "description.foxShrine.buff.speed": "1,35 fois la vitesse de la boîte à bricolage",
+  "statsLeaderboard.pageTitle": "Temple de la renommée",
+  "statsLeaderboard.pageDescription": "Qui est au sommet du Royaume",
+  "statsLeaderboard.title.coins": "La plupart des pièces",
+  "statsLeaderboard.title.experience": "Plus d'XP",
+  "statsLeaderboard.title.cropsHarvested": "La plupart des cultures récoltées",
+  "statsLeaderboard.title.fishCaught": "La plupart des poissons capturés",
+  "statsLeaderboard.title.animalsFed": "La plupart des animaux nourris",
+  "statsLeaderboard.title.deliveries": "La plupart des livraisons"
 }

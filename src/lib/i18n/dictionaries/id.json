@@ -8582,5 +8582,13 @@
   "loveKraken.prizeItem": "Anda memenangkan {{item}}!",
   "loveKraken.prizeCoins": "Anda memenangkan koin {{amount}}!",
   "description.totem.buff.crafting.speed": "Kecepatan Kotak Kerajinan 2x",
-  "description.foxShrine.buff.speed": "Kecepatan Kotak Kerajinan 1,35x"
+  "description.foxShrine.buff.speed": "Kecepatan Kotak Kerajinan 1,35x",
+  "statsLeaderboard.pageTitle": "Hall of Fame",
+  "statsLeaderboard.pageDescription": "Siapa yang berada di atas kerajaan",
+  "statsLeaderboard.title.coins": "Koin Terbanyak",
+  "statsLeaderboard.title.experience": "Sebagian besar XP",
+  "statsLeaderboard.title.cropsHarvested": "Kebanyakan Tanaman yang Dipanen",
+  "statsLeaderboard.title.fishCaught": "Kebanyakan Ikan Ditangkap",
+  "statsLeaderboard.title.animalsFed": "Sebagian besar hewan diberi makan",
+  "statsLeaderboard.title.deliveries": "Pengiriman Terbanyak"
 }

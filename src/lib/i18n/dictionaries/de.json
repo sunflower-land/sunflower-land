@@ -8582,5 +8582,13 @@
   "loveKraken.prizeItem": "Du hast {{item}} gewonnen!",
   "loveKraken.prizeCoins": "Du hast {{amount}} Münzen gewonnen!",
   "description.totem.buff.crafting.speed": "2x Geschwindigkeit bei der Herstellung von Kartons",
-  "description.foxShrine.buff.speed": "1,35-fache Geschwindigkeit bei der Herstellung von Kartons"
+  "description.foxShrine.buff.speed": "1,35-fache Geschwindigkeit bei der Herstellung von Kartons",
+  "statsLeaderboard.pageTitle": "Ruhmeshalle",
+  "statsLeaderboard.pageDescription": "Wer ist an der Spitze des Königreichs",
+  "statsLeaderboard.title.coins": "Die meisten Münzen",
+  "statsLeaderboard.title.experience": "Die meisten XP",
+  "statsLeaderboard.title.cropsHarvested": "Die meisten Pflanzen werden geerntet",
+  "statsLeaderboard.title.fishCaught": "Die meisten gefangenen Fische",
+  "statsLeaderboard.title.animalsFed": "Die meisten Tiere werden gefüttert",
+  "statsLeaderboard.title.deliveries": "Die meisten Lieferungen"
 }

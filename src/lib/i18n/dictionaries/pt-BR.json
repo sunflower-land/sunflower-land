@@ -8582,5 +8582,13 @@
   "loveKraken.prizeItem": "Você ganhou um {{item}}!",
   "loveKraken.prizeCoins": "Você ganhou {{amount}} moedas!",
   "description.totem.buff.crafting.speed": "2x a velocidade da caixa de fabricação",
-  "description.foxShrine.buff.speed": "1,35x a velocidade da caixa de fabricação"
+  "description.foxShrine.buff.speed": "1,35x a velocidade da caixa de fabricação",
+  "statsLeaderboard.pageTitle": "Hall da Fama",
+  "statsLeaderboard.pageDescription": "Quem está no topo do Reino",
+  "statsLeaderboard.title.coins": "A maioria das moedas",
+  "statsLeaderboard.title.experience": "Mais XP",
+  "statsLeaderboard.title.cropsHarvested": "A maioria das safras colhidas",
+  "statsLeaderboard.title.fishCaught": "Mais peixes capturados",
+  "statsLeaderboard.title.animalsFed": "A maioria dos animais alimentados",
+  "statsLeaderboard.title.deliveries": "A maioria das entregas"
 }
