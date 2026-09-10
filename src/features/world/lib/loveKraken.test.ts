@@ -100,6 +100,8 @@ describe("loveKraken: getting to the wharf", () => {
     );
   };
 
+  const LAST_SPOT = LOVE_KRAKEN_CAST_SPOTS[LOVE_KRAKEN_CAST_SPOTS.length - 1];
+
   it("puts every cast spot somewhere a Bumpkin can legally stand", () => {
     for (const spot of LOVE_KRAKEN_CAST_SPOTS) {
       expect({ ...spot, clear: standsClear(spot) }).toEqual({
@@ -121,6 +123,17 @@ describe("loveKraken: getting to the wharf", () => {
         ...spot,
         away: true,
       });
+    }
+  });
+
+  /** The complaint this pins: a line cast from mid-wharf lands on planks. */
+  it("keeps every spot on the western lip, over the water", () => {
+    for (const spot of LOVE_KRAKEN_CAST_SPOTS) {
+      // The lake's collider ends at 336 and a body is 10 wide, so 341 is as
+      // close as anyone can legally stand
+      expect(spot.x).toBeGreaterThanOrEqual(341);
+      // ...and no further down the wharf than its first square of planks
+      expect(spot.x).toBeLessThanOrEqual(356);
     }
   });
 
@@ -179,7 +192,7 @@ describe("loveKraken: getting to the wharf", () => {
     ]) {
       const route = getLoveKrakenWalkRoute({
         from,
-        to: LOVE_KRAKEN_CAST_SPOTS[4],
+        to: LAST_SPOT,
       });
       expect(route).toBeDefined();
 
@@ -192,11 +205,11 @@ describe("loveKraken: getting to the wharf", () => {
   it("still walks someone already standing on the wharf to their own spot", () => {
     const route = getLoveKrakenWalkRoute({
       from: LOVE_KRAKEN_CAST_SPOTS[0],
-      to: LOVE_KRAKEN_CAST_SPOTS[8],
+      to: LAST_SPOT,
     });
 
     expect(route).toBeDefined();
-    expect(route?.[route.length - 1]).toEqual(LOVE_KRAKEN_CAST_SPOTS[8]);
+    expect(route?.[route.length - 1]).toEqual(LAST_SPOT);
   });
 
   it("steps straight across when the spot is on the tile already stood on", () => {

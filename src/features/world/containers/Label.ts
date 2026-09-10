@@ -55,11 +55,20 @@ export class Label extends Phaser.GameObjects.Container {
     this.add(name);
     this.text = name;
     if (hasIcon) {
-      const iconX = -patchWidth / 2 - ICON_GAP - ICON_WIDTH / 2;
       const icon = scene.add
-        .sprite(iconX, ICON_CENTER_Y, iconKey!)
-        .setSize(ICON_WIDTH, ICON_WIDTH)
+        .sprite(0, ICON_CENTER_Y, iconKey!)
         .setOrigin(0.5, 0.5);
+
+      // An icon is drawn at its texture's own size - `setSize` below only
+      // sets the hit area - so one wider than `ICON_WIDTH` has to be pushed
+      // further out or it overlaps the first letter. Read the frame before
+      // `setSize`, which overwrites `width`. Icons that size or smaller sit
+      // exactly where they always have.
+      const drawnWidth = icon.frame?.width ?? ICON_WIDTH;
+      const iconX =
+        -patchWidth / 2 - ICON_GAP - Math.max(ICON_WIDTH, drawnWidth) / 2;
+
+      icon.setPosition(iconX, ICON_CENTER_Y).setSize(ICON_WIDTH, ICON_WIDTH);
       this.iconSprite = icon;
 
       if (iconDepth !== undefined) {
