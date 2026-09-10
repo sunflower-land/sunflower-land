@@ -691,8 +691,8 @@ When it is landed, the day's prize floats over it for **10 seconds** and
 **claims itself two seconds in** for anyone who landed at least one reel on
 that Marvel, **once per UTC day**. Nobody has to click. When the window
 shuts a fresh Marvel surfaces at no progress. Like the Love Boulder there is no
-guide entry and no HUD beyond the ring, the fishing disc above it and the
-progress bar below — it is meant to be discovered.
+guide entry and no HUD beyond the ring, the Cast/Reel button above the
+wharf and the progress bar below — it is meant to be discovered.
 
 Client source of truth: `src/features/world/lib/loveKraken.ts`.
 
@@ -924,8 +924,8 @@ the next sync brings it down.
   8x16, each with its own ripple) at **native size on integer top-left
   coordinates**, never scaled, rotated or tweened, so every pixel lines up
   with the map tiles behind it. Around it: the ring with the green catch
-  zone and a white marker sweeping it, a fishing disc above it
-  (`world/fishing_disc.png`) and the island's progress bar below. The bar
+  zone and a white marker sweeping it, the Cast/Reel button above the wharf
+  and the island's progress bar below. The bar
   runs **green while the bank is gaining and red while the Marvel is**, so a
   thin crowd can see at a glance that they need more hands. No numbers.
 - **Your own reel throws the bar forward 5% and it eases back over 700ms.**
@@ -935,12 +935,25 @@ the next sync brings it down.
   is only ever drawn for the angler who landed it, and is **never added to
   `progress`** - the room's number is untouched, and the bar settles back
   onto it. It says "that worked, now go and find some help".
-- The disc, the ring and the beast are all one button. The **first** click
-  (within reach) casts the line and leaves it in the water — the Bumpkin
-  plays `casting` and settles into the `waiting` loop. **Every click after
-  that** plays `reeling` and drops back into `waiting`, whether or not it
-  landed. A miss does nothing at all; a hit splashes, flashes the marker
-  green and sends `loveKraken.reel`. Walking anywhere takes the line out.
+- **The whole game is one button**, a `Label` that reads **Cast** and then
+  **Reel**, with a fish icon, fixed just above the wharf at `(356, 540)` and
+  drawn over every angler standing on it. There is nothing else to tap: on a
+  phone the beast is small, the marker is moving and a thumb covers both, so
+  aiming at either was not playable. Every tap presses the button in a pixel
+  for 70ms, landed or missed, in reach or not — a thumb gets no hover state,
+  so the button has to answer.
+- The **first** tap always walks the angler out to a spot on the wharf,
+  wherever they were standing — see `LOVE_KRAKEN_CAST_SPOTS`. They are dealt
+  one at random, spread in x and y, so a crowd lines the wharf instead of
+  piling onto one plank. The route is a breadth-first search over the
+  island's walkable tile bitmap (the one Lover's Push rolls its rocks over),
+  so nobody is dragged through a railing or across the water; a player stood
+  on a decorative tile starts from the ground beside it. On arrival the
+  Bumpkin faces the water, plays `casting` and settles into the `waiting`
+  loop, and the button becomes **Reel**.
+- **Every tap after that** plays `reeling` and drops back into `waiting`,
+  whether or not it landed. Walking anywhere takes the line out and the
+  button falls back to **Cast**; so does taking the controls back mid-walk.
 - The bar is **the room's** — a reel of your own flashes the marker and
   splashes, it never moves the bar optimistically. With a crowd on the bank
   the bar is moving constantly anyway.
@@ -952,7 +965,8 @@ the next sync brings it down.
   reach, holds their rod out and pulls it whenever their count goes up. This
   needs no extra traffic beyond `anglers`.
 - When `caughtAt` flips from 0: the beast thrashes, splashes and fades, and
-  the day's prize floats where the disc was while `now < respawnAt`.
+  the day's prize floats over it while `now < respawnAt`, and the button
+  hides — there is nothing to pull on.
 - **It claims itself.** Two seconds into the window, every player with
   `anglers[farmId] > 0` (or their own count > 0) and no `love_kraken` claim
   today dispatches the claim above on their own, cheers, and gets a bubble

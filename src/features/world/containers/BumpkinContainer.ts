@@ -83,6 +83,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   private fishing = false;
   /** Whether the fishing sheet has already been asked for this outfit. */
   private fishingSheetRequested = false;
+  /** True while a scene is walking this Bumpkin somewhere under its own steam. */
+  private scriptedWalk = false;
   private backAuraKey: string | undefined;
   private frontAuraKey: string | undefined;
   private frontAuraAnimationKey: string | undefined;
@@ -505,6 +507,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     // The new outfit has its own sheets - the rod goes away with the old one
     this.fishing = false;
     this.fishingSheetRequested = false;
+    this.scriptedWalk = false;
     if (this.sprite?.active) {
       this.sprite?.destroy();
     }
@@ -1025,6 +1028,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   }
 
   public walk() {
+    // The scene is driving - it started the legs and will stop them
+    if (this.scriptedWalk) return;
+
     // Walking off takes the line out of the water
     if (this.fishing) this.stopFishing();
 
@@ -1064,7 +1070,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
   public idle() {
     // Standing still with the line out is the point - don't drop the rod
-    if (this.fishing) return;
+    if (this.fishing || this.scriptedWalk) return;
 
     if (
       this.sprite?.anims &&
@@ -1296,6 +1302,38 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         repeat: 0,
       });
     }
+  }
+
+  // -------------------------------------------------------------------
+  // Scripted walking
+  //
+  // A scene sometimes needs to walk a Bumpkin somewhere itself - onto a
+  // fishing spot, say. While it does, `BaseScene.update` must not put the
+  // legs back to idle every frame, so `walk` and `idle` stand down and the
+  // scene owns the animation until it hands back.
+  // -------------------------------------------------------------------
+
+  public get isWalkingScripted() {
+    return this.scriptedWalk;
+  }
+
+  /** Start the legs and hold them going until `endScriptedWalk`. */
+  public startScriptedWalk() {
+    if (this.scriptedWalk) return;
+
+    // The rod comes out of the water first, and `walk` has to run before the
+    // flag is set or it would stand itself down
+    this.stopFishing();
+    this.walk();
+    this.scriptedWalk = true;
+  }
+
+  /** Hand the Bumpkin back - it stands where the scene left it. */
+  public endScriptedWalk() {
+    if (!this.scriptedWalk) return;
+
+    this.scriptedWalk = false;
+    this.idle();
   }
 
   public hitPlayer() {

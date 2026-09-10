@@ -1,6 +1,7 @@
 import type { GameState } from "features/game/types/game";
 import { getFloatingIslandGameClaimsToday } from "features/game/events/landExpansion/claimFloatingIslandPrize";
 import {
+  isLoveIslandTileWalkable,
   fromLoveBoulderRoomPrize,
   getLoveBoulderPrizeKey,
   mulberry32,
@@ -8,7 +9,9 @@ import {
   LOVE_BOULDER_PRIZE,
   LOVE_BOULDER_PRIZE_ITEMS,
   type LoveBoulderPrize,
+  type LovePushTile,
 } from "./loveIsland";
+import { LOVE_ISLAND_MAP_WIDTH, LOVE_ISLAND_TILE_PX } from "./loveIslandTiles";
 
 // ---------------------------------------------------------------------------
 // The Marvel in the lake
@@ -32,6 +35,47 @@ import {
  * the wharf face each other across it, which is where the crowd gathers.
  */
 export const LOVE_KRAKEN_SPOT = { x: 306, y: 566 };
+
+/**
+ * Where an angler stands to fish. The wharf's deck is the only ground within
+ * reach of the Marvel that a crowd can line up along, and its legal standing
+ * band - a body box clear of the railings and the water, on a walkable tile -
+ * is x 342..390, y 554..568.
+ *
+ * Everyone is dealt one of these at random on their first cast rather than
+ * fishing from wherever they happen to be, so a crowd spreads along the
+ * wharf instead of piling onto one plank. They are spread in **y** as well as
+ * x for the same reason: a single row of Bumpkins hides the ones behind.
+ */
+export const LOVE_KRAKEN_CAST_SPOTS: { x: number; y: number }[] = [
+  { x: 344, y: 556 },
+  { x: 344, y: 566 },
+  { x: 354, y: 561 },
+  { x: 356, y: 554 },
+  { x: 358, y: 568 },
+  { x: 368, y: 558 },
+  { x: 370, y: 565 },
+  { x: 380, y: 556 },
+  { x: 382, y: 566 },
+];
+
+/**
+ * The Cast/Reel button, just above the wharf and over the spots below it.
+ *
+ * On a phone there is nothing to aim at: the Marvel is small, the marker is
+ * moving, and a thumb covers both. So the whole game is one fixed button
+ * that never moves and is drawn above every player on the wharf.
+ */
+export const LOVE_KRAKEN_BUTTON = { x: 356, y: 540 };
+
+/** A Bumpkin's body sits this far below its container position. */
+export const LOVE_KRAKEN_BODY_OFFSET_Y = 6;
+
+/** Farthest a walk to the wharf will path, in tiles. */
+export const LOVE_KRAKEN_WALK_MAX_TILES = 60;
+
+/** How fast an angler walks to their spot, in px a second. */
+export const LOVE_KRAKEN_WALK_SPEED = 60;
 
 /**
  * Progress it takes the island to land the Marvel. Only used by the local
@@ -122,6 +166,166 @@ export const LOVE_KRAKEN_PRIZE_ITEMS = LOVE_BOULDER_PRIZE_ITEMS;
 export const LOVE_KRAKEN_COINS_PRIZE = LOVE_BOULDER_COINS_PRIZE;
 export const fromLoveKrakenRoomPrize = fromLoveBoulderRoomPrize;
 export const getLoveKrakenPrizeKey = getLoveBoulderPrizeKey;
+
+// ---------------------------------------------------------------------------
+// Getting to the wharf
+// ---------------------------------------------------------------------------
+
+export type LoveKrakenSpot = { x: number; y: number };
+
+/** One of the wharf's spots, at random. */
+export function getLoveKrakenCastSpot(
+  random: number = Math.random(),
+): LoveKrakenSpot {
+  const index = Math.min(
+    LOVE_KRAKEN_CAST_SPOTS.length - 1,
+    Math.max(0, Math.floor(random * LOVE_KRAKEN_CAST_SPOTS.length)),
+  );
+
+  return LOVE_KRAKEN_CAST_SPOTS[index];
+}
+
+/** The tile a Bumpkin standing at this container position is on. */
+export function toLoveKrakenTile({ x, y }: LoveKrakenSpot): LovePushTile {
+  return {
+    x: Math.floor(x / LOVE_ISLAND_TILE_PX),
+    y: Math.floor((y + LOVE_KRAKEN_BODY_OFFSET_Y) / LOVE_ISLAND_TILE_PX),
+  };
+}
+
+/** Where to put a Bumpkin's container so its body stands on a tile's middle. */
+export function fromLoveKrakenTile({ x, y }: LovePushTile): LoveKrakenSpot {
+  const half = LOVE_ISLAND_TILE_PX / 2;
+
+  return {
+    x: x * LOVE_ISLAND_TILE_PX + half,
+    y: y * LOVE_ISLAND_TILE_PX + half - LOVE_KRAKEN_BODY_OFFSET_Y,
+  };
+}
+
+/** How far to look for ground when a player is stood on a decorative tile. */
+const NEAREST_WALKABLE_RADIUS = 3;
+
+/**
+ * The walkable tile nearest this one - itself when it already is. Rings
+ * outward, so the first hit is the closest.
+ */
+function nearestWalkableTile(tile: LovePushTile): LovePushTile | undefined {
+  if (isLoveIslandTileWalkable(tile)) return tile;
+
+  for (let radius = 1; radius <= NEAREST_WALKABLE_RADIUS; radius++) {
+    for (let dx = -radius; dx <= radius; dx++) {
+      for (let dy = -radius; dy <= radius; dy++) {
+        // Only the ring's edge - the inside was covered by a smaller radius
+        if (Math.abs(dx) !== radius && Math.abs(dy) !== radius) continue;
+
+        const near = { x: tile.x + dx, y: tile.y + dy };
+        if (isLoveIslandTileWalkable(near)) return near;
+      }
+    }
+  }
+
+  return undefined;
+}
+
+/**
+ * A route from where an angler is standing to their spot on the wharf, as
+ * container positions to walk through.
+ *
+ * Love Island has no NavMesh layer, so this walks the island's own walkable
+ * tile bitmap instead - the same one Lover's Push rolls its rocks over, which
+ * is ground and paths minus the map's collision. A breadth-first search over
+ * it is the shortest route in tiles, and every tile on it is somewhere a
+ * Bumpkin can legitimately stand, so nobody is ever dragged through a railing
+ * or across the water.
+ *
+ * Returns `undefined` when there is no route, or none inside `maxTiles` -
+ * the caller should tell the player to walk over themselves rather than
+ * teleporting them across the island.
+ */
+export function getLoveKrakenWalkRoute({
+  from,
+  to,
+  maxTiles = LOVE_KRAKEN_WALK_MAX_TILES,
+}: {
+  from: LoveKrakenSpot;
+  to: LoveKrakenSpot;
+  maxTiles?: number;
+}): LoveKrakenSpot[] | undefined {
+  const goal = toLoveKrakenTile(to);
+  if (!isLoveIslandTileWalkable(goal)) return undefined;
+
+  // The bitmap is ground and paths only, so a player standing on a
+  // decorative tile is "unwalkable" where they stand. Start from the nearest
+  // tile that is, rather than refusing to walk them at all.
+  const start = nearestWalkableTile(toLoveKrakenTile(from));
+  if (!start) return undefined;
+
+  // Already on the right tile - just step across to the spot
+  if (start.x === goal.x && start.y === goal.y) return [to];
+
+  const key = ({ x, y }: LovePushTile) => y * LOVE_ISLAND_MAP_WIDTH + x;
+  const cameFrom = new Map<number, number>();
+  const seen = new Set<number>([key(start)]);
+  let frontier: LovePushTile[] = [start];
+  let depth = 0;
+  let found = false;
+
+  while (frontier.length > 0 && depth < maxTiles && !found) {
+    const next: LovePushTile[] = [];
+
+    for (const tile of frontier) {
+      for (const step of [
+        { x: 1, y: 0 },
+        { x: -1, y: 0 },
+        { x: 0, y: 1 },
+        { x: 0, y: -1 },
+      ]) {
+        const to = { x: tile.x + step.x, y: tile.y + step.y };
+        const id = key(to);
+
+        if (seen.has(id)) continue;
+        if (!isLoveIslandTileWalkable(to)) continue;
+
+        seen.add(id);
+        cameFrom.set(id, key(tile));
+
+        if (to.x === goal.x && to.y === goal.y) {
+          found = true;
+          break;
+        }
+
+        next.push(to);
+      }
+
+      if (found) break;
+    }
+
+    frontier = next;
+    depth += 1;
+  }
+
+  if (!found) return undefined;
+
+  // Walk the trail back, then hand it over front to back
+  const route: LoveKrakenSpot[] = [];
+  let cursor: number | undefined = key(goal);
+
+  while (cursor !== undefined && cursor !== key(start)) {
+    route.unshift(
+      fromLoveKrakenTile({
+        x: cursor % LOVE_ISLAND_MAP_WIDTH,
+        y: Math.floor(cursor / LOVE_ISLAND_MAP_WIDTH),
+      }),
+    );
+    cursor = cameFrom.get(cursor);
+  }
+
+  // The last tile centre is not the spot itself - finish on it
+  route[route.length - 1] = to;
+
+  return route;
+}
 
 // ---------------------------------------------------------------------------
 // The ring
