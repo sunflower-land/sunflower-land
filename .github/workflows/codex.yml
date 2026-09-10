@@ -7,7 +7,7 @@ jobs:
   codex:
     environment: develop
     runs-on: ubuntu-24.04-arm
-    timeout-minutes: 15
+    timeout-minutes: 10
     permissions:
       contents: read
     outputs:
