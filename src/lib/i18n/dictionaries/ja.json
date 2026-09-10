@@ -8580,5 +8580,15 @@
   "loveKraken.didNotHelp": "野獣を巻き上げて賞品を獲得しよう！",
   "loveKraken.alreadyClaimed": "今日すでに請求されました。明日戻ってきて！",
   "loveKraken.prizeItem": "あなたは {{item}} を獲得しました！",
-  "loveKraken.prizeCoins": "{{amount}} コインを獲得しました！"
+  "loveKraken.prizeCoins": "{{amount}} コインを獲得しました！",
+  "description.totem.buff.crafting.speed": "2倍のクラフトボックススピード",
+  "description.foxShrine.buff.speed": "1.35x クラフトボックススピード",
+  "statsLeaderboard.pageTitle": "ホール・オブ・フェイム",
+  "statsLeaderboard.pageDescription": "王国の頂点にいるのは誰か",
+  "statsLeaderboard.title.coins": "ほとんどのコイン",
+  "statsLeaderboard.title.experience": "最多経験値",
+  "statsLeaderboard.title.cropsHarvested": "最も収穫された作物",
+  "statsLeaderboard.title.fishCaught": "最も多く釣れる魚",
+  "statsLeaderboard.title.animalsFed": "ほとんどの動物に餌をやる",
+  "statsLeaderboard.title.deliveries": "ほとんどの配送"
 }

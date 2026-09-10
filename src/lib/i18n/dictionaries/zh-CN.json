@@ -8580,5 +8580,15 @@
   "loveKraken.didNotHelp": "将野兽卷进来赢取奖品！",
   "loveKraken.alreadyClaimed": "今天已经申请了。明天回来！",
   "loveKraken.prizeItem": "你赢了 {{item}}！",
-  "loveKraken.prizeCoins": "你赢了 {{amount}} 个硬币！"
+  "loveKraken.prizeCoins": "你赢了 {{amount}} 个硬币！",
+  "description.totem.buff.crafting.speed": "2 倍制作箱速度",
+  "description.foxShrine.buff.speed": "1.35 倍制作箱速度",
+  "statsLeaderboard.pageTitle": "名人堂",
+  "statsLeaderboard.pageDescription": "谁在王国之巅",
+  "statsLeaderboard.title.coins": "大多数硬币",
+  "statsLeaderboard.title.experience": "最多 XP",
+  "statsLeaderboard.title.cropsHarvested": "收获的大部分农作物",
+  "statsLeaderboard.title.fishCaught": "钓到的鱼最多",
+  "statsLeaderboard.title.animalsFed": "大多数动物都被喂养",
+  "statsLeaderboard.title.deliveries": "大多数配送"
 }

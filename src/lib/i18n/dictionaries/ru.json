@@ -8580,5 +8580,15 @@
   "loveKraken.didNotHelp": "Reel the beast in to earn the prize!",
   "loveKraken.alreadyClaimed": "Already claimed today. Come back tomorrow!",
   "loveKraken.prizeItem": "You won a {{item}}!",
-  "loveKraken.prizeCoins": "You won {{amount}} coins!"
+  "loveKraken.prizeCoins": "You won {{amount}} coins!",
+  "description.totem.buff.crafting.speed": "2x Crafting Box Speed",
+  "description.foxShrine.buff.speed": "1.35x Crafting Box Speed",
+  "statsLeaderboard.pageTitle": "Hall of Fame",
+  "statsLeaderboard.pageDescription": "Who is on top of the Kingdom",
+  "statsLeaderboard.title.coins": "Most Coins",
+  "statsLeaderboard.title.experience": "Most XP",
+  "statsLeaderboard.title.cropsHarvested": "Most Crops Harvested",
+  "statsLeaderboard.title.fishCaught": "Most Fish Caught",
+  "statsLeaderboard.title.animalsFed": "Most Animals Fed",
+  "statsLeaderboard.title.deliveries": "Most Deliveries"
 }

@@ -12,11 +12,13 @@ import type { ComposterName } from "features/game/types/composters";
 import { createInitialAgingShed } from "features/game/lib/agingShed";
 import {
   getCookingBoostWindows,
+  getCraftingBoostWindows,
   getGreenhouseBoostWindows,
   getGreenhouseGlowWindows,
   pauseWindowedTimer,
 } from "features/game/lib/boostWindows";
 import { pauseCookingQueue } from "features/game/lib/cookingReadiness";
+import { pauseCraftingQueue } from "features/game/lib/craftingReadiness";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { mfTrack } from "lib/moonforgeAnalytics";
 
@@ -185,15 +187,17 @@ export function placeBuilding({
         const { craftingBox } = stateCopy;
         const queue = craftingBox.queue ?? [];
         if (existingBuilding.removedAt && queue.length > 0) {
-          const downtimeDelta = Math.max(
-            0,
-            createdAt - existingBuilding.removedAt,
-          );
-          stateCopy.craftingBox.queue = queue.map((item) => ({
-            ...item,
-            startedAt: item.startedAt + downtimeDelta,
-            readyAt: item.readyAt + downtimeDelta,
-          }));
+          // Windowed crafts BANK the work they had done before the lift and resume
+          // from `createdAt`; legacy ones keep the old downtime shift byte-for-byte.
+          // Shifting a windowed start would re-expose it to a different slice of the
+          // boost windows, stranding credit it earned under a booster that has since
+          // expired.
+          pauseCraftingQueue({
+            queue,
+            removedAt: existingBuilding.removedAt,
+            placedAt: createdAt,
+            windows: getCraftingBoostWindows(stateCopy),
+          });
         }
       }
 
