@@ -12,6 +12,7 @@ import type { AnimalType } from "../types/animals";
 import {
   ANIMAL_BOOST_SPEED,
   COOKING_BOOST_SPEED,
+  CRAFTING_BOOST_SPEED,
   CROP_PLOT_BOOST_SPEED,
   FLOWER_BOOST_SPEED,
   FRUIT_BOOST_SPEED,
@@ -152,6 +153,17 @@ const cooking = (game: GameState, at: number): BoostContribution[] => [
   collectible(game, "Boar Shrine", COOKING_BOOST_SPEED["Boar Shrine"]),
 ];
 
+/**
+ * Crafting's windowed boosts — mirrors `getCraftingBoostWindows`, in the same
+ * order. Fox Shrine is a MIXED boost: only its craft-TIME half is a window, so
+ * only that half is named here; its 10% instant-craft proc is a discrete roll and
+ * stays in `boostsUsed`.
+ */
+const crafting = (game: GameState, at: number): BoostContribution[] => [
+  totems(game, CRAFTING_BOOST_SPEED["Super Totem"], at),
+  collectible(game, "Fox Shrine", CRAFTING_BOOST_SPEED["Fox Shrine"]),
+];
+
 const oil = (game: GameState, at: number): BoostContribution[] => [
   collectible(game, "Stag Shrine", OIL_BOOST_SPEED["Stag Shrine"]),
 ];
@@ -251,6 +263,16 @@ export function getCookingBoostContributions(
   if (!hasFeatureAccess(game, "SPEED_BOOSTS")) return [];
 
   return cooking(game, at);
+}
+
+/** The named boosts that would speed up a craft — mirrors getCraftingBoostWindows. */
+export function getCraftingBoostContributions(
+  game: GameState,
+  at: number,
+): BoostContribution[] {
+  if (!hasFeatureAccess(game, "SPEED_BOOSTS")) return [];
+
+  return crafting(game, at);
 }
 
 /** The named boosts that would speed up this animal's sleep. */

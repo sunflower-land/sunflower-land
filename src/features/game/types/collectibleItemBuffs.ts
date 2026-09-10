@@ -135,9 +135,8 @@ export function getFertiliserBuffLabels({
  * durations differ), so both read their labels from here. Itemised one row per
  * activity like the Legendary Shrine, rather than one sentence listing them all.
  *
- * Crafting is the odd one out: it is the only totem activity still on the legacy
- * discount-at-start model, so it keeps the "time" wording even under
- * SPEED_BOOSTS. The rest are windowed speed boosts (see boostWindows.ts).
+ * Every activity here is a windowed speed boost under SPEED_BOOSTS, so all six
+ * rows switch to the "speed" wording together (see boostWindows.ts).
  */
 const getTotemBuffLabels = (game: GameState): BuffLabel[] => {
   const windowed = hasFeatureAccess(game, "SPEED_BOOSTS");
@@ -184,9 +183,9 @@ const getTotemBuffLabels = (game: GameState): BuffLabel[] => {
       boostedItemIcon: chefHat,
     },
     {
-      // Not windowed yet, so no ".speed" variant - the crafting box still takes
-      // the discount at start.
-      shortDescription: translate("description.totem.buff.crafting"),
+      shortDescription: windowed
+        ? translate("description.totem.buff.crafting.speed")
+        : translate("description.totem.buff.crafting"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Crafting Box"].image,
@@ -1906,9 +1905,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
       boostTypeIcon: helpIcon,
     },
   ],
-  "Fox Shrine": () => [
+  "Fox Shrine": (game) => [
     {
-      shortDescription: translate("description.foxShrine.buff"),
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.foxShrine.buff.speed")
+        : translate("description.foxShrine.buff"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Crafting Box"].image,
