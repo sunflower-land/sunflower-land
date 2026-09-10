@@ -195,10 +195,6 @@ const FEATURE_FLAGS = {
   // baseDurationMs + true plantedAt model; when off, boosts stay discount-at-start.
   SPEED_BOOSTS: betaFeatureFlag,
 
-  // Bulk Mixer tab in the feeder machine: mix the missing feed for every
-  // waiting animal at once. Beta-pass / testnet only until it ships.
-  BULK_MIXER: betaFeatureFlag,
-
   // Beta testers can grab a Yakkamon pre-registration code before the level
   // tiers open to everyone else. The server enforces the same rule.
   YAKKAMON_BETA_ACCESS: betaFeatureFlag,
