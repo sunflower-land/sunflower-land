@@ -572,8 +572,7 @@ export class LoveIslandScene extends BaseScene {
     });
     this.load.image("kraken_head", krakenHead);
     this.load.image("kraken_tentacle", krakenTentacle);
-    // 11x11, which is exactly the icon size a `Label` draws
-    this.load.image("kraken_fish_icon", SUNNYSIDE.icons.fish);
+    this.load.image("kraken_rod_icon", SUNNYSIDE.tools.fishing_rod);
     // Icons for whatever the Marvel can pay today - the boulder's roll
     this.load.image(
       krakenPrizeTexture(LOVE_KRAKEN_COINS_PRIZE),
@@ -2443,10 +2442,10 @@ export class LoveIslandScene extends BaseScene {
       .graphics({ x: x - KRAKEN_BAR_WIDTH / 2, y: KRAKEN_BAR_Y })
       .setDepth(Number.MAX_SAFE_INTEGER);
 
-    // The one button the whole game is played on. "Cast" and "Reel" are both
+    // The one button the whole game is played on. "CAST" and "REEL" are both
     // four letters, so the patch behind them is sized once and the text just
     // swaps - see `Label.setText`.
-    const button = new Label(this, "Cast", "brown", "kraken_fish_icon");
+    const button = new Label(this, "CAST", "brown", "kraken_rod_icon");
     button
       .setPosition(LOVE_KRAKEN_BUTTON.x, LOVE_KRAKEN_BUTTON.y)
       .setDepth(Number.MAX_SAFE_INTEGER)
@@ -2456,7 +2455,7 @@ export class LoveIslandScene extends BaseScene {
     this.add.existing(button);
 
     this.krakenButton = button;
-    this.krakenButtonLabel = "Cast";
+    this.krakenButtonLabel = "CAST";
 
     // The prize, floating over the Marvel once it is landed. Built with the
     // stand-in's prize; the room's roll for the day replaces it on sync.
@@ -2592,8 +2591,9 @@ export class LoveIslandScene extends BaseScene {
    * the zone somewhere else, so nobody settles into a rhythm.
    */
   /**
-   * The button reads "Cast" until the line is in the water and "Reel" after,
+   * The button reads "CAST" until the line is in the water and "REEL" after,
    * and hides while the Marvel is landed - there is nothing to pull on.
+   * Both are four letters, so the patch behind them is sized once.
    */
   private setKrakenButton(round: LoveKrakenRound) {
     const button = this.krakenButton;
@@ -2601,9 +2601,9 @@ export class LoveIslandScene extends BaseScene {
 
     button.setVisible(!round.caught);
 
-    // Still "Cast" while walking out - the line is not in the water yet
+    // Still "CAST" while walking out - the line is not in the water yet
     const text =
-      this.krakenCasting && this.currentPlayer?.isFishing ? "Reel" : "Cast";
+      this.krakenCasting && this.currentPlayer?.isFishing ? "REEL" : "CAST";
 
     if (this.krakenButtonLabel !== text) {
       this.krakenButtonLabel = text;

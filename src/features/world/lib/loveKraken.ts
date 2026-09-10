@@ -37,26 +37,30 @@ import { LOVE_ISLAND_MAP_WIDTH, LOVE_ISLAND_TILE_PX } from "./loveIslandTiles";
 export const LOVE_KRAKEN_SPOT = { x: 306, y: 566 };
 
 /**
- * Where an angler stands to fish. The wharf's deck is the only ground within
- * reach of the Marvel that a crowd can line up along, and its legal standing
- * band - a body box clear of the railings and the water, on a walkable tile -
- * is x 342..390, y 554..568.
+ * Where an angler stands to fish: the **western lip of the wharf**, right
+ * over the Marvel.
  *
- * Everyone is dealt one of these at random on their first cast rather than
- * fishing from wherever they happen to be, so a crowd spreads along the
- * wharf instead of piling onto one plank. They are spread in **y** as well as
- * x for the same reason: a single row of Bumpkins hides the ones behind.
+ * The lake's collider ends at x 336 and a body box is 10 wide, so x 341 is
+ * as close to the water as anyone can legally get; the deck's standing band
+ * runs y 554..568. Every spot is kept inside x 341..356 - the first square
+ * of planks - because a line cast from further down the wharf lands on the
+ * planks instead of in the water, and an angler out there cannot see the
+ * ring they are playing.
+ *
+ * Everyone is dealt one at random on their first cast rather than fishing
+ * from wherever they happen to be, so a crowd spreads along the lip instead
+ * of piling onto one plank. They are spread in **y** as well as x for the
+ * same reason: a single row of Bumpkins hides the ones behind.
  */
 export const LOVE_KRAKEN_CAST_SPOTS: { x: number; y: number }[] = [
-  { x: 344, y: 556 },
-  { x: 344, y: 566 },
-  { x: 354, y: 561 },
-  { x: 356, y: 554 },
-  { x: 358, y: 568 },
-  { x: 368, y: 558 },
-  { x: 370, y: 565 },
-  { x: 380, y: 556 },
-  { x: 382, y: 566 },
+  { x: 341, y: 554 },
+  { x: 348, y: 554 },
+  { x: 355, y: 554 },
+  { x: 344, y: 561 },
+  { x: 352, y: 561 },
+  { x: 341, y: 568 },
+  { x: 348, y: 568 },
+  { x: 355, y: 568 },
 ];
 
 /**
