@@ -88,7 +88,6 @@ type Entry = {
 
 export class PetRenderer extends EntityRenderer<Slice> {
   private entries = new Map<string, Entry>();
-  private tickMs = 0;
 
   selector(state: MachineState): Slice {
     const game = state.context.state;
@@ -467,9 +466,8 @@ export class PetRenderer extends EntityRenderer<Slice> {
   }
 
   update(_time: number, delta: number) {
-    this.tickMs += delta;
-    if (this.tickMs < 10_000) return; // nap/neglect states move slowly
-    this.tickMs = 0;
+    // Nap/neglect states move slowly — a ten-second pass is plenty.
+    if (!this.secondElapsed(delta, 10_000)) return;
     void this.sync(this.bridge.select((state) => this.selector(state)));
   }
 

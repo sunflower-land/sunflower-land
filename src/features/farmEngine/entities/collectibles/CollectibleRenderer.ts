@@ -278,7 +278,38 @@ export const collectiblesAt = (
 export class CollectibleRenderer extends EntityRenderer<Slice> {
   private movingUnsubscribe?: () => void;
   private nodes = new Map<string, NodeObjects>();
-  private tickMs = 0;
+
+  /**
+   * What the once-a-second pass actually has to touch, and what it needs to
+   * draw them. A farm carries hundreds of placed collectibles, but only a
+   * handful of them have anything that changes with the clock — the old tick
+   * re-rendered EVERY node (rebuilding the autotile grid first) whenever any
+   * one of them was in progress or expiring, which measured at 5-8ms on a
+   * 164-collectible farm with nothing in progress at all.
+   *
+   * The placement index and grid are captured by sync(), which is the only
+   * thing that can change either: the grid is derived purely from crop and
+   * collectible POSITIONS, so a clock tick can never invalidate it.
+   */
+  private timed = new Set<string>();
+  private placementIndex = new Map<
+    string,
+    { name: CollectibleName; item: PlacedItem }
+  >();
+  private lastGrid: GameGrid | undefined;
+  private lastSlice: Slice | undefined;
+
+  /**
+   * One-entry memo for getChestItems, which walks the ENTIRE inventory (750+
+   * entries on a mature farm) to build the chest listing — 0.34ms a call —
+   * while renderExpiringNode wants a single lookup out of it. Calling it once
+   * per expiring collectible per tick was 4ms a second on its own, on a farm
+   * with a dozen pet shrines. The machine replaces game state wholesale on
+   * every transition, so keying on its identity is exact, not approximate.
+   */
+  private chestCache:
+    | { game: GameState; items: ReturnType<typeof getChestItems> }
+    | undefined;
 
   selector(state: MachineState): Slice {
     const game = state.context.state;
@@ -312,6 +343,14 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
       });
     }
     return out;
+  }
+
+  /** getChestItems for this game state, computed at most once per transition. */
+  private chestItems(game: GameState) {
+    if (this.chestCache?.game !== game) {
+      this.chestCache = { game, items: getChestItems(game) };
+    }
+    return this.chestCache.items;
   }
 
   private buildGrid(slice: Slice): GameGrid {
@@ -484,9 +523,16 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
       this.nodes.delete(key);
     }
 
+    this.lastGrid = grid;
+    this.lastSlice = slice;
+    this.timed.clear();
+    this.placementIndex.clear();
+
     const now = Date.now();
     for (const { name, item } of placements) {
       const key = `${name}#${item.id}`;
+      this.placementIndex.set(key, { name, item });
+      if (this.isTimeSensitive(name, item, now)) this.timed.add(key);
       const dimensions = COLLECTIBLES_DIMENSIONS[name];
       const box = gridRectToWorld(item.coordinates!, dimensions);
 
@@ -807,7 +853,7 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
     const expiresAt = (item.createdAt ?? 0) + duration;
     const secondsToExpire = (expiresAt - now) / 1000;
     const hasExpired = secondsToExpire <= 0;
-    const hasReplacement = !!getChestItems(game)[name]?.gt(0);
+    const hasReplacement = !!this.chestItems(game)[name]?.gt(0);
 
     const texture = hasExpired
       ? (cfg.images.done ?? cfg.images.full)
@@ -1107,26 +1153,42 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
     sprite.setAlpha((item.readyAt ?? 0) > now ? 0.5 : 1);
   }
 
+  /**
+   * Does this node have anything that a clock tick can change? Construction
+   * finishing, an expiring boost's countdown/staged art, and Maneki Neko's
+   * daily shake window are the only three; everything else redraws identically
+   * every second, so the tick must not touch it.
+   */
+  private isTimeSensitive(
+    name: CollectibleName,
+    item: PlacedItem,
+    now: number,
+  ): boolean {
+    if (EXPIRING_COLLECTIBLES[name]) return true;
+    if (name === "Maneki Neko") return true;
+    return (item.readyAt ?? 0) > now;
+  }
+
   update(_time: number, delta: number) {
-    this.tickMs += delta;
-    if (this.tickMs < 1000) return;
-    this.tickMs = 0;
-    // Only in-progress items are time-sensitive; cheap full pass.
-    const slice = this.bridge.select((state) => this.selector(state));
-    const anyInProgress = Object.values(slice.collectibles).some((items) =>
-      (items ?? []).some((item) => (item.readyAt ?? 0) > Date.now()),
-    );
-    const anyExpiring = Object.keys(slice.collectibles).some(
-      (name) =>
-        EXPIRING_COLLECTIBLES[name as CollectibleName] ||
-        name === "Maneki Neko",
-    );
-    if (!anyInProgress && !anyExpiring) return;
-    const grid = this.buildGrid(slice);
+    if (!this.secondElapsed(delta)) return;
+    if (this.timed.size === 0) return;
+    const slice = this.lastSlice;
+    const grid = this.lastGrid;
+    if (!slice || !grid) return;
+
     const now = Date.now();
-    for (const { name, item } of this.placements(slice)) {
-      const objects = this.nodes.get(`${name}#${item.id}`);
-      if (objects) this.renderNode(objects, name, item, grid, slice, now);
+    for (const key of this.timed) {
+      const placement = this.placementIndex.get(key);
+      const objects = this.nodes.get(key);
+      if (!placement || !objects) {
+        this.timed.delete(key);
+        continue;
+      }
+      const { name, item } = placement;
+      this.renderNode(objects, name, item, grid, slice, now);
+      // A build that has just finished got its final pass above (full alpha,
+      // bar destroyed) and has nothing left to animate.
+      if (!this.isTimeSensitive(name, item, now)) this.timed.delete(key);
     }
   }
 
@@ -1228,7 +1290,7 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
         this.bridge.farmModal.open("renewPetShrine", { name, id });
         return;
       }
-      if (getChestItems(game)[name]?.gt(0)) {
+      if (this.chestItems(game)[name]?.gt(0)) {
         this.bridge.farmModal.open("renewCollectible", { name, id });
       } else {
         this.bridge.dispatch("collectible.burned", {
@@ -1457,5 +1519,11 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
     this.movingUnsubscribe?.();
     this.nodes.forEach((objects) => this.destroyNode(objects));
     this.nodes.clear();
+    this.timed.clear();
+    this.placementIndex.clear();
+    // Don't hold a game-state slice (or anything derived from it) past teardown.
+    this.lastGrid = undefined;
+    this.lastSlice = undefined;
+    this.chestCache = undefined;
   }
 }

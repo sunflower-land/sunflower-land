@@ -77,7 +77,6 @@ type PotObjects = {
 
 export class GreenhousePotRenderer extends EntityRenderer<Slice> {
   private pots = new Map<number, PotObjects>();
-  private tickMs = 0;
 
   selector(state: MachineState): Slice {
     const game = state.context.state;
@@ -340,9 +339,7 @@ export class GreenhousePotRenderer extends EntityRenderer<Slice> {
 
   /** Bars tick once a second like every other timed renderer. */
   update(_time: number, delta: number) {
-    this.tickMs += delta;
-    if (this.tickMs < 1000) return;
-    this.tickMs = 0;
+    if (!this.secondElapsed(delta)) return;
     const slice = this.bridge.select((state) => this.selector(state));
     for (const id of [1, 2, 3, 4]) this.syncPot(id, slice);
   }

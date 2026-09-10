@@ -53,7 +53,6 @@ export class FlowerBedRenderer extends ResourceNodeRenderer<FlowerBedNode> {
   private bars = new Map<string, ProgressBarSprite>();
   private timings = new Map<string, BedTiming>();
   private clocks = new Map<string, () => void>();
-  private barTickMs = 0;
 
   protected selectNodes(game: GameState) {
     return game.flowers.flowerBeds;
@@ -235,9 +234,7 @@ export class FlowerBedRenderer extends ResourceNodeRenderer<FlowerBedNode> {
 
   update(_time: number, delta: number) {
     if (this.bars.size === 0) return;
-    this.barTickMs += delta;
-    if (this.barTickMs < 1000) return;
-    this.barTickMs = 0;
+    if (!this.secondElapsed(delta)) return;
     for (const id of this.bars.keys()) this.updateBar(id);
   }
 

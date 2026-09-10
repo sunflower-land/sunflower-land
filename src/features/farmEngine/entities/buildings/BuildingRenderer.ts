@@ -109,10 +109,10 @@ type BuildingObjects = {
    * The letterbox's click target. Deliberately larger than the 8px mailbox
    * art and taller than the DOM's 16px hit div so the news icon above it is
    * clickable too — both used to fall through to the house door underneath.
-   * Lives outside `extras` because that map is rebuilt every 1s tick.
+   * A Zone, not art, so it lives outside `extras`.
    */
   letterZone?: Phaser.GameObjects.Zone;
-  /** Unread-news icon; kept across ticks so its float tween survives. */
+  /** Unread-news icon; owns a float tween, so the tween owns its lifecycle. */
   mailAlert?: ArtObject;
   mailAlertTween?: Phaser.Tweens.Tween;
 };
@@ -162,11 +162,12 @@ export const HOME_EXTRA_OFFSETS: Record<
 
 export class BuildingRenderer extends EntityRenderer<Slice> {
   private nodes = new Map<string, BuildingObjects>();
-  private tickMs = 0;
   /** Composed-bumpkin building NPCs (fish market's Neville). */
   private npcSprites = new Map<string, NPCSprite>();
   /** [House.tsx] transient heart after recipes.collected. */
   private heartShownUntil = 0;
+  /** Extra keys re-added by the pass in flight; the rest are swept after it. */
+  private claimedExtras = new Set<string>();
   private unsubscribeEvents: (() => void) | undefined;
 
   mount() {
@@ -381,6 +382,10 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
 
       this.refreshBuilding(objects, slice, Date.now());
     }
+
+    // Extras are reused across passes now, so anything created during a drag
+    // has to be re-hidden here rather than relying on the next moving event.
+    this.applyMovingVisibility();
   }
 
   /** Full visual state pass for one building — also the 1s tick body. */
@@ -425,11 +430,13 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
     // Constructing: normal art at 50% + centred progress bar [Building.tsx].
     objects.base.setAlpha(constructing ? 0.5 : 1);
 
-    // Reset per-state extras each pass (a handful of images; cheap).
-    for (const [key, image] of objects.extras) {
-      image.destroy();
-      objects.extras.delete(key);
-    }
+    // Per-state extras are RECLAIMED, not rebuilt. Destroying the whole map
+    // each pass churned ~58 display objects a second across 22 buildings, and
+    // because the cooking NPCs and smoke live in here as animated sprites,
+    // every one of them restarted its loop at frame 0 once a second. addExtra
+    // now hands back the object already under that key; anything the pass
+    // doesn't re-add is swept below.
+    this.claimedExtras.clear();
     objects.alertTween?.remove();
     objects.alertTween = undefined;
 
@@ -478,6 +485,8 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
       objects.bar.destroy();
       objects.bar = undefined;
     }
+
+    this.sweepExtras(objects);
   }
 
   /**
@@ -978,7 +987,7 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
       // Inner div: left 1.5 tiles, top 1 tile; chest fills its 16px div.
       const chestX = box.x + offsets.daily.x + 24;
       const chestY = box.y + offsets.daily.y + 16;
-      const chest = this.addExtra(
+      this.addExtra(
         objects,
         "daily-chest",
         collected
@@ -990,13 +999,9 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
           width: 16,
           depth: topDepth + 2,
           bottomAnchored: true,
+          onClick: () => this.bridge.openModal("DAILY_REWARD"),
         },
       );
-      if (chest) {
-        makeClickable(this.scene, chest, () =>
-          this.bridge.openModal("DAILY_REWARD"),
-        );
-      }
       if (!collected) {
         this.addExtra(
           objects,
@@ -1218,18 +1223,44 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
       topAnchored?: boolean;
       bottomAnchored?: boolean;
       flip?: boolean;
+      /**
+       * Bound ONCE, when the object is first created. Extras survive across
+       * passes now, so a caller wiring its own makeClickable on the returned
+       * object would stack a fresh handler every second.
+       */
+      onClick?: () => void;
     },
   ): ArtObject | undefined {
     // Animated art (cooking NPCs, smoke) plays its converted strip.
-    const image = resolveArtObject(this.scene, undefined, texture);
+    // resolveArtObject reuses the object we already have under this key —
+    // keeping a running animation running — and only builds a new one when the
+    // art changes kind (Image <-> Sprite).
+    const previous = objects.extras.get(key);
+    const image = resolveArtObject(this.scene, previous, texture);
     if (!image) return undefined;
-    image.setOrigin(0, options.bottomAnchored ? 1 : 0).setDepth(options.depth);
+    image.setOrigin(0, options.bottomAnchored ? 1 : 0);
+    image.setDepth(options.depth);
+    // Explicitly cleared, not just set: a reused object keeps the last pass's
+    // flip otherwise.
+    image.setFlipX(!!options.flip);
     // Native pixels, re-centred on the spot the DOM's width put it.
     const shift = nativeScale(image, options.width);
     image.setPosition(options.x + shift, options.y);
-    if (options.flip) image.setFlipX(true);
+    if (options.onClick && image !== previous) {
+      makeClickable(this.scene, image, options.onClick);
+    }
     objects.extras.set(key, image);
+    this.claimedExtras.add(key);
     return image;
+  }
+
+  /** Destroy the extras this pass did not re-add. */
+  private sweepExtras(objects: BuildingObjects) {
+    for (const [key, image] of objects.extras) {
+      if (this.claimedExtras.has(key)) continue;
+      image.destroy();
+      objects.extras.delete(key);
+    }
   }
 
   /** DOM offsets: left/right/top/bottom measured inside the box. */
@@ -1270,9 +1301,7 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
   }
 
   update(_time: number, delta: number) {
-    this.tickMs += delta;
-    if (this.tickMs < 1000) return;
-    this.tickMs = 0;
+    if (!this.secondElapsed(delta)) return;
     const slice = this.bridge.select((state) => this.selector(state));
     const now = Date.now();
     for (const objects of this.nodes.values()) {

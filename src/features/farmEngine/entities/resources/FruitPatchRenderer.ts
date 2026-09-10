@@ -113,7 +113,6 @@ export class FruitPatchRenderer extends ResourceNodeRenderer<FruitNode> {
   private bars = new Map<string, ProgressBarSprite>();
   private timings = new Map<string, PatchTiming>();
   private clocks = new Map<string, () => void>();
-  private barTickMs = 0;
 
   protected selectNodes(game: GameState) {
     return game.fruitPatches;
@@ -370,9 +369,7 @@ export class FruitPatchRenderer extends ResourceNodeRenderer<FruitNode> {
 
   update(_time: number, delta: number) {
     if (this.bars.size === 0) return;
-    this.barTickMs += delta;
-    if (this.barTickMs < 1000) return;
-    this.barTickMs = 0;
+    if (!this.secondElapsed(delta)) return;
     for (const id of this.bars.keys()) this.updateBar(id);
   }
 

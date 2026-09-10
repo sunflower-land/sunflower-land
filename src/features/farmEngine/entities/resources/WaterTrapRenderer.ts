@@ -65,7 +65,6 @@ const POT_SHEETS: Record<string, SheetSpec> = {
 
 export class WaterTrapRenderer extends EntityRenderer<Slice> {
   private traps = new Map<string, TrapObjects>();
-  private tickMs = 0;
 
   selector(state: MachineState): Slice {
     const game = state.context.state;
@@ -246,9 +245,7 @@ export class WaterTrapRenderer extends EntityRenderer<Slice> {
   }
 
   update(_time: number, delta: number) {
-    this.tickMs += delta;
-    if (this.tickMs < 1000) return;
-    this.tickMs = 0;
+    if (!this.secondElapsed(delta)) return;
     const slice = this.bridge.select((state) => this.selector(state));
     for (const [id, spot] of Object.entries(slice.trapSpots)) {
       this.updateBar(id, spot);

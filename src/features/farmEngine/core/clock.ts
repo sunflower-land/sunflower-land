@@ -75,7 +75,16 @@ type Entry = {
  */
 export class FarmClock {
   private entries = new Map<string, Entry>();
-  private accumulatorMs = 0;
+  private accumulatorMs: number;
+
+  /**
+   * @param phaseMs how far into the first second this clock starts. The scene
+   * offsets it so its stage pass doesn't land on the same frame as the
+   * renderers' own once-a-second passes [EntityRenderer.secondElapsed].
+   */
+  constructor(phaseMs = 0) {
+    this.accumulatorMs = phaseMs;
+  }
 
   register(
     key: string,

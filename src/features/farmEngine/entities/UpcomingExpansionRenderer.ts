@@ -56,7 +56,6 @@ export class UpcomingExpansionRenderer extends EntityRenderer<Slice> {
   private readyTimer: Phaser.Time.TimerEvent | undefined;
   private pontoonBar: ProgressBarSprite | undefined;
   private pontoonTiming: { createdAt: number; readyAt: number } | undefined;
-  private barTickMs = 0;
   private chips: LabelChip[] = [];
 
   selector(state: MachineState): Slice {
@@ -211,9 +210,7 @@ export class UpcomingExpansionRenderer extends EntityRenderer<Slice> {
 
   update(_time: number, delta: number) {
     if (!this.pontoonBar) return;
-    this.barTickMs += delta;
-    if (this.barTickMs < 1000) return;
-    this.barTickMs = 0;
+    if (!this.secondElapsed(delta)) return;
     this.updatePontoonBar();
   }
 

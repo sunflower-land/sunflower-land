@@ -211,7 +211,6 @@ type AnimalObjects = {
 
 export class AnimalHouseRenderer extends EntityRenderer<Slice> {
   private animals = new Map<string, AnimalObjects>();
-  private tickMs = 0;
   private interaction?: AnimalInteraction;
   /** id -> reaction shown until timestamp [animalMachine happy/sad 2s]. */
   private reactions = new Map<
@@ -825,9 +824,7 @@ export class AnimalHouseRenderer extends EntityRenderer<Slice> {
 
   /** States are time-gated (awakeAt, love window), so re-derive each second. */
   update(_time: number, delta: number) {
-    this.tickMs += delta;
-    if (this.tickMs < 1000) return;
-    this.tickMs = 0;
+    if (!this.secondElapsed(delta)) return;
     // Drop expired reactions so the derived state takes back over.
     for (const [id, reaction] of this.reactions) {
       if (reaction.until <= Date.now()) this.reactions.delete(id);

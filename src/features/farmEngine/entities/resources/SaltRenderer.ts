@@ -51,7 +51,6 @@ const TICK_MS = 30_000;
 export class SaltRenderer extends EntityRenderer<Slice> {
   private nodes = new Map<string, SaltObjects>();
   private placeholders = new Map<string, SaltObjects>();
-  private tickMs = 0;
   private unsubscribeUi: Unsubscribe | undefined;
 
   selector(state: MachineState): Slice {
@@ -247,9 +246,7 @@ export class SaltRenderer extends EntityRenderer<Slice> {
 
   /** Charges regenerate over hours — a coarse tick keeps stages honest. */
   update(_time: number, delta: number) {
-    this.tickMs += delta;
-    if (this.tickMs < TICK_MS) return;
-    this.tickMs = 0;
+    if (!this.secondElapsed(delta, TICK_MS)) return;
     void this.sync(this.bridge.select((state) => this.selector(state)));
   }
 

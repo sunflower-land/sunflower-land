@@ -35,6 +35,20 @@ export class AnchorRegistry {
   private listeners = new Map<string, Set<AnchorListener>>();
   private project: Projection | undefined;
 
+  /**
+   * Bumped every time the camera moves, so a rect projected under an older
+   * version is known to be stale.
+   *
+   * Every entity that can show a popover registers an anchor — a mid-size farm
+   * has well over a hundred — but only the one or two the overlay is actually
+   * subscribed to have a reader. Projecting all of them on every pointermove
+   * of a pan meant a hundred-odd throwaway rect objects per frame during the
+   * one interaction where smoothness is most visible. Unwatched anchors are
+   * now projected lazily, at the moment something subscribes or reads.
+   */
+  private projectionVersion = 0;
+  private projectedAt = new Map<string, number>();
+
   /** Register or move an anchor. Idempotent; notifies subscribers on change. */
   setAnchor(id: string, world: WorldRect) {
     this.anchors.set(id, world);
@@ -44,10 +58,12 @@ export class AnchorRegistry {
   removeAnchor(id: string) {
     this.anchors.delete(id);
     this.rects.delete(id);
+    this.projectedAt.delete(id);
     this.notify(id, undefined);
   }
 
   getRect(id: string): ScreenRect | undefined {
+    this.refresh(id);
     return this.rects.get(id);
   }
 
@@ -60,8 +76,13 @@ export class AnchorRegistry {
     this.reprojectAll();
   }
 
+  /**
+   * Camera moved: every rect is now stale. Only the WATCHED ones are
+   * recomputed here — the rest are projected on demand by getRect/subscribe.
+   */
   reprojectAll() {
-    for (const id of this.anchors.keys()) {
+    this.projectionVersion += 1;
+    for (const id of this.listeners.keys()) {
       this.reproject(id);
     }
   }
@@ -73,7 +94,9 @@ export class AnchorRegistry {
       this.listeners.set(id, set);
     }
     set.add(listener);
-    // New subscribers get the current rect straight away.
+    // New subscribers get the current rect straight away — projected now if
+    // this anchor has been sitting unwatched through camera movement.
+    this.refresh(id);
     listener(this.rects.get(id));
     return () => {
       set.delete(listener);
@@ -84,13 +107,21 @@ export class AnchorRegistry {
   dispose() {
     this.anchors.clear();
     this.rects.clear();
+    this.projectedAt.clear();
     this.listeners.clear();
     this.project = undefined;
+  }
+
+  /** Project `id` only if it hasn't been projected since the last camera move. */
+  private refresh(id: string) {
+    if (this.projectedAt.get(id) === this.projectionVersion) return;
+    this.reproject(id);
   }
 
   private reproject(id: string) {
     const world = this.anchors.get(id);
     if (!world || !this.project) return;
+    this.projectedAt.set(id, this.projectionVersion);
     const next = this.project(world);
     const prev = this.rects.get(id);
     if (

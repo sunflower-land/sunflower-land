@@ -118,7 +118,6 @@ export class CropRenderer extends EntityRenderer<Slice> {
   // Per-plot, like the DOM's per-component clickedAt — a global buffer would
   // swallow rapid taps across DIFFERENT plots.
   private clickedAt = new Map<string, number>();
-  private barTickMs = 0;
   private unsubscribeUi: Unsubscribe | undefined;
 
   mount() {
@@ -538,9 +537,7 @@ export class CropRenderer extends EntityRenderer<Slice> {
 
   /** Tick the visible progress bars once a second. */
   update(_time: number, delta: number) {
-    this.barTickMs += delta;
-    if (this.barTickMs < 1000) return;
-    this.barTickMs = 0;
+    if (!this.secondElapsed(delta)) return;
     for (const objects of this.plots.values()) {
       this.updateBar(objects);
     }

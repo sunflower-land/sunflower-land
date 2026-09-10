@@ -3,6 +3,18 @@ import type { GameBridge } from "../bridge/GameBridge";
 import type { EqualityFn, Unsubscribe } from "../bridge/subscriptions";
 import type { FarmScene } from "../scenes/FarmScene";
 
+const TICK_INTERVAL_MS = 1000;
+
+/**
+ * Phase offset for the next renderer's once-a-second pass. 137 is coprime with
+ * 1000, so successive renderers land 137ms apart and wrap without colliding.
+ */
+let tickPhase = 0;
+const nextTickPhase = () => {
+  tickPhase = (tickPhase + 137) % TICK_INTERVAL_MS;
+  return tickPhase;
+};
+
 /**
  * One renderer instance per ENTITY TYPE (not per entity). It subscribes to its
  * slice of game state and reconciles Phaser display objects keyed by entity id
@@ -21,6 +33,9 @@ import type { FarmScene } from "../scenes/FarmScene";
  */
 export abstract class EntityRenderer<Slice> {
   private unsubscribe: Unsubscribe | undefined;
+
+  /** Accumulator behind secondElapsed, seeded with this renderer's phase. */
+  private tickMs = nextTickPhase();
 
   /**
    * Async-sync guards: a sync that awaits the texture loader must abandon its
@@ -59,6 +74,28 @@ export abstract class EntityRenderer<Slice> {
   /** Per-frame hook. Override only when something genuinely animates per frame. */
   update(_time: number, _delta: number): void {
     // no-op by default
+  }
+
+  /**
+   * "Has a second passed?" for renderers that refresh time-derived visuals
+   * (progress bars, countdowns, staged art) — the once-a-second pass, driven
+   * off the scene's delta so it pauses with the game.
+   *
+   * Each renderer used to keep its own `tickMs = 0`, fed the same delta from
+   * the same Scene.update, so all thirteen of them crossed 1000ms on the SAME
+   * frame: a median frame costing ~0ms and then one 5-8ms stall every 60
+   * frames. An fps average hides that completely — it is felt as a hitch once
+   * a second. Seeding each accumulator with its own offset spreads the passes
+   * across the second instead of stacking them into one frame.
+   */
+  protected secondElapsed(
+    delta: number,
+    intervalMs = TICK_INTERVAL_MS,
+  ): boolean {
+    this.tickMs += delta;
+    if (this.tickMs < intervalMs) return false;
+    this.tickMs = 0;
+    return true;
   }
 
   mount() {

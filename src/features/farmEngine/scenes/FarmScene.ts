@@ -41,7 +41,8 @@ const INTERIOR_CLEAR_COLOR = "#0e4a6d";
 export class FarmScene extends Phaser.Scene {
   readonly farmCamera: FarmCameraController;
   private yieldEventFloats?: YieldEventFloats;
-  readonly clock = new FarmClock();
+  /** Half-second phase: the renderers' own 1s passes are spread from 0 up. */
+  readonly clock = new FarmClock(500);
 
   private renderers: EntityRenderer<unknown>[] = [];
   private subscriptions: Unsubscribe[] = [];

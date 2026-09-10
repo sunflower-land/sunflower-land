@@ -45,7 +45,6 @@ export class BeehiveRenderer extends ResourceNodeRenderer<HiveNode> {
   private bars = new Map<string, ProgressBarSprite>();
   private activeFlowerIds = new Map<string, string | undefined>();
   private flyingBees = new Map<string, Phaser.GameObjects.Image>();
-  private tickMs = 0;
 
   protected selectNodes(game: GameState) {
     // The DOM early-returns hives without coordinates.
@@ -209,9 +208,7 @@ export class BeehiveRenderer extends ResourceNodeRenderer<HiveNode> {
   }
 
   update(_time: number, delta: number) {
-    this.tickMs += delta;
-    if (this.tickMs < 1000) return;
-    this.tickMs = 0;
+    if (!this.secondElapsed(delta)) return;
 
     const slice = this.bridge.select((state) => this.selector(state));
     for (const [id, node] of Object.entries(slice.nodes)) {

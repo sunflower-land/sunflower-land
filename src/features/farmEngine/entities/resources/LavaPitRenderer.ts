@@ -29,7 +29,6 @@ export class LavaPitRenderer extends ResourceNodeRenderer<LavaPitNode> {
   protected readonly hoverKind = null;
 
   private bars = new Map<string, ProgressBarSprite>();
-  private barTickMs = 0;
 
   protected selectNodes(game: GameState) {
     return game.lavaPits;
@@ -114,9 +113,7 @@ export class LavaPitRenderer extends ResourceNodeRenderer<LavaPitNode> {
 
   update(_time: number, delta: number) {
     if (this.bars.size === 0) return;
-    this.barTickMs += delta;
-    if (this.barTickMs < 1000) return;
-    this.barTickMs = 0;
+    if (!this.secondElapsed(delta)) return;
     const game = this.game();
     for (const id of this.bars.keys()) {
       this.updateBar(id, game.lavaPits[id]);
