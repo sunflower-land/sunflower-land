@@ -74,6 +74,7 @@ export const CraftTab: React.FC<Props> = ({
   const { recipes } = craftingBox;
   const {
     craftingQueue,
+    timings,
     cooking,
     queue,
     readyProducts,
@@ -560,6 +561,42 @@ export const CraftTab: React.FC<Props> = ({
     isViewingInProgressRecipe ||
     isViewingQueuedRecipe;
 
+  /**
+   * The instant the craft on screen would START, which is what the duration
+   * preview projects the boost windows from.
+   *
+   * `boxFreeAt` is when the WHOLE queue finishes, so it is the right anchor for a
+   * craft that is not queued yet - that is exactly where `startCrafting` chains a
+   * new one to. It is the WRONG anchor for a craft already IN the queue: the last
+   * entry would be projected from its own END, reading the boost state after it
+   * has finished, so a booster still running through part of it shows as already
+   * expired and the craft reads fully unboosted.
+   *
+   * A queued craft therefore projects from its own derived start. A craft that
+   * has already begun falls through to the fallback; its panel shows a live
+   * countdown rather than this preview.
+   */
+  const viewedStartsAt = useMemo(() => {
+    const fallback =
+      boxFreeAt !== undefined && boxFreeAt > now ? boxFreeAt : now;
+
+    if (isPreparingQueueSlot || selectedItemId == null) return fallback;
+
+    // `timings` is indexed against the raw queue, while the slots render a
+    // reordered view, so match on id rather than slot position.
+    const index = craftingQueue.findIndex(({ id }) => id === selectedItemId);
+    const ownStart = index === -1 ? undefined : timings[index]?.startedAt;
+
+    return ownStart !== undefined && ownStart > now ? ownStart : fallback;
+  }, [
+    boxFreeAt,
+    now,
+    isPreparingQueueSlot,
+    selectedItemId,
+    craftingQueue,
+    timings,
+  ]);
+
   // `cooking` comes from the hook, so this is the DERIVED ready time - the gem
   // price must be quoted off the wait the player can actually see, or the client
   // charges something the server will not.
@@ -617,9 +654,7 @@ export const CraftTab: React.FC<Props> = ({
             remainingTime={remainingTime}
             isIdle={isIdle}
             showRecipeContext={!isViewingInProgressItem && !isViewingReadyItem}
-            startsAt={
-              boxFreeAt !== undefined && boxFreeAt > now ? boxFreeAt : now
-            }
+            startsAt={viewedStartsAt}
             key={`${currentRecipe?.name}-${selectedItemId ?? preparingSlotIndex}`}
           />
           <CraftButton
