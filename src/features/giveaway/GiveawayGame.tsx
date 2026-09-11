@@ -190,6 +190,9 @@ export const GiveawayGame: React.FC<{ minigame?: MinigameType }> = ({
         picked: null,
         lastResult: null,
         pick: (answer) => {
+          // Answers lock in: ignore taps once one is queued or already picked
+          // (the scene clears `picked` when the next question starts).
+          if (trivia.pending !== null || trivia.picked !== null) return;
           trivia.pending = answer;
         },
       };
