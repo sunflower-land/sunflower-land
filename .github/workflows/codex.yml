@@ -10,14 +10,38 @@ concurrency:
   group: codex-review-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
+# The review runs OpenAI GPT-5.6 Sol served by Amazon Bedrock, billed to our
+# development AWS account instead of an OpenAI API key.
+#
+# This follows the AWS/OpenAI-documented setup for Codex on Bedrock: Codex's
+# built-in `amazon-bedrock` provider reads AWS credentials from the standard
+# SDK chain (here, the AWS_* environment that configure-aws-credentials
+# exports after assuming a role via GitHub OIDC) and signs each request.
+# Codex runs code from the PR, so those credentials are readable by whatever
+# it executes; the safeguard is the role itself. It can be assumed only by
+# this repository's `develop` environment jobs, its sessions last at most one
+# hour, and its single permission is `bedrock-mantle:CreateInference` on one
+# Bedrock project, restricted to the model below. Nothing else is reachable.
+# The role ARN lives in the `develop` environment secret AWS_BEDROCK_ROLE_ARN.
+env:
+  AWS_REGION: us-east-1
+  # Bedrock's model ID for GPT-5.6 Sol. Keep the `openai.` prefix: Bedrock
+  # rejects the bare name and the `us.` inference-profile form.
+  CODEX_MODEL: openai.gpt-5.6-sol
+
 jobs:
   codex:
+    # Forks get neither environment secrets nor an OIDC token, so the review
+    # can only run for branches in this repository.
+    if: github.event.pull_request.head.repo.full_name == github.repository
     environment: develop
     runs-on: ubuntu-24.04-arm
     # Backstop against a stuck job, not a calibrated value: the default is 6h.
     timeout-minutes: 30
     permissions:
       contents: read
+      # Needed to mint the OIDC token that is exchanged for the Bedrock role.
+      id-token: write
     outputs:
       final_message: ${{ steps.run_codex.outputs.final-message }}
     steps:
@@ -34,12 +58,27 @@ jobs:
             exit 1
           fi
 
+      - name: Configure AWS credentials for Bedrock
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_BEDROCK_ROLE_ARN }}
+          role-session-name: codex-review-pr-${{ github.event.pull_request.number }}
+          aws-region: ${{ env.AWS_REGION }}
+
       - name: Run Codex
         id: run_codex
+        # v1.11: v1.12 never exits on heavy reviews.
         uses: openai/codex-action@v1.11
         with:
-          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          # Not a real key. The action refuses to run without one because it
+          # always starts its OpenAI Responses proxy (and only drops sudo on
+          # that path), but the `-c` overrides below route Codex to Bedrock
+          # instead, so the proxy is never called.
+          openai-api-key: bedrock-sigv4-placeholder
           effort: high
+          model: ${{ env.CODEX_MODEL }}
+          codex-args: |
+            ["-c", "model_provider=amazon-bedrock", "-c", "model_providers.amazon-bedrock.aws.region=\"${{ env.AWS_REGION }}\""]
           prompt: |
             You are an experienced senior engineer reviewing a React, PhaserJS, and TypeScript codebase that uses **React Compiler** in production.
 
