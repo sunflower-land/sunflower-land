@@ -1,4 +1,5 @@
 import type { GameState, InventoryItemName } from "features/game/types/game";
+import { mfCurrencyChange } from "lib/moonforgeAnalytics";
 import {
   type RewardBoxName,
   type RewardBoxReward,
@@ -120,6 +121,9 @@ export function openRewardBox({
       });
     }
 
+    const coinsBefore = stateCopy.coins;
+    const sflBefore = stateCopy.balance.toNumber();
+
     if (selectedReward.items) {
       history.items = {
         ...(history.items ?? {}),
@@ -158,6 +162,11 @@ export function openRewardBox({
       reward: selectedReward,
       history,
     };
+
+    mfCurrencyChange("open_reward_box", "grant", {
+      coin: { before: coinsBefore, after: stateCopy.coins },
+      sfl: { before: sflBefore, after: stateCopy.balance.toNumber() },
+    });
 
     return stateCopy;
   });

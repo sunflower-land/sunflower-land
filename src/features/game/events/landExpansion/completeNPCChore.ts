@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { mfCurrencyChange } from "lib/moonforgeAnalytics";
 import type {
   BoostName,
   GameState,
@@ -168,6 +169,7 @@ export function completeNPCChore({
       ).add(amount);
     });
 
+    const coinsBefore = draft.coins;
     if (chore.reward.coins) {
       draft.coins += chore.reward.coins;
     }
@@ -227,6 +229,10 @@ export function completeNPCChore({
         );
       }
     }
+
+    mfCurrencyChange("npc_chore", "grant", {
+      coin: { before: coinsBefore, after: draft.coins },
+    });
 
     return draft;
   });

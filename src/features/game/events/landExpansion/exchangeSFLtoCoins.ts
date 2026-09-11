@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import type { GameState } from "features/game/types/game";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { produce } from "immer";
+import { mfEconomy } from "lib/moonforgeAnalytics";
 
 type ExchangePackage = { sfl: number; coins: number };
 export type PackageId = 1 | 2 | 3;
@@ -48,6 +49,8 @@ export function exchangeSFLtoCoins({
       throw new Error("Not enough SFL");
     }
 
+    const sflBefore = balance.toNumber();
+    const coinsBefore = game.coins;
     game.balance = balance.minus(sfl);
     game.coins += coins;
     game.farmActivity = trackFarmActivity(
@@ -55,6 +58,13 @@ export function exchangeSFLtoCoins({
       game.farmActivity,
       new Decimal(sfl),
     );
+
+    mfEconomy("exchange_sfl_to_coins", {
+      inputs: [
+        { type: "SFL", before: sflBefore, after: game.balance.toNumber() },
+      ],
+      outputs: [{ type: "Coin", before: coinsBefore, after: game.coins }],
+    });
 
     return game;
   });

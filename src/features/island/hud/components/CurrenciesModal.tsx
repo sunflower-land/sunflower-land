@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -21,7 +21,7 @@ import {
 } from "features/game/components/modal/components/BuyGems";
 import { randomID } from "lib/utils/random";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
-import { mfTrack } from "lib/moonforgeAnalytics";
+import { mfIapCompleted, mfIapInitiated } from "lib/moonforgeAnalytics";
 import type { AuthMachineState } from "features/auth/lib/authMachine";
 import type { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
@@ -91,6 +91,12 @@ export const CurrenciesModal: React.FC<Props> = ({
   const [loading, setLoading] = useState(false);
   const [price, setPrice] = useState<Price>();
   const [hideBuyBBLabel, setHideBuyBBLabel] = useState(false);
+
+  // The transaction id handed to Xsolla when a card purchase starts, kept so
+  // the `iap_completed` event on success carries the same id as `iap_initiated`
+  // (and as the payment record) - a double-fired success callback then
+  // de-duplicates instead of counting the revenue twice.
+  const checkoutTransactionId = useRef<string | undefined>(undefined);
 
   const token = useSelector(authService, _token);
   const farmId = useSelector(gameService, _farmId);
@@ -169,15 +175,28 @@ export const CurrenciesModal: React.FC<Props> = ({
     setPage("menu");
   };
 
+  const productFields = () => {
+    const isStarterPack = price?.amount === STARTER_PACK;
+    return {
+      product_id: isStarterPack ? "starter_pack" : `gems_${price?.amount}`,
+      price: price?.usd ?? 0,
+      currency: "USD",
+    };
+  };
+
   const handleCreditCardBuy = async () => {
     setLoading(true);
     try {
       const amount = price?.amount ?? 0;
+      const transactionId = randomID();
+      checkoutTransactionId.current = transactionId;
+
+      mfIapInitiated({ ...productFields(), store: "web" });
 
       const { url } = await buyGemsXsolla({
         amount: amount as number,
         farmId,
-        transactionId: randomID(),
+        transactionId,
         token,
       });
 
@@ -198,10 +217,10 @@ export const CurrenciesModal: React.FC<Props> = ({
         : ((price?.amount as number) ?? 0),
       ...(isStarterPack ? { coins: STARTER_PACK_COINS } : {}),
     });
-    mfTrack("iap_completed", {
-      product_id: isStarterPack ? "starter_pack" : `gems_${price?.amount}`,
-      price: price?.usd ?? 0,
-      currency: "USD",
+    mfIapCompleted({
+      ...productFields(),
+      transaction_id: checkoutTransactionId.current ?? randomID(),
+      store: "web",
     });
     onClose();
   };

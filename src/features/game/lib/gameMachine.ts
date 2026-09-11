@@ -87,7 +87,14 @@ import type { AuctionResults } from "./auctionMachine";
 import type { RaffleSnapshotWinner } from "features/world/ui/chapterRaffles/actions/loadRaffleResults";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { mfIdentify, mfSetUser, mfTrack } from "lib/moonforgeAnalytics";
+import {
+  consumeSignupPending,
+  mfAccountCreated,
+  mfEconomy,
+  mfIdentify,
+  mfSetUser,
+  mfTutorialStart,
+} from "lib/moonforgeAnalytics";
 import {
   hasCompletedLoginStep,
   markLoginStepCompleted,
@@ -2511,10 +2518,24 @@ export function startGame(authContext: AuthContext) {
               });
 
               if (!error) {
-                mfTrack("marketplace_trade", {
-                  item_id: item,
-                  price_sfl: pricePerUnit,
-                  side: "sell",
+                const resourceBefore =
+                  context.state.inventory[item] ?? new Decimal(0);
+                const resourceAfter = farm.inventory[item] ?? new Decimal(0);
+                mfEconomy("marketplace_sell_resource", {
+                  inputs: [
+                    {
+                      type: item,
+                      before: resourceBefore.toNumber(),
+                      after: resourceAfter.toNumber(),
+                    },
+                  ],
+                  outputs: [
+                    {
+                      type: "SFL",
+                      before: context.state.balance.toNumber(),
+                      after: farm.balance.toNumber(),
+                    },
+                  ],
                 });
               }
 
@@ -3017,6 +3038,18 @@ export function startGame(authContext: AuthContext) {
               farmId: context.farmId,
             });
             mfSetUser(`account${event.data.analyticsId}`);
+
+            // A signup marker for THIS farm means this session immediately
+            // follows its creation on this device. Emit `account_created`
+            // (after identify, per the telemetry contract) and `tutorial_start`
+            // now. Consuming the marker deletes it, so both fire exactly once -
+            // a returning player logging in wrote no marker, and a marker left
+            // by a different farm's interrupted signup is not matched here.
+            const signup = consumeSignupPending(context.farmId);
+            if (signup) {
+              mfAccountCreated(signup);
+              mfTutorialStart();
+            }
 
             gameAnalytics.initialise({
               id: event.data.analyticsId,

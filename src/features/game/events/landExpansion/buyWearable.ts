@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { mfCurrencyChange } from "lib/moonforgeAnalytics";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import { ARTEFACT_SHOP_WEARABLES } from "features/game/types/artefactShop";
 import type { BumpkinItem } from "features/game/types/bumpkin";
@@ -90,10 +91,15 @@ export function buyWearable({
     );
 
     const oldAmount = stateCopy.wardrobe[name] ?? 0;
+    const coinsBefore = stateCopy.coins;
 
     stateCopy.coins = stateCopy.coins - price;
     stateCopy.wardrobe[name] = oldAmount + 1;
     stateCopy.inventory = subtractedInventory;
+
+    mfCurrencyChange("buy_wearable", "spend", {
+      coin: { before: coinsBefore, after: stateCopy.coins },
+    });
 
     return stateCopy;
   });

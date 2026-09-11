@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { mfEconomy } from "lib/moonforgeAnalytics";
 import { KNOWN_IDS } from "features/game/types";
 import type { BuildingName } from "features/game/types/buildings";
 import { trackFarmActivity } from "features/game/types/farmActivity";
@@ -172,6 +173,16 @@ export function collectRecipe({
           const consumableCount =
             game.inventory[cookableName] || new Decimal(0);
           game.inventory[cookableName] = consumableCount.add(amount);
+
+          mfEconomy("collect_recipe", {
+            outputs: [
+              {
+                type: cookableName,
+                before: consumableCount.toNumber(),
+                after: consumableCount.add(amount).toNumber(),
+              },
+            ],
+          });
 
           game.farmActivity = trackFarmActivity(
             `${cookableName} Cooked`,

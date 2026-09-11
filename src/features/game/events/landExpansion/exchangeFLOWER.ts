@@ -1,5 +1,6 @@
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
+import { mfEconomy } from "lib/moonforgeAnalytics";
 import type { GameState } from "features/game/types/game";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { trackFarmActivity } from "features/game/types/farmActivity";
@@ -79,6 +80,23 @@ export function exchangeFlower({
       game.farmActivity,
       new Decimal(loveCharmsRequired),
     );
+
+    mfEconomy("exchange_flower", {
+      inputs: [
+        {
+          type: "Love Charm",
+          before: loveCharmsBalance.toNumber(),
+          after: loveCharmsBalance.minus(loveCharmsRequired).toNumber(),
+        },
+      ],
+      outputs: [
+        {
+          type: "FLOWER",
+          before: balance.toNumber(),
+          after: game.balance.toNumber(),
+        },
+      ],
+    });
 
     return game;
   });

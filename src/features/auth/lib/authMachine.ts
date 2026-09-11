@@ -13,6 +13,7 @@ import {
   trackTutorialStep,
   type TutorialAuthMethod,
 } from "lib/moonforgeTutorial";
+import { markSignupPending } from "lib/moonforgeAnalytics";
 import type { loadSession } from "features/game/actions/loadSession";
 import { getToken, removeJWT, saveJWT } from "../actions/social";
 import { signUp, type UTM } from "../actions/signup";
@@ -55,6 +56,34 @@ function trackAuthCompleted(method: TutorialAuthMethod) {
 
 const trackWalletAuthCompleted = () => trackAuthCompleted("wallet");
 const trackAccountAuthCompleted = () => trackAuthCompleted("account");
+
+/**
+ * Leave a marker that a signup just finished, for the game machine to emit as
+ * `account_created` once the player is identified. The token from `signUp`
+ * carries the new `farmId` (so the marker is scoped to it), the SSO `provider`
+ * (absent for wallet sessions) and `email`, which map to the locked
+ * `signup_method` enum.
+ *
+ * Fires from `creating.onDone` (the account genuinely exists), never from
+ * `authorising` (only authorised) or from pressing a welcome-screen button
+ * (only intent).
+ */
+const markSignupCompleted = (
+  _: unknown,
+  event: { data: { token: string } },
+) => {
+  const token = decodeToken(event.data.token);
+  if (token.farmId === undefined) return;
+
+  const provider = token.provider;
+
+  markSignupPending(
+    token.farmId,
+    provider
+      ? { signup_method: "social", provider }
+      : { signup_method: token.email ? "email" : "platform" },
+  );
+};
 
 const getFarmIdFromUrl = () => {
   const paths = window.location.href.split("/visit/");
@@ -468,7 +497,12 @@ export const authMachine = createMachine(
               target: "connected",
               // The account now genuinely exists - this is where the account
               // path's auth milestone completes.
-              actions: ["assignToken", "saveToken", trackAccountAuthCompleted],
+              actions: [
+                "assignToken",
+                "saveToken",
+                trackAccountAuthCompleted,
+                markSignupCompleted,
+              ],
             },
           ],
           onError: [

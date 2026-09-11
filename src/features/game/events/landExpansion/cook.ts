@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { mfEconomy } from "lib/moonforgeAnalytics";
 import { v4 as uuidv4 } from "uuid";
 import {
   type CookableName,
@@ -321,6 +322,8 @@ export function cook({
 
     const { oilConsumed } = getCookingOilBoost(item, stateCopy, buildingId);
 
+    const inventoryBeforeCook = stateCopy.inventory;
+
     stateCopy.inventory = Object.entries(ingredients).reduce(
       (inventory, [ingredient, amount]) => {
         const count =
@@ -337,6 +340,22 @@ export function cook({
       },
       stateCopy.inventory,
     );
+
+    mfEconomy("cook_food", {
+      inputs: Object.entries(ingredients).map(([ingredient]) => {
+        const before = (
+          inventoryBeforeCook[ingredient as InventoryItemName] ?? new Decimal(0)
+        ).toNumber();
+        // Read the post-deduction balance back off the inventory rather than
+        // doing the subtraction in JS floats, which drifts on fractional
+        // ingredient amounts.
+        const after = (
+          stateCopy.inventory[ingredient as InventoryItemName] ?? new Decimal(0)
+        ).toNumber();
+        return { type: ingredient, before, after };
+      }),
+      outputs: [{ type: item }],
+    });
 
     if (isInstantFishRecipe(item)) {
       const { amount, boostsUsed } = getCookingAmount({

@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { mfCurrencyChange } from "lib/moonforgeAnalytics";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 import { trackFarmActivity } from "features/game/types/farmActivity";
@@ -113,11 +114,16 @@ export function buyMonument({ state, action }: Options) {
       });
     }
 
+    const coinsBefore = stateCopy.coins;
     stateCopy.coins = stateCopy.coins - price;
     stateCopy.inventory = {
       ...subtractedInventory,
       [name]: oldAmount.add(1),
     };
+
+    mfCurrencyChange("buy_monument", "spend", {
+      coin: { before: coinsBefore, after: stateCopy.coins },
+    });
 
     stateCopy.socialFarming.villageProjects = {
       ...stateCopy.socialFarming.villageProjects,

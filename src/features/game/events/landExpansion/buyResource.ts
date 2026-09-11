@@ -3,6 +3,7 @@ import type { GameState, InventoryItemName } from "../../types/game";
 
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
+import { mfEconomy } from "lib/moonforgeAnalytics";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { getObjectEntries } from "lib/object";
 import type { IslandType } from "features/game/types/game";
@@ -147,6 +148,19 @@ export function buyResource({
       `${action.name} Bought`,
       game.farmActivity,
     );
+
+    mfEconomy("buy_resource", {
+      inputs: [
+        {
+          type: "Sunstone",
+          before: sunstones.toNumber(),
+          after: game.inventory.Sunstone.toNumber(),
+        },
+      ],
+      outputs: getObjectEntries(node.items).map(([item]) => ({
+        type: item as string,
+      })),
+    });
 
     return game;
   });
