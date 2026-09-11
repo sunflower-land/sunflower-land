@@ -309,6 +309,17 @@ export function settleCropMachine({
 }): void {
   if (machine.oilSettledAt === undefined) return;
 
+  // The anchor is monotonic: everything before it is already banked, so moving
+  // it BACKWARDS would keep that banked work while restarting the clock ahead
+  // of it — free progress, compounding every time it happens.
+  //
+  // This is not hypothetical. The BE settles on load (`migrateSpeedBoosts`) at
+  // SERVER time and only then replays the batch's actions, each at its own
+  // CLIENT `createdAt`, which may be up to `MILLISECONDS_TO_SAVE` older. A
+  // full no-op is what keeps the boost credit: clamping `now` up to the anchor
+  // inside the banking arithmetic instead would re-bank the same interval.
+  if (now < machine.oilSettledAt) return;
+
   const { packs } = resolveCropMachine({ machine, windows });
   const queue = machine.queue ?? [];
 
@@ -410,31 +421,48 @@ export function convertCropMachineToWindowed({
   const queue = machine.queue ?? [];
   let reclaimed = 0;
 
+  // When the machine next frees up, in LEGACY schedule terms. Packs run
+  // sequentially, so a queued pack's remaining WORK is the gap between the
+  // finish of the pack ahead of it and its own — never the gap from `now`,
+  // which would count the time it spends waiting as work (and reclaim fuel
+  // for it twice over).
+  //
+  // Deliberately derived from the chain rather than read off `pack.startTime`:
+  // legacy `placeBuilding` shifts readyAt/growsUntil across a lift but leaves
+  // startTime untouched, so a re-placed machine's stamped starts no longer
+  // match its own schedule. For a machine that was never lifted the two agree,
+  // which is why this reproduces the old result exactly in the healthy case.
+  let cursor = now;
+
   for (const pack of queue) {
-    // Ready: completed legacy history, skip.
+    // Ready: completed legacy history, skip. A finished pack does not occupy
+    // the machine, so it must not advance the cursor either.
     if (pack.readyAt !== undefined && pack.readyAt <= now) continue;
 
-    // A pack scheduled to start in the future anchors its remaining schedule
-    // at that start; one already growing anchors at `now`.
-    const from = Math.max(now, pack.startTime ?? now);
+    const from = cursor;
 
     if (pack.readyAt !== undefined) {
       // Fully allocated: the legacy allocator earmarked its whole remaining
       // growth. Reclaim it; the resolver re-projects the same finish at 1×.
-      const remaining = pack.readyAt - from;
+      const remaining = Math.max(pack.readyAt - from, 0);
       pack.baseDurationMs = remaining;
       reclaimed += remaining;
+      cursor = pack.readyAt;
       delete pack.readyAt;
     } else if (pack.growsUntil !== undefined && pack.growsUntil > now) {
       // Partially allocated: earmarked up to `growsUntil`, with
       // `growTimeRemaining` unfunded beyond it.
-      const earmark = pack.growsUntil - from;
+      const earmark = Math.max(pack.growsUntil - from, 0);
       pack.baseDurationMs = pack.growTimeRemaining + earmark;
       reclaimed += earmark;
+      // It stalls there, so nothing queued behind it runs under the legacy
+      // allocation either.
+      cursor = pack.growsUntil;
       delete pack.growsUntil;
     } else {
       // Stalled (its allocation already burned away) or never started:
-      // nothing to reclaim, the unfunded work is the work.
+      // nothing to reclaim, the unfunded work is the work. The cursor stays
+      // put — legacy never funded this pack, so it blocks nothing.
       pack.baseDurationMs = pack.growTimeRemaining;
       delete pack.growsUntil;
     }

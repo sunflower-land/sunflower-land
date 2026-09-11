@@ -127,7 +127,13 @@ export function placeBuilding({
           // packs to a different slice of the windows (see pauseCookingQueue).
           // removedAt is the resolver's pause clamp, so clear it before
           // refreshing the caches (the generic delete below is then a no-op).
-          existingCropMachine.oilSettledAt = createdAt;
+          // Monotonic, like `settleCropMachine`: the anchor may only move
+          // forward, so a replayed event stamped before the machine's current
+          // anchor cannot rewind the ledger.
+          existingCropMachine.oilSettledAt = Math.max(
+            createdAt,
+            existingCropMachine.oilSettledAt,
+          );
           delete existingCropMachine.removedAt;
           refreshCropMachineCaches({
             machine: existingCropMachine,

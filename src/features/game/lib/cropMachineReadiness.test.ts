@@ -420,6 +420,43 @@ describe("settleCropMachine", () => {
     expect(timings.packs[0].workRemainingMs).toBe(2 * HOUR);
   });
 
+  it("never moves the anchor backwards", () => {
+    // The BE settles on load at SERVER time, then replays each queued action at
+    // its CLIENT `createdAt`, which is up to MILLISECONDS_TO_SAVE older. Letting
+    // that rewind the anchor keeps the work banked by the load settlement while
+    // restarting the clock before it — free progress, compounding every save.
+    const m = machine([windowedPack(60_000)], 10 * HOUR);
+
+    settleCropMachine({ machine: m, windows: [], now: T0 + 20_000 });
+    expect(m.oilSettledAt).toBe(T0 + 20_000);
+    expect(m.queue?.[0].baseDurationMs).toBe(40_000);
+
+    settleCropMachine({ machine: m, windows: [], now: T0 + 10_000 });
+
+    expect(m.oilSettledAt).toBe(T0 + 20_000);
+    expect(m.queue?.[0].baseDurationMs).toBe(40_000);
+    expect(
+      resolveCropMachine({ machine: m, windows: [] }).packs[0].readyAt,
+    ).toBe(T0 + 60_000);
+  });
+
+  it("does not compound a rewind across repeated save cycles", () => {
+    const m = machine([windowedPack(60_000)], 10 * HOUR);
+
+    for (const [load, replay] of [
+      [20_000, 10_000],
+      [30_000, 20_000],
+      [40_000, 30_000],
+    ]) {
+      settleCropMachine({ machine: m, windows: [], now: T0 + load });
+      settleCropMachine({ machine: m, windows: [], now: T0 + replay });
+    }
+
+    expect(
+      resolveCropMachine({ machine: m, windows: [] }).packs[0].readyAt,
+    ).toBe(T0 + 60_000);
+  });
+
   it("no-ops on a legacy machine", () => {
     const legacy: CropMachineBuilding = {
       coordinates: { x: 0, y: 0 },
@@ -597,6 +634,42 @@ describe("convertCropMachineToWindowed", () => {
     convertCropMachineToWindowed({ machine: m, windows: [], now: T0 });
 
     expect(m.queue![0].baseDurationMs).toBe(4 * HOUR);
+  });
+
+  it("chains a queued pack off the one ahead, not a stale startTime", () => {
+    // Legacy `placeBuilding` shifts readyAt/growsUntil across the lift but
+    // leaves `startTime` untouched, so a re-placed machine carries starts that
+    // no longer match its schedule. Anchoring conversion on them counts the
+    // time a pack spends WAITING as both remaining work and reclaimed fuel.
+    //
+    // Two 1h packs, lifted at +30m and re-placed at +2h: legacy finishes are
+    // +2.5h and +3.5h, with 1.5h of oil still earmarked.
+    const now = T0 + 2 * HOUR;
+    const m = legacyMachine([
+      {
+        crop: "Sunflower",
+        seeds: 10,
+        growTimeRemaining: 0,
+        totalGrowTime: HOUR,
+        startTime: T0,
+        readyAt: T0 + 2.5 * HOUR,
+      },
+      {
+        crop: "Potato",
+        seeds: 10,
+        growTimeRemaining: 0,
+        totalGrowTime: HOUR,
+        startTime: T0 + HOUR,
+        readyAt: T0 + 3.5 * HOUR,
+      },
+    ]);
+
+    convertCropMachineToWindowed({ machine: m, windows: [], now });
+
+    const { packs } = resolveCropMachine({ machine: m, windows: [] });
+    expect(packs[0].readyAt).toBe(T0 + 2.5 * HOUR);
+    expect(packs[1].readyAt).toBe(T0 + 3.5 * HOUR);
+    expect(m.unallocatedOilTime).toBe(1.5 * HOUR);
   });
 
   it("is idempotent", () => {

@@ -385,6 +385,80 @@ describe("appendBoostHistory", () => {
     ]);
   });
 
+  it("keeps a window a windowed crop machine's ledger still needs", () => {
+    // A windowed machine banks work forward from `oilSettledAt`, so every
+    // window ending after that anchor is still load-bearing. The anchor only
+    // advances on a crop-machine event or a flagged load, so a flag rollback
+    // (migrateSpeedBoosts returns early) can leave it older than the prune
+    // horizon — and pruning then silently un-does completed growth.
+    const now = 100 * DAY;
+    const anchor = now - 30 * DAY;
+    const game = {
+      ...TEST_FARM,
+      buildings: {
+        "Crop Machine": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            id: "1",
+            readyAt: 0,
+            oilSettledAt: anchor,
+            unallocatedOilTime: 0,
+            queue: [],
+          },
+        ],
+      },
+      boostHistory: {
+        "Tortoise Shrine": [{ from: anchor, to: anchor + HOUR }],
+      },
+    } as unknown as GameState;
+
+    appendBoostHistory(
+      game,
+      "Tortoise Shrine",
+      { from: now - 500, to: now },
+      now,
+    );
+
+    expect(game.boostHistory?.["Tortoise Shrine"]).toEqual([
+      { from: anchor, to: anchor + HOUR },
+      { from: now - 500, to: now },
+    ]);
+  });
+
+  it("still prunes a window that predates even the oldest ledger anchor", () => {
+    const now = 100 * DAY;
+    const anchor = now - 30 * DAY;
+    const game = {
+      ...TEST_FARM,
+      buildings: {
+        "Crop Machine": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            id: "1",
+            readyAt: 0,
+            oilSettledAt: anchor,
+            unallocatedOilTime: 0,
+            queue: [],
+          },
+        ],
+      },
+      boostHistory: { "Tortoise Shrine": [{ from: 0, to: 1000 }] },
+    } as unknown as GameState;
+
+    appendBoostHistory(
+      game,
+      "Tortoise Shrine",
+      { from: now - 500, to: now },
+      now,
+    );
+
+    expect(game.boostHistory?.["Tortoise Shrine"]).toEqual([
+      { from: now - 500, to: now },
+    ]);
+  });
+
   it("records for any temporary collectible (future-proof, even if not windowed yet)", () => {
     const game = { ...TEST_FARM, boostHistory: {} } as GameState;
     appendBoostHistory(game, "Ore Hourglass", { from: 1000, to: 2000 }, 2000);

@@ -703,6 +703,33 @@ export function getBoostWindows({
 const MAX_BOOST_HISTORY_AGE_MS = 7 * 24 * 60 * 60 * 1000;
 
 /**
+ * The earliest instant any windowed ledger still needs boost history for.
+ *
+ * A windowed crop machine banks work FORWARD from `oilSettledAt`, re-deriving
+ * it from the windows each time, so every window ending after that anchor is
+ * still load-bearing. The anchor normally tracks the last event or flagged
+ * load, but it can fall behind the prune horizon — `migrateSpeedBoosts`
+ * returns early when SPEED_BOOSTS is off, while the prune below is not
+ * flag-gated, so a rollback longer than `MAX_BOOST_HISTORY_AGE_MS` would
+ * otherwise drop windows a still-windowed machine depends on.
+ *
+ * The crop machine is the only activity that needs this: its packs can stall
+ * on an empty tank indefinitely, so its anchor can be arbitrarily old. Every
+ * other windowed node runs to completion on its own schedule.
+ */
+function getEarliestLedgerAnchor(game: GameState): number | undefined {
+  let earliest: number | undefined;
+
+  for (const machine of game.buildings?.["Crop Machine"] ?? []) {
+    const anchor = machine.oilSettledAt;
+    if (anchor === undefined) continue;
+    if (earliest === undefined || anchor < earliest) earliest = anchor;
+  }
+
+  return earliest;
+}
+
+/**
  * Record a finalised active window for a temporary boost collectible into
  * `game.boostHistory` so its contribution survives the placed record being burned
  * (deleted) or renewed (createdAt reset). Mutates `game` in place (immer-draft
@@ -720,9 +747,16 @@ export function appendBoostHistory(
   if (window.to <= window.from) return;
 
   if (!game.boostHistory) game.boostHistory = {};
-  const kept = (game.boostHistory[name] ?? []).filter(
-    (w) => w.to >= now - MAX_BOOST_HISTORY_AGE_MS,
+
+  // Never prune below a ledger anchor that still reads this history — losing
+  // such a window would silently un-do growth a machine already completed.
+  const anchor = getEarliestLedgerAnchor(game);
+  const horizon = Math.min(
+    now - MAX_BOOST_HISTORY_AGE_MS,
+    anchor ?? Number.POSITIVE_INFINITY,
   );
+
+  const kept = (game.boostHistory[name] ?? []).filter((w) => w.to >= horizon);
   kept.push({ from: window.from, to: window.to });
   game.boostHistory[name] = kept;
 }
