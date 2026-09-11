@@ -8126,7 +8126,6 @@
   "giveaway.leaderboardWaiting": "En attendant que les joueurs rejoignent...",
   "giveaway.leaderboardOffline": "Les classements en direct apparaissent une fois que vous êtes connecté au serveur communautaire.",
   "giveaway.trivia.title": "Anecdotes",
-  "giveaway.trivia.rules": "Appuyez sur la bonne réponse en bas de la page. Plus vite tu réponds correctement, plus tu gagnes de points !",
   "giveaway.trivia.getReady": "Préparez-vous...",
   "giveaway.trivia.correct": "C'est exact !",
   "giveaway.trivia.wrong": "Faux !",
@@ -8590,5 +8589,7 @@
   "statsLeaderboard.title.cropsHarvested": "La plupart des cultures récoltées",
   "statsLeaderboard.title.fishCaught": "La plupart des poissons capturés",
   "statsLeaderboard.title.animalsFed": "La plupart des animaux nourris",
-  "statsLeaderboard.title.deliveries": "La plupart des livraisons"
+  "statsLeaderboard.title.deliveries": "La plupart des livraisons",
+  "giveaway.trivia.rules": "Appuyez sur la bonne réponse en bas de la page. Votre premier tap est bloqué, alors choisissez avec soin ! Plus vite tu réponds correctement, plus tu gagnes de points !",
+  "giveaway.trivia.lockedIn": "Enfermé !"
 }

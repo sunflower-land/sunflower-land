@@ -8126,7 +8126,6 @@
   "giveaway.leaderboardWaiting": "Menunggu pemain bergabung...",
   "giveaway.leaderboardOffline": "Peringkat langsung muncul setelah Anda terhubung ke server komunitas.",
   "giveaway.trivia.title": "Trivia",
-  "giveaway.trivia.rules": "Ketuk jawaban yang benar di bagian bawah. Semakin cepat Anda menjawab dengan benar, semakin banyak poin yang Anda menangkan!",
   "giveaway.trivia.getReady": "Bersiaplah...",
   "giveaway.trivia.correct": "Benar!",
   "giveaway.trivia.wrong": "Salah!",
@@ -8590,5 +8589,7 @@
   "statsLeaderboard.title.cropsHarvested": "Kebanyakan Tanaman yang Dipanen",
   "statsLeaderboard.title.fishCaught": "Kebanyakan Ikan Ditangkap",
   "statsLeaderboard.title.animalsFed": "Sebagian besar hewan diberi makan",
-  "statsLeaderboard.title.deliveries": "Pengiriman Terbanyak"
+  "statsLeaderboard.title.deliveries": "Pengiriman Terbanyak",
+  "giveaway.trivia.rules": "Ketuk jawaban yang benar di bagian bawah. Ketukan pertama Anda terkunci, jadi pilihlah dengan hati-hati! Semakin cepat Anda menjawab dengan benar, semakin banyak poin yang Anda menangkan!",
+  "giveaway.trivia.lockedIn": "Terkunci di dalam!"
 }

@@ -8126,7 +8126,6 @@
   "giveaway.leaderboardWaiting": "プレイヤーの参加を待っています...",
   "giveaway.leaderboardOffline": "コミュニティサーバーに接続すると、ライブランキングが表示されます。",
   "giveaway.trivia.title": "トリビア",
-  "giveaway.trivia.rules": "下部の正解をタップします。正解が早ければ早いほど、より多くのポイントを獲得できます！",
   "giveaway.trivia.getReady": "準備をしなさい...",
   "giveaway.trivia.correct": "正しい!",
   "giveaway.trivia.wrong": "間違っている!",
@@ -8590,5 +8589,7 @@
   "statsLeaderboard.title.cropsHarvested": "最も収穫された作物",
   "statsLeaderboard.title.fishCaught": "最も多く釣れる魚",
   "statsLeaderboard.title.animalsFed": "ほとんどの動物に餌をやる",
-  "statsLeaderboard.title.deliveries": "ほとんどの配送"
+  "statsLeaderboard.title.deliveries": "ほとんどの配送",
+  "giveaway.trivia.rules": "下部の正解をタップします。最初のタップはロックインされているので、慎重に選択してください。正解が早ければ早いほど、より多くのポイントを獲得できます！",
+  "giveaway.trivia.lockedIn": "ロックイン！"
 }

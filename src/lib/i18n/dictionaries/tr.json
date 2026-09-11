@@ -8126,7 +8126,6 @@
   "giveaway.leaderboardWaiting": "Oyuncuların katılmasını bekliyorum...",
   "giveaway.leaderboardOffline": "Topluluk sunucusuna bağlandığınızda canlı sıralamalar görünür.",
   "giveaway.trivia.title": "Eğlencelik Bilgi",
-  "giveaway.trivia.rules": "Alttaki doğru cevaba dokunun. Ne kadar hızlı doğru cevap verirseniz, o kadar çok puan kazanırsınız!",
   "giveaway.trivia.getReady": "Hazır ol...",
   "giveaway.trivia.correct": "Doğru!",
   "giveaway.trivia.wrong": "Yanlış!",
@@ -8590,5 +8589,7 @@
   "statsLeaderboard.title.cropsHarvested": "Çoğu Mahsul Hasat Edildi",
   "statsLeaderboard.title.fishCaught": "Yakalanan En Çok Balık",
   "statsLeaderboard.title.animalsFed": "Çoğu Hayvan Beslendi",
-  "statsLeaderboard.title.deliveries": "Çoğu Teslimat"
+  "statsLeaderboard.title.deliveries": "Çoğu Teslimat",
+  "giveaway.trivia.rules": "Alttaki doğru cevaba dokunun. İlk dokunuşunuz kilitli, bu yüzden dikkatli seçin! Ne kadar hızlı doğru cevap verirseniz, o kadar çok puan kazanırsınız!",
+  "giveaway.trivia.lockedIn": "Kilitli!"
 }

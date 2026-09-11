@@ -8126,7 +8126,6 @@
   "giveaway.leaderboardWaiting": "Ожидание игроков…",
   "giveaway.leaderboardOffline": "Рейтинг в реальном времени появится после подключения к серверу сообщества.",
   "giveaway.trivia.title": "Викторина",
-  "giveaway.trivia.rules": "Нажми на правильный ответ внизу. Чем быстрее ответишь верно, тем больше очков получишь!",
   "giveaway.trivia.getReady": "Приготовься…",
   "giveaway.trivia.correct": "Правильно!",
   "giveaway.trivia.wrong": "Неправильно!",
@@ -8590,5 +8589,7 @@
   "statsLeaderboard.title.cropsHarvested": "Most Crops Harvested",
   "statsLeaderboard.title.fishCaught": "Most Fish Caught",
   "statsLeaderboard.title.animalsFed": "Most Animals Fed",
-  "statsLeaderboard.title.deliveries": "Most Deliveries"
+  "statsLeaderboard.title.deliveries": "Most Deliveries",
+  "giveaway.trivia.rules": "Tap the correct answer at the bottom. Your first tap is locked in, so choose carefully! The faster you answer correctly, the more points you win!",
+  "giveaway.trivia.lockedIn": "Locked in!"
 }

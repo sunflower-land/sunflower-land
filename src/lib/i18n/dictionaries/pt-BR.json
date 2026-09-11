@@ -8126,7 +8126,6 @@
   "giveaway.leaderboardWaiting": "Esperando que os jogadores entrem...",
   "giveaway.leaderboardOffline": "As classificações ao vivo aparecem quando você está conectado ao servidor da comunidade.",
   "giveaway.trivia.title": "Trivialidades",
-  "giveaway.trivia.rules": "Toque na resposta correta na parte inferior. Quanto mais rápido você responder corretamente, mais pontos você ganha!",
   "giveaway.trivia.getReady": "Prepare-se...",
   "giveaway.trivia.correct": "Correto!",
   "giveaway.trivia.wrong": "Errado!",
@@ -8590,5 +8589,7 @@
   "statsLeaderboard.title.cropsHarvested": "A maioria das safras colhidas",
   "statsLeaderboard.title.fishCaught": "Mais peixes capturados",
   "statsLeaderboard.title.animalsFed": "A maioria dos animais alimentados",
-  "statsLeaderboard.title.deliveries": "A maioria das entregas"
+  "statsLeaderboard.title.deliveries": "A maioria das entregas",
+  "giveaway.trivia.rules": "Toque na resposta correta na parte inferior. Seu primeiro toque está bloqueado, então escolha com cuidado! Quanto mais rápido você responder corretamente, mais pontos você ganha!",
+  "giveaway.trivia.lockedIn": "Preso!"
 }

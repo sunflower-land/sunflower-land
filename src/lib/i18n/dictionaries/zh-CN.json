@@ -8126,7 +8126,6 @@
   "giveaway.leaderboardWaiting": "等待玩家加入...",
   "giveaway.leaderboardOffline": "连接至社区服务器后即可显示实时排名。",
   "giveaway.trivia.title": "趣味问答",
-  "giveaway.trivia.rules": "点击底部正确的选项。答对越快，赢得的积分越多！",
   "giveaway.trivia.getReady": "准备...",
   "giveaway.trivia.correct": "回答正确！",
   "giveaway.trivia.wrong": "回答错误！",
@@ -8590,5 +8589,7 @@
   "statsLeaderboard.title.cropsHarvested": "收获的大部分农作物",
   "statsLeaderboard.title.fishCaught": "钓到的鱼最多",
   "statsLeaderboard.title.animalsFed": "大多数动物都被喂养",
-  "statsLeaderboard.title.deliveries": "大多数配送"
+  "statsLeaderboard.title.deliveries": "大多数配送",
+  "giveaway.trivia.rules": "点击底部的正确答案。您的第一次点击已锁定，因此请谨慎选择！你正确回答的速度越快，你赢得的分数就越多！",
+  "giveaway.trivia.lockedIn": "锁定了！"
 }
