@@ -36,7 +36,7 @@ jobs:
 
       - name: Run Codex
         id: run_codex
-        uses: openai/codex-action@v1.12
+        uses: openai/codex-action@v1.11
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           effort: high
