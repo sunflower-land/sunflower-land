@@ -83,6 +83,8 @@ export const Shop: React.FC = () => {
     <>
       <ModalOverlay
         show={!!selectedItem}
+        panelPosition="auto"
+        lockBackgroundScroll
         onBackdropClick={() => setSelectedItem(null)}
       >
         <ItemDetail
