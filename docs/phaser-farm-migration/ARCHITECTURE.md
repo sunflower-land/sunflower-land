@@ -346,10 +346,14 @@ Key rulings that shaped the build (each earned during a phase):
 - Tiled ground goes into ONE RenderTexture (ocean, dirt). The camera zoom is
   fractional, so per-sprite `roundPixels` rounds neighbours independently and
   leaves hairline seams.
-- Spritesheet frames touch with no padding; `core/assets.ts` pulls each
-  frame's UVs a quarter-texel off any edge it SHARES with a neighbour, or the
-  edge fragment samples the next frame (the thin line along the top of an
-  animated sprite).
+- Spritesheet frames touch with no padding, and Phaser rounds only a quad's
+  top-left corner, so under MSAA the far edges sample the next frame (the
+  thin line along an animated sprite). `core/assets.ts` re-lays every sheet
+  on load with each frame padded by a 1px copy of its own edge. Do NOT inset
+  UVs instead: insetting only shared edges maps a strip's first, middle and
+  last frames differently, so art bobs a pixel as it cycles. Read frame
+  size/count from the frame (`frame.width`, `frameTotal - 1`), never from
+  the padded source image.
 
 ## Interiors plan (Phase 12+, sketch)
 

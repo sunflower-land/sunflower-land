@@ -112,9 +112,11 @@ type BuildingObjects = {
    * A Zone, not art, so it lives outside `extras`.
    */
   letterZone?: Phaser.GameObjects.Zone;
-  /** Unread-news icon; owns a float tween, so the tween owns its lifecycle. */
+  /** Unread-news icon, kept alive across ticks so its hop can run. */
   mailAlert?: ArtObject;
-  mailAlertTween?: Phaser.Tweens.Tween;
+  /** Toggles the icon 1px between its rest y and the row above. */
+  mailAlertHop?: Phaser.Time.TimerEvent;
+  mailAlertRestY?: number;
 };
 
 const READY_ALERT = "readyAlert";
@@ -1043,10 +1045,13 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
     }
 
     // The news icon lives outside the extras map, which is wiped every 1s
-    // tick — rebuilding it per tick is what forced every other alert icon to
-    // stay static ("animated alerts read as jitter"). Kept alive here, it can
-    // hold a float tween. The tween owns `y`/`scale`, so it is rebuilt only
-    // when the anchor actually moves rather than fought with setPosition.
+    // tick, so it can keep an animation running across ticks.
+    //
+    // [LetterBox.tsx] pulses it with a CSS scale(1 -> 1.1) over 1s when
+    // animations are on. Ported literally that jitters: scaling a 13px
+    // sprite at our fractional zoom resamples it every frame, and a smooth
+    // glide steps unevenly between screen pixels. So it moves in whole source
+    // pixels only — a 1px hop on the same 1s cycle, never scaled.
     if (hasNews) {
       const alertY = mailY - 13;
       const alert = (objects.mailAlert ??= (() => {
@@ -1059,24 +1064,28 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
         const alertX =
           mailX + 1.8 + (13 - (alert.frame?.width ?? alert.width)) / 2;
         alert.setDepth(topDepth + 1.5).setVisible(true);
-        if (alert.x !== alertX || objects.mailAlertTween === undefined) {
+        const animate = this.bridge.ui.get().showAnimations;
+        if (
+          alert.x !== alertX ||
+          objects.mailAlertRestY !== alertY ||
+          !!objects.mailAlertHop !== animate
+        ) {
+          objects.mailAlertHop?.remove();
+          objects.mailAlertRestY = alertY;
           alert.setPosition(alertX, alertY);
-          objects.mailAlertTween?.remove();
-          // Gentle bob + breathe: reads as "look at me" without the jitter.
-          objects.mailAlertTween = this.scene.tweens.add({
-            targets: alert,
-            y: { from: alertY, to: alertY - 2 },
-            scale: { from: 1, to: 1.12 },
-            duration: 900,
-            yoyo: true,
-            repeat: -1,
-            ease: "Sine.easeInOut",
-          });
+          objects.mailAlertHop = animate
+            ? this.scene.time.addEvent({
+                delay: 500,
+                loop: true,
+                callback: () =>
+                  alert.setY(alert.y === alertY ? alertY - 1 : alertY),
+              })
+            : undefined;
         }
       }
     } else {
-      objects.mailAlertTween?.remove();
-      objects.mailAlertTween = undefined;
+      objects.mailAlertHop?.remove();
+      objects.mailAlertHop = undefined;
       objects.mailAlert?.destroy();
       objects.mailAlert = undefined;
     }
@@ -1489,7 +1498,7 @@ export class BuildingRenderer extends EntityRenderer<Slice> {
     objects.bar?.destroy();
     objects.alertTween?.remove();
     objects.letterZone?.destroy();
-    objects.mailAlertTween?.remove();
+    objects.mailAlertHop?.remove();
     objects.mailAlert?.destroy();
   }
 

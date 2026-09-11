@@ -679,9 +679,9 @@ export class CollectibleRenderer extends EntityRenderer<Slice> {
       );
     } else {
       // Template fallback [TemplateCollectible.tsx]: natural width, centred.
-      const natural = this.scene.textures
-        .get(art.texture)
-        .getSourceImage().width;
+      // The drawn frame, not the source image: an animated strip's source
+      // is the padded sheet [core/assets.ts].
+      const natural = image.frame.width;
       image.setOrigin(0, 1);
       image.setScale(1);
       image.setPosition(

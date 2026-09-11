@@ -266,13 +266,12 @@ export class NPCSprite {
     if (!this.scene.textures.exists(url)) return;
     if (!this.scene.anims.exists(key)) {
       // Each animation has its OWN frame count (walking is 8, idle 9, dig
-      // 13...) — the service emits a horizontal strip, so derive it from the
-      // sheet width. Reusing the idle range played a blank out-of-range
-      // frame every cycle, which read as walking jitter.
-      const frames =
-        Math.floor(
-          this.scene.textures.get(url).getSourceImage().width / FRAME_WIDTH,
-        ) || 1;
+      // 13...) — take it from the sheet the loader parsed (frameTotal counts
+      // the extra __BASE frame). Reusing the idle range played a blank
+      // out-of-range frame every cycle, which read as walking jitter. Not
+      // source width / FRAME_WIDTH: sheets are re-laid with padded frames
+      // on load [core/assets.ts].
+      const frames = this.scene.textures.get(url).frameTotal - 1 || 1;
       this.scene.anims.create({
         key,
         frames: this.scene.anims.generateFrameNumbers(url, {

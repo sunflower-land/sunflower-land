@@ -281,8 +281,11 @@ export const FarmPhaser: React.FC<{
       <FarmModals bridge={bridge} onOpenChange={onModalOpenChange} />
       {/* [Land.tsx:1348-1352] edit/visit modes swap the HUD. The fixed rooms
           (greenhouse, animal houses) pass location="home" and isFarming=false,
-          exactly as their DOM screens do. */}
-      {isLandscaping ? (
+          exactly as their DOM screens do. A nested route (marketplace,
+          dashboards) brings its own header and close button, so the HUD
+          steps aside: both portal to body at z-10, which left whichever
+          mounted last on top — often the HUD. */}
+      {hasNestedRoute ? null : isLandscaping ? (
         <LandscapingHud location={hudLocation} />
       ) : isVisiting ? (
         <VisitingHud />

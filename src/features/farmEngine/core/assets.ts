@@ -28,45 +28,95 @@ export function queueImage(scene: Phaser.Scene, url: string): string {
   return url;
 }
 
-/**
- * How far a frame's UVs are pulled in from an edge it SHARES with another
- * frame, as a fraction of a texel.
- *
- * Frames in our sheets touch with no padding between them, and the camera
- * zoom is fractional (DPR x 2.625 x user zoom), so a frame boundary almost
- * never lands on a whole screen pixel. The edge-most fragment can then
- * interpolate a UV a hair past the boundary and sample the NEIGHBOURING
- * frame — which is the thin line along the top of an animated sprite (the
- * previous frame's bottom row) and the flicker it causes as the animation
- * cycles.
- *
- * A quarter texel is plenty to clear the floating-point boundary while
- * staying well inside the edge texel, so nothing is cropped. (Half a texel is
- * the textbook figure, but that's for LINEAR filtering; these textures are
- * NEAREST, where only the boundary itself matters.) The alternative fix is
- * extruding every frame in the sheet generator, which would rewrite 200-odd
- * committed PNGs for the same result.
- */
-const EDGE_INSET_TEXELS = 0.25;
+type FrameSize = { frameWidth: number; frameHeight: number };
 
 /**
- * Pull each frame's UVs off any edge it shares with a neighbour. Edges that
- * are the image's own border have nothing to bleed from and are left alone.
+ * Re-lay a loaded sheet with every frame padded by a 1px copy of its own
+ * edge, then re-register it under the same key. Frame indices are unchanged.
+ *
+ * Our sheets pack frames edge to edge, and Phaser 3.90's roundPixels snaps
+ * only a quad's top-left corner, so at our fractional zoom (DPR x 2.625 x
+ * user zoom) a sprite's far edges land mid-pixel. With MSAA on, a partially
+ * covered edge pixel is shaded at its centre — outside the quad — so its UV
+ * overshoots the frame by a fraction of a texel and samples the NEIGHBOURING
+ * frame: the thin line of the previous frame along an animated sprite.
+ *
+ * With the padding, that overshoot lands on a copy of the frame's own edge
+ * texel, which is invisible, and every frame keeps an exact texel mapping.
+ * Don't swap this for pulling UVs inward: that only moves edges that HAVE a
+ * neighbour, so a strip's first, middle and last frames map differently —
+ * the art bobs a pixel as it cycles and the squeezed edge rows read as
+ * clipping.
  */
-function insetSharedFrameEdges(texture: Phaser.Textures.Texture) {
-  const source = texture.source[0];
-  const { width, height } = source;
-  if (!width || !height) return;
-  const insetU = EDGE_INSET_TEXELS / width;
-  const insetV = EDGE_INSET_TEXELS / height;
+function extrudeFrames(
+  scene: Phaser.Scene,
+  key: string,
+  { frameWidth: w, frameHeight: h }: FrameSize,
+) {
+  const textures = scene.textures;
+  const loaded = textures.get(key);
+  // Repeat queue calls while the sheet is in flight each register a handler.
+  if ((loaded.customData as { extruded?: boolean }).extruded) return;
 
-  for (const name of texture.getFrameNames()) {
-    const frame = texture.get(name);
-    if (frame.cutX > 0) frame.u0 += insetU;
-    if (frame.cutX + frame.cutWidth < width) frame.u1 -= insetU;
-    if (frame.cutY > 0) frame.v0 += insetV;
-    if (frame.cutY + frame.cutHeight < height) frame.v1 -= insetV;
+  const source = loaded.getSourceImage() as HTMLImageElement;
+  const cols = Math.floor(source.width / w);
+  const rows = Math.floor(source.height / h);
+  const cellW = w + 2;
+  const cellH = h + 2;
+  const canvas = document.createElement("canvas");
+  canvas.width = cols * cellW;
+  canvas.height = rows * cellH;
+  const ctx = canvas.getContext("2d");
+  if (!ctx || cols * rows <= 1) return; // a lone frame has nothing to bleed
+
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      const sx = col * w;
+      const sy = row * h;
+      const dx = col * cellW + 1;
+      const dy = row * cellH + 1;
+      // Copy a rect of this frame to its cell, offset by (ox, oy).
+      const blit = (
+        x: number,
+        y: number,
+        bw: number,
+        bh: number,
+        ox = 0,
+        oy = 0,
+      ) =>
+        ctx.drawImage(
+          source,
+          sx + x,
+          sy + y,
+          bw,
+          bh,
+          dx + x + ox,
+          dy + y + oy,
+          bw,
+          bh,
+        );
+      blit(0, 0, w, h);
+      blit(0, 0, w, 1, 0, -1); // top edge
+      blit(0, h - 1, w, 1, 0, 1); // bottom edge
+      blit(0, 0, 1, h, -1, 0); // left edge
+      blit(w - 1, 0, 1, h, 1, 0); // right edge
+      blit(0, 0, 1, 1, -1, -1); // corners
+      blit(w - 1, 0, 1, 1, 1, -1);
+      blit(0, h - 1, 1, 1, -1, 1);
+      blit(w - 1, h - 1, 1, 1, 1, 1);
+    }
   }
+
+  textures.remove(key);
+  // TextureManager.create accepts a canvas; the typings only say image.
+  const padded = textures.addSpriteSheet(
+    key,
+    canvas as unknown as HTMLImageElement,
+    { frameWidth: w, frameHeight: h, margin: 1, spacing: 2 },
+  );
+  if (!padded) return;
+  (padded.customData as { extruded?: boolean }).extruded = true;
+  padded.setFilter(Phaser.Textures.FilterMode.NEAREST);
 }
 
 /**
@@ -76,14 +126,14 @@ function insetSharedFrameEdges(texture: Phaser.Textures.Texture) {
 export function queueSpritesheet(
   scene: Phaser.Scene,
   url: string,
-  frameConfig: { frameWidth: number; frameHeight: number },
+  frameConfig: FrameSize,
 ): string {
   if (!scene.textures.exists(url)) {
     scene.load.spritesheet(url, url, frameConfig);
     nearestOnLoad(scene, "spritesheet", url);
-    scene.load.once(`filecomplete-spritesheet-${url}`, () => {
-      insetSharedFrameEdges(scene.textures.get(url));
-    });
+    scene.load.once(`filecomplete-spritesheet-${url}`, () =>
+      extrudeFrames(scene, url, frameConfig),
+    );
   }
   return url;
 }
