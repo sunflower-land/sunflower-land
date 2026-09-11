@@ -8591,5 +8591,6 @@
   "statsLeaderboard.title.animalsFed": "Sebagian besar hewan diberi makan",
   "statsLeaderboard.title.deliveries": "Pengiriman Terbanyak",
   "giveaway.trivia.rules": "Ketuk jawaban yang benar di bagian bawah. Ketukan pertama Anda terkunci, jadi pilihlah dengan hati-hati! Semakin cepat Anda menjawab dengan benar, semakin banyak poin yang Anda menangkan!",
-  "giveaway.trivia.lockedIn": "Terkunci di dalam!"
+  "giveaway.trivia.lockedIn": "Terkunci di dalam!",
+  "description.tortoiseShrine.buff.2.speed": "1.11x Kecepatan Pertumbuhan Mesin Tanaman"
 }

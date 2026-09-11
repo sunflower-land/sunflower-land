@@ -8591,5 +8591,6 @@
   "statsLeaderboard.title.animalsFed": "Most Animals Fed",
   "statsLeaderboard.title.deliveries": "Most Deliveries",
   "giveaway.trivia.rules": "Tap the correct answer at the bottom. Your first tap is locked in, so choose carefully! The faster you answer correctly, the more points you win!",
-  "giveaway.trivia.lockedIn": "Locked in!"
+  "giveaway.trivia.lockedIn": "Locked in!",
+  "description.tortoiseShrine.buff.2.speed": "1.11x Crop Machine Growth Speed"
 }

@@ -8591,5 +8591,6 @@
   "statsLeaderboard.title.animalsFed": "La maggior parte degli animali nutriti",
   "statsLeaderboard.title.deliveries": "La maggior parte delle consegne",
   "giveaway.trivia.rules": "Tocca la risposta corretta in basso. Il tuo primo tocco è bloccato, quindi scegli con attenzione! Più velocemente rispondi correttamente, più punti vinci!",
-  "giveaway.trivia.lockedIn": "Chiuso dentro!"
+  "giveaway.trivia.lockedIn": "Chiuso dentro!",
+  "description.tortoiseShrine.buff.2.speed": "Velocità di crescita delle macchine agricole 1,11x"
 }

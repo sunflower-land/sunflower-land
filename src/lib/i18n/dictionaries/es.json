@@ -8591,5 +8591,6 @@
   "statsLeaderboard.title.animalsFed": "La mayoría de los animales alimentados",
   "statsLeaderboard.title.deliveries": "La mayoría de las entregas",
   "giveaway.trivia.rules": "Pulsa la respuesta correcta en la parte inferior. Tu primer toque está bloqueado, ¡así que elige con cuidado! ¡Cuanto más rápido respondas correctamente, más puntos ganarás!",
-  "giveaway.trivia.lockedIn": "¡Encerrados!"
+  "giveaway.trivia.lockedIn": "¡Encerrados!",
+  "description.tortoiseShrine.buff.2.speed": "1.11 veces la velocidad de crecimiento de la máquina de cultivo"
 }

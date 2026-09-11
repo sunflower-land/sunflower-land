@@ -8591,5 +8591,6 @@
   "statsLeaderboard.title.animalsFed": "A maioria dos animais alimentados",
   "statsLeaderboard.title.deliveries": "A maioria das entregas",
   "giveaway.trivia.rules": "Toque na resposta correta na parte inferior. Seu primeiro toque está bloqueado, então escolha com cuidado! Quanto mais rápido você responder corretamente, mais pontos você ganha!",
-  "giveaway.trivia.lockedIn": "Preso!"
+  "giveaway.trivia.lockedIn": "Preso!",
+  "description.tortoiseShrine.buff.2.speed": "1,11 vezes a velocidade de crescimento da máquina de colheita"
 }

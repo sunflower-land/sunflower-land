@@ -8591,5 +8591,6 @@
   "statsLeaderboard.title.animalsFed": "La plupart des animaux nourris",
   "statsLeaderboard.title.deliveries": "La plupart des livraisons",
   "giveaway.trivia.rules": "Appuyez sur la bonne réponse en bas de la page. Votre premier tap est bloqué, alors choisissez avec soin ! Plus vite tu réponds correctement, plus tu gagnes de points !",
-  "giveaway.trivia.lockedIn": "Enfermé !"
+  "giveaway.trivia.lockedIn": "Enfermé !",
+  "description.tortoiseShrine.buff.2.speed": "Vitesse de croissance des machines de culture 1,11 fois"
 }

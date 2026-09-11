@@ -8591,5 +8591,6 @@
   "statsLeaderboard.title.animalsFed": "Die meisten Tiere werden gefüttert",
   "statsLeaderboard.title.deliveries": "Die meisten Lieferungen",
   "giveaway.trivia.rules": "Tippe unten auf die richtige Antwort. Deine erste Berührung ist gesperrt, wähle also sorgfältig aus! Je schneller du richtig antwortest, desto mehr Punkte gewinnst du!",
-  "giveaway.trivia.lockedIn": "Eingesperrt!"
+  "giveaway.trivia.lockedIn": "Eingesperrt!",
+  "description.tortoiseShrine.buff.2.speed": "1,11-fache Wachstumsgeschwindigkeit der Erntemaschine"
 }

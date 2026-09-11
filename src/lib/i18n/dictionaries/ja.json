@@ -8591,5 +8591,6 @@
   "statsLeaderboard.title.animalsFed": "ほとんどの動物に餌をやる",
   "statsLeaderboard.title.deliveries": "ほとんどの配送",
   "giveaway.trivia.rules": "下部の正解をタップします。最初のタップはロックインされているので、慎重に選択してください。正解が早ければ早いほど、より多くのポイントを獲得できます！",
-  "giveaway.trivia.lockedIn": "ロックイン！"
+  "giveaway.trivia.lockedIn": "ロックイン！",
+  "description.tortoiseShrine.buff.2.speed": "1.11倍のクロップマシンの成長速度"
 }
