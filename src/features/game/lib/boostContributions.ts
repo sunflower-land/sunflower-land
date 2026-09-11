@@ -13,6 +13,7 @@ import {
   ANIMAL_BOOST_SPEED,
   COOKING_BOOST_SPEED,
   CRAFTING_BOOST_SPEED,
+  CROP_MACHINE_BOOST_SPEED,
   CROP_PLOT_BOOST_SPEED,
   FLOWER_BOOST_SPEED,
   FRUIT_BOOST_SPEED,
@@ -168,6 +169,19 @@ const oil = (game: GameState, at: number): BoostContribution[] => [
   collectible(game, "Stag Shrine", OIL_BOOST_SPEED["Stag Shrine"]),
 ];
 
+/**
+ * The crop machine's windowed boosts — mirrors `getCropMachineBoostWindows`:
+ * the Tortoise Shrine alone (no totems, no hourglasses). Only its crop-machine
+ * half is named here; the greenhouse half is listed by `greenhouse` above.
+ */
+const cropMachine = (game: GameState): BoostContribution[] => [
+  collectible(
+    game,
+    "Tortoise Shrine",
+    CROP_MACHINE_BOOST_SPEED["Tortoise Shrine"],
+  ),
+];
+
 const greenhouse = (
   game: GameState,
   plant: GreenHouseCropName | GreenHouseFruitName,
@@ -273,6 +287,15 @@ export function getCraftingBoostContributions(
   if (!hasFeatureAccess(game, "SPEED_BOOSTS")) return [];
 
   return crafting(game, at);
+}
+
+/** The named boosts that would speed up a crop machine pack — mirrors getCropMachineBoostWindows. */
+export function getCropMachineBoostContributions(
+  game: GameState,
+): BoostContribution[] {
+  if (!hasFeatureAccess(game, "SPEED_BOOSTS")) return [];
+
+  return cropMachine(game);
 }
 
 /** The named boosts that would speed up this animal's sleep. */

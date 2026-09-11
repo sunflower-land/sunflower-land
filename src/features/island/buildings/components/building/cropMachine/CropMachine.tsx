@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { CropMachineModal } from "./CropMachineModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
@@ -25,6 +25,7 @@ import type { CropMachineBuilding } from "features/game/types/game";
 
 import type { AddSeedsInput } from "features/game/events/landExpansion/supplyCropMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useCropMachineView } from "./lib/cropMachineView";
 
 const _cropMachine = (id: string) => (state: MachineState) => {
   const machines = state.context.state.buildings["Crop Machine"];
@@ -53,7 +54,10 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
     gameService,
     _cropMachine(id),
   ) as CropMachineBuilding;
-  const queue = cropMachine?.queue ?? [];
+  // On a windowed machine (SPEED_BOOSTS) the stored pack timings are caches
+  // refreshed only on events; the view substitutes the DERIVED timings so a
+  // Tortoise Shrine placed or expiring mid-grow is reflected live.
+  const { queue, windowed, windows } = useCropMachineView(cropMachine);
 
   const now = useCropMachineLiveNow(queue);
 
@@ -67,6 +71,26 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
   const cropMachineService = useInterpret(cropStateMachine, {
     context: cropMachineContext,
   }) as unknown as MachineInterpreter;
+
+  // The interpreter takes `cropMachineContext` only at creation; every later
+  // change reaches it as an event. Crop-machine events send their own (see the
+  // handlers below), but a WINDOWED machine's queue can also change with no
+  // event at all — a Tortoise Shrine placed or expiring mid-grow re-derives
+  // every pack's timing. Without this the 1s TICK would keep re-deriving the
+  // sprite stage, `canHarvest` and running/paused from the stale queue while
+  // the modal already shows the new times. `queue` is identity-stable out of
+  // `useCropMachineView`'s `useMemo`, so this only fires on a real change.
+  const syncedQueue = useRef(queue);
+  useEffect(() => {
+    if (syncedQueue.current === queue) return;
+    syncedQueue.current = queue;
+
+    cropMachineService.send({
+      type: "SUPPLY_MACHINE",
+      updatedQueue: queue,
+      updatedUnallocatedOilTime: cropMachine.unallocatedOilTime ?? 0,
+    });
+  }, [queue, cropMachineService, cropMachine.unallocatedOilTime]);
 
   const growingCropPackStage = useSelector(
     cropMachineService,
@@ -246,6 +270,9 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
         service={cropMachineService}
         queue={queue}
         unallocatedOilTime={cropMachine.unallocatedOilTime ?? 0}
+        machine={cropMachine}
+        windowed={windowed}
+        windows={windows}
         show={showModal}
         onClose={() => setShowModal(false)}
         onAddSeeds={handleAddSeeds}

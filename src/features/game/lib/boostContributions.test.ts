@@ -3,6 +3,7 @@ import {
   getBoostContributionEntries,
   getCookingBoostContributions,
   getCraftingBoostContributions,
+  getCropMachineBoostContributions,
   getNodeBoostContributions,
   getSeedBoostContributions,
 } from "./boostContributions";
@@ -17,6 +18,7 @@ import {
   getAnimalBoostWindows,
   getCookingBoostWindows,
   getCraftingBoostWindows,
+  getCropMachineBoostWindows,
 } from "./boostWindows";
 import { CONFIG } from "lib/config";
 
@@ -113,6 +115,12 @@ describe("contributions match the window builders", () => {
   it("crafting", () => {
     expect(flatten(getCraftingBoostContributions(BOOSTED, at))).toEqual(
       getCraftingBoostWindows(BOOSTED),
+    );
+  });
+
+  it("crop machine", () => {
+    expect(flatten(getCropMachineBoostContributions(BOOSTED))).toEqual(
+      getCropMachineBoostWindows(BOOSTED),
     );
   });
 });
@@ -283,6 +291,10 @@ describe("without SPEED_BOOSTS", () => {
   it("names no boosters for cooking or an animal", () => {
     expect(getCookingBoostContributions(BOOSTED, at)).toEqual([]);
     expect(getAnimalBoostContributions(BOOSTED, "Chicken")).toEqual([]);
+  });
+
+  it("names no boosters for the crop machine", () => {
+    expect(getCropMachineBoostContributions(BOOSTED)).toEqual([]);
   });
 
   it("leaves the panel with nothing to add", () => {

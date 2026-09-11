@@ -67,7 +67,8 @@ export function getPreActionDisplay({
   at,
 }: {
   seconds: number;
-  baseSeconds: number;
+  /** Optional, mirroring `isPreActionBoosted`: no base time means not boosted. */
+  baseSeconds?: number;
   namedBoostCount: number;
   windows: BoostWindow[];
   at: number;

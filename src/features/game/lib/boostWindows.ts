@@ -181,8 +181,8 @@ export const CRAFTING_BOOST_SPEED = {
  * (Grape). Orchard-on-Grape is a windowed-model ADDITION — the legacy baked
  * path never applied it to greenhouse fruit (hourglasses now cover their whole
  * activity, mirroring Harvest-on-greenhouse-crops). Tortoise Shrine is a
- * MIXED-activity boost: only its greenhouse half is windowed here; its
- * crop-machine ×0.9 stays baked in supplyCropMachine until that slice.
+ * MIXED-activity boost: this is only its greenhouse half; its crop-machine half
+ * is windowed separately in `CROP_MACHINE_BOOST_SPEED`.
  */
 export const GREENHOUSE_BOOST_SPEED = {
   "Super Totem": 2,
@@ -192,6 +192,20 @@ export const GREENHOUSE_BOOST_SPEED = {
   "Tortoise Shrine": 1.5,
   // Per-pot fertiliser (not a collectible); windowed via getGreenhouseGlowWindows.
   "Greenhouse Glow": 1.25,
+} as const;
+
+/**
+ * Speed multiplier for the windowed crop-machine growth boost. The Tortoise
+ * Shrine is the crop machine's ONLY temporary boost (no totems or hourglasses
+ * apply — the Harvest Hourglass does not cover the machine). The value is the
+ * exact reciprocal of the legacy baked ×0.9, so a shrine covering a whole pack
+ * reproduces the old time to the millisecond (deliberately NOT rounded, unlike
+ * the shrine's greenhouse half). Tortoise Shrine is a MIXED-activity boost:
+ * this is its crop-machine half; the greenhouse half lives in
+ * `GREENHOUSE_BOOST_SPEED`.
+ */
+export const CROP_MACHINE_BOOST_SPEED = {
+  "Tortoise Shrine": 10 / 9,
 } as const;
 
 /** Window for the Power Hour buff (1h from activation), if active. */
@@ -414,6 +428,22 @@ export const getCraftingBoostWindows = (game: GameState): BoostWindow[] => [
     speed: CRAFTING_BOOST_SPEED["Fox Shrine"],
   }),
 ];
+
+/**
+ * The windowed speed boost that applies to crop machine growth — the Tortoise
+ * Shrine alone (no totems, no hourglasses). Empty set (no shrine) makes
+ * `computeReadyAt` reduce to `start + baseDurationMs`. Like cooking, these
+ * windows are consumed by a QUEUE — see `resolveCropMachine` in
+ * `cropMachineReadiness.ts`, which additionally threads the machine's oil
+ * through the chain (fuel burns by the wall clock while a window accelerates
+ * the work, so a boost makes packs both faster and cheaper in oil).
+ */
+export const getCropMachineBoostWindows = (game: GameState): BoostWindow[] =>
+  getBoostWindows({
+    game,
+    name: "Tortoise Shrine",
+    speed: CROP_MACHINE_BOOST_SPEED["Tortoise Shrine"],
+  });
 
 /**
  * The Turbofruit Mix fertiliser's speed window for a fruit patch. Unlike the
@@ -673,6 +703,33 @@ export function getBoostWindows({
 const MAX_BOOST_HISTORY_AGE_MS = 7 * 24 * 60 * 60 * 1000;
 
 /**
+ * The earliest instant any windowed ledger still needs boost history for.
+ *
+ * A windowed crop machine banks work FORWARD from `oilSettledAt`, re-deriving
+ * it from the windows each time, so every window ending after that anchor is
+ * still load-bearing. The anchor normally tracks the last event or flagged
+ * load, but it can fall behind the prune horizon — `migrateSpeedBoosts`
+ * returns early when SPEED_BOOSTS is off, while the prune below is not
+ * flag-gated, so a rollback longer than `MAX_BOOST_HISTORY_AGE_MS` would
+ * otherwise drop windows a still-windowed machine depends on.
+ *
+ * The crop machine is the only activity that needs this: its packs can stall
+ * on an empty tank indefinitely, so its anchor can be arbitrarily old. Every
+ * other windowed node runs to completion on its own schedule.
+ */
+function getEarliestLedgerAnchor(game: GameState): number | undefined {
+  let earliest: number | undefined;
+
+  for (const machine of game.buildings?.["Crop Machine"] ?? []) {
+    const anchor = machine.oilSettledAt;
+    if (anchor === undefined) continue;
+    if (earliest === undefined || anchor < earliest) earliest = anchor;
+  }
+
+  return earliest;
+}
+
+/**
  * Record a finalised active window for a temporary boost collectible into
  * `game.boostHistory` so its contribution survives the placed record being burned
  * (deleted) or renewed (createdAt reset). Mutates `game` in place (immer-draft
@@ -690,9 +747,16 @@ export function appendBoostHistory(
   if (window.to <= window.from) return;
 
   if (!game.boostHistory) game.boostHistory = {};
-  const kept = (game.boostHistory[name] ?? []).filter(
-    (w) => w.to >= now - MAX_BOOST_HISTORY_AGE_MS,
+
+  // Never prune below a ledger anchor that still reads this history — losing
+  // such a window would silently un-do growth a machine already completed.
+  const anchor = getEarliestLedgerAnchor(game);
+  const horizon = Math.min(
+    now - MAX_BOOST_HISTORY_AGE_MS,
+    anchor ?? Number.POSITIVE_INFINITY,
   );
+
+  const kept = (game.boostHistory[name] ?? []).filter((w) => w.to >= horizon);
   kept.push({ from: window.from, to: window.to });
   game.boostHistory[name] = kept;
 }

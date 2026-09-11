@@ -21,7 +21,15 @@ import { SquareIcon } from "../SquareIcon";
 import { formatDateRange, secondsToString } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
-import { isPreActionBoosted } from "features/game/lib/timerDisplay";
+import {
+  getPreActionDisplay,
+  isPreActionBoosted,
+} from "features/game/lib/timerDisplay";
+import { getCropMachineBoostWindows } from "features/game/lib/boostWindows";
+import {
+  getBoostContributionEntries,
+  getCropMachineBoostContributions,
+} from "features/game/lib/boostContributions";
 import emptyPot from "assets/greenhouse/greenhouse_pot.webp";
 import flowerBed from "assets/flowers/empty_flowerbed.webp";
 
@@ -42,6 +50,7 @@ import {
 } from "features/game/events/landExpansion/supplyCropMachine";
 import { useActiveBuff } from "features/game/types/buffs";
 import { useNow } from "lib/utils/hooks/useNow";
+import { hasFeatureAccess } from "lib/flags";
 
 /**
  * The props for the details for items.
@@ -292,29 +301,69 @@ export const SeedRequirements: React.FC<Props> = ({
     const RequirementLabels: React.FC = () => {
       if (isSeedCropMachine(details.item)) {
         const cropMachinePackSize = CROP_MACHINE_PLOTS(gameState);
-        const cropMachineBoostedTime = calculateCropTime(
+
+        // A pack supplied now WILL be windowed under SPEED_BOOSTS — the supply
+        // event converts the machine — so this pre-action preview gates on the
+        // FLAG (there is no pack yet to carry a marker). The Tortoise is then a
+        // live window rather than a baked ×0.9, so it must come out of the
+        // duration here and be credited over the grow instead.
+        const isCropMachineWindowed = hasFeatureAccess(
+          gameState,
+          "SPEED_BOOSTS",
+        );
+        const cropMachineTime = calculateCropTime(
           { type: details.item, amount: cropMachinePackSize },
           gameState,
           now,
+          { windowed: isCropMachineWindowed },
         );
+        const cropMachineSeconds = cropMachineTime.milliSeconds / 1000;
         const cropMachineBaseTime = baseTimeSeconds;
-        const isCropMachineTimeBoosted =
-          cropMachineBoostedTime.milliSeconds / 1000 !== cropMachineBaseTime;
+
+        // Name the windowed Tortoise by the time it actually saves ("-1hr
+        // 12mins Tortoise Shrine"), matching every other windowed boost in the
+        // seed shop, instead of the legacy "x0.9" multiplier.
+        const cropMachineBoostsUsed = [
+          ...cropMachineTime.boostUsed,
+          ...getBoostContributionEntries({
+            contributions: getCropMachineBoostContributions(gameState),
+            seconds: cropMachineSeconds,
+            at: now,
+            formatSeconds: (seconds) =>
+              secondsToString(seconds, { length: "medium" }),
+          }),
+        ];
+
+        const {
+          displaySeconds: cropMachineDisplaySeconds,
+          hasNamedBoosts: cropMachineHasNamedBoosts,
+          isBoosted: isCropMachineTimeBoosted,
+        } = getPreActionDisplay({
+          seconds: cropMachineSeconds,
+          baseSeconds: cropMachineBaseTime,
+          namedBoostCount: cropMachineBoostsUsed.length,
+          windows: isCropMachineWindowed
+            ? getCropMachineBoostWindows(gameState)
+            : [],
+          at: now,
+        });
 
         return (
           <div
-            className="flex flex-col items-center cursor-pointer"
+            className={classNames("flex flex-col items-center", {
+              "cursor-pointer": cropMachineHasNamedBoosts,
+            })}
             onClick={
-              isCropMachineTimeBoosted
+              cropMachineHasNamedBoosts
                 ? () => setShowBoosts(!showBoosts)
                 : undefined
             }
           >
             <p className="text-xxs">{`Time to grow ${cropMachinePackSize}x: `}</p>
-            {!!cropMachineBoostedTime && isCropMachineTimeBoosted && (
+            {isCropMachineTimeBoosted && (
               <RequirementLabel
                 type="time"
-                waitSeconds={cropMachineBoostedTime.milliSeconds / 1000}
+                waitSeconds={cropMachineDisplaySeconds}
                 boosted
               />
             )}
@@ -326,7 +375,7 @@ export const SeedRequirements: React.FC<Props> = ({
               />
             )}
             <BoostsDisplay
-              boosts={cropMachineBoostedTime.boostUsed ?? []}
+              boosts={cropMachineBoostsUsed}
               show={showBoosts}
               state={gameState}
               onClick={() => setShowBoosts(!showBoosts)}
