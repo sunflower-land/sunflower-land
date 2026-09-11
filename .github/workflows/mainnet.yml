@@ -6,45 +6,21 @@ on:
       - published
 
 jobs:
-  # Runs alongside the deploy so the alert goes out immediately and its
-  # GitHub/Bedrock calls never delay the release.
-  notify:
-    # `develop`, not `production`: this job needs no production secrets, and
-    # the Bedrock role below can only be assumed from the develop environment.
-    environment: develop
+  deploy:
+    concurrency: mainnet-deploy
+    environment: production
     runs-on: ubuntu-24.04-arm
-    permissions:
-      contents: read
-      # Needed to mint the OIDC token that is exchanged for the Bedrock role.
-      id-token: write
-    # The AI summary runs OpenAI GPT-5.6 Sol on Amazon Bedrock via the same
-    # least-privilege OIDC role as the Codex review (its ARN is the `develop`
-    # environment secret AWS_BEDROCK_ROLE_ARN), so it is billed to our
-    # development AWS account, not to an OpenAI API key.
-    env:
-      AWS_REGION: us-east-1
-      # The role's policy only allows this model.
-      BEDROCK_SUMMARY_MODEL: openai.gpt-5.6-sol
     steps:
-      - name: Configure AWS credentials for Bedrock
-        uses: aws-actions/configure-aws-credentials@v4
-        # The alert must still go out when Bedrock is unavailable: the
-        # summariser falls back to the commit list if this step fails.
-        continue-on-error: true
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          role-to-assume: ${{ secrets.AWS_BEDROCK_ROLE_ARN }}
-          role-session-name: mainnet-release-alert-${{ github.run_id }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Install the OpenAI SDK with its Amazon Bedrock provider
-        working-directory: ${{ runner.temp }}
-        run: npm install --no-audit --no-fund --silent openai@7 @aws-sdk/credential-provider-node@3 @smithy/hash-node@4 @smithy/signature-v4@5
+          node-version: "24"
 
       - name: Notify engineers of release start
         continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_PATH: ${{ runner.temp }}/node_modules
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           DISCORD_MAIN_ALERT_WEBHOOK_URL: ${{ secrets.DISCORD_MAIN_ALERT_WEBHOOK_URL }}
           RELEASE_NAME: ${{ github.event.release.name }}
           RELEASE_TAG: ${{ github.event.release.tag_name }}
@@ -56,9 +32,7 @@ jobs:
           node <<'EOF'
           const {
             GITHUB_TOKEN,
-            AWS_ACCESS_KEY_ID,
-            AWS_REGION,
-            BEDROCK_SUMMARY_MODEL,
+            OPENAI_API_KEY,
             DISCORD_MAIN_ALERT_WEBHOOK_URL,
             RELEASE_NAME,
             RELEASE_TAG,
@@ -97,8 +71,8 @@ jobs:
           }
 
           async function summarizeWithAi({ previousTag, commits, files }) {
-            if (!BEDROCK_SUMMARY_MODEL || !AWS_ACCESS_KEY_ID) {
-              console.log("Bedrock credentials not available; skipping AI summary.");
+            if (!OPENAI_API_KEY) {
+              console.log("OPENAI_API_KEY not available; skipping AI summary.");
               return null;
             }
 
@@ -106,48 +80,50 @@ jobs:
               .map((c) => `- ${c.sha.slice(0, 7)} ${c.commit.message.split("\n")[0]}`)
               .join("\n");
 
-            // OpenAI's SDK with its Amazon Bedrock provider: each request is
-            // signed (SigV4) with the role credentials exported by the
-            // configure-aws-credentials step.
-            const OpenAI = require("openai");
-            const { bedrock } = require("openai/providers/bedrock/aws");
-            const { defaultProvider } = require("@aws-sdk/credential-provider-node");
-            const client = new OpenAI({
-              provider: bedrock({ region: AWS_REGION, endpoint: "mantle", credentialProvider: defaultProvider() }),
+            const response = await fetch("https://api.openai.com/v1/responses", {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${OPENAI_API_KEY}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                model: "gpt-5.6-sol",
+                // Reasoning tokens count against this budget, so keep reasoning
+                // low and leave room for the summary itself.
+                max_output_tokens: 800,
+                reasoning: { effort: "low" },
+                input: [
+                  {
+                    role: "system",
+                    content:
+                      "You summarize a software release for an internal engineering Discord alert. Write a short markdown summary (3-6 bullet points) of the most notable changes in this release compared to the previous tag. Group related commits, ignore noise like translation/metadata bot commits, and call out anything risky, user-facing, or operationally relevant. Be factual and concise. Do not include a heading.",
+                  },
+                  {
+                    role: "user",
+                    content: [
+                      `Repository: ${REPOSITORY}`,
+                      `Release: ${RELEASE_NAME || RELEASE_TAG}`,
+                      `Tag: ${RELEASE_TAG}`,
+                      `Previous tag: ${previousTag}`,
+                      `Release notes (may be empty):`,
+                      RELEASE_BODY || "(none)",
+                      "",
+                      `Commits (${commits.length}):`,
+                      commitList,
+                      "",
+                      `Changed files (${files.length}):`,
+                      truncate(files.join(", "), 4000) || "(none)",
+                    ].join("\n"),
+                  },
+                ],
+              }),
             });
 
-            const payload = await client.responses.create({
-              model: BEDROCK_SUMMARY_MODEL,
-              // Reasoning tokens count against this budget, so keep reasoning
-              // low and leave room for the summary itself.
-              max_output_tokens: 800,
-              reasoning: { effort: "low" },
-              input: [
-                {
-                  role: "system",
-                  content:
-                    "You summarize a software release for an internal engineering Discord alert. Write a short markdown summary (3-6 bullet points) of the most notable changes in this release compared to the previous tag. Group related commits, ignore noise like translation/metadata bot commits, and call out anything risky, user-facing, or operationally relevant. Be factual and concise. Do not include a heading.",
-                },
-                {
-                  role: "user",
-                  content: [
-                    `Repository: ${REPOSITORY}`,
-                    `Release: ${RELEASE_NAME || RELEASE_TAG}`,
-                    `Tag: ${RELEASE_TAG}`,
-                    `Previous tag: ${previousTag}`,
-                    `Release notes (may be empty):`,
-                    RELEASE_BODY || "(none)",
-                    "",
-                    `Commits (${commits.length}):`,
-                    commitList,
-                    "",
-                    `Changed files (${files.length}):`,
-                    truncate(files.join(", "), 4000) || "(none)",
-                  ].join("\n"),
-                },
-              ],
-            });
+            if (!response.ok) {
+              throw new Error(`OpenAI request failed: ${response.status} ${await response.text()}`);
+            }
 
+            const payload = await response.json();
             const summaryText =
               payload.output_text?.trim() ||
               (payload.output ?? [])
@@ -257,16 +233,6 @@ jobs:
             process.exit(1);
           });
           EOF
-
-  deploy:
-    concurrency: mainnet-deploy
-    environment: production
-    runs-on: ubuntu-24.04-arm
-    steps:
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "24"
 
       - name: Get current date
         id: date
