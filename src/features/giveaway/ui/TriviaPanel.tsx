@@ -129,7 +129,7 @@ const ResultPopup: React.FC<{ result: Result; correctAnswer: string }> = ({
  * through the translucent tint so you can see everyone's picks. The answer text
  * sits in a bold pill at the bottom of each quadrant. On the reveal the correct
  * quadrant lights up, wrong ones dim, and a centre popup shows your speed +
- * points. You keep your pick between questions and can change it until reveal.
+ * points. Your first pick is locked in until the reveal — no changing it.
  */
 export const TriviaPanel: React.FC<{ controls: TriviaControls }> = ({
   controls,
@@ -175,6 +175,8 @@ export const TriviaPanel: React.FC<{ controls: TriviaControls }> = ({
 
   const question = questionForRound(id, round.index);
   const revealing = round.phase === "feedback";
+  // Once you've picked, your answer is locked in until the reveal.
+  const locked = !revealing && controls.picked !== null;
 
   return (
     <>
@@ -219,6 +221,11 @@ export const TriviaPanel: React.FC<{ controls: TriviaControls }> = ({
               )}
             </div>
           )}
+          {locked && (
+            <div className="flex justify-center mt-1">
+              <Label type="warning">{t("giveaway.trivia.lockedIn")}</Label>
+            </div>
+          )}
         </InnerPanel>
       </div>
 
@@ -229,6 +236,8 @@ export const TriviaPanel: React.FC<{ controls: TriviaControls }> = ({
           const isYourPick = controls.picked === i;
           const isYourWrong = revealing && isYourPick && !isCorrect;
           const dim = revealing && !isCorrect && !isYourPick;
+          // Locked in: fade the answers you can no longer switch to.
+          const fade = locked && !isYourPick;
           const ring = isCorrect
             ? "0 0 0 4px #ffffff"
             : isYourWrong
@@ -241,11 +250,14 @@ export const TriviaPanel: React.FC<{ controls: TriviaControls }> = ({
               key={i}
               onPointerDown={(e) => {
                 e.preventDefault();
-                if (!revealing) controls.pick(i);
+                if (!revealing && !locked) controls.pick(i);
               }}
-              disabled={revealing}
+              disabled={revealing || locked}
               className="relative flex items-end justify-center pointer-events-auto"
-              style={{ touchAction: "manipulation", opacity: dim ? 0.35 : 1 }}
+              style={{
+                touchAction: "manipulation",
+                opacity: dim ? 0.35 : fade ? 0.6 : 1,
+              }}
             >
               {/* Quadrant tint + border (Bumpkins show through — even when the
                   correct answer is highlighted, the fill stays translucent). */}
