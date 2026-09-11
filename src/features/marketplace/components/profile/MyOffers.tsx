@@ -24,6 +24,7 @@ import lock from "assets/icons/lock.png";
 import trade from "assets/icons/trade.png";
 import { BulkRemoveTrades } from "../BulkRemoveListings";
 import { Button } from "components/ui/Button";
+import { MAX_ITEM_OFFERS } from "../../lib/tradeLimits";
 
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
@@ -87,9 +88,20 @@ export const MyOffers: React.FC<Props> = ({ fullHeight = false }) => {
         )
       : offers;
 
+  const filteredOfferIds = getKeys(filteredOffers);
+  const selectedOffer = filteredOffers[filteredOfferIds[0]];
+  const selectedItemName = selectedOffer
+    ? (getKeys(selectedOffer.items ?? {})[0] as InventoryItemName)
+    : undefined;
+  const showResourceOfferCount =
+    !!params.id &&
+    routeCollection === "collectibles" &&
+    !!selectedItemName &&
+    isTradeResource(selectedItemName);
+
   const navigate = useNavigate();
 
-  if (getKeys(filteredOffers).length === 0) return null;
+  if (filteredOfferIds.length === 0) return null;
 
   const escrowedSFL = getKeys(offers).reduce(
     (total, id) => total + offers[id].sfl,
@@ -164,9 +176,16 @@ export const MyOffers: React.FC<Props> = ({ fullHeight = false }) => {
         >
           <div className="flex justify-between flex-col mb-2">
             <div className="flex items-center justify-between mb-1">
-              <Label type="default" icon={trade}>
-                {t("marketplace.myOffers")}
-              </Label>
+              <div className="flex items-center gap-1">
+                <Label type="default" icon={trade}>
+                  {t("marketplace.myOffers")}
+                </Label>
+                {showResourceOfferCount && (
+                  <Label type="default">
+                    {`${filteredOfferIds.length}/${MAX_ITEM_OFFERS}`}
+                  </Label>
+                )}
+              </div>
               <Button
                 className="w-fit h-8 rounded-none"
                 onClick={() => setBulkCancel(true)}
@@ -185,7 +204,7 @@ export const MyOffers: React.FC<Props> = ({ fullHeight = false }) => {
           <div
             className={fullHeight ? "flex min-h-0 flex-1" : "flex flex-wrap"}
           >
-            {getKeys(filteredOffers).length === 0 ? (
+            {filteredOfferIds.length === 0 ? (
               <p className="text-sm">{t("marketplace.noMyOffers")}</p>
             ) : (
               <div
@@ -193,7 +212,7 @@ export const MyOffers: React.FC<Props> = ({ fullHeight = false }) => {
                   fullHeight ? "h-full min-h-0" : "max-h-[200px]"
                 }`}
               >
-                {getKeys(filteredOffers).map((id, index) => {
+                {filteredOfferIds.map((id, index) => {
                   const offer = filteredOffers[id];
                   const itemName = getKeys(
                     offer.items ?? {},
