@@ -7,7 +7,7 @@ import krakenTentacle from "assets/sfts/kraken_tentacle.webp";
 import type { SceneId } from "../mmoMachine";
 import { BaseScene, type NPCBumpkin } from "./BaseScene";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { translate, translateForBubble } from "lib/i18n/translate";
+import { translate } from "lib/i18n/translate";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -611,7 +611,7 @@ export class LoveIslandScene extends BaseScene {
       if (this.checkDistanceToSprite(shop, 75)) {
         interactableModalManager.open("floating_island_shop");
       } else {
-        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
 
@@ -635,7 +635,7 @@ export class LoveIslandScene extends BaseScene {
       if (this.checkDistanceToSprite(portal, 40)) {
         interactableModalManager.open("flower_exchange");
       } else {
-        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
 
@@ -817,16 +817,12 @@ export class LoveIslandScene extends BaseScene {
     const round = this.getRound(now);
 
     if (round.phase !== "choose") {
-      this.currentPlayer?.speak(
-        translateForBubble("loveDilemma.waitForNextRound"),
-      );
+      this.currentPlayer?.speak(translate("loveDilemma.waitForNextRound"));
       return;
     }
 
     if (getLoveDilemmaAttemptsLeft({ state: this.freshState, now }) <= 0) {
-      this.currentPlayer?.speak(
-        translateForBubble("loveDilemma.noAttemptsLeft"),
-      );
+      this.currentPlayer?.speak(translate("loveDilemma.noAttemptsLeft"));
       return;
     }
 
@@ -1082,9 +1078,7 @@ export class LoveIslandScene extends BaseScene {
     if (mine === undefined || !PLATFORM_SPOTS[mine]) return;
 
     if (result.isVoid) {
-      this.currentPlayer?.speak(
-        translateForBubble("loveDilemma.notEnoughPlayers"),
-      );
+      this.currentPlayer?.speak(translate("loveDilemma.notEnoughPlayers"));
       return;
     }
 
@@ -1106,7 +1100,7 @@ export class LoveIslandScene extends BaseScene {
     if (won) {
       this.showWinnings(amount);
     } else {
-      this.currentPlayer?.speak(translateForBubble("loveDilemma.lost"));
+      this.currentPlayer?.speak(translate("loveDilemma.lost"));
     }
   }
 
@@ -1337,7 +1331,7 @@ export class LoveIslandScene extends BaseScene {
     if (round.solved) {
       if (now - this.lastPushBubbleAt > PUSH_BUBBLE_COOLDOWN_MS) {
         this.lastPushBubbleAt = now;
-        player.speak(translateForBubble("lovePush.waitForNextPuzzle"));
+        player.speak(translate("lovePush.waitForNextPuzzle"));
       }
       return;
     }
@@ -1719,7 +1713,7 @@ export class LoveIslandScene extends BaseScene {
           this.resetBoulder(boulder, round.starts[boulder] ?? tile);
           if (mine && now - this.lastPushBubbleAt > PUSH_BUBBLE_COOLDOWN_MS) {
             this.lastPushBubbleAt = now;
-            this.currentPlayer?.speak(translateForBubble("lovePush.reset"));
+            this.currentPlayer?.speak(translate("lovePush.reset"));
           }
         } else {
           if (rendered !== index) this.slideBoulder(boulder, tile);
@@ -1917,7 +1911,7 @@ export class LoveIslandScene extends BaseScene {
 
     if (!canClaimLovePush({ state, myMoves, roundId: round.roundId, now })) {
       if (hasClaimedLovePushToday({ state, now })) {
-        player.speak(translateForBubble("lovePush.alreadyClaimed"));
+        player.speak(translate("lovePush.alreadyClaimed"));
       }
       return;
     }
@@ -1934,7 +1928,7 @@ export class LoveIslandScene extends BaseScene {
     });
 
     this.celebrate(player);
-    player.speak(translateForBubble("lovePush.prize"));
+    player.speak(translate("lovePush.prize"));
   }
 
   // ---------------------------------------------------------------------
@@ -2110,7 +2104,7 @@ export class LoveIslandScene extends BaseScene {
     if (!this.boulder || !player || round.broken) return;
 
     if (!this.checkDistanceToSprite(this.boulder, BOULDER_REACH)) {
-      player.speak(translateForBubble("base.iam.far.away"));
+      player.speak(translate("base.iam.far.away"));
       return;
     }
 
@@ -2342,7 +2336,7 @@ export class LoveIslandScene extends BaseScene {
     if (!isLoveBoulderRewardOpen({ round, now })) return;
 
     if (!this.checkDistanceToSprite(this.boulder, BOULDER_REACH)) {
-      player.speak(translateForBubble("base.iam.far.away"));
+      player.speak(translate("base.iam.far.away"));
       return;
     }
 
@@ -2350,13 +2344,13 @@ export class LoveIslandScene extends BaseScene {
     const myHits = this.getMyBoulderHits(round.roundId);
 
     if (myHits <= 0) {
-      player.speak(translateForBubble("loveBoulder.didNotHelp"));
+      player.speak(translate("loveBoulder.didNotHelp"));
       return;
     }
 
     if (!canClaimLoveBoulder({ state, myHits, roundId: round.roundId, now })) {
       if (hasClaimedLoveBoulderToday({ state, now })) {
-        player.speak(translateForBubble("loveBoulder.alreadyClaimed"));
+        player.speak(translate("loveBoulder.alreadyClaimed"));
       }
       return;
     }
@@ -2378,8 +2372,8 @@ export class LoveIslandScene extends BaseScene {
     player.cheer();
     player.speak(
       prize.type === "coins"
-        ? translateForBubble("loveBoulder.prizeCoins", { amount: prize.amount })
-        : translateForBubble("loveBoulder.prizeItem", { item: prize.item }),
+        ? translate("loveBoulder.prizeCoins", { amount: prize.amount })
+        : translate("loveBoulder.prizeItem", { item: prize.item }),
     );
   }
 
@@ -2655,7 +2649,7 @@ export class LoveIslandScene extends BaseScene {
     });
 
     if (!route) {
-      player.speak(translateForBubble("base.iam.far.away"));
+      player.speak(translate("base.iam.far.away"));
       return;
     }
 
@@ -2727,7 +2721,7 @@ export class LoveIslandScene extends BaseScene {
     }
 
     if (!this.checkDistanceToSprite(this.kraken, LOVE_KRAKEN_REACH)) {
-      player.speak(translateForBubble("base.iam.far.away"));
+      player.speak(translate("base.iam.far.away"));
       return;
     }
 
@@ -3147,7 +3141,7 @@ export class LoveIslandScene extends BaseScene {
     if (this.claimedKrakenRoundId === round.roundId) return;
 
     if (!this.checkDistanceToSprite(this.kraken, LOVE_KRAKEN_REACH)) {
-      if (!automatic) player.speak(translateForBubble("base.iam.far.away"));
+      if (!automatic) player.speak(translate("base.iam.far.away"));
       return;
     }
 
@@ -3155,13 +3149,13 @@ export class LoveIslandScene extends BaseScene {
     const myReels = this.getMyKrakenReels(round.roundId);
 
     if (myReels <= 0) {
-      if (!automatic) player.speak(translateForBubble("loveKraken.didNotHelp"));
+      if (!automatic) player.speak(translate("loveKraken.didNotHelp"));
       return;
     }
 
     if (!canClaimLoveKraken({ state, myReels, roundId: round.roundId, now })) {
       if (!automatic && hasClaimedLoveKrakenToday({ state, now })) {
-        player.speak(translateForBubble("loveKraken.alreadyClaimed"));
+        player.speak(translate("loveKraken.alreadyClaimed"));
       }
       // Nothing more is coming this round either way
       this.claimedKrakenRoundId = round.roundId;
@@ -3185,8 +3179,8 @@ export class LoveIslandScene extends BaseScene {
     player.cheer();
     player.speak(
       prize.type === "coins"
-        ? translateForBubble("loveKraken.prizeCoins", { amount: prize.amount })
-        : translateForBubble("loveKraken.prizeItem", { item: prize.item }),
+        ? translate("loveKraken.prizeCoins", { amount: prize.amount })
+        : translate("loveKraken.prizeItem", { item: prize.item }),
     );
   }
 }
