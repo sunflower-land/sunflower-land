@@ -215,6 +215,9 @@ function useInstantGratification({
     // undo the instant completion (mirrors the oil reserve above / instaGrowFlower).
     if (queue[recipeIndex].baseDurationMs !== undefined) {
       queue[recipeIndex].baseDurationMs = 0;
+      // Complete at activation, not at the old start: queued recipes derive their
+      // start from this recipe and must not inherit its elapsed cooking time.
+      queue[recipeIndex].startedAt = createdAt;
     }
 
     building.crafting = recalculateQueue({
