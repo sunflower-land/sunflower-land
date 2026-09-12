@@ -175,7 +175,7 @@ export class KingdomScene extends BaseScene {
 
     board.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (!this.checkDistanceToSprite(board, 75)) {
-        this.currentPlayer?.speak(translateForBubble("base.iam.far.away"));
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
         return;
       }
 

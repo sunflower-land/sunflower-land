@@ -3233,7 +3233,7 @@ export class LoveIslandScene extends BaseScene {
     });
 
     if (!route) {
-      player.speak(translateForBubble("base.iam.far.away"));
+      player.speak(translate("base.iam.far.away"));
       return;
     }
 
@@ -3305,7 +3305,7 @@ export class LoveIslandScene extends BaseScene {
     }
 
     if (!this.checkDistanceToSprite(this.kraken, LOVE_KRAKEN_REACH)) {
-      player.speak(translateForBubble("base.iam.far.away"));
+      player.speak(translate("base.iam.far.away"));
       return;
     }
 
@@ -3726,7 +3726,7 @@ export class LoveIslandScene extends BaseScene {
     if (this.claimedKrakenRoundId === round.roundId) return;
 
     if (!this.checkDistanceToSprite(this.kraken, LOVE_KRAKEN_REACH)) {
-      if (!automatic) player.speak(translateForBubble("base.iam.far.away"));
+      if (!automatic) player.speak(translate("base.iam.far.away"));
       return;
     }
 
@@ -3734,13 +3734,13 @@ export class LoveIslandScene extends BaseScene {
     const myReels = this.getMyKrakenReels(round.roundId);
 
     if (myReels <= 0) {
-      if (!automatic) player.speak(translateForBubble("loveKraken.didNotHelp"));
+      if (!automatic) player.speak(translate("loveKraken.didNotHelp"));
       return;
     }
 
     if (!canClaimLoveKraken({ state, myReels, roundId: round.roundId, now })) {
       if (!automatic && hasClaimedLoveKrakenToday({ state, now })) {
-        player.speak(translateForBubble("loveKraken.alreadyClaimed"));
+        player.speak(translate("loveKraken.alreadyClaimed"));
       }
       // Nothing more is coming this round either way
       this.claimedKrakenRoundId = round.roundId;
@@ -3764,8 +3764,8 @@ export class LoveIslandScene extends BaseScene {
     player.cheer();
     player.speak(
       prize.type === "coins"
-        ? translateForBubble("loveKraken.prizeCoins", { amount: prize.amount })
-        : translateForBubble("loveKraken.prizeItem", { item: prize.item }),
+        ? translate("loveKraken.prizeCoins", { amount: prize.amount })
+        : translate("loveKraken.prizeItem", { item: prize.item }),
     );
   }
 }
