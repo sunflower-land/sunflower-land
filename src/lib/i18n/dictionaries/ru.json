@@ -8126,7 +8126,6 @@
   "giveaway.leaderboardWaiting": "Ожидание игроков…",
   "giveaway.leaderboardOffline": "Рейтинг в реальном времени появится после подключения к серверу сообщества.",
   "giveaway.trivia.title": "Викторина",
-  "giveaway.trivia.rules": "Нажми на правильный ответ внизу. Чем быстрее ответишь верно, тем больше очков получишь!",
   "giveaway.trivia.getReady": "Приготовься…",
   "giveaway.trivia.correct": "Правильно!",
   "giveaway.trivia.wrong": "Неправильно!",
@@ -8583,5 +8582,18 @@
   "loveKraken.didNotHelp": "Вытяни зверя, чтобы получить приз!",
   "loveKraken.alreadyClaimed": "Уже получено сегодня. Возвращайся завтра!",
   "loveKraken.prizeItem": "Ты выиграл {{item}}!",
-  "loveKraken.prizeCoins": "Ты выиграл {{amount}} монет!"
+  "loveKraken.prizeCoins": "Ты выиграл {{amount}} монет!",
+  "description.totem.buff.crafting.speed": "x2 скорость крафта в мастерской",
+  "description.foxShrine.buff.speed": "x1.35 скорость крафта в мастерской",
+  "statsLeaderboard.pageTitle": "Зал славы",
+  "statsLeaderboard.pageDescription": "Кто на вершине Королевства",
+  "statsLeaderboard.title.coins": "Больше всего монет",
+  "statsLeaderboard.title.experience": "Больше всего опыта",
+  "statsLeaderboard.title.cropsHarvested": "Больше всего собрано урожая",
+  "statsLeaderboard.title.fishCaught": "Больше всего поймано рыбы",
+  "statsLeaderboard.title.animalsFed": "Больше всего накормлено животных",
+  "statsLeaderboard.title.deliveries": "Больше всего доставок",
+  "giveaway.trivia.rules": "Нажми правильный ответ внизу экрана. Твой первый выбор фиксируется, так что выбирай внимательно! Чем быстрее ответишь правильно, тем больше очков получишь!",
+  "giveaway.trivia.lockedIn": "Выбор зафиксирован!",
+  "description.tortoiseShrine.buff.2.speed": "x1.11 скорость роста растений в агромашине"
 }
