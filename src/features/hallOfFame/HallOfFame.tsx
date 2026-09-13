@@ -212,7 +212,7 @@ export const HallOfFame: React.FC = () => {
               {STATS_LEADERBOARD_NAMES.map((name) => (
                 <div
                   key={name}
-                  className="w-full sm:w-1/2 md:w-1/3 xl:w-1/5 p-0.5"
+                  className="w-full sm:w-1/2 md:w-1/3 xl:w-1/4 p-0.5"
                 >
                   <HallOfFameBoard
                     name={name}
