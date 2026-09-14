@@ -33,6 +33,7 @@ import type {
   Purchase,
 } from "../types/game";
 import { loadSession, type SocialDetails } from "../actions/loadSession";
+import { expectRequestTokens } from "lib/requestToken";
 import { resolveSocialDetails } from "./socialDetails";
 import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
@@ -1115,6 +1116,13 @@ const handleSuccessfulSave = (context: Context, event: any) => {
 export const INITIAL_SESSION = "0x0";
 
 export function startGame(authContext: AuthContext) {
+  // A session is on its way: protected requests that fire before it lands
+  // (the marketplace under /world mounts before the game has loaded) wait
+  // for it rather than going out unsigned. Here, at construction, because
+  // those requests start from child effects that run before the effect
+  // that starts this machine.
+  expectRequestTokens();
+
   return createMachine<Context, BlockchainEvent, BlockchainState>(
     {
       id: "gameMachine",

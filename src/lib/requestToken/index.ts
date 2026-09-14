@@ -303,6 +303,68 @@ let refreshUnsupported = false;
 let sessionGeneration = 0;
 
 /**
+ * Whether a `/session` handshake is on its way. Set by the game as soon as
+ * it boots (see expectRequestTokens); until the handshake lands, a
+ * protected request waits for it rather than racing it. Without the flag
+ * — a surface that never loads a game session — nothing is waited for.
+ */
+let sessionExpected = false;
+/** True once `initRequestTokens` has completed for the first time. */
+let initialised = false;
+let resolveFirstInit!: () => void;
+/** Settles on the first completed `initRequestTokens`, signed or not. */
+const firstInit = new Promise<void>((resolve) => {
+  resolveFirstInit = resolve;
+});
+const initListeners = new Set<() => void>();
+/**
+ * How long a request will wait for the first handshake before going out
+ * unsigned anyway. A cold load is `/session` plus the signer, a few
+ * seconds on a decent connection and a good deal more on a poor one; the
+ * wait ends the moment the handshake does, so the cap only ever bites
+ * when the session never comes.
+ */
+const FIRST_SESSION_WAIT_MS = 30_000;
+
+/**
+ * Tell the layer a game session is about to be loaded, so protected
+ * requests that fire before `/session` completes wait for it instead of
+ * going out as `unsigned:not-initialised` and being rejected.
+ *
+ * Called from `startGame` — at render time, before any child of the game
+ * provider can run an effect. The marketplace under `/world` mounts in the
+ * same commit as the game and fetches from a layout effect, which runs
+ * before the effect that starts the game machine: the request is already
+ * on its way before `loadSession` has even been called. Hence a flag set
+ * at construction, not one set by the session load itself.
+ */
+export function expectRequestTokens(): void {
+  sessionExpected = true;
+}
+
+/**
+ * Whether the layer has been handed the outcome of a session load —
+ * signed, unsigned because the API issued no code, or a signer that
+ * failed. "Not yet" is the one state a protected request should not be
+ * made in, and the one this answers.
+ */
+export function requestTokensInitialised(): boolean {
+  return initialised;
+}
+
+/**
+ * Subscribe to the first initialisation; returns the unsubscribe. Shaped
+ * for `useSyncExternalStore`, alongside requestTokensInitialised.
+ */
+export function subscribeRequestTokens(listener: () => void): () => void {
+  initListeners.add(listener);
+
+  return () => {
+    initListeners.delete(listener);
+  };
+}
+
+/**
  * Initialise the token layer from the `/session` response. Safe to call on
  * every session start — a fresh session replaces the code.
  */
@@ -328,7 +390,13 @@ export async function initRequestTokens(params: {
   apiUrl = params.apiUrl ?? apiUrl;
   authToken = params.token ?? authToken;
   initInFlight = init(params);
-  return initInFlight;
+  await initInFlight;
+
+  if (!initialised) {
+    initialised = true;
+    resolveFirstInit();
+    initListeners.forEach((listener) => listener());
+  }
 }
 
 async function init(params: {
@@ -666,14 +734,18 @@ function withTimeout<T>(
 /**
  * Give the signer its chance before a request goes out.
  *
- * Two cases. The cold load is still running — wait for it rather than
- * racing it. Or a previous load failed for a reason that may no longer be
- * true: those get a bounded number of lazy retries, so a page session that
- * began behind a blocker or on a dropped connection can start signing
- * without the player reloading the game.
+ * Three cases. The game has booted but `/session` has not landed yet —
+ * wait for it, bounded: the marketplace under `/world` mounts before the
+ * game has loaded, and its reads used to go out `unsigned:not-initialised`
+ * and be rejected, six or more per visit. The cold load of the signer is
+ * still running — wait for it rather than racing it. Or a previous load
+ * failed for a reason that may no longer be true: those get a bounded
+ * number of lazy retries, so a page session that began behind a blocker
+ * or on a dropped connection can start signing without the player
+ * reloading the game.
  *
- * Either way this settles, and quickly: a request is never failed, and
- * never held for long, because the token layer could not sort itself out.
+ * Either way this settles: a request is never failed, and never held
+ * beyond its bound, because the token layer could not sort itself out.
  */
 async function ensureSigner(init?: RequestInit): Promise<void> {
   if (requestTokensActive()) {
@@ -686,6 +758,13 @@ async function ensureSigner(init?: RequestInit): Promise<void> {
       if (refresh) await withTimeout(refresh, SIGNER_RETRY_WAIT_MS);
     }
     return;
+  }
+
+  // The handshake is coming but has not been called yet. Wait for it to
+  // complete — signer and all — rather than racing it. Only when a game is
+  // booting: a surface that never loads a session has nothing to wait for.
+  if (!initInFlight && state === "not-initialised" && sessionExpected) {
+    await withTimeout(firstInit, FIRST_SESSION_WAIT_MS);
   }
 
   // `initRequestTokens` always settles (it swallows its own failures), so

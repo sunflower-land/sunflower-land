@@ -977,3 +977,123 @@ describe("requestToken refreshing the session code", () => {
     expect(initSession).toHaveBeenLastCalledWith(newer);
   });
 });
+
+describe("requestToken when a session is expected but has not started", () => {
+  let fetchMock: jest.Mock;
+
+  beforeEach(() => {
+    jest.resetModules();
+    fetchMock = jest.fn().mockResolvedValue({ ok: true });
+    (window as unknown as { fetch: unknown }).fetch = fetchMock;
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  const boot = () => {
+    jest.doMock("./loader", () => ({
+      loadTokenModule: () =>
+        Promise.resolve({
+          initSession: () => undefined,
+          clearSession: () => undefined,
+          hasSession: () => true,
+          signRequest,
+        }),
+    }));
+
+    /* eslint-disable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
+    return require("./index") as typeof import("./index");
+    /* eslint-enable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
+  };
+
+  const headers = (call: number) =>
+    (fetchMock.mock.calls[call][1]?.headers ?? {}) as Record<string, string>;
+
+  it("holds a request made before /session, and signs it once the handshake lands", async () => {
+    const tokens = boot();
+
+    // The game has booted (the marketplace under /world mounts in the same
+    // commit) but loadSession has not even been called yet — the 377
+    // accounts a day whose marketplace reads went out unsigned.
+    tokens.expectRequestTokens();
+    const inFlight = tokens.secureFetch("https://api.test/marketplace");
+
+    await new Promise((res) => setTimeout(res, 20));
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(tokens.requestTokensInitialised()).toBe(false);
+
+    await tokens.initRequestTokens(session);
+    await inFlight;
+
+    expect(tokens.requestTokensInitialised()).toBe(true);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(headers(0)["X-Token"]).toBe("tok(GET|/marketplace|0)");
+  });
+
+  it("releases every waiting request on the one handshake", async () => {
+    const tokens = boot();
+    tokens.expectRequestTokens();
+
+    const burst = Promise.all(
+      Array.from({ length: 6 }, () =>
+        tokens.secureFetch("https://api.test/marketplace"),
+      ),
+    );
+    await new Promise((res) => setTimeout(res, 0));
+    expect(fetchMock).not.toHaveBeenCalled();
+
+    await tokens.initRequestTokens(session);
+    await burst;
+
+    expect(fetchMock).toHaveBeenCalledTimes(6);
+    for (let i = 0; i < 6; i++) {
+      expect(headers(i)["X-Token"]).toBe("tok(GET|/marketplace|0)");
+    }
+  });
+
+  it("gives up waiting and sends unsigned if the session never comes", async () => {
+    jest.useFakeTimers();
+    const tokens = boot();
+    tokens.expectRequestTokens();
+
+    const inFlight = tokens.secureFetch("https://api.test/marketplace");
+    await jest.advanceTimersByTimeAsync(29_000);
+    expect(fetchMock).not.toHaveBeenCalled();
+
+    await jest.advanceTimersByTimeAsync(2_000);
+    await inFlight;
+
+    // Still labelled honestly, and still sent: the layer never fails a
+    // request, and the API's answer is the caller's to handle.
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(headers(0)["X-Token"]).toBe("unsigned:not-initialised");
+  });
+
+  it("does not wait when no session is expected", async () => {
+    const tokens = boot();
+
+    // A surface that never loads a game session has nothing to wait for.
+    await tokens.secureFetch("https://api.test/marketplace");
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(headers(0)["X-Token"]).toBe("unsigned:not-initialised");
+  });
+
+  it("notifies subscribers exactly once, on the first handshake", async () => {
+    const tokens = boot();
+    const listener = jest.fn();
+    const unsubscribe = tokens.subscribeRequestTokens(listener);
+
+    // Whatever the handshake produced — a code, or none — the layer now
+    // has an answer, and that is what a gated fetch waits for.
+    await tokens.initRequestTokens({});
+    expect(listener).toHaveBeenCalledTimes(1);
+    expect(tokens.requestTokensInitialised()).toBe(true);
+
+    await tokens.initRequestTokens(session);
+    expect(listener).toHaveBeenCalledTimes(1);
+
+    unsubscribe();
+  });
+});
