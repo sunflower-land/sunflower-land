@@ -222,14 +222,14 @@ export const getPowerHourWindows = (game: GameState): BoostWindow[] => {
 };
 
 /**
- * Window for the sunshower calendar event, if one has started. Sunshower lasts
- * until the END of the (UTC) day it began on — not a rolling 24h — so the window
- * runs from `startedAt` to the next UTC midnight. A built season Guardian doubles
- * the boost (2× → 4×).
+ * Window for the live sunshower calendar event, if one has started. Sunshower
+ * lasts until the END of the (UTC) day it began on — not a rolling 24h — so the
+ * window runs from `startedAt` to the next UTC midnight. A built season Guardian
+ * doubles the boost (2× → 4×).
  */
-export const getSunshowerWindows = (game: GameState): BoostWindow[] => {
+const getLiveSunshowerWindow = (game: GameState): BoostWindow | undefined => {
   const startedAt = game.calendar?.sunshower?.startedAt;
-  if (startedAt === undefined) return [];
+  if (startedAt === undefined) return undefined;
 
   const day = new Date(startedAt);
   const to = Date.UTC(
@@ -240,15 +240,29 @@ export const getSunshowerWindows = (game: GameState): BoostWindow[] => {
 
   const hasGuardian = !!getActiveGuardian({ game }).activeGuardian;
 
-  return [
-    {
-      from: startedAt,
-      to,
-      speed: hasGuardian
-        ? CROP_PLOT_BOOST_SPEED.sunshowerGuardian
-        : CROP_PLOT_BOOST_SPEED.sunshower,
-    },
-  ];
+  return {
+    from: startedAt,
+    to,
+    speed: hasGuardian
+      ? CROP_PLOT_BOOST_SPEED.sunshowerGuardian
+      : CROP_PLOT_BOOST_SPEED.sunshower,
+  };
+};
+
+/**
+ * The live sunshower window plus every archived one. The API deletes the
+ * calendar entry at the first load after the sunshower day and archives its
+ * window (speed fixed) into `calendar.sunshowerHistory`, so windowed crops keep
+ * the growth the sunshower gave them.
+ */
+export const getSunshowerWindows = (game: GameState): BoostWindow[] => {
+  const live = getLiveSunshowerWindow(game);
+
+  const history = (game.calendar?.sunshowerHistory ?? [])
+    .filter((window) => window.from !== live?.from)
+    .map(({ from, to, speed }) => ({ from, to, speed }));
+
+  return live ? [live, ...history] : history;
 };
 
 /**

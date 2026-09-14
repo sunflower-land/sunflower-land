@@ -2107,6 +2107,7 @@ export type CalendarEventDetails = CalendarScheduledEvent | OtherCalendarEvent;
 
 export type Calendar = Partial<Record<SeasonalEventName, CalendarEvent>> & {
   dates: CalendarEventDetails[];
+  sunshowerHistory?: SunshowerHistoryWindow[];
 };
 
 export type LavaPit = {
@@ -2164,6 +2165,15 @@ export type BoostUsedAt = Partial<Record<BoostName, number>>;
  * applied when the window is read.
  */
 export type BoostHistoryWindow = { from: number; to: number };
+
+/**
+ * A finalised sunshower boost window, archived by the API in
+ * `Calendar.sunshowerHistory` when the sunshower calendar entry is deleted so
+ * windowed crops keep the growth it gave them. Unlike collectible history the
+ * speed is stored, because it depends on whether a Guardian for that day's
+ * season was built.
+ */
+export type SunshowerHistoryWindow = BoostHistoryWindow & { speed: number };
 
 type ClutterCoordinates = {
   type: ClutterName;

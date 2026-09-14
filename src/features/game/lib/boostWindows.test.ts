@@ -20,6 +20,7 @@ import {
   getOilBoostWindows,
   OIL_BOOST_SPEED,
   appendBoostHistory,
+  getSunshowerWindows,
   type BoostWindow,
 } from "./boostWindows";
 import { getExpiryCooldown } from "./collectibleBuilt";
@@ -471,6 +472,58 @@ describe("appendBoostHistory", () => {
     const game = { ...TEST_FARM, boostHistory: {} } as GameState;
     appendBoostHistory(game, "Sparrow Shrine", { from: 2000, to: 2000 }, 2000);
     expect(game.boostHistory?.["Sparrow Shrine"]).toBeUndefined();
+  });
+});
+
+describe("getSunshowerWindows", () => {
+  const DAY = 24 * HOUR;
+  const eventDay = Date.UTC(2026, 8, 18);
+
+  it("includes archived sunshower windows at their recorded speed", () => {
+    const game: GameState = {
+      ...TEST_FARM,
+      calendar: {
+        dates: [],
+        sunshowerHistory: [{ from: 0, to: DAY, speed: 4 }],
+      },
+    };
+
+    expect(getSunshowerWindows(game)).toEqual([{ from: 0, to: DAY, speed: 4 }]);
+  });
+
+  it("combines the live sunshower with archived ones", () => {
+    const game: GameState = {
+      ...TEST_FARM,
+      calendar: {
+        dates: [],
+        sunshower: { startedAt: eventDay, triggeredAt: eventDay },
+        sunshowerHistory: [{ from: 0, to: DAY, speed: 4 }],
+      },
+    };
+
+    expect(getSunshowerWindows(game)).toEqual([
+      {
+        from: eventDay,
+        to: eventDay + DAY,
+        speed: CROP_PLOT_BOOST_SPEED.sunshower,
+      },
+      { from: 0, to: DAY, speed: 4 },
+    ]);
+  });
+
+  it("does not double-count an archived window that is still live", () => {
+    const game: GameState = {
+      ...TEST_FARM,
+      calendar: {
+        dates: [],
+        sunshower: { startedAt: eventDay, triggeredAt: eventDay },
+        sunshowerHistory: [{ from: eventDay, to: eventDay + DAY, speed: 2 }],
+      },
+    };
+
+    expect(getSunshowerWindows(game)).toEqual([
+      { from: eventDay, to: eventDay + DAY, speed: 2 },
+    ]);
   });
 });
 
