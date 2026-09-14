@@ -18,6 +18,7 @@ import coinsIcon from "assets/icons/coins.webp";
 import xpIcon from "assets/icons/xp.png";
 import choresIcon from "assets/icons/chores.webp";
 import lightningIcon from "assets/icons/lightning.png";
+import deliveryIcon from "assets/icons/delivery.webp";
 
 export const BOARD_ICONS: Record<StatsLeaderboardName, string> = {
   coins: coinsIcon,
@@ -26,6 +27,7 @@ export const BOARD_ICONS: Record<StatsLeaderboardName, string> = {
   sunflowers: ITEM_DETAILS.Sunflower.image,
   kale: ITEM_DETAILS.Kale.image,
   chores: choresIcon,
+  deliveries: deliveryIcon,
   dailyLoginStreak: lightningIcon,
   diggingStreak: SUNNYSIDE.tools.sand_shovel,
 };

@@ -12,6 +12,7 @@ export const STATS_LEADERBOARD_NAMES = [
   "sunflowers",
   "kale",
   "chores",
+  "deliveries",
   "dailyLoginStreak",
   "diggingStreak",
 ] as const;
@@ -169,6 +170,11 @@ const MOCK_BOARDS: Record<
     title: "Chores Completed",
     description: "Chores completed, all time",
     top: 6_200,
+  },
+  deliveries: {
+    title: "Deliveries",
+    description: "Orders delivered, all time",
+    top: 18_400,
   },
   dailyLoginStreak: {
     title: "Daily Login Streak",
