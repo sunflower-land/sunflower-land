@@ -19,7 +19,10 @@ import {
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { SKILL_RANKS, getSkillLevel } from "features/game/types/bumpkinSkills";
 import { hasFeatureAccess } from "lib/flags";
-import { getCropMachineBoostWindows } from "features/game/lib/boostWindows";
+import {
+  getCropMachineBoostWindows,
+  type BoostWindow,
+} from "features/game/lib/boostWindows";
 import {
   convertCropMachineToWindowed,
   refreshCropMachineCaches,
@@ -164,6 +167,55 @@ export function calculateCropTime(
     milliSeconds: (milliSeconds * seeds.amount) / CROP_MACHINE_PLOTS(state),
     boostUsed,
   };
+}
+
+/**
+ * Convert a LEGACY crop machine to the windowed model, in place — the entry point
+ * every event and the load migration use instead of calling
+ * `convertCropMachineToWindowed` directly. No-op on an already-windowed machine.
+ *
+ * `convertCropMachineToWindowed` freezes each pack's remaining legacy schedule,
+ * which is in LEGACY units: a Tortoise Shrine x0.9 baked in at supply is still in
+ * it, and the live window would credit it again. A pack that hasn't STARTED has no
+ * progress to preserve, so it is recomputed exactly as a windowed supply would
+ * compute it (permanent boosts only); the shrine then applies once, live. The pack
+ * already growing keeps its frozen remainder.
+ */
+export function convertLegacyCropMachine({
+  machine,
+  state,
+  windows,
+  now,
+}: {
+  machine: CropMachineBuilding;
+  state: GameState;
+  windows: BoostWindow[];
+  now: number;
+}): void {
+  if (machine.oilSettledAt !== undefined) return;
+
+  const notStarted = (machine.queue ?? []).filter(
+    (pack) =>
+      !(pack.readyAt !== undefined && pack.readyAt <= now) &&
+      (pack.startTime === undefined || pack.startTime > now),
+  );
+
+  convertCropMachineToWindowed({ machine, windows, now });
+
+  notStarted.forEach((pack) => {
+    const { milliSeconds } = calculateCropTime(
+      { type: `${pack.crop} Seed`, amount: pack.seeds },
+      state,
+      now,
+      { windowed: true },
+    );
+    pack.totalGrowTime = milliSeconds;
+    pack.baseDurationMs = milliSeconds;
+  });
+
+  if (notStarted.length > 0) {
+    refreshCropMachineCaches({ machine, windows, now });
+  }
 }
 
 export function getOilTimeInMillis(oil: number, state: GameState) {
@@ -422,8 +474,9 @@ export function supplyCropMachine({
 
     if (windowed) {
       const windows = getCropMachineBoostWindows(stateCopy);
-      convertCropMachineToWindowed({
+      convertLegacyCropMachine({
         machine: cropMachine,
+        state: stateCopy,
         windows,
         now: createdAt,
       });

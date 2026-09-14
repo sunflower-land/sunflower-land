@@ -2313,6 +2313,50 @@ describe("supplyCropMachine (windowed SPEED_BOOSTS)", () => {
     expect(newPack?.growTimeRemaining).toBe(PACK_MS);
   });
 
+  it("recomputes a queued legacy pack on conversion instead of keeping a baked Tortoise Shrine", () => {
+    const BAKED_MS = PACK_MS * 0.9;
+    const state = supplyCropMachine({
+      state: stateWithMachine(
+        {
+          unallocatedOilTime: 0,
+          queue: [
+            {
+              // Started under legacy: keeps its baked remainder.
+              crop: "Sunflower",
+              seeds: 10,
+              growTimeRemaining: 0,
+              totalGrowTime: BAKED_MS,
+              startTime: now - BAKED_MS / 2,
+              readyAt: now + BAKED_MS / 2,
+            },
+            {
+              // Queued, not started: recomputed under the new model.
+              crop: "Sunflower",
+              seeds: 10,
+              growTimeRemaining: 0,
+              totalGrowTime: BAKED_MS,
+              startTime: now + BAKED_MS / 2,
+              readyAt: now + BAKED_MS * 1.5,
+            },
+          ],
+        },
+        { collectibles: shrine(now - HOUR) },
+      ),
+      action: {
+        type: "cropMachine.supplied",
+        seeds: { type: "Sunflower Seed", amount: 10 },
+        machineId: "1",
+      },
+      createdAt: now,
+    });
+
+    const [running, queued] = state.buildings["Crop Machine"]?.[0]?.queue ?? [];
+
+    expect(running?.baseDurationMs).toBe(BAKED_MS / 2);
+    expect(queued?.baseDurationMs).toBe(PACK_MS);
+    expect(queued?.totalGrowTime).toBe(PACK_MS);
+  });
+
   it("keeps a marked machine windowed on mainnet (marker beats flag)", () => {
     (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
 

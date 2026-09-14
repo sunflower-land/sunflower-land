@@ -7,11 +7,11 @@ import type {
 } from "features/game/types/game";
 import { produce } from "immer";
 import { getCropYieldAmount } from "./harvest";
+import { convertLegacyCropMachine } from "./supplyCropMachine";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { hasFeatureAccess } from "lib/flags";
 import { getCropMachineBoostWindows } from "features/game/lib/boostWindows";
 import {
-  convertCropMachineToWindowed,
   refreshCropMachineCaches,
   settleCropMachine,
 } from "features/game/lib/cropMachineReadiness";
@@ -101,8 +101,9 @@ export function harvestCropMachine({
     const windows = windowed ? getCropMachineBoostWindows(stateCopy) : [];
 
     if (windowed) {
-      convertCropMachineToWindowed({
+      convertLegacyCropMachine({
         machine: cropMachine,
+        state: stateCopy,
         windows,
         now: createdAt,
       });

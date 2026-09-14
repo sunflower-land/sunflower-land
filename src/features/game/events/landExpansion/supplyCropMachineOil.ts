@@ -3,15 +3,13 @@ import type { CropMachineQueueItem, GameState } from "features/game/types/game";
 import { produce } from "immer";
 import {
   getOilTimeInMillis,
+  convertLegacyCropMachine,
   MAX_OIL_CAPACITY_IN_MILLIS,
   updateCropMachine,
 } from "./supplyCropMachine";
 import { hasFeatureAccess } from "lib/flags";
 import { getCropMachineBoostWindows } from "features/game/lib/boostWindows";
-import {
-  convertCropMachineToWindowed,
-  settleCropMachine,
-} from "features/game/lib/cropMachineReadiness";
+import { settleCropMachine } from "features/game/lib/cropMachineReadiness";
 
 /**
  * LEGACY MACHINES ONLY: reconstructs the tank from the per-pack earmarks the
@@ -107,8 +105,9 @@ export function supplyCropMachineOil({
 
     if (windowed) {
       const windows = getCropMachineBoostWindows(stateCopy);
-      convertCropMachineToWindowed({
+      convertLegacyCropMachine({
         machine: cropMachine,
+        state: stateCopy,
         windows,
         now: createdAt,
       });

@@ -2,11 +2,13 @@ import Decimal from "decimal.js-light";
 import type { CropSeedName } from "features/game/types/crops";
 import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
-import { updateCropMachine } from "./supplyCropMachine";
+import {
+  convertLegacyCropMachine,
+  updateCropMachine,
+} from "./supplyCropMachine";
 import { hasFeatureAccess } from "lib/flags";
 import { getCropMachineBoostWindows } from "features/game/lib/boostWindows";
 import {
-  convertCropMachineToWindowed,
   refreshCropMachineCaches,
   resolveCropMachine,
   settleCropMachine,
@@ -57,8 +59,9 @@ export function removeCropMachinePack({
 
     if (windowed) {
       const windows = getCropMachineBoostWindows(stateCopy);
-      convertCropMachineToWindowed({
+      convertLegacyCropMachine({
         machine: cropMachine,
+        state: stateCopy,
         windows,
         now: createdAt,
       });
