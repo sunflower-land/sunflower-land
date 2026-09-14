@@ -44,6 +44,7 @@
  */
 
 import { fetchWithRetry, type FetchWithRetryOptions } from "lib/fetchWithRetry";
+import { failureCode, failureDetail, isTransientFailure } from "./classify";
 import { loadTokenModule, type TokenModule } from "./loader";
 
 /**
@@ -69,130 +70,6 @@ export const UNSUPPORTED_SIGNER_TOKEN = "incompatible_wasm";
  * ordinary states of our own client.
  */
 export const UNSIGNED_TOKEN = "unsigned";
-
-/**
- * Splits a loader error into the stage that threw (when the loader tagged
- * it — see SignerLoadError) and the underlying engine error. Duck-typed
- * rather than instanceof so tests can mock the loader with plain objects.
- */
-function unwrap(e: unknown): { stage?: string; cause: unknown } {
-  const wrapped = e as { stage?: unknown; cause?: unknown } | undefined;
-
-  return typeof wrapped?.stage === "string" && "cause" in wrapped
-    ? { stage: wrapped.stage, cause: wrapped.cause }
-    : { cause: e };
-}
-
-/**
- * Boils an unknown failure down to a short, header-safe code appended to
- * the sentinel (`incompatible_wasm:csp-blocked`). Without it every one of
- * these looks identical server-side, and "the module would not load" has
- * very different answers depending on whether the fetch never arrived, the
- * bytes would not compile, or the engine refused outright.
- *
- * Ordering matters: Chrome's CSP rejection mentions "WebAssembly" too, so
- * the CSP match must come before the WebAssembly one; likewise a bad MIME
- * type on the .wasm response. The engine's error `name` is folded in
- * because CompileError/LinkError carry the type there, not in the message.
- */
-function failureCode(e: unknown): string {
-  // Checked before anything else and regardless of what was thrown: the
-  // engine has no WebAssembly global at all (iOS Lockdown Mode, hardened
-  // Firefox, stripped webviews). A stock desktop browser can never hit
-  // this, so any volume of it from modern desktop UAs is a spoofed header.
-  if (typeof WebAssembly === "undefined") return "no-wasm-global";
-
-  const { stage, cause } = unwrap(e);
-  const error = cause as Error | undefined;
-  const text =
-    `${error?.name ?? ""} ${error?.message ?? String(cause)}`.toLowerCase();
-
-  if (
-    text.includes("content security policy") ||
-    text.includes("wasm-eval") ||
-    text.includes("unsafe-eval") ||
-    text.includes("csp")
-  )
-    return "csp-blocked";
-  // The glue import failing, in each engine's words: Chrome/Firefox say
-  // "dynamically imported module", WebKit "Importing a module script
-  // failed." — which previously fell through to "unknown".
-  if (
-    text.includes("dynamically imported module") ||
-    text.includes("importing a module script")
-  )
-    return "import-failed";
-  // The .wasm URL answered with something that isn't wasm — a block page,
-  // a rewritten 404, a data-saver proxy. The bytes arrived; wrong bytes.
-  if (text.includes("mime")) return "bad-mime";
-  if (text.includes("compileerror") || text.includes("magic"))
-    return "compile-failed";
-  if (text.includes("linkerror")) return "link-failed";
-  if (
-    text.includes("failed to fetch") ||
-    text.includes("networkerror") ||
-    text.includes("load failed") // WebKit's fetch-failure TypeError
-  )
-    // Same message, different meaning per stage: the glue script never
-    // arrived, or the glue ran and then the .wasm fetch failed.
-    return stage === "import" ? "import-failed" : "fetch-failed";
-  if (text.includes("webassembly")) return "wasm-unavailable";
-
-  // Unmatched: keep the stage and the error type rather than flattening
-  // everything into one "unknown" bucket — those two alone answer most of
-  // the mysteries the flat bucket used to hide.
-  const name = (error?.name ?? "").toLowerCase().replace(/[^a-z0-9]/g, "");
-  const code = name && name !== "error" ? `unknown-${name}` : "unknown";
-
-  return stage ? `${stage}-${code}` : code;
-}
-
-/**
- * The raw failure flattened for the `X-Token-Detail` header: stage, error
- * name and message, printable ASCII only, capped. The code above is for
- * counting; this is for reading — the rejection log line then shows
- * exactly what the engine said, so a new failure shape never has to be
- * reverse-engineered from an "unknown" tally.
- */
-function failureDetail(e: unknown): string {
-  const { stage, cause } = unwrap(e);
-  const error = cause as Error | undefined;
-  const text = `${stage ? `[${stage}] ` : ""}${
-    error?.name ? `${error.name}: ` : ""
-  }${error?.message ?? String(cause)}`;
-
-  return text
-    .replace(/[^\x20-\x7e]+/g, " ")
-    .replace(/\s+/g, " ")
-    .trim()
-    .slice(0, 256);
-}
-
-/**
- * Failure codes worth trying again inside the same page session.
- *
- * Only the ones where nothing about the engine is wrong and the module
- * simply never arrived: an ad-blocker or DNS filter, a captive portal, a
- * mobile connection that dropped mid-fetch. Every one of those can be true
- * when `/session` completes and false a minute later.
- *
- * `compile-failed`, `link-failed`, `wasm-unavailable`, `no-wasm-global`,
- * `bad-mime` and `csp-blocked` are deliberately excluded: the bytes
- * arrived and this engine will not run them, so refetching is pure waste
- * on exactly the devices least able to afford it. So is `sign-*` — there
- * the module loaded and traps when used, which reloading does not fix.
- */
-function isTransientFailure(code: string): boolean {
-  if (code === "fetch-failed" || code === "import-failed") return true;
-
-  // Unmatched failures keep their stage and error type
-  // (`init-unknown-typeerror`). A fetch failing in wording the classifier
-  // has not seen still surfaces as a TypeError or a NetworkError, so treat
-  // those as network-ish; any other unknown is left alone.
-  return /^(?:(?:import|init)-)?unknown(?:-(?:typeerror|networkerror))?$/.test(
-    code,
-  );
-}
 
 /**
  * How hard the layer tries to recover a transient load failure without a
@@ -444,6 +321,9 @@ async function init(params: {
     // failure has only just happened and the next protected request is
     // often milliseconds away.
     retryAfter = Date.now() + SIGNER_RETRY_INTERVAL_MS * 2 ** retries;
+    // And retry the moment the connection comes back, if that is what
+    // went wrong.
+    if (isTransientFailure(signerFailure)) listenForReconnect();
   }
 }
 
@@ -714,6 +594,33 @@ function beginSignerRetry(): Promise<void> | undefined {
   retryInFlight = attempt;
 
   return attempt;
+}
+
+let listeningForReconnect = false;
+
+/**
+ * A load that failed for want of a connection is retried when the
+ * connection returns, not just on the next request after the backoff.
+ * The `online` event is exactly the signal the backoff is guessing at, so
+ * it resets the budget as well as the timer: retries spent while offline
+ * were never going to succeed. Shares `retryInFlight` with the lazy path,
+ * so a request arriving during the attempt waits on it rather than
+ * starting another. Listened for only once a delivery failure has
+ * happened; most page sessions never need it.
+ */
+function listenForReconnect(): void {
+  if (listeningForReconnect || typeof window === "undefined") return;
+  listeningForReconnect = true;
+
+  window.addEventListener("online", () => {
+    if (state !== "signer-failed" || !isTransientFailure(signerFailure)) {
+      return;
+    }
+
+    retries = 0;
+    retryAfter = 0;
+    void beginSignerRetry();
+  });
 }
 
 /** Races `promise` against a timer, cleaning the timer up if it wins. */

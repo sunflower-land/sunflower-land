@@ -1097,3 +1097,225 @@ describe("requestToken when a session is expected but has not started", () => {
     unsubscribe();
   });
 });
+
+describe("requestToken classifying delivery failures", () => {
+  let fetchMock: jest.Mock;
+
+  beforeEach(() => {
+    jest.resetModules();
+    fetchMock = jest.fn().mockResolvedValue({ ok: true });
+    (window as unknown as { fetch: unknown }).fetch = fetchMock;
+  });
+
+  const headersAfterLoadFailure = async (rejection: unknown) => {
+    jest.doMock("./loader", () => ({
+      loadTokenModule: () => Promise.reject(rejection),
+    }));
+
+    /* eslint-disable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
+    const tokens = require("./index") as typeof import("./index");
+    /* eslint-enable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
+
+    await tokens.initRequestTokens(session);
+    await tokens.secureFetch("https://api.test/autosave/1", { method: "POST" });
+
+    return (fetchMock.mock.calls[0][1]?.headers ?? {}) as Record<
+      string,
+      string
+    >;
+  };
+
+  // The exact strings from production, 24h to 2026-09-14. All of them are
+  // the network dropping mid-download; all of them used to be classified
+  // as wasm-unavailable and never retried.
+  it.each([
+    "WebAssembly compilation aborted: Network error: error",
+    "WebAssembly compilation aborted: Network error: Response body loading was aborted",
+  ])("treats %j as a fetch failure, not an engine one", async (message) => {
+    const headers = await headersAfterLoadFailure({
+      stage: "init",
+      cause: new TypeError(message),
+    });
+
+    expect(headers["X-Token"]).toBe("incompatible_wasm:fetch-failed");
+  });
+
+  it("treats a 5xx from the wasm origin as a fetch failure", async () => {
+    const headers = await headersAfterLoadFailure({
+      stage: "init",
+      cause: new Error(
+        "failed to fetch Wasm: 522 fetching 'https://sunflower-land.com/wasm/request_token_bg.wasm'",
+      ),
+    });
+
+    expect(headers["X-Token"]).toBe("incompatible_wasm:fetch-failed");
+  });
+
+  it("still keeps a CSP rejection that mentions WebAssembly out of the fetch bucket", async () => {
+    const headers = await headersAfterLoadFailure({
+      stage: "init",
+      cause: new Error(
+        "WebAssembly.instantiate(): Refused to compile or instantiate WebAssembly module because 'unsafe-eval' is not an allowed source of script in the following Content Security Policy directive",
+      ),
+    });
+
+    expect(headers["X-Token"]).toBe("incompatible_wasm:csp-blocked");
+  });
+
+  it("reports which attempt the load failed on", async () => {
+    const headers = await headersAfterLoadFailure({
+      stage: "init",
+      attempt: 3,
+      cause: new TypeError("Failed to fetch"),
+    });
+
+    // `[init#3]` against `[init#1]` in the API logs is how we will know
+    // whether the in-load retries are buying anything.
+    expect(headers["X-Token-Detail"]).toBe(
+      "[init#3] TypeError: Failed to fetch",
+    );
+    expect(headers["X-Token-Detail"].length).toBeLessThanOrEqual(256);
+  });
+});
+
+describe("requestToken retrying when the connection returns", () => {
+  let fetchMock: jest.Mock;
+  let now: number;
+
+  beforeEach(() => {
+    jest.resetModules();
+    fetchMock = jest.fn().mockResolvedValue({ ok: true });
+    (window as unknown as { fetch: unknown }).fetch = fetchMock;
+    now = Date.now();
+    jest.spyOn(Date, "now").mockImplementation(() => now);
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  const bootWithLoader = (loadTokenModule: jest.Mock) => {
+    jest.doMock("./loader", () => ({ loadTokenModule }));
+
+    /* eslint-disable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
+    return require("./index") as typeof import("./index");
+    /* eslint-enable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
+  };
+
+  const headers = (call: number) =>
+    (fetchMock.mock.calls[call][1]?.headers ?? {}) as Record<string, string>;
+
+  const goOnline = async () => {
+    window.dispatchEvent(new Event("online"));
+    await new Promise((res) => setTimeout(res, 0));
+  };
+
+  it("retries a delivery failure as soon as the browser comes back online", async () => {
+    const loadTokenModule = jest
+      .fn()
+      .mockRejectedValueOnce({
+        stage: "import",
+        attempt: 3,
+        cause: new TypeError("Failed to fetch"),
+      })
+      .mockResolvedValue({
+        initSession: () => undefined,
+        clearSession: () => undefined,
+        hasSession: () => true,
+        signRequest,
+      });
+
+    const tokens = bootWithLoader(loadTokenModule);
+    await tokens.initRequestTokens(session);
+    expect(loadTokenModule).toHaveBeenCalledTimes(1);
+
+    // Seconds later, not the half minute the backoff would wait: the event
+    // is the signal the backoff was only guessing at.
+    await goOnline();
+
+    expect(loadTokenModule).toHaveBeenCalledTimes(2);
+    expect(tokens.requestTokensActive()).toBe(true);
+
+    await tokens.secureFetch("https://api.test/autosave/1", { method: "POST" });
+    expect(headers(0)["X-Token"]).toBe("tok(POST|/autosave/1|0)");
+  });
+
+  it("retries on reconnect even after the lazy budget is spent", async () => {
+    const loadTokenModule = jest.fn().mockRejectedValue({
+      stage: "init",
+      cause: new TypeError("Failed to fetch"),
+    });
+
+    const tokens = bootWithLoader(loadTokenModule);
+    await tokens.initRequestTokens(session);
+    for (let i = 0; i < 3; i++) {
+      now += 10 * 60 * 1000;
+      await tokens.secureFetch("https://api.test/autosave/1", {
+        method: "POST",
+      });
+    }
+    // Cold load plus three lazy retries, all while offline.
+    expect(loadTokenModule).toHaveBeenCalledTimes(4);
+
+    loadTokenModule.mockResolvedValue({
+      initSession: () => undefined,
+      clearSession: () => undefined,
+      hasSession: () => true,
+      signRequest,
+    });
+    await goOnline();
+
+    // Retries spent offline were never going to succeed; the reconnect
+    // is the one moment worth spending another.
+    expect(loadTokenModule).toHaveBeenCalledTimes(5);
+    expect(tokens.requestTokensActive()).toBe(true);
+  });
+
+  it("shares the reconnect attempt with a request that arrives during it", async () => {
+    let release!: () => void;
+    const slow = new Promise<void>((res) => (release = res));
+    const loadTokenModule = jest
+      .fn()
+      .mockRejectedValueOnce({
+        stage: "import",
+        cause: new TypeError("Failed to fetch"),
+      })
+      .mockImplementation(async () => {
+        await slow;
+        return {
+          initSession: () => undefined,
+          clearSession: () => undefined,
+          hasSession: () => true,
+          signRequest,
+        };
+      });
+
+    const tokens = bootWithLoader(loadTokenModule);
+    await tokens.initRequestTokens(session);
+    await goOnline();
+
+    const saving = tokens.secureFetch("https://api.test/autosave/1", {
+      method: "POST",
+    });
+    await new Promise((res) => setTimeout(res, 0));
+    release();
+    await saving;
+
+    expect(loadTokenModule).toHaveBeenCalledTimes(2);
+    expect(headers(0)["X-Token"]).toBe("tok(POST|/autosave/1|0)");
+  });
+
+  it("does not retry an engine failure on reconnect", async () => {
+    const compile = new Error("WebAssembly.instantiate(): expected magic word");
+    compile.name = "CompileError";
+    const loadTokenModule = jest
+      .fn()
+      .mockRejectedValue({ stage: "init", cause: compile });
+
+    const tokens = bootWithLoader(loadTokenModule);
+    await tokens.initRequestTokens(session);
+    await goOnline();
+
+    expect(loadTokenModule).toHaveBeenCalledTimes(1);
+  });
+});
