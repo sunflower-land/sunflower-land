@@ -12,6 +12,7 @@ import {
   LOVE_DILEMMA_MIN_PLAYERS,
   LOVE_DILEMMA_ROUND_MS,
   getLoveDilemmaAttemptsLeft,
+  getLoveIslandDailyGame,
   getLoveDilemmaBotChoices,
   getLoveDilemmaPayout,
   getLoveDilemmaPlatformPrizes,
@@ -1323,5 +1324,31 @@ describe("Lover's Push", () => {
       expect(next.solved).toBe(false);
       expect(next.boulders).toEqual(getLovePushLayout(6).starts);
     });
+  });
+});
+
+describe("getLoveIslandDailyGame", () => {
+  it("alternates the boulder and the Marvel by UTC weekday", () => {
+    // 2026-09-14 is a Monday
+    const days = Array.from({ length: 7 }, (_, i) =>
+      getLoveIslandDailyGame(Date.UTC(2026, 8, 14 + i, 12)),
+    );
+
+    expect(days).toEqual([
+      "boulder", // Mon
+      "kraken", // Tue
+      "boulder", // Wed
+      "boulder", // Thu
+      "kraken", // Fri
+      "boulder", // Sat
+      "kraken", // Sun
+    ]);
+  });
+
+  it("switches at UTC midnight", () => {
+    expect(getLoveIslandDailyGame(Date.UTC(2026, 8, 14, 23, 59))).toBe(
+      "boulder",
+    );
+    expect(getLoveIslandDailyGame(Date.UTC(2026, 8, 15, 0, 0))).toBe("kraken");
   });
 });

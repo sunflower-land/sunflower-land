@@ -32,6 +32,8 @@ import {
   LOVE_DILEMMA_CHOOSE_MS,
   LOVE_DILEMMA_PLATFORMS,
   LOVE_ISLAND_CENTRE_PUZZLE,
+  getLoveIslandDailyGame,
+  type LoveIslandDailyGame,
   LOVE_PUSH_BOULDERS,
   LOVE_PUSH_DELTAS,
   LOVE_PUSH_DIRECTIONS,
@@ -497,6 +499,9 @@ export class LoveIslandScene extends BaseScene {
   /** roundId -> boulders the local player has helped roll. */
   private pushMoves: Record<number, number> = {};
 
+  /** The crowd game on the island today - fixed when the scene is built. */
+  private dailyGame?: LoveIslandDailyGame;
+
   private kraken?: Phaser.GameObjects.Sprite;
   private krakenTentacles: Phaser.GameObjects.Sprite[] = [];
   /** The Cast/Reel button above the wharf - the only way to play. */
@@ -644,8 +649,13 @@ export class LoveIslandScene extends BaseScene {
     } else {
       this.createLoveDilemma();
     }
-    this.createLoveBoulder();
-    this.createLoveKraken();
+    // The boulder and the Marvel alternate by day - the other isn't built
+    this.dailyGame = getLoveIslandDailyGame();
+    if (this.dailyGame === "boulder") {
+      this.createLoveBoulder();
+    } else {
+      this.createLoveKraken();
+    }
 
     this.setupPopup();
   }
@@ -669,8 +679,11 @@ export class LoveIslandScene extends BaseScene {
     } else {
       this.updateLoveDilemma();
     }
-    this.updateLoveBoulder();
-    this.updateLoveKraken();
+    if (this.dailyGame === "boulder") {
+      this.updateLoveBoulder();
+    } else {
+      this.updateLoveKraken();
+    }
   }
 
   createLoveDilemma() {

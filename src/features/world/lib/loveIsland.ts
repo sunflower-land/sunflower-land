@@ -537,6 +537,31 @@ export type LoveIslandCentrePuzzle = "dilemma" | "push";
 export const LOVE_ISLAND_CENTRE_PUZZLE: LoveIslandCentrePuzzle = "push";
 
 // ---------------------------------------------------------------------------
+// Which crowd game runs today
+// ---------------------------------------------------------------------------
+
+export type LoveIslandDailyGame = "boulder" | "kraken";
+
+/**
+ * The Love Boulder and the Marvel in the lake take turns - only one is on
+ * the island each day. Indexed by UTC weekday (0 = Sunday), the same day
+ * boundary the daily prize claims reset on.
+ */
+export const LOVE_ISLAND_DAILY_GAMES: Record<number, LoveIslandDailyGame> = {
+  0: "kraken",
+  1: "boulder",
+  2: "kraken",
+  3: "boulder",
+  4: "boulder",
+  5: "kraken",
+  6: "boulder",
+};
+
+export function getLoveIslandDailyGame(now = Date.now()): LoveIslandDailyGame {
+  return LOVE_ISLAND_DAILY_GAMES[new Date(now).getUTCDay()];
+}
+
+// ---------------------------------------------------------------------------
 // Lover's Push
 // ---------------------------------------------------------------------------
 
