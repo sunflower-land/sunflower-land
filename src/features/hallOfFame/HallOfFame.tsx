@@ -210,10 +210,7 @@ export const HallOfFame: React.FC = () => {
           {!isLoading && !error && !!data && (
             <div className="flex flex-wrap">
               {STATS_LEADERBOARD_NAMES.map((name) => (
-                <div
-                  key={name}
-                  className="w-full sm:w-1/2 md:w-1/3 xl:w-1/4 p-0.5"
-                >
+                <div key={name} className="w-full sm:w-1/2 md:w-1/3 p-0.5">
                   <HallOfFameBoard
                     name={name}
                     players={data.boards[name]?.players ?? []}
