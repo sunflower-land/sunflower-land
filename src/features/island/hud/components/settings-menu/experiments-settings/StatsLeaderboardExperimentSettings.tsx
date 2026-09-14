@@ -25,23 +25,10 @@ import {
 } from "features/game/expansion/components/leaderboard/actions/statsLeaderboard";
 import type { ContentComponentProps } from "../types";
 
-import { SUNNYSIDE } from "assets/sunnyside";
-import coinsIcon from "assets/icons/coins.webp";
-import xpIcon from "assets/icons/xp.png";
-import chickenIcon from "assets/icons/chook.webp";
-import deliveryIcon from "assets/icons/delivery.webp";
+import { BOARD_ICONS } from "features/hallOfFame/components/HallOfFameBoard";
 import calendarIcon from "assets/icons/calendar.webp";
 import arrowPreviousIcon from "assets/icons/arrow_previous.png";
 import arrowNextIcon from "assets/icons/arrow_next.png";
-
-const BOARD_ICONS: Record<StatsLeaderboardName, string> = {
-  coins: coinsIcon,
-  experience: xpIcon,
-  cropsHarvested: SUNNYSIDE.icons.plant,
-  fishCaught: SUNNYSIDE.icons.fish,
-  animalsFed: chickenIcon,
-  deliveries: deliveryIcon,
-};
 
 export const StatsLeaderboardExperimentSettings: React.FC<
   ContentComponentProps

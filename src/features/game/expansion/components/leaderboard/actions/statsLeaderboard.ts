@@ -4,14 +4,17 @@ import { ERRORS } from "lib/errors";
 import type { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { NPC_WEARABLES } from "lib/npcs";
 
-/** The six daily stat boards the API publishes. Order is the display order. */
+/** The daily stat boards the API publishes. Order is the display order. */
 export const STATS_LEADERBOARD_NAMES = [
   "coins",
   "experience",
-  "cropsHarvested",
-  "fishCaught",
-  "animalsFed",
+  "newPlayerExperience",
+  "sunflowers",
+  "kale",
+  "chores",
   "deliveries",
+  "dailyLoginStreak",
+  "diggingStreak",
 ] as const;
 
 export type StatsLeaderboardName = (typeof STATS_LEADERBOARD_NAMES)[number];
@@ -77,7 +80,7 @@ export function shiftUTCDateString(date: string, days: number): string {
  * Daily top-100 stat boards over players active in the last 30 days.
  *
  * `GET /data?type=statsLeaderboard[&date=YYYY-MM-DD]` — omitting `board`
- * returns all six in one response, which is what we want: nothing changes
+ * returns every board in one response, which is what we want: nothing changes
  * until `reportDate` rolls over at 00:00 UTC, so one request per day is enough.
  *
  * Resolves to `null` when nothing is published for that day (the API returns
@@ -148,25 +151,40 @@ const MOCK_BOARDS: Record<
     description: "Total Bumpkin experience",
     top: 12_000_000,
   },
-  cropsHarvested: {
-    title: "Crops Harvested",
-    description: "Crops and greenhouse crops harvested, all time",
-    top: 980_000,
+  newPlayerExperience: {
+    title: "Top New Players",
+    description: "Bumpkin experience of players who joined in the last 30 days",
+    top: 85_000,
   },
-  fishCaught: {
-    title: "Fish Caught",
-    description: "Fish and marine marvels caught, all time",
-    top: 42_000,
+  sunflowers: {
+    title: "Most Sunflowers",
+    description: "Sunflowers currently in the inventory",
+    top: 2_400_000,
   },
-  animalsFed: {
-    title: "Animals Fed",
-    description: "Chickens, cows and sheep fed, all time",
-    top: 210_000,
+  kale: {
+    title: "Most Kale",
+    description: "Kale currently in the inventory",
+    top: 310_000,
+  },
+  chores: {
+    title: "Chores Completed",
+    description: "Chores completed, all time",
+    top: 6_200,
   },
   deliveries: {
     title: "Deliveries",
-    description: "Ticket, coin and FLOWER orders delivered, all time",
+    description: "Orders delivered, all time",
     top: 18_400,
+  },
+  dailyLoginStreak: {
+    title: "Daily Login Streak",
+    description: "Consecutive days the daily reward was collected",
+    top: 720,
+  },
+  diggingStreak: {
+    title: "Digging Streak",
+    description: "Consecutive days the desert digging reward was collected",
+    top: 410,
   },
 };
 

@@ -12,19 +12,24 @@ import type {
   StatsLeaderboardPlayer,
 } from "features/game/expansion/components/leaderboard/actions/statsLeaderboard";
 
+import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import coinsIcon from "assets/icons/coins.webp";
 import xpIcon from "assets/icons/xp.png";
-import chickenIcon from "assets/icons/chook.webp";
+import choresIcon from "assets/icons/chores.webp";
+import lightningIcon from "assets/icons/lightning.png";
 import deliveryIcon from "assets/icons/delivery.webp";
 
 export const BOARD_ICONS: Record<StatsLeaderboardName, string> = {
   coins: coinsIcon,
   experience: xpIcon,
-  cropsHarvested: SUNNYSIDE.icons.plant,
-  fishCaught: SUNNYSIDE.icons.fish,
-  animalsFed: chickenIcon,
+  newPlayerExperience: SUNNYSIDE.icons.seedling,
+  sunflowers: ITEM_DETAILS.Sunflower.image,
+  kale: ITEM_DETAILS.Kale.image,
+  chores: choresIcon,
   deliveries: deliveryIcon,
+  dailyLoginStreak: lightningIcon,
+  diggingStreak: SUNNYSIDE.tools.sand_shovel,
 };
 
 interface Props {
