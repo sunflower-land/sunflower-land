@@ -31,6 +31,16 @@
  * a later request rather than written off for the whole page session (see
  * ensureSigner). A load that failed because the engine will not run wasm
  * is not: that answer does not change before the next reload.
+ *
+ * The code itself lives 24h. A tab left open longer than that used to sign
+ * with a dead code until the player reloaded — one lost autosave each, for
+ * a few hundred accounts a day. Now the layer refreshes it through
+ * `POST /session-code` (JWT-gated, no farm load) shortly before it runs
+ * out, and if the API still answers RT-001 for a code that has aged out,
+ * refreshes once and replays the request once. Expiry is judged in server
+ * time — the `/session` response carries it — because some players' clocks
+ * are hours out and a code that is fresh by the device clock can be long
+ * dead by ours.
  */
 
 import { fetchWithRetry, type FetchWithRetryOptions } from "lib/fetchWithRetry";
@@ -201,6 +211,22 @@ const SIGNER_RETRY_INTERVAL_MS = 30_000;
  */
 const SIGNER_RETRY_WAIT_MS = 2_000;
 
+/**
+ * How close to expiry (server time) a code may get before a protected
+ * request refreshes it. An hour is far more than the refresh takes and far
+ * less than the code's life, and it also absorbs whatever is left of a
+ * clock offset the `/session` timing did not measure exactly.
+ */
+const SESSION_CODE_REFRESH_MARGIN_S = 60 * 60;
+/**
+ * How long to leave a refresh alone after one completes, or fails. After a
+ * success this is the loop guard: a device whose clock says the brand-new
+ * code is already stale must not refresh on every request. After a failure
+ * it is plain backoff — the old code is usually still good, and the
+ * request has gone out with it regardless.
+ */
+const SESSION_CODE_REFRESH_INTERVAL_MS = 60_000;
+
 let signer: TokenModule | undefined;
 let expiresAt: number | undefined;
 /**
@@ -244,17 +270,63 @@ let retryAfter = 0;
 let retryInFlight: Promise<void> | undefined;
 
 /**
+ * What a refresh needs: where the API is, and a JWT to present. The JWT on
+ * the request being signed is preferred (it is the caller's current one);
+ * this is the fallback from `/session`.
+ */
+let apiUrl: string | undefined;
+let authToken: string | undefined;
+/**
+ * Server clock minus device clock, measured from the `/session` response
+ * time. Codes expire in server time, and enough players' clocks are hours
+ * out that judging expiry by the device alone refreshes far too early for
+ * some and far too late for others.
+ */
+let clockOffsetMs = 0;
+/**
+ * The code's lifetime as observed at `/session` (expiry minus issue time).
+ * Lets a refresh re-measure the clock offset from its own response — the
+ * refresh endpoint returns only the code and its expiry, and the issue time
+ * is the expiry minus this.
+ */
+let codeTtlSeconds: number | undefined;
+/** The in-flight refresh, shared by every request that arrives during it. */
+let refreshInFlight: Promise<boolean> | undefined;
+/** When the next refresh may start. */
+let refreshAfter = 0;
+/** Set when the API answered 404: an older deployment without the route. */
+let refreshUnsupported = false;
+/**
+ * Bumped on every `/session` and logout. A refresh that started under one
+ * session must not install its code over the next one's.
+ */
+let sessionGeneration = 0;
+
+/**
  * Initialise the token layer from the `/session` response. Safe to call on
  * every session start — a fresh session replaces the code.
  */
 export async function initRequestTokens(params: {
   sessionCode?: string;
   sessionCodeExpiresAt?: number;
+  /** Base URL of the API, for refreshing the code via `POST /session-code`. */
+  apiUrl?: string;
+  /** The JWT the session was loaded with, as the refresh fallback. */
+  token?: string;
+  /**
+   * When the API produced this response, in ms (the `/session` `startedAt`).
+   * Anchors expiry checks to the server clock rather than the device's.
+   */
+  serverTime?: number;
 }): Promise<void> {
   // A fresh session is a fresh start: whatever the last one spent on
   // retries, this one gets the full budget.
   retries = 0;
   retryAfter = 0;
+  refreshAfter = 0;
+  sessionGeneration += 1;
+  apiUrl = params.apiUrl ?? apiUrl;
+  authToken = params.token ?? authToken;
   initInFlight = init(params);
   return initInFlight;
 }
@@ -262,6 +334,7 @@ export async function initRequestTokens(params: {
 async function init(params: {
   sessionCode?: string;
   sessionCodeExpiresAt?: number;
+  serverTime?: number;
 }): Promise<void> {
   if (!params.sessionCode || !params.sessionCodeExpiresAt) {
     signer?.clearSession();
@@ -271,6 +344,12 @@ async function init(params: {
     signerFailure = "";
     signerFailureDetail = "";
     return;
+  }
+
+  if (params.serverTime !== undefined && Number.isFinite(params.serverTime)) {
+    clockOffsetMs = params.serverTime - Date.now();
+    codeTtlSeconds =
+      params.sessionCodeExpiresAt - Math.floor(params.serverTime / 1000);
   }
 
   lastSession = {
@@ -310,6 +389,161 @@ export function clearRequestTokens() {
   signerFailureDetail = "";
   retries = 0;
   retryAfter = 0;
+  authToken = undefined;
+  refreshAfter = 0;
+  sessionGeneration += 1;
+}
+
+/** Now, on the server's clock, in unix seconds. */
+function serverNowSeconds(): number {
+  return Math.floor((Date.now() + clockOffsetMs) / 1000);
+}
+
+/**
+ * Whether the current code is close enough to expiry to refresh, or past
+ * it. Judged in server time; see clockOffsetMs.
+ */
+function codeNearExpiry(): boolean {
+  return (
+    expiresAt !== undefined &&
+    expiresAt - serverNowSeconds() <= SESSION_CODE_REFRESH_MARGIN_S
+  );
+}
+
+/** The `Authorization` header off a request, whatever shape it came in. */
+function bearerOf(headers: HeadersInit | undefined): string | undefined {
+  if (!headers) return undefined;
+  if (headers instanceof Headers)
+    return headers.get("Authorization") ?? undefined;
+
+  const entries = Array.isArray(headers) ? headers : Object.entries(headers);
+  const match = entries.find(([key]) => key.toLowerCase() === "authorization");
+
+  return match?.[1];
+}
+
+/**
+ * Starts a session-code refresh if one is possible and due, and returns it.
+ * Everything up to storing the attempt is synchronous, so concurrent
+ * requests share one refresh rather than each starting their own.
+ *
+ * Nothing to refresh without a signer holding a code, an API to ask, or a
+ * JWT to ask with; and not again within the interval, nor ever against an
+ * API that answered 404.
+ */
+function beginSessionCodeRefresh(
+  init?: RequestInit,
+): Promise<boolean> | undefined {
+  if (refreshInFlight) return refreshInFlight;
+
+  const token = bearerOf(init?.headers) ?? authToken;
+  if (
+    !signer ||
+    !lastSession ||
+    !apiUrl ||
+    !token ||
+    refreshUnsupported ||
+    Date.now() < refreshAfter
+  ) {
+    return undefined;
+  }
+
+  refreshAfter = Date.now() + SESSION_CODE_REFRESH_INTERVAL_MS;
+
+  const attempt = refreshSessionCode(
+    `${apiUrl}/session-code`,
+    token,
+    sessionGeneration,
+  ).finally(() => {
+    if (refreshInFlight === attempt) refreshInFlight = undefined;
+  });
+  refreshInFlight = attempt;
+
+  return attempt;
+}
+
+/**
+ * Asks the API for a fresh code and installs it. Resolves true when the
+ * signer now holds the new code, false for any failure — and it never
+ * rejects: a refresh that could not happen (offline, an expired JWT, an
+ * older API) leaves the request to go out as it would have anyway.
+ *
+ * Plain `fetch`, not `fetchWithRetry`: a request is waiting on this, and
+ * the interval above is all the backoff a once-a-day call needs.
+ */
+async function refreshSessionCode(
+  url: string,
+  token: string,
+  generation: number,
+): Promise<boolean> {
+  try {
+    const response = await globalThis.fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: token.startsWith("Bearer ") ? token : `Bearer ${token}`,
+        accept: "application/json",
+      },
+    });
+
+    if (response.status === 404) {
+      // Feature detection: the API predates the route. Stop asking.
+      refreshUnsupported = true;
+      return false;
+    }
+    if (!response.ok) return false;
+
+    const body = (await response.json()) as {
+      sessionCode?: unknown;
+      sessionCodeExpiresAt?: unknown;
+    };
+    const { sessionCode, sessionCodeExpiresAt } = body ?? {};
+    if (
+      typeof sessionCode !== "string" ||
+      !sessionCode ||
+      typeof sessionCodeExpiresAt !== "number" ||
+      !Number.isInteger(sessionCodeExpiresAt)
+    ) {
+      return false;
+    }
+
+    // A new /session (or a logout) happened while this was in flight; its
+    // code wins, and this one must not be installed over it.
+    if (generation !== sessionGeneration || !signer) return false;
+
+    signer.initSession(sessionCode);
+    lastSession = { sessionCode, sessionCodeExpiresAt };
+    expiresAt = sessionCodeExpiresAt;
+    state = "ready";
+
+    // The response carries no timestamp, but the code's lifetime is known
+    // from /session, so its issue time — server now — is expiry minus that.
+    if (codeTtlSeconds !== undefined) {
+      clockOffsetMs =
+        (sessionCodeExpiresAt - codeTtlSeconds) * 1000 - Date.now();
+    }
+
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Whether a response is the API rejecting the request token. The body is
+ * read from a clone so the caller can still consume the original.
+ */
+async function isRequestTokenRejection(response: Response): Promise<boolean> {
+  if (response.status !== 403 || typeof response.clone !== "function") {
+    return false;
+  }
+
+  try {
+    const body = (await response.clone().json()) as { errorCode?: unknown };
+
+    return body?.errorCode === "RT-001";
+  } catch {
+    return false;
+  }
 }
 
 export function requestTokensActive(): boolean {
@@ -415,13 +649,16 @@ function beginSignerRetry(): Promise<void> | undefined {
 }
 
 /** Races `promise` against a timer, cleaning the timer up if it wins. */
-function withTimeout(promise: Promise<void>, ms: number): Promise<void> {
-  let timer!: ReturnType<typeof setTimeout>;
+function withTimeout<T>(
+  promise: Promise<T>,
+  ms: number,
+): Promise<T | undefined> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
 
   return Promise.race([
     promise.finally(() => clearTimeout(timer)),
-    new Promise<void>((resolve) => {
-      timer = setTimeout(resolve, ms);
+    new Promise<undefined>((resolve) => {
+      timer = setTimeout(() => resolve(undefined), ms);
     }),
   ]);
 }
@@ -438,8 +675,18 @@ function withTimeout(promise: Promise<void>, ms: number): Promise<void> {
  * Either way this settles, and quickly: a request is never failed, and
  * never held for long, because the token layer could not sort itself out.
  */
-async function ensureSigner(): Promise<void> {
-  if (requestTokensActive()) return;
+async function ensureSigner(init?: RequestInit): Promise<void> {
+  if (requestTokensActive()) {
+    // Signing, but the code is running out. Refresh it — once, shared —
+    // and wait briefly so this request can carry the new code if the
+    // refresh is quick. If not, the old code is still good for a while
+    // and the request goes with that.
+    if (codeNearExpiry()) {
+      const refresh = beginSessionCodeRefresh(init);
+      if (refresh) await withTimeout(refresh, SIGNER_RETRY_WAIT_MS);
+    }
+    return;
+  }
 
   // `initRequestTokens` always settles (it swallows its own failures), so
   // this cannot hang. Nothing in flight means nothing to wait for.
@@ -469,20 +716,36 @@ export async function secureFetch(
 ): Promise<Response> {
   const url = typeof input === "string" ? input : String(input);
 
-  // Wait on a signer that is still loading, and retry one that failed for
-  // a reason that might have passed. Never blocks for long, and never
-  // throws: a request that cannot be signed still goes, with the sentinel.
-  await ensureSigner();
+  // Wait on a signer that is still loading, retry one that failed for a
+  // reason that might have passed, and refresh a code that is about to
+  // expire. Never blocks for long, and never throws: a request that cannot
+  // be signed still goes, with the sentinel.
+  await ensureSigner(init);
 
-  return fetchWithRetry(
-    input,
-    {
-      ...init,
-      headers: {
-        ...init?.headers,
-        ...tokenHeaders(url, init),
+  const send = () =>
+    fetchWithRetry(
+      input,
+      {
+        ...init,
+        headers: {
+          ...init?.headers,
+          ...tokenHeaders(url, init),
+        },
       },
-    },
-    options,
-  );
+      options,
+    );
+
+  const response = await send();
+
+  // The API turned the token away and our code has aged out: the refresh
+  // above was too late (a tab asleep for a day, a clock we mis-measured),
+  // or it never happened. Refresh once and replay once with fresh headers.
+  // Never more: a second RT-001 is something other than expiry, and it is
+  // the caller's to handle.
+  if (codeNearExpiry() && (await isRequestTokenRejection(response))) {
+    const refreshed = await (refreshInFlight ?? beginSessionCodeRefresh(init));
+    if (refreshed) return send();
+  }
+
+  return response;
 }

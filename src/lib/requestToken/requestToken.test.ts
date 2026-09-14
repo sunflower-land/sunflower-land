@@ -651,3 +651,329 @@ describe("requestToken before /session has completed", () => {
     expect(headers["X-Token"]).toBe("unsigned:not-initialised");
   });
 });
+
+describe("requestToken refreshing the session code", () => {
+  let fetchMock: jest.Mock;
+  let now: number;
+
+  const API_URL = "https://api.test";
+  const REFRESH_URL = `${API_URL}/session-code`;
+  const JWT = "Bearer request-jwt";
+  const NEW_CODE = "c".repeat(64);
+  const DAY = 24 * 60 * 60;
+
+  const serverNow = () => Math.floor(now / 1000);
+
+  beforeEach(() => {
+    jest.resetModules();
+    now = Date.now();
+    jest.spyOn(Date, "now").mockImplementation(() => now);
+    fetchMock = jest.fn();
+    (window as unknown as { fetch: unknown }).fetch = fetchMock;
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  const boot = () => {
+    jest.doMock("./loader", () => ({
+      loadTokenModule: () =>
+        Promise.resolve({
+          initSession: (code: string) => {
+            codeSet = true;
+            initSession(code);
+          },
+          clearSession: () => {
+            codeSet = false;
+            clearSession();
+          },
+          hasSession: () => codeSet,
+          signRequest,
+        }),
+    }));
+
+    /* eslint-disable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
+    return require("./index") as typeof import("./index");
+    /* eslint-enable @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports */
+  };
+
+  /** A session whose code expires `secondsLeft` from now, server time. */
+  const startSession = (
+    tokens: ReturnType<typeof boot>,
+    {
+      secondsLeft,
+      serverTime = now,
+    }: { secondsLeft: number; serverTime?: number },
+  ) =>
+    tokens.initRequestTokens({
+      sessionCode: SESSION_CODE,
+      sessionCodeExpiresAt: Math.floor(serverTime / 1000) + secondsLeft,
+      apiUrl: API_URL,
+      token: "session-jwt",
+      serverTime,
+    });
+
+  const jsonResponse = (status: number, body: unknown) => ({
+    ok: status >= 200 && status < 300,
+    status,
+    json: () => Promise.resolve(body),
+    clone() {
+      return this;
+    },
+  });
+
+  /** Answers the refresh endpoint with `refresh` and everything else 200. */
+  const answerWith = (refresh: () => unknown) =>
+    fetchMock.mockImplementation((url: string) =>
+      Promise.resolve(
+        url === REFRESH_URL ? refresh() : jsonResponse(200, { ok: true }),
+      ),
+    );
+
+  const freshCode = () =>
+    jsonResponse(200, {
+      sessionCode: NEW_CODE,
+      sessionCodeExpiresAt: serverNow() + DAY,
+    });
+
+  const refreshCalls = () =>
+    fetchMock.mock.calls.filter(([url]) => url === REFRESH_URL);
+  const requestCalls = () =>
+    fetchMock.mock.calls.filter(([url]) => url !== REFRESH_URL);
+  const headersOf = (call: unknown[]) =>
+    ((call[1] as RequestInit | undefined)?.headers ?? {}) as Record<
+      string,
+      string
+    >;
+
+  const save = (tokens: ReturnType<typeof boot>) =>
+    tokens.secureFetch(`${API_URL}/autosave/1`, {
+      method: "POST",
+      headers: { Authorization: JWT },
+      body: "{}",
+    });
+
+  it("refreshes a code that is about to expire, and signs with the new one", async () => {
+    const tokens = boot();
+    answerWith(freshCode);
+
+    // Half an hour left: inside the refresh margin.
+    await startSession(tokens, { secondsLeft: 30 * 60 });
+    await save(tokens);
+
+    // One refresh, presented with the JWT off the request being signed,
+    // never request-token protected itself (the caller's code is expired
+    // by definition on the API side).
+    expect(refreshCalls()).toHaveLength(1);
+    const [, refreshInit] = refreshCalls()[0] as [string, RequestInit];
+    expect(refreshInit.method).toBe("POST");
+    expect(headersOf(refreshCalls()[0])["Authorization"]).toBe(JWT);
+    expect(headersOf(refreshCalls()[0])["X-Token"]).toBeUndefined();
+
+    // The signer holds the new code, and the request that triggered the
+    // refresh already went out with it.
+    expect(initSession).toHaveBeenLastCalledWith(NEW_CODE);
+    expect(requestCalls()).toHaveLength(1);
+    expect(headersOf(requestCalls()[0])["X-Expires"]).toBe(
+      String(serverNow() + DAY),
+    );
+
+    // And the next one, with no further refresh.
+    await save(tokens);
+    expect(refreshCalls()).toHaveLength(1);
+    expect(headersOf(requestCalls()[1])["X-Expires"]).toBe(
+      String(serverNow() + DAY),
+    );
+  });
+
+  it("leaves a code with plenty of life alone", async () => {
+    const tokens = boot();
+    answerWith(freshCode);
+
+    await startSession(tokens, { secondsLeft: DAY });
+    await save(tokens);
+
+    expect(refreshCalls()).toHaveLength(0);
+  });
+
+  it("shares one refresh across a burst of requests", async () => {
+    const tokens = boot();
+    let release!: () => void;
+    const slow = new Promise<void>((res) => (release = res));
+    answerWith(() => slow.then(freshCode));
+
+    await startSession(tokens, { secondsLeft: 30 * 60 });
+
+    const burst = Promise.all(Array.from({ length: 5 }, () => save(tokens)));
+    await new Promise((res) => setTimeout(res, 0));
+    release();
+    await burst;
+
+    expect(refreshCalls()).toHaveLength(1);
+    expect(requestCalls()).toHaveLength(5);
+    for (const call of requestCalls()) {
+      expect(headersOf(call)["X-Expires"]).toBe(String(serverNow() + DAY));
+    }
+  });
+
+  it("refreshes once and replays once when the API rejects an expired code", async () => {
+    jest.useFakeTimers({ now });
+    try {
+      const tokens = boot();
+      await startSession(tokens, { secondsLeft: DAY });
+
+      // A tab asleep for a day: the code aged out without a request going
+      // through, and the refresh is slow enough that the request gives up
+      // waiting for it and goes out with the old code.
+      now += (DAY + 60) * 1000;
+      jest.setSystemTime(now);
+      let releaseRefresh!: () => void;
+      const slowRefresh = new Promise<void>((res) => (releaseRefresh = res));
+      let rejections = 0;
+      fetchMock.mockImplementation((url: string, init?: RequestInit) => {
+        if (url === REFRESH_URL) return slowRefresh.then(freshCode);
+
+        const expires = Number(headersOf([url, init])["X-Expires"]);
+        if (expires < serverNow()) {
+          rejections += 1;
+          return Promise.resolve(jsonResponse(403, { errorCode: "RT-001" }));
+        }
+        return Promise.resolve(jsonResponse(200, { ok: true }));
+      });
+
+      const saving = save(tokens);
+      await jest.advanceTimersByTimeAsync(2_500);
+      releaseRefresh();
+      const response = await saving;
+
+      // Rejected once with the dead code, refreshed once (the same refresh
+      // the proactive path started — not a second one), replayed once with
+      // the new code, and the caller sees the replay's answer.
+      expect(response.status).toBe(200);
+      expect(rejections).toBe(1);
+      expect(refreshCalls()).toHaveLength(1);
+      expect(requestCalls()).toHaveLength(2);
+      expect(headersOf(requestCalls()[1])["X-Expires"]).toBe(
+        String(serverNow() + DAY),
+      );
+      expect(initSession).toHaveBeenLastCalledWith(NEW_CODE);
+    } finally {
+      jest.useRealTimers();
+    }
+  });
+
+  it("does not refresh or replay on a rejection of a fresh code", async () => {
+    const tokens = boot();
+    answerWith(freshCode);
+    fetchMock.mockImplementation((url: string) =>
+      Promise.resolve(
+        url === REFRESH_URL
+          ? freshCode()
+          : jsonResponse(403, { errorCode: "RT-001" }),
+      ),
+    );
+
+    await startSession(tokens, { secondsLeft: DAY });
+    const response = await save(tokens);
+
+    // Something other than expiry — the caller's to handle. No refresh, no
+    // replay, and the original response comes back untouched.
+    expect(response.status).toBe(403);
+    expect(refreshCalls()).toHaveLength(0);
+    expect(requestCalls()).toHaveLength(1);
+  });
+
+  it("still sends the request when the refresh fails, and backs off", async () => {
+    const tokens = boot();
+    answerWith(() => jsonResponse(500, {}));
+
+    await startSession(tokens, { secondsLeft: 30 * 60 });
+    const response = await save(tokens);
+
+    // The old code is still good; the request went out with it.
+    expect(response.status).toBe(200);
+    expect(requestCalls()).toHaveLength(1);
+    expect(headersOf(requestCalls()[0])["X-Expires"]).toBe(
+      String(serverNow() + 30 * 60),
+    );
+    expect(refreshCalls()).toHaveLength(1);
+
+    // Not again straight away: a refresh that just failed is not retried
+    // on the very next request.
+    await save(tokens);
+    expect(refreshCalls()).toHaveLength(1);
+
+    now += 2 * 60 * 1000;
+    await save(tokens);
+    expect(refreshCalls()).toHaveLength(2);
+  });
+
+  it("still sends the request when the refresh throws", async () => {
+    const tokens = boot();
+    fetchMock.mockImplementation((url: string) =>
+      url === REFRESH_URL
+        ? Promise.reject(new TypeError("Failed to fetch"))
+        : Promise.resolve(jsonResponse(200, { ok: true })),
+    );
+
+    await startSession(tokens, { secondsLeft: 30 * 60 });
+    const response = await save(tokens);
+
+    expect(response.status).toBe(200);
+    expect(requestCalls()).toHaveLength(1);
+  });
+
+  it("stops asking an API that does not have the route", async () => {
+    const tokens = boot();
+    answerWith(() => jsonResponse(404, {}));
+
+    await startSession(tokens, { secondsLeft: 30 * 60 });
+    await save(tokens);
+    now += 10 * 60 * 1000;
+    await save(tokens);
+
+    // Feature-detected once, then never again this page session.
+    expect(refreshCalls()).toHaveLength(1);
+    expect(requestCalls()).toHaveLength(2);
+  });
+
+  it("judges expiry by the server's clock, not the device's", async () => {
+    const tokens = boot();
+    answerWith(freshCode);
+
+    // The device clock is five hours behind the server. The code has half
+    // an hour left in server time — five and a half by this device.
+    const serverTime = now + 5 * 60 * 60 * 1000;
+    await startSession(tokens, { secondsLeft: 30 * 60, serverTime });
+    await save(tokens);
+
+    expect(refreshCalls()).toHaveLength(1);
+    expect(initSession).toHaveBeenLastCalledWith(NEW_CODE);
+  });
+
+  it("does not install a refreshed code over a newer session's", async () => {
+    const tokens = boot();
+    let release!: () => void;
+    const slow = new Promise<void>((res) => (release = res));
+    answerWith(() => slow.then(freshCode));
+
+    await startSession(tokens, { secondsLeft: 30 * 60 });
+    const saving = save(tokens);
+    await new Promise((res) => setTimeout(res, 0));
+
+    // A new /session lands while the refresh is in flight.
+    const newer = "d".repeat(64);
+    await tokens.initRequestTokens({
+      sessionCode: newer,
+      sessionCodeExpiresAt: serverNow() + DAY,
+      apiUrl: API_URL,
+      token: "session-jwt",
+      serverTime: now,
+    });
+    release();
+    await saving;
+
+    expect(initSession).toHaveBeenLastCalledWith(newer);
+  });
+});
