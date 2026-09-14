@@ -5,6 +5,8 @@ import { COOKABLES } from "features/game/types/consumables";
 import { FLOWER_SEEDS, FLOWERS } from "features/game/types/flowers";
 import { getFlowerReadyAt } from "features/game/lib/flowerBedReadiness";
 import { harvest } from "./harvest";
+import { BUILDING_DAILY_OIL_CAPACITY } from "./supplyCookingOil";
+import { getKeys } from "lib/object";
 import Decimal from "decimal.js-light";
 
 describe("skillUse", () => {
@@ -1227,6 +1229,192 @@ describe("skillUse", () => {
 
       expect(firePitRecipe?.readyAt).toEqual(dateNow);
       expect(smoothieShackRecipe?.readyAt).toEqual(dateNow);
+    });
+
+    it.each(getKeys(BUILDING_DAILY_OIL_CAPACITY))(
+      "only completes the current windowed recipe in %s",
+      (buildingName) => {
+        const HOUR = 60 * 60 * 1000;
+        const now = dateNow;
+        const name = getKeys(COOKABLES).find(
+          (name) => COOKABLES[name].building === buildingName,
+        )!;
+        const game = {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Instant Gratification": 1 },
+          },
+          buildings: {
+            [buildingName]: [
+              {
+                id: "1",
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+                crafting: [
+                  {
+                    id: "head",
+                    name,
+                    startedAt: now - 10 * HOUR,
+                    baseDurationMs: 12 * HOUR,
+                    readyAt: now + 2 * HOUR,
+                  },
+                  {
+                    id: "tail1",
+                    name,
+                    baseDurationMs: 2 * HOUR,
+                    readyAt: now + 4 * HOUR,
+                  },
+                  {
+                    id: "tail2",
+                    name,
+                    baseDurationMs: 2 * HOUR,
+                    readyAt: now + 6 * HOUR,
+                  },
+                ],
+              },
+            ],
+          },
+        };
+        const state = skillUse({
+          state: game,
+          action: { type: "skill.used", skill: "Instant Gratification" },
+          createdAt: now,
+        });
+        const queue = state.buildings[buildingName]![0].crafting!;
+        expect(queue.map((recipe) => recipe.readyAt)).toEqual([
+          now,
+          now + 2 * HOUR,
+          now + 4 * HOUR,
+        ]);
+        expect(queue[0].startedAt).toBe(now);
+        expect(queue[0].baseDurationMs).toBe(0);
+      },
+    );
+
+    // The recipe cooking is CHAINED here (no `startedAt` of its own) behind a finished,
+    // uncollected recipe. Zeroing its work without anchoring it would derive it as ready
+    // at its predecessor's ready time, hours ago, and hand over the recipe behind it.
+    it("completes a chained recipe without freeing the recipes queued behind it", () => {
+      const HOUR = 60 * 60 * 1000;
+      const now = dateNow;
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Instant Gratification": 1 },
+          },
+          buildings: {
+            "Fire Pit": [
+              {
+                id: "1",
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+                crafting: [
+                  {
+                    id: "done",
+                    name: "Boiled Eggs",
+                    startedAt: now - 7 * HOUR,
+                    baseDurationMs: 4 * HOUR,
+                    readyAt: now - 3 * HOUR,
+                  },
+                  {
+                    id: "cooking",
+                    name: "Boiled Eggs",
+                    baseDurationMs: 5 * HOUR,
+                    readyAt: now + 2 * HOUR,
+                  },
+                  {
+                    id: "queued",
+                    name: "Boiled Eggs",
+                    baseDurationMs: 2 * HOUR,
+                    readyAt: now + 4 * HOUR,
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        action: { type: "skill.used", skill: "Instant Gratification" },
+        createdAt: now,
+      });
+
+      const queue = state.buildings["Fire Pit"]![0].crafting!;
+      expect(queue.map((recipe) => recipe.readyAt)).toEqual([
+        now - 3 * HOUR,
+        now,
+        now + 2 * HOUR,
+      ]);
+      expect(queue[1].startedAt).toBe(now);
+    });
+
+    it("keeps the boosted duration of queued recipes under an active Gourmet Hourglass", () => {
+      const HOUR = 60 * 60 * 1000;
+      const now = dateNow;
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Instant Gratification": 1 },
+          },
+          collectibles: {
+            ...INITIAL_FARM.collectibles,
+            "Gourmet Hourglass": [
+              {
+                id: "1",
+                coordinates: { x: 1, y: 1 },
+                createdAt: now - 1 * HOUR,
+                readyAt: now - 1 * HOUR,
+              },
+            ],
+          },
+          buildings: {
+            "Fire Pit": [
+              {
+                id: "1",
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+                crafting: [
+                  {
+                    id: "head",
+                    name: "Boiled Eggs",
+                    startedAt: now - 10 * HOUR,
+                    baseDurationMs: 12 * HOUR,
+                    readyAt: now + 2 * HOUR,
+                  },
+                  {
+                    id: "tail1",
+                    name: "Boiled Eggs",
+                    baseDurationMs: 2 * HOUR,
+                    readyAt: now + 4 * HOUR,
+                  },
+                  {
+                    id: "tail2",
+                    name: "Boiled Eggs",
+                    baseDurationMs: 2 * HOUR,
+                    readyAt: now + 6 * HOUR,
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        action: { type: "skill.used", skill: "Instant Gratification" },
+        createdAt: now,
+      });
+
+      const queue = state.buildings["Fire Pit"]![0].crafting!;
+      // 2x hourglass: each 2h recipe takes 1h of wall-clock time.
+      expect(queue.map((recipe) => recipe.readyAt)).toEqual([
+        now,
+        now + 1 * HOUR,
+        now + 2 * HOUR,
+      ]);
     });
 
     // Same stale-cache trap as the gem speed-up: a recipe that has actually finished
