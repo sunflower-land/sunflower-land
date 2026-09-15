@@ -250,4 +250,79 @@ describe("cancelProcessedResource", () => {
       readyAt: firstReady + DURATION("Fish Oil"),
     });
   });
+
+  it("cancels the selected product when the server queue is not chronological", () => {
+    const firstReady = createdAt + DURATION("Fish Flake");
+    const secondReady = firstReady + DURATION("Fish Stick");
+    const thirdReady = secondReady + DURATION("Fish Oil");
+
+    const state: GameState = {
+      ...BASE_STATE,
+      buildings: {
+        "Fish Market": [
+          {
+            ...(BASE_STATE.buildings["Fish Market"]?.[0] as PlacedItem),
+            processing: [
+              {
+                name: "Fish Oil",
+                readyAt: thirdReady,
+                startedAt: secondReady,
+                requirements: { Anchovy: new Decimal(4) },
+              },
+              {
+                name: "Fish Flake",
+                readyAt: firstReady,
+                startedAt: createdAt,
+                requirements: { Anchovy: new Decimal(2) },
+              },
+              {
+                name: "Fish Stick",
+                readyAt: secondReady,
+                startedAt: firstReady,
+                requirements: {
+                  Anchovy: new Decimal(3),
+                  Porgy: new Decimal(1),
+                },
+              },
+            ],
+          },
+        ],
+      },
+    };
+
+    const updated = cancelProcessedResource({
+      state,
+      action: {
+        type: "processedResource.cancelled",
+        buildingId: "123",
+        buildingName: "Fish Market",
+        queueItem: {
+          name: "Fish Stick",
+          readyAt: secondReady,
+          startedAt: firstReady,
+        },
+      },
+      createdAt,
+    });
+
+    expect(updated.inventory.Anchovy).toEqual(
+      BASE_STATE.inventory.Anchovy?.add(new Decimal(3)),
+    );
+    expect(updated.inventory.Porgy).toEqual(
+      BASE_STATE.inventory.Porgy?.add(new Decimal(1)),
+    );
+
+    const processing = updated.buildings["Fish Market"]?.[0].processing ?? [];
+    expect(processing).toHaveLength(2);
+    expect(processing[0]).toMatchObject({
+      name: "Fish Flake",
+      readyAt: firstReady,
+      startedAt: createdAt,
+    });
+    expect(processing[1]).toMatchObject({
+      name: "Fish Oil",
+      startedAt: firstReady,
+      readyAt: firstReady + DURATION("Fish Oil"),
+    });
+  });
 });
