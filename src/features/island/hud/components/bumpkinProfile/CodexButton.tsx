@@ -17,6 +17,8 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSelector } from "@xstate/react";
 import { RoundButton } from "components/ui/RoundButton";
 import { isMobile } from "mobile-device-detect";
+import { isAsciiText } from "lib/utils/textSupport";
+import { getResolvedFontFamily } from "lib/utils/fonts";
 
 const _delivery = (state: MachineState) => state.context.state.delivery;
 const _hasDeliveryLevel = (state: MachineState) =>
@@ -43,6 +45,12 @@ export const CodexButton: React.FC = () => {
     (hasDeliveryLevel && deliveries.fulfilledCount === 0);
 
   const { t } = useAppTranslation();
+  const newDeliveriesLabel = t("deliveries.new");
+  // "Teeny" is a pixel font with printable-ASCII-only glyphs; scripts it
+  // can't render (Cyrillic, CJK, etc.) fall back to the player's regular UI
+  // font instead. That font runs wider than Teeny, so the layout below
+  // (word spacing, offsets, min width) is tuned separately per case.
+  const isTeenySupported = isAsciiText(newDeliveriesLabel);
 
   return (
     <div
@@ -88,7 +96,9 @@ export const CodexButton: React.FC = () => {
               <div
                 className={"absolute uppercase"}
                 style={{
-                  fontFamily: "Teeny",
+                  fontFamily: isTeenySupported
+                    ? "Teeny"
+                    : getResolvedFontFamily(),
                   color: "black",
                   textShadow: "none",
                   top: `${PIXEL_SCALE * -8}px`,
@@ -104,7 +114,7 @@ export const CodexButton: React.FC = () => {
                   borderImageSlice: "2 2 4 5 fill",
                   imageRendering: "pixelated",
                   borderImageRepeat: "stretch",
-                  fontSize: "8px",
+                  fontSize: isTeenySupported ? "8px" : "var(--text-xxxs-size)",
                 }}
               >
                 <div
@@ -116,16 +126,26 @@ export const CodexButton: React.FC = () => {
                 >
                   <span
                     className="whitespace-nowrap"
-                    style={{
-                      fontSize: "10px",
-                      position: "relative",
-                      bottom: "4px",
-                      left: "4px",
-                      wordSpacing: "-4px",
-                      color: "#262b45",
-                    }}
+                    style={
+                      isTeenySupported
+                        ? {
+                            fontSize: "10px",
+                            position: "relative",
+                            bottom: "4px",
+                            left: "4px",
+                            wordSpacing: "-4px",
+                            color: "#262b45",
+                          }
+                        : {
+                            fontSize: "var(--text-xxxs-size)",
+                            lineHeight: "var(--text-xxxs-line-height)",
+                            position: "relative",
+                            bottom: "2px",
+                            color: "#262b45",
+                          }
+                    }
                   >
-                    {t("deliveries.new")}
+                    {newDeliveriesLabel}
                   </span>
                   <img
                     src={SUNNYSIDE.ui.coins}
