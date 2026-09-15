@@ -6,6 +6,10 @@ import type {
   PlacedItem,
   SavedLayout,
 } from "features/game/types/game";
+import {
+  snapshotGuardianPlacements,
+  syncGuardianPlacements,
+} from "features/game/lib/guardianPlacements";
 import { getChestItemCount } from "features/island/hud/components/inventory/utils/inventory";
 import { isCollectibleWithTimestamps } from "features/game/events/landExpansion/placeCollectible";
 import { getAvailableNodes } from "features/game/lib/resourceNodes";
@@ -659,6 +663,7 @@ export function applyFarmLayout(
   layout: SavedLayout,
   createdAt: number,
 ): { applied: number; skipped: number; noInventory: number } {
+  const guardiansBefore = snapshotGuardianPlacements(state);
   const slots: LayoutSlot[] = [];
   let noInventory = 0;
 
@@ -1079,6 +1084,8 @@ export function applyFarmLayout(
   if (affectsBeehives) {
     state.beehives = updateBeehives({ game: state, createdAt });
   }
+
+  syncGuardianPlacements(state, guardiansBefore, createdAt);
 
   return { applied, skipped, noInventory };
 }

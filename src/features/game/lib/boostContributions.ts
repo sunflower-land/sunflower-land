@@ -25,9 +25,12 @@ import {
   getEffectiveSpeedAt,
   getMergedTotemWindows,
   getPowerHourWindows,
+  getSunshowerGuardianWindows,
   getSunshowerWindows,
   type BoostWindow,
 } from "./boostWindows";
+import { GUARDIAN_BOOST } from "./getActiveGuardian";
+import { getKeys } from "lib/object";
 import { projectSeconds } from "./timerDisplay";
 import type { TemporaryCollectibleName } from "./collectibleBuilt";
 
@@ -91,9 +94,13 @@ const cropPlot = (game: GameState, at: number): BoostContribution[] => [
   ),
   totems(game, CROP_PLOT_BOOST_SPEED["Super Totem"], at),
   { name: "Power hour", windows: getPowerHourWindows(game) },
-  // A season Guardian doubles the sunshower rate rather than adding a window of
-  // its own, so the whole thing is attributed to the event.
   { name: "sunshower", windows: getSunshowerWindows(game) },
+  // Only the Guardian placed during a sunshower speeds crops up, and only for
+  // the time it was out — so it gets its own windows, credited to the Guardian.
+  ...getKeys(GUARDIAN_BOOST).map((guardian) => ({
+    name: guardian,
+    windows: getSunshowerGuardianWindows(game, guardian),
+  })),
 ];
 
 const tree = (game: GameState, at: number): BoostContribution[] => [

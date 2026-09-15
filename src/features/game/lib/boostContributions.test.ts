@@ -21,6 +21,9 @@ import {
   getCropMachineBoostWindows,
 } from "./boostWindows";
 import { CONFIG } from "lib/config";
+import { GUARDIAN_BOOST } from "./getActiveGuardian";
+import { populateSeason } from "./season";
+import { getKeys } from "lib/object";
 
 const setNetwork = (network: "mainnet" | "amoy") => {
   (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = network;
@@ -267,6 +270,77 @@ describe("totem attribution", () => {
 
     expect(entries.map((entry) => entry.name)).toEqual(["Super Totem"]);
     expect(entries[0].value).toMatch(/^-\d+m$/);
+  });
+});
+
+describe("sunshower Guardian attribution", () => {
+  const networkBeforeSunshower = CONFIG.NETWORK;
+  beforeEach(() => setNetwork("amoy"));
+  afterAll(() => setNetwork(networkBeforeSunshower));
+
+  const eventDay = Date.UTC(2026, 5, 27);
+  const now = eventDay + 6 * 60 * 60 * 1000;
+  const guardianFor = (time: number) =>
+    getKeys(GUARDIAN_BOOST).find(
+      (name) => GUARDIAN_BOOST[name].season === populateSeason(time).season,
+    )!;
+  const guardian = guardianFor(eventDay);
+
+  const game: GameState = {
+    ...TEST_FARM,
+    season: populateSeason(eventDay),
+    calendar: {
+      dates: [],
+      sunshower: { startedAt: eventDay, triggeredAt: eventDay },
+    },
+    collectibles: {
+      ...TEST_FARM.collectibles,
+      [guardian]: [{ id: "g", coordinates: { x: 0, y: 0 } }],
+    },
+  };
+
+  it("lists the sunshower and the placed Guardian, splitting the saving between them", () => {
+    const seconds = 4 * HOUR;
+
+    const entries = getBoostContributionEntries({
+      contributions: getSeedBoostContributions(game, "Wheat Seed", now),
+      seconds,
+      at: now,
+      formatSeconds: (value) => String(value),
+    });
+
+    expect(entries.map((entry) => entry.name)).toEqual(["sunshower", guardian]);
+
+    // Both are 2× over the whole task (4× together, so 4h takes 1h): the 3h
+    // saving splits evenly between them.
+    const saved = entries.map((entry) => Number(entry.value.replace("-", "")));
+    expect(saved[0]).toBeCloseTo(1.5 * HOUR, 6);
+    expect(saved[1]).toBeCloseTo(1.5 * HOUR, 6);
+  });
+
+  it("does not credit a Guardian from another season", () => {
+    const otherGuardian = getKeys(GUARDIAN_BOOST).find(
+      (name) => name !== guardian,
+    )!;
+
+    const entries = getBoostContributionEntries({
+      contributions: getSeedBoostContributions(
+        {
+          ...game,
+          collectibles: {
+            ...TEST_FARM.collectibles,
+            [otherGuardian]: [{ id: "g", coordinates: { x: 0, y: 0 } }],
+          },
+        },
+        "Wheat Seed",
+        now,
+      ),
+      seconds: 4 * HOUR,
+      at: now,
+      formatSeconds: (value) => String(value),
+    });
+
+    expect(entries.map((entry) => entry.name)).toEqual(["sunshower"]);
   });
 });
 
