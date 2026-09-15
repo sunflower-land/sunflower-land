@@ -8601,5 +8601,7 @@
   "statsLeaderboard.description.chores": "İşler tamamlandı, her zaman",
   "statsLeaderboard.description.deliveries": "Siparişler her zaman teslim edildi",
   "statsLeaderboard.description.dailyLoginStreak": "Ardışık günlerde günlük ödül toplandı",
-  "statsLeaderboard.description.diggingStreak": "Ardışık günlerde çöl kazma ödülü toplandı"
+  "statsLeaderboard.description.diggingStreak": "Ardışık günlerde çöl kazma ödülü toplandı",
+  "bounties.hideCompleted": "Tamamlandı gizle",
+  "bounties.completedHidden": "Tamamlanan ödüller gizlenir."
 }

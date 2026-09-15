@@ -8601,5 +8601,7 @@
   "statsLeaderboard.description.chores": "Chores completed, all time",
   "statsLeaderboard.description.deliveries": "Orders delivered, all time",
   "statsLeaderboard.description.dailyLoginStreak": "Consecutive days the daily reward was collected",
-  "statsLeaderboard.description.diggingStreak": "Consecutive days the desert digging reward was collected"
+  "statsLeaderboard.description.diggingStreak": "Consecutive days the desert digging reward was collected",
+  "bounties.hideCompleted": "Hide completed",
+  "bounties.completedHidden": "Completed bounties are hidden."
 }

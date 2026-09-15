@@ -8601,5 +8601,7 @@
   "statsLeaderboard.description.chores": "所有琐事都完成了",
   "statsLeaderboard.description.deliveries": "所有订单均已送达",
   "statsLeaderboard.description.dailyLoginStreak": "连续几天领取每日奖励",
-  "statsLeaderboard.description.diggingStreak": "连续几天收集沙漠挖掘奖励"
+  "statsLeaderboard.description.diggingStreak": "连续几天收集沙漠挖掘奖励",
+  "bounties.hideCompleted": "隐藏已完成",
+  "bounties.completedHidden": "已完成的赏金处于隐藏状态。"
 }

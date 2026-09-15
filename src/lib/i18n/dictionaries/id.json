@@ -8601,5 +8601,7 @@
   "statsLeaderboard.description.chores": "Tugas selesai, sepanjang waktu",
   "statsLeaderboard.description.deliveries": "Pesanan dikirim, sepanjang waktu",
   "statsLeaderboard.description.dailyLoginStreak": "Hari berturut-turut hadiah harian dikumpulkan",
-  "statsLeaderboard.description.diggingStreak": "Hari berturut-turut hadiah penggalian gurun dikumpulkan"
+  "statsLeaderboard.description.diggingStreak": "Hari berturut-turut hadiah penggalian gurun dikumpulkan",
+  "bounties.hideCompleted": "Sembunyikan selesai",
+  "bounties.completedHidden": "Hadiah yang telah selesai disembunyikan."
 }

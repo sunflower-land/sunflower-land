@@ -8601,5 +8601,7 @@
   "statsLeaderboard.description.chores": "Hausarbeiten abgeschlossen, alle Zeiten",
   "statsLeaderboard.description.deliveries": "Bestellungen werden jederzeit geliefert",
   "statsLeaderboard.description.dailyLoginStreak": "An aufeinanderfolgenden Tagen wurde die tägliche Belohnung eingesammelt",
-  "statsLeaderboard.description.diggingStreak": "An aufeinanderfolgenden Tagen wurde die Belohnung für das Graben in der Wüste eingesammelt"
+  "statsLeaderboard.description.diggingStreak": "An aufeinanderfolgenden Tagen wurde die Belohnung für das Graben in der Wüste eingesammelt",
+  "bounties.hideCompleted": "Ausblenden abgeschlossen",
+  "bounties.completedHidden": "Abgeschlossene Kopfgelder sind versteckt."
 }

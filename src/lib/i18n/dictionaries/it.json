@@ -8601,5 +8601,7 @@
   "statsLeaderboard.description.chores": "Lavori completati, sempre",
   "statsLeaderboard.description.deliveries": "Ordini consegnati, in qualsiasi momento",
   "statsLeaderboard.description.dailyLoginStreak": "Giorni consecutivi in cui è stata raccolta la ricompensa giornaliera",
-  "statsLeaderboard.description.diggingStreak": "Giorni consecutivi è stata raccolta la ricompensa per gli scavi nel deserto"
+  "statsLeaderboard.description.diggingStreak": "Giorni consecutivi è stata raccolta la ricompensa per gli scavi nel deserto",
+  "bounties.hideCompleted": "Nascondi completato",
+  "bounties.completedHidden": "Le taglie completate sono nascoste."
 }
