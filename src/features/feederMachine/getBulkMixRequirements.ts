@@ -55,13 +55,16 @@ export type BulkMixFeed = {
 const MAX_FEED_STEPS_TO_READY = 100;
 const MIX_AMOUNT_EPSILON = new Decimal("0.000000000001");
 
+const isAnimalAwake = (animal: Animal, game: GameState, now: number) =>
+  getAnimalReadyAt(animal, game) <= now;
+
 const isAnimalAwakeAndRequestingFood = (
   animal: Animal,
   game: GameState,
   now: number,
 ) => {
   return (
-    getAnimalReadyAt(animal, game) <= now &&
+    isAnimalAwake(animal, game, now) &&
     (animal.state === "idle" ||
       animal.state === "happy" ||
       animal.state === "sad")
@@ -198,7 +201,23 @@ const getAnimalFeedRequests = ({
 }): FeedRequest[] => {
   if (animal.state === "sick") {
     const { amount } = getBarnDelightCost({ state: game });
-    return [{ item: "Barn Delight", quantity: new Decimal(amount) }];
+    const cureRequest: FeedRequest = {
+      item: "Barn Delight",
+      quantity: new Decimal(amount),
+    };
+
+    // Curing only returns the animal to idle; it still needs its normal feed
+    // immediately afterwards. Include that follow-up feed in the same plan
+    // when the animal will be eligible for feeding after it is cured.
+    if (
+      !isAnimalAwake(animal, game, now) ||
+      hasFreeFeedBoost(animal.type, game) ||
+      !isAnimalFeedable(buildingKey, game, animal.id)
+    ) {
+      return [cureRequest];
+    }
+
+    return [cureRequest, ...getFeedRequestsUntilReady({ animal, game, now })];
   }
 
   if (!isAnimalAwakeAndRequestingFood(animal, game, now)) {
