@@ -2357,6 +2357,51 @@ describe("supplyCropMachine (windowed SPEED_BOOSTS)", () => {
     expect(queued?.totalGrowTime).toBe(PACK_MS);
   });
 
+  it("recomputes a queued pack whose stale startTime is past after a legacy lift and re-place", () => {
+    // Legacy placeBuilding shifts readyAt across the downtime but leaves
+    // startTime untouched, so the queued pack's startTime is in the past even
+    // though it is still waiting behind the running pack.
+    const BAKED_MS = PACK_MS * 0.9;
+    const state = supplyCropMachine({
+      state: stateWithMachine(
+        {
+          unallocatedOilTime: 0,
+          queue: [
+            {
+              crop: "Sunflower",
+              seeds: 10,
+              growTimeRemaining: 0,
+              totalGrowTime: BAKED_MS,
+              startTime: now - BAKED_MS,
+              readyAt: now + BAKED_MS / 2,
+            },
+            {
+              crop: "Sunflower",
+              seeds: 10,
+              growTimeRemaining: 0,
+              totalGrowTime: BAKED_MS,
+              startTime: now - BAKED_MS / 4,
+              readyAt: now + BAKED_MS * 1.5,
+            },
+          ],
+        },
+        { collectibles: shrine(now - HOUR) },
+      ),
+      action: {
+        type: "cropMachine.supplied",
+        seeds: { type: "Sunflower Seed", amount: 10 },
+        machineId: "1",
+      },
+      createdAt: now,
+    });
+
+    const [running, queued] = state.buildings["Crop Machine"]?.[0]?.queue ?? [];
+
+    expect(running?.baseDurationMs).toBe(BAKED_MS / 2);
+    expect(queued?.baseDurationMs).toBe(PACK_MS);
+    expect(queued?.totalGrowTime).toBe(PACK_MS);
+  });
+
   it("keeps a marked machine windowed on mainnet (marker beats flag)", () => {
     (CONFIG as { NETWORK: "mainnet" | "amoy" }).NETWORK = "mainnet";
 

@@ -194,11 +194,20 @@ export function convertLegacyCropMachine({
 }): void {
   if (machine.oilSettledAt !== undefined) return;
 
-  const notStarted = (machine.queue ?? []).filter(
-    (pack) =>
-      !(pack.readyAt !== undefined && pack.readyAt <= now) &&
-      (pack.startTime === undefined || pack.startTime > now),
+  // Decide from QUEUE ORDER, not `startTime`: legacy `placeBuilding` shifts
+  // readyAt/growsUntil across a lift but leaves startTime untouched, so a pack
+  // still waiting can carry a past startTime. Packs run sequentially, so only the
+  // first unfinished pack can have started; every pack behind it is waiting.
+  const [head, ...waiting] = (machine.queue ?? []).filter(
+    (pack) => !(pack.readyAt !== undefined && pack.readyAt <= now),
   );
+  const notStarted = [
+    ...(head !== undefined &&
+    (head.startTime === undefined || head.startTime > now)
+      ? [head]
+      : []),
+    ...waiting,
+  ];
 
   convertCropMachineToWindowed({ machine, windows, now });
 
