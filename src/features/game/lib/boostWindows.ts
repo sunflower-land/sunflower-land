@@ -250,23 +250,28 @@ const getLiveSunshowerWindow = (game: GameState): BoostWindow | undefined => {
 };
 
 /**
- * The live sunshower window plus every archived one. The API deletes the
- * calendar entry at the first load after the sunshower day and archives its
- * window (speed fixed) into `boostHistory`, so windowed crops keep the growth
- * the sunshower gave them.
+ * Every recorded sunshower window, plus the live one if it hasn't been recorded.
+ * The API records a sunshower into `boostHistory` (speed fixed) when it
+ * triggers, so removing the Guardian later can't rewrite growth already earned,
+ * and the record outlives the calendar entry, which the API deletes at the first
+ * load after the sunshower day. The live window only applies to a sunshower
+ * triggered before recording existed.
  */
 export const getSunshowerWindows = (game: GameState): BoostWindow[] => {
-  const live = getLiveSunshowerWindow(game);
-
-  const history = (game.boostHistory?.Sunshower ?? [])
-    .filter((window) => window.from !== live?.from)
-    .map(({ from, to, speed }) => ({
+  const history = (game.boostHistory?.Sunshower ?? []).map(
+    ({ from, to, speed }) => ({
       from,
       to,
       speed: speed ?? CROP_PLOT_BOOST_SPEED.sunshower,
-    }));
+    }),
+  );
 
-  return live ? [live, ...history] : history;
+  const live = getLiveSunshowerWindow(game);
+  if (!live || history.some((window) => window.from === live.from)) {
+    return history;
+  }
+
+  return [live, ...history];
 };
 
 /**

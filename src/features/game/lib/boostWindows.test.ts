@@ -521,6 +521,24 @@ describe("getSunshowerWindows", () => {
     ]);
   });
 
+  it("prefers the recorded speed over the live Guardian check for the same sunshower", () => {
+    // Recorded at 4× when it triggered; the Guardian has since been removed.
+    const game: GameState = {
+      ...TEST_FARM,
+      calendar: {
+        dates: [],
+        sunshower: { startedAt: eventDay, triggeredAt: eventDay },
+      },
+      boostHistory: {
+        Sunshower: [{ from: eventDay, to: eventDay + DAY, speed: 4 }],
+      },
+    };
+
+    expect(getSunshowerWindows(game)).toEqual([
+      { from: eventDay, to: eventDay + DAY, speed: 4 },
+    ]);
+  });
+
   it("does not double-count an archived window that is still live", () => {
     const game: GameState = {
       ...TEST_FARM,
