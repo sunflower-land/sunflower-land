@@ -1047,6 +1047,12 @@ export type PlacedItem = {
    * losing the time already served. Cleared when the placement is renewed.
    */
   extendedMs?: number;
+  /**
+   * When a season Guardian was last placed, so its sunshower boost only covers
+   * the time it was actually out — see `syncGuardianPlacements`. Absent on a
+   * Guardian placed before this was tracked (counts as placed since 0).
+   */
+  placedAt?: number;
 };
 
 export type ShakeItem = PlacedItem & { shakenAt?: number };
@@ -2160,13 +2166,11 @@ export type BoostUsedAt = Partial<Record<BoostName, number>>;
  * A finalised [from, to] interval during which a boost was active. Stored in
  * `GameState.boostHistory` so the boost's contribution to in-progress timers
  * survives its source going away — a temporary collectible being burned
- * (deleted) or renewed (createdAt reset), or the sunshower calendar entry being
- * deleted after its day. Collectible windows are activity-agnostic and omit
- * `speed` (the per-activity speed is applied when the window is read); a
- * sunshower window stores it, because it depends on whether a Guardian for that
- * day's season was built.
+ * (deleted) or renewed (createdAt reset), a season Guardian being lifted, or the
+ * sunshower calendar entry being deleted after its day. Activity-agnostic — the
+ * per-activity speed is applied when the window is read.
  */
-export type BoostHistoryWindow = { from: number; to: number; speed?: number };
+export type BoostHistoryWindow = { from: number; to: number };
 
 /** The boosts `GameState.boostHistory` records windows for. */
 export type BoostHistoryName = CollectibleName | "Sunshower";

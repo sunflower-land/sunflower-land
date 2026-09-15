@@ -1,4 +1,6 @@
-import { getActiveGuardian } from "./getActiveGuardian";
+import { GUARDIAN_BOOST, type SeasonGuardianName } from "./getActiveGuardian";
+import { getKeys } from "lib/object";
+import { populateSeason } from "./season";
 import type {
   BoostHistoryWindow,
   CropFertiliser,
@@ -36,8 +38,8 @@ export type BoostWindow = { from: number; to: number; speed: number };
 /**
  * Speed multipliers for the windowed crop-plot boosts — the single place to tune
  * them. Stacking is multiplicative (effective speed = product of active boosts).
- * `sunshower` is the base sunshower rate; `sunshowerGuardian` replaces it while a
- * matching season Guardian is built.
+ * `sunshowerGuardian` is a season Guardian's own window during a sunshower; it
+ * stacks on the sunshower's rate (2× × 2× = 4×) while the Guardian is placed.
  */
 export const CROP_PLOT_BOOST_SPEED = {
   "Sparrow Shrine": 1.35,
@@ -50,7 +52,7 @@ export const CROP_PLOT_BOOST_SPEED = {
   "Rapid Root": 2,
   "Sproutroot Surprise": 2,
   sunshower: 2,
-  sunshowerGuardian: 4,
+  sunshowerGuardian: 2,
 } as const;
 
 /**
@@ -224,8 +226,7 @@ export const getPowerHourWindows = (game: GameState): BoostWindow[] => {
 /**
  * Window for the live sunshower calendar event, if one has started. Sunshower
  * lasts until the END of the (UTC) day it began on — not a rolling 24h — so the
- * window runs from `startedAt` to the next UTC midnight. A built season Guardian
- * doubles the boost (2× → 4×).
+ * window runs from `startedAt` to the next UTC midnight.
  */
 const getLiveSunshowerWindow = (game: GameState): BoostWindow | undefined => {
   const startedAt = game.calendar?.sunshower?.startedAt;
@@ -238,33 +239,23 @@ const getLiveSunshowerWindow = (game: GameState): BoostWindow | undefined => {
     day.getUTCDate() + 1,
   );
 
-  const hasGuardian = !!getActiveGuardian({ game }).activeGuardian;
-
-  return {
-    from: startedAt,
-    to,
-    speed: hasGuardian
-      ? CROP_PLOT_BOOST_SPEED.sunshowerGuardian
-      : CROP_PLOT_BOOST_SPEED.sunshower,
-  };
+  return { from: startedAt, to, speed: CROP_PLOT_BOOST_SPEED.sunshower };
 };
 
 /**
  * Every recorded sunshower window, plus the live one if it hasn't been recorded.
- * The API records a sunshower into `boostHistory` (speed fixed) when it
- * triggers, so removing the Guardian later can't rewrite growth already earned,
- * and the record outlives the calendar entry, which the API deletes at the first
- * load after the sunshower day. The live window only applies to a sunshower
- * triggered before recording existed.
+ * A sunshower is recorded into `boostHistory` when it triggers, and the record
+ * outlives the calendar entry, which is deleted at the first load after the
+ * sunshower day. The live window only applies to a sunshower triggered before
+ * recording existed. The API does the recording (the FE never deletes calendar
+ * events).
  */
 export const getSunshowerWindows = (game: GameState): BoostWindow[] => {
-  const history = (game.boostHistory?.Sunshower ?? []).map(
-    ({ from, to, speed }) => ({
-      from,
-      to,
-      speed: speed ?? CROP_PLOT_BOOST_SPEED.sunshower,
-    }),
-  );
+  const history = (game.boostHistory?.Sunshower ?? []).map(({ from, to }) => ({
+    from,
+    to,
+    speed: CROP_PLOT_BOOST_SPEED.sunshower,
+  }));
 
   const live = getLiveSunshowerWindow(game);
   if (!live || history.some((window) => window.from === live.from)) {
@@ -273,6 +264,45 @@ export const getSunshowerWindows = (game: GameState): BoostWindow[] => {
 
   return [live, ...history];
 };
+
+/**
+ * A season Guardian's own speed windows: each period a Guardian for the
+ * sunshower day's season was placed, clipped to that sunshower. They stack on
+ * the sunshower's windows, so a Guardian placed all day gives 4× and one placed,
+ * removed or placed back mid-day only speeds up the time it was actually out.
+ * Placed periods come from each placement's `placedAt` (a Guardian placed
+ * before tracking existed counts as placed since 0) and, once lifted, from
+ * `boostHistory` — see `syncGuardianPlacements`. Copies of the same Guardian
+ * merge rather than stack.
+ */
+export const getSunshowerGuardianWindows = (game: GameState): BoostWindow[] =>
+  mergeWindows(
+    getSunshowerWindows(game).flatMap((sunshower) => {
+      const { season } = populateSeason(sunshower.from);
+      const guardian = getKeys(GUARDIAN_BOOST).find(
+        (name) => GUARDIAN_BOOST[name].season === season,
+      );
+      if (!guardian) return [];
+
+      const placed = [
+        ...getCollectiblesAcrossLocations(game, guardian)
+          .filter((placement) => !!placement.coordinates)
+          .map((placement) => ({
+            from: placement.placedAt ?? 0,
+            to: Number.MAX_SAFE_INTEGER,
+          })),
+        ...(game.boostHistory?.[guardian] ?? []),
+      ];
+
+      return placed
+        .map((period) => ({
+          from: Math.max(period.from, sunshower.from),
+          to: Math.min(period.to, sunshower.to),
+          speed: CROP_PLOT_BOOST_SPEED.sunshowerGuardian,
+        }))
+        .filter((window) => window.to > window.from);
+    }),
+  );
 
 /**
  * Merge the Super Totem & Time Warp Totem windows for ONE activity into a single
@@ -312,6 +342,7 @@ export const getCropPlotBoostWindows = (game: GameState): BoostWindow[] => [
   ...getMergedTotemWindows(game, CROP_PLOT_BOOST_SPEED["Super Totem"]),
   ...getPowerHourWindows(game),
   ...getSunshowerWindows(game),
+  ...getSunshowerGuardianWindows(game),
 ];
 
 /**
@@ -753,18 +784,18 @@ function getEarliestLedgerAnchor(game: GameState): number | undefined {
 }
 
 /**
- * Record a finalised active window for a temporary boost collectible (or the
- * sunshower, which the API archives when it deletes the calendar entry) into
- * `game.boostHistory` so its contribution survives its source going away.
- * Mutates `game` in place (immer-draft friendly). Recorded for ALL temporary
- * collectibles — most have a time effect that will be windowed eventually, so
- * this is future-proof; entries for boosts no window engine reads are inert and
- * pruned. A `speed` on the window is kept. No-op for empty/zero-length windows.
- * Prunes stale intervals as it appends.
+ * Record a finalised active window for a temporary boost collectible — or a
+ * sunshower or a season Guardian's placed period (see `syncGuardianPlacements`)
+ * — into `game.boostHistory` so its contribution survives its source going
+ * away. Mutates `game` in place (immer-draft friendly). Recorded for ALL
+ * temporary collectibles — most have a time effect that will be windowed
+ * eventually, so this is future-proof; entries for boosts no window engine reads
+ * are inert and pruned. No-op for empty/zero-length windows. Prunes stale
+ * intervals as it appends.
  */
 export function appendBoostHistory(
   game: GameState,
-  name: TemporaryCollectibleName | "Sunshower",
+  name: TemporaryCollectibleName | SeasonGuardianName | "Sunshower",
   window: BoostHistoryWindow,
   now: number,
 ): void {
@@ -781,8 +812,7 @@ export function appendBoostHistory(
   );
 
   const kept = (game.boostHistory[name] ?? []).filter((w) => w.to >= horizon);
-  const { from, to, speed } = window;
-  kept.push(speed === undefined ? { from, to } : { from, to, speed });
+  kept.push({ from: window.from, to: window.to });
   game.boostHistory[name] = kept;
 }
 
