@@ -82,6 +82,7 @@ import {
   LOVE_KRAKEN_PRIZE_ITEMS,
   LOVE_KRAKEN_REACH,
   LOVE_KRAKEN_BUTTON,
+  LOVE_KRAKEN_BUTTON_HIT,
   LOVE_KRAKEN_WALK_SPEED,
   getLoveKrakenBarShare,
   getLoveKrakenCastSpot,
@@ -314,10 +315,9 @@ const KRAKEN_MARKER_FLASH_MS = 180;
  * The Cast/Reel button. On a phone there is nothing to aim at - the Marvel
  * is small, the marker is moving, and a thumb covers both - so the whole
  * game is this one button, fixed just above the wharf and drawn over every
- * angler standing on it.
+ * angler standing on it. Its position and hit box live in `loveKraken.ts`
+ * so the tests can keep it clear of the anglers' own click boxes.
  */
-const KRAKEN_BUTTON_HIT_WIDTH = 60;
-const KRAKEN_BUTTON_HIT_HEIGHT = 24;
 /** A tap presses the button down a pixel, so a thumb knows it registered. */
 const KRAKEN_BUTTON_PRESS_Y = 2;
 const KRAKEN_BUTTON_PRESS_MS = 70;
@@ -2462,7 +2462,7 @@ export class LoveIslandScene extends BaseScene {
     button
       .setPosition(LOVE_KRAKEN_BUTTON.x, LOVE_KRAKEN_BUTTON.y)
       .setDepth(Number.MAX_SAFE_INTEGER)
-      .setSize(KRAKEN_BUTTON_HIT_WIDTH, KRAKEN_BUTTON_HIT_HEIGHT)
+      .setSize(LOVE_KRAKEN_BUTTON_HIT.width, LOVE_KRAKEN_BUTTON_HIT.height)
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => this.castOrReelKraken());
     this.add.existing(button);

@@ -69,8 +69,16 @@ export const LOVE_KRAKEN_CAST_SPOTS: { x: number; y: number }[] = [
  * On a phone there is nothing to aim at: the Marvel is small, the marker is
  * moving, and a thumb covers both. So the whole game is one fixed button
  * that never moves and is drawn above every player on the wharf.
+ *
+ * A Bumpkin's click box is a 16px square centred on its spot, so the button's
+ * hit box has to end above y 546 or a tap on its bottom edge opens the top
+ * row's profiles instead of reeling. It sits a few pixels clear of that.
  */
-export const LOVE_KRAKEN_BUTTON = { x: 356, y: 540 };
+export const LOVE_KRAKEN_BUTTON = { x: 356, y: 530 };
+export const LOVE_KRAKEN_BUTTON_HIT = { width: 60, height: 24 };
+
+/** Half the side of a Bumpkin's click box (`BumpkinContainer.setSize`). */
+export const LOVE_KRAKEN_ANGLER_HIT_HALF = 8;
 
 /** A Bumpkin's body sits this far below its container position. */
 export const LOVE_KRAKEN_BODY_OFFSET_Y = 6;
