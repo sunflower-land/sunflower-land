@@ -7,6 +7,7 @@ import { getKeys } from "lib/object";
 import type { BoostName, GameState } from "features/game/types/game";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { trackTutorialStep } from "lib/moonforgeTutorial";
+import { mfEconomy, mfTutorialComplete } from "lib/moonforgeAnalytics";
 
 import {
   getExpansionRequirements,
@@ -89,6 +90,8 @@ export function expandLand({ state, createdAt = Date.now() }: Options) {
     if (game.coins < effectiveCoinCost) {
       throw new Error("Insufficient coins");
     }
+    const coinsBefore = game.coins;
+    const resourcesBefore = { ...game.inventory };
     game.coins -= effectiveCoinCost;
     game.farmActivity = trackFarmActivity(
       "Coins Spent",
@@ -123,6 +126,7 @@ export function expandLand({ state, createdAt = Date.now() }: Options) {
     if (game.inventory["Basic Land"]?.eq(3)) {
       onboardingAnalytics.logEvent("tutorial_complete");
       trackTutorialStep("expand_to_3_land");
+      mfTutorialComplete("completed");
     }
 
     //developers.google.com/analytics/devguides/collection/ga4/reference/events?sjid=11955999175679069053-AP&client_type=gtag#level_up
@@ -139,6 +143,26 @@ export function expandLand({ state, createdAt = Date.now() }: Options) {
       boostNames: boostsUsed,
       createdAt,
     });
+
+    const expandInputs: { type: string; before?: number; after?: number }[] =
+      [];
+    if (effectiveCoinCost > 0) {
+      expandInputs.push({
+        type: "Coin",
+        before: coinsBefore,
+        after: game.coins,
+      });
+    }
+    getKeys(requirements.resources).forEach((name) => {
+      const before = (resourcesBefore[name] ?? new Decimal(0)).toNumber();
+      expandInputs.push({
+        type: name,
+        before,
+        after: (game.inventory[name] ?? new Decimal(0)).toNumber(),
+      });
+    });
+    // Input-only: the Basic Land is granted later, on `revealLand`.
+    mfEconomy("expand_land", { inputs: expandInputs });
 
     return game;
   });

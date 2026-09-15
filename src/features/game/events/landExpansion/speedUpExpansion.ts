@@ -7,6 +7,7 @@ import {
   type SpeedUpPaymentMethod,
 } from "features/game/lib/getInstantGems";
 import Decimal from "decimal.js-light";
+import { mfCurrencyChange } from "lib/moonforgeAnalytics";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 
 export type InstantExpand = {
@@ -56,6 +57,9 @@ export function speedUpExpansion({
       game,
     });
 
+    const coinsBefore = game.coins;
+    const gemsBefore = (game.inventory["Gem"] ?? new Decimal(0)).toNumber();
+
     if (action.paymentMethod === "coins") {
       game = chargeCoinsForSpeedUp({ game, gems, createdAt });
     } else {
@@ -71,6 +75,14 @@ export function speedUpExpansion({
     }
 
     expansion.readyAt = createdAt;
+
+    mfCurrencyChange("speed_up_expansion", "spend", {
+      coin: { before: coinsBefore, after: game.coins },
+      gem: {
+        before: gemsBefore,
+        after: (game.inventory["Gem"] ?? new Decimal(0)).toNumber(),
+      },
+    });
 
     return game;
   });

@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { mfEconomy } from "lib/moonforgeAnalytics";
 import type { GameState } from "features/game/types/game";
 
 import { produce } from "immer";
@@ -29,6 +30,23 @@ export function buyMoreDigs({ state }: Options) {
     game.inventory["Gem"] = gems.sub(10);
 
     game.desert.digging.extraDigs = extraDigs + EXTRA_DIGS_AMOUNT;
+
+    mfEconomy("buy_more_digs", {
+      inputs: [
+        {
+          type: "Gem",
+          before: gems.toNumber(),
+          after: gems.sub(10).toNumber(),
+        },
+      ],
+      outputs: [
+        {
+          type: "dig",
+          before: extraDigs,
+          after: extraDigs + EXTRA_DIGS_AMOUNT,
+        },
+      ],
+    });
 
     return game;
   });

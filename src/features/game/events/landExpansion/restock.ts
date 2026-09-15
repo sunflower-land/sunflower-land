@@ -3,6 +3,7 @@ import { INITIAL_STOCK } from "features/game/lib/constants";
 import { BB_TO_GEM_RATIO, type GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
+import { mfCurrencyChange } from "lib/moonforgeAnalytics";
 
 export type RestockAction = {
   type: "shops.restocked";
@@ -34,6 +35,13 @@ export function restock({ state }: Options): GameState {
       value: 1 * BB_TO_GEM_RATIO,
       virtual_currency_name: "Gem",
       item_name: "Restock",
+    });
+
+    mfCurrencyChange("restock", "spend", {
+      gem: {
+        before: gems.toNumber(),
+        after: gems.sub(1 * BB_TO_GEM_RATIO).toNumber(),
+      },
     });
 
     return game;

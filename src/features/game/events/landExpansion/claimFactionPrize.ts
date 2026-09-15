@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { getKeys } from "lib/object";
 import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
+import { mfCurrencyChange } from "lib/moonforgeAnalytics";
 
 export type ClaimFactionPrizeAction = {
   type: "faction.prizeClaimed";
@@ -30,6 +31,8 @@ export function claimFactionPrize({
     }
 
     const reward = week.results.reward;
+    const coinsBefore = game.coins;
+    const sflBefore = game.balance.toNumber();
 
     game.balance = game.balance.add(reward.sfl);
     game.coins = game.coins + reward.coins;
@@ -40,6 +43,11 @@ export function claimFactionPrize({
     });
 
     week.results.claimedAt = createdAt;
+
+    mfCurrencyChange("faction_prize", "grant", {
+      coin: { before: coinsBefore, after: game.coins },
+      sfl: { before: sflBefore, after: game.balance.toNumber() },
+    });
 
     return game;
   });

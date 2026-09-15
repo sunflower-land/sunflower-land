@@ -2,6 +2,7 @@ import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import type { CollectibleName } from "features/game/types/craftables";
 import Decimal from "decimal.js-light";
+import { mfCurrencyChange } from "lib/moonforgeAnalytics";
 import { getCollectiblesAcrossLocations } from "features/game/lib/collectibleBuilt";
 import {
   chargeCoinsForSpeedUp,
@@ -48,6 +49,9 @@ export function speedUpCollectible({
       game,
     });
 
+    const coinsBefore = game.coins;
+    const gemsBefore = (game.inventory["Gem"] ?? new Decimal(0)).toNumber();
+
     if (action.paymentMethod === "coins") {
       game = chargeCoinsForSpeedUp({ game, gems, createdAt });
     } else {
@@ -63,6 +67,14 @@ export function speedUpCollectible({
     }
 
     collectible.readyAt = createdAt;
+
+    mfCurrencyChange("speed_up_collectible", "spend", {
+      coin: { before: coinsBefore, after: game.coins },
+      gem: {
+        before: gemsBefore,
+        after: (game.inventory["Gem"] ?? new Decimal(0)).toNumber(),
+      },
+    });
 
     return game;
   });

@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { mfEconomy } from "lib/moonforgeAnalytics";
 import { getFactionRankBoostAmount } from "features/game/lib/factionRanks";
 import {
   START_DATE,
@@ -183,6 +184,23 @@ export function feedFactionPet({
       game: stateCopy,
       boostNames: boostUsed,
       createdAt,
+    });
+
+    mfEconomy("feed_faction_pet", {
+      inputs: [
+        {
+          type: request.food,
+          before: foodBalance.toNumber(),
+          after: foodBalance.minus(requestAmount).toNumber(),
+        },
+      ],
+      outputs: [
+        {
+          type: "Mark",
+          before: marksBalance.toNumber(),
+          after: marksBalance.add(totalAmount).toNumber(),
+        },
+      ],
     });
 
     return stateCopy;

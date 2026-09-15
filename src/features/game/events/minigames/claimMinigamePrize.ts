@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { mfCurrencyChange } from "lib/moonforgeAnalytics";
 import {
   type MinigameName,
   SUPPORTED_MINIGAMES,
@@ -99,6 +100,7 @@ export function claimMinigamePrize({
     history.prizeClaimedAt = createdAt;
 
     // Claim coins
+    const coinsBefore = game.coins;
     if (prize.coins) {
       game.coins += prize.coins;
     }
@@ -129,6 +131,10 @@ export function claimMinigamePrize({
         score: leaderboard.score + prize.items.Mark,
       };
     }
+
+    mfCurrencyChange("minigame_prize", "grant", {
+      coin: { before: coinsBefore, after: game.coins },
+    });
 
     return game;
   });

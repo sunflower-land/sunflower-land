@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { mfCurrencyChange } from "lib/moonforgeAnalytics";
 import { getKeys } from "lib/object";
 import type { GameState } from "features/game/types/game";
 import { produce } from "immer";
@@ -67,6 +68,15 @@ export function completeSpecialEventTask({
     const balance = stateCopy.balance;
     if (balance.lt(sfl)) throw new Error("SFL requirement not met");
     stateCopy.balance = balance.minus(sfl);
+
+    // The SFL requirement is a sink and is reported separately from the
+    // reward below, so the two do not net out into a single misleading row.
+    // `mfCurrencyChange` drops no-op rows, so a task with no SFL cost emits
+    // nothing here.
+    mfCurrencyChange("special_event_task_requirement", "spend", {
+      sfl: { before: balance.toNumber(), after: stateCopy.balance.toNumber() },
+    });
+
     if (sfl > 0) {
       stateCopy.farmActivity = trackFarmActivity(
         "FLOWER Spent",
@@ -97,6 +107,8 @@ export function completeSpecialEventTask({
       const rewardAmount = task.reward.wearables[item] ?? 0;
       stateCopy.wardrobe[item] = (stateCopy.wardrobe[item] ?? 0) + rewardAmount;
     });
+    const coinsBefore = stateCopy.coins;
+    const sflBefore = (stateCopy.balance ?? new Decimal(0)).toNumber();
     stateCopy.balance = (stateCopy.balance ?? new Decimal(0)).plus(
       task.reward.sfl,
     );
@@ -113,6 +125,11 @@ export function completeSpecialEventTask({
     stateCopy.specialEvents.history[eventYear][action.event] = Math.floor(
       (completedTasks / totalTasks) * 100,
     );
+
+    mfCurrencyChange("special_event_task", "grant", {
+      coin: { before: coinsBefore, after: stateCopy.coins },
+      sfl: { before: sflBefore, after: stateCopy.balance.toNumber() },
+    });
 
     return stateCopy;
   });

@@ -10,6 +10,7 @@ import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
 import type { NPCName } from "lib/npcs";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
+import { mfCurrencyChange } from "lib/moonforgeAnalytics";
 
 export type RestockNPC = Extract<NPCName, "betty" | "jafar" | "blacksmith">;
 
@@ -100,6 +101,10 @@ export function npcRestock({ state, action }: Options): GameState {
       value: gemPrice,
       virtual_currency_name: "Gem",
       item_name: "Restock",
+    });
+
+    mfCurrencyChange("npc_restock", "spend", {
+      gem: { before: gems.toNumber(), after: gems.sub(gemPrice).toNumber() },
     });
 
     return game;
