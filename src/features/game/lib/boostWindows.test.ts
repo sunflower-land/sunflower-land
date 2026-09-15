@@ -482,13 +482,23 @@ describe("getSunshowerWindows", () => {
   it("includes archived sunshower windows at their recorded speed", () => {
     const game: GameState = {
       ...TEST_FARM,
-      calendar: {
-        dates: [],
-        sunshowerHistory: [{ from: 0, to: DAY, speed: 4 }],
-      },
+      calendar: { dates: [] },
+      boostHistory: { Sunshower: [{ from: 0, to: DAY, speed: 4 }] },
     };
 
     expect(getSunshowerWindows(game)).toEqual([{ from: 0, to: DAY, speed: 4 }]);
+  });
+
+  it("reads an archived window without a speed at the base sunshower rate", () => {
+    const game: GameState = {
+      ...TEST_FARM,
+      calendar: { dates: [] },
+      boostHistory: { Sunshower: [{ from: 0, to: DAY }] },
+    };
+
+    expect(getSunshowerWindows(game)).toEqual([
+      { from: 0, to: DAY, speed: CROP_PLOT_BOOST_SPEED.sunshower },
+    ]);
   });
 
   it("combines the live sunshower with archived ones", () => {
@@ -497,8 +507,8 @@ describe("getSunshowerWindows", () => {
       calendar: {
         dates: [],
         sunshower: { startedAt: eventDay, triggeredAt: eventDay },
-        sunshowerHistory: [{ from: 0, to: DAY, speed: 4 }],
       },
+      boostHistory: { Sunshower: [{ from: 0, to: DAY, speed: 4 }] },
     };
 
     expect(getSunshowerWindows(game)).toEqual([
@@ -517,7 +527,9 @@ describe("getSunshowerWindows", () => {
       calendar: {
         dates: [],
         sunshower: { startedAt: eventDay, triggeredAt: eventDay },
-        sunshowerHistory: [{ from: eventDay, to: eventDay + DAY, speed: 2 }],
+      },
+      boostHistory: {
+        Sunshower: [{ from: eventDay, to: eventDay + DAY, speed: 2 }],
       },
     };
 

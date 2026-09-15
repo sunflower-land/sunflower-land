@@ -2107,7 +2107,6 @@ export type CalendarEventDetails = CalendarScheduledEvent | OtherCalendarEvent;
 
 export type Calendar = Partial<Record<SeasonalEventName, CalendarEvent>> & {
   dates: CalendarEventDetails[];
-  sunshowerHistory?: SunshowerHistoryWindow[];
 };
 
 export type LavaPit = {
@@ -2158,22 +2157,19 @@ export type SpecialBoostName =
 export type BoostUsedAt = Partial<Record<BoostName, number>>;
 
 /**
- * A finalised [from, to] interval during which a temporary boost collectible was
- * active. Stored in `GameState.boostHistory` so the boost's contribution to
- * in-progress timers survives the placed record being burned (deleted) or
- * renewed (createdAt reset). Activity-agnostic — the per-activity speed is
- * applied when the window is read.
+ * A finalised [from, to] interval during which a boost was active. Stored in
+ * `GameState.boostHistory` so the boost's contribution to in-progress timers
+ * survives its source going away — a temporary collectible being burned
+ * (deleted) or renewed (createdAt reset), or the sunshower calendar entry being
+ * deleted after its day. Collectible windows are activity-agnostic and omit
+ * `speed` (the per-activity speed is applied when the window is read); a
+ * sunshower window stores it, because it depends on whether a Guardian for that
+ * day's season was built.
  */
-export type BoostHistoryWindow = { from: number; to: number };
+export type BoostHistoryWindow = { from: number; to: number; speed?: number };
 
-/**
- * A finalised sunshower boost window, archived by the API in
- * `Calendar.sunshowerHistory` when the sunshower calendar entry is deleted so
- * windowed crops keep the growth it gave them. Unlike collectible history the
- * speed is stored, because it depends on whether a Guardian for that day's
- * season was built.
- */
-export type SunshowerHistoryWindow = BoostHistoryWindow & { speed: number };
+/** The boosts `GameState.boostHistory` records windows for. */
+export type BoostHistoryName = CollectibleName | "Sunshower";
 
 type ClutterCoordinates = {
   type: ClutterName;
@@ -2338,7 +2334,7 @@ export interface GameState {
   stock: Inventory;
   stockExpiry: StockExpiry;
   boostsUsedAt?: BoostUsedAt;
-  boostHistory?: Partial<Record<CollectibleName, BoostHistoryWindow[]>>;
+  boostHistory?: Partial<Record<BoostHistoryName, BoostHistoryWindow[]>>;
 
   // When an item is burnt, what the prize was
   mysteryPrizes: Partial<Record<InventoryItemName, Reveal[]>>;

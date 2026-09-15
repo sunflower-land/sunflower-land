@@ -252,15 +252,19 @@ const getLiveSunshowerWindow = (game: GameState): BoostWindow | undefined => {
 /**
  * The live sunshower window plus every archived one. The API deletes the
  * calendar entry at the first load after the sunshower day and archives its
- * window (speed fixed) into `calendar.sunshowerHistory`, so windowed crops keep
- * the growth the sunshower gave them.
+ * window (speed fixed) into `boostHistory`, so windowed crops keep the growth
+ * the sunshower gave them.
  */
 export const getSunshowerWindows = (game: GameState): BoostWindow[] => {
   const live = getLiveSunshowerWindow(game);
 
-  const history = (game.calendar?.sunshowerHistory ?? [])
+  const history = (game.boostHistory?.Sunshower ?? [])
     .filter((window) => window.from !== live?.from)
-    .map(({ from, to, speed }) => ({ from, to, speed }));
+    .map(({ from, to, speed }) => ({
+      from,
+      to,
+      speed: speed ?? CROP_PLOT_BOOST_SPEED.sunshower,
+    }));
 
   return live ? [live, ...history] : history;
 };
@@ -744,17 +748,18 @@ function getEarliestLedgerAnchor(game: GameState): number | undefined {
 }
 
 /**
- * Record a finalised active window for a temporary boost collectible into
- * `game.boostHistory` so its contribution survives the placed record being burned
- * (deleted) or renewed (createdAt reset). Mutates `game` in place (immer-draft
- * friendly). Recorded for ALL temporary collectibles — most have a time effect
- * that will be windowed eventually, so this is future-proof; entries for boosts no
- * window engine reads are inert and pruned. No-op for empty/zero-length windows.
+ * Record a finalised active window for a temporary boost collectible (or the
+ * sunshower, which the API archives when it deletes the calendar entry) into
+ * `game.boostHistory` so its contribution survives its source going away.
+ * Mutates `game` in place (immer-draft friendly). Recorded for ALL temporary
+ * collectibles — most have a time effect that will be windowed eventually, so
+ * this is future-proof; entries for boosts no window engine reads are inert and
+ * pruned. A `speed` on the window is kept. No-op for empty/zero-length windows.
  * Prunes stale intervals as it appends.
  */
 export function appendBoostHistory(
   game: GameState,
-  name: TemporaryCollectibleName,
+  name: TemporaryCollectibleName | "Sunshower",
   window: BoostHistoryWindow,
   now: number,
 ): void {
@@ -771,7 +776,8 @@ export function appendBoostHistory(
   );
 
   const kept = (game.boostHistory[name] ?? []).filter((w) => w.to >= horizon);
-  kept.push({ from: window.from, to: window.to });
+  const { from, to, speed } = window;
+  kept.push(speed === undefined ? { from, to } : { from, to, speed });
   game.boostHistory[name] = kept;
 }
 
