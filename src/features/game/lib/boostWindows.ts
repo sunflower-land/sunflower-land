@@ -274,15 +274,20 @@ export const getSunshowerWindows = (game: GameState): BoostWindow[] => {
  * before tracking existed counts as placed since 0) and, once lifted, from
  * `boostHistory` — see `syncGuardianPlacements`. Copies of the same Guardian
  * merge rather than stack.
+ * Pass `only` to keep just one Guardian's windows (for attribution); crop timing
+ * takes them all.
  */
-export const getSunshowerGuardianWindows = (game: GameState): BoostWindow[] =>
+export const getSunshowerGuardianWindows = (
+  game: GameState,
+  only?: SeasonGuardianName,
+): BoostWindow[] =>
   mergeWindows(
     getSunshowerWindows(game).flatMap((sunshower) => {
       const { season } = populateSeason(sunshower.from);
       const guardian = getKeys(GUARDIAN_BOOST).find(
         (name) => GUARDIAN_BOOST[name].season === season,
       );
-      if (!guardian) return [];
+      if (!guardian || (only && guardian !== only)) return [];
 
       const placed = [
         ...getCollectiblesAcrossLocations(game, guardian)

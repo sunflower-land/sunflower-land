@@ -637,6 +637,21 @@ describe("sunshower windows", () => {
       ]);
     });
 
+    it("limits windows to one Guardian when asked", () => {
+      const game = sunshowerFarm({
+        collectibles: {
+          [guardianFor(eventDay)]: [{ id: "1", coordinates: { x: 0, y: 0 } }],
+        },
+      });
+
+      expect(getSunshowerGuardianWindows(game, guardianFor(eventDay))).toEqual([
+        { from: eventDay, to: eventDay + DAY, speed },
+      ]);
+      expect(
+        getSunshowerGuardianWindows(game, guardianFor(eventDay + DAY)),
+      ).toEqual([]);
+    });
+
     it("has no windows without a sunshower", () => {
       const game = sunshowerFarm({
         calendar: { dates: [] },

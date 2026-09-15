@@ -97,14 +97,10 @@ const cropPlot = (game: GameState, at: number): BoostContribution[] => [
   { name: "sunshower", windows: getSunshowerWindows(game) },
   // Only the Guardian placed during a sunshower speeds crops up, and only for
   // the time it was out — so it gets its own windows, credited to the Guardian.
-  ...getKeys(GUARDIAN_BOOST)
-    .filter(
-      (guardian) => GUARDIAN_BOOST[guardian].season === game.season.season,
-    )
-    .map((guardian) => ({
-      name: guardian,
-      windows: getSunshowerGuardianWindows(game),
-    })),
+  ...getKeys(GUARDIAN_BOOST).map((guardian) => ({
+    name: guardian,
+    windows: getSunshowerGuardianWindows(game, guardian),
+  })),
 ];
 
 const tree = (game: GameState, at: number): BoostContribution[] => [
