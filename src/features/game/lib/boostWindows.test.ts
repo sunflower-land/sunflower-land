@@ -468,6 +468,19 @@ describe("appendBoostHistory", () => {
     ]);
   });
 
+  it("keeps a speed recorded on the window", () => {
+    const game = { ...TEST_FARM, boostHistory: {} } as GameState;
+    appendBoostHistory(
+      game,
+      "Sunshower",
+      { from: 1000, to: 2000, speed: 4 },
+      2000,
+    );
+    expect(game.boostHistory?.Sunshower).toEqual([
+      { from: 1000, to: 2000, speed: 4 },
+    ]);
+  });
+
   it("ignores empty/zero-length windows", () => {
     const game = { ...TEST_FARM, boostHistory: {} } as GameState;
     appendBoostHistory(game, "Sparrow Shrine", { from: 2000, to: 2000 }, 2000);
