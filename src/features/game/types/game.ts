@@ -2166,14 +2166,15 @@ export type BoostUsedAt = Partial<Record<BoostName, number>>;
  * A finalised [from, to] interval during which a boost was active. Stored in
  * `GameState.boostHistory` so the boost's contribution to in-progress timers
  * survives its source going away — a temporary collectible being burned
- * (deleted) or renewed (createdAt reset), a season Guardian being lifted, or the
- * sunshower calendar entry being deleted after its day. Activity-agnostic — the
- * per-activity speed is applied when the window is read.
+ * (deleted) or renewed (createdAt reset), a season Guardian being lifted, the
+ * sunshower calendar entry being deleted after its day, or a Power Hour buff
+ * being replaced by the next one. Activity-agnostic — the per-activity speed is
+ * applied when the window is read.
  */
 export type BoostHistoryWindow = { from: number; to: number };
 
 /** The boosts `GameState.boostHistory` records windows for. */
-export type BoostHistoryName = CollectibleName | "Sunshower";
+export type BoostHistoryName = CollectibleName | "Sunshower" | "Power hour";
 
 type ClutterCoordinates = {
   type: ClutterName;

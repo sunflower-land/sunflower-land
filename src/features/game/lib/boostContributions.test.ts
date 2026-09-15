@@ -344,6 +344,39 @@ describe("sunshower Guardian attribution", () => {
   });
 });
 
+describe("Power Hour attribution", () => {
+  const networkBeforePowerHour = CONFIG.NETWORK;
+  beforeEach(() => setNetwork("amoy"));
+  afterAll(() => setNetwork(networkBeforePowerHour));
+
+  const hour = HOUR * 1000;
+  const game: GameState = {
+    ...TEST_FARM,
+    buffs: { "Power hour": { startedAt: createdAt, durationMS: hour } },
+    boostHistory: {
+      "Power hour": [
+        { from: createdAt - 48 * hour, to: createdAt - 47 * hour },
+      ],
+    },
+  };
+
+  const names = (at: number) =>
+    getBoostContributionEntries({
+      contributions: getSeedBoostContributions(game, "Wheat Seed", at),
+      seconds: 4 * HOUR,
+      at,
+      formatSeconds: (value) => String(value),
+    }).map((entry) => entry.name);
+
+  it("credits the running Power Hour", () => {
+    expect(names(at)).toEqual(["Power hour"]);
+  });
+
+  it("does not credit a replaced Power Hour once the new one has ended", () => {
+    expect(names(createdAt + 2 * hour)).toEqual([]);
+  });
+});
+
 // The contributions name the windows for the boost panel, so they have to
 // disappear with them: without `SPEED_BOOSTS` the boosters are baked into the
 // time and already listed in `boostsUsed`, and a savings row beside that would
