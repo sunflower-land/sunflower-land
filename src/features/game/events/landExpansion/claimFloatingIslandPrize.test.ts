@@ -123,6 +123,40 @@ describe("claimFloatingIslandPrize", () => {
         }),
       ).toBe(5);
     });
+
+    it("pays Love Buttons the same box, once a day, apart from Lover's Push", () => {
+      const state = claimFloatingIslandPrize({
+        state: claimPush(INITIAL_FARM),
+        action: {
+          type: "floatingIslandPrize.claimed",
+          amount: 0,
+          game: "love_buttons",
+          roundId: 1_757_000_000,
+        },
+        createdAt: now,
+      });
+
+      expect(state.inventory["Bronze Love Box"]).toEqual(new Decimal(2));
+      expect(state.inventory["Love Charm"]).toBeUndefined();
+      expect(state.floatingIsland.prizeClaims?.[1]).toEqual({
+        claimedAt: now,
+        amount: 0,
+        game: "love_buttons",
+        roundId: 1_757_000_000,
+      });
+      expect(() =>
+        claimFloatingIslandPrize({
+          state,
+          action: {
+            type: "floatingIslandPrize.claimed",
+            amount: 0,
+            game: "love_buttons",
+            roundId: 1_757_000_000,
+          },
+          createdAt: now,
+        }),
+      ).toThrow("Prize already claimed for this round");
+    });
   });
 
   /**

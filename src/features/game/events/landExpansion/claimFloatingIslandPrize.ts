@@ -27,7 +27,8 @@ export const FLOATING_ISLAND_MAX_DAILY_CLAIMS = 10;
  *
  * Lover's Push took the clearing over from the petal puzzle, so it inherits
  * that puzzle's prize - one Bronze Love Box a UTC day - and islanders keep the
- * reward they had before it arrived. The petal puzzle still pays its own.
+ * reward they had before it arrived. Love Buttons, which took over from
+ * Lover's Push, pays the same. The petal puzzle still pays its own.
  *
  * A claim for one of these pays no Love Charms whatever `amount` it carries,
  * and is recorded as `amount: 0`, so it neither counts toward the daily Love
@@ -38,6 +39,7 @@ export const FLOATING_ISLAND_GAME_ITEM_PRIZE: Partial<
   Record<FloatingIslandGameName, { item: InventoryItemName; amount: number }>
 > = {
   love_push: { item: "Bronze Love Box", amount: 1 },
+  love_buttons: { item: "Bronze Love Box", amount: 1 },
 };
 
 /**

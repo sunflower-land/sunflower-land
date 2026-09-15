@@ -75,7 +75,22 @@ import {
   type LovePushLocalRound,
   type LovePushRound,
   type LovePushTile,
+  LOVE_BUTTONS_COUNT,
+  LOVE_BUTTONS_NONE,
+  LOVE_BUTTONS_STAND_RESEND_MS,
+  canClaimLoveButtons,
+  createLoveButtonsLocalRound,
+  getLoveButtonAt,
+  getLoveButtonsPressed,
+  getLoveButtonsStandingCount,
+  hasClaimedLoveButtonsToday,
+  isLoveButtonsLocalBot,
+  standOnLoveButton,
+  tickLoveButtonsLocalRound,
+  type LoveButtonsLocalRound,
+  type LoveButtonsRound,
 } from "../lib/loveIsland";
+import { hideLoveButtonsHud, setLoveButtonsHud } from "../lib/loveButtonsHud";
 import {
   LOVE_KRAKEN_COINS_PRIZE,
   LOVE_KRAKEN_PRIZE,
@@ -261,6 +276,41 @@ const PUSH_ARROW_OFFSET = PUSH_BOULDER_WIDTH / 2 + 3;
 const PUSH_ARROW_MIN_SCALE = 0.5;
 
 /**
+ * Love Buttons: 25 buttons dealt out over the island, on the ground under
+ * everyone. The art is `world/bumpkin_button.png` (20x21, a raised button
+ * with a lit top lip) and its pressed twin `bumpkin_button_pressed.png`
+ * (20x20 - the lip has gone down). Both are placed by their base, so the
+ * pressed one sits a pixel lower and the press reads as the button sinking.
+ */
+const BUTTON_TEXTURE = "love_button";
+const BUTTON_PRESSED_TEXTURE = "love_button_pressed";
+const BUTTON_HEIGHT = 21;
+/** Like the push slots: above the ground tiles, below anyone standing on it. */
+const BUTTON_DEPTH = PUSH_GROUND_DEPTH;
+/**
+ * The lamp that lights over a Bumpkin while they hold a button - a pixel
+ * texture built at create: the success label's green with a white glint,
+ * outlined in the button art's own dark. It bobs a pixel so it reads as
+ * lit rather than as part of the hat.
+ */
+const BUTTON_LAMP_TEXTURE = "love_button_lamp";
+const BUTTON_LAMP_PIXELS = [
+  ".AAAAA.",
+  "ABCCBBA",
+  "ABCBBBA",
+  "ABBBBBA",
+  ".ABBBA.",
+  "..AAA..",
+];
+const BUTTON_LAMP_PALETTE = { A: "#181425", B: "#63c74d", C: "#ffffff" };
+/** Above the head - the Bumpkin sprite is ~20px tall around the container. */
+const BUTTON_LAMP_Y = 22;
+const BUTTON_LAMP_BOB_MS = 700;
+/** A press pops a square ring out of the button, in the lamp's green. */
+const BUTTON_RING_COLOUR = 0x63c74d;
+const BUTTON_RING_SIZE = 20;
+
+/**
  * The Love Marvel in the lake, off the end of the wharf. Its head and
  * tentacles break the surface, a ring sweeps around it, and the island's
  * progress bar sits under it.
@@ -345,8 +395,19 @@ const WIN_COLOUR = 0x7ee07e;
 const LOSE_COLOUR = 0xe57373;
 
 /**
- * Love Island - home of the Love Dilemma and Lover's Push (one at a time,
- * picked by `LOVE_ISLAND_CENTRE_PUZZLE`), plus the Love Boulder.
+ * Love Island - home of the Love Dilemma, Lover's Push and Love Buttons (one
+ * at a time, picked by `LOVE_ISLAND_CENTRE_PUZZLE`), plus the Love Boulder.
+ *
+ * Love Buttons: 25 buttons are dealt out over the whole island every round.
+ * Standing on one presses it - it sinks, a ring pops out of it, a green
+ * lamp lights over your head and the counter in the HUD at the top of the
+ * screen goes up. The round is solved the moment every button has someone
+ * on it at once: everyone standing is handed a Bronze Love Box (once a
+ * day), the buttons flash, and 10s later they land somewhere new. The HUD
+ * shows how many buttons are pressed and how many players are standing on
+ * one, so the island can tell when it's spread too thin or doubling up.
+ * The room publishes `state.loveButtons`; until it does a simulated crowd
+ * fills all but one button, leaving the last for you.
  *
  * Lover's Push: four boulders start out toward the corners of the island
  * and have to be rolled into four squares in the middle of the clearing -
@@ -499,6 +560,24 @@ export class LoveIslandScene extends BaseScene {
   /** roundId -> boulders the local player has helped roll. */
   private pushMoves: Record<number, number> = {};
 
+  /** The 25 buttons, indexed by button. */
+  private loveButtons: Phaser.GameObjects.Image[] = [];
+  /** Simulated puzzle while the room has no buttons state. */
+  private localButtons?: LoveButtonsLocalRound;
+  /** Round the buttons are dealt for. */
+  private buttonsRoundId?: number;
+  /** Whether each button is drawn pressed, indexed by button. */
+  private renderedButtonsPressed: boolean[] = [];
+  /** farmId -> the lamp over their head while they hold a button. */
+  private buttonLamps: Record<string, Phaser.GameObjects.Image> = {};
+  /** The button the local player's feet are on - what the room was last told. */
+  private myButton = LOVE_BUTTONS_NONE;
+  private lastStandSentAt = 0;
+  /** Round whose solve has been celebrated (and claimed). */
+  private solvedButtonsRoundId?: number;
+  /** Whether we've seen this round unsolved - only then animate the solve. */
+  private sawButtonsUnsolved = false;
+
   /** The crowd game on the island today - fixed when the scene is built. */
   private dailyGame?: LoveIslandDailyGame;
 
@@ -594,6 +673,8 @@ export class LoveIslandScene extends BaseScene {
     this.load.image(PUSH_ARROW_TEXTURE.east, SUNNYSIDE.icons.arrow_right);
     this.load.image(PUSH_ARROW_TEXTURE.south, SUNNYSIDE.icons.arrow_down);
     this.load.image(PUSH_ARROW_TEXTURE.west, SUNNYSIDE.icons.arrow_left);
+    this.load.image(BUTTON_TEXTURE, "world/bumpkin_button.png");
+    this.load.image(BUTTON_PRESSED_TEXTURE, "world/bumpkin_button_pressed.png");
     this.load.spritesheet("portal", "world/love_charm_portal_sheet.png", {
       frameWidth: 20,
       frameHeight: 34,
@@ -644,7 +725,9 @@ export class LoveIslandScene extends BaseScene {
       }
     });
 
-    if (LOVE_ISLAND_CENTRE_PUZZLE === "push") {
+    if (LOVE_ISLAND_CENTRE_PUZZLE === "buttons") {
+      this.createLoveButtons();
+    } else if (LOVE_ISLAND_CENTRE_PUZZLE === "push") {
       this.createLovePush();
     } else {
       this.createLoveDilemma();
@@ -674,7 +757,9 @@ export class LoveIslandScene extends BaseScene {
   update() {
     super.update();
 
-    if (LOVE_ISLAND_CENTRE_PUZZLE === "push") {
+    if (LOVE_ISLAND_CENTRE_PUZZLE === "buttons") {
+      this.updateLoveButtons();
+    } else if (LOVE_ISLAND_CENTRE_PUZZLE === "push") {
       this.updateLovePush();
     } else {
       this.updateLoveDilemma();
@@ -1948,6 +2033,397 @@ export class LoveIslandScene extends BaseScene {
 
     this.celebrate(player);
     player.speak(translateForBubble("lovePush.prize"));
+  }
+
+  // ---------------------------------------------------------------------
+  // Love Buttons
+  // ---------------------------------------------------------------------
+
+  createLoveButtons() {
+    // The lamp is a handful of pixels - draw it rather than ship a file
+    if (!this.textures.exists(BUTTON_LAMP_TEXTURE)) {
+      this.textures.generate(BUTTON_LAMP_TEXTURE, {
+        data: BUTTON_LAMP_PIXELS,
+        palette: BUTTON_LAMP_PALETTE as unknown as Phaser.Types.Create.Palette,
+        pixelWidth: 1,
+      });
+    }
+
+    // On the ground under everyone, dealt into place once the round is known
+    for (let button = 0; button < LOVE_BUTTONS_COUNT; button++) {
+      this.loveButtons.push(
+        this.add
+          .image(0, 0, BUTTON_TEXTURE)
+          .setOrigin(0.5, 1)
+          .setDepth(BUTTON_DEPTH)
+          .setVisible(false),
+      );
+    }
+
+    // The counter at the top of the screen comes down with the scene
+    this.events.once("shutdown", () => hideLoveButtonsHud());
+  }
+
+  /** Does the room run the puzzle, or are we simulating it locally? */
+  private get remoteButtons() {
+    const remote = this.mmoServer?.state?.loveButtons;
+
+    return remote && remote.buttons?.length === LOVE_BUTTONS_COUNT
+      ? remote
+      : undefined;
+  }
+
+  /** The current round, from the room when it has one, else simulated. */
+  private getButtonsRound(now: number): LoveButtonsRound {
+    const remote = this.remoteButtons;
+
+    if (remote) {
+      const standing: Record<string, number> = {};
+      remote.standing?.forEach((button, farmId) => {
+        standing[farmId] = button;
+      });
+      const solvers: Record<string, number> = {};
+      remote.solvers?.forEach((helped, farmId) => {
+        solvers[farmId] = helped;
+      });
+      const solved = remote.solvedAt > 0;
+
+      return {
+        roundId: remote.roundId,
+        buttons: Array.from(remote.buttons ?? [])
+          .filter((index): index is number => typeof index === "number")
+          .map(fromLovePushTileIndex),
+        standing,
+        solvers,
+        solved,
+        ...(solved
+          ? { solvedAt: remote.solvedAt, nextRoundAt: remote.nextRoundAt }
+          : {}),
+      };
+    }
+
+    this.localButtons = tickLoveButtonsLocalRound({
+      round: this.localButtons ?? createLoveButtonsLocalRound(now),
+      now,
+    });
+
+    return this.localButtons;
+  }
+
+  /** The Bumpkin on the island for a farm - ours or someone else's. */
+  private findButtonPresser(farmId: string): BumpkinContainer | undefined {
+    const id = Number(farmId);
+
+    if (this.currentPlayer?.farmId === id) return this.currentPlayer;
+
+    return Object.values(this.playerEntities).find(
+      (entity) => entity.farmId === id,
+    );
+  }
+
+  /**
+   * Which button the local player's feet are on, told to the room the
+   * moment it changes (and now and then again as a retry while they stand
+   * there). In local mode the stand goes straight onto the simulated
+   * round. Nothing moves once the round is solved - who was standing is
+   * the record of who helped.
+   */
+  private standOnButtons(
+    round: LoveButtonsRound,
+    now: number,
+  ): LoveButtonsRound {
+    const body = this.currentPlayer?.body as
+      | Phaser.Physics.Arcade.Body
+      | undefined;
+    if (!body || round.solved) return round;
+
+    const button = getLoveButtonAt({
+      buttons: round.buttons,
+      x: body.center.x,
+      y: body.center.y,
+    });
+    const changed = button !== this.myButton;
+    const retry =
+      button !== LOVE_BUTTONS_NONE &&
+      now - this.lastStandSentAt >= LOVE_BUTTONS_STAND_RESEND_MS;
+    if (!changed && !retry) return round;
+
+    this.myButton = button;
+    this.lastStandSentAt = now;
+    if (changed && button !== LOVE_BUTTONS_NONE) {
+      this.sound.play("dig", { volume: 0.05 });
+    }
+
+    if (this.remoteButtons) {
+      this.mmoServer?.send("loveButtons.stand", {
+        roundId: round.roundId,
+        button,
+      });
+
+      return round;
+    }
+
+    if (this.localButtons) {
+      this.localButtons = standOnLoveButton({
+        round: this.localButtons,
+        farmId: `${this.id}`,
+        button,
+        now,
+      });
+
+      return this.localButtons;
+    }
+
+    return round;
+  }
+
+  /** Fresh buttons: each lands on its tile with a little bounce, one after another. */
+  private dealButtons(buttons: LovePushTile[]) {
+    buttons.forEach((tile, button) => {
+      const image = this.loveButtons[button];
+      if (!image) return;
+
+      const centre = getLovePushTileCentre(tile);
+      this.tweens.killTweensOf(image);
+      image
+        .setTexture(BUTTON_TEXTURE)
+        .setPosition(centre.x, centre.y + Math.floor(BUTTON_HEIGHT / 2))
+        .setAlpha(1)
+        .setScale(0)
+        .setVisible(true);
+      this.tweens.add({
+        targets: image,
+        scale: 1,
+        duration: 260,
+        delay: button * 25,
+        ease: "Back.easeOut",
+      });
+    });
+  }
+
+  /**
+   * A button goes down (someone stood on it) or comes back up (they
+   * stepped off): the art swaps, and it squashes or stretches for a
+   * moment. Going down also pops a ring out of it, so a press reads from
+   * across the clearing even with a Bumpkin standing on top of it.
+   */
+  private setButtonPressed(button: number, pressed: boolean, animate: boolean) {
+    const image = this.loveButtons[button];
+    if (!image) return;
+
+    image.setTexture(pressed ? BUTTON_PRESSED_TEXTURE : BUTTON_TEXTURE);
+    if (!animate) return;
+
+    this.tweens.killTweensOf(image);
+    if (pressed) {
+      image.setScale(1.15, 0.85);
+      this.tweens.add({
+        targets: image,
+        scaleX: 1,
+        scaleY: 1,
+        duration: 180,
+        ease: "Back.easeOut",
+      });
+      this.popButtonRing(image.x, image.y - Math.floor(BUTTON_HEIGHT / 2));
+    } else {
+      image.setScale(0.9, 1.1);
+      this.tweens.add({
+        targets: image,
+        scaleX: 1,
+        scaleY: 1,
+        duration: 150,
+        ease: "Quad.easeOut",
+      });
+    }
+  }
+
+  /** A square ring, the button's size, growing out of it and fading. */
+  private popButtonRing(x: number, y: number) {
+    const ring = this.add
+      .rectangle(x, y, BUTTON_RING_SIZE, BUTTON_RING_SIZE)
+      .setStrokeStyle(1, BUTTON_RING_COLOUR)
+      .setDepth(Number.MAX_SAFE_INTEGER);
+
+    this.tweens.add({
+      targets: ring,
+      scale: 1.8,
+      alpha: 0,
+      duration: 320,
+      ease: "Quad.easeOut",
+      onComplete: () => ring.destroy(),
+    });
+  }
+
+  /**
+   * A lamp over every Bumpkin holding a button. Ours lights the moment we
+   * step on (and goes out the moment we step off), before the room echoes
+   * it; everyone else's follows the room. The simulated crowd has no
+   * Bumpkins, so no lamps. Once solved the room's record is what shows.
+   */
+  private updateButtonLamps(round: LoveButtonsRound, now: number) {
+    const standing = new Set(
+      Object.entries(round.standing)
+        .filter(([, button]) => button >= 0 && button < round.buttons.length)
+        .map(([farmId]) => farmId),
+    );
+    const me = `${this.id}`;
+    if (!round.solved) {
+      if (this.myButton === LOVE_BUTTONS_NONE) standing.delete(me);
+      else standing.add(me);
+    }
+
+    Object.keys(this.buttonLamps).forEach((farmId) => {
+      if (standing.has(farmId)) return;
+
+      this.buttonLamps[farmId].destroy();
+      delete this.buttonLamps[farmId];
+    });
+
+    // A one-pixel bob, so it reads as a light and not a hat
+    const bob = Math.round(Math.sin((now / BUTTON_LAMP_BOB_MS) * Math.PI * 2));
+
+    standing.forEach((farmId) => {
+      if (isLoveButtonsLocalBot(farmId)) return;
+
+      const entity = this.findButtonPresser(farmId);
+      if (!entity) {
+        this.buttonLamps[farmId]?.destroy();
+        delete this.buttonLamps[farmId];
+        return;
+      }
+
+      let lamp = this.buttonLamps[farmId];
+      if (!lamp) {
+        lamp = this.add
+          .image(entity.x, entity.y - BUTTON_LAMP_Y, BUTTON_LAMP_TEXTURE)
+          .setDepth(Number.MAX_SAFE_INTEGER)
+          .setScale(0);
+        this.tweens.add({
+          targets: lamp,
+          scale: 1,
+          duration: 200,
+          ease: "Back.easeOut",
+        });
+        this.buttonLamps[farmId] = lamp;
+      }
+
+      lamp.setPosition(
+        Math.round(entity.x),
+        Math.round(entity.y) - BUTTON_LAMP_Y + bob,
+      );
+    });
+  }
+
+  private hideButtonLamps() {
+    Object.values(this.buttonLamps).forEach((lamp) => lamp.destroy());
+    this.buttonLamps = {};
+  }
+
+  updateLoveButtons() {
+    const now = Date.now();
+    let round = this.getButtonsRound(now);
+
+    // Fresh buttons - deal them out and start over
+    if (this.buttonsRoundId !== round.roundId) {
+      this.buttonsRoundId = round.roundId;
+      this.sawButtonsUnsolved = false;
+      this.myButton = LOVE_BUTTONS_NONE;
+      this.lastStandSentAt = 0;
+      this.renderedButtonsPressed = [];
+      this.hideButtonLamps();
+      this.dealButtons(round.buttons);
+    }
+
+    round = this.standOnButtons(round, now);
+
+    // Only presses we watched happen animate - not a round we've walked
+    // in on with a dozen already down
+    const pressed = getLoveButtonsPressed(round);
+    pressed.forEach((isPressed, button) => {
+      if ((this.renderedButtonsPressed[button] ?? false) === isPressed) return;
+
+      this.renderedButtonsPressed[button] = isPressed;
+      this.setButtonPressed(button, isPressed, this.sawButtonsUnsolved);
+    });
+
+    this.updateButtonLamps(round, now);
+
+    setLoveButtonsHud({
+      pressed: pressed.filter(Boolean).length,
+      total: round.buttons.length,
+      standing: getLoveButtonsStandingCount(round),
+      standingOnOne: round.solved
+        ? !!round.solvers[`${this.id}`]
+        : this.myButton !== LOVE_BUTTONS_NONE,
+      solved: round.solved,
+    });
+
+    if (!round.solved) {
+      this.sawButtonsUnsolved = true;
+    } else if (this.solvedButtonsRoundId !== round.roundId) {
+      this.solvedButtonsRoundId = round.roundId;
+      this.solveButtons(round, this.sawButtonsUnsolved);
+    }
+  }
+
+  /** The last button just went down - celebrate and settle up. */
+  private solveButtons(round: LoveButtonsRound, animate: boolean) {
+    const now = Date.now();
+    const player = this.currentPlayer;
+
+    if (animate) {
+      this.sound.play("reveal", { volume: 0.1 });
+      // Every button on the island flashes together
+      this.tweens.add({
+        targets: this.loveButtons,
+        alpha: 0.3,
+        duration: 200,
+        yoyo: true,
+        repeat: 3,
+      });
+    }
+
+    if (!player) return;
+
+    // Only those standing on a button are paid - and only once a day. The
+    // room's `solvers` is the authority; our own feet cover the gap until
+    // the stand that finished it has landed there
+    const wasStanding =
+      !!round.solvers[`${this.id}`] || this.myButton !== LOVE_BUTTONS_NONE;
+    if (!wasStanding) {
+      if (animate) player.speak(translateForBubble("loveButtons.didNotHelp"));
+      return;
+    }
+
+    const state = this.freshState;
+
+    if (
+      !canClaimLoveButtons({
+        state,
+        wasStanding,
+        roundId: round.roundId,
+        now,
+      })
+    ) {
+      if (hasClaimedLoveButtonsToday({ state, now })) {
+        player.speak(translateForBubble("loveButtons.alreadyClaimed"));
+      }
+      return;
+    }
+
+    // The prize is an item, not Love Charms - the event pays the box and
+    // records the claim as worth 0, so the day's Love Charm budget is
+    // untouched. The roundId makes a reload mid-celebration a no-op rather
+    // than a second claim.
+    this.gameService?.send({
+      type: "floatingIslandPrize.claimed",
+      amount: 0,
+      game: "love_buttons",
+      roundId: round.roundId,
+    });
+
+    this.celebrate(player);
+    player.speak(translateForBubble("loveButtons.prize"));
   }
 
   // ---------------------------------------------------------------------

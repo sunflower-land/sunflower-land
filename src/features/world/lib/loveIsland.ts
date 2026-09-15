@@ -14,7 +14,7 @@ import {
 
 /**
  * Client-side rules for the Love Island games (Love Dilemma, Love Boulder,
- * Lover's Push).
+ * Lover's Push, Love Buttons).
  *
  * The games pay out through the generic `floatingIslandPrize.claimed` event.
  * The rules below (prize sizes, attempts) are deliberately enforced on the
@@ -528,13 +528,15 @@ export function tickLoveBoulderLocalRound({
 // Which puzzle runs in the centre of the island
 // ---------------------------------------------------------------------------
 
-export type LoveIslandCentrePuzzle = "dilemma" | "push";
+export type LoveIslandCentrePuzzle = "dilemma" | "push" | "buttons";
 
 /**
  * The centre of the island hosts one puzzle at a time: the Love Dilemma
- * (platforms) or Lover's Push (boulders). Flip this by hand to switch.
+ * (platforms), Lover's Push (boulders) or Love Buttons (buttons scattered
+ * over the whole island). Flip this by hand to switch - Lover's Push stays
+ * in the tree behind it, ready to bring back.
  */
-export const LOVE_ISLAND_CENTRE_PUZZLE: LoveIslandCentrePuzzle = "push";
+export const LOVE_ISLAND_CENTRE_PUZZLE: LoveIslandCentrePuzzle = "buttons";
 
 // ---------------------------------------------------------------------------
 // Which crowd game runs today
@@ -1487,4 +1489,453 @@ export function tickLovePushLocalRound({
     ...crowdPushLovePushLocalRound({ round, ...choice, now }),
     lastBotMoveAt: now,
   };
+}
+
+// ---------------------------------------------------------------------------
+// Love Buttons
+// ---------------------------------------------------------------------------
+
+/**
+ * Buttons dealt out over the whole island. The puzzle is solved the moment
+ * every one of them has a Bumpkin standing on it at the same time - so the
+ * island has to spread itself out, and keep still.
+ */
+export const LOVE_BUTTONS_COUNT = 25;
+/**
+ * Each button is dealt onto one of this many of the tiles furthest from
+ * the buttons already down - so the deal spreads over the whole island
+ * (the wharf, the north path, the south) rather than bunching in the
+ * clearing, while still landing somewhere new every round.
+ */
+export const LOVE_BUTTONS_SPREAD_CHOICES = 6;
+/** No two buttons of a round are ever closer than this (Chebyshev, tiles). */
+export const LOVE_BUTTONS_MIN_SPACING = 3;
+/**
+ * Half a button's footprint, world px - the art (`world/bumpkin_button.png`)
+ * is 20 wide. A pair of feet within this of the centre on both axes is
+ * standing on it.
+ */
+export const LOVE_BUTTONS_HALF_SIZE = 10;
+/**
+ * Slack the room allows on top of the footprint, since the position it
+ * holds for a player lags the one the client stood on the button with.
+ */
+export const LOVE_BUTTONS_ROOM_SLACK = 8;
+/**
+ * The position a client syncs is its Bumpkin container; the feet (the
+ * physics body the client checks against the buttons) sit this far below.
+ */
+export const LOVE_BUTTONS_FEET_OFFSET_Y = 6;
+/** The client is off every button - what it sends when it steps off one. */
+export const LOVE_BUTTONS_NONE = -1;
+/**
+ * How long before a stand the room already has is sent again - a retry in
+ * case the first was lost, while the player keeps standing there.
+ */
+export const LOVE_BUTTONS_STAND_RESEND_MS = 2000;
+/**
+ * What everyone standing on a button gets when the last one goes down: the
+ * same box the clearing has always paid (see `LOVE_PUSH_PRIZE`). An item,
+ * not Love Charms, so the daily Love Charm cap leaves it alone.
+ * `FLOATING_ISLAND_GAME_ITEM_PRIZE` is what actually pays it out.
+ */
+export const LOVE_BUTTONS_PRIZE =
+  FLOATING_ISLAND_GAME_ITEM_PRIZE.love_buttons as {
+    item: InventoryItemName;
+    amount: number;
+  };
+/** The prize can be claimed this many times per UTC day. */
+export const LOVE_BUTTONS_MAX_CLAIMS = 1;
+/** How long the solved round is celebrated before the buttons move. */
+export const LOVE_BUTTONS_SOLVED_MS = 10 * 1000;
+
+/** The walkable ground a player can reach on foot from the centre, cached. */
+let walkableRegion: LovePushTile[] | undefined;
+
+/**
+ * Every tile a player can reach from the centre of the clearing on foot,
+ * walking tile to tile over walkable ground - the ground the buttons are
+ * dealt onto. Pockets of walkable ground the walk can't reach (the far
+ * shore, the cliff top) are left out: a button nobody could get to would
+ * make the round unsolvable. Computed once, in tile order.
+ */
+export function getLoveIslandWalkableRegion(): LovePushTile[] {
+  if (walkableRegion) return walkableRegion;
+
+  const seen = new Set<number>([toLovePushTileIndex(LOVE_PUSH_CENTRE)]);
+  let frontier: LovePushTile[] = [LOVE_PUSH_CENTRE];
+
+  while (frontier.length > 0) {
+    const next: LovePushTile[] = [];
+
+    frontier.forEach((tile) => {
+      LOVE_PUSH_DIRECTIONS.forEach((direction) => {
+        const delta = LOVE_PUSH_DELTAS[direction];
+        const to = { x: tile.x + delta.x, y: tile.y + delta.y };
+        const index = toLovePushTileIndex(to);
+
+        if (seen.has(index) || !isLoveIslandTileWalkable(to)) return;
+
+        seen.add(index);
+        next.push(to);
+      });
+    });
+
+    frontier = next;
+  }
+
+  walkableRegion = [...seen].sort((a, b) => a - b).map(fromLovePushTileIndex);
+
+  return walkableRegion;
+}
+
+function chebyshev(a: LovePushTile, b: LovePushTile): number {
+  return Math.max(Math.abs(a.x - b.x), Math.abs(a.y - b.y));
+}
+
+/**
+ * Where the buttons are for a round - a seeded deal (mulberry32, the same
+ * PRNG as the Dilemma tiers and the push layout) so the room and every
+ * client agree. The first button lands anywhere on the reachable ground;
+ * each one after is dealt onto one of the `LOVE_BUTTONS_SPREAD_CHOICES`
+ * tiles furthest from the buttons already down (furthest by how near the
+ * nearest one is, ties in tile order) - a farthest-point spread with some
+ * play in it, so the buttons cover the whole island and still land
+ * somewhere new every round. Never closer than `LOVE_BUTTONS_MIN_SPACING`.
+ */
+export function getLoveButtonsLayout(roundId: number): LovePushTile[] {
+  const random = mulberry32(roundId * 15485863 + 13);
+  const region = getLoveIslandWalkableRegion();
+  const buttons: LovePushTile[] = [];
+  // How near the nearest button is, per candidate, kept up as they land
+  const nearest = region.map(() => Number.POSITIVE_INFINITY);
+
+  const first = Math.floor(random() * region.length);
+  buttons.push(region[first]);
+
+  while (
+    buttons.length < LOVE_BUTTONS_COUNT &&
+    buttons.length < region.length
+  ) {
+    const last = buttons[buttons.length - 1];
+    region.forEach((tile, index) => {
+      nearest[index] = Math.min(nearest[index], chebyshev(tile, last));
+    });
+
+    const ranked = region
+      .map((tile, index) => ({ tile, index, distance: nearest[index] }))
+      .filter(({ distance }) => distance >= LOVE_BUTTONS_MIN_SPACING)
+      .sort((a, b) => b.distance - a.distance || a.index - b.index);
+    if (ranked.length === 0) break;
+
+    const pick = Math.floor(
+      random() * Math.min(LOVE_BUTTONS_SPREAD_CHOICES, ranked.length),
+    );
+    buttons.push(ranked[pick].tile);
+  }
+
+  return buttons;
+}
+
+/**
+ * Which button a pair of feet is on, or `LOVE_BUTTONS_NONE`. The buttons
+ * never overlap (they're tiles apart), so the first hit is the only one.
+ * The room checks with `slack: LOVE_BUTTONS_ROOM_SLACK`.
+ */
+export function getLoveButtonAt({
+  buttons,
+  x,
+  y,
+  slack = 0,
+}: {
+  buttons: LovePushTile[];
+  x: number;
+  y: number;
+  slack?: number;
+}): number {
+  const reach = LOVE_BUTTONS_HALF_SIZE + slack;
+
+  return buttons.findIndex((tile) => {
+    const centre = getLovePushTileCentre(tile);
+
+    return Math.abs(x - centre.x) <= reach && Math.abs(y - centre.y) <= reach;
+  });
+}
+
+/** farmId -> the button (0..24) that player is standing on. */
+export type LoveButtonsStanding = Record<string, number>;
+
+export type LoveButtonsRound = {
+  /** Increments every time the buttons move. */
+  roundId: number;
+  /** Where each button is, indexed by button. */
+  buttons: LovePushTile[];
+  /** Who is standing on what. Frozen once solved - it's the record of who helped. */
+  standing: LoveButtonsStanding;
+  /** farmId -> 1 for everyone on a button when the last one went down. Proof of who helped. */
+  solvers: Record<string, number>;
+  solved: boolean;
+  /** Epoch ms the last button went down - only set once solved. */
+  solvedAt?: number;
+  /** Epoch ms the buttons move - only set once solved. */
+  nextRoundAt?: number;
+};
+
+/** Is this a button of the round's? */
+function isLoveButton(buttons: LovePushTile[], button: number): boolean {
+  return Number.isInteger(button) && button >= 0 && button < buttons.length;
+}
+
+/** Which buttons have someone on them, indexed by button. */
+export function getLoveButtonsPressed({
+  buttons,
+  standing,
+}: {
+  buttons: LovePushTile[];
+  standing: LoveButtonsStanding;
+}): boolean[] {
+  const pressed = buttons.map(() => false);
+
+  Object.values(standing).forEach((button) => {
+    if (isLoveButton(buttons, button)) pressed[button] = true;
+  });
+
+  return pressed;
+}
+
+/** How many buttons have someone on them. */
+export function getLoveButtonsPressedCount(round: {
+  buttons: LovePushTile[];
+  standing: LoveButtonsStanding;
+}): number {
+  return getLoveButtonsPressed(round).filter(Boolean).length;
+}
+
+/** How many players are standing on a button - more than the buttons pressed when some share one. */
+export function getLoveButtonsStandingCount(round: {
+  buttons: LovePushTile[];
+  standing: LoveButtonsStanding;
+}): number {
+  return Object.values(round.standing).filter((button) =>
+    isLoveButton(round.buttons, button),
+  ).length;
+}
+
+/**
+ * A player steps onto a button (or off every button, with
+ * `LOVE_BUTTONS_NONE`). Nothing changes once the round is solved - the
+ * standing map is then the record of who was there. The moment every
+ * button has someone on it the round is solved: everyone standing is a
+ * solver, and the celebration runs before the buttons move.
+ */
+export function standOnLoveButton<T extends LoveButtonsRound>({
+  round,
+  farmId,
+  button,
+  now = Date.now(),
+}: {
+  round: T;
+  farmId: string;
+  button: number;
+  now?: number;
+}): T {
+  if (round.solved) return round;
+
+  const current = round.standing[farmId];
+
+  if (!isLoveButton(round.buttons, button)) {
+    if (current === undefined) return round;
+
+    const standing = { ...round.standing };
+    delete standing[farmId];
+
+    return { ...round, standing };
+  }
+
+  if (current === button) return round;
+
+  const standing = { ...round.standing, [farmId]: button };
+  const solved = getLoveButtonsPressed({
+    buttons: round.buttons,
+    standing,
+  }).every(Boolean);
+
+  if (!solved) return { ...round, standing };
+
+  const solvers: Record<string, number> = {};
+  Object.keys(standing).forEach((id) => {
+    solvers[id] = 1;
+  });
+
+  return {
+    ...round,
+    standing,
+    solvers,
+    solved: true,
+    solvedAt: now,
+    nextRoundAt: now + LOVE_BUTTONS_SOLVED_MS,
+  };
+}
+
+/** A player steps off (or leaves the room). */
+export function leaveLoveButtons<T extends LoveButtonsRound>({
+  round,
+  farmId,
+}: {
+  round: T;
+  farmId: string;
+}): T {
+  return standOnLoveButton({ round, farmId, button: LOVE_BUTTONS_NONE });
+}
+
+/** Today's Love Buttons claims (at most one, but the event keeps a list). */
+export function getLoveButtonsClaimsToday({
+  state,
+  now = Date.now(),
+}: {
+  state: GameState;
+  now?: number;
+}) {
+  return getFloatingIslandGameClaimsToday({
+    state,
+    game: "love_buttons",
+    createdAt: now,
+  });
+}
+
+export function hasClaimedLoveButtonsToday({
+  state,
+  now = Date.now(),
+}: {
+  state: GameState;
+  now?: number;
+}): boolean {
+  return (
+    getLoveButtonsClaimsToday({ state, now }).length >= LOVE_BUTTONS_MAX_CLAIMS
+  );
+}
+
+/** Has this exact round already been claimed (e.g. a reload mid-celebration)? */
+export function hasClaimedLoveButtonsRound({
+  state,
+  roundId,
+  now = Date.now(),
+}: {
+  state: GameState;
+  roundId: number;
+  now?: number;
+}): boolean {
+  return getLoveButtonsClaimsToday({ state, now }).some(
+    (claim) => claim.roundId === roundId,
+  );
+}
+
+/**
+ * Whether the solved puzzle pays this player: they must have been standing
+ * on a button when the last one went down, and not have claimed a Love
+ * Buttons prize yet today. Like Lover's Push the prize is a box, so the
+ * daily Love Charm cap has no say.
+ */
+export function canClaimLoveButtons({
+  state,
+  wasStanding,
+  roundId,
+  now = Date.now(),
+}: {
+  state: GameState;
+  wasStanding: boolean;
+  roundId: number;
+  now?: number;
+}): boolean {
+  if (!wasStanding) return false;
+  if (hasClaimedLoveButtonsRound({ state, roundId, now })) return false;
+
+  return !hasClaimedLoveButtonsToday({ state, now });
+}
+
+/** Local mode: how often another simulated player steps onto a button. */
+export const LOVE_BUTTONS_LOCAL_BOT_STEP_MS = 1500;
+/**
+ * Local mode: the simulated crowd - one short of the buttons, so the last
+ * one is always the local player's to press.
+ */
+const LOVE_BUTTONS_LOCAL_BOTS = Array.from(
+  { length: LOVE_BUTTONS_COUNT - 1 },
+  (_, i) => `bot-${i}`,
+);
+
+export function isLoveButtonsLocalBot(farmId: string): boolean {
+  return LOVE_BUTTONS_LOCAL_BOTS.includes(farmId);
+}
+
+export type LoveButtonsLocalRound = LoveButtonsRound & {
+  lastBotStepAt: number;
+};
+
+export function createLoveButtonsLocalRound(
+  now = Date.now(),
+  roundId = 1,
+): LoveButtonsLocalRound {
+  return {
+    roundId,
+    buttons: getLoveButtonsLayout(roundId),
+    standing: {},
+    solvers: {},
+    solved: false,
+    lastBotStepAt: now,
+  };
+}
+
+/**
+ * Local stand-in while the MMO room has no buttons state. Every so often
+ * another simulated player steps onto the lowest free button - never one
+ * the local player is on, and a bot the local player has joined moves
+ * along to a free one - until the crowd holds all but one. The last is the
+ * local player's: the round solves once they're standing on it too. The
+ * 10s celebration and next round run on the client's own clock.
+ */
+export function tickLoveButtonsLocalRound({
+  round,
+  now = Date.now(),
+}: {
+  round: LoveButtonsLocalRound;
+  now?: number;
+}): LoveButtonsLocalRound {
+  if (round.solved) {
+    return now >= (round.nextRoundAt ?? 0)
+      ? createLoveButtonsLocalRound(now, round.roundId + 1)
+      : round;
+  }
+
+  if (now - round.lastBotStepAt < LOVE_BUTTONS_LOCAL_BOT_STEP_MS) return round;
+
+  const stepped = { ...round, lastBotStepAt: now };
+  const playersOn = new Set(
+    Object.entries(round.standing)
+      .filter(([id]) => !isLoveButtonsLocalBot(id))
+      .map(([, button]) => button),
+  );
+  const taken = new Set(Object.values(round.standing));
+  const free = round.buttons
+    .map((_, button) => button)
+    .filter((button) => !taken.has(button));
+  const target = free[0];
+  if (target === undefined) return stepped;
+
+  // A bot the local player has joined on a button makes room for them
+  const sharing = LOVE_BUTTONS_LOCAL_BOTS.find((bot) => {
+    const button = round.standing[bot];
+
+    return button !== undefined && playersOn.has(button);
+  });
+  const arriving =
+    sharing ?? LOVE_BUTTONS_LOCAL_BOTS.find((bot) => !(bot in round.standing));
+  if (!arriving) return stepped;
+
+  return standOnLoveButton({
+    round: stepped,
+    farmId: arriving,
+    button: target,
+    now,
+  });
 }

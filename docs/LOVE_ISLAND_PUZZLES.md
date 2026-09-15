@@ -1,8 +1,8 @@
 # Love Island daily puzzles — server spec
 
-Love Island hosts daily puzzles: the Love Dilemma or Lover's Push in the
-middle of the island (one at a time), the Love Boulder at the top and the
-Love Marvel in the lake on the west. Every
+Love Island hosts daily puzzles: the Love Dilemma, Lover's Push or Love
+Buttons in the middle of the island (one at a time - Love Buttons today), the
+Love Boulder at the top and the Love Marvel in the lake on the west. Every
 puzzle pays out
 Love Charms through a single game event, `floatingIslandPrize.claimed`, so the
 daily caps live in one place. This document is the contract the game API and
@@ -39,6 +39,11 @@ Client source of truth: `src/features/world/lib/loveIsland.ts` and
       restarting on its side - credit the crowd on a roll or a park,
       celebrate 10s when all four squares are taken, next round. Drop a player's
       pushes when they leave. Carry a verbatim copy of `loveIslandTiles.ts`.
+- [ ] Publish `state.loveButtons` (section 7) with the seeded buttons; handle
+      `loveButtons.stand`: check the player is on that button, record who is
+      standing where and publish it, solve the moment all **25** are held at
+      once (record the solvers), celebrate 10s, deal fresh buttons. Drop a
+      player's stand when they leave.
 - [ ] Publish `state.loveKraken` (section 6) and handle `loveKraken.reel`:
       judge the reel against the epoch-anchored ring, add a point, record the
       angler, drag 3 points a second back, land it at `health`, hold the prize
@@ -56,7 +61,7 @@ Port it as-is.
 {
   type: "floatingIslandPrize.claimed";
   amount: number;                          // integer, 0..100
-  game?: "petal_puzzle" | "love_dilemma" | "love_boulder" | "love_push" | "love_kraken"; // which puzzle paid out
+  game?: "petal_puzzle" | "love_dilemma" | "love_boulder" | "love_push" | "love_kraken" | "love_buttons"; // which puzzle paid out
   roundId?: number;                        // integer; the puzzle's round
 }
 ```
@@ -69,7 +74,7 @@ floatingIsland: {
   prizeClaims?: {
     claimedAt: number;   // epoch ms
     amount: number;
-    game?: "petal_puzzle" | "love_dilemma" | "love_boulder" | "love_push" | "love_kraken";
+    game?: "petal_puzzle" | "love_dilemma" | "love_boulder" | "love_push" | "love_kraken" | "love_buttons";
     roundId?: number;
   }[];
 }
@@ -96,7 +101,7 @@ else **5**. "Today" is the UTC date of `createdAt`
 On success: append the claim and add `amount` to `inventory["Love Charm"]`.
 
 **Puzzles that pay an item instead.** `FLOATING_ISLAND_GAME_ITEM_PRIZE` maps a
-game name to `{ item, amount }` — today just `love_push` →
+game name to `{ item, amount }` — today `love_push` and `love_buttons`, both →
 `{ item: "Bronze Love Box", amount: 1 }`, the prize the petal puzzle used to
 pay for the same clearing. For those games the claim's `amount` is **ignored**:
 no Love Charms are added, the daily Love Charm cap is neither checked nor
@@ -132,11 +137,13 @@ the API and the event can require a matching record.
 ## 2. Which puzzles run
 
 The middle of the island hosts **one** puzzle at a time - the Love Dilemma
-(section 3) or Lover's Push (section 5) - chosen by the hard-coded constant
+(section 3), Lover's Push (section 5) or Love Buttons (section 7, the one
+running today) - chosen by the hard-coded constant
 `LOVE_ISLAND_CENTRE_PUZZLE` in `src/features/world/lib/loveIsland.ts`
-(`"dilemma" | "push"`), flipped by hand and deployed. The room should publish
-the matching state (`loveDilemma` or `lovePush`); publishing the other one is
-harmless, the client ignores it. The Love Boulder (section 4, top of the
+(`"dilemma" | "push" | "buttons"`), flipped by hand and deployed. Lover's
+Push stays in the tree behind that flag. The room should publish the matching
+state (`loveDilemma`, `lovePush` or `loveButtons`); publishing the others is
+harmless, the client ignores them. The Love Boulder (section 4, top of the
 island) and the Love Marvel (section 6, the lake on the west) both run all
 day, every day alongside either, and alongside each other — three things are
 live at once and each pays its own prize once a day. The petal puzzle is no
@@ -993,3 +1000,182 @@ fight goes on - against the same 3/s fight back, the local player's own
 reels go straight on top, and the catch / 10s window / respawn cycle runs on
 the client's own clock. Once the room publishes `loveKraken`
 the client switches over automatically — no client change needed.
+
+## 7. Love Buttons — MMO room
+
+Twenty-five identical buttons are dealt out over the **whole island** every
+round - the clearing, the wharf, the path north, the ground south. A player
+**presses a button by standing on it**; the round is **solved the moment
+every button has a player on it at the same time**. Nothing else to do: the
+island has to spread itself out (two players on one button only press it
+once), find the last free buttons, and hold still. Buttons live on the
+island's **16px tile grid**; tile `(x, y)` has its centre at
+`(16x + 8, 16y + 8)`. The art is `public/world/bumpkin_button.png` (20x21, a
+raised button) and `bumpkin_button_pressed.png` (20x20, gone down). Buttons
+are **not solid** - they sit on the ground and players walk over them.
+
+- **Standing on a button.** A player's feet are on a button when they are
+  within **10px** of its centre on both axes (`LOVE_BUTTONS_HALF_SIZE`; the
+  art is 20 wide). The client checks its own physics body (the feet) and
+  sends `loveButtons.stand` whenever the button under it changes - and
+  again every **2s** while it stays there, as a retry. The room records
+  **one button per farm**: `standing[farmId] = button`. Stepping off (or
+  onto no button) is sent as `button: -1` and deletes the entry.
+- **Pressed** = a button with at least one farm standing on it. The room
+  publishes `pressed` (how many are) so clients needn't count.
+- All 25 pressed = **solved**. `solvedAt = now`, `nextRoundAt = now +
+10_000`, and **every farm in `standing`** is copied into `solvers` (the
+  proof of who helped - a reload mid-celebration loses the client's own
+  memory). `standing` is **frozen** from then on: stands and leaves during
+  the celebration change nothing.
+- Everyone in `solvers` is paid automatically by their client (no click):
+  **1 Bronze Love Box**, **once per farm per UTC day** - the same box Lover's
+  Push paid for this clearing. An item, not Love Charms, so the daily Love
+  Charm caps neither bound it nor are spent by it. The claim goes through
+  `floatingIslandPrize.claimed` with `amount: 0`; the event mints the box
+  (`FLOATING_ISLAND_GAME_ITEM_PRIZE.love_buttons`).
+- At `nextRoundAt`: `roundId += 1`, fresh `buttons` from
+  `getLoveButtonsLayout(roundId)`, `standing` and `solvers` cleared,
+  `pressed = 0`, `solvedAt = nextRoundAt = 0`.
+
+```ts
+LOVE_BUTTONS_COUNT = 25;
+LOVE_BUTTONS_SPREAD_CHOICES = 6; // each button lands on one of the 6 tiles furthest from the ones already down
+LOVE_BUTTONS_MIN_SPACING = 3; // tiles (Chebyshev) - never closer than this
+LOVE_BUTTONS_HALF_SIZE = 10; // px from the centre, both axes - "standing on it"
+LOVE_BUTTONS_ROOM_SLACK = 8; // px the room allows on top of that
+LOVE_BUTTONS_FEET_OFFSET_Y = 6; // the synced position is the container; the feet are this far below
+LOVE_BUTTONS_NONE = -1; // "off every button"
+LOVE_BUTTONS_STAND_RESEND_MS = 2000; // the client repeats a stand it already sent this often
+LOVE_BUTTONS_PRIZE = { item: "Bronze Love Box", amount: 1 };
+LOVE_BUTTONS_MAX_CLAIMS = 1; // per farm per UTC day
+LOVE_BUTTONS_SOLVED_MS = 10_000; // celebration before the buttons move
+```
+
+### Layout (seeded)
+
+Where the buttons are is derived from `roundId` with the **same mulberry32**
+as the other puzzles (`mulberry32(roundId * 15485863 + 13)`), so the server
+and every client agree - the room publishes `buttons` anyway, so a client
+joining mid-round has them. Port `getLoveIslandWalkableRegion` and
+`getLoveButtonsLayout` from `src/features/world/lib/loveIsland.ts`
+**verbatim** (pure, unit-tested); they need the same `loveIslandTiles.ts`
+copy Lover's Push already carries. In short:
+
+```
+region     = every walkable tile reachable from the centre (38, 35) on foot,
+             walking tile to tile (4-neighbour) over walkable ground - 352 tiles;
+             pockets of walkable ground the walk can't reach (the far shore,
+             the cliff top) are left out, or a round could never be solved.
+             In tile order (y * 80 + x).
+random     = mulberry32(roundId * 15485863 + 13)
+buttons[0] = region[floor(random() * region.length)]
+for each further button:
+  nearest[t] = min over buttons so far of chebyshev(t, button)      (kept up incrementally)
+  ranked     = region tiles with nearest >= 3, sorted by nearest desc, ties by tile index asc
+  buttons.push(ranked[floor(random() * min(6, ranked.length))])
+```
+
+A farthest-point spread with some play in it: the buttons cover the whole
+island and land somewhere new every round, never closer than 3 tiles.
+
+`roundId` must be unique for the lifetime of the farm's day (it is the
+idempotency key for the claim) - persist a counter or derive it from a
+timestamp, e.g. `roundId = Math.floor(startedAt / 1000)`; don't restart at 0
+when the room reboots. The client's local stand-in starts at 1.
+
+### Room state (`PlazaRoomState.loveButtons`)
+
+Present only in the `love_island` room while Love Buttons is the centre
+puzzle. The client treats `buttons.length !== 25` (or the field missing) as
+"the room isn't running it" and simulates locally.
+
+```ts
+class LoveButtons extends Schema {
+  @type("number") roundId: number; // +1 every time the buttons move
+  @type(["number"]) buttons: ArraySchema<number>; // length 25, tile index y*80+x
+  @type({ map: "number" }) standing: MapSchema<number>; // farmId -> button 0..24; frozen once solved
+  @type("number") pressed: number; // buttons with someone on them, 0..25
+  @type({ map: "number" }) solvers: MapSchema<number>; // farmId -> 1, everyone standing when the last went down
+  @type("number") solvedAt: number; // epoch ms; 0 while unsolved
+  @type("number") nextRoundAt: number; // epoch ms; 0 while unsolved
+}
+```
+
+Keys are **farm ids** (as strings), like `pushers` - the client matches them
+to the Bumpkins on the island to light a lamp over each one standing.
+
+### Client → server message
+
+```ts
+room.send("loveButtons.stand", { roundId: number; button: number }); // button 0..24, or -1 for "off"
+```
+
+Rules:
+
+- Ignore if `roundId` ≠ the current round or the round is solved
+  (`solvedAt > 0`).
+- `button` of `-1` (or anything that isn't `0..24`): delete
+  `standing[farmId]` if present, recount `pressed`, done.
+- Otherwise check the player is there: with `p = state.players[sessionId]`,
+  their feet are at `(p.x, p.y + 6)` (`LOVE_BUTTONS_FEET_OFFSET_Y`), and
+  must be within `10 + 8` px (`LOVE_BUTTONS_HALF_SIZE +
+LOVE_BUTTONS_ROOM_SLACK`) of the button's tile centre on both axes -
+  `getLoveButtonAt({ buttons, x, y, slack: 8 }) === button`. Ignore if not
+  (the client only sends while its feet are on it, so this only guards
+  forged messages; the slack covers a position update still in flight).
+- Ignore (nothing to publish) if `standing[farmId]` is already `button` -
+  the retry.
+- Otherwise `standing[farmId] = button`, recount `pressed` (distinct
+  buttons in `standing`). If `pressed === 25`: `solvedAt = now`,
+  `nextRoundAt = now + 10_000`, `solvers[farmId] = 1` for every farm in
+  `standing`.
+
+On `onLeave`: delete the farm from `standing` (unless solved - the record
+stays) and recount `pressed`. Optionally, on each position update, drop a
+farm's stand if their feet have moved off the button (`getLoveButtonAt`
+with the slack returns something else) - a client that crashed mid-stand
+would otherwise hold a button until it left the room.
+
+The room does not need to know about the daily claim limit - the claim is a
+game event and the once-a-day rule is enforced client-side against the farm's
+`floatingIsland.prizeClaims` (and bounded by the event's daily caps).
+
+### What the client does
+
+- Deals the 25 buttons onto their tiles on the ground (each pops in with a
+  bounce) whenever `roundId` changes; a pressed one swaps to the pressed
+  art. Buttons aren't solid - they're walked onto.
+- Every frame, checks which button its own feet are on and sends
+  `loveButtons.stand` when that changes (or every 2s as a retry while on
+  one). Its own lamp lights (and goes out) the moment it steps on (off),
+  before the room echoes it.
+- When a button's pressed state changes: it squashes (down) or stretches
+  (up); going down also pops a green square ring out of it, so a press
+  reads from across the clearing with a Bumpkin standing on top.
+- Draws a green pixel lamp bobbing over the head of every Bumpkin in
+  `standing` (matched by farm id), drawn above everything.
+- Keeps a counter in the HUD at the top of the screen (React, not the
+  world - readable wherever you are): `pressed / 25 pressed` (pops when it
+  goes up; green once solved) and `n standing` (the number of farms in
+  `standing` - more than `pressed` when players double up; green while the
+  local player is on a button). "Solved! Next round soon" while celebrating.
+- When `solvedAt` flips from 0: every button flashes. If `solvers[farmId]`
+  (or the client's own feet were on a button) and the farm has no
+  `love_buttons` claim today, dispatches
+  `floatingIslandPrize.claimed { amount: 0, game: "love_buttons", roundId }`
+  and shows a "you won a Bronze Love Box" bubble. Players who already
+  claimed today get an "already claimed" bubble; players who weren't on a
+  button get a "stand on a button next time" bubble.
+
+### Until the room ships
+
+If `state.loveButtons` is absent (or hasn't 25 buttons), the client runs a
+local stand-in: the same seeded buttons; every **1.5s** a simulated player
+steps onto the lowest free button - never one the local player is on, and
+a simulated player the local player joins moves along to a free one - until
+the crowd holds **24**. The last is always the local player's: the round
+solves once they are standing on it too. The 10s celebration and next round
+run on the client's own clock. The simulated crowd has no Bumpkins, so no
+lamps. Once the room publishes `loveButtons` the client switches over
+automatically.
