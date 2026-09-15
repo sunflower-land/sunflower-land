@@ -30,7 +30,7 @@
       ".+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy"
     },
     "transform": {
-      "^.+\\.(js|jsx|ts|tsx)$": "esbuild-runner/jest"
+      "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/test/esbuildTransformer.js"
     },
     "testPathIgnorePatterns": [
       "/node_modules/",
