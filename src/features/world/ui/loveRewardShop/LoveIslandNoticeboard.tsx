@@ -12,31 +12,15 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { translate } from "lib/i18n/translate";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
+  LOVE_BUTTONS_COUNT,
+  LOVE_BUTTONS_PRIZE,
   LOVE_DILEMMA_MAX_ATTEMPTS,
   LOVE_DILEMMA_MIN_PLAYERS,
   LOVE_DILEMMA_TIER_PRIZES,
-  LOVE_ISLAND_CENTRE_PUZZLE,
+  getLoveIslandCentrePuzzle,
   LOVE_PUSH_PRIZE,
   LOVE_PUSH_PUSHERS_NEEDED,
 } from "features/world/lib/loveIsland";
-
-/**
- * Bump this key whenever the rules change so every player sees the new
- * guide once. "loveIsland.notice" was the petal puzzle guide. Each centre
- * puzzle has its own key so switching puzzles shows its guide once.
- */
-const NOTICE_KEY =
-  LOVE_ISLAND_CENTRE_PUZZLE === "push"
-    ? "loveIsland.notice.push"
-    : "loveIsland.notice.dilemma";
-
-export function hasReadLoveIslandNotice() {
-  return !!localStorage.getItem(NOTICE_KEY);
-}
-
-function acknowledgeIntro() {
-  return localStorage.setItem(NOTICE_KEY, new Date().toISOString());
-}
 
 const platformDetails = [
   {
@@ -85,15 +69,55 @@ const LovePushGuide: React.FC = () => {
   );
 };
 
+const LoveButtonsGuide: React.FC = () => {
+  const { t } = useAppTranslation();
+
+  return (
+    <div className="p-1 pr-1.5">
+      <div className="flex items-center gap-x-2 mb-1">
+        <Label type="default">{t("loveButtons.guide.title")}</Label>
+        <img src="world/bumpkin_button.png" style={{ width: 20 }} />
+      </div>
+      <NoticeboardItems
+        items={[
+          {
+            text: translate("loveButtons.guide.stand", {
+              count: LOVE_BUTTONS_COUNT,
+            }),
+            icon: SUNNYSIDE.icons.player,
+          },
+          {
+            text: translate("loveButtons.guide.counter"),
+            icon: SUNNYSIDE.icons.confirm,
+          },
+          {
+            text: translate("loveButtons.guide.prizes", {
+              amount: LOVE_BUTTONS_PRIZE.amount,
+              item: LOVE_BUTTONS_PRIZE.item,
+            }),
+            icon: ITEM_DETAILS[LOVE_BUTTONS_PRIZE.item].image,
+          },
+        ]}
+      />
+    </div>
+  );
+};
+
+/**
+ * The guide to whichever puzzle is in the centre of the island today. The
+ * scene opens it every time the island is entered - the puzzle changes by
+ * the day, so it's never something a player has already read.
+ */
 export const LoveIslandNoticeboard: React.FC<{
   onClose: () => void;
 }> = ({ onClose }) => {
   const { t } = useAppTranslation();
+  const puzzle = getLoveIslandCentrePuzzle();
 
   const bestVip = LOVE_DILEMMA_TIER_PRIZES.vip[0];
   const bestStandard = LOVE_DILEMMA_TIER_PRIZES.standard[0];
 
-  if (LOVE_ISLAND_CENTRE_PUZZLE === "push") {
+  if (puzzle !== "dilemma") {
     return (
       <CloseButtonPanel
         bumpkinParts={NPC_WEARABLES["rocket man"]}
@@ -105,16 +129,9 @@ export const LoveIslandNoticeboard: React.FC<{
           },
         ]}
       >
-        <LovePushGuide />
+        {puzzle === "buttons" ? <LoveButtonsGuide /> : <LovePushGuide />}
 
-        <Button
-          onClick={() => {
-            onClose();
-            acknowledgeIntro();
-          }}
-        >
-          {t("ok")}
-        </Button>
+        <Button onClick={onClose}>{t("ok")}</Button>
       </CloseButtonPanel>
     );
   }
@@ -185,14 +202,7 @@ export const LoveIslandNoticeboard: React.FC<{
         ))}
       </div>
 
-      <Button
-        onClick={() => {
-          onClose();
-          acknowledgeIntro();
-        }}
-      >
-        {t("ok")}
-      </Button>
+      <Button onClick={onClose}>{t("ok")}</Button>
     </CloseButtonPanel>
   );
 };

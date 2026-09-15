@@ -215,6 +215,36 @@ export interface LovePush extends Schema {
 }
 
 /**
+ * Love Island's "Love Buttons", published by the love_island room while it
+ * is the centre puzzle. Twenty-five buttons are dealt out over the island
+ * every round; the round is solved the moment every one has a player
+ * standing on it at once, and everyone standing then can claim the prize
+ * once a day.
+ */
+export interface LoveButtons extends Schema {
+  /** Increments every time the buttons move. */
+  roundId: number;
+  /** Tile index (y * 80 + x, 16px tiles) of each button, length 25. Empty means the room isn't running it. */
+  buttons: ArraySchema<number>;
+  /** farmId -> the button (0..24) that player is standing on. Frozen once solved. */
+  standing: MapSchema<number>;
+  /**
+   * Epoch ms each button stays down until after the last player stepped off
+   * it (6s), length 25; 0 or past when it isn't holding. A button with
+   * someone on it is down regardless.
+   */
+  heldUntil: ArraySchema<number>;
+  /** farmId who last stepped off each button - whose hold it is. "" if nobody has. Length 25. */
+  heldBy: ArraySchema<string>;
+  /** farmId -> 1 for everyone holding a button when the last one went down. Proof of who helped. */
+  solvers: MapSchema<number>;
+  /** Epoch ms the last button went down; 0 while unsolved. */
+  solvedAt: number;
+  /** Epoch ms the buttons move; 0 while unsolved. */
+  nextRoundAt: number;
+}
+
+/**
  * Love Island's "Love Marvel", published by the love_island room. A Marine
  * Marvel lurks in the lake and the whole bank reels it in together: a ring
  * sweeps around it on the epoch clock and every reel landed in the zone at
@@ -269,6 +299,8 @@ export interface PlazaRoomState extends Schema {
   loveBoulder?: LoveBoulder;
   /** Only present in the love_island room while Lover's Push is on. */
   lovePush?: LovePush;
+  /** Only present in the love_island room while Love Buttons is on. */
+  loveButtons?: LoveButtons;
   /** Only present in the love_island room. */
   loveKraken?: LoveKraken;
 }
