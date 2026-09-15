@@ -12,7 +12,6 @@ import { interactableModalManager } from "../ui/InteractableModals";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { hasVipAccess } from "features/game/lib/vipAccess";
-import { hasReadLoveIslandNotice } from "../ui/loveRewardShop/LoveIslandNoticeboard";
 import type { BumpkinContainer } from "../containers/BumpkinContainer";
 import { Label } from "../containers/Label";
 import type { ArraySchema } from "@colyseus/schema";
@@ -31,7 +30,8 @@ import {
   type LoveBoulderPrize,
   LOVE_DILEMMA_CHOOSE_MS,
   LOVE_DILEMMA_PLATFORMS,
-  LOVE_ISLAND_CENTRE_PUZZLE,
+  getLoveIslandCentrePuzzle,
+  type LoveIslandCentrePuzzle,
   getLoveIslandDailyGame,
   type LoveIslandDailyGame,
   LOVE_PUSH_BOULDERS,
@@ -76,9 +76,11 @@ import {
   type LovePushRound,
   type LovePushTile,
   LOVE_BUTTONS_COUNT,
+  LOVE_BUTTONS_HOLD_MS,
   LOVE_BUTTONS_NONE,
   LOVE_BUTTONS_STAND_RESEND_MS,
   canClaimLoveButtons,
+  createLoveButtonsHolds,
   createLoveButtonsLocalRound,
   getLoveButtonAt,
   getLoveButtonsPressed,
@@ -396,7 +398,9 @@ const LOSE_COLOUR = 0xe57373;
 
 /**
  * Love Island - home of the Love Dilemma, Lover's Push and Love Buttons (one
- * at a time, picked by `LOVE_ISLAND_CENTRE_PUZZLE`), plus the Love Boulder.
+ * at a time - Buttons and Push take turns by the day, see
+ * `getLoveIslandCentrePuzzle`), plus the Love Boulder. The guide opens
+ * every time the island is entered, so whichever puzzle is on is explained.
  *
  * Love Buttons: 25 buttons are dealt out over the whole island every round.
  * Standing on one presses it - it sinks, a ring pops out of it, a green
@@ -568,6 +572,12 @@ export class LoveIslandScene extends BaseScene {
   private buttonsRoundId?: number;
   /** Whether each button is drawn pressed, indexed by button. */
   private renderedButtonsPressed: boolean[] = [];
+  /**
+   * The hold on the button we last stepped off, until the room echoes it
+   * - so it stays down under us without a flicker, and we still count as
+   * a solver if the last button goes down in that beat.
+   */
+  private myHold?: { button: number; until: number };
   /** farmId -> the lamp over their head while they hold a button. */
   private buttonLamps: Record<string, Phaser.GameObjects.Image> = {};
   /** The button the local player's feet are on - what the room was last told. */
@@ -580,6 +590,8 @@ export class LoveIslandScene extends BaseScene {
 
   /** The crowd game on the island today - fixed when the scene is built. */
   private dailyGame?: LoveIslandDailyGame;
+  /** The puzzle in the centre of the island today - fixed when the scene is built. */
+  private centrePuzzle?: LoveIslandCentrePuzzle;
 
   private kraken?: Phaser.GameObjects.Sprite;
   private krakenTentacles: Phaser.GameObjects.Sprite[] = [];
@@ -725,9 +737,11 @@ export class LoveIslandScene extends BaseScene {
       }
     });
 
-    if (LOVE_ISLAND_CENTRE_PUZZLE === "buttons") {
+    // Buttons and Push take turns by the day - the other isn't built
+    this.centrePuzzle = getLoveIslandCentrePuzzle();
+    if (this.centrePuzzle === "buttons") {
       this.createLoveButtons();
-    } else if (LOVE_ISLAND_CENTRE_PUZZLE === "push") {
+    } else if (this.centrePuzzle === "push") {
       this.createLovePush();
     } else {
       this.createLoveDilemma();
@@ -743,10 +757,9 @@ export class LoveIslandScene extends BaseScene {
     this.setupPopup();
   }
 
+  /** The guide, every time - which puzzle is on changes by the day. */
   setupPopup = () => {
-    if (!hasReadLoveIslandNotice()) {
-      interactableModalManager.open("petal_clue");
-    }
+    interactableModalManager.open("petal_clue");
   };
 
   /** Latest game state - the registry copy can lag behind claims. */
@@ -757,11 +770,11 @@ export class LoveIslandScene extends BaseScene {
   update() {
     super.update();
 
-    if (LOVE_ISLAND_CENTRE_PUZZLE === "buttons") {
+    if (this.centrePuzzle === "buttons") {
       this.updateLoveButtons();
-    } else if (LOVE_ISLAND_CENTRE_PUZZLE === "push") {
+    } else if (this.centrePuzzle === "push") {
       this.updateLovePush();
-    } else {
+    } else if (this.centrePuzzle === "dilemma") {
       this.updateLoveDilemma();
     }
     if (this.dailyGame === "boulder") {
@@ -2087,13 +2100,24 @@ export class LoveIslandScene extends BaseScene {
         solvers[farmId] = helped;
       });
       const solved = remote.solvedAt > 0;
+      const buttons = Array.from(remote.buttons ?? [])
+        .filter((index): index is number => typeof index === "number")
+        .map(fromLovePushTileIndex);
+      // A room that predates the holds publishes neither - nothing held
+      const holds = createLoveButtonsHolds(buttons.length);
+      const heldUntil = holds.heldUntil.map(
+        (_, index) => remote.heldUntil?.at(index) ?? 0,
+      );
+      const heldBy = holds.heldBy.map(
+        (_, index) => remote.heldBy?.at(index) ?? "",
+      );
 
       return {
         roundId: remote.roundId,
-        buttons: Array.from(remote.buttons ?? [])
-          .filter((index): index is number => typeof index === "number")
-          .map(fromLovePushTileIndex),
+        buttons,
         standing,
+        heldUntil,
+        heldBy,
         solvers,
         solved,
         ...(solved
@@ -2148,10 +2172,15 @@ export class LoveIslandScene extends BaseScene {
       now - this.lastStandSentAt >= LOVE_BUTTONS_STAND_RESEND_MS;
     if (!changed && !retry) return round;
 
+    const previous = this.myButton;
     this.myButton = button;
     this.lastStandSentAt = now;
     if (changed && button !== LOVE_BUTTONS_NONE) {
       this.sound.play("dig", { volume: 0.05 });
+    }
+    // The one we just stepped off stays down for us until the room says so
+    if (changed && previous !== LOVE_BUTTONS_NONE) {
+      this.myHold = { button: previous, until: now + LOVE_BUTTONS_HOLD_MS };
     }
 
     if (this.remoteButtons) {
@@ -2328,6 +2357,7 @@ export class LoveIslandScene extends BaseScene {
       this.buttonsRoundId = round.roundId;
       this.sawButtonsUnsolved = false;
       this.myButton = LOVE_BUTTONS_NONE;
+      this.myHold = undefined;
       this.lastStandSentAt = 0;
       this.renderedButtonsPressed = [];
       this.hideButtonLamps();
@@ -2336,9 +2366,21 @@ export class LoveIslandScene extends BaseScene {
 
     round = this.standOnButtons(round, now);
 
+    // Our own hold, until the room's copy of it has landed
+    const myHold = this.myHold;
+    if (myHold && !round.solved && now < myHold.until) {
+      if ((round.heldUntil[myHold.button] ?? 0) < myHold.until) {
+        const heldUntil = [...round.heldUntil];
+        heldUntil[myHold.button] = myHold.until;
+        round = { ...round, heldUntil };
+      }
+    } else if (myHold && now >= myHold.until) {
+      this.myHold = undefined;
+    }
+
     // Only presses we watched happen animate - not a round we've walked
     // in on with a dozen already down
-    const pressed = getLoveButtonsPressed(round);
+    const pressed = getLoveButtonsPressed({ ...round, now });
     pressed.forEach((isPressed, button) => {
       if ((this.renderedButtonsPressed[button] ?? false) === isPressed) return;
 
@@ -2385,11 +2427,14 @@ export class LoveIslandScene extends BaseScene {
 
     if (!player) return;
 
-    // Only those standing on a button are paid - and only once a day. The
-    // room's `solvers` is the authority; our own feet cover the gap until
-    // the stand that finished it has landed there
+    // Only those holding a button down are paid - standing on it, or just
+    // stepped off it - and only once a day. The room's `solvers` is the
+    // authority; our own feet and hold cover the gap until the stand that
+    // finished it has landed there
     const wasStanding =
-      !!round.solvers[`${this.id}`] || this.myButton !== LOVE_BUTTONS_NONE;
+      !!round.solvers[`${this.id}`] ||
+      this.myButton !== LOVE_BUTTONS_NONE ||
+      (!!this.myHold && now < this.myHold.until);
     if (!wasStanding) {
       if (animate) player.speak(translateForBubble("loveButtons.didNotHelp"));
       return;

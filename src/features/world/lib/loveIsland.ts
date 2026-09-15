@@ -530,13 +530,42 @@ export function tickLoveBoulderLocalRound({
 
 export type LoveIslandCentrePuzzle = "dilemma" | "push" | "buttons";
 
+const DAY_MS = 24 * 60 * 60 * 1000;
+
 /**
  * The centre of the island hosts one puzzle at a time: the Love Dilemma
  * (platforms), Lover's Push (boulders) or Love Buttons (buttons scattered
- * over the whole island). Flip this by hand to switch - Lover's Push stays
- * in the tree behind it, ready to bring back.
+ * over the whole island). Love Buttons and Lover's Push take turns, a UTC
+ * day each - indexed by the day number, so they strictly alternate and a
+ * new week doesn't repeat one. The room must agree on which is on (port
+ * `getLoveIslandCentrePuzzle`).
  */
-export const LOVE_ISLAND_CENTRE_PUZZLE: LoveIslandCentrePuzzle = "buttons";
+export const LOVE_ISLAND_CENTRE_PUZZLE_ROTATION: LoveIslandCentrePuzzle[] = [
+  "push",
+  "buttons",
+];
+
+/**
+ * Pin one puzzle here to stop the rotation - for a test run, or to bring
+ * the Dilemma back - and deploy. `undefined` lets the days take turns.
+ */
+export const LOVE_ISLAND_CENTRE_PUZZLE_OVERRIDE:
+  | LoveIslandCentrePuzzle
+  | undefined = undefined;
+
+/** The puzzle in the centre of the island today (UTC). */
+export function getLoveIslandCentrePuzzle(
+  now = Date.now(),
+): LoveIslandCentrePuzzle {
+  if (LOVE_ISLAND_CENTRE_PUZZLE_OVERRIDE)
+    return LOVE_ISLAND_CENTRE_PUZZLE_OVERRIDE;
+
+  const day = Math.floor(now / DAY_MS);
+
+  return LOVE_ISLAND_CENTRE_PUZZLE_ROTATION[
+    day % LOVE_ISLAND_CENTRE_PUZZLE_ROTATION.length
+  ];
+}
 
 // ---------------------------------------------------------------------------
 // Which crowd game runs today
@@ -1548,6 +1577,13 @@ export const LOVE_BUTTONS_PRIZE =
 export const LOVE_BUTTONS_MAX_CLAIMS = 1;
 /** How long the solved round is celebrated before the buttons move. */
 export const LOVE_BUTTONS_SOLVED_MS = 10 * 1000;
+/**
+ * A button stays down this long after the last player steps off it - a
+ * beat before it pops back up, so stepping off reads as a thing you did,
+ * and a foot lifted for an instant doesn't drop the island's count. Too
+ * short to hold a button down by running between two.
+ */
+export const LOVE_BUTTONS_HOLD_MS = 500;
 
 /** The walkable ground a player can reach on foot from the centre, cached. */
 let walkableRegion: LovePushTile[] | undefined;
@@ -1672,7 +1708,15 @@ export type LoveButtonsRound = {
   buttons: LovePushTile[];
   /** Who is standing on what. Frozen once solved - it's the record of who helped. */
   standing: LoveButtonsStanding;
-  /** farmId -> 1 for everyone on a button when the last one went down. Proof of who helped. */
+  /**
+   * Epoch ms each button stays down until after the last player stepped
+   * off it, indexed by button; 0 (or past) when it isn't holding. A button
+   * with someone on it is down whatever this says.
+   */
+  heldUntil: number[];
+  /** farmId of the player who last stepped off each button - who its hold belongs to. "" if nobody has. Indexed by button. */
+  heldBy: string[];
+  /** farmId -> 1 for everyone holding a button when the last one went down. Proof of who helped. */
   solvers: Record<string, number>;
   solved: boolean;
   /** Epoch ms the last button went down - only set once solved. */
@@ -1686,29 +1730,78 @@ function isLoveButton(buttons: LovePushTile[], button: number): boolean {
   return Number.isInteger(button) && button >= 0 && button < buttons.length;
 }
 
-/** Which buttons have someone on them, indexed by button. */
-export function getLoveButtonsPressed({
+/** Fresh holds for a round - nothing held, by nobody. */
+export function createLoveButtonsHolds(count = LOVE_BUTTONS_COUNT): {
+  heldUntil: number[];
+  heldBy: string[];
+} {
+  return {
+    heldUntil: Array.from({ length: count }, () => 0),
+    heldBy: Array.from({ length: count }, () => ""),
+  };
+}
+
+/** Which buttons have someone standing on them right now, indexed by button. */
+export function getLoveButtonsStoodOn({
   buttons,
   standing,
 }: {
   buttons: LovePushTile[];
   standing: LoveButtonsStanding;
 }): boolean[] {
-  const pressed = buttons.map(() => false);
+  const stoodOn = buttons.map(() => false);
 
   Object.values(standing).forEach((button) => {
-    if (isLoveButton(buttons, button)) pressed[button] = true;
+    if (isLoveButton(buttons, button)) stoodOn[button] = true;
   });
 
-  return pressed;
+  return stoodOn;
 }
 
-/** How many buttons have someone on them. */
-export function getLoveButtonsPressedCount(round: {
+/** Is a button's hold still running - nobody on it, but not up yet? */
+export function isLoveButtonHeld({
+  heldUntil,
+  button,
+  now,
+}: {
+  heldUntil: number[];
+  button: number;
+  now: number;
+}): boolean {
+  return now < (heldUntil[button] ?? 0);
+}
+
+/**
+ * Which buttons are down, indexed by button: someone is standing on it, or
+ * the last player stepped off it less than `LOVE_BUTTONS_HOLD_MS` ago.
+ */
+export function getLoveButtonsPressed({
+  buttons,
+  standing,
+  heldUntil,
+  now,
+}: {
   buttons: LovePushTile[];
   standing: LoveButtonsStanding;
-}): number {
-  return getLoveButtonsPressed(round).filter(Boolean).length;
+  heldUntil: number[];
+  now: number;
+}): boolean[] {
+  return getLoveButtonsStoodOn({ buttons, standing }).map(
+    (stoodOn, button) =>
+      stoodOn || isLoveButtonHeld({ heldUntil, button, now }),
+  );
+}
+
+/** How many buttons are down. */
+export function getLoveButtonsPressedCount(
+  round: {
+    buttons: LovePushTile[];
+    standing: LoveButtonsStanding;
+    heldUntil: number[];
+  },
+  now: number,
+): number {
+  return getLoveButtonsPressed({ ...round, now }).filter(Boolean).length;
 }
 
 /** How many players are standing on a button - more than the buttons pressed when some share one. */
@@ -1723,10 +1816,13 @@ export function getLoveButtonsStandingCount(round: {
 
 /**
  * A player steps onto a button (or off every button, with
- * `LOVE_BUTTONS_NONE`). Nothing changes once the round is solved - the
- * standing map is then the record of who was there. The moment every
- * button has someone on it the round is solved: everyone standing is a
- * solver, and the celebration runs before the buttons move.
+ * `LOVE_BUTTONS_NONE`). The button they leave stays down for
+ * `LOVE_BUTTONS_HOLD_MS` in their name - a beat, not a mechanic. Nothing
+ * changes once the round is solved - the standing map and the holds are
+ * then the record of who was there. The moment every button is down the
+ * round is solved: everyone standing on one, plus everyone whose hold is
+ * still keeping one down, is a solver, and the celebration runs before the
+ * buttons move.
  */
 export function standOnLoveButton<T extends LoveButtonsRound>({
   round,
@@ -1742,34 +1838,57 @@ export function standOnLoveButton<T extends LoveButtonsRound>({
   if (round.solved) return round;
 
   const current = round.standing[farmId];
+  const leaving = !isLoveButton(round.buttons, button);
 
-  if (!isLoveButton(round.buttons, button)) {
-    if (current === undefined) return round;
+  if (leaving && current === undefined) return round;
+  if (!leaving && current === button) return round;
 
-    const standing = { ...round.standing };
+  const standing = { ...round.standing };
+  if (leaving) {
     delete standing[farmId];
-
-    return { ...round, standing };
+  } else {
+    standing[farmId] = button;
   }
 
-  if (current === button) return round;
+  // The button they stepped off holds for a while, in their name
+  let heldUntil = round.heldUntil;
+  let heldBy = round.heldBy;
+  if (current !== undefined) {
+    heldUntil = round.heldUntil.map((until, index) =>
+      index === current ? now + LOVE_BUTTONS_HOLD_MS : until,
+    );
+    heldBy = round.heldBy.map((by, index) => (index === current ? farmId : by));
+  }
 
-  const standing = { ...round.standing, [farmId]: button };
-  const solved = getLoveButtonsPressed({
+  const next = { ...round, standing, heldUntil, heldBy };
+  if (leaving) return next;
+
+  const pressed = getLoveButtonsPressed({
     buttons: round.buttons,
     standing,
-  }).every(Boolean);
-
-  if (!solved) return { ...round, standing };
+    heldUntil,
+    now,
+  });
+  if (!pressed.every(Boolean)) return next;
 
   const solvers: Record<string, number> = {};
   Object.keys(standing).forEach((id) => {
     solvers[id] = 1;
   });
+  // ...and whoever's hold is keeping a button down with nobody on it
+  const stoodOn = getLoveButtonsStoodOn({ buttons: round.buttons, standing });
+  heldBy.forEach((id, index) => {
+    if (
+      id &&
+      !stoodOn[index] &&
+      isLoveButtonHeld({ heldUntil, button: index, now })
+    ) {
+      solvers[id] = 1;
+    }
+  });
 
   return {
-    ...round,
-    standing,
+    ...next,
     solvers,
     solved: true,
     solvedAt: now,
@@ -1777,15 +1896,17 @@ export function standOnLoveButton<T extends LoveButtonsRound>({
   };
 }
 
-/** A player steps off (or leaves the room). */
+/** A player steps off (or leaves the room) - their button holds for a while. */
 export function leaveLoveButtons<T extends LoveButtonsRound>({
   round,
   farmId,
+  now = Date.now(),
 }: {
   round: T;
   farmId: string;
+  now?: number;
 }): T {
-  return standOnLoveButton({ round, farmId, button: LOVE_BUTTONS_NONE });
+  return standOnLoveButton({ round, farmId, button: LOVE_BUTTONS_NONE, now });
 }
 
 /** Today's Love Buttons claims (at most one, but the event keeps a list). */
@@ -1831,10 +1952,11 @@ export function hasClaimedLoveButtonsRound({
 }
 
 /**
- * Whether the solved puzzle pays this player: they must have been standing
- * on a button when the last one went down, and not have claimed a Love
- * Buttons prize yet today. Like Lover's Push the prize is a box, so the
- * daily Love Charm cap has no say.
+ * Whether the solved puzzle pays this player: they must have been holding a
+ * button down when the last one went down - standing on it, or having
+ * stepped off it within the hold - and not have claimed a Love Buttons
+ * prize yet today. Like Lover's Push the prize is a box, so the daily Love
+ * Charm cap has no say.
  */
 export function canClaimLoveButtons({
   state,
@@ -1880,6 +2002,7 @@ export function createLoveButtonsLocalRound(
     roundId,
     buttons: getLoveButtonsLayout(roundId),
     standing: {},
+    ...createLoveButtonsHolds(),
     solvers: {},
     solved: false,
     lastBotStepAt: now,

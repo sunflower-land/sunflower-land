@@ -17,31 +17,10 @@ import {
   LOVE_DILEMMA_MAX_ATTEMPTS,
   LOVE_DILEMMA_MIN_PLAYERS,
   LOVE_DILEMMA_TIER_PRIZES,
-  LOVE_ISLAND_CENTRE_PUZZLE,
+  getLoveIslandCentrePuzzle,
   LOVE_PUSH_PRIZE,
   LOVE_PUSH_PUSHERS_NEEDED,
-  type LoveIslandCentrePuzzle,
 } from "features/world/lib/loveIsland";
-
-/**
- * Bump this key whenever the rules change so every player sees the new
- * guide once. "loveIsland.notice" was the petal puzzle guide. Each centre
- * puzzle has its own key so switching puzzles shows its guide once.
- */
-const NOTICE_KEYS: Record<LoveIslandCentrePuzzle, string> = {
-  dilemma: "loveIsland.notice.dilemma",
-  push: "loveIsland.notice.push",
-  buttons: "loveIsland.notice.buttons",
-};
-const NOTICE_KEY = NOTICE_KEYS[LOVE_ISLAND_CENTRE_PUZZLE];
-
-export function hasReadLoveIslandNotice() {
-  return !!localStorage.getItem(NOTICE_KEY);
-}
-
-function acknowledgeIntro() {
-  return localStorage.setItem(NOTICE_KEY, new Date().toISOString());
-}
 
 const platformDetails = [
   {
@@ -124,15 +103,21 @@ const LoveButtonsGuide: React.FC = () => {
   );
 };
 
+/**
+ * The guide to whichever puzzle is in the centre of the island today. The
+ * scene opens it every time the island is entered - the puzzle changes by
+ * the day, so it's never something a player has already read.
+ */
 export const LoveIslandNoticeboard: React.FC<{
   onClose: () => void;
 }> = ({ onClose }) => {
   const { t } = useAppTranslation();
+  const puzzle = getLoveIslandCentrePuzzle();
 
   const bestVip = LOVE_DILEMMA_TIER_PRIZES.vip[0];
   const bestStandard = LOVE_DILEMMA_TIER_PRIZES.standard[0];
 
-  if (LOVE_ISLAND_CENTRE_PUZZLE !== "dilemma") {
+  if (puzzle !== "dilemma") {
     return (
       <CloseButtonPanel
         bumpkinParts={NPC_WEARABLES["rocket man"]}
@@ -144,20 +129,9 @@ export const LoveIslandNoticeboard: React.FC<{
           },
         ]}
       >
-        {LOVE_ISLAND_CENTRE_PUZZLE === "buttons" ? (
-          <LoveButtonsGuide />
-        ) : (
-          <LovePushGuide />
-        )}
+        {puzzle === "buttons" ? <LoveButtonsGuide /> : <LovePushGuide />}
 
-        <Button
-          onClick={() => {
-            onClose();
-            acknowledgeIntro();
-          }}
-        >
-          {t("ok")}
-        </Button>
+        <Button onClick={onClose}>{t("ok")}</Button>
       </CloseButtonPanel>
     );
   }
@@ -228,14 +202,7 @@ export const LoveIslandNoticeboard: React.FC<{
         ))}
       </div>
 
-      <Button
-        onClick={() => {
-          onClose();
-          acknowledgeIntro();
-        }}
-      >
-        {t("ok")}
-      </Button>
+      <Button onClick={onClose}>{t("ok")}</Button>
     </CloseButtonPanel>
   );
 };

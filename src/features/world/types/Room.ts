@@ -228,9 +228,15 @@ export interface LoveButtons extends Schema {
   buttons: ArraySchema<number>;
   /** farmId -> the button (0..24) that player is standing on. Frozen once solved. */
   standing: MapSchema<number>;
-  /** Buttons with someone on them, 0..25. */
-  pressed: number;
-  /** farmId -> 1 for everyone on a button when the last one went down. Proof of who helped. */
+  /**
+   * Epoch ms each button stays down until after the last player stepped off
+   * it (6s), length 25; 0 or past when it isn't holding. A button with
+   * someone on it is down regardless.
+   */
+  heldUntil: ArraySchema<number>;
+  /** farmId who last stepped off each button - whose hold it is. "" if nobody has. Length 25. */
+  heldBy: ArraySchema<string>;
+  /** farmId -> 1 for everyone holding a button when the last one went down. Proof of who helped. */
   solvers: MapSchema<number>;
   /** Epoch ms the last button went down; 0 while unsolved. */
   solvedAt: number;
