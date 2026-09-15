@@ -8601,5 +8601,7 @@
   "statsLeaderboard.description.chores": "雑用はいつでも完了",
   "statsLeaderboard.description.deliveries": "注文は常時配達されました",
   "statsLeaderboard.description.dailyLoginStreak": "デイリーリワードが連続して集められた日数",
-  "statsLeaderboard.description.diggingStreak": "連続して砂漠を掘った報酬が貯まった"
+  "statsLeaderboard.description.diggingStreak": "連続して砂漠を掘った報酬が貯まった",
+  "bounties.hideCompleted": "非表示が完了しました",
+  "bounties.completedHidden": "完了したバウンティは非表示になります。"
 }

@@ -4,7 +4,9 @@ import {
   LOVE_KRAKEN_FIGHT_BACK_PER_SEC,
   LOVE_KRAKEN_HEALTH,
   LOVE_KRAKEN_LOCAL_CROWD_ANGLERS,
+  LOVE_KRAKEN_ANGLER_HIT_HALF,
   LOVE_KRAKEN_BUTTON,
+  LOVE_KRAKEN_BUTTON_HIT,
   LOVE_KRAKEN_CAST_SPOTS,
   LOVE_KRAKEN_REACH,
   LOVE_KRAKEN_SPOT,
@@ -259,6 +261,17 @@ describe("loveKraken: getting to the wharf", () => {
     // Above every spot, so it never sits behind a Bumpkin
     for (const spot of LOVE_KRAKEN_CAST_SPOTS) {
       expect(LOVE_KRAKEN_BUTTON.y).toBeLessThan(spot.y);
+    }
+  });
+
+  it("keeps the button's hit box clear of the anglers' click boxes", () => {
+    // A tap on the bottom edge of the button must reel, not open the
+    // profile of whoever is standing on the top row of the wharf
+    const buttonBottom =
+      LOVE_KRAKEN_BUTTON.y + LOVE_KRAKEN_BUTTON_HIT.height / 2;
+    for (const spot of LOVE_KRAKEN_CAST_SPOTS) {
+      const anglerTop = spot.y - LOVE_KRAKEN_ANGLER_HIT_HALF;
+      expect(buttonBottom).toBeLessThan(anglerTop);
     }
   });
 });

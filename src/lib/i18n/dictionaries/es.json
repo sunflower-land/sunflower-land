@@ -8601,5 +8601,7 @@
   "statsLeaderboard.description.chores": "Tareas completadas, todo el tiempo",
   "statsLeaderboard.description.deliveries": "Pedidos entregados, en todo momento",
   "statsLeaderboard.description.dailyLoginStreak": "Días consecutivos en los que se obtuvo la recompensa diaria",
-  "statsLeaderboard.description.diggingStreak": "Días consecutivos se recolectó la recompensa por excavar en el desierto"
+  "statsLeaderboard.description.diggingStreak": "Días consecutivos se recolectó la recompensa por excavar en el desierto",
+  "bounties.hideCompleted": "Ocultar completado",
+  "bounties.completedHidden": "Las recompensas completadas están ocultas."
 }

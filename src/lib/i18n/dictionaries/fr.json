@@ -8601,5 +8601,7 @@
   "statsLeaderboard.description.chores": "Corvées terminées, à tout moment",
   "statsLeaderboard.description.deliveries": "Commandes livrées à tout moment",
   "statsLeaderboard.description.dailyLoginStreak": "Jours consécutifs pendant lesquels la récompense quotidienne a été collectée",
-  "statsLeaderboard.description.diggingStreak": "Jours consécutifs, la récompense pour avoir creusé le désert a été collectée"
+  "statsLeaderboard.description.diggingStreak": "Jours consécutifs, la récompense pour avoir creusé le désert a été collectée",
+  "bounties.hideCompleted": "Masquer terminé",
+  "bounties.completedHidden": "Les primes terminées sont masquées."
 }
