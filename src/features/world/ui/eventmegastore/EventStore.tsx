@@ -25,6 +25,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { getTimeLeft, secondsToString } from "lib/utils/time";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useNow } from "lib/utils/hooks/useNow";
+import { getItemDescription as getGameItemDescription } from "features/game/lib/getItemDescription";
 interface Props {
   onClose?: () => void;
   readonly?: boolean;
@@ -65,14 +66,17 @@ export const getItemBuffLabel = (
 
   return COLLECTIBLE_BUFF_LABELS[item.collectible]?.(state);
 };
-export const getItemDescription = (item: EventStoreItem | null): string => {
+export const getItemDescription = (
+  item: EventStoreItem | null,
+  game: GameState,
+): string => {
   if (!item) return "";
 
   if (isWearablesItem(item)) {
     return OPEN_SEA_WEARABLES[item.wearable].description;
   }
 
-  return ITEM_DETAILS[item.collectible].description;
+  return getGameItemDescription({ item: item.collectible, game });
 };
 
 export const EventStore: React.FC<Props> = ({ readonly, state }) => {

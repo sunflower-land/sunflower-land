@@ -551,9 +551,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   ],
 
   // Clash of Factions
-  "Turbo Sprout": () => [
+  "Turbo Sprout": (game) => [
     {
-      shortDescription: translate("description.turbo.sprout.boost"),
+      shortDescription: hasFeatureAccess(game, "SPEED_BOOSTS")
+        ? translate("description.turbo.sprout.boost.speed")
+        : translate("description.turbo.sprout.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
