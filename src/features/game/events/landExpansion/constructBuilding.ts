@@ -11,6 +11,9 @@ import { produce } from "immer";
 import type { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { getObjectEntries } from "lib/object";
 import { hasFeatureAccess, type FeatureName } from "lib/flags";
+import { isAnimalBuildingType } from "../../types/animals";
+import { makeAnimalBuilding, makeAnimalBuildingKey } from "../../lib/animals";
+import { getKeys } from "lib/object";
 
 export enum CONSTRUCT_BUILDING_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -135,9 +138,24 @@ export function constructBuilding({
     stateCopy.inventory[action.name] = buildingInventory.add(1);
     stateCopy.buildings[action.name] = [...placed, newBuilding];
 
-    if (action.name === "Barn" || action.name === "Hen House") {
+    if (isAnimalBuildingType(action.name)) {
       stateCopy.inventory["Kernel Blend"] =
         stateCopy.inventory["Kernel Blend"]?.add(5) || new Decimal(5);
+
+      // Starter animals are seeded HERE rather than in INITIAL_FARM, because a
+      // farm with no record for an animal building is hydrated from
+      // INITIAL_FARM - so seeding there hands every existing farm free animals
+      // the moment the field ships. Guarded on an empty record so a rebuild can
+      // never wipe or duplicate a herd.
+      const buildingKey = makeAnimalBuildingKey(action.name);
+      const animalBuilding = stateCopy[buildingKey];
+
+      if (getKeys(animalBuilding.animals).length === 0) {
+        animalBuilding.animals = makeAnimalBuilding(
+          action.name,
+          createdAt,
+        ).animals;
+      }
     }
 
     return stateCopy;

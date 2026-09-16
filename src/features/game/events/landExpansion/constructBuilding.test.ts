@@ -710,4 +710,51 @@ describe("constructBuilding: Pigpen gating", () => {
 
     expect(state.buildings.Pigpen).toHaveLength(1);
   });
+
+  it("seeds the empty pigpen with three Pigs on construction", () => {
+    // game.pigpen ships EMPTY so no existing farm is handed free Pigs when the
+    // field lands; the starter herd arrives when the player actually builds it.
+    expect(farm.pigpen.animals).toEqual({});
+
+    const state = build({
+      ...farm,
+      inventory: { ...farm.inventory, "Beta Pass": new Decimal(1) },
+    });
+
+    const pigs = Object.values(state.pigpen.animals);
+
+    expect(pigs).toHaveLength(3);
+    expect(pigs.every((pig) => pig.type === "Pig")).toBe(true);
+    expect(pigs.every((pig) => pig.createdAt === dateNow)).toBe(true);
+  });
+
+  it("does not disturb an existing herd when the building is constructed", () => {
+    // The seed is guarded on an empty record, so a herd can never be wiped or
+    // duplicated by a (re)construction.
+    const existing = { ...farm.pigpen.animals };
+    const state = build({
+      ...farm,
+      inventory: { ...farm.inventory, "Beta Pass": new Decimal(1) },
+      pigpen: {
+        level: 1,
+        animals: {
+          "9": {
+            id: "9",
+            type: "Pig",
+            state: "idle",
+            createdAt: 1,
+            experience: 500,
+            asleepAt: 0,
+            awakeAt: 0,
+            lovedAt: 0,
+            item: "Petting Hand",
+          },
+        },
+      },
+    });
+
+    expect(existing).toEqual({});
+    expect(Object.keys(state.pigpen.animals)).toEqual(["9"]);
+    expect(state.pigpen.animals["9"].experience).toEqual(500);
+  });
 });

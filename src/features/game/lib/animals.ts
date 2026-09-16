@@ -67,6 +67,7 @@ const DEFAULT_ANIMAL_EXPERIENCE: Record<AnimalType, number> = {
 
 export function makeAnimalBuilding(
   building: AnimalBuildingType,
+  createdAt = Date.now(),
 ): AnimalBuilding {
   const DEFAULT_ANIMAL_COUNT = 3;
 
@@ -93,7 +94,7 @@ export function makeAnimalBuilding(
           coordinates: positions[index],
           asleepAt: 0,
           experience: DEFAULT_ANIMAL_EXPERIENCE[animalType as AnimalType],
-          createdAt: Date.now(),
+          createdAt,
           item: "Petting Hand",
           lovedAt: 0,
           awakeAt: 0,
