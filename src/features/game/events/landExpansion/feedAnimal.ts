@@ -35,6 +35,8 @@ export const REQUIRED_FOOD_QTY: Record<AnimalType, number> = {
   Chicken: 1,
   Sheep: 3,
   Cow: 5,
+  // TODO(Chapter 16): placeholder - Pig sits between Sheep and Cow.
+  Pig: 4,
 };
 
 export type FeedAnimalAction = {

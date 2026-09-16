@@ -2011,7 +2011,7 @@ type KeysBoughtAt = Partial<Record<Keys, { boughtAt: number }>>;
 type Stores = "factionShop" | "treasureShop" | "megastore";
 export type KeysBought = Record<Stores, KeysBoughtAt>;
 
-export type AnimalBuildingKey = "henHouse" | "barn";
+export type AnimalBuildingKey = "henHouse" | "barn" | "pigpen";
 export type UpgradableBuildingKey =
   | AnimalBuildingKey
   | "waterWell"
@@ -2495,6 +2495,7 @@ export interface GameState {
 
   henHouse: AnimalBuilding;
   barn: AnimalBuilding;
+  pigpen: AnimalBuilding;
   waterWell: UpgradableBuilding;
   agingShed: AgingShed;
   petHouse: PetHouseBuilding;

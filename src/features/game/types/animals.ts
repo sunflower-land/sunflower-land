@@ -12,9 +12,30 @@ import { translate } from "lib/i18n/translate";
 import { getKeys } from "lib/object";
 import type { LevelRequirement } from "features/game/lib/level";
 
-export type AnimalBuildingType = Extract<BuildingName, "Barn" | "Hen House">;
+export type AnimalBuildingType = Extract<
+  BuildingName,
+  "Barn" | "Hen House" | "Pigpen"
+>;
 
-export type AnimalType = "Chicken" | "Cow" | "Sheep";
+export type AnimalType = "Chicken" | "Cow" | "Sheep" | "Pig";
+
+/**
+ * Exhaustive by construction: the compiler forces an entry here whenever
+ * AnimalBuildingType grows, which is what makes ANIMAL_BUILDING_TYPES and
+ * `isAnimalBuildingType` safe to iterate over. A plain array would reject a
+ * wrong member but happily miss a new one.
+ */
+const ANIMAL_BUILDING_TYPE_SET: Record<AnimalBuildingType, true> = {
+  "Hen House": true,
+  Barn: true,
+  Pigpen: true,
+};
+
+export const ANIMAL_BUILDING_TYPES = getKeys(ANIMAL_BUILDING_TYPE_SET);
+
+export const isAnimalBuildingType = (
+  name: BuildingName,
+): name is AnimalBuildingType => name in ANIMAL_BUILDING_TYPE_SET;
 
 type AnimalDetail = {
   coins: number;
@@ -52,6 +73,15 @@ export const ANIMALS: Record<AnimalType, AnimalDetail> = {
     coins: 120,
     levelRequired: { ascension: 0, level: 18 },
     buildingRequired: "Barn",
+    height: 2,
+    width: 2,
+  },
+  // TODO(Chapter 16): coins, level and size are placeholders - the spec lists
+  // "configuration pending" for all of them. Pig sits between Cow and Sheep.
+  Pig: {
+    coins: 110,
+    levelRequired: { ascension: 0, level: 16 },
+    buildingRequired: "Pigpen",
     height: 2,
     width: 2,
   },
@@ -129,6 +159,26 @@ export const ANIMAL_LEVELS: Record<AnimalType, Record<AnimalLevel, number>> = {
     13: 4320,
     14: 4800,
     15: 5440,
+  },
+  // TODO(Chapter 16): placeholder. Sheep is Chicken x2 and Cow is Chicken x3,
+  // so Pig - which sits between them - is Chicken x2.5. Exact values pending.
+  Pig: {
+    0: 0,
+    1: 150,
+    2: 300,
+    3: 600,
+    4: 900,
+    5: 1200,
+    6: 1650,
+    7: 2100,
+    8: 2550,
+    9: 3000,
+    10: 3600,
+    11: 4200,
+    12: 4800,
+    13: 5400,
+    14: 6000,
+    15: 6800,
   },
 };
 
@@ -532,6 +582,123 @@ export const ANIMAL_FOOD_EXPERIENCE: Record<
       Omnifeed: 80,
     },
   },
+  // TODO(Chapter 16): placeholder - Cow's table copied verbatim. Copying an
+  // existing table (rather than hand-rolling one) guarantees exactly one
+  // non-Omnifeed max per level, which `getAnimalFavoriteFood` throws without.
+  Pig: {
+    0: {
+      "Kernel Blend": 60,
+      Hay: 10,
+      NutriBarley: 20,
+      "Mixed Grain": 30,
+      Omnifeed: 60,
+    },
+    1: {
+      "Kernel Blend": 60,
+      Hay: 10,
+      NutriBarley: 20,
+      "Mixed Grain": 30,
+      Omnifeed: 60,
+    },
+    2: {
+      "Kernel Blend": 60,
+      Hay: 10,
+      NutriBarley: 20,
+      "Mixed Grain": 30,
+      Omnifeed: 60,
+    },
+    3: {
+      "Kernel Blend": 10,
+      Hay: 60,
+      NutriBarley: 20,
+      "Mixed Grain": 30,
+      Omnifeed: 60,
+    },
+    4: {
+      "Kernel Blend": 10,
+      Hay: 60,
+      NutriBarley: 20,
+      "Mixed Grain": 30,
+      Omnifeed: 60,
+    },
+    5: {
+      "Kernel Blend": 10,
+      Hay: 60,
+      NutriBarley: 20,
+      "Mixed Grain": 30,
+      Omnifeed: 60,
+    },
+    6: {
+      "Kernel Blend": 10,
+      Hay: 20,
+      NutriBarley: 60,
+      "Mixed Grain": 30,
+      Omnifeed: 60,
+    },
+    7: {
+      "Kernel Blend": 10,
+      Hay: 20,
+      NutriBarley: 60,
+      "Mixed Grain": 30,
+      Omnifeed: 60,
+    },
+    8: {
+      "Kernel Blend": 10,
+      Hay: 20,
+      NutriBarley: 60,
+      "Mixed Grain": 30,
+      Omnifeed: 60,
+    },
+    9: {
+      "Kernel Blend": 10,
+      Hay: 20,
+      NutriBarley: 60,
+      "Mixed Grain": 30,
+      Omnifeed: 60,
+    },
+    10: {
+      "Kernel Blend": 10,
+      Hay: 20,
+      NutriBarley: 30,
+      "Mixed Grain": 80,
+      Omnifeed: 80,
+    },
+    11: {
+      "Kernel Blend": 10,
+      Hay: 20,
+      NutriBarley: 30,
+      "Mixed Grain": 80,
+      Omnifeed: 80,
+    },
+    12: {
+      "Kernel Blend": 10,
+      Hay: 20,
+      NutriBarley: 30,
+      "Mixed Grain": 80,
+      Omnifeed: 80,
+    },
+    13: {
+      "Kernel Blend": 10,
+      Hay: 20,
+      NutriBarley: 30,
+      "Mixed Grain": 80,
+      Omnifeed: 80,
+    },
+    14: {
+      "Kernel Blend": 10,
+      Hay: 20,
+      NutriBarley: 30,
+      "Mixed Grain": 80,
+      Omnifeed: 80,
+    },
+    15: {
+      "Kernel Blend": 10,
+      Hay: 20,
+      NutriBarley: 30,
+      "Mixed Grain": 80,
+      Omnifeed: 80,
+    },
+  },
 };
 
 export const ANIMAL_RESOURCE_DROP: Record<
@@ -723,6 +890,68 @@ export const ANIMAL_RESOURCE_DROP: Record<
     15: {
       Wool: new Decimal(4),
       "Merino Wool": new Decimal(4),
+    },
+  },
+  // TODO(Chapter 16): placeholder. Rawhide follows the same cadence as Cow's
+  // Milk / Sheep's Wool; Truffle is gated at level 5 per the ticket. Level 0
+  // drops nothing, matching every other animal.
+  Pig: {
+    0: {},
+    1: {
+      Rawhide: new Decimal(1),
+    },
+    2: {
+      Rawhide: new Decimal(1),
+    },
+    3: {
+      Rawhide: new Decimal(1),
+    },
+    4: {
+      Rawhide: new Decimal(2),
+    },
+    5: {
+      Rawhide: new Decimal(2),
+      Truffle: new Decimal(1),
+    },
+    6: {
+      Rawhide: new Decimal(2),
+      Truffle: new Decimal(1),
+    },
+    7: {
+      Rawhide: new Decimal(2),
+      Truffle: new Decimal(1),
+    },
+    8: {
+      Rawhide: new Decimal(3),
+      Truffle: new Decimal(1),
+    },
+    9: {
+      Rawhide: new Decimal(3),
+      Truffle: new Decimal(1),
+    },
+    10: {
+      Rawhide: new Decimal(3),
+      Truffle: new Decimal(2),
+    },
+    11: {
+      Rawhide: new Decimal(3),
+      Truffle: new Decimal(2),
+    },
+    12: {
+      Rawhide: new Decimal(3),
+      Truffle: new Decimal(2),
+    },
+    13: {
+      Rawhide: new Decimal(3),
+      Truffle: new Decimal(2),
+    },
+    14: {
+      Rawhide: new Decimal(3),
+      Truffle: new Decimal(2),
+    },
+    15: {
+      Rawhide: new Decimal(4),
+      Truffle: new Decimal(3),
     },
   },
 };

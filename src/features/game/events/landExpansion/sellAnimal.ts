@@ -1,5 +1,10 @@
 import Decimal from "decimal.js-light";
-import { getAnimalLevel, getAnimalReadyAt } from "features/game/lib/animals";
+import {
+  getAnimalLevel,
+  getAnimalReadyAt,
+  makeAnimalBuildingKey,
+} from "features/game/lib/animals";
+import { ANIMALS, type AnimalType } from "features/game/types/animals";
 import { getKeys } from "lib/object";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import type {
@@ -93,7 +98,16 @@ export function sellAnimal({
       throw new Error("Bounty already completed");
     }
 
-    const { animals } = request.name === "Chicken" ? game.henHouse : game.barn;
+    // `request` is the full BountyRequest union, so `name` may be a flower, a
+    // fish, an Obsidian... Guard explicitly rather than indexing a building by
+    // elimination: the old `Chicken ? henHouse : barn` routed every non-Chicken
+    // bounty at the barn and relied on the lookup below to throw.
+    if (!(request.name in ANIMALS)) {
+      throw new Error("Animal does not exist");
+    }
+
+    const { buildingRequired } = ANIMALS[request.name as AnimalType];
+    const { animals } = game[makeAnimalBuildingKey(buildingRequired)];
 
     const animal = animals[action.animalId];
     if (!animal) {

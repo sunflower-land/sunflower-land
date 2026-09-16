@@ -34,6 +34,7 @@ export type BuildingName =
   | Home
   | "Crop Machine"
   | "Barn"
+  | "Pigpen"
   | "Fish Market"
   | "Crafting Box"
   | "Pet House"
@@ -132,6 +133,18 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint> = {
     },
   },
   Barn: {
+    unlocksAtLevel: { ascension: 0, level: 30 },
+    coins: 200,
+    constructionSeconds: 60 * 60 * 2,
+    ingredients: {
+      Wood: new Decimal(150),
+      Iron: new Decimal(10),
+      Gold: new Decimal(10),
+    },
+  },
+  // TODO(Chapter 16): cost, unlock level and build time are placeholders -
+  // the spec lists all of them as "configuration pending". Cloned from Barn.
+  Pigpen: {
     unlocksAtLevel: { ascension: 0, level: 30 },
     coins: 200,
     constructionSeconds: 60 * 60 * 2,
@@ -318,6 +331,8 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   Greenhouse: { width: 4, height: 4 },
   "Crop Machine": { width: 5, height: 4 },
   Barn: { width: 4, height: 4 },
+  // TODO(Chapter 16): placeholder footprint, cloned from Barn.
+  Pigpen: { width: 4, height: 4 },
   "Fish Market": { width: 3, height: 3 },
   "Crafting Box": { width: 3, height: 2 },
   "Pet House": { width: 3, height: 3 },

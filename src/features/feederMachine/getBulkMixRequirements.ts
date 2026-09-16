@@ -69,7 +69,9 @@ const isAnimalAwakeAndRequestingFood = (
 };
 
 // Collectible that feeds each animal type for free (no mixing needed).
-const FREE_FEED_COLLECTIBLE: Record<AnimalType, CollectibleName> = {
+// Partial: there is no Golden Pig, and an animal with no entry simply has no
+// free feed rather than inheriting another animal's collectible.
+const FREE_FEED_COLLECTIBLE: Partial<Record<AnimalType, CollectibleName>> = {
   Chicken: "Gold Egg",
   Cow: "Golden Cow",
   Sheep: "Golden Sheep",
@@ -84,8 +86,11 @@ export type FreeFeedBoost =
   | { source: "collectible"; item: CollectibleName; animalType: AnimalType }
   | { source: "wearable"; item: BumpkinItem };
 
-const hasFreeFeedBoost = (animalType: AnimalType, game: GameState) =>
-  isCollectibleBuilt({ name: FREE_FEED_COLLECTIBLE[animalType], game });
+const hasFreeFeedBoost = (animalType: AnimalType, game: GameState) => {
+  const name = FREE_FEED_COLLECTIBLE[animalType];
+
+  return !!name && isCollectibleBuilt({ name, game });
+};
 
 const addToTotals = (
   totals: RequestTotals,
@@ -267,13 +272,14 @@ export function getBulkMixRequirements(
   // Free boosts feeding/curing this building's animals, surfaced to explain
   // why there are no requests.
   const animalTypesPresent = [...new Set(animals.map((animal) => animal.type))];
-  const freeFeedBoosts: FreeFeedBoost[] = animalTypesPresent
-    .filter((animalType) => hasFreeFeedBoost(animalType, game))
-    .map((animalType) => ({
-      source: "collectible",
-      item: FREE_FEED_COLLECTIBLE[animalType],
-      animalType,
-    }));
+  const freeFeedBoosts: FreeFeedBoost[] = animalTypesPresent.flatMap(
+    (animalType) => {
+      const item = FREE_FEED_COLLECTIBLE[animalType];
+      if (!item || !isCollectibleBuilt({ name: item, game })) return [];
+
+      return [{ source: "collectible" as const, item, animalType }];
+    },
+  );
 
   // Oracle Syringe cures sick animals for free (Barn Delight cost 0), so when
   // a sick animal would otherwise request it, surface the syringe instead.

@@ -2715,6 +2715,11 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.barn"),
     translatedName: translate("building.barn"),
   },
+  Pigpen: {
+    image: SUNNYSIDE.building.barn, // TODO(Chapter 16 art)
+    description: translate("description.pigpen"),
+    translatedName: translate("building.pigpen"),
+  },
   Deli: {
     image: SUNNYSIDE.building.deli,
     description: translate("description.deli"),

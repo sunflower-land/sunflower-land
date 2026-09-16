@@ -3,6 +3,7 @@ import {
   ANIMAL_FOOD_EXPERIENCE,
   ANIMAL_FOODS,
   ANIMAL_LEVELS,
+  ANIMAL_BUILDING_TYPES,
   type AnimalBuildingType,
   type AnimalLevel,
   ANIMALS,
@@ -34,13 +35,34 @@ import Decimal from "decimal.js-light";
 import { getSkillLevel, SKILL_RANKS } from "../types/bumpkinSkills";
 
 export const makeAnimalBuildingKey = (
-  buildingName: Extract<BuildingName, "Hen House" | "Barn">,
+  buildingName: AnimalBuildingType,
 ): AnimalBuildingKey => {
   return buildingName
     .replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) => {
       return index === 0 ? word.toLowerCase() : word.toUpperCase();
     })
     .replace(/\s+/g, "") as AnimalBuildingKey;
+};
+
+/**
+ * Every animal building's GameState key, in AnimalBuildingType order. Derived
+ * so a new animal building cannot be forgotten by a loop; the order is stable
+ * because `checkAnimalHealth` draws random numbers per building.
+ */
+export const ANIMAL_BUILDING_KEYS: AnimalBuildingKey[] =
+  ANIMAL_BUILDING_TYPES.map(makeAnimalBuildingKey);
+
+/**
+ * Starting XP for the animals a new building is seeded with. Arbitrary data,
+ * not derivable from ANIMAL_LEVELS - 40 and 80 both resolve to level 0 for
+ * their animals.
+ */
+const DEFAULT_ANIMAL_EXPERIENCE: Record<AnimalType, number> = {
+  Chicken: 40,
+  Cow: 80,
+  Sheep: 80,
+  // TODO(Chapter 16): unused while the Pigpen starts empty - see INITIAL_FARM.
+  Pig: 80,
 };
 
 export function makeAnimalBuilding(
@@ -70,7 +92,7 @@ export function makeAnimalBuilding(
           state: "idle",
           coordinates: positions[index],
           asleepAt: 0,
-          experience: animalType === "Chicken" ? 40 : 80,
+          experience: DEFAULT_ANIMAL_EXPERIENCE[animalType as AnimalType],
           createdAt: Date.now(),
           item: "Petting Hand",
           lovedAt: 0,

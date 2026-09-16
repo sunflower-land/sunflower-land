@@ -31,6 +31,7 @@ import type { MachineInterpreter } from "features/game/expansion/placeable/lands
 import type { MachineState } from "features/game/lib/gameMachine";
 import type { GameState } from "features/game/types/game";
 import { getObjectEntries } from "lib/object";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
@@ -57,6 +58,10 @@ const getValidBuildings = (state: GameState): BuildingName[] => {
     "Pet House",
     "Aging Shed",
   ];
+
+  if (hasFeatureAccess(state, "PIGPEN")) {
+    UNSORTED_BUILDINGS.push("Pigpen");
+  }
 
   const VALID_BUILDINGS = [...UNSORTED_BUILDINGS].sort(
     (a, b) =>

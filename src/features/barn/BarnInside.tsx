@@ -58,7 +58,9 @@ const _game = (state: MachineState) => state.context.state;
 const _island = (state: MachineState) => state.context.state.island;
 const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
 
-type BarnAnimal = Exclude<AnimalType, "Chicken">;
+// An allowlist, not `Exclude<AnimalType, "Chicken">`: the Barn houses Cows and
+// Sheep specifically, and should not silently claim every animal added later.
+type BarnAnimal = Extract<AnimalType, "Cow" | "Sheep">;
 
 const BARN_ANIMAL_COMPONENTS: Record<
   BarnAnimal,

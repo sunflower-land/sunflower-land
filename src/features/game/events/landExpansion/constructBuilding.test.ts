@@ -668,3 +668,46 @@ describe("Construct building", () => {
     expect(state.farmActivity["Coins Spent"]).toBe(200);
   });
 });
+
+describe("constructBuilding: Pigpen gating", () => {
+  const dateNow = Date.now();
+
+  const farm: GameState = {
+    ...GAME_STATE,
+    bumpkin: { ...TEST_BUMPKIN, experience: 1_000_000 },
+    coins: 100_000,
+    inventory: {
+      ...GAME_STATE.inventory,
+      Wood: new Decimal(1000),
+      Iron: new Decimal(100),
+      Gold: new Decimal(100),
+    },
+  };
+
+  const build = (state: GameState) =>
+    constructBuilding({
+      state,
+      action: {
+        type: "building.constructed",
+        name: "Pigpen",
+        id: "1",
+        coordinates: { x: 0, y: 0 },
+      },
+      createdAt: dateNow,
+    });
+
+  it("throws without the PIGPEN feature flag", () => {
+    expect(() => build(farm)).toThrow(
+      CONSTRUCT_BUILDING_ERRORS.NO_FEATURE_ACCESS,
+    );
+  });
+
+  it("builds a Pigpen with the PIGPEN feature flag", () => {
+    const state = build({
+      ...farm,
+      inventory: { ...farm.inventory, "Beta Pass": new Decimal(1) },
+    });
+
+    expect(state.buildings.Pigpen).toHaveLength(1);
+  });
+});

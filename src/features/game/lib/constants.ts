@@ -688,6 +688,11 @@ export const INITIAL_FARM: GameState = {
   },
   henHouse: makeAnimalBuilding("Hen House"),
   barn: makeAnimalBuilding("Barn"),
+  // Deliberately NOT makeAnimalBuilding("Pigpen"): that seeds 3 starter
+  // animals, and the API hydrates a missing `pigpen` from INITIAL_FARM - so
+  // every existing farm would be granted 3 free Pigs on its first load.
+  // Starter pigs, if design wants them, need a new-account-only path.
+  pigpen: { level: 1, animals: {} },
   waterWell: { level: 1 },
   agingShed: createInitialAgingShed(),
   petHouse: {
@@ -1022,6 +1027,11 @@ export const TEST_FARM: GameState = {
   },
   henHouse: makeAnimalBuilding("Hen House"),
   barn: makeAnimalBuilding("Barn"),
+  // Deliberately NOT makeAnimalBuilding("Pigpen"): that seeds 3 starter
+  // animals, and the API hydrates a missing `pigpen` from INITIAL_FARM - so
+  // every existing farm would be granted 3 free Pigs on its first load.
+  // Starter pigs, if design wants them, need a new-account-only path.
+  pigpen: { level: 1, animals: {} },
   waterWell: { level: 1 },
   agingShed: createInitialAgingShed(),
   petHouse: {
@@ -1205,6 +1215,11 @@ export const EMPTY: GameState = {
   },
   henHouse: makeAnimalBuilding("Hen House"),
   barn: makeAnimalBuilding("Barn"),
+  // Deliberately NOT makeAnimalBuilding("Pigpen"): that seeds 3 starter
+  // animals, and the API hydrates a missing `pigpen` from INITIAL_FARM - so
+  // every existing farm would be granted 3 free Pigs on its first load.
+  // Starter pigs, if design wants them, need a new-account-only path.
+  pigpen: { level: 1, animals: {} },
   waterWell: { level: 1 },
   agingShed: createInitialAgingShed(),
   petHouse: {

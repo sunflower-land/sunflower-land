@@ -102,6 +102,17 @@ export const BUILDING_COMPONENTS: Record<
   Toolshed: Toolshed,
   "Hen House": ChickenHouse,
   Barn: Barn,
+  // TODO(Chapter 16 art): placeholder. A static sprite reusing the Barn's art,
+  // with no interior navigation - the real exterior and the walk-inside flow
+  // land with the Pigpen scene (ticket 340). READONLY_BUILDINGS spreads this
+  // map, so this one entry covers the read-only farm view too.
+  Pigpen: () => (
+    <img
+      src={ITEM_DETAILS.Pigpen.image}
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 64}px` }}
+    />
+  ),
   "Compost Bin": () => <Composter name="Compost Bin" />,
   "Turbo Composter": () => <Composter name="Turbo Composter" />,
   "Premium Composter": () => <Composter name="Premium Composter" />,
