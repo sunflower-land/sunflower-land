@@ -1533,6 +1533,19 @@ export const ITEM_TRADE_TYPES: {
     "Champion Rarecrow": "instant",
     "OG Rarecrow": "instant",
     "Loyal Rarecrow": "instant",
+
+    // Chapter 16 resources
+    "Brown Beetle": "instant",
+    "Blue Beetle": "instant",
+    "Pink Beetle": "instant",
+    "Amber Beetle": "instant",
+    Mud: "instant",
+    Rawhide: "instant",
+    Truffle: "instant",
+    "Brown Beetle Feed": "instant",
+    "Blue Beetle Feed": "instant",
+    "Pink Beetle Feed": "instant",
+    "Amber Beetle Feed": "instant",
   },
   wearables: {
     "Walrus Onesie": "instant",

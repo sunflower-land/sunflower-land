@@ -88,6 +88,8 @@ import type {
 } from "./flowers";
 import type { FermentationProductName } from "./fermentationProducts";
 import type { SpiceRackProductName } from "./spiceRackProducts";
+import type { BeetleName } from "./beetles";
+import type { BeetleFeedName } from "./beetleFeeds";
 import type { PickledCropName } from "./pickled";
 import { translate } from "lib/i18n/translate";
 import { capitalize } from "lib/utils/capitalize";
@@ -754,7 +756,9 @@ export type InventoryItemName =
   | ChapterRaffleTicket
   | PickledCropName
   | FermentationProductName
-  | SpiceRackProductName;
+  | SpiceRackProductName
+  | BeetleName
+  | BeetleFeedName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -2019,7 +2023,9 @@ export type AnimalResource =
   | "Wool"
   | "Merino Wool"
   | "Feather"
-  | "Milk";
+  | "Milk"
+  | "Rawhide"
+  | "Truffle";
 export type AnimalState = "idle" | "happy" | "sad" | "ready" | "sick";
 
 export type AnimalFeedBuffName = "Salt Lick" | "Honey Treat";

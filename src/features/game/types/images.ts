@@ -6147,6 +6147,64 @@ export const ITEM_DETAILS: Items = {
     description: "Resource you can collect from cows",
     translatedName: translate("resource.milk"),
   },
+
+  // Chapter 16 resources. Every image below is reused from an existing item
+  // until the art team delivers - see ticket 800.
+  "Brown Beetle": {
+    image: stoneBeetle, // TODO(Chapter 16 art)
+    description: translate("description.brownBeetle"),
+    translatedName: translate("resource.brownBeetle"),
+  },
+  "Blue Beetle": {
+    image: stoneBeetle, // TODO(Chapter 16 art)
+    description: translate("description.blueBeetle"),
+    translatedName: translate("resource.blueBeetle"),
+  },
+  "Pink Beetle": {
+    image: stoneBeetle, // TODO(Chapter 16 art)
+    description: translate("description.pinkBeetle"),
+    translatedName: translate("resource.pinkBeetle"),
+  },
+  "Amber Beetle": {
+    image: stoneBeetle, // TODO(Chapter 16 art)
+    description: translate("description.amberBeetle"),
+    translatedName: translate("resource.amberBeetle"),
+  },
+  Mud: {
+    image: SUNNYSIDE.sfts.dirt, // TODO(Chapter 16 art)
+    description: COMMODITIES.Mud.description,
+    translatedName: translate("resource.mud"),
+  },
+  Rawhide: {
+    image: SUNNYSIDE.resource.leather, // TODO(Chapter 16 art)
+    description: translate("description.rawhide"),
+    translatedName: translate("resource.rawhide"),
+  },
+  Truffle: {
+    image: SUNNYSIDE.resource.wild_mushroom, // TODO(Chapter 16 art)
+    description: translate("description.truffle"),
+    translatedName: translate("resource.truffle"),
+  },
+  "Brown Beetle Feed": {
+    image: SUNNYSIDE.animalFoods.kernel_blend, // TODO(Chapter 16 art)
+    description: translate("description.brownBeetleFeed"),
+    translatedName: translate("animalFood.brownBeetleFeed"),
+  },
+  "Blue Beetle Feed": {
+    image: SUNNYSIDE.animalFoods.hay, // TODO(Chapter 16 art)
+    description: translate("description.blueBeetleFeed"),
+    translatedName: translate("animalFood.blueBeetleFeed"),
+  },
+  "Pink Beetle Feed": {
+    image: SUNNYSIDE.animalFoods.nutribarley, // TODO(Chapter 16 art)
+    description: translate("description.pinkBeetleFeed"),
+    translatedName: translate("animalFood.pinkBeetleFeed"),
+  },
+  "Amber Beetle Feed": {
+    image: SUNNYSIDE.animalFoods.mixed_grain, // TODO(Chapter 16 art)
+    description: translate("description.amberBeetleFeed"),
+    translatedName: translate("animalFood.amberBeetleFeed"),
+  },
   Hay: {
     image: SUNNYSIDE.animalFoods.hay,
     description: ANIMAL_FOODS.Hay.description,

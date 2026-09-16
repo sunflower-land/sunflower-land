@@ -33,7 +33,8 @@ export type CommodityName =
   | "Oil"
   | "Obsidian"
   | "Salt"
-  | "Refined Salt";
+  | "Refined Salt"
+  | "Mud";
 
 export type MushroomName = Extract<
   CommodityName,
@@ -94,6 +95,7 @@ export const COMMODITIES: Record<CommodityName, Commodity> = {
     description: "Processed salt for pickling and advanced recipes",
   },
   "Ascension Shard": { description: translate("description.ascensionShard") },
+  Mud: { description: translate("description.mud") },
 };
 
 export const ANIMAL_RESOURCES: Record<AnimalResource, Commodity> = {
@@ -113,6 +115,12 @@ export const ANIMAL_RESOURCES: Record<AnimalResource, Commodity> = {
     description: "",
   },
   Milk: {
+    description: "",
+  },
+  Rawhide: {
+    description: "",
+  },
+  Truffle: {
     description: "",
   },
 };

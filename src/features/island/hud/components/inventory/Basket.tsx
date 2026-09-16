@@ -95,6 +95,8 @@ import {
 import { PROCESSED_RESOURCES } from "features/game/types/processedFood";
 import { CRUSTACEANS_DESCRIPTIONS } from "features/game/types/crustaceans";
 import { FERMENTATION_PRODUCTS } from "features/game/types/fermentationProducts";
+import { BEETLES } from "features/game/types/beetles";
+import { BEETLE_FEEDS } from "features/game/types/beetleFeeds";
 import {
   PICKLED_CROPS,
   type PickledCropName,
@@ -344,7 +346,10 @@ export const Basket: React.FC<Prop> = ({
     ...greenhouseSeeds,
   ];
   const allTools = [...workbenchTools, ...treasureTools, ...animalTools];
-  const allResources = [...resources, ...craftingResources];
+  const beetles = getItems([...BEETLES]);
+  const beetleFeeds = getItems([...BEETLE_FEEDS]);
+
+  const allResources = [...resources, ...craftingResources, ...beetles];
 
   const clutter = getItems(CLUTTER);
 
@@ -425,7 +430,7 @@ export const Basket: React.FC<Prop> = ({
       id: "feeds",
       label: t("feeds"),
       icon: ITEM_DETAILS.Hay.image,
-      items: [...animalFeeds],
+      items: [...animalFeeds, ...beetleFeeds],
     },
     {
       id: "spices",
