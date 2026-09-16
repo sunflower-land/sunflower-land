@@ -44,6 +44,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { useNow } from "lib/utils/hooks/useNow";
+import { MAX_RESOURCE_LISTINGS } from "../lib/tradeLimits";
 import {
   Locked,
   useIsLocked,
@@ -136,14 +137,19 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     return count - totalListed;
   };
 
-  // For resources: cap at 20 listings per resource; when at 20, only 1 more allowed.
+  // For resources: cap at 20 listings per resource.
   const currentListingCount = isResource
     ? Object.values(state.trades.listings ?? {}).filter(
         (listing) => (listing.items[display.name] ?? 0) > 0,
       ).length
     : 0;
   const maxMultiple =
-    currentListingCount >= 20 ? 1 : Math.min(20, 20 - currentListingCount);
+    currentListingCount >= MAX_RESOURCE_LISTINGS
+      ? 0
+      : Math.min(
+          MAX_RESOURCE_LISTINGS,
+          MAX_RESOURCE_LISTINGS - currentListingCount,
+        );
 
   // Otherwise show the list item UI
   const submitListing = () => {
