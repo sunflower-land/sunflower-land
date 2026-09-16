@@ -85,6 +85,14 @@ export function getPlantedAt(
 ): {
   plantedAt: number;
   baseDurationMs?: number;
+  /**
+   * Legacy model only: the total back-date applied to the active phase's start
+   * (ms). It is a DISCOUNT, not growth already done, so the progress bar has to
+   * un-back-date with it — otherwise a heavily boosted fruit opens its bar
+   * near-full. Mirrors `PlantedCrop.boostedTime`. Omitted when nothing boosts
+   * the grow time.
+   */
+  boostedTime?: number;
   boostsUsed: { name: BoostName; value: string }[];
 } {
   if (!patchFruitSeedName) return { plantedAt: createdAt, boostsUsed: [] };
@@ -112,9 +120,13 @@ export function getPlantedAt(
     };
   }
 
-  const offset = fruitTime - boostedTime;
+  const offsetMs = (fruitTime - boostedTime) * 1000;
 
-  return { plantedAt: createdAt - offset * 1000, boostsUsed };
+  return {
+    plantedAt: createdAt - offsetMs,
+    ...(offsetMs > 0 ? { boostedTime: offsetMs } : {}),
+    boostsUsed,
+  };
 }
 
 export const isBasicFruitSeed = (
@@ -403,7 +415,7 @@ export function plantFruit({
       stateCopy.inventory[action.seed]?.minus(1);
 
     const fruitName = PATCH_FRUIT_SEEDS[action.seed].yield;
-    const { plantedAt, baseDurationMs, boostsUsed } = getPlantedAt(
+    const { plantedAt, baseDurationMs, boostedTime, boostsUsed } = getPlantedAt(
       action.seed,
       stateCopy,
       createdAt,
@@ -418,6 +430,8 @@ export function plantFruit({
       // Speed-rate model marker: real plantedAt + permanent-boost-only base
       // duration; the windowed temp boosts are derived live at read time.
       ...(baseDurationMs !== undefined ? { baseDurationMs } : {}),
+      // Legacy model: the back-date, for the progress bar to undo.
+      ...(boostedTime !== undefined ? { boostedTime } : {}),
     };
 
     stateCopy.farmActivity = trackFarmActivity(

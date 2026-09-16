@@ -305,6 +305,58 @@ describe("fruitHarvested", () => {
     expect(fruit?.harvestedAt).toEqual(dateNow);
   });
 
+  it("records the replenish back-date as boostedTime, replacing the grow phase's", () => {
+    const { fruitPatches } = GAME_STATE;
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
+
+    const state = harvestFruit({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Orange: new Decimal(1),
+          "Squirrel Monkey": new Decimal(1),
+        },
+        collectibles: {
+          "Squirrel Monkey": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+        fruitPatches: {
+          0: {
+            ...fruitPatch,
+            fruit: {
+              name: "Orange",
+              plantedAt: dateNow - 30 * 24 * 60 * 60 * 1000,
+              // Stale value from the finished grow phase — must not carry over.
+              boostedTime: 999,
+              harvestsLeft: 3,
+              harvestedAt: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "fruit.harvested",
+        index: "0",
+      },
+      createdAt: dateNow,
+      farmId: 1,
+    });
+
+    const fruit = state.fruitPatches?.[0].fruit;
+    const offset = (PATCH_FRUIT_SEEDS["Orange Seed"].plantSeconds * 1000) / 2;
+
+    // The replenish phase is back-dated by the Squirrel Monkey discount, so the
+    // bar needs THIS phase's offset — not the previous phase's leftover.
+    expect(fruit?.boostedTime).toEqual(offset);
+    expect(fruit!.harvestedAt + fruit!.boostedTime!).toEqual(dateNow);
+  });
+
   it("applies Lady Bug Boost", () => {
     const { fruitPatches } = GAME_STATE;
     const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
